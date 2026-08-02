@@ -1,0 +1,29 @@
+# AcademicOS runtime configuration
+# All values can be overridden via env vars: ACOS_DATA_ROOT, ACOS_CORPUS_ROOT,
+# ACOS_GCS_BUCKET, ACOS_GCS_PREFIX, ACOS_SYNC_ENABLED, ACOS_VLM_DEVICE
+
+# corpus_root: where the raw downloaded CBSE files live
+corpus_root = "C:/Users/varsh/OneDrive/Documents/Sarvam/cbse-dataset"
+
+# Cloud mirror (empty = disabled)
+gcs_bucket = "varsh-dev-storage"
+gcs_prefix = "academicos"
+sync_enabled = false
+
+# Parsing strategy
+parse_priority = ["pdf_native", "unlimited_ocr", "tesseract"]
+vlm_device = "cuda"
+min_confidence = 0.6
+max_pages_per_doc = 500
+
+# LLM provider (OpenIE extraction + Self-RAG-style critic)
+# Groq (free tier, fast) for batch extraction; Sarvam/LLM_KEY for light calls
+llm_base_url = "https://api.groq.com/openai"
+llm_model = "llama-3.3-70b-versatile"
+llm_api_key = "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"
+llm_timeout = 120
+openie_max_chunk_chars = 1800
+critic_retrieve_threshold = 0.5
+critic_w_rel = 1.0
+critic_w_sup = 1.0
+critic_w_use = 0.5
