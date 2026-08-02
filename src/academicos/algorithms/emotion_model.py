@@ -46,13 +46,12 @@ except Exception:  # pragma: no cover - identical local fallback
 # v1 constant arousal table (same spirit as the valence table). Deterministic
 # and pinned here, not derived, so the mapping is auditable.
 _AFFECT_AROUSAL: dict[str, float] = {
-    "excited": 0.9, "amazed": 0.9, "angry": 0.9,
+    "excited": 0.9, "angry": 0.9,
     "happy": 0.7, "engaged": 0.7, "curious": 0.7,
     "confident": 0.6,
     "surprised": 0.5, "neutral": 0.5,
     "bored": 0.35,
     "tired": 0.25,
-    "calm": 0.2, "relaxed": 0.2,
     "stressed": 0.85, "anxious": 0.85,
 }
 
@@ -162,13 +161,14 @@ class EmotionModel:
             if v >= self.p.positive_threshold) / n
 
         per_concept = self._accumulate(snapshots)
+        tagged = [(t, v, a) for _, t, v, a in snapshots]
 
         return EmotionResult(
             learner_id=self.learner_id,
             valence=round(valence, 4),
             arousal=round(arousal, 4),
             dominant_primary=self._bucket(valence),
-            dominant_affect=self._dominant_tag(snapshots, n),
+            dominant_affect=self._dominant_tag(tagged),
             per_concept=per_concept,
             positive_ratio=round(positive_ratio, 4),
             n_snapshots=n,
@@ -190,7 +190,7 @@ class EmotionModel:
                 valence=round(mean_v, 4),
                 arousal=round(sum(aros) / len(aros), 4),
                 dominant_primary=self._bucket(mean_v),
-                dominant_affect=self._dominant_tag(rows, cid),
+                dominant_affect=self._dominant_tag(rows),
             )
         return out
 
@@ -201,17 +201,14 @@ class EmotionModel:
             return "negative"
         return "neutral"
 
-    def _dominant_tag(self, snapshots, cid: str | None) -> str | None:
-        rows = snapshots if cid is None else [r for r in snapshots if r[0] == cid]
-        tagged = [(r if cid is None else r[1]) if cid is None else r[1] for r in snapshots] if False else None  # noqa
-        tags = [t for _, t, _, _ in snapshots] if cid is None else [r[1] for r in rows]
-        tags = [t for t in tags if t]
+    def _dominant_tag(self, rows: list[tuple]) -> str | None:
+        tags = [r[0] for r in rows if r[0]]
         if not tags:
             return None
         counts: dict[str, int] = {}
         for t in tags:
             counts[t] = counts.get(t, 0) + 1
-        top = max(counts, key=lambda t: (counts[t], -t))
+        top = max(sorted(counts), key=counts.get)  # ties -> smallest tag
         share = counts[top] / len(tags)
         if share < self.p.w_primary:
             return None

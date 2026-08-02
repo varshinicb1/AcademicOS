@@ -176,8 +176,8 @@ class CuriosityEngine:
                 novelty=1.0 if novel else 0.0,
                 interleave=interleaved,
                 momentum=round(momentum, 4),
-                desired_reason=_desired_reason(cid, difficulty, n_term, d_term,
-                                               i_term, m_term, bonus, penalty, raw),
+                reasons=_desired_reason(cid, difficulty, n_term, d_term,
+                                        i_term, m_term, bonus, penalty, raw),
             ))
         scored.sort(key=lambda c: (-c.score, c.concept_id))
         return CuriosityResult(

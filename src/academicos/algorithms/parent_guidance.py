@@ -13,8 +13,8 @@ bounded:
     couple of attempts, the caretaker's job is to sit beside, not to grade.
 
 Output is all that can fit in a parent's pocket: at most ``max_messages``
-(messages are ordered by an urgency field .. defaults) messages; advice is
-given in message priority order (safety/health > comfort/reassure > growth).
+messages, ordered by an internal urgency field (safety/health > comfort/
+reassure > growth).
 
 Pure, deterministic, no IO. Same contract as the other algorithms
 (``model``-tagged params, ``_params`` snapshot, versioned).
@@ -85,7 +85,7 @@ CATALOG: dict[str, GuidanceTemplate] = {
         text="Attention flagged on {concept}. Set a phone-away environment and a visible 10-minute timer.",
         description="attention signal below attention_threshold.",
     ),
-    "scaffold_together": GuidanceTemplate(
+    "scaffold_study_together": GuidanceTemplate(
         component="scaffold", priority=_PRIORITY_SCAFFOLD, hours=0.5,
         text="Offer to sit down and do one part of {concept} together next time — a couple of attempts only.",
         description="low accuracy with very few attempts (Vygotsky ZPD: co-acting before solo).",
@@ -100,7 +100,7 @@ RULE_TABLE: list[dict[str, str]] = [
     {"template_key": "encourage_rising", "condition": "rising trend AND recent_frustrated_count >= 1 AND accuracy >= effort_win_threshold"},
     {"template_key": "praise_effort", "condition": "accuracy >= praise_threshold AND attempts >= praise_min_attempts AND recent_frustrated_count in 1..2 AND (frustration carried through)"},
     {"template_key": "praise_difficulty", "condition": "accuracy >= praise_threshold AND attempts >= praise_min_attempts AND concept_difficulty >= high_difficulty"},
-    {"template_key": "praise_difficulty", "condition": "accuracy >= praise_threshold (no effort signal AND no high difficulty) -> FIRES NOTHING (easy win)"},
+    {"template_key": "(none)", "condition": "accuracy >= praise_threshold but NO effort signal AND difficulty < high_difficulty -> FIRES NOTHING (easy win)"},
     {"template_key": "focus_attention", "condition": "attention < attention_threshold"},
     {"template_key": "scaffold_study_together", "condition": "accuracy < scaffold_accuracy AND 1 <= attempts <= scaffold_max_attempts"},
 ]
@@ -147,7 +147,7 @@ class GuidanceResult:
 
 class _SafeMapping(dict):
     """format_map helper: never raises KeyError for absent placeholders."""
-    def __missing__(self, key):  # noqa: A003
+    def __missing__(self, key):
         return ""
 
 
@@ -236,12 +236,13 @@ class ParentGuidance:
         for cid in sorted(cids):
             num = _int0(attempts.get(cid))
             acc = _f0(ac.get(cid, 0.0))
-            aff = [str(a).lower() for a in affects.get(cid) or [] if str(a).lower() in ("frustrated", "frust", "frustration")]
-            fr = len([a for a in (affects.get(cid) or []) if str(a).strip().lower() == "frustrated"])
-            fad = _f1 of fatigue
-            fad = bool(fatigue.get(cid, False)) or "tired" in [a.lower for a in (affects.get(cid) or [])] or "fatigued" in ...
+            affect_tags = [str(x).strip().lower()
+                           for x in (affects.get(cid) or []) if x]
+            fr = affect_tags.count("frustrated")
+            fad = bool(fatigue.get(cid, False)) or \
+                any(t in ("tired", "fatigued", "exhausted") for t in affect_tags)
             hard = _f0(difficulty.get(cid, 0.0)) >= p.high_difficulty
-            rising = str(trend.get(cid, "")).lower() == "rising"
+            rising = str(trend.get(cid, "")).strip().lower() == "rising"
             att = _f0(attention.get(cid, 1.0))
 
             if fad or fr >= p.break_frustration_threshold:

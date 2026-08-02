@@ -66,7 +66,7 @@ class InterestParams:
     subject_weights: dict[str, dict[str, float]] = field(
         default_factory=lambda: {k: dict(v) for k, v in _subject_riasec().items()})
     min_evidence: float = 4.0      # interaction-weights before confident
-    sim_coef: float = 0.0          # regularize each subject toward uniform  0..1 1..0
+    sim_coef: float = 0.0          # shrink subject contribution toward uniform
     sum_to: float = 1.0            # normalization target (<=0 keeps raw scores)
 
 
@@ -120,7 +120,7 @@ class CareerDiscovery:
             subj = subject_of(i.concept_id) if subject_of else None
             vec = self._vector(subj)
             if not subj or subj not in self.p.subject_weights:
-                any_unknown = True
+                seen_unknown = True
             w = _interaction_weight(i)
             for d in RIASEC:
                 raw[d] += w * vec[d]
@@ -133,7 +133,7 @@ class CareerDiscovery:
             return CareerResult(
                 learner_id=learner_id,
                 riasec_scores={d: 0.0 for d in RIASEC},
-                raw_scores=raw_scores, top3=[], is_this="---",
+                raw_scores=raw_scores, top3=[],
                 holland_code="---", confidence=0.0,
                 evidence_count=0.0, flags=flags, params=self._params(),
             )
@@ -152,7 +152,7 @@ class CareerDiscovery:
         confidence = round(min(1.0, evidence_count / self.p.min_evidence), 4) if self.p.min_evidence else 0.0
         if confidence < 1.0:
             flags.append("low-confidence")
-        if any_unknown:
+        if seen_unknown:
             flags.append("subject-unknown")
         if total > 0 and max(scores.values()) - min(scores.values()) < 0.05:
             flags.append("flat-profile")
@@ -186,12 +186,10 @@ class CareerDiscovery:
         }
 
 
-def _now_utc() -> str:
-    return datetime.now(timezone.utc).isoformat()
-
-
 def demo(learner_id: str = "demo-career") -> LearnerModel:
     """A science-heavy learner: long STEM watches → Investigative top."""
+    from datetime import timedelta
+
     model = LearnerModel(learner_id=learner_id)
     now = datetime.now(timezone.utc)
     for days, concept, dur in [
@@ -200,5 +198,5 @@ def demo(learner_id: str = "demo-career") -> LearnerModel:
     ]:
         model.observe(Interaction(
             concept_id=concept, kind="watch", duration_sec=dur,
-            ts=(now - datetime.timedelta(days=days)).isoformat()))
+            ts=(now - timedelta(days=days)).isoformat()))
     return model

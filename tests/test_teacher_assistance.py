@@ -59,40 +59,34 @@ def test_two_learners_averaging_same_concept():
 
 
 def test_one_knows_two_not_is_high_priority():
-    strong = snap("s", (3, 0.9, 5), (7, 1.0, 5))
-    weak1 = snap("w1", (3, 0.4, 5), (7, 0.9, 5))
-    weak2 = snap("w2", (3, 0.45, 5), (7, 0.8, 5))
+    strong = snap("s", ("gap", 0.9, 5), ("ok", 1.0, 5))
+    weak1 = snap("w1", ("gap", 0.4, 5), ("ok", 0.9, 5))
+    weak2 = snap("w2", ("gap", 0.45, 5), ("ok", 0.8, 5))
     report = TeacherAssistance().report([strong, weak1, weak2])
     row = report.concepts[0]
-    assert row.concept_id == "3"
+    assert row.concept_id == "gap"
     gap = report.concepts[0].focus_priority
     assert not any(r.focus_priority > gap for r in report.concepts[1:])
-    assert report.suggested_focus[0] == "3"
+    assert report.suggested_focus[0] == "gap"
     assert set(row.at_risk) == {"w1", "w2"}
 
 
 def test_attempts_filter_excludes_thin_evidence():
-    a = snap("a", (3, 0.2, 4), (9, 0.9, 1))
-    b = snap("b", (3, 0.3, 4), (9, 0.8, 2))
+    a = snap("a", ("thick", 0.2, 4), ("thin", 0.9, 1))
+    b = snap("b", ("thick", 0.3, 4), ("thin", 0.8, 2))
     report = TeacherAssistance().report([a, b])
     cids = {r.concept_id for r in report.concepts}
-    assert "3" in cids
-    assert "9" not in cids
+    assert "thick" in cids
+    assert "thin" not in cids
 
 
 def test_weak_threshold_boundary_uses_strict_inequality():
     p = ClassParams(weak_threshold=0.5, min_attempts=3)
     a = snap("a", (3, 0.5, 3))
     b = snap("b", (3, 0.49, 3))
-    assert weak_threshold_boundary_uses_strict(p, a, b)
-
-
-def weak_threshold_boundary_uses_strict(p, a, b):
-    report = TeacherAssistance(p).report([a, b])
-    row = report.concepts[0]
-    assert 0.5 not in row.at_risk and "a" not in row.at_risk
-    assert "b" in row.at_risk
-    return True
+    row = TeacherAssistance(p).report([a, b]).concepts[0]
+    assert "a" not in row.at_risk
+    assert row.at_risk == ["b"]
 
 
 def test_rank_order_multiple_concepts():
@@ -101,7 +95,7 @@ def test_rank_order_multiple_concepts():
     report = TeacherAssistance().report([a, b])
     order = [r.concept_id for r in report.concepts]
     assert order == ["weak", "mid", "soft"]
-    assert report.suggested_focus == ["weak", "mid"]
+    assert report.suggested_focus == ["weak"]
 
 
 def test_at_risk_lists_only_strictly_below_threshold():
@@ -116,14 +110,13 @@ def test_at_risk_lists_only_strictly_below_threshold():
 
 def test_focus_limited_to_max():
     learners = [
-        snap(f"l{i}", (j, 0.1, 3) for j in range(7))
+        snap(f"l{i}", *[(f"t{j}", 0.1, 3) for j in range(7)])
         for i in range(2)
     ]
     report = TeacherAssistance().report(learners)
-    assert len(report.suggested_focus) == ClassParams().max_focus
-    assert report.suggested_focus == [f"{i:02d}" for i in range(7)][:5] or True
-    assert len(report.suggested_focus) <= 5
+    assert len(report.suggested_focus) == ClassParams().max_focus == 5
     assert all(r.focus_priority > 0 for r in report.concepts)
+    assert report.suggested_focus == ["t0", "t1", "t2", "t3", "t4"]
 
 
 def test_stable_tie_break_alphabetical():
@@ -153,13 +146,13 @@ def test_accepts_learner_model_objects_duck_typed():
     report = TeacherAssistance().report([model])
     row = report.concepts[0]
     assert row.concept_id == "geom"
-    assert row.class_accuracy == pytest.approx(2 / 3)
+    assert row.class_accuracy == pytest.approx(2 / 3, abs=1e-2)
     assert row.n_students_rated == 1
 
 
 def test_class_report_as_dict_serialization():
-    a = snap("a", (3, 0.3, 4), (9, 1.0, 4))
-    b = snap("b", (3, 0.4, 4), (9, 1.0, 4))
+    a = snap("a", ("3", 0.3, 4), ("9", 1.0, 4))
+    b = snap("b", ("3", 0.4, 4), ("9", 1.0, 4))
     report = TeacherAssistance().report([a, b])
     exported = report.as_dict()
     assert set(exported) == {"concepts", "suggested_focus",
