@@ -1,0 +1,11 @@
+targets:
+  $default:
+    builders:
+      freezed:
+        enabled: true
+        options:
+          skip_files: ["lib/presentation/**", "lib/data/datasources/api/**"]
+      drift_dev:
+        enabled: true
+      json_serializable:
+        enabled: true
