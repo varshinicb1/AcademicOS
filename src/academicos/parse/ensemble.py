@@ -83,8 +83,33 @@ class EnsembleParser:
             metadata={"providers": list(results), "winner": best_name},
         )
 
-    @staticmethod
-    def _page_score(r: ParseResult) -> float:
+    # A page carrying less than this many characters has no usable text on it.
+    MIN_CHARS_PER_PAGE = 80
+
+    @classmethod
+    def _page_score(cls, r: ParseResult) -> float:
+        """Rank a provider by how much *text* it actually recovered.
+
+        Providers self-report `confidence`/`quality` without checking whether
+        they extracted anything: on a scanned PDF, pdf_native returns full pages
+        with empty strings and still scored ~0.9, so it beat every OCR provider
+        and the document silently yielded zero questions. Text yield is the
+        ground truth here, so it gates the score.
+        """
         if not r.pages:
             return 0.0
-        return r.confidence * (sum(p.quality for p in r.pages) / len(r.pages))
+        avg_quality = sum(p.quality for p in r.pages) / len(r.pages)
+        pages_with_text = sum(1 for p in r.pages if len(p.text.strip()) >= cls.MIN_CHARS_PER_PAGE)
+        text_yield = pages_with_text / len(r.pages)
+        if text_yield == 0.0:
+            return 0.0        # produced nothing readable — never let this win
+        return r.confidence * avg_quality * text_yield
+
+    @classmethod
+    def has_usable_text(cls, doc: ParsedDocument) -> bool:
+        """Did the winning parse actually recover text? Callers use this to
+        decide whether a document needs an OCR pass before extraction."""
+        if not doc.pages:
+            return False
+        good = sum(1 for p in doc.pages if len(p.text.strip()) >= cls.MIN_CHARS_PER_PAGE)
+        return good / len(doc.pages) >= 0.3

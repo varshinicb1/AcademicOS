@@ -10,9 +10,12 @@ from pathlib import Path
 from typing import Any, Optional
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from ..agents.orchestrator import DoubtSolver, ExaminerScorer, PaperAnalyst
+from ..assessment import mobile_routes, mobile_scan, pillar_routes
+from ..assessment import routes as assessment_routes
 from ..config import Config
 from ..graph.store import GraphStore
 from ..retrieval.hybrid import HybridRetriever
@@ -21,6 +24,12 @@ from ..storage.registry import SourceRegistry
 
 app = FastAPI(title="AcademicOS", version="0.1.0",
               description="CBSE/NCERT Academic Brain — evidence-grounded retrieval + reasoning")
+app.add_middleware(
+    CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"],
+)
+app.include_router(assessment_routes.router)
+app.include_router(pillar_routes.router)
+app.include_router(mobile_routes.router)
 
 
 class SearchRequest(BaseModel):
@@ -71,6 +80,9 @@ def init_runtime(config: Optional[Config] = None) -> None:
     _graph = GraphStore(cfg.graph_db)
     _retriever = HybridRetriever(index, _graph)
     _registry = SourceRegistry(cfg.registry_db)
+    assessment_routes.init(cfg)
+    pillar_routes.init(cfg)
+    mobile_scan.configure_workdir(cfg.data_root / "scan-sessions")
     if cfg.llm_api_key:
         from ..agents.critic import SarvamCritic
         from ..llm.sarvam import SarvamLLM

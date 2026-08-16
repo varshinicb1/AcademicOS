@@ -6,7 +6,10 @@ plugins {
 
 android {
     namespace = "com.example.academicos"
-    compileSdk = flutter.compileSdkVersion
+    // Overridden past Flutter's bundled default (34): flutter_plugin_android_lifecycle
+    // (pulled in transitively by file_picker) requires compiling against API 36+,
+    // confirmed by a real `flutter build apk` failure at the old default.
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
 
     compileOptions {

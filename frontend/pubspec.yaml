@@ -28,14 +28,20 @@ dependencies:
   get_it: ^7.7.0
   
   # Local Database
+  # sqlite3_flutter_libs removed: confirmed zero imports anywhere in lib/
+  # (matches the standing `_localDb` unused-field warnings in
+  # repositories_impl.dart — that whole local-cache layer is dead code, the
+  # app calls PillarApi directly). Its native FFI bindings don't compile for
+  # web at all, which is what surfaced this — `flutter build web` failed
+  # outright on sqlite3's `external` JS-interop-only members.
   drift: ^2.18.0
-  sqlite3_flutter_libs: ^0.5.22
   path: ^1.9.0
   path_provider: ^2.1.3
   
   # Caching
   hive: ^2.2.3
   hive_flutter: ^1.1.0
+
   
   # Serialization
   freezed_annotation: ^2.4.4
@@ -50,7 +56,17 @@ dependencies:
   timezone: ^0.9.3
   
   # Camera / OCR preprocessing
-  camera: ^0.11.0
+  # image_picker (not the raw `camera` plugin) drives the scan-capture flow:
+  # it launches the platform's native camera app for a photo and hands back a
+  # file, so there's no live-preview widget / permission-lifecycle code to get
+  # subtly wrong on a device this session couldn't physically test on. The
+  # `camera` package was an unused dependency (confirmed by grep — nothing in
+  # lib/ imports it) and its camerax Android implementation doesn't compile
+  # against this project's AndroidX/Gradle/JDK combination
+  # (CallbackToFutureAdapter class-file-not-found on camera-core 1.5.3),
+  # which broke `flutter build apk` outright. Removed rather than fixed since
+  # nothing here needs it.
+  image_picker: ^1.1.2
   image: ^4.2.0
   google_fonts: ^6.2.1
 
@@ -62,15 +78,49 @@ dependencies:
   shimmer: ^3.0.0
   cached_network_image: ^3.3.1
   url_launcher: ^6.2.5
-  share_plus: ^9.0.0
-  file_picker: ^8.0.0+1
+  # share_plus was another unused dependency (confirmed by grep — no
+  # `package:share_plus` import or `Share.` call anywhere in lib/) and its
+  # old pin conflicted with the file_picker bump below over the `web`
+  # package version, so it's removed rather than carried forward unused.
+  # 8.0.x's Android module hardcodes compileSdk 34, which fails to build
+  # against flutter_plugin_android_lifecycle's compileSdk-36 requirement on
+  # a current Flutter SDK; 10.3.10+ derives it from flutter.compileSdkVersion
+  # instead, confirmed by reading both versions' android/build.gradle directly.
+  # 11.0.2 fixes that but still fails to compile on this project's AGP 9.0.1 —
+  # its Groovy build.gradle skips applying the Kotlin Android plugin under
+  # AGP 9 (expecting Flutter's Built-in Kotlin to pick up the slack) but the
+  # plugin's Kotlin sources never actually get compiled, so
+  # GeneratedPluginRegistrant can't find FilePickerPlugin. The 12.0.0 beta
+  # ships a build.gradle.kts, which is what a plugin fully migrated to
+  # Built-in Kotlin looks like — confirmed by reading its Gradle file.
+  file_picker: ^12.0.0-beta.7
+
+  # Question-paper UX: preview the generated PDF in-app, print it, or share it
+  # without leaving the review screen — the step a teacher actually does next.
+  printing: ^5.13.1
+  pdf: ^3.11.1
+  # Professional, accessible theming instead of hand-rolled ColorSchemes.
+  flex_color_scheme: ^8.4.0
+  # Declarative entrance/state animations for dashboards.
+  flutter_animate: ^4.5.0
+  # Readable spacing without SizedBox noise.
+  gap: ^3.0.1
   
   # Platform
   window_manager: ^0.3.8
-  package_info_plus: ^8.0.0
-  device_info_plus: ^10.1.0
-  connectivity_plus: ^6.0.3
-  
+  # Bumped for win32 ^6.3.0 compatibility with the file_picker beta below
+  # (its own `PackageInfo.fromPlatform()` usage is unaffected — same API
+  # across these versions).
+  package_info_plus: ^10.2.1
+  # device_info_plus removed: unused (confirmed by grep — no
+  # `package:device_info_plus` import anywhere in lib/) and its win32 <6.0.0
+  # constraint conflicted with the file_picker beta bump above.
+  # connectivity_plus removed: unused (confirmed by grep — no
+  # `package:connectivity_plus` import anywhere in lib/) and 6.0.3's Android
+  # module applies org.jetbrains.kotlin.android unconditionally, with no
+  # AGP-9 guard — it predates that fix and fails outright with
+  # android.builtInKotlin=true.
+
   # Utils
   logger: ^2.4.0
   equatable: ^2.0.5
@@ -95,3 +145,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/corpus/questions.json

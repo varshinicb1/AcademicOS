@@ -12,6 +12,30 @@ from typing import Any
 import tomllib
 
 _HERE = Path(__file__).resolve().parent.parent.parent
+SECRETS_FILE = _HERE / "config" / "secrets.env"
+
+
+def load_secrets(path: Path | None = None) -> int:
+    """Load KEY=VALUE lines from the gitignored secrets file into the environment.
+
+    Kept out of config.toml on purpose: that file is committed, and credentials
+    in it end up in git history. Real environment variables always win, so a
+    deployment can inject secrets without this file existing at all.
+    """
+    p = path or SECRETS_FILE
+    if not p.exists():
+        return 0
+    loaded = 0
+    for raw in p.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        key, value = key.strip(), value.strip().strip('"').strip("'")
+        if key and value and key not in os.environ:
+            os.environ[key] = value
+            loaded += 1
+    return loaded
 
 
 class Config:
@@ -60,13 +84,14 @@ class Config:
         self.openie_max_chunk_chars = int(t.get("openie_max_chunk_chars", 1800))
         self.critic_retrieve_threshold = float(t.get("critic_retrieve_threshold", 0.5))
         self.critic_weights = {
-            "relevance": float(t.get("critic_w_rel", 1.0)),
-            "support": float(t.get("critic_w_sup", 1.0)),
-            "utility": float(t.get("critic_w_use", 0.5)),
+            "w_rel": float(t.get("critic_w_rel", 1.0)),
+            "w_sup": float(t.get("critic_w_sup", 1.0)),
+            "w_use": float(t.get("critic_w_use", 0.5)),
         }
 
     @classmethod
     def load(cls, toml_path: Path | None = None) -> "Config":
+        load_secrets()
         toml: dict[str, Any] = {}
         p = toml_path or (_HERE / "config" / "config.toml")
         if p.exists():

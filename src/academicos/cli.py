@@ -70,7 +70,11 @@ def cmd_parse(args: argparse.Namespace) -> int:
 
     cfg = Config.load()
     registry = SourceRegistry(cfg.registry_db)
-    parser = EnsembleParser(vlm_mode=args.vlm_mode, vlm_url=args.vlm_url)
+    # config.parse_priority was silently ignored here, so every run tried the
+    # unlimited_ocr provider (and paid its connection timeout) even when the
+    # config asked for pdf_native only.
+    parser = EnsembleParser(priority=cfg.parse_priority, vlm_mode=args.vlm_mode,
+                            vlm_url=args.vlm_url, vlm_device=cfg.vlm_device)
     store_dir = cfg.documents_dir
     sources = registry.all()
     if args.doc_id:

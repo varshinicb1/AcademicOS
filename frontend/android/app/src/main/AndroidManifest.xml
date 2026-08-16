@@ -1,4 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- image_picker's ImageSource.camera launches the system camera app,
+         which needs this to write the captured photo somewhere image_picker
+         can read it back from. -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <application
         android:label="academicos"
         android:name="${applicationName}"

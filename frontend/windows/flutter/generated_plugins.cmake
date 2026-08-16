@@ -3,10 +3,9 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  connectivity_plus
+  file_selector_windows
+  printing
   screen_retriever
-  share_plus
-  sqlite3_flutter_libs
   url_launcher_windows
   window_manager
 )

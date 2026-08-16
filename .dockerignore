@@ -1,0 +1,12 @@
+.venv/
+# academicos-data/ intentionally NOT excluded: this Cloud Run deploy has no
+# persistent volume, so the processed corpus (real questions, chapters, etc.)
+# needs to be baked into the image or the deployed backend starts empty.
+frontend/
+backend/
+.git/
+.gradle/
+build/
+__pycache__/
+*.pyc
+config/secrets.env

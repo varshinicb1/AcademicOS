@@ -41,9 +41,17 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# Data directories (keep these in the repo but they may contain large files)
+# Data directories (large generated/derived artifacts, not source)
 academicos-data/
-docs/
+docs/research/
+
+# Large build artifacts / distributables (not source, don't belong in git)
+*.zip
+*.apk
+desktop_dist/
+frontend/build/
+scratch_test/
+pilot-corpus/
 
 # Vendor/submodules
 vendor/
@@ -51,3 +59,6 @@ vendor/
 # Temporary files created during testing
 temp_*/
 tmp_*/
+
+# secrets — never commit
+config/secrets.env

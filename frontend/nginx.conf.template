@@ -1,0 +1,23 @@
+server {
+    listen ${PORT};
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+
+    # go_router uses client-side routing (no server-side pages for
+    # /assessment, /evaluation/:id, etc.) — anything not a real static file
+    # falls back to index.html so Flutter's router can handle it, rather
+    # than nginx 404ing on a direct navigation or page refresh.
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+
+    location /assets/ {
+        expires 7d;
+        add_header Cache-Control "public";
+    }
+
+    types {
+        application/wasm wasm;
+    }
+}
