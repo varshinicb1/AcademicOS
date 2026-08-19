@@ -1,0 +1,317 @@
+import 'dart:io';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:printing/printing.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../../data/datasources/api/api_client.dart';
+import '../../../data/datasources/api/pillar_api.dart';
+import '../../../domain/entities/entities.dart';
+import '../../../domain/repositories/requests.dart';
+import '../../blocs/assessment_bloc.dart';
+import '../../shared/widgets/common_widgets.dart';
+import '../../shared/widgets/shell.dart';
+import '../widgets/paper_delivery_sheet.dart';
+
+class AssessmentReviewPage extends StatefulWidget {
+  final String assessmentId;
+  final Assessment? assessment;
+  final GeneratedPaper? paper;
+  final List<String> gaps;
+  final List<String> warnings;
+
+  const AssessmentReviewPage({
+    super.key,
+    required this.assessmentId,
+    this.assessment,
+    this.paper,
+    this.gaps = const [],
+    this.warnings = const [],
+  });
+
+  @override
+  State<AssessmentReviewPage> createState() => _AssessmentReviewPageState();
+}
+
+class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
+  bool _exporting = false;
+  String? _exportedUrl;
+  String? _error;
+
+  Assessment? _fetchedAssessment;
+  GeneratedPaper? _fetchedPaper;
+  bool _reopening = false;
+  String? _reopenError;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.assessment == null || widget.paper == null) {
+      _reopen();
+    }
+  }
+
+  // Router `extra` (widget.assessment/widget.paper) only survives while the
+  // in-memory object from the generation flow is still around — reopening an
+  // assessment from the list later, or after a reload, arrives with neither.
+  // Assessment.generatedPaperId is what links the two back together.
+  Future<void> _reopen() async {
+    setState(() {
+      _reopening = true;
+      _reopenError = null;
+    });
+    try {
+      final api = GetIt.I<ApiClient>();
+      final assessment = await api.getAssessment(widget.assessmentId);
+      final paperId = assessment.generatedPaperId;
+      if (paperId == null || paperId.isEmpty) {
+        throw Exception('This assessment has no generated paper yet.');
+      }
+      final paper = await api.getPaper(paperId);
+      setState(() {
+        _fetchedAssessment = assessment;
+        _fetchedPaper = paper;
+        _reopening = false;
+      });
+    } catch (e) {
+      setState(() {
+        _reopenError = '$e';
+        _reopening = false;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final assessment = widget.assessment ?? _fetchedAssessment;
+    final paper = widget.paper ?? _fetchedPaper;
+
+    return Scaffold(
+      appBar: AppBar(leading: shellLeading(context), title: Text(assessment?.title ?? 'Assessment')),
+      body: _reopening
+          ? const Center(child: CircularProgressIndicator())
+          : assessment == null || paper == null
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          _reopenError ?? 'This assessment could not be opened.',
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 12),
+                        OutlinedButton.icon(
+                          onPressed: _reopen,
+                          icon: const Icon(Icons.refresh),
+                          label: const Text('Retry'),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : ListView(
+                  padding: const EdgeInsets.all(16),
+                  children: [
+                    _buildSummaryCard(context, assessment, paper),
+                    if (widget.gaps.isNotEmpty) _buildIssuesCard(context, 'Coverage gaps', widget.gaps, Colors.orange),
+                    if (widget.warnings.isNotEmpty) _buildIssuesCard(context, 'Warnings', widget.warnings, Colors.red),
+                    const SizedBox(height: 8),
+                    for (final section in paper.sections) _buildSectionCard(context, section),
+                    const SizedBox(height: 16),
+                    _buildExportCard(context),
+                  ],
+                ),
+    );
+  }
+
+  Widget _buildSummaryCard(BuildContext context, Assessment assessment, GeneratedPaper paper) {
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(paper.metadata.assessmentTitle, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
+              ),
+              ChipTag(label: assessment.status.name, color: Theme.of(context).colorScheme.primaryContainer),
+            ],
+          ),
+          const SizedBox(height: 8),
+          Wrap(spacing: 16, runSpacing: 4, children: [
+            Text('${paper.metadata.subject} · Grade ${paper.metadata.grade}'),
+            Text('${paper.metadata.totalMarks} marks'),
+            Text('${paper.metadata.durationMinutes} minutes'),
+          ]),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildIssuesCard(BuildContext context, String title, List<String> items, Color color) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: AppCard(
+        color: color.withValues(alpha: 0.08),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: TextStyle(fontWeight: FontWeight.w600, color: color)),
+            const SizedBox(height: 6),
+            for (final item in items)
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Text('• $item', style: const TextStyle(fontSize: 13)),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSectionCard(BuildContext context, GeneratedSection section) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: AppCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Section ${section.label} — ${section.name} (${section.totalMarks} marks)',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
+            ),
+            const Divider(),
+            for (final q in section.questions)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(width: 28, child: Text('${q.displayNumber}.', style: const TextStyle(fontWeight: FontWeight.w600))),
+                    Expanded(child: Text(q.stem)),
+                    const SizedBox(width: 8),
+                    ChipTag(label: '${q.marks}m'),
+                  ],
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildExportCard(BuildContext context) {
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Export & Approve', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 12),
+          if (_error != null) Padding(padding: const EdgeInsets.only(bottom: 8), child: Text(_error!, style: TextStyle(color: Theme.of(context).colorScheme.error))),
+          Wrap(
+            spacing: 12,
+            runSpacing: 8,
+            children: [
+              FilledButton.icon(
+                onPressed: _exporting ? null : _exportPdf,
+                icon: _exporting
+                    ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                    : const Icon(Icons.picture_as_pdf),
+                label: Text(_exporting ? 'Exporting…' : 'Export PDF'),
+              ),
+              if (_exportedUrl != null) ...[
+                FilledButton.tonalIcon(
+                  onPressed: _openDelivery,
+                  icon: const Icon(Icons.outgoing_mail),
+                  label: const Text('Preview, print or email'),
+                ),
+                OutlinedButton.icon(
+                  onPressed: () => _openExported(_exportedUrl!),
+                  icon: const Icon(Icons.open_in_new),
+                  label: const Text('Open in browser'),
+                ),
+              ],
+            ],
+          ),
+          const SizedBox(height: 8),
+          OutlinedButton.icon(
+            onPressed: () => context.read<AssessmentBloc>().add(AssessmentEvent.updateStatus(
+              assessmentId: widget.assessmentId,
+              status: AssessmentStatus.underReview,
+            )),
+            icon: const Icon(Icons.rate_review),
+            label: const Text('Mark as Under Teacher Review'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Local (offline-build) exports return an absolute file path, not a URL
+  /// -- launchUrl on a raw file:// path throws FileUriExposedException on
+  /// Android 7+, so those go through `printing`'s native share/view sheet
+  /// instead, which handles the content:// URI dance correctly. Hosted
+  /// deployments (http paths) keep using launchUrl exactly as before.
+  Future<void> _openExported(String pathOrUrl) async {
+    if (pathOrUrl.startsWith('http')) {
+      await launchUrl(Uri.parse(pathOrUrl), mode: LaunchMode.externalApplication);
+      return;
+    }
+    final bytes = await File(pathOrUrl).readAsBytes();
+    await Printing.sharePdf(bytes: bytes, filename: pathOrUrl.split(RegExp(r'[\\/]')).last);
+  }
+
+  void _openDelivery() {
+    final paper = widget.paper;
+    if (paper == null) return;
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      showDragHandle: false,
+      builder: (_) => PaperDeliverySheet(
+        paperId: paper.id,
+        paperTitle: paper.metadata.assessmentTitle,
+        subject: paper.metadata.subject,
+        grade: paper.metadata.grade,
+        schoolName: widget.assessment?.schoolId ?? 'AcademicOS School',
+      ),
+    );
+  }
+
+  Future<void> _exportPdf() async {
+    final paper = widget.paper;
+    if (paper == null) return;
+    setState(() {
+      _exporting = true;
+      _error = null;
+    });
+    try {
+      context.read<AssessmentBloc>().add(AssessmentEvent.exportPaper(
+        paper: paper,
+        templateId: 'default',
+        format: ExportFormat.pdf,
+      ));
+      final result = await context.read<AssessmentBloc>().stream.firstWhere(
+        (s) => !s.maybeMap(loading: (_) => true, orElse: () => false),
+      );
+      final path = result.mapOrNull(paperExported: (s) => s.filePath);
+      if (path == null || path.isEmpty) {
+        throw Exception('Export did not return a file');
+      }
+      setState(() {
+        _exportedUrl = path.startsWith('http') ? path : '${GetIt.I<PillarApi>().serverOrigin}$path';
+        _exporting = false;
+      });
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+        _exporting = false;
+      });
+    }
+  }
+}
