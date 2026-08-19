@@ -131,11 +131,17 @@ gets flagged to the user, not silently shipped.
       store — wired into `/evaluations/sheet` and `/papers/{id}/export/{fmt}`.
       Any *new* write path to student data still needs its own call to this,
       it doesn't happen automatically.)
-- [ ] **Anything that could change a finalized grade?** → Is the change logged
+- [x] **Anything that could change a finalized grade?** → Is the change logged
       with a reason and a reviewer identity, not a silent overwrite? Every grading
-      write is now logged (see above) but there's no "edit an existing grade"
-      endpoint yet for the log to distinguish from a first grading — that
-      specific gap (override-with-reason) is still open.
+      write is now logged (see above) and the scan-review flow has a real
+      regrade path: `mobile_scan.review_decision`'s `regrade` action (and `edit`
+      when it changes marks on an already-approved/edited item) requires a
+      non-empty `reason` and `reviewer_id`, and every correction is appended to
+      the server-side `audit_log` as a distinct `grade_regraded` action carrying
+      `questionId`, `oldMarks`, `newMarks`, `reason`, `reviewerId`, and the
+      automatic timestamp — wired through
+      `POST /scan/sessions/{id}/review/{question_id}`. A first-time `edit` on a
+      still-pending item stays reason-free (historical behavior, unchanged).
 - [ ] **New third-party integration or vendor** (any API call leaving the
       device/server)? → Is there a DPA-equivalent understanding of what data
       crosses that boundary, and is it in the security notes for that platform's
@@ -144,7 +150,7 @@ gets flagged to the user, not silently shipped.
       → Copyright/license confirmation captured at upload time (see
       `docs/ingestion-plan.md` if/when that's written), file-type allowlist
       enforced, macros stripped from any Office document before parsing.
-- [ ] **New feature that could leak an unpublished question paper early?** →
+- [x] **New feature that could leak an unpublished question paper early?** →
       Every PDF export now gets a unique, audit-logged watermark ID stamped in
       the footer (`pdf.py`'s `_page_furniture`, verified: a real generated paper
       was exported, the exact watermark ID was confirmed present in the PDF
@@ -152,8 +158,15 @@ gets flagged to the user, not silently shipped.
       (a leaked copy can be traced to the export that produced it), not a hard
       time-lock on export — a real school needs to print before the exam
       *starts*, so blocking export until a release timestamp isn't how real
-      printing workflows work. A hard lock on *editing* an approved paper
-      (can't quietly swap a question after `principal_approved`) is still open.
+      printing workflows work. A hard lock on *editing* an approved paper now
+      exists: `principalApproved` (a real value of the existing
+      `Assessment.status` field, reachable via `PATCH /assessments/{id}/status`)
+      is terminal — once set, `POST /papers/generate` and
+      `PUT /assessments/{id}` refuse with 409 (can't quietly re-run question
+      selection or swap a question), and the status can't be PATCHed back to an
+      editable state. Full principal-approval *workflow* (who approves, the
+      approval action itself, notifications) still does not exist and was
+      deliberately not invented — this is the lock half of the control only.
 - [ ] **Touches real answer sheets or scores for the first time in a new
       context** (e.g. a new export format, a new analytics rollup)? → Re-run the
       evaluation-precision calibration, don't assume the last measured number
@@ -297,7 +310,59 @@ still doesn't find them — an upstream packaging bug, not a local config issue)
 The key currently lives in a file in the app's own private data directory:
 OS-sandboxed, but not hardware-Keystore-backed. Revisit if upstream fixes it.
 
-Researched and documented, **not yet built**: an edit-existing-grade
-endpoint with reason+reviewer logging, a hard edit-lock on principal-approved
-papers, and the document-ingestion agent for a real school's own content
-(blocked on actually getting documents from a school).
+## Learner-advice correctness — two dead paths found by audit (2026-08-16)
+
+Auditing the two long-standing `test_daily_loop.py` failures turned up a real
+defect and a real design tension. Both matter here because this advice is
+student-facing output derived from student data.
+
+- **Fixed — mastery gate read a cache nothing fills.** `DailyLoop`'s
+  "you know this" (underconfident) advice gated on `ConceptState.mastery`.
+  That attribute is only ever assigned inside `forgetting.demo()`, a synthetic
+  helper: the real ingestion path (`LearnerModel.observe` → `ConceptState.record`)
+  updates attempts/correct/last_seen and leaves `mastery` at its `0.0` default
+  permanently. Verified directly — a concept answered correctly 10/10 times
+  reports a stored mastery of `0.0` while its real computed mastery is `0.66`.
+  The gate therefore never opened for any real learner, silently disabling the
+  advice. Fixed by computing mastery via `KnowledgeMastery` at use, matching
+  how the same function already computes retention and confidence fresh rather
+  than trusting stored fields. Proven by A/B: the regression test fails against
+  the old gate and passes against the new one. Note the same stale-cache trap
+  applies to `ConceptState.confidence`/`.retention` — anything reading those
+  fields off a replayed learner is reading defaults, not measurements.
+- **Flagged, deliberately not changed — "overconfident but drifting" is
+  unreachable.** That advice requires calibration ≥ +0.15 **and** ≥ 3 answers
+  **and** `retention_now < min_retention` (0.35) at once, but those fight each
+  other: efficacy only outruns accuracy after prior successes, and successes
+  build FSRS stability, which holds retention up. A systematic sweep (every
+  outcome pattern of length 3–5, ages to 730 days, spacings 1–60 days, at
+  maximum affect valence) found **zero** satisfying histories; the nearest
+  missed by 0.001 (calibration +0.164 at retention 0.351). Genuinely
+  overconfident learners land at retention 0.35–0.70 — below
+  `forgetting_threshold` (0.60, documented as "due for review") but above
+  `min_retention` (0.35, documented as "forgotten") — and the advice says
+  *drifting*, not forgotten, which suggests the gate wants the former. Making
+  that switch would change when real advice reaches real students, so it is a
+  pedagogy decision and was **not** made unilaterally. The test is marked
+  `xfail(strict=True)` so it announces itself the moment the branch becomes
+  reachable.
+
+Researched and documented, **not yet built**: the document-ingestion agent for
+a real school's own content (blocked on actually getting documents from a
+school). Investigation outcome (2026-08-16) on the two items that used to be
+on this list: (1) the edit-existing-grade gap is **built** — see the regrade
+checklist item above; (2) the principal-approval *lock* is **built** — see the
+paper-release checklist item above. What is still genuinely absent is the
+approval *workflow* itself: a principal user role, an explicit
+"approve paper" action, and any notifications — no such workflow exists
+anywhere in the product today (`principalApproved` was already a valid value of
+`Assessment.status` but nothing ever set it or consumed it before this lock),
+and no minimal real version of it can be built without deciding who the
+principal is and how they authenticate, which is a product decision, not a
+plumbing one. Recommended minimal version if it's ever pursued: a
+`PATCH /assessments/{id}/approve` action gated on an authenticated principal
+role that sets `status = principalApproved` (the lock then engages via the
+existing `_require_editable` guard in `src/academicos/assessment/routes.py`)
+and appends an `assessment_approved` entry to the same append-only `audit_log`
+with the principal's identity — reusing the exact mechanisms this repo already
+has rather than inventing new tables or a new workflow UI.

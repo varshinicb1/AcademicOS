@@ -101,7 +101,11 @@ def sync_to_google_calendar(assessment: Assessment) -> None:
         r.raise_for_status()
         data = r.json()
         # Confirmed live shape: {"data": {"response_data": {"id": "...", "htmlLink": "...", ...}}, "successful": true}
-        event_id = data.get("data", {}).get("response_data", {}).get("id")
+        # Any other shape (missing keys, nulls, non-dict bodies) is treated the
+        # same as a transport failure: logged below, never raised to the caller.
+        payload = data.get("data") if isinstance(data, dict) else None
+        response_data = payload.get("response_data") if isinstance(payload, dict) else None
+        event_id = response_data.get("id") if isinstance(response_data, dict) else None
         if event_id:
             assessment.metadata["googleCalendarEventId"] = event_id
             log.info("synced assessment %s to Google Calendar as event %s",

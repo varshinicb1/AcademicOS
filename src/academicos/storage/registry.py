@@ -57,8 +57,6 @@ class SourceRegistry:
             "meta": json.dumps(meta) if meta else None,
         }
         for k, v in vals.items():
-            if k in (c.split()[0] for c in SCHEMA.splitlines() if c.strip().upper().startswith(("SOURCE_ID", "FILE_KEY"))):
-                continue
             if isinstance(v, dict):
                 v = json.dumps(v)
             values[k] = v

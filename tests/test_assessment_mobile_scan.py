@@ -20,10 +20,13 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from academicos.assessment import audit_log
+from academicos.assessment.audit_log import get_audit_log
 from academicos.assessment.evaluate import Evaluation
 from academicos.assessment.mobile_scan import (
     CapturedPage,
     ReviewItem,
+    ScanError,
     ScanSession,
     process_session,
     review_decision,
@@ -209,3 +212,119 @@ def test_review_decision_and_final_totals(monkeypatch, tmp_path):
 
 def _finalize(session):
     return sum(i.final_marks for i in session.review), sum(i.max_marks for i in session.review)
+
+
+def _approved_item(monkeypatch, tmp_path) -> tuple[ScanSession, ReviewItem]:
+    """A session whose one question has already been approved at 0/2."""
+    _stub_llm(monkeypatch)
+    session = _session(_page(1, "Q.1) (B) 5", [], tmp_path))
+    q = _question("q1", marks=2)
+    items = process_session(session, {"q1": q}, [_generated("q1", 1, marks=2)])
+    review_decision(session, q.id, "approve")
+    return session, items[0]
+
+
+def test_first_time_edit_needs_no_reason(monkeypatch, tmp_path):
+    """A still-pending question is a first-time review: 'edit' keeps working
+    without a reason/reviewer — historical behavior must not break."""
+    _stub_llm(monkeypatch)
+    session = _session(_page(1, "Q.1) (B) 5", [], tmp_path))
+    q = _question("q1", marks=2)
+    process_session(session, {"q1": q}, [_generated("q1", 1, marks=2)])
+    updated = review_decision(session, q.id, "edit", marks=2, comment="full credit")
+    assert updated.status == "edited"
+    assert updated.teacher_marks == 2
+
+
+def test_regrade_without_reason_rejected(monkeypatch, tmp_path):
+    session, _ = _approved_item(monkeypatch, tmp_path)
+    with pytest.raises(ScanError, match="reason"):
+        review_decision(session, "q1", "regrade", marks=2, reviewer_id="teacher_9",
+                        data_root=tmp_path)
+
+
+def test_regrade_without_reviewer_id_rejected(monkeypatch, tmp_path):
+    session, _ = _approved_item(monkeypatch, tmp_path)
+    with pytest.raises(ScanError, match="reviewer_id"):
+        review_decision(session, "q1", "regrade", marks=2, reason="re-read the page",
+                        data_root=tmp_path)
+
+
+def test_regrade_without_marks_rejected(monkeypatch, tmp_path):
+    session, _ = _approved_item(monkeypatch, tmp_path)
+    with pytest.raises(ScanError, match="new marks"):
+        review_decision(session, "q1", "regrade", reason="re-read the page",
+                        reviewer_id="teacher_9", data_root=tmp_path)
+
+
+def test_regrade_on_pending_item_rejected(monkeypatch, tmp_path):
+    _stub_llm(monkeypatch)
+    session = _session(_page(1, "Q.1) (B) 5", [], tmp_path))
+    q = _question("q1", marks=2)
+    process_session(session, {"q1": q}, [_generated("q1", 1, marks=2)])
+    with pytest.raises(ScanError, match="not been decided"):
+        review_decision(session, q.id, "regrade", marks=2, reason="re-read the page",
+                        reviewer_id="teacher_9", data_root=tmp_path)
+
+
+def test_edit_on_already_decided_item_requires_reason(monkeypatch, tmp_path):
+    """'edit' must not silently overwrite an existing grade either — on an
+    approved item it is the same correction, so it needs a reason too."""
+    session, _ = _approved_item(monkeypatch, tmp_path)
+    with pytest.raises(ScanError, match="reason"):
+        review_decision(session, "q1", "edit", marks=2, reviewer_id="teacher_9",
+                        data_root=tmp_path)
+
+
+def test_regrade_success_writes_audit_trail(monkeypatch, tmp_path):
+    monkeypatch.setattr(audit_log, "_INSTANCE", None)
+    session, item = _approved_item(monkeypatch, tmp_path)
+    assert item.final_marks == 0  # approved at the AI's 0
+
+    updated = review_decision(session, "q1", "regrade", marks=2, comment="rescored",
+                              reason="answer key says full credit", reviewer_id="teacher_9",
+                              data_root=tmp_path)
+    assert updated.status == "edited"
+    assert updated.teacher_marks == 2
+    assert updated.final_marks == 2
+
+    entries = get_audit_log(tmp_path).for_assessment("a1")
+    regrades = [e for e in entries if e["action"] == "grade_regraded"]
+    assert len(regrades) == 1
+    r = regrades[0]
+    assert r["assessment_id"] == "a1"
+    assert r["student_id"] == "s1"
+    assert r["actor"] == "teacher_9"
+    assert r["details"]["questionId"] == "q1"
+    assert r["details"]["oldMarks"] == 0
+    assert r["details"]["newMarks"] == 2
+    assert r["details"]["reason"] == "answer key says full credit"
+    assert r["details"]["reviewerId"] == "teacher_9"
+    assert r["timestamp"]
+
+
+def test_edit_on_decided_item_also_audits(monkeypatch, tmp_path):
+    """'edit' changing marks on an approved item is recorded with the same
+    distinct action as an explicit regrade."""
+    monkeypatch.setattr(audit_log, "_INSTANCE", None)
+    session, _ = _approved_item(monkeypatch, tmp_path)
+    review_decision(session, "q1", "edit", marks=2, reason="rescored after recheck",
+                    reviewer_id="teacher_5", data_root=tmp_path)
+    entries = get_audit_log(tmp_path).for_assessment("a1")
+    regrades = [e for e in entries if e["action"] == "grade_regraded"]
+    assert len(regrades) == 1
+    assert regrades[0]["actor"] == "teacher_5"
+    assert regrades[0]["details"] == {
+        "questionId": "q1", "oldMarks": 0, "newMarks": 2,
+        "reason": "rescored after recheck", "reviewerId": "teacher_5",
+    }
+
+
+def test_comment_only_edit_on_decided_item_stays_lenient(monkeypatch, tmp_path):
+    """No marks change -> no grade correction -> still no reason required."""
+    monkeypatch.setattr(audit_log, "_INSTANCE", None)
+    session, _ = _approved_item(monkeypatch, tmp_path)
+    updated = review_decision(session, "q1", "edit", comment="note only")
+    assert updated.status == "edited"
+    assert updated.teacher_comment == "note only"
+    assert get_audit_log(tmp_path).for_assessment("a1") == []

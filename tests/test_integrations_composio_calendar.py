@@ -223,6 +223,11 @@ def test_long_duration_uses_end_datetime_and_not_event_duration_fields(monkeypat
     [
         {"data": {"response_data": {}}},
         {"data": {}},
+        {"data": {"response_data": None}},  # 200 + null body: must not AttributeError
+        {"data": None},
+        {},
+        [],
+        "not an object",
     ],
 )
 def test_response_without_event_id_leaves_metadata_unchanged(monkeypatch, payload):

@@ -37,12 +37,14 @@ class ChunkIndex:
         self._load_stats()
 
     def _load_stats(self) -> None:
+        self._df = Counter()
+        self._doc_tokens = {}
         try:
             rows = self.conn.execute(
                 "SELECT document_id, text FROM chunks").fetchall()
             for doc_id, text in rows:
                 toks = _TOKEN.findall(text.lower())
-                self._doc_tokens[doc_id] = Counter(toks)
+                self._doc_tokens.setdefault(doc_id, Counter()).update(toks)
                 for t in set(toks):
                     self._df[t] += 1
             self._doc_count = len(self._doc_tokens)
@@ -50,10 +52,10 @@ class ChunkIndex:
             pass
 
     def add(self, chunks: list[Chunk], replace_doc: bool = False) -> None:
+        if replace_doc and chunks:
+            for doc_id in {c.document_id for c in chunks}:
+                self.conn.execute("DELETE FROM chunks WHERE document_id=?", (doc_id,))
         for c in chunks:
-            if replace_doc:
-                self.conn.execute("DELETE FROM chunks WHERE document_id=?", (c.document_id,))
-                replace_doc = False
             self.conn.execute(
                 "INSERT INTO chunks (id, document_id, page, heading, text) VALUES (?,?,?,?,?)",
                 (c.id, c.document_id, c.page, c.heading, c.text),

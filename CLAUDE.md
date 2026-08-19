@@ -43,8 +43,9 @@ exist because the doc discusses them.
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install -e .            # core (pymupdf, pydantic)
+pip install -e .            # core (pymupdf, pydantic, numpy, spacy)
 pip install -e ".[api]"     # + FastAPI server
+pip install -e ".[dev]"     # + pytest / httpx2 (needed to run the test suite)
 pip install -e ".[gcs]"     # + GCS mirror
 pip install -e ".[retrieval]"  # + sentence-transformers/numpy
 ```

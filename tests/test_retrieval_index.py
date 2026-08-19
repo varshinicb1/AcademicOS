@@ -62,14 +62,15 @@ def test_add_with_replace_doc_removes_old_chunks(index):
     assert {c.id for c, _ in index.bm25("chlorophyll", limit=10)} == {"c3"}
 
 
-def test_replace_doc_only_affects_first_document_in_batch(index):
+def test_replace_doc_replaces_all_documents_in_batch(index):
     index.add([_chunk("c1", "d1", 1, "old d1 stuff"),
                _chunk("c2", "d2", 1, "old d2 stuff")])
     index.add([_chunk("c3", "d1", 2, "new d1 stuff"),
                _chunk("c4", "d2", 2, "new d2 stuff")], replace_doc=True)
-    assert index.count() == 3
+    # every document in the replaced batch is dropped, not just the first one
+    assert index.count() == 2
     ids = {c.id for c, _ in index.bm25("stuff", limit=10)}
-    assert ids == {"c2", "c3", "c4"}
+    assert ids == {"c3", "c4"}
 
 
 # --------------------------------------------------------------------------- #
@@ -137,6 +138,38 @@ def test_tfidf_caps_three_chunks_per_document(index):
     hits = index.tfidf("photosynthesis", limit=20)
     d1_chunks = [c for c, _ in hits if c.document_id == "d1"]
     assert len(d1_chunks) == 3
+
+
+def test_tfidf_idf_reset_after_delete(index):
+    # _df must reflect the *current* corpus: a deleted document's document
+    # frequency must not linger and pull idf down on later queries.
+    index.add([_chunk("c1", "d1", 1, "photosynthesis photosynthesis"),
+               _chunk("c2", "d2", 1, "photosynthesis"),
+               _chunk("c3", "d3", 1, "respiration releases energy")])
+    index.delete_document("d1")
+    # after the delete: 2 docs, 1 still containing the term
+    # idf = log((doc_count+1)/(df+1)) + 1 = log(3/2) + 1
+    hits = index.tfidf("photosynthesis", limit=20)
+    by_doc = {c.document_id: s for c, s in hits}
+    assert by_doc["d2"] == pytest.approx(math.log(1.5) + 1.0)
+    assert "d1" not in by_doc
+
+
+def test_tfidf_multi_chunk_document_accumulates_all_chunks(index):
+    # a document split across chunks must be scored over ALL its chunks, not
+    # just the last one added to the index.
+    index.add([
+        _chunk("c1", "d1", 1, "photosynthesis converts light energy"),
+        _chunk("c2", "d1", 2, "photosynthesis splits water and releases oxygen"),
+        _chunk("c3", "d2", 1, "respiration releases energy from glucose"),
+    ])
+    # "converts" appears only in d1's FIRST chunk; d1 must still be scored > 0
+    hits = index.tfidf("converts", limit=20)
+    by_doc = {c.document_id: s for c, s in hits}
+    assert by_doc["d1"] > 0.0
+    # and the combined token stats rank d1 ahead of d2 for "photosynthesis"
+    hits2 = index.tfidf("photosynthesis", limit=20)
+    assert hits2 and hits2[0][0].document_id == "d1"
 
 
 def test_tfidf_empty_index(tmp_path):

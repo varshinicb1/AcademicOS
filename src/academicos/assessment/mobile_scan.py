@@ -32,6 +32,7 @@ from pathlib import Path
 from typing import Any, Optional
 
 from . import imaging, llm_evaluate, scan, vision
+from .audit_log import get_audit_log
 from .scan_session_store import ScanSessionStore
 from .schemas import GeneratedQuestionSchema, QuestionSchema
 from .supabase_kv import SupabaseStorage
@@ -110,6 +111,10 @@ class ScanSession:
 # the durable copy that survives a Render idle-restart (see module docstring).
 _sessions: dict[str, ScanSession] = {}
 _WORKDIR_ROOT = Path("academicos-data") / "scan-sessions"
+# Derived from the workdir configure_workdir() receives (app startup passes
+# `cfg.data_root / "scan-sessions"`), so audit logging has somewhere to land
+# even when callers don't pass a data_root explicitly.
+_DATA_ROOT: Optional[Path] = None
 _store: Optional[ScanSessionStore] = None
 
 
@@ -147,8 +152,9 @@ def fetch_storage_bytes(key: str) -> Optional[bytes]:
 
 
 def configure_workdir(root: Path) -> None:
-    global _WORKDIR_ROOT, _store
+    global _WORKDIR_ROOT, _store, _DATA_ROOT
     _WORKDIR_ROOT = root
+    _DATA_ROOT = root.parent
     _store = ScanSessionStore(root / "sessions.sqlite")
 
 
@@ -292,21 +298,89 @@ def process_session(session: ScanSession,
 
 
 def review_decision(session: ScanSession, question_id: str, action: str, *,
-                    marks: Optional[int] = None, comment: str = "") -> ReviewItem:
+                    marks: Optional[int] = None, comment: str = "",
+                    reason: str = "", reviewer_id: str = "",
+                    data_root: Optional[Path] = None) -> ReviewItem:
+    """Applies one teacher decision to a review item.
+
+    Actions:
+      * "approve"  — accept the AI's score as-is (no marks change).
+      * "edit"     — the *first* decision on a still-pending item: set marks /
+                     comment directly, no reason required (matches historical
+                     behavior).
+      * "regrade"  — a *correction* to an already-decided item (status
+                     "approved" or "edited"): changing marks requires a reason
+                     and a reviewer identity, and every regrade is written to
+                     the append-only AuditLog as "grade_regraded" with the old
+                     and new marks.
+
+    `edit` on an already-decided item is treated the same as "regrade" when it
+    changes marks — silently overwriting an existing grade is exactly the
+    compliance gap docs/compliance.md flags, so it demands the same reason +
+    reviewer + audit trail as the explicit regrade action. Comment-only edits
+    (marks=None) on a decided item stay lenient: no grade is being changed.
+    """
     item = next((i for i in session.review if i.question_id == question_id), None)
     if item is None:
         raise ScanError(f"question {question_id} not in this session's review queue")
     if action == "approve":
         item.status = "approved"
-    elif action == "edit":
-        item.status = "edited"
-        if marks is not None:
-            item.teacher_marks = max(0, min(item.max_marks, marks))
-        item.teacher_comment = comment
+    elif action in ("edit", "regrade"):
+        correcting_marks = marks is not None and item.status in ("approved", "edited")
+        if action == "regrade":
+            if item.status not in ("approved", "edited"):
+                raise ScanError(
+                    f"question {question_id} has not been decided yet — 'regrade' corrects an "
+                    "existing approved/edited decision; use 'edit' for the first review"
+                )
+            if marks is None:
+                raise ScanError(f"regrade of question {question_id} requires new marks")
+            correcting_marks = True
+        if correcting_marks:
+            _apply_regrade(session, item, marks, comment, reason, reviewer_id, data_root)
+        else:
+            item.status = "edited"
+            if marks is not None:
+                item.teacher_marks = max(0, min(item.max_marks, marks))
+            item.teacher_comment = comment
     else:
         raise ScanError(f"unknown review action {action!r}")
     save_session(session)
     return item
+
+
+def _apply_regrade(session: ScanSession, item: ReviewItem, marks: int, comment: str,
+                   reason: str, reviewer_id: str, data_root: Optional[Path]) -> None:
+    """Correction to an already-decided item: guarded by a mandatory reason +
+    reviewer identity, then recorded append-only in the AuditLog."""
+    if not reason or not reason.strip():
+        raise ScanError(f"changing the existing grade on question {item.question_id} "
+                        "requires a non-empty reason")
+    if not reviewer_id or not reviewer_id.strip():
+        raise ScanError(f"changing the existing grade on question {item.question_id} "
+                        "requires a reviewer_id")
+    old_marks = item.final_marks
+    new_marks = max(0, min(item.max_marks, marks))
+    item.status = "edited"
+    item.teacher_marks = new_marks
+    item.teacher_comment = comment
+
+    log_root = data_root or _DATA_ROOT
+    if log_root is None:
+        raise ScanError("no data_root configured for audit logging; regrade refused")
+    get_audit_log(log_root).append(
+        "grade_regraded",
+        assessment_id=session.assessment_id,
+        student_id=session.student_id,
+        actor=reviewer_id,
+        details={
+            "questionId": item.question_id,
+            "oldMarks": old_marks,
+            "newMarks": new_marks,
+            "reason": reason,
+            "reviewerId": reviewer_id,
+        },
+    )
 
 
 def finalize_totals(session: ScanSession) -> tuple[int, int]:

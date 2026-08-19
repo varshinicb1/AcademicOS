@@ -137,6 +137,25 @@ def test_source_id_and_file_key_bound_to_explicit_params(reg: SourceRegistry) ->
     assert reg.count() == 1
 
 
+def test_source_id_or_file_key_in_fields_is_a_type_error(reg: SourceRegistry) -> None:
+    # The signature register(source_id, file_key, **fields) means these keys
+    # can never reach **fields (Python raises before the body runs). This is
+    # the contract the old per-key whitelist guard in register() was dead code:
+    # remove it without changing behavior.
+    with pytest.raises(TypeError):
+        reg.register("src:1", file_key="k", source_id="hijack")
+
+
+def test_get_returns_meta_as_json_text(reg: SourceRegistry) -> None:
+    # meta is persisted as JSON *text*; consumers parse it with json.loads.
+    # It must not come back pre-parsed (that would break every caller that
+    # treats it as a string column).
+    reg.register("src:m", file_key="k", meta={"a": [1, 2], "b": {"c": 3}})
+    row = reg.get("src:m")
+    assert isinstance(row["meta"], str)
+    assert json.loads(row["meta"]) == {"a": [1, 2], "b": {"c": 3}}
+
+
 def test_unknown_field_raises_not_silently_stored(reg: SourceRegistry) -> None:
     with pytest.raises(sqlite3.OperationalError):
         reg.register("src:x", file_key="k", not_a_column=42)

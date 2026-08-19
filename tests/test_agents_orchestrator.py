@@ -18,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from _agent_helpers import FakeLLM, build_index, make_chunk, scoring_handler
 from academicos.agents.critic import SarvamCritic
 from academicos.agents.orchestrator import (
+    Agent,
     DoubtSolver,
     ExaminerScorer,
     PaperAnalyst,
@@ -283,6 +284,32 @@ def test_paper_analyst_top_chunks_capped_at_eight(tmp_path):
 # --------------------------------------------------------------------------- #
 # private helpers
 # --------------------------------------------------------------------------- #
+
+def test_make_evidence_builds_valid_provenance():
+    agent = Agent(retriever=None)  # _make_evidence never touches the retriever
+    ev = agent._make_evidence([
+        {"document_id": "doc1", "page": 3, "heading": "h", "text": "x"},
+        {"document_id": "doc2", "page": 5, "heading": "h", "text": "y"},
+        {"document_id": "doc3", "heading": "h", "text": "z"},
+    ])
+    assert len(ev.items) == 3
+    for p in ev.items:
+        # provenance requires a real Confidence (was passing None -> pydantic violation)
+        assert p.confidence is not None
+        assert p.confidence.method == p.method
+        assert 0.0 <= p.confidence.score <= 1.0
+    assert ev.items[0].source.document_id == "doc1"
+    assert ev.items[0].source.page == 3
+    assert ev.items[2].source.document_id == "doc3"
+
+
+def test_make_evidence_caps_at_five():
+    agent = Agent(retriever=None)
+    hits = [{"document_id": f"doc{i}", "page": i + 1, "heading": "h", "text": "x"}
+            for i in range(8)]
+    ev = agent._make_evidence(hits)
+    assert len(ev.items) == 5
+
 
 def test_answer_from_hits_empty_message():
     assert _answer_from_hits([]) == NO_EVIDENCE_MSG

@@ -200,9 +200,21 @@ def test_search_dense_false_drops_dense_only_hits(retriever):
     assert off_ids == {"c1", "c2"}
     bm25_ids = {c.id for c, _ in retriever.index.bm25("photosynthesis", limit=20)}
     assert off_ids <= bm25_ids
-    # sources are labelled bm25+dense regardless of the dense flag (current behavior)
+    # sources reflect the pathways actually used: dense=False -> bm25 only
     for h in retriever.search("photosynthesis", limit=10, dense=False):
-        assert h.sources == ["bm25", "dense"]
+        assert h.sources == ["bm25"]
+
+
+def test_search_sources_label_actual_pathways(retriever):
+    # "dense" is only reported when tfidf actually contributed the hit;
+    # "bm25" only when the chunk was returned by FTS5.
+    on = retriever.search("photosynthesis", limit=10, dense=True)
+    on_by_id = {h.chunk.id: h.sources for h in on}
+    assert on_by_id["c1"] == ["bm25", "dense"]  # present in both rankings
+    assert on_by_id["c3"] == ["dense"]          # c3/c4 never matched bm25, only tfidf
+    off = retriever.search("photosynthesis", limit=10, dense=False)
+    for h in off:
+        assert h.sources == ["bm25"]
 
 
 # --------------------------------------------------------------------------- #
