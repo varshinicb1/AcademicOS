@@ -223,3 +223,60 @@ def test_cmd_revise_empty_learner(tmp_path: Path, monkeypatch, capsys) -> None:
     args = argparse.Namespace(learner="nobody", model="fsrs")
     assert cli.cmd_revise(args) == 1
     assert "no interactions" in capsys.readouterr().out
+
+
+def test_revision_priority_uses_computed_mastery_not_stale_cache() -> None:
+    """Regression: ``ConceptState.mastery`` is a cache the real ingestion path
+    never fills, so revision priority must not read it.
+
+    ``RevisionScheduler.plan`` ranks due concepts by ``urgency * importance``
+    where ``importance = 0.5 + 0.5 * mastery``. ``LearnerModel.observe`` ->
+    ``ConceptState.record`` never assigns ``mastery`` (only ``forgetting.demo()``
+    does), so reading the stored field pinned ``importance`` to exactly 0.5 for
+    every concept -- collapsing the ranking into pure urgency and discarding the
+    mastery weighting entirely.
+
+    Two concepts here are both stale enough to be due but differ sharply in real
+    mastery (~0.38 vs ~0.03). The stored cache is 0.0 for both; the computed
+    values are not, so their importance weights must differ.
+    """
+    from academicos.algorithms.learner_model import LearnerModel
+    from academicos.algorithms.mastery import KnowledgeMastery
+
+    now = datetime(2026, 8, 1, 12, 0, 0, tzinfo=timezone.utc)
+    now_iso = now.isoformat()
+    lm = LearnerModel(learner_id="rev")
+    lm.concepts.clear()
+    for cid, outcomes in (("partial", (1.0, 1.0, 1.0, 0.0)),
+                          ("weak", (0.0, 0.0, 0.0, 0.0))):
+        for offset, outcome in zip((90, 88, 86, 84), outcomes):
+            lm.observe(Interaction(
+                concept_id=cid, kind="answer", outcome=outcome,
+                ts=(now - timedelta(days=offset)).isoformat()))
+
+    km = KnowledgeMastery()
+    m_partial = km.score(lm, "partial", now=now_iso).mastery
+    m_weak = km.score(lm, "weak", now=now_iso).mastery
+    # the stale cache the ranking must NOT trust ...
+    assert lm.concepts["partial"].mastery == 0.0
+    assert lm.concepts["weak"].mastery == 0.0
+    # ... versus the real values, which genuinely differ
+    assert m_partial > m_weak + 0.2
+
+    plan = RevisionScheduler(
+        ForgettingModel(ForgettingParams(model="fsrs"))).plan(lm, now=now_iso)
+    priorities = {cid: score for cid, _, score in plan.due_today}
+    assert {"partial", "weak"} <= set(priorities), (
+        f"expected both concepts due, got {plan.due_today}")
+
+    # Recover the importance factor each concept actually received. If the
+    # ranking still read the 0.0 cache, both would come back at exactly 0.5.
+    threshold = 0.60
+    implied = {}
+    for cid, retention, score in plan.due_today:
+        urgency = max(0.0, min(1.0, (threshold - retention) / threshold))
+        implied[cid] = score / urgency
+    assert implied["partial"] > implied["weak"], (
+        f"mastery weighting is dead: importance factors {implied}")
+    assert implied["partial"] == pytest.approx(0.5 + 0.5 * m_partial, abs=1e-3)
+    assert implied["weak"] == pytest.approx(0.5 + 0.5 * m_weak, abs=1e-3)
