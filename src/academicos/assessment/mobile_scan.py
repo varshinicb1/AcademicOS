@@ -67,7 +67,7 @@ class ReviewItem:
     marking_points: list[dict[str, Any]]
     ocr_warnings: list[str]
     needs_review: bool
-    status: str = "pending"          # pending | approved | edited
+    status: str = "pending"          # pending | approved | edited | failed
     teacher_marks: Optional[int] = None
     teacher_comment: str = ""
     # Captured page(s) this answer's text was read from — lets the review UI
@@ -264,7 +264,29 @@ def process_session(session: ScanSession,
     for gq in ordered_questions:
         q = questions_by_id.get(gq.question_id)
         if q is None:
-            log.warning("question %s in paper not found in question bank; skipped", gq.question_id)
+            # C3: a scanned answer whose question id isn't in the session's
+            # question bank must NOT vanish silently -- the sheet used to just
+            # come back short, with no signal to the teacher about why. Emit a
+            # visible review item that says the question couldn't be matched,
+            # carrying any answer text the student did write under that number
+            # so the teacher can still see it. status="failed" marks it as
+            # unmatchable (not pending a normal approve/edit decision); the
+            # distinct verdict keeps it from reading as a genuine zero-credit.
+            seg = by_number.get(gq.display_number)
+            answer_text = seg.text if seg else ""
+            items.append(ReviewItem(
+                question_id=gq.question_id, display_number=gq.display_number,
+                stem=gq.stem, max_marks=gq.marks,
+                student_answer=answer_text, awarded_marks=0,
+                verdict="noMatch", confidence=0.0,
+                reasoning=("This question could not be matched to the session's "
+                           "question bank — there is no marking scheme to score it "
+                           "against; verify the paper and question bank manually."),
+                marking_points=[],
+                ocr_warnings=([] if seg else ["no answer found under this question number"]),
+                needs_review=True, status="failed",
+                page_numbers=list(seg.page_numbers) if seg else [],
+            ))
             continue
         seg = by_number.get(gq.display_number)
         answer_text = seg.text if seg else ""

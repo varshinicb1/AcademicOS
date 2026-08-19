@@ -176,6 +176,46 @@ def test_ocr_failure_forces_each_unmatched_question(monkeypatch, tmp_path):
     assert any("page(s) [2]" in w for w in by_num[2].ocr_warnings)
 
 
+def test_bank_missing_question_is_surfaced_not_silently_dropped(monkeypatch, tmp_path):
+    """C3: a scanned answer whose question id isn't in the session's question
+    bank used to be skipped with zero visibility -- the sheet just came back
+    short. It must now surface as a visible failure item so the teacher sees
+    "this question couldn't be matched" instead of a quietly missing question,
+    while every real question in the same session still scores normally."""
+    _stub_llm(monkeypatch)
+    session = _session(_page(1, "Q.1) (B) 5", [], tmp_path))
+    q1 = _question("q1")
+    items = process_session(
+        session, {"q1": q1},
+        # q_ghost is in the paper (ordered_questions) but absent from the bank.
+        [_generated("q1", 1), _generated("q_ghost", 2, marks=3)],
+    )
+
+    assert len(items) == 2  # nothing silently dropped anymore
+    by_num = {i.display_number: i for i in items}
+
+    # The bank-missing question is a visible failure, not a quiet skip.
+    ghost = by_num[2]
+    assert ghost.question_id == "q_ghost"
+    assert ghost.status == "failed"
+    assert ghost.verdict == "noMatch"          # distinct from a real zero-credit
+    assert ghost.needs_review is True
+    assert ghost.awarded_marks == 0
+    assert ghost.max_marks == 3
+    assert ghost.confidence == 0.0
+    assert "could not be matched" in ghost.reasoning.lower()
+    assert "question bank" in ghost.reasoning.lower()
+
+    # The real question in the same session is untouched: normal pending item,
+    # normal stub verdict, its matched answer preserved.
+    real = by_num[1]
+    assert real.question_id == "q1"
+    assert real.status == "pending"
+    assert real.student_answer == "(B) 5"
+    assert real.verdict == "blank"
+    assert real.needs_review is False
+
+
 def test_no_pages_raises():
     session = _session()
     with pytest.raises(RuntimeError):
