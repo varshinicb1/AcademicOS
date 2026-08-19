@@ -515,6 +515,23 @@ would alter what reaches real students/teachers.
   unimplemented surfaces. Triaged per-route in the audit; none is called by
   the shipped demo flow. `GET /schools/{id}/school-templates` auto-seeding a
   default template is intentional (per the code comment) and left as-is.
+  **Updated (2026-08-20):** a complete, programmatically-verified route
+  inventory now lives in `tests/test_route_inventory.py`. It enumerates all
+  51 real backend routes (15 `routes.py` + 19 `pillar_routes.py` + 9
+  `mobile_routes.py` + 8 `api/main.py`) and asserts the live app matches
+  exactly, so any route added/removed/renamed fails loudly until the
+  inventory and its exercise table are updated. Every one of those 51 routes
+  is exercised end-to-end (valid 200s + proper-4xx error paths), and the
+  Flutter side was re-audited: `pillar_api.dart` (25 method calls) is 100%
+  matched; `api_client.dart` has 16 matched / 42 unmatched methods. **All 42
+  unmatched Dart methods are dead code** — each is called only from
+  repositories/blocs no live page consumes (the pages dispatch only
+  AssessmentBloc events; Scanner/Evaluation/Mastery/Analytics/ReportsBlocs
+  are registered in `main.dart` but unused; two AssessmentBloc methods return
+  `NotFoundFailure('Not implemented')`). Consequently there is nothing to
+  implement and nothing to stub: **implemented 0 / 501-stubbed 0 / dead-code
+  42**. The per-route verdicts are itemized in the audit log of this work
+  session.
 - **D4 — PUT is an upsert.** `PUT /assessments/{id}` silently creates when the
   id doesn't exist (200, no 404), and the remote Postgres path replaces the
   whole payload row. For offline-first mobile sync an upsert may be exactly
