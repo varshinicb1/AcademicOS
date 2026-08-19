@@ -11,6 +11,7 @@ from typing import Optional
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import FileResponse
+from typing import get_args
 
 from ..config import Config
 from ..integrations.composio_calendar import sync_to_google_calendar
@@ -22,6 +23,7 @@ from .paper import generate_paper as build_generated_paper
 from .pool import get_pool
 from .schemas import (
     Assessment,
+    AssessmentStatus,
     Blueprint,
     BlueprintRequest,
     CreateAssessmentRequest,
@@ -60,6 +62,11 @@ _EDITABLE_STATUSES = frozenset({
     "draft", "blueprintReady", "questionsSelected", "questionOptimized",
     "paperGenerated", "underReview",
 })
+# Every status the schema's AssessmentStatus Literal allows. PATCH /status must
+# be validated against this set: accepting arbitrary strings corrupts the
+# lifecycle and bricks the assessment (editable checks, evaluation, reports all
+# branch on these exact values).
+_KNOWN_STATUSES = frozenset(get_args(AssessmentStatus))
 
 
 def _require_editable(assessment: Assessment) -> None:
@@ -328,6 +335,8 @@ def update_assessment(assessment_id: str, assessment: Assessment) -> Assessment:
 @router.delete("/assessments/{assessment_id}")
 def delete_assessment(assessment_id: str) -> dict:
     _, store = _require()
+    if store.get(assessment_id) is None:
+        raise HTTPException(404, "assessment not found")
     store.delete(assessment_id)
     return {"ok": True}
 
@@ -339,6 +348,11 @@ def update_status(assessment_id: str, body: dict) -> Assessment:
     if a is None:
         raise HTTPException(404, "assessment not found")
     new_status = body.get("status", a.status)
+    if new_status not in _KNOWN_STATUSES:
+        raise HTTPException(
+            422,
+            f"unknown status {new_status!r}; expected one of {sorted(_KNOWN_STATUSES)}",
+        )
     if a.status not in _EDITABLE_STATUSES and new_status in _EDITABLE_STATUSES:
         raise HTTPException(
             409,

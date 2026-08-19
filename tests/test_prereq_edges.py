@@ -175,7 +175,8 @@ def test_prereq_plan_missing_concept(tmp_path):
     store.close()
 
 def test_prereq_plan_skips_mastered_prereq(tmp_path):
-    from academicos.algorithms.learner_model import ConceptState, LearnerModel
+    from datetime import datetime, timedelta, timezone
+    from academicos.algorithms.learner_model import Interaction, LearnerModel
     from academicos.graph.prereq_edges import (build_prerequisite_edges,
                                                write_prerequisite_edges)
     from academicos.graph.query import prereq_plan
@@ -193,8 +194,12 @@ def test_prereq_plan_skips_mastered_prereq(tmp_path):
     write_prerequisite_edges(store, edges)
 
     learner = LearnerModel(learner_id="alice")
-    learner.concepts["cbse:concept:a"] = ConceptState(
-        concept_id="cbse:concept:a", mastery=0.9)
+    # real evidence on the prereq concept "cbse:concept:a", not a hand-set
+    # mastery cache value: 3 correct answers compute to mastery 0.80 >= 0.5
+    for _ in range(3):
+        learner.observe(Interaction(
+            concept_id="cbse:concept:a", kind="answer", outcome=1.0,
+            ts=datetime.now(timezone.utc).isoformat()))
 
     plan = prereq_plan(store, "c", learner=learner)
     labels = [s["label"] for s in plan["steps"]]
@@ -206,7 +211,8 @@ def test_prereq_plan_skips_mastered_prereq(tmp_path):
 
 
 def test_prereq_plan_label_fallback_and_target_mastered(tmp_path):
-    from academicos.algorithms.learner_model import ConceptState, LearnerModel
+    from datetime import datetime, timedelta, timezone
+    from academicos.algorithms.learner_model import Interaction, LearnerModel
     from academicos.graph.prereq_edges import (build_prerequisite_edges,
                                                write_prerequisite_edges)
     from academicos.graph.query import prereq_plan
@@ -221,13 +227,16 @@ def test_prereq_plan_label_fallback_and_target_mastered(tmp_path):
     write_prerequisite_edges(store, edges)
 
     learner = LearnerModel(learner_id="alice")
-    learner.concepts["a"] = ConceptState(concept_id="a", mastery=0.9)
+    for _ in range(3):
+        learner.observe(Interaction(concept_id="a", kind="answer", outcome=1.0,
+                                    ts=datetime.now(timezone.utc).isoformat()))
     plan = prereq_plan(store, "b", learner=learner)
     assert "a" not in [s["label"] for s in plan["steps"]]
 
     learner2 = LearnerModel(learner_id="bob")
-    learner2.concepts["cbse:concept:b"] = ConceptState(
-        concept_id="cbse:concept:b", mastery=0.95)
+    for _ in range(3):
+        learner2.observe(Interaction(concept_id="cbse:concept:b", kind="answer", outcome=1.0,
+                                     ts=datetime.now(timezone.utc).isoformat()))
     plan2 = prereq_plan(store, "b", learner=learner2)
     assert plan2["steps"][-1]["mastered"] is True
     assert "a" in [s["label"] for s in plan2["steps"]]
@@ -235,7 +244,8 @@ def test_prereq_plan_label_fallback_and_target_mastered(tmp_path):
 
 
 def test_prereq_plan_mastery_gate(tmp_path):
-    from academicos.algorithms.learner_model import ConceptState, LearnerModel
+    from datetime import datetime, timedelta, timezone
+    from academicos.algorithms.learner_model import Interaction, LearnerModel
     from academicos.graph.prereq_edges import (build_prerequisite_edges,
                                                write_prerequisite_edges)
     from academicos.graph.query import prereq_plan
@@ -250,7 +260,12 @@ def test_prereq_plan_mastery_gate(tmp_path):
     write_prerequisite_edges(store, edges)
 
     learner = LearnerModel(learner_id="alice")
-    learner.concepts["a"] = ConceptState(concept_id="a", mastery=0.4)
+    # one early correct, three recent misses -> computed mastery ~0.41,
+    # between the 0.3 and 0.5 gates under test
+    for days_ago, outcome in ((3, 1.0), (2, 0.0), (1, 0.0), (0, 0.0)):
+        learner.observe(Interaction(
+            concept_id="a", kind="answer", outcome=outcome,
+            ts=(datetime.now(timezone.utc) - timedelta(days=days_ago)).isoformat()))
     kept = prereq_plan(store, "b", learner=learner, mastery_gate=0.5)
     assert "a" in [s["label"] for s in kept["steps"]]
     dropped = prereq_plan(store, "b", learner=learner, mastery_gate=0.3)
@@ -259,7 +274,8 @@ def test_prereq_plan_mastery_gate(tmp_path):
 
 
 def test_prereq_plan_lo_resolves_mastery_via_maps_to(tmp_path):
-    from academicos.algorithms.learner_model import ConceptState, LearnerModel
+    from datetime import datetime, timezone
+    from academicos.algorithms.learner_model import Interaction, LearnerModel
     from academicos.graph.learning_outcomes import (build_lo_layer, lo_node_id,
                                                     lo_statement)
     from academicos.graph.prereq_edges import (build_prerequisite_edges,
@@ -280,7 +296,10 @@ def test_prereq_plan_lo_resolves_mastery_via_maps_to(tmp_path):
     build_lo_layer(store, profiles)
 
     learner = LearnerModel(learner_id="alice")
-    learner.concepts["a"] = ConceptState(concept_id="a", mastery=0.9)
+    # mastery on the mapped concept "a" is computed from real evidence
+    for _ in range(3):
+        learner.observe(Interaction(concept_id="a", kind="answer", outcome=1.0,
+                                    ts=datetime.now(timezone.utc).isoformat()))
     plan = prereq_plan(store, "b", ntype=NodeType.LEARNING_OUTCOME,
                        learner=learner)
     labels = [s["label"] for s in plan["steps"]]

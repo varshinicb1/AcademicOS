@@ -296,7 +296,12 @@ class RevisionScheduler:
                 due.append((cid, r.retention_now, round(urgency * importance, 4)))
             else:
                 days = max(1, math.ceil(r.days_until_forgotten))
-                due_iso = (_dt(now_iso).date() + timedelta(days=days)).isoformat()
+                # Exponential-model stability can push 'days' far past the max
+                # representable date (date + timedelta overflows after year
+                # 9999); cap at the furthest valid day instead of crashing.
+                today = _dt(now_iso).date()
+                days = min(days, (datetime.max.date() - today).days)
+                due_iso = (today + timedelta(days=days)).isoformat()
                 upcoming.append((cid, due_iso))
         due.sort(key=lambda t: t[2], reverse=True)
         upcoming.sort(key=lambda t: t[1])

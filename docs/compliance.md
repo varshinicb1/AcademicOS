@@ -396,22 +396,25 @@ student-facing output derived from student data.
   the old gate and passes against the new one. Note the same stale-cache trap
   applies to `ConceptState.confidence`/`.retention` — anything reading those
   fields off a replayed learner is reading defaults, not measurements.
-- **Flagged, deliberately not changed — "overconfident but drifting" is
-  unreachable.** That advice requires calibration ≥ +0.15 **and** ≥ 3 answers
-  **and** `retention_now < min_retention` (0.35) at once, but those fight each
-  other: efficacy only outruns accuracy after prior successes, and successes
-  build FSRS stability, which holds retention up. A systematic sweep (every
-  outcome pattern of length 3–5, ages to 730 days, spacings 1–60 days, at
-  maximum affect valence) found **zero** satisfying histories; the nearest
-  missed by 0.001 (calibration +0.164 at retention 0.351). Genuinely
-  overconfident learners land at retention 0.35–0.70 — below
-  `forgetting_threshold` (0.60, documented as "due for review") but above
-  `min_retention` (0.35, documented as "forgotten") — and the advice says
-  *drifting*, not forgotten, which suggests the gate wants the former. Making
-  that switch would change when real advice reaches real students, so it is a
-  pedagogy decision and was **not** made unilaterally. The test is marked
-  `xfail(strict=True)` so it announces itself the moment the branch becomes
-  reachable.
+- **Corrected (2026-08-19) — "overconfident but drifting" is reachable; the
+  earlier "proven unreachable" conclusion here was wrong.** That advice
+  requires calibration ≥ +0.15 **and** ≥ 3 answers **and**
+  `retention_now < min_retention` (0.35) at once. The original sweep evaluated
+  every history at `now = last_answer`, which pins retention at ~1.0 by
+  construction; production passes the *current* date, so decay applies. A
+  corrected sweep (outcome patterns of length 3–5, spacings 1–60 days, ages to
+  730 days, all affect valences) found **34 of 1008** histories satisfying all
+  three conditions — e.g. outcomes `(1,0,0)` at 14-day spacing, 730 days
+  stale, affect `excited` → calibration +0.1604, retention 0.3148. Verified
+  end-to-end through `DailyLoop.plan()`: that learner receives *"c:
+  overconfident but drifting — practice without hints to recalibrate the
+  belief."* The advice branch is a live, intended feature. The
+  `test_overconfident_but_forgotten_advice` test still legitimately xfails —
+  its *specific* profile computes retention 0.554 > 0.35 and lands in the
+  ordinary overconfident branch — so the `xfail(strict=True)` marker is kept;
+  the marker's "reachable?" rationale is stale and should read "profile below
+  min_retention" instead.
+
 
 Researched and documented, **not yet built**: the document-ingestion agent for
 a real school's own content (blocked on actually getting documents from a
@@ -432,3 +435,78 @@ existing `_require_editable` guard in `src/academicos/assessment/routes.py`)
 and appends an `assessment_approved` entry to the same append-only `audit_log`
 with the principal's identity — reusing the exact mechanisms this repo already
 has rather than inventing new tables or a new workflow UI.
+
+## Six-dimension audit (2026-08-19) — fixed bugs and open decisions
+
+A six-subagent audit (D1 stale caches, D2 docs/behavior contradictions,
+C1 capture-failure masking, D4 data-loss, D5 API-surface drift, D6
+out-of-range robustness) confirmed mechanical bugs and shipped fixes + A/B
+regression tests. Everything below the divider was deliberately left for a
+human decision — it is behavior, not a defect, and changing it unilaterally
+would alter what reaches real students/teachers.
+
+**Fixed (mechanical, A/B regression-tested):**
+- `graph/query.py` `_mastery()` and `curiosity_engine.py` `rank()` read the
+  stale `ConceptState.mastery` cache (same defect class as the DailyLoop gate
+  above); now compute via `KnowledgeMastery` at use. Tests in
+  `tests/test_prereq_edges.py` / `tests/test_curiosity_engine.py` rewritten to
+  real `observe()` evidence.
+- `assessment/vision.py`: an OCR run where every Sarvam Vision pass raises
+  now re-raises (blank page returned only when passes genuinely recover empty
+  text) — callers already catch `Exception`, so the `ocr_failed_pages`
+  detector now routes real capture failures to review. Tests in
+  `tests/test_assessment_vision.py`.
+- `assessment/knowledge.py`: `record_evaluations` outcome now derives from
+  awarded/max marks, so a teacher correcting a "blank" verdict to full marks
+  lands as outcome 1.0; `load()` restores `updated_at`; local `_path()`
+  sanitization is now injective (`stu.dent` ≠ `student`). Tests in
+  `tests/test_assessment_knowledge.py`.
+- `assessment/store.py`: the upsert `ON CONFLICT` clause now refreshes
+  `school_id`/`teacher_id`/`created_at`, not just working fields. Tests in
+  `tests/test_assessment_store.py`.
+- `assessment/routes.py`: `PATCH .../status` rejects unknown statuses with
+  422; `DELETE` of a nonexistent assessment returns 404. Tests in
+  `tests/test_assessment_governance.py`.
+- `algorithms/{mastery,confidence_model,motivation_model}.py`: out-of-range
+  outcomes and future-dated interactions are clamped (no >1.0 confidence, no
+  `OverflowError` from `math.exp`); `forgetting.py` `RevisionScheduler.plan()`
+  caps next-review dates at the maximum representable date instead of
+  crashing. Tests in `tests/test_algorithms_robustness.py`.
+
+---
+**Left for human decision (flagged, not changed):**
+- **C3 — `process_session` drops bank-missing questions silently.** A scanned
+  answer whose question id is not in the session's question list is skipped
+  with no per-question failure flag; the sheet still completes. Option to
+  consider: emit a per-question `failed` review item so the teacher sees *why*
+  a question is absent. Nothing in the shipped flow currently surfaces the
+  drop.
+- **C4 — genuinely keyless questions score as confident noCredit.** When a
+  question has no answer scheme at all, `evaluate_answer` hits the empty
+  `marking_points` path: confidence computes at 0.8–0.9 and the verdict is
+  "none of the expected marking points were found" rather than "cannot score".
+  Checked the Flutter client (`pillar_api.dart` `evaluateSheet` + callers):
+  it always sends full bank questions with `answerScheme` attached, and
+  `build_answer_key` synthesizes a key otherwise, so this path is **not**
+  reachable through the shipped app. It only matters if hand-imported bank
+  questions can carry a scheme with zero marking points. If that becomes
+  possible, the empty-points branch should route to review (low confidence)
+  instead of scoring.
+- **D5 — ~40 Dart `ApiClient` routes have no Python handler.** (e.g.
+  `teacherReview`, `finalizeEvaluation`, `/answer-sheets/{id}/evaluate`).
+  These are feature gaps in `src/academicos/assessment/routes.py`, not bugs;
+  the app targets the local backend and the missing endpoints are simply
+  unimplemented surfaces. Triaged per-route in the audit; none is called by
+  the shipped demo flow. `GET /schools/{id}/school-templates` auto-seeding a
+  default template is intentional (per the code comment) and left as-is.
+- **D4 — PUT is an upsert.** `PUT /assessments/{id}` silently creates when the
+  id doesn't exist (200, no 404), and the remote Postgres path replaces the
+  whole payload row. For offline-first mobile sync an upsert may be exactly
+  right; for strict REST semantics it should 404 on a missing id. Decision
+  pending on which contract the Flutter client relies on.
+- **D5 — dev-file rename caveat.** Making the local `_path()` sanitizer
+  injective (above) changes the on-disk file name only for ids containing
+  characters outside `[A-Za-z0-9_-]`; existing clean ids keep the same files,
+  and ids that previously collided would have been corrupted anyway. Safe to
+  ship; a future remote migration should not depend on local file names.
+

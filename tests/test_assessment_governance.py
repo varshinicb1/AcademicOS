@@ -236,3 +236,53 @@ def test_generation_succeeds_before_approval_and_is_locked_after(tmp_path, monke
         )
         assert forward.status_code == 200
         assert forward.json()["status"] == "printed"
+
+
+# =====================================================================
+# Part 3 — status validation and delete semantics (audit D5#2 / D5#3)
+# =====================================================================
+
+
+def test_patch_status_rejects_unknown_status_422(tmp_path, monkeypatch):
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    with TestClient(app) as client:
+        assessment = _create_assessment(client)
+        original = assessment["status"]
+        r = client.patch(
+            f"/api/v1/assessments/{assessment['id']}/status",
+            json={"status": "bogusLifecycle"},
+        )
+        assert r.status_code == 422
+        assert "status" in r.json()["detail"].lower() or "invalid" in r.json()["detail"].lower()
+        stored = client.get(f"/api/v1/assessments/{assessment['id']}")
+        assert stored.json()["status"] == original
+
+
+def test_patch_status_allows_every_valid_status(tmp_path, monkeypatch):
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    valid = ["draft", "paperGenerated", "printed", "principalApproved", "archived"]
+    with TestClient(app) as client:
+        assessment = _create_assessment(client)
+        for status in valid:
+            r = client.patch(
+                f"/api/v1/assessments/{assessment['id']}/status",
+                json={"status": status},
+            )
+            assert r.status_code == 200, (status, r.text)
+
+
+def test_delete_nonexistent_assessment_404(tmp_path, monkeypatch):
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    with TestClient(app) as client:
+        r = client.delete("/api/v1/assessments/does_not_exist")
+        assert r.status_code == 404
+
+
+def test_delete_existing_assessment_removes_it(tmp_path, monkeypatch):
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    with TestClient(app) as client:
+        assessment = _create_assessment(client)
+        r = client.delete(f"/api/v1/assessments/{assessment['id']}")
+        assert r.status_code == 200
+        gone = client.get(f"/api/v1/assessments/{assessment['id']}")
+        assert gone.status_code == 404

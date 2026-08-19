@@ -61,7 +61,9 @@ def test_desired_peak_beats_band_edge():
 
 def test_mastered_candidate_is_skipped():
     m = LearnerModel("t")
-    m.concepts["known"] = _known("known", mastery=0.9)
+    # mastery computed at use from real evidence: 6 correct answers -> 0.80,
+    # exactly the mastery_threshold, so the concept must be skipped
+    m.concepts["known"] = _known("known", outcomes=[1.0] * 6)
     r = CuriosityEngine().rank(m, [{"concept_id": "known", "difficulty": 0.65},
                                    {"concept_id": "novel", "difficulty": 0.65}])
     assert [c.concept_id for c in r.ranked] == ["novel"]
