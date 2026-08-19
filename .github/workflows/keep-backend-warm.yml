@@ -1,0 +1,28 @@
+name: Keep Render backend warm
+
+# Render's free tier spins the container down after ~15 minutes with no
+# incoming requests, and cold-starting it back up (pulling the image,
+# booting opencv/pymupdf) measured close to 60 seconds -- long enough that
+# a teacher/student opening the web app sees a spinner and assumes it's
+# broken. There's no way to disable the free tier's idle shutdown itself,
+# so the real fix is to make sure it's never actually idle: a scheduled
+# request every 10 minutes, comfortably inside the 15-minute window, run on
+# GitHub's own infrastructure (free, doesn't touch the user's machine or
+# budget, keeps running even when nobody has a session open).
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}   # lets a human trigger one ping manually to test
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping the live health endpoint
+        run: |
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 90 \
+            "https://academicos-backend.onrender.com/health")
+          echo "health check -> HTTP $code"
+          if [ "$code" != "200" ]; then
+            echo "::warning::Backend health check returned $code, not 200 -- may be genuinely down, not just cold."
+          fi
