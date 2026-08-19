@@ -286,3 +286,36 @@ def test_delete_existing_assessment_removes_it(tmp_path, monkeypatch):
         assert r.status_code == 200
         gone = client.get(f"/api/v1/assessments/{assessment['id']}")
         assert gone.status_code == 404
+
+
+def test_generate_paper_rejects_zero_selected_questions(tmp_path, monkeypatch):
+    """Regression: found live in production data (2026-08-19) -- a real
+    assessment whose target chapters matched nothing in the corpus (a
+    legitimate empty search/optimize result) still ended up with
+    status="paperGenerated", a real paper id, and every section showing
+    0 questions / 0 marks -- a signed-off blank exam with no error anywhere
+    in the chain. /papers/generate must refuse an empty selection outright
+    rather than silently completing with nothing to hand a student.
+    """
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    with TestClient(app) as client:
+        assessment = _create_assessment(client)
+        empty_request = {
+            "assessmentId": assessment["id"],
+            "blueprint": assessment["blueprint"],
+            "selectedQuestions": [],
+            "template": {"id": "tpl_1", "schoolId": "school_1", "name": "Default"},
+        }
+        r = client.post("/api/v1/papers/generate", json=empty_request)
+        assert r.status_code == 400, r.text
+        assert "zero selected questions" in r.json()["detail"]
+
+        # The assessment must NOT have been silently marked as generated.
+        after = client.get(f"/api/v1/assessments/{assessment['id']}").json()
+        assert after["status"] != "paperGenerated"
+        assert after["generatedPaperId"] is None
+
+        # A real, non-empty generation still works normally.
+        real_request = _generate_request(assessment)
+        r2 = client.post("/api/v1/papers/generate", json=real_request)
+        assert r2.status_code == 200, r2.text

@@ -192,6 +192,21 @@ def optimize_questions(request: QuestionOptimizationRequest) -> QuestionOptimiza
 @router.post("/papers/generate", response_model=GeneratedPaper)
 def generate_paper_endpoint(request: PaperGenerationRequest) -> GeneratedPaper:
     cfg, store = _require()
+    # Found live in production data (2026-08-19): a real assessment whose
+    # target chapters didn't match anything in the corpus (search/optimize
+    # legitimately returned zero candidates) still ended up with
+    # status="paperGenerated", a real paper id, and every section showing
+    # 0 questions / 0 marks -- a signed-off blank exam paper with no error
+    # anywhere in the chain. Refuse outright rather than silently
+    # "succeeding" with nothing to hand a student: an empty paper is not a
+    # valid generated paper, it's the search step failing quietly.
+    if not request.selected_questions:
+        raise HTTPException(
+            400,
+            "cannot generate a paper with zero selected questions — the "
+            "chapters/filters matched no real questions in the corpus; "
+            "widen the chapter selection or check the subject/grade",
+        )
     assessment = store.get(request.assessment_id)
     if assessment is not None:
         _require_editable(assessment)
