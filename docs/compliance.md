@@ -310,6 +310,72 @@ still doesn't find them — an upstream packaging bug, not a local config issue)
 The key currently lives in a file in the app's own private data directory:
 OS-sandboxed, but not hardware-Keystore-backed. Revisit if upstream fixes it.
 
+## Correctness audit — stale-cache bug class + a real wrong-mark bug (2026-08-16)
+
+The two `test_daily_loop.py` audits below kicked off a wider sweep once the
+same defect shape turned up a second and third time. The stale-cache class
+(a derived field the real write path never populates, read anyway, silently
+degrading a feature to a constant) was found and fixed in three places
+today:
+
+1. `daily_loop.py`'s underconfident-advice gate (detailed below).
+2. `forgetting.py`'s `RevisionScheduler.plan` — `importance = 0.5 + 0.5 *
+   state.mastery` read the same stale `0.0`, pinning every concept's
+   importance weight to exactly 0.5 and collapsing the revision-priority
+   ranking to pure urgency. Reachable via `academicos.cli revise`.
+   Demonstrated with two equally-stale concepts of real mastery 0.38 vs
+   0.03: both got importance 0.5 before the fix; after, the better-known
+   concept's priority is measurably higher.
+3. `cli.py`'s `academicos.cli learn stats` (`cmd_learn`, `replay` action) —
+   printed `ConceptState.mastery`/`.confidence` directly. A learner with
+   22/22 correct answers across two concepts printed `mastery=0.000
+   confidence=0.000` for both, while the real computed values are ~0.64–0.66
+   mastery and ~1.0 recency-weighted accuracy. A teacher running this
+   command would see a perfect student reported as having learned nothing.
+
+All three fixed by computing the real value at point of use
+(`KnowledgeMastery`/`ConfidenceModel`/`ForgettingModel`, all of which take an
+explicit `now` for exactly this reason) instead of trusting the cached
+field. `ConceptState`'s own docstring in `learner_model.py` now documents the
+trap directly so it cannot recur a fourth time in this specific shape.
+
+### A real, high-severity wrong-mark bug: MCQ option extraction (fixed)
+
+Separate finding, different subsystem, same audit pass — this one changes
+actual awarded marks, not just advice text.
+
+`evaluate.py`'s `_evaluate_objective` (the deterministic MCQ scorer used by
+the calibration harness and the Android offline engine) identified the
+student's selected option with `_OPTION_ANSWER.search(answer.upper())` —
+the **first** standalone letter A–D anywhere in the transcribed text.
+Real CBSE OCR transcripts routinely contain a second, different letter that
+is not the student's selection: Assertion/Reason boilerplate
+("...Reason(R)...Assertion(A)..."), a "Section-A" heading, or a student's
+own eliminative reasoning ("I first considered (A) but eliminated it, then
+chose (D)"). Proven directly: a student who wrote the genuinely correct
+final answer "(D)" after reasoning through option (A) first was scored
+`0/1, noCredit, confidence=0.93, needsReview=False` — a **correct answer
+marked wrong with false high confidence**, not flagged for any human to
+catch.
+
+Fix: detect when the transcript contains multiple *distinct* option letters
+(a single letter repeated is not ambiguous) and cap confidence below
+`REVIEW_THRESHOLD` so `needsReview` fires through the same mechanism as
+every other uncertain read — instead of trusting the guess silently. The
+letter picked is still the first-mentioned one: an earlier attempt at
+picking the *last* letter was tried and measured **worse** against real
+data — verified against all 17 scoreable real answers from today's CBSE
+31/1/3 harness run (`docs/compliance.md`'s Scan & Grade section above), the
+genuine selection is consistently first-mentioned and contamination is
+trailing (boilerplate phrasing, neighboring-question OCR noise), so
+"prefer last" flipped 5 of 17 previously-correct real answers to wrong.
+Re-verified after correcting to first-match: zero regressions across all 17
+real answers, and the genuinely ambiguous ones among them (4 of 17) are now
+correctly flagged `needsReview` instead of silently trusted. This is not a
+complete fix for option-letter ambiguity — no automatic method reliably
+recovers the right letter from free text reasoning either direction — but a
+wrong mark can no longer hide behind full confidence.
+
 ## Learner-advice correctness — two dead paths found by audit (2026-08-16)
 
 Auditing the two long-standing `test_daily_loop.py` failures turned up a real

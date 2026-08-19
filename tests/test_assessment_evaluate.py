@@ -140,6 +140,74 @@ def test_objective_ocr_flag_drops_confidence_into_review():
     assert ev.ocr_warnings
 
 
+# ------------------------------------------- objective: ambiguous letters ---
+# Regression for a real, high-severity bug: _OPTION_ANSWER took the first
+# A-D letter anywhere in the text as "the" selection. Real CBSE transcripts
+# routinely contain a SECOND, different letter that is not the student's
+# choice -- boilerplate Assertion/Reason phrasing ("...Reason(R)...
+# Assertion(A)..."), a "Section-A" heading, or eliminative reasoning text
+# ("I first considered (A) but eliminated it, then chose (D)"). Verified
+# empirically against today's real 20-question CBSE 31/1/3 harness run
+# (docs/compliance.md): the correct letter is always first-mentioned there,
+# so first-match stays the pick -- but when a second distinct letter is
+# present the pick is genuinely uncertain and must not be trusted silently.
+
+def test_correct_option_still_full_credit_with_trailing_contaminant_letter():
+    # Exactly the real Q17 shape: correct answer B, but the boilerplate
+    # Assertion/Reason phrasing after it names A too.
+    q = _question(marks=1, scheme=_objective_scheme("B"))
+    ev = evaluate_answer(
+        q, q.answer_scheme,
+        "(B) Both Assertion(A) and Reason(R) are true, but Reason (R) "
+        "is not the correct explaination of (A).")
+    assert ev.verdict == "fullCredit"
+    assert ev.awarded_marks == 1
+    # still correctly scored, but the ambiguity is real: flag for review
+    # rather than claim the same confidence as a clean single-letter answer.
+    assert ev.needs_review is True
+    assert ev.confidence < REVIEW_THRESHOLD
+
+
+def test_ambiguous_multiple_letters_forces_review_instead_of_confident_guess():
+    # Before the fix: this scored noCredit at 93% confidence with no review
+    # flag -- a correct final answer silently and confidently marked wrong.
+    q = _question(marks=1, scheme=_objective_scheme("D"))
+    ev = evaluate_answer(
+        q, q.answer_scheme,
+        "I first considered (A) but eliminated it, then chose (D) as final answer.")
+    assert ev.needs_review is True
+    assert ev.confidence < REVIEW_THRESHOLD
+    # First-match is a best-effort guess only, not something to fix by
+    # picking a "smarter" letter (a "prefer last" heuristic was tried and
+    # measured WORSE against real data) -- the fix is surfacing the
+    # uncertainty, not resolving it silently.
+    assert ev.verdict == "noCredit"
+
+
+def test_single_repeated_letter_is_not_ambiguous():
+    # The same letter appearing more than once (echoed in the option code
+    # and its spelled-out text) is NOT ambiguous -- only multiple DISTINCT
+    # letters should trigger the review flag.
+    q = _question(marks=1, scheme=_objective_scheme("D"))
+    ev = evaluate_answer(q, q.answer_scheme, "(D)(D) both are correct, definitely (D)")
+    assert ev.verdict == "fullCredit"
+    assert ev.confidence == pytest.approx(0.93)
+    assert ev.needs_review is False
+
+
+def test_ambiguous_reasoning_shows_in_reasoning_text():
+    # First-match picks B here (real answer stated last, after eliminating
+    # B and C) -- a genuinely unresolvable case for a first-letter heuristic,
+    # which is exactly why it must be surfaced for review rather than
+    # trusted at full confidence either way.
+    q = _question(marks=1, scheme=_objective_scheme("D"))
+    ev = evaluate_answer(q, q.answer_scheme, "Ruled out (B) and (C); the correct one is (D).")
+    assert ev.verdict == "noCredit"
+    assert ev.needs_review is True
+    assert ev.confidence < REVIEW_THRESHOLD
+    assert "uncertain" in ev.reasoning.lower() or "human check" in ev.reasoning.lower()
+
+
 # ------------------------------------------------------------- descriptive ---
 
 def test_descriptive_full_credit_when_all_points_present():
