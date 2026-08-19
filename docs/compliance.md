@@ -480,7 +480,15 @@ would alter what reaches real students/teachers.
   with no per-question failure flag; the sheet still completes. Option to
   consider: emit a per-question `failed` review item so the teacher sees *why*
   a question is absent. Nothing in the shipped flow currently surfaces the
-  drop.
+  drop. **Resolved (2026-08-20):** `process_session` now emits a review item
+  for an unmatchable question instead of skipping it — `status="failed"`,
+  `verdict="noMatch"`, low confidence, `needs_review=True`, reasoning naming
+  the missing bank match, and any answer text the student actually wrote under
+  that number preserved. Verified by
+  `tests/test_assessment_mobile_scan.py::
+  test_bank_missing_question_is_surfaced_not_silently_dropped` (fails against
+  the old skip, passes against the new surface), which also asserts the real
+  questions in the same session score untouched.
 - **C4 — genuinely keyless questions score as confident noCredit.** When a
   question has no answer scheme at all, `evaluate_answer` hits the empty
   `marking_points` path: confidence computes at 0.8–0.9 and the verdict is
@@ -491,7 +499,15 @@ would alter what reaches real students/teachers.
   reachable through the shipped app. It only matters if hand-imported bank
   questions can carry a scheme with zero marking points. If that becomes
   possible, the empty-points branch should route to review (low confidence)
-  instead of scoring.
+  instead of scoring. **Resolved (2026-08-20):** a scoreable-length answer
+  against a zero-marking-points scheme now returns `confidence=0.0`,
+  `needs_review=True`, `verdict="partialCredit"`, with reasoning that names
+  the missing scheme — distinct from a genuine zero-credit answer (which a
+  real key still scores confidently). Verified A/B by
+  `tests/test_assessment_evaluate.py::
+  test_keyless_scheme_routes_to_review_not_confident_zero` (same answer:
+  confident noCredit with a real key vs. low-confidence review with no key;
+  the test fails against the old scorer).
 - **D5 — ~40 Dart `ApiClient` routes have no Python handler.** (e.g.
   `teacherReview`, `finalizeEvaluation`, `/answer-sheets/{id}/evaluate`).
   These are feature gaps in `src/academicos/assessment/routes.py`, not bugs;
@@ -502,8 +518,33 @@ would alter what reaches real students/teachers.
 - **D4 — PUT is an upsert.** `PUT /assessments/{id}` silently creates when the
   id doesn't exist (200, no 404), and the remote Postgres path replaces the
   whole payload row. For offline-first mobile sync an upsert may be exactly
-  right; for strict REST semantics it should 404 on a missing id. Decision
-  pending on which contract the Flutter client relies on.
+  right; for strict REST semantics it should 404 on a missing id. **Resolved
+  (2026-08-20): confirmed safe, upsert stays.** Grep'd every real call site in
+  the Flutter client; none relies on (or even handles) a 404 for this method:
+  - The only live caller is `frontend/lib/presentation/planner/pages/
+    daily_planner_page.dart:212` —
+    `GetIt.I<ApiClient>().updateAssessment(a.id, a.copyWith(scheduledAt: ...))`,
+    where `a` came from `loadAssessments` → `getAssessmentsByTeacher` — a
+    known-existing assessment the teacher just fetched. The surrounding
+    try/catch treats every error identically ("Could not schedule: $e"); there
+    is no not-found branch anywhere.
+  - The repository path (`AssessmentRepository.updateAssessment`,
+    `assessment_repository_impl.dart:63`) has **no** presentation-layer caller
+    today (the blocs use create/get/updateStatus only), and even it folds
+    every failure into a generic `ServerFailure` — no 404 semantics.
+  - The offline-first engine (`local_api_client.dart:76`) implements this
+    exact method as a literal `LocalStore.upsertAssessment` — create-if-missing
+    is the product's own offline sync contract for it, and the server-side
+    upsert matches that contract.
+  - Upsert does not bypass the hard edit lock: PUT still calls
+    `_require_editable` and 409s on `principalApproved`+ assessments
+    (`routes.py`).
+  So a 404 on a missing id would be dead code for every current caller, and
+  riskier for the planner flow (an assessment that vanished mid-session would
+  throw instead of being re-created for offline sync). Behavior left as-is.
+  If a future caller genuinely needs strict create-vs-update semantics, add a
+  distinct `POST /assessments/{id}` or a `?upsert=false` flag then — don't
+  retrofit the 404 onto today's contract.
 - **D5 — dev-file rename caveat.** Making the local `_path()` sanitizer
   injective (above) changes the on-disk file name only for ids containing
   characters outside `[A-Za-z0-9_-]`; existing clean ids keep the same files,
