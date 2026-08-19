@@ -140,6 +140,27 @@ def evaluate_answer(question: QuestionSchema, scheme: AnswerSchemeSchema,
             ocr_warnings=ocr_flags, needs_review=True,
         )
 
+    if not scheme.marking_points:
+        # C4: a question whose answer_scheme has zero marking points has no key
+        # at all. The descriptive scorer used to fall through anyway and compute
+        # a confident-sounding verdict ("none of the expected marking points were
+        # found", ~0.9 confidence, needs_review=False) on the strength of an
+        # empty rubric -- an authoritative-looking score with nothing to score
+        # against. Not reachable through the shipped client today (it always
+        # sends full bank questions with answerScheme attached, and
+        # build_answer_key synthesizes a key otherwise), but a hand-imported
+        # keyless question must fail safe: low confidence, forced review, and a
+        # reason that names the missing scheme -- distinct from a genuine
+        # zero-credit answer, which a real key still scores confidently.
+        return Evaluation(
+            question_id=question.id, awarded_marks=0, max_marks=max_marks,
+            verdict="partialCredit", confidence=0.0,
+            reasoning=("This question has no marking scheme (no marking points) to "
+                       "score against — it cannot be graded automatically; a teacher "
+                       "must mark it manually."),
+            ocr_warnings=ocr_flags, needs_review=True,
+        )
+
     return _evaluate_descriptive(question, scheme, answer, max_marks, ocr_flags, concept_label)
 
 

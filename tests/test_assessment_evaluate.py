@@ -314,6 +314,48 @@ def test_full_credit_needs_no_review_but_partial_does():
     assert ev.needs_review is False
 
 
+# --------------------------------------------------------- keyless scheme ---
+# C4: a question whose answer_scheme has zero marking points has no key at all.
+# The scorer used to fall through and produce a confident-sounding verdict
+# ("none of the expected marking points were found", ~0.9 confidence, no review
+# flag) on the strength of an empty rubric. A/B test below: the same answer
+# scores confidently noCredit against a real key, but must be low-confidence
+# and routed to a human when there is no scheme to score against.
+
+def test_keyless_scheme_routes_to_review_not_confident_zero():
+    answer = "Photosynthesis and respiration are opposite metabolic processes"
+    assert len(answer) >= DESCRIPTIVE_MIN_CHARS  # must be scoreable length
+
+    # A: a real key exists, the answer genuinely misses every point -> a
+    #    confident noCredit with no review flag (legitimate zero, the marker
+    #    matched real points and found none).
+    keyed = AnswerSchemeSchema(
+        total_marks=2,
+        marking_points=[_point("mp1", 2, "calcium", description="calcium")],
+        metadata={},
+    )
+    ev_keyed = evaluate_answer(_question(marks=2, scheme=keyed), keyed, answer)
+    assert ev_keyed.verdict == "noCredit"
+    assert ev_keyed.awarded_marks == 0
+    assert ev_keyed.confidence >= REVIEW_THRESHOLD
+    assert ev_keyed.needs_review is False
+
+    # B: the same answer against a question with NO marking points at all.
+    #    Before the fix this computed the same confident noCredit shape
+    #    (0.8-0.9 confidence, needs_review=False) -- an authoritative-looking
+    #    score with nothing to score against. It must now fail safe.
+    keyless = AnswerSchemeSchema(total_marks=2, metadata={})
+    assert keyless.marking_points == []  # genuinely keyless
+    ev_keyless = evaluate_answer(_question(marks=2, scheme=keyless), keyless, answer)
+    assert ev_keyless.awarded_marks == 0
+    assert ev_keyless.verdict == "partialCredit"      # cannot score, not zero-credit
+    assert ev_keyless.confidence == 0.0
+    assert ev_keyless.confidence < REVIEW_THRESHOLD
+    assert ev_keyless.needs_review is True
+    assert "no marking" in ev_keyless.reasoning.lower()
+    assert "cannot be graded automatically" in ev_keyless.reasoning.lower()
+
+
 # ------------------------------------------------------------ ocr risk ----
 
 def test_ocr_risk_flags_fused_number():
