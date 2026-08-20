@@ -89,6 +89,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/v1/agent/analyze"),
     ("POST", "/v1/graph/neighbors"),
     ("POST", "/v1/graph/paths"),
+    # --- ingest_routes.py (a school's own document uploads) ---
+    ("POST", "/api/v1/ingest/school-documents"),
 })
 
 DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
@@ -246,7 +248,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 51
+    assert len(API_ROUTES) == 52
 
 
 def test_docs_routes_present():
@@ -325,6 +327,10 @@ def test_gated_routes_return_503_without_startup():
             # The page-upload route cannot reach a 503 without a multipart
             # file; it is covered by the 404 test in the full-boot group.
             if (method, path) == ("POST", "/api/v1/scan/sessions/{session_id}/pages"):
+                continue
+            # Same reason: multipart form, not JSON. Covered in
+            # test_document_ingestion.py instead.
+            if (method, path) == ("POST", "/api/v1/ingest/school-documents"):
                 continue
             # Every other scan route looks the session up first (404 on a
             # missing session) before any `_require()`, so no session -> 404

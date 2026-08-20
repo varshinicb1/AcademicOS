@@ -146,10 +146,30 @@ gets flagged to the user, not silently shipped.
       device/server)? → Is there a DPA-equivalent understanding of what data
       crosses that boundary, and is it in the security notes for that platform's
       README?
-- [ ] **New ingestion source** (a school's own uploaded papers/marking schemes)?
-      → Copyright/license confirmation captured at upload time (see
-      `docs/ingestion-plan.md` if/when that's written), file-type allowlist
-      enforced, macros stripped from any Office document before parsing.
+- [x] **New ingestion source** (a school's own uploaded papers/marking schemes)?
+      → **Built (2026-08-20):** `POST /api/v1/ingest/school-documents`
+      (`src/academicos/assessment/ingest_routes.py`). A file-type allowlist
+      (pdf/docx/xlsx/jpg/jpeg/png; anything else is a 400, audited as
+      `document_ingest_rejected`); a mandatory `copyrightConfirmed` flag —
+      no confirmation, no ingest, also a 400 + audit entry; and real macro
+      stripping for `.docx`/`.xlsx` — any `vbaProject.bin` member is removed
+      from the OOXML zip and the `[Content_Types].xml` macro-enabled
+      declaration is rewritten to the plain equivalent, verified in
+      `tests/test_document_ingestion.py` against a real macro-bearing docx
+      built with an actual `vbaProject.bin` payload (confirmed absent from
+      the stored bytes after upload, and a macro-free docx is confirmed
+      byte-for-byte untouched — the transform isn't just accepted, it's
+      shown to leave clean files alone). Accepted files are registered in
+      the same `SourceRegistry` the CBSE corpus crawl uses (`ingest/
+      pipeline.py`), tagged with `schoolId`/`uploaderId`/`copyrightConfirmed`
+      /`macrosStripped` in the row's `meta`, content-addressed so a repeat
+      upload of the same bytes is recognized as a duplicate rather than
+      re-registered, and every accept/reject is a distinct `audit_log` entry
+      (`document_ingested` / `document_ingest_rejected`). What this does
+      *not* do: parse/extract/index the uploaded document into the graph —
+      it lands as a registered source, same stage a freshly-crawled CBSE PDF
+      is in before `academicos.cli parse` runs; wiring that stage to also
+      pick up school uploads is a straightforward follow-on, not done here.
 - [x] **New feature that could leak an unpublished question paper early?** →
       Every PDF export now gets a unique, audit-logged watermark ID stamped in
       the footer (`pdf.py`'s `_page_furniture`, verified: a real generated paper
@@ -416,9 +436,16 @@ student-facing output derived from student data.
   min_retention" instead.
 
 
-Researched and documented, **not yet built**: the document-ingestion agent for
-a real school's own content (blocked on actually getting documents from a
-school). Investigation outcome (2026-08-16) on the two items that used to be
+**Updated (2026-08-20):** the ingestion *endpoint and its compliance controls*
+(file-type allowlist, macro stripping, copyright confirmation, audit logging)
+are now built — see the "New ingestion source" checklist item above. What's
+still not built is the part that was genuinely blocked on a real school
+relationship rather than plumbing: nothing calls that endpoint yet (no
+Flutter upload screen), and there's no real school-supplied corpus to test it
+against beyond synthetic bytes in the test suite — it's ready to receive real
+uploads the moment either exists.
+
+Investigation outcome (2026-08-16) on the two items that used to be
 on this list: (1) the edit-existing-grade gap is **built** — see the regrade
 checklist item above; (2) the principal-approval *lock* is **built** — see the
 paper-release checklist item above. What is still genuinely absent is the
