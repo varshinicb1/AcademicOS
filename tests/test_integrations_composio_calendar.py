@@ -106,9 +106,12 @@ class PostRecorder:
 
 
 def _patch_post(monkeypatch, result) -> PostRecorder:
+    """The real requests.post call lives in composio_provider.py (the
+    ActionProvider composio_calendar.py delegates to) -- see
+    docs/provider-architecture.md."""
     recorder = PostRecorder(result)
     monkeypatch.setattr(
-        "academicos.integrations.composio_calendar.requests.post", recorder
+        "academicos.integrations.composio_provider.requests.post", recorder
     )
     return recorder
 

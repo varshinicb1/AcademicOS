@@ -183,9 +183,10 @@ def test_assessment_roundtrip_calendar_sync_failure_does_not_block_save(
     def raising_post(*args, **kwargs):
         raise requests.exceptions.ConnectionError("no network in tests")
 
-    # sync_to_google_calendar calls requests.post in THIS module's namespace.
+    # The real requests.post call lives in composio_provider.py (the
+    # ActionProvider composio_calendar.py delegates to).
     monkeypatch.setattr(
-        "academicos.integrations.composio_calendar.requests.post", raising_post
+        "academicos.integrations.composio_provider.requests.post", raising_post
     )
 
     with TestClient(app) as client:
