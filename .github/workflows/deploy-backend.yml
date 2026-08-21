@@ -1,0 +1,52 @@
+name: Sync backend to deploy repo
+
+# Render's academicos-backend service is image-backed (pulls
+# docker.io/varshinicb99/academicos-backend:v1 directly), not connected to
+# this repo -- pushing here alone never reached production. This closes that
+# gap: every push to master that touches backend-relevant paths mirrors
+# pyproject.toml/config/src/academicos into varshinicb1/academicos-backend,
+# whose own build-push.yml (triggered by THIS push, see its `on: push`)
+# builds a fresh Docker image and redeploys Render automatically.
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'pyproject.toml'
+      - 'config/**'
+      - 'src/academicos/**'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout AcademicOS
+        uses: actions/checkout@v4
+
+      - name: Checkout academicos-backend
+        uses: actions/checkout@v4
+        with:
+          repository: varshinicb1/academicos-backend
+          token: ${{ secrets.SYNC_PAT }}
+          path: backend-deploy
+
+      - name: Sync backend-relevant files
+        run: |
+          cp pyproject.toml backend-deploy/pyproject.toml
+          cp config/config.toml backend-deploy/config/config.toml
+          rm -rf backend-deploy/src/academicos
+          mkdir -p backend-deploy/src/academicos
+          cp -r src/academicos/. backend-deploy/src/academicos/
+          find backend-deploy/src/academicos -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+
+      - name: Commit and push if changed
+        working-directory: backend-deploy
+        run: |
+          git config user.name "academicos-sync-bot"
+          git config user.email "actions@github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No backend changes to sync."
+            exit 0
+          fi
+          git commit -m "Sync from AcademicOS @ ${{ github.sha }}"
+          git push origin main
