@@ -129,6 +129,11 @@ registry/store rather than being called as library functions in sequence:
    (`storage/event_store.py`) interaction records, not on the document graph directly.
 8. **`api/main.py`** — FastAPI app exposing the above (only installed with the `[api]` extra).
 
+External capability providers (Composio for app actions, Sarvam for LLM calls) sit behind
+`integrations/base.py`/`llm/base.py` interfaces and the existing `agents/base.py` `Tool` ABC —
+the Brain never imports their SDKs directly and must stay runnable offline. See
+`docs/provider-architecture.md`.
+
 Design principles carried over from `docs/architecture.md` and `README.md`:
 - **Evidence-first**: no fact without provenance (doc/page/bbox/method/confidence) — this
   applies to both the `src/` and `backend/` trees.
