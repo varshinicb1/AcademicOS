@@ -142,6 +142,17 @@ class LocalStore {
     return entries;
   }
 
+  // ---- Scan sessions (offline Scan & Grade) ----
+  Map<String, dynamic>? getScanSession(String sessionId) {
+    final raw = _box.get('local_scan_$sessionId') as String?;
+    if (raw == null) return null;
+    return Map<String, dynamic>.from(jsonDecode(raw) as Map);
+  }
+
+  void saveScanSession(String sessionId, Map<String, dynamic> session) {
+    _box.put('local_scan_$sessionId', jsonEncode(session));
+  }
+
   // ---- School templates ----
   List<Map<String, dynamic>> templatesFor(String schoolId) => _list('local_templates_$schoolId');
 

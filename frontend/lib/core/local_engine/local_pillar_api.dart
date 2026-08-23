@@ -5,6 +5,7 @@ import '../../domain/entities/entities.dart' show Question;
 import '../../domain/repositories/requests.dart';
 import 'answer_evaluation.dart' as eval_engine;
 import 'corpus_repository.dart';
+import 'local_scan_engine.dart' as local_scan;
 import 'local_store.dart';
 
 /// Thrown by local-engine methods that inherently need a network call this
@@ -358,25 +359,32 @@ class LocalPillarApi extends PillarApi {
     return LocalStore.instance.allAssessments().where((a) => a['schoolId'] == schoolId).toList();
   }
 
+  // Real on-device handwriting OCR (google_mlkit_text_recognition, see
+  // on_device_ocr.dart) + the same evaluation engine the typed-answer path
+  // uses (local_scan_engine.dart) -- no network call anywhere in this flow.
   @override
   Future<ScanSession> createScanSession({
     required String assessmentId,
     required String studentId,
     required String studentName,
   }) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
+      ScanSession.fromJson(local_scan.LocalScanEngine.createSession(
+        assessmentId: assessmentId,
+        studentId: studentId,
+        studentName: studentName,
+      ));
 
   @override
   Future<CapturedPageResult> uploadScanPage(String sessionId, String imagePath) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
+      CapturedPageResult.fromJson(await local_scan.LocalScanEngine.uploadPage(sessionId, imagePath));
 
   @override
   Future<ScanReviewQueue> processScanSession(String sessionId) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
+      ScanReviewQueue.fromJson(await local_scan.LocalScanEngine.processSession(sessionId));
 
   @override
   Future<ScanReviewQueue> getScanReview(String sessionId) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
+      ScanReviewQueue.fromJson(local_scan.LocalScanEngine.getReview(sessionId));
 
   @override
   Future<ScanReviewItem> submitReviewDecision(
@@ -386,11 +394,13 @@ class LocalPillarApi extends PillarApi {
     int? marks,
     String comment = '',
   }) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
+      ScanReviewItem.fromJson(local_scan.LocalScanEngine.submitReviewDecision(
+        sessionId, questionId, action: action, marks: marks, comment: comment,
+      ));
 
   @override
   Future<ScanFinalizeResult> finalizeScanSession(String sessionId) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
+      ScanFinalizeResult.fromJson(local_scan.LocalScanEngine.finalizeSession(sessionId));
 
   @override
   Future<String> downloadScanPdf(String url, String savePath) async =>
