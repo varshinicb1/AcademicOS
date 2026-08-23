@@ -78,6 +78,10 @@ dependencies:
   # tier of engine, purpose-built for mobile, without bundling a Python
   # interpreter + native Tesseract binary + trained-data files into the APK.
   google_mlkit_text_recognition: ^0.15.0
+  # Used directly by sarvam_vision_ocr.dart to unpack the doc-digitization
+  # job's result ZIP -- was only a transitive dependency before, declaring
+  # it explicitly since this file imports it directly.
+  archive: ^3.6.1
 
   # UI
   flutter_staggered_grid_view: ^0.7.0

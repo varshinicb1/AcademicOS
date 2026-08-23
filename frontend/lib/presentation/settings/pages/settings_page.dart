@@ -26,6 +26,7 @@ class _SettingsPageState extends State<SettingsPage> {
   String _selectedTheme = 'system';
   String _selectedLanguage = 'en';
   String _serverUrl = 'http://localhost:8000';
+  String _sarvamApiKey = LocalStore.instance.sarvamApiKey ?? '';
 
   // 13 options doesn't fit a SegmentedButton on a phone-width screen without
   // squeezing each code onto two lines ("e" / "n") — a dropdown scales to
@@ -80,6 +81,27 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
           ]),
           const SizedBox(height: 24),
+          if (_kOfflineBuild) ...[
+            _buildSection('Scan & Grade', [
+              _buildTextFieldTile(
+                Icons.document_scanner,
+                'Sarvam API Key (optional)',
+                _sarvamApiKey,
+                (v) {
+                  setState(() => _sarvamApiKey = v);
+                  LocalStore.instance.sarvamApiKey = v;
+                },
+              ),
+              _buildInfoTile(
+                'What this does',
+                'Scan & Grade always works offline with an on-device OCR model. '
+                'Adding your own Sarvam API key here upgrades accuracy on genuinely '
+                'messy handwriting when you have internet -- get a key at sarvam.ai. '
+                'Leave blank to keep everything fully offline.',
+              ),
+            ]),
+            const SizedBox(height: 24),
+          ],
           _buildSection('Server & Sync', [
             _buildTextFieldTile(Icons.link, 'Server URL', _serverUrl, (v) => setState(() => _serverUrl = v)),
             _buildListTile(Icons.cloud_sync, 'Manual Sync', 'Sync now with server', _manualSync),

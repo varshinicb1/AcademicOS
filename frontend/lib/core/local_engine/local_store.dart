@@ -142,6 +142,19 @@ class LocalStore {
     return entries;
   }
 
+  // ---- Optional BYOK: Sarvam Vision accuracy upgrade for Scan & Grade ----
+  // Stored in this same Hive box, which is AES-encrypted at rest (see
+  // secure_box.dart) -- an API key is sensitive the same way any other
+  // locally-cached data here is.
+  String? get sarvamApiKey => _box.get('sarvam_api_key') as String?;
+  set sarvamApiKey(String? key) {
+    if (key == null || key.trim().isEmpty) {
+      _box.delete('sarvam_api_key');
+    } else {
+      _box.put('sarvam_api_key', key.trim());
+    }
+  }
+
   // ---- Scan sessions (offline Scan & Grade) ----
   Map<String, dynamic>? getScanSession(String sessionId) {
     final raw = _box.get('local_scan_$sessionId') as String?;

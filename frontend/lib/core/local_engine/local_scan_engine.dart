@@ -17,6 +17,7 @@ import 'answer_evaluation.dart' as eval_engine;
 import 'corpus_repository.dart';
 import 'local_store.dart';
 import 'on_device_ocr.dart';
+import 'sarvam_vision_ocr.dart';
 
 final RegExp _questionMarker = RegExp(
   r'^\s*\.?\s*(?:(?:ans(?:wer)?|q(?:uestion)?)[\s.:\-]*)?(\d{1,2})\s*[.):\-]\s*',
@@ -94,6 +95,37 @@ class LocalScanEngine {
     return segments.map((k, v) => MapEntry(k, v.toString()));
   }
 
+  /// Optional accuracy upgrade: if the teacher has configured their own
+  /// Sarvam API key (Settings), re-OCR each captured page through Sarvam
+  /// Vision and prefer that text over the on-device ML Kit read already
+  /// stored. Mutates `pages` in place. Any failure (no key, no network,
+  /// API error, timeout) leaves the page's ML Kit text untouched -- this
+  /// must never block or fail the scan-processing flow, since ML Kit
+  /// already produced a real, usable transcript for every page.
+  static Future<void> _upgradePagesWithSarvamVision(List<Map<String, dynamic>> pages) async {
+    final key = LocalStore.instance.sarvamApiKey;
+    if (key == null || key.trim().isEmpty) return;
+    final vision = SarvamVisionOcr(key);
+    for (final page in pages) {
+      try {
+        final result = await vision.ocrPage(page['imagePath'] as String);
+        if (result.text.trim().isNotEmpty) {
+          page['text'] = result.text;
+          page['ocrSource'] = 'sarvam_vision';
+          if (result.hallucinationStripped) {
+            final warnings = List<String>.from(page['warnings'] as List);
+            warnings.add('Sarvam Vision discarded part of its own output as a likely hallucination');
+            page['warnings'] = warnings;
+          }
+        }
+      } on SarvamVisionUnavailable {
+        // Real, expected fallback path -- leave the ML Kit text as-is.
+      } catch (_) {
+        // Never let an unexpected error here break the scan flow.
+      }
+    }
+  }
+
   static Future<Map<String, dynamic>> processSession(String sessionId) async {
     final session = LocalStore.instance.getScanSession(sessionId);
     if (session == null) {
@@ -114,6 +146,8 @@ class LocalScanEngine {
 
     await CorpusRepository.instance.ensureLoaded();
     final questionsById = {for (final q in CorpusRepository.instance.all) q.id: q};
+
+    await _upgradePagesWithSarvamVision(pages);
 
     final fullText = pages.map((p) => p['text'] as String).join('\n');
     final pageWarnings = pages.expand((p) => List<String>.from(p['warnings'] as List)).toSet().toList();
