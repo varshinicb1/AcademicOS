@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 
 import '../../domain/entities/entities.dart';
@@ -36,28 +35,42 @@ class CorpusRepository {
   /// fresh download completes so the newly-fetched corpus takes effect
   /// without requiring an app restart.
   Future<void> reload() async {
-    // Any failure here (disk I/O, a path_provider platform hiccup, whatever)
-    // must fall back to the always-present bundled asset, never crash
-    // corpus loading -- this check is a nice-to-have, not a requirement.
-    File? downloaded;
-    try {
-      downloaded = await CorpusDownloader.currentDownloadedFile();
-    } catch (_) {
-      downloaded = null;
-    }
-    String raw;
-    if (downloaded != null) {
-      raw = await downloaded.readAsString();
+    // Any failure anywhere in the downloaded-file path -- disk I/O, a
+    // path_provider platform hiccup, a corrupted/stale file that fails to
+    // parse, an unexpected schema Question.fromJson rejects -- must fall
+    // back to the always-present bundled asset, never crash corpus
+    // loading. This whole block runs before runApp() (via
+    // service_locator.dart's initDependencies()), so anything that
+    // escapes uncaught here leaves the app on its native white splash
+    // forever -- a real regression this fixed (an earlier version only
+    // wrapped the existence/checksum check, not the actual read+parse).
+    final downloadedQuestions = await _tryLoadDownloaded();
+    if (downloadedQuestions != null) {
+      _questions = downloadedQuestions;
       _fromDownload = true;
-    } else {
-      raw = await rootBundle.loadString('assets/corpus/questions.json');
-      _fromDownload = false;
+      return;
     }
+    _fromDownload = false;
+    final raw = await rootBundle.loadString('assets/corpus/questions.json');
+    _questions = _parseQuestions(raw);
+  }
+
+  Future<List<Question>?> _tryLoadDownloaded() async {
+    try {
+      final downloaded = await CorpusDownloader.currentDownloadedFile();
+      if (downloaded == null) return null;
+      final raw = await downloaded.readAsString();
+      return _parseQuestions(raw);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  List<Question> _parseQuestions(String raw) {
     final data = jsonDecode(raw) as Map<String, dynamic>;
-    final list = (data['questions'] as List)
+    return (data['questions'] as List)
         .map((e) => Question.fromJson(Map<String, dynamic>.from(e as Map)))
         .toList();
-    _questions = list;
   }
 
   List<Question> get all {

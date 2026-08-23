@@ -35,19 +35,32 @@ class SecureBox {
   static const _keyFileName = '.academicos_hive_key';
 
   static Future<Box> openEncrypted(String boxName) async {
-    final key = await impl.getOrCreateSecureKey(_keyFileName);
+    // The whole thing, key generation included, is guarded: this runs
+    // before runApp() (main.dart awaits it directly), so ANY uncaught
+    // exception here -- key-file I/O failing, not just the decrypt path
+    // below -- leaves the app on its native white splash screen forever.
+    // Confirmed as a real class of bug via the corpus-loading regression
+    // fixed alongside this (corpus_repository.dart's reload()).
     try {
-      return await Hive.openBox(boxName, encryptionCipher: HiveAesCipher(key));
+      final key = await impl.getOrCreateSecureKey(_keyFileName);
+      try {
+        return await Hive.openBox(boxName, encryptionCipher: HiveAesCipher(key));
+      } catch (_) {
+        // A box written before encryption was added (or with a stale/foreign
+        // key) fails to decrypt -- Hive throws deep inside its read path
+        // rather than at open time, which previously crashed the whole app
+        // before any UI rendered. This is a local cache, not the source of
+        // truth (the real record lives server-side / in the offline engine's
+        // own store), so losing it is a cold cache, not data loss -- wipe and
+        // start clean rather than bring the app down.
+        await Hive.deleteBoxFromDisk(boxName);
+        return await Hive.openBox(boxName, encryptionCipher: HiveAesCipher(key));
+      }
     } catch (_) {
-      // A box written before encryption was added (or with a stale/foreign
-      // key) fails to decrypt -- Hive throws deep inside its read path
-      // rather than at open time, which previously crashed the whole app
-      // before any UI rendered. This is a local cache, not the source of
-      // truth (the real record lives server-side / in the offline engine's
-      // own store), so losing it is a cold cache, not data loss -- wipe and
-      // start clean rather than bring the app down.
-      await Hive.deleteBoxFromDisk(boxName);
-      return Hive.openBox(boxName, encryptionCipher: HiveAesCipher(key));
+      // Key generation itself failed (extremely rare -- disk full, a
+      // sandboxing quirk on some device). An unencrypted local cache is
+      // still strictly better than a dead app: better degrade than crash.
+      return Hive.openBox(boxName);
     }
   }
 }

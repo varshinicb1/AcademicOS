@@ -26,8 +26,11 @@ class _HomePageState extends State<HomePage> {
     final theme = Theme.of(context);
     final store = LocalStore.instance;
 
+    // Real-device robustness, not just tidy code: an assessment record from
+    // an older schema/app version missing updatedAt must not crash the
+    // app's own landing screen -- a `as String` force-cast would.
     final assessments = store.allAssessments()
-      ..sort((a, b) => (b['updatedAt'] as String).compareTo(a['updatedAt'] as String));
+      ..sort((a, b) => (b['updatedAt'] as String? ?? '').compareTo(a['updatedAt'] as String? ?? ''));
     final scanSessions = store.allScanSessions();
     final pendingReview = scanSessions.where((s) => s['status'] == 'reviewing').toList();
     final streak = _currentStreak(store.auditLog());
