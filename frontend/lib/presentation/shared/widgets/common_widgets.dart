@@ -38,7 +38,15 @@ class AppCard extends StatelessWidget {
         ] : null,
         border: Border.all(color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.1)),
       ),
-      child: child,
+      // Real bug found via an on-device integration test: any ListTile (or
+      // other Material-ink widget) placed inside AppCard's child triggers
+      // Flutter's "background color or ink splashes may be invisible"
+      // assertion, because Container/BoxDecoration is not a Material
+      // ancestor -- confirmed on Settings, which nests a ListTile per row
+      // inside AppCard and threw this on every single row. A transparent
+      // Material here gives descendants a real ink surface without
+      // changing AppCard's own decoration/appearance at all.
+      child: Material(type: MaterialType.transparency, child: child),
     );
 
     if (onTap != null) {
