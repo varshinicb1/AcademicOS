@@ -1,25 +1,58 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/services.dart' show rootBundle;
 
 import '../../domain/entities/entities.dart';
 import '../../domain/repositories/requests.dart';
+import 'corpus_downloader.dart';
 
-/// Loads the real, bundled CBSE/NCERT question corpus (assets/corpus/questions.json
-/// -- exported straight from the same production pipeline the live API reads
-/// from) into memory once, and answers the same catalog/chapter/search
-/// queries the deployed backend does. No network, no server -- this is the
-/// on-device replacement for /catalog, /catalog/{subject}/{grade}/chapters
-/// and /questions/search.
+/// Loads the real CBSE/NCERT question corpus into memory once, and answers
+/// the same catalog/chapter/search queries the deployed backend does. No
+/// network required at load time -- this is the on-device replacement for
+/// /catalog, /catalog/{subject}/{grade}/chapters and /questions/search.
+///
+/// Prefers a real downloaded corpus (corpus_downloader.dart -- checksum-
+/// verified, from a public GitHub Release, freshenable after install)
+/// over the bundled asset (assets/corpus/questions.json, frozen at build
+/// time) when one exists and still passes re-verification. Falls back to
+/// the bundled asset otherwise -- the app must work immediately after
+/// install with zero network, downloading only ever adds/updates data, it
+/// is never a requirement.
 class CorpusRepository {
   CorpusRepository._();
   static final CorpusRepository instance = CorpusRepository._();
 
   List<Question>? _questions;
+  bool _fromDownload = false;
   bool get isLoaded => _questions != null;
+  bool get loadedFromDownload => _fromDownload;
 
   Future<void> ensureLoaded() async {
     if (_questions != null) return;
-    final raw = await rootBundle.loadString('assets/corpus/questions.json');
+    await reload();
+  }
+
+  /// Re-reads from disk/assets even if already loaded -- called after a
+  /// fresh download completes so the newly-fetched corpus takes effect
+  /// without requiring an app restart.
+  Future<void> reload() async {
+    // Any failure here (disk I/O, a path_provider platform hiccup, whatever)
+    // must fall back to the always-present bundled asset, never crash
+    // corpus loading -- this check is a nice-to-have, not a requirement.
+    File? downloaded;
+    try {
+      downloaded = await CorpusDownloader.currentDownloadedFile();
+    } catch (_) {
+      downloaded = null;
+    }
+    String raw;
+    if (downloaded != null) {
+      raw = await downloaded.readAsString();
+      _fromDownload = true;
+    } else {
+      raw = await rootBundle.loadString('assets/corpus/questions.json');
+      _fromDownload = false;
+    }
     final data = jsonDecode(raw) as Map<String, dynamic>;
     final list = (data['questions'] as List)
         .map((e) => Question.fromJson(Map<String, dynamic>.from(e as Map)))

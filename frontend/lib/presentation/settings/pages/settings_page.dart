@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/local_engine/corpus_downloader.dart';
+import '../../../core/local_engine/corpus_repository.dart';
 import '../../../core/local_engine/demo_seeder.dart';
 import '../../../core/local_engine/local_store.dart';
 import '../../shared/widgets/common_widgets.dart';
@@ -70,7 +72,10 @@ class _SettingsPageState extends State<SettingsPage> {
             _buildDropdownTile(Icons.language, 'Language', _selectedLanguage, _languageNames, (v) => setState(() => _selectedLanguage = v)),
             _buildSwitchTile(Icons.sync, 'Auto Sync', 'Automatically sync data', _autoSync, (v) => setState(() => _autoSync = v)),
             _buildSwitchTile(Icons.offline_bolt, 'Offline Mode', 'Work offline, sync when online', _offlineMode, (v) => setState(() => _offlineMode = v)),
-            _buildListTile(Icons.download, 'Download Data', 'Download syllabus, questions for offline use', () {}),
+            _buildListTile(Icons.download, 'Download Data',
+                'Corpus source: ${CorpusRepository.instance.loadedFromDownload ? "downloaded" : "bundled with app"} '
+                '(${CorpusRepository.instance.isLoaded ? CorpusRepository.instance.all.length : "?"} questions)',
+                _downloadCorpusData),
             _buildListTile(Icons.clear_all, 'Clear Cache', 'Free up storage space', _clearCache),
             if (_kOfflineBuild && LocalStore.instance.isDemoSeeded)
               _buildListTile(
@@ -227,6 +232,49 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _manualSync() {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Syncing...')));
+  }
+
+  Future<void> _downloadCorpusData() async {
+    final progress = ValueNotifier<double>(0);
+    if (!mounted) return;
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => AlertDialog(
+        title: const Text('Downloading corpus data'),
+        content: ValueListenableBuilder<double>(
+          valueListenable: progress,
+          builder: (context, value, _) => Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              LinearProgressIndicator(value: value > 0 ? value : null),
+              const SizedBox(height: 12),
+              Text(value > 0 ? '${(value * 100).toStringAsFixed(0)}%' : 'Connecting…'),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    final result = await CorpusDownloader.download(
+      onProgress: (p) => progress.value = p.fraction,
+    );
+
+    if (!mounted) return;
+    Navigator.of(context).pop(); // close progress dialog
+
+    if (result.success) {
+      await CorpusRepository.instance.reload();
+      if (!mounted) return;
+      setState(() {});
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Corpus updated -- ${CorpusRepository.instance.all.length} questions now available.'),
+      ));
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Download failed: ${result.error}. Keeping existing data -- nothing was lost.'),
+      ));
+    }
   }
 
   void _confirmClearDemoData() {
