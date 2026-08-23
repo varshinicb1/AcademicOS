@@ -394,13 +394,13 @@ class LocalPillarApi extends PillarApi {
     int? marks,
     String comment = '',
   }) async =>
-      ScanReviewItem.fromJson(local_scan.LocalScanEngine.submitReviewDecision(
+      ScanReviewItem.fromJson(await local_scan.LocalScanEngine.submitReviewDecision(
         sessionId, questionId, action: action, marks: marks, comment: comment,
       ));
 
   @override
   Future<ScanFinalizeResult> finalizeScanSession(String sessionId) async =>
-      ScanFinalizeResult.fromJson(local_scan.LocalScanEngine.finalizeSession(sessionId));
+      ScanFinalizeResult.fromJson(await local_scan.LocalScanEngine.finalizeSession(sessionId));
 
   @override
   Future<String> downloadScanPdf(String url, String savePath) async =>

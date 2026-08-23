@@ -15,6 +15,7 @@ library;
 import '../../domain/repositories/requests.dart' show GeneratedPaper;
 import 'answer_evaluation.dart' as eval_engine;
 import 'corpus_repository.dart';
+import 'keyed_mutex.dart';
 import 'local_store.dart';
 import 'on_device_ocr.dart';
 import 'sarvam_vision_ocr.dart';
@@ -25,6 +26,14 @@ final RegExp _questionMarker = RegExp(
 );
 
 class LocalScanEngine {
+  // Guards every read-modify-write against a scan session's Hive record.
+  // uploadPage and processSession both read the session, await something
+  // real (OCR, network), then write it back -- without this, two calls for
+  // the same session (a fast double-tap on "capture page", or a page
+  // upload racing a process-session call) can interleave and silently
+  // drop one write. Confirmed real via an audit before this fix landed.
+  static final KeyedMutex _sessionLock = KeyedMutex();
+
   static String _newId(String prefix) =>
       '${prefix}_${DateTime.now().microsecondsSinceEpoch.toRadixString(36)}';
 
@@ -47,32 +56,33 @@ class LocalScanEngine {
     return session;
   }
 
-  static Future<Map<String, dynamic>> uploadPage(String sessionId, String imagePath) async {
-    final session = LocalStore.instance.getScanSession(sessionId);
-    if (session == null) {
-      throw StateError('scan session not found: $sessionId');
-    }
-    final ocr = await OnDeviceOcr.recognize(imagePath);
-    final pages = List<Map<String, dynamic>>.from(session['pages'] as List);
-    final pageNo = pages.length + 1;
-    pages.add({
-      'pageNo': pageNo,
-      'imagePath': imagePath,
-      'text': ocr.rawText,
-      'warnings': ocr.warnings,
-      'confidence': ocr.meanConfidence,
-    });
-    session['pages'] = pages;
-    session['pagesCaptured'] = pages.length;
-    LocalStore.instance.saveScanSession(sessionId, session);
+  static Future<Map<String, dynamic>> uploadPage(String sessionId, String imagePath) =>
+      _sessionLock.synchronized(sessionId, () async {
+        final session = LocalStore.instance.getScanSession(sessionId);
+        if (session == null) {
+          throw StateError('scan session not found: $sessionId');
+        }
+        final ocr = await OnDeviceOcr.recognize(imagePath);
+        final pages = List<Map<String, dynamic>>.from(session['pages'] as List);
+        final pageNo = pages.length + 1;
+        pages.add({
+          'pageNo': pageNo,
+          'imagePath': imagePath,
+          'text': ocr.rawText,
+          'warnings': ocr.warnings,
+          'confidence': ocr.meanConfidence,
+        });
+        session['pages'] = pages;
+        session['pagesCaptured'] = pages.length;
+        LocalStore.instance.saveScanSession(sessionId, session);
 
-    return {
-      'pageNo': pageNo,
-      'cropped': false,
-      'ocrPreview': ocr.rawText.length > 300 ? ocr.rawText.substring(0, 300) : ocr.rawText,
-      'warnings': ocr.warnings,
-    };
-  }
+        return {
+          'pageNo': pageNo,
+          'cropped': false,
+          'ocrPreview': ocr.rawText.length > 300 ? ocr.rawText.substring(0, 300) : ocr.rawText,
+          'warnings': ocr.warnings,
+        };
+      });
 
   /// Splits concatenated page text into {questionNumber: answerText}. Text
   /// before the first marker on a page (usually the student's name/roll
@@ -126,7 +136,10 @@ class LocalScanEngine {
     }
   }
 
-  static Future<Map<String, dynamic>> processSession(String sessionId) async {
+  static Future<Map<String, dynamic>> processSession(String sessionId) =>
+      _sessionLock.synchronized(sessionId, () => _processSessionUnlocked(sessionId));
+
+  static Future<Map<String, dynamic>> _processSessionUnlocked(String sessionId) async {
     final session = LocalStore.instance.getScanSession(sessionId);
     if (session == null) {
       throw StateError('scan session not found: $sessionId');
@@ -232,7 +245,18 @@ class LocalScanEngine {
     };
   }
 
-  static Map<String, dynamic> submitReviewDecision(
+  static Future<Map<String, dynamic>> submitReviewDecision(
+    String sessionId,
+    String questionId, {
+    required String action,
+    int? marks,
+    String comment = '',
+  }) =>
+      _sessionLock.synchronized(sessionId, () async => _submitReviewDecisionUnlocked(
+            sessionId, questionId, action: action, marks: marks, comment: comment,
+          ));
+
+  static Map<String, dynamic> _submitReviewDecisionUnlocked(
     String sessionId,
     String questionId, {
     required String action,
@@ -283,7 +307,10 @@ class LocalScanEngine {
     return item;
   }
 
-  static Map<String, dynamic> finalizeSession(String sessionId) {
+  static Future<Map<String, dynamic>> finalizeSession(String sessionId) =>
+      _sessionLock.synchronized(sessionId, () async => _finalizeSessionUnlocked(sessionId));
+
+  static Map<String, dynamic> _finalizeSessionUnlocked(String sessionId) {
     final session = LocalStore.instance.getScanSession(sessionId);
     if (session == null) {
       throw StateError('scan session not found: $sessionId');
