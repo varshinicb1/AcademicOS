@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/local_engine/demo_seeder.dart';
 import '../../../core/local_engine/local_store.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+
+const _offlineMode = bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
+const _seedDemoData = bool.fromEnvironment('ACADEMICOS_SEED_DEMO', defaultValue: false);
 
 /// The app's real landing screen -- replaces opening cold into Syllabus
 /// Coverage with no sense of "what do I actually need to do right now."
@@ -21,6 +25,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    // Real regression found and fixed on-device: seeding used to be an
+    // unawaited fire-and-forget in main.dart, which fixed a real crash-on-
+    // launch bug but introduced a new one -- this page reads LocalStore
+    // once per build with no listener, so a background seed that finished
+    // AFTER this page's first build never appeared without a manual
+    // pull-to-refresh. Owning the trigger here, with a real setState() when
+    // it completes, keeps the "never blocks/crashes launch" property while
+    // actually reflecting the seeded data once it's ready. Confirmed on a
+    // real device: without this, "Today" stayed on "No assessments yet"
+    // indefinitely despite 5 real assessments existing in LocalStore.
+    if (_offlineMode && _seedDemoData) {
+      DemoSeeder.seedIfEmpty().then((_) {
+        if (mounted) setState(() {});
+      }).catchError((Object e, StackTrace stack) {
+        debugPrint('DemoSeeder.seedIfEmpty failed (app continues normally): $e\n$stack');
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

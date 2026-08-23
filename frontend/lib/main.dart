@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +6,6 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'core/di/service_locator.dart';
-import 'core/local_engine/demo_seeder.dart';
 import 'core/local_engine/secure_box.dart';
 import 'core/local_server/local_server_manager.dart';
 import 'core/theme/app_theme.dart';
@@ -41,38 +38,7 @@ void main() async {
   // Initialize dependencies
   await initDependencies();
 
-  // A brand-new offline install with zero data is the exact thing that
-  // sinks a principal demo -- nothing to look at, and "generate your first
-  // paper" as the very first thing a skeptical visitor sees is a bad pitch.
-  // BUT a real Play-Store-bound release for actual schools must never show
-  // synthetic seeded content as if it were a real class's data -- opt-in
-  // only (a separate flag from ACADEMICOS_OFFLINE, off by default), for a
-  // deliberate sales-demo build. A default install shows the app's real
-  // honest empty state ("No assessments yet") instead.
-  const offlineMode = bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
-  const seedDemoData = bool.fromEnvironment('ACADEMICOS_SEED_DEMO', defaultValue: false);
-
   runApp(const ProviderScope(child: AcademicOSApp()));
-
-  if (offlineMode && seedDemoData) {
-    // Real fix for a real crash-on-open report on a demo-seed build: this
-    // used to be `await`ed directly above, before runApp() -- so any
-    // exception during seeding (5 real corpus-backed paper generations +
-    // 50 real evaluations, exercised here for the first time in this exact
-    // build configuration) crashed the app before a single frame ever
-    // rendered, and even without an exception, that much synchronous work
-    // ahead of the first frame risked looking like a hang/crash on cold
-    // start. Seeding now runs after the UI is already up, with its own
-    // error handling, so a slow or failed seed degrades to the app's real
-    // empty state instead of an unusable launch.
-    unawaited(Future(() async {
-      try {
-        await DemoSeeder.seedIfEmpty();
-      } catch (e, stack) {
-        debugPrint('DemoSeeder.seedIfEmpty failed (app continues normally): $e\n$stack');
-      }
-    }));
-  }
 }
 
 class AcademicOSApp extends ConsumerWidget {
