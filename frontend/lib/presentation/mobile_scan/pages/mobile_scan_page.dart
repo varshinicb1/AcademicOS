@@ -114,21 +114,33 @@ class _MobileScanPageState extends State<MobileScanPage> {
   }
 
   Future<void> _capturePhoto() async {
-    final photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 90);
-    if (photo != null) await _uploadPage(photo.path);
+    try {
+      final photo = await _picker.pickImage(source: ImageSource.camera, imageQuality: 90);
+      if (photo != null) await _uploadPage(photo.path);
+    } catch (e) {
+      // Real gap found on-device: this used to have no error handling at
+      // all, so a real PlatformException (permission denied, no camera app
+      // resolvable) went unhandled and the button just silently did
+      // nothing with zero feedback to the teacher.
+      if (mounted) setState(() => _error = 'Could not open camera: $e');
+    }
   }
 
   /// Alternative to the camera for a page already photographed elsewhere
   /// (or, on desktop, the only capture path available at all — there is no
   /// system camera app to launch).
   Future<void> _importPhoto() async {
-    final result = await FilePicker.pickFiles(
-      type: FileType.image,
-      allowMultiple: true,
-    );
-    if (result == null) return;
-    for (final f in result.files) {
-      if (f.path != null) await _uploadPage(f.path!);
+    try {
+      final result = await FilePicker.pickFiles(
+        type: FileType.image,
+        allowMultiple: true,
+      );
+      if (result == null) return;
+      for (final f in result.files) {
+        if (f.path != null) await _uploadPage(f.path!);
+      }
+    } catch (e) {
+      if (mounted) setState(() => _error = 'Could not open photo picker: $e');
     }
   }
 

@@ -40,11 +40,37 @@
          https://developer.android.com/training/package-visibility and
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
 
-         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
+         In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin.
+
+         Real, device-confirmed bug (not a hypothesis): Scan and Grade's
+         "Take photo" and "Import photo" buttons (image_picker / file_picker)
+         did nothing at all on a real Android 14 device: no dialog, no crash,
+         no launched activity, confirmed via `adb shell dumpsys activity`
+         showing MainActivity stayed foreground and logcat showing zero
+         related output. Root cause: on Android 11+ (API 30+),
+         PackageManager.queryIntentActivities(), which these plugins use
+         internally to resolve the camera capture and gallery pick intents,
+         returns an empty list for any intent action not declared here,
+         even when a real camera/gallery app is installed, so the pick call
+         silently no-ops instead of throwing. -->
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
+        </intent>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT"/>
+            <data android:mimeType="image/*"/>
+        </intent>
+        <intent>
+            <action android:name="android.intent.action.PICK"/>
+            <data android:mimeType="image/*"/>
+        </intent>
+        <intent>
+            <action android:name="android.provider.action.PICK_IMAGES"/>
         </intent>
     </queries>
 </manifest>
