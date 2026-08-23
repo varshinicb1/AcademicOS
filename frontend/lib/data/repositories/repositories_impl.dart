@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../core/constants/app_constants.dart';
 import '../../domain/entities/entities.dart';
 import '../../domain/entities/enums.dart';
 import '../../domain/failures/failures.dart';
@@ -64,7 +65,7 @@ class BlueprintRepositoryImpl implements BlueprintRepository {
   @override
   Future<Either<Failure, Unit>> saveTemplate(SectionBlueprint template) async {
     try {
-      await _apiClient.saveTemplate('school_1', template);
+      await _apiClient.saveTemplate(AppConstants.currentSchoolId, template);
       return right(unit);
     } catch (e) {
       return left(ServerFailure(e.toString()));

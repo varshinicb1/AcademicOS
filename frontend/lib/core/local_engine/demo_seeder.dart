@@ -3,6 +3,7 @@ import 'dart:math';
 
 import '../../domain/entities/entities.dart';
 import '../../domain/repositories/requests.dart';
+import '../constants/app_constants.dart';
 import 'corpus_repository.dart';
 import 'local_api_client.dart';
 import 'local_pillar_api.dart';
@@ -25,7 +26,11 @@ import 'local_store.dart';
 class DemoSeeder {
   static final _rng = Random(42);
 
-  static const _demoSchoolId = 'demo_school';
+  // Same value as AppConstants.currentSchoolId -- kept as a real reference
+  // (not just a matching literal) after a stress test found the Assessments
+  // list, Planner, and Settings/Sync screens each hardcoding a DIFFERENT
+  // school ID that didn't match this one, silently showing empty/wrong data.
+  static const _demoSchoolId = AppConstants.currentSchoolId;
 
   // 5 real teacher personas, each a real Class X subject with genuine
   // corpus coverage (checked against the live catalog before picking

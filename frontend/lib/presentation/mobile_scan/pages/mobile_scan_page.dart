@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:printing/printing.dart';
 
+import '../../../core/constants/app_constants.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
@@ -74,7 +75,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
   Future<void> _loadAssessments() async {
     setState(() => _loadingAssessments = true);
     try {
-      final list = await _api.listAssessmentsForSchool('school_1');
+      final list = await _api.listAssessmentsForSchool(AppConstants.currentSchoolId);
       // Only papers that actually have a generated question set can be
       // marked against — a blueprint-only assessment has nothing to match
       // segmented answers to.

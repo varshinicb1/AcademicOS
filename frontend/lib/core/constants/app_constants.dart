@@ -15,6 +15,17 @@ class AppConstants {
   // Sync
   static const Duration syncInterval = Duration(minutes: 15);
   static const int maxOfflineDays = 30;
+
+  // Current session -- placeholder until real auth/multi-school onboarding
+  // exists. Real, confirmed bug found via an on-device stress test: three
+  // different hardcoded IDs ('school_1', 'demo_school', 'teacher_1') were
+  // scattered across the app with no shared source of truth, so the
+  // Assessments list, Planner, and Settings/Sync screens each guessed a
+  // different "current school" and silently showed wrong/empty data
+  // against the demo seeder's real 'demo_school' records. Every screen
+  // needing "this school" should reference this constant instead of
+  // hardcoding its own guess.
+  static const String currentSchoolId = 'demo_school';
   
   // UI
   static const double defaultPadding = 16.0;

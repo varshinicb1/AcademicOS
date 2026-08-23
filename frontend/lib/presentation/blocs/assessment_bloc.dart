@@ -50,6 +50,7 @@ class AssessmentEvent with _$AssessmentEvent {
     required ExportFormat format,
   }) = _ExportPaper;
   const factory AssessmentEvent.loadAssessments(String teacherId) = _LoadAssessments;
+  const factory AssessmentEvent.loadAssessmentsBySchool(String schoolId) = _LoadAssessmentsBySchool;
   const factory AssessmentEvent.updateStatus({
     required String assessmentId,
     required AssessmentStatus status,
@@ -82,6 +83,7 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     on<_GeneratePaper>(_onGeneratePaper);
     on<_ExportPaper>(_onExportPaper);
     on<_LoadAssessments>(_onLoadAssessments);
+    on<_LoadAssessmentsBySchool>(_onLoadAssessmentsBySchool);
     on<_UpdateStatus>(_onUpdateStatus);
     on<_ClearError>(_onClearError);
   }
@@ -151,6 +153,16 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   Future<void> _onLoadAssessments(_LoadAssessments event, Emitter<AssessmentState> emit) async {
     emit(const AssessmentState.loading());
     final result = await _assessmentRepository.getAssessmentsByTeacher(event.teacherId);
+    result.fold(
+      (failure) => emit(AssessmentState.error(failure.message)),
+      (assessments) => emit(AssessmentState.assessmentsLoaded(assessments)),
+    );
+  }
+
+  Future<void> _onLoadAssessmentsBySchool(
+      _LoadAssessmentsBySchool event, Emitter<AssessmentState> emit) async {
+    emit(const AssessmentState.loading());
+    final result = await _assessmentRepository.getAssessmentsBySchool(event.schoolId);
     result.fold(
       (failure) => emit(AssessmentState.error(failure.message)),
       (assessments) => emit(AssessmentState.assessmentsLoaded(assessments)),

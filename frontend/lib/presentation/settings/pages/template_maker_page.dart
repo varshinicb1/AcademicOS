@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../core/constants/app_constants.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
@@ -13,7 +14,7 @@ import '../../shared/widgets/shell.dart';
 /// school's own section layout (how many sections, marks per question).
 class TemplateMakerPage extends StatefulWidget {
   final String schoolId;
-  const TemplateMakerPage({super.key, this.schoolId = 'school_1'});
+  const TemplateMakerPage({super.key, this.schoolId = AppConstants.currentSchoolId});
 
   @override
   State<TemplateMakerPage> createState() => _TemplateMakerPageState();

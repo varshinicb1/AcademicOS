@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/constants/app_constants.dart';
 import '../../../domain/entities/entities.dart';
 import '../../blocs/assessment_bloc.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
-
-const _teacherId = 'teacher_1';
 
 class AssessmentListPage extends StatefulWidget {
   const AssessmentListPage({super.key});
@@ -20,7 +19,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AssessmentBloc>().add(const AssessmentEvent.loadAssessments(_teacherId));
+    context.read<AssessmentBloc>().add(const AssessmentEvent.loadAssessmentsBySchool(AppConstants.currentSchoolId));
   }
 
   @override
@@ -45,7 +44,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
               message: message,
               onRetry: () => context
                   .read<AssessmentBloc>()
-                  .add(const AssessmentEvent.loadAssessments(_teacherId)),
+                  .add(const AssessmentEvent.loadAssessmentsBySchool(AppConstants.currentSchoolId)),
             ),
             // Any other state (e.g. left over from the create flow) isn't a
             // list result — re-fetch rather than rendering a misleading empty list.
@@ -54,7 +53,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                 if (mounted) {
                   context
                       .read<AssessmentBloc>()
-                      .add(const AssessmentEvent.loadAssessments(_teacherId));
+                      .add(const AssessmentEvent.loadAssessmentsBySchool(AppConstants.currentSchoolId));
                 }
               });
               return const Center(child: CircularProgressIndicator());

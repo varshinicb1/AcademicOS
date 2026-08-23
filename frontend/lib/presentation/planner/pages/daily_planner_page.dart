@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../../core/constants/app_constants.dart';
 import '../../../data/datasources/api/api_client.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../../domain/entities/entities.dart';
@@ -12,7 +13,6 @@ import '../../blocs/assessment_bloc.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 
-const _teacherId = 'teacher_1';
 // Only Class X has real official CBSE syllabus data loaded (see
 // cbse_syllabus.py) -- these are the 4 subjects it covers.
 const _timetableSubjects = ['Mathematics', 'Science', 'Social Science', 'English'];
@@ -33,7 +33,7 @@ class _PlannerPageState extends State<PlannerPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AssessmentBloc>().add(const AssessmentEvent.loadAssessments(_teacherId));
+    context.read<AssessmentBloc>().add(const AssessmentEvent.loadAssessmentsBySchool(AppConstants.currentSchoolId));
   }
 
   DateTime _dayOf(Assessment a) => a.scheduledAt ?? a.createdAt;
@@ -57,7 +57,7 @@ class _PlannerPageState extends State<PlannerPage> {
             icon: const Icon(Icons.refresh),
             onPressed: () => context
                 .read<AssessmentBloc>()
-                .add(const AssessmentEvent.loadAssessments(_teacherId)),
+                .add(const AssessmentEvent.loadAssessmentsBySchool(AppConstants.currentSchoolId)),
           ),
         ],
       ),
@@ -214,7 +214,7 @@ class _PlannerPageState extends State<PlannerPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Scheduled — syncing to Google Calendar')),
       );
-      context.read<AssessmentBloc>().add(const AssessmentEvent.loadAssessments(_teacherId));
+      context.read<AssessmentBloc>().add(const AssessmentEvent.loadAssessmentsBySchool(AppConstants.currentSchoolId));
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

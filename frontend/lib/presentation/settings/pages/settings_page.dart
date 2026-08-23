@@ -55,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _loadLastSyncResult() async {
-    const schoolId = 'school_1';
+    const schoolId = AppConstants.currentSchoolId;
     final result = SyncService.instance.getLastSyncResult(schoolId);
     if (result != null && mounted) {
       setState(() => _lastSyncResult = result);
@@ -255,7 +255,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _manualSync() async {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Syncing…')));
-    const schoolId = 'school_1';
+    const schoolId = AppConstants.currentSchoolId;
     try {
       final result = await SyncService.instance.sync(schoolId);
       if (!mounted) return;

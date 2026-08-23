@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/constants/app_constants.dart';
 import '../../../domain/entities/entities.dart';
 import '../../../domain/repositories/requests.dart';
 import '../../blocs/assessment_bloc.dart';
@@ -370,7 +371,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     });
     final bloc = context.read<AssessmentBloc>();
     const teacherId = 'teacher_1';
-    const schoolId = 'school_1';
+    const schoolId = AppConstants.currentSchoolId;
 
     try {
       bloc.add(AssessmentEvent.createAssessment(CreateAssessmentRequest(

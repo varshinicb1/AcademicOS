@@ -1957,6 +1957,7 @@ mixin _$AssessmentEvent {
             GeneratedPaper paper, String templateId, ExportFormat format)
         exportPaper,
     required TResult Function(String teacherId) loadAssessments,
+    required TResult Function(String schoolId) loadAssessmentsBySchool,
     required TResult Function(String assessmentId, AssessmentStatus status)
         updateStatus,
     required TResult Function() clearError,
@@ -1975,6 +1976,7 @@ mixin _$AssessmentEvent {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult? Function(String teacherId)? loadAssessments,
+    TResult? Function(String schoolId)? loadAssessmentsBySchool,
     TResult? Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult? Function()? clearError,
@@ -1993,6 +1995,7 @@ mixin _$AssessmentEvent {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult Function(String teacherId)? loadAssessments,
+    TResult Function(String schoolId)? loadAssessmentsBySchool,
     TResult Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult Function()? clearError,
@@ -2007,6 +2010,8 @@ mixin _$AssessmentEvent {
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
     required TResult Function(_LoadAssessments value) loadAssessments,
+    required TResult Function(_LoadAssessmentsBySchool value)
+        loadAssessmentsBySchool,
     required TResult Function(_UpdateStatus value) updateStatus,
     required TResult Function(_ClearError value) clearError,
   }) =>
@@ -2019,6 +2024,7 @@ mixin _$AssessmentEvent {
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
     TResult? Function(_LoadAssessments value)? loadAssessments,
+    TResult? Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult? Function(_UpdateStatus value)? updateStatus,
     TResult? Function(_ClearError value)? clearError,
   }) =>
@@ -2031,6 +2037,7 @@ mixin _$AssessmentEvent {
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
     TResult Function(_LoadAssessments value)? loadAssessments,
+    TResult Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult Function(_UpdateStatus value)? updateStatus,
     TResult Function(_ClearError value)? clearError,
     required TResult orElse(),
@@ -2142,6 +2149,7 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
             GeneratedPaper paper, String templateId, ExportFormat format)
         exportPaper,
     required TResult Function(String teacherId) loadAssessments,
+    required TResult Function(String schoolId) loadAssessmentsBySchool,
     required TResult Function(String assessmentId, AssessmentStatus status)
         updateStatus,
     required TResult Function() clearError,
@@ -2163,6 +2171,7 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult? Function(String teacherId)? loadAssessments,
+    TResult? Function(String schoolId)? loadAssessmentsBySchool,
     TResult? Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult? Function()? clearError,
@@ -2184,6 +2193,7 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult Function(String teacherId)? loadAssessments,
+    TResult Function(String schoolId)? loadAssessmentsBySchool,
     TResult Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult Function()? clearError,
@@ -2204,6 +2214,8 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
     required TResult Function(_LoadAssessments value) loadAssessments,
+    required TResult Function(_LoadAssessmentsBySchool value)
+        loadAssessmentsBySchool,
     required TResult Function(_UpdateStatus value) updateStatus,
     required TResult Function(_ClearError value) clearError,
   }) {
@@ -2219,6 +2231,7 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
     TResult? Function(_LoadAssessments value)? loadAssessments,
+    TResult? Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult? Function(_UpdateStatus value)? updateStatus,
     TResult? Function(_ClearError value)? clearError,
   }) {
@@ -2234,6 +2247,7 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
     TResult Function(_LoadAssessments value)? loadAssessments,
+    TResult Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult Function(_UpdateStatus value)? updateStatus,
     TResult Function(_ClearError value)? clearError,
     required TResult orElse(),
@@ -2341,6 +2355,7 @@ class _$GenerateBlueprintImpl implements _GenerateBlueprint {
             GeneratedPaper paper, String templateId, ExportFormat format)
         exportPaper,
     required TResult Function(String teacherId) loadAssessments,
+    required TResult Function(String schoolId) loadAssessmentsBySchool,
     required TResult Function(String assessmentId, AssessmentStatus status)
         updateStatus,
     required TResult Function() clearError,
@@ -2362,6 +2377,7 @@ class _$GenerateBlueprintImpl implements _GenerateBlueprint {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult? Function(String teacherId)? loadAssessments,
+    TResult? Function(String schoolId)? loadAssessmentsBySchool,
     TResult? Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult? Function()? clearError,
@@ -2383,6 +2399,7 @@ class _$GenerateBlueprintImpl implements _GenerateBlueprint {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult Function(String teacherId)? loadAssessments,
+    TResult Function(String schoolId)? loadAssessmentsBySchool,
     TResult Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult Function()? clearError,
@@ -2403,6 +2420,8 @@ class _$GenerateBlueprintImpl implements _GenerateBlueprint {
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
     required TResult Function(_LoadAssessments value) loadAssessments,
+    required TResult Function(_LoadAssessmentsBySchool value)
+        loadAssessmentsBySchool,
     required TResult Function(_UpdateStatus value) updateStatus,
     required TResult Function(_ClearError value) clearError,
   }) {
@@ -2418,6 +2437,7 @@ class _$GenerateBlueprintImpl implements _GenerateBlueprint {
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
     TResult? Function(_LoadAssessments value)? loadAssessments,
+    TResult? Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult? Function(_UpdateStatus value)? updateStatus,
     TResult? Function(_ClearError value)? clearError,
   }) {
@@ -2433,6 +2453,7 @@ class _$GenerateBlueprintImpl implements _GenerateBlueprint {
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
     TResult Function(_LoadAssessments value)? loadAssessments,
+    TResult Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult Function(_UpdateStatus value)? updateStatus,
     TResult Function(_ClearError value)? clearError,
     required TResult orElse(),
@@ -2558,6 +2579,7 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
             GeneratedPaper paper, String templateId, ExportFormat format)
         exportPaper,
     required TResult Function(String teacherId) loadAssessments,
+    required TResult Function(String schoolId) loadAssessmentsBySchool,
     required TResult Function(String assessmentId, AssessmentStatus status)
         updateStatus,
     required TResult Function() clearError,
@@ -2579,6 +2601,7 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult? Function(String teacherId)? loadAssessments,
+    TResult? Function(String schoolId)? loadAssessmentsBySchool,
     TResult? Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult? Function()? clearError,
@@ -2600,6 +2623,7 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult Function(String teacherId)? loadAssessments,
+    TResult Function(String schoolId)? loadAssessmentsBySchool,
     TResult Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult Function()? clearError,
@@ -2620,6 +2644,8 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
     required TResult Function(_LoadAssessments value) loadAssessments,
+    required TResult Function(_LoadAssessmentsBySchool value)
+        loadAssessmentsBySchool,
     required TResult Function(_UpdateStatus value) updateStatus,
     required TResult Function(_ClearError value) clearError,
   }) {
@@ -2635,6 +2661,7 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
     TResult? Function(_LoadAssessments value)? loadAssessments,
+    TResult? Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult? Function(_UpdateStatus value)? updateStatus,
     TResult? Function(_ClearError value)? clearError,
   }) {
@@ -2650,6 +2677,7 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
     TResult Function(_LoadAssessments value)? loadAssessments,
+    TResult Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult Function(_UpdateStatus value)? updateStatus,
     TResult Function(_ClearError value)? clearError,
     required TResult orElse(),
@@ -2802,6 +2830,7 @@ class _$GeneratePaperImpl implements _GeneratePaper {
             GeneratedPaper paper, String templateId, ExportFormat format)
         exportPaper,
     required TResult Function(String teacherId) loadAssessments,
+    required TResult Function(String schoolId) loadAssessmentsBySchool,
     required TResult Function(String assessmentId, AssessmentStatus status)
         updateStatus,
     required TResult Function() clearError,
@@ -2823,6 +2852,7 @@ class _$GeneratePaperImpl implements _GeneratePaper {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult? Function(String teacherId)? loadAssessments,
+    TResult? Function(String schoolId)? loadAssessmentsBySchool,
     TResult? Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult? Function()? clearError,
@@ -2844,6 +2874,7 @@ class _$GeneratePaperImpl implements _GeneratePaper {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult Function(String teacherId)? loadAssessments,
+    TResult Function(String schoolId)? loadAssessmentsBySchool,
     TResult Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult Function()? clearError,
@@ -2864,6 +2895,8 @@ class _$GeneratePaperImpl implements _GeneratePaper {
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
     required TResult Function(_LoadAssessments value) loadAssessments,
+    required TResult Function(_LoadAssessmentsBySchool value)
+        loadAssessmentsBySchool,
     required TResult Function(_UpdateStatus value) updateStatus,
     required TResult Function(_ClearError value) clearError,
   }) {
@@ -2879,6 +2912,7 @@ class _$GeneratePaperImpl implements _GeneratePaper {
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
     TResult? Function(_LoadAssessments value)? loadAssessments,
+    TResult? Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult? Function(_UpdateStatus value)? updateStatus,
     TResult? Function(_ClearError value)? clearError,
   }) {
@@ -2894,6 +2928,7 @@ class _$GeneratePaperImpl implements _GeneratePaper {
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
     TResult Function(_LoadAssessments value)? loadAssessments,
+    TResult Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult Function(_UpdateStatus value)? updateStatus,
     TResult Function(_ClearError value)? clearError,
     required TResult orElse(),
@@ -3024,6 +3059,7 @@ class _$ExportPaperImpl implements _ExportPaper {
             GeneratedPaper paper, String templateId, ExportFormat format)
         exportPaper,
     required TResult Function(String teacherId) loadAssessments,
+    required TResult Function(String schoolId) loadAssessmentsBySchool,
     required TResult Function(String assessmentId, AssessmentStatus status)
         updateStatus,
     required TResult Function() clearError,
@@ -3045,6 +3081,7 @@ class _$ExportPaperImpl implements _ExportPaper {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult? Function(String teacherId)? loadAssessments,
+    TResult? Function(String schoolId)? loadAssessmentsBySchool,
     TResult? Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult? Function()? clearError,
@@ -3066,6 +3103,7 @@ class _$ExportPaperImpl implements _ExportPaper {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult Function(String teacherId)? loadAssessments,
+    TResult Function(String schoolId)? loadAssessmentsBySchool,
     TResult Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult Function()? clearError,
@@ -3086,6 +3124,8 @@ class _$ExportPaperImpl implements _ExportPaper {
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
     required TResult Function(_LoadAssessments value) loadAssessments,
+    required TResult Function(_LoadAssessmentsBySchool value)
+        loadAssessmentsBySchool,
     required TResult Function(_UpdateStatus value) updateStatus,
     required TResult Function(_ClearError value) clearError,
   }) {
@@ -3101,6 +3141,7 @@ class _$ExportPaperImpl implements _ExportPaper {
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
     TResult? Function(_LoadAssessments value)? loadAssessments,
+    TResult? Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult? Function(_UpdateStatus value)? updateStatus,
     TResult? Function(_ClearError value)? clearError,
   }) {
@@ -3116,6 +3157,7 @@ class _$ExportPaperImpl implements _ExportPaper {
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
     TResult Function(_LoadAssessments value)? loadAssessments,
+    TResult Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult Function(_UpdateStatus value)? updateStatus,
     TResult Function(_ClearError value)? clearError,
     required TResult orElse(),
@@ -3218,6 +3260,7 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
             GeneratedPaper paper, String templateId, ExportFormat format)
         exportPaper,
     required TResult Function(String teacherId) loadAssessments,
+    required TResult Function(String schoolId) loadAssessmentsBySchool,
     required TResult Function(String assessmentId, AssessmentStatus status)
         updateStatus,
     required TResult Function() clearError,
@@ -3239,6 +3282,7 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult? Function(String teacherId)? loadAssessments,
+    TResult? Function(String schoolId)? loadAssessmentsBySchool,
     TResult? Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult? Function()? clearError,
@@ -3260,6 +3304,7 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult Function(String teacherId)? loadAssessments,
+    TResult Function(String schoolId)? loadAssessmentsBySchool,
     TResult Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult Function()? clearError,
@@ -3280,6 +3325,8 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
     required TResult Function(_LoadAssessments value) loadAssessments,
+    required TResult Function(_LoadAssessmentsBySchool value)
+        loadAssessmentsBySchool,
     required TResult Function(_UpdateStatus value) updateStatus,
     required TResult Function(_ClearError value) clearError,
   }) {
@@ -3295,6 +3342,7 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
     TResult? Function(_LoadAssessments value)? loadAssessments,
+    TResult? Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult? Function(_UpdateStatus value)? updateStatus,
     TResult? Function(_ClearError value)? clearError,
   }) {
@@ -3310,6 +3358,7 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
     TResult Function(_LoadAssessments value)? loadAssessments,
+    TResult Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult Function(_UpdateStatus value)? updateStatus,
     TResult Function(_ClearError value)? clearError,
     required TResult orElse(),
@@ -3329,6 +3378,205 @@ abstract class _LoadAssessments implements AssessmentEvent {
   @JsonKey(ignore: true)
   _$$LoadAssessmentsImplCopyWith<_$LoadAssessmentsImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$LoadAssessmentsBySchoolImplCopyWith<$Res> {
+  factory _$$LoadAssessmentsBySchoolImplCopyWith(
+          _$LoadAssessmentsBySchoolImpl value,
+          $Res Function(_$LoadAssessmentsBySchoolImpl) then) =
+      __$$LoadAssessmentsBySchoolImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String schoolId});
+}
+
+/// @nodoc
+class __$$LoadAssessmentsBySchoolImplCopyWithImpl<$Res>
+    extends _$AssessmentEventCopyWithImpl<$Res, _$LoadAssessmentsBySchoolImpl>
+    implements _$$LoadAssessmentsBySchoolImplCopyWith<$Res> {
+  __$$LoadAssessmentsBySchoolImplCopyWithImpl(
+      _$LoadAssessmentsBySchoolImpl _value,
+      $Res Function(_$LoadAssessmentsBySchoolImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? schoolId = null,
+  }) {
+    return _then(_$LoadAssessmentsBySchoolImpl(
+      null == schoolId
+          ? _value.schoolId
+          : schoolId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$LoadAssessmentsBySchoolImpl implements _LoadAssessmentsBySchool {
+  const _$LoadAssessmentsBySchoolImpl(this.schoolId);
+
+  @override
+  final String schoolId;
+
+  @override
+  String toString() {
+    return 'AssessmentEvent.loadAssessmentsBySchool(schoolId: $schoolId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LoadAssessmentsBySchoolImpl &&
+            (identical(other.schoolId, schoolId) ||
+                other.schoolId == schoolId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, schoolId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LoadAssessmentsBySchoolImplCopyWith<_$LoadAssessmentsBySchoolImpl>
+      get copyWith => __$$LoadAssessmentsBySchoolImplCopyWithImpl<
+          _$LoadAssessmentsBySchoolImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(CreateAssessmentRequest request) createAssessment,
+    required TResult Function(BlueprintRequest request) generateBlueprint,
+    required TResult Function(Blueprint blueprint, QuestionSearchParams params)
+        selectQuestions,
+    required TResult Function(String assessmentId, Blueprint blueprint,
+            List<Question> questions, String schoolId)
+        generatePaper,
+    required TResult Function(
+            GeneratedPaper paper, String templateId, ExportFormat format)
+        exportPaper,
+    required TResult Function(String teacherId) loadAssessments,
+    required TResult Function(String schoolId) loadAssessmentsBySchool,
+    required TResult Function(String assessmentId, AssessmentStatus status)
+        updateStatus,
+    required TResult Function() clearError,
+  }) {
+    return loadAssessmentsBySchool(schoolId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(CreateAssessmentRequest request)? createAssessment,
+    TResult? Function(BlueprintRequest request)? generateBlueprint,
+    TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
+        selectQuestions,
+    TResult? Function(String assessmentId, Blueprint blueprint,
+            List<Question> questions, String schoolId)?
+        generatePaper,
+    TResult? Function(
+            GeneratedPaper paper, String templateId, ExportFormat format)?
+        exportPaper,
+    TResult? Function(String teacherId)? loadAssessments,
+    TResult? Function(String schoolId)? loadAssessmentsBySchool,
+    TResult? Function(String assessmentId, AssessmentStatus status)?
+        updateStatus,
+    TResult? Function()? clearError,
+  }) {
+    return loadAssessmentsBySchool?.call(schoolId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(CreateAssessmentRequest request)? createAssessment,
+    TResult Function(BlueprintRequest request)? generateBlueprint,
+    TResult Function(Blueprint blueprint, QuestionSearchParams params)?
+        selectQuestions,
+    TResult Function(String assessmentId, Blueprint blueprint,
+            List<Question> questions, String schoolId)?
+        generatePaper,
+    TResult Function(
+            GeneratedPaper paper, String templateId, ExportFormat format)?
+        exportPaper,
+    TResult Function(String teacherId)? loadAssessments,
+    TResult Function(String schoolId)? loadAssessmentsBySchool,
+    TResult Function(String assessmentId, AssessmentStatus status)?
+        updateStatus,
+    TResult Function()? clearError,
+    required TResult orElse(),
+  }) {
+    if (loadAssessmentsBySchool != null) {
+      return loadAssessmentsBySchool(schoolId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_CreateAssessment value) createAssessment,
+    required TResult Function(_GenerateBlueprint value) generateBlueprint,
+    required TResult Function(_SelectQuestions value) selectQuestions,
+    required TResult Function(_GeneratePaper value) generatePaper,
+    required TResult Function(_ExportPaper value) exportPaper,
+    required TResult Function(_LoadAssessments value) loadAssessments,
+    required TResult Function(_LoadAssessmentsBySchool value)
+        loadAssessmentsBySchool,
+    required TResult Function(_UpdateStatus value) updateStatus,
+    required TResult Function(_ClearError value) clearError,
+  }) {
+    return loadAssessmentsBySchool(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_CreateAssessment value)? createAssessment,
+    TResult? Function(_GenerateBlueprint value)? generateBlueprint,
+    TResult? Function(_SelectQuestions value)? selectQuestions,
+    TResult? Function(_GeneratePaper value)? generatePaper,
+    TResult? Function(_ExportPaper value)? exportPaper,
+    TResult? Function(_LoadAssessments value)? loadAssessments,
+    TResult? Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
+    TResult? Function(_UpdateStatus value)? updateStatus,
+    TResult? Function(_ClearError value)? clearError,
+  }) {
+    return loadAssessmentsBySchool?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_CreateAssessment value)? createAssessment,
+    TResult Function(_GenerateBlueprint value)? generateBlueprint,
+    TResult Function(_SelectQuestions value)? selectQuestions,
+    TResult Function(_GeneratePaper value)? generatePaper,
+    TResult Function(_ExportPaper value)? exportPaper,
+    TResult Function(_LoadAssessments value)? loadAssessments,
+    TResult Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
+    TResult Function(_UpdateStatus value)? updateStatus,
+    TResult Function(_ClearError value)? clearError,
+    required TResult orElse(),
+  }) {
+    if (loadAssessmentsBySchool != null) {
+      return loadAssessmentsBySchool(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LoadAssessmentsBySchool implements AssessmentEvent {
+  const factory _LoadAssessmentsBySchool(final String schoolId) =
+      _$LoadAssessmentsBySchoolImpl;
+
+  String get schoolId;
+  @JsonKey(ignore: true)
+  _$$LoadAssessmentsBySchoolImplCopyWith<_$LoadAssessmentsBySchoolImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -3415,6 +3663,7 @@ class _$UpdateStatusImpl implements _UpdateStatus {
             GeneratedPaper paper, String templateId, ExportFormat format)
         exportPaper,
     required TResult Function(String teacherId) loadAssessments,
+    required TResult Function(String schoolId) loadAssessmentsBySchool,
     required TResult Function(String assessmentId, AssessmentStatus status)
         updateStatus,
     required TResult Function() clearError,
@@ -3436,6 +3685,7 @@ class _$UpdateStatusImpl implements _UpdateStatus {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult? Function(String teacherId)? loadAssessments,
+    TResult? Function(String schoolId)? loadAssessmentsBySchool,
     TResult? Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult? Function()? clearError,
@@ -3457,6 +3707,7 @@ class _$UpdateStatusImpl implements _UpdateStatus {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult Function(String teacherId)? loadAssessments,
+    TResult Function(String schoolId)? loadAssessmentsBySchool,
     TResult Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult Function()? clearError,
@@ -3477,6 +3728,8 @@ class _$UpdateStatusImpl implements _UpdateStatus {
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
     required TResult Function(_LoadAssessments value) loadAssessments,
+    required TResult Function(_LoadAssessmentsBySchool value)
+        loadAssessmentsBySchool,
     required TResult Function(_UpdateStatus value) updateStatus,
     required TResult Function(_ClearError value) clearError,
   }) {
@@ -3492,6 +3745,7 @@ class _$UpdateStatusImpl implements _UpdateStatus {
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
     TResult? Function(_LoadAssessments value)? loadAssessments,
+    TResult? Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult? Function(_UpdateStatus value)? updateStatus,
     TResult? Function(_ClearError value)? clearError,
   }) {
@@ -3507,6 +3761,7 @@ class _$UpdateStatusImpl implements _UpdateStatus {
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
     TResult Function(_LoadAssessments value)? loadAssessments,
+    TResult Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult Function(_UpdateStatus value)? updateStatus,
     TResult Function(_ClearError value)? clearError,
     required TResult orElse(),
@@ -3579,6 +3834,7 @@ class _$ClearErrorImpl implements _ClearError {
             GeneratedPaper paper, String templateId, ExportFormat format)
         exportPaper,
     required TResult Function(String teacherId) loadAssessments,
+    required TResult Function(String schoolId) loadAssessmentsBySchool,
     required TResult Function(String assessmentId, AssessmentStatus status)
         updateStatus,
     required TResult Function() clearError,
@@ -3600,6 +3856,7 @@ class _$ClearErrorImpl implements _ClearError {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult? Function(String teacherId)? loadAssessments,
+    TResult? Function(String schoolId)? loadAssessmentsBySchool,
     TResult? Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult? Function()? clearError,
@@ -3621,6 +3878,7 @@ class _$ClearErrorImpl implements _ClearError {
             GeneratedPaper paper, String templateId, ExportFormat format)?
         exportPaper,
     TResult Function(String teacherId)? loadAssessments,
+    TResult Function(String schoolId)? loadAssessmentsBySchool,
     TResult Function(String assessmentId, AssessmentStatus status)?
         updateStatus,
     TResult Function()? clearError,
@@ -3641,6 +3899,8 @@ class _$ClearErrorImpl implements _ClearError {
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
     required TResult Function(_LoadAssessments value) loadAssessments,
+    required TResult Function(_LoadAssessmentsBySchool value)
+        loadAssessmentsBySchool,
     required TResult Function(_UpdateStatus value) updateStatus,
     required TResult Function(_ClearError value) clearError,
   }) {
@@ -3656,6 +3916,7 @@ class _$ClearErrorImpl implements _ClearError {
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
     TResult? Function(_LoadAssessments value)? loadAssessments,
+    TResult? Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult? Function(_UpdateStatus value)? updateStatus,
     TResult? Function(_ClearError value)? clearError,
   }) {
@@ -3671,6 +3932,7 @@ class _$ClearErrorImpl implements _ClearError {
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
     TResult Function(_LoadAssessments value)? loadAssessments,
+    TResult Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
     TResult Function(_UpdateStatus value)? updateStatus,
     TResult Function(_ClearError value)? clearError,
     required TResult orElse(),
