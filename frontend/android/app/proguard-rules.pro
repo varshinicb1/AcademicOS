@@ -24,3 +24,16 @@
 -keep class com.google.android.gms.internal.mlkit_vision_text_common.** { *; }
 -keep class com.google_mlkit_text_recognition.** { *; }
 -keep class com.google_mlkit_commons.** { *; }
+
+# Real, device-confirmed crash (not a hypothesis): a real Android device
+# running this exact release build threw
+# "Unable to get provider com.google.mlkit.common.internal.MlKitInitProvider:
+# ... Unsatisfied dependency ... class com.google.mlkit.common.sdkinternal.d"
+# on cold start, BEFORE Flutter/Dart ever runs -- MlKitInitProvider is a
+# ContentProvider Android auto-instantiates during process bind, so this
+# crashed the whole app unconditionally regardless of anything in main.dart.
+# Root cause: com.google.mlkit.common.** (Google's actual MLKit common SDK,
+# dotted package) was never covered by the rules above -- those only kept
+# com.google_mlkit_commons.** (the Flutter *plugin's* own underscored
+# package, a different thing entirely) and the vision.text-specific classes.
+-keep class com.google.mlkit.common.** { *; }
