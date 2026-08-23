@@ -202,6 +202,7 @@ class LocalApiClient extends ApiClient {
 
   @override
   Future<GeneratedPaper> generatePaper(PaperGenerationRequest request) async {
+    final assessment = await getAssessment(request.assessmentId);
     final sections = <GeneratedSection>[];
     var displayNumber = 1;
     // Group selected questions by which section they fit (same
@@ -229,6 +230,7 @@ class LocalApiClient extends ApiClient {
                   marks: q.marks,
                   bloomLevel: q.bloomLevel.name,
                   difficulty: q.difficulty.name,
+                  type: q.type.name,
                 ))
             .toList(),
       ));
@@ -248,6 +250,7 @@ class LocalApiClient extends ApiClient {
       answerKey: answerKey,
       metadata: PaperMetadata(
         assessmentTitle: request.template.name,
+        schoolName: LocalStore.instance.schoolName(assessment.schoolId),
         subject: request.selectedQuestions.firstOrNull?.subject ?? '',
         grade: request.selectedQuestions.firstOrNull?.grade ?? 0,
         totalMarks: request.blueprint.totalMarks,
@@ -258,7 +261,6 @@ class LocalApiClient extends ApiClient {
       ),
     );
     LocalStore.instance.savePaper(paper.id, paper.toJson());
-    final assessment = await getAssessment(request.assessmentId);
     LocalStore.instance.upsertAssessment(
       assessment
           .copyWith(status: AssessmentStatus.paperGenerated, generatedPaperId: paper.id, updatedAt: DateTime.now())

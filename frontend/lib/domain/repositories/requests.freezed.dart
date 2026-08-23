@@ -2273,6 +2273,7 @@ mixin _$GeneratedQuestion {
   int get marks => throw _privateConstructorUsedError;
   String get bloomLevel => throw _privateConstructorUsedError;
   String get difficulty => throw _privateConstructorUsedError;
+  String get type => throw _privateConstructorUsedError;
   String? get internalChoiceText => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -2296,6 +2297,7 @@ abstract class $GeneratedQuestionCopyWith<$Res> {
       int marks,
       String bloomLevel,
       String difficulty,
+      String type,
       String? internalChoiceText});
 }
 
@@ -2320,6 +2322,7 @@ class _$GeneratedQuestionCopyWithImpl<$Res, $Val extends GeneratedQuestion>
     Object? marks = null,
     Object? bloomLevel = null,
     Object? difficulty = null,
+    Object? type = null,
     Object? internalChoiceText = freezed,
   }) {
     return _then(_value.copyWith(
@@ -2355,6 +2358,10 @@ class _$GeneratedQuestionCopyWithImpl<$Res, $Val extends GeneratedQuestion>
           ? _value.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
       internalChoiceText: freezed == internalChoiceText
           ? _value.internalChoiceText
           : internalChoiceText // ignore: cast_nullable_to_non_nullable
@@ -2380,6 +2387,7 @@ abstract class _$$GeneratedQuestionImplCopyWith<$Res>
       int marks,
       String bloomLevel,
       String difficulty,
+      String type,
       String? internalChoiceText});
 }
 
@@ -2402,6 +2410,7 @@ class __$$GeneratedQuestionImplCopyWithImpl<$Res>
     Object? marks = null,
     Object? bloomLevel = null,
     Object? difficulty = null,
+    Object? type = null,
     Object? internalChoiceText = freezed,
   }) {
     return _then(_$GeneratedQuestionImpl(
@@ -2437,6 +2446,10 @@ class __$$GeneratedQuestionImplCopyWithImpl<$Res>
           ? _value.difficulty
           : difficulty // ignore: cast_nullable_to_non_nullable
               as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
       internalChoiceText: freezed == internalChoiceText
           ? _value.internalChoiceText
           : internalChoiceText // ignore: cast_nullable_to_non_nullable
@@ -2457,6 +2470,7 @@ class _$GeneratedQuestionImpl implements _GeneratedQuestion {
       required this.marks,
       required this.bloomLevel,
       required this.difficulty,
+      required this.type,
       this.internalChoiceText})
       : _parts = parts;
 
@@ -2486,11 +2500,13 @@ class _$GeneratedQuestionImpl implements _GeneratedQuestion {
   @override
   final String difficulty;
   @override
+  final String type;
+  @override
   final String? internalChoiceText;
 
   @override
   String toString() {
-    return 'GeneratedQuestion(questionId: $questionId, displayNumber: $displayNumber, stem: $stem, stemLatex: $stemLatex, parts: $parts, marks: $marks, bloomLevel: $bloomLevel, difficulty: $difficulty, internalChoiceText: $internalChoiceText)';
+    return 'GeneratedQuestion(questionId: $questionId, displayNumber: $displayNumber, stem: $stem, stemLatex: $stemLatex, parts: $parts, marks: $marks, bloomLevel: $bloomLevel, difficulty: $difficulty, type: $type, internalChoiceText: $internalChoiceText)';
   }
 
   @override
@@ -2511,6 +2527,7 @@ class _$GeneratedQuestionImpl implements _GeneratedQuestion {
                 other.bloomLevel == bloomLevel) &&
             (identical(other.difficulty, difficulty) ||
                 other.difficulty == difficulty) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.internalChoiceText, internalChoiceText) ||
                 other.internalChoiceText == internalChoiceText));
   }
@@ -2527,6 +2544,7 @@ class _$GeneratedQuestionImpl implements _GeneratedQuestion {
       marks,
       bloomLevel,
       difficulty,
+      type,
       internalChoiceText);
 
   @JsonKey(ignore: true)
@@ -2554,6 +2572,7 @@ abstract class _GeneratedQuestion implements GeneratedQuestion {
       required final int marks,
       required final String bloomLevel,
       required final String difficulty,
+      required final String type,
       final String? internalChoiceText}) = _$GeneratedQuestionImpl;
 
   factory _GeneratedQuestion.fromJson(Map<String, dynamic> json) =
@@ -2576,6 +2595,8 @@ abstract class _GeneratedQuestion implements GeneratedQuestion {
   @override
   String get difficulty;
   @override
+  String get type;
+  @override
   String? get internalChoiceText;
   @override
   @JsonKey(ignore: true)
@@ -2590,6 +2611,7 @@ PaperMetadata _$PaperMetadataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PaperMetadata {
   String get assessmentTitle => throw _privateConstructorUsedError;
+  String get schoolName => throw _privateConstructorUsedError;
   String get subject => throw _privateConstructorUsedError;
   int get grade => throw _privateConstructorUsedError;
   int get totalMarks => throw _privateConstructorUsedError;
@@ -2612,6 +2634,7 @@ abstract class $PaperMetadataCopyWith<$Res> {
   @useResult
   $Res call(
       {String assessmentTitle,
+      String schoolName,
       String subject,
       int grade,
       int totalMarks,
@@ -2635,6 +2658,7 @@ class _$PaperMetadataCopyWithImpl<$Res, $Val extends PaperMetadata>
   @override
   $Res call({
     Object? assessmentTitle = null,
+    Object? schoolName = null,
     Object? subject = null,
     Object? grade = null,
     Object? totalMarks = null,
@@ -2647,6 +2671,10 @@ class _$PaperMetadataCopyWithImpl<$Res, $Val extends PaperMetadata>
       assessmentTitle: null == assessmentTitle
           ? _value.assessmentTitle
           : assessmentTitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      schoolName: null == schoolName
+          ? _value.schoolName
+          : schoolName // ignore: cast_nullable_to_non_nullable
               as String,
       subject: null == subject
           ? _value.subject
@@ -2690,6 +2718,7 @@ abstract class _$$PaperMetadataImplCopyWith<$Res>
   @useResult
   $Res call(
       {String assessmentTitle,
+      String schoolName,
       String subject,
       int grade,
       int totalMarks,
@@ -2711,6 +2740,7 @@ class __$$PaperMetadataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? assessmentTitle = null,
+    Object? schoolName = null,
     Object? subject = null,
     Object? grade = null,
     Object? totalMarks = null,
@@ -2723,6 +2753,10 @@ class __$$PaperMetadataImplCopyWithImpl<$Res>
       assessmentTitle: null == assessmentTitle
           ? _value.assessmentTitle
           : assessmentTitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      schoolName: null == schoolName
+          ? _value.schoolName
+          : schoolName // ignore: cast_nullable_to_non_nullable
               as String,
       subject: null == subject
           ? _value.subject
@@ -2761,6 +2795,7 @@ class __$$PaperMetadataImplCopyWithImpl<$Res>
 class _$PaperMetadataImpl implements _PaperMetadata {
   const _$PaperMetadataImpl(
       {required this.assessmentTitle,
+      required this.schoolName,
       required this.subject,
       required this.grade,
       required this.totalMarks,
@@ -2774,6 +2809,8 @@ class _$PaperMetadataImpl implements _PaperMetadata {
 
   @override
   final String assessmentTitle;
+  @override
+  final String schoolName;
   @override
   final String subject;
   @override
@@ -2791,7 +2828,7 @@ class _$PaperMetadataImpl implements _PaperMetadata {
 
   @override
   String toString() {
-    return 'PaperMetadata(assessmentTitle: $assessmentTitle, subject: $subject, grade: $grade, totalMarks: $totalMarks, durationMinutes: $durationMinutes, generatedAt: $generatedAt, generatedBy: $generatedBy, version: $version)';
+    return 'PaperMetadata(assessmentTitle: $assessmentTitle, schoolName: $schoolName, subject: $subject, grade: $grade, totalMarks: $totalMarks, durationMinutes: $durationMinutes, generatedAt: $generatedAt, generatedBy: $generatedBy, version: $version)';
   }
 
   @override
@@ -2801,6 +2838,8 @@ class _$PaperMetadataImpl implements _PaperMetadata {
             other is _$PaperMetadataImpl &&
             (identical(other.assessmentTitle, assessmentTitle) ||
                 other.assessmentTitle == assessmentTitle) &&
+            (identical(other.schoolName, schoolName) ||
+                other.schoolName == schoolName) &&
             (identical(other.subject, subject) || other.subject == subject) &&
             (identical(other.grade, grade) || other.grade == grade) &&
             (identical(other.totalMarks, totalMarks) ||
@@ -2816,8 +2855,17 @@ class _$PaperMetadataImpl implements _PaperMetadata {
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, assessmentTitle, subject, grade,
-      totalMarks, durationMinutes, generatedAt, generatedBy, version);
+  int get hashCode => Object.hash(
+      runtimeType,
+      assessmentTitle,
+      schoolName,
+      subject,
+      grade,
+      totalMarks,
+      durationMinutes,
+      generatedAt,
+      generatedBy,
+      version);
 
   @JsonKey(ignore: true)
   @override
@@ -2836,6 +2884,7 @@ class _$PaperMetadataImpl implements _PaperMetadata {
 abstract class _PaperMetadata implements PaperMetadata {
   const factory _PaperMetadata(
       {required final String assessmentTitle,
+      required final String schoolName,
       required final String subject,
       required final int grade,
       required final int totalMarks,
@@ -2849,6 +2898,8 @@ abstract class _PaperMetadata implements PaperMetadata {
 
   @override
   String get assessmentTitle;
+  @override
+  String get schoolName;
   @override
   String get subject;
   @override

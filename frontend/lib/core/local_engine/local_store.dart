@@ -188,6 +188,18 @@ class LocalStore {
   }
 
   // ---- School templates ----
+  // ---- School identity ----
+  // Not modeled as a full School entity yet -- just enough for the PDF
+  // exporter and report cards to show a real name instead of leaving the
+  // header blank. Defaults to a clearly-placeholder string so an
+  // unconfigured school never silently prints something that looks like a
+  // real institution's name.
+  String schoolName(String schoolId) =>
+      _box.get('school_name_$schoolId') as String? ?? 'School Name Not Set';
+
+  void setSchoolName(String schoolId, String name) =>
+      _box.put('school_name_$schoolId', name);
+
   List<Map<String, dynamic>> templatesFor(String schoolId) => _list('local_templates_$schoolId');
 
   void saveTemplate(String schoolId, Map<String, dynamic> template) {

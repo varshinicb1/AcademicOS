@@ -124,6 +124,7 @@ class GeneratedQuestion with _$GeneratedQuestion {
     required int marks,
     required String bloomLevel,
     required String difficulty,
+    required String type,
     String? internalChoiceText,
   }) = _GeneratedQuestion;
 
@@ -134,6 +135,7 @@ class GeneratedQuestion with _$GeneratedQuestion {
 class PaperMetadata with _$PaperMetadata {
   const factory PaperMetadata({
     required String assessmentTitle,
+    required String schoolName,
     required String subject,
     required int grade,
     required int totalMarks,

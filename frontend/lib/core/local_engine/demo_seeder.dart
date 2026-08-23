@@ -80,9 +80,15 @@ class DemoSeeder {
     ('demo_stu_10', 'Rohan Mehta', 0.08), // one deliberately weak/mostly-blank student
   ];
 
+  // A deliberately fictional placeholder name -- product-owner decision, not
+  // a real unaffiliated school. Every demo PDF/report should show this
+  // rather than a blank header.
+  static const _demoSchoolName = 'AcademicOS Demo School';
+
   static Future<void> seedIfEmpty() async {
     if (LocalStore.instance.allAssessments().isNotEmpty) return;
 
+    LocalStore.instance.setSchoolName(_demoSchoolId, _demoSchoolName);
     final apiClient = LocalApiClient();
     final pillarApi = LocalPillarApi();
     await CorpusRepository.instance.ensureLoaded();
