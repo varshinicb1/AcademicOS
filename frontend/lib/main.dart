@@ -42,11 +42,14 @@ void main() async {
   // A brand-new offline install with zero data is the exact thing that
   // sinks a principal demo -- nothing to look at, and "generate your first
   // paper" as the very first thing a skeptical visitor sees is a bad pitch.
-  // Populate one real, fully-graded class through the actual on-device
-  // engine (not canned JSON) so the app opens already working. No-ops
-  // instantly on every later launch and on non-offline builds.
+  // BUT a real Play-Store-bound release for actual schools must never show
+  // synthetic seeded content as if it were a real class's data -- opt-in
+  // only (a separate flag from ACADEMICOS_OFFLINE, off by default), for a
+  // deliberate sales-demo build. A default install shows the app's real
+  // honest empty state ("No assessments yet") instead.
   const offlineMode = bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
-  if (offlineMode) {
+  const seedDemoData = bool.fromEnvironment('ACADEMICOS_SEED_DEMO', defaultValue: false);
+  if (offlineMode && seedDemoData) {
     await DemoSeeder.seedIfEmpty();
   }
 
