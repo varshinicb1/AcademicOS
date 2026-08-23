@@ -48,11 +48,12 @@ class MainShell extends StatelessWidget {
   static final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   // Shared by the desktop NavigationRail and the mobile Drawer so the two
-  // destination lists can't drift out of sync. There are 8 destinations —
+  // destination lists can't drift out of sync. There are 9 destinations —
   // too many for a Material NavigationBar (designed for 3-5, divides width
   // evenly with no overflow handling), which is why mobile uses a Drawer
   // instead of a bottom nav bar.
   static const _navItems = [
+    (icon: Icons.today_outlined, selectedIcon: Icons.today, label: 'Today'),
     (icon: Icons.menu_book_outlined, selectedIcon: Icons.menu_book, label: 'Syllabus'),
     (icon: Icons.assignment_outlined, selectedIcon: Icons.assignment, label: 'Assessments'),
     (icon: Icons.calendar_today_outlined, selectedIcon: Icons.calendar_today, label: 'Planner'),
@@ -153,41 +154,45 @@ class MainShell extends StatelessWidget {
 
   int _calculateSelectedIndex(BuildContext context) {
     final location = GoRouterState.of(context).uri.path;
-    if (location.startsWith('/syllabus')) return 0;
-    if (location.startsWith('/assessment')) return 1;
-    if (location.startsWith('/planner')) return 2;
-    if (location.startsWith('/questions')) return 3;
-    if (location.startsWith('/evaluation')) return 4;
-    if (location.startsWith('/analytics/gaps')) return 6;
-    if (location.startsWith('/analytics/school')) return 7;
-    if (location.startsWith('/analytics')) return 5;
+    if (location.startsWith('/home')) return 0;
+    if (location.startsWith('/syllabus')) return 1;
+    if (location.startsWith('/assessment')) return 2;
+    if (location.startsWith('/planner')) return 3;
+    if (location.startsWith('/questions')) return 4;
+    if (location.startsWith('/evaluation')) return 5;
+    if (location.startsWith('/analytics/gaps')) return 7;
+    if (location.startsWith('/analytics/school')) return 8;
+    if (location.startsWith('/analytics')) return 6;
     return 0;
   }
 
   void _onDestinationSelected(BuildContext context, int index) {
     switch (index) {
       case 0:
-        context.go('/syllabus');
+        context.go('/home');
         break;
       case 1:
-        context.go('/assessment');
+        context.go('/syllabus');
         break;
       case 2:
-        context.go('/planner/daily');
+        context.go('/assessment');
         break;
       case 3:
-        context.go('/questions');
+        context.go('/planner/daily');
         break;
       case 4:
-        context.go('/evaluation');
+        context.go('/questions');
         break;
       case 5:
-        context.go('/analytics/mastery');
+        context.go('/evaluation');
         break;
       case 6:
-        context.go('/analytics/gaps');
+        context.go('/analytics/mastery');
         break;
       case 7:
+        context.go('/analytics/gaps');
+        break;
+      case 8:
         context.go('/analytics/school');
         break;
     }

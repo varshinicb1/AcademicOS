@@ -1,0 +1,261 @@
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../core/local_engine/local_store.dart';
+import '../../shared/widgets/common_widgets.dart';
+import '../../shared/widgets/shell.dart';
+
+/// The app's real landing screen -- replaces opening cold into Syllabus
+/// Coverage with no sense of "what do I actually need to do right now."
+/// Every number here is a real query against LocalStore, not placeholder
+/// content: pending reviews, recent assessments, a real activity streak
+/// computed from the audit log's actual timestamps. Two big one-tap actions
+/// (New Assessment, Scan & Grade) put the two things a teacher does most
+/// within a single tap of opening the app, instead of three menu levels deep.
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final store = LocalStore.instance;
+
+    final assessments = store.allAssessments()
+      ..sort((a, b) => (b['updatedAt'] as String).compareTo(a['updatedAt'] as String));
+    final scanSessions = store.allScanSessions();
+    final pendingReview = scanSessions.where((s) => s['status'] == 'reviewing').toList();
+    final streak = _currentStreak(store.auditLog());
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: shellLeading(context),
+        title: const Text('Today'),
+      ),
+      body: RefreshIndicator(
+        onRefresh: () async => setState(() {}),
+        child: ListView(
+          padding: const EdgeInsets.all(16),
+          children: [
+            _greeting(theme, streak),
+            const Gap(20),
+            _quickActions(context, theme),
+            const Gap(20),
+            if (pendingReview.isNotEmpty) ...[
+              _attentionCard(context, theme, pendingReview.length),
+              const Gap(20),
+            ],
+            Text('Recent assessments', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+            const Gap(8),
+            if (assessments.isEmpty)
+              _emptyRecent(context, theme)
+            else
+              ...assessments.take(4).map((a) => _assessmentTile(context, theme, a)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _greeting(ThemeData theme, int streak) {
+    final hour = DateTime.now().hour;
+    final greeting = hour < 12 ? 'Good morning' : (hour < 17 ? 'Good afternoon' : 'Good evening');
+    final date = _formatDate(DateTime.now());
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(greeting, style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700)),
+              Text(date, style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+            ],
+          ),
+        ),
+        if (streak > 0)
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.local_fire_department, size: 18, color: theme.colorScheme.onPrimaryContainer),
+                const Gap(4),
+                Text('$streak day${streak == 1 ? '' : 's'}',
+                    style: theme.textTheme.labelLarge
+                        ?.copyWith(color: theme.colorScheme.onPrimaryContainer, fontWeight: FontWeight.w700)),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+
+  Widget _quickActions(BuildContext context, ThemeData theme) {
+    return Row(
+      children: [
+        Expanded(
+          child: _actionButton(
+            context, theme,
+            icon: Icons.assignment_add,
+            label: 'New Assessment',
+            onTap: () => context.push('/assessment/create'),
+          ),
+        ),
+        const Gap(12),
+        Expanded(
+          child: _actionButton(
+            context, theme,
+            icon: Icons.document_scanner,
+            label: 'Scan & Grade',
+            onTap: () => context.go('/scan'),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _actionButton(BuildContext context, ThemeData theme,
+      {required IconData icon, required String label, required VoidCallback onTap}) {
+    return Material(
+      color: theme.colorScheme.primary,
+      borderRadius: BorderRadius.circular(16),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(icon, color: theme.colorScheme.onPrimary, size: 28),
+              const Gap(8),
+              Text(label,
+                  textAlign: TextAlign.center,
+                  style: theme.textTheme.labelLarge
+                      ?.copyWith(color: theme.colorScheme.onPrimary, fontWeight: FontWeight.w600)),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _attentionCard(BuildContext context, ThemeData theme, int count) {
+    return AppCard(
+      onTap: () => context.go('/scan'),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(color: theme.colorScheme.errorContainer, shape: BoxShape.circle),
+            child: Icon(Icons.rate_review, color: theme.colorScheme.onErrorContainer, size: 22),
+          ),
+          const Gap(14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Needs your review', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                Text(
+                  '$count scanned answer sheet${count == 1 ? '' : 's'} waiting -- AI-graded, needs your approval',
+                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+              ],
+            ),
+          ),
+          Icon(Icons.chevron_right, color: theme.colorScheme.onSurfaceVariant),
+        ],
+      ),
+    );
+  }
+
+  Widget _emptyRecent(BuildContext context, ThemeData theme) {
+    return AppCard(
+      onTap: () => context.push('/assessment/create'),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: Row(
+          children: [
+            Icon(Icons.assignment_outlined, color: theme.colorScheme.onSurfaceVariant),
+            const Gap(12),
+            Expanded(
+              child: Text('No assessments yet -- tap to build your first one with the AI Assessment Designer.',
+                  style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _assessmentTile(BuildContext context, ThemeData theme, Map<String, dynamic> a) {
+    final totalMarks = (a['blueprint'] as Map?)?['totalMarks'];
+    return AppCard(
+      onTap: () => context.push('/assessment/${a['id']}'),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(a['title'] as String? ?? '', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                const Gap(2),
+                Text(
+                  '${a['subject']} · Grade ${a['grade']}${totalMarks != null ? ' · $totalMarks marks' : ''}',
+                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+              ],
+            ),
+          ),
+          ChipTag(label: (a['status'] as String? ?? '').isEmpty ? 'draft' : a['status'] as String),
+        ],
+      ),
+    );
+  }
+
+  /// Real, not gamified fluff: counts back from today (or yesterday, so a
+  /// teacher who hasn't opened the app yet today doesn't see their streak
+  /// drop to zero mid-morning) through consecutive calendar days that have
+  /// at least one real audit_log entry -- an assessment created, a page
+  /// scanned, a grade reviewed. Stops at the first gap.
+  static int _currentStreak(List<Map<String, dynamic>> auditLog) {
+    if (auditLog.isEmpty) return 0;
+    final activeDays = auditLog
+        .map((e) => DateTime.tryParse(e['timestamp'] as String? ?? ''))
+        .whereType<DateTime>()
+        .map((d) => DateTime(d.year, d.month, d.day))
+        .toSet();
+    var cursor = DateTime.now();
+    cursor = DateTime(cursor.year, cursor.month, cursor.day);
+    if (!activeDays.contains(cursor)) {
+      cursor = cursor.subtract(const Duration(days: 1));
+      if (!activeDays.contains(cursor)) return 0;
+    }
+    var streak = 0;
+    while (activeDays.contains(cursor)) {
+      streak++;
+      cursor = cursor.subtract(const Duration(days: 1));
+    }
+    return streak;
+  }
+
+  static String _formatDate(DateTime d) {
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    const months = [
+      'January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December',
+    ];
+    return '${days[d.weekday - 1]}, ${months[d.month - 1]} ${d.day}';
+  }
+}

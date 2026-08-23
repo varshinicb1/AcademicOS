@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../presentation/home/pages/home_page.dart';
 import '../../presentation/syllabus/pages/syllabus_page.dart';
 import '../../presentation/syllabus/pages/chapter_detail_page.dart';
 import '../../presentation/planner/pages/daily_planner_page.dart';
@@ -23,11 +24,18 @@ import '../../presentation/shared/widgets/shell.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: '/syllabus',
+    initialLocation: '/home',
     routes: [
       ShellRoute(
         builder: (context, state, child) => MainShell(child: child),
         routes: [
+          GoRoute(
+            path: '/home',
+            name: 'home',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: HomePage(),
+            ),
+          ),
           GoRoute(
             path: '/syllabus',
             name: 'syllabus',

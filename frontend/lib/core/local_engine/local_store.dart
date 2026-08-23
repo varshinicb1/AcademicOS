@@ -166,6 +166,23 @@ class LocalStore {
     _box.put('local_scan_$sessionId', jsonEncode(session));
   }
 
+  /// Every scan session ever created on this device, most-recently-touched
+  /// first -- used by the Today screen to surface real "N answer sheets
+  /// waiting for your review" counts instead of a guess.
+  List<Map<String, dynamic>> allScanSessions() {
+    final sessions = _box.keys
+        .whereType<String>()
+        .where((k) => k.startsWith('local_scan_'))
+        .map((k) => Map<String, dynamic>.from(jsonDecode(_box.get(k) as String) as Map))
+        .toList();
+    sessions.sort((a, b) {
+      final aStatus = a['status'] == 'reviewing' ? 0 : 1;
+      final bStatus = b['status'] == 'reviewing' ? 0 : 1;
+      return aStatus.compareTo(bStatus);
+    });
+    return sessions;
+  }
+
   // ---- School templates ----
   List<Map<String, dynamic>> templatesFor(String schoolId) => _list('local_templates_$schoolId');
 
