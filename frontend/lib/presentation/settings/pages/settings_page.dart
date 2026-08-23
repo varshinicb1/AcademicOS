@@ -3,10 +3,12 @@ import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../../core/constants/app_constants.dart';
-import '../../../core/local_engine/corpus_downloader.dart';
+import '../../../core/local_engine/corpus_downloader.dart'
+    show CorpusDownloader;
 import '../../../core/local_engine/corpus_repository.dart';
 import '../../../core/local_engine/demo_seeder.dart';
 import '../../../core/local_engine/local_store.dart';
+import '../../../core/sync/sync_service.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 
@@ -44,12 +46,23 @@ class _SettingsPageState extends State<SettingsPage> {
   void initState() {
     super.initState();
     _loadVersion();
+    _loadLastSyncResult();
   }
 
   Future<void> _loadVersion() async {
     final info = await PackageInfo.fromPlatform();
     setState(() => _appVersion = '${info.version}+${info.buildNumber}');
   }
+
+  Future<void> _loadLastSyncResult() async {
+    const schoolId = 'school_1';
+    final result = SyncService.instance.getLastSyncResult(schoolId);
+    if (result != null && mounted) {
+      setState(() => _lastSyncResult = result);
+    }
+  }
+
+  SyncResult? _lastSyncResult;
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +123,17 @@ class _SettingsPageState extends State<SettingsPage> {
           _buildSection('Server & Sync', [
             _buildTextFieldTile(Icons.link, 'Server URL', _serverUrl, (v) => setState(() => _serverUrl = v)),
             _buildListTile(Icons.cloud_sync, 'Manual Sync', 'Sync now with server', _manualSync),
-            _buildListTile(Icons.history, 'Sync History', 'View recent sync activity', () {}),
+            if (_lastSyncResult != null)
+              _buildListTile(
+                Icons.history,
+                'Sync History',
+                _lastSyncResult!.success
+                    ? 'Last sync: ${_formatDateTime(_lastSyncResult!.timestamp)} — pushed ${_lastSyncResult!.pushedCount}, pulled ${_lastSyncResult!.pulledCount}'
+                    : 'Last sync failed: ${_lastSyncResult!.error}',
+                () {},
+              )
+            else
+              _buildListTile(Icons.history, 'Sync History', 'No sync performed yet', () {}),
             _buildListTile(Icons.backup, 'Backup & Restore', 'Backup local data', () {}),
           ]),
           const SizedBox(height: 24),
@@ -230,8 +253,31 @@ class _SettingsPageState extends State<SettingsPage> {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Cache cleared')));
   }
 
-  void _manualSync() {
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Syncing...')));
+  void _manualSync() async {
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Syncing…')));
+    const schoolId = 'school_1';
+    try {
+      final result = await SyncService.instance.sync(schoolId);
+      if (!mounted) return;
+      await _loadLastSyncResult(); // refresh the UI
+      setState(() {}); // update the sync history tile
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          result.success
+              ? 'Sync complete — pushed ${result.pushedCount}, pulled ${result.pulledCount}'
+              : 'Sync failed: ${result.error}',
+        ),
+        backgroundColor: result.success ? null : Theme.of(context).colorScheme.error,
+        duration: const Duration(seconds: 4),
+      ));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Sync error: $e'),
+        backgroundColor: Theme.of(context).colorScheme.error,
+        duration: const Duration(seconds: 4),
+      ));
+    }
   }
 
   Future<void> _downloadCorpusData() async {
@@ -308,5 +354,16 @@ class _SettingsPageState extends State<SettingsPage> {
         FilledButton(onPressed: () { Navigator.pop(context); ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Account deleted'))); }, child: const Text('Delete', style: TextStyle(color: Colors.white))),
       ],
     ));
+  }
+
+  String _formatDateTime(DateTime dt) {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final dtDate = DateTime(dt.year, dt.month, dt.day);
+    final diff = today.difference(dtDate).inDays;
+    final timeStr = '${dt.hour.toString().padLeft(2, '0')}:${dt.minute.toString().padLeft(2, '0')}';
+    if (diff == 0) return 'today $timeStr';
+    if (diff == 1) return 'yesterday $timeStr';
+    return '${dt.day}/${dt.month}/${dt.year} $timeStr';
   }
 }

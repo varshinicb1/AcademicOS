@@ -13,6 +13,10 @@ class LocalStore {
 
   Box get _box => Hive.box('academicos_cache');
 
+  /// Public accessor for the underlying Hive box -- used by SyncService
+  /// to persist last-sync metadata without adding dedicated LocalStore methods.
+  Box get box => _box;
+
   List<Map<String, dynamic>> _list(String key) {
     final raw = _box.get(key) as String?;
     if (raw == null) return [];

@@ -35,6 +35,12 @@ class _HomePageState extends State<HomePage> {
     final pendingReview = scanSessions.where((s) => s['status'] == 'reviewing').toList();
     final streak = _currentStreak(store.auditLog());
 
+    // Unsynced assessments: those without metadata.serverSyncedAt
+    final unsyncedCount = assessments.where((a) {
+      final meta = a['metadata'] as Map<String, dynamic>?;
+      return meta == null || meta['serverSyncedAt'] == null;
+    }).length;
+
     return Scaffold(
       appBar: AppBar(
         leading: shellLeading(context),
@@ -51,6 +57,10 @@ class _HomePageState extends State<HomePage> {
             const Gap(20),
             if (pendingReview.isNotEmpty) ...[
               _attentionCard(context, theme, pendingReview.length),
+              const Gap(20),
+            ],
+            if (unsyncedCount > 0) ...[
+              _unsyncedCard(context, theme, unsyncedCount),
               const Gap(20),
             ],
             Text('Recent assessments', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
@@ -172,6 +182,36 @@ class _HomePageState extends State<HomePage> {
                 Text('Needs your review', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                 Text(
                   '$count scanned answer sheet${count == 1 ? '' : 's'} waiting -- AI-graded, needs your approval',
+                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+              ],
+            ),
+          ),
+          Icon(Icons.chevron_right, color: theme.colorScheme.onSurfaceVariant),
+        ],
+      ),
+    );
+  }
+
+  Widget _unsyncedCard(BuildContext context, ThemeData theme, int count) {
+    return AppCard(
+      onTap: () => context.go('/settings'),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(color: theme.colorScheme.secondaryContainer, shape: BoxShape.circle),
+            child: Icon(Icons.cloud_off, color: theme.colorScheme.onSecondaryContainer, size: 22),
+          ),
+          const Gap(14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Not synced yet', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                Text(
+                  '$count assessment${count == 1 ? '' : 's'} waiting to sync — tap to sync now',
                   style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                 ),
               ],
