@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -49,11 +51,28 @@ void main() async {
   // honest empty state ("No assessments yet") instead.
   const offlineMode = bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
   const seedDemoData = bool.fromEnvironment('ACADEMICOS_SEED_DEMO', defaultValue: false);
-  if (offlineMode && seedDemoData) {
-    await DemoSeeder.seedIfEmpty();
-  }
 
   runApp(const ProviderScope(child: AcademicOSApp()));
+
+  if (offlineMode && seedDemoData) {
+    // Real fix for a real crash-on-open report on a demo-seed build: this
+    // used to be `await`ed directly above, before runApp() -- so any
+    // exception during seeding (5 real corpus-backed paper generations +
+    // 50 real evaluations, exercised here for the first time in this exact
+    // build configuration) crashed the app before a single frame ever
+    // rendered, and even without an exception, that much synchronous work
+    // ahead of the first frame risked looking like a hang/crash on cold
+    // start. Seeding now runs after the UI is already up, with its own
+    // error handling, so a slow or failed seed degrades to the app's real
+    // empty state instead of an unusable launch.
+    unawaited(Future(() async {
+      try {
+        await DemoSeeder.seedIfEmpty();
+      } catch (e, stack) {
+        debugPrint('DemoSeeder.seedIfEmpty failed (app continues normally): $e\n$stack');
+      }
+    }));
+  }
 }
 
 class AcademicOSApp extends ConsumerWidget {
