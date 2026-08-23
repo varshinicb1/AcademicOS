@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 
 /// Pillar 3 — Learning Intelligence: what the student actually knows.
 class MasteryDashboard extends StatefulWidget {
-  final String studentId;
-  const MasteryDashboard({super.key, this.studentId = 'stu_meera'});
+  final String? studentId;
+  const MasteryDashboard({super.key, this.studentId});
 
   @override
   State<MasteryDashboard> createState() => _MasteryDashboardState();
@@ -19,10 +20,19 @@ class _MasteryDashboardState extends State<MasteryDashboard> {
   late Future<StudentMastery> _future;
   late String _studentId;
 
+  // Real bug found on-device: this used to default to a hardcoded
+  // 'stu_meera' with a 3-item dropdown of fake names (Asha/Ravi/Meera)
+  // that matched no real student -- a teacher testing the demo saw "No
+  // knowledge yet" with no way to pick any of the 10 real evaluated demo
+  // students. LocalStore.allStudentIdsWithMastery() already existed but
+  // was never wired up here.
+  List<String> get _realStudentIds => LocalStore.instance.allStudentIdsWithMastery();
+
   @override
   void initState() {
     super.initState();
-    _studentId = widget.studentId;
+    final real = _realStudentIds;
+    _studentId = widget.studentId ?? (real.isNotEmpty ? real.first : 'stu_meera');
     _future = GetIt.I<PillarApi>().knowledge(_studentId);
   }
 
@@ -46,11 +56,13 @@ class _MasteryDashboardState extends State<MasteryDashboard> {
           PopupMenuButton<String>(
             initialValue: _studentId,
             onSelected: _reload,
-            itemBuilder: (_) => const [
-              PopupMenuItem(value: 'stu_asha', child: Text('Asha')),
-              PopupMenuItem(value: 'stu_ravi', child: Text('Ravi')),
-              PopupMenuItem(value: 'stu_meera', child: Text('Meera')),
-            ],
+            itemBuilder: (_) {
+              final real = _realStudentIds;
+              return [
+                for (final id in real) PopupMenuItem(value: id, child: Text(id)),
+                if (real.isEmpty) const PopupMenuItem(value: 'stu_meera', child: Text('Meera (no real data yet)')),
+              ];
+            },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Row(children: [Text(_studentId), const Icon(Icons.arrow_drop_down)]),
