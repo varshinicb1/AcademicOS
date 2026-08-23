@@ -206,16 +206,27 @@ class _MobileScanPageState extends State<MobileScanPage> {
   }
 
   Future<void> _viewPdf(String relativePath, String title) async {
-    final dir = await getTemporaryDirectory();
-    final savePath = '${dir.path}/$title.pdf';
-    await _api.downloadScanPdf(relativePath, savePath);
-    if (!mounted) return;
-    await Navigator.of(context).push(MaterialPageRoute(
-      builder: (_) => Scaffold(
-        appBar: AppBar(title: Text(title)),
-        body: PdfPreview(build: (format) => File(savePath).readAsBytes()),
-      ),
-    ));
+    try {
+      final dir = await getTemporaryDirectory();
+      final savePath = '${dir.path}/$title.pdf';
+      await _api.downloadScanPdf(relativePath, savePath);
+      if (!mounted) return;
+      await Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => Scaffold(
+          appBar: AppBar(title: Text(title)),
+          body: PdfPreview(build: (format) => File(savePath).readAsBytes()),
+        ),
+      ));
+    } catch (e) {
+      if (!mounted) return;
+      // The offline build has no server to have rendered a PDF from the
+      // scan session on -- real, honest gap (see LocalScanEngine.finalizeSession's
+      // empty rawPdfUrl/correctedPdfUrl), not something to let throw
+      // unhandled from a button tap.
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('$title isn\'t available yet in this offline build.'),
+      ));
+    }
   }
 
   @override
@@ -517,18 +528,9 @@ class _MobileScanPageState extends State<MobileScanPage> {
                       child: InkWell(
                         onTap: () => _showFullPageImage(
                             context, '${GetIt.I<PillarApi>().serverOrigin}${item.pageImageUrls[i]}'),
-                        child: Image.network(
+                        child: _pageImage(
                           '${GetIt.I<PillarApi>().serverOrigin}${item.pageImageUrls[i]}',
                           height: 220,
-                          fit: BoxFit.contain,
-                          loadingBuilder: (context, child, progress) => progress == null
-                              ? child
-                              : const SizedBox(width: 160, height: 220, child: Center(child: CircularProgressIndicator())),
-                          errorBuilder: (context, error, stack) => const SizedBox(
-                            width: 160,
-                            height: 220,
-                            child: Center(child: Icon(Icons.broken_image_outlined)),
-                          ),
                         ),
                       ),
                     ),
@@ -625,8 +627,43 @@ class _MobileScanPageState extends State<MobileScanPage> {
         child: InteractiveViewer(
           minScale: 0.5,
           maxScale: 4,
-          child: Image.network(url, fit: BoxFit.contain),
+          child: _pageImage(url),
         ),
+      ),
+    );
+  }
+
+  /// Scanned-page images come from two real sources depending on build:
+  /// server-hosted (online build, serverOrigin+relative path -> always
+  /// http(s)) or a local file path stored directly by the offline build's
+  /// LocalScanEngine (local_scan_engine.dart never had a server to host
+  /// images on). Image.network cannot load a bare filesystem path -- it
+  /// always hit errorBuilder for every scanned page in the offline review
+  /// screen before this fix.
+  Widget _pageImage(String urlOrPath, {double? height}) {
+    final isLocalFile = !urlOrPath.startsWith('http://') && !urlOrPath.startsWith('https://');
+    if (isLocalFile) {
+      return Image.file(
+        File(urlOrPath),
+        height: height,
+        fit: BoxFit.contain,
+        errorBuilder: (context, error, stack) => SizedBox(
+          width: 160,
+          height: height,
+          child: const Center(child: Icon(Icons.broken_image_outlined)),
+        ),
+      );
+    }
+    return Image.network(
+      urlOrPath,
+      height: height,
+      fit: BoxFit.contain,
+      loadingBuilder: (context, child, progress) =>
+          progress == null ? child : SizedBox(width: 160, height: height, child: const Center(child: CircularProgressIndicator())),
+      errorBuilder: (context, error, stack) => SizedBox(
+        width: 160,
+        height: height,
+        child: const Center(child: Icon(Icons.broken_image_outlined)),
       ),
     );
   }
