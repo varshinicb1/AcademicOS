@@ -172,8 +172,22 @@ LocalEvaluation _evaluateObjective(
     Question question, AnswerScheme scheme, String answer, int maxMarks, List<String> ocrFlags) {
   final key = (scheme.metadata['correctOption']?.toString() ?? '').toUpperCase();
   var chosen = '';
-  final m = _optionAnswerPattern.firstMatch(answer.toUpperCase());
-  if (m != null) chosen = m.group(1)!;
+  var ambiguous = false;
+  // First-seen order, de-duplicated -- keep the first-mentioned letter (the
+  // genuine selection consistently comes first in real CBSE scan data;
+  // "prefer last" measured worse), but when MULTIPLE DISTINCT letters
+  // appear the pick is inherently uncertain and must not be trusted at
+  // full confidence -- see evaluate.py's _evaluate_objective for the real
+  // wrong-mark bug this fixes.
+  final distinct = <String>[];
+  for (final m in _optionAnswerPattern.allMatches(answer.toUpperCase())) {
+    final letter = m.group(1)!;
+    if (!distinct.contains(letter)) distinct.add(letter);
+  }
+  if (distinct.isNotEmpty) {
+    chosen = distinct.first;
+    ambiguous = distinct.length > 1;
+  }
 
   if (key.isEmpty) {
     return LocalEvaluation(
@@ -201,7 +215,12 @@ LocalEvaluation _evaluateObjective(
   }
 
   final correct = chosen == key;
-  final confidence = ocrFlags.isEmpty ? 0.93 : 0.6;
+  var confidence = ocrFlags.isEmpty ? 0.93 : 0.6;
+  if (ambiguous) {
+    // Below reviewThreshold (0.75) so needsReview below picks it up through
+    // the same mechanism as every other uncertain read.
+    confidence = confidence < 0.5 ? confidence : 0.5;
+  }
   final point = scheme.markingPoints.isNotEmpty ? scheme.markingPoints.first : null;
   final outcomes = <MarkingPointOutcome>[];
   if (point != null) {
@@ -214,15 +233,21 @@ LocalEvaluation _evaluateObjective(
       similarity: correct ? 1.0 : 0.0,
     ));
   }
+  var reasoning = correct
+      ? 'Selected option $chosen, which matches the key.'
+      : 'Selected option $chosen; the correct option is $key.';
+  if (ambiguous) {
+    reasoning += ' Multiple option letters appeared in the transcribed answer '
+        '(${distinct.join(", ")}) — $chosen was taken as the final selection, '
+        'but this is uncertain and needs a human check.';
+  }
   return LocalEvaluation(
     questionId: question.id,
     awardedMarks: correct ? maxMarks : 0,
     maxMarks: maxMarks,
     verdict: correct ? 'fullCredit' : 'noCredit',
     confidence: confidence,
-    reasoning: correct
-        ? 'Selected option $chosen, which matches the key.'
-        : 'Selected option $chosen; the correct option is $key.',
+    reasoning: reasoning,
     markingPoints: outcomes,
     strengths: correct && point != null ? [point.description] : [],
     gaps: correct ? [] : ['Correct option was $key'],

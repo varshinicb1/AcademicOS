@@ -96,4 +96,33 @@ void main() {
       expect(blankResult.awardedMarks, 0);
     }
   });
+
+  test('ambiguous MCQ transcription (multiple option letters) forces review, not a confident wrong mark', () async {
+    // The real, highest-severity bug found earlier this session: OCR text
+    // naming an earlier-considered option before the real answer ("(A) but
+    // eliminated it, chose (D)") used to get scored at 93% confidence with
+    // no human review. This is the Dart engine's copy of that fix, ported
+    // from evaluate.py's _evaluate_objective -- was stale here until now.
+    await CorpusRepository.instance.ensureLoaded();
+    final q = CorpusRepository.instance
+        .search(QuestionSearchParams(subject: 'Science', grade: 10, limit: 1))
+        .first;
+    final scheme = q.answerScheme;
+    final key = scheme.metadata['correctOption']!.toString();
+
+    final unambiguous = eval_engine.evaluateAnswer(q, scheme, '($key)');
+    expect(unambiguous.confidence, greaterThan(0.75));
+    expect(unambiguous.needsReview, isFalse);
+
+    final otherLetter = (String.fromCharCode(key.codeUnitAt(0)) == 'A') ? 'B' : 'A';
+    final ambiguous = eval_engine.evaluateAnswer(
+        q, scheme, 'I first thought ($otherLetter) but the answer is ($key)');
+    expect(ambiguous.confidence, lessThanOrEqualTo(0.5),
+        reason: 'multiple distinct option letters must cap confidence low enough to force review');
+    expect(ambiguous.needsReview, isTrue);
+    // Still takes the first-mentioned letter as the best guess (verified
+    // against real CBSE data as the right default) -- ambiguity changes the
+    // confidence, not which letter is picked.
+    expect(ambiguous.verdict, otherLetter == key ? 'fullCredit' : 'noCredit');
+  });
 }
