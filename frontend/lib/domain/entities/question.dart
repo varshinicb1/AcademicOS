@@ -5,6 +5,21 @@ import 'enums.dart';
 part 'question.freezed.dart';
 part 'question.g.dart';
 
+// NOTE: Question.toJson() does NOT deep-serialize nested freezed fields
+// (answerScheme, parts) -- json_serializable's default explicitToJson:false
+// leaves them as live Dart objects in the returned Map. Tried @Freezed/
+// @JsonSerializable(explicitToJson: true) here; freezed's own generated
+// _$QuestionImpl.toJson() doesn't pick it up in this freezed/
+// json_serializable version combo (confirmed: regenerating produced a
+// second, unused top-level _$QuestionToJson that WAS fixed, while the real
+// one every Question instance actually calls stayed broken). Real
+// consequence: passing toJson() output to fromJson() in memory (no actual
+// JSON string round-trip) throws "type '_$AnswerSchemeImpl' is not a
+// subtype of type 'Map<String, dynamic>'" -- caught by a real test.
+// Safe callers: Dio HTTP calls (json-encodes the body for real) and any
+// caller that goes through jsonEncode()/jsonDecode() as an actual string.
+// Unsafe: passing .toJson() straight to another .fromJson() call in
+// memory -- see demo_seeder.dart's fix for the pattern to use instead.
 @freezed
 class Question with _$Question {
   const factory Question({

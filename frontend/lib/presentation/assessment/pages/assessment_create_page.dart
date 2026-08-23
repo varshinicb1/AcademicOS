@@ -402,6 +402,19 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
       if (optResult == null) {
         throw Exception(optimized.mapOrNull(error: (s) => s.message) ?? 'Failed to select questions');
       }
+      // Real bug this closes: generating anyway with zero real questions
+      // produced a paper with every section showing "(0 marks)" -- signed
+      // off as a real generated paper with nothing in it. The corpus's
+      // subject coverage is genuinely uneven (heavily Science/Math-weighted),
+      // so a thin subject+grade+chapter combination legitimately returns no
+      // matches -- refuse and say why, don't silently hand back a worthless
+      // paper. Same fix already shipped on the backend for the same bug.
+      if (optResult.selectedQuestions.isEmpty) {
+        throw Exception(
+            'No questions found for $_selectedSubject Grade $_selectedGrade with the selected chapters. '
+            'Try widening the chapter selection or a different subject/grade -- '
+            'this subject may have thin coverage in the bundled corpus.');
+      }
 
       bloc.add(AssessmentEvent.generatePaper(
         assessmentId: assessment.id,
