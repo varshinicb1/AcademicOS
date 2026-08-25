@@ -20,6 +20,9 @@ import '../../presentation/mobile_scan/pages/mobile_scan_page.dart';
 import '../../presentation/practice/pages/practice_session_page.dart';
 import '../../presentation/settings/pages/settings_page.dart';
 import '../../presentation/settings/pages/template_maker_page.dart';
+import '../../presentation/settings/pages/profile_page.dart';
+import '../../presentation/settings/pages/classes_page.dart';
+import '../../presentation/settings/pages/legal_page.dart';
 import '../../presentation/shared/widgets/shell.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -85,9 +88,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'mastery',
                 name: 'mastery-dashboard',
-                pageBuilder: (context, state) => const NoTransitionPage(
-                  child: MasteryDashboard(),
-                ),
+                pageBuilder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>?;
+                  return NoTransitionPage(
+                    child: MasteryDashboard(studentId: extra?['studentId'] as String?),
+                  );
+                },
               ),
               GoRoute(
                 path: 'gaps',
@@ -174,6 +180,21 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: 'template',
                 name: 'template-maker',
                 builder: (context, state) => const TemplateMakerPage(),
+              ),
+              GoRoute(
+                path: 'profile',
+                name: 'profile',
+                builder: (context, state) => const ProfilePage(),
+              ),
+              GoRoute(
+                path: 'classes',
+                name: 'classes',
+                builder: (context, state) => const ClassesPage(),
+              ),
+              GoRoute(
+                path: 'legal/:doc',
+                name: 'legal',
+                builder: (context, state) => LegalPage(doc: state.pathParameters['doc']!),
               ),
             ],
           ),

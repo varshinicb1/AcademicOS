@@ -106,6 +106,26 @@ class LocalStore {
     _box.delete('local_mastery_$studentId');
   }
 
+  // ---- Student roster (id -> display name) ----
+  // Real gap found on-device: student display names only ever lived inside
+  // demo_seeder.dart's private list, never persisted anywhere queryable --
+  // every screen that shows a student (Mastery's picker, Teacher Insights'
+  // "at risk" list) could only show a raw id like "demo_stu_1".
+  String studentName(String studentId) =>
+      _box.get('student_name_$studentId') as String? ?? studentId;
+
+  void setStudentName(String studentId, String name) =>
+      _box.put('student_name_$studentId', name);
+
+  /// Every student who has ever been named, real or demo, for a roster view.
+  List<String> allNamedStudentIds() {
+    return _box.keys
+        .whereType<String>()
+        .where((k) => k.startsWith('student_name_'))
+        .map((k) => k.substring('student_name_'.length))
+        .toList();
+  }
+
   // ---- Demo-seed lifecycle ----
   Future<void> markDemoSeeded() => _box.put('demo_seeded_v1', true);
   Future<void> clearDemoSeededFlag() => _box.delete('demo_seeded_v1');
@@ -158,6 +178,17 @@ class LocalStore {
       _box.put('sarvam_api_key', key.trim());
     }
   }
+
+  // ---- Teacher profile (this device's user) ----
+  // No real auth/login system exists yet, so this is deliberately a single
+  // "whoever is using this device" profile, not a multi-account store --
+  // matches the offline, single-teacher-per-device shape everything else in
+  // this build (AppConstants.currentSchoolId, etc.) already assumes.
+  String get teacherName => _box.get('teacher_profile_name') as String? ?? '';
+  set teacherName(String v) => _box.put('teacher_profile_name', v.trim());
+
+  String get teacherSubject => _box.get('teacher_profile_subject') as String? ?? '';
+  set teacherSubject(String v) => _box.put('teacher_profile_subject', v.trim());
 
   // ---- Scan sessions (offline Scan & Grade) ----
   Map<String, dynamic>? getScanSession(String sessionId) {

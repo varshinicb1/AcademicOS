@@ -94,6 +94,12 @@ class DemoSeeder {
     if (LocalStore.instance.allAssessments().isNotEmpty) return;
 
     LocalStore.instance.setSchoolName(_demoSchoolId, _demoSchoolName);
+    // Real gap fixed here: student display names used to live only in the
+    // _students tuple below, never persisted -- Mastery's student picker
+    // and any future roster view could only ever show a raw id.
+    for (final (studentId, name, _) in _students) {
+      LocalStore.instance.setStudentName(studentId, name);
+    }
     final apiClient = LocalApiClient();
     final pillarApi = LocalPillarApi();
     await CorpusRepository.instance.ensureLoaded();

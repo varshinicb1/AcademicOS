@@ -1,6 +1,11 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../core/local_engine/corpus_downloader.dart'
@@ -72,10 +77,12 @@ class _SettingsPageState extends State<SettingsPage> {
         padding: const EdgeInsets.all(AppConstants.defaultPadding),
         children: [
           _buildSection('Account', [
-            _buildListTile(Icons.person, 'Profile', 'Manage your profile', () {}),
+            _buildListTile(Icons.person, 'Profile', 'Manage your profile',
+                () => context.push('/settings/profile')),
             _buildListTile(Icons.school, 'School branding', 'Logo, colors, and paper template',
                 () => context.push('/settings/template')),
-            _buildListTile(Icons.people, 'Classes', 'Manage classes & students', () {}),
+            _buildListTile(Icons.people, 'Classes', 'Manage classes & students',
+                () => context.push('/settings/classes')),
             _buildSwitchTile(Icons.notifications, 'Notifications', 'Push notifications', _notificationsEnabled, (v) => setState(() => _notificationsEnabled = v)),
             _buildSwitchTile(Icons.fingerprint, 'Biometric Auth', 'Use fingerprint/face ID', _biometricAuth, (v) => setState(() => _biometricAuth = v)),
           ]),
@@ -134,22 +141,31 @@ class _SettingsPageState extends State<SettingsPage> {
               )
             else
               _buildListTile(Icons.history, 'Sync History', 'No sync performed yet', () {}),
-            _buildListTile(Icons.backup, 'Backup & Restore', 'Backup local data', () {}),
+            _buildListTile(Icons.backup, 'Backup & Restore', 'Save all local data to a file', _backupData),
           ]),
           const SizedBox(height: 24),
           _buildSection('Data & Privacy', [
-            _buildListTile(Icons.delete_forever, 'Delete Account', 'Permanently delete your account', _confirmDeleteAccount),
-            _buildListTile(Icons.privacy_tip, 'Privacy Policy', 'Read our privacy policy', () {}),
-            _buildListTile(Icons.description, 'Terms of Service', 'Read terms of service', () {}),
-            _buildListTile(Icons.help, 'Help & Support', 'Get help', () {}),
+            // Real fix: "Delete Account" made no sense (there is no
+            // account/auth system yet) and its old handler just showed a
+            // fake "Account deleted" message without deleting anything.
+            // Replaced with a real, working action against the one thing
+            // that actually exists on this device: local data.
+            _buildListTile(Icons.delete_forever, 'Clear All Local Data',
+                'Permanently wipe every assessment, evaluation, and setting on this device',
+                _confirmClearAllData),
+            _buildListTile(Icons.privacy_tip, 'Privacy Policy', 'Read our privacy policy',
+                () => context.push('/settings/legal/privacy')),
+            _buildListTile(Icons.description, 'Terms of Service', 'Read terms of service',
+                () => context.push('/settings/legal/terms')),
+            _buildListTile(Icons.help, 'Help & Support', 'Get help', _showHelp),
           ]),
           const SizedBox(height: 24),
           _buildSection('About', [
             _buildInfoTile('Version', _appVersion),
-            _buildInfoTile('Build', 'Debug'),
+            _buildInfoTile('Build', _kOfflineBuild ? 'Offline (on-device)' : 'Server-connected'),
             _buildInfoTile('Platform', 'Flutter'),
-            _buildListTile(Icons.bug_report, 'Report a Bug', 'Send feedback', () {}),
-            _buildListTile(Icons.star_rate, 'Rate App', 'Rate us on store', () {}),
+            _buildListTile(Icons.bug_report, 'Report a Bug', 'Send feedback', _reportBug),
+            _buildListTile(Icons.star_rate, 'Rate App', 'Rate us on store', _rateApp),
           ]),
         ],
       ),
@@ -253,6 +269,29 @@ class _SettingsPageState extends State<SettingsPage> {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Cache cleared')));
   }
 
+  Future<void> _backupData() async {
+    try {
+      final box = LocalStore.instance.box;
+      final dump = <String, dynamic>{
+        for (final key in box.keys) key.toString(): box.get(key),
+      };
+      final dir = await getApplicationDocumentsDirectory();
+      final file = File(
+          '${dir.path}/academicos_backup_${DateTime.now().toIso8601String().replaceAll(':', '-')}.json');
+      await file.writeAsString(jsonEncode(dump));
+      if (!mounted) return;
+      showDialog(context: context, builder: (_) => AlertDialog(
+        title: const Text('Backup saved'),
+        content: Text('Saved to:\n${file.path}\n\nCopy this file with a file manager to restore '
+            'it on another device, or keep it as a safety copy.'),
+        actions: [FilledButton(onPressed: () => Navigator.pop(context), child: const Text('OK'))],
+      ));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Backup failed: $e')));
+    }
+  }
+
   void _manualSync() async {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Syncing…')));
     const schoolId = AppConstants.currentSchoolId;
@@ -345,15 +384,88 @@ class _SettingsPageState extends State<SettingsPage> {
     ));
   }
 
-  void _confirmDeleteAccount() {
+  void _confirmClearAllData() {
     showDialog(context: context, builder: (_) => AlertDialog(
-      title: const Text('Delete Account'),
-      content: const Text('This action cannot be undone. All your data will be permanently deleted.'),
+      title: const Text('Clear All Local Data'),
+      content: const Text(
+          'This permanently deletes every assessment, evaluation, mastery record, and '
+          'setting stored on this device -- including real (non-demo) data. This cannot '
+          'be undone.'),
       actions: [
         TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
-        FilledButton(onPressed: () { Navigator.pop(context); ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Account deleted'))); }, child: const Text('Delete', style: TextStyle(color: Colors.white))),
+        FilledButton(
+          onPressed: () async {
+            await LocalStore.instance.box.clear();
+            if (!mounted) return;
+            Navigator.pop(context);
+            ScaffoldMessenger.of(context)
+                .showSnackBar(const SnackBar(content: Text('All local data cleared')));
+            setState(() {});
+          },
+          child: const Text('Clear everything', style: TextStyle(color: Colors.white)),
+        ),
       ],
     ));
+  }
+
+  void _showHelp() {
+    showDialog(context: context, builder: (_) => AlertDialog(
+      title: const Text('Help & Support'),
+      content: const SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Scan & Grade not opening the camera or gallery?',
+                style: TextStyle(fontWeight: FontWeight.w600)),
+            SizedBox(height: 4),
+            Text('Make sure this app has camera and photo permissions in your phone\'s '
+                'Settings > Apps > AcademicOS > Permissions.'),
+            SizedBox(height: 16),
+            Text('Assessments list looks empty?', style: TextStyle(fontWeight: FontWeight.w600)),
+            SizedBox(height: 4),
+            Text('Only assessments with a generated paper appear in some lists. Create a '
+                'paper from "New Assessment" first.'),
+            SizedBox(height: 16),
+            Text('Something else wrong?', style: TextStyle(fontWeight: FontWeight.w600)),
+            SizedBox(height: 4),
+            Text('Use "Report a Bug" below to send details directly.'),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: const Text('Close')),
+      ],
+    ));
+  }
+
+  Future<void> _reportBug() async {
+    final uri = Uri(
+      scheme: 'mailto',
+      path: 'support@academicos.app',
+      query: 'subject=${Uri.encodeComponent('AcademicOS bug report (v$_appVersion)')}',
+    );
+    try {
+      final launched = await launchUrl(uri);
+      if (!launched && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No email app found. Contact your AcademicOS admin directly.')),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Could not open email app: $e')),
+      );
+    }
+  }
+
+  void _rateApp() {
+    // Real, honest gap: this app isn't published on the Play Store yet, so
+    // a fake "opening store..." action would just be another dead-end.
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('AcademicOS isn\'t published on the Play Store yet -- check back after launch!')),
+    );
   }
 
   String _formatDateTime(DateTime dt) {

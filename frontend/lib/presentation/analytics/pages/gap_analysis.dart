@@ -208,7 +208,7 @@ class _GapAnalysisPageState extends State<GapAnalysisPage> {
                           if (c.atRiskStudents.isNotEmpty)
                             Expanded(
                               child: Text(
-                                'at risk: ${c.atRiskStudents.join(", ")}',
+                                'at risk: ${c.atRiskStudents.map(LocalStore.instance.studentName).join(", ")}',
                                 style: TextStyle(
                                     fontSize: 12,
                                     color: Theme.of(context).colorScheme.onSurfaceVariant),

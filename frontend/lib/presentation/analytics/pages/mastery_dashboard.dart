@@ -59,13 +59,17 @@ class _MasteryDashboardState extends State<MasteryDashboard> {
             itemBuilder: (_) {
               final real = _realStudentIds;
               return [
-                for (final id in real) PopupMenuItem(value: id, child: Text(id)),
+                for (final id in real)
+                  PopupMenuItem(value: id, child: Text(LocalStore.instance.studentName(id))),
                 if (real.isEmpty) const PopupMenuItem(value: 'stu_meera', child: Text('Meera (no real data yet)')),
               ];
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(children: [Text(_studentId), const Icon(Icons.arrow_drop_down)]),
+              child: Row(children: [
+                Text(LocalStore.instance.studentName(_studentId)),
+                const Icon(Icons.arrow_drop_down),
+              ]),
             ),
           ),
         ],
