@@ -49,9 +49,15 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'chapter/:chapterId',
                 name: 'chapter-detail',
-                builder: (context, state) => ChapterDetailPage(
-                  chapterId: state.pathParameters['chapterId']!,
-                ),
+                builder: (context, state) {
+                  final extra = state.extra as Map<String, dynamic>?;
+                  return ChapterDetailPage(
+                    chapterId: state.pathParameters['chapterId']!,
+                    subject: extra?['subject'] as String? ?? 'Science',
+                    grade: extra?['grade'] as int? ?? 10,
+                    chapterName: extra?['chapterName'] as String? ?? '',
+                  );
+                },
               ),
             ],
           ),

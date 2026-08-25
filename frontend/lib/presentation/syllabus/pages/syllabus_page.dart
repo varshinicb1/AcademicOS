@@ -160,7 +160,7 @@ class _SyllabusPageState extends State<SyllabusPage> {
                               padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
                               itemCount: _chapters.length,
                               itemBuilder: (context, i) =>
-                                  _chapterTile(theme, _chapters[i]),
+                                  _chapterTile(context, theme, _chapters[i]),
                             ),
                     ),
                   ],
@@ -168,10 +168,24 @@ class _SyllabusPageState extends State<SyllabusPage> {
     );
   }
 
-  Widget _chapterTile(ThemeData theme, ChapterEntry c) {
+  Widget _chapterTile(BuildContext context, ThemeData theme, ChapterEntry c) {
     final empty = c.questionCount == 0;
     return AppCard(
-      onTap: empty ? null : () => context.go('/questions'),
+      // Real dead end found on-device: this used to send every chapter tap
+      // to the generic, unfiltered Question Bank regardless of which
+      // chapter was tapped -- ChapterDetailPage (grouped by mark value,
+      // real per-chapter question list) existed and was routed, but
+      // nothing in the app ever navigated to it.
+      onTap: empty || _selected == null
+          ? null
+          : () => context.push(
+                '/syllabus/chapter/${c.chapterId}',
+                extra: {
+                  'subject': _selected!.subject,
+                  'grade': _selected!.grade,
+                  'chapterName': c.chapterName,
+                },
+              ),
       child: Row(
         children: [
           Container(
