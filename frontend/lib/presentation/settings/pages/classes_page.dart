@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:printing/printing.dart';
 
+import '../../../core/local_engine/local_report_card.dart';
+import '../../../core/local_engine/local_report_card_pdf_export.dart';
 import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
@@ -101,7 +106,11 @@ class _ClassesPageState extends State<ClassesPage> {
                       else
                         const ChipTag(label: 'no data'),
                       const SizedBox(width: 4),
-                      const Icon(Icons.chevron_right),
+                      IconButton(
+                        tooltip: 'Report card',
+                        icon: const Icon(Icons.description_outlined),
+                        onPressed: () => _showReportCard(context, id),
+                      ),
                     ],
                   ),
                 ),
@@ -110,5 +119,34 @@ class _ClassesPageState extends State<ClassesPage> {
         },
       ),
     );
+  }
+
+  // Real report-card generation -- was a requested feature never built.
+  // Aggregates this student's actual evaluated assessments and mastery
+  // record (LocalReportCardService, no invented data) into a real PDF the
+  // teacher can view immediately.
+  Future<void> _showReportCard(BuildContext context, String studentId) async {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+    try {
+      final data = LocalReportCardService.generate(studentId);
+      final path = await LocalReportCardPdfExporter.export(data);
+      if (!context.mounted) return;
+      Navigator.of(context, rootNavigator: true).pop(); // close loading dialog
+      await Navigator.of(context).push(MaterialPageRoute(
+        builder: (_) => Scaffold(
+          appBar: AppBar(title: Text('Report Card — ${data.studentName}')),
+          body: PdfPreview(build: (format) => File(path).readAsBytes()),
+        ),
+      ));
+    } catch (e) {
+      if (!context.mounted) return;
+      Navigator.of(context, rootNavigator: true).pop();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Could not generate report card: $e')));
+    }
   }
 }
