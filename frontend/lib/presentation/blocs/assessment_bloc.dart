@@ -1,11 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:dartz/dartz.dart';
 
 import '../../domain/entities/assessment.dart';
 import '../../domain/entities/question.dart';
 import '../../domain/entities/enums.dart';
-import '../../domain/failures/failures.dart';
 import '../../domain/repositories/repositories.dart';
 import '../../domain/repositories/requests.dart';
 import '../../domain/usecases/assessment_usecases.dart';
@@ -16,7 +14,6 @@ part 'assessment_bloc.freezed.dart';
 class AssessmentState with _$AssessmentState {
   const factory AssessmentState.initial() = _Initial;
   const factory AssessmentState.loading() = _Loading;
-  const factory AssessmentState.blueprintGenerated(Blueprint blueprint) = _BlueprintGenerated;
   const factory AssessmentState.questionsSelected(QuestionOptimizationResult result) = _QuestionsSelected;
   const factory AssessmentState.paperGenerated(GeneratedPaper paper) = _PaperGenerated;
   const factory AssessmentState.paperExported(String filePath) = _PaperExported;
@@ -29,7 +26,6 @@ class AssessmentState with _$AssessmentState {
 @freezed
 class AssessmentEvent with _$AssessmentEvent {
   const factory AssessmentEvent.createAssessment(CreateAssessmentRequest request) = _CreateAssessment;
-  const factory AssessmentEvent.generateBlueprint(BlueprintRequest request) = _GenerateBlueprint;
   const factory AssessmentEvent.selectQuestions({
     required Blueprint blueprint,
     required QuestionSearchParams params,
@@ -74,7 +70,6 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
         _paperRepository = paperRepository,
         super(const AssessmentState.initial()) {
     on<_CreateAssessment>(_onCreateAssessment);
-    on<_GenerateBlueprint>(_onGenerateBlueprint);
     on<_SelectQuestions>(_onSelectQuestions);
     on<_GeneratePaper>(_onGeneratePaper);
     on<_ExportPaper>(_onExportPaper);
@@ -90,24 +85,6 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
     result.fold(
       (failure) => emit(AssessmentState.error(failure.message)),
       (assessment) => emit(AssessmentState.assessmentCreated(assessment)),
-    );
-  }
-
-  Future<void> _onGenerateBlueprint(_GenerateBlueprint event, Emitter<AssessmentState> emit) async {
-    emit(const AssessmentState.loading());
-    final useCase = CreateAssessmentUseCase(_assessmentRepository, BlueprintRepositoryDummy());
-    final result = await useCase(CreateAssessmentRequest(
-      teacherId: '',
-      schoolId: '',
-      title: '',
-      subject: '',
-      grade: 0,
-      chapterIds: [],
-      blueprint: event.request,
-    ));
-    result.fold(
-      (failure) => emit(AssessmentState.error(failure.message)),
-      (assessment) => emit(AssessmentState.blueprintGenerated(assessment.blueprint)),
     );
   }
 
@@ -176,32 +153,4 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
   Future<void> _onClearError(_ClearError event, Emitter<AssessmentState> emit) async {
     emit(const AssessmentState.initial());
   }
-}
-
-class BlueprintRepositoryDummy implements BlueprintRepository {
-  @override
-  Future<Either<Failure, Blueprint>> generateBlueprint(BlueprintRequest request) async {
-    return right(Blueprint(
-      totalMarks: request.totalMarks,
-      durationMinutes: request.durationMinutes,
-      difficulty: request.difficulty,
-      bloom: request.bloom,
-      chapterWeights: request.chapterWeights,
-      competencyWeights: request.competencyWeights,
-      sections: request.sections,
-      metadata: request.schoolTemplate ?? {},
-    ));
-  }
-
-  @override
-  Future<Either<Failure, Blueprint>> getBlueprint(String assessmentId) async => left(const NotFoundFailure('Not implemented'));
-
-  @override
-  Future<Either<Failure, Blueprint>> updateBlueprint(Blueprint blueprint) async => left(const NotFoundFailure('Not implemented'));
-
-  @override
-  Future<Either<Failure, List<SectionBlueprint>>> getSchoolTemplates(String schoolId) async => right([]);
-
-  @override
-  Future<Either<Failure, Unit>> saveTemplate(SectionBlueprint template) async => left(const NotFoundFailure('Not implemented'));
 }

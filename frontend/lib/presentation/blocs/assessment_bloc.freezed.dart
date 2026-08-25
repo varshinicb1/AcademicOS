@@ -20,7 +20,6 @@ mixin _$AssessmentState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Blueprint blueprint) blueprintGenerated,
     required TResult Function(QuestionOptimizationResult result)
         questionsSelected,
     required TResult Function(GeneratedPaper paper) paperGenerated,
@@ -35,7 +34,6 @@ mixin _$AssessmentState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Blueprint blueprint)? blueprintGenerated,
     TResult? Function(QuestionOptimizationResult result)? questionsSelected,
     TResult? Function(GeneratedPaper paper)? paperGenerated,
     TResult? Function(String filePath)? paperExported,
@@ -49,7 +47,6 @@ mixin _$AssessmentState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Blueprint blueprint)? blueprintGenerated,
     TResult Function(QuestionOptimizationResult result)? questionsSelected,
     TResult Function(GeneratedPaper paper)? paperGenerated,
     TResult Function(String filePath)? paperExported,
@@ -64,7 +61,6 @@ mixin _$AssessmentState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_BlueprintGenerated value) blueprintGenerated,
     required TResult Function(_QuestionsSelected value) questionsSelected,
     required TResult Function(_PaperGenerated value) paperGenerated,
     required TResult Function(_PaperExported value) paperExported,
@@ -78,7 +74,6 @@ mixin _$AssessmentState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult? Function(_QuestionsSelected value)? questionsSelected,
     TResult? Function(_PaperGenerated value)? paperGenerated,
     TResult? Function(_PaperExported value)? paperExported,
@@ -92,7 +87,6 @@ mixin _$AssessmentState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult Function(_QuestionsSelected value)? questionsSelected,
     TResult Function(_PaperGenerated value)? paperGenerated,
     TResult Function(_PaperExported value)? paperExported,
@@ -163,7 +157,6 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Blueprint blueprint) blueprintGenerated,
     required TResult Function(QuestionOptimizationResult result)
         questionsSelected,
     required TResult Function(GeneratedPaper paper) paperGenerated,
@@ -181,7 +174,6 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Blueprint blueprint)? blueprintGenerated,
     TResult? Function(QuestionOptimizationResult result)? questionsSelected,
     TResult? Function(GeneratedPaper paper)? paperGenerated,
     TResult? Function(String filePath)? paperExported,
@@ -198,7 +190,6 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Blueprint blueprint)? blueprintGenerated,
     TResult Function(QuestionOptimizationResult result)? questionsSelected,
     TResult Function(GeneratedPaper paper)? paperGenerated,
     TResult Function(String filePath)? paperExported,
@@ -219,7 +210,6 @@ class _$InitialImpl implements _Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_BlueprintGenerated value) blueprintGenerated,
     required TResult Function(_QuestionsSelected value) questionsSelected,
     required TResult Function(_PaperGenerated value) paperGenerated,
     required TResult Function(_PaperExported value) paperExported,
@@ -236,7 +226,6 @@ class _$InitialImpl implements _Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult? Function(_QuestionsSelected value)? questionsSelected,
     TResult? Function(_PaperGenerated value)? paperGenerated,
     TResult? Function(_PaperExported value)? paperExported,
@@ -253,7 +242,6 @@ class _$InitialImpl implements _Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult Function(_QuestionsSelected value)? questionsSelected,
     TResult Function(_PaperGenerated value)? paperGenerated,
     TResult Function(_PaperExported value)? paperExported,
@@ -314,7 +302,6 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Blueprint blueprint) blueprintGenerated,
     required TResult Function(QuestionOptimizationResult result)
         questionsSelected,
     required TResult Function(GeneratedPaper paper) paperGenerated,
@@ -332,7 +319,6 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Blueprint blueprint)? blueprintGenerated,
     TResult? Function(QuestionOptimizationResult result)? questionsSelected,
     TResult? Function(GeneratedPaper paper)? paperGenerated,
     TResult? Function(String filePath)? paperExported,
@@ -349,7 +335,6 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Blueprint blueprint)? blueprintGenerated,
     TResult Function(QuestionOptimizationResult result)? questionsSelected,
     TResult Function(GeneratedPaper paper)? paperGenerated,
     TResult Function(String filePath)? paperExported,
@@ -370,7 +355,6 @@ class _$LoadingImpl implements _Loading {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_BlueprintGenerated value) blueprintGenerated,
     required TResult Function(_QuestionsSelected value) questionsSelected,
     required TResult Function(_PaperGenerated value) paperGenerated,
     required TResult Function(_PaperExported value) paperExported,
@@ -387,7 +371,6 @@ class _$LoadingImpl implements _Loading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult? Function(_QuestionsSelected value)? questionsSelected,
     TResult? Function(_PaperGenerated value)? paperGenerated,
     TResult? Function(_PaperExported value)? paperExported,
@@ -404,7 +387,6 @@ class _$LoadingImpl implements _Loading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult Function(_QuestionsSelected value)? questionsSelected,
     TResult Function(_PaperGenerated value)? paperGenerated,
     TResult Function(_PaperExported value)? paperExported,
@@ -423,201 +405,6 @@ class _$LoadingImpl implements _Loading {
 
 abstract class _Loading implements AssessmentState {
   const factory _Loading() = _$LoadingImpl;
-}
-
-/// @nodoc
-abstract class _$$BlueprintGeneratedImplCopyWith<$Res> {
-  factory _$$BlueprintGeneratedImplCopyWith(_$BlueprintGeneratedImpl value,
-          $Res Function(_$BlueprintGeneratedImpl) then) =
-      __$$BlueprintGeneratedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Blueprint blueprint});
-
-  $BlueprintCopyWith<$Res> get blueprint;
-}
-
-/// @nodoc
-class __$$BlueprintGeneratedImplCopyWithImpl<$Res>
-    extends _$AssessmentStateCopyWithImpl<$Res, _$BlueprintGeneratedImpl>
-    implements _$$BlueprintGeneratedImplCopyWith<$Res> {
-  __$$BlueprintGeneratedImplCopyWithImpl(_$BlueprintGeneratedImpl _value,
-      $Res Function(_$BlueprintGeneratedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? blueprint = null,
-  }) {
-    return _then(_$BlueprintGeneratedImpl(
-      null == blueprint
-          ? _value.blueprint
-          : blueprint // ignore: cast_nullable_to_non_nullable
-              as Blueprint,
-    ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $BlueprintCopyWith<$Res> get blueprint {
-    return $BlueprintCopyWith<$Res>(_value.blueprint, (value) {
-      return _then(_value.copyWith(blueprint: value));
-    });
-  }
-}
-
-/// @nodoc
-
-class _$BlueprintGeneratedImpl implements _BlueprintGenerated {
-  const _$BlueprintGeneratedImpl(this.blueprint);
-
-  @override
-  final Blueprint blueprint;
-
-  @override
-  String toString() {
-    return 'AssessmentState.blueprintGenerated(blueprint: $blueprint)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$BlueprintGeneratedImpl &&
-            (identical(other.blueprint, blueprint) ||
-                other.blueprint == blueprint));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, blueprint);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$BlueprintGeneratedImplCopyWith<_$BlueprintGeneratedImpl> get copyWith =>
-      __$$BlueprintGeneratedImplCopyWithImpl<_$BlueprintGeneratedImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(Blueprint blueprint) blueprintGenerated,
-    required TResult Function(QuestionOptimizationResult result)
-        questionsSelected,
-    required TResult Function(GeneratedPaper paper) paperGenerated,
-    required TResult Function(String filePath) paperExported,
-    required TResult Function(Assessment assessment) assessmentCreated,
-    required TResult Function(List<Assessment> assessments) assessmentsLoaded,
-    required TResult Function(String message) error,
-    required TResult Function(String message) success,
-  }) {
-    return blueprintGenerated(blueprint);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(Blueprint blueprint)? blueprintGenerated,
-    TResult? Function(QuestionOptimizationResult result)? questionsSelected,
-    TResult? Function(GeneratedPaper paper)? paperGenerated,
-    TResult? Function(String filePath)? paperExported,
-    TResult? Function(Assessment assessment)? assessmentCreated,
-    TResult? Function(List<Assessment> assessments)? assessmentsLoaded,
-    TResult? Function(String message)? error,
-    TResult? Function(String message)? success,
-  }) {
-    return blueprintGenerated?.call(blueprint);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(Blueprint blueprint)? blueprintGenerated,
-    TResult Function(QuestionOptimizationResult result)? questionsSelected,
-    TResult Function(GeneratedPaper paper)? paperGenerated,
-    TResult Function(String filePath)? paperExported,
-    TResult Function(Assessment assessment)? assessmentCreated,
-    TResult Function(List<Assessment> assessments)? assessmentsLoaded,
-    TResult Function(String message)? error,
-    TResult Function(String message)? success,
-    required TResult orElse(),
-  }) {
-    if (blueprintGenerated != null) {
-      return blueprintGenerated(blueprint);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_BlueprintGenerated value) blueprintGenerated,
-    required TResult Function(_QuestionsSelected value) questionsSelected,
-    required TResult Function(_PaperGenerated value) paperGenerated,
-    required TResult Function(_PaperExported value) paperExported,
-    required TResult Function(_AssessmentCreated value) assessmentCreated,
-    required TResult Function(_AssessmentsLoaded value) assessmentsLoaded,
-    required TResult Function(_Error value) error,
-    required TResult Function(_Success value) success,
-  }) {
-    return blueprintGenerated(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_BlueprintGenerated value)? blueprintGenerated,
-    TResult? Function(_QuestionsSelected value)? questionsSelected,
-    TResult? Function(_PaperGenerated value)? paperGenerated,
-    TResult? Function(_PaperExported value)? paperExported,
-    TResult? Function(_AssessmentCreated value)? assessmentCreated,
-    TResult? Function(_AssessmentsLoaded value)? assessmentsLoaded,
-    TResult? Function(_Error value)? error,
-    TResult? Function(_Success value)? success,
-  }) {
-    return blueprintGenerated?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_BlueprintGenerated value)? blueprintGenerated,
-    TResult Function(_QuestionsSelected value)? questionsSelected,
-    TResult Function(_PaperGenerated value)? paperGenerated,
-    TResult Function(_PaperExported value)? paperExported,
-    TResult Function(_AssessmentCreated value)? assessmentCreated,
-    TResult Function(_AssessmentsLoaded value)? assessmentsLoaded,
-    TResult Function(_Error value)? error,
-    TResult Function(_Success value)? success,
-    required TResult orElse(),
-  }) {
-    if (blueprintGenerated != null) {
-      return blueprintGenerated(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _BlueprintGenerated implements AssessmentState {
-  const factory _BlueprintGenerated(final Blueprint blueprint) =
-      _$BlueprintGeneratedImpl;
-
-  Blueprint get blueprint;
-  @JsonKey(ignore: true)
-  _$$BlueprintGeneratedImplCopyWith<_$BlueprintGeneratedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -697,7 +484,6 @@ class _$QuestionsSelectedImpl implements _QuestionsSelected {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Blueprint blueprint) blueprintGenerated,
     required TResult Function(QuestionOptimizationResult result)
         questionsSelected,
     required TResult Function(GeneratedPaper paper) paperGenerated,
@@ -715,7 +501,6 @@ class _$QuestionsSelectedImpl implements _QuestionsSelected {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Blueprint blueprint)? blueprintGenerated,
     TResult? Function(QuestionOptimizationResult result)? questionsSelected,
     TResult? Function(GeneratedPaper paper)? paperGenerated,
     TResult? Function(String filePath)? paperExported,
@@ -732,7 +517,6 @@ class _$QuestionsSelectedImpl implements _QuestionsSelected {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Blueprint blueprint)? blueprintGenerated,
     TResult Function(QuestionOptimizationResult result)? questionsSelected,
     TResult Function(GeneratedPaper paper)? paperGenerated,
     TResult Function(String filePath)? paperExported,
@@ -753,7 +537,6 @@ class _$QuestionsSelectedImpl implements _QuestionsSelected {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_BlueprintGenerated value) blueprintGenerated,
     required TResult Function(_QuestionsSelected value) questionsSelected,
     required TResult Function(_PaperGenerated value) paperGenerated,
     required TResult Function(_PaperExported value) paperExported,
@@ -770,7 +553,6 @@ class _$QuestionsSelectedImpl implements _QuestionsSelected {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult? Function(_QuestionsSelected value)? questionsSelected,
     TResult? Function(_PaperGenerated value)? paperGenerated,
     TResult? Function(_PaperExported value)? paperExported,
@@ -787,7 +569,6 @@ class _$QuestionsSelectedImpl implements _QuestionsSelected {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult Function(_QuestionsSelected value)? questionsSelected,
     TResult Function(_PaperGenerated value)? paperGenerated,
     TResult Function(_PaperExported value)? paperExported,
@@ -891,7 +672,6 @@ class _$PaperGeneratedImpl implements _PaperGenerated {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Blueprint blueprint) blueprintGenerated,
     required TResult Function(QuestionOptimizationResult result)
         questionsSelected,
     required TResult Function(GeneratedPaper paper) paperGenerated,
@@ -909,7 +689,6 @@ class _$PaperGeneratedImpl implements _PaperGenerated {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Blueprint blueprint)? blueprintGenerated,
     TResult? Function(QuestionOptimizationResult result)? questionsSelected,
     TResult? Function(GeneratedPaper paper)? paperGenerated,
     TResult? Function(String filePath)? paperExported,
@@ -926,7 +705,6 @@ class _$PaperGeneratedImpl implements _PaperGenerated {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Blueprint blueprint)? blueprintGenerated,
     TResult Function(QuestionOptimizationResult result)? questionsSelected,
     TResult Function(GeneratedPaper paper)? paperGenerated,
     TResult Function(String filePath)? paperExported,
@@ -947,7 +725,6 @@ class _$PaperGeneratedImpl implements _PaperGenerated {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_BlueprintGenerated value) blueprintGenerated,
     required TResult Function(_QuestionsSelected value) questionsSelected,
     required TResult Function(_PaperGenerated value) paperGenerated,
     required TResult Function(_PaperExported value) paperExported,
@@ -964,7 +741,6 @@ class _$PaperGeneratedImpl implements _PaperGenerated {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult? Function(_QuestionsSelected value)? questionsSelected,
     TResult? Function(_PaperGenerated value)? paperGenerated,
     TResult? Function(_PaperExported value)? paperExported,
@@ -981,7 +757,6 @@ class _$PaperGeneratedImpl implements _PaperGenerated {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult Function(_QuestionsSelected value)? questionsSelected,
     TResult Function(_PaperGenerated value)? paperGenerated,
     TResult Function(_PaperExported value)? paperExported,
@@ -1075,7 +850,6 @@ class _$PaperExportedImpl implements _PaperExported {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Blueprint blueprint) blueprintGenerated,
     required TResult Function(QuestionOptimizationResult result)
         questionsSelected,
     required TResult Function(GeneratedPaper paper) paperGenerated,
@@ -1093,7 +867,6 @@ class _$PaperExportedImpl implements _PaperExported {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Blueprint blueprint)? blueprintGenerated,
     TResult? Function(QuestionOptimizationResult result)? questionsSelected,
     TResult? Function(GeneratedPaper paper)? paperGenerated,
     TResult? Function(String filePath)? paperExported,
@@ -1110,7 +883,6 @@ class _$PaperExportedImpl implements _PaperExported {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Blueprint blueprint)? blueprintGenerated,
     TResult Function(QuestionOptimizationResult result)? questionsSelected,
     TResult Function(GeneratedPaper paper)? paperGenerated,
     TResult Function(String filePath)? paperExported,
@@ -1131,7 +903,6 @@ class _$PaperExportedImpl implements _PaperExported {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_BlueprintGenerated value) blueprintGenerated,
     required TResult Function(_QuestionsSelected value) questionsSelected,
     required TResult Function(_PaperGenerated value) paperGenerated,
     required TResult Function(_PaperExported value) paperExported,
@@ -1148,7 +919,6 @@ class _$PaperExportedImpl implements _PaperExported {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult? Function(_QuestionsSelected value)? questionsSelected,
     TResult? Function(_PaperGenerated value)? paperGenerated,
     TResult? Function(_PaperExported value)? paperExported,
@@ -1165,7 +935,6 @@ class _$PaperExportedImpl implements _PaperExported {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult Function(_QuestionsSelected value)? questionsSelected,
     TResult Function(_PaperGenerated value)? paperGenerated,
     TResult Function(_PaperExported value)? paperExported,
@@ -1269,7 +1038,6 @@ class _$AssessmentCreatedImpl implements _AssessmentCreated {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Blueprint blueprint) blueprintGenerated,
     required TResult Function(QuestionOptimizationResult result)
         questionsSelected,
     required TResult Function(GeneratedPaper paper) paperGenerated,
@@ -1287,7 +1055,6 @@ class _$AssessmentCreatedImpl implements _AssessmentCreated {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Blueprint blueprint)? blueprintGenerated,
     TResult? Function(QuestionOptimizationResult result)? questionsSelected,
     TResult? Function(GeneratedPaper paper)? paperGenerated,
     TResult? Function(String filePath)? paperExported,
@@ -1304,7 +1071,6 @@ class _$AssessmentCreatedImpl implements _AssessmentCreated {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Blueprint blueprint)? blueprintGenerated,
     TResult Function(QuestionOptimizationResult result)? questionsSelected,
     TResult Function(GeneratedPaper paper)? paperGenerated,
     TResult Function(String filePath)? paperExported,
@@ -1325,7 +1091,6 @@ class _$AssessmentCreatedImpl implements _AssessmentCreated {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_BlueprintGenerated value) blueprintGenerated,
     required TResult Function(_QuestionsSelected value) questionsSelected,
     required TResult Function(_PaperGenerated value) paperGenerated,
     required TResult Function(_PaperExported value) paperExported,
@@ -1342,7 +1107,6 @@ class _$AssessmentCreatedImpl implements _AssessmentCreated {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult? Function(_QuestionsSelected value)? questionsSelected,
     TResult? Function(_PaperGenerated value)? paperGenerated,
     TResult? Function(_PaperExported value)? paperExported,
@@ -1359,7 +1123,6 @@ class _$AssessmentCreatedImpl implements _AssessmentCreated {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult Function(_QuestionsSelected value)? questionsSelected,
     TResult Function(_PaperGenerated value)? paperGenerated,
     TResult Function(_PaperExported value)? paperExported,
@@ -1461,7 +1224,6 @@ class _$AssessmentsLoadedImpl implements _AssessmentsLoaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Blueprint blueprint) blueprintGenerated,
     required TResult Function(QuestionOptimizationResult result)
         questionsSelected,
     required TResult Function(GeneratedPaper paper) paperGenerated,
@@ -1479,7 +1241,6 @@ class _$AssessmentsLoadedImpl implements _AssessmentsLoaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Blueprint blueprint)? blueprintGenerated,
     TResult? Function(QuestionOptimizationResult result)? questionsSelected,
     TResult? Function(GeneratedPaper paper)? paperGenerated,
     TResult? Function(String filePath)? paperExported,
@@ -1496,7 +1257,6 @@ class _$AssessmentsLoadedImpl implements _AssessmentsLoaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Blueprint blueprint)? blueprintGenerated,
     TResult Function(QuestionOptimizationResult result)? questionsSelected,
     TResult Function(GeneratedPaper paper)? paperGenerated,
     TResult Function(String filePath)? paperExported,
@@ -1517,7 +1277,6 @@ class _$AssessmentsLoadedImpl implements _AssessmentsLoaded {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_BlueprintGenerated value) blueprintGenerated,
     required TResult Function(_QuestionsSelected value) questionsSelected,
     required TResult Function(_PaperGenerated value) paperGenerated,
     required TResult Function(_PaperExported value) paperExported,
@@ -1534,7 +1293,6 @@ class _$AssessmentsLoadedImpl implements _AssessmentsLoaded {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult? Function(_QuestionsSelected value)? questionsSelected,
     TResult? Function(_PaperGenerated value)? paperGenerated,
     TResult? Function(_PaperExported value)? paperExported,
@@ -1551,7 +1309,6 @@ class _$AssessmentsLoadedImpl implements _AssessmentsLoaded {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult Function(_QuestionsSelected value)? questionsSelected,
     TResult Function(_PaperGenerated value)? paperGenerated,
     TResult Function(_PaperExported value)? paperExported,
@@ -1644,7 +1401,6 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Blueprint blueprint) blueprintGenerated,
     required TResult Function(QuestionOptimizationResult result)
         questionsSelected,
     required TResult Function(GeneratedPaper paper) paperGenerated,
@@ -1662,7 +1418,6 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Blueprint blueprint)? blueprintGenerated,
     TResult? Function(QuestionOptimizationResult result)? questionsSelected,
     TResult? Function(GeneratedPaper paper)? paperGenerated,
     TResult? Function(String filePath)? paperExported,
@@ -1679,7 +1434,6 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Blueprint blueprint)? blueprintGenerated,
     TResult Function(QuestionOptimizationResult result)? questionsSelected,
     TResult Function(GeneratedPaper paper)? paperGenerated,
     TResult Function(String filePath)? paperExported,
@@ -1700,7 +1454,6 @@ class _$ErrorImpl implements _Error {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_BlueprintGenerated value) blueprintGenerated,
     required TResult Function(_QuestionsSelected value) questionsSelected,
     required TResult Function(_PaperGenerated value) paperGenerated,
     required TResult Function(_PaperExported value) paperExported,
@@ -1717,7 +1470,6 @@ class _$ErrorImpl implements _Error {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult? Function(_QuestionsSelected value)? questionsSelected,
     TResult? Function(_PaperGenerated value)? paperGenerated,
     TResult? Function(_PaperExported value)? paperExported,
@@ -1734,7 +1486,6 @@ class _$ErrorImpl implements _Error {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult Function(_QuestionsSelected value)? questionsSelected,
     TResult Function(_PaperGenerated value)? paperGenerated,
     TResult Function(_PaperExported value)? paperExported,
@@ -1826,7 +1577,6 @@ class _$SuccessImpl implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(Blueprint blueprint) blueprintGenerated,
     required TResult Function(QuestionOptimizationResult result)
         questionsSelected,
     required TResult Function(GeneratedPaper paper) paperGenerated,
@@ -1844,7 +1594,6 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(Blueprint blueprint)? blueprintGenerated,
     TResult? Function(QuestionOptimizationResult result)? questionsSelected,
     TResult? Function(GeneratedPaper paper)? paperGenerated,
     TResult? Function(String filePath)? paperExported,
@@ -1861,7 +1610,6 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(Blueprint blueprint)? blueprintGenerated,
     TResult Function(QuestionOptimizationResult result)? questionsSelected,
     TResult Function(GeneratedPaper paper)? paperGenerated,
     TResult Function(String filePath)? paperExported,
@@ -1882,7 +1630,6 @@ class _$SuccessImpl implements _Success {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_BlueprintGenerated value) blueprintGenerated,
     required TResult Function(_QuestionsSelected value) questionsSelected,
     required TResult Function(_PaperGenerated value) paperGenerated,
     required TResult Function(_PaperExported value) paperExported,
@@ -1899,7 +1646,6 @@ class _$SuccessImpl implements _Success {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult? Function(_QuestionsSelected value)? questionsSelected,
     TResult? Function(_PaperGenerated value)? paperGenerated,
     TResult? Function(_PaperExported value)? paperExported,
@@ -1916,7 +1662,6 @@ class _$SuccessImpl implements _Success {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_BlueprintGenerated value)? blueprintGenerated,
     TResult Function(_QuestionsSelected value)? questionsSelected,
     TResult Function(_PaperGenerated value)? paperGenerated,
     TResult Function(_PaperExported value)? paperExported,
@@ -1947,7 +1692,6 @@ mixin _$AssessmentEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateAssessmentRequest request) createAssessment,
-    required TResult Function(BlueprintRequest request) generateBlueprint,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
     required TResult Function(String assessmentId, Blueprint blueprint,
@@ -1966,7 +1710,6 @@ mixin _$AssessmentEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
-    TResult? Function(BlueprintRequest request)? generateBlueprint,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult? Function(String assessmentId, Blueprint blueprint,
@@ -1985,7 +1728,6 @@ mixin _$AssessmentEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateAssessmentRequest request)? createAssessment,
-    TResult Function(BlueprintRequest request)? generateBlueprint,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult Function(String assessmentId, Blueprint blueprint,
@@ -2005,7 +1747,6 @@ mixin _$AssessmentEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CreateAssessment value) createAssessment,
-    required TResult Function(_GenerateBlueprint value) generateBlueprint,
     required TResult Function(_SelectQuestions value) selectQuestions,
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
@@ -2019,7 +1760,6 @@ mixin _$AssessmentEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CreateAssessment value)? createAssessment,
-    TResult? Function(_GenerateBlueprint value)? generateBlueprint,
     TResult? Function(_SelectQuestions value)? selectQuestions,
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
@@ -2032,7 +1772,6 @@ mixin _$AssessmentEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CreateAssessment value)? createAssessment,
-    TResult Function(_GenerateBlueprint value)? generateBlueprint,
     TResult Function(_SelectQuestions value)? selectQuestions,
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
@@ -2139,7 +1878,6 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateAssessmentRequest request) createAssessment,
-    required TResult Function(BlueprintRequest request) generateBlueprint,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
     required TResult Function(String assessmentId, Blueprint blueprint,
@@ -2161,7 +1899,6 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
-    TResult? Function(BlueprintRequest request)? generateBlueprint,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult? Function(String assessmentId, Blueprint blueprint,
@@ -2183,7 +1920,6 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateAssessmentRequest request)? createAssessment,
-    TResult Function(BlueprintRequest request)? generateBlueprint,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult Function(String assessmentId, Blueprint blueprint,
@@ -2209,7 +1945,6 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CreateAssessment value) createAssessment,
-    required TResult Function(_GenerateBlueprint value) generateBlueprint,
     required TResult Function(_SelectQuestions value) selectQuestions,
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
@@ -2226,7 +1961,6 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CreateAssessment value)? createAssessment,
-    TResult? Function(_GenerateBlueprint value)? generateBlueprint,
     TResult? Function(_SelectQuestions value)? selectQuestions,
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
@@ -2242,7 +1976,6 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CreateAssessment value)? createAssessment,
-    TResult Function(_GenerateBlueprint value)? generateBlueprint,
     TResult Function(_SelectQuestions value)? selectQuestions,
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
@@ -2266,212 +1999,6 @@ abstract class _CreateAssessment implements AssessmentEvent {
   CreateAssessmentRequest get request;
   @JsonKey(ignore: true)
   _$$CreateAssessmentImplCopyWith<_$CreateAssessmentImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$GenerateBlueprintImplCopyWith<$Res> {
-  factory _$$GenerateBlueprintImplCopyWith(_$GenerateBlueprintImpl value,
-          $Res Function(_$GenerateBlueprintImpl) then) =
-      __$$GenerateBlueprintImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({BlueprintRequest request});
-
-  $BlueprintRequestCopyWith<$Res> get request;
-}
-
-/// @nodoc
-class __$$GenerateBlueprintImplCopyWithImpl<$Res>
-    extends _$AssessmentEventCopyWithImpl<$Res, _$GenerateBlueprintImpl>
-    implements _$$GenerateBlueprintImplCopyWith<$Res> {
-  __$$GenerateBlueprintImplCopyWithImpl(_$GenerateBlueprintImpl _value,
-      $Res Function(_$GenerateBlueprintImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? request = null,
-  }) {
-    return _then(_$GenerateBlueprintImpl(
-      null == request
-          ? _value.request
-          : request // ignore: cast_nullable_to_non_nullable
-              as BlueprintRequest,
-    ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $BlueprintRequestCopyWith<$Res> get request {
-    return $BlueprintRequestCopyWith<$Res>(_value.request, (value) {
-      return _then(_value.copyWith(request: value));
-    });
-  }
-}
-
-/// @nodoc
-
-class _$GenerateBlueprintImpl implements _GenerateBlueprint {
-  const _$GenerateBlueprintImpl(this.request);
-
-  @override
-  final BlueprintRequest request;
-
-  @override
-  String toString() {
-    return 'AssessmentEvent.generateBlueprint(request: $request)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$GenerateBlueprintImpl &&
-            (identical(other.request, request) || other.request == request));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, request);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$GenerateBlueprintImplCopyWith<_$GenerateBlueprintImpl> get copyWith =>
-      __$$GenerateBlueprintImplCopyWithImpl<_$GenerateBlueprintImpl>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(CreateAssessmentRequest request) createAssessment,
-    required TResult Function(BlueprintRequest request) generateBlueprint,
-    required TResult Function(Blueprint blueprint, QuestionSearchParams params)
-        selectQuestions,
-    required TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)
-        generatePaper,
-    required TResult Function(
-            GeneratedPaper paper, String templateId, ExportFormat format)
-        exportPaper,
-    required TResult Function(String teacherId) loadAssessments,
-    required TResult Function(String schoolId) loadAssessmentsBySchool,
-    required TResult Function(String assessmentId, AssessmentStatus status)
-        updateStatus,
-    required TResult Function() clearError,
-  }) {
-    return generateBlueprint(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(CreateAssessmentRequest request)? createAssessment,
-    TResult? Function(BlueprintRequest request)? generateBlueprint,
-    TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
-        selectQuestions,
-    TResult? Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
-        generatePaper,
-    TResult? Function(
-            GeneratedPaper paper, String templateId, ExportFormat format)?
-        exportPaper,
-    TResult? Function(String teacherId)? loadAssessments,
-    TResult? Function(String schoolId)? loadAssessmentsBySchool,
-    TResult? Function(String assessmentId, AssessmentStatus status)?
-        updateStatus,
-    TResult? Function()? clearError,
-  }) {
-    return generateBlueprint?.call(request);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(CreateAssessmentRequest request)? createAssessment,
-    TResult Function(BlueprintRequest request)? generateBlueprint,
-    TResult Function(Blueprint blueprint, QuestionSearchParams params)?
-        selectQuestions,
-    TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
-        generatePaper,
-    TResult Function(
-            GeneratedPaper paper, String templateId, ExportFormat format)?
-        exportPaper,
-    TResult Function(String teacherId)? loadAssessments,
-    TResult Function(String schoolId)? loadAssessmentsBySchool,
-    TResult Function(String assessmentId, AssessmentStatus status)?
-        updateStatus,
-    TResult Function()? clearError,
-    required TResult orElse(),
-  }) {
-    if (generateBlueprint != null) {
-      return generateBlueprint(request);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_CreateAssessment value) createAssessment,
-    required TResult Function(_GenerateBlueprint value) generateBlueprint,
-    required TResult Function(_SelectQuestions value) selectQuestions,
-    required TResult Function(_GeneratePaper value) generatePaper,
-    required TResult Function(_ExportPaper value) exportPaper,
-    required TResult Function(_LoadAssessments value) loadAssessments,
-    required TResult Function(_LoadAssessmentsBySchool value)
-        loadAssessmentsBySchool,
-    required TResult Function(_UpdateStatus value) updateStatus,
-    required TResult Function(_ClearError value) clearError,
-  }) {
-    return generateBlueprint(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CreateAssessment value)? createAssessment,
-    TResult? Function(_GenerateBlueprint value)? generateBlueprint,
-    TResult? Function(_SelectQuestions value)? selectQuestions,
-    TResult? Function(_GeneratePaper value)? generatePaper,
-    TResult? Function(_ExportPaper value)? exportPaper,
-    TResult? Function(_LoadAssessments value)? loadAssessments,
-    TResult? Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
-    TResult? Function(_UpdateStatus value)? updateStatus,
-    TResult? Function(_ClearError value)? clearError,
-  }) {
-    return generateBlueprint?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CreateAssessment value)? createAssessment,
-    TResult Function(_GenerateBlueprint value)? generateBlueprint,
-    TResult Function(_SelectQuestions value)? selectQuestions,
-    TResult Function(_GeneratePaper value)? generatePaper,
-    TResult Function(_ExportPaper value)? exportPaper,
-    TResult Function(_LoadAssessments value)? loadAssessments,
-    TResult Function(_LoadAssessmentsBySchool value)? loadAssessmentsBySchool,
-    TResult Function(_UpdateStatus value)? updateStatus,
-    TResult Function(_ClearError value)? clearError,
-    required TResult orElse(),
-  }) {
-    if (generateBlueprint != null) {
-      return generateBlueprint(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _GenerateBlueprint implements AssessmentEvent {
-  const factory _GenerateBlueprint(final BlueprintRequest request) =
-      _$GenerateBlueprintImpl;
-
-  BlueprintRequest get request;
-  @JsonKey(ignore: true)
-  _$$GenerateBlueprintImplCopyWith<_$GenerateBlueprintImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2569,7 +2096,6 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateAssessmentRequest request) createAssessment,
-    required TResult Function(BlueprintRequest request) generateBlueprint,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
     required TResult Function(String assessmentId, Blueprint blueprint,
@@ -2591,7 +2117,6 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
-    TResult? Function(BlueprintRequest request)? generateBlueprint,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult? Function(String assessmentId, Blueprint blueprint,
@@ -2613,7 +2138,6 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateAssessmentRequest request)? createAssessment,
-    TResult Function(BlueprintRequest request)? generateBlueprint,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult Function(String assessmentId, Blueprint blueprint,
@@ -2639,7 +2163,6 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CreateAssessment value) createAssessment,
-    required TResult Function(_GenerateBlueprint value) generateBlueprint,
     required TResult Function(_SelectQuestions value) selectQuestions,
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
@@ -2656,7 +2179,6 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CreateAssessment value)? createAssessment,
-    TResult? Function(_GenerateBlueprint value)? generateBlueprint,
     TResult? Function(_SelectQuestions value)? selectQuestions,
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
@@ -2672,7 +2194,6 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CreateAssessment value)? createAssessment,
-    TResult Function(_GenerateBlueprint value)? generateBlueprint,
     TResult Function(_SelectQuestions value)? selectQuestions,
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
@@ -2820,7 +2341,6 @@ class _$GeneratePaperImpl implements _GeneratePaper {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateAssessmentRequest request) createAssessment,
-    required TResult Function(BlueprintRequest request) generateBlueprint,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
     required TResult Function(String assessmentId, Blueprint blueprint,
@@ -2842,7 +2362,6 @@ class _$GeneratePaperImpl implements _GeneratePaper {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
-    TResult? Function(BlueprintRequest request)? generateBlueprint,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult? Function(String assessmentId, Blueprint blueprint,
@@ -2864,7 +2383,6 @@ class _$GeneratePaperImpl implements _GeneratePaper {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateAssessmentRequest request)? createAssessment,
-    TResult Function(BlueprintRequest request)? generateBlueprint,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult Function(String assessmentId, Blueprint blueprint,
@@ -2890,7 +2408,6 @@ class _$GeneratePaperImpl implements _GeneratePaper {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CreateAssessment value) createAssessment,
-    required TResult Function(_GenerateBlueprint value) generateBlueprint,
     required TResult Function(_SelectQuestions value) selectQuestions,
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
@@ -2907,7 +2424,6 @@ class _$GeneratePaperImpl implements _GeneratePaper {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CreateAssessment value)? createAssessment,
-    TResult? Function(_GenerateBlueprint value)? generateBlueprint,
     TResult? Function(_SelectQuestions value)? selectQuestions,
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
@@ -2923,7 +2439,6 @@ class _$GeneratePaperImpl implements _GeneratePaper {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CreateAssessment value)? createAssessment,
-    TResult Function(_GenerateBlueprint value)? generateBlueprint,
     TResult Function(_SelectQuestions value)? selectQuestions,
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
@@ -3049,7 +2564,6 @@ class _$ExportPaperImpl implements _ExportPaper {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateAssessmentRequest request) createAssessment,
-    required TResult Function(BlueprintRequest request) generateBlueprint,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
     required TResult Function(String assessmentId, Blueprint blueprint,
@@ -3071,7 +2585,6 @@ class _$ExportPaperImpl implements _ExportPaper {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
-    TResult? Function(BlueprintRequest request)? generateBlueprint,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult? Function(String assessmentId, Blueprint blueprint,
@@ -3093,7 +2606,6 @@ class _$ExportPaperImpl implements _ExportPaper {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateAssessmentRequest request)? createAssessment,
-    TResult Function(BlueprintRequest request)? generateBlueprint,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult Function(String assessmentId, Blueprint blueprint,
@@ -3119,7 +2631,6 @@ class _$ExportPaperImpl implements _ExportPaper {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CreateAssessment value) createAssessment,
-    required TResult Function(_GenerateBlueprint value) generateBlueprint,
     required TResult Function(_SelectQuestions value) selectQuestions,
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
@@ -3136,7 +2647,6 @@ class _$ExportPaperImpl implements _ExportPaper {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CreateAssessment value)? createAssessment,
-    TResult? Function(_GenerateBlueprint value)? generateBlueprint,
     TResult? Function(_SelectQuestions value)? selectQuestions,
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
@@ -3152,7 +2662,6 @@ class _$ExportPaperImpl implements _ExportPaper {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CreateAssessment value)? createAssessment,
-    TResult Function(_GenerateBlueprint value)? generateBlueprint,
     TResult Function(_SelectQuestions value)? selectQuestions,
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
@@ -3250,7 +2759,6 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateAssessmentRequest request) createAssessment,
-    required TResult Function(BlueprintRequest request) generateBlueprint,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
     required TResult Function(String assessmentId, Blueprint blueprint,
@@ -3272,7 +2780,6 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
-    TResult? Function(BlueprintRequest request)? generateBlueprint,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult? Function(String assessmentId, Blueprint blueprint,
@@ -3294,7 +2801,6 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateAssessmentRequest request)? createAssessment,
-    TResult Function(BlueprintRequest request)? generateBlueprint,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult Function(String assessmentId, Blueprint blueprint,
@@ -3320,7 +2826,6 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CreateAssessment value) createAssessment,
-    required TResult Function(_GenerateBlueprint value) generateBlueprint,
     required TResult Function(_SelectQuestions value) selectQuestions,
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
@@ -3337,7 +2842,6 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CreateAssessment value)? createAssessment,
-    TResult? Function(_GenerateBlueprint value)? generateBlueprint,
     TResult? Function(_SelectQuestions value)? selectQuestions,
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
@@ -3353,7 +2857,6 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CreateAssessment value)? createAssessment,
-    TResult Function(_GenerateBlueprint value)? generateBlueprint,
     TResult Function(_SelectQuestions value)? selectQuestions,
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
@@ -3449,7 +2952,6 @@ class _$LoadAssessmentsBySchoolImpl implements _LoadAssessmentsBySchool {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateAssessmentRequest request) createAssessment,
-    required TResult Function(BlueprintRequest request) generateBlueprint,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
     required TResult Function(String assessmentId, Blueprint blueprint,
@@ -3471,7 +2973,6 @@ class _$LoadAssessmentsBySchoolImpl implements _LoadAssessmentsBySchool {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
-    TResult? Function(BlueprintRequest request)? generateBlueprint,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult? Function(String assessmentId, Blueprint blueprint,
@@ -3493,7 +2994,6 @@ class _$LoadAssessmentsBySchoolImpl implements _LoadAssessmentsBySchool {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateAssessmentRequest request)? createAssessment,
-    TResult Function(BlueprintRequest request)? generateBlueprint,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult Function(String assessmentId, Blueprint blueprint,
@@ -3519,7 +3019,6 @@ class _$LoadAssessmentsBySchoolImpl implements _LoadAssessmentsBySchool {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CreateAssessment value) createAssessment,
-    required TResult Function(_GenerateBlueprint value) generateBlueprint,
     required TResult Function(_SelectQuestions value) selectQuestions,
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
@@ -3536,7 +3035,6 @@ class _$LoadAssessmentsBySchoolImpl implements _LoadAssessmentsBySchool {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CreateAssessment value)? createAssessment,
-    TResult? Function(_GenerateBlueprint value)? generateBlueprint,
     TResult? Function(_SelectQuestions value)? selectQuestions,
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
@@ -3552,7 +3050,6 @@ class _$LoadAssessmentsBySchoolImpl implements _LoadAssessmentsBySchool {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CreateAssessment value)? createAssessment,
-    TResult Function(_GenerateBlueprint value)? generateBlueprint,
     TResult Function(_SelectQuestions value)? selectQuestions,
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
@@ -3653,7 +3150,6 @@ class _$UpdateStatusImpl implements _UpdateStatus {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateAssessmentRequest request) createAssessment,
-    required TResult Function(BlueprintRequest request) generateBlueprint,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
     required TResult Function(String assessmentId, Blueprint blueprint,
@@ -3675,7 +3171,6 @@ class _$UpdateStatusImpl implements _UpdateStatus {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
-    TResult? Function(BlueprintRequest request)? generateBlueprint,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult? Function(String assessmentId, Blueprint blueprint,
@@ -3697,7 +3192,6 @@ class _$UpdateStatusImpl implements _UpdateStatus {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateAssessmentRequest request)? createAssessment,
-    TResult Function(BlueprintRequest request)? generateBlueprint,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult Function(String assessmentId, Blueprint blueprint,
@@ -3723,7 +3217,6 @@ class _$UpdateStatusImpl implements _UpdateStatus {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CreateAssessment value) createAssessment,
-    required TResult Function(_GenerateBlueprint value) generateBlueprint,
     required TResult Function(_SelectQuestions value) selectQuestions,
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
@@ -3740,7 +3233,6 @@ class _$UpdateStatusImpl implements _UpdateStatus {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CreateAssessment value)? createAssessment,
-    TResult? Function(_GenerateBlueprint value)? generateBlueprint,
     TResult? Function(_SelectQuestions value)? selectQuestions,
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
@@ -3756,7 +3248,6 @@ class _$UpdateStatusImpl implements _UpdateStatus {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CreateAssessment value)? createAssessment,
-    TResult Function(_GenerateBlueprint value)? generateBlueprint,
     TResult Function(_SelectQuestions value)? selectQuestions,
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
@@ -3824,7 +3315,6 @@ class _$ClearErrorImpl implements _ClearError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(CreateAssessmentRequest request) createAssessment,
-    required TResult Function(BlueprintRequest request) generateBlueprint,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
     required TResult Function(String assessmentId, Blueprint blueprint,
@@ -3846,7 +3336,6 @@ class _$ClearErrorImpl implements _ClearError {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
-    TResult? Function(BlueprintRequest request)? generateBlueprint,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult? Function(String assessmentId, Blueprint blueprint,
@@ -3868,7 +3357,6 @@ class _$ClearErrorImpl implements _ClearError {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(CreateAssessmentRequest request)? createAssessment,
-    TResult Function(BlueprintRequest request)? generateBlueprint,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
     TResult Function(String assessmentId, Blueprint blueprint,
@@ -3894,7 +3382,6 @@ class _$ClearErrorImpl implements _ClearError {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CreateAssessment value) createAssessment,
-    required TResult Function(_GenerateBlueprint value) generateBlueprint,
     required TResult Function(_SelectQuestions value) selectQuestions,
     required TResult Function(_GeneratePaper value) generatePaper,
     required TResult Function(_ExportPaper value) exportPaper,
@@ -3911,7 +3398,6 @@ class _$ClearErrorImpl implements _ClearError {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CreateAssessment value)? createAssessment,
-    TResult? Function(_GenerateBlueprint value)? generateBlueprint,
     TResult? Function(_SelectQuestions value)? selectQuestions,
     TResult? Function(_GeneratePaper value)? generatePaper,
     TResult? Function(_ExportPaper value)? exportPaper,
@@ -3927,7 +3413,6 @@ class _$ClearErrorImpl implements _ClearError {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CreateAssessment value)? createAssessment,
-    TResult Function(_GenerateBlueprint value)? generateBlueprint,
     TResult Function(_SelectQuestions value)? selectQuestions,
     TResult Function(_GeneratePaper value)? generatePaper,
     TResult Function(_ExportPaper value)? exportPaper,
