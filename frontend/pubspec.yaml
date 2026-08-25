@@ -145,8 +145,20 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  integration_test:
-    sdk: flutter
+  # integration_test:
+  #   sdk: flutter
+  # Disabled 2026-08-26: this Flutter SDK (3.44.9) has a real gradle-tooling
+  # bug where GeneratedPluginRegistrant.java unconditionally emits a
+  # registration call for every plugin, but PluginHandler.kt correctly
+  # excludes dev_dependency plugins from the release build's Gradle
+  # classpath -- so `flutter build apk --release` fails with "package
+  # dev.flutter.plugins.integration_test does not exist" the moment the
+  # generated file is regenerated fresh (a stale cached copy from before
+  # this dependency was added had been masking it). Re-enable once either
+  # the SDK ships a fix or a device is available to actually run
+  # integration_test/teacher_flow_test.dart again -- that file is left in
+  # place, just not compilable until this is restored (see
+  # analysis_options.yaml's matching exclude).
   flutter_lints: ^4.0.0
   
   # Code Generation

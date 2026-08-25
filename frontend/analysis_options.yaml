@@ -9,6 +9,13 @@
 # packages, and plugins designed to encourage good coding practices.
 include: package:flutter_lints/flutter.yaml
 
+analyzer:
+  exclude:
+    # package:integration_test is temporarily removed from pubspec.yaml's
+    # dev_dependencies (see the comment there) -- this file can't resolve
+    # its import until that's restored.
+    - integration_test/**
+
 linter:
   # The lint rules applied to this project can be customized in the
   # section below to disable rules from the `package:flutter_lints/flutter.yaml`
