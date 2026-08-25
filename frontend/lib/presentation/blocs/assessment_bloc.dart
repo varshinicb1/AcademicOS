@@ -4,10 +4,6 @@ import 'package:dartz/dartz.dart';
 
 import '../../domain/entities/assessment.dart';
 import '../../domain/entities/question.dart';
-import '../../domain/entities/answer_sheet.dart';
-import '../../domain/entities/mastery.dart';
-import '../../domain/entities/analytics.dart';
-import '../../domain/entities/report.dart';
 import '../../domain/entities/enums.dart';
 import '../../domain/failures/failures.dart';
 import '../../domain/repositories/repositories.dart';

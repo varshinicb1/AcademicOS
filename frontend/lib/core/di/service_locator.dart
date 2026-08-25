@@ -17,11 +17,6 @@ import '../../data/repositories/repositories_impl.dart';
 import '../../domain/repositories/repositories.dart';
 import '../../domain/usecases/assessment_usecases.dart';
 import '../../presentation/blocs/assessment_bloc.dart';
-import '../../presentation/blocs/scanner_bloc.dart';
-import '../../presentation/blocs/evaluation_bloc.dart';
-import '../../presentation/blocs/mastery_bloc.dart';
-import '../../presentation/blocs/analytics_bloc.dart';
-import '../../presentation/blocs/reports_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -194,45 +189,32 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => CreateAssessmentUseCase(sl<AssessmentRepository>(), sl<BlueprintRepository>()));
   sl.registerLazySingleton(() => SelectQuestionsUseCase(sl<QuestionRepository>()));
   sl.registerLazySingleton(() => GeneratePaperUseCase(sl<PaperGenerationRepository>()));
-  sl.registerLazySingleton(() => ScanAnswerSheetUseCase(sl<AnswerSheetRepository>()));
-  sl.registerLazySingleton(() => EvaluateAnswerSheetUseCase(sl<EvaluationRepository>()));
-  sl.registerLazySingleton(() => TeacherReviewUseCase(sl<EvaluationRepository>()));
-  sl.registerLazySingleton(() => FinalizeEvaluationUseCase(sl<EvaluationRepository>(), sl<ReportRepository>(), sl<MasteryRepository>(), sl<NotificationRepository>()));
-  sl.registerLazySingleton(() => GetStudentMasteryUseCase(sl<MasteryRepository>()));
-  sl.registerLazySingleton(() => GetRecommendationsUseCase(sl<MasteryRepository>()));
-  sl.registerLazySingleton(() => CreatePracticeSessionUseCase(sl<PracticeRepository>(), sl<MasteryRepository>()));
-  sl.registerLazySingleton(() => SubmitPracticeUseCase(sl<PracticeRepository>(), sl<MasteryRepository>()));
-  sl.registerLazySingleton(() => GetAssessmentAnalyticsUseCase(sl<AnalyticsRepository>()));
-  sl.registerLazySingleton(() => GenerateStudentReportUseCase(sl<ReportRepository>()));
-  sl.registerLazySingleton(() => SendWhatsAppNotificationUseCase(sl<NotificationRepository>()));
-  
+
   // Blocs
+  //
+  // AssessmentBloc is the only one actually consumed by the app -- every
+  // page dispatches its events directly (see assessment_list_page.dart,
+  // assessment_create_page.dart, assessment_review_page.dart,
+  // daily_planner_page.dart). Scanner/Evaluation/Mastery/Analytics/Reports
+  // blocs used to be registered here and provided in main.dart's
+  // MultiBlocProvider, but no page has ever read any of them -- every
+  // screen that does scanning, evaluation, mastery, analytics, or reports
+  // work calls GetIt.I<PillarApi>() directly instead (see mobile_scan_page,
+  // evaluation_page, mastery_dashboard, gap_analysis, classes_page). This
+  // was confirmed independently twice: this file's own audit (grepped every
+  // presentation file for each bloc's name -- zero hits outside the dead
+  // bloc's own source) and docs/compliance.md's six-dimension audit ("D5",
+  // 2026-08-19), which reached the same conclusion from the Python/route
+  // side. Removed rather than left wired-but-unused, since a live-looking
+  // BlocProvider for a feature that silently does nothing is exactly the
+  // kind of dead end this app had too many of. Their UseCase/Repository
+  // definitions in assessment_usecases.dart and repositories_impl.dart are
+  // left in place as-is, just no longer constructed by anything.
   sl.registerLazySingleton(() => AssessmentBloc(
     createAssessment: sl<CreateAssessmentUseCase>(),
     selectQuestions: sl<SelectQuestionsUseCase>(),
     generatePaper: sl<GeneratePaperUseCase>(),
     assessmentRepository: sl<AssessmentRepository>(),
     paperRepository: sl<PaperGenerationRepository>(),
-  ));
-  sl.registerLazySingleton(() => ScannerBloc(scanAnswerSheetUseCase: sl<ScanAnswerSheetUseCase>()));
-  sl.registerLazySingleton(() => EvaluationBloc(
-    evaluateUseCase: sl<EvaluateAnswerSheetUseCase>(),
-    reviewUseCase: sl<TeacherReviewUseCase>(),
-    finalizeUseCase: sl<FinalizeEvaluationUseCase>(),
-  ));
-  sl.registerLazySingleton(() => MasteryBloc(
-    getMastery: sl<GetStudentMasteryUseCase>(),
-    getRecommendations: sl<GetRecommendationsUseCase>(),
-    createPractice: sl<CreatePracticeSessionUseCase>(),
-    submitPractice: sl<SubmitPracticeUseCase>(),
-    masteryRepository: sl<MasteryRepository>(),
-  ));
-  sl.registerLazySingleton(() => AnalyticsBloc(
-    getAssessmentAnalytics: sl<GetAssessmentAnalyticsUseCase>(),
-    analyticsRepository: sl<AnalyticsRepository>(),
-  ));
-  sl.registerLazySingleton(() => ReportsBloc(
-    generateStudentReport: sl<GenerateStudentReportUseCase>(),
-    reportRepository: sl<ReportRepository>(),
   ));
 }

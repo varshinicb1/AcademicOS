@@ -12,11 +12,6 @@ import 'core/theme/app_theme.dart';
 import 'core/theme/theme_controller.dart';
 import 'core/routing/app_router.dart';
 import 'presentation/blocs/assessment_bloc.dart';
-import 'presentation/blocs/scanner_bloc.dart';
-import 'presentation/blocs/evaluation_bloc.dart';
-import 'presentation/blocs/mastery_bloc.dart';
-import 'presentation/blocs/analytics_bloc.dart';
-import 'presentation/blocs/reports_bloc.dart';
 
 final sl = GetIt.instance;
 
@@ -50,13 +45,12 @@ class AcademicOSApp extends ConsumerWidget {
     final router = ref.watch(appRouterProvider);
     
     return MultiBlocProvider(
+      // AssessmentBloc is the only bloc any page actually reads -- see the
+      // long comment in service_locator.dart's initDependencies() for why
+      // Scanner/Evaluation/Mastery/Analytics/Reports blocs were removed
+      // from here rather than left registered-but-silently-unused.
       providers: [
         BlocProvider(create: (context) => sl<AssessmentBloc>()),
-        BlocProvider(create: (context) => sl<ScannerBloc>()),
-        BlocProvider(create: (context) => sl<EvaluationBloc>()),
-        BlocProvider(create: (context) => sl<MasteryBloc>()),
-        BlocProvider(create: (context) => sl<AnalyticsBloc>()),
-        BlocProvider(create: (context) => sl<ReportsBloc>()),
       ],
       child: ValueListenableBuilder<ThemeMode>(
         valueListenable: ThemeController.mode,

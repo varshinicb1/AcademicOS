@@ -328,6 +328,7 @@ class _SettingsPageState extends State<SettingsPage> {
       final result = await SyncService.instance.sync(schoolId);
       if (!mounted) return;
       await _loadLastSyncResult(); // refresh the UI
+      if (!mounted) return;
       setState(() {}); // update the sync history tile
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text(
