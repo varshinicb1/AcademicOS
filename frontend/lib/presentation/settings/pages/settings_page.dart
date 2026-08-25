@@ -14,6 +14,7 @@ import '../../../core/local_engine/corpus_repository.dart';
 import '../../../core/local_engine/demo_seeder.dart';
 import '../../../core/local_engine/local_store.dart';
 import '../../../core/sync/sync_service.dart';
+import '../../../core/theme/theme_controller.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 
@@ -28,12 +29,15 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   String _appVersion = '';
-  bool _notificationsEnabled = true;
-  bool _autoSync = true;
-  bool _offlineMode = true;
-  bool _biometricAuth = false;
-  String _selectedTheme = 'system';
-  String _selectedLanguage = 'en';
+  // Real fix: these three used to reset to a hardcoded default every time
+  // Settings reopened -- toggling them and leaving the screen silently
+  // discarded the change. Now persisted to LocalStore like every other
+  // real setting on this page.
+  bool _notificationsEnabled = LocalStore.instance.box.get('pref_notifications', defaultValue: true) as bool;
+  bool _autoSync = LocalStore.instance.box.get('pref_auto_sync', defaultValue: true) as bool;
+  bool _biometricAuth = LocalStore.instance.box.get('pref_biometric_auth', defaultValue: false) as bool;
+  String _selectedTheme = LocalStore.instance.themeModeName;
+  String _selectedLanguage = LocalStore.instance.box.get('pref_language', defaultValue: 'en') as String;
   String _serverUrl = 'http://localhost:8000';
   String _sarvamApiKey = LocalStore.instance.sarvamApiKey ?? '';
 
@@ -83,15 +87,40 @@ class _SettingsPageState extends State<SettingsPage> {
                 () => context.push('/settings/template')),
             _buildListTile(Icons.people, 'Classes', 'Manage classes & students',
                 () => context.push('/settings/classes')),
-            _buildSwitchTile(Icons.notifications, 'Notifications', 'Push notifications', _notificationsEnabled, (v) => setState(() => _notificationsEnabled = v)),
-            _buildSwitchTile(Icons.fingerprint, 'Biometric Auth', 'Use fingerprint/face ID', _biometricAuth, (v) => setState(() => _biometricAuth = v)),
+            _buildSwitchTile(Icons.notifications, 'Notifications', 'Push notifications', _notificationsEnabled, (v) {
+              setState(() => _notificationsEnabled = v);
+              LocalStore.instance.box.put('pref_notifications', v);
+            }),
+            _buildSwitchTile(Icons.fingerprint, 'Biometric Auth', 'Use fingerprint/face ID', _biometricAuth, (v) {
+              setState(() => _biometricAuth = v);
+              LocalStore.instance.box.put('pref_biometric_auth', v);
+            }),
           ]),
           const SizedBox(height: 24),
           _buildSection('App Preferences', [
-            _buildSegmentedTile(Icons.palette, 'Theme', _selectedTheme, ['light', 'dark', 'system'], (v) => setState(() => _selectedTheme = v)),
-            _buildDropdownTile(Icons.language, 'Language', _selectedLanguage, _languageNames, (v) => setState(() => _selectedLanguage = v)),
-            _buildSwitchTile(Icons.sync, 'Auto Sync', 'Automatically sync data', _autoSync, (v) => setState(() => _autoSync = v)),
-            _buildSwitchTile(Icons.offline_bolt, 'Offline Mode', 'Work offline, sync when online', _offlineMode, (v) => setState(() => _offlineMode = v)),
+            _buildSegmentedTile(Icons.palette, 'Theme', _selectedTheme, ['light', 'dark', 'system'], (v) {
+              setState(() => _selectedTheme = v);
+              ThemeController.set(switch (v) {
+                'light' => ThemeMode.light,
+                'dark' => ThemeMode.dark,
+                _ => ThemeMode.system,
+              });
+            }),
+            _buildDropdownTile(Icons.language, 'Language', _selectedLanguage, _languageNames, (v) {
+              setState(() => _selectedLanguage = v);
+              LocalStore.instance.box.put('pref_language', v);
+            }),
+            _buildSwitchTile(Icons.sync, 'Auto Sync', 'Automatically sync data', _autoSync, (v) {
+              setState(() => _autoSync = v);
+              LocalStore.instance.box.put('pref_auto_sync', v);
+            }),
+            // Real fix: "Offline Mode" was a toggle with nothing behind it --
+            // this exact build is offline-only at compile time
+            // (ACADEMICOS_OFFLINE), so switching it "off" implied an online
+            // mode that structurally doesn't exist in this build variant.
+            // Shown as a real, honest status line instead of a fake switch.
+            if (_kOfflineBuild)
+              _buildInfoTile('Offline Mode', 'Always on -- this build has no server-connected mode'),
             _buildListTile(Icons.download, 'Download Data',
                 'Corpus source: ${CorpusRepository.instance.loadedFromDownload ? "downloaded" : "bundled with app"} '
                 '(${CorpusRepository.instance.isLoaded ? CorpusRepository.instance.all.length : "?"} questions)',

@@ -9,6 +9,7 @@ import 'core/di/service_locator.dart';
 import 'core/local_engine/secure_box.dart';
 import 'core/local_server/local_server_manager.dart';
 import 'core/theme/app_theme.dart';
+import 'core/theme/theme_controller.dart';
 import 'core/routing/app_router.dart';
 import 'presentation/blocs/assessment_bloc.dart';
 import 'presentation/blocs/scanner_bloc.dart';
@@ -57,12 +58,14 @@ class AcademicOSApp extends ConsumerWidget {
         BlocProvider(create: (context) => sl<AnalyticsBloc>()),
         BlocProvider(create: (context) => sl<ReportsBloc>()),
       ],
-      child: MaterialApp.router(
+      child: ValueListenableBuilder<ThemeMode>(
+        valueListenable: ThemeController.mode,
+        builder: (context, themeMode, _) => MaterialApp.router(
         title: 'AcademicOS',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.system,
+        themeMode: themeMode,
         routerConfig: router,
         localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
@@ -94,6 +97,7 @@ class AcademicOSApp extends ConsumerWidget {
             child: child!,
           );
         },
+        ),
       ),
     );
   }

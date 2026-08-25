@@ -179,6 +179,14 @@ class LocalStore {
     }
   }
 
+  // ---- App preferences (theme, etc.) ----
+  // Real gap found on-device: Settings' Theme toggle updated only local
+  // widget state, was never persisted, and was never actually connected to
+  // MaterialApp's themeMode (hardcoded to ThemeMode.system in main.dart) --
+  // switching to Dark visibly did nothing and reset on next visit.
+  String get themeModeName => _box.get('theme_mode') as String? ?? 'system';
+  set themeModeName(String v) => _box.put('theme_mode', v);
+
   // ---- Teacher profile (this device's user) ----
   // No real auth/login system exists yet, so this is deliberately a single
   // "whoever is using this device" profile, not a multi-account store --
