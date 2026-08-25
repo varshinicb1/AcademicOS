@@ -41,10 +41,19 @@ class LocalStore {
     _saveList('local_assessments', items);
   }
 
+  // Real bug found by audit: this used to catch everything (including a
+  // corrupted-cache FormatException from jsonDecode inside allAssessments())
+  // identically to a genuine "no such assessment" StateError from
+  // firstWhere, so a teacher hitting local data corruption saw the same
+  // "Assessment X not found on this device" message as one who'd simply
+  // mistyped an id -- a real, more actionable problem was hidden behind a
+  // misleading one. Only the genuine not-found case returns null now;
+  // anything else (corruption) propagates so the caller sees what actually
+  // happened.
   Map<String, dynamic>? getAssessment(String id) {
     try {
       return allAssessments().firstWhere((a) => a['id'] == id);
-    } catch (_) {
+    } on StateError {
       return null;
     }
   }

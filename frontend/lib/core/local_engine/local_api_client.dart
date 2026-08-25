@@ -10,6 +10,7 @@ import 'corpus_repository.dart';
 import 'local_pdf_export.dart';
 import 'local_pillar_api.dart' show OfflineUnsupportedException;
 import 'local_store.dart';
+import 'mastery_engine.dart';
 import 'paper_selection.dart' as selection_engine;
 
 /// On-device replacement for ApiClient -- the paper-generation +
@@ -411,45 +412,31 @@ class LocalApiClient extends ApiClient {
         _ => EvaluationVerdict.noCredit,
       };
 
+  // Was a hand-duplicated copy of LocalPillarApi's mastery update (found by
+  // audit) that had silently diverged: the new-concept branch below only
+  // ever assigned 'needsReview'/'developing', never 'proficient', even when
+  // a student's very first evaluated answer for a concept scored >=80%. Now
+  // shares the single-sourced helper so the two paths can't drift again.
   void _recordMasteryFromEvaluation(String studentId, Question question, eval_engine.LocalEvaluation result) {
     if (studentId.isEmpty) return;
     final conceptId = question.chapterIds.isNotEmpty ? question.chapterIds.first : 'general';
-    final existing = LocalStore.instance.getMastery(studentId) ??
-        {'studentId': studentId, 'overallMastery': 0.0, 'concepts': [], 'weakConcepts': []};
-    final concepts = (existing['concepts'] as List).map((e) => Map<String, dynamic>.from(e as Map)).toList();
+    final existing = LocalStore.instance.getMastery(studentId);
+    final concepts = ((existing?['concepts'] as List?) ?? [])
+        .map((e) => Map<String, dynamic>.from(e as Map))
+        .toList();
     final idx = concepts.indexWhere((c) => c['conceptId'] == conceptId);
     final observed = result.maxMarks > 0 ? result.awardedMarks / result.maxMarks : 0.0;
+    final updated = updatedConceptMastery(
+      conceptId: conceptId,
+      existing: idx >= 0 ? concepts[idx] : null,
+      observed: observed,
+    );
     if (idx >= 0) {
-      final prior = (concepts[idx]['mastery'] as num).toDouble();
-      final evidence = (concepts[idx]['evidenceCount'] as num).toInt();
-      final updated = prior * 0.7 + observed * 0.3;
-      concepts[idx] = {
-        ...concepts[idx],
-        'mastery': updated,
-        'evidenceCount': evidence + 1,
-        'isWeak': updated < 0.5,
-        'status': updated < 0.5 ? 'needsReview' : (updated < 0.8 ? 'developing' : 'proficient'),
-      };
+      concepts[idx] = updated;
     } else {
-      concepts.add({
-        'conceptId': conceptId,
-        'conceptName': conceptId,
-        'mastery': observed,
-        'retention': 0.9,
-        'evidenceCount': 1,
-        'status': observed < 0.5 ? 'needsReview' : 'developing',
-        'isWeak': observed < 0.5,
-      });
+      concepts.add(updated);
     }
-    final overall = concepts.isNotEmpty
-        ? concepts.map((c) => (c['mastery'] as num).toDouble()).reduce((a, b) => a + b) / concepts.length
-        : 0.0;
-    LocalStore.instance.saveMastery(studentId, {
-      'studentId': studentId,
-      'overallMastery': overall,
-      'concepts': concepts,
-      'weakConcepts': concepts.where((c) => c['isWeak'] == true).map((c) => c['conceptName']).toList(),
-    });
+    saveMasteryRollup(studentId, concepts);
   }
 
   @override

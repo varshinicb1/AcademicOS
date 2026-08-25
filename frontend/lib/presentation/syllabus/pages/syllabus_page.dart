@@ -48,19 +48,16 @@ class _SyllabusPageState extends State<SyllabusPage> {
       final selected = _selected ??
           cat.entries.firstWhere((e) => e.subject == 'Science',
               orElse: () => cat.entries.first);
-      final chapters = await api.chapters(selected.subject, selected.grade);
-      setState(() {
-        _catalog = cat.entries;
-        _selected = selected;
-        _chapters = chapters;
-        _loading = false;
-      });
+      _catalog = cat.entries;
+      _selected = selected;
     } catch (e) {
       setState(() {
         _error = '$e';
         _loading = false;
       });
+      return;
     }
+    await _loadChaptersFor(_selected!);
   }
 
   Future<void> _select(CatalogEntry e) async {
@@ -68,15 +65,19 @@ class _SyllabusPageState extends State<SyllabusPage> {
       _selected = e;
       _loading = true;
     });
+    await _loadChaptersFor(e);
+  }
+
+  Future<void> _loadChaptersFor(CatalogEntry selected) async {
     try {
-      final chapters = await GetIt.I<PillarApi>().chapters(e.subject, e.grade);
+      final chapters = await GetIt.I<PillarApi>().chapters(selected.subject, selected.grade);
       setState(() {
         _chapters = chapters;
         _loading = false;
       });
-    } catch (err) {
+    } catch (e) {
       setState(() {
-        _error = '$err';
+        _error = '$e';
         _loading = false;
       });
     }
@@ -90,7 +91,7 @@ class _SyllabusPageState extends State<SyllabusPage> {
       appBar: AppBar(
         leading: shellLeading(context),
         title: const Text('Syllabus Coverage'),
-        actions: [IconButton(onPressed: _load, icon: const Icon(Icons.refresh))],
+        actions: [IconButton(tooltip: 'Refresh', onPressed: _load, icon: const Icon(Icons.refresh))],
       ),
       body: _loading && _chapters.isEmpty
           ? const LoadingIndicator(message: 'Loading syllabus…')

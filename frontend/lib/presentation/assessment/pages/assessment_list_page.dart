@@ -30,6 +30,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
         title: const Text('Assessments'),
         actions: [
           IconButton(
+            tooltip: 'Create assessment',
             icon: const Icon(Icons.add),
             onPressed: () => context.push('/assessment/create'),
           ),

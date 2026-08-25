@@ -210,6 +210,7 @@ class _QuestionBankPageState extends State<QuestionBankPage> {
                 suffixIcon: _search.text.isEmpty
                     ? null
                     : IconButton(
+                        tooltip: 'Clear search',
                         icon: const Icon(Icons.clear, size: 18),
                         onPressed: () {
                           _search.clear();

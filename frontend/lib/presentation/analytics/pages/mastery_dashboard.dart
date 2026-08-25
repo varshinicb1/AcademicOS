@@ -64,12 +64,23 @@ class _MasteryDashboardState extends State<MasteryDashboard> {
                 if (real.isEmpty) const PopupMenuItem(value: 'stu_meera', child: Text('Meera (no real data yet)')),
               ];
             },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(children: [
-                Text(LocalStore.instance.studentName(_studentId)),
-                const Icon(Icons.arrow_drop_down),
-              ]),
+            // Real accessibility bug found by audit: PopupMenuButton doesn't
+            // enforce a minimum tap-target size when given a `child:` --
+            // that only happens on its default IconButton path -- so this
+            // was ~24-28px tall (well under the 48px minimum) despite being
+            // the primary control for switching students on this screen.
+            child: SizedBox(
+              height: 48,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(LocalStore.instance.studentName(_studentId)),
+                    const Icon(Icons.arrow_drop_down),
+                  ],
+                ),
+              ),
             ),
           ),
         ],
@@ -118,6 +129,16 @@ class _MasteryDashboardState extends State<MasteryDashboard> {
                           Text('${m.concepts.length} concepts with assessment evidence'),
                           if (m.weakConcepts.isNotEmpty) ...[
                             const SizedBox(height: 8),
+                            // Real accessibility bug found by audit: these
+                            // chips carried no text beyond the bare concept
+                            // name -- red tint was the ONLY signal these are
+                            // the "weak" ones, invisible to a color-blind
+                            // teacher or a screen reader (which just reads
+                            // the concept name, same as any other list).
+                            Text('Weak concepts',
+                                style: Theme.of(context).textTheme.labelSmall
+                                    ?.copyWith(color: Theme.of(context).colorScheme.error)),
+                            const SizedBox(height: 4),
                             Wrap(
                               spacing: 6,
                               runSpacing: 4,

@@ -8,6 +8,7 @@ import 'answer_evaluation.dart' as eval_engine;
 import 'corpus_repository.dart';
 import 'local_scan_engine.dart' as local_scan;
 import 'local_store.dart';
+import 'mastery_engine.dart';
 
 /// Thrown by local-engine methods that inherently need a network call this
 /// build won't make on its own (OCR, email delivery). Distinct from a
@@ -438,33 +439,14 @@ class LocalPillarApi extends PillarApi {
       final conceptId = e['conceptId'] as String? ?? 'general';
       final awarded = (e['awardedMarks'] as num? ?? 0).toDouble();
       final max = (e['maxMarks'] as num? ?? 1).toDouble();
-      final existingConcept = concepts[conceptId];
-      final priorEvidence = (existingConcept?['evidenceCount'] as num?)?.toInt() ?? 0;
-      final priorMastery = (existingConcept?['mastery'] as num?)?.toDouble() ?? 0.3;
       final observed = max > 0 ? awarded / max : 0.0;
-      // Simple recency-weighted running average -- real FSRS retention math
-      // is a further step, not attempted for this first on-device pass.
-      final newMastery = priorEvidence == 0 ? observed : (priorMastery * 0.7 + observed * 0.3);
-      concepts[conceptId] = {
-        'conceptId': conceptId,
-        'conceptName': conceptId,
-        'mastery': newMastery,
-        'retention': 0.9,
-        'evidenceCount': priorEvidence + 1,
-        'status': newMastery < 0.5 ? 'needsReview' : (newMastery < 0.8 ? 'developing' : 'proficient'),
-        'isWeak': newMastery < 0.5,
-      };
+      concepts[conceptId] = updatedConceptMastery(
+        conceptId: conceptId,
+        existing: concepts[conceptId],
+        observed: observed,
+      );
     }
-    final all = concepts.values.toList();
-    final overall = all.isNotEmpty
-        ? all.map((c) => (c['mastery'] as num).toDouble()).reduce((a, b) => a + b) / all.length
-        : 0.0;
-    LocalStore.instance.saveMastery(studentId, {
-      'studentId': studentId,
-      'overallMastery': overall,
-      'concepts': all,
-      'weakConcepts': all.where((c) => c['isWeak'] == true).map((c) => c['conceptName']).toList(),
-    });
+    saveMasteryRollup(studentId, concepts.values);
   }
 
   // ---------------- Personalized practice ----------------

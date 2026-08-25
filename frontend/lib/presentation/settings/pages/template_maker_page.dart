@@ -72,6 +72,14 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
   bool _saving = false;
   String? _message;
   bool _error = false;
+  // Real bug found by audit: a fetch failure here used to be indistinguishable
+  // from "this school genuinely has no template yet", silently falling back
+  // to the placeholder demo defaults. Hitting Save in that state would create
+  // a NEW isDefault:true template alongside whatever real one the school
+  // already has (id stays 'new', never resolved) -- a real risk of silently
+  // overwriting the school's actual branding for future generated papers.
+  // Save is now blocked until a load failure is retried successfully.
+  bool _loadFailed = false;
 
   @override
   void initState() {
@@ -90,6 +98,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
   int get _total => _sections.fold(0, (s, e) => s + e.totalMarks);
 
   Future<void> _load() async {
+    _loadFailed = false;
     try {
       final api = GetIt.I<PillarApi>();
       final templates = await api.schoolTemplates(widget.schoolId);
@@ -120,11 +129,19 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
         }
       }
     } catch (e) {
-      // No saved template yet (or fetch failed): keep the demo defaults as a
-      // starting point rather than blocking the page.
+      // A genuinely empty template list is handled above (early return,
+      // demo defaults are the right starting point there) -- reaching this
+      // catch means the fetch itself failed, so we do NOT know whether this
+      // school already has a real saved template. Block Save until retried.
+      _loadFailed = true;
     } finally {
       if (mounted) setState(() => _loading = false);
     }
+  }
+
+  Future<void> _retryLoad() async {
+    setState(() => _loading = true);
+    await _load();
   }
 
   Future<void> _save() async {
@@ -252,6 +269,32 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
             label: const Text('Add section'),
           ),
           const Gap(16),
+          if (_loadFailed)
+            AppCard(
+              color: Colors.orange.withValues(alpha: 0.12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(children: [
+                    const Icon(Icons.warning_amber, color: Colors.orange),
+                    const Gap(10),
+                    Expanded(
+                      child: Text(
+                        'Couldn\'t check whether this school already has a saved template. '
+                        'Saving now could create a duplicate instead of updating the real one.',
+                        style: theme.textTheme.bodySmall,
+                      ),
+                    ),
+                  ]),
+                  const Gap(8),
+                  OutlinedButton.icon(
+                    onPressed: _retryLoad,
+                    icon: const Icon(Icons.refresh),
+                    label: const Text('Retry'),
+                  ),
+                ],
+              ),
+            ),
           if (_message != null)
             AppCard(
               color: (_error ? theme.colorScheme.error : Colors.green)
@@ -264,7 +307,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
               ]),
             ),
           FilledButton.icon(
-            onPressed: _saving ? null : _save,
+            onPressed: (_saving || _loadFailed) ? null : _save,
             icon: _saving
                 ? const SizedBox(
                     width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
@@ -333,6 +376,12 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
     );
   }
 
+  // Real accessibility bug found by audit: both buttons had no tooltip (a
+  // screen reader announced two indistinguishable unlabeled "button"s) and
+  // deliberately opted into a smaller-than-default tap target
+  // (VisualDensity.compact on top of an already-small 19px icon) -- the one
+  // control in the app doing that, on a control tapped repeatedly while
+  // building a template.
   Widget _stepper(ThemeData theme, String label, int value, int min, int max,
       ValueChanged<int> onChanged) {
     return Row(
@@ -342,13 +391,13 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
               maxLines: 1, overflow: TextOverflow.ellipsis),
         ),
         IconButton(
-          visualDensity: VisualDensity.compact,
+          tooltip: 'Decrease $label',
           icon: const Icon(Icons.remove_circle_outline, size: 19),
           onPressed: value > min ? () => onChanged(value - 1) : null,
         ),
         Text('$value', style: const TextStyle(fontWeight: FontWeight.w600)),
         IconButton(
-          visualDensity: VisualDensity.compact,
+          tooltip: 'Increase $label',
           icon: const Icon(Icons.add_circle_outline, size: 19),
           onPressed: value < max ? () => onChanged(value + 1) : null,
         ),

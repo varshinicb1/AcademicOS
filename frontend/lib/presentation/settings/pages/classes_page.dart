@@ -24,7 +24,7 @@ class ClassesPage extends StatefulWidget {
 }
 
 class _ClassesPageState extends State<ClassesPage> {
-  late Future<List<(String id, String name, StudentMastery? mastery)>> _future;
+  late Future<List<(String id, String name, StudentMastery? mastery, bool fetchFailed)>> _future;
 
   @override
   void initState() {
@@ -32,18 +32,26 @@ class _ClassesPageState extends State<ClassesPage> {
     _future = _loadRoster();
   }
 
-  Future<List<(String id, String name, StudentMastery? mastery)>> _loadRoster() async {
+  // Real bug found by audit: a fetch failure (network error on the
+  // server-connected build -- knowledge() never throws offline, it returns
+  // a zeroed StudentMastery for a genuinely un-evaluated student) used to
+  // be swallowed and shown identically to "no mastery data yet". A teacher
+  // scrolling the roster during a network hiccup saw some students silently
+  // marked "no data" with no way to tell that from a real absence of data.
+  Future<List<(String id, String name, StudentMastery? mastery, bool fetchFailed)>> _loadRoster() async {
     final ids = LocalStore.instance.allStudentIdsWithMastery()..sort();
     final api = GetIt.I<PillarApi>();
-    final rows = <(String, String, StudentMastery?)>[];
+    final rows = <(String, String, StudentMastery?, bool)>[];
     for (final id in ids) {
       StudentMastery? m;
+      var fetchFailed = false;
       try {
         m = await api.knowledge(id);
       } catch (_) {
         m = null;
+        fetchFailed = true;
       }
-      rows.add((id, LocalStore.instance.studentName(id), m));
+      rows.add((id, LocalStore.instance.studentName(id), m, fetchFailed));
     }
     return rows;
   }
@@ -53,7 +61,7 @@ class _ClassesPageState extends State<ClassesPage> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(leading: shellLeading(context), title: const Text('Classes')),
-      body: FutureBuilder<List<(String, String, StudentMastery?)>>(
+      body: FutureBuilder<List<(String, String, StudentMastery?, bool)>>(
         future: _future,
         builder: (context, snap) {
           if (snap.connectionState != ConnectionState.done) {
@@ -76,7 +84,7 @@ class _ClassesPageState extends State<ClassesPage> {
               Text('Real mastery from every evaluated answer sheet, not a placeholder.',
                   style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
               const SizedBox(height: 16),
-              for (final (id, name, mastery) in roster)
+              for (final (id, name, mastery, fetchFailed) in roster)
                 AppCard(
                   onTap: () => context.push('/analytics/mastery', extra: {'studentId': id}),
                   child: Row(
@@ -103,6 +111,8 @@ class _ClassesPageState extends State<ClassesPage> {
                               ? Colors.red
                               : (mastery.overallMastery < 0.7 ? Colors.orange : Colors.green),
                         )
+                      else if (fetchFailed)
+                        const ChipTag(label: 'couldn\'t load', color: Colors.orange)
                       else
                         const ChipTag(label: 'no data'),
                       const SizedBox(width: 4),

@@ -41,7 +41,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
         // forceShellLeading docstring.
         leading: forceShellLeading(context),
         title: const Text('School Intelligence'),
-        actions: [IconButton(onPressed: _load, icon: const Icon(Icons.refresh))],
+        actions: [IconButton(tooltip: 'Refresh', onPressed: _load, icon: const Icon(Icons.refresh))],
       ),
       body: FutureBuilder<SchoolInsights>(
         future: _future,

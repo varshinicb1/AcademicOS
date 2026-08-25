@@ -265,8 +265,15 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
     await Printing.sharePdf(bytes: bytes, filename: pathOrUrl.split(RegExp(r'[\\/]')).last);
   }
 
+  // Real dead end found by audit: these used to read widget.paper/
+  // widget.assessment directly. Every navigation path except the
+  // just-generated flow (assessment_create_page.dart) arrives with those
+  // null and relies on _reopen() populating _fetchedAssessment/_fetchedPaper
+  // instead -- build() already resolves via `?? _fetched...` (see above),
+  // but these two handlers didn't, so Export/Deliver silently no-op'd on
+  // every reopened assessment even though the screen displayed correctly.
   void _openDelivery() {
-    final paper = widget.paper;
+    final paper = widget.paper ?? _fetchedPaper;
     if (paper == null) return;
     showModalBottomSheet<void>(
       context: context,
@@ -278,14 +285,14 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
         paperTitle: paper.metadata.assessmentTitle,
         subject: paper.metadata.subject,
         grade: paper.metadata.grade,
-        schoolName: widget.assessment?.schoolId ?? 'AcademicOS School',
+        schoolName: (widget.assessment ?? _fetchedAssessment)?.schoolId ?? 'AcademicOS School',
         localFilePath: (_exportedUrl != null && !_exportedUrl!.startsWith('http')) ? _exportedUrl : null,
       ),
     );
   }
 
   Future<void> _exportPdf() async {
-    final paper = widget.paper;
+    final paper = widget.paper ?? _fetchedPaper;
     if (paper == null) return;
     setState(() {
       _exporting = true;

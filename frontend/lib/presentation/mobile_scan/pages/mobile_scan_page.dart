@@ -181,17 +181,32 @@ class _MobileScanPageState extends State<MobileScanPage> {
     }
   }
 
+  // Real bug found by audit: unlike every other handler in this file, these
+  // two had no error handling at all -- submitReviewDecision throws
+  // StateError for a missing session/question, and that became an unhandled
+  // Future error. A teacher swiping through review saw the card just not
+  // advance, with no indication their approve/edit was never saved.
   Future<void> _approve(ScanReviewItem item) async {
-    final updated = await _api.submitReviewDecision(_session!.id, item.questionId, action: 'approve');
-    _decided[item.questionId] = updated;
-    _advance();
+    try {
+      final updated = await _api.submitReviewDecision(_session!.id, item.questionId, action: 'approve');
+      _decided[item.questionId] = updated;
+      _advance();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not save review: $e')));
+    }
   }
 
   Future<void> _editAndAdvance(ScanReviewItem item, int marks, String comment) async {
-    final updated = await _api.submitReviewDecision(_session!.id, item.questionId,
-        action: 'edit', marks: marks, comment: comment);
-    _decided[item.questionId] = updated;
-    _advance();
+    try {
+      final updated = await _api.submitReviewDecision(_session!.id, item.questionId,
+          action: 'edit', marks: marks, comment: comment);
+      _decided[item.questionId] = updated;
+      _advance();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not save review: $e')));
+    }
   }
 
   void _advance() {
