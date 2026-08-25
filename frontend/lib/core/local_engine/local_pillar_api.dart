@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../../data/datasources/api/pillar_api.dart';
 import '../../domain/entities/entities.dart' show Question;
+import '../../domain/entities/enums.dart' show Difficulty;
 import '../../domain/repositories/requests.dart';
 import 'answer_evaluation.dart' as eval_engine;
 import 'corpus_repository.dart';
@@ -379,6 +380,183 @@ class LocalPillarApi extends PillarApi {
       'overallMastery': overall,
       'concepts': all,
       'weakConcepts': all.where((c) => c['isWeak'] == true).map((c) => c['conceptName']).toList(),
+    });
+  }
+
+  // ---------------- Personalized practice ----------------
+  // Real gap found and fixed: generatePractice()/submitPractice() only
+  // ever existed on the base PillarApi (real Dio HTTP calls) -- never
+  // overridden here, so tapping Mastery's real "Generate targeted
+  // practice" button in the offline build made a network call with no
+  // server to answer it. This is the "personalized assessment generation"
+  // feature the user explicitly asked for and that never actually worked
+  // offline.
+
+  /// Maps each of a student's real concept ids (chapterIds, per
+  /// _updateMasteryFromSheet's own convention) back to a real subject/grade
+  /// by scanning the assessments they were actually evaluated against --
+  /// every question in one assessment shares that assessment's subject, so
+  /// this is derived, not guessed.
+  Map<String, (String subject, int grade)> _conceptSubjects(String studentId) {
+    final map = <String, (String, int)>{};
+    for (final a in LocalStore.instance.allAssessments()) {
+      final id = a['id'] as String;
+      final subject = a['subject'] as String?;
+      final grade = (a['grade'] as num?)?.toInt();
+      if (subject == null || grade == null) continue;
+      for (final sheet in LocalStore.instance.evaluationsFor(id)) {
+        if (sheet['studentId'] != studentId) continue;
+        for (final ev in (sheet['evaluations'] as List? ?? [])) {
+          final concept = (ev as Map)['conceptId'] as String?;
+          if (concept != null) map[concept] = (subject, grade);
+        }
+      }
+    }
+    return map;
+  }
+
+  @override
+  Future<PracticeSetView> generatePractice(String studentId, {int perConcept = 2}) async {
+    final mastery = LocalStore.instance.getMastery(studentId);
+    final warnings = <String>[];
+    if (mastery == null) {
+      return PracticeSetView.fromJson({
+        'id': '', 'items': [], 'totalMarks': 0,
+        'warnings': ['This student has no evaluated work yet -- nothing to target practice at.'],
+      });
+    }
+    var weak = List<String>.from(mastery['weakConcepts'] as List? ?? const []);
+    if (weak.isEmpty) {
+      // Real, honest fallback: nothing below the weak threshold -- practice
+      // the lowest-mastery concepts anyway rather than returning nothing.
+      final concepts = (mastery['concepts'] as List? ?? [])
+          .map((c) => Map<String, dynamic>.from(c as Map))
+          .toList()
+        ..sort((a, b) => (a['mastery'] as num).compareTo(b['mastery'] as num));
+      weak = concepts.take(3).map((c) => c['conceptId'] as String).toList();
+    }
+
+    final conceptSubjects = _conceptSubjects(studentId);
+    final items = <Map<String, dynamic>>[];
+    final questionsById = <String, Map<String, dynamic>>{};
+    var totalMarks = 0;
+    for (final concept in weak) {
+      final subjectGrade = conceptSubjects[concept];
+      if (subjectGrade == null) {
+        warnings.add('No subject on record for "$concept" -- skipped.');
+        continue;
+      }
+      final (subject, grade) = subjectGrade;
+      final candidates = CorpusRepository.instance
+          .search(QuestionSearchParams(
+            subject: subject,
+            grade: grade,
+            chapterIds: [concept],
+            difficulties: const [Difficulty.easy],
+            limit: perConcept * 4,
+          ))
+          .where((q) =>
+              q.answerScheme.markingPoints.isNotEmpty ||
+              q.answerScheme.modelAnswer.isNotEmpty ||
+              (q.answerScheme.metadata['correctOption']?.toString() ?? '').isNotEmpty)
+          .take(perConcept)
+          .toList();
+      if (candidates.isEmpty) {
+        warnings.add('No real gradeable easy questions found for "$concept" in the corpus.');
+        continue;
+      }
+      for (final q in candidates) {
+        questionsById[q.id] = q.toJson();
+        items.add({
+          'questionId': q.id,
+          'conceptId': concept,
+          'stem': q.stem,
+          'marks': q.marks,
+          'difficulty': q.difficulty.name,
+        });
+        totalMarks += q.marks;
+      }
+    }
+
+    final setId = 'practice_${DateTime.now().millisecondsSinceEpoch}';
+    LocalStore.instance.savePracticeSet(setId, {
+      'studentId': studentId,
+      'questions': questionsById,
+      'conceptByQuestion': {for (final i in items) i['questionId'] as String: i['conceptId']},
+    });
+
+    return PracticeSetView.fromJson({
+      'id': setId,
+      'items': items,
+      'totalMarks': totalMarks,
+      'warnings': warnings,
+    });
+  }
+
+  @override
+  Future<PracticeResultView> submitPractice(String setId, Map<String, String> answers) async {
+    final set = LocalStore.instance.getPracticeSet(setId);
+    if (set == null) {
+      return PracticeResultView.fromJson({
+        'score': 0, 'maxScore': 0, 'percentage': 0.0, 'outcomes': [],
+        'nextAction': 'This practice set has expired -- generate a new one.',
+      });
+    }
+    final studentId = set['studentId'] as String;
+    final questions = Map<String, dynamic>.from(set['questions'] as Map);
+    final conceptByQuestion = Map<String, dynamic>.from(set['conceptByQuestion'] as Map);
+
+    final masteryBefore = LocalStore.instance.getMastery(studentId);
+    final masteryBeforeByConcept = <String, double>{
+      for (final c in (masteryBefore?['concepts'] as List? ?? []))
+        (c as Map)['conceptId'] as String: (c['mastery'] as num).toDouble(),
+    };
+
+    final evaluations = <Map<String, dynamic>>[];
+    var score = 0, maxScore = 0;
+    for (final entry in questions.entries) {
+      final question = Question.fromJson(Map<String, dynamic>.from(entry.value as Map));
+      final answer = answers[entry.key] ?? '';
+      final result = eval_engine.evaluateAnswer(question, question.answerScheme, answer);
+      score += result.awardedMarks;
+      maxScore += result.maxMarks;
+      evaluations.add({
+        'awardedMarks': result.awardedMarks,
+        'maxMarks': result.maxMarks,
+        'conceptId': conceptByQuestion[entry.key] ?? 'general',
+      });
+    }
+    _updateMasteryFromSheet(studentId, evaluations);
+    final masteryAfter = LocalStore.instance.getMastery(studentId);
+    final masteryAfterByConcept = <String, double>{
+      for (final c in (masteryAfter?['concepts'] as List? ?? []))
+        (c as Map)['conceptId'] as String: (c['mastery'] as num).toDouble(),
+    };
+
+    final touchedConcepts = conceptByQuestion.values.toSet();
+    final outcomes = touchedConcepts.map((concept) {
+      final before = masteryBeforeByConcept[concept] ?? 0.3;
+      final after = masteryAfterByConcept[concept] ?? before;
+      return {
+        'conceptName': concept,
+        'masteryBefore': before,
+        'masteryAfter': after,
+        'delta': after - before,
+        'mastered': after >= 0.8,
+      };
+    }).toList();
+
+    final percentage = maxScore > 0 ? 100.0 * score / maxScore : 0.0;
+    return PracticeResultView.fromJson({
+      'score': score,
+      'maxScore': maxScore,
+      'percentage': percentage,
+      'outcomes': outcomes,
+      'nextAction': percentage >= 80
+          ? 'Strong result -- ready to move on to a new concept.'
+          : (percentage >= 50
+              ? 'Getting there -- one more practice round on the same concepts is worth it.'
+              : 'Still shaky -- consider re-teaching before another practice round.'),
     });
   }
 

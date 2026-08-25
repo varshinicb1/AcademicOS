@@ -126,6 +126,17 @@ class LocalStore {
         .toList();
   }
 
+  // ---- Practice sets (personalized targeted practice) ----
+  void savePracticeSet(String setId, Map<String, dynamic> set) {
+    _box.put('local_practice_$setId', jsonEncode(set));
+  }
+
+  Map<String, dynamic>? getPracticeSet(String setId) {
+    final raw = _box.get('local_practice_$setId') as String?;
+    if (raw == null) return null;
+    return Map<String, dynamic>.from(jsonDecode(raw) as Map);
+  }
+
   // ---- Demo-seed lifecycle ----
   Future<void> markDemoSeeded() => _box.put('demo_seeded_v1', true);
   Future<void> clearDemoSeededFlag() => _box.delete('demo_seeded_v1');
