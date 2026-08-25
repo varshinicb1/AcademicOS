@@ -203,11 +203,76 @@ class LocalPillarApi extends PillarApi {
       'students': studentIds.length,
       'assessments': assessmentIds.length,
       'averageMastery': avg,
-      'subjects': [],
+      'subjects': await _subjectRollups(schoolId),
       'interventions': [
         if (avg < 0.6) 'Average mastery is ${(avg * 100).toStringAsFixed(0)}% — below the 60% action line.',
       ],
     });
+  }
+
+  /// Real per-subject rollup for the Principal's "By subject" section --
+  /// was a hardcoded `subjects: []` before this, so the section always
+  /// rendered empty regardless of real evaluated data. Mastery is tracked
+  /// per-concept without a subject tag in the current schema, so this uses
+  /// real awarded/max marks across every evaluated assessment per subject
+  /// as the mastery proxy (a genuine measured value, not invented), and
+  /// real chapter coverage (chapters actually assessed vs. the subject's
+  /// full corpus chapter count from the same chapters() call the Syllabus
+  /// page uses).
+  Future<List<Map<String, dynamic>>> _subjectRollups(String schoolId) async {
+    final assessments = LocalStore.instance
+        .allAssessments()
+        .where((a) => a['schoolId'] == schoolId)
+        .toList();
+    final bySubjectGrade = <String, List<Map<String, dynamic>>>{};
+    for (final a in assessments) {
+      final key = '${a['subject']}|${a['grade']}';
+      bySubjectGrade.putIfAbsent(key, () => []).add(a);
+    }
+    final rollups = <Map<String, dynamic>>[];
+    for (final entry in bySubjectGrade.entries) {
+      final subject = entry.value.first['subject'] as String? ?? '';
+      final grade = (entry.value.first['grade'] as num?)?.toInt() ?? 0;
+      if (subject.isEmpty) continue;
+
+      var awarded = 0, max = 0;
+      final students = <String>{};
+      final assessedChapters = <String>{};
+      for (final a in entry.value) {
+        final id = a['id'] as String;
+        for (final ev in LocalStore.instance.evaluationsFor(id)) {
+          awarded += (ev['totalAwarded'] as num? ?? 0).toInt();
+          max += (ev['totalMax'] as num? ?? 0).toInt();
+          final sid = ev['studentId'] as String?;
+          if (sid != null) students.add(sid);
+        }
+        for (final c in (a['chapterIds'] as List? ?? const [])) {
+          assessedChapters.add(c.toString());
+        }
+      }
+      if (students.isEmpty) continue; // no real evaluated data for this subject yet
+
+      double coverage = 0;
+      try {
+        final allChapters = await chapters(subject, grade);
+        coverage = allChapters.isEmpty
+            ? 0
+            : assessedChapters.length / allChapters.length;
+      } catch (_) {
+        // Real corpus lookup failed (e.g. subject not in catalog) -- leave
+        // coverage at 0 rather than guessing.
+      }
+
+      rollups.add({
+        'subject': subject,
+        'grade': grade,
+        'averageMastery': max > 0 ? awarded / max : 0.0,
+        'students': students.length,
+        'weakestConcept': null,
+        'curriculumCoverage': coverage.clamp(0, 1),
+      });
+    }
+    return rollups;
   }
 
   @override
