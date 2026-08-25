@@ -645,7 +645,20 @@ class LocalPillarApi extends PillarApi {
   }
 
   @override
-  Future<Map<String, dynamic>> mailStatus() async => {'configured': false, 'reason': 'offline build'};
+  Future<Map<String, dynamic>> mailStatus() async => {
+        // Shape must match the server's real /mail/status response --
+        // PaperDeliverySheet reads anyConfigured and backends[x].reason
+        // directly; the old {'configured': false} shape had neither key,
+        // so opening the Email tab threw a null-cast exception instead of
+        // showing the intended "not configured" warning.
+        'anyConfigured': false,
+        'backends': {
+          'offline': {
+            'configured': false,
+            'reason': 'This is an offline on-device build -- there is no mail server to send through.',
+          },
+        },
+      };
 
   @override
   Future<Map<String, dynamic>> sendPaper({

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
@@ -22,6 +23,14 @@ class PaperDeliverySheet extends StatefulWidget {
   final int grade;
   final String schoolName;
 
+  /// Absolute on-device path of an already-exported copy of this paper
+  /// (offline builds always have one -- exportPaper() renders locally
+  /// before this sheet ever opens). When set, Preview reads these bytes
+  /// directly instead of re-fetching the PDF from a server that, in the
+  /// offline build, doesn't exist -- fixes a real dead end where the
+  /// Preview tab hung/failed even though the paper had just been exported.
+  final String? localFilePath;
+
   const PaperDeliverySheet({
     super.key,
     required this.paperId,
@@ -29,6 +38,7 @@ class PaperDeliverySheet extends StatefulWidget {
     required this.subject,
     required this.grade,
     this.schoolName = 'AcademicOS School',
+    this.localFilePath,
   });
 
   @override
@@ -67,6 +77,9 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
   }
 
   Future<Uint8List> _fetchPdf() async {
+    if (widget.localFilePath != null) {
+      return File(widget.localFilePath!).readAsBytes();
+    }
     final dio = GetIt.I<Dio>();
     final r = await dio.get<List<int>>(
       '/papers/${widget.paperId}/file',

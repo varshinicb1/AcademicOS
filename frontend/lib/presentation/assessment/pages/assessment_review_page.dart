@@ -279,6 +279,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
         subject: paper.metadata.subject,
         grade: paper.metadata.grade,
         schoolName: widget.assessment?.schoolId ?? 'AcademicOS School',
+        localFilePath: (_exportedUrl != null && !_exportedUrl!.startsWith('http')) ? _exportedUrl : null,
       ),
     );
   }
