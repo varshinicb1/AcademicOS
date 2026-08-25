@@ -17,7 +17,37 @@ on:
   workflow_dispatch: {}
 
 jobs:
+  test:
+    # Real gate, not decoration: this repo has 924 real pytest cases for
+    # src/academicos (confirmed passing, ~24s, 2026-08-26) that never ran
+    # before a production sync/deploy until now -- a regression here used
+    # to reach the live Render service with nothing catching it first.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout AcademicOS
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      # All extras, matching the environment the real 924-test result
+      # (2026-08-26) was actually produced in -- dev+api alone would leave
+      # ocr/retrieval/parse-vlm/mobile-scan/gcs-dependent tests either
+      # erroring on a missing import or silently skipping, which would make
+      # this gate report a smaller, less meaningful pass count than what
+      # was actually verified. Correctness here matters more than install
+      # time.
+      - name: Install academicos with all extras
+        run: pip install -e ".[dev,api,ocr,retrieval,parse-vlm,mobile-scan,gcs]"
+
+      - name: Run the real test suite
+        run: pytest tests/ -q
+
   sync:
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout AcademicOS
