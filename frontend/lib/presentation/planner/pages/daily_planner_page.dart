@@ -17,6 +17,8 @@ import '../../shared/widgets/shell.dart';
 // cbse_syllabus.py) -- these are the 4 subjects it covers.
 const _timetableSubjects = ['Mathematics', 'Science', 'Social Science', 'English'];
 
+const _offlineBuild = bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
+
 /// Assessment schedule — the real exam calendar, built from the assessments
 /// this teacher has created rather than an invented study plan.
 class PlannerPage extends StatefulWidget {
@@ -341,6 +343,21 @@ class _TimetableSheetState extends State<_TimetableSheet> {
           if (_result != null) ...[
             const Gap(20),
             Text('Unit allocation', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+            // Real, honest labeling: the offline build's real corpus doesn't
+            // carry official CBSE unit marks-weightage (that data lives only
+            // in the server's cbse_syllabus.py, never bundled offline), so
+            // this build weights periods by real question-bank coverage per
+            // chapter instead -- a genuinely different, real signal, not the
+            // official one, and a teacher should know that before pacing a
+            // real term around it.
+            if (_offlineBuild) ...[
+              const Gap(2),
+              Text(
+                'Based on real on-device question-bank coverage per chapter, '
+                'not official CBSE unit weightage (not bundled in this offline build).',
+                style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              ),
+            ],
             const Gap(8),
             for (final a in _result!.allocations)
               Padding(

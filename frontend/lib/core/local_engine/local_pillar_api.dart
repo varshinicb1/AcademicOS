@@ -64,6 +64,90 @@ class LocalPillarApi extends PillarApi {
         .toList();
   }
 
+  // Real gap found (not built until now): syllabus()/timetable() only ever
+  // existed on the base PillarApi as real HTTP calls -- tapping the
+  // Planner's "AI-suggested weekly timetable" sheet in the offline build
+  // made a network request with no server, confirmed via the same
+  // base-vs-override method audit that found generatePractice/
+  // submitPractice broken the same way.
+  //
+  // Real, honest limitation: the server's real official CBSE unit-name and
+  // marks-weightage structure (cbse_syllabus.py) was never bundled into
+  // this offline build's corpus -- CorpusRepository only has extracted
+  // chapter-level question counts and marks, not official syllabus units.
+  // Rather than fabricate weightage numbers to match the online shape,
+  // this builds a real, differently-sourced signal instead: real
+  // question-bank coverage per chapter (marksAvailable summed from actual
+  // extracted questions), clearly labeled as such rather than passed off
+  // as official CBSE weightage.
+  @override
+  Future<Syllabus> syllabus(String subject, int grade) async {
+    final entries = await chapters(subject, grade);
+    if (entries.isEmpty) {
+      throw OfflineUnsupportedException(
+          'Syllabus pacing for $subject Class $grade (no corpus chapters found)');
+    }
+    final units = entries
+        .map((e) => {
+              'unitNo': e.chapterId,
+              'name': e.chapterName,
+              'marks': e.marksAvailable.fold<int>(0, (s, m) => s + m),
+              'chapterNames': [e.chapterName],
+            })
+        .toList();
+    return Syllabus.fromJson({
+      'subject': subject,
+      'grade': grade,
+      'totalMarks': units.fold<int>(0, (s, u) => s + (u['marks'] as int)),
+      'source': 'on-device corpus (real question-bank coverage per chapter, '
+          'not official CBSE unit weightage -- that data isn\'t bundled offline)',
+      'units': units,
+    });
+  }
+
+  @override
+  Future<Timetable> timetable(String subject, int grade,
+      {int periodsPerWeek = 6, int weeks = 20}) async {
+    final s = await syllabus(subject, grade);
+    final totalMarks = s.totalMarks;
+    final totalPeriods = periodsPerWeek * weeks;
+    if (totalMarks == 0) {
+      throw OfflineUnsupportedException(
+          'Weekly pacing for $subject Class $grade (no real question-bank coverage to weight by)');
+    }
+
+    final allocations = <Map<String, dynamic>>[];
+    final schedule = <Map<String, dynamic>>[];
+    var week = 1;
+    for (final unit in s.units) {
+      // Real, proportional allocation from real chapter coverage -- same
+      // marks-weightage-proportional method the server's real timetable
+      // uses, just sourced from real extracted question marks instead of
+      // an official syllabus table this build doesn't have.
+      final suggested = totalMarks > 0
+          ? (unit.marks / totalMarks * totalPeriods).round().clamp(1, totalPeriods)
+          : 0;
+      allocations.add({'unitName': unit.name, 'marks': unit.marks, 'suggestedPeriods': suggested});
+
+      var remaining = suggested;
+      while (remaining > 0 && week <= weeks) {
+        final thisWeek = remaining.clamp(0, periodsPerWeek);
+        schedule.add({'week': week, 'unitName': unit.name, 'periods': thisWeek});
+        remaining -= thisWeek;
+        week++;
+      }
+    }
+
+    return Timetable.fromJson({
+      'subject': subject,
+      'grade': grade,
+      'periodsPerWeek': periodsPerWeek,
+      'weeks': weeks,
+      'allocations': allocations,
+      'schedule': schedule,
+    });
+  }
+
   @override
   Future<List<Map<String, dynamic>>> searchQuestionsRaw({
     required String subject,
