@@ -7,6 +7,7 @@ import '../../domain/entities/entities.dart' show Question;
 import '../../domain/entities/enums.dart' show Difficulty;
 import '../../domain/repositories/requests.dart';
 import 'answer_evaluation.dart' as eval_engine;
+import 'concept_subjects.dart';
 import 'corpus_repository.dart';
 import 'local_scan_engine.dart' as local_scan;
 import 'local_scan_pdf_export.dart';
@@ -461,29 +462,6 @@ class LocalPillarApi extends PillarApi {
   // feature the user explicitly asked for and that never actually worked
   // offline.
 
-  /// Maps each of a student's real concept ids (chapterIds, per
-  /// _updateMasteryFromSheet's own convention) back to a real subject/grade
-  /// by scanning the assessments they were actually evaluated against --
-  /// every question in one assessment shares that assessment's subject, so
-  /// this is derived, not guessed.
-  Map<String, (String subject, int grade)> _conceptSubjects(String studentId) {
-    final map = <String, (String, int)>{};
-    for (final a in LocalStore.instance.allAssessments()) {
-      final id = a['id'] as String;
-      final subject = a['subject'] as String?;
-      final grade = (a['grade'] as num?)?.toInt();
-      if (subject == null || grade == null) continue;
-      for (final sheet in LocalStore.instance.evaluationsFor(id)) {
-        if (sheet['studentId'] != studentId) continue;
-        for (final ev in (sheet['evaluations'] as List? ?? [])) {
-          final concept = (ev as Map)['conceptId'] as String?;
-          if (concept != null) map[concept] = (subject, grade);
-        }
-      }
-    }
-    return map;
-  }
-
   @override
   Future<PracticeSetView> generatePractice(String studentId, {int perConcept = 2}) async {
     final mastery = LocalStore.instance.getMastery(studentId);
@@ -505,7 +483,7 @@ class LocalPillarApi extends PillarApi {
       weak = concepts.take(3).map((c) => c['conceptId'] as String).toList();
     }
 
-    final conceptSubjects = _conceptSubjects(studentId);
+    final conceptSubjects = conceptSubjectsFor(studentId);
     final items = <Map<String, dynamic>>[];
     final questionsById = <String, Map<String, dynamic>>{};
     var totalMarks = 0;

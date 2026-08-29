@@ -5,6 +5,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import '../../domain/repositories/requests.dart';
+import 'pdf_text_safety.dart';
 
 /// Real, on-device CBSE-format question paper PDF -- not the full fidelity
 /// of the server's ReportLab renderer (src/academicos/assessment/pdf.py),
@@ -26,16 +27,7 @@ class LocalPdfExporter {
   /// seeder's own assessment titles do), and any of those silently render
   /// as a missing glyph rather than throwing. Normalize to ASCII-safe
   /// equivalents on every user-supplied string before it reaches pw.Text.
-  static String _safe(String text) {
-    return text
-        .replaceAll('—', '-') // em dash
-        .replaceAll('–', '-') // en dash
-        .replaceAll('•', '-') // bullet
-        .replaceAll('‘', "'")
-        .replaceAll('’', "'")
-        .replaceAll('“', '"')
-        .replaceAll('”', '"');
-  }
+  static String _safe(String text) => pdfSafe(text);
 
   static Future<String> exportPaper(GeneratedPaper paper) async {
     final doc = pw.Document();

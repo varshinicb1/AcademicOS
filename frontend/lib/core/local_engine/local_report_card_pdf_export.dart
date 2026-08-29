@@ -5,6 +5,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import 'local_report_card.dart';
+import 'pdf_text_safety.dart';
 
 /// Real report-card PDF -- the report-card generation feature requested
 /// but never built. Every figure printed here comes from ReportCardData,
@@ -15,14 +16,7 @@ class LocalReportCardPdfExporter {
   // fixed: the pdf package's base Helvetica font has no Unicode support, so
   // typographic punctuation in a real name/school string would silently
   // render as a missing glyph.
-  static String _safe(String text) => text
-      .replaceAll('—', '-')
-      .replaceAll('–', '-')
-      .replaceAll('•', '-')
-      .replaceAll('‘', "'")
-      .replaceAll('’', "'")
-      .replaceAll('“', '"')
-      .replaceAll('”', '"');
+  static String _safe(String text) => pdfSafe(text);
 
   static Future<String> export(ReportCardData data) async {
     final doc = pw.Document();

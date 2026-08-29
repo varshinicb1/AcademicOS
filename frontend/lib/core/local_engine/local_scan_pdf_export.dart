@@ -5,6 +5,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
 import 'local_store.dart';
+import 'pdf_text_safety.dart';
 
 /// Real on-device PDF export for a finished Scan & Grade session -- a
 /// genuine feature gap found by audit: LocalScanEngine.finalizeSession()
@@ -24,14 +25,7 @@ import 'local_store.dart';
 /// genuine enhancement plain text can't fake -- a real distinguishing
 /// signal for a page that says only "Not awarded" repeatedly.
 class LocalScanPdfExporter {
-  static String _safe(String text) => text
-      .replaceAll('—', '-')
-      .replaceAll('–', '-')
-      .replaceAll('•', '-')
-      .replaceAll('‘', "'")
-      .replaceAll('’', "'")
-      .replaceAll('“', '"')
-      .replaceAll('”', '"');
+  static String _safe(String text) => pdfSafe(text);
 
   static Future<Directory> _scanReportsDir() async {
     final dir = await getApplicationDocumentsDirectory();
