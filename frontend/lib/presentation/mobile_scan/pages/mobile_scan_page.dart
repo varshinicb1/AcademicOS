@@ -469,8 +469,16 @@ class _MobileScanPageState extends State<MobileScanPage> {
             children: [
               Text('Question ${_index + 1} of ${_review.length}',
                   style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
-              const Spacer(),
-              Text('Swipe right to approve, left to edit', style: theme.textTheme.bodySmall),
+              const SizedBox(width: 8),
+              Expanded(
+                child: Text(
+                  'Swipe right to approve, left to edit',
+                  style: theme.textTheme.bodySmall,
+                  textAlign: TextAlign.right,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
             ],
           ),
         ),

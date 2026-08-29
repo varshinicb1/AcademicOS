@@ -17,6 +17,7 @@ import '../../domain/entities/entities.dart';
 import '../../domain/repositories/requests.dart';
 import '../../presentation/evaluation/pages/evaluation_page.dart';
 import '../../presentation/mobile_scan/pages/mobile_scan_page.dart';
+import '../../presentation/mobile_scan/pages/scan_history_page.dart';
 import '../../presentation/practice/pages/practice_session_page.dart';
 import '../../presentation/settings/pages/settings_page.dart';
 import '../../presentation/settings/pages/template_maker_page.dart';
@@ -166,6 +167,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             name: 'mobile-scan',
             pageBuilder: (context, state) => const NoTransitionPage(
               child: MobileScanPage(),
+            ),
+          ),
+          GoRoute(
+            path: '/scan-history',
+            name: 'scan-history',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: ScanHistoryPage(),
             ),
           ),
           GoRoute(

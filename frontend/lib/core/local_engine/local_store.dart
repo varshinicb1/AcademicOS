@@ -229,6 +229,10 @@ class LocalStore {
     _box.put('local_scan_$sessionId', jsonEncode(session));
   }
 
+  void deleteScanSession(String sessionId) {
+    _box.delete('local_scan_$sessionId');
+  }
+
   /// Every scan session ever created on this device, most-recently-touched
   /// first -- used by the Today screen to surface real "N answer sheets
   /// waiting for your review" counts instead of a guess.

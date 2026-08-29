@@ -133,9 +133,10 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                 Expanded(
                   child: DropdownButtonFormField<String>(
                     initialValue: _selectedSubject,
+                    isExpanded: true,
                     decoration: const InputDecoration(labelText: 'Subject *'),
                     items: ['Science', 'Mathematics', 'English', 'Hindi', 'Social Science', 'Sanskrit', 'Computer Science']
-                        .map((s) => DropdownMenuItem(value: s, child: Text(s))).toList(),
+                        .map((s) => DropdownMenuItem(value: s, child: Text(s, overflow: TextOverflow.ellipsis))).toList(),
                     onChanged: (v) => setState(() {
                       _selectedSubject = v!;
                       _selectedChapters.clear();

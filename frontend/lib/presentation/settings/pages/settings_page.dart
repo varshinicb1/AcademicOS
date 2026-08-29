@@ -277,10 +277,18 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  // Real overflow bug: `value` used to be crammed into ListTile.trailing,
+  // which forces a single unbounded-width line -- fine for "Flutter" or
+  // "1.0.0+1", but two real call sites pass a full sentence ("Always on --
+  // this build has no server-connected mode", the multi-sentence "What this
+  // does" Scan & Grade explainer) that has no business being squeezed into a
+  // trailing slot. Subtitle wraps naturally at full width, and matches every
+  // other tile builder in this same file (_buildListTile/_buildSwitchTile
+  // already put their secondary text there, never in trailing).
   Widget _buildInfoTile(String label, String value) {
     return ListTile(
       title: Text(label, style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
-      trailing: Text(value, style: const TextStyle(fontFamily: 'monospace', fontWeight: FontWeight.w500)),
+      subtitle: Text(value, style: const TextStyle(fontFamily: 'monospace', fontWeight: FontWeight.w500)),
       contentPadding: EdgeInsets.zero,
     );
   }

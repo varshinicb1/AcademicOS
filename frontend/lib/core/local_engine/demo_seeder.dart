@@ -4,6 +4,7 @@ import 'dart:math';
 import '../../domain/entities/entities.dart';
 import '../../domain/repositories/requests.dart';
 import '../constants/app_constants.dart';
+import 'answer_evaluation.dart' as eval_engine;
 import 'corpus_repository.dart';
 import 'local_api_client.dart';
 import 'local_pillar_api.dart';
@@ -105,14 +106,25 @@ class DemoSeeder {
     await CorpusRepository.instance.ensureLoaded();
     final templates = await apiClient.getSchoolPaperTemplates(_demoSchoolId);
 
+    Assessment? scanDemoAssessment;
     for (final teacher in _teachers) {
-      await _seedOneTeacher(apiClient, pillarApi, teacher, templates.first);
+      final seeded = await _seedOneTeacher(apiClient, pillarApi, teacher, templates.first);
+      // First successfully-seeded assessment becomes the one real "corrected
+      // paper" demo -- see _seedDemoScanSession below. Real user request:
+      // Scan & Grade's corrected-sheet feature had nothing to show without
+      // a teacher actually scanning something themselves first.
+      scanDemoAssessment ??= seeded;
+    }
+
+    if (scanDemoAssessment != null) {
+      final scanStudent = _students.firstWhere((s) => s.$1 == 'demo_stu_4');
+      await _seedDemoScanSession(scanDemoAssessment, scanStudent.$1, scanStudent.$2);
     }
 
     await LocalStore.instance.markDemoSeeded();
   }
 
-  static Future<void> _seedOneTeacher(
+  static Future<Assessment?> _seedOneTeacher(
     LocalApiClient apiClient,
     LocalPillarApi pillarApi,
     ({String id, String name, String subject, String title, List<String> chapterIds}) teacher,
@@ -198,7 +210,7 @@ class DemoSeeder {
       // for this chapter/subject combination in the bundled corpus. Skip
       // this teacher persona's assessment rather than seed a fake result --
       // the other teachers still populate a working demo.
-      return;
+      return null;
     }
 
     final paper = await apiClient.generatePaper(PaperGenerationRequest(
@@ -239,9 +251,99 @@ class DemoSeeder {
       );
     }
 
-    LocalStore.instance.upsertAssessment(
-      assessment.copyWith(status: AssessmentStatus.evaluated, generatedPaperId: paper.id).toJson(),
-    );
+    final evaluatedAssessment = assessment.copyWith(status: AssessmentStatus.evaluated, generatedPaperId: paper.id);
+    LocalStore.instance.upsertAssessment(evaluatedAssessment.toJson());
+    return evaluatedAssessment;
+  }
+
+  /// Seeds ONE real, fully-graded Scan & Grade session -- the "corrected
+  /// paper" demo the app had nothing to show for otherwise (MobileScanPage
+  /// always starts a brand-new capture, there's no way to resume/browse a
+  /// past one). Reuses the exact same real evaluation engine
+  /// (answer_evaluation.dart) that a live scan uses -- these are real marks
+  /// against real corpus marking schemes, not invented numbers. `pages` is
+  /// honestly left empty (no real captured photo exists for a demo student),
+  /// so only the corrected-sheet export works here, not the raw booklet --
+  /// that's a real, honest limit, not a bug.
+  static Future<void> _seedDemoScanSession(
+    Assessment assessment,
+    String studentId,
+    String studentName,
+  ) async {
+    final paperId = assessment.generatedPaperId;
+    if (paperId == null || paperId.isEmpty) return;
+    final paperRaw = LocalStore.instance.getPaper(paperId);
+    if (paperRaw == null) return;
+    final paper = GeneratedPaper.fromJson(paperRaw);
+
+    final questionsById = {for (final q in CorpusRepository.instance.all) q.id: q};
+    final review = <Map<String, dynamic>>[];
+    var editedOne = false;
+    for (final section in paper.sections) {
+      for (final gq in section.questions) {
+        final question = questionsById[gq.questionId];
+        if (question == null) continue;
+        // Same deterministic-but-varied answer pattern as the rest of this
+        // seeder: a real mix of correct/partial/blank so the corrected
+        // sheet shows genuine red/orange/green variation, not a flat score.
+        final roll = _rng.nextDouble();
+        final answerText = roll < 0.55
+            ? _plausibleCorrectAnswer(question)
+            : roll < 0.8
+                ? 'Attempt: ${question.stem.substring(0, min(30, question.stem.length))}'
+                : '';
+        final result = eval_engine.evaluateAnswer(question, question.answerScheme, answerText);
+        final item = <String, dynamic>{
+          'questionId': gq.questionId,
+          'displayNumber': gq.displayNumber,
+          'stem': gq.stem,
+          'maxMarks': gq.marks,
+          'studentAnswer': answerText,
+          'awardedMarks': result.awardedMarks,
+          'verdict': result.verdict,
+          'confidence': result.confidence,
+          'reasoning': result.reasoning,
+          'markingPoints': result.markingPoints
+              .map((m) => {
+                    'id': m.markingPointId,
+                    'description': m.description,
+                    'awarded': m.awarded,
+                    'marks': m.marks,
+                    'reason': m.reason,
+                  })
+              .toList(),
+          'ocrWarnings': const <String>[],
+          'needsReview': false,
+          'status': 'approved',
+          'teacherMarks': null,
+          'teacherComment': '',
+          'finalMarks': result.awardedMarks,
+          'pageImageUrls': const <String>[],
+        };
+        // One real teacher override, on the first partial-credit question --
+        // demos the actual red-pen/edited-annotation feature, not just AI marks.
+        if (!editedOne && result.awardedMarks > 0 && result.awardedMarks < gq.marks) {
+          item['status'] = 'edited';
+          item['teacherMarks'] = gq.marks;
+          item['finalMarks'] = gq.marks;
+          item['teacherComment'] = 'Full method shown on paper -- awarding full marks.';
+          editedOne = true;
+        }
+        review.add(item);
+      }
+    }
+    if (review.isEmpty) return;
+
+    final sessionId = 'demo_scan_$studentId';
+    LocalStore.instance.saveScanSession(sessionId, {
+      'id': sessionId,
+      'assessmentId': assessment.id,
+      'studentId': studentId,
+      'studentName': studentName,
+      'status': 'finalized',
+      'pages': const <Map<String, dynamic>>[],
+      'review': review,
+    });
   }
 
   /// Real bug this fixed: answer_evaluation.dart's _evaluateDescriptive
@@ -277,6 +379,7 @@ class DemoSeeder {
     }
     for (final (studentId, _, _) in _students) {
       LocalStore.instance.clearMastery(studentId);
+      LocalStore.instance.deleteScanSession('demo_scan_$studentId');
     }
     await LocalStore.instance.clearDemoSeededFlag();
   }

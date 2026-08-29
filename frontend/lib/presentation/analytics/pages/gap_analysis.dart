@@ -24,9 +24,21 @@ class _GapAnalysisPageState extends State<GapAnalysisPage> {
   // to see or pick from their real evaluated assessments. Sourcing a real
   // recent list from LocalStore -- same fix pattern as the Mastery page's
   // student picker.
+  //
+  // Real bug found and fixed: filtering on status == 'evaluated' alone isn't
+  // proof real per-student evaluation data exists on THIS device. SyncService
+  // only syncs assessment-level metadata (including status) between devices,
+  // never the underlying evaluations/mastery -- so an assessment pulled from
+  // another teacher's device (or after a reinstall) can genuinely carry
+  // status:'evaluated' with zero local evaluations, which used to auto-select
+  // and permanently dead-end on "No evaluated sheets yet for this
+  // assessment." Gating on real local evidence (evaluationsFor is non-empty)
+  // instead means the picker only ever offers assessments this page can
+  // actually show something real for.
   List<Map<String, dynamic>> get _evaluatedAssessments => LocalStore.instance
       .allAssessments()
       .where((a) => a['status'] == 'evaluated')
+      .where((a) => LocalStore.instance.evaluationsFor(a['id'] as String).isNotEmpty)
       .toList();
 
   @override

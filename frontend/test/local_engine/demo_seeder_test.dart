@@ -110,4 +110,57 @@ void main() {
     expect(LocalStore.instance.allAssessments(), isEmpty);
     expect(LocalStore.instance.isDemoSeeded, isFalse);
   });
+
+  test('seeds one real, fully-graded scan session so the corrected-paper demo has something to show', () async {
+    await DemoSeeder.seedIfEmpty();
+
+    final sessions = LocalStore.instance.allScanSessions();
+    expect(sessions.length, 1,
+        reason: 'exactly one demo scan session -- the corrected-paper feature demo');
+
+    final session = sessions.first;
+    expect(session['status'], 'finalized');
+    expect(session['studentId'], 'demo_stu_4');
+    expect(session['studentName'], 'Ananya Iyer');
+    expect(session['pages'], isEmpty,
+        reason: 'honestly empty -- no real captured photo exists for a demo student, so only '
+            'the corrected-sheet export (not the raw booklet) should work for this session');
+
+    final review = List<Map>.from(session['review'] as List);
+    expect(review, isNotEmpty, reason: 'must have real per-question marks, not an empty shell');
+
+    // Real, varied marks -- not every question scored identically, which
+    // would signal a fabricated rather than a genuinely evaluated sheet.
+    final marksAwarded = review.map((r) => r['finalMarks'] as num).toSet();
+    expect(marksAwarded.length, greaterThan(1),
+        reason: 'a genuinely mixed real result, not a flat score across every question');
+
+    // The one deliberate teacher-override item must carry a real comment,
+    // proving the red-pen/edited-annotation feature has something to demo.
+    final edited = review.where((r) => r['status'] == 'edited');
+    expect(edited, isNotEmpty, reason: 'must demo the teacher-override feature, not only AI marks');
+    for (final r in edited) {
+      expect((r['teacherComment'] as String).isNotEmpty, isTrue);
+      expect(r['finalMarks'], r['maxMarks'], reason: 'the override in this seeder always awards full marks');
+    }
+
+    // Cross-check against the real assessment/paper this session grades --
+    // must not be inventing question data independent of the real paper.
+    final assessment = LocalStore.instance.getAssessment(session['assessmentId'] as String);
+    expect(assessment, isNotNull);
+    final paper = LocalStore.instance.getPaper(assessment!['generatedPaperId'] as String);
+    final totalQuestions = (paper!['sections'] as List)
+        .fold<int>(0, (s, sec) => s + ((sec['questions'] as List).length));
+    expect(review.length, totalQuestions,
+        reason: 'one review item per real question in the real generated paper');
+  });
+
+  test('clearDemoData also removes the demo scan session', () async {
+    await DemoSeeder.seedIfEmpty();
+    expect(LocalStore.instance.allScanSessions(), isNotEmpty);
+
+    await DemoSeeder.clearDemoData();
+
+    expect(LocalStore.instance.allScanSessions(), isEmpty);
+  });
 }

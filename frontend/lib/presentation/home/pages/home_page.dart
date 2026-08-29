@@ -89,6 +89,10 @@ class _HomePageState extends State<HomePage> {
               _unsyncedCard(context, theme, unsyncedCount),
               const Gap(20),
             ],
+            if (scanSessions.isNotEmpty) ...[
+              _scanHistoryCard(context, theme, scanSessions.length),
+              const Gap(20),
+            ],
             Text('Recent assessments', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
             const Gap(8),
             if (assessments.isEmpty)
@@ -238,6 +242,36 @@ class _HomePageState extends State<HomePage> {
                 Text('Not synced yet', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
                 Text(
                   '$count assessment${count == 1 ? '' : 's'} waiting to sync — tap to sync now',
+                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+              ],
+            ),
+          ),
+          Icon(Icons.chevron_right, color: theme.colorScheme.onSurfaceVariant),
+        ],
+      ),
+    );
+  }
+
+  Widget _scanHistoryCard(BuildContext context, ThemeData theme, int count) {
+    return AppCard(
+      onTap: () => context.push('/scan-history'),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(color: theme.colorScheme.tertiaryContainer, shape: BoxShape.circle),
+            child: Icon(Icons.history_edu_outlined, color: theme.colorScheme.onTertiaryContainer, size: 22),
+          ),
+          const Gap(14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Scan history', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                Text(
+                  '$count scanned answer sheet${count == 1 ? '' : 's'} on this device -- tap to browse',
                   style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                 ),
               ],
