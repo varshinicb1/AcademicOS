@@ -149,7 +149,10 @@ class ChipTag extends StatelessWidget {
     final textColor = color != null ? Colors.white : Theme.of(context).colorScheme.onPrimaryContainer;
 
     return Chip(
-      label: Text(label, style: TextStyle(color: textColor, fontSize: 11, fontWeight: FontWeight.w500)),
+      label: Text(label,
+          softWrap: false,
+          overflow: TextOverflow.visible,
+          style: TextStyle(color: textColor, fontSize: 11, fontWeight: FontWeight.w500)),
       avatar: icon != null ? Icon(icon, size: 14, color: textColor) : null,
       backgroundColor: bgColor,
       side: BorderSide.none,
