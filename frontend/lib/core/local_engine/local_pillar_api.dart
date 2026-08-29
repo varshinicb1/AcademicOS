@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 
 import '../../data/datasources/api/pillar_api.dart';
@@ -7,6 +9,7 @@ import '../../domain/repositories/requests.dart';
 import 'answer_evaluation.dart' as eval_engine;
 import 'corpus_repository.dart';
 import 'local_scan_engine.dart' as local_scan;
+import 'local_scan_pdf_export.dart';
 import 'local_store.dart';
 import 'mastery_engine.dart';
 
@@ -724,7 +727,30 @@ class LocalPillarApi extends PillarApi {
   Future<ScanFinalizeResult> finalizeScanSession(String sessionId) async =>
       ScanFinalizeResult.fromJson(await local_scan.LocalScanEngine.finalizeSession(sessionId));
 
+  // Real gap closed: this used to throw OfflineUnsupportedException
+  // unconditionally for both PDFs. The backend already had real
+  // export_corrected_pdf/export_raw_booklet_pdf logic
+  // (src/academicos/assessment/mobile_scan.py) that never made it into the
+  // offline build -- ported here using the same real session/review data,
+  // ../local_scan_pdf_export.dart. `url` is the same relative path the
+  // caller already builds (/scan/sessions/{id}/{raw|corrected}-pdf) --
+  // parsed rather than given a new offline-only shape, so no caller change
+  // was needed.
+  static final RegExp _scanPdfUrl = RegExp(r'^/scan/sessions/([^/]+)/(raw|corrected)-pdf$');
+
   @override
-  Future<String> downloadScanPdf(String url, String savePath) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
+  Future<String> downloadScanPdf(String url, String savePath) async {
+    final match = _scanPdfUrl.firstMatch(url);
+    if (match == null) {
+      throw OfflineUnsupportedException('Scan & Grade PDF export for "$url"');
+    }
+    final sessionId = match.group(1)!;
+    final kind = match.group(2)!;
+    final generatedPath = kind == 'corrected'
+        ? await LocalScanPdfExporter.exportCorrected(sessionId)
+        : await LocalScanPdfExporter.exportRawBooklet(sessionId);
+    final bytes = await File(generatedPath).readAsBytes();
+    await File(savePath).writeAsBytes(bytes);
+    return savePath;
+  }
 }

@@ -172,6 +172,7 @@ dev_dependencies:
   # Testing
   # mocktail: ^0.2.0  # Removed - conflict with freezed
   # bloc_test: ^8.5.0  # Removed - conflict with freezed
+  image: ^4.2.0  # generates a real tiny PNG in local_scan_pdf_export_test.dart -- already a transitive dep of pdf, declared here so the direct import resolves
 
 flutter:
   uses-material-design: true
