@@ -1,31 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/app_constants.dart';
 import '../../../domain/entities/entities.dart';
 import '../../../domain/repositories/requests.dart';
+import '../../../data/datasources/api/pillar_api.dart';
 import '../../blocs/assessment_bloc.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
-
-const _scienceChapters = [
-  'Chemical Reactions and Equations',
-  'Acids, Bases and Salts',
-  'Metals and Non-metals',
-  'Carbon and its Compounds',
-  'Life Processes',
-  'Control and Coordination',
-  'How do Organisms Reproduce',
-  'Heredity',
-  'Light – Reflection and Refraction',
-  'The Human Eye and the Colourful World',
-  'Electricity',
-  'Magnetic Effects of Electric Current',
-  'Our Environment',
-];
-
-const _defaultChapters = ['Chapter selection depends on subject — pick Science for the pilot question bank.'];
 
 class AssessmentCreatePage extends StatefulWidget {
   const AssessmentCreatePage({super.key});
@@ -52,6 +36,47 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     competencyWeights: CompetencyWeights(weights: {}),
     sections: [],
   );
+
+  // Real bug fix: the chapter list used to be a hardcoded, Science-only
+  // list of DISPLAY NAMES ("Chemical Reactions and Equations") passed
+  // straight through as chapterIds -- but the real corpus keys chapters by
+  // slug ("chemical-reactions-equations"), so even selecting a Science
+  // "chapter" matched zero real questions, and every other subject showed
+  // one disabled placeholder checkbox reading "Chapter selection depends on
+  // subject -- pick Science for the pilot question bank." (a real user hit
+  // exactly this: selecting a chapter for a non-Science subject dead-ended).
+  // Chapters are now loaded for real, the same way syllabus_page.dart does,
+  // for every subject the corpus actually has data for.
+  List<ChapterEntry> _chapters = [];
+  bool _chaptersLoading = false;
+  String? _chaptersError;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadChapters();
+  }
+
+  Future<void> _loadChapters() async {
+    setState(() {
+      _chaptersLoading = true;
+      _chaptersError = null;
+    });
+    try {
+      final chapters = await GetIt.I<PillarApi>().chapters(_selectedSubject, _selectedGrade);
+      if (!mounted) return;
+      setState(() {
+        _chapters = chapters;
+        _chaptersLoading = false;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _chaptersError = '$e';
+        _chaptersLoading = false;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -126,7 +151,11 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                     initialValue: _selectedGrade,
                     decoration: const InputDecoration(labelText: 'Grade *'),
                     items: List.generate(12, (i) => i + 1).map((g) => DropdownMenuItem(value: g, child: Text('Grade $g'))).toList(),
-                    onChanged: (v) => setState(() => _selectedGrade = v!),
+                    onChanged: (v) => setState(() {
+                      _selectedGrade = v!;
+                      _selectedChapters.clear();
+                      _loadChapters();
+                    }),
                   ),
                 ),
                 const SizedBox(width: 16),
@@ -140,17 +169,12 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                     onChanged: (v) => setState(() {
                       _selectedSubject = v!;
                       _selectedChapters.clear();
+                      _loadChapters();
                     }),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
-            if (_selectedSubject != 'Science')
-              Text(
-                'Only Class X Science has real questions ingested for this pilot.',
-                style: TextStyle(color: Theme.of(context).colorScheme.error, fontSize: 12),
-              ),
           ],
         ),
       ),
@@ -255,20 +279,59 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     );
   }
 
+  /// Shows real chapter names in the review summary rather than the raw
+  /// chapterId slugs stored in _selectedChapters (readable for the teacher
+  /// reviewing before generating; the request itself still sends real ids).
+  String _selectedChapterNames() {
+    final byId = {for (final c in _chapters) c.chapterId: c.chapterName};
+    return _selectedChapters.map((id) => byId[id] ?? id).join(', ');
+  }
+
   Step _buildStep3ChapterSelection() {
-    final chapters = _selectedSubject == 'Science' ? _scienceChapters : _defaultChapters;
     return Step(
       title: const Text('Chapters'),
       subtitle: const Text('Select chapters to include (leave empty to draw from all chapters)'),
-      content: Column(
-        children: chapters.map((c) => CheckboxListTile(
-          title: Text(c),
-          value: _selectedChapters.contains(c),
-          onChanged: _selectedSubject == 'Science'
-              ? (v) => setState(() => v! ? _selectedChapters.add(c) : _selectedChapters.remove(c))
-              : null,
-        )).toList(),
-      ),
+      content: _chaptersLoading
+          ? const Padding(
+              padding: EdgeInsets.symmetric(vertical: 24),
+              child: Center(child: CircularProgressIndicator()),
+            )
+          : _chaptersError != null
+              ? Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Could not load chapters: $_chaptersError',
+                          style: TextStyle(color: Theme.of(context).colorScheme.error)),
+                      const SizedBox(height: 8),
+                      OutlinedButton.icon(
+                        onPressed: _loadChapters,
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                )
+              : _chapters.isEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      child: Text(
+                        'No chapters found for $_selectedSubject Grade $_selectedGrade in the bundled '
+                        'question bank yet. You can still continue -- leaving chapters empty draws '
+                        'from every question available for this subject and grade.',
+                        style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
+                      ),
+                    )
+                  : Column(
+                      children: _chapters.map((c) => CheckboxListTile(
+                        title: Text(c.chapterName),
+                        subtitle: Text('${c.questionCount} question${c.questionCount == 1 ? '' : 's'} available'),
+                        value: _selectedChapters.contains(c.chapterId),
+                        onChanged: (v) => setState(
+                            () => v! ? _selectedChapters.add(c.chapterId) : _selectedChapters.remove(c.chapterId)),
+                      )).toList(),
+                    ),
     );
   }
 
@@ -313,7 +376,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                 _buildSummaryRow('Title', _titleController.text),
                 _buildSummaryRow('Grade', 'Grade $_selectedGrade'),
                 _buildSummaryRow('Subject', _selectedSubject),
-                _buildSummaryRow('Chapters', _selectedChapters.isEmpty ? 'All chapters' : _selectedChapters.join(', ')),
+                _buildSummaryRow('Chapters', _selectedChapters.isEmpty ? 'All chapters' : _selectedChapterNames()),
                 _buildSummaryRow('Total Marks', _blueprint.totalMarks.toString()),
                 _buildSummaryRow('Duration', '${_blueprint.durationMinutes} minutes'),
               ],
