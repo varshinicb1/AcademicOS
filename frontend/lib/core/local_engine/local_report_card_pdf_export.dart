@@ -109,12 +109,43 @@ class LocalReportCardPdfExporter {
             pw.SizedBox(height: 6),
             pw.Text('Overall concept mastery: ${(data.overallMastery * 100).toStringAsFixed(0)}%',
                 style: const pw.TextStyle(fontSize: 10)),
-            if (data.weakConcepts.isNotEmpty) ...[
-              pw.SizedBox(height: 6),
-              pw.Text('Concepts needing attention:', style: const pw.TextStyle(fontSize: 10)),
+            if (data.strengths.isNotEmpty) ...[
+              pw.SizedBox(height: 10),
+              pw.Text('Strengths', style: pw.TextStyle(fontSize: 10.5, fontWeight: pw.FontWeight.bold)),
+              pw.SizedBox(height: 3),
+              pw.Text(
+                _safe('Consistently strong, evidence-backed performance on: '
+                    '${data.strengths.map((s) => s.subject.isNotEmpty ? '${s.conceptId} (${s.subject})' : s.conceptId).join(', ')}.'),
+                style: const pw.TextStyle(fontSize: 9, color: PdfColors.green800),
+              ),
+            ],
+            if (data.learningGaps.isNotEmpty) ...[
+              pw.SizedBox(height: 10),
+              pw.Text('Learning gaps and suggestions',
+                  style: pw.TextStyle(fontSize: 10.5, fontWeight: pw.FontWeight.bold)),
               pw.SizedBox(height: 2),
-              for (final c in data.weakConcepts)
-                pw.Text('- ${_safe(c)}', style: const pw.TextStyle(fontSize: 9.5)),
+              pw.Text(
+                'This section is meant to guide next steps, not to single anyone out -- '
+                'every point below comes with a concrete way to close the gap.',
+                style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey700, fontStyle: pw.FontStyle.italic),
+              ),
+              pw.SizedBox(height: 6),
+              for (final gap in data.learningGaps)
+                pw.Padding(
+                  padding: const pw.EdgeInsets.only(bottom: 6),
+                  child: pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Text(
+                        _safe(gap.subject.isNotEmpty
+                            ? '${gap.conceptId} (${gap.subject}) -- ${(gap.mastery * 100).toStringAsFixed(0)}% mastery'
+                            : '${gap.conceptId} -- ${(gap.mastery * 100).toStringAsFixed(0)}% mastery'),
+                        style: pw.TextStyle(fontSize: 9.5, fontWeight: pw.FontWeight.bold, color: PdfColors.red800),
+                      ),
+                      pw.Text(_safe(gap.suggestion), style: const pw.TextStyle(fontSize: 9)),
+                    ],
+                  ),
+                ),
             ],
             pw.Spacer(),
             pw.Divider(thickness: 0.5),

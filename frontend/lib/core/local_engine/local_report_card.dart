@@ -1,4 +1,5 @@
 import '../constants/app_constants.dart';
+import 'concept_subjects.dart';
 import 'local_store.dart';
 
 /// One subject's real performance for a student's report card -- built
@@ -19,6 +20,42 @@ class ReportCardSubject {
   });
 }
 
+/// A single real learning gap -- one weak concept, its real subject (derived
+/// from the assessments it was actually evaluated against, never guessed),
+/// and a deterministic, constructive suggestion. Deliberately not an LLM
+/// call: the "deterministic core" principle this codebase already follows
+/// for grading (see docs/architecture.md) applies just as much to a document
+/// a parent reads -- the wording must be reproducible and explainable, not a
+/// fresh generation every time the same real mastery numbers are re-read.
+class LearningGap {
+  final String conceptId;
+  final String subject;
+  final double mastery;
+  final int evidenceCount;
+  final String suggestion;
+
+  const LearningGap({
+    required this.conceptId,
+    required this.subject,
+    required this.mastery,
+    required this.evidenceCount,
+    required this.suggestion,
+  });
+}
+
+/// A concept the student has real, evidenced strength in -- included
+/// alongside the gaps so the report isn't purely deficit-focused. Per the
+/// user's own framing: "its not about blaming the student, its about
+/// finding the solution to improve" -- a report that only lists weaknesses
+/// reads as blame even when every number in it is real.
+class Strength {
+  final String conceptId;
+  final String subject;
+  final double mastery;
+
+  const Strength({required this.conceptId, required this.subject, required this.mastery});
+}
+
 class ReportCardData {
   final String studentId;
   final String studentName;
@@ -27,6 +64,8 @@ class ReportCardData {
   final List<ReportCardSubject> subjects;
   final double overallMastery;
   final List<String> weakConcepts;
+  final List<LearningGap> learningGaps;
+  final List<Strength> strengths;
   final DateTime generatedAt;
 
   double get overallPercentage {
@@ -43,8 +82,34 @@ class ReportCardData {
     required this.subjects,
     required this.overallMastery,
     required this.weakConcepts,
+    required this.learningGaps,
+    required this.strengths,
     required this.generatedAt,
   });
+}
+
+/// Deterministic, constructive suggestion text keyed off real mastery/
+/// evidence numbers -- three severity bands (not just the binary weak/not
+/// weak split every weak concept otherwise shares) plus an honest caveat
+/// when the mastery estimate rests on very little real evidence, so the
+/// report never states more confidence than the data actually supports.
+String _suggestionFor({required double mastery, required int evidenceCount, required String subject}) {
+  final String core;
+  if (mastery < 0.2) {
+    core = 'This appears to be an early-stage gap -- a short one-on-one walkthrough of the '
+        'basics of this topic, before assigning further practice, is likely to help most.';
+  } else if (mastery < 0.35) {
+    core = 'This is a real foundational gap in $subject -- targeted one-on-one review of this '
+        'specific topic is recommended before moving on to related material.';
+  } else {
+    core = 'Some understanding is present but not yet secure -- a few more focused practice '
+        'questions on this topic specifically should help close the gap.';
+  }
+  if (evidenceCount <= 2) {
+    return '$core (Based on only $evidenceCount recorded attempt${evidenceCount == 1 ? '' : 's'} so far '
+        '-- worth confirming with a bit more practice before treating this as settled.)';
+  }
+  return core;
 }
 
 /// Aggregates a student's real evaluation and mastery history into a
@@ -88,6 +153,37 @@ class LocalReportCardService {
     final masteryRaw = LocalStore.instance.getMastery(studentId);
     final overallMastery = (masteryRaw?['overallMastery'] as num? ?? 0).toDouble();
     final weakConcepts = List<String>.from(masteryRaw?['weakConcepts'] as List? ?? const []);
+    final concepts = List<Map<String, dynamic>>.from(masteryRaw?['concepts'] as List? ?? const []);
+    final conceptSubjects = conceptSubjectsFor(studentId);
+
+    final learningGaps = concepts.where((c) => c['isWeak'] == true).map((c) {
+      final conceptId = c['conceptId'] as String? ?? c['conceptName'] as String? ?? '';
+      final mastery = (c['mastery'] as num? ?? 0).toDouble();
+      final evidenceCount = (c['evidenceCount'] as num? ?? 0).toInt();
+      final subject = conceptSubjects[conceptId]?.$1 ?? '';
+      return LearningGap(
+        conceptId: conceptId,
+        subject: subject,
+        mastery: mastery,
+        evidenceCount: evidenceCount,
+        suggestion: _suggestionFor(
+          mastery: mastery,
+          evidenceCount: evidenceCount,
+          subject: subject.isNotEmpty ? subject : 'this subject',
+        ),
+      );
+    }).toList()
+      ..sort((a, b) => a.mastery.compareTo(b.mastery));
+
+    final strengths = concepts.where((c) => c['status'] == 'proficient').map((c) {
+      final conceptId = c['conceptId'] as String? ?? c['conceptName'] as String? ?? '';
+      return Strength(
+        conceptId: conceptId,
+        subject: conceptSubjects[conceptId]?.$1 ?? '',
+        mastery: (c['mastery'] as num? ?? 0).toDouble(),
+      );
+    }).toList()
+      ..sort((a, b) => b.mastery.compareTo(a.mastery));
 
     final subjectsList = bySubject.values.toList()
       ..sort((a, b) => a.subject.compareTo(b.subject));
@@ -100,6 +196,8 @@ class LocalReportCardService {
       subjects: subjectsList,
       overallMastery: overallMastery,
       weakConcepts: weakConcepts,
+      learningGaps: learningGaps,
+      strengths: strengths,
       generatedAt: DateTime.now(),
     );
   }

@@ -89,4 +89,56 @@ void main() {
     final bytes = await file.readAsBytes();
     expect(bytes.length, greaterThan(1000), reason: 'a real subject table + mastery section should not compress to almost nothing');
   });
+
+  test('learning gaps are derived from the same real mastery record as weakConcepts, not invented', () async {
+    await DemoSeeder.seedIfEmpty();
+    final data = LocalReportCardService.generate('demo_stu_1');
+    final mastery = LocalStore.instance.getMastery('demo_stu_1');
+
+    expect(data.learningGaps.length, data.weakConcepts.length,
+        reason: 'every real weak concept in the mastery record must produce exactly one gap entry');
+    for (final gap in data.learningGaps) {
+      expect(mastery?['weakConcepts'], contains(gap.conceptId));
+      expect(gap.suggestion, isNotEmpty);
+      // Real, non-inflated confidence: thin evidence must be flagged in the text, not hidden.
+      if (gap.evidenceCount <= 2) {
+        expect(gap.suggestion, contains('recorded attempt'));
+      }
+    }
+  });
+
+  test('strengths only include concepts the mastery record actually marked proficient', () async {
+    await DemoSeeder.seedIfEmpty();
+    final data = LocalReportCardService.generate('demo_stu_1');
+    final mastery = LocalStore.instance.getMastery('demo_stu_1');
+    final concepts = List<Map>.from(mastery?['concepts'] as List? ?? const []);
+    final proficientIds = concepts.where((c) => c['status'] == 'proficient').map((c) => c['conceptId']).toSet();
+
+    for (final s in data.strengths) {
+      expect(proficientIds, contains(s.conceptId));
+    }
+  });
+
+  test('a student with zero mastery data gets honest empty gaps/strengths, not fabricated ones', () async {
+    await DemoSeeder.seedIfEmpty();
+    final data = LocalReportCardService.generate('a_student_who_does_not_exist');
+    expect(data.learningGaps, isEmpty);
+    expect(data.strengths, isEmpty);
+  });
+
+  test('exported PDF grows when real learning gaps are present vs a report with none', () async {
+    await DemoSeeder.seedIfEmpty();
+    final withGaps = LocalReportCardService.generate('demo_stu_1');
+    final empty = LocalReportCardService.generate('a_student_who_does_not_exist');
+
+    final pathWithGaps = await LocalReportCardPdfExporter.export(withGaps);
+    final pathEmpty = await LocalReportCardPdfExporter.export(empty);
+
+    final bytesWithGaps = await File(pathWithGaps).readAsBytes();
+    final bytesEmpty = await File(pathEmpty).readAsBytes();
+    if (withGaps.learningGaps.isNotEmpty || withGaps.strengths.isNotEmpty) {
+      expect(bytesWithGaps.length, greaterThan(bytesEmpty.length),
+          reason: 'the narrative gap/strength sections must actually add real rendered content');
+    }
+  });
 }
