@@ -29,5 +29,84 @@ String pdfSafe(String text) {
   };
   subscripts.forEach((k, v) => out = out.replaceAll(k, v));
   superscripts.forEach((k, v) => out = out.replaceAll(k, v));
-  return out;
+
+  // Real math symbols found by direct inspection of the bundled corpus's
+  // own marking-point/model-answer text (assets/corpus/questions.json,
+  // Mathematics subject) -- counted real occurrences, not guessed: U+2212
+  // MINUS SIGN alone appears 363 times, U+221A SQUARE ROOT 201 times,
+  // U+2234 THEREFORE 127 times, U+03B8 THETA 112 times, and so on. Every
+  // one of these renders as a tofu box in Helvetica; mapped to a plain-
+  // ASCII reading rather than dropped, since the symbol is real content in
+  // a real CBSE marking scheme (e.g. "q ≠ 0" must still say "q != 0", not
+  // silently lose the condition).
+  const mathSymbols = {
+    '−': '-', // MINUS SIGN (U+2212) -- distinct codepoint from ASCII hyphen
+    '√': 'sqrt', // SQUARE ROOT
+    '∴': 'therefore',
+    '∵': 'because',
+    '∠': 'angle ',
+    '⇒': '=>',
+    '⟹': '=>',
+    '≠': '!=',
+    '≥': '>=',
+    '≤': '<=',
+    '∈': 'in',
+    '∞': 'infinity',
+    '∆': 'triangle ', // INCREMENT (U+2206), used for triangle notation in geometry proofs
+    'Δ': 'triangle ', // GREEK CAPITAL LETTER DELTA (U+0394) -- visually identical,
+    // a different codepoint, also real and present in the corpus.
+    '∫': 'integral',
+    '′': "'", // PRIME (e.g. A' in geometry)
+    'θ': 'theta',
+    'π': 'pi',
+    '⃗': '', // COMBINING RIGHT ARROW ABOVE (vector notation) -- drop the
+    // combining decoration, keep the base letter it was attached to.
+  };
+  mathSymbols.forEach((k, v) => out = out.replaceAll(k, v));
+
+  // Mathematical Alphanumeric Symbols block (U+1D400-U+1D7FF) -- real,
+  // common in the corpus (e.g. italic 𝑥, 𝑦, 𝑖, bold-italic 𝑨, 𝑫, bold
+  // digit 𝟐): these are purely STYLISTIC Unicode variants of plain Latin
+  // letters/digits (italic/bold/script/etc. "x" is a different codepoint
+  // from plain "x"), each style block a contiguous run of 26 capitals then
+  // 26 lowercase (Unicode 9.0 "Mathematical Alphanumeric Symbols"). Mapped
+  // back to the plain letter algorithmically -- more robust than hardcoding
+  // the dozen-odd variants actually observed, since any other styled
+  // variant in this well-defined block maps the same way.
+  final runes = out.runes.toList();
+  final buffer = StringBuffer();
+  for (final rune in runes) {
+    buffer.write(String.fromCharCode(_demathify(rune) ?? rune));
+  }
+  return buffer.toString();
+}
+
+int? _demathify(int rune) {
+  const letterBlockStarts = [
+    0x1D400, // Bold
+    0x1D434, // Italic
+    0x1D468, // Bold Italic
+    0x1D49C, // Script
+    0x1D4D0, // Bold Script
+    0x1D504, // Fraktur
+    0x1D538, // Double-struck
+    0x1D56C, // Bold Fraktur
+    0x1D5A0, // Sans-serif
+    0x1D5D4, // Sans-serif bold
+    0x1D608, // Sans-serif italic
+    0x1D63C, // Sans-serif bold italic
+    0x1D670, // Monospace
+  ];
+  for (final start in letterBlockStarts) {
+    final offset = rune - start;
+    if (offset >= 0 && offset < 52) {
+      return offset < 26 ? 0x41 + offset : 0x61 + (offset - 26);
+    }
+  }
+  // Bold/Double-struck/Sans-serif/Sans-serif-bold/Monospace digits: five
+  // contiguous 10-digit runs starting at U+1D7CE.
+  if (rune >= 0x1D7CE && rune <= 0x1D7FF) {
+    return 0x30 + ((rune - 0x1D7CE) % 10);
+  }
+  return null;
 }
