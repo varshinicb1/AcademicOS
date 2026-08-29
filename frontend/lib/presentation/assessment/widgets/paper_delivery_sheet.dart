@@ -10,12 +10,24 @@ import 'package:printing/printing.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 
+// Same per-file pattern as settings_page.dart/home_page.dart/etc. -- this
+// build variant has no server, so it structurally can never have a
+// configured mail backend. Real fix for a real dead end: the Email tab used
+// to always be shown and always fail with "No email backend is configured
+// yet", because there is no way to configure one on this build short of the
+// user hand-editing config/secrets.env on a server that doesn't exist here.
+// Rather than show a permanently-broken tab, don't offer email at all in
+// this build -- Preview & Print (which is fully real and fully offline) is
+// the only delivery path that can actually work.
+const _offlineBuild = bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
+
 /// Preview / print / email a generated paper.
 ///
 /// This is where a teacher actually finishes the job, so all three actions live
 /// together: see the real PDF, print it for the exam hall, or send it to the
 /// exam coordinator. Sending is explicit — nothing leaves the school without a
-/// deliberate tap and a visible recipient list.
+/// deliberate tap and a visible recipient list. In the offline build, email
+/// isn't offered at all (see _offlineBuild above) -- only preview/print.
 class PaperDeliverySheet extends StatefulWidget {
   final String paperId;
   final String paperTitle;
@@ -57,7 +69,7 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
   @override
   void initState() {
     super.initState();
-    _loadMailStatus();
+    if (!_offlineBuild) _loadMailStatus();
   }
 
   @override
@@ -139,7 +151,7 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return DefaultTabController(
-      length: 2,
+      length: _offlineBuild ? 1 : 2,
       child: Padding(
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: SizedBox(
@@ -164,10 +176,12 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
               const Gap(8),
               const TabBar(tabs: [
                 Tab(icon: Icon(Icons.picture_as_pdf), text: 'Preview & Print'),
-                Tab(icon: Icon(Icons.mail_outline), text: 'Email'),
+                if (!_offlineBuild) Tab(icon: Icon(Icons.mail_outline), text: 'Email'),
               ]),
               Expanded(
-                child: TabBarView(children: [_previewTab(), _emailTab(theme)]),
+                child: TabBarView(
+                  children: [_previewTab(), if (!_offlineBuild) _emailTab(theme)],
+                ),
               ),
             ],
           ),
