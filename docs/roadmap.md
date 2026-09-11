@@ -29,8 +29,12 @@ the "43 real CBSE sources" and directory-layout claims below already had.
 | 2 — Student Brain Graph | ~30-40% (see caveat below) |
 | 3 — Indian Education Graph | **0%** |
 | 4 — Algorithms Library | ~55-65% |
-| 5 — Human Learning Engine | ~50-60% |
-| **Weighted overall** | **~30-35%** |
+| 5 — Human Learning Engine | ~60-65% (updated 2026-09-11 — see below) |
+| **Weighted overall** | **~32-37%** |
+
+(This table previously said Phase 5 ~50-60% / weighted ~30-35% even after
+the Phase 5 narrative below was updated same-day — a real instance of the
+exact doc-drift this file keeps warning about. Fixed here.)
 
 ---
 
