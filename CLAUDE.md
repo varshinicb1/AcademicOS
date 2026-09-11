@@ -119,7 +119,13 @@ registry/store rather than being called as library functions in sequence:
 1. **`ingest/`** — discovers PDFs under `corpus_root`, computes checksums, registers them in
    `SourceRegistry` (SQLite-backed, at `cfg.registry_db`).
 2. **`parse/`** — ensemble parsing per `config.toml`'s `parse_priority` (`pdf_native` →
-   `unlimited_ocr` → `tesseract`), gated by `min_confidence`.
+   `unlimited_ocr` → `tesseract`). **`min_confidence` is currently decorative** (audited
+   2026-09-11): `Config.min_confidence` is loaded from `config.toml` but nothing in
+   `parse/ensemble.py` or `cmd_parse` reads it — every parse result is accepted and marked
+   `status="parsed"` regardless of `quality_score`, there is no reject/fallback/flag path.
+   Wiring it up is a real design decision (what should happen to a low-confidence parse:
+   reject, retry the next `parse_priority` method, or just flag for review?) — not done here
+   without deciding that first.
 3. **`extract/`** — pulls academic objects (chapters, topics, questions, answer schemes, etc.)
    out of parsed documents and chunks them for retrieval.
 4. **`graph/`** — `GraphBuilder` constructs the knowledge graph from extracted objects into

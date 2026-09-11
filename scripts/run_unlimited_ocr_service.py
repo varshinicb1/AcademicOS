@@ -26,7 +26,7 @@ _model = {"pipe": None}
 
 class ParseResponse(BaseModel):
     markdown: str
-    json: dict | None = None
+    structured: dict | None = None  # not "json": shadows BaseModel.json(), Pydantic warns on it
     confidence: float
     language: str | None = None
 
@@ -53,7 +53,7 @@ async def parse_image(image: UploadFile = File(...)) -> ParseResponse:
         result = _model["pipe"].forward(png)
     return ParseResponse(
         markdown=result.get("markdown", ""),
-        json=result.get("json"),
+        structured=result.get("json"),
         confidence=result.get("confidence", 0.9),
         language=result.get("language"),
     )

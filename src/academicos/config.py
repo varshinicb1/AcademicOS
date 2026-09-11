@@ -59,13 +59,12 @@ class Config:
         self.registry_db = self.data_root / "registry" / "registry.sqlite"
         self.events_db = self.data_root / "events" / "events.sqlite"
         self.question_map_db = self.data_root / "questions" / "question-maps.jsonl"
-        self.audit_log = self.data_root / "governance" / "audit.jsonl"
         self.artifacts_dir = self.data_root / "artifacts"
 
         for d in (
             self.documents_dir, self.pages_dir, self.parse_dir, self.extracted_dir,
             self.data_root / "graph", self.data_root / "index", self.data_root / "registry",
-            self.data_root / "events", self.data_root / "governance", self.artifacts_dir,
+            self.data_root / "events", self.artifacts_dir,
             self.question_map_db.parent,
         ):
             d.mkdir(parents=True, exist_ok=True)
