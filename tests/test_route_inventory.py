@@ -488,21 +488,44 @@ def test_full_boot_v1_public_surface(tmp_path, monkeypatch):
 
 
 def test_full_boot_auth_and_principal_approval(tmp_path, monkeypatch):
-    """register (bootstrap: first-per-school -> principal, second -> teacher)
-    -> login -> me -> logout, plus the real reason auth exists: a teacher
-    cannot approve their own paper, only a principal can, and approval
-    actually engages the pre-existing edit lock."""
+    """register (bootstrap: only a correct principalKey grants "principal";
+    registration order grants nothing -- fixed 2026-09-11, was a real
+    privilege-escalation bug where being first to register for a schoolId
+    was enough) -> login -> me -> logout, plus the real reason auth exists:
+    a teacher cannot approve their own paper, only a principal can, and
+    approval actually engages the pre-existing edit lock."""
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
     with _boot_client(tmp_path, monkeypatch) as client:
-        # -- register: first user for school_1 becomes principal
+        # -- an attacker racing to register first for school_1, with no key,
+        # gets nothing: the vulnerability this test used to encode as
+        # correct behavior (first registrant = principal) is closed.
+        attacker = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Eve Attacker",
+            "email": "eve@example.com", "password": "correct horse battery",
+        })
+        assert attacker.status_code == 200
+        assert attacker.json()["user"]["role"] == "teacher"
+
+        # -- the real principal, registering second, but with the correct
+        # bootstrap key -- this is what actually grants the role now.
         reg1 = client.post("/api/v1/auth/register", json={
             "schoolId": "school_1", "name": "Priya Principal",
             "email": "priya@example.com", "password": "correct horse battery",
+            "principalKey": "test-bootstrap-key",
         })
         assert reg1.status_code == 200, reg1.text
         assert reg1.json()["user"]["role"] == "principal"
         principal_token = reg1.json()["token"]
 
-        # -- second user for the same school becomes a teacher
+        # -- a wrong key guess grants nothing either (not just "no key")
+        wrong_key = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Wrong Key", "email": "wrong@example.com",
+            "password": "correct horse battery", "principalKey": "guessed-wrong",
+        })
+        assert wrong_key.status_code == 200
+        assert wrong_key.json()["user"]["role"] == "teacher"
+
+        # -- a normal registration with no key at all is still a teacher
         reg2 = client.post("/api/v1/auth/register", json={
             "schoolId": "school_1", "name": "Tara Teacher",
             "email": "tara@example.com", "password": "correct horse battery",
@@ -570,6 +593,7 @@ def test_full_boot_auth_and_principal_approval(tmp_path, monkeypatch):
         other_school = client.post("/api/v1/auth/register", json={
             "schoolId": "school_2", "name": "Other Principal",
             "email": "other@example.com", "password": "correct horse battery",
+            "principalKey": "test-bootstrap-key",
         })
         assert other_school.json()["user"]["role"] == "principal"
         assert client.patch(

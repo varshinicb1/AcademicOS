@@ -88,6 +88,13 @@ class Config:
             "w_use": float(t.get("critic_w_use", 0.5)),
         }
 
+        # Principal-role bootstrap key (see assessment/users.py). Secret --
+        # belongs in the gitignored config/secrets.env via
+        # ACOS_PRINCIPAL_BOOTSTRAP_KEY, never in config.toml. Empty by
+        # default, which is the secure default: no key configured means no
+        # self-registration can ever be granted the principal role.
+        self.principal_bootstrap_key = env("PRINCIPAL_BOOTSTRAP_KEY", t.get("principal_bootstrap_key", ""))
+
     @classmethod
     def load(cls, toml_path: Path | None = None) -> "Config":
         load_secrets()
