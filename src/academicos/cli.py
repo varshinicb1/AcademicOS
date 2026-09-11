@@ -68,6 +68,16 @@ def cmd_ingest(args: argparse.Namespace) -> int:
 
 
 def cmd_parse(args: argparse.Namespace) -> int:
+    """Ensemble parse over registered sources.
+
+    Gated on `min_confidence` (config.toml / ACOS_MIN_CONFIDENCE, default
+    0.6): a parse whose quality_score falls below it is written to disk (so
+    nothing is lost, and it can be inspected) but registered as
+    status="low_confidence", not "parsed" -- extract/build-graph only pick
+    up "parsed"/"extracted" sources, so a bad OCR result never silently
+    reaches the knowledge graph. `--force` accepts every parse regardless of
+    score (e.g. once a human has looked at the low_confidence backlog and
+    decided a given document is fine as-is)."""
     from .parse.ensemble import EnsembleParser
 
     cfg = Config.load()
@@ -83,6 +93,7 @@ def cmd_parse(args: argparse.Namespace) -> int:
         sources = [s for s in sources if s["source_id"] == args.doc_id]
     done = 0
     failed = 0
+    low_confidence = 0
     for src in sources:
         if src["status"] in ("parsed", "extracted") and not args.reparse:
             continue
@@ -100,11 +111,18 @@ def cmd_parse(args: argparse.Namespace) -> int:
             continue
         dest = cfg.parse_dir / f"{safe_name(src['source_id'])}.json"
         dest.write_text(out.model_dump_json(indent=2), encoding="utf-8")
-        registry.update(src["source_id"], status="parsed", quality_score=round(out.quality_score, 3))
-        done += 1
-        if done % 25 == 0:
-            print(f"parsed {done}/{len(sources)}")
-    print(f"parsed {done} documents ({failed} failed)")
+        quality = round(out.quality_score, 3)
+        if quality < cfg.min_confidence and not args.force:
+            registry.update(src["source_id"], status="low_confidence", quality_score=quality,
+                           notes=f"quality_score {quality} < min_confidence {cfg.min_confidence}")
+            low_confidence += 1
+        else:
+            registry.update(src["source_id"], status="parsed", quality_score=quality)
+            done += 1
+        if (done + low_confidence) % 25 == 0:
+            print(f"parsed {done + low_confidence}/{len(sources)}")
+    print(f"parsed {done} documents ({failed} failed, {low_confidence} held as "
+          f"low_confidence below {cfg.min_confidence} -- rerun with --force to accept them anyway)")
     registry.close()
     return 0
 
@@ -581,12 +599,15 @@ def cmd_stats(args: argparse.Namespace) -> int:
     graph = GraphStore(cfg.graph_db)
     index = ChunkIndex(cfg.index_db)
     by_type: dict[str, int] = {}
+    by_status: dict[str, int] = {}
     for s in registry.all():
         by_type[s["doc_type"] or "unknown"] = by_type.get(s["doc_type"] or "unknown", 0) + 1
+        by_status[s["status"] or "unknown"] = by_status.get(s["status"] or "unknown", 0) + 1
     n, e = graph.count()
     print(json.dumps({
         "registered": registry.count(),
         "by_type": by_type,
+        "by_status": by_status,
         "graph_nodes": n,
         "graph_edges": e,
         "chunks": index.count(),
@@ -973,7 +994,7 @@ def main(argv: list[str] | None = None) -> int:
     sub = p.add_subparsers(dest="command", required=True)
 
     pi = sub.add_parser("ingest"); pi.add_argument("--limit", type=int, default=None); pi.add_argument("--reingest", action="store_true"); pi.set_defaults(fn=cmd_ingest)
-    pp = sub.add_parser("parse"); pp.add_argument("--doc-id"); pp.add_argument("--reparse", action="store_true"); pp.add_argument("--vlm-mode", default="service"); pp.add_argument("--vlm-url", default="http://127.0.0.1:8910"); pp.set_defaults(fn=cmd_parse)
+    pp = sub.add_parser("parse"); pp.add_argument("--doc-id"); pp.add_argument("--reparse", action="store_true"); pp.add_argument("--vlm-mode", default="service"); pp.add_argument("--vlm-url", default="http://127.0.0.1:8910"); pp.add_argument("--force", action="store_true", help="accept every parse as 'parsed' regardless of quality_score / min_confidence"); pp.set_defaults(fn=cmd_parse)
     pe = sub.add_parser("extract"); pe.add_argument("--doc-id"); pe.set_defaults(fn=cmd_extract)
     pg = sub.add_parser("build-graph"); pg.add_argument("--doc-id"); pg.set_defaults(fn=cmd_build_graph)
     po = sub.add_parser("openie"); po.add_argument("--doc-id"); po.add_argument("--limit", type=int, default=None); po.add_argument("--max-chunks", type=int, default=20); po.add_argument("--model", default=None); po.add_argument("--extractor", choices=["llm", "local"], default="local"); po.set_defaults(fn=cmd_openie)

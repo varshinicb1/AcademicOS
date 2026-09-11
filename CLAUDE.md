@@ -119,13 +119,17 @@ registry/store rather than being called as library functions in sequence:
 1. **`ingest/`** — discovers PDFs under `corpus_root`, computes checksums, registers them in
    `SourceRegistry` (SQLite-backed, at `cfg.registry_db`).
 2. **`parse/`** — ensemble parsing per `config.toml`'s `parse_priority` (`pdf_native` →
-   `unlimited_ocr` → `tesseract`). **`min_confidence` is currently decorative** (audited
-   2026-09-11): `Config.min_confidence` is loaded from `config.toml` but nothing in
-   `parse/ensemble.py` or `cmd_parse` reads it — every parse result is accepted and marked
-   `status="parsed"` regardless of `quality_score`, there is no reject/fallback/flag path.
-   Wiring it up is a real design decision (what should happen to a low-confidence parse:
-   reject, retry the next `parse_priority` method, or just flag for review?) — not done here
-   without deciding that first.
+   `unlimited_ocr` → `tesseract`), gated by `min_confidence` (fixed 2026-09-11: previously
+   loaded from config but never read anywhere — every parse was accepted regardless of
+   `quality_score`). The ensemble already races every configured provider and picks the best
+   result per page, so there's no "next method" to retry — a result whose `quality_score` falls
+   below `min_confidence` is registered `status="low_confidence"` instead of `"parsed"` (the
+   parse output is still written to disk, nothing is lost). `cmd_extract`/`cmd_build_graph` only
+   ever consume `"parsed"`/`"extracted"` sources, so a bad OCR result no longer silently reaches
+   the knowledge graph. `python -m academicos.cli parse --force` accepts every parse regardless
+   of score, e.g. once a human has reviewed the `low_confidence` backlog
+   (`registry.by_status("low_confidence")`, or `cli stats`'s `by_status` breakdown) and decided a
+   given document is fine as-is.
 3. **`extract/`** — pulls academic objects (chapters, topics, questions, answer schemes, etc.)
    out of parsed documents and chunks them for retrieval.
 4. **`graph/`** — `GraphBuilder` constructs the knowledge graph from extracted objects into

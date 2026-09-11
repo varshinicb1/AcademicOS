@@ -12,13 +12,15 @@
 
 ## Phase 1 — Knowledge Base (base ~70%)
 - [x] P1.1 ingest / parse / extract / graph / retrieval / agents (AcademicOS core)
-      — [!] found 2026-09-11: `min_confidence` (CLAUDE.md claims it "gates"
-      the parse stage) is decorative — loaded from config, never read by
-      `parse/ensemble.py` or `cmd_parse`; every parse is accepted regardless
-      of `quality_score`. Corrected CLAUDE.md's claim rather than guessing
-      at a gating policy (reject vs. fallback vs. flag-for-review is a real
-      design decision, not a mechanical fix) — flagging for a decision, not
-      fixed.
+      — `min_confidence` gating implemented 2026-09-11 (found decorative,
+      then fixed on request): a parse whose `quality_score` falls below
+      `cfg.min_confidence` is registered `status="low_confidence"` instead
+      of `"parsed"` — excluded from `cmd_extract`/`cmd_build_graph`'s
+      `"parsed"`/`"extracted"` consumption set, output still written to
+      disk. `cli parse --force` accepts it anyway. `cli stats` now reports
+      a `by_status` breakdown so the low-confidence backlog is visible, not
+      silent. 5 new tests (`tests/test_cli_parse_min_confidence.py`), all
+      pass.
 - [x] P1.2 corpus pipeline validated on real CBSE sources (52 registered)
 - [x] P1.3 OpenIE entity/triple extraction (Sarvam LLM)
 - [x] P1.4 concept spine: Bloom + difficulty + learning hours (rule + llm
