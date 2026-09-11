@@ -61,7 +61,7 @@ from academicos.algorithms.attention_model import AttentionModel, FatigueParams
 from academicos.algorithms.forgetting import ForgettingModel
 from academicos.algorithms.learner_model import Interaction, LearnerModel
 
-SERVER_DAYS = 90
+DEFAULT_DAYS = 90
 MINUTES_PER_ITEM = 5
 CAPACITY_MINUTES = 20          # the 20-minute daily study budget
 SPURT_MINUTES = 60             # erratic's once-a-month binge
@@ -105,7 +105,7 @@ class ConceptPool:
     def next(self) -> tuple[str, float]:
         self._counter += 1
         cid = f"c{self._counter}"
-        difficulty = _DIFFICULTY_CYCLE[(self._counter - 1) % _DIFFIFFY_COUNT]
+        difficulty = _DIFFICULTY_CYCLE[(self._counter - 1) % _DIFFICULTY_COUNT]
         return cid, difficulty
 
 
@@ -197,7 +197,7 @@ def simulate_policy(policy: str, days: int = DEFAULT_DAYS, seed: int = 42,
 
     attention = None
     if policy == "fatigue-prone":
-        attention = AttentionModel(FatigueParams(max_attention_minutes=FATIGUE_AXS_MINUTES))
+        attention = AttentionModel(FatigueParams(max_attention_minutes=FATIGUE_MAX_ATTENTION))
 
     end_iso = (DAY_START + timedelta(days=days)).isoformat()
     for day in range(days):
@@ -213,10 +213,10 @@ def simulate_policy(policy: str, days: int = DEFAULT_DAYS, seed: int = 42,
             planned = session_minutes + MINUTES_PER_ITEM
             if planned > alloc:
                 break
-            if fatigue is not None:                      # stop when "tired"
+            if attention is not None:                     # stop when "tired"
                 now = (t + timedelta(minutes=planned)).isoformat()
-                att = fatigue.estimate(session_start=t_iso,
-                                       interactions=day_answers, now=now)
+                att = attention.estimate(session_start=t_iso,
+                                         interactions=day_answers, now=now)
                 if att.fatigue_state == "fatigued":
                     break
 
@@ -269,6 +269,10 @@ def _fmt(x: float) -> str:
     return f"{x:.3f}".rstrip("0").rstrip(".")
 
 
+def _fmt_w(x: float, width: int) -> str:
+    return f"{_fmt(x):>{width}}"
+
+
 def run_and_print(days: int = DEFAULT_DAYS, seed: int = 42) -> dict[str, SimResult]:
     results = simulate_each(days=days, seed=seed)
     print(f"P5.3 — {days}-day simulation of the daily loop (seed={seed})\n")
@@ -276,7 +280,7 @@ def run_and_print(days: int = DEFAULT_DAYS, seed: int = 42) -> dict[str, SimResu
            f"{'min':>6}{'R@end':>8}" + "".join(f"R+{d:<4}" for d in PREDICTION_WINDOW))
     print(hdr)
     for res in results.values():
-        curve = "".join(fri(res.retention_curve[d], width=7) for d in PREDICTION_WINDOW)
+        curve = "".join(_fmt_w(res.retention_curve[d], 7) for d in PREDICTION_WINDOW)
         print(f"{res.policy:<13}{res.days_studied:>5}{res.reviews_done:>9}"
               f"{res.new_concepts_learned:>7}{res.forgotten_events:>8}"
               f"{res.total_minutes:>6}{_fmt(res.avg_retention_at_end):>8}{curve}")

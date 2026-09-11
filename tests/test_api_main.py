@@ -143,6 +143,9 @@ def test_runtime_gated_routes_return_503_before_startup():
     assert client.get("/api/v1/schools/school_1/school-templates").status_code == 503
     r = client.post("/v1/search", json={"query": "photosynthesis", "limit": 5})
     assert r.status_code == 503
+    assert client.post("/v1/revise", json={"learner": "alice"}).status_code == 503
+    assert client.post("/v1/plan", json={"target": "Photosynthesis"}).status_code == 503
+    assert client.post("/v1/question/solve", json={"question": "What is photosynthesis?"}).status_code == 503
 
 
 def test_unknown_route_404_without_startup():
@@ -220,3 +223,72 @@ def test_assessment_roundtrip_calendar_sync_failure_does_not_block_save(
         listed = client.get("/api/v1/assessments", params={"teacher_id": "teacher_1"})
         assert listed.status_code == 200
         assert any(a["id"] == assessment_id for a in listed.json())
+
+
+def test_revise_plan_question_solve_endpoints(tmp_path, monkeypatch):
+    """P5.2 — revise/plan/question-solve wrap the already-tested algorithm
+    modules (forgetting.RevisionScheduler, study_planner.StudyPlanner,
+    qmap.QuestionMapper) over real seeded graph + event stores."""
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+
+    from academicos.algorithms.learner_model import Interaction
+    from academicos.config import Config
+    from academicos.graph.schema import new_edge, new_node
+    from academicos.graph.store import GraphStore
+    from academicos.models.enums import EdgeType, NodeType
+    from academicos.storage.event_store import EventStore
+
+    cfg = Config.load()
+
+    # Seed a two-node prereq chain the study planner can walk.
+    gstore = GraphStore(cfg.graph_db)
+    prereq = new_node(NodeType.CONCEPT, "Cell Structure",
+                      attributes={"difficulty": 2.0, "learning_hours": 1.0,
+                                  "bloom": "understand"})
+    target = new_node(NodeType.CONCEPT, "Photosynthesis",
+                      attributes={"difficulty": 3.0, "learning_hours": 1.0,
+                                  "bloom": "understand"})
+    gstore.upsert_node(prereq)
+    gstore.upsert_node(target)
+    gstore.upsert_edge(new_edge(
+        EdgeType.PREREQUISITE_OF, prereq.id, target.id,
+        weight=0.9, attributes={"confidence": 0.9, "score": 0.7,
+                                "recommended_spacing_days": 2}))
+
+    # Seed a learner with a couple of answered interactions so revise() has
+    # a non-empty ConceptState to schedule against.
+    estore = EventStore(cfg.events_db)
+    estore.append("alice", Interaction(concept_id=prereq.id, kind="answer", outcome=1.0))
+    estore.append("alice", Interaction(concept_id=prereq.id, kind="answer", outcome=0.0))
+
+    with TestClient(app) as client:
+        # revise(): learner exists -> 200 with a real FSRS-backed plan.
+        r = client.post("/v1/revise", json={"learner": "alice"})
+        assert r.status_code == 200
+        body = r.json()
+        assert body["learner"] == "alice"
+        assert "totals" in body and "confident" in body
+
+        # revise(): unknown learner -> 404, not a silent empty plan.
+        r404 = client.post("/v1/revise", json={"learner": "nobody"})
+        assert r404.status_code == 404
+
+        # plan(): walks the seeded prereq chain in order.
+        p = client.post("/v1/plan", json={"target": "Photosynthesis", "capacity_minutes": 60})
+        assert p.status_code == 200
+        pbody = p.json()
+        assert pbody["target"] == "Photosynthesis"
+        assert [i["label"] for i in pbody["session"]] == ["Cell Structure", "Photosynthesis"]
+
+        # plan(): unknown target -> 404, not an empty 200.
+        p404 = client.post("/v1/plan", json={"target": "Not A Real Concept"})
+        assert p404.status_code == 404
+
+        # question/solve(): no LLM key configured in this hermetic test -> the
+        # lexical fallback still returns a real (if unverified) mapping.
+        q = client.post("/v1/question/solve",
+                        json={"question": "Explain photosynthesis in plants"})
+        assert q.status_code == 200
+        qbody = q.json()
+        assert qbody["question"] == "Explain photosynthesis in plants"
+        assert "method" in qbody and "concepts" in qbody

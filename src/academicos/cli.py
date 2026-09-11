@@ -10,7 +10,8 @@ Commands:
   serve       run the FastAPI server
   stats       corpus/registry/graph stats
   learn       record/replay/stats learner interaction events
-  sync-gcs    push local artifacts to GCS (when configured)
+  sync-gcs    push local artifacts to GCS (gated on sync_enabled; --force to
+              override, --interval-minutes to loop)
 """
 from __future__ import annotations
 
@@ -18,6 +19,7 @@ import argparse
 import json
 import logging
 import sys
+import time
 from pathlib import Path
 
 from .algorithms.learner_model import Interaction
@@ -673,6 +675,11 @@ def cmd_concept_profile(args: argparse.Namespace) -> int:
     --method rule: deterministic, free, local (verb-list Bloom classifier,
     page-order prerequisite mining, heuristic difficulty). No API calls.
     --method llm:  batched LLM (Groq) enrichment.
+
+    By default skips concepts that already carry a `difficulty` attribute,
+    so repeated runs make forward progress across the graph instead of
+    re-profiling the same top-occurrence concepts every time. `--force`
+    reprofiles everything in scope, including already-done concepts.
     """
     from .models.enums import NodeType
     from .graph.store import GraphStore
@@ -682,9 +689,13 @@ def cmd_concept_profile(args: argparse.Namespace) -> int:
 
     concepts = [n for n in store.query_nodes(ntype=NodeType.CONCEPT, status=None, limit=100000)
                 if (n.attributes or {}).get("occurrences", 0) >= args.min_occ]
+    if not args.force:
+        concepts = [n for n in concepts if (n.attributes or {}).get("difficulty") is None]
     concepts.sort(key=lambda n: (n.attributes or {}).get("occurrences", 0), reverse=True)
     concepts = concepts[: args.top]
-    print(f"profiling {len(concepts)} concepts (min occurrences {args.min_occ}, method={args.method})...")
+    skip_note = "" if args.force else ", skipping already-profiled"
+    print(f"profiling {len(concepts)} concepts (min occurrences {args.min_occ}, "
+          f"method={args.method}{skip_note})...")
 
     if args.method == "rule":
         from .graph.curriculum import (CRITERION_WEIGHTS, JUNK_CONCEPTS,
@@ -889,24 +900,61 @@ def _clean_label(label: str) -> bool:
     return True
 
 
-def cmd_sync_gcs(args: argparse.Namespace) -> int:
-    cfg = Config.load()
-    if not cfg.gcs_bucket:
-        print("GCS not configured (set gcs_bucket in config/config.toml or ACOS_GCS_BUCKET)")
-        return 1
+def _sync_gcs_once(cfg: Config, prefixes: list[str], log=print) -> dict[str, int]:
+    """One full sync pass, local -> GCS, one prefix at a time. Returns
+    {prefix: files_synced} so callers (CLI loop, tests) can inspect it
+    without re-parsing printed output."""
     from .storage.base import LocalStore
     from .storage.gcs import GcsStore
 
     local = LocalStore(cfg.data_root)
     remote = GcsStore(cfg.gcs_bucket, cfg.gcs_prefix)
-    prefixes = args.prefixes.split(",")
+    counts: dict[str, int] = {}
     for prefix in prefixes:
         keys = local.keys(prefix)
         for i, key in enumerate(keys):
             remote.put(local._resolve(key), key)
             if i % 100 == 0:
-                print(f"synced {prefix}: {i}/{len(keys)}")
-        print(f"synced {prefix}: {len(keys)} files")
+                log(f"synced {prefix}: {i}/{len(keys)}")
+        log(f"synced {prefix}: {len(keys)} files")
+        counts[prefix] = len(keys)
+    return counts
+
+
+def cmd_sync_gcs(args: argparse.Namespace) -> int:
+    """P1.12 — push local artifacts to GCS. Gated on `sync_enabled`
+    (config.toml / ACOS_SYNC_ENABLED) so a bucket being *configured* never
+    implies syncing is actually happening; `--force` overrides for a
+    deliberate one-off run. `--interval-minutes` loops the sync so it can be
+    supervised in a terminal or wrapped by an external scheduler (cron /
+    Windows Task Scheduler) — this command does not register one itself."""
+    cfg = Config.load()
+    if not cfg.gcs_bucket:
+        print("GCS not configured (set gcs_bucket in config/config.toml or ACOS_GCS_BUCKET)")
+        return 1
+    if not cfg.sync_enabled and not args.force:
+        print("GCS sync is disabled (sync_enabled=false in config/config.toml or "
+              "ACOS_SYNC_ENABLED=false). Set sync_enabled=true to allow scheduled "
+              "syncs, or pass --force to run once anyway.")
+        return 1
+
+    prefixes = args.prefixes.split(",")
+    if not args.interval_minutes:
+        _sync_gcs_once(cfg, prefixes)
+        return 0
+
+    cycles = 0
+    try:
+        while args.max_cycles is None or cycles < args.max_cycles:
+            _sync_gcs_once(cfg, prefixes)
+            cycles += 1
+            if args.max_cycles is not None and cycles >= args.max_cycles:
+                break
+            print(f"next sync in {args.interval_minutes} min "
+                  f"(ctrl-c to stop)")
+            time.sleep(args.interval_minutes * 60)
+    except KeyboardInterrupt:
+        print(f"stopped after {cycles} sync cycle(s)")
     return 0
 
 
@@ -932,7 +980,7 @@ def main(argv: list[str] | None = None) -> int:
     ps = sub.add_parser("search"); ps.add_argument("query", nargs="?"); ps.add_argument("--limit", type=int, default=10); ps.set_defaults(fn=cmd_search)
     pst = sub.add_parser("stats"); pst.set_defaults(fn=cmd_stats)
     psp = sub.add_parser("concept-spine"); psp.add_argument("--top", type=int, default=25); psp.set_defaults(fn=cmd_concept_spine)
-    pcp = sub.add_parser("concept-profile"); pcp.add_argument("--top", type=int, default=200); pcp.add_argument("--min-occ", type=int, default=3); pcp.add_argument("--model", default=None); pcp.add_argument("--method", choices=["rule", "llm"], default="rule"); pcp.set_defaults(fn=cmd_concept_profile)
+    pcp = sub.add_parser("concept-profile"); pcp.add_argument("--top", type=int, default=200); pcp.add_argument("--min-occ", type=int, default=3); pcp.add_argument("--model", default=None); pcp.add_argument("--method", choices=["rule", "llm"], default="rule"); pcp.add_argument("--force", action="store_true", help="reprofile concepts that already have a difficulty attribute"); pcp.set_defaults(fn=cmd_concept_profile)
     psv = sub.add_parser("serve"); psv.add_argument("--host", default="127.0.0.1"); psv.add_argument("--port", type=int, default=8000); psv.set_defaults(fn=cmd_serve)
     pln = sub.add_parser("learn")
     pln.add_argument("--learner", default="default")
@@ -980,7 +1028,15 @@ def main(argv: list[str] | None = None) -> int:
     plt = sub.add_parser("lifelong")
     plt.add_argument("--learner", default="default")
     plt.set_defaults(fn=cmd_lifelong)
-    psg = sub.add_parser("sync-gcs"); psg.add_argument("--prefixes", default="documents,extracted,parse,graph,index,registry"); psg.set_defaults(fn=cmd_sync_gcs)
+    psg = sub.add_parser("sync-gcs")
+    psg.add_argument("--prefixes", default="documents,extracted,parse,graph,index,registry")
+    psg.add_argument("--force", action="store_true",
+                     help="sync once even if sync_enabled=false")
+    psg.add_argument("--interval-minutes", type=int, default=0,
+                     help="loop, syncing every N minutes (0 = run once and exit)")
+    psg.add_argument("--max-cycles", type=int, default=None,
+                     help="with --interval-minutes, stop after N cycles instead of running forever")
+    psg.set_defaults(fn=cmd_sync_gcs)
 
     args = p.parse_args(argv)
     _setup_logging(args.verbose)

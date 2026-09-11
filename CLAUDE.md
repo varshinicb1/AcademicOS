@@ -48,6 +48,11 @@ pip install -e ".[api]"     # + FastAPI server
 pip install -e ".[dev]"     # + pytest / httpx2 (needed to run the test suite)
 pip install -e ".[gcs]"     # + GCS mirror
 pip install -e ".[retrieval]"  # + sentence-transformers/numpy
+python -m pip install en_core_web_md@https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.8.0/en_core_web_md-3.8.0-py3-none-any.whl
+    # required by extract/local_ie.py / graph/curriculum.py (concept-profile
+    # --method rule, OpenIE). `pip install -e .` pulls in spacy itself but
+    # NOT a model — spacy.load() fails at runtime, not import time, so this
+    # is easy to miss until you actually run `concept-profile` or `openie`.
 ```
 
 Pipeline stages, run in order:

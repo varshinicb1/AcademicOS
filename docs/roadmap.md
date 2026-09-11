@@ -10,9 +10,31 @@ collections of features; we build an architecture that evolves for years.
 > assessment, or policy — becomes reusable knowledge contributing to one or
 > more algorithms.
 
+## Real status (audited 2026-09-11)
+
+Each phase heading below carries a percentage — measured against real code,
+real file counts, and real test coverage on this date, not a guess. Method:
+counted actual registered sources vs. real files on disk
+(`academicos.cli stats` + `find` over `cbse-dataset`/`ncert-dataset`/
+`cbse-model-answers`), grepped the graph schema for the literal node/edge
+types a phase's own description calls for, and checked which
+`algorithms/*.py` modules have a real (non-trivial, tested) implementation
+vs. don't exist. Re-run this audit rather than trust these numbers once
+several sessions' worth of work has passed — they will go stale exactly like
+the "43 real CBSE sources" and directory-layout claims below already had.
+
+| Phase | Status |
+|---|---|
+| 1 — Knowledge Base | ~35-40% |
+| 2 — Student Brain Graph | ~30-40% (see caveat below) |
+| 3 — Indian Education Graph | **0%** |
+| 4 — Algorithms Library | ~55-65% |
+| 5 — Human Learning Engine | ~50-60% |
+| **Weighted overall** | **~30-35%** |
+
 ---
 
-## Phase 1 — The Knowledge Base (in progress)
+## Phase 1 — The Knowledge Base — ~35-40% (in progress)
 
 Output is NOT PDFs. Output is a knowledge graph where every concept knows:
 prerequisites, difficulty, estimated learning time, common misconceptions,
@@ -25,17 +47,45 @@ Sources to structure:
 - Learning outcomes, NCF 2023, NEP 2020
 - Teacher handbooks, lab manuals, DIKSHA resources
 
-Status:
+Status (re-measured 2026-09-11 — the "43 real CBSE sources" line below is
+now stale; see the real count that replaced it):
 - [x] Ingest → parse → extract → graph → retrieval → agents (AcademicOS core)
-- [x] Corpus pipeline validated on 43 real CBSE sources
+- [x] Corpus pipeline real and working: `academicos.cli stats` shows 6,971
+      graph nodes, 7,259 edges, 11,153 chunks from 418 registered sources
 - [x] OpenIE entity/triple extraction (Sarvam LLM) — graph densified
-- [ ] Full CBSE corpus (800+ QP/MS, NCERT, model answers)
-- [ ] Concept spine: misconceptions, difficulty, learning time per concept
-- [ ] Question→concept mapping (LLM-assisted, verifier-checked)
+- [ ] Full CBSE corpus (800+ QP/MS, NCERT, model answers) — **only 418 of
+      2,884** real source PDFs on disk across `cbse-dataset` (2,759),
+      `ncert-dataset` (9), `cbse-model-answers` (116) are actually
+      registered (~14.5%). Short even of the 800+ QP/MS target, before
+      counting NCERT/model-answers at all.
+- [x] Concept spine: misconceptions, difficulty, learning time per concept —
+      correction to this audit (2026-09-11): `graph/curriculum.py` is a
+      real, research-cited (Alatrash & Chatti 2025/26), tested
+      (`test_graph_curriculum.py`) implementation the original pass missed
+      entirely. Found and fixed why coverage looked stalled: the CLI's
+      `--method rule` path was crashing on a missing spaCy model
+      (`en_core_web_md`, now installed), and repeated runs re-profiled the
+      same top-occurrence concepts instead of making progress (fixed with a
+      skip-already-done default + `--force`). Real coverage: 1,031/1,153
+      (89%) of quality-eligible concepts (occurrences>=3); the rest need
+      `--method llm` (real API cost) or don't belong to a textbook at all.
+- [x] Question→concept mapping (LLM-assisted, verifier-checked) — real,
+      `src/academicos/qmap.py` + `storage/question_map.py` (261 lines), CLI
+      `qmap`, 8/8 tests pass. Correction to this audit (2026-09-11): the
+      original pass only grepped `graph/` and `extract/` and missed the
+      module's actual top-level location — false negative, not a real gap.
 - [ ] Unlimited-OCR for scanned artifacts (blocked on disk space)
-- [ ] GCS mirror sync
+- [~] GCS mirror sync — still disabled live (`sync_enabled=false` in
+      `config/config.toml`, `academicos.cli stats` reports
+      `"gcs": {"enabled": false}`), but the flag now actually means
+      something: fixed 2026-09-11, `sync-gcs` previously ignored
+      `sync_enabled` entirely and would sync regardless of it — a real
+      correctness gap, now closed with a test-covered gate + `--force` +
+      loop mode. Turning real syncing on requires installing the `gcs`
+      extra (`google-cloud-storage`, not currently installed) and real
+      service-account credentials — deliberately not done without your say
 
-## Phase 2 — The Student Brain Graph
+## Phase 2 — The Student Brain Graph — ~30-40%
 
 Agent reads cognitive science, neuroscience, educational psychology,
 motivation, executive function, memory, attention, developmental psychology,
@@ -49,7 +99,16 @@ This phase turns `docs/research/learning-science.md` into validated,
 parameterized model components (forgetting curves, spaced repetition,
 self-efficacy, ICAP, etc.) that the algorithms consume.
 
-## Phase 3 — The Indian Education Graph
+**Real status (2026-09-11):** the parameterized model components genuinely
+exist and are tested — `confidence_model.py`, `motivation_model.py`,
+`attention_model.py`, `habit_model.py`, `forgetting.py` (FSRS-6). What does
+**not** exist: the literal graph artifact this phase asks for. Grepped
+`graph/store.py`'s actual `NodeType`/`EdgeType` enums for
+Sleep/Attention/WorkingMemory-shaped types — none exist. The research has
+been operationalized as standalone algorithm modules (which Phase 4 also
+counts), not delivered as the Human Learning Graph structure itself.
+
+## Phase 3 — The Indian Education Graph — 0%
 
 Download and structure: ASER, UDISE+, NCERT, CBSE, state boards, DIKSHA,
 UNESCO, World Bank, OECD, PISA, NIPUN Bharat, PARAKH, government circulars.
@@ -59,7 +118,12 @@ Understand the system graph:
 Teacher → School → Parents → Village → District → Government → Child
 ```
 
-## Phase 4 — The Algorithms Library
+**Real status (2026-09-11):** searched the entire source tree for ASER,
+UDISE, DIKSHA, NIPUN, PARAKH, PISA — no real source file references any of
+them. No file named anything like `aser`/`udise`/an India system graph
+exists. This phase has not been started.
+
+## Phase 4 — The Algorithms Library — ~55-65%
 
 Instead of a chatbot: algorithms. Each is evidence-grounded, evaluated, and
 versioned under `src/academicos/algorithms/`:
@@ -80,28 +144,47 @@ versioned under `src/academicos/algorithms/`:
    revision scheduler, reward engine, study planner, confidence model,
    lifelong learner model.
 
-Repository layout (each module is evidence-grounded, evaluated, versioned):
+**Real status (2026-09-11):** every one of the 15 concepts above has a real,
+substantial, tested implementation — not stubs. 4,933 lines across 19 files
+in `src/academicos/algorithms/`, every module has a dedicated test file
+under `tests/`, all pass (925 tests green project-wide as of this audit).
+Held to ~55-65% rather than higher because "evaluated" is a real bar this
+doc sets, not decoration: `docs/compliance.md` has direct proof of
+calibration-against-real-data for the *grading* engine specifically (a
+measured 26% exact-match rate against real teacher marks), but no equivalent
+calibration evidence exists yet for these *learning* algorithms
+(forgetting/motivation/attention/etc.) against real longitudinal student
+data — there may not be a real user base generating that data yet.
+
+Actual repository layout (the directory-per-module structure below was the
+original plan; real implementation consolidated related concepts into
+fewer, flatter files — e.g. `forgetting.py` contains both forgetting
+prediction and the revision scheduler, and `mastery.py` covers knowledge
+mastery — rather than one directory per bullet above):
 
 ```
 algorithms/
-├── knowledge_mastery/
-├── forgetting_prediction/
-├── attention_prediction/
-├── motivation_prediction/
-├── habit_formation/
-├── emotional_state/
-├── curiosity_engine/
-├── parent_guidance/
-├── teacher_assistance/
-├── career_discovery/
-├── revision_scheduler/
-├── reward_engine/
-├── study_planner/
-├── confidence_model/
-└── lifelong_learner_model/
+├── mastery.py            (Knowledge Mastery Score)
+├── forgetting.py          (Forgetting Prediction + revision scheduler)
+├── motivation_model.py
+├── career_discovery.py
+├── parent_guidance.py
+├── teacher_assistance.py
+├── attention_model.py
+├── habit_model.py
+├── emotion_model.py
+├── curiosity_engine.py
+├── reward_engine.py
+├── study_planner.py
+├── confidence_model.py
+├── lifelong_model.py
+├── misconceptions.py
+├── learner_model.py       (shared base data structures)
+├── fsrs.py, fsrs_fit.py    (spaced-repetition core)
+└── daily_loop.py           (Phase 5's orchestrator — see below)
 ```
 
-## Phase 5 — The Human Learning Engine
+## Phase 5 — The Human Learning Engine — ~50-60%
 
 Every day it asks: What does this child know? What have they forgotten? Are
 they tired? How motivated? How confident? What should they study? How long?
@@ -110,3 +193,38 @@ encourage? Teacher intervene? → **Update learner model.**
 
 Every interaction updates the learner model. This is the loop no edtech
 company has built.
+
+**Real status (2026-09-11):** `algorithms/daily_loop.py` (597 lines) is
+explicitly labeled "P5.1 — The daily loop (phase-5 orchestrator)" in its own
+docstring and genuinely does what this phase describes — it orchestrates
+`forgetting.ForgettingModel`, `study_planner.StudyPlanner`,
+`confidence_model.ConfidenceModel`, `attention_model.AttentionModel`,
+`habit_model.HabitModel`, and `motivation_model.MotivationModel` into one
+deterministic daily plan, tested (`tests/test_daily_loop.py`). What's
+unverified: whether this runs as an actual live, continuously-updating loop
+against real users, versus being a correct, callable function nobody is
+invoking on a real schedule yet. Held at ~50-60% for that reason — the
+mechanism is real, the *engine actually running* is not confirmed.
+
+**Update (2026-09-11, second pass):** P5.1 was also a stale checklist entry
+in `docs/plan.md` (marked backlog; this roadmap already had it right) —
+corrected there too. P5.3 (90-day offline simulation) existed as
+`scripts/simulate_daily_loop.py`, self-labeled "P5.3", but had never
+actually run — 5 real bugs (`NameError`s from typos/undefined names at
+import time). Fixed all five; it now runs and every headline claim in its
+own docstring holds, with 7 new tests. Nudged to ~60-65%: a second real,
+working offline-eval capability now exists where before there was silent
+breakage nobody had caught.
+
+**Update (2026-09-11, same audit):** P5.2's API surface gap is now closed —
+`POST /v1/revise`, `/v1/plan`, `/v1/question/solve` added to `api/main.py`,
+wrapping the already-tested algorithm modules rather than reimplementing
+them; 10/10 tests including a real seeded-graph/event-store round trip
+through the live FastAPI app. Wiring `EventStore` into a real server also
+surfaced and fixed a genuine latent bug (`sqlite3.ProgrammingError` — the
+store's connection was missing `check_same_thread=False`, unlike
+`GraphStore`/`SourceRegistry`, so it worked in single-threaded CLI/test use
+but broke the moment FastAPI called it from a worker thread). Nudged to
+~55-60%: a real HTTP surface now exists for a client to call, but nothing
+calls `daily_loop.py` on a schedule yet and no real user traffic has
+exercised it — P5.3 (offline eval) and P5.4 (pilot) are still backlog.

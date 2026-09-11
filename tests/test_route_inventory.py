@@ -4,7 +4,7 @@
 Three groups, in file order (order matters):
 
 1. **Canonical-set guard** — enumerates the live FastAPI app programmatically
-   and asserts it equals the 51-route inventory below. Adding/removing/renaming
+   and asserts it equals the 59-route inventory below. Adding/removing/renaming
    any backend route fails this test loudly until the inventory and its
    exercise table are updated too.
 
@@ -50,6 +50,12 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/assessments/{assessment_id}"),
     ("DELETE", "/api/v1/assessments/{assessment_id}"),
     ("PATCH", "/api/v1/assessments/{assessment_id}/status"),
+    ("PATCH", "/api/v1/assessments/{assessment_id}/approve"),
+    # --- auth_routes.py (teacher/principal identity) ---
+    ("POST", "/api/v1/auth/register"),
+    ("POST", "/api/v1/auth/login"),
+    ("POST", "/api/v1/auth/logout"),
+    ("GET", "/api/v1/auth/me"),
     # --- pillar_routes.py (syllabus, grading, insights) ---
     ("GET", "/api/v1/schools/{school_id}/school-templates"),
     ("POST", "/api/v1/schools/{school_id}/school-templates"),
@@ -64,6 +70,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/mail/send-paper"),
     ("POST", "/api/v1/evaluations/answer"),
     ("POST", "/api/v1/evaluations/sheet"),
+    ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/review/{question_id}"),
+    ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/finalize"),
     ("GET", "/api/v1/knowledge/{student_id}"),
     ("GET", "/api/v1/knowledge/{student_id}/report"),
     ("POST", "/api/v1/practice/generate"),
@@ -89,6 +97,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/v1/agent/analyze"),
     ("POST", "/v1/graph/neighbors"),
     ("POST", "/v1/graph/paths"),
+    ("POST", "/v1/revise"),
+    ("POST", "/v1/plan"),
+    ("POST", "/v1/question/solve"),
     # --- ingest_routes.py (a school's own document uploads) ---
     ("POST", "/api/v1/ingest/school-documents"),
 })
@@ -222,12 +233,21 @@ def _valid_body_for(method: str, path: str) -> dict:
         }
     if path == "/api/v1/evaluations/sheet":
         return {"assessmentId": "a", "studentId": "s", "questions": [], "answers": {}}
+    if path == "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/review/{question_id}":
+        return {"action": "approve"}
     if path == "/api/v1/practice/generate":
         return {"studentId": "s"}
     if path == "/api/v1/practice/submit":
         return {"setId": "s", "answers": {}}
     if path == "/api/v1/schools/{school_id}/school-templates":
         return {"template": school_template_body(), "sections": []}
+    if path == "/api/v1/auth/register":
+        return {"schoolId": "school_1", "name": "Teacher One",
+                "email": "teacher1@example.com", "password": "correct horse battery"}
+    if path == "/api/v1/auth/login":
+        return {"email": "teacher1@example.com", "password": "correct horse battery"}
+    if path == "/v1/question/solve":
+        return {"question": "What is photosynthesis?"}
     return {"query": "photosynthesis", "doubt": "light reaction",
             "question": "q", "paperId": "p", "paper_id": "p",
             "nodeId": "n", "node_id": "n", "source": "a", "target": "b"}
@@ -239,7 +259,7 @@ def _valid_body_for(method: str, path: str) -> dict:
 
 
 def test_canonical_route_inventory_matches_live_app():
-    """The enumerated app must equal the 51-route inventory exactly."""
+    """The enumerated app must equal the 62-route inventory exactly."""
     live = _enumerate_routes()
     live_api = live - DOC_ROUTES
     assert live_api == API_ROUTES, (
@@ -248,7 +268,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 52
+    assert len(API_ROUTES) == 62
 
 
 def test_docs_routes_present():
@@ -332,6 +352,23 @@ def test_gated_routes_return_503_without_startup():
             # test_document_ingestion.py instead.
             if (method, path) == ("POST", "/api/v1/ingest/school-documents"):
                 continue
+            # These require Depends(get_current_user)/require_principal,
+            # which checks for a bearer token *before* touching the auth
+            # module's own _require() -- so with no Authorization header at
+            # all, they correctly 401 ("no token"), not 503. That's the
+            # right precedence (never reveal backend init state to an
+            # unauthenticated caller); their real 503-when-uninitialized
+            # path (with a syntactically valid but session-less token) is
+            # exercised in the full-boot group instead.
+            if (method, path) in {
+                ("GET", "/api/v1/auth/me"),
+                ("PATCH", "/api/v1/assessments/{assessment_id}/approve"),
+            }:
+                continue
+            # Idempotent by design: no token means nothing to delete, so it
+            # 200s without ever touching _require() -- correct, not a gap.
+            if (method, path) == ("POST", "/api/v1/auth/logout"):
+                continue
             # Every other scan route looks the session up first (404 on a
             # missing session) before any `_require()`, so no session -> 404
             # not 503; their error paths are exercised in the full-boot group.
@@ -358,6 +395,25 @@ def test_gated_routes_return_503_without_startup():
         client.close()
 
 
+def test_auth_gated_routes_503_with_a_token_present():
+    """The two routes excluded above (auth checked first, correctly 401s
+    with no token) still hit the real 503-when-uninitialized path once a
+    syntactically valid bearer token is actually supplied."""
+    if assessment_routes._store is not None:
+        pytest.skip("module globals already initialized (suite ran out of order)")
+    from fastapi.testclient import TestClient
+
+    client = TestClient(app)
+    try:
+        headers = {"Authorization": "Bearer not-a-real-token"}
+        assert client.get("/api/v1/auth/me", headers=headers).status_code == 503
+        assert client.patch(
+            "/api/v1/assessments/a1/approve", headers=headers
+        ).status_code == 503
+    finally:
+        client.close()
+
+
 # =====================================================================
 # Group 3: full hermetic boot.
 # =====================================================================
@@ -365,9 +421,15 @@ def test_gated_routes_return_503_without_startup():
 
 def _boot_client(tmp_path, monkeypatch):
     """Boots the app with an empty corpus under tmp_path and returns the
-    TestClient. Resets the audit-log singleton so earlier boots don't leak."""
+    TestClient. Resets the audit-log and user-store singletons so earlier
+    boots don't leak (same real gap that would have hit auth tests: a
+    stale UserStore from a previous test's tmp_path would keep answering
+    for a school that supposedly has no users yet in the new one)."""
+    from academicos.assessment import users as users_mod
+
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     monkeypatch.setattr(audit_log, "_INSTANCE", None)
+    monkeypatch.setattr(users_mod, "_INSTANCE", None)
     from fastapi.testclient import TestClient
 
     return TestClient(app)
@@ -413,6 +475,117 @@ def test_full_boot_v1_public_surface(tmp_path, monkeypatch):
         })
         assert paths.status_code == 200
         assert paths.json()["paths"] == []
+
+        # Empty event store / empty graph -> real 404s, not silent empty 200s.
+        assert client.post("/v1/revise", json={"learner": "nobody"}).status_code == 404
+        assert client.post("/v1/plan", json={"target": "nowhere"}).status_code == 404
+
+        # Lexical fallback (no LLM key configured) still returns a real,
+        # if unverified, mapping against an empty graph.
+        solved = client.post("/v1/question/solve", json={"question": "What is photosynthesis?"})
+        assert solved.status_code == 200
+        assert solved.json()["question"] == "What is photosynthesis?"
+
+
+def test_full_boot_auth_and_principal_approval(tmp_path, monkeypatch):
+    """register (bootstrap: first-per-school -> principal, second -> teacher)
+    -> login -> me -> logout, plus the real reason auth exists: a teacher
+    cannot approve their own paper, only a principal can, and approval
+    actually engages the pre-existing edit lock."""
+    with _boot_client(tmp_path, monkeypatch) as client:
+        # -- register: first user for school_1 becomes principal
+        reg1 = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Priya Principal",
+            "email": "priya@example.com", "password": "correct horse battery",
+        })
+        assert reg1.status_code == 200, reg1.text
+        assert reg1.json()["user"]["role"] == "principal"
+        principal_token = reg1.json()["token"]
+
+        # -- second user for the same school becomes a teacher
+        reg2 = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Tara Teacher",
+            "email": "tara@example.com", "password": "correct horse battery",
+        })
+        assert reg2.status_code == 200
+        assert reg2.json()["user"]["role"] == "teacher"
+        teacher_token = reg2.json()["token"]
+
+        # -- duplicate email -> 409; short password -> 400
+        assert client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Dup", "email": "priya@example.com",
+            "password": "correct horse battery",
+        }).status_code == 409
+        assert client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "X", "email": "short@example.com",
+            "password": "short",
+        }).status_code == 400
+
+        # -- login: right password 200, wrong password 401
+        login_ok = client.post("/api/v1/auth/login", json={
+            "email": "priya@example.com", "password": "correct horse battery",
+        })
+        assert login_ok.status_code == 200
+        assert client.post("/api/v1/auth/login", json={
+            "email": "priya@example.com", "password": "wrong password entirely",
+        }).status_code == 401
+
+        # -- me: valid token, no token, garbage token
+        me = client.get("/api/v1/auth/me",
+                        headers={"Authorization": f"Bearer {principal_token}"})
+        assert me.status_code == 200
+        assert me.json()["email"] == "priya@example.com"
+        assert me.json()["role"] == "principal"
+        assert client.get("/api/v1/auth/me").status_code == 401
+        assert client.get(
+            "/api/v1/auth/me", headers={"Authorization": "Bearer garbage"}
+        ).status_code == 401
+
+        # -- the actual point: a teacher cannot approve; a principal can
+        created = client.post("/api/v1/assessments", json={
+            "teacherId": "tara", "schoolId": "school_1", "title": "Approval Test",
+            "subject": "Science", "grade": 10, "chapterIds": [], "blueprint": blueprint_body(),
+        })
+        assert created.status_code == 200
+        assessment_id = created.json()["id"]
+
+        assert client.patch(
+            f"/api/v1/assessments/{assessment_id}/approve",
+            headers={"Authorization": f"Bearer {teacher_token}"},
+        ).status_code == 403
+
+        approved = client.patch(
+            f"/api/v1/assessments/{assessment_id}/approve",
+            headers={"Authorization": f"Bearer {principal_token}"},
+        )
+        assert approved.status_code == 200, approved.text
+        assert approved.json()["status"] == "principalApproved"
+
+        # -- the lock this workflow exists to engage actually engages
+        assert client.put(
+            f"/api/v1/assessments/{assessment_id}", json=approved.json(),
+        ).status_code == 409
+
+        # -- a principal from a different school cannot approve this one
+        other_school = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other Principal",
+            "email": "other@example.com", "password": "correct horse battery",
+        })
+        assert other_school.json()["user"]["role"] == "principal"
+        assert client.patch(
+            f"/api/v1/assessments/{assessment_id}/approve",
+            headers={"Authorization": f"Bearer {other_school.json()['token']}"},
+        ).status_code == 403
+
+        # -- logout invalidates the token
+        assert client.post(
+            "/api/v1/auth/logout", headers={"Authorization": f"Bearer {principal_token}"},
+        ).status_code == 200
+        assert client.get(
+            "/api/v1/auth/me", headers={"Authorization": f"Bearer {principal_token}"},
+        ).status_code == 401
+        # logout with no/garbage token is a safe no-op, not an error
+        assert client.post("/api/v1/auth/logout").status_code == 200
 
 
 def test_full_boot_assessment_lifecycle(tmp_path, monkeypatch):
@@ -590,6 +763,60 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         })
         assert sheet.status_code == 200, sheet.text
         assert sheet.json()["totalAwarded"] <= sheet.json()["totalMax"]
+
+        # -- review + finalize: the AI's raw score must not reach mastery
+        # until the teacher's decision is finalized (evaluate_sheet no
+        # longer calls record_evaluations itself).
+        assert client.get("/api/v1/knowledge/s_sheet").json()["overallMastery"] == 0.0
+
+        # unknown question in this sheet -> 404
+        assert client.post(
+            "/api/v1/evaluations/sheet/a_ev/s_sheet/review/q_missing",
+            json={"action": "approve"},
+        ).status_code == 404
+        # review against a student/assessment with no evaluated sheet -> 404
+        assert client.post(
+            "/api/v1/evaluations/sheet/a_ev/s_never_evaluated/review/q_1",
+            json={"action": "approve"},
+        ).status_code == 404
+
+        # teacher overrides the AI's award for q_1 down to 0/2
+        edited = client.post(
+            "/api/v1/evaluations/sheet/a_ev/s_sheet/review/q_1",
+            json={"action": "edit", "marks": 0},
+        )
+        assert edited.status_code == 200, edited.text
+        assert edited.json()["awardedMarks"] == 0
+        assert edited.json()["maxMarks"] == 2
+
+        # edit with no marks -> 400; unknown action -> 400
+        assert client.post(
+            "/api/v1/evaluations/sheet/a_ev/s_sheet/review/q_1",
+            json={"action": "edit"},
+        ).status_code == 400
+        assert client.post(
+            "/api/v1/evaluations/sheet/a_ev/s_sheet/review/q_1",
+            json={"action": "bogus"},
+        ).status_code == 400
+
+        # finalize with no evaluated sheet -> 404
+        assert client.post(
+            "/api/v1/evaluations/sheet/a_ev/s_never_evaluated/finalize",
+            json={},
+        ).status_code == 404
+
+        finalized = client.post(
+            "/api/v1/evaluations/sheet/a_ev/s_sheet/finalize",
+            json={"reviewerId": "teacher_1"},
+        )
+        assert finalized.status_code == 200, finalized.text
+        assert finalized.json()["totalAwarded"] == 0  # reflects the teacher's override, not the AI's
+        assert finalized.json()["totalMax"] == 2
+
+        # mastery now reflects the teacher-finalized (not AI-original) mark.
+        after = client.get("/api/v1/knowledge/s_sheet").json()
+        assert after["overallMastery"] < 1.0
+
         assert client.post("/api/v1/evaluations/sheet", json={
             "assessmentId": "a_ev", "studentId": "s_sheet",
             "questions": [], "answers": {},

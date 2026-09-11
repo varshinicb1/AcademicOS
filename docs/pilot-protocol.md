@@ -1,6 +1,8 @@
 # P5.4 — Classroom Pilot Protocol
 
-**Version:** 1.0 · **Status:** draft (gated on P5.3 90-day offline simulation, per `docs/plan.md`)
+**Version:** 1.0 · **Status:** draft (P5.3 90-day offline simulation now
+complete, 2026-09-11 — `scripts/simulate_daily_loop.py`, `docs/plan.md`;
+this protocol has not yet been reconciled against those specific numbers)
 **Owner:** AcademicOS research lead
 **Reviewers:** algorithm leads, teacher-partner, data-governance officer
 **Scope:** field-run plan for piloting the Phase-5 daily loop (P5.1) + calibrated learning algorithms on a real CBSE-aligned Indian classroom.

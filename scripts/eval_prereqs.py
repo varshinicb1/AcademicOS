@@ -19,7 +19,8 @@ from pathlib import Path
 
 import requests
 
-sys.path.insert(0, r'C:\Users\varsh\OneDrive\Documents\Sarvam\AcademicOS\src')
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / 'src'))
 
 from academicos.graph.curriculum import (CRITERION_WEIGHTS, PREREQ_STOP,
                                          TEXT_SPAN_VERBS,
@@ -27,10 +28,18 @@ from academicos.graph.curriculum import (CRITERION_WEIGHTS, PREREQ_STOP,
 from academicos.graph.prereq_edges import confidence_from_votes
 from academicos.graph.store import GraphStore
 
-EKG = r'C:\Users\varsh\AppData\Local\Temp\opencode\EKG-Dataset'
-CACHE = r'C:\Users\varsh\AppData\Local\Temp\opencode\wiki_cache.json'
-TMP = r'C:\Users\varsh\AppData\Local\Temp\opencode\eval_tmp'
+# Overridable so this doesn't depend on one machine's temp layout -- the
+# EKG-Dataset gold-standard files (ACE paper MEKG files) are NOT vendored
+# in this repo; point EVAL_EKG_DATASET at wherever you've fetched them.
+# Default lives alongside the other vendored research datasets
+# (docs/research/vendor/hipporag, .../self-rag) for consistency, though
+# nothing currently populates it -- this script errors clearly on a missing
+# directory rather than assuming a stale personal temp path exists.
+EKG = os.environ.get('EVAL_EKG_DATASET', str(ROOT / 'docs' / 'research' / 'vendor' / 'EKG-Dataset'))
+CACHE = os.environ.get('EVAL_WIKI_CACHE', str(ROOT / '.cache' / 'eval_prereqs' / 'wiki_cache.json'))
+TMP = os.environ.get('EVAL_TMP', str(ROOT / '.cache' / 'eval_prereqs' / 'tmp'))
 os.makedirs(TMP, exist_ok=True)
+os.makedirs(os.path.dirname(CACHE), exist_ok=True)
 API = 'https://en.wikipedia.org/w/api.php'
 HEADERS = {'User-Agent': 'AcademicOS-eval/1.0 (research prototype)'}
 
@@ -73,6 +82,11 @@ def load_gold() -> dict[str, list[tuple[str, str, int]]]:
         'DSA_gold_standard_MEKG.txt': 'second_is_prereq',
         'metacademy_gold_standard_MEKG.txt': 'second_is_prereq',
     }
+    if not os.path.isdir(EKG):
+        raise FileNotFoundError(
+            f"EKG-Dataset gold standard not found at {EKG!r}. This dataset "
+            "(ACE paper MEKG files) is not vendored in this repo -- fetch it "
+            "and point EVAL_EKG_DATASET at its location.")
     datasets = {}
     for f in sorted(os.listdir(EKG)):
         if not f.endswith('.txt') or 'gold_standard' not in f and 'MEKG' not in f:
