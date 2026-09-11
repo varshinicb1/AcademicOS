@@ -363,6 +363,8 @@ def test_gated_routes_return_503_without_startup():
             if (method, path) in {
                 ("GET", "/api/v1/auth/me"),
                 ("PATCH", "/api/v1/assessments/{assessment_id}/approve"),
+                ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/review/{question_id}"),
+                ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/finalize"),
             }:
                 continue
             # Idempotent by design: no token means nothing to delete, so it
@@ -766,9 +768,36 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
     with _boot_client(tmp_path, monkeypatch) as client:
         q = question_body()
 
-        # -- evaluation: single answer and full sheet
+        # review_sheet_answer / finalize_sheet_review require a real,
+        # school-owned assessment + an authenticated caller (fixed
+        # 2026-09-11 -- previously both mutated the graded store for any
+        # assessment/student/question with zero authorization). A teacher
+        # for school_1 and a real assessment record stand in for what the
+        # Assessment Designer flow would already have created.
+        teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Eval Teacher",
+            "email": "eval-teacher@example.com", "password": "correct horse battery",
+        }).json()
+        teacher_auth = {"Authorization": f"Bearer {teacher['token']}"}
+
+        other_school_teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other School Teacher",
+            "email": "other-school-teacher@example.com", "password": "correct horse battery",
+        }).json()
+        other_school_auth = {"Authorization": f"Bearer {other_school_teacher['token']}"}
+
+        created = client.post("/api/v1/assessments", json={
+            "teacherId": teacher["user"]["id"], "schoolId": "school_1",
+            "title": "Evaluation Test", "subject": "Mathematics", "grade": 10,
+            "chapterIds": [], "blueprint": blueprint_body(),
+        })
+        assert created.status_code == 200, created.text
+        a_ev = created.json()["id"]
+
+        # -- evaluation: single answer and full sheet (unauthenticated by
+        # design -- not part of this fix; see pillar_routes.py)
         answer = client.post("/api/v1/evaluations/answer", json={
-            "assessmentId": "a_ev", "studentId": "s_answer",
+            "assessmentId": a_ev, "studentId": "s_answer",
             "question": q,
             "answerScheme": q["answerScheme"],
             "studentAnswer": "The solution is x = 2, "
@@ -778,7 +807,7 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         assert answer.json()["awardedMarks"] == 2
 
         sheet = client.post("/api/v1/evaluations/sheet", json={
-            "assessmentId": "a_ev", "studentId": "s_sheet", "studentName": "Sheeta",
+            "assessmentId": a_ev, "studentId": "s_sheet", "studentName": "Sheeta",
             "questions": [q], "answers": {
                 "q_1": "The solution is x = 2, obtained by subtracting 3 from "
                        "both sides then dividing by 2.",
@@ -793,21 +822,44 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         # longer calls record_evaluations itself).
         assert client.get("/api/v1/knowledge/s_sheet").json()["overallMastery"] == 0.0
 
+        # -- authorization itself: no token -> 401; wrong school -> 403
+        assert client.post(
+            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/review/q_1",
+            json={"action": "approve"},
+        ).status_code == 401
+        assert client.post(
+            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/review/q_1",
+            json={"action": "approve"}, headers=other_school_auth,
+        ).status_code == 403
+        assert client.post(
+            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/finalize", json={},
+        ).status_code == 401
+        assert client.post(
+            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/finalize", json={},
+            headers=other_school_auth,
+        ).status_code == 403
+        # a real caller, but an assessment id that doesn't exist -> 404,
+        # never a 403 that would leak whether the id is real
+        assert client.post(
+            "/api/v1/evaluations/sheet/not_a_real_assessment/s_sheet/review/q_1",
+            json={"action": "approve"}, headers=teacher_auth,
+        ).status_code == 404
+
         # unknown question in this sheet -> 404
         assert client.post(
-            "/api/v1/evaluations/sheet/a_ev/s_sheet/review/q_missing",
-            json={"action": "approve"},
+            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/review/q_missing",
+            json={"action": "approve"}, headers=teacher_auth,
         ).status_code == 404
         # review against a student/assessment with no evaluated sheet -> 404
         assert client.post(
-            "/api/v1/evaluations/sheet/a_ev/s_never_evaluated/review/q_1",
-            json={"action": "approve"},
+            f"/api/v1/evaluations/sheet/{a_ev}/s_never_evaluated/review/q_1",
+            json={"action": "approve"}, headers=teacher_auth,
         ).status_code == 404
 
         # teacher overrides the AI's award for q_1 down to 0/2
         edited = client.post(
-            "/api/v1/evaluations/sheet/a_ev/s_sheet/review/q_1",
-            json={"action": "edit", "marks": 0},
+            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/review/q_1",
+            json={"action": "edit", "marks": 0}, headers=teacher_auth,
         )
         assert edited.status_code == 200, edited.text
         assert edited.json()["awardedMarks"] == 0
@@ -815,23 +867,23 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
 
         # edit with no marks -> 400; unknown action -> 400
         assert client.post(
-            "/api/v1/evaluations/sheet/a_ev/s_sheet/review/q_1",
-            json={"action": "edit"},
+            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/review/q_1",
+            json={"action": "edit"}, headers=teacher_auth,
         ).status_code == 400
         assert client.post(
-            "/api/v1/evaluations/sheet/a_ev/s_sheet/review/q_1",
-            json={"action": "bogus"},
+            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/review/q_1",
+            json={"action": "bogus"}, headers=teacher_auth,
         ).status_code == 400
 
         # finalize with no evaluated sheet -> 404
         assert client.post(
-            "/api/v1/evaluations/sheet/a_ev/s_never_evaluated/finalize",
-            json={},
+            f"/api/v1/evaluations/sheet/{a_ev}/s_never_evaluated/finalize",
+            json={}, headers=teacher_auth,
         ).status_code == 404
 
         finalized = client.post(
-            "/api/v1/evaluations/sheet/a_ev/s_sheet/finalize",
-            json={"reviewerId": "teacher_1"},
+            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/finalize",
+            json={}, headers=teacher_auth,
         )
         assert finalized.status_code == 200, finalized.text
         assert finalized.json()["totalAwarded"] == 0  # reflects the teacher's override, not the AI's
@@ -842,7 +894,7 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         assert after["overallMastery"] < 1.0
 
         assert client.post("/api/v1/evaluations/sheet", json={
-            "assessmentId": "a_ev", "studentId": "s_sheet",
+            "assessmentId": a_ev, "studentId": "s_sheet",
             "questions": [], "answers": {},
         }).status_code == 200
 
