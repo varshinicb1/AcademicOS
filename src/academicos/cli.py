@@ -979,6 +979,105 @@ def cmd_sync_gcs(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_curriculum_extract(args: argparse.Namespace) -> int:
+    """Bulk-runs Topic/Subtopic extraction proposals across every chapter
+    of a book that doesn't already have real topics -- the transcript
+    follow-up's "close the bulk-extraction gap" step. Uses the real
+    configured LLM (SarvamLLM, real SARVAM_API_KEY) when available; a
+    chapter with no LLM available is skipped with a clear message rather
+    than silently marked done (status="manual_required" on its run, real
+    content still needs either a key or manual entry -- see
+    curriculum/extraction.py's module docstring).
+
+    Only ever creates DRAFT proposals -- never approves anything. Review +
+    approve with `curriculum-approve` afterward."""
+    from .curriculum.store import get_curriculum_store
+    from .curriculum import extraction as extraction_mod
+    from .llm.sarvam import SarvamLLM
+
+    cfg = Config.load()
+    store = get_curriculum_store(cfg.data_root)
+    llm = SarvamLLM(api_key=cfg.llm_api_key or None)
+    if not llm.available:
+        print("no LLM available (SARVAM_API_KEY not set) -- every chapter would "
+              "get status=manual_required. Not running (nothing to do); "
+              "set SARVAM_API_KEY or use manual topic/subtopic entry instead.")
+        return 1
+
+    chapters = store.chapters_for_book(args.book_id)
+    run_ids: list[str] = []
+    skipped_already_done = 0
+    failed = 0
+    for chapter in chapters:
+        if store.topics_for_chapter(chapter.id) and not args.force:
+            skipped_already_done += 1
+            continue
+        book = store.get_book(args.book_id)
+        unit = store.get_unit(chapter.unit_id)
+        subject_obj = store.get_subject(book.subject_id)
+        grade_obj = store.get_grade(subject_obj.grade_id)
+        try:
+            run = extraction_mod.propose(
+                store, school_id=args.school_id, chapter=chapter, book_id=args.book_id,
+                subject=subject_obj.name, grade=grade_obj.number, llm=llm)
+        except Exception as e:
+            log.warning("extraction failed for chapter %s (%s): %s", chapter.id, chapter.name, e)
+            failed += 1
+            continue
+        status_note = "" if run.status == "pending" else f" [{run.status}]"
+        n_proposals = len(store.proposals_for_run(run.id))
+        print(f"  {chapter.name:<50} run={run.id} {n_proposals} proposals{status_note}")
+        run_ids.append(run.id)
+
+    print(f"\nextraction: {len(run_ids)} chapters proposed, "
+          f"{skipped_already_done} already had real topics (skipped), {failed} failed")
+    if run_ids:
+        print("review with: python -m academicos.cli curriculum-approve --run-id <id> --dry-run")
+    return 0
+
+
+def cmd_curriculum_approve(args: argparse.Namespace) -> int:
+    """Reviews (prints) and, unless --dry-run, approves one extraction
+    run's proposals. Prints every proposed topic/subtopic before deciding
+    anything -- this is the one place a human (or, disclosed as such, an
+    AI-assisted reviewer) actually looks at what the LLM proposed before
+    it can become real curriculum. --reject accepts a comma-separated list
+    of proposal ids to exclude."""
+    from .curriculum.store import get_curriculum_store
+    from .curriculum import extraction as extraction_mod
+
+    cfg = Config.load()
+    store = get_curriculum_store(cfg.data_root)
+    run = store.get_extraction_run(args.run_id)
+    if run is None:
+        print(f"no such extraction run: {args.run_id}")
+        return 1
+    proposals = store.proposals_for_run(args.run_id)
+    if not proposals:
+        print(f"run {args.run_id} has no proposals (status={run.status})")
+        return 1
+
+    by_topic: dict[str, list] = {}
+    topics_by_id = {p.id: p for p in proposals if p.entity_type == "topic"}
+    for p in proposals:
+        if p.entity_type == "subtopic":
+            by_topic.setdefault(p.proposed_parent, []).append(p)
+    for tid, tp in topics_by_id.items():
+        print(f"  {tp.proposed_name}  (confidence {tp.confidence:.2f})")
+        for sp in by_topic.get(tid, []):
+            print(f"      - {sp.proposed_name}  (confidence {sp.confidence:.2f})")
+
+    if args.dry_run:
+        print("\n(--dry-run: nothing approved)")
+        return 0
+
+    rejected = set(args.reject.split(",")) if args.reject else set()
+    result = extraction_mod.approve_run(store, args.run_id, approved_by=args.approved_by,
+                                        rejected_proposal_ids=rejected)
+    print(f"\napproved: {result.topics_created} topics, {result.subtopics_created} subtopics")
+    return 0
+
+
 def cmd_serve(args: argparse.Namespace) -> int:
     import uvicorn
     from .api.main import init_runtime
@@ -1058,6 +1157,20 @@ def main(argv: list[str] | None = None) -> int:
     psg.add_argument("--max-cycles", type=int, default=None,
                      help="with --interval-minutes, stop after N cycles instead of running forever")
     psg.set_defaults(fn=cmd_sync_gcs)
+
+    pce = sub.add_parser("curriculum-extract")
+    pce.add_argument("--school-id", required=True)
+    pce.add_argument("--book-id", required=True)
+    pce.add_argument("--force", action="store_true",
+                     help="re-propose even for chapters that already have real topics")
+    pce.set_defaults(fn=cmd_curriculum_extract)
+
+    pca = sub.add_parser("curriculum-approve")
+    pca.add_argument("--run-id", required=True)
+    pca.add_argument("--approved-by", default="cli_admin")
+    pca.add_argument("--reject", default="", help="comma-separated proposal ids to exclude")
+    pca.add_argument("--dry-run", action="store_true", help="print proposals, approve nothing")
+    pca.set_defaults(fn=cmd_curriculum_approve)
 
     args = p.parse_args(argv)
     _setup_logging(args.verbose)

@@ -18,6 +18,7 @@ from ..agents.orchestrator import DoubtSolver, ExaminerScorer, PaperAnalyst
 from ..assessment import auth_routes, ingest_routes, mobile_routes, mobile_scan, pillar_routes
 from ..assessment import routes as assessment_routes
 from ..config import Config
+from ..curriculum import routes as curriculum_routes
 from ..graph.store import GraphStore
 from ..retrieval.hybrid import HybridRetriever
 from ..retrieval.index import ChunkIndex
@@ -35,6 +36,7 @@ app.include_router(pillar_routes.router)
 app.include_router(mobile_routes.router)
 app.include_router(ingest_routes.router)
 app.include_router(auth_routes.router)
+app.include_router(curriculum_routes.router)
 
 
 class SearchRequest(BaseModel):
@@ -112,6 +114,7 @@ def init_runtime(config: Optional[Config] = None) -> None:
     pillar_routes.init(cfg)
     ingest_routes.init(cfg)
     auth_routes.init(cfg)
+    curriculum_routes.init(cfg)
     mobile_scan.configure_workdir(cfg.data_root / "scan-sessions")
     if cfg.llm_api_key:
         from ..agents.critic import SarvamCritic

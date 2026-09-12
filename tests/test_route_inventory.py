@@ -102,6 +102,37 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/v1/question/solve"),
     # --- ingest_routes.py (a school's own document uploads) ---
     ("POST", "/api/v1/ingest/school-documents"),
+    # --- curriculum/routes.py (docs/ACADEMIC_DATA_MODEL.md) ---
+    ("GET", "/api/v1/curriculum/boards"),
+    ("GET", "/api/v1/curriculum/academic-years"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/grades"),
+    ("GET", "/api/v1/curriculum/grades/{grade_id}/subjects"),
+    ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
+    ("GET", "/api/v1/curriculum/books/{book_id}/units"),
+    ("GET", "/api/v1/curriculum/books/{book_id}/chapters"),
+    ("POST", "/api/v1/curriculum/seed/cbse10"),
+    ("GET", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
+    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
+    ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"),
+    ("POST", "/api/v1/curriculum/extraction-runs/{run_id}/approve"),
+    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
+    ("POST", "/api/v1/curriculum/topics/{topic_id}/subtopics"),
+    ("PATCH", "/api/v1/curriculum/topics/{topic_id}"),
+    ("PATCH", "/api/v1/curriculum/subtopics/{subtopic_id}"),
+    ("DELETE", "/api/v1/curriculum/subtopics/{subtopic_id}"),
+    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/questions/tag"),
+    ("POST", "/api/v1/curriculum/questions/by-subtopics"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/working-days"),
+    ("POST", "/api/v1/curriculum/books/{book_id}/teaching-time-estimates"),
+    ("GET", "/api/v1/curriculum/subtopics/{subtopic_id}/teaching-time-estimate"),
+    ("POST", "/api/v1/curriculum/books/{book_id}/schedule"),
+    ("GET", "/api/v1/curriculum/books/{book_id}/schedule"),
+    ("GET", "/api/v1/curriculum/schedule"),
 })
 
 DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
@@ -248,6 +279,10 @@ def _valid_body_for(method: str, path: str) -> dict:
         return {"email": "teacher1@example.com", "password": "correct horse battery"}
     if path == "/v1/question/solve":
         return {"question": "What is photosynthesis?"}
+    if path == "/api/v1/curriculum/chapters/{chapter_id}/questions/tag":
+        return {"questionId": "q1", "questionText": "Balance the equation."}
+    if path == "/api/v1/curriculum/questions/by-subtopics":
+        return {"subtopicIds": ["st1"]}
     return {"query": "photosynthesis", "doubt": "light reaction",
             "question": "q", "paperId": "p", "paper_id": "p",
             "nodeId": "n", "node_id": "n", "source": "a", "target": "b"}
@@ -268,7 +303,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 62
+    assert len(API_ROUTES) == 92
 
 
 def test_docs_routes_present():
@@ -365,6 +400,27 @@ def test_gated_routes_return_503_without_startup():
                 ("PATCH", "/api/v1/assessments/{assessment_id}/approve"),
                 ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/review/{question_id}"),
                 ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/finalize"),
+                ("POST", "/api/v1/curriculum/seed/cbse10"),
+                ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
+                ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"),
+                ("POST", "/api/v1/curriculum/extraction-runs/{run_id}/approve"),
+                ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
+                ("POST", "/api/v1/curriculum/topics/{topic_id}/subtopics"),
+                ("PATCH", "/api/v1/curriculum/topics/{topic_id}"),
+                ("PATCH", "/api/v1/curriculum/subtopics/{subtopic_id}"),
+                ("DELETE", "/api/v1/curriculum/subtopics/{subtopic_id}"),
+                ("POST", "/api/v1/curriculum/chapters/{chapter_id}/questions/tag"),
+                ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
+                ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
+                ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
+                ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
+                ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
+                ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/working-days"),
+                ("POST", "/api/v1/curriculum/books/{book_id}/teaching-time-estimates"),
+                ("GET", "/api/v1/curriculum/subtopics/{subtopic_id}/teaching-time-estimate"),
+                ("POST", "/api/v1/curriculum/books/{book_id}/schedule"),
+                ("GET", "/api/v1/curriculum/books/{book_id}/schedule"),
+                ("GET", "/api/v1/curriculum/schedule"),
             }:
                 continue
             # Idempotent by design: no token means nothing to delete, so it
@@ -390,6 +446,10 @@ def test_gated_routes_return_503_without_startup():
                 .replace("{question_id}", "q_1")
                 .replace("{page_no}", "1")
             )
+            if path == "/api/v1/curriculum/academic-years":
+                # Required query param, not a path param -- 422 (missing)
+                # would fire before _require() otherwise.
+                concrete += "?school_id=school_1"
             body = _valid_body_for(method, path)
             r = client.request(method, concrete, json=body)
             assert r.status_code == 503, f"{method} {concrete} -> {r.status_code}"
@@ -423,15 +483,18 @@ def test_auth_gated_routes_503_with_a_token_present():
 
 def _boot_client(tmp_path, monkeypatch):
     """Boots the app with an empty corpus under tmp_path and returns the
-    TestClient. Resets the audit-log and user-store singletons so earlier
-    boots don't leak (same real gap that would have hit auth tests: a
-    stale UserStore from a previous test's tmp_path would keep answering
-    for a school that supposedly has no users yet in the new one)."""
+    TestClient. Resets the audit-log, user-store, and curriculum-store
+    singletons so earlier boots don't leak (same real gap that would have
+    hit auth tests: a stale UserStore from a previous test's tmp_path
+    would keep answering for a school that supposedly has no users yet in
+    the new one)."""
     from academicos.assessment import users as users_mod
+    from academicos.curriculum import store as curriculum_store_mod
 
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     monkeypatch.setattr(audit_log, "_INSTANCE", None)
     monkeypatch.setattr(users_mod, "_INSTANCE", None)
+    monkeypatch.setattr(curriculum_store_mod, "_INSTANCE", None)
     from fastapi.testclient import TestClient
 
     return TestClient(app)
@@ -612,6 +675,544 @@ def test_full_boot_auth_and_principal_approval(tmp_path, monkeypatch):
         ).status_code == 401
         # logout with no/garbage token is a safe no-op, not an error
         assert client.post("/api/v1/auth/logout").status_code == 200
+
+
+def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):
+    """docs/ACADEMIC_DATA_MODEL.md: seed the real CBSE Class 10 curriculum
+    through the live API (principal-gated, school-scoped -- not a
+    caller-supplied school_id) and verify the read endpoints return the
+    real seeded data, not just that the store layer works in isolation."""
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        # -- unauthenticated / non-principal callers can't seed
+        assert client.post("/api/v1/curriculum/seed/cbse10", json={
+            "academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-04-30",
+        }).status_code == 401
+
+        teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Teacher", "email": "teacher@example.com",
+            "password": "correct horse battery",
+        }).json()
+        assert client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-04-30"},
+            headers={"Authorization": f"Bearer {teacher['token']}"},
+        ).status_code == 403
+
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        principal_auth = {"Authorization": f"Bearer {principal['token']}"}
+
+        seeded = client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-04-30"},
+            headers=principal_auth,
+        )
+        assert seeded.status_code == 200, seeded.text
+        body = seeded.json()
+        assert body["subjectsSeeded"] == 4
+        assert body["subjectsSkipped"] == []
+        academic_year_id = body["academicYearId"]
+        grade_id = body["gradeId"]
+
+        # -- idempotent through the live API too, not just the store layer
+        seeded_again = client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-04-30"},
+            headers=principal_auth,
+        )
+        assert seeded_again.json()["academicYearId"] == academic_year_id
+
+        # -- reads return the real seeded data
+        boards = client.get("/api/v1/curriculum/boards")
+        assert any(b["code"] == "CBSE" for b in boards.json())
+
+        years = client.get("/api/v1/curriculum/academic-years", params={"school_id": "school_1"})
+        assert any(y["id"] == academic_year_id and y["label"] == "2026-27" for y in years.json())
+
+        grades = client.get(f"/api/v1/curriculum/academic-years/{academic_year_id}/grades")
+        assert any(g["id"] == grade_id and g["number"] == 10 for g in grades.json())
+
+        subjects = client.get(f"/api/v1/curriculum/grades/{grade_id}/subjects")
+        subject_names = {s["name"] for s in subjects.json()}
+        assert subject_names == {"Mathematics", "Science", "Social Science", "English"}
+        science = next(s for s in subjects.json() if s["name"] == "Science")
+
+        books = client.get(f"/api/v1/curriculum/subjects/{science['id']}/books")
+        assert books.json()[0]["status"] == "ready"
+        book_id = books.json()[0]["id"]
+
+        chapters = client.get(f"/api/v1/curriculum/books/{book_id}/chapters")
+        chapter_names = {c["name"] for c in chapters.json()}
+        assert "Chemical Reactions and Equations" in chapter_names
+        assert "Our Environment" in chapter_names
+
+        units = client.get(f"/api/v1/curriculum/books/{book_id}/units")
+        assert sum(u["marks"] for u in units.json()) == 80  # real CBSE Science X total
+
+
+def test_full_boot_academic_calendar_and_teaching_time_estimates(tmp_path, monkeypatch):
+    """§10, §27-29 through the live API: seed -> create calendar -> add
+    holidays -> real working-days computation -> set period duration ->
+    compute real, calendar-grounded teaching-time estimates across real
+    (manually-added, no LLM needed) subtopics -> read one back. Also
+    exercises the auth/school-scoping posture: unauthenticated and
+    cross-school callers are rejected, same as every other curriculum
+    write in this file."""
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        auth = {"Authorization": f"Bearer {principal['token']}"}
+
+        seeded = client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-03-31"},
+            headers=auth,
+        ).json()
+        academic_year_id = seeded["academicYearId"]
+        grade_id = seeded["gradeId"]
+        science = next(s for s in client.get(f"/api/v1/curriculum/grades/{grade_id}/subjects").json()
+                       if s["name"] == "Science")
+        book_id = client.get(f"/api/v1/curriculum/subjects/{science['id']}/books").json()[0]["id"]
+        chapter_id = client.get(f"/api/v1/curriculum/books/{book_id}/chapters").json()[0]["id"]
+
+        # -- unauthenticated caller can't create a calendar
+        assert client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar", json={},
+        ).status_code == 401
+
+        # -- create calendar (principal-gated)
+        cal = client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar",
+            json={"weeklyOffDays": ["sunday"], "alternateSaturdayRule": "2nd,4th"},
+            headers=auth,
+        )
+        assert cal.status_code == 200, cal.text
+        assert cal.json()["weeklyOffDays"] == ["sunday"]
+
+        # -- can't create a second calendar for the same year
+        assert client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar", json={}, headers=auth,
+        ).status_code == 409
+
+        # -- a different school's principal can't read/write this year's calendar
+        other_principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other Principal", "email": "other@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        other_auth = {"Authorization": f"Bearer {other_principal['token']}"}
+        assert client.get(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar", headers=other_auth,
+        ).status_code == 403
+        assert client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/holidays",
+            json={"date": "2026-08-15", "label": "Independence Day"}, headers=other_auth,
+        ).status_code == 403
+
+        # -- add real holidays
+        h1 = client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/holidays",
+            json={"date": "2026-08-15", "label": "Independence Day"}, headers=auth,
+        )
+        assert h1.status_code == 200, h1.text
+        client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/holidays",
+            json={"date": "2026-10-02", "label": "Gandhi Jayanti"}, headers=auth,
+        )
+        holidays = client.get(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/holidays", headers=auth,
+        ).json()
+        assert {h["label"] for h in holidays} == {"Independence Day", "Gandhi Jayanti"}
+
+        # -- real, computed working days for the year
+        wd = client.get(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/working-days", headers=auth,
+        )
+        assert wd.status_code == 200, wd.text
+        wd_body = wd.json()
+        assert wd_body["holidayCount"] == 2
+        assert "2026-08-15" not in wd_body["dates"]
+        assert wd_body["workingDays"] == (
+            wd_body["totalDays"] - wd_body["weeklyOffCount"]
+            - wd_body["alternateSaturdayOffCount"] - wd_body["holidayCount"]
+        )
+
+        # -- set period duration (principal-gated, real, admin-set minutes)
+        cfg = client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration",
+            json={"periodMinutes": 40}, headers=auth,
+        )
+        assert cfg.status_code == 200, cfg.text
+        assert cfg.json()["periodMinutes"] == 40
+        assert client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration",
+            json={"periodMinutes": 45}, headers=auth,
+        ).status_code == 409
+
+        # -- real approved Topic/Subtopic content to distribute minutes across
+        # (manual add -- no LLM dependency for this test)
+        topic = client.post(
+            f"/api/v1/curriculum/chapters/{chapter_id}/topics",
+            json={"name": "Real Topic"}, headers=auth,
+        ).json()
+        subtopic = client.post(
+            f"/api/v1/curriculum/topics/{topic['id']}/subtopics",
+            json={"name": "Real Subtopic"}, headers=auth,
+        ).json()
+
+        # -- compute real, calendar-grounded teaching-time estimates
+        tte = client.post(
+            f"/api/v1/curriculum/books/{book_id}/teaching-time-estimates",
+            params={"academic_year_id": academic_year_id},
+            json={"periodsPerWeek": 6}, headers=auth,
+        )
+        assert tte.status_code == 200, tte.text
+        tte_body = tte.json()
+        assert tte_body["periodMinutes"] == 40
+        assert tte_body["estimatesCreated"] >= 1
+        assert tte_body["totalInstructionalMinutes"] == (
+            tte_body["periodsPerWeek"] * tte_body["calendarWeeks"] * tte_body["periodMinutes"]
+        )
+
+        # -- read one real estimate back
+        est = client.get(
+            f"/api/v1/curriculum/subtopics/{subtopic['id']}/teaching-time-estimate",
+            params={"academic_year_id": academic_year_id}, headers=auth,
+        )
+        assert est.status_code == 200, est.text
+        assert est.json()["estimatedMinutes"] > 0
+        assert est.json()["method"] == "marks_weightage_proportional"
+
+        # -- re-running is idempotent through the live API too
+        tte_again = client.post(
+            f"/api/v1/curriculum/books/{book_id}/teaching-time-estimates",
+            params={"academic_year_id": academic_year_id},
+            json={"periodsPerWeek": 6}, headers=auth,
+        )
+        assert tte_again.json()["estimatesCreated"] == 0
+
+
+def test_full_boot_micro_scheduling(tmp_path, monkeypatch):
+    """§11-14 through the live API: seed -> calendar -> period duration ->
+    real Topic/Subtopic content -> teaching-time estimates -> generate the
+    real, dated schedule -> read it back both per-book and by date range.
+    Also proves the refuse-to-silently-reschedule / force-regenerate and
+    school-scoping postures at the HTTP layer, not just the store layer."""
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        auth = {"Authorization": f"Bearer {principal['token']}"}
+
+        seeded = client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-03-31"},
+            headers=auth,
+        ).json()
+        academic_year_id = seeded["academicYearId"]
+        grade_id = seeded["gradeId"]
+        science = next(s for s in client.get(f"/api/v1/curriculum/grades/{grade_id}/subjects").json()
+                       if s["name"] == "Science")
+        book_id = client.get(f"/api/v1/curriculum/subjects/{science['id']}/books").json()[0]["id"]
+        chapter_id = client.get(f"/api/v1/curriculum/books/{book_id}/chapters").json()[0]["id"]
+
+        client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar",
+                   json={"weeklyOffDays": ["sunday"], "alternateSaturdayRule": "2nd,4th"}, headers=auth)
+        client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration",
+                   json={"periodMinutes": 40}, headers=auth)
+
+        topic = client.post(f"/api/v1/curriculum/chapters/{chapter_id}/topics",
+                            json={"name": "Real Topic"}, headers=auth).json()
+        subtopic = client.post(f"/api/v1/curriculum/topics/{topic['id']}/subtopics",
+                               json={"name": "Real Subtopic"}, headers=auth).json()
+
+        # -- scheduling before teaching-time estimates exist: the subtopic
+        # is honestly reported as skipped, not guessed.
+        early = client.post(
+            f"/api/v1/curriculum/books/{book_id}/schedule",
+            params={"academic_year_id": academic_year_id}, json={"periodsPerWeek": 6}, headers=auth,
+        )
+        assert early.status_code == 200, early.text
+        assert subtopic["id"] in early.json()["subtopicsWithoutEstimate"]
+        assert early.json()["lessonsCreated"] == 0
+
+        client.post(f"/api/v1/curriculum/books/{book_id}/teaching-time-estimates",
+                   params={"academic_year_id": academic_year_id}, json={"periodsPerWeek": 6}, headers=auth)
+
+        # -- unauthenticated caller can't generate a schedule
+        assert client.post(
+            f"/api/v1/curriculum/books/{book_id}/schedule",
+            params={"academic_year_id": academic_year_id}, json={"periodsPerWeek": 6},
+        ).status_code == 401
+
+        sched = client.post(
+            f"/api/v1/curriculum/books/{book_id}/schedule",
+            params={"academic_year_id": academic_year_id}, json={"periodsPerWeek": 6}, headers=auth,
+        )
+        assert sched.status_code == 200, sched.text
+        sched_body = sched.json()
+        assert sched_body["lessonsCreated"] > 0
+        assert sched_body["subtopicsScheduled"] >= 1
+        assert sched_body["firstScheduledDate"] <= sched_body["lastScheduledDate"]
+
+        # -- re-scheduling without force is refused (409), not silently redone
+        assert client.post(
+            f"/api/v1/curriculum/books/{book_id}/schedule",
+            params={"academic_year_id": academic_year_id}, json={"periodsPerWeek": 6}, headers=auth,
+        ).status_code == 409
+
+        # -- force regenerates cleanly
+        forced = client.post(
+            f"/api/v1/curriculum/books/{book_id}/schedule",
+            params={"academic_year_id": academic_year_id},
+            json={"periodsPerWeek": 6, "force": True}, headers=auth,
+        )
+        assert forced.status_code == 200
+        assert forced.json()["lessonsCreated"] == sched_body["lessonsCreated"]
+
+        # -- read the real schedule back, per book
+        book_schedule = client.get(
+            f"/api/v1/curriculum/books/{book_id}/schedule",
+            params={"academic_year_id": academic_year_id}, headers=auth,
+        )
+        assert book_schedule.status_code == 200
+        lessons = book_schedule.json()
+        assert len(lessons) == sched_body["lessonsCreated"]
+        assert all(l["status"] == "scheduled" for l in lessons)
+
+        # -- and by date range (the future daily/weekly/monthly view's real
+        # access pattern), school-scoped by the caller's own token
+        first_date = sched_body["firstScheduledDate"]
+        by_range = client.get(
+            "/api/v1/curriculum/schedule",
+            params={"start_date": first_date, "end_date": first_date}, headers=auth,
+        )
+        assert by_range.status_code == 200
+        assert len(by_range.json()) >= 1
+        assert all(l["date"] == first_date for l in by_range.json())
+
+        # -- a different school's principal reading this book's schedule is refused
+        other_principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other Principal", "email": "other2@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        other_auth = {"Authorization": f"Bearer {other_principal['token']}"}
+        assert client.get(
+            f"/api/v1/curriculum/books/{book_id}/schedule",
+            params={"academic_year_id": academic_year_id}, headers=other_auth,
+        ).status_code == 403
+        # -- but the date-range endpoint scopes to *their own* school, so it
+        # correctly returns empty rather than leaking school_1's lessons
+        other_range = client.get(
+            "/api/v1/curriculum/schedule",
+            params={"start_date": first_date, "end_date": first_date}, headers=other_auth,
+        )
+        assert other_range.status_code == 200
+        assert other_range.json() == []
+
+
+class _FakeLLMForRoutes:
+    """Same shape as extraction.py's own test double -- used here to prove
+    the HTTP-layer wiring (routes.py -> extraction.propose/approve_run)
+    works end-to-end, not just the already-thoroughly-unit-tested
+    extraction.py functions in isolation."""
+    def __init__(self, response):
+        self.response = response
+        self.model = "fake-model"
+
+    @property
+    def available(self):
+        return True
+
+    def chat_json(self, messages, **kw):
+        return self.response
+
+
+def test_full_boot_curriculum_decomposition_review_and_question_paper(tmp_path, monkeypatch):
+    """The transcript's literal acceptance-criteria workflow, end-to-end
+    through the live API: seed -> extract -> review -> edit one item ->
+    approve -> persist -> (simulated restart already covered at the store
+    level in test_curriculum_extraction.py) -> question gets tagged to a
+    subtopic -> generate paper using selected subtopics -> paper only
+    contains eligible questions. Also: rejected proposals never appear,
+    renaming doesn't break references, deleting a linked subtopic is
+    blocked, cross-school access is denied.
+    """
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        auth = {"Authorization": f"Bearer {principal['token']}"}
+
+        other_school_principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other Principal", "email": "other-p@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        other_auth = {"Authorization": f"Bearer {other_school_principal['token']}"}
+
+        seeded = client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-04-30"},
+            headers=auth,
+        ).json()
+        grade = client.get(f"/api/v1/curriculum/academic-years/{seeded['academicYearId']}/grades").json()[0]
+        science = next(s for s in client.get(f"/api/v1/curriculum/grades/{grade['id']}/subjects").json()
+                       if s["name"] == "Science")
+        book = client.get(f"/api/v1/curriculum/subjects/{science['id']}/books").json()[0]
+        chapter = next(c for c in client.get(f"/api/v1/curriculum/books/{book['id']}/chapters").json()
+                       if c["name"] == "Chemical Reactions and Equations")
+
+        # -- no LLM available: extraction reports manual_required, not a
+        # fabrication. Explicitly forced via monkeypatch rather than relying
+        # on this environment's real key state -- a real SARVAM_API_KEY can
+        # be set here (found 2026-09-12 fixing _llm()'s config-field bug),
+        # and this test suite must stay hermetic: no live network call, no
+        # real API spend, on every `pytest` run.
+        from academicos.curriculum import routes as curriculum_routes
+        monkeypatch.setattr(curriculum_routes, "_llm", lambda: None)
+        honest_run = client.post(f"/api/v1/curriculum/chapters/{chapter['id']}/extract",
+                                 json={}, headers=auth)
+        assert honest_run.status_code == 200
+        assert honest_run.json()["status"] == "manual_required"
+
+        # -- a real LLM configured: propose a real draft.
+        fake_response = {
+            "topics": [
+                {"name": "Chemical Equations", "confidence": 0.9, "subtopics": [
+                    {"name": "Writing chemical equations", "confidence": 0.8},
+                    {"name": "Balancing chemical equations", "confidence": 0.8},
+                ]},
+                {"name": "Types of Chemical Reactions", "confidence": 0.9, "subtopics": [
+                    {"name": "Combination reactions", "confidence": 0.8},
+                    {"name": "Oxidation and reduction", "confidence": 0.8},
+                ]},
+            ]
+        }
+        monkeypatch.setattr(curriculum_routes, "_llm", lambda: _FakeLLMForRoutes(fake_response))
+
+        # -- non-principal / cross-school callers can't extract
+        assert client.post(f"/api/v1/curriculum/chapters/{chapter['id']}/extract",
+                           json={}).status_code == 401
+        assert client.post(f"/api/v1/curriculum/chapters/{chapter['id']}/extract",
+                           json={}, headers=other_auth).status_code == 403
+
+        run = client.post(f"/api/v1/curriculum/chapters/{chapter['id']}/extract",
+                          json={}, headers=auth).json()
+        assert run["status"] == "pending"
+
+        # -- AI DRAFT, not DATABASE: nothing real yet.
+        assert client.get(f"/api/v1/curriculum/chapters/{chapter['id']}/topics").json() == []
+
+        # -- cross-school cannot even read the draft
+        assert client.get(f"/api/v1/curriculum/extraction-runs/{run['id']}",
+                          headers=other_auth).status_code == 403
+
+        run_detail = client.get(f"/api/v1/curriculum/extraction-runs/{run['id']}", headers=auth).json()
+        proposals = run_detail["proposals"]
+        edit_target = next(p for p in proposals if p["proposedName"] == "Chemical Equations")
+        reject_target = next(p for p in proposals if p["proposedName"] == "Types of Chemical Reactions")
+
+        # -- review: edit one, reject one, approve the rest
+        approved = client.post(
+            f"/api/v1/curriculum/extraction-runs/{run['id']}/approve",
+            json={"edits": {edit_target["id"]: "Chemical Equations (Reviewed)"},
+                 "rejectedProposalIds": [reject_target["id"]]},
+            headers=auth,
+        )
+        assert approved.status_code == 200, approved.text
+        assert approved.json()["topicsCreated"] == 1  # the rejected topic excluded
+        assert approved.json()["subtopicsCreated"] == 2
+
+        # -- persisted, real, edited name won -- rejected topic absent
+        topics = client.get(f"/api/v1/curriculum/chapters/{chapter['id']}/topics").json()
+        assert len(topics) == 1
+        topic = topics[0]
+        assert topic["name"] == "Chemical Equations (Reviewed)"
+        assert {s["name"] for s in topic["subtopics"]} == \
+            {"Writing chemical equations", "Balancing chemical equations"}
+
+        # -- manual "+ Add Topic" / "+ Add Subtopic" (no LLM needed at all)
+        manual_topic = client.post(
+            f"/api/v1/curriculum/chapters/{chapter['id']}/topics",
+            json={"name": "Rate of Reaction"}, headers=auth,
+        ).json()
+        assert manual_topic["sourceType"] == "manual"
+        manual_sub = client.post(
+            f"/api/v1/curriculum/topics/{manual_topic['id']}/subtopics",
+            json={"name": "Factors affecting reaction rate"}, headers=auth,
+        ).json()
+        assert manual_sub["sourceType"] == "manual"
+
+        subtopic_id = next(s["id"] for s in topic["subtopics"]
+                           if s["name"] == "Balancing chemical equations")
+        original_canonical_id = next(s["canonicalId"] for s in topic["subtopics"]
+                                     if s["id"] == subtopic_id)
+
+        # -- tag a real question against this chapter's real subtopics
+        # (tagged while the subtopic still has its original name, matching
+        # how a real question-bank tagging pass would run against the
+        # curriculum as it existed when the paper was assembled)
+        assert client.post(  # no token -> 401, real security-review fix
+            f"/api/v1/curriculum/chapters/{chapter['id']}/questions/tag",
+            json={"questionId": "q_balance_1", "questionText": "Balance the following chemical equation."},
+        ).status_code == 401
+        assert client.post(  # wrong school -> 403
+            f"/api/v1/curriculum/chapters/{chapter['id']}/questions/tag",
+            json={"questionId": "q_balance_1", "questionText": "Balance the following chemical equation."},
+            headers=other_auth,
+        ).status_code == 403
+        tagged = client.post(
+            f"/api/v1/curriculum/chapters/{chapter['id']}/questions/tag",
+            json={"questionId": "q_balance_1", "questionText": "Balance the following chemical equation."},
+            headers=auth,
+        )
+        assert tagged.status_code == 200
+        assert any(t["subtopicId"] == subtopic_id for t in tagged.json()["tagged"])
+
+        # -- rename: canonical_id (what the tag above keys against) is
+        # untouched, so the question<->subtopic link survives the rename.
+        renamed = client.patch(f"/api/v1/curriculum/subtopics/{subtopic_id}",
+                               json={"name": "Balancing equations (renamed)"}, headers=auth)
+        assert renamed.json()["name"] == "Balancing equations (renamed)"
+        assert renamed.json()["canonicalId"] == original_canonical_id
+        assert client.post("/api/v1/curriculum/questions/by-subtopics",
+                           json={"subtopicIds": [subtopic_id]}).json()["questionIds"] == ["q_balance_1"]
+
+        # -- generate paper using selected subtopics: only tagged questions
+        by_subtopic = client.post("/api/v1/curriculum/questions/by-subtopics",
+                                  json={"subtopicIds": [subtopic_id]})
+        assert by_subtopic.json()["questionIds"] == ["q_balance_1"]
+        # A subtopic nothing was tagged to returns no questions -- not a
+        # silent guess. Uses the unrelated manually-added subtopic
+        # ("Factors affecting reaction rate" shares no real vocabulary with
+        # the tagged "balance the equation" question) rather than a
+        # same-topic sibling, since the lexical tagger legitimately can
+        # (and, checked directly: does) match more than one subtopic when
+        # their names genuinely share words -- a real property of the
+        # matcher, not a bug this assertion should fight.
+        assert client.post("/api/v1/curriculum/questions/by-subtopics",
+                           json={"subtopicIds": [manual_sub["id"]]}).json()["questionIds"] == []
+
+        # -- deleting a linked subtopic is blocked, not silent data loss
+        blocked = client.delete(f"/api/v1/curriculum/subtopics/{subtopic_id}", headers=auth)
+        assert blocked.status_code == 409
+        # cross-school cannot delete it either (403 before the link check)
+        assert client.delete(f"/api/v1/curriculum/subtopics/{subtopic_id}",
+                             headers=other_auth).status_code == 403
+        # explicit force=true migrates past the block
+        forced = client.delete(f"/api/v1/curriculum/subtopics/{subtopic_id}?force=true", headers=auth)
+        assert forced.status_code == 200
+        assert client.post("/api/v1/curriculum/questions/by-subtopics",
+                           json={"subtopicIds": [subtopic_id]}).json()["questionIds"] == []
 
 
 def test_full_boot_assessment_lifecycle(tmp_path, monkeypatch):
