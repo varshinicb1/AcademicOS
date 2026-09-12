@@ -16,6 +16,7 @@ class MyScheduleEntry {
   final String lessonId;
   final String date; // ISO date
   final String status; // scheduled | completed | skipped
+  final String? note;
   final String bookId;
   final String bookTitle;
   final String subjectName;
@@ -28,6 +29,7 @@ class MyScheduleEntry {
       : lessonId = j['lessonId'] as String,
         date = j['date'] as String,
         status = j['status'] as String,
+        note = j['note'] as String?,
         bookId = j['bookId'] as String,
         bookTitle = j['bookTitle'] as String? ?? '',
         subjectName = j['subjectName'] as String? ?? '',
@@ -47,5 +49,15 @@ class CurriculumApi {
     final r = await _dio.get('/curriculum/my-schedule',
         queryParameters: {'start_date': startDate, 'end_date': endDate});
     return (r.data as List).map((e) => MyScheduleEntry.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  /// §15: YES/NO completion tracking -- `status` is one of "scheduled"
+  /// (undo), "completed", or "skipped"; `note` is optional and only
+  /// meaningful for completed/skipped. Only the teacher actually assigned
+  /// to the lesson's book (or a principal of the same school) may call
+  /// this -- the server enforces it, this just surfaces whatever it says.
+  Future<void> markLesson(String lessonId, {required String status, String? note}) async {
+    await _dio.patch('/curriculum/scheduled-lessons/$lessonId',
+        data: {'status': status, if (note != null) 'note': note});
   }
 }

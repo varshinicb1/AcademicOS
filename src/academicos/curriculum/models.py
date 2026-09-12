@@ -239,20 +239,30 @@ class TeacherAssignment:
     created_at: str = ""
 
 
+STATUS_VALUES = ("scheduled", "completed", "skipped")
+
+
 @dataclass
 class ScheduledLesson:
     """One real, dated period of instruction for one Subtopic -- the §11-14
     "date-wise ScheduledLesson[]" the transcript calls the actual point of
     the project. Produced by curriculum/scheduling.py from a real Calendar
     (working days), real PeriodConfiguration, and real TeachingTimeEstimate
-    rows -- never fabricated independent of those three."""
+    rows -- never fabricated independent of those three.
+
+    `status`/`note`/`completed_by`/`completed_at` are §15's completion
+    tracking -- the scheduler only ever writes status="scheduled"; a
+    teacher marking a lesson done/skipped (`mark_lesson` in store.py) is
+    the only thing that ever changes the rest, same "who did this and
+    when" shape as Topic/Subtopic's approved_by/approved_at."""
     id: str
     school_id: str
     academic_year_id: str
     book_id: str
     subtopic_id: str
     date: str                     # ISO date, always a real working day
-    status: str = "scheduled"     # scheduled | completed | skipped -- completion
-                                   #   tracking (a later milestone) reads/writes
-                                   #   this; the scheduler only ever writes "scheduled"
+    status: str = "scheduled"     # scheduled | completed | skipped
+    note: Optional[str] = None
+    completed_by: Optional[str] = None   # the teacher user id who marked it, null until they do
+    completed_at: Optional[str] = None   # ISO datetime, null until marked
     created_at: str = ""

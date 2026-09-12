@@ -37,6 +37,7 @@ from .models import (
     Holiday,
     PeriodConfiguration,
     QuestionSubtopicLink,
+    STATUS_VALUES,
     ScheduledLesson,
     Subject,
     Subtopic,
@@ -224,6 +225,9 @@ CREATE TABLE IF NOT EXISTS scheduled_lessons (
   subtopic_id  TEXT NOT NULL,
   date         TEXT NOT NULL,
   status       TEXT NOT NULL DEFAULT 'scheduled',
+  note         TEXT,
+  completed_by TEXT,
+  completed_at TEXT,
   created_at   TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS idx_sl_book_year ON scheduled_lessons(academic_year_id, book_id);
@@ -825,6 +829,23 @@ class CurriculumStore:
     def get_scheduled_lesson(self, lesson_id: str) -> Optional[ScheduledLesson]:
         r = self.conn.execute("SELECT * FROM scheduled_lessons WHERE id=?", (lesson_id,)).fetchone()
         return ScheduledLesson(**dict(r)) if r else None
+
+    def mark_lesson(self, lesson_id: str, *, status: str, note: Optional[str],
+                    completed_by: str) -> Optional[ScheduledLesson]:
+        """§15: the one write that ever changes a lesson's status/note
+        after the scheduler creates it. `completed_by`/`completed_at` are
+        set on every call (even a status="scheduled" one, i.e. "undo") so
+        there's always a real record of who last touched it -- matching
+        approved_by/approved_at's shape elsewhere in this module."""
+        if status not in STATUS_VALUES:
+            raise ValueError(f"invalid status: {status!r} (must be one of {STATUS_VALUES})")
+        from datetime import datetime, timezone
+        completed_at = datetime.now(timezone.utc).isoformat()
+        self.conn.execute(
+            "UPDATE scheduled_lessons SET status=?, note=?, completed_by=?, completed_at=? WHERE id=?",
+            (status, note, completed_by, completed_at, lesson_id))
+        self.conn.commit()
+        return self.get_scheduled_lesson(lesson_id)
 
     def scheduled_lessons_for_book(self, academic_year_id: str, book_id: str) -> list[ScheduledLesson]:
         rows = self.conn.execute(

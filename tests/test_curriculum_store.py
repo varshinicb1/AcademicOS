@@ -261,6 +261,61 @@ def test_teacher_with_no_assignments_gets_an_empty_list(store):
 
 
 # --------------------------------------------------------------------- #
+# completion tracking (§15 -- YES/NO + optional note)
+# --------------------------------------------------------------------- #
+
+def _seed_lesson(store):
+    book_id = _seed_book(store)
+    year = store.create_academic_year(school_id="s2", label="y2",
+                                      start_date="2026-01-01", end_date="2026-12-31")
+    return store.create_scheduled_lesson(school_id="s", academic_year_id=year.id, book_id=book_id,
+                                         subtopic_id="st_1", date="2026-06-15")
+
+
+def test_new_lesson_is_unmarked_by_default(store):
+    lesson = _seed_lesson(store)
+    assert lesson.status == "scheduled"
+    assert lesson.note is None
+    assert lesson.completed_by is None
+    assert lesson.completed_at is None
+
+
+def test_mark_lesson_completed_with_a_note(store):
+    lesson = _seed_lesson(store)
+    updated = store.mark_lesson(lesson.id, status="completed", note="Covered fully, good engagement",
+                                completed_by="teacher_1")
+    assert updated.status == "completed"
+    assert updated.note == "Covered fully, good engagement"
+    assert updated.completed_by == "teacher_1"
+    assert updated.completed_at is not None
+    # persisted, not just the return value
+    assert store.get_scheduled_lesson(lesson.id).status == "completed"
+
+
+def test_mark_lesson_skipped_without_a_note(store):
+    lesson = _seed_lesson(store)
+    updated = store.mark_lesson(lesson.id, status="skipped", note=None, completed_by="teacher_1")
+    assert updated.status == "skipped"
+    assert updated.note is None
+
+
+def test_mark_lesson_rejects_an_invalid_status(store):
+    lesson = _seed_lesson(store)
+    with pytest.raises(ValueError):
+        store.mark_lesson(lesson.id, status="done", note=None, completed_by="teacher_1")
+    # rejected -- the real row is untouched
+    assert store.get_scheduled_lesson(lesson.id).status == "scheduled"
+
+
+def test_mark_lesson_can_be_undone_back_to_scheduled(store):
+    lesson = _seed_lesson(store)
+    store.mark_lesson(lesson.id, status="completed", note="oops wrong day", completed_by="teacher_1")
+    undone = store.mark_lesson(lesson.id, status="scheduled", note=None, completed_by="teacher_1")
+    assert undone.status == "scheduled"
+    assert undone.note is None
+
+
+# --------------------------------------------------------------------- #
 # get_curriculum_store singleton
 # --------------------------------------------------------------------- #
 

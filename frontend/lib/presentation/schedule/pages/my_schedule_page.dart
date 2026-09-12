@@ -9,6 +9,9 @@ import '../../shared/widgets/shell.dart';
 /// "What do I teach today" -- §15 of the master build prompt, the first
 /// teacher-facing screen for the new curriculum/calendar/scheduling work
 /// this backend now does for real (src/academicos/curriculum/scheduling.py).
+/// Also where §15's completion tracking lives: tapping a lesson opens a
+/// deliberately trivial YES/NO + optional note sheet -- no curriculum
+/// re-selection, per the transcript's own instruction.
 ///
 /// Online-only for now: the offline on-device engine
 /// (core/local_engine/) has no local mirror of curriculum/schedule data at
@@ -98,7 +101,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
                         child: ListView.builder(
                           padding: const EdgeInsets.all(16),
                           itemCount: lessons.length,
-                          itemBuilder: (context, i) => _lessonCard(theme, lessons[i]),
+                          itemBuilder: (context, i) => _lessonCard(context, theme, lessons[i]),
                         ),
                       );
                     },
@@ -129,8 +132,9 @@ class _MySchedulePageState extends State<MySchedulePage> {
     );
   }
 
-  Widget _lessonCard(ThemeData theme, MyScheduleEntry lesson) {
+  Widget _lessonCard(BuildContext context, ThemeData theme, MyScheduleEntry lesson) {
     return AppCard(
+      onTap: () => _openMarkSheet(context, lesson),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -138,7 +142,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
             width: 44,
             height: 44,
             decoration: BoxDecoration(color: theme.colorScheme.primaryContainer, shape: BoxShape.circle),
-            child: Icon(Icons.menu_book_outlined, color: theme.colorScheme.onPrimaryContainer, size: 22),
+            child: Icon(_statusIcon(lesson.status), color: theme.colorScheme.onPrimaryContainer, size: 22),
           ),
           const Gap(14),
           Expanded(
@@ -154,12 +158,136 @@ class _MySchedulePageState extends State<MySchedulePage> {
                       .join(' · '),
                   style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                 ),
+                if (lesson.note != null && lesson.note!.isNotEmpty) ...[
+                  const Gap(6),
+                  Text('"${lesson.note}"',
+                      style: theme.textTheme.bodySmall
+                          ?.copyWith(color: theme.colorScheme.onSurfaceVariant, fontStyle: FontStyle.italic)),
+                ],
               ],
             ),
           ),
-          ChipTag(label: lesson.status),
+          ChipTag(label: lesson.status, color: _statusColor(theme, lesson.status)),
         ],
       ),
+    );
+  }
+
+  IconData _statusIcon(String status) {
+    switch (status) {
+      case 'completed':
+        return Icons.check_circle_outline;
+      case 'skipped':
+        return Icons.remove_circle_outline;
+      default:
+        return Icons.menu_book_outlined;
+    }
+  }
+
+  Color? _statusColor(ThemeData theme, String status) {
+    switch (status) {
+      case 'completed':
+        return Colors.green.shade600;
+      case 'skipped':
+        return theme.colorScheme.error;
+      default:
+        return null; // ChipTag's own default (primaryContainer)
+    }
+  }
+
+  /// The §15 deliverable itself: YES/NO + optional note, nothing else --
+  /// no re-picking the subtopic, no editing the schedule. Reloads the day
+  /// on success so the card reflects the real, persisted mark rather than
+  /// an optimistic local guess.
+  Future<void> _openMarkSheet(BuildContext context, MyScheduleEntry lesson) async {
+    final noteController = TextEditingController(text: lesson.note ?? '');
+    var saving = false;
+
+    await showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      builder: (sheetContext) {
+        return StatefulBuilder(
+          builder: (sheetContext, setSheetState) {
+            Future<void> mark(String status) async {
+              setSheetState(() => saving = true);
+              try {
+                final note = noteController.text.trim();
+                await GetIt.I<CurriculumApi>()
+                    .markLesson(lesson.lessonId, status: status, note: note.isEmpty ? null : note);
+                if (sheetContext.mounted) Navigator.of(sheetContext).pop();
+                if (mounted) setState(() => _future = _load());
+              } catch (_) {
+                setSheetState(() => saving = false);
+                if (sheetContext.mounted) {
+                  ScaffoldMessenger.of(sheetContext).showSnackBar(
+                    const SnackBar(content: Text('Could not save -- check your connection and try again.')),
+                  );
+                }
+              }
+            }
+
+            final theme = Theme.of(sheetContext);
+            return Padding(
+              padding: EdgeInsets.only(
+                left: 20, right: 20, top: 20,
+                bottom: 20 + MediaQuery.of(sheetContext).viewInsets.bottom,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(lesson.subtopicName, style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+                  const Gap(4),
+                  Text('Did you teach this?', style: theme.textTheme.bodyMedium?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                  const Gap(16),
+                  TextField(
+                    controller: noteController,
+                    decoration: const InputDecoration(
+                      labelText: 'Note (optional)',
+                      border: OutlineInputBorder(),
+                    ),
+                    maxLines: 2,
+                    enabled: !saving,
+                  ),
+                  const Gap(16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: saving ? null : () => mark('skipped'),
+                          icon: const Icon(Icons.close),
+                          label: const Text('No'),
+                        ),
+                      ),
+                      const Gap(12),
+                      Expanded(
+                        child: FilledButton.icon(
+                          onPressed: saving ? null : () => mark('completed'),
+                          icon: saving
+                              ? const SizedBox(width: 16, height: 16,
+                                  child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                              : const Icon(Icons.check),
+                          label: const Text('Yes'),
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (lesson.status != 'scheduled') ...[
+                    const Gap(8),
+                    Center(
+                      child: TextButton(
+                        onPressed: saving ? null : () => mark('scheduled'),
+                        child: const Text('Undo mark'),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            );
+          },
+        );
+      },
     );
   }
 

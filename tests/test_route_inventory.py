@@ -135,6 +135,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/schedule"),
     ("POST", "/api/v1/curriculum/teacher-assignments"),
     ("GET", "/api/v1/curriculum/my-schedule"),
+    ("PATCH", "/api/v1/curriculum/scheduled-lessons/{lesson_id}"),
 })
 
 DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
@@ -305,7 +306,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 94
+    assert len(API_ROUTES) == 95
 
 
 def test_docs_routes_present():
@@ -425,6 +426,7 @@ def test_gated_routes_return_503_without_startup():
                 ("GET", "/api/v1/curriculum/schedule"),
                 ("POST", "/api/v1/curriculum/teacher-assignments"),
                 ("GET", "/api/v1/curriculum/my-schedule"),
+                ("PATCH", "/api/v1/curriculum/scheduled-lessons/{lesson_id}"),
             }:
                 continue
             # Idempotent by design: no token means nothing to delete, so it
@@ -1131,6 +1133,123 @@ def test_full_boot_teacher_assignment_and_my_schedule(tmp_path, monkeypatch):
                             headers={"Authorization": f"Bearer {other_teacher['token']}"})
         assert theirs.status_code == 200
         assert theirs.json() == []
+
+
+def test_full_boot_completion_tracking(tmp_path, monkeypatch):
+    """§15 through the live API: an assigned teacher marks a real lesson
+    completed with a note, an unassigned same-school teacher is refused,
+    a principal can override, and the mark is honestly reflected back
+    through both GET /my-schedule and the PATCH response itself."""
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        principal_auth = {"Authorization": f"Bearer {principal['token']}"}
+
+        teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Teacher", "email": "teacher@example.com",
+            "password": "correct horse battery",
+        }).json()
+        teacher_auth = {"Authorization": f"Bearer {teacher['token']}"}
+
+        other_teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Other Teacher", "email": "other-teacher@example.com",
+            "password": "correct horse battery",
+        }).json()
+        other_teacher_auth = {"Authorization": f"Bearer {other_teacher['token']}"}
+
+        seeded = client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-03-31"},
+            headers=principal_auth,
+        ).json()
+        academic_year_id = seeded["academicYearId"]
+        grade_id = seeded["gradeId"]
+        science = next(s for s in client.get(f"/api/v1/curriculum/grades/{grade_id}/subjects").json()
+                       if s["name"] == "Science")
+        book_id = client.get(f"/api/v1/curriculum/subjects/{science['id']}/books").json()[0]["id"]
+        chapter_id = client.get(f"/api/v1/curriculum/books/{book_id}/chapters").json()[0]["id"]
+
+        client.post("/api/v1/curriculum/teacher-assignments",
+                   json={"teacherId": teacher["user"]["id"], "bookId": book_id}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar",
+                   json={"weeklyOffDays": ["sunday"]}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration",
+                   json={"periodMinutes": 40}, headers=principal_auth)
+        topic = client.post(f"/api/v1/curriculum/chapters/{chapter_id}/topics",
+                            json={"name": "Real Topic"}, headers=principal_auth).json()
+        client.post(f"/api/v1/curriculum/topics/{topic['id']}/subtopics",
+                   json={"name": "Real Subtopic"}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/books/{book_id}/teaching-time-estimates",
+                   params={"academic_year_id": academic_year_id},
+                   json={"periodsPerWeek": 6}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/books/{book_id}/schedule",
+                   params={"academic_year_id": academic_year_id}, json={"periodsPerWeek": 6},
+                   headers=principal_auth)
+
+        mine = client.get("/api/v1/curriculum/my-schedule",
+                          params={"start_date": "2026-06-01", "end_date": "2027-03-31"},
+                          headers=teacher_auth).json()
+        lesson_id = mine[0]["lessonId"]
+        assert mine[0]["status"] == "scheduled"
+        assert mine[0]["note"] is None
+
+        # -- unauthenticated caller can't mark anything
+        assert client.patch(f"/api/v1/curriculum/scheduled-lessons/{lesson_id}",
+                            json={"status": "completed"}).status_code == 401
+
+        # -- an unassigned same-school teacher can't mark someone else's lesson
+        assert client.patch(
+            f"/api/v1/curriculum/scheduled-lessons/{lesson_id}",
+            json={"status": "completed"}, headers=other_teacher_auth,
+        ).status_code == 403
+
+        # -- an invalid status value is rejected before it ever touches the row
+        assert client.patch(
+            f"/api/v1/curriculum/scheduled-lessons/{lesson_id}",
+            json={"status": "done"}, headers=teacher_auth,
+        ).status_code == 422
+
+        # -- the assigned teacher marks it completed with a real note
+        marked = client.patch(
+            f"/api/v1/curriculum/scheduled-lessons/{lesson_id}",
+            json={"status": "completed", "note": "Covered fully, good engagement"}, headers=teacher_auth,
+        )
+        assert marked.status_code == 200, marked.text
+        body = marked.json()
+        assert body["status"] == "completed"
+        assert body["note"] == "Covered fully, good engagement"
+        assert body["completedBy"] == teacher["user"]["id"]
+        assert body["completedAt"] is not None
+
+        # -- reflected back through my-schedule too, not just the PATCH response
+        mine_after = client.get("/api/v1/curriculum/my-schedule",
+                                params={"start_date": "2026-06-01", "end_date": "2027-03-31"},
+                                headers=teacher_auth).json()
+        assert mine_after[0]["status"] == "completed"
+        assert mine_after[0]["note"] == "Covered fully, good engagement"
+
+        # -- a principal of the same school can override/mark it too (skipped, no note)
+        overridden = client.patch(
+            f"/api/v1/curriculum/scheduled-lessons/{lesson_id}",
+            json={"status": "skipped"}, headers=principal_auth,
+        )
+        assert overridden.status_code == 200
+        assert overridden.json()["status"] == "skipped"
+        assert overridden.json()["note"] is None
+
+        # -- a different school's principal can't touch it at all
+        other_principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other Principal", "email": "other-principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        assert client.patch(
+            f"/api/v1/curriculum/scheduled-lessons/{lesson_id}",
+            json={"status": "completed"},
+            headers={"Authorization": f"Bearer {other_principal['token']}"},
+        ).status_code == 403
 
 
 class _FakeLLMForRoutes:

@@ -312,7 +312,17 @@ class ScheduledLessonResponse(Camel):
     subtopic_id: str
     date: str
     status: str
+    note: Optional[str] = None
+    completed_by: Optional[str] = None
+    completed_at: Optional[str] = None
     created_at: str
+
+
+# ---------------- completion tracking (§15) ----------------
+
+class MarkLessonRequest(Camel):
+    status: str = Field(pattern="^(scheduled|completed|skipped)$")
+    note: Optional[str] = None
 
 
 # ---------------- teacher assignments + "what do I teach today" (§15) ----------------
@@ -334,6 +344,7 @@ class MyScheduleEntryResponse(Camel):
     lesson_id: str
     date: str
     status: str
+    note: Optional[str] = None
     book_id: str
     book_title: str
     subject_name: str

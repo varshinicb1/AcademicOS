@@ -40,6 +40,7 @@ from .schemas import (
     ExtractRequest,
     GradeResponse,
     HolidayResponse,
+    MarkLessonRequest,
     MyScheduleEntryResponse,
     PeriodConfigurationResponse,
     ProposalResponse,
@@ -621,7 +622,9 @@ def _lesson_response(lesson) -> ScheduledLessonResponse:
     return ScheduledLessonResponse(id=lesson.id, school_id=lesson.school_id,
                                    academic_year_id=lesson.academic_year_id, book_id=lesson.book_id,
                                    subtopic_id=lesson.subtopic_id, date=lesson.date,
-                                   status=lesson.status, created_at=lesson.created_at)
+                                   status=lesson.status, note=lesson.note,
+                                   completed_by=lesson.completed_by, completed_at=lesson.completed_at,
+                                   created_at=lesson.created_at)
 
 
 @router.post("/books/{book_id}/schedule", response_model=ScheduleBookResponse)
@@ -728,8 +731,30 @@ def get_my_schedule(start_date: str, end_date: str,
         book = store.get_book(unit.book_id) if unit else store.get_book(l.book_id)
         subject = store.get_subject(book.subject_id) if book else None
         out.append(MyScheduleEntryResponse(
-            lesson_id=l.id, date=l.date, status=l.status, book_id=l.book_id,
+            lesson_id=l.id, date=l.date, status=l.status, note=l.note, book_id=l.book_id,
             book_title=book.title if book else "", subject_name=subject.name if subject else "",
             chapter_name=chapter.name if chapter else "", topic_name=topic.name if topic else "",
             subtopic_id=subtopic.id, subtopic_name=subtopic.name))
     return out
+
+
+@router.patch("/scheduled-lessons/{lesson_id}", response_model=ScheduledLessonResponse)
+def mark_lesson(lesson_id: str, req: MarkLessonRequest,
+                current: User = Depends(get_current_user)) -> ScheduledLessonResponse:
+    """§15: YES/NO completion tracking, deliberately almost trivial per the
+    transcript -- just a status + optional note, no curriculum
+    re-selection. Only the teacher actually assigned to this lesson's book,
+    or a principal of the same school (a real, legitimate override/audit
+    case), may mark it -- any other same-school teacher gets a 403, same as
+    a stranger at another school."""
+    store = _require()
+    lesson = store.get_scheduled_lesson(lesson_id)
+    if lesson is None:
+        raise HTTPException(404, "scheduled lesson not found")
+    if lesson.school_id != current.school_id:
+        raise HTTPException(403, "this lesson belongs to a different school")
+    is_assigned = lesson.book_id in {a.book_id for a in store.assignments_for_teacher(current.id)}
+    if current.role != "principal" and not is_assigned:
+        raise HTTPException(403, "you are not assigned to teach this book")
+    updated = store.mark_lesson(lesson_id, status=req.status, note=req.note, completed_by=current.id)
+    return _lesson_response(updated)
