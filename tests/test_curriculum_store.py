@@ -228,6 +228,39 @@ def test_teaching_time_estimate_unapproved_by_default(store):
 
 
 # --------------------------------------------------------------------- #
+# teacher assignments (§15 -- "what do I teach today")
+# --------------------------------------------------------------------- #
+
+def test_assign_teacher_and_read_back(store):
+    book_id = _seed_book(store)
+    a = store.assign_teacher(school_id="s", teacher_id="user_1", book_id=book_id)
+    assert a.teacher_id == "user_1"
+    assignments = store.assignments_for_teacher("user_1")
+    assert len(assignments) == 1
+    assert assignments[0].book_id == book_id
+
+
+def test_assign_teacher_is_idempotent(store):
+    """Same (teacher, book) pair assigned twice -- one real row, not two."""
+    book_id = _seed_book(store)
+    first = store.assign_teacher(school_id="s", teacher_id="user_1", book_id=book_id)
+    second = store.assign_teacher(school_id="s", teacher_id="user_1", book_id=book_id)
+    assert first.id == second.id
+    assert len(store.assignments_for_teacher("user_1")) == 1
+
+
+def test_unassign_teacher_removes_the_assignment(store):
+    book_id = _seed_book(store)
+    store.assign_teacher(school_id="s", teacher_id="user_1", book_id=book_id)
+    store.unassign_teacher(teacher_id="user_1", book_id=book_id)
+    assert store.assignments_for_teacher("user_1") == []
+
+
+def test_teacher_with_no_assignments_gets_an_empty_list(store):
+    assert store.assignments_for_teacher("nobody") == []
+
+
+# --------------------------------------------------------------------- #
 # get_curriculum_store singleton
 # --------------------------------------------------------------------- #
 

@@ -224,6 +224,22 @@ class TeachingTimeEstimate:
 
 
 @dataclass
+class TeacherAssignment:
+    """Which real book (a school's one chosen book per subject) a real
+    teacher is assigned to teach -- the missing link needed to scope a
+    teacher's own schedule to just their subjects. `assessment/users.py`'s
+    `User` has no subject/class field at all (confirmed: id, school_id,
+    name, email, role, created_at only), so without this a "what do I
+    teach today" view could only show a whole school's schedule, not one
+    teacher's real slice of it."""
+    id: str
+    school_id: str
+    teacher_id: str
+    book_id: str
+    created_at: str = ""
+
+
+@dataclass
 class ScheduledLesson:
     """One real, dated period of instruction for one Subtopic -- the §11-14
     "date-wise ScheduledLesson[]" the transcript calls the actual point of

@@ -27,6 +27,7 @@ from .schemas import (
     AddTopicRequest,
     ApproveRunRequest,
     ApproveRunResponse,
+    AssignTeacherRequest,
     BookResponse,
     BoardResponse,
     CalendarResponse,
@@ -39,6 +40,7 @@ from .schemas import (
     ExtractRequest,
     GradeResponse,
     HolidayResponse,
+    MyScheduleEntryResponse,
     PeriodConfigurationResponse,
     ProposalResponse,
     QuestionsForSubtopicsRequest,
@@ -55,6 +57,7 @@ from .schemas import (
     TagQuestionRequest,
     TagQuestionResponse,
     TaggedSubtopic,
+    TeacherAssignmentResponse,
     TeachingTimeEstimateResponse,
     TopicResponse,
     TopicWithSubtopicsResponse,
@@ -87,6 +90,17 @@ def _require() -> CurriculumStore:
     if _store is None:
         raise HTTPException(503, "curriculum module not initialized")
     return _store
+
+
+def _require_users():
+    """Same singleton auth_routes.py's own init() populates (both keyed by
+    config.data_root) -- reused here only to verify a teacher_id being
+    assigned actually belongs to the assigning principal's school, not to
+    duplicate any auth logic."""
+    if _cfg is None:
+        raise HTTPException(503, "curriculum module not initialized")
+    from ..assessment.users import get_user_store
+    return get_user_store(_cfg.data_root, _cfg.principal_bootstrap_key)
 
 
 def _llm():
@@ -659,3 +673,63 @@ def get_schedule_for_range(start_date: str, end_date: str,
     store = _require()
     return [_lesson_response(l)
             for l in store.scheduled_lessons_for_date_range(current.school_id, start_date, end_date)]
+
+
+# ---------------- teacher assignments + "what do I teach today" (§15) ----------------
+# users.py's User has no subject/class field at all -- TeacherAssignment is
+# the missing link that scopes a teacher's own schedule to just their real
+# subjects, rather than the whole school's.
+
+
+@router.post("/teacher-assignments", response_model=TeacherAssignmentResponse)
+def assign_teacher(req: AssignTeacherRequest,
+                   principal: User = Depends(require_principal)) -> TeacherAssignmentResponse:
+    """Principal-gated: only a school's own principal decides who teaches
+    what. Verifies both the target teacher and the book actually belong to
+    the principal's own school -- a principal cannot assign a book to a
+    teacher from a different school, nor assign one of their own teachers
+    to another school's book."""
+    store = _require()
+    _require_school_owns_book(req.book_id, principal)
+    target = _require_users().get(req.teacher_id)
+    if target is None:
+        raise HTTPException(404, "teacher not found")
+    if target.school_id != principal.school_id:
+        raise HTTPException(403, "that user belongs to a different school")
+    a = store.assign_teacher(school_id=principal.school_id, teacher_id=req.teacher_id,
+                             book_id=req.book_id)
+    return TeacherAssignmentResponse(id=a.id, school_id=a.school_id, teacher_id=a.teacher_id,
+                                     book_id=a.book_id, created_at=a.created_at)
+
+
+@router.get("/my-schedule", response_model=list[MyScheduleEntryResponse])
+def get_my_schedule(start_date: str, end_date: str,
+                    current: User = Depends(get_current_user)) -> list[MyScheduleEntryResponse]:
+    """The real "what do I teach today" query: every real, dated lesson in
+    the range for every book the caller is actually assigned to teach --
+    never the whole school's schedule. A caller with no assignments yet
+    (a fresh teacher account, or a principal who isn't also a teacher)
+    honestly gets an empty list, not someone else's data."""
+    store = _require()
+    book_ids = {a.book_id for a in store.assignments_for_teacher(current.id)}
+    if not book_ids:
+        return []
+    lessons = [l for l in store.scheduled_lessons_for_date_range(current.school_id, start_date, end_date)
+              if l.book_id in book_ids]
+
+    out: list[MyScheduleEntryResponse] = []
+    for l in lessons:
+        subtopic = store.get_subtopic(l.subtopic_id)
+        if subtopic is None:
+            continue
+        topic = store.get_topic(subtopic.topic_id)
+        chapter = store.get_chapter(topic.chapter_id) if topic else None
+        unit = store.get_unit(chapter.unit_id) if chapter else None
+        book = store.get_book(unit.book_id) if unit else store.get_book(l.book_id)
+        subject = store.get_subject(book.subject_id) if book else None
+        out.append(MyScheduleEntryResponse(
+            lesson_id=l.id, date=l.date, status=l.status, book_id=l.book_id,
+            book_title=book.title if book else "", subject_name=subject.name if subject else "",
+            chapter_name=chapter.name if chapter else "", topic_name=topic.name if topic else "",
+            subtopic_id=subtopic.id, subtopic_name=subtopic.name))
+    return out

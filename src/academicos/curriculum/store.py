@@ -40,6 +40,7 @@ from .models import (
     ScheduledLesson,
     Subject,
     Subtopic,
+    TeacherAssignment,
     TeachingTimeEstimate,
     Topic,
     Unit,
@@ -228,6 +229,16 @@ CREATE TABLE IF NOT EXISTS scheduled_lessons (
 CREATE INDEX IF NOT EXISTS idx_sl_book_year ON scheduled_lessons(academic_year_id, book_id);
 CREATE INDEX IF NOT EXISTS idx_sl_subtopic ON scheduled_lessons(subtopic_id, academic_year_id);
 CREATE INDEX IF NOT EXISTS idx_sl_school_date ON scheduled_lessons(school_id, date);
+
+CREATE TABLE IF NOT EXISTS teacher_assignments (
+  id           TEXT PRIMARY KEY,
+  school_id    TEXT NOT NULL,
+  teacher_id   TEXT NOT NULL,
+  book_id      TEXT NOT NULL,
+  created_at   TEXT NOT NULL,
+  UNIQUE(teacher_id, book_id)
+);
+CREATE INDEX IF NOT EXISTS idx_ta_teacher ON teacher_assignments(teacher_id);
 """
 
 
@@ -843,6 +854,40 @@ class CurriculumStore:
             (academic_year_id, book_id))
         self.conn.commit()
         return cur.rowcount
+
+    # ---------------- teacher assignments (§15 -- "what do I teach today") ----------------
+
+    def assign_teacher(self, *, school_id: str, teacher_id: str, book_id: str) -> TeacherAssignment:
+        """Idempotent -- assigning the same (teacher, book) pair twice
+        returns the existing row rather than erroring or duplicating,
+        matching this module's established idempotency posture
+        elsewhere (create_teacher_assignment is safe to call from an
+        admin UI's "Save" button without a prior existence check)."""
+        existing = self.conn.execute(
+            "SELECT * FROM teacher_assignments WHERE teacher_id=? AND book_id=?",
+            (teacher_id, book_id)).fetchone()
+        if existing:
+            return TeacherAssignment(**dict(existing))
+        from datetime import datetime, timezone
+        a = TeacherAssignment(id=new_id("ta"), school_id=school_id, teacher_id=teacher_id,
+                              book_id=book_id, created_at=datetime.now(timezone.utc).isoformat())
+        self.conn.execute(
+            "INSERT INTO teacher_assignments (id, school_id, teacher_id, book_id, created_at) "
+            "VALUES (?,?,?,?,?)",
+            (a.id, a.school_id, a.teacher_id, a.book_id, a.created_at))
+        self.conn.commit()
+        return a
+
+    def assignments_for_teacher(self, teacher_id: str) -> list[TeacherAssignment]:
+        rows = self.conn.execute(
+            "SELECT * FROM teacher_assignments WHERE teacher_id=? ORDER BY created_at",
+            (teacher_id,)).fetchall()
+        return [TeacherAssignment(**dict(r)) for r in rows]
+
+    def unassign_teacher(self, *, teacher_id: str, book_id: str) -> None:
+        self.conn.execute("DELETE FROM teacher_assignments WHERE teacher_id=? AND book_id=?",
+                          (teacher_id, book_id))
+        self.conn.commit()
 
 
 _INSTANCE: Optional[CurriculumStore] = None

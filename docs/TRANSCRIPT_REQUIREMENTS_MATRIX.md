@@ -192,10 +192,43 @@ real September-2026 calendar's real alternate-Saturday/holiday dates.
 
 ## Teacher execution (§15–16, §30–31)
 
+**Update 2026-09-13: the "what do I teach today" view is now real, backend
+and frontend.** The missing link was that `assessment/users.py`'s `User`
+has no subject/class field at all (confirmed: id, school_id, name, email,
+role, created_at only) — a teacher's own schedule couldn't be scoped to
+just their subjects without one. Added `TeacherAssignment(school_id,
+teacher_id, book_id)`, a principal-gated `POST /teacher-assignments`
+(verifies both the teacher and the book belong to the assigning
+principal's own school), and `GET /my-schedule?start_date=&end_date=` —
+every real, dated lesson for every book the caller is actually assigned to,
+server-side enriched with subject/chapter/topic/subtopic names (never bare
+ids) so the client needs no follow-up calls to render a readable lesson
+card. A caller with no assignment yet honestly gets an empty list, never
+someone else's data. 6 new tests (4 store-level, one full live-API
+end-to-end test covering assignment, cross-school rejection, an
+unassigned second teacher seeing nothing, and the enriched real data
+reaching the right teacher).
+
+Frontend: `frontend/lib/presentation/schedule/pages/my_schedule_page.dart`
+— a real day-by-day (forward/back arrow) view of the logged-in teacher's
+own lessons, reachable from a new Home-page card. Built on top of a real,
+already-working, previously-uncommitted online auth system this session
+discovered already existed (`auth_api.dart`, a Dio bearer-token
+interceptor in `service_locator.dart`, `LocalStore.authToken`/`authUser`)
+rather than assuming one needed to be built. Deliberately **online-only**:
+the offline on-device engine (`core/local_engine/`) has no local mirror of
+curriculum/schedule data at all, so the screen honestly says "needs a
+connection" instead of silently failing when `ACADEMICOS_OFFLINE=true` —
+same posture `home_page.dart` already uses for its own online-only sync
+card. Verified with `flutter analyze` (zero new issues); **not verified
+by actually running the app in a browser/device and clicking through it**
+— an honest gap, not a "should be fine" claim, since no backend server was
+running in this environment to log in against.
+
 | Requirement | Evidence | Status | Relevant files | Required change |
 |---|---|---|---|---|
-| Teacher "what do I teach today" view, sourced from an admin-generated schedule | Does not exist — there is no `ScheduledLesson` to show (see above). The teacher-facing screens that do exist (`mobile_scan_page.dart`, `evaluation_page.dart`) are for *grading*, a separate concern from *lesson delivery*. | **Missing** | — | Depends on the scheduling engine. |
-| Teacher marks a planned lesson Completed Yes/No + optional note | No such field, model, or flow anywhere in the backend or frontend. | **Missing** | — | Net-new `TeachingCompletion` entity + a genuinely simple teacher-facing UI (the transcript is explicit this should be almost trivial — YES/NO + optional note, no curriculum re-selection). |
+| Teacher "what do I teach today" view, sourced from an admin-generated schedule | **Now real.** `GET /my-schedule` + `my_schedule_page.dart`, both described above — a teacher's real, assigned, dated, enriched lessons, not a placeholder. | **Complete** for the core view; **not interactively tested in a running app** (see above) | `src/academicos/curriculum/routes.py::get_my_schedule`, `frontend/lib/presentation/schedule/pages/my_schedule_page.dart`, `frontend/lib/data/datasources/api/curriculum_api.dart`, `tests/test_route_inventory.py::test_full_boot_teacher_assignment_and_my_schedule` | Run the app against a live backend and click through login → my-schedule to catch anything static analysis can't (layout, real network error handling, timezone edge cases in date math). Separately: no admin UI yet to *create* a `TeacherAssignment` (today: API-only, `POST /teacher-assignments`) — a real, smaller follow-up. |
+| Teacher marks a planned lesson Completed Yes/No + optional note | No such field, model, or flow anywhere in the backend or frontend. `ScheduledLesson.status` (added with the scheduling engine) already exists as the column this would read/write, specifically so this milestone needs no schema migration — but nothing sets it to anything but `"scheduled"` yet. | **Missing** | `src/academicos/curriculum/models.py::ScheduledLesson.status` (the column exists; no logic/route/UI reads or writes it yet) | Net-new `PATCH` endpoint + a genuinely simple teacher-facing UI (the transcript is explicit this should be almost trivial — YES/NO + optional note, no curriculum re-selection) — natural next addition to `my_schedule_page.dart`'s existing lesson card. |
 
 ## Management tracking & reporting (§17, §32)
 

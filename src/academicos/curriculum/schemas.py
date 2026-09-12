@@ -313,3 +313,31 @@ class ScheduledLessonResponse(Camel):
     date: str
     status: str
     created_at: str
+
+
+# ---------------- teacher assignments + "what do I teach today" (§15) ----------------
+
+class AssignTeacherRequest(Camel):
+    teacher_id: str = Field(min_length=1)
+    book_id: str = Field(min_length=1)
+
+
+class TeacherAssignmentResponse(Camel):
+    id: str
+    school_id: str
+    teacher_id: str
+    book_id: str
+    created_at: str
+
+
+class MyScheduleEntryResponse(Camel):
+    lesson_id: str
+    date: str
+    status: str
+    book_id: str
+    book_title: str
+    subject_name: str
+    chapter_name: str
+    topic_name: str
+    subtopic_id: str
+    subtopic_name: str

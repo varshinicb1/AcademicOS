@@ -81,6 +81,14 @@ class _HomePageState extends State<HomePage> {
             const Gap(20),
             _quickActions(context, theme),
             const Gap(20),
+            // Online-only: the new curriculum/schedule module has no
+            // offline mirror yet (see my_schedule_page.dart's own doc
+            // comment) -- hidden entirely offline rather than shown and
+            // immediately erroring, same posture as the sync card below.
+            if (!_offlineMode) ...[
+              _myScheduleCard(context, theme),
+              const Gap(20),
+            ],
             if (pendingReview.isNotEmpty) ...[
               _attentionCard(context, theme, pendingReview.length),
               const Gap(20),
@@ -189,6 +197,36 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _myScheduleCard(BuildContext context, ThemeData theme) {
+    return AppCard(
+      onTap: () => context.push('/my-schedule'),
+      child: Row(
+        children: [
+          Container(
+            width: 44,
+            height: 44,
+            decoration: BoxDecoration(color: theme.colorScheme.primaryContainer, shape: BoxShape.circle),
+            child: Icon(Icons.today, color: theme.colorScheme.onPrimaryContainer, size: 22),
+          ),
+          const Gap(14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('My Schedule', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                Text(
+                  'What you\'re teaching today, from your real curriculum schedule',
+                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+              ],
+            ),
+          ),
+          Icon(Icons.chevron_right, color: theme.colorScheme.onSurfaceVariant),
+        ],
       ),
     );
   }

@@ -133,6 +133,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/books/{book_id}/schedule"),
     ("GET", "/api/v1/curriculum/books/{book_id}/schedule"),
     ("GET", "/api/v1/curriculum/schedule"),
+    ("POST", "/api/v1/curriculum/teacher-assignments"),
+    ("GET", "/api/v1/curriculum/my-schedule"),
 })
 
 DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
@@ -303,7 +305,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 92
+    assert len(API_ROUTES) == 94
 
 
 def test_docs_routes_present():
@@ -421,6 +423,8 @@ def test_gated_routes_return_503_without_startup():
                 ("POST", "/api/v1/curriculum/books/{book_id}/schedule"),
                 ("GET", "/api/v1/curriculum/books/{book_id}/schedule"),
                 ("GET", "/api/v1/curriculum/schedule"),
+                ("POST", "/api/v1/curriculum/teacher-assignments"),
+                ("GET", "/api/v1/curriculum/my-schedule"),
             }:
                 continue
             # Idempotent by design: no token means nothing to delete, so it
@@ -1016,6 +1020,117 @@ def test_full_boot_micro_scheduling(tmp_path, monkeypatch):
         )
         assert other_range.status_code == 200
         assert other_range.json() == []
+
+
+def test_full_boot_teacher_assignment_and_my_schedule(tmp_path, monkeypatch):
+    """§15 through the live API: a principal assigns a real teacher to a
+    real book, a real schedule is generated, and the teacher's own
+    /my-schedule query returns only their assigned book's real, enriched
+    lessons -- never the whole school's schedule, never another teacher's
+    or another school's data."""
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        principal_auth = {"Authorization": f"Bearer {principal['token']}"}
+
+        teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Teacher", "email": "teacher@example.com",
+            "password": "correct horse battery",
+        }).json()
+        teacher_auth = {"Authorization": f"Bearer {teacher['token']}"}
+
+        seeded = client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-03-31"},
+            headers=principal_auth,
+        ).json()
+        academic_year_id = seeded["academicYearId"]
+        grade_id = seeded["gradeId"]
+        science = next(s for s in client.get(f"/api/v1/curriculum/grades/{grade_id}/subjects").json()
+                       if s["name"] == "Science")
+        book_id = client.get(f"/api/v1/curriculum/subjects/{science['id']}/books").json()[0]["id"]
+        chapter_id = client.get(f"/api/v1/curriculum/books/{book_id}/chapters").json()[0]["id"]
+
+        # -- a teacher can't assign themselves (principal-gated)
+        assert client.post(
+            "/api/v1/curriculum/teacher-assignments",
+            json={"teacherId": teacher["user"]["id"], "bookId": book_id}, headers=teacher_auth,
+        ).status_code == 403
+
+        # -- a different school's principal can't assign one of school_1's
+        # teachers to a school_1 book (school ownership on the book) --
+        other_principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other Principal", "email": "other3@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        assert client.post(
+            "/api/v1/curriculum/teacher-assignments",
+            json={"teacherId": teacher["user"]["id"], "bookId": book_id},
+            headers={"Authorization": f"Bearer {other_principal['token']}"},
+        ).status_code == 403
+
+        # -- before any assignment, the teacher's schedule is honestly empty
+        empty = client.get("/api/v1/curriculum/my-schedule",
+                           params={"start_date": "2026-06-01", "end_date": "2027-03-31"},
+                           headers=teacher_auth)
+        assert empty.status_code == 200
+        assert empty.json() == []
+
+        # -- real assignment
+        assign = client.post(
+            "/api/v1/curriculum/teacher-assignments",
+            json={"teacherId": teacher["user"]["id"], "bookId": book_id}, headers=principal_auth,
+        )
+        assert assign.status_code == 200, assign.text
+
+        # -- build a real, dated schedule to read back
+        client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar",
+                   json={"weeklyOffDays": ["sunday"]}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration",
+                   json={"periodMinutes": 40}, headers=principal_auth)
+        topic = client.post(f"/api/v1/curriculum/chapters/{chapter_id}/topics",
+                            json={"name": "Real Topic"}, headers=principal_auth).json()
+        client.post(f"/api/v1/curriculum/topics/{topic['id']}/subtopics",
+                   json={"name": "Real Subtopic"}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/books/{book_id}/teaching-time-estimates",
+                   params={"academic_year_id": academic_year_id},
+                   json={"periodsPerWeek": 6}, headers=principal_auth)
+        sched = client.post(
+            f"/api/v1/curriculum/books/{book_id}/schedule",
+            params={"academic_year_id": academic_year_id}, json={"periodsPerWeek": 6},
+            headers=principal_auth,
+        ).json()
+
+        # -- unauthenticated caller can't read anyone's schedule
+        assert client.get("/api/v1/curriculum/my-schedule",
+                          params={"start_date": "2026-06-01", "end_date": "2027-03-31"}).status_code == 401
+
+        # -- the assigned teacher's own schedule now shows the real,
+        # enriched lesson -- subject/chapter/topic/subtopic names resolved,
+        # not bare ids
+        mine = client.get("/api/v1/curriculum/my-schedule",
+                          params={"start_date": "2026-06-01", "end_date": "2027-03-31"},
+                          headers=teacher_auth)
+        assert mine.status_code == 200, mine.text
+        entries = mine.json()
+        assert len(entries) == sched["lessonsCreated"]
+        assert all(e["bookId"] == book_id for e in entries)
+        assert all(e["subjectName"] == "Science" for e in entries)
+        assert any(e["subtopicName"] == "Real Subtopic" for e in entries)
+
+        # -- a second, unassigned teacher at the same school sees nothing
+        other_teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Teacher Two", "email": "teacher2@example.com",
+            "password": "correct horse battery",
+        }).json()
+        theirs = client.get("/api/v1/curriculum/my-schedule",
+                            params={"start_date": "2026-06-01", "end_date": "2027-03-31"},
+                            headers={"Authorization": f"Bearer {other_teacher['token']}"})
+        assert theirs.status_code == 200
+        assert theirs.json() == []
 
 
 class _FakeLLMForRoutes:

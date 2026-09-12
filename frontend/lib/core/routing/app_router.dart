@@ -19,6 +19,7 @@ import '../../presentation/evaluation/pages/evaluation_page.dart';
 import '../../presentation/mobile_scan/pages/mobile_scan_page.dart';
 import '../../presentation/mobile_scan/pages/scan_history_page.dart';
 import '../../presentation/practice/pages/practice_session_page.dart';
+import '../../presentation/schedule/pages/my_schedule_page.dart';
 import '../../presentation/settings/pages/settings_page.dart';
 import '../../presentation/settings/pages/template_maker_page.dart';
 import '../../presentation/settings/pages/profile_page.dart';
@@ -160,6 +161,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             name: 'evaluation',
             builder: (context, state) => EvaluationPage(
               answerSheetId: state.pathParameters['answerSheetId']!,
+            ),
+          ),
+          GoRoute(
+            path: '/my-schedule',
+            name: 'my-schedule',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: MySchedulePage(),
             ),
           ),
           GoRoute(

@@ -7,6 +7,7 @@ import 'package:path/path.dart' as p;
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../data/datasources/api/api_client.dart';
+import '../../data/datasources/api/curriculum_api.dart';
 import '../../data/datasources/api/pillar_api.dart';
 import '../../data/datasources/local/app_database.dart';
 import '../local_engine/corpus_repository.dart';
@@ -42,7 +43,7 @@ Future<void> initDependencies() async {
   // Hive
   final cacheBox = await Hive.openBox('academicos_cache');
   sl.registerSingleton<Box>(cacheBox);
-  
+
   // Dio
   // Port 8010 by default: 8000 is commonly taken by other local services.
   // Override at build time with --dart-define=ACADEMICOS_API=http://host:port/api/v1
@@ -101,6 +102,12 @@ Future<void> initDependencies() async {
     }
   }));
   sl.registerSingleton<Dio>(dio);
+  // The curriculum/schedule module has no offline-engine counterpart yet
+  // (no local mirror of Topic/Subtopic/ScheduledLesson data), so
+  // my_schedule_page.dart itself checks ACADEMICOS_OFFLINE before ever
+  // calling this -- registered here anyway so the DI wiring stays uniform
+  // rather than conditionally skipping one client.
+  sl.registerLazySingleton<CurriculumApi>(() => CurriculumApi(sl<Dio>()));
 
   // API Client
   // ACADEMICOS_OFFLINE=true is set only by the standalone-Android build --
@@ -118,7 +125,7 @@ Future<void> initDependencies() async {
     sl.registerLazySingleton<ApiClient>(() => ApiClient(sl<Dio>()));
     sl.registerLazySingleton<PillarApi>(() => PillarApi(sl<Dio>()));
   }
-  
+
   // Repositories
   sl.registerLazySingleton<AssessmentRepository>(
     () => AssessmentRepositoryImpl(apiClient: sl<ApiClient>()),
@@ -184,7 +191,7 @@ Future<void> initDependencies() async {
       localDb: sl<AppDatabase>(),
     ),
   );
-  
+
   // Use Cases
   sl.registerLazySingleton(() => CreateAssessmentUseCase(sl<AssessmentRepository>(), sl<BlueprintRepository>()));
   sl.registerLazySingleton(() => SelectQuestionsUseCase(sl<QuestionRepository>()));
