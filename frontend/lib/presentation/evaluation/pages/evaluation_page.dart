@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
@@ -21,6 +22,10 @@ class EvaluationPage extends StatefulWidget {
 }
 
 class _EvaluationPageState extends State<EvaluationPage> {
+  // Tags this as demo/sample data (see legal_page.dart's "(Demo)" convention)
+  // and gives review/finalize calls a stable assessment id to save against.
+  static const _assessmentId = 'review_demo';
+
   SheetEvaluation? _sheet;
   bool _loading = false;
   String? _error;
@@ -28,6 +33,8 @@ class _EvaluationPageState extends State<EvaluationPage> {
   final Map<String, int> _adjusted = {};
   final Set<String> _approved = {};
   int _index = 0;
+  bool _saving = false;
+  bool _finalized = false;
 
   bool get _hasSheet => _sheet != null && _sheet!.evaluations.isNotEmpty;
 
@@ -85,7 +92,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
         }
       }
       final result = await api.evaluateSheet(
-        assessmentId: 'review_demo',
+        assessmentId: _assessmentId,
         studentId: widget.answerSheetId,
         questions: questions,
         answers: answers,
@@ -93,6 +100,9 @@ class _EvaluationPageState extends State<EvaluationPage> {
       setState(() {
         _sheet = result;
         _index = 0;
+        _adjusted.clear();
+        _approved.clear();
+        _finalized = false;
         _loading = false;
       });
     } catch (e) {
@@ -100,6 +110,61 @@ class _EvaluationPageState extends State<EvaluationPage> {
         _error = '$e';
         _loading = false;
       });
+    }
+  }
+
+  /// Persists the teacher's decision on the current question (approve as-is,
+  /// or edit to the slider's adjusted marks), then either advances or — on
+  /// the last question — finalizes the whole sheet into the student's
+  /// mastery model. Errors surface via SnackBar rather than silently eating
+  /// the tap: the same real bug (a swipe/approve that looked like it worked
+  /// but never reached the server) was found and fixed once already in the
+  /// scan-and-grade review flow (see mobile_scan_page.dart's _approve).
+  Future<void> _approveAndAdvance() async {
+    final sheet = _sheet!;
+    final ev = sheet.evaluations[_index];
+    final adjustedMarks = _adjusted[ev.questionId];
+    final wasAdjusted = adjustedMarks != null && adjustedMarks != ev.awardedMarks;
+    final isLast = _index == sheet.evaluations.length - 1;
+
+    setState(() => _saving = true);
+    try {
+      final api = GetIt.I<PillarApi>();
+      await api.reviewSheetAnswer(
+        assessmentId: _assessmentId,
+        studentId: widget.answerSheetId,
+        questionId: ev.questionId,
+        action: wasAdjusted ? 'edit' : 'approve',
+        marks: wasAdjusted ? adjustedMarks : null,
+      );
+      if (isLast) {
+        // Real identity now exists: LocalStore.authUser (online, real login
+        // -- see login_page.dart) or LocalPillarApi's own teacherName
+        // fallback (offline -- see local_store.dart's teacher-profile
+        // section). Both close the gap this comment used to describe:
+        // reviewerId was permanently blank because there was no
+        // teacher-identity/auth source anywhere in this app.
+        await api.finalizeSheetReview(
+          assessmentId: _assessmentId,
+          studentId: widget.answerSheetId,
+          reviewerId: LocalStore.instance.authUser?['id'] as String? ?? '',
+        );
+      }
+      if (!mounted) return;
+      setState(() {
+        _approved.add(ev.questionId);
+        _saving = false;
+        if (isLast) {
+          _finalized = true;
+        } else {
+          _index++;
+        }
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _saving = false);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Could not save review: $e')));
     }
   }
 
@@ -111,7 +176,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
         leading: shellLeading(context),
         title: const Text('AI Evaluation'),
         actions: [
-          if (_hasSheet)
+          if (_hasSheet && !_finalized)
             Padding(
               padding: const EdgeInsets.only(right: 16),
               child: Center(
@@ -123,9 +188,44 @@ class _EvaluationPageState extends State<EvaluationPage> {
       ),
       body: _loading
           ? const LoadingIndicator(message: 'Evaluating answers…')
-          : !_hasSheet
-              ? _intro(theme)
-              : _reviewBody(theme),
+          : _finalized
+              ? _completeBody(theme)
+              : !_hasSheet
+                  ? _intro(theme)
+                  : _reviewBody(theme),
+    );
+  }
+
+  Widget _completeBody(ThemeData theme) {
+    final sheet = _sheet!;
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.check_circle, size: 56, color: Colors.green),
+            const Gap(16),
+            Text('Review complete', style: theme.textTheme.titleLarge),
+            const Gap(8),
+            Text(
+              '${sheet.evaluations.length} answers reviewed and saved. '
+              "The student's mastery model has been updated.",
+              textAlign: TextAlign.center,
+              style: theme.textTheme.bodyMedium,
+            ),
+            const Gap(20),
+            FilledButton.icon(
+              onPressed: () => setState(() {
+                _sheet = null;
+                _finalized = false;
+              }),
+              icon: const Icon(Icons.auto_awesome),
+              label: const Text('Evaluate another sheet'),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -387,20 +487,27 @@ class _EvaluationPageState extends State<EvaluationPage> {
             child: Row(
               children: [
                 OutlinedButton(
-                  onPressed: _index > 0 ? () => setState(() => _index--) : null,
+                  onPressed: _index > 0 && !_saving ? () => setState(() => _index--) : null,
                   child: const Text('Back'),
                 ),
                 const Gap(10),
                 Expanded(
                   child: FilledButton.icon(
-                    onPressed: () {
-                      setState(() {
-                        _approved.add(ev.questionId);
-                        if (_index < sheet.evaluations.length - 1) _index++;
-                      });
-                    },
-                    icon: Icon(approved ? Icons.check : Icons.thumb_up_alt_outlined),
-                    label: Text(approved ? 'Approved — next' : 'Approve & next'),
+                    onPressed: _saving ? null : _approveAndAdvance,
+                    icon: _saving
+                        ? const SizedBox(
+                            width: 16,
+                            height: 16,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Icon(approved ? Icons.check : Icons.thumb_up_alt_outlined),
+                    label: Text(_saving
+                        ? 'Saving…'
+                        : _index == sheet.evaluations.length - 1
+                            ? 'Approve & finish'
+                            : approved
+                                ? 'Approved — next'
+                                : 'Approve & next'),
                   ),
                 ),
               ],

@@ -127,7 +127,7 @@ class LocalReportCardPdfExporter {
               pw.Text(
                 'This section is meant to guide next steps, not to single anyone out -- '
                 'every point below comes with a concrete way to close the gap.',
-                style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey700, fontStyle: pw.FontStyle.italic),
+                style: pw.TextStyle(fontSize: 8, color: PdfColors.grey700, fontStyle: pw.FontStyle.italic),
               ),
               pw.SizedBox(height: 6),
               for (final gap in data.learningGaps)

@@ -6,6 +6,8 @@ import 'package:get_it/get_it.dart';
 import 'package:printing/printing.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/local_engine/local_api_client.dart'
+    show AssessmentLockedException, editableAssessmentStatuses;
 import '../../../data/datasources/api/api_client.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../../domain/entities/entities.dart';
@@ -44,6 +46,9 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
   GeneratedPaper? _fetchedPaper;
   bool _reopening = false;
   String? _reopenError;
+
+  bool _approving = false;
+  String? _approveError;
 
   @override
   void initState() {
@@ -122,7 +127,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                     const SizedBox(height: 8),
                     for (final section in paper.sections) _buildSectionCard(context, section),
                     const SizedBox(height: 16),
-                    _buildExportCard(context),
+                    _buildExportCard(context, assessment),
                   ],
                 ),
     );
@@ -204,7 +209,8 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
     );
   }
 
-  Widget _buildExportCard(BuildContext context) {
+  Widget _buildExportCard(BuildContext context, Assessment assessment) {
+    final editable = editableAssessmentStatuses.contains(assessment.status);
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -237,18 +243,89 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
               ],
             ],
           ),
-          const SizedBox(height: 8),
-          OutlinedButton.icon(
-            onPressed: () => context.read<AssessmentBloc>().add(AssessmentEvent.updateStatus(
-              assessmentId: widget.assessmentId,
-              status: AssessmentStatus.underReview,
-            )),
-            icon: const Icon(Icons.rate_review),
-            label: const Text('Mark as Under Teacher Review'),
-          ),
+          if (editable) ...[
+            const SizedBox(height: 8),
+            OutlinedButton.icon(
+              onPressed: () => context.read<AssessmentBloc>().add(AssessmentEvent.updateStatus(
+                assessmentId: widget.assessmentId,
+                status: AssessmentStatus.underReview,
+              )),
+              icon: const Icon(Icons.rate_review),
+              label: const Text('Mark as Under Teacher Review'),
+            ),
+          ],
+          if (assessment.status == AssessmentStatus.underReview) ...[
+            const Divider(height: 28),
+            Text('Principal approval', style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+            const SizedBox(height: 4),
+            const Text(
+              'Approving locks the question selection and paper content — nothing can quietly '
+              'change after this without a new, explicitly logged correction. Requires the '
+              'Principal role, set in Settings > Profile.',
+              style: TextStyle(fontSize: 12),
+            ),
+            const SizedBox(height: 10),
+            if (_approveError != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(_approveError!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+              ),
+            FilledButton.icon(
+              onPressed: _approving ? null : () => _approvePaper(assessment),
+              icon: _approving
+                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                  : const Icon(Icons.verified),
+              label: Text(_approving ? 'Approving…' : 'Approve & lock paper'),
+            ),
+          ] else if (!editable) ...[
+            const Divider(height: 28),
+            Row(children: [
+              const Icon(Icons.lock, size: 16, color: Colors.green),
+              const SizedBox(width: 8),
+              Expanded(child: Text('Approved — paper is locked (${assessment.status.name}).',
+                  style: const TextStyle(fontWeight: FontWeight.w600))),
+            ]),
+          ],
         ],
       ),
     );
+  }
+
+  Future<void> _approvePaper(Assessment assessment) async {
+    setState(() {
+      _approving = true;
+      _approveError = null;
+    });
+    try {
+      final api = GetIt.I<ApiClient>();
+      // Real gap closed: this used to accept any free-text "principal name"
+      // typed into a text field and approve unconditionally -- anyone could
+      // type any name. approveAssessment() is gated on a real role (the
+      // device's Settings > Profile role offline, a real authenticated
+      // principal login online) instead.
+      final updated = await api.approveAssessment(assessment.id);
+      if (!mounted) return;
+      setState(() {
+        _fetchedAssessment = updated;
+        _approving = false;
+      });
+      context.read<AssessmentBloc>().add(AssessmentEvent.updateStatus(
+            assessmentId: assessment.id,
+            status: AssessmentStatus.principalApproved,
+          ));
+    } on AssessmentLockedException catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _approving = false;
+        _approveError = '$e';
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _approving = false;
+        _approveError = 'Could not approve: $e';
+      });
+    }
   }
 
   /// Local (offline-build) exports return an absolute file path, not a URL

@@ -631,6 +631,39 @@ class PillarApi {
     return SheetEvaluation.fromJson(Map<String, dynamic>.from(r.data));
   }
 
+  /// Records the teacher's approve/adjust decision on one answer from a
+  /// prior [evaluateSheet] result. Without this, "Approve & next" in the
+  /// Evaluate tab only updated local widget state — the AI's original marks
+  /// were still what got saved, and the teacher's correction vanished the
+  /// moment they navigated away.
+  Future<void> reviewSheetAnswer({
+    required String assessmentId,
+    required String studentId,
+    required String questionId,
+    required String action, // "approve" | "edit"
+    int? marks,
+  }) async {
+    await _dio.post(
+      '/evaluations/sheet/$assessmentId/$studentId/review/$questionId',
+      data: {'action': action, if (marks != null) 'marks': marks},
+    );
+  }
+
+  /// Folds the teacher-reviewed sheet into the student's mastery model.
+  /// Must be called once, after every question has been decided — the raw
+  /// AI pass from [evaluateSheet] deliberately does not update mastery
+  /// itself (see the backend comment on evaluate_sheet()).
+  Future<void> finalizeSheetReview({
+    required String assessmentId,
+    required String studentId,
+    String reviewerId = '',
+  }) async {
+    await _dio.post(
+      '/evaluations/sheet/$assessmentId/$studentId/finalize',
+      data: {'reviewerId': reviewerId},
+    );
+  }
+
   Future<Map<String, dynamic>> mailStatus() async {
     final r = await _dio.get('/mail/status');
     return Map<String, dynamic>.from(r.data);

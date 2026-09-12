@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/local_engine/paper_selection.dart' show sectionsFromCounts;
 import '../../../domain/entities/entities.dart';
 import '../../../domain/repositories/requests.dart';
 import '../../../data/datasources/api/pillar_api.dart';
@@ -36,6 +37,27 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     competencyWeights: CompetencyWeights(weights: {}),
     sections: [],
   );
+
+  // Real school request during the pilot: control exactly how many 1m/2m/
+  // 3m/4m/5m questions appear, not just a total-marks + difficulty slider
+  // that auto-derives a proportional split. Off by default (existing
+  // auto-generated layout, unchanged); switching this on replaces
+  // _blueprint.sections with an explicit count-per-mark-value layout via
+  // sectionsFromCounts, which the same real selection/generation engine
+  // (paper_selection.dart, and its Python mirror) already knows how to
+  // honor -- this is a UI gap, not a missing backend feature.
+  bool _customQuestionMix = false;
+  final Map<int, int> _markCounts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
+
+  int get _customMixTotalMarks => _markCounts.entries.fold(0, (sum, e) => sum + e.key * e.value);
+
+  void _applyCustomMix() {
+    final sections = sectionsFromCounts(_markCounts);
+    setState(() => _blueprint = _blueprint.copyWith(
+          sections: sections,
+          totalMarks: _customMixTotalMarks,
+        ));
+  }
 
   // Real bug fix: the chapter list used to be a hardcoded, Science-only
   // list of DISPLAY NAMES ("Chemical Reactions and Equations") passed
@@ -193,9 +215,14 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
             children: [
               Expanded(
                 child: TextFormField(
+                  key: ValueKey('totalMarks-$_customQuestionMix-${_blueprint.totalMarks}'),
                   initialValue: _blueprint.totalMarks.toString(),
+                  enabled: !_customQuestionMix,
                   keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(labelText: 'Total Marks'),
+                  decoration: InputDecoration(
+                    labelText: 'Total Marks',
+                    helperText: _customQuestionMix ? 'Derived from the question mix below' : null,
+                  ),
                   onChanged: (v) => setState(() => _blueprint = _blueprint.copyWith(totalMarks: int.tryParse(v) ?? 80)),
                 ),
               ),
@@ -210,6 +237,45 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
               ),
             ],
           ),
+          const SizedBox(height: 16),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            title: const Text('Custom question mix'),
+            subtitle: const Text('Set exact counts of 1/2/3/4/5-mark questions instead of an auto-derived split'),
+            value: _customQuestionMix,
+            onChanged: (v) {
+              setState(() => _customQuestionMix = v);
+              if (v) _applyCustomMix();
+            },
+          ),
+          if (_customQuestionMix) ...[
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 12,
+              runSpacing: 12,
+              children: [
+                for (final marks in const [1, 2, 3, 4, 5])
+                  SizedBox(
+                    width: 110,
+                    child: TextFormField(
+                      initialValue: _markCounts[marks].toString(),
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(labelText: '$marks-mark Qs'),
+                      onChanged: (v) {
+                        _markCounts[marks] = int.tryParse(v) ?? 0;
+                        _applyCustomMix();
+                      },
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '${_blueprint.sections.fold<int>(0, (s, sec) => s + sec.questionCount)} questions · '
+              '$_customMixTotalMarks marks total',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+            ),
+          ],
           const SizedBox(height: 16),
           Text('Difficulty Distribution', style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
           _buildDistributionSliders(

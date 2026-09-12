@@ -8,10 +8,23 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import 'package:academicos/core/local_engine/demo_seeder.dart';
 import 'package:academicos/core/local_engine/local_pillar_api.dart';
 import 'package:academicos/core/local_engine/local_store.dart';
+
+// DemoSeeder.seedIfEmpty() materializes bundled demo-scan-page assets via
+// path_provider's getApplicationDocumentsDirectory -- not a real platform
+// channel in plain `flutter test`, same gap local_scan_pdf_export_test.dart
+// and demo_seeder_test.dart already work around.
+class _FakePathProvider extends PathProviderPlatform with MockPlatformInterfaceMixin {
+  final Directory dir;
+  _FakePathProvider(this.dir);
+  @override
+  Future<String?> getApplicationDocumentsPath() async => dir.path;
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +36,7 @@ void main() {
     tmpDir = Directory.systemTemp.createTempSync('practice_test_');
     Hive.init(tmpDir.path);
     cacheBox = await Hive.openBox('academicos_cache');
+    PathProviderPlatform.instance = _FakePathProvider(tmpDir);
   });
 
   tearDownAll(() async {

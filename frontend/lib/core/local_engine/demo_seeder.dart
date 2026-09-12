@@ -1,5 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
+
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
 
 import '../../domain/entities/entities.dart';
 import '../../domain/repositories/requests.dart';
@@ -114,6 +118,9 @@ class DemoSeeder {
       // Scan & Grade's corrected-sheet feature had nothing to show without
       // a teacher actually scanning something themselves first.
       scanDemoAssessment ??= seeded;
+      // Yields to the event loop between teachers too -- see the longer
+      // note on the same pattern inside _seedOneTeacher's per-student loop.
+      await Future<void>.delayed(Duration.zero);
     }
 
     if (scanDemoAssessment != null) {
@@ -249,6 +256,21 @@ class DemoSeeder {
         questions: questionsJson,
         answers: answers,
       );
+      // evaluateSheet() deliberately no longer folds its (unreviewed) AI
+      // score into mastery on its own -- see the comment on evaluateSheet()
+      // in local_pillar_api.dart. Every demo student here is presented as
+      // already "evaluated" (below, and in the Assessments list UI), i.e.
+      // a teacher has already reviewed and signed off on it, so finalizing
+      // immediately is the correct simulation of that -- not a workaround.
+      await pillarApi.finalizeSheetReview(assessmentId: assessment.id, studentId: studentId);
+      // Real ANR reproduced on-device: seeding 5 assessments x 10 students,
+      // each doing several LocalStore reads/re-encodes, ran long enough
+      // between await points that a tap during startup made Android report
+      // "academicos isn't responding". This is a genuine yield to the event
+      // loop (not a real delay) so pending frames/input actually get a
+      // chance to process between students instead of the whole loop
+      // running as one long unbroken stretch on the UI isolate.
+      await Future<void>.delayed(Duration.zero);
     }
 
     final evaluatedAssessment = assessment.copyWith(status: AssessmentStatus.evaluated, generatedPaperId: paper.id);
@@ -261,10 +283,17 @@ class DemoSeeder {
   /// always starts a brand-new capture, there's no way to resume/browse a
   /// past one). Reuses the exact same real evaluation engine
   /// (answer_evaluation.dart) that a live scan uses -- these are real marks
-  /// against real corpus marking schemes, not invented numbers. `pages` is
-  /// honestly left empty (no real captured photo exists for a demo student),
-  /// so only the corrected-sheet export works here, not the raw booklet --
-  /// that's a real, honest limit, not a bug.
+  /// against real corpus marking schemes, not invented numbers.
+  ///
+  /// `pages`/`pageImageUrls` point at two bundled asset images
+  /// (assets/images/demo_scan_page_*.jpg -- a synthetic but realistic-looking
+  /// photographed answer script, generated once offline, no real student's
+  /// handwriting) materialized into real files via _materializeDemoPage
+  /// below, so the review/correction screens and the corrected-sheet PDF
+  /// export -- which both read a real `File(imagePath)` -- have something
+  /// genuine to show instead of "no photo saved". Real user request: a
+  /// teacher opening this app for the first time should see what a fully
+  /// completed scan looks like, not an empty placeholder.
   static Future<void> _seedDemoScanSession(
     Assessment assessment,
     String studentId,
@@ -275,6 +304,7 @@ class DemoSeeder {
     final paperRaw = LocalStore.instance.getPaper(paperId);
     if (paperRaw == null) return;
     final paper = GeneratedPaper.fromJson(paperRaw);
+    final pageImagePaths = await _materializeDemoScanPages();
 
     final questionsById = {for (final q in CorpusRepository.instance.all) q.id: q};
     final review = <Map<String, dynamic>>[];
@@ -318,7 +348,7 @@ class DemoSeeder {
           'teacherMarks': null,
           'teacherComment': '',
           'finalMarks': result.awardedMarks,
-          'pageImageUrls': const <String>[],
+          'pageImageUrls': pageImagePaths,
         };
         // One real teacher override, on the first partial-credit question --
         // demos the actual red-pen/edited-annotation feature, not just AI marks.
@@ -335,15 +365,46 @@ class DemoSeeder {
     if (review.isEmpty) return;
 
     final sessionId = 'demo_scan_$studentId';
+    final pages = [
+      for (var i = 0; i < pageImagePaths.length; i++)
+        {
+          'pageNo': i + 1,
+          'imagePath': pageImagePaths[i],
+          'text': '',
+          'warnings': const <String>[],
+          'confidence': 0.92,
+        },
+    ];
     LocalStore.instance.saveScanSession(sessionId, {
       'id': sessionId,
       'assessmentId': assessment.id,
       'studentId': studentId,
       'studentName': studentName,
       'status': 'finalized',
-      'pages': const <Map<String, dynamic>>[],
+      'pages': pages,
       'review': review,
     });
+  }
+
+  /// Copies the two bundled demo answer-sheet images (assets/images/) out of
+  /// the asset bundle into real files under the app's documents directory,
+  /// once -- every downstream consumer (the review screen's Image.file,
+  /// the full-page viewer, local_scan_pdf_export.dart's
+  /// File(imagePath).readAsBytes()) already expects a real filesystem path,
+  /// same as a genuinely captured photo would produce, so nothing downstream
+  /// needs to know these started life as bundled assets.
+  static Future<List<String>> _materializeDemoScanPages() async {
+    final dir = await getApplicationDocumentsDirectory();
+    final paths = <String>[];
+    for (final name in const ['demo_scan_page_1.jpg', 'demo_scan_page_2.jpg']) {
+      final file = File('${dir.path}/$name');
+      if (!await file.exists()) {
+        final bytes = await rootBundle.load('assets/images/$name');
+        await file.writeAsBytes(bytes.buffer.asUint8List(), flush: true);
+      }
+      paths.add(file.path);
+    }
+    return paths;
   }
 
   /// Real bug this fixed: answer_evaluation.dart's _evaluateDescriptive
@@ -380,6 +441,18 @@ class DemoSeeder {
     for (final (studentId, _, _) in _students) {
       LocalStore.instance.clearMastery(studentId);
       LocalStore.instance.deleteScanSession('demo_scan_$studentId');
+    }
+    // Removes the two real files _materializeDemoScanPages wrote out --
+    // otherwise they'd silently linger in the app's documents directory
+    // after a "clear demo data" a teacher expects to be a clean slate.
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      for (final name in const ['demo_scan_page_1.jpg', 'demo_scan_page_2.jpg']) {
+        final file = File('${dir.path}/$name');
+        if (await file.exists()) await file.delete();
+      }
+    } catch (_) {
+      // Best-effort cleanup -- never block clearing the rest of the demo data.
     }
     await LocalStore.instance.clearDemoSeededFlag();
   }

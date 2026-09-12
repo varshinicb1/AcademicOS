@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'core/di/service_locator.dart';
+import 'core/local_engine/app_lock.dart';
 import 'core/local_engine/secure_box.dart';
 import 'core/local_server/local_server_manager.dart';
 import 'core/theme/app_theme.dart';
@@ -88,7 +89,7 @@ class AcademicOSApp extends ConsumerWidget {
                 MediaQuery.of(context).textScaler.scale(1.0).clamp(0.85, 1.3),
               ),
             ),
-            child: child!,
+            child: AppLockGate(child: child!),
           );
         },
         ),

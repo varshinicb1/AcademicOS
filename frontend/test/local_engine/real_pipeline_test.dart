@@ -71,6 +71,44 @@ void main() {
     expect(result.selectedQuestions, isNotEmpty,
         reason: 'THE core bug this whole build exists to fix: an empty generated paper');
     expect(result.optimizationMetrics['totalMarksSelected'], greaterThan(0));
+
+    // Real user complaint this fixed: a narrow chapter pick that gets fully
+    // recovered by the wider-subject fallback used to still narrate the
+    // recovery as a scary "gap" ("needs X, only 0 available... filled N of
+    // the shortfall") even though the teacher's real paper came back
+    // completely full. A fully-recovered shortfall must produce zero
+    // user-facing gaps -- the backfill is still real and still recorded,
+    // just not as an alarming message for something that isn't a problem.
+    expect(result.gaps, isEmpty,
+        reason: 'a real, fully-backfilled paper (every section actually filled) must show no gaps');
+    expect(result.optimizationMetrics['backfilledFromOutsideChapters'], greaterThan(0),
+        reason: 'the real recovery must still be recorded internally, just not surfaced as a gap');
+  });
+
+  test('a genuinely unfillable section (no candidates anywhere) still reports a real, honest gap', () async {
+    await CorpusRepository.instance.ensureLoaded();
+
+    final blueprint = Blueprint(
+      totalMarks: 30,
+      durationMinutes: 60,
+      difficulty: const DifficultyDistribution(easy: 0.35, medium: 0.45, hard: 0.2),
+      bloom: const BloomDistribution(
+        remember: 0.25, understand: 0.25, apply: 0.2, analyze: 0.15, evaluate: 0.1, create: 0.05,
+      ),
+      chapterWeights: const ChapterWeights(weights: {}),
+      competencyWeights: const CompetencyWeights(weights: {}),
+      sections: selection.defaultSections(30),
+    );
+
+    // No candidates, no fallback -- a real, unrecoverable shortfall (the
+    // exact case that must NOT be silently hidden, unlike the recovered
+    // case above -- this is a real incomplete paper the teacher must know about).
+    final result = selection.optimize(const [], blueprint);
+
+    expect(result.selectedQuestions, isEmpty);
+    expect(result.gaps, isNotEmpty,
+        reason: 'a real, still-incomplete paper must never be silently reported as gap-free');
+    expect(result.gaps.every((g) => g.contains('could be found')), isTrue);
   });
 
   test('real evaluation engine scores real questions with real reasoning', () async {

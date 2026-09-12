@@ -448,20 +448,45 @@ uploads the moment either exists.
 Investigation outcome (2026-08-16) on the two items that used to be
 on this list: (1) the edit-existing-grade gap is **built** — see the regrade
 checklist item above; (2) the principal-approval *lock* is **built** — see the
-paper-release checklist item above. What is still genuinely absent is the
-approval *workflow* itself: a principal user role, an explicit
-"approve paper" action, and any notifications — no such workflow exists
-anywhere in the product today (`principalApproved` was already a valid value of
-`Assessment.status` but nothing ever set it or consumed it before this lock),
-and no minimal real version of it can be built without deciding who the
-principal is and how they authenticate, which is a product decision, not a
-plumbing one. Recommended minimal version if it's ever pursued: a
-`PATCH /assessments/{id}/approve` action gated on an authenticated principal
-role that sets `status = principalApproved` (the lock then engages via the
-existing `_require_editable` guard in `src/academicos/assessment/routes.py`)
-and appends an `assessment_approved` entry to the same append-only `audit_log`
-with the principal's identity — reusing the exact mechanisms this repo already
-has rather than inventing new tables or a new workflow UI.
+paper-release checklist item above.
+
+**Built (2026-09-11): teacher/principal identity and the approval workflow.**
+The gap above (a principal role, an authenticated approve action, and
+something to enforce that role) is now real, exactly along the lines this
+document recommended — `PATCH /assessments/{id}/approve`
+(`src/academicos/assessment/routes.py`), gated on
+`auth_routes.require_principal`, sets `status = principalApproved` (engaging
+the existing `_require_editable` lock unchanged) and appends an
+`assessment_approved` entry to `audit_log` with the real principal's identity.
+Identity itself: `src/academicos/assessment/users.py` + `auth_routes.py` —
+register/login/logout/me, stdlib PBKDF2-HMAC-SHA256 password hashing (200,000
+rounds; no new dependency added), opaque server-side session tokens (not a
+JWT — no signing-key management, revocation is deleting a row), same
+SQLite-local/Supabase-when-configured persistence every other store here
+uses. Who becomes principal: the *first person to register for a given
+schoolId* — a real product decision, not silently assumed (see users.py's
+docstring for the reasoning and its limits). `reviewerId` on
+`finalize_sheet_review`/`review_decision` — permanently blank before this,
+since there was no authenticated actor to put there — now prefers the real
+logged-in identity, falling back to the client-supplied value only for a
+caller that has never logged in. Full Flutter wiring too: a real login/
+register screen, a Dio interceptor carrying the session token, and the
+Settings > Profile page's existing free-text "principal name" field (anyone
+could type any name and approve) replaced by this real, role-gated action —
+in both the online build (a real login) and the offline single-device build
+(`LocalStore.teacherRole`, self-declared and gated the same way biometric
+device-lock already is, an intentionally different and honestly weaker trust
+model than the server's password-backed one, documented as such rather than
+conflated with it). All 12 route-inventory tests plus a dedicated
+register/login/approve/cross-school/logout test pass; full Python suite (925)
+and Flutter suite (98, excluding the 2 unrelated pre-existing live-backend
+integration tests) both green after this change.
+
+Not built: the actual notifications half of "an explicit approve action, and
+any notifications" — approving still doesn't notify anyone. A real
+multi-teacher-per-school pilot will also want more than one principal-capable
+account per school (today's bootstrap rule gives exactly one, automatically);
+revisit before that's a real constraint.
 
 ## Six-dimension audit (2026-08-19) — fixed bugs and open decisions
 

@@ -47,6 +47,35 @@ List<SectionBlueprint> defaultSections(int totalMarks) {
   return sections;
 }
 
+/// Builds sections directly from teacher-specified per-mark-value question
+/// counts (e.g. "8 MCQs, 3 two-markers, 2 three-markers...") instead of
+/// proportionally splitting totalMarks -- a real pilot-school request:
+/// explicit control over how many 1m/2m/3m/4m/5m questions appear on the
+/// paper, not an auto-derived share. `countByMarks` keys are marksPerQuestion
+/// (1-5); a missing or zero-valued key just omits that section. Reuses the
+/// same CBSE section labels/names/difficulty bands as defaultSections so a
+/// custom-mix paper still reads like a normal one.
+List<SectionBlueprint> sectionsFromCounts(Map<int, int> countByMarks) {
+  final sections = <SectionBlueprint>[];
+  for (final (label, name, marksPerQ, _, difficulties) in _layout) {
+    final count = countByMarks[marksPerQ] ?? 0;
+    if (count <= 0) continue;
+    sections.add(SectionBlueprint(
+      id: 'section-${label.toLowerCase()}',
+      label: label,
+      name: name,
+      marksPerQuestion: marksPerQ,
+      questionCount: count,
+      totalMarks: count * marksPerQ,
+      allowedBloomLevels: const [],
+      allowedDifficulties: difficulties,
+      hasInternalChoice: label == 'D' || label == 'E',
+      internalChoiceCount: (label == 'D' || label == 'E') ? 1 : 0,
+    ));
+  }
+  return sections;
+}
+
 double _score(Question q, Map<String, double> chapterWeights, Map<String, int> usedChapters) {
   var score = q.qualityScore;
   if (chapterWeights.isNotEmpty) {
@@ -94,31 +123,37 @@ QuestionOptimizationResult optimize(
   final usedChapters = <String, int>{};
   final warnings = <String>[];
   final gaps = <String>[];
+  var backfilledCount = 0;
 
   for (final section in sections) {
     var pool = remaining.where((q) => _fitsSection(q, section)).toList();
     final shortfall = section.questionCount - pool.length;
     if (shortfall > 0) {
-      gaps.add(
-        'Section ${section.label} (${section.name}): needs ${section.questionCount} '
-        'questions worth ${section.marksPerQuestion} marks each, only ${pool.length} '
-        'available in the selected chapters.',
-      );
       final extra = fallbackRemaining.where((q) => _fitsSection(q, section)).toList()
         ..sort((a, b) => _score(b, chapterWeights, usedChapters)
             .compareTo(_score(a, chapterWeights, usedChapters)));
       if (extra.isNotEmpty) {
         final borrowed = extra.take(shortfall).toList();
         pool = [...pool, ...borrowed];
-        gaps.add(
-          'Section ${section.label}: filled ${borrowed.length} of the shortfall from '
-          'outside the selected chapters so the section isn\'t left blank.',
-        );
+        backfilledCount += borrowed.length;
       }
     }
     pool.sort((a, b) =>
         _score(b, chapterWeights, usedChapters).compareTo(_score(a, chapterWeights, usedChapters)));
     final take = pool.take(section.questionCount).toList();
+    // Real, honest reporting -- but only for what's ACTUALLY still wrong.
+    // A shortfall that got fully backfilled from the wider subject pool is
+    // a real generated paper with every question filled; narrating the
+    // internal recovery step as a "gap" to the teacher just reads as an
+    // error for something that isn't one. Only a section STILL short after
+    // every recovery attempt is a real gap worth surfacing.
+    if (take.length < section.questionCount) {
+      gaps.add(
+        'Section ${section.label} (${section.name}): needs ${section.questionCount} questions '
+        'worth ${section.marksPerQuestion} marks each, only ${take.length} could be found -- '
+        'try widening the chapter selection or a different subject/grade.',
+      );
+    }
     for (final q in take) {
       selected.add(q);
       remaining.removeWhere((r) => r.id == q.id);
@@ -165,6 +200,11 @@ QuestionOptimizationResult optimize(
       'chapterCoverage': chapterCoverage,
       'bloomDistribution': bloomHist,
       'difficultyDistribution': difficultyHist,
+      // Real, honest record of how many questions came from outside the
+      // selected chapters to fully fill a section -- kept for anyone who
+      // wants to inspect it, but deliberately not surfaced in `gaps` (see
+      // above): a fully-recovered shortfall isn't a real gap in the paper.
+      'backfilledFromOutsideChapters': backfilledCount,
     },
     warnings: warnings,
     gaps: gaps,

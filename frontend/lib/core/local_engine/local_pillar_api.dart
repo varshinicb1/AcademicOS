@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -163,7 +164,17 @@ class LocalPillarApi extends PillarApi {
     final results = CorpusRepository.instance.search(
       QuestionSearchParams(subject: subject, grade: grade, limit: limit),
     );
-    return results.map((q) => q.toJson()).toList();
+    // Question.toJson() does not deep-serialize nested freezed fields
+    // (answerScheme, parts) -- see the NOTE on Question in
+    // domain/entities/question.dart. Round-tripping through jsonEncode/
+    // jsonDecode forces a real JSON-safe Map the same way a Dio HTTP call
+    // already does; without it, callers that cast q['answerScheme'] as Map
+    // (e.g. evaluation_page.dart's demo flow) crash with "type
+    // '_$AnswerSchemeImpl' is not a subtype of type 'Map<dynamic, dynamic>'"
+    // the moment this runs through the offline/local engine instead of Dio.
+    return results
+        .map((q) => jsonDecode(jsonEncode(q.toJson())) as Map<String, dynamic>)
+        .toList();
   }
 
   @override
@@ -426,8 +437,78 @@ class LocalPillarApi extends PillarApi {
       studentId: studentId,
       details: {'totalAwarded': totalAwarded, 'totalMax': totalMax, 'questionCount': questions.length},
     );
-    _updateMasteryFromSheet(studentId, evaluations);
+    // Deliberately NOT _updateMasteryFromSheet() here -- this is the raw AI
+    // pass, before any teacher has looked at it. finalizeSheetReview() below
+    // is the single point that folds it into mastery, once, using whatever
+    // marks the teacher actually approved -- mirrors the same fix and the
+    // same reasoning applied to the real backend's evaluate_sheet() in
+    // src/academicos/assessment/pillar_routes.py.
     return SheetEvaluation.fromJson(sheetJson);
+  }
+
+  /// Local-engine counterpart to the real backend's review_sheet_answer().
+  /// Without this override, the base PillarApi's Dio implementation runs
+  /// instead -- a real HTTP call to 'localhost' from the emulator/device,
+  /// which cannot reach the host machine and just hangs/fails silently.
+  /// Same bug class already found and fixed once for generatePractice()/
+  /// submitPractice() below -- see the comment there.
+  @override
+  Future<void> reviewSheetAnswer({
+    required String assessmentId,
+    required String studentId,
+    required String questionId,
+    required String action,
+    int? marks,
+  }) async {
+    if (action != 'edit' || marks == null) return; // approve = accept the AI's award as-is
+    final sheets = LocalStore.instance.evaluationsFor(assessmentId);
+    final sheet = sheets.firstWhere((s) => s['studentId'] == studentId, orElse: () => const {});
+    if (sheet.isEmpty) return;
+    final evaluations = (sheet['evaluations'] as List).cast<Map<String, dynamic>>();
+    final idx = evaluations.indexWhere((e) => e['questionId'] == questionId);
+    if (idx < 0) return;
+    final maxMarks = (evaluations[idx]['maxMarks'] as num).toInt();
+    evaluations[idx] = {...evaluations[idx], 'awardedMarks': marks.clamp(0, maxMarks)};
+    final totalAwarded = evaluations.fold<int>(0, (sum, e) => sum + (e['awardedMarks'] as num).toInt());
+    final totalMax = evaluations.fold<int>(0, (sum, e) => sum + (e['maxMarks'] as num).toInt());
+    LocalStore.instance.replaceEvaluationSheet(assessmentId, {
+      ...sheet,
+      'evaluations': evaluations,
+      'totalAwarded': totalAwarded,
+      'totalMax': totalMax,
+      'percentage': totalMax > 0 ? 100.0 * totalAwarded / totalMax : 0.0,
+    });
+  }
+
+  /// Local-engine counterpart to the real backend's finalize_sheet_review().
+  /// Folds the teacher-reviewed sheet (whatever mix of approved/edited marks
+  /// [reviewSheetAnswer] has left in LocalStore) into the student's mastery
+  /// model, exactly once. See the comment on evaluateSheet() above.
+  @override
+  Future<void> finalizeSheetReview({
+    required String assessmentId,
+    required String studentId,
+    String reviewerId = '',
+  }) async {
+    final sheets = LocalStore.instance.evaluationsFor(assessmentId);
+    final sheet = sheets.firstWhere((s) => s['studentId'] == studentId, orElse: () => const {});
+    if (sheet.isEmpty) return;
+    final evaluations = (sheet['evaluations'] as List).cast<Map<String, dynamic>>();
+    LocalStore.instance.appendAuditLog(
+      action: 'sheet_reviewed',
+      assessmentId: assessmentId,
+      studentId: studentId,
+      details: {
+        'totalAwarded': sheet['totalAwarded'],
+        'totalMax': sheet['totalMax'],
+        'questionCount': evaluations.length,
+      },
+      // Caller-supplied reviewerId wins when given (an older call site might
+      // still pass one explicitly); otherwise falls back to the device's
+      // current-user profile rather than being permanently blank.
+      actor: reviewerId.isNotEmpty ? reviewerId : null,
+    );
+    _updateMasteryFromSheet(studentId, evaluations);
   }
 
   void _updateMasteryFromSheet(String studentId, List<Map<String, dynamic>> evaluations) {

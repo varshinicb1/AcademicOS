@@ -38,8 +38,15 @@ class _ClassesPageState extends State<ClassesPage> {
   // be swallowed and shown identically to "no mastery data yet". A teacher
   // scrolling the roster during a network hiccup saw some students silently
   // marked "no data" with no way to tell that from a real absence of data.
+  //
+  // Real gap found in front of a real school demo: the roster only ever
+  // listed students with mastery evidence (allStudentIdsWithMastery) --
+  // there was no way to add a student before their first evaluation, so a
+  // teacher trying to add their own real class saw nowhere to do it.
+  // allNamedStudentIds() includes every student who has a name on file,
+  // evaluated or not, so a freshly-added student shows up immediately.
   Future<List<(String id, String name, StudentMastery? mastery, bool fetchFailed)>> _loadRoster() async {
-    final ids = LocalStore.instance.allStudentIdsWithMastery()..sort();
+    final ids = LocalStore.instance.allNamedStudentIds()..sort();
     final api = GetIt.I<PillarApi>();
     final rows = <(String, String, StudentMastery?, bool)>[];
     for (final id in ids) {
@@ -61,6 +68,11 @@ class _ClassesPageState extends State<ClassesPage> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(leading: shellLeading(context), title: const Text('Classes')),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _addStudent(context),
+        icon: const Icon(Icons.person_add_alt_1),
+        label: const Text('Add student'),
+      ),
       body: FutureBuilder<List<(String, String, StudentMastery?, bool)>>(
         future: _future,
         builder: (context, snap) {
@@ -69,10 +81,13 @@ class _ClassesPageState extends State<ClassesPage> {
           }
           final roster = snap.data ?? const [];
           if (roster.isEmpty) {
-            return const EmptyState(
+            return EmptyState(
               icon: Icons.groups_outlined,
               title: 'No students yet',
-              message: 'Students appear here once you evaluate their first answer sheet.',
+              message: 'Add your class roster, or students appear here automatically once '
+                  'you evaluate their first answer sheet.',
+              actionLabel: 'Add student',
+              onAction: () => _addStudent(context),
             );
           }
           return ListView(
@@ -104,7 +119,13 @@ class _ClassesPageState extends State<ClassesPage> {
                           ],
                         ),
                       ),
-                      if (mastery != null)
+                      if (mastery != null && mastery.concepts.isEmpty)
+                        // A real 0% here (mastery != null, no concepts at
+                        // all) means genuinely never evaluated, not "failing"
+                        // -- a red "0% mastery" badge for a freshly-added
+                        // student reads as broken/alarming for no reason.
+                        const ChipTag(label: 'not yet evaluated', color: Colors.blueGrey)
+                      else if (mastery != null)
                         ChipTag(
                           label: '${(mastery.overallMastery * 100).round()}% mastery',
                           color: mastery.overallMastery < 0.4
@@ -116,10 +137,21 @@ class _ClassesPageState extends State<ClassesPage> {
                       else
                         const ChipTag(label: 'no data'),
                       const SizedBox(width: 4),
+                      if (!LocalStore.instance.isDemoStudent(id))
+                        IconButton(
+                          tooltip: LocalStore.instance.hasConsent(id)
+                              ? 'Parental consent on file'
+                              : 'Parental consent required — tap to record',
+                          icon: Icon(
+                            LocalStore.instance.hasConsent(id) ? Icons.verified_user : Icons.privacy_tip_outlined,
+                            color: LocalStore.instance.hasConsent(id) ? Colors.green : Colors.orange,
+                          ),
+                          onPressed: () => _recordConsent(context, id, name),
+                        ),
                       IconButton(
                         tooltip: 'Report card',
                         icon: const Icon(Icons.description_outlined),
-                        onPressed: () => _showReportCard(context, id),
+                        onPressed: () => _showReportCard(context, id, name),
                       ),
                     ],
                   ),
@@ -131,11 +163,170 @@ class _ClassesPageState extends State<ClassesPage> {
     );
   }
 
+  // Real gap found in front of a real school demo: there was no way to add
+  // a real student to the roster at all -- only students who'd already
+  // been evaluated ever appeared. Persists via the same LocalStore.
+  // setStudentName every other real screen (Mastery, Scan & Grade) already
+  // reads from, so an added student is immediately usable everywhere, not
+  // just here.
+  Future<void> _addStudent(BuildContext context) async {
+    final nameController = TextEditingController();
+    final rollController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
+
+    final added = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Add student'),
+        content: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextFormField(
+                controller: nameController,
+                autofocus: true,
+                decoration: const InputDecoration(labelText: 'Student name *'),
+                validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
+              ),
+              const SizedBox(height: 12),
+              TextFormField(
+                controller: rollController,
+                decoration: const InputDecoration(
+                  labelText: 'Roll no. / ID (optional)',
+                  helperText: 'Leave blank to generate one automatically',
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(dialogContext, false), child: const Text('Cancel')),
+          FilledButton(
+            onPressed: () {
+              if (formKey.currentState!.validate()) Navigator.pop(dialogContext, true);
+            },
+            child: const Text('Add'),
+          ),
+        ],
+      ),
+    );
+
+    if (added != true) return;
+    final roll = rollController.text.trim();
+    final studentId = roll.isNotEmpty ? roll : 'stu_${DateTime.now().millisecondsSinceEpoch}';
+    LocalStore.instance.setStudentName(studentId, nameController.text.trim());
+
+    if (!context.mounted) return;
+    setState(() {
+      _future = _loadRoster();
+    });
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('${nameController.text.trim()} added to the roster')));
+  }
+
+  // DPDP Act 2023: every CBSE student is a minor, and this is the point real
+  // student data (name + real evaluated marks) actually leaves the device as
+  // a document. Demo students are exempt -- they're synthetic, not real
+  // children -- but a real student without a recorded consent step is
+  // blocked here rather than silently exported, matching the same
+  // mandatory-flag-before-write pattern already used for document ingestion
+  // (see docs/compliance.md's "New ingestion source" checklist item).
+  Future<void> _recordConsent(BuildContext context, String studentId, String studentName) async {
+    final existing = LocalStore.instance.getConsent(studentId);
+    final guardianController = TextEditingController(text: existing?['guardianName'] as String? ?? '');
+    final methodController = TextEditingController(text: existing?['method'] as String? ?? '');
+    final formKey = GlobalKey<FormState>();
+
+    final recorded = await showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text('Parental consent — $studentName'),
+        content: Form(
+          key: formKey,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Record that a real, verifiable consent step already happened outside this '
+                'app (a signed admission-form clause naming this specific use, or a confirmed '
+                'call/message to the parent/guardian) — this screen logs the record, it does '
+                'not itself verify consent.',
+                style: TextStyle(fontSize: 12.5),
+              ),
+              const SizedBox(height: 14),
+              TextFormField(
+                controller: guardianController,
+                decoration: const InputDecoration(labelText: 'Parent/guardian name *'),
+                validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
+              ),
+              const SizedBox(height: 12),
+              TextFormField(
+                controller: methodController,
+                decoration: const InputDecoration(
+                  labelText: 'How consent was obtained *',
+                  helperText: 'e.g. "Signed admission form, clause 4" or "Phone call, 12 Aug"',
+                ),
+                validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(dialogContext, false), child: const Text('Cancel')),
+          FilledButton(
+            onPressed: () {
+              if (formKey.currentState!.validate()) Navigator.pop(dialogContext, true);
+            },
+            child: const Text('Record consent'),
+          ),
+        ],
+      ),
+    );
+
+    if (recorded != true) return;
+    LocalStore.instance.setConsent(
+      studentId,
+      method: methodController.text.trim(),
+      guardianName: guardianController.text.trim(),
+    );
+    if (!context.mounted) return;
+    setState(() {});
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text('Consent recorded for $studentName')));
+  }
+
   // Real report-card generation -- was a requested feature never built.
   // Aggregates this student's actual evaluated assessments and mastery
   // record (LocalReportCardService, no invented data) into a real PDF the
   // teacher can view immediately.
-  Future<void> _showReportCard(BuildContext context, String studentId) async {
+  Future<void> _showReportCard(BuildContext context, String studentId, String studentName) async {
+    if (!LocalStore.instance.isDemoStudent(studentId) && !LocalStore.instance.hasConsent(studentId)) {
+      final proceed = await showDialog<bool>(
+        context: context,
+        builder: (dialogContext) => AlertDialog(
+          title: const Text('Parental consent required'),
+          content: Text(
+            'No recorded parental consent for $studentName. This report contains real, '
+            'identifiable student data — record consent first (the shield icon on their row) '
+            'before exporting it.',
+          ),
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(dialogContext, false), child: const Text('Cancel')),
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext, true),
+              child: const Text('Record consent now'),
+            ),
+          ],
+        ),
+      );
+      if (proceed == true && context.mounted) {
+        await _recordConsent(context, studentId, studentName);
+      }
+      return;
+    }
+    if (!context.mounted) return;
     showDialog(
       context: context,
       barrierDismissible: false,

@@ -13,6 +13,41 @@ import 'local_store.dart';
 import 'mastery_engine.dart';
 import 'paper_selection.dart' as selection_engine;
 
+/// Mirrors the real backend's `_require_editable` guard
+/// (`src/academicos/assessment/routes.py`) so the offline build enforces the
+/// exact same paper-approval lock instead of silently allowing a question
+/// swap or content edit after a principal has approved a paper -- the hard
+/// edit-lock docs/compliance.md calls for, previously only real on the
+/// network build.
+class AssessmentLockedException implements Exception {
+  final String assessmentId;
+  final String status;
+  AssessmentLockedException(this.assessmentId, this.status);
+  @override
+  String toString() => 'assessment $assessmentId is $status — the paper is locked; '
+      'question selection and paper content cannot be changed after principal approval';
+}
+
+/// Mirrors the real backend's auth_routes.require_principal (403) -- the
+/// offline half of the same principal-approval workflow, gated on the
+/// device's self-declared role (LocalStore.teacherRole, set in Settings ->
+/// Profile) rather than a server-issued one. See local_store.dart's comment
+/// on why that's the honest limit of what's enforceable without a server.
+class NotPrincipalException implements Exception {
+  @override
+  String toString() => 'only the principal role can approve a paper -- set your role in '
+      'Settings > Profile if you are the principal';
+}
+
+const editableAssessmentStatuses = {
+  AssessmentStatus.draft,
+  AssessmentStatus.blueprintReady,
+  AssessmentStatus.questionsSelected,
+  AssessmentStatus.questionOptimized,
+  AssessmentStatus.paperGenerated,
+  AssessmentStatus.underReview,
+};
+
 /// On-device replacement for ApiClient -- the paper-generation +
 /// evaluation + mastery core, real algorithms (paper_selection.dart /
 /// answer_evaluation.dart are faithful ports of the actual Python engine),
@@ -75,6 +110,13 @@ class LocalApiClient extends ApiClient {
 
   @override
   Future<Assessment> updateAssessment(String id, Assessment assessment) async {
+    final existingJson = LocalStore.instance.getAssessment(id);
+    if (existingJson != null) {
+      final existing = Assessment.fromJson(existingJson);
+      if (!editableAssessmentStatuses.contains(existing.status)) {
+        throw AssessmentLockedException(id, existing.status.name);
+      }
+    }
     LocalStore.instance.upsertAssessment(assessment.toJson());
     return assessment;
   }
@@ -88,16 +130,41 @@ class LocalApiClient extends ApiClient {
   Future<Assessment> updateStatus(String id, Map<String, dynamic> status) async {
     final current = await getAssessment(id);
     final statusName = status['status'] as String?;
-    final updated = statusName != null
-        ? current.copyWith(
-            status: AssessmentStatus.values.firstWhere(
-              (s) => s.name == statusName,
-              orElse: () => current.status,
-            ),
-            updatedAt: DateTime.now(),
-          )
-        : current;
+    final newStatus = statusName != null
+        ? AssessmentStatus.values.firstWhere((s) => s.name == statusName, orElse: () => current.status)
+        : current.status;
+    if (!editableAssessmentStatuses.contains(current.status) && editableAssessmentStatuses.contains(newStatus)) {
+      // Mirrors PATCH /assessments/{id}/status's own guard: forward
+      // progression (principalApproved -> printed -> conducted -> ...) is
+      // always fine; moving BACK into an editable state after approval is
+      // exactly the silent-tamper path the lock exists to close.
+      throw AssessmentLockedException(id, current.status.name);
+    }
+    final updated = current.copyWith(status: newStatus, updatedAt: DateTime.now());
     LocalStore.instance.upsertAssessment(updated.toJson());
+    return updated;
+  }
+
+  /// Offline counterpart to the real backend's PATCH .../approve
+  /// (auth_routes.require_principal-gated there; LocalStore.teacherRole-
+  /// gated here -- see NotPrincipalException's comment on why that's a
+  /// different, honestly weaker trust model, not a bypass of the same one).
+  @override
+  Future<Assessment> approveAssessment(String id) async {
+    if (LocalStore.instance.teacherRole != 'principal') {
+      throw NotPrincipalException();
+    }
+    final current = await getAssessment(id);
+    final updated = current.copyWith(
+      status: AssessmentStatus.principalApproved, updatedAt: DateTime.now(),
+    );
+    LocalStore.instance.upsertAssessment(updated.toJson());
+    LocalStore.instance.appendAuditLog(
+      action: 'assessment_approved',
+      assessmentId: id,
+      studentId: '-',
+      details: {'principalName': LocalStore.instance.teacherName},
+    );
     return updated;
   }
 
@@ -204,6 +271,9 @@ class LocalApiClient extends ApiClient {
   @override
   Future<GeneratedPaper> generatePaper(PaperGenerationRequest request) async {
     final assessment = await getAssessment(request.assessmentId);
+    if (!editableAssessmentStatuses.contains(assessment.status)) {
+      throw AssessmentLockedException(request.assessmentId, assessment.status.name);
+    }
     final sections = <GeneratedSection>[];
     var displayNumber = 1;
     // Group selected questions by which section they fit (same

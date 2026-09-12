@@ -3,10 +3,25 @@ name: Sync backend to deploy repo
 # Render's academicos-backend service is image-backed (pulls
 # docker.io/varshinicb99/academicos-backend:v1 directly), not connected to
 # this repo -- pushing here alone never reached production. This closes that
-# gap: every push to master that touches backend-relevant paths mirrors
-# pyproject.toml/config/src/academicos into varshinicb1/academicos-backend,
-# whose own build-push.yml (triggered by THIS push, see its `on: push`)
-# builds a fresh Docker image and redeploys Render automatically.
+# gap end to end, in three gated stages:
+#   1. test          -- run the real pytest suite against src/academicos
+#   2. sync          -- mirror backend-relevant files into
+#                       varshinicb1/academicos-backend and push. That repo's
+#                       own build-push.yml (triggered by THIS push, see its
+#                       `on: push`) builds a fresh Docker image and redeploys
+#                       Render automatically.
+#   3. render-deploy -- poll Render's API until a deploy NEWER than the
+#                       pre-sync snapshot goes live. Image-backed services
+#                       carry no commit info, so "newest deploy is live" is
+#                       the strongest check available; the snapshot prevents
+#                       false-positives on the previous deploy while the new
+#                       image is still building.
+#
+# Required secrets/variables for stage 2-3 verification (soft-optional: the
+# pipeline still syncs and deploys without them, it just can't verify the
+# rollout):
+#   secret  RENDER_API_KEY      -- Render API key
+#   variable RENDER_SERVICE_ID  -- Render service ID (srv-...)
 on:
   push:
     branches: [master]
@@ -49,6 +64,12 @@ jobs:
   sync:
     needs: test
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.push.outputs.changed }}
+      pre_deploy_id: ${{ steps.snapshot.outputs.pre_deploy_id }}
+    env:
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      RENDER_SERVICE_ID: ${{ vars.RENDER_SERVICE_ID }}
     steps:
       - name: Checkout AcademicOS
         uses: actions/checkout@v4
@@ -60,6 +81,23 @@ jobs:
           token: ${{ secrets.SYNC_PAT }}
           path: backend-deploy
 
+      # Snapshot Render's latest deploy BEFORE pushing, so render-deploy can
+      # require a newer deploy ID (the image build downstream takes minutes;
+      # without the snapshot "latest is live" would just describe the OLD
+      # deploy).
+      - name: Snapshot Render's latest deploy (pre-push)
+        id: snapshot
+        run: |
+          python -m pip install --quiet requests
+          if [ -z "$RENDER_API_KEY" ] || [ -z "$RENDER_SERVICE_ID" ]; then
+            echo "pre_deploy_id=" >> "$GITHUB_OUTPUT"
+            echo "WARN: RENDER_API_KEY or RENDER_SERVICE_ID not set; the Render rollout will NOT be verified."
+          else
+            id="$(python scripts/render_deploy_status.py --service-id "$RENDER_SERVICE_ID" --print-latest-id)"
+            echo "pre_deploy_id=$id" >> "$GITHUB_OUTPUT"
+            echo "Pre-sync latest Render deploy: $id"
+          fi
+
       - name: Sync backend-relevant files
         run: |
           cp pyproject.toml backend-deploy/pyproject.toml
@@ -70,6 +108,7 @@ jobs:
           find backend-deploy/src/academicos -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
 
       - name: Commit and push if changed
+        id: push
         working-directory: backend-deploy
         run: |
           git config user.name "academicos-sync-bot"
@@ -77,7 +116,39 @@ jobs:
           git add -A
           if git diff --cached --quiet; then
             echo "No backend changes to sync."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git commit -m "Sync from AcademicOS @ ${{ github.sha }}"
           git push origin main
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+  render-deploy:
+    needs: sync
+    if: needs.sync.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    env:
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      RENDER_SERVICE_ID: ${{ vars.RENDER_SERVICE_ID }}
+    steps:
+      - name: Checkout AcademicOS
+        uses: actions/checkout@v4
+
+      - name: Wait for the new Render deploy to go live
+        run: |
+          python -m pip install --quiet requests
+          if [ -z "$RENDER_API_KEY" ] || [ -z "$RENDER_SERVICE_ID" ]; then
+            echo "WARN: RENDER_API_KEY or RENDER_SERVICE_ID not set; skipping Render rollout verification."
+            exit 0
+          fi
+          pre="${{ needs.sync.outputs.pre_deploy_id }}"
+          if [ -z "$pre" ]; then
+            echo "WARN: no pre-push deploy snapshot available; skipping Render rollout verification."
+            exit 0
+          fi
+          # Fails the workflow if the deploy newer than the snapshot goes
+          # build_failed/update_failed/canceled, or never goes live.
+          python scripts/render_deploy_status.py \
+            --service-id "$RENDER_SERVICE_ID" \
+            --after "$pre" \
+            --wait 1800 --interval 30

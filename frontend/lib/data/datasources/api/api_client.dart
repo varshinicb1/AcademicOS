@@ -43,6 +43,17 @@ class ApiClient {
     return Assessment.fromJson(response.data);
   }
 
+  /// Server-side principal-approval action (auth_routes.require_principal
+  /// gated) -- the real workflow docs/compliance.md called for, now that a
+  /// real login exists to authenticate as a principal with. The logged-in
+  /// user's token rides on every Dio request via the interceptor registered
+  /// in service_locator.dart; a 403 here means "logged in, but not as this
+  /// school's principal," and a 401 means "not logged in at all."
+  Future<Assessment> approveAssessment(String id) async {
+    final response = await _dio.patch('/assessments/$id/approve');
+    return Assessment.fromJson(response.data);
+  }
+
   // Blueprint
   Future<Blueprint> generateBlueprint(BlueprintRequest request) async {
     final response = await _dio.post('/blueprints/generate', data: request.toJson());

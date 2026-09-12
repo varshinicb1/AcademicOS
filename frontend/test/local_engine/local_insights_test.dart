@@ -161,6 +161,12 @@ void main() {
       questions: questionJson,
       answers: {mcq.id: '($correctOption)'},
     );
+    // schoolInsights reads from mastery, not the raw evaluations -- and
+    // evaluateSheet() deliberately no longer updates mastery on its own
+    // (see the comment on it in local_pillar_api.dart). A teacher must
+    // review and finalize before it counts, so this test does the same.
+    await pillarApi.finalizeSheetReview(assessmentId: assessment.id, studentId: 'stu_x');
+    await pillarApi.finalizeSheetReview(assessmentId: assessment.id, studentId: 'stu_y');
 
     final school = await pillarApi.schoolInsights('insights_school');
     expect(school.subjects, isNotEmpty, reason: '_subjectRollups must surface the Mathematics rollup for this school');

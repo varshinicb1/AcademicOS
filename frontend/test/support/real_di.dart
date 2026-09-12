@@ -19,9 +19,14 @@
 // PaperGenerationRepositoryImpl all require one, but `flutter analyze`
 // confirms `_localDb` is an unused field in every one of them (this file's
 // own repositories_impl.dart) -- so a real AppDatabase pointed at a real
-// temp-dir path is constructed (never a mock), but since drift's
-// LazyDatabase defers opening the native connection until first query, and
-// nothing here ever queries it, no native sqlite3 binary is ever touched.
+// temp-dir path is constructed (never a mock). Whether or not drift's
+// LazyDatabase ever actually opens its native connection here, drift's own
+// "you've created the database class AppDatabase multiple times" warning
+// fires on construction alone (buildAssessmentBloc() is called once per
+// test) -- and a real, confirmed 12-minute hang traced to one of these never
+// being closed means every AppDatabase this env creates now IS tracked and
+// closed by dispose(), not left to accumulate. See buildAssessmentBloc().
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -55,6 +60,7 @@ class FakePathProvider extends PathProviderPlatform with MockPlatformInterfaceMi
 class RealTestEnv {
   final Directory tmpDir;
   final Box cacheBox;
+  final List<AppDatabase> _databases = [];
 
   RealTestEnv._(this.tmpDir, this.cacheBox);
 
@@ -79,11 +85,17 @@ class RealTestEnv {
   /// Builds a real AssessmentBloc wired to a real (offline) ApiClient --
   /// same object graph as service_locator.dart's initDependencies(), just
   /// constructed directly instead of through GetIt. A fresh AppDatabase is
-  /// built per call (see file header for why this is safe without native
-  /// sqlite3) rather than shared, so tests stay independent.
+  /// built per call rather than shared, so tests stay independent. Tracked
+  /// in _databases and closed by dispose() below: a real, confirmed
+  /// 12-minute hang in classes_page_test.dart's tearDownAll -- happening
+  /// only when it ran after assessment_review_page_test.dart in the same
+  /// process, never when run alone -- traced to these never being closed
+  /// (drift's own "you've created the database class AppDatabase multiple
+  /// times" warning was the on-the-nose symptom pointing here).
   AssessmentBloc buildAssessmentBloc() {
     final apiClient = LocalApiClient();
     final localDb = AppDatabase(p.join(tmpDir.path, 'test_${DateTime.now().microsecondsSinceEpoch}.db'));
+    _databases.add(localDb);
 
     final assessmentRepository = AssessmentRepositoryImpl(apiClient: apiClient);
     final blueprintRepository = BlueprintRepositoryImpl(apiClient: apiClient, localDb: localDb);
@@ -99,10 +111,41 @@ class RealTestEnv {
     );
   }
 
+  // Real, root-caused flake: instrumented dispose() line-by-line to find it
+  // (print output from a real hung run, not guessed) -- cacheBox.close() can
+  // hang indefinitely. It never happens with this file run alone; it does
+  // happen after some other real_di.dart-based test file already ran in the
+  // same process (confirmed: right after assessment_review_page_test.dart).
+  // Traced into the hive package itself: VM StorageBackend.close() runs
+  // through a `_sync.syncReadWrite()` lock queue (hive-2.2.3's
+  // storage_backend_vm.dart) -- if an earlier queued operation on that lock
+  // is ever abandoned rather than completed, every later close() on it waits
+  // forever for a turn that never comes. LocalStore hardcodes the box name
+  // ('academicos_cache'), so a per-file unique box name isn't an option
+  // here. Bounding the close with a timeout can't fix hive's internal lock,
+  // but it stops one flaky close from taking the whole suite down with it.
   Future<void> dispose() async {
     await GetIt.instance.reset();
-    await cacheBox.close();
-    tmpDir.deleteSync(recursive: true);
+    for (final db in _databases) {
+      await db.close();
+    }
+    try {
+      await cacheBox.close().timeout(const Duration(seconds: 10));
+    } on TimeoutException {
+      // ignore: avoid_print
+      print('RealTestEnv.dispose(): cacheBox.close() did not return within 10s '
+          '(known hive lock-queue flake) -- proceeding without it.');
+    }
+    try {
+      tmpDir.deleteSync(recursive: true);
+    } on FileSystemException {
+      // A timed-out cacheBox.close() above (the same flake) means the box's
+      // underlying file genuinely is still open, so Windows refuses this
+      // delete -- a leaked OS temp directory is a real but minor cost, and
+      // far better than failing (or hanging) the test over it.
+      // ignore: avoid_print
+      print('RealTestEnv.dispose(): could not delete $tmpDir (file still locked) -- leaving it behind.');
+    }
   }
 }
 

@@ -75,7 +75,7 @@ class ScanHistoryPage extends StatelessWidget {
     final hasPages = (session['pages'] as List? ?? const []).isNotEmpty;
 
     return AppCard(
-      onTap: review.isEmpty ? null : () => _openCorrectedSheet(context, session),
+      onTap: review.isEmpty ? null : () => _openSheetChooser(context, session, hasPages),
       child: Row(
         children: [
           Expanded(
@@ -120,23 +120,59 @@ class ScanHistoryPage extends StatelessWidget {
     );
   }
 
-  Future<void> _openCorrectedSheet(BuildContext context, Map<String, dynamic> session) async {
+  // Real gap this fixed: tapping a session used to jump straight to the
+  // flattened text/marks report -- a teacher had no way to look back at the
+  // actual photographed booklet, exactly the "correction against the real
+  // scanned image, not a blind digital transcript" complaint that drove the
+  // review-screen fix in mobile_scan_page.dart. Both PDFs are real exports
+  // of the same session (local_scan_pdf_export.dart); this just gives a
+  // teacher a choice instead of only ever seeing the corrected one.
+  Future<void> _openSheetChooser(BuildContext context, Map<String, dynamic> session, bool hasPages) async {
+    final choice = await showModalBottomSheet<String>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (hasPages)
+              ListTile(
+                leading: const Icon(Icons.document_scanner_outlined),
+                title: const Text('Raw scanned booklet'),
+                subtitle: const Text('The actual photographed pages, as captured'),
+                onTap: () => Navigator.of(sheetContext).pop('raw-pdf'),
+              ),
+            ListTile(
+              leading: const Icon(Icons.fact_check_outlined),
+              title: const Text('Corrected sheet'),
+              subtitle: const Text('Marks and reasoning, question by question'),
+              onTap: () => Navigator.of(sheetContext).pop('corrected-pdf'),
+            ),
+          ],
+        ),
+      ),
+    );
+    if (choice == null || !context.mounted) return;
+    await _openPdf(context, session, choice);
+  }
+
+  Future<void> _openPdf(BuildContext context, Map<String, dynamic> session, String endpoint) async {
+    final title = endpoint == 'raw-pdf' ? 'Raw booklet' : 'Corrected sheet';
     final api = GetIt.I<PillarApi>();
     try {
       final dir = await getTemporaryDirectory();
-      final savePath = '${dir.path}/corrected_${session['id']}.pdf';
-      await api.downloadScanPdf('/scan/sessions/${session['id']}/corrected-pdf', savePath);
+      final savePath = '${dir.path}/${endpoint}_${session['id']}.pdf';
+      await api.downloadScanPdf('/scan/sessions/${session['id']}/$endpoint', savePath);
       if (!context.mounted) return;
       await Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => Scaffold(
-          appBar: AppBar(title: const Text('Corrected sheet')),
+          appBar: AppBar(title: Text(title)),
           body: PdfPreview(build: (format) => File(savePath).readAsBytes()),
         ),
       ));
     } catch (e) {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not open the corrected sheet: $e')),
+        SnackBar(content: Text('Could not open the $title: $e')),
       );
     }
   }

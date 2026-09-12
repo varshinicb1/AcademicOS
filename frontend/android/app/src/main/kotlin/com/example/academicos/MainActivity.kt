@@ -1,5 +1,8 @@
 package com.example.academicos
 
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity : FlutterActivity()
+// local_auth's biometric prompt needs a FragmentActivity to attach its
+// dialog to -- plain FlutterActivity throws at runtime the first time the
+// Biometric Auth toggle in Settings actually tries to authenticate.
+class MainActivity : FlutterFragmentActivity()

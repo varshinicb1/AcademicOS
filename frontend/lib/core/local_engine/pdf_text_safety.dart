@@ -61,8 +61,32 @@ String pdfSafe(String text) {
     'π': 'pi',
     '⃗': '', // COMBINING RIGHT ARROW ABOVE (vector notation) -- drop the
     // combining decoration, keep the base letter it was attached to.
+    '̂': '', // COMBINING CIRCUMFLEX ACCENT (U+0302, e.g. a unit vector "v̂"
+    // or angle notation "Â") -- 98 real occurrences in the corpus, same
+    // drop-the-decoration treatment as the combining arrow above.
+    '₹': 'Rs.', // INDIAN RUPEE SIGN (U+20B9) -- real, common in CBSE
+    // Mathematics word problems ("₹500 at 10% p.a."); 52 occurrences.
+    '…': '...', // HORIZONTAL ELLIPSIS (U+2026)
+    'ଶ': '2', // ORIYA LETTER SHA (U+0B36) -- not real Oriya text; a
+    // confirmed OCR-extraction artifact that stands in for a superscript
+    // "2" in the source PDFs (directly observed in the real corpus as
+    // "𝑐𝑚ଶ" where a human reader would see "cm²"). 42 occurrences, all in
+    // the Mathematics subject alongside other area/volume-unit questions.
+    '𝛼': 'alpha', // MATHEMATICAL ITALIC SMALL ALPHA (U+1D6FC) -- the
+    '𝜃': 'theta', // MATHEMATICAL ITALIC SMALL THETA (U+1D703) -- and
+    '𝜋': 'pi', // MATHEMATICAL ITALIC SMALL PI (U+1D70B) -- three real,
+    // styled-Greek variants found in the corpus, outside the Latin-only
+    // Mathematical Alphanumeric range _demathify() covers below.
   };
   mathSymbols.forEach((k, v) => out = out.replaceAll(k, v));
+
+  // Private Use Area codepoints (U+E000-U+F8FF) -- real, found in the
+  // corpus (e.g. U+F05C, U+F044, U+F05E, U+F0DE), but genuinely unmappable:
+  // PUA has no defined meaning by design, and these are leftover symbol-font
+  // glyph references (Wingdings/Symbol-style) from the source PDFs' font
+  // substitution during OCR, not real content. Dropped rather than guessed,
+  // since a wrong ASCII guess would misrepresent real marking-scheme text.
+  out = out.replaceAll(RegExp('[-]'), '');
 
   // Mathematical Alphanumeric Symbols block (U+1D400-U+1D7FF) -- real,
   // common in the corpus (e.g. italic 𝑥, 𝑦, 𝑖, bold-italic 𝑨, 𝑫, bold

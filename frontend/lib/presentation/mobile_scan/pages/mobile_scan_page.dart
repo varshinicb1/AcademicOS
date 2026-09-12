@@ -9,9 +9,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:printing/printing.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+
+/// Sentinel for the "add a new student" option in the roster dropdown --
+/// never a real student id, so it can't collide with one.
+const _newStudentSentinel = '__new_student__';
 
 enum _Stage { setup, capturing, processing, reviewing, complete }
 
@@ -41,6 +46,16 @@ class _MobileScanPageState extends State<MobileScanPage> {
   final _studentName = TextEditingController();
   final _studentId = TextEditingController();
   bool _loadingAssessments = true;
+  // Real gap found in front of a real school demo: student entry was a bare
+  // free-text field with nothing pre-filled, so a live demo showed an empty
+  // form with no student to pick -- looked exactly like the app had no
+  // data, even though the real 10-student demo roster (LocalStore, the same
+  // source Mastery/Classes already use) existed the whole time, just never
+  // wired up here. Defaults to the real roster; "Add new student" reveals
+  // the free-text fields for a genuinely new student.
+  String _studentSelection = _newStudentSentinel;
+
+  List<String> get _rosterIds => LocalStore.instance.allNamedStudentIds()..sort();
 
   // Capture
   ScanSession? _session;
@@ -63,6 +78,19 @@ class _MobileScanPageState extends State<MobileScanPage> {
     // rebuilds the button on keystrokes without this — TextEditingController
     // notifies its own listeners, not the widget tree.
     _studentName.addListener(() => setState(() {}));
+    // Real roster pre-filled by default (see _rosterIds doc comment above)
+    // -- only fall back to the free-text "new student" form when this
+    // device genuinely has no named students yet.
+    final roster = _rosterIds;
+    if (roster.isNotEmpty) {
+      _applyRosterSelection(roster.first);
+    }
+  }
+
+  void _applyRosterSelection(String studentId) {
+    _studentSelection = studentId;
+    _studentId.text = studentId;
+    _studentName.text = LocalStore.instance.studentName(studentId);
   }
 
   @override
@@ -315,17 +343,49 @@ class _MobileScanPageState extends State<MobileScanPage> {
             children: [
               Text('Student', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
               const Gap(10),
-              TextField(
-                controller: _studentName,
-                decoration: const InputDecoration(
-                    labelText: 'Student name', border: OutlineInputBorder(), isDense: true),
-              ),
-              const Gap(10),
-              TextField(
-                controller: _studentId,
-                decoration: const InputDecoration(
-                    labelText: 'Roll no. / ID (optional)', border: OutlineInputBorder(), isDense: true),
-              ),
+              Builder(builder: (context) {
+                final roster = _rosterIds;
+                return DropdownButtonFormField<String>(
+                  initialValue: _studentSelection,
+                  isExpanded: true,
+                  decoration: const InputDecoration(
+                      labelText: 'Student', border: OutlineInputBorder(), isDense: true),
+                  items: [
+                    for (final id in roster)
+                      DropdownMenuItem(
+                        value: id,
+                        child: Text(LocalStore.instance.studentName(id), overflow: TextOverflow.ellipsis),
+                      ),
+                    const DropdownMenuItem(
+                      value: _newStudentSentinel,
+                      child: Text('+ Add new student', overflow: TextOverflow.ellipsis),
+                    ),
+                  ],
+                  onChanged: (v) => setState(() {
+                    if (v == null || v == _newStudentSentinel) {
+                      _studentSelection = _newStudentSentinel;
+                      _studentName.clear();
+                      _studentId.clear();
+                    } else {
+                      _applyRosterSelection(v);
+                    }
+                  }),
+                );
+              }),
+              if (_studentSelection == _newStudentSentinel) ...[
+                const Gap(10),
+                TextField(
+                  controller: _studentName,
+                  decoration: const InputDecoration(
+                      labelText: 'Student name', border: OutlineInputBorder(), isDense: true),
+                ),
+                const Gap(10),
+                TextField(
+                  controller: _studentId,
+                  decoration: const InputDecoration(
+                      labelText: 'Roll no. / ID (optional)', border: OutlineInputBorder(), isDense: true),
+                ),
+              ],
             ],
           ),
         ),
@@ -559,17 +619,16 @@ class _MobileScanPageState extends State<MobileScanPage> {
                     scrollDirection: Axis.horizontal,
                     itemCount: item.pageImageUrls.length,
                     separatorBuilder: (_, __) => const Gap(8),
-                    itemBuilder: (context, i) => ClipRRect(
-                      borderRadius: BorderRadius.circular(8),
-                      child: InkWell(
-                        onTap: () => _showFullPageImage(
-                            context, '${GetIt.I<PillarApi>().serverOrigin}${item.pageImageUrls[i]}'),
-                        child: _pageImage(
-                          '${GetIt.I<PillarApi>().serverOrigin}${item.pageImageUrls[i]}',
-                          height: 220,
+                    itemBuilder: (context, i) {
+                      final src = _resolvePageImageSrc(item.pageImageUrls[i]);
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: InkWell(
+                          onTap: () => _showFullPageImage(context, src),
+                          child: _pageImage(src, height: 220),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -670,12 +729,25 @@ class _MobileScanPageState extends State<MobileScanPage> {
   }
 
   /// Scanned-page images come from two real sources depending on build:
-  /// server-hosted (online build, serverOrigin+relative path -> always
-  /// http(s)) or a local file path stored directly by the offline build's
-  /// LocalScanEngine (local_scan_engine.dart never had a server to host
-  /// images on). Image.network cannot load a bare filesystem path -- it
-  /// always hit errorBuilder for every scanned page in the offline review
-  /// screen before this fix.
+  /// server-hosted (online build -- a route like
+  /// /scan/sessions/{id}/pages/{n}/image that needs serverOrigin prepended)
+  /// or a real, absolute local file path stored directly by the offline
+  /// build's LocalScanEngine (local_scan_engine.dart never had a server to
+  /// host images on). Real bug found and fixed: every call site here used to
+  /// prepend serverOrigin unconditionally, turning a real offline-build path
+  /// like "/data/user/0/.../scan_page_3.jpg" into a bogus
+  /// "http://localhost:8000/data/user/0/.../scan_page_3.jpg" that could
+  /// never load -- so the offline app's review screen always fell back to
+  /// the broken-image icon, leaving a teacher nothing to check a
+  /// transcription against except the OCR text. Checking whether the path
+  /// already exists as a real file, before assuming it's a server route,
+  /// fixes this for both builds without needing to know which one is running.
+  String _resolvePageImageSrc(String pathOrUrl) {
+    if (pathOrUrl.startsWith('http://') || pathOrUrl.startsWith('https://')) return pathOrUrl;
+    if (File(pathOrUrl).existsSync()) return pathOrUrl;
+    return '${GetIt.I<PillarApi>().serverOrigin}$pathOrUrl';
+  }
+
   Widget _pageImage(String urlOrPath, {double? height}) {
     final isLocalFile = !urlOrPath.startsWith('http://') && !urlOrPath.startsWith('https://');
     if (isLocalFile) {
@@ -719,6 +791,48 @@ class _MobileScanPageState extends State<MobileScanPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text('Adjust Q${item.displayNumber}', style: Theme.of(context).textTheme.titleMedium),
+              const Gap(12),
+              // Real gap fixed: correcting marks used to happen on a bare
+              // slider with no context -- the actual scanned page and the
+              // transcribed answer were only visible on the review card
+              // behind this sheet, which a real phone-sized modal covers.
+              // A teacher correcting a mark should be looking at the actual
+              // handwriting, not trusting the OCR text blind.
+              if (item.pageImageUrls.isNotEmpty) ...[
+                SizedBox(
+                  height: 160,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: item.pageImageUrls.length,
+                    separatorBuilder: (_, __) => const Gap(8),
+                    itemBuilder: (context, i) {
+                      final src = _resolvePageImageSrc(item.pageImageUrls[i]);
+                      return ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: InkWell(
+                          onTap: () => _showFullPageImage(context, src),
+                          child: _pageImage(src, height: 160),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const Gap(10),
+              ],
+              Text("Student's answer (from photo)",
+                  style: Theme.of(context).textTheme.labelMedium
+                      ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+              const Gap(4),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.4),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(item.studentAnswer.isEmpty ? '(no answer found)' : item.studentAnswer,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontStyle: FontStyle.italic)),
+              ),
               const Gap(12),
               Text('Marks: ${marks.round()} / ${item.maxMarks}'),
               Slider(
@@ -808,8 +922,14 @@ class _MobileScanPageState extends State<MobileScanPage> {
               _pages.clear();
               _review = [];
               _result = null;
-              _studentName.clear();
-              _studentId.clear();
+              final roster = _rosterIds;
+              if (roster.isNotEmpty) {
+                _applyRosterSelection(roster.first);
+              } else {
+                _studentSelection = _newStudentSentinel;
+                _studentName.clear();
+                _studentId.clear();
+              }
             });
           },
           icon: const Icon(Icons.add),

@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/local_engine/app_lock.dart';
+import '../../../data/datasources/api/auth_api.dart';
 import '../../../core/local_engine/corpus_downloader.dart'
     show CorpusDownloader;
 import '../../../core/local_engine/corpus_repository.dart';
@@ -15,6 +18,7 @@ import '../../../core/local_engine/demo_seeder.dart';
 import '../../../core/local_engine/local_store.dart';
 import '../../../core/sync/sync_service.dart';
 import '../../../core/theme/theme_controller.dart';
+import '../../onboarding/pages/app_tour_page.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 
@@ -41,15 +45,16 @@ class _SettingsPageState extends State<SettingsPage> {
   String _serverUrl = 'http://localhost:8000';
   String _sarvamApiKey = LocalStore.instance.sarvamApiKey ?? '';
 
-  // 13 options doesn't fit a SegmentedButton on a phone-width screen without
-  // squeezing each code onto two lines ("e" / "n") — a dropdown scales to
-  // any option count and is the conventional pattern for many-option
-  // single-select, unlike the 2-3 option Theme row above it.
-  static const _languageNames = {
-    'en': 'English', 'hi': 'Hindi', 'ta': 'Tamil', 'te': 'Telugu',
-    'bn': 'Bengali', 'mr': 'Marathi', 'gu': 'Gujarati', 'kn': 'Kannada',
-    'ml': 'Malayalam', 'or': 'Odia', 'pa': 'Punjabi', 'as': 'Assamese', 'ur': 'Urdu',
-  };
+  // Real fix: this used to list 13 languages in a dropdown when not one of
+  // them was actually wired to any translated string anywhere in the app --
+  // main.dart's MaterialApp only ever loads Flutter's own built-in widget
+  // labels (GlobalMaterialLocalizations etc.), never an AppLocalizations
+  // delegate, so picking "Hindi" here silently changed nothing a teacher
+  // could see. Real per-string translation for even one Indian language is
+  // a genuinely large task (every screen, not just this list), so until
+  // that's actually built, the only honest option to offer is the one that
+  // really works.
+  static const _languageNames = {'en': 'English'};
 
   @override
   void initState() {
@@ -87,11 +92,34 @@ class _SettingsPageState extends State<SettingsPage> {
                 () => context.push('/settings/template')),
             _buildListTile(Icons.people, 'Classes', 'Manage classes & students',
                 () => context.push('/settings/classes')),
-            _buildSwitchTile(Icons.notifications, 'Notifications', 'Push notifications', _notificationsEnabled, (v) {
-              setState(() => _notificationsEnabled = v);
-              LocalStore.instance.box.put('pref_notifications', v);
-            }),
-            _buildSwitchTile(Icons.fingerprint, 'Biometric Auth', 'Use fingerprint/face ID', _biometricAuth, (v) {
+            // Real fix: "Notifications" used to be a toggle with nothing behind
+            // it -- push notifications require a server to send them from, and
+            // this offline build has none. Removed rather than left to silently
+            // do nothing; a server-connected build could legitimately bring
+            // this back for real.
+            if (!_kOfflineBuild)
+              _buildSwitchTile(Icons.notifications, 'Notifications', 'Push notifications', _notificationsEnabled, (v) {
+                setState(() => _notificationsEnabled = v);
+                LocalStore.instance.box.put('pref_notifications', v);
+              }),
+            // Real login, only meaningful for the server-connected build --
+            // the offline build's identity is Settings > Profile above
+            // instead (see login_page.dart's docstring for why). Drives
+            // the real reviewerId on review/finalize and gates the
+            // principal-approve action (auth_routes.require_principal).
+            if (!_kOfflineBuild) _buildAuthTile(),
+            _buildSwitchTile(Icons.fingerprint, 'Biometric Auth', 'Lock the app behind your fingerprint or face', _biometricAuth, (v) async {
+              if (v) {
+                final ok = await AppLock.confirmCanEnable();
+                if (!ok) {
+                  if (!mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('No fingerprint, face, or device PIN is set up on this phone -- '
+                        'set one up in Android Settings first.'),
+                  ));
+                  return;
+                }
+              }
               setState(() => _biometricAuth = v);
               LocalStore.instance.box.put('pref_biometric_auth', v);
             }),
@@ -109,11 +137,15 @@ class _SettingsPageState extends State<SettingsPage> {
             _buildDropdownTile(Icons.language, 'Language', _selectedLanguage, _languageNames, (v) {
               setState(() => _selectedLanguage = v);
               LocalStore.instance.box.put('pref_language', v);
-            }),
-            _buildSwitchTile(Icons.sync, 'Auto Sync', 'Automatically sync data', _autoSync, (v) {
-              setState(() => _autoSync = v);
-              LocalStore.instance.box.put('pref_auto_sync', v);
-            }),
+            }, subtitle: 'Hindi and other Indian languages are not translated yet'),
+            // Real fix: same problem as Notifications above -- "Auto Sync"
+            // toggled a preference nothing ever read, since there is no
+            // server for this offline build to sync to in the first place.
+            if (!_kOfflineBuild)
+              _buildSwitchTile(Icons.sync, 'Auto Sync', 'Automatically sync data', _autoSync, (v) {
+                setState(() => _autoSync = v);
+                LocalStore.instance.box.put('pref_auto_sync', v);
+              }),
             // Real fix: "Offline Mode" was a toggle with nothing behind it --
             // this exact build is offline-only at compile time
             // (ACADEMICOS_OFFLINE), so switching it "off" implied an online
@@ -126,13 +158,21 @@ class _SettingsPageState extends State<SettingsPage> {
                 '(${CorpusRepository.instance.isLoaded ? CorpusRepository.instance.all.length : "?"} questions)',
                 _downloadCorpusData),
             _buildListTile(Icons.clear_all, 'Clear Cache', 'Free up storage space', _clearCache),
-            if (_kOfflineBuild && LocalStore.instance.isDemoSeeded)
+            if (_kOfflineBuild && LocalStore.instance.isDemoSeeded) ...[
+              _buildListTile(
+                Icons.explore_outlined,
+                'Show App Tour',
+                'Replay the guided walkthrough of the sample data this app started with',
+                () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => const AppTourPage(), fullscreenDialog: true)),
+              ),
               _buildListTile(
                 Icons.restart_alt,
                 'Clear Demo Data',
                 'Remove the sample class this app started with, before onboarding a real school',
                 _confirmClearDemoData,
               ),
+            ],
           ]),
           const SizedBox(height: 24),
           if (_kOfflineBuild) ...[
@@ -224,6 +264,31 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  Widget _buildAuthTile() {
+    final user = LocalStore.instance.authUser;
+    if (user == null) {
+      return _buildListTile(Icons.login, 'Sign in', 'Sign in to approve papers as principal',
+          () => context.push('/settings/login'));
+    }
+    final name = user['name'] as String? ?? '';
+    final role = user['role'] as String? ?? 'teacher';
+    return ListTile(
+      leading: Icon(Icons.verified_user, color: Theme.of(context).colorScheme.primary),
+      title: Text('Signed in as $name'),
+      subtitle: Text(role == 'principal' ? 'Principal' : 'Teacher',
+          style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+      trailing: TextButton(
+        onPressed: () async {
+          await GetIt.I<AuthApi>().logout();
+          LocalStore.instance.clearAuth();
+          if (mounted) setState(() {});
+        },
+        child: const Text('Sign out'),
+      ),
+      contentPadding: EdgeInsets.zero,
+    );
+  }
+
   Widget _buildSwitchTile(IconData icon, String title, String subtitle, bool value, ValueChanged<bool> onChanged) {
     return ListTile(
       leading: Icon(icon, color: Theme.of(context).colorScheme.primary),
@@ -248,10 +313,13 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildDropdownTile(IconData icon, String title, String value, Map<String, String> options, ValueChanged<String> onChanged) {
+  Widget _buildDropdownTile(IconData icon, String title, String value, Map<String, String> options, ValueChanged<String> onChanged, {String? subtitle}) {
     return ListTile(
       leading: Icon(icon, color: Theme.of(context).colorScheme.primary),
       title: Text(title),
+      subtitle: subtitle == null
+          ? null
+          : Text(subtitle, style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant)),
       trailing: DropdownButton<String>(
         value: value,
         underline: const SizedBox.shrink(),

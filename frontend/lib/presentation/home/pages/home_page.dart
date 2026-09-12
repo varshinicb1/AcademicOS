@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/local_engine/demo_seeder.dart';
 import '../../../core/local_engine/local_store.dart';
+import '../../onboarding/pages/app_tour_page.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 
@@ -41,10 +42,27 @@ class _HomePageState extends State<HomePage> {
     if (_offlineMode && _seedDemoData) {
       DemoSeeder.seedIfEmpty().then((_) {
         if (mounted) setState(() {});
+        _maybeShowTour();
       }).catchError((Object e, StackTrace stack) {
         debugPrint('DemoSeeder.seedIfEmpty failed (app continues normally): $e\n$stack');
+        _maybeShowTour();
       });
     }
+  }
+
+  // Shown once per install (see LocalStore.hasSeenAppTour) -- deliberately
+  // gated on the seeding step above rather than fired unconditionally, so it
+  // never covers Home before the demo data it's describing actually exists.
+  // Also reachable any time from Settings -> "Show App Tour" (see AppTourPage
+  // doc comment), so dismissing it early isn't a dead end for a teacher.
+  void _maybeShowTour() {
+    if (!mounted || LocalStore.instance.hasSeenAppTour) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      await Navigator.of(context)
+          .push(MaterialPageRoute(builder: (_) => const AppTourPage(), fullscreenDialog: true));
+      await LocalStore.instance.markAppTourSeen();
+    });
   }
 
   @override
@@ -93,7 +111,11 @@ class _HomePageState extends State<HomePage> {
               _attentionCard(context, theme, pendingReview.length),
               const Gap(20),
             ],
-            if (unsyncedCount > 0) ...[
+            // Real fix: this card said "tap to sync now" and, tapped, just
+            // navigated to Settings without syncing anything -- and in this
+            // offline build there is no server for it to sync to regardless.
+            // Shown only in a build that could actually mean it.
+            if (!_offlineMode && unsyncedCount > 0) ...[
               _unsyncedCard(context, theme, unsyncedCount),
               const Gap(20),
             ],

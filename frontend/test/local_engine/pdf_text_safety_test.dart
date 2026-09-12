@@ -63,4 +63,42 @@ void main() {
     expect(pdfSafe('area = \u{1D7D0} \u{1D7D1} sq. units'), 'area = 2 3 sq. units',
         reason: 'U+1D7D0/1D7D1 MATHEMATICAL BOLD DIGIT TWO/THREE');
   });
+
+  // Real gap found via a direct character-frequency scan of the full bundled
+  // corpus (assets/corpus/questions.json), not just the one demo sheet --
+  // every codepoint below was counted as actually present, not guessed.
+  test('rupee sign, ellipsis, and combining accents from the real corpus are handled', () {
+    expect(pdfSafe('\u{20B9}500 at 10% p.a.'), 'Rs.500 at 10% p.a.',
+        reason: 'U+20B9 INDIAN RUPEE SIGN -- 52 real occurrences, common in CBSE word problems');
+    expect(pdfSafe('and so on\u{2026}'), 'and so on...', reason: 'U+2026 HORIZONTAL ELLIPSIS');
+    expect(pdfSafe('unit vector v\u{0302}'), 'unit vector v',
+        reason: 'U+0302 COMBINING CIRCUMFLEX ACCENT -- 98 real occurrences (e.g. "v\u{0302}" for a '
+            'unit vector); dropped like the combining arrow above, keeping the base letter');
+  });
+
+  // Real gap found the same way: a confirmed OCR-extraction artifact, not
+  // real Oriya text -- the source PDFs' superscript "2" (as in "cm²")
+  // decodes as the Oriya letter SHA in the real corpus, 42 times, always
+  // in the same area/volume-unit context. Mapped from the actual observed
+  // substitution, not from the Unicode block's real (unrelated) meaning.
+  test('the real Oriya-SHA OCR artifact for superscript 2 is corrected', () {
+    expect(pdfSafe('60\u{221A}3 cm\u{0B36}'), '60sqrt3 cm2');
+  });
+
+  // Real gap found the same way: styled Greek letters (Mathematical Italic
+  // Greek, a separate Unicode range from the Latin block _demathify()
+  // already covers) still tofu-boxed. All three confirmed real in the
+  // corpus.
+  test('styled Greek math letters are mapped to their plain-ASCII names', () {
+    expect(pdfSafe('sin \u{1D703} and cos \u{1D6FC} and \u{1D70B}r2'),
+        'sin theta and cos alpha and pir2');
+  });
+
+  // Real gap found the same way: Private Use Area codepoints (U+F05C,
+  // U+F044, U+F05E, U+F0DE all confirmed present) are leftover Wingdings/
+  // Symbol-font glyph references from OCR, not real content -- genuinely
+  // unmappable, so dropped rather than guessed at.
+  test('unmappable Private Use Area glyphs from OCR font substitution are dropped', () {
+    expect(pdfSafe('stray glyph \u{F05C} here'), 'stray glyph  here');
+  });
 }

@@ -84,6 +84,22 @@ class LocalStore {
     _saveList('local_evaluations_$assessmentId', items);
   }
 
+  /// Replaces one student's sheet within an assessment's evaluations (found
+  /// by studentId), or appends it if no sheet exists yet -- same
+  /// find-or-append shape as [upsertAssessment]. Used to persist a teacher's
+  /// review-stage marks correction back into the same record [addEvaluations]
+  /// created, instead of a second unrelated entry piling up.
+  void replaceEvaluationSheet(String assessmentId, Map<String, dynamic> sheetResult) {
+    final items = evaluationsFor(assessmentId);
+    final idx = items.indexWhere((s) => s['studentId'] == sheetResult['studentId']);
+    if (idx >= 0) {
+      items[idx] = sheetResult;
+    } else {
+      items.add(sheetResult);
+    }
+    _saveList('local_evaluations_$assessmentId', items);
+  }
+
   List<String> allAssessmentIdsWithEvaluations() {
     return _box.keys
         .whereType<String>()
@@ -135,6 +151,39 @@ class LocalStore {
         .toList();
   }
 
+  // ---- Parental consent (DPDP Act 2023 -- every CBSE student is a minor) ----
+  // This app cannot itself perform identity verification (no OTP/DigiLocker
+  // integration exists) -- what it CAN honestly do is require the school to
+  // record that a real, verifiable consent step happened (a signed admission
+  // form, a confirmed call to the parent, etc.) before a real student's data
+  // leaves the device as a report, and keep an append-only record of that.
+  // Recording a method here is not itself "verification" -- it's the
+  // administrative gate docs/compliance.md calls for, honestly labeled.
+  bool isDemoStudent(String studentId) => studentId.startsWith('demo_stu_');
+
+  Map<String, dynamic>? getConsent(String studentId) {
+    final raw = _box.get('consent_$studentId') as String?;
+    if (raw == null) return null;
+    return Map<String, dynamic>.from(jsonDecode(raw) as Map);
+  }
+
+  bool hasConsent(String studentId) => getConsent(studentId) != null;
+
+  void setConsent(String studentId, {required String method, required String guardianName}) {
+    final record = {
+      'method': method,
+      'guardianName': guardianName,
+      'recordedAt': DateTime.now().toIso8601String(),
+    };
+    _box.put('consent_$studentId', jsonEncode(record));
+    appendAuditLog(
+      action: 'parental_consent_recorded',
+      assessmentId: '-',
+      studentId: studentId,
+      details: record,
+    );
+  }
+
   // ---- Practice sets (personalized targeted practice) ----
   void savePracticeSet(String setId, Map<String, dynamic> set) {
     _box.put('local_practice_$setId', jsonEncode(set));
@@ -151,6 +200,29 @@ class LocalStore {
   Future<void> clearDemoSeededFlag() => _box.delete('demo_seeded_v1');
   bool get isDemoSeeded => _box.get('demo_seeded_v1', defaultValue: false) as bool;
 
+  // ---- First-run app tour (see app_tour_page.dart) ----
+  Future<void> markAppTourSeen() => _box.put('app_tour_seen_v1', true);
+  Future<void> clearAppTourSeenFlag() => _box.delete('app_tour_seen_v1');
+  bool get hasSeenAppTour => _box.get('app_tour_seen_v1', defaultValue: false) as bool;
+
+  // ---- Teacher role (offline identity, continued) ----
+  // Real gap found on-device: every review/finalize/approve action's
+  // "reviewerId"/actor was permanently blank -- teacherName (above) already
+  // existed for display purposes (papers/reports), but nothing read it as an
+  // *identity* for audit-log purposes, and there was no role concept at all.
+  // A real login system (passwords, sessions) doesn't fit a single-device
+  // offline app the way it fits a shared server -- physical access is
+  // already gated by AppLock's biometric/PIN check (see app_lock.dart) --
+  // so this reuses the existing name field and adds only what was missing:
+  // a self-declared role, used to gate the principal-approval action below.
+  // This mirrors the real server's users.py identity concept but is NOT the
+  // same trust model: server-side, a role is issued at registration and
+  // enforced by a password; here it can only ever be "this device says its
+  // holder is a principal," the honest limit of what's enforceable without
+  // a server, not a security bypass of one.
+  String get teacherRole => _box.get('teacher_profile_role', defaultValue: 'teacher') as String;
+  set teacherRole(String v) => _box.put('teacher_profile_role', v);
+
   // ---- Audit log: append-only record of every grading event ----
   // The concrete "corruption resistance" control docs/compliance.md calls
   // for -- every mark written goes into an append-only log (never edited,
@@ -163,6 +235,7 @@ class LocalStore {
     required String assessmentId,
     required String studentId,
     Map<String, dynamic> details = const {},
+    String? actor,
   }) {
     final entries = _list('audit_log');
     entries.add({
@@ -171,6 +244,10 @@ class LocalStore {
       'assessmentId': assessmentId,
       'studentId': studentId,
       'details': details,
+      // Real gap closed: every entry used to carry no actor at all -- who
+      // did this was simply not recorded. Falls back to the device's
+      // current-user profile when the caller doesn't pass one explicitly.
+      'actor': actor ?? teacherName,
     });
     _saveList('audit_log', entries);
   }
@@ -217,6 +294,27 @@ class LocalStore {
 
   String get teacherSubject => _box.get('teacher_profile_subject') as String? ?? '';
   set teacherSubject(String v) => _box.put('teacher_profile_subject', v.trim());
+
+  // ---- Server-side session (online/multi-device build only) ----
+  // Same box the Sarvam Vision BYOK key already lives in (below), AES-
+  // encrypted at rest -- a session token is comparably sensitive, so it
+  // gets the same treatment rather than a separate secure-storage path.
+  String? get authToken => _box.get('auth_token') as String?;
+  set authToken(String? v) => v == null ? _box.delete('auth_token') : _box.put('auth_token', v);
+
+  Map<String, dynamic>? get authUser {
+    final raw = _box.get('auth_user') as String?;
+    if (raw == null) return null;
+    return Map<String, dynamic>.from(jsonDecode(raw) as Map);
+  }
+
+  set authUser(Map<String, dynamic>? v) =>
+      v == null ? _box.delete('auth_user') : _box.put('auth_user', jsonEncode(v));
+
+  void clearAuth() {
+    _box.delete('auth_token');
+    _box.delete('auth_user');
+  }
 
   // ---- Scan sessions (offline Scan & Grade) ----
   Map<String, dynamic>? getScanSession(String sessionId) {

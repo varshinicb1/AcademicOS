@@ -9,8 +9,21 @@ import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
+import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import 'package:academicos/core/local_engine/demo_seeder.dart';
 import 'package:academicos/core/local_engine/local_store.dart';
+
+// _seedDemoScanSession materializes the two bundled demo-scan-page assets
+// into real files via path_provider's getApplicationDocumentsDirectory --
+// not available as a real platform channel in plain `flutter test`, same
+// gap local_scan_pdf_export_test.dart already works around.
+class _FakePathProvider extends PathProviderPlatform with MockPlatformInterfaceMixin {
+  final Directory dir;
+  _FakePathProvider(this.dir);
+  @override
+  Future<String?> getApplicationDocumentsPath() async => dir.path;
+}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +38,7 @@ void main() {
     tmpDir = Directory.systemTemp.createTempSync('demo_seeder_test_');
     Hive.init(tmpDir.path);
     cacheBox = await Hive.openBox('academicos_cache');
+    PathProviderPlatform.instance = _FakePathProvider(tmpDir);
   });
 
   tearDownAll(() async {
@@ -122,12 +136,26 @@ void main() {
     expect(session['status'], 'finalized');
     expect(session['studentId'], 'demo_stu_4');
     expect(session['studentName'], 'Ananya Iyer');
-    expect(session['pages'], isEmpty,
-        reason: 'honestly empty -- no real captured photo exists for a demo student, so only '
-            'the corrected-sheet export (not the raw booklet) should work for this session');
+    // Real user request: a teacher opening this app for the first time
+    // should see what a fully completed scan looks like, including the
+    // actual photographed pages -- not "no photo saved". The two bundled
+    // demo images (assets/images/demo_scan_page_*.jpg) are materialized
+    // into real files, same shape a live capture produces.
+    final pages = List<Map>.from(session['pages'] as List);
+    expect(pages.length, 2, reason: 'both bundled demo answer-sheet pages');
+    for (final page in pages) {
+      final path = page['imagePath'] as String;
+      expect(File(path).existsSync(), isTrue,
+          reason: 'must be a real file on disk, same as a live capture -- '
+              'exportRawBooklet and the review screen both read it with File(imagePath)');
+    }
 
     final review = List<Map>.from(session['review'] as List);
     expect(review, isNotEmpty, reason: 'must have real per-question marks, not an empty shell');
+    for (final item in review) {
+      expect(List<String>.from(item['pageImageUrls'] as List), pages.map((p) => p['imagePath']).toList(),
+          reason: 'every review item should point at the same two real captured pages');
+    }
 
     // Real, varied marks -- not every question scored identically, which
     // would signal a fabricated rather than a genuinely evaluated sheet.

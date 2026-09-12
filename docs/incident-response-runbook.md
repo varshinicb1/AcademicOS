@@ -3,9 +3,15 @@
 **Status: a runbook to follow, not a statement of readiness.** This document does
 **not** mean an incident response team, a 24/7 on-call roster, or CERT-In
 registration currently exists. It exists so that when a real incident happens,
-the 6-hour clock doesn't get eaten by people deciding who's in charge. Before it
-can be used for real, every `[NAME]` bracket below must be filled with a real
-person who has agreed to the role, and the contact numbers must be verified.
+the 6-hour clock doesn't get eaten by people deciding who's in charge.
+
+**Current state (30 August 2026): one real person, all three roles, no backup.**
+The roles below are filled with a real, confirmed contact — not a placeholder —
+but a single person holding every role is itself a documented risk (see
+`AcademicOS_ISO27001_SOC2_Readiness_Kit.docx`'s risk register: "single point of
+technical failure"). If this person is unreachable when an incident happens, the
+6-hour clock still runs. Recruit a real backup for at least the Incident
+Commander and CERT-In notifier roles before this stops being acceptable.
 
 ## The binding deadline (why this document has a clock)
 
@@ -29,16 +35,20 @@ reach it, treat it as reportable until triage says otherwise.**
 
 ## Roles (fill in before use — small team, so a person can hold more than one)
 
-| Role | Person | Backup | Phone |
-|------|--------|--------|-------|
-| Incident Commander (IC) — owns the clock, declares severity, coordinates, stops the 6-hour deadline from being missed | [NAME] | [NAME] | [PHONE] |
-| CERT-In notifier — the *single* person with authority to send the 6-hour notification (and the DPB breach notice) | [NAME] | [NAME] | [PHONE] |
-| Technical lead — runs containment, rotates credentials, preserves evidence | [NAME] | [NAME] | [PHONE] |
+| Role | Person | Backup | Phone | Email |
+|------|--------|--------|-------|-------|
+| Incident Commander (IC) — owns the clock, declares severity, coordinates, stops the 6-hour deadline from being missed | Varshini CB | *none yet — single point of failure* | +91 72594 26670 | varshinicb@predictera.com |
+| CERT-In notifier — the *single* person with authority to send the 6-hour notification (and the DPB breach notice) | Varshini CB | *none yet — single point of failure* | +91 72594 26670 | varshinicb@predictera.com |
+| Technical lead — runs containment, rotates credentials, preserves evidence | Varshini CB | *none yet — single point of failure* | +91 72594 26670 | varshinicb@predictera.com |
 
 One person per role on a small team is fine; what is not fine is an incident
-starting with the role unfilled. Decide now, in writing, and keep a copy of this
-page somewhere a team member can reach at 2am (e.g. a pinned channel, an agreed
-group chat).
+starting with the role unfilled. All three roles are currently the same person
+by necessity, not by design — the moment a second person joins, split at least
+the IC and Technical lead roles so containment work and incident-command
+decisions aren't fighting for the same attention during a real event. Keep a
+copy of this page somewhere reachable at 2am (a pinned channel, an agreed group
+chat) — right now that also means: don't let this be the only device with
+`varshinicb@predictera.com` logged in.
 
 ## Detection sources (real mechanisms that already exist in this repo)
 
@@ -153,7 +163,8 @@ whatever is known, and appends the rest later.
       - Portal: **https://www.cert-in.org.in/**
       - Helpline: **1800-11-4949**
 - [ ] Include (even if partial — complete in a follow-up): who is reporting
-      (the [COMPANY / CONTACT] acting on behalf of AcademicOS), what happened,
+      (Varshini CB, varshinicb@predictera.com, +91 72594 26670, acting on
+      behalf of AcademicOS), what happened,
       when noticed, systems/data affected, severity, steps already taken, and a
       timeline. Being incomplete is acceptable; being late is not.
 - [ ] Record the submission (time, reference/ack number) in the incident log.
@@ -202,8 +213,9 @@ the blame.
 
 ## Before this runbook is used for real
 
-- [ ] All `[NAME]` / `[PHONE]` brackets filled with people who have confirmed
-      the role.
+- [x] All `[NAME]` / `[PHONE]` brackets filled with people who have confirmed
+      the role. (Done 30 Aug 2026 — one person, all three roles; recruit a
+      real backup before treating this as durable.)
 - [ ] The notifier has access to incident@cert-in.org.in from their mail client
       and has read https://www.cert-in.org.in/ once.
 - [ ] A dry run of the T+0 → T+30min → T+1hr steps done at least once on a

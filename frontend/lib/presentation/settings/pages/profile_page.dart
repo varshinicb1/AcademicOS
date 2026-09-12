@@ -19,6 +19,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   late final _name = TextEditingController(text: LocalStore.instance.teacherName);
   late final _subject = TextEditingController(text: LocalStore.instance.teacherSubject);
+  late String _role = LocalStore.instance.teacherRole;
   bool _saved = false;
 
   @override
@@ -31,6 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void _save() {
     LocalStore.instance.teacherName = _name.text;
     LocalStore.instance.teacherSubject = _subject.text;
+    LocalStore.instance.teacherRole = _role;
     setState(() => _saved = true);
   }
 
@@ -77,6 +79,35 @@ class _ProfilePageState extends State<ProfilePage> {
                     labelText: 'Primary subject you teach',
                     border: OutlineInputBorder(),
                   ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
+          AppCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Your role', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
+                const SizedBox(height: 4),
+                Text(
+                  'Recorded against every grading action you take on this device, and required '
+                  'to approve a finalized paper. This device cannot verify who you really are -- '
+                  'it can only record what this device says, the same honest limit as everything '
+                  'else in this offline build without a real login system.',
+                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+                ),
+                const SizedBox(height: 12),
+                SegmentedButton<String>(
+                  segments: const [
+                    ButtonSegment(value: 'teacher', label: Text('Teacher'), icon: Icon(Icons.person_outline)),
+                    ButtonSegment(value: 'principal', label: Text('Principal'), icon: Icon(Icons.verified_user_outlined)),
+                  ],
+                  selected: {_role},
+                  onSelectionChanged: (s) => setState(() {
+                    _role = s.first;
+                    _saved = false;
+                  }),
                 ),
               ],
             ),
