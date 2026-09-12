@@ -239,6 +239,21 @@ class TeacherAssignment:
     created_at: str = ""
 
 
+@dataclass
+class StudentEnrollment:
+    """Which real Grade (class/section) a real student belongs to -- the
+    missing link needed to scope a student's own view (§18) to their real
+    class, the same gap TeacherAssignment closes for teachers.
+    `assessment/users.py`'s `User` has no class/grade field at all. One
+    enrollment per student (unlike a teacher, who can be assigned several
+    books): a real student is in exactly one class."""
+    id: str
+    school_id: str
+    student_id: str
+    grade_id: str
+    created_at: str = ""
+
+
 STATUS_VALUES = ("scheduled", "completed", "skipped")
 
 

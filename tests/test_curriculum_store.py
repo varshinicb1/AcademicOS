@@ -316,6 +316,54 @@ def test_mark_lesson_can_be_undone_back_to_scheduled(store):
 
 
 # --------------------------------------------------------------------- #
+# student enrollment (§18 -- student visibility)
+# --------------------------------------------------------------------- #
+
+def test_enroll_student_and_read_back(store):
+    board = store.create_board(name="CBSE", code="CBSE")
+    year = store.create_academic_year(school_id="s", label="y", start_date="2026-01-01", end_date="2026-12-31")
+    grade = store.create_grade(academic_year_id=year.id, number=10, section="A")
+
+    e = store.enroll_student(school_id="s", student_id="user_stu1", grade_id=grade.id)
+    assert e.grade_id == grade.id
+    assert store.enrollment_for_student("user_stu1").grade_id == grade.id
+
+
+def test_enroll_student_is_one_enrollment_per_student(store):
+    """Re-enrolling (e.g. promotion to a new grade) replaces the row,
+    never leaves two."""
+    board = store.create_board(name="CBSE", code="CBSE")
+    year = store.create_academic_year(school_id="s", label="y", start_date="2026-01-01", end_date="2026-12-31")
+    grade9 = store.create_grade(academic_year_id=year.id, number=9)
+    grade10 = store.create_grade(academic_year_id=year.id, number=10)
+
+    first = store.enroll_student(school_id="s", student_id="user_stu1", grade_id=grade9.id)
+    second = store.enroll_student(school_id="s", student_id="user_stu1", grade_id=grade10.id)
+    assert first.id == second.id
+    assert store.enrollment_for_student("user_stu1").grade_id == grade10.id
+
+
+def test_unenrolled_student_has_no_enrollment(store):
+    assert store.enrollment_for_student("nobody") is None
+
+
+def test_grade_id_for_book_and_book_ids_for_grade(store):
+    book_id = _seed_book(store)
+    book = store.get_book(book_id)
+    subject = store.get_subject(book.subject_id)
+    assert store.grade_id_for_book(book_id) == subject.grade_id
+    assert book_id in store.book_ids_for_grade(subject.grade_id)
+
+
+def test_school_id_for_grade(store):
+    board = store.create_board(name="CBSE", code="CBSE")
+    year = store.create_academic_year(school_id="school_x", label="y",
+                                      start_date="2026-01-01", end_date="2026-12-31")
+    grade = store.create_grade(academic_year_id=year.id, number=10)
+    assert store.school_id_for_grade(grade.id) == "school_x"
+
+
+# --------------------------------------------------------------------- #
 # get_curriculum_store singleton
 # --------------------------------------------------------------------- #
 

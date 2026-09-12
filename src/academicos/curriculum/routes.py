@@ -36,12 +36,15 @@ from .schemas import (
     ComputeTeachingTimeRequest,
     ComputeTeachingTimeResponse,
     CreateCalendarRequest,
+    EnrollStudentRequest,
     ExtractionRunResponse,
     ExtractionRunWithProposalsResponse,
     ExtractRequest,
     GradeResponse,
     HolidayResponse,
     MarkLessonRequest,
+    MyClassScheduleEntryResponse,
+    MyProgressResponse,
     MyScheduleEntryResponse,
     PeriodConfigurationResponse,
     ProposalResponse,
@@ -58,6 +61,8 @@ from .schemas import (
     SeedCbse10Request,
     SeedCbse10Response,
     SetPeriodConfigurationRequest,
+    StudentEnrollmentResponse,
+    SubjectProgressResponse,
     SubjectResponse,
     SubtopicResponse,
     TagQuestionRequest,
@@ -841,3 +846,98 @@ def get_lesson_history(lesson_id: str,
         old_date=e["details"]["old_date"], new_date=e["details"]["new_date"],
         reason=e["details"]["reason"])
         for e in entries]
+
+
+# ---------------- student visibility: enrollment + read-only views (§18) ----------------
+# "A reduced subset, no management controls" per the transcript -- every
+# route here is either principal-gated (enrollment) or student-only,
+# read-only, and deliberately omits fields a student shouldn't see (a
+# teacher's private completion note, who completed it).
+
+
+@router.post("/student-enrollments", response_model=StudentEnrollmentResponse)
+def enroll_student(req: EnrollStudentRequest,
+                   principal: User = Depends(require_principal)) -> StudentEnrollmentResponse:
+    """Principal-gated, same posture as assign_teacher: verifies both the
+    target student and the grade actually belong to the principal's own
+    school."""
+    store = _require()
+    target = _require_users().get(req.student_id)
+    if target is None:
+        raise HTTPException(404, "student not found")
+    if target.school_id != principal.school_id:
+        raise HTTPException(403, "that user belongs to a different school")
+    if store.school_id_for_grade(req.grade_id) != principal.school_id:
+        raise HTTPException(403, "that grade belongs to a different school")
+    e = store.enroll_student(school_id=principal.school_id, student_id=req.student_id,
+                             grade_id=req.grade_id)
+    return StudentEnrollmentResponse(id=e.id, school_id=e.school_id, student_id=e.student_id,
+                                     grade_id=e.grade_id, created_at=e.created_at)
+
+
+def _require_student_enrollment(store: CurriculumStore, current: User):
+    if current.role != "student":
+        raise HTTPException(403, "this endpoint is for students only")
+    enrollment = store.enrollment_for_student(current.id)
+    if enrollment is None:
+        raise HTTPException(404, "you are not enrolled in a class yet -- ask your principal to enroll you")
+    return enrollment
+
+
+@router.get("/my-class-schedule", response_model=list[MyClassScheduleEntryResponse])
+def get_my_class_schedule(start_date: str, end_date: str,
+                          current: User = Depends(get_current_user),
+                          ) -> list[MyClassScheduleEntryResponse]:
+    """"What's being taught, what's completed, upcoming" -- every real
+    lesson across every subject for the student's own real enrolled class,
+    in a date range. A reduced subset of ScheduledLesson: no note, no
+    completed_by -- a student sees the status, not a teacher's private
+    remark about it."""
+    store = _require()
+    enrollment = _require_student_enrollment(store, current)
+    book_ids = set(store.book_ids_for_grade(enrollment.grade_id))
+    lessons = [l for l in store.scheduled_lessons_for_date_range(current.school_id, start_date, end_date)
+              if l.book_id in book_ids]
+
+    out: list[MyClassScheduleEntryResponse] = []
+    for l in lessons:
+        subtopic = store.get_subtopic(l.subtopic_id)
+        if subtopic is None:
+            continue
+        topic = store.get_topic(subtopic.topic_id)
+        chapter = store.get_chapter(topic.chapter_id) if topic else None
+        book = store.get_book(l.book_id)
+        subject = store.get_subject(book.subject_id) if book else None
+        out.append(MyClassScheduleEntryResponse(
+            date=l.date, status=l.status, subject_name=subject.name if subject else "",
+            chapter_name=chapter.name if chapter else "", topic_name=topic.name if topic else "",
+            subtopic_name=subtopic.name))
+    return out
+
+
+@router.get("/my-progress", response_model=MyProgressResponse)
+def get_my_progress(academic_year_id: str,
+                    current: User = Depends(get_current_user)) -> MyProgressResponse:
+    """Real per-subject progress: how many of this class's real scheduled
+    lessons (up to today) have actually been marked completed vs skipped
+    vs still just scheduled -- computed from the same real ScheduledLesson
+    rows the teacher/principal views use, never a separate estimate."""
+    from datetime import date as date_cls
+    store = _require()
+    enrollment = _require_student_enrollment(store, current)
+    as_of = date_cls.today().isoformat()
+    book_ids = store.book_ids_for_grade(enrollment.grade_id)
+
+    subjects: list[SubjectProgressResponse] = []
+    for book_id in book_ids:
+        book = store.get_book(book_id)
+        subject = store.get_subject(book.subject_id) if book else None
+        lessons = [l for l in store.scheduled_lessons_for_book(academic_year_id, book_id) if l.date <= as_of]
+        scheduled_count = sum(1 for l in lessons if l.status == "scheduled")
+        completed_count = sum(1 for l in lessons if l.status == "completed")
+        skipped_count = sum(1 for l in lessons if l.status == "skipped")
+        subjects.append(SubjectProgressResponse(
+            subject_name=subject.name if subject else "", scheduled_count=scheduled_count,
+            completed_count=completed_count, skipped_count=skipped_count, total_count=len(lessons)))
+
+    return MyProgressResponse(academic_year_id=academic_year_id, as_of_date=as_of, subjects=subjects)

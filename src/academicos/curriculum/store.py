@@ -39,6 +39,7 @@ from .models import (
     QuestionSubtopicLink,
     STATUS_VALUES,
     ScheduledLesson,
+    StudentEnrollment,
     Subject,
     Subtopic,
     TeacherAssignment,
@@ -243,6 +244,15 @@ CREATE TABLE IF NOT EXISTS teacher_assignments (
   UNIQUE(teacher_id, book_id)
 );
 CREATE INDEX IF NOT EXISTS idx_ta_teacher ON teacher_assignments(teacher_id);
+
+CREATE TABLE IF NOT EXISTS student_enrollments (
+  id           TEXT PRIMARY KEY,
+  school_id    TEXT NOT NULL,
+  student_id   TEXT NOT NULL UNIQUE,
+  grade_id     TEXT NOT NULL,
+  created_at   TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_se_grade ON student_enrollments(grade_id);
 """
 
 
@@ -463,6 +473,28 @@ class CurriculumStore:
             "JOIN academic_years y ON g.academic_year_id = y.id "
             "WHERE b.id=?", (book_id,)).fetchone()
         return r["school_id"] if r else None
+
+    def school_id_for_grade(self, grade_id: str) -> Optional[str]:
+        r = self.conn.execute(
+            "SELECT y.school_id FROM grades g JOIN academic_years y ON g.academic_year_id = y.id "
+            "WHERE g.id=?", (grade_id,)).fetchone()
+        return r["school_id"] if r else None
+
+    def grade_id_for_book(self, book_id: str) -> Optional[str]:
+        """book -> subject -> grade -- what a student's schedule filters
+        by: every book taught to their real enrolled grade, not just one
+        subject (unlike a teacher, who is scoped to specific books via
+        TeacherAssignment)."""
+        r = self.conn.execute(
+            "SELECT s.grade_id FROM books b JOIN subjects s ON b.subject_id = s.id WHERE b.id=?",
+            (book_id,)).fetchone()
+        return r["grade_id"] if r else None
+
+    def book_ids_for_grade(self, grade_id: str) -> list[str]:
+        rows = self.conn.execute(
+            "SELECT b.id FROM books b JOIN subjects s ON b.subject_id = s.id WHERE s.grade_id=?",
+            (grade_id,)).fetchall()
+        return [r["id"] for r in rows]
 
     def school_id_for_chapter(self, chapter_id: str) -> Optional[str]:
         r = self.conn.execute(
@@ -921,6 +953,36 @@ class CurriculumStore:
         self.conn.execute("DELETE FROM teacher_assignments WHERE teacher_id=? AND book_id=?",
                           (teacher_id, book_id))
         self.conn.commit()
+
+    # ---------------- student enrollment (§18 -- student visibility) ----------------
+
+    def enroll_student(self, *, school_id: str, student_id: str, grade_id: str) -> StudentEnrollment:
+        """One enrollment per student -- re-enrolling (e.g. a promotion to
+        a new grade) replaces the existing row rather than erroring or
+        leaving two, since a real student is only ever in one class at a
+        time."""
+        existing = self.conn.execute(
+            "SELECT * FROM student_enrollments WHERE student_id=?", (student_id,)).fetchone()
+        from datetime import datetime, timezone
+        if existing:
+            self.conn.execute("UPDATE student_enrollments SET grade_id=?, school_id=? WHERE student_id=?",
+                              (grade_id, school_id, student_id))
+            self.conn.commit()
+            return StudentEnrollment(id=existing["id"], school_id=school_id, student_id=student_id,
+                                     grade_id=grade_id, created_at=existing["created_at"])
+        e = StudentEnrollment(id=new_id("enroll"), school_id=school_id, student_id=student_id,
+                              grade_id=grade_id, created_at=datetime.now(timezone.utc).isoformat())
+        self.conn.execute(
+            "INSERT INTO student_enrollments (id, school_id, student_id, grade_id, created_at) "
+            "VALUES (?,?,?,?,?)",
+            (e.id, e.school_id, e.student_id, e.grade_id, e.created_at))
+        self.conn.commit()
+        return e
+
+    def enrollment_for_student(self, student_id: str) -> Optional[StudentEnrollment]:
+        r = self.conn.execute(
+            "SELECT * FROM student_enrollments WHERE student_id=?", (student_id,)).fetchone()
+        return StudentEnrollment(**dict(r)) if r else None
 
 
 _INSTANCE: Optional[CurriculumStore] = None

@@ -45,6 +45,10 @@ class RegisterRequest(Camel):
     email: str
     password: str
     principal_key: Optional[str] = None
+    # Self-selected role: "teacher" (default) or "student". Never
+    # "principal" -- that's granted only by a valid principal_key,
+    # unaffected by this field (see UserStore.register's docstring).
+    role: Optional[str] = None
 
 
 class LoginRequest(Camel):
@@ -77,9 +81,12 @@ def register(req: RegisterRequest) -> AuthResponse:
     store = _require()
     try:
         user = store.register(school_id=req.school_id, name=req.name, email=req.email,
-                               password=req.password, principal_key=req.principal_key)
+                               password=req.password, principal_key=req.principal_key,
+                               requested_role=req.role or "teacher")
     except EmailAlreadyRegistered:
         raise HTTPException(409, "an account with this email already exists")
+    except ValueError as e:
+        raise HTTPException(400, str(e))
     token = store.create_session(user.id)
     return AuthResponse(user=_to_response(user), token=token)
 

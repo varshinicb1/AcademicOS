@@ -366,6 +366,48 @@ class RescheduleHistoryEntryResponse(Camel):
     reason: str
 
 
+# ---------------- student visibility (§18) ----------------
+# Deliberately a reduced, read-only subset -- no note, no completed_by (a
+# teacher's private note isn't necessarily meant for a student to read),
+# no write endpoints of any kind. "No management controls" per the
+# transcript.
+
+class EnrollStudentRequest(Camel):
+    student_id: str = Field(min_length=1)
+    grade_id: str = Field(min_length=1)
+
+
+class StudentEnrollmentResponse(Camel):
+    id: str
+    school_id: str
+    student_id: str
+    grade_id: str
+    created_at: str
+
+
+class MyClassScheduleEntryResponse(Camel):
+    date: str
+    status: str
+    subject_name: str
+    chapter_name: str
+    topic_name: str
+    subtopic_name: str
+
+
+class SubjectProgressResponse(Camel):
+    subject_name: str
+    scheduled_count: int
+    completed_count: int
+    skipped_count: int
+    total_count: int
+
+
+class MyProgressResponse(Camel):
+    academic_year_id: str
+    as_of_date: str
+    subjects: list[SubjectProgressResponse]
+
+
 # ---------------- teacher assignments + "what do I teach today" (§15) ----------------
 
 class AssignTeacherRequest(Camel):

@@ -20,11 +20,13 @@ import '../../presentation/mobile_scan/pages/mobile_scan_page.dart';
 import '../../presentation/mobile_scan/pages/scan_history_page.dart';
 import '../../presentation/practice/pages/practice_session_page.dart';
 import '../../presentation/schedule/pages/my_schedule_page.dart';
+import '../../presentation/student/pages/student_schedule_page.dart';
 import '../../presentation/settings/pages/settings_page.dart';
 import '../../presentation/settings/pages/template_maker_page.dart';
 import '../../presentation/settings/pages/profile_page.dart';
 import '../../presentation/settings/pages/classes_page.dart';
 import '../../presentation/settings/pages/legal_page.dart';
+import '../../presentation/auth/pages/login_page.dart';
 import '../../presentation/shared/widgets/shell.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
@@ -171,6 +173,13 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             ),
           ),
           GoRoute(
+            path: '/student/schedule',
+            name: 'student-schedule',
+            pageBuilder: (context, state) => const NoTransitionPage(
+              child: StudentSchedulePage(),
+            ),
+          ),
+          GoRoute(
             path: '/scan',
             name: 'mobile-scan',
             pageBuilder: (context, state) => const NoTransitionPage(
@@ -217,6 +226,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: 'legal/:doc',
                 name: 'legal',
                 builder: (context, state) => LegalPage(doc: state.pathParameters['doc']!),
+              ),
+              GoRoute(
+                path: 'login',
+                name: 'login',
+                builder: (context, state) => const LoginPage(),
               ),
             ],
           ),

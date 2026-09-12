@@ -139,6 +139,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/scheduled-lessons/{lesson_id}/reschedule"),
     ("POST", "/api/v1/curriculum/books/{book_id}/schedule/push"),
     ("GET", "/api/v1/curriculum/scheduled-lessons/{lesson_id}/history"),
+    ("POST", "/api/v1/curriculum/student-enrollments"),
+    ("GET", "/api/v1/curriculum/my-class-schedule"),
+    ("GET", "/api/v1/curriculum/my-progress"),
 })
 
 DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
@@ -309,7 +312,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 98
+    assert len(API_ROUTES) == 101
 
 
 def test_docs_routes_present():
@@ -433,6 +436,9 @@ def test_gated_routes_return_503_without_startup():
                 ("POST", "/api/v1/curriculum/scheduled-lessons/{lesson_id}/reschedule"),
                 ("POST", "/api/v1/curriculum/books/{book_id}/schedule/push"),
                 ("GET", "/api/v1/curriculum/scheduled-lessons/{lesson_id}/history"),
+                ("POST", "/api/v1/curriculum/student-enrollments"),
+                ("GET", "/api/v1/curriculum/my-class-schedule"),
+                ("GET", "/api/v1/curriculum/my-progress"),
             }:
                 continue
             # Idempotent by design: no token means nothing to delete, so it
@@ -1390,6 +1396,132 @@ def test_full_boot_rescheduling(tmp_path, monkeypatch):
             headers=principal_auth,
         ).json()
         assert any(e["mode"] == "push" and e["reason"] == "Unplanned closure" for e in pushed_history)
+
+
+def test_full_boot_student_visibility(tmp_path, monkeypatch):
+    """§18 through the live API: a student self-registers (role="student"),
+    a principal enrolls them into a real grade, and the student's own
+    read-only /my-class-schedule and /my-progress reflect the real class
+    schedule -- with a reduced, no-note, no-management-controls subset.
+    Also proves a student cannot write anything (mark completion, seed,
+    etc.) and cross-school/unenrolled honesty."""
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        principal_auth = {"Authorization": f"Bearer {principal['token']}"}
+
+        teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Teacher", "email": "teacher@example.com",
+            "password": "correct horse battery",
+        }).json()
+        teacher_auth = {"Authorization": f"Bearer {teacher['token']}"}
+
+        # -- real student self-registration (role="student")
+        student = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Student", "email": "student@example.com",
+            "password": "correct horse battery", "role": "student",
+        }).json()
+        assert student["user"]["role"] == "student"
+        student_auth = {"Authorization": f"Bearer {student['token']}"}
+
+        seeded = client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-03-31"},
+            headers=principal_auth,
+        ).json()
+        academic_year_id = seeded["academicYearId"]
+        grade_id = seeded["gradeId"]
+        science = next(s for s in client.get(f"/api/v1/curriculum/grades/{grade_id}/subjects").json()
+                       if s["name"] == "Science")
+        book_id = client.get(f"/api/v1/curriculum/subjects/{science['id']}/books").json()[0]["id"]
+        chapter_id = client.get(f"/api/v1/curriculum/books/{book_id}/chapters").json()[0]["id"]
+
+        # -- before enrollment: honestly empty/404, not someone else's data
+        assert client.get("/api/v1/curriculum/my-class-schedule",
+                          params={"start_date": "2026-06-01", "end_date": "2027-03-31"},
+                          headers=student_auth).status_code == 404
+
+        # -- a teacher can't enroll a student (principal-gated)
+        assert client.post("/api/v1/curriculum/student-enrollments",
+                           json={"studentId": student["user"]["id"], "gradeId": grade_id},
+                           headers=teacher_auth).status_code == 403
+
+        # -- real enrollment
+        enroll = client.post("/api/v1/curriculum/student-enrollments",
+                             json={"studentId": student["user"]["id"], "gradeId": grade_id},
+                             headers=principal_auth)
+        assert enroll.status_code == 200, enroll.text
+
+        # -- build a real, dated, partially-completed schedule
+        client.post("/api/v1/curriculum/teacher-assignments",
+                   json={"teacherId": teacher["user"]["id"], "bookId": book_id}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar",
+                   json={"weeklyOffDays": ["sunday"]}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration",
+                   json={"periodMinutes": 40}, headers=principal_auth)
+        topic = client.post(f"/api/v1/curriculum/chapters/{chapter_id}/topics",
+                            json={"name": "Real Topic"}, headers=principal_auth).json()
+        client.post(f"/api/v1/curriculum/topics/{topic['id']}/subtopics",
+                   json={"name": "Real Subtopic"}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/books/{book_id}/teaching-time-estimates",
+                   params={"academic_year_id": academic_year_id},
+                   json={"periodsPerWeek": 6}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/books/{book_id}/schedule",
+                   params={"academic_year_id": academic_year_id}, json={"periodsPerWeek": 6},
+                   headers=principal_auth)
+        first_lesson = client.get(
+            "/api/v1/curriculum/my-schedule", params={"start_date": "2026-06-01", "end_date": "2027-03-31"},
+            headers=teacher_auth,
+        ).json()[0]
+        client.patch(f"/api/v1/curriculum/scheduled-lessons/{first_lesson['lessonId']}",
+                     json={"status": "completed", "note": "private teacher note"}, headers=teacher_auth)
+
+        # -- unauthenticated caller can't read anything
+        assert client.get("/api/v1/curriculum/my-class-schedule",
+                          params={"start_date": "2026-06-01", "end_date": "2027-03-31"}).status_code == 401
+
+        # -- the enrolled student's real, reduced-subset class schedule
+        mine = client.get("/api/v1/curriculum/my-class-schedule",
+                          params={"start_date": "2026-06-01", "end_date": "2027-03-31"},
+                          headers=student_auth)
+        assert mine.status_code == 200, mine.text
+        entries = mine.json()
+        assert len(entries) >= 1
+        assert any(e["status"] == "completed" for e in entries)
+        # reduced subset: no note, no completedBy field leaks the teacher's
+        # private remark to the student
+        for e in entries:
+            assert "note" not in e
+            assert "completedBy" not in e
+            assert e["subjectName"] == "Science"
+
+        # -- real progress rollup
+        progress = client.get("/api/v1/curriculum/my-progress",
+                              params={"academic_year_id": academic_year_id}, headers=student_auth)
+        assert progress.status_code == 200, progress.text
+        science_progress = next(s for s in progress.json()["subjects"] if s["subjectName"] == "Science")
+        assert science_progress["completedCount"] >= 1
+        assert science_progress["totalCount"] >= science_progress["completedCount"]
+
+        # -- a student cannot mark lesson completion (no management controls)
+        assert client.patch(
+            f"/api/v1/curriculum/scheduled-lessons/{first_lesson['lessonId']}",
+            json={"status": "skipped"}, headers=student_auth,
+        ).status_code == 403
+
+        # -- a different school's student sees nothing (school-scoped) and
+        # an unenrolled student gets an honest 404, not another class's data
+        other_student = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other Student", "email": "other-student@example.com",
+            "password": "correct horse battery", "role": "student",
+        }).json()
+        other_student_auth = {"Authorization": f"Bearer {other_student['token']}"}
+        assert client.get("/api/v1/curriculum/my-class-schedule",
+                          params={"start_date": "2026-06-01", "end_date": "2027-03-31"},
+                          headers=other_student_auth).status_code == 404
 
 
 class _FakeLLMForRoutes:

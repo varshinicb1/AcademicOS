@@ -139,3 +139,45 @@ def test_session_create_lookup_and_delete(store_no_key):
 
 def test_session_lookup_unknown_token_returns_none(store_no_key):
     assert store_no_key.user_for_session("not-a-real-token") is None
+
+
+# --------------------------------------------------------------------- #
+# student self-registration (§18 -- student visibility)
+# --------------------------------------------------------------------- #
+
+def test_default_registration_is_still_teacher(store_no_key):
+    """No requested_role given -- unchanged prior behavior, no regression."""
+    user = store_no_key.register(school_id="s1", name="A", email="a@example.com", password="password123")
+    assert user.role == "teacher"
+
+
+def test_requested_role_student_is_honored(store_no_key):
+    user = store_no_key.register(school_id="s1", name="Stu", email="stu@example.com",
+                                 password="password123", requested_role="student")
+    assert user.role == "student"
+
+
+def test_requested_role_student_cannot_be_escalated_by_a_bogus_principal_key(store_no_key):
+    """Even with a (wrong, since no key is configured) principal_key
+    supplied alongside requested_role="student", nobody becomes principal --
+    same real security property test_no_bootstrap_key_configured_nobody_ever_becomes_principal
+    already covers, re-checked with the new field present."""
+    user = store_no_key.register(school_id="s1", name="Stu", email="stu2@example.com",
+                                 password="password123", requested_role="student", principal_key="anything")
+    assert user.role == "student"  # not "principal" -- the bogus key changes nothing
+
+
+def test_a_real_principal_key_wins_over_requested_role_student(store_with_key):
+    """A valid principal_key always grants "principal" regardless of what
+    requested_role asked for -- the key is authoritative, not the self-
+    selected role."""
+    user = store_with_key.register(school_id="s1", name="Stu", email="stu3@example.com",
+                                   password="password123", requested_role="student",
+                                   principal_key="the-real-secret")
+    assert user.role == "principal"
+
+
+def test_invalid_requested_role_is_rejected(store_no_key):
+    with pytest.raises(ValueError):
+        store_no_key.register(school_id="s1", name="X", email="x@example.com",
+                              password="password123", requested_role="admin")

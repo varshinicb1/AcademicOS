@@ -80,7 +80,7 @@ class User:
     school_id: str
     name: str
     email: str
-    role: str  # "teacher" | "principal"
+    role: str  # "teacher" | "principal" | "student"
     created_at: str
 
 
@@ -110,12 +110,18 @@ class UserStore:
     # ---------------- registration / login ----------------
 
     def register(self, *, school_id: str, name: str, email: str, password: str,
-                principal_key: Optional[str] = None) -> User:
+                principal_key: Optional[str] = None, requested_role: str = "teacher") -> User:
         email = email.strip().lower()
         if self.get_by_email(email) is not None:
             raise EmailAlreadyRegistered(email)
+        if requested_role not in ("teacher", "student"):
+            raise ValueError(f"invalid requested_role: {requested_role!r} (must be 'teacher' or 'student')")
 
-        role = "principal" if self._valid_principal_key(principal_key) else "teacher"
+        # "principal" is never something a caller can request directly --
+        # it's granted only by a valid principal_key, same as before this
+        # role field existed. requested_role only chooses between the two
+        # roles a caller is actually allowed to self-select.
+        role = "principal" if self._valid_principal_key(principal_key) else requested_role
         salt = secrets.token_bytes(16)
         user_id = f"user_{uuid.uuid4().hex[:12]}"
         created_at = datetime.now(timezone.utc).isoformat()
