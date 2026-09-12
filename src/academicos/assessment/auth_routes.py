@@ -146,3 +146,18 @@ def require_principal(current: User = Depends(get_current_user)) -> User:
 @router.get("/me", response_model=UserResponse)
 def me(current: User = Depends(get_current_user)) -> UserResponse:
     return _to_response(current)
+
+
+@router.get("/users", response_model=list[UserResponse])
+def list_school_users(role: Optional[str] = None,
+                      principal: User = Depends(require_principal)) -> list[UserResponse]:
+    """The real roster an admin UI needs to assign a teacher to a book or
+    enroll a student in a class -- without a name-searchable list, those
+    actions would require already knowing a raw user id. Principal-gated
+    and scoped to the caller's own school_id (never a query parameter),
+    same posture as every other per-school administrative read in this
+    codebase."""
+    if role is not None and role not in ("teacher", "principal", "student"):
+        raise HTTPException(400, f"invalid role filter: {role!r}")
+    users = _require().users_for_school(principal.school_id, role=role)
+    return [_to_response(u) for u in users]

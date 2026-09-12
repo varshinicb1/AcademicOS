@@ -181,3 +181,29 @@ def test_invalid_requested_role_is_rejected(store_no_key):
     with pytest.raises(ValueError):
         store_no_key.register(school_id="s1", name="X", email="x@example.com",
                               password="password123", requested_role="admin")
+
+
+# --------------------------------------------------------------------- #
+# users_for_school -- the real roster an admin UI picks from
+# --------------------------------------------------------------------- #
+
+def test_users_for_school_returns_only_that_schools_users(store_no_key):
+    _register(store_no_key, school="s1", email="a@example.com")
+    _register(store_no_key, school="s1", email="b@example.com")
+    _register(store_no_key, school="s2", email="c@example.com")
+    roster = store_no_key.users_for_school("s1")
+    assert {u.email for u in roster} == {"a@example.com", "b@example.com"}
+
+
+def test_users_for_school_filters_by_role(store_no_key):
+    store_no_key.register(school_id="s1", name="T", email="t@example.com", password="password123")
+    store_no_key.register(school_id="s1", name="S", email="s@example.com", password="password123",
+                          requested_role="student")
+    teachers = store_no_key.users_for_school("s1", role="teacher")
+    students = store_no_key.users_for_school("s1", role="student")
+    assert [u.email for u in teachers] == ["t@example.com"]
+    assert [u.email for u in students] == ["s@example.com"]
+
+
+def test_users_for_school_empty_school_returns_empty_list(store_no_key):
+    assert store_no_key.users_for_school("nobody_here") == []

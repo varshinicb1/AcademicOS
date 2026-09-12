@@ -107,6 +107,32 @@ class AcademicYearSummary {
         endDate = j['endDate'] as String;
 }
 
+/// Just enough of Grade/Subject/Book to populate the admin picker
+/// dropdowns -- the same real curriculum hierarchy every other screen
+/// this session built reads, not a separate representation.
+class GradeSummary {
+  final String id;
+  final int number;
+  final String? section;
+  GradeSummary.fromJson(Map<String, dynamic> j)
+      : id = j['id'] as String, number = j['number'] as int, section = j['section'] as String?;
+  String get label => section == null ? 'Grade $number' : 'Grade $number$section';
+}
+
+class SubjectSummary {
+  final String id;
+  final String name;
+  SubjectSummary.fromJson(Map<String, dynamic> j) : id = j['id'] as String, name = j['name'] as String;
+}
+
+class BookSummary {
+  final String id;
+  final String subjectId;
+  final String title;
+  BookSummary.fromJson(Map<String, dynamic> j)
+      : id = j['id'] as String, subjectId = j['subjectId'] as String, title = j['title'] as String;
+}
+
 class CurriculumApi {
   final Dio _dio;
   CurriculumApi(this._dio);
@@ -117,6 +143,33 @@ class CurriculumApi {
   Future<List<AcademicYearSummary>> academicYears(String schoolId) async {
     final r = await _dio.get('/curriculum/academic-years', queryParameters: {'school_id': schoolId});
     return (r.data as List).map((e) => AcademicYearSummary.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  Future<List<GradeSummary>> grades(String academicYearId) async {
+    final r = await _dio.get('/curriculum/academic-years/$academicYearId/grades');
+    return (r.data as List).map((e) => GradeSummary.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  Future<List<SubjectSummary>> subjects(String gradeId) async {
+    final r = await _dio.get('/curriculum/grades/$gradeId/subjects');
+    return (r.data as List).map((e) => SubjectSummary.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  Future<List<BookSummary>> books(String subjectId) async {
+    final r = await _dio.get('/curriculum/subjects/$subjectId/books');
+    return (r.data as List).map((e) => BookSummary.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  /// §15's missing link: which teacher teaches which real book.
+  /// Principal-gated server-side.
+  Future<void> assignTeacher({required String teacherId, required String bookId}) async {
+    await _dio.post('/curriculum/teacher-assignments', data: {'teacherId': teacherId, 'bookId': bookId});
+  }
+
+  /// §18's missing link: which real class a student belongs to.
+  /// Principal-gated server-side.
+  Future<void> enrollStudent({required String studentId, required String gradeId}) async {
+    await _dio.post('/curriculum/student-enrollments', data: {'studentId': studentId, 'gradeId': gradeId});
   }
 
   /// `startDate`/`endDate` are ISO dates (yyyy-MM-dd), inclusive -- pass the

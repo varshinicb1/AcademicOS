@@ -56,6 +56,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/auth/login"),
     ("POST", "/api/v1/auth/logout"),
     ("GET", "/api/v1/auth/me"),
+    ("GET", "/api/v1/auth/users"),
     # --- pillar_routes.py (syllabus, grading, insights) ---
     ("GET", "/api/v1/schools/{school_id}/school-templates"),
     ("POST", "/api/v1/schools/{school_id}/school-templates"),
@@ -312,7 +313,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 101
+    assert len(API_ROUTES) == 102
 
 
 def test_docs_routes_present():
@@ -406,6 +407,7 @@ def test_gated_routes_return_503_without_startup():
             # exercised in the full-boot group instead.
             if (method, path) in {
                 ("GET", "/api/v1/auth/me"),
+                ("GET", "/api/v1/auth/users"),
                 ("PATCH", "/api/v1/assessments/{assessment_id}/approve"),
                 ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/review/{question_id}"),
                 ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/finalize"),
@@ -693,6 +695,52 @@ def test_full_boot_auth_and_principal_approval(tmp_path, monkeypatch):
         ).status_code == 401
         # logout with no/garbage token is a safe no-op, not an error
         assert client.post("/api/v1/auth/logout").status_code == 200
+
+
+def test_full_boot_school_roster(tmp_path, monkeypatch):
+    """GET /auth/users -- the real roster an admin UI picks a teacher or
+    student from. Principal-gated, school-scoped by the caller's own
+    token, filterable by role."""
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        principal_auth = {"Authorization": f"Bearer {principal['token']}"}
+        client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "A Teacher", "email": "at@example.com",
+            "password": "correct horse battery",
+        })
+        client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "A Student", "email": "as@example.com",
+            "password": "correct horse battery", "role": "student",
+        })
+        client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other School Teacher", "email": "ost@example.com",
+            "password": "correct horse battery",
+        })
+
+        # -- a non-principal can't list the roster
+        teacher_token = client.post("/api/v1/auth/login", json={
+            "email": "at@example.com", "password": "correct horse battery",
+        }).json()["token"]
+        assert client.get("/api/v1/auth/users",
+                          headers={"Authorization": f"Bearer {teacher_token}"}).status_code == 403
+
+        # -- the principal's own roster, school-scoped -- never the other school's teacher
+        all_users = client.get("/api/v1/auth/users", headers=principal_auth)
+        assert all_users.status_code == 200
+        names = {u["name"] for u in all_users.json()}
+        assert names == {"Principal", "A Teacher", "A Student"}
+
+        # -- role filter
+        students = client.get("/api/v1/auth/users", params={"role": "student"}, headers=principal_auth)
+        assert [u["name"] for u in students.json()] == ["A Student"]
+
+        # -- an invalid role filter is a real 400, not a silent empty list
+        assert client.get("/api/v1/auth/users", params={"role": "admin"},
+                          headers=principal_auth).status_code == 400
 
 
 def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):

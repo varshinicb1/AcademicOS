@@ -21,6 +21,7 @@ import '../../presentation/mobile_scan/pages/scan_history_page.dart';
 import '../../presentation/practice/pages/practice_session_page.dart';
 import '../../presentation/schedule/pages/my_schedule_page.dart';
 import '../../presentation/student/pages/student_schedule_page.dart';
+import '../../presentation/admin/pages/principal_admin_page.dart';
 import '../../presentation/settings/pages/settings_page.dart';
 import '../../presentation/settings/pages/template_maker_page.dart';
 import '../../presentation/settings/pages/profile_page.dart';
@@ -178,6 +179,11 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             pageBuilder: (context, state) => const NoTransitionPage(
               child: StudentSchedulePage(),
             ),
+          ),
+          GoRoute(
+            path: '/admin',
+            name: 'principal-admin',
+            builder: (context, state) => const PrincipalAdminPage(),
           ),
           GoRoute(
             path: '/scan',

@@ -98,6 +98,15 @@ class AuthApi {
     return AuthUser.fromJson(Map<String, dynamic>.from(r.data));
   }
 
+  /// The real roster an admin picks a teacher/student from -- principal-
+  /// gated and school-scoped server-side by the caller's own token.
+  /// `role` filters to "teacher" | "principal" | "student"; omit for
+  /// everyone at the school.
+  Future<List<AuthUser>> usersForSchool({String? role}) async {
+    final r = await _dio.get('/auth/users', queryParameters: {if (role != null) 'role': role});
+    return (r.data as List).map((e) => AuthUser.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
   AuthException _asAuthException(DioException e) {
     final status = e.response?.statusCode;
     final detail = e.response?.data is Map ? (e.response?.data['detail'] as String?) : null;

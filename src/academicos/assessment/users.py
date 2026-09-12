@@ -206,6 +206,23 @@ class UserStore:
         raw = self._raw_by_email(email.strip().lower())
         return _row_to_user(raw) if raw else None
 
+    def users_for_school(self, school_id: str, *, role: Optional[str] = None) -> list[User]:
+        """The real roster a principal picks from when assigning a teacher
+        to a book or enrolling a student in a class -- without this, those
+        actions require already knowing a raw user id, which no real UI
+        can ask a principal to type in by hand."""
+        if self._remote.enabled:
+            rows = self._remote.select(school_id=school_id, **({"role": role} if role else {}))
+            return [_row_to_user(r) for r in rows]
+        if role:
+            rows = self.conn.execute(
+                "SELECT * FROM users WHERE school_id=? AND role=? ORDER BY name",
+                (school_id, role)).fetchall()
+        else:
+            rows = self.conn.execute(
+                "SELECT * FROM users WHERE school_id=? ORDER BY name", (school_id,)).fetchall()
+        return [_row_to_user(dict(r)) for r in rows]
+
     def _raw_by_email(self, email: str) -> Optional[dict]:
         if self._remote.enabled:
             rows = self._remote.select(email=email)
