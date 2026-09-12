@@ -29,6 +29,7 @@ on:
       - 'pyproject.toml'
       - 'config/**'
       - 'src/academicos/**'
+      - 'academicos-data/syllabus/**'
   workflow_dispatch: {}
 
 jobs:
@@ -106,6 +107,13 @@ jobs:
           mkdir -p backend-deploy/src/academicos
           cp -r src/academicos/. backend-deploy/src/academicos/
           find backend-deploy/src/academicos -name "__pycache__" -type d -exec rm -rf {} + 2>/dev/null || true
+          # Real, hand-verified CBSE syllabus data (syllabus/cbse_syllabus.py
+          # resolves this at Path(__file__).parents[3]/academicos-data/syllabus,
+          # i.e. repo-root-relative) -- without it the deployed backend seeds
+          # zero subjects and /api/v1/syllabus/* 404s, exactly what the test
+          # gate above now catches before ever reaching this step.
+          mkdir -p backend-deploy/academicos-data/syllabus
+          cp academicos-data/syllabus/*.json backend-deploy/academicos-data/syllabus/
 
       - name: Commit and push if changed
         id: push

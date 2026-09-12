@@ -41,8 +41,16 @@ htmlcov/
 .DS_Store
 Thumbs.db
 
-# Data directories (large generated/derived artifacts, not source)
-academicos-data/
+# Data directories (large generated/derived artifacts, not source) --
+# academicos-data/ is ~9GB of parsed docs, indexes, scan sessions, sqlite
+# DBs, etc. EXCEPT academicos-data/syllabus/*.json: real, hand-verified
+# CBSE Class X curriculum data (syllabus/cbse_syllabus.py's own module
+# docstring), tiny (~5KB total), and load-bearing -- every curriculum
+# seed/extraction/scheduling path depends on it. Excluding it here broke
+# CI and the deployed backend silently (subjects_seeded=0, /syllabus/*
+# 404s) until caught by the deploy pipeline's own test gate.
+academicos-data/*
+!academicos-data/syllabus/
 docs/research/
 
 # Large build artifacts / distributables (not source, don't belong in git)
