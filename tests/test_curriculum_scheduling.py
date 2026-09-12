@@ -16,6 +16,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from academicos.assessment.audit_log import AuditLog
 from academicos.curriculum import calendar as calendar_mod
 from academicos.curriculum import scheduling as scheduling_mod
 from academicos.curriculum.store import CurriculumStore
@@ -26,6 +27,11 @@ def store(tmp_path):
     s = CurriculumStore(tmp_path / "curriculum.sqlite")
     yield s
     s.close()
+
+
+@pytest.fixture
+def audit_log(tmp_path):
+    return AuditLog(tmp_path / "audit.sqlite")
 
 
 def _seed_schedulable_book(store, *, school_id="school_1", n_subtopics_a=3, n_subtopics_b=2,
@@ -174,3 +180,188 @@ def test_schedule_respects_alternate_saturday_and_holidays(store):
     assert "2026-09-06" not in scheduled_dates   # a Sunday
     assert "2026-09-12" not in scheduled_dates   # 2nd Saturday
     assert "2026-09-26" not in scheduled_dates   # 4th Saturday
+
+
+# --------------------------------------------------------------------- #
+# rescheduling on disruption -- §14: PUSH / ADJUST + audit trail
+# --------------------------------------------------------------------- #
+
+def test_adjust_lesson_moves_to_a_real_working_day(store, audit_log):
+    book_id, year_id = _seed_schedulable_book(store)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
+                                 book_id=book_id, periods_per_week=6)
+    lesson = store.scheduled_lessons_for_book(year_id, book_id)[0]
+    old_date = lesson.date
+
+    # A real, later working day for this calendar -- Monday of the
+    # following week (2026-06-01 is a Monday, so this is 2026-06-08).
+    result = scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lesson.id, new_date="2026-06-08",
+                                          reason="Teacher requested swap", changed_by="teacher_1")
+    assert result.old_date == old_date
+    assert result.new_date == "2026-06-08"
+    assert result.mode == "adjust"
+    assert store.get_scheduled_lesson(lesson.id).date == "2026-06-08"
+
+
+def test_adjust_lesson_rejects_a_non_working_day(store, audit_log):
+    book_id, year_id = _seed_schedulable_book(store)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
+                                 book_id=book_id, periods_per_week=6)
+    lesson = store.scheduled_lessons_for_book(year_id, book_id)[0]
+
+    # 2026-06-07 is a Sunday -- a real weekly off day for this calendar.
+    with pytest.raises(ValueError, match="not a real working day"):
+        scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lesson.id, new_date="2026-06-07",
+                                     reason="oops", changed_by="teacher_1")
+    # rejected -- the real row is untouched
+    assert store.get_scheduled_lesson(lesson.id).date != "2026-06-07"
+
+
+def test_adjust_lesson_unknown_id_raises(store, audit_log):
+    with pytest.raises(ValueError, match="no such scheduled lesson"):
+        scheduling_mod.adjust_lesson(store, audit_log, lesson_id="not_real", new_date="2026-06-08",
+                                     reason="x", changed_by="teacher_1")
+
+
+def test_adjust_lesson_writes_a_real_audit_entry(store, audit_log):
+    book_id, year_id = _seed_schedulable_book(store)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
+                                 book_id=book_id, periods_per_week=6)
+    lesson = store.scheduled_lessons_for_book(year_id, book_id)[0]
+    old_date = lesson.date
+
+    scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lesson.id, new_date="2026-06-08",
+                                 reason="Assembly conflict", changed_by="teacher_1")
+
+    history = scheduling_mod.reschedule_history_for_lesson(audit_log, lesson.id)
+    assert len(history) == 1
+    entry = history[0]
+    assert entry["actor"] == "teacher_1"
+    assert entry["details"]["old_date"] == old_date
+    assert entry["details"]["new_date"] == "2026-06-08"
+    assert entry["details"]["reason"] == "Assembly conflict"
+    assert entry["details"]["mode"] == "adjust"
+    assert entry["timestamp"]
+
+
+def test_reschedule_history_only_returns_entries_for_that_lesson(store, audit_log):
+    book_id, year_id = _seed_schedulable_book(store)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
+                                 book_id=book_id, periods_per_week=6)
+    lessons = store.scheduled_lessons_for_book(year_id, book_id)
+    scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lessons[0].id, new_date="2026-06-08",
+                                 reason="a", changed_by="t1")
+    scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lessons[1].id, new_date="2026-06-09",
+                                 reason="b", changed_by="t1")
+
+    history = scheduling_mod.reschedule_history_for_lesson(audit_log, lessons[0].id)
+    assert len(history) == 1
+    assert history[0]["details"]["lesson_id"] == lessons[0].id
+
+
+def test_push_lessons_after_shifts_the_affected_tail_forward(store, audit_log):
+    book_id, year_id = _seed_schedulable_book(store)
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
+                                          book_id=book_id, periods_per_week=6)
+    lessons_before = store.scheduled_lessons_for_book(year_id, book_id)
+    assert len(lessons_before) == result.lessons_created
+
+    # Push everything from the very first lesson's date onward.
+    from_date = lessons_before[0].date
+    push = scheduling_mod.push_lessons_after(
+        store, audit_log, academic_year_id=year_id, book_id=book_id, from_date=from_date,
+        periods_per_week=6, reason="Unplanned school closure", changed_by="principal_1")
+
+    assert push.lessons_pushed + len(push.lessons_dropped) == len(lessons_before)
+    assert push.lessons_pushed > 0
+
+    lessons_after = store.scheduled_lessons_for_book(year_id, book_id)
+    # Every real lesson that got pushed now falls strictly after its own
+    # original date -- nothing moved backward.
+    before_by_id = {l.id: l.date for l in lessons_before}
+    moved = 0
+    for l in lessons_after:
+        if l.id in before_by_id and l.date != before_by_id[l.id]:
+            assert l.date > before_by_id[l.id]
+            moved += 1
+    assert moved == push.lessons_pushed
+
+    # Relative order is preserved -- no two pushed lessons swapped places.
+    pushed_ids = {r.lesson_id for r in push.reschedules}
+    pushed_lessons_after = sorted(
+        (l for l in lessons_after if l.id in pushed_ids), key=lambda l: l.date)
+    pushed_lessons_before = sorted(
+        (l for l in lessons_before if l.id in pushed_ids), key=lambda l: l.date)
+    assert [l.id for l in pushed_lessons_after] == [l.id for l in pushed_lessons_before]
+
+
+def test_push_lessons_after_leaves_earlier_lessons_untouched(store, audit_log):
+    book_id, year_id = _seed_schedulable_book(store)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
+                                 book_id=book_id, periods_per_week=6)
+    lessons_before = store.scheduled_lessons_for_book(year_id, book_id)
+    # Push from the date of the 3rd lesson onward -- the first two must
+    # not move.
+    from_date = lessons_before[2].date
+    untouched_ids = {l.id for l in lessons_before[:2]}
+
+    scheduling_mod.push_lessons_after(
+        store, audit_log, academic_year_id=year_id, book_id=book_id, from_date=from_date,
+        periods_per_week=6, reason="disruption", changed_by="principal_1")
+
+    lessons_after = {l.id: l.date for l in store.scheduled_lessons_for_book(year_id, book_id)}
+    for l in lessons_before[:2]:
+        assert lessons_after[l.id] == l.date
+    assert lessons_before[2].id not in untouched_ids  # sanity on the test itself
+
+
+def test_push_lessons_after_reports_no_op_when_nothing_is_affected(store, audit_log):
+    book_id, year_id = _seed_schedulable_book(store)
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
+                                          book_id=book_id, periods_per_week=6)
+    # A real date strictly after every real lesson in this small book's schedule.
+    from datetime import date, timedelta
+    after_last = (date.fromisoformat(result.last_scheduled_date) + timedelta(days=1)).isoformat()
+    push = scheduling_mod.push_lessons_after(
+        store, audit_log, academic_year_id=year_id, book_id=book_id, from_date=after_last,
+        periods_per_week=6, reason="x", changed_by="principal_1")
+    assert push.lessons_pushed == 0
+    assert push.lessons_dropped == ()
+    assert push.reschedules == ()
+
+
+def test_push_lessons_after_drops_lessons_that_would_fall_off_the_calendar(store, audit_log):
+    # A deliberately tiny academic year so pushing the whole book off the
+    # very first day runs out of real teaching days immediately.
+    book_id, year_id = _seed_schedulable_book(
+        store, start_date="2026-06-01", end_date="2026-06-14")
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
+                                 book_id=book_id, periods_per_week=6)
+    lessons_before = store.scheduled_lessons_for_book(year_id, book_id)
+
+    push = scheduling_mod.push_lessons_after(
+        store, audit_log, academic_year_id=year_id, book_id=book_id, from_date=lessons_before[0].date,
+        periods_per_week=6, reason="disruption", changed_by="principal_1")
+
+    assert push.lessons_pushed + len(push.lessons_dropped) == len(lessons_before)
+    assert len(push.lessons_dropped) > 0   # a 2-week year genuinely can't absorb a full push
+    for lesson_id in push.lessons_dropped:
+        assert lesson_id not in {r.lesson_id for r in push.reschedules}
+
+
+def test_push_lessons_after_writes_one_audit_entry_per_pushed_lesson(store, audit_log):
+    book_id, year_id = _seed_schedulable_book(store)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
+                                 book_id=book_id, periods_per_week=6)
+    lessons_before = store.scheduled_lessons_for_book(year_id, book_id)
+
+    push = scheduling_mod.push_lessons_after(
+        store, audit_log, academic_year_id=year_id, book_id=book_id, from_date=lessons_before[0].date,
+        periods_per_week=6, reason="Sudden closure", changed_by="principal_1")
+
+    for r in push.reschedules:
+        history = scheduling_mod.reschedule_history_for_lesson(audit_log, r.lesson_id)
+        assert len(history) == 1
+        assert history[0]["details"]["mode"] == "push"
+        assert history[0]["details"]["reason"] == "Sudden closure"
+        assert history[0]["actor"] == "principal_1"

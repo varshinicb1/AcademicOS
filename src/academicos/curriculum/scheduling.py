@@ -16,6 +16,7 @@ from dataclasses import dataclass
 from datetime import date
 from typing import Optional
 
+from ..assessment.audit_log import AuditLog
 from .calendar import working_days_for_year
 from .store import CurriculumStore
 
@@ -144,3 +145,139 @@ def schedule_book(
         subtopics_without_estimate=tuple(without_estimate),
         first_scheduled_date=first_date, last_scheduled_date=last_date,
     )
+
+
+# --------------------------------------------------------------------- #
+# Rescheduling on disruption -- §14: PUSH / ADJUST, with a real audit
+# trail (old date, new date, reason, changed-by, timestamp). Reuses the
+# existing, real, general-purpose assessment audit log
+# (assessment/audit_log.py) rather than a parallel mechanism -- exactly
+# the reuse docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md's §14 row called for.
+# --------------------------------------------------------------------- #
+
+RESCHEDULE_ACTION = "curriculum_lesson_rescheduled"
+
+
+@dataclass(frozen=True)
+class RescheduleResult:
+    lesson_id: str
+    subtopic_id: str
+    old_date: str
+    new_date: str
+    reason: str
+    mode: str   # "adjust" | "push"
+
+
+def _log_reschedule(audit_log: AuditLog, *, lesson, new_date: str, reason: str, mode: str,
+                    changed_by: str) -> RescheduleResult:
+    old_date = lesson.date
+    audit_log.append(
+        RESCHEDULE_ACTION, actor=changed_by,
+        details={
+            "lesson_id": lesson.id, "book_id": lesson.book_id,
+            "academic_year_id": lesson.academic_year_id, "subtopic_id": lesson.subtopic_id,
+            "mode": mode, "old_date": old_date, "new_date": new_date, "reason": reason,
+        },
+    )
+    return RescheduleResult(lesson_id=lesson.id, subtopic_id=lesson.subtopic_id, old_date=old_date,
+                            new_date=new_date, reason=reason, mode=mode)
+
+
+def adjust_lesson(
+    store: CurriculumStore, audit_log: AuditLog, *, lesson_id: str, new_date: str, reason: str,
+    changed_by: str,
+) -> RescheduleResult:
+    """ADJUST: move exactly one lesson to a specific new real working day
+    -- e.g. swapping two lessons' order, or fixing a one-off conflict.
+    Never touches any other lesson. `new_date` must be a real working day
+    for this lesson's academic year (never lets a lesson land on a real
+    holiday/weekly-off/alternate-Saturday)."""
+    lesson = store.get_scheduled_lesson(lesson_id)
+    if lesson is None:
+        raise ValueError(f"no such scheduled lesson: {lesson_id}")
+    wd = working_days_for_year(store, lesson.academic_year_id)
+    if new_date not in wd.dates:
+        raise ValueError(f"{new_date} is not a real working day for this academic year")
+    store.reschedule_lesson_date(lesson_id, new_date=new_date)
+    return _log_reschedule(audit_log, lesson=lesson, new_date=new_date, reason=reason,
+                           mode="adjust", changed_by=changed_by)
+
+
+@dataclass(frozen=True)
+class PushResult:
+    academic_year_id: str
+    book_id: str
+    from_date: str
+    periods_per_week: int
+    lessons_pushed: int
+    lessons_dropped: tuple[str, ...]   # ran out of real teaching days before the year ends
+    reschedules: tuple[RescheduleResult, ...]
+
+
+def push_lessons_after(
+    store: CurriculumStore, audit_log: AuditLog, *, academic_year_id: str, book_id: str,
+    from_date: str, periods_per_week: int, reason: str, changed_by: str,
+) -> PushResult:
+    """PUSH: real disruption handling -- "today just became a holiday" (or
+    any other reason a slot at/after from_date is lost). Every lesson
+    currently dated on or after from_date shifts one real teaching slot
+    later, in order, using the same real calendar + weekday-selection rule
+    schedule_book() used originally.
+
+    `periods_per_week` must be supplied again -- this module deliberately
+    doesn't persist it (see schedule_book()'s docstring); pass the same
+    value the book was originally scheduled with, or the push will select
+    a different set of weekdays than the existing schedule used.
+
+    Lessons that run past the real academic year's last teaching day are
+    honestly reported in `lessons_dropped`, never silently discarded or
+    placed past the calendar's real end date."""
+    if periods_per_week <= 0:
+        raise ValueError("periods_per_week must be positive")
+
+    affected = sorted(
+        (l for l in store.scheduled_lessons_for_book(academic_year_id, book_id) if l.date >= from_date),
+        key=lambda l: l.date,
+    )
+    if not affected:
+        return PushResult(academic_year_id=academic_year_id, book_id=book_id, from_date=from_date,
+                          periods_per_week=periods_per_week, lessons_pushed=0, lessons_dropped=(),
+                          reschedules=())
+
+    wd = working_days_for_year(store, academic_year_id)
+    all_days = _subject_teaching_days([date.fromisoformat(s) for s in wd.dates], periods_per_week)
+    all_iso = [d.isoformat() for d in all_days]
+
+    try:
+        disruption_idx = next(i for i, d in enumerate(all_iso) if d >= from_date)
+    except StopIteration:
+        raise ValueError(
+            f"{from_date} is at or after the end of this academic year's real teaching days")
+
+    reschedules: list[RescheduleResult] = []
+    dropped: list[str] = []
+    slot = disruption_idx + 1   # skip one real slot for the disruption itself
+    for lesson in affected:
+        if slot >= len(all_iso):
+            dropped.append(lesson.id)
+            continue
+        new_date = all_iso[slot]
+        store.reschedule_lesson_date(lesson.id, new_date=new_date)
+        reschedules.append(_log_reschedule(audit_log, lesson=lesson, new_date=new_date, reason=reason,
+                                           mode="push", changed_by=changed_by))
+        slot += 1
+
+    return PushResult(academic_year_id=academic_year_id, book_id=book_id, from_date=from_date,
+                      periods_per_week=periods_per_week, lessons_pushed=len(reschedules),
+                      lessons_dropped=tuple(dropped), reschedules=tuple(reschedules))
+
+
+def reschedule_history_for_lesson(audit_log: AuditLog, lesson_id: str) -> list[dict]:
+    """Every real PUSH/ADJUST ever applied to this lesson, newest first --
+    reads through the same audit log the writes above went through, rather
+    than a parallel history table. `for_action` is a full-table scan of
+    this one action type (audit_log.py has no generic entity-scoped query
+    today) -- fine at this scale, a real limitation to revisit if the
+    audit log ever grows large enough to matter."""
+    entries = audit_log.for_action(RESCHEDULE_ACTION)
+    return [e for e in entries if e.get("details", {}).get("lesson_id") == lesson_id]

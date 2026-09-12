@@ -325,6 +325,47 @@ class MarkLessonRequest(Camel):
     note: Optional[str] = None
 
 
+# ---------------- rescheduling on disruption (§14) ----------------
+
+class AdjustLessonRequest(Camel):
+    new_date: str
+    reason: str = Field(min_length=1)
+
+
+class PushScheduleRequest(Camel):
+    from_date: str
+    periods_per_week: int = Field(gt=0)
+    reason: str = Field(min_length=1)
+
+
+class RescheduleResultResponse(Camel):
+    lesson_id: str
+    subtopic_id: str
+    old_date: str
+    new_date: str
+    reason: str
+    mode: str
+
+
+class PushScheduleResponse(Camel):
+    academic_year_id: str
+    book_id: str
+    from_date: str
+    periods_per_week: int
+    lessons_pushed: int
+    lessons_dropped: list[str]
+    reschedules: list[RescheduleResultResponse]
+
+
+class RescheduleHistoryEntryResponse(Camel):
+    timestamp: str
+    actor: Optional[str] = None
+    mode: str
+    old_date: str
+    new_date: str
+    reason: str
+
+
 # ---------------- teacher assignments + "what do I teach today" (§15) ----------------
 
 class AssignTeacherRequest(Camel):

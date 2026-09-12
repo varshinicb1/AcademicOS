@@ -847,6 +847,18 @@ class CurriculumStore:
         self.conn.commit()
         return self.get_scheduled_lesson(lesson_id)
 
+    def reschedule_lesson_date(self, lesson_id: str, *, new_date: str) -> Optional[ScheduledLesson]:
+        """§14: the one write PUSH/ADJUST ever make -- just the date.
+        Never touches status/note/completed_by, so a lesson already marked
+        completed and then legitimately moved (e.g. corrected after the
+        fact) keeps its completion record intact. The real audit trail
+        (old date, new date, reason, changed-by, timestamp) is the
+        caller's job (scheduling.py), via the existing assessment audit
+        log -- this store method only ever changes the one column."""
+        self.conn.execute("UPDATE scheduled_lessons SET date=? WHERE id=?", (new_date, lesson_id))
+        self.conn.commit()
+        return self.get_scheduled_lesson(lesson_id)
+
     def scheduled_lessons_for_book(self, academic_year_id: str, book_id: str) -> list[ScheduledLesson]:
         rows = self.conn.execute(
             "SELECT * FROM scheduled_lessons WHERE academic_year_id=? AND book_id=? ORDER BY date",

@@ -136,6 +136,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/teacher-assignments"),
     ("GET", "/api/v1/curriculum/my-schedule"),
     ("PATCH", "/api/v1/curriculum/scheduled-lessons/{lesson_id}"),
+    ("POST", "/api/v1/curriculum/scheduled-lessons/{lesson_id}/reschedule"),
+    ("POST", "/api/v1/curriculum/books/{book_id}/schedule/push"),
+    ("GET", "/api/v1/curriculum/scheduled-lessons/{lesson_id}/history"),
 })
 
 DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
@@ -306,7 +309,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 95
+    assert len(API_ROUTES) == 98
 
 
 def test_docs_routes_present():
@@ -427,6 +430,9 @@ def test_gated_routes_return_503_without_startup():
                 ("POST", "/api/v1/curriculum/teacher-assignments"),
                 ("GET", "/api/v1/curriculum/my-schedule"),
                 ("PATCH", "/api/v1/curriculum/scheduled-lessons/{lesson_id}"),
+                ("POST", "/api/v1/curriculum/scheduled-lessons/{lesson_id}/reschedule"),
+                ("POST", "/api/v1/curriculum/books/{book_id}/schedule/push"),
+                ("GET", "/api/v1/curriculum/scheduled-lessons/{lesson_id}/history"),
             }:
                 continue
             # Idempotent by design: no token means nothing to delete, so it
@@ -1250,6 +1256,140 @@ def test_full_boot_completion_tracking(tmp_path, monkeypatch):
             json={"status": "completed"},
             headers={"Authorization": f"Bearer {other_principal['token']}"},
         ).status_code == 403
+
+
+def test_full_boot_rescheduling(tmp_path, monkeypatch):
+    """§14 through the live API: a principal ADJUSTs one lesson to a new
+    real working day, then PUSHes a whole tail of the schedule for a
+    disruption -- both write a real audit trail readable back through
+    GET .../history, and both are refused to a non-principal or a
+    different school."""
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        principal_auth = {"Authorization": f"Bearer {principal['token']}"}
+
+        teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Teacher", "email": "teacher@example.com",
+            "password": "correct horse battery",
+        }).json()
+        teacher_auth = {"Authorization": f"Bearer {teacher['token']}"}
+
+        seeded = client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-03-31"},
+            headers=principal_auth,
+        ).json()
+        academic_year_id = seeded["academicYearId"]
+        grade_id = seeded["gradeId"]
+        science = next(s for s in client.get(f"/api/v1/curriculum/grades/{grade_id}/subjects").json()
+                       if s["name"] == "Science")
+        book_id = client.get(f"/api/v1/curriculum/subjects/{science['id']}/books").json()[0]["id"]
+        chapter_id = client.get(f"/api/v1/curriculum/books/{book_id}/chapters").json()[0]["id"]
+
+        client.post("/api/v1/curriculum/teacher-assignments",
+                   json={"teacherId": teacher["user"]["id"], "bookId": book_id}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar",
+                   json={"weeklyOffDays": ["sunday"]}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration",
+                   json={"periodMinutes": 40}, headers=principal_auth)
+        for i in range(3):
+            topic = client.post(f"/api/v1/curriculum/chapters/{chapter_id}/topics",
+                                json={"name": f"Topic {i}"}, headers=principal_auth).json()
+            client.post(f"/api/v1/curriculum/topics/{topic['id']}/subtopics",
+                       json={"name": f"Subtopic {i}"}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/books/{book_id}/teaching-time-estimates",
+                   params={"academic_year_id": academic_year_id},
+                   json={"periodsPerWeek": 6}, headers=principal_auth)
+        client.post(f"/api/v1/curriculum/books/{book_id}/schedule",
+                   params={"academic_year_id": academic_year_id}, json={"periodsPerWeek": 6},
+                   headers=principal_auth)
+
+        mine = client.get("/api/v1/curriculum/my-schedule",
+                          params={"start_date": "2026-06-01", "end_date": "2027-03-31"},
+                          headers=teacher_auth).json()
+        assert len(mine) >= 2
+        lesson_id = mine[0]["lessonId"]
+        old_date = mine[0]["date"]
+
+        # -- a teacher (non-principal) can't ADJUST
+        assert client.post(
+            f"/api/v1/curriculum/scheduled-lessons/{lesson_id}/reschedule",
+            json={"newDate": "2026-06-08", "reason": "swap"}, headers=teacher_auth,
+        ).status_code == 403
+
+        # -- rejecting a non-working day (a Sunday) with a real 422, not a 500
+        assert client.post(
+            f"/api/v1/curriculum/scheduled-lessons/{lesson_id}/reschedule",
+            json={"newDate": "2026-06-07", "reason": "oops"}, headers=principal_auth,
+        ).status_code == 422
+
+        # -- a real ADJUST
+        adjusted = client.post(
+            f"/api/v1/curriculum/scheduled-lessons/{lesson_id}/reschedule",
+            json={"newDate": "2026-06-08", "reason": "Assembly conflict"}, headers=principal_auth,
+        )
+        assert adjusted.status_code == 200, adjusted.text
+        assert adjusted.json()["date"] == "2026-06-08"
+
+        # -- the real audit trail is readable back -- old date, new date,
+        # reason, who, when -- through the live API, not just the store
+        history = client.get(f"/api/v1/curriculum/scheduled-lessons/{lesson_id}/history",
+                             headers=teacher_auth)
+        assert history.status_code == 200
+        h = history.json()
+        assert len(h) == 1
+        assert h[0]["oldDate"] == old_date
+        assert h[0]["newDate"] == "2026-06-08"
+        assert h[0]["reason"] == "Assembly conflict"
+        assert h[0]["mode"] == "adjust"
+        assert h[0]["actor"] == principal["user"]["id"]
+        assert h[0]["timestamp"]
+
+        # -- a different school can't read this lesson's history either
+        other_principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other Principal", "email": "other-p@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        other_auth = {"Authorization": f"Bearer {other_principal['token']}"}
+        assert client.get(f"/api/v1/curriculum/scheduled-lessons/{lesson_id}/history",
+                          headers=other_auth).status_code == 403
+        assert client.post(
+            f"/api/v1/curriculum/books/{book_id}/schedule/push",
+            params={"academic_year_id": academic_year_id},
+            json={"fromDate": "2026-06-01", "periodsPerWeek": 6, "reason": "x"}, headers=other_auth,
+        ).status_code == 403
+
+        # -- a real PUSH: disruption from the earliest remaining lesson's date
+        remaining = client.get(
+            f"/api/v1/curriculum/books/{book_id}/schedule",
+            params={"academic_year_id": academic_year_id}, headers=principal_auth,
+        ).json()
+        from_date = min(l["date"] for l in remaining)
+        pushed = client.post(
+            f"/api/v1/curriculum/books/{book_id}/schedule/push",
+            params={"academic_year_id": academic_year_id},
+            json={"fromDate": from_date, "periodsPerWeek": 6, "reason": "Unplanned closure"},
+            headers=principal_auth,
+        )
+        assert pushed.status_code == 200, pushed.text
+        push_body = pushed.json()
+        assert push_body["lessonsPushed"] > 0
+        for r in push_body["reschedules"]:
+            assert r["mode"] == "push"
+            assert r["newDate"] > r["oldDate"]
+
+        # -- each pushed lesson's own history reflects the push, with the
+        # right actor and reason, readable through the live API
+        one_pushed = push_body["reschedules"][0]
+        pushed_history = client.get(
+            f"/api/v1/curriculum/scheduled-lessons/{one_pushed['lessonId']}/history",
+            headers=principal_auth,
+        ).json()
+        assert any(e["mode"] == "push" and e["reason"] == "Unplanned closure" for e in pushed_history)
 
 
 class _FakeLLMForRoutes:

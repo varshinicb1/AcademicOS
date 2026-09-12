@@ -25,6 +25,7 @@ from .schemas import (
     AddHolidayRequest,
     AddSubtopicRequest,
     AddTopicRequest,
+    AdjustLessonRequest,
     ApproveRunRequest,
     ApproveRunResponse,
     AssignTeacherRequest,
@@ -44,9 +45,13 @@ from .schemas import (
     MyScheduleEntryResponse,
     PeriodConfigurationResponse,
     ProposalResponse,
+    PushScheduleRequest,
+    PushScheduleResponse,
     QuestionsForSubtopicsRequest,
     QuestionsForSubtopicsResponse,
     RenameRequest,
+    RescheduleHistoryEntryResponse,
+    RescheduleResultResponse,
     ScheduleBookRequest,
     ScheduleBookResponse,
     ScheduledLessonResponse,
@@ -758,3 +763,81 @@ def mark_lesson(lesson_id: str, req: MarkLessonRequest,
         raise HTTPException(403, "you are not assigned to teach this book")
     updated = store.mark_lesson(lesson_id, status=req.status, note=req.note, completed_by=current.id)
     return _lesson_response(updated)
+
+
+# ---------------- rescheduling on disruption: PUSH / ADJUST + audit trail (§14) ----------------
+# Principal-gated (unlike marking completion): a reschedule changes the
+# schedule every teacher/student relying on it sees, not a personal
+# "did I teach this" note -- a school-wide schedule-integrity action.
+
+
+@router.post("/scheduled-lessons/{lesson_id}/reschedule", response_model=ScheduledLessonResponse)
+def adjust_lesson(lesson_id: str, req: AdjustLessonRequest,
+                  principal: User = Depends(require_principal)) -> ScheduledLessonResponse:
+    """ADJUST: move exactly one lesson to a specific new real working day."""
+    store = _require()
+    lesson = store.get_scheduled_lesson(lesson_id)
+    if lesson is None:
+        raise HTTPException(404, "scheduled lesson not found")
+    if lesson.school_id != principal.school_id:
+        raise HTTPException(403, "this lesson belongs to a different school")
+    from ..assessment.audit_log import get_audit_log
+    try:
+        scheduling_mod.adjust_lesson(
+            store, get_audit_log(_cfg.data_root), lesson_id=lesson_id, new_date=req.new_date,
+            reason=req.reason, changed_by=principal.id)
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    return _lesson_response(store.get_scheduled_lesson(lesson_id))
+
+
+@router.post("/books/{book_id}/schedule/push", response_model=PushScheduleResponse)
+def push_schedule(book_id: str, academic_year_id: str, req: PushScheduleRequest,
+                  principal: User = Depends(require_principal)) -> PushScheduleResponse:
+    """PUSH: real disruption handling -- shifts every lesson on/after
+    `from_date` one real teaching slot later. See scheduling.py's
+    push_lessons_after() docstring for the full method, including why
+    `periods_per_week` must be supplied again."""
+    store = _require()
+    _require_school_owns_book(book_id, principal)
+    _require_school_owns_academic_year(academic_year_id, principal)
+    from ..assessment.audit_log import get_audit_log
+    try:
+        result = scheduling_mod.push_lessons_after(
+            store, get_audit_log(_cfg.data_root), academic_year_id=academic_year_id, book_id=book_id,
+            from_date=req.from_date, periods_per_week=req.periods_per_week, reason=req.reason,
+            changed_by=principal.id)
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    return PushScheduleResponse(
+        academic_year_id=result.academic_year_id, book_id=result.book_id, from_date=result.from_date,
+        periods_per_week=result.periods_per_week, lessons_pushed=result.lessons_pushed,
+        lessons_dropped=list(result.lessons_dropped),
+        reschedules=[RescheduleResultResponse(lesson_id=r.lesson_id, subtopic_id=r.subtopic_id,
+                                              old_date=r.old_date, new_date=r.new_date, reason=r.reason,
+                                              mode=r.mode)
+                    for r in result.reschedules])
+
+
+@router.get("/scheduled-lessons/{lesson_id}/history", response_model=list[RescheduleHistoryEntryResponse])
+def get_lesson_history(lesson_id: str,
+                       current: User = Depends(get_current_user)) -> list[RescheduleHistoryEntryResponse]:
+    """Every real PUSH/ADJUST ever applied to this lesson -- readable by
+    the assigned teacher or a same-school principal, same posture as
+    marking completion."""
+    store = _require()
+    lesson = store.get_scheduled_lesson(lesson_id)
+    if lesson is None:
+        raise HTTPException(404, "scheduled lesson not found")
+    if lesson.school_id != current.school_id:
+        raise HTTPException(403, "this lesson belongs to a different school")
+    is_assigned = lesson.book_id in {a.book_id for a in store.assignments_for_teacher(current.id)}
+    if current.role != "principal" and not is_assigned:
+        raise HTTPException(403, "you are not assigned to teach this book")
+    from ..assessment.audit_log import get_audit_log
+    entries = scheduling_mod.reschedule_history_for_lesson(get_audit_log(_cfg.data_root), lesson_id)
+    return [RescheduleHistoryEntryResponse(
+        timestamp=e["timestamp"], actor=e.get("actor"), mode=e["details"]["mode"],
+        old_date=e["details"]["old_date"], new_date=e["details"]["new_date"],
+        reason=e["details"]["reason"])
+        for e in entries]
