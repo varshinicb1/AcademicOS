@@ -12,8 +12,8 @@ import '../../shared/widgets/common_widgets.dart';
 /// build's equivalent is Settings > Profile (LocalStore.teacherName/
 /// teacherRole) -- see that page's docstring for why a single-device app
 /// gets a lighter-weight "who's using this device" concept instead of a
-/// real login, and users.py's docstring for the "first registrant per
-/// school becomes principal" bootstrap rule this register form relies on.
+/// real login, and users.py's docstring for how a school-issued principal
+/// key (not registration order) is what actually grants "principal".
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -27,6 +27,7 @@ class _LoginPageState extends State<LoginPage> {
   final _name = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _principalKey = TextEditingController();
   bool _registering = false;
   bool _submitting = false;
   bool _registeringAsStudent = false;
@@ -38,6 +39,7 @@ class _LoginPageState extends State<LoginPage> {
     _name.dispose();
     _email.dispose();
     _password.dispose();
+    _principalKey.dispose();
     super.dispose();
   }
 
@@ -54,6 +56,7 @@ class _LoginPageState extends State<LoginPage> {
               schoolId: _schoolId.text.trim(), name: _name.text.trim(),
               email: _email.text.trim(), password: _password.text,
               role: _registeringAsStudent ? 'student' : null,
+              principalKey: _principalKey.text.trim(),
             )
           : await api.login(email: _email.text.trim(), password: _password.text);
       LocalStore.instance.authToken = result.token;
@@ -99,8 +102,8 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Text(
                       _registering
-                          ? 'The first person to register for a school becomes its '
-                              'principal automatically; everyone after that is a teacher.'
+                          ? 'Register as a teacher or student. If your school gave you a '
+                              'principal key, enter it below to register as principal instead.'
                           : 'Sign in with the account you registered.',
                       style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
                     ),
@@ -126,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                       // §18: a student registers the same way, just marked
                       // as one -- the server never lets this (or any other
                       // client-supplied field) grant "principal", only a
-                      // real principal_key does that.
+                      // real principal_key does that (below).
                       SegmentedButton<bool>(
                         segments: const [
                           ButtonSegment(value: false, label: Text('Teacher')),
@@ -134,6 +137,15 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                         selected: {_registeringAsStudent},
                         onSelectionChanged: (sel) => setState(() => _registeringAsStudent = sel.first),
+                      ),
+                      const SizedBox(height: 12),
+                      TextFormField(
+                        controller: _principalKey,
+                        decoration: const InputDecoration(
+                          labelText: 'Principal key (optional)',
+                          helperText: 'Only if your school issued you one -- overrides the choice above.',
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                       const SizedBox(height: 12),
                     ],

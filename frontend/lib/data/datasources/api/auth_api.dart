@@ -62,11 +62,17 @@ class AuthApi {
     // principal_key, this field can't escalate to it (see
     // users.py::UserStore.register's docstring).
     String? role,
+    // A real school-issued key -- the only thing that can grant
+    // "principal" (see users.py::UserStore.register/_valid_principal_key).
+    // Overrides `role` server-side when it matches, regardless of what the
+    // caller picked there.
+    String? principalKey,
   }) async {
     try {
       final r = await _dio.post('/auth/register', data: {
         'schoolId': schoolId, 'name': name, 'email': email, 'password': password,
         if (role != null) 'role': role,
+        if (principalKey != null && principalKey.isNotEmpty) 'principalKey': principalKey,
       });
       return AuthResult.fromJson(Map<String, dynamic>.from(r.data));
     } on DioException catch (e) {

@@ -38,7 +38,13 @@ def api(method: str, path: str, **kw):
 
 def collect_files() -> list[Path]:
     files = []
-    for sub in ("lib", "web"):
+    # Real bug found on the first real CI build this script ever produced:
+    # pubspec.yaml declares real assets (assets/corpus/questions.json,
+    # assets/images/*.jpg) that `flutter build web` refuses to build
+    # without -- "assets" was missing from this list entirely, so every
+    # build using this script's output failed at the asset-bundling step
+    # (small directory, ~5.5MB, real fix not a scope judgment call).
+    for sub in ("lib", "web", "assets"):
         base = ROOT / sub
         if not base.exists():
             continue
@@ -56,8 +62,22 @@ def main() -> None:
     files = collect_files()
     print(f"{len(files)} files to push")
 
-    api("PUT", f"/repos/{REPO}/contents/README.md",
-        json={"message": "init", "content": base64.b64encode(b"init").decode()})
+    # Real bug found on the second real run of this script: the repo/main
+    # branch already exists after the first push, so this unconditional
+    # Contents-API PUT (no `sha`, which the API requires to update an
+    # existing file) 409s and aborts the whole sync before a single blob
+    # is created. It only ever needed to run once, to give a brand-new,
+    # completely empty repo a first commit so /git/refs/heads/main exists
+    # for the tree/commit calls below to build on -- skip it once that's
+    # already true.
+    try:
+        api("GET", f"/repos/{REPO}/git/refs/heads/main")
+        bootstrapped = True
+    except Exception:
+        bootstrapped = False
+    if not bootstrapped:
+        api("PUT", f"/repos/{REPO}/contents/README.md",
+            json={"message": "init", "content": base64.b64encode(b"init").decode()})
 
     tree_entries = []
     for i, f in enumerate(files):
