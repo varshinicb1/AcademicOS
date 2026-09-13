@@ -14,6 +14,8 @@ from datetime import datetime, timezone
 
 from pathlib import Path
 
+import requests
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
@@ -71,3 +73,28 @@ def test_upsert_refreshes_updated_at(tmp_path):
                            status="paperGenerated"))
     second = store.get("a2")
     assert second.updated_at >= first.updated_at
+
+
+def test_save_falls_back_to_sqlite_when_supabase_unreachable(tmp_path, monkeypatch):
+    """A dead/misconfigured Supabase project must not hard-fail assessment
+    creation -- see prod incident 2026-09-13: `_remote.enabled` was True but
+    the hostname didn't resolve, and `save()` had no fallback, so every
+    POST /assessments 500'd even though local SQLite was perfectly usable.
+    """
+    store = AssessmentStore(tmp_path / "fallback.db")
+    store._remote._url = "https://nonexistent-project.supabase.co"
+    store._remote._key = "fake-key"
+    assert store._remote.enabled
+
+    def _raise(*args, **kwargs):
+        raise requests.exceptions.ConnectionError("simulated DNS failure")
+
+    monkeypatch.setattr(store._remote, "upsert", _raise)
+    monkeypatch.setattr(store._remote, "select", _raise)
+
+    a = _assessment("a3", school_id="s", teacher_id="t")
+    store.save(a)  # must not raise
+
+    got = store.get("a3")  # get() also falls back and finds the locally-saved row
+    assert got is not None
+    assert got.id == "a3"
