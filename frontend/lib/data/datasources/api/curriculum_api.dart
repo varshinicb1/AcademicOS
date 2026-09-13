@@ -242,4 +242,152 @@ class CurriculumApi {
     final r = await _dio.get('/curriculum/chapters/$chapterId/topics');
     return (r.data as List).map((e) => TopicWithSubtopics.fromJson(Map<String, dynamic>.from(e))).toList();
   }
+
+  /// §17, §32: Coverage and pace variance report for school management.
+  Future<CoverageReport> coverageReport({required String academicYearId, String? asOfDate}) async {
+    final r = await _dio.get('/curriculum/reporting/coverage', queryParameters: {
+      'academic_year_id': academicYearId,
+      if (asOfDate != null) 'as_of_date': asOfDate,
+    });
+    return CoverageReport.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// §17, §32: Overdue scheduled lessons for school management.
+  Future<DelayedTopicsReport> delayedTopics({required String academicYearId, String? asOfDate}) async {
+    final r = await _dio.get('/curriculum/reporting/delayed-topics', queryParameters: {
+      'academic_year_id': academicYearId,
+      if (asOfDate != null) 'as_of_date': asOfDate,
+    });
+    return DelayedTopicsReport.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// §11-14: Reschedule a single lesson (ADJUST) to a new target working day.
+  Future<void> rescheduleLesson(String lessonId, {required String targetDate, required String reason}) async {
+    await _dio.post('/curriculum/scheduled-lessons/$lessonId/reschedule', data: {
+      'targetDate': targetDate,
+      'reason': reason,
+    });
+  }
+
+  /// §11-14: Shift subsequent lessons after an unexpected disruption (PUSH).
+  Future<Map<String, dynamic>> pushSchedule({
+    required String bookId,
+    required String academicYearId,
+    required String afterDate,
+    required String reason,
+  }) async {
+    final r = await _dio.post('/curriculum/books/$bookId/schedule/push', data: {
+      'academicYearId': academicYearId,
+      'afterDate': afterDate,
+      'reason': reason,
+    });
+    return Map<String, dynamic>.from(r.data);
+  }
+}
+
+class ChapterCoverage {
+  final String chapterId;
+  final String chapterName;
+  final int plannedCount;
+  final int completedCount;
+  final int skippedCount;
+  final int totalCount;
+  final double coveragePercent;
+  final double pacePercent;
+  final int variance;
+
+  ChapterCoverage.fromJson(Map<String, dynamic> j)
+      : chapterId = j['chapterId'] as String? ?? '',
+        chapterName = j['chapterName'] as String? ?? '',
+        plannedCount = j['plannedCount'] as int? ?? 0,
+        completedCount = j['completedCount'] as int? ?? 0,
+        skippedCount = j['skippedCount'] as int? ?? 0,
+        totalCount = j['totalCount'] as int? ?? 0,
+        coveragePercent = (j['coveragePercent'] as num?)?.toDouble() ?? 0.0,
+        pacePercent = (j['pacePercent'] as num?)?.toDouble() ?? 0.0,
+        variance = j['variance'] as int? ?? 0;
+}
+
+class SubjectCoverage {
+  final String subjectId;
+  final String subjectName;
+  final String? teacherId;
+  final String? teacherName;
+  final int plannedCount;
+  final int completedCount;
+  final int skippedCount;
+  final int totalCount;
+  final double coveragePercent;
+  final double pacePercent;
+  final int variance;
+  final List<ChapterCoverage> chapters;
+
+  SubjectCoverage.fromJson(Map<String, dynamic> j)
+      : subjectId = j['subjectId'] as String? ?? '',
+        subjectName = j['subjectName'] as String? ?? '',
+        teacherId = j['teacherId'] as String?,
+        teacherName = j['teacherName'] as String?,
+        plannedCount = j['plannedCount'] as int? ?? 0,
+        completedCount = j['completedCount'] as int? ?? 0,
+        skippedCount = j['skippedCount'] as int? ?? 0,
+        totalCount = j['totalCount'] as int? ?? 0,
+        coveragePercent = (j['coveragePercent'] as num?)?.toDouble() ?? 0.0,
+        pacePercent = (j['pacePercent'] as num?)?.toDouble() ?? 0.0,
+        variance = j['variance'] as int? ?? 0,
+        chapters = ((j['chapters'] as List?) ?? const [])
+            .map((e) => ChapterCoverage.fromJson(Map<String, dynamic>.from(e)))
+            .toList();
+}
+
+class CoverageReport {
+  final String academicYearId;
+  final String asOfDate;
+  final List<SubjectCoverage> subjects;
+
+  CoverageReport.fromJson(Map<String, dynamic> j)
+      : academicYearId = j['academicYearId'] as String? ?? '',
+        asOfDate = j['asOfDate'] as String? ?? '',
+        subjects = ((j['subjects'] as List?) ?? const [])
+            .map((e) => SubjectCoverage.fromJson(Map<String, dynamic>.from(e)))
+            .toList();
+}
+
+class DelayedLesson {
+  final String lessonId;
+  final String bookId;
+  final String subtopicId;
+  final String subtopicName;
+  final String chapterName;
+  final String subjectName;
+  final String? teacherId;
+  final String? teacherName;
+  final String scheduledDate;
+  final int daysOverdue;
+
+  DelayedLesson.fromJson(Map<String, dynamic> j)
+      : lessonId = j['lessonId'] as String? ?? '',
+        bookId = j['bookId'] as String? ?? '',
+        subtopicId = j['subtopicId'] as String? ?? '',
+        subtopicName = j['subtopicName'] as String? ?? '',
+        chapterName = j['chapterName'] as String? ?? '',
+        subjectName = j['subjectName'] as String? ?? '',
+        teacherId = j['teacherId'] as String?,
+        teacherName = j['teacherName'] as String?,
+        scheduledDate = j['scheduledDate'] as String? ?? '',
+        daysOverdue = j['daysOverdue'] as int? ?? 0;
+}
+
+class DelayedTopicsReport {
+  final String academicYearId;
+  final String asOfDate;
+  final int delayedCount;
+  final List<DelayedLesson> delayedLessons;
+
+  DelayedTopicsReport.fromJson(Map<String, dynamic> j)
+      : academicYearId = j['academicYearId'] as String? ?? '',
+        asOfDate = j['asOfDate'] as String? ?? '',
+        delayedCount = j['delayedCount'] as int? ?? 0,
+        delayedLessons = ((j['delayedLessons'] as List?) ?? const [])
+            .map((e) => DelayedLesson.fromJson(Map<String, dynamic>.from(e)))
+            .toList();
 }

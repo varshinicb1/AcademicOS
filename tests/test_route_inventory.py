@@ -152,6 +152,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/student-enrollments"),
     ("GET", "/api/v1/curriculum/my-class-schedule"),
     ("GET", "/api/v1/curriculum/my-progress"),
+    ("GET", "/api/v1/curriculum/reporting/coverage"),
+    ("GET", "/api/v1/curriculum/reporting/delayed-topics"),
 })
 
 DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
@@ -322,7 +324,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 111
+    assert len(API_ROUTES) == 113
 
 
 def test_docs_routes_present():
@@ -459,6 +461,8 @@ def test_gated_routes_return_503_without_startup():
                 ("POST", "/api/v1/curriculum/student-enrollments"),
                 ("GET", "/api/v1/curriculum/my-class-schedule"),
                 ("GET", "/api/v1/curriculum/my-progress"),
+                ("GET", "/api/v1/curriculum/reporting/coverage"),
+                ("GET", "/api/v1/curriculum/reporting/delayed-topics"),
             }:
                 continue
             # Idempotent by design: no token means nothing to delete, so it

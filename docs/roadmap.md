@@ -50,12 +50,15 @@ already tracks in detail): multi-day block holidays (`Holiday.end_date`),
 delivery-sequence reordering (`PATCH .../sequence`), persisted per-subject
 period allocations (`SubjectPeriodAllocation`), and real per-subject
 weekday timetable slots (`SubjectTimetableSlot`, replacing a heuristic).
-Full backend suite: 1113 passed. Same posture as 2026-09-13's note — real,
+Full backend suite: 1116 passed. Same posture as 2026-09-13's note — real,
 verified, valuable work, but it's teaching-execution/scheduling product
 surface, not one of this roadmap's 5 phases; weighted overall stays
 ~32-37% for the same reason as before. See the transcript matrix's own
 2026-09-14 re-audit note for the full detail rather than duplicating it
-here.
+here. Separately, shipped teaching-completion reporting (planned vs actual,
+variance, delayed topics), student portal Day/Week/Month multi-views,
+school admin console (roster, reporting, reschedule PUSH/ADJUST), and
+calibrated multi-clause question subtopic matching.
 
 ---
 

@@ -112,3 +112,23 @@ def test_results_sorted_best_match_first(store):
                             min_score=0.0, max_matches=10)
     scores = [m.confidence for m in matches]
     assert scores == sorted(scores, reverse=True)
+
+
+def test_matches_realistic_multiclause_exam_question(store):
+    """§21 calibration: A realistic, verbose CBSE exam question with multiple clauses,
+    experimental context, and sub-questions must still match the relevant subtopic
+    above the 0.15 threshold rather than suffering Jaccard dilution."""
+    chapter, subs = _seed_science_chapter(store)
+    multiclause_q = (
+        "During a laboratory demonstration, 2g of lead nitrate powder is heated in a dry "
+        "boiling tube over a flame. A student observes brown fumes evolved and a yellow residue "
+        "left in the tube. (a) Identify the brown fumes. (b) Name the type of reaction taking place. "
+        "(c) Write a balanced chemical equation for the reaction, indicating physical states."
+    )
+    matches = map_subtopics(store, chapter_id=chapter.id, question_text=multiclause_q, min_score=0.15)
+    matched_names = [m.subtopic_name for m in matches]
+    assert "Writing chemical equations" in matched_names or "Balancing chemical equations" in matched_names
+    assert len(matches) >= 1
+    # Check that the matched confidence is comfortably above threshold
+    best = matches[0]
+    assert best.confidence >= 0.15
