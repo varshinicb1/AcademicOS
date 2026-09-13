@@ -108,3 +108,67 @@ src:aecad3ccc7f698dc03da7c20 class8_poorvi
 - Extend the classifier with a `textbook` type so future NCERT ingests carry subject/grade.
 - Add NCERT Exemplar + Grades 9–12 (same `dd.zip` pattern) when disk allows.
 - Re-run `build-graph` + `openie` to densify the graph with the NCERT layer.
+
+## 7. Update 2026-09-13 — Grade 9 added, Grade 6-8 actually wired in
+
+This whole report describes a run made with `ACOS_CORPUS_ROOT` as a one-off env
+override — **`config/config.toml`'s `corpus_root` itself was never changed**,
+which meant every ingest run since (including the one that produced the 6,971-node
+graph `docs/roadmap.md` cites from 2026-09-11) only ever scanned `cbse-dataset`.
+The 9 Grade 6-8 books above sat on disk, fully downloaded and even previously
+`extracted` once under that old env-override run, but **absent from the live
+registry** — confirmed directly (`SELECT ... WHERE file_key LIKE '%poorvi%'`
+returned 0 rows) before this session's fix.
+
+**What changed this session:**
+- Downloaded all 5 real Class 9 NCERT textbooks from `ncert.nic.in`, same
+  ZIP→extract→merge method as section 2 above: English (Kaveri), Hindi (Ganga,
+  new subject for this corpus), Mathematics (Ganita Manjari), Science
+  (Exploration), Social Science (*Understanding Society: India and Beyond*,
+  **Part I only** — NCERT has not published Part II as of this date; do not
+  treat its absence as a download failure).
+- Re-ingested via the same `ACOS_CORPUS_ROOT` scoped-override technique (still
+  a one-off, `config.toml` still untouched by design — see below for why that's
+  safe) — matched all 14 books (9 old + 5 new) to existing registry rows by
+  **sha256 content hash**, since the 9 old ones already existed as
+  unclassified `unknown/src_<hash>.pdf` rows from a prior run, not fresh
+  inserts.
+- Fixed the doc_type gap this report's section 5.2 already predicted: used
+  the existing `reference_material` enum value (not a new `textbook` type —
+  none was added to `models/enums.py::DocType` this session, so the "extend
+  the classifier" suggestion above is still open) plus direct subject/grade/
+  title metadata patches, since NCERT filenames don't match the CBSE-specific
+  classifier patterns `ingest/discovery.py` looks for.
+- Ran `parse`/`extract`/`build-graph` for real on all 14 (scoped via
+  `--doc-id`, not a full corpus reparse) — verified live via `cli search`,
+  not just exit codes.
+
+**Why the env-override approach is safe to repeat, not a workaround to fix
+later:** `ingest/pipeline.py` copies file bytes into `cfg.documents_dir`
+(`store.put`) at ingest time — every downstream stage (`parse`/`extract`/
+`build-graph`/`index`) reads from that internal copy via the registry's
+`file_key`, never from `corpus_root` again. So a scoped `ACOS_CORPUS_ROOT`
+ingest run has zero lasting effect on `config.toml` or on any other corpus's
+processing — confirmed by grepping every module besides `ingest/pipeline.py`
+and `cli.py`'s `cmd_ingest` for `corpus_root`; nothing else references it.
+
+**Current registry state for the NCERT layer** (`cli stats`, 2026-09-13):
+14 `reference_material` sources, all `status=extracted`. Grade 9 sources:
+
+```
+src:54402fcb4f3bb4922245f297  English  / Kaveri            (Class 9)
+src:ee5a100eb7f07710bafcdd75  Hindi    / Ganga             (Class 9)
+src:f2a4e5061d166a618328b17e  Mathematics / Ganita Manjari (Class 9)
+src:cf6e431418feee5abbfd15d6  Science  / Exploration       (Class 9)
+src:497573259f1e493bf965aa78  Social Science / Understanding Society Part I (Class 9)
+```
+
+**Still open**, none attempted this round: extending the classifier with a
+real `textbook` `DocType` (section 5.2's suggestion, still valid); NCERT
+Exemplar; Grades 10-12 NCERT textbooks; re-running `openie` over the new
+Grade 9 layer; a real Topic/Subtopic LLM-decomposition pass over these books
+the way `curriculum/extraction.py` already did for the 46 Grade 10 chapters
+(`TRANSCRIPT_REQUIREMENTS_MATRIX.md`) — these 14 NCERT books have zero
+Topic/Subtopic content, only chapter-level chunks; sourcing an official CBSE
+Hindi curriculum so `syllabus/cbse_syllabus.py` can cover Hindi (currently
+Mathematics/Science/Social Science/English only, Class X only).

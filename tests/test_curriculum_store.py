@@ -148,11 +148,46 @@ def test_reorder_chapter_changes_delivery_sequence(store):
     first = store.create_chapter(canonical_id="c:first", unit_id=unit.id, name="First", seq=0)
     last = store.create_chapter(canonical_id="c:last", unit_id=unit.id, name="Last", seq=1)
 
-    store.reorder_chapter(last.id, 0)
-    store.reorder_chapter(first.id, 1)
+    store.set_sequence("chapter", last.id, 0)
+    store.set_sequence("chapter", first.id, 1)
 
     ordered = store.chapters_for_unit(unit.id)
     assert [c.name for c in ordered] == ["Last", "First"]
+
+
+def test_set_sequence_works_for_every_entity_type(store):
+    """set_sequence (routes.py's PATCH .../sequence) is one generic
+    implementation shared by Unit/Chapter/Topic/Subtopic, not four
+    hand-copied UPDATE statements -- exercise all four table mappings."""
+    book_id = _seed_book(store)
+    unit = store.create_unit(canonical_id="cbse:10:science:unit:seq", book_id=book_id,
+                             unit_no="I", name="Unit", marks=25, seq=0)
+    chapter = store.create_chapter(canonical_id="c:seq", unit_id=unit.id, name="Chapter", seq=0)
+    topic = store.create_topic(canonical_id="t:seq", chapter_id=chapter.id, name="Topic", seq=0)
+    subtopic = store.create_subtopic(canonical_id="st:seq", topic_id=topic.id, name="Subtopic", seq=0)
+
+    store.set_sequence("unit", unit.id, 7)
+    store.set_sequence("chapter", chapter.id, 8)
+    store.set_sequence("topic", topic.id, 9)
+    store.set_sequence("subtopic", subtopic.id, 10)
+
+    assert store.get_unit(unit.id).seq == 7
+    assert store.get_chapter(chapter.id).seq == 8
+    assert store.get_topic(topic.id).seq == 9
+    assert store.get_subtopic(subtopic.id).seq == 10
+
+
+def test_set_sequence_rejects_unknown_entity_type(store):
+    with pytest.raises(ValueError, match="unknown sequence entity_type"):
+        store.set_sequence("book", "some_id", 1)
+
+
+def test_set_sequence_raises_for_unknown_id_rather_than_silently_no_op(store):
+    """Unlike rename_topic/rename_subtopic's silent no-op, a reorder call
+    against an id that doesn't exist must surface a real error -- a
+    deliberate, meaningful admin action deserves one, not quiet success."""
+    with pytest.raises(ValueError, match="no chapter with id"):
+        store.set_sequence("chapter", "not_a_real_chapter", 1)
 
 
 # --------------------------------------------------------------------- #
@@ -190,6 +225,89 @@ def test_period_configuration_never_hardcoded(store):
     cfg = store.create_period_configuration(school_id="s", academic_year_id=year.id, period_minutes=40)
     assert store.period_configuration_for_year(year.id).period_minutes == 40
     assert cfg.period_minutes == 40  # not the 45 CLAUDE.md-adjacent docs might assume
+
+
+def test_subject_period_allocation_upserts_rather_than_duplicating(store):
+    """Unlike period configuration's one-time-set-then-409, setting a
+    subject's periods/week twice for the same year must update the same
+    row, not create a second one -- a school revising Science from 6 to 7
+    periods/week must not end up with an ambiguous "which one is current"."""
+    year = store.create_academic_year(school_id="s", label="y", start_date="2026-06-01", end_date="2027-03-31")
+    first = store.set_subject_period_allocation(
+        school_id="s", academic_year_id=year.id, subject="Science", periods_per_week=6)
+    second = store.set_subject_period_allocation(
+        school_id="s", academic_year_id=year.id, subject="Science", periods_per_week=7)
+    assert second.id == first.id
+    assert store.subject_period_allocation(year.id, "Science").periods_per_week == 7
+    assert len(store.subject_period_allocations_for_year(year.id)) == 1
+
+
+def test_subject_period_allocation_is_scoped_per_subject(store):
+    year = store.create_academic_year(school_id="s", label="y", start_date="2026-06-01", end_date="2027-03-31")
+    store.set_subject_period_allocation(school_id="s", academic_year_id=year.id,
+                                        subject="Science", periods_per_week=6)
+    store.set_subject_period_allocation(school_id="s", academic_year_id=year.id,
+                                        subject="Mathematics", periods_per_week=5)
+    assert store.subject_period_allocation(year.id, "Science").periods_per_week == 6
+    assert store.subject_period_allocation(year.id, "Mathematics").periods_per_week == 5
+    all_allocs = store.subject_period_allocations_for_year(year.id)
+    assert {a.subject for a in all_allocs} == {"Science", "Mathematics"}
+
+
+def test_subject_period_allocation_absent_returns_none(store):
+    year = store.create_academic_year(school_id="s", label="y", start_date="2026-06-01", end_date="2027-03-31")
+    assert store.subject_period_allocation(year.id, "Science") is None
+    assert store.subject_period_allocations_for_year(year.id) == []
+
+
+def test_timetable_slot_roundtrip_and_ordering(store):
+    year = store.create_academic_year(school_id="s", label="y", start_date="2026-06-01", end_date="2027-03-31")
+    # Added out of order -- day_of_week 2 before 0 -- to prove the read-back
+    # is ordered (day_of_week, period_number), not insertion order.
+    store.add_timetable_slot(school_id="s", academic_year_id=year.id, subject="Science",
+                             day_of_week=2, period_number=3)
+    store.add_timetable_slot(school_id="s", academic_year_id=year.id, subject="Science",
+                             day_of_week=0, period_number=1)
+    slots = store.timetable_slots_for_subject(year.id, "Science")
+    assert [(s.day_of_week, s.period_number) for s in slots] == [(0, 1), (2, 3)]
+
+
+def test_timetable_slot_rejects_invalid_day_of_week(store):
+    year = store.create_academic_year(school_id="s", label="y", start_date="2026-06-01", end_date="2027-03-31")
+    with pytest.raises(ValueError, match="day_of_week"):
+        store.add_timetable_slot(school_id="s", academic_year_id=year.id, subject="Science",
+                                 day_of_week=7, period_number=1)
+
+
+def test_timetable_slot_scoped_per_subject(store):
+    year = store.create_academic_year(school_id="s", label="y", start_date="2026-06-01", end_date="2027-03-31")
+    store.add_timetable_slot(school_id="s", academic_year_id=year.id, subject="Science",
+                             day_of_week=0, period_number=1)
+    store.add_timetable_slot(school_id="s", academic_year_id=year.id, subject="Mathematics",
+                             day_of_week=1, period_number=1)
+    assert len(store.timetable_slots_for_subject(year.id, "Science")) == 1
+    assert len(store.timetable_slots_for_subject(year.id, "Mathematics")) == 1
+    assert store.timetable_slots_for_subject(year.id, "English") == []
+
+
+def test_remove_timetable_slot(store):
+    year = store.create_academic_year(school_id="s", label="y", start_date="2026-06-01", end_date="2027-03-31")
+    slot = store.add_timetable_slot(school_id="s", academic_year_id=year.id, subject="Science",
+                                    day_of_week=0, period_number=1)
+    store.remove_timetable_slot(slot.id)
+    assert store.timetable_slots_for_subject(year.id, "Science") == []
+    assert store.get_timetable_slot(slot.id) is None
+
+
+def test_remove_timetable_slot_raises_for_unknown_id(store):
+    with pytest.raises(ValueError, match="no timetable slot"):
+        store.remove_timetable_slot("not_a_real_slot")
+
+
+def test_subject_name_for_book(store):
+    book_id = _seed_book(store)
+    assert store.subject_name_for_book(book_id) == "Science"
+    assert store.subject_name_for_book("not_a_real_book") is None
 
 
 def test_calendar_and_holidays(store):

@@ -43,6 +43,7 @@ class QuestionSearchParams with _$QuestionSearchParams {
     required String subject,
     required int grade,
     List<String>? chapterIds,
+    List<String>? subtopicIds,
     List<String>? competencyIds,
     List<BloomLevel>? bloomLevels,
     List<Difficulty>? difficulties,

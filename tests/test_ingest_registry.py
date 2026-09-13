@@ -139,12 +139,18 @@ def test_register_same_id_is_idempotent_no_duplicate(tmp_path):
     reg.close()
 
 
-def test_register_resets_status_to_registered_on_reegister(tmp_path):
+def test_register_preserves_status_on_reegister(tmp_path):
+    """Real bug fixed 2026-09-14: this test used to assert the actual bug
+    (re-registering reset status to 'registered' unconditionally) -- see
+    SourceRegistry.register's docstring for the live corruption this
+    caused (408 sources with real extracted output stuck at status=
+    'parsed'). Re-registering an already-known source_id must leave its
+    real pipeline progress alone."""
     reg = SourceRegistry(tmp_path / "reg2.sqlite")
     reg.register("src:y", file_key="k1", status="parsed")
     assert reg.get("src:y")["status"] == "parsed"
     reg.register("src:y", file_key="k1", status="registered")
-    assert reg.get("src:y")["status"] == "registered"
+    assert reg.get("src:y")["status"] == "parsed"
     reg.close()
 
 

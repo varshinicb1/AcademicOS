@@ -2,9 +2,12 @@
 
 **Version:** 1.0  
 **Target:** Windows Desktop + Android (Flutter)  
-**Backend:** Python (FastAPI) + SQLite + Vector DB + Object Storage  
-**Frontend:** Flutter (Windows, Android, Web)  
-**Document Processing:** Sarvam Vision + Local OCR Ensemble + LayoutLM
+**Backend:** Python (FastAPI) + SQLite (WAL Mode + busy_timeout) + Supabase Dual-Mode + Local Chunk Index  
+**Frontend:** Flutter (Windows, Android, Web) + Local-First Offline Engine (Hive AES-256)  
+**Document Processing:** Sarvam Vision + Local OCR Ensemble + Native PDF  
+
+> **Implementation Note for Contributors & Agents:**  
+> This document details the architectural target and system design. The **active, working, tested implementation** lives in `src/academicos/` (~11.5k LOC, 1113+ passing tests). The `backend/` directory is a parallel scaffolded rewrite (~4k LOC). All production features, CLI commands, and Flutter API integrations run against `src/academicos/`. See `AGENTS.md` and `CLAUDE.md` for codebase invariants.
 
 ---
 

@@ -51,7 +51,7 @@ def test_subtopic_filter_returns_only_tagged_questions(monkeypatch, cfg, curricu
         _pool_question("q3", "Untagged question."),
     ])
     monkeypatch.setattr(assessment_routes, "_require", lambda: (cfg, None))
-    monkeypatch.setattr(assessment_routes, "get_pool", lambda cfg, subject, grade: pool)
+    monkeypatch.setattr(assessment_routes, "get_pool", lambda cfg, subject, grade, llm=None: pool)
     monkeypatch.setattr(
         "academicos.curriculum.store.get_curriculum_store", lambda data_root: curriculum_store)
 
@@ -70,7 +70,7 @@ def test_subtopic_filter_with_no_tags_excludes_everything(monkeypatch, cfg, curr
     questions/by-subtopics already has."""
     pool = QuestionPool(questions=[_pool_question("q1", "Any question.")])
     monkeypatch.setattr(assessment_routes, "_require", lambda: (cfg, None))
-    monkeypatch.setattr(assessment_routes, "get_pool", lambda cfg, subject, grade: pool)
+    monkeypatch.setattr(assessment_routes, "get_pool", lambda cfg, subject, grade, llm=None: pool)
     monkeypatch.setattr(
         "academicos.curriculum.store.get_curriculum_store", lambda data_root: curriculum_store)
 
@@ -86,7 +86,7 @@ def test_no_subtopic_filter_is_a_no_op(monkeypatch, cfg, curriculum_store):
         _pool_question("q1", "One."), _pool_question("q2", "Two."),
     ])
     monkeypatch.setattr(assessment_routes, "_require", lambda: (cfg, None))
-    monkeypatch.setattr(assessment_routes, "get_pool", lambda cfg, subject, grade: pool)
+    monkeypatch.setattr(assessment_routes, "get_pool", lambda cfg, subject, grade, llm=None: pool)
 
     result = assessment_routes.search_questions(QuestionSearchParams(subject="Science", grade=10))
     assert {q.id for q in result} == {"q1", "q2"}
@@ -104,7 +104,7 @@ def test_subtopic_filter_combines_with_other_filters(monkeypatch, cfg, curriculu
                     chapter_id=None, chapter_name=None, chapter_confidence=0.0, text_hash="q_lo"),
     ])
     monkeypatch.setattr(assessment_routes, "_require", lambda: (cfg, None))
-    monkeypatch.setattr(assessment_routes, "get_pool", lambda cfg, subject, grade: pool)
+    monkeypatch.setattr(assessment_routes, "get_pool", lambda cfg, subject, grade, llm=None: pool)
     monkeypatch.setattr(
         "academicos.curriculum.store.get_curriculum_store", lambda data_root: curriculum_store)
 

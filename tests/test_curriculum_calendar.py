@@ -108,6 +108,103 @@ def test_holiday_that_falls_on_a_weekly_off_day_does_not_double_subtract():
     assert r.working_days == 6
 
 
+def test_date_range_helper_is_inclusive_of_both_ends():
+    assert calendar_mod._date_range("2026-05-01", "2026-05-03") == [
+        "2026-05-01", "2026-05-02", "2026-05-03"]
+
+
+def test_date_range_helper_single_day():
+    assert calendar_mod._date_range("2026-05-01", "2026-05-01") == ["2026-05-01"]
+
+
+# --------------------------------------------------------------------- #
+# Multi-day (block) holidays -- a real summer break, not one row per date
+# --------------------------------------------------------------------- #
+
+def test_add_holiday_rejects_end_date_before_start_date(store):
+    year = store.create_academic_year(school_id="s", label="y",
+                                      start_date="2026-06-01", end_date="2027-03-31")
+    cal = store.create_calendar(academic_year_id=year.id)
+    with pytest.raises(ValueError, match="end_date"):
+        store.add_holiday(calendar_id=cal.id, date="2026-06-10", label="bad range",
+                          end_date="2026-06-01")
+
+
+def test_single_day_holiday_still_has_no_end_date(store):
+    year = store.create_academic_year(school_id="s", label="y",
+                                      start_date="2026-06-01", end_date="2027-03-31")
+    cal = store.create_calendar(academic_year_id=year.id)
+    h = store.add_holiday(calendar_id=cal.id, date="2026-08-15", label="Independence Day")
+    assert h.end_date is None
+    fetched = store.holidays_for_calendar(cal.id)[0]
+    assert fetched.end_date is None
+
+
+def test_multi_day_summer_break_removes_every_date_in_the_range(store):
+    # A real 32-day summer break -- one row, not 32.
+    year = store.create_academic_year(school_id="s", label="y",
+                                      start_date="2026-05-01", end_date="2027-04-30")
+    cal = store.create_calendar(academic_year_id=year.id, weekly_off_days=["sunday"])
+    store.add_holiday(calendar_id=cal.id, date="2026-05-15", end_date="2026-06-15",
+                      label="Summer break", kind="holiday")
+
+    result = calendar_mod.working_days_for_year(store, year.id)
+    # Every date in the block, including both ends and any Sundays inside it
+    # (weekly-off still wins precedence, but the date is excluded either way).
+    for d in ("2026-05-15", "2026-05-30", "2026-06-15"):
+        assert d not in result.dates
+    assert "2026-05-14" in result.dates   # the day before the break: unaffected
+    assert "2026-06-16" in result.dates   # the day after the break: unaffected
+
+
+def test_multi_day_event_marker_does_not_remove_any_date(store):
+    # An "event" kind spanning a range (e.g. a multi-day sports meet) must not
+    # remove teaching days, same rule as a single-day event.
+    year = store.create_academic_year(school_id="s", label="y",
+                                      start_date="2026-09-01", end_date="2026-09-30")
+    cal = store.create_calendar(academic_year_id=year.id, weekly_off_days=["sunday"])
+    store.add_holiday(calendar_id=cal.id, date="2026-09-10", end_date="2026-09-12",
+                      label="Sports Week", kind="event")
+    result = calendar_mod.working_days_for_year(store, year.id)
+    for d in ("2026-09-10", "2026-09-11", "2026-09-12"):
+        assert d in result.dates
+
+
+def test_migration_adds_end_date_column_to_a_pre_existing_database(tmp_path):
+    """Real production concern: school_1 already has real seeded holiday rows
+    under the OLD schema (no end_date column) by the time this feature ships.
+    Opening that same database file again must not crash, and the new
+    end_date-aware add_holiday() must work against it afterward."""
+    import sqlite3
+    db_path = tmp_path / "curriculum.sqlite"
+
+    # Simulate a pre-existing database created before end_date existed.
+    conn = sqlite3.connect(str(db_path))
+    conn.execute("""CREATE TABLE holidays (
+        id TEXT PRIMARY KEY, calendar_id TEXT NOT NULL, date TEXT NOT NULL,
+        label TEXT NOT NULL, kind TEXT NOT NULL DEFAULT 'holiday')""")
+    conn.execute("INSERT INTO holidays VALUES ('holiday_old', 'cal_1', '2026-08-15', "
+                 "'Independence Day', 'holiday')")
+    conn.commit()
+    conn.close()
+
+    # Opening it through CurriculumStore must migrate in place, not crash.
+    s = CurriculumStore(db_path)
+    try:
+        cols = {r["name"] for r in s.conn.execute("PRAGMA table_info(holidays)").fetchall()}
+        assert "end_date" in cols
+        # The pre-existing row survived the migration with end_date=NULL.
+        old = s.holidays_for_calendar("cal_1")
+        assert len(old) == 1
+        assert old[0].end_date is None
+        # And the new code path works against the migrated table.
+        s.add_holiday(calendar_id="cal_1", date="2026-12-20", end_date="2027-01-02",
+                     label="Winter break")
+        assert len(s.holidays_for_calendar("cal_1")) == 2
+    finally:
+        s.close()
+
+
 # --------------------------------------------------------------------- #
 # working_days_for_year -- store-backed
 # --------------------------------------------------------------------- #

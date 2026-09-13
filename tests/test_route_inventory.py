@@ -121,6 +121,10 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PATCH", "/api/v1/curriculum/topics/{topic_id}"),
     ("PATCH", "/api/v1/curriculum/subtopics/{subtopic_id}"),
     ("DELETE", "/api/v1/curriculum/subtopics/{subtopic_id}"),
+    ("PATCH", "/api/v1/curriculum/units/{unit_id}/sequence"),
+    ("PATCH", "/api/v1/curriculum/chapters/{chapter_id}/sequence"),
+    ("PATCH", "/api/v1/curriculum/topics/{topic_id}/sequence"),
+    ("PATCH", "/api/v1/curriculum/subtopics/{subtopic_id}/sequence"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/questions/tag"),
     ("POST", "/api/v1/curriculum/questions/by-subtopics"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
@@ -128,6 +132,11 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots"),
+    ("DELETE", "/api/v1/curriculum/timetable-slots/{slot_id}"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/working-days"),
     ("POST", "/api/v1/curriculum/books/{book_id}/teaching-time-estimates"),
     ("GET", "/api/v1/curriculum/subtopics/{subtopic_id}/teaching-time-estimate"),
@@ -313,7 +322,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 102
+    assert len(API_ROUTES) == 111
 
 
 def test_docs_routes_present():
@@ -420,12 +429,21 @@ def test_gated_routes_return_503_without_startup():
                 ("PATCH", "/api/v1/curriculum/topics/{topic_id}"),
                 ("PATCH", "/api/v1/curriculum/subtopics/{subtopic_id}"),
                 ("DELETE", "/api/v1/curriculum/subtopics/{subtopic_id}"),
+                ("PATCH", "/api/v1/curriculum/units/{unit_id}/sequence"),
+                ("PATCH", "/api/v1/curriculum/chapters/{chapter_id}/sequence"),
+                ("PATCH", "/api/v1/curriculum/topics/{topic_id}/sequence"),
+                ("PATCH", "/api/v1/curriculum/subtopics/{subtopic_id}/sequence"),
                 ("POST", "/api/v1/curriculum/chapters/{chapter_id}/questions/tag"),
                 ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
                 ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
                 ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
                 ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
                 ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
+                ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
+                ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
+                ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots"),
+                ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots"),
+                ("DELETE", "/api/v1/curriculum/timetable-slots/{slot_id}"),
                 ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/working-days"),
                 ("POST", "/api/v1/curriculum/books/{book_id}/teaching-time-estimates"),
                 ("GET", "/api/v1/curriculum/subtopics/{subtopic_id}/teaching-time-estimate"),
@@ -908,6 +926,26 @@ def test_full_boot_academic_calendar_and_teaching_time_estimates(tmp_path, monke
             - wd_body["alternateSaturdayOffCount"] - wd_body["holidayCount"]
         )
 
+        # -- a real multi-day holiday block (summer-break style range), added
+        # as one row with endDate rather than one row per date -- 2026-07-06
+        # through 2026-07-08 is a clean Mon-Wed run inside the academic year
+        # (2026-06-01..2027-03-31) with no weekly-off/alternate-Saturday day
+        # inside it, so every one of the 3 dates counts as a fresh holiday.
+        block = client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/holidays",
+            json={"date": "2026-07-06", "endDate": "2026-07-08", "label": "Local closure block"},
+            headers=auth,
+        )
+        assert block.status_code == 200, block.text
+        assert block.json()["endDate"] == "2026-07-08"
+
+        wd2 = client.get(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/working-days", headers=auth,
+        ).json()
+        assert wd2["holidayCount"] == wd_body["holidayCount"] + 3
+        for d in ("2026-07-06", "2026-07-07", "2026-07-08"):
+            assert d not in wd2["dates"]
+
         # -- set period duration (principal-gated, real, admin-set minutes)
         cfg = client.post(
             f"/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration",
@@ -961,6 +999,170 @@ def test_full_boot_academic_calendar_and_teaching_time_estimates(tmp_path, monke
             json={"periodsPerWeek": 6}, headers=auth,
         )
         assert tte_again.json()["estimatesCreated"] == 0
+
+
+def test_full_boot_subject_period_allocation(tmp_path, monkeypatch):
+    """Persisted periods/week through the live API: without one set, omitting
+    periodsPerWeek from teaching-time-estimates is a real 400, not a guessed
+    default; setting one (an upsert, not one-time-set) makes the omitted
+    call resolve it automatically; an explicit value in the same call still
+    always wins over the persisted one."""
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        auth = {"Authorization": f"Bearer {principal['token']}"}
+        other_principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other Principal", "email": "other@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        other_auth = {"Authorization": f"Bearer {other_principal['token']}"}
+
+        seeded = client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-03-31"},
+            headers=auth,
+        ).json()
+        academic_year_id = seeded["academicYearId"]
+        grade_id = seeded["gradeId"]
+        science = next(s for s in client.get(f"/api/v1/curriculum/grades/{grade_id}/subjects").json()
+                       if s["name"] == "Science")
+        book_id = client.get(f"/api/v1/curriculum/subjects/{science['id']}/books").json()[0]["id"]
+        chapter_id = client.get(f"/api/v1/curriculum/books/{book_id}/chapters").json()[0]["id"]
+
+        client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration",
+                   json={"periodMinutes": 40}, headers=auth)
+        topic = client.post(f"/api/v1/curriculum/chapters/{chapter_id}/topics",
+                            json={"name": "Real Topic"}, headers=auth).json()
+        client.post(f"/api/v1/curriculum/topics/{topic['id']}/subtopics",
+                   json={"name": "Real Subtopic"}, headers=auth)
+
+        # -- no persisted allocation yet, no explicit value: honest 400
+        no_alloc = client.post(
+            f"/api/v1/curriculum/books/{book_id}/teaching-time-estimates",
+            params={"academic_year_id": academic_year_id}, json={}, headers=auth,
+        )
+        assert no_alloc.status_code == 400, no_alloc.text
+
+        # -- unauthenticated / cross-school can't set the allocation
+        assert client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations",
+            json={"subject": "Science", "periodsPerWeek": 6},
+        ).status_code == 401
+        assert client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations",
+            json={"subject": "Science", "periodsPerWeek": 6}, headers=other_auth,
+        ).status_code == 403
+
+        # -- persist Science at 6 periods/week
+        set1 = client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations",
+            json={"subject": "Science", "periodsPerWeek": 6}, headers=auth,
+        )
+        assert set1.status_code == 200, set1.text
+        assert set1.json()["periodsPerWeek"] == 6
+
+        # -- an upsert: setting it again updates the same row, doesn't duplicate
+        set2 = client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations",
+            json={"subject": "Science", "periodsPerWeek": 7}, headers=auth,
+        ).json()
+        assert set2["id"] == set1.json()["id"]
+        assert set2["periodsPerWeek"] == 7
+        listed = client.get(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations",
+            headers=auth,
+        ).json()
+        assert len(listed) == 1 and listed[0]["periodsPerWeek"] == 7
+
+        # -- omitting periodsPerWeek now resolves the persisted value (7)
+        resolved = client.post(
+            f"/api/v1/curriculum/books/{book_id}/teaching-time-estimates",
+            params={"academic_year_id": academic_year_id}, json={}, headers=auth,
+        )
+        assert resolved.status_code == 200, resolved.text
+        assert resolved.json()["periodsPerWeek"] == 7
+
+        # -- an explicit value in the same call still overrides the persisted one
+        overridden = client.post(
+            f"/api/v1/curriculum/books/{book_id}/teaching-time-estimates",
+            params={"academic_year_id": academic_year_id}, json={"periodsPerWeek": 10}, headers=auth,
+        )
+        assert overridden.json()["periodsPerWeek"] == 10
+
+
+def test_full_boot_timetable_slots(tmp_path, monkeypatch):
+    """Real weekday timetable entries through the live API: add slots for
+    two subjects, list scoped by subject, cross-school rejected on both add
+    and delete, delete works and is idempotently absent afterward."""
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        auth = {"Authorization": f"Bearer {principal['token']}"}
+        other_principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other Principal", "email": "other@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        other_auth = {"Authorization": f"Bearer {other_principal['token']}"}
+
+        seeded = client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-03-31"},
+            headers=auth,
+        ).json()
+        academic_year_id = seeded["academicYearId"]
+
+        assert client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots",
+            json={"subject": "Science", "dayOfWeek": 1, "periodNumber": 1},
+        ).status_code == 401
+        assert client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots",
+            json={"subject": "Science", "dayOfWeek": 1, "periodNumber": 1}, headers=other_auth,
+        ).status_code == 403
+
+        s1 = client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots",
+            json={"subject": "Science", "dayOfWeek": 1, "periodNumber": 1}, headers=auth,
+        )
+        assert s1.status_code == 200, s1.text
+        client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots",
+            json={"subject": "Science", "dayOfWeek": 3, "periodNumber": 1}, headers=auth,
+        )
+        client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots",
+            json={"subject": "Mathematics", "dayOfWeek": 0, "periodNumber": 2}, headers=auth,
+        )
+
+        science_slots = client.get(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots",
+            params={"subject": "Science"}, headers=auth,
+        ).json()
+        assert len(science_slots) == 2
+        assert {s["dayOfWeek"] for s in science_slots} == {1, 3}
+
+        # -- cross-school can't delete
+        assert client.delete(
+            f"/api/v1/curriculum/timetable-slots/{s1.json()['id']}", headers=other_auth,
+        ).status_code == 403
+
+        deleted = client.delete(f"/api/v1/curriculum/timetable-slots/{s1.json()['id']}", headers=auth)
+        assert deleted.status_code == 200, deleted.text
+        remaining = client.get(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots",
+            params={"subject": "Science"}, headers=auth,
+        ).json()
+        assert len(remaining) == 1 and remaining[0]["dayOfWeek"] == 3
+
+        assert client.delete(
+            f"/api/v1/curriculum/timetable-slots/not_a_real_slot", headers=auth,
+        ).status_code == 404
 
 
 def test_full_boot_micro_scheduling(tmp_path, monkeypatch):
@@ -1587,6 +1789,80 @@ class _FakeLLMForRoutes:
 
     def chat_json(self, messages, **kw):
         return self.response
+
+
+def test_full_boot_sequence_reorder(tmp_path, monkeypatch):
+    """PATCH .../sequence through the live API for Unit and Chapter (Topic/
+    Subtopic's identical generic store.set_sequence() path is covered at
+    the store level in test_curriculum_store.py -- this proves the route
+    wiring + auth for a representative couple of the four entity types):
+    unauthenticated rejected, cross-school rejected, a real reorder changes
+    what units_for_book()/chapters_for_unit() (and so schedule_book(), see
+    test_reordering_a_unit_changes_the_next_schedule_book_run) return next."""
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "principal@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        auth = {"Authorization": f"Bearer {principal['token']}"}
+        other_principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other Principal", "email": "other@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        other_auth = {"Authorization": f"Bearer {other_principal['token']}"}
+
+        seeded = client.post(
+            "/api/v1/curriculum/seed/cbse10",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-04-30"},
+            headers=auth,
+        ).json()
+        grade = client.get(f"/api/v1/curriculum/academic-years/{seeded['academicYearId']}/grades").json()[0]
+        science = next(s for s in client.get(f"/api/v1/curriculum/grades/{grade['id']}/subjects").json()
+                       if s["name"] == "Science")
+        book = client.get(f"/api/v1/curriculum/subjects/{science['id']}/books").json()[0]
+        chapters = client.get(f"/api/v1/curriculum/books/{book['id']}/chapters").json()
+        first, second = chapters[0], chapters[1]
+
+        # -- unauthenticated caller can't reorder
+        assert client.patch(
+            f"/api/v1/curriculum/chapters/{first['id']}/sequence", json={"seq": 99},
+        ).status_code == 401
+
+        # -- a different school's principal can't reorder this chapter
+        assert client.patch(
+            f"/api/v1/curriculum/chapters/{first['id']}/sequence", json={"seq": 99}, headers=other_auth,
+        ).status_code == 403
+
+        # -- unknown chapter id: honest 404, not a silent no-op or 500
+        assert client.patch(
+            "/api/v1/curriculum/chapters/not_a_real_chapter/sequence", json={"seq": 1}, headers=auth,
+        ).status_code == 404
+
+        # -- swap the first two chapters' delivery order
+        r1 = client.patch(f"/api/v1/curriculum/chapters/{first['id']}/sequence",
+                          json={"seq": second["seq"]}, headers=auth)
+        assert r1.status_code == 200, r1.text
+        r2 = client.patch(f"/api/v1/curriculum/chapters/{second['id']}/sequence",
+                          json={"seq": first["seq"]}, headers=auth)
+        assert r2.status_code == 200, r2.text
+        assert r1.json()["seq"] == second["seq"]
+        assert r2.json()["seq"] == first["seq"]
+
+        reordered = client.get(f"/api/v1/curriculum/books/{book['id']}/chapters").json()
+        assert reordered[0]["id"] == second["id"]
+        assert reordered[1]["id"] == first["id"]
+
+        # -- same reorder proof one level up, for Unit
+        units = client.get(f"/api/v1/curriculum/books/{book['id']}/units").json()
+        u1, u2 = units[0], units[1]
+        client.patch(f"/api/v1/curriculum/units/{u1['id']}/sequence",
+                    json={"seq": u2["seq"]}, headers=auth)
+        client.patch(f"/api/v1/curriculum/units/{u2['id']}/sequence",
+                    json={"seq": u1["seq"]}, headers=auth)
+        reordered_units = client.get(f"/api/v1/curriculum/books/{book['id']}/units").json()
+        assert reordered_units[0]["id"] == u2["id"]
+        assert reordered_units[1]["id"] == u1["id"]
 
 
 def test_full_boot_curriculum_decomposition_review_and_question_paper(tmp_path, monkeypatch):

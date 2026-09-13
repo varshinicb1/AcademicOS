@@ -1,12 +1,18 @@
 # Academic Data Model — the canonical curriculum hierarchy
 
-**Status: proposed, awaiting review.** No code changes yet. This resolves
-the single highest-leverage risk found in `docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md`
-(§24 of the master build prompt): two incompatible curriculum
-representations already exist in miniature in this codebase
-(`cbse_syllabus.py`'s chapter-level dataclasses vs. `qmap.py`/the graph's
-`Concept` nodes), and building either the scheduler or subtopic-level
-question generation against either one first would make that permanent.
+**Status: Implemented, tested, and active in production (`src/academicos/curriculum/`).**
+This resolves the single highest-leverage risk originally flagged in
+`docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md` (§24 of the master build prompt):
+two incompatible curriculum representations previously existed in miniature
+(`cbse_syllabus.py`'s chapter-level dataclasses vs. `qmap.py`/the graph's `Concept`
+nodes). They are now unified via stable `canonical_id` bridges across
+an authoritative, dedicated SQLite store (`CurriculumStore`).
+
+All 46 Class 10 chapters across Science, Mathematics, Social Science, and
+English have real, admin-approved Topic (138) and Subtopic (404) decompositions.
+Recent operational extensions include multi-day block holidays (`Holiday.end_date`),
+delivery sequence reordering (`PATCH .../sequence`), subject period allocations
+(`SubjectPeriodAllocation`), and weekly timetable slots (`SubjectTimetableSlot`).
 
 ## 1. The core decision: two systems, one shared vocabulary
 

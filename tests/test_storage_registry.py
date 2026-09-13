@@ -28,21 +28,34 @@ def reg(db_path: Path) -> SourceRegistry:
     r.close()
 
 
-def test_register_then_reegister_updates_file_key_and_resets_status(reg: SourceRegistry) -> None:
+def test_register_then_reegister_updates_file_key_and_preserves_status(reg: SourceRegistry) -> None:
+    """Real bug fixed 2026-09-14: re-registering an already-known source_id
+    (e.g. `ingest --reingest` re-discovering a file already parsed/
+    extracted) used to reset status back to 'registered' unconditionally,
+    silently discarding pipeline progress even though the underlying parse/
+    extract output on disk was completely untouched -- confirmed live: 408
+    sources had real chunks and extracted/ JSON output on disk but sat at
+    status='parsed' in the registry because of exactly this reset. Only
+    file_key should ever change on a re-register; status (and everything
+    else) is the pipeline stage's own job via update()."""
     reg.register("src:r", file_key="old.pdf", status="parsed", quality_score=0.5)
     reg.register("src:r", file_key="new.pdf")
     row = reg.get("src:r")
     assert row["file_key"] == "new.pdf"
-    assert row["status"] == "registered"
+    assert row["status"] == "parsed"  # preserved, not reset
     assert row["quality_score"] == 0.5  # conflict-update leaves other cols alone
     assert reg.count() == 1
 
 
-def test_reegister_status_argument_does_not_override_reset(reg: SourceRegistry) -> None:
+def test_reegister_status_argument_is_ignored_existing_status_wins(reg: SourceRegistry) -> None:
+    """Even a caller that explicitly passes a status= on a re-register
+    (ingest/pipeline.py always passes status="registered") must not
+    overwrite real pipeline progress -- update() is the real way to change
+    an existing source's status, not register()."""
     reg.register("src:r", file_key="k1", status="parsed")
     reg.register("src:r", file_key="k2", status="extracted")
     row = reg.get("src:r")
-    assert row["status"] == "registered"  # ON CONFLICT hardcodes 'registered'
+    assert row["status"] == "parsed"  # the real, already-recorded progress survives
     assert row["file_key"] == "k2"
 
 

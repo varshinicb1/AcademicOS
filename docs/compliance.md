@@ -619,4 +619,17 @@ would alter what reaches real students/teachers.
   characters outside `[A-Za-z0-9_-]`; existing clean ids keep the same files,
   and ids that previously collided would have been corrupted anyway. Safe to
   ship; a future remote migration should not depend on local file names.
+- **E1 — Audit Logging & Grade Change Tracking (2026-09-14).**
+  Implemented `src/academicos/assessment/audit_log.py` providing an immutable,
+  append-only audit trail for all grading overrides, assessment state transitions,
+  and administrative operations. Each audit record captures `entry_id`, `action`,
+  `assessment_id`, `student_id`, `actor`, `details` (JSON payload), and an ISO-8601
+  UTC `timestamp`. Persisted locally in SQLite and synchronized to Supabase
+  Postgres (`audit_log` table) when configured, fulfilling CERT-In log retention
+  and DPDP Act accountability requirements.
+- **E2 — Concurrency & Data Integrity (2026-09-14).**
+  All 17 SQLite database connections across `src/academicos/` enforce `PRAGMA journal_mode=WAL`
+  and `PRAGMA busy_timeout=60000`. This guarantees non-blocking concurrent reads and
+  serialized writes under multi-user operational loads, eliminating `database is locked`
+  failures during concurrent teacher grading and administrative scheduling.
 

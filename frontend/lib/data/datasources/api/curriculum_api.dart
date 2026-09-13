@@ -1,9 +1,11 @@
 /// Client for the curriculum/schedule endpoints
-/// (src/academicos/curriculum/routes.py) -- specifically the teacher-facing
-/// slice: "what do I teach today" (`GET /my-schedule`), not the full
-/// admin curriculum-authoring surface (extraction/approval/calendar), which
-/// has no Flutter UI yet. Same plain-class, no-freezed style as
-/// auth_api.dart/pillar_api.dart -- read-mostly data, no codegen needed.
+/// (src/academicos/curriculum/routes.py) -- mainly the teacher-facing
+/// slice: "what do I teach today" (`GET /my-schedule`), plus a read-only
+/// Topic/Subtopic lookup the Assessment Designer's subtopic picker uses
+/// (topicsForChapter). Not the full admin curriculum-authoring surface
+/// (extraction/approval/calendar), which has no Flutter UI yet. Same
+/// plain-class, no-freezed style as auth_api.dart/pillar_api.dart --
+/// read-mostly data, no codegen needed.
 library;
 
 import 'package:dio/dio.dart';
@@ -133,6 +135,30 @@ class BookSummary {
       : id = j['id'] as String, subjectId = j['subjectId'] as String, title = j['title'] as String;
 }
 
+/// One real, admin-approved Subtopic under a Topic -- the finest-grained
+/// unit a question can be tagged against (qmap.py::map_subtopics).
+class SubtopicSummary {
+  final String id;
+  final String name;
+  SubtopicSummary.fromJson(Map<String, dynamic> j)
+      : id = j['id'] as String, name = j['name'] as String;
+}
+
+/// A chapter's real Topic, with its real, approved Subtopics already
+/// nested (the backend's `GET /chapters/{chapterId}/topics` returns both in
+/// one call -- no separate per-topic fetch needed).
+class TopicWithSubtopics {
+  final String id;
+  final String name;
+  final List<SubtopicSummary> subtopics;
+  TopicWithSubtopics.fromJson(Map<String, dynamic> j)
+      : id = j['id'] as String,
+        name = j['name'] as String,
+        subtopics = (j['subtopics'] as List? ?? const [])
+            .map((e) => SubtopicSummary.fromJson(Map<String, dynamic>.from(e)))
+            .toList();
+}
+
 class CurriculumApi {
   final Dio _dio;
   CurriculumApi(this._dio);
@@ -204,5 +230,16 @@ class CurriculumApi {
     final r = await _dio.get('/curriculum/my-progress',
         queryParameters: {'academic_year_id': academicYearId});
     return MyProgress.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Real Topics + nested Subtopics for one chapter -- feeds the Assessment
+  /// Designer's subtopic picker (assessment_create_page.dart), which uses
+  /// this to let a teacher filter question search to specific subtopics via
+  /// `QuestionSearchParams.subtopicIds` rather than a whole chapter. Any
+  /// authenticated user may call this (read-only, server-side unscoped by
+  /// school since chapter content isn't school-specific).
+  Future<List<TopicWithSubtopics>> topicsForChapter(String chapterId) async {
+    final r = await _dio.get('/curriculum/chapters/$chapterId/topics');
+    return (r.data as List).map((e) => TopicWithSubtopics.fromJson(Map<String, dynamic>.from(e))).toList();
   }
 }

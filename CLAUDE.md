@@ -6,14 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 AcademicOS — an evidence-grounded knowledge graph + retrieval + reasoning substrate over the
 CBSE/NCERT corpus (question papers, marking schemes, model answers, curricula, circulars,
-bye-laws). Long-term target is a FastAPI backend + Flutter frontend (Windows/Android); today
-only the Python backend is real.
+bye-laws). The active platform comprises a FastAPI backend (`src/academicos/`) and a Flutter
+frontend (`frontend/` targeting Web, Windows, Android) with offline local-first engine.
 
 **There are two parallel Python implementations — know which one you're in:**
 
 - `src/academicos/` — the actual, working implementation (~11.5k LOC). Installed as the
   `academicos` package (`pyproject.toml` at repo root, `pip install -e .`). Has a CLI
-  (`python -m academicos.cli`), passing tests, and is what `README.md` documents. **Treat this
+  (`python -m academicos.cli`), passing tests (1113+ tests), and is what `README.md` documents. **Treat this
   as the source of truth unless told otherwise.**
 - `backend/academicos/` + `backend/ingestion/` — a newer, mostly-scaffolded rewrite (~4k LOC)
   following the target architecture in `docs/architecture.md` (separate `backend/pyproject.toml`,
@@ -23,18 +23,20 @@ only the Python backend is real.
 
 Don't casually port fixes between the two trees — they have diverging schemas and package layouts.
 
-`frontend/` is a Flutter app (clean-architecture layout: `data/`, `domain/`, `presentation/`)
-targeting Windows + Android; it is early-stage relative to the Python backend.
+`frontend/` is a Flutter app (clean-architecture layout: `data/`, `domain/`, `presentation/`,
+and `core/local_engine/`) targeting Web, Windows desktop, and Android. It features a complete
+local-first offline engine (Hive AES-256 encrypted boxes, on-device OCR, client-side PDF export)
+and background sync (`core/sync/sync_service.dart`).
 
 ## Compliance — read before touching student data
 
 **Before adding or changing anything that touches student PII, assessment content, grading, or
 a new data store: read `docs/compliance.md` and check its "before you ship" boxes.** This covers
 DPDP Act 2023 (verifiable parental consent for minors, no secondary use of data, breach
-notification), CERT-In's 6-hour breach-reporting rule and 6-month log-retention requirement, and
-what's actually built vs. only documented today. Several controls it calls for (audit logging,
-grade-change history, paper-release locking) are **not implemented yet** — don't assume they
-exist because the doc discusses them.
+notification), CERT-In's 6-hour breach-reporting rule and 6-month log-retention requirement.
+Audit logging (`src/academicos/assessment/audit_log.py`) is implemented with immutable entries
+and grade change tracking. Always scope operations by `school_id` and enforce role gates
+(`principal`, `teacher`, `student`).
 
 ## Commands
 
@@ -138,11 +140,30 @@ registry/store rather than being called as library functions in sequence:
    chunk index for `search`/`serve`.
 6. **`agents/`** — LLM-driven agents (OpenIE extraction, Self-RAG-style critic) that call out to
    the LLM provider configured in `config.toml` (`llm_base_url`/`llm_model`).
-7. **`algorithms/`** — learner-facing models independent of the ingestion pipeline: FSRS spaced
+7. **`curriculum/`** — `CurriculumStore` manages the operational hierarchy (`Board` → `AcademicYear`
+   → `Grade` → `Subject` → `Unit` → `Chapter` → `Topic` → `Subtopic`), operational calendars (multi-day
+   block holidays via `Holiday.end_date`), subject period allocations, and weekly timetable slots (`SubjectTimetableSlot`).
+   Includes LLM decomposition proposals (`extraction.py`) requiring principal review/approval.
+8. **`assessment/`** — `AssessmentStore`, question pool (`pool.py`), blueprinting, subtopic tagging (`qmap.py`),
+   paper rendering (`paper_store.py`), answer keys (`answer_key.py`), mobile answer-sheet scanning (`mobile_scan.py`),
+   and rubric evaluation (`graded_store.py`).
+9. **`algorithms/`** — learner-facing models independent of the ingestion pipeline: FSRS spaced
    repetition (`fsrs.py`, `fsrs_fit.py`), mastery/confidence/misconception models, study planner,
    daily loop, motivation/attention/habit models. These operate on `EventStore`
    (`storage/event_store.py`) interaction records, not on the document graph directly.
-8. **`api/main.py`** — FastAPI app exposing the above (only installed with the `[api]` extra).
+10. **`api/main.py`** — FastAPI app exposing all modules via REST endpoints.
+
+### Storage & Concurrency Invariant
+
+All SQLite stores (17 total across `src/academicos/`) MUST enable WAL mode and a 60-second busy timeout:
+```python
+conn.row_factory = sqlite3.Row
+conn.execute("PRAGMA journal_mode=WAL")
+conn.execute("PRAGMA busy_timeout=60000")
+```
+Never remove these pragmas. They protect against `database is locked` under multi-threaded requests.
+Operational stores use `SupabaseTable` for Postgres backing when `SUPABASE_KNOWLEDGE_URL` and
+`SUPABASE_KNOWLEDGE_ANON_KEY` are provided, falling back gracefully to local SQLite.
 
 External capability providers (Composio for app actions, Sarvam for LLM calls) sit behind
 `integrations/base.py`/`llm/base.py` interfaces and the existing `agents/base.py` `Tool` ABC —

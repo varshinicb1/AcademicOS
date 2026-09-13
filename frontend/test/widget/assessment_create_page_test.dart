@@ -124,4 +124,47 @@ void main() {
           reason: 'the real chapterId must actually match real questions in the corpus');
     },
   );
+
+  group('§21 subtopic filter (CurriculumApi.topicsForChapter is online-only -- '
+      'these tests never expand the picker, so no live network call is triggered; '
+      'the parsing/fetch logic itself is covered by curriculum_api_test.dart)', () {
+    testWidgets('is hidden entirely with no chapter selected', (tester) async {
+      await tester.pumpWidget(wrapForTest(const AssessmentCreatePage()));
+      await tester.pumpAndSettle();
+      await goToChaptersStep(tester);
+
+      expect(find.text('Filter by subtopic (optional)'), findsNothing,
+          reason: 'nothing to filter by subtopic within until at least one chapter is picked');
+    });
+
+    testWidgets('appears, collapsed, once a chapter is selected', (tester) async {
+      await tester.pumpWidget(wrapForTest(const AssessmentCreatePage()));
+      await tester.pumpAndSettle();
+      await goToChaptersStep(tester);
+
+      final realChapters = CorpusRepository.instance.chapters('Science', 10);
+      await tester.tap(find.widgetWithText(CheckboxListTile, realChapters.first.chapterName));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Filter by subtopic (optional)'), findsOneWidget);
+      expect(find.text('Leave empty to draw from the whole chapter'), findsOneWidget,
+          reason: 'an unexpanded, unfetched picker must say the filter is optional, not show a blank/loading state');
+    });
+
+    testWidgets('disappears again once every selected chapter is deselected', (tester) async {
+      await tester.pumpWidget(wrapForTest(const AssessmentCreatePage()));
+      await tester.pumpAndSettle();
+      await goToChaptersStep(tester);
+
+      final realChapters = CorpusRepository.instance.chapters('Science', 10);
+      final tile = find.widgetWithText(CheckboxListTile, realChapters.first.chapterName);
+      await tester.tap(tile);
+      await tester.pumpAndSettle();
+      expect(find.text('Filter by subtopic (optional)'), findsOneWidget);
+
+      await tester.tap(tile); // deselect
+      await tester.pumpAndSettle();
+      expect(find.text('Filter by subtopic (optional)'), findsNothing);
+    });
+  });
 }

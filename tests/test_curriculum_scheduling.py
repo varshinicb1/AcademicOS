@@ -9,6 +9,7 @@ seed data.
 from __future__ import annotations
 
 import sys
+from datetime import date
 from pathlib import Path
 
 import pytest
@@ -98,6 +99,54 @@ def test_schedule_produces_dated_lessons_in_curriculum_order(store):
             store.units_for_book(book_id)[0].id)[0].id)[0].id)}
     first_non_a_index = next(i for i, l in enumerate(lessons) if l.subtopic_id not in unit_a_subtopic_ids)
     assert all(l.subtopic_id in unit_a_subtopic_ids for l in lessons[:first_non_a_index])
+
+
+def test_real_timetable_slots_override_the_first_n_days_heuristic(store):
+    """Real proof a school's entered SubjectTimetableSlot rows are actually
+    used: with no slots, schedule_book() falls back to the "first N working
+    days of each week" heuristic (which would include Monday, the first
+    working day). Adding slots for exactly Tuesday and Thursday must make
+    every scheduled lesson land on one of those two weekdays instead."""
+    book_id, year_id = _seed_schedulable_book(store)
+    store.add_timetable_slot(school_id="school_1", academic_year_id=year_id, subject="Science",
+                             day_of_week=1, period_number=1)   # Tuesday
+    store.add_timetable_slot(school_id="school_1", academic_year_id=year_id, subject="Science",
+                             day_of_week=3, period_number=1)   # Thursday
+
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
+                                          book_id=book_id, periods_per_week=6)
+    lessons = store.scheduled_lessons_for_book(year_id, book_id)
+    assert len(lessons) == result.lessons_created > 0
+    for lesson in lessons:
+        weekday = date.fromisoformat(lesson.date).weekday()
+        assert weekday in (1, 3), f"{lesson.date} is weekday {weekday}, not Tue/Thu"
+
+
+def test_reordering_a_unit_changes_the_next_schedule_book_run(store):
+    """Real proof store.set_sequence() isn't just a store-level field flip --
+    schedule_book() reads units_for_book()/chapters_for_unit() etc live
+    (all ORDER BY seq), so a reorder made *before* a schedule_book() call
+    genuinely changes its output. Default order here is Unit A (seq=0) then
+    Unit B (seq=1) -- confirmed by test_schedule_produces_dated_lessons_
+    in_curriculum_order above. This test swaps them and shows B goes first."""
+    book_id, year_id = _seed_schedulable_book(store)
+    unit_a, unit_b = store.units_for_book(book_id)
+    assert unit_a.name == "Unit A" and unit_b.name == "Unit B"
+
+    store.set_sequence("unit", unit_a.id, 1)
+    store.set_sequence("unit", unit_b.id, 0)
+
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
+                                          book_id=book_id, periods_per_week=6)
+    lessons = store.scheduled_lessons_for_book(year_id, book_id)
+    assert len(lessons) == result.lessons_created
+
+    unit_b_subtopic_ids = {s.id for s in store.subtopics_for_topic(
+        store.topics_for_chapter(store.chapters_for_unit(unit_b.id)[0].id)[0].id)}
+    first_non_b_index = next(i for i, l in enumerate(lessons) if l.subtopic_id not in unit_b_subtopic_ids)
+    # Unit B (now seq=0) is scheduled entirely before Unit A (now seq=1)
+    # starts -- the exact reverse of the pre-reorder default.
+    assert all(l.subtopic_id in unit_b_subtopic_ids for l in lessons[:first_non_b_index])
 
 
 def test_schedule_skips_subtopics_without_a_teaching_time_estimate(store):

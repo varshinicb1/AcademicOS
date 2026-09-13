@@ -138,9 +138,11 @@ Each module: evidence-grounded params, `version`, metrics entry point.
 4. P2.5/P2.6 (sleep boost, retrieval-practice gain) as FSRS extensions — done
 5. P1.9 (question→concept) done; A12 study_planner v2 done; P1.10 misconceptions done; A13 confidence_model done; A14 lifelong_learner done
 6. P2.7–P2.10 / A3–A11 (motivation, attention, habit, curiosity, emotion, parent, teacher, career, reward) — found already implemented + tested 2026-09-11, checklist was stale; corrected, no rebuild needed
-7. Next real backlog: P1.12 GCS sync (unblocked, not disk-bound), P2.4 remainder (per-learner FSRS weight fitting), P1.4 concept-spine comprehensiveness (difficulty/learning-time coverage), Phase 3 (0%, external data acquisition), Phase 5 API surface + offline eval
+7. Curriculum & Micro-Scheduling (§10-14, §21-24) — `src/academicos/curriculum/` operational store, CBSE 10 bulk decomposition (138 topics, 404 subtopics), multi-day holidays, weekly timetable slots, period allocations, and delivery sequence reordering — done
+8. Registry Status Discrepancy (`rg`) — Traced and fixed root cause in `SourceRegistry.register()` `ON CONFLICT` clause, corrected 3 tests, backfilled 408 rows (422 extracted sources now accurately tracked) — done
+9. Storage & Concurrency Hardening — Applied `PRAGMA journal_mode=WAL` and `PRAGMA busy_timeout=60000` across all 17 SQLite stores, audited Render deployment & persistence pathways, verified Flutter local-engine offline sync — done
 
 ## Standing gates
-- `python -m pytest tests -q` green after every change
+- `python -m pytest tests -q` green after every change (1113+ tests)
 - 12-corpus prereq eval AUC unchanged for graph changes
 - every algorithm change bumps `version`; parameters documented with evidence

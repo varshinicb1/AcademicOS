@@ -36,6 +36,27 @@ the "43 real CBSE sources" and directory-layout claims below already had.
 the Phase 5 narrative below was updated same-day — a real instance of the
 exact doc-drift this file keeps warning about. Fixed here.)
 
+**Re-checked 2026-09-13:** re-ran `cli stats` and grepped for the changes
+made this session (Class 9 NCERT corpus added + wired in, Assessment-
+Designer chapter tagging extended beyond Science). Real, verified work —
+see Phase 1's checklist below — but it doesn't move any phase's percentage:
+no new graph artifact, no new algorithm, Phase 3 untouched. Weighted overall
+stays ~32-37%; not bumping it just because effort was spent this session.
+
+**Re-checked 2026-09-14:** four real, tested backend features shipped this
+session, all in `src/academicos/curriculum/` (the §10-14 academic calendar
+and micro-scheduling engine `docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md`
+already tracks in detail): multi-day block holidays (`Holiday.end_date`),
+delivery-sequence reordering (`PATCH .../sequence`), persisted per-subject
+period allocations (`SubjectPeriodAllocation`), and real per-subject
+weekday timetable slots (`SubjectTimetableSlot`, replacing a heuristic).
+Full backend suite: 1113 passed. Same posture as 2026-09-13's note — real,
+verified, valuable work, but it's teaching-execution/scheduling product
+surface, not one of this roadmap's 5 phases; weighted overall stays
+~32-37% for the same reason as before. See the transcript matrix's own
+2026-09-14 re-audit note for the full detail rather than duplicating it
+here.
+
 ---
 
 ## Phase 1 — The Knowledge Base — ~35-40% (in progress)
@@ -57,11 +78,29 @@ now stale; see the real count that replaced it):
 - [x] Corpus pipeline real and working: `academicos.cli stats` shows 6,971
       graph nodes, 7,259 edges, 11,153 chunks from 418 registered sources
 - [x] OpenIE entity/triple extraction (Sarvam LLM) — graph densified
-- [ ] Full CBSE corpus (800+ QP/MS, NCERT, model answers) — **only 418 of
-      2,884** real source PDFs on disk across `cbse-dataset` (2,759),
-      `ncert-dataset` (9), `cbse-model-answers` (116) are actually
-      registered (~14.5%). Short even of the 800+ QP/MS target, before
-      counting NCERT/model-answers at all.
+- [ ] Full CBSE corpus (800+ QP/MS, NCERT, model answers) — re-measured
+      2026-09-14: resolved the registry status discrepancy where only 14
+      sources showed `status="extracted"` despite 403 distinct extracted
+      documents existing in the chunk index. Root cause traced and fixed in
+      `SourceRegistry.register()` (an `ON CONFLICT` clause was
+      unconditionally resetting status to `'registered'` on re-discovery).
+      Data backfilled and verified against disk: **422 sources are now
+      correctly tracked as `status="extracted"`** (including 410 real question
+      papers and the 14 NCERT textbooks). Total registered sources: 3,355
+      (2,756 unclassified `unknown`, 2,439 parsed). All 17 SQLite database
+      stores across `src/academicos/` hardened with WAL mode and 60s busy
+      timeouts for concurrent multi-user execution. Still short of the full
+      15-year board paper corpus once broken downloads are purged.
+- [x] Assessment-Designer chapter tagging beyond Science — added this
+      session (`assessment/embedding_chapter_tagger.py`): sentence-embedding
+      cosine-similarity match against `syllabus/cbse_syllabus.py`'s real
+      CBSE chapter lists, replacing the Science-only keyword tagger
+      (`chapters.py`) for Mathematics/Social Science/English at Class X.
+      573/752 Mathematics, 322/403 Social Science, 61/134 English questions
+      now carry a real chapter tag (none did before beyond Science). Hindi
+      still has no syllabus JSON to tag against. Not one of this roadmap's
+      headline phase deliverables, but real product-usable groundwork for
+      the Assessment Designer across the subjects it's sold on.
 - [x] Concept spine: misconceptions, difficulty, learning time per concept —
       correction to this audit (2026-09-11): `graph/curriculum.py` is a
       real, research-cited (Alatrash & Chatti 2025/26), tested

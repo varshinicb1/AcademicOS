@@ -7,6 +7,7 @@ import '../../../core/constants/app_constants.dart';
 import '../../../core/local_engine/paper_selection.dart' show sectionsFromCounts;
 import '../../../domain/entities/entities.dart';
 import '../../../domain/repositories/requests.dart';
+import '../../../data/datasources/api/curriculum_api.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../blocs/assessment_bloc.dart';
 import '../../shared/widgets/common_widgets.dart';
@@ -73,6 +74,15 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
   bool _chaptersLoading = false;
   String? _chaptersError;
 
+  // §21's subtopic-level filter: optional, narrows question search below
+  // whole-chapter granularity to specific admin-approved Subtopics
+  // (backend already supports this via QuestionSearchParams.subtopicIds --
+  // this was the missing frontend half). Cached per chapter id so
+  // re-expanding the picker doesn't re-fetch chapters already loaded.
+  final Map<String, List<TopicWithSubtopics>> _topicsByChapter = {};
+  final Set<String> _loadingTopicsForChapter = {};
+  final Set<String> _selectedSubtopics = {};
+
   @override
   void initState() {
     super.initState();
@@ -98,6 +108,40 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
         _chaptersLoading = false;
       });
     }
+  }
+
+  Future<void> _loadTopicsForChapter(String chapterId) async {
+    if (_topicsByChapter.containsKey(chapterId) || _loadingTopicsForChapter.contains(chapterId)) return;
+    setState(() => _loadingTopicsForChapter.add(chapterId));
+    try {
+      final topics = await GetIt.I<CurriculumApi>().topicsForChapter(chapterId);
+      if (!mounted) return;
+      setState(() {
+        _topicsByChapter[chapterId] = topics;
+        _loadingTopicsForChapter.remove(chapterId);
+      });
+    } catch (e) {
+      if (!mounted) return;
+      // Honest empty state, not a blocking error -- a chapter with no
+      // Topic/Subtopic content yet (extraction not run) is a real, common
+      // case, and this filter is optional; the chapter-level checkbox
+      // above still works regardless.
+      setState(() {
+        _topicsByChapter[chapterId] = [];
+        _loadingTopicsForChapter.remove(chapterId);
+      });
+    }
+  }
+
+  /// Any subtopic belonging to a chapter that's no longer selected must be
+  /// dropped too -- otherwise a stale subtopicId from a deselected chapter
+  /// would silently keep narrowing the search.
+  void _pruneSubtopicsForDeselectedChapters() {
+    final validIds = <String>{
+      for (final chapterId in _selectedChapters)
+        ...?_topicsByChapter[chapterId]?.expand((t) => t.subtopics).map((s) => s.id),
+    };
+    _selectedSubtopics.removeWhere((id) => !validIds.contains(id));
   }
 
   @override
@@ -176,6 +220,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                     onChanged: (v) => setState(() {
                       _selectedGrade = v!;
                       _selectedChapters.clear();
+                      _selectedSubtopics.clear();
                       _loadChapters();
                     }),
                   ),
@@ -191,6 +236,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                     onChanged: (v) => setState(() {
                       _selectedSubject = v!;
                       _selectedChapters.clear();
+                      _selectedSubtopics.clear();
                       _loadChapters();
                     }),
                   ),
@@ -357,7 +403,15 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     return Step(
       title: const Text('Chapters'),
       subtitle: const Text('Select chapters to include (leave empty to draw from all chapters)'),
-      content: _chaptersLoading
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_buildChapterListContent(), _buildSubtopicFilter()],
+      ),
+    );
+  }
+
+  Widget _buildChapterListContent() {
+    return _chaptersLoading
           ? const Padding(
               padding: EdgeInsets.symmetric(vertical: 24),
               child: Center(child: CircularProgressIndicator()),
@@ -394,10 +448,78 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                         title: Text(c.chapterName),
                         subtitle: Text('${c.questionCount} question${c.questionCount == 1 ? '' : 's'} available'),
                         value: _selectedChapters.contains(c.chapterId),
-                        onChanged: (v) => setState(
-                            () => v! ? _selectedChapters.add(c.chapterId) : _selectedChapters.remove(c.chapterId)),
+                        onChanged: (v) => setState(() {
+                          if (v!) {
+                            _selectedChapters.add(c.chapterId);
+                          } else {
+                            _selectedChapters.remove(c.chapterId);
+                            _pruneSubtopicsForDeselectedChapters();
+                          }
+                        }),
                       )).toList(),
-                    ),
+                    );
+  }
+
+  Widget _buildSubtopicFilter() {
+    if (_selectedChapters.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: ExpansionTile(
+        title: const Text('Filter by subtopic (optional)'),
+        subtitle: Text(_selectedSubtopics.isEmpty
+            ? 'Leave empty to draw from the whole chapter'
+            : '${_selectedSubtopics.length} subtopic${_selectedSubtopics.length == 1 ? '' : 's'} selected'),
+        onExpansionChanged: (expanded) {
+          if (expanded) {
+            for (final chapterId in _selectedChapters) {
+              _loadTopicsForChapter(chapterId);
+            }
+          }
+        },
+        children: _selectedChapters.map((chapterId) {
+          final chapterName = _chapters.firstWhere(
+            (c) => c.chapterId == chapterId,
+            orElse: () => ChapterEntry.fromJson({'chapterId': chapterId, 'chapterName': chapterId}),
+          ).chapterName;
+          if (_loadingTopicsForChapter.contains(chapterId)) {
+            return const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12),
+              child: Center(child: CircularProgressIndicator()),
+            );
+          }
+          final topics = _topicsByChapter[chapterId];
+          if (topics == null) return const SizedBox.shrink();
+          if (topics.isEmpty) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text('$chapterName: no subtopic breakdown available yet',
+                  style: Theme.of(context).textTheme.bodySmall),
+            );
+          }
+          return Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+                  child: Text(chapterName, style: Theme.of(context).textTheme.labelLarge),
+                ),
+                for (final topic in topics)
+                  ...topic.subtopics.map((s) => CheckboxListTile(
+                        dense: true,
+                        contentPadding: const EdgeInsets.only(left: 24, right: 16),
+                        title: Text(s.name),
+                        subtitle: Text(topic.name, style: Theme.of(context).textTheme.bodySmall),
+                        value: _selectedSubtopics.contains(s.id),
+                        onChanged: (v) => setState(
+                            () => v! ? _selectedSubtopics.add(s.id) : _selectedSubtopics.remove(s.id)),
+                      )),
+              ],
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 
@@ -443,6 +565,8 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                 _buildSummaryRow('Grade', 'Grade $_selectedGrade'),
                 _buildSummaryRow('Subject', _selectedSubject),
                 _buildSummaryRow('Chapters', _selectedChapters.isEmpty ? 'All chapters' : _selectedChapterNames()),
+                if (_selectedSubtopics.isNotEmpty)
+                  _buildSummaryRow('Subtopics', '${_selectedSubtopics.length} selected'),
                 _buildSummaryRow('Total Marks', _blueprint.totalMarks.toString()),
                 _buildSummaryRow('Duration', '${_blueprint.durationMinutes} minutes'),
               ],
@@ -525,6 +649,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
           subject: assessment.subject,
           grade: assessment.grade,
           chapterIds: _selectedChapters.isEmpty ? null : assessment.chapterIds,
+          subtopicIds: _selectedSubtopics.isEmpty ? null : _selectedSubtopics.toList(),
           limit: 200,
         ),
       ));

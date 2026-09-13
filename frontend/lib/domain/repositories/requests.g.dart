@@ -74,6 +74,9 @@ _$QuestionSearchParamsImpl _$$QuestionSearchParamsImplFromJson(
       chapterIds: (json['chapterIds'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      subtopicIds: (json['subtopicIds'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       competencyIds: (json['competencyIds'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -103,6 +106,7 @@ Map<String, dynamic> _$$QuestionSearchParamsImplToJson(
       'subject': instance.subject,
       'grade': instance.grade,
       'chapterIds': instance.chapterIds,
+      'subtopicIds': instance.subtopicIds,
       'competencyIds': instance.competencyIds,
       'bloomLevels':
           instance.bloomLevels?.map((e) => _$BloomLevelEnumMap[e]!).toList(),

@@ -701,6 +701,7 @@ mixin _$QuestionSearchParams {
   String get subject => throw _privateConstructorUsedError;
   int get grade => throw _privateConstructorUsedError;
   List<String>? get chapterIds => throw _privateConstructorUsedError;
+  List<String>? get subtopicIds => throw _privateConstructorUsedError;
   List<String>? get competencyIds => throw _privateConstructorUsedError;
   List<BloomLevel>? get bloomLevels => throw _privateConstructorUsedError;
   List<Difficulty>? get difficulties => throw _privateConstructorUsedError;
@@ -729,6 +730,7 @@ abstract class $QuestionSearchParamsCopyWith<$Res> {
       {String subject,
       int grade,
       List<String>? chapterIds,
+      List<String>? subtopicIds,
       List<String>? competencyIds,
       List<BloomLevel>? bloomLevels,
       List<Difficulty>? difficulties,
@@ -759,6 +761,7 @@ class _$QuestionSearchParamsCopyWithImpl<$Res,
     Object? subject = null,
     Object? grade = null,
     Object? chapterIds = freezed,
+    Object? subtopicIds = freezed,
     Object? competencyIds = freezed,
     Object? bloomLevels = freezed,
     Object? difficulties = freezed,
@@ -783,6 +786,10 @@ class _$QuestionSearchParamsCopyWithImpl<$Res,
       chapterIds: freezed == chapterIds
           ? _value.chapterIds
           : chapterIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      subtopicIds: freezed == subtopicIds
+          ? _value.subtopicIds
+          : subtopicIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
       competencyIds: freezed == competencyIds
           ? _value.competencyIds
@@ -844,6 +851,7 @@ abstract class _$$QuestionSearchParamsImplCopyWith<$Res>
       {String subject,
       int grade,
       List<String>? chapterIds,
+      List<String>? subtopicIds,
       List<String>? competencyIds,
       List<BloomLevel>? bloomLevels,
       List<Difficulty>? difficulties,
@@ -871,6 +879,7 @@ class __$$QuestionSearchParamsImplCopyWithImpl<$Res>
     Object? subject = null,
     Object? grade = null,
     Object? chapterIds = freezed,
+    Object? subtopicIds = freezed,
     Object? competencyIds = freezed,
     Object? bloomLevels = freezed,
     Object? difficulties = freezed,
@@ -895,6 +904,10 @@ class __$$QuestionSearchParamsImplCopyWithImpl<$Res>
       chapterIds: freezed == chapterIds
           ? _value._chapterIds
           : chapterIds // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
+      subtopicIds: freezed == subtopicIds
+          ? _value._subtopicIds
+          : subtopicIds // ignore: cast_nullable_to_non_nullable
               as List<String>?,
       competencyIds: freezed == competencyIds
           ? _value._competencyIds
@@ -951,6 +964,7 @@ class _$QuestionSearchParamsImpl implements _QuestionSearchParams {
       {required this.subject,
       required this.grade,
       final List<String>? chapterIds,
+      final List<String>? subtopicIds,
       final List<String>? competencyIds,
       final List<BloomLevel>? bloomLevels,
       final List<Difficulty>? difficulties,
@@ -963,6 +977,7 @@ class _$QuestionSearchParamsImpl implements _QuestionSearchParams {
       this.minQualityScore,
       final List<QuestionSource>? sources})
       : _chapterIds = chapterIds,
+        _subtopicIds = subtopicIds,
         _competencyIds = competencyIds,
         _bloomLevels = bloomLevels,
         _difficulties = difficulties,
@@ -982,6 +997,16 @@ class _$QuestionSearchParamsImpl implements _QuestionSearchParams {
     final value = _chapterIds;
     if (value == null) return null;
     if (_chapterIds is EqualUnmodifiableListView) return _chapterIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<String>? _subtopicIds;
+  @override
+  List<String>? get subtopicIds {
+    final value = _subtopicIds;
+    if (value == null) return null;
+    if (_subtopicIds is EqualUnmodifiableListView) return _subtopicIds;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -1050,7 +1075,7 @@ class _$QuestionSearchParamsImpl implements _QuestionSearchParams {
 
   @override
   String toString() {
-    return 'QuestionSearchParams(subject: $subject, grade: $grade, chapterIds: $chapterIds, competencyIds: $competencyIds, bloomLevels: $bloomLevels, difficulties: $difficulties, types: $types, minMarks: $minMarks, maxMarks: $maxMarks, limit: $limit, offset: $offset, keyword: $keyword, minQualityScore: $minQualityScore, sources: $sources)';
+    return 'QuestionSearchParams(subject: $subject, grade: $grade, chapterIds: $chapterIds, subtopicIds: $subtopicIds, competencyIds: $competencyIds, bloomLevels: $bloomLevels, difficulties: $difficulties, types: $types, minMarks: $minMarks, maxMarks: $maxMarks, limit: $limit, offset: $offset, keyword: $keyword, minQualityScore: $minQualityScore, sources: $sources)';
   }
 
   @override
@@ -1062,6 +1087,8 @@ class _$QuestionSearchParamsImpl implements _QuestionSearchParams {
             (identical(other.grade, grade) || other.grade == grade) &&
             const DeepCollectionEquality()
                 .equals(other._chapterIds, _chapterIds) &&
+            const DeepCollectionEquality()
+                .equals(other._subtopicIds, _subtopicIds) &&
             const DeepCollectionEquality()
                 .equals(other._competencyIds, _competencyIds) &&
             const DeepCollectionEquality()
@@ -1088,6 +1115,7 @@ class _$QuestionSearchParamsImpl implements _QuestionSearchParams {
       subject,
       grade,
       const DeepCollectionEquality().hash(_chapterIds),
+      const DeepCollectionEquality().hash(_subtopicIds),
       const DeepCollectionEquality().hash(_competencyIds),
       const DeepCollectionEquality().hash(_bloomLevels),
       const DeepCollectionEquality().hash(_difficulties),
@@ -1121,6 +1149,7 @@ abstract class _QuestionSearchParams implements QuestionSearchParams {
       {required final String subject,
       required final int grade,
       final List<String>? chapterIds,
+      final List<String>? subtopicIds,
       final List<String>? competencyIds,
       final List<BloomLevel>? bloomLevels,
       final List<Difficulty>? difficulties,
@@ -1142,6 +1171,8 @@ abstract class _QuestionSearchParams implements QuestionSearchParams {
   int get grade;
   @override
   List<String>? get chapterIds;
+  @override
+  List<String>? get subtopicIds;
   @override
   List<String>? get competencyIds;
   @override
