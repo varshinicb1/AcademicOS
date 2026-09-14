@@ -283,6 +283,89 @@ class CurriculumApi {
     });
     return Map<String, dynamic>.from(r.data);
   }
+
+  /// §5-9, §13: Fetch units for a book.
+  Future<List<UnitSummary>> units(String bookId) async {
+    final r = await _dio.get('/curriculum/books/$bookId/units');
+    return (r.data as List).map((e) => UnitSummary.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  /// §5-9, §13: Fetch chapters for a book.
+  Future<List<ChapterSummary>> chapters(String bookId) async {
+    final r = await _dio.get('/curriculum/books/$bookId/chapters');
+    return (r.data as List).map((e) => ChapterSummary.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  /// §13: Sequence reordering endpoints.
+  Future<void> setUnitSequence(String unitId, int seq) async {
+    await _dio.patch('/curriculum/units/$unitId/sequence', data: {'seq': seq});
+  }
+
+  Future<void> setChapterSequence(String chapterId, int seq) async {
+    await _dio.patch('/curriculum/chapters/$chapterId/sequence', data: {'seq': seq});
+  }
+
+  Future<void> setTopicSequence(String topicId, int seq) async {
+    await _dio.patch('/curriculum/topics/$topicId/sequence', data: {'seq': seq});
+  }
+
+  Future<void> setSubtopicSequence(String subtopicId, int seq) async {
+    await _dio.patch('/curriculum/subtopics/$subtopicId/sequence', data: {'seq': seq});
+  }
+
+  /// §8, §10: Academic calendar setup and working days.
+  Future<CalendarInfo> createCalendar(String academicYearId, {List<int> weeklyOffDays = const [7], String alternateSaturdayRule = 'none'}) async {
+    final r = await _dio.post('/curriculum/academic-years/$academicYearId/calendar', data: {
+      'weeklyOffDays': weeklyOffDays,
+      'alternateSaturdayRule': alternateSaturdayRule,
+    });
+    return CalendarInfo.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  Future<CalendarInfo?> getCalendar(String academicYearId) async {
+    try {
+      final r = await _dio.get('/curriculum/academic-years/$academicYearId/calendar');
+      return CalendarInfo.fromJson(Map<String, dynamic>.from(r.data));
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) return null;
+      rethrow;
+    }
+  }
+
+  Future<HolidayInfo> addHoliday(String academicYearId, {required String date, required String label, String kind = 'public', String? endDate}) async {
+    final r = await _dio.post('/curriculum/academic-years/$academicYearId/holidays', data: {
+      'date': date,
+      'label': label,
+      'kind': kind,
+      if (endDate != null) 'endDate': endDate,
+    });
+    return HolidayInfo.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  Future<List<HolidayInfo>> listHolidays(String academicYearId) async {
+    final r = await _dio.get('/curriculum/academic-years/$academicYearId/holidays');
+    return (r.data as List).map((e) => HolidayInfo.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  Future<void> setPeriodConfiguration(String academicYearId, {required int periodMinutes}) async {
+    await _dio.post('/curriculum/academic-years/$academicYearId/period-configuration', data: {
+      'periodMinutes': periodMinutes,
+    });
+  }
+
+  Future<WorkingDaysSummary> getWorkingDays(String academicYearId) async {
+    final r = await _dio.get('/curriculum/academic-years/$academicYearId/working-days');
+    return WorkingDaysSummary.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// §11-14: School-wide master schedule across all subjects.
+  Future<List<ScheduledLessonSummary>> schoolSchedule({required String startDate, required String endDate}) async {
+    final r = await _dio.get('/curriculum/schedule', queryParameters: {
+      'start_date': startDate,
+      'end_date': endDate,
+    });
+    return (r.data as List).map((e) => ScheduledLessonSummary.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
 }
 
 class ChapterCoverage {
@@ -390,4 +473,112 @@ class DelayedTopicsReport {
         delayedLessons = ((j['delayedLessons'] as List?) ?? const [])
             .map((e) => DelayedLesson.fromJson(Map<String, dynamic>.from(e)))
             .toList();
+}
+
+class UnitSummary {
+  final String id;
+  final String canonicalId;
+  final String bookId;
+  final String unitNo;
+  final String name;
+  final int marks;
+  final int seq;
+
+  UnitSummary.fromJson(Map<String, dynamic> j)
+      : id = j['id'] as String,
+        canonicalId = j['canonicalId'] as String? ?? '',
+        bookId = j['bookId'] as String? ?? '',
+        unitNo = j['unitNo'] as String? ?? '',
+        name = j['name'] as String? ?? '',
+        marks = j['marks'] as int? ?? 0,
+        seq = j['seq'] as int? ?? 0;
+}
+
+class ChapterSummary {
+  final String id;
+  final String canonicalId;
+  final String unitId;
+  final String name;
+  final int seq;
+
+  ChapterSummary.fromJson(Map<String, dynamic> j)
+      : id = j['id'] as String,
+        canonicalId = j['canonicalId'] as String? ?? '',
+        unitId = j['unitId'] as String? ?? '',
+        name = j['name'] as String? ?? '',
+        seq = j['seq'] as int? ?? 0;
+}
+
+class CalendarInfo {
+  final String id;
+  final String academicYearId;
+  final List<int> weeklyOffDays;
+  final String alternateSaturdayRule;
+
+  CalendarInfo.fromJson(Map<String, dynamic> j)
+      : id = j['id'] as String,
+        academicYearId = j['academicYearId'] as String,
+        weeklyOffDays = (j['weeklyOffDays'] as List? ?? const []).map((e) => e as int).toList(),
+        alternateSaturdayRule = j['alternateSaturdayRule'] as String? ?? 'none';
+}
+
+class HolidayInfo {
+  final String id;
+  final String calendarId;
+  final String date;
+  final String label;
+  final String kind;
+  final String? endDate;
+
+  HolidayInfo.fromJson(Map<String, dynamic> j)
+      : id = j['id'] as String,
+        calendarId = j['calendarId'] as String,
+        date = j['date'] as String,
+        label = j['label'] as String,
+        kind = j['kind'] as String? ?? 'public',
+        endDate = j['endDate'] as String?;
+}
+
+class WorkingDaysSummary {
+  final String academicYearId;
+  final int totalDays;
+  final int workingDays;
+  final int weeklyOffCount;
+  final int alternateSaturdayOffCount;
+  final int holidayCount;
+  final List<String> dates;
+
+  WorkingDaysSummary.fromJson(Map<String, dynamic> j)
+      : academicYearId = j['academicYearId'] as String,
+        totalDays = j['totalDays'] as int? ?? 0,
+        workingDays = j['workingDays'] as int? ?? 0,
+        weeklyOffCount = j['weeklyOffCount'] as int? ?? 0,
+        alternateSaturdayOffCount = j['alternateSaturdayOffCount'] as int? ?? 0,
+        holidayCount = j['holidayCount'] as int? ?? 0,
+        dates = (j['dates'] as List? ?? const []).map((e) => e.toString()).toList();
+}
+
+class ScheduledLessonSummary {
+  final String id;
+  final String academicYearId;
+  final String bookId;
+  final String subtopicId;
+  final String scheduledDate;
+  final int periodNumber;
+  final String status;
+  final String? note;
+  final String? completedBy;
+  final String? completedAt;
+
+  ScheduledLessonSummary.fromJson(Map<String, dynamic> j)
+      : id = j['id'] as String,
+        academicYearId = j['academicYearId'] as String? ?? '',
+        bookId = j['bookId'] as String? ?? '',
+        subtopicId = j['subtopicId'] as String? ?? '',
+        scheduledDate = j['scheduledDate'] as String? ?? '',
+        periodNumber = j['periodNumber'] as int? ?? 1,
+        status = j['status'] as String? ?? 'scheduled',
+        note = j['note'] as String?,
+        completedBy = j['completedBy'] as String?,
+        completedAt = j['completedAt'] as String?;
 }

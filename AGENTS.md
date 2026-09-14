@@ -14,16 +14,19 @@ AcademicOS is an evidence-grounded academic intelligence and operational operati
    - Provenance tracking: Every assertion, chunk, and graph node preserves provenance (`document_id`, `page_number`, `bounding_box`, `method`, `confidence`).
    - Gated acceptance: Documents with `quality_score < min_confidence` are held in `low_confidence` registry status; low-confidence material never silently enters the knowledge graph.
 2. **Curriculum & Schedule Substrate (`src/academicos/curriculum/`)**:
-   - Canonical hierarchy: `Board` &rarr; `AcademicYear` &rarr; `Grade` &rarr; `Subject` &rarr; `Unit` &rarr; `Chapter` &rarr; `Topic` &rarr; `Subtopic`.
-   - Operational calendar: Working days, term dates, multi-day block holidays (`Holiday.end_date`), subject period allocations, and weekly timetable slots (`SubjectTimetableSlot`).
-   - Human-in-the-loop content extraction: LLM extraction proposals for Topics/Subtopics are staged in `curriculum_extraction_runs`/`proposals` and require explicit principal/admin review and approval before materialization.
+   - Canonical hierarchy: `Board` &rarr; `AcademicYear` &rarr; `Grade` &rarr; `Subject` &rarr; `Unit` &rarr; `Chapter` &rarr; `Topic` &rarr; `Subtopic`. Complete coverage across all 5 core CBSE Class 10 subjects (Science, Mathematics, Social Science, English, Hindi Course A).
+   - Operational calendar: Working days, term dates, multi-day block holidays (`Holiday.end_date`), period duration configuration, subject period allocations, and weekly timetable slots (`SubjectTimetableSlot`).
+   - Human-in-the-loop content extraction: LLM extraction proposals for Topics/Subtopics are staged in `curriculum_extraction_runs`/`proposals` and require explicit principal review and approval before materialization.
+   - Textbook Table-of-Contents pipeline: Deterministic TOC text parser and automated Unit/Chapter creation for custom/uploaded textbooks (`POST /books/{book_id}/toc/ingest`).
 3. **Assessment Designer & Question Bank (`src/academicos/assessment/`)**:
    - Question pool (`pool.py`): Deduplicated, validated questions extracted from authentic CBSE papers with real marking scheme answers.
-   - Semantic & lexical tagging: Questions mapped to canonical curriculum units, chapters, topics, and subtopics (`qmap.py`, `embedding_chapter_tagger.py`).
+   - Semantic & lexical tagging: Questions mapped to canonical curriculum units, chapters, topics, and subtopics (`qmap.py`, `embedding_chapter_tagger.py`) with calibrated multi-clause recall.
    - Blueprint-driven generation: Section-by-section balance by Bloom level, question type (MCQ, VSA, SA, LA, Case-based), and difficulty, with PDF rendering.
-4. **Evaluation, Scanning & Learner Analytics**:
-   - Mobile scan pipeline: Multi-page student answer sheet capture, perspective rectification, and Sarvam Vision OCR.
-   - Automated & rubric-based grading: Itemized question scoring with audit logging (`audit_log.py`) and grade-change tracking.
+4. **School Admin Console, Portals & Analytics**:
+   - School Admin Console (`/admin`): 6 tabs — Roster, Master Calendar Grid, Coverage & Pace reporting, Drag-and-Drop Sequence Reordering, Reschedule (PUSH/ADJUST), and Calendar Setup.
+   - Student Portal (`/student/schedule`): Day, Week, Month (`table_calendar`), and Overview syllabus tracking.
+   - Dedicated Parent Portal (`/parent`): Child syllabus completion metrics, daily classroom attendance/lesson tracking, and Carol Dweck growth mindset parent guidance & concept scaffolding (§A8).
+   - Evaluation & Mobile Scan: Multi-page student answer sheet capture, perspective rectification, Sarvam Vision OCR, itemized grading, and audit logging (`audit_log.py`).
    - Spaced repetition & mastery: FSRS (Free Spaced Repetition Scheduler) and knowledge state estimation.
 
 ---

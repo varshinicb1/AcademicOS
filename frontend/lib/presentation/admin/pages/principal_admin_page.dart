@@ -64,13 +64,49 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   final _adjustReasonController = TextEditingController(text: 'Rescheduled to working day');
   bool _adjusting = false;
 
+  // --- Master Calendar State ---
+  DateTime _masterCalendarDate = DateTime.now();
+  List<ScheduledLessonSummary> _masterLessons = [];
+  bool _loadingMasterCalendar = false;
+
+  // --- Sequence Reorder State ---
+  String? _seqGradeId;
+  String? _seqSubjectId;
+  List<SubjectSummary> _seqSubjects = [];
+  bool _loadingSeqSubjects = false;
+  List<UnitSummary> _seqUnits = [];
+  List<ChapterSummary> _seqChapters = [];
+  bool _loadingSeqContent = false;
+  int _seqMode = 0; // 0: units, 1: chapters
+
+  // --- Calendar & Period Setup State ---
+  int _weeklyOffDay = 7; // Sunday
+  String _altSatRule = 'none';
+  bool _creatingCalendar = false;
+  final _periodMinutesController = TextEditingController(text: '45');
+  bool _savingPeriodMinutes = false;
+  final _holidayDateController = TextEditingController(
+    text: DateTime.now().toString().substring(0, 10),
+  );
+  final _holidayLabelController = TextEditingController();
+  String _holidayKind = 'public';
+  final _holidayEndDateController = TextEditingController();
+  bool _addingHoliday = false;
+  WorkingDaysSummary? _workingDaysSummary;
+  bool _loadingWorkingDays = false;
+  List<HolidayInfo> _holidaysList = [];
+
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 6, vsync: this);
     _tabController.addListener(() {
-      if (_tabController.index == 1 && _coverageReport == null && !_loadingReporting) {
+      if (_tabController.index == 1 && _masterLessons.isEmpty && !_loadingMasterCalendar) {
+        _loadMasterCalendar();
+      } else if (_tabController.index == 2 && _coverageReport == null && !_loadingReporting) {
         _loadReporting();
+      } else if (_tabController.index == 5 && _workingDaysSummary == null && !_loadingWorkingDays) {
+        _loadCalendarSetup();
       }
     });
     _future = _load();
@@ -84,6 +120,10 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     _adjustLessonIdController.dispose();
     _adjustDateController.dispose();
     _adjustReasonController.dispose();
+    _periodMinutesController.dispose();
+    _holidayDateController.dispose();
+    _holidayLabelController.dispose();
+    _holidayEndDateController.dispose();
     super.dispose();
   }
 
@@ -264,6 +304,183 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     }
   }
 
+  Future<void> _loadMasterCalendar() async {
+    setState(() => _loadingMasterCalendar = true);
+    try {
+      final start = _masterCalendarDate.subtract(const Duration(days: 14)).toString().substring(0, 10);
+      final end = _masterCalendarDate.add(const Duration(days: 14)).toString().substring(0, 10);
+      final lessons = await GetIt.I<CurriculumApi>().schoolSchedule(startDate: start, endDate: end);
+      if (mounted) setState(() => _masterLessons = lessons);
+    } catch (e) {
+      _showMessage('Could not load school schedule: $e');
+    } finally {
+      if (mounted) setState(() => _loadingMasterCalendar = false);
+    }
+  }
+
+  Future<void> _onSeqGradeChanged(String? gradeId) async {
+    setState(() {
+      _seqGradeId = gradeId;
+      _seqSubjectId = null;
+      _seqSubjects = [];
+      _seqUnits = [];
+      _seqChapters = [];
+    });
+    if (gradeId == null) return;
+    setState(() => _loadingSeqSubjects = true);
+    try {
+      final subs = await GetIt.I<CurriculumApi>().subjects(gradeId);
+      if (mounted) setState(() => _seqSubjects = subs);
+    } catch (e) {
+      _showMessage('Could not load subjects: $e');
+    } finally {
+      if (mounted) setState(() => _loadingSeqSubjects = false);
+    }
+  }
+
+  Future<void> _onSeqSubjectChanged(String? subjectId) async {
+    setState(() {
+      _seqSubjectId = subjectId;
+      _seqUnits = [];
+      _seqChapters = [];
+    });
+    if (subjectId == null) return;
+    setState(() => _loadingSeqContent = true);
+    try {
+      final api = GetIt.I<CurriculumApi>();
+      final books = await api.books(subjectId);
+      if (books.isNotEmpty) {
+        final bookId = books.first.id;
+        final units = await api.units(bookId);
+        final chapters = await api.chapters(bookId);
+        units.sort((a, b) => a.seq.compareTo(b.seq));
+        chapters.sort((a, b) => a.seq.compareTo(b.seq));
+        if (mounted) {
+          setState(() {
+            _seqUnits = units;
+            _seqChapters = chapters;
+          });
+        }
+      }
+    } catch (e) {
+      _showMessage('Could not load curriculum: $e');
+    } finally {
+      if (mounted) setState(() => _loadingSeqContent = false);
+    }
+  }
+
+  Future<void> _reorderUnit(int oldIndex, int newIndex) async {
+    if (oldIndex < newIndex) newIndex -= 1;
+    final item = _seqUnits.removeAt(oldIndex);
+    _seqUnits.insert(newIndex, item);
+    setState(() {});
+    try {
+      await GetIt.I<CurriculumApi>().setUnitSequence(item.id, newIndex);
+      _showMessage('Unit "${item.name}" sequence updated to #$newIndex');
+    } catch (e) {
+      _showMessage('Could not update sequence: $e');
+    }
+  }
+
+  Future<void> _reorderChapter(int oldIndex, int newIndex) async {
+    if (oldIndex < newIndex) newIndex -= 1;
+    final item = _seqChapters.removeAt(oldIndex);
+    _seqChapters.insert(newIndex, item);
+    setState(() {});
+    try {
+      await GetIt.I<CurriculumApi>().setChapterSequence(item.id, newIndex);
+      _showMessage('Chapter "${item.name}" sequence updated to #$newIndex');
+    } catch (e) {
+      _showMessage('Could not update sequence: $e');
+    }
+  }
+
+  Future<void> _submitCreateCalendar() async {
+    if (_academicYearId == null) return;
+    setState(() => _creatingCalendar = true);
+    try {
+      await GetIt.I<CurriculumApi>().createCalendar(
+        _academicYearId!,
+        weeklyOffDays: [_weeklyOffDay],
+        alternateSaturdayRule: _altSatRule,
+      );
+      _showMessage('Academic Calendar initialized successfully.');
+      _loadCalendarSetup();
+    } catch (e) {
+      _showMessage('Could not initialize calendar: $e');
+    } finally {
+      if (mounted) setState(() => _creatingCalendar = false);
+    }
+  }
+
+  Future<void> _submitSavePeriodDuration() async {
+    if (_academicYearId == null) return;
+    final mins = int.tryParse(_periodMinutesController.text.trim());
+    if (mins == null || mins <= 0) {
+      _showMessage('Enter valid period duration in minutes.');
+      return;
+    }
+    setState(() => _savingPeriodMinutes = true);
+    try {
+      await GetIt.I<CurriculumApi>().setPeriodConfiguration(_academicYearId!, periodMinutes: mins);
+      _showMessage('Period duration configured: $mins minutes.');
+    } catch (e) {
+      _showMessage('Could not set period configuration: $e');
+    } finally {
+      if (mounted) setState(() => _savingPeriodMinutes = false);
+    }
+  }
+
+  Future<void> _submitAddHoliday() async {
+    if (_academicYearId == null) return;
+    final date = _holidayDateController.text.trim();
+    final label = _holidayLabelController.text.trim();
+    final end = _holidayEndDateController.text.trim();
+    if (date.isEmpty || label.isEmpty) {
+      _showMessage('Please provide date and holiday label.');
+      return;
+    }
+    setState(() => _addingHoliday = true);
+    try {
+      await GetIt.I<CurriculumApi>().addHoliday(
+        _academicYearId!,
+        date: date,
+        label: label,
+        kind: _holidayKind,
+        endDate: end.isEmpty ? null : end,
+      );
+      _showMessage('Holiday "$label" added.');
+      _holidayLabelController.clear();
+      _loadCalendarSetup();
+    } catch (e) {
+      _showMessage('Could not add holiday: $e');
+    } finally {
+      if (mounted) setState(() => _addingHoliday = false);
+    }
+  }
+
+  Future<void> _loadCalendarSetup() async {
+    if (_academicYearId == null) return;
+    setState(() => _loadingWorkingDays = true);
+    try {
+      final api = GetIt.I<CurriculumApi>();
+      final results = await Future.wait([
+        api.getWorkingDays(_academicYearId!),
+        api.listHolidays(_academicYearId!),
+      ]);
+      if (mounted) {
+        setState(() {
+          _workingDaysSummary = results[0] as WorkingDaysSummary;
+          _holidaysList = results[1] as List<HolidayInfo>;
+        });
+      }
+    } catch (_) {
+      // Ignored if calendar not yet created
+    } finally {
+      if (mounted) setState(() => _loadingWorkingDays = false);
+    }
+  }
+
   void _showMessage(String text) {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
@@ -277,11 +494,15 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         leading: forceShellLeading(context),
         title: const Text('School Admin Console'),
         bottom: TabBar(
+          isScrollable: true,
           controller: _tabController,
           tabs: const [
             Tab(text: 'Roster', icon: Icon(Icons.people_alt_outlined)),
+            Tab(text: 'Master Calendar', icon: Icon(Icons.calendar_month_outlined)),
             Tab(text: 'Coverage & Pace', icon: Icon(Icons.analytics_outlined)),
+            Tab(text: 'Sequence Reorder', icon: Icon(Icons.low_priority_outlined)),
             Tab(text: 'Reschedule', icon: Icon(Icons.edit_calendar_outlined)),
+            Tab(text: 'Calendar & Setup', icon: Icon(Icons.settings_suggest_outlined)),
           ],
         ),
       ),
@@ -309,8 +530,11 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
             controller: _tabController,
             children: [
               _buildRosterTab(theme, data),
+              _buildMasterCalendarTab(theme, data),
               _buildCoverageTab(theme),
+              _buildSequenceTab(theme, data),
               _buildRescheduleTab(theme, data),
+              _buildCalendarSetupTab(theme, data),
             ],
           );
         },
@@ -739,6 +963,453 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                     : const Icon(Icons.edit_calendar),
                 label: const Text('Reschedule Single Lesson'),
               ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // ==================== TAB 4: MASTER CALENDAR (§11-14) ====================
+
+  Widget _buildMasterCalendarTab(ThemeData theme, _AdminData data) {
+    final curDateStr = _masterCalendarDate.toString().substring(0, 10);
+    final dayLessons = _masterLessons.where((l) => l.scheduledDate == curDateStr).toList();
+    final totalScheduled = _masterLessons.where((l) => l.status == 'scheduled').length;
+    final totalCompleted = _masterLessons.where((l) => l.status == 'completed').length;
+    final totalSkipped = _masterLessons.where((l) => l.status == 'skipped').length;
+
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('School-Wide Master Calendar', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+                  const Gap(2),
+                  Text('Master schedule of all lessons across all subjects and grades (§11-14).',
+                      style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+                ],
+              ),
+            ),
+            IconButton(
+              icon: const Icon(Icons.refresh),
+              tooltip: 'Refresh Schedule',
+              onPressed: _loadingMasterCalendar ? null : _loadMasterCalendar,
+            ),
+          ],
+        ),
+        const Gap(12),
+        AppCard(
+          child: Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.chevron_left),
+                onPressed: () {
+                  setState(() => _masterCalendarDate = _masterCalendarDate.subtract(const Duration(days: 1)));
+                  _loadMasterCalendar();
+                },
+              ),
+              Expanded(
+                child: Center(
+                  child: TextButton.icon(
+                    onPressed: () async {
+                      final picked = await showDatePicker(
+                        context: context,
+                        initialDate: _masterCalendarDate,
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime(2030),
+                      );
+                      if (picked != null) {
+                        setState(() => _masterCalendarDate = picked);
+                        _loadMasterCalendar();
+                      }
+                    },
+                    icon: const Icon(Icons.calendar_today, size: 18),
+                    label: Text(
+                      'Date: $curDateStr',
+                      style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.chevron_right),
+                onPressed: () {
+                  setState(() => _masterCalendarDate = _masterCalendarDate.add(const Duration(days: 1)));
+                  _loadMasterCalendar();
+                },
+              ),
+            ],
+          ),
+        ),
+        const Gap(12),
+        Row(
+          children: [
+            Expanded(
+              child: AppCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Completed', style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.primary)),
+                    Text('$totalCompleted', style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+            ),
+            const Gap(8),
+            Expanded(
+              child: AppCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Scheduled', style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.secondary)),
+                    Text('$totalScheduled', style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+            ),
+            const Gap(8),
+            Expanded(
+              child: AppCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Skipped', style: theme.textTheme.labelSmall?.copyWith(color: theme.colorScheme.error)),
+                    Text('$totalSkipped', style: theme.textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        const Gap(16),
+        Text('Lessons for $curDateStr (${dayLessons.length})',
+            style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+        const Gap(8),
+        if (_loadingMasterCalendar)
+          const Center(child: Padding(padding: EdgeInsets.all(24), child: CircularProgressIndicator()))
+        else if (dayLessons.isEmpty)
+          const EmptyState(
+            icon: Icons.event_busy_outlined,
+            title: 'No lessons scheduled',
+            message: 'No lessons scheduled across the school for this date.',
+          )
+        else
+          ...dayLessons.map((l) {
+            Color statusColor;
+            IconData statusIcon;
+            if (l.status == 'completed') {
+              statusColor = Colors.green;
+              statusIcon = Icons.check_circle_outline;
+            } else if (l.status == 'skipped') {
+              statusColor = theme.colorScheme.error;
+              statusIcon = Icons.cancel_outlined;
+            } else {
+              statusColor = theme.colorScheme.primary;
+              statusIcon = Icons.schedule_outlined;
+            }
+            return Card(
+              margin: const EdgeInsets.only(bottom: 8),
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: statusColor.withValues(alpha: 0.12),
+                  child: Icon(statusIcon, color: statusColor),
+                ),
+                title: Text('Period ${l.periodNumber} • Subtopic: ${l.subtopicId.split(':').last}'),
+                subtitle: Text('Book: ${l.bookId.split(':').last} • Status: ${l.status}${l.note != null ? " (${l.note})" : ""}'),
+                trailing: Text(l.status.toUpperCase(), style: TextStyle(color: statusColor, fontWeight: FontWeight.bold, fontSize: 11)),
+              ),
+            );
+          }),
+      ],
+    );
+  }
+
+  // ==================== TAB 5: SEQUENCE REORDER (§13) ====================
+
+  Widget _buildSequenceTab(ThemeData theme, _AdminData data) {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Text('Curriculum Delivery Sequence', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+        const Gap(4),
+        Text('Drag and drop units or chapters to reorder delivery sequence (§13).',
+            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+        const Gap(12),
+        AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _dropdown<GradeSummary>(
+                label: 'Select Grade',
+                value: data.grades.where((g) => g.id == _seqGradeId).firstOrNull,
+                items: data.grades,
+                itemLabel: (g) => g.label,
+                onChanged: (g) => _onSeqGradeChanged(g?.id),
+              ),
+              if (_loadingSeqSubjects) ...[
+                const Gap(8),
+                const LinearProgressIndicator(),
+              ],
+              if (_seqSubjects.isNotEmpty) ...[
+                const Gap(12),
+                _dropdown<SubjectSummary>(
+                  label: 'Select Subject',
+                  value: _seqSubjects.where((s) => s.id == _seqSubjectId).firstOrNull,
+                  items: _seqSubjects,
+                  itemLabel: (s) => s.name,
+                  onChanged: (s) => _onSeqSubjectChanged(s?.id),
+                ),
+              ],
+            ],
+          ),
+        ),
+        const Gap(16),
+        if (_loadingSeqContent)
+          const Center(child: Padding(padding: EdgeInsets.all(24), child: CircularProgressIndicator()))
+        else if (_seqUnits.isNotEmpty || _seqChapters.isNotEmpty) ...[
+          SegmentedButton<int>(
+            segments: const [
+              ButtonSegment(value: 0, label: Text('Units Sequence'), icon: Icon(Icons.view_agenda_outlined)),
+              ButtonSegment(value: 1, label: Text('Chapters Sequence'), icon: Icon(Icons.list_alt_outlined)),
+            ],
+            selected: {_seqMode},
+            onSelectionChanged: (set) => setState(() => _seqMode = set.first),
+          ),
+          const Gap(16),
+          if (_seqMode == 0) ...[
+            Text('Reorder Units (${_seqUnits.length})', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+            const Gap(4),
+            Text('Hold and drag handle on the right to reorder sequence.', style: theme.textTheme.bodySmall),
+            const Gap(8),
+            ReorderableListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _seqUnits.length,
+              // ignore: deprecated_member_use
+              onReorder: _reorderUnit,
+              itemBuilder: (context, index) {
+                final u = _seqUnits[index];
+                return Card(
+                  key: ValueKey(u.id),
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: Text('${index + 1}'),
+                    ),
+                    title: Text(u.name),
+                    subtitle: Text('Unit ${u.unitNo} • ${u.marks} marks'),
+                    trailing: const Icon(Icons.drag_handle),
+                  ),
+                );
+              },
+            ),
+          ] else ...[
+            Text('Reorder Chapters (${_seqChapters.length})', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+            const Gap(4),
+            Text('Hold and drag handle on the right to reorder sequence.', style: theme.textTheme.bodySmall),
+            const Gap(8),
+            ReorderableListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: _seqChapters.length,
+              // ignore: deprecated_member_use
+              onReorder: _reorderChapter,
+              itemBuilder: (context, index) {
+                final c = _seqChapters[index];
+                return Card(
+                  key: ValueKey(c.id),
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      child: Text('${index + 1}'),
+                    ),
+                    title: Text(c.name),
+                    subtitle: Text('ID: ${c.canonicalId}'),
+                    trailing: const Icon(Icons.drag_handle),
+                  ),
+                );
+              },
+            ),
+          ],
+        ] else if (_seqSubjectId != null) ...[
+          const EmptyState(
+            icon: Icons.menu_book_outlined,
+            title: 'No units found',
+            message: 'No units or chapters found for this subject book.',
+          ),
+        ],
+      ],
+    );
+  }
+
+  // ==================== TAB 6: CALENDAR & PERIOD SETUP (§8, §10) ====================
+
+  Widget _buildCalendarSetupTab(ThemeData theme, _AdminData data) {
+    return ListView(
+      padding: const EdgeInsets.all(16),
+      children: [
+        Text('Calendar & Period Configuration', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+        const Gap(4),
+        Text('Setup academic calendar rules, period durations, and block holidays (§8, §10).',
+            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+        const Gap(12),
+        AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Academic Calendar Rules', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+              const Gap(8),
+              DropdownButtonFormField<int>(
+                initialValue: _weeklyOffDay,
+                decoration: const InputDecoration(labelText: 'Weekly Off Day', border: OutlineInputBorder()),
+                items: const [
+                  DropdownMenuItem(value: 7, child: Text('Sunday (Default)')),
+                  DropdownMenuItem(value: 6, child: Text('Saturday')),
+                  DropdownMenuItem(value: 5, child: Text('Friday')),
+                ],
+                onChanged: (v) => setState(() => _weeklyOffDay = v ?? 7),
+              ),
+              const Gap(12),
+              DropdownButtonFormField<String>(
+                initialValue: _altSatRule,
+                decoration: const InputDecoration(labelText: 'Alternate Saturday Rule', border: OutlineInputBorder()),
+                items: const [
+                  DropdownMenuItem(value: 'none', child: Text('None (All working)')),
+                  DropdownMenuItem(value: 'second_fourth', child: Text('2nd & 4th Saturdays Off')),
+                  DropdownMenuItem(value: 'all', child: Text('All Saturdays Off')),
+                ],
+                onChanged: (v) => setState(() => _altSatRule = v ?? 'none'),
+              ),
+              const Gap(12),
+              FilledButton.icon(
+                onPressed: _creatingCalendar ? null : _submitCreateCalendar,
+                icon: _creatingCalendar
+                    ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                    : const Icon(Icons.calendar_month),
+                label: const Text('Initialize Calendar'),
+              ),
+            ],
+          ),
+        ),
+        const Gap(16),
+        AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Period Duration Configuration', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+              const Gap(8),
+              TextField(
+                controller: _periodMinutesController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Period Duration (minutes)',
+                  helperText: 'Standard teaching period duration in minutes (e.g. 45).',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const Gap(12),
+              FilledButton.icon(
+                onPressed: _savingPeriodMinutes ? null : _submitSavePeriodDuration,
+                icon: _savingPeriodMinutes
+                    ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                    : const Icon(Icons.timer_outlined),
+                label: const Text('Save Period Duration'),
+              ),
+            ],
+          ),
+        ),
+        const Gap(16),
+        AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Add Block Holiday', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+              const Gap(8),
+              TextField(
+                controller: _holidayDateController,
+                decoration: const InputDecoration(labelText: 'Date (YYYY-MM-DD)', border: OutlineInputBorder()),
+              ),
+              const Gap(12),
+              TextField(
+                controller: _holidayLabelController,
+                decoration: const InputDecoration(labelText: 'Holiday Label (e.g. Diwali Vacation)', border: OutlineInputBorder()),
+              ),
+              const Gap(12),
+              DropdownButtonFormField<String>(
+                initialValue: _holidayKind,
+                decoration: const InputDecoration(labelText: 'Holiday Kind', border: OutlineInputBorder()),
+                items: const [
+                  DropdownMenuItem(value: 'public', child: Text('Public Holiday')),
+                  DropdownMenuItem(value: 'school', child: Text('School Holiday')),
+                  DropdownMenuItem(value: 'emergency', child: Text('Emergency Closure')),
+                ],
+                onChanged: (v) => setState(() => _holidayKind = v ?? 'public'),
+              ),
+              const Gap(12),
+              TextField(
+                controller: _holidayEndDateController,
+                decoration: const InputDecoration(labelText: 'End Date (Optional, for range)', border: OutlineInputBorder()),
+              ),
+              const Gap(12),
+              FilledButton.icon(
+                onPressed: _addingHoliday ? null : _submitAddHoliday,
+                icon: _addingHoliday
+                    ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                    : const Icon(Icons.add_circle_outline),
+                label: const Text('Add Holiday'),
+              ),
+            ],
+          ),
+        ),
+        const Gap(16),
+        AppCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text('Teaching Days Computation (§10)',
+                        style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.refresh),
+                    onPressed: _loadingWorkingDays ? null : _loadCalendarSetup,
+                  ),
+                ],
+              ),
+              const Gap(8),
+              if (_loadingWorkingDays)
+                const LinearProgressIndicator()
+              else if (_workingDaysSummary != null) ...[
+                Text('Total Days: ${_workingDaysSummary!.totalDays}'),
+                const Gap(4),
+                Text('Working Days: ${_workingDaysSummary!.workingDays}',
+                    style: TextStyle(color: theme.colorScheme.primary, fontWeight: FontWeight.bold)),
+                const Gap(4),
+                Text('Holidays: ${_workingDaysSummary!.holidayCount}'),
+                const Gap(4),
+                Text('Weekly Offs: ${_workingDaysSummary!.weeklyOffCount}'),
+                const Gap(4),
+                Text('Alternate Saturdays Off: ${_workingDaysSummary!.alternateSaturdayOffCount}'),
+              ] else
+                const Text('Initialize the academic calendar above to compute teaching days.'),
+              if (_holidaysList.isNotEmpty) ...[
+                const Gap(8),
+                const Divider(),
+                const Gap(8),
+                Text('Configured Holidays (${_holidaysList.length}):',
+                    style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
+                const Gap(4),
+                ..._holidaysList.map(
+                  (h) => Text('• ${h.date}: ${h.label} (${h.kind})', style: theme.textTheme.bodySmall),
+                ),
+              ],
             ],
           ),
         ),

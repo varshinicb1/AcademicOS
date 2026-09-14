@@ -10,22 +10,33 @@ It bridges authoritative curriculum structures with day-to-day school operations
 
 ### 1. Curriculum & Timetable Substrate
 - **Canonical Hierarchy**: Board &rarr; Academic Year &rarr; Grade &rarr; Subject &rarr; Unit &rarr; Chapter &rarr; Topic &rarr; Subtopic.
-- **Operational Planning**: Multi-day block holiday scheduling, term definitions, weekly timetable slot allocations (`SubjectTimetableSlot`), and subject period allocations.
-- **Verified Decomposition**: Complete, admin-approved Topic and Subtopic decomposition for Class 10 (Science, Mathematics, Social Science, English) with zero unverified fabrication.
+- **Operational Planning**: Multi-day block holiday scheduling, term definitions, weekly timetable slot allocations (`SubjectTimetableSlot`), subject period duration configuration, and teaching days calculation.
+- **Verified Decomposition**: Complete, admin-approved Topic and Subtopic decomposition for all 5 core CBSE Class 10 subjects (Science, Mathematics, Social Science, English, and Hindi Course A) with zero unverified fabrication.
+- **Textbook Ingestion Pipeline**: Deterministic Table of Contents (TOC) extraction and automatic Unit/Chapter materialization for custom/uploaded textbooks (`POST /api/v1/curriculum/books/{book_id}/toc/ingest`).
 
 ### 2. Assessment Designer & Authentic Question Bank
 - **Real CBSE Question Pool**: Hundreds of authentic question papers parsed, deduplicated, and paired with official marking scheme model answers.
-- **Granular Question Tagging**: Every question tagged with Bloom taxonomy levels, difficulty, type (MCQ, VSA, SA, LA, Case-based), and canonical curriculum subtopics.
+- **Granular Question Tagging**: Every question tagged with Bloom taxonomy levels, difficulty, type (MCQ, VSA, SA, LA, Case-based), and canonical curriculum subtopics with calibrated multi-clause recall.
 - **Blueprint-Driven Paper Generator**: Instant generation of balanced question papers and teacher answer keys conforming to CBSE marks distributions and section requirements, exportable to print-ready PDFs.
 
-### 3. Evaluation, Scanning & Feedback Loop
+### 3. School Admin Console & Management Tracking
+- **Unified 6-Tab Console** (`/admin`):
+  1. *Roster*: Teacher book assignments and student grade enrollments.
+  2. *School-Wide Master Calendar*: Cross-subject schedule tracking with date filtering and period numbers.
+  3. *Coverage & Pace*: Planned vs. actually-taught lessons, pace %, period variance, and overdue delayed topics.
+  4. *Sequence Reorder*: Interactive drag-and-drop delivery reordering for Units and Chapters (`ReorderableListView`).
+  5. *Reschedule*: Disruption handling via PUSH (shifting subsequent lessons forward) and ADJUST (single lesson rescheduling).
+  6. *Calendar & Setup*: Working days calculation, period duration configuration, and holiday blocks.
+
+### 4. Student & Parent Portals
+- **Student Schedule & Progress** (`/student/schedule`): Real-time syllabus completion progress with Day, Week, Month (`table_calendar`), and 4-week Overview schedule views.
+- **Dedicated Parent Portal** (`/parent`): Student syllabus completion metrics, daily classroom attendance/lesson tracking, and Carol Dweck growth mindset parent guidance & concept scaffolding (§A8).
+
+### 5. Evaluation, Scanning & Learner Analytics
 - **Mobile Answer-Sheet Scanning**: Multi-page camera capture with perspective correction and vision OCR.
 - **Rubric-Based Evaluation**: Itemized marking against official CBSE marking schemes with teacher overrides.
 - **Auditing & Compliance**: Immutable audit log (`audit_log.py`) tracking grade modifications, adhering to DPDP Act 2023 and CERT-In requirements.
-
-### 4. Learner Mastery & Spaced Repetition
-- **Cognitive Modeling**: Implementation of FSRS (Free Spaced Repetition Scheduler) and knowledge state estimation.
-- **Personalized Remediation**: Automated generation of targeted practice sets based on identified misconceptions.
+- **Spaced Repetition & Mastery**: FSRS (Free Spaced Repetition Scheduler) and knowledge state estimation with personalized remediation.
 
 ---
 

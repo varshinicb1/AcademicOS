@@ -426,3 +426,55 @@ def test_approved_hierarchy_survives_a_simulated_restart(tmp_path):
     assert {t.name for t in topics} == {"Chemical Equations", "Types of Chemical Reactions"}
     assert store2.get_extraction_run(run.id).status == "approved"
     store2.close()
+
+
+# --------------------------------------------------------------------- #
+# §5-9: Textbook Table of Contents extraction and Unit/Chapter ingestion
+# --------------------------------------------------------------------- #
+
+def test_parse_toc_text_structured():
+    raw_toc = """
+    Unit I: Chemical Substances - Nature and Behaviour
+      Chapter 1: Chemical Reactions and Equations
+      Chapter 2: Acids, Bases and Salts
+      Chapter 3: Metals and Non-Metals
+    Unit II: World of Living
+      Chapter 4: Life Processes
+      Chapter 5: Control and Coordination
+    """
+    units = extraction.parse_toc_text(raw_toc)
+    assert len(units) == 2
+    assert units[0].unit_no == "I"
+    assert units[0].name == "Chemical Substances - Nature and Behaviour"
+    assert units[0].chapters == [
+        "Chemical Reactions and Equations",
+        "Acids, Bases and Salts",
+        "Metals and Non-Metals",
+    ]
+    assert units[1].unit_no == "II"
+    assert len(units[1].chapters) == 2
+
+
+def test_extract_and_ingest_toc_creates_real_rows(store):
+    book, _ = _seed_chapter(store)
+    raw_toc = """
+    Unit 1: Foundations of Physics
+      Chapter 1: Kinematics in One Dimension
+      Chapter 2: Newton's Laws of Motion
+    Unit 2: Energy and Momentum
+      Chapter 3: Work and Kinetic Energy
+    """
+    result = extraction.extract_and_ingest_toc(store, book_id=book.id, toc_text=raw_toc)
+    assert result.units_created == 2
+    assert result.chapters_created == 3
+
+    units = store.units_for_book(book.id)
+    unit_names = {u.name for u in units}
+    assert "Foundations of Physics" in unit_names
+    assert "Energy and Momentum" in unit_names
+
+    chapters = store.chapters_for_book(book.id)
+    chap_names = {c.name for c in chapters}
+    assert "Kinematics in One Dimension" in chap_names
+    assert "Newton's Laws of Motion" in chap_names
+    assert "Work and Kinetic Energy" in chap_names

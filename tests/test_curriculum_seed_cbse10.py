@@ -32,9 +32,9 @@ def _seed(store):
         start_date="2026-06-01", end_date="2027-04-30")
 
 
-def test_seeds_all_four_real_subjects(store):
+def test_seeds_all_five_real_subjects(store):
     result = _seed(store)
-    assert result.subjects_seeded == 4
+    assert result.subjects_seeded == 5
     assert result.subjects_skipped == []
 
 
@@ -52,6 +52,13 @@ def test_seeds_real_chapter_names_matching_the_source_json(store):
     assert "Chemical Reactions and Equations" in chapters
     assert "Light – Reflection and Refraction" in chapters
     assert "Our Environment" in chapters
+
+    hindi = store.get_subject_by_name(grade.id, "Hindi")
+    hindi_book = store.books_for_subject(hindi.id)[0]
+    hindi_chapters = {c.name for c in store.chapters_for_book(hindi_book.id)}
+    assert "Rachna ke Aadhar par Vakya Bhed" in hindi_chapters
+    assert "Kshitij Bhag 2 Gadya Khand" in hindi_chapters
+    assert "Anuchhed Lekhan" in hindi_chapters
 
 
 def test_mathematics_units_with_no_chapter_list_get_one_chapter_each(store):
@@ -106,7 +113,7 @@ def test_idempotent_rerun_creates_no_duplicates(store):
     assert first.grade_id == second.grade_id
     # Nothing new created the second time -- everything matched by natural
     # key / canonical_id and was reused.
-    assert second.subjects_seeded == 4  # subjects "seeded" counts reused too
+    assert second.subjects_seeded == 5  # subjects "seeded" counts reused too
     assert store.academic_years_for_school("school_1") == \
         store.academic_years_for_school("school_1")  # sanity: still just one list
     year = store.get_academic_year_by_label("school_1", "2026-27")
@@ -114,7 +121,7 @@ def test_idempotent_rerun_creates_no_duplicates(store):
     grade = store.get_grade_by_number(year.id, 10)
     assert len(store.grades_for_year(year.id)) == 1
     subject = store.get_subject_by_name(grade.id, "Science")
-    assert len(store.subjects_for_grade(grade.id)) == 4
+    assert len(store.subjects_for_grade(grade.id)) == 5
     book = store.books_for_subject(subject.id)
     assert len(book) == 1
     # Chapter/unit counts identical across both runs (re-verify by re-querying).

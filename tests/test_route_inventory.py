@@ -111,6 +111,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/books/{book_id}/units"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"),
+    ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
     ("POST", "/api/v1/curriculum/seed/cbse10"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
@@ -324,7 +325,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 113
+    assert len(API_ROUTES) == 114
 
 
 def test_docs_routes_present():
@@ -422,6 +423,7 @@ def test_gated_routes_return_503_without_startup():
                 ("PATCH", "/api/v1/assessments/{assessment_id}/approve"),
                 ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/review/{question_id}"),
                 ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/finalize"),
+                ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
                 ("POST", "/api/v1/curriculum/seed/cbse10"),
                 ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
                 ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"),
@@ -800,7 +802,7 @@ def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):
         )
         assert seeded.status_code == 200, seeded.text
         body = seeded.json()
-        assert body["subjectsSeeded"] == 4
+        assert body["subjectsSeeded"] == 5
         assert body["subjectsSkipped"] == []
         academic_year_id = body["academicYearId"]
         grade_id = body["gradeId"]
@@ -825,7 +827,7 @@ def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):
 
         subjects = client.get(f"/api/v1/curriculum/grades/{grade_id}/subjects")
         subject_names = {s["name"] for s in subjects.json()}
-        assert subject_names == {"Mathematics", "Science", "Social Science", "English"}
+        assert subject_names == {"Mathematics", "Science", "Social Science", "English", "Hindi"}
         science = next(s for s in subjects.json() if s["name"] == "Science")
 
         books = client.get(f"/api/v1/curriculum/subjects/{science['id']}/books")
@@ -839,6 +841,15 @@ def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):
 
         units = client.get(f"/api/v1/curriculum/books/{book_id}/units")
         assert sum(u["marks"] for u in units.json()) == 80  # real CBSE Science X total
+
+        # -- §5-9: TOC ingestion
+        toc_res = client.post(
+            f"/api/v1/curriculum/books/{book_id}/toc/ingest",
+            json={"tocText": "Unit 1: Test Unit\nChapter 1: Test Chapter"},
+            headers=principal_auth,
+        )
+        assert toc_res.status_code == 200
+        assert toc_res.json()["unitsCreated"] >= 1
 
 
 def test_full_boot_academic_calendar_and_teaching_time_estimates(tmp_path, monkeypatch):
