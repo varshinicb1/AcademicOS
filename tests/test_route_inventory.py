@@ -155,6 +155,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/my-progress"),
     ("GET", "/api/v1/curriculum/reporting/coverage"),
     ("GET", "/api/v1/curriculum/reporting/delayed-topics"),
+    ("GET", "/api/v1/curriculum/export"),
+    # --- api/main.py ---
+    ("GET", "/health/storage"),
 })
 
 DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
@@ -163,6 +166,122 @@ DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/openapi.json"),
     ("GET", "/redoc"),
 })
+
+# Routes whose handler chain begins with Depends(get_current_user) or
+# require_principal (looked up through auth_routes._require()). These check
+# for a bearer token before they ever touch the auth module's own _require(),
+# so with NO Authorization header they 401 ("no token"), never 503 -- and a
+# syntactically valid but session-less token still 503s while the app is
+# uninitialized. The startup-free tests below drive exactly that split; the
+# full-boot group exercises the real 401/403/404 paths.
+AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
+    # --- routes.py (assessment designer) ---
+    ("GET", "/api/v1/schools/{school_id}/templates"),
+    ("GET", "/api/v1/schools/{school_id}/paper-templates"),
+    ("POST", "/api/v1/papers/generate"),
+    ("GET", "/api/v1/papers/{paper_id}"),
+    ("POST", "/api/v1/papers/{paper_id}/export/{fmt}"),
+    ("GET", "/api/v1/papers/{paper_id}/file"),
+    ("POST", "/api/v1/assessments"),
+    ("GET", "/api/v1/assessments"),
+    ("GET", "/api/v1/assessments/{assessment_id}"),
+    ("PUT", "/api/v1/assessments/{assessment_id}"),
+    ("DELETE", "/api/v1/assessments/{assessment_id}"),
+    ("PATCH", "/api/v1/assessments/{assessment_id}/status"),
+    ("PATCH", "/api/v1/assessments/{assessment_id}/approve"),
+    # --- auth_routes.py (identity reads + principal approval) ---
+    ("GET", "/api/v1/auth/me"),
+    ("GET", "/api/v1/auth/users"),
+    # --- pillar_routes.py (school templates, grading, knowledge) ---
+    ("GET", "/api/v1/schools/{school_id}/school-templates"),
+    ("POST", "/api/v1/schools/{school_id}/school-templates"),
+    ("GET", "/api/v1/schools/{school_id}/school-templates/{template_id}/sections"),
+    ("DELETE", "/api/v1/schools/{school_id}/school-templates/{template_id}"),
+    ("POST", "/api/v1/assessments/{assessment_id}/answer-key"),
+    ("POST", "/api/v1/mail/send-paper"),
+    ("POST", "/api/v1/evaluations/answer"),
+    ("POST", "/api/v1/evaluations/sheet"),
+    ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/review/{question_id}"),
+    ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/finalize"),
+    ("GET", "/api/v1/knowledge/{student_id}"),
+    ("GET", "/api/v1/knowledge/{student_id}/report"),
+    ("POST", "/api/v1/practice/generate"),
+    ("POST", "/api/v1/practice/submit"),
+    ("GET", "/api/v1/insights/class/{assessment_id}"),
+    ("GET", "/api/v1/insights/school/{school_id}"),
+    # --- mobile_routes.py (scan-and-grade) ---
+    ("POST", "/api/v1/scan/sessions"),
+    ("POST", "/api/v1/scan/sessions/{session_id}/pages"),
+    ("POST", "/api/v1/scan/sessions/{session_id}/process"),
+    ("GET", "/api/v1/scan/sessions/{session_id}/review"),
+    ("POST", "/api/v1/scan/sessions/{session_id}/review/{question_id}"),
+    ("POST", "/api/v1/scan/sessions/{session_id}/finalize"),
+    ("GET", "/api/v1/scan/sessions/{session_id}/pages/{page_no}/image"),
+    ("GET", "/api/v1/scan/sessions/{session_id}/raw-pdf"),
+    ("GET", "/api/v1/scan/sessions/{session_id}/corrected-pdf"),
+    # --- curriculum/routes.py (principal-gated writes + reads) ---
+    ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
+    ("POST", "/api/v1/curriculum/seed/cbse10"),
+    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
+    ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"),
+    ("POST", "/api/v1/curriculum/extraction-runs/{run_id}/approve"),
+    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
+    ("POST", "/api/v1/curriculum/topics/{topic_id}/subtopics"),
+    ("PATCH", "/api/v1/curriculum/topics/{topic_id}"),
+    ("PATCH", "/api/v1/curriculum/subtopics/{subtopic_id}"),
+    ("DELETE", "/api/v1/curriculum/subtopics/{subtopic_id}"),
+    ("PATCH", "/api/v1/curriculum/units/{unit_id}/sequence"),
+    ("PATCH", "/api/v1/curriculum/chapters/{chapter_id}/sequence"),
+    ("PATCH", "/api/v1/curriculum/topics/{topic_id}/sequence"),
+    ("PATCH", "/api/v1/curriculum/subtopics/{subtopic_id}/sequence"),
+    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/questions/tag"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots"),
+    ("DELETE", "/api/v1/curriculum/timetable-slots/{slot_id}"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/working-days"),
+    ("POST", "/api/v1/curriculum/books/{book_id}/teaching-time-estimates"),
+    ("GET", "/api/v1/curriculum/subtopics/{subtopic_id}/teaching-time-estimate"),
+    ("POST", "/api/v1/curriculum/books/{book_id}/schedule"),
+    ("GET", "/api/v1/curriculum/books/{book_id}/schedule"),
+    ("GET", "/api/v1/curriculum/schedule"),
+    ("POST", "/api/v1/curriculum/teacher-assignments"),
+    ("GET", "/api/v1/curriculum/my-schedule"),
+    ("PATCH", "/api/v1/curriculum/scheduled-lessons/{lesson_id}"),
+    ("POST", "/api/v1/curriculum/scheduled-lessons/{lesson_id}/reschedule"),
+    ("POST", "/api/v1/curriculum/books/{book_id}/schedule/push"),
+    ("GET", "/api/v1/curriculum/scheduled-lessons/{lesson_id}/history"),
+    ("POST", "/api/v1/curriculum/student-enrollments"),
+    ("GET", "/api/v1/curriculum/my-class-schedule"),
+    ("GET", "/api/v1/curriculum/my-progress"),
+    ("GET", "/api/v1/curriculum/reporting/coverage"),
+    ("GET", "/api/v1/curriculum/reporting/delayed-topics"),
+    ("GET", "/api/v1/curriculum/export"),
+})
+
+
+def _concrete_path(path: str) -> str:
+    """Replaces every {path_param} with a value the route will accept."""
+    return (
+        path
+        .replace("{school_id}", "school_1")
+        .replace("{assessment_id}", "a1")
+        .replace("{paper_id}", "paper_1")
+        .replace("{fmt}", "pdf")
+        .replace("{template_id}", "tpl_1")
+        .replace("{subject}", "Science")
+        .replace("{grade}", "10")
+        .replace("{student_id}", "s1")
+        .replace("{session_id}", "scan_1")
+        .replace("{question_id}", "q_1")
+        .replace("{page_no}", "1")
+    )
 
 
 def _enumerate_routes() -> frozenset[tuple[str, str]]:
@@ -325,7 +444,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 114
+    assert len(API_ROUTES) == 116
 
 
 def test_docs_routes_present():
@@ -350,9 +469,11 @@ def test_health_without_startup():
 
 
 def test_non_gated_routes_work_without_startup():
-    """Routes that need no module init: blueprint, section templates, mail
-    status, syllabus/timetable (package-data backed), answer-key (pure
-    build_answer_key), and scan-session creation (tolerates a None store)."""
+    """Routes that need no module init and no auth: blueprint generation,
+    mail status, and syllabus/timetable (package-data backed). The routes
+    that used to be here (school templates, answer-key, scan-session
+    creation) now require Depends(get_current_user) -- they 401 without a
+    token and are covered in the auth-gated startup-free tests below."""
     from fastapi.testclient import TestClient
 
     client = TestClient(app)
@@ -360,23 +481,15 @@ def test_non_gated_routes_work_without_startup():
         assert client.post(
             "/api/v1/blueprints/generate", json=blueprint_body()
         ).status_code == 200
-        assert client.get("/api/v1/schools/school_1/templates").status_code == 200
         assert client.get("/api/v1/mail/status").status_code == 200
 
         assert client.get("/api/v1/syllabus/Science/10").status_code == 200
         assert client.get("/api/v1/syllabus/Science/10/timetable").status_code == 200
         assert client.get("/api/v1/syllabus/Physics/10").status_code == 404
 
-        key = client.post("/api/v1/assessments/a1/answer-key", json={
-            "assessmentId": "a1", "questions": [question_body()], "correctOptions": {},
-        })
-        assert key.status_code == 200
-        assert key.json()["totalMarks"] == 2
-
-        session = client.post("/api/v1/scan/sessions", json={
-            "assessmentId": "a1", "studentId": "s1", "studentName": "Student",
-        })
-        assert session.status_code == 200
+        storage = client.get("/health/storage")
+        assert storage.status_code == 200
+        assert storage.json()["supabase_configured"] is False  # no env vars set in tests
     finally:
         client.close()
 
@@ -390,15 +503,17 @@ def test_gated_routes_return_503_without_startup():
     client = TestClient(app)
     try:
         for method, path in sorted(API_ROUTES):
+            # Auth-first routes 401 with no token (handled below by the
+            # with-token variant) -- they never reach _require().
+            if (method, path) in AUTH_FIRST_ROUTES:
+                continue
             if (method, path) in {
                 ("GET", "/health"),
+                ("GET", "/health/storage"),
                 ("POST", "/api/v1/blueprints/generate"),
-                ("GET", "/api/v1/schools/{school_id}/templates"),
                 ("GET", "/api/v1/mail/status"),
                 ("GET", "/api/v1/syllabus/{subject}/{grade}"),
                 ("GET", "/api/v1/syllabus/{subject}/{grade}/timetable"),
-                ("POST", "/api/v1/assessments/{assessment_id}/answer-key"),
-                ("POST", "/api/v1/scan/sessions"),
             }:
                 continue
             # The page-upload route cannot reach a 503 without a multipart
@@ -409,91 +524,16 @@ def test_gated_routes_return_503_without_startup():
             # test_document_ingestion.py instead.
             if (method, path) == ("POST", "/api/v1/ingest/school-documents"):
                 continue
-            # These require Depends(get_current_user)/require_principal,
-            # which checks for a bearer token *before* touching the auth
-            # module's own _require() -- so with no Authorization header at
-            # all, they correctly 401 ("no token"), not 503. That's the
-            # right precedence (never reveal backend init state to an
-            # unauthenticated caller); their real 503-when-uninitialized
-            # path (with a syntactically valid but session-less token) is
-            # exercised in the full-boot group instead.
-            if (method, path) in {
-                ("GET", "/api/v1/auth/me"),
-                ("GET", "/api/v1/auth/users"),
-                ("PATCH", "/api/v1/assessments/{assessment_id}/approve"),
-                ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/review/{question_id}"),
-                ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/finalize"),
-                ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
-                ("POST", "/api/v1/curriculum/seed/cbse10"),
-                ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
-                ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"),
-                ("POST", "/api/v1/curriculum/extraction-runs/{run_id}/approve"),
-                ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
-                ("POST", "/api/v1/curriculum/topics/{topic_id}/subtopics"),
-                ("PATCH", "/api/v1/curriculum/topics/{topic_id}"),
-                ("PATCH", "/api/v1/curriculum/subtopics/{subtopic_id}"),
-                ("DELETE", "/api/v1/curriculum/subtopics/{subtopic_id}"),
-                ("PATCH", "/api/v1/curriculum/units/{unit_id}/sequence"),
-                ("PATCH", "/api/v1/curriculum/chapters/{chapter_id}/sequence"),
-                ("PATCH", "/api/v1/curriculum/topics/{topic_id}/sequence"),
-                ("PATCH", "/api/v1/curriculum/subtopics/{subtopic_id}/sequence"),
-                ("POST", "/api/v1/curriculum/chapters/{chapter_id}/questions/tag"),
-                ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
-                ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
-                ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
-                ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
-                ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
-                ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
-                ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
-                ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots"),
-                ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots"),
-                ("DELETE", "/api/v1/curriculum/timetable-slots/{slot_id}"),
-                ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/working-days"),
-                ("POST", "/api/v1/curriculum/books/{book_id}/teaching-time-estimates"),
-                ("GET", "/api/v1/curriculum/subtopics/{subtopic_id}/teaching-time-estimate"),
-                ("POST", "/api/v1/curriculum/books/{book_id}/schedule"),
-                ("GET", "/api/v1/curriculum/books/{book_id}/schedule"),
-                ("GET", "/api/v1/curriculum/schedule"),
-                ("POST", "/api/v1/curriculum/teacher-assignments"),
-                ("GET", "/api/v1/curriculum/my-schedule"),
-                ("PATCH", "/api/v1/curriculum/scheduled-lessons/{lesson_id}"),
-                ("POST", "/api/v1/curriculum/scheduled-lessons/{lesson_id}/reschedule"),
-                ("POST", "/api/v1/curriculum/books/{book_id}/schedule/push"),
-                ("GET", "/api/v1/curriculum/scheduled-lessons/{lesson_id}/history"),
-                ("POST", "/api/v1/curriculum/student-enrollments"),
-                ("GET", "/api/v1/curriculum/my-class-schedule"),
-                ("GET", "/api/v1/curriculum/my-progress"),
-                ("GET", "/api/v1/curriculum/reporting/coverage"),
-                ("GET", "/api/v1/curriculum/reporting/delayed-topics"),
-            }:
-                continue
             # Idempotent by design: no token means nothing to delete, so it
             # 200s without ever touching _require() -- correct, not a gap.
             if (method, path) == ("POST", "/api/v1/auth/logout"):
                 continue
-            # Every other scan route looks the session up first (404 on a
-            # missing session) before any `_require()`, so no session -> 404
-            # not 503; their error paths are exercised in the full-boot group.
-            if path.startswith("/api/v1/scan/sessions/{session_id}"):
-                continue
-            concrete = (
-                path
-                .replace("{school_id}", "school_1")
-                .replace("{assessment_id}", "a1")
-                .replace("{paper_id}", "paper_1")
-                .replace("{fmt}", "pdf")
-                .replace("{template_id}", "tpl_1")
-                .replace("{subject}", "Science")
-                .replace("{grade}", "10")
-                .replace("{student_id}", "s1")
-                .replace("{session_id}", "scan_1")
-                .replace("{question_id}", "q_1")
-                .replace("{page_no}", "1")
-            )
             if path == "/api/v1/curriculum/academic-years":
                 # Required query param, not a path param -- 422 (missing)
                 # would fire before _require() otherwise.
-                concrete += "?school_id=school_1"
+                concrete = path + "?school_id=school_1"
+            else:
+                concrete = _concrete_path(path)
             body = _valid_body_for(method, path)
             r = client.request(method, concrete, json=body)
             assert r.status_code == 503, f"{method} {concrete} -> {r.status_code}"
@@ -502,9 +542,11 @@ def test_gated_routes_return_503_without_startup():
 
 
 def test_auth_gated_routes_503_with_a_token_present():
-    """The two routes excluded above (auth checked first, correctly 401s
-    with no token) still hit the real 503-when-uninitialized path once a
-    syntactically valid bearer token is actually supplied."""
+    """Every auth-first route (they 401 with no token, per the test above)
+    still hits the real 503-when-uninitialized path once a syntactically
+    valid but session-less bearer token is supplied -- get_current_user's
+    token check passes, then auth_routes._require() finds the module not
+    yet booted and raises 503, before any body/path validation."""
     if assessment_routes._store is not None:
         pytest.skip("module globals already initialized (suite ran out of order)")
     from fastapi.testclient import TestClient
@@ -512,10 +554,13 @@ def test_auth_gated_routes_503_with_a_token_present():
     client = TestClient(app)
     try:
         headers = {"Authorization": "Bearer not-a-real-token"}
-        assert client.get("/api/v1/auth/me", headers=headers).status_code == 503
-        assert client.patch(
-            "/api/v1/assessments/a1/approve", headers=headers
-        ).status_code == 503
+        for method, path in sorted(AUTH_FIRST_ROUTES):
+            if (method, path) == ("POST", "/api/v1/scan/sessions/{session_id}/pages"):
+                continue  # multipart body required (covered in full-boot 404 test)
+            concrete = _concrete_path(path)
+            body = _valid_body_for(method, path)
+            r = client.request(method, concrete, json=body, headers=headers)
+            assert r.status_code == 503, f"{method} {concrete} -> {r.status_code}"
     finally:
         client.close()
 
@@ -674,10 +719,11 @@ def test_full_boot_auth_and_principal_approval(tmp_path, monkeypatch):
         ).status_code == 401
 
         # -- the actual point: a teacher cannot approve; a principal can
+        teacher_auth = {"Authorization": f"Bearer {teacher_token}"}
         created = client.post("/api/v1/assessments", json={
             "teacherId": "tara", "schoolId": "school_1", "title": "Approval Test",
             "subject": "Science", "grade": 10, "chapterIds": [], "blueprint": blueprint_body(),
-        })
+        }, headers=teacher_auth)
         assert created.status_code == 200
         assessment_id = created.json()["id"]
 
@@ -696,6 +742,7 @@ def test_full_boot_auth_and_principal_approval(tmp_path, monkeypatch):
         # -- the lock this workflow exists to engage actually engages
         assert client.put(
             f"/api/v1/assessments/{assessment_id}", json=approved.json(),
+            headers=teacher_auth,
         ).status_code == 409
 
         # -- a principal from a different school cannot approve this one
@@ -2065,52 +2112,64 @@ def test_full_boot_assessment_lifecycle(tmp_path, monkeypatch):
     search/optimize -> paper generate -> export -> file, plus the empty and
     invalid-body cases on every step."""
     with _boot_client(tmp_path, monkeypatch) as client:
+        # Every assessment route is now behind Depends(get_current_user);
+        # register a teacher and thread the token through every call.
+        teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Lifecycle Teacher",
+            "email": "lifecycle@example.com", "password": "correct horse battery",
+        }).json()
+        auth = {"Authorization": f"Bearer {teacher['token']}"}
+
         # -- create
         body = {
             "teacherId": "teacher_1", "schoolId": "school_1",
             "title": "Lifecycle Test", "subject": "Mathematics", "grade": 10,
             "chapterIds": ["ch1"], "blueprint": blueprint_body(),
         }
-        created = client.post("/api/v1/assessments", json=body)
+        created = client.post("/api/v1/assessments", json=body, headers=auth)
         assert created.status_code == 200, created.text
         assessment_id = created.json()["id"]
 
-        assert client.post("/api/v1/assessments", json={}).status_code == 422
+        assert client.post("/api/v1/assessments", json={}, headers=auth).status_code == 422
 
         # -- read / list
-        fetched = client.get(f"/api/v1/assessments/{assessment_id}")
+        fetched = client.get(f"/api/v1/assessments/{assessment_id}", headers=auth)
         assert fetched.status_code == 200
-        assert client.get("/api/v1/assessments/does_not_exist").status_code == 404
-        listed = client.get("/api/v1/assessments", params={"teacher_id": "teacher_1"})
+        assert client.get("/api/v1/assessments/does_not_exist", headers=auth).status_code == 404
+        listed = client.get("/api/v1/assessments", headers=auth)
         assert listed.status_code == 200
         assert any(a["id"] == assessment_id for a in listed.json())
+        # listing another teacher's assessments is refused (caller is not a principal)
+        assert client.get(
+            "/api/v1/assessments", params={"teacher_id": "someone_else"}, headers=auth,
+        ).status_code == 403
 
         # -- update (GET body is a valid PUT body)
-        put = client.put(f"/api/v1/assessments/{assessment_id}", json=fetched.json())
+        put = client.put(f"/api/v1/assessments/{assessment_id}", json=fetched.json(), headers=auth)
         assert put.status_code == 200
 
         # -- status
         status = client.patch(f"/api/v1/assessments/{assessment_id}/status",
-                              json={"status": "questionsSelected"})
+                              json={"status": "questionsSelected"}, headers=auth)
         assert status.status_code == 200
         assert status.json()["status"] == "questionsSelected"
         assert client.patch(
             f"/api/v1/assessments/{assessment_id}/status",
-            json={"status": "bogus_status"},
+            json={"status": "bogus_status"}, headers=auth,
         ).status_code == 422
         assert client.patch(
-            "/api/v1/assessments/nope/status", json={"status": "draft"},
+            "/api/v1/assessments/nope/status", json={"status": "draft"}, headers=auth,
         ).status_code == 404
 
         # -- answer key
         key = client.post(f"/api/v1/assessments/{assessment_id}/answer-key", json={
             "assessmentId": assessment_id, "questions": [question_body()],
             "correctOptions": {},
-        })
+        }, headers=auth)
         assert key.status_code == 200
         assert key.json()["totalMarks"] == 2
 
-        # -- question search / optimize on an empty corpus
+        # -- question search / optimize on an empty corpus (not auth-gated)
         search = client.post("/api/v1/questions/search", json={
             "subject": "Science", "grade": 10,
         })
@@ -2128,45 +2187,55 @@ def test_full_boot_assessment_lifecycle(tmp_path, monkeypatch):
         empty = client.post("/api/v1/papers/generate", json={
             "assessmentId": assessment_id, "blueprint": blueprint_body(),
             "selectedQuestions": [], "template": school_template_body(),
-        })
+        }, headers=auth)
         assert empty.status_code == 400
 
         gen = client.post("/api/v1/papers/generate", json={
             "assessmentId": assessment_id, "blueprint": blueprint_body(),
             "selectedQuestions": [question_body()], "template": school_template_body(),
-        })
+        }, headers=auth)
         assert gen.status_code == 200, gen.text
         paper_id = gen.json()["id"]
 
         # -- paper read / export / file
-        paper = client.get(f"/api/v1/papers/{paper_id}")
+        paper = client.get(f"/api/v1/papers/{paper_id}", headers=auth)
         assert paper.status_code == 200
-        assert client.get("/api/v1/papers/does_not_exist").status_code == 404
+        assert client.get("/api/v1/papers/does_not_exist", headers=auth).status_code == 404
 
-        exported = client.post(f"/api/v1/papers/{paper_id}/export/pdf")
+        exported = client.post(f"/api/v1/papers/{paper_id}/export/pdf", headers=auth)
         assert exported.status_code == 200, exported.text
         assert exported.json()["url"] == f"/api/v1/papers/{paper_id}/file"
-        assert client.post(f"/api/v1/papers/{paper_id}/export/docx").status_code == 400
-        assert client.post("/api/v1/papers/does_not_exist/export/pdf").status_code == 404
+        assert client.post(
+            f"/api/v1/papers/{paper_id}/export/docx", headers=auth,
+        ).status_code == 400
+        assert client.post(
+            "/api/v1/papers/does_not_exist/export/pdf", headers=auth,
+        ).status_code == 404
 
-        file_r = client.get(f"/api/v1/papers/{paper_id}/file")
+        file_r = client.get(f"/api/v1/papers/{paper_id}/file", headers=auth)
         assert file_r.status_code == 200
         assert file_r.headers["content-type"] == "application/pdf"
-        assert client.get("/api/v1/papers/does_not_exist/file").status_code == 404
+        assert client.get("/api/v1/papers/does_not_exist/file", headers=auth).status_code == 404
 
         # -- mail/send-paper: pdf must already exist; a nonexistent paper 404s
         assert client.post("/api/v1/mail/send-paper", json={
             "paperId": "does_not_exist", "recipients": ["t@example.com"],
-        }).status_code == 404
+        }, headers=auth).status_code == 404
 
         # -- paper-templates endpoint delegates to the same template store
-        templates = client.get("/api/v1/schools/school_1/paper-templates")
+        templates = client.get("/api/v1/schools/school_1/paper-templates", headers=auth)
         assert templates.status_code == 200
         assert any(t["id"] for t in templates.json())
 
 
 def test_full_boot_syllabus_catalog_and_templates(tmp_path, monkeypatch):
     with _boot_client(tmp_path, monkeypatch) as client:
+        teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Template Teacher",
+            "email": "template@example.com", "password": "correct horse battery",
+        }).json()
+        auth = {"Authorization": f"Bearer {teacher['token']}"}
+
         # Syllabus: Science/10 exists, Physics/10 does not.
         syl = client.get("/api/v1/syllabus/Science/10")
         assert syl.status_code == 200
@@ -2188,29 +2257,32 @@ def test_full_boot_syllabus_catalog_and_templates(tmp_path, monkeypatch):
         assert chapters.status_code == 200
         assert chapters.json(), "Science/10 syllabus chapters should be listed"
 
-        # School templates CRUD.
-        listed = client.get("/api/v1/schools/school_1/school-templates")
+        # School templates CRUD (auth-gated since 2026-09-15).
+        listed = client.get("/api/v1/schools/school_1/school-templates", headers=auth)
         assert listed.status_code == 200
         assert any(t["id"] for t in listed.json())
 
         saved = client.post("/api/v1/schools/school_1/school-templates", json={
             "template": school_template_body("tpl_custom"),
             "sections": [],
-        })
+        }, headers=auth)
         assert saved.status_code == 200, saved.text
         assert saved.json()["id"] == "tpl_custom"
 
         sections = client.get(
-            "/api/v1/schools/school_1/school-templates/tpl_custom/sections")
+            "/api/v1/schools/school_1/school-templates/tpl_custom/sections", headers=auth)
         assert sections.status_code == 200
 
         deleted = client.delete(
-            "/api/v1/schools/school_1/school-templates/tpl_custom")
+            "/api/v1/schools/school_1/school-templates/tpl_custom", headers=auth)
         assert deleted.status_code == 200
         assert deleted.json() == {"ok": True}
 
 
 def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch):
+    # The bootstrap key must be in place before the app boots: UserStore
+    # captures it at construction, not per-request.
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
     with _boot_client(tmp_path, monkeypatch) as client:
         q = question_body()
 
@@ -2232,56 +2304,82 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         }).json()
         other_school_auth = {"Authorization": f"Bearer {other_school_teacher['token']}"}
 
+        # A school_1 principal is required for /insights/school (require_principal).
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Eval Principal",
+            "email": "eval-principal@example.com", "password": "correct horse battery",
+            "principalKey": "test-bootstrap-key",
+        }).json()
+        assert principal["user"]["role"] == "principal"
+        principal_auth = {"Authorization": f"Bearer {principal['token']}"}
+
+        # /knowledge and /practice are school-scoped to registered users
+        # (require_school_owns_student 404s on any id that isn't a user), so
+        # the two students these assertions lean on must be real school_1
+        # users -- their generated ids thread through the whole flow.
+        sheet_student = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Sheeta", "email": "sheeta@example.com",
+            "password": "correct horse battery", "role": "student",
+        }).json()
+        sheet_id = sheet_student["user"]["id"]
+        unknown_student = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Nobody", "email": "nobody@example.com",
+            "password": "correct horse battery", "role": "student",
+        }).json()
+        unknown_id = unknown_student["user"]["id"]
+
         created = client.post("/api/v1/assessments", json={
             "teacherId": teacher["user"]["id"], "schoolId": "school_1",
             "title": "Evaluation Test", "subject": "Mathematics", "grade": 10,
             "chapterIds": [], "blueprint": blueprint_body(),
-        })
+        }, headers=teacher_auth)
         assert created.status_code == 200, created.text
         a_ev = created.json()["id"]
 
-        # -- evaluation: single answer and full sheet (unauthenticated by
-        # design -- not part of this fix; see pillar_routes.py)
+        # -- evaluation: single answer and full sheet (both now require the
+        # authenticated caller from the assessment's own school).
         answer = client.post("/api/v1/evaluations/answer", json={
             "assessmentId": a_ev, "studentId": "s_answer",
             "question": q,
             "answerScheme": q["answerScheme"],
             "studentAnswer": "The solution is x = 2, "
             "obtained by subtracting 3 from both sides then dividing by 2.",
-        })
+        }, headers=teacher_auth)
         assert answer.status_code == 200, answer.text
         assert answer.json()["awardedMarks"] == 2
 
         sheet = client.post("/api/v1/evaluations/sheet", json={
-            "assessmentId": a_ev, "studentId": "s_sheet", "studentName": "Sheeta",
+            "assessmentId": a_ev, "studentId": sheet_id, "studentName": "Sheeta",
             "questions": [q], "answers": {
                 "q_1": "The solution is x = 2, obtained by subtracting 3 from "
                        "both sides then dividing by 2.",
             },
             "correctOptions": {},
-        })
+        }, headers=teacher_auth)
         assert sheet.status_code == 200, sheet.text
         assert sheet.json()["totalAwarded"] <= sheet.json()["totalMax"]
 
         # -- review + finalize: the AI's raw score must not reach mastery
         # until the teacher's decision is finalized (evaluate_sheet no
         # longer calls record_evaluations itself).
-        assert client.get("/api/v1/knowledge/s_sheet").json()["overallMastery"] == 0.0
+        assert client.get(
+            f"/api/v1/knowledge/{sheet_id}", headers=teacher_auth,
+        ).json()["overallMastery"] == 0.0
 
         # -- authorization itself: no token -> 401; wrong school -> 403
         assert client.post(
-            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/review/q_1",
+            f"/api/v1/evaluations/sheet/{a_ev}/{sheet_id}/review/q_1",
             json={"action": "approve"},
         ).status_code == 401
         assert client.post(
-            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/review/q_1",
+            f"/api/v1/evaluations/sheet/{a_ev}/{sheet_id}/review/q_1",
             json={"action": "approve"}, headers=other_school_auth,
         ).status_code == 403
         assert client.post(
-            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/finalize", json={},
+            f"/api/v1/evaluations/sheet/{a_ev}/{sheet_id}/finalize", json={},
         ).status_code == 401
         assert client.post(
-            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/finalize", json={},
+            f"/api/v1/evaluations/sheet/{a_ev}/{sheet_id}/finalize", json={},
             headers=other_school_auth,
         ).status_code == 403
         # a real caller, but an assessment id that doesn't exist -> 404,
@@ -2293,7 +2391,7 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
 
         # unknown question in this sheet -> 404
         assert client.post(
-            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/review/q_missing",
+            f"/api/v1/evaluations/sheet/{a_ev}/{sheet_id}/review/q_missing",
             json={"action": "approve"}, headers=teacher_auth,
         ).status_code == 404
         # review against a student/assessment with no evaluated sheet -> 404
@@ -2304,7 +2402,7 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
 
         # teacher overrides the AI's award for q_1 down to 0/2
         edited = client.post(
-            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/review/q_1",
+            f"/api/v1/evaluations/sheet/{a_ev}/{sheet_id}/review/q_1",
             json={"action": "edit", "marks": 0}, headers=teacher_auth,
         )
         assert edited.status_code == 200, edited.text
@@ -2313,11 +2411,11 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
 
         # edit with no marks -> 400; unknown action -> 400
         assert client.post(
-            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/review/q_1",
+            f"/api/v1/evaluations/sheet/{a_ev}/{sheet_id}/review/q_1",
             json={"action": "edit"}, headers=teacher_auth,
         ).status_code == 400
         assert client.post(
-            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/review/q_1",
+            f"/api/v1/evaluations/sheet/{a_ev}/{sheet_id}/review/q_1",
             json={"action": "bogus"}, headers=teacher_auth,
         ).status_code == 400
 
@@ -2328,7 +2426,7 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         ).status_code == 404
 
         finalized = client.post(
-            f"/api/v1/evaluations/sheet/{a_ev}/s_sheet/finalize",
+            f"/api/v1/evaluations/sheet/{a_ev}/{sheet_id}/finalize",
             json={}, headers=teacher_auth,
         )
         assert finalized.status_code == 200, finalized.text
@@ -2336,33 +2434,40 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         assert finalized.json()["totalMax"] == 2
 
         # mastery now reflects the teacher-finalized (not AI-original) mark.
-        after = client.get("/api/v1/knowledge/s_sheet").json()
+        after = client.get(f"/api/v1/knowledge/{sheet_id}", headers=teacher_auth).json()
         assert after["overallMastery"] < 1.0
 
         assert client.post("/api/v1/evaluations/sheet", json={
-            "assessmentId": a_ev, "studentId": "s_sheet",
+            "assessmentId": a_ev, "studentId": sheet_id,
             "questions": [], "answers": {},
-        }).status_code == 200
+        }, headers=teacher_auth).status_code == 200
 
         # -- knowledge: empty student is 200 (empty mastery), report 404s.
-        knowledge = client.get("/api/v1/knowledge/s_unknown")
+        knowledge = client.get(f"/api/v1/knowledge/{unknown_id}", headers=teacher_auth)
         assert knowledge.status_code == 200
         assert knowledge.json()["overallMastery"] == 0.0
-        assert client.get("/api/v1/knowledge/s_unknown/report").status_code == 404
+        assert client.get(
+            f"/api/v1/knowledge/{unknown_id}/report", headers=teacher_auth,
+        ).status_code == 404
 
         # -- practice: nothing to remediate -> 400; unknown set -> 404.
-        practice = client.post("/api/v1/practice/generate", json={
-            "studentId": "s_unknown", "subject": "Science", "grade": "X",
-        })
+        practice = client.post(
+            "/api/v1/practice/generate",
+            json={"studentId": unknown_id, "subject": "Science", "grade": "X"},
+            headers=teacher_auth,
+        )
         assert practice.status_code == 400
-        assert client.post("/api/v1/practice/submit", json={
-            "setId": "nope", "answers": {},
-        }).status_code == 404
+        assert client.post(
+            "/api/v1/practice/submit", json={"setId": "nope", "answers": {}},
+            headers=teacher_auth,
+        ).status_code == 404
 
         # -- insights: no evaluated sheets for this assessment -> class 404;
-        # school is 200 (empty).
-        assert client.get("/api/v1/insights/class/assessment_with_no_sheets").status_code == 404
-        school = client.get("/api/v1/insights/school/school_1")
+        # school is principal-only and 200 (empty).
+        assert client.get(
+            "/api/v1/insights/class/assessment_with_no_sheets", headers=teacher_auth,
+        ).status_code == 404
+        school = client.get("/api/v1/insights/school/school_1", headers=principal_auth)
         assert school.status_code == 200
 
 
@@ -2370,38 +2475,57 @@ def test_full_boot_scan_session_error_paths(tmp_path, monkeypatch):
     """Scan routes exercised via their proper-4xx paths: no network, no OCR
     pipeline, no Supabase. Every route is hit with a real request."""
     with _boot_client(tmp_path, monkeypatch) as client:
+        teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Scan Teacher",
+            "email": "scan-teacher@example.com", "password": "correct horse battery",
+        }).json()
+        auth = {"Authorization": f"Bearer {teacher['token']}"}
+
+        # Every session route verifies the session's assessment belongs to
+        # the caller's school, so the session must reference a real owned
+        # assessment rather than a made-up id.
+        assessment = client.post("/api/v1/assessments", json={
+            "teacherId": teacher["user"]["id"], "schoolId": "school_1",
+            "title": "Scan Session Test", "subject": "Mathematics", "grade": 10,
+            "chapterIds": [], "blueprint": blueprint_body(),
+        }, headers=auth)
+        assert assessment.status_code == 200, assessment.text
+        a_scan = assessment.json()["id"]
+
         created = client.post("/api/v1/scan/sessions", json={
-            "assessmentId": "a_scan", "studentId": "s1", "studentName": "Student",
-        })
+            "assessmentId": a_scan, "studentId": "s1", "studentName": "Student",
+        }, headers=auth)
         assert created.status_code == 200, created.text
         session_id = created.json()["id"]
 
         # Empty session -> review is empty; process has no paper; finalize has
         # nothing; review-decision on an unknown question 400s; assets 404.
-        review = client.get(f"/api/v1/scan/sessions/{session_id}/review")
+        review = client.get(f"/api/v1/scan/sessions/{session_id}/review", headers=auth)
         assert review.status_code == 200
         assert review.json()["items"] == []
 
-        process = client.post(f"/api/v1/scan/sessions/{session_id}/process")
+        process = client.post(f"/api/v1/scan/sessions/{session_id}/process", headers=auth)
         assert process.status_code == 409
         assert "no generated paper" in process.json()["detail"]
 
-        finalize = client.post(f"/api/v1/scan/sessions/{session_id}/finalize")
+        finalize = client.post(f"/api/v1/scan/sessions/{session_id}/finalize", headers=auth)
         assert finalize.status_code == 409
 
         decision = client.post(
             f"/api/v1/scan/sessions/{session_id}/review/q_1",
-            json={"action": "approve"},
+            json={"action": "approve"}, headers=auth,
         )
         assert decision.status_code == 400
         assert "not in this session's review queue" in decision.json()["detail"]
 
         assert client.get(
-            f"/api/v1/scan/sessions/{session_id}/pages/1/image"
+            f"/api/v1/scan/sessions/{session_id}/pages/1/image", headers=auth
         ).status_code == 404
-        assert client.get(f"/api/v1/scan/sessions/{session_id}/raw-pdf").status_code == 404
         assert client.get(
-            f"/api/v1/scan/sessions/{session_id}/corrected-pdf"
+            f"/api/v1/scan/sessions/{session_id}/raw-pdf", headers=auth
+        ).status_code == 404
+        assert client.get(
+            f"/api/v1/scan/sessions/{session_id}/corrected-pdf", headers=auth
         ).status_code == 404
 
         # Nonexistent session -> 404 on every route.
@@ -2414,7 +2538,7 @@ def test_full_boot_scan_session_error_paths(tmp_path, monkeypatch):
             ("GET", "/api/v1/scan/sessions/scan_missing/raw-pdf"),
             ("GET", "/api/v1/scan/sessions/scan_missing/corrected-pdf"),
         ):
-            r = client.request(method, path, json={"action": "approve"})
+            r = client.request(method, path, json={"action": "approve"}, headers=auth)
             assert r.status_code == 404, f"{method} {path} -> {r.status_code}"
 
         # The page-upload route needs a real multipart file to pass FastAPI
@@ -2422,5 +2546,6 @@ def test_full_boot_scan_session_error_paths(tmp_path, monkeypatch):
         upload = client.post(
             "/api/v1/scan/sessions/scan_missing/pages",
             files={"file": ("page.jpg", b"x", "image/jpeg")},
+            headers=auth,
         )
         assert upload.status_code == 404, f"POST /pages -> {upload.status_code}"

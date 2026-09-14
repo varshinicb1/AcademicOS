@@ -57,7 +57,11 @@ def blueprint_body(total_marks: int = 80, duration_minutes: int = 180) -> dict:
 
 
 def create_assessment_body() -> dict:
-    """A valid CreateAssessmentRequest body (camelCase)."""
+    """A valid CreateAssessmentRequest body (camelCase). teacherId/schoolId
+    are ignored by the real endpoint now (fixed 2026-09-15 -- they used to be
+    trusted verbatim from the body, a full impersonation hole) in favor of
+    the authenticated caller's own identity; kept here only so older callers
+    of this helper that still pass the body through don't need to change."""
     return {
         "teacherId": "teacher_1",
         "schoolId": "school_1",
@@ -67,6 +71,20 @@ def create_assessment_body() -> dict:
         "chapterIds": ["ch1"],
         "blueprint": blueprint_body(),
     }
+
+
+def register_and_login(client: TestClient, school_id: str = "school_1",
+                       email: str = "teacher@example.com") -> tuple[dict, dict[str, str]]:
+    """Registers a fresh teacher for `school_id` and returns (user_json,
+    auth_headers) -- the standard way every full-boot test below gets a real
+    identity now that most routes require Depends(get_current_user)."""
+    r = client.post("/api/v1/auth/register", json={
+        "schoolId": school_id, "name": "Test Teacher", "email": email,
+        "password": "correct horse battery",
+    })
+    assert r.status_code == 200, r.text
+    body = r.json()
+    return body["user"], {"Authorization": f"Bearer {body['token']}"}
 
 
 # =====================================================================
@@ -120,12 +138,14 @@ def test_blueprint_generate_invalid_body_422():
 
 
 def test_school_templates_and_mail_status_without_startup():
+    """GET /schools/{school_id}/templates now requires a real caller (fixed
+    2026-09-15 -- previously served to anyone, no auth at all); auth is
+    checked before any module-init state, so this 401s with no token even
+    before startup, same convention as every other auth-gated route.
+    /mail/status carries no school-specific data and stays open."""
     client = TestClient(app)
     templates = client.get("/api/v1/schools/school_1/templates")
-    assert templates.status_code == 200
-    sections = templates.json()
-    assert isinstance(sections, list) and sections
-    assert "label" in sections[0]
+    assert templates.status_code == 401
 
     mail = client.get("/api/v1/mail/status")
     assert mail.status_code == 200
@@ -135,12 +155,17 @@ def test_school_templates_and_mail_status_without_startup():
 
 
 def test_runtime_gated_routes_return_503_before_startup():
-    """Mounted but not initialized -> 503, never 404."""
+    """Mounted but not initialized -> 503, never 404 -- for routes that
+    aren't also auth-gated. GET /assessments and /schools/.../school-templates
+    are now Depends(get_current_user)-gated (fixed 2026-09-15), so with no
+    token at all they correctly 401 before ever reaching the 503 init check
+    -- see test_auth_gated_routes_503_with_a_token_present-style coverage in
+    test_route_inventory.py for their real 503-when-uninitialized path."""
     if assessment_routes._store is not None:
         pytest.skip("module globals already initialized (suite ran out of order)")
     client = TestClient(app)
-    assert client.get("/api/v1/assessments").status_code == 503
-    assert client.get("/api/v1/schools/school_1/school-templates").status_code == 503
+    assert client.get("/api/v1/assessments").status_code == 401
+    assert client.get("/api/v1/schools/school_1/school-templates").status_code == 401
     r = client.post("/v1/search", json={"query": "photosynthesis", "limit": 5})
     assert r.status_code == 503
     assert client.post("/v1/revise", json={"learner": "alice"}).status_code == 503
@@ -193,12 +218,17 @@ def test_assessment_roundtrip_calendar_sync_failure_does_not_block_save(
     )
 
     with TestClient(app) as client:
-        created = client.post("/api/v1/assessments", json=create_assessment_body())
+        teacher, auth = register_and_login(client)
+        created = client.post("/api/v1/assessments", json=create_assessment_body(), headers=auth)
         assert created.status_code == 200
         assessment_id = created.json()["id"]
         assert created.json()["status"] == "blueprintReady"
+        # teacherId/schoolId in the body are ignored now -- the real owner is
+        # whoever authenticated, not whatever the request claimed.
+        assert created.json()["teacherId"] == teacher["id"]
+        assert created.json()["schoolId"] == teacher["schoolId"]
 
-        fetched = client.get(f"/api/v1/assessments/{assessment_id}")
+        fetched = client.get(f"/api/v1/assessments/{assessment_id}", headers=auth)
         assert fetched.status_code == 200
         assert fetched.json()["id"] == assessment_id
         assert fetched.json()["scheduledAt"] is None
@@ -207,12 +237,12 @@ def test_assessment_roundtrip_calendar_sync_failure_does_not_block_save(
         body = fetched.json()
         body["scheduledAt"] = (datetime.now(timezone.utc) + timedelta(days=3)).isoformat()
 
-        updated = client.put(f"/api/v1/assessments/{assessment_id}", json=body)
+        updated = client.put(f"/api/v1/assessments/{assessment_id}", json=body, headers=auth)
         assert updated.status_code == 200
         assert updated.json()["scheduledAt"] is not None
 
         # The save must NOT have been blocked by the (raised) calendar sync.
-        again = client.get(f"/api/v1/assessments/{assessment_id}")
+        again = client.get(f"/api/v1/assessments/{assessment_id}", headers=auth)
         assert again.status_code == 200
         assert again.json()["scheduledAt"] is not None
         assert datetime.fromisoformat(again.json()["scheduledAt"]) == datetime.fromisoformat(
@@ -220,7 +250,7 @@ def test_assessment_roundtrip_calendar_sync_failure_does_not_block_save(
         )
 
         # Persisted through the AssessmentStore -> listable by teacher.
-        listed = client.get("/api/v1/assessments", params={"teacher_id": "teacher_1"})
+        listed = client.get("/api/v1/assessments", params={"teacher_id": teacher["id"]}, headers=auth)
         assert listed.status_code == 200
         assert any(a["id"] == assessment_id for a in listed.json())
 

@@ -95,6 +95,7 @@ flutter test
 
 - [AGENTS.md](AGENTS.md) — Autonomous agent operational protocol and codebase invariants
 - [CLAUDE.md](CLAUDE.md) — Developer guidelines, commands, and architecture overview
+- [docs/deployment.md](docs/deployment.md) — Real Render CI/CD pipeline, Supabase durability setup, and honestly-documented known gaps
 - [docs/roadmap.md](docs/roadmap.md) — 5-phase product vision and implementation status
 - [docs/compliance.md](docs/compliance.md) — DPDP Act 2023 and CERT-In compliance specifications
 - [docs/ACADEMIC_DATA_MODEL.md](docs/ACADEMIC_DATA_MODEL.md) — Canonical curriculum data model

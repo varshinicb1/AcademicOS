@@ -61,7 +61,7 @@ conn.execute("PRAGMA busy_timeout=60000")
 | Store Class | DB Path | Tables / Content | Supabase Remote Table |
 |---|---|---|---|
 | `SourceRegistry` | `cfg.registry_db` (`registry.db`) | `sources`, `ingestion_runs` | None (static / baked) |
-| `CurriculumStore` | `cfg.data_dir / "curriculum_store.db"` | `boards`, `grades`, `subjects`, `units`, `chapters`, `topics`, `subtopics`, `holidays`, `timetable_slots`, `allocations`, `proposals` | Deferred (Target for Path B) |
+| `CurriculumStore` | `cfg.data_dir / "curriculum_store.db"` | `boards`, `grades`, `subjects`, `units`, `chapters`, `topics`, `subtopics`, `holidays`, `timetable_slots`, `allocations`, `proposals` | Whole-file snapshot/restore via `SupabaseStorage` (2026-09-15 — too relational for per-table `SupabaseTable`; see `docs/deployment.md`), not per-table like the rows below |
 | `UserStore` | `cfg.data_dir / "users.db"` | `users`, `sessions` | `users`, `sessions` |
 | `AssessmentStore` | `cfg.data_dir / "assessments.db"` | `assessments` | `assessments` |
 | `PaperStore` | `cfg.data_dir / "papers.db"` | `papers` | `papers` |
@@ -75,7 +75,7 @@ conn.execute("PRAGMA busy_timeout=60000")
 | `AnswerKeyStore` | `cfg.data_dir / "answer_keys.db"` | `answer_keys` | None (derived from MS) |
 | `GraphStore` | `cfg.graph_db` (`graph.db`) | `nodes`, `edges` | None (corpus graph) |
 | `ChunkIndex` | `cfg.index_db` (`index.db`) | `chunks`, `bm25_stats` | None (retrieval index) |
-| `EventStore` | `cfg.data_dir / "events.db"` | `learner_events` | None (learner events) |
+| `EventStore` | `cfg.data_dir / "events.db"` | `learner_events` | `learner_events` (2026-09-15 — was the last durability-critical store without one; also fixed a real `seq = MAX(seq)+1` race with a per-learner lock, plus a `_conn_lock` after a concurrency test reproduced `sqlite3.InterfaceError` under true concurrent access) |
 | `pool.py` (read-only query) | `cfg.registry_db` | `sources` query | None (reads registry) |
 
 ### Persistence & Deployment Topologies
@@ -84,6 +84,10 @@ conn.execute("PRAGMA busy_timeout=60000")
   Stores managing state that must outlive restarts (`AssessmentStore`, `PaperStore`, `GradedStore`, `PracticeStore`, `AuditLogStore`, `UserStore`, `ScanSessionStore`, `TemplateStore`, `KnowledgeStore`) use `SupabaseTable` to persist JSONB payloads to Supabase PostgREST when `SUPABASE_KNOWLEDGE_URL` and `SUPABASE_KNOWLEDGE_ANON_KEY` are defined, falling back safely to local SQLite.
 - **Static Assets & Corpus Databases**:
   `academicos-data/` contains pre-ingested indexes (`registry.db`, `index.db`, `graph.db`, `curriculum_store.db`, syllabus JSONs) and is copied into Docker deployment images.
+- **Observability**: `GET /health/storage` reports whether Supabase is configured and (if so) currently reachable — check this instead of guessing from the Render dashboard or grepping env vars on the host.
+- **School data export**: `GET /api/v1/curriculum/export` (principal-gated, school_id always from the authenticated caller) bundles the curriculum tree, assessments, paper templates, and users for one school — for backup or manual transfer to another instance. Does not yet cover `PaperStore`/`PracticeStore`/`ScanSessionStore` (no `school_id` column) or provide a restore/import path — see `docs/deployment.md`.
+
+See `docs/deployment.md` for the full picture: the real Render CI/CD pipeline, required Supabase env vars and bucket setup, and honestly-documented known gaps (fallback-consistency across stores, remaining unguarded concurrent-access call sites).
 
 ---
 

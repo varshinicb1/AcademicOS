@@ -2,7 +2,7 @@
 
 **Version:** 1.0  
 **Target:** Windows Desktop + Android (Flutter)  
-**Backend:** Python (FastAPI) + SQLite (WAL Mode + busy_timeout) + Supabase Dual-Mode + Local Chunk Index  
+**Backend:** Python (FastAPI) + SQLite (WAL Mode + busy_timeout) + Supabase durability backstop (per-row REST fallback for the flat operational stores, whole-file snapshot/restore for the relational CurriculumStore — see `docs/deployment.md`) + Local Chunk Index  
 **Frontend:** Flutter (Windows, Android, Web) + Local-First Offline Engine (Hive AES-256)  
 **Document Processing:** Sarvam Vision + Local OCR Ensemble + Native PDF  
 

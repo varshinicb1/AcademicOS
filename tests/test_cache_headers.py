@@ -61,10 +61,25 @@ def test_404_is_never_cached(tmp_path, monkeypatch):
 def test_mutable_and_per_user_endpoints_stay_header_less(tmp_path, monkeypatch):
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     with TestClient(app) as client:
-        assessments = client.get("/api/v1/assessments")
+        # Both endpoints now require a real caller (fixed 2026-09-15 -- see
+        # test_api_main.py/test_route_inventory.py for the security fix these
+        # auth headers are a side effect of); a registered student stands in
+        # for a real student_id since require_school_owns_student 404s on an
+        # id with no matching user.
+        teacher = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "T", "email": "cache-teacher@example.com",
+            "password": "correct horse battery",
+        }).json()
+        auth = {"Authorization": f"Bearer {teacher['token']}"}
+        student = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "S", "email": "cache-student@example.com",
+            "password": "correct horse battery", "role": "student",
+        }).json()["user"]
+
+        assessments = client.get("/api/v1/assessments", headers=auth)
         assert assessments.status_code == 200
         assert "Cache-Control" not in assessments.headers
 
-        knowledge = client.get("/api/v1/knowledge/student_1")
+        knowledge = client.get(f"/api/v1/knowledge/{student['id']}", headers=auth)
         assert knowledge.status_code == 200
         assert "Cache-Control" not in knowledge.headers

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../presentation/home/pages/home_page.dart';
 import '../../presentation/syllabus/pages/syllabus_page.dart';
@@ -32,7 +33,7 @@ import '../../presentation/auth/pages/login_page.dart';
 import '../../presentation/shared/widgets/shell.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
-  return GoRouter(
+  final router = GoRouter(
     initialLocation: '/home',
     routes: [
       ShellRoute(
@@ -274,4 +275,12 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
     ),
   );
+  // Service_locator.dart's global session-keeper routes back to /settings/login
+  // on a dead-session 401 via GetIt -- make this router reachable from there.
+  // Guarded: this provider re-runs per ProviderScope (per widget test), and
+  // GetIt is process-global -- re-registering would throw.
+  if (!GetIt.instance.isRegistered<GoRouter>()) {
+    GetIt.instance.registerSingleton<GoRouter>(router);
+  }
+  return router;
 });

@@ -13,7 +13,7 @@ frontend (`frontend/` targeting Web, Windows, Android) with offline local-first 
 
 - `src/academicos/` — the actual, working implementation (~11.5k LOC). Installed as the
   `academicos` package (`pyproject.toml` at repo root, `pip install -e .`). Has a CLI
-  (`python -m academicos.cli`), passing tests (1113+ tests), and is what `README.md` documents. **Treat this
+  (`python -m academicos.cli`), passing tests (1133+ tests), and is what `README.md` documents. **Treat this
   as the source of truth unless told otherwise.**
 - `backend/academicos/` + `backend/ingestion/` — a newer, mostly-scaffolded rewrite (~4k LOC)
   following the target architecture in `docs/architecture.md` (separate `backend/pyproject.toml`,
@@ -161,9 +161,24 @@ conn.row_factory = sqlite3.Row
 conn.execute("PRAGMA journal_mode=WAL")
 conn.execute("PRAGMA busy_timeout=60000")
 ```
-Never remove these pragmas. They protect against `database is locked` under multi-threaded requests.
-Operational stores use `SupabaseTable` for Postgres backing when `SUPABASE_KNOWLEDGE_URL` and
-`SUPABASE_KNOWLEDGE_ANON_KEY` are provided, falling back gracefully to local SQLite.
+Never remove these pragmas. They protect against `database is locked` under multi-threaded requests
+*between separate connections/processes* — they do NOT make one `sqlite3.Connection` safe for two
+threads to call `execute()` on it concurrently (`check_same_thread=False` only disables Python's own
+check, not a real thread-safety guarantee). `EventStore` additionally guards every local-SQLite call
+site with a `_conn_lock` after a concurrency test reproduced `sqlite3.InterfaceError` under genuine
+concurrent access (2026-09-15) — most other stores don't have this yet, a known gap, see
+`docs/deployment.md`.
+
+The flat single-object stores (`AssessmentStore`, `PaperStore`, `PracticeStore`, `GradedStore`,
+`ScanSessionStore`, `TemplateStore`, `UserStore`, `AuditLog`, `EventStore`) use `SupabaseTable` for
+per-row Postgres backing when `SUPABASE_KNOWLEDGE_URL`/`SUPABASE_KNOWLEDGE_ANON_KEY` are provided.
+Only `AssessmentStore` and `EventStore` catch a live Supabase failure and fall back to local SQLite
+gracefully today — the others let the exception propagate if Supabase is enabled but briefly
+unreachable, a known inconsistency. `CurriculumStore` (18 relational tables, `PRAGMA foreign_keys=ON`)
+uses a different strategy — whole-file snapshot/restore via `SupabaseStorage` instead of wrapping each
+table individually — since per-table REST wrapping would lose FK integrity across two storage layers.
+Check `GET /health/storage` for whether Supabase is actually configured/reachable right now, rather
+than guessing. Full picture: `docs/deployment.md`.
 
 External capability providers (Composio for app actions, Sarvam for LLM calls) sit behind
 `integrations/base.py`/`llm/base.py` interfaces and the existing `agents/base.py` `Tool` ABC —

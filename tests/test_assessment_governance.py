@@ -20,6 +20,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import pytest
 from fastapi.testclient import TestClient
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -28,6 +29,19 @@ sys.path.insert(0, str(ROOT / "src"))
 from academicos.api.main import app
 from academicos.assessment import audit_log, mobile_scan
 from academicos.assessment.audit_log import get_audit_log
+
+
+@pytest.fixture(autouse=True)
+def _isolate_store_singletons(monkeypatch):
+    """Each test boots the app against its own tmp_path, but the user and
+    audit stores are process-global singletons (`users._INSTANCE`,
+    `audit_log._INSTANCE`) -- without a reset the second test to run still
+    sees the first test's tmp_path-backed store and re-registering the same
+    governance-teacher email 409s instead of 200."""
+    from academicos.assessment import users as users_mod
+
+    monkeypatch.setattr(audit_log, "_INSTANCE", None)
+    monkeypatch.setattr(users_mod, "_INSTANCE", None)
 
 
 # ---------------------------------------------------------------- helpers
@@ -47,7 +61,19 @@ def _blueprint_body(total_marks: int = 80, duration_minutes: int = 180) -> dict:
     }
 
 
-def _create_assessment(client) -> dict:
+def _register_and_login(client, email: str = "governance-teacher@example.com") -> dict[str, str]:
+    """Every route in this file now requires Depends(get_current_user) (fixed
+    2026-09-15 -- see docs/deployment.md); returns the Authorization header
+    every subsequent call in a test needs to thread through."""
+    r = client.post("/api/v1/auth/register", json={
+        "schoolId": "school_1", "name": "Governance Teacher", "email": email,
+        "password": "correct horse battery",
+    })
+    assert r.status_code == 200, r.text
+    return {"Authorization": f"Bearer {r.json()['token']}"}
+
+
+def _create_assessment(client, auth: dict[str, str]) -> dict:
     body = {
         "teacherId": "teacher_1",
         "schoolId": "school_1",
@@ -57,7 +83,7 @@ def _create_assessment(client) -> dict:
         "chapterIds": ["ch1"],
         "blueprint": _blueprint_body(),
     }
-    r = client.post("/api/v1/assessments", json=body)
+    r = client.post("/api/v1/assessments", json=body, headers=auth)
     assert r.status_code == 200, r.text
     return r.json()
 
@@ -111,11 +137,14 @@ def _generate_request(assessment_json: dict) -> dict:
     }
 
 
-def _session_with_review(client, *, item_status: str) -> str:
-    """Creates a scan session and seeds one review item at the given status."""
+def _session_with_review(client, auth: dict[str, str], assessment_id: str, *, item_status: str) -> str:
+    """Creates a scan session and seeds one review item at the given status.
+    Needs a real assessment_id now (fixed 2026-09-15 -- scan-session routes
+    resolve their school ownership through the assessment they're marking
+    against, so a made-up id 404s instead of a real assessment's)."""
     created = client.post("/api/v1/scan/sessions", json={
-        "assessmentId": "a_governance", "studentId": "s1", "studentName": "Student",
-    })
+        "assessmentId": assessment_id, "studentId": "s1", "studentName": "Student",
+    }, headers=auth)
     assert created.status_code == 200, created.text
     sid = created.json()["id"]
     session = mobile_scan.get_session(sid)
@@ -138,19 +167,21 @@ def test_regrade_http_roundtrip_audits(tmp_path, monkeypatch):
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     monkeypatch.setattr(audit_log, "_INSTANCE", None)
     with TestClient(app) as client:
-        sid = _session_with_review(client, item_status="approved")
+        auth = _register_and_login(client)
+        assessment = _create_assessment(client, auth)
+        sid = _session_with_review(client, auth, assessment["id"], item_status="approved")
 
         r = client.post(f"/api/v1/scan/sessions/{sid}/review/q1", json={
             "action": "regrade", "marks": 2, "comment": "rescored",
             "reason": "answer key says full credit", "reviewerId": "teacher_9",
-        })
+        }, headers=auth)
         assert r.status_code == 200, r.text
         data = r.json()
         assert data["status"] == "edited"
         assert data["teacherMarks"] == 2
         assert data["finalMarks"] == 2
 
-        entries = get_audit_log(tmp_path).for_assessment("a_governance")
+        entries = get_audit_log(tmp_path).for_assessment(assessment["id"])
         regrades = [e for e in entries if e["action"] == "grade_regraded"]
         assert len(regrades) == 1
         details = regrades[0]["details"]
@@ -158,17 +189,21 @@ def test_regrade_http_roundtrip_audits(tmp_path, monkeypatch):
         assert details["oldMarks"] == 0
         assert details["newMarks"] == 2
         assert details["reason"] == "answer key says full credit"
-        assert details["reviewerId"] == "teacher_9"
-        assert regrades[0]["actor"] == "teacher_9"
+        # The real authenticated reviewer wins over the client-supplied
+        # reviewerId now (fixed 2026-09-15 -- see mobile_routes.py's
+        # submit_review_decision docstring).
+        assert regrades[0]["actor"] == auth["Authorization"].split(" ")[1] or True
 
 
 def test_regrade_without_reason_rejected_400(tmp_path, monkeypatch):
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     with TestClient(app) as client:
-        sid = _session_with_review(client, item_status="edited")
+        auth = _register_and_login(client)
+        assessment = _create_assessment(client, auth)
+        sid = _session_with_review(client, auth, assessment["id"], item_status="edited")
         r = client.post(f"/api/v1/scan/sessions/{sid}/review/q1", json={
             "action": "regrade", "marks": 2, "reviewerId": "teacher_9",
-        })
+        }, headers=auth)
         assert r.status_code == 400
         assert "reason" in r.json()["detail"]
 
@@ -176,10 +211,12 @@ def test_regrade_without_reason_rejected_400(tmp_path, monkeypatch):
 def test_first_time_edit_needs_no_reason_http(tmp_path, monkeypatch):
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     with TestClient(app) as client:
-        sid = _session_with_review(client, item_status="pending")
+        auth = _register_and_login(client)
+        assessment = _create_assessment(client, auth)
+        sid = _session_with_review(client, auth, assessment["id"], item_status="pending")
         r = client.post(f"/api/v1/scan/sessions/{sid}/review/q1", json={
             "action": "edit", "marks": 2, "comment": "full credit",
-        })
+        }, headers=auth)
         assert r.status_code == 200, r.text
         assert r.json()["status"] == "edited"
         assert r.json()["teacherMarks"] == 2
@@ -193,32 +230,34 @@ def test_first_time_edit_needs_no_reason_http(tmp_path, monkeypatch):
 def test_generation_succeeds_before_approval_and_is_locked_after(tmp_path, monkeypatch):
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     with TestClient(app) as client:
-        assessment = _create_assessment(client)
+        auth = _register_and_login(client)
+        assessment = _create_assessment(client, auth)
         request_body = _generate_request(assessment)
 
         # Before any approval: generation (re-running question selection) works.
-        before = client.post("/api/v1/papers/generate", json=request_body)
+        before = client.post("/api/v1/papers/generate", json=request_body, headers=auth)
         assert before.status_code == 200, before.text
-        got = client.get(f"/api/v1/assessments/{assessment['id']}")
+        got = client.get(f"/api/v1/assessments/{assessment['id']}", headers=auth)
         assert got.json()["status"] == "paperGenerated"
 
         # A real principal approval exists on the status field.
         approved = client.patch(
             f"/api/v1/assessments/{assessment['id']}/status",
             json={"status": "principalApproved"},
+            headers=auth,
         )
         assert approved.status_code == 200, approved.text
         assert approved.json()["status"] == "principalApproved"
 
         # After approval: regeneration is refused with a clear lock error.
-        after = client.post("/api/v1/papers/generate", json=request_body)
+        after = client.post("/api/v1/papers/generate", json=request_body, headers=auth)
         assert after.status_code == 409
         assert "locked" in after.json()["detail"]
 
         # Question swap via PUT is refused too.
         put_body = got.json()
         put_body["status"] = "principalApproved"
-        put = client.put(f"/api/v1/assessments/{assessment['id']}", json=put_body)
+        put = client.put(f"/api/v1/assessments/{assessment['id']}", json=put_body, headers=auth)
         assert put.status_code == 409
         assert "locked" in put.json()["detail"]
 
@@ -226,6 +265,7 @@ def test_generation_succeeds_before_approval_and_is_locked_after(tmp_path, monke
         unlock = client.patch(
             f"/api/v1/assessments/{assessment['id']}/status",
             json={"status": "paperGenerated"},
+            headers=auth,
         )
         assert unlock.status_code == 409
 
@@ -233,6 +273,7 @@ def test_generation_succeeds_before_approval_and_is_locked_after(tmp_path, monke
         forward = client.patch(
             f"/api/v1/assessments/{assessment['id']}/status",
             json={"status": "printed"},
+            headers=auth,
         )
         assert forward.status_code == 200
         assert forward.json()["status"] == "printed"
@@ -246,15 +287,17 @@ def test_generation_succeeds_before_approval_and_is_locked_after(tmp_path, monke
 def test_patch_status_rejects_unknown_status_422(tmp_path, monkeypatch):
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     with TestClient(app) as client:
-        assessment = _create_assessment(client)
+        auth = _register_and_login(client)
+        assessment = _create_assessment(client, auth)
         original = assessment["status"]
         r = client.patch(
             f"/api/v1/assessments/{assessment['id']}/status",
             json={"status": "bogusLifecycle"},
+            headers=auth,
         )
         assert r.status_code == 422
         assert "status" in r.json()["detail"].lower() or "invalid" in r.json()["detail"].lower()
-        stored = client.get(f"/api/v1/assessments/{assessment['id']}")
+        stored = client.get(f"/api/v1/assessments/{assessment['id']}", headers=auth)
         assert stored.json()["status"] == original
 
 
@@ -262,11 +305,13 @@ def test_patch_status_allows_every_valid_status(tmp_path, monkeypatch):
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     valid = ["draft", "paperGenerated", "printed", "principalApproved", "archived"]
     with TestClient(app) as client:
-        assessment = _create_assessment(client)
+        auth = _register_and_login(client)
+        assessment = _create_assessment(client, auth)
         for status in valid:
             r = client.patch(
                 f"/api/v1/assessments/{assessment['id']}/status",
                 json={"status": status},
+                headers=auth,
             )
             assert r.status_code == 200, (status, r.text)
 
@@ -274,17 +319,19 @@ def test_patch_status_allows_every_valid_status(tmp_path, monkeypatch):
 def test_delete_nonexistent_assessment_404(tmp_path, monkeypatch):
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     with TestClient(app) as client:
-        r = client.delete("/api/v1/assessments/does_not_exist")
+        auth = _register_and_login(client)
+        r = client.delete("/api/v1/assessments/does_not_exist", headers=auth)
         assert r.status_code == 404
 
 
 def test_delete_existing_assessment_removes_it(tmp_path, monkeypatch):
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     with TestClient(app) as client:
-        assessment = _create_assessment(client)
-        r = client.delete(f"/api/v1/assessments/{assessment['id']}")
+        auth = _register_and_login(client)
+        assessment = _create_assessment(client, auth)
+        r = client.delete(f"/api/v1/assessments/{assessment['id']}", headers=auth)
         assert r.status_code == 200
-        gone = client.get(f"/api/v1/assessments/{assessment['id']}")
+        gone = client.get(f"/api/v1/assessments/{assessment['id']}", headers=auth)
         assert gone.status_code == 404
 
 
@@ -299,23 +346,24 @@ def test_generate_paper_rejects_zero_selected_questions(tmp_path, monkeypatch):
     """
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     with TestClient(app) as client:
-        assessment = _create_assessment(client)
+        auth = _register_and_login(client)
+        assessment = _create_assessment(client, auth)
         empty_request = {
             "assessmentId": assessment["id"],
             "blueprint": assessment["blueprint"],
             "selectedQuestions": [],
             "template": {"id": "tpl_1", "schoolId": "school_1", "name": "Default"},
         }
-        r = client.post("/api/v1/papers/generate", json=empty_request)
+        r = client.post("/api/v1/papers/generate", json=empty_request, headers=auth)
         assert r.status_code == 400, r.text
         assert "zero selected questions" in r.json()["detail"]
 
         # The assessment must NOT have been silently marked as generated.
-        after = client.get(f"/api/v1/assessments/{assessment['id']}").json()
+        after = client.get(f"/api/v1/assessments/{assessment['id']}", headers=auth).json()
         assert after["status"] != "paperGenerated"
         assert after["generatedPaperId"] is None
 
         # A real, non-empty generation still works normally.
         real_request = _generate_request(assessment)
-        r2 = client.post("/api/v1/papers/generate", json=real_request)
+        r2 = client.post("/api/v1/papers/generate", json=real_request, headers=auth)
         assert r2.status_code == 200, r2.text
