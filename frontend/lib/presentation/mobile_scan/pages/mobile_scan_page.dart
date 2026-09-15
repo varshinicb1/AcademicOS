@@ -176,11 +176,13 @@ class _MobileScanPageState extends State<MobileScanPage> {
     setState(() => _uploadingPage = true);
     try {
       final page = await _api.uploadScanPage(_session!.id, path);
+      if (!mounted) return;
       setState(() {
         _pages.add(page);
         _uploadingPage = false;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _error = '$e';
         _uploadingPage = false;

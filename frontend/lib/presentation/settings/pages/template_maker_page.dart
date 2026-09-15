@@ -189,8 +189,8 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
   }
 
   void _addSection() {
-    const labels = 'ABCDEFGH';
-    final next = labels[_sections.length.clamp(0, labels.length - 1)];
+    final idx = _sections.length;
+    final next = idx < 26 ? String.fromCharCode(65 + idx) : 'S${idx + 1}';
     setState(() => _sections.add(_SectionDraft(next, 'New Section', 2, 4)));
   }
 

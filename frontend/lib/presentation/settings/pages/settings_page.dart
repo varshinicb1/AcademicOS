@@ -268,7 +268,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final user = LocalStore.instance.authUser;
     if (user == null) {
       return _buildListTile(Icons.login, 'Sign in', 'Sign in to approve papers as principal',
-          () => context.push('/settings/login'));
+          () => context.push('/login'));
     }
     final name = user['name'] as String? ?? '';
     final role = user['role'] as String? ?? 'teacher';
@@ -281,7 +281,9 @@ class _SettingsPageState extends State<SettingsPage> {
         onPressed: () async {
           await GetIt.I<AuthApi>().logout();
           LocalStore.instance.clearAuth();
-          if (mounted) setState(() {});
+          // Signed out with nowhere valid to stay: the router guard would
+          // bounce the next navigation anyway -- go straight to Sign in.
+          if (mounted) context.go('/login');
         },
         child: const Text('Sign out'),
       ),

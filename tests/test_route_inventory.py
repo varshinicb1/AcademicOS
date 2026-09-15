@@ -158,6 +158,11 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/export"),
     # --- api/main.py ---
     ("GET", "/health/storage"),
+    # --- consent_routes.py (DPDP Act 2023 parental consent) ---
+    ("GET", "/api/v1/consent"),
+    ("POST", "/api/v1/consent"),
+    ("GET", "/api/v1/consent/students/{student_id}"),
+    ("DELETE", "/api/v1/consent/students/{student_id}"),
 })
 
 DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
@@ -263,6 +268,11 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/reporting/coverage"),
     ("GET", "/api/v1/curriculum/reporting/delayed-topics"),
     ("GET", "/api/v1/curriculum/export"),
+    # --- consent_routes.py (DPDP Act 2023 parental consent) ---
+    ("GET", "/api/v1/consent"),
+    ("POST", "/api/v1/consent"),
+    ("GET", "/api/v1/consent/students/{student_id}"),
+    ("DELETE", "/api/v1/consent/students/{student_id}"),
 })
 
 
@@ -424,6 +434,13 @@ def _valid_body_for(method: str, path: str) -> dict:
         return {"questionId": "q1", "questionText": "Balance the equation."}
     if path == "/api/v1/curriculum/questions/by-subtopics":
         return {"subtopicIds": ["st1"]}
+    if path == "/api/v1/consent":
+        return {
+            "studentId": "s1",
+            "guardianName": "Parent One",
+            "guardianRelationship": "parent",
+            "method": "Signed admission form",
+        }
     return {"query": "photosynthesis", "doubt": "light reaction",
             "question": "q", "paperId": "p", "paper_id": "p",
             "nodeId": "n", "node_id": "n", "source": "a", "target": "b"}
@@ -444,7 +461,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 116
+    assert len(API_ROUTES) == 120
 
 
 def test_docs_routes_present():
@@ -578,12 +595,16 @@ def _boot_client(tmp_path, monkeypatch):
     would keep answering for a school that supposedly has no users yet in
     the new one)."""
     from academicos.assessment import users as users_mod
+    from academicos.assessment import consent as consent_mod, consent_routes as consent_routes_mod
     from academicos.curriculum import store as curriculum_store_mod
 
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     monkeypatch.setattr(audit_log, "_INSTANCE", None)
     monkeypatch.setattr(users_mod, "_INSTANCE", None)
     monkeypatch.setattr(curriculum_store_mod, "_INSTANCE", None)
+    monkeypatch.setattr(consent_mod, "_INSTANCE", None)
+    monkeypatch.setattr(consent_routes_mod, "_store", None)
+    monkeypatch.setattr(consent_routes_mod, "_audit", None)
     from fastapi.testclient import TestClient
 
     return TestClient(app)
@@ -812,6 +833,67 @@ def test_full_boot_school_roster(tmp_path, monkeypatch):
         # -- an invalid role filter is a real 400, not a silent empty list
         assert client.get("/api/v1/auth/users", params={"role": "admin"},
                           headers=principal_auth).status_code == 400
+
+
+def test_full_boot_parental_consent(tmp_path, monkeypatch):
+    """Exercises the 4 parental consent compliance endpoints (DPDP Act 2023 §9):
+    POST /api/v1/consent, GET /api/v1/consent, GET /api/v1/consent/students/{student_id},
+    and DELETE /api/v1/consent/students/{student_id}. Enforces school isolation."""
+    with _boot_client(tmp_path, monkeypatch) as client:
+        teacher1 = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Teacher One", "email": "t1@example.com",
+            "password": "correct horse battery",
+        }).json()
+        auth1 = {"Authorization": f"Bearer {teacher1['token']}"}
+
+        teacher2 = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Teacher Two", "email": "t2@example.com",
+            "password": "correct horse battery",
+        }).json()
+        auth2 = {"Authorization": f"Bearer {teacher2['token']}"}
+
+        # Initially no consent
+        status = client.get("/api/v1/consent/students/s1", headers=auth1)
+        assert status.status_code == 200
+        assert status.json()["hasConsent"] is False
+
+        # Record consent
+        recorded = client.post("/api/v1/consent", json={
+            "studentId": "s1",
+            "guardianName": "Ramesh Kumar",
+            "guardianRelationship": "father",
+            "method": "Signed admission form",
+            "notes": "Verified at admission desk",
+        }, headers=auth1)
+        assert recorded.status_code == 200
+        assert recorded.json()["status"] == "granted"
+
+        # Check status for s1
+        status_after = client.get("/api/v1/consent/students/s1", headers=auth1)
+        assert status_after.status_code == 200
+        assert status_after.json()["hasConsent"] is True
+        assert status_after.json()["record"]["guardianName"] == "Ramesh Kumar"
+
+        # List consents for school_1
+        consents = client.get("/api/v1/consent", headers=auth1)
+        assert consents.status_code == 200
+        assert len(consents.json()) == 1
+
+        # School isolation: school_2 cannot see school_1's consent record
+        school2_status = client.get("/api/v1/consent/students/s1", headers=auth2)
+        assert school2_status.status_code == 200
+        assert school2_status.json()["hasConsent"] is False
+        assert len(client.get("/api/v1/consent", headers=auth2).json()) == 0
+
+        # Revoke consent
+        revoked = client.delete("/api/v1/consent/students/s1", headers=auth1)
+        assert revoked.status_code == 200
+        assert revoked.json()["hasConsent"] is False
+        assert revoked.json()["record"]["status"] == "revoked"
+
+        status_revoked = client.get("/api/v1/consent/students/s1", headers=auth1)
+        assert status_revoked.status_code == 200
+        assert status_revoked.json()["hasConsent"] is False
 
 
 def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):

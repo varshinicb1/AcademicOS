@@ -123,22 +123,38 @@ create table if not exists public.learner_events (
 );
 create index if not exists idx_learner_events_learner on public.learner_events (learner_id, seq);
 
+create table if not exists public.parental_consents (
+  id                    text primary key,
+  school_id             text not null,
+  student_id            text not null,
+  guardian_name         text not null,
+  guardian_relationship text not null default 'parent',
+  method                text not null,
+  status                text not null default 'granted',
+  purpose               text not null default 'assessment_and_grading',
+  notes                 text,
+  recorded_by           text not null,
+  recorded_at           text not null,
+  revoked_at            text,
+  revoked_by            text,
+  unique (school_id, student_id)
+);
+create index if not exists idx_parental_consents_school on public.parental_consents (school_id);
+
 grant all on public.users, public.sessions, public.assessments, public.papers,
               public.practice_sets, public.graded_evaluations,
               public.scan_sessions, public.school_templates,
-              public.audit_log, public.learner_events
+              public.audit_log, public.learner_events,
+              public.parental_consents
   to anon, authenticated, service_role;
 
--- Verify: should return ten rows, one per table, with these column counts:
--- users 8, sessions 4, assessments 5, papers 2, practice_sets 2,
--- graded_evaluations 3, scan_sessions 3, school_templates 4,
--- audit_log 7, learner_events 12.
+-- Verify: should return eleven rows, one per table:
 --
 --   select table_name, count(*) as columns
 --   from information_schema.columns
 --   where table_schema = 'public'
 --     and table_name in ('users','sessions','assessments','papers',
 --       'practice_sets','graded_evaluations','scan_sessions',
---       'school_templates','audit_log','learner_events')
+--       'school_templates','audit_log','learner_events','parental_consents')
 --   group by table_name
 --   order by table_name;

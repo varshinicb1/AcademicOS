@@ -71,9 +71,7 @@ void main() {
   );
 
   testWidgets(
-    'a subject with no chapter tagging in the bundled corpus (Mathematics -- the exact scenario a real user '
-    'hit, confirmed by direct corpus inspection: 645 real Mathematics Grade 10 questions, 0 with any '
-    'chapterIds) shows an honest explanation, never the old disabled placeholder or a silent blank screen',
+    'Mathematics now has real chapter tagging in the bundled corpus and shows real, selectable chapters',
     (tester) async {
       await tester.pumpWidget(wrapForTest(const AssessmentCreatePage()));
       await tester.pumpAndSettle();
@@ -85,14 +83,40 @@ void main() {
 
       await goToChaptersStep(tester);
 
-      expect(CorpusRepository.instance.chapters('Mathematics', 10), isEmpty,
-          reason: 'confirms the real, current corpus limitation this test documents');
+      final mathChapters = CorpusRepository.instance.chapters('Mathematics', 10);
+      expect(mathChapters, isNotEmpty,
+          reason: 'confirms Mathematics Grade 10 now has real chapter tags');
       expect(
         find.textContaining('Chapter selection depends on subject'),
         findsNothing,
         reason: 'the old hardcoded, permanently-disabled placeholder must never show again',
       );
-      expect(find.textContaining('No chapters found for Mathematics'), findsOneWidget,
+      expect(find.text(mathChapters.first.chapterName), findsOneWidget,
+          reason: 'must render real math chapter name');
+    },
+  );
+
+  testWidgets(
+    'a subject with no chapter tagging in the bundled corpus (Hindi) shows an honest explanation, never the old disabled placeholder or a silent blank screen',
+    (tester) async {
+      await tester.pumpWidget(wrapForTest(const AssessmentCreatePage()));
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.byType(DropdownButtonFormField<String>).last);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Hindi').last);
+      await tester.pumpAndSettle();
+
+      await goToChaptersStep(tester);
+
+      expect(CorpusRepository.instance.chapters('Hindi', 10), isEmpty,
+          reason: 'confirms Hindi currently has no chapter tags in corpus');
+      expect(
+        find.textContaining('Chapter selection depends on subject'),
+        findsNothing,
+        reason: 'the old hardcoded, permanently-disabled placeholder must never show again',
+      );
+      expect(find.textContaining('No chapters found for Hindi'), findsOneWidget,
           reason: 'must honestly explain why, not silently show nothing or a fake list');
       expect(find.textContaining('leaving chapters empty draws from every question'), findsOneWidget,
           reason: 'must tell the teacher they can still proceed');

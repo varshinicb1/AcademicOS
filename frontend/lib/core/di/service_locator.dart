@@ -9,6 +9,7 @@ import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../data/datasources/api/api_client.dart';
 import '../../data/datasources/api/auth_api.dart';
+import '../../data/datasources/api/consent_api.dart';
 import '../../data/datasources/api/curriculum_api.dart';
 import '../../data/datasources/api/pillar_api.dart';
 import '../../data/datasources/local/app_database.dart';
@@ -119,6 +120,7 @@ Future<void> initDependencies() async {
   // before ever calling this -- registered here anyway so the DI wiring
   // stays uniform rather than conditionally skipping one client.
   sl.registerLazySingleton<CurriculumApi>(() => CurriculumApi(sl<Dio>()));
+  sl.registerLazySingleton<ConsentApi>(() => ConsentApi(sl<Dio>()));
 
   // API Client
   // ACADEMICOS_OFFLINE=true is set only by the standalone-Android build --
@@ -289,7 +291,7 @@ void bounceToLogin() {
   LocalStore.instance.clearAuth();
   if (!hadToken) return;
   try {
-    sl<GoRouter>().go('/settings/login');
+    sl<GoRouter>().go('/login');
   } catch (_) {
     // Router not registered yet -- see docstring above.
   }

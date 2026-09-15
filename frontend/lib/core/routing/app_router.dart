@@ -31,11 +31,25 @@ import '../../presentation/settings/pages/classes_page.dart';
 import '../../presentation/settings/pages/legal_page.dart';
 import '../../presentation/auth/pages/login_page.dart';
 import '../../presentation/shared/widgets/shell.dart';
+import '../local_engine/local_store.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   final router = GoRouter(
-    initialLocation: '/home',
+    initialLocation: (const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false) ||
+            LocalStore.instance.authToken != null)
+        ? '/home'
+        : '/login',
+    redirect: (context, state) => authRedirect(
+      state.matchedLocation,
+      signedIn: LocalStore.instance.authToken != null,
+      offlineBuild: const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false),
+    ),
     routes: [
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        builder: (context, state) => const LoginPage(),
+      ),
       ShellRoute(
         builder: (context, state, child) => MainShell(child: child),
         routes: [
@@ -284,3 +298,25 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   }
   return router;
 });
+
+/// Auth-gate decision for the router's `redirect` above. Returns the
+/// location to send the user to, or null to stay where they are.
+///
+/// Rules:
+/// - Offline (single-device) builds have no accounts: never redirect.
+/// - Signed-out users may only be on the sign-in screen itself (both the
+///   current `/login` and the legacy `/settings/login` the interceptor
+///   used to target) or a legal doc; everywhere else bounces to `/login`
+///   BEFORE any page fires an authenticated call -- no raw 401 screens.
+/// - Signed-in users are never bounced anywhere by this function (the
+///   login page navigates them home itself on success).
+String? authRedirect(String location,
+    {required bool signedIn, required bool offlineBuild}) {
+  if (offlineBuild) return null;
+  final isPublic = location == '/login' ||
+      location == '/settings/login' ||
+      location.startsWith('/settings/legal/');
+  if (!signedIn) return isPublic ? null : '/login';
+  return null;
+}
+

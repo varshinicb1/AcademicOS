@@ -8,6 +8,7 @@ import 'package:printing/printing.dart';
 import '../../../core/local_engine/local_report_card.dart';
 import '../../../core/local_engine/local_report_card_pdf_export.dart';
 import '../../../core/local_engine/local_store.dart';
+import '../../../data/datasources/api/consent_api.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
@@ -286,11 +287,26 @@ class _ClassesPageState extends State<ClassesPage> {
     );
 
     if (recorded != true) return;
+    final guardianName = guardianController.text.trim();
+    final method = methodController.text.trim();
+
     LocalStore.instance.setConsent(
       studentId,
-      method: methodController.text.trim(),
-      guardianName: guardianController.text.trim(),
+      method: method,
+      guardianName: guardianName,
     );
+
+    // Sync to backend if online and client is registered
+    try {
+      if (GetIt.I.isRegistered<ConsentApi>()) {
+        GetIt.I<ConsentApi>().recordConsent(
+          studentId: studentId,
+          guardianName: guardianName,
+          method: method,
+        ).ignore();
+      }
+    } catch (_) {}
+
     if (!context.mounted) return;
     setState(() {});
     ScaffoldMessenger.of(context)
