@@ -41,6 +41,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/questions/search"),
     ("POST", "/api/v1/questions/optimize"),
     ("POST", "/api/v1/papers/generate"),
+    ("POST", "/api/v1/papers/quick-generate"),
+    ("POST", "/api/v1/papers/generate-from-ids"),
     ("GET", "/api/v1/papers/{paper_id}"),
     ("POST", "/api/v1/papers/{paper_id}/export/{fmt}"),
     ("GET", "/api/v1/papers/{paper_id}/file"),
@@ -184,6 +186,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/schools/{school_id}/templates"),
     ("GET", "/api/v1/schools/{school_id}/paper-templates"),
     ("POST", "/api/v1/papers/generate"),
+    ("POST", "/api/v1/papers/quick-generate"),
+    ("POST", "/api/v1/papers/generate-from-ids"),
     ("GET", "/api/v1/papers/{paper_id}"),
     ("POST", "/api/v1/papers/{paper_id}/export/{fmt}"),
     ("GET", "/api/v1/papers/{paper_id}/file"),
@@ -461,7 +465,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 120
+    assert len(API_ROUTES) == 122
 
 
 def test_docs_routes_present():
