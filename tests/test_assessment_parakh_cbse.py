@@ -403,3 +403,14 @@ def test_generate_from_ids_api_endpoint(tmp_path, monkeypatch):
         assert file_resp.status_code == 200
         assert file_resp.headers["content-type"] == "application/pdf"
         assert len(file_resp.content) > 100
+
+
+def test_baked_in_question_bank_loads_when_parse_dir_empty(tmp_path):
+    """build_pool loads questions from baked-in questions.json when no parse dump exists."""
+    from academicos.config import Config
+    from academicos.assessment.pool import build_pool
+
+    cfg = Config(data_root=tmp_path)
+    pool = build_pool(cfg, subject="Physics", grade="XII")
+    assert len(pool.questions) >= 50
+    assert any(q.subject == "Physics" for q in pool.questions)
