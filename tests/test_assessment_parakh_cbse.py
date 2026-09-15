@@ -411,6 +411,7 @@ def test_baked_in_question_bank_loads_when_parse_dir_empty(tmp_path):
     from academicos.assessment.pool import build_pool
 
     cfg = Config(data_root=tmp_path)
+    cfg._load_baked_questions = True
     pool = build_pool(cfg, subject="Physics", grade="XII")
     assert len(pool.questions) >= 50
     assert any(q.subject == "Physics" for q in pool.questions)
