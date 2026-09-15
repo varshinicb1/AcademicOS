@@ -114,6 +114,10 @@ jobs:
           # gate above now catches before ever reaching this step.
           mkdir -p backend-deploy/academicos-data/syllabus
           cp academicos-data/syllabus/*.json backend-deploy/academicos-data/syllabus/
+          mkdir -p backend-deploy/academicos-data/users
+          if [ -d academicos-data/users ]; then
+            cp -r academicos-data/users/* backend-deploy/academicos-data/users/ 2>/dev/null || true
+          fi
 
       - name: Commit and push if changed
         id: push
