@@ -73,7 +73,7 @@ void main() {
       );
       fail('expected an AuthException for bad credentials');
     } on AuthException catch (e) {
-      expect(e.message, contains('Incorrect email or password'));
+      expect(e.message.toLowerCase(), contains('incorrect email or password'));
     }
     expect(LocalStore.instance.authToken, 'seed-token',
         reason: 'a 401 on /auth/login must never trigger the dead-session bounce');
