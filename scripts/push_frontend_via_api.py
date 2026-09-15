@@ -92,6 +92,8 @@ def main() -> None:
     workflow = """\
 name: Build and deploy web frontend
 on:
+  push:
+    branches: [main]
   workflow_dispatch: {}
 jobs:
   build:
