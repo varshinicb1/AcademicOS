@@ -118,9 +118,35 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
     );
   }
 
+  static List<String> _quickPaperSubjectsForGrade(int grade) {
+    if (grade >= 11) {
+      return const [
+        'Physics',
+        'Chemistry',
+        'Biology',
+        'Mathematics',
+        'Accountancy',
+        'Business Studies',
+        'Economics',
+        'History',
+        'Political Science',
+        'Geography',
+        'English',
+        'Hindi',
+      ];
+    }
+    return const [
+      'Science',
+      'Mathematics',
+      'Social Science',
+      'English',
+      'Hindi',
+    ];
+  }
+
   Future<void> _showQuickPaperDialog(BuildContext context) async {
-    String selectedSubject = 'Science';
     int selectedGrade = 10;
+    String selectedSubject = 'Science';
     String selectedPreset = 'class_test';
     String selectedTier = 'standard';
     int setCount = 1;
@@ -150,27 +176,35 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                       style: TextStyle(fontSize: 13),
                     ),
                     const SizedBox(height: 16),
-                    DropdownButtonFormField<String>(
-                      initialValue: selectedSubject,
-                      decoration: const InputDecoration(labelText: 'Subject'),
-                      items: const [
-                        DropdownMenuItem(value: 'Science', child: Text('Science')),
-                        DropdownMenuItem(value: 'Mathematics', child: Text('Mathematics')),
-                        DropdownMenuItem(value: 'Social Science', child: Text('Social Science')),
-                        DropdownMenuItem(value: 'English', child: Text('English')),
-                      ],
-                      onChanged: (v) => setDialogState(() => selectedSubject = v!),
-                    ),
-                    const SizedBox(height: 12),
                     DropdownButtonFormField<int>(
-                      initialValue: selectedGrade,
+                      value: selectedGrade,
                       decoration: const InputDecoration(labelText: 'Grade'),
                       items: const [
+                        DropdownMenuItem(value: 12, child: Text('Grade 12')),
+                        DropdownMenuItem(value: 11, child: Text('Grade 11')),
                         DropdownMenuItem(value: 10, child: Text('Grade 10')),
                         DropdownMenuItem(value: 9, child: Text('Grade 9')),
                         DropdownMenuItem(value: 8, child: Text('Grade 8')),
+                        DropdownMenuItem(value: 7, child: Text('Grade 7')),
+                        DropdownMenuItem(value: 6, child: Text('Grade 6')),
                       ],
-                      onChanged: (v) => setDialogState(() => selectedGrade = v!),
+                      onChanged: (v) => setDialogState(() {
+                        selectedGrade = v!;
+                        final validSubjects = _quickPaperSubjectsForGrade(selectedGrade);
+                        if (!validSubjects.contains(selectedSubject)) {
+                          selectedSubject = validSubjects.first;
+                        }
+                      }),
+                    ),
+                    const SizedBox(height: 12),
+                    DropdownButtonFormField<String>(
+                      key: ValueKey('quick_subject_${selectedGrade}_$selectedSubject'),
+                      value: selectedSubject,
+                      decoration: const InputDecoration(labelText: 'Subject'),
+                      items: _quickPaperSubjectsForGrade(selectedGrade)
+                          .map((s) => DropdownMenuItem(value: s, child: Text(s)))
+                          .toList(),
+                      onChanged: (v) => setDialogState(() => selectedSubject = v!),
                     ),
                     const SizedBox(height: 12),
                     DropdownButtonFormField<String>(

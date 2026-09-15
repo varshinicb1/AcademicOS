@@ -169,3 +169,32 @@ def test_different_schools_get_independent_seeds(store):
     # ...but genuinely independent rows, not aliased onto each other.
     assert {c.canonical_id for c in chapters_a}.isdisjoint(
         {c.canonical_id for c in chapters_b})
+
+
+def test_seed_cbse_all_grades(store):
+    from academicos.curriculum.seed_cbse10 import seed_cbse_all_grades
+    from academicos.syllabus.cbse_syllabus import list_available_syllabi
+
+    syllabi = list_available_syllabi()
+    assert len(syllabi) >= 40
+
+    results = seed_cbse_all_grades(
+        store, school_id="school_all", academic_year_label="2026-27",
+        start_date="2026-06-01", end_date="2027-04-30",
+        grades=[6, 7, 8, 9, 10, 11, 12],
+    )
+    assert len(results) == 7
+
+    # Check Grade 12 has Senior Secondary subjects
+    g12_res = next(r for r in results if store.get_grade(r.grade_id).number == 12)
+    assert g12_res.subjects_seeded >= 10
+    g12_grade = store.get_grade(g12_res.grade_id)
+    assert store.get_subject_by_name(g12_grade.id, "Physics") is not None
+    assert store.get_subject_by_name(g12_grade.id, "Accountancy") is not None
+
+    # Check Grade 6 has Middle School subjects
+    g6_res = next(r for r in results if store.get_grade(r.grade_id).number == 6)
+    assert g6_res.subjects_seeded == 5
+    g6_grade = store.get_grade(g6_res.grade_id)
+    assert store.get_subject_by_name(g6_grade.id, "Mathematics") is not None
+

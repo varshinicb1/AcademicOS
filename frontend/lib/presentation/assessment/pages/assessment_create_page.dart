@@ -260,6 +260,35 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     );
   }
 
+  static List<String> subjectsForGrade(int grade) {
+    if (grade >= 11) {
+      return const [
+        'Physics',
+        'Chemistry',
+        'Biology',
+        'Mathematics',
+        'Accountancy',
+        'Business Studies',
+        'Economics',
+        'History',
+        'Political Science',
+        'Geography',
+        'English',
+        'Hindi',
+        'Computer Science',
+      ];
+    }
+    return const [
+      'Science',
+      'Mathematics',
+      'Social Science',
+      'English',
+      'Hindi',
+      'Sanskrit',
+      'Computer Science',
+    ];
+  }
+
   Step _buildStep1BasicInfo() {
     return Step(
       title: const Text('Basic Information'),
@@ -279,24 +308,32 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
               children: [
                 Expanded(
                   child: DropdownButtonFormField<int>(
-                    initialValue: _selectedGrade,
+                    value: _selectedGrade,
                     decoration: const InputDecoration(labelText: 'Grade *'),
                     items: List.generate(12, (i) => i + 1).map((g) => DropdownMenuItem(value: g, child: Text('Grade $g'))).toList(),
-                    onChanged: (v) => setState(() {
-                      _selectedGrade = v!;
-                      _selectedChapters.clear();
-                      _selectedSubtopics.clear();
-                      _loadChapters();
-                    }),
+                    onChanged: (v) {
+                      if (v == null) return;
+                      setState(() {
+                        _selectedGrade = v;
+                        final available = subjectsForGrade(_selectedGrade);
+                        if (!available.contains(_selectedSubject)) {
+                          _selectedSubject = available.first;
+                        }
+                        _selectedChapters.clear();
+                        _selectedSubtopics.clear();
+                        _loadChapters();
+                      });
+                    },
                   ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: DropdownButtonFormField<String>(
-                    initialValue: _selectedSubject,
+                    key: ValueKey('subject_dropdown_${_selectedGrade}_$_selectedSubject'),
+                    value: _selectedSubject,
                     isExpanded: true,
                     decoration: const InputDecoration(labelText: 'Subject *'),
-                    items: ['Science', 'Mathematics', 'English', 'Hindi', 'Social Science', 'Sanskrit', 'Computer Science']
+                    items: subjectsForGrade(_selectedGrade)
                         .map((s) => DropdownMenuItem(value: s, child: Text(s, overflow: TextOverflow.ellipsis))).toList(),
                     onChanged: (v) => setState(() {
                       _selectedSubject = v!;

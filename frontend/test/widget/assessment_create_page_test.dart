@@ -97,26 +97,48 @@ void main() {
   );
 
   testWidgets(
-    'a subject with no chapter tagging in the bundled corpus (Hindi) shows an honest explanation, never the old disabled placeholder or a silent blank screen',
+    'Grade 12 Physics shows real, selectable chapters from Senior Secondary corpus',
+    (tester) async {
+      await tester.pumpWidget(wrapForTest(const AssessmentCreatePage()));
+      await tester.pumpAndSettle();
+
+      // Change Grade to 12
+      await tester.tap(find.byType(DropdownButtonFormField<int>).first);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Grade 12').last);
+      await tester.pumpAndSettle();
+
+      await goToChaptersStep(tester);
+
+      final physicsChapters = CorpusRepository.instance.chapters('Physics', 12);
+      expect(physicsChapters, isNotEmpty,
+          reason: 'confirms Physics Grade 12 has real chapter tags');
+      expect(find.text(physicsChapters.first.chapterName), findsOneWidget,
+          reason: 'must render real Physics Grade 12 chapter name');
+    },
+  );
+
+  testWidgets(
+    'a subject with no chapter tagging in the bundled corpus (Sanskrit) shows an honest explanation, never the old disabled placeholder or a silent blank screen',
     (tester) async {
       await tester.pumpWidget(wrapForTest(const AssessmentCreatePage()));
       await tester.pumpAndSettle();
 
       await tester.tap(find.byType(DropdownButtonFormField<String>).last);
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Hindi').last);
+      await tester.tap(find.text('Sanskrit').last);
       await tester.pumpAndSettle();
 
       await goToChaptersStep(tester);
 
-      expect(CorpusRepository.instance.chapters('Hindi', 10), isEmpty,
-          reason: 'confirms Hindi currently has no chapter tags in corpus');
+      expect(CorpusRepository.instance.chapters('Sanskrit', 10), isEmpty,
+          reason: 'confirms Sanskrit currently has no chapter tags in corpus');
       expect(
         find.textContaining('Chapter selection depends on subject'),
         findsNothing,
         reason: 'the old hardcoded, permanently-disabled placeholder must never show again',
       );
-      expect(find.textContaining('No chapters found for Hindi'), findsOneWidget,
+      expect(find.textContaining('No chapters found for Sanskrit'), findsOneWidget,
           reason: 'must honestly explain why, not silently show nothing or a fake list');
       expect(find.textContaining('leaving chapters empty draws from every question'), findsOneWidget,
           reason: 'must tell the teacher they can still proceed');
