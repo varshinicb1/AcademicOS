@@ -68,7 +68,11 @@ gone, even though nothing about the data was ever wrong.
   failure and fall back gracefully (`AssessmentStore`, `EventStore`); the
   others currently let the exception propagate if Supabase is enabled
   but briefly unreachable — a known inconsistency, not yet hardened
-  uniformly across all eight.
+  uniformly across all eight. What did get hardened (2026-09-15): that
+  propagated failure is now a typed `SupabaseUnavailable` with the table,
+  status and PostgREST body, answered by one app-level handler in
+  `api/main.py` as a 503 naming the table — never the bare, information-
+  free 500 the missing `users`/`sessions` tables produced.
 - **`CurriculumStore`** owns 18 relational tables with real foreign-key
   relationships — wrapping each table individually would mean 18 REST
   call sites and would lose that FK integrity across two storage layers.
@@ -93,16 +97,26 @@ is currently reachable) via `GET /health/storage` rather than guessing
 from the Render dashboard.
 
 **Required Supabase setup** (one-time, in the Supabase project itself):
-- A Postgres table per flat store, named to match each
-  `SupabaseTable("...")` call (`assessments`, `papers`, `practice_sets`,
-  `graded_evaluations`, `scan_sessions`, `school_templates`, `users`,
-  `sessions`, `audit_log`, `learner_events`), each with an `id`/`event_id`-
-  shaped primary key and a `payload JSONB` column (see `supabase_kv.py`
-  for the exact shape each store upserts).
+- **Run `docs/supabase-setup.sql`** in the project's SQL editor. It
+  provisions all ten Postgres tables (`assessments`, `papers`,
+  `practice_sets`, `graded_evaluations`, `scan_sessions`,
+  `school_templates`, `users`, `sessions`, `audit_log`, `learner_events`)
+  with the exact column shapes each store reads/writes — these are real
+  columns, not just an `id` + `payload JSONB`: PostgREST filters and orders
+  on columns (e.g. `select(email=eq.…)`, `order="seq.desc"`), and
+  `graded_evaluations`/`learner_events` need their composite uniqueness for
+  upserts and pagination to work at all. The file is `if not exists`-
+  guarded, so re-running it on a partially-set-up project is safe.
 - A Storage bucket named `scan-media` (scan-session photos/PDFs) and
   another named `curriculum-snapshots` (CurriculumStore's whole-file
   snapshots) — both private buckets; the anon key is a server-side-only
   credential here, never shipped to the Flutter client.
+- Verify with `GET /health/storage`: it probes every table in the SQL file
+  and reports each one by name (`"tables": {"users": "ok", …}`), so a
+  missing or mis-shaped table is visible in one request instead of
+  surfacing as a 500 on the first auth call. This is how the 2026-09-15
+  incident (missing `users`/`sessions`, all auth routes 500ing while the
+  endpoint still said "reachable") stays visible if it ever regresses.
 
 ## Known gaps (honest, not silently worked around)
 

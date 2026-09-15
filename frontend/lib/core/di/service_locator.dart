@@ -78,31 +78,10 @@ Future<void> initDependencies() async {
       error: true,
     ));
   }
-  // Attaches the logged-in session token (see auth_api.dart) to every
-  // request once one exists -- no interceptor existed before this, so a
-  // logged-in caller's identity never actually reached the server; every
-  // auth-gated route (principal-approve, review/finalize's real reviewerId)
-  // depends on this running before the request goes out. Its onError half
-  // is the global session keeper: the server 401s (never 403) when the
-  // attached token is absent/expired -- at that point the session is
-  // worthless, so it's cleared locally and the user is sent back to Sign in
-  // instead of being stuck on a dead error screen. A 403 is LEFT untouched:
-  // the token is still valid, the caller just isn't allowed to do that thing.
-  dio.interceptors.add(InterceptorsWrapper(
-    onRequest: (options, handler) {
-      final token = LocalStore.instance.authToken;
-      if (token != null) {
-        options.headers['Authorization'] = 'Bearer $token';
-      }
-      handler.next(options);
-    },
-    onError: (err, handler) {
-      if (_isDeadSession(err)) {
-        _bounceToLogin();
-      }
-      handler.next(err);
-    },
-  ));
+  // The real session keeper -- extracted as sessionInterceptor() (below) so
+  // tests drive the exact production token-attach + 401-recovery logic
+  // against a live backend instead of a copy of it.
+  dio.interceptors.add(sessionInterceptor());
   // The 90s timeout above covers a cold Render container finishing boot, but
   // that's still a single roll of the dice: if the container spins down again
   // right before a request (rare, but real — e.g. a keep-alive-ping gap), the
@@ -258,6 +237,33 @@ Future<void> initDependencies() async {
   ));
 }
 
+/// The app's session-keeping interceptor. Attaches the logged-in session
+/// token (see auth_api.dart) to every request once one exists -- no
+/// interceptor existed before this, so a logged-in caller's identity never
+/// actually reached the server; every auth-gated route (principal-approve,
+/// review/finalize's real reviewerId) depends on this running before the
+/// request goes out. Its onError half is the global session keeper: the
+/// server 401s (never 403) when the attached token is absent/expired -- at
+/// that point the session is worthless, so it's cleared locally and the
+/// user is sent back to Sign in instead of being stuck on a dead error
+/// screen. A 403 is LEFT untouched: the token is still valid, the caller
+/// just isn't allowed to do that thing.
+InterceptorsWrapper sessionInterceptor() => InterceptorsWrapper(
+      onRequest: (options, handler) {
+        final token = LocalStore.instance.authToken;
+        if (token != null) {
+          options.headers['Authorization'] = 'Bearer $token';
+        }
+        handler.next(options);
+      },
+      onError: (err, handler) {
+        if (isDeadSession(err)) {
+          bounceToLogin();
+        }
+        handler.next(err);
+      },
+    );
+
 /// True when the server is telling us the attached session died -- a 401 on
 /// any call whose whole point is being authenticated. The auth endpoints
 /// themselves are the one exception: login/register legitimately return 401
@@ -265,7 +271,7 @@ Future<void> initDependencies() async {
 /// neither is a reason to wipe the session or bounce the screen -- a
 /// teacher mid-form seeing "Incorrect email or password" then getting
 /// shoved into Sign in again would be the wrong quarter.
-bool _isDeadSession(DioException err) {
+bool isDeadSession(DioException err) {
   if (err.response?.statusCode != 401) return false;
   final path = err.requestOptions.path;
   return !(path == '/auth/login' || path == '/auth/register' || path == '/auth/logout');
@@ -278,7 +284,7 @@ bool _isDeadSession(DioException err) {
 /// initDependencies() builds this Dio before app_router.dart has registered
 /// it, in which case the token is already cleared and the next user action
 /// lands on the login flow anyway.
-void _bounceToLogin() {
+void bounceToLogin() {
   final hadToken = LocalStore.instance.authToken != null;
   LocalStore.instance.clearAuth();
   if (!hadToken) return;
