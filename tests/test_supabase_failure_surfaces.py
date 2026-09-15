@@ -103,7 +103,7 @@ def test_missing_table_raises_typed_error_that_sqlite_fallback_still_catches(
         SupabaseTable("users").select()
 
 
-def test_auth_route_answers_503_not_500_when_the_users_table_is_missing(
+def test_auth_route_falls_back_to_sqlite_when_the_users_table_is_missing(
         stub_postgrest, tmp_path, monkeypatch) -> None:
     from test_assessment_routes_auth import _boot_client
 
@@ -113,10 +113,32 @@ def test_auth_route_answers_503_not_500_when_the_users_table_is_missing(
             "schoolId": "school_1", "name": "QA", "email": "qa@example.test",
             "password": "correct horse battery",
         })
+        # UserStore gracefully falls back to local SQLite so teachers/students
+        # are not locked out when Supabase users/sessions tables are missing
+        assert r.status_code == 200, r.text
+        body = r.json()
+        assert "token" in body
+        assert body["user"]["email"] == "qa@example.test"
+
+
+def test_non_fallback_route_answers_503_not_500_when_table_is_missing(
+        stub_postgrest, tmp_path, monkeypatch) -> None:
+    from test_assessment_routes_auth import _boot_client
+
+    stub_postgrest("papers")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        reg = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "QA", "email": "qa@example.test",
+            "password": "correct horse battery",
+        })
+        assert reg.status_code == 200
+        token = reg.json()["token"]
+        r = client.get("/api/v1/papers/paper_missing",
+                       headers={"Authorization": f"Bearer {token}"})
         assert r.status_code == 503, r.text
         detail = r.json()["detail"]
         assert "storage backend unavailable" in detail
-        assert "users" in detail
+        assert "papers" in detail
 
 
 def test_health_storage_names_each_broken_table(

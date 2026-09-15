@@ -253,7 +253,8 @@ class UserStore:
         if self._remote.enabled:
             try:
                 rows = self._remote.select(id=user_id)
-                return _row_to_user(rows[0]) if rows else None
+                if rows:
+                    return _row_to_user(rows[0])
             except (SupabaseUnavailable, requests.exceptions.RequestException):
                 logger.warning("Supabase unavailable for get(user_id), falling back to local SQLite", exc_info=True)
         with self._conn_lock:
@@ -272,7 +273,8 @@ class UserStore:
         if self._remote.enabled:
             try:
                 rows = self._remote.select(school_id=school_id, **({"role": role} if role else {}))
-                return [_row_to_user(r) for r in rows]
+                if rows:
+                    return [_row_to_user(r) for r in rows]
             except (SupabaseUnavailable, requests.exceptions.RequestException):
                 logger.warning("Supabase unavailable for users_for_school, falling back to local SQLite", exc_info=True)
         with self._conn_lock:
@@ -289,7 +291,8 @@ class UserStore:
         if self._remote.enabled:
             try:
                 rows = self._remote.select(email=email)
-                return rows[0] if rows else None
+                if rows:
+                    return rows[0]
             except (SupabaseUnavailable, requests.exceptions.RequestException):
                 logger.warning("Supabase unavailable for _raw_by_email, falling back to local SQLite", exc_info=True)
         with self._conn_lock:
