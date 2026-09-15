@@ -17,6 +17,7 @@ a real PGRST205-shaped body:
 """
 from __future__ import annotations
 
+import collections
 import json
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -48,12 +49,14 @@ class _StubPostgrest(BaseHTTPRequestHandler):
         path = self.path.split("?")[0]
         if path.startswith("/rest/v1/"):
             table = path.rsplit("/", 1)[-1]
+            self.server.counter[table] += 1
             if table in self.broken:
                 return self._respond(404, json.dumps({
                     "code": "PGRST205",
                     "message": f"Could not find the table 'public.{table}' in the schema cache",
                 }).encode())
             return self._respond(200, b"[]")
+        self.server.counter[path] += 1
         return self._respond(404, b'{"error":"not found"}')
 
     def log_message(self, *args) -> None:  # keep pytest output clean
@@ -69,6 +72,7 @@ def stub_postgrest(monkeypatch) -> Iterator:
     def _start(*broken: str) -> str:
         stub_cls = type("Stub", (_StubPostgrest,), {"broken": tuple(broken)})
         server = ThreadingHTTPServer(("127.0.0.1", 0), stub_cls)
+        server.counter = collections.Counter()
         threading.Thread(target=server.serve_forever, daemon=True).start()
         servers.append(server)
         base = f"http://127.0.0.1:{server.server_port}"
@@ -76,6 +80,7 @@ def stub_postgrest(monkeypatch) -> Iterator:
         monkeypatch.setenv("SUPABASE_KNOWLEDGE_ANON_KEY", "test-anon-key")
         return base
 
+    _start.servers = servers  # type: ignore[attr-defined]
     yield _start
     for server in servers:
         server.shutdown()
@@ -116,9 +121,11 @@ def test_auth_route_answers_503_not_500_when_the_users_table_is_missing(
 
 def test_health_storage_names_each_broken_table(
         stub_postgrest, tmp_path, monkeypatch) -> None:
+    import academicos.api.main as main_mod
     from test_assessment_routes_auth import _boot_client
 
     stub_postgrest("users", "sessions")
+    main_mod._probe_cache.update(at=0.0, body=None)  # no stale verdicts
     with _boot_client(tmp_path, monkeypatch) as client:
         r = client.get("/health/storage")
     assert r.status_code == 200
@@ -130,3 +137,33 @@ def test_health_storage_names_each_broken_table(
     assert body["tables"]["users"].startswith("error:")
     assert "PGRST205" in body["tables"]["users"]
     assert body["tables"]["sessions"].startswith("error:")
+
+
+def test_storage_probe_result_is_cached_until_ttl(stub_postgrest, tmp_path, monkeypatch) -> None:
+    """The stress-test follow-up: one /health/storage call fans out to one
+    upstream select per table, so repeats within the TTL must be served
+    from the cache (zero new upstream hits), and only a TTL expiry (or an
+    explicit reset) may re-probe."""
+    import academicos.api.main as main_mod
+    from test_assessment_routes_auth import _boot_client
+
+    stub_postgrest()  # nothing broken: every table answers []
+    main_mod._probe_cache.update(at=0.0, body=None)
+    server = stub_postgrest.servers[-1]
+    with _boot_client(tmp_path, monkeypatch) as client:
+        baseline = sum(server.counter.values())
+        first = client.get("/health/storage")
+        assert first.status_code == 200
+        assert first.json()["supabase_reachable"] is True
+        assert sum(server.counter.values()) - baseline == len(main_mod._DURABLE_TABLES)
+
+        second = client.get("/health/storage")
+        assert second.json() == first.json()
+        assert sum(server.counter.values()) - baseline == len(main_mod._DURABLE_TABLES), \
+            "repeat call inside the TTL must not touch upstream again"
+
+        main_mod._probe_cache.update(at=0.0, body=None)
+        third = client.get("/health/storage")
+        assert third.json()["supabase_reachable"] is True
+        assert sum(server.counter.values()) - baseline == 2 * len(main_mod._DURABLE_TABLES), \
+            "an expired reset cache must re-probe upstream"

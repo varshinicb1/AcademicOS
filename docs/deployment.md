@@ -114,9 +114,14 @@ from the Render dashboard.
 - Verify with `GET /health/storage`: it probes every table in the SQL file
   and reports each one by name (`"tables": {"users": "ok", …}`), so a
   missing or mis-shaped table is visible in one request instead of
-  surfacing as a 500 on the first auth call. This is how the 2026-09-15
-  incident (missing `users`/`sessions`, all auth routes 500ing while the
-  endpoint still said "reachable") stays visible if it ever regresses.
+  surfacing as a 500 on the first auth call. Answers are cached 30s and
+  refreshes are single-flighted (the probe is 10x-amplified upstream
+  traffic, and an uncached version managed only ~4 rps on the free tier
+  while starving real requests of threads) — so after provisioning a
+  table, allow one TTL before trusting a still-red answer. This is how
+  the 2026-09-15 incident (missing `users`/`sessions`, all auth routes
+  500ing while the endpoint still said "reachable") stays visible if it
+  ever regresses.
 
 ## Known gaps (honest, not silently worked around)
 
@@ -124,8 +129,11 @@ from the Render dashboard.
   `check_same_thread=False` is not safe for two threads calling
   `execute()` on it at the same time — confirmed directly (see
   `EventStore`'s `_conn_lock`, added 2026-09-15 after a test reproduced
-  `sqlite3.InterfaceError` under real concurrent access). `EventStore` now
-  guards every local-SQLite call site; `CurriculumStore` and most other
+  `sqlite3.InterfaceError` under real concurrent access, and
+  `CurriculumStore`'s `_exec`/`_fetchone`/`_fetchall` helpers, added the
+  same day after a Render stress test caught concurrent curriculum reads
+  returning rows with all-`None` fields). `EventStore` and
+  `CurriculumStore` now guard every local-SQLite call site; most other
   stores still don't, which is a real latent risk under true multi-teacher
   concurrent writes to the *local fallback* path specifically (the
   Supabase path doesn't share this risk — each thread makes its own
