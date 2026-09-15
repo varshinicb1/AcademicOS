@@ -1694,8 +1694,13 @@ mixin _$AssessmentEvent {
     required TResult Function(CreateAssessmentRequest request) createAssessment,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
-    required TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)
+    required TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)
         generatePaper,
     required TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)
@@ -1712,8 +1717,13 @@ mixin _$AssessmentEvent {
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult? Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult? Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult? Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -1730,8 +1740,13 @@ mixin _$AssessmentEvent {
     TResult Function(CreateAssessmentRequest request)? createAssessment,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -1880,8 +1895,13 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
     required TResult Function(CreateAssessmentRequest request) createAssessment,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
-    required TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)
+    required TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)
         generatePaper,
     required TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)
@@ -1901,8 +1921,13 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult? Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult? Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult? Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -1922,8 +1947,13 @@ class _$CreateAssessmentImpl implements _CreateAssessment {
     TResult Function(CreateAssessmentRequest request)? createAssessment,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -2098,8 +2128,13 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
     required TResult Function(CreateAssessmentRequest request) createAssessment,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
-    required TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)
+    required TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)
         generatePaper,
     required TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)
@@ -2119,8 +2154,13 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult? Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult? Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult? Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -2140,8 +2180,13 @@ class _$SelectQuestionsImpl implements _SelectQuestions {
     TResult Function(CreateAssessmentRequest request)? createAssessment,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -2232,7 +2277,9 @@ abstract class _$$GeneratePaperImplCopyWith<$Res> {
       {String assessmentId,
       Blueprint blueprint,
       List<Question> questions,
-      String schoolId});
+      String schoolId,
+      int setCount,
+      String? tier});
 
   $BlueprintCopyWith<$Res> get blueprint;
 }
@@ -2252,6 +2299,8 @@ class __$$GeneratePaperImplCopyWithImpl<$Res>
     Object? blueprint = null,
     Object? questions = null,
     Object? schoolId = null,
+    Object? setCount = null,
+    Object? tier = freezed,
   }) {
     return _then(_$GeneratePaperImpl(
       assessmentId: null == assessmentId
@@ -2270,6 +2319,14 @@ class __$$GeneratePaperImplCopyWithImpl<$Res>
           ? _value.schoolId
           : schoolId // ignore: cast_nullable_to_non_nullable
               as String,
+      setCount: null == setCount
+          ? _value.setCount
+          : setCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      tier: freezed == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 
@@ -2289,7 +2346,9 @@ class _$GeneratePaperImpl implements _GeneratePaper {
       {required this.assessmentId,
       required this.blueprint,
       required final List<Question> questions,
-      required this.schoolId})
+      required this.schoolId,
+      this.setCount = 1,
+      this.tier})
       : _questions = questions;
 
   @override
@@ -2306,10 +2365,15 @@ class _$GeneratePaperImpl implements _GeneratePaper {
 
   @override
   final String schoolId;
+  @override
+  @JsonKey()
+  final int setCount;
+  @override
+  final String? tier;
 
   @override
   String toString() {
-    return 'AssessmentEvent.generatePaper(assessmentId: $assessmentId, blueprint: $blueprint, questions: $questions, schoolId: $schoolId)';
+    return 'AssessmentEvent.generatePaper(assessmentId: $assessmentId, blueprint: $blueprint, questions: $questions, schoolId: $schoolId, setCount: $setCount, tier: $tier)';
   }
 
   @override
@@ -2324,12 +2388,21 @@ class _$GeneratePaperImpl implements _GeneratePaper {
             const DeepCollectionEquality()
                 .equals(other._questions, _questions) &&
             (identical(other.schoolId, schoolId) ||
-                other.schoolId == schoolId));
+                other.schoolId == schoolId) &&
+            (identical(other.setCount, setCount) ||
+                other.setCount == setCount) &&
+            (identical(other.tier, tier) || other.tier == tier));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, assessmentId, blueprint,
-      const DeepCollectionEquality().hash(_questions), schoolId);
+  int get hashCode => Object.hash(
+      runtimeType,
+      assessmentId,
+      blueprint,
+      const DeepCollectionEquality().hash(_questions),
+      schoolId,
+      setCount,
+      tier);
 
   @JsonKey(ignore: true)
   @override
@@ -2343,8 +2416,13 @@ class _$GeneratePaperImpl implements _GeneratePaper {
     required TResult Function(CreateAssessmentRequest request) createAssessment,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
-    required TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)
+    required TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)
         generatePaper,
     required TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)
@@ -2355,7 +2433,8 @@ class _$GeneratePaperImpl implements _GeneratePaper {
         updateStatus,
     required TResult Function() clearError,
   }) {
-    return generatePaper(assessmentId, blueprint, questions, schoolId);
+    return generatePaper(
+        assessmentId, blueprint, questions, schoolId, setCount, tier);
   }
 
   @override
@@ -2364,8 +2443,13 @@ class _$GeneratePaperImpl implements _GeneratePaper {
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult? Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult? Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult? Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -2376,7 +2460,8 @@ class _$GeneratePaperImpl implements _GeneratePaper {
         updateStatus,
     TResult? Function()? clearError,
   }) {
-    return generatePaper?.call(assessmentId, blueprint, questions, schoolId);
+    return generatePaper?.call(
+        assessmentId, blueprint, questions, schoolId, setCount, tier);
   }
 
   @override
@@ -2385,8 +2470,13 @@ class _$GeneratePaperImpl implements _GeneratePaper {
     TResult Function(CreateAssessmentRequest request)? createAssessment,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -2399,7 +2489,8 @@ class _$GeneratePaperImpl implements _GeneratePaper {
     required TResult orElse(),
   }) {
     if (generatePaper != null) {
-      return generatePaper(assessmentId, blueprint, questions, schoolId);
+      return generatePaper(
+          assessmentId, blueprint, questions, schoolId, setCount, tier);
     }
     return orElse();
   }
@@ -2460,12 +2551,16 @@ abstract class _GeneratePaper implements AssessmentEvent {
       {required final String assessmentId,
       required final Blueprint blueprint,
       required final List<Question> questions,
-      required final String schoolId}) = _$GeneratePaperImpl;
+      required final String schoolId,
+      final int setCount,
+      final String? tier}) = _$GeneratePaperImpl;
 
   String get assessmentId;
   Blueprint get blueprint;
   List<Question> get questions;
   String get schoolId;
+  int get setCount;
+  String? get tier;
   @JsonKey(ignore: true)
   _$$GeneratePaperImplCopyWith<_$GeneratePaperImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -2566,8 +2661,13 @@ class _$ExportPaperImpl implements _ExportPaper {
     required TResult Function(CreateAssessmentRequest request) createAssessment,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
-    required TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)
+    required TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)
         generatePaper,
     required TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)
@@ -2587,8 +2687,13 @@ class _$ExportPaperImpl implements _ExportPaper {
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult? Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult? Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult? Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -2608,8 +2713,13 @@ class _$ExportPaperImpl implements _ExportPaper {
     TResult Function(CreateAssessmentRequest request)? createAssessment,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -2761,8 +2871,13 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
     required TResult Function(CreateAssessmentRequest request) createAssessment,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
-    required TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)
+    required TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)
         generatePaper,
     required TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)
@@ -2782,8 +2897,13 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult? Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult? Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult? Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -2803,8 +2923,13 @@ class _$LoadAssessmentsImpl implements _LoadAssessments {
     TResult Function(CreateAssessmentRequest request)? createAssessment,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -2954,8 +3079,13 @@ class _$LoadAssessmentsBySchoolImpl implements _LoadAssessmentsBySchool {
     required TResult Function(CreateAssessmentRequest request) createAssessment,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
-    required TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)
+    required TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)
         generatePaper,
     required TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)
@@ -2975,8 +3105,13 @@ class _$LoadAssessmentsBySchoolImpl implements _LoadAssessmentsBySchool {
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult? Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult? Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult? Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -2996,8 +3131,13 @@ class _$LoadAssessmentsBySchoolImpl implements _LoadAssessmentsBySchool {
     TResult Function(CreateAssessmentRequest request)? createAssessment,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -3152,8 +3292,13 @@ class _$UpdateStatusImpl implements _UpdateStatus {
     required TResult Function(CreateAssessmentRequest request) createAssessment,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
-    required TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)
+    required TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)
         generatePaper,
     required TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)
@@ -3173,8 +3318,13 @@ class _$UpdateStatusImpl implements _UpdateStatus {
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult? Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult? Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult? Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -3194,8 +3344,13 @@ class _$UpdateStatusImpl implements _UpdateStatus {
     TResult Function(CreateAssessmentRequest request)? createAssessment,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -3317,8 +3472,13 @@ class _$ClearErrorImpl implements _ClearError {
     required TResult Function(CreateAssessmentRequest request) createAssessment,
     required TResult Function(Blueprint blueprint, QuestionSearchParams params)
         selectQuestions,
-    required TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)
+    required TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)
         generatePaper,
     required TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)
@@ -3338,8 +3498,13 @@ class _$ClearErrorImpl implements _ClearError {
     TResult? Function(CreateAssessmentRequest request)? createAssessment,
     TResult? Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult? Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult? Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult? Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?
@@ -3359,8 +3524,13 @@ class _$ClearErrorImpl implements _ClearError {
     TResult Function(CreateAssessmentRequest request)? createAssessment,
     TResult Function(Blueprint blueprint, QuestionSearchParams params)?
         selectQuestions,
-    TResult Function(String assessmentId, Blueprint blueprint,
-            List<Question> questions, String schoolId)?
+    TResult Function(
+            String assessmentId,
+            Blueprint blueprint,
+            List<Question> questions,
+            String schoolId,
+            int setCount,
+            String? tier)?
         generatePaper,
     TResult Function(
             GeneratedPaper paper, String templateId, ExportFormat format)?

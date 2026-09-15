@@ -49,6 +49,9 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
   // honor -- this is a UI gap, not a missing backend feature.
   bool _customQuestionMix = false;
   final Map<int, int> _markCounts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
+  String _selectedExamPreset = 'class_test';
+  String _selectedTier = 'standard';
+  int _setCount = 1;
 
   int get _customMixTotalMarks => _markCounts.entries.fold(0, (sum, e) => sum + e.key * e.value);
 
@@ -58,6 +61,68 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
           sections: sections,
           totalMarks: _customMixTotalMarks,
         ));
+  }
+
+  void _onSelectExamPreset(String preset) {
+    setState(() {
+      _selectedExamPreset = preset;
+      switch (preset) {
+        case 'class_test':
+          _blueprint = _blueprint.copyWith(
+            totalMarks: 25,
+            durationMinutes: 45,
+            examType: 'class_test',
+          );
+          break;
+        case 'weekly_test':
+          _blueprint = _blueprint.copyWith(
+            totalMarks: 40,
+            durationMinutes: 90,
+            examType: 'weekly_test',
+          );
+          break;
+        case 'monthly_test':
+          _blueprint = _blueprint.copyWith(
+            totalMarks: 50,
+            durationMinutes: 120,
+            examType: 'monthly_test',
+          );
+          break;
+        case 'board':
+          _blueprint = _blueprint.copyWith(
+            totalMarks: 80,
+            durationMinutes: 180,
+            examType: 'board',
+          );
+          break;
+      }
+    });
+  }
+
+  void _onSelectTier(String tier) {
+    setState(() {
+      _selectedTier = tier;
+      switch (tier) {
+        case 'foundation':
+          _blueprint = _blueprint.copyWith(
+            difficulty: const DifficultyDistribution(easy: 0.55, medium: 0.35, hard: 0.10),
+            tier: 'foundation',
+          );
+          break;
+        case 'standard':
+          _blueprint = _blueprint.copyWith(
+            difficulty: const DifficultyDistribution(easy: 0.30, medium: 0.50, hard: 0.20),
+            tier: 'standard',
+          );
+          break;
+        case 'advanced':
+          _blueprint = _blueprint.copyWith(
+            difficulty: const DifficultyDistribution(easy: 0.15, medium: 0.45, hard: 0.40),
+            tier: 'advanced',
+          );
+          break;
+      }
+    });
   }
 
   // Real bug fix: the chapter list used to be a hardcoded, Science-only
@@ -257,6 +322,53 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text('Exam Preset', style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 8),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SegmentedButton<String>(
+              segments: const [
+                ButtonSegment(value: 'class_test', label: Text('Class (25m)')),
+                ButtonSegment(value: 'weekly_test', label: Text('Weekly (40m)')),
+                ButtonSegment(value: 'monthly_test', label: Text('Monthly (50m)')),
+                ButtonSegment(value: 'board', label: Text('Board (80m)')),
+              ],
+              selected: {_selectedExamPreset},
+              onSelectionChanged: (s) => _onSelectExamPreset(s.first),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text('Student Tier (PARAKH Differentiation)', style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 8),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: SegmentedButton<String>(
+              segments: const [
+                ButtonSegment(value: 'foundation', label: Text('Foundation')),
+                ButtonSegment(value: 'standard', label: Text('Standard')),
+                ButtonSegment(value: 'advanced', label: Text('Advanced / HOTS')),
+              ],
+              selected: {_selectedTier},
+              onSelectionChanged: (s) => _onSelectTier(s.first),
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text('Parallel Question Sets', style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 4),
+          Text('Generates invariant parallel sets with rotated MCQs and swapped OR choices.',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
+          ),
+          const SizedBox(height: 8),
+          SegmentedButton<int>(
+            segments: const [
+              ButtonSegment(value: 1, label: Text('1 Set (A)')),
+              ButtonSegment(value: 2, label: Text('2 Sets (A, B)')),
+              ButtonSegment(value: 3, label: Text('3 Sets (A, B, C)')),
+            ],
+            selected: {_setCount},
+            onSelectionChanged: (s) => setState(() => _setCount = s.first),
+          ),
+          const SizedBox(height: 16),
           Row(
             children: [
               Expanded(
@@ -567,6 +679,9 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                 _buildSummaryRow('Chapters', _selectedChapters.isEmpty ? 'All chapters' : _selectedChapterNames()),
                 if (_selectedSubtopics.isNotEmpty)
                   _buildSummaryRow('Subtopics', '${_selectedSubtopics.length} selected'),
+                _buildSummaryRow('Format Preset', _selectedExamPreset.replaceAll('_', ' ').toUpperCase()),
+                _buildSummaryRow('Student Tier', _selectedTier.toUpperCase()),
+                _buildSummaryRow('Parallel Sets', '$_setCount Set${_setCount > 1 ? "s" : ""}'),
                 _buildSummaryRow('Total Marks', _blueprint.totalMarks.toString()),
                 _buildSummaryRow('Duration', '${_blueprint.durationMinutes} minutes'),
               ],
@@ -635,7 +750,10 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
         subject: _selectedSubject,
         grade: _selectedGrade,
         chapterIds: _selectedChapters,
-        blueprint: _blueprint,
+        blueprint: _blueprint.copyWith(
+          tier: _selectedTier,
+          examType: _selectedExamPreset,
+        ),
       )));
       final created = await _nextResult(bloc);
       final assessment = created.mapOrNull(assessmentCreated: (s) => s.assessment);
@@ -677,6 +795,8 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
         blueprint: assessment.blueprint,
         questions: optResult.selectedQuestions,
         schoolId: schoolId,
+        setCount: _setCount,
+        tier: _selectedTier,
       ));
       final paperState = await _nextResult(bloc);
       final paper = paperState.mapOrNull(paperGenerated: (s) => s.paper);

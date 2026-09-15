@@ -40,7 +40,10 @@ class AssessmentReviewPage extends StatefulWidget {
 class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
   bool _exporting = false;
   String? _exportedUrl;
+  bool _exportingAnswerKey = false;
+  String? _exportedAnswerKeyUrl;
   String? _error;
+  int _selectedSetIndex = 0;
 
   Assessment? _fetchedAssessment;
   GeneratedPaper? _fetchedPaper;
@@ -92,12 +95,15 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
   Widget build(BuildContext context) {
     final assessment = widget.assessment ?? _fetchedAssessment;
     final paper = widget.paper ?? _fetchedPaper;
+    final activePaper = (paper != null && paper.sets.isNotEmpty && _selectedSetIndex >= 0 && _selectedSetIndex < paper.sets.length)
+        ? paper.sets[_selectedSetIndex]
+        : paper;
 
     return Scaffold(
       appBar: AppBar(leading: shellLeading(context), title: Text(assessment?.title ?? 'Assessment')),
       body: _reopening
           ? const Center(child: CircularProgressIndicator())
-          : assessment == null || paper == null
+          : assessment == null || paper == null || activePaper == null
               ? Center(
                   child: Padding(
                     padding: const EdgeInsets.all(24),
@@ -121,15 +127,55 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
               : ListView(
                   padding: const EdgeInsets.all(16),
                   children: [
-                    _buildSummaryCard(context, assessment, paper),
+                    _buildSummaryCard(context, assessment, activePaper),
+                    if (paper.sets.isNotEmpty) _buildSetSwitcher(paper),
                     if (widget.gaps.isNotEmpty) _buildIssuesCard(context, 'Coverage gaps', widget.gaps, Colors.orange),
                     if (widget.warnings.isNotEmpty) _buildIssuesCard(context, 'Warnings', widget.warnings, Colors.red),
                     const SizedBox(height: 8),
-                    for (final section in paper.sections) _buildSectionCard(context, section),
+                    for (final section in activePaper.sections) _buildSectionCard(context, section),
                     const SizedBox(height: 16),
-                    _buildExportCard(context, assessment),
+                    _buildExportCard(context, assessment, activePaper),
                   ],
                 ),
+    );
+  }
+
+  Widget _buildSetSwitcher(GeneratedPaper paper) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: AppCard(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const Icon(Icons.copy_all, size: 20),
+                const SizedBox(width: 8),
+                Text('Parallel Question Sets (${paper.sets.length} Sets)',
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text('Parallel invariant sets have identical difficulty, syllabus weights, and marks distributions with rotated MCQs and swapped internal choices.',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+            const SizedBox(height: 10),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SegmentedButton<int>(
+                segments: [
+                  for (var i = 0; i < paper.sets.length; i++)
+                    ButtonSegment<int>(
+                      value: i,
+                      label: Text('Set ${paper.sets[i].setLabel ?? String.fromCharCode(65 + i)}'),
+                    ),
+                ],
+                selected: {_selectedSetIndex.clamp(0, paper.sets.length - 1)},
+                onSelectionChanged: (set) => setState(() => _selectedSetIndex = set.first),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -143,6 +189,10 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
               Expanded(
                 child: Text(paper.metadata.assessmentTitle, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
               ),
+              if (paper.setLabel != null && paper.setLabel!.isNotEmpty) ...[
+                ChipTag(label: 'SET ${paper.setLabel}', color: Theme.of(context).colorScheme.tertiaryContainer),
+                const SizedBox(width: 8),
+              ],
               ChipTag(label: assessment.status.name, color: Theme.of(context).colorScheme.primaryContainer),
             ],
           ),
@@ -151,6 +201,8 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
             Text('${paper.metadata.subject} · Grade ${paper.metadata.grade}'),
             Text('${paper.metadata.totalMarks} marks'),
             Text('${paper.metadata.durationMinutes} minutes'),
+            if (paper.metadata.tier != null)
+              Text('Tier: ${paper.metadata.tier!.toUpperCase()}'),
           ]),
         ],
       ),
@@ -197,9 +249,44 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(width: 28, child: Text('${q.displayNumber}.', style: const TextStyle(fontWeight: FontWeight.w600))),
-                    Expanded(child: Text(q.stem)),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(q.stem),
+                          if (q.internalChoiceText != null && q.internalChoiceText!.isNotEmpty) ...[
+                            const SizedBox(height: 6),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+                                borderRadius: BorderRadius.circular(6),
+                                border: Border.all(color: Theme.of(context).colorScheme.outlineVariant),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('OR', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 11, color: Theme.of(context).colorScheme.primary)),
+                                  const SizedBox(height: 2),
+                                  Text(q.internalChoiceText!, style: const TextStyle(fontStyle: FontStyle.italic, fontSize: 13)),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
                     const SizedBox(width: 8),
-                    ChipTag(label: '${q.marks}m'),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        ChipTag(label: '${q.marks}m'),
+                        if (q.isCompetency) ...[
+                          const SizedBox(height: 4),
+                          ChipTag(label: 'CBQ', color: Colors.blue.withValues(alpha: 0.15)),
+                        ],
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -209,7 +296,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
     );
   }
 
-  Widget _buildExportCard(BuildContext context, Assessment assessment) {
+  Widget _buildExportCard(BuildContext context, Assessment assessment, GeneratedPaper paper) {
     final editable = editableAssessmentStatuses.contains(assessment.status);
     return AppCard(
       child: Column(
@@ -229,6 +316,13 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                     : const Icon(Icons.picture_as_pdf),
                 label: Text(_exporting ? 'Exporting…' : 'Export PDF'),
               ),
+              FilledButton.tonalIcon(
+                onPressed: _exportingAnswerKey ? null : () => _exportAnswerKey(paper),
+                icon: _exportingAnswerKey
+                    ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                    : const Icon(Icons.fact_check),
+                label: Text(_exportingAnswerKey ? 'Exporting Key…' : 'Export Answer Key & Marking Scheme'),
+              ),
               if (_exportedUrl != null) ...[
                 FilledButton.tonalIcon(
                   onPressed: _openDelivery,
@@ -238,7 +332,14 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                 OutlinedButton.icon(
                   onPressed: () => _openExported(_exportedUrl!),
                   icon: const Icon(Icons.open_in_new),
-                  label: const Text('Open in browser'),
+                  label: const Text('Open Paper in browser'),
+                ),
+              ],
+              if (_exportedAnswerKeyUrl != null) ...[
+                OutlinedButton.icon(
+                  onPressed: () => _openExported(_exportedAnswerKeyUrl!),
+                  icon: const Icon(Icons.open_in_new),
+                  label: const Text('Open Answer Key'),
                 ),
               ],
             ],
@@ -396,6 +497,32 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
       setState(() {
         _error = e.toString();
         _exporting = false;
+      });
+    }
+  }
+
+  Future<void> _exportAnswerKey(GeneratedPaper paper) async {
+    setState(() {
+      _exportingAnswerKey = true;
+      _error = null;
+    });
+    try {
+      final api = GetIt.I<ApiClient>();
+      final path = await api.exportPaper(paper.id, ExportFormat.answerKey);
+      setState(() {
+        _exportedAnswerKeyUrl = path.startsWith('http')
+            ? path
+            : (path.startsWith('/') ? '${GetIt.I<PillarApi>().serverOrigin}$path' : path);
+        _exportingAnswerKey = false;
+      });
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Answer key with step-wise value points exported successfully.')),
+      );
+    } catch (e) {
+      setState(() {
+        _error = 'Failed to export answer key: $e';
+        _exportingAnswerKey = false;
       });
     }
   }

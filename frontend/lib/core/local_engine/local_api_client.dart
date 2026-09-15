@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import '../../data/datasources/api/api_client.dart';
 import '../../domain/entities/entities.dart';
 import '../../domain/repositories/requests.dart';
+import '../constants/app_constants.dart';
 import 'answer_evaluation.dart' as eval_engine;
 import 'corpus_repository.dart';
 import 'local_pdf_export.dart';
@@ -302,6 +303,12 @@ class LocalApiClient extends ApiClient {
                   bloomLevel: q.bloomLevel.name,
                   difficulty: q.difficulty.name,
                   type: q.type.name,
+                  internalChoiceText: q.metadata['internal_choice_stem'] as String?,
+                  internalChoiceQuestionId: q.metadata['internal_choice_id'] as String?,
+                  isCompetency: q.type == QuestionType.caseStudy ||
+                      q.type == QuestionType.competencyBased ||
+                      q.type == QuestionType.assertionReason ||
+                      (q.metadata['competency'] == true),
                 ))
             .toList(),
       ));
@@ -319,6 +326,7 @@ class LocalApiClient extends ApiClient {
       formattedContent: '',
       formattedContentLatex: '',
       answerKey: answerKey,
+      setLabel: request.setCount > 1 ? 'A' : null,
       metadata: PaperMetadata(
         assessmentTitle: request.template.name,
         schoolName: LocalStore.instance.schoolName(assessment.schoolId),
@@ -329,15 +337,175 @@ class LocalApiClient extends ApiClient {
         generatedAt: DateTime.now(),
         generatedBy: 'AcademicOS on-device engine',
         version: '1.0-local',
+        setLabel: request.setCount > 1 ? 'A' : null,
+        tier: request.tier,
       ),
     );
-    LocalStore.instance.savePaper(paper.id, paper.toJson());
+
+    final paperSets = <GeneratedPaper>[];
+    if (request.setCount > 1) {
+      final setLabels = ['A', 'B', 'C'];
+      for (var sIdx = 0; sIdx < request.setCount && sIdx < setLabels.length; sIdx++) {
+        final label = setLabels[sIdx];
+        if (sIdx == 0) {
+          paperSets.add(paper);
+          continue;
+        }
+        final rotatedSections = <GeneratedSection>[];
+        var dNum = 1;
+        for (final sec in sections) {
+          final isObjective = sec.questions.every((q) => q.type == 'mcq' || q.type == 'assertionReason');
+          var qList = List<GeneratedQuestion>.from(sec.questions);
+          if (isObjective && qList.length > 1) {
+            var shift = (sIdx * 3) % qList.length;
+            if (shift == 0) shift = 1;
+            qList = [...qList.sublist(shift), ...qList.sublist(0, shift)];
+          }
+          final swapped = qList.map((q) {
+            final hasChoice = q.internalChoiceText != null && q.internalChoiceText!.isNotEmpty;
+            if (hasChoice && sIdx % 2 == 1) {
+              return q.copyWith(
+                displayNumber: dNum++,
+                stem: q.internalChoiceText!,
+                internalChoiceText: q.stem,
+                internalChoiceQuestionId: q.questionId,
+              );
+            }
+            return q.copyWith(displayNumber: dNum++);
+          }).toList();
+          rotatedSections.add(sec.copyWith(questions: swapped));
+        }
+        final setPaper = paper.copyWith(
+          id: '${paper.id}_set_$label',
+          setLabel: label,
+          sections: rotatedSections,
+          metadata: paper.metadata.copyWith(setLabel: label),
+        );
+        paperSets.add(setPaper);
+        LocalStore.instance.savePaper(setPaper.id, setPaper.toJson());
+      }
+    }
+    final primaryPaper = paper.copyWith(sets: paperSets);
+    LocalStore.instance.savePaper(primaryPaper.id, primaryPaper.toJson());
     LocalStore.instance.upsertAssessment(
       assessment
-          .copyWith(status: AssessmentStatus.paperGenerated, generatedPaperId: paper.id, updatedAt: DateTime.now())
+          .copyWith(status: AssessmentStatus.paperGenerated, generatedPaperId: primaryPaper.id, updatedAt: DateTime.now())
           .toJson(),
     );
-    return paper;
+    return primaryPaper;
+  }
+
+  @override
+  Future<GeneratedPaper> quickGeneratePaper(QuickPaperRequest request) async {
+    await CorpusRepository.instance.ensureLoaded();
+    const schoolId = AppConstants.currentSchoolId;
+    final assessment = Assessment(
+      id: _newId('asm_quick'),
+      schoolId: schoolId,
+      teacherId: 'teacher_1',
+      title: request.title ?? '${request.subject} Grade ${request.grade} Quick Paper',
+      subject: request.subject,
+      grade: request.grade,
+      chapterIds: request.chapterIds,
+      blueprint: Blueprint(
+        totalMarks: request.totalMarks,
+        durationMinutes: request.durationMinutes ?? (request.totalMarks <= 25 ? 45 : request.totalMarks <= 50 ? 90 : 180),
+        difficulty: const DifficultyDistribution(easy: 0.3, medium: 0.5, hard: 0.2),
+        bloom: const BloomDistribution(remember: 0.2, understand: 0.25, apply: 0.3, analyze: 0.15, evaluate: 0.05, create: 0.05),
+        chapterWeights: const ChapterWeights(weights: {}),
+        competencyWeights: const CompetencyWeights(weights: {}),
+        sections: [
+          const SectionBlueprint(id: 'A', label: 'A', name: 'MCQs', marksPerQuestion: 1, questionCount: 5, totalMarks: 5, allowedBloomLevels: [BloomLevel.remember, BloomLevel.understand], allowedDifficulties: [Difficulty.easy, Difficulty.medium]),
+          const SectionBlueprint(id: 'B', label: 'B', name: 'Short Answer', marksPerQuestion: 2, questionCount: 3, totalMarks: 6, allowedBloomLevels: [BloomLevel.understand, BloomLevel.apply], allowedDifficulties: [Difficulty.easy, Difficulty.medium]),
+          const SectionBlueprint(id: 'C', label: 'C', name: 'Long Answer', marksPerQuestion: 3, questionCount: 3, totalMarks: 9, allowedBloomLevels: [BloomLevel.apply, BloomLevel.analyze], allowedDifficulties: [Difficulty.medium, Difficulty.hard], hasInternalChoice: true, internalChoiceCount: 1),
+        ],
+        tier: request.tier,
+        examType: request.examType,
+      ),
+      status: AssessmentStatus.draft,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+    LocalStore.instance.upsertAssessment(assessment.toJson());
+
+    final searchParams = QuestionSearchParams(
+      subject: request.subject,
+      grade: request.grade,
+      chapterIds: request.chapterIds.isEmpty ? null : request.chapterIds,
+      limit: 100,
+    );
+    final candidates = CorpusRepository.instance.search(searchParams);
+    final selected = (candidates.isNotEmpty ? candidates : CorpusRepository.instance.all.where((q) => q.subject == request.subject).toList()).take(11).toList();
+
+    final templates = await getSchoolPaperTemplates(schoolId);
+    final template = templates.firstWhere((t) => t.isDefault, orElse: () => templates.first);
+
+    return generatePaper(PaperGenerationRequest(
+      assessmentId: assessment.id,
+      blueprint: assessment.blueprint,
+      selectedQuestions: selected,
+      template: template,
+      setCount: request.setCount,
+      tier: request.tier,
+    ));
+  }
+
+  @override
+  Future<GeneratedPaper> generateFromIds(GenerateFromIdsRequest request) async {
+    await CorpusRepository.instance.ensureLoaded();
+    const schoolId = AppConstants.currentSchoolId;
+    final questions = await getQuestionsByIds(request.questionIds);
+    if (questions.isEmpty) throw Exception('No valid questions found for the given IDs.');
+
+    final totalMarks = questions.fold(0, (sum, q) => sum + q.marks);
+    final assessment = Assessment(
+      id: _newId('asm_curated'),
+      schoolId: schoolId,
+      teacherId: 'teacher_1',
+      title: request.title ?? '${request.subject} Curated Paper',
+      subject: request.subject,
+      grade: request.grade,
+      chapterIds: questions.expand((q) => q.chapterIds).toSet().toList(),
+      blueprint: Blueprint(
+        totalMarks: totalMarks,
+        durationMinutes: (totalMarks * 2).clamp(30, 180),
+        difficulty: const DifficultyDistribution(easy: 0.3, medium: 0.5, hard: 0.2),
+        bloom: const BloomDistribution(remember: 0.2, understand: 0.25, apply: 0.3, analyze: 0.15, evaluate: 0.05, create: 0.05),
+        chapterWeights: const ChapterWeights(weights: {}),
+        competencyWeights: const CompetencyWeights(weights: {}),
+        sections: [
+          for (final m in (questions.map((q) => q.marks).toSet().toList()..sort()))
+            SectionBlueprint(
+              id: 'sec_$m',
+              label: 'Section ${m}M',
+              name: '$m-Mark Questions',
+              marksPerQuestion: m,
+              questionCount: questions.where((q) => q.marks == m).length,
+              totalMarks: questions.where((q) => q.marks == m).fold(0, (s, q) => s + q.marks),
+              allowedBloomLevels: BloomLevel.values,
+              allowedDifficulties: Difficulty.values,
+            ),
+        ],
+        tier: request.tier,
+        examType: request.examType,
+      ),
+      status: AssessmentStatus.draft,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+    LocalStore.instance.upsertAssessment(assessment.toJson());
+
+    final templates = await getSchoolPaperTemplates(schoolId);
+    final template = request.template ?? (templates.isNotEmpty ? templates.first : templates.first);
+
+    return generatePaper(PaperGenerationRequest(
+      assessmentId: assessment.id,
+      blueprint: assessment.blueprint,
+      selectedQuestions: questions,
+      template: template,
+      setCount: request.setCount,
+      tier: request.tier,
+    ));
   }
 
   @override
@@ -352,15 +520,13 @@ class LocalApiClient extends ApiClient {
 
   @override
   Future<String> exportPaper(String paperId, ExportFormat format) async {
+    final paper = await getPaper(paperId);
+    if (format == ExportFormat.answerKey) {
+      return LocalPdfExporter.exportAnswerKey(paper);
+    }
     if (format != ExportFormat.pdf) {
       throw OfflineUnsupportedException('DOCX export');
     }
-    final paper = await getPaper(paperId);
-    // Real file, rendered on-device (see local_pdf_export.dart), returned
-    // as an absolute local path. assessment_review_page.dart's open-button
-    // routes non-http paths through `printing` (native share/view) instead
-    // of launchUrl -- a raw file:// URI would hit Android's
-    // FileUriExposedException on API 24+.
     return LocalPdfExporter.exportPaper(paper);
   }
 

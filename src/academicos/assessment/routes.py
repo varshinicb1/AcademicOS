@@ -517,8 +517,8 @@ def get_paper(paper_id: str, current: User = Depends(get_current_user)) -> Gener
 def export_paper(paper_id: str, fmt: str, current: User = Depends(get_current_user)) -> dict:
     cfg, store = _require()
     paper = require_school_owns_paper(_require_papers(), store, paper_id, current)
-    if fmt != "pdf":
-        raise HTTPException(400, "only pdf export is supported currently")
+    if fmt not in ("pdf", "answer-key", "answer_key", "answerKey"):
+        raise HTTPException(400, "only pdf and answer-key exports are supported currently")
     out_dir = cfg.artifacts_dir / "papers"
     template = _require_papers().get_template(paper_id)
     if template is None:
@@ -532,6 +532,13 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(get_current_us
     # _page_furniture docstring and docs/compliance.md's paper-release-
     # locking checklist item.
     watermark_id = f"exp_{uuid.uuid4().hex[:10]}"
+    if fmt in ("answer-key", "answer_key", "answerKey"):
+        path = pdf_export.export_answer_key_pdf(paper, out_dir, template=template)
+        get_audit_log(cfg.data_root).append(
+            "answer_key_exported", assessment_id=paper.assessment_id,
+            details={"paperId": paper_id, "format": fmt, "file": path.name, "watermarkId": watermark_id},
+        )
+        return {"url": f"/api/v1/papers/{paper_id}/file?format=answer-key", "watermarkId": watermark_id}
     path = pdf_export.export_pdf(paper, out_dir, template=template, watermark_id=watermark_id)
     get_audit_log(cfg.data_root).append(
         "paper_exported", assessment_id=paper.assessment_id,
@@ -541,13 +548,14 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(get_current_us
 
 
 @router.get("/papers/{paper_id}/file")
-def get_paper_file(paper_id: str, current: User = Depends(get_current_user)):
+def get_paper_file(paper_id: str, format: str = "pdf", current: User = Depends(get_current_user)):
     cfg, store = _require()
     require_school_owns_paper(_require_papers(), store, paper_id, current)
-    path = cfg.artifacts_dir / "papers" / f"{paper_id}.pdf"
+    suffix = "_answer_key.pdf" if format in ("answer-key", "answer_key") else ".pdf"
+    path = cfg.artifacts_dir / "papers" / f"{paper_id}{suffix}"
     if not path.exists():
         raise HTTPException(404, "pdf not generated yet")
-    return FileResponse(str(path), media_type="application/pdf", filename=f"{paper_id}.pdf")
+    return FileResponse(str(path), media_type="application/pdf", filename=f"{paper_id}{suffix}")
 
 
 # ---- Assessments ----

@@ -204,6 +204,26 @@ class PaperGenerationRepositoryImpl implements PaperGenerationRepository {
   }
 
   @override
+  Future<Either<Failure, GeneratedPaper>> quickGeneratePaper(QuickPaperRequest request) async {
+    try {
+      final result = await _apiClient.quickGeneratePaper(request);
+      return right(result);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, GeneratedPaper>> generateFromIds(GenerateFromIdsRequest request) async {
+    try {
+      final result = await _apiClient.generateFromIds(request);
+      return right(result);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<Failure, List<SchoolTemplate>>> getSchoolTemplates(String schoolId) async {
     try {
       final result = await _apiClient.getSchoolPaperTemplates(schoolId);

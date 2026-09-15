@@ -139,6 +139,9 @@ _$BlueprintImpl _$$BlueprintImplFromJson(Map<String, dynamic> json) =>
           .map((e) => SectionBlueprint.fromJson(e as Map<String, dynamic>))
           .toList(),
       metadata: json['metadata'] as Map<String, dynamic>? ?? const {},
+      tier: json['tier'] as String?,
+      competencyPercentage: (json['competencyPercentage'] as num?)?.toInt(),
+      examType: json['examType'] as String?,
     );
 
 Map<String, dynamic> _$$BlueprintImplToJson(_$BlueprintImpl instance) =>
@@ -151,6 +154,9 @@ Map<String, dynamic> _$$BlueprintImplToJson(_$BlueprintImpl instance) =>
       'competencyWeights': instance.competencyWeights,
       'sections': instance.sections,
       'metadata': instance.metadata,
+      'tier': instance.tier,
+      'competencyPercentage': instance.competencyPercentage,
+      'examType': instance.examType,
     };
 
 _$PointImpl _$$PointImplFromJson(Map<String, dynamic> json) => _$PointImpl(

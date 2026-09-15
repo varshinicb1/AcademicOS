@@ -522,7 +522,7 @@ enum NotificationType {
   general,
 }
 
-enum ExportFormat { pdf, docx }
+enum ExportFormat { pdf, docx, answerKey }
 
 @freezed
 class DifficultyDistribution with _$DifficultyDistribution {
@@ -596,6 +596,9 @@ class Blueprint with _$Blueprint {
     required CompetencyWeights competencyWeights,
     required List<SectionBlueprint> sections,
     @Default({}) Map<String, dynamic> metadata,
+    String? tier,
+    int? competencyPercentage,
+    String? examType,
   }) = _Blueprint;
 
   factory Blueprint.fromJson(Map<String, dynamic> json) => _$BlueprintFromJson(json);

@@ -51,6 +51,9 @@ _$BlueprintRequestImpl _$$BlueprintRequestImplFromJson(
           .map((e) => SectionBlueprint.fromJson(e as Map<String, dynamic>))
           .toList(),
       schoolTemplate: json['schoolTemplate'] as Map<String, dynamic>?,
+      tier: json['tier'] as String?,
+      competencyPercentage: (json['competencyPercentage'] as num?)?.toInt(),
+      examType: json['examType'] as String?,
     );
 
 Map<String, dynamic> _$$BlueprintRequestImplToJson(
@@ -64,6 +67,9 @@ Map<String, dynamic> _$$BlueprintRequestImplToJson(
       'competencyWeights': instance.competencyWeights,
       'sections': instance.sections,
       'schoolTemplate': instance.schoolTemplate,
+      'tier': instance.tier,
+      'competencyPercentage': instance.competencyPercentage,
+      'examType': instance.examType,
     };
 
 _$QuestionSearchParamsImpl _$$QuestionSearchParamsImplFromJson(
@@ -201,6 +207,8 @@ _$PaperGenerationRequestImpl _$$PaperGenerationRequestImplFromJson(
       template:
           SchoolTemplate.fromJson(json['template'] as Map<String, dynamic>),
       formattingOptions: json['formattingOptions'] as Map<String, dynamic>?,
+      setCount: (json['setCount'] as num?)?.toInt() ?? 1,
+      tier: json['tier'] as String?,
     );
 
 Map<String, dynamic> _$$PaperGenerationRequestImplToJson(
@@ -211,6 +219,8 @@ Map<String, dynamic> _$$PaperGenerationRequestImplToJson(
       'selectedQuestions': instance.selectedQuestions,
       'template': instance.template,
       'formattingOptions': instance.formattingOptions,
+      'setCount': instance.setCount,
+      'tier': instance.tier,
     };
 
 _$GeneratedPaperImpl _$$GeneratedPaperImplFromJson(Map<String, dynamic> json) =>
@@ -225,6 +235,11 @@ _$GeneratedPaperImpl _$$GeneratedPaperImplFromJson(Map<String, dynamic> json) =>
       answerKey: json['answerKey'] as Map<String, dynamic>,
       metadata:
           PaperMetadata.fromJson(json['metadata'] as Map<String, dynamic>),
+      setLabel: json['setLabel'] as String?,
+      sets: (json['sets'] as List<dynamic>?)
+              ?.map((e) => GeneratedPaper.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$GeneratedPaperImplToJson(
@@ -237,6 +252,8 @@ Map<String, dynamic> _$$GeneratedPaperImplToJson(
       'formattedContentLatex': instance.formattedContentLatex,
       'answerKey': instance.answerKey,
       'metadata': instance.metadata,
+      'setLabel': instance.setLabel,
+      'sets': instance.sets,
     };
 
 _$GeneratedSectionImpl _$$GeneratedSectionImplFromJson(
@@ -276,6 +293,8 @@ _$GeneratedQuestionImpl _$$GeneratedQuestionImplFromJson(
       difficulty: json['difficulty'] as String,
       type: json['type'] as String,
       internalChoiceText: json['internalChoiceText'] as String?,
+      internalChoiceQuestionId: json['internalChoiceQuestionId'] as String?,
+      isCompetency: json['isCompetency'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$GeneratedQuestionImplToJson(
@@ -291,6 +310,8 @@ Map<String, dynamic> _$$GeneratedQuestionImplToJson(
       'difficulty': instance.difficulty,
       'type': instance.type,
       'internalChoiceText': instance.internalChoiceText,
+      'internalChoiceQuestionId': instance.internalChoiceQuestionId,
+      'isCompetency': instance.isCompetency,
     };
 
 _$PaperMetadataImpl _$$PaperMetadataImplFromJson(Map<String, dynamic> json) =>
@@ -304,6 +325,9 @@ _$PaperMetadataImpl _$$PaperMetadataImplFromJson(Map<String, dynamic> json) =>
       generatedAt: DateTime.parse(json['generatedAt'] as String),
       generatedBy: json['generatedBy'] as String,
       version: json['version'] as String,
+      setLabel: json['setLabel'] as String?,
+      tier: json['tier'] as String?,
+      examType: json['examType'] as String?,
     );
 
 Map<String, dynamic> _$$PaperMetadataImplToJson(_$PaperMetadataImpl instance) =>
@@ -317,6 +341,70 @@ Map<String, dynamic> _$$PaperMetadataImplToJson(_$PaperMetadataImpl instance) =>
       'generatedAt': instance.generatedAt.toIso8601String(),
       'generatedBy': instance.generatedBy,
       'version': instance.version,
+      'setLabel': instance.setLabel,
+      'tier': instance.tier,
+      'examType': instance.examType,
+    };
+
+_$QuickPaperRequestImpl _$$QuickPaperRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$QuickPaperRequestImpl(
+      subject: json['subject'] as String,
+      grade: (json['grade'] as num?)?.toInt() ?? 10,
+      chapterIds: (json['chapterIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      title: json['title'] as String?,
+      totalMarks: (json['totalMarks'] as num?)?.toInt() ?? 80,
+      durationMinutes: (json['durationMinutes'] as num?)?.toInt(),
+      tier: json['tier'] as String? ?? 'standard',
+      examType: json['examType'] as String?,
+      setCount: (json['setCount'] as num?)?.toInt() ?? 1,
+    );
+
+Map<String, dynamic> _$$QuickPaperRequestImplToJson(
+        _$QuickPaperRequestImpl instance) =>
+    <String, dynamic>{
+      'subject': instance.subject,
+      'grade': instance.grade,
+      'chapterIds': instance.chapterIds,
+      'title': instance.title,
+      'totalMarks': instance.totalMarks,
+      'durationMinutes': instance.durationMinutes,
+      'tier': instance.tier,
+      'examType': instance.examType,
+      'setCount': instance.setCount,
+    };
+
+_$GenerateFromIdsRequestImpl _$$GenerateFromIdsRequestImplFromJson(
+        Map<String, dynamic> json) =>
+    _$GenerateFromIdsRequestImpl(
+      questionIds: (json['questionIds'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      subject: json['subject'] as String,
+      grade: (json['grade'] as num?)?.toInt() ?? 10,
+      title: json['title'] as String?,
+      template: json['template'] == null
+          ? null
+          : SchoolTemplate.fromJson(json['template'] as Map<String, dynamic>),
+      setCount: (json['setCount'] as num?)?.toInt() ?? 1,
+      tier: json['tier'] as String?,
+      examType: json['examType'] as String?,
+    );
+
+Map<String, dynamic> _$$GenerateFromIdsRequestImplToJson(
+        _$GenerateFromIdsRequestImpl instance) =>
+    <String, dynamic>{
+      'questionIds': instance.questionIds,
+      'subject': instance.subject,
+      'grade': instance.grade,
+      'title': instance.title,
+      'template': instance.template,
+      'setCount': instance.setCount,
+      'tier': instance.tier,
+      'examType': instance.examType,
     };
 
 _$SchoolTemplateImpl _$$SchoolTemplateImplFromJson(Map<String, dynamic> json) =>

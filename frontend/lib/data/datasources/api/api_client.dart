@@ -120,6 +120,16 @@ class ApiClient {
     return GeneratedPaper.fromJson(response.data);
   }
 
+  Future<GeneratedPaper> quickGeneratePaper(QuickPaperRequest request) async {
+    final response = await _dio.post('/papers/quick-generate', data: request.toJson());
+    return GeneratedPaper.fromJson(response.data);
+  }
+
+  Future<GeneratedPaper> generateFromIds(GenerateFromIdsRequest request) async {
+    final response = await _dio.post('/papers/generate-from-ids', data: request.toJson());
+    return GeneratedPaper.fromJson(response.data);
+  }
+
   Future<GeneratedPaper> getPaper(String paperId) async {
     final response = await _dio.get('/papers/$paperId');
     return GeneratedPaper.fromJson(response.data);

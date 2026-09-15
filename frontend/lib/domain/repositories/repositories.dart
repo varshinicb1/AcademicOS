@@ -38,6 +38,8 @@ abstract class QuestionRepository {
 
 abstract class PaperGenerationRepository {
   Future<Either<Failure, GeneratedPaper>> generatePaper(PaperGenerationRequest request);
+  Future<Either<Failure, GeneratedPaper>> quickGeneratePaper(QuickPaperRequest request);
+  Future<Either<Failure, GeneratedPaper>> generateFromIds(GenerateFromIdsRequest request);
   Future<Either<Failure, List<SchoolTemplate>>> getSchoolTemplates(String schoolId);
   Future<Either<Failure, String>> exportPaper(GeneratedPaper paper, ExportFormat format);
 }

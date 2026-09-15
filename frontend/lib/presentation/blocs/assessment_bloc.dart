@@ -35,6 +35,8 @@ class AssessmentEvent with _$AssessmentEvent {
     required Blueprint blueprint,
     required List<Question> questions,
     required String schoolId,
+    @Default(1) int setCount,
+    String? tier,
   }) = _GeneratePaper;
   const factory AssessmentEvent.exportPaper({
     required GeneratedPaper paper,
@@ -107,6 +109,8 @@ class AssessmentBloc extends Bloc<AssessmentEvent, AssessmentState> {
       blueprint: event.blueprint,
       selectedQuestions: event.questions,
       schoolId: event.schoolId,
+      setCount: event.setCount,
+      tier: event.tier,
     );
     result.fold(
       (failure) => emit(AssessmentState.error(failure.message)),

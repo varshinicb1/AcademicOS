@@ -387,3 +387,19 @@ def test_generate_from_ids_api_endpoint(tmp_path, monkeypatch):
         all_qids = [q["questionId"] for sec in paper["sections"] for q in sec["questions"]]
         for qid in qids:
             assert qid in all_qids
+
+        # Test answer-key export
+        exp_resp = client.post(
+            f"/api/v1/papers/{paper['id']}/export/answer-key",
+            headers=auth,
+        )
+        assert exp_resp.status_code == 200, exp_resp.text
+        assert "url" in exp_resp.json()
+
+        file_resp = client.get(
+            f"/api/v1/papers/{paper['id']}/file?format=answer-key",
+            headers=auth,
+        )
+        assert file_resp.status_code == 200
+        assert file_resp.headers["content-type"] == "application/pdf"
+        assert len(file_resp.content) > 100

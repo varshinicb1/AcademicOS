@@ -1099,6 +1099,9 @@ mixin _$Blueprint {
   CompetencyWeights get competencyWeights => throw _privateConstructorUsedError;
   List<SectionBlueprint> get sections => throw _privateConstructorUsedError;
   Map<String, dynamic> get metadata => throw _privateConstructorUsedError;
+  String? get tier => throw _privateConstructorUsedError;
+  int? get competencyPercentage => throw _privateConstructorUsedError;
+  String? get examType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1119,7 +1122,10 @@ abstract class $BlueprintCopyWith<$Res> {
       ChapterWeights chapterWeights,
       CompetencyWeights competencyWeights,
       List<SectionBlueprint> sections,
-      Map<String, dynamic> metadata});
+      Map<String, dynamic> metadata,
+      String? tier,
+      int? competencyPercentage,
+      String? examType});
 
   $DifficultyDistributionCopyWith<$Res> get difficulty;
   $BloomDistributionCopyWith<$Res> get bloom;
@@ -1148,6 +1154,9 @@ class _$BlueprintCopyWithImpl<$Res, $Val extends Blueprint>
     Object? competencyWeights = null,
     Object? sections = null,
     Object? metadata = null,
+    Object? tier = freezed,
+    Object? competencyPercentage = freezed,
+    Object? examType = freezed,
   }) {
     return _then(_value.copyWith(
       totalMarks: null == totalMarks
@@ -1182,6 +1191,18 @@ class _$BlueprintCopyWithImpl<$Res, $Val extends Blueprint>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      tier: freezed == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String?,
+      competencyPercentage: freezed == competencyPercentage
+          ? _value.competencyPercentage
+          : competencyPercentage // ignore: cast_nullable_to_non_nullable
+              as int?,
+      examType: freezed == examType
+          ? _value.examType
+          : examType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -1234,7 +1255,10 @@ abstract class _$$BlueprintImplCopyWith<$Res>
       ChapterWeights chapterWeights,
       CompetencyWeights competencyWeights,
       List<SectionBlueprint> sections,
-      Map<String, dynamic> metadata});
+      Map<String, dynamic> metadata,
+      String? tier,
+      int? competencyPercentage,
+      String? examType});
 
   @override
   $DifficultyDistributionCopyWith<$Res> get difficulty;
@@ -1265,6 +1289,9 @@ class __$$BlueprintImplCopyWithImpl<$Res>
     Object? competencyWeights = null,
     Object? sections = null,
     Object? metadata = null,
+    Object? tier = freezed,
+    Object? competencyPercentage = freezed,
+    Object? examType = freezed,
   }) {
     return _then(_$BlueprintImpl(
       totalMarks: null == totalMarks
@@ -1299,6 +1326,18 @@ class __$$BlueprintImplCopyWithImpl<$Res>
           ? _value._metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>,
+      tier: freezed == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String?,
+      competencyPercentage: freezed == competencyPercentage
+          ? _value.competencyPercentage
+          : competencyPercentage // ignore: cast_nullable_to_non_nullable
+              as int?,
+      examType: freezed == examType
+          ? _value.examType
+          : examType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -1314,7 +1353,10 @@ class _$BlueprintImpl implements _Blueprint {
       required this.chapterWeights,
       required this.competencyWeights,
       required final List<SectionBlueprint> sections,
-      final Map<String, dynamic> metadata = const {}})
+      final Map<String, dynamic> metadata = const {},
+      this.tier,
+      this.competencyPercentage,
+      this.examType})
       : _sections = sections,
         _metadata = metadata;
 
@@ -1351,8 +1393,15 @@ class _$BlueprintImpl implements _Blueprint {
   }
 
   @override
+  final String? tier;
+  @override
+  final int? competencyPercentage;
+  @override
+  final String? examType;
+
+  @override
   String toString() {
-    return 'Blueprint(totalMarks: $totalMarks, durationMinutes: $durationMinutes, difficulty: $difficulty, bloom: $bloom, chapterWeights: $chapterWeights, competencyWeights: $competencyWeights, sections: $sections, metadata: $metadata)';
+    return 'Blueprint(totalMarks: $totalMarks, durationMinutes: $durationMinutes, difficulty: $difficulty, bloom: $bloom, chapterWeights: $chapterWeights, competencyWeights: $competencyWeights, sections: $sections, metadata: $metadata, tier: $tier, competencyPercentage: $competencyPercentage, examType: $examType)';
   }
 
   @override
@@ -1372,7 +1421,12 @@ class _$BlueprintImpl implements _Blueprint {
             (identical(other.competencyWeights, competencyWeights) ||
                 other.competencyWeights == competencyWeights) &&
             const DeepCollectionEquality().equals(other._sections, _sections) &&
-            const DeepCollectionEquality().equals(other._metadata, _metadata));
+            const DeepCollectionEquality().equals(other._metadata, _metadata) &&
+            (identical(other.tier, tier) || other.tier == tier) &&
+            (identical(other.competencyPercentage, competencyPercentage) ||
+                other.competencyPercentage == competencyPercentage) &&
+            (identical(other.examType, examType) ||
+                other.examType == examType));
   }
 
   @JsonKey(ignore: true)
@@ -1386,7 +1440,10 @@ class _$BlueprintImpl implements _Blueprint {
       chapterWeights,
       competencyWeights,
       const DeepCollectionEquality().hash(_sections),
-      const DeepCollectionEquality().hash(_metadata));
+      const DeepCollectionEquality().hash(_metadata),
+      tier,
+      competencyPercentage,
+      examType);
 
   @JsonKey(ignore: true)
   @override
@@ -1411,7 +1468,10 @@ abstract class _Blueprint implements Blueprint {
       required final ChapterWeights chapterWeights,
       required final CompetencyWeights competencyWeights,
       required final List<SectionBlueprint> sections,
-      final Map<String, dynamic> metadata}) = _$BlueprintImpl;
+      final Map<String, dynamic> metadata,
+      final String? tier,
+      final int? competencyPercentage,
+      final String? examType}) = _$BlueprintImpl;
 
   factory _Blueprint.fromJson(Map<String, dynamic> json) =
       _$BlueprintImpl.fromJson;
@@ -1432,6 +1492,12 @@ abstract class _Blueprint implements Blueprint {
   List<SectionBlueprint> get sections;
   @override
   Map<String, dynamic> get metadata;
+  @override
+  String? get tier;
+  @override
+  int? get competencyPercentage;
+  @override
+  String? get examType;
   @override
   @JsonKey(ignore: true)
   _$$BlueprintImplCopyWith<_$BlueprintImpl> get copyWith =>

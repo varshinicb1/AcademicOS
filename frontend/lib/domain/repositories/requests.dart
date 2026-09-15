@@ -32,6 +32,9 @@ class BlueprintRequest with _$BlueprintRequest {
     required CompetencyWeights competencyWeights,
     required List<SectionBlueprint> sections,
     Map<String, dynamic>? schoolTemplate,
+    String? tier,
+    int? competencyPercentage,
+    String? examType,
   }) = _BlueprintRequest;
 
   factory BlueprintRequest.fromJson(Map<String, dynamic> json) => _$BlueprintRequestFromJson(json);
@@ -81,6 +84,8 @@ class PaperGenerationRequest with _$PaperGenerationRequest {
     required List<Question> selectedQuestions,
     required SchoolTemplate template,
     Map<String, dynamic>? formattingOptions,
+    @Default(1) int setCount,
+    String? tier,
   }) = _PaperGenerationRequest;
 
   factory PaperGenerationRequest.fromJson(Map<String, dynamic> json) => _$PaperGenerationRequestFromJson(json);
@@ -96,6 +101,8 @@ class GeneratedPaper with _$GeneratedPaper {
     required String formattedContentLatex,
     required Map<String, dynamic> answerKey,
     required PaperMetadata metadata,
+    String? setLabel,
+    @Default([]) List<GeneratedPaper> sets,
   }) = _GeneratedPaper;
 
   factory GeneratedPaper.fromJson(Map<String, dynamic> json) => _$GeneratedPaperFromJson(json);
@@ -127,6 +134,8 @@ class GeneratedQuestion with _$GeneratedQuestion {
     required String difficulty,
     required String type,
     String? internalChoiceText,
+    String? internalChoiceQuestionId,
+    @Default(false) bool isCompetency,
   }) = _GeneratedQuestion;
 
   factory GeneratedQuestion.fromJson(Map<String, dynamic> json) => _$GeneratedQuestionFromJson(json);
@@ -144,9 +153,45 @@ class PaperMetadata with _$PaperMetadata {
     required DateTime generatedAt,
     required String generatedBy,
     required String version,
+    String? setLabel,
+    String? tier,
+    String? examType,
   }) = _PaperMetadata;
 
   factory PaperMetadata.fromJson(Map<String, dynamic> json) => _$PaperMetadataFromJson(json);
+}
+
+@freezed
+class QuickPaperRequest with _$QuickPaperRequest {
+  const factory QuickPaperRequest({
+    required String subject,
+    @Default(10) int grade,
+    @Default([]) List<String> chapterIds,
+    String? title,
+    @Default(80) int totalMarks,
+    int? durationMinutes,
+    @Default('standard') String tier,
+    String? examType,
+    @Default(1) int setCount,
+  }) = _QuickPaperRequest;
+
+  factory QuickPaperRequest.fromJson(Map<String, dynamic> json) => _$QuickPaperRequestFromJson(json);
+}
+
+@freezed
+class GenerateFromIdsRequest with _$GenerateFromIdsRequest {
+  const factory GenerateFromIdsRequest({
+    required List<String> questionIds,
+    required String subject,
+    @Default(10) int grade,
+    String? title,
+    SchoolTemplate? template,
+    @Default(1) int setCount,
+    String? tier,
+    String? examType,
+  }) = _GenerateFromIdsRequest;
+
+  factory GenerateFromIdsRequest.fromJson(Map<String, dynamic> json) => _$GenerateFromIdsRequestFromJson(json);
 }
 
 @freezed

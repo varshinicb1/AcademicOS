@@ -76,14 +76,121 @@ class LocalPdfExporter {
     return file.path;
   }
 
+  static Future<String> exportAnswerKey(GeneratedPaper paper) async {
+    final doc = pw.Document();
+    final meta = paper.metadata;
+    final setStr = meta.setLabel != null && meta.setLabel!.isNotEmpty ? ' (SET ${meta.setLabel})' : '';
+
+    doc.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: const pw.EdgeInsets.all(28),
+        header: (context) => pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.center,
+          children: [
+            pw.Text(_safe(meta.schoolName),
+                style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(height: 4),
+            pw.Text(_safe('${meta.assessmentTitle}$setStr - Answer Key & Marking Scheme'),
+                style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(height: 2),
+            pw.Text(_safe('Class ${meta.grade} - ${meta.subject} | Max Marks: ${meta.totalMarks}'),
+                style: const pw.TextStyle(fontSize: 10)),
+            pw.SizedBox(height: 4),
+            pw.Divider(thickness: 1),
+          ],
+        ),
+        footer: (context) => pw.Align(
+          alignment: pw.Alignment.centerRight,
+          child: pw.Text('Page ${context.pageNumber} of ${context.pagesCount}',
+              style: const pw.TextStyle(fontSize: 8, color: PdfColors.grey600)),
+        ),
+        build: (context) => [
+          for (final section in paper.sections) ...[
+            pw.Container(
+              width: double.infinity,
+              padding: const pw.EdgeInsets.symmetric(horizontal: 6, vertical: 4),
+              margin: const pw.EdgeInsets.only(top: 10, bottom: 6),
+              color: PdfColors.grey200,
+              child: pw.Text(
+                _safe('Section ${section.label} - ${section.name}'),
+                style: pw.TextStyle(fontSize: 11, fontWeight: pw.FontWeight.bold),
+              ),
+            ),
+            for (final q in section.questions) ...[
+              pw.Padding(
+                padding: const pw.EdgeInsets.symmetric(vertical: 4),
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Row(
+                      crossAxisAlignment: pw.CrossAxisAlignment.start,
+                      children: [
+                        pw.SizedBox(
+                          width: 24,
+                          child: pw.Text('Q${q.displayNumber}.',
+                              style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold)),
+                        ),
+                        pw.Expanded(
+                          child: pw.Text(_safe(q.stem),
+                              maxLines: 2,
+                              style: const pw.TextStyle(fontSize: 9.5, color: PdfColors.grey800)),
+                        ),
+                        pw.SizedBox(width: 8),
+                        pw.Text('[${q.marks}m]',
+                            style: pw.TextStyle(fontSize: 9.5, fontWeight: pw.FontWeight.bold)),
+                      ],
+                    ),
+                    pw.Padding(
+                      padding: const pw.EdgeInsets.only(left: 24, top: 3),
+                      child: pw.Container(
+                        padding: const pw.EdgeInsets.all(6),
+                        decoration: pw.BoxDecoration(
+                          border: pw.Border.all(color: PdfColors.grey300, width: 0.5),
+                          borderRadius: const pw.BorderRadius.all(pw.Radius.circular(4)),
+                        ),
+                        child: pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.start,
+                          children: [
+                            pw.Text('Step-Wise Value Points / Marking Scheme:',
+                                style: pw.TextStyle(fontSize: 8.5, fontWeight: pw.FontWeight.bold, color: PdfColors.blueGrey800)),
+                            pw.SizedBox(height: 2),
+                            pw.Text(
+                              _safe(paper.answerKey[q.questionId]?.toString() ?? 'Full marks for correct steps with proper reasoning.'),
+                              style: const pw.TextStyle(fontSize: 9),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ],
+        ],
+      ),
+    );
+
+    final dir = await getApplicationDocumentsDirectory();
+    final papersDir = Directory('${dir.path}/academicos_papers');
+    if (!await papersDir.exists()) {
+      await papersDir.create(recursive: true);
+    }
+    final file = File('${papersDir.path}/${paper.id}_answer_key.pdf');
+    await file.writeAsBytes(await doc.save());
+    return file.path;
+  }
+
   static pw.Widget _firstPageHeader(PaperMetadata meta) {
+    final setStr = meta.setLabel != null && meta.setLabel!.isNotEmpty ? ' (SET ${meta.setLabel})' : '';
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.center,
       children: [
         pw.Text(_safe(meta.schoolName),
             style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
         pw.SizedBox(height: 4),
-        pw.Text(_safe(meta.assessmentTitle),
+        pw.Text(_safe('${meta.assessmentTitle}$setStr'),
             style: pw.TextStyle(fontSize: 14, fontWeight: pw.FontWeight.bold)),
         pw.SizedBox(height: 2),
         pw.Text(_safe('Class ${meta.grade} - ${meta.subject}'), style: const pw.TextStyle(fontSize: 11)),
@@ -133,6 +240,7 @@ class LocalPdfExporter {
   }
 
   static pw.Widget _continuationHeader(PaperMetadata meta) {
+    final setStr = meta.setLabel != null && meta.setLabel!.isNotEmpty ? ' (SET ${meta.setLabel})' : '';
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.center,
       children: [
@@ -140,7 +248,7 @@ class LocalPdfExporter {
           mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
           children: [
             pw.Text(_safe(meta.schoolName), style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700)),
-            pw.Text(_safe('${meta.subject} - Class ${meta.grade}'),
+            pw.Text(_safe('${meta.subject}$setStr - Class ${meta.grade}'),
                 style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700)),
           ],
         ),
@@ -187,6 +295,18 @@ class LocalPdfExporter {
               pw.Text('[${q.marks}]', style: const pw.TextStyle(fontSize: 10)),
             ],
           ),
+          if (q.internalChoiceText != null && q.internalChoiceText!.isNotEmpty) ...[
+            pw.Padding(
+              padding: const pw.EdgeInsets.symmetric(vertical: 4),
+              child: pw.Center(
+                child: pw.Text('OR', style: pw.TextStyle(fontSize: 9, fontWeight: pw.FontWeight.bold, color: PdfColors.blueGrey800)),
+              ),
+            ),
+            pw.Padding(
+              padding: const pw.EdgeInsets.only(left: 24),
+              child: pw.Text(_safe(q.internalChoiceText!), style: pw.TextStyle(fontSize: 10, fontStyle: pw.FontStyle.italic)),
+            ),
+          ],
           if (isObjective && options != null && options.isNotEmpty)
             pw.Padding(
               padding: const pw.EdgeInsets.only(left: 24, top: 4),

@@ -73,6 +73,8 @@ class GeneratePaperUseCase {
     required Blueprint blueprint,
     required List<Question> selectedQuestions,
     required String schoolId,
+    int setCount = 1,
+    String? tier,
   }) async {
     final templatesResult = await _paperRepository.getSchoolTemplates(schoolId);
     if (templatesResult.isLeft()) return left(templatesResult.fold((l) => l, (r) => throw UnimplementedError()));
@@ -88,6 +90,8 @@ class GeneratePaperUseCase {
       blueprint: blueprint,
       selectedQuestions: selectedQuestions,
       template: template,
+      setCount: setCount,
+      tier: tier,
     );
 
     return _paperRepository.generatePaper(request);

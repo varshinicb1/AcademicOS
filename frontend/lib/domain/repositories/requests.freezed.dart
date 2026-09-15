@@ -349,6 +349,9 @@ mixin _$BlueprintRequest {
   List<SectionBlueprint> get sections => throw _privateConstructorUsedError;
   Map<String, dynamic>? get schoolTemplate =>
       throw _privateConstructorUsedError;
+  String? get tier => throw _privateConstructorUsedError;
+  int? get competencyPercentage => throw _privateConstructorUsedError;
+  String? get examType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -370,7 +373,10 @@ abstract class $BlueprintRequestCopyWith<$Res> {
       ChapterWeights chapterWeights,
       CompetencyWeights competencyWeights,
       List<SectionBlueprint> sections,
-      Map<String, dynamic>? schoolTemplate});
+      Map<String, dynamic>? schoolTemplate,
+      String? tier,
+      int? competencyPercentage,
+      String? examType});
 
   $DifficultyDistributionCopyWith<$Res> get difficulty;
   $BloomDistributionCopyWith<$Res> get bloom;
@@ -399,6 +405,9 @@ class _$BlueprintRequestCopyWithImpl<$Res, $Val extends BlueprintRequest>
     Object? competencyWeights = null,
     Object? sections = null,
     Object? schoolTemplate = freezed,
+    Object? tier = freezed,
+    Object? competencyPercentage = freezed,
+    Object? examType = freezed,
   }) {
     return _then(_value.copyWith(
       totalMarks: null == totalMarks
@@ -433,6 +442,18 @@ class _$BlueprintRequestCopyWithImpl<$Res, $Val extends BlueprintRequest>
           ? _value.schoolTemplate
           : schoolTemplate // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      tier: freezed == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String?,
+      competencyPercentage: freezed == competencyPercentage
+          ? _value.competencyPercentage
+          : competencyPercentage // ignore: cast_nullable_to_non_nullable
+              as int?,
+      examType: freezed == examType
+          ? _value.examType
+          : examType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -485,7 +506,10 @@ abstract class _$$BlueprintRequestImplCopyWith<$Res>
       ChapterWeights chapterWeights,
       CompetencyWeights competencyWeights,
       List<SectionBlueprint> sections,
-      Map<String, dynamic>? schoolTemplate});
+      Map<String, dynamic>? schoolTemplate,
+      String? tier,
+      int? competencyPercentage,
+      String? examType});
 
   @override
   $DifficultyDistributionCopyWith<$Res> get difficulty;
@@ -516,6 +540,9 @@ class __$$BlueprintRequestImplCopyWithImpl<$Res>
     Object? competencyWeights = null,
     Object? sections = null,
     Object? schoolTemplate = freezed,
+    Object? tier = freezed,
+    Object? competencyPercentage = freezed,
+    Object? examType = freezed,
   }) {
     return _then(_$BlueprintRequestImpl(
       totalMarks: null == totalMarks
@@ -550,6 +577,18 @@ class __$$BlueprintRequestImplCopyWithImpl<$Res>
           ? _value._schoolTemplate
           : schoolTemplate // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      tier: freezed == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String?,
+      competencyPercentage: freezed == competencyPercentage
+          ? _value.competencyPercentage
+          : competencyPercentage // ignore: cast_nullable_to_non_nullable
+              as int?,
+      examType: freezed == examType
+          ? _value.examType
+          : examType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -565,7 +604,10 @@ class _$BlueprintRequestImpl implements _BlueprintRequest {
       required this.chapterWeights,
       required this.competencyWeights,
       required final List<SectionBlueprint> sections,
-      final Map<String, dynamic>? schoolTemplate})
+      final Map<String, dynamic>? schoolTemplate,
+      this.tier,
+      this.competencyPercentage,
+      this.examType})
       : _sections = sections,
         _schoolTemplate = schoolTemplate;
 
@@ -603,8 +645,15 @@ class _$BlueprintRequestImpl implements _BlueprintRequest {
   }
 
   @override
+  final String? tier;
+  @override
+  final int? competencyPercentage;
+  @override
+  final String? examType;
+
+  @override
   String toString() {
-    return 'BlueprintRequest(totalMarks: $totalMarks, durationMinutes: $durationMinutes, difficulty: $difficulty, bloom: $bloom, chapterWeights: $chapterWeights, competencyWeights: $competencyWeights, sections: $sections, schoolTemplate: $schoolTemplate)';
+    return 'BlueprintRequest(totalMarks: $totalMarks, durationMinutes: $durationMinutes, difficulty: $difficulty, bloom: $bloom, chapterWeights: $chapterWeights, competencyWeights: $competencyWeights, sections: $sections, schoolTemplate: $schoolTemplate, tier: $tier, competencyPercentage: $competencyPercentage, examType: $examType)';
   }
 
   @override
@@ -625,7 +674,12 @@ class _$BlueprintRequestImpl implements _BlueprintRequest {
                 other.competencyWeights == competencyWeights) &&
             const DeepCollectionEquality().equals(other._sections, _sections) &&
             const DeepCollectionEquality()
-                .equals(other._schoolTemplate, _schoolTemplate));
+                .equals(other._schoolTemplate, _schoolTemplate) &&
+            (identical(other.tier, tier) || other.tier == tier) &&
+            (identical(other.competencyPercentage, competencyPercentage) ||
+                other.competencyPercentage == competencyPercentage) &&
+            (identical(other.examType, examType) ||
+                other.examType == examType));
   }
 
   @JsonKey(ignore: true)
@@ -639,7 +693,10 @@ class _$BlueprintRequestImpl implements _BlueprintRequest {
       chapterWeights,
       competencyWeights,
       const DeepCollectionEquality().hash(_sections),
-      const DeepCollectionEquality().hash(_schoolTemplate));
+      const DeepCollectionEquality().hash(_schoolTemplate),
+      tier,
+      competencyPercentage,
+      examType);
 
   @JsonKey(ignore: true)
   @override
@@ -665,7 +722,10 @@ abstract class _BlueprintRequest implements BlueprintRequest {
       required final ChapterWeights chapterWeights,
       required final CompetencyWeights competencyWeights,
       required final List<SectionBlueprint> sections,
-      final Map<String, dynamic>? schoolTemplate}) = _$BlueprintRequestImpl;
+      final Map<String, dynamic>? schoolTemplate,
+      final String? tier,
+      final int? competencyPercentage,
+      final String? examType}) = _$BlueprintRequestImpl;
 
   factory _BlueprintRequest.fromJson(Map<String, dynamic> json) =
       _$BlueprintRequestImpl.fromJson;
@@ -686,6 +746,12 @@ abstract class _BlueprintRequest implements BlueprintRequest {
   List<SectionBlueprint> get sections;
   @override
   Map<String, dynamic>? get schoolTemplate;
+  @override
+  String? get tier;
+  @override
+  int? get competencyPercentage;
+  @override
+  String? get examType;
   @override
   @JsonKey(ignore: true)
   _$$BlueprintRequestImplCopyWith<_$BlueprintRequestImpl> get copyWith =>
@@ -1490,6 +1556,8 @@ mixin _$PaperGenerationRequest {
   SchoolTemplate get template => throw _privateConstructorUsedError;
   Map<String, dynamic>? get formattingOptions =>
       throw _privateConstructorUsedError;
+  int get setCount => throw _privateConstructorUsedError;
+  String? get tier => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1508,7 +1576,9 @@ abstract class $PaperGenerationRequestCopyWith<$Res> {
       Blueprint blueprint,
       List<Question> selectedQuestions,
       SchoolTemplate template,
-      Map<String, dynamic>? formattingOptions});
+      Map<String, dynamic>? formattingOptions,
+      int setCount,
+      String? tier});
 
   $BlueprintCopyWith<$Res> get blueprint;
   $SchoolTemplateCopyWith<$Res> get template;
@@ -1533,6 +1603,8 @@ class _$PaperGenerationRequestCopyWithImpl<$Res,
     Object? selectedQuestions = null,
     Object? template = null,
     Object? formattingOptions = freezed,
+    Object? setCount = null,
+    Object? tier = freezed,
   }) {
     return _then(_value.copyWith(
       assessmentId: null == assessmentId
@@ -1555,6 +1627,14 @@ class _$PaperGenerationRequestCopyWithImpl<$Res,
           ? _value.formattingOptions
           : formattingOptions // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      setCount: null == setCount
+          ? _value.setCount
+          : setCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      tier: freezed == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -1589,7 +1669,9 @@ abstract class _$$PaperGenerationRequestImplCopyWith<$Res>
       Blueprint blueprint,
       List<Question> selectedQuestions,
       SchoolTemplate template,
-      Map<String, dynamic>? formattingOptions});
+      Map<String, dynamic>? formattingOptions,
+      int setCount,
+      String? tier});
 
   @override
   $BlueprintCopyWith<$Res> get blueprint;
@@ -1615,6 +1697,8 @@ class __$$PaperGenerationRequestImplCopyWithImpl<$Res>
     Object? selectedQuestions = null,
     Object? template = null,
     Object? formattingOptions = freezed,
+    Object? setCount = null,
+    Object? tier = freezed,
   }) {
     return _then(_$PaperGenerationRequestImpl(
       assessmentId: null == assessmentId
@@ -1637,6 +1721,14 @@ class __$$PaperGenerationRequestImplCopyWithImpl<$Res>
           ? _value._formattingOptions
           : formattingOptions // ignore: cast_nullable_to_non_nullable
               as Map<String, dynamic>?,
+      setCount: null == setCount
+          ? _value.setCount
+          : setCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      tier: freezed == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -1649,7 +1741,9 @@ class _$PaperGenerationRequestImpl implements _PaperGenerationRequest {
       required this.blueprint,
       required final List<Question> selectedQuestions,
       required this.template,
-      final Map<String, dynamic>? formattingOptions})
+      final Map<String, dynamic>? formattingOptions,
+      this.setCount = 1,
+      this.tier})
       : _selectedQuestions = selectedQuestions,
         _formattingOptions = formattingOptions;
 
@@ -1683,8 +1777,14 @@ class _$PaperGenerationRequestImpl implements _PaperGenerationRequest {
   }
 
   @override
+  @JsonKey()
+  final int setCount;
+  @override
+  final String? tier;
+
+  @override
   String toString() {
-    return 'PaperGenerationRequest(assessmentId: $assessmentId, blueprint: $blueprint, selectedQuestions: $selectedQuestions, template: $template, formattingOptions: $formattingOptions)';
+    return 'PaperGenerationRequest(assessmentId: $assessmentId, blueprint: $blueprint, selectedQuestions: $selectedQuestions, template: $template, formattingOptions: $formattingOptions, setCount: $setCount, tier: $tier)';
   }
 
   @override
@@ -1701,7 +1801,10 @@ class _$PaperGenerationRequestImpl implements _PaperGenerationRequest {
             (identical(other.template, template) ||
                 other.template == template) &&
             const DeepCollectionEquality()
-                .equals(other._formattingOptions, _formattingOptions));
+                .equals(other._formattingOptions, _formattingOptions) &&
+            (identical(other.setCount, setCount) ||
+                other.setCount == setCount) &&
+            (identical(other.tier, tier) || other.tier == tier));
   }
 
   @JsonKey(ignore: true)
@@ -1712,7 +1815,9 @@ class _$PaperGenerationRequestImpl implements _PaperGenerationRequest {
       blueprint,
       const DeepCollectionEquality().hash(_selectedQuestions),
       template,
-      const DeepCollectionEquality().hash(_formattingOptions));
+      const DeepCollectionEquality().hash(_formattingOptions),
+      setCount,
+      tier);
 
   @JsonKey(ignore: true)
   @override
@@ -1731,12 +1836,13 @@ class _$PaperGenerationRequestImpl implements _PaperGenerationRequest {
 
 abstract class _PaperGenerationRequest implements PaperGenerationRequest {
   const factory _PaperGenerationRequest(
-          {required final String assessmentId,
-          required final Blueprint blueprint,
-          required final List<Question> selectedQuestions,
-          required final SchoolTemplate template,
-          final Map<String, dynamic>? formattingOptions}) =
-      _$PaperGenerationRequestImpl;
+      {required final String assessmentId,
+      required final Blueprint blueprint,
+      required final List<Question> selectedQuestions,
+      required final SchoolTemplate template,
+      final Map<String, dynamic>? formattingOptions,
+      final int setCount,
+      final String? tier}) = _$PaperGenerationRequestImpl;
 
   factory _PaperGenerationRequest.fromJson(Map<String, dynamic> json) =
       _$PaperGenerationRequestImpl.fromJson;
@@ -1751,6 +1857,10 @@ abstract class _PaperGenerationRequest implements PaperGenerationRequest {
   SchoolTemplate get template;
   @override
   Map<String, dynamic>? get formattingOptions;
+  @override
+  int get setCount;
+  @override
+  String? get tier;
   @override
   @JsonKey(ignore: true)
   _$$PaperGenerationRequestImplCopyWith<_$PaperGenerationRequestImpl>
@@ -1770,6 +1880,8 @@ mixin _$GeneratedPaper {
   String get formattedContentLatex => throw _privateConstructorUsedError;
   Map<String, dynamic> get answerKey => throw _privateConstructorUsedError;
   PaperMetadata get metadata => throw _privateConstructorUsedError;
+  String? get setLabel => throw _privateConstructorUsedError;
+  List<GeneratedPaper> get sets => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1790,7 +1902,9 @@ abstract class $GeneratedPaperCopyWith<$Res> {
       String formattedContent,
       String formattedContentLatex,
       Map<String, dynamic> answerKey,
-      PaperMetadata metadata});
+      PaperMetadata metadata,
+      String? setLabel,
+      List<GeneratedPaper> sets});
 
   $PaperMetadataCopyWith<$Res> get metadata;
 }
@@ -1815,6 +1929,8 @@ class _$GeneratedPaperCopyWithImpl<$Res, $Val extends GeneratedPaper>
     Object? formattedContentLatex = null,
     Object? answerKey = null,
     Object? metadata = null,
+    Object? setLabel = freezed,
+    Object? sets = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -1845,6 +1961,14 @@ class _$GeneratedPaperCopyWithImpl<$Res, $Val extends GeneratedPaper>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as PaperMetadata,
+      setLabel: freezed == setLabel
+          ? _value.setLabel
+          : setLabel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sets: null == sets
+          ? _value.sets
+          : sets // ignore: cast_nullable_to_non_nullable
+              as List<GeneratedPaper>,
     ) as $Val);
   }
 
@@ -1872,7 +1996,9 @@ abstract class _$$GeneratedPaperImplCopyWith<$Res>
       String formattedContent,
       String formattedContentLatex,
       Map<String, dynamic> answerKey,
-      PaperMetadata metadata});
+      PaperMetadata metadata,
+      String? setLabel,
+      List<GeneratedPaper> sets});
 
   @override
   $PaperMetadataCopyWith<$Res> get metadata;
@@ -1896,6 +2022,8 @@ class __$$GeneratedPaperImplCopyWithImpl<$Res>
     Object? formattedContentLatex = null,
     Object? answerKey = null,
     Object? metadata = null,
+    Object? setLabel = freezed,
+    Object? sets = null,
   }) {
     return _then(_$GeneratedPaperImpl(
       id: null == id
@@ -1926,6 +2054,14 @@ class __$$GeneratedPaperImplCopyWithImpl<$Res>
           ? _value.metadata
           : metadata // ignore: cast_nullable_to_non_nullable
               as PaperMetadata,
+      setLabel: freezed == setLabel
+          ? _value.setLabel
+          : setLabel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sets: null == sets
+          ? _value._sets
+          : sets // ignore: cast_nullable_to_non_nullable
+              as List<GeneratedPaper>,
     ));
   }
 }
@@ -1940,9 +2076,12 @@ class _$GeneratedPaperImpl implements _GeneratedPaper {
       required this.formattedContent,
       required this.formattedContentLatex,
       required final Map<String, dynamic> answerKey,
-      required this.metadata})
+      required this.metadata,
+      this.setLabel,
+      final List<GeneratedPaper> sets = const []})
       : _sections = sections,
-        _answerKey = answerKey;
+        _answerKey = answerKey,
+        _sets = sets;
 
   factory _$GeneratedPaperImpl.fromJson(Map<String, dynamic> json) =>
       _$$GeneratedPaperImplFromJson(json);
@@ -1973,10 +2112,20 @@ class _$GeneratedPaperImpl implements _GeneratedPaper {
 
   @override
   final PaperMetadata metadata;
+  @override
+  final String? setLabel;
+  final List<GeneratedPaper> _sets;
+  @override
+  @JsonKey()
+  List<GeneratedPaper> get sets {
+    if (_sets is EqualUnmodifiableListView) return _sets;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_sets);
+  }
 
   @override
   String toString() {
-    return 'GeneratedPaper(id: $id, assessmentId: $assessmentId, sections: $sections, formattedContent: $formattedContent, formattedContentLatex: $formattedContentLatex, answerKey: $answerKey, metadata: $metadata)';
+    return 'GeneratedPaper(id: $id, assessmentId: $assessmentId, sections: $sections, formattedContent: $formattedContent, formattedContentLatex: $formattedContentLatex, answerKey: $answerKey, metadata: $metadata, setLabel: $setLabel, sets: $sets)';
   }
 
   @override
@@ -1995,7 +2144,10 @@ class _$GeneratedPaperImpl implements _GeneratedPaper {
             const DeepCollectionEquality()
                 .equals(other._answerKey, _answerKey) &&
             (identical(other.metadata, metadata) ||
-                other.metadata == metadata));
+                other.metadata == metadata) &&
+            (identical(other.setLabel, setLabel) ||
+                other.setLabel == setLabel) &&
+            const DeepCollectionEquality().equals(other._sets, _sets));
   }
 
   @JsonKey(ignore: true)
@@ -2008,7 +2160,9 @@ class _$GeneratedPaperImpl implements _GeneratedPaper {
       formattedContent,
       formattedContentLatex,
       const DeepCollectionEquality().hash(_answerKey),
-      metadata);
+      metadata,
+      setLabel,
+      const DeepCollectionEquality().hash(_sets));
 
   @JsonKey(ignore: true)
   @override
@@ -2033,7 +2187,9 @@ abstract class _GeneratedPaper implements GeneratedPaper {
       required final String formattedContent,
       required final String formattedContentLatex,
       required final Map<String, dynamic> answerKey,
-      required final PaperMetadata metadata}) = _$GeneratedPaperImpl;
+      required final PaperMetadata metadata,
+      final String? setLabel,
+      final List<GeneratedPaper> sets}) = _$GeneratedPaperImpl;
 
   factory _GeneratedPaper.fromJson(Map<String, dynamic> json) =
       _$GeneratedPaperImpl.fromJson;
@@ -2052,6 +2208,10 @@ abstract class _GeneratedPaper implements GeneratedPaper {
   Map<String, dynamic> get answerKey;
   @override
   PaperMetadata get metadata;
+  @override
+  String? get setLabel;
+  @override
+  List<GeneratedPaper> get sets;
   @override
   @JsonKey(ignore: true)
   _$$GeneratedPaperImplCopyWith<_$GeneratedPaperImpl> get copyWith =>
@@ -2306,6 +2466,8 @@ mixin _$GeneratedQuestion {
   String get difficulty => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   String? get internalChoiceText => throw _privateConstructorUsedError;
+  String? get internalChoiceQuestionId => throw _privateConstructorUsedError;
+  bool get isCompetency => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2329,7 +2491,9 @@ abstract class $GeneratedQuestionCopyWith<$Res> {
       String bloomLevel,
       String difficulty,
       String type,
-      String? internalChoiceText});
+      String? internalChoiceText,
+      String? internalChoiceQuestionId,
+      bool isCompetency});
 }
 
 /// @nodoc
@@ -2355,6 +2519,8 @@ class _$GeneratedQuestionCopyWithImpl<$Res, $Val extends GeneratedQuestion>
     Object? difficulty = null,
     Object? type = null,
     Object? internalChoiceText = freezed,
+    Object? internalChoiceQuestionId = freezed,
+    Object? isCompetency = null,
   }) {
     return _then(_value.copyWith(
       questionId: null == questionId
@@ -2397,6 +2563,14 @@ class _$GeneratedQuestionCopyWithImpl<$Res, $Val extends GeneratedQuestion>
           ? _value.internalChoiceText
           : internalChoiceText // ignore: cast_nullable_to_non_nullable
               as String?,
+      internalChoiceQuestionId: freezed == internalChoiceQuestionId
+          ? _value.internalChoiceQuestionId
+          : internalChoiceQuestionId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isCompetency: null == isCompetency
+          ? _value.isCompetency
+          : isCompetency // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -2419,7 +2593,9 @@ abstract class _$$GeneratedQuestionImplCopyWith<$Res>
       String bloomLevel,
       String difficulty,
       String type,
-      String? internalChoiceText});
+      String? internalChoiceText,
+      String? internalChoiceQuestionId,
+      bool isCompetency});
 }
 
 /// @nodoc
@@ -2443,6 +2619,8 @@ class __$$GeneratedQuestionImplCopyWithImpl<$Res>
     Object? difficulty = null,
     Object? type = null,
     Object? internalChoiceText = freezed,
+    Object? internalChoiceQuestionId = freezed,
+    Object? isCompetency = null,
   }) {
     return _then(_$GeneratedQuestionImpl(
       questionId: null == questionId
@@ -2485,6 +2663,14 @@ class __$$GeneratedQuestionImplCopyWithImpl<$Res>
           ? _value.internalChoiceText
           : internalChoiceText // ignore: cast_nullable_to_non_nullable
               as String?,
+      internalChoiceQuestionId: freezed == internalChoiceQuestionId
+          ? _value.internalChoiceQuestionId
+          : internalChoiceQuestionId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isCompetency: null == isCompetency
+          ? _value.isCompetency
+          : isCompetency // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -2502,7 +2688,9 @@ class _$GeneratedQuestionImpl implements _GeneratedQuestion {
       required this.bloomLevel,
       required this.difficulty,
       required this.type,
-      this.internalChoiceText})
+      this.internalChoiceText,
+      this.internalChoiceQuestionId,
+      this.isCompetency = false})
       : _parts = parts;
 
   factory _$GeneratedQuestionImpl.fromJson(Map<String, dynamic> json) =>
@@ -2534,10 +2722,15 @@ class _$GeneratedQuestionImpl implements _GeneratedQuestion {
   final String type;
   @override
   final String? internalChoiceText;
+  @override
+  final String? internalChoiceQuestionId;
+  @override
+  @JsonKey()
+  final bool isCompetency;
 
   @override
   String toString() {
-    return 'GeneratedQuestion(questionId: $questionId, displayNumber: $displayNumber, stem: $stem, stemLatex: $stemLatex, parts: $parts, marks: $marks, bloomLevel: $bloomLevel, difficulty: $difficulty, type: $type, internalChoiceText: $internalChoiceText)';
+    return 'GeneratedQuestion(questionId: $questionId, displayNumber: $displayNumber, stem: $stem, stemLatex: $stemLatex, parts: $parts, marks: $marks, bloomLevel: $bloomLevel, difficulty: $difficulty, type: $type, internalChoiceText: $internalChoiceText, internalChoiceQuestionId: $internalChoiceQuestionId, isCompetency: $isCompetency)';
   }
 
   @override
@@ -2560,7 +2753,12 @@ class _$GeneratedQuestionImpl implements _GeneratedQuestion {
                 other.difficulty == difficulty) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.internalChoiceText, internalChoiceText) ||
-                other.internalChoiceText == internalChoiceText));
+                other.internalChoiceText == internalChoiceText) &&
+            (identical(
+                    other.internalChoiceQuestionId, internalChoiceQuestionId) ||
+                other.internalChoiceQuestionId == internalChoiceQuestionId) &&
+            (identical(other.isCompetency, isCompetency) ||
+                other.isCompetency == isCompetency));
   }
 
   @JsonKey(ignore: true)
@@ -2576,7 +2774,9 @@ class _$GeneratedQuestionImpl implements _GeneratedQuestion {
       bloomLevel,
       difficulty,
       type,
-      internalChoiceText);
+      internalChoiceText,
+      internalChoiceQuestionId,
+      isCompetency);
 
   @JsonKey(ignore: true)
   @override
@@ -2604,7 +2804,9 @@ abstract class _GeneratedQuestion implements GeneratedQuestion {
       required final String bloomLevel,
       required final String difficulty,
       required final String type,
-      final String? internalChoiceText}) = _$GeneratedQuestionImpl;
+      final String? internalChoiceText,
+      final String? internalChoiceQuestionId,
+      final bool isCompetency}) = _$GeneratedQuestionImpl;
 
   factory _GeneratedQuestion.fromJson(Map<String, dynamic> json) =
       _$GeneratedQuestionImpl.fromJson;
@@ -2630,6 +2832,10 @@ abstract class _GeneratedQuestion implements GeneratedQuestion {
   @override
   String? get internalChoiceText;
   @override
+  String? get internalChoiceQuestionId;
+  @override
+  bool get isCompetency;
+  @override
   @JsonKey(ignore: true)
   _$$GeneratedQuestionImplCopyWith<_$GeneratedQuestionImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -2650,6 +2856,9 @@ mixin _$PaperMetadata {
   DateTime get generatedAt => throw _privateConstructorUsedError;
   String get generatedBy => throw _privateConstructorUsedError;
   String get version => throw _privateConstructorUsedError;
+  String? get setLabel => throw _privateConstructorUsedError;
+  String? get tier => throw _privateConstructorUsedError;
+  String? get examType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2672,7 +2881,10 @@ abstract class $PaperMetadataCopyWith<$Res> {
       int durationMinutes,
       DateTime generatedAt,
       String generatedBy,
-      String version});
+      String version,
+      String? setLabel,
+      String? tier,
+      String? examType});
 }
 
 /// @nodoc
@@ -2697,6 +2909,9 @@ class _$PaperMetadataCopyWithImpl<$Res, $Val extends PaperMetadata>
     Object? generatedAt = null,
     Object? generatedBy = null,
     Object? version = null,
+    Object? setLabel = freezed,
+    Object? tier = freezed,
+    Object? examType = freezed,
   }) {
     return _then(_value.copyWith(
       assessmentTitle: null == assessmentTitle
@@ -2735,6 +2950,18 @@ class _$PaperMetadataCopyWithImpl<$Res, $Val extends PaperMetadata>
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as String,
+      setLabel: freezed == setLabel
+          ? _value.setLabel
+          : setLabel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tier: freezed == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String?,
+      examType: freezed == examType
+          ? _value.examType
+          : examType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -2756,7 +2983,10 @@ abstract class _$$PaperMetadataImplCopyWith<$Res>
       int durationMinutes,
       DateTime generatedAt,
       String generatedBy,
-      String version});
+      String version,
+      String? setLabel,
+      String? tier,
+      String? examType});
 }
 
 /// @nodoc
@@ -2779,6 +3009,9 @@ class __$$PaperMetadataImplCopyWithImpl<$Res>
     Object? generatedAt = null,
     Object? generatedBy = null,
     Object? version = null,
+    Object? setLabel = freezed,
+    Object? tier = freezed,
+    Object? examType = freezed,
   }) {
     return _then(_$PaperMetadataImpl(
       assessmentTitle: null == assessmentTitle
@@ -2817,6 +3050,18 @@ class __$$PaperMetadataImplCopyWithImpl<$Res>
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as String,
+      setLabel: freezed == setLabel
+          ? _value.setLabel
+          : setLabel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      tier: freezed == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String?,
+      examType: freezed == examType
+          ? _value.examType
+          : examType // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -2833,7 +3078,10 @@ class _$PaperMetadataImpl implements _PaperMetadata {
       required this.durationMinutes,
       required this.generatedAt,
       required this.generatedBy,
-      required this.version});
+      required this.version,
+      this.setLabel,
+      this.tier,
+      this.examType});
 
   factory _$PaperMetadataImpl.fromJson(Map<String, dynamic> json) =>
       _$$PaperMetadataImplFromJson(json);
@@ -2856,10 +3104,16 @@ class _$PaperMetadataImpl implements _PaperMetadata {
   final String generatedBy;
   @override
   final String version;
+  @override
+  final String? setLabel;
+  @override
+  final String? tier;
+  @override
+  final String? examType;
 
   @override
   String toString() {
-    return 'PaperMetadata(assessmentTitle: $assessmentTitle, schoolName: $schoolName, subject: $subject, grade: $grade, totalMarks: $totalMarks, durationMinutes: $durationMinutes, generatedAt: $generatedAt, generatedBy: $generatedBy, version: $version)';
+    return 'PaperMetadata(assessmentTitle: $assessmentTitle, schoolName: $schoolName, subject: $subject, grade: $grade, totalMarks: $totalMarks, durationMinutes: $durationMinutes, generatedAt: $generatedAt, generatedBy: $generatedBy, version: $version, setLabel: $setLabel, tier: $tier, examType: $examType)';
   }
 
   @override
@@ -2881,7 +3135,12 @@ class _$PaperMetadataImpl implements _PaperMetadata {
                 other.generatedAt == generatedAt) &&
             (identical(other.generatedBy, generatedBy) ||
                 other.generatedBy == generatedBy) &&
-            (identical(other.version, version) || other.version == version));
+            (identical(other.version, version) || other.version == version) &&
+            (identical(other.setLabel, setLabel) ||
+                other.setLabel == setLabel) &&
+            (identical(other.tier, tier) || other.tier == tier) &&
+            (identical(other.examType, examType) ||
+                other.examType == examType));
   }
 
   @JsonKey(ignore: true)
@@ -2896,7 +3155,10 @@ class _$PaperMetadataImpl implements _PaperMetadata {
       durationMinutes,
       generatedAt,
       generatedBy,
-      version);
+      version,
+      setLabel,
+      tier,
+      examType);
 
   @JsonKey(ignore: true)
   @override
@@ -2922,7 +3184,10 @@ abstract class _PaperMetadata implements PaperMetadata {
       required final int durationMinutes,
       required final DateTime generatedAt,
       required final String generatedBy,
-      required final String version}) = _$PaperMetadataImpl;
+      required final String version,
+      final String? setLabel,
+      final String? tier,
+      final String? examType}) = _$PaperMetadataImpl;
 
   factory _PaperMetadata.fromJson(Map<String, dynamic> json) =
       _$PaperMetadataImpl.fromJson;
@@ -2946,9 +3211,668 @@ abstract class _PaperMetadata implements PaperMetadata {
   @override
   String get version;
   @override
+  String? get setLabel;
+  @override
+  String? get tier;
+  @override
+  String? get examType;
+  @override
   @JsonKey(ignore: true)
   _$$PaperMetadataImplCopyWith<_$PaperMetadataImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+QuickPaperRequest _$QuickPaperRequestFromJson(Map<String, dynamic> json) {
+  return _QuickPaperRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$QuickPaperRequest {
+  String get subject => throw _privateConstructorUsedError;
+  int get grade => throw _privateConstructorUsedError;
+  List<String> get chapterIds => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  int get totalMarks => throw _privateConstructorUsedError;
+  int? get durationMinutes => throw _privateConstructorUsedError;
+  String get tier => throw _privateConstructorUsedError;
+  String? get examType => throw _privateConstructorUsedError;
+  int get setCount => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $QuickPaperRequestCopyWith<QuickPaperRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $QuickPaperRequestCopyWith<$Res> {
+  factory $QuickPaperRequestCopyWith(
+          QuickPaperRequest value, $Res Function(QuickPaperRequest) then) =
+      _$QuickPaperRequestCopyWithImpl<$Res, QuickPaperRequest>;
+  @useResult
+  $Res call(
+      {String subject,
+      int grade,
+      List<String> chapterIds,
+      String? title,
+      int totalMarks,
+      int? durationMinutes,
+      String tier,
+      String? examType,
+      int setCount});
+}
+
+/// @nodoc
+class _$QuickPaperRequestCopyWithImpl<$Res, $Val extends QuickPaperRequest>
+    implements $QuickPaperRequestCopyWith<$Res> {
+  _$QuickPaperRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? subject = null,
+    Object? grade = null,
+    Object? chapterIds = null,
+    Object? title = freezed,
+    Object? totalMarks = null,
+    Object? durationMinutes = freezed,
+    Object? tier = null,
+    Object? examType = freezed,
+    Object? setCount = null,
+  }) {
+    return _then(_value.copyWith(
+      subject: null == subject
+          ? _value.subject
+          : subject // ignore: cast_nullable_to_non_nullable
+              as String,
+      grade: null == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as int,
+      chapterIds: null == chapterIds
+          ? _value.chapterIds
+          : chapterIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalMarks: null == totalMarks
+          ? _value.totalMarks
+          : totalMarks // ignore: cast_nullable_to_non_nullable
+              as int,
+      durationMinutes: freezed == durationMinutes
+          ? _value.durationMinutes
+          : durationMinutes // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tier: null == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String,
+      examType: freezed == examType
+          ? _value.examType
+          : examType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      setCount: null == setCount
+          ? _value.setCount
+          : setCount // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$QuickPaperRequestImplCopyWith<$Res>
+    implements $QuickPaperRequestCopyWith<$Res> {
+  factory _$$QuickPaperRequestImplCopyWith(_$QuickPaperRequestImpl value,
+          $Res Function(_$QuickPaperRequestImpl) then) =
+      __$$QuickPaperRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String subject,
+      int grade,
+      List<String> chapterIds,
+      String? title,
+      int totalMarks,
+      int? durationMinutes,
+      String tier,
+      String? examType,
+      int setCount});
+}
+
+/// @nodoc
+class __$$QuickPaperRequestImplCopyWithImpl<$Res>
+    extends _$QuickPaperRequestCopyWithImpl<$Res, _$QuickPaperRequestImpl>
+    implements _$$QuickPaperRequestImplCopyWith<$Res> {
+  __$$QuickPaperRequestImplCopyWithImpl(_$QuickPaperRequestImpl _value,
+      $Res Function(_$QuickPaperRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? subject = null,
+    Object? grade = null,
+    Object? chapterIds = null,
+    Object? title = freezed,
+    Object? totalMarks = null,
+    Object? durationMinutes = freezed,
+    Object? tier = null,
+    Object? examType = freezed,
+    Object? setCount = null,
+  }) {
+    return _then(_$QuickPaperRequestImpl(
+      subject: null == subject
+          ? _value.subject
+          : subject // ignore: cast_nullable_to_non_nullable
+              as String,
+      grade: null == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as int,
+      chapterIds: null == chapterIds
+          ? _value._chapterIds
+          : chapterIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      totalMarks: null == totalMarks
+          ? _value.totalMarks
+          : totalMarks // ignore: cast_nullable_to_non_nullable
+              as int,
+      durationMinutes: freezed == durationMinutes
+          ? _value.durationMinutes
+          : durationMinutes // ignore: cast_nullable_to_non_nullable
+              as int?,
+      tier: null == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String,
+      examType: freezed == examType
+          ? _value.examType
+          : examType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      setCount: null == setCount
+          ? _value.setCount
+          : setCount // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$QuickPaperRequestImpl implements _QuickPaperRequest {
+  const _$QuickPaperRequestImpl(
+      {required this.subject,
+      this.grade = 10,
+      final List<String> chapterIds = const [],
+      this.title,
+      this.totalMarks = 80,
+      this.durationMinutes,
+      this.tier = 'standard',
+      this.examType,
+      this.setCount = 1})
+      : _chapterIds = chapterIds;
+
+  factory _$QuickPaperRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$QuickPaperRequestImplFromJson(json);
+
+  @override
+  final String subject;
+  @override
+  @JsonKey()
+  final int grade;
+  final List<String> _chapterIds;
+  @override
+  @JsonKey()
+  List<String> get chapterIds {
+    if (_chapterIds is EqualUnmodifiableListView) return _chapterIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_chapterIds);
+  }
+
+  @override
+  final String? title;
+  @override
+  @JsonKey()
+  final int totalMarks;
+  @override
+  final int? durationMinutes;
+  @override
+  @JsonKey()
+  final String tier;
+  @override
+  final String? examType;
+  @override
+  @JsonKey()
+  final int setCount;
+
+  @override
+  String toString() {
+    return 'QuickPaperRequest(subject: $subject, grade: $grade, chapterIds: $chapterIds, title: $title, totalMarks: $totalMarks, durationMinutes: $durationMinutes, tier: $tier, examType: $examType, setCount: $setCount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$QuickPaperRequestImpl &&
+            (identical(other.subject, subject) || other.subject == subject) &&
+            (identical(other.grade, grade) || other.grade == grade) &&
+            const DeepCollectionEquality()
+                .equals(other._chapterIds, _chapterIds) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.totalMarks, totalMarks) ||
+                other.totalMarks == totalMarks) &&
+            (identical(other.durationMinutes, durationMinutes) ||
+                other.durationMinutes == durationMinutes) &&
+            (identical(other.tier, tier) || other.tier == tier) &&
+            (identical(other.examType, examType) ||
+                other.examType == examType) &&
+            (identical(other.setCount, setCount) ||
+                other.setCount == setCount));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      subject,
+      grade,
+      const DeepCollectionEquality().hash(_chapterIds),
+      title,
+      totalMarks,
+      durationMinutes,
+      tier,
+      examType,
+      setCount);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$QuickPaperRequestImplCopyWith<_$QuickPaperRequestImpl> get copyWith =>
+      __$$QuickPaperRequestImplCopyWithImpl<_$QuickPaperRequestImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$QuickPaperRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _QuickPaperRequest implements QuickPaperRequest {
+  const factory _QuickPaperRequest(
+      {required final String subject,
+      final int grade,
+      final List<String> chapterIds,
+      final String? title,
+      final int totalMarks,
+      final int? durationMinutes,
+      final String tier,
+      final String? examType,
+      final int setCount}) = _$QuickPaperRequestImpl;
+
+  factory _QuickPaperRequest.fromJson(Map<String, dynamic> json) =
+      _$QuickPaperRequestImpl.fromJson;
+
+  @override
+  String get subject;
+  @override
+  int get grade;
+  @override
+  List<String> get chapterIds;
+  @override
+  String? get title;
+  @override
+  int get totalMarks;
+  @override
+  int? get durationMinutes;
+  @override
+  String get tier;
+  @override
+  String? get examType;
+  @override
+  int get setCount;
+  @override
+  @JsonKey(ignore: true)
+  _$$QuickPaperRequestImplCopyWith<_$QuickPaperRequestImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+GenerateFromIdsRequest _$GenerateFromIdsRequestFromJson(
+    Map<String, dynamic> json) {
+  return _GenerateFromIdsRequest.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GenerateFromIdsRequest {
+  List<String> get questionIds => throw _privateConstructorUsedError;
+  String get subject => throw _privateConstructorUsedError;
+  int get grade => throw _privateConstructorUsedError;
+  String? get title => throw _privateConstructorUsedError;
+  SchoolTemplate? get template => throw _privateConstructorUsedError;
+  int get setCount => throw _privateConstructorUsedError;
+  String? get tier => throw _privateConstructorUsedError;
+  String? get examType => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $GenerateFromIdsRequestCopyWith<GenerateFromIdsRequest> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GenerateFromIdsRequestCopyWith<$Res> {
+  factory $GenerateFromIdsRequestCopyWith(GenerateFromIdsRequest value,
+          $Res Function(GenerateFromIdsRequest) then) =
+      _$GenerateFromIdsRequestCopyWithImpl<$Res, GenerateFromIdsRequest>;
+  @useResult
+  $Res call(
+      {List<String> questionIds,
+      String subject,
+      int grade,
+      String? title,
+      SchoolTemplate? template,
+      int setCount,
+      String? tier,
+      String? examType});
+
+  $SchoolTemplateCopyWith<$Res>? get template;
+}
+
+/// @nodoc
+class _$GenerateFromIdsRequestCopyWithImpl<$Res,
+        $Val extends GenerateFromIdsRequest>
+    implements $GenerateFromIdsRequestCopyWith<$Res> {
+  _$GenerateFromIdsRequestCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? questionIds = null,
+    Object? subject = null,
+    Object? grade = null,
+    Object? title = freezed,
+    Object? template = freezed,
+    Object? setCount = null,
+    Object? tier = freezed,
+    Object? examType = freezed,
+  }) {
+    return _then(_value.copyWith(
+      questionIds: null == questionIds
+          ? _value.questionIds
+          : questionIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      subject: null == subject
+          ? _value.subject
+          : subject // ignore: cast_nullable_to_non_nullable
+              as String,
+      grade: null == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      template: freezed == template
+          ? _value.template
+          : template // ignore: cast_nullable_to_non_nullable
+              as SchoolTemplate?,
+      setCount: null == setCount
+          ? _value.setCount
+          : setCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      tier: freezed == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String?,
+      examType: freezed == examType
+          ? _value.examType
+          : examType // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $SchoolTemplateCopyWith<$Res>? get template {
+    if (_value.template == null) {
+      return null;
+    }
+
+    return $SchoolTemplateCopyWith<$Res>(_value.template!, (value) {
+      return _then(_value.copyWith(template: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$GenerateFromIdsRequestImplCopyWith<$Res>
+    implements $GenerateFromIdsRequestCopyWith<$Res> {
+  factory _$$GenerateFromIdsRequestImplCopyWith(
+          _$GenerateFromIdsRequestImpl value,
+          $Res Function(_$GenerateFromIdsRequestImpl) then) =
+      __$$GenerateFromIdsRequestImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {List<String> questionIds,
+      String subject,
+      int grade,
+      String? title,
+      SchoolTemplate? template,
+      int setCount,
+      String? tier,
+      String? examType});
+
+  @override
+  $SchoolTemplateCopyWith<$Res>? get template;
+}
+
+/// @nodoc
+class __$$GenerateFromIdsRequestImplCopyWithImpl<$Res>
+    extends _$GenerateFromIdsRequestCopyWithImpl<$Res,
+        _$GenerateFromIdsRequestImpl>
+    implements _$$GenerateFromIdsRequestImplCopyWith<$Res> {
+  __$$GenerateFromIdsRequestImplCopyWithImpl(
+      _$GenerateFromIdsRequestImpl _value,
+      $Res Function(_$GenerateFromIdsRequestImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? questionIds = null,
+    Object? subject = null,
+    Object? grade = null,
+    Object? title = freezed,
+    Object? template = freezed,
+    Object? setCount = null,
+    Object? tier = freezed,
+    Object? examType = freezed,
+  }) {
+    return _then(_$GenerateFromIdsRequestImpl(
+      questionIds: null == questionIds
+          ? _value._questionIds
+          : questionIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      subject: null == subject
+          ? _value.subject
+          : subject // ignore: cast_nullable_to_non_nullable
+              as String,
+      grade: null == grade
+          ? _value.grade
+          : grade // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: freezed == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String?,
+      template: freezed == template
+          ? _value.template
+          : template // ignore: cast_nullable_to_non_nullable
+              as SchoolTemplate?,
+      setCount: null == setCount
+          ? _value.setCount
+          : setCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      tier: freezed == tier
+          ? _value.tier
+          : tier // ignore: cast_nullable_to_non_nullable
+              as String?,
+      examType: freezed == examType
+          ? _value.examType
+          : examType // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GenerateFromIdsRequestImpl implements _GenerateFromIdsRequest {
+  const _$GenerateFromIdsRequestImpl(
+      {required final List<String> questionIds,
+      required this.subject,
+      this.grade = 10,
+      this.title,
+      this.template,
+      this.setCount = 1,
+      this.tier,
+      this.examType})
+      : _questionIds = questionIds;
+
+  factory _$GenerateFromIdsRequestImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GenerateFromIdsRequestImplFromJson(json);
+
+  final List<String> _questionIds;
+  @override
+  List<String> get questionIds {
+    if (_questionIds is EqualUnmodifiableListView) return _questionIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_questionIds);
+  }
+
+  @override
+  final String subject;
+  @override
+  @JsonKey()
+  final int grade;
+  @override
+  final String? title;
+  @override
+  final SchoolTemplate? template;
+  @override
+  @JsonKey()
+  final int setCount;
+  @override
+  final String? tier;
+  @override
+  final String? examType;
+
+  @override
+  String toString() {
+    return 'GenerateFromIdsRequest(questionIds: $questionIds, subject: $subject, grade: $grade, title: $title, template: $template, setCount: $setCount, tier: $tier, examType: $examType)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GenerateFromIdsRequestImpl &&
+            const DeepCollectionEquality()
+                .equals(other._questionIds, _questionIds) &&
+            (identical(other.subject, subject) || other.subject == subject) &&
+            (identical(other.grade, grade) || other.grade == grade) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.template, template) ||
+                other.template == template) &&
+            (identical(other.setCount, setCount) ||
+                other.setCount == setCount) &&
+            (identical(other.tier, tier) || other.tier == tier) &&
+            (identical(other.examType, examType) ||
+                other.examType == examType));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_questionIds),
+      subject,
+      grade,
+      title,
+      template,
+      setCount,
+      tier,
+      examType);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GenerateFromIdsRequestImplCopyWith<_$GenerateFromIdsRequestImpl>
+      get copyWith => __$$GenerateFromIdsRequestImplCopyWithImpl<
+          _$GenerateFromIdsRequestImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GenerateFromIdsRequestImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GenerateFromIdsRequest implements GenerateFromIdsRequest {
+  const factory _GenerateFromIdsRequest(
+      {required final List<String> questionIds,
+      required final String subject,
+      final int grade,
+      final String? title,
+      final SchoolTemplate? template,
+      final int setCount,
+      final String? tier,
+      final String? examType}) = _$GenerateFromIdsRequestImpl;
+
+  factory _GenerateFromIdsRequest.fromJson(Map<String, dynamic> json) =
+      _$GenerateFromIdsRequestImpl.fromJson;
+
+  @override
+  List<String> get questionIds;
+  @override
+  String get subject;
+  @override
+  int get grade;
+  @override
+  String? get title;
+  @override
+  SchoolTemplate? get template;
+  @override
+  int get setCount;
+  @override
+  String? get tier;
+  @override
+  String? get examType;
+  @override
+  @JsonKey(ignore: true)
+  _$$GenerateFromIdsRequestImplCopyWith<_$GenerateFromIdsRequestImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 SchoolTemplate _$SchoolTemplateFromJson(Map<String, dynamic> json) {
