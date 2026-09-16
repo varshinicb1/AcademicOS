@@ -62,6 +62,8 @@ docs/research/*
 !docs/research/ui-ux-principles.md
 !docs/research/llm-layer.md
 !docs/research/case-studies.md
+!docs/research/interface-specification.md
+!docs/research/production-ai-principles.md
 
 # Large build artifacts / distributables (not source, don't belong in git)
 *.zip
