@@ -61,6 +61,7 @@ academicos-data/*
 docs/research/*
 !docs/research/ui-ux-principles.md
 !docs/research/llm-layer.md
+!docs/research/case-studies.md
 
 # Large build artifacts / distributables (not source, don't belong in git)
 *.zip
