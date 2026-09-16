@@ -39,6 +39,8 @@ on:
       - 'frontend/**'
       - 'deploy/gcp/**'
       - 'firebase.json'
+      - 'contract/**'
+      - 'scripts/export_openapi.py'
       - '.github/workflows/deploy-gcp.yml'
   workflow_dispatch: {}
 
@@ -275,6 +277,27 @@ jobs:
           flutter pub get
           flutter build web --release \
             --dart-define=ACADEMICOS_API="${{ needs.backend.outputs.url }}/api/v1"
+        working-directory: frontend
+
+      # Real fix 2026-09-17: pubspec.yaml declares assets/corpus/questions.json
+      # (6.76 MB) unconditionally -- Flutter has no per-target conditional
+      # asset mechanism, so `flutter build web` always copies it into the
+      # output regardless of the ACADEMICOS_OFFLINE dart-define, even though
+      # Web never reads it (it uses the live POST /questions/search route
+      # instead; only the offline APK build's bundled CorpusRepository needs
+      # this file locally). Stripping it post-build is the only way to keep
+      # it out of what every Web visitor downloads without touching the
+      # offline build, which runs `flutter build apk` as a wholly separate
+      # step and is unaffected by this.
+      - name: Strip the offline-only question bank from the web bundle
+        run: |
+          f="build/web/assets/assets/corpus/questions.json"
+          if [ -f "$f" ]; then
+            echo "Removing $(du -h "$f" | cut -f1) offline-only asset from the web bundle: $f"
+            rm -f "$f"
+          else
+            echo "::warning::expected offline-only asset not found at $f -- pubspec.yaml or the build output path may have changed"
+          fi
         working-directory: frontend
 
       - name: Deploy to Firebase Hosting

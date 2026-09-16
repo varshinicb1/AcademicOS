@@ -153,10 +153,20 @@ class _SettingsPageState extends State<SettingsPage> {
             // Shown as a real, honest status line instead of a fake switch.
             if (_kOfflineBuild)
               _buildInfoTile('Offline Mode', 'Always on -- this build has no server-connected mode'),
-            _buildListTile(Icons.download, 'Download Data',
-                'Corpus source: ${CorpusRepository.instance.loadedFromDownload ? "downloaded" : "bundled with app"} '
-                '(${CorpusRepository.instance.isLoaded ? CorpusRepository.instance.all.length : "?"} questions)',
-                _downloadCorpusData),
+            // Real fix 2026-09-17: this tile (and _downloadCorpusData below)
+            // referenced CorpusRepository unconditionally, unlike every
+            // sibling tile in this build-variant switch -- the one leak
+            // keeping the 6.8 MB bundled question bank (assets/corpus/
+            // questions.json) reachable, and therefore un-tree-shakeable,
+            // from the Web build's compiled main.dart.js. Web already has a
+            // real live API path for question search (ApiClient.
+            // searchQuestions -> POST /questions/search) and never needed
+            // this tile at all.
+            if (_kOfflineBuild)
+              _buildListTile(Icons.download, 'Download Data',
+                  'Corpus source: ${CorpusRepository.instance.loadedFromDownload ? "downloaded" : "bundled with app"} '
+                  '(${CorpusRepository.instance.isLoaded ? CorpusRepository.instance.all.length : "?"} questions)',
+                  _downloadCorpusData),
             _buildListTile(Icons.clear_all, 'Clear Cache', 'Free up storage space', _clearCache),
             if (_kOfflineBuild && LocalStore.instance.isDemoSeeded) ...[
               _buildListTile(

@@ -114,6 +114,15 @@ A relative `ACADEMICOS_API` is only valid on Web (Dio throws on other targets),
 which is what makes the same-origin Cloud Run serving work. See
 `PillarApi.serverOrigin` for the matching origin fallback.
 
+**After any `flutter build web`, before deploying it**, delete
+`build/web/assets/assets/corpus/questions.json` (~6.8 MB). `pubspec.yaml`
+declares it unconditionally — Flutter has no per-target conditional asset
+mechanism, so every `flutter build web` bundles it even though Web never reads
+it (it uses `POST /questions/search` instead; only the offline APK build's
+bundled `CorpusRepository` needs the file locally). `.github/workflows/
+deploy-gcp.yml` does this automatically; a manual build (e.g. for GitHub
+Pages) needs the same `rm` by hand.
+
 ---
 
 ## 4. Documentation map
