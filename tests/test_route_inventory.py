@@ -2679,3 +2679,80 @@ def test_full_boot_scan_session_error_paths(tmp_path, monkeypatch):
             headers=auth,
         )
         assert upload.status_code == 404, f"POST /pages -> {upload.status_code}"
+
+
+def test_full_boot_topic_and_subtopic_sequence_routes(tmp_path, monkeypatch):
+    """PATCH .../sequence for TOPIC and SUBTOPIC, through the live API.
+
+    test_full_boot_sequence_reorder deliberately samples only Unit and Chapter
+    and leaves the other two route bindings unexercised. The generic
+    store.set_sequence() is covered for all four entity types in
+    test_curriculum_store.py, so a wrong path or a wrong entity-type string in
+    routes.py for these two would have gone unnoticed by the entire suite.
+    This closes the two route bindings, including their authorization.
+    """
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Principal", "email": "seq-p@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        auth = {"Authorization": f"Bearer {principal['token']}"}
+        other = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_2", "name": "Other Principal", "email": "seq-o@example.com",
+            "password": "correct horse battery", "principalKey": "test-bootstrap-key",
+        }).json()
+        other_auth = {"Authorization": f"Bearer {other['token']}"}
+
+        seeded = client.post("/api/v1/curriculum/seed/cbse10", json={
+            "academicYearLabel": "2026-27", "startDate": "2026-06-01", "endDate": "2027-04-30",
+        }, headers=auth).json()
+        grade = client.get(
+            f"/api/v1/curriculum/academic-years/{seeded['academicYearId']}/grades").json()[0]
+        science = next(s for s in client.get(
+            f"/api/v1/curriculum/grades/{grade['id']}/subjects").json() if s["name"] == "Science")
+        book = client.get(f"/api/v1/curriculum/subjects/{science['id']}/books").json()[0]
+        chapter = client.get(f"/api/v1/curriculum/books/{book['id']}/chapters").json()[0]
+
+        # -- two manual topics on a real chapter
+        t1 = client.post(f"/api/v1/curriculum/chapters/{chapter['id']}/topics",
+                         json={"name": "Chemical equations", "seq": 0}, headers=auth)
+        t2 = client.post(f"/api/v1/curriculum/chapters/{chapter['id']}/topics",
+                         json={"name": "Types of reactions", "seq": 1}, headers=auth)
+        assert t1.status_code == 200, t1.text
+        assert t2.status_code == 200, t2.text
+        first = t1.json()
+
+        # -- authorization on the topic route
+        assert client.patch(f"/api/v1/curriculum/topics/{first['id']}/sequence",
+                            json={"seq": 5}).status_code == 401
+        assert client.patch(f"/api/v1/curriculum/topics/{first['id']}/sequence",
+                            json={"seq": 5}, headers=other_auth).status_code == 403
+
+        # -- the route actually reorders; that is the wiring being proved
+        moved = client.patch(f"/api/v1/curriculum/topics/{first['id']}/sequence",
+                             json={"seq": 9}, headers=auth)
+        assert moved.status_code == 200, moved.text
+        listed = client.get(f"/api/v1/curriculum/chapters/{chapter['id']}/topics").json()
+        assert [t["name"] for t in listed] == ["Types of reactions", "Chemical equations"]
+
+        # -- two subtopics under the first topic, same three assertions
+        s1 = client.post(f"/api/v1/curriculum/topics/{first['id']}/subtopics",
+                         json={"name": "Balancing equations", "seq": 0}, headers=auth)
+        s2 = client.post(f"/api/v1/curriculum/topics/{first['id']}/subtopics",
+                         json={"name": "Word equations", "seq": 1}, headers=auth)
+        assert s1.status_code == 200, s1.text
+        assert s2.status_code == 200, s2.text
+        sa = s1.json()
+
+        assert client.patch(f"/api/v1/curriculum/subtopics/{sa['id']}/sequence",
+                            json={"seq": 5}).status_code == 401
+        assert client.patch(f"/api/v1/curriculum/subtopics/{sa['id']}/sequence",
+                            json={"seq": 5}, headers=other_auth).status_code == 403
+
+        moved_s = client.patch(f"/api/v1/curriculum/subtopics/{sa['id']}/sequence",
+                               json={"seq": 9}, headers=auth)
+        assert moved_s.status_code == 200, moved_s.text
+        topics = client.get(f"/api/v1/curriculum/chapters/{chapter['id']}/topics").json()
+        topic = next(t for t in topics if t["id"] == first["id"])
+        assert [st["name"] for st in topic["subtopics"]] == ["Word equations", "Balancing equations"]
