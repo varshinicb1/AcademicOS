@@ -116,6 +116,8 @@ flutter test
 - [docs/PRODUCTS_AND_RELEASES.md](docs/PRODUCTS_AND_RELEASES.md) — **Start here.** Which product/release you are looking at
 - [docs/REQUIREMENTS_BY_LAYER.md](docs/REQUIREMENTS_BY_LAYER.md) — Every requirement split into what the **backend** must deliver vs what the **frontend** must deliver, with verification depth
 - [docs/design-system.md](docs/design-system.md) — The design system: white-first, emoji-free, token-driven. Machine-readable source at `design/tokens.json`
+- [docs/research/ui-ux-principles.md](docs/research/ui-ux-principles.md) — Research: dashboard UX, habit formation, teacher adoption, and the Indian context. Cited, including where the evidence is weak
+- [docs/notifications.md](docs/notifications.md) — Notification policy: a notification is about the recipient's next action, or it is not sent
 - [docs/api.md](docs/api.md) — Developer and contributing guide; [docs/api-reference.md](docs/api-reference.md) is the generated endpoint inventory
 - [docs/question-bank-api.md](docs/question-bank-api.md) — Proposal for exposing the question bank as a standalone API asset (licensing gate first)
 - [docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md](docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md) — Requirements traced to the client transcript, by section (a dated audit record; read its status-correction header first)

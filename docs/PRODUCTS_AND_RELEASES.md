@@ -132,6 +132,9 @@ Pages) needs the same `rm` by hand.
 | **This file** | Which product/release you are looking at |
 | `docs/REQUIREMENTS_BY_LAYER.md` | Every requirement, split by frontend vs backend, with verification depth |
 | `docs/design-system.md` + `design/tokens.json` | The design system and its machine-readable token source |
+| `docs/research/ui-ux-principles.md` | The UX, habit-formation and adoption research behind it |
+| `docs/notifications.md` | What may and may not be pushed to a teacher |
+| `docs/research/llm-layer.md` | Where an LLM is justified in the backend, and where it is a liability |
 | `docs/api.md` + `docs/api-reference.md` | Developer/contributing guide and the generated endpoint inventory |
 | `contract/openapi.json` + `api-types.ts` | The frozen API contract and its generated TypeScript types |
 | `docs/question-bank-api.md` | Proposal: the question bank as a standalone API asset |
