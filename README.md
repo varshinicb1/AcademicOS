@@ -117,6 +117,8 @@ flutter test
 - [docs/REQUIREMENTS_BY_LAYER.md](docs/REQUIREMENTS_BY_LAYER.md) — Every requirement split into what the **backend** must deliver vs what the **frontend** must deliver, with verification depth
 - [docs/design-system.md](docs/design-system.md) — The design system: white-first, emoji-free, token-driven. Machine-readable source at `design/tokens.json`
 - [docs/research/ui-ux-principles.md](docs/research/ui-ux-principles.md) — Research: dashboard UX, habit formation, teacher adoption, and the Indian context. Cited, including where the evidence is weak
+- [docs/research/interface-specification.md](docs/research/interface-specification.md) — **The interface spec.** Every requirement in the matrix mapped to a screen, the craft contract, command palette, WCAG 2.2 AA obligations, offline truth, and build order
+- [docs/research/production-ai-principles.md](docs/research/production-ai-principles.md) — Production AI principles (OWASP LLM/Agentic Top 10, SRE, containment) and this codebase's conformance, including the open idempotency gap
 - [docs/research/case-studies.md](docs/research/case-studies.md) — ~50 competing platforms: what is table stakes, where every incumbent is weak, what not to copy, and the Indian edtech financial case studies
 - [docs/notifications.md](docs/notifications.md) — Notification policy: a notification is about the recipient's next action, or it is not sent
 - [docs/api.md](docs/api.md) — Developer and contributing guide; [docs/api-reference.md](docs/api-reference.md) is the generated endpoint inventory

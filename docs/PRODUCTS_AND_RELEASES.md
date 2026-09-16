@@ -133,6 +133,8 @@ Pages) needs the same `rm` by hand.
 | `docs/REQUIREMENTS_BY_LAYER.md` | Every requirement, split by frontend vs backend, with verification depth |
 | `docs/design-system.md` + `design/tokens.json` | The design system and its machine-readable token source |
 | `docs/research/ui-ux-principles.md` | The UX, habit-formation and adoption research behind it |
+| `docs/research/interface-specification.md` | The interface spec: matrix row → screen, craft contract, WCAG 2.2 AA, offline truth, build order |
+| `docs/research/production-ai-principles.md` | Production AI principles and this codebase's conformance, with the open gaps stated |
 | `docs/notifications.md` | What may and may not be pushed to a teacher |
 | `docs/research/llm-layer.md` | Where an LLM is justified in the backend, and where it is a liability |
 | `docs/api.md` + `docs/api-reference.md` | Developer/contributing guide and the generated endpoint inventory |
