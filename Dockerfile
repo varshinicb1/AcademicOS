@@ -1,3 +1,16 @@
+# =============================================================================
+# AcademicOS backend image.
+#
+# ONE image serves BOTH backend releases (see docs/PRODUCTS_AND_RELEASES.md):
+#   * Render release  -- Render pulls this image from Docker Hub. Durability via
+#                        Supabase, because ACOS_POSTGRES_* is not set there.
+#   * GCP release     -- Cloud Build pushes this image to Artifact Registry and
+#                        Cloud Run serves it, with ACOS_POSTGRES_* set so the
+#                        stores bind to Cloud SQL instead.
+# Which backend a running container uses is decided entirely by environment
+# variables at runtime, never by the image. Neither release builds either
+# client sub-product (Web / offline Android) from here.
+# =============================================================================
 FROM python:3.12-slim
 
 # libgl1/libglib2.0-0: opencv-python-headless still dlopens libGL at import
@@ -12,40 +25,38 @@ WORKDIR /app
 
 COPY pyproject.toml ./
 COPY src/ ./src/
-RUN pip install --no-cache-dir -e ".[api,mobile-scan]"
+# postgres: the Cloud SQL durability backend (assessment/postgres_kv.py).
+# gcs: Cloud Storage for scan media / curriculum snapshots.
+RUN pip install --no-cache-dir -e ".[api,mobile-scan,postgres,gcs]"
 
 COPY config/ ./config/
 
-# Baked into the image, not mounted from a volume: this Render deploy has
-# no persistent disk (Render's free web-service tier wipes local disk on
-# every redeploy/restart/spin-down, SQLite files included), so without
-# this the deployed backend would start with zero questions/chapters/
-# templates — an empty, useless API. Default ACOS_DATA_ROOT resolution
-# (cwd()/academicos-data) picks this up as-is.
+# Baked into the image, not mounted from a volume: neither release has a
+# persistent disk, so without this the deployed backend starts with zero
+# questions, chapters and templates -- an empty, useless API. Default
+# ACOS_DATA_ROOT resolution (cwd()/academicos-data) picks this up as-is.
 #
-# Corrected 2026-09-15: earlier comments here said "Cloud Run" -- stale
-# from an earlier deploy target that was never the one actually shipped.
-# The real, live target is Render (academicos-backend.onrender.com, kept
-# warm by .github/workflows/keep-backend-warm.yml, deployed via
-# .github/workflows/deploy-backend.yml's test -> sync -> Docker Hub ->
-# Render pipeline). A stale fly.toml also exists at the repo root from
-# another earlier attempt -- not the active deploy either; see
-# docs/deployment.md.
+# Measured, not assumed: the tracked corpus is 6.5 MB, almost all of it
+# syllabus/questions.json. (An earlier comment here claimed a "3.3 GB image
+# mostly baked corpus" -- it was wrong on both counts: the corpus is 6.5 MB,
+# and the pip layer is 463 MB, with no torch at all.)
 COPY academicos-data/ ./academicos-data/
 
-# Render injects the listen port via $PORT (default 8080, matching
-# render.yaml/dashboard config) — the app must bind to whatever it sends,
-# not a value baked into the image.
+# Non-root. A numeric UID is used rather than useradd so the slim base needs
+# no extra package. /app is chowned because the stores fall back to writing
+# SQLite (users.db, assessments.db, scan sessions) under ACOS_DATA_ROOT
+# whenever Cloud SQL and Supabase are both unreachable -- that has to work for
+# a non-root process, and shipping a root container is the finding a security
+# review stops on. Everything durable lives in Cloud SQL regardless; these
+# files are per-instance scratch.
+RUN chown -R 1001:1001 /app
+ENV HOME=/tmp
+USER 1001:1001
+
+# Both releases inject the listen port via $PORT (Render and Cloud Run both
+# default to 8080) -- the app must bind to whatever is sent, not to a value
+# baked into the image.
 ENV PORT=8080
 EXPOSE 8080
 
-# This only solves READ access to the pre-existing baked-in corpus.
-# Anything written at runtime that needs to survive a redeploy/restart --
-# new assessments, grades, scan sessions, curriculum edits -- now goes
-# through the Supabase-backed durability path instead (SupabaseTable
-# per-row for the flat stores, whole-file snapshot/restore for
-# CurriculumStore) when SUPABASE_KNOWLEDGE_URL/SUPABASE_KNOWLEDGE_ANON_KEY
-# are set on the Render service -- see AGENTS.md's storage inventory and
-# docs/deployment.md. Without those env vars set, this reverts to the
-# original POC behavior: runtime writes are ephemeral again.
 CMD ["sh", "-c", "python -m academicos.cli serve --host 0.0.0.0 --port ${PORT}"]

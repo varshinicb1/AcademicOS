@@ -23,6 +23,7 @@ globals (`assessment/routes.py` -> `_store`, `pillar_routes.py` -> `_cfg`,
 """
 from __future__ import annotations
 
+import uuid
 from datetime import datetime, timedelta, timezone
 
 import pytest
@@ -74,10 +75,18 @@ def create_assessment_body() -> dict:
 
 
 def register_and_login(client: TestClient, school_id: str = "school_1",
-                       email: str = "teacher@example.com") -> tuple[dict, dict[str, str]]:
+                       email: str | None = None) -> tuple[dict, dict[str, str]]:
     """Registers a fresh teacher for `school_id` and returns (user_json,
     auth_headers) -- the standard way every full-boot test below gets a real
-    identity now that most routes require Depends(get_current_user)."""
+    identity now that most routes require Depends(get_current_user).
+
+    The email defaults to a unique value rather than a fixed one: the
+    UserStore is a process-wide singleton (see users.get_user_store), so it
+    survives between tests even though each test gets its own tmp_path. A
+    fixed default email made the second test to run collide with the first
+    and get a 409 EmailAlreadyRegistered."""
+    if email is None:
+        email = f"teacher-{uuid.uuid4().hex[:10]}@example.com"
     r = client.post("/api/v1/auth/register", json={
         "schoolId": school_id, "name": "Test Teacher", "email": email,
         "password": "correct horse battery",
@@ -117,24 +126,17 @@ def test_docs_and_openapi_without_startup():
         assert expected in paths, f"openapi missing expected path {expected}"
 
 
-def test_blueprint_generate_without_startup():
+def test_blueprint_generate_requires_auth_without_startup():
+    """POST /api/v1/blueprints/generate now requires an authenticated caller
+    (2026-09-16): it is a pure-compute endpoint, so leaving it open let any
+    anonymous visitor burn CPU. Auth resolves before module-init state, so
+    with no token this is 401 even before startup -- asserted here instead of
+    the previous unauthenticated 200. The 200 + field/422 checks moved to
+    test_blueprint_generate_full_boot below, where a real token can be minted
+    (registering needs the startup event, so it cannot live in this group)."""
     client = TestClient(app)
     body = blueprint_body(total_marks=60, duration_minutes=90)
-    r = client.post("/api/v1/blueprints/generate", json=body)
-    assert r.status_code == 200
-    data = r.json()
-    assert data["totalMarks"] == 60
-    assert data["durationMinutes"] == 90
-    assert data["difficulty"]["hard"] == 0.3
-    assert data["bloom"]["create"] == 0.1
-    assert data["sections"], "expected default sections to be generated"
-
-
-def test_blueprint_generate_invalid_body_422():
-    client = TestClient(app)
-    bad = blueprint_body()
-    del bad["bloom"]
-    assert client.post("/api/v1/blueprints/generate", json=bad).status_code == 422
+    assert client.post("/api/v1/blueprints/generate", json=body).status_code == 401
 
 
 def test_school_templates_and_mail_status_without_startup():
@@ -157,20 +159,25 @@ def test_school_templates_and_mail_status_without_startup():
 def test_runtime_gated_routes_return_503_before_startup():
     """Mounted but not initialized -> 503, never 404 -- for routes that
     aren't also auth-gated. GET /assessments and /schools/.../school-templates
-    are now Depends(get_current_user)-gated (fixed 2026-09-15), so with no
-    token at all they correctly 401 before ever reaching the 503 init check
-    -- see test_auth_gated_routes_503_with_a_token_present-style coverage in
-    test_route_inventory.py for their real 503-when-uninitialized path."""
+    are Depends(get_current_user)-gated (fixed 2026-09-15), so with no token
+    at all they correctly 401 before ever reaching the 503 init check.
+
+    The /v1/* pillar surface joined them on 2026-09-16: corpus search, the
+    agent endpoints, revise/plan/question-solve, and the graph reads were all
+    reachable with no token -- compute- and LLM-backed endpoints open to the
+    internet. They are now 401 without a token, so the "503 when uninitialized"
+    path for those is asserted with a token in the full-boot tests below
+    instead. /health and /health/storage remain genuinely open on purpose."""
     if assessment_routes._store is not None:
         pytest.skip("module globals already initialized (suite ran out of order)")
     client = TestClient(app)
     assert client.get("/api/v1/assessments").status_code == 401
     assert client.get("/api/v1/schools/school_1/school-templates").status_code == 401
-    r = client.post("/v1/search", json={"query": "photosynthesis", "limit": 5})
-    assert r.status_code == 503
-    assert client.post("/v1/revise", json={"learner": "alice"}).status_code == 503
-    assert client.post("/v1/plan", json={"target": "Photosynthesis"}).status_code == 503
-    assert client.post("/v1/question/solve", json={"question": "What is photosynthesis?"}).status_code == 503
+    assert client.post("/v1/search", json={"query": "photosynthesis", "limit": 5}).status_code == 401
+    assert client.post("/v1/revise", json={"learner": "alice"}).status_code == 401
+    assert client.post("/v1/plan", json={"target": "Photosynthesis"}).status_code == 401
+    assert client.post("/v1/question/solve", json={"question": "What is photosynthesis?"}).status_code == 401
+    assert client.get("/v1/registry/stats").status_code == 401
 
 
 def test_unknown_route_404_without_startup():
@@ -184,18 +191,46 @@ def test_unknown_route_404_without_startup():
 # =====================================================================
 
 
+def test_blueprint_generate_full_boot(tmp_path, monkeypatch):
+    """The authenticated happy path for /api/v1/blueprints/generate, plus the
+    422 body-validation path -- both need a real token, so they live in the
+    full-boot group (see test_blueprint_generate_requires_auth_without_startup
+    for the 401 half)."""
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    with TestClient(app) as client:
+        _, auth = register_and_login(client)
+
+        r = client.post("/api/v1/blueprints/generate",
+                        json=blueprint_body(total_marks=60, duration_minutes=90),
+                        headers=auth)
+        assert r.status_code == 200
+        data = r.json()
+        assert data["totalMarks"] == 60
+        assert data["durationMinutes"] == 90
+        assert data["difficulty"]["hard"] == 0.3
+        assert data["bloom"]["create"] == 0.1
+        assert data["sections"], "expected default sections to be generated"
+
+        bad = blueprint_body()
+        del bad["bloom"]
+        assert client.post("/api/v1/blueprints/generate", json=bad,
+                           headers=auth).status_code == 422
+
+
 def test_full_boot_health_registry_stats_and_empty_search(tmp_path, monkeypatch):
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     with TestClient(app) as client:
         assert client.get("/health").json() == {"status": "ok"}
+        _, auth = register_and_login(client)
 
-        stats = client.get("/v1/registry/stats")
+        stats = client.get("/v1/registry/stats", headers=auth)
         assert stats.status_code == 200
         assert stats.json() == {"count": 0}
 
         # Empty index -> bm25/tfidf both return [] and the graph is empty, so
         # HybridRetriever.search yields no hits (verified in hybrid.py).
-        search = client.post("/v1/search", json={"query": "photosynthesis", "limit": 5})
+        search = client.post("/v1/search", json={"query": "photosynthesis", "limit": 5},
+                             headers=auth)
         assert search.status_code == 200
         assert search.json()["hits"] == []
 
@@ -292,32 +327,36 @@ def test_revise_plan_question_solve_endpoints(tmp_path, monkeypatch):
     estore.append("alice", Interaction(concept_id=prereq.id, kind="answer", outcome=0.0))
 
     with TestClient(app) as client:
+        _, auth = register_and_login(client)
+
         # revise(): learner exists -> 200 with a real FSRS-backed plan.
-        r = client.post("/v1/revise", json={"learner": "alice"})
+        r = client.post("/v1/revise", json={"learner": "alice"}, headers=auth)
         assert r.status_code == 200
         body = r.json()
         assert body["learner"] == "alice"
         assert "totals" in body and "confident" in body
 
         # revise(): unknown learner -> 404, not a silent empty plan.
-        r404 = client.post("/v1/revise", json={"learner": "nobody"})
+        r404 = client.post("/v1/revise", json={"learner": "nobody"}, headers=auth)
         assert r404.status_code == 404
 
         # plan(): walks the seeded prereq chain in order.
-        p = client.post("/v1/plan", json={"target": "Photosynthesis", "capacity_minutes": 60})
+        p = client.post("/v1/plan", json={"target": "Photosynthesis", "capacity_minutes": 60},
+                        headers=auth)
         assert p.status_code == 200
         pbody = p.json()
         assert pbody["target"] == "Photosynthesis"
         assert [i["label"] for i in pbody["session"]] == ["Cell Structure", "Photosynthesis"]
 
         # plan(): unknown target -> 404, not an empty 200.
-        p404 = client.post("/v1/plan", json={"target": "Not A Real Concept"})
+        p404 = client.post("/v1/plan", json={"target": "Not A Real Concept"}, headers=auth)
         assert p404.status_code == 404
 
         # question/solve(): no LLM key configured in this hermetic test -> the
         # lexical fallback still returns a real (if unverified) mapping.
         q = client.post("/v1/question/solve",
-                        json={"question": "Explain photosynthesis in plants"})
+                        json={"question": "Explain photosynthesis in plants"},
+                        headers=auth)
         assert q.status_code == 200
         qbody = q.json()
         assert qbody["question"] == "Explain photosynthesis in plants"

@@ -517,7 +517,21 @@ class PillarApi {
   /// the way a hardcoded 'ACADEMICOS_ORIGIN' default did (it pointed at
   /// localhost:8010 in production because only ACADEMICOS_API was ever
   /// actually passed at build time).
-  String get serverOrigin => Uri.parse(_dio.options.baseUrl).origin;
+  ///
+  /// Falls back to the page's own origin when baseUrl is *relative*
+  /// (`/api/v1`), which is how the SPA is built when it is served from the
+  /// same Cloud Run service as the API. `Uri.parse('/api/v1').origin` is the
+  /// empty string — Dart returns "" for any URI without a scheme+host — so
+  /// before this fallback every relative file URL collapsed to a bare path
+  /// like `/api/v1/papers/x/file` with no host to resolve against. Relative
+  /// base URLs are only accepted by Dio on Web (it throws on other platforms),
+  /// so `Uri.base` is only reached in the browser, where it is exactly the
+  /// page origin we want.
+  String get serverOrigin {
+    final base = Uri.parse(_dio.options.baseUrl);
+    if (base.hasScheme && base.host.isNotEmpty) return base.origin;
+    return Uri.base.origin;
+  }
 
   Future<Catalog> catalog() async {
     final r = await _dio.get('/catalog',

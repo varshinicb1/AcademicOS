@@ -1,9 +1,23 @@
-# GCP deployment guide — AcademicOS on Google Cloud
+# The GCP release — AcademicOS on Google Cloud
 
-Target reader: whoever moves the live service off Render. Assumes a GCP
-project with billing enabled (the $50k credit pool covers years of this —
-see §7) and owner access to the three GitHub repos (`AcademicOS`,
-`academicos-backend`, `academicos-frontend-src`).
+> **Scope.** This is the second of two backend releases, not a migration of the
+> only one. The **Render release** keeps running, unchanged, from the same
+> codebase; see `docs/deployment.md`. The two coexist and are switched by
+> environment variables, so a rollback is a config change rather than a
+> redeploy. For which thing is which (including the two client sub-products —
+> offline Mobile, cloud Web), read
+> [`PRODUCTS_AND_RELEASES.md`](PRODUCTS_AND_RELEASES.md).
+
+Target reader: whoever stands up the GCP release. Assumes a GCP project with
+billing enabled (the $50k credit pool covers decades of this — see §7) and
+owner access to the one GitHub repo that matters here, `varshinicb1/AcademicOS`.
+
+The GCP release is deliberately **not** the Render release moved. It is
+GCP-native: Cloud Run for compute, Cloud SQL for the eleven durable tables, GCS
+for blobs, Secret Manager for secrets, and keyless CI via Workload Identity
+Federation so that no service-account key exists anywhere. The one piece still
+running on Supabase is blob storage — see §8, which is the blocking item before
+"pure GCP" is literally true.
 
 Default region everywhere below: **`asia-south1` (Mumbai)** — closest to
 the schools, and the only region choice that helps the DPDP Act story in
@@ -27,26 +41,19 @@ at ~N× the bill; don't split unless a contract requires it.
 
 ## 2. One-time setup
 
+**Now a single idempotent script** — see `docs/gcp-bootstrap.md` for the
+account owner's runbook. Nothing in this section is typed by hand any more:
+
 ```bash
-gcloud auth login
-gcloud config set project PROJECT_ID
-gcloud services enable run.googleapis.com artifactregistry.googleapis.com \
-  cloudbuild.googleapis.com secretmanager.googleapis.com
-
-gcloud artifacts repositories create academicos \
-  --repository-format=docker --location=asia-south1
-
-# secrets (values never touch git)
-printf '%s' "$SUPABASE_URL" | gcloud secrets create supabase-url --data-file=-
-printf '%s' "$SUPABASE_ANON_KEY" | gcloud secrets create supabase-anon-key --data-file=-
-printf '%s' "$BOOTSTRAP_KEY" | gcloud secrets create principal-bootstrap-key --data-file=-
+PROJECT_ID=… BILLING_ACCOUNT=… bash deploy/gcp/bootstrap.sh
 ```
 
-Workload Identity Federation (keyless deploys from GitHub Actions) —
-do once per repo following
-<https://cloud.google.com/iam/docs/workload-identity-federation-with-deployment-pipelines>,
-granting the pool's service account `roles/run.admin`,
-`roles/artifactregistry.writer`, and `roles/secretmanager.secretAccessor`.
+That script enables the APIs, creates the Artifact Registry repo, the two
+service accounts, the Secret Manager entries, Cloud SQL (with backups + PITR),
+the GCS buckets, the Firebase link, and the budget alert — and establishes
+Workload Identity Federation, replacing the manual "follow the console walk-
+through once per repo" step this document used to require. It is idempotent,
+so a half-finished run is repaired by re-running it.
 
 ## 3. Backend: deploy to Cloud Run
 
@@ -84,28 +91,31 @@ Notes (all learned the hard way on Render):
   `/health/storage` more often than every few minutes — one call fans out
   to 10 upstream selects (cached 30s server-side, but still).
 
-## 4. CI/CD: retarget the existing pipeline
+## 4. CI/CD: already wired
 
-Mirror `.github/workflows/deploy-backend.yml`'s test → sync → deploy
-shape. In the `academicos-backend` repo's build workflow, replace the
-Docker Hub push + Render hook with:
+`.github/workflows/deploy-gcp.yml` implements the whole pipeline and needs no
+editing — it runs on every push to `master`:
 
-```yaml
-- uses: google-github-actions/auth@v2
-  with:
-    workload_identity_provider: projects/123456789/locations/global/workloadIdentityPools/gh-pool/providers/gh-provider
-    service_account: deploy@PROJECT_ID.iam.gserviceaccount.com
-- uses: google-github-actions/setup-gcloud@v2
-- run: |-
-    gcloud builds submit --tag asia-south1-docker.pkg.dev/PROJECT_ID/academicos/backend:${{ github.sha }} .
-    gcloud run deploy academicos-backend \
-      --image=asia-south1-docker.pkg.dev/PROJECT_ID/academicos/backend:${{ github.sha }} \
-      --region=asia-south1
+```
+test      -> pytest (the gate; a red suite deploys nothing)
+backend   -> Cloud Build (layer-cached) -> Artifact Registry
+          -> gcloud run deploy -> poll /health until it answers
+frontend  -> flutter build web --dart-define=ACADEMICOS_API=<live backend URL>
+          -> firebase deploy --only hosting
 ```
 
-Keep the pytest gate in `AcademicOS` exactly as-is — it already caught
-real regressions pre-deploy twice. Keep the Render service warm for a
-week as instant rollback.
+Auth is keyless (Workload Identity Federation): GitHub's OIDC token is
+exchanged for short-lived credentials, so there is no service-account key
+stored in the repo. The only inputs are repo *variables* (not secrets) —
+`GCP_PROJECT_ID`, `GCP_REGION`, `WIF_PROVIDER`, `DEPLOY_SA`, `GCP_SERVICE`,
+`AR_IMAGE`, `GCS_MEDIA_BUCKET`, `SQL_CONNECTION`, `CORS_ORIGINS` — and app
+secrets, which live in Secret Manager and are injected via `--set-secrets`.
+
+Note the frontend job depends on the backend job: the API URL is baked into
+the Dart build, so it must be compiled *after* the backend URL is known.
+
+Keep the Render service warm for a week as instant rollback.
+
 
 ## 5. Frontend web: Firebase Hosting (optional move)
 
@@ -125,9 +135,11 @@ cares about the `ACADEMICOS_API` value baked in at build time.
 
 1. Deploy backend to Cloud Run; leave Render untouched.
 2. `curl https://<run-url>/health` → `{"status":"ok"}`.
-3. `curl https://<run-url>/health/storage` → every table `"ok"`,
-   `supabase_reachable: true`. If `users`/`sessions` still error, run
-   `docs/supabase-setup.sql` first — same prerequisite as on Render.
+3. `curl https://<run-url>/health/storage` → `durability_backend` set,
+   `durability_reachable: true`, every table `"ok"`. On Supabase, if
+   `users`/`sessions` error, run `docs/supabase-setup.sql` first — same
+   prerequisite as on Render. On Cloud SQL, apply
+   `deploy/gcp/schema.sql` first.
 4. Rebuild the web app with the new `ACADEMICOS_API` and deploy it.
 5. End-to-end, against the Cloud Run URL:
    - register → login → `GET /assessments` returns 200 (not 401);
@@ -151,22 +163,35 @@ Free tiers do the heavy lifting (Cloud Run: 2M req/mo; Cloud Build:
 120 min/day; Firebase Hosting: 10 GB + 360 MB/day transfer). Credits
 are not the constraint — engineering time is.
 
-## 8. Phase 2 (optional, +1–2 weeks): Cloud SQL + GCS
+## 8. Phase 2: Cloud SQL + GCS (structured data DONE; blob storage open)
 
-Move only for DPDP data residency or because Supabase free-tier limits
-(500 MB DB, 1 GB storage) start to bite:
+Structured data is now first-class on GCP — this is no longer a future
+project:
 
-- Cloud SQL for PostgreSQL in asia-south1 (`db-g1-small`, ~$25–35/mo
-  all-in): `pg_dump` from Supabase → restore; point the same
-  `SUPABASE_KNOWLEDGE_URL`-style env vars at it (the wrapper speaks
-  plain PostgREST-shaped REST... no — Cloud SQL is raw Postgres, so this
-  needs either PostgREST deployed in front of it or a store-layer
-  adapter; size that work honestly before promising it).
-- GCS buckets for scan media + curriculum snapshots: `GcsStore` already
-  exists in `src/academicos/storage/gcs.py`; each store needs its bucket
-  wired where `SupabaseStorage` is used today.
-- Private IP for Cloud SQL via a Serverless VPC Connector (~$7–10/mo),
-  or public IP + authorized networks + SSL for the lean start.
+- **Cloud SQL Postgres** in `asia-south1` is provisioned by the bootstrap
+  (daily backups, PITR), `deploy/gcp/schema.sql` defines all 11 tables, and
+  `src/academicos/assessment/postgres_kv.py` implements the Cloud SQL backend
+  behind the same interface the stores already used. All 11 stores now call
+  `durable_table(...)`, which prefers Cloud SQL whenever `ACOS_POSTGRES_*` is
+  set and otherwise falls back to Supabase — so the cutover is an env-var
+  change, and the reverse is too.
+- **Migration** is `scripts/migrate_supabase_to_cloudsql.py` (paged, so it does
+  not silently stop at PostgREST's 1000-row cap; idempotent on re-run).
+
+Still open:
+
+- **Blob storage** (scan-media photos/PDFs in `mobile_scan.py`, curriculum
+  snapshots in `curriculum/store.py`) still goes through `SupabaseStorage`.
+  `GcsStore` exists in `src/academicos/storage/gcs.py` and the `gcs` extra is
+  installed in the image, but each call site needs its bucket wired. Until
+  that is done, do **not** remove the Supabase secrets — the JSONB tables would
+  move but blob writes would fall back to container-local disk and be lost on
+  the next redeploy.
+- Connection sizing: Cloud Run runs at `--concurrency=40`, so the adapter
+  bounds its pool (`ACOS_POSTGRES_POOL_MAX`, default 10). Raise the Cloud SQL
+  tier before raising that — a `db-f1-micro` tops out well below 40 backends.
+- Private IP via a Serverless VPC Connector (~$7–10/mo) if the public IP path
+  is not acceptable for the DPDP posture.
 
 ## 9. Don't-burn-credits checklist
 

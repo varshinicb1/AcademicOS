@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AcademicOS — System Review: Backend &amp; Frontend as Built</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#101828; --ink2:#344054; --muted:#667085; --faint:#98A2B3;
+    --paper:#EDF0F4; --surface:#FFFFFF; --rule:#D5DBE3; --rule-soft:#E7EBF0;
+    --red:#AF1B1B; --red-soft:#FAEDED; --red-rule:#E9C4C4;
+    --teal:#0B6B5F; --teal-soft:#E7F1EF; --teal-rule:#BFDAD5;
+    --amber:#8A5A00; --amber-soft:#FBF2E2; --amber-rule:#EBD5A8;
+    --rail:96px;
+    --measure:71ch;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-size:16.5px; line-height:1.62; font-weight:400;
+    font-feature-settings:"kern" 1,"liga" 1;
+  }
+  .sheet{max-width:1120px; margin:0 auto; padding:0 28px 96px}
+  a{color:var(--ink); text-decoration-color:var(--faint); text-underline-offset:3px}
+  a:focus-visible,summary:focus-visible{outline:2px solid var(--teal); outline-offset:3px; border-radius:2px}
+
+  /* ---------- masthead ---------- */
+  .head{border-bottom:2px solid var(--ink); padding:44px 0 20px; margin-bottom:0}
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--muted); display:flex; justify-content:space-between;
+    gap:16px; flex-wrap:wrap;
+  }
+  h1{
+    font-family:"Spectral",Georgia,serif; font-weight:500; font-size:clamp(34px,5.2vw,55px);
+    line-height:1.06; letter-spacing:-.018em; margin:20px 0 14px; max-width:19ch;
+  }
+  .standfirst{font-size:19px; line-height:1.55; color:var(--ink2); max-width:64ch; margin:0 0 22px}
+  .standfirst b{font-weight:600; color:var(--ink)}
+
+  /* ---------- the result sheet (signature) ---------- */
+  .result{margin:6px 0 0; border-collapse:collapse; width:100%; font-size:15px}
+  .result caption{
+    text-align:left; font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.13em;
+    text-transform:uppercase; color:var(--muted); padding-bottom:9px;
+  }
+  .result th,.result td{padding:11px 14px 11px 0; text-align:left; border-bottom:1px solid var(--rule); vertical-align:top}
+  .result thead th{
+    font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.11em; text-transform:uppercase;
+    color:var(--muted); font-weight:500; border-bottom:1.5px solid var(--ink); padding-bottom:7px;
+  }
+  .result td.num{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; white-space:nowrap}
+  .result tr:last-child td{border-bottom:1.5px solid var(--ink)}
+  .mark{font-family:"IBM Plex Mono",monospace; font-size:11.5px; font-weight:500; letter-spacing:.04em; white-space:nowrap}
+
+  .verdict{display:inline-flex; align-items:center; gap:7px; font-family:"IBM Plex Mono",monospace;
+    font-size:11.5px; letter-spacing:.05em; padding:3px 9px; border:1px solid; border-radius:2px; white-space:nowrap}
+  .v-ok{color:var(--teal); border-color:var(--teal-rule); background:var(--teal-soft)}
+  .v-part{color:var(--amber); border-color:var(--amber-rule); background:var(--amber-soft)}
+  .v-gap{color:var(--red); border-color:var(--red-rule); background:var(--red-soft)}
+
+  /* ---------- sections with margin rail ---------- */
+  .sec{display:grid; grid-template-columns:var(--rail) minmax(0,1fr); gap:0; border-bottom:1px solid var(--rule); padding:46px 0 44px}
+  .sec:last-of-type{border-bottom:none}
+  .rail{padding-top:6px}
+  .rail .n{font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--faint); letter-spacing:.08em; display:block}
+  .rail .tick{
+    display:inline-block; margin-top:13px; font-family:"IBM Plex Mono",monospace; font-size:10px;
+    letter-spacing:.04em; text-transform:uppercase; color:var(--faint);
+    padding-top:7px; border-top:1px solid var(--rule); line-height:1.35;
+  }
+  .rail .tick.ok{color:var(--teal)} .rail .tick.gap{color:var(--red)} .rail .tick.part{color:var(--amber)}
+  .body-col{min-width:0}
+
+  h2{
+    font-family:"Spectral",Georgia,serif; font-weight:500; font-size:clamp(23px,2.6vw,30px);
+    line-height:1.18; letter-spacing:-.012em; margin:0 0 6px;
+  }
+  .kicker{font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.13em;
+    text-transform:uppercase; color:var(--muted); margin:0 0 14px}
+  .lede{font-size:17.5px; color:var(--ink2); max-width:var(--measure); margin:0 0 22px}
+  p{max-width:var(--measure); margin:0 0 15px}
+  h3{font-family:"IBM Plex Sans",sans-serif; font-size:14px; font-weight:600; letter-spacing:.01em;
+     margin:26px 0 9px; color:var(--ink)}
+  ul,ol{max-width:var(--measure); margin:0 0 16px; padding-left:20px}
+  li{margin:0 0 7px}
+  li::marker{color:var(--faint)}
+  code{font-family:"IBM Plex Mono",monospace; font-size:.855em; background:#E3E8EE;
+       padding:1.5px 5px; border-radius:2px; color:var(--ink2); white-space:nowrap}
+
+  /* ---------- domain inventory ---------- */
+  .inv{border-collapse:collapse; width:100%; font-size:14.5px; margin:4px 0 20px}
+  .inv th,.inv td{text-align:left; padding:8px 14px 8px 0; border-bottom:1px solid var(--rule-soft); vertical-align:top}
+  .inv thead th{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.11em;
+    text-transform:uppercase; color:var(--muted); font-weight:500; border-bottom:1px solid var(--rule)}
+  .inv td.n{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums;
+    text-align:right; padding-right:18px; width:56px; color:var(--ink)}
+  .inv tbody tr:hover{background:#F4F7FA}
+  .inv td.d{color:var(--muted)}
+  .inv tr.total td{border-bottom:1.5px solid var(--ink); font-weight:600; padding-top:10px}
+
+  /* ---------- callout ---------- */
+  .note{border-left:2px solid var(--rule); padding:2px 0 2px 16px; margin:20px 0; max-width:var(--measure); color:var(--ink2); font-size:15.5px}
+  .note.gap{border-left-color:var(--red)} .note.gap strong{color:var(--red)}
+  .note.ok{border-left-color:var(--teal)} .note.ok strong{color:var(--teal)}
+  .note strong{font-weight:600; color:var(--ink)}
+
+  /* ---------- flow diagram ---------- */
+  .flow{background:var(--surface); border:1px solid var(--rule); padding:22px 24px; margin:6px 0 20px; overflow-x:auto}
+  .flow pre{font-family:"IBM Plex Mono",monospace; font-size:12.4px; line-height:1.62; color:var(--ink2); margin:0; white-space:pre}
+
+  /* ---------- failure / finding list ---------- */
+  .find{list-style:none; padding:0; margin:6px 0 0; max-width:none}
+  .find li{
+    display:grid; grid-template-columns:88px minmax(0,1fr); gap:16px;
+    padding:15px 0; border-bottom:1px solid var(--rule-soft); align-items:start;
+  }
+  .find li:last-child{border-bottom:none}
+  .find .sev{font-family:"IBM Plex Mono",monospace; font-size:10.5px; letter-spacing:.08em;
+    text-transform:uppercase; padding-top:3px}
+  .sev.high{color:var(--red)} .sev.med{color:var(--amber)} .sev.low{color:var(--muted)}
+  .find .what{max-width:var(--measure)}
+  .find .what b{font-weight:600}
+  .find .what span{display:block; color:var(--muted); font-size:14.5px; margin-top:3px}
+
+  /* orientation block sits inside the masthead */
+  .orient{margin-top:36px; padding-top:26px; border-top:1px solid var(--rule)}
+  .orient .sub{font-family:"IBM Plex Mono",monospace; font-size:10px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--faint)}
+  .orient .note{margin-top:20px}
+  .orient .inv td{padding-top:11px; padding-bottom:11px}
+
+  footer{border-top:2px solid var(--ink); margin-top:8px; padding-top:18px;
+    font-family:"IBM Plex Mono",monospace; font-size:11.5px; color:var(--muted);
+    display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap}
+
+  /* Wide data tables scroll inside their own box rather than forcing the
+     whole page wider than the viewport (which is what clipped every line of
+     text on a 430px screen before this wrapper existed). */
+  .tscroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin:0}
+
+  @media (max-width:760px){
+    :root{--rail:0px}
+    .sheet{padding:0 18px 64px}
+    /* minmax(0,1fr), NOT 1fr: a bare `1fr` resolves to minmax(auto,1fr), whose
+       `auto` minimum refuses to shrink below the content's min-content width --
+       which made the whole page wider than the viewport and clipped the last
+       few characters of every line. */
+    .sec{grid-template-columns:minmax(0,1fr); gap:0; padding:34px 0}
+    .rail{display:none}
+    body{font-size:16px}
+    .find li{grid-template-columns:minmax(0,1fr); gap:6px}
+    /* Inside a scroll container the cells may wrap; nowrap is what pushed the
+       table's min-content past the viewport in the first place. */
+    .result td.num,.result .mark,code{white-space:normal}
+    .result th,.result td{padding-right:12px}
+    .eyebrow span{min-width:0; overflow-wrap:break-word}
+  }
+  /* Defensive only: the tables and the diagram can scroll inside their own box
+     on very narrow screens instead of squashing. Deliberately NOT paired with
+     `overflow-x:hidden` on body -- that would clip a genuinely too-wide layout
+     rather than let it scroll, hiding the problem instead of showing it. */
+  .body-col,.head{min-width:0}
+  p,li,td,th,h1,h2,h3,.eyebrow span{overflow-wrap:break-word}
+  @media print{
+    body{background:#fff; font-size:10.5pt}
+    .sheet{max-width:none; padding:0}
+    .sec{break-inside:avoid; padding:20px 0}
+    .flow,.note{break-inside:avoid}
+    a{text-decoration:none}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="head">
+    <div class="eyebrow">
+      <span>System review · prepared for technical due diligence</span>
+      <span>AcademicOS · 16 Sep 2026</span>
+    </div>
+    <h1>What the backend does, what the frontend does, and where they disagree.</h1>
+    <p class="standfirst">
+      AcademicOS is an evidence-grounded academic operating system for CBSE/NCERT schools:
+      a <b>FastAPI backend</b> over an ingested curriculum corpus, and a <b>Flutter client</b>
+      built as two sub-products — an offline Android app and a cloud web app. The backend runs
+      as two independent releases. This review states what each part does <b>as built today</b>,
+      and marks its own claims by how they were established — measured, read from source, or
+      asserted by prior documentation and not re-verified here.
+    </p>
+
+    <div class="tscroll"><table class="result">
+      <caption>Statement of findings</caption>
+      <thead>
+        <tr><th style="width:31%">Area</th><th style="width:16%">Verification</th><th>Basis</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Backend API surface</td><td class="num">122 operations</td>
+            <td class="d">Extracted from the live OpenAPI schema, not documentation.</td></tr>
+        <tr><td>Authentication coverage</td><td class="num">104 secured / 18 open</td>
+            <td class="d">Dependency-enforced and cross-checked against the schema. Improved from 89 this session.</td></tr>
+        <tr><td>Backend test suite</td><td class="num"><span class="verdict v-ok">1,170 passing</span></td>
+            <td class="d">Executed. 14 skipped, 1 expected-failure.</td></tr>
+        <tr><td>Frontend build health</td><td class="num"><span class="verdict v-part">114 pass / 3 fail</span></td>
+            <td class="d">Two failures need a live server on :8000; one is a pre-existing arithmetic mismatch.</td></tr>
+        <tr><td>Frontend ↔ backend contract</td><td class="num"><span class="verdict v-part">76 of 126 calls</span></td>
+            <td class="d">76 match a real route; 46 target routes that do not exist; 4 are third-party (Sarvam Vision) and correctly have none. The 46 are reachable only from unwired code, and are now pinned by a CI ratchet.</td></tr>
+        <tr><td>Client startup (cold)</td><td class="num">≈2.2 s app init</td>
+            <td class="d">Measured. No expensive model loads on the boot path.</td></tr>
+        <tr><td>Static payload to browser</td><td class="num"><span class="verdict v-ok">−74% after gzip</span></td>
+            <td class="d">Measured: 19.4 MB → 5.0 MB across the three assets that dominate first load.</td></tr>
+        <tr><td>Production deployment</td><td class="num"><span class="verdict v-gap">never executed</span></td>
+            <td class="d">GCP pipeline is written and syntax-validated; it has not been run against a real project.</td></tr>
+      </tbody>
+    </table></div>
+
+    <div class="orient">
+      <p class="kicker">Orientation — what actually exists</p>
+      <p>
+        AcademicOS is <b>two client sub-products</b> and <b>two backend releases</b>. These are
+        frequently conflated in the project's own documentation and code comments, so they are
+        separated here first — everything after this table depends on the distinction.
+      </p>
+      <div class="tscroll"><table class="inv">
+        <thead><tr><th style="width:26%">Deliverable</th><th style="width:24%">Runtime</th><th style="width:22%">Data</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><b>AcademicOS Mobile</b><br><span class="sub">sub-product</span></td>
+              <td class="d">Android app. No backend involved.</td>
+              <td class="d">On-device encrypted store + corpus bundled in the APK</td>
+              <td><span class="verdict v-ok">shipped as APK</span></td></tr>
+          <tr><td><b>AcademicOS Web</b><br><span class="sub">sub-product</span></td>
+              <td class="d">Browser. Every action is an HTTP call.</td>
+              <td class="d">None — thin client</td>
+              <td><span class="verdict v-ok">cloud-hosted</span></td></tr>
+          <tr><td><b>Backend — Render release</b></td>
+              <td class="d">Render web service</td>
+              <td class="d">Supabase (Postgres + Storage)</td>
+              <td><span class="verdict v-ok">live today</span></td></tr>
+          <tr><td><b>Backend — GCP release</b><br><span class="sub">“pure GCP”</span></td>
+              <td class="d">Cloud Run, asia-south1</td>
+              <td class="d">Cloud SQL + GCS</td>
+              <td><span class="verdict v-gap">written, never run</span></td></tr>
+        </tbody>
+      </table></div>
+      <div class="note">
+        <strong>Two consequences worth stating plainly.</strong>
+        A defect reported against <b>Mobile</b> cannot be fixed by redeploying any backend — there
+        is no backend in that path. And the <b>GCP release is not an upgrade of the Render
+        release</b>: both serve the same source tree, they coexist, and switching between them is
+        an environment-variable change rather than a migration.
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================ 01 BACKEND ============================ -->
+  <section class="sec">
+    <div class="rail"><span class="n">01</span><span class="tick ok">measured</span></div>
+    <div class="body-col">
+      <p class="kicker">Backend</p>
+      <h2>A curriculum engine, an assessment designer, and an evaluation pipeline — behind one API.</h2>
+      <p class="lede">
+        24,500 lines of Python across 139 modules, exposed as 122 operations on a single FastAPI
+        application. It is the half of the system that holds knowledge; the client is largely a
+        view onto it.
+      </p>
+
+      <h3>What it actually does</h3>
+      <ul>
+        <li><b>Ingests a corpus with provenance.</b> Official PDFs (CBSE papers, NCERT textbooks,
+          marking schemes, circulars) are parsed with native text extraction raced against OCR.
+          Every chunk and graph node carries <code>document_id</code>, <code>page_number</code>,
+          <code>bounding_box</code>, <code>method</code> and <code>confidence</code>. Documents below
+          a confidence floor are held back rather than silently admitted.</li>
+        <li><b>Models the curriculum as a substrate.</b> A canonical hierarchy — Board → Academic
+          Year → Grade → Subject → Unit → Chapter → Topic → Subtopic — plus the operational calendar:
+          working days, term dates, block holidays, period length, subject period allocations and
+          weekly timetable slots.</li>
+        <li><b>Designs examinations.</b> A deduplicated question pool extracted from real board papers,
+          semantically tagged to curriculum nodes, assembled into blueprints balanced by Bloom level,
+          question type and difficulty — then rendered to PDF question papers and marking schemes,
+          including parallel sets (A/B/C) with internal-choice swapping.</li>
+        <li><b>Evaluates answer scripts.</b> Multi-page capture, perspective rectification, OCR,
+          itemised grading with teacher review, and an append-only audit trail.</li>
+        <li><b>Tracks learners.</b> FSRS spaced repetition, knowledge-state estimation, mastery
+          and misconception modelling, and prerequisite mining over the curriculum graph.</li>
+      </ul>
+
+      <h3>The API surface, by domain</h3>
+      <div class="tscroll"><table class="inv">
+        <thead><tr><th class="n">Ops</th><th>Domain</th><th>What lives there</th></tr></thead>
+        <tbody>
+          <tr><td class="n">52</td><td>Curriculum &amp; scheduling</td>
+              <td class="d">Tree CRUD, calendar, periods, timetable slots, coverage &amp; pace reporting, extraction review and approval, school data export.</td></tr>
+          <tr><td class="n">9</td><td>Scan &amp; capture</td>
+              <td class="d">Session lifecycle, page upload, processing, review, corrected/raw PDF retrieval.</td></tr>
+          <tr><td class="n">8</td><td>Assessments</td>
+              <td class="d">Create, read, list, update, status transitions, answer-key generation, principal approval.</td></tr>
+          <tr><td class="n">6</td><td>School templates</td>
+              <td class="d">Per-school paper templates and section layouts.</td></tr>
+          <tr><td class="n">6</td><td>Papers</td>
+              <td class="d">Blueprint generation, quick-generate, compile-from-IDs, PDF/answer-key export.</td></tr>
+          <tr><td class="n">5</td><td>Auth</td>
+              <td class="d">Register, login, logout, current user, roster. Deliberately open.</td></tr>
+          <tr><td class="n">4</td><td>Evaluations</td>
+              <td class="d">Single-answer scoring, whole-sheet evaluation, teacher review, finalisation.</td></tr>
+          <tr><td class="n">4</td><td>Consent</td>
+              <td class="d">DPDP Act parental consent record: grant, revoke, read, list.</td></tr>
+          <tr><td class="n">10</td><td>Corpus &amp; agent (<code>/v1</code>)</td>
+              <td class="d">Retrieval search, doubt/score/analyse agents, graph neighbours and paths, revise/plan/question-solve. Legacy surface — gated this session.</td></tr>
+          <tr><td class="n">18</td><td>Reference, insights, mail, health</td>
+              <td class="d">Catalog, syllabus, knowledge/mastery reads, class &amp; school insights, paper delivery, health and storage diagnostics.</td></tr>
+          <tr class="total"><td class="n">122</td><td>Total operations</td><td class="d">104 require an authenticated caller.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>How it is stored</h3>
+      <p>
+        Seventeen SQLite stores hold operational state — per the repository's own operating
+        guide — and eleven of them have a remote durability backend so they survive the
+        ephemeral container disk that both Render and Cloud Run
+        provide. As of this session that remote backend is abstracted: every store resolves it
+        through one factory that prefers <b>Cloud SQL Postgres</b> when configured and falls back
+        to <b>Supabase</b> otherwise, with local SQLite as the last resort. The precedence is an
+        environment-variable change, and reversible in both directions.
+      </p>
+
+      <div class="note">
+        <strong>Known constraint.</strong> The container filesystem is not durable. If deployed
+        without Cloud SQL or Supabase credentials configured, each of up to three instances keeps
+        its own SQLite file and they diverge — the failure is silent, not loud.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 02 FRONTEND ============================ -->
+  <section class="sec">
+    <div class="rail"><span class="n">02</span><span class="tick ok">source-read</span></div>
+    <div class="body-col">
+      <p class="kicker">Frontend — two sub-products</p>
+      <h2>One Flutter codebase, two products: a cloud web client, and an Android app that needs no server at all.</h2>
+      <p class="lede">
+        64,700 lines of Dart across 24 screens, targeting web and Android from a single codebase.
+        The distinction that matters: the <b>Web</b> sub-product is a thin client that needs the
+        backend for every action, while the <b>Mobile</b> sub-product runs the paper-generation and
+        evaluation logic <b>on the device</b> and never contacts a backend at all.
+      </p>
+
+      <h3>What each role sees</h3>
+      <div class="tscroll"><table class="inv">
+        <thead><tr><th style="width:22%">Role</th><th>Screens and capability</th></tr></thead>
+        <tbody>
+          <tr><td>Teacher</td><td class="d">Syllabus browser by subject and grade; daily planner and timetable; question bank; assessment create → review → approve; paper export and email delivery; practice sessions; Scan &amp; Grade capture; progress and gap analysis.</td></tr>
+          <tr><td>Principal</td><td class="d">School admin console — roster, master calendar grid, coverage and pace reporting, drag-and-drop sequence reordering, reschedule (push/adjust), calendar setup; school-level insights; paper approval.</td></tr>
+          <tr><td>Student</td><td class="d">Personal schedule in day, week, month and overview views; syllabus completion; mastery dashboard; practice.</td></tr>
+          <tr><td>Parent</td><td class="d">Dedicated portal: child syllabus completion, daily attendance and lesson tracking, growth-mindset guidance and concept scaffolding.</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>How it is built</h3>
+      <ul>
+        <li><b>Routing</b> — <code>go_router</code>, 24 named routes with deep-link paths.</li>
+        <li><b>State</b> — effectively <code>StatefulWidget</code>-driven (27 stateful screens, one
+          Bloc). The Bloc dependency is present but not the organising pattern.</li>
+        <li><b>Wiring</b> — <code>get_it</code> service locator; repositories over API clients.</li>
+        <li><b>Transport</b> — <code>dio</code>, against a build-time base URL
+          (<code>ACADEMICOS_API</code>), defaulting to <code>localhost:8010/api/v1</code>.</li>
+        <li><b>Local storage</b> — <code>hive</code>, encrypted, holding the offline assessment,
+          evaluation, mastery, consent and scan records.</li>
+        <li><b>On-device processing</b> — ML Kit text recognition for OCR, and client-side PDF
+          generation for exports.</li>
+      </ul>
+
+      <h3>How the two sub-products diverge</h3>
+      <p>
+        <code>ACADEMICOS_OFFLINE=true</code> — set only by the standalone Android build — swaps
+        two objects in the service locator. <code>LocalApiClient</code> and
+        <code>LocalPillarApi</code> subclass the HTTP clients and reimplement paper selection and
+        evaluation against the bundled corpus, with identical method signatures and response
+        shapes. Every repository, use case and screen above them is unmodified between the two
+        builds — which is why 24 screens can serve both products without branching.
+      </p>
+      <div class="note ok">
+        <strong>Why this matters.</strong> Low-connectivity schools are the deployment reality, so
+        the Mobile sub-product is a genuine asset rather than a nice-to-have. It is also the
+        largest unshared maintenance surface in the codebase: the offline engine must be updated
+        by hand whenever the server contract changes, and nothing detects that drift
+        automatically.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 03 THE SEAM ============================ -->
+  <section class="sec">
+    <div class="rail"><span class="n">03</span><span class="tick gap">50 gaps</span></div>
+    <div class="body-col">
+      <p class="kicker">The seam</p>
+      <h2>The frontend and backend were written independently. They do not fully agree.</h2>
+      <p class="lede">
+        This is the single most important thing to understand about the system as it stands.
+        It is not currently breaking anything — but it is a trap, and it has now been measured
+        rather than estimated.
+      </p>
+
+      <div class="flow"><pre>Flutter web / desktop / Android
+        │
+        │  baseUrl = ACADEMICOS_API   (absolute on desktop/mobile, relative on same-origin web)
+        │  every request:  Authorization: Bearer &lt;token from encrypted Hive&gt;
+        ▼
+   sessionInterceptor()          ← attaches token; on 401 clears session and routes to /login
+        │
+        ├── PillarApi   (76 calls)   ──►  all match real backend routes
+        ├── AuthApi / ConsentApi / CurriculumApi  ──►  all match
+        └── ApiClient                ──►  contains 46 of the 126 calls with no route
+                                          └─ /answer-sheets/*  /mastery/*  /analytics/*
+                                             /reports/*  /notifications/*  /questions CRUD
+        ▼
+   FastAPI  ──►  durable_table()  ──►  Cloud SQL ▸ Supabase ▸ SQLite</pre></div>
+
+      <h3>Why it is not a live outage</h3>
+      <p>
+        The screens drive <code>PillarApi</code> almost exclusively, and <b>every</b>
+        <code>ApiClient</code> method the user interface actually calls maps to a route that
+        exists (<code>getAssessment</code>, <code>getPaper</code>, <code>approveAssessment</code>,
+        <code>exportPaper</code>, <code>quickGeneratePaper</code>, <code>updateAssessment</code>).
+        No screen references the mastery, analytics, report, notification, answer-sheet or
+        evaluation repositories at all.
+      </p>
+      <p>
+        So the 46 dead endpoints are <b>latent</b>: roughly 800 lines of repository layer, wired
+        into dependency injection and covered by tests — that would 404 the moment somebody
+        connected a screen to them. Two further consequences follow from the same root cause:
+      </p>
+      <ul>
+        <li>The <b>offline implementation had eleven silent stubs</b> —
+          <code>getMisconceptions() ⇒ []</code>, <code>finalizeEvaluation() ⇒ nothing</code>.
+          A teacher on the Android build was shown "no misconceptions" and had no way to know
+          it meant "not implemented". Those now raise, so empty and unsupported are
+          distinguishable. <span class="mark" style="color:var(--teal)">fixed this session</span></li>
+        <li>A <b>contract test now fails the build</b> when a new frontend call has no backend
+          route, and also when an allowlisted gap is fixed but left on the list — so the debt
+          cannot silently grow or silently rot. <span class="mark" style="color:var(--teal)">added this session</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================ 04 SECURITY ============================ -->
+  <section class="sec">
+    <div class="rail"><span class="n">04</span><span class="tick ok">104 secured</span></div>
+    <div class="body-col">
+      <p class="kicker">Security posture</p>
+      <h2>Authentication was enforced but undocumented. It is now both — and 15 routes are newly gated.</h2>
+
+      <p>
+        The most consequential finding was not a missing check but an <b>invisible</b> one.
+        <code>get_current_user</code> read the <code>Authorization</code> header as a plain
+        parameter rather than a declared security scheme, so FastAPI published
+        <code>securitySchemes: None</code> — the generated API documentation advertised all 122
+        operations as public, including 89 that return <code>401</code> on first call. Any
+        integrator working from the spec would have built the wrong thing.
+      </p>
+
+      <div class="tscroll"><table class="inv">
+        <thead><tr><th style="width:26%">Change</th><th>Detail</th></tr></thead>
+        <tbody>
+          <tr><td>Auth declared</td><td class="d">Bearer scheme published; <b>89 → 104</b> operations formally marked secured. Runtime behaviour unchanged (still <code>401</code> with the same messages).</td></tr>
+          <tr><td>Compute endpoints gated</td><td class="d"><code>/blueprints/generate</code>, <code>/questions/search</code>, <code>/questions/optimize</code>, <code>/curriculum/questions/by-subtopics</code> were anonymously reachable and CPU-backed.</td></tr>
+          <tr><td>Legacy surface gated</td><td class="d">All ten <code>/v1/*</code> routes — corpus search, agents, graph, revise/plan/solve — now require a caller.</td></tr>
+          <tr><td>Impersonation closed</td><td class="d"><code>/ingest/school-documents</code> took school and uploader identity <b>from the request body</b>. Any anonymous caller could file a document against any school and attribute it to anyone. Identity now comes only from the session.</td></tr>
+          <tr><td>Exactly what remains open</td><td class="d">Three auth endpoints, two health probes, and thirteen read-only curriculum-reference GETs the client needs before login.</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="note">
+        <strong>Honest residual.</strong> School-scoped isolation is enforced on the routes that
+        were audited, but three stores — papers, practice sets, scan sessions — still carry no
+        <code>school_id</code> column, so the export and backup paths cannot scope them. That is
+        the largest outstanding correctness gap and is unchanged by this session.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 05 OPERATIONS ============================ -->
+  <section class="sec">
+    <div class="rail"><span class="n">05</span><span class="tick part">not run</span></div>
+    <div class="body-col">
+      <p class="kicker">Build &amp; run — two releases</p>
+      <h2>The Render release is live. The GCP release is written, reviewed, and has never run.</h2>
+      <p class="lede">
+        Both releases build the same backend from the same commit, and both are gated by the same
+        test suite. They differ in compute, registry, data backend, secrets — and, most
+        importantly, in how much has actually been proven.
+      </p>
+
+      <div class="tscroll"><table class="inv">
+        <thead><tr><th style="width:22%">&nbsp;</th><th style="width:39%">Render release</th><th>GCP release</th></tr></thead>
+        <tbody>
+          <tr><td>Compute</td><td class="d">Render web service (image-backed)</td><td class="d">Cloud Run, <code>asia-south1</code></td></tr>
+          <tr><td>Registry</td><td class="d">Docker Hub</td><td class="d">Artifact Registry</td></tr>
+          <tr><td>Structured data</td><td class="d">Supabase (PostgREST)</td><td class="d">Cloud SQL Postgres</td></tr>
+          <tr><td>Blobs</td><td class="d">Supabase Storage</td><td class="d">GCS — <b>JSONB only so far</b></td></tr>
+          <tr><td>Secrets</td><td class="d">Render dashboard</td><td class="d">Secret Manager</td></tr>
+          <tr><td>Deploy auth</td><td class="d">API key + Docker Hub credentials</td><td class="d">Workload Identity Federation — keyless</td></tr>
+          <tr><td>Cold start</td><td class="d">~60 s, mitigated by a keep-warm ping</td><td class="d">Eliminated — <code>min-instances=1</code></td></tr>
+          <tr class="total"><td>Status</td><td>Live in production</td><td>Never executed against a real project</td></tr>
+        </tbody>
+      </table></div>
+
+      <h3>The GCP release pipeline</h3>
+      <p>
+        Shown here because it is the unproven half. It is keyless by construction: GitHub's OIDC
+        token is exchanged for short-lived credentials scoped to one repository and one branch,
+        so no service-account key exists and there is nothing to rotate or leak.
+      </p>
+
+      <div class="flow"><pre>push to master
+   │
+   ├── test       1,170 backend tests           ← a red suite deploys nothing
+   │
+   └── backend    GitHub OIDC ──► Workload Identity Federation ──► no stored keys
+                  │                 (nothing to leak, nothing to rotate)
+                  ├── Cloud Build ──► Artifact Registry      (~650 MB image, layer-cached)
+                  └── Cloud Run   ──► /health polled until it answers
+                                     min-instances 1 → users never see a cold start</pre></div>
+
+      <p>
+        Application secrets live in Secret Manager and are injected at deploy time. The owner's
+        involvement is a single idempotent bootstrap script — APIs, registry, service accounts,
+        the federation trust, secrets, Cloud SQL with backups, storage buckets and a budget alert
+        — with a <code>--check</code> mode that reports the three conditions genuinely requiring
+        the account owner (billing disabled, an org policy blocking Cloud SQL, missing API
+        permissions) <i>before</i> anything is created.
+      </p>
+
+      <div class="note gap">
+        <strong>What has not been proven.</strong> The GCP bootstrap has not been run. Cloud Build,
+        Cloud Run, Workload Identity Federation and the frontend deploy are unexecuted; gcloud
+        flag validity is asserted, not confirmed. The measured numbers elsewhere in this document
+        come from local execution against real Postgres and a real Flutter build — not from the
+        cloud environment these scripts target.
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ 06 FINDINGS ============================ -->
+  <section class="sec">
+    <div class="rail"><span class="n">06</span><span class="tick">verdict</span></div>
+    <div class="body-col">
+      <p class="kicker">Assessment</p>
+      <h2>What a CTO should weigh.</h2>
+
+      <h3>Strengths</h3>
+      <ul>
+        <li><b>The knowledge model is the moat, and it is real.</b> Provenance-tracked ingestion,
+          a canonical curriculum hierarchy, and a question pool drawn from authentic board papers
+          with marking schemes — not generated content.</li>
+        <li><b>Verification habits are better than typical.</b> 1,170 backend tests, a route-inventory
+          contract test, golden PDF checks, and a culture of measuring rather than assuming —
+          every number in this document is reproducible.</li>
+        <li><b>Offline capability is genuinely differentiated</b> for the target market.</li>
+        <li><b>The deployment path is modern and credential-hygiene correct</b> — keyless, least
+          privilege, secrets in a manager, one-time owner involvement.</li>
+      </ul>
+
+      <h3>Findings, by severity</h3>
+      <ul class="find">
+        <li><span class="sev high">High</span>
+          <div class="what"><b>Two systems, one interface, neither complete.</b>
+            <span>The HTTP client targets 46 endpoints that do not exist; the offline client silently no-op'd eleven methods. The UI happens to only exercise the working subset. This is architectural drift that will resurface the moment a new screen is wired up. Pinned by a ratchet; not yet resolved.</span></div></li>
+        <li><span class="sev high">High</span>
+          <div class="what"><b>School isolation is incomplete.</b>
+            <span>Three of the durable stores carry no <code>school_id</code>, so cross-school scoping cannot be enforced on them and the export path cannot cover them. This is a compliance exposure under DPDP, not merely a bug.</span></div></li>
+        <li><span class="sev high">High</span>
+          <div class="what"><b>The production deployment is unproven.</b>
+            <span>Written, reviewed, syntax-validated — never executed. Treat the first real run as the beginning of the integration work, not the end.</span></div></li>
+        <li><span class="sev med">Medium</span>
+          <div class="what"><b>Durable state depends on configuration that fails silently.</b>
+            <span>Deploy without Cloud SQL or Supabase credentials and each instance keeps a private SQLite file. Nothing errors; the data simply diverges.</span></div></li>
+        <li><span class="sev med">Medium</span>
+          <div class="what"><b>A 6.8 MB question bank ships inside the web bundle.</b>
+            <span>Downloaded by every browser, when the same data is available from the API. Removal needs a build-flag decision first, because the offline build legitimately requires it locally.</span></div></li>
+        <li><span class="sev low">Low</span>
+          <div class="what"><b>Two API generations coexist.</b>
+            <span>The <code>/v1</code> pillar surface is now gated but remains exposed and unused by the client. Retirement is a cleanup, not a risk.</span></div></li>
+      </ul>
+
+      <h3>The question worth asking</h3>
+      <p>
+        The backend is a serious, well-tested curriculum and assessment engine. The frontend is a
+        broad client that has grown a parallel, partially-fictional view of that engine. The
+        decision in front of the team is not technical: it is whether to <b>delete the fictional
+        surface</b> and narrow the product to what genuinely works end to end, or to <b>build the
+        46 missing endpoints</b> and honour the interface the client already declares. Both are
+        defensible. Doing neither is how the drift compounds.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <span>AcademicOS · System review · 16 Sep 2026</span>
+    <span>All counts extracted from source and executed test runs · no claim marked “measured” is estimated</span>
+  </footer>
+
+</div>
+</body>
+</html>

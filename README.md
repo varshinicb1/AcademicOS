@@ -40,12 +40,32 @@ It bridges authoritative curriculum structures with day-to-day school operations
 
 ---
 
+## Products & Releases
+
+AcademicOS ships as **two sub-products** and the backend runs as **two
+independent releases**. They are not the same thing and are not deployed
+together. Full detail: [docs/PRODUCTS_AND_RELEASES.md](docs/PRODUCTS_AND_RELEASES.md).
+
+| Deliverable | What it is | Backend required? | Status |
+|---|---|---|---|
+| **AcademicOS Mobile** | Standalone Android app, fully offline (`ACADEMICOS_OFFLINE=true`) | No — on-device engine + bundled corpus | Shipped as APK |
+| **AcademicOS Web** | Flutter web client in a browser | Yes — every action is an HTTP call | Cloud-hosted |
+| **Backend — Render release** | Image-backed Render service + Supabase | — | **Live** (`academicos-backend.onrender.com`) |
+| **Backend — GCP release** | Cloud Run + Cloud SQL + GCS, keyless CI | — | Written, **not yet run** |
+
+These are easy to confuse, and older documents do. Two consequences worth
+holding onto: a bug reported against **Mobile** cannot be fixed by redeploying
+the backend, and the **GCP release is not an upgrade of the Render release** —
+they coexist from one codebase and are switched by environment variables.
+
+---
+
 ## Architecture & Tech Stack
 
-- **Backend**: Python 3.12 + FastAPI (`src/academicos/`), SQLite with Write-Ahead Logging (WAL) and busy timeout for high-concurrency multi-user access, optional Supabase PostgREST sync for persistent deployments.
-- **Frontend**: Flutter multi-platform client (`frontend/`) supporting Web, Android, and Windows desktop.
-- **Offline-First Engine**: Local-first encrypted Hive storage (`frontend/lib/core/local_engine/`), offline OCR, local PDF generation, and background sync reconciliation (`SyncService`).
-- **Live Deployment**: Hosted on Render (`academicos-backend.onrender.com`) with automated keep-warm monitoring and Docker Hub CI/CD pipeline.
+- **Backend**: Python 3.12 + FastAPI (`src/academicos/`), SQLite with Write-Ahead Logging (WAL) and busy timeout for high-concurrency multi-user access. Durable state is resolved through one factory that prefers **Cloud SQL** (GCP release), falls back to **Supabase PostgREST** (Render release), and finally to local SQLite.
+- **Frontend**: Flutter multi-platform client (`frontend/`) — one codebase, two products: the cloud **Web** client and the standalone **Android** app.
+- **Offline-First Engine**: Local-first encrypted Hive storage (`frontend/lib/core/local_engine/`), offline OCR, local PDF generation. This is what makes the Mobile sub-product possible; it is unused by the Web client.
+- **Live Deployment**: the **Render release** (`academicos-backend.onrender.com`), with keep-warm monitoring and a Docker Hub CI/CD pipeline. The **GCP release** (Cloud Run, `asia-south1`) is written and reviewed but has not been executed.
 
 ---
 
@@ -93,9 +113,13 @@ flutter test
 
 ## Documentation
 
+- [docs/PRODUCTS_AND_RELEASES.md](docs/PRODUCTS_AND_RELEASES.md) — **Start here.** Which product/release you are looking at
 - [AGENTS.md](AGENTS.md) — Autonomous agent operational protocol and codebase invariants
 - [CLAUDE.md](CLAUDE.md) — Developer guidelines, commands, and architecture overview
-- [docs/deployment.md](docs/deployment.md) — Real Render CI/CD pipeline, Supabase durability setup, and honestly-documented known gaps
+- [docs/deployment.md](docs/deployment.md) — The **Render release**: CI/CD, Supabase durability, known gaps
+- [docs/gcp-deployment.md](docs/gcp-deployment.md) — The **GCP release**: architecture, cutover, costs
+- [docs/gcp-bootstrap.md](docs/gcp-bootstrap.md) — The **GCP release**: one-time owner runbook
+- [docs/system-review.html](docs/system-review.html) — CTO-facing review of both sub-products and both releases
 - [docs/roadmap.md](docs/roadmap.md) — 5-phase product vision and implementation status
 - [docs/compliance.md](docs/compliance.md) — DPDP Act 2023 and CERT-In compliance specifications
 - [docs/ACADEMIC_DATA_MODEL.md](docs/ACADEMIC_DATA_MODEL.md) — Canonical curriculum data model

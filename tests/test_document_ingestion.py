@@ -19,15 +19,51 @@ from academicos.api.main import app
 from academicos.assessment import audit_log
 
 
+SCHOOL_ID = "school_1"
+
+
 def _boot(tmp_path, monkeypatch):
+    from academicos.assessment import users as users_mod
+
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     monkeypatch.setattr(audit_log, "_INSTANCE", None)
+    monkeypatch.setattr(users_mod, "_INSTANCE", None)
     return TestClient(app)
 
 
+# Keyed by the TestClient object itself (not id()) so a recycled id can never
+# hand one test another test's token.
+_AUTH: dict[object, tuple[dict[str, str], str]] = {}
+
+
+def _auth(client) -> tuple[dict[str, str], str]:
+    """Register one teacher for SCHOOL_ID and return (headers, user_id).
+
+    The ingest route now takes identity from the session rather than the form
+    body, so every upload needs a real token. Cached per client so repeated
+    uploads in one test reuse the same user rather than tripping
+    EmailAlreadyRegistered."""
+    cached = _AUTH.get(client)
+    if cached is None:
+        r = client.post("/api/v1/auth/register", json={
+            "schoolId": SCHOOL_ID, "name": "Ingest Teacher",
+            "email": "ingest-teacher@example.com",
+            "password": "correct horse battery",
+        })
+        assert r.status_code == 200, r.text
+        body = r.json()
+        cached = ({"Authorization": f"Bearer {body['token']}"}, body["user"]["id"])
+        _AUTH[client] = cached
+    return cached
+
+
 def _upload(client, *, filename: str, content: bytes, doc_type: str = "question_paper",
-            copyright_confirmed: bool = True, school_id: str = "school_1",
+            copyright_confirmed: bool = True, school_id: str = SCHOOL_ID,
             uploader_id: str = "teacher_9"):
+    """schoolId/uploaderId are still sent, because a real multipart client
+    sends them -- but the route ignores them now (they used to BE the
+    identity, letting an anonymous caller claim any school)."""
+    headers, _ = _auth(client)
     return client.post(
         "/api/v1/ingest/school-documents",
         data={
@@ -35,6 +71,7 @@ def _upload(client, *, filename: str, content: bytes, doc_type: str = "question_
             "copyrightConfirmed": str(copyright_confirmed).lower(), "title": "Real Upload",
         },
         files={"file": (filename, io.BytesIO(content), "application/octet-stream")},
+        headers=headers,
     )
 
 
@@ -81,11 +118,14 @@ def test_valid_pdf_upload_is_registered_and_audited(tmp_path, monkeypatch):
         assert data["duplicate"] is False
         assert data["sourceId"].startswith("src:")
 
+        # Identity is the authenticated uploader, NOT the uploaderId the form
+        # claimed ("teacher_9") -- that field is ignored now.
+        _, user_id = _auth(client)
         entries = audit_log.get_audit_log(tmp_path).for_action("document_ingested")
         assert len(entries) == 1
-        assert entries[0]["actor"] == "teacher_9"
+        assert entries[0]["actor"] == user_id
         assert entries[0]["details"]["sourceId"] == data["sourceId"]
-        assert entries[0]["details"]["schoolId"] == "school_1"
+        assert entries[0]["details"]["schoolId"] == SCHOOL_ID
 
 
 def test_missing_copyright_confirmation_rejected_400(tmp_path, monkeypatch):

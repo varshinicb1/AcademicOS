@@ -1,0 +1,16 @@
+# Keep shell scripts and CI/IaC files LF in every working copy.
+#
+# core.autocrlf=true is set on at least one Windows machine here, which
+# rewrites text files to CRLF on checkout. A CRLF bootstrap.sh is not merely
+# untidy -- the shebang line becomes "#!/usr/bin/env bash\r", which Linux
+# reads as an interpreter named "bash\r" and refuses to run. These files are
+# executed in Cloud Shell and GitHub Actions (both Linux), so they must never
+# be checked out with CRLF.
+#
+# Deliberately NOT applied to *.py: Python reads either line ending, so it buys
+# nothing, and it would renormalise ~140 tracked files for no functional gain.
+*.sh          text eol=lf
+*.sql         text eol=lf
+*.yml         text eol=lf
+*.yaml        text eol=lf
+Dockerfile    text eol=lf

@@ -1,0 +1,33 @@
+# Cloud Build: build the AcademicOS backend image and push it to Artifact
+# Registry. Invoked by .github/workflows/deploy-gcp.yml via
+# `gcloud builds submit --config deploy/gcp/cloudbuild.yaml .` from the repo
+# root, so the build context is the whole checkout (the Dockerfile COPYs
+# pyproject.toml, src/, config/, academicos-data/).
+#
+# `--cache-from` is the important line for performance: the image is large
+# (opencv/numpy + baked corpus), and without a cache every deploy re-installs
+# the whole dependency tree. With it, only the layers that actually changed
+# rebuild.
+steps:
+  - name: gcr.io/cloud-builders/docker
+    id: build
+    args:
+      - build
+      - --tag=${_IMAGE}:${COMMIT_SHA}
+      - --tag=${_IMAGE}:latest
+      - --cache-from=${_IMAGE}:latest
+      - --build-arg=BUILDKIT_INLINE_CACHE=1
+      - .
+
+  - name: gcr.io/cloud-builders/docker
+    id: push
+    args: ['push', '--all-tags', '${_IMAGE}']
+
+substitutions:
+  _IMAGE: 'REPLACE_WITH_AR_IMAGE'
+
+options:
+  machineType: E2_HIGHCPU_8   # the dependency install is the long pole; 8 vCPU pays for itself
+  logging: CLOUD_LOGGING_ONLY
+
+timeout: 1800s

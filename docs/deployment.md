@@ -1,8 +1,16 @@
-# Deployment
+# Deployment — the Render release
 
-This is the real, current deployment picture — written after auditing the
-actual live setup (not the aspirational one), so treat this as the source
-of truth over any comment elsewhere that disagrees with it.
+> **Scope.** This document describes **one of two backend releases**. The other
+> is the GCP release (`docs/gcp-deployment.md`). It also does not deploy either
+> client sub-product — the offline **Mobile** app and the cloud **Web** app are
+> separate deliverables with their own build flags. If that distinction is not
+> already clear, read [`PRODUCTS_AND_RELEASES.md`](PRODUCTS_AND_RELEASES.md)
+> first; it is the source of truth for which thing is which.
+
+This is the real, current picture of the **Render release** — written after
+auditing the actual live setup (not the aspirational one), so treat this as the
+source of truth *for that release* over any comment elsewhere that disagrees
+with it.
 
 ## Live target: Render
 
@@ -12,9 +20,14 @@ as an **image-backed Render web service** (Render pulls
 from a git connection to this repo).
 
 Two earlier deploy-target attempts left artifacts in this repo that are
-**not** the active deployment:
-- `Dockerfile`'s comments used to say "Cloud Run" — stale, corrected
-  2026-09-15. Cloud Run was never the live target for the current setup.
+**not** part of this release:
+- `Dockerfile`'s comments used to say "Cloud Run", which was stale when
+  corrected on 2026-09-15 — at that time Cloud Run was an abandoned attempt and
+  Render was the only target. **That is no longer the whole story:** Cloud Run is
+  now the target of the deliberately separate **GCP release**
+  (`docs/gcp-deployment.md`), which is written and reviewed but has never been
+  executed. Cloud Run is still not live, but it is no longer dead either — don't
+  read the old "stale comment" note as a reason to ignore it.
 - `fly.toml` at the repo root is a real, valid Fly.io config, but nothing
   in `.github/workflows/` or `scripts/` deploys to it. Left in place rather
   than deleted unilaterally (may have been an intentional backup option),
@@ -49,6 +62,13 @@ cold start (pulling the image, booting opencv/pymupdf) measured close to
 teacher/student opening the app never sees that cold-start spinner.
 
 ## Data durability: Supabase
+
+> This section is specific to the **Render release**. The GCP release uses Cloud
+> SQL for the same eleven tables and GCS for blobs; see
+> `docs/gcp-deployment.md`. Both go through the same store-level factory
+> (`postgres_kv.durable_table`), which prefers Cloud SQL when `ACOS_POSTGRES_*`
+> is set and Supabase otherwise — so the two releases share this codebase but
+> never the same database.
 
 **The problem:** an image-backed Render service with no persistent disk
 means anything written at runtime — new assessments, grades, scan

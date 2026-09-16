@@ -576,8 +576,19 @@ class LocalApiClient extends ApiClient {
   Future<AnswerSheet> getAnswerSheet(String id) async =>
       throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
 
+  // The methods below used to `return []` / `async {}` instead of throwing.
+  // That is worse than an error: a teacher on the offline build would see
+  // "no misconceptions", "no recommendations", "no scans" and believe it --
+  // a silent wrong answer rather than a visible gap. They now throw the same
+  // OfflineUnsupportedException every other unsupported method in this class
+  // throws, so a caller can always tell "empty" from "unsupported".
+  //
+  // Most of them have no backend route either (see KNOWN_GAPS in
+  // tests/test_frontend_backend_contract.py), which is why they cannot simply
+  // be forwarded to the API on the online path.
   @override
-  Future<List<AnswerSheet>> getAnswerSheets(String assessmentId) async => [];
+  Future<List<AnswerSheet>> getAnswerSheets(String assessmentId) async =>
+      throw OfflineUnsupportedException('Listing answer sheets');
 
   @override
   Future<AnswerSheet> processScan(ScanRequest request) async =>
@@ -676,17 +687,20 @@ class LocalApiClient extends ApiClient {
   }
 
   @override
-  Future<List<EvaluationResult>> evaluateAnswerSheet(String answerSheetId) async => [];
+  Future<List<EvaluationResult>> evaluateAnswerSheet(String answerSheetId) async =>
+      throw OfflineUnsupportedException('Evaluating an answer sheet');
 
   @override
   Future<EvaluationResult> teacherReview(TeacherReviewRequest request) async =>
       throw Exception('Stored evaluations for teacher review are not tracked individually offline yet.');
 
   @override
-  Future<void> finalizeEvaluation(String answerSheetId) async {}
+  Future<void> finalizeEvaluation(String answerSheetId) async =>
+      throw OfflineUnsupportedException('Finalising an answer sheet');
 
   @override
-  Future<List<EvaluationResult>> getEvaluations(String answerSheetId) async => [];
+  Future<List<EvaluationResult>> getEvaluations(String answerSheetId) async =>
+      throw OfflineUnsupportedException('Listing evaluations');
 
   // ---------------- Mastery ----------------
   // LocalStore keeps a simpler mastery shape (see _recordMasteryFromEvaluation
@@ -785,10 +799,12 @@ class LocalApiClient extends ApiClient {
   }
 
   @override
-  Future<List<ActionableRecommendation>> getRecommendations(String studentId) async => [];
+  Future<List<ActionableRecommendation>> getRecommendations(String studentId) async =>
+      throw OfflineUnsupportedException('Mastery recommendations');
 
   @override
-  Future<void> recordMasteryAttempt(MasteryAttempt attempt) async {}
+  Future<void> recordMasteryAttempt(MasteryAttempt attempt) async =>
+      throw OfflineUnsupportedException('Recording a mastery attempt');
 
   @override
   Future<List<ConceptMastery>> getWeakConcepts(String studentId, {int limit = 10}) async {
@@ -799,7 +815,8 @@ class LocalApiClient extends ApiClient {
   }
 
   @override
-  Future<List<MisconceptionFlag>> getMisconceptions(String studentId) async => [];
+  Future<List<MisconceptionFlag>> getMisconceptions(String studentId) async =>
+      throw OfflineUnsupportedException('Misconception analysis');
 
   // ---------------- Analytics / Reports / Practice / Notifications ----------------
   // Not ported for this first on-device pass -- all genuinely need either
@@ -851,20 +868,24 @@ class LocalApiClient extends ApiClient {
       throw OfflineUnsupportedException('Practice sessions');
 
   @override
-  Future<List<PracticeSession>> getStudentPracticeSessions(String studentId) async => [];
+  Future<List<PracticeSession>> getStudentPracticeSessions(String studentId) async =>
+      throw OfflineUnsupportedException('Practice history');
 
   @override
-  Future<void> sendNotification(Notification notification) async {}
+  Future<void> sendNotification(Notification notification) async =>
+      throw OfflineUnsupportedException('Sending notifications');
 
   @override
   Future<void> sendWhatsAppNotification(WhatsAppDeepLink link) async =>
       throw OfflineUnsupportedException('WhatsApp notifications');
 
   @override
-  Future<List<Notification>> getNotifications(String userId) async => [];
+  Future<List<Notification>> getNotifications(String userId) async =>
+      throw OfflineUnsupportedException('Notifications');
 
   @override
-  Future<void> markAsRead(String notificationId) async {}
+  Future<void> markAsRead(String notificationId) async =>
+      throw OfflineUnsupportedException('Marking a notification read');
 }
 
 extension _FirstOrNull<T> on List<T> {

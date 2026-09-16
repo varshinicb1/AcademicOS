@@ -6,8 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 AcademicOS — an evidence-grounded knowledge graph + retrieval + reasoning substrate over the
 CBSE/NCERT corpus (question papers, marking schemes, model answers, curricula, circulars,
-bye-laws). The active platform comprises a FastAPI backend (`src/academicos/`) and a Flutter
-frontend (`frontend/` targeting Web, Windows, Android) with offline local-first engine.
+bye-laws). The active platform comprises a FastAPI backend (`src/academicos/`) and one Flutter
+codebase (`frontend/`) that ships as two sub-products — a cloud **Web** client and a standalone
+offline **Android** app. The backend runs as two independent releases (**Render**, live;
+**GCP**, written but not yet run). See `docs/PRODUCTS_AND_RELEASES.md`.
 
 **There are two parallel Python implementations — know which one you're in:**
 
@@ -23,10 +25,18 @@ frontend (`frontend/` targeting Web, Windows, Android) with offline local-first 
 
 Don't casually port fixes between the two trees — they have diverging schemas and package layouts.
 
-`frontend/` is a Flutter app (clean-architecture layout: `data/`, `domain/`, `presentation/`,
-and `core/local_engine/`) targeting Web, Windows desktop, and Android. It features a complete
-local-first offline engine (Hive AES-256 encrypted boxes, on-device OCR, client-side PDF export)
-and background sync (`core/sync/sync_service.dart`).
+`frontend/` is one Flutter codebase (clean-architecture layout: `data/`, `domain/`,
+`presentation/`, `core/local_engine/`) that ships as **two sub-products**:
+
+- **Web** (default build) — a thin client; every action is an HTTP call to a backend release.
+- **Mobile** (`--dart-define=ACADEMICOS_OFFLINE=true`) — a standalone Android app that runs the
+  paper-generation and evaluation logic on device and **never contacts a backend**. Uses
+  `LocalApiClient`/`LocalPillarApi` plus a corpus bundled into the APK.
+
+The swap happens in `core/di/service_locator.dart`; every repository, use case and screen above
+it is shared. Two rules follow: any change to an API route must be mirrored by hand into the local
+clients (nothing detects that drift), and `ACADEMICOS_OFFLINE` must never leak into a Web build.
+Windows desktop is a development/packaging target, not a deployed release.
 
 ## Compliance — read before touching student data
 
@@ -170,15 +180,22 @@ concurrent access (2026-09-15) — most other stores don't have this yet, a know
 `docs/deployment.md`.
 
 The flat single-object stores (`AssessmentStore`, `PaperStore`, `PracticeStore`, `GradedStore`,
-`ScanSessionStore`, `TemplateStore`, `UserStore`, `AuditLog`, `EventStore`) use `SupabaseTable` for
-per-row Postgres backing when `SUPABASE_KNOWLEDGE_URL`/`SUPABASE_KNOWLEDGE_ANON_KEY` are provided.
-Only `AssessmentStore` and `EventStore` catch a live Supabase failure and fall back to local SQLite
-gracefully today — the others let the exception propagate if Supabase is enabled but briefly
-unreachable, a known inconsistency. `CurriculumStore` (18 relational tables, `PRAGMA foreign_keys=ON`)
-uses a different strategy — whole-file snapshot/restore via `SupabaseStorage` instead of wrapping each
-table individually — since per-table REST wrapping would lose FK integrity across two storage layers.
-Check `GET /health/storage` for whether Supabase is actually configured/reachable right now, rather
-than guessing. Full picture: `docs/deployment.md`.
+`ScanSessionStore`, `TemplateStore`, `UserStore`, `AuditLog`, `EventStore`) resolve their remote
+handle through **one factory, `postgres_kv.durable_table(name)`** — do not construct
+`SupabaseTable` directly in a store. It prefers **Cloud SQL Postgres** when `ACOS_POSTGRES_HOST`/
+`_DB`/`_USER` are set (the GCP release), otherwise falls back to **Supabase** when
+`SUPABASE_KNOWLEDGE_URL`/`SUPABASE_KNOWLEDGE_ANON_KEY` are set (the Render release), otherwise
+local SQLite. `PostgresUnavailable` subclasses `SupabaseUnavailable`, so existing `except` clauses
+and the app-level 503 handler keep working. Known inconsistency, unchanged: only `AssessmentStore`
+and `EventStore` catch a live failure and fall back gracefully — the others let it propagate.
+`CurriculumStore` (18 relational tables, `PRAGMA foreign_keys=ON`) still uses whole-file
+snapshot/restore via `SupabaseStorage` rather than per-table wrapping, since per-table REST would
+lose FK integrity across two storage layers.
+
+**Blob storage is not yet on GCS** — scan media and curriculum snapshots still go through
+`SupabaseStorage`, which is why the GCP release cannot yet drop its Supabase credentials.
+Check `GET /health/storage` for which backend is actually active (`durability_backend`) rather than
+guessing. Full picture: `docs/deployment.md` (Render) and `docs/gcp-deployment.md` (GCP).
 
 External capability providers (Composio for app actions, Sarvam for LLM calls) sit behind
 `integrations/base.py`/`llm/base.py` interfaces and the existing `agents/base.py` `Tool` ABC —

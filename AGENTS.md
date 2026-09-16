@@ -79,24 +79,57 @@ conn.execute("PRAGMA busy_timeout=60000")
 | `pool.py` (read-only query) | `cfg.registry_db` | `sources` query | None (reads registry) |
 
 ### Persistence & Deployment Topologies
-- **Ephemeral Deployments (Render Free Tier)**: Containers wipe local disk on spin-down or redeploy.
-- **Supabase Hybrid Sync**:
-  Stores managing state that must outlive restarts (`AssessmentStore`, `PaperStore`, `GradedStore`, `PracticeStore`, `AuditLogStore`, `UserStore`, `ScanSessionStore`, `TemplateStore`, `KnowledgeStore`) use `SupabaseTable` to persist JSONB payloads to Supabase PostgREST when `SUPABASE_KNOWLEDGE_URL` and `SUPABASE_KNOWLEDGE_ANON_KEY` are defined, falling back safely to local SQLite.
+- **Ephemeral Deployments**: Containers wipe local disk on spin-down or redeploy. This is true of both Render (free tier) and Cloud Run.
+- **Durable backend selection (2026-09-16)**: Every store's remote handle now comes from `postgres_kv.durable_table(name)` instead of constructing `SupabaseTable` directly. It prefers **Cloud SQL Postgres** when `ACOS_POSTGRES_HOST`/`ACOS_POSTGRES_DB`/`ACOS_POSTGRES_USER` are set, and otherwise falls back to Supabase, which itself disables cleanly when its env vars are absent. `PostgresUnavailable` subclasses `SupabaseUnavailable`, so every existing `except` clause and `api/main.py`'s 503 handler keep working unchanged. `GET /health/storage` reports `durability_backend`.
+- **Cloud SQL**: `deploy/gcp/schema.sql` defines all 11 durable tables; connection is via Cloud Run's `/cloudsql/<conn>` Unix socket, pooled and bounded (`ACOS_POSTGRES_POOL_MAX`, default 10) because `--concurrency=40` would otherwise exhaust a small instance. Migration off Supabase: `scripts/migrate_supabase_to_cloudsql.py`.
+- **Supabase Hybrid Sync**: `SupabaseTable` persists JSONB payloads to Supabase PostgREST when `SUPABASE_KNOWLEDGE_URL` and `SUPABASE_KNOWLEDGE_ANON_KEY` are defined. Still the backend for **blob** storage (`SupabaseStorage`: scan media, curriculum snapshots) — that path is not yet on GCS.
 - **Static Assets & Corpus Databases**:
   `academicos-data/` contains pre-ingested indexes (`registry.db`, `index.db`, `graph.db`, `curriculum_store.db`, syllabus JSONs) and is copied into Docker deployment images.
 - **Observability**: `GET /health/storage` reports whether Supabase is configured and (if so) currently reachable — check this instead of guessing from the Render dashboard or grepping env vars on the host.
 - **School data export**: `GET /api/v1/curriculum/export` (principal-gated, school_id always from the authenticated caller) bundles the curriculum tree, assessments, paper templates, and users for one school — for backup or manual transfer to another instance. Does not yet cover `PaperStore`/`PracticeStore`/`ScanSessionStore` (no `school_id` column) or provide a restore/import path — see `docs/deployment.md`.
 
-See `docs/deployment.md` for the full picture: the real Render CI/CD pipeline, required Supabase env vars and bucket setup, and honestly-documented known gaps (fallback-consistency across stores, remaining unguarded concurrent-access call sites).
+See **[`docs/PRODUCTS_AND_RELEASES.md`](docs/PRODUCTS_AND_RELEASES.md)** for
+the full picture. It is the source of truth for "which thing are we talking
+about": two client sub-products (offline **Mobile**, cloud **Web**) and two
+backend releases (**Render**, live; **GCP**, written but not yet run) that
+coexist from one codebase. Then:
+
+- `docs/deployment.md` — the Render release: CI/CD pipeline, Supabase env vars
+  and bucket setup, known gaps (fallback consistency across stores, remaining
+  unguarded concurrent-access call sites).
+- `docs/gcp-deployment.md` — the GCP release: Cloud Run/Cloud SQL/GCS,
+  cutover, costs, and the blob-storage item that keeps it off pure GCP.
 
 ---
 
 ## 4. Client & Offline-First Engine
 
-The Flutter app (`frontend/`) targets Web, Windows desktop, and Android:
-- **Local Engine (`frontend/lib/core/local_engine/`)**: Encrypted Hive boxes (`secure_box.dart`), local SQLite/Hive storage, on-device OCR, and client-side PDF export.
-- **Synchronization (`frontend/lib/core/sync/sync_service.dart`)**: Local-first queueing with background reconciliation against the backend API with conflict resolution via `KeyedMutex`.
-- **API Base Configuration**: Configured via `--dart-define=ACADEMICOS_API=https://academicos-backend.onrender.com/api/v1` or defaults to `http://localhost:8010/api/v1`.
+`frontend/` is **one Flutter codebase serving two distinct sub-products** —
+do not reason about "the app" as a single thing (see
+`docs/PRODUCTS_AND_RELEASES.md`):
+
+| Sub-product | Build | Talks to a backend? | Uses |
+|---|---|---|---|
+| **AcademicOS Web** | `flutter build web` (default) | Yes — every action | `PillarApi`, `AuthApi`, `ConsentApi`, `CurriculumApi`, `ApiClient` |
+| **AcademicOS Mobile** | `flutter build apk --dart-define=ACADEMICOS_OFFLINE=true` | **No** — on-device only | `LocalPillarApi`, `LocalApiClient` |
+
+`offlineMode` in `core/di/service_locator.dart` performs the swap; everything
+above it (repositories, use cases, all 24 screens) is shared. Two rules follow:
+
+1. A change to any API route must be mirrored by hand into `local_api_client.dart`
+   / `local_pillar_api.dart`. The offline engine cannot detect drift itself, and
+   its methods **throw** `OfflineUnsupportedException` rather than returning an
+   empty result — never revert one to `=> []`; a silent empty answer was read by
+   teachers as "nothing to show" (see `tests/test_frontend_backend_contract.py`).
+2. `ACADEMICOS_OFFLINE` must not leak into the Web build. The Web client talks
+   HTTP; pointing it at the local engine silently disables the backend.
+
+- **Local Engine (`frontend/lib/core/local_engine/`)**: Encrypted Hive boxes (`secure_box.dart`), local SQLite/Hive storage, on-device OCR, and client-side PDF export. Mobile-only.
+- **Synchronization (`frontend/lib/core/sync/sync_service.dart`)**: Local-first queueing with background reconciliation against the backend API with conflict resolution via `KeyedMutex`. Web-only.
+- **API Base Configuration**: `--dart-define=ACADEMICOS_API=…`. Absolute for the
+  Render release (`https://academicos-backend.onrender.com/api/v1`); a relative
+  `/api/v1` is valid for the GCP release, where Cloud Run serves the Web bundle
+  from the same origin as the API. Defaults to `http://localhost:8010/api/v1`.
 
 ---
 

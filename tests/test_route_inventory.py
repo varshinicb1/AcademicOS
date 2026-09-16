@@ -490,18 +490,20 @@ def test_health_without_startup():
 
 
 def test_non_gated_routes_work_without_startup():
-    """Routes that need no module init and no auth: blueprint generation,
-    mail status, and syllabus/timetable (package-data backed). The routes
-    that used to be here (school templates, answer-key, scan-session
-    creation) now require Depends(get_current_user) -- they 401 without a
-    token and are covered in the auth-gated startup-free tests below."""
+    """Routes that need no module init and no auth: mail status, and
+    syllabus/timetable (package-data backed). The routes that used to be here
+    (school templates, answer-key, scan-session creation, and -- as of
+    2026-09-16 -- blueprint generation) now require
+    Depends(get_current_user); they 401 without a token and are covered in the
+    auth-gated startup-free tests below."""
     from fastapi.testclient import TestClient
 
     client = TestClient(app)
     try:
+        # Pure-compute, so it is now auth-gated: 401 before module init.
         assert client.post(
             "/api/v1/blueprints/generate", json=blueprint_body()
-        ).status_code == 200
+        ).status_code == 401
         assert client.get("/api/v1/mail/status").status_code == 200
 
         assert client.get("/api/v1/syllabus/Science/10").status_code == 200
@@ -614,54 +616,86 @@ def _boot_client(tmp_path, monkeypatch):
     return TestClient(app)
 
 
-def test_full_boot_v1_public_surface(tmp_path, monkeypatch):
+def test_full_boot_v1_surface_requires_auth(tmp_path, monkeypatch):
+    """The /v1/* pillar surface used to be fully public (this test was named
+    test_full_boot_v1_public_surface). As of 2026-09-16 it requires a real
+    caller: corpus search, the agent endpoints, graph reads and
+    revise/plan/question-solve are all compute- or LLM-backed, so anonymous
+    access was an abuse and cost vector. Both halves are asserted -- 401
+    without a token, and the original behaviour once authenticated, so the
+    endpoint logic stays covered."""
+    from test_assessment_routes_auth import _register
+
     with _boot_client(tmp_path, monkeypatch) as client:
         assert client.get("/health").json() == {"status": "ok"}
 
-        stats = client.get("/v1/registry/stats")
+        # No token -> 401 on every route in this surface, including the
+        # cheapest read, so nothing here is anonymously reachable.
+        for method, path, body in (
+            ("get", "/v1/registry/stats", None),
+            ("post", "/v1/search", {"query": "photosynthesis", "limit": 5}),
+            ("post", "/v1/agent/doubt", {"doubt": "light reaction"}),
+            ("post", "/v1/graph/neighbors", {"node_id": "n1", "max_depth": 2}),
+            ("post", "/v1/revise", {"learner": "alice"}),
+        ):
+            r = getattr(client, method)(path, json=body) if body is not None \
+                else getattr(client, method)(path)
+            assert r.status_code == 401, f"{method.upper()} {path} -> {r.status_code}"
+
+        user = _register(client, "school_1", "v1-surface@example.com")
+        auth = {"Authorization": f"Bearer {user['token']}"}
+
+        stats = client.get("/v1/registry/stats", headers=auth)
         assert stats.status_code == 200
         assert stats.json() == {"count": 0}
 
-        search = client.post("/v1/search", json={"query": "photosynthesis", "limit": 5})
+        search = client.post("/v1/search", json={"query": "photosynthesis", "limit": 5},
+                             headers=auth)
         assert search.status_code == 200
         assert search.json()["hits"] == []
 
-        # min_length=2 -> 422 on an invalid query.
-        assert client.post("/v1/search", json={"query": "x"}).status_code == 422
+        # min_length=2 -> 422 on an invalid query (auth passes, validation fails).
+        assert client.post("/v1/search", json={"query": "x"},
+                           headers=auth).status_code == 422
 
-        doubt = client.post("/v1/agent/doubt", json={"doubt": "light reaction"})
+        doubt = client.post("/v1/agent/doubt", json={"doubt": "light reaction"},
+                            headers=auth)
         assert doubt.status_code == 200
         assert "No evidence found" in doubt.json()["answer"]
 
         score = client.post("/v1/agent/score", json={
             "question": "What is photosynthesis?", "student_answer": "a process",
             "marks_available": 2,
-        })
+        }, headers=auth)
         assert score.status_code == 200
         assert score.json()["score"]["scheme_found"] is False
 
-        analyze = client.post("/v1/agent/analyze", json={"paper_id": "paper_x"})
+        analyze = client.post("/v1/agent/analyze", json={"paper_id": "paper_x"},
+                              headers=auth)
         assert analyze.status_code == 200
 
         neighbors = client.post("/v1/graph/neighbors", json={
             "node_id": "n1", "max_depth": 2,
-        })
+        }, headers=auth)
         assert neighbors.status_code == 200
         assert neighbors.json()["nodes"] == []
 
         paths = client.post("/v1/graph/paths", json={
             "source": "n1", "target": "n2", "max_depth": 4,
-        })
+        }, headers=auth)
         assert paths.status_code == 200
         assert paths.json()["paths"] == []
 
         # Empty event store / empty graph -> real 404s, not silent empty 200s.
-        assert client.post("/v1/revise", json={"learner": "nobody"}).status_code == 404
-        assert client.post("/v1/plan", json={"target": "nowhere"}).status_code == 404
+        assert client.post("/v1/revise", json={"learner": "nobody"},
+                           headers=auth).status_code == 404
+        assert client.post("/v1/plan", json={"target": "nowhere"},
+                           headers=auth).status_code == 404
 
         # Lexical fallback (no LLM key configured) still returns a real,
         # if unverified, mapping against an empty graph.
-        solved = client.post("/v1/question/solve", json={"question": "What is photosynthesis?"})
+        solved = client.post("/v1/question/solve",
+                             json={"question": "What is photosynthesis?"}, headers=auth)
         assert solved.status_code == 200
         assert solved.json()["question"] == "What is photosynthesis?"
 
@@ -2163,11 +2197,12 @@ def test_full_boot_curriculum_decomposition_review_and_question_paper(tmp_path, 
         assert renamed.json()["name"] == "Balancing equations (renamed)"
         assert renamed.json()["canonicalId"] == original_canonical_id
         assert client.post("/api/v1/curriculum/questions/by-subtopics",
-                           json={"subtopicIds": [subtopic_id]}).json()["questionIds"] == ["q_balance_1"]
+                           json={"subtopicIds": [subtopic_id]},
+                           headers=auth).json()["questionIds"] == ["q_balance_1"]
 
         # -- generate paper using selected subtopics: only tagged questions
         by_subtopic = client.post("/api/v1/curriculum/questions/by-subtopics",
-                                  json={"subtopicIds": [subtopic_id]})
+                                  json={"subtopicIds": [subtopic_id]}, headers=auth)
         assert by_subtopic.json()["questionIds"] == ["q_balance_1"]
         # A subtopic nothing was tagged to returns no questions -- not a
         # silent guess. Uses the unrelated manually-added subtopic
@@ -2178,7 +2213,8 @@ def test_full_boot_curriculum_decomposition_review_and_question_paper(tmp_path, 
         # their names genuinely share words -- a real property of the
         # matcher, not a bug this assertion should fight.
         assert client.post("/api/v1/curriculum/questions/by-subtopics",
-                           json={"subtopicIds": [manual_sub["id"]]}).json()["questionIds"] == []
+                           json={"subtopicIds": [manual_sub["id"]]},
+                           headers=auth).json()["questionIds"] == []
 
         # -- deleting a linked subtopic is blocked, not silent data loss
         blocked = client.delete(f"/api/v1/curriculum/subtopics/{subtopic_id}", headers=auth)
@@ -2190,7 +2226,8 @@ def test_full_boot_curriculum_decomposition_review_and_question_paper(tmp_path, 
         forced = client.delete(f"/api/v1/curriculum/subtopics/{subtopic_id}?force=true", headers=auth)
         assert forced.status_code == 200
         assert client.post("/api/v1/curriculum/questions/by-subtopics",
-                           json={"subtopicIds": [subtopic_id]}).json()["questionIds"] == []
+                           json={"subtopicIds": [subtopic_id]},
+                           headers=auth).json()["questionIds"] == []
 
 
 def test_full_boot_assessment_lifecycle(tmp_path, monkeypatch):
@@ -2255,19 +2292,26 @@ def test_full_boot_assessment_lifecycle(tmp_path, monkeypatch):
         assert key.status_code == 200
         assert key.json()["totalMarks"] == 2
 
-        # -- question search / optimize on an empty corpus (not auth-gated)
+        # -- question search / optimize on an empty corpus. Both are
+        # auth-gated as of 2026-09-16 (they were open, and both are
+        # compute-backed).
         search = client.post("/api/v1/questions/search", json={
             "subject": "Science", "grade": 10,
-        })
+        }, headers=auth)
         assert search.status_code == 200
         assert search.json() == []
-        assert client.post("/api/v1/questions/search", json={}).status_code == 422
+        assert client.post("/api/v1/questions/search", json={},
+                           headers=auth).status_code == 422
+        assert client.post("/api/v1/questions/search", json={
+            "subject": "Science", "grade": 10,
+        }).status_code == 401
 
         optimize = client.post("/api/v1/questions/optimize", json={
             "candidates": [], "blueprint": blueprint_body(),
-        })
+        }, headers=auth)
         assert optimize.status_code == 200
-        assert client.post("/api/v1/questions/optimize", json={}).status_code == 422
+        assert client.post("/api/v1/questions/optimize", json={},
+                           headers=auth).status_code == 422
 
         # -- paper generation: empty selection refused, valid generates
         empty = client.post("/api/v1/papers/generate", json={

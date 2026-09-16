@@ -957,8 +957,17 @@ class AppDatabase extends _$AppDatabase {
 
 ## 11. Deployment Architecture
 
+> **Scope — this section is aspirational, not live.** The compose stack below
+> belongs to the **`backend/` rewrite target** (Qdrant, MinIO, SQLAlchemy), which
+> is largely scaffolded and is *not* what runs in production. The two releases
+> actually deployed — or written and ready to deploy — are the **Render release**
+> (Render + Supabase, live) and the **GCP release** (Cloud Run + Cloud SQL + GCS,
+> written but unexecuted). See [`PRODUCTS_AND_RELEASES.md`](PRODUCTS_AND_RELEASES.md)
+> for the real map, and `docs/deployment.md` / `docs/gcp-deployment.md` for each
+> release. Do not use this section to reason about the running system.
+
 ```yaml
-# docker-compose.yml (production)
+# docker-compose.yml (production)  [TARGET architecture for the backend/ rewrite]
 services:
   api:
     build: ./backend
@@ -996,6 +1005,12 @@ volumes:
 ---
 
 ## 12. Flutter Build Targets
+
+> **Scope.** One Flutter codebase serves **two sub-products** — the cloud **Web**
+> client and the standalone, fully **offline Android** app — selected by the
+> `ACADEMICOS_OFFLINE` build flag. Windows desktop is a development/packaging
+> target, not a deployed release. See
+> [`PRODUCTS_AND_RELEASES.md`](PRODUCTS_AND_RELEASES.md).
 
 ```yaml
 # frontend/pubspec.yaml key targets

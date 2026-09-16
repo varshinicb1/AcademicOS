@@ -1,0 +1,253 @@
+name: Deploy to GCP (Cloud Run + Firebase Hosting)
+
+# Fully automated production deploys. Once the one-time IAM bootstrap
+# (deploy/gcp/bootstrap.sh) has been run by the GCP account owner, nothing
+# else is ever required from them -- every push to master ships itself.
+#
+# Auth is keyless via Workload Identity Federation: GitHub's OIDC token is
+# exchanged for short-lived GCP credentials scoped to this repo, so there is
+# no service-account JSON key to store, leak, or rotate. `id-token: write`
+# below is what enables that exchange -- removing it breaks the deploy.
+#
+#   test     -> real pytest suite (the gate that repeatedly caught regressions)
+#   backend  -> Cloud Build -> Artifact Registry -> Cloud Run
+#   frontend -> Flutter web build -> Firebase Hosting (needs backend's URL)
+#
+# Repo variables (Settings -> Secrets and variables -> Actions -> Variables):
+#   GCP_PROJECT_ID, GCP_REGION, WIF_PROVIDER, DEPLOY_SA, RUNTIME_SA,
+#   GCP_SERVICE, AR_IMAGE, GCS_MEDIA_BUCKET, SQL_CONNECTION, CORS_ORIGINS
+# No repo *secrets* are needed -- app secrets live in Secret Manager.
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch: {}
+
+# Never let two deploys race for the same Cloud Run service.
+concurrency:
+  group: deploy-gcp-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  id-token: write
+
+env:
+  PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+  REGION: ${{ vars.GCP_REGION }}
+  SERVICE: ${{ vars.GCP_SERVICE }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    # A real PostgreSQL server, not a mock: the Cloud SQL adapter tests
+    # (tests/test_postgres_kv.py, tests/test_migrate_supabase_to_cloudsql.py)
+    # assert on genuine SQL semantics -- upsert conflict resolution, integer
+    # vs text ordering, JSONB round-trips, and a >1000-row migration that
+    # would silently truncate against PostgREST's row cap. Mocking any of
+    # that would test nothing. Without this service those tests skip and a
+    # broken adapter would reach production with a green suite.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: academicos_verify
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      ACOS_TEST_PG_HOST: localhost
+      ACOS_TEST_PG_PORT: '5432'
+      ACOS_TEST_PG_DB: academicos_verify
+      ACOS_TEST_PG_USER: postgres
+      ACOS_TEST_PG_PASSWORD: postgres
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      # All extras, matching the environment the suite was verified in --
+      # api alone would leave ocr/retrieval/mobile-scan tests erroring or
+      # silently skipping, which would make this gate report a smaller pass
+      # count than what was actually verified.
+      - name: Install academicos with all extras
+        run: pip install -e ".[dev,api,ocr,retrieval,parse-vlm,mobile-scan,gcs]"
+
+      - name: Run the real test suite
+        run: pytest tests/ -q
+
+  backend:
+    needs: test
+    runs-on: ubuntu-latest
+    outputs:
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # Fail on a missing variable with a message naming it, rather than
+      # letting gcloud fail later with "--service-account: expected one
+      # argument" or, worse, silently deploying with an empty CORS origin.
+      - name: Check required repository variables are set
+        env:
+          AR_IMAGE: ${{ vars.AR_IMAGE }}
+          GCS_MEDIA_BUCKET: ${{ vars.GCS_MEDIA_BUCKET }}
+          SQL_CONNECTION: ${{ vars.SQL_CONNECTION }}
+          CORS_ORIGINS: ${{ vars.CORS_ORIGINS }}
+          RUNTIME_SA: ${{ vars.RUNTIME_SA }}
+          WIF_PROVIDER: ${{ vars.WIF_PROVIDER }}
+          DEPLOY_SA: ${{ vars.DEPLOY_SA }}
+        run: |
+          missing=""
+          for name in PROJECT_ID REGION SERVICE WIF_PROVIDER DEPLOY_SA \
+                      RUNTIME_SA AR_IMAGE GCS_MEDIA_BUCKET SQL_CONNECTION CORS_ORIGINS; do
+            if [ -z "${!name}" ]; then missing="$missing $name"; fi
+          done
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repository variables:$missing"
+            echo "Set them under Settings -> Secrets and variables -> Actions -> Variables."
+            echo "docs/gcp-bootstrap.md lists the exact 'gh variable set' commands."
+            exit 1
+          fi
+          echo "All required repository variables are present."
+
+      - uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.WIF_PROVIDER }}
+          service_account: ${{ vars.DEPLOY_SA }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build + push image (Cloud Build, layer-cached)
+        env:
+          AR_IMAGE: ${{ vars.AR_IMAGE }}
+        run: |
+          gcloud builds submit \
+            --project "$PROJECT_ID" \
+            --config deploy/gcp/cloudbuild.yaml \
+            --substitutions=_IMAGE="${AR_IMAGE}" \
+            .
+
+      - name: Deploy to Cloud Run
+        id: deploy
+        env:
+          AR_IMAGE: ${{ vars.AR_IMAGE }}
+          GCS_MEDIA_BUCKET: ${{ vars.GCS_MEDIA_BUCKET }}
+          SQL_CONNECTION: ${{ vars.SQL_CONNECTION }}
+          CORS_ORIGINS: ${{ vars.CORS_ORIGINS }}
+          RUNTIME_SA: ${{ vars.RUNTIME_SA }}
+        run: |
+          # Every data-access backing service reaches the app through these.
+          # Secrets come from Secret Manager, never from the repo.
+          SECRETS="SUPABASE_KNOWLEDGE_URL=supabase-url:latest"
+          SECRETS="$SECRETS,SUPABASE_KNOWLEDGE_ANON_KEY=supabase-anon-key:latest"
+          SECRETS="$SECRETS,ACOS_PRINCIPAL_BOOTSTRAP_KEY=principal-bootstrap-key:latest"
+          SECRETS="$SECRETS,ACOS_LLM_API_KEY=acos-llm-api-key:latest"
+          SECRETS="$SECRETS,ACOS_POSTGRES_PASSWORD=postgres-password:latest"
+
+          ENV_VARS="ACOS_POSTGRES_HOST=/cloudsql/${SQL_CONNECTION}"
+          ENV_VARS="$ENV_VARS,ACOS_POSTGRES_DB=academicos"
+          ENV_VARS="$ENV_VARS,ACOS_POSTGRES_USER=academicos"
+          ENV_VARS="$ENV_VARS,ACOS_GCS_BUCKET=${GCS_MEDIA_BUCKET}"
+          ENV_VARS="$ENV_VARS,ACOS_CORS_ORIGINS=${CORS_ORIGINS}"
+
+          gcloud run deploy "$SERVICE" \
+            --project "$PROJECT_ID" \
+            --region "$REGION" \
+            --image "${AR_IMAGE}:${GITHUB_SHA}" \
+            --platform=managed \
+            --allow-unauthenticated \
+            --port=8080 \
+            --cpu=1 --memory=1Gi \
+            --concurrency=40 \
+            --timeout=300 \
+            --min-instances=1 \
+            --max-instances=3 \
+            --cpu-boost \
+            --add-cloudsql-instances "${SQL_CONNECTION}" \
+            --service-account "$RUNTIME_SA" \
+            --set-secrets "$SECRETS" \
+            --set-env-vars "$ENV_VARS" \
+            --quiet
+
+          URL="$(gcloud run services describe "$SERVICE" \
+            --project "$PROJECT_ID" --region "$REGION" \
+            --format='value(status.url)')"
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          echo "Deployed: $URL"
+
+      # A deploy that returns 200 on /health is the only definition of
+      # "shipped" that has ever been reliable here (an image can deploy
+      # cleanly and still 500 on every authenticated route).
+      - name: Verify the live service answers /health
+        run: |
+          URL="${{ steps.deploy.outputs.url }}"
+          for i in $(seq 1 20); do
+            if curl -fsS --max-time 10 "$URL/health" >/dev/null; then
+              echo "healthy after ${i} attempt(s): $URL"
+              curl -fsS --max-time 10 "$URL/health" || true
+              exit 0
+            fi
+            sleep 6
+          done
+          echo "ERROR: $URL/health never came up" >&2
+          exit 1
+
+  frontend:
+    needs: backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # firebase-tools does NOT reliably consume an ADC/WIF credentials file:
+      # with `create_credentials_file: true` it commonly dies with "Failed to
+      # authenticate, have you run firebase login?" even though gcloud in the
+      # same job works (firebase/firebase-tools#10726 -- its autoAuth() wraps
+      # the ADC exchange in a timeout and discards the real error). The
+      # supported path is to mint a short-lived access token here and hand it
+      # to the CLI via FIREBASE_TOKEN.
+      - name: Authenticate to Google Cloud (access token for Firebase)
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.WIF_PROVIDER }}
+          service_account: ${{ vars.DEPLOY_SA }}
+          token_format: access_token
+          create_credentials_file: false
+
+      # Pin Node: an unrelated Node regression (24.17.0 / 22.23.0) breaks the
+      # STS token exchange with ERR_STREAM_PREMATURE_CLOSE, which firebase
+      # reports as an auth failure. 22.x pinned below the bad patch.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.21.0'
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      # The API base URL is baked into the Dart build, so this must run after
+      # the backend URL is known -- otherwise the web app points at whatever
+      # stale URL was compiled in last time.
+      - name: Build Flutter web against the freshly deployed backend
+        run: |
+          flutter pub get
+          flutter build web --release \
+            --dart-define=ACADEMICOS_API="${{ needs.backend.outputs.url }}/api/v1"
+        working-directory: frontend
+
+      - name: Deploy to Firebase Hosting
+        env:
+          FIREBASE_TOKEN: ${{ steps.auth.outputs.access_token }}
+        run: |
+          npx --yes firebase-tools@latest deploy \
+            --only hosting \
+            --project "$PROJECT_ID" \
+            --non-interactive
