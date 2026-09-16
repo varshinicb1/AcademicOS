@@ -124,23 +124,50 @@ class LocalPillarApi extends PillarApi {
 
     final allocations = <Map<String, dynamic>>[];
     final schedule = <Map<String, dynamic>>[];
-    var week = 1;
-    for (final unit in s.units) {
-      // Real, proportional allocation from real chapter coverage -- same
-      // marks-weightage-proportional method the server's real timetable
-      // uses, just sourced from real extracted question marks instead of
-      // an official syllabus table this build doesn't have.
-      final suggested = totalMarks > 0
-          ? (unit.marks / totalMarks * totalPeriods).round().clamp(1, totalPeriods)
-          : 0;
-      allocations.add({'unitName': unit.name, 'marks': unit.marks, 'suggestedPeriods': suggested});
 
-      var remaining = suggested;
-      while (remaining > 0 && week <= weeks) {
-        final thisWeek = remaining.clamp(0, periodsPerWeek);
-        schedule.add({'week': week, 'unitName': unit.name, 'periods': thisWeek});
-        remaining -= thisWeek;
-        week++;
+    // Largest-remainder rounding, mirroring the server's tested
+    // syllabus/timetable.py. The previous version rounded each unit
+    // independently and clamped every unit to a minimum of one period, which
+    // allocated 122 periods against a 120-period budget -- the client and the
+    // server disagreed about the same subject's pacing, and the offline build
+    // was the one that was wrong.
+    final raw = <double>[
+      for (final unit in s.units) totalPeriods * unit.marks / totalMarks,
+    ];
+    final periods = <int>[for (final v in raw) v.floor()];
+    var remainder = totalPeriods - periods.fold<int>(0, (a, b) => a + b);
+    final byFraction = List<int>.generate(raw.length, (i) => i)
+      ..sort((a, b) => (raw[b] - periods[b]).compareTo(raw[a] - periods[a]));
+    for (final i in byFraction) {
+      if (remainder <= 0) break;
+      periods[i] += 1;
+      remainder -= 1;
+    }
+
+    for (var i = 0; i < s.units.length; i++) {
+      final unit = s.units[i];
+      allocations.add(
+          {'unitName': unit.name, 'marks': unit.marks, 'suggestedPeriods': periods[i]});
+    }
+
+    // Pack into weeks without ever exceeding periodsPerWeek in a week. The
+    // previous version let each unit start in whatever week the previous unit
+    // had stopped at, so a fully-booked week could still receive more periods.
+    var week = 1;
+    var remainingThisWeek = periodsPerWeek;
+    for (var i = 0; i < s.units.length; i++) {
+      var left = periods[i];
+      while (left > 0 && week <= weeks) {
+        final take = left < remainingThisWeek ? left : remainingThisWeek;
+        if (take > 0) {
+          schedule.add({'week': week, 'unitName': s.units[i].name, 'periods': take});
+        }
+        left -= take;
+        remainingThisWeek -= take;
+        if (remainingThisWeek == 0) {
+          week++;
+          remainingThisWeek = periodsPerWeek;
+        }
       }
     }
 
