@@ -17,10 +17,29 @@ name: Deploy to GCP (Cloud Run + Firebase Hosting)
 #   GCP_PROJECT_ID, GCP_REGION, WIF_PROVIDER, DEPLOY_SA, RUNTIME_SA,
 #   GCP_SERVICE, AR_IMAGE, GCS_MEDIA_BUCKET, SQL_CONNECTION, CORS_ORIGINS
 # No repo *secrets* are needed -- app secrets live in Secret Manager.
+#
+# Prior to provisioning, this workflow is a no-op: the `test` job still runs
+# (it is the project's gate), but `backend` skips and `frontend` follows it,
+# so the run is green rather than red. See the condition on the `backend` job.
+# Run docs/gcp-bootstrap.sh, set the variables above, and it becomes live.
 
 on:
   push:
     branches: [master]
+    # Only run when something the GCP release actually ships has changed.
+    # Without this, a docs-only or README-only push starts the whole pipeline
+    # -- and, until the release is provisioned, fails it. A CI system that goes
+    # red for changes it cannot possibly be affected by is one people learn to
+    # ignore, which is worse than having no CI.
+    paths:
+      - 'pyproject.toml'
+      - 'config/**'
+      - 'src/academicos/**'
+      - 'academicos-data/syllabus/**'
+      - 'frontend/**'
+      - 'deploy/gcp/**'
+      - 'firebase.json'
+      - '.github/workflows/deploy-gcp.yml'
   workflow_dispatch: {}
 
 # Never let two deploys race for the same Cloud Run service.
@@ -86,6 +105,20 @@ jobs:
 
   backend:
     needs: test
+    # Two distinct states, handled differently on purpose:
+    #
+    #   * Not provisioned at all (no GCP_PROJECT_ID) -- the bootstrap has not
+    #     been run yet. There is no release to deploy and nothing is broken, so
+    #     the job SKIPS rather than fails. Failing here would paint master red
+    #     for a legitimate state and train everyone to ignore the signal.
+    #
+    #   * Provisioned but incomplete (GCP_PROJECT_ID set, some other variable
+    #     missing) -- a real misconfiguration. This condition passes and the
+    #     "Check required repository variables" step below fails loudly, naming
+    #     every variable that is absent.
+    #
+    # So: green-skip when there is nothing to do, hard-fail when there is.
+    if: vars.GCP_PROJECT_ID != ''
     runs-on: ubuntu-latest
     outputs:
       url: ${{ steps.deploy.outputs.url }}
