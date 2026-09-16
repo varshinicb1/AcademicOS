@@ -52,7 +52,15 @@ Thumbs.db
 # 404s) until caught by the deploy pipeline's own test gate.
 academicos-data/*
 !academicos-data/syllabus/
-docs/research/
+# docs/research/ holds large raw research artifacts (a 6.4 MB PDF, a 234 KB
+# text dump, attention/research notes) that should not be committed. The curated
+# write-ups that live alongside them ARE project documentation -- they are
+# referenced from docs/design-system.md and docs/PRODUCTS_AND_RELEASES.md -- so
+# they are re-included explicitly. Note the `*`: ignoring the directory itself
+# would make the negations below ineffective.
+docs/research/*
+!docs/research/ui-ux-principles.md
+!docs/research/llm-layer.md
 
 # Large build artifacts / distributables (not source, don't belong in git)
 *.zip

@@ -20,10 +20,15 @@ design/tokens.json ──build_tokens_css.py──> design/tokens.css ──> im
 
 ## 1. Principles
 
-1. **White is the canvas; borders do the separating.** Pages and cards are
-   `#FFFFFF`. Structure comes from 1px borders and spacing, not from grey fills,
-   drop shadows or coloured panels. A screen with five tinted boxes at 3% opacity
-   looks like five boxes and communicates nothing.
+1. **White surfaces on a cool off-white canvas.** Cards, tables and inputs are
+   `#FFFFFF`; the page behind them is `#F8FAFC`. Structure comes from 1px borders
+   and spacing, not from grey fills or drop shadows. **Pure white as a full-page
+   background is a documented anti-pattern for dense dashboards** — maximum
+   emitted light, visual fatigue over a session, and card edges that dissolve into
+   the page. That is why canvas and card are separate tokens
+   (`--color-surface-canvas` / `--color-surface-card`); do not collapse them, and
+   do not go darker than `#F8FAFC`, which reads grey and looks washed out.
+   Reasoning and sources: [`research/ui-ux-principles.md`](research/ui-ux-principles.md) §2.
 2. **Density is a feature.** A principal comparing 22 chapters and a teacher
    scanning a week of lessons both want information, not air. Every default
    serves the compact case; `comfortable` is the opt-in.
@@ -68,8 +73,9 @@ greppable and reviewable.
 
 | Role | Token | Value |
 |---|---|---|
-Page and card surface | `--color-neutral-0` | `#FFFFFF` |
-Section fill (the only fill) | `--color-neutral-50` | `#F8FAFC` |
+Page canvas — the only off-white | `--color-surface-canvas` | `#F8FAFC` |
+Card, table, input surface | `--color-surface-card` | `#FFFFFF` |
+Inset (table header, code, wells) | `--color-surface-inset` | `#F1F5F9` |
 Border | `--color-neutral-200` | `#E2E8F0` |
 Border, strong / disabled text | `--color-neutral-300` | `#CBD5E1` |
 Text, primary | `--color-neutral-900` | `#0F172A` |
@@ -290,6 +296,15 @@ shadow, a colour and a radius, and the UI drifts one component at a time.
 - Do not restyle an existing component to fit a new screen — change the
   component if it is genuinely wrong, so every screen moves together.
 - Do not write `outline: none`.
+- **Do not add a streak, badge, points, level or leaderboard mechanic.** This is
+  a settled decision, not an oversight. Eyal's own critique applies: variable
+  rewards are a liability for a utility, and a broken streak punishes a teacher
+  for the product's failure. The reward for using AcademicOS is that it worked,
+  again, in twenty seconds. Reasoning:
+  [`research/ui-ux-principles.md`](research/ui-ux-principles.md) §4.
+- **Do not add an engagement-driven notification.** One morning digest keyed to
+  "what am I teaching today" is the policy. A push whose purpose is to make
+  somebody open the app is how a school tool loses trust.
 
 **Why this is enforced rather than documented:** rules in prose get ignored by
 the next agent and forgotten by the next human. `check_design_tokens.py` turns

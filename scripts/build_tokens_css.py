@@ -63,6 +63,11 @@ def main() -> int:
         if k != "comment":
             decl(f"color-neutral-{k}", v)
 
+    group("surface (canvas is off-white on purpose; card is pure white)")
+    for k, v in t["color"]["surface"].items():
+        if k != "comment":
+            decl(f"color-surface-{k}", v)
+
     group("semantic (fg / bg / border)")
     for status, triple in t["color"]["semantic"].items():
         if status == "comment":

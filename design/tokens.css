@@ -31,6 +31,11 @@
   --color-neutral-700: #334155;
   --color-neutral-900: #0F172A;
 
+  /* -- surface (canvas is off-white on purpose; card is pure white) -- */
+  --color-surface-canvas: #F8FAFC;
+  --color-surface-card: #FFFFFF;
+  --color-surface-inset: #F1F5F9;
+
   /* -- semantic (fg / bg / border) ----------------------------------- */
   --color-success-fg: #047857;
   --color-success-bg: #ECFDF5;
