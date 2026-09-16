@@ -63,15 +63,33 @@ create table if not exists public.assessments (
 create index if not exists idx_assessments_teacher on public.assessments (teacher_id, created_at desc);
 create index if not exists idx_assessments_school on public.assessments (school_id, created_at desc);
 
+-- school_id (2026-09-17): real column, not just inside payload -- lets
+-- list_by_school() filter server-side for the school-data export route
+-- instead of pulling every school's rows to filter client-side. Nullable:
+-- rows written before this column existed have no value, and the route
+-- being generated for is what supplies it (see paper_store.py's docstring
+-- on why this is store-level metadata, not a field on GeneratedPaper itself).
 create table if not exists public.papers (
-  id      text primary key,
-  payload jsonb not null
+  id        text primary key,
+  school_id text,
+  payload   jsonb not null
 );
+-- `create table if not exists` only helps a project that doesn't have this
+-- table yet -- the live Render project already did (papers/practice_sets/
+-- scan_sessions all reported "ok" on /health/storage before school_id
+-- existed at all), so re-running this file there would silently skip adding
+-- the column. `add column if not exists` is the real idempotent fix for an
+-- already-existing table; safe to run whether or not the table is new.
+alter table public.papers add column if not exists school_id text;
+create index if not exists idx_papers_school on public.papers (school_id);
 
 create table if not exists public.practice_sets (
-  id      text primary key,
-  payload jsonb not null
+  id        text primary key,
+  school_id text,
+  payload   jsonb not null
 );
+alter table public.practice_sets add column if not exists school_id text;
+create index if not exists idx_practice_sets_school on public.practice_sets (school_id);
 
 create table if not exists public.graded_evaluations (
   assessment_id text not null,
@@ -82,9 +100,12 @@ create table if not exists public.graded_evaluations (
 
 create table if not exists public.scan_sessions (
   id            text primary key,
+  school_id     text,
   assessment_id text not null,
   payload       jsonb not null
 );
+alter table public.scan_sessions add column if not exists school_id text;
+create index if not exists idx_scan_sessions_school on public.scan_sessions (school_id);
 
 create table if not exists public.school_templates (
   id         text primary key,

@@ -34,24 +34,41 @@ CREATE INDEX IF NOT EXISTS idx_assessments_teacher ON assessments (teacher_id);
 CREATE INDEX IF NOT EXISTS idx_assessments_created ON assessments (created_at DESC);
 
 -- -- papers --------------------------------------------------------------------
+-- school_id (2026-09-17): store-level metadata for list_by_school() / the
+-- school-data export route -- see src/academicos/assessment/paper_store.py's
+-- module docstring for why it's a column here rather than a field on
+-- GeneratedPaper itself. ADD COLUMN IF NOT EXISTS alongside CREATE TABLE IF
+-- NOT EXISTS so this stays correct however far this file has already been
+-- applied (matching docs/supabase-setup.sql's equivalent fix, made after the
+-- Render project's already-existing tables didn't get a column that only
+-- CREATE TABLE IF NOT EXISTS would have added).
 CREATE TABLE IF NOT EXISTS papers (
-    id      TEXT PRIMARY KEY,
-    payload JSONB
+    id        TEXT PRIMARY KEY,
+    school_id TEXT,
+    payload   JSONB
 );
+ALTER TABLE papers ADD COLUMN IF NOT EXISTS school_id TEXT;
+CREATE INDEX IF NOT EXISTS idx_papers_school ON papers (school_id);
 
 -- -- practice_sets -------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS practice_sets (
-    id      TEXT PRIMARY KEY,
-    payload JSONB
+    id        TEXT PRIMARY KEY,
+    school_id TEXT,
+    payload   JSONB
 );
+ALTER TABLE practice_sets ADD COLUMN IF NOT EXISTS school_id TEXT;
+CREATE INDEX IF NOT EXISTS idx_practice_sets_school ON practice_sets (school_id);
 
 -- -- scan_sessions -------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS scan_sessions (
     id            TEXT PRIMARY KEY,
+    school_id     TEXT,
     assessment_id TEXT,
     payload       JSONB
 );
+ALTER TABLE scan_sessions ADD COLUMN IF NOT EXISTS school_id TEXT;
 CREATE INDEX IF NOT EXISTS idx_scan_sessions_assessment ON scan_sessions (assessment_id);
+CREATE INDEX IF NOT EXISTS idx_scan_sessions_school ON scan_sessions (school_id);
 
 -- -- graded_evaluations --------------------------------------------------------
 -- Composite key, matching the store's on_conflict="assessment_id,student_id".
