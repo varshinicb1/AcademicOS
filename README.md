@@ -115,6 +115,9 @@ flutter test
 
 - [docs/PRODUCTS_AND_RELEASES.md](docs/PRODUCTS_AND_RELEASES.md) — **Start here.** Which product/release you are looking at
 - [docs/REQUIREMENTS_BY_LAYER.md](docs/REQUIREMENTS_BY_LAYER.md) — Every requirement split into what the **backend** must deliver vs what the **frontend** must deliver, with verification depth
+- [docs/design-system.md](docs/design-system.md) — The design system: white-first, emoji-free, token-driven. Machine-readable source at `design/tokens.json`
+- [docs/api.md](docs/api.md) — Developer and contributing guide; [docs/api-reference.md](docs/api-reference.md) is the generated endpoint inventory
+- [docs/question-bank-api.md](docs/question-bank-api.md) — Proposal for exposing the question bank as a standalone API asset (licensing gate first)
 - [docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md](docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md) — Requirements traced to the client transcript, by section (a dated audit record; read its status-correction header first)
 - [AGENTS.md](AGENTS.md) — Autonomous agent operational protocol and codebase invariants
 - [CLAUDE.md](CLAUDE.md) — Developer guidelines, commands, and architecture overview

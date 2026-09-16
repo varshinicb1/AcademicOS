@@ -131,6 +131,10 @@ Pages) needs the same `rm` by hand.
 |---|---|
 | **This file** | Which product/release you are looking at |
 | `docs/REQUIREMENTS_BY_LAYER.md` | Every requirement, split by frontend vs backend, with verification depth |
+| `docs/design-system.md` + `design/tokens.json` | The design system and its machine-readable token source |
+| `docs/api.md` + `docs/api-reference.md` | Developer/contributing guide and the generated endpoint inventory |
+| `contract/openapi.json` + `api-types.ts` | The frozen API contract and its generated TypeScript types |
+| `docs/question-bank-api.md` | Proposal: the question bank as a standalone API asset |
 | `docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md` | The same requirements traced to the client transcript, by section (dated audit record) |
 | `docs/deployment.md` | The **Render release**, live — pipeline, Supabase, known gaps |
 | `docs/gcp-deployment.md` | The **GCP release** — architecture, cutover, costs |
