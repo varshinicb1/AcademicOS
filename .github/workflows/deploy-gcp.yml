@@ -37,10 +37,11 @@ on:
       - 'src/academicos/**'
       - 'academicos-data/syllabus/**'
       - 'frontend/**'
+      - 'design/**'
+      - 'scripts/**'
       - 'deploy/gcp/**'
       - 'firebase.json'
       - 'contract/**'
-      - 'scripts/export_openapi.py'
       - '.github/workflows/deploy-gcp.yml'
   workflow_dispatch: {}
 

@@ -1,0 +1,170 @@
+/* ===========================================================================
+ * AcademicOS design tokens -- GENERATED FILE, DO NOT EDIT.
+ *
+ * Source:      design/tokens.json
+ * Regenerate:  python scripts/build_tokens_css.py
+ *
+ * Editing this file by hand will be overwritten, and will fail
+ * scripts/check_design_tokens.py. Add the value to tokens.json instead.
+ *
+ * Emoji are forbidden in this product. Use a Lucide icon or a text label.
+ * =========================================================================== */
+:root {
+
+  /* -- brand --------------------------------------------------------- */
+  --color-brand-50: #EEF2FF;
+  --color-brand-100: #E0E7FF;
+  --color-brand-500: #6366F1;
+  --color-brand-600: #4F46E5;
+  --color-brand-700: #4338CA;
+
+  /* -- neutral ------------------------------------------------------- */
+  --color-neutral-0: #FFFFFF;
+  --color-neutral-25: #FCFCFD;
+  --color-neutral-50: #F8FAFC;
+  --color-neutral-100: #F1F5F9;
+  --color-neutral-200: #E2E8F0;
+  --color-neutral-300: #CBD5E1;
+  --color-neutral-400: #94A3B8;
+  --color-neutral-500: #64748B;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-900: #0F172A;
+
+  /* -- semantic (fg / bg / border) ----------------------------------- */
+  --color-success-fg: #047857;
+  --color-success-bg: #ECFDF5;
+  --color-success-border: #A7F3D0;
+  --color-warning-fg: #B45309;
+  --color-warning-bg: #FFFBEB;
+  --color-warning-border: #FDE68A;
+  --color-danger-fg: #B91C1C;
+  --color-danger-bg: #FEF2F2;
+  --color-danger-border: #FECACA;
+  --color-info-fg: #1D4ED8;
+  --color-info-bg: #EFF6FF;
+  --color-info-border: #BFDBFE;
+  --color-neutral-fg: #475569;
+  --color-neutral-bg: #F8FAFC;
+  --color-neutral-border: #E2E8F0;
+
+  /* -- data visualisation -------------------------------------------- */
+  --color-series-1: #4F46E5;
+  --color-series-2: #0891B2;
+  --color-series-3: #059669;
+  --color-series-4: #D97706;
+  --color-series-5: #DC2626;
+
+  /* -- typography ---------------------------------------------------- */
+  --font-ui: "Inter var", Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --text-2xs: 11px;
+  --leading-2xs: 16px;
+  --text-xs: 12px;
+  --leading-xs: 16px;
+  --text-sm: 13px;
+  --leading-sm: 18px;
+  --text-base: 14px;
+  --leading-base: 20px;
+  --text-lg: 16px;
+  --leading-lg: 24px;
+  --text-xl: 20px;
+  --leading-xl: 28px;
+  --text-2xl: 24px;
+  --leading-2xl: 32px;
+  --text-3xl: 30px;
+  --leading-3xl: 36px;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+
+  /* -- space (4px base, matches the Tailwind scale) ------------------ */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* -- interactive fills (every button state resolves to one of these)  */
+  --btn-primaryBg: #4F46E5;
+  --btn-primaryBgHover: #4338CA;
+  --btn-primaryBgActive: #3730A3;
+  --btn-primaryFg: #FFFFFF;
+  --btn-secondaryBg: #FFFFFF;
+  --btn-secondaryBgHover: #F8FAFC;
+  --btn-secondaryBgActive: #F1F5F9;
+  --btn-dangerBg: #DC2626;
+  --btn-dangerBgHover: #B91C1C;
+  --btn-dangerBgActive: #991B1B;
+  --btn-dangerFg: #FFFFFF;
+  --btn-disabledBg: #F1F5F9;
+  --btn-disabledFg: #94A3B8;
+  --btn-disabledBorder: #E2E8F0;
+
+  /* -- radius -------------------------------------------------------- */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-full: 999px;
+
+  /* -- border width -------------------------------------------------- */
+  --border-default: 1px;
+  --border-strong: 2px;
+
+  /* -- shadow (two levels; cards use a border instead) --------------- */
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px 0 rgb(15 23 42 / 0.05);
+  --shadow-md: 0 4px 12px -2px rgb(15 23 42 / 0.10);
+
+  /* -- z-index (fixed ladder; never invent a value) ------------------ */
+  --z-base: 0;
+  --z-sticky: 10;
+  --z-drawer: 30;
+  --z-modal: 40;
+  --z-popover: 50;
+  --z-toast: 60;
+
+  /* -- motion -------------------------------------------------------- */
+  --duration-instant: 100ms;
+  --duration-fast: 150ms;
+  --duration-normal: 200ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+
+  /* -- layout -------------------------------------------------------- */
+  --layout-contentMaxWidth: 1440px;
+  --layout-proseMaxWidth: 720px;
+  --layout-sidebarWidth: 240px;
+  --layout-sidebarCollapsedWidth: 64px;
+  --layout-drawerWidth: 480px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1600px;
+
+  /* -- density ------------------------------------------------------- */
+  --compact-rowHeight: 32px;
+  --compact-cellPaddingX: 12px;
+  --compact-cellPaddingY: 6px;
+  --comfortable-rowHeight: 44px;
+  --comfortable-cellPaddingX: 16px;
+  --comfortable-cellPaddingY: 10px;
+
+  /* -- focus + targets ----------------------------------------------- */
+  --focus-ring: 0 0 0 2px #FFFFFF, 0 0 0 4px #4F46E5;
+  --target-pointer: 32px;
+  --target-touch: 44px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --duration-instant: 0ms; --duration-fast: 0ms; --duration-normal: 0ms; }
+}
