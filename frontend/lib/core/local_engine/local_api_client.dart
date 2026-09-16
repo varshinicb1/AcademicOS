@@ -6,12 +6,10 @@ import '../../data/datasources/api/api_client.dart';
 import '../../domain/entities/entities.dart';
 import '../../domain/repositories/requests.dart';
 import '../constants/app_constants.dart';
-import 'answer_evaluation.dart' as eval_engine;
 import 'corpus_repository.dart';
 import 'local_pdf_export.dart';
 import 'local_pillar_api.dart' show OfflineUnsupportedException;
 import 'local_store.dart';
-import 'mastery_engine.dart';
 import 'paper_selection.dart' as selection_engine;
 
 /// Mirrors the real backend's `_require_editable` guard
@@ -54,6 +52,13 @@ const editableAssessmentStatuses = {
 /// answer_evaluation.dart are faithful ports of the actual Python engine),
 /// backed by LocalStore instead of a server. Same method signatures as
 /// ApiClient so every repository/bloc built against it works unmodified.
+///
+/// 2026-09-17: removed the 41 overrides of methods no longer on ApiClient
+/// (their backend routes never existed and had no live caller in either
+/// build -- see api_client.dart's own note and docs/system-review.html).
+/// `getQuestionsByIds` is kept as a plain (no-longer-@override) method:
+/// unlike the others it's a real internal dependency of `generateFromIds`
+/// below, just no longer part of the public ApiClient contract.
 class LocalApiClient extends ApiClient {
   LocalApiClient() : super(Dio());
 
@@ -191,29 +196,8 @@ class LocalApiClient extends ApiClient {
   }
 
   @override
-  Future<Blueprint> getBlueprint(String assessmentId) async {
-    final a = await getAssessment(assessmentId);
-    return a.blueprint;
-  }
-
-  @override
-  Future<Blueprint> updateBlueprint(String assessmentId, Blueprint blueprint) async {
-    final a = await getAssessment(assessmentId);
-    final updated = a.copyWith(blueprint: blueprint, updatedAt: DateTime.now());
-    LocalStore.instance.upsertAssessment(updated.toJson());
-    return blueprint;
-  }
-
-  @override
   Future<List<SectionBlueprint>> getSchoolTemplates(String schoolId) async {
     return selection_engine.defaultSections(100);
-  }
-
-  @override
-  Future<void> saveTemplate(String schoolId, SectionBlueprint template) async {
-    // Section-shape templates aren't used by the wizard (school branding
-    // templates are handled by LocalPillarApi.saveTemplate instead); no-op
-    // kept intentionally rather than silently pretending to persist.
   }
 
   // ---------------- Questions ----------------
@@ -224,33 +208,15 @@ class LocalApiClient extends ApiClient {
     return CorpusRepository.instance.search(params);
   }
 
-  @override
-  Future<Question> getQuestion(String id) async {
-    await CorpusRepository.instance.ensureLoaded();
-    return CorpusRepository.instance.all.firstWhere(
-      (q) => q.id == id,
-      orElse: () => throw Exception('Question $id not found in bundled corpus.'),
-    );
-  }
-
-  @override
+  /// No longer an @override (the base ApiClient method it used to mirror
+  /// called a backend route -- /questions/batch -- that never existed and
+  /// had no live caller; see api_client.dart's 2026-09-17 note). Kept as a
+  /// plain method because generateFromIds below genuinely needs it.
   Future<List<Question>> getQuestionsByIds(List<String> ids) async {
     await CorpusRepository.instance.ensureLoaded();
     final wanted = ids.toSet();
     return CorpusRepository.instance.all.where((q) => wanted.contains(q.id)).toList();
   }
-
-  @override
-  Future<Question> createQuestion(Question question) async =>
-      throw OfflineUnsupportedException('Adding custom questions to the bank');
-
-  @override
-  Future<Question> updateQuestion(String id, Question question) async =>
-      throw OfflineUnsupportedException('Editing bank questions');
-
-  @override
-  Future<void> deleteQuestion(String id) async =>
-      throw OfflineUnsupportedException('Deleting bank questions');
 
   @override
   Future<QuestionOptimizationResult> optimizeQuestions(QuestionOptimizationRequest request) async {
@@ -516,9 +482,6 @@ class LocalApiClient extends ApiClient {
   }
 
   @override
-  Future<GeneratedPaper> formatPaper(String paperId, SchoolTemplate template) async => getPaper(paperId);
-
-  @override
   Future<String> exportPaper(String paperId, ExportFormat format) async {
     final paper = await getPaper(paperId);
     if (format == ExportFormat.answerKey) {
@@ -566,326 +529,15 @@ class LocalApiClient extends ApiClient {
     return stored.map((t) => SchoolTemplate.fromJson(t)).toList();
   }
 
-  // ---------------- Answer Sheets (needs a scan -- offline unsupported) ----------------
-
-  @override
-  Future<AnswerSheet> uploadAnswerSheet(AnswerSheetUpload upload) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
-
-  @override
-  Future<AnswerSheet> getAnswerSheet(String id) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
-
-  // The methods below used to `return []` / `async {}` instead of throwing.
-  // That is worse than an error: a teacher on the offline build would see
-  // "no misconceptions", "no recommendations", "no scans" and believe it --
-  // a silent wrong answer rather than a visible gap. They now throw the same
-  // OfflineUnsupportedException every other unsupported method in this class
-  // throws, so a caller can always tell "empty" from "unsupported".
-  //
-  // Most of them have no backend route either (see KNOWN_GAPS in
-  // tests/test_frontend_backend_contract.py), which is why they cannot simply
-  // be forwarded to the API on the online path.
-  @override
-  Future<List<AnswerSheet>> getAnswerSheets(String assessmentId) async =>
-      throw OfflineUnsupportedException('Listing answer sheets');
-
-  @override
-  Future<AnswerSheet> processScan(ScanRequest request) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
-
-  @override
-  Future<AnswerSheet> segmentAnswerSheet(String answerSheetId) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
-
-  @override
-  Future<AnswerSheet> runOcr(String answerSheetId) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
-
-  @override
-  Future<AnswerSheet> runVision(String answerSheetId) async =>
-      throw OfflineUnsupportedException('Scan & Grade (handwriting OCR)');
-
-  // ---------------- Evaluation ----------------
-
-  @override
-  Future<EvaluationResult> evaluateQuestion(EvaluationRequest request) async {
-    final result =
-        eval_engine.evaluateAnswer(request.question, request.answerScheme, request.studentAnswer);
-    _recordMasteryFromEvaluation(request.context.studentId, request.question, result);
-    LocalStore.instance.appendAuditLog(
-      action: 'question_evaluated',
-      assessmentId: request.context.assessmentId,
-      studentId: request.context.studentId,
-      details: {
-        'questionId': request.question.id,
-        'awardedMarks': result.awardedMarks,
-        'maxMarks': result.maxMarks,
-        'verdict': result.verdict,
-      },
-    );
-    return EvaluationResult(
-      id: _newId('eval'),
-      awardedMarks: result.awardedMarks,
-      maxMarks: result.maxMarks,
-      percentage: result.percentage,
-      verdict: _verdictFrom(result.verdict),
-      markingPoints: result.markingPoints
-          .map((m) => MarkingPointResult(
-                markingPointId: m.markingPointId,
-                awarded: m.awarded,
-                reason: m.reason,
-                similarityScore: m.similarity,
-              ))
-          .toList(),
-      rubricLevel: RubricLevelResult(
-        level: result.verdict == 'fullCredit' ? 1 : 0,
-        label: result.verdict,
-        justification: result.reasoning,
-      ),
-      confidenceScore: result.confidence,
-      reasoning: result.reasoning,
-      strengths: result.strengths,
-      gaps: result.gaps,
-      carelessErrors: const [],
-      estimatedTimeSpentSeconds: 0,
-    );
-  }
-
-  EvaluationVerdict _verdictFrom(String v) => switch (v) {
-        'fullCredit' => EvaluationVerdict.fullCredit,
-        'partialCredit' => EvaluationVerdict.partialCredit,
-        'blank' => EvaluationVerdict.blank,
-        _ => EvaluationVerdict.noCredit,
-      };
-
-  // Was a hand-duplicated copy of LocalPillarApi's mastery update (found by
-  // audit) that had silently diverged: the new-concept branch below only
-  // ever assigned 'needsReview'/'developing', never 'proficient', even when
-  // a student's very first evaluated answer for a concept scored >=80%. Now
-  // shares the single-sourced helper so the two paths can't drift again.
-  void _recordMasteryFromEvaluation(String studentId, Question question, eval_engine.LocalEvaluation result) {
-    if (studentId.isEmpty) return;
-    final conceptId = question.chapterIds.isNotEmpty ? question.chapterIds.first : 'general';
-    final existing = LocalStore.instance.getMastery(studentId);
-    final concepts = ((existing?['concepts'] as List?) ?? [])
-        .map((e) => Map<String, dynamic>.from(e as Map))
-        .toList();
-    final idx = concepts.indexWhere((c) => c['conceptId'] == conceptId);
-    final observed = result.maxMarks > 0 ? result.awardedMarks / result.maxMarks : 0.0;
-    final updated = updatedConceptMastery(
-      conceptId: conceptId,
-      existing: idx >= 0 ? concepts[idx] : null,
-      observed: observed,
-    );
-    if (idx >= 0) {
-      concepts[idx] = updated;
-    } else {
-      concepts.add(updated);
-    }
-    saveMasteryRollup(studentId, concepts);
-  }
-
-  @override
-  Future<List<EvaluationResult>> evaluateAnswerSheet(String answerSheetId) async =>
-      throw OfflineUnsupportedException('Evaluating an answer sheet');
-
-  @override
-  Future<EvaluationResult> teacherReview(TeacherReviewRequest request) async =>
-      throw Exception('Stored evaluations for teacher review are not tracked individually offline yet.');
-
-  @override
-  Future<void> finalizeEvaluation(String answerSheetId) async =>
-      throw OfflineUnsupportedException('Finalising an answer sheet');
-
-  @override
-  Future<List<EvaluationResult>> getEvaluations(String answerSheetId) async =>
-      throw OfflineUnsupportedException('Listing evaluations');
-
-  // ---------------- Mastery ----------------
-  // LocalStore keeps a simpler mastery shape (see _recordMasteryFromEvaluation
-  // above and LocalPillarApi's own updateMasteryFromSheet) shared with the
-  // lighter PillarApi.StudentMastery view. ApiClient's StudentMastery is the
-  // richer domain entity (chapter/subject rollups, a MasterySummary) --
-  // converted here rather than duplicating storage, so both call paths stay
-  // backed by the same underlying evidence.
-
-  StudentMastery _toDomainMastery(Map<String, dynamic> simple) {
-    final rawConcepts = (simple['concepts'] as List? ?? [])
-        .map((e) => Map<String, dynamic>.from(e as Map))
-        .toList();
-    final now = DateTime.now();
-    final concepts = rawConcepts
-        .map((c) => ConceptMastery(
-              conceptId: c['conceptId'] as String? ?? '',
-              conceptName: c['conceptName'] as String? ?? '',
-              chapterId: c['conceptId'] as String? ?? '',
-              subject: '',
-              masteryScore: (c['mastery'] as num? ?? 0).toDouble(),
-              confidenceScore: 0.7,
-              retentionScore: (c['retention'] as num? ?? 0.9).toDouble(),
-              totalAttempts: (c['evidenceCount'] as num? ?? 0).toInt(),
-              correctAttempts: ((c['mastery'] as num? ?? 0) * (c['evidenceCount'] as num? ?? 0)).round(),
-              consecutiveCorrect: 0,
-              consecutiveIncorrect: 0,
-              lastAttemptedAt: now,
-              status: MasteryStatus.values.firstWhere(
-                (s) => s.name == (c['status'] as String? ?? 'learning'),
-                orElse: () => MasteryStatus.learning,
-              ),
-              misconceptions: const [],
-              prerequisiteConceptIds: const [],
-              difficulty: 0.5,
-              timeSpentMinutes: 0,
-            ))
-        .toList();
-    final overall = (simple['overallMastery'] as num? ?? 0).toDouble();
-    final weakCount = concepts.where((c) => c.masteryScore < 0.5).length;
-    return StudentMastery(
-      studentId: simple['studentId'] as String? ?? '',
-      schoolId: '',
-      grade: '',
-      concepts: concepts,
-      chapters: const [],
-      subjects: const [],
-      summary: MasterySummary(
-        overallMastery: overall,
-        overallConfidence: 0.7,
-        overallRetention: 0.9,
-        totalConcepts: concepts.length,
-        masteredConcepts: concepts.where((c) => c.masteryScore >= 0.8).length,
-        weakConcepts: weakCount,
-        notAttemptedConcepts: 0,
-        totalQuestionsAttempted: concepts.fold(0, (s, c) => s + c.totalAttempts),
-        totalQuestionsCorrect: concepts.fold(0, (s, c) => s + c.correctAttempts),
-        accuracyRate: overall,
-        bloomDistribution: const {},
-        difficultyDistribution: const {},
-        topStrengths: concepts.where((c) => c.masteryScore >= 0.8).map((c) => c.conceptName).toList(),
-        topWeaknesses: concepts.where((c) => c.masteryScore < 0.5).map((c) => c.conceptName).toList(),
-        recommendations: const [],
-      ),
-      lastUpdated: now,
-      version: 1,
-    );
-  }
-
-  @override
-  Future<StudentMastery> getStudentMastery(String studentId) async {
-    final j = LocalStore.instance.getMastery(studentId) ??
-        {'studentId': studentId, 'overallMastery': 0.0, 'concepts': [], 'weakConcepts': []};
-    return _toDomainMastery(j);
-  }
-
-  @override
-  Future<StudentMastery> updateStudentMastery(StudentMastery mastery) async {
-    LocalStore.instance.saveMastery(mastery.studentId, {
-      'studentId': mastery.studentId,
-      'overallMastery': mastery.summary.overallMastery,
-      'concepts': mastery.concepts
-          .map((c) => {
-                'conceptId': c.conceptId,
-                'conceptName': c.conceptName,
-                'mastery': c.masteryScore,
-                'retention': c.retentionScore,
-                'evidenceCount': c.totalAttempts,
-                'status': c.status.name,
-                'isWeak': c.masteryScore < 0.5,
-              })
-          .toList(),
-      'weakConcepts': mastery.concepts.where((c) => c.masteryScore < 0.5).map((c) => c.conceptName).toList(),
-    });
-    return mastery;
-  }
-
-  @override
-  Future<List<ActionableRecommendation>> getRecommendations(String studentId) async =>
-      throw OfflineUnsupportedException('Mastery recommendations');
-
-  @override
-  Future<void> recordMasteryAttempt(MasteryAttempt attempt) async =>
-      throw OfflineUnsupportedException('Recording a mastery attempt');
-
-  @override
-  Future<List<ConceptMastery>> getWeakConcepts(String studentId, {int limit = 10}) async {
-    final m = await getStudentMastery(studentId);
-    final weak = m.concepts.where((c) => c.masteryScore < 0.5).toList()
-      ..sort((a, b) => a.masteryScore.compareTo(b.masteryScore));
-    return weak.take(limit).toList();
-  }
-
-  @override
-  Future<List<MisconceptionFlag>> getMisconceptions(String studentId) async =>
-      throw OfflineUnsupportedException('Misconception analysis');
-
-  // ---------------- Analytics / Reports / Practice / Notifications ----------------
-  // Not ported for this first on-device pass -- all genuinely need either
-  // richer aggregation than a first pass warrants, or (reports/notifications)
-  // touch things (email, WhatsApp deep links) that are inherently external.
-
-  @override
-  Future<AssessmentAnalytics> getAssessmentAnalytics(String assessmentId) async =>
-      throw OfflineUnsupportedException('Assessment analytics dashboard');
-
-  @override
-  Future<ClassAnalytics> getClassAnalytics(String classId) async =>
-      throw OfflineUnsupportedException('Class analytics dashboard');
-
-  @override
-  Future<StudentAnalytics> getStudentAnalytics(String studentId) async =>
-      throw OfflineUnsupportedException('Student analytics dashboard');
-
-  @override
-  Future<SchoolAnalytics> getSchoolAnalytics(String schoolId) async =>
-      throw OfflineUnsupportedException('School analytics dashboard');
-
-  @override
-  Future<StudentReport> generateStudentReport(ReportRequest request) async =>
-      throw OfflineUnsupportedException('PDF report generation');
-
-  @override
-  Future<String> exportReport(String reportId, ExportFormat format) async =>
-      throw OfflineUnsupportedException('Report export');
-
-  @override
-  Future<List<StudentReport>> generateBulkReports(BulkReportRequest request) async =>
-      throw OfflineUnsupportedException('Bulk report generation');
-
-  @override
-  Future<ParentReport> generateParentReport(ReportRequest request) async =>
-      throw OfflineUnsupportedException('Parent report generation');
-
-  @override
-  Future<PracticeSession> createPracticeSession(PracticeRequest request) async =>
-      throw OfflineUnsupportedException('Practice sessions');
-
-  @override
-  Future<PracticeSession> getPracticeSession(String id) async =>
-      throw OfflineUnsupportedException('Practice sessions');
+  // ---------------- Practice ----------------
+  // Not ported for this first on-device pass -- practice sessions need
+  // richer aggregation than a first pass warrants. submitPractice is a real,
+  // matched route on the online path; offline just declares it unsupported
+  // rather than silently no-op'ing.
 
   @override
   Future<PracticeResult> submitPractice(PracticeSubmission submission) async =>
       throw OfflineUnsupportedException('Practice sessions');
-
-  @override
-  Future<List<PracticeSession>> getStudentPracticeSessions(String studentId) async =>
-      throw OfflineUnsupportedException('Practice history');
-
-  @override
-  Future<void> sendNotification(Notification notification) async =>
-      throw OfflineUnsupportedException('Sending notifications');
-
-  @override
-  Future<void> sendWhatsAppNotification(WhatsAppDeepLink link) async =>
-      throw OfflineUnsupportedException('WhatsApp notifications');
-
-  @override
-  Future<List<Notification>> getNotifications(String userId) async =>
-      throw OfflineUnsupportedException('Notifications');
-
-  @override
-  Future<void> markAsRead(String notificationId) async =>
-      throw OfflineUnsupportedException('Marking a notification read');
 }
 
 extension _FirstOrNull<T> on List<T> {

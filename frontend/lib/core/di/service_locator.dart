@@ -153,7 +153,6 @@ Future<void> initDependencies() async {
     () => QuestionRepositoryImpl(
       apiClient: sl<ApiClient>(),
       localDb: sl<AppDatabase>(),
-      cache: sl<Box>(),
     ),
   );
   sl.registerLazySingleton<PaperGenerationRepository>(
@@ -162,49 +161,21 @@ Future<void> initDependencies() async {
       localDb: sl<AppDatabase>(),
     ),
   );
-  sl.registerLazySingleton<AnswerSheetRepository>(
-    () => AnswerSheetRepositoryImpl(
-      apiClient: sl<ApiClient>(),
-      localDb: sl<AppDatabase>(),
-    ),
-  );
-  sl.registerLazySingleton<EvaluationRepository>(
-    () => EvaluationRepositoryImpl(
-      apiClient: sl<ApiClient>(),
-      localDb: sl<AppDatabase>(),
-    ),
-  );
-  sl.registerLazySingleton<MasteryRepository>(
-    () => MasteryRepositoryImpl(
-      apiClient: sl<ApiClient>(),
-      localDb: sl<AppDatabase>(),
-    ),
-  );
-  sl.registerLazySingleton<AnalyticsRepository>(
-    () => AnalyticsRepositoryImpl(
-      apiClient: sl<ApiClient>(),
-      localDb: sl<AppDatabase>(),
-    ),
-  );
-  sl.registerLazySingleton<ReportRepository>(
-    () => ReportRepositoryImpl(
-      apiClient: sl<ApiClient>(),
-      localDb: sl<AppDatabase>(),
-    ),
-  );
+  // 2026-09-17: AnswerSheetRepository, EvaluationRepository,
+  // MasteryRepository, AnalyticsRepository, ReportRepository, and
+  // NotificationRepository registrations removed -- their implementations
+  // were deleted (every method called a backend route that never existed,
+  // zero live callers through any path in either build; see
+  // repositories_impl.dart's note). These were constructed at startup
+  // (wasted lazy-singleton setup) but never resolved by anything, matching
+  // the AssessmentBloc comment just below about the equivalent dead blocs.
   sl.registerLazySingleton<PracticeRepository>(
     () => PracticeRepositoryImpl(
       apiClient: sl<ApiClient>(),
       localDb: sl<AppDatabase>(),
     ),
   );
-  sl.registerLazySingleton<NotificationRepository>(
-    () => NotificationRepositoryImpl(
-      apiClient: sl<ApiClient>(),
-      localDb: sl<AppDatabase>(),
-    ),
-  );
-  
+
   // Use Cases
   sl.registerLazySingleton(() => CreateAssessmentUseCase(sl<AssessmentRepository>(), sl<BlueprintRepository>()));
   sl.registerLazySingleton(() => SelectQuestionsUseCase(sl<QuestionRepository>()));

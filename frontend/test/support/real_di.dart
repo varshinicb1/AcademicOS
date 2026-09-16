@@ -99,7 +99,7 @@ class RealTestEnv {
 
     final assessmentRepository = AssessmentRepositoryImpl(apiClient: apiClient);
     final blueprintRepository = BlueprintRepositoryImpl(apiClient: apiClient, localDb: localDb);
-    final questionRepository = QuestionRepositoryImpl(apiClient: apiClient, localDb: localDb, cache: cacheBox);
+    final questionRepository = QuestionRepositoryImpl(apiClient: apiClient, localDb: localDb);
     final paperRepository = PaperGenerationRepositoryImpl(apiClient: apiClient, localDb: localDb);
 
     return AssessmentBloc(
