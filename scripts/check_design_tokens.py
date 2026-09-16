@@ -34,10 +34,20 @@ TOKENS_JSON = REPO / "design" / "tokens.json"
 TOKENS_CSS = REPO / "design" / "tokens.css"
 
 # Where application source lives. Extend when the React client lands.
+#
+# One extension per pattern, deliberately. A `{ts,tsx,css}` brace group looks
+# tidier and matches NOTHING -- pathlib has no brace expansion, so it silently
+# matched zero files and this checker reported OK while never reading a single
+# line of the React client. tests/test_design_tokens.py now asserts every glob
+# matches real files, so the same hole cannot reopen quietly.
 SCAN_GLOBS = [
     "frontend/lib/**/*.dart",
-    "web/src/**/*.{ts,tsx,css}",
-    "web/**/*.html",
+    "web/src/**/*.ts",
+    "web/src/**/*.tsx",
+    "web/src/**/*.css",
+    # Static HTML only -- NOT `web/**/*.html`, which also matches Turbopack's
+    # build output under web/.next/.
+    "web/public/**/*.html",
 ]
 
 # Never scanned: generated output, vendored code, docs, research, and the token
@@ -45,8 +55,53 @@ SCAN_GLOBS = [
 # mapping from token name to value).
 SKIP_PARTS = (
     "node_modules", ".dart_tool", "build", "dist", ".git",
+    ".next", "out", "coverage", ".turbo",
     "docs/research", "vendor", "design/tokens.css", "design/tokens.json",
+    # Generated from design/tokens.json, exactly like design/tokens.css. It
+    # legitimately contains raw hex, non-4px type sizes and breakpoint widths;
+    # staleness against the JSON is enforced separately.
+    "web/src/styles/tokens.css",
 )
+
+
+def _blank_comments(text: str, *, line_comments: bool) -> str:
+    """Replace comment contents with spaces, preserving line numbering exactly.
+
+    The check used to skip any line *starting* with a comment marker. That only
+    handles whole-line comments: the continuation of a `/* ... */` block whose
+    next line began with a backtick was scanned as code, and the checker flagged
+    its own explanatory comment. Blanking is precise and keeps line numbers
+    valid, so a finding still points at the real line.
+
+    `line_comments` is False for CSS, where `//` is not a comment and occurs
+    inside URLs.
+    """
+    out: list[str] = []
+    i, n = 0, len(text)
+    in_block = False
+    while i < n:
+        c = text[i]
+        nxt = text[i + 1] if i + 1 < n else ""
+        if in_block:
+            if c == "*" and nxt == "/":
+                in_block = False
+                out.append("  ")
+                i += 2
+            else:
+                out.append("\n" if c == "\n" else " ")
+                i += 1
+        elif c == "/" and nxt == "*":
+            in_block = True
+            out.append("  ")
+            i += 2
+        elif line_comments and c == "/" and nxt == "/":
+            while i < n and text[i] != "\n":
+                out.append(" ")
+                i += 1
+        else:
+            out.append(c)
+            i += 1
+    return "".join(out)
 
 # Emoji and pictographic ranges. Calibrated to catch what "no emoji" means in a
 # UI and NOT to flag ordinary typography: mathematical arrows (U+2190-21FF) and
@@ -75,8 +130,25 @@ ALLOWED_PX = {0, 1, 2, 4, 6, 8, 10, 12, 16, 20, 24, 28, 32, 40, 44, 48, 56, 64, 
 
 
 def _skip(path: Path) -> bool:
+    """True when `path` is generated, vendored, or otherwise out of scope.
+
+    Matching is per path *component*, not by substring. Substring matching was a
+    silent hole: the entry `"out"` made `web/src/app/layout.tsx` invisible
+    (lay-out), and `"build"` hid every Dart file with "build" in its name --
+    including whole feature folders. A skip rule that quietly excludes real
+    source is worse than no rule, because the check still reports OK.
+
+    An entry containing "/" is matched as an exact file or a subtree.
+    """
     rel = path.relative_to(REPO).as_posix()
-    return any(part in rel for part in SKIP_PARTS)
+    parts = set(rel.split("/"))
+    for entry in SKIP_PARTS:
+        if "/" in entry:
+            if rel == entry or rel.startswith(f"{entry}/"):
+                return True
+        elif entry in parts:
+            return True
+    return False
 
 
 def _source_files() -> list[Path]:
@@ -89,21 +161,37 @@ def _source_files() -> list[Path]:
 
 
 def check_tokens_css_current() -> list[str]:
-    if not TOKENS_CSS.exists():
-        return [f"{TOKENS_CSS.relative_to(REPO)} is missing -- run scripts/build_tokens_css.py"]
-    before = TOKENS_CSS.read_text(encoding="utf-8")
+    """Every generated token CSS must match design/tokens.json.
+
+    Two files are generated from one source: design/tokens.css, and a copy under
+    web/src/styles/ (Turbopack will not import CSS from outside its project
+    root). Both are checked, so neither can be hand-edited or left un-rebuilt.
+    """
+    targets = [TOKENS_CSS]
+    if (REPO / "web").is_dir():
+        targets.append(REPO / "web" / "src" / "styles" / "tokens.css")
+
+    missing = [t for t in targets if not t.exists()]
+    if missing:
+        names = ", ".join(str(t.relative_to(REPO)) for t in missing)
+        return [f"{names} missing -- run scripts/build_tokens_css.py"]
+
+    before = {t: t.read_text(encoding="utf-8") for t in targets}
     subprocess.run(
         [sys.executable, str(REPO / "scripts" / "build_tokens_css.py")],
         cwd=REPO, capture_output=True, check=False,
     )
-    after = TOKENS_CSS.read_text(encoding="utf-8")
-    if before != after:
-        TOKENS_CSS.write_text(before, encoding="utf-8")  # leave the tree as found
-        return [
-            "design/tokens.css is stale relative to design/tokens.json -- "
-            "run scripts/build_tokens_css.py and commit the result"
-        ]
-    return []
+
+    findings: list[str] = []
+    for target in targets:
+        after = target.read_text(encoding="utf-8")
+        if before[target] != after:
+            target.write_text(before[target], encoding="utf-8")  # leave as found
+            findings.append(
+                f"{target.relative_to(REPO)} is stale relative to design/tokens.json "
+                f"-- run scripts/build_tokens_css.py and commit the result"
+            )
+    return findings
 
 
 def check_source(files: list[Path]) -> list[str]:
@@ -126,12 +214,15 @@ def check_source(files: list[Path]) -> list[str]:
     findings: list[str] = []
     for f in files:
         rel = f.relative_to(REPO).as_posix()
-        text = f.read_text(encoding="utf-8", errors="ignore")
-        for lineno, line in enumerate(text.splitlines(), start=1):
-            stripped = line.strip()
-            if stripped.startswith(("//", "#", "///", "*", "/*")):
-                continue  # a comment may describe or reference a value
-
+        try:
+            text = f.read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            # The file vanished between globbing and reading -- a build tool
+            # rewriting its own output, typically. Not a design finding.
+            continue
+        line_comments = rel.endswith((".ts", ".tsx", ".dart"))
+        code = _blank_comments(text, line_comments=line_comments)
+        for lineno, line in enumerate(code.splitlines(), start=1):
             for m in EMOJI.finditer(line):
                 findings.append(
                     f"{rel}:{lineno}: emoji {m.group()!r} -- emoji are banned. "

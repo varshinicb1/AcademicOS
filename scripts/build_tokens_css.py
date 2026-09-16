@@ -20,6 +20,13 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 TOKENS = REPO / "design" / "tokens.json"
 OUT = REPO / "design" / "tokens.css"
+# A second copy inside the web app. Not duplication for its own sake: Turbopack
+# refuses to import CSS from outside the project root ("FileSystemPath("").
+# join("../design/tokens.css") leaves the filesystem root"), so the web client
+# cannot reference design/tokens.css directly. Both files are generated from the
+# same JSON in the same run and both are checked for staleness, so there is still
+# exactly one source of truth.
+WEB_OUT = REPO / "web" / "src" / "styles" / "tokens.css"
 
 HEADER = """/* ===========================================================================
  * AcademicOS design tokens -- GENERATED FILE, DO NOT EDIT.
@@ -155,9 +162,16 @@ def main() -> int:
     lines.append("}")
     lines.append("")
 
-    OUT.write_text(HEADER + "\n".join(lines), encoding="utf-8")
+    css = HEADER + "\n".join(lines)
     count = sum(1 for line in lines if line.strip().startswith("--"))
-    print(f"wrote {OUT.relative_to(REPO)} -- {count} custom properties")
+
+    targets = [OUT]
+    if (REPO / "web").is_dir():
+        targets.append(WEB_OUT)
+    for target in targets:
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(css, encoding="utf-8")
+        print(f"wrote {target.relative_to(REPO)} -- {count} custom properties")
     return 0
 
 

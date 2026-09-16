@@ -1,0 +1,147 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+/*
+ * Map the design system tokens into Tailwind's theme.
+ *
+ * `inline` is load-bearing. Tailwind's `@theme` normally emits a CSS variable
+ * for every entry, so `--color-brand-600: var(--color-brand-600)` would be a
+ * self-referential cycle. With `inline`, Tailwind emits no variable of its own
+ * and substitutes the expression straight into the utility -- so `bg-brand-600`
+ * compiles to `background-color: var(--color-brand-600)`, which resolves to the
+ * value generated from design/tokens.json.
+ *
+ * That is the whole point: every value reaches the UI from one file, and there
+ * is no second copy to drift. If a token is missing here, use `var(--token)`
+ * directly rather than hardcoding -- scripts/check_design_tokens.py rejects raw
+ * hex and off-scale sizes anywhere under web/.
+ */
+@theme inline {
+  /* -- surfaces ------------------------------------------------------------ */
+  --color-canvas: var(--color-surface-canvas);
+  --color-card: var(--color-surface-card);
+  --color-inset: var(--color-surface-inset);
+
+  /* -- lines --------------------------------------------------------------- */
+  --color-line: var(--color-neutral-200);
+  --color-line-strong: var(--color-neutral-300);
+
+  /* -- text ---------------------------------------------------------------- */
+  --color-ink: var(--color-neutral-900);
+  --color-body: var(--color-neutral-600);
+  --color-muted: var(--color-neutral-400);
+
+  /* -- brand --------------------------------------------------------------- */
+  --color-brand: var(--color-brand-600);
+  --color-brand-hover: var(--color-brand-700);
+  --color-brand-subtle: var(--color-brand-50);
+
+  /* -- status: each is a fg/bg/line triple (see design-system.md §3) ------- */
+  --color-success: var(--color-success-fg);
+  --color-success-bg: var(--color-success-bg);
+  --color-success-line: var(--color-success-border);
+
+  --color-warning: var(--color-warning-fg);
+  --color-warning-bg: var(--color-warning-bg);
+  --color-warning-line: var(--color-warning-border);
+
+  --color-danger: var(--color-danger-fg);
+  --color-danger-bg: var(--color-danger-bg);
+  --color-danger-line: var(--color-danger-border);
+
+  --color-info: var(--color-info-fg);
+  --color-info-bg: var(--color-info-bg);
+  --color-info-line: var(--color-info-border);
+
+  --color-neutral-status: var(--color-neutral-fg);
+  --color-neutral-bg: var(--color-neutral-bg);
+  --color-neutral-line: var(--color-neutral-border);
+
+  /* -- buttons: solid fills, so no state has to be derived ------------------ */
+  --color-btn-primary: var(--btn-primaryBg);
+  --color-btn-primary-hover: var(--btn-primaryBgHover);
+  --color-btn-primary-active: var(--btn-primaryBgActive);
+  --color-btn-danger: var(--btn-dangerBg);
+  --color-btn-danger-hover: var(--btn-dangerBgHover);
+  --color-btn-danger-active: var(--btn-dangerBgActive);
+  --color-btn-disabled: var(--btn-disabledBg);
+  --color-btn-disabled-fg: var(--btn-disabledFg);
+  --color-btn-disabled-line: var(--btn-disabledBorder);
+
+  /* -- charts -------------------------------------------------------------- */
+  --color-series-1: var(--color-series-1);
+  --color-series-2: var(--color-series-2);
+  --color-series-3: var(--color-series-3);
+  --color-series-4: var(--color-series-4);
+  --color-series-5: var(--color-series-5);
+
+  /* -- type: Tailwind's --text-* namespace is size + line-height paired ----- */
+  --font-sans: var(--font-ui);
+  --font-mono: var(--font-mono);
+
+  --text-2xs: var(--text-2xs);
+  --text-2xs--line-height: var(--leading-2xs);
+  --text-xs: var(--text-xs);
+  --text-xs--line-height: var(--leading-xs);
+  --text-sm: var(--text-sm);
+  --text-sm--line-height: var(--leading-sm);
+  --text-base: var(--text-base);
+  --text-base--line-height: var(--leading-base);
+  --text-lg: var(--text-lg);
+  --text-lg--line-height: var(--leading-lg);
+  --text-xl: var(--text-xl);
+  --text-xl--line-height: var(--leading-xl);
+  --text-2xl: var(--text-2xl);
+  --text-2xl--line-height: var(--leading-2xl);
+  --text-3xl: var(--text-3xl);
+  --text-3xl--line-height: var(--leading-3xl);
+
+  /* -- shape --------------------------------------------------------------- */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  /* -- elevation: two levels only ------------------------------------------ */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+}
+
+/*
+ * Numerals in a dashboard must be tabular. Without this the columns jitter as
+ * values change and comparison -- the entire point of the screen -- breaks.
+ * design-system.md §4 makes it mandatory on every metric.
+ */
+@utility tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@layer base {
+  html {
+    /* Matches --color-surface-canvas. Pure white as a full-page background is a
+       documented anti-pattern for dense dashboards; see design-system.md §1. */
+    background-color: var(--color-surface-canvas);
+    color: var(--color-neutral-600);
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
+    line-height: var(--leading-base);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Focus is never removed without a replacement. The checker rejects
+     `outline: none` anywhere under web/ for exactly this reason. */
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

@@ -146,16 +146,37 @@ a network.
 
 ## 6. Migration plan
 
-> **Status 2026-09-17 — step 1 is done.** `contract/openapi.json` and the
+> **Status 2026-09-17 — steps 1 and 2 are done.** `contract/openapi.json` and the
 > generated `contract/api-types.ts` are committed, with
 > `tests/test_openapi_contract.py` failing CI if the schema changes without
-> re-exporting. Steps 2-5 are not started. See [`../contract/README.md`](../contract/README.md).
+> re-exporting. See [`../contract/README.md`](../contract/README.md).
+>
+> Step 2 landed the app shell and the primitive set under `web/` — Next 16,
+> React 19, Tailwind 4, and no UI framework dependency. Every value resolves
+> from `design/tokens.json` via a generated copy at `web/src/styles/tokens.css`
+> (Turbopack refuses to import CSS from outside its project root), mapped into
+> Tailwind with `@theme inline`. **Verified, not assumed:** `npm run build`
+> emits `var()` references rather than literals, checked in the built bundle;
+> `/gallery` renders every primitive in every state and is captured by headless
+> Chrome. Steps 3-5 are not started.
+>
+> Two latent holes in `scripts/check_design_tokens.py` were found and fixed
+> while doing this, both of which had been reporting OK:
+> the glob `web/src/**/*.{ts,tsx,css}` matched **zero** files — pathlib has no
+> brace expansion, so no line of the React client was ever read — and the skip
+> list matched by substring, so adding `"out"` silently hid `layout.tsx` and
+> `app_router.dart`. Each now has a ratchet test in
+> `tests/test_design_tokens.py` (`test_every_scan_glob_matches_files`,
+> `test_checker_fails_on_a_react_violation`).
 
 1. **Freeze the contract first.** Generate the TypeScript client from the
    OpenAPI schema and commit it. Every subsequent step builds on types that
    cannot drift. — **done**
 2. **Build the shell + design system** — side nav, page header, KPI tile, table,
-   status pill, empty/loading/error states. No feature work.
+   status pill, empty/loading/error states. No feature work. — **done**
+   (`web/src/components/shell/`, `web/src/components/ui/`, `/gallery`; error
+   states are the one item still outstanding, since they need the typed client
+   from step 3 to be meaningful rather than decorative)
 3. **Port by role, not by file**, in this order: Principal admin console
    (highest dashboard value, exercises the whole component set) → Teacher
    schedule → Student portal → Assessment review. Each port ships behind the
