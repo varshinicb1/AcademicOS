@@ -114,6 +114,8 @@ flutter test
 ## Documentation
 
 - [docs/PRODUCTS_AND_RELEASES.md](docs/PRODUCTS_AND_RELEASES.md) — **Start here.** Which product/release you are looking at
+- [docs/REQUIREMENTS_BY_LAYER.md](docs/REQUIREMENTS_BY_LAYER.md) — Every requirement split into what the **backend** must deliver vs what the **frontend** must deliver, with verification depth
+- [docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md](docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md) — Requirements traced to the client transcript, by section (a dated audit record; read its status-correction header first)
 - [AGENTS.md](AGENTS.md) — Autonomous agent operational protocol and codebase invariants
 - [CLAUDE.md](CLAUDE.md) — Developer guidelines, commands, and architecture overview
 - [docs/deployment.md](docs/deployment.md) — The **Render release**: CI/CD, Supabase durability, known gaps

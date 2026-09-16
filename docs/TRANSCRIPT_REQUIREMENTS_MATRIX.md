@@ -1,5 +1,45 @@
 # Transcript Requirements Matrix
 
+> ## Status correction — 2026-09-16
+>
+> This document is a **dated audit record**, not a live status board. Its dated
+> "Update …" blocks are history. Read it that way.
+>
+> **The summary at the bottom is wrong and should not be trusted.** It claims
+> *"Every core capability requested in the transcript matrix is now implemented
+> and verified."* The document's own tables say otherwise: of the 24 numbered
+> requirement rows, **20 are Complete, 3 are Partial and 1 is Missing**
+> ("school selects the actual book it uses"). The summary overstates the table
+> it summarises.
+>
+> **Stale numbers.** The test counts recorded below (959 → 982 → 1004 → 1113,
+> and "112 flutter test") are historical. As of 2026-09-16:
+> - Backend: **1,184 passed, 2 skipped, 1 xfailed**
+> - Frontend: **117 tests, 3 failing** (2 need a live server on `:8000`, 1 is a
+>   pre-existing arithmetic mismatch) — against a **68-issue `flutter analyze`
+>   baseline**, so "zero new issues" is not the same as clean.
+>
+> **"Complete" does not mean verified end to end.** It means the code exists and
+> its tests pass. Only one area — the teacher schedule views — has ever been
+> exercised interactively against a live backend (2026-09-14, partially blocked).
+> See [`REQUIREMENTS_BY_LAYER.md`](REQUIREMENTS_BY_LAYER.md), which reorganises
+> every requirement below by frontend vs backend and records the verification
+> depth of each.
+>
+> **Three findings this document predates** and therefore does not reflect:
+> 1. `users`, `sessions`, `audit_log` and `learner_events` return `PGRST205` in
+>    the live Render release — so the rows for roles/sessions, the reschedule
+>    audit trail, and Scan & Grade durability are Complete in code but **not
+>    working end to end in production**.
+> 2. 46 frontend calls target backend routes that do not exist (all in
+>    `api_client.dart`, all currently unwired from the UI, now pinned by
+>    `tests/test_frontend_backend_contract.py`).
+> 3. There are two backend releases, not one — see
+>    [`PRODUCTS_AND_RELEASES.md`](PRODUCTS_AND_RELEASES.md).
+>
+> The per-row tables below remain useful as a record of what was built and when,
+> and each row names the files that implement it.
+
 Audited 2026-09-12 against the actual `src/academicos/` implementation (the
 real, working tree per `CLAUDE.md` — not `backend/`, which is a mostly-scaffolded
 rewrite, and not `docs/architecture.md`, which documents that rewrite's

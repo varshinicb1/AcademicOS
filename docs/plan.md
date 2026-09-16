@@ -143,6 +143,6 @@ Each module: evidence-grounded params, `version`, metrics entry point.
 9. Storage & Concurrency Hardening — Applied `PRAGMA journal_mode=WAL` and `PRAGMA busy_timeout=60000` across all 17 SQLite stores, audited Render deployment & persistence pathways, verified Flutter local-engine offline sync — done
 
 ## Standing gates
-- `python -m pytest tests -q` green after every change (1113+ tests)
+- `python -m pytest tests -q` green after every change (1,184 passing as of 2026-09-16)
 - 12-corpus prereq eval AUC unchanged for graph changes
 - every algorithm change bumps `version`; parameters documented with evidence

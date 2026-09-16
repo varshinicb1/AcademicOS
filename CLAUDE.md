@@ -15,7 +15,8 @@ offline **Android** app. The backend runs as two independent releases (**Render*
 
 - `src/academicos/` — the actual, working implementation (~11.5k LOC). Installed as the
   `academicos` package (`pyproject.toml` at repo root, `pip install -e .`). Has a CLI
-  (`python -m academicos.cli`), passing tests (1133+ tests), and is what `README.md` documents. **Treat this
+  (`python -m academicos.cli`), passing tests (1,184 passing / 2 skipped / 1 xfailed
+  as of 2026-09-16), and is what `README.md` documents. **Treat this
   as the source of truth unless told otherwise.**
 - `backend/academicos/` + `backend/ingestion/` — a newer, mostly-scaffolded rewrite (~4k LOC)
   following the target architecture in `docs/architecture.md` (separate `backend/pyproject.toml`,

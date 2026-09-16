@@ -2,12 +2,12 @@
 
 **Version:** 1.0  
 **Target:** Windows Desktop + Android (Flutter)  
-**Backend:** Python (FastAPI) + SQLite (WAL Mode + busy_timeout) + Supabase durability backstop (per-row REST fallback for the flat operational stores, whole-file snapshot/restore for the relational CurriculumStore — see `docs/deployment.md`) + Local Chunk Index  
+**Backend:** Python (FastAPI) + SQLite (WAL Mode + busy_timeout) + remote durability selected per-store (Cloud SQL ▸ Supabase ▸ local SQLite — see `docs/PRODUCTS_AND_RELEASES.md`; per-row REST/JSONB for the flat operational stores, whole-file snapshot/restore for the relational CurriculumStore) + Local Chunk Index  
 **Frontend:** Flutter (Windows, Android, Web) + Local-First Offline Engine (Hive AES-256)  
 **Document Processing:** Sarvam Vision + Local OCR Ensemble + Native PDF  
 
 > **Implementation Note for Contributors & Agents:**  
-> This document details the architectural target and system design. The **active, working, tested implementation** lives in `src/academicos/` (~11.5k LOC, 1113+ passing tests). The `backend/` directory is a parallel scaffolded rewrite (~4k LOC). All production features, CLI commands, and Flutter API integrations run against `src/academicos/`. See `AGENTS.md` and `CLAUDE.md` for codebase invariants.
+> This document details the architectural target and system design. The **active, working, tested implementation** lives in `src/academicos/` (~24.5k LOC, 1,184 passing tests as of 2026-09-16). The `backend/` directory is a parallel scaffolded rewrite (~4k LOC). All production features, CLI commands, and Flutter API integrations run against `src/academicos/`. See `AGENTS.md` and `CLAUDE.md` for codebase invariants, and `docs/REQUIREMENTS_BY_LAYER.md` for what each layer has actually delivered.
 
 ---
 

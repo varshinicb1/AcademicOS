@@ -121,11 +121,13 @@ which is what makes the same-origin Cloud Run serving work. See
 | Document | Scope |
 |---|---|
 | **This file** | Which product/release you are looking at |
+| `docs/REQUIREMENTS_BY_LAYER.md` | Every requirement, split by frontend vs backend, with verification depth |
+| `docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md` | The same requirements traced to the client transcript, by section (dated audit record) |
 | `docs/deployment.md` | The **Render release**, live — pipeline, Supabase, known gaps |
 | `docs/gcp-deployment.md` | The **GCP release** — architecture, cutover, costs |
 | `docs/gcp-bootstrap.md` | The **GCP release** — one-time owner runbook |
 | `docs/system-review.html` | Both sub-products and both releases, reviewed for a CTO |
-| `AGENTS.md` | Codebase invariants; §7 covers packaging and deployment targets |
+| `AGENTS.md` | Codebase invariants; §3 covers storage/durability, §4 the two client sub-products |
 
 If you are reading any other document and it says "the deployment" without
 qualification, treat it as referring to the **Render release**, which was the

@@ -99,6 +99,11 @@ coexist from one codebase. Then:
   unguarded concurrent-access call sites).
 - `docs/gcp-deployment.md` — the GCP release: Cloud Run/Cloud SQL/GCS,
   cutover, costs, and the blob-storage item that keeps it off pure GCP.
+- **`docs/REQUIREMENTS_BY_LAYER.md`** — every requirement split into what the
+  backend must deliver vs what the frontend must deliver, with a
+  verification-depth table. Read it before assuming a feature works: "the code
+  exists and its tests pass" is a different claim from "a user has walked
+  through it", and today only one area has been.
 
 ---
 
