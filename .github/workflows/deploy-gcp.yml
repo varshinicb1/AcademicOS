@@ -73,12 +73,13 @@ jobs:
           python-version: '3.12'
           cache: 'pip'
 
-      # All extras, matching the environment the suite was verified in --
-      # api alone would leave ocr/retrieval/mobile-scan tests erroring or
-      # silently skipping, which would make this gate report a smaller pass
-      # count than what was actually verified.
+      # All extras, matching the environment the suite was verified in, plus
+      # `postgres` -- which the Dockerfile installs but this list originally
+      # omitted. Without it the Cloud SQL adapter tests below do not skip (the
+      # service and ACOS_TEST_PG_* are set), they error on a missing psycopg
+      # import, which is a worse failure than either skipping or passing.
       - name: Install academicos with all extras
-        run: pip install -e ".[dev,api,ocr,retrieval,parse-vlm,mobile-scan,gcs]"
+        run: pip install -e ".[dev,api,ocr,retrieval,parse-vlm,mobile-scan,gcs,postgres]"
 
       - name: Run the real test suite
         run: pytest tests/ -q

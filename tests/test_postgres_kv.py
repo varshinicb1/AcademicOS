@@ -58,35 +58,41 @@ pytestmark = pytest.mark.skipif(
 def _configure_and_migrate():
     cfg = _test_cfg()
     assert cfg is not None
-    saved = {k: os.environ.get(k) for k in cfg}
-    os.environ.update(cfg)
-    postgres_kv.reset_pools()
 
-    import psycopg
-    conn_kwargs = {
-        "host": cfg["ACOS_POSTGRES_HOST"],
-        "port": cfg["ACOS_POSTGRES_PORT"],
-        "dbname": cfg["ACOS_POSTGRES_DB"],
-        "user": cfg["ACOS_POSTGRES_USER"],
-        "password": cfg["ACOS_POSTGRES_PASSWORD"],
-    }
-    schema = _SQL.read_text(encoding="utf-8")
-    with psycopg.connect(**conn_kwargs, autocommit=True) as conn:
-        with conn.cursor() as cur:
-            cur.execute(schema)
-            # Deterministic starting state for the tables these tests touch.
-            for table in ("assessments", "graded_evaluations", "learner_events",
-                          "school_templates", "audit_log", "papers"):
-                cur.execute(f'TRUNCATE TABLE "{table}"')
+    # MonkeyPatch, not a raw os.environ assignment: the environment is
+    # process-wide, so it must be undone even when setup itself raises. The
+    # previous version assigned os.environ BEFORE its try/finally, and CI
+    # promptly demonstrated why that is wrong -- the psycopg driver was missing
+    # there, the import blew up in setup, the finally never ran, and
+    # ACOS_POSTGRES_* stayed set for the rest of the session. Every later test
+    # then resolved its store to Postgres instead of Supabase/SQLite and failed
+    # in a completely unrelated place (503 expected, 404 returned).
+    mp = pytest.MonkeyPatch()
     try:
+        for key, value in cfg.items():
+            mp.setenv(key, value)
+        postgres_kv.reset_pools()
+
+        import psycopg
+        conn_kwargs = {
+            "host": cfg["ACOS_POSTGRES_HOST"],
+            "port": cfg["ACOS_POSTGRES_PORT"],
+            "dbname": cfg["ACOS_POSTGRES_DB"],
+            "user": cfg["ACOS_POSTGRES_USER"],
+            "password": cfg["ACOS_POSTGRES_PASSWORD"],
+        }
+        schema = _SQL.read_text(encoding="utf-8")
+        with psycopg.connect(**conn_kwargs, autocommit=True) as conn:
+            with conn.cursor() as cur:
+                cur.execute(schema)
+                # Deterministic starting state for the tables these tests touch.
+                for table in ("assessments", "graded_evaluations", "learner_events",
+                              "school_templates", "audit_log", "papers"):
+                    cur.execute(f'TRUNCATE TABLE "{table}"')
         yield
     finally:
         postgres_kv.reset_pools()
-        for k, previous in saved.items():
-            if previous is None:
-                os.environ.pop(k, None)
-            else:
-                os.environ[k] = previous
+        mp.undo()
 
 
 def test_configured_and_selected_by_durable_table() -> None:
