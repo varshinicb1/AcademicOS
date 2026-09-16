@@ -189,3 +189,40 @@ def test_storage_probe_result_is_cached_until_ttl(stub_postgrest, tmp_path, monk
         assert third.json()["supabase_reachable"] is True
         assert sum(server.counter.values()) - baseline == 2 * len(main_mod._DURABLE_TABLES), \
             "an expired reset cache must re-probe upstream"
+
+
+def test_deployment_placeholder_is_treated_as_unconfigured(monkeypatch) -> None:
+    """The GCP bootstrap creates every Secret Manager entry with the literal
+    value REPLACE_ME, so Cloud Run can start before real credentials are pasted.
+
+    That value is a non-empty string, so `bool(url and key)` reported Supabase
+    as *configured* -- which pointed SupabaseStorage at the host `REPLACE_ME`.
+    Scan-media uploads and curriculum snapshots would then fail with a DNS
+    error on a deployment that otherwise looked perfectly healthy. Both the
+    HTTP clients and Config must agree it means "absent".
+    """
+    from academicos.assessment.supabase_kv import SupabaseStorage, SupabaseTable
+    from academicos.config import SUPABASE_PLACEHOLDER, Config
+
+    monkeypatch.setenv("SUPABASE_KNOWLEDGE_URL", SUPABASE_PLACEHOLDER)
+    monkeypatch.setenv("SUPABASE_KNOWLEDGE_ANON_KEY", SUPABASE_PLACEHOLDER)
+
+    assert SupabaseTable("assessments").enabled is False
+    assert SupabaseStorage("scan-media").enabled is False
+    assert Config.load().supabase_enabled is False
+
+
+def test_real_credentials_still_enable_supabase(monkeypatch) -> None:
+    """Guard against over-correcting the placeholder rule into never enabling."""
+    from academicos.assessment.supabase_kv import SupabaseStorage, SupabaseTable
+    from academicos.config import Config
+
+    monkeypatch.setenv("SUPABASE_KNOWLEDGE_URL", "https://proj.supabase.co/")
+    monkeypatch.setenv("SUPABASE_KNOWLEDGE_ANON_KEY", "real-anon-key")
+
+    table = SupabaseTable("assessments")
+    assert table.enabled is True
+    # The trailing slash must still be stripped, as it was before the refactor.
+    assert table._url == "https://proj.supabase.co"
+    assert SupabaseStorage("scan-media").enabled is True
+    assert Config.load().supabase_enabled is True
