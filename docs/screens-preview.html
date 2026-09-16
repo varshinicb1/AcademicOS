@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AcademicOS — design system &amp; screen proof</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@500;600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#155E52; --primary-hover:#0F4A41; --primary-subtle:#E6F0EE;
+  --ink:#0E1B19; --text:#2B3735; --muted:#61706D; --faint:#94A29F;
+  --surface:#FFFFFF; --canvas:#F4F6F5; --border:#DCE2E0; --border-strong:#B8C2BF;
+  --success:#0F7B4F; --success-bg:#E7F4EE;
+  --warning:#B26A00; --warning-bg:#FBF1E0;
+  --danger:#B42318;  --danger-bg:#FBEAE8;
+  --info:#1D6FB8;    --info-bg:#E8F1FA;
+  --r:6px; --r-lg:10px;
+  --sh1:0 1px 2px rgba(14,27,25,.06);
+  --sh2:0 8px 24px rgba(14,27,25,.12);
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --nav:236px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--canvas); color:var(--text);
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:14px; line-height:20px; font-feature-settings:"kern" 1;
+}
+:focus-visible{outline:2px solid var(--primary); outline-offset:2px; border-radius:3px}
+a{color:var(--primary); text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ---------- top bar ---------- */
+.topbar{
+  height:52px; background:var(--surface); border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:16px; padding:0 20px; position:sticky; top:0; z-index:20;
+}
+.brand{display:flex; align-items:center; gap:9px; font-family:"Inter Tight"; font-weight:600; font-size:15px; color:var(--ink)}
+.mark{width:22px; height:22px; border-radius:5px; background:var(--primary); display:grid; place-items:center; color:#fff; font-size:12px; font-weight:600}
+.school{
+  font-size:12.5px; color:var(--muted); border-left:1px solid var(--border); padding-left:16px;
+}
+.topbar .spacer{flex:1}
+.chip{
+  display:inline-flex; align-items:center; gap:7px; font-size:12.5px; color:var(--text);
+  border:1px solid var(--border); border-radius:999px; padding:4px 11px 4px 5px; background:var(--surface);
+}
+.avatar{width:20px;height:20px;border-radius:999px;background:var(--primary-subtle);color:var(--primary);
+  display:grid;place-items:center;font-size:10px;font-weight:600}
+
+/* ---------- shell ---------- */
+.app{display:flex; align-items:flex-start; min-height:calc(100vh - 52px)}
+.sidenav{
+  width:var(--nav); flex:0 0 var(--nav); background:var(--surface);
+  border-right:1px solid var(--border); padding:12px 10px; position:sticky; top:52px;
+  height:calc(100vh - 52px); overflow-y:auto;
+}
+.navlabel{font-size:11px; line-height:14px; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--faint); font-weight:500; padding:14px 10px 6px}
+.navitem{
+  display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:var(--r);
+  color:var(--text); font-size:13.5px; cursor:default;
+}
+.navitem:hover{background:var(--canvas)}
+.navitem.active{background:var(--primary-subtle); color:var(--primary); font-weight:500}
+.navitem .ic{width:16px; height:16px; flex:0 0 16px; opacity:.85}
+.navitem .count{margin-left:auto; font-family:"IBM Plex Mono"; font-size:11px; color:var(--muted)}
+.main{flex:1; min-width:0; padding:22px 24px 64px; max-width:1440px}
+
+/* ---------- screen frame (gallery chrome) ---------- */
+.screen{background:transparent; margin-bottom:40px}
+.screen-tag{
+  display:inline-flex; align-items:center; gap:8px; font-family:"IBM Plex Mono"; font-size:11px;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin-bottom:12px;
+}
+.screen-tag::before{content:""; width:22px; height:1px; background:var(--border-strong)}
+.frame{border:1px solid var(--border); border-radius:var(--r-lg); overflow:hidden; background:var(--surface); box-shadow:var(--sh1)}
+
+/* ---------- page header ---------- */
+.phead{padding:18px 20px 16px; border-bottom:1px solid var(--border); display:flex; align-items:flex-start; gap:16px}
+.phead .spacer{flex:1}
+.crumb{font-size:12px; color:var(--muted); margin-bottom:5px}
+.crumb b{color:var(--primary); font-weight:500}
+h1{font-family:"Inter Tight"; font-weight:600; font-size:22px; line-height:28px; color:var(--ink); margin:0}
+.sub{font-size:13px; color:var(--muted); margin-top:4px}
+
+/* ---------- tabs ---------- */
+.tabs{display:flex; gap:2px; padding:0 20px; border-bottom:1px solid var(--border); background:var(--surface)}
+.tab{
+  padding:10px 12px; font-size:13.5px; color:var(--muted); border-bottom:2px solid transparent;
+  margin-bottom:-1px; cursor:default; white-space:nowrap;
+}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--primary); border-bottom-color:var(--primary); font-weight:500}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex; align-items:center; gap:7px; height:32px; padding:0 13px;
+  border-radius:var(--r); border:1px solid transparent; font-size:13.5px; font-weight:500;
+  font-family:inherit; cursor:pointer; white-space:nowrap; background:transparent; color:var(--text);
+}
+.btn.primary{background:var(--primary); color:#fff}
+.btn.primary:hover{background:var(--primary-hover)}
+.btn.secondary{background:var(--surface); border-color:var(--border-strong); color:var(--ink)}
+.btn.secondary:hover{background:var(--canvas)}
+.btn.ghost{color:var(--muted)}
+.btn.ghost:hover{background:var(--canvas); color:var(--text)}
+.btn.danger{background:var(--danger); color:#fff}
+.btn.sm{height:28px; padding:0 10px; font-size:12.5px}
+
+/* ---------- KPI ---------- */
+.kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; padding:18px 20px 4px}
+.kpi{border:1px solid var(--border); border-radius:var(--r); padding:13px 15px; background:var(--surface)}
+.kpi .k{font-size:11px; line-height:14px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); font-weight:500}
+.kpi .v{font-family:"Inter Tight"; font-weight:600; font-size:26px; line-height:32px; color:var(--ink);
+  margin-top:7px; font-variant-numeric:tabular-nums}
+.kpi .d{font-size:12px; margin-top:5px; display:flex; align-items:center; gap:5px}
+.up{color:var(--success)} .down{color:var(--danger)} .flat{color:var(--muted)}
+
+/* ---------- table ---------- */
+.tw{padding:18px 20px 20px}
+table{width:100%; border-collapse:collapse; font-size:13.5px}
+thead th{
+  text-align:left; font-size:11px; line-height:14px; letter-spacing:.04em; text-transform:uppercase;
+  color:var(--muted); font-weight:500; padding:0 12px 8px 0; border-bottom:1px solid var(--border-strong);
+  white-space:nowrap;
+}
+tbody td{padding:9px 12px 9px 0; border-bottom:1px solid var(--border)}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--canvas)}
+.num{text-align:right; font-variant-numeric:tabular-nums; font-family:"IBM Plex Mono"; font-size:12.5px}
+.code{font-family:"IBM Plex Mono"; font-size:12px; color:var(--muted)}
+.subject{font-weight:500; color:var(--ink)}
+
+/* ---------- bars + pills ---------- */
+.bar{height:6px; border-radius:999px; background:var(--border); overflow:hidden; min-width:90px}
+.bar > i{display:block; height:100%; background:var(--primary); border-radius:999px}
+.bar.warn > i{background:var(--warning)} .bar.bad > i{background:var(--danger)}
+.pct{display:flex; align-items:center; gap:10px}
+
+.pill{
+  display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:500;
+  padding:2px 9px; border-radius:999px; border:1px solid transparent; white-space:nowrap;
+}
+.pill.ok{color:var(--success); background:var(--success-bg); border-color:#C6E4D5}
+.pill.warn{color:var(--warning); background:var(--warning-bg); border-color:#EBD5A8}
+.pill.bad{color:var(--danger); background:var(--danger-bg); border-color:#E9C4C4}
+.pill.info{color:var(--info); background:var(--info-bg); border-color:#C6DDF2}
+.pill.mute{color:var(--muted); background:var(--canvas); border-color:var(--border)}
+.g{font-size:10px}
+
+/* ---------- week grid ---------- */
+.week{display:grid; grid-template-columns:64px repeat(5,1fr); gap:10px; padding:18px 20px 20px}
+.wcol{font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); font-weight:500; padding-bottom:2px}
+.wcol b{display:block; font-family:"Inter Tight"; font-size:16px; color:var(--ink); letter-spacing:0; text-transform:none; font-weight:600}
+.wcol.today b{color:var(--primary)}
+.lesson{
+  border:1px solid var(--border); border-left:3px solid var(--primary); border-radius:var(--r);
+  padding:9px 11px; margin-bottom:8px; background:var(--surface);
+}
+.lesson.done{border-left-color:var(--success); background:var(--success-bg)}
+.lesson.done .lt{color:var(--success)}
+.lesson .lt{font-size:13px; font-weight:500; color:var(--ink)}
+.lesson .lm{font-size:11.5px; color:var(--muted); margin-top:2px}
+.lesson .lb{font-size:11.5px; color:var(--muted); margin-top:6px; display:flex; gap:8px; align-items:center}
+.empty-col{border:1px dashed var(--border); border-radius:var(--r); height:44px; display:grid;
+  place-items:center; color:var(--faint); font-size:12px}
+
+/* ---------- student ---------- */
+.sgrid{display:grid; grid-template-columns:1.4fr 1fr; gap:20px; padding:18px 20px 20px}
+.card{border:1px solid var(--border); border-radius:var(--r); padding:15px 16px; background:var(--surface)}
+.card h3{font-family:Inter; font-weight:600; font-size:13.5px; color:var(--ink); margin:0 0 12px}
+.prow{margin-bottom:13px}
+.prow .l{display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px}
+.prow .l span:last-child{font-family:"IBM Plex Mono"; font-size:12.5px; color:var(--muted)}
+
+/* ---------- component gallery ---------- */
+.gal{padding:18px 20px 22px; display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px}
+.gal h4{font-size:11px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted);
+  font-weight:500; margin:0 0 10px}
+.rowc{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+.input{
+  height:32px; border:1px solid var(--border-strong); border-radius:var(--r); padding:0 11px;
+  font-family:inherit; font-size:13.5px; color:var(--ink); background:var(--surface); width:100%;
+}
+.input:focus{outline:none; border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-subtle)}
+.input.err{border-color:var(--danger)}
+
+.legend{font-size:12px; color:var(--muted); padding:0 20px 18px; line-height:1.6}
+.note{
+  border-left:2px solid var(--primary); background:var(--surface); border-radius:0 var(--r) var(--r) 0;
+  padding:12px 15px; margin:0 20px 18px; font-size:13px; line-height:1.6;
+}
+.note b{color:var(--ink)}
+.footer{padding:8px 20px 20px; font-size:12px; color:var(--faint); font-family:"IBM Plex Mono"}
+
+@media (max-width:1100px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .sgrid{grid-template-columns:1fr}
+  .week{grid-template-columns:56px repeat(3,1fr)}
+}
+@media (max-width:860px){
+  .sidenav{display:none}
+  .main{padding:16px 14px 48px}
+  .kpis{grid-template-columns:1fr 1fr; gap:10px}
+  .week{grid-template-columns:1fr}
+  .tabs{overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar" data-testid="topbar">
+  <div class="brand"><span class="mark">A</span> AcademicOS</div>
+  <div class="school">Deccan Springs Global School · CBSE 2026-27</div>
+  <div class="spacer"></div>
+  <span class="chip" data-testid="user-chip"><span class="avatar">PR</span> Priya Raman · Principal</span>
+</header>
+
+<div class="app">
+  <nav class="sidenav" data-testid="sidenav">
+    <div class="navlabel">Operations</div>
+    <div class="navitem active" data-testid="nav-admin">Overview</div>
+    <div class="navitem" data-testid="nav-calendar">Master calendar</div>
+    <div class="navitem" data-testid="nav-coverage">Coverage &amp; pace</div>
+    <div class="navitem" data-testid="nav-reschedule">Reschedule</div>
+    <div class="navlabel">Teaching</div>
+    <div class="navitem" data-testid="nav-myschedule">My schedule <span class="count">4</span></div>
+    <div class="navitem" data-testid="nav-questions">Question bank</div>
+    <div class="navitem" data-testid="nav-assessment">Assessments</div>
+    <div class="navlabel">People</div>
+    <div class="navitem" data-testid="nav-roster">Roster</div>
+    <div class="navitem" data-testid="nav-student">Student portal</div>
+  </nav>
+
+  <main class="main">
+
+    <!-- ============================ SCREEN 1 ============================ -->
+    <div class="screen">
+      <div class="screen-tag">Screen 1 of 3 · Principal admin console</div>
+      <div class="frame">
+        <div class="phead">
+          <div>
+            <div class="crumb">Operations · <b>Coverage &amp; pace</b></div>
+            <h1>Coverage &amp; pace</h1>
+            <div class="sub">Class 10 · Science · as of 16 Sep 2026</div>
+          </div>
+          <div class="spacer"></div>
+          <button class="btn secondary" data-testid="export-btn">Export</button>
+          <button class="btn primary" data-testid="generate-schedule-btn">Generate schedule</button>
+        </div>
+
+        <div class="tabs" data-testid="admin-tabs">
+          <div class="tab" data-testid="tab-roster">Roster</div>
+          <div class="tab" data-testid="tab-calendar">Master calendar</div>
+          <div class="tab active" data-testid="tab-coverage">Coverage &amp; pace</div>
+          <div class="tab" data-testid="tab-sequence">Sequence</div>
+          <div class="tab" data-testid="tab-reschedule">Reschedule</div>
+          <div class="tab" data-testid="tab-setup">Calendar &amp; setup</div>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi" data-testid="kpi-coverage">
+            <div class="k">Completion</div><div class="v">62%</div>
+            <div class="d up">▲ 4 pts vs last month</div>
+          </div>
+          <div class="kpi" data-testid="kpi-pace">
+            <div class="k">Pace against plan</div><div class="v">−3</div>
+            <div class="d down">▼ 3 periods behind</div>
+          </div>
+          <div class="kpi" data-testid="kpi-lessons">
+            <div class="k">Lessons taught</div><div class="v">88</div>
+            <div class="d flat">of 142 scheduled</div>
+          </div>
+          <div class="kpi" data-testid="kpi-overdue">
+            <div class="k">Overdue topics</div><div class="v">6</div>
+            <div class="d down">▲ 2 need action</div>
+          </div>
+        </div>
+
+        <div class="tw">
+          <table data-testid="coverage-table">
+            <thead>
+              <tr>
+                <th style="width:34%">Chapter</th>
+                <th class="num" style="width:12%">Planned</th>
+                <th class="num" style="width:12%">Taught</th>
+                <th style="width:26%">Coverage</th>
+                <th class="num" style="width:10%">Variance</th>
+                <th style="width:16%">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr data-testid="row-ch-1">
+                <td class="subject">Chemical Reactions and Equations</td>
+                <td class="num">14</td><td class="num">14</td>
+                <td><div class="pct"><div class="bar"><i style="width:100%"></i></div><span class="num">100%</span></div></td>
+                <td class="num" style="color:var(--success)">0</td>
+                <td><span class="pill ok"><span class="g">✓</span>Completed</span></td>
+              </tr>
+              <tr data-testid="row-ch-2">
+                <td class="subject">Acids, Bases and Salts</td>
+                <td class="num">12</td><td class="num">11</td>
+                <td><div class="pct"><div class="bar"><i style="width:92%"></i></div><span class="num">92%</span></div></td>
+                <td class="num" style="color:var(--success)">+1</td>
+                <td><span class="pill ok"><span class="g">✓</span>On pace</span></td>
+              </tr>
+              <tr data-testid="row-ch-3">
+                <td class="subject">Metals and Non-metals</td>
+                <td class="num">15</td><td class="num">11</td>
+                <td><div class="pct"><div class="bar warn"><i style="width:73%"></i></div><span class="num">73%</span></div></td>
+                <td class="num" style="color:var(--warning)">−3</td>
+                <td><span class="pill warn"><span class="g">!</span>At risk</span></td>
+              </tr>
+              <tr data-testid="row-ch-4">
+                <td class="subject">Carbon and its Compounds</td>
+                <td class="num">16</td><td class="num">9</td>
+                <td><div class="pct"><div class="bar bad"><i style="width:56%"></i></div><span class="num">56%</span></div></td>
+                <td class="num" style="color:var(--danger)">−6</td>
+                <td><span class="pill bad"><span class="g">▲</span>Overdue · 3d</span></td>
+              </tr>
+              <tr data-testid="row-ch-5">
+                <td class="subject">Life Processes</td>
+                <td class="num">18</td><td class="num">12</td>
+                <td><div class="pct"><div class="bar warn"><i style="width:67%"></i></div><span class="num">67%</span></div></td>
+                <td class="num" style="color:var(--warning)">−2</td>
+                <td><span class="pill info"><span class="g">○</span>Scheduled</span></td>
+              </tr>
+              <tr data-testid="row-ch-6">
+                <td class="subject">Control and Coordination</td>
+                <td class="num">11</td><td class="num">0</td>
+                <td><div class="pct"><div class="bar"><i style="width:0%"></i></div><span class="num">0%</span></div></td>
+                <td class="num" style="color:var(--muted)">—</td>
+                <td><span class="pill mute"><span class="g">–</span>Not started</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="footer" data-testid="coverage-meta">142 lessons · 6 overdue · last updated 16 Sep 2026, 09:14 IST</div>
+      </div>
+    </div>
+
+    <!-- ============================ SCREEN 2 ============================ -->
+    <div class="screen">
+      <div class="screen-tag">Screen 2 of 3 · Teacher schedule (week)</div>
+      <div class="frame">
+        <div class="phead">
+          <div>
+            <div class="crumb">Teaching · <b>My schedule</b></div>
+            <h1>My schedule</h1>
+            <div class="sub">Anil Kumar · Science · 6 periods a week</div>
+          </div>
+          <div class="spacer"></div>
+          <button class="btn secondary sm" data-testid="view-day">Day</button>
+          <button class="btn primary sm" data-testid="view-week">Week</button>
+          <button class="btn secondary sm" data-testid="view-month">Month</button>
+          <button class="btn secondary sm" data-testid="view-year">Year</button>
+        </div>
+
+        <div class="week" data-testid="calendar-week">
+          <div></div>
+          <div class="wcol">Mon<b>14</b></div>
+          <div class="wcol">Tue<b>15</b></div>
+          <div class="wcol today">Wed<b>16</b></div>
+          <div class="wcol">Thu<b>17</b></div>
+          <div class="wcol">Fri<b>18</b></div>
+
+          <div class="wcol" style="text-transform:none;letter-spacing:0">&nbsp;</div>
+
+          <div>
+            <div class="lesson done" data-testid="lesson-1">
+              <div class="lt">Chemical reactions</div>
+              <div class="lm">Period 2 · 40 min</div>
+              <div class="lb"><span class="pill ok"><span class="g">✓</span>Completed</span></div>
+            </div>
+            <div class="lesson" data-testid="lesson-2">
+              <div class="lt">Balancing equations</div>
+              <div class="lm">Period 6 · 40 min</div>
+              <div class="lb"><span class="pill info"><span class="g">○</span>Scheduled</span></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="lesson done" data-testid="lesson-3">
+              <div class="lt">Acids and bases</div>
+              <div class="lm">Period 2 · 40 min</div>
+              <div class="lb"><span class="pill ok"><span class="g">✓</span>Completed</span></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="lesson" data-testid="lesson-4">
+              <div class="lt">Carbon and its compounds</div>
+              <div class="lm">Period 2 · 40 min</div>
+              <div class="lb"><span class="pill bad"><span class="g">▲</span>Overdue · 3d</span></div>
+            </div>
+            <div class="lesson" data-testid="lesson-5">
+              <div class="lt">Life processes</div>
+              <div class="lm">Period 7 · 40 min</div>
+              <div class="lb"><span class="pill info"><span class="g">○</span>Scheduled</span></div>
+            </div>
+          </div>
+
+          <div>
+            <div class="lesson" data-testid="lesson-6">
+              <div class="lt">Metals and non-metals</div>
+              <div class="lm">Period 3 · 40 min</div>
+              <div class="lb"><span class="pill info"><span class="g">○</span>Scheduled</span></div>
+            </div>
+          </div>
+
+          <div><div class="empty-col">No lessons</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================ SCREEN 3 ============================ -->
+    <div class="screen">
+      <div class="screen-tag">Screen 3 of 3 · Student portal (read-only)</div>
+      <div class="frame">
+        <div class="phead">
+          <div>
+            <div class="crumb">Student · <b>My progress</b></div>
+            <h1>My progress</h1>
+            <div class="sub">Meera Iyer · Class 10 · Science</div>
+          </div>
+          <div class="spacer"></div>
+          <span class="pill info"><span class="g">○</span>Read-only view</span>
+        </div>
+
+        <div class="sgrid">
+          <div class="card" data-testid="card-syllabus-progress">
+            <h3>Syllabus completion</h3>
+            <div class="prow"><div class="l"><span>Chemical Reactions and Equations</span><span>100%</span></div>
+              <div class="bar"><i style="width:100%"></i></div></div>
+            <div class="prow"><div class="l"><span>Acids, Bases and Salts</span><span>92%</span></div>
+              <div class="bar"><i style="width:92%"></i></div></div>
+            <div class="prow"><div class="l"><span>Metals and Non-metals</span><span>73%</span></div>
+              <div class="bar warn"><i style="width:73%"></i></div></div>
+            <div class="prow" style="margin-bottom:0"><div class="l"><span>Carbon and its Compounds</span><span>56%</span></div>
+              <div class="bar warn"><i style="width:56%"></i></div></div>
+          </div>
+
+          <div class="card" data-testid="card-upcoming">
+            <h3>Coming up this week</h3>
+            <div class="lesson" style="margin-bottom:8px" data-testid="upcoming-1">
+              <div class="lt">Carbon and its compounds</div>
+              <div class="lm">Wed 16 Sep · Period 2</div>
+            </div>
+            <div class="lesson" style="margin-bottom:8px" data-testid="upcoming-2">
+              <div class="lt">Life processes</div>
+              <div class="lm">Wed 16 Sep · Period 7</div>
+            </div>
+            <div class="lesson" style="margin-bottom:0" data-testid="upcoming-3">
+              <div class="lt">Metals and non-metals</div>
+              <div class="lm">Thu 17 Sep · Period 3</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================ COMPONENT GALLERY ============================ -->
+    <div class="screen">
+      <div class="screen-tag">Component gallery · the reusable system</div>
+      <div class="frame">
+        <div class="gal">
+          <div>
+            <h4>Buttons</h4>
+            <div class="rowc">
+              <button class="btn primary" data-testid="btn-primary">Generate schedule</button>
+              <button class="btn secondary" data-testid="btn-secondary">Export</button>
+              <button class="btn ghost" data-testid="btn-ghost">Cancel</button>
+              <button class="btn danger" data-testid="btn-danger">Delete</button>
+            </div>
+          </div>
+          <div>
+            <h4>Status pills — label always present, never colour alone</h4>
+            <div class="rowc">
+              <span class="pill ok"><span class="g">✓</span>Completed</span>
+              <span class="pill warn"><span class="g">!</span>At risk</span>
+              <span class="pill bad"><span class="g">▲</span>Overdue · 3d</span>
+              <span class="pill info"><span class="g">○</span>Scheduled</span>
+              <span class="pill mute"><span class="g">–</span>Skipped</span>
+            </div>
+          </div>
+          <div>
+            <h4>Inputs</h4>
+            <input class="input" placeholder="Search chapters…" data-testid="search-input" style="margin-bottom:8px">
+            <input class="input err" value="not-a-date" data-testid="date-input-err">
+          </div>
+          <div>
+            <h4>Empty state — explains, then invites</h4>
+            <div class="empty-col" style="height:auto;padding:16px;display:block" data-testid="coverage-empty">
+              No lessons scheduled yet.<br><span style="color:var(--primary);font-size:12px">Generate the schedule from Calendar &amp; setup.</span>
+            </div>
+          </div>
+        </div>
+        <div class="legend">
+          <b style="color:var(--ink)">Every element above carries a <span class="code">data-testid</span>.</b>
+          That is not documentation — it is the mechanism that makes Playwright and screenshot diffing work
+          against the deployed app. A Flutter CanvasKit build renders all of this into one
+          <span class="code">&lt;canvas&gt;</span>, where none of it can be addressed.
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</body>
+</html>
