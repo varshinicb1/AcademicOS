@@ -1990,6 +1990,37 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/health/llm": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Health Llm
+         * @description Recent provider-call behaviour for this process.
+         *
+         *     Unauthenticated, like `/health`, and safe to be: it reports counts, timings,
+         *     model names and failure rates, never prompt or completion content. That is
+         *     the component level of agent observability -- enough to answer "is the
+         *     provider degrading" or "did the retry rate move after that deploy", which is
+         *     precisely what a discarded log line cannot tell you.
+         *
+         *     The window is the in-process ring buffer (llm/telemetry.py), so on a
+         *     multi-instance deployment this describes one instance. That is a stated
+         *     limitation, not an oversight: a "global" view needs a metrics backend, and
+         *     this exists so the question is answerable at all before one is added.
+         */
+        get: operations["health_llm_health_llm_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/health/storage": {
         parameters: {
             query?: never;
@@ -8280,6 +8311,28 @@ export interface operations {
         };
     };
     health_health_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
+    health_llm_health_llm_get: {
         parameters: {
             query?: never;
             header?: never;

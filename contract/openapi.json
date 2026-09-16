@@ -183,6 +183,8 @@
       "AnalyzeRequest": {
         "properties": {
           "paper_id": {
+            "maxLength": 128,
+            "minLength": 1,
             "title": "Paper Id",
             "type": "string"
           }
@@ -1732,6 +1734,7 @@
       "DoubtRequest": {
         "properties": {
           "doubt": {
+            "maxLength": 4000,
             "minLength": 2,
             "title": "Doubt",
             "type": "string"
@@ -2756,6 +2759,8 @@
             "type": "integer"
           },
           "node_id": {
+            "maxLength": 128,
+            "minLength": 1,
             "title": "Node Id",
             "type": "string"
           }
@@ -3006,10 +3011,14 @@
             "type": "integer"
           },
           "source": {
+            "maxLength": 128,
+            "minLength": 1,
             "title": "Source",
             "type": "string"
           },
           "target": {
+            "maxLength": 128,
+            "minLength": 1,
             "title": "Target",
             "type": "string"
           }
@@ -4064,6 +4073,7 @@
       "QuestionSolveRequest": {
         "properties": {
           "question": {
+            "maxLength": 4000,
             "minLength": 2,
             "title": "Question",
             "type": "string"
@@ -4531,6 +4541,7 @@
         "properties": {
           "learner": {
             "default": "default",
+            "maxLength": 128,
             "title": "Learner",
             "type": "string"
           },
@@ -4940,15 +4951,20 @@
         "properties": {
           "marks_available": {
             "default": 0.0,
+            "maximum": 1000.0,
+            "minimum": 0.0,
             "title": "Marks Available",
             "type": "number"
           },
           "question": {
+            "maxLength": 4000,
+            "minLength": 1,
             "title": "Question",
             "type": "string"
           },
           "student_answer": {
             "default": "",
+            "maxLength": 20000,
             "title": "Student Answer",
             "type": "string"
           }
@@ -4969,6 +4985,7 @@
             "type": "integer"
           },
           "query": {
+            "maxLength": 4000,
             "minLength": 2,
             "title": "Query",
             "type": "string"
@@ -5450,6 +5467,7 @@
           "capacity_minutes": {
             "anyOf": [
               {
+                "maximum": 240.0,
                 "minimum": 1.0,
                 "type": "integer"
               },
@@ -5462,6 +5480,7 @@
           "learner": {
             "anyOf": [
               {
+                "maxLength": 128,
                 "type": "string"
               },
               {
@@ -5496,6 +5515,7 @@
             "type": "string"
           },
           "target": {
+            "maxLength": 128,
             "minLength": 1,
             "title": "Target",
             "type": "string"
@@ -12014,6 +12034,27 @@
           }
         },
         "summary": "Health"
+      }
+    },
+    "/health/llm": {
+      "get": {
+        "description": "Recent provider-call behaviour for this process.\n\nUnauthenticated, like `/health`, and safe to be: it reports counts, timings,\nmodel names and failure rates, never prompt or completion content. That is\nthe component level of agent observability -- enough to answer \"is the\nprovider degrading\" or \"did the retry rate move after that deploy\", which is\nprecisely what a discarded log line cannot tell you.\n\nThe window is the in-process ring buffer (llm/telemetry.py), so on a\nmulti-instance deployment this describes one instance. That is a stated\nlimitation, not an oversight: a \"global\" view needs a metrics backend, and\nthis exists so the question is answerable at all before one is added.",
+        "operationId": "health_llm_health_llm_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Health Llm Health Llm Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health Llm"
       }
     },
     "/health/storage": {

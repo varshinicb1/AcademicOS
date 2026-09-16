@@ -50,10 +50,31 @@ def test_decide_retrieve_non_dict_defaults_to_retrieve(payload):
     assert SarvamCritic(llm).decide_retrieve(QUERY) is True
 
 
-def test_decide_retrieve_string_value_is_truthy():
-    # bool("false") is True -> a stringy non-empty value still means retrieve
+def test_decide_retrieve_string_false_is_read_as_false():
+    """Regression. This test previously asserted the OPPOSITE, and was wrong.
+
+    It read `# bool("false") is True -> a stringy non-empty value still means
+    retrieve`, and asserted `is True`. That documented a real defect as intended
+    behaviour: `bool` on a non-empty string is always True, so a model replying
+    with the JSON string "false" -- which language models do routinely -- had its
+    "do not retrieve" decision silently inverted, and retrieval ran anyway.
+
+    Coercion now happens in `llm/coerce.py`, which reads the literal. A test
+    that pins a bug is worse than no test, because it converts a defect into a
+    requirement.
+    """
     llm = FakeLLM(responses=[{"retrieve": "false"}])
-    assert SarvamCritic(llm).decide_retrieve(QUERY) is True
+    assert SarvamCritic(llm).decide_retrieve(QUERY) is False
+
+
+@pytest.mark.parametrize("value,expected", [
+    (False, False), ("false", False), ("FALSE", False), ("no", False),
+    ("0", False), ("off", False), ("none", False),
+    (True, True), ("true", True), ("yes", True), ("1", True),
+])
+def test_decide_retrieve_reads_string_booleans(value, expected):
+    llm = FakeLLM(responses=[{"retrieve": value}])
+    assert SarvamCritic(llm).decide_retrieve(QUERY) is expected
 
 
 def test_decide_retrieve_empty_dict_key_defaults_to_retrieve():
@@ -119,16 +140,53 @@ def test_score_utility_mapping(utility, expected):
     assert rs.utility == expected
 
 
-def test_score_garbage_utility_falls_back_to_neutral():
-    # int("not-an-int") raises inside score(); the exception path returns neutral
-    # scores with the error surfaced in detail.
+def test_score_garbage_utility_coerces_without_discarding_other_judgments():
+    """Regression. This test previously asserted all three scores went neutral.
+
+    The old comment was `int("not-an-int") raises inside score(); the exception
+    path returns neutral scores`. That was accurate, and it was the bug: one
+    malformed field threw away two perfectly good judgments, and the failure was
+    indistinguishable from "the model had no opinion".
+
+    Now only the bad field falls back to neutral, and the coercion problem is
+    recorded in `detail["problems"]` instead of being swallowed.
+    """
     llm = FakeLLM(responses=[{"relevant": True, "support": "full", "utility": "not-an-int"}])
     rs = SarvamCritic(llm).score(QUERY, ANSWER, EVIDENCE)
-    assert rs.relevance == 0.5
-    assert rs.support == 0.5
-    assert rs.utility == 0.0
+    assert rs.relevance == 1.0   # preserved
+    assert rs.support == 1.0     # preserved
+    assert rs.utility == 0.0     # neutral fallback, for this field only
     assert rs.retrieved is True
-    assert "error" in rs.detail
+    assert rs.detail["problems"], "the coercion failure must be reported, not swallowed"
+
+
+@pytest.mark.parametrize("value,expected", [
+    ("full", 1.0), ("partial", 0.5), ("none", 0.0),
+    # An invented label must NOT be bucketed into a nearby real one.
+    ("mostly supported", 0.0), ("", 0.0), (None, 0.0), (7, 0.0),
+])
+def test_score_support_rejects_labels_outside_the_allowlist(value, expected):
+    llm = FakeLLM(responses=[{"relevant": True, "support": value, "utility": 3}])
+    rs = SarvamCritic(llm).score(QUERY, ANSWER, EVIDENCE)
+    assert rs.support == expected
+
+
+@pytest.mark.parametrize("value,expected", [
+    (0, -1.0), (6, 1.0), (-99, -1.0), (99, 1.0), ("4", 0.5), (4.0, 0.5),
+])
+def test_score_utility_is_clamped_into_range(value, expected):
+    llm = FakeLLM(responses=[{"relevant": True, "support": "full", "utility": value}])
+    rs = SarvamCritic(llm).score(QUERY, ANSWER, EVIDENCE)
+    assert rs.utility == expected
+
+
+@pytest.mark.parametrize("value,expected", [
+    ("true", 1.0), ("no", 0.0), (None, 0.0), ("maybe", 0.0), (1, 1.0),
+])
+def test_score_relevance_reads_boolean_literals(value, expected):
+    llm = FakeLLM(responses=[{"relevant": value, "support": "full", "utility": 3}])
+    rs = SarvamCritic(llm).score(QUERY, ANSWER, EVIDENCE)
+    assert rs.relevance == expected
 
 
 def test_score_raising_chat_json_returns_neutral_and_does_not_propagate():

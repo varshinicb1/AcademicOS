@@ -93,6 +93,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/scan/sessions/{session_id}/corrected-pdf"),
     # --- api/main.py (v1 public surface) ---
     ("GET", "/health"),
+    ("GET", "/health/llm"),
     ("GET", "/v1/registry/stats"),
     ("POST", "/v1/search"),
     ("POST", "/v1/agent/doubt"),
@@ -277,6 +278,35 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/consent"),
     ("GET", "/api/v1/consent/students/{student_id}"),
     ("DELETE", "/api/v1/consent/students/{student_id}"),
+    # --- api/main.py (the /v1/* pillar surface) ---
+    # These were made auth-gated on 2026-09-16 (compute- and LLM-backed routes
+    # had been anonymously reachable). They were added to API_ROUTES then but
+    # NOT to this list, and that omission made
+    # test_gated_routes_return_503_without_startup fail whenever it actually
+    # ran: it asserts 503 for everything not listed here, and these answer 401
+    # because auth resolves first. It only ever passed by being *skipped* -- in
+    # a full-suite run an earlier test boots the app, the guard at the top of
+    # that test sees initialised globals and skips. Run in isolation it failed.
+    # A test that passes because it never executes is not coverage.
+    ("GET", "/v1/registry/stats"),
+    ("POST", "/v1/search"),
+    ("POST", "/v1/agent/doubt"),
+    ("POST", "/v1/agent/score"),
+    ("POST", "/v1/agent/analyze"),
+    ("POST", "/v1/graph/neighbors"),
+    ("POST", "/v1/graph/paths"),
+    ("POST", "/v1/revise"),
+    ("POST", "/v1/plan"),
+    ("POST", "/v1/question/solve"),
+    # Four more that were auth-gated but never declared here, found by driving
+    # every route without a token and recording which answer 401 (rather than
+    # guessing one at a time). All four return 401 with no token and 503 with
+    # a syntactically valid one, which is exactly this set's contract.
+    ("POST", "/api/v1/blueprints/generate"),
+    ("POST", "/api/v1/curriculum/questions/by-subtopics"),
+    ("POST", "/api/v1/ingest/school-documents"),
+    ("POST", "/api/v1/questions/optimize"),
+    ("POST", "/api/v1/questions/search"),
 })
 
 
@@ -465,7 +495,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 122
+    assert len(API_ROUTES) == 123
 
 
 def test_docs_routes_present():
@@ -532,6 +562,7 @@ def test_gated_routes_return_503_without_startup():
                 continue
             if (method, path) in {
                 ("GET", "/health"),
+                ("GET", "/health/llm"),
                 ("GET", "/health/storage"),
                 ("POST", "/api/v1/blueprints/generate"),
                 ("GET", "/api/v1/mail/status"),
