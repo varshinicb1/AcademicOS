@@ -152,6 +152,62 @@ class AnswerSchemeSchema(Camel):
     model_answer_latex: str = ""
     has_partial_credit: bool = False
     metadata: dict[str, Any] = Field(default_factory=dict)
+    # Which official scheme this came from, if any. Without this a consumer
+    # cannot tell an official CBSE value-point scheme from an empty
+    # placeholder, and two thirds of the bank is the latter.
+    provenance: str = "none"          # "none" | "cbse_marking_scheme" | "teacher"
+    source_paper_code: str = ""        # e.g. "31/1/1"
+    source_document_id: str = ""
+
+
+# ---- Rights, provenance, calibration (question-bank-api.md sections 3) ----
+
+class RightsSchema(Camel):
+    """The rights position for a question's *content*.
+
+    Separate from ingestion provenance: this is about who owns the CBSE paper
+    and whether this project may redistribute it. Defaults to the most
+    restrictive answer, so an unsettled decision fails closed. A compliance
+    ruling then becomes a filter over this field rather than a migration.
+    """
+
+    origin: str = "CBSE"
+    redistribution: Literal["unknown", "private-only", "public"] = "unknown"
+    basis: str = ""
+    attribution: str = ""
+
+
+class ProvenanceSchema(Camel):
+    """Where in the source document the question text actually sits.
+
+    `questionBankId` identifies the document; this identifies the place in it.
+    Without page and box, "here is the page in the 2023 paper this came from"
+    is a claim the data cannot support, and that claim is the stated moat.
+    """
+
+    source_document_id: Optional[str] = None
+    page_number: Optional[int] = None
+    bounding_box: Optional[list[float]] = None
+    method: str = "pdf_native"
+    confidence: Optional[float] = None
+
+
+class CalibrationSchema(Camel):
+    """Difficulty as measured, not as assigned.
+
+    The mapper derives difficulty from mark value and Bloom level, which is a
+    heuristic, not a measurement. Saying so in the payload is the difference
+    between an honest field and an implied statistic.
+    """
+
+    measured: bool = False
+    sample_size: int = 0
+    facility: Optional[float] = None          # proportion answering correctly
+    discrimination: Optional[float] = None    # point-biserial, if computed
+    basis: str = "assigned"                   # "assigned" | "responses" | "consensus"
+
+
+ReviewState = Literal["draft", "in_review", "published", "superseded"]
 
 
 class QuestionSchema(Camel):
@@ -181,6 +237,17 @@ class QuestionSchema(Camel):
     map_asset_id: Optional[str] = None
     graph_asset_id: Optional[str] = None
     table_asset_id: Optional[str] = None
+
+    # -- added for the standalone-asset requirements -------------------------
+    rights: RightsSchema = Field(default_factory=RightsSchema)
+    provenance: ProvenanceSchema = Field(default_factory=ProvenanceSchema)
+    calibration: CalibrationSchema = Field(default_factory=CalibrationSchema)
+    # Monotonic per question. Never rewritten in place: a correction is a new
+    # version, so a consumer can reproduce exactly what they saw.
+    version: int = 1
+    review_state: ReviewState = "published"
+    # Set instead of deleting when a curriculum revision retires a question.
+    superseded_by: Optional[str] = None
 
 
 class QuestionSearchParams(Camel):

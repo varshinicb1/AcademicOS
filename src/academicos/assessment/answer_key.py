@@ -38,7 +38,23 @@ log = logging.getLogger(__name__)
 
 # "31/1/1", "X_086_ 31/1/1", "Paper Code: 30-1-1". Two-to-three digit series,
 # then set, then variant.
-_PAPER_CODE = re.compile(r"\b(\d{2,3})\s*[/-]\s*(\d)\s*[/-]\s*(\d)\b")
+#
+# Separators widened 2026-09-17 after measuring the real marking-scheme corpus.
+# CBSE writes the code with whatever separator the filename happens to use, and
+# real files on disk carry all of these:
+#     31-1-1     X_086_31-1-1 to 3 Science_MS.pdf
+#     31.1.1     X_086_31.1.1 to 31.1.3 in HINDI.pdf
+#     31_1-1     X_086_31_1-1 to 3_Science _HINDI_Med.pdf
+#     55_7_1     XII_042_Physics_MS_55_7_1,2,3_hindi_med.pdf
+# The old `[/-]`-only pattern indexed 1,040 of 4,483 answer-key rows (23%); it
+# now indexes the ones a filename can actually name.
+#
+# `\b` was also wrong: it does not fire between "_" and a digit, so
+# "X_086_31_1-1..." was unmatched even for the separators it did allow. The
+# digit lookarounds express the real constraint -- do not splice a code out of a
+# longer run of digits, such as the year in "2025_086_...".
+_PAPER_CODE = re.compile(
+    r"(?<!\d)(\d{2,3})\s*[/\-._]\s*(\d)\s*[/\-._]\s*(\d)(?!\d)")
 
 # Subject codes as they appear in CBSE marking-scheme filenames and headers.
 _SUBJECT_BY_CODE = {
