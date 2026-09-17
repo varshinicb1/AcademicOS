@@ -30,6 +30,8 @@ from __future__ import annotations
 import importlib.util
 from pathlib import Path
 
+import pytest
+
 REPO = Path(__file__).resolve().parents[1]
 _CHECKER = REPO / "scripts" / "check_design_tokens.py"
 
@@ -186,3 +188,67 @@ def test_generated_web_token_copy_is_current():
         "Run: python scripts/build_tokens_css.py  and commit the result.\n"
         + "\n".join(findings)
     )
+
+
+# --------------------------------------------------------------------------- #
+# the off-scale check is scoped to spacing, and still bites
+# --------------------------------------------------------------------------- #
+# Narrowing a check is exactly the change that can silently disable it, so the
+# scope is pinned in both directions: off-scale SPACING must be caught, and a
+# component's intrinsic size must not be. Before this was scoped, a single
+# hand-written stylesheet produced 55 false positives from `width: 390px` and
+# `height: 76px`, which is the "cry wolf" failure that gets a check ignored.
+
+def _probe_css(checker, lines: list[str]) -> list[str]:
+    probe = (REPO / "design" / "__scope_probe.html").resolve()
+    probe.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        probe.write_text("<style>\n" + "\n".join(lines) + "\n</style>\n", encoding="utf-8")
+        return checker.check_source([probe])
+    finally:
+        probe.unlink(missing_ok=True)
+
+
+@pytest.mark.parametrize("declaration", [
+    "  .x { padding: 13px; }",
+    "  .x { gap: 7px; }",
+    "  .x { margin-top: 9px; }",
+    "  .x { font-size: 15px; }",
+    "  .x { border-radius: 5px; }",
+    "  .x { padding: 12px 13px; }",
+])
+def test_off_scale_spacing_is_caught(declaration):
+    checker = _load_checker()
+    findings = _probe_css(checker, [declaration])
+    assert findings, f"off-scale spacing slipped through: {declaration}"
+
+
+@pytest.mark.parametrize("declaration", [
+    "  .x { width: 390px; }",         # a phone frame
+    "  .x { height: 76px; }",         # a calendar cell
+    "  .x { max-width: 900px; }",
+    "  .x { grid-template-columns: 260px 1fr; }",
+])
+def test_component_dimensions_are_not_treated_as_spacing(declaration):
+    """These have no spacing token to come from, and flagging them is noise."""
+    checker = _load_checker()
+    findings = _probe_css(checker, [declaration])
+    assert not findings, f"a component dimension was wrongly flagged: {findings}"
+
+
+@pytest.mark.parametrize("declaration", [
+    "  .x { padding: var(--space-3); }",
+    "  .x { padding: 12px; }",
+    "  .x { gap: 8px; }",
+    "  .x { border-radius: 6px; }",
+    "  .x { border: 1px solid red; }",
+])
+def test_on_scale_and_tokenised_spacing_passes(declaration):
+    checker = _load_checker()
+    findings = _probe_css(checker, [declaration])
+    assert not findings, f"a valid declaration was flagged: {findings}"
+
+
+def test_scope_probe_does_not_outlive_the_test():
+    """These tests write into design/; nothing may be left behind."""
+    assert not (REPO / "design" / "__scope_probe.html").exists()

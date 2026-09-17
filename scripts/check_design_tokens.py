@@ -48,6 +48,11 @@ SCAN_GLOBS = [
     # Static HTML only -- NOT `web/**/*.html`, which also matches Turbopack's
     # build output under web/.next/.
     "web/public/**/*.html",
+    # design/screens.html is the review surface a human marks up. It is held to
+    # the same rules as product code on purpose: a mockup that uses a raw hex or
+    # an emoji teaches the wrong thing to everyone who reads it, and the whole
+    # point of that file is to be read.
+    "design/**/*.html",
 ]
 
 # Never scanned: generated output, vendored code, docs, research, and the token
@@ -126,7 +131,45 @@ HEX = re.compile(r"#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})\b")
 # are not CSS and are checked by their own conventions).
 OFF_SCALE_PX = re.compile(r"\b(\d{1,3})px\b")
 
+# Which declarations the off-scale check applies to.
+#
+# The rule's own message is "the space scale is 4px based" -- it is about
+# SPACING, not about every pixel in a stylesheet. Applied to every declaration
+# it flagged `width: 390px` (a phone frame) and `height: 76px` (a calendar cell)
+# as spacing violations: 55 false positives in one file. That is exactly the
+# failure mode the emoji regex's comment warns about -- a check that cries wolf
+# trains people to skip it, and then it catches nothing.
+#
+# So it is narrowed to the properties that genuinely have tokens, which keeps
+# every real guard and drops the noise. Deliberately excluded: `width`,
+# `height`, `max-width`, `grid-template-*` and media-query conditions, which
+# describe a component's intrinsic size or a breakpoint and have no spacing
+# token to come from.
+SPACING_PROPS = frozenset({
+    "margin", "margin-top", "margin-right", "margin-bottom", "margin-left",
+    "padding", "padding-top", "padding-right", "padding-bottom", "padding-left",
+    "gap", "row-gap", "column-gap",
+    "top", "right", "bottom", "left", "inset",
+    "font-size", "line-height",
+    "border-radius",
+})
+
+# Stops at a quote or angle bracket as well as at `;`/`{`/`}`.
+#
+# Without the quote stop, an inline `style="font-size:var(--text-sm)"` captured
+# everything to the end of the line -- through the closing quote, the `>`, and
+# all the prose after it -- so the words "26px for the compact variant" in a
+# sentence were reported as an off-scale declaration. An attribute value ends at
+# its quote; the regex has to know that.
+_DECLARATION = re.compile(r"([-a-zA-Z]+)\s*:\s*([^;{}\"'<>]+)")
+
 ALLOWED_PX = {0, 1, 2, 4, 6, 8, 10, 12, 16, 20, 24, 28, 32, 40, 44, 48, 56, 64, 720, 999}
+
+
+def _declarations(line: str):
+    """Yield (property, value) pairs from one line of CSS."""
+    for m in _DECLARATION.finditer(line):
+        yield m.group(1).lower(), m.group(2)
 
 
 def _skip(path: Path) -> bool:
@@ -236,12 +279,30 @@ def check_source(files: list[Path]) -> list[str]:
                             f"{rel}:{lineno}: raw colour {m.group()} -- use a token "
                             f"from design/tokens.json (or add it there first)."
                         )
-                for m in OFF_SCALE_PX.finditer(line):
-                    if int(m.group(1)) not in ALLOWED_PX:
-                        findings.append(
-                            f"{rel}:{lineno}: off-scale size {m.group()} -- the space "
-                            f"scale is 4px based; use a token."
-                        )
+                if rel.endswith((".css", ".html")):
+                    # CSS and HTML have real property names, so an off-scale
+                    # value can be judged against the property it sits on.
+                    for prop, value in _declarations(line):
+                        if prop not in SPACING_PROPS:
+                            continue
+                        for m in OFF_SCALE_PX.finditer(value):
+                            if int(m.group(1)) not in ALLOWED_PX:
+                                findings.append(
+                                    f"{rel}:{lineno}: off-scale {prop} value {m.group()} -- "
+                                    f"the space scale is 4px based; use a token."
+                                )
+                else:
+                    # TypeScript and Dart have no CSS property context, so there
+                    # is nothing to scope by: any bare px literal is a hardcoded
+                    # value with no token behind it. Checked unscoped, which is
+                    # stricter than the CSS rule on purpose -- `"13px"` in a
+                    # component is a magic number, not an intrinsic dimension.
+                    for m in OFF_SCALE_PX.finditer(line):
+                        if int(m.group(1)) not in ALLOWED_PX:
+                            findings.append(
+                                f"{rel}:{lineno}: off-scale size {m.group()} -- the space "
+                                f"scale is 4px based; use a token."
+                            )
                 if re.search(r"outline\s*:\s*(none|0)", line) and "focus-ring" not in line:
                     findings.append(
                         f"{rel}:{lineno}: 'outline: none' without a replacement focus "
