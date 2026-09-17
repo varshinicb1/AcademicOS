@@ -105,3 +105,8 @@ ncert-mcp-upstream/
 academicos-data/corpus/cbse-cbe/*.pdf
 academicos-data/corpus/cbse-cbe/_unanswerable.json
 
+# SQP+MS source PDFs: same position, same reasoning as the CBE PDFs above.
+# scripts/ingest_sqp_ms.py re-fetches them from the published URL and the
+# committed _manifest.json records what was fetched and with what rights status.
+academicos-data/corpus/cbse-sqp/*/*.pdf
+

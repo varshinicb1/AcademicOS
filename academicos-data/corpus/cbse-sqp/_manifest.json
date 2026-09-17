@@ -1,0 +1,39 @@
+{
+ "source_pages": {
+  "ClassX_2025_26": "https://cbseacademic.nic.in/SQP_CLASSX_2025-26.html",
+  "ClassXII_2025_26": "https://cbseacademic.nic.in/SQP_CLASSXII_2025-26.html"
+ },
+ "fetched_at": "2026-09-17T04:08:08.842766+00:00",
+ "count": 3,
+ "rights": {
+  "origin": "CBSE",
+  "redistribution": "unknown",
+  "note": "No redistribution position obtained. Same status as the CBE corpus; see docs/question-bank-api.md section 2."
+ },
+ "pairs": [
+  {
+   "year": "ClassX_2025_26",
+   "subject": "HindiCourseA",
+   "sqp": "HindiCourseA-SQP.pdf",
+   "ms": "HindiCourseA-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2025_26/HindiCourseA-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2025_26/HindiCourseA-MS.pdf"
+  },
+  {
+   "year": "ClassX_2025_26",
+   "subject": "HindiCourseB",
+   "sqp": "HindiCourseB-SQP.pdf",
+   "ms": "HindiCourseB-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2025_26/HindiCourseB-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2025_26/HindiCourseB-MS.pdf"
+  },
+  {
+   "year": "ClassX_2025_26",
+   "subject": "SocialScience",
+   "sqp": "SocialScience-SQP.pdf",
+   "ms": "SocialScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2025_26/SocialScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2025_26/SocialScience-MS.pdf"
+  }
+ ]
+}
