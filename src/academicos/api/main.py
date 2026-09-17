@@ -23,6 +23,8 @@ from pydantic import BaseModel, Field
 
 from ..agents.orchestrator import DoubtSolver, ExaminerScorer, PaperAnalyst
 from ..assessment import auth_routes, consent_routes, ingest_routes, mobile_routes, mobile_scan, pillar_routes
+from ..assessment import grade_by_question
+from ..assessment import qbank_routes
 from ..assessment import routes as assessment_routes
 from ..assessment.supabase_kv import SupabaseUnavailable
 from ..assessment.postgres_kv import durable_table
@@ -136,6 +138,12 @@ app.include_router(ingest_routes.router)
 app.include_router(auth_routes.router)
 app.include_router(consent_routes.router)
 app.include_router(curriculum_routes.router)
+# The question-bank API carries its own `/v1/...` paths and its own key auth,
+# so it is mounted at the root rather than under `/api/v1` -- its paths are
+# part of a published contract that third parties will build against, and
+# `docs/question-bank-api.md` fixes them as `GET /v1/questions` and friends.
+app.include_router(qbank_routes.router)
+app.include_router(grade_by_question.router)
 
 
 @app.exception_handler(SupabaseUnavailable)
@@ -233,6 +241,25 @@ def init_runtime(config: Optional[Config] = None) -> None:
     consent_routes.init(cfg.data_root)
     curriculum_routes.init(cfg)
     mobile_scan.configure_workdir(cfg.data_root / "scan-sessions")
+    # The public question-bank API. Its own key store and its own scope
+    # vocabulary, deliberately separate from the user auth above: an API key is
+    # a machine credential for content, and must never carry a user's identity.
+    # See assessment/api_keys.py for why student data is unexpressible here.
+    qbank_routes.init(cfg.data_root / "assessment" / "api_keys.sqlite",
+                      cfg.data_root / "syllabus" / "questions.json")
+
+    # Grade-by-question borrows pillar_routes' stores and guards rather than
+    # opening its own, so a bulk award goes through exactly the same
+    # authorization and clamping the per-student path uses. `questions_by_id`
+    # is best-effort: the marking scheme is an aid to grading, and a teacher
+    # must still be able to mark a question the bank has never seen.
+    grade_by_question.init(
+        graded=pillar_routes._graded,
+        require=pillar_routes._require,
+        require_school_owns_assessment=pillar_routes._require_school_owns_assessment,
+        questions_by_id=lambda qid: (qbank_routes._bank.get(qid)
+                                     if qbank_routes._bank is not None else None),
+    )
     if cfg.llm_api_key:
         from ..agents.critic import SarvamCritic
         from ..llm.sarvam import SarvamLLM

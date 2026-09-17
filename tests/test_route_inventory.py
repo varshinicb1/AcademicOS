@@ -75,6 +75,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/evaluations/sheet"),
     ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/review/{question_id}"),
     ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/finalize"),
+    ("GET", "/api/v1/evaluations/assessment/{assessment_id}/question/{question_id}"),
+    ("POST", "/api/v1/evaluations/assessment/{assessment_id}/question/{question_id}/award"),
     ("GET", "/api/v1/knowledge/{student_id}"),
     ("GET", "/api/v1/knowledge/{student_id}/report"),
     ("POST", "/api/v1/practice/generate"),
@@ -95,7 +97,16 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/health"),
     ("GET", "/health/llm"),
     ("GET", "/v1/registry/stats"),
-    ("POST", "/v1/search"),
+    # --- the question-bank API (assessment/qbank_routes.py) ---
+    # Separate auth from everything above: these take a scoped API key, not a
+    # user bearer token. Their paths are part of a published contract third
+    # parties build against, so they are fixed as `GET /v1/questions` and
+    # friends per docs/question-bank-api.md.
+    ("GET", "/v1/questions"),
+    ("GET", "/v1/questions/{question_id}"),
+    ("GET", "/v1/questions/{question_id}/scheme"),
+    ("GET", "/v1/subtopics/{subtopic_id}/questions"),
+    ("GET", "/v1/facets"),    ("POST", "/v1/search"),
     ("POST", "/v1/agent/doubt"),
     ("POST", "/v1/agent/score"),
     ("POST", "/v1/agent/analyze"),
@@ -213,6 +224,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/evaluations/sheet"),
     ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/review/{question_id}"),
     ("POST", "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/finalize"),
+    ("GET", "/api/v1/evaluations/assessment/{assessment_id}/question/{question_id}"),
+    ("POST", "/api/v1/evaluations/assessment/{assessment_id}/question/{question_id}/award"),
     ("GET", "/api/v1/knowledge/{student_id}"),
     ("GET", "/api/v1/knowledge/{student_id}/report"),
     ("POST", "/api/v1/practice/generate"),
@@ -495,7 +508,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 123
+    assert len(API_ROUTES) == 130
 
 
 def test_docs_routes_present():
@@ -581,6 +594,18 @@ def test_gated_routes_return_503_without_startup():
             # Idempotent by design: no token means nothing to delete, so it
             # 200s without ever touching _require() -- correct, not a gap.
             if (method, path) == ("POST", "/api/v1/auth/logout"):
+                continue
+            # API-key routes take a scoped key, not a user bearer token, and
+            # their own module-init guard returns 503 before auth is consulted.
+            # They are exercised in tests/test_qbank_api.py instead, where a
+            # real key can be minted.
+            if (method, path) in {
+                ("GET", "/v1/questions"),
+                ("GET", "/v1/questions/{question_id}"),
+                ("GET", "/v1/questions/{question_id}/scheme"),
+                ("GET", "/v1/subtopics/{subtopic_id}/questions"),
+                ("GET", "/v1/facets"),
+            }:
                 continue
             if path == "/api/v1/curriculum/academic-years":
                 # Required query param, not a path param -- 422 (missing)

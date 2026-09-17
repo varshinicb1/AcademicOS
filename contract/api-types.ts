@@ -1276,6 +1276,59 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/evaluations/assessment/{assessment_id}/question/{question_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Question Across Students
+         * @description Every student's answer to one question, with the marking scheme.
+         *
+         *     The marking scheme is fetched once and returned with the batch, because the
+         *     whole point of the transposed view is that the teacher reads the value
+         *     points once rather than once per student.
+         */
+        get: operations["question_across_students_api_v1_evaluations_assessment__assessment_id__question__question_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/evaluations/assessment/{assessment_id}/question/{question_id}/award": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Award Across Students
+         * @description Award the same mark for one question to many students.
+         *
+         *     This is the write half of grade-by-question and the reason it saves time: a
+         *     teacher who has just read the value points decides once and applies it
+         *     forty times.
+         *
+         *     Deliberately server-side and per-student rather than a single bulk UPDATE:
+         *     each student's sheet is loaded, clamped and saved through the same path the
+         *     single-student endpoint uses, so a bulk award can never produce a state the
+         *     per-student path could not, and the audit trail stays uniform.
+         */
+        post: operations["award_across_students_api_v1_evaluations_assessment__assessment_id__question__question_id__award_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/evaluations/sheet": {
         parameters: {
             query?: never;
@@ -2106,6 +2159,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/facets": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Facets
+         * @description The filter vocabulary and its counts under the current filter.
+         */
+        get: operations["get_facets_v1_facets_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/graph/neighbors": {
         parameters: {
             query?: never;
@@ -2182,6 +2255,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/questions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Questions
+         * @description Paged, filtered question list. The workhorse endpoint.
+         */
+        get: operations["list_questions_v1_questions_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/questions/{question_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Question
+         * @description One question, with full provenance and scheme.
+         */
+        get: operations["get_question_v1_questions__question_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/questions/{question_id}/scheme": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Scheme
+         * @description Just the marking scheme.
+         *
+         *     Its own resource because it is the scarce half of the bank: a consumer
+         *     scoring an answer needs the value points and the provenance that says they
+         *     are official, and nothing else on the record.
+         */
+        get: operations["get_scheme_v1_questions__question_id__scheme_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/registry/stats": {
         parameters: {
             query?: never;
@@ -2230,6 +2367,26 @@ export interface paths {
         put?: never;
         /** Search */
         post: operations["search_v1_search_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/v1/subtopics/{subtopic_id}/questions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Questions For Subtopic
+         * @description Curriculum-driven listing: everything tagged to one subtopic.
+         */
+        get: operations["questions_for_subtopic_v1_subtopics__subtopic_id__questions_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -2365,8 +2522,23 @@ export interface components {
              * @default
              */
             modelAnswerLatex: string;
+            /**
+             * Provenance
+             * @default none
+             */
+            provenance: string;
             /** Rubriclevels */
             rubricLevels?: components["schemas"]["RubricLevelSchema"][];
+            /**
+             * Sourcedocumentid
+             * @default
+             */
+            sourceDocumentId: string;
+            /**
+             * Sourcepapercode
+             * @default
+             */
+            sourcePaperCode: string;
             /** Totalmarks */
             totalMarks: number;
         };
@@ -2582,6 +2754,44 @@ export interface components {
             /** Title */
             title: string;
         };
+        /** BulkAwardRequest */
+        BulkAwardRequest: {
+            /**
+             * Allstudents
+             * @default false
+             */
+            allStudents: boolean;
+            /** Marks */
+            marks: number;
+            /**
+             * Note
+             * @default
+             */
+            note: string;
+            /** Studentids */
+            studentIds?: string[] | null;
+        };
+        /** BulkAwardResponse */
+        BulkAwardResponse: {
+            /** Assessmentid */
+            assessmentId: string;
+            /** Marks */
+            marks: number;
+            /** Questionid */
+            questionId: string;
+            /** Skipped */
+            skipped?: string[];
+            /**
+             * Unchanged
+             * @default 0
+             */
+            unchanged: number;
+            /**
+             * Updated
+             * @default 0
+             */
+            updated: number;
+        };
         /** CalendarResponse */
         CalendarResponse: {
             /** Academicyearid */
@@ -2592,6 +2802,35 @@ export interface components {
             id: string;
             /** Weeklyoffdays */
             weeklyOffDays: string[];
+        };
+        /**
+         * CalibrationSchema
+         * @description Difficulty as measured, not as assigned.
+         *
+         *     The mapper derives difficulty from mark value and Bloom level, which is a
+         *     heuristic, not a measurement. Saying so in the payload is the difference
+         *     between an honest field and an implied statistic.
+         */
+        CalibrationSchema: {
+            /**
+             * Basis
+             * @default assigned
+             */
+            basis: string;
+            /** Discrimination */
+            discrimination?: number | null;
+            /** Facility */
+            facility?: number | null;
+            /**
+             * Measured
+             * @default false
+             */
+            measured: boolean;
+            /**
+             * Samplesize
+             * @default 0
+             */
+            sampleSize: number;
         };
         /** CapturedPageResponse */
         CapturedPageResponse: {
@@ -3545,6 +3784,29 @@ export interface components {
             /** Status */
             status: string;
         };
+        /**
+         * ProvenanceSchema
+         * @description Where in the source document the question text actually sits.
+         *
+         *     `questionBankId` identifies the document; this identifies the place in it.
+         *     Without page and box, "here is the page in the 2023 paper this came from"
+         *     is a claim the data cannot support, and that claim is the stated moat.
+         */
+        ProvenanceSchema: {
+            /** Boundingbox */
+            boundingBox?: number[] | null;
+            /** Confidence */
+            confidence?: number | null;
+            /**
+             * Method
+             * @default pdf_native
+             */
+            method: string;
+            /** Pagenumber */
+            pageNumber?: number | null;
+            /** Sourcedocumentid */
+            sourceDocumentId?: string | null;
+        };
         /** PushScheduleRequest */
         PushScheduleRequest: {
             /** Fromdate */
@@ -3570,6 +3832,89 @@ export interface components {
             periodsPerWeek: number;
             /** Reschedules */
             reschedules: components["schemas"]["RescheduleResultResponse"][];
+        };
+        /** QuestionAcrossStudents */
+        QuestionAcrossStudents: {
+            /**
+             * Alreadygraded
+             * @default 0
+             */
+            alreadyGraded: number;
+            /** Answers */
+            answers?: components["schemas"]["QuestionAnswerRow"][];
+            /** Assessmentid */
+            assessmentId: string;
+            /** Markingpoints */
+            markingPoints?: {
+                [key: string]: unknown;
+            }[];
+            /**
+             * Marks
+             * @default 0
+             */
+            marks: number;
+            /**
+             * Needsreview
+             * @default 0
+             */
+            needsReview: number;
+            /** Questionid */
+            questionId: string;
+            /**
+             * Schemeprovenance
+             * @default none
+             */
+            schemeProvenance: string;
+            /**
+             * Stem
+             * @default
+             */
+            stem: string;
+            /**
+             * Total
+             * @default 0
+             */
+            total: number;
+        };
+        /** QuestionAnswerRow */
+        QuestionAnswerRow: {
+            /**
+             * Answertext
+             * @default
+             */
+            answerText: string;
+            /**
+             * Awardedmarks
+             * @default 0
+             */
+            awardedMarks: number;
+            /**
+             * Confidence
+             * @default 0
+             */
+            confidence: number;
+            /**
+             * Maxmarks
+             * @default 0
+             */
+            maxMarks: number;
+            /**
+             * Needsreview
+             * @default true
+             */
+            needsReview: boolean;
+            /**
+             * Reasoning
+             * @default
+             */
+            reasoning: string;
+            /** Studentid */
+            studentId: string;
+            /**
+             * Verdict
+             * @default
+             */
+            verdict: string;
         };
         /** QuestionOptimizationRequest */
         QuestionOptimizationRequest: {
@@ -3634,6 +3979,7 @@ export interface components {
              * @enum {string}
              */
             bloomLevel: "remember" | "understand" | "apply" | "analyze" | "evaluate" | "create";
+            calibration?: components["schemas"]["CalibrationSchema"];
             /** Chapterids */
             chapterIds?: string[];
             /** Competencyids */
@@ -3673,6 +4019,7 @@ export interface components {
             };
             /** Parts */
             parts?: components["schemas"]["QuestionPartSchema"][];
+            provenance?: components["schemas"]["ProvenanceSchema"];
             /**
              * Qualityscore
              * @default 0.7
@@ -3680,6 +4027,13 @@ export interface components {
             qualityScore: number;
             /** Questionbankid */
             questionBankId: string;
+            /**
+             * Reviewstate
+             * @default published
+             * @enum {string}
+             */
+            reviewState: "draft" | "in_review" | "published" | "superseded";
+            rights?: components["schemas"]["RightsSchema"];
             /**
              * Source
              * @enum {string}
@@ -3694,6 +4048,8 @@ export interface components {
             stemLatex: string;
             /** Subject */
             subject: string;
+            /** Supersededby */
+            supersededBy?: string | null;
             /** Tableassetid */
             tableAssetId?: string | null;
             /** Tags */
@@ -3708,6 +4064,11 @@ export interface components {
              * Format: date-time
              */
             updatedAt: string;
+            /**
+             * Version
+             * @default 1
+             */
+            version: number;
         };
         /** QuestionSearchParams */
         QuestionSearchParams: {
@@ -3939,6 +4300,38 @@ export interface components {
              * @default fsrs
              */
             model: string;
+        };
+        /**
+         * RightsSchema
+         * @description The rights position for a question's *content*.
+         *
+         *     Separate from ingestion provenance: this is about who owns the CBSE paper
+         *     and whether this project may redistribute it. Defaults to the most
+         *     restrictive answer, so an unsettled decision fails closed. A compliance
+         *     ruling then becomes a filter over this field rather than a migration.
+         */
+        RightsSchema: {
+            /**
+             * Attribution
+             * @default
+             */
+            attribution: string;
+            /**
+             * Basis
+             * @default
+             */
+            basis: string;
+            /**
+             * Origin
+             * @default CBSE
+             */
+            origin: string;
+            /**
+             * Redistribution
+             * @default unknown
+             * @enum {string}
+             */
+            redistribution: "unknown" | "private-only" | "public";
         };
         /** RubricLevelSchema */
         RubricLevelSchema: {
@@ -7108,6 +7501,74 @@ export interface operations {
             };
         };
     };
+    question_across_students_api_v1_evaluations_assessment__assessment_id__question__question_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                assessment_id: string;
+                question_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QuestionAcrossStudents"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    award_across_students_api_v1_evaluations_assessment__assessment_id__question__question_id__award_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                assessment_id: string;
+                question_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["BulkAwardRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BulkAwardResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     evaluate_sheet_api_v1_evaluations_sheet_post: {
         parameters: {
             query?: never;
@@ -8481,6 +8942,41 @@ export interface operations {
             };
         };
     };
+    get_facets_v1_facets_get: {
+        parameters: {
+            query?: {
+                subject?: string | null;
+                grade?: number | null;
+            };
+            header?: {
+                authorization?: string | null;
+                "X-API-Key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     graph_neighbors_v1_graph_neighbors_post: {
         parameters: {
             query?: never;
@@ -8619,6 +9115,122 @@ export interface operations {
             };
         };
     };
+    list_questions_v1_questions_get: {
+        parameters: {
+            query?: {
+                subject?: string | null;
+                grade?: number | null;
+                marks?: number | null;
+                type?: string | null;
+                difficulty?: string | null;
+                bloom?: string | null;
+                chapter_id?: string | null;
+                subtopic_id?: string | null;
+                has_scheme?: boolean | null;
+                review_state?: string | null;
+                keyword?: string | null;
+                limit?: number;
+                cursor?: string | null;
+                /** @description include facet counts */
+                facets?: boolean;
+            };
+            header?: {
+                authorization?: string | null;
+                "X-API-Key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_question_v1_questions__question_id__get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+                "X-API-Key"?: string | null;
+            };
+            path: {
+                question_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_scheme_v1_questions__question_id__scheme_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+                "X-API-Key"?: string | null;
+            };
+            path: {
+                question_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     registry_stats_v1_registry_stats_get: {
         parameters: {
             query?: never;
@@ -8698,6 +9310,43 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    questions_for_subtopic_v1_subtopics__subtopic_id__questions_get: {
+        parameters: {
+            query?: {
+                limit?: number;
+                cursor?: string | null;
+            };
+            header?: {
+                authorization?: string | null;
+                "X-API-Key"?: string | null;
+            };
+            path: {
+                subtopic_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */

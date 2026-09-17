@@ -297,12 +297,27 @@
             "title": "Modelanswerlatex",
             "type": "string"
           },
+          "provenance": {
+            "default": "none",
+            "title": "Provenance",
+            "type": "string"
+          },
           "rubricLevels": {
             "items": {
               "$ref": "#/components/schemas/RubricLevelSchema"
             },
             "title": "Rubriclevels",
             "type": "array"
+          },
+          "sourceDocumentId": {
+            "default": "",
+            "title": "Sourcedocumentid",
+            "type": "string"
+          },
+          "sourcePaperCode": {
+            "default": "",
+            "title": "Sourcepapercode",
+            "type": "string"
           },
           "totalMarks": {
             "title": "Totalmarks",
@@ -875,6 +890,84 @@
         "title": "BookResponse",
         "type": "object"
       },
+      "BulkAwardRequest": {
+        "properties": {
+          "allStudents": {
+            "default": false,
+            "title": "Allstudents",
+            "type": "boolean"
+          },
+          "marks": {
+            "minimum": 0.0,
+            "title": "Marks",
+            "type": "integer"
+          },
+          "note": {
+            "default": "",
+            "title": "Note",
+            "type": "string"
+          },
+          "studentIds": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Studentids"
+          }
+        },
+        "required": [
+          "marks"
+        ],
+        "title": "BulkAwardRequest",
+        "type": "object"
+      },
+      "BulkAwardResponse": {
+        "properties": {
+          "assessmentId": {
+            "title": "Assessmentid",
+            "type": "string"
+          },
+          "marks": {
+            "title": "Marks",
+            "type": "integer"
+          },
+          "questionId": {
+            "title": "Questionid",
+            "type": "string"
+          },
+          "skipped": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Skipped",
+            "type": "array"
+          },
+          "unchanged": {
+            "default": 0,
+            "title": "Unchanged",
+            "type": "integer"
+          },
+          "updated": {
+            "default": 0,
+            "title": "Updated",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "assessmentId",
+          "questionId",
+          "marks"
+        ],
+        "title": "BulkAwardResponse",
+        "type": "object"
+      },
       "CalendarResponse": {
         "properties": {
           "academicYearId": {
@@ -904,6 +997,50 @@
           "alternateSaturdayRule"
         ],
         "title": "CalendarResponse",
+        "type": "object"
+      },
+      "CalibrationSchema": {
+        "description": "Difficulty as measured, not as assigned.\n\nThe mapper derives difficulty from mark value and Bloom level, which is a\nheuristic, not a measurement. Saying so in the payload is the difference\nbetween an honest field and an implied statistic.",
+        "properties": {
+          "basis": {
+            "default": "assigned",
+            "title": "Basis",
+            "type": "string"
+          },
+          "discrimination": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Discrimination"
+          },
+          "facility": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Facility"
+          },
+          "measured": {
+            "default": false,
+            "title": "Measured",
+            "type": "boolean"
+          },
+          "sampleSize": {
+            "default": 0,
+            "title": "Samplesize",
+            "type": "integer"
+          }
+        },
+        "title": "CalibrationSchema",
         "type": "object"
       },
       "CapturedPageResponse": {
@@ -3387,6 +3524,65 @@
         "title": "ProposalResponse",
         "type": "object"
       },
+      "ProvenanceSchema": {
+        "description": "Where in the source document the question text actually sits.\n\n`questionBankId` identifies the document; this identifies the place in it.\nWithout page and box, \"here is the page in the 2023 paper this came from\"\nis a claim the data cannot support, and that claim is the stated moat.",
+        "properties": {
+          "boundingBox": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Boundingbox"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence"
+          },
+          "method": {
+            "default": "pdf_native",
+            "title": "Method",
+            "type": "string"
+          },
+          "pageNumber": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pagenumber"
+          },
+          "sourceDocumentId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sourcedocumentid"
+          }
+        },
+        "title": "ProvenanceSchema",
+        "type": "object"
+      },
       "PushScheduleRequest": {
         "properties": {
           "fromDate": {
@@ -3459,6 +3655,117 @@
           "reschedules"
         ],
         "title": "PushScheduleResponse",
+        "type": "object"
+      },
+      "QuestionAcrossStudents": {
+        "properties": {
+          "alreadyGraded": {
+            "default": 0,
+            "title": "Alreadygraded",
+            "type": "integer"
+          },
+          "answers": {
+            "items": {
+              "$ref": "#/components/schemas/QuestionAnswerRow"
+            },
+            "title": "Answers",
+            "type": "array"
+          },
+          "assessmentId": {
+            "title": "Assessmentid",
+            "type": "string"
+          },
+          "markingPoints": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Markingpoints",
+            "type": "array"
+          },
+          "marks": {
+            "default": 0,
+            "title": "Marks",
+            "type": "integer"
+          },
+          "needsReview": {
+            "default": 0,
+            "title": "Needsreview",
+            "type": "integer"
+          },
+          "questionId": {
+            "title": "Questionid",
+            "type": "string"
+          },
+          "schemeProvenance": {
+            "default": "none",
+            "title": "Schemeprovenance",
+            "type": "string"
+          },
+          "stem": {
+            "default": "",
+            "title": "Stem",
+            "type": "string"
+          },
+          "total": {
+            "default": 0,
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "assessmentId",
+          "questionId"
+        ],
+        "title": "QuestionAcrossStudents",
+        "type": "object"
+      },
+      "QuestionAnswerRow": {
+        "properties": {
+          "answerText": {
+            "default": "",
+            "title": "Answertext",
+            "type": "string"
+          },
+          "awardedMarks": {
+            "default": 0,
+            "title": "Awardedmarks",
+            "type": "integer"
+          },
+          "confidence": {
+            "default": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "maxMarks": {
+            "default": 0,
+            "title": "Maxmarks",
+            "type": "integer"
+          },
+          "needsReview": {
+            "default": true,
+            "title": "Needsreview",
+            "type": "boolean"
+          },
+          "reasoning": {
+            "default": "",
+            "title": "Reasoning",
+            "type": "string"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          },
+          "verdict": {
+            "default": "",
+            "title": "Verdict",
+            "type": "string"
+          }
+        },
+        "required": [
+          "studentId"
+        ],
+        "title": "QuestionAnswerRow",
         "type": "object"
       },
       "QuestionOptimizationRequest": {
@@ -3658,6 +3965,9 @@
             "title": "Bloomlevel",
             "type": "string"
           },
+          "calibration": {
+            "$ref": "#/components/schemas/CalibrationSchema"
+          },
           "chapterIds": {
             "items": {
               "type": "string"
@@ -3752,6 +4062,9 @@
             "title": "Parts",
             "type": "array"
           },
+          "provenance": {
+            "$ref": "#/components/schemas/ProvenanceSchema"
+          },
           "qualityScore": {
             "default": 0.7,
             "title": "Qualityscore",
@@ -3760,6 +4073,20 @@
           "questionBankId": {
             "title": "Questionbankid",
             "type": "string"
+          },
+          "reviewState": {
+            "default": "published",
+            "enum": [
+              "draft",
+              "in_review",
+              "published",
+              "superseded"
+            ],
+            "title": "Reviewstate",
+            "type": "string"
+          },
+          "rights": {
+            "$ref": "#/components/schemas/RightsSchema"
           },
           "source": {
             "enum": [
@@ -3788,6 +4115,17 @@
           "subject": {
             "title": "Subject",
             "type": "string"
+          },
+          "supersededBy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Supersededby"
           },
           "tableAssetId": {
             "anyOf": [
@@ -3829,6 +4167,11 @@
             "format": "date-time",
             "title": "Updatedat",
             "type": "string"
+          },
+          "version": {
+            "default": 1,
+            "title": "Version",
+            "type": "integer"
           }
         },
         "required": [
@@ -4553,6 +4896,38 @@
           }
         },
         "title": "ReviseRequest",
+        "type": "object"
+      },
+      "RightsSchema": {
+        "description": "The rights position for a question's *content*.\n\nSeparate from ingestion provenance: this is about who owns the CBSE paper\nand whether this project may redistribute it. Defaults to the most\nrestrictive answer, so an unsettled decision fails closed. A compliance\nruling then becomes a filter over this field rather than a migration.",
+        "properties": {
+          "attribution": {
+            "default": "",
+            "title": "Attribution",
+            "type": "string"
+          },
+          "basis": {
+            "default": "",
+            "title": "Basis",
+            "type": "string"
+          },
+          "origin": {
+            "default": "CBSE",
+            "title": "Origin",
+            "type": "string"
+          },
+          "redistribution": {
+            "default": "unknown",
+            "enum": [
+              "unknown",
+              "private-only",
+              "public"
+            ],
+            "title": "Redistribution",
+            "type": "string"
+          }
+        },
+        "title": "RightsSchema",
         "type": "object"
       },
       "RubricLevelSchema": {
@@ -10213,6 +10588,130 @@
         "summary": "Evaluate One"
       }
     },
+    "/api/v1/evaluations/assessment/{assessment_id}/question/{question_id}": {
+      "get": {
+        "description": "Every student's answer to one question, with the marking scheme.\n\nThe marking scheme is fetched once and returned with the batch, because the\nwhole point of the transposed view is that the teacher reads the value\npoints once rather than once per student.",
+        "operationId": "question_across_students_api_v1_evaluations_assessment__assessment_id__question__question_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "assessment_id",
+            "required": true,
+            "schema": {
+              "title": "Assessment Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "question_id",
+            "required": true,
+            "schema": {
+              "title": "Question Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionAcrossStudents"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Question Across Students",
+        "tags": [
+          "evaluations"
+        ]
+      }
+    },
+    "/api/v1/evaluations/assessment/{assessment_id}/question/{question_id}/award": {
+      "post": {
+        "description": "Award the same mark for one question to many students.\n\nThis is the write half of grade-by-question and the reason it saves time: a\nteacher who has just read the value points decides once and applies it\nforty times.\n\nDeliberately server-side and per-student rather than a single bulk UPDATE:\neach student's sheet is loaded, clamped and saved through the same path the\nsingle-student endpoint uses, so a bulk award can never produce a state the\nper-student path could not, and the audit trail stays uniform.",
+        "operationId": "award_across_students_api_v1_evaluations_assessment__assessment_id__question__question_id__award_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "assessment_id",
+            "required": true,
+            "schema": {
+              "title": "Assessment Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "question_id",
+            "required": true,
+            "schema": {
+              "title": "Question Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkAwardRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkAwardResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Award Across Students",
+        "tags": [
+          "evaluations"
+        ]
+      }
+    },
     "/api/v1/evaluations/sheet": {
       "post": {
         "operationId": "evaluate_sheet_api_v1_evaluations_sheet_post",
@@ -12213,6 +12712,102 @@
         "summary": "Agent Score"
       }
     },
+    "/v1/facets": {
+      "get": {
+        "description": "The filter vocabulary and its counts under the current filter.",
+        "operationId": "get_facets_v1_facets_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "subject",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subject"
+            }
+          },
+          {
+            "in": "query",
+            "name": "grade",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Grade"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-API-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Facets",
+        "tags": [
+          "question-bank"
+        ]
+      }
+    },
     "/v1/graph/neighbors": {
       "post": {
         "operationId": "graph_neighbors_v1_graph_neighbors_post",
@@ -12393,6 +12988,432 @@
         "summary": "Question Solve"
       }
     },
+    "/v1/questions": {
+      "get": {
+        "description": "Paged, filtered question list. The workhorse endpoint.",
+        "operationId": "list_questions_v1_questions_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "subject",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subject"
+            }
+          },
+          {
+            "in": "query",
+            "name": "grade",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Grade"
+            }
+          },
+          {
+            "in": "query",
+            "name": "marks",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Marks"
+            }
+          },
+          {
+            "in": "query",
+            "name": "type",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Type"
+            }
+          },
+          {
+            "in": "query",
+            "name": "difficulty",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Difficulty"
+            }
+          },
+          {
+            "in": "query",
+            "name": "bloom",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Bloom"
+            }
+          },
+          {
+            "in": "query",
+            "name": "chapter_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Chapter Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "subtopic_id",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subtopic Id"
+            }
+          },
+          {
+            "in": "query",
+            "name": "has_scheme",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Has Scheme"
+            }
+          },
+          {
+            "in": "query",
+            "name": "review_state",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Review State"
+            }
+          },
+          {
+            "in": "query",
+            "name": "keyword",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Keyword"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "description": "include facet counts",
+            "in": "query",
+            "name": "facets",
+            "required": false,
+            "schema": {
+              "default": false,
+              "description": "include facet counts",
+              "title": "Facets",
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-API-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Questions",
+        "tags": [
+          "question-bank"
+        ]
+      }
+    },
+    "/v1/questions/{question_id}": {
+      "get": {
+        "description": "One question, with full provenance and scheme.",
+        "operationId": "get_question_v1_questions__question_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "question_id",
+            "required": true,
+            "schema": {
+              "title": "Question Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-API-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Question",
+        "tags": [
+          "question-bank"
+        ]
+      }
+    },
+    "/v1/questions/{question_id}/scheme": {
+      "get": {
+        "description": "Just the marking scheme.\n\nIts own resource because it is the scarce half of the bank: a consumer\nscoring an answer needs the value points and the provenance that says they\nare official, and nothing else on the record.",
+        "operationId": "get_scheme_v1_questions__question_id__scheme_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "question_id",
+            "required": true,
+            "schema": {
+              "title": "Question Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-API-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Scheme",
+        "tags": [
+          "question-bank"
+        ]
+      }
+    },
     "/v1/registry/stats": {
       "get": {
         "operationId": "registry_stats_v1_registry_stats_get",
@@ -12507,6 +13528,107 @@
           }
         ],
         "summary": "Search"
+      }
+    },
+    "/v1/subtopics/{subtopic_id}/questions": {
+      "get": {
+        "description": "Curriculum-driven listing: everything tagged to one subtopic.",
+        "operationId": "questions_for_subtopic_v1_subtopics__subtopic_id__questions_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subtopic_id",
+            "required": true,
+            "schema": {
+              "title": "Subtopic Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-API-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Questions For Subtopic",
+        "tags": [
+          "question-bank"
+        ]
       }
     }
   }
