@@ -6,7 +6,7 @@ are organised by transcript section; this one is organised by which layer has to
 deliver the work**, so a frontend owner and a backend owner can each read their
 own column.
 
-Reconciled 2026-09-16. Status reflects what was verified on that date, not what
+Reconciled 2026-09-17. Status reflects what was verified on that date, not what
 was intended when a feature was written.
 
 **Legend:** ✅ done · ◐ partial · ✗ missing/absent · ⚠️ works in code but
@@ -74,6 +74,8 @@ Principal bootstrap key gating the first admin | ✅ |
 | Requirement | Status |
 |---|---|
 Question pool from real CBSE papers with official marking schemes | ✅ |
+Every question carries a topic, so topic-wise selection works | ◐ **CBE corpus only.** 3,382 questions across 37 subject × grade pairs carry no topic; 27 of those pairs have no labeled reference at all. 496 Mathematics class 10 questions are mapped to strand level in `syllabus/inferred_topics.json` (`cbe_strand_centroid_v1`, 95% cross-validated precision, distribution-shift caveat recorded there) |
+Figure-dependent items served whole | ◐ 95 of 124. Items referring to a figure that could not be attributed are served without one and flagged `metadata.figureState`; a wrong figure is worse than none |
 Blueprint-driven section balancing (Bloom, type, difficulty) | ✅ |
 Subtopic-level question selection (`map_subtopics`, `subtopic_ids`) | ✅ |
 Chapter tagging across subjects (`embedding_chapter_tagger`) | ✅ |
@@ -85,7 +87,7 @@ Paper delivery by email | ✅ |
 ### 1.6 Platform & ops
 | Requirement | Status |
 |---|---|
-Authenticated API surface | ✅ 122 operations, 104 secured |
+Authenticated API surface | ✅ 130 operations, 104 secured |
 Durability selection: Cloud SQL ▸ Supabase ▸ local SQLite | ✅ |
 Health + storage diagnostics (`/health`, `/health/storage`) | ✅ |
 School data export | ✅ (no restore path yet) |
@@ -182,7 +184,7 @@ Status labels above say nothing about *how far* something was verified. Measured
 
 | Layer | Coverage | Evidence |
 |---|---|---|
-1. Backend logic | ~all | `pytest` — 1,184 passing, 2 skipped, 1 xfailed |
+1. Backend logic | ~all | `pytest` — **1,716 passing, 15 skipped, 1 xfailed** (2026-09-17) |
 2. Backend **end-to-end** (live API, real auth, cross-school scoping) | most backend rows | `tests/test_route_inventory.py::test_full_boot_*` |
 3. Frontend compiles | all | `flutter analyze` against a **68-issue baseline** — zero *new* issues, not a clean run |
 4. Frontend widget/unit | some | 117 tests, **3 currently failing** (2 need a live server on :8000, 1 pre-existing arithmetic mismatch) |

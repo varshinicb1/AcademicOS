@@ -215,10 +215,11 @@ has, and §12 question 11 names its licensing as the one thing gating revenue.
 
 | | |
 |---|---|
-| Questions served | **4,000** (722 CBSE CBE items + 3,278 board-paper questions) |
+| Questions served | **4,008** (722 CBSE CBE items + 3,286 board-paper questions) |
 | Answer-key coverage | CBE import: **45.9%** of parsed candidates, but **722 of the ~893 items the documents state** — see below. Board-paper corpus: **40.1%** |
-| Topic mapping | CBE import: **312 distinct learning-ladder codes**, 87% of served items mapped |
+| Topic mapping | CBE import: **311 distinct learning-ladder codes**, 86.7% of served items mapped. Board-paper corpus: **0** — see the correction below |
 | Grades covered | **6–10** (CBE, three subjects) + 10 and 12 (board papers, 22 subjects) |
+| Figure-dependent items served whole | **95 of 124** — see below |
 | MCP tools | 7 — search, get, answer key, topics, marks distribution, coverage, build paper |
 | Marks range | 1–17, with **1–10 fully populated** |
 
@@ -258,7 +259,9 @@ Provenance beats volume for a board-grade asset.
 
 - **Not all subjects, not all grades.** The CBE banks are three subjects. Social
   Science, Hindi and the Class 11–12 elective set are covered only by the
-  board-paper corpus, which is where answer-key coverage drops to 40%.
+  board-paper corpus, which is where answer-key coverage drops to 40%. CBSE's
+  SQP+MS pairs are the identified route out of this and are characterised above;
+  nothing from them is served yet.
 - **English is the weak subject.** Class 7 (44 of 49) and Class 10 (18 of 31)
   are reasonable; **Class 6 yields 4 of 46 and Class 9 yields 20 of 103.** Those
   two documents are linked-passage items where the mark scheme sits far from the
@@ -269,11 +272,90 @@ Provenance beats volume for a board-grade asset.
   redistribution position. The bank is usable inside a school; it is not
   distributable as an API until counsel says otherwise.
 
+### Corrections to §5A, measured after it was written
+
+Three things below were claimed or assumed in the first version of this section
+and are wrong or incomplete. They are recorded rather than quietly edited out,
+because the pattern in the errors is more useful than the corrected numbers.
+
+**1. The topic-mapping figure covers the CBE corpus only. The board-paper corpus
+has no topics at all.** The row above reads "86.7% of served items mapped",
+which is true of the 722 CBE items and false of the product. Measured across
+both corpora: **3,382 questions carry no topic**, across **37 subject × grade
+pairs**, and the topic-wise view is therefore blind to most of the bank. The
+first version of the coverage matrix reported 1,055 and hid the rest, because it
+built its summary from the topic grid and the grid only gains a row when a
+record *has* a topic — so every pair with none vanished from the report
+entirely. That is a report whose blindness correlates with the problem it is
+measuring, which is worse than no report. Fixed; the figure is 3,382.
+
+Of those, **27 pairs (2,327 questions, 69% of all unmapped) have no labeled
+reference at all**, because the CBE programme only covers three subjects.
+
+**2. A quarter of the items that refer to a figure were being served without
+one.** 124 items say something like "in the given figure"; 0 carried a figure,
+so they were being served as questions that refer to nothing. 512 images sit
+embedded in the source PDFs. **95 are now attached (77%).** The 28 that remain
+are genuinely contested and are served without one, flagged — a wrong figure
+teaches wrong geometry, so the refusal is the correct outcome.
+
+Getting there required refusing an approach that measured worse, and catching
+two bugs by *reading the output* rather than counting it: a per-item rule that
+handed two different items the same image (they shared a page), and the item
+metadata table ("Subject | Class | Question reference") being attached as a
+figure because it is ~55 characters and sat right beside the item's text.
+
+**3. A path to the missing subjects exists and was dismissed too early.** §5A
+below says Social Science and Hindi are "covered only by the board-paper corpus,
+which is where answer-key coverage drops to 40%". True, but CBSE also publishes
+Sample Question Papers **as explicit pairs with their Marking Schemes**:
+
+    ClassX_2025_26/SocialScience-SQP.pdf  +  SocialScience-MS.pdf
+
+That is authority-provided pairing, not inference — which is exactly what the
+board-paper relink could not establish. Discovered: **963 SQP/MS links**, Class X
+and XII, three academic years, **66 subjects at Class X and 86 at Class XII**,
+including Hindi-medium variants. Three pairs are downloaded and committed.
+
+### What was attempted and refused
+
+Recorded because a refusal with a measurement behind it is a result, and the
+alternative is someone re-attempting the same thing next quarter.
+
+| Attempt | Measured outcome |
+|---|---|
+| Relink the 1,658 board questions that have a paper code but no answer for their question number | **Refused.** Text overlap was 8% proposed against 3% random — no discrimination, so it would have paired answers almost at random. Marks are unusable as a signal: present on 15.7% of answer rows, all MCQs. |
+| Map all 3,382 unmapped questions to topics | **Partly applied.** 496 Mathematics class 10 questions mapped to strand level at 95% cross-validated precision. Science class 10 **refused at 19%** (chance). Cause is example density: 69 Science items over ~30 fine-grained codes is two examples per topic. |
+| Extract figures by clustering vector paths | **Refused.** So many candidate regions that attributable figures fell from 59 to **2**. Kept behind a flag with the measurement in its docstring. |
+
+The topic-mapping case is the one worth carrying forward, because two changes
+turned a refusal into a 95% result using data already on disk: the 849 CBE items
+with no answer key **still carry content codes**, so they are valid labeled
+examples even though they cannot be served; and collapsing a leaf code to its
+strand (`9.1.13` → `9.1`) took examples-per-class from 5.9 to 28.6. The same
+data, mapped at leaf level, capped at 43%.
+
+The trade is real and is not hidden: this is **strand-level, not leaf-level** —
+7 classes where CBSE defines 34. Coarse and right beats precise and wrong when
+the output feeds a coverage report a teacher acts on. Every inferred topic is
+written to a separate `syllabus/inferred_topics.json` tagged
+`cbe_strand_centroid_v1` with its gate precision, so an inferred topic is
+distinguishable from a CBSE-authored one at a glance and the corpus is never
+rewritten.
+
+**The distribution-shift caveat.** 95% is measured by cross-validation on CBE
+items; the questions being mapped are board-paper items — older, multi-part,
+differently phrased. **95% is an upper bound on real accuracy, not a guarantee.**
+
 ### Open questions this raises
 
 12. **Does the bank get extended to all subjects and grades from CBSE's own
-    sources, or from elsewhere?** The CBE programme covers three subjects; the
-    rest would need board papers with schemes, which is the 40% path.
+    sources, or from elsewhere?** *Evidence now available:* CBSE's own SQP+MS
+    pairs cover 66 subjects at Class X and 86 at Class XII, including Social
+    Science and Hindi, with the pairing provided by the authority rather than
+    inferred. The engineering question is a parser, not data availability — see
+    the measurements above. Still a product decision, but no longer an
+    unanswerable one.
 13. **Is the question bank sold separately from the school product?** §9 assumes
     one product; `question-bank-api.md` proposes the bank as a standalone asset
     gated on the rights position.
@@ -460,8 +542,11 @@ the PRD's job, because they cause real errors.
    leans Mobile (*"Mobile is the strategically important sub-product"*,
    `docs/frontend-platform-decision.md:206-207`); the migration plan is porting Web to
    React. Both are being worked on.
-5. **Stale test counts** appear in several docs (959, 982, 1004, 1113, 1184).
-   The current figure is 1,416 passed, 15 skipped, 1 xfailed as of 2026-09-17.
+5. **Stale test counts** appear in several docs (959, 982, 1004, 1113, 1184,
+   1,416). The current figure is **1,716 passed, 15 skipped, 1 xfailed** as of
+   2026-09-17. This entry is its own best argument: 1,416 was current when this
+   document was written and was stale within the same working session. Counts in
+   prose rot faster than the prose does — prefer pointing at the command.
 
 ---
 
