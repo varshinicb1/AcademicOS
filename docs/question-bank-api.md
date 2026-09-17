@@ -1,7 +1,31 @@
 # The question bank as a standalone API asset
 
-**Status:** architecture proposal, 2026-09-17. Nothing here is built.
+**Status:** architecture proposal, 2026-09-17, with an implementation update
+below. Sections 1-5 are the design; section 7 records what now exists and
+section 8 what does not.
 Companion to [`api.md`](api.md) and [`gcp-deployment.md`](gcp-deployment.md).
+
+> ## Implementation update — 2026-09-17, later the same day
+>
+> Sections 3, 4 and 7 describe a design. Several parts of it are now built,
+> tested, and verified against the real corpus. Read section 7 for the current
+> state; the design sections above it are unchanged and still the intent.
+>
+> **The headline finding changed the plan.** This document's premise is that the
+> official marking scheme "is the scarce half". Measured against the corpus, it
+> is not scarce -- it is **unlinked**. Only 33.3% of questions carried a scheme,
+> but a separate store (`answer_keys.db`) holds 4,483 official answers with real
+> value points, and 88.6% of those rows sit under a filename carrying the CBSE
+> paper code that the question's source document also carries. Nothing joined
+> the two.
+>
+> A relink pass now walks `question -> parse tree -> paper code -> answer_keys`
+> and attaches the official scheme where one exists. Coverage went from 33.3% to
+> **40.1%**, and the index itself from 1,040 to **4,404 of 4,483 rows (98%)**
+> after fixing the paper-code normaliser, which only accepted `[/-]` and so
+> dropped every filename using `.` or `_` (real files carry `31.1.1`,
+> `55_7_1`, `X_086_31_1-1`). The remaining gap is now a **question-number
+> mismatch** between paper and scheme (1,150 questions), not a missing answer.
 
 ---
 
@@ -181,24 +205,33 @@ Status page | Separate from the app's `/health`; consumers need to know about *y
 
 ## 7. What exists vs what is needed
 
+Updated 2026-09-17 with measured results. "exists" now means tested.
+
 | Capability | Today | Needed |
 |---|---|---|
-Question pool with provenance | **exists** | expose provenance fields |
-Marking schemes | **exists** | expose as its own resource |
-Curriculum binding | **exists** (`qmap` subtopics) | expose as a filter |
-Lexical + semantic search | **exists** internally | wrap in a GET resource API |
-Facets | **partial** (`/catalog`) | real facet endpoint with counts |
-Blueprint paper generation | **exists** | expose with a documented schema |
-Pagination | **absent** | cursor |
-Versioning | **absent** | `/v1`, record versions |
-Auth for third parties | **absent** | API keys, scoped |
-**Rights metadata** | **absent** | **blocking** (§2) |
-Rate limiting / quota | partially (`rate_limit.py` exists) | per-key quotas |
-SDKs, portal, changelog | **absent** | generate from the spec |
-Multilingual | **absent** | Hindi-first |
+| Question pool with provenance | **exists** | expose provenance fields |
+| Marking schemes | **exists**, and now **attached** where a paper code matches (33.3% -> 40.1%) | narrow the question-number mismatch |
+| Curriculum binding | **exists** (`qmap` subtopics) | 0% of the exported bank carries `subtopicIds`; chapter-level only |
+| Lexical + semantic search | **exists** internally | wrap in a GET resource API |
+| Facets | **done** -- `GET /v1/facets`, and `?facets=true` on the list | cdN caching |
+| Blueprint paper generation | **exists** | expose with a documented schema |
+| Pagination | **done** -- keyset cursor on `id`, verified to walk 3,286 rows with no duplicate or skip | — |
+| Versioning | **done** -- `QuestionBankStore` appends `(id, version)`, and `at_version()` reconstructs what was served | backfill the existing bank into the store |
+| Rights metadata | **done as a field** -- `rights` on every record, defaulting to `redistribution: "unknown"` so an unsettled position fails closed | **the counsel opinion itself, which still blocks distribution** |
+| Item review states | **done** -- draft / in_review / published / superseded, with illegal transitions refused | editorial UI |
+| Item-level audit trail | **done** -- every write appends a row with actor, note and both ends of a transition | an audit reader in the admin console |
+| Auth for third parties | **done** -- `ApiKeyStore`, SHA-256 at rest, scoped, revocable, per-key quota in SQLite | key issuance UI |
+| Rate limiting / quota | **done** -- per-key, counted in the database so N instances cannot each allow the full limit | — |
+| QTI export | **done** -- QTI 2.1 package (manifest + items + test), value points carried in `rubricBlock` | QTI 1.2 for legacy LMS deployments |
+| Grade by question | **done** -- `GET` one question across all students, `POST` one award to many | the Flutter review UI |
+| SDKs, portal, changelog | **sandbox done** (`scripts/export_qbank_sandbox.py`, 60 fabricated questions); spec and reference docs generate already | published Python and Dart SDKs, portal, changelog |
+| Multilingual | **absent** | Hindi-first. `language` exists on 100% of records but is `en` throughout |
+| Calibration | **absent** | `calibration.measured` is `false` everywhere; difficulty is derived from marks and Bloom, and the payload says so |
 
-Roughly: the corpus and the intelligence are ~80% there; the *product surface
-around it* is ~10%. That is the gap this document exists to name.
+Roughly: the corpus and the intelligence were ~80% there and the product surface
+~10%. The product surface is now the larger half — but the one item that gates
+everything, the rights position, is unchanged and still not an engineering
+problem.
 
 ---
 

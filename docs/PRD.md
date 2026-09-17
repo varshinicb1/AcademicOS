@@ -191,6 +191,95 @@ That is a real risk: fees and attendance are named as table stakes
 
 ---
 
+## 5A. The question bank as a board-grade asset
+
+**Added 2026-09-17 on the requirement that the bank should "work just like an
+examination board": complete curriculum coverage, every question mapped to a
+topic, an answer key for every question, a full range of marks per topic, and an
+MCP server so agents and the backend both work from it.**
+
+This is not a nice-to-have. §5 names the bank as the strongest asset the product
+has, and §12 question 11 names its licensing as the one thing gating revenue.
+
+### The rules
+
+| # | Rule | Why |
+|---|---|---|
+| **Q1** | **Without an answer key, no question.** A question with no marking scheme is excluded from the served bank. | An examination board does not issue a question it cannot mark. A bank mixing answerable and unanswerable items degrades every paper built from it, and one teacher discovers this holding a printed paper. |
+| **Q2** | Every question is mapped to a curriculum topic. | "Tagged to Board → Grade → Subject → Chapter → Subtopic, so a consumer can ask for 5-mark case-based questions on Chemical Reactions and get a real answer." Tagging is what makes it a database rather than a pile of PDFs. |
+| **Q3** | Every topic reports its full marks range, **including the gaps**. | A distribution listing only what exists hides that a topic has no 5-mark question, and a paper is discovered short at assembly time. |
+| **Q4** | Coverage is reported, never implied. | The corpus is genuinely incomplete. Saying so is the difference between a bank and a claim. |
+| **Q5** | One corpus, two surfaces. | The HTTP API and the MCP server query the same engine, so an agent and the backend cannot disagree about what the bank contains. |
+
+### What exists today, measured
+
+| | |
+|---|---|
+| Questions served | **4,000** (722 CBSE CBE items + 3,278 board-paper questions) |
+| Answer-key coverage | CBE import: **45.9%** of parsed candidates, but **722 of the ~893 items the documents state** — see below. Board-paper corpus: **40.1%** |
+| Topic mapping | CBE import: **312 distinct learning-ladder codes**, 87% of served items mapped |
+| Grades covered | **6–10** (CBE, three subjects) + 10 and 12 (board papers, 22 subjects) |
+| MCP tools | 7 — search, get, answer key, topics, marks distribution, coverage, build paper |
+| Marks range | 1–17, with **1–10 fully populated** |
+
+**On the 45.9% figure.** It is the percentage of parsed *candidates* that carry a
+scheme, and it understates the coverage because the parser deliberately
+over-produces: anchoring on either a content code or the `Item identity` header
+finds every real item and also fragments (a sub-question id inside a long item,
+an id inside a mark scheme). Fragments have no scheme, so they inflate the
+denominator. Measured against what the documents say they contain, the
+answer-bearing parse is close to complete:
+
+| | stated items | served, with answers |
+|---|---|---|
+| Maths 6 | 58 | **58** |
+| Science 6 | 42 | **41** |
+| Science 8 | 36 | **36** |
+| Science 9 | 59 | **58** |
+| Science 7 | 47 | **46** |
+| Maths 9 | 112 | **106** |
+
+The fragments are harmless: the Q1 gate removes them, and they are written to
+`_unanswerable.json` so a future parser iteration has them.
+
+### The source that made this possible
+
+CBSE publishes item banks at `cbseacademic.nic.in/cbe/assessment.html` —
+15 documents, Classes 6–10 × Mathematics/Science/English. Each item carries a
+learning-ladder content reference (`6A1a`, `9.1.13`), AO mark split, calculator
+rule, marks, the question, **and the published mark scheme**.
+
+That is the requirement in one file format, from the authority. Nothing
+third-party came close: two of the datasets surveyed carry no licence at all, and
+one "4.9M question-answer" dataset is model-generated rather than authentic.
+Provenance beats volume for a board-grade asset.
+
+### What is deliberately not claimed
+
+- **Not all subjects, not all grades.** The CBE banks are three subjects. Social
+  Science, Hindi and the Class 11–12 elective set are covered only by the
+  board-paper corpus, which is where answer-key coverage drops to 40%.
+- **English is the weak subject.** Class 7 (44 of 49) and Class 10 (18 of 31)
+  are reasonable; **Class 6 yields 4 of 46 and Class 9 yields 20 of 103.** Those
+  two documents are linked-passage items where the mark scheme sits far from the
+  question, and the current anchors do not span that distance.
+  `tests/test_cbse_cbe_parser.py::test_english_is_parsed_but_is_the_weak_subject`
+  pins this so it cannot regress silently.
+- **Rights are `unknown`.** These are CBSE documents with no written
+  redistribution position. The bank is usable inside a school; it is not
+  distributable as an API until counsel says otherwise.
+
+### Open questions this raises
+
+12. **Does the bank get extended to all subjects and grades from CBSE's own
+    sources, or from elsewhere?** The CBE programme covers three subjects; the
+    rest would need board papers with schemes, which is the 40% path.
+13. **Is the question bank sold separately from the school product?** §9 assumes
+    one product; `question-bank-api.md` proposes the bank as a standalone asset
+    gated on the rights position.
+
+---
+
 ## 6. Scope
 
 ### In scope for the first sellable version
