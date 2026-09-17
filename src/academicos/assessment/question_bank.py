@@ -184,6 +184,12 @@ class AnswerKeyIndex:
     def _load(self) -> None:
         con = sqlite3.connect(f"file:{self.db_path.as_posix()}?mode=ro", uri=True)
         con.row_factory = sqlite3.Row
+        # `busy_timeout` applies here; `journal_mode=WAL` does NOT, and is
+        # deliberately absent rather than forgotten. This connection is opened
+        # read-only to a database another process owns, and setting the journal
+        # mode is a write (`attempt to write a readonly database`). The read
+        # still needs a lock timeout, or it fails instantly against a writer.
+        con.execute("PRAGMA busy_timeout=60000")
         try:
             rows = list(con.execute(
                 "SELECT subject, grade, q_no, correct_option, answer_text, "

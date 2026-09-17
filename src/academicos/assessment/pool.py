@@ -429,6 +429,8 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str = "X") -> Qu
         try:
             reg = sqlite3.connect(cfg.registry_db)
             reg.row_factory = sqlite3.Row
+            # AGENTS.md section 3: every connection sets both pragmas.
+            reg.execute("PRAGMA journal_mode=WAL")
             reg.execute("PRAGMA busy_timeout=60000")
             rows = reg.execute(
                 "SELECT source_id, doc_type, subject, grade, academic_year FROM sources "
