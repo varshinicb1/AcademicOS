@@ -387,3 +387,244 @@ _SAFE_RE = re.compile(r"[^A-Za-z0-9._-]+")
 def _safe(name: str) -> str:
     """A filesystem-safe asset name. Item ids are alphanumeric but be certain."""
     return _SAFE_RE.sub("_", name)[:120]
+
+
+# --- position-based attribution ------------------------------------------
+#
+# Shape alone could not identify a figure. `_vector_regions` clusters paths by
+# proximity, which is also how it clusters a text box, a table and the ruled
+# answer area, so every page produced many candidates, everything became
+# contested, and attribution measured WORSE than raster-only (59 attached fell
+# to 2).
+#
+# The signal that was missing is the item's own position on the page. A figure
+# sits near the question that refers to it, so the nearest region to the item's
+# text is a far better candidate than any region selected on shape. This is
+# what a reader does without thinking about it.
+#
+# Two filters keep the vector noise from winning:
+#   * a region containing a sentence of text is a text box, not a figure --
+#     figures carry only short labels, so a character count separates them
+#   * a region overlapping the item's own anchor is the text, not a figure
+
+# A figure's own labels are short. A text box holds sentences. This is the line
+# between them, measured in characters inside the region.
+#
+# 60 was too high and let a wrong figure through: the item metadata table that
+# heads every CBE item reads "Subject | Class | Question reference/Filename"
+# plus its values, which is about 55 characters -- just under the line. Verified
+# by eye against the extracted asset, which was the table and not a figure.
+_MAX_LABEL_CHARS = 45
+
+# Every CBE item is headed by the same metadata table. It is page furniture, and
+# it sits right beside the item's own text, so proximity prefers it. Caught by
+# its content rather than its shape: it names the item, and it always says
+# "Question reference".
+_FURNITURE_RE = re.compile(r"question\s*reference|subject\s*class", re.I)
+
+# Beyond this vertical gap a region is not "the figure for this item".
+_MAX_GAP_PT = 420.0
+
+
+def _page_words(page) -> list:
+    """Word boxes for the page, used to detect text inside a region."""
+    try:
+        return page.get_text("words")
+    except Exception:                              # pragma: no cover
+        return []
+
+
+def _text_inside(rect, words) -> str:
+    """The text whose centre falls inside `rect`.
+
+    A figure with axis labels holds a handful of characters; a paragraph holds
+    hundreds; the metadata table holds a sentence and names the item.
+    """
+    parts = []
+    for x0, y0, x1, y1, word, *_rest in words:
+        cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
+        if rect.x0 <= cx <= rect.x1 and rect.y0 <= cy <= rect.y1:
+            parts.append(word)
+    return " ".join(parts)
+
+
+def _is_furniture(text: str, item_id: str) -> bool:
+    """Is this region page furniture rather than a figure?
+
+    The metadata table heads every item, so no page can be parsed by rejecting
+    it globally -- it must be rejected per region, which is why this takes the
+    item id.
+    """
+    if not text:
+        return False
+    if _FURNITURE_RE.search(text):
+        return True
+    return bool(item_id) and item_id in text
+
+
+def _find_anchor(page, text: str):
+    """Where the item's own text sits on this page, or None.
+
+    Uses the longest token in the stem as the probe. The longest word is the
+    most distinctive one, and `search_for` on a single token survives the
+    line-breaks and ligatures that break a multi-word phrase search.
+    """
+    tokens = sorted({w for w in re.findall(r"[A-Za-z][A-Za-z0-9]{4,}", text or "")},
+                    key=lambda w: (-len(w), w))
+    for token in tokens[:6]:
+        try:
+            hits = page.search_for(token)
+        except Exception:                          # pragma: no cover
+            continue
+        if hits:
+            return hits[0]
+    return None
+
+
+def _gap_from(anchor, rect) -> float:
+    """Vertical gap between the item's text and a region, in points.
+
+    Zero when they overlap vertically; otherwise the distance between them.
+    """
+    if rect.y1 < anchor.y0:
+        return anchor.y0 - rect.y1
+    if rect.y0 > anchor.y1:
+        return rect.y0 - anchor.y1
+    return 0.0
+
+
+def attribute_by_position(pdf_path: pathlib.Path,
+                          items: Iterable,
+                          out_dir: pathlib.Path,
+                          *, include_vector: bool = True) -> dict[str, Attribution]:
+    """Assign figures by proximity to the item that refers to them.
+
+    Greedy over `(item, region)` pairs sorted by gap, with mutual exclusion: an
+    image two items can claim is attached to neither unless proximity
+    distinguishes them. Ties are broken deterministically so a build is
+    reproducible.
+
+    `include_vector` defaults to True here, unlike `page_figures`, because the
+    nearest-region rule fixes what made vector clustering useless on its own --
+    38 items referred to a figure whose page held no raster image at all,
+    because CBSE draws most mathematics figures as vector paths.
+    """
+    items = list(items)
+    doc = _fitz.open(pdf_path)
+    try:
+        needs = []
+        for item in items:
+            text = getattr(item, "question", "") or ""
+            if not needs_figure(text):
+                continue
+            pages = [p for p in (getattr(item, "pages", []) or []) if 1 <= p <= doc.page_count]
+            if pages:
+                needs.append((item, pages))
+
+        # Anchor each item, and gather the candidate regions on its pages.
+        words_by_page: dict[int, list] = {}
+        regions_by_page: dict[int, list] = {}
+        for _item, pages in needs:
+            for page_no in pages:
+                if page_no not in regions_by_page:
+                    page = doc[page_no - 1]
+                    regions = _raster_regions(page)
+                    if include_vector:
+                        regions.extend(_vector_regions(page))
+                    regions_by_page[page_no] = regions
+                    words_by_page[page_no] = _page_words(page)
+
+        pairs = []
+        for item, pages in needs:
+            anchor = None
+            for page_no in pages:
+                anchor = _find_anchor(doc[page_no - 1], getattr(item, "question", "") or "")
+                if anchor is not None:
+                    anchor_page = page_no
+                    break
+            if anchor is None:
+                continue
+            for page_no in pages:
+                words = words_by_page.get(page_no, [])
+                for index, region in enumerate(regions_by_page.get(page_no, [])):
+                    rect = _fitz.Rect(region.bbox)
+                    gap = _gap_from(anchor, rect) + (0.0 if page_no == anchor_page else 60.0)
+                    if gap > _MAX_GAP_PT:
+                        continue
+                    text = _text_inside(rect, words)
+                    # A region holding a sentence is a text box.
+                    if len(text) > _MAX_LABEL_CHARS:
+                        continue
+                    # The item metadata table heads every item and sits beside
+                    # it, so proximity prefers it. Verified by eye as a wrong
+                    # figure before this filter existed.
+                    if _is_furniture(text, item.item_id):
+                        continue
+                    # A region overlapping the item's own text is the text.
+                    if anchor.intersects(rect) and gap == 0.0:
+                        continue
+                    pairs.append((gap, item.item_id, page_no, index))
+
+        # Greedy nearest-first with mutual exclusion.
+        pairs.sort(key=lambda p: (round(p[0], 2), p[1], p[2], p[3]))
+        taken_items: set[str] = set()
+        taken_regions: set[tuple[int, int]] = set()
+        assigned: dict[str, tuple[int, int, float]] = {}
+        for gap, item_id, page_no, index in pairs:
+            if item_id in taken_items or (page_no, index) in taken_regions:
+                continue
+            taken_items.add(item_id)
+            taken_regions.add((page_no, index))
+            assigned[item_id] = (page_no, index, gap)
+
+        results: dict[str, Attribution] = {}
+        out_dir.mkdir(parents=True, exist_ok=True)
+        for item in items:
+            text = getattr(item, "question", "") or ""
+            item_id = item.item_id
+            target = out_dir / f"{_safe(item_id)}.png"
+            if not needs_figure(text):
+                results[item_id] = Attribution("none", reason="no figure reference")
+                if target.exists():
+                    target.unlink()
+                continue
+            if item_id in assigned:
+                page_no, index, gap = assigned[item_id]
+                region = regions_by_page[page_no][index]
+                target.write_bytes(region.png)
+                results[item_id] = Attribution(
+                    "attached", figure=region, candidates=1,
+                    reason=f"nearest region, {gap:.0f}pt from the item's text")
+            else:
+                results[item_id] = Attribution(
+                    "ambiguous" if regions_by_page else "missing",
+                    candidates=sum(len(v) for v in regions_by_page.values()),
+                    reason="no region within reach, or all were claimed")
+                if target.exists():
+                    target.unlink()
+        return results
+    finally:
+        doc.close()
+
+
+def _raster_regions(page) -> list[Figure]:
+    """The embedded images on one page that could be a figure."""
+    out: list[Figure] = []
+    try:
+        infos = page.get_image_info()
+    except Exception:                              # pragma: no cover
+        return out
+    for info in infos:
+        if not _plausibly_a_figure(info):
+            continue
+        rect = _fitz.Rect(info["bbox"])
+        if rect.is_empty or rect.is_infinite:
+            continue
+        try:
+            pix = page.get_pixmap(clip=rect, dpi=_RENDER_DPI)
+        except Exception:                          # pragma: no cover
+            continue
+        out.append(Figure(page=page.number + 1, bbox=tuple(info["bbox"]),
+                          png=pix.tobytes("png"),
+                          width_px=pix.width, height_px=pix.height))
+    return out

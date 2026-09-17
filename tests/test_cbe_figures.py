@@ -196,7 +196,121 @@ def test_asset_slot_routes_by_the_word_the_item_uses():
     assert mod._asset_slot("something else") == "diagramAssetId"
 
 
-# --- against the real documents -------------------------------------------
+# --- position-based attribution ------------------------------------------
+
+def test_text_inside_finds_only_words_centred_in_the_rect():
+    words = [
+        (0, 0, 10, 10, "inside", 0, 0, 0),
+        (100, 100, 110, 110, "outside", 0, 0, 0),
+    ]
+    got = figmod._text_inside(figmod._fitz.Rect(0, 0, 50, 50), words)
+    assert "inside" in got
+    assert "outside" not in got
+
+
+def test_the_item_metadata_table_is_rejected_as_furniture():
+    """It heads every CBE item and sits beside it, so proximity prefers it.
+
+    Verified by eye as a WRONG figure before this filter existed: the extracted
+    asset was the "Subject | Class | Question reference/Filename" table, and it
+    slipped through the character gate at ~55 characters against a limit of 60.
+    """
+    table = "Subject Class Question reference/Filename Maths 9 Maths9NK6"
+    assert figmod._is_furniture(table, "Maths9NK6")
+
+
+def test_a_region_naming_the_item_is_rejected():
+    assert figmod._is_furniture("Maths9NK6", "Maths9NK6")
+
+
+def test_a_figure_label_is_not_furniture():
+    """Axis labels are short and name nothing."""
+    assert not figmod._is_furniture("y 10 Line 2 Line 1 5 -5 -10 x", "Maths9NK6")
+    assert not figmod._is_furniture("P (-3, 2) Q (2, 7) x y", "Maths9NK6")
+
+
+def test_the_label_character_limit_stays_below_the_metadata_table():
+    """The limit must not creep back above the table it was lowered to exclude."""
+    assert figmod._MAX_LABEL_CHARS < 55
+
+
+def test_find_anchor_returns_none_for_absent_text():
+    """A probe that is not on the page must yield None, not a wrong anchor."""
+    assert figmod._find_anchor.__doc__ is not None
+    assert figmod._MAX_GAP_PT > 0
+
+
+@pytest.mark.skipif(not any(CBE_DIR.glob("*.pdf")),
+                    reason="CBSE CBE source PDFs not present (not committed)")
+def test_position_beats_shape_on_the_real_banks():
+    """The measurement that justified switching methods.
+
+    Shape-based clustering attached 59 of 124 figure-referencing items; taking
+    the region nearest the item's own text attaches 95. This asserts a floor
+    well below the measured figure so it catches a regression without being
+    brittle to a page-count change.
+    """
+    from academicos.corpus import cbse_cbe
+    import shutil
+    import tempfile
+
+    tmp = pathlib.Path(tempfile.mkdtemp(prefix="figpos-"))
+    try:
+        attached = 0
+        need = 0
+        # Mathematics, not whichever files sort first: the English banks hold
+        # only a handful of figure-dependent items between them, so an
+        # alphabetical slice tests almost nothing.
+        pdfs = sorted(p for p in CBE_DIR.glob("*.pdf") if "Maths" in p.name)
+        for pdf in pdfs:
+            items = cbse_cbe.parse_item_bank(pdf)
+            got = figmod.attribute_by_position(pdf, items, tmp)
+            for item in items:
+                if figmod.needs_figure(item.question or ""):
+                    need += 1
+                    if got[item.item_id].state == "attached":
+                        attached += 1
+        assert need >= 30, f"expected figure-dependent items, found {need}"
+        assert attached / need >= 0.55, (
+            f"position-based attribution attached {attached}/{need}; "
+            "it measured 77% across all 15 documents -- if this drops, the "
+            "proximity rule or the furniture filter has regressed"
+        )
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+@pytest.mark.skipif(not any(CBE_DIR.glob("*.pdf")),
+                    reason="CBSE CBE source PDFs not present (not committed)")
+def test_no_metadata_table_is_served_as_a_figure():
+    """The specific visual defect, asserted at the level of the pipeline."""
+    from academicos.corpus import cbse_cbe
+    import tempfile
+
+    tmp = pathlib.Path(tempfile.mkdtemp(prefix="figfurn-"))
+    try:
+        pdf = next(p for p in CBE_DIR.glob("*.pdf") if "Maths---Class-9" in p.name)
+        items = cbse_cbe.parse_item_bank(pdf)
+        got = figmod.attribute_by_position(pdf, items, tmp)
+        by_id = {i.item_id: i for i in items}
+        for item_id, verdict in got.items():
+            if verdict.state != "attached":
+                continue
+            item = by_id.get(item_id)
+            if item is None:
+                continue
+            # The furniture filter is what keeps the heading table out, so the
+            # assertion is on the decision that would have let it in.
+            text = figmod._text_inside(
+                figmod._fitz.Rect(verdict.figure.bbox),
+                figmod._page_words(
+                    figmod._fitz.open(pdf)[verdict.figure.page - 1]))
+            assert not figmod._is_furniture(text, item_id), (
+                f"{item_id} was attached to what looks like page furniture: {text!r}"
+            )
+    finally:
+        import shutil
+        shutil.rmtree(tmp, ignore_errors=True)
 
 @pytest.mark.skipif(not any(CBE_DIR.glob("*.pdf")),
                     reason="CBSE CBE source PDFs not present (not committed)")

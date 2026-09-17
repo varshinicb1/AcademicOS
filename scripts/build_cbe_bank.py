@@ -111,7 +111,11 @@ def main() -> int:
             figure_errors.append(f"{pdf_name}: source PDF missing, figures skipped")
             continue
         try:
-            verdicts.update(figmod.extract_document(
+            # Proximity to the item's own text, not shape alone. Shape-based
+            # clustering could not tell a figure from a text box or the item
+            # metadata table, and measured WORSE than raster-only. Using the
+            # item's position took attributable figures from 59 to 95 of 124.
+            verdicts.update(figmod.attribute_by_position(
                 pdf, [i for i in answerable if i.source_pdf == pdf_name], FIGDIR))
         except Exception as exc:                  # pragma: no cover - defensive
             figure_errors.append(f"{pdf_name}: figure extraction failed: {exc}")
