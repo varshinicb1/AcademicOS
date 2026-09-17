@@ -6,6 +6,7 @@ scoped to the caller's school_id.
 """
 from __future__ import annotations
 
+import logging
 from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -16,6 +17,8 @@ from .auth_routes import get_current_user
 from .consent import ConsentStore, ParentalConsentRecord, get_consent_store
 from .schemas import Camel
 from .users import User
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1/consent", tags=["Parental Consent"])
 
@@ -42,8 +45,57 @@ def _require_audit() -> Optional[AuditLog]:
         try:
             _audit = get_audit_log()
         except Exception:
-            pass
+            # Was `pass`. A failed audit-store construction left `_audit = None`
+            # and every caller then skipped its audit write in silence, so
+            # consent could be recorded with no trail and no signal anywhere.
+            # The audit store is local SQLite; failing to build it means
+            # something is genuinely wrong and must be visible.
+            logger.exception(
+                "could not construct the audit log; consent changes will be "
+                "refused rather than recorded without a trail"
+            )
     return _audit
+
+
+def _audit_or_refuse(action: str, *, actor_id: str, consent_id: str,
+                     student_id: str, details: dict) -> None:
+    """Write an audit record, or fail the request.
+
+    Two defects lived here, and the second was hiding the first.
+
+    1. Both call sites wrapped the write in `except Exception: pass`, so the
+       consent write returned 200 even when the trail was incomplete. CERT-In
+       requires the trail, and a consent record it cannot describe is not a
+       compliant record.
+
+    2. The calls were `audit.record(action=..., actor_id=..., resource_type=...,
+       resource_id=...)`. `AuditLog` has no `record` method -- it has `append`,
+       with a different signature, and every other caller in the repo uses it.
+       So this raised `AttributeError` on EVERY consent write, from the day it
+       was written, and defect 1 swallowed it. The consent audit trail was never
+       written at all, and nothing anywhere said so.
+
+    Removing the swallow is what exposed it: the tests failed with
+    `AttributeError: 'AuditLog' object has no attribute 'record'`. That is the
+    argument for failing loudly in one line.
+    """
+    audit = _require_audit()
+    if audit is None:
+        raise HTTPException(
+            503, "audit trail unavailable; refusing to record this consent "
+                 "change without one")
+    try:
+        audit.append(
+            action,
+            student_id=student_id,
+            actor=actor_id,
+            details={**details, "consent_id": consent_id},
+        )
+    except Exception:
+        logger.exception("audit write failed for action %s", action)
+        raise HTTPException(
+            503, "audit trail write failed; refusing to report this consent "
+                 "change as complete")
 
 
 class RecordConsentRequest(Camel):
@@ -108,23 +160,17 @@ def record_consent(
         purpose=req.purpose,
     )
 
-    audit = _require_audit()
-    if audit:
-        try:
-            audit.record(
-                action="parental_consent_recorded",
-                actor_id=user.id,
-                resource_type="parental_consent",
-                resource_id=record.id,
-                details={
-                    "school_id": user.school_id,
-                    "student_id": record.student_id,
-                    "method": record.method,
-                    "guardian_name": record.guardian_name,
-                },
-            )
-        except Exception:
-            pass
+    _audit_or_refuse(
+        "parental_consent_recorded",
+        actor_id=user.id,
+        consent_id=record.id,
+        student_id=record.student_id,
+        details={
+            "school_id": user.school_id,
+            "method": record.method,
+            "guardian_name": record.guardian_name,
+        },
+    )
 
     return record
 
@@ -140,20 +186,12 @@ def revoke_consent(
     if not updated:
         raise HTTPException(404, f"no consent record found for student '{student_id}'")
 
-    audit = _require_audit()
-    if audit:
-        try:
-            audit.record(
-                action="parental_consent_revoked",
-                actor_id=user.id,
-                resource_type="parental_consent",
-                resource_id=updated.id,
-                details={
-                    "school_id": user.school_id,
-                    "student_id": student_id,
-                },
-            )
-        except Exception:
-            pass
+    _audit_or_refuse(
+        "parental_consent_revoked",
+        actor_id=user.id,
+        consent_id=updated.id,
+        student_id=student_id,
+        details={"school_id": user.school_id},
+    )
 
     return ConsentStatusResponse(has_consent=False, record=updated)

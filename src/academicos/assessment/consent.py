@@ -64,6 +64,21 @@ class ParentalConsentRecord(BaseModel):
 
     @classmethod
     def from_row(cls, row: dict[str, Any]) -> ParentalConsentRecord:
+        # A consent status must FAIL CLOSED.
+        #
+        # This read `row.get("status") or "granted"`, so a missing or empty
+        # status was interpreted as GRANTED consent. That is the wrong direction
+        # for the failure: a partial Supabase payload, a schema drift or a
+        # truncated write would silently grant permission to process a minor's
+        # data, and nothing would look wrong. An unknown status is not consent,
+        # and the safe reading of "I cannot tell" is "no".
+        status = row.get("status")
+        if not status or not str(status).strip():
+            raise ValueError(
+                f"parental consent record {row.get('id')!r} has no status; "
+                "refusing to read an unknown status as granted. Consent data "
+                "fails closed."
+            )
         return cls(
             id=row["id"],
             schoolId=row["school_id"],
@@ -71,7 +86,7 @@ class ParentalConsentRecord(BaseModel):
             guardianName=row["guardian_name"],
             guardianRelationship=row.get("guardian_relationship") or "parent",
             method=row["method"],
-            status=row.get("status") or "granted",
+            status=str(status).strip(),
             purpose=row.get("purpose") or "assessment_and_grading",
             notes=row.get("notes"),
             recordedBy=row["recorded_by"],
@@ -88,6 +103,13 @@ class ConsentStore:
         db_path.parent.mkdir(parents=True, exist_ok=True)
         self.conn = sqlite3.connect(str(db_path), check_same_thread=False)
         self.conn.row_factory = sqlite3.Row
+        # AGENTS.md section 3 mandates both pragmas on EVERY connection. This
+        # store set neither: no WAL, and no busy_timeout, under multi-threaded
+        # FastAPI, on the store holding DPDP consent records. A locked database
+        # here did not merely fail -- it failed on the one write that has to be
+        # durable.
+        self.conn.execute("PRAGMA journal_mode=WAL")
+        self.conn.execute("PRAGMA busy_timeout=60000")
         self._init_db()
 
     def _init_db(self) -> None:
