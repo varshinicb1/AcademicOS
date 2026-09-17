@@ -4,6 +4,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
+**Start with [`docs/PRD.md`](docs/PRD.md)** — what the product is for, who uses it,
+what is in scope, what is explicitly out of scope, and which decisions are still
+open. It is the entry point this repo was missing; the sections below assume you
+have read it.
+
 AcademicOS — an evidence-grounded knowledge graph + retrieval + reasoning substrate over the
 CBSE/NCERT corpus (question papers, marking schemes, model answers, curricula, circulars,
 bye-laws). The active platform comprises a FastAPI backend (`src/academicos/`) and one Flutter

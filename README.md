@@ -113,7 +113,8 @@ flutter test
 
 ## Documentation
 
-- [docs/PRODUCTS_AND_RELEASES.md](docs/PRODUCTS_AND_RELEASES.md) — **Start here.** Which product/release you are looking at
+- [docs/PRD.md](docs/PRD.md) — **Start here.** What the product is for, who uses it, what is in scope, what is explicitly out of scope, which decisions are still open, and where every other document lives. Every claim is marked as cited, proposed, or open — it does not pretend to know what has not been decided
+- [docs/PRODUCTS_AND_RELEASES.md](docs/PRODUCTS_AND_RELEASES.md) — Which product/release you are looking at: two clients (offline Mobile, cloud Web) and two backends (Render live, GCP written)
 - [docs/REQUIREMENTS_BY_LAYER.md](docs/REQUIREMENTS_BY_LAYER.md) — Every requirement split into what the **backend** must deliver vs what the **frontend** must deliver, with verification depth
 - [docs/design-system.md](docs/design-system.md) — The design system: white-first, emoji-free, token-driven. Machine-readable source at `design/tokens.json`
 - [docs/research/ui-ux-principles.md](docs/research/ui-ux-principles.md) — Research: dashboard UX, habit formation, teacher adoption, and the Indian context. Cited, including where the evidence is weak

@@ -129,6 +129,7 @@ Pages) needs the same `rm` by hand.
 
 | Document | Scope |
 |---|---|
+| **`docs/PRD.md`** | **Start here.** What the product is for, who uses it, scope, non-goals, and the decisions still open |
 | **This file** | Which product/release you are looking at |
 | `docs/REQUIREMENTS_BY_LAYER.md` | Every requirement, split by frontend vs backend, with verification depth |
 | `docs/design-system.md` + `design/tokens.json` | The design system and its machine-readable token source |

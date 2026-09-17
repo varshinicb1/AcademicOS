@@ -2,6 +2,13 @@
 
 This document provides mandatory operational context, architectural rules, and engineering invariants for AI coding agents and human contributors working on **AcademicOS**.
 
+**Before writing code, read [`docs/PRD.md`](docs/PRD.md).** This file tells you *how*
+the system is built; the PRD tells you *what it is for, who uses it, and what it is
+not*. Several questions that look like engineering decisions here are product
+decisions that are still **open** — the PRD §12 lists them, and §7 lists the
+non-goals that are binding. Building the wrong thing correctly is the most
+expensive failure mode in this repo.
+
 ---
 
 ## 1. System Vision & Architecture
