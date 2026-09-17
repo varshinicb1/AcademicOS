@@ -234,10 +234,58 @@ def test_the_label_character_limit_stays_below_the_metadata_table():
     assert figmod._MAX_LABEL_CHARS < 55
 
 
-def test_find_anchor_returns_none_for_absent_text():
-    """A probe that is not on the page must yield None, not a wrong anchor."""
-    assert figmod._find_anchor.__doc__ is not None
-    assert figmod._MAX_GAP_PT > 0
+class _FakePage:
+    """A page whose only behaviour is `search_for`, which is all `_find_anchor` uses."""
+
+    def __init__(self, hits):
+        self._hits = hits
+        self.searched: list[str] = []
+
+    def search_for(self, token):
+        self.searched.append(token)
+        return self._hits
+
+
+def test_find_anchor_returns_none_when_nothing_on_the_page_matches():
+    """A probe that is absent must yield None, not a wrong anchor.
+
+    This previously asserted `_find_anchor.__doc__ is not None` -- it checked
+    that a docstring existed and never exercised the behaviour its own name
+    described. A test whose body does not match its name is worse than a missing
+    test, because it reports green for a function that could be entirely broken.
+    """
+    page = _FakePage([])
+    assert figmod._find_anchor(page, "in the given figure find the value of x") is None
+    assert page.searched, "the probe should have been attempted"
+
+
+def test_find_anchor_returns_the_first_hit_and_probes_the_longest_token_first():
+    """The longest word is the most distinctive, so it is tried first.
+
+    A single token also survives the line-breaks that break a phrase search.
+    """
+    hit = figmod._fitz.Rect(10, 10, 80, 20)
+    page = _FakePage([hit])
+    got = figmod._find_anchor(page, "in the given figure find the value of photosynthesis")
+    assert got == hit
+    assert page.searched[0] == "photosynthesis", (
+        f"probed {page.searched[0]!r} first; the longest token should be first"
+    )
+
+
+def test_find_anchor_falls_through_to_shorter_tokens():
+    """If the longest token is not on the page, a shorter one is tried."""
+    hit = figmod._fitz.Rect(0, 0, 5, 5)
+
+    class _Picky(_FakePage):
+        def search_for(self, token):
+            self.searched.append(token)
+            return [hit] if token == "triangle" else []
+
+    page = _Picky([])
+    assert figmod._find_anchor(page, "the photosynthesis triangle") == hit
+    assert page.searched[0] == "photosynthesis"
+    assert "triangle" in page.searched
 
 
 @pytest.mark.skipif(not any(CBE_DIR.glob("*.pdf")),
@@ -323,13 +371,18 @@ def test_no_metadata_table_is_served_as_a_figure():
 
 @pytest.mark.skipif(not any(CBE_DIR.glob("*.pdf")),
                     reason="CBSE CBE source PDFs not present (not committed)")
-def test_real_figures_are_extracted_and_contested_ones_withheld():
+def test_real_figures_are_extracted_and_contested_ones_withheld(tmp_path):
     """The floors that make this work real rather than theoretical."""
     from academicos.corpus import cbse_cbe
 
     pdf = next(p for p in CBE_DIR.glob("*.pdf") if "Maths-Class-6" in p.name)
     items = cbse_cbe.parse_item_bank(pdf)
-    got = figmod.extract_document(pdf, items, pathlib.Path("C:/Temp/figcheck"))
+    # `tmp_path`, not a hardcoded path. This wrote to `C:/Temp/figcheck`, which
+    # on Linux and macOS becomes a RELATIVE directory literally named `C:` in
+    # the working tree, and on Windows depends on `C:\Temp` already existing.
+    # The only test that verifies real figure extraction was therefore the one
+    # test that could not run anywhere but this workstation.
+    got = figmod.extract_document(pdf, items, tmp_path)
 
     assert len(items) > 50, "the Maths 6 bank should parse to ~107 items"
     attached = sum(1 for v in got.values() if v.state == "attached")
