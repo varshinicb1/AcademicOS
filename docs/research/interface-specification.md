@@ -58,10 +58,27 @@ incomplete ones makes the product worse, not bigger.
 | Vercel | Progressive disclosure done honestly | Summary up top, logs one click deep |
 | — | from [ArtofStyleframe, Mar 2026](https://artofstyleframe.com/blog/dashboard-design-patterns-web-apps/) | |
 
-We adopt: sidebar **256px** (64px collapsed rail), row height **36px dense /
-48px comfortable** as a user toggle, and a **hard cap of 4 KPI tiles** on any
-single view. Stripe's discipline is not conservatism, it is the finding that
-"a screen with twenty equal widgets is a screen with none."
+We adopt the research's *ranges*, but the **values come from
+`design/tokens.json`** and are not restated here, because a number written in
+prose drifts from the number the code uses — which is exactly what happened
+when this section was first drafted with 256px/36px/48px against the tokens'
+`--layout-sidebarWidth: 240px`, `--compact-rowHeight: 32px` and
+`--comfortable-rowHeight: 44px`. Tokens win; they already sit inside every
+published range (240 is within 240–280, and 44 is the WCAG-recommended touch
+target the tokens also carry as `--target-touch`).
+
+| Decision | Token, not a number |
+|---|---|
+| Sidebar width | `--layout-sidebarWidth` / `--layout-sidebarCollapsedWidth` |
+| Row height, dense vs comfortable | `--compact-rowHeight` / `--comfortable-rowHeight` |
+| Cell padding | `--compact-cellPadding*` / `--comfortable-cellPadding*` |
+| Content max width | `--layout-contentMaxWidth` |
+| Touch and pointer targets | `--target-touch` / `--target-pointer` |
+| Z-order | `--z-*` ladder — never an invented value |
+
+And a **hard cap of 4 KPI tiles** on any single view. Stripe's discipline is
+not conservatism, it is the finding that "a screen with twenty equal widgets is
+a screen with none."
 
 ### The counter-position, stated fairly
 
