@@ -1,0 +1,1804 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AcademicOS — screen review</title>
+<link rel="stylesheet" href="tokens.css">
+<style>
+/* ===========================================================================
+ * Review harness.  Not product code -- this file exists so a human can look at
+ * every screen in one place and mark it up.  Every value comes from tokens.css;
+ * scripts/check_design_tokens.py scans this file, so a raw hex or an emoji here
+ * fails the build exactly as it would in the app.
+ *
+ * Revision 2, after review feedback that v1 read as templated.  The specific
+ * faults, all of which were real:
+ *
+ *   1. 68 pills across 35 screens, 6 colours for ~25 states. Green covered
+ *      "On pace", "Approved", "Done", "Solid", "On", "1 mark" -- so green
+ *      carried no meaning, and colour could not signal anything.
+ *   2. Pills were used for things that are not status: a mark value, a
+ *      timestamp, a tag, a count. The pill was the only container available,
+ *      so everything became a capsule.
+ *   3. 12 checkboxes, none styled -- browser defaults at ~13px, which is the
+ *      exact WCAG 2.5.8 risk this file's own accessibility section flags.
+ *   4. 107 border declarations across 94 bordered containers. Boxes were doing
+ *      work that spacing should do, on every screen.
+ *
+ * What replaced them:
+ *   - Status is a dot and a word, no capsule. HEALTHY STATES ARE GREY. Only
+ *     "at risk" and "overdue" take colour, so colour now means one thing.
+ *   - Tags, counts and metrics have their own three treatments, none of them a
+ *     status.
+ *   - Selection has a 34px hit target around a 17px box, a selected-row
+ *     background, and a header select-all. The control is still a real
+ *     <input type=checkbox> -- a fake one would be worse for keyboard and
+ *     screen-reader users.
+ *   - Metric tiles lost their border and background. Type and space do the
+ *     grouping, so the numbers get the attention instead of four boxes.
+ * =========================================================================== */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--color-surface-canvas);
+  color: var(--color-neutral-600);
+  font-family: var(--font-ui);
+  font-size: var(--text-base);
+  line-height: var(--leading-base);
+  -webkit-font-smoothing: antialiased;
+}
+h1 { font-size: var(--text-2xl); line-height: var(--leading-2xl); color: var(--color-neutral-900); margin: 0 0 var(--space-2); font-weight: var(--font-semibold); letter-spacing: -0.01em; }
+h2 { font-size: var(--text-lg); line-height: var(--leading-lg); color: var(--color-neutral-900); margin: 0; font-weight: var(--font-semibold); letter-spacing: -0.01em; }
+h3 { font-size: var(--text-sm); line-height: var(--leading-sm); color: var(--color-neutral-900); margin: 0 0 var(--space-2); font-weight: var(--font-semibold); }
+p { margin: 0 0 var(--space-2); }
+a { color: var(--color-brand-600); }
+
+/* Focus is shown everywhere in this file, not just on the button showcase.
+   A reviewer cannot judge a control they cannot see the focus state of. */
+:focus-visible { outline: 2px solid var(--color-brand-600); outline-offset: 2px; border-radius: var(--radius-sm); }
+
+/* -- page chrome ---------------------------------------------------------- */
+.top { border-bottom: var(--border-default) solid var(--color-neutral-200); background: var(--color-surface-card); padding: var(--space-6) var(--space-8); }
+.top p { max-width: var(--layout-proseMaxWidth); color: var(--color-neutral-500); }
+.wrap { display: grid; grid-template-columns: 248px 1fr; gap: var(--space-8); padding: var(--space-8); align-items: start; }
+@media (max-width: 1100px) { .wrap { grid-template-columns: 1fr; } }
+.toc { position: sticky; top: var(--space-8); font-size: var(--text-sm); max-height: calc(100vh - var(--space-16)); overflow: auto; }
+.toc h3 { text-transform: uppercase; letter-spacing: .06em; font-size: var(--text-2xs); color: var(--color-neutral-400); margin: var(--space-4) 0 var(--space-1); font-weight: var(--font-medium); }
+.toc a { display: block; padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); color: var(--color-neutral-600); text-decoration: none; }
+.toc a:hover { background: var(--color-surface-inset); color: var(--color-neutral-900); }
+
+.screen { margin-bottom: var(--space-12); scroll-margin-top: var(--space-4); }
+.screen > header { display: flex; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-1); }
+.screen > header .tag { font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--color-neutral-400); }
+.note { color: var(--color-neutral-500); font-size: var(--text-sm); line-height: var(--leading-sm); max-width: var(--layout-proseMaxWidth); margin-bottom: var(--space-3); }
+
+/* Annotation, deliberately styled to look like annotation and never like
+   product UI. Dashed, monospace label, no card treatment -- a reviewer must
+   never mistake my note for part of the screen. */
+.ask {
+  margin-top: var(--space-3);
+  border-left: var(--border-strong) dashed var(--color-neutral-300);
+  padding: var(--space-1) 0 var(--space-1) var(--space-4);
+  font-size: var(--text-sm);
+  line-height: var(--leading-sm);
+  color: var(--color-neutral-500);
+  max-width: var(--layout-proseMaxWidth);
+}
+.ask b { color: var(--color-neutral-900); font-weight: var(--font-semibold); }
+.flag { display: inline-block; font-size: var(--text-2xs); font-weight: var(--font-medium); padding: 1px var(--space-2); border-radius: var(--radius-sm); background: var(--color-warning-bg); color: var(--color-warning-fg); border: var(--border-default) solid var(--color-warning-border); }
+
+/* -- device frames ------------------------------------------------------- */
+.frame { border: var(--border-default) solid var(--color-neutral-200); border-radius: var(--radius-lg); background: var(--color-surface-card); overflow: hidden; box-shadow: var(--shadow-sm); }
+.frame--desk { width: 100%; max-width: 1180px; }
+.frame--phone { width: 390px; border-radius: var(--radius-xl); border-color: var(--color-neutral-300); }
+.phone-row { display: flex; gap: var(--space-6); flex-wrap: wrap; align-items: flex-start; }
+
+/* =========================================================================
+ * App mock language.
+ * ======================================================================= */
+.app { display: grid; grid-template-columns: var(--layout-sidebarWidth) 1fr; min-height: 620px; background: var(--color-surface-canvas); }
+
+/* The sidebar recedes: it is orientation, not the work. Muted labels, no
+   borders between groups, and the active row is the only colour in it. */
+.side { background: var(--color-surface-card); border-right: var(--border-default) solid var(--color-neutral-200); padding: var(--space-3) var(--space-2); font-size: var(--text-sm); }
+.brand { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-2); margin-bottom: var(--space-4); font-weight: var(--font-semibold); color: var(--color-neutral-900); }
+.brand .mark { width: 20px; height: 20px; border-radius: var(--radius-sm); background: var(--color-brand-600); display: grid; place-items: center; color: var(--color-neutral-0); font-size: var(--text-2xs); flex: none; }
+.side h4 { margin: var(--space-4) 0 var(--space-1); padding: 0 var(--space-2); font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: .06em; color: var(--color-neutral-400); font-weight: var(--font-medium); }
+.side .i { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); color: var(--color-neutral-500); }
+.side .i.on { background: var(--color-brand-50); color: var(--color-brand-600); font-weight: var(--font-medium); }
+.side .i .dot { width: 13px; height: 13px; border-radius: var(--radius-sm); background: var(--color-neutral-200); flex: none; }
+.side .i.on .dot { background: var(--color-brand-600); }
+.side .i .n { margin-left: auto; font-size: var(--text-2xs); color: var(--color-neutral-400); font-variant-numeric: tabular-nums; }
+
+.main { min-width: 0; display: flex; flex-direction: column; }
+.topbar { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-5); background: var(--color-surface-card); border-bottom: var(--border-default) solid var(--color-neutral-200); font-size: var(--text-sm); }
+.search { flex: 1; max-width: 420px; display: flex; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-3); border: var(--border-default) solid var(--color-neutral-200); border-radius: var(--radius-md); background: var(--color-surface-canvas); color: var(--color-neutral-400); }
+.search kbd { margin-left: auto; font-family: var(--font-mono); font-size: var(--text-2xs); border: var(--border-default) solid var(--color-neutral-200); border-radius: var(--radius-sm); padding: 0 var(--space-1); background: var(--color-surface-card); }
+.avatar { width: 24px; height: 24px; border-radius: var(--radius-full); background: var(--color-surface-inset); color: var(--color-neutral-500); display: grid; place-items: center; font-size: var(--text-2xs); font-weight: var(--font-medium); flex: none; }
+
+.body { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-6); }
+.crumbs { font-size: var(--text-xs); color: var(--color-neutral-400); }
+/* The page title is the largest thing on the screen. Everything else is
+   subordinate to it by size, not by being put in a box. */
+.pageh { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
+.pageh h2 { font-size: var(--text-xl); line-height: var(--leading-xl); }
+.pageh .desc { font-size: var(--text-sm); color: var(--color-neutral-500); max-width: 620px; margin-top: var(--space-1); }
+.acts { display: flex; gap: var(--space-2); flex: none; align-items: center; }
+
+/* -- buttons ------------------------------------------------------------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 32px; padding: 0 var(--space-4); border-radius: var(--radius-md); border: var(--border-default) solid transparent; font: inherit; font-size: var(--text-sm); font-weight: var(--font-medium); white-space: nowrap; }
+.btn--primary { background: var(--btn-primaryBg); color: var(--btn-primaryFg); }
+.btn--sec { background: var(--btn-secondaryBg); color: var(--color-neutral-900); border-color: var(--color-neutral-300); }
+.btn--ghost { background: transparent; color: var(--color-neutral-500); padding: 0 var(--space-2); }
+.btn--danger { background: var(--btn-dangerBg); color: var(--btn-dangerFg); }
+.btn--off { background: var(--btn-disabledBg); color: var(--btn-disabledFg); border-color: var(--btn-disabledBorder); }
+.btn--sm { min-height: 26px; padding: 0 var(--space-3); font-size: var(--text-xs); }
+.btn--sec:hover, .btn--ghost:hover { background: var(--color-surface-inset); }
+
+/* -- status: a dot and a word -------------------------------------------
+ * No capsule, no background, no border. Colour is reserved for the two
+ * states a person must act on, so a red word on a page means something.
+ * Healthy states are deliberately grey -- if every row is green, green is
+ * decoration and the one real problem is invisible among it. */
+.st { display: inline-flex; align-items: center; gap: 6px; font-size: var(--text-xs); line-height: 1.2; white-space: nowrap; color: var(--color-neutral-500); }
+.st::before { content: ""; width: 6px; height: 6px; border-radius: var(--radius-full); background: currentColor; flex: none; }
+.st--bad { color: var(--color-danger-fg); font-weight: var(--font-medium); }
+.st--warn { color: var(--color-warning-fg); font-weight: var(--font-medium); }
+.st--ok, .st--info { color: var(--color-neutral-500); }
+.st--off { color: var(--color-neutral-400); }
+.st--off::before { background: transparent; box-shadow: inset 0 0 0 1.5px currentColor; }
+
+/* A tag is a label, not a state: neutral, small, never coloured. */
+.tag-n { display: inline-block; padding: 1px var(--space-2); border-radius: var(--radius-sm); font-size: var(--text-2xs); color: var(--color-neutral-500); background: var(--color-surface-inset); white-space: nowrap; }
+/* A count is a number, not a state. It keeps its column alignment. */
+.n-badge { display: inline-block; min-width: 20px; text-align: right; font-size: var(--text-xs); font-variant-numeric: tabular-nums; color: var(--color-neutral-500); }
+/* An active filter is a chip with a way out of it. Not a status and not a tag
+   -- it is the one of the four that the user has to be able to remove. */
+.chip { display: inline-flex; align-items: center; gap: var(--space-2); padding: 1px var(--space-2); border: var(--border-default) solid var(--color-neutral-300); border-radius: var(--radius-md); font-size: var(--text-xs); color: var(--color-neutral-900); background: var(--color-surface-card); }
+.chip .x { color: var(--color-neutral-400); cursor: pointer; }
+.chip:hover { border-color: var(--color-neutral-400); }
+
+/* -- selection ----------------------------------------------------------
+ * The hit target is 34px and the visible box is 17px: a 13px browser default
+ * in a 32px row is a miss waiting to happen, and 24x24 is the WCAG 2.5.8
+ * floor. The input stays a real checkbox so keyboard and screen readers work
+ * unchanged; only its surroundings are designed. */
+.sel { display: inline-grid; place-items: center; width: 34px; height: 34px; margin: 0; cursor: pointer; border-radius: var(--radius-sm); }
+.sel:hover { background: var(--color-surface-inset); }
+.sel input { width: 17px; height: 17px; margin: 0; accent-color: var(--color-brand-600); cursor: pointer; }
+th.selhead { width: 40px; padding-left: var(--space-2); }
+td.selcell { padding-left: var(--space-2); }
+tr.on { background: var(--color-brand-50); }
+tr.on:hover { background: var(--color-brand-50); }
+/* The bulk bar sits against the table it acts on, not floating at the far
+ * end of the page, so the selection and its consequences stay in one view. */
+.bulk { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-4); border-top: var(--border-default) solid var(--color-neutral-200); background: var(--color-brand-50); font-size: var(--text-sm); }
+
+/* -- cards, tiles, tables ------------------------------------------------
+ * Cards are for genuinely separate panels. Most screens need one at most. */
+.card { background: var(--color-surface-card); border: var(--border-default) solid var(--color-neutral-200); border-radius: var(--radius-lg); }
+.card > .h { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-3) var(--space-4); border-bottom: var(--border-default) solid var(--color-neutral-200); }
+.card > .h h3 { margin: 0; }
+.card > .b { padding: var(--space-4); }
+
+.grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--space-6); }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
+.grid2b { display: grid; grid-template-columns: 296px 1fr; gap: var(--space-5); align-items: start; }
+.grid3b { display: grid; grid-template-columns: 250px 1fr 300px; gap: var(--space-5); align-items: start; }
+@media (max-width: 900px) { .grid4, .grid2, .grid2b, .grid3b { grid-template-columns: 1fr; } }
+
+/* Metric tiles have no border and no background. Four bordered boxes is the
+ * templated look; type and space group them better, and the number gets the
+ * attention instead of the container. */
+.kpi { padding: 0; }
+.kpi .lab { font-size: var(--text-xs); color: var(--color-neutral-400); }
+.kpi .val { font-size: var(--text-3xl); line-height: var(--leading-3xl); font-weight: var(--font-semibold); color: var(--color-neutral-900); font-variant-numeric: tabular-nums; letter-spacing: -0.02em; margin-top: var(--space-1); display: block; }
+.kpi .val small { font-size: var(--text-lg); font-weight: var(--font-regular); color: var(--color-neutral-400); margin-left: 1px; }
+.kpi .dl { font-size: var(--text-xs); margin-top: var(--space-1); font-variant-numeric: tabular-nums; }
+.kpi .hint { font-size: var(--text-xs); color: var(--color-neutral-400); margin-top: var(--space-1); }
+.kpi--boxed { padding: var(--space-3) var(--space-4); background: var(--color-surface-card); border: var(--border-default) solid var(--color-neutral-200); border-radius: var(--radius-lg); }
+.up { color: var(--color-neutral-500); } .down { color: var(--color-danger-fg); } .flat { color: var(--color-neutral-400); }
+
+table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+th { text-align: left; font-size: var(--text-xs); color: var(--color-neutral-400); font-weight: var(--font-regular); padding: var(--space-2) var(--space-3); border-bottom: var(--border-default) solid var(--color-neutral-200); white-space: nowrap; }
+td { padding: var(--space-2) var(--space-3); border-bottom: var(--border-default) solid var(--color-neutral-100); vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+td.ink { color: var(--color-neutral-900); }
+tbody tr:hover { background: var(--color-surface-canvas); }
+/* A row action is a link, not a button. Thirty-nine bordered ghost buttons down
+ * the side of the tables is what made v1 look busy. Hiding them until hover
+ * would cost discoverability and does nothing on touch, so instead they stay
+ * visible and go quiet: plain text, brand colour, underline on hover. */
+.linkact { background: none; border: none; padding: 0; font: inherit; font-size: var(--text-xs); color: var(--color-brand-600); cursor: pointer; }
+.linkact:hover { text-decoration: underline; }
+
+.bar { height: 4px; border-radius: var(--radius-full); background: var(--color-surface-inset); overflow: hidden; }
+.bar > i { display: block; height: 100%; background: var(--color-neutral-400); }
+.bar.w > i { background: var(--color-warning-fg); }
+.bar.d > i { background: var(--color-danger-fg); }
+.meter { display: flex; align-items: center; gap: var(--space-3); }
+.meter .track { flex: 1; height: 6px; border-radius: var(--radius-full); background: var(--color-surface-inset); position: relative; overflow: hidden; }
+.meter .fill { position: absolute; inset: 0 auto 0 0; background: var(--color-neutral-500); }
+.meter .fill.ok { background: var(--color-success-fg); }
+.meter .fill.short { background: var(--color-warning-fg); }
+.meter .goal { position: absolute; top: -2px; bottom: -2px; width: 2px; background: var(--color-neutral-900); }
+
+.sec { font-size: var(--text-xs); color: var(--color-neutral-400); margin-bottom: var(--space-2); }
+/* An inspector groups detail; it does not need to be a box as well. */
+.ins { padding: 0; }
+.ins--boxed { background: var(--color-surface-card); border: var(--border-default) solid var(--color-neutral-200); border-radius: var(--radius-lg); padding: var(--space-4); }
+.ins dl { margin: 0; font-size: var(--text-sm); }
+.ins dt { font-size: var(--text-xs); color: var(--color-neutral-400); margin-top: var(--space-3); }
+.ins dd { margin: var(--space-1) 0 0; color: var(--color-neutral-900); }
+
+.tree { font-size: var(--text-sm); }
+.tree .n { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-1) var(--space-2); border-radius: var(--radius-sm); color: var(--color-neutral-600); }
+.tree .n.on { background: var(--color-brand-50); color: var(--color-brand-600); font-weight: var(--font-medium); }
+.tree .l2 { padding-left: var(--space-5); } .tree .l3 { padding-left: var(--space-8); } .tree .l4 { padding-left: var(--space-12); }
+.tree .n .c { margin-left: auto; font-size: var(--text-2xs); color: var(--color-neutral-400); font-variant-numeric: tabular-nums; }
+
+.phone { display: flex; flex-direction: column; height: 700px; background: var(--color-surface-canvas); }
+.pstat { display: flex; justify-content: space-between; padding: var(--space-1) var(--space-4); font-size: var(--text-2xs); color: var(--color-neutral-400); font-family: var(--font-mono); }
+.pnav { display: flex; justify-content: space-around; border-top: var(--border-default) solid var(--color-neutral-200); background: var(--color-surface-card); padding: var(--space-2) 0; margin-top: auto; font-size: var(--text-2xs); color: var(--color-neutral-400); }
+.pnav .on { color: var(--color-brand-600); font-weight: var(--font-medium); }
+.pnav span { display: flex; flex-direction: column; align-items: center; gap: var(--space-1); }
+.pnav .sq { width: 15px; height: 15px; border-radius: var(--radius-sm); background: currentColor; opacity: .3; }
+.pnav .on .sq { opacity: 1; }
+.pbody { padding: var(--space-4); display: flex; flex-direction: column; gap: var(--space-3); overflow: auto; }
+.phead { padding: var(--space-4) var(--space-4) 0; }
+
+/* -- overlays ------------------------------------------------------------ */
+.overlay { position: relative; }
+.scrim { position: absolute; inset: 0; background: var(--color-neutral-900); opacity: .3; }
+.palette { position: absolute; left: 50%; top: var(--space-12); transform: translateX(-50%); width: 620px; max-width: 90%; background: var(--color-surface-card); border: var(--border-default) solid var(--color-neutral-200); border-radius: var(--radius-xl); box-shadow: var(--shadow-md); overflow: hidden; }
+.palette .q { padding: var(--space-3) var(--space-4); border-bottom: var(--border-default) solid var(--color-neutral-200); font-size: var(--text-base); color: var(--color-neutral-900); }
+.palette .g h5 { margin: 0; padding: var(--space-2) var(--space-4) var(--space-1); font-size: var(--text-2xs); text-transform: uppercase; letter-spacing: .06em; color: var(--color-neutral-400); font-weight: var(--font-medium); }
+.palette .r { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-4); font-size: var(--text-sm); }
+.palette .r.sel { background: var(--color-brand-50); }
+.palette .r .sq { width: 15px; height: 15px; border-radius: var(--radius-sm); background: var(--color-neutral-200); flex: none; }
+.palette .r .k { margin-left: auto; font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--color-neutral-400); }
+
+/* -- misc ---------------------------------------------------------------- */
+.tab { display: inline-flex; gap: var(--space-1); border-bottom: var(--border-default) solid var(--color-neutral-200); }
+.tab b { padding: var(--space-2) var(--space-3); font-size: var(--text-sm); font-weight: var(--font-medium); color: var(--color-neutral-400); border-bottom: 2px solid transparent; margin-bottom: -1px; }
+.tab b.on { color: var(--color-neutral-900); border-bottom-color: var(--color-brand-600); }
+.seg { display: inline-flex; border: var(--border-default) solid var(--color-neutral-200); border-radius: var(--radius-md); overflow: hidden; font-size: var(--text-xs); }
+.seg b { padding: var(--space-1) var(--space-3); color: var(--color-neutral-500); font-weight: var(--font-regular); }
+.seg b.on { background: var(--color-surface-inset); color: var(--color-neutral-900); font-weight: var(--font-medium); }
+.muted { color: var(--color-neutral-400); }
+.mono { font-family: var(--font-mono); font-size: var(--text-xs); }
+.row { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.sk { background: var(--color-surface-inset); border-radius: var(--radius-sm); height: 11px; }
+.empty { text-align: center; padding: var(--space-10) var(--space-6); }
+.empty h3 { font-size: var(--text-base); margin-bottom: var(--space-1); }
+.empty p { color: var(--color-neutral-500); font-size: var(--text-sm); max-width: 400px; margin: 0 auto var(--space-4); }
+.toast { position: absolute; right: var(--space-5); bottom: var(--space-5); background: var(--color-neutral-900); color: var(--color-neutral-0); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); font-size: var(--text-sm); display: flex; align-items: center; gap: var(--space-4); box-shadow: var(--shadow-md); }
+.toast a { color: var(--color-neutral-0); font-weight: var(--font-medium); }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <h1>AcademicOS &mdash; screen review</h1>
+  <p>Every screen in <span class="mono">docs/research/interface-specification.md</span>, drawn on the real
+  tokens from <span class="mono">design/tokens.json</span>. Open each screen's <b>Questions</b> block and
+  tell me what to change &mdash; layout, wording, hierarchy, or whether the screen should exist at all.
+  Nothing here is built yet; this is cheap to change and expensive to change later.</p>
+  <p class="row" style="margin-top:var(--space-3)">
+    <span class="flag">Open decision</span>
+    <span class="muted">Screens marked with this have a question I cannot answer without you.</span>
+  </p>
+</div>
+
+<div class="wrap">
+  <nav class="toc">
+    <h3>Foundations</h3>
+    <a href="#states">Primitives &amp; states</a>
+    <a href="#palette">Command palette</a>
+    <h3>Principal &mdash; web</h3>
+    <a href="#dashboard">1. Dashboard</a>
+    <a href="#coverage">2. Coverage &amp; pace</a>
+    <a href="#delayed">3. Delayed topics</a>
+    <a href="#curriculum">4. Curriculum explorer</a>
+    <a href="#review">5. Extraction review</a>
+    <a href="#books">6. Book selection</a>
+    <a href="#calsetup">7. Calendar setup</a>
+    <a href="#calendar">8. School calendar</a>
+    <a href="#timetable">9. Timetable builder</a>
+    <a href="#schedule">10. Schedule</a>
+    <a href="#reschedule">11. Reschedule</a>
+    <a href="#roster">12. Roster</a>
+    <a href="#students">13. Students</a>
+    <a href="#consent">14. Consent</a>
+    <a href="#audit">15. Audit trail</a>
+    <a href="#export">16. Data export</a>
+    <a href="#bank">17. Question bank</a>
+    <a href="#builder">18. Paper builder</a>
+    <a href="#paperreview">19. Paper review</a>
+    <a href="#answerkey">20. Answer key</a>
+    <a href="#scan">21. Scan &amp; grade</a>
+    <a href="#settings">22. Settings</a>
+    <h3>Teacher &mdash; mobile</h3>
+    <a href="#t-today">23. Today</a>
+    <a href="#t-schedule">24. Timetable</a>
+    <a href="#t-lesson">25. Mark lesson</a>
+    <a href="#t-papers">26. Papers</a>
+    <a href="#t-practice">27. Practice</a>
+    <h3>Student &amp; parent</h3>
+    <a href="#s-home">28. Student home</a>
+    <a href="#s-progress">29. Student progress</a>
+    <a href="#p-home">30. Parent home</a>
+    <h3>Shared</h3>
+    <a href="#login">31. Sign in</a>
+    <a href="#notif">32. Notifications</a>
+    <a href="#a11y">33. Accessibility notes</a>
+  </nav>
+
+  <main>
+
+<!-- ===================================================================== -->
+<section class="screen" id="states">
+  <header><h2>Primitives &amp; states</h2><span class="tag">foundation</span></header>
+  <p class="note">The vocabulary every screen is drawn from. Read this first &mdash; the rules here are what
+  the rest of the page depends on, and they are the parts most likely to drift.</p>
+  <div class="frame frame--desk">
+    <div class="body">
+
+      <!-- STATUS ---------------------------------------------------------- -->
+      <div>
+        <div class="sec">Status &mdash; a dot and a word. No capsule, no background, no border</div>
+        <div class="row" style="gap:var(--space-6)">
+          <span class="st st--ok">On pace</span>
+          <span class="st st--warn">At risk</span>
+          <span class="st st--bad">Overdue by 3 days</span>
+          <span class="st st--info">Scheduled</span>
+          <span class="st st--off">Not started</span>
+        </div>
+        <p class="note" style="margin-top:var(--space-3)">
+          <b>Colour means one thing: something needs a person.</b> Only <i>at risk</i> and <i>overdue</i> are
+          coloured. Healthy states are grey on purpose &mdash; the previous version made ten unrelated things
+          green, which meant a green row told you nothing and a red one was lost among them.
+          The hollow dot distinguishes <i>not started</i> from <i>scheduled</i> without a second colour.
+        </p>
+      </div>
+
+      <!-- BUTTONS --------------------------------------------------------- -->
+      <div>
+        <div class="sec">Buttons &mdash; every state designed, not defaulted</div>
+        <div class="row">
+          <button class="btn btn--primary">Generate paper</button>
+          <button class="btn btn--primary" style="background:var(--btn-primaryBgHover)">Hover</button>
+          <button class="btn btn--primary" style="background:var(--btn-primaryBgActive)">Active</button>
+          <button class="btn btn--primary" style="outline:2px solid var(--color-brand-600); outline-offset:2px">Focus</button>
+          <button class="btn btn--off">Disabled</button>
+          <button class="btn btn--sec">Export</button>
+          <button class="btn btn--ghost">Cancel</button>
+          <button class="btn btn--danger">Delete</button>
+        </div>
+        <p class="note" style="margin-top:var(--space-3)">
+          Minimum height 32px, and 26px for the small variant &mdash; both clear the WCAG 2.5.8 floor of 24px.
+          The row action buttons in tables are the ones to watch; they are the smallest targets in the product.
+        </p>
+      </div>
+
+      <!-- SELECTION ------------------------------------------------------- -->
+      <div>
+        <div class="sec">Selection &mdash; the control that was hardest to use</div>
+        <div class="grid2">
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th class="selhead"><label class="sel"><input type="checkbox" aria-label="Select all"></label></th>
+                  <th>Lesson</th>
+                  <th class="n">Days late</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="on">
+                  <td class="selcell"><label class="sel"><input type="checkbox" checked aria-label="Select row"></label></td>
+                  <td class="ink">Consequences of nationalism</td>
+                  <td class="n"><span class="n-badge down">11</span></td>
+                </tr>
+                <tr>
+                  <td class="selcell"><label class="sel"><input type="checkbox" aria-label="Select row"></label></td>
+                  <td class="ink">Trigonometric identities</td>
+                  <td class="n"><span class="n-badge down">5</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="bulk">
+              <span><b>1 selected</b></span>
+              <button class="btn btn--primary btn--sm">Push forward</button>
+              <button class="btn btn--ghost btn--sm">Clear</button>
+            </div>
+          </div>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th class="selhead"><label class="sel"><input type="checkbox" aria-label="Select all"></label></th>
+                  <th>Mixed state</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="on"><td class="selcell"><label class="sel"><input type="checkbox" checked aria-label="Select row"></label></td><td class="ink">2 of 4 rows selected</td></tr>
+                <tr class="on"><td class="selcell"><label class="sel"><input type="checkbox" checked aria-label="Select row"></label></td><td class="ink">Header shows indeterminate</td></tr>
+                <tr><td class="selcell"><label class="sel"><input type="checkbox" aria-label="Select row"></label></td><td class="ink">in a browser, driven by JS</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="note" style="margin-top:var(--space-3)">
+          The box is 17px but the <b>hit target is 34px</b>, and it is a real
+          <span class="mono">&lt;input type=checkbox&gt;</span> &mdash; a custom-drawn one would break keyboard
+          and screen-reader use. The whole row tints when selected, so the state is legible without hunting for
+          the tick. The bulk bar is attached to the table it acts on rather than floating at the foot of the page.
+        </p>
+      </div>
+
+      <!-- OTHER CONTAINERS ------------------------------------------------ -->
+      <div>
+        <div class="sec">Three containers that are not status, and do not look like it</div>
+        <div class="row" style="gap:var(--space-6)">
+          <span class="tag-n">Competency-based</span>
+          <span class="tag-n">MCQ</span>
+          <span class="chip">Science <span class="x">&times;</span></span>
+          <span class="n-badge">404</span>
+        </div>
+        <p class="note" style="margin-top:var(--space-3)">
+          A <b>tag</b> labels (neutral, never coloured). A <b>chip</b> is a filter the user can remove, so it
+          carries an exit. A <b>count</b> is a number and keeps tabular alignment. The previous version put all
+          three inside status pills, along with mark values and timestamps, which is why nothing read as
+          anything.
+        </p>
+      </div>
+
+      <!-- METRICS --------------------------------------------------------- -->
+      <div>
+        <div class="sec">Metrics &mdash; no border, no background. Type and space do the grouping</div>
+        <div class="grid4">
+          <div class="kpi"><span class="lab">Syllabus coverage</span><span class="val">78.4<small>%</small></span><span class="dl">&#9650; 4.1% vs last month</span></div>
+          <div class="kpi"><span class="lab">Pace</span><span class="val">-6.2<small>%</small></span><span class="dl down">&#9660; behind in 2 subjects</span></div>
+          <div class="kpi"><span class="lab">Difficult topics</span><span class="val">12</span><span class="dl flat">&mdash; 3 over 5 days</span></div>
+          <div class="kpi"><span class="lab">Students at risk</span><span class="val">37</span><span class="dl down">&#9660; 6 more than August</span></div>
+        </div>
+        <p class="note" style="margin-top:var(--space-3)">
+          Four bordered boxes is the templated look and it puts attention on the container. Bare numbers on the
+          canvas read as data. A tile that genuinely needs to sit apart uses <span class="mono">.kpi--boxed</span>.
+        </p>
+      </div>
+
+      <!-- DATA SURFACES --------------------------------------------------- -->
+      <div>
+        <div class="sec">Every data surface ships four states, not one</div>
+        <div class="grid2">
+          <div class="card"><div class="h"><h3>Loading</h3></div><div class="b" style="display:grid;gap:var(--space-3)">
+            <div class="sk" style="width:40%"></div><div class="sk" style="width:100%"></div><div class="sk" style="width:88%"></div><div class="sk" style="width:60%"></div>
+          </div></div>
+          <div class="card"><div class="h"><h3>Empty</h3></div>
+            <div class="empty"><h3>No book selected yet</h3>
+            <p>Coverage appears once this year's Science book is chosen and its chapters are processed.</p>
+            <button class="btn btn--primary">Choose Science book</button></div>
+          </div>
+          <div class="card"><div class="h"><h3>Error &mdash; says whether anything was lost</h3></div>
+            <div class="empty"><h3>Could not load the coverage report</h3>
+            <p>Nothing was lost. Marking lessons still works and will sync.</p>
+            <div class="row" style="justify-content:center"><button class="btn btn--sec">Retry</button><button class="btn btn--ghost">Status</button></div></div>
+          </div>
+          <div class="card"><div class="h"><h3>Loaded</h3><button class="linkact">View</button></div>
+            <table><thead><tr><th>Subject</th><th class="n">Taught</th><th class="n">Planned</th><th>Pace</th></tr></thead>
+            <tbody>
+              <tr><td class="ink">Science</td><td class="n">142</td><td class="n">150</td><td><span class="st st--ok">On pace</span></td></tr>
+              <tr><td class="ink">Mathematics</td><td class="n">118</td><td class="n">150</td><td><span class="st st--warn">At risk</span></td></tr>
+              <tr><td class="ink">Social Science</td><td class="n">201</td><td class="n">150</td><td><span class="st st--bad">Behind</span></td></tr>
+            </tbody></table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="ask"><b>What I want you to tell me.</b> (1) Is the status vocabulary right now that only two states
+  carry colour, or do you want a third (e.g. "draft" or "awaiting approval") to be amber as well?
+  (2) The 34px hit target around a 17px box &mdash; can you tell it is there without reading this note? If not,
+  it needs a different treatment, not a bigger explanation. (3) Are four borderless metric tiles better than
+  four boxes, or does the page now feel unstuck at the top?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="palette">
+  <header><h2>Command palette</h2><span class="tag">&#8984;K &middot; foundation</span></header>
+  <p class="note">The strongest addition in the spec and the thing most likely to change how the product
+  feels. Merges navigation, lookup and action into one keystroke. Everything below the fold of this page
+  is reachable from here.</p>
+  <div class="frame frame--desk overlay">
+    <div class="app" style="filter:blur(0); opacity:.55">
+      <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+        <div class="i on"><i class="dot"></i>Dashboard</div><div class="i"><i class="dot"></i>Curriculum</div><div class="i"><i class="dot"></i>Papers</div></div>
+      <div class="main"><div class="topbar"><div class="search">Search students, papers, topics</div></div><div class="body"></div></div>
+    </div>
+    <div class="scrim"></div>
+    <div class="palette">
+      <div class="q">cova<span style="opacity:0"></span><span>|</span></div>
+      <div class="g">
+        <h5>Go to</h5>
+        <div class="r sel"><i class="sq"></i>Coverage &amp; pace<span class="k">&#8629;</span></div>
+        <div class="r"><i class="sq"></i>Coverage by subject &mdash; Science</div>
+        <h5>Actions</h5>
+        <div class="r"><i class="sq"></i>Export coverage report as CSV</div>
+      </div>
+    </div>
+  </div>
+  <div class="ask"><b>Questions.</b> (1) Do you want this at all, or does a sidebar suffice for your principals?
+  (2) Should pressing <span class="mono">&#8984;K</span> on a curriculum chapter prioritise that chapter's actions
+  (the spec says yes)? (3) Five results per group before scrolling &mdash; too few?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="dashboard">
+  <header><h2>1. Dashboard</h2><span class="tag">principal &middot; web</span> <span class="flag">Open decision</span></header>
+  <p class="note">One verdict per screen, in the top-left. Four KPIs maximum, then the two things a principal
+  acts on. No welcome message &mdash; the research is explicit that the top 100px is prime real estate.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side">
+      <div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <h4>Overview</h4><div class="i on"><i class="dot"></i>Dashboard</div>
+      <h4>Academics</h4><div class="i"><i class="dot"></i>Curriculum</div><div class="i"><i class="dot"></i>Question bank</div><div class="i"><i class="dot"></i>Book selection</div>
+      <h4>Planning</h4><div class="i"><i class="dot"></i>Calendar</div><div class="i"><i class="dot"></i>Timetable</div><div class="i"><i class="dot"></i>Schedule</div>
+      <h4>Delivery</h4><div class="i"><i class="dot"></i>Coverage &amp; pace<span class="n">3</span></div><div class="i"><i class="dot"></i>Difficult topics<span class="n">12</span></div><div class="i"><i class="dot"></i>Assignments</div>
+      <h4>Assessment</h4><div class="i"><i class="dot"></i>Papers</div><div class="i"><i class="dot"></i>Assessments</div><div class="i"><i class="dot"></i>Scan &amp; grade</div>
+      <h4>People</h4><div class="i"><i class="dot"></i>Students</div><div class="i"><i class="dot"></i>Teachers</div><div class="i"><i class="dot"></i>Consent</div>
+    </div>
+    <div class="main">
+      <div class="topbar"><div class="search">Search students, papers, topics <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Grade 10 &mdash; Term 1</h2><div class="desc">2026-27 academic year &middot; 262 teaching days &middot; 14 of 46 chapters behind pace</div></div>
+          <div class="acts"><button class="btn btn--sec">School calendar</button><button class="btn btn--primary">Generate paper</button></div></div>
+        <div class="grid4">
+          <div class="kpi"><div class="lab">Syllabus coverage</div><div class="val">78.4<small>%</small></div><div class="dl up">&#9650; 4.1% vs last month</div></div>
+          <div class="kpi"><div class="lab">Pace vs plan</div><div class="val">-6.2<small>%</small></div><div class="dl down">&#9660; behind in 2 subjects</div></div>
+          <div class="kpi"><div class="lab">Difficult topics</div><div class="val">12</div><div class="dl flat">&mdash; 3 over 5 days</div></div>
+          <div class="kpi"><div class="lab">Students at risk</div><div class="val">37</div><div class="dl down">&#9660; 6 more than August</div></div>
+        </div>
+        <div class="grid2">
+          <div class="card"><div class="h"><h3>Subjects behind pace</h3><button class="btn btn--ghost btn--sm">Coverage report</button></div>
+            <table><thead><tr><th>Subject</th><th>Progress</th><th class="n">Variance</th></tr></thead><tbody>
+              <tr><td class="ink">Social Science</td><td><div class="bar d"><i style="width:62%"></i></div></td><td class="n down">-14 periods</td></tr>
+              <tr><td class="ink">Mathematics</td><td><div class="bar w"><i style="width:79%"></i></div></td><td class="n down">-6 periods</td></tr>
+              <tr><td class="ink">Science</td><td><div class="bar"><i style="width:95%"></i></div></td><td class="n up">+2 periods</td></tr>
+              <tr><td class="ink">English</td><td><div class="bar"><i style="width:91%"></i></div></td><td class="n up">+1 periods</td></tr>
+            </tbody></table></div>
+          <div class="card"><div class="h"><h3>Needs you today</h3></div>
+            <div class="b" style="display:grid;gap:var(--space-3);font-size:var(--text-sm)">
+              <div class="row"><span class="st st--bad">12 lessons overdue</span><span class="muted">Social Science, Ch 7&ndash;9</span></div>
+              <div class="row"><span class="st st--warn">404 subtopics pending approval</span><span class="muted">Science, 13 chapters</span></div>
+              <div class="row"><span class="st st--info">3 consent forms outstanding</span><span class="muted">Grade 10-A</span></div>
+            </div></div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+  <div class="ask"><b>Open decision.</b> The four tiles are coverage, pace, difficult topics, at-risk students. Those are my guess at your priorities. <b>Which four would you actually want?</b> And should the page lead with the subject list or with "needs you today"?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="coverage">
+  <header><h2>2. Coverage &amp; pace</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">The analytical screen, so every number carries a baseline &mdash; a bare 78% is decoration.
+  Table leads because the table is the truth; the chart is a summary. Note the drill-through to reschedule.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i on"><i class="dot"></i>Coverage &amp; pace</div><div class="i"><i class="dot"></i>Difficult topics</div></div>
+    <div class="main">
+      <div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div>
+        <span class="seg"><b class="on">Term 1</b><b>Term 2</b><b>Full year</b></span><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><div class="crumbs">Dashboard / Delivery / Coverage &amp; pace</div><h2>Coverage &amp; pace</h2>
+          <div class="desc">Planned vs taught, as of 17 Sep 2026. Baseline: the schedule generated on 1 Jun.</div></div>
+          <div class="acts"><button class="btn btn--sec">Export CSV</button><button class="btn btn--sec">Save view</button></div></div>
+        <div class="grid4">
+          <div class="kpi"><div class="lab">Overall coverage</div><div class="val">78.4<small>%</small></div><div class="hint">of 1,204 planned periods</div></div>
+          <div class="kpi"><div class="lab">Pace</div><div class="val">-6.2<small>%</small></div><div class="dl down">&#9660; vs 1 Jun schedule</div></div>
+          <div class="kpi"><div class="lab">Taught</div><div class="val">944</div><div class="hint">944 of 1,204 periods</div></div>
+          <div class="kpi"><div class="lab">Overdue</div><div class="val">12</div><div class="dl down">oldest 11 days</div></div>
+        </div>
+        <div class="card">
+          <div class="h"><h3>By subject and chapter</h3>
+            <span class="seg"><b class="on">Subject</b><b>Chapter</b><b>Teacher</b></span></div>
+          <table><thead><tr><th>Subject</th><th class="n">Planned</th><th class="n">Taught</th><th>Scheduled</th><th>Skipped</th><th class="n">Variance</th><th>Pace</th><th></th></tr></thead>
+          <tbody>
+            <tr><td class="ink">Science</td><td class="n">320</td><td class="n">305</td><td class="n">14</td><td class="n">1</td><td class="n up">+2</td><td><span class="st st--ok">On pace</span></td><td><button class="linkact">Open</button></td></tr>
+            <tr><td class="ink">Mathematics</td><td class="n">300</td><td class="n">247</td><td class="n">41</td><td class="n">12</td><td class="n down">-6</td><td><span class="st st--warn">At risk</span></td><td><button class="linkact">Open</button></td></tr>
+            <tr><td class="ink">Social Science</td><td class="n">420</td><td class="n">281</td><td class="n">122</td><td class="n">17</td><td class="n down">-14</td><td><span class="st st--bad">Behind</span></td><td><button class="linkact">Open</button></td></tr>
+            <tr><td class="ink">English</td><td class="n">164</td><td class="n">149</td><td class="n">15</td><td class="n">0</td><td class="n up">+1</td><td><span class="st st--ok">On pace</span></td><td><button class="linkact">Open</button></td></tr>
+          </tbody></table>
+        </div>
+        <div class="card"><div class="h"><h3>Social Science &mdash; chapter detail</h3></div>
+          <table><thead><tr><th>Chapter</th><th class="n">Taught / planned</th><th class="n">Overdue</th><th>Teacher</th><th></th></tr></thead><tbody>
+            <tr><td class="ink">Ch 7 Nationalism in Europe</td><td class="n">14 / 18</td><td class="n">4</td><td>P. Ramanathan</td><td><button class="btn btn--sec btn--sm">Reschedule 4</button></td></tr>
+            <tr><td class="ink">Ch 8 Nationalism in India</td><td class="n">9 / 16</td><td class="n">7</td><td>P. Ramanathan</td><td><button class="btn btn--sec btn--sm">Reschedule 7</button></td></tr>
+            <tr><td class="ink">Ch 9 Resources and Development</td><td class="n">16 / 16</td><td class="n">0</td><td>S. Iyer</td><td><span class="st st--ok">Complete</span></td></tr>
+          </tbody></table></div>
+      </div>
+    </div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Is "variance" in <em>periods</em> the right unit, or do you think in <em>days</em>? (2) Should "Reschedule 7" jump straight to the reschedule panel with those lessons pre-selected &mdash; I assume yes. (3) Do you want a chart here at all, or is the table enough?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="delayed">
+  <header><h2>3. Difficult topics</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">Renamed from "Delayed topics" in the matrix &mdash; "difficult" is the word teachers use.
+  Days overdue and the assigned teacher, because that is what makes it actionable.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i"><i class="dot"></i>Coverage &amp; pace</div><div class="i on"><i class="dot"></i>Difficult topics<span class="n">12</span></div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+    <div class="body">
+      <div class="pageh"><div><h2>Difficult topics</h2><div class="desc">Lessons past their scheduled date that are still marked scheduled. Oldest first.</div></div>
+        <div class="acts"><button class="btn btn--sec">Notify teachers</button><button class="btn btn--primary">Reschedule all 12</button></div></div>
+      <div class="card"><div class="h"><h3>12 lessons overdue</h3>
+        <span class="seg"><b class="on">All subjects</b><b>Social Science</b><b>Mathematics</b></span></div>
+        <table><thead><tr><th class="selhead"><label class="sel"><input type="checkbox" aria-label="Select all overdue lessons"></label></th><th>Topic</th><th>Subject</th><th>Class</th><th>Teacher</th><th class="n">Days overdue</th><th></th></tr></thead><tbody>
+          <tr class="on"><td class="selcell"><label class="sel"><input type="checkbox" checked></label></td><td class="ink">Consequences of nationalism</td><td>Social Science</td><td>10-B</td><td>P. Ramanathan</td><td class="n"><span class="n-badge down">11</span></td><td><button class="linkact">Reschedule</button></td></tr>
+          <tr class="on"><td class="selcell"><label class="sel"><input type="checkbox" checked></label></td><td class="ink">Industrialisation and nationalism</td><td>Social Science</td><td>10-B</td><td>P. Ramanathan</td><td class="n"><span class="n-badge down">9</span></td><td><button class="linkact">Reschedule</button></td></tr>
+          <tr><td class="selcell"><label class="sel"><input type="checkbox"></label></td><td class="ink">Trigonometric identities</td><td>Mathematics</td><td>10-A</td><td>S. Iyer</td><td class="n"><span class="n-badge down">5</span></td><td><button class="linkact">Reschedule</button></td></tr>
+          <tr><td class="selcell"><label class="sel"><input type="checkbox"></label></td><td class="ink">Federalism in practice</td><td>Social Science</td><td>10-C</td><td>M. Kulkarni</td><td class="n"><span class="n-badge down">3</span></td><td><button class="linkact">Reschedule</button></td></tr>
+        </tbody></table>
+        <div class="bulk">
+          <span><b>2 selected</b> &middot; Social Science, 10-B</span>
+          <button class="btn btn--primary btn--sm">Push both forward</button>
+          <button class="btn btn--ghost btn--sm">Clear</button>
+        </div>
+      </div>
+    </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) "Notify teachers" &mdash; does that send anything? The notifications policy says a notification must be about the recipient's next action, so this would only fire if the teacher has not rescheduled. (2) What should "Reschedule all 12" do when the year is already tight &mdash; push into the next month, or refuse?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="curriculum">
+  <header><h2>4. Curriculum explorer</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">Eight levels deep (Board &rarr; Subtopic). Tree, work surface, inspector. Three levels visible,
+  deeper on demand. The provenance field is the product's differentiator, so it is shown, not hidden.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i on"><i class="dot"></i>Curriculum</div><div class="i"><i class="dot"></i>Question bank</div><div class="i"><i class="dot"></i>Book selection</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Curriculum</h2><div class="desc">CBSE Class 10 &middot; 46 chapters &middot; 138 topics &middot; 404 subtopics approved</div></div>
+          <div class="acts"><button class="btn btn--sec">Export</button><button class="btn btn--primary">Add topic</button></div></div>
+        <div class="grid3b">
+          <div class="ins"><div class="sec">Hierarchy</div>
+            <div class="tree">
+              <div class="n l2">Science<span class="c">13</span></div>
+              <div class="n l3">Unit I &mdash; Chemical Substances<span class="c">4</span></div>
+              <div class="n l4 on">Ch 1 Chemical Reactions<span class="c">3</span></div>
+              <div class="n l4">Ch 2 Acids, Bases and Salts<span class="c">3</span></div>
+              <div class="n l4">Ch 3 Metals and Non-metals<span class="c">4</span></div>
+              <div class="n l3">Unit II &mdash; World of Living<span class="c">4</span></div>
+              <div class="n l2">Mathematics<span class="c">7</span></div>
+              <div class="n l2">Social Science<span class="c">22</span></div>
+              <div class="n l2">English<span class="c">4</span></div>
+            </div>
+          </div>
+          <div class="card"><div class="h"><h3>Ch 1 &mdash; Chemical Reactions and Equations</h3>
+            <span class="seg"><b class="on">Topics</b><b>Sequence</b></span></div>
+            <table><thead><tr><th style="width:34px"></th><th>Topic</th><th class="n">Subtopics</th><th class="n">Periods</th><th class="n">Questions</th><th>Status</th></tr></thead><tbody>
+              <tr><td class="mono muted">1</td><td class="ink">Chemical equations and balancing</td><td class="n">4</td><td class="n">3</td><td class="n">18</td><td><span class="st st--ok">Approved</span></td></tr>
+              <tr><td class="mono muted">2</td><td class="ink">Types of chemical reactions</td><td class="n">5</td><td class="n">4</td><td class="n">31</td><td><span class="st st--ok">Approved</span></td></tr>
+              <tr><td class="mono muted">3</td><td class="ink">Oxidation and reduction</td><td class="n">3</td><td class="n">2</td><td class="n">12</td><td><span class="st st--ok">Approved</span></td></tr>
+            </tbody></table>
+            <div class="b"><div class="sec">Sequence &mdash; drag, or use the keyboard</div>
+              <div class="row" style="font-size:var(--text-sm)">
+                <span class="muted">Dragging a topic reorders delivery. Every row also has</span>
+                <button class="btn btn--ghost btn--sm">Move to position&hellip;</button>
+                <span class="muted">for keyboard and switch users.</span>
+              </div></div>
+          </div>
+          <div class="ins"><div class="sec">Provenance</div>
+            <dl>
+              <dt>Source</dt><dd>NCERT Science, Class X, 2025-26 edition</dd>
+              <dt>Extracted</dt><dd>12 Sep 2026, LLM proposal v3</dd>
+              <dt>Approved by</dt><dd>R. Menon, 14 Sep 2026</dd>
+              <dt>Confidence</dt><dd>0.70 (fixed at extraction)</dd>
+              <dt>Teaching time</dt><dd>9 periods &middot; 3 + 4 + 2</dd>
+              <dt>Linked questions</dt><dd>61 across 3 topics</dd>
+            </dl>
+            <div style="margin-top:var(--space-4);display:grid;gap:var(--space-2)">
+              <button class="btn btn--sec btn--sm">Re-extract chapter</button>
+              <button class="btn btn--ghost btn--sm">View extraction run</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Should confidence 0.70 be visible to a principal, or is it noise that undermines trust? (2) Delete a topic with 61 linked questions is blocked in the API &mdash; the screen must show that. Is "blocked with the count" the right treatment, or should it offer "also move the questions"?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="review">
+  <header><h2>5. Extraction review</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">The trust-critical screen. The ITS study is explicit: if a principal cannot see what the
+  model proposed and change it, they stop using the feature. Per-item accept/reject, not a bulk approve.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i on"><i class="dot"></i>Curriculum</div><div class="i"><i class="dot"></i>Book selection</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><div class="crumbs">Curriculum / Science / Ch 1 / Extraction run</div>
+          <h2>Review proposed topics</h2>
+          <div class="desc">Run <span class="mono">ext_9f42</span> &middot; 3 topics, 12 subtopics &middot; nothing is saved until you approve.</div></div>
+          <div class="acts"><button class="btn btn--ghost">Reject run</button><button class="btn btn--primary">Approve 3</button></div></div>
+        <div class="card"><div class="h"><h3>Proposals</h3><span class="muted" style="font-size:var(--text-sm)">Step 2 of 3 &middot; select, review, approve</span></div>
+          <table><thead><tr><th class="selhead"><label class="sel"><input type="checkbox" aria-label="Keep all"></label></th><th>Proposed topic</th><th>Subtopics</th><th></th></tr></thead><tbody>
+            <tr class="on"><td class="selcell"><label class="sel"><input type="checkbox" checked></label></td><td class="ink">Chemical equations and balancing<div class="muted" style="font-size:var(--text-xs)">Writing, balancing, state symbols, word to symbol</div></td><td><span class="n-badge">4</span></td><td><button class="linkact">Edit</button></td></tr>
+            <tr class="on"><td class="selcell"><label class="sel"><input type="checkbox" checked></label></td><td class="ink">Types of chemical reactions<div class="muted" style="font-size:var(--text-xs)">Combination, decomposition, displacement, double displacement, redox</div></td><td><span class="n-badge">5</span></td><td><button class="linkact">Edit</button></td></tr>
+            <tr><td class="selcell"><label class="sel"><input type="checkbox"></label></td><td class="ink">Oxidation and reduction<div class="muted" style="font-size:var(--text-xs)">Oxidising agent, reducing agent, examples</div></td><td><span class="n-badge">3</span></td><td><button class="linkact">Edit</button></td></tr>
+          </tbody></table>
+          <div class="b" style="border-top:var(--border-default) solid var(--color-neutral-200); display:flex;gap:var(--space-3);align-items:center">
+            <span style="font-size:var(--text-sm)"><b>2 of 3</b> kept &middot; 1 will be discarded</span>
+            <button class="btn btn--ghost btn--sm">Add topic manually</button>
+            <span class="muted" style="font-size:var(--text-xs);margin-left:auto">Discarding a proposal does not delete anything already approved.</span>
+          </div>
+        </div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Is "Approve 3" the right primary action, or should the default be to approve only what is ticked ("Approve 2")? (2) Do you want the model's reasoning shown per proposal, or only the result? (3) Should a rejected proposal be remembered so the next run does not re-propose it?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="books">
+  <header><h2>6. Book selection</h2><span class="tag">principal &middot; web</span> <span class="flag">Open decision</span></header>
+  <p class="note">The matrix's one <b>Missing</b> row: today a school cannot pick which book edition it uses.
+  This is the highest-value new screen in the spec, and the one I am least sure about.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i"><i class="dot"></i>Curriculum</div><div class="i on"><i class="dot"></i>Book selection</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Which books does this school use?</h2>
+          <div class="desc">Picking a book drives extraction, scheduling and teaching-time estimates for this year. You can change it until topics are approved.</div></div>
+          <div class="acts"><button class="btn btn--primary">Save and process</button></div></div>
+        <div class="card"><div class="h"><h3>Class 10 &mdash; 2026-27</h3><span class="st st--info">2 of 4 chosen</span></div>
+          <table><thead><tr><th>Subject</th><th>Book edition</th><th>Status</th><th></th></tr></thead><tbody>
+            <tr><td class="ink">Science</td><td>NCERT Science, Class X, 2025-26</td><td><span class="st st--ok">Processed &middot; 13 chapters</span></td><td><button class="linkact">Change</button></td></tr>
+            <tr><td class="ink">Mathematics</td><td>NCERT Mathematics, Class X, 2025-26</td><td><span class="st st--ok">Processed &middot; 7 chapters</span></td><td><button class="linkact">Change</button></td></tr>
+            <tr><td class="ink">Social Science</td><td class="muted">Not chosen</td><td><span class="st st--warn">Choose a book</span></td><td><button class="btn btn--sec btn--sm">Choose</button></td></tr>
+            <tr><td class="ink">English</td><td class="muted">Not chosen</td><td><span class="st st--warn">Choose a book</span></td><td><button class="btn btn--sec btn--sm">Choose</button></td></tr>
+            <tr><td class="ink">Hindi Course A</td><td class="muted">No official syllabus available</td><td><span class="st st--off">Blocked</span></td><td><button class="btn btn--ghost btn--sm" disabled>Choose</button></td></tr>
+          </tbody></table>
+          <div class="b" style="border-top:var(--border-default) solid var(--color-neutral-200); font-size:var(--text-sm); color:var(--color-neutral-500)">
+            Hindi has no CBSE Class X syllabus JSON in the corpus yet, so it cannot be processed. The spec's answer is to show that honestly rather than offer a button that will fail.
+          </div>
+        </div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Open decision &mdash; I need this one.</b> (1) Do schools pick <em>one edition per subject for the whole year</em>, or does each teacher pick their own? That changes the whole screen. (2) Where do the candidate books come from &mdash; a fixed CBSE list, or does the school upload its own? (3) "Processed" takes minutes to hours; what should this screen show while it runs?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="calsetup">
+  <header><h2>7. Calendar setup</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">262 teaching days computed from a real 2026-27 calendar. Multi-day block holidays are a
+  drag range <em>and</em> two date fields, because WCAG 2.5.7 forbids drag-only.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i on"><i class="dot"></i>Calendar</div><div class="i"><i class="dot"></i>Timetable</div><div class="i"><i class="dot"></i>Schedule</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Calendar setup</h2><div class="desc">2026-27 &middot; 1 Jun 2026 to 30 Apr 2027</div></div>
+          <div class="acts"><button class="btn btn--primary">Save</button></div></div>
+        <div class="grid2">
+          <div class="card"><div class="h"><h3>Working week</h3></div><div class="b" style="display:grid;gap:var(--space-3);font-size:var(--text-sm)">
+            <div class="row" style="justify-content:space-between"><span>Monday &ndash; Friday</span><span class="st st--ok">Working</span></div>
+            <div class="row" style="justify-content:space-between"><span>Saturday</span><span class="seg"><b class="on">2nd &amp; 4th off</b><b>All off</b><b>Working</b></span></div>
+            <div class="row" style="justify-content:space-between"><span>Sunday</span><span class="st st--off">Off</span></div>
+            <div class="row" style="justify-content:space-between;border-top:var(--border-default) solid var(--color-neutral-200);padding-top:var(--space-3)"><span>Period length</span><span class="row"><input value="40" style="width:56px;padding:var(--space-1);border:var(--border-default) solid var(--color-neutral-300);border-radius:var(--radius-sm)"> minutes</span></div>
+          </div></div>
+          <div class="card"><div class="h"><h3>Result</h3></div><div class="b">
+            <div class="kpi" style="border:none;padding:0"><div class="lab">Teaching days</div><div class="val">262</div>
+            <div class="hint">334 calendar days &minus; 47 Sundays &minus; 22 alternate Saturdays &minus; 3 holidays</div></div>
+            <p style="font-size:var(--text-sm);color:var(--color-neutral-500);margin-top:var(--space-3)">The arithmetic is shown because a number with no visible derivation is the black box that loses teachers.</p>
+          </div></div>
+        </div>
+        <div class="card"><div class="h"><h3>Holidays</h3><button class="btn btn--sec btn--sm">Add holiday</button></div>
+          <table><thead><tr><th>Name</th><th>From</th><th>To</th><th class="n">Days</th><th></th></tr></thead><tbody>
+            <tr><td class="ink">Independence Day</td><td>15 Aug 2026</td><td>15 Aug 2026</td><td class="n">1</td><td><button class="linkact">Remove</button></td></tr>
+            <tr><td class="ink">Gandhi Jayanti</td><td>2 Oct 2026</td><td>2 Oct 2026</td><td class="n">1</td><td><button class="linkact">Remove</button></td></tr>
+            <tr><td class="ink">Winter break</td><td>24 Dec 2026</td><td>2 Jan 2027</td><td class="n">10</td><td><button class="linkact">Remove</button></td></tr>
+          </tbody></table>
+          <div class="b" style="border-top:var(--border-default) solid var(--color-neutral-200); font-size:var(--text-sm); color:var(--color-neutral-500)">
+            Pick a date range on the calendar below, or type the two dates. Both do the same thing.
+          </div>
+        </div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Is "2nd &amp; 4th Saturday off" the right default for your schools, or do they differ? (2) Should Diwali and Eid be pre-filled from a festival calendar, or is it better to leave them blank than to guess a date that varies by year? (3) Period length 40 minutes &mdash; do you want different lengths per period (e.g. a longer first period)?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="calendar">
+  <header><h2>8. School calendar</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">The matrix notes there is no school-wide calendar anywhere today. This is what principals
+  asked for visually: what is happening across every class at once.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i on"><i class="dot"></i>Calendar</div><div class="i"><i class="dot"></i>Timetable</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div>
+      <span class="seg"><b>Week</b><b class="on">Month</b><b>Year</b></span><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>September 2026</h2><div class="desc">All classes. Dots are teaching days; solid marks are holidays.</div></div>
+          <div class="acts"><span class="seg"><b>All classes</b><b>10-A</b><b>10-B</b><b>10-C</b></span></div></div>
+        <div class="card"><div class="b">
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px;background:var(--color-neutral-200);border:var(--border-default) solid var(--color-neutral-200);border-radius:var(--radius-md);overflow:hidden">
+            <div style="background:var(--color-surface-card);padding:var(--space-2);font-size:var(--text-2xs);color:var(--color-neutral-400);text-transform:uppercase">Mon</div>
+            <div style="background:var(--color-surface-card);padding:var(--space-2);font-size:var(--text-2xs);color:var(--color-neutral-400);text-transform:uppercase">Tue</div>
+            <div style="background:var(--color-surface-card);padding:var(--space-2);font-size:var(--text-2xs);color:var(--color-neutral-400);text-transform:uppercase">Wed</div>
+            <div style="background:var(--color-surface-card);padding:var(--space-2);font-size:var(--text-2xs);color:var(--color-neutral-400);text-transform:uppercase">Thu</div>
+            <div style="background:var(--color-surface-card);padding:var(--space-2);font-size:var(--text-2xs);color:var(--color-neutral-400);text-transform:uppercase">Fri</div>
+            <div style="background:var(--color-surface-card);padding:var(--space-2);font-size:var(--text-2xs);color:var(--color-neutral-400);text-transform:uppercase">Sat</div>
+            <div style="background:var(--color-surface-card);padding:var(--space-2);font-size:var(--text-2xs);color:var(--color-neutral-400);text-transform:uppercase">Sun</div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono muted">31</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono muted">1</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">2</div><span class="st st--off">Holiday</span></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">3</div><div style="font-size:var(--text-2xs);color:var(--color-neutral-500);margin-top:var(--space-1)">14 lessons</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">4</div><div style="font-size:var(--text-2xs);color:var(--color-neutral-500);margin-top:var(--space-1)">13 lessons</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">5</div><div style="font-size:var(--text-2xs);color:var(--color-neutral-500);margin-top:var(--space-1)">12 lessons</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono muted">6</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono muted">7</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">8</div><div style="font-size:var(--text-2xs);color:var(--color-neutral-500);margin-top:var(--space-1)">14 lessons</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">9</div><div style="font-size:var(--text-2xs);color:var(--color-neutral-500);margin-top:var(--space-1)">14 lessons</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">10</div><div style="font-size:var(--text-2xs);color:var(--color-neutral-500);margin-top:var(--space-1)">14 lessons</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">11</div><div style="font-size:var(--text-2xs);color:var(--color-neutral-500);margin-top:var(--space-1)">13 lessons</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">12</div><div style="font-size:var(--text-2xs);color:var(--color-neutral-500);margin-top:var(--space-1)">12 lessons</div><span class="st st--bad">6 overdue</span></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono muted">13</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono muted">14</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">15</div><div style="font-size:var(--text-2xs);color:var(--color-neutral-500);margin-top:var(--space-1)">14 lessons</div></div>
+            <div style="background:var(--color-brand-50);padding:var(--space-3);min-height:76px"><div class="mono">16</div><div style="font-size:var(--text-2xs);color:var(--color-brand-600);margin-top:var(--space-1)">Today &middot; 14 lessons</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">17</div><div style="font-size:var(--text-2xs);color:var(--color-neutral-500);margin-top:var(--space-1)">14 lessons</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">18</div><div style="font-size:var(--text-2xs);color:var(--color-neutral-500);margin-top:var(--space-1)">13 lessons</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono">19</div><div style="font-size:var(--text-2xs);color:var(--color-neutral-500);margin-top:var(--space-1)">12 lessons</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono muted">20</div></div>
+            <div style="background:var(--color-surface-card);padding:var(--space-3);min-height:76px"><div class="mono muted">21</div></div>
+          </div>
+        </div>
+      </div></div>
+  </div></div></div>
+  <div class="ask"><b>Questions.</b> (1) Is "14 lessons" on a day cell useful, or is it clutter? (2) Should the calendar show exam dates and events on the same grid, or is that a different view? (3) Do you want to add a holiday by clicking a day here, or only in Calendar setup?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="timetable">
+  <header><h2>9. Timetable builder</h2><span class="tag">principal &middot; web</span> <span class="flag">Open decision</span></header>
+  <p class="note">The matrix says no school-wide period-by-period timetable exists today &mdash; the scheduler
+  guesses "first N working days of the week". This screen is what would replace that guess.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i"><i class="dot"></i>Calendar</div><div class="i on"><i class="dot"></i>Timetable</div><div class="i"><i class="dot"></i>Schedule</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div>
+      <span class="seg"><b class="on">10-A</b><b>10-B</b><b>10-C</b></span><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Class 10-A timetable</h2><div class="desc">8 periods &times; 40 minutes. Drag a subject into a slot, or select a slot and use the menu.</div></div>
+          <div class="acts"><button class="btn btn--sec">Copy from 10-B</button><button class="btn btn--primary">Publish</button></div></div>
+        <div class="card"><table>
+          <thead><tr><th>Period</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr></thead>
+          <tbody>
+            <tr><td class="mono muted">1 &middot; 08:00</td><td class="ink">Science</td><td class="ink">Mathematics</td><td class="ink">Science</td><td class="ink">English</td><td class="ink">Mathematics</td><td class="ink">Science</td></tr>
+            <tr><td class="mono muted">2 &middot; 08:45</td><td class="ink">Mathematics</td><td class="ink">Science</td><td class="ink">English</td><td class="ink">Science</td><td class="ink">Social Sc.</td><td class="ink">Mathematics</td></tr>
+            <tr><td class="mono muted">3 &middot; 09:30</td><td class="ink">English</td><td class="ink">Social Sc.</td><td class="ink">Mathematics</td><td class="ink">Social Sc.</td><td class="ink">Science</td><td class="ink">English</td></tr>
+            <tr><td class="mono muted">4 &middot; 10:15</td><td colspan="6" style="text-align:center;background:var(--color-surface-inset);color:var(--color-neutral-400);font-size:var(--text-xs)">Short break &middot; 15 minutes</td></tr>
+            <tr><td class="mono muted">5 &middot; 10:45</td><td class="ink">Social Sc.</td><td class="ink">English</td><td class="ink">Social Sc.</td><td class="ink">Mathematics</td><td class="ink">English</td><td></td></tr>
+            <tr><td class="mono muted">6 &middot; 11:30</td><td class="ink">Science lab</td><td class="ink">Mathematics</td><td></td><td></td><td class="ink">Social Sc.</td><td></td></tr>
+            <tr><td class="mono muted">7 &middot; 12:15</td><td colspan="6" style="text-align:center;background:var(--color-surface-inset);color:var(--color-neutral-400);font-size:var(--text-xs)">Lunch &middot; 40 minutes</td></tr>
+            <tr><td class="mono muted">8 &middot; 13:00</td><td></td><td></td><td class="ink">Science lab</td><td></td><td></td><td></td></tr>
+          </tbody></table></div>
+        <div class="card"><div class="h"><h3>Unplaced</h3><span class="st st--warn">4 periods short in Social Science</span></div>
+          <div class="b row" style="font-size:var(--text-sm)">
+            <span class="muted">Select a slot, then</span>
+            <button class="btn btn--sec btn--sm">Place Social Science</button>
+            <button class="btn btn--ghost btn--sm">Move to position&hellip;</button>
+            <span class="muted">Because dragging alone excludes keyboard and switch users.</span>
+          </div></div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Open decision.</b> This is the biggest new build in the spec and the one with the most assumptions. (1) Do your schools actually run a fixed weekly timetable, or does it vary week to week? (2) Should the builder prevent obvious clashes (same teacher, two classes, same period), or only warn? (3) Is "copy from another section" how your schools actually work?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="schedule">
+  <header><h2>10. Schedule</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">Four modes, one data source. This is the school-wide equivalent the matrix asks for; the
+  teacher-facing version already exists and works.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i"><i class="dot"></i>Calendar</div><div class="i"><i class="dot"></i>Timetable</div><div class="i on"><i class="dot"></i>Schedule</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div>
+      <span class="seg"><b>Day</b><b class="on">Week</b><b>Month</b><b>Year</b></span><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>14&ndash;19 September 2026</h2><div class="desc">All classes, all subjects. 81 lessons scheduled this week.</div></div>
+          <div class="acts"><button class="btn btn--sec">Export</button><button class="btn btn--primary">Reschedule&hellip;</button></div></div>
+        <div class="card"><table><thead><tr><th>Time</th><th>Mon 14</th><th>Tue 15</th><th>Wed 16</th><th>Thu 17</th><th>Fri 18</th><th>Sat 19</th></tr></thead><tbody>
+          <tr><td class="mono muted">08:00</td>
+            <td><div class="ins" style="padding:var(--space-2)"><div class="ink" style="font-size:var(--text-sm)">Chemical Reactions</div><div class="muted" style="font-size:var(--text-2xs)">Science &middot; 10-A &middot; P. Ramanathan</div></div></td>
+            <td><div class="ins" style="padding:var(--space-2)"><div class="ink" style="font-size:var(--text-sm)">Trigonometry</div><div class="muted" style="font-size:var(--text-2xs)">Maths &middot; 10-A &middot; S. Iyer</div></div></td>
+            <td><div class="ins" style="padding:var(--space-2)"><div class="ink" style="font-size:var(--text-sm)">Acids and Bases</div><div class="muted" style="font-size:var(--text-2xs)">Science &middot; 10-B &middot; P. Ramanathan</div></div></td>
+            <td><div class="ins" style="padding:var(--space-2);border-color:var(--color-brand-600)"><div class="ink" style="font-size:var(--text-sm)">Nationalism in Europe</div><div class="muted" style="font-size:var(--text-2xs)">Soc. Sc. &middot; 10-B &middot; P. Ramanathan</div></div></td>
+            <td><div class="ins" style="padding:var(--space-2)"><div class="ink" style="font-size:var(--text-sm)">Metals</div><div class="muted" style="font-size:var(--text-2xs)">Science &middot; 10-A &middot; P. Ramanathan</div></div></td>
+            <td><div class="ins" style="padding:var(--space-2)"><div class="ink" style="font-size:var(--text-sm)">Grammar</div><div class="muted" style="font-size:var(--text-2xs)">English &middot; 10-C &middot; M. Kulkarni</div></div></td></tr>
+          <tr><td class="mono muted">08:45</td>
+            <td><div class="ins" style="padding:var(--space-2)"><div class="ink" style="font-size:var(--text-sm)">Federalism</div><div class="muted" style="font-size:var(--text-2xs)">Soc. Sc. &middot; 10-C &middot; M. Kulkarni</div></div></td>
+            <td><div class="ins" style="padding:var(--space-2);opacity:.6"><div class="ink" style="font-size:var(--text-sm)">Trigonometry</div><div class="muted" style="font-size:var(--text-2xs)">marked complete 15 Sep</div></div></td>
+            <td><div class="ins" style="padding:var(--space-2)"><div class="ink" style="font-size:var(--text-sm)">Resources</div><div class="muted" style="font-size:var(--text-2xs)">Soc. Sc. &middot; 10-B &middot; S. Iyer</div></div></td>
+            <td><div class="ins" style="padding:var(--space-2)"><div class="ink" style="font-size:var(--text-sm)">Light</div><div class="muted" style="font-size:var(--text-2xs)">Science &middot; 10-C &middot; P. Ramanathan</div></div></td>
+            <td><div class="ins" style="padding:var(--space-2)"><div class="ink" style="font-size:var(--text-sm)">Poetry</div><div class="muted" style="font-size:var(--text-2xs)">English &middot; 10-A &middot; M. Kulkarni</div></div></td>
+            <td><div class="ins" style="padding:var(--space-2)"><div class="ink" style="font-size:var(--text-sm)">Statistics</div><div class="muted" style="font-size:var(--text-2xs)">Maths &middot; 10-A &middot; S. Iyer</div></div></td></tr>
+        </tbody></table></div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Does a principal want the week at lesson granularity, or is a per-class summary row better? (2) Marked-complete lessons are dimmed here &mdash; is that the right treatment, or should they be hidden? (3) 81 lessons in one table is a lot; should it filter to one class by default?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="reschedule">
+  <header><h2>11. Reschedule (PUSH / ADJUST)</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">Never a silent move. Show exactly which lessons shift before anything is applied, then show
+  the audit entry after. A schedule that moves without telling anyone is a labour dispute.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i"><i class="dot"></i>Timetable</div><div class="i on"><i class="dot"></i>Schedule</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Reschedule</h2><div class="desc">17 September 2026 &middot; school closed for a local holiday</div></div></div>
+        <div class="grid2">
+          <div class="card"><div class="h"><h3>What happens</h3><span class="seg"><b class="on">PUSH</b><b>ADJUST</b></span></div><div class="b" style="display:grid;gap:var(--space-3);font-size:var(--text-sm)">
+            <p><b>PUSH</b> moves every later lesson forward by one day, keeping order. <b>ADJUST</b> moves only the affected lessons and leaves the rest.</p>
+            <div class="row"><span class="muted">Reason</span><input value="Local holiday &mdash; district order" style="flex:1;padding:var(--space-2);border:var(--border-default) solid var(--color-neutral-300);border-radius:var(--radius-sm)"></div>
+            <div class="row"><span class="muted">Changes</span><span class="st st--warn">41 lessons move</span><span class="muted">2 land on a holiday and are skipped</span></div>
+          </div></div>
+          <div class="card"><div class="h"><h3>Preview</h3><span class="muted" style="font-size:var(--text-xs)">nothing applied yet</span></div>
+            <table><thead><tr><th>Topic</th><th>From</th><th>To</th></tr></thead><tbody>
+              <tr><td class="ink">Nationalism in India</td><td class="mono muted">17 Sep</td><td class="mono ink">18 Sep</td></tr>
+              <tr><td class="ink">Resources</td><td class="mono muted">17 Sep</td><td class="mono ink">18 Sep</td></tr>
+              <tr><td class="ink">Trigonometric identities</td><td class="mono muted">18 Sep</td><td class="mono ink">21 Sep</td></tr>
+              <tr><td class="muted" colspan="3" style="font-size:var(--text-xs)">38 more lessons&hellip;</td></tr>
+            </tbody></table>
+            <div class="b" style="border-top:var(--border-default) solid var(--color-neutral-200);display:flex;gap:var(--space-3)">
+              <button class="btn btn--primary">Apply 41 changes</button><button class="btn btn--ghost">Cancel</button>
+            </div></div>
+        </div>
+        <div class="card"><div class="h"><h3>Previous reschedules</h3></div>
+          <table><thead><tr><th>When</th><th>By</th><th>Reason</th><th class="n">Lessons</th><th></th></tr></thead><tbody>
+            <tr><td class="mono muted">12 Sep 2026</td><td>R. Menon</td><td>Heavy rain</td><td class="n">18</td><td><button class="linkact">Undo</button></td></tr>
+            <tr><td class="mono muted">4 Sep 2026</td><td>R. Menon</td><td>Sports day</td><td class="n">9</td><td><button class="linkact">Undo</button></td></tr>
+          </tbody></table>
+          <div class="b" style="border-top:var(--border-default) solid var(--color-neutral-200);font-size:var(--text-sm);color:var(--color-neutral-500)">
+            Each of these also wrote a permanent audit entry. Undo adds a new entry; it does not erase the old one.
+          </div></div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Is PUSH the right default, or ADJUST? (2) Should "Undo" exist on a reschedule at all, given the audit trail is supposed to be immutable? My view is yes &mdash; undo is a new entry, not a deletion &mdash; but this is your call. (3) Should the reason field be free text or a list?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="roster">
+  <header><h2>12. Roster &amp; assignments</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">The matrix flags that creating a teacher assignment is API-only today. This is the missing
+  screen, plus bulk enrolment, because enrolling 30 students one at a time is why pilots die.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i on"><i class="dot"></i>Assignments</div><div class="i"><i class="dot"></i>Students</div><div class="i"><i class="dot"></i>Teachers</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Roster</h2><div class="desc">Which teacher teaches which book, and which students are in which class.</div></div>
+          <div class="acts"><button class="btn btn--sec">Import CSV</button><button class="btn btn--primary">Assign teacher</button></div></div>
+        <div class="tab"><b class="on">Teacher assignments</b><b>Students</b><b>Classes</b></div>
+        <div class="card"><table><thead><tr><th>Teacher</th><th>Subject</th><th>Book</th><th>Classes</th><th class="n">Lessons</th><th></th></tr></thead><tbody>
+          <tr><td class="ink">P. Ramanathan</td><td>Science</td><td>NCERT Science X</td><td>10-A, 10-B, 10-C</td><td class="n">186</td><td><button class="linkact">Edit</button></td></tr>
+          <tr><td class="ink">S. Iyer</td><td>Mathematics</td><td>NCERT Maths X</td><td>10-A, 10-C</td><td class="n">124</td><td><button class="linkact">Edit</button></td></tr>
+          <tr><td class="ink">M. Kulkarni</td><td>English</td><td>NCERT English X</td><td>10-A, 10-B</td><td class="n">82</td><td><button class="linkact">Edit</button></td></tr>
+          <tr><td class="ink">A. Bhat</td><td class="muted">Not assigned</td><td class="muted">&mdash;</td><td class="muted">&mdash;</td><td class="n muted">0</td><td><button class="btn btn--sec btn--sm">Assign</button></td></tr>
+        </tbody></table></div>
+        <div class="card"><div class="h"><h3>Not yet covered</h3></div><div class="b" style="display:grid;gap:var(--space-2);font-size:var(--text-sm)">
+          <div class="row">Social Science<span class="muted">No teacher assigned. 420 lessons in the schedule have no owner.</span><button class="btn btn--sec btn--sm">Assign</button></div>
+        </div></div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Can one teacher hold two subjects? (2) When a teacher leaves mid-year, what should happen to their remaining lessons &mdash; reassign, or stay unowned with a warning? (3) Is CSV import realistic for your schools, or do you want a paste-a-list box?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="students">
+  <header><h2>13. Students</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">Master-detail, not a modal: an inspector keeps the roster visible while you look at one
+  student, which a dialog cannot. Every row is reachable by keyboard.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i"><i class="dot"></i>Assignments</div><div class="i on"><i class="dot"></i>Students</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search students <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Students</h2><div class="desc">Grade 10 &middot; 94 students across 3 sections</div></div>
+          <div class="acts"><button class="btn btn--sec">Export</button><button class="btn btn--primary">Enrol student</button></div></div>
+        <div class="grid2b">
+          <div class="ins" style="padding:0;overflow:hidden">
+            <div class="row" style="padding:var(--space-2) var(--space-3);border-bottom:var(--border-default) solid var(--color-neutral-200);font-size:var(--text-sm)">
+              <label class="sel"><input type="checkbox" aria-label="Select all students"></label> <span class="muted">3 selected</span>
+            </div>
+            <div style="font-size:var(--text-sm)">
+              <div class="i" style="padding:var(--space-2) var(--space-3);background:var(--color-brand-50)">
+                <label class="sel" style="width:24px;height:24px"><input type="checkbox" checked aria-label="Select Aarav Menon"></label>
+                <span class="ink">Aarav Menon</span><span class="muted" style="margin-left:auto;font-size:var(--text-xs)">10-B</span></div>
+              <div style="padding:var(--space-2) var(--space-3);background:var(--color-brand-50)">
+                <label class="sel" style="width:24px;height:24px"><input type="checkbox" checked aria-label="Select Diya Rao"></label>
+                <span class="ink">Diya Rao</span><span class="muted" style="margin-left:auto;float:right;font-size:var(--text-xs)">10-B</span></div>
+              <div style="padding:var(--space-2) var(--space-3);background:var(--color-brand-50)">
+                <label class="sel" style="width:24px;height:24px"><input type="checkbox" checked aria-label="Select Ishaan Gupta"></label>
+                <span class="ink">Ishaan Gupta</span><span class="muted" style="margin-left:auto;float:right;font-size:var(--text-xs)">10-A</span></div>
+              <div style="padding:var(--space-2) var(--space-3)"><label class="sel" style="width:24px;height:24px"><input type="checkbox" aria-label="Select Meera Nair"></label><span class="ink">Meera Nair</span><span class="muted" style="margin-left:auto;float:right;font-size:var(--text-xs)">10-A</span></div>
+              <div style="padding:var(--space-2) var(--space-3)"><label class="sel" style="width:24px;height:24px"><input type="checkbox" aria-label="Select Rohan Das"></label><span class="ink">Rohan Das</span><span class="muted" style="margin-left:auto;float:right;font-size:var(--text-xs)">10-C</span></div>
+            </div>
+          </div>
+          <div class="ins">
+            <div class="row" style="justify-content:space-between"><h3 style="margin:0">Aarav Menon</h3><span class="st st--ok">On track</span></div>
+            <div class="muted" style="font-size:var(--text-sm)">10-B &middot; Roll 14 &middot; Enrolled 1 Jun 2026</div>
+            <div class="grid4" style="margin-top:var(--space-4);grid-template-columns:repeat(3,1fr)">
+              <div class="kpi" style="padding:var(--space-2) var(--space-3)"><div class="lab">Attendance</div><div class="val" style="font-size:var(--text-xl)">96<small>%</small></div></div>
+              <div class="kpi" style="padding:var(--space-2) var(--space-3)"><div class="lab">Coverage</div><div class="val" style="font-size:var(--text-xl)">91<small>%</small></div></div>
+              <div class="kpi" style="padding:var(--space-2) var(--space-3)"><div class="lab">Consent</div><div class="val" style="font-size:var(--text-xl)">Yes</div></div>
+            </div>
+            <div class="sec" style="margin-top:var(--space-5)">Subject progress</div>
+            <table><tbody>
+              <tr><td class="ink">Science</td><td><div class="bar"><i style="width:94%"></i></div></td><td class="n">94%</td></tr>
+              <tr><td class="ink">Mathematics</td><td><div class="bar"><i style="width:88%"></i></div></td><td class="n">88%</td></tr>
+              <tr><td class="ink">Social Science</td><td><div class="bar w"><i style="width:71%"></i></div></td><td class="n">71%</td></tr>
+              <tr><td class="ink">English</td><td><div class="bar"><i style="width:90%"></i></div></td><td class="n">90%</td></tr>
+            </tbody></table>
+            <div class="row" style="margin-top:var(--space-4)"><button class="btn btn--sec btn--sm">Full progress</button><button class="btn btn--ghost btn--sm">Consent record</button></div>
+          </div>
+        </div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Do parents and students appear in this same list, or are they separate? (2) Should attendance be on this screen at all &mdash; it is not in the matrix? (3) Is "On track / At risk" the status vocabulary you use, or do your schools say something else?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="consent">
+  <header><h2>14. Consent</h2><span class="tag">principal &middot; web</span> <span class="flag">Open decision</span></header>
+  <p class="note">The API exists with no UI today, which means DPDP compliance has a green test and no screen.
+  This is the gap between "we can" and "we do".</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i"><i class="dot"></i>Students</div><div class="i on"><i class="dot"></i>Consent</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Parental consent</h2><div class="desc">Required under the DPDP Act 2023 before student evaluation data can be processed.</div></div>
+          <div class="acts"><button class="btn btn--sec">Remind 3 parents</button><button class="btn btn--primary">Record consent</button></div></div>
+        <div class="grid4">
+          <div class="kpi"><div class="lab">Consent given</div><div class="val">91</div><div class="hint">of 94 students</div></div>
+          <div class="kpi"><div class="lab">Outstanding</div><div class="val">3</div><div class="dl down">2 overdue 7 days</div></div>
+          <div class="kpi"><div class="lab">Withdrawn</div><div class="val">0</div><div class="hint">no withdrawals this year</div></div>
+          <div class="kpi"><div class="lab">Not required</div><div class="val">0</div><div class="hint">all students are minors</div></div>
+        </div>
+        <div class="card"><div class="h"><h3>Outstanding consent</h3></div>
+          <table><thead><tr><th>Student</th><th>Class</th><th>Guardian</th><th>Requested</th><th>Status</th><th></th></tr></thead><tbody>
+            <tr><td class="ink">Rohan Das</td><td>10-C</td><td>S. Das &middot; <span class="mono">+91 98xxxxxx21</span></td><td class="mono muted">10 Sep 2026</td><td><span class="st st--bad">Overdue 7 days</span></td><td><button class="btn btn--sec btn--sm">Send again</button></td></tr>
+            <tr><td class="ink">Nikhil Verma</td><td>10-A</td><td>R. Verma &middot; <span class="mono">+91 97xxxxxx08</span></td><td class="mono muted">14 Sep 2026</td><td><span class="st st--warn">Awaiting</span></td><td><button class="btn btn--sec btn--sm">Send again</button></td></tr>
+            <tr><td class="ink">Sara Khan</td><td>10-B</td><td>A. Khan &middot; <span class="mono">+91 99xxxxxx44</span></td><td class="mono muted">16 Sep 2026</td><td><span class="st st--info">Sent today</span></td><td><button class="linkact">View</button></td></tr>
+          </tbody></table>
+          <div class="b" style="border-top:var(--border-default) solid var(--color-neutral-200);font-size:var(--text-sm);color:var(--color-neutral-500)">
+            Evaluation data for these three students is held, not processed, until consent is recorded.
+          </div></div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Open decision.</b> (1) How does a parent actually give consent in your schools &mdash; signed paper, SMS, a link, or in person? That decides whether this screen records it or sends it. (2) Should the principal be able to record verbal consent on a parent's behalf? (3) If a parent withdraws consent, what should happen to already-graded work?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="audit">
+  <header><h2>15. Audit trail</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">The audit log is written today and has no reader. CERT-In requires the trail; a principal
+  needs to answer "who changed this, and when". A control with no interface is not a control.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i"><i class="dot"></i>Settings</div><div class="i on"><i class="dot"></i>Audit trail</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search the trail <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Audit trail</h2><div class="desc">Immutable. Entries are never edited or deleted. Retained 180 days minimum.</div></div>
+          <div class="acts"><button class="btn btn--sec">Export for inspection</button></div></div>
+        <div class="card"><div class="h"><h3>Recent activity</h3>
+          <span class="seg"><b class="on">All</b><b>Reschedules</b><b>Approvals</b><b>Grades</b><b>Consent</b></span></div>
+          <table><thead><tr><th>When</th><th>Who</th><th>Action</th><th>What</th><th>Detail</th></tr></thead><tbody>
+            <tr><td class="mono muted">17 Sep 14:22</td><td class="ink">P. Ramanathan</td><td>lesson.completed</td><td>Science / Ch 1 / Types of reactions</td><td class="muted">marked complete, 10-A</td></tr>
+            <tr><td class="mono muted">17 Sep 11:05</td><td class="ink">R. Menon</td><td>schedule.rescheduled</td><td>Grade 10</td><td class="muted">PUSH &middot; 41 lessons &middot; reason: local holiday</td></tr>
+            <tr><td class="mono muted">16 Sep 16:40</td><td class="ink">R. Menon</td><td>curriculum.approved</td><td>Science / Ch 1</td><td class="muted">3 topics, 12 subtopics</td></tr>
+            <tr><td class="mono muted">16 Sep 09:12</td><td class="ink">S. Iyer</td><td>paper.exported</td><td>Assessment #a41f</td><td class="muted">PDF, answer key, 10-A</td></tr>
+            <tr><td class="mono muted">15 Sep 10:02</td><td class="ink">R. Menon</td><td>consent.recorded</td><td>Aarav Menon, 10-B</td><td class="muted">guardian consent, signed form</td></tr>
+          </tbody></table>
+          <div class="b" style="border-top:var(--border-default) solid var(--color-neutral-200);display:flex;align-items:center;gap:var(--space-3);font-size:var(--text-sm)">
+            <span class="muted">Showing 5 of 1,847 entries</span><button class="btn btn--ghost btn--sm">Load more</button>
+            <span class="muted" style="margin-left:auto">Storage backend: Supabase &middot; reachable</span>
+          </div></div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Would a principal actually read this, or is it only for inspections? If the latter, the export button matters more than the table. (2) Should teachers be able to see entries about themselves? (3) Is "Detail" the right column, or do you want the before/after values spelled out?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="export">
+  <header><h2>16. Data export</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">Exists in the API, has no UI. Also the honest answer to "what if we leave" &mdash; and the
+  matrix notes it does not yet cover papers, practice sets or scan sessions.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i"><i class="dot"></i>Settings</div><div class="i on"><i class="dot"></i>Export</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Export school data</h2><div class="desc">Everything this school owns, in a format you can keep.</div></div></div>
+        <div class="card"><div class="h"><h3>What you get</h3></div>
+          <table><thead><tr><th>Included</th><th>Format</th></tr></thead><tbody>
+            <tr><td class="ink">Curriculum tree, topics, subtopics</td><td class="mono muted">JSON</td></tr>
+            <tr><td class="ink">Schedule and lesson records</td><td class="mono muted">JSON, CSV</td></tr>
+            <tr><td class="ink">Assessments and grading records</td><td class="mono muted">JSON, CSV</td></tr>
+            <tr><td class="ink">Students, teachers, consent records</td><td class="mono muted">JSON, CSV</td></tr>
+            <tr><td class="ink">Audit trail</td><td class="mono muted">JSON</td></tr>
+          </tbody></table>
+          <div class="b" style="border-top:var(--border-default) solid var(--color-neutral-200)">
+            <div class="st st--warn" style="margin-bottom:var(--space-3)">Papers, practice sets and scan sessions are not yet included</div>
+            <p style="font-size:var(--text-sm);color:var(--color-neutral-500)">Those three stores do not carry a school identifier yet, so they cannot be scoped to one school. The export would be wrong, so it is not offered rather than offered and wrong.</p>
+            <div class="row" style="margin-top:var(--space-3)"><button class="btn btn--primary">Prepare export</button><button class="btn btn--ghost">Schedule monthly</button></div>
+          </div></div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Should the export be a download, or delivered to a cloud account? (2) Do you want a scheduled monthly export, and if so where should it go? (3) Is showing the limitation ("papers not included") better than hiding it?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="bank">
+  <header><h2>17. Question bank</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">Filter by subtopic, Bloom, difficulty, question type, and CBQ. The CBQ and licensing
+  status are shown because both gate what can be used.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i on"><i class="dot"></i>Question bank</div><div class="i"><i class="dot"></i>Papers</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search questions <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Question bank</h2><div class="desc">1,204 questions &middot; tagged against 404 subtopics</div></div>
+          <div class="acts"><button class="btn btn--sec">Import</button><button class="btn btn--primary">Add question</button></div></div>
+        <div class="grid2b">
+          <div class="ins"><div class="sec">Filters</div>
+            <div style="display:grid;gap:var(--space-3);font-size:var(--text-sm)">
+              <div><div class="muted" style="font-size:var(--text-xs)">Subject</div><div style="margin-top:var(--space-1)"><span class="chip">Science <span class="x">&times;</span></span></div></div>
+              <div><div class="muted" style="font-size:var(--text-xs)">Chapter</div><div style="margin-top:var(--space-1)"><span class="chip">Ch 1 Chemical Reactions <span class="x">&times;</span></span></div></div>
+              <div><div class="muted" style="font-size:var(--text-xs)">Subtopic</div><div style="margin-top:var(--space-1)"><span class="chip">Balancing equations <span class="x">&times;</span></span></div></div>
+              <div><div class="muted" style="font-size:var(--text-xs)">Type</div><div class="row"><span class="tag-n">MCQ</span><span class="tag-n">VSA</span><span class="tag-n">SA</span><span class="tag-n">LA</span><span class="tag-n">CBQ</span></div></div>
+              <div><div class="muted" style="font-size:var(--text-xs)">Marks</div><div class="seg" style="margin-top:var(--space-1)"><b>1</b><b class="on">2</b><b>3</b><b>5</b></div></div>
+              <button class="btn btn--sec btn--sm">Clear filters</button>
+              <button class="btn btn--ghost btn--sm">Save this view</button>
+            </div>
+          </div>
+          <div class="card"><div class="h"><h3>18 questions</h3>
+            <span class="seg"><b class="on">List</b><b>Preview</b></span></div>
+            <table><thead><tr><th class="selhead"><label class="sel"><input type="checkbox" aria-label="Select all questions"></label></th><th>Question</th><th>Type</th><th class="n">Marks</th><th>Tags</th></tr></thead><tbody>
+              <tr class="on"><td class="selcell"><label class="sel"><input type="checkbox" checked></label></td><td class="ink">Balance: Fe + H&#8322;O &rarr; Fe&#8323;O&#8324; + H&#8322;<div class="muted" style="font-size:var(--text-xs)">Ch 1 &middot; Balancing equations &middot; 2024 board</div></td><td><span class="tag-n">SA</span></td><td class="n">2</td><td><span class="tag-n">CBQ</span></td></tr>
+              <tr class="on"><td class="selcell"><label class="sel"><input type="checkbox" checked></label></td><td class="ink">State the law of conservation of mass and give one example.<div class="muted" style="font-size:var(--text-xs)">Ch 1 &middot; Chemical equations &middot; 2023 board</div></td><td><span class="tag-n">VSA</span></td><td class="n">1</td><td><span class="tag-n">Recall</span></td></tr>
+              <tr><td class="selcell"><label class="sel"><input type="checkbox"></label></td><td class="ink">A student adds zinc to copper sulphate. Predict and explain.<div class="muted" style="font-size:var(--text-xs)">Ch 1 &middot; Displacement &middot; competency-based</div></td><td><span class="tag-n">CBQ</span></td><td class="n">4</td><td><span class="tag-n">CBQ</span><span class="tag-n">HOTS</span></td></tr>
+              <tr><td class="selcell"><label class="sel"><input type="checkbox"></label></td><td class="ink">Identify the oxidising agent in MnO&#8322; + 4HCl &rarr; MnCl&#8322; + 2H&#8322;O + Cl&#8322;</td><td><span class="tag-n">MCQ</span></td><td class="n">1</td><td><span class="st st--warn">Licence unclear</span></td></tr>
+            </tbody></table>
+            <div class="bulk">
+              <span><b>2 selected</b></span>
+              <button class="btn btn--primary btn--sm">Build a paper from these</button>
+              <button class="btn btn--ghost btn--sm">Clear</button>
+            </div>
+          </div>
+        </div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) "Licence unclear" &mdash; is that too alarming to show a principal, given the question-bank licensing question is unresolved? (2) Should the bank show how often a question has been used, so teachers stop seeing the same one? (3) Do you want a preview mode with the answer and marking scheme inline?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="builder">
+  <header><h2>18. Paper builder</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">CBQ quota as a live meter so you never get to the end and discover the paper is invalid.
+  Parallel sets are a compare view, not a hidden generation step.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i"><i class="dot"></i>Question bank</div><div class="i on"><i class="dot"></i>Papers</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><div class="crumbs">Papers / New</div><h2>Build a paper</h2>
+          <div class="desc">Science &middot; Class 10 &middot; Term 1 &middot; 80 marks &middot; 3 hours</div></div>
+          <div class="acts"><button class="btn btn--ghost">Save draft</button><button class="btn btn--primary">Generate paper</button></div></div>
+        <div class="grid3b">
+          <div class="ins"><div class="sec">Blueprint</div>
+            <div style="display:grid;gap:var(--space-3);font-size:var(--text-sm)">
+              <div class="row" style="justify-content:space-between"><span class="muted">Total marks</span><span class="ink">80</span></div>
+              <div class="row" style="justify-content:space-between"><span class="muted">Duration</span><span class="ink">3 hours</span></div>
+              <div class="row" style="justify-content:space-between"><span class="muted">Differentiation</span><span class="tag-n">Standard</span></div>
+              <div><div class="muted" style="font-size:var(--text-xs)">Sections</div>
+                <div style="margin-top:var(--space-1);display:grid;gap:var(--space-1)">
+                  <div class="row" style="justify-content:space-between"><span>A &middot; MCQ &times; 20</span><span class="mono">20</span></div>
+                  <div class="row" style="justify-content:space-between"><span>B &middot; VSA &times; 6</span><span class="mono">12</span></div>
+                  <div class="row" style="justify-content:space-between"><span>C &middot; SA &times; 7</span><span class="mono">21</span></div>
+                  <div class="row" style="justify-content:space-between"><span>D &middot; LA &times; 3</span><span class="mono">15</span></div>
+                  <div class="row" style="justify-content:space-between"><span>E &middot; CBQ &times; 2</span><span class="mono">12</span></div>
+                </div></div>
+            </div></div>
+          <div class="card"><div class="h"><h3>Compliance</h3></div><div class="b" style="display:grid;gap:var(--space-4)">
+            <div><div class="row" style="justify-content:space-between;font-size:var(--text-sm)"><span>Competency-based questions</span><span class="ink">40 of 80 marks</span></div>
+              <div class="meter" style="margin-top:var(--space-2)"><div class="track"><div class="fill" style="width:50%"></div><div class="mark" style="left:50%"></div></div><span class="st st--warn">50% required</span></div></div>
+            <div><div class="row" style="justify-content:space-between;font-size:var(--text-sm)"><span>Internal choice</span><span class="ink">3 OR blocks</span></div>
+              <div class="meter" style="margin-top:var(--space-2)"><div class="track"><div class="fill" style="width:100%"></div></div><span class="st st--ok">Met</span></div></div>
+            <div><div class="row" style="justify-content:space-between;font-size:var(--text-sm)"><span>Syllabus coverage</span><span class="ink">9 of 13 chapters</span></div>
+              <div class="meter" style="margin-top:var(--space-2)"><div class="track"><div class="fill" style="width:69%"></div></div><span class="muted">69%</span></div></div>
+            <div><div class="row" style="justify-content:space-between;font-size:var(--text-sm)"><span>Parallel sets</span><span class="ink">A, B, C</span></div>
+              <div class="muted" style="font-size:var(--text-xs);margin-top:var(--space-1)">Sets are difficulty-invariant: same blueprint, rotated objective questions, swapped primary/OR choice.</div></div>
+          </div></div>
+          <div class="ins"><div class="sec">Selected</div>
+            <div style="font-size:var(--text-sm);display:grid;gap:var(--space-2)">
+              <div class="row" style="justify-content:space-between"><span class="muted">Questions</span><span class="ink">38</span></div>
+              <div class="row" style="justify-content:space-between"><span class="muted">Chapters</span><span class="ink">9</span></div>
+              <div class="row" style="justify-content:space-between"><span class="muted">Bloom spread</span><span class="ink">R 30% / U 40% / A 30%</span></div>
+              <div class="row" style="justify-content:space-between"><span class="muted">Difficulty</span><span class="ink">E 40% / M 40% / H 20%</span></div>
+            </div>
+            <div style="margin-top:var(--space-4);display:grid;gap:var(--space-2)">
+              <button class="btn btn--sec btn--sm">Preview as paper</button>
+              <button class="btn btn--ghost btn--sm">Review each question</button>
+            </div>
+            <p class="muted" style="font-size:var(--text-xs);margin-top:var(--space-3)">Nothing reaches a printer until you have reviewed it. That is deliberate.</p>
+          </div>
+        </div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Should the CBQ meter be a hard block (cannot generate at 49%) or a warning? (2) Do teachers start from a blueprint, or from "I need 20 MCQs on Chapter 3" and let the system build the blueprint? (3) Is 3 parallel sets right, or do your schools need more?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="paperreview">
+  <header><h2>19. Paper review</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">The screen the ITS research says decides whether the feature survives. Every question
+  visible, with its reason for being chosen, and editable before use.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i"><i class="dot"></i>Question bank</div><div class="i on"><i class="dot"></i>Papers</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><div class="crumbs">Papers / Science Term 1 / Review</div><h2>Review before printing</h2>
+          <div class="desc">38 questions &middot; generated 17 Sep 2026 &middot; blueprint v2 &middot; nothing printed yet</div></div>
+          <div class="acts"><button class="btn btn--ghost">Regenerate</button><button class="btn btn--sec">Print preview</button><button class="btn btn--primary">Approve and export</button></div></div>
+        <div class="card"><div class="h"><h3>Section C &mdash; Short answer, 7 questions</h3><span class="muted" style="font-size:var(--text-sm)">21 marks</span></div>
+          <table><thead><tr><th style="width:32px">#</th><th>Question</th><th>Chosen because</th><th class="n">Marks</th><th></th></tr></thead><tbody>
+            <tr><td class="mono muted">21</td><td class="ink">Explain why the reaction of lead nitrate with potassium iodide is a double displacement reaction.</td><td class="muted" style="font-size:var(--text-xs)">Ch 1 &middot; double displacement &middot; 2024 board &middot; SA</td><td class="n">3</td><td><button class="linkact">Replace</button></td></tr>
+            <tr><td class="mono muted">22</td><td class="ink">A white powder X is used in kitchens. On heating it gives a gas Y that turns lime water milky. Identify X and Y and write the equation.</td><td class="muted" style="font-size:var(--text-xs)">Ch 1 &middot; decomposition &middot; competency-based</td><td class="n">3</td><td><button class="linkact">Replace</button></td></tr>
+            <tr><td class="mono muted">23</td><td class="ink">Give reasons: (a) aluminium is used for making cooking utensils (b) copper is used for electrical wiring.</td><td class="muted" style="font-size:var(--text-xs)">Ch 3 &middot; metals &middot; application</td><td class="n">3</td><td><button class="linkact">Replace</button></td></tr>
+            <tr><td class="mono muted">24</td><td class="ink" style="color:var(--color-warning-fg)">State the law of conservation of mass.</td><td class="muted" style="font-size:var(--text-xs)"><span class="st st--warn">Below the section's difficulty floor</span></td><td class="n">3</td><td><button class="btn btn--sec btn--sm">Replace</button></td></tr>
+          </tbody></table>
+          <div class="b" style="border-top:var(--border-default) solid var(--color-neutral-200);background:var(--color-warning-bg);font-size:var(--text-sm);display:flex;gap:var(--space-3);align-items:center">
+            <span>Question 24 is easier than the rest of Section C. The blueprint asked for 40% easy, so this is allowed &mdash; but it is flagged so you decide, not the model.</span>
+            <button class="btn btn--sec btn--sm" style="margin-left:auto">Replace Q24</button>
+          </div></div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Is "Chosen because" useful, or is it noise a busy principal will ignore? (2) Should a flagged question block approval, or just warn? (3) The whole paper is 38 rows &mdash; do you want to see all of it at once, or section by section as here?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="answerkey">
+  <header><h2>20. Answer key</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">Step-wise value-point marking scheme, matching how CBSE actually awards marks. This is what
+  a teacher marks against, so every point must be individually visible.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i on"><i class="dot"></i>Papers</div><div class="i"><i class="dot"></i>Assessments</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>Marking scheme &mdash; Science Term 1</h2><div class="desc">38 questions &middot; 80 marks &middot; step-wise value points</div></div>
+          <div class="acts"><button class="btn btn--sec">Export PDF</button><button class="btn btn--primary">Share with teachers</button></div></div>
+        <div class="card"><div class="h"><h3>Q22 &mdash; 3 marks</h3><span class="tag-n">Competency-based</span></div>
+          <div class="b" style="display:grid;gap:var(--space-4)">
+            <div><div class="sec">Question</div><p style="font-size:var(--text-sm)">A white powder X is used in kitchens. On heating it gives a gas Y that turns lime water milky. Identify X and Y and write the equation.</p></div>
+            <div><div class="sec">Value points</div>
+              <table><thead><tr><th>Step</th><th>Expected answer</th><th class="n">Marks</th></tr></thead><tbody>
+                <tr><td class="mono muted">1</td><td class="ink">X = sodium bicarbonate (baking soda)</td><td class="n">1</td></tr>
+                <tr><td class="mono muted">2</td><td class="ink">Y = carbon dioxide</td><td class="n">1</td></tr>
+                <tr><td class="mono muted">3</td><td class="ink">2NaHCO&#8323; &rarr; Na&#8322;CO&#8323; + H&#8322;O + CO&#8322;</td><td class="n">1</td></tr>
+              </tbody></table></div>
+            <div class="row" style="font-size:var(--text-sm)">
+              <span class="muted">Accepted alternatives:</span><span class="tag-n">baking powder</span><span class="tag-n">CO&#8322;</span>
+            </div>
+            <div class="ins" style="background:var(--color-surface-inset)">
+              <div class="sec">Source</div>
+              <div style="font-size:var(--text-sm)">NCERT Science Class X, 2025-26 &middot; Ch 1, p.14 &middot; marking scheme cross-checked against 2024 board key</div>
+            </div>
+          </div></div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Should teachers be able to add their own accepted alternatives, which then persist for next year? (2) Do you want partial-credit guidance per step (e.g. equation wrong but balanced = 0.5)? (3) Is citing the NCERT page helpful or unnecessary here?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="scan">
+  <header><h2>21. Scan &amp; grade review</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">The highest-volume keyboard task in the product. Marking 40 scripts means hundreds of
+  judgments, so this screen gets its own keyboard contract: <span class="mono">j/k</span> to move,
+  <span class="mono">1-5</span> to award, <span class="mono">enter</span> to confirm.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <div class="i"><i class="dot"></i>Dashboard</div><div class="i on"><i class="dot"></i>Scan &amp; grade</div><div class="i"><i class="dot"></i>Evaluations</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search <kbd>&#8984;K</kbd></div>
+      <span class="seg"><b class="on">Q22 of 38</b><b>Script 7 of 40</b></span><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="grid2">
+          <div class="card"><div class="h"><h3>Q22 &mdash; student answer</h3>Handwriting confidence 0.64</div>
+            <div class="b"><div style="background:var(--color-surface-inset);border:var(--border-default) dashed var(--color-neutral-300);border-radius:var(--radius-md);padding:var(--space-6);min-height:180px;font-family:var(--font-mono);font-size:var(--text-sm);color:var(--color-neutral-600)">
+              X is baking soda. It gives CO2 gas. (equation struck through)<br><br>
+              <span class="muted">2NaHCO3 -&gt; Na2CO3 + H2O + CO2</span>
+            </div>
+            <div class="row" style="margin-top:var(--space-3);font-size:var(--text-xs);color:var(--color-neutral-500)">
+              <span>OCR may have merged struck-through working. Verify against the scan.</span>
+              <button class="btn btn--ghost btn--sm">Open scan</button>
+            </div></div></div>
+          <div class="card"><div class="h"><h3>Award marks</h3><span class="muted" style="font-size:var(--text-xs)">3 available</span></div>
+            <div class="b" style="display:grid;gap:var(--space-3)">
+              <div class="ins" style="border-color:var(--color-success-border);background:var(--color-success-bg)">
+                <div class="row" style="justify-content:space-between"><span style="font-size:var(--text-sm);color:var(--color-success-fg)"><b>Step 1</b> X = sodium bicarbonate</span>1 mark</div>
+              </div>
+              <div class="ins" style="border-color:var(--color-success-border);background:var(--color-success-bg)">
+                <div class="row" style="justify-content:space-between"><span style="font-size:var(--text-sm);color:var(--color-success-fg)"><b>Step 2</b> Y = carbon dioxide</span>1 mark</div>
+              </div>
+              <div class="ins" style="border-color:var(--color-warning-border);background:var(--color-warning-bg)">
+                <div class="row" style="justify-content:space-between"><span style="font-size:var(--text-sm);color:var(--color-warning-fg)"><b>Step 3</b> Equation &mdash; appear correct</span><span class="st st--warn">1 mark? confirm</span></div>
+              </div>
+              <div class="row"><span class="muted" style="font-size:var(--text-sm)">Awarded</span><span class="ink" style="font-size:var(--text-xl);font-weight:var(--font-semibold)">3</span><span class="muted">of 3</span></div>
+              <div class="row"><button class="btn btn--primary">Confirm and next</button><button class="btn btn--ghost">Flag for teacher</button></div>
+              <p class="muted" style="font-size:var(--text-xs)">Marks below the confidence threshold are never auto-awarded. A person decides every one of these.</p>
+            </div></div>
+        </div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Is showing the handwriting confidence useful, or does "0.64" mean nothing to a teacher? (2) Should the OCR text be editable here if it misread the scan? (3) Does "Flag for teacher" make sense if the principal is already the reviewer?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="settings">
+  <header><h2>22. Settings &amp; templates</h2><span class="tag">principal &middot; web</span></header>
+  <p class="note">Grouped, named reveals rather than a long scroll. A changed advanced value stays summarised
+  near the primary action so it cannot surprise you.</p>
+  <div class="frame frame--desk"><div class="app">
+    <div class="side"><div class="brand"><div class="mark">A</div>AcademicOS</div>
+      <h4>Settings</h4><div class="i on"><i class="dot"></i>School</div><div class="i"><i class="dot"></i>Templates</div><div class="i"><i class="dot"></i>Users</div><div class="i"><i class="dot"></i>Audit trail</div><div class="i"><i class="dot"></i>Export</div></div>
+    <div class="main"><div class="topbar"><div class="search">Search settings <kbd>&#8984;K</kbd></div><div class="avatar">RM</div></div>
+      <div class="body">
+        <div class="pageh"><div><h2>School settings</h2><div class="desc">applies to every class and subject</div></div>
+          <div class="acts"><button class="btn btn--primary">Save</button></div></div>
+        <div class="tab"><b class="on">School</b><b>Templates</b><b>Users</b></div>
+        <div class="card"><div class="h"><h3>Identity</h3></div><div class="b" style="display:grid;gap:var(--space-3);font-size:var(--text-sm)">
+          <div class="row" style="justify-content:space-between"><span class="muted">School name</span><span class="ink">Greenwood High School</span></div>
+          <div class="row" style="justify-content:space-between"><span class="muted">Board</span><span class="ink">CBSE</span></div>
+          <div class="row" style="justify-content:space-between"><span class="muted">School code</span><span class="mono">school_1</span></div>
+        </div></div>
+        <div class="card"><div class="h"><h3>Paper defaults</h3></div><div class="b" style="display:grid;gap:var(--space-3);font-size:var(--text-sm)">
+          <div class="row" style="justify-content:space-between"><span class="muted">Header</span><span class="ink">Greenwood High School &middot; Term 1 Examination</span></div>
+          <div class="row" style="justify-content:space-between"><span class="muted">Instructions block</span><span class="ink">CBSE standard 6 lines</span></div>
+          <div class="row" style="justify-content:space-between"><span class="muted">Marks in margin</span><span class="st st--ok">On</span></div>
+          <button class="btn btn--sec btn--sm" style="justify-self:start">Advanced paper settings</button>
+          <div class="muted" style="font-size:var(--text-xs)">No advanced settings changed from defaults.</div>
+        </div></div>
+      </div></div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Does each school need its own paper header template, and can they upload a logo? (2) Should these settings be per-school, per-board, or per-academic-year? (3) Anything missing that your schools configure at the start of a year?</div>
+</section>
+
+<!-- ===================================================================== -->
+<div class="screen"><header><h2>Teacher &mdash; mobile</h2><span class="tag">the product</span></header>
+<p class="note">Three items in the nav, no more. The default landing surface answers the only question that
+matters at 8am. Target: <b>under three seconds from opening the app to today's lesson on screen.</b></p></div>
+
+<section class="screen" id="t-today">
+  <header><h2>23. Today</h2><span class="tag">teacher &middot; mobile</span></header>
+  <div class="phone-row">
+  <div class="frame frame--phone"><div class="phone">
+    <div class="pstat"><span>08:12</span><span>Greenwood &middot; offline</span></div>
+    <div class="phead"><h2>Good morning</h2><div class="muted" style="font-size:var(--text-sm)">P. Ramanathan &middot; Science &middot; 3 classes today</div></div>
+    <div class="pbody">
+      <div class="card" style="border-color:var(--color-brand-600)">
+        <div class="b">
+          <div class="row" style="justify-content:space-between"><span class="tag-n">Next &middot; 08:45</span><span class="muted" style="font-size:var(--text-xs)">in 33 min</span></div>
+          <h3 style="margin-top:var(--space-3);font-size:var(--text-lg)">Types of chemical reactions</h3>
+          <div class="muted" style="font-size:var(--text-sm)">Science &middot; 10-A &middot; Period 2 &middot; Room 12</div>
+          <div class="row" style="margin-top:var(--space-4)">
+            <button class="btn btn--primary" style="flex:1">Mark complete</button>
+            <button class="btn btn--sec">Open</button>
+          </div>
+        </div>
+      </div>
+      <div class="sec" style="margin-top:var(--space-2)">Later today</div>
+      <div class="card"><div class="b" style="padding:var(--space-3)">
+        <div class="row" style="justify-content:space-between"><span class="ink" style="font-size:var(--text-sm)">Oxidation and reduction</span><span class="muted mono" style="font-size:var(--text-xs)">10-B</span></div>
+        <div class="muted" style="font-size:var(--text-xs)">Period 4 &middot; 10:15</div>
+      </div></div>
+      <div class="card"><div class="b" style="padding:var(--space-3)">
+        <div class="row" style="justify-content:space-between"><span class="ink" style="font-size:var(--text-sm)">Acids, Bases and Salts</span><span class="muted mono" style="font-size:var(--text-xs)">10-C</span></div>
+        <div class="muted" style="font-size:var(--text-xs)">Period 6 &middot; 11:30</div>
+      </div></div>
+      <div class="card" style="background:var(--color-warning-bg);border-color:var(--color-warning-border)"><div class="b" style="padding:var(--space-3)">
+        <div style="font-size:var(--text-sm);color:var(--color-warning-fg)"><b>3 lessons behind</b> in 10-B</div>
+        <div class="muted" style="font-size:var(--text-xs)">Oldest is 4 days late</div>
+      </div></div>
+    </div>
+    <div class="pnav"><span class="on"><i class="sq"></i>Today</span><span><i class="sq"></i>Timetable</span><span><i class="sq"></i>Papers</span></div>
+  </div></div>
+  <div style="max-width:420px">
+    <div class="ask"><b>Questions.</b> (1) Is "Mark complete" on the card right, or should it always open the lesson first? (2) Should the offline banner be that visible when everything still works? (3) Notice the 3 items in the nav &mdash; is "Papers" the right third, or would you rather have Students?</div>
+  </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="t-schedule">
+  <header><h2>24. Timetable</h2><span class="tag">teacher &middot; mobile</span></header>
+  <p class="note">Four modes over one data source. The year view as twelve per-month lesson counts is the
+  existing, working design and is kept.</p>
+  <div class="phone-row">
+  <div class="frame frame--phone"><div class="phone">
+    <div class="pstat"><span>08:14</span><span>Greenwood</span></div>
+    <div class="phead"><div class="row" style="justify-content:space-between"><h2>September 2026</h2></div>
+      <div class="seg" style="margin-top:var(--space-2)"><b>Day</b><b class="on">Week</b><b>Month</b><b>Year</b></div></div>
+    <div class="pbody">
+      <div class="card"><table><tbody>
+        <tr><td class="mono muted" style="width:52px">Mon</td><td class="ink">Types of reactions</td><td class="n"><span class="st st--ok"></span></td></tr>
+        <tr><td class="mono muted">Tue</td><td class="ink">Oxidation and reduction</td><td class="n"><span class="st st--ok"></span></td></tr>
+        <tr><td class="mono muted">Wed</td><td class="ink">Acids and Bases</td><td class="n"><span class="st st--info"></span></td></tr>
+        <tr><td class="mono muted">Thu</td><td class="ink">Metals and Non-metals</td><td class="n"><span class="st st--info"></span></td></tr>
+        <tr><td class="mono muted">Fri</td><td class="ink">Carbon compounds</td><td class="n"><span class="st st--info"></span></td></tr>
+        <tr><td class="mono muted">Sat</td><td class="muted">Holiday</td><td class="n"><span class="st st--off"></span></td></tr>
+      </tbody></table></div>
+      <div class="muted" style="font-size:var(--text-xs);text-align:center">14 lessons scheduled this week &middot; 2 complete</div>
+    </div>
+    <div class="pnav"><span><i class="sq"></i>Today</span><span class="on"><i class="sq"></i>Timetable</span><span><i class="sq"></i>Papers</span></div>
+  </div></div>
+  <div class="frame frame--phone"><div class="phone">
+    <div class="pstat"><span>08:14</span><span>Greenwood</span></div>
+    <div class="phead"><h2>2026</h2><div class="seg" style="margin-top:var(--space-2)"><b>Day</b><b>Week</b><b>Month</b><b class="on">Year</b></div></div>
+    <div class="pbody">
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-2)">
+        <div class="card"><div class="b" style="padding:var(--space-3);text-align:center"><div class="muted" style="font-size:var(--text-xs)">Jun</div><div class="ink" style="font-size:var(--text-lg);font-weight:var(--font-semibold)">24</div></div></div>
+        <div class="card"><div class="b" style="padding:var(--space-3);text-align:center"><div class="muted" style="font-size:var(--text-xs)">Jul</div><div class="ink" style="font-size:var(--text-lg);font-weight:var(--font-semibold)">25</div></div></div>
+        <div class="card"><div class="b" style="padding:var(--space-3);text-align:center"><div class="muted" style="font-size:var(--text-xs)">Aug</div><div class="ink" style="font-size:var(--text-lg);font-weight:var(--font-semibold)">23</div></div></div>
+        <div class="card" style="border-color:var(--color-brand-600)"><div class="b" style="padding:var(--space-3);text-align:center"><div class="muted" style="font-size:var(--text-xs)">Sep</div><div class="ink" style="font-size:var(--text-lg);font-weight:var(--font-semibold)">22</div></div></div>
+        <div class="card"><div class="b" style="padding:var(--space-3);text-align:center"><div class="muted" style="font-size:var(--text-xs)">Oct</div><div class="ink" style="font-size:var(--text-lg);font-weight:var(--font-semibold)">18</div></div></div>
+        <div class="card"><div class="b" style="padding:var(--space-3);text-align:center"><div class="muted" style="font-size:var(--text-xs)">Nov</div><div class="ink" style="font-size:var(--text-lg);font-weight:var(--font-semibold)">21</div></div></div>
+        <div class="card"><div class="b" style="padding:var(--space-3);text-align:center"><div class="muted" style="font-size:var(--text-xs)">Dec</div><div class="ink" style="font-size:var(--text-lg);font-weight:var(--font-semibold)">15</div></div></div>
+        <div class="card"><div class="b" style="padding:var(--space-3);text-align:center"><div class="muted" style="font-size:var(--text-xs)">Jan</div><div class="ink" style="font-size:var(--text-lg);font-weight:var(--font-semibold)">0</div><div class="muted" style="font-size:var(--text-2xs)">No lessons</div></div></div>
+        <div class="card"><div class="b" style="padding:var(--space-3);text-align:center"><div class="muted" style="font-size:var(--text-xs)">Feb</div><div class="ink" style="font-size:var(--text-lg);font-weight:var(--font-semibold)">0</div><div class="muted" style="font-size:var(--text-2xs)">No lessons</div></div></div>
+      </div>
+    </div>
+    <div class="pnav"><span><i class="sq"></i>Today</span><span class="on"><i class="sq"></i>Timetable</span><span><i class="sq"></i>Papers</span></div>
+  </div></div>
+  </div>
+  <div class="ask"><b>Questions.</b> (1) Is the four-mode switcher right, or do you mostly use one or two? (2) Should tapping a month jump to that month (current behaviour) or expand the lessons inline? (3) The two phone frames here are the <em>same screen</em> in different modes &mdash; does that read clearly?</div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="t-lesson">
+  <header><h2>25. Mark lesson complete</h2><span class="tag">teacher &middot; mobile</span> <span class="flag">Open decision</span></header>
+  <p class="note">Deliberately the simplest screen in the product. The transcript's own instruction is not to
+  make this re-select curriculum. Marking is optimistic and says so honestly.</p>
+  <div class="phone-row">
+  <div class="frame frame--phone" style="position:relative"><div class="phone">
+    <div class="pstat"><span>08:47</span><span>Greenwood</span></div>
+    <div class="phead"><h2 style="font-size:var(--text-lg)">Types of chemical reactions</h2>
+      <div class="muted" style="font-size:var(--text-sm)">Science &middot; 10-A &middot; Period 2 &middot; today</div></div>
+    <div class="pbody" style="opacity:.4">
+      <div class="card"><div class="b"><div class="sk" style="width:60%"></div></div></div>
+    </div>
+    <div style="position:absolute;inset:0;background:var(--color-neutral-900);opacity:.3"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;background:var(--color-surface-card);border-radius:var(--radius-xl) var(--radius-xl) 0 0;padding:var(--space-5);box-shadow:var(--shadow-md)">
+      <h3 style="font-size:var(--text-lg);margin-bottom:var(--space-1)">Did you teach this?</h3>
+      <div class="muted" style="font-size:var(--text-sm);margin-bottom:var(--space-4)">Types of chemical reactions &middot; 10-A</div>
+      <div class="row" style="gap:var(--space-3)">
+        <button class="btn btn--primary" style="flex:1;height:44px">Yes</button>
+        <button class="btn btn--sec" style="flex:1;height:44px">No</button>
+      </div>
+      <div style="margin-top:var(--space-4)">
+        <div class="muted" style="font-size:var(--text-xs);margin-bottom:var(--space-1)">Note (optional)</div>
+        <div class="row" style="padding:var(--space-2) var(--space-3);border:var(--border-default) solid var(--color-neutral-300);border-radius:var(--radius-md);font-size:var(--text-sm);color:var(--color-neutral-400)">
+          <span>Say it&hellip;</span><span class="mono" style="margin-left:auto">mic</span>
+        </div>
+      </div>
+    </div>
+  </div></div>
+  <div style="max-width:420px">
+    <div class="ask"><b>Open decision.</b> (1) Where does <b>voice</b> belong &mdash; a button that dictates into the note field, or a hold-to-record clip? The research says voice is a real differentiator for a teacher typing 40 notes on a phone, but it is also the most likely thing to be misused or to fail in a noisy classroom. (2) If "No" is tapped, what should happen &mdash; nothing, or offer to reschedule? (3) Should this sheet remember a default and stop asking after the first few weeks?</div>
+  </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="t-papers">
+  <header><h2>26. Papers &amp; quick generate</h2><span class="tag">teacher &middot; mobile</span></header>
+  <p class="note">One-prompt generation, but the review step stays visible. The research is explicit that a
+  black box loses the teacher, so "review" is a primary action, not an advanced option.</p>
+  <div class="phone-row">
+  <div class="frame frame--phone"><div class="phone">
+    <div class="pstat"><span>08:52</span><span>Greenwood</span></div>
+    <div class="phead"><h2>Papers</h2></div>
+    <div class="pbody">
+      <div class="card" style="background:var(--color-brand-50);border-color:var(--color-brand-100)">
+        <div class="b">
+          <h3 style="font-size:var(--text-base)">Make a paper quickly</h3>
+          <div class="muted" style="font-size:var(--text-sm);margin:var(--space-1) 0 var(--space-3)">Type what you need. You review every question before it is used.</div>
+          <div class="row" style="padding:var(--space-2) var(--space-3);border:var(--border-default) solid var(--color-neutral-300);border-radius:var(--radius-md);background:var(--color-surface-card);font-size:var(--text-sm);color:var(--color-neutral-600)">20 MCQs and 3 short answers on Chapter 1<span class="mono muted" style="margin-left:auto">mic</span></div>
+          <button class="btn btn--primary" style="width:100%;margin-top:var(--space-3)">Generate draft</button>
+        </div>
+      </div>
+      <div class="sec" style="margin-top:var(--space-2)">Recent</div>
+      <div class="card"><div class="b" style="padding:var(--space-3)">
+        <div class="row" style="justify-content:space-between"><span class="ink" style="font-size:var(--text-sm)">Science Term 1</span><span class="st st--warn">Draft</span></div>
+        <div class="muted" style="font-size:var(--text-xs)">38 questions &middot; 80 marks &middot; yesterday</div>
+      </div></div>
+      <div class="card"><div class="b" style="padding:var(--space-3)">
+        <div class="row" style="justify-content:space-between"><span class="ink" style="font-size:var(--text-sm)">Chapter 1 practice</span><span class="st st--ok">Shared</span></div>
+        <div class="muted" style="font-size:var(--text-xs)">20 questions &middot; 20 marks &middot; 12 Sep</div>
+      </div></div>
+    </div>
+    <div class="pnav"><span><i class="sq"></i>Today</span><span><i class="sq"></i>Timetable</span><span class="on"><i class="sq"></i>Papers</span></div>
+  </div></div>
+  <div style="max-width:420px">
+    <div class="ask"><b>Questions.</b> (1) Is free-text-to-paper the right primary action, or do teachers want filters first? (2) The prompt box accepts voice &mdash; useful, or will nobody use it on a phone in a staffroom? (3) After generating, should it go straight to review or to a saved drafts list?</div>
+  </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="t-practice">
+  <header><h2>27. Practice</h2><span class="tag">teacher &middot; mobile</span></header>
+  <p class="note">Spaced repetition over the learner model. Due-first, bounded by a time budget the teacher
+  set, not by an arbitrary count.</p>
+  <div class="phone-row">
+  <div class="frame frame--phone"><div class="phone">
+    <div class="pstat"><span>08:58</span><span>Greenwood</span></div>
+    <div class="phead"><h2>Practice</h2><div class="muted" style="font-size:var(--text-sm)">10-A &middot; Science &middot; 15 min set</div></div>
+    <div class="pbody">
+      <div class="grid4" style="grid-template-columns:1fr 1fr;gap:var(--space-2)">
+        <div class="kpi" style="padding:var(--space-2) var(--space-3)"><div class="lab">Due today</div><div class="val" style="font-size:var(--text-xl)">18</div></div>
+        <div class="kpi" style="padding:var(--space-2) var(--space-3)"><div class="lab">Retention</div><div class="val" style="font-size:var(--text-xl)">82<small>%</small></div></div>
+      </div>
+      <div class="card"><div class="h" style="padding:var(--space-3)"><h3 style="font-size:var(--text-sm)">Start</h3></div>
+        <div class="b" style="padding:var(--space-3);display:grid;gap:var(--space-2);font-size:var(--text-sm)">
+          <div class="row" style="justify-content:space-between"><span class="muted">Weakest topic</span><span class="ink">Oxidation and reduction</span></div>
+          <div class="row" style="justify-content:space-between"><span class="muted">Questions</span><span class="ink">12</span></div>
+          <div class="row" style="justify-content:space-between"><span class="muted">Time</span><span class="ink">approx 15 min</span></div>
+          <button class="btn btn--primary" style="width:100%;margin-top:var(--space-2)">Begin set</button>
+        </div></div>
+      <div class="sec">Suggested by mastery</div>
+      <div class="card"><div class="b" style="padding:var(--space-3)">
+        <div class="row" style="justify-content:space-between"><span class="ink" style="font-size:var(--text-sm)">Balancing equations</span><span class="st st--warn">Weak</span></div>
+        <div class="bar w" style="margin-top:var(--space-2)"><i style="width:38%"></i></div>
+      </div></div>
+      <div class="card"><div class="b" style="padding:var(--space-3)">
+        <div class="row" style="justify-content:space-between"><span class="ink" style="font-size:var(--text-sm)">Types of reactions</span><span class="st st--ok">Solid</span></div>
+        <div class="bar" style="margin-top:var(--space-2)"><i style="width:88%"></i></div>
+      </div></div>
+    </div>
+    <div class="pnav"><span class="on"><i class="sq"></i>Today</span><span><i class="sq"></i>Timetable</span><span><i class="sq"></i>Papers</span></div>
+  </div></div>
+  <div style="max-width:420px">
+    <div class="ask"><b>Questions.</b> (1) Is this teacher-facing, student-facing, or both? The matrix puts practice under the student portal. (2) Should the teacher see a learner model that says a whole class is weak on one topic? (3) 15 minutes &mdash; is that the right default, or should it be one period?</div>
+  </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<div class="screen"><header><h2>Student &amp; parent</h2><span class="tag">interpreted, not raw</span></header>
+<p class="note">The one place where less density genuinely wins. The audience did not ask to learn our
+interface, so these screens state a conclusion rather than showing data. <b>No management vocabulary.</b></p></div>
+
+<section class="screen" id="s-home">
+  <header><h2>28. Student home</h2><span class="tag">student &middot; mobile</span></header>
+  <div class="phone-row">
+  <div class="frame frame--phone"><div class="phone">
+    <div class="pstat"><span>16:04</span><span>Greenwood</span></div>
+    <div class="phead"><h2>Hello, Aarav</h2><div class="muted" style="font-size:var(--text-sm)">Class 10-B &middot; Tuesday</div></div>
+    <div class="pbody">
+      <div class="card" style="border-color:var(--color-brand-600)"><div class="b">
+        <div class="sec">Next class</div>
+        <h3 style="font-size:var(--text-lg)">Chemical Reactions</h3>
+        <div class="muted" style="font-size:var(--text-sm)">Science &middot; tomorrow 08:45 &middot; Room 12</div>
+        <div class="muted" style="font-size:var(--text-xs);margin-top:var(--space-2)">You covered Types of reactions last week.</div>
+      </div></div>
+      <div class="sec" style="margin-top:var(--space-2)">How you're doing</div>
+      <div class="card"><div class="b" style="display:grid;gap:var(--space-3);font-size:var(--text-sm)">
+        <div><div class="row" style="justify-content:space-between"><span class="ink">Science</span><span class="muted">94%</span></div><div class="bar" style="margin-top:var(--space-1)"><i style="width:94%"></i></div></div>
+        <div><div class="row" style="justify-content:space-between"><span class="ink">Mathematics</span><span class="muted">88%</span></div><div class="bar" style="margin-top:var(--space-1)"><i style="width:88%"></i></div></div>
+        <div><div class="row" style="justify-content:space-between"><span class="ink">Social Science</span><span class="muted">71%</span></div><div class="bar w" style="margin-top:var(--space-1)"><i style="width:71%"></i></div>
+          <div class="muted" style="font-size:var(--text-xs);margin-top:var(--space-1)">Two chapters to catch up on</div></div>
+      </div></div>
+      <div class="card" style="background:var(--color-surface-inset)"><div class="b" style="padding:var(--space-3)">
+        <div style="font-size:var(--text-sm)" class="ink">Practice is ready</div>
+        <div class="muted" style="font-size:var(--text-xs)">12 questions on oxidation and reduction</div>
+        <button class="btn btn--sec btn--sm" style="margin-top:var(--space-2)">Start</button>
+      </div></div>
+    </div>
+    <div class="pnav"><span class="on"><i class="sq"></i>Today</span><span><i class="sq"></i>Progress</span><span><i class="sq"></i>Practice</span></div>
+  </div></div>
+  <div style="max-width:420px">
+    <div class="ask"><b>Questions.</b> (1) Should the student see percentages at all, or only "on track / needs work"? (2) Is the greeting too familiar for a school product? (3) Anything here that a student should <em>not</em> be able to see?</div>
+  </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="s-progress">
+  <header><h2>29. Student progress</h2><span class="tag">student &middot; mobile</span></header>
+  <div class="phone-row">
+  <div class="frame frame--phone"><div class="phone">
+    <div class="pstat"><span>16:05</span><span>Greenwood</span></div>
+    <div class="phead"><h2>Progress</h2><div class="muted" style="font-size:var(--text-sm)">This term &middot; all subjects</div></div>
+    <div class="pbody">
+      <div class="card"><div class="b">
+        <div class="row" style="justify-content:space-between"><span class="sec" style="margin:0">Science</span><span class="st st--ok">On track</span></div>
+        <div style="margin-top:var(--space-3);display:grid;gap:var(--space-2);font-size:var(--text-sm)">
+          <div class="row" style="justify-content:space-between"><span class="muted">Chemical Reactions</span><span class="st st--ok">Done</span></div>
+          <div class="row" style="justify-content:space-between"><span class="muted">Acids, Bases and Salts</span><span class="st st--ok">Done</span></div>
+          <div class="row" style="justify-content:space-between"><span class="muted">Metals and Non-metals</span><span class="st st--info">In progress</span></div>
+        </div>
+      </div></div>
+      <div class="card"><div class="b">
+        <div class="row" style="justify-content:space-between"><span class="sec" style="margin:0">Social Science</span><span class="st st--warn">Needs work</span></div>
+        <div style="margin-top:var(--space-3);display:grid;gap:var(--space-2);font-size:var(--text-sm)">
+          <div class="row" style="justify-content:space-between"><span class="muted">Nationalism in Europe</span><span class="st st--ok">Done</span></div>
+          <div class="row" style="justify-content:space-between"><span class="muted">Nationalism in India</span><span class="st st--warn">Partly</span></div>
+          <div class="row" style="justify-content:space-between"><span class="muted">Resources and Development</span><span class="st st--off">Not started</span></div>
+        </div>
+        <div class="muted" style="font-size:var(--text-xs);margin-top:var(--space-3)">Ask your teacher which two chapters to focus on first.</div>
+      </div></div>
+    </div>
+    <div class="pnav"><span><i class="sq"></i>Today</span><span class="on"><i class="sq"></i>Progress</span><span><i class="sq"></i>Practice</span></div>
+  </div></div>
+  <div style="max-width:420px">
+    <div class="ask"><b>Questions.</b> (1) "Ask your teacher" &mdash; is that helpful, or should it just say which chapters? (2) Should exam results appear here too, or is this syllabus coverage only? (3) Do you want a parent-visible summary on this screen?</div>
+  </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="p-home">
+  <header><h2>30. Parent home</h2><span class="tag">parent &middot; mobile</span> <span class="flag">Open decision</span></header>
+  <p class="note">Three scenario cards, phrased as the questions a parent actually asks. No word of our
+  vocabulary &mdash; no "syllabus coverage", no "pace variance", no "period".</p>
+  <div class="phone-row">
+  <div class="frame frame--phone"><div class="phone">
+    <div class="pstat"><span>19:40</span><span>Greenwood</span></div>
+    <div class="phead"><h2>Aarav</h2><div class="muted" style="font-size:var(--text-sm)">Class 10-B &middot; Greenwood High School</div></div>
+    <div class="pbody">
+      <div class="card" style="border-color:var(--color-brand-600)"><div class="b">
+        <div class="sec">What is Aarav learning this week?</div>
+        <h3 style="font-size:var(--text-base)">Chemical reactions, and balancing equations</h3>
+        <div class="muted" style="font-size:var(--text-sm);margin-top:var(--space-1)">Science &middot; 4 classes this week</div>
+        <button class="btn btn--ghost btn--sm" style="margin-top:var(--space-2)">See the week</button>
+      </div></div>
+      <div class="card" style="border-color:var(--color-warning-border)"><div class="b">
+        <div class="sec">Is Aarav on track?</div>
+        <h3 style="font-size:var(--text-base)">On track in Science and Maths</h3>
+        <div class="muted" style="font-size:var(--text-sm);margin-top:var(--space-1)">Two chapters behind in Social Science, which is normal for this point in the term. His teacher has already rescheduled them.</div>
+        <button class="btn btn--ghost btn--sm" style="margin-top:var(--space-2)">See details</button>
+      </div></div>
+      <div class="card"><div class="b">
+        <div class="sec">What can I do at home?</div>
+        <h3 style="font-size:var(--text-base)">Ask about balancing equations</h3>
+        <div class="muted" style="font-size:var(--text-sm);margin-top:var(--space-1)">Try asking him to explain why the number of atoms has to be the same on both sides. Not being able to answer straight away is part of learning, not a problem.</div>
+      </div></div>
+    </div>
+    <div class="pnav"><span class="on"><i class="sq"></i>Home</span><span><i class="sq"></i>Attendance</span><span><i class="sq"></i>Messages</span></div>
+  </div></div>
+  <div style="max-width:420px">
+    <div class="ask"><b>Open decision.</b> (1) This screen makes a <em>claim</em> ("which is normal for this point in the term"). Do you want the product making reassurance statements to parents, or only facts? I lean towards a claim, because raw data will be misread &mdash; but it is a risk. (2) Does the "What can I do at home?" card match the growth-mindset guidance already in the repo? (3) Should attendance and messages be separate nav items, or does this become a full parent app?</div>
+  </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="login">
+  <header><h2>31. Sign in</h2><span class="tag">shared</span></header>
+  <p class="note">WCAG 2.2 requires that no step of authentication needs a cognitive test unless an
+  alternative exists. Paste and password managers must work; biometrics is an addition, never the only path.</p>
+  <div class="phone-row">
+  <div class="frame frame--phone"><div class="phone" style="background:var(--color-surface-card)">
+    <div class="pstat"><span>07:58</span><span>Greenwood</span></div>
+    <div class="phead" style="margin-top:var(--space-8)"><div style="text-align:center">
+      <div class="mark" style="width:44px;height:44px;border-radius:var(--radius-lg);background:var(--color-brand-600);color:var(--color-neutral-0);display:grid;place-items:center;margin:0 auto var(--space-4);font-size:var(--text-lg);font-weight:var(--font-semibold)">A</div>
+      <h2>AcademicOS</h2><div class="muted" style="font-size:var(--text-sm)">Sign in to Greenwood High School</div>
+    </div></div>
+    <div class="pbody">
+      <div><div class="muted" style="font-size:var(--text-xs);margin-bottom:var(--space-1)">Email</div>
+        <div class="row" style="padding:var(--space-3);border:var(--border-default) solid var(--color-neutral-300);border-radius:var(--radius-md);font-size:var(--text-sm)">p.ramanathan@greenwood.edu</div></div>
+      <div><div class="muted" style="font-size:var(--text-xs);margin-bottom:var(--space-1)">Password</div>
+        <div class="row" style="padding:var(--space-3);border:var(--border-default) solid var(--color-neutral-300);border-radius:var(--radius-md);font-size:var(--text-sm)"><span class="mono">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</span><span class="muted" style="margin-left:auto;font-size:var(--text-xs)">Show</span></div>
+        <div class="muted" style="font-size:var(--text-xs);margin-top:var(--space-1)">Paste from your password manager works.</div></div>
+      <button class="btn btn--primary" style="width:100%;height:44px">Sign in</button>
+      <button class="btn btn--sec" style="width:100%;height:44px">Use fingerprint instead</button>
+      <div class="muted" style="font-size:var(--text-xs);text-align:center">Biometrics is an alternative, not a requirement.</div>
+    </div>
+  </div></div>
+  <div style="max-width:420px">
+    <div class="ask"><b>Questions.</b> (1) Do your teachers have email addresses they actually use, or is a phone number better? (2) Should there be a "forgot password" that a principal can help with, given school IT is often informal? (3) Can one person hold two roles (teacher and parent) and switch?</div>
+  </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="notif">
+  <header><h2>32. Notifications</h2><span class="tag">shared</span></header>
+  <p class="note">One morning digest, keyed to the recipient's next action. No engagement-driven pushes &mdash;
+  the research is explicit that most school software's notification strategy destroys trust.</p>
+  <div class="phone-row">
+  <div class="frame frame--phone"><div class="phone">
+    <div class="pstat"><span>07:30</span><span>Greenwood</span></div>
+    <div class="phead"><h2>Notifications</h2></div>
+    <div class="pbody">
+      <div class="sec">Today &middot; morning digest</div>
+      <div class="card"><div class="b" style="display:grid;gap:var(--space-3);font-size:var(--text-sm)">
+        <div class="row">3 classes<span class="ink">First at 08:45, Science 10-A</span></div>
+        <div class="row"><span class="st st--warn">3 behind</span><span class="ink">10-B, oldest 4 days</span></div>
+        <div class="row">1 paper draft<span class="ink">Science Term 1 awaiting your review</span></div>
+      </div></div>
+      <div class="sec" style="margin-top:var(--space-2)">Earlier</div>
+      <div class="card"><div class="b" style="padding:var(--space-3)">
+        <div class="ink" style="font-size:var(--text-sm)">Schedule changed</div>
+        <div class="muted" style="font-size:var(--text-xs)">17 Sep &middot; R. Menon moved 41 lessons for a local holiday. Your Friday lessons moved to Monday.</div>
+      </div></div>
+      <div class="card"><div class="b" style="padding:var(--space-3)">
+        <div class="ink" style="font-size:var(--text-sm)">Consent recorded</div>
+        <div class="muted" style="font-size:var(--text-xs)">15 Sep &middot; Aarav Menon's guardian consent was recorded.</div>
+      </div></div>
+      <div class="muted" style="font-size:var(--text-xs);text-align:center;margin-top:var(--space-2)">One digest a day. Nothing is pushed to drive usage.</div>
+    </div>
+    <div class="pnav"><span class="on"><i class="sq"></i>Today</span><span><i class="sq"></i>Timetable</span><span><i class="sq"></i>Papers</span></div>
+  </div></div>
+  <div style="max-width:420px">
+    <div class="ask"><b>Questions.</b> (1) What time should the digest arrive &mdash; 07:30, or earlier/later? (2) Should a reschedule <em>notify</em> affected teachers, or is it enough that it appears in their timetable? (3) Anything your teachers currently get told by WhatsApp that this should replace?</div>
+  </div>
+  </div>
+</section>
+
+<!-- ===================================================================== -->
+<section class="screen" id="a11y">
+  <header><h2>33. Accessibility obligations that change these screens</h2><span class="tag">WCAG 2.2 AA</span></header>
+  <p class="note">Three of the new WCAG 2.2 criteria contradict patterns used above, so they are flagged
+  rather than assumed. These are not optional and they are not retrofittable cheaply.</p>
+  <div class="frame frame--desk"><div class="body">
+    <div class="grid2">
+      <div class="card"><div class="h"><h3>2.5.7 Dragging Movements (AA)</h3></div><div class="b">
+        <p style="font-size:var(--text-sm)"><b>Timetable builder (9)</b> and <b>Curriculum sequence (4)</b> are drag-operated above.</p>
+        <p style="font-size:var(--text-sm)">Requirement: every drag action needs a single-pointer, non-drag alternative. Both screens already show a "Move to position&hellip;" control. <b>Confirm that satisfies your reading</b> &mdash; it is the interpretation I am relying on.</p>
+        <p style="font-size:var(--text-sm)">Also affects: selecting a holiday date range, and any slider.</p>
+      </div></div>
+      <div class="card"><div class="h"><h3>2.4.11 Focus Not Obscured (AA)</h3></div><div class="b">
+        <p style="font-size:var(--text-sm)">The sticky topbar and sticky table headers can hide a focused row. Requirement: a focused element must not be <em>entirely</em> hidden by author content.</p>
+        <p style="font-size:var(--text-sm)">Affects every long table: Coverage (2), Difficult topics (3), Audit (15), Question bank (17), Schedule (10).</p>
+        <p style="font-size:var(--text-sm)">Fix is <span class="mono">scroll-margin-top</span> on focusable rows &mdash; cheap, but must be written into every table.</p>
+      </div></div>
+      <div class="card"><div class="h"><h3>2.5.8 Target Size (AA)</h3></div><div class="b">
+        <p style="font-size:var(--text-sm)">Minimum <b>24 &times; 24 CSS px</b> for any pointer target. The dense row height is only 32px, so <b>row action buttons are the risk</b>.</p>
+        <p style="font-size:var(--text-sm)">Every "Open", "Replace", "Edit" button in a table must either meet 24px or be positioned so its target circle does not intersect a neighbour's.</p>
+        <p style="font-size:var(--text-sm)">Buttons now draw at a 32px minimum and 26px for the compact variant, both clear of the floor. The risk is a future tightening of that 26px, not today's value.</p>
+      </div></div>
+      <div class="card"><div class="h"><h3>3.3.8 Accessible Authentication (AA)</h3></div><div class="b">
+        <p style="font-size:var(--text-sm)">No cognitive test may be required without an alternative. Password paste and password managers must work; biometric app-lock is an <em>addition</em>, never the only route.</p>
+        <p style="font-size:var(--text-sm)">Affects screen 31. There is a biometric lock in the mobile engine today &mdash; it must never become the sole way in.</p>
+      </div></div>
+    </div>
+  </div></div>
+  <div class="ask"><b>Questions.</b> (1) Should I treat "Move to position&hellip;" as satisfying 2.5.7, or do you want a fuller non-drag flow? (2) Is WCAG 2.2 AA the right bar, or does a school procurement process require something else (e.g. a VPAT, or 2.1 AA)? (3) Do any of your schools have a stated accessibility requirement I should design to?</div>
+</section>
+
+  </main>
+</div>
+
+</body>
+</html>
