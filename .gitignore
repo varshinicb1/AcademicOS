@@ -52,6 +52,10 @@ Thumbs.db
 # 404s) until caught by the deploy pipeline's own test gate.
 academicos-data/*
 !academicos-data/syllabus/
+# The built CBSE CBE bank IS committed -- the app, the MCP server and CI all
+# need it. Only the source PDFs are excluded, by the rule at the end of this
+# file. Re-including the directory is required before that rule can bite.
+!academicos-data/corpus/
 # docs/research/ holds large raw research artifacts (a 6.4 MB PDF, a 234 KB
 # text dump, attention/research notes) that should not be committed. The curated
 # write-ups that live alongside them ARE project documentation -- they are
@@ -86,4 +90,18 @@ ncert-mcp-upstream/
 
 # Logs
 *.log
+
+# The CBSE CBE item-bank source PDFs. Deliberately NOT committed: they are
+# third-party government documents whose redistribution position is unresolved
+# (docs/question-bank-api.md section 2), and committing them into the repository
+# would be redistribution to everyone with repo access -- the exact act the
+# unresolved question is about.
+#
+# The download is reproducible instead: scripts/ingest_cbse_item_banks.py
+# fetches all 15 from the URL CBSE publishes, and the committed `_manifest.json`
+# records what was fetched, when, and with what rights status. The derived
+# `questions.json` IS committed, because the app and CI need it and it holds
+# only the extracted questions and marking schemes.
+academicos-data/corpus/cbse-cbe/*.pdf
+academicos-data/corpus/cbse-cbe/_unanswerable.json
 

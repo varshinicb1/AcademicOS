@@ -1,0 +1,164 @@
+{
+ "source_page": "https://cbseacademic.nic.in/cbe/assessment.html",
+ "fetched_at": "2026-09-17T02:17:15.044852+00:00",
+ "count": 15,
+ "total_bytes": 24079633,
+ "rights": {
+  "origin": "CBSE",
+  "redistribution": "unknown",
+  "basis": "",
+  "note": "CBSE CBE item banks, published on cbseacademic.nic.in for teacher use. No redistribution position obtained."
+ },
+ "documents": [
+  {
+   "filename": "Item-Bank-----English---Class-9.pdf",
+   "subject": "English",
+   "grade": 9,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank-----English---Class-9.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 1581194,
+   "sha512": "e4168a33d1a807c3369ecb528474cf44dbff7a2f86a8149eb12f2631a5a5988dd834c53e265c616bebf31bbb9caaff782fde514e3ab8f71a086599fe1b9a766b",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---English---Class-10.pdf",
+   "subject": "English",
+   "grade": 10,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---English---Class-10.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 1537827,
+   "sha512": "46b3647d544c881c6d48d54702bb6ee3cc1a21545169ca99b6d2b25cb1909f1b89def644b8676de3bd07c6b06351b8e16a976678bc7124114578ae5c9ba151eb",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---English---Class-6.pdf",
+   "subject": "English",
+   "grade": 6,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---English---Class-6.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 673000,
+   "sha512": "a32ccb0200fb3d0e2f573818e78f7ea57d9716b0269b8d464bc6f38ed95bbcd4803ce066fbc95298683fd580ad8bb25bef04f43c91cad8c212362fe0130cda29",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---English---Class-7.pdf",
+   "subject": "English",
+   "grade": 7,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---English---Class-7.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 895547,
+   "sha512": "f27554e655d1e37a788c67b7d1397a8965dd735bc4459dfac2584acd9f0457ab6c01568aec66907a24eed170d9f97273603f762c4f5e44b10b404edd1631662d",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---English---Class-8.pdf",
+   "subject": "English",
+   "grade": 8,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---English---Class-8.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 710880,
+   "sha512": "9aceff1b000dc1162b62943998b610d57ede6b0c38c11997a9ae63130aec0f70cfaa34af695636bcb5c750edc9c908443dc1d802212ddd8a5fef762b76627fe7",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---Maths---Class-9.pdf",
+   "subject": "Mathematics",
+   "grade": 9,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---Maths---Class-9.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 2628414,
+   "sha512": "3f925e133ace5c518398367a8cb7739683b89eacefb3087d31defaca8449b32d1db129c0a48bdfe6e5edfe290078bd2a19e091ac33d7eb42b5a9a8da43359425",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---Maths-Class-6.pdf",
+   "subject": "Mathematics",
+   "grade": 6,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---Maths-Class-6.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 1136269,
+   "sha512": "3a2b0bba95e70f12a141b356595c5e2322d2c5243a0a410568bdedd5cd583b33b592f1f0046368449385ed59c50d5a2dc9bebdcd7de290194a19cf0169f412d7",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---Maths-Class-7.pdf",
+   "subject": "Mathematics",
+   "grade": 7,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---Maths-Class-7.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 683312,
+   "sha512": "c5879747a1d983f94cf63c25cd9b54cc2eb7f9dc7a0a5d5fd0ab66a1913261705cf9e574888fcc827387b1d3eb12eab7312f676e761edc25007d4ef54517a294",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---Maths-Class-8.pdf",
+   "subject": "Mathematics",
+   "grade": 8,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---Maths-Class-8.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 1323574,
+   "sha512": "2f20e50de61337e28c330b9f5b3155b437e8f9c309e8c624c553287ce3d23daf83758b7c6d07269b85cb6c594e056b795554e2ac118144a6391f5af6ac710afc",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---Science-Class-10.pdf",
+   "subject": "Science",
+   "grade": 10,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---Science-Class-10.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 2684869,
+   "sha512": "f9f4ff3fa106a20032d27739871e840b785307ed5c32460de4ec78345861713dbc67a513fbc31cdf27fedc2133a8e3f18567b765333634b2c69bfc794c7cffe0",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---Science-Class-6.pdf",
+   "subject": "Science",
+   "grade": 6,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---Science-Class-6.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 2174124,
+   "sha512": "fd8906d46fee0afebaf30143c784414147ffffcf320648141de791b69a0929aa299731e19779b28ec9594625e0346404b9d9cc408eea9c7d95174d09315e3258",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---Science-Class-7.pdf",
+   "subject": "Science",
+   "grade": 7,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---Science-Class-7.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 1877826,
+   "sha512": "024c1f7be857e4f3f71ea5b78bafa146c95a9ce9bfaaa9f3e9d90650c61bf063d5c1c563d78b85427c3113ed9502d560af44f43a5567985a64b51567bb7c9123",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---Science-Class-8.pdf",
+   "subject": "Science",
+   "grade": 8,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---Science-Class-8.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 1357863,
+   "sha512": "41bd586a9ae778559b1adadaacaef00ac83f8b488acb56502e7dec196f27ef73f51a2098b9754912c54303725dc1f1dc1edde92a1b640bb2e44c3ba05cf87bef",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank---Science-Class-9.pdf",
+   "subject": "Science",
+   "grade": 9,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank---Science-Class-9.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 2494288,
+   "sha512": "54b6cf0d1545d537ae67eb7c681e9f2d7c424ab2ca9cd81c00440cbc7c735501a55975eb63d5e40d7df8dd89a9e5640c1fcf64b82c47fad8bcfe6173a1815295",
+   "status": "downloaded"
+  },
+  {
+   "filename": "Item-Bank--Maths---Class-10.pdf",
+   "subject": "Mathematics",
+   "grade": 10,
+   "url": "https://cbseacademic.nic.in/cbe/documents/Item-Bank--Maths---Class-10.pdf",
+   "discovered_from": "https://cbseacademic.nic.in/cbe/assessment.html",
+   "bytes": 2320646,
+   "sha512": "534068a021115032a061c39251ed2379ab2e031dc5421141108e5d5d10423dfc967fa84a16c669eeb61c6d1252238fe22d91c9ee593f3ec7911beba1446d1848",
+   "status": "downloaded"
+  }
+ ]
+}
