@@ -30,6 +30,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 
+from academicos.corpus import figures as figmod         # noqa: E402
 from academicos.corpus.cbse_cbe import (          # noqa: E402
     parse_all,
     to_bank_record,
@@ -38,6 +39,29 @@ from academicos.corpus.cbse_cbe import (          # noqa: E402
 SRC = REPO / "academicos-data" / "corpus" / "cbse-cbe"
 OUT = SRC / "questions.json"
 UNABLE = SRC / "_unanswerable.json"
+FIGDIR = SRC / "figures"
+
+# Which asset slot a figure belongs in, decided by what the stem calls it. The
+# record carries four slots (diagram/map/graph/table) because the schema was
+# written for a frontend that renders them differently; routing by the word the
+# item actually uses is the only signal available and is better than putting
+# every figure in `diagramAssetId`.
+_ASSET_SLOT = (
+    ("map", "mapAssetId"),
+    ("graph", "graphAssetId"),
+    ("table", "tableAssetId"),
+    ("chart", "graphAssetId"),
+    ("diagram", "diagramAssetId"),
+    ("figure", "diagramAssetId"),
+)
+
+
+def _asset_slot(text: str) -> str:
+    low = (text or "").lower()
+    for word, slot in _ASSET_SLOT:
+        if word in low:
+            return slot
+    return "diagramAssetId"
 
 
 def main() -> int:
@@ -75,6 +99,37 @@ def main() -> int:
 
     records = [to_bank_record(i) for i in answerable]
 
+    # Figures. An item whose stem says "in the given figure" is unanswerable as
+    # printed without one, so the figure is not a nicety -- it is part of the
+    # question. 512 images sit embedded in the source PDFs and were previously
+    # discarded, which left 194 items referring to nothing.
+    verdicts: dict[str, object] = {}
+    figure_errors: list[str] = []
+    for pdf_name in sorted({i.source_pdf for i in answerable if i.source_pdf}):
+        pdf = SRC / pdf_name
+        if not pdf.exists():
+            figure_errors.append(f"{pdf_name}: source PDF missing, figures skipped")
+            continue
+        try:
+            verdicts.update(figmod.extract_document(
+                pdf, [i for i in answerable if i.source_pdf == pdf_name], FIGDIR))
+        except Exception as exc:                  # pragma: no cover - defensive
+            figure_errors.append(f"{pdf_name}: figure extraction failed: {exc}")
+
+    fig_states = collections.Counter()
+    for item, rec in zip(answerable, records):
+        text = item.question or ""
+        # The parser suppresses the figure signal whenever an item has options.
+        # That is wrong for an MCQ whose stem says "in the given figure" -- an
+        # option list does not supply the figure -- so it is recomputed here.
+        rec["metadata"]["needsFigure"] = figmod.needs_figure(text)
+        verdict = verdicts.get(item.item_id)
+        state = getattr(verdict, "state", "none")
+        rec["metadata"]["figureState"] = state
+        if state == "attached" and item.marks:
+            rec[_asset_slot(text)] = f"cbe-figure:{item.item_id}"
+        fig_states[state] += 1
+
     # Coverage the requirement asks for, measured rather than asserted.
     by_sg = collections.Counter((r["subject"], r["grade"]) for r in records)
     topics = {r["contentCode"] for r in records if r["contentCode"]}
@@ -91,7 +146,17 @@ def main() -> int:
     print(f"  mapped to a topic     : {with_topic:,} / {len(records):,}  "
           f"({100.0 * with_topic / max(1, len(records)):.1f}%)")
     print(f"  multiple choice       : {mcq:,}")
-    print(f"  need a figure         : {figures:,} (flagged, excluded from papers)")
+    print()
+    print(f"  items referring to a figure : {figures:,}")
+    print(f"      figure attached         : {fig_states['attached']:,}"
+          + (f"   ({fig_states['attached'] / figures:.0%})" if figures else ""))
+    print(f"      ambiguous (not served)  : {fig_states['ambiguous']:,}")
+    print(f"      missing (not served)    : {fig_states['missing']:,}")
+    print("      attached items keep their figure; ambiguous and missing items "
+          "still\n      serve their text but are flagged, because a wrong figure "
+          "is worse than none.")
+    for e in figure_errors:
+        print(f"      WARNING {e}")
     print("  marks distribution    : " +
           ", ".join(f"{m}x{c}" for m, c in sorted(spread.items())[:10]))
 
@@ -114,6 +179,18 @@ def main() -> int:
                     "docs/question-bank-api.md section 2.",
         },
         "builtAt": datetime.now(timezone.utc).isoformat(),
+        # The figures a figure-dependent item needs to be answerable at all.
+        # Rendered from the source PDFs, filenames are `<itemId>.png`, and a
+        # record points at one through its asset slot as `cbe-figure:<itemId>`.
+        "figures": {
+            "directory": "figures",
+            "naming": "<itemId>.png",
+            "attached": fig_states["attached"],
+            "ambiguous": fig_states["ambiguous"],
+            "missing": fig_states["missing"],
+            "note": ("ambiguous and missing items are served without a figure and "
+                     "carry metadata.figureState accordingly"),
+        },
     }
     OUT.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
     UNABLE.write_text(json.dumps(
