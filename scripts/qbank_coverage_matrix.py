@@ -85,11 +85,22 @@ def main() -> int:
     print()
 
     # grid[(subject, grade)][topic][band] = count
+    #
+    # `all_pairs` is tracked separately and this is not incidental. The first
+    # version built the overview from `grid`, and `grid` only gains a key when a
+    # record HAS a topic -- so every subject x grade pair with no topiced
+    # question vanished from the report entirely, and its untopiced questions
+    # vanished with it. That under-reported the untopiced count by more than
+    # threefold (1,055 reported against 3,286 actual) and hid the fact that the
+    # ENTIRE board-paper corpus is unmapped. A report whose blindness
+    # correlates with the problem it is measuring is worse than no report.
     grid: dict[tuple, dict[str, dict[str, int]]] = collections.defaultdict(
         lambda: collections.defaultdict(lambda: collections.defaultdict(int)))
+    all_pairs: set[tuple] = set()
     untopiced = collections.Counter()
     for rec in records:
         key = (rec.get("subject") or "?", rec.get("grade") or "?")
+        all_pairs.add(key)
         topic = (rec.get("contentCode") or "").strip()
         if not topic:
             untopiced[key] += 1
@@ -102,9 +113,29 @@ def main() -> int:
     thin: list[tuple] = []
     overview: list[dict] = []
 
-    for key in sorted(grid, key=lambda k: (str(k[0]), str(k[1]))):
+    for key in sorted(all_pairs, key=lambda k: (str(k[0]), str(k[1]))):
         subject, grade = key
-        topics = grid[key]
+        topics = grid.get(key) or {}
+        if not topics:
+            # No topic information at all for this subject x grade. Reported
+            # explicitly rather than skipped, because "we know nothing about
+            # this pair" and "this pair is complete" must not look alike.
+            print("=" * 92)
+            print(f"{subject}  class {grade}   NO TOPIC DATA   "
+                  f"{untopiced[key]} questions unmapped")
+            print("=" * 92)
+            empty_bands = list(bands)
+            observed_max = max((int(r.get("marks") or 0) for r in records
+                                if (r.get("subject"), r.get("grade")) == key), default=0)
+            overview.append({
+                "subject": subject, "grade": grade, "topics": 0,
+                "questions": untopiced[key], "untopiced": untopiced[key],
+                "bandTopics": {b: 0 for b in bands}, "emptyBands": [],
+                "inapplicableBands": empty_bands, "observedMaxMarks": observed_max,
+                "noTopicData": True,
+            })
+            print()
+            continue
         total = sum(sum(c.values()) for c in topics.values())
         per_band = collections.Counter()
         for bands_ in topics.values():
@@ -167,7 +198,15 @@ def main() -> int:
     print("=" * 92)
     print(f"  subject x grade pairs : {len(overview)}")
     print(f"  topics (distinct)     : {sum(o['topics'] for o in overview)}")
-    print(f"  untopiced questions   : {sum(o['untopiced'] for o in overview)}")
+    print(f"  untopiced questions   : {sum(o['untopiced'] for o in overview):,}")
+    no_data = [o for o in overview if o.get("noTopicData")]
+    if no_data:
+        n = sum(o["untopiced"] for o in no_data)
+        print(f"  pairs with NO topic data at all : {len(no_data)}  "
+              f"({n:,} questions, {n / max(1, sum(o['untopiced'] for o in overview)):.0%} "
+              f"of all unmapped)")
+        for o in sorted(no_data, key=lambda x: -x["untopiced"])[:12]:
+            print(f"      {o['subject']:<20} class {str(o['grade']):<5} {o['untopiced']:>5}")
     pairs_no_band = [o for o in overview if o["emptyBands"]]
     print(f"  pairs missing a whole marks band : {len(pairs_no_band)}")
     for o in pairs_no_band:
