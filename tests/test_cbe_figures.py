@@ -293,21 +293,30 @@ def test_no_metadata_table_is_served_as_a_figure():
         items = cbse_cbe.parse_item_bank(pdf)
         got = figmod.attribute_by_position(pdf, items, tmp)
         by_id = {i.item_id: i for i in items}
-        for item_id, verdict in got.items():
-            if verdict.state != "attached":
-                continue
-            item = by_id.get(item_id)
-            if item is None:
-                continue
-            # The furniture filter is what keeps the heading table out, so the
-            # assertion is on the decision that would have let it in.
-            text = figmod._text_inside(
-                figmod._fitz.Rect(verdict.figure.bbox),
-                figmod._page_words(
-                    figmod._fitz.open(pdf)[verdict.figure.page - 1]))
-            assert not figmod._is_furniture(text, item_id), (
-                f"{item_id} was attached to what looks like page furniture: {text!r}"
-            )
+
+        # One document handle for the whole check. An earlier version called
+        # `_fitz.open(pdf)` inside the loop and never closed it, leaking a file
+        # handle per attached figure. That starved unrelated tests of handles
+        # and made `tests/test_smoke.py::test_end_to_end` fail intermittently --
+        # which is how a test bug in one file shows up as a flaky failure in
+        # another, and is the reason that flake was investigated rather than
+        # re-run until green.
+        doc = figmod._fitz.open(pdf)
+        try:
+            for item_id, verdict in got.items():
+                if verdict.state != "attached":
+                    continue
+                item = by_id.get(item_id)
+                if item is None:
+                    continue
+                text = figmod._text_inside(
+                    figmod._fitz.Rect(verdict.figure.bbox),
+                    figmod._page_words(doc[verdict.figure.page - 1]))
+                assert not figmod._is_furniture(text, item_id), (
+                    f"{item_id} was attached to what looks like page furniture: {text!r}"
+                )
+        finally:
+            doc.close()
     finally:
         import shutil
         shutil.rmtree(tmp, ignore_errors=True)
