@@ -62,6 +62,25 @@ _MARGIN_FRACTION = 0.16
 _TOP_BAND = 0.08
 _BOTTOM_BAND = 0.92
 
+# A mark value is right-aligned in a column of its own, so it is separated from
+# the last word of the question text by a gap much wider than the normal space
+# between words. Measured on the real paper: ordinary inter-word spacing is a
+# few points, and the gap before the marks column is an order of magnitude more.
+#
+# The marks digit is NOT on its own line. Rows are grouped by y-position and the
+# marks sit on the same visual row as the last line of the question text:
+#
+#     "...vibrant pre-modern trade and cultural links 2"
+#     "...was not the result of a sudden upheaval 5"
+#
+# 21 lines have this shape and a lone-digit rule misses every one. Rather than
+# teach the marks rule about gaps, the gap is used here to SPLIT the row, so the
+# value arrives as a lone digit line and one rule handles both shapes.
+#
+# The gap is what stops a question that legitimately ends in a number from being
+# misread as carrying that many marks.
+_MARK_GAP = 18.0
+
 
 def _is_page_number(text: str, page_number: int, *, x0: float, x1: float,
                     y0: float, y1: float, width: float, height: float) -> bool:
@@ -152,10 +171,20 @@ def _body_lines(pdf_path: Path) -> list[tuple[int, str]]:
                 if _is_page_number(text, index + 1, x0=x0, x1=x1, y0=y0, y1=y1,
                                    width=width, height=height):
                     continue
-                rows.setdefault(round(y0 / 3.0), []).append((x0, text))
+                rows.setdefault(round(y0 / 3.0), []).append((x0, x1, text))
             for key in sorted(rows):
-                parts = [t for _x, t in sorted(rows[key])]
-                line = " ".join(parts).strip()
+                items = sorted(rows[key])
+                # A trailing 1-6 set off by a wide gap is the marks column.
+                if len(items) >= 2:
+                    last_x0, _last_x1, last_text = items[-1]
+                    if (last_text.isdigit() and 1 <= int(last_text) <= 6
+                            and (last_x0 - items[-2][1]) >= _MARK_GAP):
+                        body = " ".join(t for _a, _b, t in items[:-1]).strip()
+                        if body:
+                            out.append((index + 1, body))
+                        out.append((index + 1, last_text))
+                        continue
+                line = " ".join(t for _a, _b, t in items).strip()
                 if line:
                     out.append((index + 1, line))
     finally:

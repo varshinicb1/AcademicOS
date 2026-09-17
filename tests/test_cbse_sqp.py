@@ -7,7 +7,7 @@ be mistaken for a finished extractor.
 Measured on the real Class X 2025-26 Social Science pair:
 
     questions parsed        32   (the paper states 38)
-    with marks               0   of 32
+    with marks              28   of 32
     join against the scheme 30   of 32
     options                 16
 
@@ -18,20 +18,11 @@ wired into any build.
 The specific unfixed defects, recorded so the next attempt starts where this one
 stopped:
 
-  1. MARKS ARE NOT DETECTED, and the reason is now known exactly. The mark value
-     is NOT on its own line: rows are grouped by y-position, and the marks digit
-     sits on the same visual row as the last line of the question text, so it
-     merges into it. Measured, 21 lines end with a small number after text:
-
-         "...vibrant pre-modern trade and cultural links 2"
-         "...was not the result of a sudden upheaval 5"
-         "...using per capita income (average 1"
-
-     `_MARKS` matches only a LONE digit, so every one of these is missed. The
-     fix is to read a trailing 1-6 as the mark value when it is separated from
-     the preceding word by an x-gap, which is how CBSE right-aligns the marks
-     column -- the gap is the discriminator that stops a question legitimately
-     ending in a number from being misread.
+  1. MARKS ARE FIXED, 0 -> 28 of 32, and the distribution is now plausible:
+     {0: 4, 1: 17, 2: 3, 3: 4, 4: 2, 5: 2}, against a paper that states VSA 2
+     marks, SA 3, LA 5, CBQ (1+2+1=4). The mark value is right-aligned in its
+     own column, so the wide x-gap before it splits the row and the value
+     arrives as a lone digit. Four questions still carry none.
 
   2. SIX QUESTIONS ARE STILL MISSED (32 of the paper's stated 38), a cause
      separate from the margin band that used to explain it.
@@ -224,12 +215,34 @@ def test_the_paper_states_38_questions_and_we_do_not_yet_reach_it():
 
 
 @needs_pdfs
-def test_marks_are_mostly_missing_which_is_a_known_defect():
+def test_marks_stay_inside_the_range_the_paper_actually_uses():
+    """This is the test that would have caught the page-number bug.
+
+    The parser used to assign page numbers as mark values, so a 38-question
+    paper was claiming 10-mark and 11-mark questions. Class X Social Science
+    tops out at 5 marks -- the paper states "VSA carry 2 marks, SA 3 marks, LA 5
+    marks, CBQ (1+2+1=4)". Any value above 5 is a page number or a parse error,
+    so this assertion is a direct detector for the defect that shipped.
+    """
+    questions, _ = cbse_sqp.parse_questions(SQP_DIR / "SocialScience-SQP.pdf")
+    values = sorted({q.marks for q in questions})
+    assert values, "no marks parsed at all"
+    assert max(values) <= 5, (
+        f"a question carries {max(values)} marks. Class X Social Science has no "
+        f"question worth more than 5, so this is a page number being read as a "
+        f"mark value -- the defect this test exists to catch. Values: {values}"
+    )
+    assert set(values) <= {0, 1, 2, 3, 4, 5}
+
+
+@needs_pdfs
+def test_most_questions_now_carry_marks():
+    """The marks-column split works; a regression should be loud."""
     questions, _ = cbse_sqp.parse_questions(SQP_DIR / "SocialScience-SQP.pdf")
     with_marks = sum(1 for q in questions if q.marks)
-    assert with_marks < len(questions), (
-        "every question now has marks -- the known marks defect is fixed, so "
-        "this test should become an assertion that ALL questions have marks"
+    assert with_marks >= int(0.75 * len(questions)), (
+        f"only {with_marks} of {len(questions)} questions carry marks; the "
+        "marks-column x-gap split has regressed"
     )
 
 
