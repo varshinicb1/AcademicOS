@@ -44,52 +44,49 @@ try:
 except ImportError:                                # pragma: no cover
     import fitz as _fitz
 
-# The page number is the only bare number on a page whose value is the page
-# index. That is a decidable test, and unlike a margin band it does not destroy
-# body text.
+# A page number is a bare number equal to the page index, sitting in a
+# furniture position: vertically in the header/footer band, or horizontally in
+# an outer margin. The value test alone would delete a real mark that happens to
+# equal the page index (a 3-mark question on page 3); the position test alone
+# would delete a question number that happens to be indented.
 #
-# The earlier version stripped furniture BY POSITION -- the top 5.5% and bottom
-# 6% of every page -- and tightening it made the parser worse, not better:
-# a question header landing at the top of a page is inside that band and was
-# destroyed (that is how question 12 and both parts of 17 vanished, taking the
-# count from 38 to 29). This replaces it, and the count recovered to 32.
-#
-# A CORRECTION TO AN EARLIER DIAGNOSIS
-# ------------------------------------
-# This module previously recorded "page numbers bleed into the text" as a trap,
-# citing the scheme entry for 17A reading "...in 2016- 5 17. Panchpatmali
-# deposits...". That reading was WRONG. The `17.` is not a page number; it is
-# the tail of the YEAR RANGE "2016-17", split across a line break, and the `5`
-# is the question's mark value. The marking scheme is 11 pages long, so there is
-# no page 17 for it to be.
-#
-# The misreading survived because it was plausible and the example was never
-# checked. What it actually reveals is a different defect -- a hyphenated
-# line-break has not been joined -- which is recorded here rather than
-# re-diagnosed from scratch.
-#
-# A page number is additionally distinguished by being pushed to an outer edge,
-# which separates it from a genuine question numbered the same as the page.
+# MEASURED, and this was a real defect rather than a hypothetical one: the first
+# version required only the HORIZONTAL margin, and the page numbers in this
+# paper are centred, so they were never caught. They then fell through to the
+# marks rule and were assigned to questions as mark values -- page 10's number
+# became a 10-mark question, page 11's an 11-mark question. Twelve of the
+# fourteen lone digits in the document were page numbers, and the marks
+# distribution showed values (6,7,8,9,10,11) that no Social Science question
+# could carry. Verified line by line against the page index before being fixed.
 _MARGIN_FRACTION = 0.16
+_TOP_BAND = 0.08
+_BOTTOM_BAND = 0.92
 
 
-def _is_page_number(text: str, page_number: int, x0: float, x1: float,
-                    width: float) -> bool:
+def _is_page_number(text: str, page_number: int, *, x0: float, x1: float,
+                    y0: float, y1: float, width: float, height: float) -> bool:
     """Is this word the page number rather than content?
 
-    Two conditions, both required: the value IS the page index, and the word
-    sits in an outer margin. The value test alone would delete a question that
-    happens to share the page's number; the margin test alone would delete a
-    question number that happens to be indented.
+    Both conditions are required. See the note above for why the horizontal
+    margin alone was insufficient and what it cost.
     """
-    stripped = (text or "").strip().rstrip(".")
+    # The trailing period is deliberately NOT stripped. A page number in this
+    # corpus is a bare digit; a question header is `12.` with the period. So the
+    # period separates them, and stripping it made `12.` at the top of page 12
+    # indistinguishable from the page number -- which destroyed the header, the
+    # exact failure the band was originally blamed for.
+    stripped = (text or "").strip()
     if not stripped.isdigit():
         return False
     if int(stripped) != page_number:
         return False
-    if width <= 0:
+    if width <= 0 or height <= 0:
         return False
-    return x0 < width * _MARGIN_FRACTION or x1 > width * (1.0 - _MARGIN_FRACTION)
+    in_margin = (x0 < width * _MARGIN_FRACTION
+                 or x1 > width * (1.0 - _MARGIN_FRACTION))
+    in_band = y0 < height * _TOP_BAND or y1 > height * _BOTTOM_BAND
+    return in_margin or in_band
+
 
 # `15.` or `17A.` at the start of a line, optionally followed by text.
 _HEADER = re.compile(r"^\s*(\d{1,2})([A-Z])?\.\s*(.*)$")
@@ -107,7 +104,7 @@ _OR = re.compile(r"^\s*OR\s*$", re.I)
 # Measured: 38 questions were still parsed correctly by count, but the numbering
 # was shifted, so the join against the marking scheme was wrong for the first
 # seven questions -- the exact silent error this module exists to avoid.
-_SECTION = re.compile(r"^\s*SECTION\s*[-–—]?\s*([A-Z])\b", re.I)
+_SECTION = re.compile(r"^\s*SECTION\s*[-\u2013\u2014]?\s*([A-Z])\b", re.I)
 
 # The largest question number a paper could plausibly reach. Guards against a
 # stray large number being read as a header.
@@ -144,14 +141,16 @@ def _body_lines(pdf_path: Path) -> list[tuple[int, str]]:
         for index in range(doc.page_count):
             page = doc[index]
             width = page.rect.width or 1.0
+            height = page.rect.height or 1.0
             try:
                 words = page.get_text("words")
             except Exception:                      # pragma: no cover
                 continue
             rows: dict[float, list] = {}
             for w in words:
-                x0, y0, x1, text = w[0], w[1], w[2], w[4]
-                if _is_page_number(text, index + 1, x0, x1, width):
+                x0, y0, x1, y1, text = w[0], w[1], w[2], w[3], w[4]
+                if _is_page_number(text, index + 1, x0=x0, x1=x1, y0=y0, y1=y1,
+                                   width=width, height=height):
                     continue
                 rows.setdefault(round(y0 / 3.0), []).append((x0, text))
             for key in sorted(rows):
