@@ -44,11 +44,52 @@ try:
 except ImportError:                                # pragma: no cover
     import fitz as _fitz
 
-# Text in the top and bottom band of a page is furniture: page numbers, running
-# heads, the "Please note that the assessment scheme..." footer. The body is
-# between them. Fractions of page height.
-_TOP_BAND = 0.055
-_BOTTOM_BAND = 0.94
+# The page number is the only bare number on a page whose value is the page
+# index. That is a decidable test, and unlike a margin band it does not destroy
+# body text.
+#
+# The earlier version stripped furniture BY POSITION -- the top 5.5% and bottom
+# 6% of every page -- and tightening it made the parser worse, not better:
+# a question header landing at the top of a page is inside that band and was
+# destroyed (that is how question 12 and both parts of 17 vanished, taking the
+# count from 38 to 29). This replaces it, and the count recovered to 32.
+#
+# A CORRECTION TO AN EARLIER DIAGNOSIS
+# ------------------------------------
+# This module previously recorded "page numbers bleed into the text" as a trap,
+# citing the scheme entry for 17A reading "...in 2016- 5 17. Panchpatmali
+# deposits...". That reading was WRONG. The `17.` is not a page number; it is
+# the tail of the YEAR RANGE "2016-17", split across a line break, and the `5`
+# is the question's mark value. The marking scheme is 11 pages long, so there is
+# no page 17 for it to be.
+#
+# The misreading survived because it was plausible and the example was never
+# checked. What it actually reveals is a different defect -- a hyphenated
+# line-break has not been joined -- which is recorded here rather than
+# re-diagnosed from scratch.
+#
+# A page number is additionally distinguished by being pushed to an outer edge,
+# which separates it from a genuine question numbered the same as the page.
+_MARGIN_FRACTION = 0.16
+
+
+def _is_page_number(text: str, page_number: int, x0: float, x1: float,
+                    width: float) -> bool:
+    """Is this word the page number rather than content?
+
+    Two conditions, both required: the value IS the page index, and the word
+    sits in an outer margin. The value test alone would delete a question that
+    happens to share the page's number; the margin test alone would delete a
+    question number that happens to be indented.
+    """
+    stripped = (text or "").strip().rstrip(".")
+    if not stripped.isdigit():
+        return False
+    if int(stripped) != page_number:
+        return False
+    if width <= 0:
+        return False
+    return x0 < width * _MARGIN_FRACTION or x1 > width * (1.0 - _MARGIN_FRACTION)
 
 # `15.` or `17A.` at the start of a line, optionally followed by text.
 _HEADER = re.compile(r"^\s*(\d{1,2})([A-Z])?\.\s*(.*)$")
@@ -89,29 +130,29 @@ class Question:
 
 
 def _body_lines(pdf_path: Path) -> list[tuple[int, str]]:
-    """`(page, line)` for the body text of every page, furniture removed.
+    """`(page, line)` for the body text of every page, page numbers removed.
 
     Lines are rebuilt from positioned words rather than taken from
-    `get_text()`, because that is the only way to drop the margin band without
-    also dropping body text that happens to start with a digit.
+    `get_text()`, because a pageless `get_text()` splice puts the page number in
+    the middle of a sentence -- "...in 2016- 17. Panchpatmali deposits..." --
+    where no line-based rule can find it. Working from positioned words lets the
+    page number be identified and dropped on its own merits.
     """
     out: list[tuple[int, str]] = []
     doc = _fitz.open(pdf_path)
     try:
         for index in range(doc.page_count):
             page = doc[index]
-            height = page.rect.height or 1.0
-            top = height * _TOP_BAND
-            bottom = height * _BOTTOM_BAND
+            width = page.rect.width or 1.0
             try:
                 words = page.get_text("words")
             except Exception:                      # pragma: no cover
                 continue
             rows: dict[float, list] = {}
             for w in words:
-                x0, y0, x1, y1, text = w[0], w[1], w[2], w[3], w[4]
-                if y0 < top or y1 > bottom:
-                    continue                       # page furniture
+                x0, y0, x1, text = w[0], w[1], w[2], w[4]
+                if _is_page_number(text, index + 1, x0, x1, width):
+                    continue
                 rows.setdefault(round(y0 / 3.0), []).append((x0, text))
             for key in sorted(rows):
                 parts = [t for _x, t in sorted(rows[key])]

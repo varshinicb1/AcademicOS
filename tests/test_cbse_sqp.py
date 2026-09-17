@@ -6,29 +6,33 @@ be mistaken for a finished extractor.
 
 Measured on the real Class X 2025-26 Social Science pair:
 
-    questions parsed        29   (the paper states 38)
-    with marks               8   of 29
-    join against the scheme 24   of 29
-    page numbers in answers  yes -- "in 2016- 5 17. Panchpatmali deposits..."
+    questions parsed        32   (the paper states 38)
+    with marks               8   of 32
+    join against the scheme 30   of 32
+    options                 16
 
-A question bank built from that would contain missing questions, missing marks,
-and answers with page numbers spliced into them. It is committed as documented
-work-in-progress, not wired into any build.
+A question bank built from that would still be missing six questions and have
+marks on a quarter of them. It is committed as documented work-in-progress, not
+wired into any build.
 
 The specific unfixed defects, recorded so the next attempt starts where this one
 stopped:
 
-  1. THE MARGIN BAND IS THE WRONG MECHANISM. Furniture is stripped by position
-     (top 5.5% / bottom 6% of the page), but a question header that lands at the
-     top of a page is inside that band and is destroyed -- which is how question
-     12 and both parts of 17 disappeared when the band was tightened. Meanwhile
-     the page number is NOT in the margin at all: it is inline in the text flow,
-     so the band never catches the thing it was added to catch.
-  2. MARKS ARE MOSTLY MISSING. 8 of 29. A lone digit line is the mark value, and
-     the detection is not finding them reliably.
-  3. THE SECTIONS ARE UNGATED AFTER THE FIRST. Only the first SECTION header is
-     used, to skip the General Instructions. Section boundaries within the paper
-     carry no other meaning for now.
+  1. SIX QUESTIONS ARE STILL MISSED (32 of the paper's stated 38). The margin
+     band that used to cause this is gone and the count recovered from 29 to 32,
+     so the residue is a separate cause -- most likely a header whose words are
+     split across a line in the PDF.
+  2. MARKS ARE MOSTLY MISSING. 8 of 32. A lone digit line is the mark value and
+     the detection is not finding them reliably; the mark value also sometimes
+     trails the body text on the same line, as in the 17A scheme entry.
+  3. HYPHENATED LINE-BREAKS ARE NOT JOINED. The scheme for 17A holds
+     "...in 2016- 5 17. Panchpatmali..." -- a year range split across a line,
+     where an earlier revision of this file misread the `17.` as a page number.
+     The marking scheme is 11 pages long, so there is no page 17.
+
+Correction carried forward: the "page numbers bleed into the text" trap this
+file used to document was a MISREADING of case 3, and the page-number identity
+test that replaced the position band is nevertheless correct and kept.
 """
 from __future__ import annotations
 
@@ -73,7 +77,40 @@ def test_instructions_before_the_first_section_are_not_questions():
     assert cbse_sqp._SECTION.pattern
 
 
-# --- marks and headers ---------------------------------------------------
+# --- page numbers, identified by value not position ----------------------
+
+def test_a_bare_number_matching_the_page_index_in_the_margin_is_a_page_number():
+    assert cbse_sqp._is_page_number("17", 17, x0=20, x1=40, width=600)
+    assert cbse_sqp._is_page_number("3", 3, x0=560, x1=585, width=600)
+
+
+def test_a_number_that_is_not_the_page_index_is_content():
+    """The user's own question numbers must survive."""
+    assert not cbse_sqp._is_page_number("17", 6, x0=20, x1=40, width=600)
+    assert not cbse_sqp._is_page_number("12", 13, x0=20, x1=40, width=600)
+
+
+def test_a_matching_number_in_the_body_is_not_a_page_number():
+    """A question numbered the same as the page is not the page number."""
+    assert not cbse_sqp._is_page_number("17", 17, x0=250, x1=270, width=600)
+
+
+def test_prose_and_marks_are_never_page_numbers():
+    assert not cbse_sqp._is_page_number("Odisha", 4, x0=20, x1=60, width=600)
+    assert not cbse_sqp._is_page_number("2016-17", 4, x0=20, x1=60, width=600)
+    assert not cbse_sqp._is_page_number("", 4, x0=20, x1=40, width=600)
+
+
+def test_the_band_mechanism_is_gone():
+    """Position bands destroyed body text; the value test replaced them.
+
+    A question header landing at the top of a page used to be inside the band
+    and vanish, which took the parsed count from 38 to 29.
+    """
+    assert not hasattr(cbse_sqp, "_TOP_BAND")
+    assert not hasattr(cbse_sqp, "_BOTTOM_BAND")
+
+
 
 def test_a_lone_digit_is_a_marks_value():
     assert cbse_sqp._MARKS.match("1")
