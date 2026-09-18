@@ -4,48 +4,36 @@ This parser is NOT production-ready and these tests say so. They pin the
 primitives that do work, and they pin the KNOWN GAPS so the current state cannot
 be mistaken for a finished extractor.
 
-Measured on the real Class X 2025-26 Social Science pair:
+Measured on the real Class X 2025-26 Social Science pair, 2026-09-18 (see
+cbse_sqp.py's module docstring, points 4-6, for what changed and why):
 
-    questions parsed        32   (the paper states 38)
-    with marks              28   of 32
-    join against the scheme 30   of 32
-    options                 16
+    questions parsed         38 of 38 stated distinct question numbers
+    total entries            44   (counting each A/B alternative separately)
+    with marks               34   of 44
+    join against the scheme  37   of 44
+    options                  captured for every MCQ, including the
+                              1-4-numbered matching-column options on Q1
 
-A question bank built from that would still be missing six questions and carry
-no mark values at all. It is committed as documented work-in-progress, not
-wired into any build.
+Three genuine gaps remain, all in the marking scheme's own formatting, not the
+parser's question-side extraction (which is now believed complete for this
+document):
 
-The specific unfixed defects, recorded so the next attempt starts where this one
-stopped:
+  1. Questions 1-4's scheme answers use separators `_HEADER` does not
+     recognise -- "1- A-4, B-1, C-2, D-3", "2 B- Bal Gangadhar Tilak", "3 A -
+     ...", "4 B - ..." -- a dash or bare space where every other entry in the
+     document uses a period.
+  2. 7B's scheme answer is "7B 1. The Bourbon dynasty..." -- missing the
+     period after B that 7A, 5A/5B, 6A/6B, 17A/17B, 38A/38B all have.
+  3. 27A/27B have no scheme entry under any key. Verified against the raw PDF
+     text directly (not just this parser's output): the scheme jumps from
+     26's answer straight to "28. \\n28.1-..." with no "27" anywhere between
+     them. This is an omission in the source document, not a parser gap.
 
-  1. MARKS ARE FIXED, 0 -> 28 of 32, and the distribution is now plausible:
-     {0: 4, 1: 17, 2: 3, 3: 4, 4: 2, 5: 2}, against a paper that states VSA 2
-     marks, SA 3, LA 5, CBQ (1+2+1=4). The mark value is right-aligned in its
-     own column, so the wide x-gap before it splits the row and the value
-     arrives as a lone digit. Four questions still carry none.
-
-  2. SIX QUESTIONS ARE STILL MISSED (32 of the paper's stated 38), a cause
-     separate from the margin band that used to explain it.
-
-  3. HYPHENATED LINE-BREAKS ARE NOT JOINED. The scheme for 17A holds
-     "...in 2016- 5 17. Panchpatmali..." -- a year range split across a line,
-     where an earlier revision of this file misread the `17.` as a page number.
-     The marking scheme is 11 pages long, so there is no page 17.
-
-A DEFECT THAT WAS FIXED HERE, and was worse than the gaps above
----------------------------------------------------------------
-The parser was assigning PAGE NUMBERS as MARK VALUES. Page 10's number became a
-10-mark question, page 11's an 11-mark question. The marks distribution showed
-values (6,7,8,9,10,11) that no Social Science question can carry, which is what
-gave it away.
-
-Twelve of the fourteen lone digits in the document were page numbers. The
-page-number test required the HORIZONTAL margin, and these numbers are centred,
-so none were caught. They then fell through to the marks rule.
-
-The count of questions with marks therefore went 8 -> 0, and that is an
-improvement: eight WRONG mark values were replaced by none. A wrong mark
-silently corrupts any marks-wise report built on it; an absent one is visible.
+A question bank built from this would carry a correct, complete question set
+and marking-scheme-official answers for 37 of 38 questions (all but 27, which
+the source omits) -- it is markedly closer to usable than it was, but is still
+committed as documented work-in-progress, not wired into any build, because
+questions 1-4 would still ship with no official answer.
 """
 from __future__ import annotations
 
@@ -179,6 +167,69 @@ def test_a_bare_digit_is_marks_and_not_a_header():
     assert cbse_sqp._HEADER.match("1. Something") is not None
 
 
+def test_a_number_and_its_part_letter_may_have_whitespace_between_them():
+    """Question 6 in the real paper prints "6 A." / "6 B." -- a rendering
+    inconsistency, not a different numbering convention (5A./17A. have no
+    space). Without tolerating it, both lines fall through as body text and
+    get appended onto whatever question came before -- 5B, corrupting it and
+    losing question 6 entirely."""
+    m = cbse_sqp._HEADER.match("6 A. A variety of cultural processes")
+    assert m and m.group(1) == "6" and m.group(2) == "A"
+    assert m.group(3).startswith("A variety")
+
+
+def test_ordinary_prose_starting_with_a_number_and_a_word_is_still_not_a_header():
+    """The whitespace tolerance above must not let "6 Aluminium is..." (no
+    real part letter, just a word starting with a capital) through -- the
+    word's second letter breaks the required immediate `.` after a single
+    captured letter."""
+    assert cbse_sqp._HEADER.match("6 Aluminium is an important metal") is None
+
+
+# --- the matching-column MCQ option trap -----------------------------------
+
+def test_a_matching_column_answer_choice_is_recognised():
+    """Question 1 in the real paper is a "match the following, choose the
+    correct option" MCQ whose four candidate orderings are numbered 1-4
+    (A-D already label the matching table's own rows), each shaped exactly
+    like a question header: "1.A-4, B-1, C-2, D-3"."""
+    assert cbse_sqp._MATCH_OPTION.match("A-4, B-1, C-2, D-3")
+    assert cbse_sqp._MATCH_OPTION.match("A-2, B-4, C-4, D-1")
+
+
+def test_a_single_letter_digit_pair_alone_is_not_a_match_option():
+    """Two pairs is the minimum real evidence -- a single "A-4" fragment
+    could plausibly be something else and is not, by itself, this shape."""
+    assert cbse_sqp._MATCH_OPTION.match("A-4") is None
+
+
+def test_ordinary_question_text_is_not_mistaken_for_a_match_option():
+    assert cbse_sqp._MATCH_OPTION.match("Identify the leader shown above") is None
+
+
+# --- SECTION headers embedded in a table row, and a prose false positive ---
+
+def test_a_section_header_sharing_a_line_with_table_headers_is_recognised():
+    """Section A's own header in the real paper prints as a table row,
+    "Sr.No SECTION A Marks", not a bare "SECTION A" line -- an anchored,
+    start-of-line-only match never finds it, which is how all nine of
+    Section A's questions were silently swallowed as General Instructions."""
+    assert cbse_sqp._SECTION.search("Sr.No SECTION A Marks")
+
+
+def test_section_referenced_in_instruction_prose_is_not_a_header():
+    """General Instruction item 8 references sections by name --
+    "...Q9. In Section A-History (2 marks) and / Q19. In Section B
+    -Geography (3 marks)" -- which is prose describing the paper's
+    structure, not a header starting a section. Both still end in a bare
+    capital letter, so only the unanchored search (not the letter
+    requirement alone) would have let these through."""
+    assert not cbse_sqp._SECTION.search(
+        "8. The map-based questions, carry 5 marks with two parts- Q9. In "
+        "Section A-History (2 marks) and")
+    assert not cbse_sqp._SECTION.search("Q19. In Section B -Geography (3 marks)")
+
+
 # --- the join -------------------------------------------------------------
 
 def test_question_key_matches_the_scheme_key_shape():
@@ -196,21 +247,31 @@ def test_an_or_alternative_is_recorded_as_an_alternative():
 # --- against the real documents: the gaps, pinned ------------------------
 
 @needs_pdfs
-def test_the_paper_states_38_questions_and_we_do_not_yet_reach_it():
-    """Pins the gap rather than hiding it.
-
-    If a future attempt fixes the margin band and the count reaches 38, this
-    test fails and should be replaced by one asserting the exact count. That is
-    the intended signal.
-    """
+def test_the_paper_states_38_questions_and_the_parser_now_reaches_them():
+    """Replaces the old gap-pinning test, per its own instruction: once the
+    count reaches the paper's stated 38, pin the exact correct count instead
+    of the gap. Counts distinct question NUMBERS, not question/alternative
+    entries -- 5A and 5B are one question with an internal choice, not two."""
     questions, _errors = cbse_sqp.parse_questions(SQP_DIR / "SocialScience-SQP.pdf")
-    assert len(questions) < 38, (
-        f"parsed {len(questions)} questions; the parser now reaches the paper's "
-        "stated 38 -- replace this gap-pinning test with a correctness test"
+    numbers = {q.number for q in questions}
+    assert numbers == set(range(1, 39)), (
+        f"expected exactly questions 1 through 38, got {sorted(numbers)} -- "
+        "this is a regression in question-side parsing, not a join issue"
     )
-    assert len(questions) >= 20, (
-        f"parsed only {len(questions)} questions, which is a regression beyond "
-        "the known margin-band defect"
+
+
+@needs_pdfs
+def test_question_5b_is_not_corrupted_by_question_6s_text():
+    """The regression this specific test exists to catch: before the
+    whitespace-tolerant header fix, "6 A." / "6 B." fell through as body
+    text and were silently appended onto 5B, so 5B's stored text kept
+    growing to include the entirety of 6A and 6B."""
+    questions, _ = cbse_sqp.parse_questions(SQP_DIR / "SocialScience-SQP.pdf")
+    q5b = next(q for q in questions if q.key == "5B")
+    assert "6 A." not in q5b.text and "6 B." not in q5b.text
+    assert len(q5b.text) < 300, (
+        f"5B's text is {len(q5b.text)} chars, suspiciously long for one "
+        "question -- likely absorbed a neighbour's content again"
     )
 
 
@@ -254,7 +315,7 @@ def test_the_join_never_invents_an_answer():
     answer it could not key is not -- that is a silently wrong answer key, and
     it is the failure this whole module is shaped to avoid.
 
-    Note what is NOT asserted: that the join is complete. It reaches 24 of 29,
+    Note what is NOT asserted: that the join is complete. It reaches 37 of 44,
     and that gap is the known defect, not a violation.
     """
     joined, stats = cbse_sqp.parse_pair(
@@ -268,3 +329,16 @@ def test_the_join_never_invents_an_answer():
         "every parsed question is either joined or reported unjoined; none may "
         "be silently dropped"
     )
+
+
+@needs_pdfs
+def test_the_three_remaining_unjoined_keys_are_the_known_scheme_formatting_gaps():
+    """Pins exactly which keys don't join and why, per cbse_sqp.py's module
+    docstring points 1-2 above and the header comment there -- all three are
+    marking-scheme formatting inconsistencies (or, for 27, a genuine omission
+    in the source document), not question-side parsing defects. If this
+    shrinks, replace it with a tighter pin; if it grows, something regressed.
+    """
+    _joined, stats = cbse_sqp.parse_pair(
+        SQP_DIR / "SocialScience-SQP.pdf", SQP_DIR / "SocialScience-MS.pdf")
+    assert set(stats["unjoined"]) == {"1", "2", "3", "4", "7B", "27A", "27B"}

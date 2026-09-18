@@ -6,8 +6,7 @@ corpus could not give us: there, 1,658 questions had a matching paper code and
 no answer for their question number, and the offset that would have joined them
 proved unmeasurable.
 
-Three traps, all characterised against the real Class X Social Science pair
-before this module was written:
+Traps characterised against the real Class X Social Science pair:
 
 1. MARKS ARE A LONE DIGIT ON THEIR OWN LINE, after the question text. There is
    no "N marks" string anywhere in the document -- measured at zero occurrences
@@ -15,21 +14,75 @@ before this module was written:
 
 2. `OR` MEANS AN INTERNAL CHOICE. `17A` and `17B` are not two questions; they
    are one question with two options. Counting rows naively inflates the paper,
-   so B is recorded as an alternative of A rather than as a sibling.
+   so B is recorded as an alternative of A rather than as a sibling. Stripped
+   on both sides now (2026-09-18) -- the scheme-side parser used to leave the
+   literal word "OR" sitting inside the preceding alternative's answer text.
 
-3. PAGE NUMBERS BLEED INTO THE TEXT, and they are shaped exactly like question
-   headers. The marking scheme for 17A reads "...in 2016-" then
-   "17. Panchpatmali deposits..." -- where that `17.` is the PAGE NUMBER, sitting
-   inside a 1-2-3-4-5 list. A text-based strip cannot tell it from a question
-   header, and a naive split creates a phantom question 17 nested inside 17A,
-   which would then pair question 17's answer with a fragment of 17A's.
+3. PAGE NUMBERS IN THE MARGIN OR HEADER/FOOTER BAND ARE FURNITURE, not
+   content, and are shaped exactly like a bare mark value or a question
+   header missing its trailing letter. Removed by requiring BOTH the value to
+   equal the page index AND a furniture position (margin or band) -- value
+   alone would delete a real mark that happens to equal the page index (a
+   3-mark question on page 3); position alone let centred page numbers
+   through (they were never in the horizontal margin), which is how a real
+   production defect once turned page 10's number into a 10-mark question.
+   (An earlier version of this docstring blamed a stray "17." on page-number
+   bleed; it doesn't need one -- see point 5 below for what it actually was.)
 
-   So page furniture is removed BY POSITION: text in the top and bottom band of
-   the page is dropped before lines are rebuilt. The page number lives in the
-   margin, so the band catches it and the body text survives.
+4. SECTION GATING MUST TOLERATE THE HEADER SITTING INSIDE A TABLE ROW.
+   Everything before the paper's first section header is General Instructions,
+   numbered 1-N -- the same shape as a question header -- so nothing before it
+   may be read as a question. But Section A's own header does not print as a
+   bare "SECTION A" line in this paper: it prints as a table row, "Sr.No
+   SECTION A Marks", sharing a line with the table's other column headers. An
+   anchored, line-start-only match never finds it, so gating never engaged for
+   Section A at all, and every one of its nine questions (1-4, 5A/5B, 6A/6B,
+   7A) was silently read as still being part of the instructions. Matching
+   unanchored (search, not match) finds it -- but then also finds "SECTION A"
+   and "SECTION B" used descriptively inside Instruction item 8 ("...Q9. In
+   Section A-History (2 marks) and / Q19. In Section B -Geography (3
+   marks)"), which is prose referencing a section, not heading one. Excluded
+   by the one discriminator the evidence actually supports: every real header
+   is either at the start of a line or beside other table-header text; every
+   false positive found is preceded by the word "in"/"In".
+
+5. A NUMBER AND ITS PART-LETTER CAN BE SEPARATED BY WHITESPACE, OR THE LETTER
+   CAN BE MISSING ITS TRAILING PERIOD, PURELY AS A RENDERING INCONSISTENCY IN
+   THE SAME DOCUMENT. Question 6 prints "6 A." / "6 B." (a space where
+   5A./5B./17A./17B. have none); the scheme's answer for 7B prints "7B 1."
+   with no period after B at all -- its own trailing period appears to have
+   been swallowed by the value-point numbering that immediately follows. The
+   first is tolerated (optional whitespace between the digit and the letter);
+   the second is not yet, and 7B is a known unjoined key as a result. Neither
+   is a "page number" -- an earlier version of this docstring's point 3
+   attributed a bare "17." inside 7A's own multi-part answer to page-number
+   bleed ("...in 2016- 17. Panchpatmali..."). It is not: the marking scheme is
+   11 pages long, so there is no page 17. It is "2016-17", a school-year
+   range, wrapped across a PDF line break -- and it was already handled
+   correctly (the forward-only key invariant in parse_scheme rejects a
+   same-or-lower number as a new header, so this text is correctly absorbed
+   into the answer it belongs to, not split into a phantom entry).
+
+6. A MATCHING-COLUMN MCQ CAN NUMBER ITS OPTIONS 1-4 INSTEAD OF LETTERING THEM
+   A-D, because A-D already label the matching table's rows. Question 1's four
+   candidate orderings print as their own lines, "1.A-4, B-1, C-2, D-3"
+   through "4.A-4, B-1, C-3, D-4" -- each shaped exactly like a question
+   header. Recognised by the option content itself (comma-separated
+   `letter-digit` pairs), not the leading number, so real questions 2, 3 and 4
+   are never mistaken for a fifth and sixth option of question 1.
 
 The rule this module holds: it never pairs a question with an answer it cannot
 key on exactly. Anything unmatched is reported as unmatched.
+
+Current measured state, the real Class X 2025-26 Social Science pair
+(2026-09-18, after points 4-6 above): all 38 of the paper's stated questions
+are recognised (was 32); 34 of 44 question/alternative entries carry a mark
+value; 37 of 44 join to a scheme answer (was 30 of 32). The 7 that don't:
+questions 1-4's scheme answers use inconsistent separators ("1- A-4...", "2
+B-...", no period) that `_HEADER` does not yet recognise; 7B's scheme entry is
+missing its trailing period (point 5); 27A/27B have no scheme entry at all
+under any key -- genuinely absent from the source document, not a parser gap.
+Still not wired into any build script.
 """
 
 from __future__ import annotations
@@ -108,7 +161,18 @@ def _is_page_number(text: str, page_number: int, *, x0: float, x1: float,
 
 
 # `15.` or `17A.` at the start of a line, optionally followed by text.
-_HEADER = re.compile(r"^\s*(\d{1,2})([A-Z])?\.\s*(.*)$")
+#
+# The whitespace between the number and its optional part-letter is
+# deliberate, not cosmetic. Found live 2026-09-18: this paper's question 6
+# prints as "6 A." and "6 B." (a space where 5A./5B./17A./17B. have none) --
+# a real kerning/rendering inconsistency in the source PDF, not a different
+# convention. Without tolerating it, `_HEADER` never matches either line, so
+# both fall through as body text and get silently appended onto question 5B,
+# and question 6 never exists at all. The trailing `\.` immediately after the
+# single captured letter keeps this safe: ordinary prose starting "6 Aluminium
+# is..." still needs a period right after a single letter to match, which
+# "Aluminium" (many letters, no period after the first) never satisfies.
+_HEADER = re.compile(r"^\s*(\d{1,2})\s*([A-Z])?\.\s*(.*)$")
 
 # A lone digit is the mark value for the preceding question.
 _MARKS = re.compile(r"^\s*(\d{1,2})\s*$")
@@ -123,11 +187,57 @@ _OR = re.compile(r"^\s*OR\s*$", re.I)
 # Measured: 38 questions were still parsed correctly by count, but the numbering
 # was shifted, so the join against the marking scheme was wrong for the first
 # seven questions -- the exact silent error this module exists to avoid.
-_SECTION = re.compile(r"^\s*SECTION\s*[-\u2013\u2014]?\s*([A-Z])\b", re.I)
+#
+# Found live 2026-09-18, diagnosing "6 questions still missed": this used to be
+# anchored (`^...`) and required "SECTION" to open the line. Section A's own
+# header never matches that shape in the real Social Science SQP -- it prints
+# as a table row, "Sr.No SECTION A Marks", with the column headers on either
+# side on the SAME visual row. An anchored match against "SECTION" never finds
+# it, so `started` never flips for Section A, and every question in it --
+# including 5A/5B/6A/6B/7A -- was silently skipped as if it were still part of
+# the General Instructions. Sections B/C/D happen to print as bare lines with
+# no table-row prefix, which is why only Section A's nine questions were lost
+# and the defect looked like "six missing" rather than "gating never engages
+# at all" for a while.
+#
+# Unanchored `.search()` finds "SECTION A" wherever it sits on the row. The
+# trailing section-letter group is deliberately NOT case-insensitive (unlike
+# "SECTION" itself, via the inline (?i:...) flag) -- re.IGNORECASE on the
+# whole pattern let `[A-Z]` match a lowercase letter too, so the instructions'
+# own prose, "has Four Sections \u2013 A-History...", matched on "Section" + the
+# lowercase "s" of "Sections" satisfying `[A-Z]` case-insensitively. Every
+# real CBSE section header is capitalised ("SECTION A"); nothing before it
+# ever is, so requiring an actual uppercase letter here removes that false
+# positive without needing any position-based test at all.
+#
+# A second false positive surfaced once `.search()` was unanchored: General
+# Instruction item 8 reads "...Q9. In Section A-History (2 marks) and / Q19.
+# In Section B -Geography (3 marks)" -- genuinely referencing sections by
+# name mid-sentence, not heading one, and both "A-History"/"B -Geography"
+# still end in a bare capital letter satisfying the pattern above. Measured:
+# every real section header in this paper is either the start of its own
+# line, or immediately preceded by the table's other column headers
+# ("Sr.No ... Marks"); every false positive found so far is preceded by the
+# word "in"/"In". The lookbehind is the narrow, evidenced exclusion for that,
+# not a guess at what else might precede a real header.
+_SECTION = re.compile(r"(?<![Ii]n\s)(?i:SECTION)\s*[-\u2013\u2014]?\s*([A-E])\b")
 
 # The largest question number a paper could plausibly reach. Guards against a
 # stray large number being read as a header.
 _MAX_Q = 60
+
+# A "match the following, choose the correct option" MCQ numbers its four
+# candidate orderings 1/2/3/4 rather than lettering them A-D, because A-D are
+# already the matching-table's row labels. Found live 2026-09-18, once the
+# SECTION-gating fix (above) finally let Section A's real content through:
+# question 1's four options print as their own lines, "1.A-4, B-1, C-2, D-3"
+# through "4.A-4, B-1, C-3, D-4" -- each one individually shaped exactly like
+# a question header, so numbers 2, 3 and 4 were read as three new phantom
+# questions and question 1 itself absorbed none of its own options. The
+# option content itself has a shape no real question stem does -- four
+# `letter-digit` pairs, comma-separated -- so that content, not the leading
+# number, is what identifies these lines.
+_MATCH_OPTION = re.compile(r"^[A-D]-\d+(?:,\s*[A-D]-\d+){2,}$")
 
 
 @dataclasses.dataclass
@@ -204,7 +314,7 @@ def parse_questions(pdf_path: Path) -> tuple[list[Question], list[str]]:
     for page, line in lines:
         # Nothing before the first SECTION header is a question. See _SECTION.
         if not started:
-            if _SECTION.match(line):
+            if _SECTION.search(line):
                 started = True
             continue
 
@@ -220,6 +330,15 @@ def parse_questions(pdf_path: Path) -> tuple[list[Question], list[str]]:
                 current.marks = value
                 pending_marks = current
                 continue
+
+        # A matching-question option ("1.A-4, B-1, C-2, D-3") is shaped exactly
+        # like a header but is never one -- see _MATCH_OPTION. Checked before
+        # the header branch so it never gets a chance to start a phantom
+        # question.
+        if header and _MATCH_OPTION.match(header.group(3).strip()):
+            if current is not None:
+                current.options.append(line.strip())
+            continue
 
         if header and int(header.group(1)) <= _MAX_Q and not (marks_hit and header.group(3) == ""):
             number = int(header.group(1))
@@ -299,6 +418,12 @@ def parse_scheme(pdf_path: Path) -> tuple[dict[str, str], dict[str, int], list[s
                     if rest:
                         answers[current_key] += " " + rest
                     continue
+        # An "OR" marker between two alternatives is structural, not part of
+        # either answer's text -- parse_questions already strips it (_OR);
+        # this side never did, so the literal word "OR" was leaking into
+        # every alternative-question's stored answer text.
+        if _OR.match(line):
+            continue
         if current_key is not None:
             answers[current_key] += " " + line
 
