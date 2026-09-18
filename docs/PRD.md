@@ -1,7 +1,9 @@
 # PRD — AcademicOS
 
 **Status:** draft v1, written 2026-09-17. This is the first product requirements
-document for this repository; it did not previously exist.
+document for this repository; it did not previously exist. A decision log was
+added 2026-09-18 (§0) recording the product owner's working positions on the
+five open decisions in §12 — read it before §1 if you're catching up.
 **Author:** written autonomously by an agent, from the sources cited inline.
 
 ## How to read this document
@@ -20,6 +22,44 @@ product intent mostly is not.** Six of the ten PRD categories are well covered
 — buyer, pricing, market size, and product-level success — and in those places
 this document proposes rather than reports, so that there is something concrete
 to accept or reject instead of a blank.
+
+---
+
+## 0. Decision log — 2026-09-18
+
+Working positions from a discussion between the product owner and an agent,
+covering the five product-owner decisions §12 lists as blocking this year's
+build, plus the legal rights question. **These are working positions, not yet
+validated against a real school or counsel — marked PROPOSED, not DECIDED,
+until the two pending action items below close.** Recorded here rather than
+only in chat because §12's decisions are the ones "almost everything downstream"
+depends on (§1), and a verbal decision that isn't written down is the same as
+no decision the next time someone reads this repo cold.
+
+| # | Question | Working position | Status |
+|---|---|---|---|
+| 1 | Which product is this year's product? (§1) | **The school operations tool.** The research programme (mastery scoring, forgetting prediction, parent/teacher AI — §4, Phase 4-5) is unfunded R&D, not this year's roadmap or sales pitch. It needs a funder, not a customer, and mixing the two is why the repo currently builds both half-heartedly. | PROPOSED |
+| 2 | Who is the buyer, and what do they sign? (§3.2) | The school, signed by the principal/head of school in one meeting — not a district, not the parent, no board approval required. Reaffirms §3.2's existing PROPOSED; the sub-question of principal vs. trustee is a sales-motion detail, not a product one. | PROPOSED |
+| 3 | What is the price, and is it published? (§9) | Flat, published, per-school, annual, banded by school size — reaffirms §9. Positioned explicitly as *cheaper than a full ERP because it deliberately isn't one*, which is also the answer to decision 5. | PROPOSED |
+| 4 | What retention/learning number makes a school renew? (§8.3) | No number exists and can't be set by decree — it's empirical. Working hypothesis to instrument now, before the pilot ends rather than after: **≥70% weekly-active-teacher rate sustained a full term**, and **the principal reports the coverage dashboard changed at least one real scheduling decision.** If the pilot doesn't measure these, it will answer a learning-outcomes question and tell us nothing about renewal. | PROPOSED, needs instrumentation |
+| 5 | Does a school buy this without an ERP? (§5, §6) | **No fees/attendance modules built this year.** Position as a companion to whatever ERP the school already runs (most CBSE schools have one), at most a thin read-only integration later. This is the **highest-risk** position in this table, not a safe default — if target schools genuinely refuse to buy piecemeal, fees/attendance becomes the single biggest scope item in the repo (§6, "not built at all"). Explicitly flagged for validation, not assumed. | PROPOSED, highest risk |
+| — | Question-bank rights position (§5A, §9, §12 item 11) | Interim default until counsel rules: **private, licensed bank for partner schools under signed agreement — not a public API.** This is the fallback `docs/question-bank-api.md:55-57` already names; adopting it now means nothing is blocked waiting on counsel, and nothing is built that a counsel opinion would force back out. | INTERIM DEFAULT pending counsel |
+
+### Pending action items (owner: product owner, no target date set)
+
+1. **Talk to Deccan Springs Global School (or another real target school)** about
+   what they would actually pay, and whether they would buy this without
+   dropping their existing ERP for fees/attendance. Directly validates or kills
+   decision 5 and sanity-checks decision 3's price band.
+2. **Put the redistribution question to counsel this week** — the brief is
+   already written (`docs/question-bank-api.md:31-53`): (a) redistribution of
+   CBSE papers and marking schemes, (b) attribution requirements, (c) whether
+   the answer is "public subset only." Until this returns, the interim default
+   above holds.
+
+Once these two close, promote the resolved rows from PROPOSED to DECIDED in
+this table and update §12 accordingly — don't just delete this section, since
+the reasoning trail (why this position, not another) is the part worth keeping.
 
 ---
 
@@ -442,9 +482,36 @@ This is stated and worth elevating, because it is unusually rigorous:
 > — `docs/status-2026-08-06.md:9-11`
 
 **The honest current position against that standard:** of the whole product, only
-the teacher schedule views have ever been exercised interactively against a live
-backend (`docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md:22-24`). "Complete" elsewhere means
-"the code exists and its tests pass."
+the teacher schedule views (`docs/TRANSCRIPT_REQUIREMENTS_MATRIX.md:22-24`) and,
+as of 2026-09-18, the Assessment Designer chain (below) have ever been exercised
+interactively against a live backend. "Complete" elsewhere means "the code
+exists and its tests pass."
+
+**2026-09-18 — Assessment Designer chain verified end-to-end**, the loop §4
+names as the strongest asset and the PRD proposes adding as a fourth core job
+("is this the paper I would have set?"). Run against a real, running
+`academicos.cli serve` instance (local SQLite, no Supabase configured) with a
+real registered teacher account: register → login → create assessment → search
+real questions (Science, grade 10, corpus-backed) → optimize selection against
+a blueprint → generate paper → export PDF → **the actual PDF bytes were opened
+and its extracted text read**, not just checked for a 200 status.
+
+Reading the real output caught a genuine bug that every prior test run had
+missed: `assessment/pdf.py`'s section description was keyed purely off the
+section's *label* ("A" → "carrying 1 mark each"), assuming any section named A
+follows the CBSE convention. A section labeled "A" whose questions actually
+carry 2 marks each — which is exactly what my test blueprint specified — got
+the wrong claim printed directly on the exam paper. This is the precise
+failure mode the evidence standard exists to catch: `flutter analyze` and
+`pytest` were both green on this code before the fix, because no existing
+test constructed a section labeled with a mismatched mark value. Fixed by
+deriving the section note from the questions' real, uniform marks and only
+using the canned CBSE text when it actually matches; three regression tests
+added (`tests/test_assessment_pdf.py`), all passing. A second oddity —
+garbled-looking header characters — was investigated and ruled out: the PDF's
+actual Unicode codepoints (U+2014 em-dash, U+00B7 middot) are correct; the
+garbling was this session's own terminal failing to render them, not a defect
+in the PDF.
 
 ### 8.3 Product metrics — **PROPOSED**
 
@@ -554,15 +621,20 @@ the PRD's job, because they cause real errors.
 
 The decisions this document cannot make. Grouped by who can.
 
-**Product owner — required before the next build phase:**
+**Product owner — required before the next build phase. §0 records working
+PROPOSED positions for all five as of 2026-09-18, pending the two action items
+listed there — these are not yet DECIDED:**
 
 1. **Which product is this year's product** — the school operations tool, or the
-   algorithms research programme? (§1)
-2. **Who is the buyer, and what do they sign?** (§3.2)
-3. **What is the price, and is it published?** (§9)
-4. **What retention or learning number makes a school renew?** (§8.3)
+   algorithms research programme? (§1) — *§0: PROPOSED, school operations tool.*
+2. **Who is the buyer, and what do they sign?** (§3.2) — *§0: PROPOSED, reaffirms §3.2.*
+3. **What is the price, and is it published?** (§9) — *§0: PROPOSED, reaffirms §9.*
+4. **What retention or learning number makes a school renew?** (§8.3) — *§0:
+   PROPOSED hypothesis, not yet instrumented.*
 5. **Does a school buy this without an ERP?** If not, fees and attendance are on
-   the critical path and are not built. (§5, §6)
+   the critical path and are not built. (§5, §6) — *§0: PROPOSED "no," flagged
+   as the highest-risk position in the log — pending validation against a real
+   school.*
 
 **Answerable from the school, and currently guessed at — these already block six
 screens in `design/screens.html`:**
@@ -576,7 +648,9 @@ screens in `design/screens.html`:**
 
 **Legal, and blocking revenue:**
 
-11. The question-bank rights position from counsel (`docs/question-bank-api.md:31-53`).
+11. The question-bank rights position from counsel (`docs/question-bank-api.md:31-53`)
+    — *§0: INTERIM DEFAULT adopted (private licensed bank, partner schools
+    under agreement) pending counsel; counsel brief going out this week.*
 
 ---
 

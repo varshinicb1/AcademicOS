@@ -75,11 +75,11 @@ DEFAULT_INSTRUCTIONS = (
 )
 
 _SECTION_NOTE = {
-    "A": "consists of multiple choice questions carrying 1 mark each.",
-    "B": "consists of very short answer questions carrying 2 marks each.",
-    "C": "consists of short answer questions carrying 3 marks each.",
-    "D": "consists of long answer questions carrying 5 marks each.",
-    "E": "consists of case-study based questions carrying 4 marks each.",
+    "A": (1, "consists of multiple choice questions carrying 1 mark each."),
+    "B": (2, "consists of very short answer questions carrying 2 marks each."),
+    "C": (3, "consists of short answer questions carrying 3 marks each."),
+    "D": (5, "consists of long answer questions carrying 5 marks each."),
+    "E": (4, "consists of case-study based questions carrying 4 marks each."),
 }
 
 
@@ -302,10 +302,30 @@ def _question_flowables(gq, styles: _Styles, content_width: float,
     return [row]
 
 
+def _section_note(section: GeneratedSectionSchema) -> str:
+    """The CBSE-standard descriptions in _SECTION_NOTE assume a section
+    *labeled* A/B/C/D/E also follows the CBSE per-section mark convention
+    (A=1, B=2, C=3, D=5, E=4). That's true for a paper generated from a
+    standard CBSE blueprint, but a custom blueprint can label a section "A"
+    while putting 2-mark questions in it -- found live 2026-09-18 by actually
+    reading a generated PDF: it printed "carrying 1 mark each" over a section
+    of 2-mark questions. Only trust the canned description when the section's
+    real, uniform per-question marks actually match what it claims; otherwise
+    fall back to a description built from the real data."""
+    marks_seen = {q.marks for q in section.questions}
+    uniform_marks = marks_seen.pop() if len(marks_seen) == 1 else None
+    canned = _SECTION_NOTE.get(section.label.upper())
+    if canned is not None and canned[0] == uniform_marks:
+        return canned[1]
+    if uniform_marks is not None:
+        plural = "" if uniform_marks == 1 else "s"
+        return f"consists of questions carrying {uniform_marks} mark{plural} each."
+    return "consists of questions carrying marks as indicated."
+
+
 def _section_block(section: GeneratedSectionSchema, styles: _Styles,
                    content_width: float, gutter: float, marks_col: float) -> list:
-    note = _SECTION_NOTE.get(section.label.upper(),
-                             f"consists of questions carrying marks as indicated.")
+    note = _section_note(section)
     story: list = [
         Paragraph(f"SECTION {section.label}", styles.section),
         Paragraph(f"({section.name} — {len(section.questions)} questions, "

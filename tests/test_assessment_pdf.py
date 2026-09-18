@@ -98,6 +98,66 @@ def test_paper_content_rendered(tmp_path):
     assert "Maximum Marks: 1" in text
 
 
+def test_section_note_matches_real_marks_not_just_the_label(tmp_path):
+    """Found 2026-09-18 by actually reading a real generated PDF end-to-end:
+    a custom blueprint labeled its section "A" but put 2-mark questions in
+    it, and the PDF printed "carrying 1 mark each" anyway -- the CBSE-
+    standard description was keyed purely off the label, not the section's
+    real content. A section literally named A/B/C/D/E must only get the
+    canned CBSE description when its questions' marks actually match that
+    convention; otherwise the printed note must reflect the real marks."""
+    now = datetime.now(timezone.utc)
+    two_mark_questions = [
+        GeneratedQuestionSchema(question_id=f"q{i}", display_number=i,
+                                 stem=f"Question {i}", marks=2,
+                                 bloom_level="understand", difficulty="medium")
+        for i in range(1, 4)
+    ]
+    section = GeneratedSectionSchema(
+        section_id="section-a", label="A", name="Section A",
+        questions=two_mark_questions, total_marks=6,
+    )
+    metadata = PaperMetadataSchema(
+        assessment_title="Custom Blueprint Paper", subject="Science", grade=10,
+        total_marks=6, duration_minutes=30, generated_at=now,
+    )
+    paper = GeneratedPaper(id="paper_custom", assessment_id="assess1",
+                           sections=[section], metadata=metadata, answer_key={})
+    text = _extract_text(export_pdf(paper, tmp_path / "d"))
+    assert "carrying 2 marks each" in text
+    assert "carrying 1 mark each" not in text
+
+
+def test_section_note_uses_canned_cbse_text_when_marks_do_match(tmp_path):
+    """The standard CBSE-blueprint path (label A, 1-mark MCQs) must keep
+    printing the descriptive canned text, not just a generic "carrying N
+    marks each" -- this is the case the fix in test above must not break."""
+    text = _extract_text(export_pdf(_make_paper(), tmp_path / "e"))
+    assert "multiple choice questions carrying 1 mark each" in text
+
+
+def test_section_note_falls_back_to_generic_text_when_marks_vary(tmp_path):
+    now = datetime.now(timezone.utc)
+    mixed_questions = [
+        GeneratedQuestionSchema(question_id="q1", display_number=1, stem="Q1",
+                                marks=2, bloom_level="understand", difficulty="medium"),
+        GeneratedQuestionSchema(question_id="q2", display_number=2, stem="Q2",
+                                marks=3, bloom_level="apply", difficulty="medium"),
+    ]
+    section = GeneratedSectionSchema(
+        section_id="section-a", label="A", name="Section A",
+        questions=mixed_questions, total_marks=5,
+    )
+    metadata = PaperMetadataSchema(
+        assessment_title="Mixed Marks Paper", subject="Science", grade=10,
+        total_marks=5, duration_minutes=30, generated_at=now,
+    )
+    paper = GeneratedPaper(id="paper_mixed", assessment_id="assess1",
+                           sections=[section], metadata=metadata, answer_key={})
+    text = _extract_text(export_pdf(paper, tmp_path / "f"))
+    assert "carrying marks as indicated" in text
+
+
 def test_split_stem_and_options():
     head, options = split_stem_and_options(
         "Which of the following is a gas? (A) Oxygen (B) Gold (C) Silver (D) Copper")
