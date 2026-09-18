@@ -393,10 +393,18 @@ def build_answer_keys(cfg: Config, roots: list[Path]) -> dict[str, int]:
     `failed` in the returned dict is the count of files parse_marking_scheme
     could not read at all, separate from files that were read fine and
     genuinely had nothing to extract.
+
+    `papers_written` is this run's count of paper variants written to the
+    store, kept distinct from `**stats`'s `papers` (the store's cumulative
+    distinct-paper-code count across every run ever, including previous
+    ones) -- these two used to share the key "papers" in the returned dict,
+    with `**stats` silently winning and this run's own count discarded
+    (found live 2026-09-18 while fixing the failure-counting bug above, in
+    the same dict literal).
     """
     store = AnswerKeyStore(default_db(cfg))
     files = [p for root in roots for p in discover_marking_schemes(root)]
-    written = papers = failed = 0
+    written = papers_written = failed = 0
     for path in files:
         try:
             keys = parse_marking_scheme(path)
@@ -406,9 +414,12 @@ def build_answer_keys(cfg: Config, roots: list[Path]) -> dict[str, int]:
             continue
         for key in keys:
             written += store.put(key, source=path.name)
-            papers += 1
+            papers_written += 1
     stats = store.stats()
     store.close()
-    log.info("answer keys: %d answers across %d paper variants from %d files (%d unreadable)",
-             stats["total"], stats["papers"], len(files), failed)
-    return {"files": len(files), "written": written, "papers": papers, "failed": failed, **stats}
+    log.info("answer keys: %d answers, %d paper variants written this run; "
+             "store now holds %d answers across %d paper variants total, "
+             "from %d files (%d unreadable)",
+             written, papers_written, stats["total"], stats["papers"], len(files), failed)
+    return {"files": len(files), "written": written, "papers_written": papers_written,
+            "failed": failed, **stats}
