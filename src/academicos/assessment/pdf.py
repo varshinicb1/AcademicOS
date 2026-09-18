@@ -385,7 +385,7 @@ def export_pdf(paper: GeneratedPaper, output_dir: Path,
     doc = SimpleDocTemplate(
         str(out_path), pagesize=A4,
         topMargin=top, bottomMargin=bottom, leftMargin=left, rightMargin=right,
-        title=paper.metadata.assessment_title, author="AssessmentOS",
+        title=paper.metadata.assessment_title, author="AcademicOS",
     )
     content_width = A4[0] - left - right
     gutter, marks_col = 10 * mm, 12 * mm

@@ -3579,7 +3579,7 @@ export interface components {
             generatedAt: string;
             /**
              * Generatedby
-             * @default AssessmentOS
+             * @default AcademicOS
              */
             generatedBy: string;
             /** Grade */

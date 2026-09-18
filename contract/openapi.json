@@ -2992,7 +2992,7 @@
             "type": "string"
           },
           "generatedBy": {
-            "default": "AssessmentOS",
+            "default": "AcademicOS",
             "title": "Generatedby",
             "type": "string"
           },

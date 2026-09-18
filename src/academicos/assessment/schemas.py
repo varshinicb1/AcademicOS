@@ -346,7 +346,7 @@ class PaperMetadataSchema(Camel):
     total_marks: int
     duration_minutes: int
     generated_at: datetime
-    generated_by: str = "AssessmentOS"
+    generated_by: str = "AcademicOS"
     version: str = "1.0"
     set_label: Optional[str] = None
     tier: Optional[str] = None

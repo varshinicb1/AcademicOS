@@ -488,7 +488,7 @@ def export_corrected_pdf(session: ScanSession, output_dir: Path, *,
     awarded, maximum = finalize_totals(session)
     doc = SimpleDocTemplate(str(out_path), pagesize=A4, topMargin=16 * mm, bottomMargin=18 * mm,
                             leftMargin=18 * mm, rightMargin=18 * mm,
-                            title=f"Corrected sheet — {session.student_name}", author="AssessmentOS")
+                            title=f"Corrected sheet — {session.student_name}", author="AcademicOS")
     content_width = A4[0] - 36 * mm
 
     story: list = [
