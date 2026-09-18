@@ -28,10 +28,12 @@ Two earlier deploy-target attempts left artifacts in this repo that are
   (`docs/gcp-deployment.md`), which is written and reviewed but has never been
   executed. Cloud Run is still not live, but it is no longer dead either — don't
   read the old "stale comment" note as a reason to ignore it.
-- `fly.toml` at the repo root is a real, valid Fly.io config, but nothing
-  in `.github/workflows/` or `scripts/` deploys to it. Left in place rather
-  than deleted unilaterally (may have been an intentional backup option),
-  but don't assume it's live — it isn't wired to anything today.
+- `fly.toml` at the repo root was a real, valid Fly.io config, but nothing
+  in `.github/workflows/` or `scripts/` ever deployed to it. Removed
+  2026-09-18 after explicit confirmation — it was a third, undocumented
+  deployment story alongside the real ones (Render, live; GCP, written but
+  unrun), which is exactly the kind of contradiction that causes an agent
+  reading the repo cold to guess wrong about what's actually deployed.
 
 ### CI/CD pipeline (`.github/workflows/deploy-backend.yml`)
 

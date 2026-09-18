@@ -21,8 +21,8 @@ running on Supabase is blob storage — see §8, which is the blocking item befo
 
 Default region everywhere below: **`asia-south1` (Mumbai)** — closest to
 the schools, and the only region choice that helps the DPDP Act story in
-`docs/compliance.md`. (Precedent: the stale `fly.toml` at the repo root
-already used `primary_region = "bom"`.)
+`docs/compliance.md`. (Precedent: the now-removed `fly.toml` that used to sit
+at the repo root already used `primary_region = "bom"`.)
 
 ## 1. What moves where (phase 1: compute only)
 
