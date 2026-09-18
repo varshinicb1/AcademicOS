@@ -40,6 +40,18 @@ Deliberately NOT parsed: the diagram images. Items that depend on a figure are
 flagged (`needs_figure`) rather than silently exported without it, because a
 figure-dependent question with no figure is unanswerable -- the same reason
 `assessment/pool.py` excludes them from paper generation.
+
+English's items are not all self-contained the way the layout above assumes
+(2026-09-18) -- see `_group_sub_item_ids` and `parse_group_items` below for
+the passage-linked-group shape that was the actual cause of English being a
+materially weaker subject than Maths/Science, and the positional-join
+mechanism used to recover it. Measured effect: English Class 6 went from 4
+items (all with an answer key) to 12 (all with an answer key); Class 9 from
+31 items (20 with an answer key) to 77 (54 with an answer key). Not every
+group is recoverable -- one Class 6 group (`English6SN2`) has 11 real,
+separately-marked questions under only 10 declared sub-item ids (a 5(a)/5(b)
+split that, in this one document, doesn't get its own id the way it does in
+every other group observed), and is correctly refused rather than guessed.
 """
 from __future__ import annotations
 
@@ -91,6 +103,12 @@ _ITEM_PURPOSE = re.compile(r"Item purpose\s*(.+?)(?=\n\s*(?:Sources|Source|Quest
 _OPTION = re.compile(r"^\s*([A-D])[.)]\s*(.+)$", re.M)
 _ANSWER_ROW = re.compile(r"^\s*([A-D])[.)]\s*(.+)$", re.M)
 
+# A mark-scheme entry inside a passage-linked GROUP (see _group_sub_item_ids
+# below) is keyed by a bare sequential number, not an item id -- "1", "2",
+# ... "5 (a)", "5 (b)". Anchored to line start; `re.M` in the fullmatch call
+# site keeps this from firing on numbers embedded mid-sentence.
+_SCHEME_ENTRY = re.compile(r"^\s*(\d{1,2})\s*(\([a-zA-Z]\))?\s+(?=\S)", re.M)
+
 SUBJECT_BY_PREFIX = {
     "maths": "Mathematics", "mathematics": "Mathematics",
     "science": "Science", "english": "English",
@@ -118,6 +136,7 @@ class CbeItem:
     answer: str = ""                  # the official answer, from the mark scheme
     guidance: str = ""
     needs_figure: bool = False
+    passage: str = ""                 # shared reading passage, for a linked-passage item
     source_pdf: str = ""
     pages: list[int] = field(default_factory=list)
 
@@ -159,6 +178,7 @@ class CbeItem:
             "guidance": self.guidance,
             "hasAnswerKey": self.has_answer_key,
             "needsFigure": self.needs_figure,
+            "passage": self.passage,
             "sourcePdf": self.source_pdf,
             "pages": self.pages,
         }
@@ -418,6 +438,207 @@ def _extract_question_and_answer(block: str) -> tuple[str, list[str], str, str, 
     options_text = " ".join(o.lower() for o in options)
     needs_figure = any(p in low for p in figure_phrases) and not options
     return question, options, answer, guidance, needs_figure
+
+
+# --------------------------------------------------------------------------- #
+# passage-linked groups (2026-09-18) -- English's weak-subject cause
+# --------------------------------------------------------------------------- #
+#
+# English's reading-comprehension items are not self-contained the way a
+# Mathematics or Science item is. One shared passage carries several
+# sub-questions, e.g. English6SB1 through English6SB9, and the item-identity
+# table lists them as a bare run of ids with no marks/content-code attached
+# to any of them individually -- unlike a Maths/Science multi-part item
+# (Maths6MG4a/Maths6MG4b), where each sub-item's own AO flag and content code
+# immediately follow it, which is exactly what the existing `_starts_item`
+# lookahead already recognises. Split_items() therefore correctly finds
+# Maths/Science sub-items as separate items, and just as correctly finds an
+# English passage group as ONE giant blob -- there is nothing in the bare id
+# list for the existing per-item anchors to catch.
+#
+# The questions and their answers are recoverable, but only by POSITION, not
+# by key: the `Question(s)` zone holds N questions in order, each closed by
+# its own "(N mark(s))" annotation (the same marker used everywhere else in
+# this module); the `Mark scheme` zone holds N answers in the SAME order,
+# keyed by a bare sequential number (1, 2, 3, ... 5 (a), 5 (b)) rather than
+# the item id. This module's rule elsewhere is "never pair a question with an
+# answer it cannot key exactly" -- there is no exact key here, so the
+# positional join is only trusted when the sub-item-id count, the parsed
+# question count, and the parsed scheme-entry count all agree exactly.
+# Disagreement means refuse the whole group rather than guess an alignment,
+# consistent with that rule's intent even though the mechanism differs.
+
+def _group_sub_item_ids(block: str) -> list[str]:
+    """The sub-item ids sharing one passage, if this block is a passage-
+    linked GROUP. Returns [] for an ordinary single (or Maths/Science
+    multi-part) item, which must not be routed through this path.
+
+    The discriminator: two ITEM_ID lines in a row, with nothing but blank
+    lines between them, is only possible in English's bare-list shape --
+    Maths/Science always has real content (a C/N/E flag, then a content
+    code) immediately after each sub-item's own id.
+    """
+    head = block.split("Item purpose", 1)[0]
+    lines = [l.strip() for l in head.split("\n")]
+
+    start = None
+    for i, l in enumerate(lines):
+        if l.lower() == "item identity":
+            start = i
+            break
+        if l.lower() == "item" and i + 1 < len(lines) and lines[i + 1].lower() == "identity":
+            start = i + 1
+            break
+    if start is None:
+        return []
+
+    tail = lines[start + 1:]
+    id_positions = [i for i, l in enumerate(tail) if ITEM_ID.match(l)]
+    if len(id_positions) < 2:
+        return []
+
+    ids: list[str] = []
+    for pos in id_positions:
+        k = pos + 1
+        while k < len(tail) and not tail[k]:
+            k += 1
+        nxt = tail[k] if k < len(tail) else ""
+        if not (ITEM_ID.match(nxt) or nxt.lower() == "total marks"):
+            # This id has real inline content (a flag, a code) -- the
+            # Maths/Science shape, already handled correctly elsewhere.
+            return []
+        ids.append(tail[pos])
+    return ids
+
+
+def _extract_group_passage(block: str) -> str:
+    """The shared reading passage, so each split-out sub-question is still
+    answerable on its own once served -- a linked-passage question with no
+    passage is exactly as unanswerable as a figure-dependent one with no
+    figure (see needs_figure above)."""
+    m = re.search(r"Source\(s\)\s*:?\s*\n(.*?)\n\s*Question(?:\(s\))?\s*\n",
+                 block, re.S | re.I)
+    if not m:
+        return ""
+    return " ".join(m.group(1).split())[:4000]
+
+
+def _split_group_questions(question_zone: str) -> list[tuple[str, list[str], int]]:
+    """One `(question_text, options, marks)` triple per sub-item, in document
+    order.
+
+    Each question in a group's shared `Question(s)` zone ends with its own
+    "(N mark(s))" annotation -- the same _MARKS_LINE marker already used to
+    strip a single item's trailing mark note. Used here as a right boundary
+    instead: whatever text precedes it, back to the previous boundary, is one
+    sub-item's full question.
+    """
+    marks_matches = list(_MARKS_LINE.finditer(question_zone))
+    result: list[tuple[str, list[str], int]] = []
+    pos = 0
+    for m in marks_matches:
+        chunk = _MARKS_LINE.sub("", question_zone[pos:m.end()])
+        options = [f"{om.group(1)}. {om.group(2).strip()}" for om in _OPTION.finditer(chunk)]
+        stem = _OPTION.split(chunk)[0]
+        result.append((" ".join(stem.split()), options, int(m.group(1))))
+        pos = m.end()
+    return result
+
+
+def _split_group_scheme(scheme_zone: str) -> list[str]:
+    """One answer string per sub-item, in document order, keyed by the bare
+    sequential numbering CBSE's own layout uses here (see module note above)
+    -- NOT the item id, which does not appear in this zone at all."""
+    matches = list(_SCHEME_ENTRY.finditer(scheme_zone))
+    answers: list[str] = []
+    for i, m in enumerate(matches):
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(scheme_zone)
+        chunk = scheme_zone[m.end():end]
+        am = re.search(r"Answer\s*\n?\s*Guidance\s*\n?\s*(.*)", chunk, re.S | re.I)
+        answers.append(" ".join(am.group(1).split())[:400] if am else "")
+    return answers
+
+
+def parse_group_items(sub_ids: list[str], pages: list[int], block: str, *,
+                      subject: str, grade: int, source_pdf: str) -> list["CbeItem"]:
+    """Split one passage-linked group block into its real sub-items.
+
+    Returns [] rather than a partial or misaligned list if the sub-item
+    count, the parsed question count and the parsed scheme-entry count do
+    not all agree -- see the module note above for why a positional join is
+    only trusted under that exact agreement.
+    """
+    # A block from split_items() can span more than one real group: found
+    # live 2026-09-18 on English6IN2, which immediately follows English6SB
+    # with no "Item identity" sub-id table of its own that this module's
+    # anchors can find, so its entire body -- including its OWN
+    # Question(s)/Mark scheme cycle, restarting the same 1-2-3... numbering
+    # -- lands inside SB's block. Without truncating, SB's scheme_zone ran
+    # on into IN2's, doubling every entry count. The group's own real
+    # boundary is its second "Item purpose": the first is this group's own,
+    # a second means a different group's content has bled in after it.
+    purpose_positions = [m.start() for m in re.finditer(r"\n\s*Item purpose\s*\n", block, re.I)]
+    if len(purpose_positions) >= 2:
+        block = block[:purpose_positions[1]]
+
+    question_markers = list(re.finditer(r"\n\s*Question(?:\(s\))?\s*\n", block, re.I))
+    scheme_markers = list(re.finditer(r"\n\s*Mark scheme\s*\n", block, re.I))
+    if not question_markers or not scheme_markers:
+        return []
+
+    if len(question_markers) == 1:
+        # SB-style: one shared "Question(s)" zone and one shared "Mark
+        # scheme" zone, each internally holding all N sub-items -- split
+        # positionally within each zone (_split_group_questions/_scheme).
+        question_zone = block[question_markers[0].end():scheme_markers[0].start()]
+        scheme_zone = block[scheme_markers[0].end():]
+        questions = _split_group_questions(question_zone)
+        answers = _split_group_scheme(scheme_zone)
+    else:
+        # SN2-style: N independent "Question" / "Mark scheme" cycles, one
+        # sub-item per cycle, each already isolated by the document itself --
+        # found live 2026-09-18, a real second layout CBSE uses for the same
+        # passage-linked-group concept. Paired by simple adjacency: the
+        # scheme marker immediately following each question marker is that
+        # question's own answer.
+        questions, answers = [], []
+        for i, qm in enumerate(question_markers):
+            sm = next((s for s in scheme_markers if s.start() > qm.end()), None)
+            if sm is None:
+                break
+            q_text = block[qm.end():sm.start()]
+            marks_m = _MARKS_LINE.search(q_text)
+            marks_val = int(marks_m.group(1)) if marks_m else 0
+            q_text = _MARKS_LINE.sub("", q_text)
+            q_text = re.sub(r"\(Total marks?\s*\d+\)", "", q_text, flags=re.I)
+            options = [f"{om.group(1)}. {om.group(2).strip()}" for om in _OPTION.finditer(q_text)]
+            stem = _OPTION.split(q_text)[0]
+            questions.append((" ".join(stem.split()), options, marks_val))
+
+            next_q = question_markers[i + 1].start() if i + 1 < len(question_markers) else len(block)
+            scheme_chunk = block[sm.end():next_q]
+            am = re.search(r"Answer\s*\n?\s*Guidance\s*\n?\s*(.*)", scheme_chunk, re.S | re.I)
+            answers.append(" ".join(am.group(1).split())[:400] if am else "")
+
+    if not (len(sub_ids) == len(questions) == len(answers)):
+        log.warning(
+            "passage group %s: %d sub-items but %d questions and %d scheme "
+            "entries -- refusing to guess an alignment",
+            sub_ids[0] if sub_ids else "?", len(sub_ids), len(questions), len(answers))
+        return []
+
+    passage = _extract_group_passage(block)
+    purpose_m = _ITEM_PURPOSE.search(block)
+    purpose = " ".join(purpose_m.group(1).split())[:300] if purpose_m else ""
+
+    items = []
+    for sub_id, (question, options, marks), answer in zip(sub_ids, questions, answers):
+        items.append(CbeItem(
+            item_id=sub_id, question_id=sub_id, subject=subject, grade=grade,
+            marks=marks, purpose=purpose, question=question, options=options,
+            answer=answer, passage=passage, source_pdf=source_pdf, pages=pages,
+        ))
+    return items
 
 
 def parse_item(item_id: str, pages: list[int], block: str, *, subject: str,
@@ -689,12 +910,41 @@ def parse_item_bank(pdf_path: Path) -> list[CbeItem]:
     subject, grade = subject_and_grade_for(pdf_path)
     index = parse_index(pdf_path)
 
+    def _score(item: CbeItem) -> int:
+        return ((1 if item.question else 0) + (2 if item.has_answer_key else 0)
+                + (1 if item.marks else 0) + (1 if item.content_code else 0))
+
     best: dict[str, tuple[int, CbeItem]] = {}
     for item_id, pages, block in split_items(pdf_path):
+        sub_ids = _group_sub_item_ids(block)
+        if sub_ids:
+            # A passage-linked group (see the note above parse_group_items).
+            group_items = parse_group_items(sub_ids, pages, block, subject=subject,
+                                            grade=grade, source_pdf=pdf_path.name)
+            if group_items:
+                # The bare group blob itself is never a real answerable item,
+                # so it is not also parsed via the single-item path below --
+                # doing both would leave a harmless-looking but meaningless
+                # extra "English6SB" entry with no coherent single question,
+                # on top of its real sub-items.
+                for sub_item in group_items:
+                    current = best.get(sub_item.item_id)
+                    score = _score(sub_item)
+                    if current is None or score > current[0]:
+                        best[sub_item.item_id] = (score, sub_item)
+                continue
+            # Real regression found 2026-09-18: a block can look like a
+            # bare-list group (_group_sub_item_ids > 0) without actually
+            # being one that parse_group_items can safely split (e.g. its
+            # sub-item count doesn't match the real question/scheme count).
+            # Unconditionally skipping the single-item fallback here dropped
+            # Class 7/8 items that were already parsing correctly the old
+            # way -- falling through instead of `continue`-ing keeps that
+            # working path as the safety net it always was.
+
         item = parse_item(item_id, pages, block, subject=subject, grade=grade,
                           source_pdf=pdf_path.name)
-        score = (1 if item.question else 0) + (2 if item.has_answer_key else 0) \
-            + (1 if item.marks else 0) + (1 if item.content_code else 0)
+        score = _score(item)
         current = best.get(item_id)
         if current is None or score > current[0]:
             best[item_id] = (score, item)

@@ -141,19 +141,28 @@ def test_maths_and_science_classes_are_near_complete(items):
     assert not short, f"(actual, floor) below target: {short}"
 
 
-def test_english_is_parsed_but_is_the_weak_subject(items):
+def test_english_is_parsed_but_still_behind_maths_and_science(items):
     """Stated honestly rather than asserted as complete.
 
-    English items are linked-passage items where the mark scheme sits far from
-    the question, and Class 6 and Class 9 remain materially under-parsed. This
-    test pins that they are not *zero* and records the known shortfall; it does
-    not claim parity with Maths.
+    2026-09-18: passage-linked groups (English6SB-style) are now split into
+    their real per-question sub-items -- see cbse_cbe.py's module docstring
+    and parse_group_items for the mechanism. English Class 6 went from 4
+    items to 12, Class 9 from 31 to 77. This is real progress, not parity:
+    one Class 6 group is still correctly refused (a 5(a)/5(b) id-count
+    mismatch), and this floor is today's measurement, not a target.
     """
     eng = [i for i in items if i.subject == "English"]
-    assert len(eng) > 50, f"English parsed only {len(eng)} items"
-    # The known gap, asserted so it is visible in the suite rather than only in
-    # a report nobody rereads.
+    assert len(eng) > 150, f"English parsed only {len(eng)} items"
     assert len(eng) < 400, "English now parses far more; update this note"
+
+    by_grade = {}
+    for i in eng:
+        if i.has_answer_key:
+            by_grade[i.grade] = by_grade.get(i.grade, 0) + 1
+    expected = {6: 12, 7: 40, 8: 8, 9: 50, 10: 25}
+    short = {g: (by_grade.get(g, 0), floor) for g, floor in expected.items()
+             if by_grade.get(g, 0) < floor}
+    assert not short, f"(actual, floor) below target: {short}"
 
 
 def test_no_item_has_zero_marks(items):
@@ -194,6 +203,143 @@ def test_content_codes_match_the_curriculum_shapes(items):
     odd = {i.content_code for i in items if i.content_code
            and not (maths_english.match(i.content_code) or science.match(i.content_code))}
     assert not odd, f"codes that are neither shape: {sorted(odd)[:12]}"
+
+
+# --------------------------------------------------------------------------- #
+# passage-linked groups -- English's weak-subject cause, fixed 2026-09-18
+# --------------------------------------------------------------------------- #
+
+from academicos.corpus.cbse_cbe import (
+    _extract_group_passage,
+    _group_sub_item_ids,
+    _split_group_questions,
+    _split_group_scheme,
+    parse_group_items,
+    split_items,
+)
+
+ENGLISH_6 = CORPUS / "Item-Bank---English---Class-6.pdf"
+needs_english_6 = pytest.mark.skipif(not ENGLISH_6.exists(), reason="English Class 6 PDF not downloaded")
+
+
+def _block_for(pdf_path: Path, sub_id_prefix: str) -> tuple[list[str], list[int], str]:
+    for item_id, pages, block in split_items(pdf_path):
+        sub_ids = _group_sub_item_ids(block)
+        if sub_ids and sub_ids[0].startswith(sub_id_prefix):
+            return sub_ids, pages, block
+    raise AssertionError(f"no group found starting with {sub_id_prefix}")
+
+
+@needs_english_6
+def test_a_bare_list_of_ids_is_recognised_as_a_group():
+    """English6SB1 through English6SB9 are listed back-to-back under one
+    shared 'Item identity' table, with nothing but blank lines between them
+    -- the discriminator this function keys on, since a Maths/Science
+    multi-part item always has real content (a flag, a code) between its
+    sub-item ids instead."""
+    sub_ids, _pages, _block = _block_for(ENGLISH_6, "English6SB1")
+    assert sub_ids == [f"English6SB{n}" for n in
+                       ["1", "2", "3", "4", "5a", "5b", "6", "7", "8"]]
+
+
+def test_a_maths_multi_part_item_is_not_mistaken_for_a_group():
+    """Maths6MG4a is immediately followed by its own C/N/E flag and content
+    code, not by another bare id -- split_items()/`_starts_item` already
+    handle this correctly, and this path must not interfere."""
+    assert _group_sub_item_ids(
+        "Item identity\nMaths6MG4a\n\n\nN\n6A1a Form and use algebraic "
+        "expressions\nMaths6MG4b\n\n\nN\n6A1a Form and use algebraic "
+        "expressions\nTotal marks\nItem purpose\n"
+    ) == []
+
+
+def test_a_single_item_is_not_mistaken_for_a_group():
+    assert _group_sub_item_ids(
+        "Item identity\nMaths6AS1\n\nN\n6A1a Form and use algebraic "
+        "expressions\nItem purpose\n"
+    ) == []
+
+
+def test_split_group_questions_bounds_each_question_by_its_own_marks_annotation():
+    zone = ("What is the capital of France?\n(1 mark)\n"
+            "Name two rivers in India.\n(2 marks)\n")
+    result = _split_group_questions(zone)
+    assert result == [
+        ("What is the capital of France?", [], 1),
+        ("Name two rivers in India.", [], 2),
+    ]
+
+
+def test_split_group_questions_captures_mcq_options():
+    zone = "Choose the odd one out.\nA. Cat\nB. Dog\nC. Car\nD. Fish\n(1 mark)\n"
+    (text, options, marks) = _split_group_questions(zone)[0]
+    assert text == "Choose the odd one out."
+    assert options == ["A. Cat", "B. Dog", "C. Car", "D. Fish"]
+    assert marks == 1
+
+
+def test_split_group_scheme_keys_by_sequential_number_not_item_id():
+    zone = ("1 What is the capital of France?\nAnswer\nGuidance\nParis\n"
+            "2 Name two rivers in India.\nAnswer\nGuidance\nGanga, Yamuna\n")
+    answers = _split_group_scheme(zone)
+    assert answers == ["Paris", "Ganga, Yamuna"]
+
+
+def test_split_group_scheme_handles_lettered_sub_parts():
+    zone = ("5 (a) Find the noun.\nAnswer\nGuidance\ncat\n"
+            "5 (b) Find the verb.\nAnswer\nGuidance\nrun\n")
+    assert _split_group_scheme(zone) == ["cat", "run"]
+
+
+@needs_english_6
+def test_group_questions_are_split_by_their_own_trailing_marks_annotation():
+    sub_ids, _pages, block = _block_for(ENGLISH_6, "English6SB1")
+    items = parse_group_items(sub_ids, [1], block, subject="English", grade=6,
+                              source_pdf="x.pdf")
+    assert len(items) == 9
+    assert [i.marks for i in items] == [1, 1, 2, 1, 1, 2, 2, 1, 4]
+    assert all(i.has_answer_key for i in items)
+    assert "spring" in items[0].answer.lower()
+
+
+def test_extract_group_passage_reads_between_source_and_question():
+    block = ("Item purpose\nAssesses reading.\nSource(s)\nText A\nOnce upon a "
+             "time there was a fox.\nQuestion(s)\nWhat animal is this?\n(1 mark)\n")
+    assert _extract_group_passage(block) == "Text A Once upon a time there was a fox."
+
+
+@needs_english_6
+def test_every_group_sub_item_carries_the_shared_passage():
+    """A linked-passage question with no passage is exactly as unanswerable
+    as a figure-dependent one with no figure -- see needs_figure."""
+    sub_ids, _pages, block = _block_for(ENGLISH_6, "English6SB1")
+    items = parse_group_items(sub_ids, [1], block, subject="English", grade=6,
+                              source_pdf="x.pdf")
+    assert all("gardening" in i.passage.lower() for i in items)
+
+
+@needs_english_6
+def test_a_genuine_id_count_mismatch_is_refused_not_guessed():
+    """English6SN2 in the real Class 6 document has 11 separately-marked
+    questions (5(a) and 5(b) are distinct) under only 10 declared sub-item
+    ids -- the module's 'never guess an alignment' rule must refuse this
+    group rather than misassign one answer to the wrong question."""
+    sub_ids, pages, block = _block_for(ENGLISH_6, "English6SN2")
+    assert len(sub_ids) == 10
+    items = parse_group_items(sub_ids, pages, block, subject="English", grade=6,
+                              source_pdf="x.pdf")
+    assert items == []
+
+
+def test_a_failed_group_split_falls_back_to_the_single_item_path(items):
+    """Real regression, found and fixed 2026-09-18: parse_item_bank used to
+    `continue` unconditionally once _group_sub_item_ids found 2+ ids, even
+    when parse_group_items then refused to split them -- silently dropping
+    items that the ordinary single-item path had always parsed correctly.
+    English6SN2's own bare group blob must therefore still appear, parsed
+    the old way, even though its sub-items don't."""
+    ids = {i.item_id for i in items}
+    assert "English6SN2" in ids or any(i.startswith("English6SN2") for i in ids)
 
 
 # --------------------------------------------------------------------------- #
