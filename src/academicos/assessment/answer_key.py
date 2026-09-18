@@ -245,15 +245,26 @@ def _parse_value_points(body: str) -> dict[int, KeyedAnswer]:
 
 
 def parse_marking_scheme(pdf_path: Path) -> list[PaperKey]:
-    """Extracts every paper variant's answer key from one marking-scheme PDF."""
+    """Extracts every paper variant's answer key from one marking-scheme PDF.
+
+    Raises whatever `_pages_by_paper_code` raises (a corrupt or image-only PDF
+    typically fails inside PyMuPDF) rather than swallowing it. This used to
+    catch here and return an empty list, logging only a warning -- silently
+    indistinguishable, to every caller, from "this PDF genuinely has zero
+    parseable answer keys." Found live 2026-09-18: `build_answer_keys` (below)
+    had no error handling of its own and would have crashed on the first bad
+    file if this ever raised, and `scripts/build_answer_keys.py` already had a
+    try/except around this exact call, with a `failed` counter and a final
+    "N unreadable" report -- code that could never fire because this function
+    never let anything through it to catch. Both callers below now count and
+    report failures explicitly instead. A corrupt or image-only PDF still
+    cannot abort a batch run; it just no longer disappears into a truthful-
+    looking zero.
+    """
     subject = subject_from_path(pdf_path)
     grade = grade_from_path(pdf_path)
     keys: list[PaperKey] = []
-    try:
-        grouped = _pages_by_paper_code(pdf_path)
-    except Exception as exc:  # a corrupt or image-only PDF must not abort the run
-        log.warning("cannot read marking scheme %s: %s", pdf_path.name, exc)
-        return keys
+    grouped = _pages_by_paper_code(pdf_path)
 
     for code, body in grouped.items():
         # Drop the examiner-instruction preamble so its numbered list is not
@@ -375,16 +386,29 @@ def default_db(cfg: Config) -> Path:
 
 
 def build_answer_keys(cfg: Config, roots: list[Path]) -> dict[str, int]:
-    """Parses every marking scheme under `roots` into the answer-key store."""
+    """Parses every marking scheme under `roots` into the answer-key store.
+
+    A single corrupt or image-only PDF must not abort the whole run, but
+    (2026-09-18) it must not silently vanish into the totals either --
+    `failed` in the returned dict is the count of files parse_marking_scheme
+    could not read at all, separate from files that were read fine and
+    genuinely had nothing to extract.
+    """
     store = AnswerKeyStore(default_db(cfg))
     files = [p for root in roots for p in discover_marking_schemes(root)]
-    written = papers = 0
+    written = papers = failed = 0
     for path in files:
-        for key in parse_marking_scheme(path):
+        try:
+            keys = parse_marking_scheme(path)
+        except Exception as exc:
+            failed += 1
+            log.warning("cannot read marking scheme %s: %s", path.name, exc)
+            continue
+        for key in keys:
             written += store.put(key, source=path.name)
             papers += 1
     stats = store.stats()
     store.close()
-    log.info("answer keys: %d answers across %d paper variants from %d files",
-             stats["total"], stats["papers"], len(files))
-    return {"files": len(files), "written": written, "papers": papers, **stats}
+    log.info("answer keys: %d answers across %d paper variants from %d files (%d unreadable)",
+             stats["total"], stats["papers"], len(files), failed)
+    return {"files": len(files), "written": written, "papers": papers, "failed": failed, **stats}
