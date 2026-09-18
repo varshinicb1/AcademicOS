@@ -91,6 +91,19 @@ ncert-mcp-upstream/
 # Logs
 *.log
 
+# Personal IDE workspace files — machine-specific, and *.code-workspace can
+# reference folders outside the repo entirely (found live 2026-09-18: one
+# committed here pointed at an unrelated personal directory on one dev's
+# machine).
+*.code-workspace
+
+# One-off local test/eval artifacts that have been committed by accident
+# before (2026-09-18: a hardcoded-path smoke-test database, a one-time eval
+# run's CSV output) -- real, reusable eval tooling belongs under scripts/ or
+# a dedicated results directory, not loose at the repo root.
+/test_ingestion_state.db
+/eval_rag_results.csv
+
 # The CBSE CBE item-bank source PDFs. Deliberately NOT committed: they are
 # third-party government documents whose redistribution position is unresolved
 # (docs/question-bank-api.md section 2), and committing them into the repository

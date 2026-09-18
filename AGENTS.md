@@ -44,8 +44,10 @@ AcademicOS is an evidence-grounded academic intelligence and operational operati
 
 | Path | Status | Guidelines |
 |---|---|---|
-| **`src/academicos/`** | **Active Source of Truth** (~11.5k LOC) | This is the live, tested implementation. All CLI commands, FastAPI endpoints (`api/main.py`), and Flutter client interactions bind here. Default all work here. |
-| **`backend/`** | **Experimental Future Rewrite** (~4k LOC) | Scaffolded target architecture (SQLAlchemy, Alembic, MinIO, Qdrant). **Do NOT edit, refactor, or port code here** unless explicitly requested by the user. |
+| **`src/academicos/`** | **Active Source of Truth**, by far the larger tree | This is the live, tested implementation. All CLI commands, FastAPI endpoints (`api/main.py`), and Flutter client interactions bind here. Default all work here. |
+| **`backend/`** | **Experimental Future Rewrite**, a fraction of the other tree's size | Scaffolded target architecture (SQLAlchemy, Alembic, MinIO, Qdrant). See `backend/README.md`. **Do NOT edit, refactor, or port code here** unless explicitly requested by the user. |
+
+A LOC count here goes stale within days in a repo this active — check with `find src/academicos -name "*.py" | xargs wc -l` (or the equivalent for `backend/`) if you need a real number, rather than trusting a figure written down in prose.
 
 ---
 

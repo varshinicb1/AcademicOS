@@ -18,16 +18,21 @@ offline **Android** app. The backend runs as two independent releases (**Render*
 
 **There are two parallel Python implementations — know which one you're in:**
 
-- `src/academicos/` — the actual, working implementation (~11.5k LOC). Installed as the
-  `academicos` package (`pyproject.toml` at repo root, `pip install -e .`). Has a CLI
-  (`python -m academicos.cli`), passing tests (1,184 passing / 2 skipped / 1 xfailed
-  as of 2026-09-16), and is what `README.md` documents. **Treat this
-  as the source of truth unless told otherwise.**
-- `backend/academicos/` + `backend/ingestion/` — a newer, mostly-scaffolded rewrite (~4k LOC)
-  following the target architecture in `docs/architecture.md` (separate `backend/pyproject.toml`,
-  different dependency set — Qdrant, MinIO, SQLAlchemy/Alembic, LayoutLMv3, etc.). Many modules
-  here are stubs/interfaces, not finished logic. Only work here if the task is explicitly about
-  the `backend/` rewrite or `docs/architecture.md`.
+- `src/academicos/` — the actual, working implementation, by far the larger of the two trees.
+  Installed as the `academicos` package (`pyproject.toml` at repo root, `pip install -e .`). Has
+  a CLI (`python -m academicos.cli`) and a large, passing test suite, and is what `README.md`
+  documents. **Treat this as the source of truth unless told otherwise.**
+- `backend/academicos/` + `backend/ingestion/` — a newer, mostly-scaffolded rewrite (see
+  `backend/README.md`) following the target architecture in `docs/architecture.md` (separate
+  `backend/pyproject.toml`, different dependency set — Qdrant, MinIO, SQLAlchemy/Alembic,
+  LayoutLMv3, etc.). Many modules here are stubs/interfaces, not finished logic. Only work here
+  if the task is explicitly about the `backend/` rewrite or `docs/architecture.md`.
+
+**On LOC and test counts in this file:** deliberately not pinned to a number. This repo is
+active enough that a specific count (LOC, tests passing) goes stale within days — the PRD's own
+§11 records one that was wrong within the same working session it was written in. Run
+`pytest tests -q` or `find src/academicos -name "*.py" | xargs wc -l` for the real current
+number rather than trusting a figure written down in prose.
 
 Don't casually port fixes between the two trees — they have diverging schemas and package layouts.
 
@@ -99,9 +104,10 @@ Runtime config lives in `config/config.toml` (corpus_root, gcs_bucket, parse_pri
 provider/model, retrieval thresholds). Overridable via `ACOS_DATA_ROOT`, `ACOS_CORPUS_ROOT`,
 `ACOS_GCS_BUCKET`, `ACOS_GCS_PREFIX`, `ACOS_SYNC_ENABLED`, `ACOS_VLM_DEVICE`.
 
-**⚠ `config/config.toml` currently has a live Groq API key committed in plaintext
-(`llm_api_key`). Do not copy this value into new files, examples, or commits — flag it to the
-user rather than propagating it further.**
+**The LLM key is not stored in `config/config.toml`.** An earlier version of this file had
+a live Groq key committed in plaintext; it was rotated after being caught in git history, and
+the key now lives in `config/secrets.env` (gitignored) as `ACOS_LLM_API_KEY`, or as a real env
+var in deployment. Never put a real key back in `config.toml` — it's a committed file.
 
 ### `backend/` (in-progress rewrite)
 
