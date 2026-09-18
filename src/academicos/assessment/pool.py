@@ -439,7 +439,23 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str = "X") -> Qu
             ).fetchall()
             reg.close()
         except sqlite3.OperationalError:
-            rows = []
+            # Found live 2026-09-18: this used to swallow the error into
+            # rows = [] -- indistinguishable from "no question papers exist
+            # for this subject/grade", which get_pool() then caches forever
+            # (keyed on (subject, grade), populated once). A transient lock
+            # at exactly the wrong moment silently and *permanently* zeroed
+            # out that subject/grade's question pool for the rest of the
+            # process's life, with nothing in any log to explain why. Log
+            # loudly and re-raise instead: get_pool()'s cache assignment
+            # then never runs, so the next real request retries the query
+            # instead of replaying a poisoned empty result.
+            log.error(
+                "registry query failed for subject=%s grade=%s -- refusing to "
+                "silently treat this as 'no question papers exist' (that "
+                "result would be cached forever by get_pool)", subject, grade,
+                exc_info=True,
+            )
+            raise
 
     # Official answers, if the marking schemes have been parsed. Absent store =
     # questions still load, they just cannot be auto-scored.
