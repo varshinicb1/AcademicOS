@@ -29,6 +29,7 @@ REPO = Path(__file__).resolve().parents[1]
 
 CORPORA = [
     REPO / "academicos-data" / "corpus" / "cbse-cbe" / "questions.json",
+    REPO / "academicos-data" / "corpus" / "cbse-sqp" / "questions.json",
     REPO / "academicos-data" / "syllabus" / "questions.json",
 ]
 

@@ -107,23 +107,29 @@ def test_the_scanner_actually_matches_something():
     Every pattern is exercised against a synthetic value of the right shape, so
     a typo in one of them cannot silently disable that class of check.
     """
+    # Built by concatenation, never as a literal. The first version wrote the
+    # samples inline and the scanner then flagged THIS FILE -- lines 124 and 125,
+    # its own private-key and JWT samples. That is the "fires on fixtures" failure
+    # this test's docstring warns about, applied to itself: a literal that
+    # demonstrates a pattern necessarily matches it.
+    A = "a"
     samples = {
-        "groq": "gsk_" + "a" * 40,
-        "openai/anthropic": "sk-" + "a" * 40,
-        "google": "AIza" + "a" * 35,
-        "github": "ghp_" + "a" * 36,
-        "github fine-grained": "github_pat_" + "a" * 45,
-        "gitlab": "glpat-" + "a" * 25,
-        "huggingface": "hf_" + "a" * 36,
-        "replicate": "r8_" + "a" * 35,
-        "xai": "xai-" + "a" * 45,
-        "perplexity": "pplx-" + "a" * 45,
-        "aws access key": "AKIA" + "A" * 16,
-        "stripe live": "sk_live_" + "a" * 25,
-        "slack": "xoxb-" + "a" * 25,
-        "private key block": "-----BEGIN RSA PRIVATE KEY-----",
-        "jwt": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.",
-        "service role": 'service_role = "' + "a" * 50 + '"',
+        "groq": "gsk" + "_" + A * 40,
+        "openai/anthropic": "sk" + "-" + A * 40,
+        "google": "AI" + "za" + A * 35,
+        "github": "ghp" + "_" + A * 36,
+        "github fine-grained": "github" + "_pat_" + A * 45,
+        "gitlab": "glpat" + "-" + A * 25,
+        "huggingface": "hf" + "_" + A * 36,
+        "replicate": "r8" + "_" + A * 35,
+        "xai": "xai" + "-" + A * 45,
+        "perplexity": "pplx" + "-" + A * 45,
+        "aws access key": "AKI" + "A" + "A" * 16,
+        "stripe live": "sk_live" + "_" + A * 25,
+        "slack": "xoxb" + "-" + A * 25,
+        "private key block": "-----BEGIN RSA " + "PRIVATE KEY-----",
+        "jwt": "eyJhbGciOiJIUzI1NiJ9" + "." + "eyJzdWIiOiIxIn0.",
+        "service role": "service" + "_role = \"" + A * 50 + "\"",
     }
     assert set(samples) == set(PATTERNS), (
         "every pattern needs a sample, or one is untested: "

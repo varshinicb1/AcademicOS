@@ -490,8 +490,19 @@ def _brief(rec: dict[str, Any]) -> dict[str, Any]:
 
 def load_corpus(bank: str | None = None) -> Corpus:
     root = Path(os.environ.get("ACOS_DATA_ROOT", "academicos-data"))
-    paths = [Path(bank)] if bank else [CBE_BANK if (root / "corpus" / "cbse-cbe").exists() else None,
-                                       root / "syllabus" / "questions.json"]
+
+    def _opt(relative: str) -> Path | None:
+        p = root / relative
+        return p if p.exists() else None
+
+    paths = [Path(bank)] if bank else [
+        CBE_BANK if (root / "corpus" / "cbse-cbe").exists() else None,
+        # Sample-paper items, joined to the marking scheme CBSE publishes
+        # alongside each paper. This is the only source that carries Social
+        # Science -- the CBE item banks are Maths, Science and English only.
+        _opt("corpus/cbse-sqp/questions.json"),
+        root / "syllabus" / "questions.json",
+    ]
     return Corpus.load([p for p in paths if p])
 
 
