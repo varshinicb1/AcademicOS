@@ -11202,6 +11202,32 @@
         "summary": "Mail Status"
       }
     },
+    "/api/v1/paper-timing": {
+      "get": {
+        "description": "Time saved per paper — the renewal criterion, made answerable.\n\nDecision 11: *\"Renewal is measured as time saved per paper.\"* Before this\nroute the number existed nowhere, so the criterion could not be checked.\n\nScoped to the caller's school. The response separates what was MEASURED\n(generation time, from a monotonic clock) from what was DECLARED (the manual\nbaseline), and says so in the payload rather than only in the docs --\nbecause a saving built on a declared baseline will be quoted at somebody,\nand the word \"estimated\" has to travel with it.",
+        "operationId": "get_paper_timing_api_v1_paper_timing_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Get Paper Timing Api V1 Paper Timing Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Paper Timing"
+      }
+    },
     "/api/v1/papers/generate": {
       "post": {
         "operationId": "generate_paper_endpoint_api_v1_papers_generate_post",
@@ -11247,7 +11273,6 @@
     },
     "/api/v1/papers/generate-from-ids": {
       "post": {
-        "description": "Instantly compile selected question IDs into a structured sectioned paper (Examzo-style ID compilation).",
         "operationId": "generate_from_ids_api_v1_papers_generate_from_ids_post",
         "requestBody": {
           "content": {

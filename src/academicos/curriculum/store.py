@@ -1460,11 +1460,29 @@ class CurriculumStore:
         }
 
 
-_INSTANCE: Optional[CurriculumStore] = None
+_INSTANCE: Optional[dict] = {}
 
 
 def get_curriculum_store(data_root: Path) -> CurriculumStore:
+    # Keyed on the RESOLVED PATH, not a bare global.
+    #
+    # This was `if _INSTANCE is None`, so the FIRST data_root ever passed won
+    # for the life of the process and every later call with a different root got
+    # that first instance. In production only one root is used, which is why it
+    # survived unspotted -- but anywhere a process touches more than one root
+    # (tests, a CLI run beside a server, tooling) the store silently reads and
+    # writes the WRONG database. For the audit log that means a compliance trail
+    # filed against another data root.
+    # `_INSTANCE` is a PATH-KEYED cache, not one store. Tests reset it with
+    # `monkeypatch.setattr(..., "_INSTANCE", None)`, which is kept working,
+    # but the reset is no longer load-bearing: two data roots now get two
+    # stores by construction. See git history for the single-global version.
     global _INSTANCE
     if _INSTANCE is None:
-        _INSTANCE = CurriculumStore(data_root / "curriculum" / "curriculum.sqlite")
-    return _INSTANCE
+        _INSTANCE = {}                      # a caller cleared the cache
+    key = str(Path(data_root) / "curriculum" / "curriculum.sqlite")
+    instance = _INSTANCE.get(key)
+    if instance is None:
+        instance = CurriculumStore(Path(key))
+        _INSTANCE[key] = instance
+    return instance

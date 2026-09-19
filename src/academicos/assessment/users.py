@@ -322,12 +322,34 @@ def _row_to_user(row: dict) -> User:
                 role=row["role"], created_at=row["created_at"])
 
 
-_INSTANCE: Optional[UserStore] = None
+_INSTANCE: Optional[dict] = {}
 
 
 def get_user_store(data_root: Path, principal_bootstrap_key: str = "") -> UserStore:
+    # Keyed on the RESOLVED PATH, not a bare global.
+    #
+    # This was `if _INSTANCE is None`, so the FIRST data_root ever passed won
+    # for the life of the process and every later call with a different root got
+    # that first instance. In production only one root is used, which is why it
+    # survived unspotted -- but anywhere a process touches more than one root
+    # (tests, a CLI run beside a server, tooling) the store silently reads and
+    # writes the WRONG database. For the audit log that means a compliance trail
+    # filed against another data root.
+    # The bootstrap key is part of the key as well: it is applied at
+    # construction, so two calls for the same file with different keys are two
+    # different stores and the first must not answer for the second.
+    # `_INSTANCE` is a PATH-KEYED cache, not one store. Tests reset it with
+    # `monkeypatch.setattr(..., "_INSTANCE", None)`, which is kept working,
+    # but the reset is no longer load-bearing: two data roots now get two
+    # stores by construction. See git history for the single-global version.
     global _INSTANCE
     if _INSTANCE is None:
-        _INSTANCE = UserStore(data_root / "users" / "users.sqlite",
-                              principal_bootstrap_key=principal_bootstrap_key)
-    return _INSTANCE
+        _INSTANCE = {}                      # a caller cleared the cache
+    key = (str(Path(data_root) / "users" / "users.sqlite"),
+           principal_bootstrap_key or "")
+    instance = _INSTANCE.get(key)
+    if instance is None:
+        instance = UserStore(Path(key[0]),
+                             principal_bootstrap_key=principal_bootstrap_key)
+        _INSTANCE[key] = instance
+    return instance

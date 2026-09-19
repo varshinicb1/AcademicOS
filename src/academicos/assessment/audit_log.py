@@ -18,6 +18,7 @@ not something any route handler can do implicitly.
 from __future__ import annotations
 
 import json
+import threading
 import logging
 import sqlite3
 import uuid
@@ -111,11 +112,36 @@ def _row_to_dict(row: sqlite3.Row) -> dict[str, Any]:
     return d
 
 
-_INSTANCE: Optional[AuditLog] = None
+_INSTANCE: Optional[dict] = {}
+_INSTANCE_LOCK = threading.Lock()
 
 
 def get_audit_log(data_root: Path) -> AuditLog:
+    # Keyed on the RESOLVED PATH, not a bare global.
+    #
+    # This was `if _INSTANCE is None`, so the FIRST data_root ever passed won
+    # for the life of the process and every later call with a different root got
+    # that first instance. In production only one root is used, which is why it
+    # survived unspotted -- but anywhere a process touches more than one root
+    # (tests, a CLI run beside a server, tooling) the store silently reads and
+    # writes the WRONG database. For the audit log that means a compliance trail
+    # filed against another data root.
     global _INSTANCE
+    # `_INSTANCE` is now a PATH-KEYED cache rather than one store. Tests reset it
+    # with `monkeypatch.setattr(..., "_INSTANCE", None)` -- a workaround that
+    # `tests/test_assessment_governance.py:37` documents in a comment, because a
+    # single global meant the second test to run still saw the first test's
+    # store. The name and the reset semantics are kept so those ~30 call sites
+    # keep working, but the reset is no longer load-bearing: two different data
+    # roots now get two different stores by construction.
     if _INSTANCE is None:
-        _INSTANCE = AuditLog(data_root / "audit" / "audit_log.sqlite")
-    return _INSTANCE
+        _INSTANCE = {}                      # a caller cleared the cache
+    key = str(Path(data_root) / "audit" / "audit_log.sqlite")
+    instance = _INSTANCE.get(key)
+    if instance is None:
+        with _INSTANCE_LOCK:
+            instance = _INSTANCE.get(key)
+            if instance is None:
+                instance = AuditLog(Path(key))
+                _INSTANCE[key] = instance
+    return instance

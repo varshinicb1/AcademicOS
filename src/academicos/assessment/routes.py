@@ -4,6 +4,7 @@ contract exactly (paths, camelCase JSON). Mounted at /api/v1 in api/main.py.
 from __future__ import annotations
 
 import json
+import time
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
@@ -16,7 +17,7 @@ from typing import get_args
 from ..config import Config
 from ..integrations.composio_calendar import sync_to_google_calendar
 from . import pdf as pdf_export
-from . import selection
+from . import paper_timing, selection
 from .audit_log import get_audit_log
 from .authz import require_own_school, require_school_owns_assessment, require_school_owns_paper
 from .auth_routes import get_current_user, require_principal
@@ -294,6 +295,9 @@ def generate_paper_endpoint(
 @router.post("/papers/quick-generate", response_model=GeneratedPaper)
 def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(get_current_user)) -> GeneratedPaper:
     """Rapid generation of complete, sectioned papers (Examzo-style 1-click generation)."""
+    # Monotonic, so a clock adjustment during generation cannot change a
+    # reported duration. See assessment/paper_timing.py for what this is for.
+    _started = time.perf_counter()
     cfg, store = _require()
     subject = request.subject
     grade = request.grade
@@ -395,6 +399,10 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(get
             "tier": tier,
             "userId": current.id,
             "schoolId": current.school_id,
+            # MEASURED: how long the machine took. Decision 11 makes this the
+            # renewal criterion, and it was not recorded anywhere before.
+            "generationSeconds": round(time.perf_counter() - _started, 3),
+            "questionCount": len(paper.questions) if hasattr(paper, "questions") else 0,
         },
     )
 
@@ -403,6 +411,7 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(get
 
 @router.post("/papers/generate-from-ids", response_model=GeneratedPaper)
 def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(get_current_user)) -> GeneratedPaper:
+    _started_ids = time.perf_counter()
     """Instantly compile selected question IDs into a structured sectioned paper (Examzo-style ID compilation)."""
     cfg, store = _require()
     if not request.question_ids:
@@ -505,9 +514,30 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(g
             "questionCount": len(found_questions),
             "userId": current.id,
             "schoolId": current.school_id,
+            # MEASURED, same as quick generation. This route is the curated
+            # path, so a school using only it would otherwise report zero
+            # papers and conclude nothing was saved.
+            "generationSeconds": round(time.perf_counter() - _started_ids, 3),
         },
     )
     return paper
+
+
+@router.get("/paper-timing")
+def get_paper_timing(current: User = Depends(get_current_user)) -> dict:
+    """Time saved per paper — the renewal criterion, made answerable.
+
+    Decision 11: *"Renewal is measured as time saved per paper."* Before this
+    route the number existed nowhere, so the criterion could not be checked.
+
+    Scoped to the caller's school. The response separates what was MEASURED
+    (generation time, from a monotonic clock) from what was DECLARED (the manual
+    baseline), and says so in the payload rather than only in the docs --
+    because a saving built on a declared baseline will be quoted at somebody,
+    and the word "estimated" has to travel with it.
+    """
+    cfg, _store = _require()
+    return paper_timing.report(cfg.data_root, school_id=current.school_id).as_dict()
 
 
 @router.get("/papers/{paper_id}", response_model=GeneratedPaper)

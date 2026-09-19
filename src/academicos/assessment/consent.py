@@ -288,15 +288,34 @@ class ConsentStore:
         return [ParentalConsentRecord.from_row(dict(r)) for r in rows]
 
 
-_INSTANCE: Optional[ConsentStore] = None
+_INSTANCE: Optional[dict] = {}
 _INSTANCE_LOCK = threading.Lock()
 
 
 def get_consent_store(data_root: Optional[Path] = None) -> ConsentStore:
+    # Keyed on the RESOLVED PATH, not a bare global.
+    #
+    # This was `if _INSTANCE is None`, so the FIRST data_root ever passed won
+    # for the life of the process and every later call with a different root got
+    # that first instance. In production only one root is used, which is why it
+    # survived unspotted -- but anywhere a process touches more than one root
+    # (tests, a CLI run beside a server, tooling) the store silently reads and
+    # writes the WRONG database. For the audit log that means a compliance trail
+    # filed against another data root.
+    root = data_root or Path(os.environ.get("ACOS_DATA_ROOT", "academicos-data"))
+    # `_INSTANCE` is a PATH-KEYED cache, not one store. Tests reset it with
+    # `monkeypatch.setattr(..., "_INSTANCE", None)`, which is kept working,
+    # but the reset is no longer load-bearing: two data roots now get two
+    # stores by construction. See git history for the single-global version.
     global _INSTANCE
     if _INSTANCE is None:
+        _INSTANCE = {}                      # a caller cleared the cache
+    key = str(root / "assessment" / "consents.db")
+    instance = _INSTANCE.get(key)
+    if instance is None:
         with _INSTANCE_LOCK:
-            if _INSTANCE is None:
-                root = data_root or Path(os.environ.get("ACOS_DATA_ROOT", "academicos-data"))
-                _INSTANCE = ConsentStore(root / "assessment" / "consents.db")
-    return _INSTANCE
+            instance = _INSTANCE.get(key)
+            if instance is None:
+                instance = ConsentStore(Path(key))
+                _INSTANCE[key] = instance
+    return instance

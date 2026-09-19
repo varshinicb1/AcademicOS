@@ -43,6 +43,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/papers/generate"),
     ("POST", "/api/v1/papers/quick-generate"),
     ("POST", "/api/v1/papers/generate-from-ids"),
+    ("GET", "/api/v1/paper-timing"),
     ("GET", "/api/v1/papers/{paper_id}"),
     ("POST", "/api/v1/papers/{paper_id}/export/{fmt}"),
     ("GET", "/api/v1/papers/{paper_id}/file"),
@@ -194,6 +195,8 @@ DOC_ROUTES: frozenset[tuple[str, str]] = frozenset({
 # uninitialized. The startup-free tests below drive exactly that split; the
 # full-boot group exercises the real 401/403/404 paths.
 AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
+    # paper-timing authenticates first, like the other paper routes.
+    ("GET", "/api/v1/paper-timing"),
     # --- routes.py (assessment designer) ---
     ("GET", "/api/v1/schools/{school_id}/templates"),
     ("GET", "/api/v1/schools/{school_id}/paper-templates"),
@@ -508,7 +511,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 130
+    assert len(API_ROUTES) == 131
 
 
 def test_docs_routes_present():
