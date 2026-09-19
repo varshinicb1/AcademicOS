@@ -63,6 +63,45 @@ the reasoning trail (why this position, not another) is the part worth keeping.
 
 ---
 
+## 0. Decisions taken — 2026-09-18
+
+These were **OPEN** in §12 when this document was written. They are now settled
+by the product owner, and everything below should be read in their light. Where
+an earlier section still says **OPEN**, this section wins.
+
+| # | Decision | Consequence |
+|---|---|---|
+| 1 | **This is not an ERP.** Scope is **examination automation** and **academic calendar creation automation** — nothing else. | §5's caveat about being *"credible on fees and attendance"* is **void**. Fees and attendance are not on the critical path, not a gap, and not to be built. Open question 5 is closed. |
+| 2 | **Examination automation is the wedge.** | It gets the polish; the calendar pillar follows. |
+| 3 | **The product is paper generation** — blueprint balancing, real questions with official marking schemes, PDF paper + answer-key export. | Not grading, not scanning, not analytics-driven mastery. Those exist in the repo and are *not* the centre. |
+| 4 | **Coverage: all grades 6–12, all subjects.** | §5A's scope note is superseded. |
+| 5 | **Fill the grades CBSE does not publish for** (6–9 beyond three subjects, and class 11) **from non-CBSE papers.** | Provenance drops for those grades, and PRD rule Q1 excludes anything without an answer key — on the board-paper corpus that left 40%. Expect the fill to be thinner than the volume implies. |
+| 6 | **Rights: proceed, revisit if challenged.** | Recorded as an accepted commercial risk, not a resolved legal question. |
+| 7 | **The question bank is also sold separately as an API product.** | The HTTP API and MCP server are product, not R&D. Combined with (6), this means selling redistributed CBSE content with no written position — that is the exposure, stated plainly. |
+| 8 | **Pricing: flat per-school annual, published.** | Model chosen from market evidence; the number is (9). |
+| 9 | **₹75,000–1,50,000 per year.** | Premium tier — competes with established CBSE-school vendors. Requires demonstrably board-grade output and a reference school. **Neither exists yet; this is now the critical path.** |
+| 10 | **The principal signs directly.** | One decision-maker, no procurement. At this price the pitch must be the principal's own daily pain. |
+| 11 | **Renewal is measured as time saved per paper.** | Gives the shipped product a definition of success. Time the same task before and after, per term. |
+| 12 | **Primary surface: the teacher's offline Android phone.** | Mobile gets the polish; it carries the offline advantage the cloud-only vendors cannot copy. |
+
+### What this makes the critical path
+
+The commercial model is now decided, so the blockers are execution ones and rank
+clearly:
+
+1. **A reference school and demonstrably board-grade papers.** Premium pricing
+   without a reference is the hardest sell in the plan, and nothing in the repo
+   substitutes for it.
+2. **Time-saved measurement.** Decision 11 is the renewal criterion and nothing
+   currently measures it.
+3. **Coverage** (decisions 4–5): the SQP parser is not wired in, and the
+   non-CBSE fill is unmeasured.
+4. **One area verified interactively.** Paper generation — now the whole product
+   — has never been walked through against a live backend. Only the teacher
+   schedule views have.
+
+---
+
 ## 1. What this product is
 
 > "AcademicOS is an evidence-grounded academic intelligence and school operating
@@ -137,7 +176,9 @@ scenario-driven rather than a filtered copy of the student screen
 
 ### 3.2 The buyer — **OPEN**, and the biggest gap in the repo
 
-**No document in this repository names who pays.** Not in `README.md`, not in
+**DECIDED — see §0.** Who pays is settled there; this paragraph is kept as
+the record of what the repo did and did not contain. No document in this
+repository named who pays. Not in `README.md`, not in
 `AGENTS.md`, not in `docs/roadmap.md`, not in `PRODUCTS_AND_RELEASES.md`. A
 targeted search for buyer, payer, pricing, revenue, subscription, and contract
 across ten product-level documents returned nothing. The closest references are
@@ -160,7 +201,11 @@ Reasoning from what *is* documented:
 - District and government appear in the repo only as nodes in a future
   knowledge graph, never as customers (`docs/roadmap.md:164`).
 
-**OPEN — three sub-questions I will not decide:** who signs (principal, trustee,
+**DECIDED — §0 (10).** The sub-questions below were the ones the repo could
+not answer; the owner has since settled who signs, which is the one that
+mattered. Kept as the record of the gap:
+
+*sic* three sub-questions I will not decide: who signs (principal, trustee,
 or management trust); whether a school can buy without an ERP package; and
 whether there is a second buyer for the question bank as a licensed asset.
 
