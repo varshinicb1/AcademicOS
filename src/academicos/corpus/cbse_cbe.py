@@ -847,16 +847,30 @@ def to_bank_record(item: "CbeItem") -> dict:
                   for o in item.options],
         "answerScheme": {
             "totalMarks": marks,
-            "markingPoints": points,
+            # An MCQ's mark scheme is the correct option, so it is a marking
+            # point like any other. Without this the record's only answer
+            # content was an empty `modelAnswer`.
+            "markingPoints": (points or (
+                [{"text": item.answer, "marks": marks}] if item.answer else [])),
             "rubricLevels": [],
             "commonErrors": [],
             "alternativeAnswers": [],
-            "modelAnswer": "" if item.options else item.answer,
+            # ALWAYS the answer. This was `"" if item.options else item.answer`,
+            # which discarded the correct option for every multiple-choice
+            # question: `parts` lists the options but nothing said which one was
+            # right, so the record had no answer content at all while its
+            # `provenance` still claimed "cbse_marking_scheme". That is a false
+            # attribution -- a question that reads as answerable and is not --
+            # and it affected 259 served records. The option is printed for an
+            # MCQ precisely because that IS the answer.
+            "modelAnswer": item.answer,
             "modelAnswerLatex": "",
             "hasPartialCredit": False,
             "metadata": {"guidance": item.guidance, "purpose": item.purpose,
                          "calculator": item.calculator, "aoMarks": item.ao_marks},
-            "provenance": "cbse_marking_scheme" if item.answer else "none",
+            "provenance": (
+                "cbse_marking_scheme"
+                if (item.answer or "").strip() else "none"),
             "sourcePaperCode": "",
             "sourceDocumentId": f"cbe:{item.source_pdf}",
         },

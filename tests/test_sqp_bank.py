@@ -81,9 +81,16 @@ def test_every_served_question_carries_a_real_scheme_answer(bank):
     """
     for rec in bank["questions"]:
         scheme = rec["answerScheme"]
+        # `description` is the canonical marking-point field, used by the CBE,
+        # board and sandbox corpora alike. This checked only `text` -- which the
+        # SQP builder emitted for one commit -- so it would have passed while
+        # the record carried nothing a grader could use. Both are accepted here
+        # to match `QuestionBank.has_answer_key`; the canonical one is asserted
+        # separately below.
         has_answer = bool(
             (scheme.get("modelAnswer") or "").strip()
-            or any((p.get("text") or "").strip() for p in scheme["markingPoints"])
+            or any((p.get("description") or p.get("text") or "").strip()
+                   for p in scheme["markingPoints"])
         )
         assert has_answer, f"{rec['id']} was served with no answer key"
         assert scheme["provenance"] == "cbse_marking_scheme"
@@ -162,3 +169,25 @@ def test_hindi_yields_nothing_and_that_is_recorded_not_hidden(bank):
         "Hindi records appeared -- if the encoding was fixed, remove this test "
         "and update the coverage claim"
     )
+
+
+@needs_pdfs
+def test_the_marking_points_use_the_canonical_shape(bank):
+    """Every corpus must shape marking points the same way.
+
+    Measured: CBE, board and sandbox all use `description` with `id`, `marks`,
+    `keyword`, `isRequired` and `synonyms`. The SQP builder emitted a bare
+    `{"text", "marks"}` for one commit, which made it the only corpus with a
+    different shape -- and a gate that knew only `text` then filtered every SQP
+    record out while reporting a healthy count. Shape drift is silent, so it is
+    asserted rather than assumed.
+    """
+    required = {"id", "description", "marks", "keyword", "isRequired", "synonyms"}
+    for rec in bank["questions"]:
+        for point in rec["answerScheme"]["markingPoints"]:
+            missing = required - set(point)
+            assert not missing, (
+                f"{rec['id']} marking point is missing {sorted(missing)}; the "
+                f"corpora have drifted apart again"
+            )
+            assert point["description"].strip(), f"{rec['id']} has an empty description"

@@ -366,10 +366,36 @@ def test_the_whole_question_includes_provenance_and_rights(client):
 
 
 def test_an_over_quota_key_is_429_with_retry_after(client):
+    """A burnt-through quota yields 429 with a Retry-After.
+
+    The original test issued three live requests against a fresh key and hoped
+    the third landed in the same fixed one-minute window. `check_quota` keys
+    usage by a fixed window whose boundary is a minute edge, so on the rare run
+    where the third request crossed that edge it saw a fresh window (count 0)
+    and the assertion failed. Deterministic now: usage is pre-filled to the
+    quota in BOTH the current and the next window, so whichever window the
+    request lands in, the limit is already met.
+    """
+    from datetime import datetime, timedelta, timezone
     c, store = client
-    h = _headers(store, quota=2)
-    c.get("/v1/questions", headers=h)
-    c.get("/v1/questions", headers=h)
+    plaintext, key = store.create(
+        school_id="s", scopes=["questions:read"], quota_per_minute=2,
+    )
+    now = datetime.now(timezone.utc)
+    windows = [
+        now.replace(second=0, microsecond=0),
+        (now + timedelta(minutes=1)).replace(second=0, microsecond=0),
+    ]
+    for w in windows:
+        store.conn.execute(
+            "INSERT INTO api_key_usage (key_id, window_start, count) "
+            "VALUES (?,?,?) ON CONFLICT(key_id, window_start) "
+            "DO UPDATE SET count = count + ?",
+            (key.id, w.isoformat(), 2, 2),
+        )
+    store.conn.commit()
+
+    h = {"Authorization": f"Bearer {plaintext}"}
     r = c.get("/v1/questions", headers=h)
     assert r.status_code == 429
     assert int(r.headers["Retry-After"]) >= 1

@@ -82,8 +82,20 @@ def _record(item, *, subject: str, grade: int, year: str) -> dict:
         ],
         "answerScheme": {
             "totalMarks": marks,
-            "markingPoints": ([{"text": item.answer, "marks": marks}]
-                              if item.answer else []),
+            # The canonical marking-point shape, matching cbse_cbe, the board
+            # corpus and the sandbox: `description`, plus the fields a grader
+            # needs. This emitted a bare `{"text", "marks"}` for one commit,
+            # which made the SQP corpus the only one with a different shape --
+            # and the Q1 gate, which only knew `text`, then filtered every SQP
+            # record out of the served bank while reporting a healthy count.
+            "markingPoints": ([{
+                "id": f"{qid}:mp1",
+                "description": item.answer,
+                "marks": marks,
+                "keyword": "",
+                "isRequired": True,
+                "synonyms": [],
+            }] if item.answer else []),
             "rubricLevels": [],
             "commonErrors": [],
             "alternativeAnswers": [],

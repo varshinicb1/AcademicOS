@@ -83,8 +83,15 @@ class Corpus:
 
     @staticmethod
     def has_answer_key(rec: dict[str, Any]) -> bool:
-        scheme = rec.get("answerScheme") or {}
-        return bool(scheme.get("markingPoints")) or bool((scheme.get("modelAnswer") or "").strip())
+        """Delegates to the shared engine, so the two cannot drift apart.
+
+        This was a second copy of the rule. Two copies of "what makes a question
+        answerable" is exactly how the MCP surface and the HTTP surface start
+        disagreeing -- the divergence Q5 exists to prevent -- and the copy here
+        did not check the same fields as the builder.
+        """
+        from ..assessment.qbank_routes import QuestionBank
+        return QuestionBank.has_answer_key(rec)
 
     def search(
         self,

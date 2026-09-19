@@ -74,10 +74,53 @@ class QuestionBank:
     deployment concern, not a code one, and this does not pretend otherwise.
     """
 
-    def __init__(self, records: list[dict[str, Any]]):
+    def __init__(self, records: list[dict[str, Any]], *,
+                 require_answer_key: bool = False):
+        """`require_answer_key` DEFAULTS OFF, and that is deliberate.
+
+        Q1 says "without an answer key, no question", and this was briefly
+        enforced by dropping unanswerable records here. That was wrong: it
+        destroyed a designed feature. The MCP surface lets an agent AUDIT the
+        unanswerable set (`answer_key_state: "none"`, documented as *"wants the
+        unanswerable set has to say so in those words"*), and
+        `coverage_report` counts it under Q4. Filtering at construction made
+        both impossible while reporting a healthy record count.
+
+        Q1 is enforced where it belongs -- at QUERY time, which is where an
+        examination board would enforce it too. Every default path (search,
+        build_paper) excludes records with no scheme; asking for them explicitly
+        is the audit path, and it stays open.
+
+        The parameter remains so a caller who genuinely wants a pre-filtered
+        bank can ask for one; nothing does today.
+        """
+        if require_answer_key:
+            records = [r for r in records if self.has_answer_key(r)]
         self.records = records
         self._by_id = {str(r.get("id")): r for r in records if r.get("id")}
         self._sorted_ids = sorted(self._by_id)
+
+    @staticmethod
+    def has_answer_key(rec: dict[str, Any]) -> bool:
+        """An answer scheme with actual content -- not just a provenance label.
+
+        A record can carry `provenance: "cbse_marking_scheme"` and still have
+        nothing in it; 259 CBE multiple-choice records did exactly that before
+        the builder was fixed. The check is on the CONTENT, so a label alone can
+        never make an unanswerable question look answerable.
+        """
+        scheme = rec.get("answerScheme") or {}
+        if (scheme.get("modelAnswer") or "").strip():
+            return True
+        # Both field names, deliberately. The canonical shape uses
+        # `description`, but one builder briefly emitted `text` -- and a gate
+        # that knows only one of them filters a whole corpus out while
+        # reporting a healthy record count, which is exactly what happened.
+        # Accepting either is cheap insurance against the next shape change.
+        return any(
+            ((pt.get("description") or pt.get("text") or "")).strip()
+            for pt in (scheme.get("markingPoints") or [])
+        )
 
     def __len__(self) -> int:
         return len(self.records)
