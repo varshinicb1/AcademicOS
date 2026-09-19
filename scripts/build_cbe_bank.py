@@ -41,6 +41,10 @@ OUT = SRC / "questions.json"
 UNABLE = SRC / "_unanswerable.json"
 FIGDIR = SRC / "figures"
 
+# The highest mark value a single CBSE class 6-10 question can carry. See the
+# marks gate below for why this exists and why it is not lower.
+_MAX_SINGLE_QUESTION_MARKS = 10
+
 # Which asset slot a figure belongs in, decided by what the stem calls it. The
 # record carries four slots (diagram/map/graph/table) because the schema was
 # written for a frontend that renders them differently; routing by the word the
@@ -85,8 +89,37 @@ def main() -> int:
     # carried marks=0, which is a parse artefact from a section heading rather
     # than a real item -- and a 0-mark question would corrupt any marks
     # distribution it appeared in.
-    zero_marks = [i for i in answerable if not i.marks]
-    answerable = [i for i in answerable if i.marks]
+    #
+    # `marks_unresolved` is the same exclusion for a different reason: the item
+    # came from a passage group that could not be split, so its marks are the
+    # GROUP's stated total and belong to no single question. `to_bank_record`
+    # emits marks=0 for those, so the gate has to test the same condition or the
+    # bank serves a zero-mark question -- which is exactly what the rule above
+    # exists to prevent. Measured, before this: 30 such items were emitted with
+    # marks=0 while this gate counted them as marked.
+    #
+    # `_MAX_SINGLE_QUESTION_MARKS` catches the same defect where the parser has
+    # no group signal at all. Measured: `Science10NB3` was served as an 11-mark
+    # question whose stem is "Ethanoic acid reacts with sodium to produce sodium
+    # ethanoate. 1(a)(i) Complete..." -- a case-based BLOCK with sub-parts,
+    # carrying the block's total. Science blocks are not detected by
+    # `_group_sub_item_ids`, so the group flag never fires for them.
+    #
+    # The ceiling is 10 because no CBSE class 6-10 question is worth 11 marks:
+    # the scheme tops out at 1, 2, 3, 5 marks, with 4 for a case-based question
+    # and occasionally 6. Values above that are block totals.
+    #
+    # Deliberately NOT extended down to 7-10, which would also drop items. Some
+    # of those may be block totals too, but the evidence does not separate them
+    # from genuine long-answer questions, and guessing would trade a visible
+    # wrong number for an invisible lost question. They stay served and stay
+    # visible in the marks distribution, which is where Q3 says a gap belongs.
+    zero_marks = [i for i in answerable
+                  if not i.marks or i.marks_unresolved
+                  or i.marks > _MAX_SINGLE_QUESTION_MARKS]
+    answerable = [i for i in answerable
+                  if i.marks and not i.marks_unresolved
+                  and i.marks <= _MAX_SINGLE_QUESTION_MARKS]
     unanswerable = unanswerable + zero_marks
 
     print()

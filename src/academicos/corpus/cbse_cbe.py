@@ -136,6 +136,12 @@ class CbeItem:
     answer: str = ""                  # the official answer, from the mark scheme
     guidance: str = ""
     needs_figure: bool = False
+    # Set when this item came from a passage-linked group that could not be
+    # split. Its `marks` is then the GROUP's stated total, not this question's,
+    # and `question` is at best the group's first sub-part -- so neither field
+    # can be trusted. Recorded rather than silently carried.
+    marks_unresolved: bool = False
+    group_marks_stated: int = 0
     passage: str = ""                 # shared reading passage, for a linked-passage item
     source_pdf: str = ""
     pages: list[int] = field(default_factory=list)
@@ -178,6 +184,8 @@ class CbeItem:
             "guidance": self.guidance,
             "hasAnswerKey": self.has_answer_key,
             "needsFigure": self.needs_figure,
+            "marksUnresolved": self.marks_unresolved,
+            "groupMarksStated": self.group_marks_stated,
             "passage": self.passage,
             "sourcePdf": self.source_pdf,
             "pages": self.pages,
@@ -792,6 +800,14 @@ def to_bank_record(item: "CbeItem") -> dict:
     """
     qid = f"cbe:q:{item.item_id}"
     marks = item.marks or 0
+    # A passage group that could not be split has no knowable per-question mark
+    # value, so it is emitted with marks=0. `scripts/build_cbe_bank.py`'s existing
+    # marks gate then excludes it and lists it in `_unanswerable.json` alongside
+    # the items with no answer key -- no second exclusion mechanism, and the
+    # stated group total survives in `metadata.groupMarksStated` rather than
+    # being lost or passed off as this question's weight.
+    if item.marks_unresolved:
+        marks = 0
     points = []
     if item.answer:
         points.append({
@@ -851,6 +867,8 @@ def to_bank_record(item: "CbeItem") -> dict:
         "metadata": {
             "itemId": item.item_id,
             "needsFigure": item.needs_figure,
+            "marksUnresolved": item.marks_unresolved,
+            "groupMarksStated": item.group_marks_stated,
             "contentReference": item.content_reference,
             "aoMarks": item.ao_marks,
         },
@@ -944,6 +962,29 @@ def parse_item_bank(pdf_path: Path) -> list[CbeItem]:
 
         item = parse_item(item_id, pages, block, subject=subject, grade=grade,
                           source_pdf=pdf_path.name)
+        if sub_ids:
+            # We only reach here when `parse_group_items` REFUSED to split this
+            # block (its own count check failed), so this single item is a whole
+            # passage group wearing one question's clothes. Its `marks` is the
+            # group total and its `question` is the group's first sub-part.
+            #
+            # Measured 2026-09-18: this produced English items stamped 14 and 15
+            # marks -- `English8IN`'s entire "question" was the group header,
+            # "Text A Informative Newspaper Article - Fit India School Week
+            # Item", and `English9PM4` was sub-part 1(a) carrying all 15 marks of
+            # its passage. Class X English has no 15-mark question, so any
+            # marks-wise report built on this was wrong, and the stem was not the
+            # question that answer belonged to.
+            #
+            # The marks are therefore marked UNRESOLVED rather than carried.
+            # Zero would be a lie in the other direction -- the count is known,
+            # it is just not this question's -- so the stated total is preserved
+            # in `group_marks_stated` for a future splitter to use.
+            item.marks_unresolved = True
+            item.group_marks_stated = item.marks
+            # `marks` is deliberately NOT zeroed here: `_score` below uses it to
+            # prefer the real item over a fragment, and zeroing first would hand
+            # the id to the fragment. The record builder resolves it instead.
         score = _score(item)
         current = best.get(item_id)
         if current is None or score > current[0]:

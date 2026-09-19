@@ -27,6 +27,9 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+sys.path.insert(0, str(ROOT / "scripts"))
+from build_cbe_bank import _MAX_SINGLE_QUESTION_MARKS  # noqa: E402
+
 from academicos.corpus.cbse_cbe import (
     ITEM_ID,
     parse_all,
@@ -171,8 +174,45 @@ def test_no_item_has_zero_marks(items):
     items before this was gated."""
     bad = [i.item_id for i in items if i.has_answer_key and not i.marks]
     assert bad, "expected the parser to produce mark-less artefacts to filter"
-    records = [to_bank_record(i) for i in items if i.has_answer_key and i.marks]
+    # `marks_unresolved` items are the deliberate exception and are held out of
+    # this invariant: they carry a passage group's TOTAL in `.marks`, which is
+    # not any single question's weight, so `to_bank_record` emits 0 for them on
+    # purpose and the build's marks gate then excludes them. Asserting this
+    # over all marked items is what caught the change.
+    records = [to_bank_record(i) for i in items
+               if i.has_answer_key and i.marks and not i.marks_unresolved]
     assert all(r["marks"] > 0 for r in records)
+
+
+def test_an_unresolved_group_mark_emits_zero_and_preserves_the_stated_total(items):
+    """The group total must neither be served as a question's weight nor lost.
+
+    Measured before this existed: 26 English items were served at 14-15 marks,
+    because a passage group that could not be split falls back to a single item
+    carrying the group's total. `English8IN`'s entire stem was the group header.
+    """
+    unresolved = [i for i in items if i.marks_unresolved]
+    assert unresolved, "expected at least one unsplit passage group"
+    for item in unresolved:
+        rec = to_bank_record(item)
+        assert rec["marks"] == 0, (
+            f"{item.item_id} was served at {rec['marks']} marks, which is its "
+            "passage group's total rather than its own"
+        )
+        assert rec["metadata"]["marksUnresolved"] is True
+        # The stated total survives for a future splitter, but is not required
+        # to be positive: some group-like blocks carry no parseable mark value
+        # at all (`English7SP`), and flagging those is still correct.
+        assert rec["metadata"]["groupMarksStated"] >= 0
+
+    # The case that motivated the fix must appear: an item whose group total was
+    # a plainly impossible question weight.
+    positives = [i.group_marks_stated for i in unresolved if i.group_marks_stated > 0]
+    assert positives, "no unresolved group actually carried a stated total"
+    assert max(positives) > _MAX_SINGLE_QUESTION_MARKS, (
+        f"the largest preserved group total is {max(positives)}; the defect this "
+        "test pins was a group total of 14-15 marks served as a question weight"
+    )
 
 
 # --------------------------------------------------------------------------- #
