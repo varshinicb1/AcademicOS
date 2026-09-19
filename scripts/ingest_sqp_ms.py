@@ -27,9 +27,23 @@ OUT = REPO / "academicos-data" / "corpus" / "cbse-sqp"
 UA = {"User-Agent": "Mozilla/5.0 (compatible; AcademicOS corpus research)"}
 
 # (year-label, index page) pairs that the discovery script confirmed live.
+# Every year CBSE publishes for. It publishes Sample Question Papers ONLY for
+# the board years -- classes IX and XI were probed directly and return 404 on
+# eight URL shapes, so there is no CBSE sample-paper source for them at all.
+# That is a finding, not an omission, and it is why coverage for classes 6-9 and
+# 11 cannot be closed from this source.
+#
+# Four years are live for each board year. The first pass ingested only
+# 2025-26, so three years of already-discovered data sat unread.
 INDEXES = [
     ("ClassX_2025_26", "https://cbseacademic.nic.in/SQP_CLASSX_2025-26.html"),
     ("ClassXII_2025_26", "https://cbseacademic.nic.in/SQP_CLASSXII_2025-26.html"),
+    ("ClassX_2024_25", "https://cbseacademic.nic.in/SQP_CLASSX_2024-25.html"),
+    ("ClassXII_2024_25", "https://cbseacademic.nic.in/SQP_CLASSXII_2024-25.html"),
+    ("ClassX_2023_24", "https://cbseacademic.nic.in/SQP_CLASSX_2023-24.html"),
+    ("ClassXII_2023_24", "https://cbseacademic.nic.in/SQP_CLASSXII_2023-24.html"),
+    ("ClassX_2022_23", "https://cbseacademic.nic.in/SQP_CLASSX_2022-23.html"),
+    ("ClassXII_2022_23", "https://cbseacademic.nic.in/SQP_CLASSXII_2022-23.html"),
 ]
 
 # Subjects to ingest, by the stem CBSE uses in the filename.

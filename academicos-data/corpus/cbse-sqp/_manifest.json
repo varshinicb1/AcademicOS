@@ -1,16 +1,1790 @@
 {
  "source_pages": {
   "ClassX_2025_26": "https://cbseacademic.nic.in/SQP_CLASSX_2025-26.html",
-  "ClassXII_2025_26": "https://cbseacademic.nic.in/SQP_CLASSXII_2025-26.html"
+  "ClassXII_2025_26": "https://cbseacademic.nic.in/SQP_CLASSXII_2025-26.html",
+  "ClassX_2024_25": "https://cbseacademic.nic.in/SQP_CLASSX_2024-25.html",
+  "ClassXII_2024_25": "https://cbseacademic.nic.in/SQP_CLASSXII_2024-25.html",
+  "ClassX_2023_24": "https://cbseacademic.nic.in/SQP_CLASSX_2023-24.html",
+  "ClassXII_2023_24": "https://cbseacademic.nic.in/SQP_CLASSXII_2023-24.html",
+  "ClassX_2022_23": "https://cbseacademic.nic.in/SQP_CLASSX_2022-23.html",
+  "ClassXII_2022_23": "https://cbseacademic.nic.in/SQP_CLASSXII_2022-23.html"
  },
- "fetched_at": "2026-09-19T16:48:25.652661+00:00",
- "count": 132,
+ "fetched_at": "2026-09-19T17:28:26.445501+00:00",
+ "count": 518,
  "rights": {
   "origin": "CBSE",
   "redistribution": "unknown",
   "note": "No redistribution position obtained. Same status as the CBE corpus; see docs/question-bank-api.md section 2."
  },
  "pairs": [
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Accountancy",
+   "sqp": "Accountancy-SQP.pdf",
+   "ms": "Accountancy-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Accountancy-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Applied-Maths",
+   "sqp": "Applied-Maths-SQP.pdf",
+   "ms": "Applied-Maths-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Applied-Maths-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Applied-Maths-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Arabic",
+   "sqp": "Arabic-SQP.pdf",
+   "ms": "Arabic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Arabic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Arabic-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Assamese",
+   "sqp": "Assamese-SQP.pdf",
+   "ms": "Assamese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Assamese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Assamese-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Bengali",
+   "sqp": "Bengali-SQP.pdf",
+   "ms": "Bengali-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Bengali-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Bengali-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Bharatnatyam",
+   "sqp": "Bharatnatyam-SQP.pdf",
+   "ms": "Bharatnatyam-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Bharatnatyam-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Bharatnatyam-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Bhutia",
+   "sqp": "Bhutia-SQP.pdf",
+   "ms": "Bhutia-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Bhutia-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Bhutia-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Biology",
+   "sqp": "Biology-SQP.pdf",
+   "ms": "Biology-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Biology-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Biology-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Biotechnology",
+   "sqp": "Biotechnology-SQP.pdf",
+   "ms": "Biotechnology-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Biotechnology-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Biotechnology-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Bodo",
+   "sqp": "Bodo-SQP.pdf",
+   "ms": "Bodo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Bodo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Bodo-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "BusinessStudies",
+   "sqp": "BusinessStudies-SQP.pdf",
+   "ms": "BusinessStudies-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/BusinessStudies-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "CarnaticMusicMelodicInstrument",
+   "sqp": "CarnaticMusicMelodicInstrument-SQP.pdf",
+   "ms": "CarnaticMusicMelodicInstrument-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/CarnaticMusicMelodicInstrument-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/CarnaticMusicMelodicInstrument-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "CarnaticMusicPercussion",
+   "sqp": "CarnaticMusicPercussion-SQP.pdf",
+   "ms": "CarnaticMusicPercussion-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/CarnaticMusicPercussion-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/CarnaticMusicPercussion-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "CarnaticMusicVocal",
+   "sqp": "CarnaticMusicVocal-SQP.pdf",
+   "ms": "CarnaticMusicVocal-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/CarnaticMusicVocal-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/CarnaticMusicVocal-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Chemistry",
+   "sqp": "Chemistry-SQP.pdf",
+   "ms": "Chemistry-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Chemistry-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Chemistry-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "ComputerScience",
+   "sqp": "ComputerScience-SQP.pdf",
+   "ms": "ComputerScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/ComputerScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/ComputerScience-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Economics",
+   "sqp": "Economics-SQP.pdf",
+   "ms": "Economics-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Economics-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Economics-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "EnggGraphics",
+   "sqp": "EnggGraphics-SQP.pdf",
+   "ms": "EnggGraphics-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnggGraphics-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnggGraphics-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "EnglishCore",
+   "sqp": "EnglishCore-SQP.pdf",
+   "ms": "EnglishCore-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishCore-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishCore-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "EnglishElective",
+   "sqp": "EnglishElective-SQP.pdf",
+   "ms": "EnglishElective-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishElective-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/EnglishElective-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Entrepreneurship",
+   "sqp": "Entrepreneurship-SQP.pdf",
+   "ms": "Entrepreneurship-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Entrepreneurship-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Entrepreneurship-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "French",
+   "sqp": "French-SQP.pdf",
+   "ms": "French-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/French-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/French-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Geography",
+   "sqp": "Geography-SQP.pdf",
+   "ms": "Geography-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Geography-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Geography-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "German",
+   "sqp": "German-SQP.pdf",
+   "ms": "German-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/German-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/German-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Graphic",
+   "sqp": "Graphic-SQP.pdf",
+   "ms": "Graphic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Graphic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Graphic-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Gujarati",
+   "sqp": "Gujarati-SQP.pdf",
+   "ms": "Gujarati-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Gujarati-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Gujarati-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "HindiCore",
+   "sqp": "HindiCore-SQP.pdf",
+   "ms": "HindiCore-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/HindiCore-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/HindiCore-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "HindiElective",
+   "sqp": "HindiElective-SQP.pdf",
+   "ms": "HindiElective-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/HindiElective-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/HindiElective-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "HindustaniMusicPercussion",
+   "sqp": "HindustaniMusicPercussion-SQP.pdf",
+   "ms": "HindustaniMusicPercussion-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/HindustaniMusicPercussion-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/HindustaniMusicPercussion-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "History",
+   "sqp": "History-SQP.pdf",
+   "ms": "History-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/History-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/History-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "HomeScience",
+   "sqp": "HomeScience-SQP.pdf",
+   "ms": "HomeScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/HomeScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/HomeScience-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "InformaticsPractices",
+   "sqp": "InformaticsPractices-SQP.pdf",
+   "ms": "InformaticsPractices-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/InformaticsPractices-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/InformaticsPractices-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Japanese",
+   "sqp": "Japanese-SQP.pdf",
+   "ms": "Japanese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Japanese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Japanese-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "KTPI",
+   "sqp": "KTPI-SQP.pdf",
+   "ms": "KTPI-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/KTPI-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/KTPI-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Kannada",
+   "sqp": "Kannada-SQP.pdf",
+   "ms": "Kannada-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Kannada-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Kannada-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Kashmiri",
+   "sqp": "Kashmiri-SQP.pdf",
+   "ms": "Kashmiri-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Kashmiri-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Kashmiri-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Kathak",
+   "sqp": "Kathak-SQP.pdf",
+   "ms": "Kathak-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Kathak-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Kathak-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Kathakali",
+   "sqp": "Kathakali-SQP.pdf",
+   "ms": "Kathakali-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Kathakali-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Kathakali-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Khuchipudi",
+   "sqp": "Khuchipudi-SQP.pdf",
+   "ms": "Khuchipudi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Khuchipudi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Khuchipudi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "LegalStudies",
+   "sqp": "LegalStudies-SQP.pdf",
+   "ms": "LegalStudies-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/LegalStudies-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/LegalStudies-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Lepcha",
+   "sqp": "Lepcha-SQP.pdf",
+   "ms": "Lepcha-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Lepcha-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Lepcha-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Limboo",
+   "sqp": "Limboo-SQP.pdf",
+   "ms": "Limboo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Limboo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Limboo-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Malayalam",
+   "sqp": "Malayalam-SQP.pdf",
+   "ms": "Malayalam-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Malayalam-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Malayalam-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Manipuri",
+   "sqp": "Manipuri-SQP.pdf",
+   "ms": "Manipuri-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Manipuri-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Manipuri-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "ManipuriDance",
+   "sqp": "ManipuriDance-SQP.pdf",
+   "ms": "ManipuriDance-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/ManipuriDance-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/ManipuriDance-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Marathi",
+   "sqp": "Marathi-SQP.pdf",
+   "ms": "Marathi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Marathi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Marathi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Maths",
+   "sqp": "Maths-SQP.pdf",
+   "ms": "Maths-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Maths-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Maths-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Mizo",
+   "sqp": "Mizo-SQP.pdf",
+   "ms": "Mizo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Mizo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Mizo-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "NCC",
+   "sqp": "NCC-SQP.pdf",
+   "ms": "NCC-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/NCC-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/NCC-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Nepalese",
+   "sqp": "Nepalese-SQP.pdf",
+   "ms": "Nepalese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Nepalese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Nepalese-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "ODIA",
+   "sqp": "ODIA-SQP.pdf",
+   "ms": "ODIA-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/ODIA-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/ODIA-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Odia",
+   "sqp": "Odia-SQP.pdf",
+   "ms": "Odia-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Odia-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Odia-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Odissi",
+   "sqp": "Odissi-SQP.pdf",
+   "ms": "Odissi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Odissi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Odissi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Painting",
+   "sqp": "Painting-SQP.pdf",
+   "ms": "Painting-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Painting-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Painting-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Persian",
+   "sqp": "Persian-SQP.pdf",
+   "ms": "Persian-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Persian-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Persian-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Physics",
+   "sqp": "Physics-SQP.pdf",
+   "ms": "Physics-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Physics-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Physics-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "PolSci",
+   "sqp": "PolSci-SQP.pdf",
+   "ms": "PolSci-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/PolSci-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/PolSci-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Psychology",
+   "sqp": "Psychology-SQP.pdf",
+   "ms": "Psychology-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Psychology-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Psychology-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Punjabi",
+   "sqp": "Punjabi-SQP.pdf",
+   "ms": "Punjabi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Punjabi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Punjabi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Russian",
+   "sqp": "Russian-SQP.pdf",
+   "ms": "Russian-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Russian-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Russian-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "SanskritCore",
+   "sqp": "SanskritCore-SQP.pdf",
+   "ms": "SanskritCore-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/SanskritCore-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/SanskritCore-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "SanskritElective",
+   "sqp": "SanskritElective-SQP.pdf",
+   "ms": "SanskritElective-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/SanskritElective-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/SanskritElective-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Sindhi",
+   "sqp": "Sindhi-SQP.pdf",
+   "ms": "Sindhi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Sindhi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Sindhi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Sociology",
+   "sqp": "Sociology-SQP.pdf",
+   "ms": "Sociology-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Sociology-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Sociology-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Spanish",
+   "sqp": "Spanish-SQP.pdf",
+   "ms": "Spanish-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Spanish-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Spanish-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Tamil",
+   "sqp": "Tamil-SQP.pdf",
+   "ms": "Tamil-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Tamil-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Tamil-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Tangkhul",
+   "sqp": "Tangkhul-SQP.pdf",
+   "ms": "Tangkhul-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Tangkhul-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Tangkhul-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "TeluguTelangana",
+   "sqp": "TeluguTelangana-SQP.pdf",
+   "ms": "TeluguTelangana-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/TeluguTelangana-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/TeluguTelangana-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "Tibetan",
+   "sqp": "Tibetan-SQP.pdf",
+   "ms": "Tibetan-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Tibetan-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/Tibetan-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "UrduCore",
+   "sqp": "UrduCore-SQP.pdf",
+   "ms": "UrduCore-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/UrduCore-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/UrduCore-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2022_23",
+   "subject": "UrduElective",
+   "sqp": "UrduElective-SQP.pdf",
+   "ms": "UrduElective-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/UrduElective-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2022_23/UrduElective-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Accountancy",
+   "sqp": "Accountancy-SQP.pdf",
+   "ms": "Accountancy-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Accountancy-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Accountancy-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Applied-Maths",
+   "sqp": "Applied-Maths-SQP.pdf",
+   "ms": "Applied-Maths-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Applied-Maths-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Applied-Maths-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Arabic",
+   "sqp": "Arabic-SQP.pdf",
+   "ms": "Arabic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Arabic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Arabic-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Assamese",
+   "sqp": "Assamese-SQP.pdf",
+   "ms": "Assamese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Assamese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Assamese-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Bengali",
+   "sqp": "Bengali-SQP.pdf",
+   "ms": "Bengali-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Bengali-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Bengali-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Bharatnatyam",
+   "sqp": "Bharatnatyam-SQP.pdf",
+   "ms": "Bharatnatyam-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Bharatnatyam-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Bharatnatyam-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Bhutia",
+   "sqp": "Bhutia-SQP.pdf",
+   "ms": "Bhutia-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Bhutia-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Bhutia-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Biology",
+   "sqp": "Biology-SQP.pdf",
+   "ms": "Biology-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Biology-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Biology-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Biotechnology",
+   "sqp": "Biotechnology-SQP.pdf",
+   "ms": "Biotechnology-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Biotechnology-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Biotechnology-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Bodo",
+   "sqp": "Bodo-SQP.pdf",
+   "ms": "Bodo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Bodo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Bodo-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "BusinessStudies",
+   "sqp": "BusinessStudies-SQP.pdf",
+   "ms": "BusinessStudies-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/BusinessStudies-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/BusinessStudies-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "CarnaticMusicMelodicInstrument",
+   "sqp": "CarnaticMusicMelodicInstrument-SQP.pdf",
+   "ms": "CarnaticMusicMelodicInstrument-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/CarnaticMusicMelodicInstrument-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/CarnaticMusicMelodicInstrument-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "CarnaticMusicPercussion",
+   "sqp": "CarnaticMusicPercussion-SQP.pdf",
+   "ms": "CarnaticMusicPercussion-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/CarnaticMusicPercussion-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/CarnaticMusicPercussion-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "CarnaticMusicVocal",
+   "sqp": "CarnaticMusicVocal-SQP.pdf",
+   "ms": "CarnaticMusicVocal-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/CarnaticMusicVocal-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/CarnaticMusicVocal-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Chemistry",
+   "sqp": "Chemistry-SQP.pdf",
+   "ms": "Chemistry-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Chemistry-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Chemistry-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "ComputerScience",
+   "sqp": "ComputerScience-SQP.pdf",
+   "ms": "ComputerScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/ComputerScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/ComputerScience-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Economics",
+   "sqp": "Economics-SQP.pdf",
+   "ms": "Economics-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Economics-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Economics-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "EnggGraphics",
+   "sqp": "EnggGraphics-SQP.pdf",
+   "ms": "EnggGraphics-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/EnggGraphics-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/EnggGraphics-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "EnglishCore",
+   "sqp": "EnglishCore-SQP.pdf",
+   "ms": "EnglishCore-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/EnglishCore-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/EnglishCore-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "EnglishElective",
+   "sqp": "EnglishElective-SQP.pdf",
+   "ms": "EnglishElective-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/EnglishElective-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/EnglishElective-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Entrepreneurship",
+   "sqp": "Entrepreneurship-SQP.pdf",
+   "ms": "Entrepreneurship-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Entrepreneurship-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Entrepreneurship-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "French",
+   "sqp": "French-SQP.pdf",
+   "ms": "French-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/French-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/French-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Geography",
+   "sqp": "Geography-SQP.pdf",
+   "ms": "Geography-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Geography-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Geography-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "German",
+   "sqp": "German-SQP.pdf",
+   "ms": "German-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/German-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/German-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Graphic",
+   "sqp": "Graphic-SQP.pdf",
+   "ms": "Graphic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Graphic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Graphic-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Gujarati",
+   "sqp": "Gujarati-SQP.pdf",
+   "ms": "Gujarati-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Gujarati-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Gujarati-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "HindiCore",
+   "sqp": "HindiCore-SQP.pdf",
+   "ms": "HindiCore-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HindiCore-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HindiCore-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "HindiElective",
+   "sqp": "HindiElective-SQP.pdf",
+   "ms": "HindiElective-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HindiElective-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HindiElective-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "HindustaniMelodic",
+   "sqp": "HindustaniMelodic-SQP.pdf",
+   "ms": "HindustaniMelodic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HindustaniMelodic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HindustaniMelodic-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "HindustaniPercussion",
+   "sqp": "HindustaniPercussion-SQP.pdf",
+   "ms": "HindustaniPercussion-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HindustaniPercussion-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HindustaniPercussion-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "HindustaniVocal",
+   "sqp": "HindustaniVocal-SQP.pdf",
+   "ms": "HindustaniVocal-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HindustaniVocal-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HindustaniVocal-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "History",
+   "sqp": "History-SQP.pdf",
+   "ms": "History-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/History-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/History-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "HistoryHindi",
+   "sqp": "HistoryHindi-SQP.pdf",
+   "ms": "HistoryHindi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HistoryHindi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HistoryHindi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "HomeScience",
+   "sqp": "HomeScience-SQP.pdf",
+   "ms": "HomeScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HomeScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/HomeScience-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "InformaticsPractices",
+   "sqp": "InformaticsPractices-SQP.pdf",
+   "ms": "InformaticsPractices-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/InformaticsPractices-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/InformaticsPractices-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Japanese",
+   "sqp": "Japanese-SQP.pdf",
+   "ms": "Japanese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Japanese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Japanese-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "KTPI",
+   "sqp": "KTPI-SQP.pdf",
+   "ms": "KTPI-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/KTPI-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/KTPI-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "KTPI-hi",
+   "sqp": "KTPI-hi-SQP.pdf",
+   "ms": "KTPI-hi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/KTPI-hi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/KTPI-hi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Kannada",
+   "sqp": "Kannada-SQP.pdf",
+   "ms": "Kannada-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Kannada-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Kannada-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Kashmiri",
+   "sqp": "Kashmiri-SQP.pdf",
+   "ms": "Kashmiri-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Kashmiri-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Kashmiri-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Kathak",
+   "sqp": "Kathak-SQP.pdf",
+   "ms": "Kathak-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Kathak-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Kathak-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Kathakali",
+   "sqp": "Kathakali-SQP.pdf",
+   "ms": "Kathakali-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Kathakali-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Kathakali-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Kuchipudi",
+   "sqp": "Kuchipudi-SQP.pdf",
+   "ms": "Kuchipudi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Kuchipudi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Kuchipudi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "LegalStudies",
+   "sqp": "LegalStudies-SQP.pdf",
+   "ms": "LegalStudies-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/LegalStudies-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/LegalStudies-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Lepcha",
+   "sqp": "Lepcha-SQP.pdf",
+   "ms": "Lepcha-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Lepcha-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Lepcha-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Limboo",
+   "sqp": "Limboo-SQP.pdf",
+   "ms": "Limboo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Limboo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Limboo-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Malayalam",
+   "sqp": "Malayalam-SQP.pdf",
+   "ms": "Malayalam-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Malayalam-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Malayalam-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Manipuri",
+   "sqp": "Manipuri-SQP.pdf",
+   "ms": "Manipuri-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Manipuri-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Manipuri-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "ManipuriDance",
+   "sqp": "ManipuriDance-SQP.pdf",
+   "ms": "ManipuriDance-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/ManipuriDance-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/ManipuriDance-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Marathi",
+   "sqp": "Marathi-SQP.pdf",
+   "ms": "Marathi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Marathi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Marathi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Maths",
+   "sqp": "Maths-SQP.pdf",
+   "ms": "Maths-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Maths-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Maths-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Mizo",
+   "sqp": "Mizo-SQP.pdf",
+   "ms": "Mizo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Mizo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Mizo-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "NCC",
+   "sqp": "NCC-SQP.pdf",
+   "ms": "NCC-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/NCC-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/NCC-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Nepalese",
+   "sqp": "Nepalese-SQP.pdf",
+   "ms": "Nepalese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Nepalese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Nepalese-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "ODIA",
+   "sqp": "ODIA-SQP.pdf",
+   "ms": "ODIA-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/ODIA-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/ODIA-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Odissi",
+   "sqp": "Odissi-SQP.pdf",
+   "ms": "Odissi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Odissi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Odissi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Painting",
+   "sqp": "Painting-SQP.pdf",
+   "ms": "Painting-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Painting-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Painting-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Physics",
+   "sqp": "Physics-SQP.pdf",
+   "ms": "Physics-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Physics-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Physics-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "PolSci",
+   "sqp": "PolSci-SQP.pdf",
+   "ms": "PolSci-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/PolSci-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/PolSci-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "PolSciHi",
+   "sqp": "PolSciHi-SQP.pdf",
+   "ms": "PolSciHi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/PolSciHi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/PolSciHi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Psychology",
+   "sqp": "Psychology-SQP.pdf",
+   "ms": "Psychology-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Psychology-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Psychology-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Punjabi",
+   "sqp": "Punjabi-SQP.pdf",
+   "ms": "Punjabi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Punjabi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Punjabi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Russian",
+   "sqp": "Russian-SQP.pdf",
+   "ms": "Russian-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Russian-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Russian-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "SanskritCore",
+   "sqp": "SanskritCore-SQP.pdf",
+   "ms": "SanskritCore-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/SanskritCore-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/SanskritCore-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "SanskritElective",
+   "sqp": "SanskritElective-SQP.pdf",
+   "ms": "SanskritElective-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/SanskritElective-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/SanskritElective-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Sindhi",
+   "sqp": "Sindhi-SQP.pdf",
+   "ms": "Sindhi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Sindhi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Sindhi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Sociology",
+   "sqp": "Sociology-SQP.pdf",
+   "ms": "Sociology-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Sociology-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Sociology-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Spanish",
+   "sqp": "Spanish-SQP.pdf",
+   "ms": "Spanish-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Spanish-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Spanish-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Tamil",
+   "sqp": "Tamil-SQP.pdf",
+   "ms": "Tamil-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Tamil-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Tamil-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Tangkhul",
+   "sqp": "Tangkhul-SQP.pdf",
+   "ms": "Tangkhul-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Tangkhul-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Tangkhul-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "TeluguTelangana",
+   "sqp": "TeluguTelangana-SQP.pdf",
+   "ms": "TeluguTelangana-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/TeluguTelangana-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/TeluguTelangana-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "Tibetan",
+   "sqp": "Tibetan-SQP.pdf",
+   "ms": "Tibetan-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Tibetan-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/Tibetan-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "UrduCore",
+   "sqp": "UrduCore-SQP.pdf",
+   "ms": "UrduCore-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/UrduCore-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/UrduCore-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2023_24",
+   "subject": "UrduElective",
+   "sqp": "UrduElective-SQP.pdf",
+   "ms": "UrduElective-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/UrduElective-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2023_24/UrduElective-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Accountancy",
+   "sqp": "Accountancy-SQP.pdf",
+   "ms": "Accountancy-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Accountancy-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Applied-Maths",
+   "sqp": "Applied-Maths-SQP.pdf",
+   "ms": "Applied-Maths-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Applied-Maths-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Applied-Maths-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Applied-MathsVIC",
+   "sqp": "Applied-MathsVIC-SQP.pdf",
+   "ms": "Applied-MathsVIC-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Applied-MathsVIC-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Applied-MathsVIC-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Arabic",
+   "sqp": "Arabic-SQP.pdf",
+   "ms": "Arabic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Arabic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Arabic-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Assamese",
+   "sqp": "Assamese-SQP.pdf",
+   "ms": "Assamese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Assamese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Assamese-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Bengali",
+   "sqp": "Bengali-SQP.pdf",
+   "ms": "Bengali-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Bengali-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Bengali-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Bharatnatyam",
+   "sqp": "Bharatnatyam-SQP.pdf",
+   "ms": "Bharatnatyam-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Bharatnatyam-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Bharatnatyam-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Bhoti",
+   "sqp": "Bhoti-SQP.pdf",
+   "ms": "Bhoti-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Bhoti-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Bhoti-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Bhutia",
+   "sqp": "Bhutia-SQP.pdf",
+   "ms": "Bhutia-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Bhutia-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Bhutia-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Biology",
+   "sqp": "Biology-SQP.pdf",
+   "ms": "Biology-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Biology-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Biology-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Biotechnology",
+   "sqp": "Biotechnology-SQP.pdf",
+   "ms": "Biotechnology-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Biotechnology-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Biotechnology-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Bodo",
+   "sqp": "Bodo-SQP.pdf",
+   "ms": "Bodo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Bodo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Bodo-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "BusinessStudies",
+   "sqp": "BusinessStudies-SQP.pdf",
+   "ms": "BusinessStudies-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/BusinessStudies-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "CarnaticMusicMelodicInstrument",
+   "sqp": "CarnaticMusicMelodicInstrument-SQP.pdf",
+   "ms": "CarnaticMusicMelodicInstrument-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/CarnaticMusicMelodicInstrument-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/CarnaticMusicMelodicInstrument-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "CarnaticMusicPercussion",
+   "sqp": "CarnaticMusicPercussion-SQP.pdf",
+   "ms": "CarnaticMusicPercussion-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/CarnaticMusicPercussion-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/CarnaticMusicPercussion-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "CarnaticMusicVocal",
+   "sqp": "CarnaticMusicVocal-SQP.pdf",
+   "ms": "CarnaticMusicVocal-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/CarnaticMusicVocal-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/CarnaticMusicVocal-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Chemistry",
+   "sqp": "Chemistry-SQP.pdf",
+   "ms": "Chemistry-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Chemistry-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Chemistry-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "ComputerScience",
+   "sqp": "ComputerScience-SQP.pdf",
+   "ms": "ComputerScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/ComputerScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/ComputerScience-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Economics",
+   "sqp": "Economics-SQP.pdf",
+   "ms": "Economics-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Economics-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "EnggGraphics",
+   "sqp": "EnggGraphics-SQP.pdf",
+   "ms": "EnggGraphics-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnggGraphics-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnggGraphics-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "EnglishCore",
+   "sqp": "EnglishCore-SQP.pdf",
+   "ms": "EnglishCore-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishCore-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "EnglishElective",
+   "sqp": "EnglishElective-SQP.pdf",
+   "ms": "EnglishElective-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishElective-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/EnglishElective-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Entrepreneurship",
+   "sqp": "Entrepreneurship-SQP.pdf",
+   "ms": "Entrepreneurship-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Entrepreneurship-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Entrepreneurship-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "French",
+   "sqp": "French-SQP.pdf",
+   "ms": "French-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/French-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/French-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Geography",
+   "sqp": "Geography-SQP.pdf",
+   "ms": "Geography-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Geography-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Geography-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "German",
+   "sqp": "German-SQP.pdf",
+   "ms": "German-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/German-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/German-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Graphic",
+   "sqp": "Graphic-SQP.pdf",
+   "ms": "Graphic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Graphic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Graphic-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Gujarati",
+   "sqp": "Gujarati-SQP.pdf",
+   "ms": "Gujarati-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Gujarati-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Gujarati-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "HindiCore",
+   "sqp": "HindiCore-SQP.pdf",
+   "ms": "HindiCore-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HindiCore-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HindiCore-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "HindiElective",
+   "sqp": "HindiElective-SQP.pdf",
+   "ms": "HindiElective-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HindiElective-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HindiElective-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "HindustaniMelodic",
+   "sqp": "HindustaniMelodic-SQP.pdf",
+   "ms": "HindustaniMelodic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HindustaniMelodic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HindustaniMelodic-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "HindustaniPercussion",
+   "sqp": "HindustaniPercussion-SQP.pdf",
+   "ms": "HindustaniPercussion-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HindustaniPercussion-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HindustaniPercussion-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "HindustaniVocal",
+   "sqp": "HindustaniVocal-SQP.pdf",
+   "ms": "HindustaniVocal-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HindustaniVocal-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HindustaniVocal-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "History",
+   "sqp": "History-SQP.pdf",
+   "ms": "History-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/History-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/History-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "HomeScience",
+   "sqp": "HomeScience-SQP.pdf",
+   "ms": "HomeScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HomeScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/HomeScience-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "InformaticsPractices",
+   "sqp": "InformaticsPractices-SQP.pdf",
+   "ms": "InformaticsPractices-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/InformaticsPractices-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/InformaticsPractices-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Japanese",
+   "sqp": "Japanese-SQP.pdf",
+   "ms": "Japanese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Japanese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Japanese-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "KTPI",
+   "sqp": "KTPI-SQP.pdf",
+   "ms": "KTPI-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/KTPI-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/KTPI-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Kannada",
+   "sqp": "Kannada-SQP.pdf",
+   "ms": "Kannada-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Kannada-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Kannada-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Kashmiri",
+   "sqp": "Kashmiri-SQP.pdf",
+   "ms": "Kashmiri-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Kashmiri-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Kashmiri-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Kathak",
+   "sqp": "Kathak-SQP.pdf",
+   "ms": "Kathak-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Kathak-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Kathak-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Kathakali",
+   "sqp": "Kathakali-SQP.pdf",
+   "ms": "Kathakali-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Kathakali-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Kathakali-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Kuchipudi",
+   "sqp": "Kuchipudi-SQP.pdf",
+   "ms": "Kuchipudi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Kuchipudi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Kuchipudi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "LegalStudies",
+   "sqp": "LegalStudies-SQP.pdf",
+   "ms": "LegalStudies-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/LegalStudies-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/LegalStudies-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Lepcha",
+   "sqp": "Lepcha-SQP.pdf",
+   "ms": "Lepcha-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Lepcha-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Lepcha-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Limboo",
+   "sqp": "Limboo-SQP.pdf",
+   "ms": "Limboo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Limboo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Limboo-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Malayalam",
+   "sqp": "Malayalam-SQP.pdf",
+   "ms": "Malayalam-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Malayalam-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Malayalam-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Manipuri",
+   "sqp": "Manipuri-SQP.pdf",
+   "ms": "Manipuri-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Manipuri-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Manipuri-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "ManipuriDance",
+   "sqp": "ManipuriDance-SQP.pdf",
+   "ms": "ManipuriDance-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/ManipuriDance-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/ManipuriDance-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Marathi",
+   "sqp": "Marathi-SQP.pdf",
+   "ms": "Marathi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Marathi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Marathi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Maths",
+   "sqp": "Maths-SQP.pdf",
+   "ms": "Maths-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Maths-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Maths-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "MathsVIC",
+   "sqp": "MathsVIC-SQP.pdf",
+   "ms": "MathsVIC-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/MathsVIC-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/MathsVIC-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Mizo",
+   "sqp": "Mizo-SQP.pdf",
+   "ms": "Mizo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Mizo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Mizo-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "NCC",
+   "sqp": "NCC-SQP.pdf",
+   "ms": "NCC-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/NCC-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/NCC-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Nepalese",
+   "sqp": "Nepalese-SQP.pdf",
+   "ms": "Nepalese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Nepalese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Nepalese-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "ODIA",
+   "sqp": "ODIA-SQP.pdf",
+   "ms": "ODIA-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/ODIA-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/ODIA-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Odissi",
+   "sqp": "Odissi-SQP.pdf",
+   "ms": "Odissi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Odissi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Odissi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Painting",
+   "sqp": "Painting-SQP.pdf",
+   "ms": "Painting-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Painting-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Painting-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Persian",
+   "sqp": "Persian-SQP.pdf",
+   "ms": "Persian-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Persian-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Persian-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Physics",
+   "sqp": "Physics-SQP.pdf",
+   "ms": "Physics-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Physics-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Physics-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "PolSci",
+   "sqp": "PolSci-SQP.pdf",
+   "ms": "PolSci-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/PolSci-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/PolSci-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Psychology",
+   "sqp": "Psychology-SQP.pdf",
+   "ms": "Psychology-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Psychology-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Psychology-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Punjabi",
+   "sqp": "Punjabi-SQP.pdf",
+   "ms": "Punjabi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Punjabi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Punjabi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Russian",
+   "sqp": "Russian-SQP.pdf",
+   "ms": "Russian-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Russian-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Russian-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "SanskritCore",
+   "sqp": "SanskritCore-SQP.pdf",
+   "ms": "SanskritCore-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/SanskritCore-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/SanskritCore-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "SanskritElective",
+   "sqp": "SanskritElective-SQP.pdf",
+   "ms": "SanskritElective-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/SanskritElective-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/SanskritElective-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Sculpture",
+   "sqp": "Sculpture-SQP.pdf",
+   "ms": "Sculpture-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Sculpture-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Sculpture-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Sindhi",
+   "sqp": "Sindhi-SQP.pdf",
+   "ms": "Sindhi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Sindhi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Sindhi-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Sociology",
+   "sqp": "Sociology-SQP.pdf",
+   "ms": "Sociology-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Sociology-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Sociology-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Spanish",
+   "sqp": "Spanish-SQP.pdf",
+   "ms": "Spanish-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Spanish-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Spanish-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Tamil",
+   "sqp": "Tamil-SQP.pdf",
+   "ms": "Tamil-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Tamil-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Tamil-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Tangkhul",
+   "sqp": "Tangkhul-SQP.pdf",
+   "ms": "Tangkhul-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Tangkhul-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Tangkhul-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "TeluguTelangana",
+   "sqp": "TeluguTelangana-SQP.pdf",
+   "ms": "TeluguTelangana-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/TeluguTelangana-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/TeluguTelangana-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "Tibetan",
+   "sqp": "Tibetan-SQP.pdf",
+   "ms": "Tibetan-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Tibetan-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/Tibetan-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "UrduCore",
+   "sqp": "UrduCore-SQP.pdf",
+   "ms": "UrduCore-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/UrduCore-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/UrduCore-MS.pdf"
+  },
+  {
+   "year": "ClassXII_2024_25",
+   "subject": "UrduElective",
+   "sqp": "UrduElective-SQP.pdf",
+   "ms": "UrduElective-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/UrduElective-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2024_25/UrduElective-MS.pdf"
+  },
   {
    "year": "ClassXII_2025_26",
    "subject": "Accountancy",
@@ -610,6 +2384,1326 @@
    "ms": "UrduElective-MS.pdf",
    "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/UrduElective-SQP.pdf",
    "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassXII_2025_26/UrduElective-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Arabic",
+   "sqp": "Arabic-SQP.pdf",
+   "ms": "Arabic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Arabic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Arabic-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Assamese",
+   "sqp": "Assamese-SQP.pdf",
+   "ms": "Assamese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Assamese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Assamese-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Bengali",
+   "sqp": "Bengali-SQP.pdf",
+   "ms": "Bengali-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Bengali-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Bengali-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Bhutia",
+   "sqp": "Bhutia-SQP.pdf",
+   "ms": "Bhutia-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Bhutia-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Bhutia-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Bodo",
+   "sqp": "Bodo-SQP.pdf",
+   "ms": "Bodo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Bodo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Bodo-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "CarnaticMusicMelodicInstrument",
+   "sqp": "CarnaticMusicMelodicInstrument-SQP.pdf",
+   "ms": "CarnaticMusicMelodicInstrument-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/CarnaticMusicMelodicInstrument-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/CarnaticMusicMelodicInstrument-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "CarnaticMusicPercussion",
+   "sqp": "CarnaticMusicPercussion-SQP.pdf",
+   "ms": "CarnaticMusicPercussion-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/CarnaticMusicPercussion-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/CarnaticMusicPercussion-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "CarnaticMusicVocal",
+   "sqp": "CarnaticMusicVocal-SQP.pdf",
+   "ms": "CarnaticMusicVocal-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/CarnaticMusicVocal-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/CarnaticMusicVocal-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "ComputerApplication",
+   "sqp": "ComputerApplication-SQP.pdf",
+   "ms": "ComputerApplication-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/ComputerApplication-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/ComputerApplication-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "ElementsBookKeepingAccountancy",
+   "sqp": "ElementsBookKeepingAccountancy-SQP.pdf",
+   "ms": "ElementsBookKeepingAccountancy-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/ElementsBookKeepingAccountancy-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/ElementsBookKeepingAccountancy-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "ElementsBusiness",
+   "sqp": "ElementsBusiness-SQP.pdf",
+   "ms": "ElementsBusiness-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/ElementsBusiness-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/ElementsBusiness-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "EnglishL",
+   "sqp": "EnglishL-SQP.pdf",
+   "ms": "EnglishL-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/EnglishL-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/EnglishL-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "French",
+   "sqp": "French-SQP.pdf",
+   "ms": "French-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/French-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/French-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "German",
+   "sqp": "German-SQP.pdf",
+   "ms": "German-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/German-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/German-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Gujarati",
+   "sqp": "Gujarati-SQP.pdf",
+   "ms": "Gujarati-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Gujarati-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Gujarati-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Gurung",
+   "sqp": "Gurung-SQP.pdf",
+   "ms": "Gurung-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Gurung-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Gurung-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "HindiCourseA",
+   "sqp": "HindiCourseA-SQP.pdf",
+   "ms": "HindiCourseA-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/HindiCourseA-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/HindiCourseA-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "HindiCourseB",
+   "sqp": "HindiCourseB-SQP.pdf",
+   "ms": "HindiCourseB-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/HindiCourseB-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/HindiCourseB-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "HindustaniMusicPercussion",
+   "sqp": "HindustaniMusicPercussion-SQP.pdf",
+   "ms": "HindustaniMusicPercussion-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/HindustaniMusicPercussion-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/HindustaniMusicPercussion-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "HomeScience",
+   "sqp": "HomeScience-SQP.pdf",
+   "ms": "HomeScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/HomeScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/HomeScience-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Japanese",
+   "sqp": "Japanese-SQP.pdf",
+   "ms": "Japanese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Japanese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Japanese-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Kannada",
+   "sqp": "Kannada-SQP.pdf",
+   "ms": "Kannada-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Kannada-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Kannada-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Kashmiri",
+   "sqp": "Kashmiri-SQP.pdf",
+   "ms": "Kashmiri-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Kashmiri-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Kashmiri-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Lepcha",
+   "sqp": "Lepcha-SQP.pdf",
+   "ms": "Lepcha-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Lepcha-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Lepcha-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Limboo",
+   "sqp": "Limboo-SQP.pdf",
+   "ms": "Limboo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Limboo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Limboo-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Malayalam",
+   "sqp": "Malayalam-SQP.pdf",
+   "ms": "Malayalam-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Malayalam-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Malayalam-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Manipuri",
+   "sqp": "Manipuri-SQP.pdf",
+   "ms": "Manipuri-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Manipuri-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Manipuri-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Marathi",
+   "sqp": "Marathi-SQP.pdf",
+   "ms": "Marathi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Marathi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Marathi-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "MathsBasic",
+   "sqp": "MathsBasic-SQP.pdf",
+   "ms": "MathsBasic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/MathsBasic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/MathsBasic-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "MathsStandard",
+   "sqp": "MathsStandard-SQP.pdf",
+   "ms": "MathsStandard-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/MathsStandard-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/MathsStandard-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Mizo",
+   "sqp": "Mizo-SQP.pdf",
+   "ms": "Mizo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Mizo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Mizo-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "NCC",
+   "sqp": "NCC-SQP.pdf",
+   "ms": "NCC-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/NCC-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/NCC-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Nepali",
+   "sqp": "Nepali-SQP.pdf",
+   "ms": "Nepali-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Nepali-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Nepali-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Odia",
+   "sqp": "Odia-SQP.pdf",
+   "ms": "Odia-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Odia-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Odia-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Painting",
+   "sqp": "Painting-SQP.pdf",
+   "ms": "Painting-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Painting-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Painting-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Persian",
+   "sqp": "Persian-SQP.pdf",
+   "ms": "Persian-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Persian-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Persian-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Punjabi",
+   "sqp": "Punjabi-SQP.pdf",
+   "ms": "Punjabi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Punjabi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Punjabi-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "RAI",
+   "sqp": "RAI-SQP.pdf",
+   "ms": "RAI-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/RAI-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/RAI-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Russian",
+   "sqp": "Russian-SQP.pdf",
+   "ms": "Russian-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Russian-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Russian-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Sanskrit",
+   "sqp": "Sanskrit-SQP.pdf",
+   "ms": "Sanskrit-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Sanskrit-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Sanskrit-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Science",
+   "sqp": "Science-SQP.pdf",
+   "ms": "Science-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Science-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Science-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Sherpa",
+   "sqp": "Sherpa-SQP.pdf",
+   "ms": "Sherpa-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Sherpa-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Sherpa-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Sindhi",
+   "sqp": "Sindhi-SQP.pdf",
+   "ms": "Sindhi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Sindhi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Sindhi-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "SocialScience",
+   "sqp": "SocialScience-SQP.pdf",
+   "ms": "SocialScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/SocialScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/SocialScience-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Spanish",
+   "sqp": "Spanish-SQP.pdf",
+   "ms": "Spanish-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Spanish-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Spanish-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Tamang",
+   "sqp": "Tamang-SQP.pdf",
+   "ms": "Tamang-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Tamang-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Tamang-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Tamil",
+   "sqp": "Tamil-SQP.pdf",
+   "ms": "Tamil-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Tamil-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Tamil-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Tangkhul",
+   "sqp": "Tangkhul-SQP.pdf",
+   "ms": "Tangkhul-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Tangkhul-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Tangkhul-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Thai",
+   "sqp": "Thai-SQP.pdf",
+   "ms": "Thai-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Thai-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Thai-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "Tibetan",
+   "sqp": "Tibetan-SQP.pdf",
+   "ms": "Tibetan-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Tibetan-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/Tibetan-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "UrduA",
+   "sqp": "UrduA-SQP.pdf",
+   "ms": "UrduA-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/UrduA-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/UrduA-MS.pdf"
+  },
+  {
+   "year": "ClassX_2022_23",
+   "subject": "UrduB",
+   "sqp": "UrduB-SQP.pdf",
+   "ms": "UrduB-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/UrduB-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2022_23/UrduB-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Arabic",
+   "sqp": "Arabic-SQP.pdf",
+   "ms": "Arabic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Arabic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Arabic-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Assamese",
+   "sqp": "Assamese-SQP.pdf",
+   "ms": "Assamese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Assamese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Assamese-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Bengali",
+   "sqp": "Bengali-SQP.pdf",
+   "ms": "Bengali-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Bengali-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Bengali-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Bhutia",
+   "sqp": "Bhutia-SQP.pdf",
+   "ms": "Bhutia-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Bhutia-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Bhutia-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Bodo",
+   "sqp": "Bodo-SQP.pdf",
+   "ms": "Bodo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Bodo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Bodo-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "CarnaticMelodicInstrument",
+   "sqp": "CarnaticMelodicInstrument-SQP.pdf",
+   "ms": "CarnaticMelodicInstrument-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/CarnaticMelodicInstrument-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/CarnaticMelodicInstrument-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "CarnaticMusicPercussion",
+   "sqp": "CarnaticMusicPercussion-SQP.pdf",
+   "ms": "CarnaticMusicPercussion-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/CarnaticMusicPercussion-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/CarnaticMusicPercussion-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "CarnaticMusicVocal",
+   "sqp": "CarnaticMusicVocal-SQP.pdf",
+   "ms": "CarnaticMusicVocal-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/CarnaticMusicVocal-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/CarnaticMusicVocal-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "ComputerApplication",
+   "sqp": "ComputerApplication-SQP.pdf",
+   "ms": "ComputerApplication-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/ComputerApplication-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/ComputerApplication-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "ElementsBookKeepingAccountancy",
+   "sqp": "ElementsBookKeepingAccountancy-SQP.pdf",
+   "ms": "ElementsBookKeepingAccountancy-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/ElementsBookKeepingAccountancy-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/ElementsBookKeepingAccountancy-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "ElementsBusiness",
+   "sqp": "ElementsBusiness-SQP.pdf",
+   "ms": "ElementsBusiness-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/ElementsBusiness-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/ElementsBusiness-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "EnglishComm",
+   "sqp": "EnglishComm-SQP.pdf",
+   "ms": "EnglishComm-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/EnglishComm-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/EnglishComm-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "EnglishL",
+   "sqp": "EnglishL-SQP.pdf",
+   "ms": "EnglishL-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/EnglishL-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/EnglishL-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "French",
+   "sqp": "French-SQP.pdf",
+   "ms": "French-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/French-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/French-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "German",
+   "sqp": "German-SQP.pdf",
+   "ms": "German-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/German-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/German-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Gujarati",
+   "sqp": "Gujarati-SQP.pdf",
+   "ms": "Gujarati-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Gujarati-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Gujarati-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Gurung",
+   "sqp": "Gurung-SQP.pdf",
+   "ms": "Gurung-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Gurung-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Gurung-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "HindiCourseA",
+   "sqp": "HindiCourseA-SQP.pdf",
+   "ms": "HindiCourseA-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HindiCourseA-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HindiCourseA-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "HindiCourseB",
+   "sqp": "HindiCourseB-SQP.pdf",
+   "ms": "HindiCourseB-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HindiCourseB-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HindiCourseB-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "HindustaniMelodic",
+   "sqp": "HindustaniMelodic-SQP.pdf",
+   "ms": "HindustaniMelodic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HindustaniMelodic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HindustaniMelodic-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "HindustaniMusicPercussion",
+   "sqp": "HindustaniMusicPercussion-SQP.pdf",
+   "ms": "HindustaniMusicPercussion-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HindustaniMusicPercussion-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HindustaniMusicPercussion-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "HindustaniVocal",
+   "sqp": "HindustaniVocal-SQP.pdf",
+   "ms": "HindustaniVocal-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HindustaniVocal-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HindustaniVocal-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "HomeScience",
+   "sqp": "HomeScience-SQP.pdf",
+   "ms": "HomeScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HomeScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/HomeScience-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Japanese",
+   "sqp": "Japanese-SQP.pdf",
+   "ms": "Japanese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Japanese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Japanese-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Kannada",
+   "sqp": "Kannada-SQP.pdf",
+   "ms": "Kannada-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Kannada-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Kannada-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Kashmiri",
+   "sqp": "Kashmiri-SQP.pdf",
+   "ms": "Kashmiri-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Kashmiri-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Kashmiri-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Lepcha",
+   "sqp": "Lepcha-SQP.pdf",
+   "ms": "Lepcha-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Lepcha-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Lepcha-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Limboo",
+   "sqp": "Limboo-SQP.pdf",
+   "ms": "Limboo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Limboo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Limboo-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Malayalam",
+   "sqp": "Malayalam-SQP.pdf",
+   "ms": "Malayalam-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Malayalam-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Malayalam-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Manipuri",
+   "sqp": "Manipuri-SQP.pdf",
+   "ms": "Manipuri-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Manipuri-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Manipuri-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Marathi",
+   "sqp": "Marathi-SQP.pdf",
+   "ms": "Marathi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Marathi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Marathi-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "MathsBasic",
+   "sqp": "MathsBasic-SQP.pdf",
+   "ms": "MathsBasic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/MathsBasic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/MathsBasic-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "MathsStandard",
+   "sqp": "MathsStandard-SQP.pdf",
+   "ms": "MathsStandard-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/MathsStandard-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/MathsStandard-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Mizo",
+   "sqp": "Mizo-SQP.pdf",
+   "ms": "Mizo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Mizo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Mizo-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "NCC",
+   "sqp": "NCC-SQP.pdf",
+   "ms": "NCC-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/NCC-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/NCC-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Nepali",
+   "sqp": "Nepali-SQP.pdf",
+   "ms": "Nepali-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Nepali-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Nepali-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Odia",
+   "sqp": "Odia-SQP.pdf",
+   "ms": "Odia-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Odia-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Odia-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Painting",
+   "sqp": "Painting-SQP.pdf",
+   "ms": "Painting-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Painting-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Painting-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Punjabi",
+   "sqp": "Punjabi-SQP.pdf",
+   "ms": "Punjabi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Punjabi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Punjabi-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "RAI",
+   "sqp": "RAI-SQP.pdf",
+   "ms": "RAI-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/RAI-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/RAI-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Russian",
+   "sqp": "Russian-SQP.pdf",
+   "ms": "Russian-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Russian-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Russian-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Sanskrit",
+   "sqp": "Sanskrit-SQP.pdf",
+   "ms": "Sanskrit-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Sanskrit-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Sanskrit-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Sanskrit-Comm",
+   "sqp": "Sanskrit-Comm-SQP.pdf",
+   "ms": "Sanskrit-Comm-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Sanskrit-Comm-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Sanskrit-Comm-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Science",
+   "sqp": "Science-SQP.pdf",
+   "ms": "Science-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Science-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Science-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Sherpa",
+   "sqp": "Sherpa-SQP.pdf",
+   "ms": "Sherpa-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Sherpa-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Sherpa-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Sindhi",
+   "sqp": "Sindhi-SQP.pdf",
+   "ms": "Sindhi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Sindhi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Sindhi-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "SocialScience",
+   "sqp": "SocialScience-SQP.pdf",
+   "ms": "SocialScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/SocialScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/SocialScience-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Spanish",
+   "sqp": "Spanish-SQP.pdf",
+   "ms": "Spanish-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Spanish-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Spanish-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Tamang",
+   "sqp": "Tamang-SQP.pdf",
+   "ms": "Tamang-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Tamang-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Tamang-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Tamil",
+   "sqp": "Tamil-SQP.pdf",
+   "ms": "Tamil-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Tamil-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Tamil-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Tangkhul",
+   "sqp": "Tangkhul-SQP.pdf",
+   "ms": "Tangkhul-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Tangkhul-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Tangkhul-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "Tibetan",
+   "sqp": "Tibetan-SQP.pdf",
+   "ms": "Tibetan-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Tibetan-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/Tibetan-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "UrduA",
+   "sqp": "UrduA-SQP.pdf",
+   "ms": "UrduA-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/UrduA-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/UrduA-MS.pdf"
+  },
+  {
+   "year": "ClassX_2023_24",
+   "subject": "UrduB",
+   "sqp": "UrduB-SQP.pdf",
+   "ms": "UrduB-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/UrduB-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2023_24/UrduB-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Arabic",
+   "sqp": "Arabic-SQP.pdf",
+   "ms": "Arabic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Arabic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Arabic-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Assamese",
+   "sqp": "Assamese-SQP.pdf",
+   "ms": "Assamese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Assamese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Assamese-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Bengali",
+   "sqp": "Bengali-SQP.pdf",
+   "ms": "Bengali-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Bengali-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Bengali-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "BhashaMalyeu",
+   "sqp": "BhashaMalyeu-SQP.pdf",
+   "ms": "BhashaMalyeu-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/BhashaMalyeu-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/BhashaMalyeu-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Bhutia",
+   "sqp": "Bhutia-SQP.pdf",
+   "ms": "Bhutia-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Bhutia-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Bhutia-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Bodo",
+   "sqp": "Bodo-SQP.pdf",
+   "ms": "Bodo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Bodo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Bodo-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "CarnaticMelodicInstrument",
+   "sqp": "CarnaticMelodicInstrument-SQP.pdf",
+   "ms": "CarnaticMelodicInstrument-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/CarnaticMelodicInstrument-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/CarnaticMelodicInstrument-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "CarnaticMusicPercussion",
+   "sqp": "CarnaticMusicPercussion-SQP.pdf",
+   "ms": "CarnaticMusicPercussion-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/CarnaticMusicPercussion-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/CarnaticMusicPercussion-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "CarnaticMusicVocal",
+   "sqp": "CarnaticMusicVocal-SQP.pdf",
+   "ms": "CarnaticMusicVocal-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/CarnaticMusicVocal-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/CarnaticMusicVocal-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "ComputerApplication",
+   "sqp": "ComputerApplication-SQP.pdf",
+   "ms": "ComputerApplication-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/ComputerApplication-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/ComputerApplication-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "ElementsBookKeepingAccountancy",
+   "sqp": "ElementsBookKeepingAccountancy-SQP.pdf",
+   "ms": "ElementsBookKeepingAccountancy-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/ElementsBookKeepingAccountancy-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/ElementsBookKeepingAccountancy-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "ElementsBusiness",
+   "sqp": "ElementsBusiness-SQP.pdf",
+   "ms": "ElementsBusiness-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/ElementsBusiness-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/ElementsBusiness-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "EnglishComm",
+   "sqp": "EnglishComm-SQP.pdf",
+   "ms": "EnglishComm-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/EnglishComm-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/EnglishComm-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "EnglishL",
+   "sqp": "EnglishL-SQP.pdf",
+   "ms": "EnglishL-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/EnglishL-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/EnglishL-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "French",
+   "sqp": "French-SQP.pdf",
+   "ms": "French-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/French-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/French-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "German",
+   "sqp": "German-SQP.pdf",
+   "ms": "German-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/German-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/German-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Gujarati",
+   "sqp": "Gujarati-SQP.pdf",
+   "ms": "Gujarati-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Gujarati-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Gujarati-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Gurung",
+   "sqp": "Gurung-SQP.pdf",
+   "ms": "Gurung-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Gurung-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Gurung-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "HindiCourseA",
+   "sqp": "HindiCourseA-SQP.pdf",
+   "ms": "HindiCourseA-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HindiCourseA-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HindiCourseA-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "HindiCourseB",
+   "sqp": "HindiCourseB-SQP.pdf",
+   "ms": "HindiCourseB-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HindiCourseB-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HindiCourseB-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "HindustaniMelodic",
+   "sqp": "HindustaniMelodic-SQP.pdf",
+   "ms": "HindustaniMelodic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HindustaniMelodic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HindustaniMelodic-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "HindustaniMusicPercussion",
+   "sqp": "HindustaniMusicPercussion-SQP.pdf",
+   "ms": "HindustaniMusicPercussion-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HindustaniMusicPercussion-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HindustaniMusicPercussion-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "HindustaniVocal",
+   "sqp": "HindustaniVocal-SQP.pdf",
+   "ms": "HindustaniVocal-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HindustaniVocal-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HindustaniVocal-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "HomeScience",
+   "sqp": "HomeScience-SQP.pdf",
+   "ms": "HomeScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HomeScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/HomeScience-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Japanese",
+   "sqp": "Japanese-SQP.pdf",
+   "ms": "Japanese-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Japanese-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Japanese-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Kannada",
+   "sqp": "Kannada-SQP.pdf",
+   "ms": "Kannada-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Kannada-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Kannada-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Kashmiri",
+   "sqp": "Kashmiri-SQP.pdf",
+   "ms": "Kashmiri-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Kashmiri-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Kashmiri-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Lepcha",
+   "sqp": "Lepcha-SQP.pdf",
+   "ms": "Lepcha-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Lepcha-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Lepcha-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Limboo",
+   "sqp": "Limboo-SQP.pdf",
+   "ms": "Limboo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Limboo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Limboo-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Malayalam",
+   "sqp": "Malayalam-SQP.pdf",
+   "ms": "Malayalam-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Malayalam-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Malayalam-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Manipuri",
+   "sqp": "Manipuri-SQP.pdf",
+   "ms": "Manipuri-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Manipuri-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Manipuri-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Marathi",
+   "sqp": "Marathi-SQP.pdf",
+   "ms": "Marathi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Marathi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Marathi-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "MathsBasic",
+   "sqp": "MathsBasic-SQP.pdf",
+   "ms": "MathsBasic-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/MathsBasic-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/MathsBasic-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "MathsBasicVIC",
+   "sqp": "MathsBasicVIC-SQP.pdf",
+   "ms": "MathsBasicVIC-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/MathsBasicVIC-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/MathsBasicVIC-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "MathsStandard",
+   "sqp": "MathsStandard-SQP.pdf",
+   "ms": "MathsStandard-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/MathsStandard-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/MathsStandard-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "MathsStandardVIC",
+   "sqp": "MathsStandardVIC-SQP.pdf",
+   "ms": "MathsStandardVIC-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/MathsStandardVIC-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/MathsStandardVIC-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Mizo",
+   "sqp": "Mizo-SQP.pdf",
+   "ms": "Mizo-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Mizo-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Mizo-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "NCC",
+   "sqp": "NCC-SQP.pdf",
+   "ms": "NCC-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/NCC-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/NCC-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Nepali",
+   "sqp": "Nepali-SQP.pdf",
+   "ms": "Nepali-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Nepali-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Nepali-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Odia",
+   "sqp": "Odia-SQP.pdf",
+   "ms": "Odia-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Odia-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Odia-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Painting",
+   "sqp": "Painting-SQP.pdf",
+   "ms": "Painting-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Painting-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Painting-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Persian",
+   "sqp": "Persian-SQP.pdf",
+   "ms": "Persian-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Persian-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Persian-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Punjabi",
+   "sqp": "Punjabi-SQP.pdf",
+   "ms": "Punjabi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Punjabi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Punjabi-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "RAI",
+   "sqp": "RAI-SQP.pdf",
+   "ms": "RAI-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/RAI-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/RAI-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Russian",
+   "sqp": "Russian-SQP.pdf",
+   "ms": "Russian-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Russian-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Russian-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Sanskrit",
+   "sqp": "Sanskrit-SQP.pdf",
+   "ms": "Sanskrit-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Sanskrit-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Sanskrit-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Sanskrit-Comm",
+   "sqp": "Sanskrit-Comm-SQP.pdf",
+   "ms": "Sanskrit-Comm-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Sanskrit-Comm-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Sanskrit-Comm-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Science",
+   "sqp": "Science-SQP.pdf",
+   "ms": "Science-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Science-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Science-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Sherpa",
+   "sqp": "Sherpa-SQP.pdf",
+   "ms": "Sherpa-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Sherpa-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Sherpa-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Sindhi",
+   "sqp": "Sindhi-SQP.pdf",
+   "ms": "Sindhi-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Sindhi-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Sindhi-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "SocialScience",
+   "sqp": "SocialScience-SQP.pdf",
+   "ms": "SocialScience-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/SocialScience-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/SocialScience-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Spanish",
+   "sqp": "Spanish-SQP.pdf",
+   "ms": "Spanish-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Spanish-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Spanish-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Tamang",
+   "sqp": "Tamang-SQP.pdf",
+   "ms": "Tamang-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Tamang-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Tamang-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Tamil",
+   "sqp": "Tamil-SQP.pdf",
+   "ms": "Tamil-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Tamil-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Tamil-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Tangkhul",
+   "sqp": "Tangkhul-SQP.pdf",
+   "ms": "Tangkhul-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Tangkhul-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Tangkhul-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Thai",
+   "sqp": "Thai-SQP.pdf",
+   "ms": "Thai-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Thai-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Thai-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "Tibetan",
+   "sqp": "Tibetan-SQP.pdf",
+   "ms": "Tibetan-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Tibetan-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/Tibetan-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "UrduA",
+   "sqp": "UrduA-SQP.pdf",
+   "ms": "UrduA-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/UrduA-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/UrduA-MS.pdf"
+  },
+  {
+   "year": "ClassX_2024_25",
+   "subject": "UrduB",
+   "sqp": "UrduB-SQP.pdf",
+   "ms": "UrduB-MS.pdf",
+   "sqpUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/UrduB-SQP.pdf",
+   "msUrl": "https://cbseacademic.nic.in/web_material/SQP/ClassX_2024_25/UrduB-MS.pdf"
   },
   {
    "year": "ClassX_2025_26",
