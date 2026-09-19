@@ -44,7 +44,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 
-from academicos.corpus import cbse_sqp                      # noqa: E402
+from academicos.corpus import cbse_sqp, subjects           # noqa: E402
 from build_cbe_bank import _MAX_SINGLE_QUESTION_MARKS       # noqa: E402
 
 SRC = REPO / "academicos-data" / "corpus" / "cbse-sqp"
@@ -53,11 +53,10 @@ OUT = SRC / "questions.json"
 # Paper codes look like "ClassX_2025_26"; the grade is readable from the name.
 _GRADE = {"ClassX": 10, "ClassXII": 12}
 
-SUBJECT_LABEL = {
-    "SocialScience": "Social Science",
-    "HindiCourseA": "Hindi",
-    "HindiCourseB": "Hindi",
-}
+# Canonical naming lives in `academicos.corpus.subjects` so both builders can
+# share it. It produces a display name that PRESERVES the paper variant
+# (`Mathematics (Standard)`) plus a family that collapses it for reporting
+# (`Mathematics`) -- see that module for why collapsing outright would be wrong.
 
 
 def _record(item, *, subject: str, grade: int, year: str) -> dict:
@@ -169,7 +168,7 @@ def main() -> int:
                 skipped.append(f"{year}/{stem_name}: no matching MS")
                 continue
             joined, stats = cbse_sqp.parse_pair(sqp, ms)
-            subject = SUBJECT_LABEL.get(stem_name, stem_name)
+            subject, family = subjects.canonical_subject(stem_name)
             kept = 0
             for item in joined:
                 q = item.question
@@ -177,7 +176,9 @@ def main() -> int:
                     continue                       # gate: no mark value / block total
                 if not item.answer.strip():
                     continue                       # gate Q1, belt and braces
-                records.append(_record(item, subject=subject, grade=grade, year=year))
+                rec = _record(item, subject=subject, grade=grade, year=year)
+                rec["metadata"]["subjectFamily"] = family
+                records.append(rec)
                 kept += 1
             per_pair.append((f"{year}/{stem_name}", stats["joined"], kept))
             if kept == 0:
@@ -194,6 +195,13 @@ def main() -> int:
     print(f"records served : {len(records)}")
     for (s, g), n in sorted(by_sg.items()):
         print(f"    {s:<16} class {g:<4} {n:>4}")
+    stems = sorted({p.name[: -len("-SQP.pdf")] for p in SRC.rglob("*-SQP.pdf")})
+    gaps = subjects.unmapped(stems)
+    fams = {r["metadata"]["subjectFamily"] for r in records}
+    print(f"subject families: {len(fams)} (from {len({r['subject'] for r in records})} names)")
+    if gaps:
+        print(f"  unmapped stems ({len(gaps)}): {', '.join(gaps[:12])}"
+              + (" ..." if len(gaps) > 12 else ""))
     print(f"marks spread   : {dict(sorted(spread.items()))}")
     print(f"  max mark     : {max(spread) if spread else 0} "
           f"(ceiling {_MAX_SINGLE_QUESTION_MARKS})")
