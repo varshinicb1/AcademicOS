@@ -27,6 +27,10 @@ from ..assessment import grade_by_question
 from ..assessment import qbank_routes
 from ..assessment import routes as assessment_routes
 from ..assessment.supabase_kv import SupabaseUnavailable
+from ..assessment.api_keys import ScopeError
+from ..assessment.llm_evaluate import LLMEvaluationError
+from ..assessment.qbank_store import ReviewStateError
+from ..llm.sarvam import LLMProviderError
 from ..assessment.postgres_kv import durable_table
 from ..assessment.auth_routes import get_current_user
 from ..config import Config, get_config
@@ -158,6 +162,79 @@ def _on_supabase_unavailable(_request: Any, exc: SupabaseUnavailable) -> JSONRes
     logger.error("Supabase call failed: %s", exc, exc_info=exc)
     return JSONResponse(status_code=503,
                         content={"detail": f"storage backend unavailable: {exc}"})
+
+
+# --- domain exceptions that used to surface as bare 500s -------------------
+#
+# Four exception classes were raised but never caught anywhere, so every one of
+# them reached the client as a 500. A 500 says "we broke"; three of these say
+# something the caller can act on, and one says the provider did. Mapping them
+# here rather than in each route means a new call site cannot forget.
+
+@app.exception_handler(ScopeError)
+def _on_scope_error(_request: Any, exc: ScopeError) -> JSONResponse:
+    """A scope outside the vocabulary is the CALLER's mistake: 400.
+
+    Raised by `validate_scopes` when a key is defined with an unknown scope,
+    with one permanently refused because it would reach student data, or with
+    none at all. The message is safe to return and is the useful part -- it
+    names the offending scopes and lists the vocabulary -- so a caller can fix
+    the request without reading our source.
+    """
+    logger.info("scope validation rejected a request: %s", exc)
+    return JSONResponse(status_code=400, content={"detail": str(exc)})
+
+
+@app.exception_handler(ReviewStateError)
+def _on_review_state_error(_request: Any, exc: ReviewStateError) -> JSONResponse:
+    """An illegal state transition is a CONFLICT: 409.
+
+    The request is well-formed and the resource exists; what fails is the
+    transition against its current state (already `published`, `draft -> retired`
+    is not legal, a no-op that would make the audit trail ambiguous).
+
+    Known imprecision, recorded rather than hidden: this class also covers
+    "unknown question", which would ideally be 404. Splitting it needs two
+    exception classes, not a cleverer handler, and 409 is correct for the
+    majority. `str(exc)` is returned because it names the states involved.
+    """
+    logger.info("review-state transition rejected: %s", exc)
+    return JSONResponse(status_code=409, content={"detail": str(exc)})
+
+
+@app.exception_handler(LLMProviderError)
+def _on_llm_provider_error(_request: Any, exc: LLMProviderError) -> JSONResponse:
+    """503: the model provider is unreachable or not configured.
+
+    Deliberately does NOT echo `str(exc)`. Most of these are "SARVAM_API_KEY is
+    not set", but the class also wraps provider HTTP failures, and an operator
+    message is not the caller's business. Name the subsystem, log the detail.
+    """
+    logger.error("LLM provider unavailable: %s", exc)
+    return JSONResponse(
+        status_code=503,
+        content={"detail": "the language model provider is unavailable"},
+    )
+
+
+@app.exception_handler(LLMEvaluationError)
+def _on_llm_evaluation_error(_request: Any, exc: LLMEvaluationError) -> JSONResponse:
+    """502: the provider answered, but not usably.
+
+    Distinct from 503 on purpose. 502 means the upstream was reached and
+    returned something we cannot use (no JSON object in the response); 503
+    means we could not reach it. Retrying is sensible for one and pointless for
+    the other, so collapsing them would lose the distinction the caller needs.
+
+    `str(exc)` is NOT returned: these carry raw model output
+    (`f"no JSON object in model response: {raw[:200]!r}"`), and echoing model
+    output to a client is how prompt content leaks.
+    """
+    logger.error("LLM evaluation failed: %s", exc)
+    return JSONResponse(
+        status_code=502,
+        content={"detail": "the language model returned an unusable response"},
+    )
 
 
 class SearchRequest(BaseModel):
