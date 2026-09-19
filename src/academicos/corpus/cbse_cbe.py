@@ -734,9 +734,13 @@ def parse_index(pdf_path: Path) -> dict[str, dict]:
                     i += 1
                     continue
                 ao1 = ao2 = 0
-                if j < len(lines) and lines[j].isdigit():
+                # `.isdigit()` is True for characters `int()` rejects (e.g. the
+                # superscript in x²), so this is an ASCII check.
+                def _is_int(s: str) -> bool:
+                    return s.isascii() and s.isdigit()
+                if j < len(lines) and _is_int(lines[j]):
                     ao1 = int(lines[j]); j += 1
-                if j < len(lines) and lines[j].isdigit():
+                if j < len(lines) and _is_int(lines[j]):
                     ao2 = int(lines[j]); j += 1
                 out[qid] = {
                     "content_code": code,

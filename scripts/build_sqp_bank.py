@@ -154,7 +154,14 @@ def main() -> int:
 
     for year_dir in sorted(p for p in SRC.iterdir() if p.is_dir()):
         year = year_dir.name
-        grade = next((g for k, g in _GRADE.items() if year.startswith(k)), 0)
+        # Exact match on the first segment, NOT `startswith`.
+        #
+        # `"ClassXII_2025_26".startswith("ClassX")` is True, so a prefix match
+        # silently labelled every Class XII paper as Class 10 -- and dict
+        # ordering put "ClassX" first, so it always won. Caught by reading the
+        # per-subject output: Applied-Maths, EnglishCore and HomeScience were
+        # all reported as class 10 when they are XII papers.
+        grade = _GRADE.get(year.split("_")[0], 0)
         for sqp in sorted(year_dir.glob("*-SQP.pdf")):
             stem_name = sqp.name[: -len("-SQP.pdf")]
             ms = year_dir / f"{stem_name}-MS.pdf"

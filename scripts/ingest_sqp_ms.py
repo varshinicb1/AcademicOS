@@ -32,9 +32,13 @@ INDEXES = [
     ("ClassXII_2025_26", "https://cbseacademic.nic.in/SQP_CLASSXII_2025-26.html"),
 ]
 
-# Subjects to ingest, by the stem CBSE uses in the filename. Social Science
-# first: it is the largest block the coverage matrix shows with no reference.
-TARGETS = ["SocialScience", "HindiCourseA", "HindiCourseB"]
+# Subjects to ingest, by the stem CBSE uses in the filename.
+#
+# Originally a 3-subject list that delivered Social Science only. The PRD's
+# decision 4 is "all grades 6-12, all subjects", so the filter is now None --
+# take everything the index publishes. The list is kept as a mechanism because
+# a targeted run is genuinely useful when adding one subject at a time.
+TARGETS = None
 
 
 def discover() -> dict[tuple[str, str], dict[str, str]]:
@@ -117,8 +121,12 @@ def main() -> int:
     pairs = discover()
     print(f"  {len(pairs)} (year, subject) entries")
 
-    wanted = {k: v for k, v in pairs.items() if k[1] in TARGETS}
-    print(f"  {len(wanted)} match the targets {TARGETS}")
+    if TARGETS is None:
+        wanted = dict(pairs)
+        print(f"  taking all {len(wanted)} (no subject filter)")
+    else:
+        wanted = {k: v for k, v in pairs.items() if k[1] in TARGETS}
+        print(f"  {len(wanted)} match the targets {TARGETS}")
 
     manifest = []
     for (label, subject), kinds in sorted(wanted.items()):

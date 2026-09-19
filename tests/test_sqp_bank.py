@@ -100,18 +100,37 @@ def test_every_served_question_has_a_plausible_mark_value(bank):
 
 
 @needs_pdfs
-def test_the_marks_spread_matches_what_the_paper_states(bank):
+def test_the_social_science_marks_spread_matches_what_that_paper_states(bank):
     """The Class X Social Science paper states its own mark scheme.
 
-    "VSA carry 2 marks, SA 3 marks, LA 5 marks, CBQ (1+2+1=4)". A spread that
-    contains anything else means the marks column was misread -- which is how
-    page numbers were once served as mark values in the CBE parser.
+    "VSA carry 2 marks, SA 3 marks, LA 5 marks, CBQ (1+2+1=4)". A Social Science
+    spread containing anything else means the marks column was misread -- which
+    is how page numbers were once served as mark values in the CBE parser.
+
+    Scoped to Social Science on purpose. It was a whole-bank assertion while the
+    bank held one paper; now it spans 47 subjects and a 10-mark question is
+    ordinary in several of them, so a global cap of 5 would be wrong. The global
+    ceiling is asserted separately above.
     """
-    values = sorted({r["marks"] for r in bank["questions"]})
-    assert values, "no marks at all"
-    assert max(values) <= 5, (
-        f"a served question carries {max(values)} marks; class X Social Science "
-        f"has none above 5. Values: {values}"
+    ss = [r["marks"] for r in bank["questions"] if r["subject"] == "Social Science"]
+    assert ss, "no Social Science records"
+    assert max(ss) <= 5, f"class X Social Science has no question above 5: {sorted(set(ss))}"
+
+
+@needs_pdfs
+def test_every_grade_is_a_real_school_year(bank):
+    """Grades come from the folder name, and a prefix match got this wrong.
+
+    `"ClassXII_2025_26".startswith("ClassX")` is True, so an earlier version
+    labelled every Class XII paper as Class 10 -- and dict ordering made
+    "ClassX" win every time. Caught by reading the per-subject output, where
+    Applied-Maths and HomeScience were reported as class 10.
+    """
+    grades = {r["grade"] for r in bank["questions"]}
+    assert grades <= {10, 12}, f"unexpected grade(s): {sorted(grades)}"
+    assert 12 in grades, (
+        "no Class XII records -- the number is present in the corpus, so a "
+        "prefix match has swallowed it again"
     )
 
 

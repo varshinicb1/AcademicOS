@@ -48,7 +48,8 @@ def _infer_marks_from_position(q_no: str) -> int:
     extraction found no explicit "(N marks)" text, fall back to the
     well-known section boundaries: 1-20 MCQ (1m), 21-26 (2m), 27-33 (3m),
     34-36 (5m), 37-39 case study (4m)."""
-    if not q_no.isdigit():
+    # ASCII check: `.isdigit()` accepts characters `int()` cannot parse.
+    if not (q_no.isascii() and q_no.isdigit()):
         return 1
     n = int(q_no)
     if n <= 20:

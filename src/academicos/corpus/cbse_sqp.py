@@ -148,7 +148,10 @@ def _is_page_number(text: str, page_number: int, *, x0: float, x1: float,
     # indistinguishable from the page number -- which destroyed the header, the
     # exact failure the band was originally blamed for.
     stripped = (text or "").strip()
-    if not stripped.isdigit():
+    # `.isdigit()` is True for characters `int()` cannot parse -- `²`.isdigit()
+    # is True and int('²') raises ValueError. Found by parsing the wider
+    # corpus: a formula containing x² crashed the parser. ASCII check, not isdigit.
+    if not (stripped.isascii() and stripped.isdigit()):
         return False
     if int(stripped) != page_number:
         return False
@@ -287,7 +290,8 @@ def _body_lines(pdf_path: Path) -> list[tuple[int, str]]:
                 # A trailing 1-6 set off by a wide gap is the marks column.
                 if len(items) >= 2:
                     last_x0, _last_x1, last_text = items[-1]
-                    if (last_text.isdigit() and 1 <= int(last_text) <= 6
+                    if ((last_text.isascii() and last_text.isdigit())
+                            and 1 <= int(last_text) <= 6
                             and (last_x0 - items[-2][1]) >= _MARK_GAP):
                         body = " ".join(t for _a, _b, t in items[:-1]).strip()
                         if body:
