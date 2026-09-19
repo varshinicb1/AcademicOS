@@ -68,7 +68,7 @@ python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -e .            # core (pymupdf, pydantic, numpy, spacy)
 pip install -e ".[api]"     # + FastAPI server
-pip install -e ".[dev]"     # + pytest / httpx2 (needed to run the test suite)
+pip install -e ".[dev]"     # + pytest / httpx (needed to run the test suite)
 pip install -e ".[gcs]"     # + GCS mirror
 pip install -e ".[retrieval]"  # + sentence-transformers/numpy
 python -m pip install en_core_web_md@https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.8.0/en_core_web_md-3.8.0-py3-none-any.whl
