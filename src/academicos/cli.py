@@ -654,13 +654,20 @@ def cmd_concept_spine(args: argparse.Namespace) -> int:
                     s["occurrences"] += int(a.get("occurrences", 0))
                     for p in a.get("predicates", []):
                         s["predicates"][p] += 1
-                except Exception:
-                    pass
+                except Exception as exc:
+                    # Was `pass`. These counts are the graph statistics this
+                    # command exists to report, so a dropped row silently
+                    # understated them.
+                    logger.warning("unreadable edge attributes %s->%s (%s: %s)",
+                                   src, tgt, type(exc).__name__, exc)
             if prov:
                 try:
                     s["sources"].add(_json.loads(prov)["source"]["document_id"])
-                except Exception:
-                    pass
+                except Exception as exc:
+                    # Was `pass`. `source_docs` is derived from exactly this
+                    # set, so a failure quietly deflated a reported figure.
+                    logger.warning("unreadable edge provenance %s->%s (%s: %s)",
+                                   src, tgt, type(exc).__name__, exc)
     n_updates = 0
     for nid, s in stats.items():
         attrs = {

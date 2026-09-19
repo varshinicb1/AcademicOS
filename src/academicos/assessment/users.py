@@ -242,8 +242,15 @@ class UserStore:
         if self._remote_sessions.enabled:
             try:
                 self._remote_sessions.delete(token=token)
-            except (SupabaseUnavailable, requests.exceptions.RequestException):
-                pass
+            except (SupabaseUnavailable, requests.exceptions.RequestException) as exc:
+                # Was `pass`. The local delete below still runs, so logout
+                # succeeds from the caller's point of view -- but a failed
+                # REMOTE delete means the session can outlive the logout on the
+                # durable store. Security-relevant, so it is logged.
+                logger.warning(
+                    "remote session delete failed during logout; the session may "
+                    "outlive it on the remote store (%s: %s)",
+                    type(exc).__name__, exc)
         with self._conn_lock:
             self.conn.execute("DELETE FROM sessions WHERE token=?", (token,))
             self.conn.commit()
