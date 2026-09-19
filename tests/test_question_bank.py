@@ -276,15 +276,46 @@ def test_relink_attaches_an_official_scheme(tmp_path):
     assert recs[0]["provenance"]["pageNumber"] == 2
 
 
-def test_relink_leaves_an_existing_scheme_alone(tmp_path):
+def test_relink_verifies_and_labels_an_existing_scheme(tmp_path):
+    """A scheme the corpus already carries is not trusted on sight: it is
+    resolved against the official index and labeled when it matches, so the
+    provenance field records the same guarantee a freshly attached scheme
+
+    gets. Before this change the `already_had_scheme` branch skipped the record
+    entirely, which left 1,093 board records with real scheme content and no
+    provenance field -- content that could not be told apart from a placeholder.
+    """
     idx, parse, _ = _setup(tmp_path)
     existing = {"totalMarks": 3, "markingPoints": [{"id": "k", "description": "kept", "marks": 3}]}
     recs = [question("a" * 24, 22, scheme=existing)]
     rep = relink_answer_schemes(recs, idx, parse_dir=parse)
 
     assert rep.already_had_scheme == 1
+    assert rep.verified_existing_scheme == 1
     assert rep.newly_attached == 0
-    assert recs[0]["answerScheme"]["markingPoints"][0]["description"] == "kept"
+    sch = recs[0]["answerScheme"]
+    assert sch["markingPoints"][0]["description"] == "kept"
+    assert sch["provenance"] == "cbse_marking_scheme"
+    assert sch["sourcePaperCode"] == "31/1/1"
+    assert sch["sourceDocumentId"] == "src:" + "a" * 24
+
+
+def test_relink_keeps_an_unverifiable_scheme_but_never_labels_it(tmp_path):
+    """Existing content that no official key can account for stays as-is and
+    stays honest. Stamping cbse_marking_scheme onto it would be the fabrication
+    the unverifiable count exists to make visible instead."""
+    idx, parse, _ = _setup(tmp_path)
+    make_parse_tree(parse, "f" * 24, [(1, "Series 99/9/9 Science " + "body " * 40)])
+    existing = {"totalMarks": 3, "markingPoints": [{"id": "k", "description": "kept", "marks": 3}]}
+    recs = [question("f" * 24, 1, scheme=existing)]
+    rep = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert rep.already_had_scheme == 1
+    assert rep.existing_scheme_unverifiable == 1
+    assert rep.verified_existing_scheme == 0
+    sch = recs[0]["answerScheme"]
+    assert sch["markingPoints"][0]["description"] == "kept"
+    assert sch.get("provenance") != "cbse_marking_scheme"
 
 
 def test_relink_reports_a_missing_answer_for_a_known_code(tmp_path):

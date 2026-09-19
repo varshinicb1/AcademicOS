@@ -271,6 +271,8 @@ class RelinkReport:
 
     total: int = 0
     already_had_scheme: int = 0
+    verified_existing_scheme: int = 0
+    existing_scheme_unverifiable: int = 0
     newly_attached: int = 0
     no_source_hash: int = 0
     no_parse_tree: int = 0
@@ -290,6 +292,8 @@ class RelinkReport:
         return [
             "questions                      : {:,}".format(self.total),
             "had a scheme before            : {:,}".format(self.already_had_scheme),
+            "  of which verified+labeled    : {:,}".format(self.verified_existing_scheme),
+            "  kept but unverifiable        : {:,}".format(self.existing_scheme_unverifiable),
             "scheme attached by this pass   : {:,}".format(self.newly_attached),
             "with a scheme after            : {:,}  ({:.1f}%)".format(
                 self.with_scheme, self.coverage()),
@@ -376,7 +380,26 @@ def relink_answer_schemes(
 
         scheme = rec.get("answerScheme") or {}
         if scheme.get("markingPoints"):
+            # The record carries a scheme already. Those may predate the
+            # provenance field, so "already had it" is checked AFTER the
+            # official index resolves it -- content is verified, then labeled,
+            # rather than trusted on sight. An unverifiable scheme keeps its
+            # content but stays unlabeled: claiming cbse_marking_scheme for
+            # something the official key cannot account for would be the same
+            # fabrication `already_had_scheme` was once used to sweep under
+            # the rug.
             report.already_had_scheme += 1
+            if scheme.get("provenance") == "cbse_marking_scheme":
+                report.verified_existing_scheme += 1
+                continue
+            answer = index.lookup(source.paper_code, q_no) if source.paper_code else None
+            if answer is not None:
+                scheme["provenance"] = "cbse_marking_scheme"
+                scheme["sourcePaperCode"] = source.paper_code
+                scheme["sourceDocumentId"] = source.document_id
+                report.verified_existing_scheme += 1
+            else:
+                report.existing_scheme_unverifiable += 1
             continue
 
         if not source.paper_code:
