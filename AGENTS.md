@@ -65,27 +65,53 @@ conn.execute("PRAGMA journal_mode=WAL")
 conn.execute("PRAGMA busy_timeout=60000")
 ```
 
-### Complete SQLite Store Inventory (17 Stores)
+### Complete SQLite Store Inventory (19 stores)
+
+**Corrected 2026-09-18 against the code.** The table below used to say 17 and to
+list flat `.db` filenames. Both were wrong, and the errors were the misleading
+kind — an agent looking for `registry.db` finds nothing, because the real path is
+`registry/registry.sqlite`, and two stores were missing entirely.
+
+Four things to know before reading it:
+
+- **The filename pattern is `<dir>/<name>.sqlite`**, not a flat `.db`. The
+  exceptions are `answer_keys.db` and `assessment/consents.db`, which really do
+  end in `.db`. Several paths are injected by the caller rather than built by the
+  store, and those are marked *injected*.
+- **`KnowledgeStore` is not a SQLite store** and its row is removed below: it
+  writes per-student JSON files under `knowledge/` plus Supabase. It was listed
+  here for years as though it were a table-backed store, which is why
+  `learner_models` appears in the Supabase column with no local table.
+- **`pool.py` is not a store** either; it is a read-only query against the
+  registry, and it has its own comment in the code. It was a row in this table.
+- **Two stores were missing**: `ApiKeyStore` and `ConsentStore`. Consent is
+  DPDP-critical, so an inventory that omits it is worse than incomplete.
+
+Paths below verified against the constructors; run
+`grep -rn "sqlite3.connect" src/academicos` to re-check rather than trusting
+this table, which will drift like every other list in prose.
 
 | Store Class | DB Path | Tables / Content | Supabase Remote Table |
 |---|---|---|---|
-| `SourceRegistry` | `cfg.registry_db` (`registry.db`) | `sources`, `ingestion_runs` | None (static / baked) |
-| `CurriculumStore` | `cfg.data_dir / "curriculum_store.db"` | `boards`, `grades`, `subjects`, `units`, `chapters`, `topics`, `subtopics`, `holidays`, `timetable_slots`, `allocations`, `proposals` | Whole-file snapshot/restore via `SupabaseStorage` (2026-09-15 — too relational for per-table `SupabaseTable`; see `docs/deployment.md`), not per-table like the rows below |
-| `UserStore` | `cfg.data_dir / "users.db"` | `users`, `sessions` | `users`, `sessions` |
-| `AssessmentStore` | `cfg.data_dir / "assessments.db"` | `assessments` | `assessments` |
-| `PaperStore` | `cfg.data_dir / "papers.db"` | `papers` | `papers` |
-| `GradedStore` | `cfg.data_dir / "graded_evaluations.db"` | `graded_evaluations` | `graded_evaluations` |
-| `PracticeStore` | `cfg.data_dir / "practice_sets.db"` | `practice_sets` | `practice_sets` |
-| `AuditLogStore` | `cfg.data_dir / "audit_log.db"` | `audit_log` | `audit_log` |
-| `ScanSessionStore` | `cfg.data_dir / "scan_sessions.db"` | `scan_sessions` | `scan_sessions` |
-| `TemplateStore` | `cfg.data_dir / "school_templates.db"` | `school_templates` | `school_templates` |
-| `KnowledgeStore` | `cfg.data_dir / "learner_models.db"` | `learner_models` | `learner_models` |
-| `ChapterTagCache` | `cfg.data_dir / "chapter_tags.db"` | `chapter_tags` | None (deterministic cache) |
-| `AnswerKeyStore` | `cfg.data_dir / "answer_keys.db"` | `answer_keys` | None (derived from MS) |
-| `GraphStore` | `cfg.graph_db` (`graph.db`) | `nodes`, `edges` | None (corpus graph) |
-| `ChunkIndex` | `cfg.index_db` (`index.db`) | `chunks`, `bm25_stats` | None (retrieval index) |
-| `EventStore` | `cfg.data_dir / "events.db"` | `learner_events` | `learner_events` (2026-09-15 — was the last durability-critical store without one; also fixed a real `seq = MAX(seq)+1` race with a per-learner lock, plus a `_conn_lock` after a concurrency test reproduced `sqlite3.InterfaceError` under true concurrent access) |
-| `pool.py` (read-only query) | `cfg.registry_db` | `sources` query | None (reads registry) |
+| `SourceRegistry` | `cfg.registry_db` (`registry/registry.sqlite`) | `sources`, `ingestion_runs` | None (static / baked) |
+| `CurriculumStore` | `curriculum/curriculum.sqlite` | `boards`, `grades`, `subjects`, `units`, `chapters`, `topics`, `subtopics`, `holidays`, `timetable_slots`, `allocations`, `proposals` | Whole-file snapshot/restore via `SupabaseStorage` (2026-09-15 — too relational for per-table `SupabaseTable`; see `docs/deployment.md`), not per-table like the rows below |
+| `UserStore` | `users/users.sqlite` | `users`, `sessions` | `users`, `sessions` |
+| `AssessmentStore` | `assessments/assessments.sqlite` | `assessments` | `assessments` |
+| `PaperStore` | `assessments/papers.sqlite` | `papers` | `papers` |
+| `GradedStore` | `assessments/graded.sqlite` | `graded_evaluations` | `graded_evaluations` |
+| `PracticeStore` | `assessments/practice.sqlite` | `practice_sets` | `practice_sets` |
+| `AuditLogStore` | `audit/audit_log.sqlite` | `audit_log` | `audit_log` |
+| `ScanSessionStore` | `sessions.sqlite` (data root) | `scan_sessions` | `scan_sessions` |
+| `TemplateStore` | `templates/templates.sqlite` | `school_templates` | `school_templates` |
+| `ChapterTagCache` | `assessment/chapter_tags.sqlite` | `chapter_tags` | None (deterministic cache) |
+| `AnswerKeyStore` | `answer_keys.db` (data root) | `answer_keys` | None (derived from MS) |
+| `GraphStore` | `cfg.graph_db` (`graph/graph.sqlite`) | `nodes`, `edges` | None (corpus graph) |
+| `ChunkIndex` | `cfg.index_db` (`index/index.sqlite`) | `chunks`, `bm25_stats` | None (retrieval index) |
+| `EventStore` | `events/events.sqlite` | `learner_events` | `learner_events` (2026-09-15 — was the last durability-critical store without one; also fixed a real `seq = MAX(seq)+1` race with a per-learner lock, plus a `_conn_lock` after a concurrency test reproduced `sqlite3.InterfaceError` under true concurrent access) |
+| `ApiKeyStore` | *injected* (`assessment/api_keys.sqlite` in practice) | `api_keys`, `api_key_usage` | None (SHA-256 at rest) |
+| `ConsentStore` | `assessment/consents.db` | `parental_consents` | `parental_consents` |
+| `QuestionBankStore` | *injected* | `question_versions`, `question_audit` | None (append-only) |
+| `AnswerKeyIndex` | `answer_keys.db` (read-only URI) | `answer_keys` read | None (derived from MS) |
 
 ### Persistence & Deployment Topologies
 - **Ephemeral Deployments**: Containers wipe local disk on spin-down or redeploy. This is true of both Render (free tier) and Cloud Run.
@@ -128,7 +154,7 @@ do not reason about "the app" as a single thing (see
 | **AcademicOS Mobile** | `flutter build apk --dart-define=ACADEMICOS_OFFLINE=true` | **No** — on-device only | `LocalPillarApi`, `LocalApiClient` |
 
 `offlineMode` in `core/di/service_locator.dart` performs the swap; everything
-above it (repositories, use cases, all 24 screens) is shared. Two rules follow:
+above it (repositories, use cases, all 26 page widgets across 29 routes) is shared. Two rules follow:
 
 1. A change to any API route must be mirrored by hand into `local_api_client.dart`
    / `local_pillar_api.dart`. The offline engine cannot detect drift itself, and
