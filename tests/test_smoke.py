@@ -64,6 +64,23 @@ def test_end_to_end(sandbox):
     cfg = Config(data_root=box / "data")
     cfg.corpus_root = corpus
 
+    # Diagnose the fixture before the pipeline, not after. `Config` prefers the
+    # environment's `ACOS_DATA_ROOT` over the `data_root=` argument, so an
+    # ambient value used to redirect the registry out from under this test and
+    # the failure surfaced as an empty `accepted` with an empty `rejected` --
+    # which reads like a pipeline bug and is actually a test-isolation bug.
+    # `_no_ambient_data_root` in conftest now prevents it; these two assertions
+    # make a recurrence say so directly.
+    assert cfg.data_root == box / "data", (
+        f"Config ignored data_root={box / 'data'} and used {cfg.data_root}. "
+        "Something in the environment (ACOS_DATA_ROOT) overrode it."
+    )
+    assert sorted(p.name for p in corpus.glob("*.pdf")) == [
+        "XII_Physics_MS_2025.pdf", "XII_Physics_QP_2025.pdf"], (
+        "the sandbox corpus is not what this test wrote; the fixture is being "
+        "redirected or cleaned by something else"
+    )
+
     reg = SourceRegistry(cfg.registry_db)
     store = LocalStore(cfg.documents_dir)
     pipe = IngestionPipeline(corpus, reg, store)

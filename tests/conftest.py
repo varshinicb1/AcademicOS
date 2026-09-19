@@ -10,6 +10,35 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+
+@pytest.fixture(autouse=True)
+def _no_ambient_data_root(monkeypatch):
+    """Stop `ACOS_DATA_ROOT` leaking between tests.
+
+    `Config.__init__` resolves its data root as
+
+        env("DATA_ROOT", str(data_root or Path.cwd() / "academicos-data"))
+
+    so the ENVIRONMENT VARIABLE WINS over an explicit `data_root=` argument.
+    That is deliberate for deployment, and it is a trap in tests: a leaked
+    `ACOS_DATA_ROOT` silently redirects every `Config(data_root=tmp_path)`, and
+    the store the test thought it had is not the store it got.
+
+    That is exactly what made `tests/test_smoke.py::test_end_to_end` fail
+    intermittently, in three different shapes (`accepted` of 0, of 1, of 3).
+    Its `Config(data_root=box / "data")` was overridden, so `IngestionPipeline`
+    read a registry that already contained its fixture sources and skipped
+    every one of them as already-validated -- reporting an empty `accepted`
+    with an empty `rejected`, which is impossible on a fresh sandbox and is why
+    the failure looked inexplicable.
+
+    `tests/test_frontend_backend_contract.py` had already hit this and left a
+    comment about it. Removing the variable for every test, and letting
+    `monkeypatch` restore whatever was there, closes it for all of them rather
+    than one at a time.
+    """
+    monkeypatch.delenv("ACOS_DATA_ROOT", raising=False)
+
 from _agent_helpers import build_index, make_chunk
 from academicos.retrieval.hybrid import HybridRetriever
 
