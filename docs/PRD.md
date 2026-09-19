@@ -25,7 +25,25 @@ to accept or reject instead of a blank.
 
 ---
 
-## 0. Decision log — 2026-09-18
+## 0a. Working positions — SUPERSEDED by §0
+
+> **Do not act on this section.** It records working positions from a discussion
+> between the product owner and an agent, written when the answers in §0 did not
+> yet exist. Three of them were subsequently answered DIFFERENTLY, and §0 wins:
+>
+> | This section said | §0 records instead |
+> |---|---|
+> | "The school operations tool" | **Not an ERP.** Examination automation + academic calendar automation only |
+> | Rights: "private, licensed bank for partner schools — not a public API" | **Proceed, revisit if challenged** — and the bank **is** sold as an API product |
+> | Renewal: "~70% weekly-active-teacher rate" | **Time saved per paper**, measured |
+>
+> Kept rather than deleted because the reasoning is the useful half, and because
+> the drift is itself the lesson: a working position written down and never
+> revisited reads as a decision to everyone who arrives later.
+>
+> The two pending action items at the end of this section are still live and are
+> now listed in §0's critical path.
+
 
 Working positions from a discussion between the product owner and an agent,
 covering the five product-owner decisions §12 lists as blocking this year's
@@ -83,6 +101,28 @@ an earlier section still says **OPEN**, this section wins.
 | 10 | **The principal signs directly.** | One decision-maker, no procurement. At this price the pitch must be the principal's own daily pain. |
 | 11 | **Renewal is measured as time saved per paper.** | Gives the shipped product a definition of success. Time the same task before and after, per term. |
 | 12 | **Primary surface: the teacher's offline Android phone.** | Mobile gets the polish; it carries the offline advantage the cloud-only vendors cannot copy. |
+
+### §12 questions 6–9 — resolved 2026-09-18
+
+These were the five "answerable from the school, and currently guessed at" items
+that were blocking six screens. Four remained open after the decisions above.
+They were delegated rather than answered, so they are recorded as **agent calls
+with reasoning** — reversible, and each says what it costs if wrong.
+
+| # | Call | Reasoning | If wrong |
+|---|---|---|---|
+| 6 | **Principal's dashboard, four metrics:** (a) exam coverage — which classes and subjects have had a paper set this term and which have not; (b) time saved this term, labelled *estimated*; (c) syllabus coverage vs calendar; (d) bank coverage per subject and grade. | (a) is what a principal actually owns and what the wedge produces. (b) ties the dashboard to the renewal criterion. (c) is the existing Coverage & Pace tab and the only area ever verified interactively. (d) makes the product's own limitation visible to the buyer instead of hidden — unusual, and consistent with rule Q4. | If (d) reads as an admission rather than honesty, swap it for papers-per-teacher. Then the dashboard is all upside and stops being checkable. |
+| 7 | **Book edition: one per subject per year, chosen by the school.** | The syllabus→schedule pipeline and the question-bank tagging both key on the curriculum. Per-teacher editions would fragment coverage reporting into per-teacher versions of the same subject, and the principal's dashboard could no longer aggregate. | Per-teacher editions would need a curriculum per assignment, which the `TeacherAssignment` model does not carry today. |
+| 8 | **Timetable: fixed weekly, with explicit deviation.** | `SubjectTimetableSlot` already models per-weekday slots, and reschedule is modelled as PUSH/ADJUST against a disruption rather than as a weekly rewrite. A timetable that varies by default has no baseline to report pace against. | If schools genuinely re-plan weekly, the pace report loses its denominator and needs a per-week plan store. |
+| 9 | **Consent: not on this product's critical path.** | The product is examination automation and calendar automation. The question bank is content and never touches student data (non-goal 3), so no consent is needed for it. The implemented consent system stays for DPDP compliance if a student-facing feature is ever in scope, and its `method` field already supports the real-world mechanism: recorded by staff from a signed form or in person. | If any shipped feature reads student data, the consent gate becomes blocking and the routes exist but the UI does not. |
+
+**Why (6)(d) is the one to argue with.** Every other metric here is a claim
+about what the product did. Bank coverage is a claim about what it *cannot* do —
+and putting it on the principal's own dashboard means the buyer sees the gap
+before their teachers do. That is the honest reading of rule Q4, and it is also
+a sales risk. The alternative is not "no gap"; it is a gap the buyer finds
+later. This call can be reversed without touching any other decision.
+
 
 ### What this makes the critical path
 
