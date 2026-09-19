@@ -252,3 +252,50 @@ def test_on_scale_and_tokenised_spacing_passes(declaration):
 def test_scope_probe_does_not_outlive_the_test():
     """These tests write into design/; nothing may be left behind."""
     assert not (REPO / "design" / "__scope_probe.html").exists()
+
+
+# --- the staleness check must not disagree with git about line endings -----
+
+def test_a_crlf_working_file_is_not_reported_stale():
+    """`core.autocrlf=true` on Windows gives a CRLF working file.
+
+    The checker regenerates and compares, and the generator writes the platform
+    separator -- so a byte comparison reported "stale" on every Windows
+    checkout while `git diff` was empty and regenerating changed nothing. A
+    check that disagrees with git about whether a file changed is a check
+    nobody can act on.
+    """
+    checker = _load_checker()
+    target = REPO / "design" / "tokens.css"
+    original = target.read_bytes()
+    try:
+        as_lf = original.replace(b"\r\n", b"\n")
+        target.write_bytes(as_lf.replace(b"\n", b"\r\n"))
+        assert not checker.check_tokens_css_current(), (
+            "a CRLF working file was reported stale; line endings are not "
+            "staleness"
+        )
+    finally:
+        target.write_bytes(original)
+    assert target.read_bytes() == original, "the test did not restore the file"
+
+
+def test_genuine_staleness_is_still_detected():
+    """The complement: normalising EOLs must not blind the check.
+
+    A test that only proves false positives are gone is worthless if it also
+    stopped catching the real thing.
+    """
+    checker = _load_checker()
+    target = REPO / "design" / "tokens.css"
+    original = target.read_bytes()
+    try:
+        with open(target, "a", encoding="utf-8", newline="") as fh:
+            fh.write("\n:root { --not-a-real-token: 1px; }\n")
+        assert target.read_bytes() != original, "the fixture failed to change the file"
+        findings = checker.check_tokens_css_current()
+        assert findings, "a real content change was NOT reported as stale"
+    finally:
+        target.write_bytes(original)
+    assert target.read_bytes() == original, "the test did not restore the file"
+    assert not checker.check_tokens_css_current()

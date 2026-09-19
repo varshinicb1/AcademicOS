@@ -203,6 +203,17 @@ def _source_files() -> list[Path]:
     return sorted(seen)
 
 
+def _normalize_eol(text: str) -> str:
+    """Line-ending-insensitive view of generated file content.
+
+    A generated CSS file is compared against a fresh regeneration. The two can
+    differ in line endings alone -- the generator writes the platform separator,
+    while a checkout under `core.autocrlf=true` may hold either -- and that is
+    not staleness.
+    """
+    return text.replace("\r\n", "\n").replace("\r", "\n")
+
+
 def check_tokens_css_current() -> list[str]:
     """Every generated token CSS must match design/tokens.json.
 
@@ -228,12 +239,27 @@ def check_tokens_css_current() -> list[str]:
     findings: list[str] = []
     for target in targets:
         after = target.read_text(encoding="utf-8")
-        if before[target] != after:
-            target.write_text(before[target], encoding="utf-8")  # leave as found
+        # Compare CONTENT, not bytes. This check exists to catch a token that
+        # was changed in tokens.json without regenerating the CSS -- not to
+        # enforce a line ending.
+        #
+        # Comparing raw bytes made the test fail on every Windows checkout
+        # (`core.autocrlf=true` gives a CRLF working file, while a file written
+        # by any LF-producing tool is not). It reported "stale" while `git diff`
+        # was empty and regenerating changed nothing, because git normalises
+        # EOLs and this did not. A check that disagrees with git about whether a
+        # file changed is a check nobody can act on.
+        if _normalize_eol(before[target]) != _normalize_eol(after):
             findings.append(
                 f"{target.relative_to(REPO)} is stale relative to design/tokens.json "
                 f"-- run scripts/build_tokens_css.py and commit the result"
             )
+        # Leave the tree exactly as found, byte for byte. `newline=""` disables
+        # Python's EOL translation, which would otherwise rewrite the file with
+        # the platform separator and turn a no-op check into a working-tree
+        # change that git then reports as a modification.
+        if before[target] != after:
+            target.write_text(before[target], encoding="utf-8", newline="")
     return findings
 
 
