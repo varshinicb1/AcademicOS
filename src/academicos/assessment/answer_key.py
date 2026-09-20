@@ -145,7 +145,7 @@ _MCQ_PAREN = re.compile(
 # a dashed rule under each answer, and the answer text beside or below the
 # header. Question numbers are recovered from the list position.
 _ANSWER_LIST_HEADER = re.compile(
-    r"^[ \t]*(?:Answer|Ans\.{0,2})[ \t]*\(([a-dA-D])\)[ \t]*(.*)$")
+    r"^[ \t]*(?:Answer|Ans\.{0,2}|Solution|Sol\.)[ \t]*\(([a-dA-D])\)[ \t]*(.*)$")
 
 # A right-aligned marks column that PyMuPDF merges onto the answer line, e.g.
 # "Answer (C) P(E) + P( E ) = 1                           1". Only strip it when it
