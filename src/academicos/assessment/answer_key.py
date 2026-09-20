@@ -445,11 +445,10 @@ def _parse_value_points(body: str, section_a_count: int = 0) -> dict[int, KeyedA
                 value_points=[(p, 0.0) for p in points],
             )
 
-    legacy_blocks = re.split(r"(?m)^[ \t]*(\d{1,2})\s*\.[ \t]*$", body)
+    legacy_blocks = re.split(r"(?m)^[ \t]*(\d{1,2})\s*(?:\.|Q\.)[ \t]*", body)
 
-    if len(header_iter) < 2:
-        # Legacy path: split on literal question-number lines. 430/* has none in
-        # the value sections, so this is what the standard 31/* schemes require.
+    if len(header_iter) == 0:
+        # No SECTION headers at all: pure legacy literal-number split.
         from_blocks(legacy_blocks)
         return answers
 
@@ -501,6 +500,31 @@ def _parse_value_points(body: str, section_a_count: int = 0) -> dict[int, KeyedA
                 q_no=run, correct_option=None,
                 answer_text=" ".join(points)[:1200],
                 value_points=[(p, 0.0) for p in points])
+
+    # Handle "SECTION A only" schemes where value questions continue globally
+    # after A (e.g. 66/1/1 Business Studies: A ends at 20, then 21 Q., 22 Q....).
+    if len(header_iter) == 1 and header_iter[0].group(1).upper() == "A":
+        a_end = header_iter[0].end()
+        tail = body[a_end:]
+        if tail.strip():
+            # Try numbered blocks first (global numbering: "21 Q.", "22 Q." etc.)
+            num_blocks = re.split(r"(?m)^[ \t]*(\d{1,2})\s*[.Qq]", tail)
+            if len(num_blocks) > 2:
+                for i in range(1, len(num_blocks) - 1, 2):
+                    try:
+                        q_no = int(num_blocks[i])
+                    except ValueError:
+                        continue
+                    if q_no <= run or q_no in answers:
+                        continue
+                    points = _value_points_from_block(num_blocks[i + 1])
+                    if not points:
+                        continue
+                    answers[q_no] = KeyedAnswer(
+                        q_no=q_no, correct_option=None,
+                        answer_text=" ".join(points)[:1200],
+                        value_points=[(p, 0.0) for p in points])
+                    run = max(run, q_no)
 
     # Gap-fill: section-walked schemes that ALSO carry global question numbers
     # (Social Science 32/7/*, numbered Science 31/*) would otherwise lose every
