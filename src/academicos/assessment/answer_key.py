@@ -344,21 +344,22 @@ def _parse_answer_list(body: str) -> dict[int, KeyedAnswer]:
 # cut). The value sections the section-aware pass cares about are the English
 # ones, so the marker is matched case-insensitively without the Hindi forms.
 _SECTION_HEADER = re.compile(
-    r"(?m)^[ \t]*SECTION[ \t]+([A-E])[ \t]*[:.\-—]?[ \t]*$", re.I)
+    r"(?m)^[ \t]*SECTION[ \t—-]+([A-E])[ \t]*[:.\-—]?[ \t]*$", re.I)
 
 
 def _section_blocks(block: str) -> list[str]:
-    """Splits one section's answer run into per-question blocks.
+    """Splits one section's answer run into per-question answer TEXT blocks.
 
     Prefers `Solution:`/`Sol.` line breaks (the Mathematics Basic 430/* layout:
     each solution block holds exactly one global question, with OR and (a)/(b)
-    parts inside it). Falls back to question-number lines when the section has
-    none. A standalone "1." from preamble-style prose can land in the fallback
-    too, but the caller reconciles those against the running counter.
+    parts inside it). Falls back to question-number lines: returns the text
+    BETWEEN consecutive number lines (i.e. the answer content), not the numbers.
     """
     if re.search(r"(?m)^[ \t]*Sol(?:ution)?\s*[:.]", block):
         return re.split(r"(?m)^[ \t]*Sol(?:ution)?\s*[:.]", block)[1:]
-    return re.split(r"(?m)^[ \t]*(\d{1,2})\s*\.[ \t]*$", block)[1::2]
+    parts = re.split(r"(?m)^[ \t]*(\d{1,2})\s*\.[ \t]*$", block)
+    # parts = [pre, num1, text1, num2, text2, ...] -> return [text1, text2, ...]
+    return parts[2::2]
 
 
 def _value_points_from_block(block: str) -> list[str]:
