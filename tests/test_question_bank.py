@@ -353,6 +353,70 @@ def test_relink_never_attaches_a_scheme_with_no_points(tmp_path):
             assert sch["markingPoints"], f"{rec['id']} claims CBSE with no points"
 
 
+def test_relink_attaches_an_objective_scheme_for_a_letter_only_answer(tmp_path):
+    """A 31/2/1-style objective key carries only a correct-option letter and
+    no value points. The scheme must keep the letter -- a one-marks point
+    naming the option, a two-level rubric, and metadata.correctOption so the
+    grading path can score it. Before the objective branch, the letter was
+    silently dropped and 53 corpus records were left with empty markingPoints.
+    """
+    db = make_answer_keys(tmp_path / "ak.db", [
+        ("Science", "X", None, 1, "B", "lysosome", "[]", 1.0,
+         "X_086_31-1-1 MS.pdf"),
+    ])
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "a" * 24, [
+        (1, "Series 31/1/1 Science " + "body " * 40),
+        (2, "Which cell organelle is known as the suicide bag of the cell? " + "x " * 40),
+    ])
+    stem = ("Which cell organelle is known as the suicide bag of the cell? "
+            "(A) mitochondrion  (B) lysosome  (C) ribosome  (D) golgi apparatus")
+    idx = AnswerKeyIndex(db)
+    recs = [question("a" * 24, 1, marks=1, stem=stem)]
+    rep = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert rep.newly_attached == 1
+    sch = recs[0]["answerScheme"]
+    assert sch["provenance"] == "cbse_marking_scheme"
+    assert sch["sourcePaperCode"] == "31/1/1"
+    assert len(sch["markingPoints"]) == 1
+    mp = sch["markingPoints"][0]
+    assert mp["description"] == "Correct option B: lysosome"
+    assert mp["keyword"] == "lysosome"
+    assert mp["isRequired"] is True
+    assert mp["synonyms"] == ["B"]
+    assert sch["metadata"]["objective"] is True
+    assert sch["metadata"]["correctOption"] == "B"
+    assert sch["metadata"]["options"]["A"] == "mitochondrion"
+    assert [l["label"] for l in sch["rubricLevels"]] == ["Correct", "Incorrect"]
+    assert any("distractor" in e for e in sch["commonErrors"])
+    assert sch["hasPartialCredit"] is False
+
+
+def test_relink_keeps_the_letter_when_the_stem_carries_no_options(tmp_path):
+    """Most 31/2/1 stems carry no (A)-(D) option text (40 of 53 records). The
+    scheme still must name the option -- the letter alone is the scheme when
+    nothing richer exists."""
+    db = make_answer_keys(tmp_path / "ak.db", [
+        ("Science", "X", None, 14, "B", "", "[]", 1.0,
+         "X_086_31-1-1 MS.pdf"),
+    ])
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "a" * 24, [
+        (1, "Series 31/1/1 Science " + "body " * 40),
+    ])
+    idx = AnswerKeyIndex(db)
+    recs = [question("a" * 24, 14, marks=1, stem="An electricity line x " * 30)]
+    rep = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert rep.newly_attached == 1
+    sch = recs[0]["answerScheme"]
+    assert sch["markingPoints"][0]["description"] == "Correct option B"
+    assert sch["markingPoints"][0]["synonyms"] == ["B"]
+    assert sch["metadata"]["correctOption"] == "B"
+    assert sch["markingPoints"], "a letter key must never produce an empty scheme"
+
+
 def test_relink_is_blocked_by_a_question_id_it_cannot_read(tmp_path):
     idx, parse, _ = _setup(tmp_path)
     recs = [{"id": "not-a-canonical-id", "stem": "x" * 80, "marks": 1,

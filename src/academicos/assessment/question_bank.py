@@ -37,12 +37,14 @@ from pathlib import Path
 from typing import Any, Iterable, Iterator, Optional
 
 from .answer_key import normalize_paper_code
+from .marking import parse_options
 from .schemas import (
     AnswerSchemeSchema,
     CalibrationSchema,
     MarkingPointSchema,
     ProvenanceSchema,
     RightsSchema,
+    RubricLevelSchema,
 )
 
 log = logging.getLogger(__name__)
@@ -192,22 +194,35 @@ class AnswerKeyIndex:
         con.execute("PRAGMA busy_timeout=60000")
         try:
             rows = list(con.execute(
-                "SELECT subject, grade, q_no, correct_option, answer_text, "
-                "value_points, marks, source FROM answer_keys"
+                "SELECT paper_code, subject, grade, q_no, correct_option, "
+                "answer_text, value_points, marks, source FROM answer_keys"
             ))
         finally:
             con.close()
 
         for r in rows:
             self.rows_total += 1
-            source = str(r["source"] or "")
-            if not _CODE_HINT.search(source):
-                # No code in the filename. It may still be reachable by content
-                # hash, which is a separate pass; do not guess a code here.
-                continue
-            code = normalize_paper_code(source)
-            if not code:
-                continue
+            stored = str(r["paper_code"] or "")
+            if stored.strip():
+                # The writer put the canonical code here, derived from the page
+                # headers -- the authoritative place it lives. Favouring the
+                # column over the filename matters: 79 real rows sit under
+                # names like "Science(MS) Set 1.pdf" that carry no code, and
+                # re-deriving from the filename silently dropped those papers
+                # (found 2026-09-20: the board's 31/1/2, 31/2/2, ... 55/*/2,
+                # 55/*/3 variants were keyed from the header at write time and
+                # unreachable at read time).
+                code = normalize_paper_code(stored) or stored.strip()
+            else:
+                source = str(r["source"] or "")
+                if not _CODE_HINT.search(source):
+                    # No code in the filename and none in the column. It may
+                    # still be reachable by content hash, which is a separate
+                    # pass; do not guess a code here.
+                    continue
+                code = normalize_paper_code(source)
+                if not code:
+                    continue
             try:
                 q_no = int(r["q_no"])
             except (TypeError, ValueError):
@@ -310,14 +325,64 @@ class RelinkReport:
 
 def build_official_scheme(
     answer: OfficialAnswer, *, marks: int, question_id: str, code: str,
-    document_id: str,
+    document_id: str, options: dict[str, str] | None = None,
 ) -> AnswerSchemeSchema:
     """Turn a KeyedAnswer into the API's scheme shape.
 
-    Marks per value point are left at 0 when the source did not carry them:
-    a marking scheme's mark column is emitted separately from its text in a
-    flattened PDF, so attaching a number would be inventing one.
+    An official key that carries a `correct_option` letter is an objective
+    scheme: one all-or-nothing point naming the option, a two-level rubric,
+    the other options as distractors, and `metadata.objective` so the scoring
+    path (`evaluate._evaluate_objective`, which reads `metadata.correctOption`)
+    can grade it. The `options` dict comes from the question stem, the only
+    place the option text lives; when it is absent the letter itself is the
+    scheme (keyword and synonym), never empty.
+
+    A descriptive key is rebuilt from its value points. Marks per value point
+    are left at 0 when the source did not carry them: a marking scheme's mark
+    column is emitted separately from its text in a flattened PDF, so attaching
+    a number would be inventing one.
     """
+    options = options or {}
+    if answer.correct_option:
+        key = str(answer.correct_option).strip().upper()
+        option_text = options.get(key, "")
+        point_text = option_text or f"Correct option {key}"
+        points = [
+            MarkingPointSchema(
+                id=f"{question_id}:mp1",
+                description=(f"Correct option {key}: {option_text}".strip()
+                             if option_text else point_text),
+                marks=marks or 1,
+                keyword=option_text or key,
+                is_required=True,
+                synonyms=[key],
+            )
+        ]
+        rubric = [
+            RubricLevelSchema(
+                level=1, label="Correct",
+                min_marks=marks or 1, max_marks=marks or 1,
+                description="Correct option identified.",
+            ),
+            RubricLevelSchema(
+                level=0, label="Incorrect", min_marks=0, max_marks=0,
+                description="Wrong or no option selected.",
+            ),
+        ]
+        return AnswerSchemeSchema(
+            total_marks=marks or 1,
+            marking_points=points,
+            rubric_levels=rubric,
+            common_errors=[f"Chose distractor {lbl}" for lbl in options if lbl != key],
+            alternative_answers=[],
+            model_answer=option_text or answer.answer_text,
+            has_partial_credit=False,
+            metadata={"objective": True, "options": options, "correctOption": key},
+            provenance="cbse_marking_scheme",
+            source_paper_code=code,
+            source_document_id=document_id,
+        )
+
     points = [
         MarkingPointSchema(
             id=f"{question_id}:mp{i + 1}",
@@ -329,7 +394,7 @@ def build_official_scheme(
     return AnswerSchemeSchema(
         total_marks=marks,
         marking_points=points,
-        model_answer=answer.answer_text if not answer.correct_option else "",
+        model_answer=answer.answer_text,
         has_partial_credit=len(points) > 1,
         provenance="cbse_marking_scheme",
         source_paper_code=code,
@@ -421,6 +486,7 @@ def relink_answer_schemes(
             question_id=str(rec.get("id")),
             code=source.paper_code,
             document_id=source.document_id,
+            options=parse_options(str(rec.get("stem") or "")),
         ).model_dump(mode="json", by_alias=True)
         report.newly_attached += 1
 

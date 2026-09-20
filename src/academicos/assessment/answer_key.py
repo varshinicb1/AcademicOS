@@ -77,7 +77,10 @@ _SUBJECT_BY_CODE = {
 
 # Marking-scheme boilerplate: the examiner instructions that precede the actual
 # answers. A "1." inside these pages is an instruction number, not a question.
-_PREAMBLE_END = re.compile(r"SECTION\s*[-–—]?\s*A\b", re.I)
+# Hindi-medium schemes label the same boundary "खण्ड - क" (Section A), so cut
+# there too or their preamble's numbered instructions are mistaken for answers.
+_PREAMBLE_END = re.compile(
+    r"(?:SECTION|खण्ड)\s*[-–—]?\s*(?:A|क)\b", re.I)
 
 # Section A objective answer, two layouts seen across subjects:
 #   Science: "1.\nD / 1: 8"                  — letter and text on one line
@@ -97,6 +100,27 @@ _MCQ_SOL = re.compile(
     r"[ \t]*\(([a-dA-D])\)[ \t]*"                  # (d)
     r"(.*?)"                                       # answer text
     r"(?=\n[ \t]*(?:1|2|½|\d{1,2}\s*\.[ \t]*\n))",
+    re.S,
+)
+
+# Section A objective answer, third layout — the letter alone, without either
+# a "D /" prefix or a "Sol." lead-in. Hindi-medium schemes and some English
+# "set" files write it as the question number, then the letter in parens on
+# its own line, then the marks column:
+#     2.
+#     (c)
+#     1
+#     1
+# Moved into the DB as a bare option so automatic scoring still keys a letter.
+# The marks line must immediately follow the letter: a value-point part label
+# ("14.\n(a)\n• In a few reptiles...") also looks like a lone (a) and must NOT
+# be read as an MCQ option, so the lookahead pins the letter to the mark column
+# (1 / 1 1 / ½) that only a real marks-only layout owns. answer_text stays empty.
+_MCQ_PAREN = re.compile(
+    r"(?m)^[ \t]*(\d{1,2})\s*\.[ \t]*\n"          # 2.
+    r"[ \t]*\(([a-dA-D])\)[ \t]*\n"               # (c) alone on the line
+    r"(?=(?:[ \t]*[12½](?:[ \t]*\n|[ \t]+[12½][ \t]*\n)))"   # marks line follows
+    r"()",                                             # no answer text in this layout
     re.S,
 )
 
@@ -192,7 +216,7 @@ def _pages_by_paper_code(pdf_path: Path) -> dict[str, str]:
 def _parse_objective(body: str) -> dict[int, KeyedAnswer]:
     """Pulls Section A letter answers out of one paper variant's text."""
     answers: dict[int, KeyedAnswer] = {}
-    for pattern in (_MCQ_SLASH, _MCQ_SOL):
+    for pattern in (_MCQ_SLASH, _MCQ_SOL, _MCQ_PAREN):
         for m in pattern.finditer(body):
             q_no = int(m.group(1))
             # Section A is questions 1-20; a later match with a low number means
