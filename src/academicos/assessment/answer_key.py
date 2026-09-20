@@ -354,10 +354,11 @@ def _section_blocks(block: str) -> list[str]:
     each solution block holds exactly one global question, with OR and (a)/(b)
     parts inside it). Falls back to question-number lines: returns the text
     BETWEEN consecutive number lines (i.e. the answer content), not the numbers.
+    Matches both "N." and bare "N" on their own line.
     """
     if re.search(r"(?m)^[ \t]*Sol(?:ution)?\s*[:.]", block):
         return re.split(r"(?m)^[ \t]*Sol(?:ution)?\s*[:.]", block)[1:]
-    parts = re.split(r"(?m)^[ \t]*(\d{1,2})\s*\.[ \t]*$", block)
+    parts = re.split(r"(?m)^[ \t]*(\d{1,2})\s*(?:\.|$)", block)
     # parts = [pre, num1, text1, num2, text2, ...] -> return [text1, text2, ...]
     return parts[2::2]
 
@@ -455,11 +456,15 @@ def _parse_value_points(body: str, section_a_count: int = 0) -> dict[int, KeyedA
 
     # Section-aware pass, then legacy as gap-fill for whatever it missed.
     run = max(section_a_count, _section_a_len(body, header_iter))
+    seen_sections = set()
     for hi in range(len(header_iter)):
         start = header_iter[hi].start()
         end = (header_iter[hi + 1].start()
                if hi + 1 < len(header_iter) else len(body))
         sec_label = header_iter[hi].group(1).upper()
+        if sec_label in seen_sections:
+            continue
+        seen_sections.add(sec_label)
         sec_text = body[start:end]
         if sec_label == "A" or not sec_text.strip():
             continue
@@ -468,27 +473,41 @@ def _parse_value_points(body: str, section_a_count: int = 0) -> dict[int, KeyedA
             continue
         # Prefer the printed numbers only when they continue the running counter
         # (global numbering, e.g. English 55/1/1: B starts at 17 after A's 16).
-        numbered = re.findall(
-            r"(?m)^[ \t]*(\d{1,2})\s*\.[ \t]*$", sec_text)
+        # Filter to numbers >= run+1 to avoid picking up marks (1, 2, 3...).
+        raw_numbered = re.findall(r"(?m)^[ \t]*(\d{1,2})\s*(?:\.|$)", sec_text)
+        numbered = [n for n in raw_numbered if int(n) >= run + 1]
         global_numbers = (
             numbered and int(numbered[0]) == run + 1
             and all(int(numbered[i]) == int(numbered[0]) + i
                     for i in range(len(numbered)))
         )
-        if global_numbers and len(numbered) == len(blocks):
-            for qno_text, block in zip(numbered, blocks):
-                points = _value_points_from_block(block)
-                if not points:
-                    continue
-                q_no = int(qno_text)
-                if q_no in answers:
-                    continue
-                answers[q_no] = KeyedAnswer(
-                    q_no=q_no, correct_option=None,
-                    answer_text=" ".join(points)[:1200],
-                    value_points=[(p, 0.0) for p in points])
-                run = max(run, q_no)
-            continue
+        if global_numbers:
+            # Split section text by the question numbers to get answer blocks
+            # that align with the numbered list (avoids splitting on marks).
+            parts = re.split(r"(?m)^[ \t]*(\d{1,2})\s*(?:\.|$)", sec_text)
+            # parts = [pre, num1, text1, num2, text2, ...]
+            aligned_blocks = parts[2::2]
+            # Filter aligned_blocks to only those corresponding to numbered >= run+1
+            filtered_blocks = []
+            for n, b in zip(raw_numbered, parts[2::2]):
+                if int(n) >= run + 1:
+                    filtered_blocks.append(b)
+            if len(filtered_blocks) == len(numbered):
+                for qno_text, block in zip(numbered, filtered_blocks):
+                    points = _value_points_from_block(block)
+                    if not points:
+                        continue
+                    q_no = int(qno_text)
+                    if q_no in answers:
+                        continue
+                    answers[q_no] = KeyedAnswer(
+                        q_no=q_no, correct_option=None,
+                        answer_text=" ".join(points)[:1200],
+                        value_points=[(p, 0.0) for p in points])
+                    run = max(run, q_no)
+                continue
+            # Fall back to generic blocks if alignment fails
+            blocks = filtered_blocks
         # Otherwise local numbering (or none): advance the running counter.
         for block in blocks:
             points = _value_points_from_block(block)
