@@ -339,39 +339,174 @@ def _parse_answer_list(body: str) -> dict[int, KeyedAnswer]:
     return answers
 
 
-def _parse_value_points(body: str) -> dict[int, KeyedAnswer]:
-    """Pulls sections B+ value points, keyed by question number.
+# A SECTION header line. CBSE prints it as "SECTION B", "Section A", or with a
+# separating dash/period; Hindi-medium schemes keep खण्ड (handled via the पreamble
+# cut). The value sections the section-aware pass cares about are the English
+# ones, so the marker is matched case-insensitively without the Hindi forms.
+_SECTION_HEADER = re.compile(
+    r"(?m)^[ \t]*SECTION[ \t]+([A-E])[ \t]*[:.\-—]?[ \t]*$", re.I)
 
-    Splits on question-number lines and collects the bulleted scoring steps
-    inside each block. Marks per point are not reliably alignable to their text
-    in a flattened PDF (the mark column is emitted separately), so each point
-    carries 0.0 and the teacher allocates — better than inventing a number.
+
+def _section_blocks(block: str) -> list[str]:
+    """Splits one section's answer run into per-question blocks.
+
+    Prefers `Solution:`/`Sol.` line breaks (the Mathematics Basic 430/* layout:
+    each solution block holds exactly one global question, with OR and (a)/(b)
+    parts inside it). Falls back to question-number lines when the section has
+    none. A standalone "1." from preamble-style prose can land in the fallback
+    too, but the caller reconciles those against the running counter.
+    """
+    if re.search(r"(?m)^[ \t]*Sol(?:ution)?\s*[:.]", block):
+        return re.split(r"(?m)^[ \t]*Sol(?:ution)?\s*[:.]", block)[1:]
+    return re.split(r"(?m)^[ \t]*(\d{1,2})\s*\.[ \t]*$", block)[1::2]
+
+
+def _value_points_from_block(block: str) -> list[str]:
+    """Collects the scoring steps inside one value-point block.
+
+    The 430/* solution blocks are unbulleted prose, so the bullet pass finds
+    nothing there; the fallback keeps the first substantial lines exactly as
+    the legacy parser did.
+    """
+    points = [_clean(p) for p in _VALUE_POINT.findall(block)]
+    points = [p for p in points if len(p) > 8][:8]
+    if not points:
+        lines = [_clean(l) for l in block.splitlines()]
+        points = [l for l in lines if len(l) > 25][:4]
+    return points
+
+
+def _section_a_len(body: str, header_iter: list[re.Match]) -> int:
+    """Counts the questions in Section A from the scheme's own section text.
+
+    The objective passes can return nothing for the English "1.\n(B) answer"
+    inline layout, so this measures the section directly. Section A runs from
+    its own header (or the body start when it carries no header, as the Science
+    31/* value-passed schemes do) up to the next SECTION marker:
+      - the `Answer (x)` / `Ans.` list count (Mathematics Basic 430/*), or
+      - the largest standalone question number in the section (everything else).
+    """
+    if header_iter and header_iter[0].group(1).upper() == "A":
+        a_start = header_iter[0].start()
+        a_end = (header_iter[1].start()
+                 if len(header_iter) > 1 else len(body))
+        a_text = body[a_start:a_end]
+    else:
+        a_text = body[:header_iter[0].start()] if header_iter else body
+    headers = [m for ln in a_text.splitlines()
+               if (m := _ANSWER_LIST_HEADER.match(ln))]
+    if len(headers) >= 2:
+        return len(headers)
+    nums = [int(m.group(1))
+            for m in re.finditer(r"(?m)^[ \t]*(\d{1,2})\s*\.[ \t]*$", a_text)]
+    return max(nums) if nums else 0
+
+
+def _parse_value_points(body: str, section_a_count: int = 0) -> dict[int, KeyedAnswer]:
+    """Pulls sections B+ value points, keyed by the GLOBAL question number.
+
+    CBSE's new-layout schemes renumber questions per section, or drop the number
+    entirely beneath `Sections A-E` headers, so a literal "17." split cannot key
+    them. When the body carries real SECTION headers the sections are walked in
+    order and each question block advances a running counter seeded by Section
+    A's length -- the only numbering the question paper itself agrees with.
+
+    The legacy literal-number split runs as a gap-fill underneath: some headed
+    schemes (Social Science 32/7/*, some Science 31/*) head sections but still
+    number their value questions globally, and the section walk would otherwise
+    lose them entirely.
+
+    Bodies with no SECTION headers keep the legacy literal-number split alone
+    (the Science/Math standard schemes write their value questions globally
+    1..N).
+
+    Marks per point are not reliably alignable to their text in a flattened PDF
+    (the mark column is emitted separately), so each point carries 0.0 and the
+    teacher allocates -- better than inventing a number.
     """
     answers: dict[int, KeyedAnswer] = {}
-    blocks = re.split(r"(?m)^[ \t]*(\d{1,2})\s*\.[ \t]*$", body)
-    # re.split with one group yields [pre, qno, block, qno, block, ...]
-    for i in range(1, len(blocks) - 1, 2):
-        try:
-            q_no = int(blocks[i])
-        except ValueError:
+    header_iter = list(_SECTION_HEADER.finditer(body))
+
+    def from_blocks(blocks: list[str]) -> None:
+        for i in range(1, len(blocks) - 1, 2):
+            try:
+                q_no = int(blocks[i])
+            except ValueError:
+                continue
+            if q_no in answers:  # Section A (1-20) keyed by the objective passes
+                continue
+            points = _value_points_from_block(blocks[i + 1])
+            if not points:
+                continue
+            answers[q_no] = KeyedAnswer(
+                q_no=q_no,
+                correct_option=None,
+                answer_text=" ".join(points)[:1200],
+                value_points=[(p, 0.0) for p in points],
+            )
+
+    legacy_blocks = re.split(r"(?m)^[ \t]*(\d{1,2})\s*\.[ \t]*$", body)
+
+    if len(header_iter) < 2:
+        # Legacy path: split on literal question-number lines. 430/* has none in
+        # the value sections, so this is what the standard 31/* schemes require.
+        from_blocks(legacy_blocks)
+        return answers
+
+    # Section-aware pass, then legacy as gap-fill for whatever it missed.
+    run = max(section_a_count, _section_a_len(body, header_iter))
+    for hi in range(len(header_iter)):
+        start = header_iter[hi].start()
+        end = (header_iter[hi + 1].start()
+               if hi + 1 < len(header_iter) else len(body))
+        sec_label = header_iter[hi].group(1).upper()
+        sec_text = body[start:end]
+        if sec_label == "A" or not sec_text.strip():
             continue
-        if q_no in answers:  # Section A (1-20) keyed by the objective passes
+        blocks = _section_blocks(sec_text)
+        if not blocks:
             continue
-        block = blocks[i + 1]
-        points = [_clean(p) for p in _VALUE_POINT.findall(block)]
-        points = [p for p in points if len(p) > 8][:8]
-        if not points:
-            # Unbulleted prose answer: keep the first substantial lines.
-            lines = [_clean(l) for l in block.splitlines()]
-            points = [l for l in lines if len(l) > 25][:4]
-        if not points:
-            continue
-        answers[q_no] = KeyedAnswer(
-            q_no=q_no,
-            correct_option=None,
-            answer_text=" ".join(points)[:1200],
-            value_points=[(p, 0.0) for p in points],
+        # Prefer the printed numbers only when they continue the running counter
+        # (global numbering, e.g. English 55/1/1: B starts at 17 after A's 16).
+        numbered = re.findall(
+            r"(?m)^[ \t]*(\d{1,2})\s*\.[ \t]*$", sec_text)
+        global_numbers = (
+            numbered and int(numbered[0]) == run + 1
+            and all(int(numbered[i]) == int(numbered[0]) + i
+                    for i in range(len(numbered)))
         )
+        if global_numbers and len(numbered) == len(blocks):
+            for qno_text, block in zip(numbered, blocks):
+                points = _value_points_from_block(block)
+                if not points:
+                    continue
+                q_no = int(qno_text)
+                if q_no in answers:
+                    continue
+                answers[q_no] = KeyedAnswer(
+                    q_no=q_no, correct_option=None,
+                    answer_text=" ".join(points)[:1200],
+                    value_points=[(p, 0.0) for p in points])
+                run = max(run, q_no)
+            continue
+        # Otherwise local numbering (or none): advance the running counter.
+        for block in blocks:
+            points = _value_points_from_block(block)
+            if not points:
+                continue
+            run += 1
+            if run in answers:
+                continue
+            answers[run] = KeyedAnswer(
+                q_no=run, correct_option=None,
+                answer_text=" ".join(points)[:1200],
+                value_points=[(p, 0.0) for p in points])
+
+    # Gap-fill: section-walked schemes that ALSO carry global question numbers
+    # (Social Science 32/7/*, numbered Science 31/*) would otherwise lose every
+    # value answer. The literal split keys those directly and cannot disturb a
+    # key the section walk already claimed.
+    from_blocks(legacy_blocks)
     return answers
 
 
