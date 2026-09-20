@@ -134,6 +134,19 @@ _MCQ_PAREN = re.compile(
     re.S,
 )
 
+# Fifth layout — Hindi-style bare numbers without period:
+#     1
+#     (a)
+#     1
+#     1
+_MCQ_PAREN_BARE = re.compile(
+    r"(?m)^[ \t]*(\d{1,2})\s*\n"                   # 2 (bare, no period)
+    r"[ \t]*\(([a-dA-D])\)[ \t]*\n"               # (c) alone on the line
+    r"(?=(?:[ \t]*[12½](?:[ \t]*\n|[ \t]+[12½][ \t]*\n)))"   # marks line follows
+    r"()",                                             # no answer text
+    re.S,
+)
+
 # Section A objective answer, fourth layout -- a bare running list with no
 # question numbers:
 #     Answer (B) 5 units
@@ -255,7 +268,7 @@ def _pages_by_paper_code(pdf_path: Path) -> dict[str, str]:
 def _parse_objective(body: str) -> dict[int, KeyedAnswer]:
     """Pulls Section A letter answers out of one paper variant's text."""
     answers: dict[int, KeyedAnswer] = {}
-    for pattern in (_MCQ_SLASH, _MCQ_SOL, _MCQ_PAREN):
+    for pattern in (_MCQ_SLASH, _MCQ_SOL, _MCQ_PAREN, _MCQ_PAREN_BARE):
         for m in pattern.finditer(body):
             q_no = int(m.group(1))
             # Section A is questions 1-20; a later match with a low number means
@@ -343,8 +356,21 @@ def _parse_answer_list(body: str) -> dict[int, KeyedAnswer]:
 # separating dash/period; Hindi-medium schemes keep खण्ड (handled via the पreamble
 # cut). The value sections the section-aware pass cares about are the English
 # ones, so the marker is matched case-insensitively without the Hindi forms.
+# Hindi section headers: "खंड—अ", "खंड ख", "खंड – ग", "खंड – घ", "खंड – ड",
+# "खंड - ग", "खंड- क", "खंड-ख" etc.  Letters: अ क ख ग घ ड (A-E).
+_HINDI_SECTION_LETTERS = "अकखगघड"
+_HINDI_TO_EN = {"अ": "A", "क": "A", "ख": "B", "ग": "C", "घ": "D", "ड": "E"}
+
+def _sec_label(m: re.Match) -> str:
+    """Returns the section label as A-E (English) from either regex group."""
+    if m.group(1):
+        return m.group(1).upper()
+    return _HINDI_TO_EN.get(m.group(2), "?")
+
 _SECTION_HEADER = re.compile(
-    r"(?m)^[ \t]*SECTION[ \t—-]+([A-E])[ \t]*[:.\-—]?[ \t]*$", re.I)
+    r"(?m)^[ \t]*(?:SECTION[ \t—-]+([A-E])"
+    r"|खंड[ \t—\-—]+([" + _HINDI_SECTION_LETTERS + r"]))"
+    r"[ \t]*[:.\-—]?[ \t]*$", re.I)
 
 
 def _section_blocks(block: str) -> list[str]:
@@ -388,7 +414,8 @@ def _section_a_len(body: str, header_iter: list[re.Match]) -> int:
       - the `Answer (x)` / `Ans.` list count (Mathematics Basic 430/*), or
       - the largest standalone question number in the section (everything else).
     """
-    if header_iter and header_iter[0].group(1).upper() == "A":
+    first_label = _sec_label(header_iter[0]) if header_iter else "?"
+    if header_iter and first_label == "A":
         a_start = header_iter[0].start()
         a_end = (header_iter[1].start()
                  if len(header_iter) > 1 else len(body))
@@ -399,6 +426,10 @@ def _section_a_len(body: str, header_iter: list[re.Match]) -> int:
                if (m := _ANSWER_LIST_HEADER.match(ln))]
     if len(headers) >= 2:
         return len(headers)
+    # Fallback: try objective MCQ patterns (incl. bare parens for Hindi)
+    obj = _parse_objective(a_text)
+    if obj:
+        return len(obj)
     nums = [int(m.group(1))
             for m in re.finditer(r"(?m)^[ \t]*(\d{1,2})\s*\.[ \t]*$", a_text)]
     return max(nums) if nums else 0
@@ -461,7 +492,7 @@ def _parse_value_points(body: str, section_a_count: int = 0) -> dict[int, KeyedA
         start = header_iter[hi].start()
         end = (header_iter[hi + 1].start()
                if hi + 1 < len(header_iter) else len(body))
-        sec_label = header_iter[hi].group(1).upper()
+        sec_label = _sec_label(header_iter[hi])
         if sec_label in seen_sections:
             continue
         seen_sections.add(sec_label)
@@ -475,7 +506,18 @@ def _parse_value_points(body: str, section_a_count: int = 0) -> dict[int, KeyedA
         # (global numbering, e.g. English 55/1/1: B starts at 17 after A's 16).
         # Filter to numbers >= run+1 to avoid picking up marks (1, 2, 3...).
         raw_numbered = re.findall(r"(?m)^[ \t]*(\d{1,2})\s*(?:\.|$)", sec_text)
-        numbered = [n for n in raw_numbered if int(n) >= run + 1]
+        # Extract the longest consecutive prefix starting from run+1.
+        # This avoids marks/page numbers (e.g. 38, 60) that are >= run+1 but not consecutive.
+        numbered = []
+        expected = run + 1
+        for n in raw_numbered:
+            val = int(n)
+            if val == expected:
+                numbered.append(n)
+                expected += 1
+            elif val > expected:
+                # Gap detected - stop looking for consecutive questions
+                break
         global_numbers = (
             numbered and int(numbered[0]) == run + 1
             and all(int(numbered[i]) == int(numbered[0]) + i
@@ -523,7 +565,7 @@ def _parse_value_points(body: str, section_a_count: int = 0) -> dict[int, KeyedA
 
     # Handle "SECTION A only" schemes where value questions continue globally
     # after A (e.g. 66/1/1 Business Studies: A ends at 20, then 21 Q., 22 Q....).
-    if len(header_iter) == 1 and header_iter[0].group(1).upper() == "A":
+    if len(header_iter) == 1 and _sec_label(header_iter[0]) == "A":
         a_end = header_iter[0].end()
         tail = body[a_end:]
         if tail.strip():
