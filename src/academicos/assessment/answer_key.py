@@ -75,6 +75,16 @@ _SUBJECT_BY_CODE = {
     "028": "Political Science",
 }
 
+# Lower-cased subject-name fallbacks for scheme files whose path lacks a code.
+# "buisness" is not a typo here -- CBSE 2022 XII schemes ship as
+# `Buisness_Studies/`, misspelled upstream.
+_SUBJECT_BY_NAME = (
+    "social science", "science", "mathematics", "math", "english",
+    "business studies", "business", "buisness studies", "accountancy",
+    "economics", "physics", "chemistry", "biology", "history", "geography",
+    "political science",
+)
+
 # Marking-scheme boilerplate: the examiner instructions that precede the actual
 # answers. A "1." inside these pages is an instruction number, not a question.
 # Hindi-medium schemes label the same boundary "खण्ड - क" (Section A), so cut
@@ -124,6 +134,34 @@ _MCQ_PAREN = re.compile(
     re.S,
 )
 
+# Section A objective answer, fourth layout -- a bare running list with no
+# question numbers:
+#     Answer (B) 5 units
+#     Ans. (c)
+#     2800
+#     Ans.. (A) x2 - x - 6
+# CBSE uses this in Mathematics Basic (430/*) and some XII schemes; the list
+# always runs q1..qN in paper order, with the marks column at the line end,
+# a dashed rule under each answer, and the answer text beside or below the
+# header. Question numbers are recovered from the list position.
+_ANSWER_LIST_HEADER = re.compile(
+    r"^[ \t]*(?:Answer|Ans\.{0,2})[ \t]*\(([a-dA-D])\)[ \t]*(.*)$")
+
+# A right-aligned marks column that PyMuPDF merges onto the answer line, e.g.
+# "Answer (C) P(E) + P( E ) = 1                           1". Only strip it when it
+# is separated by two+ runes of space so an answer text that itself ends in a
+# digit ("(D) - 6", "x = 2") is never mangled.
+_TRAILING_MARK = re.compile(r"[ \t]{2,}(?:½|[0-9]+(?:\s*½)?)[ \t]*$")
+
+# A line that is nothing but the marks column, standing alone (the "Ans."
+# files put the mark on its own line under the answer). Section A marks are
+# 1, 2 or ½ -- never three figures, so "2800" (a real answer) is kept.
+_MARK_TOKEN_LINE = re.compile(
+    r"^[ \t]*(?:½|[1-3](?:[ \t]*½)?)(?:[ \t]+(?:½|[1-3]))*[ \t]*$")
+
+# The dashed rule @u2026 that separates consecutive answers in the "Ans." files.
+_RULE_LINE = re.compile(r"^[ \t]*[_\-–—]{8,}[ \t]*$")
+
 # A value point: a bulleted/dashed scoring step in sections B onwards.
 _VALUE_POINT = re.compile(r"(?m)^[ \t]*[•▪●➢*•][ \t]*(.+)$")
 
@@ -149,9 +187,10 @@ def subject_from_path(path: Path) -> str | None:
         if re.search(rf"[_\s/\\]{code}[_\s]", text):
             return subject
     lowered = text.lower()
-    for subject in ("social science", "science", "mathematics", "math", "english"):
+    for subject in _SUBJECT_BY_NAME:
         if subject in lowered:
-            return "Mathematics" if subject == "math" else subject.title()
+            return "Mathematics" if subject == "math" else (
+                "Business Studies" if "buisness" in subject else subject.title())
     return None
 
 
@@ -232,6 +271,74 @@ def _parse_objective(body: str) -> dict[int, KeyedAnswer]:
     return answers
 
 
+def _parse_answer_list(body: str) -> dict[int, KeyedAnswer]:
+    """Pulls Section A letter answers from the numbered-less running list.
+
+    The four numbered layouts above anchor a question number, so they can
+    never read a list that carries none. CBSE's Mathematics Basic schemes
+    (430/*) and some XII schemes write Section A as:
+        Answer (B) 5 units
+        Ans. (c)
+        2800
+        Ans.. (A) x2 - x - 6
+    in paper order, q1..qN, each answer closed by a dashed rule and its marks
+    column at the line end. Only use this pass when the numbered layouts found
+    nothing -- a paper that has both would otherwise key its Section A twice.
+    """
+    lines = body.splitlines()
+    headers: list[tuple[int, str, str]] = []
+    for i, line in enumerate(lines):
+        m = _ANSWER_LIST_HEADER.match(line)
+        if m:
+            headers.append((i, m.group(1).upper(), m.group(2)))
+    if len(headers) < 2:
+        return {}
+    # Cut the list where the scheme switches to the value-point (Solution:)
+    # layout or passes into another section.
+    end = len(lines)
+    for i, line in enumerate(lines):
+        if re.match(r"^[ \t]*(?:Sol(?:ution)?\s*[:.]|SECTION\s*[BCbc])", line):
+            end = i
+            break
+
+    answers: dict[int, KeyedAnswer] = {}
+    q_no = 0
+    for idx, (i, letter, inline) in enumerate(headers):
+        if i >= end:
+            break
+        q_no += 1
+        if q_no > 20:
+            break
+        parts: list[str] = []
+        # Inline text sometimes carries the marks column: strip it before
+        # cleaning collapses the separating whitespace to one space.
+        raw_inline = _TRAILING_MARK.sub("", inline).rstrip()
+        if raw_inline:
+            parts.append(_clean(raw_inline))
+        # The "Ans." layouts put the answer on the lines under the header,
+        # up to the marks-only line or the next header.
+        j = i + 1
+        while j < end:
+            line = lines[j]
+            if _ANSWER_LIST_HEADER.match(line):
+                break
+            if _RULE_LINE.match(line):
+                break
+            if _MARK_TOKEN_LINE.match(line):
+                break
+            if line.strip():
+                parts.append(_clean(line))
+            j += 1
+        text = " ".join(p.strip(" .:") for p in parts if p.strip(" .:"))
+        answers[q_no] = KeyedAnswer(
+            q_no=q_no,
+            correct_option=letter,
+            answer_text=text,
+            marks=1.0,
+        )
+    return answers
+
+
 def _parse_value_points(body: str) -> dict[int, KeyedAnswer]:
     """Pulls sections B+ value points, keyed by question number.
 
@@ -248,7 +355,7 @@ def _parse_value_points(body: str) -> dict[int, KeyedAnswer]:
             q_no = int(blocks[i])
         except ValueError:
             continue
-        if q_no <= 20 or q_no in answers:  # Section A handled separately
+        if q_no in answers:  # Section A (1-20) keyed by the objective passes
             continue
         block = blocks[i + 1]
         points = [_clean(p) for p in _VALUE_POINT.findall(block)]
@@ -296,7 +403,14 @@ def parse_marking_scheme(pdf_path: Path) -> list[PaperKey]:
         cut = _PREAMBLE_END.search(body)
         answers_body = body[cut.start():] if cut else body
         answers = _parse_objective(answers_body)
-        answers.update(_parse_value_points(answers_body))
+        if not answers:
+            answers = _parse_answer_list(answers_body)
+        # Value points key questions by number too, but stray "1."/"16." lines
+        # that survive inside Section B+ body text can collide with a question
+        # already keyed objectively -- the objective answer must win (setdefault,
+        # not update).
+        for q_no, keyed in _parse_value_points(answers_body).items():
+            answers.setdefault(q_no, keyed)
         if answers:
             keys.append(PaperKey(paper_code=code, subject=subject,
                                  grade=grade, answers=answers))
