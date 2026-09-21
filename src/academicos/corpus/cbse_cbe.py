@@ -696,6 +696,103 @@ _CODE_CELL = re.compile(r"^(?:\d{1,2}(?:\.\d{1,2}){2}|\d{0,2}[A-Z]\d{1,2}[a-z]?)
 _QID_CELL = re.compile(r"^[A-Za-z]{3,}\d{1,2}[A-Z]{2,4}\d*(?:[a-z]|\d)?$")
 
 
+# The English Item Index carries no content-code column -- every other subject's
+# does. It gives a "Text type" instead ("Poetry", "Speech transcript"), so the
+# strand is synthesised from that and prefixed `ENG` so it can never be mistaken
+# for a code CBSE actually issued.
+_ENGLISH_STRANDS = (
+    (("poetry", "poem"), 1),
+    (("drama", "play"), 2),
+    (("autobiography", "biography", "diary", "memoir"), 3),
+    (("travel",), 4),
+    (("information", "speech", "transcript"), 5),
+    (("advertisement", "advert"), 6),
+    (("non-fiction", "nonfiction"), 7),
+    (("prose", "short story", "novel", "fiction"), 8),
+)
+
+
+def _english_pseudo_code(grade: int, text_type: str) -> str:
+    """A per-grade strand code for an English item -- `ENG9.1` for class 9 poetry.
+
+    The grade is part of the code because `coarse_code` keeps only the part
+    before the dot: without it, class 6 poetry and class 10 poetry collapse into
+    one strand and the topic mapper can map an item onto another grade's topic.
+
+    An unrecognised text type falls back to `.0` rather than to no code at all.
+    It is still an English item of a known grade, and dropping it would shrink
+    coverage silently.
+    """
+    lowered = (text_type or "").lower()
+    for keywords, idx in _ENGLISH_STRANDS:
+        if any(k in lowered for k in keywords):
+            return f"ENG{int(grade)}.{idx}"
+    return f"ENG{int(grade)}.0"
+
+
+def _cell(row: list, i: int) -> str:
+    """One extracted table cell as single-line text, or "" when absent."""
+    if len(row) <= i or row[i] is None:
+        return ""
+    return str(row[i]).strip().replace("\n", " ")
+
+
+def _int_cell(row: list, i: int) -> int:
+    """A table cell as an int, or 0 when it is blank or not a number."""
+    raw = _cell(row, i)
+    return int(raw) if raw.isdigit() else 0
+
+
+def _parse_english_index(pdf_path: Path, grade: int) -> dict[str, dict]:
+    """The English Item Index: question id -> strand, text type, AO marks.
+
+    English ships a different layout from the other subjects -- eight columns
+    (File Name, Question ID, AO1-AO4, Text type, Source description) and no
+    content code -- so it is read with table extraction rather than the
+    line-per-cell scan `parse_index` uses on the others.
+
+    Continuation pages repeat the table without its header, so a page whose
+    first row is already data is read from row 0; otherwise the header is
+    skipped. A page that is neither is not this table and is left alone.
+    """
+    import fitz
+
+    doc = fitz.open(pdf_path)
+    out: dict[str, dict] = {}
+    try:
+        for index in range(min(14, len(doc))):
+            for table in doc[index].find_tables():
+                rows = table.extract()
+                if not rows or len(rows) < 2 or len(rows[0]) < 7:
+                    continue
+                first = rows[0]
+                if ("file name" in _cell(first, 0).lower()
+                        or "question id" in _cell(first, 1).lower()):
+                    data_rows = rows[1:]
+                elif len(first) == 8 and _QID_CELL.match(_cell(first, 1)):
+                    data_rows = rows                  # continuation page
+                else:
+                    continue
+
+                for row in data_rows:
+                    if not row or len(row) < 2:
+                        continue
+                    qid = _cell(row, 1)
+                    text_type = _cell(row, 6)
+                    if not qid or not text_type or not _QID_CELL.match(qid):
+                        continue
+                    out[qid] = {
+                        "content_code": _english_pseudo_code(grade, text_type),
+                        "topic": text_type,
+                        "content_reference": _cell(row, 7),
+                        "ao1_marks": _int_cell(row, 2),
+                        "ao2_marks": _int_cell(row, 3),
+                    }
+    finally:
+        doc.close()
+    return out
+
+
 def parse_index(pdf_path: Path) -> dict[str, dict]:
     """Read the Item Index: question id -> content code, topic strand, AO marks.
 
@@ -704,6 +801,12 @@ def parse_index(pdf_path: Path) -> dict[str, dict]:
     world`), while each item's metadata gives the fuller content reference.
     """
     import fitz
+
+    # English's index has a different layout and no content code; it needs the
+    # grade, because its strand codes are synthesised per grade.
+    subject, grade = subject_and_grade_for(pdf_path)
+    if subject.lower() == "english":
+        return _parse_english_index(pdf_path, grade)
 
     doc = fitz.open(pdf_path)
     out: dict[str, dict] = {}

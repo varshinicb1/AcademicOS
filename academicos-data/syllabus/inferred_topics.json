@@ -2,9 +2,985 @@
  "notice": "Strand-level topics INFERRED from the CBSE CBE learning-ladder codes by nearest-centroid. Not authored by CBSE. Precision is cross-validated on CBE items and is an upper bound on accuracy for board-paper questions.",
  "method": "cbe_strand_centroid_v1",
  "minPrecision": 0.8,
- "builtAt": "2026-09-17T03:37:56.091729+00:00",
- "count": 496,
+ "builtAt": "2026-09-20T06:42:08.762927+00:00",
+ "count": 618,
  "topics": {
+  "cbse:q:src:7e81f931984b4c9a12e55b2c:1": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.3069,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:7e81f931984b4c9a12e55b2c:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.3353,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:7e81f931984b4c9a12e55b2c:5": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1012,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:7e81f931984b4c9a12e55b2c:6": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.2234,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:7e81f931984b4c9a12e55b2c:7": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1325,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:7e81f931984b4c9a12e55b2c:9": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0491,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:7e81f931984b4c9a12e55b2c:10": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0347,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:51b5fbd0310e6ff1425bbdb7:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2638,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:51b5fbd0310e6ff1425bbdb7:5": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1128,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:51b5fbd0310e6ff1425bbdb7:6": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.3798,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:938304a8dd9b8a8f38ec7744:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2161,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:938304a8dd9b8a8f38ec7744:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0347,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:938304a8dd9b8a8f38ec7744:9": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1657,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:938304a8dd9b8a8f38ec7744:10": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1399,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:938304a8dd9b8a8f38ec7744:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0868,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:fe4c78a7b352f66d136e348a:1": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2709,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:fe4c78a7b352f66d136e348a:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2812,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:fe4c78a7b352f66d136e348a:6": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2144,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:fe4c78a7b352f66d136e348a:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1492,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:fe4c78a7b352f66d136e348a:10": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.2362,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:5044e5fac895775650f8de93:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2324,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:5044e5fac895775650f8de93:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1718,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:5044e5fac895775650f8de93:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1479,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:bf00770c7933b671b0489c85:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.3198,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:bf00770c7933b671b0489c85:5": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0695,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:bf00770c7933b671b0489c85:7": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.134,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:bf00770c7933b671b0489c85:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.148,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:c53f84b1d87a8e5a1b43e495:1": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0978,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:c53f84b1d87a8e5a1b43e495:2": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0948,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:c53f84b1d87a8e5a1b43e495:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2161,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:c53f84b1d87a8e5a1b43e495:6": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.1516,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:c53f84b1d87a8e5a1b43e495:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1491,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:c53f84b1d87a8e5a1b43e495:9": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1012,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:c53f84b1d87a8e5a1b43e495:10": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1012,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:c53f84b1d87a8e5a1b43e495:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.214,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:53888230b65ff3f59b83b153:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2631,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:53888230b65ff3f59b83b153:5": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0602,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:53888230b65ff3f59b83b153:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.2092,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:53888230b65ff3f59b83b153:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1012,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b89fdb992df7c3a55b0544de:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2797,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b89fdb992df7c3a55b0544de:7": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1777,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:9c6a63a580b400ef4e21cac3:1": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0877,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:9c6a63a580b400ef4e21cac3:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.3307,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:9c6a63a580b400ef4e21cac3:6": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2286,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:9c6a63a580b400ef4e21cac3:7": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2545,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:9c6a63a580b400ef4e21cac3:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.1569,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:9c6a63a580b400ef4e21cac3:9": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2311,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:9c6a63a580b400ef4e21cac3:10": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1989,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:4e405c53d0caa1367704baf8:5": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2161,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:4e405c53d0caa1367704baf8:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.128,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:027f3bafc21069bf05c91c9d:5": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2522,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:027f3bafc21069bf05c91c9d:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0985,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:027f3bafc21069bf05c91c9d:9": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0744,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:813436fcf425e48b0518601f:1": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1556,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:813436fcf425e48b0518601f:3": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2411,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:813436fcf425e48b0518601f:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2037,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:813436fcf425e48b0518601f:6": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0985,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:813436fcf425e48b0518601f:9": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2084,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:813436fcf425e48b0518601f:10": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0989,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:a94336a990794968c619d2f5:2": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1098,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:a94336a990794968c619d2f5:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.1956,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:a94336a990794968c619d2f5:5": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0989,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:a94336a990794968c619d2f5:7": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0744,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:a94336a990794968c619d2f5:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.3045,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:a94336a990794968c619d2f5:9": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2937,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:a94336a990794968c619d2f5:10": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2694,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:a94336a990794968c619d2f5:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.2057,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:eb9c83ce3fe8550e0dbe4afc:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.2849,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:811e64d537a3e542ecc85db4:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0347,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:2885ce3bdbf8bed376608474:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1484,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:2885ce3bdbf8bed376608474:5": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.096,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:2885ce3bdbf8bed376608474:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.128,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:2885ce3bdbf8bed376608474:9": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0777,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:2885ce3bdbf8bed376608474:10": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1742,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:2885ce3bdbf8bed376608474:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.115,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:bb811bfcf094b1190637d6cd:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2318,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:bb811bfcf094b1190637d6cd:5": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1511,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:bb811bfcf094b1190637d6cd:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.139,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:437dc259b6f036c024374d17:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2117,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:437dc259b6f036c024374d17:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1658,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:5b264d90783245ffde0e1c98:1": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.1479,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:5b264d90783245ffde0e1c98:2": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1467,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:5b264d90783245ffde0e1c98:3": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2816,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:5b264d90783245ffde0e1c98:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1807,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:5b264d90783245ffde0e1c98:5": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1329,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:5b264d90783245ffde0e1c98:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.298,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:5b264d90783245ffde0e1c98:9": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.167,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:5b264d90783245ffde0e1c98:10": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1112,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:5b264d90783245ffde0e1c98:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1995,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:271d9e8edcd765fa3693ca4a:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2085,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:271d9e8edcd765fa3693ca4a:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.2534,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:271d9e8edcd765fa3693ca4a:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0602,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b3cbfa4b76d130c5e93b6fbe:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2149,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b3cbfa4b76d130c5e93b6fbe:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.3151,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b3cbfa4b76d130c5e93b6fbe:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0491,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b4bdd3a5880168f325b77269:1": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1618,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b4bdd3a5880168f325b77269:5": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1534,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b4bdd3a5880168f325b77269:2": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1393,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b4bdd3a5880168f325b77269:3": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0985,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b4bdd3a5880168f325b77269:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1539,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b4bdd3a5880168f325b77269:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.3695,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b4bdd3a5880168f325b77269:9": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1955,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b4bdd3a5880168f325b77269:10": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0491,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:b4bdd3a5880168f325b77269:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1492,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:d583fde5e056ca76aea6557a:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1589,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:d583fde5e056ca76aea6557a:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.3118,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:d583fde5e056ca76aea6557a:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.0851,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:506dfdcaf2f1dbc975615e43:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1531,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:506dfdcaf2f1dbc975615e43:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2356,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:deb9514d798039c81599197c:1": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1975,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:deb9514d798039c81599197c:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2728,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:deb9514d798039c81599197c:5": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1206,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:deb9514d798039c81599197c:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1477,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:deb9514d798039c81599197c:9": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2341,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:deb9514d798039c81599197c:10": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.2668,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:deb9514d798039c81599197c:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.1524,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:50203e1a89badcdc1ca3b1ff:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2831,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:50203e1a89badcdc1ca3b1ff:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.2793,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:50203e1a89badcdc1ca3b1ff:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1801,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:1873c987bde65d203deacc5a:4": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.2853,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:1873c987bde65d203deacc5a:8": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.3",
+   "score": 0.277,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
+  "cbse:q:src:1873c987bde65d203deacc5a:11": {
+   "subject": "English",
+   "grade": 10,
+   "strand": "ENG10.7",
+   "score": 0.1901,
+   "method": "cbe_strand_centroid_v1",
+   "precisionAtGate": 0.8
+  },
   "cbse:q:src:85449ce85a86819f9e62c27e:2": {
    "subject": "Mathematics",
    "grade": 10,

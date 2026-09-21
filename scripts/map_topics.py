@@ -37,6 +37,14 @@ from academicos.corpus.cbse_cbe import parse_all                          # noqa
 MIN_PRECISION = 0.80
 MIN_COVERAGE = 0.15
 
+# Per-subject minimum reference examples (English has fewer CBE items)
+MIN_EXAMPLES_PER_SUBJECT = {
+    "English": 10,
+    "Mathematics": 20,
+    "Science": 20,
+}
+DEFAULT_MIN_EXAMPLES = 20
+
 
 def main() -> int:
     ap = argparse.ArgumentParser()
@@ -74,7 +82,8 @@ def main() -> int:
         subject, grade = key
         examples = [(t, c) for t, c in ref[key] if c and t.strip()]
         tgt = targets.get(key, [])
-        if len(examples) < 20 or len({c for _t, c in examples}) < 2 or not tgt:
+        min_examples = MIN_EXAMPLES_PER_SUBJECT.get(subject, DEFAULT_MIN_EXAMPLES)
+        if len(examples) < min_examples or len({c for _t, c in examples}) < 2 or not tgt:
             continue
 
         cv = TopicMapper().cross_validate(examples, folds=5)

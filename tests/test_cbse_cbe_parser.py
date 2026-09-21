@@ -240,8 +240,12 @@ def test_content_codes_match_the_curriculum_shapes(items):
     import re
     maths_english = re.compile(r"^\d{1,2}[A-Z]\d{1,2}[a-z]?$")
     science = re.compile(r"^\d{1,2}\.\d{1,2}\.\d{1,2}$")
+    # English pseudo-codes: ENG10.1, ENG10.3, etc.
+    english_pseudo = re.compile(r"^ENG\d{1,2}\.\d+$")
     odd = {i.content_code for i in items if i.content_code
-           and not (maths_english.match(i.content_code) or science.match(i.content_code))}
+           and not (maths_english.match(i.content_code)
+                    or science.match(i.content_code)
+                    or english_pseudo.match(i.content_code))}
     assert not odd, f"codes that are neither shape: {sorted(odd)[:12]}"
 
 
@@ -409,3 +413,39 @@ def test_subject_and_grade_are_read_from_the_filename():
     assert subject_and_grade_for(Path("Item-Bank---Maths-Class-6.pdf")) == ("Mathematics", 6)
     assert subject_and_grade_for(Path("Item-Bank-----English---Class-9.pdf")) == ("English", 9)
     assert subject_and_grade_for(Path("Item-Bank--Maths---Class-10.pdf")) == ("Mathematics", 10)
+
+
+# --------------------------------------------------------------------------- #
+# English pseudo-codes must carry the item's OWN grade
+#
+# `_english_pseudo_code(grade, text_type)` takes a grade, but both call sites
+# passed the literal 10 while `parse_index` discarded the real one into `_`.
+# Every English item in the corpus therefore came out as `ENG10.x` -- and 102
+# of the 115 English items are classes 6, 7 and 9, not 10. Coarse-code topic
+# mapping keys on that strand, so class 9 poetry and class 10 poetry collapsed
+# into one bucket.
+# --------------------------------------------------------------------------- #
+
+@pytest.mark.parametrize("grade", [6, 7, 9, 10])
+def test_english_pseudo_codes_use_the_items_own_grade(grade):
+    pdf = next((p for p in CORPUS.glob("*.pdf")
+                if subject_and_grade_for(p) == ("English", grade)), None)
+    if pdf is None:
+        pytest.skip(f"no English class {grade} item bank downloaded")
+    index = parse_index(pdf)
+    codes = {v["content_code"] for v in index.values() if v.get("content_code")}
+    if not codes:
+        pytest.skip(f"English class {grade} index yielded no content codes")
+    wrong = {c for c in codes if not c.startswith(f"ENG{grade}.")}
+    assert not wrong, (
+        f"English class {grade} produced codes for another grade: {sorted(wrong)[:6]}")
+
+
+def test_english_pseudo_code_builds_the_strand_from_the_grade_it_is_given():
+    from academicos.corpus.cbse_cbe import _english_pseudo_code
+
+    assert _english_pseudo_code(9, "Poetry") == "ENG9.1"
+    assert _english_pseudo_code(10, "Poetry") == "ENG10.1"
+    assert _english_pseudo_code(6, "Drama") == "ENG6.2"
+    # an unrecognised text type still keeps the grade
+    assert _english_pseudo_code(7, "Something unmapped") == "ENG7.0"
