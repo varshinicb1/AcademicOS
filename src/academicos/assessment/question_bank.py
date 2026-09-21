@@ -58,8 +58,15 @@ _QUESTION_ID = re.compile(r"^[a-z]+:q:src:([0-9a-f]{8,}):(\d+)$")
 # a filename is a *candidate* carrier, so it stays deliberately loose -- but it
 # must accept every separator the corpus uses (`.`, `_`, `-`, `/`), because
 # gating on a narrower set silently drops whole papers.
+#
+# The series number is one to three digits. Science and Mathematics lead with
+# two (`31/1/1`), but English leads with one (`1/4/1`, `2/5/1`) -- requiring two
+# skipped every English paper in the corpus, which is why all 207 English
+# questions reached the bank with no marking scheme. The year guard is the
+# lookbehind, not the digit count: `2025-1-1` still yields nothing because the
+# `2` is preceded by no separator and `025` is preceded by a digit.
 _CODE_HINT = re.compile(
-    r"(?<!\d)\d{2,3}\s*[/\-._]\s*\d\s*[/\-._]\s*\d(?!\d)")
+    r"(?<!\d)\d{1,3}\s*[/\-._]\s*\d\s*[/\-._]\s*\d(?!\d)")
 
 
 def parse_question_id(qid: str) -> tuple[str, int] | None:
@@ -242,10 +249,29 @@ class AnswerKeyIndex:
     def codes(self) -> set[str]:
         return set(self._by_code)
 
+    # Subject code mapping: corpus paper code -> marking scheme paper code
+    _SUBJECT_CODE_MAP = {
+        # English: corpus uses 55, marking scheme uses 301
+        "55": "301",
+        # Physics: corpus uses 64, marking scheme uses 55
+        "64": "55",
+    }
+
     def lookup(self, code: str, q_no: int) -> OfficialAnswer | None:
         if not code:
             return None
-        return self._by_code.get(normalize_paper_code(code) or code, {}).get(q_no)
+        norm = normalize_paper_code(code) or code
+        # Try direct lookup first
+        ans = self._by_code.get(norm, {}).get(q_no)
+        if ans is not None:
+            return ans
+        # Try subject code mapping
+        prefix = norm.split("/")[0] if "/" in norm else norm
+        mapped_prefix = self._SUBJECT_CODE_MAP.get(prefix)
+        if mapped_prefix and "/" in norm:
+            mapped_code = mapped_prefix + norm[len(prefix):]
+            return self._by_code.get(mapped_code, {}).get(q_no)
+        return None
 
     def stats(self) -> dict[str, Any]:
         return {

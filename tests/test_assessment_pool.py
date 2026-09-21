@@ -75,3 +75,47 @@ def test_get_pool_does_not_cache_a_failed_build(tmp_path, monkeypatch):
     pool = get_pool(cfg, subject="Science", grade="X")
     assert pool.questions == []
     assert ("Science", "X") in pool_module._CACHE
+
+
+# --------------------------------------------------------------------------- #
+# paper code extraction
+#
+# pool.py carried its own third copy of the CBSE paper-code pattern, separate
+# from `answer_key.normalize_paper_code` and `question_bank._CODE_HINT`. All
+# three required a two-or-three digit series, so none of them could read an
+# English board paper (`1/4/1`, `2/5/1`). Fixing the other two was not enough:
+# this is the copy paper generation actually uses, so English papers still
+# reached the optimiser with `paper_code == ""` and no marking scheme.
+# --------------------------------------------------------------------------- #
+
+class _Page:
+    def __init__(self, text: str) -> None:
+        self.text = text
+
+
+class _Doc:
+    def __init__(self, text: str) -> None:
+        self.pages = [_Page(text)]
+
+
+@pytest.mark.parametrize("header,expected", [
+    # verbatim first-page headers from the parsed corpus
+    ("1/4/1 \nH 1 H  \nP.T.O.\nCandidates must write the Q.P. Code ", "1/4/1"),
+    ("2/5/1 \n1 \nP.T.O. \nCandidates must write the Q.P. Code on ", "2/5/1"),
+    ("2/4/1-14 \n1 \nP.T.O. \nCandidates must write the Q.P. Code ", "2/4/1"),
+    # the two-digit series must keep working
+    ("Series X_086  31/1/1  Science  Page 1 of 27", "31/1/1"),
+])
+def test_pool_reads_single_digit_english_series_codes(header, expected):
+    assert pool_module._paper_code_of(_Doc(header)) == expected
+
+
+def test_pool_does_not_read_a_year_as_a_paper_code():
+    assert pool_module._paper_code_of(_Doc("Examination 2025-1-1 session")) == ""
+
+
+def test_pool_returns_empty_for_a_doc_with_no_pages():
+    class _Empty:
+        pages: list = []
+
+    assert pool_module._paper_code_of(_Empty()) == ""

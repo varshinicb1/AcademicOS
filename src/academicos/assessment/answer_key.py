@@ -54,7 +54,19 @@ log = logging.getLogger(__name__)
 # digit lookarounds express the real constraint -- do not splice a code out of a
 # longer run of digits, such as the year in "2025_086_...".
 _PAPER_CODE = re.compile(
-    r"(?<!\d)(\d{2,3})\s*[/\-._]\s*(\d)\s*[/\-._]\s*(\d)(?!\d)")
+    r"(?<!\d)(\d{1,3})\s*[/\-._]\s*(\d)\s*[/\-._]\s*(\d)(?!\d)")
+
+# A CBSE marking scheme names the subject code immediately before the paper
+# code, both in its header ("MS-English Core/301/1-5-1") and in its filename
+# ("XII_301_1_1_1_MS.pdf"). Reading three components from the left then takes
+# the SUBJECT code plus the paper code's first two parts and drops its last --
+# `301/1/5` for a paper that is really `1/5/1`. That invents a code that does
+# not exist, and collapses sets 1, 2 and 3 of one paper onto a single key, so
+# each ingested set silently overwrote the previous one. Matching the four-part
+# shape first, and discarding the lead only when it is a subject code we
+# recognise, keeps the real code intact.
+_SUBJECT_THEN_CODE = re.compile(
+    r"(?<!\d)(\d{3})\s*[/\-._]\s*(\d{1,3})\s*[/\-._]\s*(\d)\s*[/\-._]\s*(\d)(?!\d)")
 
 # Subject codes as they appear in CBSE marking-scheme filenames and headers.
 _SUBJECT_BY_CODE = {
@@ -64,6 +76,7 @@ _SUBJECT_BY_CODE = {
     "087": "Social Science",
     "184": "English",
     "101": "English",
+    "301": "English",      # English Core, class XII
     "042": "Physics",
     "043": "Chemistry",
     "044": "Biology",
@@ -183,7 +196,14 @@ _MARK_TOKEN = re.compile(r"^\s*(½|\d+(?:\s*½)?)\s*$")
 
 
 def normalize_paper_code(raw: str) -> str:
-    """Renders any of 31/1/1, 31-1-1, '31 / 1 / 1' as the canonical 31/1/1."""
+    """Renders any of 31/1/1, 31-1-1, '31 / 1 / 1' as the canonical 31/1/1.
+
+    A leading subject code is dropped rather than spliced in -- see
+    `_SUBJECT_THEN_CODE` for why that mattered.
+    """
+    m = _SUBJECT_THEN_CODE.search(raw)
+    if m and m.group(1) in _SUBJECT_BY_CODE:
+        return f"{m.group(2)}/{m.group(3)}/{m.group(4)}"
     m = _PAPER_CODE.search(raw)
     return f"{m.group(1)}/{m.group(2)}/{m.group(3)}" if m else ""
 

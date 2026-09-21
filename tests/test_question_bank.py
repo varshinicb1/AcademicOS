@@ -133,6 +133,54 @@ def test_year_digits_are_never_read_as_a_series():
 
 
 # --------------------------------------------------------------------------- #
+# subject code must not be spliced into the paper code
+#
+# English board papers carry single-digit first components (`1/5/1`, `2/1/1`),
+# unlike Science/Maths (`31/1/1`). A pattern requiring two or three leading
+# digits cannot see them at all, and — worse — when the marking scheme's header
+# puts the subject code immediately before the paper code
+# (`MS-English Core/301/1-5-1`) it matches the SUBJECT code plus the first two
+# components instead, yielding `301/1/5`. That is wrong twice over: the code
+# does not exist, and every set of a paper collapses onto one key, so three
+# distinct marking schemes overwrite each other.
+# --------------------------------------------------------------------------- #
+
+@pytest.mark.parametrize("raw,expected", [
+    # the marking-scheme header shapes, read straight off the parsed page
+    ("MS-English Core/301/1-5-1", "1/5/1"),
+    ("MS-English Core/301/1-1-1", "1/1/1"),
+    # the filename shapes for the same papers
+    ("XII_301_1_1_1_MS.pdf", "1/1/1"),
+    ("XII_301_1_4_2_MS.pdf", "1/4/2"),
+    # class X English, which uses a `2/` series
+    ("MS-English Lan Lit/184/2-1-1", "2/1/1"),
+])
+def test_subject_code_is_not_spliced_into_the_paper_code(raw, expected):
+    assert normalize_paper_code(raw) == expected
+
+
+def test_each_set_of_a_paper_keeps_its_own_code():
+    """Sets 1/2/3 of one paper must not collapse onto a single key.
+
+    `301/1-1-1`, `301/1-1-2` and `301/1-1-3` are three different marking
+    schemes. Splicing the subject code mapped all three to `301/1/1`, so
+    whichever was ingested last silently overwrote the other two.
+    """
+    codes = {normalize_paper_code(f"MS-English Core/301/1-1-{n}") for n in (1, 2, 3)}
+    assert codes == {"1/1/1", "1/1/2", "1/1/3"}
+
+
+@pytest.mark.parametrize("raw,expected", [
+    ("1/5/1", "1/5/1"),
+    ("2/1/1", "2/1/1"),
+    ("2/4/1-14", "2/4/1"),
+])
+def test_single_digit_series_codes_are_read(raw, expected):
+    """English question-paper headers lead with a one-digit series number."""
+    assert normalize_paper_code(raw) == expected
+
+
+# --------------------------------------------------------------------------- #
 # the answer key index
 # --------------------------------------------------------------------------- #
 
@@ -210,6 +258,23 @@ def test_parse_tree_finds_the_code_in_a_page_header(tmp_path):
     assert src is not None
     assert src.paper_code == "31/1/1"
     assert src.page_count == 2
+
+
+def test_parse_tree_finds_a_single_digit_english_series_code(tmp_path):
+    """English board papers head with `1/4/1`, not `31/1/1`.
+
+    Verbatim from the parsed header of `src_e03ed43175ba6cd1401c4522` (English
+    XII, 13 questions). A code hint requiring two leading digits skipped every
+    English paper in the corpus, so all 207 English questions reached the bank
+    with no marking scheme attached.
+    """
+    make_parse_tree(tmp_path, "f" * 24, [
+        (1, "1/4/1 \nH 1 H  \nP.T.O.\nCandidates must write the Q.P. Code \n"
+            "on the title page of the answer-book.\n" + "body " * 40),
+    ])
+    src = load_parsed_source(tmp_path, "f" * 24)
+    assert src is not None
+    assert src.paper_code == "1/4/1"
 
 
 def test_parse_tree_carries_no_code_when_the_header_has_none(tmp_path):

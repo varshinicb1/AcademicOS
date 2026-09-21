@@ -624,17 +624,24 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str = "X") -> Qu
     return pool
 
 
-# Paper code as printed on a board paper ("31/1/1"), used to find its marking
-# scheme. Only the first page is searched: later pages repeat it in a running
-# header, but question text can contain look-alike numbers.
-_PAPER_CODE_RE = re.compile(r"\b(\d{2,3})\s*[/-]\s*(\d)\s*[/-]\s*(\d)\b")
-
-
 def _paper_code_of(doc: ParsedDocument) -> str:
+    """The paper code printed on a board paper ("31/1/1", "1/4/1").
+
+    Only the first page is searched: later pages repeat the code in a running
+    header, but question text can contain look-alike numbers.
+
+    This used to carry its own regex -- a third copy of the pattern, alongside
+    `answer_key.normalize_paper_code` and `question_bank._CODE_HINT`. All three
+    required a two-or-three digit series, so none could read an English paper
+    (`1/4/1`), and fixing the other two left this one -- the copy paper
+    generation actually uses -- still returning "". Delegating to the canonical
+    normaliser means a corpus shape only has to be taught once.
+    """
     if not doc.pages:
         return ""
-    m = _PAPER_CODE_RE.search(doc.pages[0].text[:1500])
-    return f"{m.group(1)}/{m.group(2)}/{m.group(3)}" if m else ""
+    from .answer_key import normalize_paper_code
+
+    return normalize_paper_code(doc.pages[0].text[:1500])
 
 
 def _open_answer_keys(cfg: Config):
