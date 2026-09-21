@@ -27,15 +27,15 @@
 |---|---|---|---|
 | `src/academicos/assessment/grades.py` | create | The one grade parser: int/roman/"7th" → 1–12 | 1 |
 | `src/academicos/assessment/routes.py` | modify | grade key, export error handling | 2, 7 |
-| `src/academicos/assessment/pillar_routes.py` | modify | grade key, catalog scope | 2 |
-| `src/academicos/assessment/mobile_routes.py` | modify | grade key | 2 |
-| `src/academicos/assessment/pool.py` | modify | grade match + labels; fallback keeps the record | 2, 6 |
+| `src/academicos/assessment/pillar_routes.py` | modify | grade key, catalog scope, practice grade validated | 2 |
+| `src/academicos/assessment/mobile_routes.py` | modify | grade key; unknown assessment refused, not class 10 | 2 |
+| `src/academicos/assessment/pool.py` | modify | grade match + labels + pool key; fallback keeps the record | 2, 6 |
 | `src/academicos/assessment/mapping.py` | modify | grade parse; build schema from the record | 2, 6 |
 | `src/academicos/corpus/cbse_cbe.py` | modify | bank record carries the passage | 3 |
 | `src/academicos/corpus/bank_merge.py` | create | contract, normalise, gate, compose | 4 |
 | `scripts/merge_question_banks.py` | create | reads sources, writes served + APK + exclusions | 5 |
 | `src/academicos/assessment/pdf.py` | modify | labels, row split, type-gated options, unicode | 7 |
-| `src/academicos/assessment/schemas.py` | modify | `GeneratedQuestionSchema.type` | 7 |
+| `src/academicos/assessment/schemas.py` | modify | paper-request grades required; `GeneratedQuestionSchema.type` | 2, 7 |
 | `src/academicos/assessment/question_bank.py` | modify | relink report counts carried schemes | 8 |
 | `scripts/export_mobile_corpus.py` | modify | retired as a writer | 8 |
 | `frontend/lib/core/local_engine/corpus_repository.dart` | modify | skip and count bad rows | 9 |
@@ -191,11 +191,12 @@ Expected: all pass.
 ### Task 2: Route every grade through the one parser
 
 **Files:**
-- Modify: `src/academicos/assessment/routes.py` (`_int_grade_to_roman`, ~line 221)
-- Modify: `src/academicos/assessment/pillar_routes.py` (`_GRADE_ROMAN`, `_CATALOG_SCOPE`, `catalog`, `catalog_chapters`, ~lines 218-265)
-- Modify: `src/academicos/assessment/mobile_routes.py` (lines 169, 256 call `_int_grade_to_roman`; no change needed beyond routes.py)
-- Modify: `src/academicos/assessment/pool.py` (`_grade_matches` ~336; baked loader grade label ~588)
+- Modify: `src/academicos/assessment/routes.py` (`_int_grade_to_roman`, ~line 221; the unreachable `else 10` in `generate_paper` ~268, Step 7)
+- Modify: `src/academicos/assessment/pillar_routes.py` (`_GRADE_ROMAN`, `_CATALOG_SCOPE`, `catalog`, `catalog_chapters`, ~lines 218-265; `_pool_questions` ~116 and `PracticeRequestBody.grade` ~735, Step 7)
+- Modify: `src/academicos/assessment/mobile_routes.py` (lines 169 and 256 call `_int_grade_to_roman`, which the routes.py change fixes; `create_scan_session` ~84 refuses an unknown assessment instead of defaulting to Science class 10, Step 7)
+- Modify: `src/academicos/assessment/pool.py` (`_grade_matches` ~336; baked loader grade label ~587-588; `get_pool`/`build_pool` normalise the grade and drop the `"X"` default; the registry query compares grades through grades.py, Step 7)
 - Modify: `src/academicos/assessment/mapping.py` (`grade_to_int` ~24)
+- Modify: `src/academicos/assessment/schemas.py` (`QuickPaperRequest.grade` ~370 and `GenerateFromIdsRequest.grade` ~385 become required, Step 7)
 - Test: `tests/test_grade_routing.py`
 
 **Depends on:** Task 1.
@@ -411,6 +412,251 @@ def test_catalog_scope_includes_every_grade_in_the_bank(tmp_path, monkeypatch):
 
 Run: `PYTHONIOENCODING=utf-8 .venv/Scripts/python.exe -m pytest tests/test_grade_routing.py tests/test_grades.py tests/test_assessment_pool.py -q`
 Expected: all pass. If `Question` is not importable from `academicos.domain`, find it with `grep -rn "^class Question\b" src/academicos` and fix the import.
+
+#### Review amendments (added 2026-09-21 after the Task 1 review)
+
+Steps 1-4 fix the three grade *conversions*. The review found grade handling that still skips `grades.py` or still defaults to 10 once they land. Steps 5-8 close those paths. Each fix below was prototyped against a scratch copy of `e1c5655`: the new tests fail there for the stated reasons and pass with the code shown, and the existing test files listed in Step 8 show no new failures.
+
+What is wrong today:
+
+- **A client-supplied grade string reaches the pool unvalidated.** `PracticeRequestBody.grade: str = "X"` (pillar_routes.py ~735) → `_pool_questions` → `get_pool`, which caches under the raw string, → the baked loader's `_grade_matches`. A junk grade matches nothing, so the pool is empty and `/practice/generate` returns "No auto-scorable practice available" warnings (remediation.py ~109) where it should return a 422. And `'X'`, `'10'` and `'10th'` are three `_CACHE` keys, each of which builds a full pool.
+- **The registry query compares grades as raw strings.** pool.py ~436: `... AND grade=?`. In `registry.sqlite`, `sources.grade` is `'6'`..`'9'` for classes 6-9 but `'X'`/`'XII'` for 10 and 12. *Measured, 2026-09-21:* the 14 class 6-9 rows there are NCERT textbooks (`doc_type='reference_material'`), not question papers. So the `doc_type='question_paper'` query returns no class 6-9 rows before or after this task, and nothing regresses today. But a class 8 paper registered as `'8'` would never match the pool key `'VIII'`, so the comparison still goes through `grades.py`.
+- **Defaults to class 10 that remain after Steps 1-4:** `QuickPaperRequest.grade: int = 10` and `GenerateFromIdsRequest.grade: int = 10` (schemas.py ~370, ~385). A request that leaves out the grade gets a class 10 paper. Another is `create_scan_session`'s `grade = assessment.grade if assessment else 10` (mobile_routes.py ~88), and there are `grade: str = "X"` defaults on `build_pool`, `get_pool` and `_pool_questions`. The baked loader's `item_grade_int = item.get("grade", 10)` (pool.py ~587) is covered by the Step 3 replacement: delete that line together with the label line.
+
+- [ ] **Step 5: Write the failing tests.** Append the tests below to `tests/test_grade_routing.py`, and add `import sqlite3` and `from pydantic import ValidationError` to its imports:
+
+```python
+def test_get_pool_normalises_the_grade_before_caching(tmp_path, monkeypatch):
+    """'X', '10' and '10th' are one pool, built once -- not three cache entries."""
+    from academicos.config import Config
+
+    data_root = _bank(tmp_path, 10)
+    cfg = Config(data_root=data_root)
+    cfg._load_baked_questions = True
+    monkeypatch.setattr(pool_module, "_baked_bank_paths",
+                        lambda cfg: [data_root / "syllabus" / "questions.json"])
+    monkeypatch.setattr(pool_module, "_CACHE", {})
+    built: list[str] = []
+    real_build = pool_module.build_pool
+
+    def counting_build(cfg, **kw):
+        built.append(kw["grade"])
+        return real_build(cfg, **kw)
+
+    monkeypatch.setattr(pool_module, "build_pool", counting_build)
+    pools = [pool_module.get_pool(cfg, subject="Mathematics", grade=g) for g in ("X", "10", "10th")]
+    assert pools[0] is pools[1] is pools[2]
+    assert built == ["X"]
+    assert [q.grade for q in pools[0].questions] == ["X"]
+
+
+@pytest.mark.parametrize("bad", ["", "junk", "XIII", "13"])
+def test_get_pool_refuses_an_unreadable_grade_and_caches_nothing(tmp_path, monkeypatch, bad):
+    from academicos.config import Config
+
+    monkeypatch.setattr(pool_module, "_CACHE", {})
+    with pytest.raises(ValueError):
+        pool_module.get_pool(Config(data_root=tmp_path), subject="Mathematics", grade=bad)
+    assert pool_module._CACHE == {}
+
+
+@pytest.mark.parametrize("raw", ["X", "10", "10th", "Class 10", 10])
+def test_practice_request_normalises_the_grade(raw):
+    from academicos.assessment.pillar_routes import PracticeRequestBody
+
+    assert PracticeRequestBody(student_id="s", grade=raw).grade == "X"
+
+
+@pytest.mark.parametrize("bad", ["junk", "XIII", "0", ""])
+def test_practice_request_refuses_an_unreadable_grade(bad):
+    """A bad grade is a 422 at the request boundary, not an empty pool that
+    comes back as 'no auto-scorable practice' warnings."""
+    from academicos.assessment.pillar_routes import PracticeRequestBody
+
+    with pytest.raises(ValidationError):
+        PracticeRequestBody(student_id="s", grade=bad)
+
+
+def test_practice_request_default_is_deliberately_still_class_ten():
+    """Intentional, see 'Defaults kept on purpose' below: the shipped app posts only
+    studentId and perConcept (pillar_api.dart generatePractice), and a student
+    record holds no grade."""
+    from academicos.assessment.pillar_routes import PracticeRequestBody
+
+    assert PracticeRequestBody(student_id="s").grade == "X"
+
+
+@pytest.mark.parametrize("model", ["QuickPaperRequest", "GenerateFromIdsRequest"])
+def test_paper_requests_require_a_grade(model):
+    """A request with no grade used to become a class 10 paper (`grade: int = 10`)."""
+    from academicos.assessment import schemas
+
+    with pytest.raises(ValidationError) as exc:
+        getattr(schemas, model).model_validate({"subject": "Mathematics", "questionIds": ["q1"]})
+    assert [e["loc"] for e in exc.value.errors()] == [("grade",)]
+
+
+def test_scan_session_for_an_unknown_assessment_is_refused_not_made_class_ten(monkeypatch):
+    """It used to become a Science class 10 session. Every later route on that
+    session 404s anyway (require_school_owns_scan_session), so it could never be
+    processed -- the default only hid the mistake."""
+    from academicos.assessment import mobile_routes
+    from academicos.assessment.users import User
+
+    class _NoAssessments:
+        def get(self, _id):
+            return None
+
+    monkeypatch.setattr(routes, "_store", _NoAssessments())
+    user = User(id="t1", school_id="school_1", name="T", email="t@example.com",
+                role="teacher", created_at="")
+    req = mobile_routes.CreateScanSessionRequest(
+        assessment_id="nope", student_id="s1", student_name="S")
+    with pytest.raises(HTTPException) as exc:
+        mobile_routes.create_scan_session(req, current=user)
+    assert exc.value.status_code == 404
+
+
+def test_registry_query_reads_every_grade_spelling(tmp_path):
+    """registry.sqlite's sources.grade holds '6'..'9' for classes 6-9 but 'X' and
+    'XII' for 10 and 12 (measured 2026-09-21). A raw `grade=?` against the pool's
+    roman key would miss a class 8 paper stored as '8'."""
+    from academicos.config import Config
+
+    cfg = Config(data_root=tmp_path)
+    cfg.registry_db.parent.mkdir(parents=True, exist_ok=True)
+    con = sqlite3.connect(cfg.registry_db)
+    con.execute("CREATE TABLE sources (source_id TEXT, doc_type TEXT, subject TEXT, "
+                "grade TEXT, academic_year TEXT)")
+    con.executemany("INSERT INTO sources VALUES (?,?,?,?,?)", [
+        ("qp8", "question_paper", "Mathematics", "8", "2025"),
+        ("qp10", "question_paper", "Mathematics", "X", "2025"),
+        ("book8", "reference_material", "Mathematics", "8", None),
+        ("nograde", "question_paper", "Mathematics", None, "2025"),
+    ])
+    con.commit()
+    con.close()
+    rows = pool_module._registry_paper_rows
+    assert [r["source_id"] for r in rows(cfg, "Mathematics", "VIII")] == ["qp8"]
+    assert [r["source_id"] for r in rows(cfg, "Mathematics", "X")] == ["qp10"]
+    assert rows(cfg, "Science", "X") == []
+```
+
+(`Config(...)` creates the `registry/` directory itself, which is why the test passes `exist_ok=True`.)
+
+- [ ] **Step 6: Run them to verify they fail**
+
+Run: `PYTHONIOENCODING=utf-8 .venv/Scripts/python.exe -m pytest tests/test_grade_routing.py -q`
+Expected failures:
+  - `get_pool` does not raise on `""`, `"junk"`, `"XIII"` or `"13"`, and caches each spelling separately.
+  - `PracticeRequestBody` keeps `"10"` and `"10th"` as they are, accepts junk, and rejects the int `10` as not a string.
+  - Both paper requests validate without a grade.
+  - `create_scan_session` returns a session instead of raising 404.
+  - `_registry_paper_rows` does not exist.
+
+- [ ] **Step 7: Implement**
+
+In `pool.py`:
+1. Normalise the grade at the pool boundary and remove the `"X"` default. Every caller passes a grade already (checked with `grep -rn "get_pool(\|build_pool(" src scripts tests`).
+
+```python
+def get_pool(cfg: Config, *, subject: str = "Science", grade: str) -> QuestionPool:
+    grade = grades.to_roman(grade)   # 'X', '10', '10th' are one pool, built once; raises on junk
+    key = (subject, grade)
+    ...
+```
+
+   At the top of `build_pool`'s body, add `grade = grades.to_roman(grade)` (it is idempotent, and direct callers such as tests and scripts get the same check). Change its signature to `grade: str` with no default. Normalising also retires the baked loader's `if grade and ...` wildcard, where an empty grade meant "all grades". No caller passes an empty grade. `""` now raises.
+
+2. Move the registry query into a helper that compares grades through `grades.py`:
+
+```python
+def _registry_paper_rows(cfg: Config, subject: str, grade: str) -> list:
+    """The registry's question papers for (subject, grade), whatever spelling
+    the registry used for the grade.
+
+    sources.grade holds '6'..'9' for classes 6-9 but 'X' and 'XII' for 10 and
+    12 (registry.sqlite, 2026-09-21), so a raw `grade=?` against the pool's
+    roman key would miss a class 8 paper stored as '8'. Fetch the subject's
+    papers and compare grades through grades.py instead -- at most ~70 rows.
+    """
+    import sqlite3
+
+    if not cfg.registry_db.exists():
+        return []
+    try:
+        reg = sqlite3.connect(cfg.registry_db)
+        reg.row_factory = sqlite3.Row
+        # AGENTS.md section 3: every connection sets both pragmas.
+        reg.execute("PRAGMA journal_mode=WAL")
+        reg.execute("PRAGMA busy_timeout=60000")
+        rows = reg.execute(
+            "SELECT source_id, doc_type, subject, grade, academic_year FROM sources "
+            "WHERE doc_type='question_paper' AND subject=?",
+            (subject,),
+        ).fetchall()
+        reg.close()
+    except sqlite3.OperationalError:
+        ...  # the existing block from build_pool, moved unchanged: its comment, log.error, raise
+    return [r for r in rows if grades.matches(r["grade"], grade)]
+```
+
+   In `build_pool`, replace the `rows = []` / `if cfg.registry_db.exists(): try: ... except ...: raise` block with `rows = _registry_paper_rows(cfg, subject, grade)`.
+
+In `pillar_routes.py`:
+- Remove the defaults from `_pool_questions`: `def _pool_questions(subject: str, grade: str)`. Its only caller passes both.
+- Validate `PracticeRequestBody.grade` when the request arrives, so FastAPI returns a 422 for junk and one spelling reaches the pool:
+
+```python
+class PracticeRequestBody(Camel):
+    student_id: str
+    per_concept: int = 2
+    subject: str = "Science"
+    # Deliberately still class 10 Science when omitted -- see "Defaults kept on purpose".
+    grade: str = "X"
+    correct_options: dict[str, str] = Field(default_factory=dict)
+
+    @field_validator("grade", mode="before")
+    @classmethod
+    def _grade_pool_key(cls, v: object) -> str:
+        return grades.to_roman(v)   # ValueError -> 422; 'X', '10', 10, '10th' -> 'X'
+```
+
+  (`from pydantic import Field, field_validator`. Use `mode="before"` so an int `10` is accepted, not refused as "not a string".)
+
+In `schemas.py`: `QuickPaperRequest.grade: int` and `GenerateFromIdsRequest.grade: int`, with no default. The Flutter client always sends `grade`. Both Dart request classes serialise it (`requests.g.dart`), and the one `QuickPaperRequest(...)` call site passes `grade: selectedGrade` (assessment_list_page.dart ~271). `GenerateFromIdsRequest` is never constructed in the app. The two Python tests that post to these routes already send `"grade": 10`.
+
+In `mobile_routes.py`, `create_scan_session`: refuse an unknown assessment instead of making it a Science class 10 session:
+
+```python
+    if assessment_routes._store is None:
+        raise HTTPException(503, "assessment module not initialized")
+    # An unknown assessment used to become a Science class 10 session. Every later
+    # route on it 404s through require_school_owns_scan_session, so it could never
+    # be processed; refusing here reports the mistake where it is made.
+    assessment = require_school_owns_assessment(assessment_routes._store, req.assessment_id, current)
+    session = mobile_scan.create_session(req.assessment_id, req.student_id, req.student_name,
+                                         subject=assessment.subject, grade=assessment.grade,
+                                         school_id=current.school_id)
+```
+
+  (`from .authz import require_school_owns_assessment, require_school_owns_scan_session`. The same 403 for another school's assessment still applies. Every existing test creates sessions against real assessments. The governance test's docstring already notes that a made-up id 404s.)
+
+In `routes.py` `generate_paper` (~268): the `else 10` in `grade = assessment.grade if assessment else (request.selected_questions[0].grade if request.selected_questions else 10)` cannot be reached, because the function raises 400 on an empty `selected_questions` about 15 lines earlier. Write it as `grade = assessment.grade if assessment else request.selected_questions[0].grade` so the 10 cannot come back.
+
+- [ ] **Step 8: Run the tests to verify they pass**
+
+Run: `PYTHONIOENCODING=utf-8 .venv/Scripts/python.exe -m pytest tests/test_grade_routing.py tests/test_grades.py tests/test_assessment_pool.py tests/test_mobile_routes_auth.py tests/test_pillar_routes_auth.py tests/test_assessment_mobile_scan.py tests/test_assessment_governance.py tests/test_assessment_parakh_cbse.py tests/test_route_inventory.py tests/test_api_main.py -q`
+Expected: all pass.
+
+**Defaults kept on purpose** (a written decision, so nobody "fixes" them by accident):
+
+| Site | Default | Why it stays |
+|---|---|---|
+| `PracticeRequestBody.grade` / `.subject` (pillar_routes.py ~735) | `"X"` / `"Science"` | The shipped app posts only `studentId` + `perConcept` (`pillar_api.dart` `generatePractice`), and a student `User` record has no grade. Making `grade` required would turn every practice request from the app into a 422. A supplied grade is now validated and normalised (Step 7). **Follow-up, not in this plan:** the client should send the student's subject and grade. Until it does, web practice for a class 6-9 student draws from class 10 Science. |
+| `SendPaperRequest.grade: int = 10` (pillar_routes.py ~394) | `10` | Only a label in the outgoing email, and the app always sends it (`pillar_api.dart` `sendPaper`, `required int grade`). Making it required would also mean changing `tests/test_route_inventory.py::_valid_body_for`, which is outside this task. |
+| `insights.school_insights(..., grade=10)` (insights.py ~178) | `10` | The principal rollup's headline label. `school_report` never passes a grade, so the headline reads "Science Grade 10". It does not select questions. Out of scope here, but the same kind of defect. |
+| `mobile_scan.ScanSession.grade` / `create_session(grade=10)` | `10` | Dataclass and function defaults with one caller, which after Step 7 always passes the assessment's real grade. |
 
 ---
 
