@@ -128,6 +128,9 @@ class CbeItem:
     topic: str = ""                   # the named strand, e.g. "Algebra"
     ao1_marks: int = 0
     ao2_marks: int = 0
+    # Only the English index carries AO3/AO4 columns; zero everywhere else.
+    ao3_marks: int = 0
+    ao4_marks: int = 0
     marks: int = 0
     calculator: str = ""              # "C" required, "N" not allowed, "E" either
     purpose: str = ""
@@ -163,6 +166,10 @@ class CbeItem:
             out["AO1"] = self.ao1_marks
         if self.ao2_marks:
             out["AO2"] = self.ao2_marks
+        if self.ao3_marks:
+            out["AO3"] = self.ao3_marks
+        if self.ao4_marks:
+            out["AO4"] = self.ao4_marks
         return out
 
     def to_dict(self) -> dict:
@@ -705,7 +712,10 @@ _ENGLISH_STRANDS = (
     (("drama", "play"), 2),
     (("autobiography", "biography", "diary", "memoir"), 3),
     (("travel",), 4),
-    (("information", "speech", "transcript"), 5),
+    # "informative" is listed separately because it is not a substring of
+    # "information": every "Informative newspaper/magazine article" fell to the
+    # `.0` fallback without it -- 53 rows across classes 6-8.
+    (("information", "informative", "speech", "transcript"), 5),
     (("advertisement", "advert"), 6),
     (("non-fiction", "nonfiction"), 7),
     (("prose", "short story", "novel", "fiction"), 8),
@@ -743,50 +753,109 @@ def _int_cell(row: list, i: int) -> int:
     return int(raw) if raw.isdigit() else 0
 
 
+# Header labels of the English index, mapped to the names used below. The
+# layout is NOT fixed: Class 6 omits AO3, so its table is seven columns wide
+# where Classes 7-10 are eight. Reading a hardcoded column index therefore ran
+# one place right on Class 6 and took `Source description` -- a sentence of
+# prose -- as the text type.
+_ENGLISH_COLUMNS = {
+    "question id": "qid",
+    "text type": "text_type",
+    "source description": "source",
+    "ao1": "ao1",
+    "ao2": "ao2",
+    "ao3": "ao3",
+    "ao4": "ao4",
+}
+
+
+def _english_header_map(row: list) -> dict[str, int] | None:
+    """Column name -> position, read off an English index header row.
+
+    Returns None when this is not that header, which is also how a continuation
+    page (the same table repeated with no header) is recognised.
+    """
+    cells = [" ".join(_cell(row, i).lower().split()) for i in range(len(row))]
+    if "question id" not in cells:
+        return None
+    out: dict[str, int] = {}
+    for i, name in enumerate(cells):
+        key = _ENGLISH_COLUMNS.get(name)
+        if key and key not in out:
+            out[key] = i
+    return out if {"qid", "text_type"} <= set(out) else None
+
+
+def _ao_cell(row: list, cols: dict[str, int], key: str) -> int:
+    """One AO column's marks, or 0 when this layout has no such column."""
+    i = cols.get(key)
+    return _int_cell(row, i) if i is not None else 0
+
+
 def _parse_english_index(pdf_path: Path, grade: int) -> dict[str, dict]:
     """The English Item Index: question id -> strand, text type, AO marks.
 
-    English ships a different layout from the other subjects -- eight columns
-    (File Name, Question ID, AO1-AO4, Text type, Source description) and no
-    content code -- so it is read with table extraction rather than the
-    line-per-cell scan `parse_index` uses on the others.
+    English ships a different layout from the other subjects -- no content-code
+    column, and a `Text type` label instead -- so it is read with table
+    extraction rather than the line-per-cell scan `parse_index` uses elsewhere.
 
-    Continuation pages repeat the table without its header, so a page whose
-    first row is already data is read from row 0; otherwise the header is
-    skipped. A page that is neither is not this table and is left alone.
+    Three things about this table are not obvious and each one silently lost
+    rows before it was handled:
+
+      * `Text type` and `Source description` are VERTICALLY MERGED cells, one
+        per passage. The extractor returns their text on the first row of a
+        passage group and "" for every sibling question beneath it, so
+        requiring a non-empty text type kept only one question per passage --
+        65 of 350 rows across the five banks. Both are carried down instead,
+        and across a page break, because a group can span one.
+      * The column positions vary by grade (Class 6 has no AO3), so they are
+        resolved from the header rather than hardcoded.
+      * Continuation pages repeat the table with no header. Judging one by its
+        first row alone threw away a whole page when that row's id did not
+        match -- 18 valid rows on Class 9 page 6 -- so the page is accepted if
+        it holds ANY id row.
     """
     import fitz
 
     doc = fitz.open(pdf_path)
     out: dict[str, dict] = {}
+    cols: dict[str, int] | None = None
+    carried_text_type = carried_source = ""
     try:
         for index in range(min(14, len(doc))):
             for table in doc[index].find_tables():
                 rows = table.extract()
-                if not rows or len(rows) < 2 or len(rows[0]) < 7:
+                if not rows:
                     continue
-                first = rows[0]
-                if ("file name" in _cell(first, 0).lower()
-                        or "question id" in _cell(first, 1).lower()):
+                header = _english_header_map(rows[0])
+                if header:
+                    cols, carried_text_type, carried_source = header, "", ""
                     data_rows = rows[1:]
-                elif len(first) == 8 and _QID_CELL.match(_cell(first, 1)):
-                    data_rows = rows                  # continuation page
+                elif cols is not None and any(
+                        _QID_CELL.match(_cell(r, cols["qid"])) for r in rows if r):
+                    data_rows = rows              # continuation page, no header
                 else:
                     continue
 
                 for row in data_rows:
-                    if not row or len(row) < 2:
+                    if not row:
                         continue
-                    qid = _cell(row, 1)
-                    text_type = _cell(row, 6)
-                    if not qid or not text_type or not _QID_CELL.match(qid):
+                    qid = _cell(row, cols["qid"])
+                    if not qid or not _QID_CELL.match(qid):
                         continue
+                    # Both passage-level columns are merged cells, so both are
+                    # carried down to the sibling questions of a passage.
+                    carried_text_type = _cell(row, cols["text_type"]) or carried_text_type
+                    if "source" in cols:
+                        carried_source = _cell(row, cols["source"]) or carried_source
                     out[qid] = {
-                        "content_code": _english_pseudo_code(grade, text_type),
-                        "topic": text_type,
-                        "content_reference": _cell(row, 7),
-                        "ao1_marks": _int_cell(row, 2),
-                        "ao2_marks": _int_cell(row, 3),
+                        "content_code": _english_pseudo_code(grade, carried_text_type),
+                        "topic": carried_text_type,
+                        "content_reference": carried_source,
+                        "ao1_marks": _ao_cell(row, cols, "ao1"),
+                        "ao2_marks": _ao_cell(row, cols, "ao2"),
+                        "ao3_marks": _ao_cell(row, cols, "ao3"),
+                        "ao4_marks": _ao_cell(row, cols, "ao4"),
                     }
     finally:
         doc.close()
@@ -1129,4 +1198,14 @@ def parse_item_bank(pdf_path: Path) -> list[CbeItem]:
                 item.ao1_marks = row["ao1_marks"]
             if not item.ao2_marks:
                 item.ao2_marks = row["ao2_marks"]
+            # AO3/AO4 and the source description exist only in the English
+            # index, hence `.get`. The item's own reference text still wins
+            # when it has one, per the precedence above -- the index fills
+            # the gap, it does not overwrite.
+            if not item.ao3_marks:
+                item.ao3_marks = row.get("ao3_marks", 0)
+            if not item.ao4_marks:
+                item.ao4_marks = row.get("ao4_marks", 0)
+            if not item.content_reference:
+                item.content_reference = row.get("content_reference", "")
     return items

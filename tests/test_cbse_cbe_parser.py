@@ -449,3 +449,157 @@ def test_english_pseudo_code_builds_the_strand_from_the_grade_it_is_given():
     assert _english_pseudo_code(6, "Drama") == "ENG6.2"
     # an unrecognised text type still keeps the grade
     assert _english_pseudo_code(7, "Something unmapped") == "ENG7.0"
+
+
+# --------------------------------------------------------------------------- #
+# the English index must read its whole table, not one row per passage
+#
+# The "Text type" column is a VERTICALLY MERGED cell: PyMuPDF returns its text
+# on the first row of a passage group and "" for every sibling question under
+# it. Gating on a non-empty text type therefore kept only the first question of
+# each passage -- 65 of 350 rows across the five English item banks. Two more
+# losses compounded it: the column indices were hardcoded at 6/7, which is one
+# place right for Class 6 (it has no AO3 column), and a continuation page was
+# accepted or rejected on `rows[0]` alone, so one unmatched id at the top of a
+# page discarded every valid row beneath it.
+# --------------------------------------------------------------------------- #
+
+def _english_qid_rows(pdf: Path) -> int:
+    """Count rows the index table actually carries, independent of the parser."""
+    import fitz
+
+    from academicos.corpus.cbse_cbe import _QID_CELL, _cell
+
+    doc = fitz.open(pdf)
+    try:
+        return sum(
+            1
+            for i in range(min(14, len(doc)))
+            for table in doc[i].find_tables()
+            for row in (table.extract() or [])
+            if row and len(row) > 1 and _QID_CELL.match(_cell(row, 1))
+        )
+    finally:
+        doc.close()
+
+
+def _english_banks() -> list[Path]:
+    return [p for p in sorted(CORPUS.glob("*.pdf"))
+            if subject_and_grade_for(p)[0].lower() == "english"]
+
+
+def test_english_index_captures_nearly_every_row_it_is_given():
+    banks = _english_banks()
+    if not banks:
+        pytest.skip("no English item banks downloaded")
+    present = sum(_english_qid_rows(p) for p in banks)
+    captured = sum(len(parse_index(p)) for p in banks)
+    assert present >= 300, f"corpus shrank; only {present} index rows found"
+    # Was 65/350 (19%) while the merged-cell rows were dropped.
+    assert captured >= present * 0.9, (
+        f"index captured {captured} of {present} rows ({100 * captured / present:.0f}%)")
+
+
+@pytest.mark.parametrize("grade", [6, 7, 8, 9, 10])
+def test_every_english_grade_contributes_index_rows(grade):
+    pdf = next((p for p in _english_banks()
+                if subject_and_grade_for(p)[1] == grade), None)
+    if pdf is None:
+        pytest.skip(f"no English class {grade} item bank")
+    present = _english_qid_rows(pdf)
+    captured = len(parse_index(pdf))
+    assert captured >= present * 0.9, (
+        f"class {grade}: {captured} of {present} rows")
+
+
+def test_class_6_reads_the_text_type_column_not_the_source_blurb():
+    """Class 6 English has no AO3 column, so its table is 7 wide, not 8.
+
+    Reading a fixed column 6 took `Source description` -- a prose sentence --
+    as the text type, which then keyword-matched into an essentially random
+    strand: four of the five rows that survived fell to the `.0` fallback.
+    """
+    pdf = next((p for p in _english_banks()
+                if subject_and_grade_for(p)[1] == 6), None)
+    if pdf is None:
+        pytest.skip("no English class 6 item bank")
+    index = parse_index(pdf)
+    assert index, "class 6 index parsed to nothing"
+    # A text type is a short label ("Poetry", "Informative magazine article"),
+    # never a sentence of source prose.
+    long_topics = {v["topic"] for v in index.values() if len(v["topic"]) > 60}
+    assert not long_topics, f"source blurbs read as text types: {sorted(long_topics)[:3]}"
+    unknown = [v for v in index.values() if v["content_code"].endswith(".0")]
+    assert len(unknown) < len(index) * 0.5, (
+        f"{len(unknown)}/{len(index)} class 6 rows fell to the unknown strand")
+
+
+def test_english_index_reads_ao3_and_ao4():
+    """AO3/AO4 columns carry real marks and were never read."""
+    rows = [v for p in _english_banks() for v in parse_index(p).values()]
+    if not rows:
+        pytest.skip("no English item banks downloaded")
+    assert any(r.get("ao3_marks") or r.get("ao4_marks") for r in rows), (
+        "no row carries AO3 or AO4 marks; the columns are still unread")
+
+
+@pytest.mark.parametrize("text_type", [
+    "Text A Informative newspaper article",
+    "Text A Informative magazine article",
+    "Text A information Advertisement",
+])
+def test_informational_text_types_reach_a_real_strand(text_type):
+    """`informative` is not a substring of `information`.
+
+    Keying strand 5 on "information" alone sent every "Informative newspaper
+    article" and "Informative magazine article" to the `.0` unknown fallback --
+    53 rows across classes 6-8. This was invisible while those rows were being
+    dropped by the merged-cell bug; capturing them surfaced it.
+    """
+    from academicos.corpus.cbse_cbe import _english_pseudo_code
+
+    assert not _english_pseudo_code(8, text_type).endswith(".0")
+
+
+def test_no_english_grade_leaves_a_large_share_in_the_unknown_strand():
+    for pdf in _english_banks():
+        index = parse_index(pdf)
+        if not index:
+            continue
+        unknown = sum(1 for v in index.values() if v["content_code"].endswith(".0"))
+        grade = subject_and_grade_for(pdf)[1]
+        assert unknown <= len(index) * 0.1, (
+            f"class {grade}: {unknown}/{len(index)} rows in the unknown strand")
+
+
+# --------------------------------------------------------------------------- #
+# what the index reads must reach the item
+# --------------------------------------------------------------------------- #
+
+def test_english_items_carry_ao3_and_ao4_marks(items):
+    """Reading AO3/AO4 off the index is useless if the merge drops them.
+
+    `CbeItem` declared only AO1/AO2, so an item whose index row says AO4 = 10
+    reported `aoMarks` without it, and any marks-by-objective report on English
+    was understated.
+    """
+    english = [i for i in items if i.subject == "English"]
+    if not english:
+        pytest.skip("no English items parsed")
+    assert any({"AO3", "AO4"} & set(i.ao_marks) for i in english), (
+        "no English item carries AO3/AO4 marks")
+
+
+def test_english_items_take_the_source_description_from_the_index(items):
+    """The index's `Source description` was extracted and then never read.
+
+    For English it is the only human-readable description the index carries,
+    and `scripts/map_topics.py` feeds `content_reference` into the topic
+    mapper's training text -- so the mapper was missing that signal.
+    """
+    english = [i for i in items if i.subject == "English"]
+    if not english:
+        pytest.skip("no English items parsed")
+    with_ref = sum(1 for i in english if i.content_reference)
+    assert with_ref >= len(english) * 0.5, (
+        f"only {with_ref}/{len(english)} English items have a content reference")
