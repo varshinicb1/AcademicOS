@@ -18,6 +18,7 @@ from typing import Any, Optional
 from fastapi import APIRouter, Depends, HTTPException
 
 from ..assessment.auth_routes import get_current_user, require_principal
+from ..assessment.authz import require_own_school
 from ..assessment.users import User
 from ..config import Config
 from . import calendar as calendar_mod
@@ -94,12 +95,20 @@ from .store import CurriculumStore, get_curriculum_store
 
 router = APIRouter(prefix="/api/v1/curriculum")
 
-# Read endpoints below are deliberately unauthenticated, matching
-# pillar_routes.py's existing /catalog and /syllabus/{subject}/{grade}
-# precedent: this is public official-curriculum content (subject names,
-# CBSE chapter names/marks), not student data. Only the write below
-# (seed/cbse10, which creates/associates real per-school records) is
-# principal-gated.
+# Every read here requires a signed-in caller and returns only the caller's
+# own school's rows (docs/PRD.md section 10: "every query scoped by
+# school_id"). These hierarchy reads used to be unauthenticated on the theory
+# that they were public CBSE content like pillar_routes.py's /catalog and
+# /syllabus -- they are not: seed_cbse10 creates every year/grade/subject/
+# book/unit/chapter as a per-school row, and topics/subtopics are that
+# school's own admin-approved decomposition. The product audit of 2026-09-21
+# measured the gap twice: a school_2 principal got 200 on school_1's approved
+# topics, and GET /academic-years?school_id=school_1 answered with no token.
+# Reads now use the same _require_school_owns_* checks as the writes -- 404
+# for an id that resolves to no school, 403 for another school's. The one
+# global table is boards (no school_id column; CBSE is not any one school's
+# row, which is also why export_school_data omits it): any signed-in caller
+# may read it.
 
 _store: Optional[CurriculumStore] = None
 _cfg: Optional[Config] = None
@@ -202,6 +211,26 @@ def _require_school_owns_book(book_id: str, current: User) -> None:
         raise HTTPException(403, "this book belongs to a different school")
 
 
+def _require_school_owns_grade(grade_id: str, current: User) -> None:
+    owner = _require().school_id_for_grade(grade_id)
+    if owner is None:
+        raise HTTPException(404, "grade not found")
+    if owner != current.school_id:
+        raise HTTPException(403, "this grade belongs to a different school")
+
+
+def _require_school_owns_subject(subject_id: str, current: User) -> None:
+    # store.py has no school_id_for_subject; a subject's owner is its
+    # grade's, so resolve one hop and reuse school_id_for_grade.
+    store = _require()
+    subject = store.get_subject(subject_id)
+    owner = store.school_id_for_grade(subject.grade_id) if subject is not None else None
+    if owner is None:
+        raise HTTPException(404, "subject not found")
+    if owner != current.school_id:
+        raise HTTPException(403, "this subject belongs to a different school")
+
+
 def _topic_response(t) -> TopicResponse:
     return TopicResponse(id=t.id, canonical_id=t.canonical_id, chapter_id=t.chapter_id,
                          name=t.name, seq=t.seq, description=t.description,
@@ -219,21 +248,31 @@ def _subtopic_response(s) -> SubtopicResponse:
 
 
 @router.get("/boards", response_model=list[BoardResponse])
-def list_boards() -> list[BoardResponse]:
+def list_boards(current: User = Depends(get_current_user)) -> list[BoardResponse]:
+    # Signed-in only, not school-scoped: boards are the one global table
+    # (see the module comment above).
     return [BoardResponse(id=b.id, name=b.name, code=b.code) for b in _require().list_boards()]
 
 
 @router.get("/academic-years", response_model=list[AcademicYearResponse])
-def list_academic_years(school_id: str) -> list[AcademicYearResponse]:
+def list_academic_years(school_id: str,
+                        current: User = Depends(get_current_user)) -> list[AcademicYearResponse]:
+    # school_id stays a required query param so the web client's existing
+    # call (curriculum_api.dart::academicYears) keeps its shape, but it is
+    # checked against the caller's own school, never trusted -- passing
+    # another school's id is a 403, not that school's years.
+    require_own_school(school_id, current)
     return [
         AcademicYearResponse(id=y.id, school_id=y.school_id, label=y.label,
                              start_date=y.start_date, end_date=y.end_date, status=y.status)
-        for y in _require().academic_years_for_school(school_id)
+        for y in _require().academic_years_for_school(current.school_id)
     ]
 
 
 @router.get("/academic-years/{academic_year_id}/grades", response_model=list[GradeResponse])
-def list_grades(academic_year_id: str) -> list[GradeResponse]:
+def list_grades(academic_year_id: str,
+                current: User = Depends(get_current_user)) -> list[GradeResponse]:
+    _require_school_owns_academic_year(academic_year_id, current)
     return [
         GradeResponse(id=g.id, academic_year_id=g.academic_year_id, number=g.number, section=g.section)
         for g in _require().grades_for_year(academic_year_id)
@@ -241,7 +280,9 @@ def list_grades(academic_year_id: str) -> list[GradeResponse]:
 
 
 @router.get("/grades/{grade_id}/subjects", response_model=list[SubjectResponse])
-def list_subjects(grade_id: str) -> list[SubjectResponse]:
+def list_subjects(grade_id: str,
+                  current: User = Depends(get_current_user)) -> list[SubjectResponse]:
+    _require_school_owns_grade(grade_id, current)
     return [
         SubjectResponse(id=s.id, grade_id=s.grade_id, name=s.name, code=s.code)
         for s in _require().subjects_for_grade(grade_id)
@@ -249,7 +290,9 @@ def list_subjects(grade_id: str) -> list[SubjectResponse]:
 
 
 @router.get("/subjects/{subject_id}/books", response_model=list[BookResponse])
-def list_books(subject_id: str) -> list[BookResponse]:
+def list_books(subject_id: str,
+               current: User = Depends(get_current_user)) -> list[BookResponse]:
+    _require_school_owns_subject(subject_id, current)
     return [
         BookResponse(id=b.id, subject_id=b.subject_id, board_id=b.board_id, title=b.title,
                      publisher=b.publisher, status=b.status)
@@ -258,7 +301,9 @@ def list_books(subject_id: str) -> list[BookResponse]:
 
 
 @router.get("/books/{book_id}/units", response_model=list[UnitResponse])
-def list_units(book_id: str) -> list[UnitResponse]:
+def list_units(book_id: str,
+               current: User = Depends(get_current_user)) -> list[UnitResponse]:
+    _require_school_owns_book(book_id, current)
     return [
         UnitResponse(id=u.id, canonical_id=u.canonical_id, book_id=u.book_id,
                      unit_no=u.unit_no, name=u.name, marks=u.marks, seq=u.seq)
@@ -267,9 +312,11 @@ def list_units(book_id: str) -> list[UnitResponse]:
 
 
 @router.get("/books/{book_id}/chapters", response_model=list[ChapterResponse])
-def list_chapters(book_id: str) -> list[ChapterResponse]:
+def list_chapters(book_id: str,
+                  current: User = Depends(get_current_user)) -> list[ChapterResponse]:
     """Unit-then-chapter delivery order across the whole book -- what
     §29's admin curriculum-review step actually wants to show."""
+    _require_school_owns_book(book_id, current)
     return [
         ChapterResponse(id=c.id, canonical_id=c.canonical_id, unit_id=c.unit_id,
                         name=c.name, seq=c.seq)
@@ -314,10 +361,12 @@ def seed_cbse10(req: SeedCbse10Request,
 
 
 @router.get("/chapters/{chapter_id}/topics", response_model=list[TopicWithSubtopicsResponse])
-def list_topics(chapter_id: str) -> list[TopicWithSubtopicsResponse]:
+def list_topics(chapter_id: str,
+                current: User = Depends(get_current_user)) -> list[TopicWithSubtopicsResponse]:
     """The real, approved curriculum for a chapter -- what the question-
     paper subtopic picker (§ end-to-end acceptance criteria) reads."""
     store = _require()
+    _require_school_owns_chapter(chapter_id, current)
     out = []
     for t in store.topics_for_chapter(chapter_id):
         out.append(TopicWithSubtopicsResponse(
@@ -575,7 +624,16 @@ def questions_by_subtopics(req: QuestionsForSubtopicsRequest,
                            current: User = Depends(get_current_user)) -> QuestionsForSubtopicsResponse:
     """"Generate paper using selected subtopics": every question tagged
     (via tag_question above) to any of the given subtopics."""
-    ids = _require().question_ids_for_subtopics(req.subtopic_ids)
+    store = _require()
+    for subtopic_id in req.subtopic_ids:
+        # Another school's subtopic is refused like every other cross-school
+        # read in this file. An id that resolves to no school is not: it is a
+        # subtopic force-deleted since the picker loaded, its question links
+        # went with it, and "no questions" is the honest answer for it.
+        owner = store.school_id_for_subtopic(subtopic_id)
+        if owner is not None and owner != current.school_id:
+            raise HTTPException(403, "this subtopic belongs to a different school")
+    ids = store.question_ids_for_subtopics(req.subtopic_ids)
     return QuestionsForSubtopicsResponse(question_ids=ids)
 
 
@@ -583,9 +641,9 @@ def questions_by_subtopics(req: QuestionsForSubtopicsRequest,
 # Holidays -> Period Duration -> Teaching-Time Estimate (§10, §27-29) ----------------
 # Every write here is principal-gated and school-scoped, same posture as
 # the Topic/Subtopic draft-curriculum writes above: a school's calendar and
-# per-subtopic pacing plan is administrative configuration, not public
-# reference content (unlike /boards or /books/{id}/chapters, which mirror
-# official, school-independent CBSE data).
+# per-subtopic pacing plan is administrative configuration. Reads are
+# school-scoped too, like every hierarchy read above -- only /boards is
+# shared across schools.
 
 
 @router.post("/academic-years/{academic_year_id}/calendar", response_model=CalendarResponse)

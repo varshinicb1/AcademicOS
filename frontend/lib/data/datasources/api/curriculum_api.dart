@@ -163,9 +163,11 @@ class CurriculumApi {
   final Dio _dio;
   CurriculumApi(this._dio);
 
-  /// Public, school-scoped (matches the real /catalog-style read routes) --
-  /// used by the student view to find its own school's current academic
-  /// year rather than guessing or hardcoding one.
+  /// Used by the student view to find its own school's current academic
+  /// year rather than guessing or hardcoding one. Signed-in only, like every
+  /// curriculum read here (the bearer token rides on the shared Dio's
+  /// sessionInterceptor): `schoolId` must be the caller's own school -- the
+  /// server answers 403 for any other, never that school's years.
   Future<List<AcademicYearSummary>> academicYears(String schoolId) async {
     final r = await _dio.get('/curriculum/academic-years', queryParameters: {'school_id': schoolId});
     return (r.data as List).map((e) => AcademicYearSummary.fromJson(Map<String, dynamic>.from(e))).toList();
@@ -236,8 +238,9 @@ class CurriculumApi {
   /// Designer's subtopic picker (assessment_create_page.dart), which uses
   /// this to let a teacher filter question search to specific subtopics via
   /// `QuestionSearchParams.subtopicIds` rather than a whole chapter. Any
-  /// authenticated user may call this (read-only, server-side unscoped by
-  /// school since chapter content isn't school-specific).
+  /// signed-in user of the chapter's own school may call this; topics and
+  /// subtopics are that school's own approved decomposition, so another
+  /// school's chapter is a 403 and an unknown chapter id a 404.
   Future<List<TopicWithSubtopics>> topicsForChapter(String chapterId) async {
     final r = await _dio.get('/curriculum/chapters/$chapterId/topics');
     return (r.data as List).map((e) => TopicWithSubtopics.fromJson(Map<String, dynamic>.from(e))).toList();
