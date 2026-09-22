@@ -35,7 +35,7 @@ _FIGURE_DEPENDENT = (
     "shown in option", "in the given figure", "in the figure given", "given diagram",
     "following diagram", "figure shown", "in the diagram", "shown in the graph",
     "given circuit", "following circuit diagram", "in the given map", "given table",
-    "following table", "shown below",
+    "following table", "shown below", "figure given below",
 )
 
 
@@ -302,6 +302,10 @@ class PoolQuestion:
     correct_option: str | None = None
     answer_text: str = ""
     value_points: list[str] = field(default_factory=list)
+    # The served-bank record this came from, when it came from the baked bank.
+    # Kept whole because that record already IS the API wire shape; rebuilding
+    # it from the stem lost the source, the parts and every SQP MCQ's key.
+    record: dict | None = None
 
     @property
     def id(self) -> str:
@@ -614,6 +618,22 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                                 continue
                             if not _grade_matches(item_grade_roman, grade):
                                 continue
+                            # The same gates the registry path applies above: a
+                            # served record is no more exempt from printing a
+                            # figure it lacks, or options that never arrived.
+                            stem = item["stem"]
+                            if has_broken_options(stem):
+                                skipped_broken_options += 1
+                                continue
+                            if needs_missing_figure(stem):
+                                skipped_figure += 1
+                                continue
+                            if looks_truncated(stem):
+                                skipped_truncated += 1
+                                continue
+                            if near_dupes.is_duplicate(stem):
+                                skipped_near_dup += 1
+                                continue
                             q = Question(
                                 canonical_id=item["id"],
                                 title=item["stem"][:100],
@@ -632,9 +652,15 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                                 text_hash=hashlib.sha256(item["stem"].encode("utf-8")).hexdigest()[:16],
                                 paper_code="",
                                 answer_text=item.get("answerScheme", {}).get("modelAnswer", ""),
+                                record=item,
                             )
                             pool.questions.append(pq)
                         if pool.questions:
+                            # Board papers first, stably: a class 10/12 paper that
+                            # composes today must not be silently re-composed from
+                            # the SQP and CBE items the merged bank adds after them.
+                            pool.questions.sort(
+                                key=lambda pq: 0 if (pq.record or {}).get("source") == "cbse_board_paper" else 1)
                             log.info("Loaded %d questions for %s Grade %s from baked-in question bank at %s", len(pool.questions), subject, grade, p)
                             break
                     except Exception as e:

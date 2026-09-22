@@ -106,6 +106,11 @@ def _resolve_bloom(raw: str | None) -> str:
 
 
 def to_question_schema(pq: PoolQuestion) -> QuestionSchema:
+    if pq.record is not None:
+        # The baked bank's records are already the wire shape; serve them as-is.
+        # Rebuilding one from the stem replaced its official scheme with
+        # keyword-guessed points and dropped 693 MCQ letters (audit 1.3).
+        return QuestionSchema.model_validate(pq.record)
     q = pq.question
     marks = _plausible_marks(pq.marks) or _infer_marks_from_position(q.q_no)
     bloom = _resolve_bloom(q.cognitive.value if q.cognitive else None)
