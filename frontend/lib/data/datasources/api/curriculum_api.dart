@@ -370,8 +370,26 @@ class CurriculumApi {
   }
 
   /// §8, §10: Academic calendar setup and working days.
-  Future<CalendarInfo> createCalendar(String academicYearId, {List<int> weeklyOffDays = const [7], String alternateSaturdayRule = 'none'}) async {
+  ///
+  /// `weeklyOffDays` are full weekday names ('sunday') -- the backend's
+  /// CreateCalendarRequest is `list[str]`. This sent `[7]` until 2026-09-22,
+  /// so every create from the Calendar & Setup tab was a 422.
+  /// `alternateSaturdayRule`: 'none' | 'all' | 'second_fourth' |
+  /// 'first_third' | ordinals like '2nd,4th'; anything else is a 422.
+  Future<CalendarInfo> createCalendar(String academicYearId,
+      {List<String> weeklyOffDays = const ['sunday'], String alternateSaturdayRule = 'none'}) async {
     final r = await _dio.post('/curriculum/academic-years/$academicYearId/calendar', data: {
+      'weeklyOffDays': weeklyOffDays,
+      'alternateSaturdayRule': alternateSaturdayRule,
+    });
+    return CalendarInfo.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Corrects an existing calendar (a second create is a 409). Same body
+  /// and validation as [createCalendar].
+  Future<CalendarInfo> updateCalendar(String academicYearId,
+      {required List<String> weeklyOffDays, required String alternateSaturdayRule}) async {
+    final r = await _dio.put('/curriculum/academic-years/$academicYearId/calendar', data: {
       'weeklyOffDays': weeklyOffDays,
       'alternateSaturdayRule': alternateSaturdayRule,
     });
@@ -388,6 +406,9 @@ class CurriculumApi {
     }
   }
 
+  /// `kind`: 'public' | 'school' | 'emergency' | 'holiday' |
+  /// 'unexpected_closure' remove teaching days; 'event' marks a day that
+  /// still teaches. A date outside the academic year is a 422.
   Future<HolidayInfo> addHoliday(String academicYearId, {required String date, required String label, String kind = 'public', String? endDate}) async {
     final r = await _dio.post('/curriculum/academic-years/$academicYearId/holidays', data: {
       'date': date,
@@ -396,6 +417,11 @@ class CurriculumApi {
       if (endDate != null) 'endDate': endDate,
     });
     return HolidayInfo.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Removes a holiday entered by mistake, so that day teaches again.
+  Future<void> deleteHoliday(String academicYearId, String holidayId) async {
+    await _dio.delete('/curriculum/academic-years/$academicYearId/holidays/$holidayId');
   }
 
   Future<List<HolidayInfo>> listHolidays(String academicYearId) async {
@@ -568,13 +594,14 @@ class ChapterSummary {
 class CalendarInfo {
   final String id;
   final String academicYearId;
-  final List<int> weeklyOffDays;
+  /// Lower-case weekday names, as the backend stores them ('sunday').
+  final List<String> weeklyOffDays;
   final String alternateSaturdayRule;
 
   CalendarInfo.fromJson(Map<String, dynamic> j)
       : id = j['id'] as String,
         academicYearId = j['academicYearId'] as String,
-        weeklyOffDays = (j['weeklyOffDays'] as List? ?? const []).map((e) => e as int).toList(),
+        weeklyOffDays = (j['weeklyOffDays'] as List? ?? const []).map((e) => e as String).toList(),
         alternateSaturdayRule = j['alternateSaturdayRule'] as String? ?? 'none';
 }
 

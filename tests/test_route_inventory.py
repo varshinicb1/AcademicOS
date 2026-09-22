@@ -144,9 +144,11 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/questions/tag"),
     ("POST", "/api/v1/curriculum/questions/by-subtopics"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
+    ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
+    ("DELETE", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays/{holiday_id}"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
@@ -274,9 +276,11 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PATCH", "/api/v1/curriculum/subtopics/{subtopic_id}/sequence"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/questions/tag"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
+    ("PUT", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/calendar"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
+    ("DELETE", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays/{holiday_id}"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
@@ -523,7 +527,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 131
+    assert len(API_ROUTES) == 133
 
 
 def test_docs_routes_present():
@@ -1193,6 +1197,21 @@ def test_full_boot_academic_calendar_and_teaching_time_estimates(tmp_path, monke
         ).json()
         assert {h["label"] for h in holidays} == {"Independence Day", "Gandhi Jayanti"}
 
+        # -- a holiday entered by mistake can be removed; an unknown kind or a
+        # date outside the year is a 422, never a silent no-op row
+        typo = client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/holidays",
+            json={"date": "2026-11-11", "label": "Typo", "kind": "public"}, headers=auth,
+        ).json()
+        typo_url = f"/api/v1/curriculum/academic-years/{academic_year_id}/holidays/{typo['id']}"
+        assert client.delete(typo_url, headers=other_auth).status_code == 403
+        assert client.delete(typo_url, headers=auth).status_code == 200
+        assert client.delete(typo_url, headers=auth).status_code == 404
+        assert client.post(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/holidays",
+            json={"date": "2030-01-01", "label": "x", "kind": "festival"}, headers=auth,
+        ).status_code == 422
+
         # -- real, computed working days for the year
         wd = client.get(
             f"/api/v1/curriculum/academic-years/{academic_year_id}/working-days", headers=auth,
@@ -1201,6 +1220,29 @@ def test_full_boot_academic_calendar_and_teaching_time_estimates(tmp_path, monke
         wd_body = wd.json()
         assert wd_body["holidayCount"] == 2
         assert "2026-08-15" not in wd_body["dates"]
+
+        # -- the calendar can be corrected in place (a second POST is a 409)
+        assert client.put(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar",
+            json={"weeklyOffDays": ["Sun"]}, headers=auth,
+        ).status_code == 422
+        assert client.put(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar",
+            json={"weeklyOffDays": ["sunday"], "alternateSaturdayRule": "all"}, headers=other_auth,
+        ).status_code == 403
+        fixed = client.put(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar",
+            json={"weeklyOffDays": ["sunday"], "alternateSaturdayRule": "all"}, headers=auth,
+        )
+        assert fixed.status_code == 200, fixed.text
+        all_sat = client.get(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/working-days", headers=auth,
+        ).json()
+        assert all_sat["alternateSaturdayOffCount"] > wd_body["alternateSaturdayOffCount"]
+        assert client.put(
+            f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar",
+            json={"weeklyOffDays": ["sunday"], "alternateSaturdayRule": "2nd,4th"}, headers=auth,
+        ).status_code == 200
         assert wd_body["workingDays"] == (
             wd_body["totalDays"] - wd_body["weeklyOffCount"]
             - wd_body["alternateSaturdayOffCount"] - wd_body["holidayCount"]

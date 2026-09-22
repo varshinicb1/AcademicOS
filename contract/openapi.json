@@ -1666,6 +1666,7 @@
         "type": "object"
       },
       "CreateCalendarRequest": {
+        "description": "Body of both POST (create) and PUT (correct) .../calendar. The routes\nvalidate the values (calendar.normalize_weekly_off_days /\nnormalize_alternate_saturday_rule) and answer 422 naming what is\naccepted -- plain `str` here so that message, not pydantic's, is what\nthe web admin shows.",
         "properties": {
           "alternateSaturdayRule": {
             "default": "none",
@@ -3590,9 +3591,16 @@
             "type": "string"
           },
           "periodsPerWeek": {
-            "exclusiveMinimum": 0.0,
-            "title": "Periodsperweek",
-            "type": "integer"
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Periodsperweek"
           },
           "reason": {
             "minLength": 1,
@@ -3602,7 +3610,6 @@
         },
         "required": [
           "fromDate",
-          "periodsPerWeek",
           "reason"
         ],
         "title": "PushScheduleRequest",
@@ -8050,6 +8057,59 @@
           }
         ],
         "summary": "Create Calendar"
+      },
+      "put": {
+        "description": "Corrects this year's weekly offs / Saturday rule. Working days are\ncomputed on read, so /working-days follows at once; lessons already\nscheduled keep their dates until the principal re-schedules or pushes\nthem -- a calendar edit never silently moves a teacher's plan.",
+        "operationId": "update_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCalendarRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalendarResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Update Calendar"
       }
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/grades": {
@@ -8198,6 +8258,62 @@
           }
         ],
         "summary": "Add Holiday"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/holidays/{holiday_id}": {
+      "delete": {
+        "description": "Removes a holiday entered by mistake, so the day teaches again --\nwithout it a typo'd date took a teaching day away for the whole year.",
+        "operationId": "delete_holiday_api_v1_curriculum_academic_years__academic_year_id__holidays__holiday_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "holiday_id",
+            "required": true,
+            "schema": {
+              "title": "Holiday Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Holiday Api V1 Curriculum Academic Years  Academic Year Id  Holidays  Holiday Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Holiday"
       }
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration": {
@@ -8707,7 +8823,7 @@
     },
     "/api/v1/curriculum/books/{book_id}/schedule/push": {
       "post": {
-        "description": "PUSH: real disruption handling -- shifts every lesson on/after\n`from_date` one real teaching slot later. See scheduling.py's\npush_lessons_after() docstring for the full method, including why\n`periods_per_week` must be supplied again.",
+        "description": "PUSH: real disruption handling -- shifts every still-to-teach lesson\non/after `from_date` one real teaching slot later; completed/skipped\nlessons keep their dates. With a timetable, the timetable decides the\ndays and `periodsPerWeek` is not needed; without one it is optional and\ndefaults to the subject's stored allocation (422 if neither exists). See\nscheduling.py's push_lessons_after() docstring for the full method.",
         "operationId": "push_schedule_api_v1_curriculum_books__book_id__schedule_push_post",
         "parameters": [
           {
@@ -9866,7 +9982,7 @@
     },
     "/api/v1/curriculum/scheduled-lessons/{lesson_id}/reschedule": {
       "post": {
-        "description": "ADJUST: move exactly one lesson to a specific new real working day.",
+        "description": "ADJUST: move exactly one lesson to a specific new real working day.\n409 when that day already holds as many of this book's lessons as the\nsubject has periods then (scheduling.RescheduleClash), or when the\nlesson is already completed/skipped (scheduling.LessonAlreadyRecorded\n-- its date is the teaching record); 422 for a day that isn't a\nworking day at all.",
         "operationId": "adjust_lesson_api_v1_curriculum_scheduled_lessons__lesson_id__reschedule_post",
         "parameters": [
           {

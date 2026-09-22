@@ -1103,6 +1103,34 @@ class CurriculumStore:
         d["weekly_off_days"] = json.loads(d["weekly_off_days"])
         return Calendar(**d)
 
+    def update_calendar(self, *, academic_year_id: str, weekly_off_days: list[str],
+                        alternate_saturday_rule: str) -> Calendar:
+        """The correction path: a calendar is one row per academic year
+        (create is a 409 the second time), so before this existed a wrong
+        weekly off day entered once was stuck for the whole year."""
+        with self._conn_lock:
+            cur = self.conn.execute(
+                "UPDATE calendars SET weekly_off_days=?, alternate_saturday_rule=? "
+                "WHERE academic_year_id=?",
+                (json.dumps(weekly_off_days), alternate_saturday_rule, academic_year_id))
+            rowcount = cur.rowcount
+        if rowcount == 0:
+            raise ValueError(f"academic year {academic_year_id!r} has no calendar to update")
+        self._commit()
+        return self.get_calendar_for_year(academic_year_id)
+
+    def get_holiday(self, holiday_id: str) -> Optional[Holiday]:
+        r = self._fetchone("SELECT * FROM holidays WHERE id=?", (holiday_id,))
+        return Holiday(**dict(r)) if r else None
+
+    def remove_holiday(self, holiday_id: str) -> None:
+        with self._conn_lock:
+            cur = self.conn.execute("DELETE FROM holidays WHERE id=?", (holiday_id,))
+            rowcount = cur.rowcount
+        if rowcount == 0:
+            raise ValueError(f"no holiday with id {holiday_id!r}")
+        self._commit()
+
     def add_holiday(self, *, calendar_id: str, date: str, label: str, kind: str = "holiday",
                     end_date: Optional[str] = None) -> Holiday:
         if end_date is not None and end_date < date:

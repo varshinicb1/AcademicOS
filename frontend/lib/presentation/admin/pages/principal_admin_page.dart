@@ -82,9 +82,14 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   int _seqMode = 0; // 0: units, 1: chapters
 
   // --- Calendar & Period Setup State ---
-  int _weeklyOffDay = 7; // Sunday
+  // Weekday names and rule values exactly as the backend's
+  // CreateCalendarRequest takes them (see CurriculumApi.createCalendar).
+  String _weeklyOffDay = 'sunday';
   String _altSatRule = 'none';
   bool _creatingCalendar = false;
+  // The year's saved calendar, once loaded: its presence turns "Initialize"
+  // into "Update" (a second create is a 409; PUT corrects it in place).
+  CalendarInfo? _calendar;
   final _periodMinutesController = TextEditingController(text: '45');
   bool _savingPeriodMinutes = false;
   final _holidayDateController = TextEditingController(
@@ -406,17 +411,21 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
 
   Future<void> _submitCreateCalendar() async {
     if (_academicYearId == null) return;
+    final updating = _calendar != null;
     setState(() => _creatingCalendar = true);
     try {
-      await GetIt.I<CurriculumApi>().createCalendar(
-        _academicYearId!,
-        weeklyOffDays: [_weeklyOffDay],
-        alternateSaturdayRule: _altSatRule,
-      );
-      _showMessage('Academic Calendar initialized successfully.');
+      final api = GetIt.I<CurriculumApi>();
+      if (updating) {
+        await api.updateCalendar(_academicYearId!,
+            weeklyOffDays: [_weeklyOffDay], alternateSaturdayRule: _altSatRule);
+      } else {
+        await api.createCalendar(_academicYearId!,
+            weeklyOffDays: [_weeklyOffDay], alternateSaturdayRule: _altSatRule);
+      }
+      _showMessage(updating ? 'Academic Calendar updated.' : 'Academic Calendar initialized successfully.');
       _loadCalendarSetup();
     } catch (e) {
-      _showMessage('Could not initialize calendar: $e');
+      _showMessage('Could not ${updating ? 'update' : 'initialize'} calendar: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _creatingCalendar = false);
     }
@@ -462,17 +471,46 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       _holidayLabelController.clear();
       _loadCalendarSetup();
     } catch (e) {
-      _showMessage('Could not add holiday: $e');
+      _showMessage('Could not add holiday: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _addingHoliday = false);
     }
   }
+
+  Future<void> _deleteHoliday(HolidayInfo h) async {
+    if (_academicYearId == null) return;
+    try {
+      await GetIt.I<CurriculumApi>().deleteHoliday(_academicYearId!, h.id);
+      _showMessage('Holiday "${h.label}" removed.');
+      _loadCalendarSetup();
+    } catch (e) {
+      _showMessage('Could not remove holiday: ${serverErrorMessage(e)}');
+    }
+  }
+
+  static const _weeklyOffChoices = {'sunday', 'saturday', 'friday'};
+  static const _altSatChoices = {'none', 'second_fourth', 'all'};
 
   Future<void> _loadCalendarSetup() async {
     if (_academicYearId == null) return;
     setState(() => _loadingWorkingDays = true);
     try {
       final api = GetIt.I<CurriculumApi>();
+      final cal = await api.getCalendar(_academicYearId!);
+      if (mounted) {
+        setState(() {
+          _calendar = cal;
+          // Show the saved rules in the dropdowns when they can hold them
+          // (the API also accepts forms these menus don't offer).
+          if (cal != null && cal.weeklyOffDays.length == 1 &&
+              _weeklyOffChoices.contains(cal.weeklyOffDays.single)) {
+            _weeklyOffDay = cal.weeklyOffDays.single;
+          }
+          final rule = cal?.alternateSaturdayRule == '2nd,4th' ? 'second_fourth' : cal?.alternateSaturdayRule;
+          if (rule != null && _altSatChoices.contains(rule)) _altSatRule = rule;
+        });
+      }
+      if (cal == null) return;
       final results = await Future.wait([
         api.getWorkingDays(_academicYearId!),
         api.listHolidays(_academicYearId!),
@@ -1283,18 +1321,29 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
             children: [
               Text('Academic Calendar Rules', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
               const Gap(8),
-              DropdownButtonFormField<int>(
+              if (_calendar != null) ...[
+                Text(
+                  'Saved: weekly off ${_calendar!.weeklyOffDays.join(', ')}; '
+                  'Saturday rule ${_calendar!.alternateSaturdayRule}',
+                  style: theme.textTheme.bodySmall,
+                ),
+                const Gap(8),
+              ],
+              DropdownButtonFormField<String>(
+                // Re-keyed on load so the saved value replaces the default.
+                key: ValueKey('weekly-off-${_calendar?.id}'),
                 initialValue: _weeklyOffDay,
                 decoration: const InputDecoration(labelText: 'Weekly Off Day', border: OutlineInputBorder()),
                 items: const [
-                  DropdownMenuItem(value: 7, child: Text('Sunday (Default)')),
-                  DropdownMenuItem(value: 6, child: Text('Saturday')),
-                  DropdownMenuItem(value: 5, child: Text('Friday')),
+                  DropdownMenuItem(value: 'sunday', child: Text('Sunday (Default)')),
+                  DropdownMenuItem(value: 'saturday', child: Text('Saturday')),
+                  DropdownMenuItem(value: 'friday', child: Text('Friday')),
                 ],
-                onChanged: (v) => setState(() => _weeklyOffDay = v ?? 7),
+                onChanged: (v) => setState(() => _weeklyOffDay = v ?? 'sunday'),
               ),
               const Gap(12),
               DropdownButtonFormField<String>(
+                key: ValueKey('alt-sat-${_calendar?.id}'),
                 initialValue: _altSatRule,
                 decoration: const InputDecoration(labelText: 'Alternate Saturday Rule', border: OutlineInputBorder()),
                 items: const [
@@ -1310,7 +1359,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 icon: _creatingCalendar
                     ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
                     : const Icon(Icons.calendar_month),
-                label: const Text('Initialize Calendar'),
+                label: Text(_calendar == null ? 'Initialize Calendar' : 'Update Calendar'),
               ),
             ],
           ),
@@ -1366,6 +1415,8 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                   DropdownMenuItem(value: 'public', child: Text('Public Holiday')),
                   DropdownMenuItem(value: 'school', child: Text('School Holiday')),
                   DropdownMenuItem(value: 'emergency', child: Text('Emergency Closure')),
+                  // The one kind that does NOT remove a teaching day.
+                  DropdownMenuItem(value: 'event', child: Text('School Event (still a working day)')),
                 ],
                 onChanged: (v) => setState(() => _holidayKind = v ?? 'public'),
               ),
@@ -1426,7 +1477,21 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                     style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
                 const Gap(4),
                 ..._holidaysList.map(
-                  (h) => Text('• ${h.date}: ${h.label} (${h.kind})', style: theme.textTheme.bodySmall),
+                  (h) => Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                            '• ${h.date}${h.endDate != null ? ' to ${h.endDate}' : ''}: ${h.label} (${h.kind})',
+                            style: theme.textTheme.bodySmall),
+                      ),
+                      IconButton(
+                        tooltip: 'Remove holiday',
+                        visualDensity: VisualDensity.compact,
+                        icon: const Icon(Icons.delete_outline, size: 18),
+                        onPressed: () => _deleteHoliday(h),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ],

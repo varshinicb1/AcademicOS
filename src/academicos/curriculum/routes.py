@@ -644,19 +644,55 @@ def questions_by_subtopics(req: QuestionsForSubtopicsRequest,
 # shared across schools.
 
 
+def _validated_calendar_rules(req: CreateCalendarRequest) -> tuple[list[str], str]:
+    """422 (naming the accepted values) for an unknown weekday or Saturday
+    rule, before anything is stored: both used to be accepted and then
+    either break working-days ('Sun') or silently take no Saturday off
+    ('second_fourth', the web admin's own value)."""
+    try:
+        return (calendar_mod.normalize_weekly_off_days(req.weekly_off_days),
+                calendar_mod.normalize_alternate_saturday_rule(req.alternate_saturday_rule))
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+
+
+def _calendar_response(cal) -> CalendarResponse:
+    return CalendarResponse(id=cal.id, academic_year_id=cal.academic_year_id,
+                            weekly_off_days=cal.weekly_off_days,
+                            alternate_saturday_rule=cal.alternate_saturday_rule)
+
+
 @router.post("/academic-years/{academic_year_id}/calendar", response_model=CalendarResponse)
 def create_calendar(academic_year_id: str, req: CreateCalendarRequest,
                     principal: User = Depends(require_principal)) -> CalendarResponse:
     store = _require()
     _require_school_owns_academic_year(academic_year_id, principal)
+    weekly_off_days, saturday_rule = _validated_calendar_rules(req)
     if store.get_calendar_for_year(academic_year_id) is not None:
-        raise HTTPException(409, "this academic year already has a calendar -- add holidays to it instead")
+        raise HTTPException(409, "this academic year already has a calendar -- update it "
+                                 "(PUT .../calendar) or add holidays to it instead")
     cal = store.create_calendar(academic_year_id=academic_year_id,
-                                weekly_off_days=req.weekly_off_days,
-                                alternate_saturday_rule=req.alternate_saturday_rule)
-    return CalendarResponse(id=cal.id, academic_year_id=cal.academic_year_id,
-                            weekly_off_days=cal.weekly_off_days,
-                            alternate_saturday_rule=cal.alternate_saturday_rule)
+                                weekly_off_days=weekly_off_days,
+                                alternate_saturday_rule=saturday_rule)
+    return _calendar_response(cal)
+
+
+@router.put("/academic-years/{academic_year_id}/calendar", response_model=CalendarResponse)
+def update_calendar(academic_year_id: str, req: CreateCalendarRequest,
+                    principal: User = Depends(require_principal)) -> CalendarResponse:
+    """Corrects this year's weekly offs / Saturday rule. Working days are
+    computed on read, so /working-days follows at once; lessons already
+    scheduled keep their dates until the principal re-schedules or pushes
+    them -- a calendar edit never silently moves a teacher's plan."""
+    store = _require()
+    _require_school_owns_academic_year(academic_year_id, principal)
+    weekly_off_days, saturday_rule = _validated_calendar_rules(req)
+    if store.get_calendar_for_year(academic_year_id) is None:
+        raise HTTPException(404, "no calendar configured for this academic year yet -- create one first")
+    cal = store.update_calendar(academic_year_id=academic_year_id,
+                                weekly_off_days=weekly_off_days,
+                                alternate_saturday_rule=saturday_rule)
+    return _calendar_response(cal)
 
 
 @router.get("/academic-years/{academic_year_id}/calendar", response_model=CalendarResponse)
@@ -667,23 +703,43 @@ def get_calendar(academic_year_id: str,
     cal = store.get_calendar_for_year(academic_year_id)
     if cal is None:
         raise HTTPException(404, "no calendar configured for this academic year yet")
-    return CalendarResponse(id=cal.id, academic_year_id=cal.academic_year_id,
-                            weekly_off_days=cal.weekly_off_days,
-                            alternate_saturday_rule=cal.alternate_saturday_rule)
+    return _calendar_response(cal)
 
 
 @router.post("/academic-years/{academic_year_id}/holidays", response_model=HolidayResponse)
 def add_holiday(academic_year_id: str, req: AddHolidayRequest,
                 principal: User = Depends(require_principal)) -> HolidayResponse:
     store = _require()
-    _require_school_owns_academic_year(academic_year_id, principal)
+    year = _require_school_owns_academic_year(academic_year_id, principal)
     cal = store.get_calendar_for_year(academic_year_id)
     if cal is None:
         raise HTTPException(404, "create a calendar for this academic year first")
+    try:
+        calendar_mod.validate_holiday(date_=req.date, end_date=req.end_date, kind=req.kind,
+                                      year_start=year.start_date, year_end=year.end_date)
+    except ValueError as e:
+        raise HTTPException(422, str(e))
     h = store.add_holiday(calendar_id=cal.id, date=req.date, label=req.label, kind=req.kind,
                           end_date=req.end_date)
     return HolidayResponse(id=h.id, calendar_id=h.calendar_id, date=h.date, label=h.label,
                            kind=h.kind, end_date=h.end_date)
+
+
+@router.delete("/academic-years/{academic_year_id}/holidays/{holiday_id}")
+def delete_holiday(academic_year_id: str, holiday_id: str,
+                   principal: User = Depends(require_principal)) -> dict:
+    """Removes a holiday entered by mistake, so the day teaches again --
+    without it a typo'd date took a teaching day away for the whole year."""
+    store = _require()
+    _require_school_owns_academic_year(academic_year_id, principal)
+    cal = store.get_calendar_for_year(academic_year_id)
+    h = store.get_holiday(holiday_id)
+    # A holiday of another year's calendar is "not found" here, not
+    # deletable through this year's URL.
+    if cal is None or h is None or h.calendar_id != cal.id:
+        raise HTTPException(404, "holiday not found in this academic year's calendar")
+    store.remove_holiday(holiday_id)
+    return {"ok": True}
 
 
 @router.get("/academic-years/{academic_year_id}/holidays", response_model=list[HolidayResponse])
