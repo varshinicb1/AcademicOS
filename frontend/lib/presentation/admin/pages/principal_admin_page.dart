@@ -9,6 +9,24 @@ import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 import '../widgets/calendar_rules_card.dart';
 
+/// The console's tabs, in display order. The TabBar, the TabBarView and every
+/// jump between tabs are all derived from this list, so reordering or adding
+/// a tab cannot silently re-point a button: the delayed lesson's
+/// 'Reschedule' used to call animateTo(2) -- the Coverage tab it sits on --
+/// because Reschedule had moved to index 4 (audit 2026-09-21).
+enum _AdminTab {
+  roster('Roster', Icons.people_alt_outlined),
+  masterCalendar('Master Calendar', Icons.calendar_month_outlined),
+  coverage('Coverage & Pace', Icons.analytics_outlined),
+  sequence('Sequence Reorder', Icons.low_priority_outlined),
+  reschedule('Reschedule', Icons.edit_calendar_outlined),
+  calendarSetup('Calendar & Setup', Icons.settings_suggest_outlined);
+
+  const _AdminTab(this.label, this.icon);
+  final String label;
+  final IconData icon;
+}
+
 /// School Admin console (§2, §11-14, §17, §32):
 /// 1. Roster: Assign teachers to books and enroll students into grades.
 /// 2. Coverage & Pace: Planned vs. actually-taught lessons, coverage %,
@@ -107,13 +125,14 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 6, vsync: this);
+    _tabController = TabController(length: _AdminTab.values.length, vsync: this);
     _tabController.addListener(() {
-      if (_tabController.index == 1 && _masterLessons.isEmpty && !_loadingMasterCalendar) {
+      final tab = _AdminTab.values[_tabController.index];
+      if (tab == _AdminTab.masterCalendar && _masterLessons.isEmpty && !_loadingMasterCalendar) {
         _loadMasterCalendar();
-      } else if (_tabController.index == 2 && _coverageReport == null && !_loadingReporting) {
+      } else if (tab == _AdminTab.coverage && _coverageReport == null && !_loadingReporting) {
         _loadReporting();
-      } else if (_tabController.index == 5 && _workingDaysSummary == null && !_loadingWorkingDays) {
+      } else if (tab == _AdminTab.calendarSetup && _workingDaysSummary == null && !_loadingWorkingDays) {
         _loadCalendarSetup();
       }
     });
@@ -553,13 +572,8 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         bottom: TabBar(
           isScrollable: true,
           controller: _tabController,
-          tabs: const [
-            Tab(text: 'Roster', icon: Icon(Icons.people_alt_outlined)),
-            Tab(text: 'Master Calendar', icon: Icon(Icons.calendar_month_outlined)),
-            Tab(text: 'Coverage & Pace', icon: Icon(Icons.analytics_outlined)),
-            Tab(text: 'Sequence Reorder', icon: Icon(Icons.low_priority_outlined)),
-            Tab(text: 'Reschedule', icon: Icon(Icons.edit_calendar_outlined)),
-            Tab(text: 'Calendar & Setup', icon: Icon(Icons.settings_suggest_outlined)),
+          tabs: [
+            for (final tab in _AdminTab.values) Tab(text: tab.label, icon: Icon(tab.icon)),
           ],
         ),
       ),
@@ -586,12 +600,15 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           return TabBarView(
             controller: _tabController,
             children: [
-              _buildRosterTab(theme, data),
-              _buildMasterCalendarTab(theme, data),
-              _buildCoverageTab(theme),
-              _buildSequenceTab(theme, data),
-              _buildRescheduleTab(theme, data),
-              _buildCalendarSetupTab(theme, data),
+              for (final tab in _AdminTab.values)
+                switch (tab) {
+                  _AdminTab.roster => _buildRosterTab(theme, data),
+                  _AdminTab.masterCalendar => _buildMasterCalendarTab(theme, data),
+                  _AdminTab.coverage => _buildCoverageTab(theme),
+                  _AdminTab.sequence => _buildSequenceTab(theme, data),
+                  _AdminTab.reschedule => _buildRescheduleTab(theme, data),
+                  _AdminTab.calendarSetup => _buildCalendarSetupTab(theme, data),
+                },
             ],
           );
         },
@@ -762,10 +779,13 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     );
   }
 
+  /// The headline figures are the backend's own (overallCoveragePct,
+  /// overallPacePct and the counts behind them), never re-derived here: the
+  /// old client-side pace summed per-subject counts it had failed to parse,
+  /// got 0 planned, and fell back to 100% for a school 89 lessons behind.
   Widget _buildSummaryStats(ThemeData theme, CoverageReport rep, DelayedTopicsReport del) {
-    final totalCompleted = rep.subjects.fold<int>(0, (sum, s) => sum + s.completedCount);
-    final totalPlanned = rep.subjects.fold<int>(0, (sum, s) => sum + s.plannedCount);
-    final overallPace = totalPlanned == 0 ? 100.0 : (totalCompleted / totalPlanned * 100.0);
+    final pace = rep.overallPace;
+    final muted = theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant);
 
     return Row(
       children: [
@@ -773,9 +793,11 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           child: AppCard(
             child: Column(
               children: [
-                Text('$totalCompleted', style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold, color: theme.colorScheme.primary)),
+                Text('${rep.overallCoveragePct.toStringAsFixed(1)}%',
+                    style: theme.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold, color: theme.colorScheme.primary)),
                 const Gap(4),
-                Text('Completed Lessons', style: theme.textTheme.bodySmall),
+                Text('Syllabus Covered', style: theme.textTheme.bodySmall),
+                Text('${rep.completedLessons} of ${rep.totalLessons} lessons taught', style: muted),
               ],
             ),
           ),
@@ -785,12 +807,19 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           child: AppCard(
             child: Column(
               children: [
-                Text('${overallPace.toStringAsFixed(1)}%',
+                Text(_paceText(pace),
                     style: theme.textTheme.headlineMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: overallPace >= 90 ? Colors.green : Colors.orange)),
+                        color: pace == null
+                            ? theme.colorScheme.onSurfaceVariant
+                            : (pace >= 90 ? Colors.green : Colors.orange))),
                 const Gap(4),
-                Text('Overall Pace %', style: theme.textTheme.bodySmall),
+                Text('Overall Pace', style: theme.textTheme.bodySmall),
+                Text(
+                    pace == null
+                        ? 'No lessons due yet'
+                        : '${rep.completedToDate} of ${rep.plannedToDate} due lessons taught',
+                    style: muted),
               ],
             ),
           ),
@@ -814,18 +843,27 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     );
   }
 
+  /// '—' when no lesson was due yet: the backend reports pace 100.0 then,
+  /// which would read as "on track" for a subject nobody has started.
+  static String _paceText(double? pace) => pace == null ? '—' : '${pace.toStringAsFixed(1)}%';
+
   Widget _buildSubjectCoverageCard(ThemeData theme, SubjectCoverage sub) {
     final varianceColor = sub.variance >= 0 ? Colors.green : Colors.red;
+    final pace = sub.pace;
+    final paceClause = pace == null
+        ? 'no lessons due yet'
+        : '${sub.completedToDate} of ${sub.plannedToDate} due to date · pace ${_paceText(pace)}';
     return AppCard(
       child: ExpansionTile(
         tilePadding: EdgeInsets.zero,
         title: Row(
           children: [
             Expanded(
-              child: Text(sub.subjectName, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+              child: Text('Grade ${sub.gradeNumber} · ${sub.subjectName}',
+                  style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
             ),
             ChipTag(
-              label: '${sub.coveragePercent.toStringAsFixed(1)}% covered',
+              label: '${sub.coveragePct.toStringAsFixed(1)}% covered',
               color: theme.colorScheme.primary,
             ),
             const Gap(6),
@@ -840,13 +878,15 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Teacher: ${sub.teacherName ?? "Unassigned"} · ${sub.completedCount}/${sub.totalCount} lessons',
+              Text(
+                  'Teacher: ${sub.teacherName ?? "Unassigned"} · '
+                  '${sub.completedLessons}/${sub.totalLessons} lessons taught · $paceClause',
                   style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
               const Gap(6),
               ClipRRect(
                 borderRadius: BorderRadius.circular(4),
                 child: LinearProgressIndicator(
-                  value: sub.totalCount == 0 ? 0 : sub.completedCount / sub.totalCount,
+                  value: (sub.coveragePct / 100).clamp(0.0, 1.0),
                   minHeight: 6,
                   backgroundColor: theme.colorScheme.surfaceContainerHighest,
                 ),
@@ -862,9 +902,9 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 Expanded(
                   child: Text(ch.chapterName, style: theme.textTheme.bodySmall),
                 ),
-                Text('${ch.completedCount}/${ch.totalCount}', style: theme.textTheme.bodySmall),
+                Text('${ch.completedLessons}/${ch.totalLessons}', style: theme.textTheme.bodySmall),
                 const Gap(12),
-                Text('${ch.coveragePercent.toStringAsFixed(0)}%',
+                Text('${ch.coveragePct.toStringAsFixed(0)}%',
                     style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600)),
               ],
             ),
@@ -903,7 +943,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               TextButton(
                 onPressed: () {
                   _adjustLessonIdController.text = dl.lessonId;
-                  _tabController.animateTo(2); // Jump to reschedule tab
+                  _tabController.animateTo(_AdminTab.reschedule.index);
                 },
                 child: const Text('Reschedule'),
               ),
