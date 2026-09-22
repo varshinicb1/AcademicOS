@@ -33,6 +33,8 @@ from academicos.curriculum import calendar as calendar_mod
 from academicos.curriculum import scheduling as scheduling_mod
 from academicos.curriculum.store import CurriculumStore
 
+from _auth_helpers import register_invited
+
 BASE = "/api/v1/curriculum"
 PRINCIPAL_KEY = "test-bootstrap-key"
 
@@ -645,9 +647,8 @@ def test_adjust_ignores_an_unscheduled_lesson_and_gives_it_a_day_back(principal_
 def test_progress_and_delayed_topics_count_an_unscheduled_lesson(principal_world):
     w = principal_world
     b, dropped = _short_year_with_a_dropped_lesson(w)
-    student = w.client.post("/api/v1/auth/register", json={
-        "schoolId": "school_1", "name": "Student", "email": "s1@example.com",
-        "password": "correct horse battery", "role": "student"}).json()
+    student = register_invited(w.client, "school_1", "s1@example.com", name="Student",
+                               role="student")
     subject = w.store.get_subject(w.store.get_book(b.book).subject_id)
     r = w.client.post(f"{BASE}/student-enrollments",
                       json={"studentId": student["user"]["id"], "gradeId": subject.grade_id},
