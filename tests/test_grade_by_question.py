@@ -93,6 +93,9 @@ def ctx():
 class _User:
     id = "u1"
     school_id = "school_1"
+    # Both routes are require_staff (api/route_policy.py); a student is
+    # refused before any of this runs -- see tests/test_role_gates.py.
+    role = "teacher"
 
 
 # --------------------------------------------------------------------------- #

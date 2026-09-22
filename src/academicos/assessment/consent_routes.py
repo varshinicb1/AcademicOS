@@ -1,8 +1,10 @@
 """Parental consent API endpoints — DPDP Act 2023 compliance.
 
 Endpoints for recording, querying, and revoking verifiable parental consent
-for CBSE minors. All routes require an authenticated user and are strictly
-scoped to the caller's school_id.
+for CBSE minors. All routes require a teacher or principal (require_staff)
+and are strictly scoped to the caller's school_id. They used to accept any
+logged-in account, so a student could list every guardian's name at the
+school, or record "consent" for themselves.
 """
 from __future__ import annotations
 
@@ -13,7 +15,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field
 
 from .audit_log import AuditLog, get_audit_log
-from .auth_routes import get_current_user
+from .auth_routes import require_staff
 from .consent import ConsentStore, ParentalConsentRecord, get_consent_store
 from .schemas import Camel
 from .users import User
@@ -114,7 +116,7 @@ class ConsentStatusResponse(Camel):
 
 @router.get("", response_model=list[ParentalConsentRecord])
 def list_consents(
-    user: User = Depends(get_current_user),
+    user: User = Depends(require_staff),
 ) -> list[ParentalConsentRecord]:
     """List all parental consent records for the caller's school."""
     store = _require_store()
@@ -124,7 +126,7 @@ def list_consents(
 @router.get("/students/{student_id}", response_model=ConsentStatusResponse)
 def get_student_consent(
     student_id: str,
-    user: User = Depends(get_current_user),
+    user: User = Depends(require_staff),
 ) -> ConsentStatusResponse:
     """Retrieve parental consent status for a specific student."""
     store = _require_store()
@@ -138,7 +140,7 @@ def get_student_consent(
 @router.post("", response_model=ParentalConsentRecord)
 def record_consent(
     req: RecordConsentRequest,
-    user: User = Depends(get_current_user),
+    user: User = Depends(require_staff),
 ) -> ParentalConsentRecord:
     """Record a verified parental consent event for a student."""
     if not req.student_id.strip():
@@ -178,7 +180,7 @@ def record_consent(
 @router.delete("/students/{student_id}", response_model=ConsentStatusResponse)
 def revoke_consent(
     student_id: str,
-    user: User = Depends(get_current_user),
+    user: User = Depends(require_staff),
 ) -> ConsentStatusResponse:
     """Revoke parental consent for a student."""
     store = _require_store()

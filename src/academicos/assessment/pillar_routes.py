@@ -20,7 +20,7 @@ from . import mailer as mailer_mod
 from . import remediation as remediation_mod
 from .authz import require_own_school, require_school_owns_student
 from .authz import require_school_owns_assessment as _authz_require_school_owns_assessment
-from .auth_routes import get_current_user, require_principal
+from .auth_routes import get_current_user, require_principal, require_staff
 from .evaluate import Evaluation, evaluate_answer
 from .graded_store import GradedStore
 from .knowledge import KnowledgeStore
@@ -126,7 +126,7 @@ class TemplateSaveRequest(Camel):
 
 
 @router.get("/schools/{school_id}/school-templates", response_model=list[SchoolTemplate])
-def list_templates(school_id: str, current: User = Depends(get_current_user)) -> list[SchoolTemplate]:
+def list_templates(school_id: str, current: User = Depends(require_staff)) -> list[SchoolTemplate]:
     require_own_school(school_id, current)
     _, _, store = _require()
     existing = store.list_for_school(school_id)
@@ -135,7 +135,7 @@ def list_templates(school_id: str, current: User = Depends(get_current_user)) ->
 
 @router.post("/schools/{school_id}/school-templates", response_model=SchoolTemplate)
 def save_template(
-    school_id: str, req: TemplateSaveRequest, current: User = Depends(get_current_user),
+    school_id: str, req: TemplateSaveRequest, current: User = Depends(require_staff),
 ) -> SchoolTemplate:
     require_own_school(school_id, current)
     _, _, store = _require()
@@ -147,7 +147,7 @@ def save_template(
 @router.get("/schools/{school_id}/school-templates/{template_id}/sections",
             response_model=list[SectionBlueprint])
 def template_sections(
-    school_id: str, template_id: str, current: User = Depends(get_current_user),
+    school_id: str, template_id: str, current: User = Depends(require_staff),
 ) -> list[SectionBlueprint]:
     require_own_school(school_id, current)
     _, _, store = _require()
@@ -156,7 +156,7 @@ def template_sections(
 
 @router.delete("/schools/{school_id}/school-templates/{template_id}")
 def delete_template(
-    school_id: str, template_id: str, current: User = Depends(get_current_user),
+    school_id: str, template_id: str, current: User = Depends(require_staff),
 ) -> dict:
     require_own_school(school_id, current)
     _, _, store = _require()
@@ -179,7 +179,7 @@ class AnswerKeyResponse(Camel):
 
 @router.post("/assessments/{assessment_id}/answer-key", response_model=AnswerKeyResponse)
 def make_answer_key(
-    assessment_id: str, req: AnswerKeyRequest, current: User = Depends(get_current_user),
+    assessment_id: str, req: AnswerKeyRequest, current: User = Depends(require_staff),
 ) -> AnswerKeyResponse:
     _require_school_owns_assessment(assessment_id, current)
     schemes = build_answer_key(req.questions, req.correct_options)
@@ -407,7 +407,7 @@ class SendPaperResponse(Camel):
 
 
 @router.post("/mail/send-paper", response_model=SendPaperResponse)
-def send_paper(req: SendPaperRequest, current: User = Depends(get_current_user)) -> SendPaperResponse:
+def send_paper(req: SendPaperRequest, current: User = Depends(require_staff)) -> SendPaperResponse:
     """Email an exported paper (and its answer key) to the given recipients.
 
     The PDF must already have been exported — this endpoint never regenerates
@@ -486,7 +486,7 @@ def _to_response(ev: Evaluation, question: QuestionSchema, student_answer: str) 
 
 
 @router.post("/evaluations/answer", response_model=EvaluationResponse)
-def evaluate_one(req: EvaluateAnswerRequest, current: User = Depends(get_current_user)) -> EvaluationResponse:
+def evaluate_one(req: EvaluateAnswerRequest, current: User = Depends(require_staff)) -> EvaluationResponse:
     _require_school_owns_assessment(req.assessment_id, current)
     _require()
     scheme = req.answer_scheme or build_answer_scheme(req.question)
@@ -520,7 +520,7 @@ class EvaluateSheetResponse(Camel):
 
 
 @router.post("/evaluations/sheet", response_model=EvaluateSheetResponse)
-def evaluate_sheet(req: EvaluateSheetRequest, current: User = Depends(get_current_user)) -> EvaluateSheetResponse:
+def evaluate_sheet(req: EvaluateSheetRequest, current: User = Depends(require_staff)) -> EvaluateSheetResponse:
     _require_school_owns_assessment(req.assessment_id, current)
     cfg, knowledge, _ = _require()
     schemes = build_answer_key(req.questions, req.correct_options)
@@ -571,7 +571,7 @@ class SheetReviewResponse(Camel):
              response_model=SheetReviewResponse)
 def review_sheet_answer(assessment_id: str, student_id: str, question_id: str,
                          req: SheetReviewRequest,
-                         current: User = Depends(get_current_user)) -> SheetReviewResponse:
+                         current: User = Depends(require_staff)) -> SheetReviewResponse:
     """Records the teacher's approve/adjust decision on one answer from a
     prior POST /evaluations/sheet, so it survives past the Evaluate tab's
     local widget state. Each question here is decided exactly once (there is
@@ -627,7 +627,7 @@ class SheetFinalizeResponse(Camel):
              response_model=SheetFinalizeResponse)
 def finalize_sheet_review(assessment_id: str, student_id: str,
                            req: SheetFinalizeRequest,
-                           current: User = Depends(get_current_user),
+                           current: User = Depends(require_staff),
                            ) -> SheetFinalizeResponse:
     """Folds a teacher-reviewed sheet (whatever mix of approved/edited marks
     is currently in the graded store) into the student's knowledge state,
@@ -849,7 +849,7 @@ class ClassInsightsResponse(Camel):
 
 @router.get("/insights/class/{assessment_id}", response_model=ClassInsightsResponse)
 def class_report(assessment_id: str, class_id: str = "10A",
-                 current: User = Depends(get_current_user)) -> ClassInsightsResponse:
+                 current: User = Depends(require_staff)) -> ClassInsightsResponse:
     _require_school_owns_assessment(assessment_id, current)
     _require()
     per_student = _require_graded().for_assessment(assessment_id)

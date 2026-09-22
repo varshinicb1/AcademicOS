@@ -179,6 +179,23 @@ def require_principal(current: User = Depends(get_current_user)) -> User:
     return current
 
 
+# The roles that may do a teacher's work. A tuple of what is allowed, not a
+# check for "student": a role added later (parent, guardian) is refused here
+# until someone decides otherwise.
+STAFF_ROLES = ("teacher", "principal")
+
+
+def require_staff(current: User = Depends(get_current_user)) -> User:
+    """Teacher or principal. Until 2026-09-21 the teacher routes depended on
+    get_current_user alone, which proves identity and nothing else: a
+    student-role token read every classmate's answer to a question and
+    changed another student's marks. api/route_policy.py lists which routes
+    carry this gate; tests/test_role_gates.py holds every route to that list."""
+    if current.role not in STAFF_ROLES:
+        raise HTTPException(403, "this action requires a teacher or principal account")
+    return current
+
+
 @router.get("/me", response_model=UserResponse)
 def me(current: User = Depends(get_current_user)) -> UserResponse:
     return _to_response(current)

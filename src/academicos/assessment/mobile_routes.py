@@ -17,7 +17,7 @@ from pydantic import Field
 from . import mobile_scan
 from . import routes as assessment_routes
 from .authz import require_school_owns_scan_session
-from .auth_routes import get_current_user
+from .auth_routes import require_staff
 from .evaluate import Evaluation, MarkingPointOutcome
 from .mapping import to_question_schema
 from .pool import get_pool
@@ -79,7 +79,7 @@ def _session_response(session: mobile_scan.ScanSession) -> ScanSessionResponse:
 
 @router.post("/scan/sessions", response_model=ScanSessionResponse)
 def create_scan_session(
-    req: CreateScanSessionRequest, current: User = Depends(get_current_user),
+    req: CreateScanSessionRequest, current: User = Depends(require_staff),
 ) -> ScanSessionResponse:
     assessment = assessment_routes._store.get(req.assessment_id) if assessment_routes._store else None
     if assessment is not None and assessment.school_id != current.school_id:
@@ -100,7 +100,7 @@ class CapturedPageResponse(Camel):
 
 @router.post("/scan/sessions/{session_id}/pages", response_model=CapturedPageResponse)
 async def upload_scan_page(
-    session_id: str, file: UploadFile = File(...), current: User = Depends(get_current_user),
+    session_id: str, file: UploadFile = File(...), current: User = Depends(require_staff),
 ) -> CapturedPageResponse:
     session = _get_session_owned(session_id, current)
     image_bytes = await file.read()
@@ -153,7 +153,7 @@ class ProcessSessionResponse(Camel):
 
 
 @router.post("/scan/sessions/{session_id}/process", response_model=ProcessSessionResponse)
-def process_scan_session(session_id: str, current: User = Depends(get_current_user)) -> ProcessSessionResponse:
+def process_scan_session(session_id: str, current: User = Depends(require_staff)) -> ProcessSessionResponse:
     session = _get_session_owned(session_id, current)
 
     papers = assessment_routes._require_papers()
@@ -182,7 +182,7 @@ def process_scan_session(session_id: str, current: User = Depends(get_current_us
 
 
 @router.get("/scan/sessions/{session_id}/review", response_model=ProcessSessionResponse)
-def get_scan_review(session_id: str, current: User = Depends(get_current_user)) -> ProcessSessionResponse:
+def get_scan_review(session_id: str, current: User = Depends(require_staff)) -> ProcessSessionResponse:
     session = _get_session_owned(session_id, current)
     return ProcessSessionResponse(items=[_item_response(session_id, i) for i in session.review])
 
@@ -198,7 +198,7 @@ class ReviewDecisionRequest(Camel):
 @router.post("/scan/sessions/{session_id}/review/{question_id}", response_model=ReviewItemResponse)
 def submit_review_decision(session_id: str, question_id: str,
                            req: ReviewDecisionRequest,
-                           current: User = Depends(get_current_user),
+                           current: User = Depends(require_staff),
                            ) -> ReviewItemResponse:
     """Requires a real logged-in caller from the session's own school (fixed
     2026-09-15: auth used to be optional here -- get_current_user_optional
@@ -231,7 +231,7 @@ class FinalizeResponse(Camel):
 
 
 @router.post("/scan/sessions/{session_id}/finalize", response_model=FinalizeResponse)
-def finalize_scan_session(session_id: str, current: User = Depends(get_current_user)) -> FinalizeResponse:
+def finalize_scan_session(session_id: str, current: User = Depends(require_staff)) -> FinalizeResponse:
     session = _get_session_owned(session_id, current)
     if not session.review:
         raise HTTPException(409, "nothing to finalize — process the session first")
@@ -288,7 +288,7 @@ def finalize_scan_session(session_id: str, current: User = Depends(get_current_u
 
 
 @router.get("/scan/sessions/{session_id}/pages/{page_no}/image")
-def get_page_image(session_id: str, page_no: int, current: User = Depends(get_current_user)):
+def get_page_image(session_id: str, page_no: int, current: User = Depends(require_staff)):
     """Serves the processed (cropped/lit) photo of one captured page — lets the
     review UI show a teacher the actual handwriting an answer was read from,
     instead of asking them to trust the transcription blind.
@@ -314,7 +314,7 @@ def get_page_image(session_id: str, page_no: int, current: User = Depends(get_cu
 
 
 @router.get("/scan/sessions/{session_id}/raw-pdf")
-def get_raw_pdf(session_id: str, current: User = Depends(get_current_user)):
+def get_raw_pdf(session_id: str, current: User = Depends(require_staff)):
     session = _get_session_owned(session_id, current)
     if session.raw_pdf_path is not None and session.raw_pdf_path.exists():
         return FileResponse(str(session.raw_pdf_path), media_type="application/pdf",
@@ -327,7 +327,7 @@ def get_raw_pdf(session_id: str, current: User = Depends(get_current_user)):
 
 
 @router.get("/scan/sessions/{session_id}/corrected-pdf")
-def get_corrected_pdf(session_id: str, current: User = Depends(get_current_user)):
+def get_corrected_pdf(session_id: str, current: User = Depends(require_staff)):
     session = _get_session_owned(session_id, current)
     if session.corrected_pdf_path is not None and session.corrected_pdf_path.exists():
         return FileResponse(str(session.corrected_pdf_path), media_type="application/pdf",

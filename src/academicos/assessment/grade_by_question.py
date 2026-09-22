@@ -39,7 +39,7 @@ from typing import Any, Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
-from .auth_routes import get_current_user
+from .auth_routes import require_staff
 from .schemas import Camel
 from .users import User
 
@@ -107,7 +107,7 @@ class QuestionAcrossStudents(Camel):
 def question_across_students(
     assessment_id: str,
     question_id: str,
-    current: User = Depends(get_current_user),
+    current: User = Depends(require_staff),
 ) -> QuestionAcrossStudents:
     """Every student's answer to one question, with the marking scheme.
 
@@ -214,7 +214,7 @@ def award_across_students(
     assessment_id: str,
     question_id: str,
     req: BulkAwardRequest,
-    current: User = Depends(get_current_user),
+    current: User = Depends(require_staff),
 ) -> BulkAwardResponse:
     """Award the same mark for one question to many students.
 
