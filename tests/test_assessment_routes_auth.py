@@ -17,6 +17,7 @@ import pytest
 from academicos.api.main import app
 
 from test_route_inventory import blueprint_body, question_body
+from _auth_helpers import invite_code
 
 
 def _boot_client(tmp_path, monkeypatch):
@@ -36,12 +37,14 @@ def _boot_client(tmp_path, monkeypatch):
 
 
 def _register(client, school_id, email, name="Teacher", principal_key=None):
-    body = {
-        "schoolId": school_id, "name": name, "email": email,
-        "password": "correct horse battery",
-    }
+    """With `principal_key`: the school's first principal (the only thing the
+    key can still create). Without: a teacher joining through an invite the
+    fixture mints for `school_id`, as that school's principal would."""
+    body = {"name": name, "email": email, "password": "correct horse battery"}
     if principal_key:
-        body["principalKey"] = principal_key
+        body.update(schoolId=school_id, principalKey=principal_key)
+    else:
+        body["inviteCode"] = invite_code(school_id)
     r = client.post("/api/v1/auth/register", json=body)
     assert r.status_code == 200, r.text
     return r.json()

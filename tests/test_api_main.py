@@ -33,6 +33,8 @@ from fastapi.testclient import TestClient
 from academicos.api.main import app
 from academicos.assessment import routes as assessment_routes
 
+from _auth_helpers import invite_code
+
 
 # ---------------------------------------------------------------- helpers
 
@@ -88,7 +90,7 @@ def register_and_login(client: TestClient, school_id: str = "school_1",
     if email is None:
         email = f"teacher-{uuid.uuid4().hex[:10]}@example.com"
     r = client.post("/api/v1/auth/register", json={
-        "schoolId": school_id, "name": "Test Teacher", "email": email,
+        "inviteCode": invite_code(school_id), "name": "Test Teacher", "email": email,
         "password": "correct horse battery",
     })
     assert r.status_code == 200, r.text

@@ -7,9 +7,12 @@ import '../../../data/datasources/api/auth_api.dart';
 import '../../../data/datasources/api/curriculum_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import '../widgets/invites_panel.dart';
 
 /// School Admin console (§2, §11-14, §17, §32):
-/// 1. Roster: Assign teachers to books and enroll students into grades.
+/// 1. Roster: Invite teachers and students (the only way anyone joins a
+///    school, see InvitesPanel), assign teachers to books and enroll
+///    students into grades.
 /// 2. Coverage & Pace: Planned vs. actually-taught lessons, coverage %,
 ///    pace %, period variance, and overdue delayed topics for school management.
 /// 3. Reschedule: Disruption handling via PUSH (shifting subsequent lessons
@@ -520,10 +523,19 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           }
           final data = snap.data!;
           if (data.grades.isEmpty) {
-            return const EmptyState(
-              icon: Icons.school_outlined,
-              title: 'No curriculum yet',
-              message: 'Seed the curriculum for this school before assigning teachers or viewing reports.',
+            // Invites do not depend on the curriculum: a new school's
+            // principal has to be able to bring in teachers first.
+            return ListView(
+              padding: const EdgeInsets.all(16),
+              children: const [
+                EmptyState(
+                  icon: Icons.school_outlined,
+                  title: 'No curriculum yet',
+                  message: 'Seed the curriculum for this school before assigning teachers or viewing reports.',
+                ),
+                Gap(16),
+                InvitesPanel(),
+              ],
             );
           }
           return TabBarView(
@@ -548,6 +560,8 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     return ListView(
       padding: const EdgeInsets.all(16),
       children: [
+        const InvitesPanel(),
+        const Gap(24),
         Text('Assign a teacher', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
         const Gap(4),
         Text('Which real book a teacher is scheduled to teach.',

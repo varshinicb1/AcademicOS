@@ -2648,6 +2648,123 @@
         "title": "IngestTocResponse",
         "type": "object"
       },
+      "InviteCreateRequest": {
+        "properties": {
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "expiresInDays": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiresindays"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role"
+        ],
+        "title": "InviteCreateRequest",
+        "type": "object"
+      },
+      "InviteResponse": {
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "createdAt": {
+            "title": "Createdat",
+            "type": "string"
+          },
+          "createdBy": {
+            "title": "Createdby",
+            "type": "string"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "expiresAt": {
+            "title": "Expiresat",
+            "type": "string"
+          },
+          "revokedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revokedat"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "usedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Usedat"
+          },
+          "usedBy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Usedby"
+          }
+        },
+        "required": [
+          "code",
+          "role",
+          "expiresAt",
+          "createdAt",
+          "createdBy",
+          "status"
+        ],
+        "title": "InviteResponse",
+        "type": "object"
+      },
       "LoginRequest": {
         "properties": {
           "email": {
@@ -4595,6 +4712,17 @@
             "title": "Email",
             "type": "string"
           },
+          "inviteCode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invitecode"
+          },
           "name": {
             "title": "Name",
             "type": "string"
@@ -4626,12 +4754,18 @@
             "title": "Role"
           },
           "schoolId": {
-            "title": "Schoolid",
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schoolid"
           }
         },
         "required": [
-          "schoolId",
           "name",
           "email",
           "password"
@@ -7426,6 +7560,121 @@
         "summary": "Update Status"
       }
     },
+    "/api/v1/auth/invites": {
+      "get": {
+        "description": "The caller's school's invites, used and unused, newest first. Each\nrow says who created it and which account used it and when.",
+        "operationId": "list_invites_api_v1_auth_invites_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/InviteResponse"
+                  },
+                  "title": "Response List Invites Api V1 Auth Invites Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Invites"
+      },
+      "post": {
+        "description": "A single-use invite to the CALLER's school. There is no school field\nto send: a principal can only ever invite people into their own school.",
+        "operationId": "create_invite_api_v1_auth_invites_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InviteResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Invite"
+      }
+    },
+    "/api/v1/auth/invites/{code}": {
+      "delete": {
+        "description": "Withdraw an unused invite. Another school's code is a 404, the same as\nan unknown one.",
+        "operationId": "revoke_invite_api_v1_auth_invites__code__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "title": "Code",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InviteResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Revoke Invite"
+      }
+    },
     "/api/v1/auth/login": {
       "post": {
         "operationId": "login_api_v1_auth_login_post",
@@ -7531,6 +7780,7 @@
     },
     "/api/v1/auth/register": {
       "post": {
+        "description": "Needs an invite code, or (for a school's first principal only) the\noperator's principal key with a schoolId. 403 without either, or when\nthe invite is unknown/used/revoked/expired/for another email, or the\nschool already has a principal. 400 when schoolId/role disagree with the\ninvite. Until 2026-09-21 any caller could name any school here.",
         "operationId": "register_api_v1_auth_register_post",
         "requestBody": {
           "content": {

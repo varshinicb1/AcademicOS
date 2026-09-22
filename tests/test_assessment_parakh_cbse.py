@@ -18,6 +18,8 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from academicos.api.main import app
+
+from _auth_helpers import invite_code
 from academicos.assessment.paper import generate_paper, generate_paper_sets
 from academicos.assessment.schemas import (
     AnswerSchemeSchema,
@@ -313,8 +315,7 @@ def test_quick_generate_api_endpoint(tmp_path, monkeypatch):
                 "id": "u1",
                 "email": "t1@school.org",
                 "name": "Teacher",
-                "schoolId": "school_1",
-                "role": "teacher",
+                "inviteCode": invite_code("school_1"),
                 "password": "correct horse battery",
             },
         )
@@ -352,8 +353,7 @@ def test_generate_from_ids_api_endpoint(tmp_path, monkeypatch):
                 "id": "u2",
                 "email": "t2@school.org",
                 "name": "Teacher 2",
-                "schoolId": "school_1",
-                "role": "teacher",
+                "inviteCode": invite_code("school_1"),
                 "password": "correct horse battery",
             },
         )

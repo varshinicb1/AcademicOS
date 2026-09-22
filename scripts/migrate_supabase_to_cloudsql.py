@@ -69,6 +69,11 @@ TABLES: dict[str, dict[str, Any]] = {
         "conflict": "token",
         "columns": ["token", "user_id", "created_at", "expires_at"],
     },
+    "invites": {
+        "conflict": "code",
+        "columns": ["code", "school_id", "role", "email", "created_by", "created_at",
+                    "expires_at", "used_by", "used_at", "revoked_at"],
+    },
     "audit_log": {
         "conflict": "id",
         "columns": ["id", "timestamp", "action", "assessment_id", "student_id",

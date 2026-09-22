@@ -53,6 +53,25 @@ create table if not exists public.sessions (
 );
 create index if not exists idx_sessions_user on public.sessions (user_id);
 
+-- Registration needs an invite since 2026-09-21 (see assessment/users.py).
+-- The empty string, not NULL, means "not yet" for email/used_by/used_at/
+-- revoked_at: UserStore claims an invite with one PATCH filtered on
+-- used_at=eq.&revoked_at=eq., and that filter never matches NULL. Keep the
+-- NOT NULL DEFAULT '' or single use stops being enforceable.
+create table if not exists public.invites (
+  code       text primary key,
+  school_id  text not null,
+  role       text not null,
+  email      text not null default '',
+  created_by text not null,
+  created_at text not null,
+  expires_at text not null,
+  used_by    text not null default '',
+  used_at    text not null default '',
+  revoked_at text not null default ''
+);
+create index if not exists idx_invites_school on public.invites (school_id);
+
 create table if not exists public.assessments (
   id         text primary key,
   school_id  text not null,
@@ -162,19 +181,19 @@ create table if not exists public.parental_consents (
 );
 create index if not exists idx_parental_consents_school on public.parental_consents (school_id);
 
-grant all on public.users, public.sessions, public.assessments, public.papers,
+grant all on public.users, public.sessions, public.invites, public.assessments, public.papers,
               public.practice_sets, public.graded_evaluations,
               public.scan_sessions, public.school_templates,
               public.audit_log, public.learner_events,
               public.parental_consents
   to anon, authenticated, service_role;
 
--- Verify: should return eleven rows, one per table:
+-- Verify: should return twelve rows, one per table:
 --
 --   select table_name, count(*) as columns
 --   from information_schema.columns
 --   where table_schema = 'public'
---     and table_name in ('users','sessions','assessments','papers',
+--     and table_name in ('users','sessions','invites','assessments','papers',
 --       'practice_sets','graded_evaluations','scan_sessions',
 --       'school_templates','audit_log','learner_events','parental_consents')
 --   group by table_name

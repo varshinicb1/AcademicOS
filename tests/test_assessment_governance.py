@@ -30,6 +30,8 @@ from academicos.api.main import app
 from academicos.assessment import audit_log, mobile_scan
 from academicos.assessment.audit_log import get_audit_log
 
+from _auth_helpers import invite_code
+
 
 @pytest.fixture(autouse=True)
 def _isolate_store_singletons(monkeypatch):
@@ -66,7 +68,7 @@ def _register_and_login(client, email: str = "governance-teacher@example.com") -
     2026-09-15 -- see docs/deployment.md); returns the Authorization header
     every subsequent call in a test needs to thread through."""
     r = client.post("/api/v1/auth/register", json={
-        "schoolId": "school_1", "name": "Governance Teacher", "email": email,
+        "inviteCode": invite_code("school_1"), "name": "Governance Teacher", "email": email,
         "password": "correct horse battery",
     })
     assert r.status_code == 200, r.text

@@ -31,12 +31,14 @@ from academicos.agents.orchestrator import DoubtSolver
 from academicos.api.main import MAX_QUERY_CHARS, app
 from academicos.llm.budget import current_budget
 
+from _auth_helpers import invite_code
+
 
 def register_and_login(client: TestClient) -> dict[str, str]:
     """Mint a real identity. Email is unique because UserStore is a process singleton."""
     email = f"guardrail-{uuid.uuid4().hex[:10]}@example.com"
     r = client.post("/api/v1/auth/register", json={
-        "schoolId": "school_1", "name": "Guardrail Tester", "email": email,
+        "inviteCode": invite_code("school_1"), "name": "Guardrail Tester", "email": email,
         "password": "correct horse battery",
     })
     assert r.status_code == 200, r.text

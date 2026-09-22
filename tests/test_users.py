@@ -1,14 +1,19 @@
-"""assessment/users.py — password hashing, sessions, and the principal-role
-bootstrap gate.
+"""assessment/users.py -- password hashing, sessions, invites, and the
+principal-role bootstrap gate.
 
-Fixed 2026-09-11: role used to be `"principal"` for whichever request won
-the race to register first for a given `school_id` -- an unauthenticated
-attacker who beat the real school administrator to `/auth/register` got
-admin rights for that school. Now a caller only becomes principal by
-supplying a `principal_key` that matches the server-side
-`Config.principal_bootstrap_key` secret. These tests exercise the store
-directly (`UserStore`), independent of the HTTP layer covered in
-test_route_inventory.py's `test_full_boot_auth_and_principal_approval`.
+Two fixes are pinned here:
+
+* 2026-09-11: role used to be `"principal"` for whichever request won the
+  race to register first for a given `school_id`. Now only a `principal_key`
+  matching the server-side `Config.principal_bootstrap_key` grants it.
+* 2026-09-21: the school and role of every other account used to be whatever
+  the caller sent, and the key could mint a principal for a school that
+  already had one. Now an account comes from a principal-issued invite, and
+  the key only creates a school's FIRST principal.
+
+These tests exercise the store directly (`UserStore`). The HTTP layer is in
+tests/test_auth_invites.py and test_route_inventory.py's
+`test_full_boot_auth_and_principal_approval`.
 """
 from __future__ import annotations
 
@@ -20,7 +25,10 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from academicos.assessment.users import EmailAlreadyRegistered, InvalidCredentials, UserStore
+from academicos.assessment.users import (
+    EmailAlreadyRegistered, InvalidCredentials, RegistrationConflict, RegistrationRefused,
+    UserStore,
+)
 
 
 @pytest.fixture
@@ -38,61 +46,117 @@ def store_with_key(tmp_path):
 
 
 def _register(store, *, school="s1", name="A", email="a@example.com",
-             password="password123", key=None):
-    return store.register(school_id=school, name=name, email=email, password=password,
+              password="password123", role="teacher"):
+    """An ordinary member: invited by the school's principal, then registered."""
+    code = store.create_invite(school_id=school, role=role, created_by="principal_1").code
+    return store.register(invite_code=code, name=name, email=email, password=password)
+
+
+def _bootstrap(store, *, school="s1", email="p@example.com", key="the-real-secret"):
+    return store.register(school_id=school, name="P", email=email, password="password123",
                           principal_key=key)
 
 
 # --------------------------------------------------------------------- #
-# the security fix itself
+# the security fixes themselves
 # --------------------------------------------------------------------- #
 
 def test_no_bootstrap_key_configured_nobody_ever_becomes_principal(store_no_key):
     """The secure default: an unconfigured deployment can't have its
-    principal role stolen by a registration race, because nothing can ever
-    satisfy `_valid_principal_key` when no key exists to match against."""
-    first = _register(store_no_key, email="first@example.com")
-    second = _register(store_no_key, email="second@example.com")
-    with_bogus_key = _register(store_no_key, email="third@example.com", key="anything")
-    assert first.role == "teacher"
-    assert second.role == "teacher"
-    assert with_bogus_key.role == "teacher"
+    principal role taken, because nothing can ever satisfy
+    `_valid_principal_key` when no key exists to match against."""
+    with pytest.raises(RegistrationRefused):
+        _bootstrap(store_no_key, key="anything")
+    assert store_no_key.users_for_school("s1") == []
 
 
 def test_registering_first_grants_nothing_without_the_key(store_with_key):
-    """The exact vulnerability: winning the race to register first for a
-    schoolId must not matter anymore."""
-    attacker = _register(store_with_key, school="school_1", email="attacker@example.com")
-    assert attacker.role == "teacher"
-
-    real_principal = _register(store_with_key, school="school_1",
-                               email="real@example.com", key="the-real-secret")
+    """The 2026-09-11 vulnerability: winning the race to register first for
+    a schoolId must not matter. Without an invite it no longer even creates
+    an account."""
+    with pytest.raises(RegistrationRefused):
+        store_with_key.register(school_id="school_1", name="Eve", email="attacker@example.com",
+                                password="password123")
+    real_principal = _bootstrap(store_with_key, school="school_1", email="real@example.com")
     assert real_principal.role == "principal"
 
 
 def test_wrong_key_grants_nothing(store_with_key):
-    wrong = _register(store_with_key, email="wrong@example.com", key="not-the-secret")
-    assert wrong.role == "teacher"
+    with pytest.raises(RegistrationRefused):
+        _bootstrap(store_with_key, email="wrong@example.com", key="not-the-secret")
+    assert store_with_key.get_by_email("wrong@example.com") is None
 
 
-def test_correct_key_can_mint_more_than_one_principal(store_with_key):
-    """No "only the first" constraint is enforced -- whoever holds the
-    secret can register as principal, any number of times. That's a
-    deliberate minimal design (see users.py's module docstring), not an
-    oversight."""
-    p1 = _register(store_with_key, email="p1@example.com", key="the-real-secret")
-    p2 = _register(store_with_key, email="p2@example.com", key="the-real-secret")
-    assert p1.role == "principal"
-    assert p2.role == "principal"
+def test_the_key_cannot_mint_a_second_principal_for_a_school(store_with_key):
+    """Reversed on 2026-09-21. The key used to grant principal any number of
+    times for the same school, so its holder could take over a school that
+    already had one. It now creates only the first."""
+    assert _bootstrap(store_with_key, email="p1@example.com").role == "principal"
+    with pytest.raises(RegistrationRefused, match="already has a principal"):
+        _bootstrap(store_with_key, email="p2@example.com")
+    assert store_with_key.get_by_email("p2@example.com") is None
 
 
-def test_key_is_school_agnostic_by_design(store_with_key):
-    """One global bootstrap key, not a per-school one -- documented
-    trade-off, not a bug: whoever holds the key can bootstrap any school."""
-    a = _register(store_with_key, school="school_a", email="a@example.com", key="the-real-secret")
-    b = _register(store_with_key, school="school_b", email="b@example.com", key="the-real-secret")
-    assert a.role == "principal"
-    assert b.role == "principal"
+def test_key_bootstraps_each_new_school_once(store_with_key):
+    """Still one global key, not a per-school one: the operator provisions
+    any NEW school's first principal with it."""
+    a = _bootstrap(store_with_key, school="school_a", email="a@example.com")
+    b = _bootstrap(store_with_key, school="school_b", email="b@example.com")
+    assert (a.role, a.school_id) == ("principal", "school_a")
+    assert (b.role, b.school_id) == ("principal", "school_b")
+
+
+def test_no_invite_and_no_key_is_refused(store_no_key):
+    with pytest.raises(RegistrationRefused):
+        store_no_key.register(name="A", email="a@example.com", password="password123")
+
+
+def test_invite_decides_school_and_role(store_no_key):
+    code = store_no_key.create_invite(school_id="s9", role="student", created_by="p").code
+    user = store_no_key.register(invite_code=code, name="Stu", email="stu@example.com",
+                                 password="password123")
+    assert (user.school_id, user.role) == ("s9", "student")
+
+
+def test_invite_plus_disagreeing_school_or_role_is_a_conflict(store_no_key):
+    code = store_no_key.create_invite(school_id="s1", role="teacher", created_by="p").code
+    for extra in ({"school_id": "s2"}, {"role": "student"}, {"role": "principal"}):
+        with pytest.raises(RegistrationConflict):
+            store_no_key.register(invite_code=code, name="X", email="x@example.com",
+                                  password="password123", **extra)
+    assert store_no_key.get_by_email("x@example.com") is None
+    # The refused attempts never consumed the invite.
+    assert store_no_key.register(invite_code=code, name="X", email="x@example.com",
+                                 password="password123").school_id == "s1"
+
+
+def test_invite_plus_principal_key_is_a_conflict(store_with_key):
+    code = store_with_key.create_invite(school_id="s1", role="student", created_by="p").code
+    with pytest.raises(RegistrationConflict):
+        store_with_key.register(invite_code=code, principal_key="the-real-secret",
+                                school_id="s1", name="Stu", email="stu@example.com",
+                                password="password123")
+
+
+def test_invites_cannot_grant_principal(store_no_key):
+    with pytest.raises(ValueError):
+        store_no_key.create_invite(school_id="s1", role="principal", created_by="p")
+
+
+def test_accounts_from_before_invites_keep_their_stored_school_and_role(store_no_key):
+    """Nothing migrates or re-checks old rows. An account that named its own
+    school before 2026-09-21 cannot be told apart from a real one by the
+    code, which is why the operator reviews each roster instead."""
+    from academicos.assessment.users import _hash_password
+    salt = b"0123456789abcdef"
+    store_no_key.conn.execute(
+        "INSERT INTO users (id, school_id, name, email, password_hash, password_salt, role, "
+        "created_at) VALUES (?,?,?,?,?,?,?,?)",
+        ("user_old", "school_x", "Old Teacher", "old@example.com",
+         _hash_password("password123", salt), salt.hex(), "teacher", "2026-09-01T00:00:00+00:00"))
+    store_no_key.conn.commit()
+    user = store_no_key.authenticate(email="old@example.com", password="password123")
+    assert (user.school_id, user.role) == ("school_x", "teacher")
 
 
 # --------------------------------------------------------------------- #
@@ -142,48 +206,6 @@ def test_session_lookup_unknown_token_returns_none(store_no_key):
 
 
 # --------------------------------------------------------------------- #
-# student self-registration (§18 -- student visibility)
-# --------------------------------------------------------------------- #
-
-def test_default_registration_is_still_teacher(store_no_key):
-    """No requested_role given -- unchanged prior behavior, no regression."""
-    user = store_no_key.register(school_id="s1", name="A", email="a@example.com", password="password123")
-    assert user.role == "teacher"
-
-
-def test_requested_role_student_is_honored(store_no_key):
-    user = store_no_key.register(school_id="s1", name="Stu", email="stu@example.com",
-                                 password="password123", requested_role="student")
-    assert user.role == "student"
-
-
-def test_requested_role_student_cannot_be_escalated_by_a_bogus_principal_key(store_no_key):
-    """Even with a (wrong, since no key is configured) principal_key
-    supplied alongside requested_role="student", nobody becomes principal --
-    same real security property test_no_bootstrap_key_configured_nobody_ever_becomes_principal
-    already covers, re-checked with the new field present."""
-    user = store_no_key.register(school_id="s1", name="Stu", email="stu2@example.com",
-                                 password="password123", requested_role="student", principal_key="anything")
-    assert user.role == "student"  # not "principal" -- the bogus key changes nothing
-
-
-def test_a_real_principal_key_wins_over_requested_role_student(store_with_key):
-    """A valid principal_key always grants "principal" regardless of what
-    requested_role asked for -- the key is authoritative, not the self-
-    selected role."""
-    user = store_with_key.register(school_id="s1", name="Stu", email="stu3@example.com",
-                                   password="password123", requested_role="student",
-                                   principal_key="the-real-secret")
-    assert user.role == "principal"
-
-
-def test_invalid_requested_role_is_rejected(store_no_key):
-    with pytest.raises(ValueError):
-        store_no_key.register(school_id="s1", name="X", email="x@example.com",
-                              password="password123", requested_role="admin")
-
-
-# --------------------------------------------------------------------- #
 # users_for_school -- the real roster an admin UI picks from
 # --------------------------------------------------------------------- #
 
@@ -196,9 +218,8 @@ def test_users_for_school_returns_only_that_schools_users(store_no_key):
 
 
 def test_users_for_school_filters_by_role(store_no_key):
-    store_no_key.register(school_id="s1", name="T", email="t@example.com", password="password123")
-    store_no_key.register(school_id="s1", name="S", email="s@example.com", password="password123",
-                          requested_role="student")
+    _register(store_no_key, school="s1", name="T", email="t@example.com")
+    _register(store_no_key, school="s1", name="S", email="s@example.com", role="student")
     teachers = store_no_key.users_for_school("s1", role="teacher")
     students = store_no_key.users_for_school("s1", role="student")
     assert [u.email for u in teachers] == ["t@example.com"]

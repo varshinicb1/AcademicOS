@@ -488,6 +488,44 @@ multi-teacher-per-school pilot will also want more than one principal-capable
 account per school (today's bootstrap rule gives exactly one, automatically);
 revisit before that's a real constraint.
 
+**Superseded (2026-09-21): school membership is granted by invite, not
+asserted.** Both the "first registrant is principal" rule above (already
+replaced on 2026-09-11 by `ACOS_PRINCIPAL_BOOTSTRAP_KEY`) and the rest of
+registration let the caller name its own school: `RegisterRequest` took
+`schoolId` and `role` from the body and `UserStore.register` stored them
+unchecked. Two auditors reproduced it with TestClient probes (scorecard item
+8.4): `attacker@evil.example` registered into school_A as a teacher and then
+read `/assessments/{id}`, `/knowledge/{studentId}`, `/insights/class/{aid}`,
+every student's answers under `/evaluations/assessment/{aid}/question/q_1` and
+`/consent/students/{sid}`. Every `school_id` check rested on that one claim.
+Separately, the global bootstrap key made its holder principal of any school,
+including one that already had a principal. Now (`users.py`,
+`auth_routes.py`, `tests/test_auth_invites.py`):
+
+- a principal issues invites for their OWN school (`POST/GET/DELETE
+  /api/v1/auth/invites`; Admin console > Roster > Invite people): a 128-bit
+  random code, role `teacher` or `student`, optionally bound to one email,
+  14-day default expiry (90-day cap), single use (one conditional UPDATE, so
+  a race on one code has exactly one winner), revocable, recording who
+  created it and who used it when;
+- `/auth/register` takes the school and role from the invite. A `schoolId` or
+  `role` that disagrees with it is a 400; no invite, or an unknown, used,
+  revoked, expired or wrong-email one, is a 403;
+- the bootstrap key is an operator secret that creates a school's FIRST
+  principal only; for a school with a principal it is a 403;
+- the demo accounts (`principal@school.com` / `teacher@school.com`, published
+  password, `demo_school`) are seeded only when `ACOS_SEED_DEMO_USERS=1`.
+  Before this they were re-created on every Render cold start, because the
+  local users table there is empty after each restart (the real rows live in
+  Supabase).
+
+**Operator action, not done by code:** accounts created before 2026-09-21
+keep their stored school and role. An account that named its own school then
+cannot be told apart from a real one, so review each school's roster
+(`GET /api/v1/auth/users` as its principal) once and remove anyone who does
+not belong. Also check the durable store for `principal@school.com` /
+`teacher@school.com` and delete them if present.
+
 ## Six-dimension audit (2026-08-19) — fixed bugs and open decisions
 
 A six-subagent audit (D1 stale caches, D2 docs/behavior contradictions,

@@ -29,6 +29,8 @@ import requests
 from academicos.api.main import _DURABLE_TABLES
 from academicos.assessment.supabase_kv import SupabaseTable, SupabaseUnavailable
 
+from _auth_helpers import invite_code
+
 
 class _StubPostgrest(BaseHTTPRequestHandler):
     """Minimal PostgREST stand-in: 404s each table named in `broken` with a
@@ -110,7 +112,7 @@ def test_auth_route_falls_back_to_sqlite_when_the_users_table_is_missing(
     stub_postgrest("users", "sessions")
     with _boot_client(tmp_path, monkeypatch) as client:
         r = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "QA", "email": "qa@example.test",
+            "inviteCode": invite_code("school_1"), "name": "QA", "email": "qa@example.test",
             "password": "correct horse battery",
         })
         # UserStore gracefully falls back to local SQLite so teachers/students
@@ -128,7 +130,7 @@ def test_non_fallback_route_answers_503_not_500_when_table_is_missing(
     stub_postgrest("papers")
     with _boot_client(tmp_path, monkeypatch) as client:
         reg = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "QA", "email": "qa@example.test",
+            "inviteCode": invite_code("school_1"), "name": "QA", "email": "qa@example.test",
             "password": "correct horse battery",
         })
         assert reg.status_code == 200

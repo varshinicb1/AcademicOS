@@ -105,6 +105,26 @@ CREATE TABLE IF NOT EXISTS sessions (
 );
 CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions (user_id);
 
+-- -- invites -------------------------------------------------------------------
+-- Registration needs one since 2026-09-21 (see assessment/users.py). The empty
+-- string, not NULL, means "not yet" for email/used_by/used_at/revoked_at:
+-- UserStore claims an invite with one UPDATE filtered on used_at = '' AND
+-- revoked_at = '', and equality never matches NULL. Keep the NOT NULL
+-- DEFAULT '' or single use stops being enforceable.
+CREATE TABLE IF NOT EXISTS invites (
+    code       TEXT PRIMARY KEY,
+    school_id  TEXT NOT NULL,
+    role       TEXT NOT NULL,
+    email      TEXT NOT NULL DEFAULT '',
+    created_by TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    expires_at TEXT NOT NULL,
+    used_by    TEXT NOT NULL DEFAULT '',
+    used_at    TEXT NOT NULL DEFAULT '',
+    revoked_at TEXT NOT NULL DEFAULT ''
+);
+CREATE INDEX IF NOT EXISTS idx_invites_school ON invites (school_id);
+
 -- -- audit_log -----------------------------------------------------------------
 -- CERT-In requires this to be retained >= 180 days and effectively
 -- append-only. The store never issues an UPDATE/DELETE against it, but that

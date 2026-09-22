@@ -393,7 +393,7 @@ _DURABLE_STORES = [
 # every durability-critical table, not just one of them.
 _DURABLE_TABLES = [
     "assessments", "papers", "practice_sets", "graded_evaluations",
-    "scan_sessions", "school_templates", "users", "sessions",
+    "scan_sessions", "school_templates", "users", "sessions", "invites",
     "audit_log", "learner_events",
 ]
 

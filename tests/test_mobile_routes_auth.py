@@ -12,6 +12,7 @@ import pytest
 from academicos.api.main import app
 
 from test_route_inventory import blueprint_body
+from _auth_helpers import invite_code
 
 
 def _boot_client(tmp_path, monkeypatch):
@@ -29,7 +30,7 @@ def _boot_client(tmp_path, monkeypatch):
 
 def _register(client, school_id, email, name="Teacher"):
     r = client.post("/api/v1/auth/register", json={
-        "schoolId": school_id, "name": name, "email": email,
+        "inviteCode": invite_code(school_id), "name": name, "email": email,
         "password": "correct horse battery",
     })
     assert r.status_code == 200, r.text
