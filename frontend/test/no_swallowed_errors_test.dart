@@ -8,12 +8,16 @@
 // server call was fire-and-forget -- grading then refused the student for want
 // of consent. Each was fixed; this makes the pattern fail a test.
 //
-// Every `catch` block (and `.catchError` handler) under lib/presentation/ must
-// rethrow/throw, or pass the error through serverErrorMessage (api_error.dart),
-// the one path that turns it into a sentence. A block that is genuinely not a
-// failure the user needs to hear about carries a `// not-a-failure: <why>`
-// comment, and every such exemption is also counted in [_exempt] below with
-// the reason, so adding one means editing this file in review.
+// Every `catch` block (and `.catchError` / `onError:` handler) under
+// lib/presentation/ must rethrow/throw, or pass the error through
+// serverErrorMessage (api_error.dart), the one path that turns it into a
+// sentence. A fire-and-forget future fails too: `.ignore()` always, and
+// `unawaited(x)` unless `x` reports its own failure. A handler or call that is
+// genuinely not a failure the user needs to hear about carries a
+// `// not-a-failure: <why>` comment (inside the handler, or on the lines
+// directly above / trailing a fire-and-forget statement), and every such
+// exemption is also counted in [_exempt] below with the reason, so adding one
+// means editing this file in review.
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -42,6 +46,20 @@ final _catchError = RegExp(r'\.catchError\s*\(');
 
 /// An `on SomeException {` clause with no `catch` names no error to report.
 final _bareOn = RegExp(r'\}\s*on\s+[A-Z]\w*(<[^>]*>)?\s*\{');
+
+/// `.then(ok, onError: (e) {...})` / `.listen(..., onError: ...)`: a handler
+/// like any catch block, held to the same rule.
+final _onError = RegExp(r'\bonError\s*:');
+
+/// Fire-and-forget futures. The consent bug was exactly this --
+/// `recordConsent(...).ignore()` -- and was caught only because it sat inside
+/// an empty `catch`; without the try it would have passed a catch-only scan.
+/// `.ignore()` discards the error by definition, so it always needs an
+/// exemption. `unawaited(x)` passes only when `x` itself reports its failure
+/// (a `.catchError`/`onError` that calls serverErrorMessage, which the
+/// handler scan above also checks).
+final _ignore = RegExp(r'\.ignore\s*\(\s*\)');
+final _unawaited = RegExp(r'(?<![.\w])unawaited\s*\(');
 
 /// Showing a FutureBuilder's raw error is the `'$e'` pattern in another form.
 final _rawSnapshotError = RegExp(r'\$\{\s*(snap|snapshot)\.error\s*!?\s*\}');
@@ -72,23 +90,74 @@ int _lineOf(String src, int index) => '\n'.allMatches(src.substring(0, index)).l
 bool _inComment(String src, int index) =>
     src.substring(src.lastIndexOf('\n', index) + 1, index).contains('//');
 
-/// Every handler body in [src], with the line it starts on.
-Iterable<(int, String)> _handlers(String src) sync* {
+/// Index of the `,` or closing bracket that ends the argument starting at
+/// [start] (bracket depth 0), i.e. the end of a named argument's value.
+int _argumentEnd(String src, int start) {
+  var depth = 0;
+  for (var i = start; i < src.length; i++) {
+    final ch = src[i];
+    if (ch == '(' || ch == '[' || ch == '{') depth++;
+    if (ch == ')' || ch == ']' || ch == '}') {
+      if (depth == 0) return i;
+      depth--;
+    }
+    if (ch == ',' && depth == 0) return i;
+  }
+  return src.length;
+}
+
+/// The statement around a fire-and-forget call at [start]..[end], with the
+/// comment lines directly above it and the rest of its last line, so a
+/// `// not-a-failure:` either above the statement or trailing it is seen.
+String _statementContext(String src, int start, int end) {
+  var from = start;
+  // A `;` or brace inside a comment above the statement is not its start.
+  while (from > 0 && !(';{}'.contains(src[from - 1]) && !_inComment(src, from - 1))) {
+    from--;
+  }
+  final lineEnd = src.indexOf('\n', end);
+  return src.substring(from, lineEnd < 0 ? src.length : lineEnd);
+}
+
+/// What a handler must do to pass: `handle` = rethrow/throw/report,
+/// `never` = nothing passes but an exemption (`.ignore()`).
+enum _Rule { handle, never }
+
+/// Every handler body in [src], with the line it starts on and its rule.
+Iterable<(int, String, _Rule)> _handlers(String src) sync* {
   for (final m in _catchClause.allMatches(src)) {
     if (_inComment(src, m.start)) continue;
     final afterParams = _matching(src, src.indexOf('(', m.start), '(', ')');
     final open = src.indexOf('{', afterParams);
-    yield (_lineOf(src, m.start), src.substring(open, _matching(src, open, '{', '}')));
+    yield (_lineOf(src, m.start), src.substring(open, _matching(src, open, '{', '}')), _Rule.handle);
   }
   for (final m in _catchError.allMatches(src)) {
     if (_inComment(src, m.start)) continue;
     final open = src.indexOf('(', m.start);
-    yield (_lineOf(src, m.start), src.substring(open, _matching(src, open, '(', ')')));
+    yield (_lineOf(src, m.start), src.substring(open, _matching(src, open, '(', ')')), _Rule.handle);
   }
   for (final m in _bareOn.allMatches(src)) {
     if (_inComment(src, m.start)) continue;
     final open = src.indexOf('{', m.start + 1);
-    yield (_lineOf(src, m.start), src.substring(open, _matching(src, open, '{', '}')));
+    yield (_lineOf(src, m.start), src.substring(open, _matching(src, open, '{', '}')), _Rule.handle);
+  }
+  for (final m in _onError.allMatches(src)) {
+    if (_inComment(src, m.start)) continue;
+    yield (_lineOf(src, m.start), src.substring(m.end, _argumentEnd(src, m.end)), _Rule.handle);
+  }
+  for (final m in _ignore.allMatches(src)) {
+    if (_inComment(src, m.start)) continue;
+    yield (_lineOf(src, m.start), _statementContext(src, m.start, m.end), _Rule.never);
+  }
+  for (final m in _unawaited.allMatches(src)) {
+    if (_inComment(src, m.start)) continue;
+    final open = src.indexOf('(', m.start);
+    final close = _matching(src, open, '(', ')');
+    // The comment context (for an exemption) plus the argument (for a
+    // reporting catchError/onError inside it); comments are stripped before
+    // the handled check, so only the code of the argument can pass it.
+    final context = _statementContext(src, m.start, close);
+    yield (_lineOf(src, m.start), context, _Rule.handle);
   }
 }
 
@@ -96,7 +165,7 @@ Iterable<(int, String)> _handlers(String src) sync* {
 (List<String>, int) _scan(String rel, String src) {
   final offences = <String>[];
   var exemptions = 0;
-  for (final (line, body) in _handlers(src)) {
+  for (final (line, body, rule) in _handlers(src)) {
     final markerAt = body.indexOf(_marker);
     if (markerAt >= 0) {
       final reason = body.substring(markerAt + _marker.length).split('\n').first.trim();
@@ -106,7 +175,9 @@ Iterable<(int, String)> _handlers(String src) sync* {
       exemptions++;
       continue;
     }
-    if (!_handled.hasMatch(_stripLineComments(body))) {
+    if (rule == _Rule.never) {
+      offences.add('$rel:$line: `.ignore()` discards the failure; await it and report it');
+    } else if (!_handled.hasMatch(_stripLineComments(body))) {
       offences.add('$rel:$line: neither rethrows nor calls serverErrorMessage()');
     }
   }
@@ -169,6 +240,50 @@ Future<void> a() async {
       final (offences, exemptions) = _scan('x.dart', src);
       expect(offences, isEmpty, reason: offences.join('\n'));
       expect(exemptions, 1);
+    });
+
+    test('flags fire-and-forget futures and a silent onError, with no try around them', () {
+      // The consent bug in its bare form: no try, so a catch-only scan saw
+      // nothing to check.
+      const src = '''
+Future<void> a() async {
+  GetIt.I<ConsentApi>().recordConsent(studentId: id, guardianName: g, method: m).ignore();
+  unawaited(save());
+  f().then((_) => setState(() {}), onError: (Object e) { print(e); });
+  stream.listen(show, onError: (_) => setState(() => _loading = false));
+  // a comment naming unawaited(x) or .ignore() is not code
+}
+''';
+      final (offences, _) = _scan('x.dart', src);
+      expect(offences, hasLength(4), reason: offences.join('\n'));
+      expect(offences.where((o) => o.contains('.ignore()')), hasLength(1));
+    });
+
+    test('passes a reported unawaited/onError and an exempted .ignore()', () {
+      const src = '''
+Future<void> a() async {
+  unawaited(save().catchError((Object e) { setState(() => _error = serverErrorMessage(e)); }));
+  f().then(ok, onError: (Object e) => _show(serverErrorMessage(e)));
+  // not-a-failure: warms a cache; a miss only costs a refetch on open
+  prefetch(
+    id,
+  ).ignore();
+  warm().ignore(); // not-a-failure: same cache warm-up, second chapter
+}
+''';
+      final (offences, exemptions) = _scan('x.dart', src);
+      expect(offences, isEmpty, reason: offences.join('\n'));
+      expect(exemptions, 2);
+    });
+
+    test('an unawaited future is not excused by a comment that names the error path', () {
+      const src = '''
+void a() {
+  // serverErrorMessage(e) would be called by the page, surely
+  unawaited(save());
+}
+''';
+      expect(_scan('x.dart', src).$1, hasLength(1));
     });
 
     test('a comment mentioning serverErrorMessage does not count as calling it', () {

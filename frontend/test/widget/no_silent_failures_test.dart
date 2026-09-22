@@ -11,46 +11,32 @@
 //    request that never got an answer. auth_api mapped every status it did
 //    not know to "Could not reach the server", so a principal was told to
 //    check a connection that was fine.
+//  * Subtopic picker (Create Assessment): a failed topic fetch was stored as
+//    an empty list and read "no subtopic breakdown yet".
+//  * auth_api itself: a 422 whose detail is a list crashed the `as String?`
+//    cast, and a 401 on an invite call said "Incorrect email or password".
 //
-// A real Dio whose interceptor answers instead of the network, the technique
-// of schedule_mark_error_test.dart (no mocking library, see pubspec.yaml).
+// The consent save and the parent portal also need the Hive-backed
+// LocalStore; they live in no_silent_failures_stored_test.dart.
+//
+// A real Dio whose interceptor answers instead of the network
+// (test/support/fake_server.dart; no mocking library, see pubspec.yaml).
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 
 import 'package:academicos/data/datasources/api/auth_api.dart';
+import 'package:academicos/data/datasources/api/curriculum_api.dart';
 import 'package:academicos/data/datasources/api/pillar_api.dart';
 import 'package:academicos/presentation/admin/widgets/invites_panel.dart';
 import 'package:academicos/presentation/analytics/pages/principal_page.dart';
+import 'package:academicos/presentation/assessment/pages/assessment_create_page.dart';
 import 'package:academicos/presentation/question_bank/pages/question_bank_page.dart';
 
-/// Answers `(method, path)` with [routes]' status and body; a route mapped to
-/// a DioExceptionType is a request that never got an answer.
-class _Server extends Interceptor {
-  final Map<String, Object> routes;
-  _Server(this.routes);
+import '../support/fake_server.dart';
 
-  @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    final route = routes['${options.method} ${options.path}'];
-    if (route is DioExceptionType) {
-      handler.reject(DioException(requestOptions: options, type: route));
-      return;
-    }
-    final (status, body) = route as (int, Object?);
-    final response = Response(requestOptions: options, statusCode: status, data: body);
-    if (status < 400) {
-      handler.resolve(response);
-    } else {
-      handler.reject(DioException.badResponse(
-          statusCode: status, requestOptions: options, response: response));
-    }
-  }
-}
-
-Dio _dio(Map<String, Object> routes) =>
-    Dio(BaseOptions(baseUrl: 'http://backend.invalid/api/v1'))..interceptors.add(_Server(routes));
+Dio _dio(Map<String, Object> routes) => fakeDio(FakeServer(routes));
 
 void main() {
   tearDown(() => GetIt.instance.reset());
@@ -118,6 +104,134 @@ void main() {
     testWidgets('a create that never got an answer blames the connection', (tester) async {
       await pumpAndCreate(tester, DioExceptionType.connectionError);
       expect(find.textContaining("Couldn't reach the server — check your connection"), findsOneWidget);
+    });
+  });
+
+  group('subtopic picker (Create Assessment)', () {
+    const chapterId = 'chemical-reactions-equations';
+    const chapterName = 'Chemical Reactions and Equations';
+    const topicsPath = 'GET /curriculum/chapters/$chapterId/topics';
+
+    /// Opens the Chapters step, ticks the one chapter and expands the
+    /// subtopic filter, which is what fires topicsForChapter.
+    Future<FakeServer> pumpAndExpand(WidgetTester tester, Object topicsRoute) async {
+      GetIt.instance.registerSingleton<PillarApi>(PillarApi(_dio({
+        'GET /catalog/Science/10/chapters': (200, [
+          {'chapterId': chapterId, 'chapterName': chapterName, 'questionCount': 12},
+        ]),
+      })));
+      final server = FakeServer({topicsPath: topicsRoute});
+      GetIt.instance.registerSingleton<CurriculumApi>(CurriculumApi(fakeDio(server)));
+      await tester.pumpWidget(const MaterialApp(home: AssessmentCreatePage()));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Chapters'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.widgetWithText(CheckboxListTile, chapterName));
+      await tester.pumpAndSettle();
+      final filter = find.text('Filter by subtopic (optional)');
+      await tester.ensureVisible(filter);
+      await tester.pumpAndSettle();
+      await tester.tap(filter);
+      await tester.pumpAndSettle();
+      return server;
+    }
+
+    testWidgets('a failed topic fetch says it failed and offers Retry, not "no subtopics"', (tester) async {
+      final server = await pumpAndExpand(tester, (500, null));
+
+      expect(find.textContaining('$chapterName: could not load subtopics'), findsOneWidget);
+      expect(find.textContaining('HTTP 500'), findsOneWidget);
+      expect(find.textContaining('no subtopic breakdown yet'), findsNothing,
+          reason: 'a server failure is not a chapter without subtopics');
+
+      // Retry sends the request again (the failure was not cached as an
+      // empty list, which would have made Retry a no-op).
+      final retry = find.widgetWithText(TextButton, 'Retry');
+      await tester.ensureVisible(retry);
+      await tester.tap(retry);
+      await tester.pumpAndSettle();
+      expect(server.requests.where((r) => r == topicsPath), hasLength(2));
+    });
+
+    testWidgets('a 403 names the access problem, not an empty chapter', (tester) async {
+      await pumpAndExpand(tester, (403, null));
+      expect(find.textContaining("could not load subtopics -- You don't have access to that"), findsOneWidget);
+      expect(find.textContaining('no subtopic breakdown yet'), findsNothing);
+    });
+
+    testWidgets('an empty 200 is the honest "no subtopic breakdown yet"', (tester) async {
+      // The control case: the empty state still exists for a chapter the
+      // server really has no topics for.
+      await pumpAndExpand(tester, (200, <Object>[]));
+      expect(find.textContaining('$chapterName: no subtopic breakdown yet'), findsOneWidget);
+      expect(find.textContaining('could not load subtopics'), findsNothing);
+    });
+  });
+
+  group('auth_api error mapping', () {
+    Future<AuthException> failure(Future<Object?> Function(AuthApi api) call, Map<String, Object> routes) async {
+      try {
+        await call(AuthApi(_dio(routes)));
+      } on AuthException catch (e) {
+        return e;
+      }
+      fail('expected an AuthException');
+    }
+
+    test('a 422 whose detail is a list names the field instead of crashing the cast', () async {
+      // Before Task 802 `data['detail'] as String?` threw a TypeError here,
+      // which the sign-in form reported as a network fault.
+      final e = await failure(
+          (api) => api.login(email: 'not-an-email', password: 'x'),
+          {
+            'POST /auth/login': (422, {
+              'detail': [
+                {'loc': ['body', 'email'], 'msg': 'value is not a valid email address', 'type': 'value_error'},
+              ],
+            }),
+          });
+      expect(e.message, 'email: value is not a valid email address');
+    });
+
+    test('a 422 list on create invite is reported the same way', () async {
+      final e = await failure(
+          (api) => api.createInvite(role: 'teacher', expiresInDays: 400),
+          {
+            'POST /auth/invites': (422, {
+              'detail': [
+                {'loc': ['body', 'expiresInDays'], 'msg': 'Input should be less than or equal to 90'},
+              ],
+            }),
+          });
+      expect(e.message, contains('expiresInDays: Input should be less than or equal to 90'));
+      expect(e.message, isNot(contains('reach the server')));
+    });
+
+    test('a 401 on the invite calls is a session that ended, not a wrong password', () async {
+      final create = await failure((api) => api.createInvite(role: 'teacher'),
+          {'POST /auth/invites': (401, {'detail': 'Not authenticated'})});
+      expect(create.message, "You're signed out — sign in again");
+      expect(create.message, isNot(contains('Incorrect email or password')));
+
+      final revoke = await failure((api) => api.revokeInvite('ABC123'),
+          {'DELETE /auth/invites/ABC123': (401, {'detail': 'Not authenticated'})});
+      expect(revoke.message, "You're signed out — sign in again");
+    });
+
+    test('a 401 on sign-in is still the wrong-credentials sentence', () async {
+      final withDetail = await failure((api) => api.login(email: 'a@b.in', password: 'wrong'),
+          {'POST /auth/login': (401, {'detail': 'Incorrect email or password.'})});
+      expect(withDetail.message, 'Incorrect email or password.');
+      final bare = await failure((api) => api.login(email: 'a@b.in', password: 'wrong'),
+          {'POST /auth/login': (401, null)});
+      expect(bare.message, 'Incorrect email or password.');
+    });
+
+    test('a 500 on sign-in says the server failed, not the connection', () async {
+      final e = await failure((api) => api.login(email: 'a@b.in', password: 'pw12345678'),
+          {'POST /auth/login': (500, null)});
+      expect(e.message, contains('HTTP 500'));
+      expect(e.message, isNot(contains('connection')));
     });
   });
 }
