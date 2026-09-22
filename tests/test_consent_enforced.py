@@ -456,3 +456,36 @@ def test_granted_ids_page_through_the_remote_table(tmp_path, monkeypatch):
     expected = {f"s_{i}" for i in range(2500) if i % 7 and i != 10}
     assert granted == expected
     assert fake.selects == 4                     # 1000 + 1000 + 500 + the empty page
+
+
+def test_a_withdrawal_the_durable_store_did_not_take_is_a_failure_not_a_200(tmp_path, monkeypatch):
+    """Task 304's review: with the durable table on, revoke_consent fell back to a
+    local UPDATE when Supabase was unreachable. The consent row lives remotely, so
+    the UPDATE hit 0 rows, yet the method returned the revoked record (a 200).
+    When Supabase came back, the remote row still said 'granted' and grading went
+    ahead for a student whose parent had withdrawn. A withdrawal must reach the
+    store that consent is read from, or visibly fail so the school retries."""
+    import requests as _requests
+    from academicos.assessment import consent as consent_mod
+    from academicos.assessment.supabase_kv import SupabaseUnavailable
+
+    granted = {"id": "consent_1", "school_id": "school_1", "student_id": "s_1",
+               "guardian_name": "P", "method": "Signed admission form",
+               "status": "granted", "recorded_by": "u_1",
+               "recorded_at": "2026-09-22T00:00:00+00:00"}
+
+    class DownOnWrite:
+        enabled = True
+
+        def select(self, **_):
+            return [dict(granted)]
+
+        def upsert(self, row, on_conflict=None):
+            raise _requests.exceptions.ConnectionError("supabase unreachable")
+
+    store = consent_mod.ConsentStore(tmp_path / "assessment" / "consents.db")
+    monkeypatch.setattr(store, "_remote", DownOnWrite())
+    with pytest.raises(SupabaseUnavailable):
+        store.revoke_consent("school_1", "s_1", revoked_by="u_1")
+    # And nothing pretends the withdrawal happened.
+    assert store.get_consent("school_1", "s_1").status == "granted"

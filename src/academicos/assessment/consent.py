@@ -324,14 +324,23 @@ class ConsentStore:
         row = updated.to_row()
 
         if self._remote.enabled:
+            # No local fallback for a withdrawal. The consent row lives in the
+            # durable store and is read back from there; a local UPDATE hits 0
+            # rows yet used to return the revoked record (a 200), and when the
+            # store came back the row still said 'granted' -- grading went ahead
+            # for a student whose parent had withdrawn. Fail visibly (503 via
+            # the app's SupabaseUnavailable handler) so the school retries.
             try:
                 self._remote.upsert(row, on_conflict="school_id,student_id")
                 return updated
-            except requests.exceptions.RequestException:
-                logger.warning(
-                    "Supabase unreachable, falling back to local SQLite for revoke_consent (%s, %s)",
+            except requests.exceptions.RequestException as exc:
+                logger.error(
+                    "consent withdrawal NOT recorded: durable store unreachable (%s, %s)",
                     school_id, student_id, exc_info=True,
                 )
+                raise SupabaseUnavailable(
+                    table="parental_consents", op="revoke (withdrawal not saved; retry)",
+                    cause=exc) from exc
 
         with self._conn_lock:
             self.conn.execute("""
