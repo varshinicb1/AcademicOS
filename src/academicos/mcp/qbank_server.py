@@ -63,6 +63,15 @@ import sys
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Mapping, Optional
 
+# The engine, from the FastAPI-free module. Imported at MODULE scope on
+# purpose: it used to come from `assessment/qbank_routes.py`, which imports
+# `fastapi` at module scope, so `pip install -e ".[mcp]"` raised ImportError on
+# the first stdio request -- and deferring the import into the method bodies,
+# as this file did, moved that failure from import time to request time rather
+# than removing it. `[mcp]` now genuinely runs stdio; the network transports
+# still need `[api]`, for uvicorn and for the key gate below.
+from ..assessment.qbank_engine import QuestionBank, has_answer_key
+
 if TYPE_CHECKING:  # the SDK and the key store are both optional at import time
     from ..assessment.api_keys import ApiKey, ApiKeyStore
 
@@ -86,13 +95,13 @@ TRANSPORT_SCOPE = "questions:read"
 class Corpus:
     """The loaded bank plus the queries the tools need.
 
-    Wraps `qbank_routes.QuestionBank` rather than reimplementing filtering, so
-    the MCP surface and the HTTP surface answer identically. Any divergence
-    between them would be a bug that only appears for one kind of consumer.
+    Wraps `assessment.qbank_engine.QuestionBank` rather than reimplementing
+    filtering, so the MCP surface and the HTTP surface answer identically. Any
+    divergence between them would be a bug that only appears for one kind of
+    consumer.
     """
 
     def __init__(self, records: list[dict[str, Any]]):
-        from ..assessment.qbank_routes import QuestionBank
         self._bank = QuestionBank(records)
         self.records = self._bank.records
 
@@ -126,8 +135,7 @@ class Corpus:
         disagreeing -- the divergence Q5 exists to prevent -- and the copy here
         did not check the same fields as the builder.
         """
-        from ..assessment.qbank_routes import QuestionBank
-        return QuestionBank.has_answer_key(rec)
+        return has_answer_key(rec)
 
     def search(
         self,
@@ -149,9 +157,18 @@ class Corpus:
 
         `answer_key_state`:
           * `"any"` (default) -- require_answer_key is honoured
-          * `"official"`      -- only questions carrying a CBSE marking scheme
+          * `"official"`      -- only answer-keyed questions whose key is
+                                 CBSE's own marking scheme. The HTTP surface's
+                                 `?key_provenance=cbse_marking_scheme`, record
+                                 for record (Q5).
           * `"none"`          -- only questions with no attached scheme, for
                                  auditing what the relink has not reached
+
+        `"official"` tested the CBSE label ALONE, which let a record carrying
+        that label over an empty scheme through -- the 259-record failure the
+        content half of the rule exists for, and an asymmetry with HTTP in the
+        opposite direction from the one the Q1 pass closed. It now narrows
+        within the answer-keyed set rather than sidestepping it.
 
         There is no "include unanswered" flag that quietly widens the default.
         An agent asking for questions gets answerable ones, and a caller who
@@ -185,8 +202,10 @@ class Corpus:
                 if needle not in hay:
                     continue
 
-            official = (rec.get("answerScheme") or {}).get("provenance") == "cbse_marking_scheme"
             has = self.has_answer_key(rec)
+            official = has and (
+                (rec.get("answerScheme") or {}).get("provenance")
+                == "cbse_marking_scheme")
             if answer_key_state == "official" and not official:
                 continue
             if answer_key_state == "none" and has:

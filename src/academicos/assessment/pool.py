@@ -29,6 +29,13 @@ from ..models.enums import DocType
 from . import grades, notation
 from .chapters import chapter_name, tag_chapter
 from .embedding_chapter_tagger import ChapterTagCache, tag_questions
+# The one answer-key rule, shared with both API surfaces (Q1/Q5). A plain
+# module-level import: it used to come from `qbank_routes`, which imports
+# FastAPI, so this deferred it into the function bodies -- but paper generation
+# is a core path, and a deferred import of an unavailable module is still an
+# ImportError, just later and further from its cause. The engine now lives in
+# a module with no web framework in it.
+from .qbank_engine import QuestionBank
 
 log = logging.getLogger(__name__)
 
@@ -203,7 +210,7 @@ class PoolQuestion:
 
         A served-bank record carries the whole `answerScheme`, so the real
         rule applies: a published provenance AND real content
-        (`qbank_routes.QuestionBank.has_answer_key`). This used to test
+        (`qbank_engine.has_answer_key`). This used to test
         `correct_option or answer_text` alone, which is a different and weaker
         rule in both directions -- it called a board record keyed by its value
         points with no model answer unanswerable (the shape every SQP MCQ and
@@ -212,13 +219,8 @@ class PoolQuestion:
         The registry path has no `answerScheme` to read: its key comes from the
         marking-scheme store as a correct option or an answer text, so the
         content test is all there is to apply there and it stays.
-
-        The import is deferred because `qbank_routes` pulls in FastAPI, an
-        `[api]` extra, and this module must import without it -- the same
-        reason `mcp/qbank_server.py` imports `QuestionBank` inside its methods.
         """
         if self.record is not None:
-            from .qbank_routes import QuestionBank
             return QuestionBank.has_answer_key(self.record)
         return bool(self.correct_option or self.answer_text)
 
@@ -522,10 +524,6 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                             data.get("questions", []),
                             key=lambda it: 0 if it.get("source") == "cbse_board_paper" else 1)
                         from .schemas import QuestionSchema
-                        # The one answer-key rule, shared with both API
-                        # surfaces. Deferred like the line above, and for the
-                        # extra reason that `qbank_routes` imports FastAPI.
-                        from .qbank_routes import QuestionBank
                         for item in raw_qs:
                             item_subject = item.get("subject", "")
                             try:

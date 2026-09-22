@@ -2202,6 +2202,13 @@ export interface paths {
          *     the HTTP case from nowhere. Both now return `QuestionBank.coverage()`
          *     verbatim (rule Q5).
          *
+         *     Every count here names a set a request can actually be handed:
+         *     `withOfficialCbseScheme` is `?key_provenance=cbse_marking_scheme`, and per
+         *     subject and class `markValues` lists the distinct mark denominations while
+         *     `marksTotal` is what the answer-keyed questions add up to. The field was
+         *     called `marksAvailable` and held the denominations, which on a coverage
+         *     endpoint reads as the total a buyer would size a purchase on.
+         *
          *     Aggregate counts, so it takes `facets:read` rather than `questions:read`:
          *     no question text or marking scheme crosses this route.
          */
@@ -2330,7 +2337,7 @@ export interface paths {
          * @description Paged, filtered question list. The workhorse endpoint.
          *
          *     **Answer-keyed by default (rule Q1).** See `_q1_filter` for the two ways
-         *     to ask for the rest.
+         *     to ask for the rest, and `key_provenance` to narrow to one kind of key.
          */
         get: operations["list_questions_v1_questions_get"];
         put?: never;
@@ -2451,7 +2458,12 @@ export interface paths {
          * @description Curriculum-driven listing: everything tagged to one subtopic.
          *
          *     Answer-keyed by default, like `/v1/questions` -- a rule that held on one
-         *     listing route and not its neighbour would not be a rule.
+         *     listing route and not its neighbour would not be a rule. **And the same
+         *     two opt-ins**: `has_scheme` was documented as accepted by all three
+         *     listing routes but was never declared here, so FastAPI dropped it and
+         *     `?has_scheme=false` answered 200 with the exact OPPOSITE set -- an auditor
+         *     asking which questions of a subtopic the relink has not reached was handed
+         *     the ones it already covers, with nothing in the response to say so.
          */
         get: operations["questions_for_subtopic_v1_subtopics__subtopic_id__questions_get"];
         put?: never;
@@ -9095,6 +9107,8 @@ export interface operations {
                 grade?: number | null;
                 /** @description true: count only answer-keyed questions (the default). false: count only the unanswerable set, for auditing. */
                 has_scheme?: boolean | null;
+                /** @description narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1. */
+                key_provenance?: string | null;
                 /** @description count questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in. */
                 include_unkeyed?: boolean;
             };
@@ -9276,8 +9290,10 @@ export interface operations {
                 bloom?: string | null;
                 chapter_id?: string | null;
                 subtopic_id?: string | null;
-                /** @description true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing. */
+                /** @description true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing. Since the Q1 pass this is the shared answer-key rule (published provenance AND real content), not the CBSE label alone; use key_provenance for the board's own schemes. */
                 has_scheme?: boolean | null;
+                /** @description narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1. */
+                key_provenance?: string | null;
                 review_state?: string | null;
                 keyword?: string | null;
                 limit?: number;
@@ -9481,6 +9497,10 @@ export interface operations {
             query?: {
                 limit?: number;
                 cursor?: string | null;
+                /** @description true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing this subtopic. */
+                has_scheme?: boolean | null;
+                /** @description narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1. */
+                key_provenance?: string | null;
                 include_unkeyed?: boolean;
             };
             header?: {
