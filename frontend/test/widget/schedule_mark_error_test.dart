@@ -66,9 +66,9 @@ Future<void> _markYes(WidgetTester tester, _Server server) async {
 void main() {
   tearDown(() => GetIt.instance.reset());
 
-  testWidgets('a 403 on marking a lesson shows a permission message', (tester) async {
+  testWidgets('a 403 on marking a lesson says the account lacks access', (tester) async {
     await _markYes(tester, _Server(markStatus: 403));
-    expect(find.textContaining('permission'), findsOneWidget);
+    expect(find.textContaining("don't have access"), findsOneWidget);
     expect(find.textContaining('connection'), findsNothing);
   });
 
@@ -76,6 +76,6 @@ void main() {
       (tester) async {
     await _markYes(tester, _Server(markFailure: DioExceptionType.connectionError));
     expect(find.textContaining('connection'), findsOneWidget);
-    expect(find.textContaining('permission'), findsNothing);
+    expect(find.textContaining("don't have access"), findsNothing);
   });
 }

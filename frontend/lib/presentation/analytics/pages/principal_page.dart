@@ -66,7 +66,11 @@ class _PrincipalPageState extends State<PrincipalPage> {
             return const LoadingIndicator(message: 'Rolling up school performance…');
           }
           if (snap.hasError) {
-            return ErrorDisplay(message: '${snap.error}', onRetry: _load);
+            return ErrorDisplay(
+              message: 'Could not load school performance: ${serverErrorMessage(snap.error!)}',
+              // A 401/403 would only be refused again (Task 802).
+              onRetry: isRetryable(snap.error!) ? _load : null,
+            );
           }
           final s = snap.data!;
           return ListView(

@@ -67,10 +67,12 @@ class _InvitesPanelState extends State<InvitesPanel> {
     try {
       await action();
       await _refresh();
-    } on AuthException catch (e) {
-      if (mounted) setState(() => _error = e.message);
-    } catch (_) {
-      if (mounted) setState(() => _error = 'Could not reach the server. Try again.');
+    } catch (e) {
+      // An AuthException's own message, or -- for anything else, which is
+      // not only the network (a response that fails to parse lands here
+      // too) -- what actually failed. This said "Could not reach the server"
+      // for all of it until Task 802.
+      if (mounted) setState(() => _error = serverErrorMessage(e));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -180,7 +182,8 @@ class _InvitesPanelState extends State<InvitesPanel> {
         if (_invites == null && _error == null)
           const Padding(padding: EdgeInsets.all(12), child: Center(child: CircularProgressIndicator()))
         else if (_invites != null && _invites!.isEmpty)
-          Text('No invites yet.', style: muted)
+          Text('No invites yet. Create one above for each teacher or student who should join.',
+              style: muted)
         else if (_invites != null)
           AppCard(
             child: Column(

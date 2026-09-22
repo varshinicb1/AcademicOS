@@ -220,7 +220,7 @@ class _PlannerPageState extends State<PlannerPage> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not schedule: $e')),
+        SnackBar(content: Text('Could not schedule: ${serverErrorMessage(e)}')),
       );
     }
   }
@@ -272,7 +272,7 @@ class _TimetableSheetState extends State<_TimetableSheet> {
           periodsPerWeek: _periodsPerWeek, weeks: _weeks);
       setState(() => _result = tt);
     } catch (e) {
-      setState(() => _error = '$e');
+      setState(() => _error = serverErrorMessage(e));
     } finally {
       if (mounted) setState(() => _loading = false);
     }

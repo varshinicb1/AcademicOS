@@ -10,6 +10,10 @@ library;
 
 import 'package:dio/dio.dart';
 
+// The Reschedule and Calendar tabs import serverErrorMessage from here; it now
+// lives in api_error.dart, the one error path every screen shares (Task 802).
+export 'api_error.dart';
+
 /// One real, dated lesson from a teacher's own assigned schedule -- already
 /// enriched server-side (subject/chapter/topic/subtopic names resolved),
 /// so this screen never has to stitch together multiple curriculum calls
@@ -180,33 +184,6 @@ class PushScheduleResult {
     if (lessonsDropped.isEmpty) return pushed;
     return '$pushed ${lessons(lessonsDropped.length)} no longer fit before the year ends.';
   }
-}
-
-/// The message to show for a failed curriculum call: the server's own
-/// `detail` when it sent one, else `e`'s text. The Reschedule tab used to
-/// show `$e`, which for a DioException is Dio's generic "bad response ...
-/// status code 409" -- so the backend's carefully built reasons (the clash
-/// date and the IDs of the lessons already there, a completed lesson that
-/// cannot move, PUSH's missing-allocation 422) never reached the principal.
-/// A FastAPI validation 422 sends `detail` as a list; that falls back too.
-///
-/// With no `detail`, the status still says what happened: the web mark sheet
-/// used to show every failure as "check your connection", so a teacher whose
-/// mark was refused (403) retried a request that could never succeed
-/// (re-audit, 2026-09-22). "Connection" is said only when no answer came back.
-String serverErrorMessage(Object e) {
-  if (e is DioException) {
-    final data = e.response?.data;
-    final detail = data is Map ? data['detail'] : null;
-    if (detail is String && detail.isNotEmpty) return detail;
-    final status = e.response?.statusCode;
-    if (status == 401) return 'your session has ended -- sign in again';
-    if (status == 403) return 'you do not have permission to do this';
-    if (status == 404) return 'the server has no record of it -- it may have been removed';
-    if (status != null) return 'the server refused the request (HTTP $status)';
-    return 'could not reach the server -- check your connection and try again';
-  }
-  return '$e';
 }
 
 class CurriculumApi {

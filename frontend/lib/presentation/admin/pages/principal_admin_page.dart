@@ -186,7 +186,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _reportingError = '$e';
+        _reportingError = serverErrorMessage(e);
         _loadingReporting = false;
       });
     }
@@ -205,8 +205,11 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         _subjectsForAssignGrade = subjects;
         _loadingSubjects = false;
       });
-    } catch (_) {
+    } catch (e) {
+      // An empty subject dropdown after a failed load read as "this class
+      // has no subjects" (Task 802 audit); say that it failed, and why.
       if (mounted) setState(() => _loadingSubjects = false);
+      _showMessage('Could not load subjects: ${serverErrorMessage(e)}');
     }
   }
 
@@ -223,8 +226,9 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         _pushSubjects = subjects;
         _loadingPushSubjects = false;
       });
-    } catch (_) {
+    } catch (e) {
       if (mounted) setState(() => _loadingPushSubjects = false);
+      _showMessage('Could not load subjects: ${serverErrorMessage(e)}');
     }
   }
 
@@ -244,7 +248,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         _assignSubjectId = null;
       });
     } catch (e) {
-      _showMessage('Could not assign teacher: $e');
+      _showMessage('Could not assign teacher: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _assigningTeacher = false);
     }
@@ -261,7 +265,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         _enrollGradeId = null;
       });
     } catch (e) {
-      _showMessage('Could not enroll student: $e');
+      _showMessage('Could not enroll student: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _enrollingStudent = false);
     }
@@ -330,7 +334,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       final lessons = await GetIt.I<CurriculumApi>().schoolSchedule(startDate: start, endDate: end);
       if (mounted) setState(() => _masterLessons = lessons);
     } catch (e) {
-      _showMessage('Could not load school schedule: $e');
+      _showMessage('Could not load school schedule: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _loadingMasterCalendar = false);
     }
@@ -350,7 +354,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       final subs = await GetIt.I<CurriculumApi>().subjects(gradeId);
       if (mounted) setState(() => _seqSubjects = subs);
     } catch (e) {
-      _showMessage('Could not load subjects: $e');
+      _showMessage('Could not load subjects: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _loadingSeqSubjects = false);
     }
@@ -381,7 +385,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         }
       }
     } catch (e) {
-      _showMessage('Could not load curriculum: $e');
+      _showMessage('Could not load curriculum: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _loadingSeqContent = false);
     }
@@ -396,7 +400,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       await GetIt.I<CurriculumApi>().setUnitSequence(item.id, newIndex);
       _showMessage('Unit "${item.name}" sequence updated to #$newIndex');
     } catch (e) {
-      _showMessage('Could not update sequence: $e');
+      _showMessage('Could not update sequence: ${serverErrorMessage(e)}');
     }
   }
 
@@ -409,7 +413,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       await GetIt.I<CurriculumApi>().setChapterSequence(item.id, newIndex);
       _showMessage('Chapter "${item.name}" sequence updated to #$newIndex');
     } catch (e) {
-      _showMessage('Could not update sequence: $e');
+      _showMessage('Could not update sequence: ${serverErrorMessage(e)}');
     }
   }
 
@@ -447,7 +451,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       await GetIt.I<CurriculumApi>().setPeriodConfiguration(_academicYearId!, periodMinutes: mins);
       _showMessage('Period duration configured: $mins minutes.');
     } catch (e) {
-      _showMessage('Could not set period configuration: $e');
+      _showMessage('Could not set period configuration: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _savingPeriodMinutes = false);
     }

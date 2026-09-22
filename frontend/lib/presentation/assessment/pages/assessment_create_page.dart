@@ -146,6 +146,9 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
   // re-expanding the picker doesn't re-fetch chapters already loaded.
   final Map<String, List<TopicWithSubtopics>> _topicsByChapter = {};
   final Set<String> _loadingTopicsForChapter = {};
+  /// Why a chapter's topics failed to load; kept apart from
+  /// [_topicsByChapter] so a failure never reads as "no subtopics".
+  final Map<String, String> _topicErrors = {};
   final Set<String> _selectedSubtopics = {};
 
   @override
@@ -169,7 +172,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _chaptersError = '$e';
+        _chaptersError = serverErrorMessage(e);
         _chaptersLoading = false;
       });
     }
@@ -177,7 +180,10 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
 
   Future<void> _loadTopicsForChapter(String chapterId) async {
     if (_topicsByChapter.containsKey(chapterId) || _loadingTopicsForChapter.contains(chapterId)) return;
-    setState(() => _loadingTopicsForChapter.add(chapterId));
+    setState(() {
+      _loadingTopicsForChapter.add(chapterId);
+      _topicErrors.remove(chapterId);
+    });
     try {
       final topics = await GetIt.I<CurriculumApi>().topicsForChapter(chapterId);
       if (!mounted) return;
@@ -187,12 +193,14 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
       });
     } catch (e) {
       if (!mounted) return;
-      // Honest empty state, not a blocking error -- a chapter with no
-      // Topic/Subtopic content yet (extraction not run) is a real, common
-      // case, and this filter is optional; the chapter-level checkbox
-      // above still works regardless.
+      // A chapter with no Topic/Subtopic content yet is an empty 200 (the
+      // branch above), not an exception. This used to record a failure as
+      // that same empty list, so a 401/403/500 read "no subtopic breakdown
+      // available yet" -- the re-audit's "subtopic picker never finds a
+      // topic" (Task 802). The filter stays optional: the chapter checkbox
+      // above works regardless, and the row offers a retry.
       setState(() {
-        _topicsByChapter[chapterId] = [];
+        _topicErrors[chapterId] = serverErrorMessage(e);
         _loadingTopicsForChapter.remove(chapterId);
       });
     }
@@ -636,12 +644,33 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
               child: Center(child: CircularProgressIndicator()),
             );
           }
+          final topicError = _topicErrors[chapterId];
+          if (topicError != null) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text('$chapterName: could not load subtopics -- $topicError',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(color: Theme.of(context).colorScheme.error)),
+                  ),
+                  TextButton(
+                    onPressed: () => _loadTopicsForChapter(chapterId),
+                    child: const Text('Retry'),
+                  ),
+                ],
+              ),
+            );
+          }
           final topics = _topicsByChapter[chapterId];
           if (topics == null) return const SizedBox.shrink();
           if (topics.isEmpty) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Text('$chapterName: no subtopic breakdown available yet',
+              child: Text('$chapterName: no subtopic breakdown yet -- questions come from the whole chapter',
                   style: Theme.of(context).textTheme.bodySmall),
             );
           }
@@ -851,7 +880,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _submitError = e.toString();
+        _submitError = serverErrorMessage(e);
         _submitting = false;
       });
     }

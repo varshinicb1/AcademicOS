@@ -10,7 +10,6 @@ import '../../../core/download/pdf_saver.dart';
 import '../../../core/local_engine/local_api_client.dart'
     show AssessmentLockedException, editableAssessmentStatuses;
 import '../../../data/datasources/api/api_client.dart';
-import '../../../data/datasources/api/curriculum_api.dart' show serverErrorMessage;
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../../domain/entities/entities.dart';
 import '../../../domain/repositories/requests.dart';
@@ -89,7 +88,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
       });
     } catch (e) {
       setState(() {
-        _reopenError = '$e';
+        _reopenError = serverErrorMessage(e);
         _reopening = false;
       });
     }
@@ -423,13 +422,13 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
       if (!mounted) return;
       setState(() {
         _approving = false;
-        _approveError = '$e';
+        _approveError = serverErrorMessage(e);
       });
     } catch (e) {
       if (!mounted) return;
       setState(() {
         _approving = false;
-        _approveError = 'Could not approve: $e';
+        _approveError = 'Could not approve: ${serverErrorMessage(e)}';
       });
     }
   }
@@ -513,7 +512,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
       });
     } catch (e) {
       setState(() {
-        _error = e.toString();
+        _error = serverErrorMessage(e);
         _exporting = false;
       });
     }
@@ -540,7 +539,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
       );
     } catch (e) {
       setState(() {
-        _error = 'Failed to export answer key: $e';
+        _error = 'Failed to export answer key: ${serverErrorMessage(e)}';
         _exportingAnswerKey = false;
       });
     }

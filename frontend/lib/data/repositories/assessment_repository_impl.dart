@@ -5,6 +5,7 @@ import '../../domain/failures/failures.dart';
 import '../../domain/repositories/repositories.dart';
 import '../../domain/repositories/requests.dart';
 import '../datasources/api/api_client.dart';
+import '../datasources/api/api_error.dart';
 
 class AssessmentRepositoryImpl implements AssessmentRepository {
   final ApiClient _apiClient;
@@ -25,7 +26,7 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
       ));
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -35,7 +36,7 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
       final result = await _apiClient.getAssessment(id);
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -45,7 +46,7 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
       final result = await _apiClient.getAssessmentsByTeacher(teacherId);
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -55,7 +56,7 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
       final result = await _apiClient.getAssessmentsBySchool(schoolId);
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -65,7 +66,7 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
       final result = await _apiClient.updateAssessment(assessment.id, assessment);
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -75,7 +76,7 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
       await _apiClient.deleteAssessment(id);
       return right(unit);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -85,7 +86,7 @@ class AssessmentRepositoryImpl implements AssessmentRepository {
       final result = await _apiClient.updateStatus(id, {'status': status.name});
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 }

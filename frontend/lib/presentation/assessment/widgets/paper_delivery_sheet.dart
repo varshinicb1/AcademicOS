@@ -84,7 +84,8 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
       final s = await GetIt.I<PillarApi>().mailStatus();
       if (mounted) setState(() => _mailStatus = s);
     } catch (_) {
-      // Status is advisory; failing to fetch it must not block preview/print.
+      // not-a-failure: advisory hint only; a real send failure is reported by _send
+      // (Status is advisory; failing to fetch it must not block preview/print.)
     }
   }
 
@@ -131,18 +132,10 @@ class _PaperDeliverySheetState extends State<PaperDeliverySheet> {
       setState(() => _success =
           'Sent via ${res['backend']} to ${(res['recipients'] as List).join(', ')}');
     } catch (e) {
-      setState(() => _error = _readableError(e));
+      setState(() => _error = serverErrorMessage(e));
     } finally {
       if (mounted) setState(() => _sending = false);
     }
-  }
-
-  String _readableError(Object e) {
-    if (e is DioException) {
-      final data = e.response?.data;
-      if (data is Map && data['detail'] != null) return data['detail'].toString();
-    }
-    return e.toString();
   }
 
   bool get _mailReady => (_mailStatus?['anyConfigured'] as bool?) ?? false;

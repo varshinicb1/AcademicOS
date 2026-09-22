@@ -8,23 +8,12 @@ library;
 
 import 'package:dio/dio.dart';
 
-/// What to show a teacher when a grading, scanning or practice call fails:
-/// the server's own `detail` when it sent one, else the error itself.
-///
-/// `'$e'` on a DioException reads "DioException [bad response]: This
-/// exception was thrown because the response has a status code of 409...",
-/// which tells a teacher nothing. Since 2026-09-22 the server refuses to
-/// grade a student with no recorded parental consent (409, "no recorded
-/// parental consent for student X; record it under Classes before
-/// grading"), and that sentence is the one thing that says what to do next.
-/// A 422's `detail` is a list, not a sentence, so only a string is used.
-String apiErrorMessage(Object error) {
-  if (error is DioException) {
-    final data = error.response?.data;
-    if (data is Map && data['detail'] is String) return data['detail'] as String;
-  }
-  return '$error';
-}
+// The grading, scanning and practice pages import serverErrorMessage from
+// here. It replaced this file's own apiErrorMessage, which showed Dio's text
+// for a 422 list or a status with no body (Task 802); the server's consent
+// refusal (409, "no recorded parental consent for student X; record it under
+// Classes before grading") still reaches the teacher word for word.
+export 'api_error.dart';
 
 class ConceptMastery {
   final String conceptId;

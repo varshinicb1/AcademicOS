@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
@@ -49,6 +50,7 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
     final today = DateTime.now().toString().substring(0, 10);
     MyProgress? progress;
     List<MyClassScheduleEntry> lessons = [];
+    String? unavailableReason;
 
     try {
       final results = await Future.wait([
@@ -57,8 +59,17 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
       ]);
       progress = results[0] as MyProgress;
       lessons = results[1] as List<MyClassScheduleEntry>;
-    } catch (_) {
-      // In case caller is a parent account not yet mapped to a specific student class schedule
+    } on DioException catch (e) {
+      // Both reads admit an enrolled student only: 403 "this endpoint is for
+      // students only" (a parent account, not yet linked to a child) or 404
+      // "you are not enrolled in a class yet" (curriculum/routes.py
+      // _require_student_enrollment). Those are an honest empty portal, and
+      // the server's sentence says why. Anything else is a failure -- this
+      // used to swallow every error, so a 500 or a dropped connection showed
+      // "No progress recorded" as if the term had not started (Task 802).
+      final status = e.response?.statusCode;
+      if (status != 403 && status != 404) rethrow;
+      unavailableReason = serverErrorMessage(e);
     }
 
     return _ParentData(
@@ -66,6 +77,7 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
       academicYearLabel: currentYear.label,
       progress: progress,
       todayLessons: lessons,
+      unavailableReason: unavailableReason,
     );
   }
 
@@ -90,7 +102,7 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
           }
           if (snap.hasError) {
             return ErrorDisplay(
-              message: 'Could not load parent portal data.',
+              message: 'Could not load parent portal data: ${serverErrorMessage(snap.error!)}',
               onRetry: () => setState(() => _future = _load()),
             );
           }
@@ -213,7 +225,14 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
         Text('Syllabus Completion Progress',
             style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
         const Gap(8),
-        if (data.progress == null || data.progress!.subjects.isEmpty)
+        if (data.unavailableReason != null)
+          EmptyState(
+            icon: Icons.link_off,
+            title: 'No class linked yet',
+            message: '${data.unavailableReason}. Ask the school to link this account to '
+                'an enrolled student.',
+          )
+        else if (data.progress == null || data.progress!.subjects.isEmpty)
           const EmptyState(
             icon: Icons.analytics_outlined,
             title: 'No progress recorded',
@@ -295,10 +314,14 @@ class _ParentData {
   final String academicYearLabel;
   final MyProgress? progress;
   final List<MyClassScheduleEntry> todayLessons;
+  /// The server's reason there is nothing to show (not linked to an
+  /// enrolled student), or null when the reads succeeded.
+  final String? unavailableReason;
   const _ParentData({
     required this.studentName,
     required this.academicYearLabel,
     required this.progress,
     required this.todayLessons,
+    this.unavailableReason,
   });
 }

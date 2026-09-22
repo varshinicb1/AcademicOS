@@ -84,7 +84,8 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
   // already has (id stays 'new', never resolved) -- a real risk of silently
   // overwriting the school's actual branding for future generated papers.
   // Save is now blocked until a load failure is retried successfully.
-  bool _loadFailed = false;
+  String? _loadError;
+  bool get _loadFailed => _loadError != null;
 
   @override
   void initState() {
@@ -103,7 +104,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
   int get _total => _sections.fold(0, (s, e) => s + e.totalMarks);
 
   Future<void> _load() async {
-    _loadFailed = false;
+    _loadError = null;
     try {
       final api = GetIt.I<PillarApi>();
       final templates = await api.schoolTemplates(_schoolId);
@@ -138,7 +139,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
       // demo defaults are the right starting point there) -- reaching this
       // catch means the fetch itself failed, so we do NOT know whether this
       // school already has a real saved template. Block Save until retried.
-      _loadFailed = true;
+      _loadError = serverErrorMessage(e);
     } finally {
       if (mounted) setState(() => _loading = false);
     }
@@ -186,7 +187,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
     } catch (e) {
       setState(() {
         _error = true;
-        _message = '$e';
+        _message = serverErrorMessage(e);
       });
     } finally {
       if (mounted) setState(() => _saving = false);
@@ -286,7 +287,8 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
                     Expanded(
                       child: Text(
                         'Couldn\'t check whether this school already has a saved template. '
-                        'Saving now could create a duplicate instead of updating the real one.',
+                        'Saving now could create a duplicate instead of updating the real one. '
+                        '(${_loadError ?? ''})',
                         style: theme.textTheme.bodySmall,
                       ),
                     ),

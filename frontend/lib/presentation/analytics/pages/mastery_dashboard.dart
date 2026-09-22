@@ -93,8 +93,8 @@ class _MasteryDashboardState extends State<MasteryDashboard> {
           }
           if (snap.hasError) {
             return ErrorDisplay(
-              message: 'Could not load mastery: ${snap.error}',
-              onRetry: () => _reload(_studentId),
+              message: 'Could not load mastery: ${serverErrorMessage(snap.error!)}',
+              onRetry: isRetryable(snap.error!) ? () => _reload(_studentId) : null,
             );
           }
           final m = snap.data!;

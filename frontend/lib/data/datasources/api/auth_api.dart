@@ -8,6 +8,8 @@ library;
 
 import 'package:dio/dio.dart';
 
+import 'api_error.dart';
+
 class AuthUser {
   final String id;
   final String schoolId;
@@ -188,10 +190,23 @@ class AuthApi {
     }
   }
 
+  /// The sign-in and invite forms' own wording for the statuses they expect;
+  /// everything else goes through the shared serverErrorMessage. Until Task
+  /// 802 the fallback was "Could not reach the server" for any status, so a
+  /// principal whose invite hit a 500 was told to check a working connection,
+  /// and a 422 (detail is a list) crashed the `as String?` cast here with a
+  /// TypeError the form then reported as a network fault.
   AuthException _asAuthException(DioException e) {
     final status = e.response?.statusCode;
-    final detail = e.response?.data is Map ? (e.response?.data['detail'] as String?) : null;
-    if (status == 401) return AuthException(detail ?? 'Incorrect email or password.');
+    final data = e.response?.data;
+    final detail = data is Map && data['detail'] is String ? data['detail'] as String : null;
+    if (status == 401) {
+      // Wrong credentials only on sign-in/register; on the invite calls a
+      // 401 is a session that ended, not a password the principal mistyped.
+      final path = e.requestOptions.path;
+      final signingIn = path == '/auth/login' || path == '/auth/register';
+      return AuthException(signingIn ? detail ?? 'Incorrect email or password.' : serverErrorMessage(e));
+    }
     if (status == 409) return AuthException(detail ?? 'An account with this email already exists.');
     if (status == 400) return AuthException(detail ?? 'Password must be at least 8 characters.');
     // Registration without a usable invite, or a principal key for a school
@@ -199,6 +214,6 @@ class AuthApi {
     if (status == 403) {
       return AuthException(detail ?? "You need an invite code from your school's principal.");
     }
-    return AuthException(detail ?? 'Could not reach the server. Check your connection and try again.');
+    return AuthException(serverErrorMessage(e));
   }
 }

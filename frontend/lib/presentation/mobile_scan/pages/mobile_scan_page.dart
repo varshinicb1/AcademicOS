@@ -115,7 +115,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
       });
     } catch (e) {
       setState(() {
-        _error = apiErrorMessage(e);
+        _error = serverErrorMessage(e);
         _loadingAssessments = false;
       });
     }
@@ -137,7 +137,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
         _stage = _Stage.capturing;
       });
     } catch (e) {
-      setState(() => _error = apiErrorMessage(e));
+      setState(() => _error = serverErrorMessage(e));
     }
   }
 
@@ -150,7 +150,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
       // all, so a real PlatformException (permission denied, no camera app
       // resolvable) went unhandled and the button just silently did
       // nothing with zero feedback to the teacher.
-      if (mounted) setState(() => _error = 'Could not open camera: $e');
+      if (mounted) setState(() => _error = 'Could not open camera: ${serverErrorMessage(e)}');
     }
   }
 
@@ -168,7 +168,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
         if (f.path != null) await _uploadPage(f.path!);
       }
     } catch (e) {
-      if (mounted) setState(() => _error = 'Could not open photo picker: $e');
+      if (mounted) setState(() => _error = 'Could not open photo picker: ${serverErrorMessage(e)}');
     }
   }
 
@@ -184,7 +184,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _error = apiErrorMessage(e);
+        _error = serverErrorMessage(e);
         _uploadingPage = false;
       });
     }
@@ -205,7 +205,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
       });
     } catch (e) {
       setState(() {
-        _error = apiErrorMessage(e);
+        _error = serverErrorMessage(e);
         _stage = _Stage.capturing;
       });
     }
@@ -223,7 +223,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
       _advance();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not save review: ${apiErrorMessage(e)}')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not save review: ${serverErrorMessage(e)}')));
     }
   }
 
@@ -235,7 +235,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
       _advance();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not save review: ${apiErrorMessage(e)}')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not save review: ${serverErrorMessage(e)}')));
     }
   }
 
@@ -257,7 +257,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
       });
     } catch (e) {
       setState(() {
-        _error = apiErrorMessage(e);
+        _error = serverErrorMessage(e);
         _stage = _Stage.reviewing;
       });
     }
@@ -280,9 +280,14 @@ class _MobileScanPageState extends State<MobileScanPage> {
       // The offline build has no server to have rendered a PDF from the
       // scan session on -- real, honest gap (see LocalScanEngine.finalizeSession's
       // empty rawPdfUrl/correctedPdfUrl), not something to let throw
-      // unhandled from a button tap.
+      // unhandled from a button tap. Online the same catch told a teacher
+      // "offline build" for a real server failure (Task 802), so only the
+      // offline build says that.
+      const offline = bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('$title isn\'t available yet in this offline build.'),
+        content: Text(offline
+            ? '$title isn\'t available yet in this offline build.'
+            : 'Could not open the $title: ${serverErrorMessage(e)}'),
       ));
     }
   }

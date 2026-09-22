@@ -149,13 +149,19 @@ class _StudentSchedulePageState extends State<StudentSchedulePage> {
                       if (snap.hasError) {
                         final err = snap.error;
                         final notEnrolled = err is DioException && err.response?.statusCode == 404;
-                        return EmptyState(
-                          icon: Icons.school_outlined,
-                          title: notEnrolled ? 'Not enrolled yet' : 'Could not load',
-                          message: notEnrolled
-                              ? 'Your school hasn\'t enrolled you in a class yet -- ask your '
-                                'principal to add you.'
-                              : 'Check your connection and try again.',
+                        if (notEnrolled) {
+                          return const EmptyState(
+                            icon: Icons.school_outlined,
+                            title: 'Not enrolled yet',
+                            message: 'Your school hasn\'t enrolled you in a class yet -- ask your '
+                                'principal to add you.',
+                          );
+                        }
+                        // Every other failure said "Check your connection",
+                        // a 403 or 500 included (Task 802).
+                        return ErrorDisplay(
+                          message: 'Could not load your class: ${serverErrorMessage(err!)}',
+                          onRetry: isRetryable(err) ? () => setState(() => _future = _load()) : null,
                         );
                       }
                       final data = snap.data!;

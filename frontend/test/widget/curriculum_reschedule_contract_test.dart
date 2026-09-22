@@ -119,7 +119,7 @@ void main() {
       expect(serverErrorMessage(e!), detail);
     });
 
-    test('a validation 422 (detail is a list) falls back to the status code', () async {
+    test('a validation 422 (detail is a list) names the field and the reason (Task 802)', () async {
       final (api, _) = _api({
         'detail': [
           {'loc': ['body', 'newDate'], 'msg': 'Field required'}
@@ -128,7 +128,7 @@ void main() {
       final e = await api
           .rescheduleLesson('lesson_1', newDate: '', reason: '')
           .then<Object?>((_) => null, onError: (Object e) => e);
-      expect(serverErrorMessage(e!), 'the server refused the request (HTTP 422)');
+      expect(serverErrorMessage(e!), 'newDate: Field required');
     });
   });
 

@@ -44,6 +44,7 @@ class _HomePageState extends State<HomePage> {
         if (mounted) setState(() {});
         _maybeShowTour();
       }).catchError((Object e, StackTrace stack) {
+        // not-a-failure: offline-only demo seeding; the app works unseeded
         debugPrint('DemoSeeder.seedIfEmpty failed (app continues normally): $e\n$stack');
         _maybeShowTour();
       });

@@ -52,7 +52,7 @@ class _SyllabusPageState extends State<SyllabusPage> {
       _selected = selected;
     } catch (e) {
       setState(() {
-        _error = '$e';
+        _error = serverErrorMessage(e);
         _loading = false;
       });
       return;
@@ -77,7 +77,7 @@ class _SyllabusPageState extends State<SyllabusPage> {
       });
     } catch (e) {
       setState(() {
-        _error = '$e';
+        _error = serverErrorMessage(e);
         _loading = false;
       });
     }

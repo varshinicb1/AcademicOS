@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/session/current_session.dart';
 import '../../../data/datasources/api/api_client.dart';
+import '../../../data/datasources/api/api_error.dart';
 import '../../../domain/entities/entities.dart';
 import '../../../domain/repositories/requests.dart';
 import '../../blocs/assessment_bloc.dart';
@@ -291,7 +292,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                           } catch (e) {
                             setDialogState(() {
                               generating = false;
-                              dialogError = '$e';
+                              dialogError = serverErrorMessage(e);
                             });
                           }
                         },

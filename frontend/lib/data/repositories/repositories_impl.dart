@@ -5,6 +5,7 @@ import '../../domain/failures/failures.dart';
 import '../../domain/repositories/repositories.dart';
 import '../../domain/repositories/requests.dart';
 import '../datasources/api/api_client.dart';
+import '../datasources/api/api_error.dart';
 import '../datasources/local/app_database.dart';
 
 // 2026-09-17: AnswerSheetRepositoryImpl, EvaluationRepositoryImpl,
@@ -31,7 +32,7 @@ class BlueprintRepositoryImpl implements BlueprintRepository {
       final result = await _apiClient.generateBlueprint(request);
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -41,7 +42,7 @@ class BlueprintRepositoryImpl implements BlueprintRepository {
       final result = await _apiClient.getSchoolTemplates(schoolId);
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 }
@@ -62,7 +63,7 @@ class QuestionRepositoryImpl implements QuestionRepository {
       final result = await _apiClient.searchQuestions(params);
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -76,7 +77,7 @@ class QuestionRepositoryImpl implements QuestionRepository {
       );
       return searchQuestions(params);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -92,7 +93,7 @@ class QuestionRepositoryImpl implements QuestionRepository {
       ));
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 }
@@ -113,7 +114,7 @@ class PaperGenerationRepositoryImpl implements PaperGenerationRepository {
       final result = await _apiClient.generatePaper(request);
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -123,7 +124,7 @@ class PaperGenerationRepositoryImpl implements PaperGenerationRepository {
       final result = await _apiClient.quickGeneratePaper(request);
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -133,7 +134,7 @@ class PaperGenerationRepositoryImpl implements PaperGenerationRepository {
       final result = await _apiClient.generateFromIds(request);
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -143,7 +144,7 @@ class PaperGenerationRepositoryImpl implements PaperGenerationRepository {
       final result = await _apiClient.getSchoolPaperTemplates(schoolId);
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 
@@ -153,7 +154,7 @@ class PaperGenerationRepositoryImpl implements PaperGenerationRepository {
       final result = await _apiClient.exportPaper(paper.id, format);
       return right(result);
     } catch (e) {
-      return left(ServerFailure(e.toString()));
+      return left(ServerFailure(serverErrorMessage(e)));
     }
   }
 }
@@ -174,7 +175,7 @@ class PracticeRepositoryImpl implements PracticeRepository {
       final result = await _apiClient.submitPractice(submission);
       return right(result);
     } catch (e) {
-      return left(EvaluationFailure(e.toString()));
+      return left(EvaluationFailure(serverErrorMessage(e)));
     }
   }
 }

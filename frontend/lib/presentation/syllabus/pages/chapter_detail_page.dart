@@ -55,7 +55,7 @@ class _ChapterDetailPageState extends State<ChapterDetailPage> {
       });
     } catch (e) {
       setState(() {
-        _error = '$e';
+        _error = serverErrorMessage(e);
         _loading = false;
       });
     }

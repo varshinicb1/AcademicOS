@@ -25,7 +25,7 @@ class ClassesPage extends StatefulWidget {
 }
 
 class _ClassesPageState extends State<ClassesPage> {
-  late Future<List<(String id, String name, StudentMastery? mastery, bool fetchFailed)>> _future;
+  late Future<List<(String id, String name, StudentMastery? mastery, String? fetchError)>> _future;
 
   @override
   void initState() {
@@ -46,20 +46,20 @@ class _ClassesPageState extends State<ClassesPage> {
   // teacher trying to add their own real class saw nowhere to do it.
   // allNamedStudentIds() includes every student who has a name on file,
   // evaluated or not, so a freshly-added student shows up immediately.
-  Future<List<(String id, String name, StudentMastery? mastery, bool fetchFailed)>> _loadRoster() async {
+  Future<List<(String id, String name, StudentMastery? mastery, String? fetchError)>> _loadRoster() async {
     final ids = LocalStore.instance.allNamedStudentIds()..sort();
     final api = GetIt.I<PillarApi>();
-    final rows = <(String, String, StudentMastery?, bool)>[];
+    final rows = <(String, String, StudentMastery?, String?)>[];
     for (final id in ids) {
       StudentMastery? m;
-      var fetchFailed = false;
+      String? fetchError;
       try {
         m = await api.knowledge(id);
-      } catch (_) {
+      } catch (e) {
         m = null;
-        fetchFailed = true;
+        fetchError = serverErrorMessage(e);
       }
-      rows.add((id, LocalStore.instance.studentName(id), m, fetchFailed));
+      rows.add((id, LocalStore.instance.studentName(id), m, fetchError));
     }
     return rows;
   }
@@ -74,11 +74,18 @@ class _ClassesPageState extends State<ClassesPage> {
         icon: const Icon(Icons.person_add_alt_1),
         label: const Text('Add student'),
       ),
-      body: FutureBuilder<List<(String, String, StudentMastery?, bool)>>(
+      body: FutureBuilder<List<(String, String, StudentMastery?, String?)>>(
         future: _future,
         builder: (context, snap) {
           if (snap.connectionState != ConnectionState.done) {
             return const LoadingIndicator(message: 'Loading roster…');
+          }
+          if (snap.hasError) {
+            // A failed roster read is not "No students yet" (Task 802).
+            return ErrorDisplay(
+              message: 'Could not load the roster: ${serverErrorMessage(snap.error!)}',
+              onRetry: () => setState(() => _future = _loadRoster()),
+            );
           }
           final roster = snap.data ?? const [];
           if (roster.isEmpty) {
@@ -100,7 +107,7 @@ class _ClassesPageState extends State<ClassesPage> {
               Text('Real mastery from every evaluated answer sheet, not a placeholder.',
                   style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
               const SizedBox(height: 16),
-              for (final (id, name, mastery, fetchFailed) in roster)
+              for (final (id, name, mastery, fetchError) in roster)
                 AppCard(
                   onTap: () => context.push('/analytics/mastery', extra: {'studentId': id}),
                   child: Row(
@@ -133,8 +140,11 @@ class _ClassesPageState extends State<ClassesPage> {
                               ? Colors.red
                               : (mastery.overallMastery < 0.7 ? Colors.orange : Colors.green),
                         )
-                      else if (fetchFailed)
-                        const ChipTag(label: 'couldn\'t load', color: Colors.orange)
+                      else if (fetchError != null)
+                        Tooltip(
+                          message: fetchError,
+                          child: const ChipTag(label: 'couldn\'t load', color: Colors.orange),
+                        )
                       else
                         const ChipTag(label: 'no data'),
                       const SizedBox(width: 4),
@@ -290,22 +300,34 @@ class _ClassesPageState extends State<ClassesPage> {
     final guardianName = guardianController.text.trim();
     final method = methodController.text.trim();
 
+    // Online, the server's consent record is the one grading checks (409
+    // "no recorded parental consent" otherwise). This call used to be
+    // fire-and-forget (`.ignore()` inside an empty catch): a failed save
+    // still showed "Consent recorded" and a green shield, and the teacher
+    // found out only when grading refused the student (Task 802 audit). The
+    // shield now turns green only once the server has it. The offline build
+    // has no server; its on-device record is the only one.
+    const offline = bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
+    if (!offline && GetIt.I.isRegistered<ConsentApi>()) {
+      try {
+        await GetIt.I<ConsentApi>().recordConsent(
+          studentId: studentId,
+          guardianName: guardianName,
+          method: method,
+        );
+      } catch (e) {
+        if (!context.mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Consent for $studentName was not saved: ${serverErrorMessage(e)}. '
+                'Grading stays blocked until it is -- try again.')));
+        return;
+      }
+    }
     LocalStore.instance.setConsent(
       studentId,
       method: method,
       guardianName: guardianName,
     );
-
-    // Sync to backend if online and client is registered
-    try {
-      if (GetIt.I.isRegistered<ConsentApi>()) {
-        GetIt.I<ConsentApi>().recordConsent(
-          studentId: studentId,
-          guardianName: guardianName,
-          method: method,
-        ).ignore();
-      }
-    } catch (_) {}
 
     if (!context.mounted) return;
     setState(() {});
@@ -363,7 +385,7 @@ class _ClassesPageState extends State<ClassesPage> {
       if (!context.mounted) return;
       Navigator.of(context, rootNavigator: true).pop();
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Could not generate report card: $e')));
+          .showSnackBar(SnackBar(content: Text('Could not generate report card: ${serverErrorMessage(e)}')));
     }
   }
 }

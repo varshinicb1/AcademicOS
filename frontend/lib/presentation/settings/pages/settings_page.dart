@@ -11,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../core/constants/app_constants.dart';
 import '../../../core/session/current_session.dart';
 import '../../../core/local_engine/app_lock.dart';
+import '../../../data/datasources/api/api_error.dart';
 import '../../../data/datasources/api/auth_api.dart';
 import '../../../core/local_engine/corpus_downloader.dart'
     show CorpusDownloader;
@@ -406,7 +407,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ));
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Backup failed: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Backup failed: ${serverErrorMessage(e)}')));
     }
   }
 
@@ -431,7 +432,7 @@ class _SettingsPageState extends State<SettingsPage> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Sync error: $e'),
+        content: Text('Sync error: ${serverErrorMessage(e)}'),
         backgroundColor: Theme.of(context).colorScheme.error,
         duration: const Duration(seconds: 4),
       ));
@@ -574,7 +575,7 @@ class _SettingsPageState extends State<SettingsPage> {
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not open email app: $e')),
+        SnackBar(content: Text('Could not open email app: ${serverErrorMessage(e)}')),
       );
     }
   }

@@ -140,7 +140,10 @@ class _GapAnalysisPageState extends State<GapAnalysisPage> {
           return const LoadingIndicator(message: 'Aggregating class performance…');
         }
         if (snap.hasError) {
-          return ErrorDisplay(message: '${snap.error}', onRetry: _load);
+          return ErrorDisplay(
+            message: 'Could not load the gap analysis: ${serverErrorMessage(snap.error!)}',
+            onRetry: isRetryable(snap.error!) ? _load : null,
+          );
         }
         final ci = snap.data!;
         return ListView(

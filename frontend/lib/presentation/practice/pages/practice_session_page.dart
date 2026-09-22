@@ -42,7 +42,7 @@ class _PracticeSessionPageState extends State<PracticeSessionPage> {
       }
       setState(() => _set = s);
     } catch (e) {
-      setState(() => _error = apiErrorMessage(e));
+      setState(() => _error = serverErrorMessage(e));
     } finally {
       if (mounted) setState(() => _busy = false);
     }
@@ -62,7 +62,7 @@ class _PracticeSessionPageState extends State<PracticeSessionPage> {
       );
       setState(() => _result = res);
     } catch (e) {
-      setState(() => _error = apiErrorMessage(e));
+      setState(() => _error = serverErrorMessage(e));
     } finally {
       if (mounted) setState(() => _busy = false);
     }

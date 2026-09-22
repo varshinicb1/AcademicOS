@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/local_engine/local_store.dart';
+import '../../../data/datasources/api/api_error.dart';
 import '../../../data/datasources/api/auth_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 
@@ -95,13 +96,17 @@ class _LoginPageState extends State<LoginPage> {
       }
     } on AuthException catch (e) {
       if (!mounted) return;
-      setState(() => _error = e.message);
-    } catch (_) {
-      // Never surface raw exceptions (Dio internals, parse errors) on the
-      // front door -- the AuthException path above already carries the
-      // friendly, user-actionable messages.
+      // AuthApi already ran every DioException through the shared error
+      // path, so this is the server's (or the connection's) own sentence.
+      setState(() => _error = serverErrorMessage(e));
+    } catch (e) {
+      // Not a request failure -- AuthApi turns every one into an
+      // AuthException -- but something like a response that failed to
+      // parse. This used to say "Could not reach the server", sending a
+      // teacher to check a connection that worked (Task 802 audit).
       if (!mounted) return;
-      setState(() => _error = 'Could not reach the server. Check your connection and try again.');
+      setState(() => _error = 'Sign-in failed unexpectedly (${serverErrorMessage(e)}). '
+          'Try again, and tell your school admin if it keeps happening.');
     } finally {
       if (mounted) setState(() => _submitting = false);
     }

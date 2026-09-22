@@ -172,7 +172,7 @@ class ScanHistoryPage extends StatelessWidget {
     } catch (e) {
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Could not open the $title: $e')),
+        SnackBar(content: Text('Could not open the $title: ${serverErrorMessage(e)}')),
       );
     }
   }

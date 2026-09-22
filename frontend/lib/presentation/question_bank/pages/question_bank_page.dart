@@ -55,7 +55,7 @@ class _QuestionBankPageState extends State<QuestionBankPage> {
       if (_selected != null) _loadQuestions();
     } catch (e) {
       setState(() {
-        _error = '$e';
+        _error = serverErrorMessage(e);
         _loadingCatalog = false;
       });
     }
@@ -83,7 +83,7 @@ class _QuestionBankPageState extends State<QuestionBankPage> {
       });
     } catch (e) {
       setState(() {
-        _error = '$e';
+        _error = serverErrorMessage(e);
         _loadingQuestions = false;
       });
     }
