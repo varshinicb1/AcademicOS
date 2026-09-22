@@ -21,18 +21,25 @@ import 'package:academicos/data/datasources/api/curriculum_api.dart';
 
 class _Recorder extends Interceptor {
   final Object? responseBody;
+  final int statusCode;
   RequestOptions? last;
-  _Recorder(this.responseBody);
+  _Recorder(this.responseBody, this.statusCode);
 
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     last = options;
-    handler.resolve(Response(requestOptions: options, statusCode: 200, data: responseBody));
+    final response = Response(requestOptions: options, statusCode: statusCode, data: responseBody);
+    if (statusCode < 400) {
+      handler.resolve(response);
+    } else {
+      handler.reject(DioException.badResponse(
+          statusCode: statusCode, requestOptions: options, response: response));
+    }
   }
 }
 
-(CurriculumApi, _Recorder) _api(Object? responseBody) {
-  final rec = _Recorder(responseBody);
+(CurriculumApi, _Recorder) _api(Object? responseBody, {int statusCode = 200}) {
+  final rec = _Recorder(responseBody, statusCode);
   final dio = Dio(BaseOptions(baseUrl: 'http://backend.invalid/api/v1'))..interceptors.add(rec);
   return (CurriculumApi(dio), rec);
 }
@@ -83,6 +90,45 @@ void main() {
           reason: 'Closure',
           periodsPerWeek: 5);
       expect(rec.last!.data, {'fromDate': '2026-09-21', 'reason': 'Closure', 'periodsPerWeek': 5});
+    });
+  });
+
+  group("refusals show the server's detail, not Dio's generic text", () {
+    test('an ADJUST 409 surfaces the clash date and occupying lesson IDs', () async {
+      const detail = '2026-09-24 already has 1 lesson(s) for this book (lesson_7) and this '
+          'subject has 1 period(s) that day -- move or push that lesson first';
+      final (api, _) = _api({'detail': detail}, statusCode: 409);
+      Object? caught;
+      try {
+        await api.rescheduleLesson('lesson_1', newDate: '2026-09-24', reason: 'swap');
+      } catch (e) {
+        caught = e;
+      }
+      expect(caught, isA<DioException>());
+      expect('$caught', isNot(contains('lesson_7')), reason: 'why the page needs the helper');
+      expect(serverErrorMessage(caught!), detail);
+    });
+
+    test('a PUSH 422 surfaces the missing-allocation message', () async {
+      const detail = "no periods_per_week supplied and no stored subject period allocation for "
+          "'Mathematics' in this academic year -- set one, or pass periodsPerWeek";
+      final (api, _) = _api({'detail': detail}, statusCode: 422);
+      final e = await api
+          .pushSchedule(bookId: 'book_1', academicYearId: 'year_1', fromDate: '2026-09-21', reason: 'x')
+          .then<Object?>((_) => null, onError: (Object e) => e);
+      expect(serverErrorMessage(e!), detail);
+    });
+
+    test('a validation 422 (detail is a list) falls back to the status code', () async {
+      final (api, _) = _api({
+        'detail': [
+          {'loc': ['body', 'newDate'], 'msg': 'Field required'}
+        ]
+      }, statusCode: 422);
+      final e = await api
+          .rescheduleLesson('lesson_1', newDate: '', reason: '')
+          .then<Object?>((_) => null, onError: (Object e) => e);
+      expect(serverErrorMessage(e!), 'the server refused the request (HTTP 422)');
     });
   });
 

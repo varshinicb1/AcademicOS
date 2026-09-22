@@ -1028,8 +1028,10 @@ def adjust_lesson(lesson_id: str, req: AdjustLessonRequest,
                   principal: User = Depends(require_principal)) -> ScheduledLessonResponse:
     """ADJUST: move exactly one lesson to a specific new real working day.
     409 when that day already holds as many of this book's lessons as the
-    subject has periods then (scheduling.RescheduleClash); 422 for a day
-    that isn't a working day at all."""
+    subject has periods then (scheduling.RescheduleClash), or when the
+    lesson is already completed/skipped (scheduling.LessonAlreadyRecorded
+    -- its date is the teaching record); 422 for a day that isn't a
+    working day at all."""
     store = _require()
     lesson = store.get_scheduled_lesson(lesson_id)
     if lesson is None:
@@ -1041,7 +1043,7 @@ def adjust_lesson(lesson_id: str, req: AdjustLessonRequest,
         scheduling_mod.adjust_lesson(
             store, get_audit_log(_cfg.data_root), lesson_id=lesson_id, new_date=req.new_date,
             reason=req.reason, changed_by=principal.id)
-    except scheduling_mod.RescheduleClash as e:
+    except scheduling_mod.RescheduleConflict as e:
         raise HTTPException(409, str(e))
     except ValueError as e:
         raise HTTPException(422, str(e))
@@ -1053,8 +1055,9 @@ def push_schedule(book_id: str, academic_year_id: str, req: PushScheduleRequest,
                   principal: User = Depends(require_principal)) -> PushScheduleResponse:
     """PUSH: real disruption handling -- shifts every still-to-teach lesson
     on/after `from_date` one real teaching slot later; completed/skipped
-    lessons keep their dates. `periodsPerWeek` is optional and defaults to
-    the subject's stored allocation (422 if neither exists). See
+    lessons keep their dates. With a timetable, the timetable decides the
+    days and `periodsPerWeek` is not needed; without one it is optional and
+    defaults to the subject's stored allocation (422 if neither exists). See
     scheduling.py's push_lessons_after() docstring for the full method."""
     store = _require()
     _require_school_owns_book(book_id, principal)

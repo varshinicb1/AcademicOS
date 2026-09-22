@@ -286,7 +286,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       _showMessage(res.summary);
       _loadReporting();
     } catch (e) {
-      _showMessage('Could not push schedule: $e');
+      _showMessage('Could not push schedule: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _pushing = false);
     }
@@ -307,7 +307,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       _adjustLessonIdController.clear();
       _loadReporting();
     } catch (e) {
-      _showMessage('Could not reschedule lesson: $e');
+      _showMessage('Could not reschedule lesson: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _adjusting = false);
     }

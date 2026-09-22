@@ -215,3 +215,50 @@ def test_adjust_allows_as_many_lessons_as_the_timetable_has_periods_that_day(pri
     second = w.client.post(f"{BASE}/scheduled-lessons/{movers[1].id}/reschedule",
                            json={"newDate": monday.date, "reason": "triple?"}, headers=w.auth)
     assert second.status_code == 409, second.text
+
+
+def test_push_with_a_timetable_needs_no_allocation(principal_world):
+    """With SubjectTimetableSlot rows the timetable alone decides the days
+    (_subject_teaching_days ignores periods_per_week when weekday_slots is
+    set), so demanding an allocation or periodsPerWeek made the admin type a
+    number that changed nothing -- and the response echoed it back as the
+    cadence. The review reproduced the 422 with a Mon-Fri timetable and no
+    allocation. The reported periodsPerWeek is the timetable's slot count."""
+    w = principal_world
+    mon_to_fri = [(0, 1), (0, 2), (1, 1), (2, 1), (3, 1), (4, 1)]
+    book = _seed_book(w.store, school_id="school_1", periods_per_week=6, timetable=mon_to_fri)
+
+    r = _push(w, book, book.lessons[2].date)
+    assert r.status_code == 200, r.text
+    assert r.json()["lessonsPushed"] > 0
+    assert r.json()["periodsPerWeek"] == len(mon_to_fri)
+    assert all(date.fromisoformat(m["newDate"]).weekday() < 5 for m in r.json()["reschedules"])
+
+    # An override the timetable makes irrelevant is not echoed as the cadence.
+    r = _push(w, book, book.lessons[2].date, periods_per_week=2)
+    assert r.status_code == 200, r.text
+    assert r.json()["periodsPerWeek"] == len(mon_to_fri)
+
+
+@pytest.mark.parametrize("status", ["completed", "skipped"])
+def test_adjust_never_moves_a_completed_or_skipped_lesson(principal_world, status):
+    """ADJUST is the other way to re-date a lesson; the review moved a
+    completed lesson to a free working day through this route and got a 200
+    with the new date and status still 'completed' -- the same falsified
+    record the PUSH fix closed. It is a 409: it conflicts with the lesson's
+    existing state, and nothing about the request itself is malformed."""
+    from academicos.curriculum.calendar import working_days_for_year
+
+    w = principal_world
+    book = _seed_book(w.store, school_id="school_1", periods_per_week=5)
+    occupied = {l.date for l in book.lessons}
+    free = next(d for d in working_days_for_year(w.store, book.year).dates if d not in occupied)
+    lesson = book.lessons[0]
+    w.store.mark_lesson(lesson.id, status=status, note=None, completed_by="t1")
+
+    r = w.client.post(f"{BASE}/scheduled-lessons/{lesson.id}/reschedule",
+                      json={"newDate": free, "reason": "moved"}, headers=w.auth)
+    assert r.status_code == 409, r.text
+    assert status in r.json()["detail"]
+    after = w.store.get_scheduled_lesson(lesson.id)
+    assert (after.date, after.status) == (lesson.date, status)

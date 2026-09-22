@@ -182,6 +182,25 @@ class PushScheduleResult {
   }
 }
 
+/// The message to show for a failed curriculum call: the server's own
+/// `detail` when it sent one, else `e`'s text. The Reschedule tab used to
+/// show `$e`, which for a DioException is Dio's generic "bad response ...
+/// status code 409" -- so the backend's carefully built reasons (the clash
+/// date and the IDs of the lessons already there, a completed lesson that
+/// cannot move, PUSH's missing-allocation 422) never reached the principal.
+/// A FastAPI validation 422 sends `detail` as a list; that falls back too.
+String serverErrorMessage(Object e) {
+  if (e is DioException) {
+    final data = e.response?.data;
+    final detail = data is Map ? data['detail'] : null;
+    if (detail is String && detail.isNotEmpty) return detail;
+    final status = e.response?.statusCode;
+    if (status != null) return 'the server refused the request (HTTP $status)';
+    return 'could not reach the server';
+  }
+  return '$e';
+}
+
 class CurriculumApi {
   final Dio _dio;
   CurriculumApi(this._dio);

@@ -207,11 +207,21 @@ def _log_reschedule(audit_log: AuditLog, *, lesson, new_date: str, reason: str, 
                             new_date=new_date, reason=reason, mode=mode)
 
 
-class RescheduleClash(ValueError):
+class RescheduleConflict(ValueError):
+    """A reschedule refused because of existing state, not a malformed
+    request. A ValueError subclass so existing callers that catch ValueError
+    still refuse the move; routes.py maps it to 409 rather than 422."""
+
+
+class RescheduleClash(RescheduleConflict):
     """The target date already holds as many of this book's lessons as the
-    subject has periods that day. A ValueError subclass so existing callers
-    that catch ValueError still refuse the move; routes.py maps it to 409
-    (a conflict with existing state) rather than 422 (a malformed request)."""
+    subject has periods that day."""
+
+
+class LessonAlreadyRecorded(RescheduleConflict):
+    """The lesson is 'completed' or 'skipped': its date is the historical
+    record of when it was taught (or deliberately not), so no reschedule
+    may change it."""
 
 
 def _periods_on(slots: list, day: date) -> int:
@@ -234,10 +244,19 @@ def adjust_lesson(
     holiday/weekly-off/alternate-Saturday), and must have a free period
     for this book: until 2026-09-21 there was no clash check, and the audit
     moved a lesson onto 2026-09-24, which already held one, double-booking
-    the day. Raises RescheduleClash naming the lessons already there."""
+    the day. Raises RescheduleClash naming the lessons already there.
+
+    Only a still-to-teach ('scheduled') lesson moves. Until 2026-09-22 the
+    PUSH fix left this path open: a review moved a completed lesson to a
+    free working day and got the new date back with status still
+    'completed'. Raises LessonAlreadyRecorded instead."""
     lesson = store.get_scheduled_lesson(lesson_id)
     if lesson is None:
         raise ValueError(f"no such scheduled lesson: {lesson_id}")
+    if lesson.status != "scheduled":
+        raise LessonAlreadyRecorded(
+            f"lesson {lesson_id} is already marked {lesson.status!r} on {lesson.date}; "
+            f"that date is the teaching record and cannot be rescheduled")
     wd = working_days_for_year(store, lesson.academic_year_id)
     if new_date not in wd.dates:
         raise ValueError(f"{new_date} is not a real working day for this academic year")
@@ -260,7 +279,7 @@ class PushResult:
     academic_year_id: str
     book_id: str
     from_date: str
-    periods_per_week: int
+    periods_per_week: int   # the cadence actually used: the timetable's slot count when it decided
     lessons_pushed: int
     lessons_dropped: tuple[str, ...]   # ran out of real teaching days before the year ends
     reschedules: tuple[RescheduleResult, ...]
@@ -282,15 +301,25 @@ def push_lessons_after(
     2026-09-21 get re-dated 2026-09-22, still 'completed'. The days those
     lessons hold stay theirs; pushed lessons skip over them.
 
-    `periods_per_week` defaults to the subject's persisted
-    SubjectPeriodAllocation; passing it still overrides. With neither, the
-    push is refused rather than guessing a cadence that would select a
+    With SubjectTimetableSlot rows the timetable alone decides the days,
+    so no cadence is needed and `periods_per_week` in the result is the
+    timetable's slot count, whatever was passed: until 2026-09-22 a subject
+    with a timetable but no allocation was a 422, and an override that
+    changed nothing was echoed back as the cadence used. Without a
+    timetable, `periods_per_week` defaults to the subject's persisted
+    SubjectPeriodAllocation; passing it overrides. With neither, the push
+    is refused rather than guessing a cadence that would select a
     different set of weekdays than the existing schedule used.
 
     Lessons that run past the real academic year's last teaching day are
     honestly reported in `lessons_dropped`, never silently discarded or
     placed past the calendar's real end date."""
-    if periods_per_week is None:
+    if periods_per_week is not None and periods_per_week <= 0:
+        raise ValueError("periods_per_week must be positive")
+    slots = _timetable_slots_for_book(store, academic_year_id, book_id)
+    if slots:
+        periods_per_week = len(slots)
+    elif periods_per_week is None:
         subject = store.subject_name_for_book(book_id)
         alloc = store.subject_period_allocation(academic_year_id, subject) if subject else None
         if alloc is None:
@@ -298,8 +327,8 @@ def push_lessons_after(
                 f"no periods_per_week supplied and no stored subject period allocation for "
                 f"{subject or book_id!r} in this academic year -- set one, or pass periodsPerWeek")
         periods_per_week = alloc.periods_per_week
-    if periods_per_week <= 0:
-        raise ValueError("periods_per_week must be positive")
+        if periods_per_week <= 0:
+            raise ValueError("periods_per_week must be positive")
 
     on_or_after = [l for l in store.scheduled_lessons_for_book(academic_year_id, book_id)
                    if l.date >= from_date]
