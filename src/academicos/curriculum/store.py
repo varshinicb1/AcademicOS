@@ -68,6 +68,8 @@ from ..assessment.supabase_kv import SupabaseStorage
 from .models import (
     AcademicYear,
     Board,
+    Book,
+    BookSelection,
     Calendar,
     Chapter,
     CurriculumExtractionProposal,
@@ -153,6 +155,22 @@ CREATE TABLE IF NOT EXISTS books (
   status       TEXT NOT NULL DEFAULT 'selected'
 );
 CREATE INDEX IF NOT EXISTS idx_books_subject ON books(subject_id);
+
+-- The school's chosen edition (Task 107, PRD 12.7: "one per subject per
+-- year, chosen by the school"). The primary key IS the rule: a second row for
+-- the same subject and year is refused by SQLite itself, not only by a route.
+-- A subject already belongs to one year (subject -> grade -> year), so the
+-- year column is redundant with subject_id today; it is kept so the rule
+-- reads as PRD 12.7 states it. New table, so CREATE TABLE IF NOT EXISTS
+-- is enough for school_1's existing database. No row for a subject with
+-- exactly one book means that book (selected_book_for_subject).
+CREATE TABLE IF NOT EXISTS book_selections (
+  academic_year_id TEXT NOT NULL,
+  subject_id   TEXT NOT NULL,
+  book_id      TEXT NOT NULL,
+  selected_at  TEXT NOT NULL,
+  PRIMARY KEY (academic_year_id, subject_id)
+);
 
 CREATE TABLE IF NOT EXISTS units (
   id           TEXT PRIMARY KEY,
@@ -689,16 +707,87 @@ class CurriculumStore:
                     publisher: Optional[str] = None,
                     source_doc_ids: Optional[list[str]] = None,
                     status: str = "selected") -> "Any":
-        from .models import Book
         b = Book(id=new_id("book"), subject_id=subject_id, board_id=board_id, title=title,
                 publisher=publisher, source_doc_ids=source_doc_ids or [], status=status)
-        self._exec(
-            "INSERT INTO books (id, subject_id, board_id, title, publisher, source_doc_ids, status) "
-            "VALUES (?,?,?,?,?,?,?)",
-            (b.id, b.subject_id, b.board_id, b.title, b.publisher,
-             json.dumps(b.source_doc_ids), b.status))
+        with self._conn_lock:
+            # A subject's one book is its edition only implicitly (no
+            # book_selections row). Before a second book arrives, write that
+            # choice down: otherwise adding a book would leave the subject
+            # with two and no edition, and every screen using it would stop.
+            existing = self.books_for_subject(subject_id)
+            year_id = self.academic_year_id_for_subject(subject_id)
+            if (len(existing) == 1 and year_id is not None
+                    and self._selection_row(year_id, subject_id) is None):
+                self._write_selection(year_id, subject_id, existing[0].id)
+            self._exec(
+                "INSERT INTO books (id, subject_id, board_id, title, publisher, source_doc_ids, status) "
+                "VALUES (?,?,?,?,?,?,?)",
+                (b.id, b.subject_id, b.board_id, b.title, b.publisher,
+                 json.dumps(b.source_doc_ids), b.status))
         self._commit()
         return b
+
+    # ---------------- book selection (PRD 12.7) ----------------
+
+    def academic_year_id_for_subject(self, subject_id: str) -> Optional[str]:
+        r = self._fetchone(
+            "SELECT g.academic_year_id FROM subjects s JOIN grades g ON s.grade_id = g.id "
+            "WHERE s.id=?", (subject_id,))
+        return r["academic_year_id"] if r else None
+
+    def _selection_row(self, academic_year_id: str, subject_id: str) -> Optional[dict]:
+        return self._fetchone(
+            "SELECT * FROM book_selections WHERE academic_year_id=? AND subject_id=?",
+            (academic_year_id, subject_id))
+
+    def _write_selection(self, academic_year_id: str, subject_id: str, book_id: str) -> None:
+        from datetime import datetime, timezone
+        # An upsert on the primary key: replacing the choice, never adding a
+        # second one for the same subject and year.
+        self._exec(
+            "INSERT INTO book_selections (academic_year_id, subject_id, book_id, selected_at) "
+            "VALUES (?,?,?,?) ON CONFLICT(academic_year_id, subject_id) "
+            "DO UPDATE SET book_id=excluded.book_id, selected_at=excluded.selected_at",
+            (academic_year_id, subject_id, book_id, datetime.now(timezone.utc).isoformat()))
+
+    def selected_book_for_subject(self, subject_id: str) -> Optional[Book]:
+        """The subject's edition for its academic year -- what every caller
+        uses instead of "the first book" (the web admin used books.first,
+        i.e. SQLite row order). The recorded choice if there is one; else the
+        subject's only book, which is every seeded subject today; else None:
+        no book, or several and no choice, is reported, never guessed."""
+        year_id = self.academic_year_id_for_subject(subject_id)
+        if year_id is None:
+            return None
+        row = self._selection_row(year_id, subject_id)
+        if row is not None:
+            return self.get_book(row["book_id"])
+        books = self.books_for_subject(subject_id)
+        return books[0] if len(books) == 1 else None
+
+    def select_book(self, book_id: str) -> BookSelection:
+        """Makes `book_id` its subject's edition for the subject's academic
+        year. Raises KeyError for an unknown book. Lessons already scheduled
+        from the previous edition are left exactly where they are -- they were
+        placed from that book's chapters -- and counted in the result so the
+        caller can say so."""
+        book = self.get_book(book_id)
+        if book is None:
+            raise KeyError(book_id)
+        year_id = self.academic_year_id_for_subject(book.subject_id)
+        if year_id is None:
+            raise KeyError(book.subject_id)
+        with self._conn_lock:
+            previous = self.selected_book_for_subject(book.subject_id)
+            self._write_selection(year_id, book.subject_id, book.id)
+        self._commit()
+        previous_id = previous.id if previous is not None else None
+        scheduled = 0
+        if previous_id is not None and previous_id != book.id:
+            scheduled = len(self.scheduled_lessons_for_book(year_id, previous_id))
+        return BookSelection(academic_year_id=year_id, subject_id=book.subject_id,
+                             book_id=book.id, previous_book_id=previous_id,
+                             previous_book_scheduled_lessons=scheduled)
 
     def get_book(self, book_id: str):
         from .models import Book

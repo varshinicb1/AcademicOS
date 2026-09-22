@@ -124,6 +124,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/grades"),
     ("GET", "/api/v1/curriculum/grades/{grade_id}/subjects"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
+    ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
+    ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
+    ("PUT", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
     ("GET", "/api/v1/curriculum/books/{book_id}/units"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"),
     ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
@@ -262,6 +265,9 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/grades"),
     ("GET", "/api/v1/curriculum/grades/{grade_id}/subjects"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
+    ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
+    ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
+    ("PUT", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
     ("GET", "/api/v1/curriculum/books/{book_id}/units"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
@@ -472,6 +478,10 @@ def _valid_body_for(method: str, path: str) -> dict:
     if path in ("/api/v1/curriculum/academic-years/{academic_year_id}/terms",
                 "/api/v1/curriculum/terms/{term_id}"):  # POST / PUT
         return {"name": "Term 1", "startDate": "2026-04-01", "endDate": "2026-09-30"}
+    if path == "/api/v1/curriculum/subjects/{subject_id}/books":  # POST
+        return {"title": "Mathematics Part I", "boardId": "board_1"}
+    if path == "/api/v1/curriculum/subjects/{subject_id}/selected-book":  # PUT
+        return {"bookId": "book_1"}
     if path == "/api/v1/assessments/{assessment_id}/status":  # PATCH
         return {"status": "draft"}
     if path == "/api/v1/questions/search":
@@ -540,7 +550,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 138
+    assert len(API_ROUTES) == 141
 
 
 def test_docs_routes_present():

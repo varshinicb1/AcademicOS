@@ -67,8 +67,10 @@ class Subject:
 
 @dataclass
 class Book:
-    """The school's actual chosen book for a subject -- §6: not every
-    available book, one deliberate selection."""
+    """A book (edition) a school has added for a subject. A subject may hold
+    several; which one it teaches this year is a BookSelection (PRD 12.7),
+    not this row. `status` is the book's content state, not the choice --
+    seeded books are 'ready'; the 'selected' default predates BookSelection."""
     id: str
     subject_id: str
     board_id: str
@@ -76,6 +78,22 @@ class Book:
     publisher: Optional[str] = None
     source_doc_ids: list[str] = field(default_factory=list)
     status: str = "selected"   # selected | processing | ready
+
+
+@dataclass
+class BookSelection:
+    """The outcome of choosing a subject's edition for its academic year
+    (PRD 12.7: "one per subject per year, chosen by the school").
+
+    Choosing never re-points lessons already scheduled: they were placed
+    from the previous book's chapters and still belong to it. The count is
+    returned so the principal is told, not left to find a schedule for a
+    book the school no longer uses."""
+    academic_year_id: str
+    subject_id: str
+    book_id: str
+    previous_book_id: Optional[str] = None
+    previous_book_scheduled_lessons: int = 0
 
 
 @dataclass

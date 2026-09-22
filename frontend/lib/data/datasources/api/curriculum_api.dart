@@ -127,12 +127,45 @@ class SubjectSummary {
   SubjectSummary.fromJson(Map<String, dynamic> j) : id = j['id'] as String, name = j['name'] as String;
 }
 
+/// A book (edition) of a subject. `selected` is whether it is the subject's
+/// edition for the year (PRD 12.7: one per subject per year, chosen by the
+/// school) -- the book every screen must use, never `books.first`.
 class BookSummary {
   final String id;
   final String subjectId;
+  final String boardId;
   final String title;
+  final String? publisher;
+  final bool selected;
   BookSummary.fromJson(Map<String, dynamic> j)
-      : id = j['id'] as String, subjectId = j['subjectId'] as String, title = j['title'] as String;
+      : id = j['id'] as String,
+        subjectId = j['subjectId'] as String,
+        boardId = j['boardId'] as String? ?? '',
+        title = j['title'] as String,
+        publisher = j['publisher'] as String?,
+        selected = j['selected'] as bool? ?? false;
+
+  String get label => publisher == null || publisher!.isEmpty ? title : '$title ($publisher)';
+}
+
+class BoardSummary {
+  final String id;
+  final String name;
+  BoardSummary.fromJson(Map<String, dynamic> j) : id = j['id'] as String, name = j['name'] as String;
+}
+
+/// SelectBookResponse (schemas.py). `warning` is set when lessons are still
+/// scheduled from the previous edition: they are not moved to the new book.
+class BookSelectionResult {
+  final BookSummary book;
+  final String? previousBookId;
+  final int previousBookScheduledLessons;
+  final String? warning;
+  BookSelectionResult.fromJson(Map<String, dynamic> j)
+      : book = BookSummary.fromJson(Map<String, dynamic>.from(j['book'] as Map)),
+        previousBookId = j['previousBookId'] as String?,
+        previousBookScheduledLessons = j['previousBookScheduledLessons'] as int? ?? 0,
+        warning = j['warning'] as String?;
 }
 
 /// One real, admin-approved Subtopic under a Topic -- the finest-grained
@@ -228,6 +261,38 @@ class CurriculumApi {
   Future<List<BookSummary>> books(String subjectId) async {
     final r = await _dio.get('/curriculum/subjects/$subjectId/books');
     return (r.data as List).map((e) => BookSummary.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  /// The subject's chosen edition, or null when it has no book, or several
+  /// and none chosen (the server's 404). Callers scheduling, assigning or
+  /// reordering use this -- `books(...).first` was SQLite row order.
+  Future<BookSummary?> selectedBook(String subjectId) async {
+    try {
+      final r = await _dio.get('/curriculum/subjects/$subjectId/selected-book');
+      return BookSummary.fromJson(Map<String, dynamic>.from(r.data));
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) return null;
+      rethrow;
+    }
+  }
+
+  /// Principal-only. Adding a book is not choosing it.
+  Future<BookSummary> addBook(String subjectId,
+      {required String title, String? publisher, required String boardId}) async {
+    final r = await _dio.post('/curriculum/subjects/$subjectId/books',
+        data: {'title': title, 'publisher': publisher, 'boardId': boardId});
+    return BookSummary.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Principal-only: makes [bookId] the subject's edition for its year.
+  Future<BookSelectionResult> selectBook(String subjectId, String bookId) async {
+    final r = await _dio.put('/curriculum/subjects/$subjectId/selected-book', data: {'bookId': bookId});
+    return BookSelectionResult.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  Future<List<BoardSummary>> boards() async {
+    final r = await _dio.get('/curriculum/boards');
+    return (r.data as List).map((e) => BoardSummary.fromJson(Map<String, dynamic>.from(e))).toList();
   }
 
   /// §15's missing link: which teacher teaches which real book.

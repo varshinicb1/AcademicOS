@@ -26,6 +26,7 @@ from . import extraction as extraction_mod
 from . import scheduling as scheduling_mod
 from .schemas import (
     AcademicYearResponse,
+    AddBookRequest,
     AddHolidayRequest,
     AddSubtopicRequest,
     AddTopicRequest,
@@ -68,6 +69,8 @@ from .schemas import (
     RescheduleResultResponse,
     ScheduleBookRequest,
     ScheduleBookResponse,
+    SelectBookRequest,
+    SelectBookResponse,
     ScheduledLessonResponse,
     SeedCbse10Request,
     SeedCbse10Response,
@@ -303,15 +306,87 @@ def list_subjects(grade_id: str,
     ]
 
 
+def _book_response(b, selected_id: Optional[str]) -> BookResponse:
+    return BookResponse(id=b.id, subject_id=b.subject_id, board_id=b.board_id, title=b.title,
+                        publisher=b.publisher, status=b.status, selected=b.id == selected_id)
+
+
 @router.get("/subjects/{subject_id}/books", response_model=list[BookResponse])
 def list_books(subject_id: str,
                current: User = Depends(get_current_user)) -> list[BookResponse]:
     _require_school_owns_subject(subject_id, current)
-    return [
-        BookResponse(id=b.id, subject_id=b.subject_id, board_id=b.board_id, title=b.title,
-                     publisher=b.publisher, status=b.status)
-        for b in _require().books_for_subject(subject_id)
-    ]
+    store = _require()
+    selected = store.selected_book_for_subject(subject_id)
+    selected_id = selected.id if selected is not None else None
+    return [_book_response(b, selected_id) for b in store.books_for_subject(subject_id)]
+
+
+# PRD 12.7 (decided 2026-09-18): "Book edition: one per subject per year,
+# chosen by the school." Adding a book and choosing it are two separate,
+# principal-only acts; the rule itself is book_selections' primary key.
+
+@router.post("/subjects/{subject_id}/books", response_model=BookResponse)
+def add_book(subject_id: str, req: AddBookRequest,
+             principal: User = Depends(require_principal)) -> BookResponse:
+    """Adds an edition the school may choose. Adding is not choosing: the
+    subject keeps its current edition until PUT .../selected-book."""
+    _require_school_owns_subject(subject_id, principal)
+    store = _require()
+    title = req.title.strip()
+    if not title:
+        raise HTTPException(422, "a book needs a title")
+    if store.get_board(req.board_id) is None:
+        raise HTTPException(422, f"unknown board {req.board_id!r}")
+    publisher = (req.publisher or "").strip() or None
+    # 'processing': no chapters yet -- they arrive via /books/{id}/toc/ingest.
+    b = store.create_book(subject_id=subject_id, board_id=req.board_id, title=title,
+                          publisher=publisher, status="processing")
+    selected = store.selected_book_for_subject(subject_id)
+    return _book_response(b, selected.id if selected is not None else None)
+
+
+@router.get("/subjects/{subject_id}/selected-book", response_model=BookResponse)
+def get_selected_book(subject_id: str,
+                      current: User = Depends(get_current_user)) -> BookResponse:
+    """The subject's edition for its year: the book every screen schedules,
+    assigns and reorders against, instead of whichever book came first."""
+    _require_school_owns_subject(subject_id, current)
+    b = _require().selected_book_for_subject(subject_id)
+    if b is None:
+        raise HTTPException(404, "this subject has no book, or several and none chosen: "
+                                 "choose its edition first")
+    return _book_response(b, b.id)
+
+
+@router.put("/subjects/{subject_id}/selected-book", response_model=SelectBookResponse)
+def select_book(subject_id: str, req: SelectBookRequest,
+                principal: User = Depends(require_principal)) -> SelectBookResponse:
+    """Chooses the subject's edition for its year, replacing any earlier
+    choice. Lessons already scheduled from the previous edition are not
+    re-pointed (they were placed from its chapters) and not removed --
+    scheduling the new book does not remove them either (it replaces only
+    that book's own lessons) -- so the response counts them and says so."""
+    _require_school_owns_subject(subject_id, principal)
+    store = _require()
+    book = store.get_book(req.book_id)
+    if book is None or book.subject_id != subject_id:
+        raise HTTPException(422, "that book is not one of this subject's books")
+    result = store.select_book(book.id)
+    warning = None
+    if result.previous_book_scheduled_lessons:
+        previous = store.get_book(result.previous_book_id)
+        n = result.previous_book_scheduled_lessons
+        warning = (f"{n} lesson{'s' if n != 1 else ''} this year "
+                   f"{'are' if n != 1 else 'is'} still scheduled from "
+                   f"'{previous.title if previous else result.previous_book_id}'. "
+                   "They were not moved to the new book or removed: that schedule "
+                   "still belongs to the old book.")
+    return SelectBookResponse(
+        book=_book_response(book, book.id),
+        previous_book_id=result.previous_book_id,
+        previous_book_scheduled_lessons=result.previous_book_scheduled_lessons,
+        warning=warning,
+    )
 
 
 @router.get("/books/{book_id}/units", response_model=list[UnitResponse])
@@ -1456,6 +1531,9 @@ def _curriculum_tree_for_export(store: CurriculumStore, school_id: str) -> list[
                 subject_dict["timetable_slots"] = [
                     asdict(slot) for slot in store.timetable_slots_for_subject(y.id, s.name)
                 ]
+                # The school's chosen edition (PRD 12.7) is its own data too.
+                chosen = store.selected_book_for_subject(s.id)
+                subject_dict["selected_book_id"] = chosen.id if chosen is not None else None
                 subject_dict["books"] = []
                 for b in store.books_for_subject(s.id):
                     book_dict = asdict(b)

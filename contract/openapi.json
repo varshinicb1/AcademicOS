@@ -39,6 +39,37 @@
         "title": "AcademicYearResponse",
         "type": "object"
       },
+      "AddBookRequest": {
+        "properties": {
+          "boardId": {
+            "minLength": 1,
+            "title": "Boardid",
+            "type": "string"
+          },
+          "publisher": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Publisher"
+          },
+          "title": {
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "boardId"
+        ],
+        "title": "AddBookRequest",
+        "type": "object"
+      },
       "AddHolidayRequest": {
         "properties": {
           "date": {
@@ -866,6 +897,11 @@
               }
             ],
             "title": "Publisher"
+          },
+          "selected": {
+            "default": false,
+            "title": "Selected",
+            "type": "boolean"
           },
           "status": {
             "title": "Status",
@@ -5592,6 +5628,59 @@
           "subjectsSkipped"
         ],
         "title": "SeedCbse10Response",
+        "type": "object"
+      },
+      "SelectBookRequest": {
+        "properties": {
+          "bookId": {
+            "minLength": 1,
+            "title": "Bookid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "bookId"
+        ],
+        "title": "SelectBookRequest",
+        "type": "object"
+      },
+      "SelectBookResponse": {
+        "properties": {
+          "book": {
+            "$ref": "#/components/schemas/BookResponse"
+          },
+          "previousBookId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previousbookid"
+          },
+          "previousBookScheduledLessons": {
+            "default": 0,
+            "title": "Previousbookscheduledlessons",
+            "type": "integer"
+          },
+          "warning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Warning"
+          }
+        },
+        "required": [
+          "book"
+        ],
+        "title": "SelectBookResponse",
         "type": "object"
       },
       "SendPaperRequest": {
@@ -10473,6 +10562,157 @@
           }
         ],
         "summary": "List Books"
+      },
+      "post": {
+        "description": "Adds an edition the school may choose. Adding is not choosing: the\nsubject keeps its current edition until PUT .../selected-book.",
+        "operationId": "add_book_api_v1_curriculum_subjects__subject_id__books_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subject_id",
+            "required": true,
+            "schema": {
+              "title": "Subject Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddBookRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Add Book"
+      }
+    },
+    "/api/v1/curriculum/subjects/{subject_id}/selected-book": {
+      "get": {
+        "description": "The subject's edition for its year: the book every screen schedules,\nassigns and reorders against, instead of whichever book came first.",
+        "operationId": "get_selected_book_api_v1_curriculum_subjects__subject_id__selected_book_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subject_id",
+            "required": true,
+            "schema": {
+              "title": "Subject Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Selected Book"
+      },
+      "put": {
+        "description": "Chooses the subject's edition for its year, replacing any earlier\nchoice. Lessons already scheduled from the previous edition are not\nre-pointed (they were placed from its chapters) and not removed --\nscheduling the new book does not remove them either (it replaces only\nthat book's own lessons) -- so the response counts them and says so.",
+        "operationId": "select_book_api_v1_curriculum_subjects__subject_id__selected_book_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subject_id",
+            "required": true,
+            "schema": {
+              "title": "Subject Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelectBookRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelectBookResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Select Book"
       }
     },
     "/api/v1/curriculum/subtopics/{subtopic_id}": {

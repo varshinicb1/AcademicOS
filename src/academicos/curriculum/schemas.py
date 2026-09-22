@@ -49,6 +49,29 @@ class BookResponse(Camel):
     title: str
     publisher: Optional[str] = None
     status: str
+    # Whether this is the subject's edition for its year (PRD 12.7). `status`
+    # is the book's content state and says nothing about the choice.
+    selected: bool = False
+
+
+class AddBookRequest(Camel):
+    title: str = Field(min_length=1)
+    # Publisher and/or edition, free text ("NCERT, 2026 reprint").
+    publisher: Optional[str] = None
+    board_id: str = Field(min_length=1)
+
+
+class SelectBookRequest(Camel):
+    book_id: str = Field(min_length=1)
+
+
+class SelectBookResponse(Camel):
+    book: BookResponse
+    previous_book_id: Optional[str] = None
+    # Lessons of this year still scheduled from the previous edition. They
+    # are not moved to the new book; `warning` says so when this is above 0.
+    previous_book_scheduled_lessons: int = 0
+    warning: Optional[str] = None
 
 
 class UnitResponse(Camel):
