@@ -42,12 +42,24 @@ Nothing is dropped silently; every exclusion is returned with its reason.
                          question's stem
   answer-bleed           an answer far longer than its marks allow: the
                          scheme ran on into the following questions
+  figure-referenced      the stem points at a figure, graph, map or a table
+                         "above" that was not extracted with it
   garbled-script         legacy-font extraction produced text nobody can read
-  mcq-options-unresolved the options cannot be read as A-D, or a student could
-                         not choose between them (empty, or two read alike)
+  mcq-marks-implausible  an MCQ carrying more than 2 marks: a sub-part holding
+                         its whole group's marks, or not a single MCQ at all
+  mcq-part-of-group      an MCQ whose stem opens "1 (a)": one part of a group
+  mcq-options-unresolved the options cannot be read as A-D, fewer than three of
+                         them, the stem and the parts disagree about them, or a
+                         student could not choose between them (empty, or two
+                         read alike)
   mcq-answer-unresolved  the correct option cannot be recovered with certainty
   duplicate-id           an id already served
   duplicate-stem         already served, under a board-paper id where possible
+
+An item is an MCQ by its shape, not only by its declared type: the SQP source
+types every row `short_answer`, and 92 served 1-mark SQP rows carry four
+inline (A)-(D) options. Those are retyped `mcq` (marked `typeInferred`) and go
+through the same gate as a declared MCQ.
 """
 from __future__ import annotations
 
@@ -192,13 +204,33 @@ def contract_errors(rec: dict) -> list[str]:
 
 _HEADER = re.compile(
     r"^(?:PART\s*[-–]|Page\b|Class\s*[-–]|Subject\s*[-–]|Time allowed|"
-    r"Maximum marks|General Instructions)", re.I)
+    r"Maximum marks|General Instructions|Draw neat figures|Use of calculators|"
+    r"Internal choice is provided)", re.I)
+# A stem that points at a visual it does not carry. Visuals are matched in any
+# position ("given figure", "figure below"); a table only when it sat ABOVE the
+# stem -- a "following table" is extracted inline, as text, after it. 50 served
+# CBE/SQP stems matched this with needsFigure false (measured 2026-09-22).
+_VISUAL = r"(?:figure|fig\.|graph|diagram|picture|image|map|chart|photograph)"
+_FIGURE_REF = re.compile(
+    rf"\b(?:{_VISUAL}\s+(?:(?:given|shown)\s+)?(?:above|below)"
+    rf"|(?:above|below|given|following|adjoining|adjacent)\s+{_VISUAL}"
+    rf"|{_VISUAL}\s+(?:given|shown)\b"
+    r"|table\s+(?:(?:given|shown)\s+)?above|above\s+table)", re.I)
 # A scheme that joined the wrong text often carries the next question's stem.
 _INSTRUCTION = re.compile(
     r"^(?:read the (?:following|given|passage|extract|data|information)|fill in the blank|"
     r"find the odd one|select the (?:correct|appropriate)|choose the (?:correct|appropriate))",
     re.I)
 _PASSAGE_REF = re.compile(r"\bread the (?:following )?(?:passage|extract|poem|text)\b", re.I)
+# The 2025-26 SQPs repeat this note in every page footer; 46 served stems
+# carried it, 22 of them MCQs where it ran into the last option.
+_FOOTER = re.compile(
+    r"\s*\*?\s*Please note that the assessment scheme of the Academic Session \d{4}-\d{2}"
+    r" will continue in the current session i\.?\s*e\.?,? \d{4}-\d{2}\.?\s*\*?"
+    r"(?:\s*Page\s+(?:\d+\s+)?of\s+\d+)?", re.I)
+# The next section's heading, run on after the last question of a section
+# ("(d) Agriculture SECTION B Question numbers 18-23 are SA type questions.").
+_TRAILING_SECTION = re.compile(r"\s+SECTION\s*[-–]?\s*[A-E]\b[^()]*$")
 _AWARD = re.compile(r"\s*\bAward\b.*$", re.I | re.S)
 _MIN_STEM = 15
 _GARBLE_RUNS = 3
@@ -242,6 +274,66 @@ def _vowel_sign_runs(text: str) -> int:
     return runs
 
 
+# The script a language paper is written in, as the first word of the Unicode
+# character name. Manipuri is set in Bengali script or in Meetei Mayek.
+_SUBJECT_SCRIPTS: dict[str, frozenset[str]] = {
+    "malayalam": frozenset({"MALAYALAM"}), "odia": frozenset({"ORIYA"}),
+    "hindi": frozenset({"DEVANAGARI"}), "sanskrit": frozenset({"DEVANAGARI"}),
+    "marathi": frozenset({"DEVANAGARI"}), "nepali": frozenset({"DEVANAGARI"}),
+    "assamese": frozenset({"BENGALI"}), "bengali": frozenset({"BENGALI"}),
+    "manipuri": frozenset({"BENGALI", "MEETEI"}), "tamil": frozenset({"TAMIL"}),
+    "telugu": frozenset({"TELUGU"}), "telugutelangana": frozenset({"TELUGU"}),
+    "kannada": frozenset({"KANNADA"}), "gujarati": frozenset({"GUJARATI"}),
+    "punjabi": frozenset({"GURMUKHI"}), "urdu": frozenset({"ARABIC"}),
+    "persian": frozenset({"ARABIC"}), "arabic": frozenset({"ARABIC"}),
+    "tibetan": frozenset({"TIBETAN"}), "bhutia": frozenset({"TIBETAN"}),
+    "lepcha": frozenset({"LEPCHA"}), "limboo": frozenset({"LIMBU"}),
+}
+# Music and dance papers may quote a composition in its own script.
+_ARTS = re.compile(r"music|dance|kathak|odissi|bharatanatyam|k[uh]+chipudi|mohiniyattam|painting",
+                   re.I)
+# Below this share of letters in its own script, a language paper was extracted
+# through a legacy font. Correct papers measured >= 0.39 (Persian, whose
+# instructions are English); every legacy-font one measured <= 0.01.
+_OWN_SCRIPT_MIN = 0.2
+
+
+def _is_indic(ch: str) -> bool:
+    return "\u0900" <= ch <= "\u0dff"      # Devanagari through Sinhala
+
+
+def _script_garbled(rec: dict, text: str) -> bool:
+    """Text whose script cannot be right for its subject.
+
+    Two failures that `_vowel_sign_runs` never sees, because neither produces
+    Indic vowel signs at all (measured on the served CBE/SQP rows, 2026-09-22):
+
+      * a language paper extracted through a legacy font reads as Latin-1:
+        Malayalam "X∂ncn°p∂ ]Øv tNmZyßfn¬", Odia "Êz bûeZ @bò~û^". All 10
+        served Malayalam rows, and the Odia, Lepcha, Limboo and Manipuri ones,
+        have almost no letters in their own script.
+      * a maths font misread as Indic code points: 29 served Mathematics rows
+        carry Oriya/Tamil/Telugu characters, many of them unassigned, where
+        the paper printed x, y and fractions.
+
+    Music and dance papers are exempt: they are written in English and may
+    quote a composition in its own script.
+    """
+    subject = str(rec.get("subject") or "").strip()
+    if _ARTS.search(subject):
+        # Before the language table: "Manipuri Dance" is an English paper.
+        return False
+    first = re.split(r"[\s(]", subject.lower(), maxsplit=1)[0]
+    scripts = _SUBJECT_SCRIPTS.get(first)
+    if scripts is not None:
+        letters = [ch for ch in text if ch.isalpha()]
+        if not letters:
+            return False
+        own = sum(unicodedata.name(ch, "").split(" ", 1)[0] in scripts for ch in letters)
+        return own / len(letters) < _OWN_SCRIPT_MIN
+    return any(_is_indic(ch) for ch in text)
+
+
 def exclusion_reason(rec: dict) -> str | None:
     """Why this CBE/SQP record cannot be served, or None if it can."""
     meta = rec.get("metadata") or {}
@@ -258,9 +350,12 @@ def exclusion_reason(rec: dict) -> str | None:
         return "header-as-stem"
     if len(stem) < _MIN_STEM:
         return "stem-too-short"
-    if _vowel_sign_runs(stem) >= _GARBLE_RUNS:
-        return "garbled-script"
+    if _FIGURE_REF.search(stem):
+        return "figure-referenced"
     answer = _answer_text(rec)
+    if (_vowel_sign_runs(stem) >= _GARBLE_RUNS or _vowel_sign_runs(answer) >= _GARBLE_RUNS
+            or _script_garbled(rec, f"{stem} {answer}")):
+        return "garbled-script"
     if not answer:
         return "no-answer"
     if _INSTRUCTION.match(_first_answer(rec)):
@@ -284,6 +379,16 @@ _MARK_NOTE = re.compile(r"(?:\s+\(\s*(?:\d+|½)\s*(?:marks?)?\s*\))+\s*$", re.I)
 # "3" alone may be the number of option (3) in a numbered list, not option text.
 _BARE_NUMERAL = re.compile(r"^\(?[1-4]\)?\.?$")
 _DASHES = str.maketrans(dict.fromkeys("−–—‐‑", "-"))
+# "1 (a) ...", "1(a) ...": the first part of a numbered group, not an MCQ in
+# its own right -- cbe:q:Science9DT3 carried its group's 8 marks this way.
+_SUB_PART = re.compile(r"^\s*(?:\d+\s*)?\(\s*[a-z]\s*\)\s*\S")
+# CBE authors some 2-mark MCQs (71 in the raw bank); none worth more than 2 was
+# a single MCQ when read (measured 2026-09-22).
+_MCQ_MAX_MARKS = 2
+_MIN_OPTIONS = 3
+_MAX_OPTION_TOKENS = 40
+# The declared types an SQP row carries when it is really an MCQ.
+_INFERABLE_TYPES = frozenset({"short_answer", "very_short_answer"})
 _TOKEN = re.compile(r"\w+|[^\w\s,.;:'\"‘’“”]")
 
 
@@ -327,14 +432,19 @@ def _named_option(words: list[str], options: dict[str, str]) -> str | None:
 
 
 def _answerable(options: dict[str, str]) -> bool:
-    """Every option has text and no two read alike.
+    """Every option has text, no two read alike, and none runs on.
 
     Two options that read alike mean extraction lost what told them apart --
     cbe:q:Maths10AS4 prints 34, 34, 35, 35 with the key on the second 34 -- so
     the printed item is defective even where the key happens to be distinct.
+    An option read from the stem ends where the stem ends, so when the stem
+    ran on into the next section the last option carries it: SQP Home Science
+    X 2024-25 Q14's option D is a whole case-study passage. The longest option
+    in a served MCQ that did not run on is 18 tokens (measured 2026-09-22).
     """
     read = [tuple(_tokens(v)) for v in options.values()]
-    return all(read) and len(set(read)) == len(read)
+    return (all(read) and len(set(read)) == len(read)
+            and max(len(t) for t in read) <= _MAX_OPTION_TOKENS)
 
 
 def _options_from_parts(parts: list[dict]) -> dict[str, str] | None:
@@ -489,7 +599,8 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
 
     for key in ("chapterIds", "competencyIds", "tags"):
         r[key] = [str(x) for x in (r.get(key) or [])]
-    r["stem"] = str(r.get("stem") or "").strip()
+    # Page furniture the SQP extraction left in the stem, where it would print.
+    r["stem"] = _TRAILING_SECTION.sub("", _FOOTER.sub(" ", str(r.get("stem") or "")).strip())
     r["stemLatex"] = str(r.get("stemLatex") or "")
     r["language"] = str(r.get("language") or "en")
     r["questionBankId"] = str(r.get("questionBankId") or r.get("source") or "unknown")
@@ -508,23 +619,56 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
         r["stem"] = f"Read the passage below and answer the question that follows.\n\n{passage}\n\n{r['stem']}"
         meta["passageInline"] = True
 
+    in_stem = _options_from_stem(r["stem"])
+    in_parts = _options_from_parts(r["parts"])
+    if (r["type"] in _INFERABLE_TYPES and marks == 1
+            and any(o is not None and len(o) == 4 for o in (in_stem, in_parts))):
+        # An MCQ by its shape: four A-D options on a 1-mark item. Left as
+        # short_answer it skipped this gate entirely and was served with a key
+        # nobody checked, filling short-answer slots with 1-mark MCQs.
+        r["type"] = "mcq"
+        meta["typeInferred"] = True
+
     if r["type"] == "mcq":
-        options = _options_from_stem(r["stem"]) or _options_from_parts(r["parts"])
-        if options is None or not _answerable(options):
-            return r, "mcq-options-unresolved"
+        r["metadata"] = meta
+        reason = _mcq_reason(r, in_stem, in_parts)
+        if reason is not None:
+            return r, reason
+        options = in_parts or in_stem
         letter = correct_letter(
             [r["answerScheme"]["modelAnswer"]]
             + [mp["description"] for mp in r["answerScheme"]["markingPoints"]],
             options)
         if letter is None:
             return r, "mcq-answer-unresolved"
-        if _options_from_stem(r["stem"]) is None:
+        if in_stem is None:
             r["stem"] = r["stem"] + " " + " ".join(f"({k}) {v}" for k, v in options.items())
         r["parts"] = []            # options live inline, as on every board MCQ
         r["answerScheme"] = _normalise_scheme(_objective_scheme(r, options, letter), marks, r["id"])
 
     r["metadata"] = meta
     return r, None
+
+
+def _mcq_reason(r: dict, in_stem: dict[str, str] | None,
+                in_parts: dict[str, str] | None) -> str | None:
+    """Why this MCQ cannot be served as one, before its key is even read."""
+    if r["marks"] > _MCQ_MAX_MARKS:
+        return "mcq-marks-implausible"
+    if _SUB_PART.match(r["stem"]):
+        return "mcq-part-of-group"
+    if in_stem is not None and in_parts is not None:
+        # Both parse: the parts are the options. If the stem's labels say
+        # something else they are not options at all -- the column labels of a
+        # matching table (SQP History XII 2025-26 Q19, whose option D then ran
+        # on into a page footer) -- and the item cannot be printed as it stands.
+        same = [_tokens(v) for v in in_stem.values()] == [_tokens(v) for v in in_parts.values()]
+        if not same:
+            return "mcq-options-unresolved"
+    options = in_parts or in_stem
+    if options is None or len(options) < _MIN_OPTIONS or not _answerable(options):
+        return "mcq-options-unresolved"
+    return None
 
 
 # --------------------------------------------------------------------------- #
