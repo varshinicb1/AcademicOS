@@ -360,6 +360,32 @@ def test_served_stems_whose_options_name_other_options_split_correctly(stem, opt
     assert head and stem.startswith(head)
 
 
+@pytest.mark.parametrize("stem,head,options", [
+    ("Which? (A) x (B) y (C) z (D) All of (A), (B) and (C)",
+     "Which?", ["x", "y", "z", "All of (A), (B) and (C)"]),
+    ("Which? (A) x (B) y (C) z (D) (A), (B) and (C)",
+     "Which?", ["x", "y", "z", "(A), (B) and (C)"]),
+    ("Which? (A) x (B) y (C) z (D) A and B, i.e. (A) & (B)",
+     "Which?", ["x", "y", "z", "A and B, i.e. (A) & (B)"]),
+], ids=["all-of-comma-list", "bare-comma-list", "ie-ampersand"])
+def test_a_comma_or_ampersand_list_of_mentions_is_one_option(stem, head, options):
+    """A mention after ', ' or ' & ' has no naming word before it. The real
+    run failed on it, and the run starting at the mention '(A)' won, printing
+    head '... (D) All of' and options [',', 'and', '']."""
+    assert split_stem_and_options(stem) == (head, options)
+
+
+def test_a_run_whose_options_are_only_joiners_is_not_an_option_list():
+    """If no clean run exists, print the stem as written, never junk options."""
+    stem = "Pick one; see (A), (B) and (C) above"
+    assert split_stem_and_options(stem) == (stem, [])
+
+
+def test_one_word_options_like_both_and_neither_still_split():
+    head, options = split_stem_and_options("Which? (A) i (B) ii (C) both (D) neither")
+    assert options == ["i", "ii", "both", "neither"]
+
+
 def test_a_delta_that_means_change_in_is_not_a_triangle():
     """pdf_safe runs on every subject; the geometry mapping printed an
     Economics 'Increase in Income (ΔY)' as 'triangle Y'."""

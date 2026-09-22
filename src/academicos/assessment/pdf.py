@@ -69,7 +69,14 @@ _OPTION_RE = re.compile(r"\(([A-Da-d])\)\s*")
 # "Both (A) and (B)", "neither (a) nor (b)", "explanation of (A)",
 # "Assertion (A) is correct".
 _MENTION_BEFORE = re.compile(
-    r"\b(?:both|and|or|nor|either|neither|of|but|than|except|assertion|reason)\s*$", re.I)
+    r"(?:\b(?:both|and|or|nor|either|neither|of|but|than|except|assertion|reason)|\bi\.e\.)\s*$",
+    re.I)
+# What joins the items of a mention list: "(A), (B) and (C)", "(A) & (B)".
+_LIST_JOINER = re.compile(r"\s*[,&]\s*")
+# An option that is only a joining word is the tail of a mis-split mention
+# list ([',', 'and', ''] from "All of (A), (B) and (C)"), never an option.
+# "both" / "neither" alone are real one-word options and are not here.
+_JUNK_OPTION = re.compile(r"(?:and|or|nor|of|but|than|except)?", re.I)
 
 DEFAULT_INSTRUCTIONS = (
     "This question paper contains {n} questions. <b>All questions are compulsory.</b>",
@@ -223,25 +230,47 @@ def _build_styles(brand_color: str = "#000000") -> _Styles:
     )
 
 
+def _follows_label_in_list(stem: str, matches: list[re.Match], i: int) -> bool:
+    """matches[i] is joined to the label before it by ',' or '&' -- the next
+    item of a mention list, as the (B) in "(A), (B) and (C)"."""
+    if i == 0:
+        return False
+    prev_close = matches[i - 1].start() + 3  # a label is always "(X)"
+    return bool(_LIST_JOINER.fullmatch(stem, prev_close, matches[i].start()))
+
+
 def _option_run(stem: str, matches: list[re.Match], first: int) -> list[re.Match] | None:
     """The option labels from matches[first] (an A) to the end of the stem.
 
     Each next label must be the next letter. A label already used is text when
-    it names an option -- a mention word before it, or it opens the option's
-    text ("(C) (A) is correct"). Anything else -- a gap, a label out of order,
+    it names an option -- a mention word before it, it opens the option's text
+    ("(C) (A) is correct"), or it follows a mention through ',' or '&'
+    ("All of (A), (B) and (C)"). Anything else -- a gap, a label out of order,
     a label repeated with nothing naming it -- means this is not an option list.
     """
     run = [matches[first]]
-    for m in matches[first + 1:]:
+    prev_mention = False
+    for i in range(first + 1, len(matches)):
+        m = matches[i]
         k = "ABCD".find(m.group(1).upper())
         if k == len(run):
             run.append(m)
+            prev_mention = False
         elif k < len(run) and (_MENTION_BEFORE.search(stem, 0, m.start())
-                               or m.start() == run[-1].end()):
-            continue
+                               or m.start() == run[-1].end()
+                               or (prev_mention and _follows_label_in_list(stem, matches, i))):
+            prev_mention = True
         else:
             return None
     return run if len(run) >= 2 else None
+
+
+def _options_of(stem: str, run: list[re.Match]) -> list[str]:
+    options: list[str] = []
+    for i, m in enumerate(run):
+        end = run[i + 1].start() if i + 1 < len(run) else len(stem)
+        options.append(stem[m.end():end].strip(" .;"))
+    return options
 
 
 def split_stem_and_options(stem: str) -> tuple[str, list[str]]:
@@ -263,28 +292,35 @@ def split_stem_and_options(stem: str) -> tuple[str, list[str]]:
       "(A)" printed head "... (D) Both" and options ['and', '11-'].
 
     A run that does not reach the end, or none at all, splits nothing and the
-    stem prints verbatim. Of the 4475 served stems, 3 split differently from
+    stem prints verbatim. So does a run with an option that is empty or only a
+    joiner ("and", ",") -- the tail of a mention list like "All of (A), (B)
+    and (C)" -- and no run starts at an (A) that is itself a mention. Over the
+    5840 served + CBE + SQP stems this changed 43 splits (vs 0708f8d), every
+    one from junk options ('', 'and', ', ,') to the stem as written. Of the 4475 served stems, 3 split differently from
     the trailing-run rule this replaced (measured at 1e3e30f), all three the
     mention shape above.
     """
     matches = list(_OPTION_RE.finditer(stem))
     best: list[re.Match] | None = None
     for i, m in enumerate(matches):
-        if m.group(1).upper() != "A":
+        # An (A) that is itself a mention ("of (A)", ", (A)") starts no run.
+        if (m.group(1).upper() != "A" or _MENTION_BEFORE.search(stem, 0, m.start())
+                or _follows_label_in_list(stem, matches, i)):
             continue
         run = _option_run(stem, matches, i)
-        if run and (best is None or len(run) > len(best)):
-            best = run
+        if not run or (best is not None and len(run) <= len(best)):
+            continue
+        # A run with an empty or joiner-only option is a mis-split: print the
+        # stem as written instead of junk options.
+        if any(_JUNK_OPTION.fullmatch(o.strip(" .;,&")) for o in _options_of(stem, run)):
+            continue
+        best = run
     if best is None:
         return stem.strip(), []
     head = stem[: best[0].start()].strip()
     if not head:
         return stem.strip(), []
-    options: list[str] = []
-    for i, m in enumerate(best):
-        end = best[i + 1].start() if i + 1 < len(best) else len(stem)
-        options.append(stem[m.end():end].strip(" .;"))
-    return head, options
+    return head, _options_of(stem, best)
 
 
 def _roll_no_grid(styles: _Styles, boxes: int = 11) -> Table:
