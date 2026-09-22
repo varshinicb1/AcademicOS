@@ -1,7 +1,7 @@
 {
  "notice": "Confidence model and thresholds of academicos.syllabus.tagger, fitted by scripts/calibrate_topic_tagger.py on _tag_gold.json (AI-reviewer labels, not a teacher's). Quote the outOfFold numbers; inSample flatters.",
- "method": "tfidf_textbook_v1",
- "builtAt": "2026-09-22T15:56:05.412225+00:00",
+ "method": "tfidf_textbook_v2",
+ "builtAt": "2026-09-22T16:14:45.732565+00:00",
  "target": 0.9,
  "minSupport": 10,
  "features": {
@@ -22,8 +22,7 @@
   "subtopic": [
    "best",
    "margin",
-   "heading",
-   "single"
+   "heading"
   ]
  },
  "coefficients": {
@@ -44,17 +43,16 @@
    "single": 0.015110714655182397
   },
   "subtopic": {
-   "bias": 0.363099822978429,
-   "best": -2.4723229159676956,
-   "margin": 6.020714426007908,
-   "heading": 2.8175912756161123,
-   "single": -0.7953141872643766
+   "bias": 0.922024724812504,
+   "best": -3.5767338228687264,
+   "margin": 10.564227314133303,
+   "heading": -0.2607108349831598
   }
  },
  "thresholds": {
   "chapter": 0.702774,
   "topic": 0.739901,
-  "subtopic": 1.01
+  "subtopic": 0.656357
  },
  "trainedOn": {
   "chapter": {
@@ -66,12 +64,12 @@
    "right": 146
   },
   "subtopic": {
-   "items": 82,
-   "right": 55
+   "items": 123,
+   "right": 95
   }
  },
  "gold": {
-  "items": 328,
+  "items": 389,
   "folds": 5,
   "seed": 703,
   "outOfFold": {
@@ -87,14 +85,14 @@
      "precision": 0.9091
     },
     "subtopic": {
-     "right": 0,
-     "tags": 0,
-     "precision": null
+     "right": 52,
+     "tags": 57,
+     "precision": 0.9123
     }
    }
   },
   "inSample": {
-   "items": 328,
+   "items": 389,
    "raw": {
     "chapter": {
      "right": 193,
@@ -107,9 +105,9 @@
      "accuracy": 0.4548
     },
     "subtopic": {
-     "right": 55,
-     "of": 168,
-     "accuracy": 0.3274
+     "right": 95,
+     "of": 187,
+     "accuracy": 0.508
     }
    },
    "accepted": {
@@ -124,9 +122,9 @@
      "precision": 0.9394
     },
     "subtopic": {
-     "right": 0,
-     "tags": 0,
-     "precision": null
+     "right": 55,
+     "tags": 59,
+     "precision": 0.9322
     }
    }
   }

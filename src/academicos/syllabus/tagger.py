@@ -38,6 +38,13 @@ Many of these ids were inferred by an earlier tagger (``metadata.chapterTag``
 says ``inferred``), so the prior is weighted, not obeyed, and the confidence
 model sees that it came from ``chapterIds`` (feature ``idPrior``).
 
+Topic or subtopic. Most questions are about a topic as a whole, not one
+subtopic of it (236 of the 328 gold items have no subtopic a reviewer would
+accept), so the subtopic decision has one more candidate than the topic has
+subtopics: the topic's heading and own text, printed before its first
+subtopic. When that
+matches best no subtopic is proposed -- the question is tagged to the topic.
+
 Confidence. Each level's raw scores (best, margin over the runner-up, whether
 there was a runner-up) go through a logistic model fitted on the gold set
 (``_tagger_model.json``, written by ``scripts/calibrate_topic_tagger.py``).
@@ -63,7 +70,8 @@ from academicos.syllabus.tag_text import TOKENIZER_VERSION, tokens
 
 REPO = Path(__file__).resolve().parents[3]
 TAXONOMY_DIR = REPO / "academicos-data" / "syllabus" / "taxonomy"
-TAG_METHOD = "tfidf_textbook_v1"
+# v2: the subtopic decision can end at the topic ("none of its subtopics")
+TAG_METHOD = "tfidf_textbook_v2"
 LEVELS = ("chapter", "topic", "subtopic")
 # Fields `apply_tags` adds to a record; nothing else on it is touched.
 TAG_FIELDS = ("taxonomyChapterId", "topicIds", "subtopicIds", "tagConfidence", "tagMethod")
@@ -106,6 +114,17 @@ GENERIC_DAMPING = 0.8
 # wrong to right and none the other way; chapter headings are too broad and
 # subtopic headings too short for it to help (subtopics lost 2 of 41).
 TOPIC_HEADING_BLEND = 0.2
+
+# A question can be about its topic as a whole, not about any one subtopic of
+# it: 236 of the 328 gold items have no subtopic a reviewer would accept.
+# The subtopic decision therefore has one more candidate, the topic's own
+# text (its span before its first subtopic) plus its heading; when that
+# matches best the question stays at the topic and no subtopic is proposed.
+# Measured on the gold set, out-of-fold: with no such candidate no subtopic
+# threshold reached 90% on 10+ tags (0 accepted); with the span alone 10/11;
+# span plus heading 11/12. The heading matters because most topics' own span
+# is short (95 of 385 topics with subtopics have under 20 words of it).
+TOPIC_LEVEL_ID = ""
 
 
 def question_subject(rec: dict) -> str | None:
@@ -214,6 +233,7 @@ class Tree:
         self.subject = data["subject"]
         self.grade = data["grade"]
         chapters = []
+        self._own_span: dict[str, collections.Counter] = {}
         for ch in data["chapters"]:
             topics = []
             for tp in ch["topics"]:
@@ -221,6 +241,7 @@ class Tree:
                              collections.Counter(node_text.get(s["id"], {})))
                         for s in tp["subtopics"]]
                 own = collections.Counter(node_text.get(tp["id"], {}))
+                self._own_span[tp["id"]] = collections.Counter(own)
                 for s in subs:
                     own.update(s.terms)
                 topics.append(Node(tp["id"], tp["name"], own, subs))
@@ -245,6 +266,22 @@ class Tree:
         if node.id not in self._below:
             self._below[node.id] = _Siblings(node.children)
         return self._below[node.id]
+
+    def subtopic_choice(self, topic: Node) -> _Siblings | None:
+        """The subtopics of ``topic`` plus a topic-level candidate (id
+        ``TOPIC_LEVEL_ID``: the topic's heading and its own span, if any) that
+        stands for "none of them"."""
+        if not topic.children:
+            return None
+        key = "with-topic-level:" + topic.id
+        if key not in self._below:
+            nodes = list(topic.children)
+            own = self._own_span.get(topic.id)
+            terms = collections.Counter(own or {})
+            terms.update(_heading_terms(topic.name))
+            nodes.append(Node(TOPIC_LEVEL_ID, topic.name, terms))
+            self._below[key] = _Siblings(nodes)
+        return self._below[key]
 
 
 @dataclass
@@ -386,17 +423,23 @@ class TopicTagger:
             feats["topic"] = _features(scores)
             feats["topic"]["heading"] = heads[ti]
             evidence["topic"] = below.shared_terms(qv, ti)
-            under = tree.children(topic)
+            under = tree.subtopic_choice(topic)
             if under is not None:
                 scores, qv = under.scores(terms)
                 order = sorted(range(len(scores)), key=lambda i: (-scores[i], i))
-                subtopics = [under.nodes[order[0]]]
-                if (len(order) > 1 and scores[order[0]] > 0
-                        and scores[order[1]] >= SECOND_SUBTOPIC * scores[order[0]]):
-                    subtopics.append(under.nodes[order[1]])
-                feats["subtopic"] = _features(scores)
-                feats["subtopic"]["heading"] = under.heading_scores(terms)[order[0]]
-                evidence["subtopic"] = under.shared_terms(qv, order[0])
+                if under.nodes[order[0]].id == TOPIC_LEVEL_ID:
+                    # the topic's own text wins: the question is about the
+                    # topic as a whole, and there is no subtopic to decide
+                    evidence["subtopic"] = ["(topic as a whole)"]
+                else:
+                    subtopics = [under.nodes[order[0]]]
+                    if (len(order) > 1 and scores[order[0]] > 0
+                            and under.nodes[order[1]].id != TOPIC_LEVEL_ID
+                            and scores[order[1]] >= SECOND_SUBTOPIC * scores[order[0]]):
+                        subtopics.append(under.nodes[order[1]])
+                    feats["subtopic"] = _features(scores)
+                    feats["subtopic"]["heading"] = under.heading_scores(terms)[order[0]]
+                    evidence["subtopic"] = under.shared_terms(qv, order[0])
 
         confidence = self._confidence(feats)
         accepted = self._accept(confidence)
@@ -510,6 +553,15 @@ def judge(tag: TagResult, gold: dict) -> dict:
     return {"chapter": chapter, "topic": topic, "subtopics": subs}
 
 
+def gold_levels(item: dict) -> tuple[str, ...]:
+    """The levels a gold item is counted at. An item drawn at random counts at
+    every level; an audit item drawn *because* the tagger accepted a subtopic
+    for it (``"levels": ["subtopic"]``) counts at the subtopic level only --
+    its chapter and topic were accepted by construction, and counting them
+    would flatter those levels' precision."""
+    return tuple(item.get("levels") or LEVELS)
+
+
 def score_against_gold(tagger: TopicTagger, items: list[dict], banks: dict) -> dict:
     """Accuracy of every pick, and precision of the accepted ones, on the gold set.
 
@@ -528,18 +580,20 @@ def score_against_gold(tagger: TopicTagger, items: list[dict], banks: dict) -> d
     for it in items:
         tag = tags[it["id"]]
         j = judge(tag, it)
-        raw["chapter"][0] += j["chapter"]
-        raw["chapter"][1] += 1
-        if tag.topic_id is not None:
+        levels = gold_levels(it)
+        if "chapter" in levels:
+            raw["chapter"][0] += j["chapter"]
+            raw["chapter"][1] += 1
+        if "topic" in levels and tag.topic_id is not None:
             raw["topic"][0] += j["topic"]
             raw["topic"][1] += 1
         if tag.subtopic_ids:
             raw["subtopic"][0] += j["subtopics"][0]
             raw["subtopic"][1] += 1
-        if tag.accepted["chapter"]:
+        if "chapter" in levels and tag.accepted["chapter"]:
             acc["chapter"][0] += j["chapter"]
             acc["chapter"][1] += 1
-        if tag.accepted["topic"]:
+        if "topic" in levels and tag.accepted["topic"]:
             acc["topic"][0] += j["topic"]
             acc["topic"][1] += 1
         if tag.accepted["subtopic"]:

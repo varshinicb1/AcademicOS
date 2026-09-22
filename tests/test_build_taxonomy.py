@@ -204,10 +204,17 @@ def test_compare_syllabus_lists_every_disagreement(bt, tmp_path, monkeypatch):
 # the committed trees
 # --------------------------------------------------------------------------- #
 
+def _committed_trees(out):
+    """The tree files (``Mathematics_6.json``), not the other files beside them
+    (``review_queue.json``, ``_manifest.json``). Windows globs ignore case, so
+    ``[A-Z]*.json`` also matches ``review_queue.json`` there: filter by name."""
+    return [f for f in sorted(out.glob("*.json")) if f.name[:1].isupper()]
+
+
 def test_committed_trees_hold_the_invariants(bt):
     out = ROOT / "academicos-data" / "syllabus" / "taxonomy"
     errs = []
-    for f in sorted(out.glob("[A-Z]*.json")):
+    for f in _committed_trees(out):
         errs += bt.invariant_errors(json.loads(f.read_text(encoding="utf-8")))
     assert errs == []
 
@@ -242,7 +249,7 @@ def test_no_id_repeats_across_all_committed_trees(bt):
     import collections
     out = ROOT / "academicos-data" / "syllabus" / "taxonomy"
     seen = collections.Counter()
-    for f in sorted(out.glob("[A-Z]*.json")):
+    for f in _committed_trees(out):
         tree = json.loads(f.read_text(encoding="utf-8"))
         prefix = bt.tree_prefix(tree["subject"], tree["grade"]) + "/"
         ids = list(_all_ids(tree))

@@ -9,6 +9,7 @@ rule the tagger exists for: an accepted tag is right at least 90% of the time.
 """
 from __future__ import annotations
 
+import collections
 import copy
 import importlib.util
 import json
@@ -28,6 +29,7 @@ TAXONOMY = ROOT / "academicos-data" / "syllabus" / "taxonomy"
 EXEMPLAR = ROOT / "academicos-data" / "corpus" / "ncert-exemplar" / "questions.json"
 CBE = ROOT / "academicos-data" / "corpus" / "cbse-cbe" / "questions.json"
 BOARD = ROOT / "academicos-data" / "syllabus" / "questions.json"
+SQP = ROOT / "academicos-data" / "corpus" / "cbse-sqp" / "questions.json"
 
 
 def _q(qid, subject, grade, stem, options=(), answer="", exemplar_chapter=None, **extra):
@@ -99,12 +101,75 @@ def test_maths_question_tags_chapter_and_topic(tagger, exemplar_bank):
     assert alone.confidence["chapter"] < tag.confidence["chapter"]
 
 
-def test_science_question_tags_chapter_topic_and_subtopic(tagger):
+def test_science_question_tags_chapter_and_topic(tagger):
     [tag] = tagger.tag_records([NUTRITION])
     assert tag.chapter_id == "science-7/life-processes-in-animals"
     assert tag.topic_id == "science-7/life-processes-in-animals/nutrition-in-animals"
-    assert tag.subtopic_ids[:1] == [
-        "science-7/life-processes-in-animals/nutrition-in-animals/digestion-in-human-beings"]
+
+
+# exemplar:q:10:science:8:-:8
+SPIROGYRA = _q("exemplar:q:10:science:8:-:8", "Science", 10,
+               "In Spirogyra, asexual reproduction takes place by",
+               options=("breaking up of filaments into smaller bits",
+                        "division of a cell into two cells", "division of a cell into many cells",
+                        "formation of young cells from older cells."),
+               answer="(a) breaking up of filaments into smaller bits",
+               exemplar_chapter="How do Organisms Reproduce?")
+
+
+def test_science_question_tags_an_accepted_subtopic(tagger, exemplar_bank):
+    title = SPIROGYRA["metadata"]["exemplarChapter"]["title"]
+    chapter = [q for q in exemplar_bank if q["grade"] == 10 and q["subject"] == "Science"
+               and q["metadata"]["exemplarChapter"]["title"] == title]
+    tag = dict(zip([q["id"] for q in chapter], tagger.tag_records(chapter)))[SPIROGYRA["id"]]
+    topic = "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms"
+    assert tag.topic_id == topic
+    assert tag.subtopic_ids == [topic + "/fragmentation"]
+    assert tag.accepted == {"chapter": True, "topic": True, "subtopic": True}
+    assert "filament" in " ".join(tag.evidence["subtopic"])
+
+
+# exemplar:q:6:mathematics:9:-:6 -- about lines of symmetry in general, not about
+# any one subtopic of "Line of Symmetry" (reflection, figures with more than one
+# line, generating shapes). The tagger used to put it under "Figures with more
+# than one line of symmetry", which an audit of the written tags marked wrong.
+NO_SYMMETRY = _q("exemplar:q:6:mathematics:9:-:6", "Mathematics", 6,
+                 "Which of the following letters does not have any line of symmetry?",
+                 options=("M", "S", "K", "H"), answer="(B) S",
+                 exemplar_chapter="Symmetry and Practical Geometry")
+
+
+def test_a_question_about_the_whole_topic_gets_no_subtopic(tagger, exemplar_bank):
+    title = NO_SYMMETRY["metadata"]["exemplarChapter"]["title"]
+    chapter = [q for q in exemplar_bank if q["grade"] == 6 and q["subject"] == "Mathematics"
+               and q["metadata"]["exemplarChapter"]["title"] == title]
+    tags = dict(zip([q["id"] for q in chapter], tagger.tag_records(chapter)))
+    tag = tags[NO_SYMMETRY["id"]]
+    assert tag.topic_id == "mathematics-6/symmetry/line-of-symmetry"
+    assert tag.subtopic_ids == []
+    assert tag.features["subtopic"] is None      # nothing to accept or review
+    assert tag.evidence["subtopic"] == ["(topic as a whole)"]
+    records, review = apply_tags([NO_SYMMETRY], tagger, bank="exemplar")
+    assert records[0]["subtopicIds"] == []
+    assert all(r["level"] != "subtopic" for r in review)
+
+
+def test_subtopic_only_gold_items_count_at_the_subtopic_level_only(tagger):
+    """Audit items (gold batch 3) were drawn because a subtopic was accepted:
+    counting them at the chapter and topic levels would flatter those."""
+    from academicos.syllabus.tagger import score_against_gold
+    topic = "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms"
+    base = {"subject": "Science", "grade": 10, "bank": "t",
+            "chapters": ["science-10/how-do-organisms-reproduce"], "topics": [topic],
+            "subtopics": [topic + "/fragmentation"]}
+    items = [dict(base, id=SPIROGYRA["id"]), dict(base, id="audit", levels=["subtopic"])]
+    audit = dict(SPIROGYRA, id="audit")
+    lax = TopicTagger(thresholds={"chapter": 0.0, "topic": 0.0, "subtopic": 0.0})
+    report = score_against_gold(lax, items, {"t": [SPIROGYRA, audit]})
+    assert report["raw"]["chapter"]["of"] == 1 and report["raw"]["topic"]["of"] == 1
+    assert report["accepted"]["chapter"]["tags"] == 1
+    assert report["raw"]["subtopic"]["of"] == 2
+    assert report["accepted"]["subtopic"] == {"right": 2, "tags": 2, "precision": 1.0}
 
 
 def test_social_science_question_tags_chapter_and_topic(tagger):
@@ -257,11 +322,31 @@ def _gold_records():
 
 def test_gold_set_is_large_enough_and_spans_the_classes_and_subjects():
     gold = json.loads((TAXONOMY / "_tag_gold.json").read_text(encoding="utf-8"))
-    items = gold["items"]
+    items = [it for it in gold["items"] if "levels" not in it]   # the random sample
     assert len(items) >= 150
     assert "not by a teacher" in gold["notice"].lower()
     assert {it["grade"] for it in items} == {6, 7, 8, 9, 10}
     assert {it["subject"] for it in items} == {"Mathematics", "Science", "Social Science"}
+
+
+def test_gold_set_covers_every_class_and_subject_the_banks_hold():
+    """Social Science appears in the gold for class 10 only because no bank
+    holds a class 6-9 Social Science question (Exemplar and CBE are Maths and
+    Science; board and SQP papers are class 10). If one ever does, this fails
+    until the gold samples it."""
+    from academicos.syllabus.tagger import question_grade, question_subject
+    gold = json.loads((TAXONOMY / "_tag_gold.json").read_text(encoding="utf-8"))
+    sampled = collections.Counter((it["subject"], it["grade"]) for it in gold["items"]
+                                  if "levels" not in it)
+    held = set()
+    for path in (EXEMPLAR, CBE, BOARD, SQP):
+        for rec in json.loads(path.read_text(encoding="utf-8"))["questions"]:
+            subject, grade = question_subject(rec), question_grade(rec)
+            if subject and grade:
+                held.add((subject, grade))
+    assert ("Social Science", 10) in held
+    assert not {("Social Science", g) for g in range(6, 10)} & held
+    assert {k for k in held if sampled[k] < 10} == set(), sampled
 
 
 def test_accepted_tags_on_the_gold_set_are_at_least_90_percent_right(tagger):
@@ -273,17 +358,52 @@ def test_accepted_tags_on_the_gold_set_are_at_least_90_percent_right(tagger):
         acc = report["accepted"][level]
         assert acc["tags"] >= 10, (level, acc)             # not vacuous
         assert acc["precision"] >= 0.90, (level, acc)
-    # Subtopics: no threshold reaches 90% on 10+ gold tags (measured: a picked
-    # subtopic is right 55 times in 82 when its topic is right), so the model
-    # accepts none and every subtopic goes to review. If a later model does
-    # accept subtopics, they are held to the same bar.
+    # Subtopics are held to the same bar, and must not pass by accepting none:
+    # a model that accepts no subtopic has not tagged any question to one.
     acc = report["accepted"]["subtopic"]
-    if acc["tags"]:
-        assert acc["tags"] >= 10 and acc["precision"] >= 0.90, acc
-    else:
-        assert model["thresholds"]["subtopic"] > 1.0
+    assert acc["tags"] >= 10, acc
+    assert acc["precision"] >= 0.90, acc
+    assert model["thresholds"]["subtopic"] <= 1.0
+    # the headline is the out-of-fold estimate: it too clears the bar per level
+    for level in ("chapter", "topic", "subtopic"):
+        oof = model["gold"]["outOfFold"]["accepted"][level]
+        assert oof["tags"] >= 10 and oof["precision"] >= 0.90, (level, oof)
     # the committed model reports the same numbers the test measures
     assert model["gold"]["inSample"]["accepted"] == report["accepted"]
+
+
+def test_held_out_audit_of_written_subtopic_tags_is_at_least_90_percent_right():
+    """_tag_audit.json: subtopic tags as written onto the banks, labelled after
+    the model was fixed and never used to fit it. Re-judged against the
+    committed tagger: of the audited questions it still gives a subtopic, at
+    least 90% must be right."""
+    audit = json.loads((TAXONOMY / "_tag_audit.json").read_text(encoding="utf-8"))
+    assert "not by a teacher" in audit["notice"].lower()
+    items = {it["id"]: it for it in audit["items"]}
+    tagger = TopicTagger()
+    right = tags = 0
+    for path in (EXEMPLAR, CBE):
+        recs = json.loads(path.read_text(encoding="utf-8"))["questions"]
+        for rec, tag in zip(recs, tagger.tag_records(recs)):
+            it = items.get(rec["id"])
+            if it is None or tag is None or not tag.accepted["subtopic"]:
+                continue
+            ok = tag.topic_id in it["topics"]
+            right += sum(ok and s in it["subtopics"] for s in tag.subtopic_ids)
+            tags += len(tag.subtopic_ids)
+    assert tags >= 20, tags
+    assert right / tags >= 0.90, (right, tags)
+
+
+def test_the_written_banks_carry_subtopic_tags():
+    """Task 703's point is subtopic tags on questions; a bank with none fails it."""
+    for path in (EXEMPLAR, CBE):
+        recs = json.loads(path.read_text(encoding="utf-8"))["questions"]
+        tagged = [r for r in recs if r.get("subtopicIds")]
+        assert len(tagged) >= {EXEMPLAR: 100, CBE: 5}[path], (path.name, len(tagged))
+        for r in tagged:              # a subtopic only ever under its accepted topic
+            assert r["topicIds"] and all(s.startswith(r["topicIds"][0] + "/")
+                                         for s in r["subtopicIds"]), r["id"]
 
 
 def test_question_schema_carries_the_tags_as_optional_fields():

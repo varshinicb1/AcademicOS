@@ -1,6 +1,6 @@
 {
  "notice": "Gold labels for the topic tagger. Labelled by an AI reviewer (Claude) reading each question against the taxonomy tree and, where noted, searching the textbook text -- NOT by a teacher. A teacher's review may overturn individual labels.",
- "sample": "Two batches drawn the same way, 164 items each. Per class 6-10, Mathematics and Science: 11 NCERT Exemplar + 3 CBE items; Social Science class 10: 24 board-paper items (the only Social Science questions in any bank). Batch 1: random.Random(703).sample over each bank's records sorted by id; batch 2: random.Random(7032), same pools less batch 1. Batch 2 was drawn after batch 1 showed the topic and subtopic estimates rested on too few items.",
+ "sample": "Two batches drawn the same way, 164 items each. Per class 6-10, Mathematics and Science: 11 NCERT Exemplar + 3 CBE items; Social Science class 10: 24 board-paper items (the only Social Science questions in any bank). Batch 1: random.Random(703).sample over each bank's records sorted by id; batch 2: random.Random(7032), same pools less batch 1. Batch 2 was drawn after batch 1 showed the topic and subtopic estimates rested on too few items. Batch 3 (61 items, subtopic level only): an audit of the subtopic tags the tagger wrote onto the Exemplar and CBE banks -- random.Random(7033).sample of 30 over the 159 records then carrying subtopicIds (topic-level candidate built from the topic's own span), and random.Random(7034).sample of 40 over the 219 carrying them once the topic heading was added to that candidate; each over records not already in the gold, sorted by id (9 drawn twice, kept once). Batch 1+2 put the accepted subtopic tags at 11/12 right; this audit found 24/30 and 34/40, so it was added. Its chapter and topic are the tagger's accepted ones, checked right by the reviewer, and because the items were chosen for having an accepted subtopic they are counted at the subtopic level only (field levels), never in the chapter or topic accuracy, which they would flatter.",
  "semantics": "chapters: the tree chapters of the question's own class that teach it; empty = no chapter of that class's book does (or the stem is unreadable). topics / subtopics: every node a reviewer would accept; empty = none fits, so any tag at that level is wrong.",
  "items": [
   {
@@ -4712,6 +4712,1166 @@
    ],
    "subtopics": [],
    "note": "the secondary sector defined"
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:18",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/transportation"
+   ],
+   "subtopics": [
+    "science-10/life-processes/transportation/transportation-in-human-beings"
+   ]
+  },
+  {
+   "id": "cbe:q:Maths8CN4",
+   "batch": 3,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [
+    "mathematics-8/quadrilaterals/kite-and-trapezium"
+   ],
+   "subtopics": [
+    "mathematics-8/quadrilaterals/kite-and-trapezium/trapezium"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:21",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/how-do-our-activities-affect-the-environment"
+   ],
+   "subtopics": [
+    "science-10/our-environment/how-do-our-activities-affect-the-environment/managing-the-garbage-we-produce"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:8",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/eco-system-what-are-its-components"
+   ],
+   "subtopics": [
+    "science-10/our-environment/eco-system-what-are-its-components/food-chains-and-webs"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:6",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers"
+   ],
+   "subtopics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers/patterns-and-properties-of-perfect-squares"
+   ],
+   "note": "ruling out 198 by its last digit is Patterns and Properties of Perfect Squares, not triangular numbers (the tagger's pick)"
+  },
+  {
+   "id": "exemplar:q:10:science:12:-:23",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/electricity"
+   ],
+   "topics": [
+    "science-10/electricity/heating-effect-of-electric-current"
+   ],
+   "subtopics": [
+    "science-10/electricity/heating-effect-of-electric-current/practical-applications-of-heating-effect-of-electric-current"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:9",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/fission"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:53",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/using-percentages/growth-and-compounding"
+   ]
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:22",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-9/tissues-in-action"
+   ],
+   "topics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   ],
+   "subtopics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants/permanent-tissues"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:134",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [
+    "mathematics-8/quadrilaterals/kite-and-trapezium"
+   ],
+   "subtopics": [
+    "mathematics-8/quadrilaterals/kite-and-trapezium/trapezium"
+   ]
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:39",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [],
+   "note": "a set-square's lines of symmetry: the topic as a whole; the tagger picked 'more than one line'"
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:54",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-9/tissues-in-action"
+   ],
+   "topics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   ],
+   "subtopics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants/permanent-tissues"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:2",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction/sexual-reproduction-in-flowering-plants"
+   ]
+  },
+  {
+   "id": "exemplar:q:7:science:2:-:20",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-7/life-processes-in-animals"
+   ],
+   "topics": [
+    "science-7/life-processes-in-animals/nutrition-in-animals"
+   ],
+   "subtopics": [
+    "science-7/life-processes-in-animals/nutrition-in-animals/digestion-in-human-beings"
+   ]
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:26",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-9/tissues-in-action"
+   ],
+   "topics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   ],
+   "subtopics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants/intercalary-meristem-how-do-plants-grow-after-being-cut"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:7",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/animals-nervous-system"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/animals-nervous-system/human-brain"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:3:-:7",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/metals-and-non-metals"
+   ],
+   "topics": [
+    "science-10/metals-and-non-metals/chemical-properties-of-metals"
+   ],
+   "subtopics": [
+    "science-10/metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-react-with-acids"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:26",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/how-do-our-activities-affect-the-environment"
+   ],
+   "subtopics": [
+    "science-10/our-environment/how-do-our-activities-affect-the-environment/managing-the-garbage-we-produce"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:30",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers"
+   ],
+   "subtopics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers/square-roots"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:77",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers"
+   ],
+   "subtopics": [],
+   "note": "parity of cubes: the topic as a whole, not consecutive odd numbers"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:6",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [],
+   "note": "a letter with no line of symmetry: the topic as a whole"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:7",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [],
+   "note": "a letter with exactly one line of symmetry: the topic as a whole"
+  },
+  {
+   "id": "cbe:q:Science10ST3",
+   "batch": 3,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/light-reflection-and-refraction"
+   ],
+   "topics": [
+    "science-10/light-reflection-and-refraction/refraction-of-light"
+   ],
+   "subtopics": [
+    "science-10/light-reflection-and-refraction/refraction-of-light/refraction-through-a-rectangular-glass-slab",
+    "science-10/light-reflection-and-refraction/refraction-of-light/the-refractive-index"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:6",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/animals-nervous-system"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/animals-nervous-system/what-happens-in-reflex-actions"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:58",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/transportation"
+   ],
+   "subtopics": [
+    "science-10/life-processes/transportation/transportation-in-human-beings"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:4:-:7",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/carbon-and-its-compounds"
+   ],
+   "topics": [
+    "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds"
+   ],
+   "subtopics": [
+    "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds/addition-reaction"
+   ]
+  },
+  {
+   "id": "exemplar:q:9:science:4:-:22",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-9/journey-inside-the-atom"
+   ],
+   "topics": [
+    "science-9/journey-inside-the-atom/a-short-historical-journey-through-atomic-models"
+   ],
+   "subtopics": [
+    "science-9/journey-inside-the-atom/a-short-historical-journey-through-atomic-models/testing-thomson-s-model-the-gold-foil-experiment"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:46",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/animals-nervous-system"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/animals-nervous-system/human-brain"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:13",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers"
+   ],
+   "subtopics": [],
+   "note": "spotting a perfect cube: the topic as a whole, not consecutive odd numbers"
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:64",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:50",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers"
+   ],
+   "subtopics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers/patterns-and-properties-of-perfect-squares"
+   ],
+   "note": "a property of perfect squares; the tagger picked Perfect Squares and Triangular Numbers"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:104",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/using-percentages/growth-and-compounding"
+   ]
+  },
+  {
+   "id": "exemplar:q:6:mathematics:6:-:16",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/perimeter-and-area"
+   ],
+   "topics": [
+    "mathematics-6/perimeter-and-area/perimeter"
+   ],
+   "subtopics": [
+    "mathematics-6/perimeter-and-area/perimeter/perimeter-of-a-regular-polygon"
+   ]
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:22",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [
+    "mathematics-6/symmetry/line-of-symmetry/reflection"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:13:-:19",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/magnetic-effects-of-electric-current"
+   ],
+   "topics": [
+    "science-10/magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor"
+   ],
+   "subtopics": [
+    "science-10/magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-through-a-circular-loop"
+   ]
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:31",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-9/tissues-in-action"
+   ],
+   "topics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   ],
+   "subtopics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants/permanent-tissues"
+   ],
+   "note": "conducting tissue (xylem/phloem) is permanent tissue; the tagger picked intercalary meristem"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:4:-:22",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/fractions"
+   ],
+   "topics": [
+    "mathematics-6/fractions/mixed-fractions"
+   ],
+   "subtopics": [
+    "mathematics-6/fractions/mixed-fractions/fractions-greater-than-one"
+   ],
+   "note": "proper and improper fractions are defined under Fractions greater than one"
+  },
+  {
+   "id": "cbe:q:Science10DP6",
+   "batch": 3,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/heredity"
+   ],
+   "topics": [
+    "science-10/heredity/heredity"
+   ],
+   "subtopics": [
+    "science-10/heredity/heredity/rules-for-the-inheritance-of-traits-mendel-s-contributions"
+   ]
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:23",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [
+    "mathematics-6/symmetry/line-of-symmetry/reflection"
+   ]
+  },
+  {
+   "id": "exemplar:q:9:science:5:-:2",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-9/cell-the-building-block-of-life"
+   ],
+   "topics": [
+    "science-9/cell-the-building-block-of-life/structure-of-a-cell"
+   ],
+   "subtopics": [
+    "science-9/cell-the-building-block-of-life/structure-of-a-cell/cell-membrane-the-universal-feature-of-a-cell"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:4:-:12",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/carbon-and-its-compounds"
+   ],
+   "topics": [
+    "science-10/carbon-and-its-compounds/versatile-nature-of-carbon"
+   ],
+   "subtopics": [
+    "science-10/carbon-and-its-compounds/versatile-nature-of-carbon/saturated-and-unsaturated-carbon-compounds"
+   ],
+   "note": "picking unsaturated compounds is Saturated and Unsaturated Carbon Compounds; the tagger picked Nomenclature"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:6:-:86",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/exploring-some-geometric-themes"
+   ],
+   "topics": [
+    "mathematics-8/exploring-some-geometric-themes/visualising-solids"
+   ],
+   "subtopics": [
+    "mathematics-8/exploring-some-geometric-themes/visualising-solids/making-solids"
+   ],
+   "note": "faces/edges/vertices of pyramids are counted under Making Solids (its text has pyramid 17x, face 19x)"
+  },
+  {
+   "id": "cbe:q:Science10GK5",
+   "batch": 3,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/eco-system-what-are-its-components"
+   ],
+   "subtopics": [
+    "science-10/our-environment/eco-system-what-are-its-components/food-chains-and-webs"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:72",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/excretion"
+   ],
+   "subtopics": [
+    "science-10/life-processes/excretion/excretion-in-plants"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:40",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/coordination-in-plants"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+   ]
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:40",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [],
+   "note": "a set-square with one line of symmetry: the topic as a whole"
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:51",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:18",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers"
+   ],
+   "subtopics": [],
+   "note": "spotting a non-cube: the topic as a whole, not consecutive odd numbers"
+  },
+  {
+   "id": "exemplar:q:10:science:4:-:20",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/carbon-and-its-compounds"
+   ],
+   "topics": [
+    "science-10/carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid"
+   ],
+   "subtopics": [
+    "science-10/carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid/properties-of-ethanoic-acid"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:9:-:23",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/heredity"
+   ],
+   "topics": [
+    "science-10/heredity/heredity"
+   ],
+   "subtopics": [
+    "science-10/heredity/heredity/sex-determination"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:3:-:23",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/metals-and-non-metals"
+   ],
+   "topics": [
+    "science-10/metals-and-non-metals/occurrence-of-metals"
+   ],
+   "subtopics": [
+    "science-10/metals-and-non-metals/occurrence-of-metals/extracting-metals-towards-the-top-of-the-activity-series",
+    "science-10/metals-and-non-metals/occurrence-of-metals/refining-of-metals"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:18",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction/sexual-reproduction-in-flowering-plants"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:71",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/transportation"
+   ],
+   "subtopics": [
+    "science-10/life-processes/transportation/transportation-in-plants"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:1:-:8",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/chemical-reactions-and-equations"
+   ],
+   "topics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions"
+   ],
+   "subtopics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions/decomposition-reaction"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:9:-:8",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/heredity"
+   ],
+   "topics": [
+    "science-10/heredity/heredity"
+   ],
+   "subtopics": [
+    "science-10/heredity/heredity/sex-determination"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:7",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:17",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction/sexual-reproduction-in-flowering-plants"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:57",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers"
+   ],
+   "subtopics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers/square-roots"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:49",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/using-percentages/growth-and-compounding"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:3",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/using-percentages/growth-and-compounding"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:78",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ]
   }
  ]
 }

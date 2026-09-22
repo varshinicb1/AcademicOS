@@ -36,7 +36,7 @@ fields ``taxonomyChapterId``, ``topicIds``, ``subtopicIds``, ``tagConfidence``
 and ``tagMethod`` are added to each class 6-10 Mathematics / Science / Social
 Science record, and nothing else on any record changes. A level whose
 confidence is below the gold-set threshold is left empty on the record and
-the question goes to ``taxonomy/_review_queue.json`` with the tagger's proposal
+the question goes to ``taxonomy/review_queue.json`` with the tagger's proposal
 (a rerun replaces that bank's entries in the queue). ``--check`` prints the
 coverage per class and subject and writes nothing.
 
@@ -83,9 +83,9 @@ def _hash(text: str) -> str:
     return hashlib.sha256(" ".join(text.lower().split()).encode("utf-8")).hexdigest()
 
 
-# Leading underscore like every other non-tree file in taxonomy/: the tree
-# tests glob "[A-Z]*.json", and on Windows that glob matches "review_queue".
-REVIEW_QUEUE = REPO / "academicos-data" / "syllabus" / "taxonomy" / "_review_queue.json"
+# The name Task 703 gives it. The tree tests pick tree files by a case-sensitive
+# first capital, so a lower-case name here is not read as a tree on Windows.
+REVIEW_QUEUE = REPO / "academicos-data" / "syllabus" / "taxonomy" / "review_queue.json"
 
 
 def _bank_label(path: Path) -> str:

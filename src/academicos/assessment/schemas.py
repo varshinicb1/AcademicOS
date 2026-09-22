@@ -255,7 +255,7 @@ class QuestionSchema(Camel):
     # Ids from academicos-data/syllabus/taxonomy (the NCERT textbook headings,
     # classes 6-10). Written only where the tagger's confidence clears the
     # gold-set threshold; below it they stay empty and the question is in
-    # taxonomy/_review_queue.json. Optional: most banks do not carry them yet.
+    # taxonomy/review_queue.json. Optional: most banks do not carry them yet.
     taxonomy_chapter_id: Optional[str] = None
     topic_ids: list[str] = Field(default_factory=list)
     subtopic_ids: list[str] = Field(default_factory=list)

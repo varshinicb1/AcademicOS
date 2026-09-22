@@ -16,8 +16,14 @@ written is then refitted on every item, and its in-sample numbers are written
 alongside -- they are what `tests/test_topic_tagger.py` re-measures, and they
 flatter the tagger, which is why they are not the headline.
 
-Gold: ``academicos-data/syllabus/taxonomy/_tag_gold.json`` (164 questions,
-labelled by an AI reviewer, not a teacher).
+Gold: ``academicos-data/syllabus/taxonomy/_tag_gold.json`` (labelled by an AI
+reviewer, not a teacher): 328 questions drawn at random, counted at every
+level, and 61 audit items drawn from the subtopic tags the tagger wrote,
+counted at the subtopic level only (``levels``). The audit was added because
+the random sample held too few accepted subtopics (11/12 right) to measure
+them, and the tags it let through were 24/30 and 34/40 right when checked.
+``_tag_audit.json`` is a further, held-out check of the written tags; nothing
+here reads it.
 
 Run:  python scripts/calibrate_topic_tagger.py [--check]
 """
@@ -85,7 +91,9 @@ def fit_logistic(X: np.ndarray, y: np.ndarray) -> np.ndarray:
 
 FEATURES = {"chapter": ("best", "margin", "heading", "prior", "hasPrior", "idPrior"),
             "topic": ("best", "margin", "heading", "single"),
-            "subtopic": ("best", "margin", "heading", "single")}
+            # no "single": the topic-level candidate means a subtopic always
+            # has a runner-up, so the feature is constant
+            "subtopic": ("best", "margin", "heading")}
 
 
 def as_coef(level: str, w: np.ndarray) -> dict:
@@ -103,8 +111,10 @@ def training_sets(rows: list[dict]) -> dict:
     sets = {lv: [] for lv in tg.LEVELS}
     for i, r in enumerate(rows):
         tag, j = r["tag"], r["judged"]
-        sets["chapter"].append((i, row("chapter", tag.features["chapter"]), j["chapter"]))
-        if j["chapter"] and tag.features["topic"] is not None:
+        levels = tg.gold_levels(r["item"])
+        if "chapter" in levels:
+            sets["chapter"].append((i, row("chapter", tag.features["chapter"]), j["chapter"]))
+        if "topic" in levels and j["chapter"] and tag.features["topic"] is not None:
             sets["topic"].append((i, row("topic", tag.features["topic"]), j["topic"]))
         if j["topic"] and tag.features["subtopic"] is not None:
             sets["subtopic"].append((i, row("subtopic", tag.features["subtopic"]), j["subtopics"][0]))
@@ -135,7 +145,9 @@ def confidences(tag: tg.TagResult, coef: dict) -> dict:
 def pick_thresholds(rows: list[dict], conf: list[dict]) -> tuple[dict, dict]:
     """Lowest threshold per level whose accepted tags are >= TARGET right on at
     least MIN_SUPPORT tags, level by level (a topic can only be accepted under
-    an accepted chapter). A level where no threshold does gets 1.01: nothing
+    an accepted chapter). A gold item counts only at its `tg.gold_levels`; a
+    subtopic-only audit item still has to clear the chapter and topic
+    thresholds to be counted at the subtopic. A level where no threshold does gets 1.01: nothing
     at that level is accepted, everything goes to review."""
     thresholds, measured = {}, {}
     alive = set(range(len(rows)))
@@ -146,7 +158,7 @@ def pick_thresholds(rows: list[dict], conf: list[dict]) -> tuple[dict, dict]:
             right = tags = 0
             for i in alive:
                 c = conf[i][lv]
-                if c is None or c < t:
+                if c is None or c < t or lv not in tg.gold_levels(rows[i]["item"]):
                     continue
                 j = rows[i]["judged"]
                 if lv == "subtopic":
@@ -162,6 +174,21 @@ def pick_thresholds(rows: list[dict], conf: list[dict]) -> tuple[dict, dict]:
                         "precision": round(best[1] / best[2], 4) if best[2] else None}
         alive = {i for i in alive if conf[i][lv] is not None and conf[i][lv] >= thresholds[lv]}
     return thresholds, measured
+
+
+def make_folds(rows: list[dict]) -> list[set]:
+    """Seeded folds, dealt separately to the random sample (batches 1-2) and
+    to the subtopic-only audit items (batch 3): adding audit items then leaves
+    the random sample's folds, and so its chapter and topic estimates, as they
+    were."""
+    folds = [set() for _ in range(FOLDS)]
+    for full in (True, False):
+        order = [i for i, r in enumerate(rows)
+                 if (tuple(tg.gold_levels(r["item"])) == tg.LEVELS) == full]
+        random.Random(SEED).shuffle(order)
+        for k in range(FOLDS):
+            folds[k].update(order[k::FOLDS])
+    return folds
 
 
 def main(argv=None) -> int:
@@ -184,9 +211,7 @@ def main(argv=None) -> int:
     sets = training_sets(rows)
 
     # out-of-fold confidences
-    order = list(range(len(rows)))
-    random.Random(SEED).shuffle(order)
-    folds = [set(order[k::FOLDS]) for k in range(FOLDS)]
+    folds = make_folds(rows)
     oof: list[dict] = [None] * len(rows)
     for k, held in enumerate(folds):
         coef = fit_all(sets, keep=set(range(len(rows))) - held)
