@@ -283,12 +283,14 @@ jobs:
           # production_config_problems): placeholder/empty secrets, CORS '*',
           # demo accounts, a short bootstrap key, or an LLM URL outside
           # docs/compliance.md's provider table stop the revision starting.
+          # "@" separates the vars ("^@^" tells gcloud): ACOS_CORS_ORIGINS is a
+          # comma-separated list, and the default "," split it into a bad dict entry.
           ENV_VARS="ACOS_ENV=production"
-          ENV_VARS="$ENV_VARS,ACOS_POSTGRES_HOST=/cloudsql/${SQL_CONNECTION}"
-          ENV_VARS="$ENV_VARS,ACOS_POSTGRES_DB=academicos"
-          ENV_VARS="$ENV_VARS,ACOS_POSTGRES_USER=academicos"
-          ENV_VARS="$ENV_VARS,ACOS_GCS_BUCKET=${GCS_MEDIA_BUCKET}"
-          ENV_VARS="$ENV_VARS,ACOS_CORS_ORIGINS=${CORS_ORIGINS}"
+          ENV_VARS="$ENV_VARS@ACOS_POSTGRES_HOST=/cloudsql/${SQL_CONNECTION}"
+          ENV_VARS="$ENV_VARS@ACOS_POSTGRES_DB=academicos"
+          ENV_VARS="$ENV_VARS@ACOS_POSTGRES_USER=academicos"
+          ENV_VARS="$ENV_VARS@ACOS_GCS_BUCKET=${GCS_MEDIA_BUCKET}"
+          ENV_VARS="$ENV_VARS@ACOS_CORS_ORIGINS=${CORS_ORIGINS}"
 
           # The LLM provider is explicit, never inherited from
           # config/config.toml (whose llm_base_url is api.groq.com, a vendor
@@ -296,10 +298,10 @@ jobs:
           # startup guard refuses once a key is set. The provider is the
           # school's decision; docs/gcp-deployment.md section 4.
           if [ -n "${LLM_BASE_URL}" ]; then
-            ENV_VARS="$ENV_VARS,ACOS_LLM_BASE_URL=${LLM_BASE_URL}"
+            ENV_VARS="$ENV_VARS@ACOS_LLM_BASE_URL=${LLM_BASE_URL}"
           fi
           if [ -n "${LLM_MODEL}" ]; then
-            ENV_VARS="$ENV_VARS,ACOS_LLM_MODEL=${LLM_MODEL}"
+            ENV_VARS="$ENV_VARS@ACOS_LLM_MODEL=${LLM_MODEL}"
           fi
 
           # An empty curriculum snapshot in GCS, or an empty learner_models in
@@ -314,8 +316,8 @@ jobs:
           # --set-env-vars replaces the whole list, so the next deploy drops it.
           if [ "${FRESH_INSTALL}" = "1" ]; then
             echo "::warning::FRESH_INSTALL=1: empty curriculum / mastery history allowed. Remove the variable after this deploy."
-            ENV_VARS="$ENV_VARS,ACOS_CURRICULUM_ALLOW_EMPTY_BOOT=1"
-            ENV_VARS="$ENV_VARS,ACOS_LEARNER_MODELS_ALLOW_EMPTY=1"
+            ENV_VARS="$ENV_VARS@ACOS_CURRICULUM_ALLOW_EMPTY_BOOT=1"
+            ENV_VARS="$ENV_VARS@ACOS_LEARNER_MODELS_ALLOW_EMPTY=1"
           fi
 
           # --max-instances=1 is a correctness limit, not a cost one.
@@ -344,7 +346,7 @@ jobs:
             --add-cloudsql-instances "${SQL_CONNECTION}" \
             --service-account "$RUNTIME_SA" \
             --set-secrets "$SECRETS" \
-            --set-env-vars "$ENV_VARS" \
+            --set-env-vars "^@^$ENV_VARS" \
             --quiet
 
           URL="$(gcloud run services describe "$SERVICE" \
