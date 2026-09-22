@@ -158,23 +158,31 @@ def test_reorder_chapter_changes_delivery_sequence(store):
 def test_set_sequence_works_for_every_entity_type(store):
     """set_sequence (routes.py's PATCH .../sequence) is one generic
     implementation shared by Unit/Chapter/Topic/Subtopic, not four
-    hand-copied UPDATE statements -- exercise all four table mappings."""
+    hand-copied UPDATE statements -- exercise all four table mappings,
+    including each one's parent column: since 2026-09-22 a move renumbers
+    the item's siblings 0..n-1 (a seq past the end means last), so each
+    level gets a sibling for the move to shift."""
     book_id = _seed_book(store)
     unit = store.create_unit(canonical_id="cbse:10:science:unit:seq", book_id=book_id,
                              unit_no="I", name="Unit", marks=25, seq=0)
+    unit2 = store.create_unit(canonical_id="cbse:10:science:unit:seq2", book_id=book_id,
+                              unit_no="II", name="Unit 2", marks=25, seq=1)
     chapter = store.create_chapter(canonical_id="c:seq", unit_id=unit.id, name="Chapter", seq=0)
+    chapter2 = store.create_chapter(canonical_id="c:seq2", unit_id=unit.id, name="Chapter 2", seq=1)
     topic = store.create_topic(canonical_id="t:seq", chapter_id=chapter.id, name="Topic", seq=0)
+    topic2 = store.create_topic(canonical_id="t:seq2", chapter_id=chapter.id, name="Topic 2", seq=1)
     subtopic = store.create_subtopic(canonical_id="st:seq", topic_id=topic.id, name="Subtopic", seq=0)
+    subtopic2 = store.create_subtopic(canonical_id="st:seq2", topic_id=topic.id, name="Subtopic 2", seq=1)
 
     store.set_sequence("unit", unit.id, 7)
     store.set_sequence("chapter", chapter.id, 8)
     store.set_sequence("topic", topic.id, 9)
     store.set_sequence("subtopic", subtopic.id, 10)
 
-    assert store.get_unit(unit.id).seq == 7
-    assert store.get_chapter(chapter.id).seq == 8
-    assert store.get_topic(topic.id).seq == 9
-    assert store.get_subtopic(subtopic.id).seq == 10
+    assert (store.get_unit(unit.id).seq, store.get_unit(unit2.id).seq) == (1, 0)
+    assert (store.get_chapter(chapter.id).seq, store.get_chapter(chapter2.id).seq) == (1, 0)
+    assert (store.get_topic(topic.id).seq, store.get_topic(topic2.id).seq) == (1, 0)
+    assert (store.get_subtopic(subtopic.id).seq, store.get_subtopic(subtopic2.id).seq) == (1, 0)
 
 
 def test_set_sequence_rejects_unknown_entity_type(store):

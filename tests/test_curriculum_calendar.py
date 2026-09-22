@@ -267,6 +267,10 @@ def _seed_hierarchy(store, *, school_id="school_1"):
 
     unit_a_subtopic_ids = _add_subtopics(unit_a, 3, "A")
     unit_b_subtopic_ids = _add_subtopics(unit_b, 2, "B")
+    # The estimate is budgeted against the year's real teaching periods
+    # (since 2026-09-22), so it needs the real calendar.
+    store.create_calendar(academic_year_id=year.id, weekly_off_days=["sunday"],
+                          alternate_saturday_rule="none")
 
     return book.id, year.id, unit_a_subtopic_ids, unit_b_subtopic_ids
 
@@ -335,6 +339,7 @@ def test_compute_teaching_time_skips_units_with_no_subtopics_yet(store):
     book = store.create_book(subject_id=subject.id, board_id=board.id, title="Book")
     store.create_unit(canonical_id="u:empty", book_id=book.id, unit_no="I", name="Not decomposed yet", marks=25, seq=0)
     store.create_period_configuration(school_id="s", academic_year_id=year.id, period_minutes=40)
+    store.create_calendar(academic_year_id=year.id, weekly_off_days=["sunday"])
 
     result = calendar_mod.compute_teaching_time_estimates(
         store, academic_year_id=year.id, book_id=book.id, periods_per_week=6)

@@ -1,0 +1,77 @@
+{
+  "schoolId": "school_1",
+  "academicYearId": "academicYear_1",
+  "asOfDate": "2026-09-14",
+  "totalLessons": 9,
+  "completedLessons": 2,
+  "skippedLessons": 1,
+  "plannedToDate": 6,
+  "completedToDate": 2,
+  "overallCoveragePct": 22.22,
+  "overallPacePct": 33.33,
+  "overallVariance": -4,
+  "subjects": [
+    {
+      "subjectId": "subject_1",
+      "subjectName": "Mathematics",
+      "gradeNumber": 7,
+      "bookId": "book_1",
+      "bookTitle": "Mathematics 7",
+      "teacherId": "teacher_1",
+      "teacherName": "Tara Teacher",
+      "totalLessons": 7,
+      "completedLessons": 2,
+      "skippedLessons": 1,
+      "plannedToDate": 6,
+      "completedToDate": 2,
+      "coveragePct": 28.57,
+      "pacePct": 33.33,
+      "variance": -4,
+      "chapters": [
+        {
+          "chapterId": "chapter_1",
+          "chapterName": "Fractions",
+          "totalLessons": 4,
+          "completedLessons": 0,
+          "skippedLessons": 1,
+          "coveragePct": 0.0
+        },
+        {
+          "chapterId": "chapter_2",
+          "chapterName": "Integers",
+          "totalLessons": 3,
+          "completedLessons": 2,
+          "skippedLessons": 0,
+          "coveragePct": 66.67
+        }
+      ]
+    },
+    {
+      "subjectId": "subject_2",
+      "subjectName": "Science",
+      "gradeNumber": 10,
+      "bookId": "book_2",
+      "bookTitle": "Science 10",
+      "teacherId": null,
+      "teacherName": null,
+      "totalLessons": 2,
+      "completedLessons": 0,
+      "skippedLessons": 0,
+      "plannedToDate": 0,
+      "completedToDate": 0,
+      "coveragePct": 0.0,
+      "pacePct": 100.0,
+      "variance": 0,
+      "chapters": [
+        {
+          "chapterId": "chapter_3",
+          "chapterName": "Chemical Reactions",
+          "totalLessons": 2,
+          "completedLessons": 0,
+          "skippedLessons": 0,
+          "coveragePct": 0.0
+        }
+      ]
+    }
+  ]
+}

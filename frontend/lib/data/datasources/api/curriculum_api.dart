@@ -461,71 +461,110 @@ class CurriculumApi {
   }
 }
 
+// Coverage & Pace (§17, §32): mirrors CoverageReportResponse and its nested
+// Subject/ChapterCoverageResponse in src/academicos/curriculum/schemas.py
+// field for field. These used to read coveragePercent / totalCount /
+// completedCount / plannedCount / pacePercent -- names the backend never
+// sends -- so every figure fell to its `?? 0` default and the screen showed
+// 0% everywhere (audit 2026-09-21). test/fixtures/coverage_report.json is a
+// captured real payload, drift-checked by tests/test_curriculum_coverage_fixture.py.
+
+/// The backend's pace figure, or null when nothing was planned to date. The
+/// backend reports 100.0 for that case; shown as-is it tells a principal a
+/// subject nobody has started is on track.
+double? _paceOrNull(int plannedToDate, double pacePct) => plannedToDate > 0 ? pacePct : null;
+
 class ChapterCoverage {
   final String chapterId;
   final String chapterName;
-  final int plannedCount;
-  final int completedCount;
-  final int skippedCount;
-  final int totalCount;
-  final double coveragePercent;
-  final double pacePercent;
-  final int variance;
+  final int totalLessons;
+  final int completedLessons;
+  final int skippedLessons;
+  final double coveragePct;
 
   ChapterCoverage.fromJson(Map<String, dynamic> j)
       : chapterId = j['chapterId'] as String? ?? '',
         chapterName = j['chapterName'] as String? ?? '',
-        plannedCount = j['plannedCount'] as int? ?? 0,
-        completedCount = j['completedCount'] as int? ?? 0,
-        skippedCount = j['skippedCount'] as int? ?? 0,
-        totalCount = j['totalCount'] as int? ?? 0,
-        coveragePercent = (j['coveragePercent'] as num?)?.toDouble() ?? 0.0,
-        pacePercent = (j['pacePercent'] as num?)?.toDouble() ?? 0.0,
-        variance = j['variance'] as int? ?? 0;
+        totalLessons = j['totalLessons'] as int? ?? 0,
+        completedLessons = j['completedLessons'] as int? ?? 0,
+        skippedLessons = j['skippedLessons'] as int? ?? 0,
+        coveragePct = (j['coveragePct'] as num?)?.toDouble() ?? 0.0;
 }
 
 class SubjectCoverage {
   final String subjectId;
   final String subjectName;
+  final int gradeNumber;
+  final String bookId;
+  final String bookTitle;
   final String? teacherId;
   final String? teacherName;
-  final int plannedCount;
-  final int completedCount;
-  final int skippedCount;
-  final int totalCount;
-  final double coveragePercent;
-  final double pacePercent;
+  final int totalLessons;
+  final int completedLessons;
+  final int skippedLessons;
+  final int plannedToDate;
+  final int completedToDate;
+  final double coveragePct;
+  final double pacePct;
   final int variance;
   final List<ChapterCoverage> chapters;
 
   SubjectCoverage.fromJson(Map<String, dynamic> j)
       : subjectId = j['subjectId'] as String? ?? '',
         subjectName = j['subjectName'] as String? ?? '',
+        gradeNumber = j['gradeNumber'] as int? ?? 0,
+        bookId = j['bookId'] as String? ?? '',
+        bookTitle = j['bookTitle'] as String? ?? '',
         teacherId = j['teacherId'] as String?,
         teacherName = j['teacherName'] as String?,
-        plannedCount = j['plannedCount'] as int? ?? 0,
-        completedCount = j['completedCount'] as int? ?? 0,
-        skippedCount = j['skippedCount'] as int? ?? 0,
-        totalCount = j['totalCount'] as int? ?? 0,
-        coveragePercent = (j['coveragePercent'] as num?)?.toDouble() ?? 0.0,
-        pacePercent = (j['pacePercent'] as num?)?.toDouble() ?? 0.0,
+        totalLessons = j['totalLessons'] as int? ?? 0,
+        completedLessons = j['completedLessons'] as int? ?? 0,
+        skippedLessons = j['skippedLessons'] as int? ?? 0,
+        plannedToDate = j['plannedToDate'] as int? ?? 0,
+        completedToDate = j['completedToDate'] as int? ?? 0,
+        coveragePct = (j['coveragePct'] as num?)?.toDouble() ?? 0.0,
+        pacePct = (j['pacePct'] as num?)?.toDouble() ?? 0.0,
         variance = j['variance'] as int? ?? 0,
         chapters = ((j['chapters'] as List?) ?? const [])
             .map((e) => ChapterCoverage.fromJson(Map<String, dynamic>.from(e)))
             .toList();
+
+  /// [pacePct] when any lesson was due by the as-of date, else null.
+  double? get pace => _paceOrNull(plannedToDate, pacePct);
 }
 
 class CoverageReport {
+  final String schoolId;
   final String academicYearId;
   final String asOfDate;
+  final int totalLessons;
+  final int completedLessons;
+  final int skippedLessons;
+  final int plannedToDate;
+  final int completedToDate;
+  final double overallCoveragePct;
+  final double overallPacePct;
+  final int overallVariance;
   final List<SubjectCoverage> subjects;
 
   CoverageReport.fromJson(Map<String, dynamic> j)
-      : academicYearId = j['academicYearId'] as String? ?? '',
+      : schoolId = j['schoolId'] as String? ?? '',
+        academicYearId = j['academicYearId'] as String? ?? '',
         asOfDate = j['asOfDate'] as String? ?? '',
+        totalLessons = j['totalLessons'] as int? ?? 0,
+        completedLessons = j['completedLessons'] as int? ?? 0,
+        skippedLessons = j['skippedLessons'] as int? ?? 0,
+        plannedToDate = j['plannedToDate'] as int? ?? 0,
+        completedToDate = j['completedToDate'] as int? ?? 0,
+        overallCoveragePct = (j['overallCoveragePct'] as num?)?.toDouble() ?? 0.0,
+        overallPacePct = (j['overallPacePct'] as num?)?.toDouble() ?? 0.0,
+        overallVariance = j['overallVariance'] as int? ?? 0,
         subjects = ((j['subjects'] as List?) ?? const [])
             .map((e) => SubjectCoverage.fromJson(Map<String, dynamic>.from(e)))
             .toList();
+
+  /// [overallPacePct] when any lesson was due by the as-of date, else null.
+  double? get overallPace => _paceOrNull(plannedToDate, overallPacePct);
 }
 
 class DelayedLesson {

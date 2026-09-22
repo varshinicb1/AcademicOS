@@ -188,9 +188,14 @@ def test_schedule_force_regenerates_cleanly(store):
 def test_schedule_reports_unscheduled_subtopics_when_the_year_runs_out(store):
     """A deliberately tiny academic year (2 real weeks) can't fit every
     subtopic's real estimated periods -- the leftover must be reported,
-    never silently dropped or pushed past the real calendar."""
+    never silently dropped or pushed past the real calendar.
+
+    Since 2026-09-22 the estimates are budgeted against the year's real
+    teaching periods, so 5 subtopics in 12 periods now fit; the year runs
+    out only when the syllabus has more subtopics than the year has periods
+    (each needs at least one), hence 15 + 5 here."""
     book_id, year_id = _seed_schedulable_book(
-        store, n_subtopics_a=3, n_subtopics_b=2, start_date="2026-06-01", end_date="2026-06-14")
+        store, n_subtopics_a=15, n_subtopics_b=5, start_date="2026-06-01", end_date="2026-06-14")
     result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
                                           book_id=book_id, periods_per_week=6)
     assert result.subtopics_unscheduled or result.subtopics_partially_scheduled

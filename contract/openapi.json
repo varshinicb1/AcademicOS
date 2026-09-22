@@ -1431,6 +1431,11 @@
               }
             ],
             "title": "Periodsperweek"
+          },
+          "recompute": {
+            "default": false,
+            "title": "Recompute",
+            "type": "boolean"
           }
         },
         "title": "ComputeTeachingTimeRequest",
@@ -1454,12 +1459,27 @@
             "title": "Estimatescreated",
             "type": "integer"
           },
+          "fitsInYear": {
+            "default": true,
+            "title": "Fitsinyear",
+            "type": "boolean"
+          },
           "periodMinutes": {
             "title": "Periodminutes",
             "type": "integer"
           },
+          "periodsAllocated": {
+            "default": 0,
+            "title": "Periodsallocated",
+            "type": "integer"
+          },
           "periodsPerWeek": {
             "title": "Periodsperweek",
+            "type": "integer"
+          },
+          "periodsShort": {
+            "default": 0,
+            "title": "Periodsshort",
             "type": "integer"
           },
           "totalInstructionalMinutes": {
@@ -1881,6 +1901,19 @@
           "schoolId": {
             "title": "Schoolid",
             "type": "string"
+          },
+          "unscheduledCount": {
+            "default": 0,
+            "title": "Unscheduledcount",
+            "type": "integer"
+          },
+          "unscheduledLessons": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/UnscheduledLessonResponse"
+            },
+            "title": "Unscheduledlessons",
+            "type": "array"
           }
         },
         "required": [
@@ -5465,8 +5498,15 @@
             "type": "string"
           },
           "newDate": {
-            "title": "Newdate",
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Newdate"
           },
           "oldDate": {
             "title": "Olddate",
@@ -5485,7 +5525,6 @@
           "timestamp",
           "mode",
           "oldDate",
-          "newDate",
           "reason"
         ],
         "title": "RescheduleHistoryEntryResponse",
@@ -5820,6 +5859,11 @@
             "title": "Academicyearid",
             "type": "string"
           },
+          "allSubtopicsScheduled": {
+            "default": true,
+            "title": "Allsubtopicsscheduled",
+            "type": "boolean"
+          },
           "bookId": {
             "title": "Bookid",
             "type": "string"
@@ -5848,6 +5892,16 @@
           },
           "lessonsCreated": {
             "title": "Lessonscreated",
+            "type": "integer"
+          },
+          "lessonsKept": {
+            "default": 0,
+            "title": "Lessonskept",
+            "type": "integer"
+          },
+          "pastLessonsKept": {
+            "default": 0,
+            "title": "Pastlessonskept",
             "type": "integer"
           },
           "periodsPerWeek": {
@@ -5882,6 +5936,22 @@
           "teachingDaysAvailable": {
             "title": "Teachingdaysavailable",
             "type": "integer"
+          },
+          "teachingPeriodsAvailable": {
+            "default": 0,
+            "title": "Teachingperiodsavailable",
+            "type": "integer"
+          },
+          "warning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Warning"
           }
         },
         "required": [
@@ -7053,6 +7123,11 @@
           "totalCount": {
             "title": "Totalcount",
             "type": "integer"
+          },
+          "unscheduledCount": {
+            "default": 0,
+            "title": "Unscheduledcount",
+            "type": "integer"
           }
         },
         "required": [
@@ -8124,6 +8199,72 @@
           "seq"
         ],
         "title": "UnitResponse",
+        "type": "object"
+      },
+      "UnscheduledLessonResponse": {
+        "description": "A lesson a PUSH found no period for before the year ends. It has no\nday, so no days-overdue figure; lastPlannedDate is the day it held\nbefore it was dropped.",
+        "properties": {
+          "chapterName": {
+            "title": "Chaptername",
+            "type": "string"
+          },
+          "gradeNumber": {
+            "title": "Gradenumber",
+            "type": "integer"
+          },
+          "lastPlannedDate": {
+            "title": "Lastplanneddate",
+            "type": "string"
+          },
+          "lessonId": {
+            "title": "Lessonid",
+            "type": "string"
+          },
+          "subjectName": {
+            "title": "Subjectname",
+            "type": "string"
+          },
+          "subtopicName": {
+            "title": "Subtopicname",
+            "type": "string"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          },
+          "teacherName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teachername"
+          },
+          "topicName": {
+            "title": "Topicname",
+            "type": "string"
+          }
+        },
+        "required": [
+          "lessonId",
+          "lastPlannedDate",
+          "gradeNumber",
+          "subjectName",
+          "chapterName",
+          "topicName",
+          "subtopicName"
+        ],
+        "title": "UnscheduledLessonResponse",
         "type": "object"
       },
       "UserResponse": {
@@ -9952,7 +10093,7 @@
         "summary": "List Timetable Slots"
       },
       "post": {
-        "description": "Persists one real weekday+period a subject meets -- once any slots\nexist for a subject/year, scheduling.py's schedule_book() uses exactly\nthose real weekdays instead of its \"first N working days of the week\"\nfallback heuristic (see _subject_teaching_days's docstring).",
+        "description": "Persists one real weekday+period a subject meets -- once any slots\nexist for a subject/year, scheduling.py's schedule_book() uses exactly\nthose real weekdays instead of its \"first N working days of the week\"\nfallback heuristic (see calendar.subject_teaching_slots's docstring).",
         "operationId": "add_timetable_slot_api_v1_curriculum_academic_years__academic_year_id__timetable_slots_post",
         "parameters": [
           {
@@ -10183,7 +10324,7 @@
         "summary": "Get Book Schedule"
       },
       "post": {
-        "description": "Generates the real, dated schedule for this book -- see\nscheduling.py's module docstring for the full method and its honestly-\ndocumented weekday-assignment simplification. Requires\ncompute_teaching_time_estimates() to have already run for this\n(book, academic_year); a Subtopic without a real estimate is skipped\nand reported, never given a guessed period count.",
+        "description": "Generates the real, dated schedule for this book -- see\nscheduling.py's module docstring for the full method and its honestly-\ndocumented weekday-assignment simplification. Requires\ncompute_teaching_time_estimates() to have already run for this\n(book, academic_year); a Subtopic without a real estimate is skipped\nand reported, never given a guessed period count. `allSubtopicsScheduled`\nis false, with a `warning` sentence, whenever any subtopic ends up\nwithout its full dated periods. `force` keeps completed/skipped lessons,\nand every lesson dated before today (taught or overdue), and replans\nonly what is still to be taught. New lessons are placed from\nthe school's today (or the year's first day, if later): a day that has\npassed cannot be taught on, and the shortfall warning counts only the\nperiods left.",
         "operationId": "schedule_book_api_v1_curriculum_books__book_id__schedule_post",
         "parameters": [
           {
@@ -10975,7 +11116,7 @@
     },
     "/api/v1/curriculum/my-progress": {
       "get": {
-        "description": "Real per-subject progress: how many of this class's real scheduled\nlessons (up to today) have actually been marked completed vs skipped\nvs still just scheduled -- computed from the same real ScheduledLesson\nrows the teacher/principal views use, never a separate estimate.",
+        "description": "Real per-subject progress: how many of this class's real scheduled\nlessons (up to today) have actually been marked completed vs skipped\nvs still just scheduled -- computed from the same real ScheduledLesson\nrows the teacher/principal views use, never a separate estimate.\n\nAn 'unscheduled' lesson (a PUSH found it no period before the year\nends) is counted in `unscheduledCount` and in `totalCount` whatever its\nstale date: it is still owed, and it has no day to be \"up to today\" by.\nUntil the review of 2026-09-22 one dated on or before today was in the\ntotal and in none of the parts, so the counts did not add up.",
         "operationId": "get_my_progress_api_v1_curriculum_my_progress_get",
         "parameters": [
           {
@@ -11183,7 +11324,7 @@
     },
     "/api/v1/curriculum/reporting/delayed-topics": {
       "get": {
-        "description": "All scheduled lessons past due (date < as_of_date) still in\n'scheduled' status, with days overdue (§17, §32).",
+        "description": "All scheduled lessons past due (date < as_of_date) still in\n'scheduled' status, with days overdue (§17, §32), plus every lesson a\nPUSH left 'unscheduled' (no day before the year ends -- the worst\ndelay, which this report left out until the review of 2026-09-22).\n`as_of_date` defaults to the school's today (IST).",
         "operationId": "get_delayed_topics_api_v1_curriculum_reporting_delayed_topics_get",
         "parameters": [
           {
@@ -11357,7 +11498,7 @@
     },
     "/api/v1/curriculum/scheduled-lessons/{lesson_id}/history": {
       "get": {
-        "description": "Every real PUSH/ADJUST ever applied to this lesson -- readable by\nthe assigned teacher or a same-school principal, same posture as\nmarking completion.",
+        "description": "Every real PUSH/ADJUST ever applied to this lesson (newDate is null\nwhere a PUSH left it 'unscheduled') -- readable by\nthe assigned teacher or a same-school principal, same posture as\nmarking completion.",
         "operationId": "get_lesson_history_api_v1_curriculum_scheduled_lessons__lesson_id__history_get",
         "parameters": [
           {
