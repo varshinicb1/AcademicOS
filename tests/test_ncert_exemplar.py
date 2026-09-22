@@ -523,3 +523,109 @@ def test_the_python_schema_accepts_the_new_provenance_value():
 
     s = AnswerSchemeSchema.model_validate({"totalMarks": 1, "provenance": "ncert_exemplar_answer"})
     assert s.provenance == "ncert_exemplar_answer"
+
+
+# --------------------------------------------------------------------------- #
+# number lines, tables and answer parts the text does not carry
+# --------------------------------------------------------------------------- #
+
+def test_class7_maths_question_about_a_drawn_number_line_is_excluded():
+    # gemp101 p.9: "7. On the following number line value 'Zero' is shown by
+    # the point" / "(a) X (b) Y (c) Z (d) W" -- X, Y, Z, W are points drawn on
+    # the line; gemp1a1 p.1: "7. (c)".
+    qs = _parse(7, "Mathematics", "gemp101", [8, 9], 1, "gemp1a1", [1])
+    q = _q(qs, 7)
+    assert q.options == ["X", "Y", "Z", "W"] and q.answer_letters == ["c"]
+    assert ex.exclusion_reason(q) == "figure-unavailable"
+    # "On the number line, the value of (-3) x 3 lies ..." needs no picture.
+    assert ex.exclusion_reason(_q(qs, 9)) is None
+
+
+def test_class8_maths_table_printed_as_a_picture_is_excluded():
+    # heep208 p.18: "129. Astronomy The table shows the mass of the planets
+    # ..." and "130. ... The table shows the average distance from each planet
+    # ... (a) Complete the table ..."; the tables are not in the text, so
+    # neither question can be answered. heep2an p.45 holds both answers.
+    qs = _parse(8, "Mathematics", "heep208", range(5, 19), 8, "heep2an", range(42, 46))
+    for n in (129, 130):
+        q = _q(qs, n)
+        assert q.stem.startswith(("Astronomy The table shows", "Investigating Solar System"))
+        assert q.has_answer
+        assert ex.exclusion_reason(q) == "figure-unavailable", n
+
+
+def test_class7_maths_table_whose_rows_are_in_the_text_is_kept():
+    # gemp101 p.18: "113.The table shows the lowest recorded temperatures for
+    # each continent. ..." followed by every row: "Africa / -11°", ...;
+    # gemp1a1 p.2: "113. Antarctica, Asia, N. America, ...".
+    qs = _parse(7, "Mathematics", "gemp101", range(8, 19), 1, "gemp1a1", [1, 2])
+    q = _q(qs, 113)
+    assert "Antarctica –129⁰" in q.stem
+    assert q.answer_text.startswith("Antarctica, Asia")
+    assert ex.exclusion_reason(q) is None
+    # gemp107 p.30 Q138 (the ten largest deserts) carries its rows the same way.
+    assert not ex.needs_table(
+        "Earth Science: The table lists the world’s 10 largest deserts. Largest Deserts in "
+        "the World Desert Area (km²) Sahara (Africa) 8,800,000 Gobi (Asia) 1,300,000 "
+        "Australian Desert (Australia) 1,250,000 Arabian Desert (Asia) 850,000")
+
+
+def test_class6_maths_answer_missing_a_sub_part_is_excluded():
+    # feep105 p.7: "26. ... (a) Arrange the choices of games in a table using
+    # tally marks. (b) Which game is liked by most ... (c) ... minimum ...";
+    # feep1an p.9: "26. (a)" / "(b)  Football     (c)  Tennis." -- part (a)
+    # was the tally table, drawn, not text.
+    qs = _parse(6, "Mathematics", "feep105", range(4, 8), 5, "feep1an", [8, 9])
+    q = _q(qs, 26)
+    assert q.answer_text == "(a) (b) Football (c) Tennis."
+    assert ex.exclusion_reason(q) == "answer-part-missing"
+
+
+def test_empty_sub_part_labels():
+    for a in ("(a) (b) Football (c) Tennis.", "(i) (ii) 4", "a) b) 12", "(A)  (B) yes"):
+        assert ex.has_empty_subpart(a), a
+    for a in ("(a) and (b)", "(a), (b), (c) and (f)", "(b) Football (c) Tennis",
+              "(i) (x + 6) (x + 3) (ii) (3x –1) (2x + 3)", "Correct sequence is – (iii), (iv), (v)",
+              "(d) → (e) → (b)", "(a + b) (a – b)"):
+        assert not ex.has_empty_subpart(a), a
+
+
+# --------------------------------------------------------------------------- #
+# the built artifact
+# --------------------------------------------------------------------------- #
+
+BUILT = ROOT / "academicos-data" / "corpus" / "ncert-exemplar" / "questions.json"
+
+
+@pytest.mark.skipif(not BUILT.exists(), reason="Exemplar bank not built")
+def test_every_written_record_is_servable():
+    """What the parser rules promise, checked on what was actually written."""
+    from academicos.assessment.schemas import QuestionSchema
+
+    records = json.loads(BUILT.read_text(encoding="utf-8"))["questions"]
+    assert records
+    ids = [r["id"] for r in records]
+    assert len(ids) == len(set(ids)), "duplicate record ids"
+    bad: list[str] = []
+    for r in records:
+        QuestionSchema.model_validate(r)
+        options = [o for p in r["parts"] for o in p["options"]]
+        answer = r["answerScheme"]["modelAnswer"]
+        text = " ".join([r["stem"], *options, answer,
+                         *(mp["description"] for mp in r["answerScheme"]["markingPoints"])])
+        for mark in (ex.LOSS, "\ufffd", ex.FIGURE_MARK, ex.ASIDE_MARK):
+            if mark in text:
+                bad.append(f"{r['id']}: contains {mark!r}")
+        if ex._FIGURE.search(" ".join([r["stem"], *options, answer])):
+            bad.append(f"{r['id']}: figure reference")
+        if ex.needs_table(r["stem"]):
+            bad.append(f"{r['id']}: table not in the text")
+        if r["type"] == "mcq":
+            (part,) = r["parts"]
+            if len(part["options"]) != 4 or part["correctOption"] not in ("a", "b", "c", "d"):
+                bad.append(f"{r['id']}: MCQ options {part['options']!r} / {part['correctOption']!r}")
+        elif ex.has_empty_subpart(answer):
+            bad.append(f"{r['id']}: answer has an empty sub-part")
+        if not answer.strip():
+            bad.append(f"{r['id']}: no answer")
+    assert not bad, bad[:20]

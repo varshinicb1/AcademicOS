@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-09-22T10:26:05.151009+00:00",
+ "builtAt": "2026-09-22T10:38:59.136802+00:00",
  "root": "ncert-dataset/exemplar",
  "counts": {
   "10|Mathematics": {
@@ -50,6 +50,7 @@
   },
   "6|Mathematics": {
    "chapterMapped": 51,
+   "excluded:answer-part-missing": 1,
    "excluded:blank-lost": 2,
    "excluded:figure-unavailable": 137,
    "excluded:no-answer": 74,
@@ -64,12 +65,12 @@
    "kind:sa": 370,
    "kind:true_false": 171,
    "marks:1": 373,
-   "marks:3": 154,
+   "marks:3": 153,
    "withAnswer": 800,
-   "written": 527,
+   "written": 526,
    "written:fill_blank": 117,
    "written:mcq_single": 109,
-   "written:sa": 154,
+   "written:sa": 153,
    "written:true_false": 147
   },
   "6|Science": {
@@ -100,9 +101,9 @@
    "written:vsa": 34
   },
   "7|Mathematics": {
-   "chapterMapped": 440,
+   "chapterMapped": 439,
    "excluded:blank-lost": 66,
-   "excluded:figure-unavailable": 337,
+   "excluded:figure-unavailable": 338,
    "excluded:no-answer": 68,
    "excluded:options-unparsed": 7,
    "excluded:reading-order": 13,
@@ -115,12 +116,12 @@
    "kind:mcq_single": 311,
    "kind:sa": 559,
    "kind:true_false": 258,
-   "marks:1": 429,
+   "marks:1": 428,
    "marks:3": 137,
    "withAnswer": 1356,
-   "written": 566,
+   "written": 565,
    "written:fill_blank": 98,
-   "written:mcq_single": 135,
+   "written:mcq_single": 134,
    "written:sa": 137,
    "written:true_false": 196
   },
@@ -150,9 +151,9 @@
    "written:vsa": 63
   },
   "8|Mathematics": {
-   "chapterMapped": 413,
+   "chapterMapped": 411,
    "excluded:blank-lost": 2,
-   "excluded:figure-unavailable": 290,
+   "excluded:figure-unavailable": 292,
    "excluded:no-answer": 45,
    "excluded:options-unparsed": 10,
    "excluded:reading-order": 19,
@@ -167,12 +168,12 @@
    "kind:sa": 701,
    "kind:true_false": 250,
    "marks:1": 595,
-   "marks:3": 250,
+   "marks:3": 248,
    "withAnswer": 1537,
-   "written": 845,
+   "written": 843,
    "written:fill_blank": 204,
    "written:mcq_single": 196,
-   "written:sa": 250,
+   "written:sa": 248,
    "written:true_false": 195
   },
   "8|Science": {
@@ -260,7 +261,8 @@
   "blank-lost",
   "table-layout",
   "stem-too-short",
-  "answer-is-a-pointer"
+  "answer-is-a-pointer",
+  "answer-part-missing"
  ],
  "marksBasis": {
   "mcq_single": 1,

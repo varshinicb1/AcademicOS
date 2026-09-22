@@ -78,7 +78,9 @@ question 42 above", the data block of a range instruction -- is excluded
 blank was a drawn rule (``blank-lost``). So is a question whose book answer
 only points elsewhere -- "See pages 223 and 224 of ... textbook", "Take help
 of elders or use internet" -- because it is no answer key
-(``answer-is-a-pointer``).
+(``answer-is-a-pointer``), and one whose answer has a labelled part with
+nothing in it, "(a) (b) Football", because part (a) was drawn
+(``answer-part-missing``).
 
 Book versions
 -------------
@@ -1898,14 +1900,54 @@ def _build(book: Book, chapter: int, name: str, kind: str, label: str, number: s
 
 # A question that points at a figure, graph or diagram the product does not
 # have. "significant figures" is vocabulary, not a figure reference, so the
-# plural alone does not count.
+# plural alone does not count. "the following number line" is a drawing
+# (gemp101 p.9 Q7: options X, Y, Z, W are points marked on it); "On the
+# number line, ..." is not.
 _FIGURE = re.compile(
     r"\bFigs?\.|\bFigs?\s*\d|\bfigure\b|\bdiagrams?\b|\bgraphs?\b|\bsketch\b|"
     r"\bshown (?:in|below|above|alongside|here)\b|\bas shown\b|\bpictures?\b|"
     r"\bgiven below\b.*\b(?:figure|diagram|graph)\b|\bplot\b|\bdraw\b|\bpictograph\b|"
     r"\bbar graph\b|\bconstruct\b|\bmaps?\b|\bpie chart\b|"
     r"\b(?:following|given|above|below) table\b|\btable (?:given|below|above)\b|"
+    r"\b(?:following|given|above|below)\s+number\s+lines?\b|"
     + re.escape(FIGURE_MARK), re.I)
+
+# "The table shows ..." names a table without saying where it is. When the
+# table was set as text its rows follow in the stem (gemp101 p.18 Q113: every
+# continent and its temperature; gemp107 p.30 Q138: ten deserts and areas);
+# when it was drawn, nothing follows (heep208 p.18 Q129-130: the planets'
+# masses and distances are not in the text). Rows of such a table are numbers,
+# so fewer than four numbers after the phrase means the table is missing.
+_TABLE_LEAD = re.compile(r"\bthe table (?:shows|lists|gives)\b", re.I)
+_TABLE_ROWS_MIN = 4
+
+
+def needs_table(stem: str) -> bool:
+    """True when the stem talks about "the table" but the table is not in it."""
+    m = _TABLE_LEAD.search(stem)
+    return bool(m) and len(re.findall(r"\d[\d,.]*", stem[m.end():])) < _TABLE_ROWS_MIN
+
+
+# An answer whose sub-part label is followed straight away by the next label
+# lost that part: feep1an p.9 "26. (a)" / "(b) Football (c) Tennis." -- (a) was
+# the tally table, drawn. "(a) and (b)" and "(a), (b)" are lists of labels, not
+# parts, so only whitespace may separate the two labels.
+_SUB_LABEL = re.compile(r"(?<![\w)])\(?([a-z]|[ivx]{1,4})\)", re.I)
+_ROMAN = ("i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii")
+
+
+def _next_label(a: str, b: str) -> bool:
+    a, b = a.lower(), b.lower()
+    if a in _ROMAN and b in _ROMAN and _ROMAN.index(b) == _ROMAN.index(a) + 1:
+        return True
+    return len(a) == len(b) == 1 and ord(b) == ord(a) + 1
+
+
+def has_empty_subpart(answer: str) -> bool:
+    """True when a labelled part of the answer has nothing in it."""
+    labels = list(_SUB_LABEL.finditer(answer))
+    return any(not answer[x.end():y.start()].strip() and _next_label(x.group(1), y.group(1))
+               for x, y in zip(labels, labels[1:]))
 
 # "Which of the following figures ..." is a figure reference unless the
 # options name the figures in words ("Rectangle", "Kite", ...): heep205 p.17
@@ -1966,7 +2008,7 @@ _CROSS_REFERENCE = re.compile(
 EXCLUSION_REASONS = (
     "chapter-unverified", "shared-stimulus", "options-unparsed", "no-answer", "answer-not-an-option",
     "figure-unavailable", "symbol-loss", "reading-order", "blank-lost", "table-layout",
-    "stem-too-short", "answer-is-a-pointer",
+    "stem-too-short", "answer-is-a-pointer", "answer-part-missing",
 )
 
 
@@ -1983,7 +2025,7 @@ def exclusion_reason(q: ExemplarQuestion) -> Optional[str]:
     if not q.has_answer:
         return "no-answer"
     everything = " ".join([q.stem, *q.options, q.answer_text])
-    if _FIGURE.search(everything) or needs_figure(q.stem, q.options):
+    if _FIGURE.search(everything) or needs_figure(q.stem, q.options) or needs_table(q.stem):
         return "figure-unavailable"
     if LOSS in everything or _LOST_ARROW.search(everything):
         return "symbol-loss"
@@ -2001,6 +2043,8 @@ def exclusion_reason(q: ExemplarQuestion) -> Optional[str]:
         return "stem-too-short"
     if q.section_kind not in OPTION_KINDS and is_pointer_answer(q.answer_text):
         return "answer-is-a-pointer"
+    if q.section_kind not in OPTION_KINDS and has_empty_subpart(q.answer_text):
+        return "answer-part-missing"
     return None
 
 

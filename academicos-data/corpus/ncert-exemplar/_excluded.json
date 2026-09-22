@@ -1,5 +1,5 @@
 {
- "count": 3474,
+ "count": 3478,
  "items": [
   {
    "id": "exemplar:q:6:mathematics:1:-:2",
@@ -3425,6 +3425,23 @@
    "options": [],
    "optionsError": null,
    "answer": "[[figure]]",
+   "answerError": null
+  },
+  {
+   "id": "exemplar:q:6:mathematics:5:-:26",
+   "reason": "answer-part-missing",
+   "grade": 6,
+   "subject": "Mathematics",
+   "chapter": 5,
+   "exercise": null,
+   "number": "26",
+   "kind": "sa",
+   "file": "feep105.pdf",
+   "page": 7,
+   "stem": "Following are the choices of games of 40 students of Class VI: football, cricket, football, kho-kho, hockey, cricket, hockey, kho-kho, tennis, tennis, cricket, football, football, hockey, kho-kho, football, cricket, tennis, football, hockey, kho-kho, football, cricket, cricket, football, hockey, kho-kho, tennis, football, hockey, cricket, football, hockey, cricket, football, kho-kho, football, cricket, hockey, football. (a) Arrange the choices of games in a table using tally marks. (b) Which game is liked by most of the students? (c) Which game is liked by minimum number of students?",
+   "options": [],
+   "optionsError": null,
+   "answer": "(a) (b) Football (c) Tennis.",
    "answerError": null
   },
   {
@@ -8295,6 +8312,28 @@
    ],
    "optionsError": null,
    "answer": "(d) – 1, – 4, – 7 [[aside]] Think and Discuss [[aside]] 1. Compare the sums 10 + (–22) and –10 + 22. [[aside]] 2. Describe how to add the following addition expressions on a number [[aside]] line, 9 + (– 13) and –13 + 9. Then compare the sums.",
+   "answerError": null
+  },
+  {
+   "id": "exemplar:q:7:mathematics:1:-:7",
+   "reason": "figure-unavailable",
+   "grade": 7,
+   "subject": "Mathematics",
+   "chapter": 1,
+   "exercise": null,
+   "number": "7",
+   "kind": "mcq_single",
+   "file": "gemp101.pdf",
+   "page": 9,
+   "stem": "On the following number line value ‘Zero’ is shown by the point",
+   "options": [
+    "X",
+    "Y",
+    "Z",
+    "W"
+   ],
+   "optionsError": null,
+   "answer": "(c) Z",
    "answerError": null
   },
   {
@@ -34609,6 +34648,40 @@
    "options": [],
    "optionsError": null,
    "answer": "�(a) x 1^(x) 2^(x) 3^(x) 4^(x) 5^(x) 6^(x) 7^(x) 8^(x) 9^(x) 10^(x) 1 1 2 3 4 5 6 7 8 9 10 2 1 4 9 16 25 36 49 64 81 100 3 1 8 27 64 125 216 343 512 729 1000 4 1 16 81 256 625 1296 2401 4096 6561 10000 5 1 32 243 1024 3125 7776 16807 32768 59049 100000 6 1 64 729 4096 15625 46656 117649 262144 531441 1000000 7 1 128 2187 16384 78125 279936 823543 2097152 4782969 10000000 8 1 256 6561 65536 390625 1679616 5764801 16777216 43046721 100000000 One 1 2,4, 3,9, 4,6 5 6 7,9, 8,4, 9,1 0 digit 8,6 7,1 3,1 2,6 of the Power (b) (1) 6 (2) 1 (3) 3 (4) 5 (5) 0 (c) (1) 1 (2) 4 (3) 7 (4) 1",
+   "answerError": null
+  },
+  {
+   "id": "exemplar:q:8:mathematics:8:-:129",
+   "reason": "figure-unavailable",
+   "grade": 8,
+   "subject": "Mathematics",
+   "chapter": 8,
+   "exercise": null,
+   "number": "129",
+   "kind": "sa",
+   "file": "heep208.pdf",
+   "page": 18,
+   "stem": "Astronomy The table shows the mass of the planets, the sun and the moon in our solar system. (a) Write the mass of each planet and the Moon in scientific notation. (b) Order the planets and the moon by mass, from least to greatest. (c) Which planet has about the same mass as earth?",
+   "options": [],
+   "optionsError": null,
+   "answer": "(a) Sun - 1.99 × 10³⁰ Mercury - 3.3 × 10²³ Venus - 4.87 × 10²⁴ Earth - 5.97 × 10²⁴ Mars - 6.42 × 10²⁹ Jupiter - 1.9 × 10²⁷ Saturn - 5.68 × 10²⁶ Uranus - 8.68 × 10²⁵ Neptune - 1.02 × 10²⁶ Pluto - 1.27 × 10²² Moon - 7.35 × 10²² (b) Pluto < Moon < Mercury < Venus < Earth < Uranus < Neptune < Saturn < Jupiter < Mars. (c) Venus",
+   "answerError": null
+  },
+  {
+   "id": "exemplar:q:8:mathematics:8:-:130",
+   "reason": "figure-unavailable",
+   "grade": 8,
+   "subject": "Mathematics",
+   "chapter": 8,
+   "exercise": null,
+   "number": "130",
+   "kind": "sa",
+   "file": "heep208.pdf",
+   "page": 18,
+   "stem": "Investigating Solar System The table shows the average distance from each planet in our solar system to the sun. (a) Complete the table by expressing the distance from each planet to the Sun in scientific notation. (b) Order the planets from closest to the sun to farthest from the sun.",
+   "options": [],
+   "optionsError": null,
+   "answer": "(a) Sun - 1.496 × 10⁸ Jupiter - 7.783 × 10⁸ Mars - 2.279 × 10⁸ Mercury - 5.79 × 10⁷ Neptune - 4.497 × 10⁹ Pluto - 5.9 × 10⁹ Saturn - 1.427 × 10⁹ Uranus - 2.87 × 10⁹ Venus - 1.082 × 10⁸ (b) Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Nepute, Pluto.",
    "answerError": null
   },
   {
