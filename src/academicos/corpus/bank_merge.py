@@ -54,6 +54,9 @@ Nothing is dropped silently; every exclusion is returned with its reason.
                          student could not choose between them (empty, or two
                          read alike)
   mcq-answer-unresolved  the correct option cannot be recovered with certainty
+  option-labels-collide  numbered or roman options whose text names A-D -- "1.
+                         A & B 2. A & C" over statements A-D -- which would read
+                         "(C) B & C" once printed with the letters the key uses
   stem-spans-sections    a section heading inside the stem: several questions,
                          across a section break, extracted as one
   stem-empty-after-strip nothing, or only a header, is left of the stem once
@@ -98,6 +101,23 @@ column-scrambled options, or options that read alike once case is folded --
 mcq-options-unresolved. No served 1-mark non-MCQ SQP row carries three
 labels of one style any more.
 
+Relabelled, those roman and numbered options can collide with their own
+text. At 7b3aae4, 5 served rows printed options that name A-D: statements A-D
+(SQP Carnatic Music (Melodic Instrument) X 2023-24 Q6, "1. A & B 2. A & C
+..."), a matching list's rows A-D (SQP Hindustani Music (Vocal) XII 2023-24
+Q6), and 3 assertion-reason items ("i. Both A and R are true ..."). The paper
+used numbers to keep the option apart from the statement; printed as (A)-(D)
+they read "(C) B & C". Keeping 1-4 would not help: `QuestionPart` could carry
+the label, but a served MCQ keeps its options inline and is scored by
+`answerScheme.metadata.correctOption`, and both scorers (evaluate.py and the
+phone's answer_evaluation.dart) read only the letters A-D in an answer. So
+these rows are option-labels-collide: the 5, and SQP Painting XII 2023-24 Q4
+(until then stem-runs-on), whose option iv runs on into the next question's
+"Assertion (A)".
+
+How a stem's options and a key are read is `mcq_shape`'s; what is served, and
+why not, is this module's.
+
 Known limitation
 ----------------
 A non-MCQ key is checked for its shape (empty, instruction text, too long,
@@ -118,6 +138,11 @@ from typing import Any
 
 from ..assessment.mapping import _resolve_bloom, _resolve_difficulty, _resolve_type
 from ..assessment.question_bank import OfficialAnswer, build_official_scheme
+from .mcq_shape import (
+    INSTRUCTION, LATER_PART_OPENING, LETTERS, MIN_OPTIONS, PART_LABEL_OPENING, SUB_PART,
+    answerable, has_option_labels, holds_group, key_letter, names_option_letter, norm,
+    options_from_parts, stem_options, tokens,
+)
 
 BOARD_SOURCE = "cbse_board_paper"
 
@@ -262,11 +287,6 @@ _FIGURE_REF = re.compile(
     rf"|(?:above|below|given|following|adjoining|adjacent)\s+{_VISUAL}"
     rf"|{_VISUAL}\s+(?:given|shown)\b"
     r"|table\s+(?:(?:given|shown)\s+)?above|above\s+table)", re.I)
-# A scheme that joined the wrong text often carries the next question's stem.
-_INSTRUCTION = re.compile(
-    r"^(?:read the (?:following|given|passage|extract|data|information)|fill in the blank|"
-    r"find the odd one|select the (?:correct|appropriate)|choose the (?:correct|appropriate))",
-    re.I)
 _PASSAGE_REF = re.compile(r"\bread the (?:following )?(?:passage|extract|poem|text)\b", re.I)
 # The 2025-26 SQPs repeat this note in every page footer; 46 served stems
 # carried it, 22 of them MCQs where it ran into the last option.
@@ -314,7 +334,6 @@ _INNER_SECTION = re.compile(rf"(?:^|\s){_HEADING}")
 # A page number left anywhere in the text: "Page of 10", "Page 3 of 12", or a
 # bare "Page of" where the number was lost.
 _PAGE = re.compile(r"\s*\bPage\s+(?:\d+\s+)?of(?:\s+\d+\b)?")
-_AWARD = re.compile(r"\s*\bAward\b.*$", re.I | re.S)
 _MIN_STEM = 15
 _GARBLE_RUNS = 3
 
@@ -441,7 +460,7 @@ def exclusion_reason(rec: dict) -> str | None:
         return "garbled-script"
     if not answer:
         return "no-answer"
-    if _INSTRUCTION.match(_first_answer(rec)):
+    if INSTRUCTION.match(_first_answer(rec)):
         return "answer-is-question-text"
     marks = rec.get("marks") if _is_num(rec.get("marks")) else 1
     if len(answer) > max(600, 450 * max(int(marks), 1)):
@@ -453,295 +472,11 @@ def exclusion_reason(rec: dict) -> str | None:
 # MCQs
 # --------------------------------------------------------------------------- #
 
-_PART_OPTION = re.compile(r"^\s*\(?([A-Da-d])\)?\s*[.)–—:\-]\s*(.*)$", re.S)
-_LEADING_LETTER = re.compile(r"^\s*\(?([A-Da-d])\)?\s*(?:[.)–—:\-]|$)")
-_LABEL = re.compile(r"(?<![A-Za-z])([A-D])\s*[.)–—:\-]")
-_INLINE_OPTION = re.compile(r"\(([A-Da-d])\)\s*")
-_UPPER_LABEL = re.compile(r"\(([A-D])\)")
-# The labels of each option style, in order. Options are keyed A-D whatever
-# they were printed as.
-_LETTERS = ("a", "b", "c", "d")
-_ROMAN = ("i", "ii", "iii", "iv")
-_NUMERALS = ("1", "2", "3", "4")
-_ROMAN_LABEL = "iv|iii|ii|i"
-
-
-def _style(label: str, punct: str) -> re.Pattern:
-    # A label is a lone letter, numeral or roman numeral followed by a space:
-    # the "e." of "i.e.", the "d." ending "and.", the "4." of "14." or "2.5"
-    # are not one.
-    return re.compile(rf"(?<![\w(.])({label}){punct}(?=\s)")
-
-
-# The other ways SQP papers print options inline, each with its labels: "a) 1
-# b) 3 c) 4 d) 2" (SQP Kathakali XII 2025-26 Q5), "a. Chappu b. Toppi ...",
-# "A. FTP B. SFTP ...", "a] Rajasthan b] Gujarat" (SQP Bharatanatyam XII
-# 2022-23 Q7), "i. Squirrel ii. Tiger iii. Swine iv. Sheep" (SQP Painting X
-# 2023-24 Q6), "1. Kriti 2. Tana Varnam ..." (SQP Carnatic Music (Vocal) X
-# 2024-25 Q5). One case and one punctuation mark per style, so a stem is read
-# in the style it was printed in. "1." is also how a paper numbers its
-# questions, so several questions fused into one stem read as numbered labels
-# that repeat: they do not parse as options, but they are the MCQ shape, and
-# the gate refuses them (SQP Kathak XII 2024-25 Q4 and its kind).
-_OPTION_STYLES: tuple[tuple[re.Pattern, tuple[str, ...]], ...] = (
-    *((_style(letters, punct), _LETTERS)
-      for letters in ("[a-d]", "[A-D]") for punct in (r"\)", r"\.")),
-    (_style("[a-d]", r"\]"), _LETTERS),
-    (re.compile(rf"(?<!\w)\(({_ROMAN_LABEL})\)\s*"), _ROMAN),
-    *((_style(_ROMAN_LABEL, punct), _ROMAN) for punct in (r"\.", r"\)")),
-    *((_style("[1-4]", punct), _NUMERALS) for punct in (r"\.", r"\)")),
-)
-_ALL_OPTION_STYLES = ((_INLINE_OPTION, _LETTERS), *_OPTION_STYLES)
-# "A)(0, 0)", "C )": a capital label as extraction spaced it, for the shape only.
-_LOOSE_UPPER_LABEL = re.compile(r"(?<![\w(.])([A-D])\s?\)")
-# A key written in a roman or numeric option's label: "(iii)", "iv. S.tail()",
-# "3.", "2. Statement I & II both are false".
-_KEY_LABEL = {labels: re.compile(rf"^\s*\(?({'|'.join(sorted(labels, key=len, reverse=True))})"
-                                 r"\)?\s*(?:[.)\]:–—\-]|$)")
-              for labels in (_ROMAN, _NUMERALS)}
-# "(1)", "(1 mark)" after an answer is the mark column, not part of the answer.
-_MARK_NOTE = re.compile(r"(?:\s+\(\s*(?:\d+|½)\s*(?:marks?)?\s*\))+\s*$", re.I)
-# "3" alone may be the number of option (3) in a numbered list, not option text.
-_BARE_NUMERAL = re.compile(r"^\(?[1-4]\)?\.?$")
-_DASHES = str.maketrans(dict.fromkeys("−–—‐‑", "-"))
-# "1 (a) ...", "1(a) ...": the first part of a numbered group, not an MCQ in
-# its own right -- cbe:q:Science9DT3 carried its group's 8 marks this way.
-_SUB_PART = re.compile(r"^\s*(?:\d+\s*)?\(\s*[a-z]\s*\)\s*\S")
-# CBE prints each part of a numbered group under the group's number: "1 (a)",
-# "1(b)". The same number before two different letters is a group's parts;
-# "(a)8 (b)6 (c)12" (SQP Kathak XII 2022-23 Q7) is options with numeric text.
-_GROUP_PART = re.compile(r"(?<![\w.])(\d+)\s*\(([a-z])\)")
 # CBE authors some 2-mark MCQs (71 in the raw bank); none worth more than 2 was
 # a single MCQ when read (measured 2026-09-22).
 _MCQ_MAX_MARKS = 2
-_MIN_OPTIONS = 3
-_MAX_OPTION_TOKENS = 40
 # The declared types an SQP row carries when it is really an MCQ.
 _INFERABLE_TYPES = frozenset({"short_answer", "very_short_answer"})
-_TOKEN = re.compile(r"\w+|[^\w\s,.;:'\"‘’“”]")
-
-
-def _norm(text: str) -> str:
-    return " ".join(re.findall(r"\w+", (text or "").lower()))
-
-
-def _tokens(text: str) -> list[str]:
-    """Words and symbols, keeping everything `_norm` throws away.
-
-    `_norm` reads "-48" and "48" alike, "2(x + y)" and "2(x – y)" alike, and
-    in Indic text drops every vowel sign (they are not \\w). That is fine for
-    finding a candidate and wrong for deciding one: in 15 of the served CBE
-    MCQs a wrong option differs from the right one only by a sign, an operator
-    or a bracket (measured 2026-09-21). Here signs, brackets and matras are
-    tokens; commas, full stops and quotes are not, so "(2x+3), (3x-2)" still
-    reads as "(2x+3) (3x-2)".
-    """
-    t = unicodedata.normalize("NFKC", _MARK_NOTE.sub("", text or ""))
-    return _TOKEN.findall(t.casefold().translate(_DASHES).replace("&", " and "))
-
-
-def _contains(hay: list[str], needle: list[str]) -> bool:
-    n = len(needle)
-    return 0 < n <= len(hay) and any(hay[i:i + n] == needle for i in range(len(hay) - n + 1))
-
-
-def _named_option(words: list[str], options: dict[str, str]) -> str | None:
-    """The one option these words name, or None when they name none or several.
-
-    An exact reading wins. Failing that the words may quote part of an option,
-    or carry one with something trailing ("... II is false SECTION-B") -- but
-    only one option may fit.
-    """
-    toks = {k: _tokens(v) for k, v in options.items()}
-    exact = [k for k, t in toks.items() if t == words]
-    if exact:
-        return exact[0] if len(exact) == 1 else None
-    near = [k for k, t in toks.items() if t and (_contains(words, t) or _contains(t, words))]
-    return near[0] if len(near) == 1 else None
-
-
-def _answerable(options: dict[str, str]) -> bool:
-    """Every option has text, no two read alike, and none runs on.
-
-    Two options that read alike mean extraction lost what told them apart --
-    cbe:q:Maths10AS4 prints 34, 34, 35, 35 with the key on the second 34 -- so
-    the printed item is defective even where the key happens to be distinct.
-    An option read from the stem ends where the stem ends, so when the stem
-    ran on into the next section the last option carries it: SQP Home Science
-    X 2024-25 Q14's option D is a whole case-study passage. The longest option
-    in a served MCQ that did not run on is 18 tokens (measured 2026-09-22).
-    """
-    read = [tuple(_tokens(v)) for v in options.values()]
-    return (all(read) and len(set(read)) == len(read)
-            and max(len(t) for t in read) <= _MAX_OPTION_TOKENS)
-
-
-def _options_from_parts(parts: list[dict]) -> dict[str, str] | None:
-    """{'A': 'avoid', ...} from CBE/SQP option parts, or None if they are not A-D in order."""
-    opts: dict[str, str] = {}
-    for part in parts:
-        m = _PART_OPTION.match(str(part.get("text") or ""))
-        if not m:
-            return None
-        letter = m.group(1).upper()
-        if letter in opts:
-            return None
-        # Text that opens with the NEXT option's label is two options fused in
-        # extraction ("C. D. 7", cbe:q:Maths9IM4). Only the next label counts:
-        # assertion-reason options legitimately open "(A) is correct but ...".
-        if re.match(rf"\(?{chr(ord(letter) + 1)}[.)]\s", m.group(2)):
-            return None
-        opts[letter] = m.group(2).strip()
-    if len(opts) < 2 or list(opts) != list("ABCD"[: len(opts)]):
-        return None
-    return opts
-
-
-def _read_options(stem: str, matches: list[re.Match], minimum: int,
-                  labels: tuple[str, ...]) -> dict[str, str] | None:
-    found = [m.group(1).lower() for m in matches]
-    if len(found) < minimum or found != list(labels[: len(found)]):
-        return None
-    return {"ABCD"[i]: stem[m.end(): matches[i + 1].start() if i + 1 < len(matches) else len(stem)]
-            .strip(" .;") for i, m in enumerate(matches)}
-
-
-def _stem_options(stem: str, other_styles: bool = True
-                  ) -> tuple[dict[str, str] | None, int, tuple[str, ...] | None]:
-    """The options written inline in the stem, where the first one starts, and
-    the labels they were printed with.
-
-    (A)..(D) -- the board and most SQP shape -- is read first, as before; the
-    other styles only when it does not parse, and only with three labels or
-    more, so a stray "a)", "B." or "ii." in prose is never an option list.
-    """
-    matches = list(_INLINE_OPTION.finditer(stem))
-    options = _read_options(stem, matches, 2, _LETTERS)
-    if options is not None:
-        return options, matches[0].start(), _LETTERS
-    for style, labels in _OPTION_STYLES if other_styles else ():
-        matches = list(style.finditer(stem))
-        options = _read_options(stem, matches, _MIN_OPTIONS, labels)
-        if options is not None:
-            return options, matches[0].start(), labels
-    return None, -1, None
-
-
-def _options_from_stem(stem: str, other_styles: bool = True) -> dict[str, str] | None:
-    """Options already written inline: (A)..(D), or any of `_OPTION_STYLES`."""
-    return _stem_options(stem, other_styles)[0]
-
-
-def _has_option_labels(stem: str) -> bool:
-    """The stem is labelled like an MCQ, whether or not the labels parse.
-
-    All four capital labels (A)-(D), in any order and any number of times:
-    `_options_from_stem` accepts only A, B, C, D once each in order, so two
-    shapes read as "no options" and escaped the MCQ gate as short_answer:
-    several questions fused into one stem (A-D repeated -- SQP Mathematics
-    (Standard) X 2025-26 Q18 carries a tangent MCQ and the assertion-reason
-    directions after it), and assertion-reason items, whose "Assertion (A)"
-    puts an A before the options. 21 served 1-mark SQP rows had this shape at
-    062a939, and at least 9 of their keys answered a different question.
-
-    Or the first three labels, consecutively, in any one style -- (a), a),
-    a., A), A., a], (i), i., i), 1., 1) -- since the capital (A) test never
-    saw the others: served 1-mark SQP rows printed "a) 1 b) 3 c) 4 d) 2" or
-    "i. Squirrel ii. Tiger iii. Swine iv. Sheep" and stayed short_answer with
-    keys nobody checked (see the module docstring for the counts).
-
-    Or all four labels of one style in any order, as for (A)-(D): extraction
-    that reads a two-column option grid by column prints "c) ... d) ... a) b)"
-    (SQP Applied Mathematics XII 2022-23 Q14) or "b. ... a. ... c. ... d."
-    (SQP Tangkhul XII 2023-24 Q7). And "A) (0, 0) B) (-4, 0) C ) (-5, 0) D)"
-    (SQP Mathematics (Standard) X 2024-25 Q15), a space before the bracket or
-    none after it, is the same shape: it does not parse, and is refused.
-    """
-    if {"A", "B", "C", "D"} <= set(_UPPER_LABEL.findall(stem)):
-        return True
-    if set("ABCD") <= set(_LOOSE_UPPER_LABEL.findall(stem)):
-        return True
-    for style, labels in _ALL_OPTION_STYLES:
-        found = [m.group(1).lower() for m in style.finditer(stem)]
-        if (set(labels) <= set(found)
-                or any(found[k:k + 3] == list(labels[:3]) for k in range(len(found)))):
-            return True
-    return False
-
-
-def _holds_group(stem: str) -> bool:
-    """Two or more parts of one numbered group: "1 (a) ... 1 (b) ..."."""
-    letters: dict[str, set[str]] = {}
-    for m in _GROUP_PART.finditer(stem):
-        letters.setdefault(m.group(1), set()).add(m.group(2))
-    return any(len(v) >= 2 for v in letters.values())
-
-
-def correct_letter(answers: list[str], options: dict[str, str]) -> str | None:
-    """The correct option, only when the scheme states it unambiguously.
-
-    Refuses rather than guesses. Two failure shapes are common in the SQP
-    schemes and both would yield a confident wrong key if read loosely:
-    a matching-question key ("A - III; B - IV; ..."), and question text that
-    the scheme parser joined in place of the answer ("modernity A. 1 & 3 B. ...",
-    "Read the following data and select ..."). A wrong key is worse than none:
-    a teacher trusts it and marks students wrong.
-
-    A letter is not enough on its own either. When the scheme writes words after
-    it, those words must name the same option. Taking the letter alone shipped
-    keys the scheme itself contradicts -- "A. 243" where 243 is option C,
-    "C. Melt" where Melt is option D -- and letters for items that were never
-    MCQs ("(a) Na2CO3 (1) (b) ..." is a two-part answer, not option A).
-    """
-    for raw in answers:
-        text = _AWARD.sub("", raw or "").strip()
-        if not text:
-            continue
-        if len(set(_LABEL.findall(text))) >= 2 or _INSTRUCTION.match(text):
-            return None
-        m = _LEADING_LETTER.match(text)
-        if m:
-            letter = m.group(1).upper()
-            if letter not in options:
-                return None
-            words = _tokens(text[m.end():])
-            if words and _named_option(words, options) != letter:
-                return None
-            return letter
-        if _BARE_NUMERAL.match(text):
-            return None
-        hits = [k for k, v in options.items() if _norm(v) and _norm(v) == _norm(text)]
-        if len(hits) == 1 and _tokens(options[hits[0]]) == _tokens(text):
-            return hits[0]
-        return None
-    return None
-
-
-def _key_letter(answers: list[str], options: dict[str, str],
-                labels: tuple[str, ...]) -> str | None:
-    """`correct_letter` for options printed with roman or numeric labels.
-
-    The scheme keys them by the printed label -- "(iii)", "3.", "iv. S.tail()"
-    -- so the label is read as its letter and the words after it must still
-    name that option. Refused: a letter ("C" names no numbered option), and a
-    bare label that is also an option's text ("3" among "1. 7 2. 8 3. 3").
-    As in `correct_letter`, the first non-empty answer decides.
-    """
-    pattern = _KEY_LABEL.get(labels)
-    if pattern is None:
-        return correct_letter(answers, options)
-    for raw in answers:
-        text = _AWARD.sub("", raw or "").strip()
-        if not text:
-            continue
-        m = pattern.match(text)
-        if m is None:
-            return None if _LEADING_LETTER.match(text) else correct_letter([text], options)
-        rest = text[m.end():]
-        if not rest.strip() and any(_tokens(v) == [m.group(1)] for v in options.values()):
-            return None
-        return correct_letter([f"{'ABCD'[labels.index(m.group(1))]}. {rest}"], options)
-    return None
 
 
 def _objective_scheme(rec: dict, options: dict[str, str], letter: str) -> dict:
@@ -771,16 +506,6 @@ def _strip_furniture(text: str) -> str:
     text = _PAGE.sub(" ", _FOOTER.sub(" ", text)).strip()
     text = _TRAILING_SECTION.sub("", text).strip()
     return _LEADING_SECTION.sub("", text).strip()
-
-
-# A part label a stem may legitimately open with, lowercase: "i. Explain ...",
-# "a) Give reasons ...", "a, b, c kala d ..." (SQP Tangkhul X 2023-24 Q9), and
-# "a Trouvez la question." (SQP French X 2022-23 Q6-8, the full stop lost).
-_PART_LABEL_OPENING = re.compile(r"^\(?(?:[a-h]|[ivx]{1,4})\)?(?:[.),:]|\s+(?=[A-Z]))")
-# A label that is not the first of its list: "ii.", "b)", "(b)", "B.". A
-# capital followed by another initial is a name ("B. R. Ambedkar"), not a label.
-_LATER_PART_OPENING = re.compile(
-    r"^\(?(?:(?:viii|vii|vi|iv|iii|ii|ix|x|v|[b-h])[.)\]]|[B-H][.)](?!\s*[A-Z]\.))\s")
 
 
 def _stem_after_strip_reason(stem: str) -> str | None:
@@ -818,9 +543,9 @@ def _stem_after_strip_reason(stem: str) -> str | None:
     """
     if len(stem) < _MIN_STEM or _HEADER.match(stem) or _SECTION_NOTE_STEM.match(stem):
         return "stem-empty-after-strip"
-    if _LATER_PART_OPENING.match(stem):
+    if LATER_PART_OPENING.match(stem):
         return "stem-fragment"
-    if re.match(r"[a-z]", stem) and not _PART_LABEL_OPENING.match(stem):
+    if re.match(r"[a-z]", stem) and not PART_LABEL_OPENING.match(stem):
         return "stem-fragment"
     return None
 
@@ -917,7 +642,7 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
     # with its own options has lost its question -- whether or not it also has
     # option parts: SQP Carnatic Music (Vocal) X 2025-26 Q5's stem is its
     # parts' options printed again, "A. Koteeshwara Iyer B. G. N. ...".
-    opens_with_options = _stem_options(r["stem"])[1] == 0
+    opens_with_options = stem_options(r["stem"])[1] == 0
 
     if _INNER_SECTION.search(r["stem"]):
         # One stem holding several questions across a section break -- SQP
@@ -926,7 +651,7 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
         r["metadata"] = meta
         return r, "stem-spans-sections"
 
-    if marks == 1 and r["type"] != "mcq" and _holds_group(r["stem"]):
+    if marks == 1 and r["type"] != "mcq" and holds_group(r["stem"]):
         # cbe:q:Maths9RS7 "1 (a) 1 (b) 1 (c) The weights of new born babies
         # ...": three questions under 1 mark, keyed with part (a)'s answer
         # running on into "1 (b) ...". Its (a)-(c) are parts, not options;
@@ -939,16 +664,16 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
         r["stem"] = f"Read the passage below and answer the question that follows.\n\n{passage}\n\n{r['stem']}"
         meta["passageInline"] = True
 
-    in_parts = _options_from_parts(r["parts"])
+    in_parts = options_from_parts(r["parts"])
     # With option parts, the parts are the options, and only an (A)-(D) stem is
     # held against them. Read in the other styles, the stem's labels are as
     # often a matching list's rows ("Match List I with List II ... a. Kan swar
     # i. Krishna Rao ...", SQP Hindustani Music (Vocal) XII 2025-26 Q6) or the
     # parts' own text before extraction cut it at a line end (SQP Economics XII
     # 2024-25 Q8); compared with the parts, 18 served MCQs were refused.
-    in_stem, options_at, labels = _stem_options(r["stem"], other_styles=in_parts is None)
+    in_stem, options_at, labels = stem_options(r["stem"], other_styles=in_parts is None)
     if (r["type"] in _INFERABLE_TYPES and marks == 1
-            and (_has_option_labels(r["stem"])
+            and (has_option_labels(r["stem"])
                  or any(o is not None and len(o) == 4 for o in (in_stem, in_parts)))):
         # An MCQ by its shape: A-D options on a 1-mark item. Left as
         # short_answer it skipped this gate entirely and was served with a key
@@ -977,20 +702,26 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
         # stripped for display: "(b) SECTION-B" (SQP Kathak 2022-23 Q8) is a
         # key that ran into the next heading and is refused; stripped, it
         # would read as a clean "(b)".
-        letter = _key_letter(
+        letter = key_letter(
             [str(scheme.get("modelAnswer") or "")]
             + [str(mp.get("description") or "") for mp in scheme.get("markingPoints") or []
                if isinstance(mp, dict)],
-            options, _LETTERS if in_parts else labels or _LETTERS)
+            options, LETTERS if in_parts else labels or LETTERS)
         if letter is None:
             return r, "mcq-answer-unresolved"
         if in_stem is None:
             r["stem"] = r["stem"] + " " + " ".join(f"({k}) {v}" for k, v in options.items())
-        elif labels != _LETTERS and not in_parts:
+        elif labels != LETTERS and not in_parts:
             # Printed "i. ... ii. ..." or "1. ... 2. ...", keyed as a letter:
             # the phone reads a student's answer as a letter, so the options
-            # are printed with the letters the key uses.
-            r["stem"] = (r["stem"][:options_at].rstrip() + " "
+            # are printed with the letters the key uses -- unless the options
+            # themselves name those letters. SQP Carnatic Music (Melodic
+            # Instrument) X 2023-24 Q6 numbered "1. A & B 2. A & C" because
+            # its statements are A-D; relabelled, it read "(C) B & C". The
+            # 1-4 labels cannot be kept instead: both scorers read only A-D.
+            if names_option_letter(in_stem):
+                return r, "option-labels-collide"
+            r["stem"] =(r["stem"][:options_at].rstrip() + " "
                          + " ".join(f"({k}) {v}" for k, v in in_stem.items()))
         r["parts"] = []            # options live inline, as on every board MCQ
         r["answerScheme"] = _normalise_scheme(_objective_scheme(r, options, letter), marks, r["id"])
@@ -1015,18 +746,18 @@ def _mcq_reason(r: dict, in_stem: dict[str, str] | None,
     """Why this MCQ cannot be served as one, before its key is even read."""
     if r["marks"] > _MCQ_MAX_MARKS:
         return "mcq-marks-implausible"
-    if _SUB_PART.match(r["stem"]):
+    if SUB_PART.match(r["stem"]):
         return "mcq-part-of-group"
     if in_stem is not None and in_parts is not None:
         # Both parse: the parts are the options. If the stem's labels say
         # something else they are not options at all -- the column labels of a
         # matching table (SQP History XII 2025-26 Q19, whose option D then ran
         # on into a page footer) -- and the item cannot be printed as it stands.
-        same = [_tokens(v) for v in in_stem.values()] == [_tokens(v) for v in in_parts.values()]
+        same = [tokens(v) for v in in_stem.values()] == [tokens(v) for v in in_parts.values()]
         if not same:
             return "mcq-options-unresolved"
     options = in_parts or in_stem
-    if options is None or len(options) < _MIN_OPTIONS or not _answerable(options):
+    if options is None or len(options) < MIN_OPTIONS or not answerable(options):
         return "mcq-options-unresolved"
     return None
 
@@ -1093,7 +824,7 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict]) -> ComposeResu
             raise ContractError(str(rec.get("id")), errors)
         out.append(rec)
         seen_ids.add(rec["id"])
-        seen_stems.add((rec.get("subject"), rec.get("grade"), _norm(rec.get("stem", ""))))
+        seen_stems.add((rec.get("subject"), rec.get("grade"), norm(rec.get("stem", ""))))
         counts["board"] += 1
 
     for label, rows in (("cbe", cbe), ("sqp", sqp)):
@@ -1112,7 +843,7 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict]) -> ComposeResu
             if reason:
                 excluded.append(_excluded(raw, reason))
                 continue
-            key = (rec.get("subject"), rec.get("grade"), _norm(raw.get("stem", "")))
+            key = (rec.get("subject"), rec.get("grade"), norm(raw.get("stem", "")))
             if key in seen_stems:
                 excluded.append(_excluded(raw, "duplicate-stem"))
                 continue
