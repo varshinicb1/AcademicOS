@@ -1084,8 +1084,11 @@ class CurriculumStore:
     def create_calendar(self, *, academic_year_id: str,
                         weekly_off_days: Optional[list[str]] = None,
                         alternate_saturday_rule: str = "none") -> Calendar:
+        # `is not None`, not `or`: an explicit [] (a school with no weekly off)
+        # used to become ["sunday"] here while update_calendar stored [] --
+        # the same request body gave two different calendars by verb.
         c = Calendar(id=new_id("cal"), academic_year_id=academic_year_id,
-                    weekly_off_days=weekly_off_days or ["sunday"],
+                    weekly_off_days=weekly_off_days if weekly_off_days is not None else ["sunday"],
                     alternate_saturday_rule=alternate_saturday_rule)
         self._exec(
             "INSERT INTO calendars (id, academic_year_id, weekly_off_days, alternate_saturday_rule) "

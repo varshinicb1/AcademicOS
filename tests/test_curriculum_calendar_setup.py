@@ -250,3 +250,41 @@ def test_a_wrong_holiday_can_be_removed_and_the_day_teaches_again(world):
     assert r.status_code == 200, r.text
     assert _working_days(world)["workingDays"] == before["workingDays"]
     assert world.client.delete(url, headers=world.auth).status_code == 404
+
+
+def test_no_weekly_off_day_means_the_same_on_create_and_update(world):
+    # POST used to store `weekly_off_days or ["sunday"]`, so an explicit []
+    # became Sunday on create while PUT stored [] -- one body, two calendars.
+    r = _create(world, {"weeklyOffDays": [], "alternateSaturdayRule": "none"})
+    assert r.status_code == 200, r.text
+    created = _working_days(world)["workingDays"]
+    assert world.store.get_calendar_for_year(world.year).weekly_off_days == []
+
+    r = world.client.put(f"{BASE}/academic-years/{world.year}/calendar",
+                         json={"weeklyOffDays": [], "alternateSaturdayRule": "none"},
+                         headers=world.auth)
+    assert r.status_code == 200, r.text
+    assert _working_days(world)["workingDays"] == created
+
+
+def test_a_holiday_of_another_year_or_school_cannot_be_deleted_through_this_years_url(world):
+    # The route's `h.calendar_id != cal.id` check is the only thing that stops
+    # a principal deleting someone else's holiday by putting its id under
+    # their own year's URL.
+    assert _create(world, {"weeklyOffDays": ["sunday"], "alternateSaturdayRule": "none"}).status_code == 200
+
+    other_year = world.store.create_academic_year(school_id="school_1", label="2027-28",
+                                                  start_date="2027-06-01", end_date="2028-03-31")
+    cal_b = world.store.create_calendar(academic_year_id=other_year.id, weekly_off_days=["sunday"])
+    h_b = world.store.add_holiday(calendar_id=cal_b.id, date="2027-10-07", label="B", kind="public")
+
+    school2_year = world.store.create_academic_year(school_id="school_2", label="2026-27",
+                                                    start_date=YEAR_START, end_date=YEAR_END)
+    cal_c = world.store.create_calendar(academic_year_id=school2_year.id, weekly_off_days=["sunday"])
+    h_c = world.store.add_holiday(calendar_id=cal_c.id, date="2026-10-07", label="C", kind="public")
+
+    for h in (h_b, h_c):
+        url = f"{BASE}/academic-years/{world.year}/holidays/{h.id}"
+        r = world.client.delete(url, headers=world.auth)
+        assert r.status_code == 404, (h.id, r.status_code, r.text)
+        assert world.store.get_holiday(h.id) is not None
