@@ -248,6 +248,22 @@ def optimize_questions(request: QuestionOptimizationRequest,
 
 # ---- Papers ----
 
+def _report_competency(paper: GeneratedPaper, questions: list[QuestionSchema],
+                       target: float | None) -> None:
+    """The CBQ share of the printed questions and whether it meets `target`
+    (CBSE: at least 50%). Missed in 17/25 subject/grade pairs at the
+    2026-09-21 audit, with nothing on the paper to say so."""
+    target = 0.50 if target is None else target
+    paper.competency_share = selection.competency_share(questions)
+    paper.competency_target_met = paper.competency_share >= target
+
+
+def _overlap_warnings(paper: GeneratedPaper) -> list[str]:
+    return [f"Set {label} repeats {n} question(s) from an earlier set: the question bank "
+            f"has no unused question of the same marks and type left."
+            for label, n in paper.set_overlap.items() if n]
+
+
 @router.post("/papers/generate", response_model=GeneratedPaper)
 def generate_paper_endpoint(
     request: PaperGenerationRequest, current: User = Depends(get_current_user),
@@ -278,6 +294,12 @@ def generate_paper_endpoint(
     grade = assessment.grade if assessment else request.selected_questions[0].grade
 
     set_count = getattr(request, "set_count", 1) or 1
+    alternatives = None
+    if set_count > 1:
+        # Sets B, C... draw other questions of the same marks and type.
+        grade_roman = _int_grade_to_roman(grade)
+        alternatives = [to_question_schema(c) for c in
+                        get_pool(cfg, subject=subject, grade=grade_roman).questions]
     paper = generate_paper_sets(
         paper_id=f"paper_{uuid.uuid4().hex[:12]}",
         assessment_id=request.assessment_id,
@@ -287,7 +309,11 @@ def generate_paper_endpoint(
         blueprint=request.blueprint,
         selected_questions=request.selected_questions,
         set_count=set_count,
+        alternatives_pool=alternatives,
     )
+    paper.warnings = _overlap_warnings(paper)
+    _report_competency(paper, request.selected_questions,
+                       request.blueprint.competency_percentage)
     _require_papers().save(paper, request.template, school_id=current.school_id)
     if paper.sets:
         for s in paper.sets:
@@ -371,7 +397,21 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(get
         blueprint=bp,
         selected_questions=opt_result.selected_questions,
         set_count=max(1, request.set_count),
+        # The whole pool: alternative_sets prefers the replaced question's
+        # chapter, so a set stays in the chosen chapters while they have one.
+        alternatives_pool=all_pool_questions,
     )
+    # The optimizer's warnings (the CBQ one, "tiers unavailable") were dropped here.
+    paper.warnings = [*opt_result.warnings, *_overlap_warnings(paper)]
+    _report_competency(paper, opt_result.selected_questions, bp.competency_percentage)
+    paper.tiers_available = opt_result.optimization_metrics["tierSignals"]["available"]
+    if paper.tiers_available and not selection.tier_changed_selection(
+            candidates, bp, fallback, opt_result.selected_questions):
+        paper.tiers_available = False
+        paper.warnings.append(
+            f"Tiers unavailable for this subject: the {tier} tier chose the same questions "
+            f"as the standard tier -- too few questions of the marks this paper asks for "
+            f"differ in difficulty or Bloom level.")
 
     template = None
     if request.template_id:
@@ -483,6 +523,7 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(g
         blueprint=bp,
         selected_questions=found_questions,
     )
+    _report_competency(paper, found_questions, bp.competency_percentage)
 
     template = None
     if request.template_id:

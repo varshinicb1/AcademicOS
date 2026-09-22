@@ -367,6 +367,19 @@ class GeneratedPaper(Camel):
     metadata: PaperMetadataSchema
     set_label: Optional[str] = None
     sets: list[GeneratedPaper] = Field(default_factory=list)
+    # About the request that made this paper (the optimizer's warnings, e.g. a
+    # CBQ share under target or "tiers unavailable for this subject").
+    warnings: list[str] = Field(default_factory=list)
+    # Per set label, how many printed questions (OR alternatives included) the
+    # set shares with an earlier set: 0 unless the pool ran out of alternatives.
+    set_overlap: dict[str, int] = Field(default_factory=dict)
+    # The competency-based share of the printed questions and whether it meets
+    # the blueprint's target (CBSE: at least 50%). None on a paper stored before.
+    competency_share: Optional[float] = None
+    competency_target_met: Optional[bool] = None
+    # False when the subject's questions carry no difficulty or Bloom signal a
+    # tier could act on (selection.tier_signals). None where no optimizer ran.
+    tiers_available: Optional[bool] = None
 
 
 class QuickPaperRequest(Camel):

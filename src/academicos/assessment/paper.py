@@ -99,8 +99,15 @@ def generate_paper(*, paper_id: str, assessment_id: str, assessment_title: str,
 def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: str,
                         subject: str, grade: int, blueprint: Blueprint,
                         selected_questions: list[QuestionSchema],
-                        set_count: int = 1) -> GeneratedPaper:
-    """Generate parallel equivalent question paper sets (Sets A, B, C...) with strictly invariant difficulty."""
+                        set_count: int = 1,
+                        alternatives_pool: list[QuestionSchema] | None = None) -> GeneratedPaper:
+    """Generate parallel equivalent question paper sets (Sets A, B, C...) with strictly invariant difficulty.
+
+    With `alternatives_pool`, set B onwards print different questions of the
+    same marks and type (selection.alternative_sets), and `set_overlap` says
+    how many each shares with an earlier set. Without one there is nothing to
+    draw alternatives from, and later sets are set A reordered.
+    """
     if set_count <= 1:
         return generate_paper(
             paper_id=paper_id,
@@ -118,6 +125,11 @@ def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: 
         labels = [f"Set {i + 1}" for i in range(set_count)]
 
     paper_sets: list[GeneratedPaper] = []
+    alternatives: list[list[QuestionSchema]] | None = None
+    overlaps: list[int] = []
+    if alternatives_pool is not None:
+        from .selection import alternative_sets
+        alternatives, overlaps = alternative_sets(selected_questions, alternatives_pool, set_count)
 
     for idx, label in enumerate(labels):
         variant_questions: list[QuestionSchema] = []
@@ -125,6 +137,10 @@ def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: 
         for q in selected_questions:
             by_marks.setdefault(q.marks, []).append(q)
 
+        if alternatives is not None:
+            # Each set already holds its own questions: nothing to rotate.
+            by_marks = {}
+            variant_questions = [q.model_copy(deep=True) for q in alternatives[idx]]
         for marks, q_list in by_marks.items():
             curr_list = [q.model_copy(deep=True) for q in q_list]
             if idx > 0:
@@ -165,6 +181,8 @@ def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: 
     primary_paper = paper_sets[0].model_copy(deep=True)
     primary_paper.set_label = labels[0]
     primary_paper.sets = [s.model_copy(deep=True, update={"sets": []}) for s in paper_sets]
+    if alternatives is not None:
+        primary_paper.set_overlap = dict(zip(labels, overlaps))
     return primary_paper
 
 
