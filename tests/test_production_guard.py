@@ -296,12 +296,33 @@ def test_demo_accounts_are_not_seeded_in_production(monkeypatch, tmp_path):
     assert store.conn.execute("SELECT COUNT(*) FROM users").fetchone()[0] == 0
 
 
-def test_demo_accounts_still_seed_locally(monkeypatch, tmp_path):
+def test_demo_accounts_still_seed_locally_when_requested(monkeypatch, tmp_path):
+    # Two rules combine (security Task 301 + GCP Task 502): demo accounts seed
+    # only on explicit request (ACOS_SEED_DEMO_USERS=1), and never in production.
     from academicos.assessment.users import UserStore
 
     monkeypatch.delenv("PYTEST_CURRENT_TEST", raising=False)
+    monkeypatch.setenv("ACOS_SEED_DEMO_USERS", "1")
     store = UserStore(tmp_path / "dev" / "users.db")
     assert store.conn.execute("SELECT COUNT(*) FROM users").fetchone()[0] == 2
+
+
+def test_demo_accounts_do_not_seed_locally_unless_requested(monkeypatch, tmp_path):
+    from academicos.assessment.users import UserStore
+
+    monkeypatch.delenv("PYTEST_CURRENT_TEST", raising=False)
+    monkeypatch.delenv("ACOS_SEED_DEMO_USERS", raising=False)
+    store = UserStore(tmp_path / "dev2" / "users.db")
+    assert store.conn.execute("SELECT COUNT(*) FROM users").fetchone()[0] == 0
+
+
+def test_the_guard_refuses_the_demo_seed_request_in_production(monkeypatch):
+    from academicos import config as config_mod
+
+    monkeypatch.setenv("ACOS_ENV", "production")
+    monkeypatch.setenv("ACOS_SEED_DEMO_USERS", "1")
+    problems = config_mod.production_config_problems(config_mod.get_config())
+    assert any("ACOS_SEED_DEMO_USERS" in p for p in problems)
 
 
 # --------------------------------------------------------------------------- #

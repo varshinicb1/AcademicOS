@@ -290,6 +290,9 @@ def production_config_problems(cfg: "Config") -> list[str]:
     if demo_accounts_enabled():
         problems.append("ACOS_DEMO_ACCOUNTS is on: the demo principal (password123) would be "
                         "seeded; unset it")
+    if os.environ.get("ACOS_SEED_DEMO_USERS", "").strip().lower() in ("1", "true", "yes"):
+        problems.append("ACOS_SEED_DEMO_USERS is set: it asks for the password123 demo accounts, "
+                        "which a school's service must never have; unset it")
     if llm_key_configured():
         from urllib.parse import urlparse
 
