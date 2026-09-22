@@ -87,7 +87,8 @@ def _configure_and_migrate():
                 cur.execute(schema)
                 # Deterministic starting state for the tables these tests touch.
                 for table in ("assessments", "graded_evaluations", "learner_events",
-                              "school_templates", "audit_log", "papers"):
+                              "school_templates", "audit_log", "papers",
+                              "learner_models"):
                     cur.execute(f'TRUNCATE TABLE "{table}"')
         yield
     finally:
@@ -235,3 +236,47 @@ def test_unavailable_is_caught_by_the_existing_supabase_handler() -> None:
 
     assert issubclass(PostgresUnavailable, SupabaseUnavailable)
     assert issubclass(PostgresUnavailable, rexc.RequestException)
+
+
+def test_knowledge_store_mastery_history_round_trips_through_real_jsonb(
+        tmp_path: Path, monkeypatch) -> None:
+    """KnowledgeStore writes its payload through psycopg's Jsonb and reads
+    rows[0]["payload"] back expecting a dict. tests/test_knowledge_store_durable.py
+    covers that only against an in-memory FakeTable; this is the real driver
+    and the real column type. Also the migration guard on a real empty table."""
+    from datetime import datetime, timezone
+    from academicos.assessment.evaluate import Evaluation
+    from academicos.assessment.knowledge import KnowledgeStore, LearnerModelsNotMigrated
+    from academicos.assessment.schemas import (
+        AnswerSchemeSchema, MarkingPointSchema, QuestionSchema)
+
+    monkeypatch.delenv("ACOS_LEARNER_MODELS_ALLOW_EMPTY", raising=False)
+    now = datetime.now(timezone.utc)
+    question = QuestionSchema(
+        id="q1", question_bank_id="bank1", subject="math", grade=10,
+        chapter_ids=["c1"], competency_ids=[], bloom_level="understand",
+        difficulty="medium", type="short_answer", stem="s", parts=[],
+        answer_scheme=AnswerSchemeSchema(
+            total_marks=4, metadata={},
+            marking_points=[MarkingPointSchema(id="mp1", description="d", marks=4,
+                                               keyword="k")]),
+        estimated_time_minutes=2, marks=4, language="en", source="teacher_created",
+        quality_score=0.7, tags=[], created_at=now, updated_at=now)
+    ev = Evaluation(question_id="q1", awarded_marks=3, max_marks=4, verdict="partial",
+                    confidence=0.9, reasoning="", ocr_warnings=[], needs_review=False)
+
+    first = KnowledgeStore(tmp_path / "c1")
+    assert isinstance(first._table, PostgresTable)
+    with pytest.raises(LearnerModelsNotMigrated):      # table truncated above
+        first.load("stu_pg")
+
+    monkeypatch.setenv("ACOS_LEARNER_MODELS_ALLOW_EMPTY", "1")
+    first.record_evaluations("stu_pg", [(question, ev)])
+    monkeypatch.delenv("ACOS_LEARNER_MODELS_ALLOW_EMPTY")
+
+    raw = PostgresTable("learner_models").select(student_id="stu_pg")[0]["payload"]
+    assert isinstance(raw, dict), "JSONB must come back as an object, not a string"
+    second = KnowledgeStore(tmp_path / "c2")            # a fresh container
+    model = second.load("stu_pg")                       # a row exists: guard passes
+    assert model.concepts["c1"].attempts == 1
+    assert model.concepts["c1"].history[0].outcome == 0.75

@@ -13,6 +13,10 @@ Default Credentials can write to. Use a scratch bucket, never the production
 media bucket: every run writes under a unique prefix and deletes it after.
 
     ACOS_GCS_TEST_BUCKET=my-scratch-bucket pytest tests/test_gcs_blob_integration.py -v
+
+deploy-gcp.yml runs this file before every deploy when the GCS_TEST_BUCKET
+repository variable is set. Until it has passed once, the GCS correctness
+claims in storage/blobs.py are unverified (docs/gcp-deployment.md section 8).
 """
 from __future__ import annotations
 
@@ -78,3 +82,43 @@ def test_md5_matches_what_we_compute(real_store) -> None:
     assert a._own_write_generation("curriculum.sqlite", b"payload") == \
         a._generations["curriculum.sqlite"]
     assert a._own_write_generation("curriculum.sqlite", b"other") is None
+
+
+def test_self_412_on_a_retried_upload_is_adopted_on_the_real_service(real_store) -> None:
+    """The lost-response retry, reproduced on the real service: the retry
+    carries the precondition of the FIRST attempt (here "must not exist"),
+    meets the generation that attempt created, and gets a real 412. The md5
+    comparison must recognise it as our own write and adopt that generation,
+    or every lost response would wedge the curriculum store as a conflict."""
+    from academicos.storage import blobs
+
+    a = real_store()
+    a.upload("curriculum.sqlite", b"first attempt landed", "application/x-sqlite3")
+    landed = a._generations["curriculum.sqlite"]
+    a._generations["curriculum.sqlite"] = 0          # what the retry still expects
+    a.upload("curriculum.sqlite", b"first attempt landed", "application/x-sqlite3")
+    assert a._generations["curriculum.sqlite"] == landed
+    assert blobs.blob_status()["curriculum_snapshot_conflict_count"] == 0
+
+
+def test_download_is_pinned_to_the_generation_it_reports(real_store) -> None:
+    """get_bytes reads metadata (get_blob) and then download_as_bytes with
+    if_generation_match set to that generation; the pair must describe one
+    version, and the generation must be the one the next guarded write needs."""
+    a = real_store()
+    a.upload("curriculum.sqlite", b"v1", "application/x-sqlite3")
+    b = real_store()
+    assert b.download("curriculum.sqlite") == b"v1"
+    assert b._generations["curriculum.sqlite"] == a._generations["curriculum.sqlite"]
+    b.upload("curriculum.sqlite", b"v2", "application/x-sqlite3")   # accepted
+    assert real_store().download("curriculum.sqlite") == b"v2"
+
+
+def test_conflict_copy_lands_in_the_real_bucket(real_store) -> None:
+    """curriculum/store.py preserves a losing snapshot under conflicts/ with a
+    key the guarded store has never seen, i.e. if_generation_match=0."""
+    a = real_store()
+    a.upload("conflicts/20260922T000000Z-test-abcd1234.sqlite", b"losing file",
+             "application/x-sqlite3")
+    assert real_store().download("conflicts/20260922T000000Z-test-abcd1234.sqlite") \
+        == b"losing file"

@@ -30,10 +30,21 @@ A live backend failure is not caught here: it raises SupabaseUnavailable
 (PostgresUnavailable on Cloud SQL), which api/main.py answers with a 503.
 Falling back to local JSON on failure would split one student's history
 across two places.
+
+Migration-order guard: that copy is a manual step, and deployed before it
+the service did not fail -- every student read as a brand-new learner. So on
+Cloud SQL an EMPTY learner_models table is treated as "not migrated" and
+answers 503 (LearnerModelsNotMigrated) on read and write, until either a row
+exists or ACOS_LEARNER_MODELS_ALLOW_EMPTY=1 says this is a new school with
+no history. Writes are blocked too: one new row would satisfy the check and
+hide that everyone else's history is missing. Checked once per process;
+once satisfied it costs nothing.
 """
 from __future__ import annotations
 
 import json
+import os
+import threading
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
@@ -43,7 +54,8 @@ from ..algorithms.learner_model import ConceptState, Interaction, LearnerModel
 from ..algorithms.mastery import KnowledgeMastery
 from .chapters import chapter_name
 from .evaluate import Evaluation
-from .postgres_kv import durable_table
+from .postgres_kv import PostgresTable, durable_table
+from .supabase_kv import SupabaseUnavailable
 from .schemas import QuestionSchema
 
 MASTERY_TARGET = 0.85   # the remediation loop drives toward this
@@ -80,6 +92,29 @@ def _status(m: float, confident: bool) -> str:
     return "needsReview"
 
 
+class LearnerModelsNotMigrated(SupabaseUnavailable):
+    """Cloud SQL's learner_models is empty and nobody said that is expected.
+    A SupabaseUnavailable subclass so api/main.py answers 503 with this text."""
+
+    def __init__(self) -> None:
+        detail = ("learner_models in Cloud SQL is empty, so every student's mastery "
+                  "history would read as a brand-new learner. Copy it with "
+                  "scripts/migrate_supabase_to_cloudsql.py --only learner_models, or, "
+                  "for a new school with no history, set "
+                  "ACOS_LEARNER_MODELS_ALLOW_EMPTY=1")
+        Exception.__init__(self, detail)  # bypass SupabaseUnavailable's wording
+        self.table = "learner_models"
+        self.op = "migration check"
+        self.status = None
+        self.body = detail
+
+
+def _is_cloud_sql(table: Any) -> bool:
+    """Only Cloud SQL is a migration destination (Render's Supabase table
+    always held the rows). A function so tests can mark a fake as Cloud SQL."""
+    return isinstance(table, PostgresTable)
+
+
 class KnowledgeStore:
     """Per-student learner models -- in the `learner_models` durable table
     when one is configured, local JSON files otherwise. See module docstring."""
@@ -89,10 +124,26 @@ class KnowledgeStore:
         self.root.mkdir(parents=True, exist_ok=True)
         self._scorer = KnowledgeMastery()
         self._table = durable_table("learner_models")
+        self._migration_checked = False
+        self._migration_lock = threading.Lock()
 
     @property
     def _remote(self) -> bool:
         return self._table.enabled
+
+    def _require_migrated(self) -> None:
+        """See the module docstring's migration-order guard."""
+        if self._migration_checked:
+            return
+        with self._migration_lock:
+            if self._migration_checked:
+                return
+            if (not _is_cloud_sql(self._table)
+                    or os.environ.get("ACOS_LEARNER_MODELS_ALLOW_EMPTY", "").strip() == "1"
+                    or self._table.select(limit=1)):
+                self._migration_checked = True
+                return
+        raise LearnerModelsNotMigrated()
 
     def _path(self, student_id: str) -> Path:
         # Injective sanitization: disallowed chars are percent-encoded rather
@@ -107,6 +158,7 @@ class KnowledgeStore:
 
     def _read_raw(self, student_id: str) -> Optional[dict[str, Any]]:
         if self._remote:
+            self._require_migrated()
             rows = self._table.select(student_id=student_id, limit=1)
             return rows[0]["payload"] if rows else None
         p = self._path(student_id)
@@ -142,6 +194,7 @@ class KnowledgeStore:
             },
         }
         if self._remote:
+            self._require_migrated()
             self._table.upsert({"student_id": model.learner_id, "payload": payload},
                                on_conflict="student_id")
         else:

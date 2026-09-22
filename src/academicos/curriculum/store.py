@@ -54,6 +54,7 @@ from __future__ import annotations
 
 import json
 import logging
+import os
 import sqlite3
 import threading
 import time
@@ -68,6 +69,7 @@ from ..storage.blobs import (
     CurriculumNotDurable,
     durable_blob_store,
     is_not_found,
+    record_conflict_copy,
     record_upload_failure,
 )
 
@@ -395,6 +397,20 @@ class CurriculumStore:
             data = self._remote_storage.download(self._SNAPSHOT_KEY)
         except requests.exceptions.RequestException as exc:
             if is_not_found(exc):
+                # On GCS, "no object" is ALSO what a service migrated off
+                # Supabase sees until someone copies the old snapshot across,
+                # and starting empty there serves a blank curriculum as if it
+                # were the school's. So an empty GCS boot must be asked for.
+                if (getattr(self._remote_storage, "backend", None) == "gcs"
+                        and os.environ.get("ACOS_CURRICULUM_ALLOW_EMPTY_BOOT", "").strip() != "1"):
+                    logger.error("No curriculum snapshot in GCS; refusing to start "
+                                 "empty without ACOS_CURRICULUM_ALLOW_EMPTY_BOOT=1")
+                    raise CurriculumNotDurable(
+                        "no curriculum snapshot in GCS. If this school's curriculum "
+                        "lived in Supabase Storage, copy it with "
+                        "scripts/migrate_supabase_blobs_to_gcs.py; if this is a new "
+                        "school with no curriculum yet, set "
+                        "ACOS_CURRICULUM_ALLOW_EMPTY_BOOT=1 for the first boot") from exc
                 logger.info("No curriculum snapshot uploaded yet -- starting with "
                             "a fresh local database")
                 return
@@ -540,10 +556,18 @@ class CurriculumStore:
             except BlobConflict as exc:
                 self._on_snapshot_conflict()
                 if raise_on_conflict:
+                    if self._snapshot_wedged:
+                        raise CurriculumNotDurable(
+                            "curriculum snapshot conflict: another instance saved a "
+                            "newer curriculum and this instance could not preserve "
+                            "or reload; this edit is not saved and curriculum writes "
+                            "are paused until an operator intervenes") from exc
                     raise CurriculumNotDurable(
                         "curriculum snapshot conflict: another instance saved a newer "
                         "curriculum, so this edit was not saved. This instance has "
-                        "reloaded the newer one; retry the edit.") from exc
+                        "reloaded the newer one (its unsaved edits are kept under "
+                        "curriculum-snapshots/conflicts/ for an operator to merge); "
+                        "retry the edit.") from exc
                 return False
             except requests.exceptions.RequestException:
                 record_upload_failure("curriculum-snapshots")
@@ -564,37 +588,87 @@ class CurriculumStore:
         """Another instance saved a newer snapshot (blobs.py refused to erase
         it). Keeping this instance's copy would leave it stale for good: its
         generation never refreshes, so every later upload 412s while every
-        request reports success -- the "stuck and silent" state. Instead,
-        reload the newer snapshot into the live connection (sqlite3's backup
-        API, under the connection lock, so no reopen and no request sees a
-        half-copied file). The download also refreshes the generation
-        blobs.py holds, so the next upload is accepted. What this instance
-        had not uploaded is discarded -- it is the losing side of the
-        conflict either way -- and the request that hit the conflict is told
-        so with a 503. If the reload itself fails, the store is wedged:
-        every later write answers 503 until the instance restarts."""
-        try:
-            data = self._remote_storage.download(self._SNAPSHOT_KEY)
-            incoming = self.db_path.with_name(self.db_path.name + ".incoming")
-            incoming.write_bytes(data)
-            src = sqlite3.connect(str(incoming))
+        request reports success -- the "stuck and silent" state. So this
+        instance adopts the newer snapshot.
+
+        But what it has not uploaded includes commits that already answered
+        200: the debounce deferred them, and a timer or shutdown flush is
+        where they meet the conflict. Reloading used to discard them -- an
+        edit the admin was told was saved then existed nowhere. So FIRST the
+        whole losing file goes to `conflicts/<utc>-<instance>.sqlite` in the
+        same store; only once that upload has succeeded is the newer snapshot
+        reloaded into the live connection (sqlite3 backup API, no reopen).
+        The download also refreshes the generation blobs.py holds, so the
+        next upload is accepted.
+
+        All of it runs under the connection lock: a commit landing between
+        the copy and the reload would be in neither. A conflict is rare
+        (rollout overlap), and a few seconds of queued requests is the price.
+
+        If the copy cannot be saved, nothing is reloaded: the store wedges
+        (every later write answers 503) and the losing edits stay on this
+        instance's disk, still readable, rather than being destroyed. A
+        failed reload wedges it too."""
+        with self._conn_lock:
             try:
-                with self._conn_lock:
-                    src.backup(self.conn)
-                    self._committed_changes = self.conn.total_changes
-                    self._snapshot_seq = self._commit_seq
-            finally:
-                src.close()
-                incoming.unlink(missing_ok=True)
-        except Exception:  # noqa: BLE001 - any failure here means "wedged"
-            self._snapshot_wedged = True
-            logger.error("Curriculum snapshot conflict and the newer snapshot could "
-                         "not be reloaded; curriculum writes now answer 503 until "
-                         "this instance restarts", exc_info=True)
-            return
-        logger.error("Curriculum snapshot conflict: reloaded the newer snapshot "
-                     "(%d bytes); this instance's unsaved edits were discarded",
-                     len(data))
+                self._exec("PRAGMA wal_checkpoint(TRUNCATE)")
+                losing = self.db_path.read_bytes()
+                copy_key = self._preserve_conflict_copy(losing)
+            except Exception:  # noqa: BLE001 - unpreserved means "do not reload"
+                self._snapshot_wedged = True
+                logger.error("Curriculum snapshot conflict, and this instance's "
+                             "unsaved edits could not be preserved in GCS; NOT "
+                             "reloading, so they stay in %s. Curriculum writes now "
+                             "answer 503 until an operator recovers that file and "
+                             "restarts", self.db_path, exc_info=True)
+                return
+            try:
+                data = self._remote_storage.download(self._SNAPSHOT_KEY)
+                self._load_snapshot_bytes(data)
+                self._committed_changes = self.conn.total_changes
+                self._snapshot_seq = self._commit_seq
+            except Exception:  # noqa: BLE001 - any failure here means "wedged"
+                self._snapshot_wedged = True
+                logger.error("Curriculum snapshot conflict and the newer snapshot could "
+                             "not be reloaded; curriculum writes now answer 503 until "
+                             "this instance restarts (this instance's edits are "
+                             "preserved at curriculum-snapshots/%s)", copy_key,
+                             exc_info=True)
+                return
+        logger.error("Curriculum snapshot conflict: this instance's edits not yet in "
+                     "GCS were preserved at curriculum-snapshots/%s (%d bytes) and "
+                     "then replaced in the live view by the newer snapshot (%d bytes). "
+                     "Merge them from that copy.", copy_key, len(losing), len(data))
+
+    def _preserve_conflict_copy(self, data: bytes) -> str:
+        """Upload the losing file under a key no other writer can hold: UTC
+        time, the Cloud Run revision, and a per-call random suffix. For the
+        generation-guarded GCS store a never-seen key uploads with
+        if_generation_match=0, so even a collision could not overwrite."""
+        instance = os.environ.get("K_REVISION", "").strip() or "local"
+        stamp = time.strftime("%Y%m%dT%H%M%SZ", time.gmtime())
+        key = f"conflicts/{stamp}-{instance}-{uuid.uuid4().hex[:8]}.sqlite"
+        self._remote_storage.upload(key, data, "application/x-sqlite3")
+        record_conflict_copy("curriculum-snapshots", key)
+        return key
+
+    def _load_snapshot_bytes(self, data: bytes) -> None:
+        """Replace the live database with `data` via the backup API. Caller
+        holds _conn_lock. The source is a temporary file of our own, but it
+        is a connection like any other, so AGENTS.md section 3's pragmas
+        apply to it too (tests/test_sqlite_pragmas.py)."""
+        incoming = self.db_path.with_name(self.db_path.name + ".incoming")
+        incoming.write_bytes(data)
+        src = sqlite3.connect(str(incoming))
+        try:
+            src.execute("PRAGMA busy_timeout=60000")
+            src.execute("PRAGMA journal_mode=WAL")
+            src.backup(self.conn)
+        finally:
+            src.close()
+            for leftover in (incoming, incoming.with_name(incoming.name + "-wal"),
+                             incoming.with_name(incoming.name + "-shm")):
+                leftover.unlink(missing_ok=True)
 
     def close(self) -> None:
         # Best-effort final upload, then no timer may touch the closed

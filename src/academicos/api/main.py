@@ -483,10 +483,18 @@ def _refresh_storage_probe(cfg) -> dict:
 
 @app.get("/health/storage")
 def health_storage() -> dict:
-    """The probe below plus `blob_status` (storage/blobs.py): snapshot
-    conflicts and failed blob uploads on this instance. Live, never cached --
-    it is in-process counters, and a conflict must show the moment it
-    happens, not one probe TTL later."""
+    """Answers "is this actually live" without guessing from the hosting
+    dashboard or grepping env vars on the host -- which durability backend
+    the stores are bound to, and (only if one is configured) whether every
+    durability-critical table is actually reachable right now, one limit-1
+    select each. `blob_backend` says where scan media and the curriculum
+    snapshot go (gcs | supabase | local).
+
+    `blob_status` (storage/blobs.py) adds this instance's snapshot conflicts,
+    the conflict copies that hold edits awaiting a merge, and failed blob
+    uploads. It is live, never cached: in-process counters, and a conflict
+    must show the moment it happens, not one probe TTL later. The table probe
+    is cached and single-flighted (see _storage_probe)."""
     from ..storage.blobs import blob_status
     return {**_storage_probe(), "blob_status": blob_status()}
 

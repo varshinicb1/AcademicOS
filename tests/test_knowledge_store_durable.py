@@ -39,6 +39,8 @@ class FakeTable:
         self.enabled = True
 
     def select(self, order=None, limit=None, gt=None, **eq):
+        if not eq:                     # the migration guard's "any row?" probe
+            return list(self.rows.values())[:limit]
         assert set(eq) == {"student_id"}
         row = self.rows.get(eq["student_id"])
         return [row] if row else []
@@ -147,3 +149,74 @@ def test_cloud_sql_schema_and_migration_cover_learner_models() -> None:
 def test_health_probe_covers_learner_models() -> None:
     import academicos.api.main as main_mod
     assert "learner_models" in main_mod._DURABLE_TABLES
+
+
+# --------------------------------------------------------------------------- #
+# migration-order guard
+# --------------------------------------------------------------------------- #
+
+def _evaluation() -> Evaluation:
+    return Evaluation(question_id="q1", awarded_marks=3, max_marks=4,
+                      verdict="partial", confidence=0.9, reasoning="",
+                      ocr_warnings=[], needs_review=False)
+
+
+@pytest.fixture
+def cloud_sql_fake(clean_env):
+    """A FakeTable the store treats as Cloud SQL, i.e. the table the GCP
+    service reads right after the cutover."""
+    shared: dict = {}
+    clean_env.delenv("ACOS_LEARNER_MODELS_ALLOW_EMPTY", raising=False)
+    clean_env.setattr(knowledge_mod, "durable_table", lambda name: FakeTable(name, shared))
+    clean_env.setattr(knowledge_mod, "_is_cloud_sql", lambda table: True)
+    return shared
+
+
+def test_empty_cloud_sql_learner_models_is_an_error_not_a_fresh_learner(
+        cloud_sql_fake, tmp_path: Path) -> None:
+    """The learner_models copy is a manual step
+    (migrate_supabase_to_cloudsql.py --only learner_models). Deployed before
+    it, every student read back as a brand-new learner: mastery history gone
+    from the service's view, and no error anywhere. An empty Cloud SQL table
+    now answers 503 (SupabaseUnavailable subclass) on read AND write -- a
+    write would plant one row and quietly satisfy the check for everyone
+    else."""
+    from academicos.assessment.supabase_kv import SupabaseUnavailable
+    ks = KnowledgeStore(tmp_path)
+    with pytest.raises(knowledge_mod.LearnerModelsNotMigrated) as info:
+        ks.load("stu_1")
+    assert issubclass(knowledge_mod.LearnerModelsNotMigrated, SupabaseUnavailable)
+    assert "migrate_supabase_to_cloudsql.py --only learner_models" in str(info.value)
+    assert "ACOS_LEARNER_MODELS_ALLOW_EMPTY" in str(info.value)
+    with pytest.raises(knowledge_mod.LearnerModelsNotMigrated):
+        ks.record_evaluations("stu_1", [(_question(), _evaluation())])
+    assert cloud_sql_fake == {}
+
+
+def test_migrated_rows_satisfy_the_guard(cloud_sql_fake, tmp_path: Path) -> None:
+    cloud_sql_fake["stu_old"] = {"student_id": "stu_old", "payload": {"concepts": {}}}
+    ks = KnowledgeStore(tmp_path)
+    assert ks.load("stu_new").concepts == {}          # a real fresh learner now
+    ks.record_evaluations("stu_new", [(_question(), _evaluation())])
+    assert "stu_new" in cloud_sql_fake
+
+
+def test_new_school_acknowledges_the_empty_table(cloud_sql_fake, tmp_path: Path) -> None:
+    import os
+    os.environ["ACOS_LEARNER_MODELS_ALLOW_EMPTY"] = "1"
+    try:
+        ks = KnowledgeStore(tmp_path)
+        ks.record_evaluations("stu_1", [(_question(), _evaluation())])
+    finally:
+        del os.environ["ACOS_LEARNER_MODELS_ALLOW_EMPTY"]
+    assert "stu_1" in cloud_sql_fake
+
+
+def test_guard_applies_only_to_cloud_sql(clean_env, tmp_path: Path) -> None:
+    """Render's Supabase table always held the rows; local JSON has nothing
+    to migrate. Neither may be blocked."""
+    shared: dict = {}
+    clean_env.setattr(knowledge_mod, "durable_table", lambda name: FakeTable(name, shared))
+    ks = KnowledgeStore(tmp_path)
+    assert ks.load("stu_1").concepts == {}
+    assert knowledge_mod._is_cloud_sql(FakeTable("learner_models", {})) is False

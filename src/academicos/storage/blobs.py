@@ -46,10 +46,14 @@ Two instances overlap even with --max-instances=1: the limit is per revision,
 so every rollout runs the old and new revision side by side for a while.
 
 What happens after a refusal is CurriculumStore's job (curriculum/store.py
-`_on_snapshot_conflict`): the request that triggered it answers 503, the
-store reloads the newer snapshot -- which also refreshes the generation this
-module holds, so the store is not wedged into 412-ing forever -- and the
-conflict is counted here for /health/storage.
+`_on_snapshot_conflict`): it first uploads its own losing file, whole, to
+`conflicts/<utc>-<instance>.sqlite` in this store, then reloads the newer
+snapshot -- which also refreshes the generation this module holds, so the
+store is not wedged into 412-ing forever. The request that triggered it (if
+any) answers 503; the conflict and the copy's key are recorded here for
+/health/storage. A refusal therefore never destroys an edit: edits that were
+debounced and already answered 200 are in the conflict copy, to be merged by
+hand. It does take them out of the live view until then.
 
 A 412 is not always another writer. With if_generation_match set,
 google-cloud-storage retries the upload; when the first attempt landed but
@@ -175,6 +179,16 @@ def record_upload_failure(name: str) -> None:
     _record("upload_failure", name)
 
 
+def record_conflict_copy(name: str, key: str) -> None:
+    """The losing side of a snapshot conflict was preserved under `key`
+    (curriculum/store.py _on_snapshot_conflict) before the store reloaded the
+    newer snapshot. Health names the last one so an operator can find the
+    edits the reload took out of the live view."""
+    _record("conflict_copy", name)
+    with _status_lock:
+        _status[f"{name}:conflict_copy"]["key"] = key
+
+
 def reset_status() -> None:
     """Test support: the counters are process-wide by design."""
     with _status_lock:
@@ -191,12 +205,17 @@ def blob_status() -> dict:
         conflict = get("curriculum-snapshots:conflict")
         snap_fail = get("curriculum-snapshots:upload_failure")
         scan_fail = get("scan-media:upload_failure")
+        copy = get("curriculum-snapshots:conflict_copy")
     return {
         "curriculum_snapshot_conflict": conflict["count"] > 0,
         "curriculum_snapshot_conflict_count": conflict["count"],
         "curriculum_snapshot_conflict_at": conflict["at"],
         "curriculum_snapshot_upload_failures": snap_fail["count"],
         "curriculum_snapshot_upload_failure_at": snap_fail["at"],
+        # Each is a whole losing SQLite file under
+        # curriculum-snapshots/conflicts/; non-zero means edits await merging.
+        "curriculum_snapshot_conflict_copies": copy["count"],
+        "curriculum_snapshot_last_conflict_copy": copy.get("key"),
         "scan_media_upload_failures": scan_fail["count"],
         "scan_media_upload_failure_at": scan_fail["at"],
     }

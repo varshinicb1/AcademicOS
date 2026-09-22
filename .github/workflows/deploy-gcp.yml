@@ -16,6 +16,12 @@ name: Deploy to GCP (Cloud Run + Firebase Hosting)
 # Repo variables (Settings -> Secrets and variables -> Actions -> Variables):
 #   GCP_PROJECT_ID, GCP_REGION, WIF_PROVIDER, DEPLOY_SA, RUNTIME_SA,
 #   GCP_SERVICE, AR_IMAGE, GCS_MEDIA_BUCKET, SQL_CONNECTION, CORS_ORIGINS
+# Optional:
+#   GCS_TEST_BUCKET -- a scratch bucket DEPLOY_SA can write to; when set, the
+#                      real-GCS integration test runs before every deploy.
+#   FRESH_INSTALL   -- '1' only for a brand-new school with no Supabase history
+#                      (lets an empty curriculum snapshot / learner_models boot;
+#                      see the deploy step). Remove it after the first deploy.
 # No repo *secrets* are needed -- app secrets live in Secret Manager.
 #
 # Prior to provisioning, this workflow is a no-op: the `test` job still runs
@@ -161,6 +167,37 @@ jobs:
 
       - uses: google-github-actions/setup-gcloud@v2
 
+      # storage/blobs.py's single-writer guarantee rests on GCS behaviour
+      # (object generations after upload, 412 on a stale if_generation_match,
+      # md5 format, get_blob + pinned download) that the unit suite checks only
+      # against an in-memory fake written to the same assumptions. This runs
+      # tests/test_gcs_blob_integration.py against the real service with the
+      # deploy's own credentials. A skipped test counts as a failure here: a
+      # skip is exactly how "never actually verified" looks green.
+      - uses: actions/setup-python@v5
+        if: vars.GCS_TEST_BUCKET != ''
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Verify GCS semantics against a real scratch bucket
+        if: vars.GCS_TEST_BUCKET != ''
+        env:
+          ACOS_GCS_TEST_BUCKET: ${{ vars.GCS_TEST_BUCKET }}
+        run: |
+          set -o pipefail
+          pip install -q -e ".[dev,gcs]"
+          python -m pytest tests/test_gcs_blob_integration.py -v -rs 2>&1 | tee gcs-it.log
+          if grep -q "SKIPPED" gcs-it.log; then
+            echo "::error::GCS integration test skipped -- it must run, not skip"
+            exit 1
+          fi
+
+      - name: Flag unverified GCS semantics
+        if: vars.GCS_TEST_BUCKET == ''
+        run: |
+          echo "::warning::GCS_TEST_BUCKET is not set, so the curriculum snapshot's generation/412/md5 handling has never run against real GCS. Set it before a school deployment (docs/gcp-deployment.md section 8)."
+
       - name: Build + push image (Cloud Build, layer-cached)
         env:
           AR_IMAGE: ${{ vars.AR_IMAGE }}
@@ -179,6 +216,7 @@ jobs:
           SQL_CONNECTION: ${{ vars.SQL_CONNECTION }}
           CORS_ORIGINS: ${{ vars.CORS_ORIGINS }}
           RUNTIME_SA: ${{ vars.RUNTIME_SA }}
+          FRESH_INSTALL: ${{ vars.FRESH_INSTALL }}
         run: |
           # Every data-access backing service reaches the app through these.
           # Secrets come from Secret Manager, never from the repo.
@@ -193,8 +231,8 @@ jobs:
           # durable_table("learner_models") -> Cloud SQL. Before the FIRST
           # deploy without them, copy its existing rows:
           #   scripts/migrate_supabase_to_cloudsql.py --only learner_models
-          # (docs/gcp-deployment.md section 8); otherwise that history is
-          # left behind in Supabase, invisible to this service.
+          # (docs/gcp-deployment.md section 8). Forgetting is no longer
+          # silent: an empty Cloud SQL learner_models answers 503 (see below).
           # --set-secrets replaces the service's whole secret list, so dropping
           # them here also removes them from a service deployed with them.
           SECRETS="ACOS_PRINCIPAL_BOOTSTRAP_KEY=principal-bootstrap-key:latest"
@@ -206,6 +244,22 @@ jobs:
           ENV_VARS="$ENV_VARS,ACOS_POSTGRES_USER=academicos"
           ENV_VARS="$ENV_VARS,ACOS_GCS_BUCKET=${GCS_MEDIA_BUCKET}"
           ENV_VARS="$ENV_VARS,ACOS_CORS_ORIGINS=${CORS_ORIGINS}"
+
+          # An empty curriculum snapshot in GCS, or an empty learner_models in
+          # Cloud SQL, is what a service migrated off Supabase sees before the
+          # copy scripts run -- so the app refuses both (503 / failed boot)
+          # rather than serving blank data as if it were the school's. Before
+          # the first deploy of a MIGRATED school run:
+          #   scripts/migrate_supabase_to_cloudsql.py            (incl. learner_models)
+          #   scripts/migrate_supabase_blobs_to_gcs.py           (snapshot + scan media)
+          # For a NEW school with nothing to migrate, set the FRESH_INSTALL
+          # repo variable to 1 for the first deploy, then delete it:
+          # --set-env-vars replaces the whole list, so the next deploy drops it.
+          if [ "${FRESH_INSTALL}" = "1" ]; then
+            echo "::warning::FRESH_INSTALL=1: empty curriculum / mastery history allowed. Remove the variable after this deploy."
+            ENV_VARS="$ENV_VARS,ACOS_CURRICULUM_ALLOW_EMPTY_BOOT=1"
+            ENV_VARS="$ENV_VARS,ACOS_LEARNER_MODELS_ALLOW_EMPTY=1"
+          fi
 
           # --max-instances=1 is a correctness limit, not a cost one.
           # CurriculumStore keeps its 18 FK-linked tables in a local SQLite
