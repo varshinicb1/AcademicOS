@@ -1199,3 +1199,91 @@ def test_a_short_sections_fixes_keep_the_mix_fixes_without_repeating_one(real_cl
             assert len(keys) == len(set(keys)), (p.id, s.title, keys)
             if s.shortfall:
                 assert any(f.kind == "reduce_count" for f in s.fixes), (p.id, s.title)
+
+
+# ---- review of 6c86e99: what the paper prints, and fixes a client can apply
+
+def test_preset_instructions_describe_the_paper_that_was_printed():
+    """The preset's instructions were written once from `choice_count` and
+    stamped unchanged, so a section whose ORs the bank could not pair still
+    printed "4 of them offer an internal choice". Rebuilt from what was
+    printed, a section says the ORs it carries and the questions it holds,
+    and a section with nothing in it is not described at all."""
+    from academicos.assessment.template_presets import get_preset, instructions_for
+
+    t = get_preset(SS10)
+    assert instructions_for(t.sections) == t.instructions
+    printed = [(20, 0), (4, 1), (5, 0), (3, 0), (0, 0), (0, 0)]
+    lines = instructions_for(t.sections, printed).splitlines()
+    assert lines[0] == "This question paper has 4 sections."
+    by_title = {line.split(":")[0]: line for line in lines[1:-1]}
+    assert set(by_title) == {s.title for s in t.sections[:4]}
+    assert "1 of them offer" in by_title["Section B - Very short answer"]
+    assert "OR" not in by_title["Section C - Short answer"]
+    d = by_title["Section D - Long answer"]
+    assert "3 question(s)" in d and "OR" not in d, d
+
+
+def test_a_relax_type_fix_names_the_types_to_apply():
+    """`relax_type` carried only an English label; a client could not apply
+    it without parsing the sentence. It now carries the section's types
+    after relaxing, like `change_marks` carries its mark value."""
+    report, _ = _plan_preset(SS10, _src_bank())
+    d = next(s for s in report.sections if s.title == "Section D - Long answer")
+    relax = next(f for f in d.fixes if f.kind == "relax_type")
+    assert relax.question_types == ["long_answer", "very_long_answer", "case_study"]
+    assert relax.model_dump(by_alias=True)["questionTypes"] == relax.question_types
+
+
+@needs_real_bank
+def test_the_real_banks_map_and_case_sections_are_never_offered_the_other_kind(
+        real_class10_pools):
+    """A map question only ever fills a map section, and a source passage
+    cannot answer a map-skill section, so neither is a reason or a fix.
+    Before: Section F offered "the 45 5-mark question(s) that read as source
+    / case based" and Section E "the 3 4-mark question(s) that are map
+    questions"."""
+    report, _ = _real_plan(real_class10_pools, SS10)
+    by_title = {s.title: s for s in report.sections}
+    f = by_title["Section F - Map skill"]
+    assert f.shortfall and "source" not in f.reason, f.reason
+    assert not any(x.kind == "relax_type" for x in f.fixes), f.fixes
+    assert any(x.kind == "change_marks" and x.marks_each == 4 for x in f.fixes), f.fixes
+    e = by_title["Section E - Case based"]
+    assert e.shortfall and "map" not in e.reason, e.reason
+    assert not any("map" in x.label for x in e.fixes), e.fixes
+    for s in report.sections:
+        for x in s.fixes:
+            if x.kind == "relax_type":
+                assert x.question_types and "map_based" not in x.question_types, (s.title, x)
+
+
+@needs_real_bank
+def test_the_real_papers_instructions_match_the_ors_it_prints(
+        tmp_path, monkeypatch, real_class10_pools):
+    """Social Science Section D pairs 0 of its 4 ORs on the real bank; the
+    General Instructions printed on the paper must not promise them."""
+    for subject, pool in real_class10_pools.items():
+        monkeypatch.setitem(pool_mod._CACHE, (subject, "X"), pool)
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        report = client.post(f"{BASE}/{SS10}/availability", json={}, headers=t1).json()
+        r = client.post(GEN, json={"templateId": SS10, "allowGaps": True}, headers=t1)
+        assert r.status_code == 200, r.text
+        paper = r.json()["paper"]
+    d = next(s for s in report["sections"] if s["title"] == "Section D - Long answer")
+    assert d["choicesNeeded"] > d["choicesFilled"] == 0
+    for p in [paper] + paper["sets"]:
+        lines = p["metadata"]["instructions"].splitlines()
+        printed = [s for s in report["sections"] if s["filled"]]
+        assert lines[0] == f"This question paper has {len(printed)} sections."
+        for s in report["sections"]:
+            line = next((x for x in lines if x.startswith(s["title"] + ":")), None)
+            if not s["filled"]:
+                assert line is None, line
+                continue
+            assert f"{s['filled']} question(s)" in line, line
+            if s["choicesFilled"]:
+                assert f"{s['choicesFilled']} of them offer an internal choice" in line, line
+            else:
+                assert "OR" not in line, line

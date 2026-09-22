@@ -51,7 +51,7 @@ from .schemas import (
     TemplateScope,
 )
 from .store import AssessmentStore
-from .template_presets import get_preset, is_preset_id, presets
+from .template_presets import get_preset, instructions_for, is_preset_id, presets
 from .templates import TIER_BLOOM, TIER_DIFFICULTY
 from .users import User
 
@@ -390,7 +390,8 @@ def generate_from_template(
         # sections (an assertion-reason question under the MCQ heading).
         rotation_groups=[p.picked + p.borrowed for p in plans if p.picked or p.borrowed],
     )
-    paper = _with_header(paper, template)
+    instructions = _printed_instructions(template, plans)
+    paper = _with_header(paper, template, instructions)
     branding = _branding(template, current.school_id)
     _papers.save(paper, branding, school_id=current.school_id)
     for s in paper.sets:
@@ -410,7 +411,7 @@ def generate_from_template(
         metadata={"paperTemplate": {
             "id": template.id, "name": template.name,
             "header": template.header.model_dump(by_alias=True),
-            "instructions": template.instructions,
+            "instructions": instructions,
             "gaps": [g.model_dump(by_alias=True) for g in gaps], "notes": notes}},
     ))
     get_audit_log(cfg.data_root).append(
@@ -441,16 +442,35 @@ def _attach_choices(plans: list[SectionPlan]) -> None:
             q.metadata["internal_choice_question"] = alt.model_dump(by_alias=False)
 
 
-def _with_header(paper: GeneratedPaper, template: PaperTemplate) -> GeneratedPaper:
-    """The template's header, duration and instructions on the paper and on
-    every set, where the PDF exporter reads them. Blank header fields stay
-    None, so the exporter falls back to the school's branding name."""
+def _printed_instructions(template: PaperTemplate, plans: list[SectionPlan]) -> str:
+    """The instructions to print: the teacher's own words as written, but
+    instructions a preset generated (still unedited, on the preset or on a
+    copy of it) rebuilt from what the paper holds.
+
+    Those lines are the preset describing its own sections, and they replace
+    the PDF's default list, so stamping them unchanged printed promises the
+    paper did not keep: on the real class 10 bank the Social Science paper
+    said "Section D ... 4 of them offer an internal choice (OR)" with not one
+    OR in the section. Text the teacher wrote is theirs to word; the
+    availability notes already name the ORs and questions the bank lacks."""
+    if template.instructions.strip() != instructions_for(template.sections).strip():
+        return template.instructions
+    return instructions_for(template.sections, [
+        (p.availability.filled, p.availability.choices_filled) for p in plans])
+
+
+def _with_header(paper: GeneratedPaper, template: PaperTemplate,
+                 instructions: str) -> GeneratedPaper:
+    """The template's header and duration, and the instructions to print
+    (`_printed_instructions`), on the paper and on every set, where the PDF
+    exporter reads them. Blank header fields stay None, so the exporter
+    falls back to the school's branding name."""
     header = template.header
     update = {
         "school_name": header.school_name or None,
         "exam_name": header.exam_name or None,
         "date_line": header.date_line or None,
-        "instructions": template.instructions or None,
+        "instructions": instructions or None,
         "duration_minutes": template.duration_minutes,
     }
 

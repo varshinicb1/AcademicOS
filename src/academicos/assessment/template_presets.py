@@ -62,6 +62,7 @@ question at that mark value.
 from __future__ import annotations
 
 from functools import lru_cache
+from typing import Optional, Sequence
 
 from .schemas import DifficultyDistribution, PaperTemplate, TemplateHeader, TemplateSection
 
@@ -260,13 +261,29 @@ def _slug(text: str) -> str:
     return text.lower().replace(" ", "-")
 
 
-def _instructions(sections: list[TemplateSection]) -> str:
-    lines = [f"This question paper has {len(sections)} sections."]
-    for s in sections:
-        attempt = (f" Attempt any {s.attempts}." if s.attempts < s.question_count else "")
-        choice = (f" {s.choice_count} of them offer an internal choice (OR): attempt only "
-                  "one of the two." if s.choice_count else "")
-        lines.append(f"{s.title}: {s.question_count} question(s) of {s.marks_each} "
+def instructions_for(sections: list[TemplateSection],
+                     printed: Optional[Sequence[tuple[int, int]]] = None) -> str:
+    """The General Instructions for `sections`, as a preset writes them.
+
+    With `printed` -- (questions, OR alternatives) per section, in order,
+    read off the paper actually generated -- the lines describe that paper
+    instead of the template: a section the bank left empty is not listed,
+    a short one states the questions it holds, and a section says only the
+    ORs it really carries. Written once from `choice_count`, the class 10
+    Social Science preset printed "Section D ... 4 of them offer an internal
+    choice (OR)" on a paper whose Section D had none (the real bank pairs 0
+    of 4, 2026-09-22), and these lines replace the PDF's default list."""
+    if printed is None:
+        rows = [(s, s.question_count, s.choice_count) for s in sections]
+    else:
+        rows = [(s, n, c) for s, (n, c) in zip(sections, printed) if n > 0]
+    lines = [f"This question paper has {len(rows)} sections."]
+    for s, count, choices in rows:
+        attempts = min(s.attempts, count)
+        attempt = f" Attempt any {attempts}." if attempts < count else ""
+        choice = (f" {choices} of them offer an internal choice (OR): attempt only "
+                  "one of the two." if choices else "")
+        lines.append(f"{s.title}: {count} question(s) of {s.marks_each} "
                      f"mark(s) each.{attempt}{choice}")
     lines.append("All questions are compulsory unless a choice is stated.")
     return "\n".join(lines)
@@ -316,7 +333,7 @@ def _build(grade: int, subject: str, exam_type: str) -> PaperTemplate:
         exam_type=exam_type,
         total_marks=_TOTAL[exam_type],
         duration_minutes=_DURATION[exam_type],
-        instructions=_instructions(sections),
+        instructions=instructions_for(sections),
         header=TemplateHeader(exam_name=exam_name),
         sections=sections,
         is_preset=True,

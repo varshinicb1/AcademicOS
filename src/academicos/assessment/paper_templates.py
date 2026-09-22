@@ -56,7 +56,7 @@ from pathlib import Path
 from typing import Callable, Literal, Optional
 
 from .schemas import Camel, DifficultyDistribution, PaperTemplateDraft, QuestionSchema, \
-    TemplateScope, TemplateSection
+    QuestionType, TemplateScope, TemplateSection
 
 # Where the board-level topic taxonomy will live (being built in another
 # stream). Its absence is reported, never treated as "every id is invalid".
@@ -137,7 +137,8 @@ class SectionFix(Camel):
     A reason alone ("Only 3 are available") left the teacher guessing which
     of five settings to change; each fix names one setting and how many more
     questions changing it makes available, so the builder can offer it as a
-    single tap."""
+    single tap: every kind carries the value to apply, never only a
+    sentence to parse."""
     kind: FixKind
     label: str
     # How many more questions the change makes available to this section.
@@ -148,6 +149,9 @@ class SectionFix(Camel):
     question_count: Optional[int] = None
     # reduce_choices: the number of ORs the bank can pair.
     choice_count: Optional[int] = None
+    # relax_type: the section's question types after relaxing -- its own
+    # types plus the one kind admitted, to set as `questionTypes` as is.
+    question_types: Optional[list[QuestionType]] = None
 
 
 class SectionAvailability(Camel):
@@ -387,19 +391,33 @@ class _LeftOut:
     one long answer short while 45 5-mark source items sat unused, refused
     as source based; Section E (4 marks) had no case question because those
     same source items carry 5 marks. The old reason named neither."""
-    # At the section's marks, refused for what they are ("read as source /
-    # case based": n).
+    # At the section's marks, refused for what they are, by the question
+    # type that would admit them ("case_study": n -- they read as source /
+    # case based). Never map questions, and nothing for a map section: a
+    # map question only ever fills a map section, and nothing else can
+    # answer one, so "also take them" would be a fix that breaks the paper.
+    # Measured on the real bank before this: Section F (map) offered "the
+    # 45 5-mark question(s) that read as source / case based", Section E
+    # (case based) "the 3 4-mark question(s) that are map questions".
     wrong_kind: dict[str, int] = field(default_factory=dict)
     # Would fit this section at another mark value (marks: n).
     other_marks: dict[int, int] = field(default_factory=dict)
 
 
-def _kind_of(q: QuestionSchema) -> str:
-    if is_map_question(q):
-        return "are map questions"
-    if is_case_question(q):
+def _admitting_type(q: QuestionSchema) -> str:
+    """The question type a section would add to take `q` (map questions
+    never reach here). A long-form item that reads as source / case based
+    is admitted by `case_study` whatever its mark-derived label says (see
+    `_content_fits`); any other by its own label."""
+    if q.type in _LONG_FORM and is_case_question(q):
+        return "case_study"
+    return q.type
+
+
+def _kind_of(admit: str) -> str:
+    if admit == "case_study":
         return "read as source / case based"
-    return f"are labelled {q.type.replace('_', ' ')}"
+    return f"are labelled {admit.replace('_', ' ')}"
 
 
 def _left_out(section: TemplateSection, pool: list[QuestionSchema]) -> _LeftOut:
@@ -418,12 +436,13 @@ def _left_out(section: TemplateSection, pool: list[QuestionSchema]) -> _LeftOut:
         return out
     by_text = bool({"map_based", "case_study"} & set(section.question_types))
     marks_matter = by_text or _all_competency(section)
+    map_section = "map_based" in section.question_types
     for q in pool:
         fits_kind = not typed or _content_fits(q, section.question_types)
         if q.marks == section.marks_each:
-            if not fits_kind:
-                what = _kind_of(q)
-                out.wrong_kind[what] = out.wrong_kind.get(what, 0) + 1
+            if not fits_kind and not map_section and not is_map_question(q):
+                admit = _admitting_type(q)
+                out.wrong_kind[admit] = out.wrong_kind.get(admit, 0) + 1
         elif marks_matter and fits_kind and (not _all_competency(section) or _is_competency(q)):
             if by_text and not (is_map_question(q) or _is_competency(q)):
                 continue  # at another mark value, only content evidence says "same kind"
@@ -529,7 +548,8 @@ def _merge_fixes(first: list[SectionFix], then: list[SectionFix]) -> list[Sectio
     out: list[SectionFix] = []
     seen: set[tuple] = set()
     for f in [*first, *then]:
-        key = (f.kind, f.marks_each, f.question_count, f.choice_count)
+        key = (f.kind, f.marks_each, f.question_count, f.choice_count,
+               tuple(f.question_types or ()))
         if key not in seen:
             seen.add(key)
             out.append(f)
@@ -742,9 +762,9 @@ def _diagnose(template: PaperTemplateDraft, section: TemplateSection, *, availab
         lead = f"Only {available} {kind} question(s) are available; {shortfall} short."
 
     because: list[tuple[int, str]] = []
-    for what, n in left_out.wrong_kind.items():
+    for admit, n in left_out.wrong_kind.items():
         because.append((n, f"{n} more {marks}-mark question(s) were left out because they "
-                           f"{what}, which this section does not take."))
+                           f"{_kind_of(admit)}, which this section does not take."))
     change = _change_marks_fix(section, left_out)
     if change is not None:
         because.append((change.available, (
@@ -771,11 +791,14 @@ def _diagnose(template: PaperTemplateDraft, section: TemplateSection, *, availab
                                       "(the borrowed questions are listed)."))
     if change is not None:
         fixes.append(change)
-    # One fix per kind: allowing source items under a heading does not let
-    # map items in (a map question only ever fills a map section).
-    for what, n in sorted(left_out.wrong_kind.items(), key=lambda wn: -wn[1]):
-        fixes.append(SectionFix(kind="relax_type", available=n,
-                                label=f"Also take the {n} {marks}-mark question(s) that {what}."))
+    # One fix per kind, each carrying the types to set, so applying it is a
+    # tap, not a sentence to parse. Map questions are never offered (see
+    # `_LeftOut.wrong_kind`).
+    for admit, n in sorted(left_out.wrong_kind.items(), key=lambda wn: -wn[1]):
+        fixes.append(SectionFix(
+            kind="relax_type", available=n,
+            question_types=[*section.question_types, admit],
+            label=f"Also take the {n} {marks}-mark question(s) that {_kind_of(admit)}."))
     if not_competency:
         fixes.append(SectionFix(kind="relax_competency", available=not_competency,
                                 label=f"Drop the competency-only rule and take the "

@@ -6030,7 +6030,7 @@
         "type": "object"
       },
       "SectionFix": {
-        "description": "One change the teacher can make to a short section, with what it buys.\n\nA reason alone (\"Only 3 are available\") left the teacher guessing which\nof five settings to change; each fix names one setting and how many more\nquestions changing it makes available, so the builder can offer it as a\nsingle tap.",
+        "description": "One change the teacher can make to a short section, with what it buys.\n\nA reason alone (\"Only 3 are available\") left the teacher guessing which\nof five settings to change; each fix names one setting and how many more\nquestions changing it makes available, so the builder can offer it as a\nsingle tap: every kind carries the value to apply, never only a\nsentence to parse.",
         "properties": {
           "available": {
             "default": 0,
@@ -6086,6 +6086,34 @@
               }
             ],
             "title": "Questioncount"
+          },
+          "questionTypes": {
+            "anyOf": [
+              {
+                "items": {
+                  "enum": [
+                    "mcq",
+                    "very_short_answer",
+                    "short_answer",
+                    "long_answer",
+                    "very_long_answer",
+                    "case_study",
+                    "assertion_reason",
+                    "map_based",
+                    "diagram_based",
+                    "graph_based",
+                    "table_based",
+                    "competency_based"
+                  ],
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Questiontypes"
           }
         },
         "required": [
