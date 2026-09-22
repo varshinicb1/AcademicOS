@@ -220,9 +220,23 @@ def verify_answer(record: dict[str, Any], answer: OfficialAnswer) -> Verdict:
     return verify(record, answer.text(), option=answer.correct_option)
 
 
+# Reasons the relink adds to `scheme_verify.REASONS`. Those judge one answer
+# against its question; these judge what the index says about it.
+# Accepted candidates for one question that name different options.
+CONFLICTING_KEYS = "conflicting-keys"
+# A scheme built from an answer_keys row (labelled official) or carrying an
+# option letter, for which the index holds no accepted row. An objective one
+# cannot be checked at all: `build_official_scheme` wrote the option's own
+# text as its model answer, so the key "verifies" against itself.
+UNBACKED_KEY = "unbacked-key"
+
+
 @dataclass
 class Choice:
-    """What the index made of one question's candidates."""
+    """What the index made of one question's candidates.
+
+    `rejected` holds the verifier's rejections and, when accepted candidates
+    disagree on the option, every one of those as CONFLICTING_KEYS."""
 
     best: OfficialAnswer | None
     rejected: list[tuple[OfficialAnswer, Verdict]] = field(default_factory=list)
@@ -360,6 +374,17 @@ class AnswerKeyIndex:
         accepted.sort(key=lambda t: (t[0], t[1]), reverse=True)
         if not accepted:
             return Choice(best=None, rejected=rejected)
+        letters = {str(c.correct_option or v.option or "").strip().upper()
+                   for _, _, c, v in accepted} - {""}
+        if len(letters) > 1:
+            # Accepted keys naming different options: at least one is wrong
+            # and nothing here says which. Ranking would choose anyway -- 56/4/2
+            # Q3 and Q12 each have a medium-less "56_4_2.pdf" key and a Hindi
+            # one that disagree, and the medium-less one won both times; when
+            # rank and score tie, a stable sort hands the key to load order.
+            conflict = Verdict(reason=CONFLICTING_KEYS)
+            return Choice(best=None,
+                          rejected=rejected + [(c, conflict) for _, _, c, _ in accepted])
         _, _, best, verdict = accepted[0]
         if verdict.option and not best.correct_option:
             # Keyed by the option's words: carry the letter they resolved to,
@@ -411,10 +436,10 @@ class RelinkReport:
     total: int = 0
     already_had_scheme: int = 0
     verified_existing_scheme: int = 0
+    # Unlabelled descriptive schemes the verifier accepts and no official row
+    # accounts for. A labelled or objective one with no row is quarantined
+    # as UNBACKED_KEY instead.
     existing_scheme_unverifiable: int = 0
-    # Of those, schemes that were labelled cbse_marking_scheme and lost the
-    # label: their content passed, but no official row backs it.
-    unlabelled: int = 0
     newly_attached: int = 0
     # CBE/SQP records: their ids are not cbse:q:src:<hash>:<n>, so they never
     # reach the answer-key index, but their builder already attached the
@@ -460,8 +485,6 @@ class RelinkReport:
             "  ends with a verified official: {:,}".format(self.verified_existing_scheme),
             "  kept unlabelled (verified content, no official key): {:,}".format(
                 self.existing_scheme_unverifiable),
-            "    of which lost a cbse_marking_scheme label        : {:,}".format(
-                self.unlabelled),
             "verified official attached new : {:,}".format(self.newly_attached),
             "  carried an official scheme from its builder, verified : {:,}".format(
                 self.carried_official),
@@ -690,16 +713,21 @@ def relink_answer_schemes(
         def settle_without_candidate() -> None:
             if not kept:
                 return
+            if labelled or (scheme.get("metadata") or {}).get("correctOption"):
+                # No accepted index row backs this scheme. A labelled one was
+                # built from a row that is gone or no longer accepted, and an
+                # option letter cannot be checked against anything: an MCQ
+                # scheme "verifies" on its own trivially, because
+                # `build_official_scheme` wrote the option's text as its model
+                # answer. Dropping only the label is not enough -- the scorer
+                # reads `correctOption` whatever the label says -- and in hand
+                # checks of such served keys 13 of 21, then 4 of 10, were wrong.
+                _quarantine(rec, report, UNBACKED_KEY, _scheme_content(scheme)[0],
+                            code, q_no)
+                return
+            # Unlabelled descriptive content the verifier accepts: kept, and
+            # never labelled -- only an accepted index candidate earns that.
             report.existing_scheme_unverifiable += 1
-            if labelled:
-                # Content the verifier accepts but no official row backs: it
-                # keeps its content and loses the label, which only an
-                # accepted index candidate earns. A labelled MCQ scheme
-                # "verifies" on its own trivially -- `build_official_scheme`
-                # wrote the option's text as its model answer -- and in a
-                # hand check of 21 such served keys 13 were wrong.
-                rec["answerScheme"]["provenance"] = "none"
-                report.unlabelled += 1
 
         if source is None:
             report.no_parse_tree += 1

@@ -314,22 +314,69 @@ def test_an_english_stem_gets_the_english_answer_in_either_load_order(tmp_path, 
 
 
 # 56/4/2 Q3 (cbse:q:src:a5d35ea98c8f5dd80214b6f2:3): two letter keys, both
-# among the options, so both pass the verifier. "56_4_2.pdf" names no medium
-# and has no text; "043_56_4_2_Hindi.pdf" is the Hindi-medium scheme.
+# among the options, so both pass the verifier -- and they disagree.
+# "56_4_2.pdf" names no medium and says A; "043_56_4_2_Hindi.pdf" says B. The
+# index used to take A because an unknown medium outranks the other one; the
+# same pair answer Q12 A and C. Nothing here says which is right.
 KOH_STEM = ("Reaction of 1-phenyl-2-chloropropane with alcoholic KOH gives mainly : "
             "(a) 1-phenylpropene (b) 3-phenylpropene (c) 1-phenylpropan-3-ol "
             "(d) 1-phenylypropan-2-ol")
 EN_KEY = ("English", "XII", "56/4/2", 3, "A", "", "[]", 1.0, "56_4_2.pdf")
 HI_KEY = ("Chemistry", "XII", "56/4/2", 3, "B", "", "[]", 1.0, "043_56_4_2_Hindi.pdf")
+HI_KEY_A = HI_KEY[:4] + ("A",) + HI_KEY[5:]
+# Two keys of the SAME rank (neither names a medium) that disagree: rank and
+# score tie, so a stable sort would have handed the key to load order.
+# (Constructed from the two real rows above; the second filename is invented.)
+SET_A = ("Chemistry", "XII", "56/4/2", 3, "A", "", "[]", 1.0, "56_4_2.pdf")
+SET_C = ("Chemistry", "XII", "56/4/2", 3, "C", "", "[]", 1.0, "XII_043_56_4_2.pdf")
 
 
-@pytest.mark.parametrize("rows", [[EN_KEY, HI_KEY], [HI_KEY, EN_KEY]])
-def test_the_matching_medium_wins_between_two_accepted_keys(tmp_path, rows):
+@pytest.mark.parametrize("rows", [[EN_KEY, HI_KEY], [HI_KEY, EN_KEY],
+                                  [SET_A, SET_C], [SET_C, SET_A]])
+def test_accepted_keys_that_disagree_are_ambiguous_in_either_load_order(tmp_path, rows):
     idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", rows))
-    assert all(verify_answer(rec(KOH_STEM, subject="Chemistry", marks=1), c).accepted
-               for c in idx.candidates("56/4/2", 3))
+    record = rec(KOH_STEM, subject="Chemistry", marks=1)
+    assert all(verify_answer(record, c).accepted for c in idx.candidates("56/4/2", 3))
+    choice = idx.choose("56/4/2", 3, record)
+    assert choice.best is None
+    assert [v.reason for _, v in choice.rejected] == ["conflicting-keys"] * 2
+    assert idx.lookup("56/4/2", 3, record) is None
+
+
+@pytest.mark.parametrize("rows", [[EN_KEY, HI_KEY_A], [HI_KEY_A, EN_KEY]])
+def test_the_matching_medium_wins_between_two_keys_that_agree(tmp_path, rows):
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", rows))
     best = idx.lookup("56/4/2", 3, rec(KOH_STEM, subject="Chemistry", marks=1))
     assert best.correct_option == "A"
+    assert best.source == EN_KEY[-1]       # names no medium: outranks Hindi
+
+
+def test_a_key_in_words_and_a_key_by_letter_that_agree_are_not_a_conflict(tmp_path):
+    words = ("English", "XII", "56/4/2", 3, None, "(a) 1-phenylpropene", "[]", 1.0,
+             "56-4-2 English.pdf")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [SET_A, words]))
+    best = idx.lookup("56/4/2", 3, rec(KOH_STEM, subject="Chemistry", marks=1))
+    assert best is not None and best.correct_option == "A"
+
+
+def test_a_labelled_scheme_built_from_a_conflicting_key_is_quarantined(tmp_path):
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "a" * 24, "Series 56/4/2 Chemistry")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [EN_KEY, HI_KEY]))
+    served = {"totalMarks": 1, "modelAnswer": "1-phenylpropene",
+              "markingPoints": [{"id": "m1", "description": "Correct option A: 1-phenylpropene",
+                                 "marks": 1}],
+              "metadata": {"objective": True, "correctOption": "A"},
+              "provenance": "cbse_marking_scheme"}
+    recs = [_board("a" * 24, 3, KOH_STEM, served, subject="Chemistry", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    scheme = recs[0]["answerScheme"]
+    assert scheme.get("provenance") != "cbse_marking_scheme"
+    assert "correctOption" not in (scheme.get("metadata") or {})
+    assert report.quarantined == {"conflicting-keys": 1}
+    assert report.rejected == {"conflicting-keys": 2}
+    assert report.verified == 0
 
 
 def test_medium_falls_back_to_the_script_of_the_text(tmp_path):
@@ -407,11 +454,13 @@ def test_a_rejected_existing_scheme_is_replaced_by_a_verified_candidate(tmp_path
     assert report.rejected == {"script-mismatch": 1}      # the Hindi candidate
 
 
-def test_a_labelled_scheme_no_official_row_backs_loses_its_label(tmp_path):
+def test_a_labelled_mcq_key_no_official_row_backs_is_quarantined(tmp_path):
     """cbse:q:src:9081575f9ac53e99a3ff660c:13 is served "Correct option B:
     Crystalline lens" as official; most refraction happens at the cornea (A).
-    Standing alone the scheme passes -- its model answer is option B's own
-    text -- so without an accepted index row it keeps its content unlabelled."""
+    Standing alone the scheme passes -- `build_official_scheme` wrote option
+    B's own text as its model answer, so the key "verifies" against itself.
+    With no index row to check it against, the letter goes with the label:
+    the scorer reads `correctOption` whatever the label says."""
     parse = tmp_path / "parse"
     make_parse_tree(parse, "e" * 24, "Series 99/9/9 Science")
     idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", []))
@@ -426,10 +475,49 @@ def test_a_labelled_scheme_no_official_row_backs_loses_its_label(tmp_path):
     recs = [_board("e" * 24, 13, stem, scheme, subject="Science", marks=1)]
     report = relink_answer_schemes(recs, idx, parse_dir=parse)
 
-    assert recs[0]["answerScheme"]["provenance"] != "cbse_marking_scheme"
-    assert recs[0]["answerScheme"]["modelAnswer"] == "Crystalline lens"
-    assert report.unlabelled == 1
-    assert report.verified == 0
+    served = recs[0]["answerScheme"]
+    assert served.get("provenance") != "cbse_marking_scheme"
+    assert "correctOption" not in (served.get("metadata") or {})
+    assert not (served.get("metadata") or {}).get("objective")
+    assert served["modelAnswer"] == "" and served["markingPoints"] == []
+    assert report.quarantined == {"unbacked-key": 1}
+    [entry] = report.quarantine
+    assert entry["reason"] == "unbacked-key" and entry["text"] == "Crystalline lens"
+    assert report.verified == 0 and report.existing_scheme_unverifiable == 0
+
+
+def test_a_labelled_subjective_scheme_no_official_row_backs_is_quarantined(tmp_path):
+    """Its content was built from an answer_keys row too, and no row backs it
+    now: the verifier can say the text is on this question's topic, not that
+    it is the board's answer. It goes to review rather than staying unlabelled."""
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "f" * 24, "Series 32/5/2 Social Science")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", []))
+    scheme = {"totalMarks": 3, "modelAnswer": SECTORS_ENGLISH,
+              "markingPoints": [{"id": "m1", "description": SECTORS_ENGLISH, "marks": 3}],
+              "provenance": "cbse_marking_scheme"}
+    recs = [_board("f" * 24, 29, SECTORS_STEM, scheme, subject="Social Science", marks=3)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert recs[0]["answerScheme"]["markingPoints"] == []
+    assert report.quarantined == {"unbacked-key": 1}
+
+
+def test_an_unlabelled_mcq_key_no_official_row_backs_loses_its_letter(tmp_path):
+    """Unlabelled, the same self-referential key is still read by the scorer.
+    Its letter can be checked against nothing, so it is removed too."""
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "e" * 24, "Series 99/9/9 Science")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", []))
+    scheme = {"totalMarks": 1, "modelAnswer": "Oxalic acid",
+              "markingPoints": [{"id": "m1", "description": "Correct option D: Oxalic acid",
+                                 "marks": 1}],
+              "metadata": {"objective": True, "correctOption": "D"}, "provenance": "none"}
+    recs = [_board("e" * 24, 4, TOMATO, scheme, subject="Science", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert "correctOption" not in (recs[0]["answerScheme"].get("metadata") or {})
+    assert report.quarantined == {"unbacked-key": 1}
 
 
 def test_a_carried_scheme_is_verified_too(tmp_path):
@@ -452,6 +540,62 @@ def test_verify_answer_reads_the_candidates_letter_and_points():
     ans = OfficialAnswer(q_no=4, correct_option=None, answer_text="",
                          value_points=[("(d) Oxalic acid", 1.0)])
     assert verify_answer(rec(TOMATO, marks=1), ans).accepted
+
+
+# --------------------------------------------------------------------------- #
+# the quarantine file keeps what every run removed
+# --------------------------------------------------------------------------- #
+
+def _load_enrich_script():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "enrich_question_bank", ROOT / "scripts" / "enrich_question_bank.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_a_second_run_does_not_lose_the_first_runs_quarantine(tmp_path):
+    """After the first run the served bank holds the stripped schemes, so a
+    rerun finds almost nothing to quarantine (measured on the real bank:
+    2,685, then 1). Overwriting the file on the second run lost the 2,685."""
+    script = _load_enrich_script()
+    data = tmp_path / "data"
+    parse = data / "parse"
+    make_parse_tree(parse, "c" * 24, "Series 64/4/1 Geography")
+    make_answer_keys(data / "answer_keys.db", [])
+    wrong = {"totalMarks": 5, "modelAnswer": PHYSICS_IN_HINDI,
+             "markingPoints": [{"id": "m1", "description": PHYSICS_IN_HINDI, "marks": 5}],
+             "provenance": "cbse_marking_scheme"}
+    bank = data / "syllabus" / "questions.json"
+    mirror = tmp_path / "frontend" / "questions.json"
+    bank.parent.mkdir(parents=True)
+    bank.write_text(json.dumps({"questions": [
+        _board("c" * 24, 24, GEOGRAPHY_STEM, wrong)]}), encoding="utf-8")
+    quarantine = data / "syllabus" / "scheme_quarantine.json"
+
+    for _ in range(2):
+        assert script.run(targets=[bank, mirror], quarantine=quarantine,
+                          data_root=data, check=False) == 0
+
+    saved = json.loads(quarantine.read_text(encoding="utf-8"))
+    assert [e["id"] for e in saved["entries"]] == ["cbse:q:src:" + "c" * 24 + ":24"]
+    assert saved["entries"][0]["reason"] == "legacy-font"
+    assert saved["counts"] == {"legacy-font": 1}
+    served = json.loads(bank.read_text(encoding="utf-8"))["questions"][0]
+    assert served["answerScheme"]["markingPoints"] == []
+
+
+def test_the_quarantine_merge_adds_and_never_drops(tmp_path):
+    script = _load_enrich_script()
+    path = tmp_path / "q.json"
+    first = [{"id": "a", "code": "1/1/1", "q_no": 1, "reason": "legacy-font", "text": "x"}]
+    second = [{"id": "b", "code": "1/1/1", "q_no": 2, "reason": "unbacked-key", "text": "y"},
+              dict(first[0])]
+    script.write_quarantine(path, first)
+    saved = script.write_quarantine(path, second)
+    assert [e["id"] for e in saved["entries"]] == ["a", "b"]
+    assert saved["counts"] == {"legacy-font": 1, "unbacked-key": 1}
 
 
 # --------------------------------------------------------------------------- #

@@ -12,6 +12,9 @@ What it does, in order:
      and page-level `provenance`.
   3. Writes both copies of the corpus (the server-side one and the Flutter
      asset) so they cannot drift.
+  4. Adds every scheme the relink removed to scheme_quarantine.json, next to
+     the served bank. It merges, never overwrites: a rerun finds almost
+     nothing left to remove, so an overwrite would lose the review list.
 
 Idempotent: re-running does not double-bump versions or overwrite a rights
 decision someone has since recorded. `--check` verifies without writing, for CI.
@@ -21,6 +24,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from collections import Counter
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[1]
@@ -61,21 +65,69 @@ def print_subject_grade_table(records: list[dict], report, had_official: set) ->
     print("{:<26} {:>5} {:>8,} {:>9,} {:>9,} {:>12,}".format("total", "", *tot))
 
 
+QUARANTINE_ABOUT = (
+    "Schemes removed from served records because the relink rejected them for "
+    "their question. For a person to review; see "
+    "src/academicos/corpus/scheme_verify.py and "
+    "src/academicos/assessment/question_bank.py (conflicting-keys, unbacked-key) "
+    "for each reason. Every run ADDS to this file and never drops an entry: "
+    "after one run the served bank no longer holds what was removed, so a "
+    "rerun finds almost nothing, and overwriting would lose the review list.")
+
+
+def _entry_key(e: dict) -> tuple:
+    return (e.get("id"), e.get("reason"), e.get("text"))
+
+
+def write_quarantine(path: Path, entries: list[dict]) -> dict:
+    """Merge `entries` into the quarantine file at `path`; returns what was written.
+
+    Keyed by (id, reason, text): the same removal seen twice is one entry, a
+    different scheme removed from the same record later is a second one.
+    Existing entries keep their order and are never dropped.
+    """
+    existing: list[dict] = []
+    if path.exists():
+        existing = list(json.loads(path.read_text(encoding="utf-8")).get("entries") or [])
+    seen = {_entry_key(e) for e in existing}
+    merged = list(existing)
+    for e in entries:
+        if _entry_key(e) not in seen:
+            seen.add(_entry_key(e))
+            merged.append(e)
+    counts = Counter(str(e.get("reason")) for e in merged)
+    out = {"about": QUARANTINE_ABOUT, "counts": dict(sorted(counts.items())),
+           "entries": merged}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    return out
+
+
+def _rel(path: Path) -> str:
+    try:
+        return str(path.relative_to(REPO))
+    except ValueError:
+        return str(path)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true",
                     help="report only; do not write")
     args = ap.parse_args()
+    return run(targets=TARGETS, quarantine=QUARANTINE,
+               data_root=REPO / "academicos-data", check=args.check)
 
-    data_root = REPO / "academicos-data"
-    primary = TARGETS[0]
+
+def run(*, targets: list[Path], quarantine: Path, data_root: Path, check: bool) -> int:
+    primary = targets[0]
     if not primary.exists():
         print(f"missing corpus: {primary}", file=sys.stderr)
         return 1
 
     payload = json.loads(primary.read_text(encoding="utf-8"))
     records = payload.get("questions") or []
-    print(f"loaded {len(records):,} questions from {primary.relative_to(REPO)}")
+    print(f"loaded {len(records):,} questions from {_rel(primary)}")
 
     index = AnswerKeyIndex(data_root / "answer_keys.db")
     stats = index.stats()
@@ -108,27 +160,22 @@ def main() -> int:
     payload["schemeCoverage"] = round(
         census["with_official_scheme"] / len(records), 4) if records else 0.0
 
-    if args.check:
-        print(f"--check: nothing written (would quarantine "
-              f"{len(report.quarantine):,} schemes to {QUARANTINE.relative_to(REPO)})")
+    if check:
+        print(f"--check: nothing written (would add up to "
+              f"{len(report.quarantine):,} schemes to {_rel(quarantine)})")
         return 0
 
-    QUARANTINE.write_text(json.dumps({
-        "about": ("Schemes removed from served records because scheme_verify rejected "
-                  "them for their question. For a person to review; see "
-                  "src/academicos/corpus/scheme_verify.py for each reason."),
-        "counts": dict(sorted(report.quarantined.items())),
-        "entries": report.quarantine,
-    }, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(f"wrote {QUARANTINE.relative_to(REPO)}  ({len(report.quarantine):,} entries)")
+    saved = write_quarantine(quarantine, report.quarantine)
+    print(f"wrote {_rel(quarantine)}  ({len(report.quarantine):,} this run, "
+          f"{len(saved['entries']):,} entries in all)")
 
     text = json.dumps(payload, ensure_ascii=False)
-    for target in TARGETS:
+    for target in targets:
         target.parent.mkdir(parents=True, exist_ok=True)
         before = target.stat().st_size if target.exists() else 0
         target.write_text(text, encoding="utf-8")
         delta = target.stat().st_size - before
-        print(f"wrote {target.relative_to(REPO)}  "
+        print(f"wrote {_rel(target)}  "
               f"({target.stat().st_size / 1_000_000:.1f} MB, {delta:+,} bytes)")
     return 0
 
