@@ -3,12 +3,10 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
+from . import grades
 from .marking import build_answer_scheme
 from .pool import PoolQuestion
 from .schemas import AnswerSchemeSchema, QuestionSchema
-
-_ROMAN_GRADE = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8,
-                "IX": 9, "X": 10, "XI": 11, "XII": 12}
 
 _QUESTION_TYPE_MAP = {
     "mcq": "mcq",
@@ -22,8 +20,15 @@ _BLOOM_MAP = {"remember", "understand", "apply", "analyze", "evaluate", "create"
 
 
 def grade_to_int(grade: str) -> int:
-    g = grade.strip().upper()
-    return _ROMAN_GRADE.get(g, 10)
+    """The int grade for a pool label. Raises on junk rather than returning 10.
+
+    `_ROMAN_GRADE.get(g, 10)` made "9" -- the label the baked loader used for
+    class 9 -- report itself as class 10. See grades.py.
+    """
+    n = grades.to_int(grade)
+    if n is None:
+        raise ValueError(f"not a school grade: {grade!r}")
+    return n
 
 
 # CBSE question marks never exceed this. The extractor's "(N)" regex happily

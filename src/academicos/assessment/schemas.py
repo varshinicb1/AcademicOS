@@ -367,7 +367,8 @@ class GeneratedPaper(Camel):
 
 class QuickPaperRequest(Camel):
     subject: str
-    grade: int = 10
+    # Required: a missing grade used to become a class 10 paper.
+    grade: int
     chapter_ids: list[str] = Field(default_factory=list)
     title: Optional[str] = None
     total_marks: int = 80
@@ -382,7 +383,8 @@ class GenerateFromIdsRequest(Camel):
     assessment_id: Optional[str] = None
     title: str = "Custom Question Paper"
     subject: str
-    grade: int = 10
+    # Required: a missing grade used to become a class 10 paper.
+    grade: int
     question_ids: list[str]
     template_id: Optional[str] = None
 

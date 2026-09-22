@@ -17,7 +17,7 @@ from typing import get_args
 from ..config import Config
 from ..integrations.composio_calendar import sync_to_google_calendar
 from . import pdf as pdf_export
-from . import paper_timing, selection
+from . import grades, paper_timing, selection
 from .audit_log import get_audit_log
 from .authz import require_own_school, require_school_owns_assessment, require_school_owns_paper
 from .auth_routes import get_current_user, require_principal
@@ -219,8 +219,15 @@ def search_questions(params: QuestionSearchParams,
 
 
 def _int_grade_to_roman(grade: int) -> str:
-    romans = {8: "VIII", 9: "IX", 10: "X", 11: "XI", 12: "XII"}
-    return romans.get(grade, "X")
+    """Pool key for a request's grade. An unreadable grade is a 422, never class 10.
+
+    This used to be `{8: "VIII", ..., 12: "XII"}.get(grade, "X")`, which turned a
+    class 6 or 7 request into class 10 without saying so. See grades.py.
+    """
+    try:
+        return grades.to_roman(grade)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
 
 
 @router.post("/questions/optimize", response_model=QuestionOptimizationResult)
@@ -265,7 +272,7 @@ def generate_paper_endpoint(
         _require_editable(assessment)
     title = assessment.title if assessment else "Assessment"
     subject = assessment.subject if assessment else (request.selected_questions[0].subject if request.selected_questions else "Science")
-    grade = assessment.grade if assessment else (request.selected_questions[0].grade if request.selected_questions else 10)
+    grade = assessment.grade if assessment else request.selected_questions[0].grade
 
     set_count = getattr(request, "set_count", 1) or 1
     paper = generate_paper_sets(

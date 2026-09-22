@@ -5,6 +5,7 @@ endpoints stay readable. Mounted under the same /api/v1 prefix.
 """
 from __future__ import annotations
 
+import json
 import uuid
 from dataclasses import replace
 from pathlib import Path
@@ -12,9 +13,10 @@ from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Response
 from fastapi.responses import FileResponse
-from pydantic import Field
+from pydantic import Field, field_validator
 
 from ..config import Config
+from . import grades
 from . import insights as insights_mod
 from . import mailer as mailer_mod
 from . import remediation as remediation_mod
@@ -27,6 +29,7 @@ from .knowledge import KnowledgeStore
 from .mapping import to_question_schema
 from .marking import build_answer_key, build_answer_scheme
 from .pool import get_pool
+from .routes import _int_grade_to_roman
 from .practice_store import PracticeStore
 from .schemas import (
     AnswerSchemeSchema,
@@ -113,7 +116,7 @@ def _papers():
     raise HTTPException(503, "pillar module not initialized")
 
 
-def _pool_questions(subject: str = "Science", grade: str = "X") -> list[QuestionSchema]:
+def _pool_questions(subject: str, grade: str) -> list[QuestionSchema]:
     cfg, _, _ = _require()
     return [to_question_schema(q) for q in get_pool(cfg, subject=subject, grade=grade).questions]
 
@@ -215,15 +218,23 @@ class CatalogResponse(Camel):
     total_questions: int
 
 
-_GRADE_ROMAN = {8: "VIII", 9: "IX", 10: "X", 11: "XI", 12: "XII"}
-# Subjects the bulk board ingest stages. Kept explicit so the catalog never
-# probes hundreds of empty (subject, grade) pairs on every request.
-_CATALOG_SCOPE: list[tuple[str, int]] = [
-    ("Science", 10), ("Mathematics", 10), ("Social Science", 10), ("English", 10),
-    ("Physics", 12), ("Chemistry", 12), ("Biology", 12), ("Mathematics", 12),
-    ("Accountancy", 12), ("Business Studies", 12), ("Economics", 12),
-    ("History", 12), ("Geography", 12), ("Political Science", 12), ("English", 12),
-]
+def _catalog_scope(cfg) -> list[tuple[str, int]]:
+    """Every (subject, grade) the served bank holds.
+
+    This was a hand-written list of grade 10 and 12 pairs, so class 6-9 never
+    appeared in the catalog however many questions existed for them. Deriving
+    it from the bank still keeps the catalog from probing hundreds of empty
+    (subject, grade) pairs on every request.
+    """
+    from .pool import _baked_bank_paths
+
+    for path in _baked_bank_paths(cfg):
+        if path.exists():
+            data = json.loads(path.read_text(encoding="utf-8"))
+            pairs = {(q.get("subject", ""), grades.to_int(q.get("grade")))
+                     for q in data.get("questions", [])}
+            return sorted((s, g) for s, g in pairs if s and g)
+    return []
 
 
 @router.get("/catalog", response_model=CatalogResponse)
@@ -236,8 +247,8 @@ def catalog(response: Response) -> CatalogResponse:
     cfg, _, _ = _require()
     entries: list[CatalogEntry] = []
     total = 0
-    for subject, grade in _CATALOG_SCOPE:
-        pool = get_pool(cfg, subject=subject, grade=_GRADE_ROMAN.get(grade, "X"))
+    for subject, grade in _catalog_scope(cfg):
+        pool = get_pool(cfg, subject=subject, grade=_int_grade_to_roman(grade))
         if not pool.questions:
             continue
         schemas = [to_question_schema(q) for q in pool.questions]
@@ -257,7 +268,7 @@ def catalog(response: Response) -> CatalogResponse:
 def catalog_chapters(subject: str, grade: int, response: Response) -> list[ChapterEntry]:
     """Chapter breakdown for one subject — the real syllabus view."""
     cfg, _, _ = _require()
-    pool = get_pool(cfg, subject=subject, grade=_GRADE_ROMAN.get(grade, "X"))
+    pool = get_pool(cfg, subject=subject, grade=_int_grade_to_roman(grade))
     schemas = [to_question_schema(q) for q in pool.questions]
 
     by_chapter: dict[str, list[QuestionSchema]] = {}
@@ -732,8 +743,16 @@ class PracticeRequestBody(Camel):
     student_id: str
     per_concept: int = 2
     subject: str = "Science"
+    # Deliberately still class 10 Science when omitted: the shipped app posts only
+    # studentId + perConcept (pillar_api.dart generatePractice) and a student
+    # record holds no grade, so requiring it would 422 every practice request.
     grade: str = "X"
     correct_options: dict[str, str] = Field(default_factory=dict)
+
+    @field_validator("grade", mode="before")
+    @classmethod
+    def _grade_pool_key(cls, v: object) -> str:
+        return grades.to_roman(v)   # ValueError -> 422; 'X', '10', 10, '10th' -> 'X'
 
 
 class PracticeItemResponse(Camel):

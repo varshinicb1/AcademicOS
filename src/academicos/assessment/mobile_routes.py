@@ -16,7 +16,7 @@ from pydantic import Field
 
 from . import mobile_scan
 from . import routes as assessment_routes
-from .authz import require_school_owns_scan_session
+from .authz import require_school_owns_assessment, require_school_owns_scan_session
 from .auth_routes import get_current_user
 from .evaluate import Evaluation, MarkingPointOutcome
 from .mapping import to_question_schema
@@ -81,13 +81,15 @@ def _session_response(session: mobile_scan.ScanSession) -> ScanSessionResponse:
 def create_scan_session(
     req: CreateScanSessionRequest, current: User = Depends(get_current_user),
 ) -> ScanSessionResponse:
-    assessment = assessment_routes._store.get(req.assessment_id) if assessment_routes._store else None
-    if assessment is not None and assessment.school_id != current.school_id:
-        raise HTTPException(403, "this assessment belongs to a different school")
-    subject = assessment.subject if assessment else "Science"
-    grade = assessment.grade if assessment else 10
+    if assessment_routes._store is None:
+        raise HTTPException(503, "assessment module not initialized")
+    # An unknown assessment used to become a Science class 10 session. Every later
+    # route on it 404s through require_school_owns_scan_session, so it could never
+    # be processed; refusing here reports the mistake where it is made.
+    assessment = require_school_owns_assessment(assessment_routes._store, req.assessment_id, current)
     session = mobile_scan.create_session(req.assessment_id, req.student_id, req.student_name,
-                                         subject=subject, grade=grade, school_id=current.school_id)
+                                         subject=assessment.subject, grade=assessment.grade,
+                                         school_id=current.school_id)
     return _session_response(session)
 
 
