@@ -208,7 +208,12 @@ def _slim(rec: dict[str, Any]) -> dict[str, Any]:
         "language": rec.get("language"),
         "reviewState": rec.get("reviewState"),
         "version": rec.get("version"),
-        "hasOfficialScheme": provenance == "cbse_marking_scheme",
+        # The label AND the content, the same rule `has_answer_key` applies:
+        # the label alone is what let 259 empty CBE schemes read as CBSE's own,
+        # and `/v1/coverage` counts only keyed records, so a consumer adding up
+        # this flag would disagree with it (review of 2026-09-23).
+        "hasOfficialScheme": (QuestionBank.has_answer_key(rec)
+                              and provenance == "cbse_marking_scheme"),
         # `hasOfficialScheme` alone stopped being the answer to "can I mark
         # this?" when the Exemplar records arrived: 4,192 of the 5,427 served
         # records carry NCERT's own answer, which is a published key and is not
@@ -409,7 +414,10 @@ def get_scheme(
         "hasPartialCredit": scheme.get("hasPartialCredit", False),
         # The consumer needs to know whether this is an official CBSE scheme or
         # an empty placeholder, because two thirds of the bank is the latter.
+        # The label is reported as it is, and the flag says whether anything
+        # can actually be marked with it -- as the MCP's get_answer_key does.
         "provenance": scheme.get("provenance") or "none",
+        "hasAnswerKey": QuestionBank.has_answer_key(rec),
         "sourcePaperCode": scheme.get("sourcePaperCode") or "",
         "sourceDocumentId": scheme.get("sourceDocumentId") or "",
     }, headers=_rate_headers(key))

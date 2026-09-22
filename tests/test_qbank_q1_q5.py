@@ -1031,3 +1031,23 @@ def test_the_opt_in_is_not_the_contradiction(client):
               headers=_headers(store))
     assert r.status_code == 200
     assert r.json()["totalMatching"] == 6
+
+
+def test_an_empty_scheme_under_an_official_label_says_so_on_every_surface(client):
+    """Q5, the last two places the label alone still spoke for the key: the
+    list's `hasOfficialScheme` and the scheme route itself. Record 12 carries
+    provenance cbse_marking_scheme over no value point and no model answer --
+    unmarkable, and both used to present it as CBSE's own."""
+    c, store = client
+    h = _headers(store)
+    listed = c.get("/v1/questions", params={"include_unkeyed": "true"}, headers=h).json()
+    empty = next(q for q in listed["items"] if q["id"] == "t:q:0012")
+    assert empty["hasAnswerKey"] is False
+    assert empty["hasOfficialScheme"] is False, "an empty scheme is not an official scheme"
+
+    scheme = c.get("/v1/questions/t:q:0012/scheme", headers=h).json()
+    assert scheme["provenance"] == "cbse_marking_scheme"   # the label is reported as it is
+    assert scheme["hasAnswerKey"] is False, "the route must say the key cannot be marked"
+
+    keyed = c.get("/v1/questions/t:q:0000/scheme", headers=h).json()
+    assert keyed["hasAnswerKey"] is True

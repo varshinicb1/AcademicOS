@@ -12959,7 +12959,7 @@
             }
           },
           {
-            "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1.",
+            "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
             "in": "query",
             "name": "key_provenance",
             "required": false,
@@ -12972,7 +12972,7 @@
                   "type": "null"
                 }
               ],
-              "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1.",
+              "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
               "title": "Key Provenance"
             }
           },
@@ -13379,7 +13379,7 @@
             }
           },
           {
-            "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1.",
+            "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
             "in": "query",
             "name": "key_provenance",
             "required": false,
@@ -13392,7 +13392,7 @@
                   "type": "null"
                 }
               ],
-              "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1.",
+              "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
               "title": "Key Provenance"
             }
           },
@@ -13862,7 +13862,7 @@
             }
           },
           {
-            "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1.",
+            "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
             "in": "query",
             "name": "key_provenance",
             "required": false,
@@ -13875,7 +13875,7 @@
                   "type": "null"
                 }
               ],
-              "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1.",
+              "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
               "title": "Key Provenance"
             }
           },
