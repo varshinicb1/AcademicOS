@@ -355,6 +355,11 @@ def test_relink_replaces_an_existing_scheme_with_the_verified_official_one(tmp_p
     guarantee a freshly attached scheme gets. Before Task 15 the existing
     content was kept and labelled whenever ANY key existed for the question
     number, which is how 30.5% of the labelled schemes came to be wrong.
+
+    Since Task 152 the unlabelled scheme is not counted as the record's own
+    scheme verified unless it names the official's answer: this one leaves
+    out the official's "double displacement" point, so it is superseded --
+    quarantined whole for review -- and the official is served in its place.
     """
     idx, parse, stem22 = _setup(tmp_path)
     existing = {"totalMarks": 3, "markingPoints": [{
@@ -364,9 +369,12 @@ def test_relink_replaces_an_existing_scheme_with_the_verified_official_one(tmp_p
     rep = relink_answer_schemes(recs, idx, parse_dir=parse)
 
     assert rep.already_had_scheme == 1
-    assert rep.verified_existing_scheme == 1
+    assert rep.verified_existing_scheme == 0
+    assert rep.replaced_after_quarantine == 1
     assert rep.newly_attached == 0
-    assert rep.quarantined == {}
+    assert rep.quarantined == {"superseded-by-official": 1}
+    [sup] = rep.superseded
+    assert sup["id"] == recs[0]["id"]
     sch = recs[0]["answerScheme"]
     assert sch["modelAnswer"] == Q22_ANSWER
     assert sch["provenance"] == "cbse_marking_scheme"

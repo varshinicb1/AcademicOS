@@ -28,7 +28,11 @@ What it does, in order:
 
 A record whose own verified scheme and the join's accepted pick name
 different answers keeps neither: both go to the quarantine as
-conflicting-keys, and each is printed by id with both answers.
+conflicting-keys, and each is printed by id with both answers. The record
+holds its own key (answerScheme.metadata.conflictingKeys), so a rerun finds
+the conflict again instead of serving the pick. An unlabelled scheme that
+names another answer than the pick is replaced by it, quarantined as
+superseded-by-official, and printed the same way.
 
 Run this BEFORE merge_question_banks.py, and again after it: the merge's
 no-verified-key gate reads the labels and stamps this relink writes, and
@@ -104,7 +108,8 @@ QUARANTINE_ABOUT = (
     "their question. For a person to review and, if right, restore: each entry "
     "keeps the whole removed scheme ('scheme'), its option letter and its scheme "
     "file. See src/academicos/corpus/scheme_verify.py and "
-    "src/academicos/assessment/question_bank.py (unbacked-key) for each "
+    "src/academicos/assessment/question_bank.py (unbacked-key, "
+    "superseded-by-official) for each "
     "reason. Every run ADDS to this file and never drops an entry: "
     "after one run the served bank no longer holds what was removed, so a "
     "rerun finds almost nothing, and overwriting would lose the review list.")
@@ -116,18 +121,25 @@ def _answer(a: dict) -> str:
     return f"{a.get('option') or '-'} {words}".strip()
 
 
-def print_conflicts(report) -> None:
-    """Every record whose two official keys disagree, with both answers, so a
-    person can settle it; neither is served until then."""
-    if not report.conflicts:
+def _print_pairs(title: str, pairs: list[dict]) -> None:
+    if not pairs:
         return
-    print(f"conflicting official keys, neither served ({len(report.conflicts):,}):")
+    print(f"{title} ({len(pairs):,}):")
     print("  (id  code Qn: the record's own scheme  |  the join's pick  [pick's row])")
-    for c in report.conflicts:
+    for c in pairs:
         join = c["join"]
         print(f"  {c['id']}  {c['code']} Q{c['q_no']}: {_answer(c['existing'])}  |  "
               f"{_answer(join)}  [{join.get('code')} Q{join.get('qNo')}, {join.get('source')}]")
     print()
+
+
+def print_conflicts(report) -> None:
+    """Every record whose two official keys disagree, with both answers, so a
+    person can settle it; neither is served until then. Then every
+    unlabelled scheme the official pick superseded with another answer."""
+    _print_pairs("conflicting official keys, neither served", report.conflicts)
+    _print_pairs("unlabelled schemes naming another answer, superseded by the official",
+                 report.superseded)
 
 
 def _entry_key(e: dict) -> tuple:

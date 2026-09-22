@@ -247,6 +247,19 @@ def verify_answer(record: dict[str, Any], answer: OfficialAnswer) -> Verdict:
 # answer: since Task 151 (user decision 2026-09-22, correctness first) an
 # unverified scheme is not served at all.
 UNBACKED_KEY = "unbacked-key"
+# A scheme without the official label that verifies but names another answer
+# than the join's accepted pick. It is no key, so the official replaces it;
+# it goes to review whole rather than being counted as the record's own
+# scheme verified (Task 152's review).
+SUPERSEDED_BY_OFFICIAL = "superseded-by-official"
+
+# Where a record withheld for conflicting official keys keeps its own key:
+# `answerScheme.metadata.conflictingKeys.existing`, the whole scheme. Without
+# it the next relink sees a record with no scheme, nothing to compare, and
+# serves the join's pick as newly attached -- and the pipeline's own order
+# (enrich, merge, enrich) runs the relink twice (Task 152's review). Nested,
+# never the top-level `correctOption` the scorers read.
+CONFLICT_HELD = "conflictingKeys"
 
 # The verifier a relink ran, stamped on the bank it wrote (`schemeVerifier`,
 # written by scripts/enrich_question_bank.py). merge_question_banks.py serves
@@ -255,7 +268,7 @@ UNBACKED_KEY = "unbacked-key"
 # seen (Task 151's pipeline-order concern). Change it whenever `verify`,
 # `join_verdict`, `AnswerKeyIndex.choose` or the relink's own rules change
 # what is served, so a bank relinked under the old rules is refused too.
-SCHEME_VERIFIER = "scheme-verify/content-join/conflicting-keys 2026-09-22"
+SCHEME_VERIFIER = "scheme-verify/content-join/conflicting-keys-held 2026-09-22"
 
 
 def row_code(stored: str, source: str) -> str:
@@ -673,6 +686,14 @@ class RelinkReport:
     # entry names the record and both answers, for a person to settle.
     conflicting_keys: int = 0
     conflicts: list[dict[str, Any]] = field(default_factory=list)
+    # Of those, conflicts an earlier relink found and held on the record
+    # (`CONFLICT_HELD`): still two answers, still neither served.
+    conflicts_held: int = 0
+    # Records whose unlabelled scheme verified but named another answer than
+    # the join's accepted pick: quarantined as superseded-by-official, the
+    # official served in its place (counted in replaced_after_quarantine).
+    # Each entry names the record and both answers.
+    superseded: list[dict[str, Any]] = field(default_factory=list)
 
     @property
     def verified(self) -> int:
@@ -702,6 +723,9 @@ class RelinkReport:
                 self.existing_scheme_removed),
             "    conflicting official keys (neither served): {:,}".format(
                 self.conflicting_keys),
+            "      (held from an earlier relink: {:,})".format(self.conflicts_held),
+            "    its unlabelled scheme named another answer, superseded by the official: {:,}"
+            .format(len(self.superseded)),
             "verified official attached new : {:,}".format(self.newly_attached),
             "  (verified officials found away from the question's own number: {:,})".format(
                 self.recovered_elsewhere),
@@ -933,14 +957,19 @@ def _serve_neither(rec: dict[str, Any], report: RelinkReport, pick: dict[str, An
     first (430/5/1 Q24, 430/5/2 Q28) -- likely one answer, but `_same_answer`
     cannot tell, and a conflict fails closed. Both schemes are quarantined
     whole, each naming the other, and the record keeps no scheme (the merge
-    withholds it as no-verified-key)."""
-    ours = _answer_of(rec.get("answerScheme") or {})
+    withholds it as no-verified-key) -- only its own key, held under
+    `metadata.conflictingKeys` for the next relink to compare again."""
+    whole = dict(rec.get("answerScheme") or {})
+    ours = _answer_of(whole)
     theirs = _answer_of(pick)
     report.conflicting_keys += 1
     report.conflicts.append({"id": rec.get("id"), "code": code, "q_no": q_no,
                              "existing": ours, "join": theirs})
     _quarantine(rec, report, CONFLICTING_KEYS, ours["text"], code, q_no,
                 conflictsWith=theirs)
+    # Held on the record, so the next relink compares the two again rather
+    # than finding no scheme and serving the pick.
+    rec["answerScheme"]["metadata"] = {CONFLICT_HELD: {"existing": whole, "join": theirs}}
     # The pick was never on the record: a refused candidate, kept for review.
     report.rejected[CONFLICTING_KEYS] += 1
     report.quarantine.append({
@@ -973,8 +1002,12 @@ def relink_answer_schemes(
     accepted row keeps no scheme at all: an unverified scheme is not served.
     A record whose own verified cbse_marking_scheme names another answer
     than the accepted row keeps none either: two official keys that disagree
-    are a conflict, not an overwrite (`_serve_neither`). An unlabelled
-    scheme is no key, so the accepted row replaces it.
+    are a conflict, not an overwrite (`_serve_neither`), and the record holds
+    its own key (`CONFLICT_HELD`) so every later relink compares the two
+    again; it is served only when the join's pick agrees with it. An
+    unlabelled scheme is no key, so the accepted row replaces it: kept as
+    verified when it names the same answer, quarantined as
+    superseded-by-official and reported when it names another.
     """
     report = RelinkReport(total=len(records))
     sources: dict[str, ParsedSource | None] = {}
@@ -998,6 +1031,22 @@ def relink_answer_schemes(
 
         scheme = rec.get("answerScheme") or {}
         had_scheme = _has_content(scheme)
+        held = None
+        if not had_scheme and parsed_id is not None:
+            held = ((scheme.get("metadata") or {}).get(CONFLICT_HELD) or {}).get("existing")
+            if isinstance(held, dict) and _has_content(held):
+                # An earlier relink withheld this record for two disagreeing
+                # official keys. Its own key is compared again, as it was:
+                # re-verified first, so a key the verifier now rejects goes
+                # to review and no longer blocks the join's pick.
+                text, letter = _scheme_content(held)
+                verdict = verify(rec, text, option=letter, judge_content=True)
+                if not verdict.accepted:
+                    rec["answerScheme"] = held
+                    _quarantine(rec, report, verdict.reason, text, code, q_no)
+                    held = None
+            else:
+                held = None
         kept = had_scheme
         if had_scheme:
             text, letter = _scheme_content(scheme)
@@ -1091,9 +1140,26 @@ def relink_answer_schemes(
             document_id=source.document_id,
             options=options,
         ).model_dump(mode="json", by_alias=True)
-        if labelled and not _same_answer(scheme, pick, options):
+        if held is not None:
+            if not _same_answer(held, pick, options):
+                rec["answerScheme"] = held
+                report.conflicts_held += 1
+                _serve_neither(rec, report, pick, code, q_no)
+                continue
+        elif labelled and not _same_answer(scheme, pick, options):
             _serve_neither(rec, report, pick, code, q_no)
             continue
+        elif kept and not _same_answer(scheme, pick, options):
+            # An unlabelled scheme is no key: the official replaces it. But
+            # it names another answer, so it is not the record's own scheme
+            # verified -- it goes to review whole, and is reported.
+            ours = _answer_of(scheme)
+            theirs = _answer_of(pick)
+            report.superseded.append({"id": rec.get("id"), "code": code, "q_no": q_no,
+                                      "existing": ours, "join": theirs})
+            _quarantine(rec, report, SUPERSEDED_BY_OFFICIAL, ours["text"], code, q_no,
+                        conflictsWith=theirs)
+            kept = False
         rec["answerScheme"] = pick
         if (choice.best.code, choice.best.q_no) != (normalize_paper_code(code) or code, q_no):
             report.recovered_elsewhere += 1

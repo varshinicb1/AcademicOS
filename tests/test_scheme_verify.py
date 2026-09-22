@@ -969,6 +969,119 @@ def test_two_official_keys_that_agree_serve_the_join_pick(tmp_path):
     assert report.quarantine == []
 
 
+def _pole_index(tmp_path):
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "8" * 24, "Series 30/5/2 Mathematics")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db",
+                                          [POLE_OWN, POLE_SET1, COS_60, TAN_60]))
+    return idx, parse
+
+
+def test_a_conflict_still_serves_neither_on_the_next_relink(tmp_path):
+    """Task 152's review: serving neither held for one run only. The record
+    kept no scheme, so the next relink saw nothing to compare and attached
+    the join's pick as newly attached -- and the pipeline's own order
+    (enrich, merge, enrich) runs the relink twice. The conflict is held on
+    the record, so every later relink sees both keys again."""
+    idx, parse = _pole_index(tmp_path)
+    recs = [_board("8" * 24, 17, POLE_STEM, _pole_scheme("A", "90°", "old.pdf"),
+                   subject="Mathematics", marks=1)]
+    relink_answer_schemes(recs, idx, parse_dir=parse)
+    recs = json.loads(json.dumps(recs))          # written and read back
+    again = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert not bank_merge.has_verified_key(recs[0])
+    scheme = recs[0]["answerScheme"]
+    assert scheme["markingPoints"] == [] and scheme["modelAnswer"] == ""
+    assert not scheme["metadata"].get("correctOption")
+    assert again.verified == 0 and again.newly_attached == 0
+    assert again.conflicting_keys == 1
+    [conflict] = again.conflicts
+    assert (conflict["existing"]["option"], conflict["join"]["option"]) == ("A", "D")
+    # Written to the quarantine file again, the same entries dedupe away.
+    assert {(e["reason"], e["correctOption"]) for e in again.quarantine} == {
+        ("conflicting-keys", "A"), ("conflicting-keys", "D")}
+    # And a third run, the same.
+    third = relink_answer_schemes(json.loads(json.dumps(recs)), idx, parse_dir=parse)
+    assert third.verified == 0 and third.conflicting_keys == 1
+
+
+def test_a_held_conflict_the_join_now_agrees_with_is_served(tmp_path):
+    """A conflict is held until the two keys agree: when a later join picks
+    the answer the held key names, both official keys say one thing."""
+    from academicos.assessment.question_bank import CONFLICT_HELD
+    idx, parse = _pole_index(tmp_path)
+    held = {"totalMarks": 1, "markingPoints": [], "modelAnswer": "",
+            "metadata": {CONFLICT_HELD: {"existing": _pole_scheme("D", "30°", "old.pdf")}}}
+    recs = [_board("8" * 24, 17, POLE_STEM, held, subject="Mathematics", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert bank_merge.has_verified_key(recs[0])
+    assert recs[0]["answerScheme"]["metadata"]["correctOption"] == "D"
+    assert CONFLICT_HELD not in recs[0]["answerScheme"]["metadata"]
+    assert report.conflicting_keys == 0 and report.verified == 1
+
+
+def test_an_enrich_rerun_does_not_serve_a_conflict(tmp_path):
+    """The documented order, enrich then merge then enrich, through the
+    script: the conflicted record is still keyless after the second run."""
+    script = _load_enrich_script()
+    data = tmp_path / "data"
+    make_parse_tree(data / "parse", "8" * 24, "Series 30/5/2 Mathematics")
+    make_answer_keys(data / "answer_keys.db", [POLE_OWN, POLE_SET1, COS_60, TAN_60])
+    bank = data / "syllabus" / "questions.json"
+    bank.parent.mkdir(parents=True)
+    pole = _board("8" * 24, 17, POLE_STEM, _pole_scheme("A", "90°", "old.pdf"),
+                  subject="Mathematics", marks=1)
+    bank.write_text(json.dumps({"questions": [pole]}), encoding="utf-8")
+    kwargs = dict(targets=[bank], quarantine=bank.with_name("q.json"), data_root=data)
+    for _ in range(2):
+        assert script.run(check=False, **kwargs) == 0
+        [back] = json.loads(bank.read_text(encoding="utf-8"))["questions"]
+        assert not bank_merge.has_verified_key(back)
+        assert not back["answerScheme"]["metadata"].get("correctOption")
+    entries = json.loads(bank.with_name("q.json").read_text(encoding="utf-8"))["entries"]
+    assert len(entries) == 2
+
+
+def test_an_unlabelled_scheme_naming_another_answer_is_superseded_not_verified(tmp_path):
+    """Task 152's review: an unlabelled scheme is no official key, so the
+    join's accepted pick replaces it -- but when it names another answer it
+    was counted verified_existing_scheme, as if the record's own scheme had
+    been confirmed. It is quarantined whole as superseded-by-official,
+    counted as replaced, and reported by id with both answers."""
+    from academicos.assessment.question_bank import SUPERSEDED_BY_OFFICIAL
+    idx, parse = _pole_index(tmp_path)
+    old = _pole_scheme("A", "90°", "old.pdf")
+    old["provenance"] = "none"
+    recs = [_board("8" * 24, 17, POLE_STEM, json.loads(json.dumps(old)),
+                   subject="Mathematics", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert recs[0]["answerScheme"]["metadata"]["correctOption"] == "D"
+    assert report.verified_existing_scheme == 0
+    assert report.replaced_after_quarantine == 1 and report.verified == 1
+    assert report.conflicting_keys == 0
+    assert report.quarantined == {SUPERSEDED_BY_OFFICIAL: 1}
+    [entry] = report.quarantine
+    assert entry["scheme"] == old and entry["correctOption"] == "A"
+    [sup] = report.superseded
+    assert sup["id"] == recs[0]["id"]
+    assert (sup["existing"]["option"], sup["join"]["option"]) == ("A", "D")
+    assert any(SUPERSEDED_BY_OFFICIAL.replace("-", " ") in ln or "superseded" in ln
+               for ln in report.lines())
+
+
+def test_an_unlabelled_scheme_naming_the_same_answer_is_verified(tmp_path):
+    idx, parse = _pole_index(tmp_path)
+    old = _pole_scheme("D", "30°", "old.pdf")
+    old["provenance"] = "none"
+    recs = [_board("8" * 24, 17, POLE_STEM, old, subject="Mathematics", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+    assert report.verified_existing_scheme == 1 and report.superseded == []
+    assert report.quarantine == []
+
+
 def test_one_answer_written_two_ways_is_no_conflict():
     """57/5/2 Q9: a pre-Task-15 scheme kept "(B)/ Amorphous, ..." as text,
     the join's pick is option B -- one answer. Two editions of a descriptive
