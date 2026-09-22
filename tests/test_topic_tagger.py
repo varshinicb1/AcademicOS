@@ -30,6 +30,10 @@ EXEMPLAR = ROOT / "academicos-data" / "corpus" / "ncert-exemplar" / "questions.j
 CBE = ROOT / "academicos-data" / "corpus" / "cbse-cbe" / "questions.json"
 BOARD = ROOT / "academicos-data" / "syllabus" / "questions.json"
 SQP = ROOT / "academicos-data" / "corpus" / "cbse-sqp" / "questions.json"
+# Board records the merge withheld (no verified key, or not answerable as
+# printed) leave the served bank for this file, whole; the gold's board items
+# were sampled before the merge ran, so their bank is both files' board records.
+BOARD_WITHHELD = ROOT / "academicos-data" / "syllabus" / "board_withheld.json"
 
 
 def _q(qid, subject, grade, stem, options=(), answer="", exemplar_chapter=None, **extra):
@@ -317,6 +321,12 @@ def _gold_records():
     by_bank = {}
     for name, path in banks.items():
         by_bank[name] = json.loads(path.read_text(encoding="utf-8"))["questions"]
+    board = [r for r in by_bank["board"] if r.get("source") == "cbse_board_paper"]
+    if BOARD_WITHHELD.exists():
+        ids = {r.get("id") for r in board}
+        board += [r for r in json.loads(BOARD_WITHHELD.read_text(encoding="utf-8"))["questions"]
+                  if r.get("id") not in ids]
+    by_bank["board"] = board
     return gold, by_bank, wanted
 
 
