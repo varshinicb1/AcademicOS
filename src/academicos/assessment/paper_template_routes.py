@@ -104,6 +104,9 @@ class AvailabilityRequest(Camel):
     # has no scope, and a teacher reusing their own template for next month's
     # test should not have to edit it first.
     scope: Optional[TemplateScope] = None
+    # The same switch generation takes, so the check can show what borrowing
+    # would fill -- availability is generation run dry, not an estimate.
+    fill_from_outside_scope: bool = False
 
 
 class GenerateFromTemplateRequest(Camel):
@@ -334,13 +337,16 @@ def template_availability(
     school_id: str, template_id: str, req: AvailabilityRequest,
     current: User = Depends(get_current_user),
 ) -> AvailabilityReport:
-    """Per section: needed vs. eligible (verified key, right marks, in scope)
-    and why any shortfall exists -- shown BEFORE generating, so a teacher
-    never discovers a gap on the printed paper."""
+    """Per section: needed vs. eligible (verified key, right marks, in scope),
+    what the paper will hold, every note generation would add, and why any
+    shortfall exists with the changes that would close it -- shown BEFORE
+    generating, so a teacher never discovers a gap on the printed paper.
+    It is the generator's own selection run without saving anything."""
     _scoped(school_id, current)
     if req.scope is not None:
         _checked_scope(req.scope)
-    report, _ = _plan(_load(template_id, current), req.scope)
+    report, _ = _plan(_load(template_id, current), req.scope,
+                      fill_from_outside_scope=req.fill_from_outside_scope)
     return report
 
 
@@ -359,13 +365,9 @@ def generate_from_template(
         template = template.model_copy(update={"scope": req.scope})
     report, plans = _plan(template, None, fill_from_outside_scope=req.fill_from_outside_scope)
 
-    gaps: list[SectionAvailability] = []
-    for p in plans:
-        got = len(p.picked) + len(p.borrowed)
-        if got < p.section.question_count:
-            gaps.append(p.availability.model_copy(
-                update={"shortfall": p.section.question_count - got}))
-    if sum(len(p.picked) + len(p.borrowed) for p in plans) == 0:
+    # The gaps are the availability report's own: one plan run decides both.
+    gaps: list[SectionAvailability] = [p.availability for p in plans if p.availability.shortfall]
+    if sum(p.availability.filled for p in plans) == 0:
         raise HTTPException(400, {
             "message": "no question in the bank fits this template",
             "availability": report.model_dump(by_alias=True, mode="json")})
@@ -387,6 +389,7 @@ def generate_from_template(
         # sections (an assertion-reason question under the MCQ heading).
         rotation_groups=[p.picked + p.borrowed for p in plans if p.picked or p.borrowed],
     )
+    paper = _with_header(paper, template)
     branding = _branding(template, current.school_id)
     _papers.save(paper, branding, school_id=current.school_id)
     for s in paper.sets:
@@ -401,8 +404,8 @@ def generate_from_template(
         status="paperGenerated", created_at=now, updated_at=now,
         template_id=None if template.is_preset else template.id,
         generated_paper_id=paper.id, selected_question_ids=[q.id for q in selected],
-        # The header and instructions the teacher set, for the paper's print
-        # view; GeneratedPaper itself has no place for them.
+        # Where the paper came from and what it was told; the header and
+        # instructions it prints are on the paper itself (`_with_header`).
         metadata={"paperTemplate": {
             "id": template.id, "name": template.name,
             "header": template.header.model_dump(by_alias=True),
@@ -419,23 +422,42 @@ def generate_from_template(
                                  gaps=gaps, notes=notes, availability=report)
 
 
+def _with_header(paper: GeneratedPaper, template: PaperTemplate) -> GeneratedPaper:
+    """The template's header, duration and instructions on the paper and on
+    every set, where the PDF exporter reads them. Blank header fields stay
+    None, so the exporter falls back to the school's branding name."""
+    header = template.header
+    update = {
+        "school_name": header.school_name or None,
+        "exam_name": header.exam_name or None,
+        "date_line": header.date_line or None,
+        "instructions": template.instructions or None,
+        "duration_minutes": template.duration_minutes,
+    }
+
+    def stamp(p: GeneratedPaper) -> GeneratedPaper:
+        return p.model_copy(update={
+            "metadata": p.metadata.model_copy(update=update),
+            "sets": [stamp(s) for s in p.sets]})
+
+    return stamp(paper)
+
+
 def _branding(template: PaperTemplate, school_id: str) -> SchoolTemplate:
-    """What the PDF exporter prints in the header: the school's own branding
-    (logo, colour, fonts), with the teacher's header on top.
+    """What the PDF exporter prints around the header: the school's own
+    branding (logo, colour, fonts, tagline), named as the teacher's header
+    names the school.
 
     The exporter prints `name` as the school's name, so storing the paper
     template itself there printed "Unit test - Chemical reactions" where the
-    school goes and dropped the logo. The exam name is already the paper's
-    title; the date line goes under the subject line with the school's
-    tagline, which is where the exporter prints `tagline`."""
+    school goes and dropped the logo. The date line is not folded into the
+    tagline any more: it travels on the paper (`_with_header`), and folding
+    it in too printed it twice."""
     _, store = _require()
     school = store.default_for(school_id)
-    header = template.header
-    tagline = " | ".join(t for t in (school.tagline, header.date_line) if t)
     return SchoolTemplate.model_validate({
         **school.model_dump(),
-        "name": header.school_name or school.name,
-        "tagline": tagline,
+        "name": template.header.school_name or school.name,
     })
 
 

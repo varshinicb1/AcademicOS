@@ -16,6 +16,20 @@ names the constraint that caused it rather than a bare zero):
   all competency questions -> inside the template's scope (chapters,
   subtopics, topics)
 
+The availability report is not an estimate beside the generator: it is
+`plan`, the generator's own selection, run without saving. Each section's
+`filled`, `notes` (difficulty and competency shortfalls, borrowed questions)
+and gaps are read off the questions actually picked, so the builder shows
+before generating every note the paper comes back with. Measured on the
+real class 10 bank (2026-09-22) before this: 16 of the 20 presets (all but
+Hindi, which has no keyed question) carried notes the check never showed,
+among them Science "Section E - Source / case based" at 3 of 3 available
+with 1 competency question.
+
+A shortfall's reason names the constraint that left questions out, largest
+first, and `fixes` lists the changes that would close it (widen the scope,
+change the marks, relax the kind or the competency rule, ask for fewer).
+
 A heading that names a kind nothing here can check (grammar, reading,
 extract, writing, literature -- the bank does not label questions that way)
 is reported as "section content not checked" instead of passing silently.
@@ -33,7 +47,7 @@ import re
 from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
-from typing import Callable, Optional
+from typing import Callable, Literal, Optional
 
 from .schemas import Camel, DifficultyDistribution, PaperTemplateDraft, QuestionSchema, \
     TemplateScope, TemplateSection
@@ -107,6 +121,27 @@ def check_scope_ids(scope: TemplateScope) -> tuple[list[str], list[str]]:
     return [i for i in asked if i not in known], []
 
 
+FixKind = Literal["widen_scope", "fill_from_outside_scope", "change_marks", "relax_type",
+                  "relax_competency", "reduce_count"]
+
+
+class SectionFix(Camel):
+    """One change the teacher can make to a short section, with what it buys.
+
+    A reason alone ("Only 3 are available") left the teacher guessing which
+    of five settings to change; each fix names one setting and how many more
+    questions changing it makes available, so the builder can offer it as a
+    single tap."""
+    kind: FixKind
+    label: str
+    # How many more questions the change makes available to this section.
+    available: int = 0
+    # change_marks: the mark value to switch the section to.
+    marks_each: Optional[int] = None
+    # reduce_count: the count the bank can fill (0 = drop the section).
+    question_count: Optional[int] = None
+
+
 class SectionAvailability(Camel):
     section_id: str
     title: str
@@ -114,14 +149,22 @@ class SectionAvailability(Camel):
     needed: int
     available: int
     shortfall: int
+    # What the generated paper will hold for this section: the in-scope
+    # questions it takes plus any borrowed from outside the scope. The same
+    # number generation prints -- both come from one `plan` run.
+    filled: int = 0
+    # Taken from outside the chosen chapters (only when the caller allows it).
+    borrowed: int = 0
     # Eligible (keyed, right marks and type) but outside the chosen scope.
     outside_scope_available: int = 0
     # In scope with the right marks and type, but no verified answer key.
     without_key: int = 0
     reason: str = ""
-    # What this check could not verify about the section, e.g. a "Grammar"
-    # heading filled by marks alone. Shown before generating, like `reason`.
+    # Everything generation will report about this section -- difficulty and
+    # competency shortfalls, borrowed questions, headings nothing could check.
+    # Identical to the notes the generated paper comes back with.
     notes: list[str] = []
+    fixes: list[SectionFix] = []
 
 
 class AvailabilityReport(Camel):
@@ -322,11 +365,68 @@ class SectionPlan:
     notes: list[str] = field(default_factory=list)
 
 
+@dataclass
+class _LeftOut:
+    """Keyed, unclaimed, in-scope questions a section did not count, by the
+    constraint that refused them -- what a shortfall reason has to name.
+
+    Measured on the class 10 Social Science bank (2026-09-22): Section D was
+    one long answer short while 45 5-mark source items sat unused, refused
+    as source based; Section E (4 marks) had no case question because those
+    same source items carry 5 marks. The old reason named neither."""
+    # At the section's marks, refused for what they are ("read as source /
+    # case based": n).
+    wrong_kind: dict[str, int] = field(default_factory=dict)
+    # Would fit this section at another mark value (marks: n).
+    other_marks: dict[int, int] = field(default_factory=dict)
+
+
+def _kind_of(q: QuestionSchema) -> str:
+    if is_map_question(q):
+        return "are map questions"
+    if is_case_question(q):
+        return "read as source / case based"
+    return f"are labelled {q.type.replace('_', ' ')}"
+
+
+def _left_out(section: TemplateSection, pool: list[QuestionSchema]) -> _LeftOut:
+    """Only for a section whose kind the engine checks (typed, or all
+    competency): for an untyped "Writing" section, "127 questions exist at 1
+    mark" is true and useless.
+
+    Other mark values are counted only where the kind is read from the
+    question's text (map, case / source) or is competency: a "long answer"
+    label is derived from marks, so on the class 10 Social Science bank it
+    offered "88 long-answer questions at 3 marks" for Section D -- the short
+    answers of Section C."""
+    out = _LeftOut()
+    typed = bool(section.question_types)
+    if not typed and not _all_competency(section):
+        return out
+    by_text = bool({"map_based", "case_study"} & set(section.question_types))
+    marks_matter = by_text or _all_competency(section)
+    for q in pool:
+        fits_kind = not typed or _content_fits(q, section.question_types)
+        if q.marks == section.marks_each:
+            if not fits_kind:
+                what = _kind_of(q)
+                out.wrong_kind[what] = out.wrong_kind.get(what, 0) + 1
+        elif marks_matter and fits_kind and (not _all_competency(section) or _is_competency(q)):
+            if by_text and not (is_map_question(q) or _is_competency(q)):
+                continue  # at another mark value, only content evidence says "same kind"
+            out.other_marks[q.marks] = out.other_marks.get(q.marks, 0) + 1
+    return out
+
+
 def plan(template: PaperTemplateDraft, template_id: str, candidates: list[QuestionSchema],
          scope: ScopeFilter, *, fill_from_outside_scope: bool = False,
          ) -> tuple[AvailabilityReport, list[SectionPlan]]:
     """Walks the sections in order, each claiming its questions so a later
     section with the same mark value only counts what is left.
+
+    The availability report IS this selection, run dry: every section's
+    `filled`, `notes` and gaps are read off the questions actually picked,
+    so the check before generating and the paper after cannot disagree.
 
     `candidates` is the whole class+subject bank; this function applies
     every other constraint itself so it can report each one.
@@ -353,6 +453,8 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
                 outside = []
         without_key = sum(1 for q in fits_all if q.id not in keyed_ids and scope.in_scope(q))
         used_elsewhere = sum(1 for q in fits_all if q.id in claimed and scope.in_scope(q))
+        left_out = _left_out(section, [q for q in keyed if q.id not in claimed
+                                       and scope.in_scope(q)])
 
         needed = section.question_count
         picked = _pick(eligible, section, needed)
@@ -364,21 +466,25 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
                 f"{section.title}: {len(borrowed)} question(s) taken from outside the "
                 f"chosen chapters to fill the section ({', '.join(q.id for q in borrowed)}).")
         claimed.update(q.id for q in picked + borrowed)
-        notes.extend(_mix_notes(section, picked + borrowed))
-        content_notes = _content_notes(section)
-        notes.extend(content_notes)
+        mix_notes, mix_fixes = _mix_notes(section, picked + borrowed, left_out)
+        notes.extend(mix_notes)
+        notes.extend(_content_notes(section))
 
-        available = len(eligible)
-        shortfall = max(0, needed - available)
+        filled = len(picked) + len(borrowed)
+        shortfall = needed - filled
+        reason, fixes = "", list(mix_fixes)
+        if shortfall:
+            reason, fixes = _diagnose(
+                template, section, available=len(eligible), filled=filled,
+                borrowed=len(borrowed), bank=len(candidates), keyed=len(keyed),
+                fits=len(fits_all), outside=len(outside), without_key=without_key,
+                used_elsewhere=used_elsewhere, not_competency=not_competency,
+                left_out=left_out)
         availability = SectionAvailability(
             section_id=section.id, title=section.title, marks_each=section.marks_each,
-            needed=needed, available=available,
-            shortfall=shortfall, outside_scope_available=len(outside),
-            without_key=without_key,
-            reason=_reason(template, section, shortfall, available, len(candidates),
-                           len(keyed), len(fits_all), len(outside), without_key,
-                           used_elsewhere, not_competency) if shortfall else "",
-            notes=content_notes,
+            needed=needed, available=len(eligible), shortfall=shortfall, filled=filled,
+            borrowed=len(borrowed), outside_scope_available=len(outside),
+            without_key=without_key, reason=reason, notes=notes, fixes=fixes,
         )
         plans.append(SectionPlan(section, picked, borrowed, availability, notes))
 
@@ -448,8 +554,43 @@ def _difficulty_targets(mix: Optional[DifficultyDistribution],
     return [(d, counts[d]) for d, _ in shares]
 
 
-def _mix_notes(section: TemplateSection, picked: list[QuestionSchema]) -> list[str]:
+def _kind_noun(section: TemplateSection) -> str:
+    types = set(section.question_types)
+    if "map_based" in types:
+        return "map"
+    if "case_study" in types:
+        return "case / competency-based"
+    if types & _LONG_FORM:
+        return "long-answer"
+    if _all_competency(section):
+        return "competency-based"
+    return "matching"
+
+
+def _best_other_marks(left_out: _LeftOut) -> Optional[tuple[int, int]]:
+    """(marks, count) of the mark value holding the most questions this
+    section would take -- the one "change the marks" fix worth offering."""
+    if not left_out.other_marks:
+        return None
+    marks, n = max(left_out.other_marks.items(), key=lambda mn: (mn[1], -mn[0]))
+    return marks, n
+
+
+def _change_marks_fix(section: TemplateSection, left_out: _LeftOut) -> Optional[SectionFix]:
+    best = _best_other_marks(left_out)
+    if best is None:
+        return None
+    marks, n = best
+    return SectionFix(
+        kind="change_marks", marks_each=marks, available=n,
+        label=(f"Make it a {marks}-mark section: {n} {_kind_noun(section)} question(s) "
+               f"are in the bank at {marks} marks (then rebalance the paper's total)."))
+
+
+def _mix_notes(section: TemplateSection, picked: list[QuestionSchema],
+               left_out: _LeftOut) -> tuple[list[str], list[SectionFix]]:
     notes: list[str] = []
+    fixes: list[SectionFix] = []
     if section.difficulty_mix is not None and picked:
         wanted = dict(_difficulty_targets(section.difficulty_mix, len(picked)))
         got = {d: sum(1 for q in picked if q.difficulty == d) for d in wanted}
@@ -463,36 +604,92 @@ def _mix_notes(section: TemplateSection, picked: list[QuestionSchema]) -> list[s
         target = round(section.competency_share * len(picked))
         got_cbq = sum(1 for q in picked if _is_competency(q))
         if got_cbq < target:
-            notes.append(f"{section.title}: {got_cbq} competency-based question(s), "
-                         f"the template asked for {target}.")
-    return notes
+            note = (f"{section.title}: {got_cbq} competency-based question(s), "
+                    f"the template asked for {target}.")
+            # For an all-competency section `left_out.other_marks` counts
+            # competency questions only, so this names where they are.
+            fix = _change_marks_fix(section, left_out) if _all_competency(section) else None
+            if fix is not None:
+                note += (f" {fix.available} competency-based question(s) are in the bank "
+                         f"at {fix.marks_each} marks.")
+                fixes.append(fix)
+            notes.append(note)
+    return notes, fixes
 
 
-def _reason(template: PaperTemplateDraft, section: TemplateSection, shortfall: int,
-            available: int, bank: int, keyed: int, fits: int, outside: int,
-            without_key: int, used_elsewhere: int, not_competency: int = 0) -> str:
-    """The binding constraint, in words a teacher can act on."""
+def _diagnose(template: PaperTemplateDraft, section: TemplateSection, *, available: int,
+              filled: int, borrowed: int, bank: int, keyed: int, fits: int, outside: int,
+              without_key: int, used_elsewhere: int, not_competency: int,
+              left_out: _LeftOut) -> tuple[str, list[SectionFix]]:
+    """The shortfall, the constraints that caused it -- largest first, so the
+    binding one leads -- and the changes that would close it."""
     who = f"Class {template.grade} {template.subject}"
-    kind = f"{section.marks_each}-mark"
+    marks = section.marks_each
+    kind = f"{marks}-mark"
     if section.question_types:
         kind += " " + "/".join(t.replace("_", " ") for t in section.question_types)
+    needed = section.question_count
+    shortfall = needed - filled
     if bank == 0:
-        return f"The bank has no {who} questions yet."
+        return f"The bank has no {who} questions yet.", []
     if keyed == 0:
         return (f"The bank has {bank} {who} questions but none with a verified "
-                "answer key yet, so none can be printed.")
+                "answer key yet, so none can be printed."), []
+
     if fits == 0:
-        return f"The bank has no {kind} {who} questions."
-    if not_competency:
-        return (f"None of the {not_competency} {kind} {who} question(s) is "
+        lead = f"The bank has no {kind} {who} questions."
+    elif not_competency:
+        lead = (f"None of the {not_competency} {kind} {who} question(s) is "
                 "competency-based, and this section asks for competency-based "
                 "questions only.")
-    parts = [f"Only {available} {kind} question(s) are available; {shortfall} short."]
-    if outside:
-        parts.append(f"{outside} more are in other chapters -- widen the chapters "
-                     "or allow filling from outside them.")
+    elif borrowed:
+        lead = (f"Only {filled} {kind} question(s) are available, {borrowed} of them from "
+                f"outside the chosen chapters; {shortfall} short.")
+    else:
+        lead = f"Only {available} {kind} question(s) are available; {shortfall} short."
+
+    because: list[tuple[int, str]] = []
+    for what, n in left_out.wrong_kind.items():
+        because.append((n, f"{n} more {marks}-mark question(s) were left out because they "
+                           f"{what}, which this section does not take."))
+    change = _change_marks_fix(section, left_out)
+    if change is not None:
+        because.append((change.available, (
+            f"{change.available} {_kind_noun(section)} question(s) are in the bank at "
+            f"{change.marks_each} marks, but this section asks for {marks}-mark ones -- "
+            f"change the section to {change.marks_each} marks to use them.")))
+    if outside and not borrowed:
+        because.append((outside, f"{outside} more are in other chapters -- widen the "
+                                 "chapters or allow filling from outside them."))
     if without_key:
-        parts.append(f"{without_key} more have no verified answer key yet.")
+        because.append((without_key, f"{without_key} more have no verified answer key yet."))
     if used_elsewhere:
-        parts.append(f"{used_elsewhere} are already used by earlier sections.")
-    return " ".join(parts)
+        because.append((used_elsewhere, f"{used_elsewhere} are already used by earlier "
+                                        "sections."))
+    because.sort(key=lambda nt: -nt[0])          # stable: ties keep the order above
+    reason = " ".join([lead] + [text for _, text in because])
+
+    fixes: list[SectionFix] = []
+    if outside and not borrowed:
+        fixes.append(SectionFix(kind="widen_scope", available=outside,
+                                label=f"Add the chapters that hold {outside} more such question(s)."))
+        fixes.append(SectionFix(kind="fill_from_outside_scope", available=outside,
+                                label="Fill the gap from outside the chosen chapters "
+                                      "(the borrowed questions are listed)."))
+    if change is not None:
+        fixes.append(change)
+    # One fix per kind: allowing source items under a heading does not let
+    # map items in (a map question only ever fills a map section).
+    for what, n in sorted(left_out.wrong_kind.items(), key=lambda wn: -wn[1]):
+        fixes.append(SectionFix(kind="relax_type", available=n,
+                                label=f"Also take the {n} {marks}-mark question(s) that {what}."))
+    if not_competency:
+        fixes.append(SectionFix(kind="relax_competency", available=not_competency,
+                                label=f"Drop the competency-only rule and take the "
+                                      f"{not_competency} ordinary {marks}-mark question(s)."))
+    fixes.append(SectionFix(
+        kind="reduce_count", question_count=filled,
+        label=(f"Ask for {filled} question(s) instead of {needed} (then rebalance the "
+               "paper's total)." if filled else
+               "Remove this section (then rebalance the paper's total).")))
+    return reason, fixes

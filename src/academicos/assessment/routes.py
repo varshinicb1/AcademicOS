@@ -377,7 +377,10 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(get
     if request.template_id:
         from .school_templates import TemplateStore
         t_store = TemplateStore(cfg.data_root / "templates" / "templates.sqlite")
-        template = t_store.get_branding(request.template_id, current.school_id)
+        # get_branding returns (template, sections); PaperStore.save wants the
+        # template alone -- passing the tuple raised on every templateId.
+        branding = t_store.get_branding(request.template_id, current.school_id)
+        template = branding[0] if branding else None
 
     _require_papers().save(paper, template, school_id=current.school_id)
     if paper.sets:
@@ -488,7 +491,10 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(g
     if request.template_id:
         from .school_templates import TemplateStore
         t_store = TemplateStore(cfg.data_root / "templates" / "templates.sqlite")
-        template = t_store.get_branding(request.template_id, current.school_id)
+        # get_branding returns (template, sections); PaperStore.save wants the
+        # template alone -- passing the tuple raised on every templateId.
+        branding = t_store.get_branding(request.template_id, current.school_id)
+        template = branding[0] if branding else None
 
     _require_papers().save(paper, template, school_id=current.school_id)
 

@@ -516,10 +516,11 @@ def test_every_preset_carries_its_exam_types_intended_total():
         assert sum(s.marks for s in p.sections) == INTENDED_TOTAL[p.exam_type], p.id
 
 
-def test_board_science_and_social_science_follow_the_2024_25_sqp():
-    """Read from the General Instructions of the CBSE Class X 2024-25 SQP PDFs
-    (cbse-sqp/ClassX_2024_25/Science-SQP.pdf and SocialScience-SQP.pdf in the
-    academicos-data corpus)."""
+def test_board_science_and_social_science_follow_the_2025_board_papers():
+    """Read from the General Instructions (p. 3) of the CBSE Class X 2025 board
+    papers in cbse-dataset (31-1-1_Science.pdf, 32-1-1_Social Science.pdf).
+    The 2024-25 SQP PDFs an earlier source line cited are not on this
+    machine, so the board papers are the evidence (Task 904)."""
     by_key = {(p.grade, p.subject, p.exam_type): p for p in presets()}
     sci = by_key[(10, "Science", "annual")]
     assert [(s.question_count, s.marks_each) for s in sci.sections] == [
@@ -529,7 +530,7 @@ def test_board_science_and_social_science_follow_the_2024_25_sqp():
         (20, 1), (4, 2), (5, 3), (4, 5), (3, 4), (1, 5)]
     for p in (sci, sst):
         assert p.pattern_status == "cbse_board"
-        assert "2024-25" in p.source and "General Instructions" in p.source
+        assert "board paper 2025" in p.source and "General Instructions" in p.source
 
 
 def test_a_copy_of_a_preset_is_the_teachers_not_a_board_pattern(tmp_path, monkeypatch):
@@ -574,8 +575,12 @@ def test_generated_paper_prints_the_schools_branding_not_the_template_name(
             # the school's own.
             assert stored.name == "Green Valley School"
             assert stored.logo_url == "logos/gv.png" and stored.brand_color == "#1a5c2e"
-            assert "Date: ________" in stored.tagline
+            # The date line travels on the paper (Task 904), not folded into
+            # the branding's tagline, where it printed twice.
+            assert "Date: ________" not in (stored.tagline or "")
             assert type(stored).__name__ == "SchoolTemplate"
+        for p in [paper] + paper["sets"]:
+            assert p["metadata"]["dateLine"] == "Date: ________"
 
         # Without a header school name, the school's branding name prints.
         plain = client.post(BASE, json={**exact, "name": "Plain", "header": {}},
@@ -740,7 +745,7 @@ def test_a_case_or_map_question_is_never_placed_under_the_wrong_heading():
         return {q.id for q in p.picked + p.borrowed}
 
     long_ids = ids("Section D - Long answer")
-    case_ids = ids("Section E - Case based")
+    case_ids = ids("Section E - Case / source based")
     map_ids = ids("Section F - Map skill")
     assert long_ids and all(i.startswith("long") for i in long_ids), long_ids
     assert case_ids and all(i.startswith("case") for i in case_ids), case_ids
@@ -762,7 +767,7 @@ def test_a_competency_section_with_no_competency_question_is_a_gap():
     bank = _ss_bank(case4=False) + [
         _q("plain4", 4, "List four features of the region's climate.", "long_answer")]
     report, plans = _plan_preset(SS10, bank)
-    e = next(p for p in plans if p.section.title == "Section E - Case based")
+    e = next(p for p in plans if p.section.title == "Section E - Case / source based")
     assert "plain4" not in {q.id for q in e.picked}
     assert e.availability.shortfall == 3
     assert "competency" in e.availability.reason.lower()
@@ -787,3 +792,248 @@ def test_a_heading_no_constraint_checks_says_so():
     for s in ss_report.sections:
         assert not any("not checked" in n for n in s.notes), (s.title, s.notes)
     assert get_preset(SS10) is not None
+
+
+# ------------------------------------------------------------------ Task 904
+#
+# What the teacher is told before generating is what the paper will be. The
+# availability check used to report counts only: the difficulty and
+# competency shortfalls generation found went into the generated paper's
+# notes alone, so on the real class 10 bank the Science annual preset's
+# "Section E - Source / case based" read 3 of 3 available with no note and
+# generating then said "1 competency-based question(s), the template asked
+# for 3". And a shortfall reason could leave out the constraint that caused
+# it, so the teacher had nothing to act on.
+
+def _src_bank():
+    """The shape of the real class 10 Social Science bank that made both
+    reasons useless: the source items are stored at 5 marks (the CBSE Section
+    E is 4), there are fewer real 5-mark long answers than Section D needs,
+    and the only 4-mark question left is a plain one."""
+    return ([_q(f"a{i}", 1, f"One-mark item {i}?", "very_short_answer") for i in range(20)]
+            + [_q(f"b{i}", 2, f"Two-mark item {i}?", "short_answer") for i in range(4)]
+            + [_q(f"c{i}", 3, f"Three-mark item {i}?", "long_answer") for i in range(5)]
+            + [_q(f"long{i}", 5, LONG.format(i), "case_study") for i in range(3)]
+            + [_q(f"src{i}", 5, SOURCE.format(i), "case_study") for i in range(6)]
+            + [_q("plain4", 4, "List four features of the region's climate.", "long_answer")]
+            + [_q("map5", 5, MAP.format("five"), "case_study")])
+
+
+def test_a_shortfall_reason_names_the_constraint_that_left_questions_out():
+    report, _ = _plan_preset(SS10, _src_bank())
+    by_title = {s.title: s for s in report.sections}
+
+    d = by_title["Section D - Long answer"]
+    assert (d.needed, d.available, d.shortfall) == (4, 3, 1)
+    # Not just "Only 3 ... available": the 6 source items at 5 marks were
+    # left out because they read as source based, and the reason says so.
+    assert "6" in d.reason and "source / case based" in d.reason, d.reason
+    relax = next(f for f in d.fixes if f.kind == "relax_type")   # largest kind first
+    assert relax.available == 6 and "source / case based" in relax.label
+    assert next(f for f in d.fixes if f.kind == "reduce_count").question_count == 3
+
+    e = by_title["Section E - Case / source based"]
+    assert e.shortfall == 3
+    # The real cause: the source items carry 5 marks, the section asks for 4.
+    assert "5 marks" in e.reason and "6" in e.reason, e.reason
+    change = next(f for f in e.fixes if f.kind == "change_marks")
+    assert (change.marks_each, change.available) == (5, 6)
+    assert any(f.kind == "relax_competency" for f in e.fixes)
+
+
+def test_availability_reports_the_mix_shortfall_generation_reports():
+    """A section that fills by count but not by kind: 3 of 3 available, only
+    1 competency-based. The check before generating must say so."""
+    bank = _ss_bank(case4=False) + [
+        _q("case0", 4, SOURCE.format("case 0"), "long_answer"),
+        _q("plain4", 4, "List four features of the region's climate.", "long_answer"),
+        _q("plain5", 4, "Describe four features of the region's soils.", "long_answer")]
+    report, plans = _plan_preset(SS10, bank)
+    for s, p in zip(report.sections, plans):
+        assert s.notes == p.notes, s.title
+        assert s.filled == len(p.picked) + len(p.borrowed)
+    e = next(s for s in report.sections if s.title == "Section E - Case / source based")
+    assert e.shortfall == 0 and e.filled == 3
+    assert any("competency" in n for n in e.notes), e.notes
+
+
+def test_borrowing_from_outside_the_scope_is_counted_before_generating():
+    from academicos.assessment.paper_templates import build_scope_filter, plan
+    from academicos.assessment.schemas import TemplateScope
+    from academicos.assessment.template_presets import get_preset
+
+    t = get_preset("preset:cbse:10:science:unit_test")
+    bank = [_q(f"x{m}_{i}", m, f"Item {i} worth {m}?", "short_answer")
+            for m, n in ((1, 8), (2, 6), (3, 4)) for i in range(n)]
+    for i, q in enumerate(bank):
+        q.chapter_ids = ["ch1" if i % 2 else "ch2"]
+    scope = build_scope_filter(TemplateScope(chapter_ids=["ch1"]), bank)
+    report, plans = plan(t, t.id, bank, scope, fill_from_outside_scope=True)
+    assert any(p.borrowed for p in plans)
+    for s, p in zip(report.sections, plans):
+        assert s.filled == len(p.picked) + len(p.borrowed) == s.needed
+        assert s.borrowed == len(p.borrowed) and s.shortfall == 0
+        assert s.notes == p.notes
+    assert report.complete is True
+
+
+# ---- the real class 10 bank
+
+from pathlib import Path as _Path  # noqa: E402
+
+_REAL_BANK = _Path(__file__).resolve().parents[1] / "academicos-data" / "syllabus" / "questions.json"
+needs_real_bank = pytest.mark.skipif(not _REAL_BANK.exists(),
+                                     reason="the served question bank is not in this checkout")
+
+
+@pytest.fixture(scope="module")
+def real_class10_pools(tmp_path_factory):
+    from academicos.config import Config
+    cfg = Config(data_root=tmp_path_factory.mktemp("bank"))
+    cfg._load_baked_questions = True
+    return {s: pool_mod.build_pool(cfg, subject=s, grade="X") for s in MAIN_SUBJECTS}
+
+
+def _real_plan(pools, preset_id):
+    from academicos.assessment.mapping import to_question_schema
+    from academicos.assessment.paper_templates import build_scope_filter, plan
+    from academicos.assessment.schemas import TemplateScope
+
+    t = next(p for p in presets(grade=10) if p.id == preset_id)
+    bank = [to_question_schema(c) for c in pools[t.subject].filter(subject=t.subject, grade="X")]
+    return plan(t, t.id, bank, build_scope_filter(TemplateScope(), bank))
+
+
+@needs_real_bank
+def test_availability_equals_generation_for_every_class_10_preset_on_the_real_bank(
+        tmp_path, monkeypatch, real_class10_pools):
+    for subject, pool in real_class10_pools.items():
+        monkeypatch.setitem(pool_mod._CACHE, (subject, "X"), pool)
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        for p in presets(grade=10):
+            avail = client.post(f"{BASE}/{p.id}/availability", json={}, headers=t1)
+            assert avail.status_code == 200, (p.id, avail.text)
+            report = avail.json()
+            gen = client.post(GEN, json={"templateId": p.id, "allowGaps": True}, headers=t1)
+            if gen.status_code == 400:            # nothing printable at all (Hindi: no keys)
+                assert all(s["filled"] == 0 for s in report["sections"]), p.id
+                continue
+            assert gen.status_code == 200, (p.id, gen.text)
+            body = gen.json()
+            # Every note generation reports was shown before generating.
+            shown = [n for s in report["sections"] for n in s["notes"]] + report["scopeNotes"]
+            assert body["notes"] == shown, p.id
+            # "Available" before is "filled" after, section by section.
+            printed = [len(s["questions"]) for s in body["paper"]["sections"]]
+            assert [s["filled"] for s in report["sections"] if s["filled"]] == printed, p.id
+            assert [g["sectionId"] for g in body["gaps"]] == \
+                [s["sectionId"] for s in report["sections"] if s["shortfall"]], p.id
+            assert body["complete"] == report["complete"], p.id
+
+
+@needs_real_bank
+def test_the_real_banks_competency_sections_warn_before_generating(real_class10_pools):
+    report, _ = _real_plan(real_class10_pools, "preset:cbse:10:science:annual")
+    e = next(s for s in report.sections if s.title.startswith("Section E"))
+    assert any("competency-based" in n for n in e.notes), e.notes
+    english, _ = _real_plan(real_class10_pools, "preset:cbse:10:english:annual")
+    reading = next(s for s in english.sections if "Reading" in s.title)
+    assert any("competency-based" in n for n in reading.notes), reading.notes
+
+
+@needs_real_bank
+def test_the_real_banks_social_science_gaps_name_their_binding_constraint(real_class10_pools):
+    report, _ = _real_plan(real_class10_pools, SS10)
+    by_title = {s.title: s for s in report.sections}
+    d = by_title["Section D - Long answer"]
+    assert d.shortfall and "source / case based" in d.reason, d.reason
+    e = by_title["Section E - Case / source based"]
+    assert e.shortfall and "5 marks" in e.reason, e.reason
+    assert any(f.kind == "change_marks" and f.marks_each == 5 for f in e.fixes), e.fixes
+
+
+# ---- presets checked against the real papers
+
+def test_board_presets_cite_the_paper_file_and_page_they_were_read_from():
+    by_key = {(p.grade, p.subject, p.exam_type): p for p in presets()}
+    for subject, code in (("Mathematics", "30-1-1"), ("Science", "31-1-1"),
+                          ("Social Science", "32-1-1")):
+        p = by_key[(10, subject, "annual")]
+        assert p.pattern_status == "cbse_board", subject
+        assert code in p.source and ".pdf" in p.source and "p. 3" in p.source, p.source
+    # CBSE sets no class IX paper: the class X design applied there is a
+    # suggestion, and says so.
+    for subject in ("Mathematics", "Science", "Social Science"):
+        assert by_key[(9, subject, "annual")].pattern_status == "suggested", subject
+    # The 2025 English board paper's literature Q9 is "any two of three" at
+    # 3 marks each (2-1-1_English Language and Literature.pdf, p. 17).
+    lit = [(s.question_count, s.marks_each, s.attempts)
+           for s in by_key[(10, "English", "annual")].sections if "Literature" in s.title]
+    assert (3, 3, 2) in lit and not any(m == 2 for _, m, _ in lit), lit
+
+
+# ---- header and instructions on the paper
+
+def test_the_generated_paper_carries_the_templates_header_and_instructions(
+        tmp_path, monkeypatch, seeded):
+    import fitz
+
+    from academicos.assessment import paper_template_routes
+    from academicos.assessment.pdf import export_pdf
+    from academicos.assessment.schemas import GeneratedPaper
+
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        tid = client.post(BASE, json=_draft(
+            totalMarks=6, instructions="Write neatly.\nNo calculators.",
+            header={"schoolName": "Green Valley School", "examName": "Unit Test 1",
+                    "dateLine": "Date: 3 October"},
+            sections=[_section("Objective", 3, 1), _section("Short", 1, 3)]),
+            headers=t1).json()["id"]
+        r = client.post(GEN, json={"templateId": tid, "setCount": 2}, headers=t1)
+        assert r.status_code == 200, r.text
+        paper = r.json()["paper"]
+        for p in [paper] + paper["sets"]:
+            m = p["metadata"]
+            assert (m["schoolName"], m["examName"], m["dateLine"]) == (
+                "Green Valley School", "Unit Test 1", "Date: 3 October")
+            assert m["instructions"] == "Write neatly.\nNo calculators."
+            assert m["durationMinutes"] == 40
+
+        out = export_pdf(GeneratedPaper.model_validate(paper), tmp_path / "pdf",
+                         template=paper_template_routes._papers.get_template(paper["id"]))
+        doc = fitz.open(str(out))
+        text = "".join(page.get_text() for page in doc)
+        doc.close()
+        for expected in ("Green Valley School", "Unit Test 1", "Date: 3 October",
+                         "Write neatly.", "No calculators."):
+            assert expected in text, expected
+        assert text.count("Date: 3 October") == 1
+
+
+# ---- routes.py: a branding templateId on quick / custom generation
+
+def test_quick_and_custom_generation_accept_a_branding_template_id(tmp_path, monkeypatch, seeded):
+    """`TemplateStore.get_branding` returns (template, sections); both routes
+    handed that tuple to PaperStore.save, which raised on the first templateId."""
+    from academicos.assessment import routes as routes_mod
+
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        brand = client.post("/api/v1/schools/school_1/school-templates", json={"template": {
+            "id": "new", "schoolId": "school_1", "name": "Green Valley Public School"}},
+            headers=t1).json()["id"]
+        ids = client.post("/api/v1/papers/generate-from-ids", json={
+            "subject": "Science", "grade": 10, "questionIds": ["q1", "q7"],
+            "templateId": brand}, headers=t1)
+        assert ids.status_code == 200, ids.text
+        stored = routes_mod._require_papers().get_template(ids.json()["id"])
+        assert stored.name == "Green Valley Public School"
+
+        quick = client.post("/api/v1/papers/quick-generate", json={
+            "subject": "Science", "grade": 10, "totalMarks": 6, "templateId": brand},
+            headers=t1)
+        assert quick.status_code == 200, quick.text
+        stored = routes_mod._require_papers().get_template(quick.json()["id"])
+        assert stored.name == "Green Valley Public School"

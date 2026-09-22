@@ -494,6 +494,16 @@ class PaperMetadataSchema(Camel):
     set_label: Optional[str] = None
     tier: Optional[str] = None
     exam_type: Optional[str] = None
+    # A teacher template's header and instructions, printed by the PDF
+    # exporter. They used to live only in the assessment's metadata, which
+    # the exporter never reads, so a template paper printed the canned
+    # instructions under the school's branding name. None = not from a
+    # template: the exporter keeps its defaults.
+    school_name: Optional[str] = None
+    exam_name: Optional[str] = None
+    date_line: Optional[str] = None
+    # One instruction per line, printed numbered in place of the defaults.
+    instructions: Optional[str] = None
 
 
 class GeneratedPaper(Camel):

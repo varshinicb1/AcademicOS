@@ -8,30 +8,41 @@ paper_template_routes.duplicate), and the copy is what they edit.
 Where each pattern comes from -- said in each preset's `source` so a teacher
 (or a principal checking the paper) can verify it:
 
-* **Class 10 and 9, annual, Mathematics** -- `cbse_board`. The section design
-  is read from the SQP text in the corpus
-  (`academicos-data/corpus/cbse-sqp/questions.json`, question banks
-  `cbse-sqp:ClassX_2024_25:Mathematics (Standard)` and `..._2025_26:...`):
-  "Section A consists of 20 questions of 1 mark each", B 5 x 2, C 6 x 3,
-  D 4 x 5, E "3 case study based questions of 4 marks each" = 80.
-* **Class 10 and 9, annual, Science and Social Science** -- `cbse_board`, read
-  from the General Instructions of the SQP PDFs themselves
-  (`cbse-sqp/ClassX_2024_25/Science-SQP.pdf` and `SocialScience-SQP.pdf` in
-  the academicos-data corpus; the extracted `questions.json` text does not
-  carry those instructions). Science: A 16 MCQ + 4 assertion-reason x 1,
-  B 6 x 2, C 7 x 3, D 3 x 5, E 3 case units x 4 = 80. Social Science: A 20 x 1,
-  B 4 x 2, C 5 x 3, D 4 x 5, E 3 x 4, F one map question of 5 (2 History +
-  3 Geography) = 80. The 2025-26 SQPs regroup the same papers by discipline
-  (Science: Biology / Chemistry / Physics; Social Science: four 20-mark
-  sections) and the Science one states that the 2024-25 assessment scheme
-  continues, so the 2024-25 section design is the one used.
-* **Class 9** uses the class 10 design: CBSE publishes an SQP for class X (and
-  XII) only, and the class IX paper follows the same design.
-* **English and Hindi, every class** -- `suggested`. Their SQPs are
+* **Class 10, annual, Mathematics, Science, Social Science** -- `cbse_board`,
+  read (Task 904, PyMuPDF) from the General Instructions on page 3 of the
+  CBSE 2025 class X board papers in `cbse-dataset/question-papers/
+  question-paper/2025/X/` (set 1 of each: `041_Mathematics_Standard.zip` ->
+  `30-1-1_Mathematics Standard.pdf`, `086_Science.zip` -> `31-1-1_Science.pdf`,
+  `087_Social_Science.zip` -> `32-1-1_Social Science.pdf`). Every section
+  count and mark value below matches those pages. The 2024-25 SQP PDFs the
+  earlier version cited are not on this machine (the corpus holds only
+  their extracted text and download manifest), so the board papers are the
+  evidence now; the Mathematics design is also in the SQP text
+  (`academicos-data/corpus/cbse-sqp/questions.json`).
+  The 2026 board papers regroup Science by discipline (Biology 30 /
+  Chemistry 25 / Physics 25, `2026/X/Science.zip` -> `31-2-1.pdf` p. 3) and
+  Social Science into four 20-mark discipline sections with the map item
+  split in two (`2026/X/Social_Science.zip` -> `1165-1_32-4-1_Social Sc..pdf`
+  p. 3); the question kinds and mark values are unchanged, so the 2025 A-E/F
+  design is kept.
+  What a template cannot hold: the board's internal choice is an OR
+  alternative inside a question (Mathematics: 2 questions in B, 2 in C, 2 in
+  D, 3 in E), not "attempt any N of M". The presets print one question per
+  slot and say so in their source line.
+* **Class 9, every subject** -- `suggested`. CBSE sets no class IX paper; the
+  annual preset applies the class X board design, which is what most schools
+  do, and is labelled as such.
+* **English and Hindi, every class** -- `suggested`. The board papers are
   passage-based (a 10-mark reading passage is one "question" with sub-parts),
-  which the bank does not hold as such; the preset keeps the SQP's section
-  weights (Reading 20 / Grammar + Writing 20 / Literature 40 of 80) at
-  question level.
+  which the bank does not hold as such. English keeps the 2025 board paper's
+  section weights at question level, read from `2025/X/
+  184_English_Language_and_Literature.zip` -> `2-1-1_English Language and
+  Literature.pdf`: Reading 20 (p. 2), Grammar "any ten of twelve" + two
+  5-mark writing tasks = 20 (pp. 8-12), Literature 40 = two extracts,
+  "any four of five" and "any two of three" 3-mark answers, two 6-mark long
+  answers (pp. 13-19). Hindi uses the same rows but is NOT checked against a
+  Hindi paper: the 2025 Hindi board PDFs' text does not extract (their
+  Devanagari is in an unmapped font), and the source line says so.
 * **Class 6-8, every subject, and every unit test / periodic test** --
   `suggested`: CBSE prescribes no paper design for these. They are common
   school patterns, labelled as a suggestion, not a CBSE rule.
@@ -100,27 +111,38 @@ _BOARD: dict[str, list[_Row]] = {
         ("Section B - Very short answer", 4, 2, None, None),
         ("Section C - Short answer", 5, 3, None, None),
         ("Section D - Long answer", 4, 5, None, None),
-        ("Section E - Case based", 3, 4, None, 1.0),
+        ("Section E - Case / source based", 3, 4, None, 1.0),
         ("Section F - Map skill", 1, 5, None, None),
     ],
 }
 
+_QP = "cbse-dataset/question-papers/question-paper/2025/X/"
+_NO_OR = (" Internal choice on the board paper is an OR alternative inside a "
+          "question{which}; this preset prints one question per slot.")
+
 _BOARD_SOURCE = {
     "Mathematics": (
-        "CBSE SQP Class X Mathematics (Standard) 2024-25 and 2025-26 General "
-        "Instructions, read from the SQP text in academicos-data/corpus/cbse-sqp: "
-        "A 20x1, B 5x2, C 6x3, D 4x5, E 3x4 = 80."),
+        "CBSE Class X board paper 2025, Mathematics (Standard), General Instructions, "
+        f"{_QP}041_Mathematics_Standard.zip -> 30-1-1_Mathematics Standard.pdf, p. 3: "
+        "A 18 MCQ + 2 assertion-reason x1, B 5x2, C 6x3, D 4x5, E 3 case studies x4 = 80. "
+        "The same design is in the 2024-25 and 2025-26 SQP text "
+        "(academicos-data/corpus/cbse-sqp)."
+        + _NO_OR.format(which=" (2 in B, 2 in C, 2 in D, 3 in E)")),
     "Science": (
-        "CBSE SQP Class X Science 2024-25 General Instructions, read from "
-        "cbse-sqp/ClassX_2024_25/Science-SQP.pdf in academicos-data: A 16 MCQ + "
-        "4 assertion-reason x1, B 6x2, C 7x3, D 3x5, E 3x4 = 80. The 2025-26 SQP "
-        "keeps this scheme, regrouped as Biology / Chemistry / Physics."),
+        "CBSE Class X board paper 2025, Science, General Instructions, "
+        f"{_QP}086_Science.zip -> 31-1-1_Science.pdf, p. 3: A 20 MCQ x1 (assertion-"
+        "reason items among them), B 6x2, C 7x3, D 3x5, E 3 source/case-based units "
+        "x4 = 80. The 2026 paper regroups these as Biology 30 / Chemistry 25 / "
+        "Physics 25 (2026/X/Science.zip -> 31-2-1.pdf, p. 3)."
+        + _NO_OR.format(which=" (in some sections)")),
     "Social Science": (
-        "CBSE SQP Class X Social Science 2024-25 General Instructions, read from "
-        "cbse-sqp/ClassX_2024_25/SocialScience-SQP.pdf in academicos-data: A 20x1, "
-        "B 4x2, C 5x3, D 4x5, E 3x4, F map 5 (History 2 + Geography 3) = 80. The "
-        "2025-26 SQP keeps these question types, regrouped into four 20-mark "
-        "discipline sections."),
+        "CBSE Class X board paper 2025, Social Science, General Instructions, "
+        f"{_QP}087_Social_Science.zip -> 32-1-1_Social Science.pdf, p. 3: A 20 MCQ x1, "
+        "B 4x2, C 5x3, D 4x5, E 3 case/source-based x4, F one map question of 5 "
+        "(History 2 + Geography 3) = 80. The 2026 paper regroups these into four "
+        "20-mark discipline sections (2026/X/Social_Science.zip -> "
+        "1165-1_32-4-1_Social Sc..pdf, p. 3)."
+        + _NO_OR.format(which="")),
 }
 
 # Language papers at question level, keeping the SQP's weights (see module doc).
@@ -130,8 +152,10 @@ _LANGUAGE_80: list[_Row] = [
     ("Section B - Writing", 2, 5, None, None),
     ("Section C - Literature: extract based", 10, 1, None, None),
     ("Section C - Literature: short answer (attempt any 4)", 5, 3, 4, None),
+    # Q9 of the 2025 board paper: "any two of the following three" at 3 marks
+    # (p. 17). The earlier 3 x 2-mark row matched no paper.
+    ("Section C - Literature: short answer II (attempt any 2)", 3, 3, 2, None),
     ("Section C - Literature: long answer (attempt any 2)", 3, 6, 2, None),
-    ("Section C - Literature: very short answer", 3, 2, None, None),
 ]
 
 # Class 6-8 school pattern for the term exams, maths / science / social science.
@@ -193,20 +217,30 @@ def _pattern(grade: int, subject: str, exam_type: str) -> tuple[list[_Row], str,
                 _SUGGESTED_SOURCE.format(what="periodic tests"))
     if grade >= 9 and not language:
         rows = _BOARD[subject]
+        if exam_type == "annual" and grade == 10:
+            return rows, "cbse_board", _BOARD_SOURCE[subject]
         if exam_type == "annual":
-            src = _BOARD_SOURCE[subject]
-            if grade == 9:
-                src = ("Class IX follows the class X paper design; CBSE publishes "
-                       "the SQP for class X. " + src)
-            return rows, "cbse_board", src
+            # No CBSE paper exists for class IX to check a preset against.
+            return rows, "suggested", (
+                "Suggested: CBSE sets no class IX paper; this is the class X board "
+                "design, which most schools use for class IX. Class X design: "
+                + _BOARD_SOURCE[subject])
         return rows, "suggested", (
             "Suggested: the CBSE board design applied to the half-yearly, as most "
             "CBSE schools do; not a CBSE rule. Board design: " + _BOARD_SOURCE[subject])
     if language and grade >= 9:
+        if subject == "English":
+            return _LANGUAGE_80, "suggested", (
+                "Suggested: keeps the CBSE Class X English board paper 2025's section "
+                "weights at question level (Reading 20, Grammar + Writing 20, "
+                f"Literature 40), read from {_QP}184_English_Language_and_Literature.zip "
+                "-> 2-1-1_English Language and Literature.pdf, pp. 2-19. The paper "
+                "itself is passage-based and not reproduced exactly.")
         return _LANGUAGE_80, "suggested", (
-            f"Suggested: keeps the CBSE Class X {subject} SQP's section weights "
-            "(Reading 20, Grammar + Writing 20, Literature 40) at question level. "
-            "The SQP itself is passage-based and not reproduced exactly.")
+            "Suggested: a question-level language pattern (Reading 20, Grammar + "
+            f"Writing 20, Literature 40). Not checked against a CBSE {subject} paper: "
+            "the Hindi board papers' text does not extract from the PDFs on this "
+            "server. Edit it to match your school.")
     return (_JUNIOR_LANGUAGE_80 if language else _JUNIOR_80), "suggested", \
         _SUGGESTED_SOURCE.format(what=f"class {grade} term examinations")
 

@@ -647,6 +647,11 @@
       },
       "AvailabilityRequest": {
         "properties": {
+          "fillFromOutsideScope": {
+            "default": false,
+            "title": "Fillfromoutsidescope",
+            "type": "boolean"
+          },
           "scope": {
             "anyOf": [
               {
@@ -3114,9 +3119,31 @@
             "title": "Assessmenttitle",
             "type": "string"
           },
+          "dateLine": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dateline"
+          },
           "durationMinutes": {
             "title": "Durationminutes",
             "type": "integer"
+          },
+          "examName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Examname"
           },
           "examType": {
             "anyOf": [
@@ -3142,6 +3169,28 @@
           "grade": {
             "title": "Grade",
             "type": "integer"
+          },
+          "instructions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instructions"
+          },
+          "schoolName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schoolname"
           },
           "setLabel": {
             "anyOf": [
@@ -5822,6 +5871,24 @@
             "title": "Available",
             "type": "integer"
           },
+          "borrowed": {
+            "default": 0,
+            "title": "Borrowed",
+            "type": "integer"
+          },
+          "filled": {
+            "default": 0,
+            "title": "Filled",
+            "type": "integer"
+          },
+          "fixes": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/SectionFix"
+            },
+            "title": "Fixes",
+            "type": "array"
+          },
           "marksEach": {
             "title": "Markseach",
             "type": "integer"
@@ -5950,6 +6017,60 @@
           "totalMarks"
         ],
         "title": "SectionBlueprint",
+        "type": "object"
+      },
+      "SectionFix": {
+        "description": "One change the teacher can make to a short section, with what it buys.\n\nA reason alone (\"Only 3 are available\") left the teacher guessing which\nof five settings to change; each fix names one setting and how many more\nquestions changing it makes available, so the builder can offer it as a\nsingle tap.",
+        "properties": {
+          "available": {
+            "default": 0,
+            "title": "Available",
+            "type": "integer"
+          },
+          "kind": {
+            "enum": [
+              "widen_scope",
+              "fill_from_outside_scope",
+              "change_marks",
+              "relax_type",
+              "relax_competency",
+              "reduce_count"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "marksEach": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Markseach"
+          },
+          "questionCount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Questioncount"
+          }
+        },
+        "required": [
+          "kind",
+          "label"
+        ],
+        "title": "SectionFix",
         "type": "object"
       },
       "SeedCbse10Request": {
@@ -13445,7 +13566,7 @@
     },
     "/api/v1/schools/{school_id}/teacher-templates/{template_id}/availability": {
       "post": {
-        "description": "Per section: needed vs. eligible (verified key, right marks, in scope)\nand why any shortfall exists -- shown BEFORE generating, so a teacher\nnever discovers a gap on the printed paper.",
+        "description": "Per section: needed vs. eligible (verified key, right marks, in scope),\nwhat the paper will hold, every note generation would add, and why any\nshortfall exists with the changes that would close it -- shown BEFORE\ngenerating, so a teacher never discovers a gap on the printed paper.\nIt is the generator's own selection run without saving anything.",
         "operationId": "template_availability_api_v1_schools__school_id__teacher_templates__template_id__availability_post",
         "parameters": [
           {
