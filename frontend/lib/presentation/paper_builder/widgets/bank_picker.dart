@@ -149,7 +149,7 @@ class _BankPickerState extends State<BankPicker> {
     final status = alreadyOn
         ? 'Already on this paper'
         : q.hasAnswerKey
-            ? 'Answer key ✓'
+            ? 'Has answer key'
             : "No answer key -- can't be used";
     return ListTile(
       enabled: usable,
