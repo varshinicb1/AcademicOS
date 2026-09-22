@@ -36,15 +36,25 @@ Where each pattern comes from -- said in each preset's `source` so a teacher
   do, and is labelled as such.
 * **English and Hindi, every class** -- `suggested`. The board papers are
   passage-based (a 10-mark reading passage is one "question" with sub-parts),
-  which the bank does not hold as such. English keeps the 2025 board paper's
-  section weights at question level, read from `2025/X/
+  which the bank does not hold as such, so the presets print the sub-parts
+  as questions and keep each section's weight. English keeps the 2025 board
+  paper's section weights at question level, read from `2025/X/
   184_English_Language_and_Literature.zip` -> `2-1-1_English Language and
   Literature.pdf`: Reading 20 (p. 2), Grammar "any ten of twelve" + two
   5-mark writing tasks = 20 (pp. 8-12), Literature 40 = two extracts,
   "any four of five" and "any two of three" 3-mark answers, two 6-mark long
-  answers (pp. 13-19). Hindi uses the same rows but is NOT checked against a
-  Hindi paper: the 2025 Hindi board PDFs' text does not extract (their
-  Devanagari is in an unmapped font), and the source line says so.
+  answers (pp. 13-19). Hindi (class 9-10, half-yearly and annual) follows
+  the Hindi Course A (002) SQP 2024-25, `ClassX_2024_25/HindiCourseA-SQP.pdf`,
+  read with PyMuPDF (the 2025 board PDFs' Devanagari does not
+  extract, the SQP's does): 15 questions in four khands (p. 1); Ka 14 --
+  two 7-mark unseen passages, each three 1-mark and two 2-mark sub-questions
+  (pp. 1-4); Kha 16 -- four grammar questions, any 4 of 5 one-mark parts
+  each (pp. 4-5); Ga 30 -- two 5 x 1 extract MCQ sets, two "any 3 of 4"
+  2-mark sets, "any 2 of 3" 4-mark supplementary-reader answers (pp. 5-9);
+  Gha 20 -- a 6-mark paragraph on one of three topics, a 5-mark letter and
+  a 5-mark CV / e-mail and a 4-mark advertisement / message, each of the
+  last three with an OR (pp. 9-10). Course B (085, `HindiCourseB-SQP.pdf`,
+  16 questions) weights Ga 28 and Gha 22; the source line says so.
 * **Class 6-8, every subject, and every unit test / periodic test** --
   `suggested`: CBSE prescribes no paper design for these. They are common
   school patterns, labelled as a suggestion, not a CBSE rule.
@@ -170,6 +180,35 @@ _LANGUAGE_80: list[_Row] = [
     ("Section C - Literature: long answer (attempt any 2)", 3, 6, 2, None),
 ]
 
+# Hindi Course A (002), CBSE Class X SQP 2024-25 at question level (see
+# module doc and `_HINDI_SOURCE`): Ka 6x1 + 4x2 = 14, Kha 16 of 20 x1 = 16,
+# Ga 10x1 + 6 of 8 x2 + 2 of 3 x4 = 30, Gha 1 of 3 x6 + 2x5 + 1x4 = 20.
+_HINDI_80: list[_Row] = [
+    ("Section A (Khand Ka) - Reading: unseen passages, objective", 6, 1, None, 1.0),
+    ("Section A (Khand Ka) - Reading: unseen passages, short answer", 4, 2, None, 1.0),
+    ("Section B (Khand Kha) - Grammar (attempt any 16)", 20, 1, 16, None),
+    ("Section C (Khand Ga) - Textbook: extract based MCQ", 10, 1, None, None),
+    ("Section C (Khand Ga) - Textbook: short answer (attempt any 6)", 8, 2, 6, None),
+    ("Section C (Khand Ga) - Supplementary reader (attempt any 2)", 3, 4, 2, None),
+    ("Section D (Khand Gha) - Writing: paragraph (attempt any 1)", 3, 6, 1, None),
+    ("Section D (Khand Gha) - Writing: letter, CV / e-mail", 2, 5, None, None, 2),
+    ("Section D (Khand Gha) - Writing: advertisement / message", 1, 4, None, None, 1),
+]
+_HINDI_SOURCE = (
+    f"the CBSE Class X Hindi Course A (002) Sample Question Paper 2024-25, "
+    f"{_SQP}ClassX_2024_25/HindiCourseA-SQP.pdf, at question level: p. 1 General "
+    "Instructions, 15 questions in four khands, 80 marks; Khand Ka Q1-2, two unseen "
+    "passages of 7 marks, each three 1-mark and two 2-mark sub-questions (pp. 1-4); "
+    "Khand Kha Q3-6, grammar, any 4 of 5 one-mark sub-questions each (pp. 4-5); "
+    "Khand Ga Q7 and Q9 five 1-mark extract MCQs each, Q8 and Q10 any 3 of 4 two-mark "
+    "answers, Q11 any 2 of 3 four-mark supplementary-reader answers (pp. 5-9); Khand "
+    "Gha Q12 a 6-mark paragraph on one of three topics, Q13 letter and Q14 CV / "
+    "e-mail of 5 marks and Q15 advertisement / message of 4, each with an OR "
+    "(pp. 9-10). The passages are one question with sub-parts in the paper; here "
+    "each sub-part prints as a question. Hindi Course B (085) differs "
+    f"({_SQP}ClassX_2024_25/HindiCourseB-SQP.pdf: 16 questions, Khand Ga 28 and "
+    "Gha 22) -- edit the sections for it.")
+
 # Class 6-8 school pattern for the term exams, maths / science / social science.
 _JUNIOR_80: list[_Row] = [
     ("Section A - Objective", 16, 1, None, None),
@@ -248,11 +287,13 @@ def _pattern(grade: int, subject: str, exam_type: str) -> tuple[list[_Row], str,
                 f"Literature 40), read from {_QP}184_English_Language_and_Literature.zip "
                 "-> 2-1-1_English Language and Literature.pdf, pp. 2-19. The paper "
                 "itself is passage-based and not reproduced exactly.")
-        return _LANGUAGE_80, "suggested", (
-            "Suggested: a question-level language pattern (Reading 20, Grammar + "
-            f"Writing 20, Literature 40). Not checked against a CBSE {subject} paper: "
-            "the Hindi board papers' text does not extract from the PDFs on this "
-            "server. Edit it to match your school.")
+        if exam_type == "annual" and grade == 10:
+            return _HINDI_80, "suggested", "Suggested: follows " + _HINDI_SOURCE
+        what = ("CBSE sets no class IX paper; this is the class X design"
+                if grade == 9 else "the class X board design applied to the half-yearly")
+        return _HINDI_80, "suggested", (
+            f"Suggested: {what}, which most schools use; not a CBSE rule. Class X "
+            "design: " + _HINDI_SOURCE)
     return (_JUNIOR_LANGUAGE_80 if language else _JUNIOR_80), "suggested", \
         _SUGGESTED_SOURCE.format(what=f"class {grade} term examinations")
 
