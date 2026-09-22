@@ -33,6 +33,8 @@ from ..assessment.qbank_store import ReviewStateError
 from ..llm.sarvam import LLMProviderError
 from ..assessment.postgres_kv import durable_table
 from ..assessment.auth_routes import get_current_user
+from ..assessment.authz import require_school_owns_student
+from ..assessment.users import User
 from ..config import Config, get_config
 from ..curriculum import routes as curriculum_routes
 from ..graph.store import GraphStore
@@ -336,6 +338,8 @@ def init_runtime(config: Optional[Config] = None) -> None:
         require_school_owns_assessment=pillar_routes._require_school_owns_assessment,
         questions_by_id=lambda qid: (qbank_routes._bank.get(qid)
                                      if qbank_routes._bank is not None else None),
+        audit=pillar_routes._audit,
+        consent=pillar_routes._consents,
     )
     if cfg.llm_api_key:
         from ..agents.critic import SarvamCritic
@@ -393,7 +397,7 @@ _DURABLE_STORES = [
 # every durability-critical table, not just one of them.
 _DURABLE_TABLES = [
     "assessments", "papers", "practice_sets", "graded_evaluations",
-    "scan_sessions", "school_templates", "users", "sessions",
+    "scan_sessions", "school_templates", "users", "sessions", "invites",
     "audit_log", "learner_events",
 ]
 
@@ -579,11 +583,23 @@ def graph_paths(req: PathQuery) -> dict:
     return {"paths": [[e.type.value for e in p] for p in _graph.paths(req.source, req.target, req.max_depth)]}
 
 
-@app.post("/v1/revise", dependencies=[Depends(get_current_user)])
-def revise(req: ReviseRequest) -> dict:
+def _require_learner_access(learner_id: str, current: User) -> None:
+    """The learner in a /v1 request body is a student id, and a caller may
+    only name one they are entitled to: a student of their own school, and
+    for a student caller, themselves. Until 2026-09-21 these routes checked
+    only that the caller was logged in, and a school_B teacher received a
+    school_A student's due concepts and retention from /v1/revise. A learner
+    id that is no user at all is a 404, which is what these routes already
+    said for a learner with no events."""
+    require_school_owns_student(auth_routes._require(), learner_id, current)
+
+
+@app.post("/v1/revise")
+def revise(req: ReviseRequest, current: User = Depends(get_current_user)) -> dict:
     """P5.2 — what to revise today (FSRS-backed, from the learner's event store)."""
     if not _events:
         raise HTTPException(503, "runtime not initialized")
+    _require_learner_access(req.learner, current)
     from ..algorithms.forgetting import ForgettingModel, ForgettingParams, RevisionScheduler
 
     model = _events.replay(req.learner)
@@ -602,12 +618,16 @@ def revise(req: ReviseRequest) -> dict:
     }
 
 
-@app.post("/v1/plan", dependencies=[Depends(get_current_user)])
-def study_plan(req: StudyPlanRequest) -> dict:
+@app.post("/v1/plan")
+def study_plan(req: StudyPlanRequest, current: User = Depends(get_current_user)) -> dict:
     """P5.2 — today's study session: prereqs in order, FSRS-due items first,
     bounded by a daily capacity window."""
     if not _graph:
         raise HTTPException(503, "runtime not initialized")
+    # Without a learner the plan is the concept graph alone, which any
+    # caller may see; with one, it reads that student's event log.
+    if req.learner:
+        _require_learner_access(req.learner, current)
     from ..algorithms.forgetting import ForgettingModel, ForgettingParams
     from ..algorithms.study_planner import StudyPlanner
 

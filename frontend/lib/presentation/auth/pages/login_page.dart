@@ -9,12 +9,20 @@ import '../../shared/widgets/common_widgets.dart';
 /// The front door of the online (server-connected) build: the router sends
 /// every signed-out visitor here before any other page loads, so nobody
 /// ever meets a raw 401 error screen again. Handles both sign-in and
-/// registration (teacher / student / principal-by-key); the offline build
+/// registration; the offline build
 /// never shows this page at all -- its equivalent is Settings > Profile
 /// (LocalStore.teacherName/teacherRole), since a single-device app gets a
 /// lighter-weight "who's using this device" concept instead of a real
-/// login. See users.py's docstring for how a school-issued principal key
-/// (not registration order) is what actually grants "principal".
+/// login.
+///
+/// Registration is by invite (users.py, 2026-09-21): the form asks for the
+/// code a principal issued and nothing else about the school, because the
+/// server takes the school and role from the invite. Until then this form
+/// asked for a school id and a teacher/student choice, and the server
+/// believed both, so anyone who knew a school's id could join it. The
+/// operator's path for a NEW school's first principal (school id + principal
+/// key) is kept, collapsed and clearly separate, so nobody mistakes it for
+/// the normal way in.
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -24,6 +32,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final _inviteCode = TextEditingController();
   final _schoolId = TextEditingController();
   final _name = TextEditingController();
   final _email = TextEditingController();
@@ -31,12 +40,14 @@ class _LoginPageState extends State<LoginPage> {
   final _principalKey = TextEditingController();
   bool _registering = false;
   bool _submitting = false;
-  bool _registeringAsStudent = false;
+  // Registering as a new school's first principal instead of by invite.
+  bool _firstPrincipal = false;
   bool _obscurePassword = true;
   String? _error;
 
   @override
   void dispose() {
+    _inviteCode.dispose();
     _schoolId.dispose();
     _name.dispose();
     _email.dispose();
@@ -53,14 +64,20 @@ class _LoginPageState extends State<LoginPage> {
     });
     try {
       final api = GetIt.I<AuthApi>();
-      final result = _registering
-          ? await api.register(
-              schoolId: _schoolId.text.trim(), name: _name.text.trim(),
-              email: _email.text.trim(), password: _password.text,
-              role: _registeringAsStudent ? 'student' : null,
-              principalKey: _principalKey.text.trim(),
-            )
-          : await api.login(email: _email.text.trim(), password: _password.text);
+      final AuthResult result;
+      if (!_registering) {
+        result = await api.login(email: _email.text.trim(), password: _password.text);
+      } else if (_firstPrincipal) {
+        result = await api.registerFirstPrincipal(
+          schoolId: _schoolId.text.trim(), principalKey: _principalKey.text.trim(),
+          name: _name.text.trim(), email: _email.text.trim(), password: _password.text,
+        );
+      } else {
+        result = await api.register(
+          inviteCode: _inviteCode.text.trim(), name: _name.text.trim(),
+          email: _email.text.trim(), password: _password.text,
+        );
+      }
       LocalStore.instance.authToken = result.token;
       LocalStore.instance.authUser = result.user.toJson();
       if (!mounted) return;
@@ -88,6 +105,62 @@ class _LoginPageState extends State<LoginPage> {
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
+  }
+
+  /// Collapsed by default: this is the operator's one-time path for a school
+  /// that has no principal yet, not an alternative to an invite. The server
+  /// refuses it once the school has a principal.
+  Widget _firstPrincipalSection(ThemeData theme) {
+    return Theme(
+      data: theme.copyWith(dividerColor: Colors.transparent),
+      child: ExpansionTile(
+        key: const Key('register-first-principal'),
+        tilePadding: EdgeInsets.zero,
+        childrenPadding: EdgeInsets.zero,
+        initiallyExpanded: _firstPrincipal,
+        onExpansionChanged: (open) => setState(() {
+          _firstPrincipal = open;
+          _error = null;
+        }),
+        title: Text('First principal of a new school', style: theme.textTheme.titleSmall),
+        subtitle: Text(
+          'Only with the principal key your AcademicOS operator gave you, '
+          'and only if your school has no principal yet.',
+          style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+        ),
+        children: [
+          const SizedBox(height: 8),
+          TextFormField(
+            key: const Key('register-school-id'),
+            controller: _schoolId,
+            textInputAction: TextInputAction.next,
+            decoration: const InputDecoration(
+              labelText: 'School ID',
+              hintText: "The new school's ID, from your operator",
+              prefixIcon: Icon(Icons.apartment_outlined),
+              border: OutlineInputBorder(),
+            ),
+            validator: (v) =>
+                (_firstPrincipal && (v == null || v.trim().isEmpty)) ? 'Required' : null,
+          ),
+          const SizedBox(height: 12),
+          TextFormField(
+            key: const Key('register-principal-key'),
+            controller: _principalKey,
+            obscureText: true,
+            textInputAction: TextInputAction.done,
+            decoration: const InputDecoration(
+              labelText: 'Principal key',
+              prefixIcon: Icon(Icons.key_outlined),
+              border: OutlineInputBorder(),
+            ),
+            validator: (v) =>
+                (_firstPrincipal && (v == null || v.trim().isEmpty)) ? 'Required' : null,
+          ),
+          const SizedBox(height: 4),
+        ],
+      ),
+    );
   }
 
   @override
@@ -178,19 +251,22 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ),
                           if (_registering) ...[
-                            TextFormField(
-                              controller: _schoolId,
-                              textInputAction: TextInputAction.next,
-                              decoration: const InputDecoration(
-                                labelText: 'School ID',
-                                hintText: 'The ID your school gave you',
-                                prefixIcon: Icon(Icons.apartment_outlined),
-                                border: OutlineInputBorder(),
+                            if (!_firstPrincipal) ...[
+                              TextFormField(
+                                key: const Key('register-invite-code'),
+                                controller: _inviteCode,
+                                textInputAction: TextInputAction.next,
+                                decoration: const InputDecoration(
+                                  labelText: 'Invite code',
+                                  hintText: 'The code your principal gave you',
+                                  prefixIcon: Icon(Icons.confirmation_number_outlined),
+                                  border: OutlineInputBorder(),
+                                ),
+                                validator: (v) =>
+                                    (v == null || v.trim().isEmpty) ? 'Required' : null,
                               ),
-                              validator: (v) =>
-                                  (v == null || v.trim().isEmpty) ? 'Required' : null,
-                            ),
-                            const SizedBox(height: 12),
+                              const SizedBox(height: 12),
+                            ],
                             TextFormField(
                               controller: _name,
                               textInputAction: TextInputAction.next,
@@ -201,31 +277,6 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               validator: (v) =>
                                   (v == null || v.trim().isEmpty) ? 'Required' : null,
-                            ),
-                            const SizedBox(height: 12),
-                            // A student registers the same way, just marked
-                            // as one -- the server never lets this (or any
-                            // other client-supplied field) grant "principal";
-                            // only a real principal key does that (below).
-                            SegmentedButton<bool>(
-                              segments: const [
-                                ButtonSegment(value: false, label: Text('Teacher')),
-                                ButtonSegment(value: true, label: Text('Student')),
-                              ],
-                              selected: {_registeringAsStudent},
-                              onSelectionChanged: (sel) =>
-                                  setState(() => _registeringAsStudent = sel.first),
-                            ),
-                            const SizedBox(height: 12),
-                            TextFormField(
-                              controller: _principalKey,
-                              textInputAction: TextInputAction.next,
-                              decoration: const InputDecoration(
-                                labelText: 'Principal key (optional)',
-                                hintText: 'Only if your school issued you one',
-                                prefixIcon: Icon(Icons.key_outlined),
-                                border: OutlineInputBorder(),
-                              ),
                             ),
                             const SizedBox(height: 12),
                           ],
@@ -262,6 +313,10 @@ class _LoginPageState extends State<LoginPage> {
                             validator: (v) =>
                                 (v == null || v.length < 8) ? 'At least 8 characters' : null,
                           ),
+                          if (_registering) ...[
+                            const SizedBox(height: 8),
+                            _firstPrincipalSection(theme),
+                          ],
                           const SizedBox(height: 20),
                           FilledButton(
                             onPressed: _submitting ? null : _submit,
@@ -282,8 +337,11 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Teachers approve papers, students track their schedule -- '
-                    'your role is picked up automatically after you sign in.',
+                    _registering
+                        ? 'Your school and role come from your invite. '
+                            'Ask your principal for one if you do not have it.'
+                        : 'Teachers approve papers, students track their schedule -- '
+                            'your role is picked up automatically after you sign in.',
                     style: theme.textTheme.bodySmall?.copyWith(color: colors.onSurfaceVariant),
                     textAlign: TextAlign.center,
                   ),

@@ -907,6 +907,11 @@
             "title": "Note",
             "type": "string"
           },
+          "reason": {
+            "default": "",
+            "title": "Reason",
+            "type": "string"
+          },
           "studentIds": {
             "anyOf": [
               {
@@ -1922,6 +1927,11 @@
           "question": {
             "$ref": "#/components/schemas/QuestionSchema"
           },
+          "reason": {
+            "default": "",
+            "title": "Reason",
+            "type": "string"
+          },
           "studentAnswer": {
             "title": "Studentanswer",
             "type": "string"
@@ -1966,6 +1976,11 @@
             },
             "title": "Questions",
             "type": "array"
+          },
+          "reason": {
+            "default": "",
+            "title": "Reason",
+            "type": "string"
           },
           "studentId": {
             "title": "Studentid",
@@ -2648,6 +2663,123 @@
         "title": "IngestTocResponse",
         "type": "object"
       },
+      "InviteCreateRequest": {
+        "properties": {
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "expiresInDays": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expiresindays"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role"
+        ],
+        "title": "InviteCreateRequest",
+        "type": "object"
+      },
+      "InviteResponse": {
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "createdAt": {
+            "title": "Createdat",
+            "type": "string"
+          },
+          "createdBy": {
+            "title": "Createdby",
+            "type": "string"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "expiresAt": {
+            "title": "Expiresat",
+            "type": "string"
+          },
+          "revokedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Revokedat"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "usedAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Usedat"
+          },
+          "usedBy": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Usedby"
+          }
+        },
+        "required": [
+          "code",
+          "role",
+          "expiresAt",
+          "createdAt",
+          "createdBy",
+          "status"
+        ],
+        "title": "InviteResponse",
+        "type": "object"
+      },
       "LoginRequest": {
         "properties": {
           "email": {
@@ -2751,6 +2883,27 @@
           "marks"
         ],
         "title": "MarkingPointSchema",
+        "type": "object"
+      },
+      "MissingConsentResponse": {
+        "properties": {
+          "checked": {
+            "title": "Checked",
+            "type": "integer"
+          },
+          "missing": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Missing",
+            "type": "array"
+          }
+        },
+        "required": [
+          "checked",
+          "missing"
+        ],
+        "title": "MissingConsentResponse",
         "type": "object"
       },
       "MyClassScheduleEntryResponse": {
@@ -4595,6 +4748,17 @@
             "title": "Email",
             "type": "string"
           },
+          "inviteCode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invitecode"
+          },
           "name": {
             "title": "Name",
             "type": "string"
@@ -4626,12 +4790,18 @@
             "title": "Role"
           },
           "schoolId": {
-            "title": "Schoolid",
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schoolid"
           }
         },
         "required": [
-          "schoolId",
           "name",
           "email",
           "password"
@@ -5739,6 +5909,11 @@
               }
             ],
             "title": "Marks"
+          },
+          "reason": {
+            "default": "",
+            "title": "Reason",
+            "type": "string"
           }
         },
         "required": [
@@ -7426,6 +7601,121 @@
         "summary": "Update Status"
       }
     },
+    "/api/v1/auth/invites": {
+      "get": {
+        "description": "The caller's school's invites, used and unused, newest first. Each\nrow says who created it and which account used it and when.",
+        "operationId": "list_invites_api_v1_auth_invites_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/InviteResponse"
+                  },
+                  "title": "Response List Invites Api V1 Auth Invites Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Invites"
+      },
+      "post": {
+        "description": "A single-use invite to the CALLER's school. There is no school field\nto send: a principal can only ever invite people into their own school.",
+        "operationId": "create_invite_api_v1_auth_invites_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InviteResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Invite"
+      }
+    },
+    "/api/v1/auth/invites/{code}": {
+      "delete": {
+        "description": "Withdraw an unused invite. Another school's code is a 404, the same as\nan unknown one.",
+        "operationId": "revoke_invite_api_v1_auth_invites__code__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "required": true,
+            "schema": {
+              "title": "Code",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InviteResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Revoke Invite"
+      }
+    },
     "/api/v1/auth/login": {
       "post": {
         "operationId": "login_api_v1_auth_login_post",
@@ -7531,6 +7821,7 @@
     },
     "/api/v1/auth/register": {
       "post": {
+        "description": "Needs an invite code, or (for a school's first principal only) the\noperator's principal key with a schoolId. 403 without either, or when\nthe invite is unknown/used/revoked/expired/for another email, or the\nschool already has a principal. 400 when schoolId/role disagree with the\ninvite. Until 2026-09-21 any caller could name any school here.",
         "operationId": "register_api_v1_auth_register_post",
         "requestBody": {
           "content": {
@@ -7809,6 +8100,57 @@
           }
         ],
         "summary": "Record Consent",
+        "tags": [
+          "Parental Consent"
+        ]
+      }
+    },
+    "/api/v1/consent/missing": {
+      "get": {
+        "description": "Which of these students have no active parental consent at the\ncaller's school -- so a school can see, before a test, whose sheets\ngrading will refuse (authz.require_consent). Withdrawn consent is listed\nas missing.\n\nTakes the roster as `studentIds` (repeat the parameter) rather than a\nclass or assessment id: the server holds no roster for either. An\nassessment records how many students sit it, not which, and the web\nclient's Classes page is where the class list lives.",
+        "operationId": "missing_consents_api_v1_consent_missing_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "studentIds",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Studentids",
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MissingConsentResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Missing Consents",
         "tags": [
           "Parental Consent"
         ]
@@ -10647,7 +10989,7 @@
     },
     "/api/v1/evaluations/assessment/{assessment_id}/question/{question_id}/award": {
       "post": {
-        "description": "Award the same mark for one question to many students.\n\nThis is the write half of grade-by-question and the reason it saves time: a\nteacher who has just read the value points decides once and applies it\nforty times.\n\nDeliberately server-side and per-student rather than a single bulk UPDATE:\neach student's sheet is loaded, clamped and saved through the same path the\nsingle-student endpoint uses, so a bulk award can never produce a state the\nper-student path could not, and the audit trail stays uniform.",
+        "description": "Award the same mark for one question to many students.\n\nThis is the write half of grade-by-question and the reason it saves time: a\nteacher who has just read the value points decides once and applies it\nforty times.\n\nDeliberately server-side and per-student rather than a single bulk UPDATE:\neach student's sheet is loaded, clamped and saved through the same path the\nsingle-student endpoint uses, so a bulk award can never produce a state the\nper-student path could not, and the audit trail stays uniform.\n\nEvery changed student gets its own audit entry, with the caller as the\nactor. If any target sheet is finalized and no reason is given, or any\ntarget student has no active parental consent, the whole request is\nrefused with 409 before anything is written, so a bulk award never lands\nhalf-applied.",
         "operationId": "award_across_students_api_v1_evaluations_assessment__assessment_id__question__question_id__award_post",
         "parameters": [
           {
@@ -10757,7 +11099,7 @@
     },
     "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/finalize": {
       "post": {
-        "description": "Folds a teacher-reviewed sheet (whatever mix of approved/edited marks\nis currently in the graded store) into the student's knowledge state,\nexactly once. See the comment on evaluate_sheet() for why that endpoint\ndoesn't do this itself.\n\nRequires a real logged-in caller from the assessment's own school (fixed\n2026-09-11: auth used to be optional here despite this endpoint mutating\nthe knowledge model and writing an authoritative audit entry, falling\nback to a client-supplied free-text reviewerId with no verification at\nall -- flagged by automated security review). req.reviewer_id is no\nlonger read; the field stays on the wire schema only so an older client\nthat still sends it doesn't 422.",
+        "description": "Folds a teacher-reviewed sheet (whatever mix of approved/edited marks\nis currently in the graded store) into the student's knowledge state,\nexactly once. See the comment on evaluate_sheet() for why that endpoint\ndoesn't do this itself.\n\n\"Exactly once\" holds across repeated calls (fixed 2026-09-22, Task 306).\nBefore, every call appended the whole sheet to mastery again, and the\nobvious workflow after grade_lock.py -- correct a finalized mark with a\nreason, press Finalize again -- counted the sheet twice. Now:\n\n* finalize again with no mark changed since: 200 with the same totals, and\n  nothing is written (no mastery update, no second finalize entry);\n* finalize again after a correction: a new finalize entry\n  (`refinalized: true`), and the sheet's earlier contribution to mastery\n  is replaced by the corrected one (KnowledgeStore.record_sheet);\n* a sheet finalized before this fix, whose answers are in mastery\n  untagged and so cannot be told apart from other evidence: 409. Adding\n  the sheet again would count it twice, so it is refused rather than\n  guessed at.\n\nRequires a real logged-in caller from the assessment's own school (fixed\n2026-09-11: auth used to be optional here despite this endpoint mutating\nthe knowledge model and writing an authoritative audit entry, falling\nback to a client-supplied free-text reviewerId with no verification at\nall -- flagged by automated security review). req.reviewer_id is no\nlonger read; the field stays on the wire schema only so an older client\nthat still sends it doesn't 422.",
         "operationId": "finalize_sheet_review_api_v1_evaluations_sheet__assessment_id___student_id__finalize_post",
         "parameters": [
           {
@@ -10821,7 +11163,7 @@
     },
     "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/review/{question_id}": {
       "post": {
-        "description": "Records the teacher's approve/adjust decision on one answer from a\nprior POST /evaluations/sheet, so it survives past the Evaluate tab's\nlocal widget state. Each question here is decided exactly once (there is\nno \"already approved, now correcting\" case like mobile_scan's ReviewItem\nhas) so this mirrors mobile_scan.review_decision's \"edit\" branch only --\nno reason/reviewer_id gate, since that gate exists specifically for\n*changing* an existing decision, which can't happen in this flow.\n\nRequires a real logged-in caller from the assessment's own school (fixed\n2026-09-11: this endpoint mutated the graded store for any\nassessment/student/question with zero authorization -- flagged by\nautomated security review).",
+        "description": "Records the teacher's approve/adjust decision on one answer from a\nprior POST /evaluations/sheet, so it survives past the Evaluate tab's\nlocal widget state.\n\nBefore 2026-09-22 this docstring said a decision here could not be changed\nlater, so no reason gate was needed. That was wrong: nothing stopped an\nedit after finalize, and the audit found a finalized sheet changed with no\nentry written (item 8.5). A mark change to a finalized sheet now needs a\nreason (409 without one), and every decision is audited with the caller as\nthe actor. See grade_lock.py.\n\nRequires a real logged-in caller from the assessment's own school (fixed\n2026-09-11: this endpoint mutated the graded store for any\nassessment/student/question with zero authorization -- flagged by\nautomated security review).",
         "operationId": "review_sheet_answer_api_v1_evaluations_sheet__assessment_id___student_id__review__question_id__post",
         "parameters": [
           {

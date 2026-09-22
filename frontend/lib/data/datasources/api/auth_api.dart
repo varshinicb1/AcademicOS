@@ -29,6 +29,35 @@ class AuthUser {
   bool get isStudent => role == 'student';
 }
 
+/// One row of GET /auth/invites. `status` is "open" | "used" | "revoked" |
+/// "expired"; `usedBy`/`usedAt` say which account used it and when.
+class Invite {
+  final String code;
+  final String role;
+  final String? email;
+  final String expiresAt;
+  final String createdAt;
+  final String createdBy;
+  final String status;
+  final String? usedBy;
+  final String? usedAt;
+  final String? revokedAt;
+
+  Invite.fromJson(Map<String, dynamic> j)
+      : code = j['code'] as String,
+        role = j['role'] as String,
+        email = j['email'] as String?,
+        expiresAt = j['expiresAt'] as String,
+        createdAt = j['createdAt'] as String,
+        createdBy = j['createdBy'] as String,
+        status = j['status'] as String,
+        usedBy = j['usedBy'] as String?,
+        usedAt = j['usedAt'] as String?,
+        revokedAt = j['revokedAt'] as String?;
+
+  bool get isOpen => status == 'open';
+}
+
 class AuthResult {
   final AuthUser user;
   final String token;
@@ -52,28 +81,39 @@ class AuthApi {
   final Dio _dio;
   AuthApi(Dio dio) : _dio = dio;
 
+  /// Join a school with an invite code a principal issued. The server takes
+  /// the account's school and role from the invite, so there is nothing
+  /// else to choose here (users.py: until 2026-09-21 the client named its
+  /// own school and role, and an outsider could join any school by id).
   Future<AuthResult> register({
-    required String schoolId,
+    required String inviteCode,
     required String name,
     required String email,
     required String password,
-    // Self-selected: "teacher" (default, unchanged) or "student". Never
-    // "principal" -- the server only grants that via a matching
-    // principal_key, this field can't escalate to it (see
-    // users.py::UserStore.register's docstring).
-    String? role,
-    // A real school-issued key -- the only thing that can grant
-    // "principal" (see users.py::UserStore.register/_valid_principal_key).
-    // Overrides `role` server-side when it matches, regardless of what the
-    // caller picked there.
-    String? principalKey,
-  }) async {
-    try {
-      final r = await _dio.post('/auth/register', data: {
-        'schoolId': schoolId, 'name': name, 'email': email, 'password': password,
-        if (role != null) 'role': role,
-        if (principalKey != null && principalKey.isNotEmpty) 'principalKey': principalKey,
+  }) =>
+      _register({
+        'inviteCode': inviteCode, 'name': name, 'email': email, 'password': password,
       });
+
+  /// The operator's path for a NEW school's first principal: the school id
+  /// plus the principal key the operator handed over. The server refuses it
+  /// (403) once that school has a principal; everyone after that joins by
+  /// invite.
+  Future<AuthResult> registerFirstPrincipal({
+    required String schoolId,
+    required String principalKey,
+    required String name,
+    required String email,
+    required String password,
+  }) =>
+      _register({
+        'schoolId': schoolId, 'principalKey': principalKey,
+        'name': name, 'email': email, 'password': password,
+      });
+
+  Future<AuthResult> _register(Map<String, dynamic> body) async {
+    try {
+      final r = await _dio.post('/auth/register', data: body);
       return AuthResult.fromJson(Map<String, dynamic>.from(r.data));
     } on DioException catch (e) {
       throw _asAuthException(e);
@@ -113,12 +153,52 @@ class AuthApi {
     return (r.data as List).map((e) => AuthUser.fromJson(Map<String, dynamic>.from(e))).toList();
   }
 
+  // ---- invites (principal only; always the caller's own school) ----
+
+  /// A single-use invite to the caller's school. `role` is "teacher" or
+  /// "student"; `email` binds it to one person; `expiresInDays` is 1..90
+  /// (server default 14). There is no school field: the server uses the
+  /// principal's own.
+  Future<Invite> createInvite({required String role, String? email, int? expiresInDays}) async {
+    try {
+      final r = await _dio.post('/auth/invites', data: {
+        'role': role,
+        if (email != null && email.isNotEmpty) 'email': email,
+        if (expiresInDays != null) 'expiresInDays': expiresInDays,
+      });
+      return Invite.fromJson(Map<String, dynamic>.from(r.data));
+    } on DioException catch (e) {
+      throw _asAuthException(e);
+    }
+  }
+
+  /// Every invite the school has issued, used and unused, newest first.
+  Future<List<Invite>> invites() async {
+    final r = await _dio.get('/auth/invites');
+    return (r.data as List).map((e) => Invite.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  /// Withdraw an unused invite. A used one cannot be withdrawn (409).
+  Future<Invite> revokeInvite(String code) async {
+    try {
+      final r = await _dio.delete('/auth/invites/${Uri.encodeComponent(code)}');
+      return Invite.fromJson(Map<String, dynamic>.from(r.data));
+    } on DioException catch (e) {
+      throw _asAuthException(e);
+    }
+  }
+
   AuthException _asAuthException(DioException e) {
     final status = e.response?.statusCode;
     final detail = e.response?.data is Map ? (e.response?.data['detail'] as String?) : null;
     if (status == 401) return AuthException(detail ?? 'Incorrect email or password.');
     if (status == 409) return AuthException(detail ?? 'An account with this email already exists.');
     if (status == 400) return AuthException(detail ?? 'Password must be at least 8 characters.');
+    // Registration without a usable invite, or a principal key for a school
+    // that already has a principal. The server's message says which.
+    if (status == 403) {
+      return AuthException(detail ?? "You need an invite code from your school's principal.");
+    }
     return AuthException(detail ?? 'Could not reach the server. Check your connection and try again.');
   }
 }

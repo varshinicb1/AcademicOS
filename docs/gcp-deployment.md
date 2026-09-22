@@ -137,12 +137,15 @@ cares about the `ACADEMICOS_API` value baked in at build time.
 2. `curl https://<run-url>/health` → `{"status":"ok"}`.
 3. `curl https://<run-url>/health/storage` → `durability_backend` set,
    `durability_reachable: true`, every table `"ok"`. On Supabase, if
-   `users`/`sessions` error, run `docs/supabase-setup.sql` first — same
+   `users`/`sessions`/`invites` error, run `docs/supabase-setup.sql` first — same
    prerequisite as on Render. On Cloud SQL, apply
    `deploy/gcp/schema.sql` first.
 4. Rebuild the web app with the new `ACADEMICOS_API` and deploy it.
 5. End-to-end, against the Cloud Run URL:
-   - register → login → `GET /assessments` returns 200 (not 401);
+   - register the school's first principal (`schoolId` + the bootstrap
+     key) → that principal `POST /auth/invites` → register a teacher with
+     the invite code alone → login → `GET /assessments` returns 200 (not
+     401). Registration without an invite or key is a 403 since 2026-09-21;
    - bad-password login → friendly error, no session wipe;
    - tampered token → 401 and the app routes back to Sign in.
    (`frontend/test/live_backend_auth_test.dart` drives exactly this flow;

@@ -218,6 +218,59 @@ def test_audit_log_uses_details_jsonb_column() -> None:
     assert rows[0]["details"]["setCount"] == 2
 
 
+# --------------------------------------------------------------------- #
+# audit_log is append-only in the database (audit item 8.5, 2026-09-21)
+# --------------------------------------------------------------------- #
+# The SQLite half is proven locally in tests/test_grade_integrity.py. These
+# prove deploy/gcp/schema.sql gives Postgres the same guarantees: the trigger
+# refuses UPDATE and DELETE even for the owner role the service uses, and a
+# plain insert of an existing id is SQLSTATE 23505, not an overwrite.
+
+def test_audit_log_update_and_delete_are_refused_by_the_trigger() -> None:
+    t = PostgresTable("audit_log")
+    t.insert({"id": "log_locked", "timestamp": "2026-09-22T10:00:00+00:00",
+              "action": "grade_awarded", "assessment_id": "asmLock",
+              "student_id": "s1", "actor": "user_1", "details": {"after": 2}})
+    with pytest.raises(PostgresUnavailable, match="append-only"):
+        t.update({"actor": "someone-else"}, id="log_locked")
+    with pytest.raises(PostgresUnavailable, match="append-only"):
+        t.delete(id="log_locked")
+    [row] = t.select(id="log_locked")
+    assert row["actor"] == "user_1"
+
+
+def test_insert_of_an_existing_id_is_a_unique_violation() -> None:
+    from academicos.assessment.supabase_kv import is_unique_violation
+
+    t = PostgresTable("audit_log")
+    row = {"id": "log_once", "timestamp": "2026-09-22T10:00:00+00:00",
+           "action": "grade_awarded", "assessment_id": "asmOnce",
+           "student_id": "s1", "actor": "user_1", "details": {}}
+    t.insert(row)
+    with pytest.raises(PostgresUnavailable) as exc:
+        t.insert({**row, "actor": "attacker"})
+    assert is_unique_violation(exc.value)
+    assert [r["actor"] for r in t.select(id="log_once")] == ["user_1"]
+
+
+def test_audit_log_chain_and_replay_on_real_postgres(tmp_path) -> None:
+    from academicos.assessment.audit_log import AuditLog, DuplicateAuditEntry
+
+    log = AuditLog(tmp_path / "audit.sqlite")
+    assert isinstance(log._remote, PostgresTable)
+    ids = [log.append("grade_awarded", assessment_id="asmChain", student_id="s1",
+                      actor="user_1", details={"after": i}) for i in range(3)]
+    assert log.verify_chain() is None
+    with pytest.raises(DuplicateAuditEntry):
+        log.append("grade_awarded", assessment_id="asmChain", actor="attacker",
+                   entry_id=ids[0])
+    rows = PostgresTable("audit_log").select(assessment_id="asmChain", order="seq.asc")
+    assert [r["id"] for r in rows] == ids
+    assert rows[1]["prev_hash"] == rows[0]["entry_hash"]
+    # Nothing reached the local fallback: the replay was refused, not rerouted.
+    assert log.conn.execute("SELECT COUNT(*) FROM audit_log").fetchone()[0] == 0
+
+
 def test_unsafe_identifier_is_rejected() -> None:
     with pytest.raises(ValueError):
         PostgresTable('assessments"; DROP TABLE users; --')
@@ -235,3 +288,100 @@ def test_unavailable_is_caught_by_the_existing_supabase_handler() -> None:
 
     assert issubclass(PostgresUnavailable, SupabaseUnavailable)
     assert issubclass(PostgresUnavailable, rexc.RequestException)
+
+
+# --------------------------------------------------------------------- #
+# Invite single use on REAL Postgres (Task 301 review, item 2)
+# --------------------------------------------------------------------- #
+# tests/test_auth_invites_remote.py proves the invite rules against an
+# in-memory table that ASSUMES two things Postgres must actually provide:
+# a conditional UPDATE filtered on used_at = '' AND revoked_at = '' matches
+# at most once under concurrency (READ COMMITTED re-checks the WHERE after
+# waiting on the row lock), and '' is a value equality can match. These run
+# the same UserStore code on the real server with deploy/gcp/schema.sql.
+
+@pytest.fixture
+def pg_user_store(tmp_path):
+    import psycopg
+    from academicos.assessment.users import UserStore
+
+    cfg = _test_cfg()
+    assert cfg is not None
+    with psycopg.connect(host=cfg["ACOS_POSTGRES_HOST"], port=cfg["ACOS_POSTGRES_PORT"],
+                         dbname=cfg["ACOS_POSTGRES_DB"], user=cfg["ACOS_POSTGRES_USER"],
+                         password=cfg["ACOS_POSTGRES_PASSWORD"], autocommit=True) as conn:
+        with conn.cursor() as cur:
+            cur.execute('TRUNCATE TABLE "users", "sessions", "invites"')
+    store = UserStore(tmp_path / "users.sqlite", principal_bootstrap_key="k")
+    assert isinstance(store._remote_invites, PostgresTable)
+    yield store
+    store.conn.close()
+
+
+def test_conditional_claim_matches_once_on_real_postgres(pg_user_store) -> None:
+    code = pg_user_store.create_invite(school_id="s1", role="teacher", created_by="p1").code
+    t = PostgresTable("invites")
+    t.update({"used_by": "u1", "used_at": "t1"}, code=code, used_at="", revoked_at="")
+    t.update({"used_by": "u2", "used_at": "t2"}, code=code, used_at="", revoked_at="")
+    assert [r["used_by"] for r in t.select(code=code)] == ["u1"]
+
+
+def test_many_threads_racing_on_one_invite_have_one_winner_on_real_postgres(
+        pg_user_store) -> None:
+    import threading
+
+    from academicos.assessment.users import RegistrationRefused
+
+    code = pg_user_store.create_invite(school_id="s1", role="teacher", created_by="p1").code
+    n = 8
+    barrier = threading.Barrier(n)
+    winners, refused, errors = [], [], []
+
+    def attempt(i: int) -> None:
+        barrier.wait()
+        try:
+            winners.append(pg_user_store.register(
+                invite_code=code, name=f"Racer {i}", email=f"racer-{i}@example.com",
+                password="correct horse battery"))
+        except RegistrationRefused:
+            refused.append(i)
+        except Exception as exc:  # noqa: BLE001 - reported below
+            errors.append(exc)
+
+    threads = [threading.Thread(target=attempt, args=(i,)) for i in range(n)]
+    for th in threads:
+        th.start()
+    for th in threads:
+        th.join(timeout=120)
+
+    assert errors == []
+    assert len(winners) == 1 and len(refused) == n - 1
+    [row] = PostgresTable("invites").select(code=code)
+    assert row["used_by"] == winners[0].id
+    assert [u["email"] for u in PostgresTable("users").select()] == [winners[0].email]
+
+
+def test_duplicate_email_on_real_postgres_is_email_already_registered(
+        pg_user_store) -> None:
+    """The unique index answers SQLSTATE 23505, which UserStore reports as
+    EmailAlreadyRegistered and releases the loser's invite. Simulates the
+    race by inserting the row directly after get_by_email would have passed."""
+    from academicos.assessment.users import EmailAlreadyRegistered
+
+    first = pg_user_store.create_invite(school_id="s1", role="teacher", created_by="p1").code
+    second = pg_user_store.create_invite(school_id="s1", role="teacher", created_by="p1").code
+    pg_user_store.register(invite_code=first, name="A", email="dup@example.com",
+                           password="correct horse battery")
+    # Skip the pre-check so the insert itself meets the index, as the loser
+    # of a real race does.
+    original = pg_user_store.get_by_email
+    pg_user_store.get_by_email = lambda email: None  # type: ignore[method-assign]
+    try:
+        with pytest.raises(EmailAlreadyRegistered):
+            pg_user_store.register(invite_code=second, name="B", email="dup@example.com",
+                                   password="correct horse battery")
+    finally:
+        pg_user_store.get_by_email = original  # type: ignore[method-assign]
+    [row] = PostgresTable("invites").select(code=second)
+    assert (row["used_by"], row["used_at"]) == ("", "")
+    assert len(PostgresTable("users").select(email="dup@example.com")) == 1

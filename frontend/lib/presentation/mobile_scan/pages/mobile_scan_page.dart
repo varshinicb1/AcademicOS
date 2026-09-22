@@ -115,7 +115,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
       });
     } catch (e) {
       setState(() {
-        _error = '$e';
+        _error = apiErrorMessage(e);
         _loadingAssessments = false;
       });
     }
@@ -137,7 +137,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
         _stage = _Stage.capturing;
       });
     } catch (e) {
-      setState(() => _error = '$e');
+      setState(() => _error = apiErrorMessage(e));
     }
   }
 
@@ -184,7 +184,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _error = '$e';
+        _error = apiErrorMessage(e);
         _uploadingPage = false;
       });
     }
@@ -205,7 +205,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
       });
     } catch (e) {
       setState(() {
-        _error = '$e';
+        _error = apiErrorMessage(e);
         _stage = _Stage.capturing;
       });
     }
@@ -223,7 +223,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
       _advance();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not save review: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not save review: ${apiErrorMessage(e)}')));
     }
   }
 
@@ -235,7 +235,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
       _advance();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not save review: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Could not save review: ${apiErrorMessage(e)}')));
     }
   }
 
@@ -257,7 +257,7 @@ class _MobileScanPageState extends State<MobileScanPage> {
       });
     } catch (e) {
       setState(() {
-        _error = '$e';
+        _error = apiErrorMessage(e);
         _stage = _Stage.reviewing;
       });
     }

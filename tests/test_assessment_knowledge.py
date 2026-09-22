@@ -118,3 +118,69 @@ def test_dotted_id_saves_and_loads_without_colliding(tmp_path):
     ks.save(model_b)
     assert ks.load("stu.dent").updated_at == "2026-08-01T00:00:00+00:00"
     assert ks.load("student").updated_at == "2026-08-02T00:00:00+00:00"
+
+
+# --------------------------------------------------------------------------- #
+# a re-finalize keeps the sheet's original timestamp (Task 306 review)
+# --------------------------------------------------------------------------- #
+#
+# KnowledgeMastery weights each answer's confidence by its age and computes
+# retention from last_seen. If a re-finalize stamped the replacement answers
+# with the time of the re-finalize, correcting one mark on a sheet sat weeks
+# ago would make the whole sheet look freshly sat: retention back to ~1.0 and
+# the sheet's confidence weight back to full. The evidence count would still
+# be right, so nothing else would show it.
+
+def _ev(awarded: int) -> Evaluation:
+    return Evaluation(question_id="q1", awarded_marks=awarded, max_marks=4,
+                      verdict="partial", confidence=0.9, reasoning="",
+                      ocr_warnings=[], needs_review=False)
+
+
+def _backdate(ks: KnowledgeStore, student_id: str, days: int) -> str:
+    """Move every stored timestamp `days` into the past, as if the sheet had
+    been finalized then. Returns the new sheet timestamp."""
+    model = ks.load(student_id)
+    old = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat()
+    for state in model.concepts.values():
+        for i in state.history:
+            i.ts = old
+        state.last_seen = old
+    ks.save(model)
+    return old
+
+
+def test_re_finalizing_keeps_the_sheets_original_timestamp(tmp_path):
+    ks = KnowledgeStore(tmp_path)
+    src = "sheet:a1:s1"
+    assert ks.record_sheet("s1", [(_question(), _ev(1))], src)
+    sat = _backdate(ks, "s1", days=40)
+    [before] = ks.mastery("s1")
+    assert before.retention < 0.9, "the backdating must be visible to the scorer"
+
+    # A teacher corrects the mark and finalizes again, 40 days later.
+    assert ks.record_sheet("s1", [(_question(), _ev(3))], src)
+
+    state = ks.load("s1").concepts["c1"]
+    assert [(i.outcome, i.ts) for i in state.history] == [(0.75, sat)]
+    assert state.last_seen == sat
+    [after] = ks.mastery("s1")
+    assert after.retention == pytest.approx(before.retention, abs=1e-6)
+    assert after.evidence_count == 1
+
+
+def test_last_seen_is_the_newest_evidence_not_the_last_written(tmp_path):
+    """Practice done after the sheet stays the latest evidence when the older
+    sheet is re-finalized (and so re-appended to the history)."""
+    ks = KnowledgeStore(tmp_path)
+    src = "sheet:a1:s1"
+    ks.record_sheet("s1", [(_question(), _ev(1))], src)
+    _backdate(ks, "s1", days=40)
+    ks.record_evaluations("s1", [(_question(), _ev(4))])   # practice, today
+    practice_ts = ks.load("s1").concepts["c1"].last_seen
+
+    ks.record_sheet("s1", [(_question(), _ev(3))], src)
+
+    state = ks.load("s1").concepts["c1"]
+    assert state.last_seen == practice_ts
+    assert len(state.history) == 2

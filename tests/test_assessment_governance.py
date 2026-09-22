@@ -30,6 +30,8 @@ from academicos.api.main import app
 from academicos.assessment import audit_log, mobile_scan
 from academicos.assessment.audit_log import get_audit_log
 
+from _auth_helpers import grant_consent, invite_code
+
 
 @pytest.fixture(autouse=True)
 def _isolate_store_singletons(monkeypatch):
@@ -66,7 +68,7 @@ def _register_and_login(client, email: str = "governance-teacher@example.com") -
     2026-09-15 -- see docs/deployment.md); returns the Authorization header
     every subsequent call in a test needs to thread through."""
     r = client.post("/api/v1/auth/register", json={
-        "schoolId": "school_1", "name": "Governance Teacher", "email": email,
+        "inviteCode": invite_code("school_1"), "name": "Governance Teacher", "email": email,
         "password": "correct horse battery",
     })
     assert r.status_code == 200, r.text
@@ -141,7 +143,10 @@ def _session_with_review(client, auth: dict[str, str], assessment_id: str, *, it
     """Creates a scan session and seeds one review item at the given status.
     Needs a real assessment_id now (fixed 2026-09-15 -- scan-session routes
     resolve their school ownership through the assessment they're marking
-    against, so a made-up id 404s instead of a real assessment's)."""
+    against, so a made-up id 404s instead of a real assessment's). Every
+    teacher here is school_1's, and scanning needs the student's recorded
+    parental consent (authz.require_consent)."""
+    grant_consent("school_1", "s1")
     created = client.post("/api/v1/scan/sessions", json={
         "assessmentId": assessment_id, "studentId": "s1", "studentName": "Student",
     }, headers=auth)

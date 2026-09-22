@@ -107,7 +107,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
       });
     } catch (e) {
       setState(() {
-        _error = '$e';
+        _error = apiErrorMessage(e);
         _loading = false;
       });
     }
@@ -164,7 +164,7 @@ class _EvaluationPageState extends State<EvaluationPage> {
       if (!mounted) return;
       setState(() => _saving = false);
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('Could not save review: $e')));
+          .showSnackBar(SnackBar(content: Text('Could not save review: ${apiErrorMessage(e)}')));
     }
   }
 

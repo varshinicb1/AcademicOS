@@ -21,7 +21,7 @@ from . import pdf as pdf_export
 from . import grades, paper_timing, selection
 from .audit_log import get_audit_log
 from .authz import require_own_school, require_school_owns_assessment, require_school_owns_paper
-from .auth_routes import get_current_user, require_principal
+from .auth_routes import require_principal, require_staff
 from .users import User, get_user_store
 from .mapping import grade_to_int, to_question_schema
 from .paper import generate_paper as build_generated_paper, generate_paper_sets
@@ -136,7 +136,7 @@ def _users():
 
 @router.post("/blueprints/generate", response_model=Blueprint)
 def generate_blueprint(request: BlueprintRequest,
-                       current: User = Depends(get_current_user)) -> Blueprint:
+                       current: User = Depends(require_staff)) -> Blueprint:
     sections = request.sections or default_sections(request.total_marks)
     return Blueprint(
         total_marks=request.total_marks,
@@ -151,13 +151,13 @@ def generate_blueprint(request: BlueprintRequest,
 
 
 @router.get("/schools/{school_id}/templates", response_model=list[SectionBlueprint])
-def get_section_templates(school_id: str, current: User = Depends(get_current_user)) -> list[SectionBlueprint]:
+def get_section_templates(school_id: str, current: User = Depends(require_staff)) -> list[SectionBlueprint]:
     require_own_school(school_id, current)
     return list(default_sections(80))
 
 
 @router.get("/schools/{school_id}/paper-templates", response_model=list[SchoolTemplate])
-def get_paper_templates(school_id: str, current: User = Depends(get_current_user)) -> list[SchoolTemplate]:
+def get_paper_templates(school_id: str, current: User = Depends(require_staff)) -> list[SchoolTemplate]:
     """Kept for the older Dart `ApiClient` (pillar_api.dart's `/school-templates`
     is the canonical one template_maker_page.dart saves to). This used to be a
     stub that always returned a hardcoded "Default CBSE Template" regardless of
@@ -186,7 +186,7 @@ def get_paper_templates(school_id: str, current: User = Depends(get_current_user
 
 @router.post("/questions/search", response_model=list[QuestionSchema])
 def search_questions(params: QuestionSearchParams,
-                     current: User = Depends(get_current_user)) -> list[QuestionSchema]:
+                     current: User = Depends(require_staff)) -> list[QuestionSchema]:
     cfg, _ = _require()
     grade_roman = _int_grade_to_roman(params.grade)
     pool = get_pool(cfg, subject=params.subject, grade=grade_roman)
@@ -235,7 +235,7 @@ def _int_grade_to_roman(grade: int) -> str:
 
 @router.post("/questions/optimize", response_model=QuestionOptimizationResult)
 def optimize_questions(request: QuestionOptimizationRequest,
-                       current: User = Depends(get_current_user)) -> QuestionOptimizationResult:
+                       current: User = Depends(require_staff)) -> QuestionOptimizationResult:
     cfg, _ = _require()
     fallback: list[QuestionSchema] = []
     if request.candidates:
@@ -250,7 +250,7 @@ def optimize_questions(request: QuestionOptimizationRequest,
 
 @router.post("/papers/generate", response_model=GeneratedPaper)
 def generate_paper_endpoint(
-    request: PaperGenerationRequest, current: User = Depends(get_current_user),
+    request: PaperGenerationRequest, current: User = Depends(require_staff),
 ) -> GeneratedPaper:
     cfg, store = _require()
     # Found live in production data (2026-08-19): a real assessment whose
@@ -303,7 +303,7 @@ def generate_paper_endpoint(
 
 
 @router.post("/papers/quick-generate", response_model=GeneratedPaper)
-def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(get_current_user)) -> GeneratedPaper:
+def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(require_staff)) -> GeneratedPaper:
     """Rapid generation of complete, sectioned papers (Examzo-style 1-click generation)."""
     # Monotonic, so a clock adjustment during generation cannot change a
     # reported duration. See assessment/paper_timing.py for what this is for.
@@ -420,7 +420,7 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(get
 
 
 @router.post("/papers/generate-from-ids", response_model=GeneratedPaper)
-def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(get_current_user)) -> GeneratedPaper:
+def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(require_staff)) -> GeneratedPaper:
     _started_ids = time.perf_counter()
     """Instantly compile selected question IDs into a structured sectioned paper (Examzo-style ID compilation)."""
     cfg, store = _require()
@@ -534,7 +534,7 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(g
 
 
 @router.get("/paper-timing")
-def get_paper_timing(current: User = Depends(get_current_user)) -> dict:
+def get_paper_timing(current: User = Depends(require_principal)) -> dict:
     """Time saved per paper — the renewal criterion, made answerable.
 
     Decision 11: *"Renewal is measured as time saved per paper."* Before this
@@ -551,13 +551,13 @@ def get_paper_timing(current: User = Depends(get_current_user)) -> dict:
 
 
 @router.get("/papers/{paper_id}", response_model=GeneratedPaper)
-def get_paper(paper_id: str, current: User = Depends(get_current_user)) -> GeneratedPaper:
+def get_paper(paper_id: str, current: User = Depends(require_staff)) -> GeneratedPaper:
     _, store = _require()
     return require_school_owns_paper(_require_papers(), store, paper_id, current)
 
 
 @router.post("/papers/{paper_id}/export/{fmt}")
-def export_paper(paper_id: str, fmt: str, current: User = Depends(get_current_user)) -> dict:
+def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)) -> dict:
     cfg, store = _require()
     paper = require_school_owns_paper(_require_papers(), store, paper_id, current)
     if fmt not in ("pdf", "answer-key", "answer_key", "answerKey"):
@@ -602,7 +602,7 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(get_current_us
 
 
 @router.get("/papers/{paper_id}/file")
-def get_paper_file(paper_id: str, format: str = "pdf", current: User = Depends(get_current_user)):
+def get_paper_file(paper_id: str, format: str = "pdf", current: User = Depends(require_staff)):
     cfg, store = _require()
     require_school_owns_paper(_require_papers(), store, paper_id, current)
     suffix = "_answer_key.pdf" if format in ("answer-key", "answer_key") else ".pdf"
@@ -616,7 +616,7 @@ def get_paper_file(paper_id: str, format: str = "pdf", current: User = Depends(g
 
 @router.post("/assessments", response_model=Assessment)
 def create_assessment(
-    request: CreateAssessmentRequest, current: User = Depends(get_current_user),
+    request: CreateAssessmentRequest, current: User = Depends(require_staff),
 ) -> Assessment:
     _, store = _require()
     # Real bug fixed 2026-09-15: school_id/teacher_id used to come straight
@@ -665,7 +665,7 @@ def create_assessment(
 
 
 @router.get("/assessments/{assessment_id}", response_model=Assessment)
-def get_assessment(assessment_id: str, current: User = Depends(get_current_user)) -> Assessment:
+def get_assessment(assessment_id: str, current: User = Depends(require_staff)) -> Assessment:
     _, store = _require()
     return require_school_owns_assessment(store, assessment_id, current)
 
@@ -673,7 +673,7 @@ def get_assessment(assessment_id: str, current: User = Depends(get_current_user)
 @router.get("/assessments", response_model=list[Assessment])
 def list_assessments(
     teacher_id: Optional[str] = None, school_id: Optional[str] = None,
-    current: User = Depends(get_current_user),
+    current: User = Depends(require_staff),
 ) -> list[Assessment]:
     # Real bug fixed 2026-09-15: teacher_id/school_id used to be trusted
     # straight from the query string with no check that the caller actually
@@ -692,7 +692,7 @@ def list_assessments(
 
 @router.put("/assessments/{assessment_id}", response_model=Assessment)
 def update_assessment(
-    assessment_id: str, assessment: Assessment, current: User = Depends(get_current_user),
+    assessment_id: str, assessment: Assessment, current: User = Depends(require_staff),
 ) -> Assessment:
     _, store = _require()
     existing = store.get(assessment_id)
@@ -714,7 +714,7 @@ def update_assessment(
 
 
 @router.delete("/assessments/{assessment_id}")
-def delete_assessment(assessment_id: str, current: User = Depends(get_current_user)) -> dict:
+def delete_assessment(assessment_id: str, current: User = Depends(require_staff)) -> dict:
     _, store = _require()
     require_school_owns_assessment(store, assessment_id, current)
     store.delete(assessment_id)
@@ -722,7 +722,7 @@ def delete_assessment(assessment_id: str, current: User = Depends(get_current_us
 
 
 @router.patch("/assessments/{assessment_id}/status", response_model=Assessment)
-def update_status(assessment_id: str, body: dict, current: User = Depends(get_current_user)) -> Assessment:
+def update_status(assessment_id: str, body: dict, current: User = Depends(require_staff)) -> Assessment:
     _, store = _require()
     a = require_school_owns_assessment(store, assessment_id, current)
     new_status = body.get("status", a.status)

@@ -29,14 +29,96 @@ import requests
 from academicos.api.main import _DURABLE_TABLES
 from academicos.assessment.supabase_kv import SupabaseTable, SupabaseUnavailable
 
+from _auth_helpers import invite_code
+
 
 class _StubPostgrest(BaseHTTPRequestHandler):
     """Minimal PostgREST stand-in: 404s each table named in `broken` with a
-    real PGRST205-shaped body, answers every other /rest/v1 read with an
-    empty result set. Storage API paths 404 too — that is the normal
-    "no snapshot uploaded yet" case CurriculumStore already handles."""
+    real PGRST205-shaped body. Every other table is a small in-memory table:
+    POST upserts, PATCH/DELETE apply `col=eq.value` filters, GET returns the
+    matching rows (empty until something is written). Storage API paths 404
+    too — that is the normal "no snapshot uploaded yet" case CurriculumStore
+    already handles.
+
+    The writes were added with Task 301. Registration needs an invite, and
+    since a configured remote no longer lets create_invite fall back to
+    local SQLite (a code saved only on Render's ephemeral disk vanished at
+    the next cold start), a GET-only stub answered the invite upsert with a
+    501 and every registration here failed before reaching the table under
+    test."""
 
     broken: tuple[str, ...] = ()
+
+    def _table(self) -> str | None:
+        path = self.path.split("?")[0]
+        return path.rsplit("/", 1)[-1] if path.startswith("/rest/v1/") else None
+
+    def _query(self) -> dict[str, str]:
+        from urllib.parse import parse_qsl, urlsplit
+        return dict(parse_qsl(urlsplit(self.path).query, keep_blank_values=True))
+
+    def _filters(self) -> dict[str, str]:
+        return {k: v[3:] for k, v in self._query().items() if v.startswith("eq.")}
+
+    @staticmethod
+    def _matches(row: dict, filters: dict[str, str]) -> bool:
+        return all(row.get(k) is not None and str(row.get(k)) == v
+                   for k, v in filters.items())
+
+    def _body(self) -> dict:
+        length = int(self.headers.get("Content-Length") or 0)
+        return json.loads(self.rfile.read(length) or b"{}")
+
+    def _broken(self, table: str) -> bool:
+        if table in self.broken:
+            self._respond(404, json.dumps({
+                "code": "PGRST205",
+                "message": f"Could not find the table 'public.{table}' in the schema cache",
+            }).encode())
+            return True
+        return False
+
+    def do_POST(self) -> None:  # noqa: N802
+        table = self._table()
+        if table is None:
+            return self._respond(404, b'{"error":"not found"}')
+        if self._broken(table):
+            return None
+        row, key = self._body(), self._query().get("on_conflict", "id")
+        with self.server.lock:
+            rows = self.server.rows[table]
+            for existing in rows:
+                if existing.get(key) == row.get(key):
+                    existing.update(row)
+                    break
+            else:
+                rows.append(row)
+        return self._respond(201, b"")
+
+    def do_PATCH(self) -> None:  # noqa: N802
+        table = self._table()
+        if table is None:
+            return self._respond(404, b'{"error":"not found"}')
+        if self._broken(table):
+            return None
+        values, filters = self._body(), self._filters()
+        with self.server.lock:
+            for row in self.server.rows[table]:
+                if self._matches(row, filters):
+                    row.update(values)
+        return self._respond(204, b"")
+
+    def do_DELETE(self) -> None:  # noqa: N802
+        table = self._table()
+        if table is None:
+            return self._respond(404, b'{"error":"not found"}')
+        if self._broken(table):
+            return None
+        filters = self._filters()
+        with self.server.lock:
+            self.server.rows[table] = [r for r in self.server.rows[table]
+                                       if not self._matches(r, filters)]
+        return self._respond(204, b"")
 
     def _respond(self, status: int, body: bytes) -> None:
         self.send_response(status)
@@ -50,12 +132,12 @@ class _StubPostgrest(BaseHTTPRequestHandler):
         if path.startswith("/rest/v1/"):
             table = path.rsplit("/", 1)[-1]
             self.server.counter[table] += 1
-            if table in self.broken:
-                return self._respond(404, json.dumps({
-                    "code": "PGRST205",
-                    "message": f"Could not find the table 'public.{table}' in the schema cache",
-                }).encode())
-            return self._respond(200, b"[]")
+            if self._broken(table):
+                return None
+            filters = self._filters()
+            with self.server.lock:
+                found = [r for r in self.server.rows[table] if self._matches(r, filters)]
+            return self._respond(200, json.dumps(found).encode())
         self.server.counter[path] += 1
         return self._respond(404, b'{"error":"not found"}')
 
@@ -73,6 +155,8 @@ def stub_postgrest(monkeypatch) -> Iterator:
         stub_cls = type("Stub", (_StubPostgrest,), {"broken": tuple(broken)})
         server = ThreadingHTTPServer(("127.0.0.1", 0), stub_cls)
         server.counter = collections.Counter()
+        server.rows = collections.defaultdict(list)
+        server.lock = threading.Lock()
         threading.Thread(target=server.serve_forever, daemon=True).start()
         servers.append(server)
         base = f"http://127.0.0.1:{server.server_port}"
@@ -103,22 +187,33 @@ def test_missing_table_raises_typed_error_that_sqlite_fallback_still_catches(
         SupabaseTable("users").select()
 
 
-def test_auth_route_falls_back_to_sqlite_when_the_users_table_is_missing(
+def test_register_answers_503_when_the_users_table_is_missing(
         stub_postgrest, tmp_path, monkeypatch) -> None:
+    """This test used to assert the opposite: registration fell back to
+    local SQLite when the remote `users` table was missing. The Task 301
+    code review showed what that fallback did in production: the account
+    lived only on Render's ephemeral disk (gone at the next cold start)
+    while the remote invite stayed claimed, so the person lost the account
+    AND the code. A missing table is now an honest 503, and the invite is
+    released so it still works once the table exists."""
+    from academicos.assessment import auth_routes
     from test_assessment_routes_auth import _boot_client
 
     stub_postgrest("users", "sessions")
     with _boot_client(tmp_path, monkeypatch) as client:
+        code = invite_code("school_1")
         r = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "QA", "email": "qa@example.test",
+            "inviteCode": code, "name": "QA", "email": "qa@example.test",
             "password": "correct horse battery",
         })
-        # UserStore gracefully falls back to local SQLite so teachers/students
-        # are not locked out when Supabase users/sessions tables are missing
-        assert r.status_code == 200, r.text
-        body = r.json()
-        assert "token" in body
-        assert body["user"]["email"] == "qa@example.test"
+        assert r.status_code == 503, r.text
+        assert "users" in r.json()["detail"]
+        store = auth_routes._require()
+        invite, backend = store._find_invite(code)
+        assert (invite.status(), backend) == ("open", "remote")
+        with store._conn_lock:
+            assert store.conn.execute("SELECT COUNT(*) FROM users "
+                                      "WHERE email='qa@example.test'").fetchone()[0] == 0
 
 
 def test_non_fallback_route_answers_503_not_500_when_table_is_missing(
@@ -128,7 +223,7 @@ def test_non_fallback_route_answers_503_not_500_when_table_is_missing(
     stub_postgrest("papers")
     with _boot_client(tmp_path, monkeypatch) as client:
         reg = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "QA", "email": "qa@example.test",
+            "inviteCode": invite_code("school_1"), "name": "QA", "email": "qa@example.test",
             "password": "correct horse battery",
         })
         assert reg.status_code == 200
@@ -226,3 +321,24 @@ def test_real_credentials_still_enable_supabase(monkeypatch) -> None:
     assert table._url == "https://proj.supabase.co"
     assert SupabaseStorage("scan-media").enabled is True
     assert Config.load().supabase_enabled is True
+
+
+def test_health_storage_is_not_ready_when_only_invites_is_missing(
+        stub_postgrest, tmp_path, monkeypatch) -> None:
+    """Deploy-ordering check from the Task 301 review: a project set up
+    before 2026-09-21 has every table except `invites`. Registration by
+    invite then answers 503 everywhere, so the readiness verdict must go
+    false on that table alone, and name it."""
+    import academicos.api.main as main_mod
+    from test_assessment_routes_auth import _boot_client
+
+    stub_postgrest("invites")
+    main_mod._probe_cache.update(at=0.0, body=None)  # no stale verdicts
+    with _boot_client(tmp_path, monkeypatch) as client:
+        r = client.get("/health/storage")
+    body = r.json()
+    assert body["durability_reachable"] is False
+    assert body["supabase_reachable"] is False
+    assert body["tables"]["invites"].startswith("error:")
+    assert "PGRST205" in body["tables"]["invites"]
+    assert [t for t, s in body["tables"].items() if s != "ok"] == ["invites"]

@@ -19,6 +19,8 @@ from fastapi.testclient import TestClient
 
 from academicos.api.main import app
 
+from _auth_helpers import invite_code
+
 CACHEABLE_HEADER = "public, max-age=300"
 
 
@@ -67,13 +69,13 @@ def test_mutable_and_per_user_endpoints_stay_header_less(tmp_path, monkeypatch):
         # for a real student_id since require_school_owns_student 404s on an
         # id with no matching user.
         teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "T", "email": "cache-teacher@example.com",
-            "password": "correct horse battery",
+            "inviteCode": invite_code("school_1"), "name": "T",
+            "email": "cache-teacher@example.com", "password": "correct horse battery",
         }).json()
         auth = {"Authorization": f"Bearer {teacher['token']}"}
         student = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "S", "email": "cache-student@example.com",
-            "password": "correct horse battery", "role": "student",
+            "inviteCode": invite_code("school_1", "student"), "name": "S",
+            "email": "cache-student@example.com", "password": "correct horse battery",
         }).json()["user"]
 
         assessments = client.get("/api/v1/assessments", headers=auth)

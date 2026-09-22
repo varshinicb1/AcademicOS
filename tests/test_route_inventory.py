@@ -30,6 +30,8 @@ from academicos.assessment import audit_log
 from academicos.assessment import mobile_scan, routes as assessment_routes
 from academicos.api.main import app
 
+from _auth_helpers import grant_consent, invite_code
+
 # Canonical backend route inventory. Keeping it explicit (not derived from
 # openapi at runtime) is the point: it is the contract every Dart call is
 # judged against, and it fails loudly when the backend drifts.
@@ -60,6 +62,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/auth/logout"),
     ("GET", "/api/v1/auth/me"),
     ("GET", "/api/v1/auth/users"),
+    ("POST", "/api/v1/auth/invites"),
+    ("GET", "/api/v1/auth/invites"),
+    ("DELETE", "/api/v1/auth/invites/{code}"),
     # --- pillar_routes.py (syllabus, grading, insights) ---
     ("GET", "/api/v1/schools/{school_id}/school-templates"),
     ("POST", "/api/v1/schools/{school_id}/school-templates"),
@@ -176,6 +181,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     # --- consent_routes.py (DPDP Act 2023 parental consent) ---
     ("GET", "/api/v1/consent"),
     ("POST", "/api/v1/consent"),
+    ("GET", "/api/v1/consent/missing"),
     ("GET", "/api/v1/consent/students/{student_id}"),
     ("DELETE", "/api/v1/consent/students/{student_id}"),
 })
@@ -216,6 +222,10 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     # --- auth_routes.py (identity reads + principal approval) ---
     ("GET", "/api/v1/auth/me"),
     ("GET", "/api/v1/auth/users"),
+    # Invites are principal-only (require_principal -> get_current_user).
+    ("POST", "/api/v1/auth/invites"),
+    ("GET", "/api/v1/auth/invites"),
+    ("DELETE", "/api/v1/auth/invites/{code}"),
     # --- pillar_routes.py (school templates, grading, knowledge) ---
     ("GET", "/api/v1/schools/{school_id}/school-templates"),
     ("POST", "/api/v1/schools/{school_id}/school-templates"),
@@ -292,6 +302,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     # --- consent_routes.py (DPDP Act 2023 parental consent) ---
     ("GET", "/api/v1/consent"),
     ("POST", "/api/v1/consent"),
+    ("GET", "/api/v1/consent/missing"),
     ("GET", "/api/v1/consent/students/{student_id}"),
     ("DELETE", "/api/v1/consent/students/{student_id}"),
     # --- api/main.py (the /v1/* pillar surface) ---
@@ -341,6 +352,7 @@ def _concrete_path(path: str) -> str:
         .replace("{session_id}", "scan_1")
         .replace("{question_id}", "q_1")
         .replace("{page_no}", "1")
+        .replace("{code}", "inv_1")
     )
 
 
@@ -474,8 +486,10 @@ def _valid_body_for(method: str, path: str) -> dict:
     if path == "/api/v1/schools/{school_id}/school-templates":
         return {"template": school_template_body(), "sections": []}
     if path == "/api/v1/auth/register":
-        return {"schoolId": "school_1", "name": "Teacher One",
+        return {"inviteCode": "inv_1", "name": "Teacher One",
                 "email": "teacher1@example.com", "password": "correct horse battery"}
+    if path == "/api/v1/auth/invites":
+        return {"role": "teacher"}
     if path == "/api/v1/auth/login":
         return {"email": "teacher1@example.com", "password": "correct horse battery"}
     if path == "/v1/question/solve":
@@ -511,7 +525,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 131
+    assert len(API_ROUTES) == 135
 
 
 def test_docs_routes_present():
@@ -760,23 +774,26 @@ def test_full_boot_v1_surface_requires_auth(tmp_path, monkeypatch):
 
 
 def test_full_boot_auth_and_principal_approval(tmp_path, monkeypatch):
-    """register (bootstrap: only a correct principalKey grants "principal";
-    registration order grants nothing -- fixed 2026-09-11, was a real
-    privilege-escalation bug where being first to register for a schoolId
-    was enough) -> login -> me -> logout, plus the real reason auth exists:
+    """register -> login -> me -> logout, plus the real reason auth exists:
     a teacher cannot approve their own paper, only a principal can, and
-    approval actually engages the pre-existing edit lock."""
+    approval actually engages the pre-existing edit lock.
+
+    The registration rules are pinned on the way (users.py has the history):
+    naming a school gets no account without an invite (2026-09-21; before
+    that the name alone made you a member). Only a correct principalKey
+    creates a principal, and only the school's first: 2026-09-11 closed
+    "first registrant is principal", and 2026-09-21 closed "the key mints
+    another principal for a school that has one". Everyone else joins with
+    an invite the principal issues."""
     monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "test-bootstrap-key")
     with _boot_client(tmp_path, monkeypatch) as client:
-        # -- an attacker racing to register first for school_1, with no key,
-        # gets nothing: the vulnerability this test used to encode as
-        # correct behavior (first registrant = principal) is closed.
+        # -- an attacker racing to register first for school_1, with no key
+        # and no invite, gets no account at all.
         attacker = client.post("/api/v1/auth/register", json={
             "schoolId": "school_1", "name": "Eve Attacker",
             "email": "eve@example.com", "password": "correct horse battery",
         })
-        assert attacker.status_code == 200
-        assert attacker.json()["user"]["role"] == "teacher"
+        assert attacker.status_code == 403, attacker.text
 
         # -- the real principal, registering second, but with the correct
         # bootstrap key -- this is what actually grants the role now.
@@ -788,31 +805,53 @@ def test_full_boot_auth_and_principal_approval(tmp_path, monkeypatch):
         assert reg1.status_code == 200, reg1.text
         assert reg1.json()["user"]["role"] == "principal"
         principal_token = reg1.json()["token"]
+        principal_auth = {"Authorization": f"Bearer {principal_token}"}
 
         # -- a wrong key guess grants nothing either (not just "no key")
         wrong_key = client.post("/api/v1/auth/register", json={
             "schoolId": "school_1", "name": "Wrong Key", "email": "wrong@example.com",
             "password": "correct horse battery", "principalKey": "guessed-wrong",
         })
-        assert wrong_key.status_code == 200
-        assert wrong_key.json()["user"]["role"] == "teacher"
+        assert wrong_key.status_code == 403, wrong_key.text
 
-        # -- a normal registration with no key at all is still a teacher
+        # -- and the RIGHT key cannot mint a second principal for school_1
+        second = client.post("/api/v1/auth/register", json={
+            "schoolId": "school_1", "name": "Second Principal",
+            "email": "second@example.com", "password": "correct horse battery",
+            "principalKey": "test-bootstrap-key",
+        })
+        assert second.status_code == 403, second.text
+
+        # -- the principal invites a teacher; the code alone is enough
+        invite = client.post("/api/v1/auth/invites", json={"role": "teacher"},
+                             headers=principal_auth)
+        assert invite.status_code == 200, invite.text
         reg2 = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Tara Teacher",
+            "inviteCode": invite.json()["code"], "name": "Tara Teacher",
             "email": "tara@example.com", "password": "correct horse battery",
         })
-        assert reg2.status_code == 200
+        assert reg2.status_code == 200, reg2.text
         assert reg2.json()["user"]["role"] == "teacher"
+        assert reg2.json()["user"]["schoolId"] == "school_1"
         teacher_token = reg2.json()["token"]
+
+        # -- the principal's invite list records the use; a teacher can't read it
+        listed = client.get("/api/v1/auth/invites", headers=principal_auth)
+        assert listed.status_code == 200
+        assert [(i["status"], i["usedBy"]) for i in listed.json()] == [
+            ("used", reg2.json()["user"]["id"])]
+        assert client.get("/api/v1/auth/invites", headers={
+            "Authorization": f"Bearer {teacher_token}"}).status_code == 403
+        assert client.delete("/api/v1/auth/invites/no-such-code",
+                             headers=principal_auth).status_code == 404
 
         # -- duplicate email -> 409; short password -> 400
         assert client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Dup", "email": "priya@example.com",
+            "inviteCode": invite_code("school_1"), "name": "Dup", "email": "priya@example.com",
             "password": "correct horse battery",
         }).status_code == 409
         assert client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "X", "email": "short@example.com",
+            "inviteCode": invite_code("school_1"), "name": "X", "email": "short@example.com",
             "password": "short",
         }).status_code == 400
 
@@ -898,15 +937,15 @@ def test_full_boot_school_roster(tmp_path, monkeypatch):
         }).json()
         principal_auth = {"Authorization": f"Bearer {principal['token']}"}
         client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "A Teacher", "email": "at@example.com",
+            "inviteCode": invite_code("school_1"), "name": "A Teacher", "email": "at@example.com",
             "password": "correct horse battery",
         })
         client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "A Student", "email": "as@example.com",
-            "password": "correct horse battery", "role": "student",
+            "inviteCode": invite_code("school_1", "student"), "name": "A Student", "email": "as@example.com",
+            "password": "correct horse battery",
         })
         client.post("/api/v1/auth/register", json={
-            "schoolId": "school_2", "name": "Other School Teacher", "email": "ost@example.com",
+            "inviteCode": invite_code("school_2"), "name": "Other School Teacher", "email": "ost@example.com",
             "password": "correct horse battery",
         })
 
@@ -933,18 +972,19 @@ def test_full_boot_school_roster(tmp_path, monkeypatch):
 
 
 def test_full_boot_parental_consent(tmp_path, monkeypatch):
-    """Exercises the 4 parental consent compliance endpoints (DPDP Act 2023 §9):
-    POST /api/v1/consent, GET /api/v1/consent, GET /api/v1/consent/students/{student_id},
-    and DELETE /api/v1/consent/students/{student_id}. Enforces school isolation."""
+    """Exercises the 5 parental consent compliance endpoints (DPDP Act 2023 §9):
+    POST /api/v1/consent, GET /api/v1/consent, GET /api/v1/consent/missing,
+    GET /api/v1/consent/students/{student_id}, and
+    DELETE /api/v1/consent/students/{student_id}. Enforces school isolation."""
     with _boot_client(tmp_path, monkeypatch) as client:
         teacher1 = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Teacher One", "email": "t1@example.com",
+            "inviteCode": invite_code("school_1"), "name": "Teacher One", "email": "t1@example.com",
             "password": "correct horse battery",
         }).json()
         auth1 = {"Authorization": f"Bearer {teacher1['token']}"}
 
         teacher2 = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_2", "name": "Teacher Two", "email": "t2@example.com",
+            "inviteCode": invite_code("school_2"), "name": "Teacher Two", "email": "t2@example.com",
             "password": "correct horse battery",
         }).json()
         auth2 = {"Authorization": f"Bearer {teacher2['token']}"}
@@ -982,6 +1022,18 @@ def test_full_boot_parental_consent(tmp_path, monkeypatch):
         assert school2_status.json()["hasConsent"] is False
         assert len(client.get("/api/v1/consent", headers=auth2).json()) == 0
 
+        # Who is missing consent: s1 is covered at school_1 only.
+        missing = client.get("/api/v1/consent/missing",
+                             params=[("studentIds", "s1"), ("studentIds", "s2")],
+                             headers=auth1)
+        assert missing.status_code == 200
+        assert missing.json() == {"checked": 2, "missing": ["s2"]}
+        assert client.get("/api/v1/consent/missing", params={"studentIds": "s1"},
+                          headers=auth2).json()["missing"] == ["s1"]
+        assert client.get("/api/v1/consent/missing",
+                          params=[("studentIds", f"s{i}") for i in range(501)],
+                          headers=auth1).status_code == 400
+
         # Revoke consent
         revoked = client.delete("/api/v1/consent/students/s1", headers=auth1)
         assert revoked.status_code == 200
@@ -991,6 +1043,9 @@ def test_full_boot_parental_consent(tmp_path, monkeypatch):
         status_revoked = client.get("/api/v1/consent/students/s1", headers=auth1)
         assert status_revoked.status_code == 200
         assert status_revoked.json()["hasConsent"] is False
+        # Withdrawn consent is missing consent.
+        assert client.get("/api/v1/consent/missing", params={"studentIds": "s1"},
+                          headers=auth1).json()["missing"] == ["s1"]
 
 
 def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):
@@ -1006,7 +1061,7 @@ def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):
         }).status_code == 401
 
         teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Teacher", "email": "teacher@example.com",
+            "inviteCode": invite_code("school_1"), "name": "Teacher", "email": "teacher@example.com",
             "password": "correct horse battery",
         }).json()
         assert client.post(
@@ -1542,7 +1597,7 @@ def test_full_boot_teacher_assignment_and_my_schedule(tmp_path, monkeypatch):
         principal_auth = {"Authorization": f"Bearer {principal['token']}"}
 
         teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Teacher", "email": "teacher@example.com",
+            "inviteCode": invite_code("school_1"), "name": "Teacher", "email": "teacher@example.com",
             "password": "correct horse battery",
         }).json()
         teacher_auth = {"Authorization": f"Bearer {teacher['token']}"}
@@ -1628,7 +1683,7 @@ def test_full_boot_teacher_assignment_and_my_schedule(tmp_path, monkeypatch):
 
         # -- a second, unassigned teacher at the same school sees nothing
         other_teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Teacher Two", "email": "teacher2@example.com",
+            "inviteCode": invite_code("school_1"), "name": "Teacher Two", "email": "teacher2@example.com",
             "password": "correct horse battery",
         }).json()
         theirs = client.get("/api/v1/curriculum/my-schedule",
@@ -1652,13 +1707,13 @@ def test_full_boot_completion_tracking(tmp_path, monkeypatch):
         principal_auth = {"Authorization": f"Bearer {principal['token']}"}
 
         teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Teacher", "email": "teacher@example.com",
+            "inviteCode": invite_code("school_1"), "name": "Teacher", "email": "teacher@example.com",
             "password": "correct horse battery",
         }).json()
         teacher_auth = {"Authorization": f"Bearer {teacher['token']}"}
 
         other_teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Other Teacher", "email": "other-teacher@example.com",
+            "inviteCode": invite_code("school_1"), "name": "Other Teacher", "email": "other-teacher@example.com",
             "password": "correct horse battery",
         }).json()
         other_teacher_auth = {"Authorization": f"Bearer {other_teacher['token']}"}
@@ -1770,7 +1825,7 @@ def test_full_boot_rescheduling(tmp_path, monkeypatch):
         principal_auth = {"Authorization": f"Bearer {principal['token']}"}
 
         teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Teacher", "email": "teacher@example.com",
+            "inviteCode": invite_code("school_1"), "name": "Teacher", "email": "teacher@example.com",
             "password": "correct horse battery",
         }).json()
         teacher_auth = {"Authorization": f"Bearer {teacher['token']}"}
@@ -1905,15 +1960,15 @@ def test_full_boot_student_visibility(tmp_path, monkeypatch):
         principal_auth = {"Authorization": f"Bearer {principal['token']}"}
 
         teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Teacher", "email": "teacher@example.com",
+            "inviteCode": invite_code("school_1"), "name": "Teacher", "email": "teacher@example.com",
             "password": "correct horse battery",
         }).json()
         teacher_auth = {"Authorization": f"Bearer {teacher['token']}"}
 
         # -- real student self-registration (role="student")
         student = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Student", "email": "student@example.com",
-            "password": "correct horse battery", "role": "student",
+            "inviteCode": invite_code("school_1", "student"), "name": "Student", "email": "student@example.com",
+            "password": "correct horse battery",
         }).json()
         assert student["user"]["role"] == "student"
         student_auth = {"Authorization": f"Bearer {student['token']}"}
@@ -2006,8 +2061,8 @@ def test_full_boot_student_visibility(tmp_path, monkeypatch):
         # -- a different school's student sees nothing (school-scoped) and
         # an unenrolled student gets an honest 404, not another class's data
         other_student = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_2", "name": "Other Student", "email": "other-student@example.com",
-            "password": "correct horse battery", "role": "student",
+            "inviteCode": invite_code("school_2", "student"), "name": "Other Student", "email": "other-student@example.com",
+            "password": "correct horse battery",
         }).json()
         other_student_auth = {"Authorization": f"Bearer {other_student['token']}"}
         assert client.get("/api/v1/curriculum/my-class-schedule",
@@ -2297,7 +2352,7 @@ def test_full_boot_assessment_lifecycle(tmp_path, monkeypatch):
         # Every assessment route is now behind Depends(get_current_user);
         # register a teacher and thread the token through every call.
         teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Lifecycle Teacher",
+            "inviteCode": invite_code("school_1"), "name": "Lifecycle Teacher",
             "email": "lifecycle@example.com", "password": "correct horse battery",
         }).json()
         auth = {"Authorization": f"Bearer {teacher['token']}"}
@@ -2420,7 +2475,7 @@ def test_full_boot_assessment_lifecycle(tmp_path, monkeypatch):
 def test_full_boot_syllabus_catalog_and_templates(tmp_path, monkeypatch):
     with _boot_client(tmp_path, monkeypatch) as client:
         teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Template Teacher",
+            "inviteCode": invite_code("school_1"), "name": "Template Teacher",
             "email": "template@example.com", "password": "correct horse battery",
         }).json()
         auth = {"Authorization": f"Bearer {teacher['token']}"}
@@ -2482,13 +2537,13 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         # for school_1 and a real assessment record stand in for what the
         # Assessment Designer flow would already have created.
         teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Eval Teacher",
+            "inviteCode": invite_code("school_1"), "name": "Eval Teacher",
             "email": "eval-teacher@example.com", "password": "correct horse battery",
         }).json()
         teacher_auth = {"Authorization": f"Bearer {teacher['token']}"}
 
         other_school_teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_2", "name": "Other School Teacher",
+            "inviteCode": invite_code("school_2"), "name": "Other School Teacher",
             "email": "other-school-teacher@example.com", "password": "correct horse battery",
         }).json()
         other_school_auth = {"Authorization": f"Bearer {other_school_teacher['token']}"}
@@ -2507,13 +2562,13 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         # the two students these assertions lean on must be real school_1
         # users -- their generated ids thread through the whole flow.
         sheet_student = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Sheeta", "email": "sheeta@example.com",
-            "password": "correct horse battery", "role": "student",
+            "inviteCode": invite_code("school_1", "student"), "name": "Sheeta", "email": "sheeta@example.com",
+            "password": "correct horse battery",
         }).json()
         sheet_id = sheet_student["user"]["id"]
         unknown_student = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Nobody", "email": "nobody@example.com",
-            "password": "correct horse battery", "role": "student",
+            "inviteCode": invite_code("school_1", "student"), "name": "Nobody", "email": "nobody@example.com",
+            "password": "correct horse battery",
         }).json()
         unknown_id = unknown_student["user"]["id"]
 
@@ -2524,6 +2579,9 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         }, headers=teacher_auth)
         assert created.status_code == 200, created.text
         a_ev = created.json()["id"]
+        # Every student this test grades or practises has a parent's consent
+        # on file (authz.require_consent refuses otherwise).
+        grant_consent("school_1", "s_answer", sheet_id, unknown_id)
 
         # -- evaluation: single answer and full sheet (both now require the
         # authenticated caller from the assessment's own school).
@@ -2626,9 +2684,16 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         after = client.get(f"/api/v1/knowledge/{sheet_id}", headers=teacher_auth).json()
         assert after["overallMastery"] < 1.0
 
+        # Re-evaluating the finalized sheet would replace every mark on it
+        # (here with an empty sheet). Without a reason that is 409; with one
+        # it goes through and is audited (grade_lock.py, audit item 8.5).
         assert client.post("/api/v1/evaluations/sheet", json={
             "assessmentId": a_ev, "studentId": sheet_id,
             "questions": [], "answers": {},
+        }, headers=teacher_auth).status_code == 409
+        assert client.post("/api/v1/evaluations/sheet", json={
+            "assessmentId": a_ev, "studentId": sheet_id,
+            "questions": [], "answers": {}, "reason": "re-marking after moderation",
         }, headers=teacher_auth).status_code == 200
 
         # -- knowledge: empty student is 200 (empty mastery), report 404s.
@@ -2665,7 +2730,7 @@ def test_full_boot_scan_session_error_paths(tmp_path, monkeypatch):
     pipeline, no Supabase. Every route is hit with a real request."""
     with _boot_client(tmp_path, monkeypatch) as client:
         teacher = client.post("/api/v1/auth/register", json={
-            "schoolId": "school_1", "name": "Scan Teacher",
+            "inviteCode": invite_code("school_1"), "name": "Scan Teacher",
             "email": "scan-teacher@example.com", "password": "correct horse battery",
         }).json()
         auth = {"Authorization": f"Bearer {teacher['token']}"}
@@ -2680,6 +2745,7 @@ def test_full_boot_scan_session_error_paths(tmp_path, monkeypatch):
         }, headers=auth)
         assert assessment.status_code == 200, assessment.text
         a_scan = assessment.json()["id"]
+        grant_consent("school_1", "s1")  # scanning needs it (authz.require_consent)
 
         created = client.post("/api/v1/scan/sessions", json={
             "assessmentId": a_scan, "studentId": "s1", "studentName": "Student",

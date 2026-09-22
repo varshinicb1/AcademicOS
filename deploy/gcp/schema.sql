@@ -18,7 +18,8 @@
 --   psql "host=/cloudsql/PROJECT:REGION:academicos-pg dbname=academicos \
 --         user=academicos" -f deploy/gcp/schema.sql
 --
--- Idempotent: every statement is IF NOT EXISTS, so re-running is safe.
+-- Idempotent: every statement is IF NOT EXISTS (or CREATE OR REPLACE / DROP
+-- IF EXISTS for the audit_log trigger), so re-running is safe.
 -- =============================================================================
 
 -- -- assessments ---------------------------------------------------------------
@@ -81,8 +82,12 @@ CREATE TABLE IF NOT EXISTS graded_evaluations (
 CREATE INDEX IF NOT EXISTS idx_graded_student ON graded_evaluations (student_id);
 
 -- -- users ---------------------------------------------------------------------
--- Emails are stored already lowercased by UserStore.register, so a plain
--- index is enough to serve the login lookup.
+-- Emails are stored already lowercased by UserStore.register. The email
+-- index is UNIQUE, as in docs/supabase-setup.sql: two invites for one email
+-- redeemed at the same moment both pass UserStore's get_by_email check, and
+-- only this index stops the second (UserStore maps SQLSTATE 23505 to
+-- "email already registered"). It was a plain index until 2026-09-22, which
+-- let Cloud SQL store that email twice.
 CREATE TABLE IF NOT EXISTS users (
     id            TEXT PRIMARY KEY,
     school_id     TEXT,
@@ -93,7 +98,8 @@ CREATE TABLE IF NOT EXISTS users (
     role          TEXT,
     created_at    TEXT
 );
-CREATE INDEX IF NOT EXISTS idx_users_email       ON users (email);
+DROP INDEX IF EXISTS idx_users_email;
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email_unique ON users (email);
 CREATE INDEX IF NOT EXISTS idx_users_school_role ON users (school_id, role);
 
 -- -- sessions ------------------------------------------------------------------
@@ -105,10 +111,41 @@ CREATE TABLE IF NOT EXISTS sessions (
 );
 CREATE INDEX IF NOT EXISTS idx_sessions_user ON sessions (user_id);
 
+-- -- invites -------------------------------------------------------------------
+-- Registration needs one since 2026-09-21 (see assessment/users.py). The empty
+-- string, not NULL, means "not yet" for email/used_by/used_at/revoked_at:
+-- UserStore claims an invite with one UPDATE filtered on used_at = '' AND
+-- revoked_at = '', and equality never matches NULL. Keep the NOT NULL
+-- DEFAULT '' or single use stops being enforceable.
+CREATE TABLE IF NOT EXISTS invites (
+    code       TEXT PRIMARY KEY,
+    school_id  TEXT NOT NULL,
+    role       TEXT NOT NULL,
+    email      TEXT NOT NULL DEFAULT '',
+    created_by TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    expires_at TEXT NOT NULL,
+    used_by    TEXT NOT NULL DEFAULT '',
+    used_at    TEXT NOT NULL DEFAULT '',
+    revoked_at TEXT NOT NULL DEFAULT ''
+);
+CREATE INDEX IF NOT EXISTS idx_invites_school ON invites (school_id);
+
 -- -- audit_log -----------------------------------------------------------------
--- CERT-In requires this to be retained >= 180 days and effectively
--- append-only. The store never issues an UPDATE/DELETE against it, but that
--- is application-level: no DB constraint enforces it (see docs/compliance.md).
+-- CERT-In requires this to be retained >= 180 days and append-only. Until
+-- 2026-09-22 that was only an application convention, and the audit
+-- reproduced a raw UPDATE and DELETE rewriting rows (item 8.5). Now the
+-- database enforces it:
+--   * a trigger aborts every UPDATE and DELETE, from any role, including the
+--     table owner the service connects as;
+--   * AuditLog appends with a plain INSERT (PostgresTable.insert), so a
+--     replayed id is a unique violation, not an overwrite;
+--   * seq / prev_hash / entry_hash form a hash chain that
+--     AuditLog.verify_chain() checks (see audit_log.py). seq is UNIQUE, so
+--     two instances racing for the same seq cannot fork the chain.
+-- TRUNCATE is not a row trigger event and is still possible for the owner.
+-- The test fixtures rely on that, and removing it is a DBA decision about
+-- the owner role, not something this file can enforce.
 CREATE TABLE IF NOT EXISTS audit_log (
     id            TEXT PRIMARY KEY,
     timestamp     TEXT,
@@ -118,9 +155,24 @@ CREATE TABLE IF NOT EXISTS audit_log (
     actor         TEXT,
     details       JSONB
 );
+ALTER TABLE audit_log ADD COLUMN IF NOT EXISTS seq        BIGINT;
+ALTER TABLE audit_log ADD COLUMN IF NOT EXISTS prev_hash  TEXT;
+ALTER TABLE audit_log ADD COLUMN IF NOT EXISTS entry_hash TEXT;
 CREATE INDEX IF NOT EXISTS idx_audit_assessment ON audit_log (assessment_id);
 CREATE INDEX IF NOT EXISTS idx_audit_action     ON audit_log (action);
 CREATE INDEX IF NOT EXISTS idx_audit_timestamp  ON audit_log (timestamp DESC);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_audit_seq ON audit_log (seq);
+
+CREATE OR REPLACE FUNCTION audit_log_refuse_change() RETURNS trigger
+LANGUAGE plpgsql AS $$
+BEGIN
+    RAISE EXCEPTION 'audit_log is append-only: % refused', TG_OP;
+END;
+$$;
+DROP TRIGGER IF EXISTS audit_log_append_only ON audit_log;
+CREATE TRIGGER audit_log_append_only
+    BEFORE UPDATE OR DELETE ON audit_log
+    FOR EACH ROW EXECUTE FUNCTION audit_log_refuse_change();
 
 -- -- school_templates ----------------------------------------------------------
 -- is_default is TEXT ('true'/'false'), not BOOLEAN: the store filters on the

@@ -64,6 +64,16 @@ class ConceptMasteryView:
         return self.mastery < WEAK_THRESHOLD
 
 
+def sheet_source(assessment_id: str, student_id: str) -> str:
+    """The tag on a finalized sheet's interactions (see record_sheet)."""
+    return f"sheet:{assessment_id}:{student_id}"
+
+
+def _ts_key(ts: str) -> float:
+    """Order ISO timestamps by instant, not by string (offsets may differ)."""
+    return datetime.fromisoformat(ts).timestamp()
+
+
 def _status(m: float, confident: bool) -> str:
     if not confident:
         return "learning"
@@ -163,11 +173,11 @@ class KnowledgeStore:
         else:
             self._path(model.learner_id).write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
-    def record_evaluations(self, student_id: str,
-                           results: list[tuple[QuestionSchema, Evaluation]]) -> LearnerModel:
-        """Fold a marked paper into the student's knowledge state."""
-        model = self.load(student_id)
+    @staticmethod
+    def _interactions(results: list[tuple[QuestionSchema, Evaluation]],
+                      source: Optional[str]) -> list[Interaction]:
         now = datetime.now(timezone.utc).isoformat()
+        out: list[Interaction] = []
         for question, ev in results:
             # The teacher's award is the ground truth, whatever the scanner
             # classified the verdict as: a teacher correcting a "blank" to
@@ -176,14 +186,109 @@ class KnowledgeStore:
             outcome = (ev.awarded_marks / ev.max_marks) if ev.max_marks else 0.0
             concepts = question.chapter_ids or ["unmapped"]
             for cid in concepts:
-                model.observe(Interaction(
+                out.append(Interaction(
                     concept_id=cid, kind="answer", outcome=round(outcome, 4),
                     bloom=question.bloom_level, ts=now,
                     difficulty={"easy": 0.3, "medium": 0.6, "hard": 0.9}.get(
                         question.difficulty, 0.5),
+                    source=source,
                 ))
+        return out
+
+    def record_evaluations(self, student_id: str,
+                           results: list[tuple[QuestionSchema, Evaluation]]) -> LearnerModel:
+        """Fold a marked paper into the student's knowledge state. Appends:
+        calling it twice counts the paper twice. A finalized sheet goes
+        through record_sheet() instead."""
+        model = self.load(student_id)
+        for i in self._interactions(results, None):
+            model.observe(i)
         self.save(model)
         return model
+
+    # -- a finalized sheet: replaceable as a unit ---------------------------
+    #
+    # A finalized sheet can be corrected with a reason and finalized again
+    # (grade_lock.py). Before 2026-09-22 each finalize appended the whole sheet
+    # through record_evaluations(), so "correct, then press Finalize again" put
+    # every answer into mastery twice. The sheet's interactions now carry a
+    # source tag, and a re-finalize replaces them: the stored model always
+    # holds exactly one copy of the sheet, with its latest marks. Replacing,
+    # rather than applying a delta, is what keeps it exact: mastery is scored
+    # from the history itself (KnowledgeMastery), so a delta interaction would
+    # still be a second piece of evidence.
+
+    @staticmethod
+    def _signature(interactions: list[Interaction]) -> list[tuple]:
+        """What a sheet contributed, ignoring when it was recorded."""
+        return sorted((i.concept_id, i.kind, i.outcome, i.bloom, i.difficulty)
+                      for i in interactions)
+
+    def _tagged(self, model: LearnerModel, source: str) -> list[Interaction]:
+        return [i for s in model.concepts.values() for i in s.history if i.source == source]
+
+    def sheet_recorded(self, student_id: str, source: str) -> bool:
+        """Whether this sheet's answers are in the student's model."""
+        return bool(self._tagged(self.load(student_id), source))
+
+    def sheet_matches(self, student_id: str, source: str,
+                      results: list[tuple[QuestionSchema, Evaluation]]) -> bool:
+        """Whether the model already holds exactly these marks for the sheet,
+        so recording it again would change nothing."""
+        tagged = self._tagged(self.load(student_id), source)
+        return bool(tagged) and (self._signature(tagged)
+                                 == self._signature(self._interactions(results, source)))
+
+    def record_sheet(self, student_id: str,
+                     results: list[tuple[QuestionSchema, Evaluation]],
+                     source: str) -> bool:
+        """Record a finalized sheet, replacing any earlier copy tagged with the
+        same source. Returns False, and writes nothing, when the stored copy
+        already has these marks. Interactions without this tag (practice,
+        other sheets, sheets finalized before tagging existed) are untouched."""
+        if not source:
+            raise ValueError("record_sheet needs a source tag")
+        model = self.load(student_id)
+        new = self._interactions(results, source)
+        old = self._tagged(model, source)
+        if old and self._signature(old) == self._signature(new):
+            return False
+        if old:
+            # A re-finalize corrects evidence from an earlier sitting; it is
+            # not a new sitting. KnowledgeMastery weights confidence by each
+            # answer's age and decays retention from last_seen, so stamping
+            # the replacements with "now" would make a sheet sat 40 days ago
+            # score as if sat today (retention from its 0.10 floor back to
+            # 1.0 at the default 14-day tau) because one mark was corrected.
+            # Keep the sheet's original time.
+            sat = min((i.ts for i in old), key=_ts_key)
+            for i in new:
+                i.ts = sat
+        for cid in list(model.concepts):
+            state = model.concepts[cid]
+            removed = [i for i in state.history if i.source == source]
+            if not removed:
+                continue
+            state.history = [i for i in state.history if i.source != source]
+            state.attempts = max(0, state.attempts - len(removed))
+            state.correct = max(0, state.correct - sum(
+                1 for i in removed
+                if i.kind == "answer" and i.outcome is not None and i.outcome >= 0.5))
+            if not state.history and state.attempts == 0:
+                del model.concepts[cid]
+        for i in new:
+            model.observe(i)
+        # observe() sets last_seen to the interaction it just appended, and the
+        # replacements carry the sheet's original (older) time, so the last
+        # interaction written is not the newest: practice done after the sheet
+        # must stay the latest evidence. last_seen is the newest ts in history.
+        for cid in {i.concept_id for i in old} | {i.concept_id for i in new}:
+            state = model.concepts.get(cid)
+            if state is not None:
+                state.last_seen = (max((i.ts for i in state.history), key=_ts_key)
+                                   if state.history else None)
+        self.save(model)
+        return True
 
     def mastery(self, student_id: str,
                 misconception_map: dict[str, list[str]] | None = None,

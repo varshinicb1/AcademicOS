@@ -54,9 +54,12 @@ def test_setup(tmp_path: Path):
         school_id=school_id, name="Export Principal", email="export.principal@test.com",
         password="pass", principal_key="test_bootstrap_key",
     )
+    # Teachers join by invite since 2026-09-21 (users.py); the principal
+    # above issues it.
     teacher = user_store.register(
-        school_id=school_id, name="Export Teacher", email="export.teacher@test.com",
-        password="pass", requested_role="teacher",
+        invite_code=user_store.create_invite(
+            school_id=school_id, role="teacher", created_by=principal.id).code,
+        name="Export Teacher", email="export.teacher@test.com", password="pass",
     )
     # A different school's data must never appear in this school's export.
     other_principal = user_store.register(

@@ -111,18 +111,64 @@ gone, even though nothing about the data was ever wrong.
 |---|---|
 | `SUPABASE_KNOWLEDGE_URL` | Base URL of the Supabase project (e.g. `https://xxxx.supabase.co`) |
 | `SUPABASE_KNOWLEDGE_ANON_KEY` | The project's anon/service key used for the REST calls above |
+| `ACOS_PRINCIPAL_BOOTSTRAP_KEY` | Operator secret. With a `schoolId`, creates that school's FIRST principal at `/auth/register`; refused (403) once the school has one. Unset means nobody can register as principal. |
+| `ACOS_SEED_DEMO_USERS` | **Leave unset in production.** `1` seeds `teacher@school.com` / `principal@school.com` with a published password into `demo_school`, for a local demo only. |
 
-Without both set, every store above falls back to local SQLite — the
+**Accounts (since 2026-09-21):** nobody joins a school by typing its id.
+The operator creates each new school's first principal with the bootstrap
+key above; that principal then invites every teacher and student from the
+web admin console (Roster > Invite people, or `POST /api/v1/auth/invites`),
+and `/auth/register` takes the account's school and role from the invite.
+There are no demo accounts on a deployment unless `ACOS_SEED_DEMO_USERS` is
+set; before this change they were re-created on every Render cold start
+(the local users table is empty after each restart). Accounts created before
+the change keep their stored school and role, and the code cannot tell a
+self-asserted membership from a real one, so review each school's roster
+(`GET /api/v1/auth/users`) once after deploying, and delete
+`principal@school.com` / `teacher@school.com` from the Supabase `users`
+table if they are there.
+
+Without both Supabase variables set, every store above falls back to local SQLite — the
 service still works, it just reverts to the original ephemeral-disk
 behavior. Check whether they're actually configured (and whether Supabase
 is currently reachable) via `GET /health/storage` rather than guessing
 from the Render dashboard.
 
+**Before merging invite registration (2026-09-21) to `master`: run the
+SQL first.** A push to `master` reaches Render with no manual gate (sync,
+image build, auto-redeploy), so the order has to be kept by hand:
+
+1. In the live Supabase project's SQL editor, run `docs/supabase-setup.sql`
+   (it is `if not exists`-guarded; the new table is `invites`).
+2. Confirm `invites` exists in the Supabase table editor. `/health/storage`
+   cannot tell you yet: the deploy before this change does not probe
+   `invites` (it was added to `_DURABLE_TABLES` in the same change).
+3. Only then merge. After the new deploy is live, wait one 30s TTL and
+   check `/health/storage` for `"invites": "ok"`. If the table is missing,
+   `durability_reachable` is `false` and `tables.invites` starts with
+   `error:` (tests/test_supabase_failure_surfaces.py pins this), every
+   invite create/list/revoke/redeem answers 503, and the only way to add
+   an account is the principal bootstrap key; and since 2026-09-22 a
+   missing `users` table makes registration a 503 too, instead of saving
+   the account to the local disk that the next cold start wipes.
+
+The endpoint answers HTTP 200 either way; the verdict is the
+`durability_reachable` field (and the legacy `supabase_reachable`, which the
+Flutter client and the cutover runbook read). It is deliberately not a
+failing health check: nothing points Render's health check at it, and a
+Supabase blip must not make Render kill a container that can still serve
+reads.
+
 **Required Supabase setup** (one-time, in the Supabase project itself):
 - **Run `docs/supabase-setup.sql`** in the project's SQL editor. It
-  provisions all ten Postgres tables (`assessments`, `papers`,
+  provisions the Postgres tables (`assessments`, `papers`,
   `practice_sets`, `graded_evaluations`, `scan_sessions`,
-  `school_templates`, `users`, `sessions`, `audit_log`, `learner_events`)
+  `school_templates`, `users`, `sessions`, `invites`, `audit_log`,
+  `learner_events`, `parental_consents`; re-run it after 2026-09-21 to add
+  `invites`, which registration now needs; until it exists, creating,
+  listing, revoking and redeeming invites all answer 503 rather than
+  saving codes on Render's ephemeral disk, and `/health/storage` names the
+  missing table)
   with the exact column shapes each store reads/writes — these are real
   columns, not just an `id` + `payload JSONB`: PostgREST filters and orders
   on columns (e.g. `select(email=eq.…)`, `order="seq.desc"`), and

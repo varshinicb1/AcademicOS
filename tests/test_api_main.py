@@ -33,6 +33,8 @@ from fastapi.testclient import TestClient
 from academicos.api.main import app
 from academicos.assessment import routes as assessment_routes
 
+from _auth_helpers import invite_code
+
 
 # ---------------------------------------------------------------- helpers
 
@@ -88,7 +90,7 @@ def register_and_login(client: TestClient, school_id: str = "school_1",
     if email is None:
         email = f"teacher-{uuid.uuid4().hex[:10]}@example.com"
     r = client.post("/api/v1/auth/register", json={
-        "schoolId": school_id, "name": "Test Teacher", "email": email,
+        "inviteCode": invite_code(school_id), "name": "Test Teacher", "email": email,
         "password": "correct horse battery",
     })
     assert r.status_code == 200, r.text
@@ -320,20 +322,29 @@ def test_revise_plan_question_solve_endpoints(tmp_path, monkeypatch):
         weight=0.9, attributes={"confidence": 0.9, "score": 0.7,
                                 "recommended_spacing_days": 2}))
 
-    # Seed a learner with a couple of answered interactions so revise() has
-    # a non-empty ConceptState to schedule against.
-    estore = EventStore(cfg.events_db)
-    estore.append("alice", Interaction(concept_id=prereq.id, kind="answer", outcome=1.0))
-    estore.append("alice", Interaction(concept_id=prereq.id, kind="answer", outcome=0.0))
-
     with TestClient(app) as client:
         _, auth = register_and_login(client)
+        # The learner must be a real student of the caller's school: since
+        # 2026-09-21 /v1/revise and /v1/plan refuse a learner id the caller
+        # has no claim to (tests/test_role_gates.py). Seed that student with
+        # a couple of answered interactions so revise() has a non-empty
+        # ConceptState to schedule against.
+        alice = client.post("/api/v1/auth/register", json={
+            "inviteCode": invite_code("school_1", "student"), "name": "Alice",
+            "email": f"alice-{uuid.uuid4().hex[:8]}@example.com",
+            "password": "correct horse battery",
+        })
+        assert alice.status_code == 200, alice.text
+        alice_id = alice.json()["user"]["id"]
+        estore = EventStore(cfg.events_db)
+        estore.append(alice_id, Interaction(concept_id=prereq.id, kind="answer", outcome=1.0))
+        estore.append(alice_id, Interaction(concept_id=prereq.id, kind="answer", outcome=0.0))
 
         # revise(): learner exists -> 200 with a real FSRS-backed plan.
-        r = client.post("/v1/revise", json={"learner": "alice"}, headers=auth)
+        r = client.post("/v1/revise", json={"learner": alice_id}, headers=auth)
         assert r.status_code == 200
         body = r.json()
-        assert body["learner"] == "alice"
+        assert body["learner"] == alice_id
         assert "totals" in body and "confident" in body
 
         # revise(): unknown learner -> 404, not a silent empty plan.

@@ -8,9 +8,14 @@
 // Requires network access to https://academicos-backend.onrender.com
 // (Render free tier cold-starts in ~60s; timeouts below absorb that).
 //
-// Writes to production: registers one disposable QA teacher under an
-// obviously-marked `qa-frontend-live-<ts>` school id, then logs the session
-// out at the end. Nothing else is created or mutated.
+// Writes to production: registers one disposable QA teacher, then logs the
+// session out at the end. Nothing else is created or mutated.
+//
+// Registration needs an invite since 2026-09-21 (users.py): nobody joins a
+// school by typing its id, so this test can no longer invent a school. A
+// principal of a QA school issues a teacher invite and passes it in:
+//   ACADEMICOS_QA_INVITE_CODE=<code> [ACADEMICOS_QA_SCHOOL_ID=<its school>]
+// Without the code the round-trip test is skipped, not faked.
 import 'dart:io';
 
 import 'package:academicos/core/di/service_locator.dart';
@@ -21,6 +26,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 const liveBase = 'https://academicos-backend.onrender.com/api/v1';
+
+final String? _qaInvite = Platform.environment['ACADEMICOS_QA_INVITE_CODE'];
 
 void main() {
   late Dio dio;
@@ -85,18 +92,17 @@ void main() {
       '-> tampered token wipes it', () async {
     final stamp = DateTime.now().millisecondsSinceEpoch;
     final email = 'qa-teacher-$stamp@academicos.test';
-    final schoolId = 'qa-frontend-live-$stamp';
+    final schoolId = Platform.environment['ACADEMICOS_QA_SCHOOL_ID'];
     final result = await auth.register(
-      schoolId: schoolId,
+      inviteCode: _qaInvite!,
       name: 'QA Frontend Teacher',
       email: email,
       password: 'qa-password-$stamp',
-      role: 'teacher',
     );
     expect(result.token, isNotEmpty);
     expect(result.user.email, email);
     expect(result.user.role, 'teacher');
-    expect(result.user.schoolId, schoolId);
+    if (schoolId != null) expect(result.user.schoolId, schoolId);
 
     // Store exactly like the Sign in screen does; every request below must
     // get the token attached by the production interceptor.
@@ -105,7 +111,7 @@ void main() {
     final me = await auth.me();
     expect(me.email, email);
     expect(me.role, 'teacher');
-    expect(me.schoolId, schoolId);
+    expect(me.schoolId, result.user.schoolId);
 
     final assessments = await dio.get('/assessments');
     expect(assessments.statusCode, 200);
@@ -141,5 +147,6 @@ void main() {
     LocalStore.instance.authToken = result.token;
     await auth.logout();
     LocalStore.instance.clearAuth();
-  }, timeout: const Timeout(Duration(minutes: 3)));
+  }, timeout: const Timeout(Duration(minutes: 3)),
+      skip: _qaInvite == null ? 'set ACADEMICOS_QA_INVITE_CODE to a QA school teacher invite' : false);
 }

@@ -28,9 +28,12 @@ def test_setup(tmp_path: Path):
         school_id=school_id, name="Test Principal", email="principal@test.com",
         password="pass", principal_key="test_bootstrap_key"
     )
+    # Teachers join by invite since 2026-09-21 (users.py); the principal
+    # above issues it.
     teacher = user_store.register(
-        school_id=school_id, name="Test Teacher", email="teacher@test.com",
-        password="pass", requested_role="teacher"
+        invite_code=user_store.create_invite(
+            school_id=school_id, role="teacher", created_by=principal.id).code,
+        name="Test Teacher", email="teacher@test.com", password="pass",
     )
     p_token = user_store.create_session(principal.id)
     t_token = user_store.create_session(teacher.id)

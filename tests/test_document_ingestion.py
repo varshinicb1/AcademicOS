@@ -18,6 +18,8 @@ from fastapi.testclient import TestClient
 from academicos.api.main import app
 from academicos.assessment import audit_log
 
+from _auth_helpers import invite_code
+
 
 SCHOOL_ID = "school_1"
 
@@ -46,7 +48,7 @@ def _auth(client) -> tuple[dict[str, str], str]:
     cached = _AUTH.get(client)
     if cached is None:
         r = client.post("/api/v1/auth/register", json={
-            "schoolId": SCHOOL_ID, "name": "Ingest Teacher",
+            "inviteCode": invite_code(SCHOOL_ID), "name": "Ingest Teacher",
             "email": "ingest-teacher@example.com",
             "password": "correct horse battery",
         })
