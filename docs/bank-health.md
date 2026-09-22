@@ -96,7 +96,7 @@ Two measurements, both labelled by an AI reviewer (Claude), not by a teacher. *N
 | topic | 0.763954 | 51/55 (92.7%) | 82.7% | 53/60 (88.3%) |
 | subtopic | 0.685029 | 40/43 (93.0%) | 81.4% | 28/30 (93.3%) |
 
-Topic tags are about 88% right on the held-out audit (53/60), under the 90% the tagger aims for; the nested gold-set figure is 51/55. All 7 wrong topic tags put the question in a section of its class's book that does not teach it: in 4 another section of the same chapter does, and 3 are taught in no section of the class's book at all.
+Topic tags are about 88% right on the held-out audit (53/60), under the 90% the tagger aims for; the nested gold-set figure is 51/55. All 7 wrong topic tags put the question in a section of its class's book that does not teach it: in 4 another section of the same chapter does; 2 are taught in a chapter of the book but fit no one section of it; and 1 is taught nowhere in the class's book.
 
 - `exemplar:q:6:mathematics:3:-:24`: adding negatives is taught with the building and the tokens, and stated as Brahmagupta's rule in A Pinch of History; Explorations with Integers is grid puzzles
 - `exemplar:q:6:mathematics:3:-:38`: as exemplar:q:6:mathematics:3:-:24

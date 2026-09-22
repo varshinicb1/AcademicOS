@@ -175,12 +175,29 @@ MODEL = {"thresholds": {"chapter": 0.73, "topic": 0.76, "subtopic": 0.68},
              "topic": {"right": 51, "tags": 55, "precision": 0.9273, "wilsonLower95": 0.8274},
              "subtopic": {"right": 40, "tags": 43, "precision": 0.9302, "wilsonLower95": 0.8139}}}}}
 AUDIT_SUB = {"measured": {"right": 28, "tags": 30}}
-AUDIT_CT = {"measured": {"chapter": {"right": 30, "tags": 30}, "topic": {"right": 2, "tags": 4}},
+AUDIT_CT = {"measured": {"chapter": {"right": 30, "tags": 30}, "topic": {"right": 2, "tags": 7}},
             "items": [
-                {"id": "t1", "levels": ["topic"], "right": True, "topics": ["x"]},
-                {"id": "t2", "levels": ["topic"], "right": False, "topics": ["y"], "note": "other"},
-                {"id": "t3", "levels": ["topic"], "right": False, "topics": [], "note": "not taught"},
-                {"id": "t4", "levels": ["topic"], "right": True, "topics": ["z"]},
+                {"id": "t1", "levels": ["topic"], "right": True, "topics": ["a/ch/x"],
+                 "chapters": ["a/ch"], "taggedAs": {"chapter": "a/ch", "topic": "a/ch/x"}},
+                {"id": "t2", "levels": ["topic"], "right": False, "topics": ["a/ch/y"],
+                 "chapters": ["a/ch"], "taggedAs": {"chapter": "a/ch", "topic": "a/ch/x"},
+                 "note": "other"},
+                {"id": "t3", "levels": ["topic"], "right": False, "topics": [], "chapters": [],
+                 "taggedAs": {"chapter": "a/ch", "topic": "a/ch/x"}, "note": "not taught"},
+                # taught in the tagged chapter, but no section of it fits: NOT "not in the book"
+                {"id": "t5", "levels": ["topic"], "right": False, "topics": [],
+                 "chapters": ["a/ch"], "taggedAs": {"chapter": "a/ch", "topic": "a/ch/x"},
+                 "note": "chapter opening"},
+                # the fitting section is in a different chapter of the same book
+                {"id": "t6", "levels": ["topic"], "right": False, "topics": ["a/other/z"],
+                 "chapters": ["a/other"], "taggedAs": {"chapter": "a/ch", "topic": "a/ch/x"},
+                 "note": "elsewhere"},
+                # a fitting section in the tagged chapter and one outside it: the tagged chapter wins
+                {"id": "t7", "levels": ["topic"], "right": False,
+                 "topics": ["a/other/z", "a/ch/y"], "chapters": ["a/other", "a/ch"],
+                 "taggedAs": {"chapter": "a/ch", "topic": "a/ch/x"}, "note": "both"},
+                {"id": "t4", "levels": ["topic"], "right": True, "topics": ["a/ch/z"],
+                 "chapters": ["a/ch"], "taggedAs": {"chapter": "a/ch", "topic": "a/ch/z"}},
                 {"id": "c1", "levels": ["chapter"], "right": True},
             ]}
 
@@ -190,12 +207,32 @@ def test_tagging_accuracy_quotes_nested_and_held_out_numbers():
     assert acc["nested"]["topic"] == {"right": 51, "tags": 55, "precision": 0.9273,
                                       "wilsonLower95": 0.8274}
     assert acc["heldOut"]["chapter"] == {"right": 30, "tags": 30, "precision": 1.0}
-    assert acc["heldOut"]["topic"] == {"right": 2, "tags": 4, "precision": 0.5}
+    assert acc["heldOut"]["topic"] == {"right": 2, "tags": 7, "precision": 0.2857}
     assert acc["heldOut"]["subtopic"] == {"right": 28, "tags": 30, "precision": 0.9333}
-    # a wrong topic tag is either taught in another section, or in none of the book
-    assert acc["wrongTopics"] == {"otherSection": 1, "noSection": 1,
-                                  "items": [{"id": "t2", "note": "other"},
-                                            {"id": "t3", "note": "not taught"}]}
+    # a wrong topic tag is bucketed by comparing the audit's topics and chapters with the
+    # chapter it was tagged to; an empty topics list alone does not mean "not in the book"
+    assert acc["wrongTopics"] == {"otherSection": 2, "otherChapter": 1, "noSectionFits": 1,
+                                  "notInBook": 1,
+                                  "items": [{"id": "t2", "note": "other", "bucket": "otherSection"},
+                                            {"id": "t3", "note": "not taught",
+                                             "bucket": "notInBook"},
+                                            {"id": "t5", "note": "chapter opening",
+                                             "bucket": "noSectionFits"},
+                                            {"id": "t6", "note": "elsewhere",
+                                             "bucket": "otherChapter"},
+                                            {"id": "t7", "note": "both",
+                                             "bucket": "otherSection"}]}
+
+
+def test_markdown_does_not_call_a_chapter_taught_question_absent_from_the_book():
+    report = _report()
+    report["tagging"] = tagging_accuracy(MODEL, AUDIT_SUB, AUDIT_CT)
+    md = render_markdown(report)
+    assert "All 5 wrong topic tags" in md
+    assert "in 2 another section of the same chapter does" in md
+    assert "in 1 a section of another chapter of the same book does" in md
+    assert "1 is taught in a chapter of the book but fit no one section of it" in md
+    assert "1 is taught nowhere in the class's book" in md
 
 
 def test_markdown_names_its_inputs_date_gaps_and_verdicts():
@@ -209,7 +246,7 @@ def test_markdown_names_its_inputs_date_gaps_and_verdicts():
     assert "not verified" in md
     assert "Symmetry" in md                               # the empty chapter, by name
     assert "needs 2 keyed 3-mark questions" in md          # the verdict's reason
-    assert "51/55" in md and "2/4" in md                   # nested and held-out topic figures
+    assert "51/55" in md and "2/7" in md                   # nested and held-out topic figures
 
 
 def test_script_writes_both_reports_with_the_inputs_sha256(tmp_path):

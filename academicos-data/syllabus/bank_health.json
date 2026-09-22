@@ -24223,35 +24223,44 @@
   },
   "wrongTopics": {
    "otherSection": 4,
-   "noSection": 3,
+   "otherChapter": 0,
+   "noSectionFits": 2,
+   "notInBook": 1,
    "items": [
     {
      "id": "exemplar:q:6:mathematics:3:-:24",
-     "note": "adding negatives is taught with the building and the tokens, and stated as Brahmagupta's rule in A Pinch of History; Explorations with Integers is grid puzzles"
+     "note": "adding negatives is taught with the building and the tokens, and stated as Brahmagupta's rule in A Pinch of History; Explorations with Integers is grid puzzles",
+     "bucket": "otherSection"
     },
     {
      "id": "exemplar:q:6:mathematics:3:-:38",
-     "note": "as exemplar:q:6:mathematics:3:-:24"
+     "note": "as exemplar:q:6:mathematics:3:-:24",
+     "bucket": "otherSection"
     },
     {
      "id": "exemplar:q:7:science:15:-:23",
-     "note": "a convex lens: the class 7 book's light chapter has no lenses (they are in class 8, Light: Mirrors and Lenses)"
+     "note": "a convex lens: the class 7 book's light chapter has no lenses (they are in class 8, Light: Mirrors and Lenses)",
+     "bucket": "notInBook"
     },
     {
      "id": "exemplar:q:8:mathematics:10:-:28",
-     "note": "direct proportion; the tag Inverse Proportions is the opposite relation"
+     "note": "direct proportion; the tag Inverse Proportions is the opposite relation",
+     "bucket": "otherSection"
     },
     {
      "id": "exemplar:q:8:mathematics:5:-:76",
-     "note": "when a quadrilateral is fixed by its measurements (construction) is not taught; Angles in a Quadrilateral is the angle sum"
+     "note": "when a quadrilateral is fixed by its measurements (construction) is not taught; Angles in a Quadrilateral is the angle sum",
+     "bucket": "noSectionFits"
     },
     {
      "id": "cbe:q:Maths9SM8",
-     "note": "plotting points and reading coordinates; the tag is the distance section"
+     "note": "plotting points and reading coordinates; the tag is the distance section",
+     "bucket": "otherSection"
     },
     {
      "id": "exemplar:q:8:mathematics:5:-:53",
-     "note": "naming opposite sides is the chapter's opening vocabulary, not the parallelogram section it was tagged to"
+     "note": "naming opposite sides is the chapter's opening vocabulary, not the parallelogram section it was tagged to",
+     "bucket": "noSectionFits"
     }
    ]
   }

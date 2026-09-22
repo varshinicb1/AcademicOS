@@ -250,8 +250,7 @@ def tagging_accuracy(model: dict, audit_subtopic: dict, audit_chapter_topic: dic
     ``_tagger_model.json``) and the held-out audits of the tags actually
     written (``_tag_audit*.json``). The audits are the honest figure -- the
     gold set chose the thresholds -- so both are quoted, never one for the
-    other. A wrong topic tag is split by whether the question is taught in
-    another section of the class's book or in none of it."""
+    other. A wrong topic tag is bucketed by :func:`_wrong_topic_bucket`."""
     nested = {lv: dict(v) for lv, v in model["gold"]["nested"]["accepted"].items()}
 
     def held(m):
@@ -268,11 +267,34 @@ def tagging_accuracy(model: dict, audit_subtopic: dict, audit_chapter_topic: dic
         "nested": nested,
         "heldOut": held_out,
         "wrongTopics": {
-            "otherSection": sum(1 for it in wrong if it.get("topics")),
-            "noSection": sum(1 for it in wrong if not it.get("topics")),
-            "items": [{"id": it["id"], "note": it.get("note", "")} for it in wrong],
+            **{b: sum(1 for it in wrong if _wrong_topic_bucket(it) == b) for b in WRONG_BUCKETS},
+            "items": [{"id": it["id"], "note": it.get("note", ""),
+                       "bucket": _wrong_topic_bucket(it)} for it in wrong],
         },
     }
+
+
+WRONG_BUCKETS = ("otherSection", "otherChapter", "noSectionFits", "notInBook")
+
+
+def _wrong_topic_bucket(item: dict) -> str:
+    """Where a wrongly topic-tagged question is actually taught, read from the
+    audit's own fields: ``topics`` (sections that fit; empty = none fits) and
+    ``chapters`` (chapters of the class's book that teach it; empty = none),
+    compared with ``taggedAs['chapter']``.
+
+    - otherSection: a fitting section lies in the chapter it was tagged to
+    - otherChapter: fitting sections exist, all in other chapters of the book
+    - noSectionFits: some chapter teaches it, but no one section fits
+    - notInBook: no chapter of the class's book teaches it
+    """
+    tagged = (item.get("taggedAs") or {}).get("chapter")
+    topics = item.get("topics") or []
+    if topics:
+        if tagged and any(t.startswith(tagged + "/") for t in topics):
+            return "otherSection"
+        return "otherChapter"
+    return "noSectionFits" if item.get("chapters") else "notInBook"
 
 
 # --------------------------------------------------------------------------- #
@@ -445,7 +467,7 @@ def _tagging_md(t: dict) -> list[str]:
     ho, ne = t["heldOut"], t["nested"]
     topic = ho["topic"]
     wrong = t["wrongTopics"]
-    n_wrong = wrong["otherSection"] + wrong["noSection"]
+    n_wrong = sum(wrong.get(b, 0) for b in WRONG_BUCKETS)
     out = ["", "## How right are the tags?", "",
            "Two measurements, both labelled by an AI reviewer (Claude), not by a teacher. "
            "*Nested* is cross-validation on the gold set, with the choice of threshold inside "
@@ -464,10 +486,22 @@ def _tagging_md(t: dict) -> list[str]:
             f"({topic['right']}/{topic['tags']}), {side} the 90% the tagger aims for; the nested "
             f"gold-set figure is {ne['topic']['right']}/{ne['topic']['tags']}.")
     if n_wrong:
+        parts = []
+        if wrong["otherSection"]:
+            parts.append(f"in {wrong['otherSection']} another section of the same chapter does")
+        if wrong["otherChapter"]:
+            parts.append(f"in {wrong['otherChapter']} a section of another chapter of the same "
+                         "book does")
+        if wrong["noSectionFits"]:
+            n = wrong["noSectionFits"]
+            parts.append(f"{n} {'is' if n == 1 else 'are'} taught in a chapter of the book "
+                         "but fit no one section of it")
+        if wrong["notInBook"]:
+            n = wrong["notInBook"]
+            parts.append(f"{n} {'is' if n == 1 else 'are'} taught nowhere in the class's book")
+        body = parts[0] if len(parts) == 1 else "; ".join(parts[:-1]) + "; and " + parts[-1]
         line += (f" All {n_wrong} wrong topic tags put the question in a section of its class's "
-                 f"book that does not teach it: in {wrong['otherSection']} another section of "
-                 f"the same chapter does, and {wrong['noSection']} are taught in no section of "
-                 "the class's book at all.")
+                 f"book that does not teach it: {body}.")
     out += ["", line, ""]
     out += [f"- `{it['id']}`: {it['note']}" for it in wrong["items"]]
     return out
