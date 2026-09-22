@@ -56,6 +56,20 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
   bool _approving = false;
   String? _approveError;
 
+  // Similar-question pairs (Task 906). The server prints two hand-picked
+  // questions that look alike instead of refusing them, and names each pair
+  // on the paper it returns (GeneratedPaper.similarPairs). The teacher
+  // decides: "Keep both" hides the pair, "Swap one" asks the server for the
+  // next best question in the later one's slot. A swapped paper replaces
+  // the one this page was opened with everywhere below (_paper).
+  GeneratedPaper? _swappedPaper;
+  final Set<int> _keptPairs = {};
+  int? _swappingPair;
+  String? _swapError;
+  int? _swapErrorPair;
+
+  GeneratedPaper? get _paper => _swappedPaper ?? widget.paper ?? _fetchedPaper;
+
   @override
   void initState() {
     super.initState();
@@ -97,7 +111,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
   @override
   Widget build(BuildContext context) {
     final assessment = widget.assessment ?? _fetchedAssessment;
-    final paper = widget.paper ?? _fetchedPaper;
+    final paper = _paper;
     final activePaper = (paper != null && paper.sets.isNotEmpty && _selectedSetIndex >= 0 && _selectedSetIndex < paper.sets.length)
         ? paper.sets[_selectedSetIndex]
         : paper;
@@ -132,6 +146,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                   children: [
                     _buildSummaryCard(context, assessment, activePaper),
                     if (paper.sets.isNotEmpty) _buildSetSwitcher(paper),
+                    ..._buildSimilarPairCards(context, paper),
                     if (widget.gaps.isNotEmpty) _buildIssuesCard(context, 'Coverage gaps', widget.gaps, Colors.orange),
                     if (widget.warnings.isNotEmpty) _buildIssuesCard(context, 'Warnings', widget.warnings, Colors.red),
                     const SizedBox(height: 8),
@@ -210,6 +225,114 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
         ],
       ),
     );
+  }
+
+  /// The printed slot of [questionId] on [paper] -- "7", or "7_OR" for an OR
+  /// alternative, the key POST /papers/{id}/questions/{slot}/swap takes --
+  /// or null once it is no longer on the paper (a swap took it off).
+  static String? _slotOf(GeneratedPaper paper, String questionId) {
+    for (final section in paper.sections) {
+      for (final q in section.questions) {
+        if (q.questionId == questionId) return '${q.displayNumber}';
+        if (q.internalChoiceQuestionId == questionId) return '${q.displayNumber}_OR';
+      }
+    }
+    return null;
+  }
+
+  static String _slotLabel(String slot) =>
+      slot.endsWith('_OR') ? '${slot.substring(0, slot.length - 3)} (OR)' : slot;
+
+  /// One card per similar pair still on the paper. The pairs come from the
+  /// paper generation returned (a paper read back later carries none), and
+  /// a pair drops out once the teacher keeps both or either question is
+  /// swapped off the paper.
+  List<Widget> _buildSimilarPairCards(BuildContext context, GeneratedPaper paper) {
+    final original = widget.paper;
+    if (original == null) return const [];
+    final cards = <Widget>[];
+    for (var i = 0; i < original.similarPairs.length; i++) {
+      final pair = original.similarPairs[i];
+      if (pair.length != 2 || _keptPairs.contains(i)) continue;
+      final first = _slotOf(paper, pair[0]);
+      final second = _slotOf(paper, pair[1]);
+      if (first == null || second == null) continue;
+      cards.add(_buildSimilarPairCard(context, paper, i, first, second,
+          i < original.warnings.length ? original.warnings[i] : null));
+    }
+    return cards;
+  }
+
+  Widget _buildSimilarPairCard(BuildContext context, GeneratedPaper paper, int index,
+      String first, String second, String? serverWarning) {
+    const color = Colors.orange;
+    final busy = _swappingPair == index;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: AppCard(
+        color: color.withValues(alpha: 0.08),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Similar questions', style: TextStyle(fontWeight: FontWeight.w600, color: color)),
+            const SizedBox(height: 6),
+            Text('Questions ${_slotLabel(first)} and ${_slotLabel(second)} look like the same question. '
+                'Keep both if you meant to set them, or swap ${_slotLabel(second)} for another question.'),
+            if (serverWarning != null) ...[
+              const SizedBox(height: 4),
+              Text(serverWarning,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant)),
+            ],
+            if (_swapError != null && _swapErrorPair == index) ...[
+              const SizedBox(height: 6),
+              Text(_swapError!, style: TextStyle(color: Theme.of(context).colorScheme.error)),
+            ],
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 12,
+              runSpacing: 8,
+              children: [
+                OutlinedButton(
+                  onPressed: busy ? null : () => setState(() => _keptPairs.add(index)),
+                  child: const Text('Keep both'),
+                ),
+                FilledButton.tonalIcon(
+                  onPressed: _swappingPair != null ? null : () => _swapOne(paper, index, second),
+                  icon: busy
+                      ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                      : const Icon(Icons.swap_horiz),
+                  label: Text(busy ? 'Swapping…' : 'Swap one'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _swapOne(GeneratedPaper paper, int index, String slot) async {
+    setState(() {
+      _swappingPair = index;
+      _swapError = null;
+      _swapErrorPair = null;
+    });
+    try {
+      final updated = await GetIt.I<ApiClient>().swapPaperQuestion(paper.id, slot);
+      if (!mounted) return;
+      setState(() {
+        _swappedPaper = updated;
+        _swappingPair = null;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _swapError = 'Could not swap question ${_slotLabel(slot)}: $e';
+        _swapErrorPair = index;
+        _swappingPair = null;
+      });
+    }
   }
 
   Widget _buildIssuesCard(BuildContext context, String title, List<String> items, Color color) {
@@ -467,7 +590,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
   // but these two handlers didn't, so Export/Deliver silently no-op'd on
   // every reopened assessment even though the screen displayed correctly.
   void _openDelivery() {
-    final paper = widget.paper ?? _fetchedPaper;
+    final paper = _paper;
     if (paper == null) return;
     showModalBottomSheet<void>(
       context: context,
@@ -486,7 +609,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
   }
 
   Future<void> _exportPdf() async {
-    final paper = widget.paper ?? _fetchedPaper;
+    final paper = _paper;
     if (paper == null) return;
     setState(() {
       _exporting = true;

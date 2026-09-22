@@ -1,0 +1,117 @@
+{
+ "templateId": "preset:cbse:10:science:half_yearly",
+ "grade": 10,
+ "subject": "Science",
+ "bankQuestions": 408,
+ "keyedQuestions": 408,
+ "complete": true,
+ "sections": [
+  {
+   "sectionId": "s1",
+   "title": "Section A - Objective (MCQ / assertion-reason)",
+   "marksEach": 1,
+   "needed": 20,
+   "available": 168,
+   "shortfall": 0,
+   "filled": 20,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "",
+   "notes": [
+    "Section A - Objective (MCQ / assertion-reason): difficulty is easy/medium/hard 17/3/0, the template asked for 10/8/2 -- the bank has too few at the requested level."
+   ],
+   "fixes": []
+  },
+  {
+   "sectionId": "s2",
+   "title": "Section B - Very short answer",
+   "marksEach": 2,
+   "needed": 6,
+   "available": 86,
+   "shortfall": 0,
+   "filled": 6,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 2,
+   "choicesFilled": 2,
+   "reason": "",
+   "notes": [
+    "Section B - Very short answer: difficulty is easy/medium/hard 3/3/0, the template asked for 2/3/1 -- the bank has too few at the requested level."
+   ],
+   "fixes": []
+  },
+  {
+   "sectionId": "s3",
+   "title": "Section C - Short answer",
+   "marksEach": 3,
+   "needed": 7,
+   "available": 99,
+   "shortfall": 0,
+   "filled": 7,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 1,
+   "choicesFilled": 1,
+   "reason": "",
+   "notes": [
+    "Section C - Short answer: difficulty is easy/medium/hard 0/6/1, the template asked for 2/4/1 -- the bank has too few at the requested level."
+   ],
+   "fixes": []
+  },
+  {
+   "sectionId": "s4",
+   "title": "Section D - Long answer",
+   "marksEach": 5,
+   "needed": 3,
+   "available": 31,
+   "shortfall": 0,
+   "filled": 3,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 3,
+   "choicesFilled": 3,
+   "reason": "",
+   "notes": [
+    "Section D - Long answer: difficulty is easy/medium/hard 0/0/3, the template asked for 1/1/1 -- the bank has too few at the requested level."
+   ],
+   "fixes": []
+  },
+  {
+   "sectionId": "s5",
+   "title": "Section E - Source / case based",
+   "marksEach": 4,
+   "needed": 3,
+   "available": 24,
+   "shortfall": 0,
+   "filled": 3,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "",
+   "notes": [
+    "Section E - Source / case based: difficulty is easy/medium/hard 0/0/3, the template asked for 1/1/1 -- the bank has too few at the requested level.",
+    "Section E - Source / case based: 1 competency-based question(s), the template asked for 3. 27 competency-based question(s) are in the bank at 5 marks."
+   ],
+   "fixes": [
+    {
+     "kind": "change_marks",
+     "label": "Make it a 5-mark section: 27 case / competency-based question(s) are in the bank at 5 marks (then rebalance the paper's total).",
+     "available": 27,
+     "marksEach": 5,
+     "questionCount": null,
+     "choiceCount": null,
+     "questionTypes": null
+    }
+   ]
+  }
+ ],
+ "scopeNotes": []
+}

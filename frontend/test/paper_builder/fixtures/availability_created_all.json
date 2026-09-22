@@ -1,0 +1,45 @@
+{
+ "templateId": "tpl_d58410d827",
+ "grade": 10,
+ "subject": "Science",
+ "bankQuestions": 408,
+ "keyedQuestions": 408,
+ "complete": true,
+ "sections": [
+  {
+   "sectionId": "s1",
+   "title": "Section A",
+   "marksEach": 1,
+   "needed": 10,
+   "available": 168,
+   "shortfall": 0,
+   "filled": 10,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "",
+   "notes": [],
+   "fixes": []
+  },
+  {
+   "sectionId": "s2",
+   "title": "Section B",
+   "marksEach": 3,
+   "needed": 4,
+   "available": 99,
+   "shortfall": 0,
+   "filled": 4,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "",
+   "notes": [],
+   "fixes": []
+  }
+ ],
+ "scopeNotes": []
+}

@@ -14,6 +14,7 @@ import '../../presentation/analytics/pages/principal_page.dart';
 import '../../presentation/assessment/pages/assessment_create_page.dart';
 import '../../presentation/assessment/pages/assessment_list_page.dart';
 import '../../presentation/assessment/pages/assessment_review_page.dart';
+import '../../presentation/paper_builder/pages/paper_builder_page.dart';
 import '../../domain/entities/entities.dart';
 import '../../domain/repositories/requests.dart';
 import '../../presentation/evaluation/pages/evaluation_page.dart';
@@ -151,6 +152,16 @@ final appRouterProvider = Provider<GoRouter>((ref) {
                 path: 'create',
                 name: 'assessment-create',
                 builder: (context, state) => const AssessmentCreatePage(),
+              ),
+              // The guided builder (Task 902): the teacher's main way to a
+              // paper on the web build. `?quick=1` is "Quick paper (CBSE
+              // pattern)" -- the builder with the class's CBSE preset chosen.
+              // Declared before ':id' so "build" is never read as an id.
+              GoRoute(
+                path: 'build',
+                name: 'paper-builder',
+                builder: (context, state) =>
+                    PaperBuilderPage(quick: state.uri.queryParameters['quick'] == '1'),
               ),
               GoRoute(
                 path: ':id',

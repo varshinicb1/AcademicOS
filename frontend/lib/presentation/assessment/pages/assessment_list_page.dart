@@ -11,6 +11,7 @@ import '../../../domain/repositories/requests.dart';
 import '../../blocs/assessment_bloc.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import '../../paper_builder/pages/paper_builder_page.dart' show newPaperLocation;
 
 class AssessmentListPage extends StatefulWidget {
   const AssessmentListPage({super.key});
@@ -34,14 +35,18 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
         title: const Text('Assessments'),
         actions: [
           IconButton(
-            tooltip: '1-Click Quick Paper',
+            tooltip: 'Quick paper (CBSE pattern)',
             icon: const Icon(Icons.flash_on),
-            onPressed: () => _showQuickPaperDialog(context),
+            // Online, the quick paper is the builder with the CBSE preset
+            // already chosen (Task 902); the offline build keeps its dialog.
+            onPressed: () => newPaperLocation(quick: true) == '/assessment/create'
+                ? _showQuickPaperDialog(context)
+                : context.push(newPaperLocation(quick: true)),
           ),
           IconButton(
             tooltip: 'Create assessment',
             icon: const Icon(Icons.add),
-            onPressed: () => context.push('/assessment/create'),
+            onPressed: () => context.push(newPaperLocation()),
           ),
         ],
       ),
@@ -72,7 +77,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/assessment/create'),
+        onPressed: () => context.push(newPaperLocation()),
         icon: const Icon(Icons.assignment_add),
         label: const Text('New Assessment'),
       ),

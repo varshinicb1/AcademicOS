@@ -1,0 +1,106 @@
+[
+ {
+  "chapterId": "integers",
+  "chapterName": "Integers",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Number System and Operations",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "fractions-and-decimals",
+  "chapterName": "Fractions and Decimals",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Number System and Operations",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "rational-numbers-7",
+  "chapterName": "Rational Numbers",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Number System and Operations",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "exponents-and-powers-7",
+  "chapterName": "Exponents and Powers",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Number System and Operations",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "simple-equations",
+  "chapterName": "Simple Equations",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Algebra and Equations",
+  "syllabusMarks": 20
+ },
+ {
+  "chapterId": "algebraic-expressions-7",
+  "chapterName": "Algebraic Expressions",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Algebra and Equations",
+  "syllabusMarks": 20
+ },
+ {
+  "chapterId": "comparing-quantities-7",
+  "chapterName": "Comparing Quantities",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Algebra and Equations",
+  "syllabusMarks": 20
+ },
+ {
+  "chapterId": "lines-and-angles-7",
+  "chapterName": "Lines and Angles",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Geometry and Measurement",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "the-triangle-and-its-properties",
+  "chapterName": "The Triangle and its Properties",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Geometry and Measurement",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "perimeter-and-area",
+  "chapterName": "Perimeter and Area",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Geometry and Measurement",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "symmetry",
+  "chapterName": "Symmetry",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Geometry and Measurement",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "visualising-solid-shapes",
+  "chapterName": "Visualising Solid Shapes",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Geometry and Measurement",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "data-handling-7",
+  "chapterName": "Data Handling",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Data Handling",
+  "syllabusMarks": 10
+ }
+]

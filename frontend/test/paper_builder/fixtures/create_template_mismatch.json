@@ -1,0 +1,34 @@
+{
+ "detail": [
+  {
+   "type": "value_error",
+   "loc": [
+    "body"
+   ],
+   "msg": "Value error, sections add up to 22 marks but the total is 25 (Section A 10x1=10, Section B 4x3=12)",
+   "input": {
+    "name": "Weekly check",
+    "grade": 10,
+    "subject": "Science",
+    "examType": "custom",
+    "totalMarks": 25,
+    "durationMinutes": 45,
+    "sections": [
+     {
+      "title": "Section A",
+      "questionCount": 10,
+      "marksEach": 1
+     },
+     {
+      "title": "Section B",
+      "questionCount": 4,
+      "marksEach": 3
+     }
+    ]
+   },
+   "ctx": {
+    "error": {}
+   }
+  }
+ ]
+}

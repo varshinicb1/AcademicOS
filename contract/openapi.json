@@ -2429,6 +2429,14 @@
             "title": "Allowgaps",
             "type": "boolean"
           },
+          "avoidQuestionIds": {
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 500,
+            "title": "Avoidquestionids",
+            "type": "array"
+          },
           "fillFromOutsideScope": {
             "default": false,
             "title": "Fillfromoutsidescope",
@@ -2524,6 +2532,16 @@
               "$ref": "#/components/schemas/GeneratedPaper"
             },
             "title": "Sets",
+            "type": "array"
+          },
+          "similarPairs": {
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "title": "Similarpairs",
             "type": "array"
           },
           "warnings": {
@@ -3453,6 +3471,31 @@
           "generatedAt"
         ],
         "title": "PaperMetadataSchema",
+        "type": "object"
+      },
+      "PaperRemoveResponse": {
+        "properties": {
+          "paper": {
+            "$ref": "#/components/schemas/GeneratedPaper"
+          },
+          "removedQuestionIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Removedquestionids",
+            "type": "array"
+          },
+          "slot": {
+            "title": "Slot",
+            "type": "string"
+          }
+        },
+        "required": [
+          "paper",
+          "slot",
+          "removedQuestionIds"
+        ],
+        "title": "PaperRemoveResponse",
         "type": "object"
       },
       "PaperTemplate": {
@@ -13090,6 +13133,58 @@
       }
     },
     "/api/v1/papers/{paper_id}/questions/{slot}": {
+      "delete": {
+        "description": "Take a question off the paper and every set: \"7\" removes question 7\nwith its OR alternative and renumbers what follows; \"7_OR\" removes only\nthe alternative. The section and the paper lose its marks -- the\nbuilder shows the section as short until the teacher is content with it.\n409 for the paper's last question (a paper with none is not a paper).",
+        "operationId": "remove_paper_question_api_v1_papers__paper_id__questions__slot__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paper_id",
+            "required": true,
+            "schema": {
+              "title": "Paper Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "slot",
+            "required": true,
+            "schema": {
+              "title": "Slot",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperRemoveResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Remove Paper Question"
+      },
       "post": {
         "description": "Put the teacher's chosen question in the slot. 422 for a question with\nno verified answer key (rule Q1) or marks that do not fit the slot, 409\nfor one already on the paper or a near-duplicate of one.",
         "operationId": "pick_paper_question_api_v1_papers__paper_id__questions__slot__post",

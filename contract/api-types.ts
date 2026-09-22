@@ -1594,6 +1594,35 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/paper-timing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Paper Timing
+         * @description Time saved per paper — the renewal criterion, made answerable.
+         *
+         *     Decision 11: *"Renewal is measured as time saved per paper."* Before this
+         *     route the number existed nowhere, so the criterion could not be checked.
+         *
+         *     Scoped to the caller's school. The response separates what was MEASURED
+         *     (generation time, from a monotonic clock) from what was DECLARED (the manual
+         *     baseline), and says so in the payload rather than only in the docs --
+         *     because a saving built on a declared baseline will be quoted at somebody,
+         *     and the word "estimated" has to travel with it.
+         */
+        get: operations["get_paper_timing_api_v1_paper_timing_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/papers/generate": {
         parameters: {
             query?: never;
@@ -1620,11 +1649,25 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * Generate From Ids
-         * @description Instantly compile selected question IDs into a structured sectioned paper (Examzo-style ID compilation).
-         */
+        /** Generate From Ids */
         post: operations["generate_from_ids_api_v1_papers_generate_from_ids_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/papers/generate-from-template": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Generate From Template */
+        post: operations["generate_from_template_api_v1_papers_generate_from_template_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1696,6 +1739,50 @@ export interface paths {
         get: operations["get_paper_file_api_v1_papers__paper_id__file_get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/papers/{paper_id}/questions/{slot}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Pick Paper Question
+         * @description Put the teacher's chosen question in the slot. 422 for a question with
+         *     no verified answer key (rule Q1) or marks that do not fit the slot, 409
+         *     for one already on the paper or a near-duplicate of one.
+         */
+        post: operations["pick_paper_question_api_v1_papers__paper_id__questions__slot__post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/papers/{paper_id}/questions/{slot}/swap": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Swap Paper Question
+         * @description The next best question for the slot ("7", or "7_OR" for its OR
+         *     alternative), saved onto the paper and every set, answer key included.
+         *     409 "no alternative in this scope" with the counts when there is none.
+         */
+        post: operations["swap_paper_question_api_v1_papers__paper_id__questions__slot__swap_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2016,6 +2103,116 @@ export interface paths {
         get: operations["template_sections_api_v1_schools__school_id__school_templates__template_id__sections_get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/schools/{school_id}/teacher-templates": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Teacher Templates
+         * @description Presets + mine + shared with the school, in one call: the builder's
+         *     first screen needs all three, and a phone on a slow link should not make
+         *     three round trips to draw it.
+         */
+        get: operations["list_teacher_templates_api_v1_schools__school_id__teacher_templates_get"];
+        put?: never;
+        /** Create Teacher Template */
+        post: operations["create_teacher_template_api_v1_schools__school_id__teacher_templates_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/schools/{school_id}/teacher-templates/{template_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Teacher Template */
+        get: operations["get_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__get"];
+        /** Update Teacher Template */
+        put: operations["update_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__put"];
+        post?: never;
+        /** Delete Teacher Template */
+        delete: operations["delete_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/schools/{school_id}/teacher-templates/{template_id}/availability": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Template Availability
+         * @description Per section: needed vs. eligible (verified key, right marks, in scope),
+         *     what the paper will hold, every note generation would add, and why any
+         *     shortfall exists with the changes that would close it -- shown BEFORE
+         *     generating, so a teacher never discovers a gap on the printed paper.
+         *     It is the generator's own selection run without saving anything.
+         */
+        post: operations["template_availability_api_v1_schools__school_id__teacher_templates__template_id__availability_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/schools/{school_id}/teacher-templates/{template_id}/duplicate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Duplicate Teacher Template
+         * @description "Use as starting point": any template the caller can read, including a
+         *     preset, becomes a private template they own.
+         *
+         *     The copy is labelled the teacher's own pattern from the start, not the
+         *     preset's `cbse_board` / `suggested`: it is theirs to change, and a label
+         *     that stays "CBSE board pattern" until the first edit would vouch for
+         *     whatever they change it to. Where it came from stays in `based_on` and
+         *     in the source line.
+         */
+        post: operations["duplicate_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__duplicate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/schools/{school_id}/teacher-templates/{template_id}/share": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Share Teacher Template */
+        post: operations["share_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__share_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -2682,6 +2879,37 @@ export interface components {
             token: string;
             user: components["schemas"]["UserResponse"];
         };
+        /** AvailabilityReport */
+        AvailabilityReport: {
+            /** Bankquestions */
+            bankQuestions: number;
+            /** Complete */
+            complete: boolean;
+            /** Grade */
+            grade: number;
+            /** Keyedquestions */
+            keyedQuestions: number;
+            /**
+             * Scopenotes
+             * @default []
+             */
+            scopeNotes: string[];
+            /** Sections */
+            sections: components["schemas"]["SectionAvailability"][];
+            /** Subject */
+            subject: string;
+            /** Templateid */
+            templateId: string;
+        };
+        /** AvailabilityRequest */
+        AvailabilityRequest: {
+            /**
+             * Fillfromoutsidescope
+             * @default false
+             */
+            fillFromOutsideScope: boolean;
+            scope?: components["schemas"]["TemplateScope"] | null;
+        };
         /** BloomDistribution */
         BloomDistribution: {
             /** Analyze */
@@ -3197,6 +3425,11 @@ export interface components {
             /** Doubt */
             doubt: string;
         };
+        /** DuplicateRequest */
+        DuplicateRequest: {
+            /** Name */
+            name?: string | null;
+        };
         /** EnrollStudentRequest */
         EnrollStudentRequest: {
             /** Gradeid */
@@ -3355,13 +3588,15 @@ export interface components {
         GenerateFromIdsRequest: {
             /** Assessmentid */
             assessmentId?: string | null;
-            /**
-             * Grade
-             * @default 10
-             */
+            /** Grade */
             grade: number;
             /** Questionids */
             questionIds: string[];
+            /**
+             * Rejectsimilar
+             * @default false
+             */
+            rejectSimilar: boolean;
             /** Subject */
             subject: string;
             /** Templateid */
@@ -3371,6 +3606,29 @@ export interface components {
              * @default Custom Question Paper
              */
             title: string;
+        };
+        /** GenerateFromTemplateRequest */
+        GenerateFromTemplateRequest: {
+            /**
+             * Allowgaps
+             * @default false
+             */
+            allowGaps: boolean;
+            /**
+             * Fillfromoutsidescope
+             * @default false
+             */
+            fillFromOutsideScope: boolean;
+            scope?: components["schemas"]["TemplateScope"] | null;
+            /**
+             * Setcount
+             * @default 1
+             */
+            setCount: number;
+            /** Templateid */
+            templateId: string;
+            /** Title */
+            title?: string | null;
         };
         /** GeneratedPaper */
         GeneratedPaper: {
@@ -3399,6 +3657,10 @@ export interface components {
             setLabel?: string | null;
             /** Sets */
             sets?: components["schemas"]["GeneratedPaper"][];
+            /** Similarpairs */
+            similarPairs?: string[][];
+            /** Warnings */
+            warnings?: string[];
         };
         /** GeneratedQuestionSchema */
         GeneratedQuestionSchema: {
@@ -3430,6 +3692,11 @@ export interface components {
              * @default
              */
             stemLatex: string;
+            /**
+             * Type
+             * @default
+             */
+            type: string;
         };
         /** GeneratedSectionSchema */
         GeneratedSectionSchema: {
@@ -3620,6 +3887,22 @@ export interface components {
             /** Node Id */
             node_id: string;
         };
+        /** PaperEditResponse */
+        PaperEditResponse: {
+            counts?: components["schemas"]["SwapCounts"] | null;
+            /**
+             * Notes
+             * @default []
+             */
+            notes: string[];
+            paper: components["schemas"]["GeneratedPaper"];
+            /** Questionid */
+            questionId: string;
+            /** Replacedquestionid */
+            replacedQuestionId: string;
+            /** Slot */
+            slot: string;
+        };
         /** PaperGenerationRequest */
         PaperGenerationRequest: {
             /** Assessmentid */
@@ -3629,6 +3912,11 @@ export interface components {
             formattingOptions?: {
                 [key: string]: unknown;
             } | null;
+            /**
+             * Rejectsimilar
+             * @default false
+             */
+            rejectSimilar: boolean;
             /** Selectedquestions */
             selectedQuestions: components["schemas"]["QuestionSchema"][];
             /**
@@ -3644,8 +3932,12 @@ export interface components {
         PaperMetadataSchema: {
             /** Assessmenttitle */
             assessmentTitle: string;
+            /** Dateline */
+            dateLine?: string | null;
             /** Durationminutes */
             durationMinutes: number;
+            /** Examname */
+            examName?: string | null;
             /** Examtype */
             examType?: string | null;
             /**
@@ -3660,6 +3952,10 @@ export interface components {
             generatedBy: string;
             /** Grade */
             grade: number;
+            /** Instructions */
+            instructions?: string | null;
+            /** Schoolname */
+            schoolName?: string | null;
             /** Setlabel */
             setLabel?: string | null;
             /** Subject */
@@ -3673,6 +3969,193 @@ export interface components {
              * @default 1.0
              */
             version: string;
+        };
+        /**
+         * PaperTemplate
+         * @description A saved (or preset) teacher template.
+         *
+         *     `kind` is how `TemplateStore` tells these apart from a school's branding
+         *     rows in the same table, so the older `/school-templates` list never shows
+         *     a teacher's private paper to the rest of the school. `is_default` is
+         *     always False: a paper template must never displace the school's branding
+         *     default, which every PDF without a template falls back to.
+         */
+        PaperTemplate: {
+            /** Basedon */
+            basedOn?: string | null;
+            /**
+             * Brandcolor
+             * @default #000000
+             */
+            brandColor: string;
+            /** Createdat */
+            createdAt?: string | null;
+            /** Durationminutes */
+            durationMinutes: number;
+            /**
+             * Examtype
+             * @default custom
+             * @enum {string}
+             */
+            examType: "unit_test" | "periodic" | "half_yearly" | "annual" | "custom";
+            /**
+             * Fontfamily
+             * @default Helvetica
+             */
+            fontFamily: string;
+            /**
+             * Fontsize
+             * @default 11
+             */
+            fontSize: number;
+            /**
+             * Footerhtml
+             * @default
+             */
+            footerHtml: string;
+            /** Grade */
+            grade: number;
+            header?: components["schemas"]["TemplateHeader"];
+            /**
+             * Headerhtml
+             * @default
+             */
+            headerHtml: string;
+            /** Id */
+            id: string;
+            /**
+             * Instructions
+             * @default
+             */
+            instructions: string;
+            /**
+             * Instructionsgenerated
+             * @default false
+             */
+            instructionsGenerated: boolean;
+            /**
+             * Isdefault
+             * @default false
+             */
+            isDefault: boolean;
+            /**
+             * Ispreset
+             * @default false
+             */
+            isPreset: boolean;
+            /**
+             * Kind
+             * @default paper
+             * @constant
+             */
+            kind: "paper";
+            /**
+             * Lineheight
+             * @default 1.4
+             */
+            lineHeight: number;
+            /**
+             * Logourl
+             * @default
+             */
+            logoUrl: string;
+            /**
+             * Marginbottom
+             * @default 20
+             */
+            marginBottom: number;
+            /**
+             * Marginleft
+             * @default 20
+             */
+            marginLeft: number;
+            /**
+             * Marginright
+             * @default 20
+             */
+            marginRight: number;
+            /**
+             * Margintop
+             * @default 20
+             */
+            marginTop: number;
+            /** Name */
+            name: string;
+            /**
+             * Ownerid
+             * @default
+             */
+            ownerId: string;
+            /**
+             * Patternstatus
+             * @default teacher
+             * @enum {string}
+             */
+            patternStatus: "cbse_board" | "suggested" | "teacher";
+            /** Schoolid */
+            schoolId: string;
+            scope?: components["schemas"]["TemplateScope"];
+            /** Scopenotes */
+            scopeNotes?: string[];
+            /** Sectionformatting */
+            sectionFormatting?: {
+                [key: string]: unknown;
+            };
+            /** Sections */
+            sections: components["schemas"]["TemplateSection"][];
+            /**
+             * Shared
+             * @default false
+             */
+            shared: boolean;
+            /**
+             * Source
+             * @default
+             */
+            source: string;
+            /** Subject */
+            subject: string;
+            /**
+             * Tagline
+             * @default
+             */
+            tagline: string;
+            /** Totalmarks */
+            totalMarks: number;
+            /** Updatedat */
+            updatedAt?: string | null;
+        };
+        /**
+         * PaperTemplateDraft
+         * @description What a teacher edits. Totals are checked here, on the way in, so a
+         *     template that cannot be printed as described is never saved.
+         */
+        PaperTemplateDraft: {
+            /** Durationminutes */
+            durationMinutes: number;
+            /**
+             * Examtype
+             * @default custom
+             * @enum {string}
+             */
+            examType: "unit_test" | "periodic" | "half_yearly" | "annual" | "custom";
+            /** Grade */
+            grade: number;
+            header?: components["schemas"]["TemplateHeader"];
+            /**
+             * Instructions
+             * @default
+             */
+            instructions: string;
+            /** Name */
+            name: string;
+            scope?: components["schemas"]["TemplateScope"];
+            /** Sections */
+            sections: components["schemas"]["TemplateSection"][];
+            /** Subject */
+            subject: string;
+            /** Totalmarks */
+            totalMarks: number;
         };
         /** ParentalConsentRecord */
         ParentalConsentRecord: {
@@ -3734,6 +4217,11 @@ export interface components {
             periodMinutes: number;
             /** Schoolid */
             schoolId: string;
+        };
+        /** PickRequest */
+        PickRequest: {
+            /** Questionid */
+            questionId: string;
         };
         /** PracticeItemResponse */
         PracticeItemResponse: {
@@ -4202,10 +4690,7 @@ export interface components {
             durationMinutes?: number | null;
             /** Examtype */
             examType?: string | null;
-            /**
-             * Grade
-             * @default 10
-             */
+            /** Grade */
             grade: number;
             /**
              * Setcount
@@ -4618,6 +5103,66 @@ export interface components {
             /** Query */
             query: string;
         };
+        /** SectionAvailability */
+        SectionAvailability: {
+            /** Available */
+            available: number;
+            /**
+             * Borrowed
+             * @default 0
+             */
+            borrowed: number;
+            /**
+             * Choicesfilled
+             * @default 0
+             */
+            choicesFilled: number;
+            /**
+             * Choicesneeded
+             * @default 0
+             */
+            choicesNeeded: number;
+            /**
+             * Filled
+             * @default 0
+             */
+            filled: number;
+            /**
+             * Fixes
+             * @default []
+             */
+            fixes: components["schemas"]["SectionFix"][];
+            /** Markseach */
+            marksEach: number;
+            /** Needed */
+            needed: number;
+            /**
+             * Notes
+             * @default []
+             */
+            notes: string[];
+            /**
+             * Outsidescopeavailable
+             * @default 0
+             */
+            outsideScopeAvailable: number;
+            /**
+             * Reason
+             * @default
+             */
+            reason: string;
+            /** Sectionid */
+            sectionId: string;
+            /** Shortfall */
+            shortfall: number;
+            /** Title */
+            title: string;
+            /**
+             * Withoutkey
+             * @default 0
+             */
+            withoutKey: number;
+        };
         /** SectionBlueprint */
         SectionBlueprint: {
             /** Allowedbloomlevels */
@@ -4646,6 +5191,38 @@ export interface components {
             questionCount: number;
             /** Totalmarks */
             totalMarks: number;
+        };
+        /**
+         * SectionFix
+         * @description One change the teacher can make to a short section, with what it buys.
+         *
+         *     A reason alone ("Only 3 are available") left the teacher guessing which
+         *     of five settings to change; each fix names one setting and how many more
+         *     questions changing it makes available, so the builder can offer it as a
+         *     single tap: every kind carries the value to apply, never only a
+         *     sentence to parse.
+         */
+        SectionFix: {
+            /**
+             * Available
+             * @default 0
+             */
+            available: number;
+            /** Choicecount */
+            choiceCount?: number | null;
+            /**
+             * Kind
+             * @enum {string}
+             */
+            kind: "widen_scope" | "fill_from_outside_scope" | "change_marks" | "relax_type" | "relax_competency" | "reduce_count" | "reduce_choices";
+            /** Label */
+            label: string;
+            /** Markseach */
+            marksEach?: number | null;
+            /** Questioncount */
+            questionCount?: number | null;
+            /** Questiontypes */
+            questionTypes?: ("mcq" | "very_short_answer" | "short_answer" | "long_answer" | "very_long_answer" | "case_study" | "assertion_reason" | "map_based" | "diagram_based" | "graph_based" | "table_based" | "competency_based")[] | null;
         };
         /** SeedCbse10Request */
         SeedCbse10Request: {
@@ -4742,6 +5319,11 @@ export interface components {
             periodsPerWeek: number;
             /** Subject */
             subject: string;
+        };
+        /** ShareRequest */
+        ShareRequest: {
+            /** Shared */
+            shared: boolean;
         };
         /** SharedMistakeResponse */
         SharedMistakeResponse: {
@@ -4963,6 +5545,58 @@ export interface components {
             /** Topicid */
             topicId: string;
         };
+        /**
+         * SwapCounts
+         * @description Why the bank has as many alternatives for a slot as it has. Every
+         *     count is of questions the step before let through.
+         */
+        SwapCounts: {
+            /**
+             * Alternatives
+             * @default 0
+             */
+            alternatives: number;
+            /**
+             * Fitting
+             * @default 0
+             */
+            fitting: number;
+            /**
+             * Nearduplicate
+             * @default 0
+             */
+            nearDuplicate: number;
+            /**
+             * Notcompetency
+             * @default 0
+             */
+            notCompetency: number;
+            /**
+             * Onpaper
+             * @default 0
+             */
+            onPaper: number;
+            /**
+             * Onrecentpapers
+             * @default 0
+             */
+            onRecentPapers: number;
+            /**
+             * Outsidescope
+             * @default 0
+             */
+            outsideScope: number;
+            /**
+             * Swappedoutearlier
+             * @default 0
+             */
+            swappedOutEarlier: number;
+            /**
+             * Withoutkey
+             * @default 0
+             */
+            withoutKey: number;
+        };
         /** SyllabusResponse */
         SyllabusResponse: {
             /** Grade */
@@ -5042,11 +5676,117 @@ export interface components {
             /** Subtopicid */
             subtopicId: string;
         };
+        /** TemplateHeader */
+        TemplateHeader: {
+            /**
+             * Dateline
+             * @default
+             */
+            dateLine: string;
+            /**
+             * Examname
+             * @default
+             */
+            examName: string;
+            /**
+             * Schoolname
+             * @default
+             */
+            schoolName: string;
+        };
+        /** TemplateListResponse */
+        TemplateListResponse: {
+            /** Mine */
+            mine: components["schemas"]["PaperTemplate"][];
+            /** Presets */
+            presets: components["schemas"]["PaperTemplate"][];
+            /** Shared */
+            shared: components["schemas"]["PaperTemplate"][];
+        };
+        /** TemplatePaperResponse */
+        TemplatePaperResponse: {
+            /** Assessmentid */
+            assessmentId: string;
+            availability: components["schemas"]["AvailabilityReport"];
+            /** Complete */
+            complete: boolean;
+            /** Gaps */
+            gaps: components["schemas"]["SectionAvailability"][];
+            /** Notes */
+            notes: string[];
+            paper: components["schemas"]["GeneratedPaper"];
+        };
         /** TemplateSaveRequest */
         TemplateSaveRequest: {
             /** Sections */
             sections?: components["schemas"]["SectionBlueprint"][];
             template: components["schemas"]["SchoolTemplate"];
+        };
+        /**
+         * TemplateScope
+         * @description What the paper may draw on. Empty chapter_ids means the whole syllabus.
+         *
+         *     topic_ids / subtopic_ids come from the board-level taxonomy another stream
+         *     is building (`academicos-data/syllabus/taxonomy/`). When that file is
+         *     absent they are stored as given, not validated -- the availability check
+         *     says so in its `scopeNotes` rather than pretending it checked them.
+         */
+        TemplateScope: {
+            /** Chapterids */
+            chapterIds?: string[];
+            /** Subtopicids */
+            subtopicIds?: string[];
+            /** Topicids */
+            topicIds?: string[];
+        };
+        /**
+         * TemplateSection
+         * @description One section of a teacher's paper.
+         *
+         *     `attempt_count` is CBSE's "attempt any N": `question_count` questions are
+         *     printed, `attempt_count` are answered, and only the attempted ones count
+         *     towards the paper's total. None means every question is attempted.
+         *
+         *     `question_types` empty means any type at this mark value. The bank's type
+         *     labels are mostly derived from marks, not read from the paper (231 class
+         *     10 Mathematics 1-mark questions are typed `very_short_answer` and none
+         *     `mcq`; every 5-mark question is `case_study`), so the engine matches the
+         *     long-form kinds -- long answer, case study, map -- by what the question
+         *     says (paper_templates._content_fits), and the presets set types only on
+         *     those sections.
+         *
+         *     `choice_count` is the CBSE internal choice: that many of the section's
+         *     questions print with an OR alternative of the same kind and marks, and
+         *     the student answers one of the two. It adds no marks -- unlike
+         *     `attempt_count`, nothing extra is scored -- so the totals check ignores
+         *     it. The CBSE papers use it, not "attempt any N": the Class X 2024-25
+         *     Science SQP has ORs on 2 of 6 questions in Section B, 1 of 7 in C and all
+         *     3 in D (academicos-data/corpus/cbse-sqp/ClassX_2024_25/Science-SQP.pdf).
+         */
+        TemplateSection: {
+            /** Attemptcount */
+            attemptCount?: number | null;
+            /**
+             * Choicecount
+             * @default 0
+             */
+            choiceCount: number;
+            /** Competencyshare */
+            competencyShare?: number | null;
+            difficultyMix?: components["schemas"]["DifficultyDistribution"] | null;
+            /**
+             * Id
+             * @default
+             */
+            id: string;
+            /** Markseach */
+            marksEach: number;
+            /** Questioncount */
+            questionCount: number;
+            /** Questiontypes */
+            questionTypes?: ("mcq" | "very_short_answer" | "short_answer" | "long_answer" | "very_long_answer" | "case_study" | "assertion_reason" | "map_based" | "diagram_based" | "graph_based" | "table_based" | "competency_based")[];
+            /** Title */
+            title: string;
         };
         /** TimetableResponse */
         TimetableResponse: {
@@ -8002,6 +8742,28 @@ export interface operations {
             };
         };
     };
+    get_paper_timing_api_v1_paper_timing_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+        };
+    };
     generate_paper_endpoint_api_v1_papers_generate_post: {
         parameters: {
             query?: never;
@@ -8055,6 +8817,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["GeneratedPaper"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    generate_from_template_api_v1_papers_generate_from_template_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GenerateFromTemplateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TemplatePaperResponse"];
                 };
             };
             /** @description Validation Error */
@@ -8186,6 +8981,74 @@ export interface operations {
                 };
                 content: {
                     "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    pick_paper_question_api_v1_papers__paper_id__questions__slot__post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                paper_id: string;
+                slot: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PickRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaperEditResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    swap_paper_question_api_v1_papers__paper_id__questions__slot__swap_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                paper_id: string;
+                slot: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaperEditResponse"];
                 };
             };
             /** @description Validation Error */
@@ -8772,6 +9635,285 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SectionBlueprint"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_teacher_templates_api_v1_schools__school_id__teacher_templates_get: {
+        parameters: {
+            query?: {
+                grade?: number | null;
+                subject?: string | null;
+            };
+            header?: never;
+            path: {
+                school_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TemplateListResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_teacher_template_api_v1_schools__school_id__teacher_templates_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                school_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PaperTemplateDraft"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaperTemplate"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                school_id: string;
+                template_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaperTemplate"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                school_id: string;
+                template_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["PaperTemplateDraft"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaperTemplate"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                school_id: string;
+                template_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    template_availability_api_v1_schools__school_id__teacher_templates__template_id__availability_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                school_id: string;
+                template_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AvailabilityRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AvailabilityReport"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    duplicate_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__duplicate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                school_id: string;
+                template_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["DuplicateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaperTemplate"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    share_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__share_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                school_id: string;
+                template_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ShareRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaperTemplate"];
                 };
             };
             /** @description Validation Error */

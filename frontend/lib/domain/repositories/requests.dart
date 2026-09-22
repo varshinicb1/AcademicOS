@@ -86,6 +86,10 @@ class PaperGenerationRequest with _$PaperGenerationRequest {
     Map<String, dynamic>? formattingOptions,
     @Default(1) int setCount,
     String? tier,
+    // The teacher chose these questions, so two that look alike are printed
+    // with a `warnings` entry on the paper; true asks the server to refuse
+    // them (422) instead.
+    @Default(false) bool rejectSimilar,
   }) = _PaperGenerationRequest;
 
   factory PaperGenerationRequest.fromJson(Map<String, dynamic> json) => _$PaperGenerationRequestFromJson(json);
@@ -103,6 +107,14 @@ class GeneratedPaper with _$GeneratedPaper {
     required PaperMetadata metadata,
     String? setLabel,
     @Default([]) List<GeneratedPaper> sets,
+    // About the request that made this paper, not stored with it: the
+    // server prints two hand-picked questions that look like the same
+    // question and says so here instead of refusing them. Empty on a paper
+    // read back later.
+    @Default([]) List<String> warnings,
+    // The pairs those warnings name, [earlier id, later id], index-aligned
+    // with [warnings] -- what the review page's "swap one" acts on.
+    @Default([]) List<List<String>> similarPairs,
   }) = _GeneratedPaper;
 
   factory GeneratedPaper.fromJson(Map<String, dynamic> json) => _$GeneratedPaperFromJson(json);
@@ -189,6 +201,8 @@ class GenerateFromIdsRequest with _$GenerateFromIdsRequest {
     @Default(1) int setCount,
     String? tier,
     String? examType,
+    // As PaperGenerationRequest.rejectSimilar.
+    @Default(false) bool rejectSimilar,
   }) = _GenerateFromIdsRequest;
 
   factory GenerateFromIdsRequest.fromJson(Map<String, dynamic> json) => _$GenerateFromIdsRequestFromJson(json);

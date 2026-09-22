@@ -1,0 +1,361 @@
+{
+ "command": "PYTHONPATH=src PYTHONIOENCODING=utf-8 python scripts/capture_paper_builder_fixtures.py",
+ "bank": "academicos-data/syllabus/questions.json",
+ "responses": [
+  {
+   "file": "templates_10_science.json",
+   "method": "GET",
+   "path": "/api/v1/schools/school_1/teacher-templates?grade=10&subject=Science",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "chapters_10_science.json",
+   "method": "GET",
+   "path": "/api/v1/catalog/Science/10/chapters",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "availability_10_science_all.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:10:science:half_yearly/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": []
+    }
+   }
+  },
+  {
+   "file": "availability_10_science_half.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:10:science:half_yearly/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": [
+      "chemical-reactions-equations",
+      "acids-bases-salts",
+      "metals-non-metals",
+      "carbon-compounds",
+      "life-processes",
+      "control-coordination"
+     ]
+    }
+   }
+  },
+  {
+   "file": "generate_10_science.json",
+   "method": "POST",
+   "path": "/api/v1/papers/generate-from-template",
+   "status": 200,
+   "body": {
+    "templateId": "preset:cbse:10:science:half_yearly",
+    "scope": {
+     "chapterIds": []
+    },
+    "setCount": 2,
+    "allowGaps": true
+   }
+  },
+  {
+   "file": "swap_10_science.json",
+   "method": "POST",
+   "path": "/api/v1/papers/paper_138d323d0acc/questions/1/swap",
+   "status": 200,
+   "body": {}
+  },
+  {
+   "file": "search_10_science_3m.json",
+   "method": "POST",
+   "path": "/api/v1/questions/search",
+   "status": 200,
+   "body": {
+    "subject": "Science",
+    "grade": 10,
+    "minMarks": 3,
+    "maxMarks": 3,
+    "limit": 25
+   }
+  },
+  {
+   "file": "pick_10_science.json",
+   "method": "POST",
+   "path": "/api/v1/papers/paper_138d323d0acc/questions/27",
+   "status": 200,
+   "body": {
+    "questionId": "cbse:q:src:af50a3f7e666fdea9cee608f:27"
+   }
+  },
+  {
+   "file": "remove_10_science.json",
+   "method": "DELETE",
+   "path": "/api/v1/papers/paper_138d323d0acc/questions/34",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "paper_10_science_set_b.json",
+   "method": "GET",
+   "path": "/api/v1/papers/paper_138d323d0acc_set_B",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "export_10_science_pdf.json",
+   "method": "POST",
+   "path": "/api/v1/papers/paper_138d323d0acc/export/pdf",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": null,
+   "method": "GET",
+   "path": "/api/v1/papers/paper_138d323d0acc/file",
+   "status": 200,
+   "bytes": 56405,
+   "startsWith": "%PDF-"
+  },
+  {
+   "file": "export_10_science_answer_key.json",
+   "method": "POST",
+   "path": "/api/v1/papers/paper_138d323d0acc/export/answer-key",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": null,
+   "method": "GET",
+   "path": "/api/v1/papers/paper_138d323d0acc/file?format=answer-key",
+   "status": 200,
+   "bytes": 48215,
+   "startsWith": "%PDF-"
+  },
+  {
+   "file": "export_10_science_set_b_pdf.json",
+   "method": "POST",
+   "path": "/api/v1/papers/paper_138d323d0acc_set_B/export/pdf",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": null,
+   "method": "GET",
+   "path": "/api/v1/papers/paper_138d323d0acc_set_B/file",
+   "status": 200,
+   "bytes": 56520,
+   "startsWith": "%PDF-"
+  },
+  {
+   "file": "export_10_science_set_b_answer_key.json",
+   "method": "POST",
+   "path": "/api/v1/papers/paper_138d323d0acc_set_B/export/answer-key",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": null,
+   "method": "GET",
+   "path": "/api/v1/papers/paper_138d323d0acc_set_B/file?format=answer-key",
+   "status": 200,
+   "bytes": 48467,
+   "startsWith": "%PDF-"
+  },
+  {
+   "file": "generate_10_science_another.json",
+   "method": "POST",
+   "path": "/api/v1/papers/generate-from-template",
+   "status": 200,
+   "body": {
+    "templateId": "preset:cbse:10:science:half_yearly",
+    "scope": {
+     "chapterIds": []
+    },
+    "setCount": 2,
+    "allowGaps": false,
+    "fillFromOutsideScope": false,
+    "avoidQuestionIds": [
+     "cbse:q:src:11f9b943f602a1077a1abe9d:33",
+     "cbse:q:src:19fa6f6a87edb1c10cd470c9:2",
+     "cbse:q:src:31bbec50d029a03d58c1d68c:17",
+     "cbse:q:src:31bbec50d029a03d58c1d68c:36",
+     "cbse:q:src:3f4e9193f1cf1d566e8c645c:25",
+     "cbse:q:src:3f4e9193f1cf1d566e8c645c:38",
+     "cbse:q:src:41439dcef4b5c6d47ef118db:29",
+     "cbse:q:src:41439dcef4b5c6d47ef118db:34",
+     "cbse:q:src:5884c691dbb1f8bbd3c1379d:1",
+     "cbse:q:src:5884c691dbb1f8bbd3c1379d:12",
+     "cbse:q:src:5884c691dbb1f8bbd3c1379d:28",
+     "cbse:q:src:5884c691dbb1f8bbd3c1379d:31",
+     "cbse:q:src:5884c691dbb1f8bbd3c1379d:37",
+     "cbse:q:src:5884c691dbb1f8bbd3c1379d:38",
+     "cbse:q:src:61e1d6400a6a60e19c2d1e33:2",
+     "cbse:q:src:61e1d6400a6a60e19c2d1e33:25",
+     "cbse:q:src:6dd3ff9345090c327a5b5409:19",
+     "cbse:q:src:6dd3ff9345090c327a5b5409:23",
+     "cbse:q:src:6dd3ff9345090c327a5b5409:8",
+     "cbse:q:src:6eaeb34b2ffcedbf56fd458a:1",
+     "cbse:q:src:6eaeb34b2ffcedbf56fd458a:17",
+     "cbse:q:src:6eaeb34b2ffcedbf56fd458a:19",
+     "cbse:q:src:6eaeb34b2ffcedbf56fd458a:26",
+     "cbse:q:src:9081575f9ac53e99a3ff660c:31",
+     "cbse:q:src:916d3af6b5fd07ba1d43db8f:7",
+     "cbse:q:src:916d3af6b5fd07ba1d43db8f:8",
+     "cbse:q:src:9edac9a51073d89dc01385a3:31",
+     "cbse:q:src:aee4293d2db78ad8e8a1dd52:24",
+     "cbse:q:src:af50a3f7e666fdea9cee608f:24",
+     "cbse:q:src:af50a3f7e666fdea9cee608f:27",
+     "cbse:q:src:af50a3f7e666fdea9cee608f:4",
+     "cbse:q:src:bd3251afd338993aac0d9068:12",
+     "cbse:q:src:bd3251afd338993aac0d9068:36",
+     "cbse:q:src:d4219e7119054f266c6cdb71:12",
+     "cbse:q:src:d4219e7119054f266c6cdb71:25",
+     "cbse:q:src:d4219e7119054f266c6cdb71:31",
+     "cbse:q:src:de9d7a7a1c777974c1dd9138:10",
+     "cbse:q:src:de9d7a7a1c777974c1dd9138:16",
+     "cbse:q:src:de9d7a7a1c777974c1dd9138:30",
+     "cbse:q:src:de9d7a7a1c777974c1dd9138:9",
+     "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:23",
+     "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:36",
+     "cbse:q:src:fad6500a5a65bba203f49410:1"
+    ]
+   }
+  },
+  {
+   "file": "availability_10_science_annual_all.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:10:science:annual/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": []
+    }
+   }
+  },
+  {
+   "file": "templates_7_maths.json",
+   "method": "GET",
+   "path": "/api/v1/schools/school_1/teacher-templates?grade=7&subject=Mathematics",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "chapters_7_maths.json",
+   "method": "GET",
+   "path": "/api/v1/catalog/Mathematics/7/chapters",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "availability_7_maths_all.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:7:mathematics:unit_test/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": []
+    }
+   }
+  },
+  {
+   "file": "availability_7_maths_two.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:7:mathematics:unit_test/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": [
+      "integers",
+      "fractions-and-decimals"
+     ]
+    }
+   }
+  },
+  {
+   "file": "generate_7_maths_refused.json",
+   "method": "POST",
+   "path": "/api/v1/papers/generate-from-template",
+   "status": 400,
+   "body": {
+    "templateId": "preset:cbse:7:mathematics:unit_test",
+    "scope": {
+     "chapterIds": [
+      "integers",
+      "fractions-and-decimals"
+     ]
+    }
+   }
+  },
+  {
+   "file": "create_template_mismatch.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates",
+   "status": 422,
+   "body": {
+    "name": "Weekly check",
+    "grade": 10,
+    "subject": "Science",
+    "examType": "custom",
+    "totalMarks": 25,
+    "durationMinutes": 45,
+    "sections": [
+     {
+      "title": "Section A",
+      "questionCount": 10,
+      "marksEach": 1
+     },
+     {
+      "title": "Section B",
+      "questionCount": 4,
+      "marksEach": 3
+     }
+    ]
+   }
+  },
+  {
+   "file": "create_template_ok.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates",
+   "status": 200,
+   "body": {
+    "name": "Weekly check",
+    "grade": 10,
+    "subject": "Science",
+    "examType": "custom",
+    "totalMarks": 22,
+    "durationMinutes": 45,
+    "sections": [
+     {
+      "title": "Section A",
+      "questionCount": 10,
+      "marksEach": 1
+     },
+     {
+      "title": "Section B",
+      "questionCount": 4,
+      "marksEach": 3
+     }
+    ]
+   }
+  },
+  {
+   "file": "templates_10_science_after_create.json",
+   "method": "GET",
+   "path": "/api/v1/schools/school_1/teacher-templates?grade=10&subject=Science",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "availability_created_all.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/tpl_d58410d827/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": []
+    }
+   }
+  }
+ ]
+}

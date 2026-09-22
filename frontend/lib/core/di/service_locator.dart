@@ -11,6 +11,7 @@ import '../../data/datasources/api/api_client.dart';
 import '../../data/datasources/api/auth_api.dart';
 import '../../data/datasources/api/consent_api.dart';
 import '../../data/datasources/api/curriculum_api.dart';
+import '../../data/datasources/api/paper_builder_api.dart';
 import '../../data/datasources/api/pillar_api.dart';
 import '../../data/datasources/local/app_database.dart';
 import '../download/pdf_saver.dart';
@@ -125,6 +126,9 @@ Future<void> initDependencies() async {
   // Where a downloaded paper / answer-key PDF goes: a browser download on
   // the web, the share sheet elsewhere (core/download/pdf_saver.dart).
   sl.registerLazySingleton<PdfSaver>(() => PdfSaver.platform());
+  // The guided paper builder's template/availability/swap API. Server-only:
+  // the offline build never routes to the builder (see newPaperLocation).
+  sl.registerLazySingleton<PaperBuilderApi>(() => PaperBuilderApi(sl<Dio>()));
 
   // API Client
   // ACADEMICOS_OFFLINE=true is set only by the standalone-Android build --

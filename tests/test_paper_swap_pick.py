@@ -441,6 +441,21 @@ IRRATIONAL = (  # cbse:q:src:f516dfe29cfec4ac6d74feec:27 / cbse:q:src:9e5b184987
 IDENTITY = (  # cbse:q:src:abf68dc97d40281d455ffaa2:28 / cbse:q:src:db32b7ab98169b625243c09e:26
     "Prove the following trigonometric identity : = sec A -tan A",
     "Prove the following trigonometric identity : = cot A")
+# Task 906's review: the radical is lost in extraction, so "root 3" and "3 +
+# 2 root 5" differ only by numbers the shorter never had. A cut copy loses
+# its end, not a middle; these differ in the middle.
+RADICAL = ("Prove that 3 is an irrational number.",
+           "Prove that 3 + 2 5 is an irrational number.")
+RADICAL_2 = ("Prove that 2 is an irrational number.",
+             "Prove that 2 3 is an irrational number.")
+# ... and a sign or an exponent is a different question too, including the
+# superscript and subscript digits the served stems carry ("(x – 2)₂").
+SIGN = ("Find the zeroes of the quadratic polynomial x2 + 7x + 10 and verify the "
+        "relationship between the zeroes and the coefficients.",
+        "Find the zeroes of the quadratic polynomial x2 – 7x + 10 and verify the "
+        "relationship between the zeroes and the coefficients.")
+EXPONENT = ("Find the zeroes of the polynomial x² + 7x + 10 and verify the relationship.",
+            "Find the zeroes of the polynomial x³ + 7x + 10 and verify the relationship.")
 # ... and real pairs that are one question: the same MCQ in two papers, one
 # copy carrying the page footer ("15-", "5| P a g e") or cut before its last
 # number (cbse:q:src:0916a372de696613bddff07e:7 / cbse:q:src:7bc43935e9890c40e2e44322:12;
@@ -453,16 +468,29 @@ FOOTER = (
     "(D) 2a + b = 5| P a g e",
     "x = 1 y = 2, 2x -3y + a = 0 2x + 3y -b = 0 , (A) a = 2b (B) 2a = b (C) a + 2b = 0 "
     "(D) 2a + b = 9| P a g e")
+# ... and one question whose copies differ by one token in the middle: the
+# Hindi-medium frequency-table case study, its words lost in extraction, one
+# copy carrying a stray "12" before its last "x y" (Task 906's code review,
+# cbse:q:src:0b075a8b722f16f272c0cc4d:34 against
+# cbse:q:src:db32b7ab98169b625243c09e:32, and against
+# cbse:q:src:c42982ff54131ed0d5b7d9b0:35 with its page footer). The
+# cut-at-the-end rule alone let both pairs print on one paper.
+_FREQ_TABLE = ("( ) (mm ) 100 -120 8 120 -140 9 140 -160 12 160 -180 5 180 -200 6 mm ( ) "
+               "(Record) 0 -4 4 -8 8 -12 12 -16 16 -20 20 -24 1 x y")
+FREQ_TABLE = (_FREQ_TABLE + " 12 x y", _FREQ_TABLE + " x y")
+FREQ_TABLE_FOOTER = (_FREQ_TABLE + " 12 x y", _FREQ_TABLE + " x y # 17| P a g e")
 
 
 def test_numbers_polarity_and_functions_tell_different_questions_apart():
     """Task 905's review: over every pair in the real class 10 Mathematics
     pool the text measure flagged 28, and some were different questions."""
-    for a, b in (ROOT_K, SUNDAYS, IRRATIONAL, IDENTITY):
+    for a, b in (ROOT_K, SUNDAYS, IRRATIONAL, IDENTITY, RADICAL, RADICAL_2, SIGN,
+                 EXPONENT):
         assert not pool_mod.near_duplicate(a, b), (a, b)
         assert not pool_mod.near_duplicate(b, a), (a, b)
     # A page footer or a copy cut short is not a different question.
-    for a, b in (FACTORISE, FOOTER, (QUADRATIC_A[1], QUADRATIC_B[1])):
+    for a, b in (FACTORISE, FOOTER, (QUADRATIC_A[1], QUADRATIC_B[1]), FREQ_TABLE,
+                 FREQ_TABLE_FOOTER):
         assert pool_mod.near_duplicate(a, b), (a, b)
         assert pool_mod.near_duplicate(b, a), (a, b)
 
@@ -670,6 +698,9 @@ def test_generate_warns_about_selected_questions_that_repeat_each_other(tmp_path
             warnings = gen.json()["warnings"]
             assert len(warnings) == 1, warnings
             assert QUADRATIC_A[0] in warnings[0] and QUADRATIC_B[0] in warnings[0], warnings
+            # The same pair as ids, so the builder can swap one without
+            # reading ids back out of the sentence.
+            assert gen.json()["similarPairs"] == [[QUADRATIC_A[0], QUADRATIC_B[0]]]
             assert _TWIN_IDS <= _on_paper(gen.json())
             refused = post(picked, rejectSimilar=True)
             assert refused.status_code == 422, refused.text
@@ -678,6 +709,7 @@ def test_generate_warns_about_selected_questions_that_repeat_each_other(tmp_path
         ok = post(_TWINS[:1] + others)
         assert ok.status_code == 200, ok.text
         assert ok.json()["warnings"] == []
+        assert ok.json()["similarPairs"] == []
         twice = post(_TWINS[:1] + _TWINS[:1] + others[:1])
         assert twice.status_code == 422, twice.text
         assert QUADRATIC_A[0] in twice.json()["detail"]
@@ -702,11 +734,13 @@ def test_generate_from_ids_warns_about_ids_that_repeat_each_other(tmp_path, monk
         warnings = gen.json()["warnings"]
         assert len(warnings) == 1, warnings
         assert QUADRATIC_A[0] in warnings[0] and QUADRATIC_B[0] in warnings[0], warnings
+        assert [sorted(p) for p in gen.json()["similarPairs"]] == [sorted(_TWIN_IDS)]
         assert _TWIN_IDS <= _on_paper(gen.json())
         # The warning belongs to this generation, not to the stored paper.
         stored = client.get(f"/api/v1/papers/{gen.json()['id']}", headers=t1)
         assert stored.status_code == 200, stored.text
         assert stored.json()["warnings"] == []
+        assert stored.json()["similarPairs"] == []
         refused = post([QUADRATIC_A[0], "o0", QUADRATIC_B[0]], rejectSimilar=True)
         assert refused.status_code == 422, refused.text
         detail = refused.json()["detail"]
@@ -807,3 +841,20 @@ def test_generate_swap_and_pick_timings_on_the_real_class_10_science_bank(
     print(f"\nclass 10 Science annual, real bank, 20 runs each (ms): {timings}")
     assert builds == []                 # the pool is built once, never per request
     assert len(mapped) == 1             # and mapped to the wire shape once
+
+
+def test_one_inserted_sign_mid_stem_is_a_different_question():
+    """Task 906's review: the mid-stem exception took any single extra token,
+    so '... 2x - 4y = 24 ...' and '... 2x - 4y = -24 ...' (one inserted '-',
+    with >= 10 exact tokens) were near-duplicates. Only a stray NUMBER is
+    extraction noise; a sign, relation, function name, polarity word or
+    assertion/reason label changes the question."""
+    from academicos.assessment import pool
+
+    a = ("Solve the pair of linear equations 2x + 3y = 11 and 2x - 4y = 24 and "
+         "hence find the value of m for which y = mx + 3.")
+    b = a.replace("= 24", "= -24")
+    assert not pool.near_duplicate(a, b)
+    assert not pool.near_duplicate(b, a)
+    c = a.replace("= 11 and", "= 11 not and")
+    assert not pool.near_duplicate(a, c)
