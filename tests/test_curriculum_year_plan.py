@@ -490,8 +490,10 @@ def test_a_mid_year_regenerate_plans_only_from_today(store):
     """The review reproduced it: 10 lessons marked in June, regenerated as
     if in November, and 100 of the 210 replanned lessons were dated before
     November (from 2026-06-12) with allSubtopicsScheduled=true. A lesson on
-    a day that has passed cannot be taught, so the replan starts at today,
-    and a syllabus that no longer fits the rest of the year is flagged."""
+    a day that has passed cannot be taught, so new lessons start at today.
+    The June-October lessons nobody marked stay where they are (review of
+    9dd889d), so the replan fills exactly the periods left; the shortfall a
+    first plan made in November reports is tested below."""
     b = _seed(store, holidays=HOLIDAYS)
     calendar_mod.compute_teaching_time_estimates(
         store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
@@ -501,27 +503,24 @@ def test_a_mid_year_regenerate_plans_only_from_today(store):
     for l in lessons[:10]:
         store.mark_lesson(l.id, status="completed", note=None, completed_by="t1")
     today = "2026-11-02"
+    past_ids = {l.id for l in lessons if l.date < today}
 
     result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
                                           book_id=b.book, periods_per_week=6, force=True,
                                           from_date=today)
 
     after = store.scheduled_lessons_for_book(b.year, b.book)
-    replanned = [l for l in after if l.status == "scheduled"]
-    assert replanned
-    assert min(l.date for l in replanned) >= today
+    new = [l for l in after if l.id not in past_ids]
+    assert new
+    assert min(l.date for l in new) >= today
     assert result.first_scheduled_date >= today
     assert result.lessons_kept == 10
+    assert result.past_lessons_kept == len(past_ids) - 10
     assert sum(1 for l in after if l.status == "completed") == 10
     left = _periods_from(store, b.year, b.book, today)
     assert result.teaching_periods_available == len(left)
-    assert len(replanned) == len(left)          # every period left is used, none twice
-    # The estimates were sized for the whole year; with June-October gone
-    # the rest of the syllabus no longer fits, and the response says so.
-    assert result.all_subtopics_scheduled is False
-    assert result.subtopics_unscheduled or result.subtopics_partially_scheduled
-    assert f"{len(left)} teaching periods left" in result.warning
-    assert today in result.warning
+    assert len(new) == len(left)                # every period left is used, none twice
+    assert result.all_subtopics_scheduled, result.warning
 
 
 def test_a_plan_made_before_the_year_starts_uses_the_whole_year(store):
@@ -552,11 +551,13 @@ def test_schedule_route_plans_from_the_school_today(principal_world):
     assert r.status_code == 200, r.text
     body = r.json()
     assert body["firstScheduledDate"] >= "2026-11-02"
-    assert body["allSubtopicsScheduled"] is False and body["warning"]
     assert body["lessonsKept"] == 1
-    replanned = [l for l in w.store.scheduled_lessons_for_book(b.year, b.book)
-                 if l.status == "scheduled"]
-    assert all(l.date >= "2026-11-02" for l in replanned)
+    # June-October stays as planned (taught or overdue); only November on
+    # is replanned, so the plan still fits.
+    assert body["pastLessonsKept"] > 0
+    assert body["allSubtopicsScheduled"] is True, body["warning"]
+    after = w.store.scheduled_lessons_for_book(b.year, b.book)
+    assert sum(1 for l in after if l.date < "2026-11-02") == body["pastLessonsKept"] + 1
 
 
 # --------------------------------------------------------------------- #
@@ -671,3 +672,62 @@ def test_progress_and_delayed_topics_count_an_unscheduled_lesson(principal_world
     assert entry["lastPlannedDate"] == dropped.date
     assert entry["subjectName"] == "Mathematics" and entry["subtopicName"]
     assert dropped.id not in {l["lessonId"] for l in body["delayedLessons"]}
+
+
+# --------------------------------------------------------------------- #
+# Review of 9dd889d: a mid-year force regenerate kept only marked lessons
+# --------------------------------------------------------------------- #
+
+def test_a_mid_year_regenerate_keeps_past_lessons_nobody_marked(store):
+    """The review reproduced it on this calendar: 220 estimated periods,
+    no lesson marked (teachers taught but did not tick), then force=True
+    from 2026-09-22 (the release date). Every June-September lesson was
+    deleted, the replan covered only what fit after today, and 9 of 21
+    subtopics lost their dates -- the overdue record vanished from
+    delayed-topics, planned-to-date and pace, and the second half of the
+    syllabus was left undated although that time was spent on the first.
+    A day that has passed is history: its planned lessons stay, count
+    toward their subtopic's estimate, and only the future is replanned."""
+    b = _seed(store, holidays=HOLIDAYS)
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                 book_id=b.book, periods_per_week=6)
+    before = store.scheduled_lessons_for_book(b.year, b.book)
+    today = "2026-09-22"
+    past = {(l.id, l.subtopic_id, l.date, l.status) for l in before if l.date < today}
+    assert past
+
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                          book_id=b.book, periods_per_week=6, force=True,
+                                          from_date=today)
+
+    after = store.scheduled_lessons_for_book(b.year, b.book)
+    assert {(l.id, l.subtopic_id, l.date, l.status) for l in after if l.date < today} == past
+    assert result.past_lessons_kept == len(past)
+    assert result.lessons_kept == 0                     # nothing was marked
+    assert result.all_subtopics_scheduled, result.warning
+    assert not result.subtopics_unscheduled and not result.subtopics_partially_scheduled
+    assert result.first_scheduled_date >= today
+    # The replan is the same plan: every subtopic keeps its periods, and
+    # each period of the year still holds exactly one lesson.
+    assert Counter(l.subtopic_id for l in after) == Counter(l.subtopic_id for l in before)
+    assert sorted(l.date for l in after) == sorted(l.date for l in before)
+
+
+def test_a_first_plan_made_mid_year_reports_the_periods_left(store):
+    """A school that starts using the planner in November has no June plan
+    to keep: the plan starts at today, and a syllabus sized for the whole
+    year is flagged against the periods really left."""
+    b = _seed(store, holidays=HOLIDAYS)
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    today = "2026-11-02"
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                          book_id=b.book, periods_per_week=6, from_date=today)
+    left = _periods_from(store, b.year, b.book, today)
+    assert result.first_scheduled_date >= today
+    assert result.lessons_created == len(left)
+    assert result.all_subtopics_scheduled is False
+    assert f"{len(left)} teaching periods left" in result.warning
+    assert today in result.warning

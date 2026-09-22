@@ -1314,17 +1314,28 @@ class CurriculumStore:
             (school_id, start_date, end_date))
         return [ScheduledLesson(**dict(r)) for r in rows]
 
-    def delete_unrecorded_lessons_for_book(self, academic_year_id: str, book_id: str) -> int:
+    def delete_unrecorded_lessons_for_book(self, academic_year_id: str, book_id: str,
+                                           from_date: Optional[str] = None) -> int:
         """A force regenerate's delete: only lessons still to be taught
         ('scheduled'/'unscheduled'). Completed and skipped lessons are the
         teaching record and stay; until 2026-09-22 a regenerate deleted
-        them with every other row."""
+        them with every other row.
+
+        With `from_date`, a 'scheduled' lesson dated before it stays too: its
+        day has passed, so it was taught or is overdue, and either way it is
+        what delayed-topics, planned-to-date and pace report on. Deleting it
+        (the first version of this delete) erased the overdue record of a
+        school whose teachers taught but did not tick. Every 'unscheduled'
+        lesson goes: a PUSH found it no day, so it is still to be placed."""
         placeholders = ",".join("?" for _ in RECORDED_STATUSES)
+        sql = (f"DELETE FROM scheduled_lessons WHERE academic_year_id=? AND book_id=? "
+               f"AND status NOT IN ({placeholders})")
+        params: tuple = (academic_year_id, book_id, *RECORDED_STATUSES)
+        if from_date is not None:
+            sql += " AND (status='unscheduled' OR date >= ?)"
+            params += (from_date,)
         with self._conn_lock:
-            cur = self.conn.execute(
-                f"DELETE FROM scheduled_lessons WHERE academic_year_id=? AND book_id=? "
-                f"AND status NOT IN ({placeholders})",
-                (academic_year_id, book_id, *RECORDED_STATUSES))
+            cur = self.conn.execute(sql, params)
             rowcount = cur.rowcount
         self._commit()
         return rowcount

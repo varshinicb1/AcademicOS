@@ -87,6 +87,7 @@ class ScheduleResult:
     last_scheduled_date: Optional[str]
     teaching_periods_available: int = 0   # periods the new lessons could use (a double counts twice)
     lessons_kept: int = 0                 # completed/skipped lessons a force regenerate kept
+    past_lessons_kept: int = 0            # unmarked lessons dated before from_date a regenerate kept
     warning: Optional[str] = None         # set whenever a subtopic has no (or too few) dated lessons
 
     @property
@@ -153,20 +154,32 @@ def schedule_book(
     and the shortfall warning counts only the periods left. None means the
     year's first day (the pure planning case the tests build on).
 
+    A 'scheduled' lesson dated before `from_date` is kept like a marked one
+    (reported as `past_lessons_kept`): its day has passed, so it was taught
+    but not ticked, or is overdue. Until the review of 9dd889d a regenerate
+    on 2026-09-22 with nothing marked deleted the whole June-September plan,
+    so the overdue record left delayed-topics and pace, and 9 of 21
+    subtopics lost their dates because the first half was replanned into
+    time the second half needed. Counting past lessons toward their
+    subtopic's estimate means only the future is replanned.
+
     Records the cadence the lessons were laid out at, so PUSH moves them at
     the same cadence (Task 102 review)."""
     if periods_per_week <= 0:
         raise ValueError("periods_per_week must be positive")
 
     existing = store.scheduled_lessons_for_book(academic_year_id, book_id)
-    kept = [l for l in existing if l.status in RECORDED_STATUSES]
+    recorded = [l for l in existing if l.status in RECORDED_STATUSES]
+    past = [l for l in existing
+            if l.status == "scheduled" and from_date is not None and l.date < from_date]
+    kept = recorded + past
     if existing:
         if not force:
             raise ValueError(
                 f"book {book_id} already has a schedule for {academic_year_id} "
                 f"({len(existing)} lessons) -- pass force=True to regenerate (completed and skipped "
                 "lessons are kept; only what is still to be taught is replanned)")
-        store.delete_unrecorded_lessons_for_book(academic_year_id, book_id)
+        store.delete_unrecorded_lessons_for_book(academic_year_id, book_id, from_date=from_date)
 
     # A kept lesson holds only its own period. Cutting the slot list after
     # the latest kept lesson (the first version of this fix) threw the whole
@@ -240,7 +253,8 @@ def schedule_book(
         subtopics_unscheduled=tuple(unscheduled),
         subtopics_without_estimate=tuple(without_estimate),
         first_scheduled_date=first_date, last_scheduled_date=last_date,
-        teaching_periods_available=len(slots), lessons_kept=len(kept),
+        teaching_periods_available=len(slots), lessons_kept=len(recorded),
+        past_lessons_kept=len(past),
         warning=_shortfall_warning(
             total=total_subtopics, unscheduled=len(unscheduled), partial=len(partially_scheduled),
             without_estimate=len(without_estimate), periods_available=len(slots),

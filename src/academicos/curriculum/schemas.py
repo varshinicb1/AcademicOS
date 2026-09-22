@@ -364,6 +364,10 @@ class ScheduleBookResponse(Camel):
     last_scheduled_date: Optional[str] = None
     teaching_periods_available: int = 0
     lessons_kept: int = 0
+    # Unmarked lessons dated before today that a force regenerate kept (a
+    # past day is taught or overdue, never replanned); they count toward
+    # their subtopic's estimate like completed ones.
+    past_lessons_kept: int = 0
     # The shortfall flag (rule Q4: a gap is reported, not implied): false,
     # with `warning` saying how many subtopics have no date and why, whenever
     # a subtopic is unscheduled, partially scheduled or has no estimate. Still

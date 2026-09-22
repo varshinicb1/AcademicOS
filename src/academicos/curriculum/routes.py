@@ -963,8 +963,9 @@ def schedule_book(book_id: str, academic_year_id: str, req: ScheduleBookRequest,
     (book, academic_year); a Subtopic without a real estimate is skipped
     and reported, never given a guessed period count. `allSubtopicsScheduled`
     is false, with a `warning` sentence, whenever any subtopic ends up
-    without its full dated periods. `force` keeps completed/skipped lessons
-    and replans only what is still to be taught. New lessons are placed from
+    without its full dated periods. `force` keeps completed/skipped lessons,
+    and every lesson dated before today (taught or overdue), and replans
+    only what is still to be taught. New lessons are placed from
     the school's today (or the year's first day, if later): a day that has
     passed cannot be taught on, and the shortfall warning counts only the
     periods left."""
@@ -988,7 +989,8 @@ def schedule_book(book_id: str, academic_year_id: str, req: ScheduleBookRequest,
         subtopics_without_estimate=list(result.subtopics_without_estimate),
         first_scheduled_date=result.first_scheduled_date, last_scheduled_date=result.last_scheduled_date,
         teaching_periods_available=result.teaching_periods_available,
-        lessons_kept=result.lessons_kept, all_subtopics_scheduled=result.all_subtopics_scheduled,
+        lessons_kept=result.lessons_kept, past_lessons_kept=result.past_lessons_kept,
+        all_subtopics_scheduled=result.all_subtopics_scheduled,
         warning=result.warning)
 
 
