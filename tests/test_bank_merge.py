@@ -1482,7 +1482,7 @@ def test_an_assertion_reason_item_that_prints_its_options_is_not_given_them_twic
     stem = AR_STEM + " " + " ".join(f"({k}) {v}" for k, v in zip("ABCD", AR_OPTIONS))
     rec = real_board("af50a3f7e666fdea9cee608f:20", stem, subject="Science",
                      answer="(B)", option="B")
-    out, reason, repairs = bm.repair_board(rec)
+    out, reason, repairs, _ = bm.repair_board(rec)
     assert "assertion-reason-options" not in repairs
     assert out["stem"] == stem
     assert out["stem"].count(AR_OPTIONS[0]) == 1
@@ -1537,7 +1537,7 @@ RUPEE_STEM = ("Trisha died on 31st July, 2022. According to the partnership deed
 def test_the_rupee_sign_read_as_less_than_is_restored_in_a_commerce_paper():
     rec = real_board("4d332115f14c6aeeaa34b438:25", RUPEE_STEM, subject="Accountancy",
                      grade=12, marks=6, qtype="long_answer")
-    out, reason, repairs = bm.repair_board(rec)
+    out, reason, repairs, _ = bm.repair_board(rec)
     assert reason is None
     assert "Salary @ ₹ 15,000 per quarter" in out["stem"]
     assert "were ₹ 1,00,000, ₹ 2,00,000 and ₹ 1,50,000 respectively" in out["stem"]
@@ -1589,7 +1589,7 @@ def test_the_rupee_repair_is_made_only_in_commerce_papers():
     # Mathematics paper is not, and a Mathematics stem is not read this way.
     rec = real_board("4d332115f14c6aeeaa34b438:25", RUPEE_STEM, subject="Mathematics",
                      marks=6, qtype="long_answer")
-    out, _, repairs = bm.repair_board(rec)
+    out, _, repairs, _ = bm.repair_board(rec)
     assert out["stem"] == RUPEE_STEM and repairs == []
 
 
@@ -2132,7 +2132,7 @@ def test_a_glyph_is_still_the_reason_when_nothing_else_refuses_the_record():
 def test_a_board_record_loses_no_symbol_in_print():
     rec = board(stem="The angle subtended at the centre is 50\uf0b0. Find \uf0d0BOC in "
                      "terms of \uf061 and give a reason for your answer.")
-    out, reason, repairs = bm.repair_board(rec)
+    out, reason, repairs, _ = bm.repair_board(rec)
     assert reason is None
     assert out["stem"] == ("The angle subtended at the centre is 50°. Find ∠BOC in "
                            "terms of α and give a reason for your answer.")
@@ -2146,6 +2146,47 @@ def test_a_board_record_with_an_uncovered_glyph_is_withheld_whole():
     assert result.questions == []
     assert [e["reason"] for e in result.excluded] == ["private-use-glyph"]
     assert result.withheld == [rec]
+
+
+def test_a_board_record_already_out_of_scope_keeps_its_own_reason():
+    """The board path orders the gates as the CBE/SQP path does: the glyph is
+    the reason only when nothing more informative refuses the record. Filed
+    first it would read "private-use-glyph" for a record no figure can be
+    drawn for -- the exact mislabelling `test_a_record_already_out_of_scope_
+    keeps_its_own_reason` records on the other path, and `_merge_excluded.json`
+    is what decides which defects get worked next."""
+    rec = board(stem="From the graph given above, read the current  through "
+                     "the resistor and state what it shows about the circuit.")
+    result = bm.compose([rec], [], [])
+    assert [e["reason"] for e in result.excluded] == ["figure-unavailable"]
+    assert result.withheld == [rec]
+
+
+def test_a_glyph_in_the_withheld_key_provenance_does_not_cost_the_question():
+    """`answerScheme.metadata.conflictingKeys` is provenance: the relink's copy
+    of a key it removed, as it was removed, kept so the next relink compares
+    the same two answers and so a person reviewing one sees the code point the
+    extractor produced (question_bank._restore_scheme_symbols leaves it raw for
+    that reason). No student and no scorer reads it, so a private-use character
+    there is not a hole anyone would see -- the gate's own rule -- and the
+    repair must not rewrite the copy either.
+
+    46 of the 15,605 rows in answer_keys.db carry a private-use character the
+    table cannot name, and a conflicting key is copied verbatim from such a
+    row; 0 served records carry `conflictingKeys` today, so this bites on the
+    next merge -> enrich -> merge cycle."""
+    held = {"existing": {"modelAnswer": "Ca + H2O  Ca(OH)2, 30",
+                         "provenance": "cbse_marking_scheme"},
+            "join": {"modelAnswer": "30"}}
+    rec = board()
+    rec["answerScheme"]["metadata"] = dict(rec["answerScheme"]["metadata"],
+                                           conflictingKeys=copy.deepcopy(held))
+    fixed, reason, repairs, glyph = bm.repair_board(rec)
+    assert (reason, glyph, repairs) == (None, None, [])
+    assert fixed["answerScheme"]["metadata"]["conflictingKeys"] == held, (
+        "the provenance copy is left exactly as the relink wrote it")
+    result = bm.compose([rec], [], [])
+    assert [q["id"] for q in result.questions] == [rec["id"]]
 
 
 @pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
@@ -2176,7 +2217,8 @@ def test_no_served_record_holds_a_private_use_glyph():
                   if any(bm.restore_symbol_font(s) != s for s in strings(r))]
     assert restorable == []
     printed = [{k: r.get(k) for k in bm._SYMBOL_PRINTED_FIELDS}
-               | {"passage": (r.get("metadata") or {}).get("passage")} for r in rows]
+               | {"answerScheme": bm.printed_scheme(r.get("answerScheme")),
+                  "passage": (r.get("metadata") or {}).get("passage")} for r in rows]
     holes = [r["id"] for r, p in zip(rows, printed)
              if bm.PRIVATE_USE.search(json.dumps(p, ensure_ascii=False))]
     assert holes == []

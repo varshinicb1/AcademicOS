@@ -1545,6 +1545,34 @@ def test_the_relink_restores_the_symbols_in_the_scheme_it_writes(tmp_path):
     assert "x cm ∴ altitude" in scheme["modelAnswer"]
     assert bank_merge.PRIVATE_USE.search(json.dumps(scheme, ensure_ascii=False)) is None
     assert report.symbol_font_restored == 1
+    assert report.symbol_font_unnameable == 0
+
+
+def test_a_scheme_symbol_the_table_cannot_name_is_reported(tmp_path):
+    """The other half of the same pass. `restore_symbol_font` restores the codes
+    the Adobe Symbol table covers and leaves the rest -- 46 of the 15,605 rows
+    in answer_keys.db carry a private-use character it cannot name (U+F0E0, the
+    reaction arrow, among them). Such a scheme is written into a served
+    record's `modelAnswer`, a hole a scorer reads, and the only thing that ever
+    notices is the next merge, which then withholds the whole question rather
+    than just its key. It is a hole the run has to raise its hand about."""
+    stem = ("Name the gas evolved when calcium metal reacts with water and "
+            "state how it is tested in the laboratory.")
+    answer = ("The gas evolved when calcium metal reacts with water is hydrogen: "
+              "Ca + 2H2O  Ca(OH)2 + H2. It is tested in the laboratory with a "
+              "burning splint, which burns with a pop sound.")
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "6" * 24, "Series 31/5/1 Science")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [
+        ("Science", "X", "31/5/1", 19, None, answer, "[]", 3.0,
+         "X_MS_086_Science_31-5-1_2024-25.pdf")]))
+    recs = [_board("6" * 24, 19, stem, {}, subject="Science", marks=3)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert recs[0]["answerScheme"]["provenance"] == "cbse_marking_scheme"
+    assert report.symbol_font_restored == 0
+    assert report.symbol_font_unnameable == 1
+    assert any("the table cannot name: 1" in line for line in report.lines())
 
 
 def test_a_quarantined_scheme_keeps_the_characters_the_extraction_left(tmp_path):

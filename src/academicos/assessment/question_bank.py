@@ -699,6 +699,11 @@ class RelinkReport:
     # stands for -- the merge's `symbol-font-restored`, applied to the scheme
     # the relink writes rather than to the record the merge read.
     symbol_font_restored: int = 0
+    # And the other half: records whose scheme still holds a private-use
+    # character the table CANNOT name, in a field a scorer reads. Nothing here
+    # guesses it, and nothing downstream sees it until the next merge withholds
+    # the whole question as private-use-glyph -- so the run reports it.
+    symbol_font_unnameable: int = 0
 
     @property
     def verified(self) -> int:
@@ -741,6 +746,8 @@ class RelinkReport:
             "with any scheme                : {:,}".format(self.with_scheme),
             "symbol-font code points restored in the scheme: {:,}".format(
                 self.symbol_font_restored),
+            "  schemes left holding a symbol the table cannot name: {:,}".format(
+                self.symbol_font_unnameable),
             "",
             "quarantined (scheme removed from the record): {:,}".format(
                 sum(self.quarantined.values())),
@@ -1272,15 +1279,19 @@ def relink_answer_schemes(
         else:
             report.replaced_after_quarantine += 1
 
-    report.symbol_font_restored = sum(_restore_scheme_symbols(r) for r in records)
+    for rec in records:
+        restored, unnameable = _restore_scheme_symbols(rec)
+        report.symbol_font_restored += restored
+        report.symbol_font_unnameable += unnameable
     report.existing_scheme_removed = sum(
         not _has_content(r.get("answerScheme") or {}) for r in had_before)
     return report
 
 
-def _restore_scheme_symbols(rec: dict[str, Any]) -> bool:
+def _restore_scheme_symbols(rec: dict[str, Any]) -> tuple[bool, bool]:
     """Restore the Symbol-font code points in the scheme the relink just wrote,
-    in place; True when it changed anything.
+    in place; whether it changed anything, and whether a private-use character
+    the table CANNOT name is left in a field a scorer reads.
 
     The merge repairs a record's text before it serves it
     (`bank_merge.repair_symbol_font`), but the scheme the relink writes does
@@ -1298,9 +1309,22 @@ def _restore_scheme_symbols(rec: dict[str, Any]) -> bool:
 
     The quarantine entries and the `conflictingKeys` hold are left raw: they
     are provenance, a copy of what was removed as it was removed, and a person
-    reviewing one needs the characters the extractor actually produced.
+    reviewing one needs the characters the extractor actually produced. They
+    are not counted as unnameable either, for the same reason the merge's gate
+    does not read them (`bank_merge.printed_scheme`): nobody scores them.
+
+    What the table cannot name is not guessed and not dropped -- it is
+    REPORTED. `restore_symbol_font` covers the codes Adobe's Symbol encoding
+    names and leaves the rest, and 46 of the 15,605 rows in answer_keys.db
+    carry one it cannot (U+F09F x17, U+F0A7 x16, U+F0E7 x4, U+F076 x3,
+    U+F0BE x2, U+F0F8 x2, U+F0FB, U+F0E0). A scheme built from such a row goes
+    into a served record's `modelAnswer` as a hole a scorer reads, and the only
+    thing that would ever notice is the NEXT merge -- which then withholds the
+    whole question rather than just its key. A wrong answer shipped silently is
+    worse than an error, so the run says so: `RelinkReport.symbol_font_
+    unnameable`, printed beside the restored count.
     """
-    from ..corpus.symbol_font import restore_symbol_font
+    from ..corpus.symbol_font import private_use_glyph, restore_symbol_font
 
     changed = False
 
@@ -1316,10 +1340,21 @@ def _restore_scheme_symbols(rec: dict[str, Any]) -> bool:
             return [fix(v) for v in value]
         return value
 
+    def unnameable(value: Any) -> bool:
+        if isinstance(value, str):
+            return private_use_glyph(value) is not None
+        if isinstance(value, dict):
+            return any(unnameable(v) for k, v in value.items() if k != CONFLICT_HELD)
+        if isinstance(value, list):
+            return any(unnameable(v) for v in value)
+        return False
+
     scheme = rec.get("answerScheme")
-    if isinstance(scheme, dict):
-        rec["answerScheme"] = fix(scheme)
-    return changed
+    if not isinstance(scheme, dict):
+        return False, False
+    scheme = fix(scheme)
+    rec["answerScheme"] = scheme
+    return changed, unnameable(scheme)
 
 
 def _siblings(records: list[dict[str, Any]], located) -> dict[int, list[tuple[str, int]]]:

@@ -189,8 +189,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from ..assessment.question_bank import (OfficialAnswer, build_official_scheme,
-                                         builder_key_reason)
+from ..assessment.question_bank import (CONFLICT_HELD, OfficialAnswer,
+                                         build_official_scheme, builder_key_reason)
 from .mcq_shape import (
     INSTRUCTION, LATER_PART_OPENING, LETTERS, MIN_OPTIONS, PART_LABEL_OPENING, SUB_PART,
     answerable, has_option_labels, holds_group, key_letter, names_option_letter, norm,
@@ -1282,6 +1282,30 @@ _SYMBOL_PRINTED_FIELDS = ("stem", "stemLatex", "parts", "answerScheme")
 PRIVATE_USE_GLYPH = "private-use-glyph"
 
 
+def printed_scheme(scheme: Any) -> Any:
+    """The answer scheme as a scorer reads it: everything but the relink's
+    provenance copy of the keys a conflict withheld (`CONFLICT_HELD`).
+
+    `answerScheme` as a whole is a printed field -- the model answer and the
+    marking points are what a scorer scores -- but one nested key inside it is
+    not. When two official keys disagree the relink serves neither and keeps
+    both on the record (`question_bank._quarantine`, `CONFLICT_HELD`), as a
+    copy of what was removed AS it was removed: `_restore_scheme_symbols`
+    deliberately leaves it raw so a person settling the conflict sees the code
+    point the extractor produced. Reading it here would make the merge refuse
+    a whole question over a field nobody reads, and rewrite the copy it is the
+    point of to keep verbatim. 46 of the 15,605 rows in answer_keys.db carry a
+    private-use character the table cannot name, and a conflicting key is
+    copied verbatim from such a row.
+    """
+    if not isinstance(scheme, dict):
+        return scheme
+    meta = scheme.get("metadata")
+    if not isinstance(meta, dict) or CONFLICT_HELD not in meta:
+        return scheme
+    return {**scheme, "metadata": {k: v for k, v in meta.items() if k != CONFLICT_HELD}}
+
+
 def _strings(value: Any) -> Iterator[str]:
     """Every string inside a record's field, however deeply nested."""
     if isinstance(value, str):
@@ -1308,9 +1332,15 @@ def repair_symbol_font(rec: dict) -> tuple[dict, bool, str | None]:
     holds) and 313 carry `metadata.contentReference`. Repairing the stem and
     leaving those is the same stem/key disagreement, one field further out.
 
-    The GATE is the narrow one (`_SYMBOL_PRINTED_FIELDS` and the passage): a
-    private-use character the table cannot name costs the record its place
-    only where a student or a scorer would read the hole.
+    The one field the walk skips is the relink's copy of a withheld conflicting
+    key (`CONFLICT_HELD`), exactly as `question_bank._restore_scheme_symbols`
+    skips it: it is provenance, a copy of what was removed as it was removed,
+    and repairing it would destroy the thing it records.
+
+    The GATE is the narrow one (`_SYMBOL_PRINTED_FIELDS` minus that same
+    provenance key, plus the passage): a private-use character the table cannot
+    name costs the record its place only where a student or a scorer would read
+    the hole.
     """
     restored = False
 
@@ -1321,13 +1351,14 @@ def repair_symbol_font(rec: dict) -> tuple[dict, bool, str | None]:
             restored = restored or out != value
             return out
         if isinstance(value, dict):
-            return {k: fix(v) for k, v in value.items()}
+            return {k: (v if k == CONFLICT_HELD else fix(v)) for k, v in value.items()}
         if isinstance(value, list):
             return [fix(v) for v in value]
         return value
 
     r = fix(dict(rec))
     printed = {k: r.get(k) for k in _SYMBOL_PRINTED_FIELDS}
+    printed["answerScheme"] = printed_scheme(printed["answerScheme"])
     printed["passage"] = (r.get("metadata") or {}).get("passage")
     left = next((glyph for text in _strings(printed)
                  if (glyph := private_use_glyph(text)) is not None), None)
@@ -1338,9 +1369,17 @@ def _board_stem_broken(stem: str) -> bool:
     return len(stem) < _MIN_STEM or bool(_HEADER.match(stem)) or _words_lost(stem)
 
 
-def repair_board(rec: dict) -> tuple[dict, str | None, list[str]]:
+def repair_board(rec: dict) -> tuple[dict, str | None, list[str], str | None]:
     """A copy of a verified board record repaired where the repair is certain,
-    the reason it cannot be served if a repair shows one, and the repairs made.
+    the reason it cannot be served if a repair shows one, the repairs made, and
+    the first private-use character the table cannot name in a field that
+    prints.
+
+    The glyph is RETURNED rather than made a reason here, so that `compose` can
+    file it last, after `exclusion_reason` -- as the CBE/SQP path files it
+    after `source_reason`. Filed first it claims records that are out of scope
+    for a more informative reason anyway, and `_merge_excluded.json` is what
+    decides which defects get worked next.
 
     Options stay inline, "(A) ... (B) ... (C) ... (D) ...", as on every served
     MCQ: the web PDF reads them only from the stem (pdf.split_stem_and_options)
@@ -1356,14 +1395,12 @@ def repair_board(rec: dict) -> tuple[dict, str | None, list[str]]:
     r, symbols_restored, glyph = repair_symbol_font(r)
     if symbols_restored:
         repairs.append("symbol-font-restored")
-    if glyph is not None:
-        return r, PRIVATE_USE_GLYPH, repairs
     stem = str(r.get("stem") or "")
     cleaned = strip_board_furniture(stem)
     if cleaned != stem:
         repairs.append("page-furniture-stripped")
         if _board_stem_broken(cleaned):
-            return r, "page-furniture", repairs
+            return r, "page-furniture", repairs, glyph
         stem = cleaned
     if str(r.get("subject") or "").strip().lower() in _COMMERCE_SUBJECTS:
         restored = restore_rupee(stem)
@@ -1371,7 +1408,7 @@ def repair_board(rec: dict) -> tuple[dict, str | None, list[str]]:
             repairs.append("rupee-sign-restored")
             stem = restored
         if _RUPEE_AMOUNT_LOST.search(stem):
-            return r, "symbol-loss", repairs
+            return r, "symbol-loss", repairs, glyph
     scheme = r.get("answerScheme") or {}
     meta = scheme.setdefault("metadata", {})
     letter = str(meta.get("correctOption") or "").strip().upper() or None
@@ -1397,12 +1434,12 @@ def repair_board(rec: dict) -> tuple[dict, str | None, list[str]]:
         from ..assessment.pdf import split_stem_and_options  # reportlab, only when needed
 
         if not _ASSERTION_REASON.search(stem) or len(split_stem_and_options(stem)[1]) != 4:
-            return r, "mcq-options-unresolved", repairs
+            return r, "mcq-options-unresolved", repairs, glyph
         if letter not in ASSERTION_REASON_OPTIONS:
-            return r, "mcq-answer-unresolved", repairs
+            return r, "mcq-answer-unresolved", repairs, glyph
     elif options is None and _ASSERTION_REASON.search(stem) and not has_option_labels(stem):
         if letter not in ASSERTION_REASON_OPTIONS:
-            return r, "mcq-answer-unresolved", repairs
+            return r, "mcq-answer-unresolved", repairs, glyph
         stem = f"{stem.rstrip()} " + " ".join(
             f"({k}) {v}" for k, v in ASSERTION_REASON_OPTIONS.items())
         meta["options"] = dict(ASSERTION_REASON_OPTIONS)
@@ -1411,14 +1448,14 @@ def repair_board(rec: dict) -> tuple[dict, str | None, list[str]]:
         # An objective item that prints options but has no verified letter has
         # no answer key to print, whatever its marks (5 served board MCQs are
         # worth 2) or option count.
-        return r, "mcq-answer-unresolved", repairs
+        return r, "mcq-answer-unresolved", repairs, glyph
     elif options is not None and (letter is not None or (r.get("marks") == 1 and len(options) == 4)):
         # A lettered list on a multi-mark item with no verified letter is its
         # parts -- "(a) Explain ... (b) Suggest ..." -- and is left alone.
         if len(options) < MIN_OPTIONS or not answerable(options):
-            return r, "mcq-options-unresolved", repairs
+            return r, "mcq-options-unresolved", repairs, glyph
         if letter not in options:
-            return r, "mcq-answer-unresolved", repairs
+            return r, "mcq-answer-unresolved", repairs, glyph
         # Reprinted only to fix something -- lowercase labels, or a mark before
         # them -- so the other options keep their text as the paper printed it.
         head = stem[:at].rstrip()
@@ -1430,7 +1467,7 @@ def repair_board(rec: dict) -> tuple[dict, str | None, list[str]]:
             # The relink's copy ends as the stem did: "D": "Human Placental Lactogen -11".
             meta["options"] = dict(options)
     r["stem"] = stem
-    return r, None, repairs
+    return r, None, repairs, glyph
 
 
 # --------------------------------------------------------------------------- #
@@ -1690,8 +1727,12 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             excluded.append(_excluded(rec, NO_VERIFIED_KEY))
             withheld.append(rec)
             continue
-        fixed, reason, made = repair_board(rec)
+        fixed, reason, made, glyph = repair_board(rec)
         reason = reason or exclusion_reason(fixed)
+        # Last, as on the CBE/SQP path below: a record already out of scope for
+        # a more informative reason keeps that reason.
+        if reason is None and glyph is not None:
+            reason = PRIVATE_USE_GLYPH
         group = (rec.get("subject"), rec.get("grade"))
         key = (*group, norm(fixed["stem"]))
         if reason is None and (key in seen_stems or near.is_duplicate(group, fixed["stem"])):
