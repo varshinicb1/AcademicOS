@@ -39,6 +39,7 @@ from typing import Any, Optional
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
+from .audit_log import record_pii_read
 from .auth_routes import require_staff
 from .authz import require_consent_for_all
 from .grade_lock import record_grade_change, require_reason_if_finalized
@@ -182,6 +183,11 @@ def question_across_students(
         raise HTTPException(404, f"question {question_id} is not in any sheet")
 
     rows.sort(key=lambda r: r.student_id)
+    # Every student's answer is read here, so one audit entry lists them all
+    # (docs/compliance.md box 2), written before any of it is returned.
+    record_pii_read(_audit(), actor=current.id, what="answers_to_question",
+                    assessment_id=assessment_id, questionId=question_id,
+                    student_ids=[r.student_id for r in rows])
     scheme = _scheme_for(question_id)
     return QuestionAcrossStudents(
         assessment_id=assessment_id,

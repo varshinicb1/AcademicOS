@@ -76,7 +76,7 @@ import sqlite3
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Iterable, Optional
 
 import requests
 
@@ -524,6 +524,38 @@ class AuditLog:
             "SELECT * FROM audit_log WHERE action=? ORDER BY timestamp DESC",
             (action,)).fetchall()
         return [_row_to_dict(r) for r in rows]
+
+
+# The action of an entry recording that someone read a named student's data.
+PII_READ_ACTION = "pii_read"
+
+
+def record_pii_read(audit: AuditLog, *, actor: str, what: str,
+                    student_id: str | None = None,
+                    student_ids: Iterable[str] | None = None,
+                    assessment_id: str | None = None,
+                    **details: Any) -> str:
+    """Log one read of student data: who (`actor`), whose (`student_id`, or
+    `student_ids` for a read that covers many), what (`what`), and when (the
+    entry's timestamp). Returns the entry id.
+
+    docs/compliance.md box 2 asks that access to student PII be logged with
+    who, when and what. Audit item 8.5 (2026-09-21) found writes logged and
+    reads not: a student's knowledge, every student's answer to a question,
+    a scan's page photo and a consent record could all be read with no
+    trace. Each read route makes this one call after its access checks and
+    before it returns the data.
+
+    A read of many students is ONE entry with the ids sorted in
+    details["studentIds"] and `student_id` left empty, so a class of 40 is
+    one append, not 40. Nothing is caught here: an append the log refuses
+    (AuditAppendFailed, answered 503 by the app) stops the read, because a
+    read that cannot be logged is not served."""
+    body: dict[str, Any] = {"what": what, **details}
+    if student_ids is not None:
+        body["studentIds"] = sorted(set(student_ids))
+    return audit.append(PII_READ_ACTION, assessment_id=assessment_id,
+                        student_id=student_id, actor=actor, details=body)
 
 
 def _row_to_dict(row: sqlite3.Row) -> dict[str, Any]:

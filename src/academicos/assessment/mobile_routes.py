@@ -58,6 +58,18 @@ def _consents():
     from . import pillar_routes
     return pillar_routes._consents()
 
+
+def _log_read(session: mobile_scan.ScanSession, current: User, what: str) -> None:
+    """Log that `current` read this session's student's work: the review
+    queue (every transcribed answer and its marks), a photo of the
+    handwriting itself, or an exported PDF (docs/compliance.md box 2; see
+    pillar_routes._log_read). Called once the data is found and before it
+    is returned."""
+    from . import pillar_routes
+    pillar_routes._log_read(current, what, student_id=session.student_id,
+                            assessment_id=session.assessment_id,
+                            scanSessionId=session.id)
+
 log = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/v1")
 
@@ -203,6 +215,7 @@ def process_scan_session(session_id: str, current: User = Depends(require_staff)
 @router.get("/scan/sessions/{session_id}/review", response_model=ProcessSessionResponse)
 def get_scan_review(session_id: str, current: User = Depends(require_staff)) -> ProcessSessionResponse:
     session = _get_session_owned(session_id, current)
+    _log_read(session, current, "scan_review")
     return ProcessSessionResponse(items=[_item_response(session_id, i) for i in session.review])
 
 
@@ -346,11 +359,13 @@ def get_page_image(session_id: str, page_no: int, current: User = Depends(requir
         raise HTTPException(404, f"no page {page_no} in this session")
     path = page.processed_path if page.processed_path.exists() else page.raw_path
     if path.exists():
+        _log_read(session, current, "scan_page_image")
         return FileResponse(str(path), media_type="image/jpeg")
     data = mobile_scan.fetch_storage_bytes(page.processed_storage_key) \
         or mobile_scan.fetch_storage_bytes(page.raw_storage_key)
     if data is None:
         raise HTTPException(404, "page image not found on disk or in storage")
+    _log_read(session, current, "scan_page_image")
     return Response(content=data, media_type="image/jpeg")
 
 
@@ -358,11 +373,13 @@ def get_page_image(session_id: str, page_no: int, current: User = Depends(requir
 def get_raw_pdf(session_id: str, current: User = Depends(require_staff)):
     session = _get_session_owned(session_id, current)
     if session.raw_pdf_path is not None and session.raw_pdf_path.exists():
+        _log_read(session, current, "scan_raw_pdf")
         return FileResponse(str(session.raw_pdf_path), media_type="application/pdf",
                             filename=session.raw_pdf_path.name)
     data = mobile_scan.fetch_storage_bytes(session.raw_pdf_storage_key)
     if data is None:
         raise HTTPException(404, "raw booklet PDF not generated yet — finalize the session first")
+    _log_read(session, current, "scan_raw_pdf")
     return Response(content=data, media_type="application/pdf",
                     headers={"Content-Disposition": f'inline; filename="{session_id}_raw.pdf"'})
 
@@ -371,10 +388,12 @@ def get_raw_pdf(session_id: str, current: User = Depends(require_staff)):
 def get_corrected_pdf(session_id: str, current: User = Depends(require_staff)):
     session = _get_session_owned(session_id, current)
     if session.corrected_pdf_path is not None and session.corrected_pdf_path.exists():
+        _log_read(session, current, "scan_corrected_pdf")
         return FileResponse(str(session.corrected_pdf_path), media_type="application/pdf",
                             filename=session.corrected_pdf_path.name)
     data = mobile_scan.fetch_storage_bytes(session.corrected_pdf_storage_key)
     if data is None:
         raise HTTPException(404, "corrected PDF not generated yet — finalize the session first")
+    _log_read(session, current, "scan_corrected_pdf")
     return Response(content=data, media_type="application/pdf",
                     headers={"Content-Disposition": f'inline; filename="{session_id}_corrected.pdf"'})

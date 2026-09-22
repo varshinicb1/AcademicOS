@@ -635,11 +635,7 @@ def test_a_failed_audit_append_is_a_503_and_saves_no_grade(sheet, monkeypatch):
 
     r = sheet.award(sheet.other_mark)
     assert r.status_code == 503, r.text
-    grid = sheet.client.get(
-        f"/api/v1/evaluations/assessment/{sheet.aid}/question/q_1", headers=sheet.headers)
-    assert grid.status_code == 200, grid.text
-    [row] = grid.json()["answers"]
-    assert row["awardedMarks"] == sheet.awarded
+    assert _grid_mark(sheet) == sheet.awarded
 
 
 # --------------------------------------------------------------------------- #
@@ -726,12 +722,17 @@ def test_a_cloud_sql_connection_error_falls_back(tmp_path, monkeypatch):
 
 
 def _grid_mark(sheet, student_id=None) -> int:
-    grid = sheet.client.get(
-        f"/api/v1/evaluations/assessment/{sheet.aid}/question/q_1", headers=sheet.headers)
-    assert grid.status_code == 200, grid.text
-    student_id = student_id or sheet.student_id
-    [row] = [a for a in grid.json()["answers"] if a["studentId"] == student_id]
-    return row["awardedMarks"]
+    """The mark stored for q_1, read from the graded store itself.
+
+    Not through GET .../question/q_1: since Task 305 that read writes a
+    pii_read audit entry before it answers (docs/compliance.md box 2), so
+    with the audit log deliberately broken it is refused with 503 as well.
+    These tests are about what a refused WRITE left in the store."""
+    from academicos.assessment import pillar_routes
+
+    graded = pillar_routes._require_graded().for_assessment(sheet.aid)
+    [evaluation] = [ev for q, ev in graded[student_id or sheet.student_id] if q.id == "q_1"]
+    return int(evaluation.awarded_marks)
 
 
 def test_a_400_from_the_remote_insert_is_a_503_and_saves_no_grade(sheet):

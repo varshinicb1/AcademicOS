@@ -21,7 +21,7 @@ from . import remediation as remediation_mod
 from .authz import require_consent, require_own_school, require_school_owns_student
 from .authz import require_school_owns_assessment as _authz_require_school_owns_assessment
 from .auth_routes import get_current_user, require_principal, require_staff
-from .audit_log import AuditLog, get_audit_log
+from .audit_log import AuditLog, get_audit_log, record_pii_read
 from .consent import ConsentStore, get_consent_store
 from .evaluate import Evaluation, evaluate_answer
 from .grade_lock import FINALIZED_ACTION, record_grade_change, require_reason_if_finalized
@@ -84,6 +84,15 @@ def _audit() -> AuditLog:
     """The audit log every grading write goes through (grade_lock.py)."""
     cfg, _knowledge_store, _template_store = _require()
     return get_audit_log(cfg.data_root)
+
+
+def _log_read(current: User, what: str, **kw: Any) -> None:
+    """Log that `current` read a named student's data (audit_log.record_pii_read):
+    docs/compliance.md box 2. Called by every read route here and in
+    mobile_routes.py after its access checks pass and before the data is
+    returned, so a refused request is not logged as a read, and a read the
+    log refuses (503) is not served."""
+    record_pii_read(_audit(), actor=current.id, what=what, **kw)
 
 
 def _consents() -> ConsentStore:
@@ -811,6 +820,7 @@ def student_knowledge(student_id: str, current: User = Depends(get_current_user)
     require_school_owns_student(_users(), student_id, current)
     _, knowledge, _ = _require()
     views = knowledge.mastery(student_id)
+    _log_read(current, "knowledge", student_id=student_id)
     return StudentMasteryResponse(
         student_id=student_id,
         overall_mastery=knowledge.overall(student_id),
@@ -839,6 +849,7 @@ def student_progress_report(student_id: str, student_name: str = "Student",
     views = knowledge.mastery(student_id)
     if not views:
         raise HTTPException(404, f"no graded answers recorded for {student_id}")
+    _log_read(current, "progress_report", student_id=student_id)
     template = TemplateStore(cfg.data_root / "templates" / "templates.sqlite").default_for("school_1")
     path = report_pdf.export_progress_report_pdf(
         student_name, student_id, subject, views, cfg.data_root / "exports", template=template)
@@ -976,6 +987,9 @@ def class_report(assessment_id: str, class_id: str = "10A",
     per_student = _require_graded().for_assessment(assessment_id)
     if not per_student:
         raise HTTPException(404, "No evaluated answer sheets for this assessment yet.")
+    # One entry for the whole class, listing whose sheets were read.
+    _log_read(current, "class_insights", assessment_id=assessment_id,
+              student_ids=per_student.keys(), classId=class_id)
     ci = insights_mod.class_insights(assessment_id, class_id, per_student)
     return ClassInsightsResponse(
         assessment_id=ci.assessment_id, class_id=ci.class_id, students=ci.students,

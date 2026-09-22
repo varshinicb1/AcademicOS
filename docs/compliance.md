@@ -119,23 +119,86 @@ agreement rate, high or low.
 Check every box that applies to the feature being built. Anything checked "no"
 gets flagged to the user, not silently shipped.
 
-- [ ] **New data store or new field holding student data?** → Is it encrypted at
-      rest? (Android/offline: `SecureBox` + `HiveAesCipher` — done for the
-      Hive-backed `LocalStore`. Key is held in a file in the app's own private
-      data directory, OS-sandboxed but *not* hardware-Keystore-backed:
-      `flutter_secure_storage` was tried first but its Windows plugin has a
-      broken CMake/ATL packaging that blocks the desktop build entirely —
-      swap back in once that's fixed upstream. Any *new* store, including
-      server-side SQLite/Postgres tables, needs its own answer to this, not an
-      assumption it inherits one.)
+- [x] **New data store or new field holding student data?** → Is it encrypted at
+      rest? **Ticked for the GCP release only (2026-09-22).** Audit item 8.5
+      found no documented answer for the server stores (graded_evaluations,
+      scan_sessions and their images, learner_events, parental_consents).
+      - **GCP release (the web product).** Every durable server store is a
+        Cloud SQL Postgres table (`postgres_kv.durable_table`), and scan
+        photos/PDFs and the curriculum snapshot are GCS objects
+        (`storage/blobs.py`, from Task 501; see Condition below), all in
+        `asia-south1`. Per Google Cloud
+        documentation, Cloud SQL and Cloud Storage encrypt all data at rest by
+        default with Google-managed keys, and Cloud SQL backups are encrypted
+        the same way as the instance. The pages to cite are "Default
+        encryption at rest" (Google Cloud security documentation), "About
+        customer-managed encryption keys (CMEK)" in the Cloud SQL
+        documentation, and "Data encryption options" in the Cloud Storage
+        documentation. These pages were not fetched while this was written,
+        so the operator should open them and record the links here. No
+        customer-managed key is configured: `deploy/gcp/bootstrap.sh` passes no
+        `--disk-encryption-key` to Cloud SQL and no default KMS key to the
+        buckets, so the keys are Google's. The daily Cloud SQL backups and the
+        `pg_dump` exports in the `-academicos-backups` bucket are covered on
+        the same terms.
+      - **Condition.** The GCS routing for scan media and the removal of the
+        Supabase credentials from `deploy-gcp.yml` come from Task 501
+        (commit `eaa30f8` on `feat/product-gcp`). That commit is not on
+        this branch yet. Until it is merged, a GCP deploy of this branch still
+        injects `SUPABASE_KNOWLEDGE_URL`, so scan photos and PDFs go to
+        Supabase Storage, and this tick does not describe that deploy.
+      - **Not covered.** (1) Files a request writes to the container:
+        `data_root/exports` (progress reports, corrected PDFs), the scan
+        workdir, and any store `docs/gcp-deployment.md` lists as still
+        container-local. Cloud Run's filesystem is in memory and is gone when
+        the instance stops. Nothing in this repo claims it is encrypted at
+        rest, and nothing should rely on it. (2) The Render release (Render +
+        Supabase): not assessed here, and no claim is made for it. (3) The
+        phone app is outside this release. For the record, its Hive-backed
+        `LocalStore` is AES-encrypted (`SecureBox` + `HiveAesCipher`) with the
+        key in a file in the app's private directory, not in the hardware
+        Keystore. `flutter_secure_storage` was dropped because its Windows
+        plugin's CMake/ATL packaging breaks the desktop build.
+      Any *new* store needs its own answer to this. It does not inherit one.
 - [ ] **New endpoint or screen that reads/writes real student PII (name, roll
       number, answer images, scores)?** → Is access logged with who/when/what?
-      (Built and verified end-to-end on both platforms: Android's `LocalStore.
-      appendAuditLog` on `evaluateSheet`/`evaluateQuestion`, and the server-side
-      `audit_log.py` — SQLite-local or Supabase, same pattern as every other
-      store — wired into `/evaluations/sheet` and `/papers/{id}/export/{fmt}`.
-      Any *new* write path to student data still needs its own call to this,
-      it doesn't happen automatically.)
+      **Writes, yes. The reads the audit named, yes as of 2026-09-22. Three
+      reads are still unlogged (listed below), so the box stays unticked.**
+      Audit item 8.5 found that grading writes and paper exports were logged
+      and reads were not. Nothing recorded who read a student's knowledge,
+      answers, scan images or consent record.
+      - **Writes:** every grading write is audited before it is saved (see
+        the finalized-grade box below), and so are paper exports and consent
+        changes.
+      - **Reads (new):** each of these routes appends one `pii_read` entry to
+        the append-only audit log after its access checks pass and before it
+        returns anything. The entry records `actor` (the authenticated
+        caller), `student_id`, `details.what`, and the timestamp. The call is
+        `audit_log.record_pii_read`, made once per route. Routes and
+        `what` values:
+        `GET /knowledge/{id}` (`knowledge`; a student reading their own is
+        logged too), `GET /knowledge/{id}/report` (`progress_report`),
+        `GET /scan/sessions/{id}/review` (`scan_review`), `.../pages/{n}/image`
+        (`scan_page_image`), `.../raw-pdf` and `.../corrected-pdf`, and
+        `GET /consent/students/{id}` (`consent_record`). A read that covers
+        many students writes **one** entry with the ids in
+        `details.studentIds`: `GET /insights/class/{id}` (`class_insights`),
+        `GET /evaluations/assessment/{a}/question/{q}`
+        (`answers_to_question`), `GET /consent` (`consent_records`) and
+        `GET /consent/missing` (`consent_status`). A request refused with
+        403/404 served nothing and is not logged as a read. A read the log
+        refuses (the table answered and refused the append) gets a 503 and no
+        data: a read that cannot be logged is not served.
+        `tests/test_pii_access_log.py` covers each route.
+      - **Still unlogged:** `GET /auth/users` (the principal's roster, with
+        student names and emails), and `POST /v1/revise` and `POST /v1/plan`
+        (each replays one learner's event history). The school-wide
+        `GET /insights/school/{id}` returns aggregates with no student named,
+        and it is not logged. The Android `LocalStore` logs its grading
+        writes (`appendAuditLog`), not its reads, and the phone app is
+        outside this release anyway.
+      Any *new* route that reads or writes student data needs its own call.
+      Logging does not happen automatically.
 - [x] **Anything that could change a finalized grade?** → Is the change logged
       with a reason and a reviewer identity, not a silent overwrite? **On the
       server, yes, as of 2026-09-22.** This box was ticked before that without
@@ -202,7 +265,38 @@ gets flagged to the user, not silently shipped.
 - [ ] **New third-party integration or vendor** (any API call leaving the
       device/server)? → Is there a DPA-equivalent understanding of what data
       crosses that boundary, and is it in the security notes for that platform's
-      README?
+      README? **What crosses each boundary is now written down (below, read
+      from the code on 2026-09-22). No signed agreement with any vendor is in
+      hand, so the box stays unticked.** Before this, the vendors were listed
+      only in the unsigned `docs/dpa-template.md`, which named Sarvam,
+      Supabase and Render and missed the mail backends and the critic LLM.
+      Code cannot produce the missing part. Someone has to accept Google
+      Cloud's data processing terms for project `vidyuthlabs`, get Sarvam's
+      terms (and those of whichever mail relay is configured), record both
+      here, and have each school sign the DPA template.
+
+      Every third party that receives school data in the **GCP release**, as
+      `.github/workflows/deploy-gcp.yml` configures it:
+
+      | Vendor | What it receives | When |
+      |---|---|---|
+      | **Google Cloud** (Cloud Run, Cloud SQL, Cloud Storage, Secret Manager, Cloud Build/Artifact Registry; `asia-south1`) | Everything the server stores or processes: accounts, consent records, graded sheets, scan photos/PDFs, mastery, the audit log | Always. This is the hosting |
+      | **Firebase Hosting** (Google) | The static web app only. `firebase.json` has no rewrite to the API, so browsers call Cloud Run directly and no student data passes through Hosting | Always |
+      | **Sarvam AI**, `api.sarvam.ai` Vision (`assessment/vision.py`) | Each captured answer-sheet page image, sent 3 times per page for the OCR vote. The handwriting itself, plus anything written on the page, such as a name or roll number | A scan page upload (`POST /scan/sessions/{id}/pages`), **only if `SARVAM_API_KEY` is set** |
+      | **Sarvam AI**, `sarvam-105b` chat (`assessment/llm_evaluate.py`) | Per answer: subject, class, marks, the question, the marking scheme (or options and key) and model answer, the OCR'd answer text, and OCR risk flags. No student id or name is put in the prompt | Scan processing (`POST /scan/sessions/{id}/process`), **only if `SARVAM_API_KEY` is set** |
+      | **Sarvam AI**, via `SarvamLLM` (`curriculum/routes.py`) | Syllabus/textbook text for chapter decomposition. No student data | A principal's extraction run, with `ACOS_LLM_API_KEY` |
+      | **The critic LLM** at `llm_base_url` (`config/config.toml`: `https://api.groq.com/openai`, i.e. **Groq**, unless `ACOS_LLM_BASE_URL` overrides it) | The doubt text a logged-in user typed (students included) and retrieved corpus snippets. No student id | `POST /v1/agent/doubt`, whenever `ACOS_LLM_API_KEY` is set, which the GCP deploy does |
+      | **SMTP relay**: none is named in code. It is whatever `SMTP_HOST` points at | Recipient addresses, the exported paper PDF, the answer key PDF if asked for, the school name and the teacher's note. No student data unless someone types it into the note | `POST /mail/send-paper`, **only if `SMTP_HOST/USER/PASSWORD` are set**. The GCP deploy sets none, so the route answers 400 there |
+      | **Composio**, `backend.composio.dev`, which relays through the school's Gmail/Outlook | The same as SMTP for mail. For calendar sync, an assessment's title and date | **Only if `COMPOSIO_API_KEY` is set.** The GCP deploy does not set it, so Composio is not reachable in that release |
+      | **Supabase** | Scan photos/PDFs and the curriculum snapshot (Supabase Storage) | **Not in the GCP release once Task 501 (`eaa30f8`, `feat/product-gcp`) is merged.** On this branch before that merge, `deploy-gcp.yml` still injects the Supabase credentials |
+      | **Render** | Everything, as host | The Render release only. It is not the GCP release |
+
+      Two findings from reading the code. (1) `vision.py` and `llm_evaluate.py`
+      read `SARVAM_API_KEY`, and the GCP deploy injects only
+      `ACOS_LLM_API_KEY`. As deployed, scan OCR fails, each page is treated
+      as blank with a warning, and every answer goes to a teacher. That is a
+      functional gap, not a data leak. (2) The critic sends user-typed text to
+      Groq by default. That is a vendor no document named before.
 - [x] **New ingestion source** (a school's own uploaded papers/marking schemes)?
       → **Built (2026-08-20):** `POST /api/v1/ingest/school-documents`
       (`src/academicos/assessment/ingest_routes.py`). A file-type allowlist
@@ -244,10 +338,33 @@ gets flagged to the user, not silently shipped.
       editable state. Full principal-approval *workflow* (who approves, the
       approval action itself, notifications) still does not exist and was
       deliberately not invented — this is the lock half of the control only.
+      **Correction and re-check (2026-09-22).** This box was ticked while
+      audit item 8.5 could still get an unreleased paper and export its
+      answer key from a student-role account. Watermarking traces a leak
+      after the fact. It did not stop the student. The route policy table
+      and staff gates from Task 302 (`api/route_policy.py`) do. A student now
+      gets **403** on `GET /papers/{id}` and on
+      `POST /papers/{id}/export/answer_key`, and a teacher at the school still
+      gets 200 on both. This was re-verified by running
+      `tests/test_role_gates.py::test_the_audits_student_attacks_are_refused_and_teachers_still_work`,
+      which also covers the audit's other student attacks (every classmate's
+      answer to a question, finalize, award). The tick now rests on that test.
 - [ ] **Touches real answer sheets or scores for the first time in a new
       context** (e.g. a new export format, a new analytics rollup)? → Re-run the
       evaluation-precision calibration, don't assume the last measured number
-      still applies.
+      still applies. **Not done. Stated plainly (2026-09-22):** the only
+      calibration that exists is MCQ, run on a university Data Science exam
+      rather than CBSE (`scripts/calibrate_evaluation.py`; see "one real
+      calibration run" below). There the engine's total matched the
+      teacher's recorded mark for 26% of students exactly (13/50). The
+      short-answer script (`scripts/calibrate_short_answer.py`) never
+      completed a run, and its numbers must not be cited. **Short-answer and
+      handwritten calibration needs real, anonymised student scripts graded
+      by a teacher, which the code cannot produce, so this box stays
+      unticked until a school provides such a batch and the run is
+      published, whatever the result.** The scan-and-grade flow does not
+      auto-trust a score in the meantime. Every low-confidence answer goes to
+      a teacher (`needsReview`).
 
 ## Evaluation-precision — one real calibration run, not just cited literature
 

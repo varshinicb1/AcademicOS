@@ -114,11 +114,23 @@ The following categories of personal data are processed under this DPA:
 5.1 AcademicOS uses the following sub-processors to deliver the services, and
 discloses them now as required:
 
-   | Sub-processor | Role | Data it receives |
-   |---------------|------|------------------|
-   | **Sarvam AI** | OCR vision API (`api.sarvam.ai`, doc-digitization) and LLM scoring (`sarvam-105b`) | Receives scanned answer sheet images and OCR-extracted answer text; may also process OCR text for grading |
-   | **Supabase** | Hosting/storage backend (Postgres-backed stores, including the append-only audit log, when configured) | Receives stored student data and audit records |
-   | **Render** | Backend hosting provider | Receives/hosts backend application data, including student data and logs, on its infrastructure |
+   **[FILL IN — the release the School is served from: "GCP" (the web
+   product) or "Render". Delete the rows that do not apply.]** The table was
+   compiled from the code on 2026-09-22 (docs/compliance.md, "New third-party
+   integration or vendor"). A row marked "only if configured" applies only
+   when AcademicOS has set that credential for the School's deployment.
+   AcademicOS shall state in writing which of those are set.
+
+   | Sub-processor | Release | Role | Data it receives |
+   |---------------|---------|------|------------------|
+   | **Google Cloud** (Cloud Run, Cloud SQL, Cloud Storage, Secret Manager; region `asia-south1`, India) | GCP | Hosting, database, file storage | All stored student data, scan images and audit records |
+   | **Google Firebase Hosting** | GCP | Serves the web application's static files | No student data. The application calls the API directly, not through Hosting |
+   | **Sarvam AI** (`api.sarvam.ai`) | Both, only if configured | Handwriting OCR (Vision) and answer scoring (`sarvam-105b`) | Scanned answer-sheet page images (including anything written on them, such as a name or roll number), and per answer the question, marking scheme and OCR-extracted answer text. No student identifier is added to the scoring prompt |
+   | **Groq** (the default `llm_base_url`), or the LLM endpoint AcademicOS names instead: **[FILL IN if changed]** | Both, when an LLM key is set | Answers "doubt" questions on the corpus | The text a user types into a doubt question, which may be a student's own words. No student identifier |
+   | **The School's or AcademicOS's SMTP relay**: **[FILL IN — host / provider]** | Both, only if configured | Emails exported question papers | Recipient addresses, the paper and answer-key PDFs, and the sender's note. No student data by design |
+   | **Composio** (`backend.composio.dev`), relaying through the School's own Gmail/Outlook | Both, only if configured | Email and calendar actions on the School's behalf | As for SMTP. For calendar sync, an assessment's title and date |
+   | **Supabase** | Render (and GCP deployments made before the GCS storage change) | Database and file storage | Stored student data, scan images and audit records |
+   | **Render** | Render | Backend hosting | All backend data, including student data and logs |
 
 5.2 AcademicOS shall not add or replace a sub-processor (or change the data a
 sub-processor receives in a way that affects the categories in Section 4)
@@ -155,17 +167,29 @@ already built into the AcademicOS platform** as of the date of this DPA:
        with AES using a 256-bit key held in the app's OS-sandboxed private data
        directory. (Note: the key is not hardware-Keystore-backed; this is
        documented in `docs/compliance.md`.)
-   (b) **Append-only audit logging** of every grading write and every paper
-       export: the server-side `AuditLog` class
+   (b) **Append-only audit logging** of every grading write, every paper
+       export, every consent change, and every staff read of a named
+       student's knowledge, report, answers, scan images or consent record
+       (a `pii_read` entry, one per request, listing the student ids for a
+       class-wide read). The server-side `AuditLog` class
        (`src/academicos/assessment/audit_log.py`) records
        timestamp/action/assessment_id/student_id/actor/details, persists to
-       SQLite or Supabase, and is never modified or deleted through normal
-       application code; the offline build mirrors this via
+       Cloud SQL, Supabase or SQLite depending on the release, refuses
+       UPDATE and DELETE, and hash-chains its entries so an edit is
+       detectable. The reads not yet logged are listed in
+       `docs/compliance.md`. The offline build logs its grading writes via
        `LocalStore.appendAuditLog`.
    (c) **Watermarked/traceable PDF paper exports**: every exported paper PDF
        carries a unique, audit-logged watermark ID stamped in the footer
        (`src/academicos/assessment/pdf.py`), so a leaked copy can be traced to
        the export that produced it.
+   (d) **Encryption at rest on the GCP release**: Cloud SQL, Cloud Storage and
+       their backups are encrypted at rest by Google Cloud by default with
+       Google-managed keys (per Google Cloud documentation; see
+       `docs/compliance.md` for the pages to cite). Files a request writes to
+       the application container's temporary in-memory filesystem are not
+       covered by this statement. No statement is made here for the Render
+       release.
 
 AcademicOS shall keep the School informed of any material change to these
 measures. Nothing in this Section relieves AcademicOS of compliance with the

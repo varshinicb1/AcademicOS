@@ -14,7 +14,7 @@ from typing import Any, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel, Field
 
-from .audit_log import AuditLog, get_audit_log
+from .audit_log import AuditLog, get_audit_log, record_pii_read
 from .auth_routes import require_staff
 from .authz import students_without_consent
 from .consent import ConsentStore, ParentalConsentRecord, get_consent_store
@@ -101,6 +101,19 @@ def _audit_or_refuse(action: str, *, actor_id: str, consent_id: str,
                  "change as complete")
 
 
+def _log_read(user: User, what: str, **kw: Any) -> None:
+    """Log that `user` read consent records (audit_log.record_pii_read;
+    docs/compliance.md box 2). A consent record names the guardian and says
+    whether the school may process this child's work, so reading it is an
+    access to student PII like any other. With no audit log the read is
+    refused, the same rule _audit_or_refuse applies to a consent change."""
+    audit = _require_audit()
+    if audit is None:
+        raise HTTPException(
+            503, "audit trail unavailable; refusing a consent read that cannot be logged")
+    record_pii_read(audit, actor=user.id, what=what, **kw)
+
+
 class RecordConsentRequest(Camel):
     student_id: str
     guardian_name: str
@@ -120,8 +133,9 @@ def list_consents(
     user: User = Depends(require_staff),
 ) -> list[ParentalConsentRecord]:
     """List all parental consent records for the caller's school."""
-    store = _require_store()
-    return store.list_for_school(user.school_id)
+    records = _require_store().list_for_school(user.school_id)
+    _log_read(user, "consent_records", student_ids=[r.student_id for r in records])
+    return records
 
 
 # A class is ~40 students; 500 leaves room for a whole grade and stops one
@@ -152,6 +166,7 @@ def missing_consents(
     if len(ids) > MAX_ROSTER:
         raise HTTPException(400, f"at most {MAX_ROSTER} studentIds per request")
     missing = students_without_consent(_require_store(), user.school_id, ids)
+    _log_read(user, "consent_status", student_ids=ids)
     return MissingConsentResponse(checked=len(dict.fromkeys(ids)), missing=missing)
 
 
@@ -163,6 +178,7 @@ def get_student_consent(
     """Retrieve parental consent status for a specific student."""
     store = _require_store()
     record = store.get_consent(user.school_id, student_id)
+    _log_read(user, "consent_record", student_id=student_id)
     return ConsentStatusResponse(
         has_consent=record is not None and record.status == "granted",
         record=record,
