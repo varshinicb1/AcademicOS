@@ -206,3 +206,39 @@ def test_registry_query_reads_every_grade_spelling(tmp_path):
     assert [r["source_id"] for r in rows(cfg, "Mathematics", "VIII")] == ["qp8"]
     assert [r["source_id"] for r in rows(cfg, "Mathematics", "X")] == ["qp10"]
     assert rows(cfg, "Science", "X") == []
+
+
+def test_registry_question_is_labelled_with_the_pool_key_not_the_registry_spelling(
+        tmp_path, monkeypatch):
+    """A class 8 paper stored as '8' must come out labelled 'VIII', the same label
+    the baked path gives it. The label is passed to AnswerKeyStore.lookup as the
+    grade, so a raw '8' could miss the official answer and leave the question
+    unscorable with no error."""
+    from types import SimpleNamespace
+
+    from academicos.config import Config
+    from academicos.models.academic import Question
+    from academicos.models.enums import DocType
+
+    cfg = Config(data_root=tmp_path)
+    cfg.registry_db.parent.mkdir(parents=True, exist_ok=True)
+    con = sqlite3.connect(cfg.registry_db)
+    con.execute("CREATE TABLE sources (source_id TEXT, doc_type TEXT, subject TEXT, "
+                "grade TEXT, academic_year TEXT)")
+    con.execute("INSERT INTO sources VALUES (?,?,?,?,?)",
+                ("qp8", "question_paper", "Science", "8", "2025"))
+    con.commit()
+    con.close()
+    cfg.parse_dir.mkdir(parents=True, exist_ok=True)
+    (cfg.parse_dir / "qp8.json").write_text("{}", encoding="utf-8")
+
+    stem = "Explain why a candle flame goes out when it is covered with a glass jar."
+    monkeypatch.setattr(pool_module, "ParsedDocument", SimpleNamespace(
+        model_validate=lambda _d: SimpleNamespace(doc_type=DocType.QUESTION_PAPER)))
+    monkeypatch.setattr(pool_module, "_paper_code_of", lambda _doc: "")
+    monkeypatch.setattr(pool_module, "_open_answer_keys", lambda _cfg: None)
+    monkeypatch.setattr(pool_module, "extract_questions", lambda _doc, _t: [
+        Question(canonical_id="q1", title=stem, source_text=stem, marks=2.0)])
+
+    built = pool_module.build_pool(cfg, subject="Science", grade="VIII")
+    assert [pq.grade for pq in built.questions] == ["VIII"]

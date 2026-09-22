@@ -546,7 +546,10 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
             pq = PoolQuestion(
                 question=q,
                 subject=row["subject"] or subject,
-                grade=row["grade"] or grade,
+                # The pool key, not row["grade"]: the registry spells classes
+                # 6-9 as '8' where the key and the baked path say 'VIII', and
+                # this label is the grade keys.lookup matches on below.
+                grade=grade,
                 academic_year=row["academic_year"],
                 chapter_id=cid,
                 chapter_name=chapter_name(cid),
