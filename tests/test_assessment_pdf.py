@@ -536,3 +536,90 @@ def test_every_restored_symbol_reaches_the_page(tmp_path):
     printed = " ".join(raw.split())    # the renderer wraps the stem where it must
     for repaired, on_the_page in RESTORED_SYMBOLS:
         assert on_the_page in printed, f"{repaired!r} did not reach the page"
+
+
+# ---- the table is a guard, not a sample (Task 121 review) -------------------
+#
+# The section above checks the 13 strings that were measured on the merge's
+# output one day. That is a sample: the moment a source supplies Symbol code
+# 0x40, `symbol_font.restore_symbol_font` hands the renderer U+2245 CONGRUENT
+# -- which Segoe UI has no glyph for -- and nothing stops it. 95 of `SYMBOL`'s
+# values are outside Latin-1, and at 64dd21a none of them were in `_PDF_MATH`.
+# So the guard is the whole table, plus every non-ASCII character the served
+# bank actually holds.
+
+# Where a symbol lives, as against a script's own letters: Greek, general
+# punctuation, sub/superscripts, currency, combining marks for symbols,
+# letterlike, arrows, math operators, misc technical, box drawing, geometric
+# shapes, misc symbols, misc/supplemental math, and the Mathematical
+# Alphanumeric block. A language paper written in its own script -- the
+# Assamese, Bhutia and Tibetan SQPs, whose text is Bengali and Tibetan -- is a
+# different problem: no base font here draws those and no ASCII reading
+# replaces them, which wants a bundled script font, not a character table.
+SYMBOL_BLOCKS = (
+    (0x0370, 0x03FF), (0x02B0, 0x02FF), (0x2000, 0x206F), (0x2070, 0x209F),
+    (0x20A0, 0x20CF), (0x20D0, 0x20FF), (0x2100, 0x214F), (0x2190, 0x21FF),
+    (0x2200, 0x22FF), (0x2300, 0x23FF), (0x2500, 0x257F), (0x25A0, 0x25FF),
+    (0x2600, 0x26FF), (0x27C0, 0x27EF), (0x2980, 0x29FF), (0x2A00, 0x2AFF),
+    (0x1D400, 0x1D7FF), (0xE000, 0xF8FF), (0xFF01, 0xFF5E),
+)
+
+
+def _is_symbol(ch: str) -> bool:
+    return any(lo <= ord(ch) <= hi for lo, hi in SYMBOL_BLOCKS)
+
+
+def _renders(chars, tmp_path, tag: str) -> list[str]:
+    """Which of `chars` the registered font draws as a notdef box, which
+    PyMuPDF reads back as NUL. Rendered in batches so the passing path costs
+    one PDF per 20 characters; a failing batch is then split to name them."""
+    chars = list(chars)
+    bad: list[str] = []
+    for start in range(0, len(chars), 20):
+        batch = chars[start:start + 20]
+        paper = _make_paper()
+        paper.sections[0].questions[0].stem = (
+            "Symbols: " + " ".join(batch) + " -- explain each and give a reason.")
+        if "\x00" not in _extract_text(export_pdf(paper, tmp_path / f"{tag}{start}")):
+            continue
+        for i, ch in enumerate(batch):
+            one = _make_paper()
+            one.sections[0].questions[0].stem = (
+                f"Symbol: {ch} -- explain what it means and give a reason.")
+            if "\x00" in _extract_text(export_pdf(one, tmp_path / f"{tag}{start}_{i}")):
+                bad.append(ch)
+    return bad
+
+
+def test_every_symbol_the_repair_can_restore_reaches_the_page(tmp_path):
+    """Every value of the Adobe Symbol table, not the handful measured once.
+    A code the repair covers is a character it WILL put into a record's text
+    the day a source uses it, so the renderer has to be able to print it."""
+    from academicos.corpus.symbol_font import SYMBOL
+
+    bad = _renders(sorted(set(SYMBOL.values())), tmp_path, "sym")
+    assert bad == [], "restorable symbols the renderer prints as a notdef box: " + repr(bad)
+
+
+@pytest.mark.skipif(not (ROOT / "academicos-data" / "syllabus" / "questions.json").exists(),
+                    reason="served bank not built")
+def test_every_symbol_in_the_served_bank_reaches_the_page(tmp_path):
+    """And every symbol the bank holds today, whatever put it there -- the
+    merge's repair, a source's own Unicode, or an extractor's substitution."""
+    import json
+
+    def strings(value):
+        if isinstance(value, str):
+            yield value
+        elif isinstance(value, dict):
+            for item in value.values():
+                yield from strings(item)
+        elif isinstance(value, list):
+            for item in value:
+                yield from strings(item)
+
+    rows = json.loads((ROOT / "academicos-data" / "syllabus" / "questions.json")
+                      .read_text(encoding="utf-8"))["questions"]
+    chars = sorted({c for r in rows for s in strings(r) for c in s if _is_symbol(c)})
+    bad = _renders(chars, tmp_path, "bank")
+    assert bad == [], "served characters the renderer prints as a notdef box: " + repr(bad)

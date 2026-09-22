@@ -2078,6 +2078,57 @@ def test_a_private_use_glyph_the_table_does_not_cover_is_excluded():
     assert [e["reason"] for e in result.excluded] == ["private-use-glyph"]
 
 
+def test_a_symbol_outside_the_printed_fields_is_repaired_too():
+    """780 served SQP records carry a top-level `metadata.options` map -- a
+    different field from the `answerScheme.metadata.options` the scheme holds
+    -- and 313 carry `metadata.contentReference`. A stem repaired while those
+    were left is the same stem/key disagreement the repair exists to prevent,
+    one field further out, so the repair walks every string in the record."""
+    rec = board(source="cbse_question_bank", stem="What is the density ?",
+                metadata={"options": {"B": "W  / g"},
+                          "contentReference": "density "},
+                tags=["50"])
+    out, restored, glyph = bm.repair_symbol_font(rec)
+    assert restored and glyph is None
+    assert out["stem"] == "What is the density ρ?"
+    assert out["metadata"] == {"options": {"B": "W ρ / g"}, "contentReference": "density ρ"}
+    assert out["tags"] == ["50°"]
+    assert rec["metadata"]["contentReference"] == "density ", "the input is left as it was"
+
+
+@pytest.mark.skipif(not CBE_BANK.exists(), reason="CBE bank not built")
+def test_an_uncoverable_glyph_a_student_never_reads_does_not_cost_the_question():
+    """The gate is narrower than the repair on purpose: a question is refused
+    because a student or a scorer would read a hole, not because a provenance
+    field carries one. `contentReference` prints nowhere."""
+    rec = real_cbe("cbe:q:Science9PS1")
+    rec = {**rec, "metadata": {**(rec.get("metadata") or {}),
+                               "contentReference": "NCERT IX  1.3"}}
+    result = bm.compose([], [rec], [])
+    assert [q["id"] for q in result.questions] == ["cbe:q:Science9PS1"]
+
+
+def test_a_record_already_out_of_scope_keeps_its_own_reason():
+    """The glyph gate runs after `source_reason`, not before it. Placed first
+    it relabelled records that were out of scope anyway: 12 of the 23 it
+    excluded at 64dd21a were answer-bleed, figure-referenced or garbled-script
+    as well, so the --check tally overstated this change's cost by about half
+    and hid a dozen answer-bleed records behind the wrong label."""
+    rec = board(source="cbse_question_bank",
+                stem="From the graph given above, read the current  through "
+                     "the resistor and state what it shows about the circuit.")
+    result = bm.compose([], [rec], [])
+    assert [e["reason"] for e in result.excluded] == ["figure-referenced"]
+
+
+def test_a_glyph_is_still_the_reason_when_nothing_else_refuses_the_record():
+    rec = board(source="cbse_question_bank",
+                stem="State the current  through the resistor and give a "
+                     "reason for your answer in terms of the circuit shown.")
+    result = bm.compose([], [rec], [])
+    assert [e["reason"] for e in result.excluded] == ["private-use-glyph"]
+
+
 def test_a_board_record_loses_no_symbol_in_print():
     rec = board(stem="The angle subtended at the centre is 50\uf0b0. Find \uf0d0BOC in "
                      "terms of \uf061 and give a reason for your answer.")
@@ -2099,11 +2150,35 @@ def test_a_board_record_with_an_uncovered_glyph_is_withheld_whole():
 
 @pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
 def test_no_served_record_holds_a_private_use_glyph():
-    """The bank the web and the APK read: no hole where a symbol belongs."""
+    """The bank the web and the APK read: no hole where a symbol belongs.
+
+    Two assertions, one per scope, because the repair and the gate have
+    different ones. Nothing the table can name may survive ANYWHERE in a
+    record -- that is what `repair_symbol_font` walks every string for, so a
+    failure here always has a code path that fixes it. And nothing a student
+    or a scorer reads may hold a private-use character at all: that is the
+    gate's scope, and a record failing it is one the merge should have
+    excluded as private-use-glyph."""
     import json
 
+    def strings(value):
+        if isinstance(value, str):
+            yield value
+        elif isinstance(value, dict):
+            for item in value.values():
+                yield from strings(item)
+        elif isinstance(value, list):
+            for item in value:
+                yield from strings(item)
+
     rows = json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
-    holes = [r["id"] for r in rows if bm.PRIVATE_USE.search(json.dumps(r, ensure_ascii=False))]
+    restorable = [r["id"] for r in rows
+                  if any(bm.restore_symbol_font(s) != s for s in strings(r))]
+    assert restorable == []
+    printed = [{k: r.get(k) for k in bm._SYMBOL_PRINTED_FIELDS}
+               | {"passage": (r.get("metadata") or {}).get("passage")} for r in rows]
+    holes = [r["id"] for r, p in zip(rows, printed)
+             if bm.PRIVATE_USE.search(json.dumps(p, ensure_ascii=False))]
     assert holes == []
 
 
@@ -2182,3 +2257,28 @@ def test_a_subject_with_no_syllabus_keeps_the_ids_it_has():
     out, counts = bm.resolve_chapter_ids([rec], {})
     assert out[0]["chapterIds"] == ["meal-planning"]
     assert counts == {"resolved": 0, "dropped": 0}
+
+
+def test_a_slug_shaped_unknown_id_does_not_borrow_another_chapters_strand():
+    """`coarse_code` was written for CBSE content codes and degenerates for
+    anything else: coarse_code("algebra-extra") and
+    coarse_code("arithmetic-progressions") are both "A". Two unrelated
+    slug-shaped ids would share one strand pool, and a pool naming exactly one
+    chapter resolved every id in it to that chapter -- questions filed under a
+    chapter they do not belong to, with no signal. Only a content-coded id
+    (`bm.CONTENT_CODE`) has a strand; anything else is dropped."""
+    names_itself = cbe_coded(1, "algebra-extra", tags=["Algebra"])
+    unrelated = cbe_coded(2, "arithmetic-progressions", tags=["Arithmetic Progressions"])
+    out, counts = bm.resolve_chapter_ids([names_itself, unrelated],
+                                         {("Mathematics", 10): MATHS_10})
+    assert [r["chapterIds"] for r in out] == [["algebra"], []]
+    assert counts == {"resolved": 1, "dropped": 1}
+
+
+def test_a_content_coded_id_still_takes_its_strands_name():
+    """The guard above must not cost the case it was built for: "10A2b" is a
+    content code, so it still takes the name its strand's siblings carry."""
+    recs = [cbe_coded(1, "10A1a", tags=["Algebra", "10A1a"]), cbe_coded(2, "10A2b")]
+    out, counts = bm.resolve_chapter_ids(recs, {("Mathematics", 10): MATHS_10})
+    assert [r["chapterIds"] for r in out] == [["algebra"], ["algebra"]]
+    assert counts == {"resolved": 2, "dropped": 0}

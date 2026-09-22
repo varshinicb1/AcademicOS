@@ -694,6 +694,11 @@ class RelinkReport:
     # official served in its place (counted in replaced_after_quarantine).
     # Each entry names the record and both answers.
     superseded: list[dict[str, Any]] = field(default_factory=list)
+    # Records whose scheme held a Symbol-font code point the answer-key store
+    # carries and `_restore_scheme_symbols` turned back into the character it
+    # stands for -- the merge's `symbol-font-restored`, applied to the scheme
+    # the relink writes rather than to the record the merge read.
+    symbol_font_restored: int = 0
 
     @property
     def verified(self) -> int:
@@ -734,6 +739,8 @@ class RelinkReport:
             "with a VERIFIED official scheme: {:,}  ({:.1f}%)".format(
                 self.verified, self.coverage()),
             "with any scheme                : {:,}".format(self.with_scheme),
+            "symbol-font code points restored in the scheme: {:,}".format(
+                self.symbol_font_restored),
             "",
             "quarantined (scheme removed from the record): {:,}".format(
                 sum(self.quarantined.values())),
@@ -1265,9 +1272,54 @@ def relink_answer_schemes(
         else:
             report.replaced_after_quarantine += 1
 
+    report.symbol_font_restored = sum(_restore_scheme_symbols(r) for r in records)
     report.existing_scheme_removed = sum(
         not _has_content(r.get("answerScheme") or {}) for r in had_before)
     return report
+
+
+def _restore_scheme_symbols(rec: dict[str, Any]) -> bool:
+    """Restore the Symbol-font code points in the scheme the relink just wrote,
+    in place; True when it changed anything.
+
+    The merge repairs a record's text before it serves it
+    (`bank_merge.repair_symbol_font`), but the scheme the relink writes does
+    not come from the record -- it is built from the answer-key store's own
+    rows (`build_official_scheme`), which hold the text as the marking-scheme
+    PDF was extracted, symbol-font code points and all. Task 11's runbook runs
+    the relink AFTER the merge (plans/2026-09-21-question-bank-merge.md, step 3
+    merge, step 4 enrich), so without this the documented pipeline puts the
+    holes straight back: on the bank at 64dd21a it reverted three served
+    records -- cbse:q:src:f01c7b6fd6fca7ef7d9987dc:27's "x cm ∴ altitude" to
+    "x cm  altitude", 6df8d2b3a2f6c8cce1428573:31's "• Deriving the
+    expression" to " Deriving...", and 784bd959b5f48fd5620f57e6:27's
+    "2⋅4 g/litre" to "24 g/litre" -- with no gate to catch it, since the
+    private-use gate only runs inside `compose`.
+
+    The quarantine entries and the `conflictingKeys` hold are left raw: they
+    are provenance, a copy of what was removed as it was removed, and a person
+    reviewing one needs the characters the extractor actually produced.
+    """
+    from ..corpus.symbol_font import restore_symbol_font
+
+    changed = False
+
+    def fix(value: Any) -> Any:
+        nonlocal changed
+        if isinstance(value, str):
+            out = restore_symbol_font(value)
+            changed = changed or out != value
+            return out
+        if isinstance(value, dict):
+            return {k: (v if k == CONFLICT_HELD else fix(v)) for k, v in value.items()}
+        if isinstance(value, list):
+            return [fix(v) for v in value]
+        return value
+
+    scheme = rec.get("answerScheme")
+    if isinstance(scheme, dict):
+        rec["answerScheme"] = fix(scheme)
+    return changed
 
 
 def _siblings(records: list[dict[str, Any]], located) -> dict[int, list[tuple[str, int]]]:

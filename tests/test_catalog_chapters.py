@@ -16,7 +16,6 @@ committed one (assessment/pool.py `_baked_bank_paths` reads it from the repo).
 from __future__ import annotations
 
 import json
-import re
 import sys
 from pathlib import Path
 
@@ -28,12 +27,15 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from academicos.api.main import app  # noqa: E402
 from academicos.assessment import pillar_routes, pool as pool_module  # noqa: E402
+from academicos.corpus.bank_merge import CONTENT_CODE  # noqa: E402
 from academicos.syllabus.cbse_syllabus import load_syllabus  # noqa: E402
 
 SERVED_BANK = ROOT / "academicos-data" / "syllabus" / "questions.json"
 # CBSE's learning-ladder content codes as the CBE item banks print them:
 # "10A2b" and "6N1e" (Mathematics), "9.1.6" (Science), "ENG9.5" (English).
-CONTENT_CODE = re.compile(r"(?i)^(?:eng)?\d{1,2}(?:[a-z]\d[a-z]?|(?:\.\d+)+)$")
+# The shape is `bank_merge`'s own, imported rather than copied: the merge
+# takes a coded id's strand name only for ids of this shape, and a copy here
+# would let the assertion and the resolver drift apart.
 RELEASE_GRADES = range(6, 11)
 
 

@@ -1518,6 +1518,53 @@ def test_the_relinks_scheme_carries_the_stamp_the_merge_reads(tmp_path):
     assert bank_merge.has_verified_key(rec_)
 
 
+def test_the_relink_restores_the_symbols_in_the_scheme_it_writes(tmp_path):
+    """The merge repairs the record's text, but the scheme the relink writes is
+    built from the answer-key store's rows, which still hold what the
+    marking-scheme PDF's symbol font left: "30<U+F0B0>" for "30°". Task 11's
+    runbook runs the relink AFTER the merge, so without a repair here the
+    documented pipeline puts the holes straight back -- and the merge's
+    private-use gate cannot catch it, because that gate only runs inside
+    `compose`."""
+    # cbse:q:src:f01c7b6fd6fca7ef7d9987dc:27, the shape the review measured
+    # reverting: a descriptive key whose "therefore" is Symbol code 0x5C.
+    stem = ("The altitude of a right triangle is 7 cm less than its base. If the "
+            "hypotenuse is 13 cm, find the other two sides of the triangle.")
+    answer = ("Let the base be x cm  altitude = (x - 7) cm, hypotenuse 13 cm, "
+              "so base = 12 cm and altitude = 5 cm")
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "9" * 24, "Series 30/5/1 Mathematics")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [
+        ("Mathematics", "X", "30/5/1", 27, None, answer, "[]", 3.0,
+         "X_MS_041_Mathematics Standard_30-5-1_2024-25.pdf")]))
+    recs = [_board("9" * 24, 27, stem, {}, subject="Mathematics", marks=3)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    scheme = recs[0]["answerScheme"]
+    assert scheme["provenance"] == "cbse_marking_scheme"
+    assert "x cm ∴ altitude" in scheme["modelAnswer"]
+    assert bank_merge.PRIVATE_USE.search(json.dumps(scheme, ensure_ascii=False)) is None
+    assert report.symbol_font_restored == 1
+
+
+def test_a_quarantined_scheme_keeps_the_characters_the_extraction_left(tmp_path):
+    """Provenance, not print: a quarantine entry is a copy of what was removed,
+    as it was removed, and a person reviewing one needs to see the code point
+    the extractor actually produced."""
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "7" * 24, "Series 64/4/1 Geography")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", []))
+    wrong = {"totalMarks": 5, "modelAnswer": PHYSICS_IN_HINDI + " 30",
+             "markingPoints": [{"id": "m1", "description": PHYSICS_IN_HINDI, "marks": 5}],
+             "provenance": "cbse_marking_scheme", "sourcePaperCode": "64/4/1"}
+    recs = [_board("7" * 24, 24, GEOGRAPHY_STEM, wrong)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert report.quarantined == {"legacy-font": 1}
+    assert report.quarantine[0]["scheme"]["modelAnswer"].endswith("30")
+    assert report.symbol_font_restored == 0
+
+
 def test_an_enrich_run_relinks_the_withheld_board_records_too(tmp_path):
     """A board record the merge withheld lives only in board_withheld.json.
     The relink reads it there, so a later, better join can re-attach its key,
