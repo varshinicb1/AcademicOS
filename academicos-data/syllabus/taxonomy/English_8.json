@@ -1,0 +1,176 @@
+{
+ "subject": "English",
+ "grade": 8,
+ "book": "Poorvi",
+ "source_files": [
+  "english/class8_poorvi.pdf"
+ ],
+ "chapters": [
+  {
+   "id": "english-8/the-wit-that-won-hearts",
+   "name": "The Wit that Won Hearts",
+   "number": 1,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 1,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/a-concrete-example",
+   "name": "A Concrete Example",
+   "number": 2,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 17,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/wisdom-paves-the-way",
+   "name": "Wisdom Paves the Way",
+   "number": 3,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 27,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/a-tale-of-valour-major-somnath-sharma-and-the-battle-of-badg",
+   "name": "A Tale of Valour: Major Somnath Sharma and the Battle of Badgam",
+   "number": 4,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 49,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/somebody-s-mother",
+   "name": "Somebody’s Mother",
+   "number": 5,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 70,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/verghese-kurien-i-too-had-a-dream",
+   "name": "Verghese Kurien— I Too Had A Dream",
+   "number": 6,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 82,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/the-case-of-the-fifth-word",
+   "name": "The Case of the Fifth Word",
+   "number": 7,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 101,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/the-magic-brush-of-dreams",
+   "name": "The Magic Brush of Dreams",
+   "number": 8,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 122,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/spectacular-wonders",
+   "name": "Spectacular Wonders",
+   "number": 9,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 137,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/the-cherry-tree",
+   "name": "The Cherry Tree",
+   "number": 10,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 155,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/harvest-hymn",
+   "name": "Harvest Hymn",
+   "number": 11,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 173,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/waiting-for-the-rain",
+   "name": "Waiting for the Rain",
+   "number": 12,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 185,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/feathered-friend",
+   "name": "Feathered Friend",
+   "number": 13,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 205,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/magnifying-glass",
+   "name": "Magnifying Glass",
+   "number": 14,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 222,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-8/bibha-chowdhuri-the-beam-of-light-that-lit-the-path-for-wome",
+   "name": "Bibha Chowdhuri: The Beam of Light that Lit the Path for Women in Indian Science",
+   "number": 15,
+   "book": "Poorvi",
+   "source_file": "english/class8_poorvi.pdf",
+   "printedPage": 233,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  }
+ ],
+ "note": "Chapter level only: the chapters are lessons and poems, which carry no section headings to make topics of."
+}

@@ -49,6 +49,16 @@ class Question with _$Question {
     String? mapAssetId,
     String? graphAssetId,
     String? tableAssetId,
+    // Taxonomy tags (scripts/tag_question_bank.py --topics): ids from
+    // academicos-data/syllabus/taxonomy, written only where the tagger's
+    // confidence clears the gold-set threshold. Optional with empty defaults
+    // -- most banks do not carry them, and fromJson throws on a missing
+    // required field.
+    String? taxonomyChapterId,
+    @Default([]) List<String> topicIds,
+    @Default([]) List<String> subtopicIds,
+    @Default({}) Map<String, double?> tagConfidence,
+    String? tagMethod,
   }) = _Question;
 
   factory Question.fromJson(Map<String, dynamic> json) => _$QuestionFromJson(json);

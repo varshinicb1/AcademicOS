@@ -1,0 +1,717 @@
+{
+ "subject": "Science",
+ "grade": 6,
+ "book": "Curiosity",
+ "source_files": [
+  "science/class6_curiosity.pdf"
+ ],
+ "chapters": [
+  {
+   "id": "science-6/the-wonderful-world-of-science",
+   "name": "The Wonderful World of Science",
+   "number": 1,
+   "book": "Curiosity",
+   "source_file": "science/class6_curiosity.pdf",
+   "pages": [
+    19,
+    26
+   ],
+   "nameSource": "contents",
+   "headingKind": "none",
+   "noTopicsReason": "no numbered heading and no bold heading line >= 14.5pt (body 13pt NotoSerif) outside boxes and activities",
+   "topics": []
+  },
+  {
+   "id": "science-6/diversity-in-the-living-world",
+   "name": "Diversity in the Living World",
+   "number": 2,
+   "book": "Curiosity",
+   "source_file": "science/class6_curiosity.pdf",
+   "pages": [
+    27,
+    52
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "science-6/diversity-in-the-living-world/diversity-in-plants-and-animals-around-us",
+     "name": "Diversity in Plants and Animals Around Us",
+     "page": 28,
+     "number": "2.1",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/diversity-in-the-living-world/how-to-group-plants-and-animals",
+     "name": "How to Group Plants and Animals?",
+     "page": 32,
+     "number": "2.2",
+     "subtopics": [
+      {
+       "id": "science-6/diversity-in-the-living-world/how-to-group-plants-and-animals/how-to-group-plants",
+       "name": "How to group plants?",
+       "page": 33,
+       "number": "2.2.1"
+      },
+      {
+       "id": "science-6/diversity-in-the-living-world/how-to-group-plants-and-animals/how-to-group-animals",
+       "name": "How to group animals?",
+       "page": 38,
+       "number": "2.2.2"
+      }
+     ]
+    },
+    {
+     "id": "science-6/diversity-in-the-living-world/plants-and-animals-in-different-surroundings",
+     "name": "Plants and Animals in Different Surroundings",
+     "page": 41,
+     "number": "2.3",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "science-6/mindful-eating-a-path-to-a-healthy-body",
+   "name": "Mindful Eating: A Path to a Healthy Body",
+   "number": 3,
+   "book": "Curiosity",
+   "source_file": "science/class6_curiosity.pdf",
+   "pages": [
+    53,
+    78
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "science-6/mindful-eating-a-path-to-a-healthy-body/what-do-we-eat",
+     "name": "What Do We Eat?",
+     "page": 53,
+     "number": "3.1",
+     "subtopics": [
+      {
+       "id": "science-6/mindful-eating-a-path-to-a-healthy-body/what-do-we-eat/food-in-different-regions",
+       "name": "Food in different regions",
+       "page": 54,
+       "number": "3.1.1"
+      },
+      {
+       "id": "science-6/mindful-eating-a-path-to-a-healthy-body/what-do-we-eat/how-have-cooking-practices-changed-over-time",
+       "name": "How have cooking practices changed over time?",
+       "page": 56,
+       "number": "3.1.2"
+      }
+     ]
+    },
+    {
+     "id": "science-6/mindful-eating-a-path-to-a-healthy-body/what-are-the-components-of-food",
+     "name": "What are the Components of Food?",
+     "page": 57,
+     "number": "3.2",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/mindful-eating-a-path-to-a-healthy-body/how-to-test-different-components-of-food",
+     "name": "How to Test Different Components of Food?",
+     "page": 66,
+     "number": "3.3",
+     "subtopics": [
+      {
+       "id": "science-6/mindful-eating-a-path-to-a-healthy-body/how-to-test-different-components-of-food/test-for-starch",
+       "name": "Test for starch",
+       "page": 66,
+       "number": "3.3.1"
+      },
+      {
+       "id": "science-6/mindful-eating-a-path-to-a-healthy-body/how-to-test-different-components-of-food/test-for-fats",
+       "name": "Test for fats",
+       "page": 67,
+       "number": "3.3.2"
+      },
+      {
+       "id": "science-6/mindful-eating-a-path-to-a-healthy-body/how-to-test-different-components-of-food/test-for-proteins",
+       "name": "Test for proteins",
+       "page": 67,
+       "number": "3.3.3"
+      }
+     ]
+    },
+    {
+     "id": "science-6/mindful-eating-a-path-to-a-healthy-body/balanced-diet",
+     "name": "Balanced Diet",
+     "page": 69,
+     "number": "3.4",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/mindful-eating-a-path-to-a-healthy-body/millets-nutrition-rich-cereals",
+     "name": "Millets: Nutrition-rich Cereals",
+     "page": 71,
+     "number": "3.5",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/mindful-eating-a-path-to-a-healthy-body/food-miles-from-farm-to-our-plate",
+     "name": "Food Miles: From Farm to Our Plate",
+     "page": 72,
+     "number": "3.6",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "science-6/exploring-magnets",
+   "name": "Exploring Magnets",
+   "number": 4,
+   "book": "Curiosity",
+   "source_file": "science/class6_curiosity.pdf",
+   "pages": [
+    79,
+    96
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "science-6/exploring-magnets/magnetic-and-non-magnetic-materials",
+     "name": "Magnetic and Non-magnetic Materials",
+     "page": 80,
+     "number": "4.1",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/exploring-magnets/poles-of-magnet",
+     "name": "Poles of Magnet",
+     "page": 82,
+     "number": "4.2",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/exploring-magnets/finding-directions",
+     "name": "Finding Directions",
+     "page": 83,
+     "number": "4.3",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/exploring-magnets/attraction-and-repulsion-between-magnets",
+     "name": "Attraction and Repulsion between Magnets",
+     "page": 86,
+     "number": "4.4",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/exploring-magnets/fun-with-magnets",
+     "name": "Fun with Magnets",
+     "page": 89,
+     "number": "4.5",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "science-6/measurement-of-length-and-motion",
+   "name": "Measurement of Length and Motion",
+   "number": 5,
+   "book": "Curiosity",
+   "source_file": "science/class6_curiosity.pdf",
+   "pages": [
+    97,
+    118
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "science-6/measurement-of-length-and-motion/how-do-we-measure",
+     "name": "How do we Measure?",
+     "page": 98,
+     "number": "5.1",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/measurement-of-length-and-motion/standard-units",
+     "name": "Standard Units",
+     "page": 100,
+     "number": "5.2",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/measurement-of-length-and-motion/correct-way-of-measuring-length",
+     "name": "Correct Way of Measuring Length",
+     "page": 102,
+     "number": "5.3",
+     "subtopics": [
+      {
+       "id": "science-6/measurement-of-length-and-motion/correct-way-of-measuring-length/what-is-the-correct-way-to-place-the-scale",
+       "name": "What is the correct way to place the scale?",
+       "page": 102
+      },
+      {
+       "id": "science-6/measurement-of-length-and-motion/correct-way-of-measuring-length/what-is-the-correct-position-of-the-eye-while-reading-the-sc",
+       "name": "What is the correct position of the eye while reading the scale?",
+       "page": 102
+      },
+      {
+       "id": "science-6/measurement-of-length-and-motion/correct-way-of-measuring-length/how-to-measure-the-length-if-the-ends-of-the-scale-are-broke",
+       "name": "How to measure the length if the ends of the scale are broken?",
+       "page": 103
+      }
+     ]
+    },
+    {
+     "id": "science-6/measurement-of-length-and-motion/measuring-the-length-of-a-curved-line",
+     "name": "Measuring the length of a curved line",
+     "page": 105,
+     "number": "5.4",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/measurement-of-length-and-motion/describing-position",
+     "name": "Describing Position",
+     "page": 105,
+     "number": "5.5",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/measurement-of-length-and-motion/moving-things",
+     "name": "Moving Things",
+     "page": 108,
+     "number": "5.6",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/measurement-of-length-and-motion/types-of-motion",
+     "name": "Types of Motion",
+     "page": 109,
+     "number": "5.7",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "science-6/materials-around-us",
+   "name": "Materials Around Us",
+   "number": 6,
+   "book": "Curiosity",
+   "source_file": "science/class6_curiosity.pdf",
+   "pages": [
+    119,
+    140
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "science-6/materials-around-us/observing-objects-around-us",
+     "name": "Observing Objects Around Us",
+     "page": 119,
+     "number": "6.1",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/materials-around-us/how-to-group-materials",
+     "name": "How to Group Materials?",
+     "page": 121,
+     "number": "6.2",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/materials-around-us/what-are-the-different-properties-of-materials",
+     "name": "What are the different Properties of Materials?",
+     "page": 124,
+     "number": "6.3",
+     "subtopics": [
+      {
+       "id": "science-6/materials-around-us/what-are-the-different-properties-of-materials/observe-and-identify-appearance-of-materials",
+       "name": "Observe and identify appearance of materials",
+       "page": 124,
+       "number": "6.3.1"
+      },
+      {
+       "id": "science-6/materials-around-us/what-are-the-different-properties-of-materials/which-materials-are-hard",
+       "name": "Which materials are hard?",
+       "page": 125,
+       "number": "6.3.2"
+      },
+      {
+       "id": "science-6/materials-around-us/what-are-the-different-properties-of-materials/explore-materials-through-which-one-can-see-or-cannot-see",
+       "name": "Explore materials through which one can see or cannot see",
+       "page": 126,
+       "number": "6.3.3"
+      },
+      {
+       "id": "science-6/materials-around-us/what-are-the-different-properties-of-materials/what-is-soluble-in-water-what-is-not",
+       "name": "What is soluble in water; what is not?",
+       "page": 128,
+       "number": "6.3.4"
+      },
+      {
+       "id": "science-6/materials-around-us/what-are-the-different-properties-of-materials/how-heavy-or-light",
+       "name": "How heavy or light?",
+       "page": 130,
+       "number": "6.3.5"
+      },
+      {
+       "id": "science-6/materials-around-us/what-are-the-different-properties-of-materials/space-and-volume",
+       "name": "Space and volume",
+       "page": 131,
+       "number": "6.3.6"
+      }
+     ]
+    },
+    {
+     "id": "science-6/materials-around-us/what-is-matter",
+     "name": "What is Matter?",
+     "page": 133,
+     "number": "6.4",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "science-6/temperature-and-its-measurement",
+   "name": "Temperature and its Measurement",
+   "number": 7,
+   "book": "Curiosity",
+   "source_file": "science/class6_curiosity.pdf",
+   "pages": [
+    141,
+    160
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "science-6/temperature-and-its-measurement/hot-or-cold",
+     "name": "Hot or Cold?",
+     "page": 141,
+     "number": "7.1",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/temperature-and-its-measurement/temperature",
+     "name": "Temperature",
+     "page": 143,
+     "number": "7.2",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/temperature-and-its-measurement/measuring-temperature",
+     "name": "Measuring Temperature",
+     "page": 143,
+     "number": "7.3",
+     "subtopics": [
+      {
+       "id": "science-6/temperature-and-its-measurement/measuring-temperature/clinical-thermometer",
+       "name": "Clinical thermometer",
+       "page": 143,
+       "number": "7.3.1"
+      },
+      {
+       "id": "science-6/temperature-and-its-measurement/measuring-temperature/laboratory-thermometer",
+       "name": "Laboratory thermometer",
+       "page": 148,
+       "number": "7.3.2"
+      },
+      {
+       "id": "science-6/temperature-and-its-measurement/measuring-temperature/air-temperature",
+       "name": "Air temperature",
+       "page": 152,
+       "number": "7.3.3"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "science-6/a-journey-through-states-of-water",
+   "name": "A Journey through States of Water",
+   "number": 8,
+   "book": "Curiosity",
+   "source_file": "science/class6_curiosity.pdf",
+   "pages": [
+    161,
+    180
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "science-6/a-journey-through-states-of-water/investigating-water-s-disappearing-act",
+     "name": "Investigating Water’s Disappearing Act",
+     "page": 162,
+     "number": "8.1",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/a-journey-through-states-of-water/another-mystery",
+     "name": "Another Mystery",
+     "page": 164,
+     "number": "8.2",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/a-journey-through-states-of-water/what-are-the-different-states-of-water",
+     "name": "What are the different States of Water?",
+     "page": 168,
+     "number": "8.3",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/a-journey-through-states-of-water/how-can-we-change-the-states-of-water",
+     "name": "How can we change the States of Water?",
+     "page": 169,
+     "number": "8.4",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/a-journey-through-states-of-water/how-can-water-be-evaporated-faster-or-slower",
+     "name": "How can Water be Evaporated Faster or Slower?",
+     "page": 171,
+     "number": "8.5",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/a-journey-through-states-of-water/cooling-effect",
+     "name": "Cooling Effect",
+     "page": 174,
+     "number": "8.6",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/a-journey-through-states-of-water/how-do-clouds-give-us-rain",
+     "name": "How do Clouds give us Rain?",
+     "page": 175,
+     "number": "8.7",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "science-6/methods-of-separation-in-everyday-life",
+   "name": "Methods of Separation in Everyday Life",
+   "number": 9,
+   "book": "Curiosity",
+   "source_file": "science/class6_curiosity.pdf",
+   "pages": [
+    181,
+    200
+   ],
+   "nameSource": "contents",
+   "headingKind": "none",
+   "noTopicsReason": "no numbered heading and no bold heading line >= 14.5pt (body 13pt NotoSerif) outside boxes and activities",
+   "topics": []
+  },
+  {
+   "id": "science-6/living-creatures-exploring-their-characteristics",
+   "name": "Living Creatures: Exploring their Characteristics",
+   "number": 10,
+   "book": "Curiosity",
+   "source_file": "science/class6_curiosity.pdf",
+   "pages": [
+    201,
+    224
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "science-6/living-creatures-exploring-their-characteristics/what-sets-the-living-apart-from-the-non-living",
+     "name": "What Sets the Living Apart from the Non-living?",
+     "page": 202,
+     "number": "10.1",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/living-creatures-exploring-their-characteristics/essential-conditions-for-germination-of-a-seed",
+     "name": "Essential Conditions for Germination of a Seed",
+     "page": 206,
+     "number": "10.2",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/living-creatures-exploring-their-characteristics/growth-and-movement-in-plants",
+     "name": "Growth and Movement in Plants",
+     "page": 209,
+     "number": "10.3",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/living-creatures-exploring-their-characteristics/life-cycle-of-a-plant",
+     "name": "Life Cycle of a Plant",
+     "page": 212,
+     "number": "10.4",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/living-creatures-exploring-their-characteristics/life-cycle-of-animals",
+     "name": "Life Cycle of Animals",
+     "page": 214,
+     "number": "10.5",
+     "subtopics": [
+      {
+       "id": "science-6/living-creatures-exploring-their-characteristics/life-cycle-of-animals/life-cycle-of-a-mosquito",
+       "name": "Life cycle of a mosquito",
+       "page": 214,
+       "number": "10.5.1"
+      },
+      {
+       "id": "science-6/living-creatures-exploring-their-characteristics/life-cycle-of-animals/life-cycle-of-a-frog",
+       "name": "Life cycle of a frog",
+       "page": 217,
+       "number": "10.5.2"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "science-6/nature-s-treasures",
+   "name": "Nature’s Treasures",
+   "number": 11,
+   "book": "Curiosity",
+   "source_file": "science/class6_curiosity.pdf",
+   "pages": [
+    225,
+    248
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "science-6/nature-s-treasures/air",
+     "name": "Air",
+     "page": 226,
+     "number": "11.1",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/nature-s-treasures/water",
+     "name": "Water",
+     "page": 229,
+     "number": "11.2",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/nature-s-treasures/energy-from-the-sun",
+     "name": "Energy from the Sun",
+     "page": 232,
+     "number": "11.3",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/nature-s-treasures/forests",
+     "name": "Forests",
+     "page": 234,
+     "number": "11.4",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/nature-s-treasures/soil-rocks-and-minerals",
+     "name": "Soil, Rocks and Minerals",
+     "page": 236,
+     "number": "11.5",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/nature-s-treasures/fossil-fuels",
+     "name": "Fossil Fuels",
+     "page": 239,
+     "number": "11.6",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/nature-s-treasures/natural-resources-renewable-and-non-renewable",
+     "name": "Natural Resources: renewable and non-renewable",
+     "page": 241,
+     "number": "11.7",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/nature-s-treasures/resources-we-use",
+     "name": "Resources we use",
+     "page": 242,
+     "number": "11.8",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "science-6/beyond-earth",
+   "name": "Beyond Earth",
+   "number": 12,
+   "book": "Curiosity",
+   "source_file": "science/class6_curiosity.pdf",
+   "pages": [
+    249,
+    272
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "science-6/beyond-earth/stars-and-constellations",
+     "name": "Stars and Constellations",
+     "page": 251,
+     "number": "12.1",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/beyond-earth/night-sky-watching",
+     "name": "Night Sky Watching",
+     "page": 254,
+     "number": "12.2",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/beyond-earth/our-solar-system",
+     "name": "Our Solar System",
+     "page": 256,
+     "number": "12.3",
+     "subtopics": [
+      {
+       "id": "science-6/beyond-earth/our-solar-system/the-sun",
+       "name": "The Sun",
+       "page": 256
+      },
+      {
+       "id": "science-6/beyond-earth/our-solar-system/planets",
+       "name": "Planets",
+       "page": 258
+      },
+      {
+       "id": "science-6/beyond-earth/our-solar-system/natural-satellites",
+       "name": "Natural Satellites",
+       "page": 262
+      },
+      {
+       "id": "science-6/beyond-earth/our-solar-system/asteroids",
+       "name": "Asteroids",
+       "page": 263
+      },
+      {
+       "id": "science-6/beyond-earth/our-solar-system/comets",
+       "name": "Comets",
+       "page": 263
+      }
+     ]
+    },
+    {
+     "id": "science-6/beyond-earth/the-milky-way-galaxy",
+     "name": "The Milky Way Galaxy",
+     "page": 265,
+     "number": "12.4",
+     "subtopics": []
+    },
+    {
+     "id": "science-6/beyond-earth/the-universe",
+     "name": "The Universe",
+     "page": 265,
+     "number": "12.5",
+     "subtopics": []
+    }
+   ]
+  }
+ ]
+}

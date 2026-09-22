@@ -1,0 +1,4429 @@
+{
+ "builtAt": "2026-09-22T12:08:48.136002+00:00",
+ "root": "ncert-dataset/exemplar",
+ "counts": {
+  "10|Mathematics": {
+   "chapterMapped": 0,
+   "excluded:figure-unavailable": 77,
+   "excluded:no-answer": 90,
+   "excluded:options-unparsed": 1,
+   "excluded:shared-stimulus": 1,
+   "excluded:symbol-loss": 211,
+   "found": 645,
+   "kind:la": 145,
+   "kind:matching": 1,
+   "kind:mcq_single": 162,
+   "kind:sa": 203,
+   "kind:vsa": 134,
+   "marks:1": 81,
+   "marks:2": 74,
+   "marks:3": 59,
+   "marks:5": 51,
+   "withAnswer": 553,
+   "written": 265,
+   "written:la": 51,
+   "written:mcq_single": 81,
+   "written:sa": 59,
+   "written:vsa": 74
+  },
+  "10|Science": {
+   "chapterMapped": 357,
+   "excluded:figure-unavailable": 139,
+   "excluded:no-answer": 6,
+   "excluded:options-unparsed": 4,
+   "excluded:reading-order": 22,
+   "excluded:symbol-loss": 55,
+   "excluded:table-layout": 3,
+   "found": 705,
+   "kind:la": 115,
+   "kind:matching": 8,
+   "kind:mcq_single": 369,
+   "kind:sa": 213,
+   "marks:1": 300,
+   "marks:3": 127,
+   "marks:5": 49,
+   "withAnswer": 695,
+   "written": 476,
+   "written:la": 49,
+   "written:mcq_single": 300,
+   "written:sa": 127
+  },
+  "6|Mathematics": {
+   "chapterMapped": 51,
+   "excluded:answer-part-missing": 1,
+   "excluded:blank-lost": 2,
+   "excluded:figure-unavailable": 139,
+   "excluded:no-answer": 74,
+   "excluded:options-unparsed": 1,
+   "excluded:shared-stimulus": 9,
+   "excluded:symbol-loss": 128,
+   "excluded:table-layout": 1,
+   "found": 880,
+   "kind:fill_blank": 183,
+   "kind:matching": 4,
+   "kind:mcq_single": 152,
+   "kind:sa": 370,
+   "kind:true_false": 171,
+   "marks:1": 372,
+   "marks:3": 153,
+   "withAnswer": 800,
+   "written": 525,
+   "written:fill_blank": 116,
+   "written:mcq_single": 109,
+   "written:sa": 153,
+   "written:true_false": 147
+  },
+  "6|Science": {
+   "chapterMapped": 0,
+   "excluded:answer-is-a-pointer": 3,
+   "excluded:figure-unavailable": 79,
+   "excluded:no-answer": 3,
+   "excluded:options-unparsed": 3,
+   "excluded:reading-order": 1,
+   "excluded:shared-stimulus": 2,
+   "excluded:symbol-loss": 21,
+   "excluded:table-layout": 1,
+   "found": 346,
+   "kind:la": 71,
+   "kind:matching": 12,
+   "kind:mcq_single": 128,
+   "kind:sa": 80,
+   "kind:vsa": 55,
+   "marks:1": 107,
+   "marks:2": 34,
+   "marks:3": 57,
+   "marks:5": 35,
+   "withAnswer": 340,
+   "written": 233,
+   "written:la": 35,
+   "written:mcq_single": 107,
+   "written:sa": 57,
+   "written:vsa": 34
+  },
+  "7|Mathematics": {
+   "chapterMapped": 435,
+   "excluded:blank-lost": 66,
+   "excluded:figure-unavailable": 338,
+   "excluded:no-answer": 68,
+   "excluded:options-unparsed": 7,
+   "excluded:reading-order": 13,
+   "excluded:shared-stimulus": 15,
+   "excluded:stem-too-short": 1,
+   "excluded:symbol-loss": 362,
+   "found": 1431,
+   "kind:fill_blank": 297,
+   "kind:matching": 6,
+   "kind:mcq_single": 311,
+   "kind:sa": 559,
+   "kind:true_false": 258,
+   "marks:1": 424,
+   "marks:3": 137,
+   "withAnswer": 1356,
+   "written": 561,
+   "written:fill_blank": 98,
+   "written:mcq_single": 134,
+   "written:sa": 137,
+   "written:true_false": 192
+  },
+  "7|Science": {
+   "chapterMapped": 224,
+   "excluded:answer-is-a-pointer": 2,
+   "excluded:figure-unavailable": 84,
+   "excluded:no-answer": 1,
+   "excluded:options-unparsed": 4,
+   "excluded:symbol-loss": 7,
+   "excluded:table-layout": 3,
+   "found": 410,
+   "kind:la": 73,
+   "kind:matching": 17,
+   "kind:mcq_single": 148,
+   "kind:sa": 101,
+   "kind:vsa": 71,
+   "marks:1": 131,
+   "marks:2": 63,
+   "marks:3": 77,
+   "marks:5": 38,
+   "withAnswer": 405,
+   "written": 309,
+   "written:la": 38,
+   "written:mcq_single": 131,
+   "written:sa": 77,
+   "written:vsa": 63
+  },
+  "8|Mathematics": {
+   "chapterMapped": 411,
+   "excluded:blank-lost": 2,
+   "excluded:figure-unavailable": 292,
+   "excluded:no-answer": 45,
+   "excluded:options-unparsed": 10,
+   "excluded:reading-order": 18,
+   "excluded:shared-stimulus": 22,
+   "excluded:stem-too-short": 2,
+   "excluded:symbol-loss": 363,
+   "excluded:table-layout": 1,
+   "found": 1593,
+   "kind:fill_blank": 308,
+   "kind:matching": 5,
+   "kind:mcq_single": 329,
+   "kind:sa": 649,
+   "kind:true_false": 302,
+   "marks:1": 625,
+   "marks:3": 213,
+   "withAnswer": 1537,
+   "written": 838,
+   "written:fill_blank": 204,
+   "written:mcq_single": 196,
+   "written:sa": 213,
+   "written:true_false": 225
+  },
+  "8|Science": {
+   "chapterMapped": 283,
+   "excluded:answer-is-a-pointer": 1,
+   "excluded:figure-unavailable": 74,
+   "excluded:no-answer": 2,
+   "excluded:options-unparsed": 6,
+   "excluded:reading-order": 2,
+   "excluded:shared-stimulus": 1,
+   "excluded:symbol-loss": 21,
+   "excluded:table-layout": 7,
+   "found": 513,
+   "kind:la": 106,
+   "kind:matching": 12,
+   "kind:mcq_single": 187,
+   "kind:sa": 103,
+   "kind:vsa": 105,
+   "marks:1": 167,
+   "marks:2": 97,
+   "marks:3": 79,
+   "marks:5": 56,
+   "withAnswer": 505,
+   "written": 399,
+   "written:la": 56,
+   "written:mcq_single": 167,
+   "written:sa": 79,
+   "written:vsa": 97
+  },
+  "9|Mathematics": {
+   "chapterMapped": 199,
+   "excluded:figure-unavailable": 114,
+   "excluded:no-answer": 183,
+   "excluded:options-unparsed": 3,
+   "excluded:symbol-loss": 104,
+   "found": 637,
+   "kind:la": 135,
+   "kind:mcq_single": 207,
+   "kind:sa": 186,
+   "kind:vsa": 109,
+   "marks:1": 125,
+   "marks:2": 54,
+   "marks:3": 35,
+   "marks:5": 19,
+   "withAnswer": 451,
+   "written": 233,
+   "written:la": 19,
+   "written:mcq_single": 125,
+   "written:sa": 35,
+   "written:vsa": 54
+  },
+  "9|Science": {
+   "chapterMapped": 284,
+   "excluded:answer-not-an-option": 3,
+   "excluded:figure-unavailable": 79,
+   "excluded:no-answer": 4,
+   "excluded:options-unparsed": 13,
+   "excluded:reading-order": 1,
+   "excluded:stem-too-short": 1,
+   "excluded:symbol-loss": 66,
+   "found": 592,
+   "kind:la": 124,
+   "kind:matching": 10,
+   "kind:mcq_single": 267,
+   "kind:sa": 191,
+   "marks:1": 233,
+   "marks:3": 140,
+   "marks:5": 52,
+   "withAnswer": 572,
+   "written": 425,
+   "written:la": 52,
+   "written:mcq_single": 233,
+   "written:sa": 140
+  }
+ },
+ "exclusionReasons": [
+  "chapter-unverified",
+  "shared-stimulus",
+  "options-unparsed",
+  "no-answer",
+  "answer-not-an-option",
+  "figure-unavailable",
+  "symbol-loss",
+  "reading-order",
+  "blank-lost",
+  "table-layout",
+  "stem-too-short",
+  "answer-is-a-pointer",
+  "answer-part-missing"
+ ],
+ "marksBasis": {
+  "mcq_single": 1,
+  "mcq_multiple": 1,
+  "fill_blank": 1,
+  "true_false": 1,
+  "vsa": 2,
+  "sa": 3,
+  "la": 5,
+  "matching": 3
+ },
+ "chapterMap": [
+  {
+   "grade": 6,
+   "subject": "Mathematics",
+   "exemplarChapter": 1,
+   "title": "Number System",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Mathematics",
+   "exemplarChapter": 2,
+   "title": "Geometry",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Mathematics",
+   "exemplarChapter": 3,
+   "title": "Integers",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Mathematics",
+   "exemplarChapter": 4,
+   "title": "Fractions and Decimals",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Mathematics",
+   "exemplarChapter": 5,
+   "title": "Data Handling",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Mathematics",
+   "exemplarChapter": 6,
+   "title": "Mensuration",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Mathematics",
+   "exemplarChapter": 7,
+   "title": "Algebra",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Mathematics",
+   "exemplarChapter": 8,
+   "title": "Ratio and Proportion",
+   "chapterId": "ratio-and-proportion",
+   "syllabusName": "Ratio and Proportion"
+  },
+  {
+   "grade": 6,
+   "subject": "Mathematics",
+   "exemplarChapter": 9,
+   "title": "Symmetry and Practical Geometry",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 1,
+   "title": "Food: Where Does It Come From?",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 2,
+   "title": "Components of Food",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 3,
+   "title": "Fibre to Fabric",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 4,
+   "title": "Sorting Materials and Groups",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 5,
+   "title": "Separation of Substances",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 6,
+   "title": "Changes Around Us",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 7,
+   "title": "Getting to Know Plants",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 8,
+   "title": "Body Movement",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 9,
+   "title": "The Living Organisms and their Surroundings",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 10,
+   "title": "Motion and Measurement of Distances",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 11,
+   "title": "Light",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 12,
+   "title": "Electricity and Circuits",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 13,
+   "title": "Fun with Magnets",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 14,
+   "title": "Water",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 15,
+   "title": "Air Around Us",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "exemplarChapter": 16,
+   "title": "Garbage in, Garbage out",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "exemplarChapter": 1,
+   "title": "Integers",
+   "chapterId": "integers",
+   "syllabusName": "Integers"
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "exemplarChapter": 2,
+   "title": "Fractions and Decimals",
+   "chapterId": "fractions-and-decimals",
+   "syllabusName": "Fractions and Decimals"
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "exemplarChapter": 3,
+   "title": "Data Handling",
+   "chapterId": "data-handling-7",
+   "syllabusName": "Data Handling"
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "exemplarChapter": 4,
+   "title": "Simple Equations",
+   "chapterId": "simple-equations",
+   "syllabusName": "Simple Equations"
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "exemplarChapter": 5,
+   "title": "Lines and Angles",
+   "chapterId": "lines-and-angles-7",
+   "syllabusName": "Lines and Angles"
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "exemplarChapter": 6,
+   "title": "Triangles",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "exemplarChapter": 7,
+   "title": "Comparing Quantities",
+   "chapterId": "comparing-quantities-7",
+   "syllabusName": "Comparing Quantities"
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "exemplarChapter": 8,
+   "title": "Rational Numbers",
+   "chapterId": "rational-numbers-7",
+   "syllabusName": "Rational Numbers"
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "exemplarChapter": 9,
+   "title": "Perimeter and Area",
+   "chapterId": "perimeter-and-area",
+   "syllabusName": "Perimeter and Area"
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "exemplarChapter": 10,
+   "title": "Algebraic Expressions",
+   "chapterId": "algebraic-expressions-7",
+   "syllabusName": "Algebraic Expressions"
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "exemplarChapter": 11,
+   "title": "Exponents and Powers",
+   "chapterId": "exponents-and-powers-7",
+   "syllabusName": "Exponents and Powers"
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "exemplarChapter": 12,
+   "title": "Practical Geometry, Symmetry and Visualising Solid Shapes",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 1,
+   "title": "Nutrition in Plants",
+   "chapterId": "nutrition-in-plants",
+   "syllabusName": "Nutrition in Plants"
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 2,
+   "title": "Nutrition in Animals",
+   "chapterId": "nutrition-in-animals",
+   "syllabusName": "Nutrition in Animals"
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 3,
+   "title": "Fibre to Fabric",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 4,
+   "title": "Heat",
+   "chapterId": "heat",
+   "syllabusName": "Heat"
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 5,
+   "title": "Acids, Bases and Salts",
+   "chapterId": "acids-bases-salts-7",
+   "syllabusName": "Acids, Bases and Salts"
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 6,
+   "title": "Physical and Chemical Changes",
+   "chapterId": "physical-and-chemical-changes",
+   "syllabusName": "Physical and Chemical Changes"
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 7,
+   "title": "Weather, Climate and Adaptation of Animals to Climate",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 8,
+   "title": "Wind, Storm and Cyclone",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 9,
+   "title": "Soil",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 10,
+   "title": "Respiration in Organisms",
+   "chapterId": "respiration-in-organisms",
+   "syllabusName": "Respiration in Organisms"
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 11,
+   "title": "Transportation in Animals and Plants",
+   "chapterId": "transportation-animals-plants",
+   "syllabusName": "Transportation in Animals and Plants"
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 12,
+   "title": "Reproduction in Plants",
+   "chapterId": "reproduction-in-plants",
+   "syllabusName": "Reproduction in Plants"
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 13,
+   "title": "Motion and Time",
+   "chapterId": "motion-and-time",
+   "syllabusName": "Motion and Time"
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 14,
+   "title": "Electric Current and Its Effects",
+   "chapterId": "electric-current-effects",
+   "syllabusName": "Electric Current and its Effects"
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 15,
+   "title": "Light",
+   "chapterId": "light-7",
+   "syllabusName": "Light"
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 16,
+   "title": "Water: A Precious Resource",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 17,
+   "title": "Forests: Our Lifeline",
+   "chapterId": "forests-our-lifeline",
+   "syllabusName": "Forests: Our Lifeline"
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "exemplarChapter": 18,
+   "title": "Wastewater Story",
+   "chapterId": "wastewater-story",
+   "syllabusName": "Wastewater Story"
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 1,
+   "title": "Rational Numbers",
+   "chapterId": "rational-numbers",
+   "syllabusName": "Rational Numbers"
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 2,
+   "title": "Data Handling",
+   "chapterId": "data-handling",
+   "syllabusName": "Data Handling"
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 3,
+   "title": "Square-Square Root and Cube-Cube Root",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 4,
+   "title": "Linear Equations in One Variable",
+   "chapterId": "linear-equations-one-variable",
+   "syllabusName": "Linear Equations in One Variable"
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 5,
+   "title": "Understanding Quadrilaterals and Practical Geometry",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 6,
+   "title": "Visualising Solid Shapes",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 7,
+   "title": "Algebraic Expressions, Identities and Factorisation",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 8,
+   "title": "Exponents and Powers",
+   "chapterId": "exponents-and-powers",
+   "syllabusName": "Exponents and Powers"
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 9,
+   "title": "Comparing Quantities",
+   "chapterId": "comparing-quantities",
+   "syllabusName": "Comparing Quantities"
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 10,
+   "title": "Direct and Inverse Proportions",
+   "chapterId": "direct-and-inverse-proportions",
+   "syllabusName": "Direct and Inverse Proportions"
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 11,
+   "title": "Mensuration",
+   "chapterId": "mensuration-8",
+   "syllabusName": "Mensuration"
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 12,
+   "title": "Introduction to Graphs",
+   "chapterId": "introduction-to-graphs",
+   "syllabusName": "Introduction to Graphs"
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "exemplarChapter": 13,
+   "title": "Playing with Numbers",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 1,
+   "title": "Crop Production and Management",
+   "chapterId": "crop-production-management",
+   "syllabusName": "Crop Production and Management"
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 2,
+   "title": "Microorganisms: Friend and Foe",
+   "chapterId": "microorganisms-friend-foe",
+   "syllabusName": "Microorganisms: Friend and Foe"
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 3,
+   "title": "Synthetic Fibres and Plastics",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 4,
+   "title": "Materials: Metals and Non-Metals",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 5,
+   "title": "Coal and Petroleum",
+   "chapterId": "coal-and-petroleum",
+   "syllabusName": "Coal and Petroleum"
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 6,
+   "title": "Combustion and Flame",
+   "chapterId": "combustion-and-flame",
+   "syllabusName": "Combustion and Flame"
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 7,
+   "title": "Conservation of Plants and Animals",
+   "chapterId": "conservation-plants-animals",
+   "syllabusName": "Conservation of Plants and Animals"
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 8,
+   "title": "Cell—Structure and Functions",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 9,
+   "title": "Reproduction in Animals",
+   "chapterId": "reproduction-in-animals",
+   "syllabusName": "Reproduction in Animals"
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 10,
+   "title": "Reaching the Age of Adolescence",
+   "chapterId": "reaching-age-of-adolescence",
+   "syllabusName": "Reaching the Age of Adolescence"
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 11,
+   "title": "Force",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 12,
+   "title": "Friction",
+   "chapterId": "friction",
+   "syllabusName": "Friction"
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 13,
+   "title": "Sound",
+   "chapterId": "sound-8",
+   "syllabusName": "Sound"
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 14,
+   "title": "Chemical Effects of Electric Current",
+   "chapterId": "chemical-effects-electric-current",
+   "syllabusName": "Chemical Effects of Electric Current"
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 15,
+   "title": "Some Natural Phenomena",
+   "chapterId": "some-natural-phenomena",
+   "syllabusName": "Some Natural Phenomena"
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 16,
+   "title": "Light",
+   "chapterId": "light-8",
+   "syllabusName": "Light"
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 17,
+   "title": "Stars and Solar System",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "exemplarChapter": 18,
+   "title": "Pollution of Air and Water",
+   "chapterId": "pollution-air-water",
+   "syllabusName": "Pollution of Air and Water"
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 1,
+   "title": "Number Systems",
+   "chapterId": "number-systems-9",
+   "syllabusName": "Number Systems"
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 2,
+   "title": "Polynomials",
+   "chapterId": "polynomials-9",
+   "syllabusName": "Polynomials"
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 3,
+   "title": "Coordinate Geometry",
+   "chapterId": "coordinate-geometry-9",
+   "syllabusName": "Coordinate Geometry"
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 4,
+   "title": "Linear Equations in Two Variables",
+   "chapterId": "linear-equations-two-variables",
+   "syllabusName": "Linear Equations in Two Variables"
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 5,
+   "title": "Introduction to Euclid's Geometry",
+   "chapterId": "intro-euclid-geometry",
+   "syllabusName": "Introduction to Euclid's Geometry"
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 6,
+   "title": "Lines and Angles",
+   "chapterId": "lines-and-angles",
+   "syllabusName": "Lines and Angles"
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 7,
+   "title": "Triangles",
+   "chapterId": "triangles-9",
+   "syllabusName": "Triangles"
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 8,
+   "title": "Quadrilaterals",
+   "chapterId": "quadrilaterals",
+   "syllabusName": "Quadrilaterals"
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 9,
+   "title": "Areas of Parallelograms and Triangles",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 10,
+   "title": "Circles",
+   "chapterId": "circles-9",
+   "syllabusName": "Circles"
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 11,
+   "title": "Constructions",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 12,
+   "title": "Heron's Formula",
+   "chapterId": "herons-formula",
+   "syllabusName": "Heron's Formula"
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 13,
+   "title": "Surface Areas and Volumes",
+   "chapterId": "surface-areas-and-volumes-9",
+   "syllabusName": "Surface Areas and Volumes"
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "exemplarChapter": 14,
+   "title": "Statistics and Probability",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 1,
+   "title": "Matter in Our Surroundings",
+   "chapterId": "matter-in-our-surroundings",
+   "syllabusName": "Matter in Our Surroundings"
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 2,
+   "title": "Is Matter Around Us Pure",
+   "chapterId": "is-matter-around-us-pure",
+   "syllabusName": "Is Matter Around Us Pure"
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 3,
+   "title": "Atoms and Molecules",
+   "chapterId": "atoms-and-molecules",
+   "syllabusName": "Atoms and Molecules"
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 4,
+   "title": "Structure of the Atom",
+   "chapterId": "structure-of-the-atom",
+   "syllabusName": "Structure of the Atom"
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 5,
+   "title": "The Fundamental Unit of Life",
+   "chapterId": "fundamental-unit-of-life",
+   "syllabusName": "The Fundamental Unit of Life"
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 6,
+   "title": "Tissues",
+   "chapterId": "tissues",
+   "syllabusName": "Tissues"
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 7,
+   "title": "Diversity in Living Organisms",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 8,
+   "title": "Motion",
+   "chapterId": "motion",
+   "syllabusName": "Motion"
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 9,
+   "title": "Force and Laws of Motion",
+   "chapterId": "force-and-laws-of-motion",
+   "syllabusName": "Force and Laws of Motion"
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 10,
+   "title": "Gravitation",
+   "chapterId": "gravitation-9",
+   "syllabusName": "Gravitation"
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 11,
+   "title": "Work and Energy",
+   "chapterId": "work-and-energy",
+   "syllabusName": "Work and Energy"
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 12,
+   "title": "Sound",
+   "chapterId": "sound",
+   "syllabusName": "Sound"
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 13,
+   "title": "Why Do We Fall Ill",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 14,
+   "title": "Natural Resources",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "exemplarChapter": 15,
+   "title": "Improvement in Food Resources",
+   "chapterId": "improvement-in-food-resources",
+   "syllabusName": "Improvement in Food Resources"
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 1,
+   "title": "Real Numbers",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 2,
+   "title": "Polynomials",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 3,
+   "title": "Pair of Linear Equations in Two Variables",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 4,
+   "title": "Quadratic Equations",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 5,
+   "title": "Arithmetic Progressions",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 6,
+   "title": "Triangles",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 7,
+   "title": "Coordinate Geometry",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 8,
+   "title": "Introduction to Trigonometry and Its Applications",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 9,
+   "title": "Circles",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 10,
+   "title": "Construction",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 11,
+   "title": "Area Related to Circles",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 12,
+   "title": "Surface Areas and Volumes",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "exemplarChapter": 13,
+   "title": "Statistics and Probability",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 1,
+   "title": "Chemical Reactions and Equations",
+   "chapterId": "chemical-reactions-equations",
+   "syllabusName": "Chemical Reactions and Equations"
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 2,
+   "title": "Acids, Bases and Salts",
+   "chapterId": "acids-bases-salts",
+   "syllabusName": "Acids, Bases and Salts"
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 3,
+   "title": "Metals and Non-metals",
+   "chapterId": "metals-non-metals",
+   "syllabusName": "Metals and Non-metals"
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 4,
+   "title": "Carbon and its Compounds",
+   "chapterId": "carbon-compounds",
+   "syllabusName": "Carbon and its Compounds"
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 5,
+   "title": "Periodic Classification of Elements",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 6,
+   "title": "Life Processes",
+   "chapterId": "life-processes",
+   "syllabusName": "Life Processes"
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 7,
+   "title": "Control and Coordination",
+   "chapterId": "control-coordination",
+   "syllabusName": "Control and Coordination"
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 8,
+   "title": "How do Organisms Reproduce?",
+   "chapterId": "reproduction",
+   "syllabusName": "How do Organisms Reproduce"
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 9,
+   "title": "Heredity and Evolution",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 10,
+   "title": "Light – Reflection and Refraction",
+   "chapterId": "light-reflection-refraction",
+   "syllabusName": "Light – Reflection and Refraction"
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 11,
+   "title": "The Human Eye and the Colourful World",
+   "chapterId": "human-eye",
+   "syllabusName": "The Human Eye and the Colourful World"
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 12,
+   "title": "Electricity",
+   "chapterId": "electricity",
+   "syllabusName": "Electricity"
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 13,
+   "title": "Magnetic Effects of Electric Current",
+   "chapterId": "magnetic-effects",
+   "syllabusName": "Magnetic Effects of Electric Current"
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 14,
+   "title": "Sources of Energy",
+   "chapterId": null,
+   "syllabusName": null
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 15,
+   "title": "Our Environment",
+   "chapterId": "our-environment",
+   "syllabusName": "Our Environment"
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "exemplarChapter": 16,
+   "title": "Management of Natural Resources",
+   "chapterId": null,
+   "syllabusName": null
+  }
+ ],
+ "books": [
+  {
+   "grade": 6,
+   "subject": "Mathematics",
+   "files": [
+    {
+     "file": "feep101.pdf",
+     "chapter": 1,
+     "title": "Number System",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 200,
+     "status": "chapter"
+    },
+    {
+     "file": "feep102.pdf",
+     "chapter": 2,
+     "title": "Geometry",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 78,
+     "status": "chapter"
+    },
+    {
+     "file": "feep103.pdf",
+     "chapter": 3,
+     "title": "Integers",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 83,
+     "status": "chapter"
+    },
+    {
+     "file": "feep104.pdf",
+     "chapter": 4,
+     "title": "Fractions and Decimals",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 129,
+     "status": "chapter"
+    },
+    {
+     "file": "feep105.pdf",
+     "chapter": 5,
+     "title": "Data Handling",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 55,
+     "status": "chapter"
+    },
+    {
+     "file": "feep106.pdf",
+     "chapter": 6,
+     "title": "Mensuration",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 60,
+     "status": "chapter"
+    },
+    {
+     "file": "feep107.pdf",
+     "chapter": 7,
+     "title": "Algebra",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 97,
+     "status": "chapter"
+    },
+    {
+     "file": "feep108.pdf",
+     "chapter": 8,
+     "title": "Ratio and Proportion",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 89,
+     "status": "chapter"
+    },
+    {
+     "file": "feep109.pdf",
+     "chapter": 9,
+     "title": "Symmetry and Practical Geometry",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 89,
+     "status": "chapter"
+    }
+   ],
+   "answers": {
+    "file": "feep1an.pdf",
+    "answers": 821,
+    "ambiguous": 16,
+    "blocks": [
+     {
+      "chapter": 1,
+      "scope": "",
+      "page": 1,
+      "answers": 197,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 2,
+      "scope": "",
+      "page": 3,
+      "answers": 77,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "",
+      "page": 5,
+      "answers": 81,
+      "ambiguous": 2
+     },
+     {
+      "chapter": 4,
+      "scope": "",
+      "page": 6,
+      "answers": 124,
+      "ambiguous": 3
+     },
+     {
+      "chapter": 5,
+      "scope": "",
+      "page": 8,
+      "answers": 39,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 6,
+      "scope": "",
+      "page": 11,
+      "answers": 55,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 7,
+      "scope": "",
+      "page": 12,
+      "answers": 94,
+      "ambiguous": 2
+     },
+     {
+      "chapter": 8,
+      "scope": "",
+      "page": 14,
+      "answers": 79,
+      "ambiguous": 6
+     },
+     {
+      "chapter": 9,
+      "scope": "",
+      "page": 15,
+      "answers": 75,
+      "ambiguous": 0
+     }
+    ]
+   }
+  },
+  {
+   "grade": 6,
+   "subject": "Science",
+   "files": [
+    {
+     "file": "feep201.pdf",
+     "chapter": 1,
+     "title": "Food: Where Does It Come From?",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 19,
+     "status": "chapter"
+    },
+    {
+     "file": "feep202.pdf",
+     "chapter": 2,
+     "title": "Components of Food",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 21,
+     "status": "chapter"
+    },
+    {
+     "file": "feep203.pdf",
+     "chapter": 3,
+     "title": "Fibre to Fabric",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 25,
+     "status": "chapter"
+    },
+    {
+     "file": "feep204.pdf",
+     "chapter": 4,
+     "title": "Sorting Materials and Groups",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 25,
+     "status": "chapter"
+    },
+    {
+     "file": "feep205.pdf",
+     "chapter": 5,
+     "title": "Separation of Substances",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 20,
+     "status": "chapter"
+    },
+    {
+     "file": "feep206.pdf",
+     "chapter": 6,
+     "title": "Changes Around Us",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 20,
+     "status": "chapter"
+    },
+    {
+     "file": "feep207.pdf",
+     "chapter": 7,
+     "title": "Getting to Know Plants",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 19,
+     "status": "chapter"
+    },
+    {
+     "file": "feep208.pdf",
+     "chapter": 8,
+     "title": "Body Movement",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 19,
+     "status": "chapter"
+    },
+    {
+     "file": "feep209.pdf",
+     "chapter": 9,
+     "title": "The Living Organisms and their Surroundings",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 27,
+     "status": "chapter"
+    },
+    {
+     "file": "feep210.pdf",
+     "chapter": 10,
+     "title": "Motion and Measurement of Distances",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 20,
+     "status": "chapter"
+    },
+    {
+     "file": "feep211.pdf",
+     "chapter": 11,
+     "title": "Light",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 24,
+     "status": "chapter"
+    },
+    {
+     "file": "feep212.pdf",
+     "chapter": 12,
+     "title": "Electricity and Circuits",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 23,
+     "status": "chapter"
+    },
+    {
+     "file": "feep213.pdf",
+     "chapter": 13,
+     "title": "Fun with Magnets",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 20,
+     "status": "chapter"
+    },
+    {
+     "file": "feep214.pdf",
+     "chapter": 14,
+     "title": "Water",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 22,
+     "status": "chapter"
+    },
+    {
+     "file": "feep215.pdf",
+     "chapter": 15,
+     "title": "Air Around Us",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 20,
+     "status": "chapter"
+    },
+    {
+     "file": "feep216.pdf",
+     "chapter": 16,
+     "title": "Garbage in, Garbage out",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 22,
+     "status": "chapter"
+    }
+   ],
+   "answers": {
+    "file": "feep2an.pdf",
+    "answers": 346,
+    "ambiguous": 3,
+    "blocks": [
+     {
+      "chapter": 1,
+      "scope": "",
+      "page": 1,
+      "answers": 19,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "",
+      "page": 3,
+      "answers": 21,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "",
+      "page": 6,
+      "answers": 25,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "",
+      "page": 8,
+      "answers": 25,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 5,
+      "scope": "",
+      "page": 11,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 6,
+      "scope": "",
+      "page": 14,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 7,
+      "scope": "",
+      "page": 16,
+      "answers": 19,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "",
+      "page": 19,
+      "answers": 19,
+      "ambiguous": 3
+     },
+     {
+      "chapter": 9,
+      "scope": "",
+      "page": 22,
+      "answers": 27,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 10,
+      "scope": "",
+      "page": 24,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "",
+      "page": 27,
+      "answers": 24,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 12,
+      "scope": "",
+      "page": 29,
+      "answers": 23,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 13,
+      "scope": "",
+      "page": 32,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 14,
+      "scope": "",
+      "page": 35,
+      "answers": 22,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 15,
+      "scope": "",
+      "page": 37,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 16,
+      "scope": "",
+      "page": 39,
+      "answers": 22,
+      "ambiguous": 0
+     }
+    ]
+   }
+  },
+  {
+   "grade": 7,
+   "subject": "Mathematics",
+   "files": [
+    {
+     "file": "gemp101.pdf",
+     "chapter": 1,
+     "title": "Integers",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 136,
+     "status": "chapter"
+    },
+    {
+     "file": "gemp102.pdf",
+     "chapter": 2,
+     "title": "Fractions and Decimals",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 125,
+     "status": "chapter"
+    },
+    {
+     "file": "gemp103.pdf",
+     "chapter": 3,
+     "title": "Data Handling",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 91,
+     "status": "chapter"
+    },
+    {
+     "file": "gemp104.pdf",
+     "chapter": 4,
+     "title": "Simple Equations",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 107,
+     "status": "chapter"
+    },
+    {
+     "file": "gemp105.pdf",
+     "chapter": 5,
+     "title": "Lines and Angles",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 112,
+     "status": "chapter"
+    },
+    {
+     "file": "gemp106.pdf",
+     "chapter": 6,
+     "title": "Triangles",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 158,
+     "status": "chapter"
+    },
+    {
+     "file": "gemp107.pdf",
+     "chapter": 7,
+     "title": "Comparing Quantities",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 140,
+     "status": "chapter"
+    },
+    {
+     "file": "gemp108.pdf",
+     "chapter": 8,
+     "title": "Rational Numbers",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 110,
+     "status": "chapter"
+    },
+    {
+     "file": "gemp109.pdf",
+     "chapter": 9,
+     "title": "Perimeter and Area",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 131,
+     "status": "chapter"
+    },
+    {
+     "file": "gemp110.pdf",
+     "chapter": 10,
+     "title": "Algebraic Expressions",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 100,
+     "status": "chapter"
+    },
+    {
+     "file": "gemp111.pdf",
+     "chapter": 11,
+     "title": "Exponents and Powers",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 97,
+     "status": "chapter"
+    },
+    {
+     "file": "gemp112.pdf",
+     "chapter": 12,
+     "title": "Practical Geometry, Symmetry and Visualising Solid Shapes",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 124,
+     "status": "chapter"
+    }
+   ],
+   "answers": {
+    "file": "gemp1a1.pdf",
+    "answers": 1389,
+    "ambiguous": 19,
+    "blocks": [
+     {
+      "chapter": 1,
+      "scope": "",
+      "page": 1,
+      "answers": 135,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "",
+      "page": 4,
+      "answers": 115,
+      "ambiguous": 6
+     },
+     {
+      "chapter": 3,
+      "scope": "",
+      "page": 10,
+      "answers": 89,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 4,
+      "scope": "",
+      "page": 13,
+      "answers": 104,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 5,
+      "scope": "",
+      "page": 16,
+      "answers": 111,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 6,
+      "scope": "",
+      "page": 19,
+      "answers": 152,
+      "ambiguous": 5
+     },
+     {
+      "chapter": 7,
+      "scope": "",
+      "page": 22,
+      "answers": 133,
+      "ambiguous": 2
+     },
+     {
+      "chapter": 8,
+      "scope": "",
+      "page": 24,
+      "answers": 108,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 9,
+      "scope": "",
+      "page": 28,
+      "answers": 123,
+      "ambiguous": 2
+     },
+     {
+      "chapter": 10,
+      "scope": "",
+      "page": 32,
+      "answers": 100,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "",
+      "page": 36,
+      "answers": 97,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 12,
+      "scope": "",
+      "page": 39,
+      "answers": 122,
+      "ambiguous": 0
+     }
+    ]
+   }
+  },
+  {
+   "grade": 7,
+   "subject": "Science",
+   "files": [
+    {
+     "file": "geep101.pdf",
+     "chapter": 1,
+     "title": "Nutrition in Plants",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 21,
+     "status": "chapter"
+    },
+    {
+     "file": "geep102.pdf",
+     "chapter": 2,
+     "title": "Nutrition in Animals",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 30,
+     "status": "chapter"
+    },
+    {
+     "file": "geep103.pdf",
+     "chapter": 3,
+     "title": "Fibre to Fabric",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 26,
+     "status": "chapter"
+    },
+    {
+     "file": "geep104.pdf",
+     "chapter": 4,
+     "title": "Heat",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 20,
+     "status": "chapter"
+    },
+    {
+     "file": "geep105.pdf",
+     "chapter": 5,
+     "title": "Acids, Bases and Salts",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 26,
+     "status": "chapter"
+    },
+    {
+     "file": "geep106.pdf",
+     "chapter": 6,
+     "title": "Physical and Chemical Changes",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 22,
+     "status": "chapter"
+    },
+    {
+     "file": "geep107.pdf",
+     "chapter": 7,
+     "title": "Weather, Climate and Adaptation of Animals to Climate",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 21,
+     "status": "chapter"
+    },
+    {
+     "file": "geep108.pdf",
+     "chapter": 8,
+     "title": "Wind, Storm and Cyclone",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 22,
+     "status": "chapter"
+    },
+    {
+     "file": "geep109.pdf",
+     "chapter": 9,
+     "title": "Soil",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 20,
+     "status": "chapter"
+    },
+    {
+     "file": "geep110.pdf",
+     "chapter": 10,
+     "title": "Respiration in Organisms",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 20,
+     "status": "chapter"
+    },
+    {
+     "file": "geep111.pdf",
+     "chapter": 11,
+     "title": "Transportation in Animals and Plants",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 21,
+     "status": "chapter"
+    },
+    {
+     "file": "geep112.pdf",
+     "chapter": 12,
+     "title": "Reproduction in Plants",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 20,
+     "status": "chapter"
+    },
+    {
+     "file": "geep113.pdf",
+     "chapter": 13,
+     "title": "Motion and Time",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 20,
+     "status": "chapter"
+    },
+    {
+     "file": "geep114.pdf",
+     "chapter": 14,
+     "title": "Electric Current and Its Effects",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 20,
+     "status": "chapter"
+    },
+    {
+     "file": "geep115.pdf",
+     "chapter": 15,
+     "title": "Light",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 24,
+     "status": "chapter"
+    },
+    {
+     "file": "geep116.pdf",
+     "chapter": 16,
+     "title": "Water: A Precious Resource",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 25,
+     "status": "chapter"
+    },
+    {
+     "file": "geep117.pdf",
+     "chapter": 17,
+     "title": "Forests: Our Lifeline",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 25,
+     "status": "chapter"
+    },
+    {
+     "file": "geep118.pdf",
+     "chapter": 18,
+     "title": "Wastewater Story",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 27,
+     "status": "chapter"
+    }
+   ],
+   "answers": {
+    "file": "geep1an.pdf",
+    "answers": 409,
+    "ambiguous": 0,
+    "blocks": [
+     {
+      "chapter": 1,
+      "scope": "",
+      "page": 1,
+      "answers": 21,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "",
+      "page": 3,
+      "answers": 30,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "",
+      "page": 6,
+      "answers": 25,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "",
+      "page": 8,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 5,
+      "scope": "",
+      "page": 10,
+      "answers": 26,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 6,
+      "scope": "",
+      "page": 13,
+      "answers": 22,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 7,
+      "scope": "",
+      "page": 15,
+      "answers": 21,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "",
+      "page": 17,
+      "answers": 22,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 9,
+      "scope": "",
+      "page": 19,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 10,
+      "scope": "",
+      "page": 22,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "",
+      "page": 25,
+      "answers": 21,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 12,
+      "scope": "",
+      "page": 27,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 13,
+      "scope": "",
+      "page": 29,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 14,
+      "scope": "",
+      "page": 31,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 15,
+      "scope": "",
+      "page": 33,
+      "answers": 24,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 16,
+      "scope": "",
+      "page": 35,
+      "answers": 25,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 17,
+      "scope": "",
+      "page": 37,
+      "answers": 25,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 18,
+      "scope": "",
+      "page": 39,
+      "answers": 27,
+      "ambiguous": 0
+     }
+    ]
+   }
+  },
+  {
+   "grade": 8,
+   "subject": "Mathematics",
+   "files": [
+    {
+     "file": "heep201.pdf",
+     "chapter": 1,
+     "title": "Rational Numbers",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 152,
+     "status": "chapter"
+    },
+    {
+     "file": "heep202.pdf",
+     "chapter": 2,
+     "title": "Data Handling",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 116,
+     "status": "chapter"
+    },
+    {
+     "file": "heep203.pdf",
+     "chapter": 3,
+     "title": "Square-Square Root and Cube-Cube Root",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 142,
+     "status": "chapter"
+    },
+    {
+     "file": "heep204.pdf",
+     "chapter": 4,
+     "title": "Linear Equations in One Variable",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 113,
+     "status": "chapter"
+    },
+    {
+     "file": "heep205.pdf",
+     "chapter": 5,
+     "title": "Understanding Quadrilaterals and Practical Geometry",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 203,
+     "status": "chapter"
+    },
+    {
+     "file": "heep206.pdf",
+     "chapter": 6,
+     "title": "Visualising Solid Shapes",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 102,
+     "status": "chapter"
+    },
+    {
+     "file": "heep207.pdf",
+     "chapter": 7,
+     "title": "Algebraic Expressions, Identities and Factorisation",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 125,
+     "status": "chapter"
+    },
+    {
+     "file": "heep208.pdf",
+     "chapter": 8,
+     "title": "Exponents and Powers",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 179,
+     "status": "chapter"
+    },
+    {
+     "file": "heep209.pdf",
+     "chapter": 9,
+     "title": "Comparing Quantities",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 124,
+     "status": "chapter"
+    },
+    {
+     "file": "heep210.pdf",
+     "chapter": 10,
+     "title": "Direct and Inverse Proportions",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 106,
+     "status": "chapter"
+    },
+    {
+     "file": "heep211.pdf",
+     "chapter": 11,
+     "title": "Mensuration",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 85,
+     "status": "chapter"
+    },
+    {
+     "file": "heep212.pdf",
+     "chapter": 12,
+     "title": "Introduction to Graphs",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 86,
+     "status": "chapter"
+    },
+    {
+     "file": "heep213.pdf",
+     "chapter": 13,
+     "title": "Playing with Numbers",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 60,
+     "status": "chapter"
+    }
+   ],
+   "answers": {
+    "file": "heep2an.pdf",
+    "answers": 1564,
+    "ambiguous": 11,
+    "blocks": [
+     {
+      "chapter": 1,
+      "scope": "",
+      "page": 1,
+      "answers": 145,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 2,
+      "scope": "",
+      "page": 6,
+      "answers": 113,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "",
+      "page": 14,
+      "answers": 141,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "",
+      "page": 16,
+      "answers": 111,
+      "ambiguous": 2
+     },
+     {
+      "chapter": 5,
+      "scope": "",
+      "page": 19,
+      "answers": 201,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 6,
+      "scope": "",
+      "page": 29,
+      "answers": 100,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 7,
+      "scope": "",
+      "page": 36,
+      "answers": 123,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "",
+      "page": 42,
+      "answers": 179,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 9,
+      "scope": "",
+      "page": 50,
+      "answers": 122,
+      "ambiguous": 2
+     },
+     {
+      "chapter": 10,
+      "scope": "",
+      "page": 53,
+      "answers": 103,
+      "ambiguous": 2
+     },
+     {
+      "chapter": 11,
+      "scope": "",
+      "page": 55,
+      "answers": 85,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 12,
+      "scope": "",
+      "page": 57,
+      "answers": 81,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 13,
+      "scope": "",
+      "page": 61,
+      "answers": 60,
+      "ambiguous": 2
+     }
+    ]
+   }
+  },
+  {
+   "grade": 8,
+   "subject": "Science",
+   "files": [
+    {
+     "file": "heep101.pdf",
+     "chapter": 1,
+     "title": "Crop Production and Management",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 30,
+     "status": "chapter"
+    },
+    {
+     "file": "heep102.pdf",
+     "chapter": 2,
+     "title": "Microorganisms: Friend and Foe",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 28,
+     "status": "chapter"
+    },
+    {
+     "file": "heep103.pdf",
+     "chapter": 3,
+     "title": "Synthetic Fibres and Plastics",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 29,
+     "status": "chapter"
+    },
+    {
+     "file": "heep104.pdf",
+     "chapter": 4,
+     "title": "Materials: Metals and Non-Metals",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 32,
+     "status": "chapter"
+    },
+    {
+     "file": "heep105.pdf",
+     "chapter": 5,
+     "title": "Coal and Petroleum",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 36,
+     "status": "chapter"
+    },
+    {
+     "file": "heep106.pdf",
+     "chapter": 6,
+     "title": "Combustion and Flame",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 38,
+     "status": "chapter"
+    },
+    {
+     "file": "heep107.pdf",
+     "chapter": 7,
+     "title": "Conservation of Plants and Animals",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 27,
+     "status": "chapter"
+    },
+    {
+     "file": "heep108.pdf",
+     "chapter": 8,
+     "title": "Cell—Structure and Functions",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 40,
+     "status": "chapter"
+    },
+    {
+     "file": "heep109.pdf",
+     "chapter": 9,
+     "title": "Reproduction in Animals",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 27,
+     "status": "chapter"
+    },
+    {
+     "file": "heep110.pdf",
+     "chapter": 10,
+     "title": "Reaching the Age of Adolescence",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 28,
+     "status": "chapter"
+    },
+    {
+     "file": "heep111.pdf",
+     "chapter": 11,
+     "title": "Force",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 30,
+     "status": "chapter"
+    },
+    {
+     "file": "heep112.pdf",
+     "chapter": 12,
+     "title": "Friction",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 9,
+     "status": "chapter"
+    },
+    {
+     "file": "heep113.pdf",
+     "chapter": 13,
+     "title": "Sound",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 25,
+     "status": "chapter"
+    },
+    {
+     "file": "heep114.pdf",
+     "chapter": 14,
+     "title": "Chemical Effects of Electric Current",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 24,
+     "status": "chapter"
+    },
+    {
+     "file": "heep115.pdf",
+     "chapter": 15,
+     "title": "Some Natural Phenomena",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 28,
+     "status": "chapter"
+    },
+    {
+     "file": "heep116.pdf",
+     "chapter": 16,
+     "title": "Light",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 25,
+     "status": "chapter"
+    },
+    {
+     "file": "heep117.pdf",
+     "chapter": 17,
+     "title": "Stars and Solar System",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 25,
+     "status": "chapter"
+    },
+    {
+     "file": "heep118.pdf",
+     "chapter": 18,
+     "title": "Pollution of Air and Water",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 32,
+     "status": "chapter"
+    }
+   ],
+   "answers": {
+    "file": "heep1an.pdf",
+    "answers": 513,
+    "ambiguous": 1,
+    "blocks": [
+     {
+      "chapter": 1,
+      "scope": "",
+      "page": 1,
+      "answers": 30,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "",
+      "page": 4,
+      "answers": 28,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "",
+      "page": 7,
+      "answers": 29,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "",
+      "page": 9,
+      "answers": 32,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 5,
+      "scope": "",
+      "page": 12,
+      "answers": 36,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 6,
+      "scope": "",
+      "page": 15,
+      "answers": 38,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 7,
+      "scope": "",
+      "page": 18,
+      "answers": 27,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "",
+      "page": 20,
+      "answers": 40,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 9,
+      "scope": "",
+      "page": 23,
+      "answers": 27,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 10,
+      "scope": "",
+      "page": 26,
+      "answers": 28,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "",
+      "page": 30,
+      "answers": 30,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 12,
+      "scope": "",
+      "page": 32,
+      "answers": 9,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 13,
+      "scope": "",
+      "page": 34,
+      "answers": 25,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 14,
+      "scope": "",
+      "page": 36,
+      "answers": 24,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 15,
+      "scope": "",
+      "page": 38,
+      "answers": 28,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 16,
+      "scope": "",
+      "page": 40,
+      "answers": 25,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 17,
+      "scope": "",
+      "page": 43,
+      "answers": 25,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 18,
+      "scope": "",
+      "page": 46,
+      "answers": 32,
+      "ambiguous": 0
+     }
+    ]
+   }
+  },
+  {
+   "grade": 9,
+   "subject": "Mathematics",
+   "files": [
+    {
+     "file": "ieep201.pdf",
+     "chapter": 1,
+     "title": "Number Systems",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 46,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep202.pdf",
+     "chapter": 2,
+     "title": "Polynomials",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 72,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep203.pdf",
+     "chapter": 3,
+     "title": "Coordinate Geometry",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 42,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep204.pdf",
+     "chapter": 4,
+     "title": "Linear Equations in Two Variables",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 42,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep205.pdf",
+     "chapter": 5,
+     "title": "Introduction to Euclid's Geometry",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 48,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep206.pdf",
+     "chapter": 6,
+     "title": "Lines and Angles",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 35,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep207.pdf",
+     "chapter": 7,
+     "title": "Triangles",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 55,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep208.pdf",
+     "chapter": 8,
+     "title": "Quadrilaterals",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 56,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep209.pdf",
+     "chapter": 9,
+     "title": "Areas of Parallelograms and Triangles",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 34,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep210.pdf",
+     "chapter": 10,
+     "title": "Circles",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 54,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep211.pdf",
+     "chapter": 11,
+     "title": "Constructions",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 22,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep212.pdf",
+     "chapter": 12,
+     "title": "Heron's Formula",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 26,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep213.pdf",
+     "chapter": 13,
+     "title": "Surface Areas and Volumes",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 38,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep214.pdf",
+     "chapter": 14,
+     "title": "Statistics and Probability",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 67,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep215.pdf",
+     "status": "design of the question paper, set I"
+    },
+    {
+     "file": "ieep216.pdf",
+     "status": "design of the question paper, set II"
+    }
+   ],
+   "answers": {
+    "file": "ieep2an.pdf",
+    "answers": 467,
+    "ambiguous": 4,
+    "blocks": [
+     {
+      "chapter": 1,
+      "scope": "1.1",
+      "page": 1,
+      "answers": 21,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 1,
+      "scope": "1.2",
+      "page": 1,
+      "answers": 4,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 1,
+      "scope": "1.3",
+      "page": 2,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 1,
+      "scope": "1.4",
+      "page": 4,
+      "answers": 7,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "2.1",
+      "page": 4,
+      "answers": 21,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "2.2",
+      "page": 4,
+      "answers": 2,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "2.3",
+      "page": 4,
+      "answers": 37,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "2.4",
+      "page": 6,
+      "answers": 4,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "3.1",
+      "page": 7,
+      "answers": 24,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "3.2",
+      "page": 7,
+      "answers": 1,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "3.3",
+      "page": 7,
+      "answers": 7,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "3.4",
+      "page": 7,
+      "answers": 5,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "4.1",
+      "page": 8,
+      "answers": 19,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "4.2",
+      "page": 8,
+      "answers": 7,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "4.3",
+      "page": 8,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "4.4",
+      "page": 8,
+      "answers": 5,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 5,
+      "scope": "5.1",
+      "page": 9,
+      "answers": 22,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 5,
+      "scope": "5.2",
+      "page": 9,
+      "answers": 9,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 5,
+      "scope": "5.4",
+      "page": 9,
+      "answers": 4,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 6,
+      "scope": "6.1",
+      "page": 10,
+      "answers": 8,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 6,
+      "scope": "6.2",
+      "page": 10,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 6,
+      "scope": "6.3",
+      "page": 10,
+      "answers": 2,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 7,
+      "scope": "7.1",
+      "page": 10,
+      "answers": 11,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 7,
+      "scope": "7.2",
+      "page": 10,
+      "answers": 12,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 7,
+      "scope": "7.4",
+      "page": 11,
+      "answers": 3,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "8.1",
+      "page": 11,
+      "answers": 14,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "8.2",
+      "page": 11,
+      "answers": 14,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "8.3",
+      "page": 12,
+      "answers": 3,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "8.4",
+      "page": 12,
+      "answers": 1,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 9,
+      "scope": "9.1",
+      "page": 12,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 9,
+      "scope": "9.2",
+      "page": 12,
+      "answers": 5,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 9,
+      "scope": "9.3",
+      "page": 12,
+      "answers": 2,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 10,
+      "scope": "10.1",
+      "page": 12,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 10,
+      "scope": "10.2",
+      "page": 13,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 10,
+      "scope": "10.3",
+      "page": 13,
+      "answers": 8,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 10,
+      "scope": "10.4",
+      "page": 13,
+      "answers": 2,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "11.1",
+      "page": 13,
+      "answers": 3,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "11.2",
+      "page": 13,
+      "answers": 6,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "11.3",
+      "page": 14,
+      "answers": 1,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 12,
+      "scope": "12.1",
+      "page": 14,
+      "answers": 9,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 12,
+      "scope": "12.2",
+      "page": 14,
+      "answers": 9,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 12,
+      "scope": "12.3",
+      "page": 14,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 12,
+      "scope": "12.4",
+      "page": 15,
+      "answers": 8,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 13,
+      "scope": "13.1",
+      "page": 15,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 13,
+      "scope": "13.2",
+      "page": 15,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 13,
+      "scope": "13.3",
+      "page": 16,
+      "answers": 9,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 13,
+      "scope": "13.4",
+      "page": 16,
+      "answers": 8,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 14,
+      "scope": "14.1",
+      "page": 16,
+      "answers": 25,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 14,
+      "scope": "14.2",
+      "page": 16,
+      "answers": 10,
+      "ambiguous": 2
+     },
+     {
+      "chapter": 14,
+      "scope": "14.4",
+      "page": 19,
+      "answers": 5,
+      "ambiguous": 0
+     }
+    ]
+   }
+  },
+  {
+   "grade": 9,
+   "subject": "Science",
+   "files": [
+    {
+     "file": "ieep101.pdf",
+     "chapter": 1,
+     "title": "Matter in Our Surroundings",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 27,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep102.pdf",
+     "chapter": 2,
+     "title": "Is Matter Around Us Pure",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 42,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep103.pdf",
+     "chapter": 3,
+     "title": "Atoms and Molecules",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 48,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep104.pdf",
+     "chapter": 4,
+     "title": "Structure of the Atom",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 43,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep105.pdf",
+     "chapter": 5,
+     "title": "The Fundamental Unit of Life",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 59,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep106.pdf",
+     "chapter": 6,
+     "title": "Tissues",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 55,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep107.pdf",
+     "chapter": 7,
+     "title": "Diversity in Living Organisms",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 57,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep108.pdf",
+     "chapter": 8,
+     "title": "Motion",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 24,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep109.pdf",
+     "chapter": 9,
+     "title": "Force and Laws of Motion",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 19,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep110.pdf",
+     "chapter": 10,
+     "title": "Gravitation",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 26,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep111.pdf",
+     "chapter": 11,
+     "title": "Work and Energy",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 28,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep112.pdf",
+     "chapter": 12,
+     "title": "Sound",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 20,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep113.pdf",
+     "chapter": 13,
+     "title": "Why Do We Fall Ill",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 39,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep114.pdf",
+     "chapter": 14,
+     "title": "Natural Resources",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 56,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep115.pdf",
+     "chapter": 15,
+     "title": "Improvement in Food Resources",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 49,
+     "status": "chapter"
+    },
+    {
+     "file": "ieep116.pdf",
+     "status": "sample question paper I"
+    },
+    {
+     "file": "ieep117.pdf",
+     "status": "sample question paper II"
+    }
+   ],
+   "answers": {
+    "file": "ieep1an.pdf",
+    "answers": 590,
+    "ambiguous": 1,
+    "blocks": [
+     {
+      "chapter": 1,
+      "scope": "",
+      "page": 1,
+      "answers": 27,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "",
+      "page": 4,
+      "answers": 41,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 3,
+      "scope": "",
+      "page": 9,
+      "answers": 47,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "",
+      "page": 19,
+      "answers": 43,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 5,
+      "scope": "",
+      "page": 23,
+      "answers": 59,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 6,
+      "scope": "",
+      "page": 26,
+      "answers": 55,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 7,
+      "scope": "",
+      "page": 32,
+      "answers": 57,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "",
+      "page": 36,
+      "answers": 24,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 9,
+      "scope": "",
+      "page": 40,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 10,
+      "scope": "",
+      "page": 43,
+      "answers": 26,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "",
+      "page": 45,
+      "answers": 28,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 12,
+      "scope": "",
+      "page": 49,
+      "answers": 19,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 13,
+      "scope": "",
+      "page": 52,
+      "answers": 39,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 14,
+      "scope": "",
+      "page": 55,
+      "answers": 56,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 15,
+      "scope": "",
+      "page": 58,
+      "answers": 49,
+      "ambiguous": 0
+     }
+    ]
+   }
+  },
+  {
+   "grade": 10,
+   "subject": "Mathematics",
+   "files": [
+    {
+     "file": "jeep201.pdf",
+     "chapter": 1,
+     "title": "Real Numbers",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 39,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep202.pdf",
+     "chapter": 2,
+     "title": "Polynomials",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 29,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep203.pdf",
+     "chapter": 3,
+     "title": "Pair of Linear Equations in Two Variables",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 54,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep204.pdf",
+     "chapter": 4,
+     "title": "Quadratic Equations",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 28,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep205.pdf",
+     "chapter": 5,
+     "title": "Arithmetic Progressions",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 71,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep206.pdf",
+     "chapter": 6,
+     "title": "Triangles",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 57,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep207.pdf",
+     "chapter": 7,
+     "title": "Coordinate Geometry",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 58,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep208.pdf",
+     "chapter": 8,
+     "title": "Introduction to Trigonometry and Its Applications",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 60,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep209.pdf",
+     "chapter": 9,
+     "title": "Circles",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 44,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep210.pdf",
+     "chapter": 10,
+     "title": "Construction",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 21,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep211.pdf",
+     "chapter": 11,
+     "title": "Area Related to Circles",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 60,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep212.pdf",
+     "chapter": 12,
+     "title": "Surface Areas and Volumes",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 42,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep213.pdf",
+     "chapter": 13,
+     "title": "Statistics and Probability",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 82,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep214.pdf",
+     "status": "design of the question paper, set I"
+    },
+    {
+     "file": "jeep215.pdf",
+     "status": "design of the question paper, set II"
+    }
+   ],
+   "answers": {
+    "file": "jeep2an.pdf",
+    "answers": 590,
+    "ambiguous": 7,
+    "blocks": [
+     {
+      "chapter": 1,
+      "scope": "1.1",
+      "page": 1,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 1,
+      "scope": "1.2",
+      "page": 1,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 1,
+      "scope": "1.3",
+      "page": 2,
+      "answers": 4,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "2.1",
+      "page": 2,
+      "answers": 11,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "2.2",
+      "page": 2,
+      "answers": 2,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "2.3",
+      "page": 2,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "2.4",
+      "page": 2,
+      "answers": 6,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "3.1",
+      "page": 3,
+      "answers": 13,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "3.2",
+      "page": 3,
+      "answers": 6,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "3.3",
+      "page": 3,
+      "answers": 22,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "3.4",
+      "page": 4,
+      "answers": 13,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "4.1",
+      "page": 5,
+      "answers": 11,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "4.2",
+      "page": 5,
+      "answers": 7,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "4.3",
+      "page": 6,
+      "answers": 2,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "4.4",
+      "page": 6,
+      "answers": 8,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 5,
+      "scope": "5.1",
+      "page": 7,
+      "answers": 18,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 5,
+      "scope": "5.2",
+      "page": 7,
+      "answers": 8,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 5,
+      "scope": "5.3",
+      "page": 7,
+      "answers": 32,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 5,
+      "scope": "5.4",
+      "page": 8,
+      "answers": 8,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 6,
+      "scope": "6.1",
+      "page": 8,
+      "answers": 12,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 6,
+      "scope": "6.2",
+      "page": 8,
+      "answers": 12,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 6,
+      "scope": "6.3",
+      "page": 9,
+      "answers": 11,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 6,
+      "scope": "6.4",
+      "page": 9,
+      "answers": 8,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 7,
+      "scope": "7.1",
+      "page": 9,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 7,
+      "scope": "7.2",
+      "page": 9,
+      "answers": 12,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 7,
+      "scope": "7.3",
+      "page": 10,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 7,
+      "scope": "7.4",
+      "page": 11,
+      "answers": 6,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "8.1",
+      "page": 11,
+      "answers": 15,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "8.2",
+      "page": 11,
+      "answers": 12,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "8.3",
+      "page": 12,
+      "answers": 6,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "8.4",
+      "page": 12,
+      "answers": 3,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 9,
+      "scope": "9.1",
+      "page": 12,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 9,
+      "scope": "9.2",
+      "page": 12,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 9,
+      "scope": "9.3",
+      "page": 12,
+      "answers": 1,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 9,
+      "scope": "9.4",
+      "page": 12,
+      "answers": 7,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 10,
+      "scope": "10.1",
+      "page": 12,
+      "answers": 6,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 10,
+      "scope": "10.2",
+      "page": 12,
+      "answers": 4,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 10,
+      "scope": "10.3",
+      "page": 13,
+      "answers": 1,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 10,
+      "scope": "10.4",
+      "page": 13,
+      "answers": 4,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "11.1",
+      "page": 13,
+      "answers": 10,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "11.2",
+      "page": 13,
+      "answers": 14,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "11.3",
+      "page": 13,
+      "answers": 16,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "11.4",
+      "page": 14,
+      "answers": 18,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 12,
+      "scope": "12.1",
+      "page": 14,
+      "answers": 20,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 12,
+      "scope": "12.2",
+      "page": 14,
+      "answers": 8,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 12,
+      "scope": "12.3",
+      "page": 14,
+      "answers": 14,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 12,
+      "scope": "12.4",
+      "page": 15,
+      "answers": 17,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 13,
+      "scope": "13.1",
+      "page": 15,
+      "answers": 26,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 13,
+      "scope": "13.2",
+      "page": 15,
+      "answers": 14,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 13,
+      "scope": "13.3",
+      "page": 16,
+      "answers": 42,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 13,
+      "scope": "13.4",
+      "page": 20,
+      "answers": 10,
+      "ambiguous": 1
+     }
+    ]
+   }
+  },
+  {
+   "grade": 10,
+   "subject": "Science",
+   "files": [
+    {
+     "file": "jeep101.pdf",
+     "chapter": 1,
+     "title": "Chemical Reactions and Equations",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 44,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep102.pdf",
+     "chapter": 2,
+     "title": "Acids, Bases and Salts",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 48,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep103.pdf",
+     "chapter": 3,
+     "title": "Metals and Non-metals",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 65,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep104.pdf",
+     "chapter": 4,
+     "title": "Carbon and its Compounds",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 57,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep105.pdf",
+     "chapter": 5,
+     "title": "Periodic Classification of Elements",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 52,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep106.pdf",
+     "chapter": 6,
+     "title": "Life Processes",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 82,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep107.pdf",
+     "chapter": 7,
+     "title": "Control and Coordination",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 53,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep108.pdf",
+     "chapter": 8,
+     "title": "How do Organisms Reproduce?",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 58,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep109.pdf",
+     "chapter": 9,
+     "title": "Heredity and Evolution",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 35,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep110.pdf",
+     "chapter": 10,
+     "title": "Light – Reflection and Refraction",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 38,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep111.pdf",
+     "chapter": 11,
+     "title": "The Human Eye and the Colourful World",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 3,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep112.pdf",
+     "chapter": 12,
+     "title": "Electricity",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 35,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep113.pdf",
+     "chapter": 13,
+     "title": "Magnetic Effects of Electric Current",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 31,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep114.pdf",
+     "chapter": 14,
+     "title": "Sources of Energy",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 29,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep115.pdf",
+     "chapter": 15,
+     "title": "Our Environment",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 38,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep116.pdf",
+     "chapter": 16,
+     "title": "Management of Natural Resources",
+     "titleVerified": true,
+     "chapterVerified": true,
+     "questions": 37,
+     "status": "chapter"
+    },
+    {
+     "file": "jeep117.pdf",
+     "status": "sample question paper I"
+    },
+    {
+     "file": "jeep118.pdf",
+     "status": "sample question paper II"
+    },
+    {
+     "file": "jeep119.pdf",
+     "status": "appendix: design of the sample paper"
+    },
+    {
+     "file": "jeep120.pdf",
+     "status": "appendix: definitions and symbols"
+    },
+    {
+     "file": "jeep121.pdf",
+     "status": "appendix: table of elements"
+    }
+   ],
+   "answers": {
+    "file": "jeep1an.pdf",
+    "answers": 704,
+    "ambiguous": 2,
+    "blocks": [
+     {
+      "chapter": 1,
+      "scope": "",
+      "page": 1,
+      "answers": 44,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 2,
+      "scope": "",
+      "page": 7,
+      "answers": 48,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 3,
+      "scope": "",
+      "page": 11,
+      "answers": 64,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 4,
+      "scope": "",
+      "page": 15,
+      "answers": 56,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 5,
+      "scope": "",
+      "page": 21,
+      "answers": 52,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 6,
+      "scope": "",
+      "page": 25,
+      "answers": 82,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 7,
+      "scope": "",
+      "page": 31,
+      "answers": 53,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 8,
+      "scope": "",
+      "page": 34,
+      "answers": 58,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 9,
+      "scope": "",
+      "page": 39,
+      "answers": 35,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 10,
+      "scope": "",
+      "page": 42,
+      "answers": 38,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 11,
+      "scope": "",
+      "page": 45,
+      "answers": 3,
+      "ambiguous": 1
+     },
+     {
+      "chapter": 12,
+      "scope": "",
+      "page": 48,
+      "answers": 35,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 13,
+      "scope": "",
+      "page": 51,
+      "answers": 32,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 14,
+      "scope": "",
+      "page": 55,
+      "answers": 29,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 15,
+      "scope": "",
+      "page": 57,
+      "answers": 38,
+      "ambiguous": 0
+     },
+     {
+      "chapter": 16,
+      "scope": "",
+      "page": 60,
+      "answers": 37,
+      "ambiguous": 0
+     }
+    ]
+   }
+  }
+ ]
+}

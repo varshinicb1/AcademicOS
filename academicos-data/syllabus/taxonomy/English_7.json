@@ -1,0 +1,176 @@
+{
+ "subject": "English",
+ "grade": 7,
+ "book": "Poorvi",
+ "source_files": [
+  "english/class7_poorvi.pdf"
+ ],
+ "chapters": [
+  {
+   "id": "english-7/the-day-the-river-spoke",
+   "name": "The Day the River Spoke",
+   "number": 1,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 1,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/try-again",
+   "name": "Try Again",
+   "number": 2,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 16,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/three-days-to-see",
+   "name": "Three Days to See",
+   "number": 3,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 28,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/animals-birds-and-dr-dolittle",
+   "name": "Animals, Birds, and Dr. Dolittle",
+   "number": 4,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 43,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/a-funny-man",
+   "name": "A Funny Man",
+   "number": 5,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 59,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/say-the-right-thing",
+   "name": "Say the Right Thing",
+   "number": 6,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 70,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/my-brother-s-great-invention",
+   "name": "My Brother’s Great Invention",
+   "number": 7,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 91,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/paper-boats",
+   "name": "Paper Boats",
+   "number": 8,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 109,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/north-south-east-west",
+   "name": "North, South, East, West",
+   "number": 9,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 118,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/the-tunnel",
+   "name": "The Tunnel",
+   "number": 10,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 139,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/travel",
+   "name": "Travel",
+   "number": 11,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 157,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/conquering-the-summit",
+   "name": "Conquering the Summit",
+   "number": 12,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 166,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/a-homage-to-our-brave-soldiers",
+   "name": "A Homage to Our Brave Soldiers",
+   "number": 13,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 179,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/my-dear-soldiers",
+   "name": "My Dear Soldiers",
+   "number": 14,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 199,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "english-7/rani-abbakka",
+   "name": "Rani Abbakka",
+   "number": 15,
+   "book": "Poorvi",
+   "source_file": "english/class7_poorvi.pdf",
+   "printedPage": 206,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  }
+ ],
+ "note": "Chapter level only: the chapters are lessons and poems, which carry no section headings to make topics of."
+}

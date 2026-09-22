@@ -1,0 +1,5877 @@
+{
+ "notice": "Gold labels for the topic tagger. Labelled by an AI reviewer (Claude) reading each question against the taxonomy tree and, where noted, searching the textbook text -- NOT by a teacher. A teacher's review may overturn individual labels.",
+ "sample": "Two batches drawn the same way, 164 items each. Per class 6-10, Mathematics and Science: 11 NCERT Exemplar + 3 CBE items; Social Science class 10: 24 board-paper items (the only Social Science questions in any bank). Batch 1: random.Random(703).sample over each bank's records sorted by id; batch 2: random.Random(7032), same pools less batch 1. Batch 2 was drawn after batch 1 showed the topic and subtopic estimates rested on too few items. Batch 3 (61 items, subtopic level only): an audit of the subtopic tags the tagger wrote onto the Exemplar and CBE banks -- random.Random(7033).sample of 30 over the 159 records then carrying subtopicIds (topic-level candidate built from the topic's own span), and random.Random(7034).sample of 40 over the 219 carrying them once the topic heading was added to that candidate; each over records not already in the gold, sorted by id (9 drawn twice, kept once). Batch 1+2 put the accepted subtopic tags at 11/12 right; this audit found 24/30 and 34/40, so it was added. Its chapter and topic are the tagger's accepted ones, checked right by the reviewer, and because the items were chosen for having an accepted subtopic they are counted at the subtopic level only (field levels), never in the chapter or topic accuracy, which they would flatter.",
+ "semantics": "chapters: the tree chapters of the question's own class that teach it; empty = no chapter of that class's book does (or the stem is unreadable). topics / subtopics: every node a reviewer would accept; empty = none fits, so any tag at that level is wrong.",
+ "items": [
+  {
+   "id": "exemplar:q:6:mathematics:1:-:147",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/prime-time"
+   ],
+   "topics": [
+    "mathematics-6/prime-time/divisibility-tests"
+   ],
+   "subtopics": [],
+   "note": "divisibility by 3 is under Divisibility Tests; the book's subtopics are 10,5,2,4,8 only"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:6:-:17",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/perimeter-and-area"
+   ],
+   "topics": [
+    "mathematics-6/perimeter-and-area/perimeter"
+   ],
+   "subtopics": [],
+   "note": "perimeter of a field, no shape given"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:1:-:69",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "whole-number identities are not taught in Ganita Prakash 6"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:33",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [
+    "mathematics-6/symmetry/line-of-symmetry/figures-with-more-than-one-line-of-symmetry"
+   ],
+   "note": "letters with two lines of symmetry"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:50",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/the-other-side-of-zero"
+   ],
+   "topics": [
+    "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun",
+    "mathematics-6/the-other-side-of-zero/the-token-model"
+   ],
+   "subtopics": [
+    "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/adding-subtracting-and-comparing-any-numbers",
+    "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/adding-and-subtracting-larger-numbers",
+    "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/comparing-numbers-using-floors",
+    "mathematics-6/the-other-side-of-zero/the-token-model/using-tokens-for-addition"
+   ],
+   "note": "adding and comparing negative integers"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:8:-:25",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "ratio is not in Ganita Prakash 6"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:1:-:176",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "Indian/international place value is in class 7 (Large Numbers Around Us), not class 6"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:7:-:11",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "algebra is not in Ganita Prakash 6"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:1:-:20",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "properties of whole numbers are not in Ganita Prakash 6"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:1:-:112",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/number-play"
+   ],
+   "topics": [
+    "mathematics-6/number-play/simple-estimation"
+   ],
+   "subtopics": [],
+   "note": "rounding to the nearest thousand read as estimation"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:7:-:82",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "algebraic expressions are not in Ganita Prakash 6"
+  },
+  {
+   "id": "cbe:q:Maths6AT1",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/prime-time"
+   ],
+   "topics": [
+    "mathematics-6/prime-time/prime-numbers"
+   ],
+   "subtopics": [],
+   "note": "twin primes"
+  },
+  {
+   "id": "cbe:q:Maths6RB3",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/perimeter-and-area"
+   ],
+   "topics": [
+    "mathematics-6/perimeter-and-area/perimeter"
+   ],
+   "subtopics": [
+    "mathematics-6/perimeter-and-area/perimeter/perimeter-of-a-rectangle"
+   ],
+   "note": "perimeter of a rectangle"
+  },
+  {
+   "id": "cbe:q:Maths6KK2",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "comparing large numbers is not in Ganita Prakash 6"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:4:-:87",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/finding-the-unknown"
+   ],
+   "topics": [
+    "mathematics-7/finding-the-unknown/solving-equations-systematically"
+   ],
+   "subtopics": [
+    "mathematics-7/finding-the-unknown/solving-equations-systematically/solving-problems"
+   ],
+   "note": "word problem solved by a linear equation"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:6:-:141",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/a-tale-of-three-intersecting-lines"
+   ],
+   "topics": [
+    "mathematics-7/a-tale-of-three-intersecting-lines/constructing-a-triangle-when-its-sides-are-given"
+   ],
+   "subtopics": [
+    "mathematics-7/a-tale-of-three-intersecting-lines/constructing-a-triangle-when-its-sides-are-given/are-triangles-possible-for-any-lengths"
+   ],
+   "note": "triangle inequality decides the third side"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:1:-:107",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/operations-with-integers"
+   ],
+   "topics": [
+    "mathematics-7/operations-with-integers/a-quick-recap-of-integers"
+   ],
+   "subtopics": [
+    "mathematics-7/operations-with-integers/a-quick-recap-of-integers/carrom-coin-integers"
+   ],
+   "note": "additive inverse, recap of integers"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:2:-:33",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/another-peek-beyond-the-point"
+   ],
+   "topics": [
+    "mathematics-7/another-peek-beyond-the-point/decimal-multiplication"
+   ],
+   "subtopics": [],
+   "note": "multiplying a decimal by 1000"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:2:-:36",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/another-peek-beyond-the-point"
+   ],
+   "topics": [
+    "mathematics-7/another-peek-beyond-the-point/decimal-division"
+   ],
+   "subtopics": [
+    "mathematics-7/another-peek-beyond-the-point/decimal-division/division-using-place-value",
+    "mathematics-7/another-peek-beyond-the-point/decimal-division/division-with-a-decimal-dividend"
+   ],
+   "note": "dividing a decimal by 100"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:12:-:82",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "solid shapes are not in Ganita Prakash 7"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:2:-:49",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/working-with-fractions"
+   ],
+   "topics": [
+    "mathematics-7/working-with-fractions/division-of-fractions"
+   ],
+   "subtopics": [],
+   "note": "reciprocal, taught with division of fractions"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:1:-:94",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/operations-with-integers"
+   ],
+   "topics": [
+    "mathematics-7/operations-with-integers/multiplication-of-integers"
+   ],
+   "subtopics": [],
+   "note": "commutativity of integer multiplication"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:1:-:124",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/operations-with-integers"
+   ],
+   "topics": [
+    "mathematics-7/operations-with-integers/multiplication-of-integers"
+   ],
+   "subtopics": [
+    "mathematics-7/operations-with-integers/multiplication-of-integers/expressions-using-integers"
+   ],
+   "note": "distributive property with integers"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:1:-:39",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/operations-with-integers"
+   ],
+   "topics": [
+    "mathematics-7/operations-with-integers/multiplication-of-integers"
+   ],
+   "subtopics": [
+    "mathematics-7/operations-with-integers/multiplication-of-integers/patterns-in-integer-multiplication"
+   ],
+   "note": "product of a positive and a negative integer"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:6:-:147",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/geometric-twins"
+   ],
+   "topics": [
+    "mathematics-7/geometric-twins/congruence-of-triangles"
+   ],
+   "subtopics": [
+    "mathematics-7/geometric-twins/congruence-of-triangles/measuring-the-sidelengths"
+   ],
+   "note": "SSS congruence"
+  },
+  {
+   "id": "cbe:q:Maths7KG6",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "simple interest is not in Ganita Prakash 7"
+  },
+  {
+   "id": "cbe:q:Maths7PD1",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/connecting-the-dots"
+   ],
+   "topics": [
+    "mathematics-7/connecting-the-dots/representative-values"
+   ],
+   "subtopics": [
+    "mathematics-7/connecting-the-dots/representative-values/average-as-fair-share",
+    "mathematics-7/connecting-the-dots/representative-values/averages-around-us"
+   ],
+   "note": "mean"
+  },
+  {
+   "id": "cbe:q:Maths7SC7",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/connecting-the-dots"
+   ],
+   "topics": [
+    "mathematics-7/connecting-the-dots/representative-values"
+   ],
+   "subtopics": [
+    "mathematics-7/connecting-the-dots/representative-values/average-as-fair-share",
+    "mathematics-7/connecting-the-dots/representative-values/averages-around-us",
+    "mathematics-7/connecting-the-dots/representative-values/outliers-and-medians"
+   ],
+   "note": "mode and mean"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:40",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/the-baudhayana-pythagoras-theorem"
+   ],
+   "topics": [
+    "mathematics-8/the-baudhayana-pythagoras-theorem/right-triangles-having-integer-sidelengths"
+   ],
+   "subtopics": [],
+   "note": "Pythagorean triple 8, 15, 17"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:6:-:76",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/exploring-some-geometric-themes"
+   ],
+   "topics": [
+    "mathematics-8/exploring-some-geometric-themes/visualising-solids"
+   ],
+   "subtopics": [
+    "mathematics-8/exploring-some-geometric-themes/visualising-solids/making-solids"
+   ],
+   "note": "faces, edges and vertices of a solid (book p10, Making Solids)"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:10:-:9",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/proportional-reasoning-2"
+   ],
+   "topics": [
+    "mathematics-8/proportional-reasoning-2/inverse-proportions"
+   ],
+   "subtopics": [],
+   "note": "inverse proportion"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:23",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "exterior angles are not in Ganita Prakash 8 (text searched)"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:10:-:73",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/proportional-reasoning-1",
+    "mathematics-8/proportional-reasoning-2"
+   ],
+   "topics": [
+    "mathematics-8/proportional-reasoning-1/problem-solving-with-proportional-reasoning",
+    "mathematics-8/proportional-reasoning-2/proportionality-a-quick-recap"
+   ],
+   "subtopics": [
+    "mathematics-8/proportional-reasoning-1/problem-solving-with-proportional-reasoning/trairasika-the-rule-of-three"
+   ],
+   "note": "direct proportion, rule of three"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:2:-:57",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "histograms are not in Ganita Prakash 8 (text searched)"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:83",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "naming polygons is not in Ganita Prakash 8"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:12:-:24",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "coordinates are not in Ganita Prakash 8 (text searched)"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:7:-:55",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "factorising polynomials is not in Ganita Prakash 8"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:7:-:121",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "dividing polynomials is not in Ganita Prakash 8"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:7:-:73",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "factorising polynomials is not in Ganita Prakash 8"
+  },
+  {
+   "id": "cbe:q:Maths8DG5",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/using-percentages/percentage-increase-or-decrease",
+    "mathematics-8/fractions-in-disguise/using-percentages/growth-and-compounding"
+   ],
+   "note": "profit percentage and compound interest"
+  },
+  {
+   "id": "cbe:q:Maths8BS4",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers"
+   ],
+   "subtopics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers/square-roots",
+    "mathematics-8/a-square-and-a-cube/square-numbers/patterns-and-properties-of-perfect-squares"
+   ],
+   "note": "unit digit of a square root"
+  },
+  {
+   "id": "cbe:q:Maths8PR1",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/using-percentages/percentage-increase-or-decrease"
+   ],
+   "note": "profit percentage (book: Profit and Loss under Percentage Increase or Decrease)"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:2:2.3:24",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "factorising cubics by the factor theorem is not in Ganita Manjari 9 (identities chapter factorises by identities only)"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:4:4.1:1",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/introduction-to-linear-polynomials"
+   ],
+   "topics": [
+    "mathematics-9/introduction-to-linear-polynomials/linear-relationships",
+    "mathematics-9/introduction-to-linear-polynomials/visualising-linear-relationships"
+   ],
+   "subtopics": [],
+   "note": "solutions of a linear equation in two variables (book p57, p60)"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:5:5.1:4",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "Euclid's geometry is not in Ganita Manjari 9"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:2:2.1:6",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/introduction-to-linear-polynomials"
+   ],
+   "topics": [
+    "mathematics-9/introduction-to-linear-polynomials/linear-polynomials",
+    "mathematics-9/introduction-to-linear-polynomials/introduction"
+   ],
+   "subtopics": [],
+   "note": "value of a polynomial; the book introduces polynomials in its linear-polynomials chapter"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:2:2.3:9",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/introduction-to-linear-polynomials"
+   ],
+   "topics": [
+    "mathematics-9/introduction-to-linear-polynomials/linear-polynomials",
+    "mathematics-9/introduction-to-linear-polynomials/introduction"
+   ],
+   "subtopics": [],
+   "note": "value of a polynomial"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:2:2.3:13",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "polynomial division is not in Ganita Manjari 9"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:7:7.1:5",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "triangle congruence is not in Ganita Manjari 9 part 1"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:14:14.1:19",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "mean of data is not in Ganita Manjari 9 part 1"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:13:13.3:3",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "volume of a sphere is not in Ganita Manjari 9 part 1"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:3:3.1:9",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/orienting-yourself-the-use-of-coordinates"
+   ],
+   "topics": [
+    "mathematics-9/orienting-yourself-the-use-of-coordinates/the-2-d-cartesian-coordinate-system"
+   ],
+   "subtopics": [],
+   "note": "quadrants"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:10:10.2:4",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/i-m-up-and-down-and-round-and-round"
+   ],
+   "topics": [
+    "mathematics-9/i-m-up-and-down-and-round-and-round/how-many-circles",
+    "mathematics-9/i-m-up-and-down-and-round-and-round/concyclicity-of-points"
+   ],
+   "subtopics": [],
+   "note": "circle through three points"
+  },
+  {
+   "id": "cbe:q:Maths9AG1",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "volume of cubes is not in Ganita Manjari 9 part 1"
+  },
+  {
+   "id": "cbe:q:Maths9LK3",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "base angles of an isosceles triangle are not in Ganita Manjari 9 part 1"
+  },
+  {
+   "id": "cbe:q:Maths9RM4",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/orienting-yourself-the-use-of-coordinates"
+   ],
+   "topics": [
+    "mathematics-9/orienting-yourself-the-use-of-coordinates/distance-between-two-points-in-the-2-d-plane",
+    "mathematics-9/orienting-yourself-the-use-of-coordinates/the-2-d-cartesian-coordinate-system"
+   ],
+   "subtopics": [],
+   "note": "midpoint of a segment (book p32-33)"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:8:8.2:6",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/introduction-to-trigonometry"
+   ],
+   "topics": [
+    "mathematics-10/introduction-to-trigonometry/trigonometric-identities"
+   ],
+   "subtopics": [],
+   "note": "trigonometric identity"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:1:1.2:5",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/real-numbers"
+   ],
+   "topics": [],
+   "subtopics": [],
+   "note": "Euclid's division form 3q+1: the rationalised book keeps no topic for it"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:5:5.1:16",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/arithmetic-progressions"
+   ],
+   "topics": [
+    "mathematics-10/arithmetic-progressions/sum-of-first-n-terms-of-an-ap"
+   ],
+   "subtopics": [],
+   "note": "sum of n terms"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:1:1.2:3",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/real-numbers"
+   ],
+   "topics": [
+    "mathematics-10/real-numbers/the-fundamental-theorem-of-arithmetic"
+   ],
+   "subtopics": [],
+   "note": "divisibility argued from prime factors 2 and 3"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:6:6.3:9",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/triangles"
+   ],
+   "topics": [
+    "mathematics-10/triangles/similarity-of-triangles"
+   ],
+   "subtopics": [],
+   "note": "basic proportionality theorem in a trapezium"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:6:6.3:12",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/triangles"
+   ],
+   "topics": [],
+   "subtopics": [],
+   "note": "areas of similar triangles: the theorem was dropped from the rationalised book"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:5:5.3:35",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/arithmetic-progressions"
+   ],
+   "topics": [
+    "mathematics-10/arithmetic-progressions/sum-of-first-n-terms-of-an-ap"
+   ],
+   "subtopics": [],
+   "note": "sum of an AP word problem"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:11:11.2:9",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/areas-related-to-circles"
+   ],
+   "topics": [
+    "mathematics-10/areas-related-to-circles/areas-of-sector-and-segment-of-a-circle"
+   ],
+   "subtopics": [],
+   "note": "area of a sector"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:6:6.2:5",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/triangles"
+   ],
+   "topics": [
+    "mathematics-10/triangles/criteria-for-similarity-of-triangles"
+   ],
+   "subtopics": [],
+   "note": "AA similarity criterion"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:2:2.1:3",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/polynomials"
+   ],
+   "topics": [
+    "mathematics-10/polynomials/relationship-between-zeroes-and-coefficients-of-a-polynomial"
+   ],
+   "subtopics": [],
+   "note": "zeroes and coefficients"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:9:9.2:3",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/circles"
+   ],
+   "topics": [
+    "mathematics-10/circles/number-of-tangents-from-a-point-on-a-circle",
+    "mathematics-10/circles/tangent-to-a-circle"
+   ],
+   "subtopics": [],
+   "note": "length of a tangent from an external point"
+  },
+  {
+   "id": "cbe:q:Maths10PS10",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/quadratic-equations"
+   ],
+   "topics": [
+    "mathematics-10/quadratic-equations/nature-of-roots"
+   ],
+   "subtopics": [],
+   "note": "discriminant and nature of roots"
+  },
+  {
+   "id": "cbe:q:Maths10SR9",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/statistics"
+   ],
+   "topics": [
+    "mathematics-10/statistics/median-of-grouped-data",
+    "mathematics-10/statistics/mode-of-grouped-data"
+   ],
+   "subtopics": [],
+   "note": "median and modal class of grouped data"
+  },
+  {
+   "id": "cbe:q:Maths10PR1",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/real-numbers"
+   ],
+   "topics": [
+    "mathematics-10/real-numbers/the-fundamental-theorem-of-arithmetic"
+   ],
+   "subtopics": [],
+   "note": "LCM word problem"
+  },
+  {
+   "id": "exemplar:q:6:science:4:-:7",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/materials-around-us"
+   ],
+   "topics": [
+    "science-6/materials-around-us/observing-objects-around-us",
+    "science-6/materials-around-us/how-to-group-materials"
+   ],
+   "subtopics": [],
+   "note": "materials objects are made of"
+  },
+  {
+   "id": "exemplar:q:6:science:3:-:10",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "fibre to fabric is not in Curiosity 6 (text searched)"
+  },
+  {
+   "id": "exemplar:q:6:science:14:-:13",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/nature-s-treasures"
+   ],
+   "topics": [
+    "science-6/nature-s-treasures/water",
+    "science-6/nature-s-treasures/resources-we-use"
+   ],
+   "subtopics": [],
+   "note": "using water carefully"
+  },
+  {
+   "id": "exemplar:q:6:science:1:-:9",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "sources of food (honey, beehives) are not in Curiosity 6"
+  },
+  {
+   "id": "exemplar:q:6:science:9:-:11",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/living-creatures-exploring-their-characteristics"
+   ],
+   "topics": [
+    "science-6/living-creatures-exploring-their-characteristics/what-sets-the-living-apart-from-the-non-living"
+   ],
+   "subtopics": [],
+   "note": "reproduction as a characteristic of living things"
+  },
+  {
+   "id": "exemplar:q:6:science:16:-:13",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "waste disposal is not in Curiosity 6"
+  },
+  {
+   "id": "exemplar:q:6:science:4:-:12",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/materials-around-us"
+   ],
+   "topics": [
+    "science-6/materials-around-us/what-are-the-different-properties-of-materials"
+   ],
+   "subtopics": [
+    "science-6/materials-around-us/what-are-the-different-properties-of-materials/observe-and-identify-appearance-of-materials"
+   ],
+   "note": "lustre of metals"
+  },
+  {
+   "id": "exemplar:q:6:science:9:-:23",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/diversity-in-the-living-world"
+   ],
+   "topics": [
+    "science-6/diversity-in-the-living-world/plants-and-animals-in-different-surroundings"
+   ],
+   "subtopics": [],
+   "note": "adaptation of desert plants"
+  },
+  {
+   "id": "exemplar:q:6:science:6:-:13",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "reversible and irreversible changes are not in Curiosity 6 (text searched)"
+  },
+  {
+   "id": "exemplar:q:6:science:6:-:19",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "reversible and irreversible changes are not in Curiosity 6 (text searched)"
+  },
+  {
+   "id": "exemplar:q:6:science:3:-:4",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "natural fibres are not in Curiosity 6"
+  },
+  {
+   "id": "cbe:q:Science6SPA51c",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/a-journey-through-states-of-water"
+   ],
+   "topics": [
+    "science-6/a-journey-through-states-of-water/how-do-clouds-give-us-rain",
+    "science-6/a-journey-through-states-of-water/how-can-we-change-the-states-of-water"
+   ],
+   "subtopics": [],
+   "note": "water cycle"
+  },
+  {
+   "id": "cbe:q:Science6AR61c",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/mindful-eating-a-path-to-a-healthy-body"
+   ],
+   "topics": [
+    "science-6/mindful-eating-a-path-to-a-healthy-body/what-are-the-components-of-food"
+   ],
+   "subtopics": [],
+   "note": "scurvy, deficiency disease (book p60, Components of Food)"
+  },
+  {
+   "id": "cbe:q:Science6SA41b",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "parts of a flower are not in Curiosity 6 (text searched)"
+  },
+  {
+   "id": "exemplar:q:7:science:15:-:8",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "lenses are not in Curiosity 7 (text searched)"
+  },
+  {
+   "id": "exemplar:q:7:science:5:-:9",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [
+    "science-7/exploring-substances-acidic-basic-and-neutral"
+   ],
+   "topics": [
+    "science-7/exploring-substances-acidic-basic-and-neutral/nature-our-science-laboratory"
+   ],
+   "subtopics": [],
+   "note": "acidic substances in daily life"
+  },
+  {
+   "id": "exemplar:q:7:science:11:-:17",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [
+    "science-7/life-processes-in-plants"
+   ],
+   "topics": [
+    "science-7/life-processes-in-plants/transport-in-plants"
+   ],
+   "subtopics": [
+    "science-7/life-processes-in-plants/transport-in-plants/transport-of-water-and-minerals"
+   ],
+   "note": "water rising in tall trees"
+  },
+  {
+   "id": "exemplar:q:7:science:3:-:23",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "fibre to fabric is not in Curiosity 7"
+  },
+  {
+   "id": "exemplar:q:7:science:8:-:19",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "storms are in Curiosity 8, not 7"
+  },
+  {
+   "id": "exemplar:q:7:science:2:-:18",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [
+    "science-7/life-processes-in-animals"
+   ],
+   "topics": [
+    "science-7/life-processes-in-animals/nutrition-in-animals"
+   ],
+   "subtopics": [
+    "science-7/life-processes-in-animals/nutrition-in-animals/digestion-in-human-beings"
+   ],
+   "note": "steps of nutrition in animals"
+  },
+  {
+   "id": "exemplar:q:7:science:9:-:7",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [
+    "science-7/changes-around-us-physical-and-chemical",
+    "science-7/heat-transfer-in-nature"
+   ],
+   "topics": [
+    "science-7/changes-around-us-physical-and-chemical/some-slow-natural-changes",
+    "science-7/heat-transfer-in-nature/water-cycle"
+   ],
+   "subtopics": [
+    "science-7/changes-around-us-physical-and-chemical/some-slow-natural-changes/weathering-of-rocks",
+    "science-7/changes-around-us-physical-and-chemical/some-slow-natural-changes/erosion",
+    "science-7/heat-transfer-in-nature/water-cycle/seepage-of-water-beneath-the-earth"
+   ],
+   "note": "weathering, erosion, percolation"
+  },
+  {
+   "id": "exemplar:q:7:science:18:-:3",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "wastewater treatment is not in Curiosity 7"
+  },
+  {
+   "id": "exemplar:q:7:science:3:-:7",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "wool processing is not in Curiosity 7"
+  },
+  {
+   "id": "exemplar:q:7:science:16:-:5",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "water conservation and irrigation are not in Curiosity 7 (text searched)"
+  },
+  {
+   "id": "exemplar:q:7:science:10:-:14",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [
+    "science-7/life-processes-in-animals",
+    "science-7/life-processes-in-plants"
+   ],
+   "topics": [
+    "science-7/life-processes-in-animals/respiration-in-animals",
+    "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth",
+    "science-7/life-processes-in-plants/do-plants-respire"
+   ],
+   "subtopics": [
+    "science-7/life-processes-in-animals/respiration-in-animals/do-other-animals-breathe-the-same-way-as-humans-do",
+    "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth/how-do-leaves-exchange-gases-during-photosynthesis"
+   ],
+   "note": "spiracles of insects against stomata of leaves"
+  },
+  {
+   "id": "cbe:q:Science7SPA51c",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [
+    "science-7/changes-around-us-physical-and-chemical",
+    "science-7/heat-transfer-in-nature"
+   ],
+   "topics": [
+    "science-7/changes-around-us-physical-and-chemical/some-slow-natural-changes",
+    "science-7/heat-transfer-in-nature/water-cycle"
+   ],
+   "subtopics": [
+    "science-7/changes-around-us-physical-and-chemical/some-slow-natural-changes/erosion",
+    "science-7/heat-transfer-in-nature/water-cycle/seepage-of-water-beneath-the-earth"
+   ],
+   "note": "soil erosion and groundwater"
+  },
+  {
+   "id": "cbe:q:Science7SPA41c",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [
+    "science-7/exploring-substances-acidic-basic-and-neutral"
+   ],
+   "topics": [
+    "science-7/exploring-substances-acidic-basic-and-neutral/neutralisation-in-daily-life",
+    "science-7/exploring-substances-acidic-basic-and-neutral/nature-our-science-laboratory"
+   ],
+   "subtopics": [],
+   "note": "soil pH and plant growth (book p34, p38)"
+  },
+  {
+   "id": "cbe:q:Science7MB1d",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [
+    "science-7/life-processes-in-animals"
+   ],
+   "topics": [
+    "science-7/life-processes-in-animals/nutrition-in-animals"
+   ],
+   "subtopics": [
+    "science-7/life-processes-in-animals/nutrition-in-animals/digestion-in-human-beings"
+   ],
+   "note": "teeth, digestion in humans"
+  },
+  {
+   "id": "exemplar:q:8:science:11:-:13",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/exploring-forces"
+   ],
+   "topics": [
+    "science-8/exploring-forces/what-are-the-different-types-of-forces"
+   ],
+   "subtopics": [
+    "science-8/exploring-forces/what-are-the-different-types-of-forces/non-contact-forces"
+   ],
+   "note": "electrostatic force is a non-contact force"
+  },
+  {
+   "id": "exemplar:q:8:science:6:-:12",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "fuels and combustion are not in Curiosity 8 (text searched)"
+  },
+  {
+   "id": "exemplar:q:8:science:15:-:24",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/pressure-winds-storms-and-cyclones"
+   ],
+   "topics": [
+    "science-8/pressure-winds-storms-and-cyclones/storms-thunderstorms-and-lightning"
+   ],
+   "subtopics": [],
+   "note": "lightning"
+  },
+  {
+   "id": "exemplar:q:8:science:5:-:20",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "exhaustible and inexhaustible resources are not in Curiosity 8 (text searched)"
+  },
+  {
+   "id": "exemplar:q:8:science:8:-:22",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/the-invisible-living-world-beyond-our-naked-eye"
+   ],
+   "topics": [
+    "science-8/the-invisible-living-world-beyond-our-naked-eye/why-is-cell-considered-to-be-a-basic-unit-of-life",
+    "science-8/the-invisible-living-world-beyond-our-naked-eye/what-is-a-cell"
+   ],
+   "subtopics": [],
+   "note": "nucleus and nuclear membrane (book p44)"
+  },
+  {
+   "id": "exemplar:q:8:science:6:-:9",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "ignition temperature is not in Curiosity 8 (text searched)"
+  },
+  {
+   "id": "exemplar:q:8:science:11:-:25",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/exploring-forces"
+   ],
+   "topics": [
+    "science-8/exploring-forces/what-are-the-different-types-of-forces",
+    "science-8/exploring-forces/what-can-a-force-do-to-the-objects-on-which-it-is-applied"
+   ],
+   "subtopics": [
+    "science-8/exploring-forces/what-are-the-different-types-of-forces/contact-forces",
+    "science-8/exploring-forces/what-are-the-different-types-of-forces/non-contact-forces"
+   ],
+   "note": "muscular force and gravity on an arrow"
+  },
+  {
+   "id": "exemplar:q:8:science:9:-:5",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/our-home-earth-a-unique-life-sustaining-planet"
+   ],
+   "topics": [
+    "science-8/our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing"
+   ],
+   "subtopics": [
+    "science-8/our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing/asexual-reproduction"
+   ],
+   "note": "budding in hydra (book p241)"
+  },
+  {
+   "id": "exemplar:q:8:science:10:-:13",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/health-the-ultimate-treasure"
+   ],
+   "topics": [
+    "science-8/health-the-ultimate-treasure/how-can-we-stay-healthy"
+   ],
+   "subtopics": [
+    "science-8/health-the-ultimate-treasure/how-can-we-stay-healthy/maintain-a-healthy-lifestyle"
+   ],
+   "note": "balanced diet for health"
+  },
+  {
+   "id": "exemplar:q:8:science:14:-:3",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "electroplating is not in Curiosity 8"
+  },
+  {
+   "id": "exemplar:q:8:science:15:-:3",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "earthquakes are not in Curiosity 8 (text searched)"
+  },
+  {
+   "id": "cbe:q:SCIENCE8JS41c",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/the-invisible-living-world-beyond-our-naked-eye"
+   ],
+   "topics": [
+    "science-8/the-invisible-living-world-beyond-our-naked-eye/what-are-microorganisms",
+    "science-8/the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes",
+    "science-8/the-invisible-living-world-beyond-our-naked-eye/what-is-a-cell",
+    "science-8/the-invisible-living-world-beyond-our-naked-eye/why-is-cell-considered-to-be-a-basic-unit-of-life"
+   ],
+   "subtopics": [
+    "science-8/the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes/microorganisms-and-food"
+   ],
+   "note": "bacterial cells and useful microbes"
+  },
+  {
+   "id": "cbe:q:Science8RB4",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/our-home-earth-a-unique-life-sustaining-planet"
+   ],
+   "topics": [
+    "science-8/our-home-earth-a-unique-life-sustaining-planet/what-are-the-threats-to-life-on-earth"
+   ],
+   "subtopics": [],
+   "note": "acid rain (book p244)"
+  },
+  {
+   "id": "cbe:q:Science8SB2",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/exploring-forces"
+   ],
+   "topics": [
+    "science-8/exploring-forces/what-can-a-force-do-to-the-objects-on-which-it-is-applied"
+   ],
+   "subtopics": [],
+   "note": "force changes direction of motion"
+  },
+  {
+   "id": "exemplar:q:9:science:5:-:13",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/cell-the-building-block-of-life"
+   ],
+   "topics": [
+    "science-9/cell-the-building-block-of-life/the-cell-interior-a-coordinated-working-system",
+    "science-9/cell-the-building-block-of-life/structure-of-a-cell"
+   ],
+   "subtopics": [
+    "science-9/cell-the-building-block-of-life/the-cell-interior-a-coordinated-working-system/why-do-eukaryotic-cells-need-these-organelles"
+   ],
+   "note": "nucleoid of prokaryotes (book p34-36)"
+  },
+  {
+   "id": "exemplar:q:9:science:2:-:38",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "classifying physical and chemical changes is not a topic of Exploration 9"
+  },
+  {
+   "id": "exemplar:q:9:science:13:-:7",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "health and infectious disease are not in Exploration 9"
+  },
+  {
+   "id": "exemplar:q:9:science:14:-:27",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "natural resources and aquatic pollution are not in Exploration 9"
+  },
+  {
+   "id": "exemplar:q:9:science:10:-:22",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "gravitation is not in Exploration 9"
+  },
+  {
+   "id": "exemplar:q:9:science:1:-:1",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "states of matter and diffusion are not in Exploration 9"
+  },
+  {
+   "id": "exemplar:q:9:science:15:-:22",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "crop production is not in Exploration 9"
+  },
+  {
+   "id": "exemplar:q:9:science:5:-:24",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/cell-the-building-block-of-life"
+   ],
+   "topics": [
+    "science-9/cell-the-building-block-of-life/the-cell-interior-a-coordinated-working-system",
+    "science-9/cell-the-building-block-of-life/structure-of-a-cell"
+   ],
+   "subtopics": [
+    "science-9/cell-the-building-block-of-life/the-cell-interior-a-coordinated-working-system/why-do-eukaryotic-cells-need-these-organelles"
+   ],
+   "note": "ribosomes in prokaryotic cells"
+  },
+  {
+   "id": "exemplar:q:9:science:4:-:7",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/journey-inside-the-atom"
+   ],
+   "topics": [
+    "science-9/journey-inside-the-atom/a-short-historical-journey-through-atomic-models"
+   ],
+   "subtopics": [
+    "science-9/journey-inside-the-atom/a-short-historical-journey-through-atomic-models/thomson-s-model-of-an-atom"
+   ],
+   "note": "Thomson's model"
+  },
+  {
+   "id": "exemplar:q:9:science:7:-:16",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/patterns-in-life-diversity-and-classification"
+   ],
+   "topics": [
+    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification"
+   ],
+   "subtopics": [
+    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification/kingdom-monera-unicellular-prokaryotes"
+   ],
+   "note": "Monera: no nucleus"
+  },
+  {
+   "id": "exemplar:q:9:science:3:-:41",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "the mole concept is not in Exploration 9 (text searched)"
+  },
+  {
+   "id": "cbe:q:Science9TP2",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/describing-motion-around-us"
+   ],
+   "topics": [
+    "science-9/describing-motion-around-us/motion-in-a-straight-line"
+   ],
+   "subtopics": [
+    "science-9/describing-motion-around-us/motion-in-a-straight-line/describing-position"
+   ],
+   "note": "rest and motion (book p69)"
+  },
+  {
+   "id": "cbe:q:Science9TP5",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "farming methods are not in Exploration 9"
+  },
+  {
+   "id": "cbe:q:Science9ML1",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/patterns-in-life-diversity-and-classification"
+   ],
+   "topics": [
+    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification"
+   ],
+   "subtopics": [
+    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification/kingdom-plantae-multicellular-autotrophic-eukaryotes-with-a"
+   ],
+   "note": "seed plants in Kingdom Plantae"
+  },
+  {
+   "id": "exemplar:q:10:science:9:-:6",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/heredity"
+   ],
+   "topics": [
+    "science-10/heredity/heredity"
+   ],
+   "subtopics": [
+    "science-10/heredity/heredity/sex-determination"
+   ],
+   "note": "X and Y chromosomes, sex determination"
+  },
+  {
+   "id": "exemplar:q:10:science:4:-:29",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/carbon-and-its-compounds"
+   ],
+   "topics": [
+    "science-10/carbon-and-its-compounds/versatile-nature-of-carbon"
+   ],
+   "subtopics": [
+    "science-10/carbon-and-its-compounds/versatile-nature-of-carbon/homologous-series",
+    "science-10/carbon-and-its-compounds/versatile-nature-of-carbon/saturated-and-unsaturated-carbon-compounds",
+    "science-10/carbon-and-its-compounds/versatile-nature-of-carbon/nomenclature-of-carbon-compounds"
+   ],
+   "note": "alkyne homologous series"
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:19",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/eco-system-what-are-its-components"
+   ],
+   "subtopics": [],
+   "note": "decomposers in an ecosystem"
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:24",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/animals-nervous-system"
+   ],
+   "subtopics": [],
+   "note": "smell receptors"
+  },
+  {
+   "id": "exemplar:q:10:science:5:-:34",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "periodic classification was dropped from the rationalised book"
+  },
+  {
+   "id": "exemplar:q:10:science:3:-:27",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/metals-and-non-metals"
+   ],
+   "topics": [
+    "science-10/metals-and-non-metals/chemical-properties-of-metals"
+   ],
+   "subtopics": [
+    "science-10/metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-are-burnt-in-air",
+    "science-10/metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-react-with-water"
+   ],
+   "note": "magnesium with oxygen and water"
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:52",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/hormones-in-animals"
+   ],
+   "subtopics": [],
+   "note": "hormones in animals"
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:79",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/autotrophic-nutrition"
+   ],
+   "note": "photosynthesis"
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:3",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/eco-system-what-are-its-components"
+   ],
+   "subtopics": [],
+   "note": "components of an ecosystem"
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:11",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/respiration"
+   ],
+   "subtopics": [],
+   "note": "exhaled carbon dioxide"
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:9",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/eco-system-what-are-its-components"
+   ],
+   "subtopics": [
+    "science-10/our-environment/eco-system-what-are-its-components/food-chains-and-webs"
+   ],
+   "note": "food web"
+  },
+  {
+   "id": "cbe:q:Science10PB1",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/chemical-reactions-and-equations",
+    "science-10/carbon-and-its-compounds"
+   ],
+   "topics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions",
+    "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds"
+   ],
+   "subtopics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions/combination-reaction",
+    "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds/combustion"
+   ],
+   "note": "burning methane is exothermic"
+  },
+  {
+   "id": "cbe:q:Science10GD1",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/acids-bases-and-salts"
+   ],
+   "topics": [
+    "science-10/acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases"
+   ],
+   "subtopics": [
+    "science-10/acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/acids-and-bases-in-the-laboratory"
+   ],
+   "note": "litmus"
+  },
+  {
+   "id": "cbe:q:Science10SG4",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/carbon-and-its-compounds"
+   ],
+   "topics": [
+    "science-10/carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid",
+    "science-10/carbon-and-its-compounds/bonding-in-carbon-the-covalent-bond"
+   ],
+   "subtopics": [
+    "science-10/carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid/properties-of-ethanol"
+   ],
+   "note": "properties of ethanol"
+  },
+  {
+   "id": "cbse:q:src:f5f52d3e0580aac4355f9205:21",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/nationalism-in-india"
+   ],
+   "topics": [
+    "social-science-10/nationalism-in-india/the-first-world-war-khilafat-and-non-cooperation"
+   ],
+   "subtopics": [],
+   "note": "economic effects of the First World War on India"
+  },
+  {
+   "id": "cbse:q:src:9ea9344987df8c25364b39a1:30",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/the-rise-of-nationalism-in-europe"
+   ],
+   "topics": [
+    "social-science-10/the-rise-of-nationalism-in-europe/the-making-of-nationalism-in-europe"
+   ],
+   "subtopics": [
+    "social-science-10/the-rise-of-nationalism-in-europe/the-making-of-nationalism-in-europe/a-new-conservatism-after-1815"
+   ],
+   "note": "conservatism after 1815"
+  },
+  {
+   "id": "cbse:q:src:f73780490a16ef016ae67e67:20",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/money-and-credit"
+   ],
+   "topics": [
+    "social-science-10/money-and-credit/formal-sector-credit-in-india",
+    "social-science-10/money-and-credit/terms-of-credit"
+   ],
+   "subtopics": [],
+   "note": "formal sources of credit"
+  },
+  {
+   "id": "cbse:q:src:5a4393f67e8e73f306439993:23",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/power-sharing"
+   ],
+   "topics": [
+    "social-science-10/power-sharing/majoritarianism-in-sri-lanka"
+   ],
+   "subtopics": [],
+   "note": "Sri Lankan Tamils, majoritarianism"
+  },
+  {
+   "id": "cbse:q:src:077337741cead93d98b37d12:35",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/federalism"
+   ],
+   "topics": [
+    "social-science-10/federalism/decentralisation-in-india"
+   ],
+   "subtopics": [],
+   "note": "decentralisation source passage"
+  },
+  {
+   "id": "cbse:q:src:fa2163329131c9481dcaad20:24",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/globalisation-and-the-indian-economy"
+   ],
+   "topics": [
+    "social-science-10/globalisation-and-the-indian-economy/impact-of-globalisation-in-india"
+   ],
+   "subtopics": [
+    "social-science-10/globalisation-and-the-indian-economy/impact-of-globalisation-in-india/steps-to-attract-foreign-investment"
+   ],
+   "note": "steps to attract foreign investment"
+  },
+  {
+   "id": "cbse:q:src:1d6a2597b12916d6d31ccd5b:36",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "stem is extraction debris; no chapter can be read from it"
+  },
+  {
+   "id": "cbse:q:src:077337741cead93d98b37d12:34",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "stem is extraction debris; no chapter can be read from it"
+  },
+  {
+   "id": "cbse:q:src:f446bead7fedb62943daa9c7:23",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/federalism"
+   ],
+   "topics": [
+    "social-science-10/federalism/what-makes-india-a-federal-country",
+    "social-science-10/federalism/what-is-federalism"
+   ],
+   "subtopics": [],
+   "note": "the Constitution in India's federal system"
+  },
+  {
+   "id": "cbse:q:src:9ea9344987df8c25364b39a1:31",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/manufacturing-industries"
+   ],
+   "topics": [],
+   "subtopics": [],
+   "note": "industry and the national economy; the chapter has no topic headings"
+  },
+  {
+   "id": "cbse:q:src:e4a3a6f64ffaccbf72460f6e:35",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "stem is extraction debris; no chapter can be read from it"
+  },
+  {
+   "id": "cbse:q:src:1d6a2597b12916d6d31ccd5b:22",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/power-sharing"
+   ],
+   "topics": [
+    "social-science-10/power-sharing/forms-of-power-sharing"
+   ],
+   "subtopics": [],
+   "note": "horizontal distribution of power"
+  },
+  {
+   "id": "cbse:q:src:b34adc36798c7b462d3db1cd:28",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/political-parties"
+   ],
+   "topics": [
+    "social-science-10/political-parties/why-do-we-need-political-parties"
+   ],
+   "subtopics": [
+    "social-science-10/political-parties/why-do-we-need-political-parties/meaning",
+    "social-science-10/political-parties/why-do-we-need-political-parties/functions",
+    "social-science-10/political-parties/why-do-we-need-political-parties/necessity"
+   ],
+   "note": "why democracy needs parties"
+  },
+  {
+   "id": "cbse:q:src:077337741cead93d98b37d12:11",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/minerals-and-energy-resources"
+   ],
+   "topics": [],
+   "subtopics": [],
+   "note": "thermal power plants; the chapter has no topic headings"
+  },
+  {
+   "id": "cbse:q:src:b34adc36798c7b462d3db1cd:37",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "stem is extraction debris; no chapter can be read from it"
+  },
+  {
+   "id": "cbse:q:src:077337741cead93d98b37d12:8",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "stem is extraction debris; no chapter can be read from it"
+  },
+  {
+   "id": "cbse:q:src:f446bead7fedb62943daa9c7:6",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/water-resources"
+   ],
+   "topics": [],
+   "subtopics": [],
+   "note": "dams and rivers; the chapter has no topic headings"
+  },
+  {
+   "id": "cbse:q:src:e6935f18e16e69433650b0a3:1",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/gender-religion-and-caste"
+   ],
+   "topics": [
+    "social-science-10/gender-religion-and-caste/gender-and-politics"
+   ],
+   "subtopics": [
+    "social-science-10/gender-religion-and-caste/gender-and-politics/women-s-political-representation"
+   ],
+   "note": "women in public life"
+  },
+  {
+   "id": "cbse:q:src:f5f52d3e0580aac4355f9205:23",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/resources-and-development"
+   ],
+   "topics": [],
+   "subtopics": [],
+   "note": "features of red soils; the chapter has no topic headings"
+  },
+  {
+   "id": "cbse:q:src:f73780490a16ef016ae67e67:4",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/print-culture-and-the-modern-world"
+   ],
+   "topics": [
+    "social-science-10/print-culture-and-the-modern-world/new-forms-of-publication"
+   ],
+   "subtopics": [
+    "social-science-10/print-culture-and-the-modern-world/new-forms-of-publication/women-and-print"
+   ],
+   "note": "Rashsundari Devi's Amar Jiban"
+  },
+  {
+   "id": "cbse:q:src:b34adc36798c7b462d3db1cd:4",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/print-culture-and-the-modern-world"
+   ],
+   "topics": [
+    "social-science-10/print-culture-and-the-modern-world/print-comes-to-europe",
+    "social-science-10/print-culture-and-the-modern-world/the-print-revolution-and-its-impact"
+   ],
+   "subtopics": [
+    "social-science-10/print-culture-and-the-modern-world/print-comes-to-europe/gutenberg-and-the-printing-press",
+    "social-science-10/print-culture-and-the-modern-world/the-print-revolution-and-its-impact/a-new-reading-public"
+   ],
+   "note": "print in fifteenth-century Europe"
+  },
+  {
+   "id": "cbse:q:src:f73780490a16ef016ae67e67:16",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/sectors-of-the-indian-economy"
+   ],
+   "topics": [
+    "social-science-10/sectors-of-the-indian-economy/sectors-of-economic-activities",
+    "social-science-10/sectors-of-the-indian-economy/primary-secondary-and-tertiary-sectors-in-india"
+   ],
+   "subtopics": [],
+   "note": "which sector an activity belongs to"
+  },
+  {
+   "id": "cbse:q:src:f5f52d3e0580aac4355f9205:17",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/the-making-of-a-global-world"
+   ],
+   "topics": [
+    "social-science-10/the-making-of-a-global-world/the-pre-modern-world"
+   ],
+   "subtopics": [
+    "social-science-10/the-making-of-a-global-world/the-pre-modern-world/conquest-disease-and-trade"
+   ],
+   "note": "smallpox in sixteenth-century America"
+  },
+  {
+   "id": "cbse:q:src:f5f52d3e0580aac4355f9205:18",
+   "batch": 1,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/the-rise-of-nationalism-in-europe"
+   ],
+   "topics": [
+    "social-science-10/the-rise-of-nationalism-in-europe/visualising-the-nation"
+   ],
+   "subtopics": [],
+   "note": "options are the meanings of the symbols in the allegory of Germania; the stem was lost in extraction"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:61",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/the-other-side-of-zero"
+   ],
+   "topics": [
+    "mathematics-6/the-other-side-of-zero/integers-in-other-places"
+   ],
+   "subtopics": [
+    "mathematics-6/the-other-side-of-zero/integers-in-other-places/geographical-cross-sections"
+   ],
+   "note": "heights above and below sea level as integers"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:18",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "natural and whole numbers are not in Ganita Prakash 6"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:6:-:49",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/perimeter-and-area"
+   ],
+   "topics": [
+    "mathematics-6/perimeter-and-area/area"
+   ],
+   "subtopics": [],
+   "note": "area of a square when its side doubles"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:1:-:182",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "adding large numbers is not in Ganita Prakash 6"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:7:-:76",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "algebraic expressions are not in Ganita Prakash 6"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:1:-:65",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "closure of natural numbers is not in Ganita Prakash 6"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:57",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/the-other-side-of-zero"
+   ],
+   "topics": [
+    "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun"
+   ],
+   "subtopics": [
+    "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/comparing-numbers-using-floors",
+    "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/adding-subtracting-and-comparing-any-numbers",
+    "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/back-to-the-number-line"
+   ],
+   "note": "comparing 0 and -2"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:29",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [],
+   "note": "digit with one line of symmetry"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:1:-:162",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "subtracting large numbers is not in Ganita Prakash 6"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:2:-:77",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "solids are not in Ganita Prakash 6"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:2:-:55",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/lines-and-angles"
+   ],
+   "topics": [
+    "mathematics-6/lines-and-angles/angle"
+   ],
+   "subtopics": [],
+   "note": "what forms an angle"
+  },
+  {
+   "id": "cbe:q:Maths6RB5",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/perimeter-and-area"
+   ],
+   "topics": [
+    "mathematics-6/perimeter-and-area/perimeter"
+   ],
+   "subtopics": [
+    "mathematics-6/perimeter-and-area/perimeter/perimeter-of-a-rectangle",
+    "mathematics-6/perimeter-and-area/perimeter/perimeter-of-a-square"
+   ],
+   "note": "perimeters of a square and a rectangular garden"
+  },
+  {
+   "id": "cbe:q:Maths6AS1",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/perimeter-and-area"
+   ],
+   "topics": [
+    "mathematics-6/perimeter-and-area/perimeter"
+   ],
+   "subtopics": [
+    "mathematics-6/perimeter-and-area/perimeter/perimeter-of-a-rectangle"
+   ],
+   "note": "perimeter of a rectangle in letters"
+  },
+  {
+   "id": "cbe:q:Maths6AJ6",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "multiplying decimals is not in Ganita Prakash 6"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:12:-:54",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "solid shapes are not in Ganita Prakash 7"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:3:-:52",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "mode is not in Ganita Prakash 7 (text searched)"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:11:-:54",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "laws of exponents are in class 8 (Power Play), not class 7"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:11:-:65",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "zero exponent is in class 8 (Power Play), not class 7"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:2:-:70",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/another-peek-beyond-the-point"
+   ],
+   "topics": [
+    "mathematics-7/another-peek-beyond-the-point/decimal-multiplication"
+   ],
+   "subtopics": [],
+   "note": "multiplying decimals"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:6:-:7",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/a-tale-of-three-intersecting-lines"
+   ],
+   "topics": [
+    "mathematics-7/a-tale-of-three-intersecting-lines/types-of-triangles"
+   ],
+   "subtopics": [],
+   "note": "classifying a 3-4-5 triangle"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:3:-:5",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/connecting-the-dots"
+   ],
+   "topics": [
+    "mathematics-7/connecting-the-dots/representative-values"
+   ],
+   "subtopics": [
+    "mathematics-7/connecting-the-dots/representative-values/outliers-and-medians"
+   ],
+   "note": "median"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:1:-:125",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/operations-with-integers"
+   ],
+   "topics": [
+    "mathematics-7/operations-with-integers/multiplication-of-integers"
+   ],
+   "subtopics": [
+    "mathematics-7/operations-with-integers/multiplication-of-integers/expressions-using-integers"
+   ],
+   "note": "evaluating an expression in integers"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:10:-:24",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "the term \"constant\" is not taught in Ganita Prakash 7 (text searched)"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:5:-:23",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/parallel-and-intersecting-lines"
+   ],
+   "topics": [
+    "mathematics-7/parallel-and-intersecting-lines/across-the-line",
+    "mathematics-7/parallel-and-intersecting-lines/alternate-angles",
+    "mathematics-7/parallel-and-intersecting-lines/transversals"
+   ],
+   "subtopics": [
+    "mathematics-7/parallel-and-intersecting-lines/across-the-line/measurements-and-geometry"
+   ],
+   "note": "vertically opposite angles (p213) and interior angles on one side of a transversal (p227)"
+  },
+  {
+   "id": "exemplar:q:7:mathematics:7:-:66",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "percentages are not in Ganita Prakash 7"
+  },
+  {
+   "id": "cbe:q:Maths7SC1",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "options lost; as printed a whole-number division with no fraction to place"
+  },
+  {
+   "id": "cbe:q:Maths7PD3",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "complementary angles are not in Ganita Prakash 7 (text searched)"
+  },
+  {
+   "id": "cbe:q:Maths7PS4",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "area of a trapezium is not in Ganita Prakash 7 (text searched)"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:135",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [
+    "mathematics-8/quadrilaterals/rectangles-and-squares"
+   ],
+   "subtopics": [],
+   "note": "angle bisector in a rectangle"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:44",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/using-percentages/percentage-increase-or-decrease"
+   ],
+   "note": "percentage increase"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:1:-:64",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "rational numbers are not in Ganita Prakash 8"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:119",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/fractions-as-percentages",
+    "mathematics-8/fractions-in-disguise/percentage-of-some-quantity"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/fractions-as-percentages/expressing-fractions-as-percentages"
+   ],
+   "note": "expressing a part as a percentage"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:49",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "interior angles of polygons are not in Ganita Prakash 8 (text searched)"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:7:-:13",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/we-distribute-yet-things-multiply"
+   ],
+   "topics": [
+    "mathematics-8/we-distribute-yet-things-multiply/special-cases-of-the-distributive-property"
+   ],
+   "subtopics": [
+    "mathematics-8/we-distribute-yet-things-multiply/special-cases-of-the-distributive-property/square-of-the-sum-difference-of-two-numbers"
+   ],
+   "note": "square of a difference"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:109",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "concave polygons are not in Ganita Prakash 8"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:17",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [
+    "mathematics-8/quadrilaterals/quadrilaterals-with-equal-sidelengths"
+   ],
+   "subtopics": [],
+   "note": "rhombus"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:97",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/using-percentages/percentage-increase-or-decrease"
+   ],
+   "note": "gain or loss percent"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:22",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [
+    "mathematics-8/quadrilaterals/rectangles-and-squares",
+    "mathematics-8/quadrilaterals/more-quadrilaterals-with-parallel-opposite-sides"
+   ],
+   "subtopics": [
+    "mathematics-8/quadrilaterals/rectangles-and-squares/the-process-of-finding-properties"
+   ],
+   "note": "diagonals of a rectangle"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:8:-:23",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/power-play"
+   ],
+   "topics": [
+    "mathematics-8/power-play/the-other-side-of-powers"
+   ],
+   "subtopics": [],
+   "note": "negative exponents"
+  },
+  {
+   "id": "cbe:q:Maths8AM2",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "forming a linear expression for ages is not a topic of Ganita Prakash 8"
+  },
+  {
+   "id": "cbe:q:Maths8BS7",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/percentage-of-some-quantity"
+   ],
+   "subtopics": [],
+   "note": "finding the whole from a percentage"
+  },
+  {
+   "id": "cbe:q:Maths8BS5",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers"
+   ],
+   "subtopics": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers/cube-roots"
+   ],
+   "note": "cube root"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:10:10.1:1",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/i-m-up-and-down-and-round-and-round"
+   ],
+   "topics": [
+    "mathematics-9/i-m-up-and-down-and-round-and-round/distance-of-chords-from-the-centre",
+    "mathematics-9/i-m-up-and-down-and-round-and-round/midpoints-and-perpendicular-bisectors-of-chords"
+   ],
+   "subtopics": [],
+   "note": "distance of a chord from the centre"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:3:3.4:2",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/orienting-yourself-the-use-of-coordinates"
+   ],
+   "topics": [
+    "mathematics-9/orienting-yourself-the-use-of-coordinates/the-2-d-cartesian-coordinate-system"
+   ],
+   "subtopics": [],
+   "note": "vertices of a rectangle in the quadrants"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:1:1.1:20",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "laws of exponents with rational powers are not in Ganita Manjari 9 (text searched)"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:4:4.1:11",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/introduction-to-linear-polynomials"
+   ],
+   "topics": [
+    "mathematics-9/introduction-to-linear-polynomials/linear-relationships",
+    "mathematics-9/introduction-to-linear-polynomials/visualising-linear-relationships"
+   ],
+   "subtopics": [],
+   "note": "a solution of a linear equation in two variables"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:5:5.1:11",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "solids are not in Ganita Manjari 9 part 1"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:2:2.3:15",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "the factor theorem is not in Ganita Manjari 9"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:9:9.2:3",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/measuring-space-perimeter-and-area"
+   ],
+   "topics": [
+    "mathematics-9/measuring-space-perimeter-and-area/area-of-a-parallelogram",
+    "mathematics-9/measuring-space-perimeter-and-area/area-of-a-triangle"
+   ],
+   "subtopics": [],
+   "note": "areas of a parallelogram and a triangle on its diagonal"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:11:11.2:6",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "constructions are not in Ganita Manjari 9 part 1"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:2:2.3:30",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/exploring-algebraic-identities"
+   ],
+   "topics": [
+    "mathematics-9/exploring-algebraic-identities/more-identities"
+   ],
+   "subtopics": [],
+   "note": "identity for (a+b+c)^2 (book p95)"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:5:5.1:7",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "Euclid's geometry is not in Ganita Manjari 9"
+  },
+  {
+   "id": "exemplar:q:9:mathematics:2:2.1:4",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/introduction-to-linear-polynomials"
+   ],
+   "topics": [
+    "mathematics-9/introduction-to-linear-polynomials/introduction",
+    "mathematics-9/introduction-to-linear-polynomials/linear-polynomials"
+   ],
+   "subtopics": [],
+   "note": "degree of a polynomial (book p38)"
+  },
+  {
+   "id": "cbe:q:Maths9SM2",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/the-world-of-numbers"
+   ],
+   "topics": [
+    "mathematics-9/the-world-of-numbers/real-numbers-decimals-and-cyclic-patterns"
+   ],
+   "subtopics": [
+    "mathematics-9/the-world-of-numbers/real-numbers-decimals-and-cyclic-patterns/rational-decimals-terminating-and-repeating"
+   ],
+   "note": "a repeating decimal is rational"
+  },
+  {
+   "id": "cbe:q:Maths9LK8",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/i-m-up-and-down-and-round-and-round"
+   ],
+   "topics": [
+    "mathematics-9/i-m-up-and-down-and-round-and-round/midpoints-and-perpendicular-bisectors-of-chords",
+    "mathematics-9/i-m-up-and-down-and-round-and-round/distance-of-chords-from-the-centre"
+   ],
+   "subtopics": [],
+   "note": "perpendicular from the centre bisects a chord"
+  },
+  {
+   "id": "cbe:q:Maths9BS8",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 9,
+   "chapters": [
+    "mathematics-9/i-m-up-and-down-and-round-and-round"
+   ],
+   "topics": [
+    "mathematics-9/i-m-up-and-down-and-round-and-round/midpoints-and-perpendicular-bisectors-of-chords",
+    "mathematics-9/i-m-up-and-down-and-round-and-round/distance-of-chords-from-the-centre"
+   ],
+   "subtopics": [],
+   "note": "perpendicular from the centre bisects a chord"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:2:2.1:8",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/polynomials"
+   ],
+   "topics": [
+    "mathematics-10/polynomials/relationship-between-zeroes-and-coefficients-of-a-polynomial"
+   ],
+   "subtopics": [],
+   "note": "signs of the zeroes from the coefficients"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:3:3.4:13",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables"
+   ],
+   "topics": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations"
+   ],
+   "subtopics": [],
+   "note": "word problem solved as a pair of linear equations"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:10:10.2:4",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "constructions were dropped from the rationalised book"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:5:5.1:7",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/arithmetic-progressions"
+   ],
+   "topics": [
+    "mathematics-10/arithmetic-progressions/nth-term-of-an-ap"
+   ],
+   "subtopics": [],
+   "note": "nth term"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:7:7.3:15",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/coordinate-geometry"
+   ],
+   "topics": [
+    "mathematics-10/coordinate-geometry/section-formula"
+   ],
+   "subtopics": [],
+   "note": "section formula"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:3:3.1:5",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables"
+   ],
+   "topics": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables/graphical-method-of-solution-of-a-pair-of-linear-equations"
+   ],
+   "subtopics": [],
+   "note": "graphs of x = a and y = b"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:3:3.4:2",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables"
+   ],
+   "topics": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables/graphical-method-of-solution-of-a-pair-of-linear-equations"
+   ],
+   "subtopics": [],
+   "note": "solving graphically"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:1:1.2:4",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/real-numbers"
+   ],
+   "topics": [],
+   "subtopics": [],
+   "note": "Euclid's division form 3m+2: the rationalised book keeps no topic for it"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:3:3.3:18",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables"
+   ],
+   "topics": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations"
+   ],
+   "subtopics": [],
+   "note": "ratio word problem as a pair of linear equations"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:12:12.3:3",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "the frustum was dropped from the rationalised book"
+  },
+  {
+   "id": "exemplar:q:10:mathematics:3:3.4:4",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables"
+   ],
+   "topics": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations"
+   ],
+   "subtopics": [],
+   "note": "forming and solving a pair of linear equations"
+  },
+  {
+   "id": "cbe:q:Maths10SK2",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/introduction-to-trigonometry"
+   ],
+   "topics": [
+    "mathematics-10/introduction-to-trigonometry/trigonometric-ratios-of-some-specific-angles"
+   ],
+   "subtopics": [],
+   "note": "ratios of specific angles"
+  },
+  {
+   "id": "cbe:q:Maths10SK6",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/some-applications-of-trigonometry"
+   ],
+   "topics": [
+    "mathematics-10/some-applications-of-trigonometry/heights-and-distances"
+   ],
+   "subtopics": [],
+   "note": "heights and distances"
+  },
+  {
+   "id": "cbe:q:Maths10RM7",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/coordinate-geometry"
+   ],
+   "topics": [
+    "mathematics-10/coordinate-geometry/distance-formula",
+    "mathematics-10/coordinate-geometry/section-formula"
+   ],
+   "subtopics": [],
+   "note": "distance formula and midpoint"
+  },
+  {
+   "id": "exemplar:q:6:science:14:-:8",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/nature-s-treasures",
+    "science-6/a-journey-through-states-of-water"
+   ],
+   "topics": [
+    "science-6/nature-s-treasures/water",
+    "science-6/a-journey-through-states-of-water/how-do-clouds-give-us-rain"
+   ],
+   "subtopics": [],
+   "note": "groundwater feeds wells (book p230, p177)"
+  },
+  {
+   "id": "exemplar:q:6:science:8:-:13",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "bones and movement are not in Curiosity 6"
+  },
+  {
+   "id": "exemplar:q:6:science:9:-:10",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/living-creatures-exploring-their-characteristics"
+   ],
+   "topics": [
+    "science-6/living-creatures-exploring-their-characteristics/what-sets-the-living-apart-from-the-non-living"
+   ],
+   "subtopics": [],
+   "note": "reproduction as a characteristic of living things"
+  },
+  {
+   "id": "exemplar:q:6:science:1:-:4",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "edible parts of plants are not a topic of Curiosity 6"
+  },
+  {
+   "id": "exemplar:q:6:science:4:-:9",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/materials-around-us"
+   ],
+   "topics": [
+    "science-6/materials-around-us/how-to-group-materials"
+   ],
+   "subtopics": [],
+   "note": "why materials are grouped"
+  },
+  {
+   "id": "exemplar:q:6:science:8:-:3",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "movement in animals is not in Curiosity 6"
+  },
+  {
+   "id": "exemplar:q:6:science:2:-:18",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/mindful-eating-a-path-to-a-healthy-body"
+   ],
+   "topics": [
+    "science-6/mindful-eating-a-path-to-a-healthy-body/what-are-the-components-of-food"
+   ],
+   "subtopics": [],
+   "note": "night blindness and vitamin A"
+  },
+  {
+   "id": "exemplar:q:6:science:7:-:2",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/diversity-in-the-living-world"
+   ],
+   "topics": [
+    "science-6/diversity-in-the-living-world/how-to-group-plants-and-animals"
+   ],
+   "subtopics": [
+    "science-6/diversity-in-the-living-world/how-to-group-plants-and-animals/how-to-group-plants"
+   ],
+   "note": "herbs, shrubs, trees, creepers (book p33-34)"
+  },
+  {
+   "id": "exemplar:q:6:science:10:-:12",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/measurement-of-length-and-motion"
+   ],
+   "topics": [
+    "science-6/measurement-of-length-and-motion/types-of-motion"
+   ],
+   "subtopics": [],
+   "note": "types of motion"
+  },
+  {
+   "id": "exemplar:q:6:science:15:-:3",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/nature-s-treasures"
+   ],
+   "topics": [
+    "science-6/nature-s-treasures/air"
+   ],
+   "subtopics": [],
+   "note": "uses of air"
+  },
+  {
+   "id": "exemplar:q:6:science:13:-:7",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/exploring-magnets"
+   ],
+   "topics": [
+    "science-6/exploring-magnets/magnetic-and-non-magnetic-materials"
+   ],
+   "subtopics": [],
+   "note": "stainless steel is non-magnetic"
+  },
+  {
+   "id": "cbe:q:Science6SPA2",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/a-journey-through-states-of-water"
+   ],
+   "topics": [
+    "science-6/a-journey-through-states-of-water/how-can-we-change-the-states-of-water",
+    "science-6/a-journey-through-states-of-water/what-are-the-different-states-of-water"
+   ],
+   "subtopics": [],
+   "note": "melting (book p168-170)"
+  },
+  {
+   "id": "cbe:q:Science6RAJ4b",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/diversity-in-the-living-world"
+   ],
+   "topics": [
+    "science-6/diversity-in-the-living-world/plants-and-animals-in-different-surroundings"
+   ],
+   "subtopics": [],
+   "note": "desert plants and their adaptations"
+  },
+  {
+   "id": "cbe:q:Science6DP21",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/materials-around-us",
+    "science-6/methods-of-separation-in-everyday-life"
+   ],
+   "topics": [
+    "science-6/materials-around-us/what-are-the-different-properties-of-materials"
+   ],
+   "subtopics": [
+    "science-6/materials-around-us/what-are-the-different-properties-of-materials/what-is-soluble-in-water-what-is-not"
+   ],
+   "note": "soluble and insoluble substances"
+  },
+  {
+   "id": "exemplar:q:7:science:12:-:6",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "reproduction in plants is not in Curiosity 7 (text searched)"
+  },
+  {
+   "id": "exemplar:q:7:science:2:-:8",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "amoeba is not in Curiosity 7 (text searched)"
+  },
+  {
+   "id": "exemplar:q:7:science:4:-:11",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "how a thermometer works is in Curiosity 6, not 7"
+  },
+  {
+   "id": "exemplar:q:7:science:12:-:7",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "pollination is not in Curiosity 7 (text searched)"
+  },
+  {
+   "id": "exemplar:q:7:science:3:-:16",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "silk is not in Curiosity 7 (text searched)"
+  },
+  {
+   "id": "exemplar:q:7:science:6:-:8",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [
+    "science-7/changes-around-us-physical-and-chemical"
+   ],
+   "topics": [
+    "science-7/changes-around-us-physical-and-chemical/a-substance-may-change-in-appearance-but-remain-the-same"
+   ],
+   "subtopics": [],
+   "note": "crystallisation as a physical change"
+  },
+  {
+   "id": "exemplar:q:7:science:7:-:8",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "climate regions are not a topic of Curiosity 7"
+  },
+  {
+   "id": "exemplar:q:7:science:9:-:18",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "soil and its aeration are not in Curiosity 7"
+  },
+  {
+   "id": "exemplar:q:7:science:11:-:3",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "blood circulation is not in Curiosity 7 (text searched)"
+  },
+  {
+   "id": "exemplar:q:7:science:3:-:3",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "animal fibres are not in Curiosity 7"
+  },
+  {
+   "id": "exemplar:q:7:science:7:-:1",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "weather reports are not in Curiosity 7 (text searched)"
+  },
+  {
+   "id": "cbe:q:Science7MBSA2",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "parts of a flower are not in Curiosity 7 (text searched)"
+  },
+  {
+   "id": "cbe:q:Science7BS1",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [
+    "science-7/electricity-circuits-and-their-components"
+   ],
+   "topics": [
+    "science-7/electricity-circuits-and-their-components/a-simple-electrical-circuit"
+   ],
+   "subtopics": [
+    "science-7/electricity-circuits-and-their-components/a-simple-electrical-circuit/electric-switch",
+    "science-7/electricity-circuits-and-their-components/a-simple-electrical-circuit/battery",
+    "science-7/electricity-circuits-and-their-components/a-simple-electrical-circuit/electric-lamp",
+    "science-7/electricity-circuits-and-their-components/a-simple-electrical-circuit/electric-cell"
+   ],
+   "note": "switch, battery terminals, lamp filament"
+  },
+  {
+   "id": "cbe:q:Science7EVR31d",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 7,
+   "chapters": [
+    "science-7/life-processes-in-animals"
+   ],
+   "topics": [
+    "science-7/life-processes-in-animals/respiration-in-animals"
+   ],
+   "subtopics": [
+    "science-7/life-processes-in-animals/respiration-in-animals/respiration-in-humans"
+   ],
+   "note": "breathing during exercise, model of the lungs, lime water test"
+  },
+  {
+   "id": "exemplar:q:8:science:17:-:17",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/keeping-time-with-the-skies"
+   ],
+   "topics": [
+    "science-8/keeping-time-with-the-skies/how-does-the-moon-s-appearance-change-and-why"
+   ],
+   "subtopics": [
+    "science-8/keeping-time-with-the-skies/how-does-the-moon-s-appearance-change-and-why/phases-of-the-moon"
+   ],
+   "note": "phases of the moon"
+  },
+  {
+   "id": "exemplar:q:8:science:9:-:15",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "frog eggs and their protection are not in Curiosity 8 (text searched)"
+  },
+  {
+   "id": "exemplar:q:8:science:6:-:14",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "fuels are not in Curiosity 8"
+  },
+  {
+   "id": "exemplar:q:8:science:11:-:11",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/exploring-forces"
+   ],
+   "topics": [
+    "science-8/exploring-forces/what-can-a-force-do-to-the-objects-on-which-it-is-applied",
+    "science-8/exploring-forces/what-is-a-force"
+   ],
+   "subtopics": [],
+   "note": "a push that speeds a box up"
+  },
+  {
+   "id": "exemplar:q:8:science:13:-:9",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "pitch of sound is not in Curiosity 8 (text searched)"
+  },
+  {
+   "id": "exemplar:q:8:science:16:-:23",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "the kaleidoscope is in Curiosity 7, not 8 (text searched)"
+  },
+  {
+   "id": "exemplar:q:8:science:14:-:4",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "chemical effect of current in solutions is not in Curiosity 8"
+  },
+  {
+   "id": "exemplar:q:8:science:11:-:26",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/pressure-winds-storms-and-cyclones"
+   ],
+   "topics": [
+    "science-8/pressure-winds-storms-and-cyclones/pressure"
+   ],
+   "subtopics": [],
+   "note": "pressure and area of a blade"
+  },
+  {
+   "id": "exemplar:q:8:science:6:-:2",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "calorific value is not in Curiosity 8"
+  },
+  {
+   "id": "exemplar:q:8:science:5:-:6",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "how fossil fuels form is not in Curiosity 8"
+  },
+  {
+   "id": "exemplar:q:8:science:13:-:13",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "speed of sound is not in Curiosity 8 (text searched)"
+  },
+  {
+   "id": "cbe:q:Science8SB1",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/exploring-forces"
+   ],
+   "topics": [
+    "science-8/exploring-forces/what-are-the-different-types-of-forces"
+   ],
+   "subtopics": [
+    "science-8/exploring-forces/what-are-the-different-types-of-forces/contact-forces"
+   ],
+   "note": "direction of friction"
+  },
+  {
+   "id": "cbe:q:Science8GS31c",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "menstruation is in Curiosity 7, not 8 (text searched)"
+  },
+  {
+   "id": "cbe:q:Science8VS31b",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "diffused reflection is not in Curiosity 8 (text searched)"
+  },
+  {
+   "id": "exemplar:q:9:science:7:-:9",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/patterns-in-life-diversity-and-classification"
+   ],
+   "topics": [
+    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification"
+   ],
+   "subtopics": [
+    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification/kingdom-animalia-multicellular-heterotrophic-eukaryotes"
+   ],
+   "note": "notochord of vertebrates (book p260)"
+  },
+  {
+   "id": "exemplar:q:9:science:4:-:3",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/journey-inside-the-atom"
+   ],
+   "topics": [
+    "science-9/journey-inside-the-atom/atomic-number",
+    "science-9/journey-inside-the-atom/mass-number",
+    "science-9/journey-inside-the-atom/symbols-of-elements"
+   ],
+   "subtopics": [],
+   "note": "atomic and mass number notation"
+  },
+  {
+   "id": "exemplar:q:9:science:13:-:11",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "disease is not in Exploration 9"
+  },
+  {
+   "id": "exemplar:q:9:science:15:-:3",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "food production revolutions are not in Exploration 9"
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:25",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/tissues-in-action"
+   ],
+   "topics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   ],
+   "subtopics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants/permanent-tissues"
+   ],
+   "note": "xylem, a permanent tissue"
+  },
+  {
+   "id": "exemplar:q:9:science:7:-:1",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/patterns-in-life-diversity-and-classification"
+   ],
+   "topics": [
+    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification",
+    "science-9/patterns-in-life-diversity-and-classification/biological-classification-systems-over-time"
+   ],
+   "subtopics": [
+    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification/kingdom-monera-unicellular-prokaryotes",
+    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification/kingdom-protista-unicellular-eukaryotes"
+   ],
+   "note": "Whittaker's kingdoms, Monera and Protista"
+  },
+  {
+   "id": "exemplar:q:9:science:13:-:36",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "antibiotics and viruses are not in Exploration 9"
+  },
+  {
+   "id": "exemplar:q:9:science:7:-:14",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/patterns-in-life-diversity-and-classification"
+   ],
+   "topics": [
+    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification"
+   ],
+   "subtopics": [
+    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification/kingdom-animalia-multicellular-heterotrophic-eukaryotes"
+   ],
+   "note": "aquatic animals of Kingdom Animalia"
+  },
+  {
+   "id": "exemplar:q:9:science:15:-:37",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "manures and fertilisers are not in Exploration 9"
+  },
+  {
+   "id": "exemplar:q:9:science:2:-:2",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "rusting as corrosion is not a topic of Exploration 9"
+  },
+  {
+   "id": "exemplar:q:9:science:1:-:9",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "evaporation is not in Exploration 9"
+  },
+  {
+   "id": "cbe:q:Science9TP1",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/describing-motion-around-us"
+   ],
+   "topics": [
+    "science-9/describing-motion-around-us/motion-in-a-straight-line",
+    "science-9/describing-motion-around-us/motion-in-a-plane"
+   ],
+   "subtopics": [
+    "science-9/describing-motion-around-us/motion-in-a-straight-line/distance-travelled-and-displacement",
+    "science-9/describing-motion-around-us/motion-in-a-plane/uniform-circular-motion"
+   ],
+   "note": "displacement on a circular track"
+  },
+  {
+   "id": "cbe:q:Science9SD4",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/earth-as-a-system-energy-matter-and-life"
+   ],
+   "topics": [
+    "science-9/earth-as-a-system-energy-matter-and-life/uneven-heating-of-the-earth",
+    "science-9/earth-as-a-system-energy-matter-and-life/human-impact-on-earth-s-processes"
+   ],
+   "subtopics": [
+    "science-9/earth-as-a-system-energy-matter-and-life/uneven-heating-of-the-earth/role-of-the-atmosphere",
+    "science-9/earth-as-a-system-energy-matter-and-life/uneven-heating-of-the-earth/interaction-of-solar-radiation-on-the-earth-s-surface"
+   ],
+   "note": "the ozone layer and UV radiation (book p274-279)"
+  },
+  {
+   "id": "cbe:q:Science9PS2",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 9,
+   "chapters": [
+    "science-9/atomic-foundations-of-matter"
+   ],
+   "topics": [],
+   "subtopics": [],
+   "note": "what a compound is; no topic of the chapter defines it"
+  },
+  {
+   "id": "exemplar:q:10:science:3:-:54",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/metals-and-non-metals"
+   ],
+   "topics": [
+    "science-10/metals-and-non-metals/chemical-properties-of-metals"
+   ],
+   "subtopics": [
+    "science-10/metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-react-with-water"
+   ],
+   "note": "an alkali metal with water"
+  },
+  {
+   "id": "exemplar:q:10:science:4:-:26",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/carbon-and-its-compounds"
+   ],
+   "topics": [
+    "science-10/carbon-and-its-compounds/versatile-nature-of-carbon"
+   ],
+   "subtopics": [
+    "science-10/carbon-and-its-compounds/versatile-nature-of-carbon/nomenclature-of-carbon-compounds"
+   ],
+   "note": "naming an aldehyde"
+  },
+  {
+   "id": "exemplar:q:10:science:12:-:27",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/electricity",
+    "science-10/magnetic-effects-of-electric-current"
+   ],
+   "topics": [
+    "science-10/electricity/resistance-of-a-system-of-resistors",
+    "science-10/magnetic-effects-of-electric-current/domestic-electric-circuits"
+   ],
+   "subtopics": [
+    "science-10/electricity/resistance-of-a-system-of-resistors/resistors-in-parallel"
+   ],
+   "note": "parallel wiring in homes"
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:29",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/autotrophic-nutrition"
+   ],
+   "note": "stomata and guard cells"
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:4",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/animals-nervous-system"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/animals-nervous-system/how-does-the-nervous-tissue-cause-action"
+   ],
+   "note": "electrical to chemical signal at the axon end"
+  },
+  {
+   "id": "exemplar:q:10:science:2:-:23",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/metals-and-non-metals",
+    "science-10/acids-bases-and-salts"
+   ],
+   "topics": [
+    "science-10/acids-bases-and-salts/what-do-all-acids-and-all-bases-have-in-common",
+    "science-10/acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases"
+   ],
+   "subtopics": [],
+   "note": "which compound is a base"
+  },
+  {
+   "id": "exemplar:q:10:science:13:-:20",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/magnetic-effects-of-electric-current"
+   ],
+   "topics": [
+    "science-10/magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor",
+    "science-10/magnetic-effects-of-electric-current/magnetic-field-and-field-lines"
+   ],
+   "subtopics": [
+    "science-10/magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-in-a-solenoid"
+   ],
+   "note": "field lines at the ends of a solenoid"
+  },
+  {
+   "id": "exemplar:q:10:science:3:-:43",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/metals-and-non-metals",
+    "science-10/carbon-and-its-compounds"
+   ],
+   "topics": [
+    "science-10/metals-and-non-metals/physical-properties",
+    "science-10/carbon-and-its-compounds/versatile-nature-of-carbon"
+   ],
+   "subtopics": [
+    "science-10/metals-and-non-metals/physical-properties/non-metals"
+   ],
+   "note": "diamond and graphite, forms of carbon"
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:41",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/do-organisms-create-exact-copies-of-themselves"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/do-organisms-create-exact-copies-of-themselves/the-importance-of-variation"
+   ],
+   "note": "reproduction and stability of a population"
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:24",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/transportation",
+    "science-10/life-processes/respiration"
+   ],
+   "subtopics": [
+    "science-10/life-processes/transportation/transportation-in-human-beings"
+   ],
+   "note": "blood leaving the tissues"
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:28",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/hormones-in-animals"
+   ],
+   "subtopics": [],
+   "note": "sex hormones at puberty"
+  },
+  {
+   "id": "cbe:q:Science10NG31c",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/chemical-reactions-and-equations"
+   ],
+   "topics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions"
+   ],
+   "subtopics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions/combination-reaction"
+   ],
+   "note": "calcium oxide with water, a combination reaction"
+  },
+  {
+   "id": "cbe:q:Science10NG1",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/chemical-reactions-and-equations"
+   ],
+   "topics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions"
+   ],
+   "subtopics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions/combination-reaction"
+   ],
+   "note": "combination reaction"
+  },
+  {
+   "id": "cbe:q:Science10AP4",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/heredity"
+   ],
+   "topics": [
+    "science-10/heredity/heredity"
+   ],
+   "subtopics": [
+    "science-10/heredity/heredity/rules-for-the-inheritance-of-traits-mendel-s-contributions"
+   ],
+   "note": "Punnett squares, Mendel's rules"
+  },
+  {
+   "id": "cbse:q:src:b34adc36798c7b462d3db1cd:18",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "stem is extraction debris; no chapter can be read from it"
+  },
+  {
+   "id": "cbse:q:src:c5af1ab66f7402dd58e50c26:34",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "stem is extraction debris; no chapter can be read from it"
+  },
+  {
+   "id": "cbse:q:src:d1a8c16b69a85ef6386de3be:29",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/development"
+   ],
+   "topics": [
+    "social-science-10/development/public-facilities",
+    "social-science-10/development/income-and-other-criteria",
+    "social-science-10/development/income-and-other-goals"
+   ],
+   "subtopics": [],
+   "note": "money cannot buy every good and service"
+  },
+  {
+   "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:21",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/the-making-of-a-global-world"
+   ],
+   "topics": [
+    "social-science-10/the-making-of-a-global-world/the-nineteenth-century-1815-1914",
+    "social-science-10/the-making-of-a-global-world/the-pre-modern-world"
+   ],
+   "subtopics": [
+    "social-science-10/the-making-of-a-global-world/the-nineteenth-century-1815-1914/a-world-economy-takes-shape"
+   ],
+   "note": "nineteenth-century emigration to America"
+  },
+  {
+   "id": "cbse:q:src:6069dcad420f0917e12b6956:28",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/political-parties"
+   ],
+   "topics": [
+    "social-science-10/political-parties/how-many-parties-should-we-have"
+   ],
+   "subtopics": [],
+   "note": "multi-party system"
+  },
+  {
+   "id": "cbse:q:src:5a4393f67e8e73f306439993:8",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/power-sharing"
+   ],
+   "topics": [
+    "social-science-10/power-sharing/accommodation-in-belgium"
+   ],
+   "subtopics": [],
+   "note": "Belgium's constitutional amendments"
+  },
+  {
+   "id": "cbse:q:src:077337741cead93d98b37d12:5",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/forest-and-wildlife-resources"
+   ],
+   "topics": [],
+   "subtopics": [],
+   "note": "national parks and tiger reserves; the chapter has no topic headings"
+  },
+  {
+   "id": "cbse:q:src:f73780490a16ef016ae67e67:9",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/federalism"
+   ],
+   "topics": [
+    "social-science-10/federalism/what-makes-india-a-federal-country"
+   ],
+   "subtopics": [],
+   "note": "union, state and concurrent lists"
+  },
+  {
+   "id": "cbse:q:src:fdd52ceb7e13b28c40f8ce95:31",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/water-resources",
+    "social-science-10/manufacturing-industries"
+   ],
+   "topics": [],
+   "subtopics": [],
+   "note": "industrial water pollution and conservation; neither chapter has topic headings"
+  },
+  {
+   "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:35",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/water-resources"
+   ],
+   "topics": [],
+   "subtopics": [],
+   "note": "traditional water harvesting; the chapter has no topic headings"
+  },
+  {
+   "id": "cbse:q:src:b34adc36798c7b462d3db1cd:26",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "stem is extraction debris; no chapter can be read from it"
+  },
+  {
+   "id": "cbse:q:src:a12945f6521d50815466fe9c:35",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/print-culture-and-the-modern-world"
+   ],
+   "topics": [
+    "social-science-10/print-culture-and-the-modern-world/india-and-the-world-of-print",
+    "social-science-10/print-culture-and-the-modern-world/print-and-censorship"
+   ],
+   "subtopics": [
+    "social-science-10/print-culture-and-the-modern-world/india-and-the-world-of-print/print-comes-to-india"
+   ],
+   "note": "Hickey's Bengal Gazette"
+  },
+  {
+   "id": "cbse:q:src:f5f52d3e0580aac4355f9205:6",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/power-sharing"
+   ],
+   "topics": [
+    "social-science-10/power-sharing/belgium-and-sri-lanka",
+    "social-science-10/power-sharing/majoritarianism-in-sri-lanka"
+   ],
+   "subtopics": [],
+   "note": "majority community of Sri Lanka"
+  },
+  {
+   "id": "cbse:q:src:1ba9f61cdbe1b22da579c0b0:35",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "stem is extraction debris; no chapter can be read from it"
+  },
+  {
+   "id": "cbse:q:src:e4a3a6f64ffaccbf72460f6e:10",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "stem is extraction debris; no chapter can be read from it"
+  },
+  {
+   "id": "cbse:q:src:890ff456819a3ae472902a0c:21",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/the-making-of-a-global-world",
+    "social-science-10/print-culture-and-the-modern-world"
+   ],
+   "topics": [
+    "social-science-10/the-making-of-a-global-world/the-pre-modern-world",
+    "social-science-10/print-culture-and-the-modern-world/print-comes-to-europe",
+    "social-science-10/print-culture-and-the-modern-world/the-print-revolution-and-its-impact"
+   ],
+   "subtopics": [],
+   "note": "sixteenth-century spread of trade and knowledge; reviewer could not settle between the two chapters"
+  },
+  {
+   "id": "cbse:q:src:a12945f6521d50815466fe9c:23",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/federalism"
+   ],
+   "topics": [
+    "social-science-10/federalism/decentralisation-in-india"
+   ],
+   "subtopics": [],
+   "note": "Zilla Parishad"
+  },
+  {
+   "id": "cbse:q:src:e6935f18e16e69433650b0a3:27",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/gender-religion-and-caste"
+   ],
+   "topics": [
+    "social-science-10/gender-religion-and-caste/gender-and-politics"
+   ],
+   "subtopics": [
+    "social-science-10/gender-religion-and-caste/gender-and-politics/women-s-political-representation"
+   ],
+   "note": "women's political participation"
+  },
+  {
+   "id": "cbse:q:src:f5f52d3e0580aac4355f9205:31",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/agriculture"
+   ],
+   "topics": [],
+   "subtopics": [],
+   "note": "institutional reforms in agriculture; the chapter has no topic headings"
+  },
+  {
+   "id": "cbse:q:src:b34adc36798c7b462d3db1cd:25",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/nationalism-in-india"
+   ],
+   "topics": [
+    "social-science-10/nationalism-in-india/the-first-world-war-khilafat-and-non-cooperation",
+    "social-science-10/nationalism-in-india/differing-strands-within-the-movement"
+   ],
+   "subtopics": [
+    "social-science-10/nationalism-in-india/the-first-world-war-khilafat-and-non-cooperation/why-non-cooperation"
+   ],
+   "note": "Non-Cooperation Movement (the quoted statement was lost in extraction)"
+  },
+  {
+   "id": "cbse:q:src:f73780490a16ef016ae67e67:24",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/globalisation-and-the-indian-economy"
+   ],
+   "topics": [
+    "social-science-10/globalisation-and-the-indian-economy/factors-that-have-enabled-globalisation"
+   ],
+   "subtopics": [],
+   "note": "technology enabling globalisation"
+  },
+  {
+   "id": "cbse:q:src:74ad0a018800d922b0200072:29",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/sectors-of-the-indian-economy"
+   ],
+   "topics": [
+    "social-science-10/sectors-of-the-indian-economy/primary-secondary-and-tertiary-sectors-in-india",
+    "social-science-10/sectors-of-the-indian-economy/sectors-of-economic-activities",
+    "social-science-10/sectors-of-the-indian-economy/comparing-the-three-sectors"
+   ],
+   "subtopics": [],
+   "note": "rise of the tertiary sector"
+  },
+  {
+   "id": "cbse:q:src:b34adc36798c7b462d3db1cd:7",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [],
+   "topics": [],
+   "subtopics": [],
+   "note": "stem is extraction debris; no chapter can be read from it"
+  },
+  {
+   "id": "cbse:q:src:5a4393f67e8e73f306439993:16",
+   "batch": 2,
+   "bank": "board",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapters": [
+    "social-science-10/sectors-of-the-indian-economy"
+   ],
+   "topics": [
+    "social-science-10/sectors-of-the-indian-economy/sectors-of-economic-activities"
+   ],
+   "subtopics": [],
+   "note": "the secondary sector defined"
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:18",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/transportation"
+   ],
+   "subtopics": [
+    "science-10/life-processes/transportation/transportation-in-human-beings"
+   ]
+  },
+  {
+   "id": "cbe:q:Maths8CN4",
+   "batch": 3,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [
+    "mathematics-8/quadrilaterals/kite-and-trapezium"
+   ],
+   "subtopics": [
+    "mathematics-8/quadrilaterals/kite-and-trapezium/trapezium"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:21",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/how-do-our-activities-affect-the-environment"
+   ],
+   "subtopics": [
+    "science-10/our-environment/how-do-our-activities-affect-the-environment/managing-the-garbage-we-produce"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:8",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/eco-system-what-are-its-components"
+   ],
+   "subtopics": [
+    "science-10/our-environment/eco-system-what-are-its-components/food-chains-and-webs"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:6",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers"
+   ],
+   "subtopics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers/patterns-and-properties-of-perfect-squares"
+   ],
+   "note": "ruling out 198 by its last digit is Patterns and Properties of Perfect Squares, not triangular numbers (the tagger's pick)"
+  },
+  {
+   "id": "exemplar:q:10:science:12:-:23",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/electricity"
+   ],
+   "topics": [
+    "science-10/electricity/heating-effect-of-electric-current"
+   ],
+   "subtopics": [
+    "science-10/electricity/heating-effect-of-electric-current/practical-applications-of-heating-effect-of-electric-current"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:9",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/fission"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:53",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/using-percentages/growth-and-compounding"
+   ]
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:22",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-9/tissues-in-action"
+   ],
+   "topics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   ],
+   "subtopics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants/permanent-tissues"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:134",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [
+    "mathematics-8/quadrilaterals/kite-and-trapezium"
+   ],
+   "subtopics": [
+    "mathematics-8/quadrilaterals/kite-and-trapezium/trapezium"
+   ]
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:39",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [],
+   "note": "a set-square's lines of symmetry: the topic as a whole; the tagger picked 'more than one line'"
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:54",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-9/tissues-in-action"
+   ],
+   "topics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   ],
+   "subtopics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants/permanent-tissues"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:2",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction/sexual-reproduction-in-flowering-plants"
+   ]
+  },
+  {
+   "id": "exemplar:q:7:science:2:-:20",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-7/life-processes-in-animals"
+   ],
+   "topics": [
+    "science-7/life-processes-in-animals/nutrition-in-animals"
+   ],
+   "subtopics": [
+    "science-7/life-processes-in-animals/nutrition-in-animals/digestion-in-human-beings"
+   ]
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:26",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-9/tissues-in-action"
+   ],
+   "topics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   ],
+   "subtopics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants/intercalary-meristem-how-do-plants-grow-after-being-cut"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:7",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/animals-nervous-system"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/animals-nervous-system/human-brain"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:3:-:7",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/metals-and-non-metals"
+   ],
+   "topics": [
+    "science-10/metals-and-non-metals/chemical-properties-of-metals"
+   ],
+   "subtopics": [
+    "science-10/metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-react-with-acids"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:26",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/how-do-our-activities-affect-the-environment"
+   ],
+   "subtopics": [
+    "science-10/our-environment/how-do-our-activities-affect-the-environment/managing-the-garbage-we-produce"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:30",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers"
+   ],
+   "subtopics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers/square-roots"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:77",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers"
+   ],
+   "subtopics": [],
+   "note": "parity of cubes: the topic as a whole, not consecutive odd numbers"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:6",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [],
+   "note": "a letter with no line of symmetry: the topic as a whole"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:7",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [],
+   "note": "a letter with exactly one line of symmetry: the topic as a whole"
+  },
+  {
+   "id": "cbe:q:Science10ST3",
+   "batch": 3,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/light-reflection-and-refraction"
+   ],
+   "topics": [
+    "science-10/light-reflection-and-refraction/refraction-of-light"
+   ],
+   "subtopics": [
+    "science-10/light-reflection-and-refraction/refraction-of-light/refraction-through-a-rectangular-glass-slab",
+    "science-10/light-reflection-and-refraction/refraction-of-light/the-refractive-index"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:6",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/animals-nervous-system"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/animals-nervous-system/what-happens-in-reflex-actions"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:58",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/transportation"
+   ],
+   "subtopics": [
+    "science-10/life-processes/transportation/transportation-in-human-beings"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:4:-:7",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/carbon-and-its-compounds"
+   ],
+   "topics": [
+    "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds"
+   ],
+   "subtopics": [
+    "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds/addition-reaction"
+   ]
+  },
+  {
+   "id": "exemplar:q:9:science:4:-:22",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-9/journey-inside-the-atom"
+   ],
+   "topics": [
+    "science-9/journey-inside-the-atom/a-short-historical-journey-through-atomic-models"
+   ],
+   "subtopics": [
+    "science-9/journey-inside-the-atom/a-short-historical-journey-through-atomic-models/testing-thomson-s-model-the-gold-foil-experiment"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:46",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/animals-nervous-system"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/animals-nervous-system/human-brain"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:13",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers"
+   ],
+   "subtopics": [],
+   "note": "spotting a perfect cube: the topic as a whole, not consecutive odd numbers"
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:64",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:50",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers"
+   ],
+   "subtopics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers/patterns-and-properties-of-perfect-squares"
+   ],
+   "note": "a property of perfect squares; the tagger picked Perfect Squares and Triangular Numbers"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:104",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/using-percentages/growth-and-compounding"
+   ]
+  },
+  {
+   "id": "exemplar:q:6:mathematics:6:-:16",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/perimeter-and-area"
+   ],
+   "topics": [
+    "mathematics-6/perimeter-and-area/perimeter"
+   ],
+   "subtopics": [
+    "mathematics-6/perimeter-and-area/perimeter/perimeter-of-a-regular-polygon"
+   ]
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:22",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [
+    "mathematics-6/symmetry/line-of-symmetry/reflection"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:13:-:19",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/magnetic-effects-of-electric-current"
+   ],
+   "topics": [
+    "science-10/magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor"
+   ],
+   "subtopics": [
+    "science-10/magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-through-a-circular-loop"
+   ]
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:31",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-9/tissues-in-action"
+   ],
+   "topics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   ],
+   "subtopics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants/permanent-tissues"
+   ],
+   "note": "conducting tissue (xylem/phloem) is permanent tissue; the tagger picked intercalary meristem"
+  },
+  {
+   "id": "exemplar:q:6:mathematics:4:-:22",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/fractions"
+   ],
+   "topics": [
+    "mathematics-6/fractions/mixed-fractions"
+   ],
+   "subtopics": [
+    "mathematics-6/fractions/mixed-fractions/fractions-greater-than-one"
+   ],
+   "note": "proper and improper fractions are defined under Fractions greater than one"
+  },
+  {
+   "id": "cbe:q:Science10DP6",
+   "batch": 3,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/heredity"
+   ],
+   "topics": [
+    "science-10/heredity/heredity"
+   ],
+   "subtopics": [
+    "science-10/heredity/heredity/rules-for-the-inheritance-of-traits-mendel-s-contributions"
+   ]
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:23",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [
+    "mathematics-6/symmetry/line-of-symmetry/reflection"
+   ]
+  },
+  {
+   "id": "exemplar:q:9:science:5:-:2",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-9/cell-the-building-block-of-life"
+   ],
+   "topics": [
+    "science-9/cell-the-building-block-of-life/structure-of-a-cell"
+   ],
+   "subtopics": [
+    "science-9/cell-the-building-block-of-life/structure-of-a-cell/cell-membrane-the-universal-feature-of-a-cell"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:4:-:12",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/carbon-and-its-compounds"
+   ],
+   "topics": [
+    "science-10/carbon-and-its-compounds/versatile-nature-of-carbon"
+   ],
+   "subtopics": [
+    "science-10/carbon-and-its-compounds/versatile-nature-of-carbon/saturated-and-unsaturated-carbon-compounds"
+   ],
+   "note": "picking unsaturated compounds is Saturated and Unsaturated Carbon Compounds; the tagger picked Nomenclature"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:6:-:86",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/exploring-some-geometric-themes"
+   ],
+   "topics": [
+    "mathematics-8/exploring-some-geometric-themes/visualising-solids"
+   ],
+   "subtopics": [
+    "mathematics-8/exploring-some-geometric-themes/visualising-solids/making-solids"
+   ],
+   "note": "faces/edges/vertices of pyramids are counted under Making Solids (its text has pyramid 17x, face 19x)"
+  },
+  {
+   "id": "cbe:q:Science10GK5",
+   "batch": 3,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/eco-system-what-are-its-components"
+   ],
+   "subtopics": [
+    "science-10/our-environment/eco-system-what-are-its-components/food-chains-and-webs"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:72",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/excretion"
+   ],
+   "subtopics": [
+    "science-10/life-processes/excretion/excretion-in-plants"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:40",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/coordination-in-plants"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+   ]
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:40",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [],
+   "note": "a set-square with one line of symmetry: the topic as a whole"
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:51",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:18",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers"
+   ],
+   "subtopics": [],
+   "note": "spotting a non-cube: the topic as a whole, not consecutive odd numbers"
+  },
+  {
+   "id": "exemplar:q:10:science:4:-:20",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/carbon-and-its-compounds"
+   ],
+   "topics": [
+    "science-10/carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid"
+   ],
+   "subtopics": [
+    "science-10/carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid/properties-of-ethanoic-acid"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:9:-:23",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/heredity"
+   ],
+   "topics": [
+    "science-10/heredity/heredity"
+   ],
+   "subtopics": [
+    "science-10/heredity/heredity/sex-determination"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:3:-:23",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/metals-and-non-metals"
+   ],
+   "topics": [
+    "science-10/metals-and-non-metals/occurrence-of-metals"
+   ],
+   "subtopics": [
+    "science-10/metals-and-non-metals/occurrence-of-metals/extracting-metals-towards-the-top-of-the-activity-series",
+    "science-10/metals-and-non-metals/occurrence-of-metals/refining-of-metals"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:18",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction/sexual-reproduction-in-flowering-plants"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:71",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/transportation"
+   ],
+   "subtopics": [
+    "science-10/life-processes/transportation/transportation-in-plants"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:1:-:8",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/chemical-reactions-and-equations"
+   ],
+   "topics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions"
+   ],
+   "subtopics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions/decomposition-reaction"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:9:-:8",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/heredity"
+   ],
+   "topics": [
+    "science-10/heredity/heredity"
+   ],
+   "subtopics": [
+    "science-10/heredity/heredity/sex-determination"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:7",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:17",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction/sexual-reproduction-in-flowering-plants"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:57",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers"
+   ],
+   "subtopics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers/square-roots"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:49",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/using-percentages/growth-and-compounding"
+   ]
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:3",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "subtopics": [
+    "mathematics-8/fractions-in-disguise/using-percentages/growth-and-compounding"
+   ]
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:78",
+   "batch": 3,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "subtopic"
+   ],
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ]
+  }
+ ]
+}

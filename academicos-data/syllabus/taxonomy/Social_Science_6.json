@@ -1,0 +1,681 @@
+{
+ "subject": "Social Science",
+ "grade": 6,
+ "book": "Exploring Society: India and Beyond",
+ "source_files": [
+  "chapters/fees1/fees101.pdf",
+  "chapters/fees1/fees102.pdf",
+  "chapters/fees1/fees103.pdf",
+  "chapters/fees1/fees104.pdf",
+  "chapters/fees1/fees105.pdf",
+  "chapters/fees1/fees106.pdf",
+  "chapters/fees1/fees107.pdf",
+  "chapters/fees1/fees108.pdf",
+  "chapters/fees1/fees109.pdf",
+  "chapters/fees1/fees110.pdf",
+  "chapters/fees1/fees111.pdf",
+  "chapters/fees1/fees112.pdf",
+  "chapters/fees1/fees113.pdf",
+  "chapters/fees1/fees114.pdf"
+ ],
+ "chapters": [
+  {
+   "id": "social-science-6/locating-places-on-the-earth",
+   "name": "Locating Places on the Earth",
+   "number": 1,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees101.pdf",
+   "pages": [
+    7,
+    26
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/locating-places-on-the-earth/a-map-and-its-components",
+     "name": "A Map and Its Components",
+     "page": 9,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/locating-places-on-the-earth/mapping-the-earth",
+     "name": "Mapping the Earth",
+     "page": 12,
+     "subtopics": [
+      {
+       "id": "social-science-6/locating-places-on-the-earth/mapping-the-earth/understanding-coordinates",
+       "name": "Understanding coordinates",
+       "page": 13
+      },
+      {
+       "id": "social-science-6/locating-places-on-the-earth/mapping-the-earth/latitudes",
+       "name": "Latitudes",
+       "page": 14
+      },
+      {
+       "id": "social-science-6/locating-places-on-the-earth/mapping-the-earth/longitudes",
+       "name": "Longitudes",
+       "page": 15
+      }
+     ]
+    },
+    {
+     "id": "social-science-6/locating-places-on-the-earth/understanding-time-zones",
+     "name": "Understanding Time Zones",
+     "page": 20,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/oceans-and-continents",
+   "name": "Oceans and Continents",
+   "number": 2,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees102.pdf",
+   "pages": [
+    1,
+    14
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/oceans-and-continents/the-distribution-of-water-and-land-on-the-earth",
+     "name": "The Distribution of Water and Land on the Earth",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/oceans-and-continents/oceans",
+     "name": "Oceans",
+     "page": 5,
+     "subtopics": [
+      {
+       "id": "social-science-6/oceans-and-continents/oceans/oceans-and-disasters",
+       "name": "Oceans and disasters",
+       "page": 7
+      }
+     ]
+    },
+    {
+     "id": "social-science-6/oceans-and-continents/continents",
+     "name": "Continents",
+     "page": 8,
+     "subtopics": [
+      {
+       "id": "social-science-6/oceans-and-continents/continents/islands",
+       "name": "Islands",
+       "page": 10
+      }
+     ]
+    },
+    {
+     "id": "social-science-6/oceans-and-continents/oceans-and-life",
+     "name": "Oceans and Life",
+     "page": 11,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/landforms-and-life",
+   "name": "Landforms and Life",
+   "number": 3,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees103.pdf",
+   "pages": [
+    1,
+    18
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/landforms-and-life/introduction",
+     "name": "Introduction",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/landforms-and-life/mountains",
+     "name": "Mountains",
+     "page": 2,
+     "subtopics": [
+      {
+       "id": "social-science-6/landforms-and-life/mountains/mountain-environment",
+       "name": "Mountain environment",
+       "page": 6
+      },
+      {
+       "id": "social-science-6/landforms-and-life/mountains/life-in-the-mountains",
+       "name": "Life in the mountains",
+       "page": 8
+      }
+     ]
+    },
+    {
+     "id": "social-science-6/landforms-and-life/plateaus",
+     "name": "Plateaus",
+     "page": 11,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/landforms-and-life/plains",
+     "name": "Plains",
+     "page": 13,
+     "subtopics": [
+      {
+       "id": "social-science-6/landforms-and-life/plains/life-in-the-plains",
+       "name": "Life in the plains",
+       "page": 14
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/timeline-and-sources-of-history",
+   "name": "Timeline and Sources of History",
+   "number": 4,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees104.pdf",
+   "pages": [
+    1,
+    16
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/timeline-and-sources-of-history/how-do-we-learn-about-the-past",
+     "name": "How Do We Learn About the Past?",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/timeline-and-sources-of-history/how-is-time-measured-in-history",
+     "name": "How Is Time Measured in History?",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/timeline-and-sources-of-history/what-are-the-sources-of-history",
+     "name": "What Are the Sources of History?",
+     "page": 8,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/timeline-and-sources-of-history/the-beginnings-of-human-history",
+     "name": "The Beginnings of Human History",
+     "page": 12,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/timeline-and-sources-of-history/the-first-crops",
+     "name": "The First Crops",
+     "page": 13,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/india-that-is-bharat",
+   "name": "India, That Is Bharat",
+   "number": 5,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees105.pdf",
+   "pages": [
+    1,
+    10
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/india-that-is-bharat/how-indians-named-india",
+     "name": "How Indians Named India",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/india-that-is-bharat/how-foreigners-named-india",
+     "name": "How Foreigners Named India",
+     "page": 7,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/the-beginnings-of-indian-civilisation",
+   "name": "The Beginnings of Indian Civilisation",
+   "number": 6,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees106.pdf",
+   "pages": [
+    1,
+    20
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/the-beginnings-of-indian-civilisation/what-is-a-civilisation",
+     "name": "What Is a Civilisation?",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/the-beginnings-of-indian-civilisation/from-village-to-city",
+     "name": "From Village to City",
+     "page": 4,
+     "subtopics": [
+      {
+       "id": "social-science-6/the-beginnings-of-indian-civilisation/from-village-to-city/the-sarasvati-river",
+       "name": "The Sarasvatī River",
+       "page": 6
+      }
+     ]
+    },
+    {
+     "id": "social-science-6/the-beginnings-of-indian-civilisation/town-planning",
+     "name": "Town-Planning",
+     "page": 6,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/the-beginnings-of-indian-civilisation/water-management",
+     "name": "Water Management",
+     "page": 10,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/the-beginnings-of-indian-civilisation/what-did-the-harappans-eat",
+     "name": "What Did the Harappans Eat?",
+     "page": 12,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/the-beginnings-of-indian-civilisation/a-brisk-trade",
+     "name": "A Brisk Trade",
+     "page": 13,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/the-beginnings-of-indian-civilisation/the-end-or-a-new-beginning",
+     "name": "The End or a New Beginning?",
+     "page": 18,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/india-s-cultural-roots",
+   "name": "India’s Cultural Roots",
+   "number": 7,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees107.pdf",
+   "pages": [
+    1,
+    20
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/india-s-cultural-roots/the-vedas-and-vedic-culture",
+     "name": "The Vedas and Vedic Culture",
+     "page": 2,
+     "subtopics": [
+      {
+       "id": "social-science-6/india-s-cultural-roots/the-vedas-and-vedic-culture/what-are-the-vedas",
+       "name": "What are the Vedas?",
+       "page": 2
+      },
+      {
+       "id": "social-science-6/india-s-cultural-roots/the-vedas-and-vedic-culture/vedic-society",
+       "name": "Vedic society",
+       "page": 4
+      },
+      {
+       "id": "social-science-6/india-s-cultural-roots/the-vedas-and-vedic-culture/vedic-schools-of-thought",
+       "name": "Vedic schools of thought",
+       "page": 5
+      },
+      {
+       "id": "social-science-6/india-s-cultural-roots/the-vedas-and-vedic-culture/buddhism",
+       "name": "Buddhism",
+       "page": 6
+      },
+      {
+       "id": "social-science-6/india-s-cultural-roots/the-vedas-and-vedic-culture/shvetaketu-and-the-seed-of-reality",
+       "name": "Śhvetaketu and the seed of reality",
+       "page": 7
+      },
+      {
+       "id": "social-science-6/india-s-cultural-roots/the-vedas-and-vedic-culture/nachiketa-and-his-quest",
+       "name": "Nachiketa and his quest",
+       "page": 7
+      },
+      {
+       "id": "social-science-6/india-s-cultural-roots/the-vedas-and-vedic-culture/the-debate-of-gargi-and-yajnavalkya",
+       "name": "The debate of Gārgī and Yājñavalkya",
+       "page": 8
+      },
+      {
+       "id": "social-science-6/india-s-cultural-roots/the-vedas-and-vedic-culture/jainism",
+       "name": "Jainism",
+       "page": 11
+      },
+      {
+       "id": "social-science-6/india-s-cultural-roots/the-vedas-and-vedic-culture/a-jain-story",
+       "name": "A Jain story",
+       "page": 13
+      }
+     ]
+    },
+    {
+     "id": "social-science-6/india-s-cultural-roots/folk-and-tribal-roots",
+     "name": "Folk and Tribal Roots",
+     "page": 16,
+     "subtopics": [
+      {
+       "id": "social-science-6/india-s-cultural-roots/folk-and-tribal-roots/what-is-a-tribe",
+       "name": "What is a tribe?",
+       "page": 16
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/unity-in-diversity-or-many-in-the-one",
+   "name": "Unity in Diversity, or ‘Many in the One’",
+   "number": 8,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees108.pdf",
+   "pages": [
+    1,
+    12
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/unity-in-diversity-or-many-in-the-one/a-rich-diversity",
+     "name": "A Rich Diversity",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/unity-in-diversity-or-many-in-the-one/food-for-all",
+     "name": "Food for All",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/unity-in-diversity-or-many-in-the-one/textiles-and-clothing",
+     "name": "Textiles and Clothing",
+     "page": 4,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/unity-in-diversity-or-many-in-the-one/festivals-galore",
+     "name": "Festivals Galore",
+     "page": 7,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/unity-in-diversity-or-many-in-the-one/an-epic-spread",
+     "name": "An Epic Spread",
+     "page": 9,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/family-and-community",
+   "name": "Family and Community",
+   "number": 9,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees109.pdf",
+   "pages": [
+    1,
+    12
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/family-and-community/family",
+     "name": "Family",
+     "page": 1,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/family-and-community/roles-and-responsibilities",
+     "name": "Roles and Responsibilities",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/family-and-community/community",
+     "name": "Community",
+     "page": 7,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/grassroots-democracy-part-1-governance",
+   "name": "Grassroots Democracy – Part 1: Governance",
+   "number": 10,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees110.pdf",
+   "pages": [
+    1,
+    14
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/grassroots-democracy-part-1-governance/introduction",
+     "name": "Introduction",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/grassroots-democracy-part-1-governance/three-organs-of-government",
+     "name": "Three Organs of Government",
+     "page": 5,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/grassroots-democracy-part-1-governance/three-levels-of-government",
+     "name": "Three Levels of Government",
+     "page": 7,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/grassroots-democracy-part-1-governance/dr-a-p-j-abdul-kalam",
+     "name": "Dr. A.P.J. Abdul Kalam",
+     "page": 10,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/grassroots-democracy-part-1-governance/democracy",
+     "name": "Democracy",
+     "page": 11,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/grassroots-democracy-part-2-local-government-in-rural-areas",
+   "name": "Grassroots Democracy – Part 2: Local Government in Rural Areas",
+   "number": 11,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees111.pdf",
+   "pages": [
+    1,
+    10
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/grassroots-democracy-part-2-local-government-in-rural-areas/panchayati-raj-system",
+     "name": "Panchayati Raj System",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/grassroots-democracy-part-2-local-government-in-rural-areas/gram-panchayat",
+     "name": "Gram Panchayat",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/grassroots-democracy-part-2-local-government-in-rural-areas/exemplary-sarpanchs",
+     "name": "Exemplary Sarpanchs",
+     "page": 4,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/grassroots-democracy-part-2-local-government-in-rural-areas/child-friendly-panchayat-initiative",
+     "name": "Child-Friendly Panchayat Initiative",
+     "page": 5,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/grassroots-democracy-part-2-local-government-in-rural-areas/panchayat-samiti-and-zila-parishad",
+     "name": "Panchayat Samiti and Zila Parishad",
+     "page": 7,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/grassroots-democracy-part-3-local-government-in-urban-areas",
+   "name": "Grassroots Democracy – Part 3: Local Government in Urban Areas",
+   "number": 12,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees112.pdf",
+   "pages": [
+    1,
+    10
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/grassroots-democracy-part-3-local-government-in-urban-areas/introduction",
+     "name": "Introduction",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/grassroots-democracy-part-3-local-government-in-urban-areas/urban-local-bodies",
+     "name": "Urban Local Bodies",
+     "page": 3,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/the-value-of-work",
+   "name": "The Value of Work",
+   "number": 13,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees113.pdf",
+   "pages": [
+    1,
+    12
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/the-value-of-work/types-of-economic-activities",
+     "name": "Types of Economic Activities",
+     "page": 6,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/the-value-of-work/the-importance-of-non-economic-activities",
+     "name": "The Importance of Non-Economic Activities",
+     "page": 9,
+     "subtopics": [
+      {
+       "id": "social-science-6/the-value-of-work/the-importance-of-non-economic-activities/seva-selfless-service",
+       "name": "Sevā: selfless service",
+       "page": 9
+      },
+      {
+       "id": "social-science-6/the-value-of-work/the-importance-of-non-economic-activities/the-strength-of-community-participation",
+       "name": "The strength of community participation",
+       "page": 10
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-6/economic-activities-around-us",
+   "name": "Economic Activities Around Us",
+   "number": 14,
+   "book": "Exploring Society: India and Beyond",
+   "source_file": "chapters/fees1/fees114.pdf",
+   "pages": [
+    1,
+    14
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-6/economic-activities-around-us/introduction",
+     "name": "Introduction",
+     "page": 1,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-6/economic-activities-around-us/the-classification-of-economic-activities-into-economic-sect",
+     "name": "The Classification of Economic Activities into Economic Sectors",
+     "page": 2,
+     "subtopics": [
+      {
+       "id": "social-science-6/economic-activities-around-us/the-classification-of-economic-activities-into-economic-sect/primary-activities",
+       "name": "Primary activities",
+       "page": 2
+      },
+      {
+       "id": "social-science-6/economic-activities-around-us/the-classification-of-economic-activities-into-economic-sect/secondary-activities",
+       "name": "Secondary activities",
+       "page": 5
+      },
+      {
+       "id": "social-science-6/economic-activities-around-us/the-classification-of-economic-activities-into-economic-sect/tertiary-activities",
+       "name": "Tertiary activities",
+       "page": 7
+      }
+     ]
+    },
+    {
+     "id": "social-science-6/economic-activities-around-us/interdependence-among-sectors",
+     "name": "Interdependence Among Sectors",
+     "page": 8,
+     "subtopics": [
+      {
+       "id": "social-science-6/economic-activities-around-us/interdependence-among-sectors/dairy-cooperative-from-farm-to-plate",
+       "name": "Dairy cooperative: from farm to plate",
+       "page": 8
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

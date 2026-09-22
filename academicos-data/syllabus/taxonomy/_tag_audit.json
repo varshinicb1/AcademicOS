@@ -1,0 +1,584 @@
+{
+ "notice": "Held-out audit of the subtopic tags written onto the Exemplar and CBE banks by the committed tagger model. Labelled by an AI reviewer (Claude), NOT by a teacher. Not used to fit or threshold anything: _tag_gold.json is; this checks the result.",
+ "sample": "random.Random(7035).sample of 30 over the 228 records carrying subtopicIds after the Task 703 review fix (Exemplar 212, CBE 16), excluding every _tag_gold.json item, sorted by id.",
+ "semantics": "chapters/topics: the tagger's accepted ones, checked right by the reviewer; subtopics: every subtopic of that topic a reviewer would accept, empty = none fits (the question is about the topic as a whole); right: the written subtopicIds are all among them.",
+ "measured": {
+  "right": 28,
+  "tags": 30
+ },
+ "items": [
+  {
+   "id": "exemplar:q:8:science:9:-:18",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 8,
+   "chapters": [
+    "science-8/our-home-earth-a-unique-life-sustaining-planet"
+   ],
+   "topics": [
+    "science-8/our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing"
+   ],
+   "subtopics": [
+    "science-8/our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing/sexual-reproduction"
+   ],
+   "taggedAs": [
+    "science-8/our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing/sexual-reproduction"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:11",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/coordination-in-plants"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+   ],
+   "taggedAs": [
+    "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+   ],
+   "right": true,
+   "note": "plant hormones (abscisic acid) are described within Movement Due to Growth"
+  },
+  {
+   "id": "exemplar:q:10:science:9:-:22",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/heredity"
+   ],
+   "topics": [
+    "science-10/heredity/heredity"
+   ],
+   "subtopics": [
+    "science-10/heredity/heredity/rules-for-the-inheritance-of-traits-mendel-s-contributions"
+   ],
+   "taggedAs": [
+    "science-10/heredity/heredity/rules-for-the-inheritance-of-traits-mendel-s-contributions"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:1:-:7",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/chemical-reactions-and-equations"
+   ],
+   "topics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions"
+   ],
+   "subtopics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions/double-displacement-reaction"
+   ],
+   "taggedAs": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions/double-displacement-reaction"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:10",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/coordination-in-plants"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+   ],
+   "taggedAs": [
+    "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:19",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/coordination-in-plants"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+   ],
+   "taggedAs": [
+    "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:28",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction/sexual-reproduction-in-flowering-plants"
+   ],
+   "taggedAs": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction/sexual-reproduction-in-flowering-plants"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:50",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ],
+   "taggedAs": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:55",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction/reproduction-in-human-beings"
+   ],
+   "taggedAs": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction/reproduction-in-human-beings"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:12",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/coordination-in-plants"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+   ],
+   "taggedAs": [
+    "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:54",
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers"
+   ],
+   "subtopics": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers/cube-roots"
+   ],
+   "taggedAs": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers/cube-roots"
+   ],
+   "right": true
+  },
+  {
+   "id": "cbe:q:Maths10SK7",
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapters": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables"
+   ],
+   "topics": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations"
+   ],
+   "subtopics": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations/substitution-method",
+    "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations/elimination-method"
+   ],
+   "taggedAs": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations/substitution-method"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:47",
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "topics": [
+    "mathematics-6/symmetry/line-of-symmetry"
+   ],
+   "subtopics": [
+    "mathematics-6/symmetry/line-of-symmetry/figures-with-more-than-one-line-of-symmetry"
+   ],
+   "taggedAs": [
+    "mathematics-6/symmetry/line-of-symmetry/figures-with-more-than-one-line-of-symmetry"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:3:-:29",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/metals-and-non-metals"
+   ],
+   "topics": [
+    "science-10/metals-and-non-metals/how-do-metals-and-non-metals-react"
+   ],
+   "subtopics": [
+    "science-10/metals-and-non-metals/how-do-metals-and-non-metals-react/properties-of-ionic-compounds"
+   ],
+   "taggedAs": [
+    "science-10/metals-and-non-metals/how-do-metals-and-non-metals-react/properties-of-ionic-compounds"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:6",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ],
+   "taggedAs": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:97",
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers"
+   ],
+   "subtopics": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers/cube-roots"
+   ],
+   "taggedAs": [
+    "mathematics-8/a-square-and-a-cube/cubic-numbers/cube-roots"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:7:mathematics:3:-:69",
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "chapters": [
+    "mathematics-7/connecting-the-dots"
+   ],
+   "topics": [
+    "mathematics-7/connecting-the-dots/data-detective"
+   ],
+   "subtopics": [
+    "mathematics-7/connecting-the-dots/data-detective/telling-tall-tales"
+   ],
+   "taggedAs": [
+    "mathematics-7/connecting-the-dots/data-detective/telling-tall-tales"
+   ],
+   "right": true,
+   "note": "heights, range and median are the Telling Tall Tales section (its text: height 46x, median 10x)"
+  },
+  {
+   "id": "exemplar:q:10:science:9:-:7",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/heredity"
+   ],
+   "topics": [
+    "science-10/heredity/heredity"
+   ],
+   "subtopics": [
+    "science-10/heredity/heredity/sex-determination"
+   ],
+   "taggedAs": [
+    "science-10/heredity/heredity/sex-determination"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:31",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/eco-system-what-are-its-components"
+   ],
+   "subtopics": [
+    "science-10/our-environment/eco-system-what-are-its-components/food-chains-and-webs"
+   ],
+   "taggedAs": [
+    "science-10/our-environment/eco-system-what-are-its-components/food-chains-and-webs"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:science:2:-:6",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "chapters": [
+    "science-6/mindful-eating-a-path-to-a-healthy-body"
+   ],
+   "topics": [
+    "science-6/mindful-eating-a-path-to-a-healthy-body/how-to-test-different-components-of-food"
+   ],
+   "subtopics": [
+    "science-6/mindful-eating-a-path-to-a-healthy-body/how-to-test-different-components-of-food/test-for-proteins"
+   ],
+   "taggedAs": [
+    "science-6/mindful-eating-a-path-to-a-healthy-body/how-to-test-different-components-of-food/test-for-proteins"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:13",
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "chapters": [
+    "mathematics-6/the-other-side-of-zero"
+   ],
+   "topics": [
+    "mathematics-6/the-other-side-of-zero/explorations-with-integers"
+   ],
+   "subtopics": [],
+   "taggedAs": [
+    "mathematics-6/the-other-side-of-zero/explorations-with-integers/an-amazing-grid-of-numbers"
+   ],
+   "right": false,
+   "note": "additive inverse is taught in neither integer-grid subtopic; the tagger picked 'An amazing grid of numbers!'"
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:8",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/fragmentation"
+   ],
+   "taggedAs": [
+    "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/fragmentation"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:22",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/excretion"
+   ],
+   "subtopics": [
+    "science-10/life-processes/excretion/excretion-in-human-beings"
+   ],
+   "taggedAs": [
+    "science-10/life-processes/excretion/excretion-in-human-beings"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:2",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/heterotrophic-nutrition"
+   ],
+   "taggedAs": [
+    "science-10/life-processes/nutrition/heterotrophic-nutrition"
+   ],
+   "right": true
+  },
+  {
+   "id": "cbe:q:Science10GK4",
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/light-reflection-and-refraction"
+   ],
+   "topics": [
+    "science-10/light-reflection-and-refraction/refraction-of-light"
+   ],
+   "subtopics": [
+    "science-10/light-reflection-and-refraction/refraction-of-light/the-refractive-index"
+   ],
+   "taggedAs": [
+    "science-10/light-reflection-and-refraction/refraction-of-light/image-formation-in-lenses-using-ray-diagrams"
+   ],
+   "right": false,
+   "note": "refraction at a water surface and why (speed of light): The Refractive Index, not lens ray diagrams (the tagger's pick)"
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:74",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "subtopics": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ],
+   "taggedAs": [
+    "science-10/life-processes/nutrition/nutrition-in-human-beings"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:18",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/coordination-in-plants"
+   ],
+   "subtopics": [
+    "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+   ],
+   "taggedAs": [
+    "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:9:-:26",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/heredity"
+   ],
+   "topics": [
+    "science-10/heredity/heredity"
+   ],
+   "subtopics": [
+    "science-10/heredity/heredity/sex-determination"
+   ],
+   "taggedAs": [
+    "science-10/heredity/heredity/sex-determination"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:6:-:46",
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "chapters": [
+    "mathematics-8/exploring-some-geometric-themes"
+   ],
+   "topics": [
+    "mathematics-8/exploring-some-geometric-themes/visualising-solids"
+   ],
+   "subtopics": [
+    "mathematics-8/exploring-some-geometric-themes/visualising-solids/making-solids"
+   ],
+   "taggedAs": [
+    "mathematics-8/exploring-some-geometric-themes/visualising-solids/making-solids"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:46",
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "chapters": [
+    "science-10/how-do-organisms-reproduce"
+   ],
+   "topics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction"
+   ],
+   "subtopics": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction/reproduction-in-human-beings"
+   ],
+   "taggedAs": [
+    "science-10/how-do-organisms-reproduce/sexual-reproduction/reproduction-in-human-beings"
+   ],
+   "right": true
+  }
+ ]
+}

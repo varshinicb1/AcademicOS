@@ -155,7 +155,9 @@ class AnswerSchemeSchema(Camel):
     # Which official scheme this came from, if any. Without this a consumer
     # cannot tell an official CBSE value-point scheme from an empty
     # placeholder, and two thirds of the bank is the latter.
-    provenance: str = "none"          # "none" | "cbse_marking_scheme" | "teacher"
+    # "ncert_exemplar_answer": NCERT's own answer from an Exemplar book's
+    # answers file -- official, but not a CBSE value-point marking scheme.
+    provenance: str = "none"          # "none" | "cbse_marking_scheme" | "ncert_exemplar_answer" | "teacher"
     source_paper_code: str = ""        # e.g. "31/1/1"
     source_document_id: str = ""
 
@@ -248,6 +250,17 @@ class QuestionSchema(Camel):
     review_state: ReviewState = "published"
     # Set instead of deleting when a curriculum revision retires a question.
     superseded_by: Optional[str] = None
+
+    # -- taxonomy tags (academicos.syllabus.tagger) --------------------------
+    # Ids from academicos-data/syllabus/taxonomy (the NCERT textbook headings,
+    # classes 6-10). Written only where the tagger's confidence clears the
+    # gold-set threshold; below it they stay empty and the question is in
+    # taxonomy/review_queue.json. Optional: most banks do not carry them yet.
+    taxonomy_chapter_id: Optional[str] = None
+    topic_ids: list[str] = Field(default_factory=list)
+    subtopic_ids: list[str] = Field(default_factory=list)
+    tag_confidence: dict[str, Optional[float]] = Field(default_factory=dict)
+    tag_method: Optional[str] = None
 
 
 class QuestionSearchParams(Camel):

@@ -1,0 +1,166 @@
+{
+ "subject": "Hindi",
+ "grade": 9,
+ "book": "Ganga",
+ "source_files": [
+  "hindi/class9_ganga.pdf"
+ ],
+ "chapters": [
+  {
+   "id": "hindi-9/दो-बैलों-की-कथा",
+   "name": "दो बैलों की कथा",
+   "number": 1,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 3,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/क्-या-लिखूँ",
+   "name": "क् या लिखूँ?",
+   "number": 2,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 30,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/संवा-दहीन",
+   "name": "संवा दहीन",
+   "number": 3,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 45,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/ऐसी-भी-बातें-होत-ी-हैं-लता-मंगेशकर-से-सा-क्षात्-का-र-यतीं-द्",
+   "name": "ऐसी भी बातें होत ी हैं (लता मंगेशकर से सा क्षात् का र) यतीं द्र मिश्र",
+   "number": 4,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 62,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/आखिरी-चट्टा-न-त-क",
+   "name": "आखिरी चट्टा न त क",
+   "number": 5,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 84,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/रीढ़-की-हड्-डी",
+   "name": "रीढ़ की हड्‌डी",
+   "number": 6,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 100,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/मैं-और-मेरा-देश",
+   "name": "मैं और मेरा देश",
+   "number": 7,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 120,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/निर्मल-जीत-सिं-ह-सेखों-साथ-साथ-पढ़ें",
+   "name": "निर्मल जीत सिं ह सेखों (साथ -साथ पढ़ें)",
+   "number": 8,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 139,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/पद",
+   "name": "पद",
+   "number": 9,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 145,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/रा-म-लक्षम-ण-परशुरा-म-संवा-द",
+   "name": "रा म-लक्षम ण-परशुरा म संवा द",
+   "number": 10,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 153,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/भा-रति-जय-विजयकरे",
+   "name": "भा रति, जय, विजयकरे!",
+   "number": 11,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 166,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/झाँ-सी-की-रा-नी",
+   "name": "झाँ सी की रा नी",
+   "number": 12,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 176,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/घर-की-या-द",
+   "name": "घर की या द",
+   "number": 13,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 194,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hindi-9/तब-याद-तुम्हारी-आती-है-साथ-साथ-पढ़ें",
+   "name": "तब याद तुम्हारी आती है (साथ -साथ पढ़ें)",
+   "number": 14,
+   "book": "Ganga",
+   "source_file": "hindi/class9_ganga.pdf",
+   "printedPage": 206,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  }
+ ],
+ "note": "Chapter level only: the chapters are lessons and poems, which carry no section headings to make topics of.",
+ "nameWarning": "Names are the PDF text layer's, which drops or displaces Devanagari conjuncts and matras (e.g. the contents' author column reads 'प्ेमचंद'); check a name against the printed page before showing it to a student."
+}
