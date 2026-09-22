@@ -440,6 +440,8 @@ class PaperBuilderApi {
   final Dio _dio;
   PaperBuilderApi(this._dio);
 
+  // Paths with an id are written out in full, not via _base(): the
+  // frontend/backend contract test reads each call's literal path.
   String _base(String schoolId) => '/schools/${Uri.encodeComponent(schoolId)}/teacher-templates';
 
   Future<TemplateLists> listTemplates(String schoolId, {required int grade, required String subject}) async {
@@ -453,12 +455,12 @@ class PaperBuilderApi {
   }
 
   Future<PaperTemplateView> updateTemplate(String schoolId, PaperTemplateView t) async {
-    final r = await _dio.put('${_base(schoolId)}/${Uri.encodeComponent(t.id)}', data: t.toDraftJson());
+    final r = await _dio.put('/schools/${Uri.encodeComponent(schoolId)}/teacher-templates/${Uri.encodeComponent(t.id)}', data: t.toDraftJson());
     return PaperTemplateView.fromJson(Map<String, dynamic>.from(r.data as Map));
   }
 
   Future<PaperTemplateView> duplicateTemplate(String schoolId, String templateId, {String? name}) async {
-    final r = await _dio.post('${_base(schoolId)}/${Uri.encodeComponent(templateId)}/duplicate',
+    final r = await _dio.post('/schools/${Uri.encodeComponent(schoolId)}/teacher-templates/${Uri.encodeComponent(templateId)}/duplicate',
         data: {if (name != null) 'name': name});
     return PaperTemplateView.fromJson(Map<String, dynamic>.from(r.data as Map));
   }
@@ -471,7 +473,7 @@ class PaperBuilderApi {
 
   Future<AvailabilityView> availability(String schoolId, String templateId,
       {required List<String> chapterIds, bool fillFromOutsideScope = false}) async {
-    final r = await _dio.post('${_base(schoolId)}/${Uri.encodeComponent(templateId)}/availability', data: {
+    final r = await _dio.post('/schools/${Uri.encodeComponent(schoolId)}/teacher-templates/${Uri.encodeComponent(templateId)}/availability', data: {
       'scope': {'chapterIds': chapterIds},
       'fillFromOutsideScope': fillFromOutsideScope,
     });
