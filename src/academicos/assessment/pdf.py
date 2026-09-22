@@ -65,6 +65,11 @@ _FONT_CANDIDATES = (
 )
 
 _OPTION_RE = re.compile(r"\(([A-Da-d])\)\s*")
+# The word before a label that names an option instead of starting one:
+# "Both (A) and (B)", "neither (a) nor (b)", "explanation of (A)",
+# "Assertion (A) is correct".
+_MENTION_BEFORE = re.compile(
+    r"\b(?:both|and|or|nor|either|neither|of|but|than|except|assertion|reason)\s*$", re.I)
 
 DEFAULT_INSTRUCTIONS = (
     "This question paper contains {n} questions. <b>All questions are compulsory.</b>",
@@ -218,32 +223,67 @@ def _build_styles(brand_color: str = "#000000") -> _Styles:
     )
 
 
+def _option_run(stem: str, matches: list[re.Match], first: int) -> list[re.Match] | None:
+    """The option labels from matches[first] (an A) to the end of the stem.
+
+    Each next label must be the next letter. A label already used is text when
+    it names an option -- a mention word before it, or it opens the option's
+    text ("(C) (A) is correct"). Anything else -- a gap, a label out of order,
+    a label repeated with nothing naming it -- means this is not an option list.
+    """
+    run = [matches[first]]
+    for m in matches[first + 1:]:
+        k = "ABCD".find(m.group(1).upper())
+        if k == len(run):
+            run.append(m)
+        elif k < len(run) and (_MENTION_BEFORE.search(stem, 0, m.start())
+                               or m.start() == run[-1].end()):
+            continue
+        else:
+            return None
+    return run if len(run) >= 2 else None
+
+
 def split_stem_and_options(stem: str) -> tuple[str, list[str]]:
     """Separate an MCQ stem from its (A)-(D) options so they can be laid out.
 
-    The labels must run exactly A, B, C[, D]. A label that repeats is text, not
-    an option: CBE Science numbers its sub-question "(a) Which conclusions are
-    correct? (A) ... (D)" (5 served items, e.g. cbe:q:Science10TM2) and SQP
-    assertion-reason items say "Assertion (A) and Reason (R) ... (A) ... (D)".
-    Taking every label printed the question itself as option (A) and shifted
-    each real option down a letter, silently. So on a repeat only the trailing
-    run from the last "A" is the option list; if that run is not A, B, C...
-    either, nothing is split and the stem prints verbatim.
+    The options are the longest run of labels A, B, C[, D] that reaches the end
+    of the stem, the first such run if two are as long. A label is printed in
+    three other places, and none of them is an option:
+
+    - before the options: CBE Science numbers its sub-question "(a) Which
+      conclusions are correct? (A) ... (D)" (5 served items, e.g.
+      cbe:q:Science10TM2) and assertion-reason items say "Assertion (A) and
+      Reason (R) ... (A) ... (D)". Taking every label printed the question as
+      option (A) and shifted each real option down a letter.
+    - inside an option, naming another one: "(D) Both (A) and (B)"
+      (cbse:q:src:e268efcf2e142b7e0591b8ed:2), "(d) neither (a) nor (b)", and
+      the assertion-reason options "(C) (A) is correct but (R) is not correct"
+      (cbse:sqp:ClassXII_2025_26:History:10). Taking the run from the last
+      "(A)" printed head "... (D) Both" and options ['and', '11-'].
+
+    A run that does not reach the end, or none at all, splits nothing and the
+    stem prints verbatim. Of the 4475 served stems, 3 split differently from
+    the trailing-run rule this replaced (measured at 1e3e30f), all three the
+    mention shape above.
     """
     matches = list(_OPTION_RE.finditer(stem))
-    labels = [m.group(1).upper() for m in matches]
-    if len(set(labels)) != len(labels):
-        last_a = len(labels) - 1 - labels[::-1].index("A") if "A" in labels else 0
-        matches, labels = matches[last_a:], labels[last_a:]
-    if len(matches) < 2 or labels != list("ABCD"[:len(labels)]):
-        return stem.strip(), []
-    head = stem[: matches[0].start()].strip()
-    options: list[str] = []
+    best: list[re.Match] | None = None
     for i, m in enumerate(matches):
-        end = matches[i + 1].start() if i + 1 < len(matches) else len(stem)
-        options.append(stem[m.end():end].strip(" .;"))
+        if m.group(1).upper() != "A":
+            continue
+        run = _option_run(stem, matches, i)
+        if run and (best is None or len(run) > len(best)):
+            best = run
+    if best is None:
+        return stem.strip(), []
+    head = stem[: best[0].start()].strip()
     if not head:
         return stem.strip(), []
+    options: list[str] = []
+    for i, m in enumerate(best):
+        end = best[i + 1].start() if i + 1 < len(best) else len(stem)
+        options.append(stem[m.end():end].strip(" .;"))
     return head, options
 
 

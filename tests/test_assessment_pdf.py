@@ -272,6 +272,72 @@ def test_a_three_option_item_still_grids():
     assert split_stem_and_options(stem)[1] == ["Gas", "liquid", "Solid"]
 
 
+def test_an_option_naming_earlier_options_is_one_option():
+    """'Both (A) and (B)' is option (D)'s text. Taking the trailing run from
+    the last (A) returned head '... (D) Both' and options ['and', '']."""
+    head, options = split_stem_and_options(
+        "Which are metals? (A) Iron (B) Copper (C) Sulphur (D) Both (A) and (B)")
+    assert head == "Which are metals?"
+    assert options == ["Iron", "Copper", "Sulphur", "Both (A) and (B)"]
+
+
+def test_neither_a_nor_b_is_one_option():
+    head, options = split_stem_and_options(
+        "Which statements are true? (a) only i (b) only ii (c) both (a) and (b) "
+        "(d) neither (a) nor (b)")
+    assert head == "Which statements are true?"
+    assert options == ["only i", "only ii", "both (a) and (b)", "neither (a) nor (b)"]
+
+
+# The served bank (compose() at 1e3e30f, 4475 rows) as it carries these stems.
+_E268_2 = (  # cbse:q:src:e268efcf2e142b7e0591b8ed:2, passage trimmed
+    "As time passed, ‘Vova Watch Company’ transformed from a struggling enterprise to "
+    "a profit making enterprise. Identify the leadership style of Ravi Kumar : "
+    "(A) Autocratic leadership style (B) Democratic leadership style "
+    "(C) Free-rein leadership style (D) Both (A) and (B) 11-")
+_HISTORY_XII_2025_10 = (  # cbse:sqp:ClassXII_2025_26:History:10, verbatim
+    "There are two statements marked as Assertion (A) and Reason (R). Read the statements "
+    "and choose the appropriate option. Assertion (A): Lingayats did not practice funerary "
+    "rites such as cremation, prescribed in the Dharmashastras. Reason (R): Lingayats "
+    "believe that on death the devotee will be united with Shiva and will not return to "
+    "this world. Options: A. Both (A) and (R) are correct and (R) is the correct "
+    "explanation of (A). B. Both (A) and (R) are correct and (R) is not the correct "
+    "explanation of (A). C. (A) is correct but (R) is not correct. D. (R) is correct but "
+    "(A) is not correct (A) Both (A) and (R) are correct and (R) is the correct "
+    "explanation of (A). (B) Both (A) and (R) are correct and (R) is not the correct "
+    "explanation of (A). (C) (A) is correct but (R) is not correct. (D) (R) is correct "
+    "but (A) is not correct")
+_BBD21_6 = (  # cbse:q:src:bbd21b0e42bac3cafc7a33a0:6, verbatim (its (c), (d) were lost upstream)
+    "Assertion (A) : Increase in the value of liabilities on reconstitution of a firm is "
+    "debited to Revaluation Account. Reason (R) : Increase in the value of liabilities is "
+    "a loss. 1 Select the correct alternative from the following : (a) Assertion (A) is "
+    "correct, but Reason (R) is wrong. (b) Assertion (A) is wrong, but Reason (R) is "
+    "correct.")
+_9081575F_7 = (  # cbse:q:src:9081575f9ac53e99a3ff660c:7, verbatim: "both" before a real label
+    "The number of chromosomes in a cell division is halved. This kind of cell division "
+    "is observed in : (A) Only testis (B) Only ovary (C) Ovary and testis both "
+    "(D) All cells of the body")
+
+
+@pytest.mark.parametrize("stem,options", [
+    (_E268_2, ["Autocratic leadership style", "Democratic leadership style",
+               "Free-rein leadership style", "Both (A) and (B) 11-"]),
+    (_HISTORY_XII_2025_10, [
+        "Both (A) and (R) are correct and (R) is the correct explanation of (A)",
+        "Both (A) and (R) are correct and (R) is not the correct explanation of (A)",
+        "(A) is correct but (R) is not correct",
+        "(R) is correct but (A) is not correct"]),
+    (_BBD21_6, ["Assertion (A) is correct, but Reason (R) is wrong",
+                "Assertion (A) is wrong, but Reason (R) is correct"]),
+    (_9081575F_7, ["Only testis", "Only ovary", "Ovary and testis both",
+                   "All cells of the body"]),
+], ids=["e268:2", "History-XII-2025-26:10", "bbd21:6", "9081575f:7"])
+def test_served_stems_whose_options_name_other_options_split_correctly(stem, options):
+    head, got = split_stem_and_options(stem)
+    assert got == options
+    assert head and stem.startswith(head)
+
+
 def test_a_delta_that_means_change_in_is_not_a_triangle():
     """pdf_safe runs on every subject; the geometry mapping printed an
     Economics 'Increase in Income (ΔY)' as 'triangle Y'."""
@@ -290,13 +356,18 @@ def test_a_geometry_triangle_is_still_a_triangle():
 def test_a_question_taller_than_a_page_exports(tmp_path):
     """Each question was one Table row, which cannot split: LayoutError, HTTP 500."""
     stem = "Explain in detail. " + ("This sentence is deliberately long. " * 900)
-    assert export_pdf(_paper_with(_gq(stem, "long_answer", 5)), tmp_path).exists()
+    text = _extract_text(export_pdf(_paper_with(_gq(stem, "long_answer", 5)), tmp_path))
+    # Every sentence, on whichever page it landed: a split that dropped the
+    # overflow would still export a file.
+    assert " ".join(text.split()).count("deliberately long") == 900
 
 
 def test_an_answer_taller_than_a_page_exports(tmp_path):
     paper = _paper_with(_gq("Explain photosynthesis fully.", "long_answer", 5),
                         answer="Value point. " * 3000)
-    assert export_answer_key_pdf(paper, tmp_path).exists()
+    text = _extract_text(export_answer_key_pdf(paper, tmp_path))
+    # >= rather than ==: a table header repeated on each page may add more.
+    assert " ".join(text.split()).count("Value point") >= 3000
 
 
 def test_subparts_of_a_descriptive_question_are_not_gridded_as_options(tmp_path):

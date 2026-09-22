@@ -415,3 +415,25 @@ def test_baked_in_question_bank_loads_when_parse_dir_empty(tmp_path):
     pool = build_pool(cfg, subject="Physics", grade="XII")
     assert len(pool.questions) >= 50
     assert any(q.subject == "Physics" for q in pool.questions)
+
+
+def test_generate_paper_copies_each_questions_type():
+    """The PDF grids options only for an objective type; an empty type is read
+    as a legacy paper and grids any (a)-(d). If generate_paper stopped copying
+    q.type, a descriptive question's sub-parts would print as options again."""
+    sec_a = _section("A", marks_per_question=1, question_count=2)
+    sec_b = _section("B", marks_per_question=4, question_count=1)
+    questions = [
+        _q("mcq_q", 1, ["ch1"], qtype="mcq"),
+        _q("ar_q", 1, ["ch1"], qtype="assertion_reason"),
+        _q("long_q", 4, ["ch2"], qtype="long_answer",
+           stem="Two brothers share money. (a) Find each share. (b) Explain."),
+    ]
+    paper = generate_paper(
+        paper_id="paper_types", assessment_id="asm_types",
+        assessment_title="Class X Science", subject="Science", grade=10,
+        blueprint=_blueprint(total_marks=6, sections=[sec_a, sec_b]),
+        selected_questions=questions,
+    )
+    types = {gq.question_id: gq.type for s in paper.sections for gq in s.questions}
+    assert types == {"mcq_q": "mcq", "ar_q": "assertion_reason", "long_q": "long_answer"}
