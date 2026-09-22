@@ -194,7 +194,11 @@ def schedule_book(
             held[d.isoformat()] -= 1
             continue
         slots.append(d)
-    kept_per_subtopic = Counter(l.subtopic_id for l in kept)
+    # A skipped lesson keeps its period (it happened: assembly, exam duty) but
+    # taught nothing, so it does not count toward its subtopic's estimate --
+    # otherwise a subtopic whose lessons were all skipped comes back "fully
+    # scheduled" with nothing left to teach (review of 2026-09-22).
+    kept_per_subtopic = Counter(l.subtopic_id for l in kept if l.status != "skipped")
 
     ordered: list[tuple[str, int]] = []   # (subtopic_id, periods still needed)
     without_estimate: list[str] = []

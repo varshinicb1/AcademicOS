@@ -269,10 +269,18 @@ def test_force_regenerate_keeps_completed_and_skipped_lessons(store):
     replanned = [l for l in after if l.id not in kept]
     assert replanned and all(l.status == "scheduled" for l in replanned)
     assert not {l.date for l in replanned} & {l.date for l in kept.values()}
-    # Each subtopic still gets exactly its estimated periods, counting the kept ones.
-    per_subtopic = Counter(l.subtopic_id for l in after)
+    # Each subtopic still gets exactly its estimated periods of teaching,
+    # counting the completed ones; a skipped lesson taught nothing, so its
+    # period is planned again.
+    per_subtopic = Counter(l.subtopic_id for l in after if l.status != "skipped")
+    # The estimates fill the year exactly, so the one skipped period leaves the
+    # plan one period short -- and the result says so rather than hiding it.
+    short = sum(store.teaching_time_estimate_for_subtopic(st, b.year).estimated_periods
+                - per_subtopic[st] for st in _all_subtopic_ids(store, b.book))
+    assert short == 1
+    assert not result.all_subtopics_scheduled and result.warning
     for st in _all_subtopic_ids(store, b.book):
-        assert per_subtopic[st] == store.teaching_time_estimate_for_subtopic(st, b.year).estimated_periods
+        assert per_subtopic[st] <= store.teaching_time_estimate_for_subtopic(st, b.year).estimated_periods
 
 
 def test_a_skip_late_in_the_year_does_not_throw_away_the_periods_before_it(store):
@@ -293,8 +301,10 @@ def test_a_skip_late_in_the_year_does_not_throw_away_the_periods_before_it(store
     result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
                                           book_id=b.book, periods_per_week=6, force=True)
 
-    assert result.all_subtopics_scheduled, result.warning
-    assert result.subtopics_unscheduled == () and result.subtopics_partially_scheduled == ()
+    # The skipped period taught nothing and the year has no spare period, so
+    # exactly one subtopic is one period short, and the warning says so.
+    assert not result.all_subtopics_scheduled and result.warning
+    assert result.subtopics_unscheduled == () and len(result.subtopics_partially_scheduled) == 1
     after = store.scheduled_lessons_for_book(b.year, b.book)
     assert store.get_scheduled_lesson(late.id).status == "skipped"
     replanned = [l for l in after if l.id != late.id]
@@ -303,9 +313,9 @@ def test_a_skip_late_in_the_year_does_not_throw_away_the_periods_before_it(store
     # (no timetable here, so each working day is one period).
     assert late.date not in {l.date for l in replanned}
     assert len({l.date for l in after}) == len(after)
-    per_subtopic = Counter(l.subtopic_id for l in after)
-    for st in _all_subtopic_ids(store, b.book):
-        assert per_subtopic[st] == store.teaching_time_estimate_for_subtopic(st, b.year).estimated_periods
+    per_subtopic = Counter(l.subtopic_id for l in after if l.status != "skipped")
+    assert sum(store.teaching_time_estimate_for_subtopic(st, b.year).estimated_periods
+               - per_subtopic[st] for st in _all_subtopic_ids(store, b.book)) == 1
 
 
 # --------------------------------------------------------------------- #
@@ -731,3 +741,28 @@ def test_a_first_plan_made_mid_year_reports_the_periods_left(store):
     assert result.all_subtopics_scheduled is False
     assert f"{len(left)} teaching periods left" in result.warning
     assert today in result.warning
+
+
+def test_a_subtopic_whose_lessons_were_all_skipped_is_planned_again(store):
+    """A skip ("assembly", "exam duty") means nothing was taught. Until the
+    review of 2026-09-22 a regenerate counted skipped lessons toward their
+    subtopic's estimate, so a subtopic with every lesson skipped came back
+    with no lesson left to teach and allSubtopicsScheduled=True."""
+    b = _seed(store, holidays=HOLIDAYS)
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                 book_id=b.book, periods_per_week=6)
+    lessons = store.scheduled_lessons_for_book(b.year, b.book)
+    first_st = lessons[0].subtopic_id
+    skipped = [l for l in lessons if l.subtopic_id == first_st]
+    for l in skipped:
+        store.mark_lesson(l.id, status="skipped", note="assembly", completed_by="t1")
+
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                 book_id=b.book, periods_per_week=6, force=True)
+
+    after = store.scheduled_lessons_for_book(b.year, b.book)
+    to_teach = [l for l in after if l.subtopic_id == first_st and l.status == "scheduled"]
+    assert len(to_teach) == len(skipped)
+    assert all(by.status == "skipped" for by in after if by.id in {l.id for l in skipped})
