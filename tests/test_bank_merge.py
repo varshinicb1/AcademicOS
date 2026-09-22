@@ -1797,3 +1797,118 @@ def test_a_stem_that_adds_or_drops_a_negation_is_a_different_question():
                          real_board("b23bc2e537566a04afbf4415:30", no, option=None,
                                     marks=2, qtype="short_answer")], [], [])
     assert len(result.questions) == 2
+
+
+# ---- NCERT Exemplar: a further source through the same gates (Task 11) --------
+
+EXEMPLAR_BANK = (Path(__file__).resolve().parents[1] / "academicos-data" / "corpus"
+                 / "ncert-exemplar" / "questions.json")
+
+
+def exemplar_mcq(**kw):
+    """The shape corpus/ncert_exemplar.py builds (the bank's first record):
+    one part holding the options as a list, NCERT's answer in the scheme."""
+    rid = "exemplar:q:6:mathematics:1:-:1"
+    answer = "(C) 400000"
+    rec = board(1, id=rid, questionBankId="ncert-exemplar:class6-mathematics/feep101.pdf",
+                subject="Mathematics", grade=6, type="mcq", marks=1,
+                source="ncert_exemplar", tags=["Number System"],
+                stem="The product of the place values of two 2’s in 428721 is")
+    rec["parts"] = [{"id": f"{rid}:p1", "partNumber": 1, "text": "", "textLatex": "",
+                     "marks": 1, "answerType": "singleChoice",
+                     "options": ["4", "40000", "400000", "40000000"],
+                     "correctOption": "c", "expectedAnswer": answer,
+                     "alternativeAnswers": []}]
+    rec["answerScheme"] = {"totalMarks": 1, "markingPoints": [
+        {"id": f"{rid}:mp1", "description": answer, "marks": 1, "keyword": "",
+         "isRequired": True, "synonyms": []}],
+        "rubricLevels": [], "commonErrors": [], "alternativeAnswers": [],
+        "modelAnswer": answer, "modelAnswerLatex": "", "hasPartialCredit": False,
+        "metadata": {"answerFile": "feep1an.pdf"}, "provenance": "ncert_exemplar_answer",
+        "sourcePaperCode": "", "sourceDocumentId": "feep1an.pdf"}
+    rec["metadata"] = {"sectionKind": "mcq_single", "correctOptions": ["c"]}
+    rec.update(kw)
+    return rec
+
+
+def exemplar_short(**kw):
+    rec = board(2, id="exemplar:q:9:science:1:-:40", source="ncert_exemplar",
+                subject="Science", grade=9, type="short_answer", marks=2,
+                stem="Why is ice at 273 K more effective in cooling than water at the same temperature?")
+    rec["answerScheme"] = {**rec["answerScheme"], "metadata": {},
+                           "modelAnswer": "Ice absorbs its latent heat of fusion as it melts.",
+                           "provenance": "ncert_exemplar_answer"}
+    rec.update(kw)
+    return rec
+
+
+def test_an_exemplar_mcq_is_served_inline_with_ncerts_own_key():
+    result = bm.compose([], [], [], exemplar=[exemplar_mcq()])
+    assert result.counts["exemplar"] == 1 and len(result.questions) == 1
+    out = result.questions[0]
+    assert out["parts"] == []
+    assert "(A) 4 (B) 40000 (C) 400000 (D) 40000000" in out["stem"]
+    scheme = out["answerScheme"]
+    assert scheme["metadata"]["correctOption"] == "C"
+    # NCERT's answer, never relabelled as a CBSE marking scheme.
+    assert scheme["provenance"] == "ncert_exemplar_answer"
+    assert bm.contract_errors(out) == []
+
+
+def test_an_exemplar_answer_is_an_answer_key():
+    """The served bank's one "has an answer key" rule reads content, so
+    NCERT's answer counts as one -- before the merge and after it."""
+    from academicos.assessment.qbank_routes import QuestionBank
+
+    result = bm.compose([], [], [], exemplar=[exemplar_mcq(), exemplar_short()])
+    assert result.counts["exemplar"] == 2
+    for rec in [exemplar_mcq(), exemplar_short(), *result.questions]:
+        assert QuestionBank.has_answer_key(rec)
+    assert {q["answerScheme"]["provenance"] for q in result.questions} == {"ncert_exemplar_answer"}
+
+
+def test_an_exemplar_record_goes_through_the_fidelity_gate():
+    figure = exemplar_short(id="exemplar:q:9:science:1:-:41",
+                            stem="Study the figure given below and name the process shown in it.")
+    no_answer = exemplar_short(id="exemplar:q:9:science:1:-:42")
+    no_answer["answerScheme"] = {**no_answer["answerScheme"], "modelAnswer": "",
+                                 "markingPoints": []}
+    result = bm.compose([], [], [], exemplar=[figure, no_answer])
+    assert result.questions == []
+    assert sorted(e["reason"] for e in result.excluded) == ["figure-referenced", "no-answer"]
+    assert all(e["source"] == "ncert_exemplar" for e in result.excluded)
+
+
+def test_an_exemplar_copy_of_a_cbse_question_is_a_duplicate():
+    """CBSE's own sources come first; an Exemplar item asking the same thing
+    is left out, not served twice."""
+    served = board(3, subject="Science", grade=9,
+                   stem="Why is ice at 273 K more effective in cooling than water at the same temperature?")
+    result = bm.compose([served], [], [], exemplar=[exemplar_short()])
+    assert result.counts == {"board": 1, "cbe": 0, "sqp": 0, "exemplar": 0}
+    assert [e["reason"] for e in result.excluded] == ["duplicate-stem"]
+
+
+def test_exemplar_mcq_options_with_a_fifth_choice_are_not_read_as_four():
+    rec = exemplar_mcq()
+    rec["parts"][0]["options"] = ["4", "40000", "400000", "40000000", "4000"]
+    result = bm.compose([], [], [], exemplar=[rec])
+    assert result.questions == []
+    assert [e["reason"] for e in result.excluded] == ["mcq-options-unresolved"]
+
+
+@pytest.mark.skipif(not EXEMPLAR_BANK.exists(), reason="Exemplar bank not built")
+def test_every_served_exemplar_mcq_keeps_ncerts_letter():
+    """Measured on the real bank: the letter the merge reads from NCERT's
+    answer text is the letter the builder parsed (metadata.correctOptions)."""
+    import json
+
+    rows = json.loads(EXEMPLAR_BANK.read_text(encoding="utf-8"))["questions"]
+    result = bm.compose([], [], [], exemplar=rows)
+    by_id = {r["id"]: r for r in rows}
+    mcqs = [q for q in result.questions if q["type"] == "mcq"]
+    assert mcqs, "no Exemplar MCQ served"
+    for q in mcqs:
+        want = [c.upper() for c in by_id[q["id"]]["metadata"]["correctOptions"]]
+        assert [q["answerScheme"]["metadata"]["correctOption"]] == want, q["id"]
+        assert q["answerScheme"]["provenance"] == "ncert_exemplar_answer"

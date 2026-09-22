@@ -1,4 +1,4 @@
-"""Compose the served question bank from board papers, CBE and SQP.
+"""Compose the served question bank from board papers, CBE, SQP and NCERT Exemplar.
 
 Run AFTER the builders, the chapter tagger and the relink:
 
@@ -34,6 +34,12 @@ relinked yet, and writing it would serve no board question at all.
 It refuses a source with no chapter tags. Re-running a builder discards the tags
 apply_chapter_tags.py wrote, and merging such a source ships class 6-9 with no
 chapter a paper blueprint can select on.
+
+The NCERT Exemplar bank (academicos-data/corpus/ncert-exemplar/questions.json,
+build_exemplar_bank.py) is read when it exists and gated like CBE and SQP
+(bank_merge.compose), after them, so a CBSE copy of a question wins. It is not
+held to the chapter-tag rule: its builder tags a chapter from the book's own
+chapter title, and apply_chapter_tags.py never writes it.
 
 Board records are gated like CBE and SQP ones (bank_merge.exclusion_reason),
 after the repairs that are certain (bank_merge.repair_board); --check prints
@@ -72,6 +78,8 @@ class Paths:
     cbe: Path
     sqp: Path
     excluded: Path
+    # The NCERT Exemplar bank; no file (or None) serves none.
+    exemplar: Path | None = None
     # Withheld board records, whole. Next to `excluded` unless named.
     held: Path | None = None
     # What --relink-in-memory reads: the answer-key index and the parse trees.
@@ -89,6 +97,7 @@ DEFAULT = Paths(
     cbe=REPO / "academicos-data" / "corpus" / "cbse-cbe" / "questions.json",
     sqp=REPO / "academicos-data" / "corpus" / "cbse-sqp" / "questions.json",
     excluded=REPO / "academicos-data" / "syllabus" / "_merge_excluded.json",
+    exemplar=REPO / "academicos-data" / "corpus" / "ncert-exemplar" / "questions.json",
     answer_keys=REPO / "academicos-data" / "answer_keys.db",
     parse_dir=REPO / "academicos-data" / "parse",
 )
@@ -164,6 +173,8 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
               "pass it with --check (scripts/enrich_question_bank.py relinks for real)")
         return 2
     served, cbe, sqp = _load(paths.served), _load(paths.cbe), _load(paths.sqp)
+    exemplar = (_load(paths.exemplar) if paths.exemplar and paths.exemplar.exists()
+                else {"questions": []})
     held = bank_merge.load_withheld(paths.withheld)
     if relink_in_memory:
         served, held = _relink_in_memory(served, held, paths)
@@ -183,7 +194,7 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
             return 2
 
     result = bank_merge.compose(served["questions"], cbe["questions"], sqp["questions"],
-                                held=held)
+                                held=held, exemplar=exemplar["questions"])
     names = _chapter_names(result.questions)
     questions = bank_merge.apply_chapter_names(result.questions, names)
     covered = sum(1 for q in questions if _has_official_scheme(q))
@@ -193,7 +204,7 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
     # script writes is rebuilt in a fixed order. (Carrying a previous run's
     # composedFrom/composedAt forward would move them ahead of "questions" on
     # the second run and change the bytes although nothing else had.)
-    composed_at = max(str(p.get("builtAt") or "") for p in (cbe, sqp)) or None
+    composed_at = max(str(p.get("builtAt") or "") for p in (cbe, sqp, exemplar)) or None
     written_here = ("questions", "exportedCount", "schemeCoverage", "composedFrom", "composedAt")
     payload = {k: v for k, v in served.items() if k not in written_here}
     payload.update({

@@ -184,6 +184,7 @@ from .mcq_shape import (
 )
 
 BOARD_SOURCE = "cbse_board_paper"
+EXEMPLAR_SOURCE = "ncert_exemplar"
 NO_VERIFIED_KEY = "no-verified-key"
 
 # The values each phone converter accepts (frontend/lib/domain/entities/enums.dart).
@@ -853,7 +854,28 @@ def _objective_scheme(rec: dict, options: dict[str, str], letter: str) -> dict:
         document_id=str(old.get("sourceDocumentId") or ""),
         options=options,
     )
-    return scheme.model_dump(mode="json", by_alias=True)
+    out = scheme.model_dump(mode="json", by_alias=True)
+    # The builder names every objective key a CBSE marking scheme. An NCERT
+    # Exemplar key is NCERT's answer from the book (ncert_exemplar_answer), and
+    # relabelled it would read as CBSE's own; every CBE and SQP scheme already
+    # says cbse_marking_scheme, so for them this changes nothing.
+    out["provenance"] = str(old.get("provenance") or out["provenance"])
+    return out
+
+
+def _listed_options(parts: list[dict]) -> dict[str, str] | None:
+    """{'A': '4', ...} from the one part an NCERT Exemplar MCQ carries, whose
+    `options` is a list (corpus/ncert_exemplar.py): 1,583 Exemplar MCQs, all
+    four-option. More than four is not read as A-D."""
+    if len(parts) != 1:
+        return None
+    options = parts[0].get("options")
+    if not isinstance(options, list) or not 2 <= len(options) <= len(LETTERS):
+        return None
+    texts = [str(o).strip() for o in options]
+    if not all(texts):
+        return None
+    return {"ABCD"[i]: t for i, t in enumerate(texts)}
 
 
 # --------------------------------------------------------------------------- #
@@ -1031,7 +1053,7 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
         r["stem"] = f"Read the passage below and answer the question that follows.\n\n{passage}\n\n{r['stem']}"
         meta["passageInline"] = True
 
-    in_parts = options_from_parts(r["parts"])
+    in_parts = options_from_parts(r["parts"]) or _listed_options(r["parts"])
     # With option parts, the parts are the options, and only an (A)-(D) stem is
     # held against them. Read in the other styles, the stem's labels are as
     # often a matching list's rows ("Match List I with List II ... a. Kan swar
@@ -1542,10 +1564,14 @@ def write_withheld(path: Path, records: list[dict]) -> None:
 
 
 def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
-            held: list[dict] = ()) -> ComposeResult:
+            held: list[dict] = (), exemplar: list[dict] = ()) -> ComposeResult:
     """Board records from `served` and then `held` (the withheld ones an
     earlier run kept, where `served` has no record of that id), then CBE,
-    then SQP.
+    then SQP, then NCERT Exemplar.
+
+    Exemplar records go through exactly the gates CBE and SQP records do; they
+    come last so that where an Exemplar item asks what a CBSE paper already
+    asks, the CBSE copy is the one served.
 
     Non-board rows already in `served` are ignored and rebuilt from their source
     files, so running the merge twice gives the same bank. A normalised record
@@ -1567,7 +1593,7 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
     seen_ids: set[str] = set()
     seen_stems: set[tuple] = set()
     near = _NearDuplicates()
-    counts = {"board": 0, "cbe": 0, "sqp": 0}
+    counts = {"board": 0, "cbe": 0, "sqp": 0, "exemplar": 0}
 
     board = [r for r in served if r.get("source") == BOARD_SOURCE]
     in_served = {r.get("id") for r in board}
@@ -1600,7 +1626,7 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
         for name in made:
             repairs[name] = repairs.get(name, 0) + 1
 
-    for label, rows in (("cbe", cbe), ("sqp", sqp)):
+    for label, rows in (("cbe", cbe), ("sqp", sqp), ("exemplar", exemplar)):
         runs_on = _runs_on(rows)
         for raw in rows:
             if raw.get("id") in seen_ids:

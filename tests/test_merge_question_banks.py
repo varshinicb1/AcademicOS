@@ -14,7 +14,7 @@ sys.path.insert(0, str(ROOT / "tests"))
 
 import merge_question_banks as mqb  # noqa: E402
 from academicos.assessment.question_bank import SCHEME_VERIFIER  # noqa: E402
-from test_bank_merge import board, cbe_mcq  # noqa: E402
+from test_bank_merge import board, cbe_mcq, exemplar_mcq, exemplar_short  # noqa: E402
 
 # What enrich_question_bank.py writes on a bank its relink verified. The merge
 # refuses a served bank without it (see the tests at the end).
@@ -78,7 +78,8 @@ def test_scheme_coverage_counts_carried_official_schemes(layout):
     mqb.run(layout, check=False)
     payload = json.loads(layout.served.read_text(encoding="utf-8"))
     assert payload["schemeCoverage"] == 1.0
-    assert payload["composedFrom"] == {"board": 1, "cbe": 1, "sqp": 0}
+    # No Exemplar file in this layout: the source counts none, and is not refused.
+    assert payload["composedFrom"] == {"board": 1, "cbe": 1, "sqp": 0, "exemplar": 0}
 
 
 def test_chapter_names_come_from_the_syllabus():
@@ -353,3 +354,29 @@ def test_relink_in_memory_is_refused_without_check(layout, monkeypatch, capsys):
     assert "--relink-in-memory" in capsys.readouterr().out
     assert layout.served.read_bytes() == before
     assert not layout.apk.exists()
+
+
+# ---- NCERT Exemplar, a further source (Task 11) ---------------------------------
+
+def test_the_exemplar_bank_is_merged_and_counted(layout, capsys):
+    layout.exemplar = layout.cbe.with_name("exemplar.json")
+    # The Exemplar builder tags its own chapters (from the book's chapter
+    # title) and writes no chapterTaggedAt; the merge does not refuse it.
+    _write(layout.exemplar, [exemplar_mcq(), exemplar_short()],
+           builtAt="2026-09-22T00:00:00+00:00")
+    assert mqb.run(layout, check=False) == 0
+    payload = json.loads(layout.served.read_text(encoding="utf-8"))
+    assert payload["composedFrom"] == {"board": 1, "cbe": 1, "sqp": 0, "exemplar": 2}
+    served = {q["id"]: q for q in payload["questions"]}
+    assert served[exemplar_mcq()["id"]]["answerScheme"]["provenance"] == "ncert_exemplar_answer"
+    assert layout.served.read_bytes() == layout.apk.read_bytes()
+    assert "'exemplar': 2" in capsys.readouterr().out
+
+
+def test_an_exemplar_exclusion_is_recorded(layout):
+    layout.exemplar = layout.cbe.with_name("exemplar.json")
+    _write(layout.exemplar, [exemplar_short(
+        stem="Study the figure given below and name the process shown in it.")])
+    assert mqb.run(layout, check=False) == 0
+    excluded = json.loads(layout.excluded.read_text(encoding="utf-8"))["excluded"]
+    assert [(e["source"], e["reason"]) for e in excluded] == [("ncert_exemplar", "figure-referenced")]
