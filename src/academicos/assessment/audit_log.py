@@ -466,6 +466,27 @@ class AuditLog:
                 (action, assessment_id, student_id)).fetchone()
         return row is not None
 
+    def sheet_entries(self, action: str, *, assessment_id: str,
+                      student_id: str) -> list[dict[str, Any]]:
+        """Every entry with this action for this sheet, remote and local.
+
+        Fails closed the same way has_entry() does: an unreadable remote table
+        raises rather than answering from the local file alone, because the
+        caller (finalize_sheet_review) decides from these entries whether a
+        sheet's mastery may be recorded."""
+        rows: list[dict[str, Any]] = []
+        if self._remote.enabled:
+            rows.extend(self._remote.select(action=action, assessment_id=assessment_id,
+                                            student_id=student_id))
+        with self._lock:
+            rows.extend(_row_to_dict(r) for r in self.conn.execute(
+                "SELECT * FROM audit_log WHERE action=? AND assessment_id=? "
+                "AND student_id=?", (action, assessment_id, student_id)))
+        for row in rows:
+            if isinstance(row.get("details"), str):
+                row["details"] = json.loads(row["details"] or "{}")
+        return rows
+
     def verify_chain(self) -> Optional[dict[str, Any]]:
         """Return the first broken link in the active backend's chain, or
         None if the chain is intact.

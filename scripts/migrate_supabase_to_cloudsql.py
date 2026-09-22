@@ -25,8 +25,24 @@ Reads (env):
     SUPABASE_KNOWLEDGE_URL, SUPABASE_KNOWLEDGE_ANON_KEY   -- source
     ACOS_POSTGRES_HOST/PORT/DB/USER/PASSWORD              -- destination
 
-Safe to re-run: every write is an upsert on the table's primary key, so a
-second run converges rather than duplicating.
+Safe to re-run. Every table except audit_log is upserted on its primary key,
+so a second run converges rather than duplicating.
+
+audit_log is different, because Cloud SQL enforces that it is append-only
+(deploy/gcp/schema.sql). Its rows are inserted, never upserted: an upsert of a
+row already there is an UPDATE, which the table's trigger refuses, so before
+2026-09-22 a second run printed FAILED for every audit row. A row whose id is
+already in Cloud SQL counts as "already migrated".
+
+The script also refuses to write audit_log into a Cloud SQL table that holds
+any row not in the source -- for example, entries the GCP service appended
+after it was pointed at Cloud SQL. Those rows carry their own seq/hash chain;
+migrated rows would collide with them on the unique seq index, and the two
+chains would mix so that verify_chain() could not vouch for either. There is
+no flag to merge them: re-chaining the migrated rows after the existing ones
+would rewrite their hashes, which is exactly what the chain exists to
+detect. Resolve it by hand (usually: migrate before the service writes to
+Cloud SQL) and re-run.
 """
 from __future__ import annotations
 
@@ -41,6 +57,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from academicos.assessment import postgres_kv  # noqa: E402
 from academicos.assessment.postgres_kv import PostgresTable  # noqa: E402
+from academicos.assessment.supabase_kv import is_unique_violation  # noqa: E402
 
 PAGE_SIZE = 1000
 
@@ -150,6 +167,48 @@ def _fetch_all(url: str, headers: dict[str, str], table: str) -> list[dict[str, 
     return rows
 
 
+def _migrate_audit_log(kept: list[dict[str, Any]], target: Any) -> tuple[int, int, int] | None:
+    """Insert audit rows. Returns (inserted, already migrated, failed), or
+    None when the destination holds rows of its own (see the module
+    docstring) and nothing was written."""
+    source_ids = {row["id"] for row in kept}
+    existing = target.select()
+    foreign = [r for r in existing if r["id"] not in source_ids]
+    if foreign:
+        chained = sum(1 for r in foreign if r.get("seq") is not None)
+        print(f"    REFUSED: Cloud SQL audit_log already holds {len(foreign)} row(s) "
+              f"that are not in the source ({chained} of them chained, with their own "
+              f"seq/hash chain). Migrating would collide on seq and mix two chains, "
+              f"so nothing was written to audit_log. Move those rows aside by hand "
+              f"(or migrate before the service writes to Cloud SQL) and re-run.")
+        return None
+    present = {r["id"]: r for r in existing}
+    inserted = already = failed = 0
+    for row in kept:
+        if row["id"] in present:
+            if present[row["id"]].get("entry_hash") != row.get("entry_hash"):
+                # Same id, different content: not this row, so not migrated.
+                failed += 1
+                print(f"    FAILED on {row['id']!r}: already in Cloud SQL with a "
+                      f"different entry_hash; left as it is")
+            else:
+                already += 1
+            continue
+        try:
+            target.insert(row)
+            inserted += 1
+        except Exception as exc:  # noqa: BLE001 - report and continue
+            # The id was absent a moment ago. If it is there now (another run
+            # got it in first), it is migrated; any other conflict (a seq
+            # taken by a row that appeared since the check above) is a failure.
+            if is_unique_violation(exc) and target.select(id=row["id"]):
+                already += 1
+            else:
+                failed += 1
+                print(f"    FAILED on {row['id']!r}: {exc}")
+    return inserted, already, failed
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--dry-run", action="store_true",
@@ -171,6 +230,7 @@ def main() -> int:
         raise SystemExit(f"ERROR: unknown table(s): {', '.join(unknown)}")
 
     total_rows = 0
+    refused: list[str] = []
     for table in tables:
         spec = TABLES[table]
         print(f"\n== {table}")
@@ -196,12 +256,26 @@ def main() -> int:
             print(f"    note: ignoring columns not in the Cloud SQL schema: "
                   f"{', '.join(sorted(dropped))}")
 
+        write_verb = "insert" if table == "audit_log" else "upsert"
         if args.dry_run:
-            print(f"    would upsert {len(kept)} row(s)")
+            print(f"    would {write_verb} {len(kept)} row(s)")
             total_rows += len(kept)
             continue
 
         target = PostgresTable(table)
+        if table == "audit_log":
+            outcome = _migrate_audit_log(kept, target)
+            if outcome is None:
+                refused.append(table)
+                continue
+            inserted, already, failed = outcome
+            back = len(target.select())
+            status = "ok" if not failed and back >= len(kept) else "SHORT"
+            print(f"    {status}: inserted {inserted}, already migrated {already}, "
+                  f"failed {failed}, source {len(kept)}, destination now {back}")
+            total_rows += inserted
+            continue
+
         written = 0
         for row in kept:
             try:
@@ -218,6 +292,10 @@ def main() -> int:
 
     verb = "would migrate" if args.dry_run else "migrated"
     print(f"\n{verb} {total_rows} row(s) across {len(tables)} table(s).")
+    if refused:
+        print(f"REFUSED: {', '.join(refused)} (see above). Do not cut over until "
+              f"it is resolved and this script re-run.")
+        return 1
     if not args.dry_run:
         print("Next: verify with the service's /health/storage, then remove the "
               "SUPABASE_* env vars from the Cloud Run service to cut over.")

@@ -25,7 +25,7 @@ from .audit_log import AuditLog, get_audit_log
 from .evaluate import Evaluation, evaluate_answer
 from .grade_lock import FINALIZED_ACTION, record_grade_change, require_reason_if_finalized
 from .graded_store import GradedStore
-from .knowledge import KnowledgeStore
+from .knowledge import KnowledgeStore, sheet_source
 from .mapping import to_question_schema
 from .marking import build_answer_key, build_answer_scheme
 from .pool import get_pool
@@ -684,6 +684,21 @@ def finalize_sheet_review(assessment_id: str, student_id: str,
     exactly once. See the comment on evaluate_sheet() for why that endpoint
     doesn't do this itself.
 
+    "Exactly once" holds across repeated calls (fixed 2026-09-22, Task 306).
+    Before, every call appended the whole sheet to mastery again, and the
+    obvious workflow after grade_lock.py -- correct a finalized mark with a
+    reason, press Finalize again -- counted the sheet twice. Now:
+
+    * finalize again with no mark changed since: 200 with the same totals, and
+      nothing is written (no mastery update, no second finalize entry);
+    * finalize again after a correction: a new finalize entry
+      (`refinalized: true`), and the sheet's earlier contribution to mastery
+      is replaced by the corrected one (KnowledgeStore.record_sheet);
+    * a sheet finalized before this fix, whose answers are in mastery
+      untagged and so cannot be told apart from other evidence: 409. Adding
+      the sheet again would count it twice, so it is refused rather than
+      guessed at.
+
     Requires a real logged-in caller from the assessment's own school (fixed
     2026-09-11: auth used to be optional here despite this endpoint mutating
     the knowledge model and writing an authoritative audit entry, falling
@@ -700,6 +715,30 @@ def finalize_sheet_review(assessment_id: str, student_id: str,
 
     awarded = sum(e.awarded_marks for _, e in graded)
     maximum = sum(e.max_marks for _, e in graded)
+    response = SheetFinalizeResponse(
+        assessment_id=assessment_id, student_id=student_id,
+        total_awarded=awarded, total_max=maximum,
+        percentage=round(100.0 * awarded / maximum, 2) if maximum else 0.0,
+    )
+    audit = _audit()
+    source = sheet_source(assessment_id, student_id)
+    earlier = audit.sheet_entries(FINALIZED_ACTION, assessment_id=assessment_id,
+                                  student_id=student_id)
+    if earlier:
+        if knowledge.sheet_matches(student_id, source, graded):
+            return response  # already finalized with these marks
+        tagged_finalize = any((e.get("details") or {}).get("masterySource") == source
+                              for e in earlier)
+        if not tagged_finalize and not knowledge.sheet_recorded(student_id, source):
+            # Every earlier finalize predates the tag, so its answers are in
+            # mastery untagged. (A tagged finalize whose mastery write failed
+            # is the other way to reach here with nothing tagged, and that one
+            # is safe to record: its entry carries masterySource.)
+            raise HTTPException(
+                409, f"the sheet for student {student_id} was finalized before "
+                     "re-finalizing was supported; its answers are already in the "
+                     "student's mastery and cannot be replaced safely, so it is not "
+                     "re-finalized. Corrected marks stay saved and audited.")
     # This entry is also what locks the sheet (grade_lock.FINALIZED_ACTION).
     # From here on, a mark change needs a reason. It is written before the
     # knowledge model is touched: if the append raises (a 503 from a lost seq
@@ -707,18 +746,15 @@ def finalize_sheet_review(assessment_id: str, student_id: str,
     # moved, or the client's retry would record the same evaluations twice
     # into a sheet that is still unlocked. mobile_routes.finalize_scan_session
     # uses the same order.
-    _audit().append(
+    audit.append(
         FINALIZED_ACTION, assessment_id=assessment_id, student_id=student_id,
         actor=current.id,
         details={"totalAwarded": awarded, "totalMax": maximum, "questionCount": len(graded),
-                 "reviewerName": current.name},
+                 "reviewerName": current.name, "masterySource": source,
+                 "refinalized": bool(earlier)},
     )
-    knowledge.record_evaluations(student_id, graded)
-    return SheetFinalizeResponse(
-        assessment_id=assessment_id, student_id=student_id,
-        total_awarded=awarded, total_max=maximum,
-        percentage=round(100.0 * awarded / maximum, 2) if maximum else 0.0,
-    )
+    knowledge.record_sheet(student_id, graded, source)
+    return response
 
 
 # ---------------- Pillar 3: knowledge ----------------

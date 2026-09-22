@@ -238,6 +238,7 @@ def finalize_scan_session(session_id: str, current: User = Depends(require_staff
 
     from . import pillar_routes
     from .grade_lock import FINALIZED_ACTION, is_finalized
+    from .knowledge import sheet_source
     cfg, knowledge, templates = pillar_routes._require()
     # This route overwrites the graded sheet for the same assessment and
     # student, and it takes no reason. A sheet that is already finalized is
@@ -287,15 +288,19 @@ def finalize_scan_session(session_id: str, current: User = Depends(require_staff
         )
         graded.append((question, evaluation))
     if graded:
-        # The same finalize entry the sheet route writes, so this sheet is
-        # locked from now on too.
+        # The same finalize entry and mastery tag the sheet route writes, so
+        # this sheet is locked from now on too, and a correction re-finalized
+        # through the sheet route replaces these answers in mastery instead of
+        # adding a second copy (knowledge.KnowledgeStore.record_sheet).
+        mastery_source = sheet_source(session.assessment_id, session.student_id)
         audit.append(FINALIZED_ACTION, assessment_id=session.assessment_id,
                      student_id=session.student_id, actor=current.id,
                      details={"totalAwarded": awarded, "totalMax": maximum,
                               "questionCount": len(graded), "source": "scan",
-                              "scanSessionId": session.id})
+                              "scanSessionId": session.id,
+                              "masterySource": mastery_source, "refinalized": False})
         pillar_routes._require_graded().save(session.assessment_id, session.student_id, graded)
-        knowledge.record_evaluations(session.student_id, graded)
+        knowledge.record_sheet(session.student_id, graded, mastery_source)
 
     return FinalizeResponse(
         total_awarded=awarded, total_max=maximum,

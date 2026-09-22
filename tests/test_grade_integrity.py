@@ -777,8 +777,8 @@ def test_a_failed_finalize_entry_leaves_mastery_untouched(sheet, monkeypatch):
     from academicos.assessment import pillar_routes
 
     recorded: list[str] = []
-    monkeypatch.setattr(pillar_routes._knowledge, "record_evaluations",
-                        lambda student_id, graded: recorded.append(student_id))
+    monkeypatch.setattr(pillar_routes._knowledge, "record_sheet",
+                        lambda student_id, graded, source: recorded.append(student_id))
     log = audit_mod.get_audit_log(sheet.data_root)
     real_append = log.append
 
@@ -897,3 +897,175 @@ def test_a_no_change_review_on_a_finalized_sheet_needs_no_reason(sheet, action):
     assert entry["details"]["finalized"] is True
     assert entry["details"]["decision"] == action
     assert "reason" not in entry["details"]
+
+
+# --------------------------------------------------------------------------- #
+# re-finalizing never counts a sheet into mastery twice (Task 306)
+# --------------------------------------------------------------------------- #
+#
+# Task 303 made a finalized sheet correctable with a reason. The obvious
+# teacher workflow is then "correct, press Finalize again", and before this
+# fix every Finalize appended the whole sheet to the student's learner model
+# again: two presses, two copies of every answer in mastery. These tests read
+# the stored learner model, not a call count.
+
+def _sheet_answers(sheet) -> list[tuple[str, float]]:
+    """Every answer interaction on the student's stored learner model."""
+    from academicos.assessment import pillar_routes
+    model = pillar_routes._knowledge.load(sheet.student_id)
+    return [(i.concept_id, i.outcome)
+            for state in model.concepts.values() for i in state.history
+            if i.kind == "answer"]
+
+
+def _finalize_entries(sheet) -> list[dict]:
+    return [e for e in sheet.audit() if e["action"] == "sheet_reviewed"]
+
+
+def _post_finalize(sheet):
+    return sheet.client.post(
+        f"/api/v1/evaluations/sheet/{sheet.aid}/{sheet.student_id}/finalize",
+        json={}, headers=sheet.headers)
+
+
+def test_finalizing_twice_counts_the_sheet_into_mastery_once(sheet):
+    from academicos.assessment import pillar_routes
+
+    sheet.finalize()
+    once = _sheet_answers(sheet)
+    assert once == [("ch1", round(sheet.awarded / 2, 4))]
+    stored_after_first = pillar_routes._knowledge.load(sheet.student_id).updated_at
+
+    again = _post_finalize(sheet)
+    assert again.status_code == 200, again.text
+    assert again.json()["totalAwarded"] == sheet.awarded
+    assert _sheet_answers(sheet) == once
+    # Nothing changed, so nothing was written: not the learner model, and not
+    # a second finalize entry.
+    assert pillar_routes._knowledge.load(sheet.student_id).updated_at == stored_after_first
+    assert len(_finalize_entries(sheet)) == 1
+
+
+def test_re_finalizing_after_a_correction_replaces_the_sheets_contribution(sheet):
+    from academicos.assessment import pillar_routes
+
+    sheet.finalize()
+    corrected = sheet.review(sheet.other_mark, reason="re-checked against the scheme")
+    assert corrected.status_code == 200, corrected.text
+
+    again = _post_finalize(sheet)
+    assert again.status_code == 200, again.text
+    assert again.json()["totalAwarded"] == sheet.other_mark
+
+    # The corrected mark, once. The first finalize's answer is gone, not kept
+    # alongside it.
+    assert _sheet_answers(sheet) == [("ch1", round(sheet.other_mark / 2, 4))]
+    state = pillar_routes._knowledge.load(sheet.student_id).concepts["ch1"]
+    assert state.attempts == 1
+    assert state.correct == (1 if sheet.other_mark / 2 >= 0.5 else 0)
+    [view] = pillar_routes._knowledge.mastery(sheet.student_id)
+    assert view.evidence_count == 1
+
+    entries = _finalize_entries(sheet)
+    assert len(entries) == 2, "a re-finalize that changed mastery is audited"
+    assert sorted(e["details"]["refinalized"] for e in entries) == [False, True]
+
+
+def test_other_evidence_survives_a_re_finalize(sheet):
+    """Replacing the sheet's contribution removes only the sheet's own
+    interactions: practice and other sheets on the same concept stay."""
+    from academicos.assessment import pillar_routes
+
+    q = pillar_routes._require_graded().get(sheet.aid, sheet.student_id)
+    pillar_routes._knowledge.record_evaluations(sheet.student_id, q)  # e.g. practice
+    sheet.finalize()
+    assert len(_sheet_answers(sheet)) == 2
+
+    sheet.review(sheet.other_mark, reason="re-checked")
+    sheet.finalize()
+    assert sorted(_sheet_answers(sheet)) == sorted([
+        ("ch1", round(sheet.awarded / 2, 4)),      # the untagged practice answer
+        ("ch1", round(sheet.other_mark / 2, 4)),   # the sheet, corrected, once
+    ])
+
+
+def test_a_retry_after_mastery_failed_to_save_records_the_sheet_once(sheet, monkeypatch):
+    """The finalize entry is written before mastery moves (f799073). If the
+    mastery write then fails, the sheet is locked but uncounted, and the retry
+    must count it -- once."""
+    from academicos.assessment import pillar_routes
+    from academicos.assessment.supabase_kv import SupabaseUnavailable
+
+    real_save = pillar_routes._knowledge.save
+
+    def down(model):
+        raise SupabaseUnavailable(table="learner_models", op="upsert", status=503,
+                                  body="unavailable")
+    monkeypatch.setattr(pillar_routes._knowledge, "save", down)
+    failed = _post_finalize(sheet)
+    assert failed.status_code == 503, failed.text
+    assert _sheet_answers(sheet) == []
+
+    monkeypatch.setattr(pillar_routes._knowledge, "save", real_save)
+    sheet.finalize()
+    assert _sheet_answers(sheet) == [("ch1", round(sheet.awarded / 2, 4))]
+    sheet.finalize()
+    assert _sheet_answers(sheet) == [("ch1", round(sheet.awarded / 2, 4))]
+
+
+def test_a_sheet_finalized_before_the_fix_is_not_re_finalized_blind(sheet):
+    """A sheet finalized before this fix put untagged interactions into the
+    learner model, which cannot be told apart from practice. Re-finalizing it
+    would add the sheet a second time, so it is refused (fail closed)."""
+    from academicos.assessment import pillar_routes
+
+    graded = pillar_routes._require_graded().get(sheet.aid, sheet.student_id)
+    audit_mod.get_audit_log(sheet.data_root).append(
+        "sheet_reviewed", assessment_id=sheet.aid, student_id=sheet.student_id,
+        actor=sheet.teacher_id, details={"totalAwarded": sheet.awarded})
+    pillar_routes._knowledge.record_evaluations(sheet.student_id, graded)
+    before = _sheet_answers(sheet)
+
+    r = _post_finalize(sheet)
+    assert r.status_code == 409, r.text
+    assert "before" in r.json()["detail"]
+    assert _sheet_answers(sheet) == before
+    assert len(_finalize_entries(sheet)) == 1
+
+
+def test_a_scan_finalized_sheet_can_be_corrected_and_re_finalized(sheet, monkeypatch):
+    """finalize_scan_session writes the same finalize entry and mastery tag,
+    so a scan-finalized sheet corrected with a reason re-finalizes cleanly
+    instead of being refused as a pre-fix sheet."""
+    from academicos.assessment import mobile_routes, mobile_scan, pillar_routes
+
+    created = sheet.client.post("/api/v1/scan/sessions", json={
+        "assessmentId": sheet.aid, "studentId": sheet.student_id, "studentName": "S",
+    }, headers=sheet.headers)
+    assert created.status_code == 200, created.text
+    session = mobile_scan.get_session(created.json()["id"])
+    session.review = [mobile_scan.ReviewItem(
+        question_id="q_1", display_number=1, stem="stem", max_marks=2,
+        student_answer="answer", awarded_marks=0, verdict="blank", confidence=0.9,
+        reasoning="", marking_points=[], ocr_warnings=[], needs_review=False,
+        status="approved", teacher_marks=0,
+    )]
+    mobile_scan.save_session(session)
+    # The session has no captured pages and q_1 is not in the scan's question
+    # pool. Neither matters to what is under test (the finalize entry and the
+    # mastery tag), so the PDF exports and the pool lookup are stubbed.
+    [(q1, _ev)] = pillar_routes._require_graded().get(sheet.aid, sheet.student_id)
+    monkeypatch.setattr(mobile_routes, "_questions_by_id", lambda *a: {"q_1": q1})
+    monkeypatch.setattr(mobile_scan, "export_raw_booklet_pdf", lambda *a, **k: None)
+    monkeypatch.setattr(mobile_scan, "export_corrected_pdf", lambda *a, **k: None)
+
+    r = sheet.client.post(f"/api/v1/scan/sessions/{session.id}/finalize",
+                          headers=sheet.headers)
+    assert r.status_code == 200, r.text
+    assert _sheet_answers(sheet) == [("ch1", 0.0)]
+
+    fixed = sheet.review(2, reason="the scan missed the second line")
+    assert fixed.status_code == 200, fixed.text
+    again = _post_finalize(sheet)
+    assert again.status_code == 200, again.text
+    assert _sheet_answers(sheet) == [("ch1", 1.0)]
