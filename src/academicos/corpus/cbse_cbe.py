@@ -995,6 +995,23 @@ def to_bank_record(item: "CbeItem") -> dict:
             "synonyms": [],
         })
 
+    metadata = {
+        "itemId": item.item_id,
+        "needsFigure": item.needs_figure,
+        "marksUnresolved": item.marks_unresolved,
+        "groupMarksStated": item.group_marks_stated,
+        "contentReference": item.content_reference,
+        "aoMarks": item.ao_marks,
+    }
+    # The shared reading passage for a linked-passage item. The parser
+    # extracts it (60 of 151 English class 6-9 items carry one) and this
+    # record used to drop it, so an English comprehension question ("Give two
+    # symptoms of the writer's fear as she went diving") reached the bank
+    # answerable by no one. Omitted, not emptied, when there is none.
+    passage = (item.passage or "").strip()
+    if passage:
+        metadata["passage"] = passage
+
     return {
         "id": qid,
         "questionBankId": f"cbe:{item.source_pdf}",
@@ -1054,14 +1071,7 @@ def to_bank_record(item: "CbeItem") -> dict:
         "tags": [t for t in (item.topic, item.content_code) if t],
         "createdAt": "2026-09-17T00:00:00Z",
         "updatedAt": "2026-09-17T00:00:00Z",
-        "metadata": {
-            "itemId": item.item_id,
-            "needsFigure": item.needs_figure,
-            "marksUnresolved": item.marks_unresolved,
-            "groupMarksStated": item.group_marks_stated,
-            "contentReference": item.content_reference,
-            "aoMarks": item.ao_marks,
-        },
+        "metadata": metadata,
         "diagramAssetId": None, "mapAssetId": None,
         "graphAssetId": None, "tableAssetId": None,
         # An item whose stem refers to a figure that was not extracted is

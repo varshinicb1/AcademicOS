@@ -603,3 +603,19 @@ def test_english_items_take_the_source_description_from_the_index(items):
     with_ref = sum(1 for i in english if i.content_reference)
     assert with_ref >= len(english) * 0.5, (
         f"only {with_ref}/{len(english)} English items have a content reference")
+
+
+def test_bank_record_carries_the_reading_passage(items):
+    """`CbeItem.passage` was extracted and then dropped by to_bank_record."""
+    with_passage = [i for i in items if i.subject == "English" and (i.passage or "").strip()]
+    if not with_passage:
+        pytest.skip("no English item with a passage parsed")
+    rec = to_bank_record(with_passage[0])
+    assert rec["metadata"]["passage"] == with_passage[0].passage.strip()
+
+
+def test_bank_record_omits_an_empty_passage(items):
+    bare = next((i for i in items if not (i.passage or "").strip()), None)
+    if bare is None:
+        pytest.skip("every item has a passage")
+    assert "passage" not in to_bank_record(bare)["metadata"]
