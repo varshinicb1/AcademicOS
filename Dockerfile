@@ -27,7 +27,12 @@ COPY pyproject.toml ./
 COPY src/ ./src/
 # postgres: the Cloud SQL durability backend (assessment/postgres_kv.py).
 # gcs: Cloud Storage for scan media / curriculum snapshots.
-RUN pip install --no-cache-dir -e ".[api,mobile-scan,postgres,gcs]"
+# mcp: the question-bank MCP server (academicos.mcp.qbank_server). The image's
+#   CMD runs `cli serve` only, so the SDK is not on the serving path -- but the
+#   bank is sold as one product with two surfaces (PRD Q5), and an image that
+#   cannot run `python -m academicos.mcp.qbank_server` ships half of it. The
+#   sse/streamable-http transports also need [api]'s uvicorn, which is here.
+RUN pip install --no-cache-dir -e ".[api,mcp,mobile-scan,postgres,gcs]"
 
 COPY config/ ./config/
 

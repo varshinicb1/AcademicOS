@@ -199,6 +199,27 @@ class PoolQuestion:
 
     @property
     def has_answer(self) -> bool:
+        """Rule Q1, and the same function the two API surfaces call.
+
+        A served-bank record carries the whole `answerScheme`, so the real
+        rule applies: a published provenance AND real content
+        (`qbank_routes.QuestionBank.has_answer_key`). This used to test
+        `correct_option or answer_text` alone, which is a different and weaker
+        rule in both directions -- it called a board record keyed by its value
+        points with no model answer unanswerable (the shape every SQP MCQ and
+        4,192 Exemplar records arrive in), and a teacher-authored answer keyed.
+
+        The registry path has no `answerScheme` to read: its key comes from the
+        marking-scheme store as a correct option or an answer text, so the
+        content test is all there is to apply there and it stays.
+
+        The import is deferred because `qbank_routes` pulls in FastAPI, an
+        `[api]` extra, and this module must import without it -- the same
+        reason `mcp/qbank_server.py` imports `QuestionBank` inside its methods.
+        """
+        if self.record is not None:
+            from .qbank_routes import QuestionBank
+            return QuestionBank.has_answer_key(self.record)
         return bool(self.correct_option or self.answer_text)
 
 
@@ -366,6 +387,7 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
     skipped_truncated = 0
     skipped_broken_options = 0
     skipped_invalid = 0
+    skipped_unkeyed = 0
     near_dupes = _NearDuplicateIndex()
 
     rows = _registry_paper_rows(cfg, subject, grade)
@@ -500,6 +522,10 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                             data.get("questions", []),
                             key=lambda it: 0 if it.get("source") == "cbse_board_paper" else 1)
                         from .schemas import QuestionSchema
+                        # The one answer-key rule, shared with both API
+                        # surfaces. Deferred like the line above, and for the
+                        # extra reason that `qbank_routes` imports FastAPI.
+                        from .qbank_routes import QuestionBank
                         for item in raw_qs:
                             item_subject = item.get("subject", "")
                             try:
@@ -535,6 +561,18 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                                 log.warning("baked bank record %s is not a valid QuestionSchema, "
                                             "skipped: %s", item.get("id"), err)
                                 continue
+                            # Rule Q1, through the one function the HTTP and
+                            # MCP surfaces call: without an answer key, no
+                            # question. `/v1/questions` will not list this
+                            # record, so printing it on a paper would serve the
+                            # same unanswerable question by another door --
+                            # and a paper is the harder case, because a teacher
+                            # cannot mark what comes back. A no-op on today's
+                            # merged bank (5,427 of 5,427 keyed); it was not
+                            # before the merge, and need not stay true.
+                            if not QuestionBank.has_answer_key(item):
+                                skipped_unkeyed += 1
+                                continue
                             if near_dupes.is_duplicate(stem):
                                 skipped_near_dup += 1
                                 continue
@@ -567,9 +605,11 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
 
     log.info("question pool built: %d questions from %d papers, %d with official answers "
              "(skipped: %d need a figure, %d unreadable Hindi, %d near-duplicates, "
-             "%d truncated/missing options, %d broken option lists, %d invalid records)",
+             "%d truncated/missing options, %d broken option lists, %d invalid records, "
+             "%d with no answer key)",
              len(pool.questions), len(rows), keyed, skipped_figure, skipped_mangled,
-             skipped_near_dup, skipped_truncated, skipped_broken_options, skipped_invalid)
+             skipped_near_dup, skipped_truncated, skipped_broken_options, skipped_invalid,
+             skipped_unkeyed)
     return pool
 
 

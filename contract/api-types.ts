@@ -2224,6 +2224,14 @@ export interface paths {
         /**
          * Get Facets
          * @description The filter vocabulary and its counts under the current filter.
+         *
+         *     **Under the same Q1 default as `/v1/questions`, and the same two opt-ins.**
+         *     These counts exist to size a query, so counting a wider set than the query
+         *     will serve is a lie about the page the consumer is about to request --
+         *     whichever door the count comes through. The inline facets on
+         *     `/v1/questions` took the default and this route did not, which put the two
+         *     counts of one thing 8 records apart on the fixture bank (20 against 12) and
+         *     is the exact divergence Q1 and Q5 were written to end.
          */
         get: operations["get_facets_v1_facets_get"];
         put?: never;
@@ -9085,6 +9093,10 @@ export interface operations {
             query?: {
                 subject?: string | null;
                 grade?: number | null;
+                /** @description true: count only answer-keyed questions (the default). false: count only the unanswerable set, for auditing. */
+                has_scheme?: boolean | null;
+                /** @description count questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in. */
+                include_unkeyed?: boolean;
             };
             header?: {
                 authorization?: string | null;

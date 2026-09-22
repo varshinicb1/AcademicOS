@@ -12905,7 +12905,7 @@
     },
     "/v1/facets": {
       "get": {
-        "description": "The filter vocabulary and its counts under the current filter.",
+        "description": "The filter vocabulary and its counts under the current filter.\n\n**Under the same Q1 default as `/v1/questions`, and the same two opt-ins.**\nThese counts exist to size a query, so counting a wider set than the query\nwill serve is a lie about the page the consumer is about to request --\nwhichever door the count comes through. The inline facets on\n`/v1/questions` took the default and this route did not, which put the two\ncounts of one thing 8 records apart on the fixture bank (20 against 12) and\nis the exact divergence Q1 and Q5 were written to end.",
         "operationId": "get_facets_v1_facets_get",
         "parameters": [
           {
@@ -12938,6 +12938,36 @@
                 }
               ],
               "title": "Grade"
+            }
+          },
+          {
+            "description": "true: count only answer-keyed questions (the default). false: count only the unanswerable set, for auditing.",
+            "in": "query",
+            "name": "has_scheme",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "true: count only answer-keyed questions (the default). false: count only the unanswerable set, for auditing.",
+              "title": "Has Scheme"
+            }
+          },
+          {
+            "description": "count questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in.",
+            "in": "query",
+            "name": "include_unkeyed",
+            "required": false,
+            "schema": {
+              "default": false,
+              "description": "count questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in.",
+              "title": "Include Unkeyed",
+              "type": "boolean"
             }
           },
           {

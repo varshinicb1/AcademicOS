@@ -229,6 +229,41 @@ def test_facets_count_the_same_set_the_list_serves(client):
     assert subjects == {"Science": 6, "Mathematics": 6}
 
 
+def test_the_facets_route_counts_what_the_list_route_serves(client):
+    """`GET /v1/facets` is the same counts by another door, so it must stand
+    under the same default.
+
+    It did not: the inline facets on `/v1/questions` took the Q1 default while
+    `/v1/facets` counted the whole bank, so the standalone route reported
+    {Science: 10, Mathematics: 10} for a default listing that serves 6 and 6.
+    That is the identical "two counts of the same thing" divergence Q1 and Q5
+    were written to end -- a consumer sizing a query from `/v1/facets` was
+    told about pages the default path will never hand it."""
+    c, store = client
+    h = _headers(store)
+    standalone = c.get("/v1/facets", headers=h).json()
+    inline = c.get("/v1/questions", params={"facets": "true", "limit": 200},
+                   headers=h).json()["facets"]
+    assert standalone == inline
+    assert {f["value"]: f["count"] for f in standalone["subject"]} == {
+        "Science": 6, "Mathematics": 6}
+
+
+def test_the_facets_route_opens_the_same_two_ways(client):
+    """The opt-ins are the list route's, spelled the same: a caller auditing
+    the unanswerable set needs its facet counts too."""
+    c, store = client
+    h = _headers(store)
+    whole = c.get("/v1/facets", params={"include_unkeyed": "true"},
+                  headers=h).json()
+    assert sum(f["count"] for f in whole["subject"]) == TOTAL
+
+    audit = c.get("/v1/facets", params={"has_scheme": "false"}, headers=h).json()
+    assert sum(f["count"] for f in audit["subject"]) == UNKEYED
+    assert {f["value"]: f["count"] for f in audit["subject"]} == {
+        "Science": 4, "Mathematics": 4}
+
+
 def test_the_subtopic_listing_keeps_q1_too(client):
     """Same default, or the rule holds on one route and not its neighbour."""
     c, store = client
@@ -452,3 +487,77 @@ def test_stdio_is_not_wrapped(tmp_path, bank_file):
     assert qbank_server.needs_transport_auth("stdio") is False
     assert qbank_server.needs_transport_auth("sse") is True
     assert qbank_server.needs_transport_auth("streamable-http") is True
+
+
+# --------------------------------------------------------------------------- #
+# 6. the third surface: paper generation
+# --------------------------------------------------------------------------- #
+#
+# Requirement 1 names three callers, not two: "one definition of 'has an answer
+# key', used by HTTP, MCP and paper generation". `pool.build_pool` loaded the
+# same served bank the HTTP surface serves and applied no answer-key gate at
+# all, and `PoolQuestion.has_answer` carried a fourth, weaker rule -- any
+# `correct_option` or `answer_text`, whatever its provenance. A no-op on
+# today's bank (5,427 of 5,427 keyed), and exactly the state the bank was in
+# before the CBE merge, when it was not.
+
+def _served(i: int = 1, scheme: dict | None = None, **overrides) -> dict:
+    """A served-bank record in the shape `bank_merge` writes it."""
+    sys.path.insert(0, str(ROOT / "tests"))
+    from academicos.corpus import bank_merge as bm
+    from test_bank_merge import board
+
+    rec = board(i, **overrides)
+    if scheme is not None:
+        rec["answerScheme"] = {**rec["answerScheme"], **scheme}
+    normalised, _ = bm.normalise(rec)
+    return normalised
+
+
+def _pool_over(tmp_path, monkeypatch, records, *, subject: str, grade: str):
+    """A pool built from a baked bank holding exactly `records`."""
+    from academicos.assessment import pool as pool_module
+    from academicos.config import Config
+
+    path = tmp_path / "baked.json"
+    path.write_text(json.dumps({"questions": records}), encoding="utf-8")
+    monkeypatch.setattr(pool_module, "_baked_bank_paths", lambda cfg: [path])
+    cfg = Config(data_root=tmp_path)
+    cfg._load_baked_questions = True
+    return pool_module.build_pool(cfg, subject=subject, grade=grade)
+
+
+def test_paper_generation_applies_the_one_rule_too(tmp_path, monkeypatch):
+    """A record the HTTP surface refuses to list must not be printable on a
+    paper: that is the same unanswerable question served by another door."""
+    # Distinct stems, or the near-duplicate gate drops the last two before the
+    # answer-key gate is ever reached and the test proves nothing.
+    keyed = _served(1, stem="Explain why the sky appears blue during the day.")
+    empty = _served(2, {"markingPoints": [], "modelAnswer": "",
+                        "modelAnswerLatex": ""},
+                    stem="State the two conditions required for rusting of iron.")
+    unattributed = _served(3, {"provenance": "teacher"},
+                           stem="Draw the structure of a neuron and name its parts.")
+    assert QuestionBank.has_answer_key(keyed)
+    assert not QuestionBank.has_answer_key(empty)
+    assert not QuestionBank.has_answer_key(unattributed)
+
+    built = _pool_over(tmp_path, monkeypatch, [keyed, empty, unattributed],
+                       subject="Science", grade="X")
+    assert [q.id for q in built.questions] == [keyed["id"]]
+
+
+def test_has_answer_is_the_one_rule_for_a_bank_record(tmp_path, monkeypatch):
+    """`has_answer` tested `correct_option or answer_text`, so a board record
+    keyed by its value points with no model answer -- the shape every SQP MCQ
+    and 4,192 Exemplar records arrive in -- read as unanswerable here while
+    `/v1/questions` served it. One record, two answers."""
+    points_only = _served(4, {"modelAnswer": "", "modelAnswerLatex": ""})
+    assert QuestionBank.has_answer_key(points_only)
+
+    built = _pool_over(tmp_path, monkeypatch, [points_only],
+                       subject="Science", grade="X")
+    assert len(built.questions) == 1
+    pq = built.questions[0]
+    assert pq.answer_text == ""          # the old rule's only evidence
+    assert pq.has_answer is True

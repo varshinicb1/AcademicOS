@@ -125,17 +125,24 @@ GET  /v1/coverage                  answer-key coverage per subject x class
 POST /v1/papers                    blueprint-driven paper generation
 ```
 
-**The list is answer-keyed by default (rule Q1).** `/v1/questions` and
-`/v1/subtopics/{id}/questions` serve only questions that carry a published
-answer key -- CBSE's marking scheme or NCERT's Exemplar answer, with real
-content in it. An examination board does not issue a question it cannot mark,
-and the audit of the first release found the default path serving 345 records
-with no answer content at all. Two explicit ways to see the rest:
+**The list is answer-keyed by default (rule Q1).** `/v1/questions`,
+`/v1/subtopics/{id}/questions` and `/v1/facets` serve and count only questions
+that carry a published answer key -- CBSE's marking scheme or NCERT's Exemplar
+answer, with real content in it. An examination board does not issue a question
+it cannot mark, and the audit of the first release found the default path
+serving 345 records with no answer content at all. Two explicit ways to see the
+rest, accepted by all three routes:
 
 * `?has_scheme=false` -- ONLY the unanswerable set, for auditing what the
   relink has not reached (the MCP's `answer_key_state="none"`).
 * `?include_unkeyed=true` -- the whole bank, for a client written against the
   old default.
+
+`/v1/facets` takes the same default as the inline `?facets=true` counts, and
+for the same reason: a facet count exists to size a query, so counting a wider
+set than the query will serve misstates the page the consumer is about to ask
+for. Paper generation (`assessment/pool.py`) applies the same rule to the same
+bank, so a question the API will not list cannot be printed on a paper either.
 
 `GET /v1/coverage` reports the shortfall per subject and class, and returns the
 same numbers as the MCP server's `coverage_report` tool because both call

@@ -689,9 +689,27 @@ def get_facets(
     key: ApiKey = Depends(_require("facets:read")),
     subject: str | None = None,
     grade: int | None = None,
+    has_scheme: bool | None = Query(
+        default=None,
+        description="true: count only answer-keyed questions (the default). "
+                    "false: count only the unanswerable set, for auditing."),
+    include_unkeyed: bool = Query(
+        default=False,
+        description="count questions with no answer key as well. Rule Q1 "
+                    "excludes them by default; this is the explicit opt-in."),
 ) -> JSONResponse:
-    """The filter vocabulary and its counts under the current filter."""
+    """The filter vocabulary and its counts under the current filter.
+
+    **Under the same Q1 default as `/v1/questions`, and the same two opt-ins.**
+    These counts exist to size a query, so counting a wider set than the query
+    will serve is a lie about the page the consumer is about to request --
+    whichever door the count comes through. The inline facets on
+    `/v1/questions` took the default and this route did not, which put the two
+    counts of one thing 8 records apart on the fixture bank (20 against 12) and
+    is the exact divergence Q1 and Q5 were written to end.
+    """
     assert _bank is not None
     return JSONResponse(
-        _bank.facets(subject=subject, grade=grade),
+        _bank.facets(subject=subject, grade=grade,
+                     has_scheme=_q1_filter(has_scheme, include_unkeyed)),
         headers=_rate_headers(key))
