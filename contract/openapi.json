@@ -361,6 +361,51 @@
         "title": "AnswerSchemeSchema",
         "type": "object"
       },
+      "ApproveChapterTopicsResponse": {
+        "description": "Result of \"Approve all for this chapter\" -- possibly several runs, since\na chapter can carry one template run per provenance.",
+        "properties": {
+          "chapterId": {
+            "title": "Chapterid",
+            "type": "string"
+          },
+          "runsApproved": {
+            "title": "Runsapproved",
+            "type": "integer"
+          },
+          "subtopicIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Subtopicids",
+            "type": "array"
+          },
+          "subtopicsCreated": {
+            "title": "Subtopicscreated",
+            "type": "integer"
+          },
+          "topicIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Topicids",
+            "type": "array"
+          },
+          "topicsCreated": {
+            "title": "Topicscreated",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "chapterId",
+          "runsApproved",
+          "topicsCreated",
+          "subtopicsCreated",
+          "topicIds",
+          "subtopicIds"
+        ],
+        "title": "ApproveChapterTopicsResponse",
+        "type": "object"
+      },
       "ApproveRunRequest": {
         "properties": {
           "edits": {
@@ -5629,6 +5674,7 @@
         "type": "object"
       },
       "SeedCbse10Response": {
+        "description": "Also the response of the any-grade route. The topic-template fields were\nadded 2026-09-22 (new fields only -- an older client keeps working): a seed\nthat stops at chapters and a seed that reached Topic/Subtopic used to be\nindistinguishable in this body, and on a fresh school it was always the\nformer.",
         "properties": {
           "academicYearId": {
             "title": "Academicyearid",
@@ -5640,6 +5686,20 @@
           },
           "chaptersSeeded": {
             "title": "Chaptersseeded",
+            "type": "integer"
+          },
+          "chaptersWithTopics": {
+            "default": 0,
+            "title": "Chapterswithtopics",
+            "type": "integer"
+          },
+          "chaptersWithoutTopics": {
+            "default": 0,
+            "title": "Chapterswithouttopics",
+            "type": "integer"
+          },
+          "grade": {
+            "title": "Grade",
             "type": "integer"
           },
           "gradeId": {
@@ -5657,6 +5717,23 @@
             "title": "Subjectsskipped",
             "type": "array"
           },
+          "subtopicsProposed": {
+            "default": 0,
+            "title": "Subtopicsproposed",
+            "type": "integer"
+          },
+          "topicTemplates": {
+            "items": {
+              "$ref": "#/components/schemas/SubjectTemplateReportResponse"
+            },
+            "title": "Topictemplates",
+            "type": "array"
+          },
+          "topicsProposed": {
+            "default": 0,
+            "title": "Topicsproposed",
+            "type": "integer"
+          },
           "unitsSeeded": {
             "title": "Unitsseeded",
             "type": "integer"
@@ -5666,12 +5743,45 @@
           "boardId",
           "academicYearId",
           "gradeId",
+          "grade",
           "subjectsSeeded",
           "unitsSeeded",
           "chaptersSeeded",
           "subjectsSkipped"
         ],
         "title": "SeedCbse10Response",
+        "type": "object"
+      },
+      "SeedGradeRequest": {
+        "description": "PRD section 0 decision 4 is all grades 6-12. The bound is pydantic's so\nthe answer to grade 5 or 13 is a 422 naming the range, before any row is\ncreated -- there is no syllabus data outside it (seed_cbse10.MIN_GRADE /\nMAX_GRADE, which raises the same bound for the CLI and library callers).",
+        "properties": {
+          "academicYearLabel": {
+            "minLength": 1,
+            "title": "Academicyearlabel",
+            "type": "string"
+          },
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "grade": {
+            "maximum": 12.0,
+            "minimum": 6.0,
+            "title": "Grade",
+            "type": "integer"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          }
+        },
+        "required": [
+          "academicYearLabel",
+          "startDate",
+          "endDate",
+          "grade"
+        ],
+        "title": "SeedGradeRequest",
         "type": "object"
       },
       "SelectBookRequest": {
@@ -6379,6 +6489,64 @@
           "curriculumCoverage"
         ],
         "title": "SubjectRollupResponse",
+        "type": "object"
+      },
+      "SubjectTemplateReportResponse": {
+        "description": "How far below chapter level the seed got for one subject, and why it\nstopped where it did. `note` is the honest half: \"Class 7 Science is\nchapter-only because the only textbook tree is the 2024-25 NEP edition and\nthe syllabus JSON still lists the previous edition's chapter names\".",
+        "properties": {
+          "chapters": {
+            "title": "Chapters",
+            "type": "integer"
+          },
+          "chaptersWithTopics": {
+            "title": "Chapterswithtopics",
+            "type": "integer"
+          },
+          "chaptersWithoutTopics": {
+            "title": "Chapterswithouttopics",
+            "type": "integer"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "provenance": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Provenance",
+            "type": "array"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          },
+          "subtopicsProposed": {
+            "title": "Subtopicsproposed",
+            "type": "integer"
+          },
+          "topicsProposed": {
+            "title": "Topicsproposed",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "subject",
+          "chapters",
+          "chaptersWithTopics",
+          "chaptersWithoutTopics",
+          "topicsProposed",
+          "subtopicsProposed",
+          "provenance"
+        ],
+        "title": "SubjectTemplateReportResponse",
         "type": "object"
       },
       "SubtopicResponse": {
@@ -9577,6 +9745,55 @@
         "summary": "Extract Chapter"
       }
     },
+    "/api/v1/curriculum/chapters/{chapter_id}/proposed-topics": {
+      "get": {
+        "description": "Every still-unapproved decomposition proposal for one chapter, so the web\nadmin can show \"3 topics proposed from the NCERT headings -- approve?\" next\nto a chapter instead of the principal having to already know a run id.\nRead-only, and school-scoped like every other chapter read here.",
+        "operationId": "list_proposed_topics_api_v1_curriculum_chapters__chapter_id__proposed_topics_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chapter_id",
+            "required": true,
+            "schema": {
+              "title": "Chapter Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ExtractionRunWithProposalsResponse"
+                  },
+                  "title": "Response List Proposed Topics Api V1 Curriculum Chapters  Chapter Id  Proposed Topics Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Proposed Topics"
+      }
+    },
     "/api/v1/curriculum/chapters/{chapter_id}/questions/tag": {
       "post": {
         "description": "Resolves one question's text against this chapter's real, approved\nsubtopics and persists the match -- the bridge that makes \"generate a\npaper from these subtopics\" possible. Scoped to one chapter rather than\nthe whole school's subtopics: a question already carries a chapter tag\nfrom the existing assessment/chapters.py keyword-tagger, and searching\nonly that chapter's subtopics is both faster and more correct than a\nschool-wide lexical search.\n\nRequires a real logged-in caller from the chapter's own school (fixed:\nflagged by automated security review as a write endpoint -- persists\nQuestionSubtopicLink rows -- that had no auth at all, unlike every\nother write in this file; an unauthenticated caller could otherwise\ntag arbitrary question ids against any school's curriculum).",
@@ -9786,6 +10003,51 @@
           }
         ],
         "summary": "Add Manual Topic"
+      }
+    },
+    "/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all": {
+      "post": {
+        "description": "\"Approve all for this chapter\": materializes the chapter's pending\nTEMPLATE proposals in one action. A fresh Class 10 seed proposes topics for\n46 chapters; approving those one proposal at a time is the difference\nbetween a school finishing setup and giving up on it.\n\nTemplate runs only -- an LLM run's proposals are a draft nobody has read and\nstill go through POST /extraction-runs/{id}/approve, which is where an admin\nedits and rejects individually. Re-running is safe: a run already approved\nis not approved again, so nothing is duplicated.",
+        "operationId": "approve_chapter_templates_api_v1_curriculum_chapters__chapter_id__topics_approve_all_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chapter_id",
+            "required": true,
+            "schema": {
+              "title": "Chapter Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApproveChapterTopicsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Approve Chapter Templates"
       }
     },
     "/api/v1/curriculum/export": {
@@ -10503,6 +10765,50 @@
           }
         ],
         "summary": "Adjust Lesson"
+      }
+    },
+    "/api/v1/curriculum/seed/cbse": {
+      "post": {
+        "description": "Seeds any grade 6-12 for the caller's own school -- PRD section 0\ndecision 4 (\"all grades 6-12, all subjects\"), which until 2026-09-22 the\nproduct could not reach: `seed_cbse_all_grades` existed in seed_cbse10.py\nwired to no route and no CLI command, and `POST /seed/cbse9` was a 404 even\nthough academicos-data/syllabus/ has held every grade's file all along.\n\nSame posture as /seed/cbse10, which now delegates here: principal-gated,\nschool_id taken from the session and never from the body, idempotent on a\nre-run. A subject with no syllabus file for the grade is reported in\n`subjectsSkipped` rather than quietly dropped.\n\nAlso applies the committed decomposition templates\n(decomposition_templates.py) to the chapters it creates, as proposals\nPENDING this principal's approval -- so a new school can reach Topic and\nSubtopic without an LLM key, without anything being approved on its behalf.\n`topicTemplates` reports per subject what got topics and what did not.",
+        "operationId": "seed_cbse_any_grade_api_v1_curriculum_seed_cbse_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SeedGradeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeedCbse10Response"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Seed Cbse Any Grade"
       }
     },
     "/api/v1/curriculum/seed/cbse10": {

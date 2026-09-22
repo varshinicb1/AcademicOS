@@ -1,0 +1,643 @@
+{
+ "subject": "Science",
+ "grade": 10,
+ "chapters": [
+  {
+   "chapter_slug": "chemical-reactions-equations",
+   "chapter_name": "Chemical Reactions and Equations",
+   "topics": [
+    {
+     "name": "Foundations of Chemical Equations",
+     "subtopics": [
+      {
+       "name": "Definition and Observation of a Chemical Reaction"
+      },
+      {
+       "name": "Writing and Balancing Chemical Equations"
+      },
+      {
+       "name": "The Law of Conservation of Mass"
+      }
+     ]
+    },
+    {
+     "name": "Classification of Chemical Reactions",
+     "subtopics": [
+      {
+       "name": "Combination, Decomposition, and Displacement Reactions"
+      },
+      {
+       "name": "Double Displacement Reactions"
+      },
+      {
+       "name": "Oxidation-Reduction (Redox) Reactions"
+      }
+     ]
+    },
+    {
+     "name": "Applications of Chemical Concepts in Daily Life",
+     "subtopics": [
+      {
+       "name": "The Role of Redox in Corrosion and Rancidity"
+      },
+      {
+       "name": "Factors Affecting the Rate of a Chemical Reaction"
+      },
+      {
+       "name": "Types and Characteristics of Acids, Bases, and Salts (Neutralisation)"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "acids-bases-salts",
+   "chapter_name": "Acids, Bases and Salts",
+   "topics": [
+    {
+     "name": "Definitions and Properties of Acids and Bases",
+     "subtopics": [
+      {
+       "name": "Definition and Basic Characteristics of Acids and Bases"
+      },
+      {
+       "name": "Indicator Substances for Identifying Acids and Bases (Litmus, Turmeric, etc.)"
+      },
+      {
+       "name": "Concept of pH: Defining the Acidity/Alkalinity of a Solution"
+      }
+     ]
+    },
+    {
+     "name": "Chemical Reactions and Neutralization",
+     "subtopics": [
+      {
+       "name": "Reactions of Acids with Metals And Metal Oxides"
+      },
+      {
+       "name": "Reactions of Bases and their Products with Metals and Oxides"
+      },
+      {
+       "name": "The Neutralization Reaction: Formation of Salts and Water"
+      }
+     ]
+    },
+    {
+     "name": "Salts and their Practical Importance",
+     "subtopics": [
+      {
+       "name": "Synthesis and Properties of Salts"
+      },
+      {
+       "name": "Classification of Salts: Acidic, Basic, and Normal Salts"
+      },
+      {
+       "name": "Importance of pH in Daily Life, Agriculture, and Industry"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "metals-non-metals",
+   "chapter_name": "Metals and Non-metals",
+   "topics": [
+    {
+     "name": "Characteristic Physical Properties",
+     "subtopics": [
+      {
+       "name": "Luster, Malleability, and Ductility"
+      },
+      {
+       "name": "Electrical and Thermal Conductivity"
+      },
+      {
+       "name": "Density, Hardness, and State at Room Temperature"
+      }
+     ]
+    },
+    {
+     "name": "Chemical Reactivity and the Activity Series",
+     "subtopics": [
+      {
+       "name": "General Reactions with Air, Water, and Acids"
+      },
+      {
+       "name": "The Reactivity Series of Metals"
+      },
+      {
+       "name": "Displacement Reactions and their Applications"
+      }
+     ]
+    },
+    {
+     "name": "Formation of Oxides and Salts",
+     "subtopics": [
+      {
+       "name": "Formation and Nature of Oxides (Acidic, Basic, Amphoteric)"
+      },
+      {
+       "name": "Reactions of Oxides with Acids, Bases, and Water"
+      },
+      {
+       "name": "Preparation of Salts: Metal Carbonates and Hydroxides"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "carbon-compounds",
+   "chapter_name": "Carbon and its Compounds",
+   "topics": [
+    {
+     "name": "Carbon's Unique Chemistry and Hydrocarbons",
+     "subtopics": [
+      {
+       "name": "Tetravalency, Catenation, and Hybridisation of Carbon"
+      },
+      {
+       "name": "Classes of Hydrocarbons: Alkanes, Alkenes, and Alkynes"
+      },
+      {
+       "name": "Chemical Properties of Hydrocarbons: Combustion and Addition Reactions"
+      }
+     ]
+    },
+    {
+     "name": "Carbon and its Oxygen-Containing Derivatives",
+     "subtopics": [
+      {
+       "name": "Alcohols and Phenols: Structure, Properties, and Reactions"
+      },
+      {
+       "name": "Aldehydes and Ketones: Oxidation, Reduction, and Tests"
+      },
+      {
+       "name": "Carboxylic Acids and Esters: Preparation, Properties, and Uses"
+      }
+     ]
+    },
+    {
+     "name": "Carbon Compounds in Daily Life",
+     "subtopics": [
+      {
+       "name": "Classification of Polymers: Natural and Synthetic"
+      },
+      {
+       "name": "Soaps and Detergents: Chemistry and Cleansing Action"
+      },
+      {
+       "name": "Commercial Importance of Ethanol and Methanol"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "life-processes",
+   "chapter_name": "Life Processes",
+   "topics": [
+    {
+     "name": "Nutrition and Digestion",
+     "subtopics": [
+      {
+       "name": "Significance and types of nutrition"
+      },
+      {
+       "name": "The human alimentary canal and enzymes"
+      },
+      {
+       "name": "Absorption and assimilation of food"
+      }
+     ]
+    },
+    {
+     "name": "Respiration and Energy Management",
+     "subtopics": [
+      {
+       "name": "Aerobic and anaerobic respiration"
+      },
+      {
+       "name": "Human respiratory system and breathing"
+      },
+      {
+       "name": "Transport of respiratory gases"
+      }
+     ]
+    },
+    {
+     "name": "Transportation and Excretion",
+     "subtopics": [
+      {
+       "name": "Human circulatory system and blood"
+      },
+      {
+       "name": "Transportation of substances in body"
+      },
+      {
+       "name": "Excretion: organs and process in humans"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "control-coordination",
+   "chapter_name": "Control and Coordination",
+   "topics": [
+    {
+     "name": "Coordination in Plants",
+     "subtopics": [
+      {
+       "name": "Types of Plant Movements (Tropisms and Nastic Movements)"
+      },
+      {
+       "name": "Role of Plant Hormones (Auxins)"
+      },
+      {
+       "name": "Mechanism of Phototropism"
+      }
+     ]
+    },
+    {
+     "name": "Coordination in Animals - The Nervous System",
+     "subtopics": [
+      {
+       "name": "Structure and Function of a Neuron"
+      },
+      {
+       "name": "Reflex Actions and the Reflex Arc"
+      },
+      {
+       "name": "Structure and Deficiencies of the Human Eye"
+      }
+     ]
+    },
+    {
+     "name": "Coordination in Animals - The Endocrine System",
+     "subtopics": [
+      {
+       "name": "Hormones and their Major Glands"
+      },
+      {
+       "name": "Function of Key Hormones (Insulin, Thyroxine, Adrenaline)"
+      },
+      {
+       "name": "Homeostasis and Hormonal Control"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "reproduction",
+   "chapter_name": "How do Organisms Reproduce",
+   "topics": [
+    {
+     "name": "Modes of Reproduction in Organisms",
+     "subtopics": [
+      {
+       "name": "Asexual reproduction: fission, fragmentation, regeneration, vegetative propagation, and spore formation"
+      },
+      {
+       "name": "Sexual reproduction: gamete formation, fertilisation, and post-fertilisation events in plants and animals"
+      },
+      {
+       "name": "Pre-fertilisation events: pollination, structure of stamen and pistil, and pollen-pistil interaction"
+      }
+     ]
+    },
+    {
+     "name": "Human Reproductive Biology",
+     "subtopics": [
+      {
+       "name": "Male reproductive system: anatomy, spermatogenesis, and male accessory ducts"
+      },
+      {
+       "name": "Female reproductive system: anatomy, oogenesis, menstrual cycle, and pregnancy"
+      },
+      {
+       "name": "Fertilisation, implantation, and parturition with lactation"
+      }
+     ]
+    },
+    {
+     "name": "Reproductive Health and Family Planning",
+     "subtopics": [
+      {
+       "name": "Population explosion and contraceptive methods for family planning"
+      },
+      {
+       "name": "Medical termination of pregnancy, amniocentesis, and assisted reproductive technologies"
+      },
+      {
+       "name": "Sexually transmitted diseases, safe sex practices, and drug abuse"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "heredity",
+   "chapter_name": "Heredity",
+   "topics": [
+    {
+     "name": "Mendel's Experiments and Principles of Inheritance",
+     "subtopics": [
+      {
+       "name": "Mendel's choice of pea plants and monohybrid/dihybrid crosses"
+      },
+      {
+       "name": "Law of Segregation and Law of Independent Assortment"
+      },
+      {
+       "name": "Results: Ratio of traits in F1 and F2 generations"
+      }
+     ]
+    },
+    {
+     "name": "Chromosomal Basis of Inheritance and Sex Determination",
+     "subtopics": [
+      {
+       "name": "Role of chromosomes in heredity (link between genes and chromosomes)"
+      },
+      {
+       "name": "Sex determination in humans (XX/XY system)"
+      },
+      {
+       "name": "Inheritance of sex-linked traits (e.g., color blindness, hemophilia)"
+      }
+     ]
+    },
+    {
+     "name": "Evolution through Natural Selection",
+     "subtopics": [
+      {
+       "name": "Darwin's theory of natural selection and struggle for existence"
+      },
+      {
+       "name": "Geographic isolation and the process of speciation"
+      },
+      {
+       "name": "Evidence of evolution from the fossil record"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "light-reflection-refraction",
+   "chapter_name": "Light – Reflection and Refraction",
+   "topics": [
+    {
+     "name": "Reflection of Light",
+     "subtopics": [
+      {
+       "name": "Laws of Reflection and Ray Diagrams"
+      },
+      {
+       "name": "Spherical Mirrors (Concave and Convex)"
+      },
+      {
+       "name": "Mirror Formula and Magnification"
+      }
+     ]
+    },
+    {
+     "name": "Refraction of Light",
+     "subtopics": [
+      {
+       "name": "Refractive Index"
+      },
+      {
+       "name": "Refraction Through a Rectangular Glass Slab"
+      },
+      {
+       "name": "Refraction Through a Prism (Dispersion)"
+      }
+     ]
+    },
+    {
+     "name": "Lenses and Optical Devices",
+     "subtopics": [
+      {
+       "name": "Image Formation by Lenses"
+      },
+      {
+       "name": "Power of a Lens"
+      },
+      {
+       "name": "Total Internal Reflection and its Applications"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "human-eye",
+   "chapter_name": "The Human Eye and the Colourful World",
+   "topics": [
+    {
+     "name": "The Human Eye",
+     "subtopics": [
+      {
+       "name": "Structure and working of the human eye"
+      },
+      {
+       "name": "Power of accommodation and range of vision"
+      },
+      {
+       "name": "Defects of vision: myopia, hypermetropia, and presbyopia and their correction"
+      }
+     ]
+    },
+    {
+     "name": "Dispersion of Light",
+     "subtopics": [
+      {
+       "name": "Dispersion of white light through a glass prism"
+      },
+      {
+       "name": "Recombination of dispersed light and formation of spectrum"
+      },
+      {
+       "name": "Formation of the rainbow"
+      }
+     ]
+    },
+    {
+     "name": "Scattering of Light",
+     "subtopics": [
+      {
+       "name": "Tyndall effect and scattering by particles"
+      },
+      {
+       "name": "Colour of the sky at sunrise and sunset"
+      },
+      {
+       "name": "Twinkling of stars and advanced sunrise and delayed sunset"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "electricity",
+   "chapter_name": "Electricity",
+   "topics": [
+    {
+     "name": "Circuit Behavior and Ohm's Law",
+     "subtopics": [
+      {
+       "name": "Electric current and potential difference"
+      },
+      {
+       "name": "Ohm's law and resistance"
+      },
+      {
+       "name": "Factors affecting resistance and resistivity"
+      }
+     ]
+    },
+    {
+     "name": "Combination of Resistors",
+     "subtopics": [
+      {
+       "name": "Resistors in series"
+      },
+      {
+       "name": "Resistors in parallel"
+      },
+      {
+       "name": "Mixed series-parallel circuits"
+      }
+     ]
+    },
+    {
+     "name": "Heating Effect, Power and Domestic Circuits",
+     "subtopics": [
+      {
+       "name": "Joule's law of heating"
+      },
+      {
+       "name": "Electrical power and energy"
+      },
+      {
+       "name": "Domestic wiring and safety devices"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "magnetic-effects",
+   "chapter_name": "Magnetic Effects of Electric Current",
+   "topics": [
+    {
+     "name": "Magnetic Field Due to Current-Carrying Conductors",
+     "subtopics": [
+      {
+       "name": "Oersted's Experiment and Magnetic Field Lines"
+      },
+      {
+       "name": "Right-Hand Thumb Rule and Field Patterns"
+      },
+      {
+       "name": "Solenoid as an Electromagnet"
+      }
+     ]
+    },
+    {
+     "name": "Force on Current-Carrying Conductors and Electric Motor",
+     "subtopics": [
+      {
+       "name": "Fleming's Left-Hand Rule"
+      },
+      {
+       "name": "Principle and Working of an Electric Motor"
+      },
+      {
+       "name": "Construction and Working of a DC Motor"
+      }
+     ]
+    },
+    {
+     "name": "Electromagnetic Induction and Household Applications",
+     "subtopics": [
+      {
+       "name": "Electromagnetic Induction and Fleming's Right-Hand Rule"
+      },
+      {
+       "name": "Electric Generator"
+      },
+      {
+       "name": "Domestic Electric Circuits and Fuse"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "our-environment",
+   "chapter_name": "Our Environment",
+   "topics": [
+    {
+     "name": "Environmental Degradation and Pollution",
+     "subtopics": [
+      {
+       "name": "Sources, Types, and Effects of Air, Water, and Soil Pollution"
+      },
+      {
+       "name": "Consequences for Human Health and Ecosystems"
+      },
+      {
+       "name": "Control, Remediation, and Mitigation Strategies"
+      }
+     ]
+    },
+    {
+     "name": "Climate Change and Atmospheric Processes",
+     "subtopics": [
+      {
+       "name": "The Greenhouse Effect and Global Warming"
+      },
+      {
+       "name": "Ozone Depletion and its Causes"
+      },
+      {
+       "name": "Impacts of Climate Change on Health and Environment"
+      }
+     ]
+    },
+    {
+     "name": "Biodiversity and Sustainable Solutions",
+     "subtopics": [
+      {
+       "name": "Importance of Biodiversity and Conservation Methods"
+      },
+      {
+       "name": "Threats posed by Human Activities to Ecosystems"
+      },
+      {
+       "name": "Principle of Sustainable Development and Resource Management"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  }
+ ]
+}

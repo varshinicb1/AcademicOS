@@ -22,6 +22,7 @@ from ..assessment.authz import require_own_school, require_own_subtopics
 from ..assessment.users import User
 from ..config import Config
 from . import calendar as calendar_mod
+from . import decomposition_templates as templates_mod
 from . import extraction as extraction_mod
 from . import scheduling as scheduling_mod
 from .schemas import (
@@ -31,6 +32,7 @@ from .schemas import (
     AddSubtopicRequest,
     AddTopicRequest,
     AdjustLessonRequest,
+    ApproveChapterTopicsResponse,
     ApproveRunRequest,
     ApproveRunResponse,
     AssignTeacherRequest,
@@ -75,6 +77,8 @@ from .schemas import (
     ScheduledLessonResponse,
     SeedCbse10Request,
     SeedCbse10Response,
+    SeedGradeRequest,
+    SubjectTemplateReportResponse,
     AddTimetableSlotRequest,
     SetPeriodConfigurationRequest,
     SetSubjectPeriodAllocationRequest,
@@ -96,7 +100,8 @@ from .schemas import (
     UnitResponse,
     WorkingDaysResponse,
 )
-from .seed_cbse10 import seed_cbse_class_10
+from .models import CurriculumExtractionRun
+from .seed_cbse10 import SeedResult, seed_cbse_class_10, seed_cbse_grade
 from .store import CurriculumStore, get_curriculum_store
 
 router = APIRouter(prefix="/api/v1/curriculum")
@@ -455,14 +460,57 @@ def seed_cbse10(req: SeedCbse10Request,
     action (§29), not something any caller should be able to trigger for
     an arbitrary school_id string.
     """
-    result = seed_cbse_class_10(
+    return _seed_response(seed_cbse_class_10(
         _require(), school_id=principal.school_id, academic_year_label=req.academic_year_label,
-        start_date=req.start_date, end_date=req.end_date)
+        start_date=req.start_date, end_date=req.end_date))
+
+
+@router.post("/seed/cbse", response_model=SeedCbse10Response)
+def seed_cbse_any_grade(req: SeedGradeRequest,
+                        principal: User = Depends(require_principal)) -> SeedCbse10Response:
+    """Seeds any grade 6-12 for the caller's own school -- PRD section 0
+    decision 4 ("all grades 6-12, all subjects"), which until 2026-09-22 the
+    product could not reach: `seed_cbse_all_grades` existed in seed_cbse10.py
+    wired to no route and no CLI command, and `POST /seed/cbse9` was a 404 even
+    though academicos-data/syllabus/ has held every grade's file all along.
+
+    Same posture as /seed/cbse10, which now delegates here: principal-gated,
+    school_id taken from the session and never from the body, idempotent on a
+    re-run. A subject with no syllabus file for the grade is reported in
+    `subjectsSkipped` rather than quietly dropped.
+
+    Also applies the committed decomposition templates
+    (decomposition_templates.py) to the chapters it creates, as proposals
+    PENDING this principal's approval -- so a new school can reach Topic and
+    Subtopic without an LLM key, without anything being approved on its behalf.
+    `topicTemplates` reports per subject what got topics and what did not.
+    """
+    return _seed_response(seed_cbse_grade(
+        _require(), school_id=principal.school_id, academic_year_label=req.academic_year_label,
+        start_date=req.start_date, end_date=req.end_date, grade_number=req.grade))
+
+
+def _seed_response(result: SeedResult) -> SeedCbse10Response:
     return SeedCbse10Response(
         board_id=result.board_id, academic_year_id=result.academic_year_id,
-        grade_id=result.grade_id, subjects_seeded=result.subjects_seeded,
+        grade_id=result.grade_id, grade=result.grade_number,
+        subjects_seeded=result.subjects_seeded,
         units_seeded=result.units_seeded, chapters_seeded=result.chapters_seeded,
         subjects_skipped=result.subjects_skipped,
+        chapters_with_topics=result.chapters_with_topics,
+        chapters_without_topics=result.chapters_without_topics,
+        topics_proposed=result.topics_proposed,
+        subtopics_proposed=result.subtopics_proposed,
+        topic_templates=[
+            SubjectTemplateReportResponse(
+                subject=t.subject, chapters=t.chapters,
+                chapters_with_topics=t.chapters_with_topics,
+                chapters_without_topics=t.chapters_without_topics,
+                topics_proposed=t.topics_proposed,
+                subtopics_proposed=t.subtopics_proposed,
+                provenance=t.provenance, note=t.note)
+            for t in result.topic_templates
+        ],
     )
 
 
@@ -549,7 +597,11 @@ def get_extraction_run(run_id: str,
         raise HTTPException(404, "extraction run not found")
     if store.school_id_for_chapter(run.chapter_id) != current.school_id:
         raise HTTPException(403, "this extraction run belongs to a different school")
-    proposals = store.proposals_for_run(run_id)
+    return _run_with_proposals(store, run)
+
+
+def _run_with_proposals(store: CurriculumStore, run: CurriculumExtractionRun,
+                        ) -> ExtractionRunWithProposalsResponse:
     return ExtractionRunWithProposalsResponse(
         run=ExtractionRunResponse(id=run.id, school_id=run.school_id, book_id=run.book_id,
                                   chapter_id=run.chapter_id, source_hash=run.source_hash,
@@ -561,7 +613,7 @@ def get_extraction_run(run_id: str,
                                     proposed_parent=p.proposed_parent, sequence=p.sequence,
                                     confidence=p.confidence, status=p.status,
                                     edited_name=p.edited_name, materialized_id=p.materialized_id)
-                  for p in proposals],
+                  for p in store.proposals_for_run(run.id)],
     )
 
 
@@ -583,6 +635,48 @@ def approve_extraction_run(run_id: str, req: ApproveRunRequest,
     return ApproveRunResponse(run_id=result.run_id, topics_created=result.topics_created,
                               subtopics_created=result.subtopics_created,
                               topic_ids=result.topic_ids, subtopic_ids=result.subtopic_ids)
+
+
+@router.get("/chapters/{chapter_id}/proposed-topics",
+            response_model=list[ExtractionRunWithProposalsResponse])
+def list_proposed_topics(chapter_id: str,
+                         current: User = Depends(get_current_user),
+                         ) -> list[ExtractionRunWithProposalsResponse]:
+    """Every still-unapproved decomposition proposal for one chapter, so the web
+    admin can show "3 topics proposed from the NCERT headings -- approve?" next
+    to a chapter instead of the principal having to already know a run id.
+    Read-only, and school-scoped like every other chapter read here."""
+    store = _require()
+    _require_school_owns_chapter(chapter_id, current)
+    return [
+        _run_with_proposals(store, run)
+        for run in store.extraction_runs_for_chapter(chapter_id)
+        if run.status in ("pending", "reviewed")
+    ]
+
+
+@router.post("/chapters/{chapter_id}/topics/approve-all",
+             response_model=ApproveChapterTopicsResponse)
+def approve_chapter_templates(chapter_id: str,
+                              principal: User = Depends(require_principal),
+                              ) -> ApproveChapterTopicsResponse:
+    """"Approve all for this chapter": materializes the chapter's pending
+    TEMPLATE proposals in one action. A fresh Class 10 seed proposes topics for
+    46 chapters; approving those one proposal at a time is the difference
+    between a school finishing setup and giving up on it.
+
+    Template runs only -- an LLM run's proposals are a draft nobody has read and
+    still go through POST /extraction-runs/{id}/approve, which is where an admin
+    edits and rejects individually. Re-running is safe: a run already approved
+    is not approved again, so nothing is duplicated."""
+    store = _require()
+    _require_school_owns_chapter(chapter_id, principal)
+    result = templates_mod.approve_chapter_templates(
+        store, chapter_id, approved_by=principal.id)
+    return ApproveChapterTopicsResponse(
+        chapter_id=result.chapter_id, runs_approved=result.runs_approved,
+        topics_created=result.topics_created, subtopics_created=result.subtopics_created,
+        topic_ids=result.topic_ids, subtopic_ids=result.subtopic_ids)
 
 
 @router.post("/chapters/{chapter_id}/topics", response_model=TopicResponse)

@@ -1,0 +1,2364 @@
+{
+ "built_from": {
+  "approved_decomposition": "C:\\Users\\varsh\\AppData\\Local\\Temp\\claude\\C--Users-varsh-OneDrive-Documents-Sarvam\\41a6a65b-1bb7-4f34-809c-9d44876be9ab\\scratchpad\\curriculum_ro.sqlite",
+  "approved_school_id": "school_1",
+  "textbook_taxonomy": "C:\\Users\\varsh\\AppData\\Local\\Temp\\claude\\C--Users-varsh-OneDrive-Documents-Sarvam\\41a6a65b-1bb7-4f34-809c-9d44876be9ab\\scratchpad\\taxonomy",
+  "script": "scripts/export_decomposition_templates.py"
+ },
+ "totals": {
+  "chapters_with_topics": 76,
+  "chapters_without_topics": 427,
+  "topics": 294,
+  "subtopics": 508
+ },
+ "by_subject_grade": [
+  {
+   "subject": "English",
+   "grade": 6,
+   "syllabus_chapters": 4,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 4,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree (Poorvi) has 16 chapters but no numbered section headings inside them -- these are literature/prose chapters, which carry no sub-structure to extract",
+   "uncovered": [
+    {
+     "chapter_slug": "reading-comprehension",
+     "chapter_name": "Reading Comprehension"
+    },
+    {
+     "chapter_slug": "grammar",
+     "chapter_name": "Grammar (Nouns, Verbs, Articles, Simple Sentences)"
+    },
+    {
+     "chapter_slug": "writing-skills",
+     "chapter_name": "Paragraph Writing, Message Writing, Picture Description"
+    },
+    {
+     "chapter_slug": "poorvi-textbook",
+     "chapter_name": "Poorvi (Units: Fables and Folk Tales, Friendship, Nurturing Nature, Sports and Games, Culture and Tradition)"
+    }
+   ]
+  },
+  {
+   "subject": "Hindi",
+   "grade": 6,
+   "syllabus_chapters": 4,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 4,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh-kavyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh"
+    },
+    {
+     "chapter_slug": "vyakaran-6",
+     "chapter_name": "Varnamala, Sangya, Sarvanam, Kriya, Ling, Vachan"
+    },
+    {
+     "chapter_slug": "malhar-textbook",
+     "chapter_name": "Malhar (Kavita evam Kahani)"
+    },
+    {
+     "chapter_slug": "rachnatmak-lekhan",
+     "chapter_name": "Chitra Varnan, Anuchhed Lekhan, Samvad Lekhan"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 6,
+   "syllabus_chapters": 11,
+   "chapters_with_topics": 10,
+   "chapters_without_topics": 1,
+   "topics": 65,
+   "subtopics": 55,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 10,
+   "why_uncovered": "the textbook tree is Ganita Prakash (NCERT's 2024-25 NEP edition, 10 chapters) and this repo's syllabus JSON still lists the previous edition's chapter names; no title matches exactly, and a near-match would attach one chapter's headings to a different chapter",
+   "uncovered": [
+    {
+     "chapter_slug": "ratio-and-proportion",
+     "chapter_name": "Ratio and Proportion"
+    }
+   ]
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 10,
+   "chapters_without_topics": 2,
+   "topics": 53,
+   "subtopics": 26,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 10,
+   "why_uncovered": "the textbook tree is Curiosity (NCERT's 2024-25 NEP edition, 12 chapters) and this repo's syllabus JSON still lists the previous edition's chapter names; no title matches exactly, and a near-match would attach one chapter's headings to a different chapter",
+   "uncovered": [
+    {
+     "chapter_slug": "the-wonderful-world-of-science",
+     "chapter_name": "The Wonderful World of Science"
+    },
+    {
+     "chapter_slug": "methods-of-separation-in-everyday-life",
+     "chapter_name": "Methods of Separation in Everyday Life"
+    }
+   ]
+  },
+  {
+   "subject": "Social Science",
+   "grade": 6,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 10,
+   "chapters_without_topics": 2,
+   "topics": 38,
+   "subtopics": 23,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 10,
+   "why_uncovered": "the textbook tree is Exploring Society: India and Beyond (NCERT's 2024-25 NEP edition, 14 chapters) and this repo's syllabus JSON still lists the previous edition's chapter names; no title matches exactly, and a near-match would attach one chapter's headings to a different chapter",
+   "uncovered": [
+    {
+     "chapter_slug": "grassroots-democracy-part-1-governance-in-villages",
+     "chapter_name": "Grassroots Democracy - Part 1: Governance in Villages"
+    },
+    {
+     "chapter_slug": "grassroots-democracy-part-2-governance-in-towns",
+     "chapter_name": "Grassroots Democracy - Part 2: Governance in Towns"
+    }
+   ]
+  },
+  {
+   "subject": "English",
+   "grade": 7,
+   "syllabus_chapters": 5,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 5,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree (Poorvi) has 15 chapters but no numbered section headings inside them -- these are literature/prose chapters, which carry no sub-structure to extract",
+   "uncovered": [
+    {
+     "chapter_slug": "reading-comprehension",
+     "chapter_name": "Reading Comprehension"
+    },
+    {
+     "chapter_slug": "grammar",
+     "chapter_name": "Grammar (Nouns, Pronouns, Adjectives, Adverbs, Prepositions)"
+    },
+    {
+     "chapter_slug": "writing-skills",
+     "chapter_name": "Paragraph Writing, Informal Letters, Story Writing"
+    },
+    {
+     "chapter_slug": "honeycomb-textbook",
+     "chapter_name": "Honeycomb (Textbook in English)"
+    },
+    {
+     "chapter_slug": "an-alien-hand",
+     "chapter_name": "An Alien Hand (Supplementary Reader)"
+    }
+   ]
+  },
+  {
+   "subject": "Hindi",
+   "grade": 7,
+   "syllabus_chapters": 4,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 4,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh-kavyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh"
+    },
+    {
+     "chapter_slug": "vyakaran-7",
+     "chapter_name": "Sangya, Sarvanam, Visheshan, Kriya, Vilom, Paryayvachi"
+    },
+    {
+     "chapter_slug": "vasant-bhag-2",
+     "chapter_name": "Vasant Bhag 2 (Kavita evam Kahani)"
+    },
+    {
+     "chapter_slug": "rachnatmak-lekhan",
+     "chapter_name": "Patra Lekhan, Nibandh Lekhan, Samvad Lekhan"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 13,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree is ['Ganita Prakash Part 1', 'Ganita Prakash Part 2'] (NCERT's 2024-25 NEP edition, 15 chapters) and this repo's syllabus JSON still lists the previous edition's chapter names; no title matches exactly, and a near-match would attach one chapter's headings to a different chapter",
+   "uncovered": [
+    {
+     "chapter_slug": "integers",
+     "chapter_name": "Integers"
+    },
+    {
+     "chapter_slug": "fractions-and-decimals",
+     "chapter_name": "Fractions and Decimals"
+    },
+    {
+     "chapter_slug": "rational-numbers-7",
+     "chapter_name": "Rational Numbers"
+    },
+    {
+     "chapter_slug": "exponents-and-powers-7",
+     "chapter_name": "Exponents and Powers"
+    },
+    {
+     "chapter_slug": "simple-equations",
+     "chapter_name": "Simple Equations"
+    },
+    {
+     "chapter_slug": "algebraic-expressions-7",
+     "chapter_name": "Algebraic Expressions"
+    },
+    {
+     "chapter_slug": "comparing-quantities-7",
+     "chapter_name": "Comparing Quantities"
+    },
+    {
+     "chapter_slug": "lines-and-angles-7",
+     "chapter_name": "Lines and Angles"
+    },
+    {
+     "chapter_slug": "the-triangle-and-its-properties",
+     "chapter_name": "The Triangle and its Properties"
+    },
+    {
+     "chapter_slug": "perimeter-and-area",
+     "chapter_name": "Perimeter and Area"
+    },
+    {
+     "chapter_slug": "symmetry",
+     "chapter_name": "Symmetry"
+    },
+    {
+     "chapter_slug": "visualising-solid-shapes",
+     "chapter_name": "Visualising Solid Shapes"
+    },
+    {
+     "chapter_slug": "data-handling-7",
+     "chapter_name": "Data Handling"
+    }
+   ]
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 13,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree is Curiosity (NCERT's 2024-25 NEP edition, 12 chapters) and this repo's syllabus JSON still lists the previous edition's chapter names; no title matches exactly, and a near-match would attach one chapter's headings to a different chapter",
+   "uncovered": [
+    {
+     "chapter_slug": "nutrition-in-plants",
+     "chapter_name": "Nutrition in Plants"
+    },
+    {
+     "chapter_slug": "nutrition-in-animals",
+     "chapter_name": "Nutrition in Animals"
+    },
+    {
+     "chapter_slug": "respiration-in-organisms",
+     "chapter_name": "Respiration in Organisms"
+    },
+    {
+     "chapter_slug": "transportation-animals-plants",
+     "chapter_name": "Transportation in Animals and Plants"
+    },
+    {
+     "chapter_slug": "reproduction-in-plants",
+     "chapter_name": "Reproduction in Plants"
+    },
+    {
+     "chapter_slug": "heat",
+     "chapter_name": "Heat"
+    },
+    {
+     "chapter_slug": "acids-bases-salts-7",
+     "chapter_name": "Acids, Bases and Salts"
+    },
+    {
+     "chapter_slug": "physical-and-chemical-changes",
+     "chapter_name": "Physical and Chemical Changes"
+    },
+    {
+     "chapter_slug": "motion-and-time",
+     "chapter_name": "Motion and Time"
+    },
+    {
+     "chapter_slug": "electric-current-effects",
+     "chapter_name": "Electric Current and its Effects"
+    },
+    {
+     "chapter_slug": "light-7",
+     "chapter_name": "Light"
+    },
+    {
+     "chapter_slug": "forests-our-lifeline",
+     "chapter_name": "Forests: Our Lifeline"
+    },
+    {
+     "chapter_slug": "wastewater-story",
+     "chapter_name": "Wastewater Story"
+    }
+   ]
+  },
+  {
+   "subject": "Social Science",
+   "grade": 7,
+   "syllabus_chapters": 23,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 23,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree is ['Exploring Society: India and Beyond Part 1', 'Exploring Society: India and Beyond Part 2'] (NCERT's 2024-25 NEP edition, 20 chapters) and this repo's syllabus JSON still lists the previous edition's chapter names; no title matches exactly, and a near-match would attach one chapter's headings to a different chapter",
+   "uncovered": [
+    {
+     "chapter_slug": "tracing-changes-thousand-years",
+     "chapter_name": "Tracing Changes through a Thousand Years"
+    },
+    {
+     "chapter_slug": "kings-and-kingdoms",
+     "chapter_name": "Kings and Kingdoms"
+    },
+    {
+     "chapter_slug": "delhi-12th-to-15th-century",
+     "chapter_name": "Delhi: 12th to 15th Century"
+    },
+    {
+     "chapter_slug": "the-mughals-16th-to-17th-century",
+     "chapter_name": "The Mughals (16th to 17th Century)"
+    },
+    {
+     "chapter_slug": "tribes-nomads-settled-communities",
+     "chapter_name": "Tribes, Nomads and Settled Communities"
+    },
+    {
+     "chapter_slug": "devotional-paths-to-divine",
+     "chapter_name": "Devotional Paths to the Divine"
+    },
+    {
+     "chapter_slug": "making-of-regional-cultures",
+     "chapter_name": "The Making of Regional Cultures"
+    },
+    {
+     "chapter_slug": "eighteenth-century-political-formations",
+     "chapter_name": "Eighteenth-Century Political Formations"
+    },
+    {
+     "chapter_slug": "environment",
+     "chapter_name": "Environment"
+    },
+    {
+     "chapter_slug": "inside-our-earth",
+     "chapter_name": "Inside Our Earth"
+    },
+    {
+     "chapter_slug": "our-changing-earth",
+     "chapter_name": "Our Changing Earth"
+    },
+    {
+     "chapter_slug": "air",
+     "chapter_name": "Air"
+    },
+    {
+     "chapter_slug": "water",
+     "chapter_name": "Water"
+    },
+    {
+     "chapter_slug": "human-environment-interactions",
+     "chapter_name": "Human-Environment Interactions: Tropical and Subtropical Regions"
+    },
+    {
+     "chapter_slug": "life-in-deserts",
+     "chapter_name": "Life in the Deserts"
+    },
+    {
+     "chapter_slug": "on-equality",
+     "chapter_name": "On Equality"
+    },
+    {
+     "chapter_slug": "role-of-government-in-health",
+     "chapter_name": "Role of the Government in Health"
+    },
+    {
+     "chapter_slug": "how-state-government-works",
+     "chapter_name": "How the State Government Works"
+    },
+    {
+     "chapter_slug": "growing-up-as-boys-and-girls",
+     "chapter_name": "Growing up as Boys and Girls"
+    },
+    {
+     "chapter_slug": "women-change-the-world",
+     "chapter_name": "Women Change the World"
+    },
+    {
+     "chapter_slug": "understanding-media",
+     "chapter_name": "Understanding Media"
+    },
+    {
+     "chapter_slug": "markets-around-us",
+     "chapter_name": "Markets Around Us"
+    },
+    {
+     "chapter_slug": "a-shirt-in-the-market",
+     "chapter_name": "A Shirt in the Market"
+    }
+   ]
+  },
+  {
+   "subject": "English",
+   "grade": 8,
+   "syllabus_chapters": 5,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 5,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree (Poorvi) has 15 chapters but no numbered section headings inside them -- these are literature/prose chapters, which carry no sub-structure to extract",
+   "uncovered": [
+    {
+     "chapter_slug": "reading-comprehension",
+     "chapter_name": "Reading Comprehension"
+    },
+    {
+     "chapter_slug": "grammar",
+     "chapter_name": "Grammar (Tenses, Active-Passive, Direct-Indirect, Conjunctions)"
+    },
+    {
+     "chapter_slug": "writing-skills",
+     "chapter_name": "Formal and Informal Letters, Notice, Paragraph Writing"
+    },
+    {
+     "chapter_slug": "honeydew-textbook",
+     "chapter_name": "Honeydew (Textbook in English)"
+    },
+    {
+     "chapter_slug": "it-so-happened",
+     "chapter_name": "It So Happened (Supplementary Reader)"
+    }
+   ]
+  },
+  {
+   "subject": "Hindi",
+   "grade": 8,
+   "syllabus_chapters": 4,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 4,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh-kavyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh"
+    },
+    {
+     "chapter_slug": "vyakaran-8",
+     "chapter_name": "Sangya, Sarvanam, Visheshan, Kriya, Karak, Samas, Sandhi"
+    },
+    {
+     "chapter_slug": "vasant-bhag-3",
+     "chapter_name": "Vasant Bhag 3 (Kavita evam Kahani)"
+    },
+    {
+     "chapter_slug": "rachnatmak-lekhan",
+     "chapter_name": "Patra Lekhan, Nibandh Lekhan, Samvad Lekhan"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 13,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree is ['Ganita Prakash Part 1', 'Ganita Prakash Part 2'] (NCERT's 2024-25 NEP edition, 14 chapters) and this repo's syllabus JSON still lists the previous edition's chapter names; no title matches exactly, and a near-match would attach one chapter's headings to a different chapter",
+   "uncovered": [
+    {
+     "chapter_slug": "rational-numbers",
+     "chapter_name": "Rational Numbers"
+    },
+    {
+     "chapter_slug": "squares-and-square-roots",
+     "chapter_name": "Squares and Square Roots"
+    },
+    {
+     "chapter_slug": "cubes-and-cube-roots",
+     "chapter_name": "Cubes and Cube Roots"
+    },
+    {
+     "chapter_slug": "comparing-quantities",
+     "chapter_name": "Comparing Quantities"
+    },
+    {
+     "chapter_slug": "exponents-and-powers",
+     "chapter_name": "Exponents and Powers"
+    },
+    {
+     "chapter_slug": "direct-and-inverse-proportions",
+     "chapter_name": "Direct and Inverse Proportions"
+    },
+    {
+     "chapter_slug": "linear-equations-one-variable",
+     "chapter_name": "Linear Equations in One Variable"
+    },
+    {
+     "chapter_slug": "algebraic-expressions-identities",
+     "chapter_name": "Algebraic Expressions and Identities"
+    },
+    {
+     "chapter_slug": "factorisation",
+     "chapter_name": "Factorisation"
+    },
+    {
+     "chapter_slug": "understanding-quadrilaterals",
+     "chapter_name": "Understanding Quadrilaterals"
+    },
+    {
+     "chapter_slug": "mensuration-8",
+     "chapter_name": "Mensuration"
+    },
+    {
+     "chapter_slug": "data-handling",
+     "chapter_name": "Data Handling"
+    },
+    {
+     "chapter_slug": "introduction-to-graphs",
+     "chapter_name": "Introduction to Graphs"
+    }
+   ]
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "syllabus_chapters": 14,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 14,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree is Curiosity (NCERT's 2024-25 NEP edition, 13 chapters) and this repo's syllabus JSON still lists the previous edition's chapter names; no title matches exactly, and a near-match would attach one chapter's headings to a different chapter",
+   "uncovered": [
+    {
+     "chapter_slug": "crop-production-management",
+     "chapter_name": "Crop Production and Management"
+    },
+    {
+     "chapter_slug": "microorganisms-friend-foe",
+     "chapter_name": "Microorganisms: Friend and Foe"
+    },
+    {
+     "chapter_slug": "conservation-plants-animals",
+     "chapter_name": "Conservation of Plants and Animals"
+    },
+    {
+     "chapter_slug": "reproduction-in-animals",
+     "chapter_name": "Reproduction in Animals"
+    },
+    {
+     "chapter_slug": "reaching-age-of-adolescence",
+     "chapter_name": "Reaching the Age of Adolescence"
+    },
+    {
+     "chapter_slug": "coal-and-petroleum",
+     "chapter_name": "Coal and Petroleum"
+    },
+    {
+     "chapter_slug": "combustion-and-flame",
+     "chapter_name": "Combustion and Flame"
+    },
+    {
+     "chapter_slug": "chemical-effects-electric-current",
+     "chapter_name": "Chemical Effects of Electric Current"
+    },
+    {
+     "chapter_slug": "force-and-pressure",
+     "chapter_name": "Force and Pressure"
+    },
+    {
+     "chapter_slug": "friction",
+     "chapter_name": "Friction"
+    },
+    {
+     "chapter_slug": "sound-8",
+     "chapter_name": "Sound"
+    },
+    {
+     "chapter_slug": "some-natural-phenomena",
+     "chapter_name": "Some Natural Phenomena"
+    },
+    {
+     "chapter_slug": "light-8",
+     "chapter_name": "Light"
+    },
+    {
+     "chapter_slug": "pollution-air-water",
+     "chapter_name": "Pollution of Air and Water"
+    }
+   ]
+  },
+  {
+   "subject": "Social Science",
+   "grade": 8,
+   "syllabus_chapters": 21,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 21,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree is ['Exploring Society: India and Beyond Part 1', 'Exploring Society: India and Beyond Part 2'] (NCERT's 2024-25 NEP edition, 15 chapters) and this repo's syllabus JSON still lists the previous edition's chapter names; no title matches exactly, and a near-match would attach one chapter's headings to a different chapter",
+   "uncovered": [
+    {
+     "chapter_slug": "how-when-and-where",
+     "chapter_name": "How, When and Where"
+    },
+    {
+     "chapter_slug": "from-trade-to-territory",
+     "chapter_name": "From Trade to Territory: Company Establishes Power"
+    },
+    {
+     "chapter_slug": "ruling-the-countryside",
+     "chapter_name": "Ruling the Countryside"
+    },
+    {
+     "chapter_slug": "tribals-dikus-golden-age",
+     "chapter_name": "Tribals, Dikus and the Vision of a Golden Age"
+    },
+    {
+     "chapter_slug": "when-people-rebel-1857",
+     "chapter_name": "When People Rebel: 1857 and After"
+    },
+    {
+     "chapter_slug": "civilising-the-native",
+     "chapter_name": "Civilising the Native, Educating the Nation"
+    },
+    {
+     "chapter_slug": "women-caste-and-reform",
+     "chapter_name": "Women, Caste and Reform"
+    },
+    {
+     "chapter_slug": "making-of-national-movement",
+     "chapter_name": "The Making of the National Movement: 1870s-1947"
+    },
+    {
+     "chapter_slug": "resources",
+     "chapter_name": "Resources"
+    },
+    {
+     "chapter_slug": "land-soil-water-natural-vegetation",
+     "chapter_name": "Land, Soil, Water, Natural Vegetation and Wildlife"
+    },
+    {
+     "chapter_slug": "agriculture-8",
+     "chapter_name": "Agriculture"
+    },
+    {
+     "chapter_slug": "industries",
+     "chapter_name": "Industries"
+    },
+    {
+     "chapter_slug": "human-resources",
+     "chapter_name": "Human Resources"
+    },
+    {
+     "chapter_slug": "the-indian-constitution",
+     "chapter_name": "The Indian Constitution"
+    },
+    {
+     "chapter_slug": "understanding-secularism",
+     "chapter_name": "Understanding Secularism"
+    },
+    {
+     "chapter_slug": "parliament-and-making-of-laws",
+     "chapter_name": "Parliament and the Making of Laws"
+    },
+    {
+     "chapter_slug": "judiciary",
+     "chapter_name": "Judiciary"
+    },
+    {
+     "chapter_slug": "understanding-marginalisation",
+     "chapter_name": "Understanding Marginalisation"
+    },
+    {
+     "chapter_slug": "confronting-marginalisation",
+     "chapter_name": "Confronting Marginalisation"
+    },
+    {
+     "chapter_slug": "public-facilities",
+     "chapter_name": "Public Facilities"
+    },
+    {
+     "chapter_slug": "law-and-social-justice",
+     "chapter_name": "Law and Social Justice"
+    }
+   ]
+  },
+  {
+   "subject": "English",
+   "grade": 9,
+   "syllabus_chapters": 5,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 5,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree (Kaveri) has 16 chapters but no numbered section headings inside them -- these are literature/prose chapters, which carry no sub-structure to extract",
+   "uncovered": [
+    {
+     "chapter_slug": "reading-comprehension",
+     "chapter_name": "Reading Comprehension"
+    },
+    {
+     "chapter_slug": "grammar",
+     "chapter_name": "Grammar (Tenses, Modals, Subject-Verb Concord, Reported Speech)"
+    },
+    {
+     "chapter_slug": "writing-skills",
+     "chapter_name": "Descriptive Paragraph and Diary Entry / Story Writing"
+    },
+    {
+     "chapter_slug": "beehive-textbook",
+     "chapter_name": "Beehive (Prose and Poetry)"
+    },
+    {
+     "chapter_slug": "moments-supplementary",
+     "chapter_name": "Moments (Supplementary Reader)"
+    }
+   ]
+  },
+  {
+   "subject": "Hindi",
+   "grade": 9,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 12,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree (Ganga) has 14 chapters but no numbered section headings inside them -- these are literature/prose chapters, which carry no sub-structure to extract",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh"
+    },
+    {
+     "chapter_slug": "upsarg-pratyay",
+     "chapter_name": "Upsarg va Pratyay"
+    },
+    {
+     "chapter_slug": "samas",
+     "chapter_name": "Samas"
+    },
+    {
+     "chapter_slug": "arth-ke-aadhar-par-vakya",
+     "chapter_name": "Arth ke Aadhar par Vakya Bhed"
+    },
+    {
+     "chapter_slug": "alankar-9",
+     "chapter_name": "Alankar"
+    },
+    {
+     "chapter_slug": "kshitij-bhag-1-gadya",
+     "chapter_name": "Kshitij Bhag 1 (Gadya Khand)"
+    },
+    {
+     "chapter_slug": "kshitij-bhag-1-kavya",
+     "chapter_name": "Kshitij Bhag 1 (Kavya Khand)"
+    },
+    {
+     "chapter_slug": "kritika-bhag-1",
+     "chapter_name": "Kritika Bhag 1"
+    },
+    {
+     "chapter_slug": "anuchhed-lekhan",
+     "chapter_name": "Anuchhed Lekhan"
+    },
+    {
+     "chapter_slug": "patra-lekhan",
+     "chapter_name": "Patra Lekhan"
+    },
+    {
+     "chapter_slug": "laghukatha-samvad-lekhan",
+     "chapter_name": "Laghukatha va Samvad Lekhan"
+    },
+    {
+     "chapter_slug": "email-suchna-lekhan",
+     "chapter_name": "Email va Suchna Lekhan"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 12,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree is Ganita Manjari (NCERT's 2024-25 NEP edition, 8 chapters) and this repo's syllabus JSON still lists the previous edition's chapter names; no title matches exactly, and a near-match would attach one chapter's headings to a different chapter",
+   "uncovered": [
+    {
+     "chapter_slug": "number-systems-9",
+     "chapter_name": "Number Systems"
+    },
+    {
+     "chapter_slug": "polynomials-9",
+     "chapter_name": "Polynomials"
+    },
+    {
+     "chapter_slug": "linear-equations-two-variables",
+     "chapter_name": "Linear Equations in Two Variables"
+    },
+    {
+     "chapter_slug": "coordinate-geometry-9",
+     "chapter_name": "Coordinate Geometry"
+    },
+    {
+     "chapter_slug": "intro-euclid-geometry",
+     "chapter_name": "Introduction to Euclid's Geometry"
+    },
+    {
+     "chapter_slug": "lines-and-angles",
+     "chapter_name": "Lines and Angles"
+    },
+    {
+     "chapter_slug": "triangles-9",
+     "chapter_name": "Triangles"
+    },
+    {
+     "chapter_slug": "quadrilaterals",
+     "chapter_name": "Quadrilaterals"
+    },
+    {
+     "chapter_slug": "circles-9",
+     "chapter_name": "Circles"
+    },
+    {
+     "chapter_slug": "herons-formula",
+     "chapter_name": "Heron's Formula"
+    },
+    {
+     "chapter_slug": "surface-areas-and-volumes-9",
+     "chapter_name": "Surface Areas and Volumes"
+    },
+    {
+     "chapter_slug": "statistics-9",
+     "chapter_name": "Statistics"
+    }
+   ]
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 12,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree is Exploration (NCERT's 2024-25 NEP edition, 13 chapters) and this repo's syllabus JSON still lists the previous edition's chapter names; no title matches exactly, and a near-match would attach one chapter's headings to a different chapter",
+   "uncovered": [
+    {
+     "chapter_slug": "matter-in-our-surroundings",
+     "chapter_name": "Matter in Our Surroundings"
+    },
+    {
+     "chapter_slug": "is-matter-around-us-pure",
+     "chapter_name": "Is Matter Around Us Pure"
+    },
+    {
+     "chapter_slug": "atoms-and-molecules",
+     "chapter_name": "Atoms and Molecules"
+    },
+    {
+     "chapter_slug": "structure-of-the-atom",
+     "chapter_name": "Structure of the Atom"
+    },
+    {
+     "chapter_slug": "fundamental-unit-of-life",
+     "chapter_name": "The Fundamental Unit of Life"
+    },
+    {
+     "chapter_slug": "tissues",
+     "chapter_name": "Tissues"
+    },
+    {
+     "chapter_slug": "motion",
+     "chapter_name": "Motion"
+    },
+    {
+     "chapter_slug": "force-and-laws-of-motion",
+     "chapter_name": "Force and Laws of Motion"
+    },
+    {
+     "chapter_slug": "gravitation-9",
+     "chapter_name": "Gravitation"
+    },
+    {
+     "chapter_slug": "work-and-energy",
+     "chapter_name": "Work and Energy"
+    },
+    {
+     "chapter_slug": "sound",
+     "chapter_name": "Sound"
+    },
+    {
+     "chapter_slug": "improvement-in-food-resources",
+     "chapter_name": "Improvement in Food Resources"
+    }
+   ]
+  },
+  {
+   "subject": "Social Science",
+   "grade": 9,
+   "syllabus_chapters": 20,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 20,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "the textbook tree is Understanding Society: India and Beyond Part 1 (NCERT's 2024-25 NEP edition, 9 chapters) and this repo's syllabus JSON still lists the previous edition's chapter names; no title matches exactly, and a near-match would attach one chapter's headings to a different chapter",
+   "uncovered": [
+    {
+     "chapter_slug": "french-revolution",
+     "chapter_name": "The French Revolution"
+    },
+    {
+     "chapter_slug": "socialism-europe-russian-revolution",
+     "chapter_name": "Socialism in Europe and the Russian Revolution"
+    },
+    {
+     "chapter_slug": "nazism-rise-of-hitler",
+     "chapter_name": "Nazism and the Rise of Hitler"
+    },
+    {
+     "chapter_slug": "forest-society-colonialism",
+     "chapter_name": "Forest Society and Colonialism"
+    },
+    {
+     "chapter_slug": "pastoralists-modern-world",
+     "chapter_name": "Pastoralists in the Modern World"
+    },
+    {
+     "chapter_slug": "india-size-and-location",
+     "chapter_name": "India - Size and Location"
+    },
+    {
+     "chapter_slug": "physical-features-of-india",
+     "chapter_name": "Physical Features of India"
+    },
+    {
+     "chapter_slug": "drainage",
+     "chapter_name": "Drainage"
+    },
+    {
+     "chapter_slug": "climate",
+     "chapter_name": "Climate"
+    },
+    {
+     "chapter_slug": "natural-vegetation-wildlife",
+     "chapter_name": "Natural Vegetation and Wildlife"
+    },
+    {
+     "chapter_slug": "population",
+     "chapter_name": "Population"
+    },
+    {
+     "chapter_slug": "what-is-democracy-why",
+     "chapter_name": "What is Democracy? Why Democracy?"
+    },
+    {
+     "chapter_slug": "constitutional-design",
+     "chapter_name": "Constitutional Design"
+    },
+    {
+     "chapter_slug": "electoral-politics",
+     "chapter_name": "Electoral Politics"
+    },
+    {
+     "chapter_slug": "working-of-institutions",
+     "chapter_name": "Working of Institutions"
+    },
+    {
+     "chapter_slug": "democratic-rights",
+     "chapter_name": "Democratic Rights"
+    },
+    {
+     "chapter_slug": "story-village-palampur",
+     "chapter_name": "The Story of Village Palampur"
+    },
+    {
+     "chapter_slug": "people-as-resource",
+     "chapter_name": "People as Resource"
+    },
+    {
+     "chapter_slug": "poverty-as-a-challenge",
+     "chapter_name": "Poverty as a Challenge"
+    },
+    {
+     "chapter_slug": "food-security-in-india",
+     "chapter_name": "Food Security in India"
+    }
+   ]
+  },
+  {
+   "subject": "English",
+   "grade": 10,
+   "syllabus_chapters": 4,
+   "chapters_with_topics": 4,
+   "chapters_without_topics": 0,
+   "topics": 12,
+   "subtopics": 36,
+   "from_approved_decomposition": 4,
+   "from_textbook_headings": 0,
+   "why_uncovered": null,
+   "uncovered": []
+  },
+  {
+   "subject": "Hindi",
+   "grade": 10,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 12,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh"
+    },
+    {
+     "chapter_slug": "rachna-ke-aadhar-par-vakya-bhed",
+     "chapter_name": "Rachna ke Aadhar par Vakya Bhed"
+    },
+    {
+     "chapter_slug": "vachya",
+     "chapter_name": "Vachya"
+    },
+    {
+     "chapter_slug": "pad-parichay",
+     "chapter_name": "Pad Parichay"
+    },
+    {
+     "chapter_slug": "alankar",
+     "chapter_name": "Alankar"
+    },
+    {
+     "chapter_slug": "kshitij-gadya-khand",
+     "chapter_name": "Kshitij Bhag 2 Gadya Khand"
+    },
+    {
+     "chapter_slug": "kshitij-kavya-khand",
+     "chapter_name": "Kshitij Bhag 2 Kavya Khand"
+    },
+    {
+     "chapter_slug": "kritika-bhag-2",
+     "chapter_name": "Kritika Bhag 2"
+    },
+    {
+     "chapter_slug": "anuchhed-lekhan",
+     "chapter_name": "Anuchhed Lekhan"
+    },
+    {
+     "chapter_slug": "patra-lekhan",
+     "chapter_name": "Patra Lekhan"
+    },
+    {
+     "chapter_slug": "vigyapan-lekhan",
+     "chapter_name": "Vigyapan Lekhan va Sandesh Lekhan"
+    },
+    {
+     "chapter_slug": "email-lekhan",
+     "chapter_name": "E-mail Lekhan va Swavratt Lekhan"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "syllabus_chapters": 7,
+   "chapters_with_topics": 7,
+   "chapters_without_topics": 0,
+   "topics": 21,
+   "subtopics": 58,
+   "from_approved_decomposition": 7,
+   "from_textbook_headings": 0,
+   "why_uncovered": null,
+   "uncovered": []
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 13,
+   "chapters_without_topics": 0,
+   "topics": 39,
+   "subtopics": 117,
+   "from_approved_decomposition": 13,
+   "from_textbook_headings": 0,
+   "why_uncovered": null,
+   "uncovered": []
+  },
+  {
+   "subject": "Social Science",
+   "grade": 10,
+   "syllabus_chapters": 22,
+   "chapters_with_topics": 22,
+   "chapters_without_topics": 0,
+   "topics": 66,
+   "subtopics": 193,
+   "from_approved_decomposition": 22,
+   "from_textbook_headings": 0,
+   "why_uncovered": null,
+   "uncovered": []
+  },
+  {
+   "subject": "Accountancy",
+   "grade": 11,
+   "syllabus_chapters": 7,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 7,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "intro-accounting",
+     "chapter_name": "Introduction to Accounting"
+    },
+    {
+     "chapter_slug": "theory-base-accounting",
+     "chapter_name": "Theory Base of Accounting"
+    },
+    {
+     "chapter_slug": "recording-transactions",
+     "chapter_name": "Recording of Business Transactions (Journal & Ledger)"
+    },
+    {
+     "chapter_slug": "bank-reconciliation-statement",
+     "chapter_name": "Bank Reconciliation Statement"
+    },
+    {
+     "chapter_slug": "depreciation-provisions-reserves",
+     "chapter_name": "Depreciation, Provisions and Reserves"
+    },
+    {
+     "chapter_slug": "trial-balance-rectification",
+     "chapter_name": "Trial Balance and Rectification of Errors"
+    },
+    {
+     "chapter_slug": "financial-statements-sole-proprietor",
+     "chapter_name": "Financial Statements of Sole Proprietorship"
+    }
+   ]
+  },
+  {
+   "subject": "Biology",
+   "grade": 11,
+   "syllabus_chapters": 19,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 19,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "the-living-world",
+     "chapter_name": "The Living World"
+    },
+    {
+     "chapter_slug": "biological-classification",
+     "chapter_name": "Biological Classification"
+    },
+    {
+     "chapter_slug": "plant-kingdom",
+     "chapter_name": "Plant Kingdom"
+    },
+    {
+     "chapter_slug": "animal-kingdom",
+     "chapter_name": "Animal Kingdom"
+    },
+    {
+     "chapter_slug": "morphology-flowering-plants",
+     "chapter_name": "Morphology of Flowering Plants"
+    },
+    {
+     "chapter_slug": "anatomy-flowering-plants",
+     "chapter_name": "Anatomy of Flowering Plants"
+    },
+    {
+     "chapter_slug": "structural-organisation-animals",
+     "chapter_name": "Structural Organisation in Animals"
+    },
+    {
+     "chapter_slug": "cell-unit-of-life",
+     "chapter_name": "Cell: The Unit of Life"
+    },
+    {
+     "chapter_slug": "biomolecules-bio",
+     "chapter_name": "Biomolecules"
+    },
+    {
+     "chapter_slug": "cell-cycle-division",
+     "chapter_name": "Cell Cycle and Cell Division"
+    },
+    {
+     "chapter_slug": "photosynthesis-higher-plants",
+     "chapter_name": "Photosynthesis in Higher Plants"
+    },
+    {
+     "chapter_slug": "respiration-in-plants",
+     "chapter_name": "Respiration in Plants"
+    },
+    {
+     "chapter_slug": "plant-growth-development",
+     "chapter_name": "Plant Growth and Development"
+    },
+    {
+     "chapter_slug": "breathing-exchange-gases",
+     "chapter_name": "Breathing and Exchange of Gases"
+    },
+    {
+     "chapter_slug": "body-fluids-circulation",
+     "chapter_name": "Body Fluids and Circulation"
+    },
+    {
+     "chapter_slug": "excretory-products-elimination",
+     "chapter_name": "Excretory Products and their Elimination"
+    },
+    {
+     "chapter_slug": "locomotion-and-movement",
+     "chapter_name": "Locomotion and Movement"
+    },
+    {
+     "chapter_slug": "neural-control-coordination",
+     "chapter_name": "Neural Control and Coordination"
+    },
+    {
+     "chapter_slug": "chemical-coordination-integration",
+     "chapter_name": "Chemical Coordination and Integration"
+    }
+   ]
+  },
+  {
+   "subject": "Business Studies",
+   "grade": 11,
+   "syllabus_chapters": 10,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 10,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "nature-purpose-business",
+     "chapter_name": "Evolution and Fundamentals of Business"
+    },
+    {
+     "chapter_slug": "forms-business-organisations",
+     "chapter_name": "Forms of Business Organisations"
+    },
+    {
+     "chapter_slug": "public-private-global-enterprises",
+     "chapter_name": "Public, Private and Global Enterprises"
+    },
+    {
+     "chapter_slug": "business-services",
+     "chapter_name": "Business Services"
+    },
+    {
+     "chapter_slug": "emerging-modes-business",
+     "chapter_name": "Emerging Modes of Business"
+    },
+    {
+     "chapter_slug": "social-responsibility-ethics",
+     "chapter_name": "Social Responsibilities of Business and Business Ethics"
+    },
+    {
+     "chapter_slug": "sources-business-finance",
+     "chapter_name": "Sources of Business Finance"
+    },
+    {
+     "chapter_slug": "small-business-enterprises",
+     "chapter_name": "Small Business and Enterprises"
+    },
+    {
+     "chapter_slug": "internal-trade",
+     "chapter_name": "Internal Trade"
+    },
+    {
+     "chapter_slug": "international-trade-business",
+     "chapter_name": "International Business"
+    }
+   ]
+  },
+  {
+   "subject": "Chemistry",
+   "grade": 11,
+   "syllabus_chapters": 9,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 9,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "basic-concepts-chemistry",
+     "chapter_name": "Some Basic Concepts of Chemistry"
+    },
+    {
+     "chapter_slug": "structure-of-atom",
+     "chapter_name": "Structure of Atom"
+    },
+    {
+     "chapter_slug": "classification-elements-periodicity",
+     "chapter_name": "Classification of Elements and Periodicity in Properties"
+    },
+    {
+     "chapter_slug": "chemical-bonding-molecular-structure",
+     "chapter_name": "Chemical Bonding and Molecular Structure"
+    },
+    {
+     "chapter_slug": "chemical-thermodynamics",
+     "chapter_name": "Chemical Thermodynamics"
+    },
+    {
+     "chapter_slug": "equilibrium",
+     "chapter_name": "Equilibrium"
+    },
+    {
+     "chapter_slug": "redox-reactions",
+     "chapter_name": "Redox Reactions"
+    },
+    {
+     "chapter_slug": "organic-chemistry-principles",
+     "chapter_name": "Organic Chemistry: Some Basic Principles and Techniques"
+    },
+    {
+     "chapter_slug": "hydrocarbons",
+     "chapter_name": "Hydrocarbons"
+    }
+   ]
+  },
+  {
+   "subject": "Economics",
+   "grade": 11,
+   "syllabus_chapters": 7,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 7,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "intro-statistics-economics",
+     "chapter_name": "Introduction to Statistics"
+    },
+    {
+     "chapter_slug": "collection-organisation-presentation-data",
+     "chapter_name": "Collection, Organisation and Presentation of Data"
+    },
+    {
+     "chapter_slug": "statistical-tools-interpretation",
+     "chapter_name": "Statistical Tools and Interpretation"
+    },
+    {
+     "chapter_slug": "intro-microeconomics",
+     "chapter_name": "Introduction to Microeconomics"
+    },
+    {
+     "chapter_slug": "consumer-equilibrium-demand",
+     "chapter_name": "Consumer's Equilibrium and Demand"
+    },
+    {
+     "chapter_slug": "producer-behaviour-supply",
+     "chapter_name": "Producer Behaviour and Supply"
+    },
+    {
+     "chapter_slug": "forms-market-price-determination",
+     "chapter_name": "Forms of Market and Price Determination"
+    }
+   ]
+  },
+  {
+   "subject": "English",
+   "grade": 11,
+   "syllabus_chapters": 5,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 5,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "reading-comprehension",
+     "chapter_name": "Reading Comprehension and Note Making"
+    },
+    {
+     "chapter_slug": "grammar",
+     "chapter_name": "Grammar (Tenses, Clauses, Re-ordering of Sentences)"
+    },
+    {
+     "chapter_slug": "creative-writing",
+     "chapter_name": "Notice, Poster, Speech and Debate Writing"
+    },
+    {
+     "chapter_slug": "hornbill",
+     "chapter_name": "Hornbill (Prose and Poetry)"
+    },
+    {
+     "chapter_slug": "snapshots",
+     "chapter_name": "Snapshots (Supplementary Reader)"
+    }
+   ]
+  },
+  {
+   "subject": "Hindi",
+   "grade": 11,
+   "syllabus_chapters": 5,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 5,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh-kavyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh"
+    },
+    {
+     "chapter_slug": "abhivyakti-aur-madhyam",
+     "chapter_name": "Abhivyakti aur Madhyam"
+    },
+    {
+     "chapter_slug": "aroh-kavya-khand",
+     "chapter_name": "Aroh (Kavya Khand)"
+    },
+    {
+     "chapter_slug": "aroh-gadya-khand",
+     "chapter_name": "Aroh (Gadya Khand)"
+    },
+    {
+     "chapter_slug": "vitan",
+     "chapter_name": "Vitan"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 11,
+   "syllabus_chapters": 14,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 14,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "sets",
+     "chapter_name": "Sets"
+    },
+    {
+     "chapter_slug": "relations-functions-11",
+     "chapter_name": "Relations and Functions"
+    },
+    {
+     "chapter_slug": "trigonometric-functions",
+     "chapter_name": "Trigonometric Functions"
+    },
+    {
+     "chapter_slug": "complex-numbers-quadratic",
+     "chapter_name": "Complex Numbers and Quadratic Equations"
+    },
+    {
+     "chapter_slug": "linear-inequalities",
+     "chapter_name": "Linear Inequalities"
+    },
+    {
+     "chapter_slug": "permutations-combinations",
+     "chapter_name": "Permutations and Combinations"
+    },
+    {
+     "chapter_slug": "binomial-theorem",
+     "chapter_name": "Binomial Theorem"
+    },
+    {
+     "chapter_slug": "sequences-and-series",
+     "chapter_name": "Sequences and Series"
+    },
+    {
+     "chapter_slug": "straight-lines",
+     "chapter_name": "Straight Lines"
+    },
+    {
+     "chapter_slug": "conic-sections",
+     "chapter_name": "Conic Sections"
+    },
+    {
+     "chapter_slug": "intro-3d-geometry",
+     "chapter_name": "Introduction to Three-Dimensional Geometry"
+    },
+    {
+     "chapter_slug": "limits-and-derivatives",
+     "chapter_name": "Limits and Derivatives"
+    },
+    {
+     "chapter_slug": "statistics-11",
+     "chapter_name": "Statistics"
+    },
+    {
+     "chapter_slug": "probability-11",
+     "chapter_name": "Probability"
+    }
+   ]
+  },
+  {
+   "subject": "Physics",
+   "grade": 11,
+   "syllabus_chapters": 14,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 14,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "units-and-measurements",
+     "chapter_name": "Units and Measurements"
+    },
+    {
+     "chapter_slug": "motion-straight-line",
+     "chapter_name": "Motion in a Straight Line"
+    },
+    {
+     "chapter_slug": "motion-plane",
+     "chapter_name": "Motion in a Plane"
+    },
+    {
+     "chapter_slug": "laws-of-motion",
+     "chapter_name": "Laws of Motion"
+    },
+    {
+     "chapter_slug": "work-energy-power",
+     "chapter_name": "Work, Energy and Power"
+    },
+    {
+     "chapter_slug": "system-particles-rotational-motion",
+     "chapter_name": "System of Particles and Rotational Motion"
+    },
+    {
+     "chapter_slug": "gravitation",
+     "chapter_name": "Gravitation"
+    },
+    {
+     "chapter_slug": "mechanical-properties-solids",
+     "chapter_name": "Mechanical Properties of Solids"
+    },
+    {
+     "chapter_slug": "mechanical-properties-fluids",
+     "chapter_name": "Mechanical Properties of Fluids"
+    },
+    {
+     "chapter_slug": "thermal-properties-matter",
+     "chapter_name": "Thermal Properties of Matter"
+    },
+    {
+     "chapter_slug": "thermodynamics",
+     "chapter_name": "Thermodynamics"
+    },
+    {
+     "chapter_slug": "kinetic-theory",
+     "chapter_name": "Kinetic Theory of Gases"
+    },
+    {
+     "chapter_slug": "oscillations",
+     "chapter_name": "Oscillations"
+    },
+    {
+     "chapter_slug": "waves",
+     "chapter_name": "Waves"
+    }
+   ]
+  },
+  {
+   "subject": "Accountancy",
+   "grade": 12,
+   "syllabus_chapters": 11,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 11,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "partnership-fundamentals",
+     "chapter_name": "Accounting for Partnership: Basic Concepts"
+    },
+    {
+     "chapter_slug": "change-in-profit-sharing-ratio",
+     "chapter_name": "Reconstitution of Partnership: Change in PSR"
+    },
+    {
+     "chapter_slug": "admission-of-partner",
+     "chapter_name": "Admission of a Partner"
+    },
+    {
+     "chapter_slug": "retirement-death-of-partner",
+     "chapter_name": "Retirement and Death of a Partner"
+    },
+    {
+     "chapter_slug": "dissolution-of-partnership-firm",
+     "chapter_name": "Dissolution of a Partnership Firm"
+    },
+    {
+     "chapter_slug": "accounting-for-share-capital",
+     "chapter_name": "Accounting for Share Capital"
+    },
+    {
+     "chapter_slug": "accounting-for-debentures",
+     "chapter_name": "Issue and Redemption of Debentures"
+    },
+    {
+     "chapter_slug": "financial-statements-of-company",
+     "chapter_name": "Financial Statements of a Company"
+    },
+    {
+     "chapter_slug": "financial-statement-analysis",
+     "chapter_name": "Tools of Financial Statement Analysis"
+    },
+    {
+     "chapter_slug": "accounting-ratios",
+     "chapter_name": "Accounting Ratios"
+    },
+    {
+     "chapter_slug": "cash-flow-statement",
+     "chapter_name": "Cash Flow Statement"
+    }
+   ]
+  },
+  {
+   "subject": "Biology",
+   "grade": 12,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 13,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "sexual-reproduction-flowering-plants",
+     "chapter_name": "Sexual Reproduction in Flowering Plants"
+    },
+    {
+     "chapter_slug": "human-reproduction",
+     "chapter_name": "Human Reproduction"
+    },
+    {
+     "chapter_slug": "reproductive-health",
+     "chapter_name": "Reproductive Health"
+    },
+    {
+     "chapter_slug": "principles-inheritance-variation",
+     "chapter_name": "Principles of Inheritance and Variation"
+    },
+    {
+     "chapter_slug": "molecular-basis-inheritance",
+     "chapter_name": "Molecular Basis of Inheritance"
+    },
+    {
+     "chapter_slug": "evolution",
+     "chapter_name": "Evolution"
+    },
+    {
+     "chapter_slug": "human-health-disease",
+     "chapter_name": "Human Health and Disease"
+    },
+    {
+     "chapter_slug": "microbes-human-welfare",
+     "chapter_name": "Microbes in Human Welfare"
+    },
+    {
+     "chapter_slug": "biotechnology-principles-processes",
+     "chapter_name": "Biotechnology: Principles and Processes"
+    },
+    {
+     "chapter_slug": "biotechnology-applications",
+     "chapter_name": "Biotechnology and its Applications"
+    },
+    {
+     "chapter_slug": "organisms-populations",
+     "chapter_name": "Organisms and Populations"
+    },
+    {
+     "chapter_slug": "ecosystem",
+     "chapter_name": "Ecosystem"
+    },
+    {
+     "chapter_slug": "biodiversity-conservation",
+     "chapter_name": "Biodiversity and its Conservation"
+    }
+   ]
+  },
+  {
+   "subject": "Business Studies",
+   "grade": 12,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 12,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "nature-significance-management",
+     "chapter_name": "Nature and Significance of Management"
+    },
+    {
+     "chapter_slug": "principles-of-management",
+     "chapter_name": "Principles of Management"
+    },
+    {
+     "chapter_slug": "business-environment",
+     "chapter_name": "Business Environment"
+    },
+    {
+     "chapter_slug": "planning",
+     "chapter_name": "Planning"
+    },
+    {
+     "chapter_slug": "organising",
+     "chapter_name": "Organising"
+    },
+    {
+     "chapter_slug": "staffing",
+     "chapter_name": "Staffing"
+    },
+    {
+     "chapter_slug": "directing",
+     "chapter_name": "Directing"
+    },
+    {
+     "chapter_slug": "controlling",
+     "chapter_name": "Controlling"
+    },
+    {
+     "chapter_slug": "financial-management",
+     "chapter_name": "Financial Management"
+    },
+    {
+     "chapter_slug": "financial-markets",
+     "chapter_name": "Financial Markets"
+    },
+    {
+     "chapter_slug": "marketing-management",
+     "chapter_name": "Marketing Management"
+    },
+    {
+     "chapter_slug": "consumer-protection",
+     "chapter_name": "Consumer Protection"
+    }
+   ]
+  },
+  {
+   "subject": "Chemistry",
+   "grade": 12,
+   "syllabus_chapters": 10,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 10,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "solutions",
+     "chapter_name": "Solutions"
+    },
+    {
+     "chapter_slug": "electrochemistry",
+     "chapter_name": "Electrochemistry"
+    },
+    {
+     "chapter_slug": "chemical-kinetics",
+     "chapter_name": "Chemical Kinetics"
+    },
+    {
+     "chapter_slug": "d-and-f-block-elements",
+     "chapter_name": "d-and f-Block Elements"
+    },
+    {
+     "chapter_slug": "coordination-compounds",
+     "chapter_name": "Coordination Compounds"
+    },
+    {
+     "chapter_slug": "haloalkanes-and-haloarenes",
+     "chapter_name": "Haloalkanes and Haloarenes"
+    },
+    {
+     "chapter_slug": "alcohols-phenols-ethers",
+     "chapter_name": "Alcohols, Phenols and Ethers"
+    },
+    {
+     "chapter_slug": "aldehydes-ketones-carboxylic-acids",
+     "chapter_name": "Aldehydes, Ketones and Carboxylic Acids"
+    },
+    {
+     "chapter_slug": "amines",
+     "chapter_name": "Amines"
+    },
+    {
+     "chapter_slug": "biomolecules",
+     "chapter_name": "Biomolecules"
+    }
+   ]
+  },
+  {
+   "subject": "Economics",
+   "grade": 12,
+   "syllabus_chapters": 8,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 8,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "national-income-aggregates",
+     "chapter_name": "National Income and Related Aggregates"
+    },
+    {
+     "chapter_slug": "money-and-banking",
+     "chapter_name": "Money and Banking"
+    },
+    {
+     "chapter_slug": "determination-income-employment",
+     "chapter_name": "Determination of Income and Employment"
+    },
+    {
+     "chapter_slug": "government-budget-economy",
+     "chapter_name": "Government Budget and the Economy"
+    },
+    {
+     "chapter_slug": "balance-of-payments",
+     "chapter_name": "Balance of Payments"
+    },
+    {
+     "chapter_slug": "development-experience-1947-90",
+     "chapter_name": "Development Experience (1947-90) and Economic Reforms since 1991"
+    },
+    {
+     "chapter_slug": "current-challenges-indian-economy",
+     "chapter_name": "Current Challenges Facing Indian Economy"
+    },
+    {
+     "chapter_slug": "development-experience-comparative",
+     "chapter_name": "Development Experience of India – A Comparison with Neighbours"
+    }
+   ]
+  },
+  {
+   "subject": "English",
+   "grade": 12,
+   "syllabus_chapters": 8,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 8,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "reading-comprehension",
+     "chapter_name": "Reading Comprehension Through Unseen Passages"
+    },
+    {
+     "chapter_slug": "notice-writing",
+     "chapter_name": "Notice Writing"
+    },
+    {
+     "chapter_slug": "invitation-and-reply",
+     "chapter_name": "Formal and Informal Invitations and Replies"
+    },
+    {
+     "chapter_slug": "letter-writing",
+     "chapter_name": "Letters: Application for Job and Letter to Editor"
+    },
+    {
+     "chapter_slug": "article-report-writing",
+     "chapter_name": "Article and Report Writing"
+    },
+    {
+     "chapter_slug": "flamingo-prose",
+     "chapter_name": "Flamingo (Prose)"
+    },
+    {
+     "chapter_slug": "flamingo-poetry",
+     "chapter_name": "Flamingo (Poetry)"
+    },
+    {
+     "chapter_slug": "vistas-supplementary",
+     "chapter_name": "Vistas (Supplementary Reader)"
+    }
+   ]
+  },
+  {
+   "subject": "Geography",
+   "grade": 12,
+   "syllabus_chapters": 15,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 15,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "human-geography-nature-scope",
+     "chapter_name": "Human Geography: Nature and Scope"
+    },
+    {
+     "chapter_slug": "world-population-distribution-density",
+     "chapter_name": "The World Population: Distribution, Density and Growth"
+    },
+    {
+     "chapter_slug": "human-development",
+     "chapter_name": "Human Development"
+    },
+    {
+     "chapter_slug": "primary-activities",
+     "chapter_name": "Primary Activities"
+    },
+    {
+     "chapter_slug": "secondary-activities",
+     "chapter_name": "Secondary Activities"
+    },
+    {
+     "chapter_slug": "tertiary-quaternary-activities",
+     "chapter_name": "Tertiary and Quaternary Activities"
+    },
+    {
+     "chapter_slug": "transport-communication",
+     "chapter_name": "Transport and Communication"
+    },
+    {
+     "chapter_slug": "international-trade-geography",
+     "chapter_name": "International Trade"
+    },
+    {
+     "chapter_slug": "population-distribution-density-growth",
+     "chapter_name": "Population: Distribution, Density, Growth and Composition"
+    },
+    {
+     "chapter_slug": "human-settlements",
+     "chapter_name": "Human Settlements"
+    },
+    {
+     "chapter_slug": "land-resources-agriculture",
+     "chapter_name": "Land Resources and Agriculture"
+    },
+    {
+     "chapter_slug": "water-resources-india",
+     "chapter_name": "Water Resources"
+    },
+    {
+     "chapter_slug": "mineral-energy-resources-india",
+     "chapter_name": "Mineral and Energy Resources"
+    },
+    {
+     "chapter_slug": "planning-sustainable-development",
+     "chapter_name": "Planning and Sustainable Development in Indian Context"
+    },
+    {
+     "chapter_slug": "geographical-perspective-issues",
+     "chapter_name": "Geographical Perspective on Selected Issues and Problems"
+    }
+   ]
+  },
+  {
+   "subject": "Hindi",
+   "grade": 12,
+   "syllabus_chapters": 5,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 5,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh-kavyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh"
+    },
+    {
+     "chapter_slug": "abhivyakti-aur-madhyam",
+     "chapter_name": "Abhivyakti aur Madhyam"
+    },
+    {
+     "chapter_slug": "aroh-kavya-khand",
+     "chapter_name": "Aroh (Kavya Khand)"
+    },
+    {
+     "chapter_slug": "aroh-gadya-khand",
+     "chapter_name": "Aroh (Gadya Khand)"
+    },
+    {
+     "chapter_slug": "vitan",
+     "chapter_name": "Vitan"
+    }
+   ]
+  },
+  {
+   "subject": "History",
+   "grade": 12,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 13,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "bricks-beads-bones",
+     "chapter_name": "Bricks, Beads and Bones (Harappan Civilisation)"
+    },
+    {
+     "chapter_slug": "kings-farmers-towns",
+     "chapter_name": "Kings, Farmers and Towns (Early States and Economies)"
+    },
+    {
+     "chapter_slug": "kinship-caste-class",
+     "chapter_name": "Kinship, Caste and Class (Early Societies)"
+    },
+    {
+     "chapter_slug": "thinkers-beliefs-buildings",
+     "chapter_name": "Thinkers, Beliefs and Buildings (Cultural Developments)"
+    },
+    {
+     "chapter_slug": "eyes-of-travellers",
+     "chapter_name": "Through the Eyes of Travellers"
+    },
+    {
+     "chapter_slug": "bhakti-sufi-traditions",
+     "chapter_name": "Bhakti-Sufi Traditions"
+    },
+    {
+     "chapter_slug": "an-imperial-capital-vijayanagara",
+     "chapter_name": "An Imperial Capital: Vijayanagara"
+    },
+    {
+     "chapter_slug": "peasants-zamindars-state",
+     "chapter_name": "Peasants, Zamindars and the State"
+    },
+    {
+     "chapter_slug": "colonialism-countryside",
+     "chapter_name": "Colonialism and the Countryside"
+    },
+    {
+     "chapter_slug": "rebels-and-raj",
+     "chapter_name": "Rebels and the Raj"
+    },
+    {
+     "chapter_slug": "mahatma-gandhi-nationalist-movement",
+     "chapter_name": "Mahatma Gandhi and the Nationalist Movement"
+    },
+    {
+     "chapter_slug": "framing-constitution",
+     "chapter_name": "Framing the Constitution"
+    },
+    {
+     "chapter_slug": "map-work-history",
+     "chapter_name": "Map Work"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 12,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 13,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "relations-and-functions",
+     "chapter_name": "Relations and Functions"
+    },
+    {
+     "chapter_slug": "inverse-trigonometric-functions",
+     "chapter_name": "Inverse Trigonometric Functions"
+    },
+    {
+     "chapter_slug": "matrices",
+     "chapter_name": "Matrices"
+    },
+    {
+     "chapter_slug": "determinants",
+     "chapter_name": "Determinants"
+    },
+    {
+     "chapter_slug": "continuity-and-differentiability",
+     "chapter_name": "Continuity and Differentiability"
+    },
+    {
+     "chapter_slug": "applications-of-derivatives",
+     "chapter_name": "Applications of Derivatives"
+    },
+    {
+     "chapter_slug": "integrals",
+     "chapter_name": "Integrals"
+    },
+    {
+     "chapter_slug": "applications-of-integrals",
+     "chapter_name": "Applications of the Integrals"
+    },
+    {
+     "chapter_slug": "differential-equations",
+     "chapter_name": "Differential Equations"
+    },
+    {
+     "chapter_slug": "vectors",
+     "chapter_name": "Vectors"
+    },
+    {
+     "chapter_slug": "three-dimensional-geometry",
+     "chapter_name": "Three-Dimensional Geometry"
+    },
+    {
+     "chapter_slug": "linear-programming",
+     "chapter_name": "Linear Programming"
+    },
+    {
+     "chapter_slug": "probability",
+     "chapter_name": "Probability"
+    }
+   ]
+  },
+  {
+   "subject": "Physics",
+   "grade": 12,
+   "syllabus_chapters": 14,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 14,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "electric-charges-fields",
+     "chapter_name": "Electric Charges and Fields"
+    },
+    {
+     "chapter_slug": "electrostatic-potential-capacitance",
+     "chapter_name": "Electrostatic Potential and Capacitance"
+    },
+    {
+     "chapter_slug": "current-electricity",
+     "chapter_name": "Current Electricity"
+    },
+    {
+     "chapter_slug": "moving-charges-magnetism",
+     "chapter_name": "Moving Charges and Magnetism"
+    },
+    {
+     "chapter_slug": "magnetism-matter",
+     "chapter_name": "Magnetism and Matter"
+    },
+    {
+     "chapter_slug": "electromagnetic-induction",
+     "chapter_name": "Electromagnetic Induction"
+    },
+    {
+     "chapter_slug": "alternating-current",
+     "chapter_name": "Alternating Current"
+    },
+    {
+     "chapter_slug": "electromagnetic-waves",
+     "chapter_name": "Electromagnetic Waves"
+    },
+    {
+     "chapter_slug": "ray-optics",
+     "chapter_name": "Ray Optics and Optical Instruments"
+    },
+    {
+     "chapter_slug": "wave-optics",
+     "chapter_name": "Wave Optics"
+    },
+    {
+     "chapter_slug": "dual-nature-radiation",
+     "chapter_name": "Dual Nature of Radiation and Matter"
+    },
+    {
+     "chapter_slug": "atoms",
+     "chapter_name": "Atoms"
+    },
+    {
+     "chapter_slug": "nuclei",
+     "chapter_name": "Nuclei"
+    },
+    {
+     "chapter_slug": "semiconductor-electronics",
+     "chapter_name": "Semiconductor Electronics: Materials, Devices and Simple Circuits"
+    }
+   ]
+  },
+  {
+   "subject": "Political Science",
+   "grade": 12,
+   "syllabus_chapters": 14,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 14,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "no approved decomposition and no NCERT textbook tree for this subject/grade -- use the LLM extraction route with a key configured",
+   "uncovered": [
+    {
+     "chapter_slug": "end-of-bipolarity",
+     "chapter_name": "The End of Bipolarity"
+    },
+    {
+     "chapter_slug": "contemporary-centres-power",
+     "chapter_name": "Contemporary Centres of Power"
+    },
+    {
+     "chapter_slug": "contemporary-south-asia",
+     "chapter_name": "Contemporary South Asia"
+    },
+    {
+     "chapter_slug": "international-organisations",
+     "chapter_name": "International Organisations"
+    },
+    {
+     "chapter_slug": "security-contemporary-world",
+     "chapter_name": "Security in the Contemporary World"
+    },
+    {
+     "chapter_slug": "environment-natural-resources",
+     "chapter_name": "Environment and Natural Resources"
+    },
+    {
+     "chapter_slug": "globalisation-political",
+     "chapter_name": "Globalisation"
+    },
+    {
+     "chapter_slug": "challenges-nation-building",
+     "chapter_name": "Challenges of Nation-Building"
+    },
+    {
+     "chapter_slug": "era-one-party-dominance",
+     "chapter_name": "Era of One-Party Dominance and Planned Development"
+    },
+    {
+     "chapter_slug": "indias-external-relations",
+     "chapter_name": "India's External Relations"
+    },
+    {
+     "chapter_slug": "challenges-restoration-congress",
+     "chapter_name": "Challenges to and Restoration of the Congress System"
+    },
+    {
+     "chapter_slug": "crisis-democratic-order",
+     "chapter_name": "The Crisis of Democratic Order"
+    },
+    {
+     "chapter_slug": "regional-aspirations",
+     "chapter_name": "Regional Aspirations"
+    },
+    {
+     "chapter_slug": "recent-developments-indian-politics",
+     "chapter_name": "Recent Developments in Indian Politics"
+    }
+   ]
+  }
+ ]
+}

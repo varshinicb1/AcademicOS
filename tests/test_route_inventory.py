@@ -131,7 +131,10 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"),
     ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
     ("POST", "/api/v1/curriculum/seed/cbse10"),
+    ("POST", "/api/v1/curriculum/seed/cbse"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
+    ("GET", "/api/v1/curriculum/chapters/{chapter_id}/proposed-topics"),
+    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
     ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"),
     ("POST", "/api/v1/curriculum/extraction-runs/{run_id}/approve"),
@@ -271,8 +274,11 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/books/{book_id}/units"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
+    ("GET", "/api/v1/curriculum/chapters/{chapter_id}/proposed-topics"),
+    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all"),
     ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
     ("POST", "/api/v1/curriculum/seed/cbse10"),
+    ("POST", "/api/v1/curriculum/seed/cbse"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
     ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"),
     ("POST", "/api/v1/curriculum/extraction-runs/{run_id}/approve"),
@@ -541,7 +547,7 @@ def _valid_body_for(method: str, path: str) -> dict:
 
 
 def test_canonical_route_inventory_matches_live_app():
-    """The enumerated app must equal the 62-route inventory exactly."""
+    """The enumerated app must equal the inventory above exactly."""
     live = _enumerate_routes()
     live_api = live - DOC_ROUTES
     assert live_api == API_ROUTES, (
@@ -550,7 +556,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 141
+    assert len(API_ROUTES) == 144
 
 
 def test_docs_routes_present():
@@ -1146,6 +1152,53 @@ def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):
         )
         assert toc_res.status_code == 200
         assert toc_res.json()["unitsCreated"] >= 1
+
+        # -- any grade 6-12, not only 10 (PRD section 0 decision 4). The
+        # detailed behaviour lives in tests/test_curriculum_seed_grades.py;
+        # this pins the live route and its bound.
+        assert client.post("/api/v1/curriculum/seed/cbse", json={
+            "academicYearLabel": "2026-27", "startDate": "2026-06-01",
+            "endDate": "2027-04-30", "grade": 7,
+        }).status_code == 401
+        grade_7 = client.post(
+            "/api/v1/curriculum/seed/cbse",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01",
+                  "endDate": "2027-04-30", "grade": 7},
+            headers=principal_auth,
+        )
+        assert grade_7.status_code == 200, grade_7.text
+        assert grade_7.json()["grade"] == 7
+        assert grade_7.json()["chaptersSeeded"] > 0
+        assert client.post(
+            "/api/v1/curriculum/seed/cbse",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01",
+                  "endDate": "2027-04-30", "grade": 13},
+            headers=principal_auth,
+        ).status_code == 422
+
+        # -- seed -> pending template topics -> approved topics for one chapter
+        chapter_id = next(c["id"] for c in chapters.json()
+                          if c["name"] == "Chemical Reactions and Equations")
+        assert client.get(
+            f"/api/v1/curriculum/chapters/{chapter_id}/proposed-topics").status_code == 401
+        proposed = client.get(f"/api/v1/curriculum/chapters/{chapter_id}/proposed-topics",
+                              headers=principal_auth)
+        assert proposed.status_code == 200, proposed.text
+        assert proposed.json()[0]["run"]["status"] == "pending"
+
+        assert client.post(
+            f"/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all",
+            json={}).status_code == 401
+        assert client.post(
+            f"/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all",
+            json={}, headers=teacher_auth).status_code == 403
+        approved = client.post(f"/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all",
+                               json={}, headers=principal_auth)
+        assert approved.status_code == 200, approved.text
+        assert approved.json()["topicsCreated"] > 0
+        real_topics = client.get(f"/api/v1/curriculum/chapters/{chapter_id}/topics",
+                                 headers=principal_auth)
+        assert len(real_topics.json()) == approved.json()["topicsCreated"]
 
 
 def test_full_boot_academic_calendar_and_teaching_time_estimates(tmp_path, monkeypatch):

@@ -239,14 +239,60 @@ class SeedCbse10Request(Camel):
     end_date: str
 
 
+class SeedGradeRequest(SeedCbse10Request):
+    """PRD section 0 decision 4 is all grades 6-12. The bound is pydantic's so
+    the answer to grade 5 or 13 is a 422 naming the range, before any row is
+    created -- there is no syllabus data outside it (seed_cbse10.MIN_GRADE /
+    MAX_GRADE, which raises the same bound for the CLI and library callers)."""
+    grade: int = Field(ge=6, le=12)
+
+
+class SubjectTemplateReportResponse(Camel):
+    """How far below chapter level the seed got for one subject, and why it
+    stopped where it did. `note` is the honest half: "Class 7 Science is
+    chapter-only because the only textbook tree is the 2024-25 NEP edition and
+    the syllabus JSON still lists the previous edition's chapter names"."""
+    subject: str
+    chapters: int
+    chapters_with_topics: int
+    chapters_without_topics: int
+    topics_proposed: int
+    subtopics_proposed: int
+    provenance: list[str]
+    note: Optional[str] = None
+
+
 class SeedCbse10Response(Camel):
+    """Also the response of the any-grade route. The topic-template fields were
+    added 2026-09-22 (new fields only -- an older client keeps working): a seed
+    that stops at chapters and a seed that reached Topic/Subtopic used to be
+    indistinguishable in this body, and on a fresh school it was always the
+    former."""
     board_id: str
     academic_year_id: str
     grade_id: str
+    grade: int
     subjects_seeded: int
     units_seeded: int
     chapters_seeded: int
     subjects_skipped: list[str]
+    # Proposed, pending the principal's approval -- never approved rows.
+    chapters_with_topics: int = 0
+    chapters_without_topics: int = 0
+    topics_proposed: int = 0
+    subtopics_proposed: int = 0
+    topic_templates: list[SubjectTemplateReportResponse] = Field(default_factory=list)
+
+
+class ApproveChapterTopicsResponse(Camel):
+    """Result of "Approve all for this chapter" -- possibly several runs, since
+    a chapter can carry one template run per provenance."""
+    chapter_id: str
+    runs_approved: int
+    topics_created: int
+    subtopics_created: int
+    topic_ids: list[str]
+    subtopic_ids: list[str]
 
 
 # ---------------- academic calendar (§10, §27-29) ----------------

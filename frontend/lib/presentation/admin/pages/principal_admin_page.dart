@@ -9,6 +9,7 @@ import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 import '../widgets/book_edition_card.dart';
 import '../widgets/calendar_rules_card.dart';
+import '../widgets/pending_topics_card.dart';
 
 /// The console's tabs, in display order. The TabBar, the TabBarView and every
 /// jump between tabs are all derived from this list, so reordering or adding
@@ -1264,6 +1265,11 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         Text('Drag and drop units or chapters to reorder delivery sequence (§13).',
             style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
         const Gap(12),
+        // A chapter cannot be delivered below chapter level until its topics
+        // are real, so the approval step belongs next to the sequence, not on
+        // a screen of its own.
+        PendingTopicsCard(grades: data.grades, onMessage: _showMessage),
+        const Gap(16),
         AppCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

@@ -195,6 +195,101 @@ class TopicWithSubtopics {
             .toList();
 }
 
+/// One still-unapproved Topic proposal, with its proposed Subtopics nested.
+/// `description` carries the source's own reference where there is one (an
+/// NCERT section number, "NCERT section 2.2.1") -- the thing a principal
+/// actually checks the proposal against.
+class ProposedTopic {
+  final String id;
+  final String name;
+  final String? description;
+  final List<ProposedTopic> subtopics;
+
+  ProposedTopic({required this.id, required this.name, this.description,
+      this.subtopics = const []});
+}
+
+/// A chapter's pending decomposition proposals, from one extraction run.
+///
+/// Seeding a grade applies the committed decomposition template (school_1's
+/// approved Class 10 work, or the NCERT textbooks' own numbered headings) as
+/// PENDING proposals -- never as this school's approved curriculum. This is
+/// what the principal reviews before it becomes real; `provenance` is the
+/// run's promptVersion, e.g. `template:ncert-textbook-headings`.
+class ChapterTopicProposals {
+  final String runId;
+  final String status;
+  final String provenance;
+  final List<ProposedTopic> topics;
+
+  ChapterTopicProposals({required this.runId, required this.status,
+      required this.provenance, required this.topics});
+
+  bool get isTemplate => provenance.startsWith('template:');
+
+  /// "approved for Class 10 by another school" / "the textbook's own section
+  /// headings" -- plain words, because `template:school_1-approved` means
+  /// nothing to a principal.
+  String get sourceLabel {
+    switch (provenance) {
+      case 'template:school_1-approved':
+        return 'a CBSE school\'s approved Class 10 decomposition';
+      case 'template:ncert-textbook-headings':
+        return 'the NCERT textbook\'s own numbered section headings';
+      default:
+        return provenance.startsWith('template:') ? provenance : 'an AI draft';
+    }
+  }
+
+  /// The wire shape is a flat proposal list where a subtopic points at its
+  /// parent topic proposal (`proposedParent`), because neither exists as a
+  /// real row yet and so neither has a real id to nest under.
+  factory ChapterTopicProposals.fromJson(Map<String, dynamic> j) {
+    final run = Map<String, dynamic>.from(j['run'] as Map);
+    final rows = (j['proposals'] as List? ?? const [])
+        .map((e) => Map<String, dynamic>.from(e))
+        .toList();
+    final children = <String, List<ProposedTopic>>{};
+    for (final p in rows.where((p) => p['entityType'] == 'subtopic')) {
+      children.putIfAbsent(p['proposedParent'] as String? ?? '', () => []).add(ProposedTopic(
+            id: p['id'] as String,
+            name: (p['editedName'] ?? p['proposedName']) as String,
+            description: p['proposedDescription'] as String?,
+          ));
+    }
+    return ChapterTopicProposals(
+      runId: run['id'] as String,
+      status: run['status'] as String,
+      provenance: run['promptVersion'] as String,
+      topics: rows.where((p) => p['entityType'] == 'topic').map((p) {
+        final id = p['id'] as String;
+        return ProposedTopic(
+          id: id,
+          name: (p['editedName'] ?? p['proposedName']) as String,
+          description: p['proposedDescription'] as String?,
+          subtopics: children[id] ?? const [],
+        );
+      }).toList(),
+    );
+  }
+}
+
+/// What "Approve all for this chapter" actually created.
+class ApproveChapterTopicsResult {
+  final int runsApproved;
+  final int topicsCreated;
+  final int subtopicsCreated;
+
+  ApproveChapterTopicsResult.fromJson(Map<String, dynamic> j)
+      : runsApproved = j['runsApproved'] as int,
+        topicsCreated = j['topicsCreated'] as int,
+        subtopicsCreated = j['subtopicsCreated'] as int;
+
+  String get summary => topicsCreated == 0
+      ? 'Nothing left to approve for this chapter.'
+      : 'Approved $topicsCreated topics and $subtopicsCreated subtopics.';
+}
+
 /// PushScheduleResponse (schemas.py). The count field is `lessonsPushed`:
 /// the Reschedule tab used to read a nonexistent `pushedCount` and would
 /// have reported "0 lessons shifted" on every success. `lessonsDropped`
@@ -354,6 +449,26 @@ class CurriculumApi {
   Future<List<TopicWithSubtopics>> topicsForChapter(String chapterId) async {
     final r = await _dio.get('/curriculum/chapters/$chapterId/topics');
     return (r.data as List).map((e) => TopicWithSubtopics.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  /// A chapter's still-unapproved decomposition proposals -- what the seed
+  /// proposed from the committed template and nobody has accepted yet. Empty
+  /// once they are approved (they become real topics) and for a chapter whose
+  /// subject/grade no template covers.
+  Future<List<ChapterTopicProposals>> proposedTopics(String chapterId) async {
+    final r = await _dio.get('/curriculum/chapters/$chapterId/proposed-topics');
+    return (r.data as List)
+        .map((e) => ChapterTopicProposals.fromJson(Map<String, dynamic>.from(e)))
+        .toList();
+  }
+
+  /// Principal-only: accepts every pending TEMPLATE proposal for one chapter at
+  /// once. A fresh Class 10 seed proposes topics for 46 chapters; approving
+  /// those proposal by proposal is what stops a school finishing setup at all.
+  /// Safe to repeat -- a run already approved is not approved twice.
+  Future<ApproveChapterTopicsResult> approveAllTopics(String chapterId) async {
+    final r = await _dio.post('/curriculum/chapters/$chapterId/topics/approve-all');
+    return ApproveChapterTopicsResult.fromJson(Map<String, dynamic>.from(r.data));
   }
 
   /// §17, §32: Coverage and pace variance report for school management.
