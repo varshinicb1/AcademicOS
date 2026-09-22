@@ -75,7 +75,10 @@ reads as a confidently wrong number. This module renders pages from
 A question that leans on data it does not carry -- a figure, a table, "In
 question 42 above", the data block of a range instruction -- is excluded
 (``figure-unavailable``, ``shared-stimulus``), as is a fill-in-the-blank whose
-blank was a drawn rule (``blank-lost``).
+blank was a drawn rule (``blank-lost``). So is a question whose book answer
+only points elsewhere -- "See pages 223 and 224 of ... textbook", "Take help
+of elders or use internet" -- because it is no answer key
+(``answer-is-a-pointer``).
 
 Book versions
 -------------
@@ -1202,8 +1205,16 @@ def _numbered_entries(tagged: list[_Tagged], start_re: re.Pattern,
     return entries, ambiguous
 
 
+_EXTRA_QUESTION = re.compile(r"^\s*Extra\s+Questions?\b", re.I)
+
+
 def _answer_text(lines: list[str]) -> str:
     body = [l for l in lines if l.strip()]
+    # gemp1a1 p.45 prints "123. d" then "Extra Question:-" and a new question
+    # before "124.": that question and its text are not part of answer 123.
+    cut = next((i for i, l in enumerate(body) if _EXTRA_QUESTION.match(l)), None)
+    if cut is not None:
+        body = body[:cut]
     text = _join(body)
     if any(_is_orphan(l) for l in body[1:]):
         text = LOSS + text
@@ -1724,10 +1735,13 @@ def parse_answer_pages(pages: list[str], book: Book,
     answer line that opens with a value like "14. 5 cm" can then never start
     an entry beyond the block's last question.
     """
-    titles = list(CHAPTER_TITLES.get((book.grade, book.subject), {}).values())
-
+    # The answers files carry no chapter-title running heads. Measured over
+    # all ten answers files, the only lines a title matched were answer text:
+    # feep2an "Water" (answer 8 of chapter 2) and "water." / geep1an "soil."
+    # (last lines of answers, which were served cut short). So titles are
+    # not furniture here.
     def drop(line: str) -> bool:
-        return _is_furniture(line, titles)
+        return _is_furniture(line, ())
 
     tagged = _tag(pages, drop)
     key = AnswerKey()
@@ -1839,6 +1853,25 @@ def pair_answers(questions: list[ExemplarQuestion], key: AnswerKey, answer_file:
 
 _MATCHING = re.compile(r"^\s*Match\b|\bColumn\s*(?:I|A|1)\b", re.I)
 
+# The question sentence printed AFTER the options, read into the last one:
+# heep108 p.1 "(d) cell membrane, ribosome, mitochondria, chloroplast." then
+# "The correct combination of terms with reference to an animal cell is _____."
+_TRAILING_QUESTION = re.compile(
+    r"^(?P<option>.*?\S)\.\s+(?P<question>[A-Z][^.?]*?(?:\?|_{2,}\s*\.?))\s*$")
+
+
+def _lift_trailing_question(stem: str, options: list[str]) -> tuple[str, list[str]]:
+    """Move a question sentence that closes the last option back to the stem.
+
+    Only a whole sentence of at least four words that asks (ends "?" or holds
+    a blank) and follows a full stop; anything less stays where it is.
+    """
+    m = _TRAILING_QUESTION.match(options[-1])
+    if not m or len(m.group("question").split()) < 4:
+        return stem, options
+    return (f"{stem} {m.group('question')}".strip(),
+            [*options[:-1], m.group("option")])
+
 
 def _build(book: Book, chapter: int, name: str, kind: str, label: str, number: str,
            lines: list[str], source_file: str, page: int, scope: str) -> ExemplarQuestion:
@@ -1852,6 +1885,8 @@ def _build(book: Book, chapter: int, name: str, kind: str, label: str, number: s
     stem = _join(stem_lines)
     if any(_is_orphan(l) for l in stem_lines[1:]):
         stem = LOSS + stem
+    if options and not err:
+        stem, options = _lift_trailing_question(stem, options)
     if _MATCHING.search(stem):
         kind, label = MATCHING, "Matching"
     return ExemplarQuestion(
@@ -1872,6 +1907,52 @@ _FIGURE = re.compile(
     r"\b(?:following|given|above|below) table\b|\btable (?:given|below|above)\b|"
     + re.escape(FIGURE_MARK), re.I)
 
+# "Which of the following figures ..." is a figure reference unless the
+# options name the figures in words ("Rectangle", "Kite", ...): heep205 p.17
+# asks it with options P, Q, R, S (shapes drawn on the page), gemp112 p.29
+# with bare labels "(a) (b) (c) (d)" whose options are the pictures.
+_PLURAL_FIGURES = re.compile(r"\b(?:following|given|these|those|above|below)\s+figures\b", re.I)
+_EMPTY_LABELS = re.compile(r"\(([a-dA-D])\)\s*\((?!\1)[a-dA-D]\)\s*\([a-dA-D]\)")
+
+
+def needs_figure(stem: str, options: list[str]) -> bool:
+    """True when the question can only be answered by looking at a figure."""
+    if _EMPTY_LABELS.search(stem):
+        return True
+    if _PLURAL_FIGURES.search(stem):
+        worded = options and all(len(re.sub(r"\W", "", o)) > 2 for o in options)
+        return not worded
+    return False
+
+
+# The reaction arrow of the class 10 science answers extracts as the letter o
+# (jeep1an p.9 "Zn + 2HCl o ZnCl₂ + H₂"): a lost symbol, not a word.
+_LOST_ARROW = re.compile(r"(?<=[A-Za-z0-9)₀-₉])\s+o\s+(?=[A-Z0-9(])")
+
+
+# An "answer" that sends the reader elsewhere or asks for an opinion instead of
+# answering: "Hint: See pages 223 and 224 of Chapter 18 of NCERT Science
+# textbook" (geep1an), "Hint: Take help of elders or use internet." (feep2an).
+# Faithful to the book, useless as a key. A sentence that points is dropped;
+# if fewer than three words of answer remain, the whole answer is a pointer.
+_POINTER_SENTENCE = re.compile(
+    r"\bsee\s+pages?\s+\d|\bpages?\s+\d+.*\btextbook\b|\btake help of\b|"
+    r"\buse (?:the )?internet\b|\bask (?:your )?elders\b|^\(?\s*Activity\s+\d+\.\d+\b|"
+    r"\baccording to your (?:own )?(?:stand|opinion|view)|"
+    r"^students may (?:come up|design|discuss)\b|"
+    r"^(?:Describe|Discuss|Explain)\s+\w+(?:\s+(?:and|or)\s+\w+)?\s*\.?$", re.I)
+_HINT = re.compile(r"^\s*Hint\s*[:—–-]?\s*", re.I)
+
+
+def is_pointer_answer(text: str) -> bool:
+    body = _HINT.sub("", text.strip())
+    sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+(?=[A-Z(])", body) if s.strip()]
+    kept = [s for s in sentences if not _POINTER_SENTENCE.search(_HINT.sub("", s))]
+    if len(kept) == len(sentences):
+        return False
+    return len(re.findall(r"\w+", " ".join(kept))) < 3
+
+
 _BLANK = re.compile(r"_{2,}|\.{4,}|…|-{3,}")
 
 # A question that leans on another question or on data printed elsewhere
@@ -1885,7 +1966,7 @@ _CROSS_REFERENCE = re.compile(
 EXCLUSION_REASONS = (
     "chapter-unverified", "shared-stimulus", "options-unparsed", "no-answer", "answer-not-an-option",
     "figure-unavailable", "symbol-loss", "reading-order", "blank-lost", "table-layout",
-    "stem-too-short",
+    "stem-too-short", "answer-is-a-pointer",
 )
 
 
@@ -1902,9 +1983,9 @@ def exclusion_reason(q: ExemplarQuestion) -> Optional[str]:
     if not q.has_answer:
         return "no-answer"
     everything = " ".join([q.stem, *q.options, q.answer_text])
-    if _FIGURE.search(everything):
+    if _FIGURE.search(everything) or needs_figure(q.stem, q.options):
         return "figure-unavailable"
-    if LOSS in everything:
+    if LOSS in everything or _LOST_ARROW.search(everything):
         return "symbol-loss"
     if ASIDE_MARK in everything:
         return "reading-order"
@@ -1918,6 +1999,8 @@ def exclusion_reason(q: ExemplarQuestion) -> Optional[str]:
     # in eight letters and digits.
     if len(re.sub(r"\s", "", q.stem)) < 6:
         return "stem-too-short"
+    if q.section_kind not in OPTION_KINDS and is_pointer_answer(q.answer_text):
+        return "answer-is-a-pointer"
     return None
 
 

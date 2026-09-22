@@ -73,6 +73,18 @@ def test_class6_maths_range_instruction_sets_the_kind_and_the_short_answer(maths
     assert _q(maths6, 16).options[-1] == "neither isosceles nor right triangle"
 
 
+def test_class6_maths_short_answer_is_paired():
+    # feep102 p.13: "58. If two rays intersect, will their point of
+    # intersection be the vertex of an angle of which the rays are the two
+    # sides?"; feep1an p.4: "58." / "No   59. (a) ...".
+    qs = _parse(6, "Mathematics", "feep102", range(3, 14), 2, "feep1an", [3, 4])
+    q = _q(qs, 58)
+    assert q.section_kind == ex.SA
+    assert q.stem.startswith("If two rays intersect, will their point of intersection")
+    assert q.answer_text == "No"
+    assert ex.exclusion_reason(q) is None
+
+
 def test_class6_maths_figure_question_is_excluded(maths6):
     q = _q(maths6, 3)          # feep102 p.4: "Number of line segments in Fig. 2.5 is"
     assert q.has_answer
@@ -122,8 +134,48 @@ def test_class6_science_misprinted_option_labels_are_refused(science6):
 def test_class6_science_figure_question_is_excluded(science6):
     # feep202 p.3: "8." then a picture, then "Which of the following food items
     # does not provide any nutrient?" -- the items are only in the picture.
-    assert ex.exclusion_reason(_q(science6, 8)) in ("figure-unavailable", "no-answer")
-    assert ex.FIGURE_MARK in _q(science6, 8).stem
+    # feep2an p.3 answers it "8." / "Water", so the answer is found (a chapter
+    # title of the same book is not a running head in the answers file) and
+    # only the figure rule can refuse it.
+    q = _q(science6, 8)
+    assert q.answer_text == "Water"
+    assert ex.FIGURE_MARK in q.stem
+    assert ex.exclusion_reason(q) == "figure-unavailable"
+
+
+def test_class6_science_question_without_a_locatable_answer_is_excluded():
+    # feep2an p.3 cut before "11.": questions 11 onwards find no answer.
+    book = _book(6, "Science")
+    page = PAGES[("feep2an", 3)]
+    cut = page[:page.index("\n11.\n")]
+    qs = ex.parse_chapter_pages([PAGES[("feep202", p)] for p in (1, 2, 3, 4)], book,
+                                "feep202.pdf", 2)
+    ex.pair_answers(qs, ex.parse_answer_pages([cut], book), "feep2an.pdf")
+    by = {q.number: q for q in qs}
+    assert by["1"].answer_letters == ["d"]
+    assert not by["11"].has_answer
+    assert ex.exclusion_reason(by["11"]) == "no-answer"
+
+
+def test_class6_science_answer_line_equal_to_a_chapter_title_is_kept():
+    # feep2an p.35, chapter 14 (Water): answer 16 ends on a line reading
+    # "water." -- the title of chapter 14. Dropped as a running head, the
+    # bank served "... this reduces the availability of ground".
+    qs = _parse(6, "Science", "feep214", [1, 2, 3, 4], 14, "feep2an", [34, 35])
+    q = _q(qs, 16)             # feep214: "How do the areas covered with concrete affect ..."
+    assert q.answer_text.endswith("reduces the availability of ground water.")
+    assert ex.exclusion_reason(q) is None
+
+
+def test_class6_science_answer_that_only_points_elsewhere_is_excluded():
+    # feep216 / feep2an p.40: the book answers question 18 (paper pulp) with
+    # "Hint: Take help of elders or use internet." and question 19 (the plastic
+    # bag ban) with "Give your justification according to your stand ...".
+    qs = _parse(6, "Science", "feep216", range(1, 9), 16, "feep2an", [39, 40])
+    assert _q(qs, 18).answer_text == "Hint: Take help of elders or use internet."
+    assert ex.exclusion_reason(_q(qs, 18)) == "answer-is-a-pointer"
+    assert _q(qs, 19).answer_text.startswith("Give your justification according to your stand")
+    assert ex.exclusion_reason(_q(qs, 19)) == "answer-is-a-pointer"
 
 
 # --------------------------------------------------------------------------- #
@@ -146,6 +198,34 @@ def test_class8_maths_mcq_and_fill_in(maths8):
     assert fb.section_kind == ex.FILL_BLANK
     assert fb.answer_text == "highest"        # heep2an p.16: "16. highest"
     assert ex.exclusion_reason(fb) is None
+
+
+def test_class8_maths_short_answer_is_paired():
+    # heep204 p.12: "Solve the following:" ... "58. 8x – 7 – 3x = 6x – 2x – 3";
+    # heep2an p.17: "58. x = 4".
+    qs = _parse(8, "Mathematics", "heep204", range(6, 13), 4, "heep2an", [16, 17])
+    q = _q(qs, 58)
+    assert q.section_kind == ex.SA
+    assert q.stem == "8x – 7 – 3x = 6x – 2x – 3"
+    assert q.answer_text == "x = 4"
+    assert ex.exclusion_reason(q) is None
+
+
+def test_class8_maths_questions_about_unseen_figures_are_excluded():
+    # heep205 pp.16-17: "7. Which of the following figures satisfy the
+    # following property?" with options (a) P ... (d) S -- P, Q, R and S are
+    # shapes drawn on the page; heep2an p.19 keys it "7. (c)".
+    qs = _parse(8, "Mathematics", "heep205", [16, 17], 5, "heep2an", [19])
+    for n in (6, 7, 8, 9):
+        q = _q(qs, n)
+        assert q.options == ["P", "Q", "R", "S"] and q.has_answer, n
+        assert ex.exclusion_reason(q) == "figure-unavailable", n
+    # "For which of the following figures, all angles are equal?" names its
+    # figures in the options: it needs no picture and is served.
+    q = _q(qs, 3)
+    assert q.options == ["Rectangle", "Kite", "Trapezium", "Rhombus"]
+    assert q.answer_letters == ["a"]          # heep2an p.19: "3. (a)"
+    assert ex.exclusion_reason(q) is None
 
 
 def test_class8_maths_answer_that_swallowed_the_next_number_is_not_trusted(maths8):
@@ -182,6 +262,19 @@ def test_class8_science_short_answer_is_paired(science8):
     q = _q(science8, 15)       # heep101 p.3: "During which months do farmers grow mustard"
     assert q.section_kind == ex.VSA
     assert q.answer_text == "October to March."   # heep1an p.1: "15. October to March."
+    assert ex.exclusion_reason(q) is None
+
+
+def test_class8_science_question_sentence_after_the_options_goes_back_to_the_stem():
+    # heep108 p.1: "3. Read the different combinations of terms given below:"
+    # (a)-(d), then "The correct combination of terms with reference to an
+    # animal cell is _____." under option (d). heep1an p.20: "3." / "c".
+    qs = _parse(8, "Science", "heep108", [1], 8, "heep1an", [20])
+    q = _q(qs, 3)
+    assert q.stem == ("Read the different combinations of terms given below: The correct "
+                      "combination of terms with reference to an animal cell is _____.")
+    assert q.options[3] == "cell membrane, ribosome, mitochondria, chloroplast"
+    assert q.answer_letters == ["c"]
     assert ex.exclusion_reason(q) is None
 
 
@@ -248,6 +341,30 @@ def test_class10_science_shifted_heading_font_and_end_of_page_chapter_number(sci
     assert ex.exclusion_reason(q) is None
 
 
+@pytest.fixture(scope="module")
+def science10_all():
+    # jeep102.pdf pp. 1-8; answers jeep1an.pdf pp. 7-9.
+    return _parse(10, "Science", "jeep102", range(1, 9), 2, "jeep1an", [7, 8, 9])
+
+
+def test_class10_science_short_answer_is_paired(science10_all):
+    q = _q(science10_all, 41)  # jeep102 p.8: "What are strong and weak acids? ..."
+    assert q.section_kind == ex.SA
+    assert q.stem.startswith("What are strong and weak acids?")
+    # jeep1an p.9: "41." / "In aqueous solutions strong acids ionise completely ..."
+    assert q.answer_text.startswith("In aqueous solutions strong acids ionise completely")
+    assert q.answer_text.endswith("Weak acid — Citric acid, acetic acid , formic acid")
+    assert ex.exclusion_reason(q) is None
+
+
+def test_class10_science_arrow_drawn_as_o_is_a_lost_symbol(science10_all):
+    # jeep1an p.9, answer 42: "Zn + 2HCl o ZnCl₂ + H₂" -- the reaction arrow
+    # extracts as the letter o.
+    q = _q(science10_all, 42)
+    assert "Zn + 2HCl o ZnCl₂ + H₂" in q.answer_text
+    assert ex.exclusion_reason(q) == "symbol-loss"
+
+
 def test_class10_science_figure_question_is_excluded(science10):
     q = _q(science10, 20)      # jeep102 p.4: "... the following apparatus (Figure 2.1) was set up."
     assert q.has_answer
@@ -302,6 +419,41 @@ def test_answers_row_holding_several_answers_is_split():
     key = ex.parse_answer_pages([PAGES[("feep1an", 3)], PAGES[("feep1an", 4)]], book)
     assert key.answers[(2, "", "58")][0] == "No"
     assert key.answers[(2, "", "59")][0].startswith("(a) ∠AEB")
+
+
+def test_an_extra_question_printed_after_an_answer_is_not_part_of_it():
+    # gemp1a1 p.45: "123. d" / "Extra Question:-" / "Write the name 5 letter
+    # of English alphabet which have no line of symmetry" / "124. F, G, ...".
+    lines = ["d", "Extra Question:-",
+             "Write the name 5 letter of English alphabet which have no line of symmetry"]
+    assert ex._answer_text(lines) == "d"
+
+
+def test_questions_about_unseen_figures():
+    # gemp112 p.29: the options are the pictures themselves.
+    assert ex.needs_figure("Which of the following figures do not have line symmetry? "
+                           "(a) (b) (c) (d)", [])
+    assert ex.needs_figure("Which of the following figures satisfy the following property?",
+                           ["P", "Q", "R", "S"])
+    # vocabulary, not a picture
+    assert not ex.needs_figure("Two figures are congruent, if they have the same shape.", [])
+    assert not ex.needs_figure("For which of the following figures, diagonals are equal?",
+                               ["Trapezium", "Rhombus", "Parallelogram", "Rectangle"])
+    assert not ex.needs_figure("Round off to three significant figures.", [])
+
+
+def test_pointer_answers():
+    for a in ("Hint: See pages 223 and 224 of Chapter 18 of NCERT Science textbook for Class VII.",
+              "Activity 8.6, Science Textbook, Class VII, NCERT or students may design any "
+              "other activity and the teacher may verify the validity of the same.",
+              "Students may come up with practical solutions during the course of discussion.",
+              "Hint: Describe weaving and knitting."):
+        assert ex.is_pointer_answer(a), a
+    for a in ("Hint: Life may no longer exist. (See page 227-228 of textbook)",
+              "Hint: Evaporation",
+              "Hint: Write on the basis of lustre, hardness, softness, roughness or smoothness.",
+              "No"):
+        assert not ex.is_pointer_answer(a), a
 
 
 def test_mcq_answer_must_name_an_option_the_question_has():
