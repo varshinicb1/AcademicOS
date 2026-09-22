@@ -55,6 +55,8 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     text: DateTime.now().toString().substring(0, 10),
   );
   final _pushReasonController = TextEditingController(text: 'Unexpected school closure');
+  // Left blank, the server uses the subject's stored period allocation.
+  final _pushPeriodsController = TextEditingController();
   bool _pushing = false;
 
   final _adjustLessonIdController = TextEditingController();
@@ -118,6 +120,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     _pushDateController.dispose();
     _pushReasonController.dispose();
     _adjustLessonIdController.dispose();
+    _pushPeriodsController.dispose();
     _adjustDateController.dispose();
     _adjustReasonController.dispose();
     _periodMinutesController.dispose();
@@ -260,6 +263,12 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       _showMessage('Select a subject to push.');
       return;
     }
+    final periodsText = _pushPeriodsController.text.trim();
+    final periodsPerWeek = periodsText.isEmpty ? null : int.tryParse(periodsText);
+    if (periodsText.isNotEmpty && (periodsPerWeek == null || periodsPerWeek <= 0)) {
+      _showMessage('Periods per week must be a positive whole number, or left blank.');
+      return;
+    }
     setState(() => _pushing = true);
     try {
       final books = await GetIt.I<CurriculumApi>().books(_pushSubjectId!);
@@ -270,11 +279,11 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       final res = await GetIt.I<CurriculumApi>().pushSchedule(
         bookId: books.first.id,
         academicYearId: _academicYearId!,
-        afterDate: _pushDateController.text.trim(),
+        fromDate: _pushDateController.text.trim(),
         reason: _pushReasonController.text.trim(),
+        periodsPerWeek: periodsPerWeek,
       );
-      final count = res['pushedCount'] ?? 0;
-      _showMessage('Schedule pushed successfully: $count lessons shifted.');
+      _showMessage(res.summary);
       _loadReporting();
     } catch (e) {
       _showMessage('Could not push schedule: $e');
@@ -293,7 +302,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     }
     setState(() => _adjusting = true);
     try {
-      await GetIt.I<CurriculumApi>().rescheduleLesson(lessonId, targetDate: targetDate, reason: reason);
+      await GetIt.I<CurriculumApi>().rescheduleLesson(lessonId, newDate: targetDate, reason: reason);
       _showMessage('Lesson rescheduled successfully.');
       _adjustLessonIdController.clear();
       _loadReporting();
@@ -907,6 +916,16 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 controller: _pushReasonController,
                 decoration: const InputDecoration(
                   labelText: 'Reason for Disruption',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              const Gap(12),
+              TextFormField(
+                controller: _pushPeriodsController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Periods per week (optional)',
+                  hintText: "Leave blank to use the subject's stored allocation",
                   border: OutlineInputBorder(),
                 ),
               ),

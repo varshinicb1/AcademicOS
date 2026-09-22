@@ -1865,11 +1865,23 @@ def test_full_boot_rescheduling(tmp_path, monkeypatch):
         assert len(mine) >= 2
         lesson_id = mine[0]["lessonId"]
         old_date = mine[0]["date"]
+        # ADJUST refuses a day that already holds this book's lesson (409),
+        # so move onto the first real working day (Sunday is the only off
+        # day, no holidays) the schedule left free. Until 2026-09-21 this
+        # used Monday 2026-06-08, which already held a lesson -- it passed
+        # only because ADJUST double-booked the day.
+        from datetime import date as _date, timedelta as _timedelta
+        occupied = {l["date"] for l in mine}
+        d = _date(2026, 6, 2)
+        while d.weekday() == 6 or d.isoformat() in occupied:
+            d += _timedelta(days=1)
+        assert d <= _date(2027, 3, 31), "schedule left no free working day to ADJUST onto"
+        free_day = d.isoformat()
 
         # -- a teacher (non-principal) can't ADJUST
         assert client.post(
             f"/api/v1/curriculum/scheduled-lessons/{lesson_id}/reschedule",
-            json={"newDate": "2026-06-08", "reason": "swap"}, headers=teacher_auth,
+            json={"newDate": free_day, "reason": "swap"}, headers=teacher_auth,
         ).status_code == 403
 
         # -- rejecting a non-working day (a Sunday) with a real 422, not a 500
@@ -1881,10 +1893,10 @@ def test_full_boot_rescheduling(tmp_path, monkeypatch):
         # -- a real ADJUST
         adjusted = client.post(
             f"/api/v1/curriculum/scheduled-lessons/{lesson_id}/reschedule",
-            json={"newDate": "2026-06-08", "reason": "Assembly conflict"}, headers=principal_auth,
+            json={"newDate": free_day, "reason": "Assembly conflict"}, headers=principal_auth,
         )
         assert adjusted.status_code == 200, adjusted.text
-        assert adjusted.json()["date"] == "2026-06-08"
+        assert adjusted.json()["date"] == free_day
 
         # -- the real audit trail is readable back -- old date, new date,
         # reason, who, when -- through the live API, not just the store
@@ -1894,7 +1906,7 @@ def test_full_boot_rescheduling(tmp_path, monkeypatch):
         h = history.json()
         assert len(h) == 1
         assert h[0]["oldDate"] == old_date
-        assert h[0]["newDate"] == "2026-06-08"
+        assert h[0]["newDate"] == free_day
         assert h[0]["reason"] == "Assembly conflict"
         assert h[0]["mode"] == "adjust"
         assert h[0]["actor"] == principal["user"]["id"]

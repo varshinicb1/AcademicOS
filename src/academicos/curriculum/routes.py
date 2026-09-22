@@ -1026,7 +1026,10 @@ def mark_lesson(lesson_id: str, req: MarkLessonRequest,
 @router.post("/scheduled-lessons/{lesson_id}/reschedule", response_model=ScheduledLessonResponse)
 def adjust_lesson(lesson_id: str, req: AdjustLessonRequest,
                   principal: User = Depends(require_principal)) -> ScheduledLessonResponse:
-    """ADJUST: move exactly one lesson to a specific new real working day."""
+    """ADJUST: move exactly one lesson to a specific new real working day.
+    409 when that day already holds as many of this book's lessons as the
+    subject has periods then (scheduling.RescheduleClash); 422 for a day
+    that isn't a working day at all."""
     store = _require()
     lesson = store.get_scheduled_lesson(lesson_id)
     if lesson is None:
@@ -1038,6 +1041,8 @@ def adjust_lesson(lesson_id: str, req: AdjustLessonRequest,
         scheduling_mod.adjust_lesson(
             store, get_audit_log(_cfg.data_root), lesson_id=lesson_id, new_date=req.new_date,
             reason=req.reason, changed_by=principal.id)
+    except scheduling_mod.RescheduleClash as e:
+        raise HTTPException(409, str(e))
     except ValueError as e:
         raise HTTPException(422, str(e))
     return _lesson_response(store.get_scheduled_lesson(lesson_id))
@@ -1046,10 +1051,11 @@ def adjust_lesson(lesson_id: str, req: AdjustLessonRequest,
 @router.post("/books/{book_id}/schedule/push", response_model=PushScheduleResponse)
 def push_schedule(book_id: str, academic_year_id: str, req: PushScheduleRequest,
                   principal: User = Depends(require_principal)) -> PushScheduleResponse:
-    """PUSH: real disruption handling -- shifts every lesson on/after
-    `from_date` one real teaching slot later. See scheduling.py's
-    push_lessons_after() docstring for the full method, including why
-    `periods_per_week` must be supplied again."""
+    """PUSH: real disruption handling -- shifts every still-to-teach lesson
+    on/after `from_date` one real teaching slot later; completed/skipped
+    lessons keep their dates. `periodsPerWeek` is optional and defaults to
+    the subject's stored allocation (422 if neither exists). See
+    scheduling.py's push_lessons_after() docstring for the full method."""
     store = _require()
     _require_school_owns_book(book_id, principal)
     _require_school_owns_academic_year(academic_year_id, principal)

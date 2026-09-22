@@ -159,6 +159,29 @@ class TopicWithSubtopics {
             .toList();
 }
 
+/// PushScheduleResponse (schemas.py). The count field is `lessonsPushed`:
+/// the Reschedule tab used to read a nonexistent `pushedCount` and would
+/// have reported "0 lessons shifted" on every success. `lessonsDropped`
+/// are lessons that no longer fit before the academic year's last teaching
+/// day -- the server reports them rather than placing them past the end.
+class PushScheduleResult {
+  final int lessonsPushed;
+  final List<String> lessonsDropped;
+  final int periodsPerWeek;
+
+  PushScheduleResult.fromJson(Map<String, dynamic> j)
+      : lessonsPushed = j['lessonsPushed'] as int,
+        lessonsDropped = (j['lessonsDropped'] as List? ?? const []).cast<String>().toList(),
+        periodsPerWeek = j['periodsPerWeek'] as int;
+
+  String get summary {
+    String lessons(int n) => n == 1 ? '1 lesson' : '$n lessons';
+    final pushed = 'Schedule pushed: ${lessons(lessonsPushed)} shifted.';
+    if (lessonsDropped.isEmpty) return pushed;
+    return '$pushed ${lessons(lessonsDropped.length)} no longer fit before the year ends.';
+  }
+}
+
 class CurriculumApi {
   final Dio _dio;
   CurriculumApi(this._dio);
@@ -264,27 +287,38 @@ class CurriculumApi {
     return DelayedTopicsReport.fromJson(Map<String, dynamic>.from(r.data));
   }
 
-  /// §11-14: Reschedule a single lesson (ADJUST) to a new target working day.
-  Future<void> rescheduleLesson(String lessonId, {required String targetDate, required String reason}) async {
+  /// §14 ADJUST: move one lesson to `newDate` (yyyy-MM-dd), a real working
+  /// day. Field names match AdjustLessonRequest in schemas.py -- until
+  /// 2026-09-21 this sent `targetDate` and every call 422'd. The server
+  /// answers 409 when that day already holds this book's lesson(s) for
+  /// every period the subject has then.
+  Future<void> rescheduleLesson(String lessonId, {required String newDate, required String reason}) async {
     await _dio.post('/curriculum/scheduled-lessons/$lessonId/reschedule', data: {
-      'targetDate': targetDate,
+      'newDate': newDate,
       'reason': reason,
     });
   }
 
-  /// §11-14: Shift subsequent lessons after an unexpected disruption (PUSH).
-  Future<Map<String, dynamic>> pushSchedule({
+  /// §14 PUSH: shift every still-to-teach lesson on/after `fromDate` one
+  /// teaching slot later (completed/skipped lessons keep their dates).
+  /// `academic_year_id` is a query parameter on the route, not a body
+  /// field; `periodsPerWeek` is sent only when the admin set one -- the
+  /// server otherwise uses the subject's stored period allocation.
+  Future<PushScheduleResult> pushSchedule({
     required String bookId,
     required String academicYearId,
-    required String afterDate,
+    required String fromDate,
     required String reason,
+    int? periodsPerWeek,
   }) async {
-    final r = await _dio.post('/curriculum/books/$bookId/schedule/push', data: {
-      'academicYearId': academicYearId,
-      'afterDate': afterDate,
-      'reason': reason,
-    });
-    return Map<String, dynamic>.from(r.data);
+    final r = await _dio.post('/curriculum/books/$bookId/schedule/push',
+        queryParameters: {'academic_year_id': academicYearId},
+        data: {
+          'fromDate': fromDate,
+          'reason': reason,
+          if (periodsPerWeek != null) 'periodsPerWeek': periodsPerWeek,
+        });
+    return PushScheduleResult.fromJson(Map<String, dynamic>.from(r.data));
   }
 
   /// §5-9, §13: Fetch units for a book.

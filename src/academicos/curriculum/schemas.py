@@ -374,7 +374,9 @@ class AdjustLessonRequest(Camel):
 
 class PushScheduleRequest(Camel):
     from_date: str
-    periods_per_week: int = Field(gt=0)
+    # Optional: omitted, PUSH uses the subject's stored
+    # SubjectPeriodAllocation (scheduling.push_lessons_after).
+    periods_per_week: Optional[int] = Field(default=None, gt=0)
     reason: str = Field(min_length=1)
 
 
