@@ -18,7 +18,9 @@ file is cut into blocks by its own headings, and pairing follows the block:
   Maths 6-8     unit files ``(C) Exercise`` numbered 1..N across the unit;
                 answers under ``Unit N``. Section kinds are the book's own
                 instructions ("In questions 39 to 98, state whether ... true
-                (T) or false (F)").
+                (T) or false (F)"); one that names no range runs until the
+                next instruction or the first question it does not fit
+                (`_close_open_kinds`).
   Maths 9-10    chapter files ``EXERCISE N.1`` .. ``N.4``, numbering afresh in
                 each; answers under the same ``EXERCISE N.k``. Kinds from the
                 ``(B) Multiple Choice`` / ``(C) Short Answer Questions with
@@ -67,7 +69,9 @@ reads as a confidently wrong number. This module renders pages from
     excluded as ``symbol-loss`` instead of being served with a formula missing;
   * so is a line that a small vector drawing sits on (`_mark_drawn_math`):
     classes 9-10 draw the radical sign and the repeating-decimal bar, and
-    without this "2√3 + √3" was served as "2 3+ 3";
+    without this "2√3 + √3" was served as "2 3+ 3"; and so are the two
+    short lines on either side of a drawn fraction bar (`_lose_fraction`),
+    which the stacked-line test misses when their boxes do not overlap;
   * text in a tinted feature panel, or emitted out of reading order, is
     marked (`_out_of_order_blocks`) and excludes whatever question takes it
     in (``reading-order``).
@@ -167,6 +171,7 @@ class ExemplarQuestion:
     chapter_verified: bool = True    # the file proved its chapter number
     shared_stimulus: bool = False    # needs a table/figure printed above its range
     instruction: str = ""            # the book's range instruction, put before the stem
+    open_run: int = 0                # >0: kind from an instruction naming no range (`_close_open_kinds`)
     raw_lines: list[str] = field(default_factory=list, repr=False)
 
     @property
@@ -767,6 +772,35 @@ def _mark_drawn_math(lines: list[_Line], page) -> None:
                 overlap = min(l.x1, r.x1) - max(l.x0, r.x0)
                 if overlap >= 0.5 * r.width and l.y0 - 1.5 <= r.y0 <= l.y0 + 0.6 * h:
                     _lose(l)
+            _lose_fraction(lines, r)
+
+
+def _lose_fraction(lines: list[_Line], r) -> None:
+    """A rule with a short line just above it and one just below it is a
+    fraction bar: numerator and denominator are both lost.
+
+    Measured on gemp110 p.24, question 93: "7" over "8 – x" with the bar at
+    y 103.4, in the gap between the two lines, so neither the vinculum rule
+    (a rule over the upper part of a line) nor the stacked-line rule (it needs
+    the two lines' boxes to overlap, which depends on the PyMuPDF build) saw
+    it, and "7 8 – x" read as a whole number. A body line is much wider than a
+    bar, so an underline between two lines of prose is not taken.
+    """
+    def near(l: _Line) -> bool:
+        overlap = min(l.x1, r.x1) - max(l.x0, r.x0)
+        return overlap >= 0.3 * min(r.width, l.x1 - l.x0) and (l.x1 - l.x0) <= 2 * r.width + 6
+
+    above = [l for l in lines if near(l) and -1.0 <= r.y0 - l.y1 <= 5.0]
+    below = [l for l in lines if near(l) and -1.0 <= l.y0 - r.y0 <= 5.0]
+    above = [l for l in above if l not in below]
+    if not (above and below):
+        return
+    # A bar is as wide as the wider of its two parts; a table rule or a
+    # figure's edge is much wider than the cell text or label next to it.
+    widest = max(l.x1 - l.x0 for l in above + below)
+    if r.width <= 1.6 * widest + 6:
+        for l in above + below:
+            _lose(l)
 
 
 def _lose(line: _Line) -> None:
@@ -938,11 +972,48 @@ def _prev_is_number_label(lines: list[str], idx: list[int], i: int) -> bool:
     return pos > 0 and re.fullmatch(r"\s*\d{1,3}\.\s*", lines[idx[pos - 1]]) is not None
 
 
-def _tag(pages: list[str], drop: Callable[[str], bool]) -> list[_Tagged]:
+# A line that stops mid-sentence: it ends on a lower-case word or a comma.
+_MID_SENTENCE = re.compile(r"(?:\b[a-z]+|,)\s*$")
+_HEAD_BAND = 3          # a running head sits among a page's first or last 3 lines
+
+
+def _head_slots(raw: list[str], numbers: set[int]) -> set[int]:
+    """Where a running head can stand on a page: among its first and last
+    few text lines, or next to its page number."""
+    idx = [j for j, l in enumerate(raw)
+           if l.strip() and l.strip() != FIGURE_MARK
+           and not _DATE.match(_unaside(l)[0].strip())]
+    slots = set(idx[:_HEAD_BAND]) | set(idx[-_HEAD_BAND:])
+    for k, j in enumerate(idx):
+        if (k > 0 and idx[k - 1] in numbers) or (k + 1 < len(idx) and idx[k + 1] in numbers):
+            slots.add(j)
+    return slots
+
+
+def _reads_as_head(line: str, prev: Optional[str]) -> bool:
+    """A title-matching line that reads as a running head, not as the rest of
+    a sentence. Heads are set in capitals or title case with no sentence
+    punctuation; a line that starts in lower case, ends like a sentence, or
+    follows a line cut mid-sentence continues a question ("... require more
+    than a bucket of" / "water.")."""
+    s = line.strip()
+    if not s or s[0].islower() or re.search(r"[.?!;:,]\s*$", s):
+        return False
+    return not (prev is not None and _MID_SENTENCE.search(prev))
+
+
+def _tag(pages: list[str], drop: Callable[[str], bool],
+         title: Optional[Callable[[str], bool]] = None) -> list[_Tagged]:
+    """Every page's kept lines. `drop` is furniture wherever it stands.
+    `title` (a chapter-title match) is dropped only where a running head
+    stands (`_head_slots`) and reads as one (`_reads_as_head`)."""
     out = []
+    furniture = drop if title is None else (lambda l: drop(l) or title(l))
     for i, page in enumerate(pages, start=1):
         raw = page.split("\n")
-        numbers = _page_number_lines(raw, drop)
+        numbers = _page_number_lines(raw, furniture)
+        slots = _head_slots(raw, numbers) if title is not None else set()
+        prev: Optional[str] = None            # the last kept text line on this page
         for j, line in enumerate(raw):
             if j in numbers:
                 continue
@@ -956,7 +1027,12 @@ def _tag(pages: list[str], drop: Callable[[str], bool]) -> list[_Tagged]:
                 continue
             if _DATE.match(body) or body.startswith(DISPLAY_MARK) or drop(body):
                 continue
+            if (title is not None and j in slots and title(body)
+                    and _reads_as_head(body, prev)):
+                continue
             out.append(_Tagged(i, body, lossy, aside))
+            if body != FIGURE_MARK:
+                prev = body
     return out
 
 
@@ -1420,9 +1496,16 @@ def _is_furniture(line: str, titles: Iterable[str]) -> bool:
                                            "EXEMPLAR PROBLEMS – SCIENCE", "ANSWERS",
                                            "MATHEMATICS"):
         return True
+    return _is_shadow_fragment(s, names)
+
+
+def _is_shadow_fragment(line: str, titles: Iterable[str]) -> bool:
+    """All capitals, and its letters a piece of a head or of the title."""
+    s = line.strip()
+    n = _norm(s)
     if re.search(r"[a-z]", s) or len(n) < 3 or not re.search(r"[A-Z]", s):
         return False
-    heads = [_norm(t) for t in names] + ["exemplarproblems", "answers", "mathematics"]
+    heads = [_norm(t) for t in titles if t] + ["exemplarproblems", "answers", "mathematics"]
     return any(n in h for h in heads)
 
 
@@ -1486,13 +1569,21 @@ def _range_kind(text: str) -> Optional[str]:
 
 
 def _chapter_lines(pages: list[str], book: Book, chapter: int) -> list[_Tagged]:
+    """The chapter's kept lines. The book's own labels and shadow fragments
+    are dropped wherever they stand; a line equal to the chapter title only
+    where a running head stands -- anywhere else it is question text:
+    "... where x and y are" / "rational numbers." (heep201 p.16)."""
     titles = [CHAPTER_TITLES.get((book.grade, book.subject), {}).get(chapter, "")]
 
     def drop(line: str) -> bool:
-        return (_is_furniture(line, titles) or _UNIT_HEAD.match(line) is not None
+        return (_is_furniture(line, ()) or _is_shadow_fragment(line, titles)
+                or _UNIT_HEAD.match(line) is not None
                 or _CHAPTER_HEAD.match(line) is not None)
 
-    return _tag(pages, drop)
+    def title(line: str) -> bool:
+        return _is_running_head(line, *titles)
+
+    return _tag(pages, drop, title)
 
 
 def _verify_chapter(pages: list[str], book: Book, chapter: int) -> bool:
@@ -1604,7 +1695,9 @@ def _parse_maths_unit(tagged, book, source_file, chapter, name) -> list[Exemplar
     body = body[:end]
 
     col = _Collector(book, source_file, chapter, name)
-    ranges: list[tuple[int, int, Optional[str], list[str]]] = []
+    # (first, last or None, lines): None is an instruction that names no range
+    # and runs to the next instruction.
+    ranges: list[tuple[int, Optional[int], list[str]]] = []
     last = 0
     preamble: Optional[list[str]] = []        # lines of the instruction being read
     for i, t in enumerate(body):
@@ -1615,16 +1708,41 @@ def _parse_maths_unit(tagged, book, source_file, chapter, name) -> list[Exemplar
             preamble = None
             continue
         r = None
+        open_ended = False
         if not m and _INSTRUCTION_START.match(t.text):
             # The range may wrap: "... Question 91 to" / "94 into words."
             nxt = body[i + 1].text if i + 1 < len(body) else ""
             r = _RANGE.search(f"{t.text} {nxt}")
             if r and r.start() >= len(t.text):
                 r = None
-        if r:
+            # No range: "In each of the following, state whether the statements
+            # are true (T) or false (F)." (heep201 p.15). Appended to the
+            # question before, it left the 30 true/false questions after it
+            # typed as 3-mark short answers. Taken as an instruction only when
+            # it names a kind whose questions show whether they belong to it
+            # (true/false by the answer, fill-in by the blank; see
+            # `_close_open_kinds`) and the next question follows at once.
+            # Not from a feature panel ("[[aside]] Express 5 + 7n in words"),
+            # and not borrowing its kind from the next line when that line is
+            # an instruction or a question of its own (gemp104 p.8).
+            follow = ("" if _INSTRUCTION_START.match(nxt) or _QUESTION_START.match(nxt)
+                      else nxt)
+            # And only after a finished sentence: feep105 p.8 prints "(f)" /
+            # "State whether true or false: The total number ..." as part
+            # (f) of question 37, which is no instruction.
+            before = body[i - 1].text.strip() if i else ""
+            open_ended = (r is None and not t.aside
+                          and (not before or re.search(r"[.?!]$", before) is not None)
+                          and not re.search(r":\s*\S", t.text)
+                          and _range_kind(f"{t.text} {follow}") in (TRUE_FALSE, FILL_BLANK)
+                          and _next_question_within(body, i, last, 3))
+        if r or open_ended:
             col.close()
             preamble = [t.content]
-            ranges.append((int(r.group(1)), int(r.group(2)), None, preamble))
+            if r:
+                ranges.append((int(r.group(1)), int(r.group(2)), preamble))
+            else:
+                ranges.append((last + 1, None, preamble))
             continue
         if preamble is not None:
             preamble.append(t.content)
@@ -1634,13 +1752,18 @@ def _parse_maths_unit(tagged, book, source_file, chapter, name) -> list[Exemplar
 
     labels = {MCQ_SINGLE: "Multiple Choice Questions", FILL_BLANK: "Fill in the blanks",
               TRUE_FALSE: "True or False"}
-    for a, b, _, lines in ranges:
+    for k, (a, b, lines) in enumerate(ranges):
         text = _join(lines)
         kind = _range_kind(text)
+        open_end = b is None
+        if b is None:
+            later = [r[0] for r in ranges[k + 1:] if r[0] >= a]
+            b = min(later) - 1 if later else 10 ** 6
         covered = [q for q in col.questions if a <= int(q.number) <= b]
         for q in covered:
             if kind is not None:
                 q.section_kind, q.section_label = kind, labels[kind]
+                q.open_run = k + 1 if open_end else 0
                 if kind in OPTION_KINDS:
                     _reoption(q)
             elif (len(lines) > 3 or FIGURE_MARK in text or LOSS in text
@@ -1651,6 +1774,15 @@ def _parse_maths_unit(tagged, book, source_file, chapter, name) -> list[Exemplar
                 q.raw_lines = [text] + q.raw_lines
                 q.instruction = text
     return col.questions
+
+
+def _next_question_within(body: list[_Tagged], i: int, last: int, n: int) -> bool:
+    """The next question (``last + 1``) starts within `n` lines after line `i`."""
+    for t in body[i + 1:i + 1 + n]:
+        m = _QUESTION_START.match(t.text)
+        if m and int(m.group(1)) == last + 1:
+            return True
+    return False
 
 
 def _reoption(q: ExemplarQuestion) -> None:
@@ -1847,6 +1979,42 @@ def pair_answers(questions: list[ExemplarQuestion], key: AnswerKey, answer_file:
                 text = {"T": "True", "F": "False"}.get(text.rstrip("."), text)
             q.answer_text = text
         q.answer_file, q.answer_page = answer_file, page
+    _close_open_kinds(questions)
+
+
+_TF_ANSWER = re.compile(r"\s*(?:T|F|True|False)\s*\.?\s*", re.I)
+
+
+def _fits_kind(q: ExemplarQuestion) -> Optional[bool]:
+    """Whether a question shows it belongs to its kind; None when it cannot
+    tell (a true/false question with no answer). Loss marks are ignored:
+    heep2an keys question 48 "� �False", question 100 "�� �8 9 6 4 1 0 ..."."""
+    if q.section_kind == TRUE_FALSE:
+        text = q.answer_text.replace(LOSS, " ").strip()
+        return bool(_TF_ANSWER.fullmatch(text)) if text else None
+    if q.section_kind == FILL_BLANK:
+        return bool(_BLANK.search(q.stem))
+    return True
+
+
+def _close_open_kinds(questions: list[ExemplarQuestion]) -> None:
+    """End an instruction that named no range where its questions stop fitting.
+
+    "In each of the following, state whether the statements are true (T) or
+    false (F)." (heep201 p.15) covers questions 48-99, and question 100,
+    "Solve the following: Select the rational numbers ...", follows with no
+    instruction between. The first question the kind does not fit ends the
+    run: it and every later question of that run go back to short answer.
+    """
+    ended: set[tuple[str, int]] = set()
+    for q in questions:
+        if not q.open_run:
+            continue
+        run = (q.source_file, q.open_run)
+        if run not in ended and _fits_kind(q) is False:
+            ended.add(run)
+        if run in ended:
+            q.section_kind, q.section_label, q.open_run = SA, "Exercise", 0
 
 
 # --------------------------------------------------------------------------- #

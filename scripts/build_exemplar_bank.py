@@ -23,13 +23,17 @@ Outputs, all under ``academicos-data/corpus/ncert-exemplar/``:
 Run:  python scripts/build_exemplar_bank.py [--check] [--root DIR] [--cache DIR]
 
 ``--cache`` keeps each file's rendered pages as JSON so a rerun does not
-re-render 143 MB of PDF (about seven minutes); the cache is keyed by file size
-and modification time.
+re-render 143 MB of PDF (about seven minutes); the cache is keyed by file size,
+modification time and `render_key()` -- a hash of the parser module and the
+PyMuPDF version -- so pages rendered by an older renderer are never reused. A
+cache keyed on the PDF alone once kept loss marks the current renderer no
+longer made, and the committed bank could not be rebuilt from committed code.
 """
 from __future__ import annotations
 
 import argparse
 import collections
+import hashlib
 import json
 import sys
 from datetime import datetime, timezone
@@ -45,21 +49,36 @@ OUT_DIR = REPO / "academicos-data" / "corpus" / "ncert-exemplar"
 SYLLABUS = REPO / "academicos-data" / "syllabus"
 
 
+def render_key() -> str:
+    """What the rendered pages depend on besides the PDF: the parser module's
+    source (the renderer lives in it) and the PyMuPDF version."""
+    try:
+        import pymupdf as fitz
+    except ImportError:                    # pragma: no cover - older installs
+        import fitz
+    h = hashlib.sha256(Path(ex.__file__).read_bytes())
+    h.update(str(getattr(fitz, "VersionBind", "")).encode())
+    return h.hexdigest()[:16]
+
+
 def _reader(cache: Path | None):
     if cache is None:
         return ex.read_pdf
+    key = render_key()
 
     def read(path: Path) -> list[str]:
         st = path.stat()
         slot = cache / path.parent.parent.name / path.parent.name / f"{path.stem}.json"
         if slot.exists():
             data = json.loads(slot.read_text(encoding="utf-8"))
-            if data.get("size") == st.st_size and data.get("mtime") == int(st.st_mtime):
+            if (data.get("size") == st.st_size and data.get("mtime") == int(st.st_mtime)
+                    and data.get("render") == key):
                 return data["pages"]
         pages = ex.read_pdf(path)
         slot.parent.mkdir(parents=True, exist_ok=True)
         slot.write_text(json.dumps({"size": st.st_size, "mtime": int(st.st_mtime),
-                                    "pages": pages}, ensure_ascii=False), encoding="utf-8")
+                                    "render": key, "pages": pages}, ensure_ascii=False),
+                        encoding="utf-8")
         return pages
     return read
 

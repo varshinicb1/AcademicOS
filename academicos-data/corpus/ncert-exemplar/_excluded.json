@@ -1,5 +1,5 @@
 {
- "count": 3478,
+ "count": 3483,
  "items": [
   {
    "id": "exemplar:q:6:mathematics:1:-:2",
@@ -17,7 +17,7 @@
     "3794",
     "37940",
     "37904",
-    "379409 [[aside]] 450× [[aside]] 300 �[[aside]] 150 150 [[aside]] ×"
+    "379409 �[[aside]] 450× �[[aside]] 300 �[[aside]] 150 150 [[aside]] ×"
    ],
    "optionsError": null,
    "answer": "(C) 37904",
@@ -1406,7 +1406,7 @@
    "kind": "mcq_single",
    "file": "feep104.pdf",
    "page": 6,
-   "stem": "�� �If 5�= 20 �8 �p �, then value of p is",
+   "stem": "�� �If 5�= �20 �8 �p �, then value of p is",
    "options": [
     "23",
     "2",
@@ -4647,7 +4647,7 @@
    "stem": "p kg of potatoes are bought for Rs 70. Cost of 1kg of potatoes (in Rs) is __________.",
    "options": [],
    "optionsError": null,
-   "answer": "�� 70 �p",
+   "answer": "�� �70 �p",
    "answerError": null
   },
   {
@@ -5077,7 +5077,7 @@
    "stem": "There are ‘b’ boys and ‘g’ girls in a class. The ratio of the number of boys to the total number of students in the class is:",
    "options": [
     "�� �b �b+ �g",
-    "�� g �b+ �g",
+    "�� �g �b+ �g",
     "�� �b �g",
     "��b+ �g �b"
    ],
@@ -8838,7 +8838,7 @@
    "kind": "sa",
    "file": "gemp101.pdf",
    "page": 20,
-   "stem": "�(a) Write a positive integer and a negative integer whose sum is a negative integer. (b) Write a positive integer and a negative integer whose sum is a positive integer. (c) Write a positive integer and a negative integer whose difference is a negative integer. (d) Write a positive integer and a negative integer whose difference is a positive integer. (e) Write two integers which are smaller than – 5 but their difference is – 5. (f) Write two integers which are greater than – 10 but their sum is smaller than – 10. (g) Write two integers which are greater than – 4 but their difference is smaller than – 4. (h) Write two integers which are smaller than – 6 but their difference is greater than – 6. (i) Write two negative integers whose difference is 7. (j) Write two integers such that one is smaller than –11, and other is greater than –11 but their difference is –11. (k) Write two integers whose product is smaller than both the (l) Write two integers whose product is greater than both the",
+   "stem": "�(a) Write a positive integer and a negative integer whose sum is a negative integer. (b) Write a positive integer and a negative integer whose sum is a positive integer. (c) Write a positive integer and a negative integer whose difference is a negative integer. (d) Write a positive integer and a negative integer whose difference is a positive integer. (e) Write two integers which are smaller than – 5 but their difference is – 5. (f) Write two integers which are greater than – 10 but their sum is smaller than – 10. (g) Write two integers which are greater than – 4 but their difference is smaller than – 4. (h) Write two integers which are smaller than – 6 but their difference is greater than – 6. (i) Write two negative integers whose difference is 7. (j) Write two integers such that one is smaller than –11, and other is greater than –11 but their difference is –11. (k) Write two integers whose product is smaller than both the integers. (l) Write two integers whose product is greater than both the integers.",
    "options": [],
    "optionsError": null,
    "answer": "�(a) A number of solutions can be possible e.g., 4 + (–6) = –2 (b) A number of solutions can be possible e.g., 8 + (–2) = 6 (c) A number of solutions can be possible e.g., –7 – (2) = –9 (d) A number of solutions can be possible e.g., 4 – (–3) = 7 (e) A number of solutions can be possible e.g., –12 – (–7) = –5 (f) A number of solutions can be possible e.g., –4 + (–7) = –11 < –10 (g) A number of solutions can be possible e.g., –1 – 4 = –5 < –4 (h) A number of solutions can be possible e.g., –8 – (–9) = 1 > –6 (i) A number of solutions can be possible e.g., –2 – (–10) = 8 (j) A number of solutions can be possible e.g., –20 – (–9) = –11 (k) A number of solutions can be possible e.g., –3 × 5 = –15 (l) A number of solutions can be possible e.g., 4 × 6 = 24.",
@@ -9834,7 +9834,7 @@
    "kind": "sa",
    "file": "gemp102.pdf",
    "page": 19,
-   "stem": "Describe two methods to compare �13 �17 �and 0.82. Which do you think is easier and why? [[aside]] Think and Discuss [[aside]] 1. Give an example of an addition problem that involves connecting an [[aside]] improper fraction in the final step. �[[aside]] 2. Explain why �[[aside]] +�7 �[[aside]] 7 [[aside]] 9 �[[aside]] 9� does not equal 18 �. �[[aside]] 14",
+   "stem": "Describe two methods to compare �13 �17 �and 0.82. Which do you think is easier and why? [[aside]] Think and Discuss [[aside]] 1. Give an example of an addition problem that involves connecting an [[aside]] improper fraction in the final step. �[[aside]] 2. Explain why �[[aside]] +�7 �[[aside]] 7 �[[aside]] 9 �[[aside]] 9� does not equal 18 �. �[[aside]] 14",
    "options": [],
    "optionsError": null,
    "answer": "convert both into (1) decimals (2) fractions",
@@ -10004,7 +10004,7 @@
    "kind": "sa",
    "file": "gemp102.pdf",
    "page": 22,
-   "stem": "�Simplify: �1 �1 �2 2+ 5 �1 �1 �2 2÷ 5",
+   "stem": "�Simplify: �1 �1 �2 2+ �5 �1 �1 �2 2÷ �5",
    "options": [],
    "optionsError": null,
    "answer": "�� �27 �125",
@@ -10021,7 +10021,7 @@
    "kind": "sa",
    "file": "gemp102.pdf",
    "page": 22,
-   "stem": "�Simplify: 1 1 4 5 �3�× �3 �1− �8 �5 +",
+   "stem": "�Simplify: �1 �1 �4 �5 �3�× �3 �1− �8 �5 +",
    "options": [],
    "optionsError": null,
    "answer": "��18 �31",
@@ -10446,7 +10446,7 @@
    "kind": "sa",
    "file": "gemp102.pdf",
    "page": 27,
-   "stem": "� Evaluate �0.6+ 0.16 �0.3 �0.4",
+   "stem": "� Evaluate �0.6+ �0.16 �0.3 �0.4",
    "options": [],
    "optionsError": null,
    "answer": "�� 2.4",
@@ -10565,7 +10565,7 @@
    "kind": "sa",
    "file": "gemp102.pdf",
    "page": 27,
-   "stem": "�Sports: Reaction time measures how quickly a runner reacts to the starter pistol. In the 100 m dash at the 2004 Olympic Games, Lauryn Williams had a reaction time of 0.214 second. Her total race time, including reaction time, was 11.03 seconds. How long did it take her to run the actual distance? [[aside]] Fig. 2.8 Questions Greater than 1 Less than 1 �÷�1 �2 3 2 �÷�2 �2 3 1 ÷ �1 6 4 �÷�1 �1 5 2 �÷3 �1 �1 �4 3 2 �×8 �2 �1 3 2",
+   "stem": "�Sports: Reaction time measures how quickly a runner reacts to the starter pistol. In the 100 m dash at the 2004 Olympic Games, Lauryn Williams had a reaction time of 0.214 second. Her total race time, including reaction time, was 11.03 seconds. How long did it take her to run the actual distance? [[aside]] Fig. 2.8 Questions Greater than 1 Less than 1 �÷�1 �2 �3 2 �÷�2 �2 �3 1 ÷ �1 6 4 �÷�1 �1 �5 2 �÷3 �1 �1 �4 �3 �2 �×8 �2 �1 �3 �2",
    "options": [],
    "optionsError": null,
    "answer": "10.816",
@@ -10585,7 +10585,7 @@
    "stem": "[[aside]] State whether the answer is greater than 1 or less than 1. Put a ‘ü’ [[aside]] mark in appropriate box.",
    "options": [],
    "optionsError": null,
-   "answer": "�� Greater than 1: �2÷ �1 �3 �2 �, 6÷ �1 �4 �, 4 �1�÷ �1�, 2 �3 �3 �2 �1 �8 �3 �2 �× �Less than 1: �2÷ 2�, 1�÷ �3 �1 1 �5 �2",
+   "answer": "�� Greater than 1: �2÷ �1 �3 �2 �, 6÷ �1 �4 �, 4 �1�÷ �1�, 2 �3 �3 �2 �1 �8 �3 �2 �× �Less than 1: �2÷ 2�, 1�÷ �3 �1 �1 �5 �2",
    "answerError": null
   },
   {
@@ -10721,7 +10721,7 @@
    "stem": "What is the Error in each of question 123 to 125? �� In the pattern �+�1 �+�1 �+..... which fraction makes the sum greater �1 �3 �4 �5 than 1 (first time)? Explain.",
    "options": [],
    "optionsError": null,
-   "answer": "��1 �7 (D) 1. [[figure]] (a) (b) (c) �2. �(i) �1�× �1 �4 [[figure]] �3 [[figure]] 1�× [[figure]] 1�= [[figure]] 1 [[figure]] 4 [[figure]] 3 [[figure]] 12 [[figure]] �(ii) �1�× �1 �3 �5 1�× [[figure]] 1�= [[figure]] 1 [[figure]] 3 [[figure]] 5 [[figure]] 15 [[figure]] �(iii) �1�× �1 �2 �5 1�× [[figure]] 1�= [[figure]] 1 [[figure]] 2 [[figure]] 5 [[figure]] 10 [[figure]] 1 [[figure]] 3 [[figure]] 1 [[figure]] 3 [[figure]] 1 [[figure]] [[figure]] 3. [[figure]] 4. Sleep→8hrs, Study→3hrs, Meals→2hrs, School→7hrs and Personal time 4 hrs. �5. �Sl.No. Ingredients �Given for �Triple Amount �Half Amount One Cake of Cake of Cake (a) Sugar 2 Cups 6 Cups 1 Cup �(b) �Milk �3 �4� Cup (c) Coconut 1 Cup �(d) �Salt �1 �8� Teaspoon (e) Cocopowder 1 Tablespoon (f) Butter �1 1 �2� Tablespoon (g) Eggs 7. [[figure]] 8. Box 1 Box 2 Box 3 0.096 0.376 1.808 0.001 0.4200 0.987 0.066 0.62 11.00 0.0864 0.578 0.888 9. [[figure]] 10. 1. 20 cm �2. �40 cm �9 3. Length of bottom of vertical support = 9 cm Length of upper of vertical support = 3 cm 11. [[figure]] 12. Across : 1. Proper 2. Denominator 3. Equivalent 4. Greator 5. Improper 6. One Down : 1. Product 2. Decimal 8. Reciprocal 9. Fraction 13. (i) 1�+ 1 �2 �4 �(ii) �1�+ �1� (iii) 1 �8 �2 �1�+ �1 �2 �3 �12 �+ �(iv) �1�+ �1 �1 �3 �11 �231 �+ �(v) 1�+ 1�+ 1 1",
+   "answer": "��1 �7 (D) 1. [[figure]] (a) (b) (c) �2. �(i) �1�× �1 �4 [[figure]] �3 [[figure]] �1�× [[figure]] �1�= [[figure]] �1 [[figure]] �4 [[figure]] �3 [[figure]] �12 [[figure]] �(ii) �1�× �1 �3 �5 �1�× [[figure]] �1�= [[figure]] �1 [[figure]] �3 [[figure]] �5 [[figure]] �15 [[figure]] �(iii) �1�× �1 �2 �5 �1�× [[figure]] �1�= [[figure]] �1 [[figure]] �2 [[figure]] �5 [[figure]] �10 [[figure]] �1 [[figure]] �3 [[figure]] �1 [[figure]] �3 [[figure]] �1 [[figure]] �2 [[figure]] 3. [[figure]] 4. Sleep→8hrs, Study→3hrs, Meals→2hrs, School→7hrs and Personal time 4 hrs. �5. �Sl.No. Ingredients �Given for �Triple Amount �Half Amount One Cake of Cake of Cake (a) Sugar 2 Cups 6 Cups 1 Cup �(b) �Milk �3 �4� Cup (c) Coconut 1 Cup �(d) �Salt �1 �8� Teaspoon (e) Cocopowder 1 Tablespoon (f) Butter �1 1 �2� Tablespoon (g) Eggs 7. [[figure]] 8. Box 1 Box 2 Box 3 0.096 0.376 1.808 0.001 0.4200 0.987 0.066 0.62 11.00 0.0864 0.578 0.888 9. [[figure]] 10. 1. 20 cm �2. �40 cm �9 3. Length of bottom of vertical support = 9 cm Length of upper of vertical support = 3 cm 11. [[figure]] 12. Across : 1. Proper 2. Denominator 3. Equivalent 4. Greator 5. Improper 6. One Down : 1. Product 2. Decimal 8. Reciprocal 9. Fraction 13. (i) �1�+ �1 �2 �4 �(ii) �1�+ �1� (iii) 1 �8 �2 �1�+ �1 �2 �3 �12 �+ �(iv) �1�+ �1 �1 �3 �11 �231 �+ �(v) �1�+ �1�+ �1 �1 �5 �15",
    "answerError": null
   },
   {
@@ -11674,7 +11674,7 @@
     "0.002",
     "0.02",
     "0.2",
-    "2 [[aside]] SUBTRACTION PROPERTY OF EQUALITY Words Numbers Algebra You can subtract the same number from both sides of an equation, and the statement will still be true. �x = y implies �x – z = y – z �4 + 7 = 11 �– 3 = –3 4 + 4 = 8"
+    "2 [[aside]] SUBTRACTION PROPERTY OF EQUALITY Words Numbers Algebra You can subtract the same number from both sides of an equation, and the statement will still be true. �x = y implies �x – z = y – z �4 + 7 = 11 �– 3 = –3 �4 + 4 = 8"
    ],
    "optionsError": null,
    "answer": "(a) 0.002",
@@ -12187,7 +12187,7 @@
    "kind": "fill_blank",
    "file": "gemp104.pdf",
    "page": 12,
-   "stem": "�� If x −�1 �2 = −�1 �2 , then x = . [[aside]] DIVISION PROPERTY OF EQUALITY Words Numbers Algebra You can divide both sides of an equation by the same non-zero number, and the statement will still be true. 4 3 12 4 3 12 2 2 �12 �6 �2 × = �× �= = x = y, implies �, �0 �x �y z≠ �z �z �=",
+   "stem": "�� If x −�1 �2 = −�1 �2 , then x = . [[aside]] DIVISION PROPERTY OF EQUALITY Words Numbers Algebra You can divide both sides of an equation by the same non-zero number, and the statement will still be true. 4 3 12 4 3 �12 2 �2 �12 �6 �2 × = �× �= = x = y, implies �, �0 �x �y z≠ �z �z �=",
    "options": [],
    "optionsError": null,
    "answer": "0",
@@ -16031,7 +16031,7 @@
     "� �200",
     "�� �1 �2",
     "�� �2",
-    "��50 Ratio Decimal �3 �30 10 100 �= 1�= 50 2 100 3�= 75 4 100 0.30 0.50 0.75 30 % 50 % 75 % [[aside]] Per cent"
+    "��50 Ratio Decimal �3 �30 �10 �100 �= �1�= �50 �2 �100 �3�= �75 �4 �100 0.30 0.50 0.75 30 % 50 % 75 % [[aside]] Per cent"
    ],
    "optionsError": null,
    "answer": "(a) � �200",
@@ -16312,7 +16312,7 @@
    "kind": "fill_blank",
    "file": "gemp107.pdf",
    "page": 11,
-   "stem": "�2 : 3 = ________ % Per cent Problem Equation Proportion Finding the per cent of a number Finding the per cent of one number with another number Finding a number when the per cent is known 15% of 120 = n p % of 120 = 18 15% of n = 18 �= �15 100 120 [[aside]] n = �18 100 120 [[aside]] p �=�18 �15 n",
+   "stem": "�2 : 3 = ________ % Per cent Problem Equation Proportion Finding the per cent of a number Finding the per cent of one number with another number Finding a number when the per cent is known 15% of 120 = n p % of 120 = 18 15% of n = 18 �= �15 �100 �120 �[[aside]] n = �18 �100 120 �[[aside]] p �=�18 �15 �100 n",
    "options": [],
    "optionsError": null,
    "answer": "�� �2 �66 3",
@@ -17553,7 +17553,7 @@
    "kind": "sa",
    "file": "gemp107.pdf",
    "page": 26,
-   "stem": "In a debate competition, the judges decide that 20 per cent of the total marks would be given for accent and presentation. 60 per cent of the rest are reserved for the subject matter and the rest are for rebuttal. If this means 8 marks for rebuttal, then find the total marks. [[aside]] Build Understanding [[aside]] The per cent of increase tells what per cent the amount of increase is of [[aside]] the original number. [[aside]] To find the per cent of increase, express a ratio of the amount of increase [[aside]] to the original number as a per cent. �[[aside]] Per cent of increase = �[[aside]] × 100 �[[aside]] amount of increase [[aside]] original number",
+   "stem": "In a debate competition, the judges decide that 20 per cent of the total marks would be given for accent and presentation. 60 per cent of the rest are reserved for the subject matter and the rest are for rebuttal. If this means 8 marks for rebuttal, then find the total marks. [[aside]] Build Understanding [[aside]] The per cent of increase tells what per cent the amount of increase is of [[aside]] the original number. [[aside]] To find the per cent of increase, express a ratio of the amount of increase [[aside]] to the original number as a per cent. �[[aside]] Per cent of increase = �[[aside]] × 100 �[[aside]] amount of increase �[[aside]] original number",
    "options": [],
    "optionsError": null,
    "answer": "25",
@@ -17713,7 +17713,7 @@
    "page": 11,
    "stem": "[[aside]] Can you compare this reciprocal with the orignal number? 2. Which of the following rational numbers is positive?",
    "options": [
-    "�� �–8 7",
+    "�� �–8 �7",
     "��19 –13",
     "��–3 –4",
     "��–21 13"
@@ -17736,12 +17736,12 @@
    "stem": "Which of the following rational numbers is negative?",
    "options": [
     "�� �–3� �–� �7�� � � �",
-    "�� �–5 –8",
-    "�� �9 8",
-    "�� �3 –7"
+    "�� �–5 �–8",
+    "�� �9 �8",
+    "�� �3 �–7"
    ],
    "optionsError": null,
-   "answer": "(d) �� �3 –7",
+   "answer": "(d) �� �3 �–7",
    "answerError": null
   },
   {
@@ -17803,11 +17803,11 @@
    "options": [
     "�� �48 �60",
     "�� �–60 �48",
-    "�� �4 �5 −",
-    "���− �4 �5 − Number Reciprocal Product �3 �4 4 �3 � �= � � �3 � �3 �4 �1 �4 −�5 �12 �12 �5 �− �5 �12� �– �1 �12 �5 � �− �= � � � � �1 �6 �1��= �6� �1 �6� � � � �6"
+    "�� �4 �5 �−",
+    "���− �4 �5 �− Number Reciprocal Product �3 �4 �4 �3 � �= � � �3 � �3 �4 �1 �4 −�5 �12 �12 �5 �− �5 �12� �– �1 �12 �5 � �− �= � � � � �1 �6 �1��= �6� �1 �6� � � � �6"
    ],
    "optionsError": null,
-   "answer": "(c) �� �4 �5 −",
+   "answer": "(c) �� �4 �5 �−",
    "answerError": null
   },
   {
@@ -17919,7 +17919,7 @@
    "stem": "�The standard form of �18 is ______. –24",
    "options": [],
    "optionsError": null,
-   "answer": "�� �3 �4 −",
+   "answer": "�� �3 �4 �−",
    "answerError": null
   },
   {
@@ -18038,7 +18038,7 @@
    "stem": "�Additive inverse of �2 is ______. 3",
    "options": [],
    "optionsError": null,
-   "answer": "�� �2 �3 −",
+   "answer": "�� �2 �3 �−",
    "answerError": null
   },
   {
@@ -18089,7 +18089,7 @@
    "stem": "�� �–2� �3 �3�� �4 � �× � � � = ______.",
    "options": [],
    "optionsError": null,
-   "answer": "�� �1 �2 −",
+   "answer": "�� �1 �2 �−",
    "answerError": null
   },
   {
@@ -18120,7 +18120,7 @@
    "kind": "fill_blank",
    "file": "gemp108.pdf",
    "page": 14,
-   "stem": "�� �= �–6 7 42",
+   "stem": "�� �= �–6 �7 42",
    "options": [],
    "optionsError": null,
    "answer": "� – 36",
@@ -18137,7 +18137,7 @@
    "kind": "fill_blank",
    "file": "gemp108.pdf",
    "page": 14,
-   "stem": "�� �= �1 �6 2",
+   "stem": "�� �= �1 �6 �2",
    "options": [],
    "optionsError": null,
    "answer": "�� 12",
@@ -18327,7 +18327,7 @@
    "stem": "�� �______ × �–2��= �1. �5�� � � � �",
    "options": [],
    "optionsError": null,
-   "answer": "�� �5 �2 −",
+   "answer": "�� �5 �2 �−",
    "answerError": null
   },
   {
@@ -18514,7 +18514,7 @@
    "stem": "Write each of the following rational numbers with positive denomi-nators: �5 �–8 , �15 �–28 , �–17 �–13 �.",
    "options": [],
    "optionsError": null,
-   "answer": "�� �5, �15, �17 �8 − 28 − �13",
+   "answer": "�� �5, �15, �17 �8 �− �28 �− �13",
    "answerError": null
   },
   {
@@ -18531,7 +18531,7 @@
    "stem": "�Express �3 as a rational number with denominator: 4 (i) 36 (ii) – 80",
    "options": [],
    "optionsError": null,
-   "answer": "�� (i) �27 �36 �(ii) �− �60 �80 −",
+   "answer": "�� (i) �27 �36 �(ii) �− �60 �80 �−",
    "answerError": null
   },
   {
@@ -18545,10 +18545,10 @@
    "kind": "sa",
    "file": "gemp108.pdf",
    "page": 17,
-   "stem": "�Reduce each of the following rational numbers in its lowest form: (i) �– 60 72 �(ii) �91 – 364",
+   "stem": "�Reduce each of the following rational numbers in its lowest form: (i) �– 60 72 �(ii) �91 �– 364",
    "options": [],
    "optionsError": null,
-   "answer": "�� (i) �5 �6 − (ii) 1 4 −",
+   "answer": "�� (i) �5 �6 �− (ii) �1 �4 �−",
    "answerError": null
   },
   {
@@ -18565,7 +18565,7 @@
    "stem": "�Express each of the following rational numbers in its standard form: (i) �–12 – 30 (ii) �14 – 49 (iii) –15 35 (iv) �299 –161",
    "options": [],
    "optionsError": null,
-   "answer": "�� (i) �5 , (ii) �2 �2 �7 − , (iii) 3 7 − , (iv) 13 7 −",
+   "answer": "�� (i) �5 , (ii) �2 �2 �7 �− , (iii) �3 �7 �− , (iv) �13 �7 �−",
    "answerError": null
   },
   {
@@ -18647,7 +18647,7 @@
    "kind": "sa",
    "file": "gemp108.pdf",
    "page": 18,
-   "stem": "�Give three rational numbers equivalent to: �(i) �–3 4 �(ii) �7 11",
+   "stem": "�Give three rational numbers equivalent to: �(i) �–3 �4 �(ii) �7 �11",
    "options": [],
    "optionsError": null,
    "answer": "�(i) �6 �9 �12 �, �, �8 �12 �16 �− �− �− (ii) �14 �21 �28 �, �, �22 �33 �44",
@@ -18769,7 +18769,7 @@
    "stem": "�Simplify: �(i) �3�÷ � �21 �7 �–55� � � � � �(ii) �1� �1÷ � �– 2� � � �",
    "options": [],
    "optionsError": null,
-   "answer": "�(i) �55 �49 − �(ii) – 2",
+   "answer": "�(i) �55 �49 �− �(ii) – 2",
    "answerError": null
   },
   {
@@ -18837,7 +18837,7 @@
    "stem": "�Find the reciprocal of the following: �(i) �1 �1 �1 �6 �2 �4 �2 � �+ � � �× �× � � � � � � � � �(ii) �20× �4 �51 �91 �(iii) �3 �–4 �13 �65 �÷ �(iv) �12 �2 �– �–5 �–3 �15 �9 � � � � �× �× � � � � � � � �",
    "options": [],
    "optionsError": null,
-   "answer": "�(i) �8 �25 �(ii) �4641 �80 �(iii) �4 �15 − �(iv) �3 �10 −",
+   "answer": "�(i) �8 �25 �(ii) �4641 �80 �(iii) �4 �15 �− �(iv) �3 �10 �−",
    "answerError": null
   },
   {
@@ -18851,10 +18851,10 @@
    "kind": "sa",
    "file": "gemp108.pdf",
    "page": 19,
-   "stem": "�Complete the following table by finding the sums: 1 4 5 9 11 6 2 3 5 39 4 44 1 3 �− �+ �− �− �− −",
+   "stem": "�Complete the following table by finding the sums: �1 �4 �5 �9 �11 �6 �2 �3 �5 �39 �4 �44 �1 �3 �− �+ �− �− �− −",
    "options": [],
    "optionsError": null,
-   "answer": "�+ − − − − − − − − − − 1 4 5 9 11 6 2 5 34 1 3 9 33 6 5 49 39 25 4 36 44 12 1 4 1 7 3 9 33 6",
+   "answer": "�+ − − − − − − − − − − �1 �4 �5 �9 �11 �6 �2 �5 �34 �1 �3 �9 �33 �6 �5 �49 �39 �25 �4 �36 �44 �12 �1 �4 �1 �7 �3 �9 �33 �6",
    "answerError": null
   },
   {
@@ -18888,7 +18888,7 @@
    "stem": "If p = m × t and q = n × t, then �p �q �=",
    "options": [],
    "optionsError": null,
-   "answer": "�� �m n",
+   "answer": "�� �m �n",
    "answerError": null
   },
   {
@@ -18905,7 +18905,7 @@
    "stem": "�Given that p �q and �r �s� are two rational numbers with different denominators and both of them are in standard form. To compare these rational numbers we say that: (a) < , if p × s < r × q (b) p �q = �r �s , if ________ = _______ (c) > , if p × s > r × q",
    "options": [],
    "optionsError": null,
-   "answer": "��(a) �q �p �r �s�, �< �(b) p × s = r × q, �(c) �q �p �r s �>",
+   "answer": "��(a) �q �p �r �s�, �< �(b) p × s = r × q, �(c) �q �p �r �s �>",
    "answerError": null
   },
   {
@@ -18922,7 +18922,7 @@
    "stem": "In each of the following cases, write the rational number whose numerator and denominator are respectively as under: (a) 5 – 39 and 54 – 6 (b) (–4) × 6 and 8 ÷ 2 (c) 35 ÷ (–7) and 35 –18 (d) 25 + 15 and 81 ÷ 40",
    "options": [],
    "optionsError": null,
-   "answer": "�(a) 34 48 − , (b) �24 �4 − �, �(c) �5 �17 − �, �(d) 1600 81",
+   "answer": "�(a) �34 �48 �− , (b) �24 �4 − �, �(c) �5 �17 �− �, �(d) �1600 �81",
    "answerError": null
   },
   {
@@ -18939,7 +18939,7 @@
    "stem": "�Write the following as rational numbers in their standard forms: �(a) �35% �(b) 1.2 �(c) –6 7 �3 (d) 240 ÷ (– 840) (e) 115 ÷ 207",
    "options": [],
    "optionsError": null,
-   "answer": "�(a) �7 �20 �, �(b) �6 �5 �, �(c) �45 �7 �− �, �(d) �2 �7 − �, �(e) �5 9",
+   "answer": "�(a) �7 �20 �, �(b) �6 �5 �, �(c) �45 �7 �− �, �(d) �2 �7 �− �, �(e) �5 9",
    "answerError": null
   },
   {
@@ -18970,10 +18970,10 @@
    "kind": "sa",
    "file": "gemp108.pdf",
    "page": 20,
-   "stem": "�� Taking �4 �5 �7 �, �and �,find : �9 �12 �18 �x= �y= �z= − (a) the rational number which when added to x gives y. (b) the rational number which subtracted from y gives z. (c) the rational number which when added to z gives us x. (d) the rational number which when multiplied by y to get x. (e) the reciprocal of x + y. (f) the sum of reciprocals of x and y. (g) (x ÷ y) × z (h) (x – y) + z (i) x + (y + z) (j) x ÷ (y ÷ z) (k) x – (y + z)",
+   "stem": "�� Taking �4 �5 �7 �, �and �,find : �9 �12 �18 �x= �y= �z= �− (a) the rational number which when added to x gives y. (b) the rational number which subtracted from y gives z. (c) the rational number which when added to z gives us x. (d) the rational number which when multiplied by y to get x. (e) the reciprocal of x + y. (f) the sum of reciprocals of x and y. (g) (x ÷ y) × z (h) (x – y) + z (i) x + (y + z) (j) x ÷ (y ÷ z) (k) x – (y + z)",
    "options": [],
    "optionsError": null,
-   "answer": "�� (a) �31 �36 �(b) �1 �36 �(c) �5 �6 − �(d) − �48 �45 �(e) –36 �(f) �3 �20 �(g) �56 �135 − �(h) − �17 �36 �(i) �13 �36 �(j) − �56 �135 �(k) �5 �4 �−",
+   "answer": "�� (a) �31 �36 �(b) �1 �36 �(c) �5 �6 �− �(d) − �48 �45 �(e) –36 �(f) �3 �20 �(g) �56 �135 �− �(h) − �17 �36 �(i) �13 �36 �(j) − �56 �135 �(k) �5 �4 �−",
    "answerError": null
   },
   {
@@ -19174,7 +19174,7 @@
    "kind": "sa",
    "file": "gemp108.pdf",
    "page": 22,
-   "stem": "�� (a) �4�× �3 �3 �4 �(b) �3�× �2 �2 �3 − − �(c) �1 �2× �2 �(d) �1 �3 �3 �1 �−×",
+   "stem": "�� (a) �4�× �3 �3 �4 �(b) �3�× �2 �2 �3 �− �− �(c) �1 �2× �2 �(d) �1 �3 �3 �1 �−×",
    "options": [],
    "optionsError": null,
    "answer": "� (d)",
@@ -19191,7 +19191,7 @@
    "kind": "sa",
    "file": "gemp108.pdf",
    "page": 22,
-   "stem": "�� (a) �4 �9 �− �(b) �16 �36 − �(c) −20 �−45 �(d) �28 �63 �−",
+   "stem": "�� (a) �4 �9 �− �(b) �16 �36 �− �(c) �−20 �−45 �(d) �28 �63 �−",
    "options": [],
    "optionsError": null,
    "answer": "� (c)",
@@ -19210,13 +19210,13 @@
    "page": 22,
    "stem": "�",
    "options": [
-    "��4 �3 −",
-    "�� �7 �6 −",
-    "�� �10 �3 −",
-    "�� �−8 7"
+    "��4 �3 �−",
+    "�� �7 �6 �−",
+    "�� �10 �3 �−",
+    "�� �−8 �7"
    ],
    "optionsError": null,
-   "answer": "(b) �� �7 �6 −",
+   "answer": "(b) �� �7 �6 �−",
    "answerError": null
   },
   {
@@ -19233,9 +19233,9 @@
    "stem": "�",
    "options": [
     "�� �−3 �7",
-    "�� �9 �15 −",
-    "�� �24 �20 +",
-    "�� �35 �25 +"
+    "�� �9 �15 �−",
+    "�� �24 �20 �+",
+    "�� �35 �25 �+"
    ],
    "optionsError": null,
    "answer": "(a) �� �−3 �7",
@@ -19252,10 +19252,10 @@
    "kind": "sa",
    "file": "gemp108.pdf",
    "page": 22,
-   "stem": "�What’s the Error? Chhaya simplified a rational number in this �manner �25= �5 �30 �6 − − �− �. What error did the student make?",
+   "stem": "�What’s the Error? Chhaya simplified a rational number in this �manner �25= �5 �30 �6 �− �− �− �. What error did the student make?",
    "options": [],
    "optionsError": null,
-   "answer": "�She divided numerator by 5 but denominator by –5 (D) 1. [[figure]] 2 3 [[figure]] − �5 [[figure]] �8 [[figure]] �7 [[figure]] 10 [[figure]] �− [[figure]] �1 [[figure]] 2 �− [[figure]] �5 [[figure]] 7 9 [[figure]] 14 − [[figure]] �3 �4 �− �2 �5 �9 �10 �1 1 [[figure]] 4 [[figure]] − [[figure]] 1 [[figure]] 6 [[figure]] − [[figure]] 1 [[figure]] 5 [[figure]] − [[figure]] 1 [[figure]] 2 [[figure]] − [[figure]] 1 [[figure]] 3 [[figure]] �− [[figure]] �1 [[figure]] 7 [[figure]] − [[figure]] [[aside]] ₋ 3 [[figure]] 8 [[figure]] ₋1 1 [[figure]] 6 0 [[figure]] ₋5 [[figure]] 1 2 [[figure]] ₋12 [[figure]] 70 [[figure]] 0 [[figure]] –1 [[figure]] –2 [[figure]] –3 [[figure]] –4 [[figure]] –5 [[figure]] [[aside]] −�1 [[figure]] 2 [[figure]] �5 [[figure]] �- 2 [[figure]] −�9 [[figure]] 2 [[figure]] 2. �3. �112 �224 − �4. (Make from graph)",
+   "answer": "�She divided numerator by 5 but denominator by –5 (D) 1. [[figure]] �2 �3 [[figure]] �− �5 [[figure]] �8 [[figure]] �7 [[figure]] �10 [[figure]] �− [[figure]] �1 [[figure]] �2 �− [[figure]] �5 [[figure]] �7 �9 [[figure]] �14 �− [[figure]] �3 �4 �− �2 �5 �9 �10 �1 �1 [[figure]] �4 [[figure]] �− [[figure]] �1 [[figure]] �6 [[figure]] �− [[figure]] �1 [[figure]] �5 [[figure]] �− [[figure]] �1 [[figure]] �2 [[figure]] �− [[figure]] �1 [[figure]] �3 [[figure]] �− [[figure]] �1 [[figure]] �7 [[figure]] �− [[figure]] [[aside]] ₋ 3 [[figure]] 8 [[figure]] ₋1 1 [[figure]] 6 0 [[figure]] ₋5 [[figure]] 1 2 [[figure]] ₋12 [[figure]] 70 [[figure]] 0 [[figure]] –1 [[figure]] –2 [[figure]] –3 [[figure]] –4 [[figure]] –5 [[figure]] [[aside]] −�1 [[figure]] 2 [[figure]] �5 [[figure]] �- 2 [[figure]] −�9 [[figure]] 2 [[figure]] 2. �3. �112 �224 �− �4. (Make from graph)",
    "answerError": null
   },
   {
@@ -21111,7 +21111,7 @@
    "stem": "�Write the following statements in the form of algebraic expressions and write whether it is monomial, binomial or trinomial. (a) x is multiplied by itself and then added to the product of x and y. (b) Three times of p and two times of q are multiplied and then subtracted from r. (c) Product of p, twice of q and thrice of r . (d) Sum of the products of a and b, b and c and c and a. (e) Perimeter of an equilateral triangle of side x. (f) Perimeter of a rectangle with length p and breadth q. (g) Area of a triangle with base m and height n. (h) Area of a square with side x. (i) Cube of s subtracted from cube of t. (j) Quotient of x and 15 multiplied by x. (k) The sum of square of x and cube of z. (l) Two times q subtracted from cube of q.",
    "options": [],
    "optionsError": null,
-   "answer": "�(a) x² + xy, Binomial (b) r – (3p × 2q), Binomial (c) p × 2q × 3r, Monomial (d) ab + bc + ca, Trinomial (e) 3x, Monomial (f) 2p + 2q, Binomial (g) �1 �2 mn, monomial (h) x², Monomial (i) t³ – s³, Binomial (j) (x ÷ 15)x , Monomial or 2 15 x (k) x² + z³, Binomial (l) q³ – 2q, Binomial",
+   "answer": "�(a) x² + xy, Binomial (b) r – (3p × 2q), Binomial (c) p × 2q × 3r, Monomial (d) ab + bc + ca, Trinomial (e) 3x, Monomial (f) 2p + 2q, Binomial (g) �1 �2 mn, monomial (h) x², Monomial (i) t³ – s³, Binomial (j) (x ÷ 15)x , Monomial or 2 �15 �x (k) x² + z³, Binomial (l) q³ – 2q, Binomial",
    "answerError": null
   },
   {
@@ -21550,7 +21550,7 @@
    "kind": "sa",
    "file": "gemp110.pdf",
    "page": 24,
-   "stem": "Translate each of the following algebraic expressions Question 91 to 94 into words. �� 7 �8 – x",
+   "stem": "Translate each of the following algebraic expressions Question 91 to 94 into words. �� �7 �8 – x",
    "options": [],
    "optionsError": null,
    "answer": "Quotient on dividing seven by the difference of eight and x (x < 8).",
@@ -21587,7 +21587,7 @@
    "stem": "�(i) Critical Thinking Write two different algebraic expressions for the word phrase “� �1� �4�� of the sum of x and 7.” � � � (ii) What’s the Error? A student wrote an algebraic expression for �“5 less than a number n divided by 3” as �3 − �5. What error did �n the student make? (iii) Write About it Shashi used addition to solve a word problem about the weekly cost of commuting by toll tax for � 15 each day. Ravi solved the same problem by multiplying. They both got the correct answer. How is this possible?",
    "options": [],
    "optionsError": null,
-   "answer": "�� (i) �4 (x + 7), �1 �1 �4 (7 + x) (ii) – 5 3 n",
+   "answer": "�� (i) �4 (x + 7), �1 �1 �4 (7 + x) (ii) �– 5 �3 �n",
    "answerError": null
   },
   {
@@ -21679,7 +21679,7 @@
     "second power of x",
     "third power of x",
     "fifth power of x",
-    "sixth power of x [[aside]] Revise [[aside]] • [[aside]] Substitute the value of x in the equation and check if it [[aside]] satisfies the equation. [[aside]] LHS = [[aside]] 5 �[[aside]] 1 �[[aside]] 5 �[[aside]] × [[aside]] 19 �[[aside]] 1 �[[aside]] 5 �[[aside]] = [[aside]] 5 19 [[aside]] 1 [[aside]] 5 [[aside]] + [[aside]] = [[aside]] 24 [[aside]] 1 [[aside]] 5 [[aside]] RHS = [[aside]] 8x [[aside]] 1 [[aside]] 5 [[aside]] = [[aside]] 8 3 [[aside]] 1 [[aside]] 5 [[aside]] × [[aside]] = [[aside]] 24 [[aside]] 1 [[aside]] 5 [[aside]] LHS = RHS [[aside]] Hence, the equation is satisfied with x = 3. So, our answer [[aside]] is correct. [[aside]] Think and Discuss �[[aside]] 1. �Try to find the value of x given in the question by changing 1 �[[aside]] 5� to 3 �[[aside]] 2 �. [[aside]] What difference do you find in the value of x ? What do you infer from [[aside]] your answer? [[aside]] 2. Can you find the value of x if the equation is changed to [[aside]] (5)^(x) ÷ (5)² = (5)³?"
+    "sixth power of x [[aside]] Revise [[aside]] • [[aside]] Substitute the value of x in the equation and check if it [[aside]] satisfies the equation. [[aside]] LHS = [[aside]] 5 �[[aside]] 1 �[[aside]] 5 �[[aside]] × [[aside]] 19 �[[aside]] 1 �[[aside]] 5 �[[aside]] = [[aside]] 5 19 �[[aside]] 1 �[[aside]] 5 [[aside]] + [[aside]] = [[aside]] 24 �[[aside]] 1 �[[aside]] 5 [[aside]] RHS = [[aside]] 8x �[[aside]] 1 �[[aside]] 5 [[aside]] = [[aside]] 8 3 �[[aside]] 1 �[[aside]] 5 [[aside]] × [[aside]] = [[aside]] 24 �[[aside]] 1 �[[aside]] 5 [[aside]] LHS = RHS [[aside]] Hence, the equation is satisfied with x = 3. So, our answer [[aside]] is correct. [[aside]] Think and Discuss �[[aside]] 1. �Try to find the value of x given in the question by changing 1 �[[aside]] 5� to 3 �[[aside]] 2 �. [[aside]] What difference do you find in the value of x ? What do you infer from [[aside]] your answer? [[aside]] 2. Can you find the value of x if the equation is changed to [[aside]] (5)^(x) ÷ (5)² = (5)³?"
    ],
    "optionsError": null,
    "answer": "(c) fifth power of x",
@@ -21745,10 +21745,10 @@
     "�� �2 �3 �−",
     "�� �2 �3",
     "�� �4 �9 �−",
-    "�� �4 �9 DIVIDING POWERS WITH THE SAME BASE Words Numbers Algebra To divide powers with the same base, keep the base and subtract the exponents. –n m m n �b �b �b �= 9 9 –4 5 4 �6 �6 �6 �6 �= �="
+    "�� �4 �9 DIVIDING POWERS WITH THE SAME BASE Words Numbers Algebra To divide powers with the same base, keep the base and subtract the exponents. –n m m �n �b �b �b �= 9 9 –4 5 �4 �6 �6 �6 �6 �= �="
    ],
    "optionsError": null,
-   "answer": "(d) �� �4 �9 DIVIDING POWERS WITH THE SAME BASE Words Numbers Algebra To divide powers with the same base, keep the base and subtract the exponents. –n m m n �b �b �b �= 9 9 –4 5 4 �6 �6 �6 �6 �= �=",
+   "answer": "(d) �� �4 �9 DIVIDING POWERS WITH THE SAME BASE Words Numbers Algebra To divide powers with the same base, keep the base and subtract the exponents. –n m m �n �b �b �b �= 9 9 –4 5 �4 �6 �6 �6 �6 �= �=",
    "answerError": null
   },
   {
@@ -21810,11 +21810,11 @@
    "options": [
     "�3 2 �2 �3 �4 18 �× �×",
     "�� �( �)³ �( �)⁴ �( �)⁷ 2 2 2 � �÷ − − × − � �",
-    "�0 3 3 ×5 �5×25",
-    "�� 4 0 0 3 2 (7 +3 )"
+    "�0 3 �3 ×5 �5×25",
+    "�� 4 �0 �0 3 �2 �(7 +3 )"
    ],
    "optionsError": null,
-   "answer": "(d) �� 4 0 0 3 2 (7 +3 )",
+   "answer": "(d) �� 4 �0 �0 3 �2 �(7 +3 )",
    "answerError": null
   },
   {
@@ -21876,7 +21876,7 @@
    "options": [
     "� �0.0001",
     "�� �1 �10000",
-    "�� 6 �1 �10",
+    "�� �6 �1 �10",
     "���10 ÷ 6 �1 �0.1"
    ],
    "optionsError": null,
@@ -21899,7 +21899,7 @@
     "�� �a �mn � � �b �",
     "�� �a �m + n � � �b �",
     "�� �a �m – n � � �b �",
-    "��� � � � � � � � � � � �n �m �a b"
+    "��� � � � � � � � � � � �n �m �a �b"
    ],
    "optionsError": null,
    "answer": "(c) �� �a �m – n � � �b �",
@@ -22222,7 +22222,7 @@
    "kind": "true_false",
    "file": "gemp111.pdf",
    "page": 10,
-   "stem": "��100 �100 100 �–3 �–3 �= �5 �–5",
+   "stem": "��100 �100 �100 �–3 �–3 �= �5 �–5",
    "options": [],
    "optionsError": null,
    "answer": "True",
@@ -22324,7 +22324,7 @@
    "kind": "true_false",
    "file": "gemp111.pdf",
    "page": 11,
-   "stem": "�5⁰ × 25⁰ × 125⁰ = (5⁰)⁶ Expression Expression Written Using Repeated Multiplication Quotient of Powers �2 �4 � � �3 � �− � �3 � � � � 3 y �a �5 � � �b � On Multiplying Fractions 2.2.2.2 3.3.3.3 �4 �2 �4 �3 �−3 �−3 �−3 �. �. �y �y �y (–3)(–3)(–3) . . y y y [[aside]] COPY AND COMPLETE THE TABLE �2 2 2 2 �. �. �. 3 3 3 3",
+   "stem": "�5⁰ × 25⁰ × 125⁰ = (5⁰)⁶ Expression Expression Written Using Repeated Multiplication Quotient of Powers �2 �4 � � �3 � �− � �3 � � � � �3 �y �a �5 � � �b � On Multiplying Fractions �2.2.2.2 �3.3.3.3 �4 �2 �4 �3 �−3 �−3 �−3 �. �. �y �y �y �(–3)(–3)(–3) �. �. �y y y [[aside]] COPY AND COMPLETE THE TABLE �2 2 2 2 �. �. �. 3 3 3 3",
    "options": [],
    "optionsError": null,
    "answer": "True",
@@ -22341,10 +22341,10 @@
    "kind": "sa",
    "file": "gemp111.pdf",
    "page": 12,
-   "stem": "�Arrange in descending order : 2²⁺³, (2²)³, 2 × 2², 5 2 �3 �3 , 3² × 3⁰, 2³ × 5²",
+   "stem": "�Arrange in descending order : 2²⁺³, (2²)³, 2 × 2², 5 �2 �3 �3 , 3² × 3⁰, 2³ × 5²",
    "options": [],
    "optionsError": null,
-   "answer": "�Descending order: 2³ × 5², (2²)³, 2²⁺³, 5 2 3 �3 , 3² × 3⁰, 2 × 2²",
+   "answer": "�Descending order: 2³ × 5², (2²)³, 2²⁺³, 5 �2 �3 �3 , 3² × 3⁰, 2 × 2²",
    "answerError": null
   },
   {
@@ -22480,7 +22480,7 @@
    "stem": "Express each of the following numbers using exponential notations: �(a) �1024 �(b) �1029 �(c) �144 �875",
    "options": [],
    "optionsError": null,
-   "answer": "�(a) 2¹⁰ (b) 3 × 7³ (c) 2 4 3 3 ×2 �5 �×7",
+   "answer": "�(a) 2¹⁰ (b) 3 × 7³ (c) 2 4 �3 �3 ×2 �5 �×7",
    "answerError": null
   },
   {
@@ -22528,7 +22528,7 @@
    "kind": "sa",
    "file": "gemp111.pdf",
    "page": 14,
-   "stem": "�Simplify and express each of the following in exponential form: (a) 4 5 7 �3 �3 �3 �× �÷ 7 7 7 � � � � � � � � � � � � � � � � � � � � � � � � (b) 5 2 2 �7 �7 �7 �÷ �× �11 �11 �11 � � � � � � � � � � � � � � � � � � � � � � � � (c) (3⁷ ÷ 3⁵) ⁴ (d) 6 5 0 4 �a �a �a �a � �× �× � � � � (e) 3 8 2 4 �3 �3 �3 �3 �× �÷ �× �5 �5 �5 �5 � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � (f) (5¹⁵ ÷ 5¹⁰) × 5⁵ [[aside]] Division of Powers Rule [[aside]] When you are dividing two powers with the same base, subtract the second [[aside]] exponent from the first to give you the exponent of the answer. [[aside]] (a^(m) ÷ aⁿ = a^((m–n))) [[aside]] Key Concept [[aside]] Power of a Power Property [[aside]] Words [[aside]] To simplify a power of a power, multiply exponents. [[aside]] Numbers (5⁴)² = 5^(4 . 2) = 5⁸ [[aside]] Algebra [[aside]] (a^(m))ⁿ = a^(mn) [[aside]] To be noted",
+   "stem": "�Simplify and express each of the following in exponential form: (a) 4 5 7 �3 �3 �3 �× �÷ �7 �7 �7 � � � � � � � � � � � � � � � � � � � � � � � � (b) 5 2 2 �7 �7 �7 �÷ �× �11 �11 �11 � � � � � � � � � � � � � � � � � � � � � � � � (c) (3⁷ ÷ 3⁵) ⁴ (d) 6 5 0 �4 �a �a �a �a � �× �× � � � � (e) 3 8 2 4 �3 �3 �3 �3 �× �÷ �× �5 �5 �5 �5 � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � � (f) (5¹⁵ ÷ 5¹⁰) × 5⁵ [[aside]] Division of Powers Rule [[aside]] When you are dividing two powers with the same base, subtract the second [[aside]] exponent from the first to give you the exponent of the answer. [[aside]] (a^(m) ÷ aⁿ = a^((m–n))) [[aside]] Key Concept [[aside]] Power of a Power Property [[aside]] Words [[aside]] To simplify a power of a power, multiply exponents. [[aside]] Numbers (5⁴)² = 5^(4 . 2) = 5⁸ [[aside]] Algebra [[aside]] (a^(m))ⁿ = a^(mn) [[aside]] To be noted",
    "options": [],
    "optionsError": null,
    "answer": "�(a) (3/7)² (b) 5 �7 �11 �(c) 3⁸ (d) a⁷ (e) 5 �3 �5 �(f) 5¹⁰",
@@ -22545,7 +22545,7 @@
    "kind": "sa",
    "file": "gemp111.pdf",
    "page": 15,
-   "stem": "�Evaluate (a) �8 �10 7 12 �7 ×a �6 �8 4 12 �7 ×a b c b c (b) �4�×7 �4�× 2 �7 �5 �3 �8×49×5 �(c) �2�×�a �7 �125×5 �3�×�a �4 �10 (d) �4�×12 �3�× 36 �3 �5 �3 �2 × 6 �(e) � � � � � � � � 2 �6×10 �25� (f) �× �2 �3 �27 �2 × 5 �4 �3 �15 ×18 �3 �2 �2 �3 × 5 �×12 (g) �4�×9 �×25 �2 �3 �6 �2 �2 �6 �3 ×4 ×15 [[aside]] Copy and complete the table Expression Expression Written Using Repeated Multiplication Quotient as a Power Simplified Expression �3 . 3 . 3 . 3 . 3 �3⁵ �8 �3 �3 �3 3.3.3.3.3.3.3.3 3 .3.3 . . . . . . . . . [[aside]] a a a a a a a a a a a �5 �6 �3 �6 7 4 a a 6.6.6.6.6 6.6.6 6⁻ Look for a pattern in the table to extend what you know about exponents to find more about negative exponents. ÷10 [[aside]] 10² [[aside]] 10¹ [[aside]] 10⁻³ 10 * 10 10⁰ 10⁻¹ 10⁻² 10 1 �100 �10 �1 �1 �0.1 �10 �= �1 �0.01 �100 �= �1 �0.001 �1000 �= [[aside]] 1 [[aside]] 10 ÷10 [[figure]] ÷10 [[figure]] ÷10 [[figure]] ÷10 [[figure]] [[aside]] 100 [[aside]] 2000 [[aside]] COPY AND COMPLETE THE TABLE",
+   "stem": "�Evaluate (a) �8 �10 7 12 �7 ×a �6 �8 4 12 �7 ×a b c b c (b) �4�×7 �4�× 2 �7 �5 �3 �8×49×5 �(c) �2�×�a �7 �125×5 �3�×�a �4 �10 (d) �4�×12 �3�× 36 �3 �5 �3 �2 × 6 �(e) � � � � � � � � 2 �6×10 �25� (f) �× �2 �3 �27 �2 × 5 �4 �3 �15 ×18 �3 �2 �2 �3 × 5 �×12 (g) �4�×9 �×25 �2 �3 �6 �2 �2 �6 �3 ×4 ×15 [[aside]] Copy and complete the table Expression Expression Written Using Repeated Multiplication Quotient as a Power Simplified Expression �3 . 3 . 3 . 3 . 3 �3⁵ �8 �3 �3 �3 �3.3.3.3.3.3.3.3 �3 .3.3 �. �. �. �. �. �. �. �. �. �[[aside]] a a a a a a a �a a a a �5 �6 �3 �6 7 4 a a �6.6.6.6.6 �6.6.6 6⁻ Look for a pattern in the table to extend what you know about exponents to find more about negative exponents. ÷10 [[aside]] 10² [[aside]] 10¹ [[aside]] 10⁻³ 10 * 10 10⁰ 10⁻¹ 10⁻² 10 1 �100 �10 �1 �1 �0.1 �10 �= �1 �0.01 �100 �= �1 �0.001 �1000 �= �[[aside]] 1 �[[aside]] 10 ÷10 [[figure]] ÷10 [[figure]] ÷10 [[figure]] ÷10 [[figure]] [[aside]] 100 [[aside]] 2000 [[aside]] COPY AND COMPLETE THE TABLE",
    "options": [],
    "optionsError": null,
    "answer": "�(a) 49a²b³ (b) 3920 (c) 3 �25 �8 �a �(d) 729 (e) 1/75 (f) 6075/2 (g) 1",
@@ -22698,7 +22698,7 @@
    "kind": "sa",
    "file": "gemp111.pdf",
    "page": 21,
-   "stem": "�What’s the error? �A student said that �9 is the same as �1 5 5 �3 �3 �. What mistake has the student made?",
+   "stem": "�What’s the error? �A student said that �9 is the same as �1 5 �5 �3 �3 �. What mistake has the student made?",
    "options": [],
    "optionsError": null,
    "answer": "�He has left power of 3 which is 5. (D) Across 6. 7. 8. 9. 10. Down 1. 2. 3. 4. 5. [[figure]] Activities 2 Across1. [[figure]] 5724 [[figure]] 2. [[figure]] 343 [[figure]] 3. [[figure]] 32 [[figure]] 4. [[figure]] 220 [[figure]] 5. [[figure]] 1000 [[figure]] Down 1. [[figure]] 5 [[figure]] 7. [[figure]] 43270 [[figure]] 8. 512 9. 121 10. 121",
@@ -25050,7 +25050,7 @@
     "S = D × T",
     "�T = �S �D",
     "�S = �1 [[figure]] �D [[figure]] �T �× [[figure]]",
-    "�S = T [[figure]] �D [[figure]]"
+    "�S = �T [[figure]] �D [[figure]]"
    ],
    "optionsError": null,
    "answer": "(c) �S = �1 [[figure]] �D [[figure]] �T �× [[figure]]",
@@ -25741,13 +25741,13 @@
    "page": 9,
    "stem": "Which of the following expressions shows that rational numbers are associative under multiplication.",
    "options": [
-    "��− �− � � � �× �×� �× �= �× � � � � � � � 2 6 3 2 6 3 3 7 5 3",
-    "��− �− � � � � �×� �× �= �×� �× � � � � � � 2 6 3 2 3 6 3 7 5 3 5 7",
-    "��− �− � � � �× �×� �× �= �× � � � � � � � 2 6 3 3 2 6 3 7 5 5 3 7",
-    "��− �− � �× � �× �× �= �× � � � � � � � � 2 6 3 6 2 3 3 7 5 7 3 5"
+    "��− �− � � � �× �×� �× �= �× � � � � � � � �2 �6 �3 �2 �6 �3 �3 �7 �5 �3 �7 �5",
+    "��− �− � � � � �×� �× �= �×� �× � � � � � � �2 �6 �3 �2 �3 �6 �3 �7 �5 �3 �5 �7",
+    "��− �− � � � �× �×� �× �= �× � � � � � � � �2 �6 �3 �3 �2 �6 �3 �7 �5 �5 �3 �7",
+    "��− �− � �× � �× �× �= �× � � � � � � � � �2 �6 �3 �6 �2 �3 �3 �7 �5 �7 �3 �5"
    ],
    "optionsError": null,
-   "answer": "(a) ��− �− � � � �× �×� �× �= �× � � � � � � � 2 6 3 2 6 3 3 7 5 3",
+   "answer": "(a) ��− �− � � � �× �×� �× �= �× � � � � � � � �2 �6 �3 �2 �6 �3 �3 �7 �5 �3 �7 �5",
    "answerError": null
   },
   {
@@ -25761,12 +25761,12 @@
    "kind": "mcq_single",
    "file": "heep201.pdf",
    "page": 10,
-   "stem": "�� The additive inverse of �7 is �19 −",
+   "stem": "�� The additive inverse of �7 is �19 �−",
    "options": [
-    "�� �7 �19 −",
+    "�� �7 �19 �−",
     "�� �7 �19",
     "�� �19 �7",
-    "�� �19 �7 −"
+    "�� �19 �7 �−"
    ],
    "optionsError": null,
    "answer": "(b) �� �7 �19",
@@ -25786,9 +25786,9 @@
    "stem": "� To get the product 1, we should multiply �8 �21� by",
    "options": [
     "�� �8 �21",
-    "�� �8 �21 −",
+    "�� �8 �21 �−",
     "�� �21 �8",
-    "�� �21 �8 −"
+    "�� �21 �8 �−"
    ],
    "optionsError": null,
    "answer": "(c) �� �21 �8",
@@ -25810,7 +25810,7 @@
     "�– x",
     "�x",
     "�� �1 �x",
-    "�� �1 �x −"
+    "�� �1 �x �−"
    ],
    "optionsError": null,
    "answer": "(b) �x",
@@ -25830,7 +25830,7 @@
    "stem": "�� The multiplicative inverse of − �1 �17is",
    "options": [
     "�� �8 �7",
-    "�� �8 �7 −",
+    "�� �8 �7 �−",
     "�� �7 �8",
     "�� �7 �8 �−"
    ],
@@ -25851,13 +25851,13 @@
    "page": 11,
    "stem": "�� The reciprocal of any rational number �q , where p and q are integers p and q ≠ 0, is",
    "options": [
-    "�p �q",
+    "��p �q",
     "�1",
     "�0",
-    "�� q p"
+    "�� �q �p"
    ],
    "optionsError": null,
-   "answer": "(d) �� q p",
+   "answer": "(d) �� �q �p",
    "answerError": null
   },
   {
@@ -25875,7 +25875,7 @@
    "options": [
     "x",
     "y",
-    "�x �y",
+    "��x �y",
     "�� �y �x"
    ],
    "optionsError": null,
@@ -25896,9 +25896,9 @@
    "stem": "�� The reciprocal of �3 �7� �8 �13 �− �− � �× � � � �is",
    "options": [
     "�� �104 �21",
-    "�� �104 �21 −",
+    "�� �104 �21 �−",
     "�� �21 �104",
-    "�� �21 �104 −"
+    "�� �21 �104 �−"
    ],
    "optionsError": null,
    "answer": "(a) �� �104 �21",
@@ -25917,13 +25917,13 @@
    "page": 11,
    "stem": "Which of the following is an example of distributive property of multiplication over addition for rational numbers.",
    "options": [
-    "��− �− � � � � � � � � � � �− �×� �+� �= − �× �+ − �×� � � � � � � � � � � � � � � 1 2 4 1 2 1 4 4 3 7 4 3 4 7",
-    "��− �− � � � � � � � � �− �×� �+� �= �× �−� � � � � � � � � � � � � 1 2 4 1 2 4 4 3 7 4",
-    "��− �− � � � � � �× �− �×� �+� �= �+ − � � � � � � � � � 1 2 4 2 1 4 4 3 7 3 4 7",
-    "��− �− � � � � � � � � �− �×� �+ �= �+ �− � � � � � � � � � � � � � 1 2 4 2 4 1 4 3 7 3 7 4"
+    "��− �− � � � � � � � � � � �− �×� �+� �= − �× �+ − �×� � � � � � � � � � � � � � � �1 �2 �4 �1 �2 �1 �4 �4 �3 �7 �4 �3 �4 �7",
+    "��− �− � � � � � � � � �− �×� �+� �= �× �−� � � � � � � � � � � � � �1 �2 �4 �1 �2 �4 �4 �3 �7 �4 �3 �7",
+    "��− �− � � � � � �× �− �×� �+� �= �+ − � � � � � � � � � �1 �2 �4 �2 �1 �4 �4 �3 �7 �3 �4 �7",
+    "��− �− � � � � � � � � �− �×� �+ �= �+ �− � � � � � � � � � � � � � �1 �2 �4 �2 �4 �1 �4 �3 �7 �3 �7 �4"
    ],
    "optionsError": null,
-   "answer": "(a) ��− �− � � � � � � � � � � �− �×� �+� �= − �× �+ − �×� � � � � � � � � � � � � � � 1 2 4 1 2 1 4 4 3 7 4 3 4 7",
+   "answer": "(a) ��− �− � � � � � � � � � � �− �×� �+� �= − �× �+ − �×� � � � � � � � � � � � � � � �1 �2 �4 �1 �2 �1 �4 �4 �3 �7 �4 �3 �4 �7",
    "answerError": null
   },
   {
@@ -26105,7 +26105,7 @@
    "kind": "fill_blank",
    "file": "heep201.pdf",
    "page": 13,
-   "stem": "�� The reciprocal of � � �×��– 4 � � �is ___________. 2 5 9",
+   "stem": "�� The reciprocal of � � �×��– 4 � � �is ___________. �2 �5 9",
    "options": [],
    "optionsError": null,
    "answer": "�� �–45 �5 �or – 5 �8 �8",
@@ -26173,7 +26173,7 @@
    "kind": "fill_blank",
    "file": "heep201.pdf",
    "page": 15,
-   "stem": "�� �5 �7 − �is ________ than –3.",
+   "stem": "�� �5 �7 �− �is ________ than –3.",
    "options": [],
    "optionsError": null,
    "answer": "more",
@@ -26241,7 +26241,7 @@
    "kind": "fill_blank",
    "file": "heep201.pdf",
    "page": 15,
-   "stem": "�� The reciprocal of �5 is ________. �7 −",
+   "stem": "�� The reciprocal of �5 is ________. �7 �−",
    "options": [],
    "optionsError": null,
    "answer": "�� �–7 �5",
@@ -26309,7 +26309,7 @@
    "kind": "fill_blank",
    "file": "heep201.pdf",
    "page": 15,
-   "stem": "The two rational numbers lying between –2 and –5 with denominator as 1 are _________ and _________. In each of the following, state whether the statements are true (T) or false (F).",
+   "stem": "The two rational numbers lying between –2 and –5 with denominator as 1 are _________ and _________.",
    "options": [],
    "optionsError": null,
    "answer": "� –3 –4",
@@ -26323,7 +26323,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "48",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 15,
    "stem": "�� If �y is a rational number, then y is always a whole number. x",
@@ -26340,7 +26340,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "49",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 15,
    "stem": "�� If �q is a rational number, then p cannot be equal to zero. p",
@@ -26357,7 +26357,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "50",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 15,
    "stem": "� If �r �s� is a rational number, then s cannot be equal to zero.",
@@ -26374,7 +26374,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "51",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 15,
    "stem": "�� �5 �6 lies between �2 �3� and 1.",
@@ -26391,7 +26391,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "52",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 16,
    "stem": "�� �5 �10 lies between �1 �2 �and 1.",
@@ -26408,10 +26408,10 @@
    "chapter": 1,
    "exercise": null,
    "number": "53",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 16,
-   "stem": "�� �7 �2 − �lies between –3 and –4.",
+   "stem": "�� �7 �2 �− �lies between –3 and –4.",
    "options": [],
    "optionsError": null,
    "answer": "True",
@@ -26425,7 +26425,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "54",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 16,
    "stem": "�� �9 �6� lies between 1 and 2.",
@@ -26442,7 +26442,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "55",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 16,
    "stem": "If a ≠ 0, the multiplicative inverse of �a �b is �b �a �.",
@@ -26459,10 +26459,10 @@
    "chapter": 1,
    "exercise": null,
    "number": "56",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 16,
-   "stem": "�� The multiplicative inverse of �3 is �5 �5 − �3 �.",
+   "stem": "�� The multiplicative inverse of �3 is �5 �5 �− �3 �.",
    "options": [],
    "optionsError": null,
    "answer": "False",
@@ -26476,7 +26476,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "57",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 16,
    "stem": "� The additive inverse of �1 �2� is –2.",
@@ -26493,7 +26493,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "58",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 16,
    "stem": "�� If �y is the additive inverse of �c x �d �, then �x �0. �c �y �d �+ �=",
@@ -26510,7 +26510,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "60",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 16,
    "stem": "�� If �y is the additive inverse of �c x �d �, then y �0 �x �c �d �− �=",
@@ -26527,7 +26527,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "61",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 16,
    "stem": "�The reciprocal of a non-zero rational number q �p� is the rational �number �p . q",
@@ -26544,7 +26544,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "79",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 17,
    "stem": "�� �3 �4 �− �is smaller than –2.",
@@ -26561,7 +26561,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "83",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 17,
    "stem": "� There are countless rational numbers between �5 �6 and �8 �9 �.",
@@ -26578,7 +26578,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "84",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 17,
    "stem": "� The reciprocal of x ⁻¹ is �1 �x �.",
@@ -26595,7 +26595,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "85",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 17,
    "stem": "� The rational number �57 �23� lies to the left of zero on the number line.",
@@ -26612,7 +26612,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "86",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 17,
    "stem": "�� The rational number �7 �4 �− �lies to the right of zero on the number line.",
@@ -26629,10 +26629,10 @@
    "chapter": 1,
    "exercise": null,
    "number": "87",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 17,
-   "stem": "�� The rational number �− �8 �3 − �lies neither to the right nor to the left of zero on the number line.",
+   "stem": "�� The rational number �− �8 �3 �− �lies neither to the right nor to the left of zero on the number line.",
    "options": [],
    "optionsError": null,
    "answer": "False",
@@ -26646,7 +26646,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "88",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 18,
    "stem": "� The rational numbers �1 �2� and –1 are on the opposite sides of zero on the number line.",
@@ -26663,7 +26663,7 @@
    "chapter": 1,
    "exercise": null,
    "number": "98",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 18,
    "stem": "�� The rational numbers �1 �2� and �− �5 �2 �are on the opposite sides of 0 on the number line.",
@@ -26680,10 +26680,10 @@
    "chapter": 1,
    "exercise": null,
    "number": "99",
-   "kind": "sa",
+   "kind": "true_false",
    "file": "heep201.pdf",
    "page": 18,
-   "stem": "�Rational numbers can be added (or multiplied) in any order �− �− �− �− �× �= �× �4 �6 �6 �4 5 5 5 5",
+   "stem": "�Rational numbers can be added (or multiplied) in any order �− �− �− �− �× �= �× �4 �6 �6 �4 �5 �5 �5 �5",
    "options": [],
    "optionsError": null,
    "answer": "True",
@@ -26734,7 +26734,7 @@
    "kind": "sa",
    "file": "heep201.pdf",
    "page": 19,
-   "stem": "�Using suitable rearrangement and find the sum: (a) �− �− � �+ � � �+� �+� � � � � � � 4 4 3 13 7 9 7 9 �(b) − �− �+ �+�3 �+ − �+ �+ �7 �5 �4 �5 �( 3) �10 �7 �14 �5",
+   "stem": "�Using suitable rearrangement and find the sum: (a) �− �− � �+ � � �+� �+� � � � � � � �4 �4 �3 �13 �7 �9 �7 �9 �(b) − �− �+ �+�3 �+ − �+ �+ �7 �5 �4 �5 �( 3) �10 �7 �14 �5",
    "options": [],
    "optionsError": null,
    "answer": "�� �8 �256 �a) �b) �9 �35 �− �−",
@@ -26802,7 +26802,7 @@
    "kind": "sa",
    "file": "heep201.pdf",
    "page": 19,
-   "stem": "�Simplify each of the following by using suitable property. Also name the property. (a) �1 �1 �1 �6 �2 �4 �2 � �+ � � �× �× � � � � � � � � �(b) �1 �2 �1 �2 �5 �15 �5 �5 � �− � � �× �× � � � � � � � �(c) �− �− � � � � �×� �+� � � � � �7 3 3 5 5 6",
+   "stem": "�Simplify each of the following by using suitable property. Also name the property. (a) �1 �1 �1 �6 �2 �4 �2 � �+ � � �× �× � � � � � � � � �(b) �1 �2 �1 �2 �5 �15 �5 �5 � �− � � �× �× � � � � � � � �(c) �− �− � � � � �×� �+� � � � � �7 �3 �3 �5 �5 �6",
    "options": [],
    "optionsError": null,
    "answer": "�� �25 �4 �17 �(a) �(b) �(c) �8 �75 �70 �− �(distributive law)",
@@ -26819,7 +26819,7 @@
    "kind": "sa",
    "file": "heep201.pdf",
    "page": 19,
-   "stem": "�Tell which property allows you to compute �1 �5 �7� 5 6 9�� � �×�� �× � �as �1 �5� �7 �5 �6�� �9 � �× �× � � �",
+   "stem": "�Tell which property allows you to compute �1 �5 �7� �5 �6 �9�� � �×�� �× � �as �1 �5� �7 �5 �6�� �9 � �× �× � � �",
    "options": [],
    "optionsError": null,
    "answer": "Associative property",
@@ -26887,7 +26887,7 @@
    "kind": "sa",
    "file": "heep201.pdf",
    "page": 20,
-   "stem": "�Use the distributivity of multiplication of rational numbers over addition to simplify (a) �3 �35 �10� �5 �24 �1 � �×�� �+ � � � �(b) �5 �8 �16� 4 5 15�� �− � �×�� �+ � � (c) �2 �7 �21� �7 �16 �4 � �×�� �− � � � �(d) �3 �8 �40 �4 �9 � � �×�� �− � � �",
+   "stem": "�Use the distributivity of multiplication of rational numbers over addition to simplify (a) �3 �35 �10� �5 �24 �1 � �×�� �+ � � � �(b) �5 �8 �16� �4 �5 �15�� �− � �×�� �+ � � (c) �2 �7 �21� �7 �16 �4 � �×�� �− � � � �(d) �3 �8 �40 �4 �9 � � �×�� �− � � �",
    "options": [],
    "optionsError": null,
    "answer": "�� �7 �1 �–11 �3 �–88 �1 �(a) 6 �(b) – 3 �(c) �or –1 �(d) �or – 29 �8 �3 �8 �8 �3 �3",
@@ -27108,7 +27108,7 @@
    "kind": "sa",
    "file": "heep201.pdf",
    "page": 22,
-   "stem": "�Name the property used in each of the following. �(i) �7 �3 �3 �7 �11 �5 �5 �11 �− �− �− �− �× �= �× (ii) �2 �3 �1 �2 �3 �2 �1 �3 �4 �2 �3 �4 �3 �2 �− �− �− �− � � � � � � �− �×�� �+ �=�� �× �+�� �× � � � � � � � � � (iii) �− �− � � � � � � � � �+�� �+� �=�� �+ �+�� � � � � � � � � � � 1 4 4 1 4 4 3 9 3 3 9 3 �(iv) �2 �2 �2 �0 �0 �7 �7 �7 �− �− �+ �= �+ �= − �(v) �3 �3 �3 �1= �1× �8 �8 �8 �× �=",
+   "stem": "�Name the property used in each of the following. �(i) �7 �3 �3 �7 �11 �5 �5 �11 �− �− �− �− �× �= �× (ii) �2 �3 �1 �2 �3 �2 �1 �3 �4 �2 �3 �4 �3 �2 �− �− �− �− � � � � � � �− �×�� �+ �=�� �× �+�� �× � � � � � � � � � (iii) �− �− � � � � � � � � �+�� �+� �=�� �+ �+�� � � � � � � � � � � �1 �4 �4 �1 �4 �4 �3 �9 �3 �3 �9 �3 �(iv) �2 �2 �2 �0 �0 �7 �7 �7 �− �− �+ �= �+ �= − �(v) �3 �3 �3 �1= �1× �8 �8 �8 �× �=",
    "options": [],
    "optionsError": null,
    "answer": "(i) Commutative property. (ii) Distributive property of multiplication over addition. (iii) Associative property. (iv) Additive identity of rational number. (v) Multiplicative identity of rational number.",
@@ -27159,7 +27159,7 @@
    "kind": "sa",
    "file": "heep201.pdf",
    "page": 22,
-   "stem": "�� The product of two rational numbers is �14. If one of the numbers �27 − be �7 �9 �, find the other.",
+   "stem": "�� The product of two rational numbers is �14. If one of the numbers �27 �− be �7 �9 �, find the other.",
    "options": [],
    "optionsError": null,
    "answer": "�� �–2 �3",
@@ -27176,7 +27176,7 @@
    "kind": "sa",
    "file": "heep201.pdf",
    "page": 22,
-   "stem": "�� By what numbers should we multiply �15so that the product may �20 − be �5? 7 −",
+   "stem": "�� By what numbers should we multiply �15so that the product may �20 �− be �5? �7 �−",
    "options": [],
    "optionsError": null,
    "answer": "�� �20 �21",
@@ -27193,7 +27193,7 @@
    "kind": "sa",
    "file": "heep201.pdf",
    "page": 22,
-   "stem": "�� By what number should we multiply �8 �13 − �so that the product may be 24?",
+   "stem": "�� By what number should we multiply �8 �13 �− �so that the product may be 24?",
    "options": [],
    "optionsError": null,
    "answer": "�� –39",
@@ -27482,7 +27482,7 @@
    "kind": "sa",
    "file": "heep201.pdf",
    "page": 25,
-   "stem": "�The table shows the portion of some common materials that are recycled. Material Recycled �Paper �5 �11 �Aluminium cans 5 �8 �Glass �2 �5 �Scrap �3 �4 (a) Is the rational number expressing the amount of paper recycled more than �1 �2 or less than �1 �2 �? (b) Which items have a recycled amount less than �1 �2 �? (c) Is the quantity of aluminium cans recycled more (or less) than half of the quantity of aluminium cans? (d) Arrange the rate of recycling the materials from the greatest to the smallest.",
+   "stem": "�The table shows the portion of some common materials that are recycled. Material Recycled �Paper �5 �11 �Aluminium cans �5 �8 �Glass �2 �5 �Scrap �3 �4 (a) Is the rational number expressing the amount of paper recycled more than �1 �2 or less than �1 �2 �? (b) Which items have a recycled amount less than �1 �2 �? (c) Is the quantity of aluminium cans recycled more (or less) than half of the quantity of aluminium cans? (d) Arrange the rate of recycling the materials from the greatest to the smallest.",
    "options": [],
    "optionsError": null,
    "answer": "�(a) Less than (b) Paper Glass (c) More �1 �2 �(d) Paper > Glass > Scrap > Aluminium cans",
@@ -27553,7 +27553,7 @@
    "stem": "�The average life expectancies of males for several states are shown in the table. Express each decimal in the form p �q� and arrange the states from the least to the greatest male life expectancy. State-wise data are included below; more indicators can be found in the “FACTFILE” section on the homepage for each state. State Male p �q� form Lowest terms Andhra Pradesh 61.6 Assam 57.1 Bihar 60.7 Gujarat 61.9 Haryana 64.1 Himachal Pradesh 65.1 Karnataka 62.4 Kerala 70.6 Madhya Pradesh 56.5 Maharashtra 64.5 Orissa 57.6 Punjab 66.9 Rajasthan 59.8 Tamil Nadu 63.7 Uttar Pradesh 58.9 West Bengal 62.8 India 60.8 Source: Registrar General of India (2003) SRS Based Abridged Lefe Tables. SRS Analytical Studies, Report No. 3 of 2003, New Delhi: Registrar General of India. The data are for the 1995-99 period; states subsequently divided are therefore included in their pre-partition states (Chhatisgarh in MP, Uttaranchal in UP and Jharkhand in Bihar)",
    "options": [],
    "optionsError": null,
-   "answer": "�� AP : �616 �308�, Assam : 571 �10 �5 �= �10 , Bihar : �607 �10 �, Gujarat : �619 �10 , Haryana : �641 �10 , HP : �651 �10 �, �Karnataka : �624= �312�, Kerala : 706�= �10 �5 �353�, MP : 565�= �10 �10 �113 �10 �2 �, �Maharashtra : �645= 129�, Orissa : 576�= �10 �2 283�, Punjab : 669 �10 �5 Rajasthan : �598�= �299 �10 �5 �, Tamil Nadu : �637 �10 , U.P. : �589 �10 �, West Bengal : 628�= 314 10 5 Kerala; Punjab; HP; Maharashtra; Haryana; Tamil Nadu; West Bengal; Karnataka; Gujarat; Andhra Pradesh; Bihar; Rajasthan; UP; Orissa; Assam; MP.",
+   "answer": "�� AP : �616 �308�, Assam : 571 �10 �5 �= �10 , Bihar : �607 �10 �, Gujarat : �619 �10 , Haryana : �641 �10 , HP : �651 �10 �, �Karnataka : �624= �312�, Kerala : 706�= �10 �5 �353�, MP : 565�= �10 �10 �113 �10 �2 �, �Maharashtra : �645= 129�, Orissa : 576�= �10 �2 283�, Punjab : 669 �10 �5 Rajasthan : �598�= �299 �10 �5 �, Tamil Nadu : �637 �10 , U.P. : �589 �10 �, West Bengal : �628�= �314 �10 �5 Kerala; Punjab; HP; Maharashtra; Haryana; Tamil Nadu; West Bengal; Karnataka; Gujarat; Andhra Pradesh; Bihar; Rajasthan; UP; Orissa; Assam; MP.",
    "answerError": null
   },
   {
@@ -27584,7 +27584,7 @@
    "kind": "sa",
    "file": "heep201.pdf",
    "page": 27,
-   "stem": "�Manavi and Kuber each receives an equal allowance. The table shows the fraction of their allowance each deposits into his/her saving account and the fraction each spends at the mall. If allowance of each is Rs. 1260 find the amount left with each. Fraction of allowance Manavi Kuber Saving Account 1 2 1 3 Spend at mall 1 4 3 5 Left over ? ? Where money goes",
+   "stem": "�Manavi and Kuber each receives an equal allowance. The table shows the fraction of their allowance each deposits into his/her saving account and the fraction each spends at the mall. If allowance of each is Rs. 1260 find the amount left with each. Fraction of allowance Manavi Kuber Saving Account 1 2 �1 �3 Spend at mall 1 4 �3 �5 Left over ? ? Where money goes",
    "options": [],
    "optionsError": null,
    "answer": null,
@@ -27650,7 +27650,7 @@
     "��21 �26",
     "�� �5 �26",
     "�� �1 �26",
-    "�� 3 26"
+    "�� �3 �26"
    ],
    "optionsError": null,
    "answer": "(b) �� �5 �26",
@@ -27870,7 +27870,7 @@
     "��2 [[figure]] �5 [[figure]]",
     "�� �1 [[figure]] �5 [[figure]]",
     "�� �3 [[figure]] �5 [[figure]]",
-    "�� 4 [[figure]] 5 [[figure]]"
+    "�� �4 [[figure]] �5 [[figure]]"
    ],
    "optionsError": null,
    "answer": "(a) ��2 [[figure]] �5 [[figure]]",
@@ -29534,7 +29534,7 @@
     "only one variable with any power.",
     "only one term with a variable.",
     "only one variable with power 1.",
-    "only constant term. [[aside]] To solve equations like 5t = –20, you still need to get the variable t, on its [[aside]] own. The variable has been multiplied by a number, 5 — so you can get the [[aside]] variable on its own by dividing both sides by that numbers. In this case, [[aside]] you need to divide by 5. [[aside]] If a statement is a proportion, the cross-products of the terms are equal. [[aside]] If �[[aside]] a �[[aside]] c �[[aside]] = [[aside]] b �[[aside]] d , then ad = bc."
+    "only constant term. [[aside]] To solve equations like 5t = –20, you still need to get the variable t, on its [[aside]] own. The variable has been multiplied by a number, 5 — so you can get the [[aside]] variable on its own by dividing both sides by that numbers. In this case, [[aside]] you need to divide by 5. [[aside]] If a statement is a proportion, the cross-products of the terms are equal. [[aside]] If �[[aside]] a �[[aside]] c �[[aside]] = �[[aside]] b �[[aside]] d , then ad = bc."
    ],
    "optionsError": null,
    "answer": "(c) only one variable with power 1.",
@@ -29685,7 +29685,7 @@
    "kind": "fill_blank",
    "file": "heep204.pdf",
    "page": 9,
-   "stem": "Convert the statement Adding 15 to 4 times x is 39 into an equation _________. [[aside]] Application on Problem Solving Strategy [[figure]] [[aside]] A family spent Rs. 52.00 for circus tickets. This cost included [[figure]] [[aside]] a Rs. 3.25 service fee for the order, with the cost of the circus [[figure]] [[aside]] tickets being Rs. 9.75 each. How many tickets did the family [[figure]] [[aside]] buy? Justify your answer. [[figure]] [[aside]] Understand the problem [[figure]] [[aside]] The answer is the number of tickets that family bought. List the [[figure]] [[aside]] important information– The service fee is Rs. 3.25 per order, the [[aside]] tickets cost Rs. 9.75 each, and the total cost is Rs. 52. [[aside]] Let t represent the number of tickets bought. [[aside]] Total cost [[aside]] = [[aside]] Tickets [[aside]] + [[aside]] Service Fee [[aside]] 52.00 [[aside]] = [[aside]] 9.75t [[aside]] + [[aside]] 3.25 [[aside]] Make a Plan [[aside]] Think: First the variable is multiplied by 9.75, and then 3.25 is [[aside]] added to the result. Work backward to solve the equation. Undo [[aside]] the operations in reverse order. First subtract 3.25 from both sides [[aside]] of the equation and then divide sides of the new equation by 9.75. [[figure]] [[aside]] Solve [[figure]] [[aside]] 52.00 [[aside]] = [[aside]] 9.75t + 3.25 [[aside]] –3.25 [[aside]] –3.25 [[aside]] Subtract 3.25 from both sides. [[aside]] 48.75 [[aside]] = [[aside]] 9.75t [[aside]] 48.75 [[aside]] 9.75t [[aside]] 9.75 [[aside]] 9.75 [[aside]] = [[aside]] Divide both sides by 9.75. [[aside]] 5 = t [[aside]] The family bought 5 tickets. [[aside]] Look Back [[aside]] You can use a table to decide whether your answer is reasonable. [[aside]] Five tickets is a reasonable answer. [[aside]] Tickets [[aside]] Cost of Tickets [[aside]] Service charge [[aside]] Total cost [[aside]] 1 [[aside]] Rs. 9.75 [[aside]] Rs. 3.25 [[aside]] Rs. 13.00 [[aside]] 2 [[aside]] Rs. 19.50 [[aside]] Rs. 3.25 [[aside]] Rs. 22.75 [[aside]] 3 [[aside]] Rs. 29.25 [[aside]] Rs. 3.25 [[aside]] Rs. 32.50 [[aside]] 4 [[aside]] Rs. 39.00 [[aside]] Rs. 3.25 [[aside]] Rs. 42.25 [[aside]] 5 [[aside]] Rs. 48.75 [[aside]] Rs. 3.25 [[aside]] Rs. 52.00 [[aside]] Sometimes, a two-step equation contains a term or an expression with a [[aside]] denominator. In these cases, it is often easier to first multiply both sides [[aside]] of the equation by the denominator in order to remove it, and then work to [[aside]] isolate the variable.",
+   "stem": "Convert the statement Adding 15 to 4 times x is 39 into an equation _________. [[aside]] Application on Problem Solving Strategy [[figure]] [[aside]] A family spent Rs. 52.00 for circus tickets. This cost included [[figure]] [[aside]] a Rs. 3.25 service fee for the order, with the cost of the circus [[figure]] [[aside]] tickets being Rs. 9.75 each. How many tickets did the family [[figure]] [[aside]] buy? Justify your answer. [[figure]] [[aside]] Understand the problem [[figure]] [[aside]] The answer is the number of tickets that family bought. List the [[figure]] [[aside]] important information– The service fee is Rs. 3.25 per order, the [[aside]] tickets cost Rs. 9.75 each, and the total cost is Rs. 52. [[aside]] Let t represent the number of tickets bought. [[aside]] Total cost [[aside]] = [[aside]] Tickets [[aside]] + [[aside]] Service Fee [[aside]] 52.00 [[aside]] = [[aside]] 9.75t [[aside]] + [[aside]] 3.25 [[aside]] Make a Plan [[aside]] Think: First the variable is multiplied by 9.75, and then 3.25 is [[aside]] added to the result. Work backward to solve the equation. Undo [[aside]] the operations in reverse order. First subtract 3.25 from both sides [[aside]] of the equation and then divide sides of the new equation by 9.75. [[figure]] [[aside]] Solve [[figure]] [[aside]] 52.00 [[aside]] = [[aside]] 9.75t + 3.25 [[aside]] –3.25 [[aside]] –3.25 [[aside]] Subtract 3.25 from both sides. [[aside]] 48.75 [[aside]] = [[aside]] 9.75t �[[aside]] 48.75 �[[aside]] 9.75t �[[aside]] 9.75 �[[aside]] 9.75 [[aside]] = [[aside]] Divide both sides by 9.75. [[aside]] 5 = t [[aside]] The family bought 5 tickets. [[aside]] Look Back [[aside]] You can use a table to decide whether your answer is reasonable. [[aside]] Five tickets is a reasonable answer. [[aside]] Tickets [[aside]] Cost of Tickets [[aside]] Service charge [[aside]] Total cost [[aside]] 1 [[aside]] Rs. 9.75 [[aside]] Rs. 3.25 [[aside]] Rs. 13.00 [[aside]] 2 [[aside]] Rs. 19.50 [[aside]] Rs. 3.25 [[aside]] Rs. 22.75 [[aside]] 3 [[aside]] Rs. 29.25 [[aside]] Rs. 3.25 [[aside]] Rs. 32.50 [[aside]] 4 [[aside]] Rs. 39.00 [[aside]] Rs. 3.25 [[aside]] Rs. 42.25 [[aside]] 5 [[aside]] Rs. 48.75 [[aside]] Rs. 3.25 [[aside]] Rs. 52.00 [[aside]] Sometimes, a two-step equation contains a term or an expression with a [[aside]] denominator. In these cases, it is often easier to first multiply both sides [[aside]] of the equation by the denominator in order to remove it, and then work to [[aside]] isolate the variable.",
    "options": [],
    "optionsError": null,
    "answer": "4x + 15 = 39",
@@ -30664,7 +30664,7 @@
    "options": [
     "��Each exterior angle = �n �360°",
     "Exterior angle = 180° – interior angle",
-    "�n�= 360° exterior angle",
+    "�n�= �360° �exterior angle",
     "�Each exterior angle = �n�– 2) �180�° n ( ×"
    ],
    "optionsError": null,
@@ -31193,7 +31193,7 @@
    "stem": "A line l is parallel to line m and a transversal p interesects them at X, Y respectively. Bisectors of interior angles at X and Y interesct at P and Q. Is PXQY a rectangle? Given reason.",
    "options": [],
    "optionsError": null,
-   "answer": "�l�� � � � �m ∠DXY = ∠XYA [[figure]] (alt int. ∠S) [[figure]] �2 [[figure]] �2 [[figure]] �DXY�= [[figure]] �XYA [[figure]] ∠ [[figure]] ∠ [[figure]] �(÷2) [[figure]] ∠1 = ∠2�(XP and YQ are bisectors) [[figure]] ∴ XP�� [[figure]] � [[figure]] � [[figure]] � [[figure]] �QY [[figure]] (1) [[figure]] Similarly XQ�� [[figure]] � [[figure]] � [[figure]] � [[figure]] �PY [[figure]] (2) [[figure]] From (1) and (2) [[figure]] PXQY is a parallelogram [[figure]] ∠DXY + ∠XYB = 180⁰ [[figure]] 0 [[figure]] �180 [[figure]] �2 �2 �2 �DXY�+ [[figure]] �XYB [[figure]] �∠ [[figure]] �∠ [[figure]] �= �(÷ by 2) ∠1 + ∠3 = 90⁰ (4) In ∆XYP ∠1 + ∠3 + ∠P = 180⁰ 90⁰ + ∠P = 180⁰ (from 4) ∠P = 90⁰ From (3) and (5), PXQY is a rectangle [[figure]]",
+   "answer": "�l�� � � � �m ∠DXY = ∠XYA [[figure]] (alt int. ∠S) [[figure]] �2 [[figure]] �2 [[figure]] �DXY�= [[figure]] �XYA [[figure]] �∠ [[figure]] �∠ [[figure]] �(÷2) [[figure]] ∠1 = ∠2�(XP and YQ are bisectors) [[figure]] ∴ XP�� [[figure]] � [[figure]] � [[figure]] � [[figure]] �QY [[figure]] (1) [[figure]] Similarly XQ�� [[figure]] � [[figure]] � [[figure]] � [[figure]] �PY [[figure]] (2) [[figure]] From (1) and (2) [[figure]] PXQY is a parallelogram [[figure]] ∠DXY + ∠XYB = 180⁰ [[figure]] 0 [[figure]] �180 [[figure]] �2 �2 �2 �DXY�+ [[figure]] �XYB [[figure]] �∠ [[figure]] �∠ [[figure]] �= �(÷ by 2) ∠1 + ∠3 = 90⁰ (4) In ∆XYP ∠1 + ∠3 + ∠P = 180⁰ 90⁰ + ∠P = 180⁰ (from 4) ∠P = 90⁰ From (3) and (5), PXQY is a rectangle [[figure]]",
    "answerError": null
   },
   {
@@ -31210,7 +31210,7 @@
    "stem": "ABCD is a parallelogram. The bisector of angle A intersects CD at X and bisector of angle C intersects AB at Y. Is AXCY a parallelogram? Give reason.",
    "options": [],
    "optionsError": null,
-   "answer": "�∠A = ∠C [[figure]] (opp. Ls of a �� [[figure]] � [[figure]] � [[figure]] � [[figure]] �gm) [[figure]] �2 [[figure]] �2 [[figure]] �A�= [[figure]] �C [[figure]] ∠ [[figure]] ∠ [[figure]] �(÷2) [[figure]] ∠1 = ∠2 [[figure]] But ∠2 = ∠3 (all ∠s) [[figure]] ∴ ∠1 = ∠3 [[figure]] But they are a pair of corresponding ∠s ∴ AX�� � � � �YC (1) AY�� � � � �XC (2) (AB� � DC) �From (1) and (2) �AXCY is a Parallelogram",
+   "answer": "�∠A = ∠C [[figure]] (opp. Ls of a �� [[figure]] � [[figure]] � [[figure]] � [[figure]] �gm) [[figure]] �2 [[figure]] �2 [[figure]] �A�= [[figure]] �C [[figure]] �∠ [[figure]] �∠ [[figure]] �(÷2) [[figure]] ∠1 = ∠2 [[figure]] But ∠2 = ∠3 (all ∠s) [[figure]] ∴ ∠1 = ∠3 [[figure]] But they are a pair of corresponding ∠s ∴ AX�� � � � �YC (1) AY�� � � � �XC (2) (AB� � DC) �From (1) and (2) �AXCY is a Parallelogram",
    "answerError": null
   },
   {
@@ -32816,11 +32816,11 @@
    "options": [
     "�– 1",
     "�– 3",
-    "�� �1 �3 −",
+    "�� �1 �3 �−",
     "�� �1 �3"
    ],
    "optionsError": null,
-   "answer": "(c) �� �1 �3 −",
+   "answer": "(c) �� �1 �3 �−",
    "answerError": null
   },
   {
@@ -32992,10 +32992,10 @@
    "kind": "sa",
    "file": "heep207.pdf",
    "page": 20,
-   "stem": "�Expand the following, using suitable identities. (i) (xy + yz)² (ii) (x²y – xy²)² (iii) 2 �4 �5 �5 �4 �a+ �b� � � � � � (iv) 2 �2 �3 �– �3 �2 �x �y� � � � � � (v) 2 �4 �5 �5 �3 �p+ �q� � � � � � (vi) (x + 3) (x + 7) (vii) (2x + 9) (2x – 7) �(viii) � � � �+ �+ � � � � � � 4 4 3 5 4 5 4 x y x y �(ix) � � � �+ � � � � � � �2 �2 �2 �2 �– �3 �3 �3 �3 �x �x �a (x) (2x – 5y) (2x – 5y) (xi) �2a �2a �3 �3 �3 �3 �b�� �b� � �+ �− � � � � � � (xii) (x² + y²) (x² – y²) (xiii) (a² + b²)² (xiv) (7x + 5)² (xv) (0.9p – 0.5q)² (xvi) x²y² = (xy)²",
+   "stem": "�Expand the following, using suitable identities. (i) (xy + yz)² (ii) (x²y – xy²)² (iii) 2 �4 �5 �5 �4 �a+ �b� � � � � � (iv) 2 �2 �3 �– �3 �2 �x �y� � � � � � (v) 2 �4 �5 �5 �3 �p+ �q� � � � � � (vi) (x + 3) (x + 7) (vii) (2x + 9) (2x – 7) �(viii) � � � �+ �+ � � � � � � �4 �4 �3 �5 �4 �5 �4 �x �y �x �y �(ix) � � � �+ � � � � � � �2 �2 �2 �2 �– �3 �3 �3 �3 �x �x �a (x) (2x – 5y) (2x – 5y) (xi) �2a �2a �3 �3 �3 �3 �b�� �b� � �+ �− � � � � � � (xii) (x² + y²) (x² – y²) (xiii) (a² + b²)² (xiv) (7x + 5)² (xv) (0.9p – 0.5q)² (xvi) x²y² = (xy)²",
    "options": [],
    "optionsError": null,
-   "answer": "�i) x²y² + 2xy²z + y²z² ii) x⁴y² – 2x³y³ + x²y⁴ iii) 2 2 �16 �25 �2ab+ �25 �16 �a �b �+ �iv) 2 2 �4 �9 �– 2xy+ �9 �4 �x �y v) 2 2 �16 �8 �25 �25 �3 �9 �p �pq+ �q �+ �vi) x² + 10x + 21 vii) 4x² + 4x – 63 viii) 2 2 16�x �+ 4xy�+ 3y 25 5 16 ix) 2 2 �4 �4 �– �9 �9 �x �a �x) 4x² – 20xy + 25y² xi) 2 2 �4 �– �9 �9 �b �a �xii) x⁴ – y⁴ xiii) a⁴ + 2a²b² + b⁴ xiv) 49x² + 70x + 25 xv) 1296a⁴ + 2401 b⁴ – 3528a²b² xvi) 0.81p² – 0.9pq + 0.25q²",
+   "answer": "�i) x²y² + 2xy²z + y²z² ii) x⁴y² – 2x³y³ + x²y⁴ iii) 2 2 �16 �25 �2ab+ �25 �16 �a �b �+ �iv) 2 2 �4 �9 �– 2xy+ �9 �4 �x �y v) 2 2 �16 �8 �25 �25 �3 �9 �p �pq+ �q �+ �vi) x² + 10x + 21 vii) 4x² + 4x – 63 viii) 2 2 16�x �+ �4xy�+ �3y 25 �5 �16 ix) 2 2 �4 �4 �– �9 �9 �x �a �x) 4x² – 20xy + 25y² xi) 2 2 �4 �– �9 �9 �b �a �xii) x⁴ – y⁴ xiii) a⁴ + 2a²b² + b⁴ xiv) 49x² + 70x + 25 xv) 1296a⁴ + 2401 b⁴ – 3528a²b² xvi) 0.81p² – 0.9pq + 0.25q²",
    "answerError": null
   },
   {
@@ -33043,7 +33043,7 @@
    "kind": "sa",
    "file": "heep207.pdf",
    "page": 22,
-   "stem": "�Factorise the following, using the identity a² + 2ab ab ab ab ab + b² = (a + b)² (i) x² + 6x + 9 (ii) x² + 12x + 36 (iii) x² + 14x + 49 (iv) x² + 2x + 1 (v) 4x² + 4x + 1 (vi) a²x² + 2ax + 1 (vii) a²x² + 2abx + b² (viii) a²x² + 2abxy + b²y² (ix) 4x² + 12x + 9 (x) 16x² + 40x +25 (xi) 9x² + 24x + 16 (xii) 9x² + 30x + 25 (xiii) 2x³ + 24x² + 72x (xiv) a²x³ + 2abx² + b²x (xv) 4x⁴ + 12x³ + 9x² (xvi) 2 �4 �x �+ 2x + 4 (xvii) 9x² + 2xy + 2 9 y",
+   "stem": "�Factorise the following, using the identity a² + 2ab ab ab ab ab + b² = (a + b)² (i) x² + 6x + 9 (ii) x² + 12x + 36 (iii) x² + 14x + 49 (iv) x² + 2x + 1 (v) 4x² + 4x + 1 (vi) a²x² + 2ax + 1 (vii) a²x² + 2abx + b² (viii) a²x² + 2abxy + b²y² (ix) 4x² + 12x + 9 (x) 16x² + 40x +25 (xi) 9x² + 24x + 16 (xii) 9x² + 30x + 25 (xiii) 2x³ + 24x² + 72x (xiv) a²x³ + 2abx² + b²x (xv) 4x⁴ + 12x³ + 9x² (xvi) 2 �4 �x �+ 2x + 4 (xvii) 9x² + 2xy + 2 �9 �y",
    "options": [],
    "optionsError": null,
    "answer": "�(i) (x + 3) (x + 3) (ii) (x + 6) (x + 6) (iii) (x + 7) (x + 7) (iv) (x + 1) (x + 1) (v) (2x + 1) (2x + 1) (vi) (ax + 1) (ax + 1) (vii) (ax + b) (ax + b) (viii) (ax + by) (ax + by) (ix) (2x + 3) (2x + 3) (x) (4x + 5) (4x + 5) (xi) (3x + 4) (3x + 4) (xii) (3y + 5) (3y + 5) (xiii) 2x (x + 6) (x + 6) (xiv) x (ax + b) (ax + b) �(xv) x² (2x + 3) (2x + 3) �(xvi) �2 �2 �2 �2 �x�+ �x�+ � � � � � � � � � �(xvii) �3x �3x �3 �3 �y�� �y� � �+ �+ � � � � � �",
@@ -33060,7 +33060,7 @@
    "kind": "sa",
    "file": "heep207.pdf",
    "page": 22,
-   "stem": "�Factorise the following, using the identity a² – 2ab ab ab ab ab + b² = (a – b)². (i) x² – 8x + 16 (ii) x² – 10x + 25 (iii) y² – 14y + 49 (iv) p² – 2p + 1 (v) 4a² – 4ab + b² (vi) p²y² – 2py + 1 (vii) a²y² – 2aby + b² (viii) 9x² – 12x + 4 (ix) 4y² – 12y + 9 (x) 2 �4 �x �– 2x + 4 (xi) a²y³ – 2aby² + b²y (xii) 9y² – 4xy + 2 4x 9",
+   "stem": "�Factorise the following, using the identity a² – 2ab ab ab ab ab + b² = (a – b)². (i) x² – 8x + 16 (ii) x² – 10x + 25 (iii) y² – 14y + 49 (iv) p² – 2p + 1 (v) 4a² – 4ab + b² (vi) p²y² – 2py + 1 (vii) a²y² – 2aby + b² (viii) 9x² – 12x + 4 (ix) 4y² – 12y + 9 (x) 2 �4 �x �– 2x + 4 (xi) a²y³ – 2aby² + b²y (xii) 9y² – 4xy + 2 �4x �9",
    "options": [],
    "optionsError": null,
    "answer": "�(i) (x – 4) (x – 4) (ii) (x – 5) (x – 5) (iii) (x – 7) (y – 7) (iv) (p – 1) (p – 1) (v) (2a – b) (2a – b) (vi) (py – 1) (py – 1) (vii) (ay – b) (ay – b) (viii) (3x – 2) (3x – 2) (ix) (2y – 3) (2y – 3) �(x) �2 �2 �2 �2 �x�− �x�− � � � � � � � � � �(xi) y (ay – b) (ay – b) (xii) 2 �2x� �3y− �3 � � � � �",
@@ -33077,7 +33077,7 @@
    "kind": "sa",
    "file": "heep207.pdf",
    "page": 23,
-   "stem": "�Factorise the following using the identity a² – b² = (a + b a + b a + b a + b a + b) (a – b). (i) x² – 9 (ii) 4x² – 25y² (iii) 4x² – 49y² (iv) 3a²b³ – 27a⁴b (v) 28ay² – 175ax² (vi) 9x² – 1 (vii) 25ax² – 25a (viii) 2 2 9 25 �x �y �− (ix) 2 2 �2p �– 32q �25 �(x) 49x² – 36y² (xi) �y³ – �9 �y �(xii) 2 �25 �x �– 625 (xiii) 2 2 �8 �18 �x �y �− �(xiv) 2 2 �4x �9y 9 16 �− (xv) 3 3 �9 �16 �x y �xy �− �(xvi) 1331x³y – 11y³x (xvii) 2 2 2 2 �1 �16 �– �36 �49 �a b �b c �(xviii) a⁴ – (a – b)⁴ (xix) x⁴ – 1 (xx) y⁴ – 625 (xxi) p⁵ – 16p (xxii) 16x⁴ – 81 (xxiii) x⁴ – y⁴ (xxiv) y⁴ – 81 (xxv) 16x⁴ – 625y⁴ (xxvi) (a – b)² – (b – c)² (xxvii) (x + y)⁴ – (x – y)⁴ (xxviii) x⁴ – y⁴ + x² – y² (xxix) 8a³ – 2a (xxx) x² – 2 100 y (xxxi) 9x² – (3y + z)²",
+   "stem": "�Factorise the following using the identity a² – b² = (a + b a + b a + b a + b a + b) (a – b). (i) x² – 9 (ii) 4x² – 25y² (iii) 4x² – 49y² (iv) 3a²b³ – 27a⁴b (v) 28ay² – 175ax² (vi) 9x² – 1 (vii) 25ax² – 25a (viii) 2 2 �9 �25 �x �y �− (ix) 2 2 �2p �– 32q �25 �(x) 49x² – 36y² (xi) �y³ – �9 �y �(xii) 2 �25 �x �– 625 (xiii) 2 2 �8 �18 �x �y �− �(xiv) 2 2 �4x �9y �9 �16 �− (xv) 3 3 �9 �16 �x y �xy �− �(xvi) 1331x³y – 11y³x (xvii) 2 2 2 2 �1 �16 �– �36 �49 �a b �b c �(xviii) a⁴ – (a – b)⁴ (xix) x⁴ – 1 (xx) y⁴ – 625 (xxi) p⁵ – 16p (xxii) 16x⁴ – 81 (xxiii) x⁴ – y⁴ (xxiv) y⁴ – 81 (xxv) 16x⁴ – 625y⁴ (xxvi) (a – b)² – (b – c)² (xxvii) (x + y)⁴ – (x – y)⁴ (xxviii) x⁴ – y⁴ + x² – y² (xxix) 8a³ – 2a (xxx) x² – 2 �100 �y (xxxi) 9x² – (3y + z)²",
    "options": [],
    "optionsError": null,
    "answer": "�(i) (x – 3) (x + 3) ii) (2x – 5y) (2x + 5y) iii) (2x – 7y) (2x + 7y) iv) 3a²b (b – 3a) (b + 3a) v) 7a (2y – 5x) (y² + 5x) vi) (3x – 1) (3x + 1) �vii) 25a (x – 1) (x + 1) �viii) �3 �5 �3 �5 �x�− �y�� �x�+ �y� � � � � � � � �ix) �2 �4q �4q �5 �5 �p�− �p�+ � � � � � � � � � �x) (7x – 6y) (7x + 6y) xi) �1 �1 �3 �3 �y y− �y+ � � � � � � � � � �xii) �25 �25 �5 �5 �x�− �x�+ � � � � � � � � � xiii) �1 �2 2 �3 �2 �3 �x�− �y�� �x�+ �y� � � � � � � � �xiv) �2 �3 �2 �3 �3 �4 �3 �4 �x �y �x+ �y � � � �− � � � � � � �xv) �3 �4 �3 �4 �x�− �y�� �x�+ �y� �xy�� � � � � � � �xvi) 11xy (11x – y) (11x + y) xvii) �₂ 1 �4 �1 �4 �6 �7 �6 �7 �b �a �b �a+ �b � � � �− � � � � � � xiv) 2ab (2a² – 2ab + b²) xix) (x – 1) (x + 1) (x² + 1) xx) (y – 5) (y + 5) (y² + 25) xxi) p (p – 2) (p + 2) (p² + 4) xxii) (2x – 3) (2x + 3) (4x² + 9) xxiii) (x – y) (x + y) (x² + y²) xxiv) (y – 3) (y + 3) (y² + 9) xxv) (2x – 5y) (2x + 5y) (4x² + 25y²) xxvi) (a – 2b + c) (a – c) xxvii) 8 xy (x² + y²) xxviii) (x – y) (x + y) (x² + y² + 1) xxix) 2a (2a – 1) (2a + 1) �xxx) �10 �10 �y �y �x− �x+ � � � � � � � � � �xxxi) (3x – 3y – 3) (3x + 3y + 3)",
@@ -33097,7 +33097,7 @@
    "stem": "Carry out the following divisions: (i) 51x³y²z ÷ 17xyz (ii) 76x³yz³ ÷ 19x²y² (iii) 17ab²c³ ÷ (–abc²) (iv) –121p³q³r³ ÷ (–11xy² z³)",
    "options": [],
    "optionsError": null,
-   "answer": "�(i) 3x²y (ii) 3 �4 �xz �y �(iii) �– 17 bc (iv) 3 3 3 2 3 11p q r xy z",
+   "answer": "�(i) 3x²y (ii) 3 �4 �xz �y �(iii) �– 17 bc (iv) 3 3 3 �2 �3 �11p q r �xy z",
    "answerError": null
   },
   {
@@ -33179,7 +33179,7 @@
    "kind": "sa",
    "file": "heep207.pdf",
    "page": 25,
-   "stem": "�The sum of first n natural numbers is given by the expression + 2 �2 �2 n �n . Factorise this expression.",
+   "stem": "�The sum of first n natural numbers is given by the expression + 2 �2 �2 �n �n . Factorise this expression.",
    "options": [],
    "optionsError": null,
    "answer": "�� �1 �( �1) �2 n n +",
@@ -33247,7 +33247,7 @@
    "kind": "sa",
    "file": "heep207.pdf",
    "page": 26,
-   "stem": "�� If x− �1�= �7 then find the value of x �x 2 2 1 �x �+ �.",
+   "stem": "�� If x− �1�= �7 then find the value of x �x 2 �2 �1 �x �+ �.",
    "options": [],
    "optionsError": null,
    "answer": "51",
@@ -33264,7 +33264,7 @@
    "kind": "sa",
    "file": "heep207.pdf",
    "page": 26,
-   "stem": "�� Factorise 2 2 �1 �3 �2 �3x �x �x �x �+ �+ �− �− �.",
+   "stem": "�� Factorise 2 �2 �1 �3 �2 �3x �x �x �x �+ �+ �− �− �.",
    "options": [],
    "optionsError": null,
    "answer": "�� �1 �1 –3 �x �x �x �x � � � �+ �+ � � � � � �",
@@ -33298,7 +33298,7 @@
    "kind": "sa",
    "file": "heep207.pdf",
    "page": 26,
-   "stem": "�Find the value of �(i) �6.25 6.25 –1.75 1.75 �4.5 × × �(ii) �198 198 –102 102 �96 × ×",
+   "stem": "�Find the value of �(i) �6.25 6.25 –1.75 1.75 �4.5 �× �× �(ii) �198 198 –102 102 �96 �× �×",
    "options": [],
    "optionsError": null,
    "answer": "(i) 8 (ii) 300",
@@ -33386,12 +33386,12 @@
    "stem": "3⁻² can be written as",
    "options": [
     "�� �3²",
-    "�� 2 �1 �3",
-    "�� 2 �1 �3⁻",
+    "�� �2 �1 �3",
+    "�� �2 �1 �3⁻",
     "�� �2 �3 �−"
    ],
    "optionsError": null,
-   "answer": "(b) �� 2 �1 �3",
+   "answer": "(b) �� �2 �1 �3",
    "answerError": null
   },
   {
@@ -33410,7 +33410,7 @@
     "�� �16",
     "�� �8",
     "�� �1 �16",
-    "�� �1 �8 [[aside]] Getting Rid of Negative Exponents in Fractions [[aside]] You might have to deal with fractions that have negative exponents in the �[[aside]] numerator and denominator, like �3⁻. It’s useful to be able to change them [[aside]] –4 [[aside]] 7 [[aside]] 2 [[aside]] into fractions with only positive exponents because it’s a simpler form. A [[aside]] number with negative exponent in the numerator is equivalent to the same [[aside]] number with positive exponent in the denominator [[aside]] –4 [[aside]] 4 [[aside]] 4 �[[aside]] 2 �[[aside]] 1 �[[aside]] 2⁻= �[[aside]] 1 �[[aside]] 2 [[aside]] = [[aside]] . A [[aside]] number with a negative exponent in the denominator is equivalent to the [[aside]] same number with positive exponent in the numerator [[aside]] 7 [[aside]] 7 [[aside]] 7 �[[aside]] 1 �[[aside]] 3 �[[aside]] 3 �[[aside]] 1 �[[aside]] 3⁻ �[[aside]] = �[[aside]] = �[[aside]] . [[aside]] So. [[aside]] 4 [[aside]] 7 [[aside]] 7 [[aside]] 4 [[aside]] 2⁻ [[aside]] 3 [[aside]] 3⁻ [[aside]] 2 [[aside]] = [[aside]] 2⁻⁴ gets moved from the [[aside]] numerator to the denominator, [[aside]] where it is written as 2⁴. [[aside]] 3⁻⁷ moved [[aside]] from [[aside]] the [[aside]] denominator and becomes [[aside]] 3⁷ in the numerator."
+    "�� �1 �8 [[aside]] Getting Rid of Negative Exponents in Fractions [[aside]] You might have to deal with fractions that have negative exponents in the �[[aside]] numerator and denominator, like �3⁻. It’s useful to be able to change them [[aside]] –4 [[aside]] 7 [[aside]] 2 [[aside]] into fractions with only positive exponents because it’s a simpler form. A [[aside]] number with negative exponent in the numerator is equivalent to the same [[aside]] number with positive exponent in the denominator [[aside]] –4 [[aside]] 4 �[[aside]] 4 �[[aside]] 2 �[[aside]] 1 �[[aside]] 2⁻= �[[aside]] 1 �[[aside]] 2 [[aside]] = [[aside]] . A [[aside]] number with a negative exponent in the denominator is equivalent to the [[aside]] same number with positive exponent in the numerator [[aside]] 7 [[aside]] 7 �[[aside]] 7 �[[aside]] 1 �[[aside]] 3 �[[aside]] 3 �[[aside]] 1 �[[aside]] 3⁻ �[[aside]] = �[[aside]] = �[[aside]] . [[aside]] So. [[aside]] 4 [[aside]] 7 �[[aside]] 7 �[[aside]] 4 �[[aside]] 2⁻ �[[aside]] 3 �[[aside]] 3⁻ �[[aside]] 2 [[aside]] = [[aside]] 2⁻⁴ gets moved from the [[aside]] numerator to the denominator, [[aside]] where it is written as 2⁴. [[aside]] 3⁻⁷ moved [[aside]] from [[aside]] the [[aside]] denominator and becomes [[aside]] 3⁷ in the numerator."
    ],
    "optionsError": null,
    "answer": "(a) �� �16",
@@ -33427,7 +33427,7 @@
    "kind": "mcq_single",
    "file": "heep208.pdf",
    "page": 6,
-   "stem": "�The value of � 2 2� 5� − � � � �is",
+   "stem": "�The value of � 2 �2� �5� − � � � �is",
    "options": [
     "��4 �5",
     "���4 �25",
@@ -33475,8 +33475,8 @@
    "options": [
     "��16 �81",
     "���81 �16",
-    "���16 �81 −",
-    "���81 16 − [[aside]] The table shows several powers of [[aside]] 10 in various forms. Note the [[aside]] following: [[aside]] • [[aside]] Powers of 10 with positive [[aside]] integer exponents involve [[aside]] repeated multiplication by 10. [[aside]] • [[aside]] Power of 10 with negative [[aside]] integer exponents involve [[aside]] repeated multiplication by [[aside]] 1 [[aside]] 10 [[aside]] (the multiplicative inverse of [[aside]] 10), or repeated division by 10. [[aside]] • [[aside]] The power of 10 with an [[aside]] exponent of 0 equals 1. [[aside]] Power [[aside]] Repeated [[aside]] Standard [[aside]] multiplication [[aside]] form [[aside]] 10³ [[aside]] 1 × 10 × 10 × 10 [[aside]] 1000 [[aside]] 10² [[aside]] 1 × 10 × 10 [[aside]] 100 [[aside]] 10¹ [[aside]] 1 × 10 [[aside]] 10 [[aside]] 10⁰ [[aside]] 1 [[aside]] 1 [[aside]] 10⁻¹ [[aside]] 1 × [[aside]] 1 �[[aside]] 10 �[[aside]] 0.1 [[aside]] 10⁻² �[[aside]] 1 × �10 × [[aside]] 1 [[aside]] 1 �[[aside]] 10 �[[aside]] 0.01 [[aside]] 10⁻³ �[[aside]] 1 × �10 × �10 × [[aside]] 1 [[aside]] 1 [[aside]] 1 �[[aside]] 10 �[[aside]] 0.001"
+    "���16 �81 �−",
+    "���81 16 − [[aside]] The table shows several powers of [[aside]] 10 in various forms. Note the [[aside]] following: [[aside]] • [[aside]] Powers of 10 with positive [[aside]] integer exponents involve [[aside]] repeated multiplication by 10. [[aside]] • [[aside]] Power of 10 with negative [[aside]] integer exponents involve [[aside]] repeated multiplication by �[[aside]] 1 �[[aside]] 10 [[aside]] (the multiplicative inverse of [[aside]] 10), or repeated division by 10. [[aside]] • [[aside]] The power of 10 with an [[aside]] exponent of 0 equals 1. [[aside]] Power [[aside]] Repeated [[aside]] Standard [[aside]] multiplication [[aside]] form [[aside]] 10³ [[aside]] 1 × 10 × 10 × 10 [[aside]] 1000 [[aside]] 10² [[aside]] 1 × 10 × 10 [[aside]] 100 [[aside]] 10¹ [[aside]] 1 × 10 [[aside]] 10 [[aside]] 10⁰ [[aside]] 1 [[aside]] 1 [[aside]] 10⁻¹ [[aside]] 1 × �[[aside]] 1 �[[aside]] 10 �[[aside]] 0.1 [[aside]] 10⁻² �[[aside]] 1 × �10 × [[aside]] 1 �[[aside]] 1 �[[aside]] 10 �[[aside]] 0.01 [[aside]] 10⁻³ �[[aside]] 1 × �10 × �10 × [[aside]] 1 [[aside]] 1 �[[aside]] 1 �[[aside]] 10 �[[aside]] 0.001"
    ],
    "optionsError": null,
    "answer": "(a) ��16 �81",
@@ -33493,7 +33493,7 @@
    "kind": "mcq_single",
    "file": "heep208.pdf",
    "page": 7,
-   "stem": "�The multiplicative inverse of � 99 5� 9� − �− � � �is",
+   "stem": "�The multiplicative inverse of � 99 �5� �9� − �− � � �is",
    "options": [
     "�� 99 �5� �9� �− � �",
     "��� 99 �5� �9� � � �",
@@ -33562,7 +33562,7 @@
     "x^(m)",
     "–x^(m)",
     "��1 m �x",
-    "�� �1 m x −"
+    "�� �1 �m �x �−"
    ],
    "optionsError": null,
    "answer": "(c) ��1 m �x",
@@ -33583,7 +33583,7 @@
    "options": [
     "x^(m+n)",
     "x^(mn)",
-    "��x m n",
+    "��x �m �n",
     "x^(m–n)"
    ],
    "optionsError": null,
@@ -33628,10 +33628,10 @@
     "�� –5 �5� �7� � � �",
     "��� 5 �5� �7� � � �",
     "��� 5 �7� �5� � � �",
-    "�� 5 �7 �−"
+    "�� 5 �7 �5 �−"
    ],
    "optionsError": null,
-   "answer": "(d) �� 5 �7 �−",
+   "answer": "(d) �� 5 �7 �5 �−",
    "answerError": null
   },
   {
@@ -33758,12 +33758,12 @@
    "stem": "�Which of the following is not the reciprocal of � 4 �2� �3��? � � �",
    "options": [
     "�� 4 �3� �2� � � �",
-    "��� 4 3� 2� − � � �",
-    "�� 4 2 3 −",
-    "�4 4 3 2"
+    "��� 4 �3� �2� − � � �",
+    "�� 4 �2 �3 −",
+    "�4 �4 �3 �2"
    ],
    "optionsError": null,
-   "answer": "(b) ��� 4 3� 2� − � � �",
+   "answer": "(b) ��� 4 �3� �2� − � � �",
    "answerError": null
   },
   {
@@ -33811,10 +33811,10 @@
    "kind": "fill_blank",
    "file": "heep208.pdf",
    "page": 10,
-   "stem": "�The value of 2 3 �1 �2 � � � � � �is equal to _________.",
+   "stem": "�The value of 2 �3 �1 �2 � � � � � �is equal to _________.",
    "options": [],
    "optionsError": null,
-   "answer": "�� 6 �1 �2",
+   "answer": "�� �6 �1 �2",
    "answerError": null
   },
   {
@@ -34018,7 +34018,7 @@
    "stem": "The expression for 3⁵ with a negative exponent is _________.",
    "options": [],
    "optionsError": null,
-   "answer": "�� –5 �1 �3",
+   "answer": "�� �–5 �1 �3",
    "answerError": null
   },
   {
@@ -34083,7 +34083,7 @@
    "kind": "true_false",
    "file": "heep208.pdf",
    "page": 11,
-   "stem": "�The multiplicative inverse of � 2 �3� �2�� is not equal to � � � 2 2� 3� − � � � � �.",
+   "stem": "�The multiplicative inverse of � 2 �3� �2�� is not equal to � � � 2 �2� �3� − � � � � �.",
    "options": [],
    "optionsError": null,
    "answer": "True",
@@ -34168,7 +34168,7 @@
    "kind": "true_false",
    "file": "heep208.pdf",
    "page": 12,
-   "stem": "�� �The value of –2 �1 �4 �is equal to 16.",
+   "stem": "�� �The value of �–2 �1 �4 �is equal to 16.",
    "options": [],
    "optionsError": null,
    "answer": "True",
@@ -34185,7 +34185,7 @@
    "kind": "true_false",
    "file": "heep208.pdf",
    "page": 12,
-   "stem": "�–m m m x y� x� y � �=� � �",
+   "stem": "�–m m m x �y� �x� y � �=� � �",
    "options": [],
    "optionsError": null,
    "answer": "True",
@@ -34202,7 +34202,7 @@
    "kind": "true_false",
    "file": "heep208.pdf",
    "page": 12,
-   "stem": "�� –m �1 m a �a �=",
+   "stem": "�� �–m �1 m a �a �=",
    "options": [],
    "optionsError": null,
    "answer": "True",
@@ -34236,7 +34236,7 @@
    "kind": "true_false",
    "file": "heep208.pdf",
    "page": 12,
-   "stem": "The standard form for 0.000037 is 3.7 × 10⁻⁵. [[aside]] Key Concept [[aside]] Definition of Zero and Negative Exponents [[aside]] Let a be a non-zero number, and let n be an integer. [[aside]] Words [[aside]] Algebra [[aside]] Example [[aside]] a to the zero power is 1. [[aside]] a⁰ = 1 [[aside]] 5⁰ = 1 �[[aside]] a⁻ⁿ is the reciprocal of aⁿ. �[[aside]] a⁻ⁿ = �[[aside]] n �[[aside]] a [[aside]] 1 [[aside]] 2⁻³ = [[aside]] 3 [[aside]] 1 [[aside]] 2 �[[aside]] aⁿ is the reciprocal of a⁻ⁿ. �[[aside]] aⁿ = �[[aside]] –n �[[aside]] a [[aside]] 1 [[aside]] 2 = �[[aside]] –1",
+   "stem": "The standard form for 0.000037 is 3.7 × 10⁻⁵. [[aside]] Key Concept [[aside]] Definition of Zero and Negative Exponents [[aside]] Let a be a non-zero number, and let n be an integer. [[aside]] Words [[aside]] Algebra [[aside]] Example [[aside]] a to the zero power is 1. [[aside]] a⁰ = 1 [[aside]] 5⁰ = 1 �[[aside]] a⁻ⁿ is the reciprocal of aⁿ. �[[aside]] a⁻ⁿ = �[[aside]] n �[[aside]] a �[[aside]] 1 [[aside]] 2⁻³ = �[[aside]] 3 �[[aside]] 1 [[aside]] 2 �[[aside]] aⁿ is the reciprocal of a⁻ⁿ. �[[aside]] aⁿ = �[[aside]] –n �[[aside]] a �[[aside]] 1 [[aside]] 2 = �[[aside]] –1 �[[aside]] 1",
    "options": [],
    "optionsError": null,
    "answer": "True",
@@ -34253,10 +34253,10 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 13,
-   "stem": "�Solve the following: (i) 100⁻¹⁰ (ii) 2⁻² × 2⁻³ (iii) –2 –3 �1 �1 2 2 �÷",
+   "stem": "�Solve the following: (i) 100⁻¹⁰ (ii) 2⁻² × 2⁻³ (iii) –2 –3 �1 �1 �2 �2 �÷",
    "options": [],
    "optionsError": null,
-   "answer": "�(i) 100¹⁰ (ii) 2⁵ (iii) –1",
+   "answer": "�(i) 100¹⁰ (ii) 2⁵ (iii) –1 �1 �2",
    "answerError": null
   },
   {
@@ -34273,7 +34273,7 @@
    "stem": "Express 3⁻⁵ × 3⁻⁴ as a power of 3 with positive exponent.",
    "options": [],
    "optionsError": null,
-   "answer": "�� 9 �1 �3",
+   "answer": "�� �9 �1 �3",
    "answerError": null
   },
   {
@@ -34338,10 +34338,10 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 13,
-   "stem": "�Express as a power of a rational number with negative exponent. (a) �–3 �–2 3� 2 � � �− � � � � � � � � (b) (2⁵ ÷ 2⁸) × 2⁻⁷",
+   "stem": "�Express as a power of a rational number with negative exponent. (a) �–3 �–2 �3� �2 � � �− � � � � � � � � (b) (2⁵ ÷ 2⁸) × 2⁻⁷",
    "options": [],
    "optionsError": null,
-   "answer": "�� (a) 6 2 3 − − (b) 2⁻¹⁰",
+   "answer": "�� (a) 6 �2 �3 − �− (b) 2⁻¹⁰",
    "answerError": null
   },
   {
@@ -34358,7 +34358,7 @@
    "stem": "�Simplify: (i) –2 –2 –2 �1 �1 �1 �4 �2 �3 � � � � � � �+� �+� � � � � � � � � � � (ii) �3 �–2 �–4 –1 �–2 �1 �1 �3 �3 �3 �6 � � � � � �×� �× �× � � � � � � � � � � � (iii) –3 –3 –5 �49 �(z �0) �7 �10× �z �z �× �≠ �× (iv) (2⁵ ÷ 2⁸) × 2⁻⁷",
    "options": [],
    "optionsError": null,
-   "answer": "�(i) 29 (ii) 8 7 �3 �2 �(iii) 5 2 �7 �10 �z �(iv) �2⁻¹⁰ or �1 �1024",
+   "answer": "�(i) 29 (ii) 8 �7 �3 �2 �(iii) 5 2 �7 �10 �z �(iv) �2⁻¹⁰ or �1 �1024",
    "answerError": null
   },
   {
@@ -34372,7 +34372,7 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 14,
-   "stem": "�Find the value of x so that (i) –2 –14 8 5 5 5 3 3 3 x � � � � � � �×� �= � � � � � � � � � � � (ii) (–2)³ × (–2)⁻⁶ = (–2)^(2x–1) (iii) (2⁻¹ + 4⁻¹ + 6⁻¹ + 8⁻¹)^(x) = 1",
+   "stem": "�Find the value of x so that (i) –2 –14 8 �5 �5 �5 �3 �3 �3 x � � � � � � �×� �= � � � � � � � � � � � (ii) (–2)³ × (–2)⁻⁶ = (–2)^(2x–1) (iii) (2⁻¹ + 4⁻¹ + 6⁻¹ + 8⁻¹)^(x) = 1",
    "options": [],
    "optionsError": null,
    "answer": "(i) x = – 2 (ii) x = – 1 (iii) x = 0",
@@ -34457,7 +34457,7 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 15,
-   "stem": "�� Express �2.5 �10 6 –4 1.5 10 × �× �in the standard form.",
+   "stem": "�� Express �2.5 �10 6 �–4 �1.5 10 �× �× �in the standard form.",
    "options": [],
    "optionsError": null,
    "answer": "6.0 × 10⁹",
@@ -34474,7 +34474,7 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 16,
-   "stem": "�Find x so that 3 –6 2 1 2 2 2 9 9 9 x − � � � � � � �× �=� � � � � � � � � � � �",
+   "stem": "�Find x so that 3 –6 2 1 �2 �2 �2 �9 �9 �9 x − � � � � � � �× �=� � � � � � � � � � � �",
    "options": [],
    "optionsError": null,
    "answer": "� x = – 1",
@@ -34491,7 +34491,7 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 16,
-   "stem": "�By what number should 3 3� 2 − �− � � � � � �be divided so that the quotient may be 2 4 27 − � � � � � � �?",
+   "stem": "�By what number should 3 �3� �2 − �− � � � � � �be divided so that the quotient may be 2 �4 �27 − � � � � � � �?",
    "options": [],
    "optionsError": null,
    "answer": "�� ���� �⁷ �⁹ 2 3",
@@ -34508,7 +34508,7 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 16,
-   "stem": "In questions 118 and 119, find the value of n. �� 3 –2 �6ⁿ �6 �6 =",
+   "stem": "In questions 118 and 119, find the value of n. �� 3 �–2 �6ⁿ �6 �6 =",
    "options": [],
    "optionsError": null,
    "answer": "n = 1",
@@ -34525,7 +34525,7 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 16,
-   "stem": "In questions 118 and 119, find the value of n. �6 18 –3 �2ⁿ� × �2 �2 �2 =",
+   "stem": "In questions 118 and 119, find the value of n. �6 18 �–3 �2ⁿ� × �2 �2 �2 =",
    "options": [],
    "optionsError": null,
    "answer": "n = 9",
@@ -34630,7 +34630,7 @@
    "stem": "An insect is on the 0 point of a number line, hopping towards 1. She covers half the distance from her current location to 1 with each hop. So, she will be at �1 �2 after one hop, �3 [[figure]] �4� after two hops, and so on. (a) Make a table showing the insect’s location for the first 10 hops. (b) Where will the insect be after n hops? (c) Will the insect ever get to 1? Explain.",
    "options": [],
    "optionsError": null,
-   "answer": "�(a) Number of Distance Distance Distance Hops Covered Left Covered �1. �1 �2 �1 �2 �1– �1 �2 �2 �1� �1�� �1 �2� �2� �2 � � 1 �4 �1– �1 �4 �3 �1� �1�� �3 �2� �4� �4 � � 1 �8 �1– �1 �8 �4 �1� �1�� �7 �2� �8� �8 � � �1 �16 �1– �1 �16 �5. �1� �1 �15 �2 16� �16 � � � � 1 �32 �1– �1 �32 �6. �1� �1 �31 �2� �32� �32 � � � 1 �64 �1– �1 �64 �7. �1� �1 �63 �2� �64� �64 � � � 1 �128 �1– �1 �128 �8. �1� �1 �127 �2 128� �128 � � � � �1 �256 �1– �1 �256 �9. �1� �1 �255 �2 256� �256 � � � � �1 �512 �1– �1 �512 �10. �1� �1 �511 �2 512� �512 � � � � �1 �1024 �1– �1 �1024 127. (b) n �1� �1 –� �2� � � � (c) No, because for reaching 1, � n �1� �2�� has to be zero for some finite n � � � which is not possible.",
+   "answer": "�(a) Number of Distance Distance Distance Hops Covered Left Covered �1. �1 �2 �1 �2 �1– �1 �2 �2 �1� �1�� �1 �2� �2� �2 � � �1 �4 �1– �1 �4 �3 �1� �1�� �3 �2� �4� �4 � � �1 �8 �1– �1 �8 �4 �1� �1�� �7 �2� �8� �8 � � �1 �16 �1– �1 �16 �5. �1� �1 �15 �2 16� �16 � � � � �1 �32 �1– �1 �32 �6. �1� �1 �31 �2� �32� �32 � � � �1 �64 �1– �1 �64 �7. �1� �1 �63 �2� �64� �64 � � � �1 �128 �1– �1 �128 �8. �1� �1 �127 �2 128� �128 � � � � �1 �256 �1– �1 �256 �9. �1� �1 �255 �2 256� �256 � � � � �1 �512 �1– �1 �512 �10. �1� �1 �511 �2 512� �512 � � � � �1 �1024 �1– �1 �1024 127. (b) n �1� �1 –� �2� � � � (c) No, because for reaching 1, � n �1� �2�� has to be zero for some finite n � � � which is not possible.",
    "answerError": null
   },
   {
@@ -34644,7 +34644,7 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 17,
-   "stem": "�Predicting the ones digit, copy and complete this table and answer the questions that follow. Powers Table [[figure]] x [[figure]] 1^(x) [[figure]] 2^(x) [[figure]] 3^(x) [[figure]] 4^(x) [[figure]] 5^(x) [[figure]] 6^(x) [[figure]] 7^(x) [[figure]] 8^(x) [[figure]] 9^(x) [[figure]] 10^(x) [[figure]] 1 [[figure]] 1 [[figure]] 2 [[figure]] 2 [[figure]] 1 [[figure]] 4 [[figure]] 3 [[figure]] 1 [[figure]] 8 [[figure]] 4 [[figure]] 1 [[figure]] 16 [[figure]] 5 [[figure]] 1 [[figure]] 32 [[figure]] 6 [[figure]] 1 [[figure]] 64 [[figure]] 7 [[figure]] 1 [[figure]] 128 [[figure]] 8 [[figure]] 1 [[figure]] 256 [[figure]] Ones [[figure]] Digits [[figure]] of the [[figure]] Powers [[figure]] 1 [[figure]] 2,4,8,6 [[figure]] (a) Describe patterns you see in the ones digits of the powers. (b) Predict the ones digit in the following: 1. 4¹² 2. 9²⁰ 3. 3¹⁷ 4. 5¹⁰⁰ 5. 10⁵⁰⁰ (c) Predict the ones digit in the following: 1. 31¹⁰ 2. 12¹⁰ 3. 17²¹ 4. 29¹⁰",
+   "stem": "�Predicting the ones digit, copy and complete this table and answer the questions that follow. Powers Table [[figure]] x [[figure]] 1^(x) [[figure]] 2^(x) [[figure]] 3^(x) [[figure]] 4^(x) [[figure]] 5^(x) [[figure]] 6^(x) [[figure]] 7^(x) [[figure]] 8^(x) [[figure]] 9^(x) [[figure]] 10^(x) [[figure]] 1 [[figure]] 1 [[figure]] 2 [[figure]] 2 [[figure]] 1 [[figure]] 4 [[figure]] 3 [[figure]] 1 [[figure]] 8 [[figure]] 4 [[figure]] 1 [[figure]] 16 [[figure]] 5 [[figure]] 1 [[figure]] 32 [[figure]] 6 [[figure]] 1 [[figure]] 64 [[figure]] 7 [[figure]] 1 [[figure]] 128 [[figure]] �8 [[figure]] 1 [[figure]] �256 [[figure]] �Ones [[figure]] Digits [[figure]] of the [[figure]] Powers [[figure]] 1 [[figure]] �2,4,8,6 [[figure]] (a) Describe patterns you see in the ones digits of the powers. (b) Predict the ones digit in the following: 1. 4¹² 2. 9²⁰ 3. 3¹⁷ 4. 5¹⁰⁰ 5. 10⁵⁰⁰ (c) Predict the ones digit in the following: 1. 31¹⁰ 2. 12¹⁰ 3. 17²¹ 4. 29¹⁰",
    "options": [],
    "optionsError": null,
    "answer": "�(a) x 1^(x) 2^(x) 3^(x) 4^(x) 5^(x) 6^(x) 7^(x) 8^(x) 9^(x) 10^(x) 1 1 2 3 4 5 6 7 8 9 10 2 1 4 9 16 25 36 49 64 81 100 3 1 8 27 64 125 216 343 512 729 1000 4 1 16 81 256 625 1296 2401 4096 6561 10000 5 1 32 243 1024 3125 7776 16807 32768 59049 100000 6 1 64 729 4096 15625 46656 117649 262144 531441 1000000 7 1 128 2187 16384 78125 279936 823543 2097152 4782969 10000000 8 1 256 6561 65536 390625 1679616 5764801 16777216 43046721 100000000 One 1 2,4, 3,9, 4,6 5 6 7,9, 8,4, 9,1 0 digit 8,6 7,1 3,1 2,6 of the Power (b) (1) 6 (2) 1 (3) 3 (4) 5 (5) 0 (c) (1) 1 (2) 4 (3) 7 (4) 1",
@@ -34695,7 +34695,7 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 18,
-   "stem": "�This table shows the mass of one atom for five chemical elements. Use it to answer the question given. Element Mass of atom (kg) Titanium 7.95 × 10⁻²⁶ Lead 3.44 × 10⁻²⁵ [[aside]] Planet [[figure]] [[aside]] Distance from Sun [[figure]] (km) [[figure]] Distance from Sun [[figure]] (km) Standard [[figure]] Notation [[figure]] Earth [[figure]] 149,600,000 [[figure]] 1.496 × 10⁸ [[figure]] Jupiter [[figure]] 778,300,000 [[figure]] Mars [[figure]] 227,900,000 [[figure]] Mercury [[figure]] 57,900,000 [[figure]] Neptune [[figure]] 4,497,000,000 [[figure]] Pluto [[figure]] 5,900,000,000 [[figure]] Saturn [[figure]] 1,427,000,000 [[figure]] Uranus [[figure]] 2,870,000,000 [[figure]] Venus [[figure]] 108,200,000 [[figure]] [[aside]] Celestial [[figure]] [[aside]] Body [[figure]] Mass (kg) [[figure]] Mass (kg) [[figure]] Standard [[figure]] Notation [[figure]] Sun [[figure]] 1,990,000,000,000,000,000,000,000,000,000 1.99 × 10³⁰ [[figure]] Mercury [[figure]] 330,000,000,000,000,000,000,000 [[figure]] Venus [[figure]] 4,870,000,000,000,000,000,000,000 [[figure]] Earth [[figure]] 5,970,000,000,000,000,000,000,000 [[figure]] Mars [[figure]] 642,000,000,000,000,000,000,000,000,000 [[figure]] Jupiter [[figure]] 1,900,000,000,000,000,000,000,000,000 [[figure]] Saturn [[figure]] 568,000,000,000,000,000,000,000,000 [[figure]] Uranus [[figure]] 86,800,000,000,000,000,000,000,000 [[figure]] Neptune [[figure]] 102,000,000,000,000,000,000,000,000 [[figure]] Pluto [[figure]] 12,700,000,000,000,000,000,000 [[figure]] Moon [[figure]] 73,500,000,000,000,000,000,000 [[figure]] Silver 1.79 × 10⁻²⁵ Lithium 1.15 × 10⁻²⁶ Hydrogen 1.674 × 10⁻²⁷ (a) Which is the heaviest element? (b) Which element is lighter, Silver or Titanium? (c) List all five elements in order from lightest to heaviest.",
+   "stem": "This table shows the mass of one atom for five chemical elements. Use it to answer the question given. Element Mass of atom (kg) Titanium 7.95 × 10⁻²⁶ Lead 3.44 × 10⁻²⁵ [[aside]] Planet [[figure]] [[aside]] Distance from Sun [[figure]] (km) [[figure]] Distance from Sun [[figure]] (km) Standard [[figure]] Notation [[figure]] �Earth [[figure]] �149,600,000 [[figure]] 1.496 × 10⁸ [[figure]] �Jupiter [[figure]] �778,300,000 [[figure]] �Mars [[figure]] �227,900,000 [[figure]] �Mercury [[figure]] �57,900,000 [[figure]] �Neptune [[figure]] �4,497,000,000 [[figure]] �Pluto [[figure]] �5,900,000,000 [[figure]] �Saturn [[figure]] �1,427,000,000 [[figure]] �Uranus [[figure]] �2,870,000,000 [[figure]] �Venus [[figure]] �108,200,000 [[figure]] [[aside]] Celestial [[figure]] [[aside]] Body [[figure]] Mass (kg) [[figure]] Mass (kg) [[figure]] Standard [[figure]] Notation [[figure]] �Sun [[figure]] 1,990,000,000,000,000,000,000,000,000,000 1.99 × 10³⁰ [[figure]] �Mercury [[figure]] 330,000,000,000,000,000,000,000 [[figure]] �Venus [[figure]] 4,870,000,000,000,000,000,000,000 [[figure]] Earth [[figure]] 5,970,000,000,000,000,000,000,000 [[figure]] �Mars [[figure]] 642,000,000,000,000,000,000,000,000,000 [[figure]] �Jupiter [[figure]] 1,900,000,000,000,000,000,000,000,000 [[figure]] �Saturn [[figure]] 568,000,000,000,000,000,000,000,000 [[figure]] �Uranus [[figure]] 86,800,000,000,000,000,000,000,000 [[figure]] �Neptune [[figure]] 102,000,000,000,000,000,000,000,000 [[figure]] �Pluto [[figure]] 12,700,000,000,000,000,000,000 [[figure]] Moon [[figure]] 73,500,000,000,000,000,000,000 [[figure]] Silver 1.79 × 10⁻²⁵ Lithium 1.15 × 10⁻²⁶ Hydrogen 1.674 × 10⁻²⁷ (a) Which is the heaviest element? (b) Which element is lighter, Silver or Titanium? (c) List all five elements in order from lightest to heaviest.",
    "options": [],
    "optionsError": null,
    "answer": "(a) Lead (b) Titanium (c) Hydrogen < Lithium < Titanium < Silver < Lead",
@@ -34766,7 +34766,7 @@
    "stem": "Consider a quantity of a radioactive substance. The fraction of this quantity that remains after t half-lives can be found by using the expression 3^(–t). (a) What fraction of substance remains after 7 half-lives? (b) After how many half-lives will the fraction be �1 �243� of the original?",
    "options": [],
    "optionsError": null,
-   "answer": "�� (a) 7 �1 �3 �(b) �5 half lines",
+   "answer": "�� (a) �7 �1 �3 �(b) �5 half lines",
    "answerError": null
   },
   {
@@ -35035,7 +35035,7 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 24,
-   "stem": "�Find a single machine that will do the same job as the given hook-up. (a) a (× 2³) machine followed by (× 2⁻²) machine. (b) a (× 2⁴) machine followed by 2 1� 2 � � � �×� � � � � � � � � �machine. (c) a (× 5⁹⁹) machine followed by a (5⁻¹⁰⁰) machine. Maya multiplied (4² × 3²) by thinking about stretching machines. [[figure]] Use Maya’s idea to multiply 5³ × 2³ Maya’s idea is another product law of exponents. Multiplying Expressions with the Same Exponents a^(c) × b^(c) = (a × b)^(c) You can use this law with more than two expressions. If the exponents are the same, multiply the expressions by multiplying the bases and using the same exponent. For example, 2⁸ × 3⁸ × 7⁸ = (2 × 3 × 7)⁸ = 42⁸",
+   "stem": "�Find a single machine that will do the same job as the given hook-up. (a) a (× 2³) machine followed by (× 2⁻²) machine. (b) a (× 2⁴) machine followed by 2 �1� �2 � � � �×� � � � � � � � � �machine. (c) a (× 5⁹⁹) machine followed by a (5⁻¹⁰⁰) machine. Maya multiplied (4² × 3²) by thinking about stretching machines. [[figure]] Use Maya’s idea to multiply 5³ × 2³ Maya’s idea is another product law of exponents. Multiplying Expressions with the Same Exponents a^(c) × b^(c) = (a × b)^(c) You can use this law with more than two expressions. If the exponents are the same, multiply the expressions by multiplying the bases and using the same exponent. For example, 2⁸ × 3⁸ × 7⁸ = (2 × 3 × 7)⁸ = 42⁸",
    "options": [],
    "optionsError": null,
    "answer": "(a) (×2) (b) (× 2²) (c) (× �1 �5 �)",
@@ -35256,7 +35256,7 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 30,
-   "stem": "�Find x. (1) x –5 –7 �1 �1 �( 7) �7 �7 �− �÷ − �= − (2) x x 2 6 3 2 2 2 2 5 5 5 + + × = (3) 2^(x) + 2^(x) + 2^(x) = 192 (4) x 7 �6 �1 �7 − �− �= (5) 2^(3x) = 8^(2x+1) (6) 5^(x) + 5^(x–1) = 750",
+   "stem": "�Find x. (1) x –5 –7 �1 �1 �( 7) �7 �7 �− �÷ − �= − (2) x x 2 6 3 2 �2 �2 �2 �5 �5 �5 + + × = (3) 2^(x) + 2^(x) + 2^(x) = 192 (4) x 7 �6 �1 �7 − �− �= (5) 2^(3x) = 8^(2x+1) (6) 5^(x) + 5^(x–1) = 750",
    "options": [],
    "optionsError": null,
    "answer": "�(1) x = – 2 (2) x = – 7 (3) x = 6 (4) x = 7 (5) x = – 1 (6) x = 4",
@@ -35290,7 +35290,7 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 30,
-   "stem": "�Express each of the following in exponential form: �(1) �1296 �14641 �− �(2) �125 �343 �− �(3) �400 �3969 �(4) 625 10000 −",
+   "stem": "�Express each of the following in exponential form: �(1) �1296 �14641 �− �(2) �125 �343 �− �(3) �400 �3969 �(4) �625 �10000 �−",
    "options": [],
    "optionsError": null,
    "answer": "�(1) 4 �6� �11� � � � � �(2) 3 �5� �7 � � � � � � �(3) 2 �20� �63 � � � � � �(4) �or 4 4 �5 �1� �10 �2 � � � � � � � � � � �",
@@ -35307,7 +35307,7 @@
    "kind": "sa",
    "file": "heep208.pdf",
    "page": 30,
-   "stem": "�Simplify: (1) �1 �2 �3 –3 �1 �1 �2 �2 �4 − − = × (2) �( �) �2 �2 �2 4 3 3 4 �− �− − (3) 4 2 3 �4 �13 �7 �13 �7 �4 � � � � � � �×� �×� � � � � � � � � � � (4) 45 –60 28 –43 1 1 1 1 5 5 5 5 + � � � � � � � � �×� �−� �×� � � � � � � � � � � � � � (5) t⁴ t² [[aside]] 3 –2 4 (9) 27× (3) (3) × × × (6) ( ) ( ) ( ) ( ) ( ) (t ) [[aside]] t⁻³ �[[aside]] 2 �[[aside]] 3 �[[aside]] 2 �[[aside]] –2 �[[aside]] 2 �5 �2 �3 �–2 �3 �–4 [[aside]] 3 [[aside]] 5 3 5 − − × × × ×",
+   "stem": "�Simplify: (1) �1 �2 �3 –3 �1 �1 �2 �2 �4 − − = × (2) �( �) �2 �2 �2 �4 �3 �3 �4 �− �− − (3) 4 2 3 �4 �13 �7 �13 �7 �4 � � � � � � �×� �×� � � � � � � � � � � (4) 45 –60 28 –43 �1 �1 �1 �1 �5 �5 �5 �5 + � � � � � � � � �×� �−� �×� � � � � � � � � � � � � � (5) t⁴ t² [[aside]] 3 –2 4 (9) 27× (3) (3) × × × (6) ( ) ( ) ( ) ( ) ( ) (t ) [[aside]] t⁻³ �[[aside]] 2 �[[aside]] 3 �[[aside]] 2 �[[aside]] –2 �[[aside]] 2 �5 �2 �3 �–2 �3 �–4 [[aside]] 3 [[aside]] 5 3 5 − − × × × ×",
    "options": [],
    "optionsError": null,
    "answer": "�� (1) �8 �15 �(2) 0 �(3) �28 �169 �(4) 0 (5) 3⁷ × t² (6) (3t)⁶ Activities Activity 1 Number of Cuts Number of Ballots 1 2 (= 2¹) 2 4 (= 2²) 3 8 (= 2³) 4 16 (= 2⁴) (a) 2ⁿ (b) 2⁴⁰ (c) 9 cuts (d) Number of Cuts Area (cm²) 0 324 1 162 2 81 3 40.5 4 20.25 5 10.125 6 5.0625 7 2.53125 8 1.265625 9 0.6328125 10 0.3164062 Formula – A × 2⁻ⁿ (changes made in question) (e) 8192 cm² Activity 2 (a) Number of Steps Number of Ballots 1 3 2 3² 3 3³ 4 3⁴ 5 3⁵ (b) 3¹⁵, 3ⁿ (c) At least 11 steps",
@@ -35667,7 +35667,7 @@
    "kind": "true_false",
    "file": "heep209.pdf",
    "page": 12,
-   "stem": "�In case of loss, C.P. = �100 × �+Loss% 100 S.P.",
+   "stem": "�In case of loss, C.P. = �100 �× �+Loss% �100 S.P.",
    "options": [],
    "optionsError": null,
    "answer": "False",
@@ -36041,7 +36041,7 @@
    "kind": "sa",
    "file": "heep209.pdf",
    "page": 22,
-   "stem": "With the decrease in prices of tea by 15% Tonu, the chaiwallah, was able to buy 2 kg more of tea with the same Rs 45 that he spent each month on buying tea leaves for his chai shop. What was the reduced price of tea? What was the original price of tea? [[figure]] [[aside]] The per cent of decrease tells what per cent the amount of decrease is of [[aside]] the original number. [[aside]] To find the per cent of decrease express a ratio of the amount of decrease [[aside]] to the original number as per cent. [[aside]] Per cent of [[aside]] Decrease �[[aside]] amount of decrease�× �[[aside]] 100 [[aside]] original number",
+   "stem": "With the decrease in prices of tea by 15% Tonu, the chaiwallah, was able to buy 2 kg more of tea with the same Rs 45 that he spent each month on buying tea leaves for his chai shop. What was the reduced price of tea? What was the original price of tea? [[figure]] [[aside]] The per cent of decrease tells what per cent the amount of decrease is of [[aside]] the original number. [[aside]] To find the per cent of decrease express a ratio of the amount of decrease [[aside]] to the original number as per cent. [[aside]] Per cent of [[aside]] Decrease �[[aside]] amount of decrease�× �[[aside]] 100 �[[aside]] original number",
    "options": [],
    "optionsError": null,
    "answer": "Original price = Rs 3.97 per kg. Reduced Price = Rs 3.38/kg",
@@ -36358,7 +36358,7 @@
    "kind": "fill_blank",
    "file": "heep210.pdf",
    "page": 11,
-   "stem": "If x varies inversely as y, then x�–�60 y�2 10",
+   "stem": "If x varies inversely as y, then �x�–�60 �y�2 10",
    "options": [],
    "optionsError": null,
    "answer": "300",
@@ -36375,7 +36375,7 @@
    "kind": "fill_blank",
    "file": "heep210.pdf",
    "page": 11,
-   "stem": "If x varies directly as y, then x�12�6 y�48 –",
+   "stem": "If x varies directly as y, then �x�12�6 �y�48 –",
    "options": [],
    "optionsError": null,
    "answer": "96",
@@ -36460,7 +36460,7 @@
    "kind": "fill_blank",
    "file": "heep210.pdf",
    "page": 11,
-   "stem": "��In direct proportion, �b _______ 1 1 a 2 2 a b",
+   "stem": "��In direct proportion, �b _______ 1 1 a �2 2 �a �b",
    "options": [],
    "optionsError": null,
    "answer": "�� =",
@@ -36480,7 +36480,7 @@
    "stem": "�In case of inverse proportion, 2 a �−⁼^(b) 2 �−",
    "options": [],
    "optionsError": null,
-   "answer": "�� a₁ b₂ �a₂ �b₁ �",
+   "answer": "�� �a₁ �b₂ �a₂ �b₁ �",
    "answerError": null
   },
   {
@@ -37107,7 +37107,7 @@
     "�� �1 �4 πr³",
     "�� �πr ³ �32",
     "� �πr³",
-    "�� 3 8 r"
+    "�� 3 �8 �r"
    ],
    "optionsError": null,
    "answer": "(c) � �πr³",
@@ -38849,7 +38849,7 @@
    "kind": "fill_blank",
    "file": "heep213.pdf",
    "page": 6,
-   "stem": "�If 2 B A B then A = ______ and B = ______. 8 A +",
+   "stem": "�If 2 B �A B then A = ______ and B = ______. �8 A +",
    "options": [],
    "optionsError": null,
    "answer": "A = 6, B = 3",
@@ -38866,7 +38866,7 @@
    "kind": "fill_blank",
    "file": "heep213.pdf",
    "page": 6,
-   "stem": "�If × A B B then A = ______ and B = ______. 9 6",
+   "stem": "��If × A B B then A = ______ and B = ______. �9 �6",
    "options": [],
    "optionsError": null,
    "answer": "A = 2, B = 4 (four)",
@@ -38883,7 +38883,7 @@
    "kind": "fill_blank",
    "file": "heep213.pdf",
    "page": 6,
-   "stem": "�If × B 1 B 4 9B then B = _______.",
+   "stem": "��If × B 1 �B �4 �9B then B = _______.",
    "options": [],
    "optionsError": null,
    "answer": null,
@@ -38942,7 +38942,7 @@
   },
   {
    "id": "exemplar:q:8:mathematics:13:-:51",
-   "reason": "reading-order",
+   "reason": "symbol-loss",
    "grade": 8,
    "subject": "Mathematics",
    "chapter": 13,
@@ -38951,10 +38951,61 @@
    "kind": "sa",
    "file": "heep213.pdf",
    "page": 8,
-   "stem": "[[aside]] [[aside]] B 6 [[aside]] +8 A [[aside]] C A 2",
+   "stem": "[[aside]] [[aside]] B 6 �[[aside]] +8 A �[[aside]] C A 2",
    "options": [],
    "optionsError": null,
    "answer": "A = 6, B = 7, C = 1",
+   "answerError": null
+  },
+  {
+   "id": "exemplar:q:8:mathematics:13:-:52",
+   "reason": "symbol-loss",
+   "grade": 8,
+   "subject": "Mathematics",
+   "chapter": 13,
+   "exercise": null,
+   "number": "52",
+   "kind": "sa",
+   "file": "heep213.pdf",
+   "page": 8,
+   "stem": "1 B A �+ A B A �8 A 2",
+   "options": [],
+   "optionsError": null,
+   "answer": "A = 6, B = 9.",
+   "answerError": null
+  },
+  {
+   "id": "exemplar:q:8:mathematics:13:-:53",
+   "reason": "symbol-loss",
+   "grade": 8,
+   "subject": "Mathematics",
+   "chapter": 13,
+   "exercise": null,
+   "number": "53",
+   "kind": "sa",
+   "file": "heep213.pdf",
+   "page": 8,
+   "stem": "C B A �+ C B A �1 A 3 0",
+   "options": [],
+   "optionsError": null,
+   "answer": "A = 5, B = 6, C = 7",
+   "answerError": null
+  },
+  {
+   "id": "exemplar:q:8:mathematics:13:-:54",
+   "reason": "symbol-loss",
+   "grade": 8,
+   "subject": "Mathematics",
+   "chapter": 13,
+   "exercise": null,
+   "number": "54",
+   "kind": "sa",
+   "file": "heep213.pdf",
+   "page": 8,
+   "stem": "B A A �+ B A A �3 A 8",
+   "options": [],
+   "optionsError": null,
+   "answer": "A = 9, B = 1",
    "answerError": null
   },
   {
@@ -38968,10 +39019,27 @@
    "kind": "sa",
    "file": "heep213.pdf",
    "page": 8,
-   "stem": "�A 0 1 B +1 0 A B B 1 0 8",
+   "stem": "�A 0 1 B �+1 0 A B �B 1 0 8",
    "options": [],
    "optionsError": null,
    "answer": "A = 8, B = 9",
+   "answerError": null
+  },
+  {
+   "id": "exemplar:q:8:mathematics:13:-:56",
+   "reason": "symbol-loss",
+   "grade": 8,
+   "subject": "Mathematics",
+   "chapter": 13,
+   "exercise": null,
+   "number": "56",
+   "kind": "sa",
+   "file": "heep213.pdf",
+   "page": 8,
+   "stem": "A B �× 6 �C 6 8",
+   "options": [],
+   "optionsError": null,
+   "answer": "A = 7, B = 8, C = 4",
    "answerError": null
   },
   {
@@ -38985,7 +39053,7 @@
    "kind": "sa",
    "file": "heep213.pdf",
    "page": 8,
-   "stem": "�A B × A B 6 A B",
+   "stem": "�A B �× A B �6 A B",
    "options": [],
    "optionsError": null,
    "answer": "A = 2, B = 5",
@@ -39002,10 +39070,27 @@
    "kind": "sa",
    "file": "heep213.pdf",
    "page": 8,
-   "stem": "�A A × A C A B",
+   "stem": "�A A �× A �C A B",
    "options": [],
    "optionsError": null,
    "answer": "A = 9, B = 1, C = 8",
+   "answerError": null
+  },
+  {
+   "id": "exemplar:q:8:mathematics:13:-:59",
+   "reason": "symbol-loss",
+   "grade": 8,
+   "subject": "Mathematics",
+   "chapter": 13,
+   "exercise": null,
+   "number": "59",
+   "kind": "sa",
+   "file": "heep213.pdf",
+   "page": 8,
+   "stem": "A B �– B 7 �4 5",
+   "options": [],
+   "optionsError": null,
+   "answer": "A = 7, B = 2",
    "answerError": null
   },
   {
@@ -39019,7 +39104,7 @@
    "kind": "sa",
    "file": "heep213.pdf",
    "page": 8,
-   "stem": "��8 A B C – A B C 5 �D 4 8 8 50. 8 5 +4 A B C 3 and B – A = 1",
+   "stem": "��8 A B C �– A B C 5 �D 4 8 8 50. 8 5 �+4 A �B C 3 and B – A = 1",
    "options": [],
    "optionsError": null,
    "answer": "A = 7, B = 2, C = 3, D = 1",
@@ -39036,7 +39121,7 @@
    "kind": "sa",
    "file": "heep213.pdf",
    "page": 8,
-   "stem": "�If 2A7 ÷ A = 33, then find the 67. Let E = 3, B = 7 and A = 4. Find the other digits in the sum B A S E +B A L L G AM E S 68. Let D = 3, L = 7 and A = 8. Find the other digits in the sum M A D + A S + A B U L L 69. If from a two-digit number, we subtract the number formed by reversing its digits then the result so obtained is a perfect cube. How many such numbers are possible? Write all of them. 70. Work out the following multiplication. 12345679 × 9 Use the result to answer the following questions. (a) What will be 12345679 × 45? (b) What will be 12345679 × 63? (c) By what number should 12345679 be multiplied to get 888888888? (d) By what number should 12345679 be multiplied to get 999999999? 71. Find the value of the letters in each of the following: (i) PQ (ii) 2 L M × 6 + L M 1 QQQ M 1 8 72. If 148101B095 is divisible by 33, find the value of B. 73. If 123123A4 is divisible by 11, find the value of A. 74. If 56x32y is divisible by 18, find the least value of y.",
+   "stem": "�If 2A7 ÷ A = 33, then find the 67. Let E = 3, B = 7 and A = 4. Find the other digits in the sum B A S E +B A L L G AM E S 68. Let D = 3, L = 7 and A = 8. Find the other digits in the sum M A D + A S �+ A �B U L L 69. If from a two-digit number, we subtract the number formed by reversing its digits then the result so obtained is a perfect cube. How many such numbers are possible? Write all of them. 70. Work out the following multiplication. 12345679 × 9 Use the result to answer the following questions. (a) What will be 12345679 × 45? (b) What will be 12345679 × 63? (c) By what number should 12345679 be multiplied to get 888888888? (d) By what number should 12345679 be multiplied to get 999999999? 71. Find the value of the letters in each of the following: (i) PQ (ii) 2 L M × 6 + L M 1 QQQ M 1 8 72. If 148101B095 is divisible by 33, find the value of B. 73. If 123123A4 is divisible by 11, find the value of A. 74. If 56x32y is divisible by 18, find the least value of y.",
    "options": [],
    "optionsError": null,
    "answer": null,
@@ -41350,11 +41435,11 @@
    "options": [
     "��1 �6 �2 �−",
     "� �2⁻ ⁶",
-    "�� 1 6 �2",
+    "�� �1 �6 �2",
     "�� �2⁶"
    ],
    "optionsError": null,
-   "answer": "(C) �� 1 6 �2",
+   "answer": "(C) �� �1 �6 �2",
    "answerError": null
   },
   {
@@ -41414,13 +41499,13 @@
    "page": 5,
    "stem": "Which of the following is equal to x?",
    "options": [
-    "�12 5 7 7 �–x �x",
+    "��12 �5 �7 �7 �–x �x",
     "�� �(x �)³ �1 �4 �12",
-    "�( �)³ 2 �³x",
-    "�12 7 7 12 x x ×"
+    "�( �)³ �2 �³x",
+    "��12 �7 �7 �12 x x ×"
    ],
    "optionsError": null,
-   "answer": "(C) �( �)³ 2 �³x",
+   "answer": "(C) �( �)³ �2 �³x",
    "answerError": null
   },
   {
@@ -41655,7 +41740,7 @@
    "kind": "sa",
    "file": "ieep201.pdf",
    "page": 10,
-   "stem": "�Rationalise the denominator of the following: (i) [[figure]] 2 [[figure]] �3 3 [[figure]] �(ii) [[figure]] �40 [[figure]] �3 [[figure]] �(iii) [[figure]] 3+ [[figure]] �2 [[figure]] �4 2 [[figure]] (iv) [[figure]] 16 [[figure]] �41 – 5 [[figure]] �(v) [[figure]] 2+ [[figure]] �3 [[figure]] 2 – [[figure]] �3 [[figure]] (vi) [[figure]] �6 [[figure]] �2+ [[figure]] �3 [[figure]] (vii) [[figure]] �3+ [[figure]] �2 [[figure]] �3 – [[figure]] �2 [[figure]] (viii) [[figure]] �3 5+ [[figure]] �3 [[figure]] �5 – [[figure]] �3 [[figure]] (ix) [[figure]] �4 3+ [[figure]] �5 2 [[figure]] �48+ [[figure]] �18 [[figure]]",
+   "stem": "�Rationalise the denominator of the following: (i) [[figure]] �2 [[figure]] �3 3 [[figure]] �(ii) [[figure]] �40 [[figure]] �3 [[figure]] �(iii) [[figure]] �3+ [[figure]] �2 [[figure]] �4 2 [[figure]] (iv) [[figure]] �16 [[figure]] �41 – 5 [[figure]] �(v) [[figure]] 2+ [[figure]] �3 [[figure]] 2 – [[figure]] �3 [[figure]] (vi) [[figure]] �6 [[figure]] �2+ [[figure]] �3 [[figure]] (vii) [[figure]] �3+ [[figure]] �2 [[figure]] �3 – [[figure]] �2 [[figure]] (viii) [[figure]] �3 5+ [[figure]] �3 [[figure]] �5 – [[figure]] �3 [[figure]] (ix) [[figure]] �4 3+ [[figure]] �5 2 [[figure]] �48+ [[figure]] �18 [[figure]]",
    "options": [],
    "optionsError": null,
    "answer": "�� (i) �2 �3 �9 �(ii) �2 �30 �3 �(iii) �2�+ �3 2 �8 �(iv) �41+ �5 (v) 7+ �4 3 �(vi) 3 2− �2 3 (vii) 5+ �2 6 (viii) 9+ �2 15 �(ix) �9+ �4 6 �15",
@@ -41706,7 +41791,7 @@
    "kind": "sa",
    "file": "ieep201.pdf",
    "page": 11,
-   "stem": "�Rationalise the denominator in each of the following and hence evaluate by taking �2= �1.414, 3= �1.732 and 5= 2.236, upto three places of decimal. (i) 4 �3 �(ii) 6 �6 �(iii) �10 – �5 �2 (iv) [[figure]] �2 [[figure]] �2+ [[figure]] �2 [[figure]] �(v) [[figure]] 1 [[figure]] �3+ [[figure]] �2 [[figure]]",
+   "stem": "�Rationalise the denominator in each of the following and hence evaluate by taking �2= �1.414, 3= �1.732 and 5= 2.236, upto three places of decimal. (i) �4 �3 �(ii) 6 �6 �(iii) �10 – �5 �2 (iv) [[figure]] �2 [[figure]] �2+ [[figure]] �2 [[figure]] �(v) [[figure]] 1 [[figure]] �3+ [[figure]] �2 [[figure]]",
    "options": [],
    "optionsError": null,
    "answer": "(i) 2.309 (ii) 2.449 (iii) 0.463 (iv) 0.414 (v) 0.318",
@@ -41723,7 +41808,7 @@
    "kind": "sa",
    "file": "ieep201.pdf",
    "page": 11,
-   "stem": "�Simplify : (i) (1 �)² 1 3 3 3 2 3 + + (ii) 4 12 6 3 8 32 5 5 5 − (iii) 2 3 1 27 − �(iv) �( �) �2 �1 �1 �4 2 625 − − (v) 1 1 3 2 1 2 6 3 9 27 3 3 − − × × (vi) �1 �1 �2 �3 �3 �3 64 64 64 – �− (vii) 1 1 3 3 1 3 8 16 32 − ×",
+   "stem": "�Simplify : (i) (1 �)² �1 3 3 3 2 3 + + (ii) 4 12 6 �3 �8 �32 �5 �5 �5 − (iii) �2 �3 �1 �27 �− �(iv) �( �) �2 �1 �1 �4 �2 625 − − (v) �1 �1 �3 �2 �1 �2 �6 �3 9 27 3 3 − − × × (vi) �1 �1 �2 �3 �3 �3 64 64 64 – �− (vii) �1 �1 �3 �3 �1 �3 8 16 32 − ×",
    "options": [],
    "optionsError": null,
    "answer": "�� (i) 6 �(ii) �2025 �64 �(iii) 9 �(iv) 5 (v) �1 �– 3 �3 �(vi) –3 �(vii) 16",
@@ -41791,7 +41876,7 @@
    "kind": "la",
    "file": "ieep201.pdf",
    "page": 12,
-   "stem": "�� �If a = �3�+ �5 �2 �, then find the value of a 2 2 �1 �a �+ �.",
+   "stem": "�� �If a = �3�+ �5 �2 �, then find the value of a 2 �2 �1 �a �+ �.",
    "options": [],
    "optionsError": null,
    "answer": "�� 7",
@@ -41825,7 +41910,7 @@
    "kind": "la",
    "file": "ieep201.pdf",
    "page": 12,
-   "stem": "�Simplify : (256 ) �(₄⁻ ) 3 2 −",
+   "stem": "�Simplify : (256 ) �(₄⁻ ) �3 �2 −",
    "options": [],
    "optionsError": null,
    "answer": "�� �1 �2",
@@ -41842,7 +41927,7 @@
    "kind": "la",
    "file": "ieep201.pdf",
    "page": 12,
-   "stem": "�Find the value of ( ) ( ) ( ) 2 3 1 3 4 5 4 1 2 216 256⁻ 243⁻ − + +",
+   "stem": "�Find the value of ( ) ( ) ( ) �2 �3 �1 �3 �4 �5 4 1 2 216 256⁻ 243⁻ − + +",
    "options": [],
    "optionsError": null,
    "answer": "�� 214",
@@ -41861,13 +41946,13 @@
    "page": 2,
    "stem": "Which one of the following is a polynomial?",
    "options": [
-    "�2 2 �2 �– �2 �x �x",
+    "�2 �2 �2 �– �2 �x �x",
     "�� �2x − �1",
-    "�3 �2 �2 �3x �x �x +",
-    "�1 1 x− x+"
+    "��3 �2 �2 �3x �x �x +",
+    "��1 �1 �x− �x+"
    ],
    "optionsError": null,
-   "answer": "(C) �3 �2 �2 �3x �x �x +",
+   "answer": "(C) ��3 �2 �2 �3x �x �x +",
    "answerError": null
   },
   {
@@ -41974,7 +42059,7 @@
     "1",
     "–1",
     "0",
-    "�1 2"
+    "��1 �2"
    ],
    "optionsError": null,
    "answer": "(C) 0",
@@ -41994,7 +42079,7 @@
    "stem": "�� If 49x² – b = �1 �1 �7x �7 – �2 �2 �x � � � �+ � � � � � �, then the value of b is",
    "options": [
     "0",
-    "�1 �2",
+    "��1 �2",
     "�� �1 �4",
     "�� �1 �2"
    ],
@@ -42013,7 +42098,7 @@
    "kind": "vsa",
    "file": "ieep202.pdf",
    "page": 4,
-   "stem": "�Which of the following expressions are polynomials? Justify your answer: (i) 8 (ii) 2 �3x – 2x (iii) 1– �5x �(iv) –2 �1 �5x+ �7 (v) �5x �+ �(x �)(x �) �– 2 �– 4 �x �(vi) �1 �1 �x + (vii) 3 2 �1 �2 �– �4 – 7 �7 �3 �a �a �a �+ �(viii) �1 �2x",
+   "stem": "�Which of the following expressions are polynomials? Justify your answer: (i) 8 (ii) 2 �3x – 2x (iii) 1– �5x �(iv) �–2 �1 �5x+ �7 (v) �5x �+ �(x �)(x �) �– 2 �– 4 �x �(vi) �1 �1 �x + (vii) 3 2 �1 �2 �– �4 – 7 �7 �3 �a �a �a �+ �(viii) �1 �2x",
    "options": [],
    "optionsError": null,
    "answer": "Polynomials: (i), (ii), (iv), (vii) because the exponent of the variable after simplification in each of these is a whole number.",
@@ -42305,7 +42390,7 @@
    "stem": "�Expand the following : (i) (3a – 2b)³ (ii) 3 �1 �3 �y� �x � �+ � � � � �(iii) � 3 �1 �4 – 3x�� � � � �",
    "options": [],
    "optionsError": null,
-   "answer": "�(i) 27a³ – 54a²b + 36ab² – 8b³ (ii) 2 3 3 2 �1 �3x �27 �y �y �y x x �+ �+ �+ �(iii) 2 3 �16 �4 �1 �64− �– �3x �27x �x �+",
+   "answer": "�(i) 27a³ – 54a²b + 36ab² – 8b³ (ii) 2 3 �3 �2 �1 �3x �27 �y �y �y �x �x �+ �+ �+ �(iii) �2 �3 �16 �4 �1 �64− �– �3x �27x �x �+",
    "answerError": null
   },
   {
@@ -45588,7 +45673,7 @@
    "stem": "�ABC and BDE are two equilateral triangles such that D is the mid-point of BC. �Then ar (BDE) = �4 ar ( ABC). [[figure]] 1 [[figure]]",
    "options": [],
    "optionsError": null,
-   "answer": "�True, 2 2 2 2 ar BDE �3 (BD) (BC) 1 ar ABC 4 (BC) �3 (BC) 4 = = =",
+   "answer": "�True, 2 2 �2 �2 �ar BDE �3 (BD) �(BC) �1 �ar ABC �4 �(BC) �3 (BC) �4 = = =",
    "answerError": null
   },
   {
@@ -47306,7 +47391,7 @@
    "options": [
     "�3 �4 �3 �r �π",
     "� �4πr³",
-    "�� 3 �8π �3 r",
+    "�� 3 �8π �3 �r",
     "�� 3 �32 �3 �r �π"
    ],
    "optionsError": null,
@@ -47468,7 +47553,7 @@
    "stem": "If a sphere is inscribed in a cube, then the ratio of the volume of the cube to the volume of the sphere will be 6 : π.",
    "options": [],
    "optionsError": null,
-   "answer": "�True, V₁ (volume of cube) = a³ �Radius of sphere = 2 �a .V₂� (Volume of sphere) = 4�π 3 3 8 a V₁ : V₂ = 6 : π",
+   "answer": "�True, V₁ (volume of cube) = a³ �Radius of sphere = 2 �a .V₂� (Volume of sphere) = 4�π 3 3 �8 �a V₁ : V₂ = 6 : π",
    "answerError": null
   },
   {
@@ -47660,12 +47745,12 @@
    "kind": "mcq_single",
    "file": "ieep214.pdf",
    "page": 5,
-   "stem": "�� If x is the mean of x₁, x₂, ... , xₙ, then for a ≠ 0, the mean of ax₁, ax₂, ..., axₙ, ¹�x, �a ₂x a , ... , ⁿ�x a is",
+   "stem": "�� If x is the mean of x₁, x₂, ... , xₙ, then for a ≠ 0, the mean of ax₁, ax₂, ..., axₙ, ¹�x, �a �₂x �a , ... , ⁿ�x a is",
    "options": [
     "�� �1� �a+ �x �a� � � � �",
     "�� �1� �2 �x �a+ �a� � � � �",
     "�� �1� �x �a+ �a� �n � � � �",
-    "�� 1� 2n �a+ �x �a� � � � �"
+    "�� �1� 2n �a+ �x �a� � � � �"
    ],
    "optionsError": null,
    "answer": "(B) �� �1� �2 �x �a+ �a� � � � �",
@@ -47765,7 +47850,7 @@
    "kind": "vsa",
    "file": "ieep214.pdf",
    "page": 9,
-   "stem": "�A football player scored the following number of goals in the 10 matches : 1, 3, 2, 5, 8, 6, 1, 4, 7, 9 Since the number of matches is 10 (an even number), therefore, the median = th th 5 observation + 6 observation 2 �= �8�+ �6�= �7 �2 Is it the correct answer and why?",
+   "stem": "�A football player scored the following number of goals in the 10 matches : 1, 3, 2, 5, 8, 6, 1, 4, 7, 9 Since the number of matches is 10 (an even number), therefore, the median = th th �5 observation + 6 observation �2 �= �8�+ �6�= �7 �2 Is it the correct answer and why?",
    "options": [],
    "optionsError": null,
    "answer": "No, the data have first to be arranged in ascending (or descending) order before finding the median.",
@@ -48798,7 +48883,7 @@
    "stem": "Calculate the mass of sodium sulphate required to prepare its 20% (mass percent) solution in 100g of water?",
    "options": [],
    "optionsError": null,
-   "answer": "�Let the mass of sodium sulphate required be = x g The mass of solution would be = (x +100) g x g of solute in (x + 100) g of solution �20% = �×100 �+100 x x 20 x + 2000= 100 x 80 x = 2000 x = �2000 80 = 25 g",
+   "answer": "�Let the mass of sodium sulphate required be = x g The mass of solution would be = (x +100) g x g of solute in (x + 100) g of solution �20% = �×100 �+100 �x �x 20 x + 2000= 100 x 80 x = 2000 x = �2000 80 = 25 g",
    "answerError": null
   },
   {
@@ -48902,13 +48987,13 @@
    "page": 2,
    "stem": "Mass of one atom of oxygen is",
    "options": [
-    "�� 23 �16 �g �6.023× �10",
-    "�� 23 �32 �g �6.023× �10",
-    "�� 23 �1 �g �6.023× �10",
+    "�� �23 �16 �g �6.023× �10",
+    "�� �23 �32 �g �6.023× �10",
+    "�� �23 �1 �g �6.023× �10",
     "�8u"
    ],
    "optionsError": null,
-   "answer": "(a) �� 23 �16 �g �6.023× �10. Mass of one atom of oxygen = Atomic mass/N_A = �× 23 �16 �g 6.022 10",
+   "answer": "(a) �� �23 �16 �g �6.023× �10. Mass of one atom of oxygen = Atomic mass/N_A = �× �23 �16 �g �6.022 10",
    "answerError": null
   },
   {
@@ -48930,7 +49015,7 @@
     "6.022 × 10²¹"
    ],
    "optionsError": null,
-   "answer": "(a) 6.68 × 10²³. Number of moles of sucrose = �Massof substance Molar mass 1 �3.42 g �0.01mol �342 g mol⁻ �= �= 1 mol of sucrose (C₁₂ H₂₂ O₁₁) contains = 11× N_A atoms of oxygen 0.01 mol of sucrose (C₁₂ H₂₂ O₁₁) contains = 0.01 × 11 × N_A atoms of oxygen = 0.11× N_A atoms of oxygen �Number of moles of water= 1 �18g �1mol �18g mol⁻ �= 1 mol of water (H₂O) contains 1×N A atom of oxygen Total number of oxygen atoms = Number of oxygen atoms from sucrose + Number of oxygen atoms from water = 0.11 N_A + 1.0 N_A = 1.11N_A Number of oxygen atoms in solution = 1.11 × Avogadro’s number = 1.11 × 6.022 ×10²³ = 6.68 × 10²³",
+   "answer": "(a) 6.68 × 10²³. Number of moles of sucrose = �Massof substance Molar mass �1 �3.42 g �0.01mol �342 g mol⁻ �= �= 1 mol of sucrose (C₁₂ H₂₂ O₁₁) contains = 11× N_A atoms of oxygen 0.01 mol of sucrose (C₁₂ H₂₂ O₁₁) contains = 0.01 × 11 × N_A atoms of oxygen = 0.11× N_A atoms of oxygen �Number of moles of water= �1 �18g �1mol �18g mol⁻ �= 1 mol of water (H₂O) contains 1×N A atom of oxygen Total number of oxygen atoms = Number of oxygen atoms from sucrose + Number of oxygen atoms from water = 0.11 N_A + 1.0 N_A = 1.11N_A Number of oxygen atoms in solution = 1.11 × Avogadro’s number = 1.11 × 6.022 ×10²³ = 6.68 × 10²³",
    "answerError": null
   },
   {
@@ -49032,7 +49117,7 @@
    "stem": "What is the fraction of the mass of water due to neutrons?",
    "options": [],
    "optionsError": null,
-   "answer": "�~ 8/18 Mass of one mole (Avogadro Number) of neutrons ~ 1 g Mass of one neutron = A �1 �g �Avogadro Number (N ) Mass of one molecule of water = A A �Molar mass �18 g �N �N �= There are 8 neutrons in one atom of oxygen Mass of 8 neutrons = A 8 N �Fraction of mass of water due to neutrons ~ �18",
+   "answer": "�~ 8/18 Mass of one mole (Avogadro Number) of neutrons ~ 1 g Mass of one neutron = A �1 �g �Avogadro Number (N ) Mass of one molecule of water = A A �Molar mass �18 g �N �N �= There are 8 neutrons in one atom of oxygen Mass of 8 neutrons = A �8 �N �Fraction of mass of water due to neutrons ~ �18",
    "answerError": null
   },
   {
@@ -49134,7 +49219,7 @@
    "stem": "The mass of one steel screw is 4.11g. Find the mass of one mole of these steel screws. Compare this value with the mass of the Earth (5.98 × 10²⁴kg). Which one of the two is heavier and by how many times?",
    "options": [],
    "optionsError": null,
-   "answer": "�One mole of screws weigh = 2.475 ×10²⁴g = 2.475×10²¹ kg 24 3 21 �5.98 ×10 �kg �Mass of the Earth �= 2.4 ×10 �Mass of 1 mole of screws 2.475× 10 kg �= Mass of earth is 2.4×10³ times the mass of screws The earth is 2400 times heavier than one mole of screws.",
+   "answer": "�One mole of screws weigh = 2.475 ×10²⁴g = 2.475×10²¹ kg 24 3 �21 �5.98 ×10 �kg �Mass of the Earth �= 2.4 ×10 �Mass of 1 mole of screws �2.475× 10 �kg �= Mass of earth is 2.4×10³ times the mass of screws The earth is 2400 times heavier than one mole of screws.",
    "answerError": null
   },
   {
@@ -49151,7 +49236,7 @@
    "stem": "A sample of vitamic C is known to contain 2.58 ×10²⁴ oxygen atoms. How many moles of oxygen atoms are present in the sample?",
    "options": [],
    "optionsError": null,
-   "answer": "�1 mole of oxygen atoms = 6.023×10²³ atoms ∴Number of moles of oxygen atoms = 24 23 2.58 ×10 6.022×10 = 4.28 mol 4.28 moles of oxygen atoms.",
+   "answer": "�1 mole of oxygen atoms = 6.023×10²³ atoms ∴Number of moles of oxygen atoms = 24 �23 �2.58 ×10 �6.022×10 = 4.28 mol 4.28 moles of oxygen atoms.",
    "answerError": null
   },
   {
@@ -49185,7 +49270,7 @@
    "stem": "The visible universe is estimated to contain 10²² stars. How many moles of stars are present in the visible universe?",
    "options": [],
    "optionsError": null,
-   "answer": "�Number of moles of stars = 22 23 10 6.023×10 = 0.0166 mols",
+   "answer": "�Number of moles of stars = 22 �23 �10 �6.023×10 = 0.0166 mols",
    "answerError": null
   },
   {
@@ -49270,7 +49355,7 @@
    "stem": "A sample of ethane (C₂H₆) gas has the same mass as 1.5 ×10²⁰ molecules of methane (CH₄). How many C₂H₆ molecules does the sample of gas contain?",
    "options": [],
    "optionsError": null,
-   "answer": "�Mass of 1 molecule of CH₄ = A 16g N Mass of 1.5 ×10²⁰ molecules of methane = 20 A 1.5× 10 �16 g �N × �Mass of 1 molecule of C₂H₆ = �30 g A N Mass of molecules of C₂H₆ is = 20 A 1.5× 10 �16 g �N × ∴ Number of molecules of ethane =�1.5 20 20 A A �10 �16 �N �0.8 �10 �N �30 �× �× �× �= �×",
+   "answer": "�Mass of 1 molecule of CH₄ = A �16g �N Mass of 1.5 ×10²⁰ molecules of methane = 20 A 1.5× 10 �16 g �N × �Mass of 1 molecule of C₂H₆ = �30 g A N Mass of molecules of C₂H₆ is = 20 A 1.5× 10 �16 g �N × ∴ Number of molecules of ethane =�1.5 20 20 �A A �10 �16 �N �0.8 �10 �N �30 �× �× �× �= �×",
    "answerError": null
   },
   {
@@ -49338,7 +49423,7 @@
    "stem": "In photosynthesis, 6 molecules of carbon dioxide combine with an equal number of water molecules through a complex series of reactions to give a molecule of glucose having a molecular formula C₆ H₁₂ O₆. How many grams of water would be required to produce 18 g of glucose? Compute the volume of water so consumed assuming the density of water to be 1 g cm⁻³. �[[aside]] Fig. 3.2 [[figure]]",
    "options": [],
    "optionsError": null,
-   "answer": "�� �6CO₂ + 6 H₂O �Chlorophyll Sunlight → C₆ H₁₂ O₆ + 6O₂ 1 mole of glucose needs 6 moles of water 180 g of glucose needs (6×18) g of water �1 g of glucose will need �180 g of water. 108 �18 g of glucose would need �180 × 18 g of water = 10.8 g 108 �Volume of water used = �Mass Density -3 10.8 g 1g cm = =10.8 cm³ .",
+   "answer": "�� �6CO₂ + 6 H₂O �Chlorophyll Sunlight → C₆ H₁₂ O₆ + 6O₂ 1 mole of glucose needs 6 moles of water 180 g of glucose needs (6×18) g of water �1 g of glucose will need �180 g of water. 108 �18 g of glucose would need �180 × 18 g of water = 10.8 g 108 �Volume of water used = �Mass �Density �-3 �10.8 g �1g cm = =10.8 cm³ .",
    "answerError": null
   },
   {
@@ -49543,7 +49628,7 @@
    "stem": "The ratio of the radii of hydrogen atom and its nucleus is ~ 10⁵. Assuming the atom and the nucleus to be spherical, (i) what will be the ratio of their sizes? (ii) If atom is represented by planet earth ‘Rₑ’ = 6.4 ×10⁶ m, estimate the size of the nucleus.",
    "options": [],
    "optionsError": null,
-   "answer": "�� �(i) Volume of the sphere = �3 π 3 �4 �r Let R be the radius of the atom and r be that of the nucleus. ⇒ R = 10⁵ r �Volume of the atom = �3 π 3 �4 �R = �4 �3 π (10⁵r)³ (Q R = 10⁵r ) �=�3 π 3 15 �4 �r �10 �× �Volume of the nucleus = �3π �3 �4 �r Ratio of the size of atom to that of nucleus = 15 3 15 3 �4 × 10 �r �3 �= 10 �4�π �r �3 π × �113 (ii) If the atom is represented by the planet earth (Rₑ= 6.4×10⁶m) then the radius of the nucleus would be r e n 5 R 10 = 6 n 5 �6.4 ×10 m �r 10 = = 6.4×10 m = 64 m.",
+   "answer": "�� �(i) Volume of the sphere = �3 π 3 �4 �r Let R be the radius of the atom and r be that of the nucleus. ⇒ R = 10⁵ r �Volume of the atom = �3 π 3 �4 �R = �4 �3 π (10⁵r)³ (Q R = 10⁵r ) �=�3 π 3 15 �4 �r �10 �× �Volume of the nucleus = �3π �3 �4 �r Ratio of the size of atom to that of nucleus = 15 3 15 3 �4 × 10 �r �3 �= 10 �4�π �r �3 π × �113 (ii) If the atom is represented by the planet earth (Rₑ= 6.4×10⁶m) then the radius of the nucleus would be r �e n �5 �R �10 = 6 n �5 �6.4 ×10 m �r �10 = = 6.4×10 m = 64 m.",
    "answerError": null
   },
   {
@@ -50252,7 +50337,7 @@
    "stem": "A motorcyclist drives from A to B with a uniform speed of 30 km h⁻¹ and returns back with a speed of 20 km h⁻¹. Find its average speed.",
    "options": [],
    "optionsError": null,
-   "answer": "��Let AB = x, So t₁=, �30 2 andt = �20 x x Total time = t₁ + t₂ = �5�x h. 60 –1 �Total distance �2 �Average speed for entire journey = �= �= 24 km h �5x �Total Time x",
+   "answer": "��Let AB = x, So t₁=, �30 2 andt = �20 x �x Total time = t₁ + t₂ = �5�x h. 60 –1 �Total distance �2 �Average speed for entire journey = �= �= 24 km h �5x �Total Time �60 �x",
    "answerError": null
   },
   {
@@ -50354,7 +50439,7 @@
    "stem": "An electron moving with a velocity of 5 × 10⁴ m s⁻¹ enters into a uniform electric field and acquires a uniform acceleration of 10⁴ m s⁻² in the direction of its initial motion. (i) Calculate the time in which the electron would acquire a velocity double of its initial velocity. (ii) How much distance the electron would cover in this time?",
    "options": [],
    "optionsError": null,
-   "answer": "�Given initial velocity, u = 5 × 10⁴ m s⁻¹ and acceleration, a = 10⁴ m s⁻² (i) final velocity = v = 2 u = 2 × 5 ×10 ⁴ m s⁻¹ =10 × 10 ⁴ m s ⁻¹ To find t, use v = u + at �or t= �v u �a - � � � � � � 4 4 4 4 4 �10 ×10 - 5×10 �5 ×10 �= �= 5 s �10 �10 (ii) �Using s = ut + �1at 2 2 �= (5 ×10⁴) × 5 + �1 (10 ) × (5) 4 2 �2 �= 25 ×10⁴ + 4 �25 ×10 �2 �= 37.5×10⁴ m �131",
+   "answer": "�Given initial velocity, u = 5 × 10⁴ m s⁻¹ and acceleration, a = 10⁴ m s⁻² (i) final velocity = v = 2 u = 2 × 5 ×10 ⁴ m s⁻¹ =10 × 10 ⁴ m s ⁻¹ To find t, use v = u + at �or t= �v u �a �-� � � � � � 4 4 4 �4 �4 �10 ×10 - 5×10 �5 ×10 �= �= 5 s �10 �10 (ii) �Using s = ut + �1at 2 2 �= (5 ×10⁴) × 5 + �1 (10 ) × (5) 4 2 �2 �= 25 ×10⁴ + 4 �25 ×10 �2 �= 37.5×10⁴ m �131",
    "answerError": null
   },
   {
@@ -50466,7 +50551,7 @@
    "stem": "Using second law of motion, derive the relation between force and acceleration. A bullet of 10 g strikes a sand-bag at a speed of 10³ m s⁻¹ and gets embedded after travelling 5 cm. Calculate (i) the resistive force exerted by the sand on the bullet (ii) the time taken by the bullet to come to rest.",
    "options": [],
    "optionsError": null,
-   "answer": "�(i) m =10 g = �10 �kg 1000 u =10³ m/s v = 0 s = �5 m �100 v²- u² = 2 a s �0 - (10³)² = 2.a. �100 �5 a = �1000× �1000 �2. 5 �− �100 �× = - 10⁷ m s⁻² F = m.a = 10 ⁵ N (ii) v = u + a t 0 = 10³- 10 ⁷t 10⁷t =10³ t = 3 7 10 10 =10⁻⁴ s",
+   "answer": "�(i) m =10 g = �10 �kg �1000 u =10³ m/s v = 0 s = �5 m �100 v²- u² = 2 a s �0 - (10³)² = 2.a. �100 �5 a = �1000× �1000 �2. 5 �− �100 �× = - 10⁷ m s⁻² F = m.a = 10 ⁵ N (ii) v = u + a t 0 = 10³- 10 ⁷t 10⁷t =10³ t = 3 �7 �10 �10 =10⁻⁴ s",
    "answerError": null
   },
   {
@@ -50483,7 +50568,7 @@
    "stem": "Derive the unit of force using the second law of motion. A force of 5 N produces an acceleration of 8 m s⁻² on a mass m₁ and an acceleration of 24 m s⁻² on a mass m₂. What acceleration would the same force provide if both the masses are tied together?",
    "options": [],
    "optionsError": null,
-   "answer": "�F = m a = kg m s ⁻² This unit is also called newton. Its symbol is N. �m₁ = �a 1 F �= �8 kg, 5 �m₂ = �a 2 F �= �24 kg, 5 M = 5�+ 5 8 24 � kg = 5 6 �kg Acceleration produced in M, a = �F �M �= �5 �56� = 6 m s⁻² �133",
+   "answer": "�F = m a = kg m s ⁻² This unit is also called newton. Its symbol is N. �m₁ = �a 1 F �= �8 kg, 5 �m₂ = �a 2 F �= �24 kg, 5 M = �5�+ 5 �8 24 � kg = 5 6 �kg Acceleration produced in M, a = �F �M �= �5 �56� = 6 m s⁻² �133",
    "answerError": null
   },
   {
@@ -50595,7 +50680,7 @@
    "stem": "How does the weight of an object vary with respect to mass and radius of the earth. In a hypothetical case, if the diameter of the earth becomes half of its present value and its mass becomes four times of its present value, then how would the weight of any object on the surface of the earth be affected?",
    "options": [],
    "optionsError": null,
-   "answer": "�Weight of an object is directly proportional to the mass of the earth and inversely proportional to the square of the radius of the earth. i.e., �Weight of a body ∝ �R² M Original weight Wₒ = m g = m G �M R² When hypothetically M becomes 4 M and R becomes �R 2 �then weight becomes W n= m G �M �R�)² �( 4 2 = (16 m G) �M �R² = 16 × W° The weight will become 16 times.",
+   "answer": "�Weight of an object is directly proportional to the mass of the earth and inversely proportional to the square of the radius of the earth. i.e., �Weight of a body ∝ �R² M Original weight Wₒ = m g = m G �M R² When hypothetically M becomes 4 M and R becomes �R 2 �then weight becomes W n= m G �M �R�)² �( �4 �2 = (16 m G) �M �R² = 16 × W° The weight will become 16 times.",
    "answerError": null
   },
   {
@@ -50629,7 +50714,7 @@
    "stem": "Two objects of masses m₁ and m₂ having the same size are dropped simultaneously from heights h₁ and h₂ respectively. Find out the ratio of time they would take in reaching the ground. Will this ratio remain the same if (i) one of the objects is hollow and the other one is solid and (ii) both of them are hollow, size remaining the same in each case. Give reason.",
    "options": [],
    "optionsError": null,
-   "answer": "��h₁ = �1 �2 gt ² 1 �h₂ = �1 �2 gt ² ₂ , as x = o t₁ [[figure]] �t₂� = [[figure]] �h₁ [[figure]] �h₂ �. [[figure]] Ratio will not change in either case because acceleration remains the same. In case of free-fall acceleration does not depend upon mass and size.",
+   "answer": "��h₁ = �1 �2 gt ² 1 �h₂ = �1 �2 gt ² ₂ , as x = o �t₁ [[figure]] �t₂� = [[figure]] �h₁ [[figure]] �h₂ �. [[figure]] Ratio will not change in either case because acceleration remains the same. In case of free-fall acceleration does not depend upon mass and size.",
    "answerError": null
   },
   {
@@ -50774,7 +50859,7 @@
    "stem": "The weight of a person on a planet A is about half that on the earth. He can jump upto 0.4 m height on the surface of the earth. How high he can jump on the planet A? [[aside]] Fig. 11.1",
    "options": [],
    "optionsError": null,
-   "answer": "�Since, weight of the person on planet A is half that on the earth, acceleration due to gravity there, will be 1/2 that on the earth. Hence he can jump double the height with the same muscular force. or The potential energy of the person will remain the same on the earth and on planet A. �Thus, m g₁h₁ = m g₂h₂ �if g₁ = g then g₂ =�2 �g, h₁ = 0.4 �1 Then h₂ = g h₁ g 1 2 g×0.4 �g �= �2 or h₂ = 0.4 × 2 = 0.8m",
+   "answer": "�Since, weight of the person on planet A is half that on the earth, acceleration due to gravity there, will be 1/2 that on the earth. Hence he can jump double the height with the same muscular force. or The potential energy of the person will remain the same on the earth and on planet A. �Thus, m g₁h₁ = m g₂h₂ �if g₁ = g then g₂ =�2 �g, h₁ = 0.4 �1 Then h₂ = �g h₁ �g �1 2 �g×0.4 �g �= �2 or h₂ = 0.4 × 2 = 0.8m",
    "answerError": null
   },
   {
@@ -50791,7 +50876,7 @@
    "stem": "The velocity of a body moving in a straight line is increased by applying a constant force F, for some distance in the direction of the motion. Prove that the increase in the kinetic energy of the body is equal to the work done by the force on the body.",
    "options": [],
    "optionsError": null,
-   "answer": "�v² – u² = 2 a.s This gives s= v²-u² a 2 F= m a we can write work done (W) by this force F as W= ma � v u a � � � � � � � 2 2 - �2 �m v² �− �1 �1 �= 2 �2 m u² = (K.E)^(f) – (K.E)^(i)",
+   "answer": "�v² – u² = 2 a.s This gives s= �v²-�u² �a �2 F= m a we can write work done (W) by this force F as W= ma � v u a � � � � � � � 2 2 - �2 �m v² �− �1 �1 �= �2 �2 m u² = (K.E)^(f) – (K.E)^(i)",
    "answerError": null
   },
   {
@@ -50842,7 +50927,7 @@
    "stem": "A light and a heavy object have the same momentum. Find out the ratio of their kinetic energies. Which one has a larger kinetic energy?",
    "options": [],
    "optionsError": null,
-   "answer": "�p₁ = m₁v₁ p₂ = m₂ v₂ But p₁ = p₂ or m₁v₁ = m₂v₂ If m₁< m₂ then v₁> v₂ �(K.E)₁ = �2 2 1 �m v 1 �1 �(K.E)₂ = �2 2 2 �m v 2 �1 �(K.E)₁=�1 ( �m v �v₁ 1 1 �) �2 �p v₁ �=�1 1 �2 �(K.E)₂ = �1 (m �v₂) �v₂= = 2 �2 �p v₂ 2 �1 �2 = 1 2 �1 (K.E) (K.E) �p₂v₁ �2 �1 �2 �p₂v₂ v₁ v₂ = But �v₁> v₂ Therefore, (K.E.)₁ > (K.E)₂",
+   "answer": "�p₁ = m₁v₁ p₂ = m₂ v₂ But p₁ = p₂ or m₁v₁ = m₂v₂ If m₁< m₂ then v₁> v₂ �(K.E)₁ = �2 2 1 �m v 1 �1 �(K.E)₂ = �2 2 2 �m v 2 �1 �(K.E)₁=�1 ( �m v �v₁ 1 1 �) �2 �p v₁ �=�1 1 �2 �(K.E)₂ = �1 (m �v₂) �v₂= = 2 �2 �p v₂ 2 �1 �2 = �1 2 �1 �(K.E) �(K.E) �p₂v₁ �2 �1 �2 �p₂v₂ �v₁ �v₂ = But �v₁> v₂ Therefore, (K.E.)₁ > (K.E)₂",
    "answerError": null
   },
   {
@@ -50876,7 +50961,7 @@
    "stem": "A girl having mass of 35 kg sits on a trolley of mass 5 kg. The trolley is given an initial velocity of 4 m s⁻¹ by applying a force. The trolley comes to rest after traversing a distance of 16 m. (a) How much work is done on the trolley? (b) How much work is done by the girl?",
    "options": [],
    "optionsError": null,
-   "answer": "�u = 4 m s⁻¹ , v =o, s = 16 m �a = �v²�-�u² −2 �= − �= −�1 m s �×16 16 2s 2 2 �Force = m a = �40 × (− �1 �) = - 20 N �2 Work done on the trolley = 20 N ×16 m = 320 J Work done by the girl = 0 J.",
+   "answer": "�u = 4 m s⁻¹ , v =o, s = 16 m �a = �v²�-�u² −2 �= − �= −�1 m s �×16 �16 2s �2 2 �Force = m a = �40 × (− �1 �) = - 20 N �2 Work done on the trolley = 20 N ×16 m = 320 J Work done by the girl = 0 J.",
    "answerError": null
   },
   {
@@ -50927,7 +51012,7 @@
    "stem": "How is the power related to the speed at which a body can be lifted? How many kilograms will a man working at the power of 100 W, be able to lift at constant speed of 1 m s⁻¹ vertically? (g = 10 m s⁻²)",
    "options": [],
    "optionsError": null,
-   "answer": "�� �Power = �work done or energy = �time �m g h �h �m. g. ( �t �t �= �) �Here �t = speed h Therefore, m = g× speed �power �100 �= �=10kg 10×1",
+   "answer": "�� �Power = �work done or energy = �time �m g h �h �m. g. ( �t �t �= �) �Here �t = speed h Therefore, m = �g× speed �power �100 �= �=10kg �10×1",
    "answerError": null
   },
   {
@@ -50961,7 +51046,7 @@
    "stem": "Compare the power at which each of the following is moving upwards against the force of gravity? (given g = 10 m s⁻²) (i) a butterfly of mass 1.0 g that flies upward at a rate of 0.5 m s⁻¹. (ii) a 250 g squirrel climbing up on a tree at a rate of 0.5 m s⁻¹.",
    "options": [],
    "optionsError": null,
-   "answer": "�(i) Power = mg × velocity, g = 10 m s⁻² �= �1 �×10× 0.5W 1000 = �0.5 �-3 �W �W =5×10 100 (ii) Power = �250 ×10× 0.5 W 1000 �= �. �×10 �×0 5 = 1.25 W �1 �4 Hence, the power with which the squirrel is climbing is much higher than that of a butterfly flying.",
+   "answer": "�(i) Power = mg × velocity, g = 10 m s⁻² �= �1 �×10× 0.5W �1000 = �0.5 �-3 �W �W =5×10 100 (ii) Power = �250 ×10× 0.5 W 1000 �= �. �×10 �×0 5 = 1.25 W �1 �4 Hence, the power with which the squirrel is climbing is much higher than that of a butterfly flying.",
    "answerError": null
   },
   {
@@ -51362,7 +51447,7 @@
    "stem": "Without actually performing the long division, find if �987 �10500� will have terminating or non-terminating (repeating) decimal expansion. Give reasons for your answer.",
    "options": [],
    "optionsError": null,
-   "answer": "�Terminating decimal expansion, because 3 2 �987 �47 and 500 �5 �2 �10500 �500 2 3 2 3 �987 �329 �329 �47 �.094.�⎤ �10500 �3500 �2 .5 .7 �2 5 �⎡ �= �= �= �= �⎢ �⎥ �⎣ �⎦",
+   "answer": "�Terminating decimal expansion, because 3 2 �987 �47 and 500 �5 �2 �10500 �500 �2 �3 �2 �3 �987 �329 �329 �47 �.094.�⎤ �10500 �3500 �2 .5 .7 �2 5 �⎡ �= �= �= �= �⎢ �⎥ �⎣ �⎦",
    "answerError": null
   },
   {
@@ -51670,7 +51755,7 @@
     "�� �4 �3",
     "�� �–4 �3",
     "�� �2 �3",
-    "�� �–2 3"
+    "�� �–2 �3"
    ],
    "optionsError": null,
    "answer": "(A) �� �4 �3",
@@ -51770,7 +51855,7 @@
    "kind": "vsa",
    "file": "jeep202.pdf",
    "page": 4,
-   "stem": "�Are the following statements ‘True’ or ‘False’? Justify your answers. (i) If the zeroes of a quadratic polynomial ax² + bx + c are both positive, then a, b and c all have the same sign. (ii) If the graph of a polynomial intersects the x-axis at only one point, it cannot be a quadratic polynomial. (iii) If the graph of a polynomial intersects the x-axis at exactly two points, it need not be a quadratic polynomial. (iv) If two of the zeroes of a cubic polynomial are zero, then it does not have linear and constant terms. (v) If all the zeroes of a cubic polynomial are negative, then all the coefficients and the constant term of the polynomial have the same sign. (vi) If all three zeroes of a cubic polynomial x³ + ax² – bx + c are positive, then at least one of a, b and c is non-negative. (vii) The only value of k for which the quadratic polynomial kx² + x + k has equal zeros is 1 2",
+   "stem": "�Are the following statements ‘True’ or ‘False’? Justify your answers. (i) If the zeroes of a quadratic polynomial ax² + bx + c are both positive, then a, b and c all have the same sign. (ii) If the graph of a polynomial intersects the x-axis at only one point, it cannot be a quadratic polynomial. (iii) If the graph of a polynomial intersects the x-axis at exactly two points, it need not be a quadratic polynomial. (iv) If two of the zeroes of a cubic polynomial are zero, then it does not have linear and constant terms. (v) If all the zeroes of a cubic polynomial are negative, then all the coefficients and the constant term of the polynomial have the same sign. (vi) If all three zeroes of a cubic polynomial x³ + ax² – bx + c are positive, then at least one of a, b and c is non-negative. (vii) The only value of k for which the quadratic polynomial kx² + x + k has equal zeros is �1 �2",
    "options": [],
    "optionsError": null,
    "answer": "(i) False (ii) False (iii) True (iv) True (v) True (vi) False (vii) False",
@@ -52171,7 +52256,7 @@
    "kind": "sa",
    "file": "jeep203.pdf",
    "page": 11,
-   "stem": "�Solve the following pairs of equations: �(i) �x + y = 3.3 �(ii) �4 �3 �4 �x�+ �y�= �0.6 �–1, 3 –2y≠ �0 �3 –2y �x �x �= �5x �– �4 �6 �8 �y = �(iii) �4x + �6 �y� = 15 �(iv) �1 �1 �– �2x �y �= –1 �6x – �8 �y = 14, y ≠ 0 �1 �1 �2y �x �+ �= 8,�x, y ≠ 0 �(v) �43x + 67y = – 24 �(vi) �x �y �a �b �+ �= a + b �67x + 43y = 24 2 2 �x �y �a �b �+ �= 2,�a, b ≠ 0 (vii) �2xy �3 2 x+ �y �= 3 2x – 10�,�x + y �≠ 0, 2x – y �≠ 0 xy y �− �=",
+   "stem": "�Solve the following pairs of equations: �(i) �x + y = 3.3 �(ii) �4 �3 �4 �x�+ �y�= �0.6 �–1, 3 –2y≠ �0 �3 –2y �x �x �= �5x �– �4 �6 �8 �y = �(iii) �4x + �6 �y� = 15 �(iv) �1 �1 �– �2x �y �= –1 �6x – �8 �y = 14, y ≠ 0 �1 �1 �2y �x �+ �= 8,�x, y ≠ 0 �(v) �43x + 67y = – 24 �(vi) �x �y �a �b �+ �= a + b �67x + 43y = 24 �2 �2 �x �y �a �b �+ �= 2,�a, b ≠ 0 (vii) �2xy �3 �2 �x+ �y �= 3 2x – 10�,�x + y �≠ 0, 2x – y �≠ 0 xy y �− �=",
    "options": [],
    "optionsError": null,
    "answer": "�(i) x = 1.2, y = 2.1 (ii) x = 6, y = 8 (iii) x = 3, y = 2 (iv) �x = �6 , y = �4 �1 �1 �(v) �x = 1, y = –1 �(vi) �x = a², y = b² (vii) x = �1 �2 , y = �–3 2",
@@ -52537,7 +52622,7 @@
    "stem": "�Find whether the following equations have real roots. If real roots exist, find them. (i) 8x² + 2x – 3 = 0 (ii) –2x² + 3x + 2 = 0 (iii) 5x² – 2x – 10 = 0 (iv) �2 �1 �1 �3 �1,x �,5 �3 �5 �2 �x− �x− �+ �= �≠ �(v) x² + 5 5 x – 70 = 0",
    "options": [],
    "optionsError": null,
-   "answer": "��(i) Real roots exist; roots are �2 �1 �–3 �, �4 �(ii) Real roots exist; roots are 2, – �2 �1 �(iii) Real roots exist; roots are �1 �51�, 1�– �51 �5 �5 �5 �5 �(iv) Real roots exist; roots are 4 + �3 �2, 4 – �3 2 �2 �2 �(v) Real roots exist; roots are –7 5, 2 5",
+   "answer": "��(i) Real roots exist; roots are �2 �1 �–3 �, �4 �(ii) Real roots exist; roots are 2, – �2 �1 �(iii) Real roots exist; roots are �1 �51�, �1�– �51 �5 �5 �5 �5 �(iv) Real roots exist; roots are 4 + �3 �2, 4 – �3 2 �2 �2 �(v) Real roots exist; roots are –7 5, 2 5",
    "answerError": null
   },
   {
@@ -53077,12 +53162,12 @@
    "stem": "If in two triangles DEF and PQR, \u0001D = \u0001Q and \u0001R = \u0001E, then which of the following is not true?",
    "options": [
     "��EF �DF �PR �PQ �\u0005",
-    "�� DE�\u0005 EF PQ RP",
+    "�� �DE�\u0005 �EF �PQ �RP",
     "��DE �DF �QR �PQ �\u0005",
-    "�� EF�\u0005 DE RP QR"
+    "�� �EF�\u0005 �DE �RP �QR"
    ],
    "optionsError": null,
-   "answer": "(B) �� DE�\u0005 EF PQ RP",
+   "answer": "(B) �� �DE�\u0005 �EF �PQ �RP",
    "answerError": null
   },
   {
@@ -53140,7 +53225,7 @@
    "kind": "mcq_single",
    "file": "jeep206.pdf",
    "page": 4,
-   "stem": "�If \u0004 ABC ~ \u0004 QRP, ar (A BC)�\u0005 9 �ar (PQR) �4 �, AB = 18 cm and BC = 15 cm, then PR is equal to",
+   "stem": "�If \u0004 ABC ~ \u0004 QRP, �ar (A BC)�\u0005 �9 �ar (PQR) �4 �, AB = 18 cm and BC = 15 cm, then PR is equal to",
    "options": [
     "�10 cm",
     "�12 cm",
@@ -54298,7 +54383,7 @@
    "stem": "If sin A = �1 �2 �, then the value of cot A is",
    "options": [
     "�3",
-    "�1 �3",
+    "��1 �3",
     "�� �3 �2",
     "�� �1"
    ],
@@ -54385,7 +54470,7 @@
    "page": 4,
    "stem": "If cos 9α = sinα and 9α < 90° , then the value of tan5α is",
    "options": [
-    "�1 �3",
+    "��1 �3",
     "�� �3",
     "�� �1",
     "�� �0"
@@ -54605,7 +54690,7 @@
    "kind": "vsa",
    "file": "jeep208.pdf",
    "page": 7,
-   "stem": "�cos θ = 2 2 2ab a b + , where a and b are two distinct numbers such that ab > 0.",
+   "stem": "�cos θ = 2 2 �2ab �a �b �+ , where a and b are two distinct numbers such that ab > 0.",
    "options": [],
    "optionsError": null,
    "answer": "False",
@@ -55064,7 +55149,7 @@
    "kind": "la",
    "file": "jeep208.pdf",
    "page": 13,
-   "stem": "�� Prove that �1 �sec�θ+ 1 sec – tanθ �tan + θ �+ �θ = �1 –sin�θ cosθ",
+   "stem": "�� Prove that �1 �sec�θ+ �1 sec – tanθ �tan �+ �θ �+ �θ = �1 –sin�θ cosθ",
    "options": [],
    "optionsError": null,
    "answer": null,
@@ -55098,7 +55183,7 @@
    "kind": "la",
    "file": "jeep208.pdf",
    "page": 14,
-   "stem": "�A ladder rests against a vertical wall at an inclination α to the horizontal. Its foot is pulled away from the wall through a distance p so that its upper end slides a distance q down the wall and then the ladder makes an angle β to the horizontal. �Show that �q cosβ – cosα sinα – sinβ �. p =",
+   "stem": "�A ladder rests against a vertical wall at an inclination α to the horizontal. Its foot is pulled away from the wall through a distance p so that its upper end slides a distance q down the wall and then the ladder makes an angle β to the horizontal. �Show that �q �cosβ �– cosα �sinα �– sinβ �. p =",
    "options": [],
    "optionsError": null,
    "answer": null,
@@ -56035,7 +56120,7 @@
    "kind": "la",
    "file": "jeep210.pdf",
    "page": 5,
-   "stem": "Draw an isosceles triangle ABC in which AB = AC = 6 cm and BC = 5 cm. Construct a triangle PQR similar to ∆ ABCin which PQ = 8 cm. Also justify the",
+   "stem": "Draw an isosceles triangle ABC in which AB = AC = 6 cm and BC = 5 cm. Construct a triangle PQR similar to ∆ ABCin which PQ = 8 cm. Also justify the construction.",
    "options": [],
    "optionsError": null,
    "answer": null,
@@ -56052,7 +56137,7 @@
    "kind": "la",
    "file": "jeep210.pdf",
    "page": 5,
-   "stem": "Draw a triangle ABC in which AB = 5 cm, BC = 6 cm and ∠ ABC=60º. Construct a triangle similar to ∆ �ABCwith scale factor �5. Justify the",
+   "stem": "Draw a triangle ABC in which AB = 5 cm, BC = 6 cm and ∠ ABC=60º. Construct a triangle similar to ∆ �ABCwith scale factor �5. Justify the construction.",
    "options": [],
    "optionsError": null,
    "answer": null,
@@ -56980,10 +57065,10 @@
    "page": 5,
    "stem": "�In the formula x + i i i �f u �a �h �f = , for finding the mean of grouped frequency distribution, u_i =",
    "options": [
-    "�_ix+ a h",
+    "��_ix+ �a �h",
     "�h (x_i – a)",
     "��–a �_ix �h",
-    "�� �–x i �a �h"
+    "�� �–x �i �a �h"
    ],
    "optionsError": null,
    "answer": "(C) ��–a �_ix �h",
@@ -58782,7 +58867,7 @@
   },
   {
    "id": "exemplar:q:10:science:2:-:38",
-   "reason": "reading-order",
+   "reason": "symbol-loss",
    "grade": 10,
    "subject": "Science",
    "chapter": 2,
@@ -58791,7 +58876,7 @@
    "kind": "sa",
    "file": "jeep102.pdf",
    "page": 7,
-   "stem": "Salt A commonly used in bakery products on heating gets converted into another salt B which itself is used for removal of hardness of water and a gas C is evolved. The gas C when passed through lime water, turns it milky. Identify A, B and C. [[aside]] Name of the salt [[aside]] (i) [[aside]] Ammonium chloride [[aside]] (ii) [[aside]] Copper sulphate [[aside]] (iii) [[aside]] Sodium chloride [[aside]] (iv) [[aside]] Magnesium nitrate [[aside]] (v) [[aside]] Potassium sulphate [[aside]] (vi) [[aside]] Calcium nitrate [[aside]] Formula [[aside]] NH₄Cl [[aside]] — [[aside]] NaCl [[aside]] Mg (NO₃)₂ [[aside]] K₂SO₄ [[aside]] Ca(NO₃)₂ [[aside]] Base [[aside]] NH₄OH [[aside]] — [[aside]] NaOH [[aside]] — [[aside]] — [[aside]] Ca(OH)₂ [[aside]] Acid [[aside]] — [[aside]] H₂SO₄ [[aside]] — [[aside]] HNO₃ [[aside]] — [[aside]] — [[aside]] Salt obtained from",
+   "stem": "Salt A commonly used in bakery products on heating gets converted into another salt B which itself is used for removal of hardness of water and a gas C is evolved. The gas C when passed through lime water, turns it milky. Identify A, B and C. [[aside]] Name of the salt [[aside]] (i) [[aside]] Ammonium chloride [[aside]] (ii) [[aside]] Copper sulphate [[aside]] (iii) [[aside]] Sodium chloride [[aside]] (iv) [[aside]] Magnesium nitrate [[aside]] (v) [[aside]] Potassium sulphate [[aside]] (vi) [[aside]] Calcium nitrate [[aside]] Formula [[aside]] NH₄Cl [[aside]] — [[aside]] NaCl [[aside]] Mg (NO₃)₂ [[aside]] K₂SO₄ [[aside]] Ca(NO₃)₂ �[[aside]] Base [[aside]] NH₄OH [[aside]] — [[aside]] NaOH [[aside]] — [[aside]] — [[aside]] Ca(OH)₂ �[[aside]] Acid [[aside]] — [[aside]] H₂SO₄ [[aside]] — [[aside]] HNO₃ [[aside]] — [[aside]] — �[[aside]] Salt obtained from",
    "options": [],
    "optionsError": null,
    "answer": "Baking powder (NaHCO₃), salt A is commonly used in bakery products. On heating it forms sodium carbonate (Na₂CO₃), B and CO₂ gas, C is evolved. When CO₂ gas is passed through lime water it forms calcium carbonate (CaCO₃), which is slightly soluble in water making it milky. A — NaHCO₃ B — Na₂CO₃ C — CO₂ gas",
@@ -61180,7 +61265,7 @@
    "stem": "Refractive index of diamond with respect to glass is 1.6 and absolute refractive index of glass is 1.5. Find out the absolute refractive index of diamond.",
    "options": [],
    "optionsError": null,
-   "answer": "�Hint— g dg g d g �v �c �n �= �=1.6, n = �,� and n = v �v �v d d c Therefore, g d d g �v �c �× �=n =1.6×1.5=2.40. �v �v",
+   "answer": "�Hint— �g dg g d g �v �c �n �= �=1.6, n = �,� and n = v �v �v d d c Therefore, �g d d g �v �c �× �=n =1.6×1.5=2.40. �v �v",
    "answerError": null
   },
   {

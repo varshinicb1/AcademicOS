@@ -593,6 +593,173 @@ def test_empty_sub_part_labels():
 # --------------------------------------------------------------------------- #
 # the built artifact
 # --------------------------------------------------------------------------- #
+# class 8 maths, unit 1: a title line inside a question, an instruction
+# without a range
+# --------------------------------------------------------------------------- #
+
+@pytest.fixture(scope="module")
+def maths8_unit1():
+    # heep201.pdf (Unit 1, Rational Numbers) pp. 9-18, from "(C) Exercise"
+    # to question 101; answers heep2an.pdf pp. 1-2 ("Unit 1").
+    return _parse(8, "Mathematics", "heep201", range(9, 19), 1, "heep2an", [1, 2])
+
+
+def test_class8_maths_line_equal_to_the_chapter_title_inside_a_question_is_kept(maths8_unit1):
+    # heep201 p.16 prints question 62 over two lines, "... where x and y are" /
+    # "rational numbers." -- the second equal to the unit's title. Dropped as
+    # a running head, the bank served "... where x and y are" keyed False.
+    q = _q(maths8_unit1, 62)
+    assert q.stem.endswith("where x and y are rational numbers.")
+    assert q.answer_text == "False"          # heep2an p.2: "62. False"
+    assert ex.exclusion_reason(q) is None
+
+
+def test_title_line_is_a_running_head_only_where_and_as_heads_are_printed():
+    book = _book(8, "Mathematics")
+    # A running head at the top of the page is still dropped...
+    top = "RATIONAL NUMBERS  15\nRational Numbers\n1. For every rational number x, x + 1 = x."
+    assert [t.text for t in ex._chapter_lines([top], book, 1)] == [
+        "1. For every rational number x, x + 1 = x."]
+    # ...and never a line that continues a sentence, wherever it stands.
+    assert not ex._reads_as_head("rational numbers.", "where x and y are")
+    assert not ex._reads_as_head("Rational Numbers", "where x and y are")
+    assert not ex._reads_as_head("water.", None)
+    assert ex._reads_as_head("Rational Numbers", "1. For every rational number x.")
+
+
+def test_class8_maths_instruction_without_a_range_types_the_questions_after_it(maths8_unit1):
+    # heep201 p.15: "In each of the following, state whether the statements
+    # are true (T) or false (F)." names no range. It was appended to question
+    # 47, and questions 48-99 went out as 3-mark short answers keyed True/False.
+    q47 = _q(maths8_unit1, 47)
+    assert q47.section_kind == ex.FILL_BLANK
+    assert q47.stem.endswith("with denominator as 1 are _________ and _________.")
+    assert "state whether" not in q47.stem
+    for n in (59, 62, 63, 78, 97):
+        q = _q(maths8_unit1, n)
+        assert q.section_kind == ex.TRUE_FALSE, n
+        rec = ex.to_bank_record(q)
+        assert (rec["type"], rec["marks"]) == ("very_short_answer", 1), n
+    # Question 100, "Solve the following: Select the rational numbers ...",
+    # follows with no instruction between; its answer is a list, not T/F,
+    # which ends the true/false run.
+    assert _q(maths8_unit1, 99).section_kind == ex.TRUE_FALSE
+    for n in (100, 101):
+        assert _q(maths8_unit1, n).section_kind == ex.SA, n
+
+
+def test_a_statement_inside_a_question_is_not_an_open_instruction():
+    # feep105 p.8, question 37 part (f): "State whether true or false: The
+    # total number ...". It names a kind, but follows a label, not a finished
+    # sentence, so it stays in the question.
+    book = _book(6, "Mathematics")
+    page = ("Exercise\n1. What is the sum of 2 and 3?\n2. Read the graph and answer.\n"
+            "(e) Which shoe size is worn by minimum number of students?\n(f)\n"
+            "State whether true or false: The total number of students wearing shoe\n"
+            "sizes 5 and 8 is the same as the number of students wearing shoe size 6.\n"
+            "3. What is the sum of 4 and 5?")
+    qs = {q.number: q for q in ex.parse_chapter_pages([page], book, "x.pdf", 5)}
+    assert qs["2"].stem.endswith("the same as the number of students wearing shoe size 6.")
+    assert qs["3"].section_kind == ex.SA
+
+
+# --------------------------------------------------------------------------- #
+# the rendering path on real pages
+# --------------------------------------------------------------------------- #
+
+class _Point:
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+
+
+class _Rect:
+    def __init__(self, x0, y0, x1, y1):
+        self.x0, self.y0, self.x1, self.y1 = x0, y0, x1, y1
+        self.width, self.height = x1 - x0, y1 - y0
+
+
+class _DrawnPage:
+    def __init__(self, *rules):
+        self.rules = rules
+
+    def get_drawings(self):
+        return [{"rect": _Rect(*r), "items": [("l", _Point(r[0], r[1]), _Point(r[2], r[3]))]}
+                for r in self.rules]
+
+
+def _line(x0, y0, x1, y1, text, block=0):
+    return ex._Line(x0, y0, x1, y1, 12.0, y1 - 3, text, block)
+
+
+def test_a_fraction_bar_between_two_lines_loses_both():
+    # gemp110 p.24, question 93 (boxes as PyMuPDF 1.28 measures them): "7"
+    # over "8 – x", the bar in the gap between. The stacked-line rule needs
+    # the boxes to overlap, which they do not here, so without the bar the
+    # question read "7 8 – x".
+    seven = _line(179.0, 88.6, 185.3, 101.2, "7")
+    denom = _line(170.4, 106.4, 193.4, 120.4, "8 – x")
+    prose = _line(192.4, 189.0, 560.8, 201.0, "Critical Thinking Write two different")
+    ex._mark_drawn_math([seven, denom, prose], _DrawnPage((170.3, 103.4, 194.0, 103.4)))
+    assert seven.text == ex.LOSS + "7" and denom.text == ex.LOSS + "8 – x"
+    assert not prose.text.startswith(ex.LOSS)
+    # An underline under a line of prose, with prose below, is no fraction.
+    a = _line(138.0, 300.0, 560.0, 312.0, "The rational number lies to the right of zero")
+    b = _line(138.0, 316.0, 560.0, 328.0, "on the number line.")
+    ex._mark_drawn_math([a, b], _DrawnPage((300.0, 313.5, 340.0, 313.5)))
+    assert not a.text.startswith(ex.LOSS) and not b.text.startswith(ex.LOSS)
+
+
+DATASET = ROOT.parent / "ncert-dataset" / "exemplar"
+needs_dataset = pytest.mark.skipif(not DATASET.exists(), reason="ncert-dataset not on disk")
+
+
+@pytest.fixture(scope="module")
+def rendered():
+    """Real files through `read_pdf` (render_page, classify_fonts,
+    _mark_stacked, _mark_drawn_math): one render per file."""
+    cache: dict[str, list[str]] = {}
+
+    def get(folder: str, stem: str) -> list[str]:
+        if stem not in cache:
+            cache[stem] = ex.read_pdf(DATASET / folder / f"{stem}.pdf")
+        return cache[stem]
+    return get
+
+
+@needs_dataset
+@pytest.mark.parametrize("folder,stem,page", [
+    ("classVII/mathematics", "gemp110", 24),   # a built-up fraction
+    ("classX/science", "jeep102", 1),          # headings in a font shifted below ASCII
+    ("classIX/mathematics", "ieep201", 4),     # radicals drawn as vector paths
+])
+def test_rendering_a_real_page_matches_its_fixture(rendered, folder, stem, page):
+    # The parser tests run on these fixtures; a renderer change that alters
+    # them must show up here, not pass unnoticed.
+    assert rendered(folder, stem)[page - 1] == PAGES[(stem, page)]
+
+
+@needs_dataset
+def test_real_page_built_up_fraction_is_lost(rendered):
+    pages = rendered("classVII/mathematics", "gemp110")
+    lines = pages[23].split("\n")
+    at = lines.index(ex.LOSS + "93.")
+    assert lines[at + 1:at + 3] == [ex.LOSS + "7", ex.LOSS + "8 – x"]
+    qs = ex.parse_chapter_pages(pages, _book(7, "Mathematics"), "gemp110.pdf", 10)
+    q93 = next(q for q in qs if q.number == "93")
+    q93.answer_text = "Seven divided by the difference of eight and x."
+    assert ex.exclusion_reason(q93) == "symbol-loss"
+
+
+@needs_dataset
+def test_real_page_shifted_heading_font_and_drawn_radicals(rendered):
+    assert rendered("classX/science", "jeep102")[0].startswith("Multiple  Choice  Questions\n")
+    radicals = rendered("classIX/mathematics", "ieep201")[3].split("\n")
+    # "2√3 + √3 is equal to": the radicals are drawn, so both lines are lost.
+    at = radicals.index(ex.LOSS + "10. 2 3+")
+    assert radicals[at + 1] == ex.LOSS + "3 is equal to"
+
+
+# --------------------------------------------------------------------------- #
 
 BUILT = ROOT / "academicos-data" / "corpus" / "ncert-exemplar" / "questions.json"
 
@@ -628,4 +795,10 @@ def test_every_written_record_is_servable():
             bad.append(f"{r['id']}: answer has an empty sub-part")
         if not answer.strip():
             bad.append(f"{r['id']}: no answer")
+        # A bare true/false statement is a 1-marker. Maths 9-10 "Short Answer
+        # Questions with Reasoning" ("... Justify whether it is true or
+        # false.") are 2-markers by the book's own section, keyed T/F.
+        if (answer.strip() in ("True", "False") and r["marks"] != 1
+                and r["metadata"]["sectionKind"] != ex.VSA):
+            bad.append(f"{r['id']}: a true/false statement in a {r['marks']}-mark slot")
     assert not bad, bad[:20]
