@@ -235,21 +235,29 @@ def test_schedule_respects_alternate_saturday_and_holidays(store):
 # rescheduling on disruption -- §14: PUSH / ADJUST + audit trail
 # --------------------------------------------------------------------- #
 
+# ADJUST refuses a day that already holds this book's lesson (see
+# tests/test_curriculum_reschedule_integrity.py), so the ADJUST tests below
+# schedule 5 periods/week -- Mon-Fri under the first-N-days fallback -- and
+# move onto a Saturday, a real working day in this calendar left free.
+# (Until 2026-09-21 they moved onto Monday 2026-06-08, which already held a
+# lesson: they passed only because ADJUST double-booked the day.)
+
+
 def test_adjust_lesson_moves_to_a_real_working_day(store, audit_log):
     book_id, year_id = _seed_schedulable_book(store)
     scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
-                                 book_id=book_id, periods_per_week=6)
+                                 book_id=book_id, periods_per_week=5)
     lesson = store.scheduled_lessons_for_book(year_id, book_id)[0]
     old_date = lesson.date
 
-    # A real, later working day for this calendar -- Monday of the
-    # following week (2026-06-01 is a Monday, so this is 2026-06-08).
-    result = scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lesson.id, new_date="2026-06-08",
+    # A real, later, free working day for this calendar -- the Saturday of
+    # the following week (2026-06-01 is a Monday, so this is 2026-06-13).
+    result = scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lesson.id, new_date="2026-06-13",
                                           reason="Teacher requested swap", changed_by="teacher_1")
     assert result.old_date == old_date
-    assert result.new_date == "2026-06-08"
+    assert result.new_date == "2026-06-13"
     assert result.mode == "adjust"
-    assert store.get_scheduled_lesson(lesson.id).date == "2026-06-08"
+    assert store.get_scheduled_lesson(lesson.id).date == "2026-06-13"
 
 
 def test_adjust_lesson_rejects_a_non_working_day(store, audit_log):
@@ -275,11 +283,11 @@ def test_adjust_lesson_unknown_id_raises(store, audit_log):
 def test_adjust_lesson_writes_a_real_audit_entry(store, audit_log):
     book_id, year_id = _seed_schedulable_book(store)
     scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
-                                 book_id=book_id, periods_per_week=6)
+                                 book_id=book_id, periods_per_week=5)
     lesson = store.scheduled_lessons_for_book(year_id, book_id)[0]
     old_date = lesson.date
 
-    scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lesson.id, new_date="2026-06-08",
+    scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lesson.id, new_date="2026-06-13",
                                  reason="Assembly conflict", changed_by="teacher_1")
 
     history = scheduling_mod.reschedule_history_for_lesson(audit_log, lesson.id)
@@ -287,7 +295,7 @@ def test_adjust_lesson_writes_a_real_audit_entry(store, audit_log):
     entry = history[0]
     assert entry["actor"] == "teacher_1"
     assert entry["details"]["old_date"] == old_date
-    assert entry["details"]["new_date"] == "2026-06-08"
+    assert entry["details"]["new_date"] == "2026-06-13"
     assert entry["details"]["reason"] == "Assembly conflict"
     assert entry["details"]["mode"] == "adjust"
     assert entry["timestamp"]
@@ -296,11 +304,11 @@ def test_adjust_lesson_writes_a_real_audit_entry(store, audit_log):
 def test_reschedule_history_only_returns_entries_for_that_lesson(store, audit_log):
     book_id, year_id = _seed_schedulable_book(store)
     scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=year_id,
-                                 book_id=book_id, periods_per_week=6)
+                                 book_id=book_id, periods_per_week=5)
     lessons = store.scheduled_lessons_for_book(year_id, book_id)
-    scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lessons[0].id, new_date="2026-06-08",
+    scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lessons[0].id, new_date="2026-06-13",
                                  reason="a", changed_by="t1")
-    scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lessons[1].id, new_date="2026-06-09",
+    scheduling_mod.adjust_lesson(store, audit_log, lesson_id=lessons[1].id, new_date="2026-06-20",
                                  reason="b", changed_by="t1")
 
     history = scheduling_mod.reschedule_history_for_lesson(audit_log, lessons[0].id)

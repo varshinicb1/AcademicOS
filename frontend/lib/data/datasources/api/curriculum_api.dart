@@ -159,13 +159,57 @@ class TopicWithSubtopics {
             .toList();
 }
 
+/// PushScheduleResponse (schemas.py). The count field is `lessonsPushed`:
+/// the Reschedule tab used to read a nonexistent `pushedCount` and would
+/// have reported "0 lessons shifted" on every success. `lessonsDropped`
+/// are lessons that no longer fit before the academic year's last teaching
+/// day -- the server reports them rather than placing them past the end.
+class PushScheduleResult {
+  final int lessonsPushed;
+  final List<String> lessonsDropped;
+  final int periodsPerWeek;
+
+  PushScheduleResult.fromJson(Map<String, dynamic> j)
+      : lessonsPushed = j['lessonsPushed'] as int,
+        lessonsDropped = (j['lessonsDropped'] as List? ?? const []).cast<String>().toList(),
+        periodsPerWeek = j['periodsPerWeek'] as int;
+
+  String get summary {
+    String lessons(int n) => n == 1 ? '1 lesson' : '$n lessons';
+    final pushed = 'Schedule pushed: ${lessons(lessonsPushed)} shifted.';
+    if (lessonsDropped.isEmpty) return pushed;
+    return '$pushed ${lessons(lessonsDropped.length)} no longer fit before the year ends.';
+  }
+}
+
+/// The message to show for a failed curriculum call: the server's own
+/// `detail` when it sent one, else `e`'s text. The Reschedule tab used to
+/// show `$e`, which for a DioException is Dio's generic "bad response ...
+/// status code 409" -- so the backend's carefully built reasons (the clash
+/// date and the IDs of the lessons already there, a completed lesson that
+/// cannot move, PUSH's missing-allocation 422) never reached the principal.
+/// A FastAPI validation 422 sends `detail` as a list; that falls back too.
+String serverErrorMessage(Object e) {
+  if (e is DioException) {
+    final data = e.response?.data;
+    final detail = data is Map ? data['detail'] : null;
+    if (detail is String && detail.isNotEmpty) return detail;
+    final status = e.response?.statusCode;
+    if (status != null) return 'the server refused the request (HTTP $status)';
+    return 'could not reach the server';
+  }
+  return '$e';
+}
+
 class CurriculumApi {
   final Dio _dio;
   CurriculumApi(this._dio);
 
-  /// Public, school-scoped (matches the real /catalog-style read routes) --
-  /// used by the student view to find its own school's current academic
-  /// year rather than guessing or hardcoding one.
+  /// Used by the student view to find its own school's current academic
+  /// year rather than guessing or hardcoding one. Signed-in only, like every
+  /// curriculum read here (the bearer token rides on the shared Dio's
+  /// sessionInterceptor): `schoolId` must be the caller's own school -- the
+  /// server answers 403 for any other, never that school's years.
   Future<List<AcademicYearSummary>> academicYears(String schoolId) async {
     final r = await _dio.get('/curriculum/academic-years', queryParameters: {'school_id': schoolId});
     return (r.data as List).map((e) => AcademicYearSummary.fromJson(Map<String, dynamic>.from(e))).toList();
@@ -236,8 +280,9 @@ class CurriculumApi {
   /// Designer's subtopic picker (assessment_create_page.dart), which uses
   /// this to let a teacher filter question search to specific subtopics via
   /// `QuestionSearchParams.subtopicIds` rather than a whole chapter. Any
-  /// authenticated user may call this (read-only, server-side unscoped by
-  /// school since chapter content isn't school-specific).
+  /// signed-in user of the chapter's own school may call this; topics and
+  /// subtopics are that school's own approved decomposition, so another
+  /// school's chapter is a 403 and an unknown chapter id a 404.
   Future<List<TopicWithSubtopics>> topicsForChapter(String chapterId) async {
     final r = await _dio.get('/curriculum/chapters/$chapterId/topics');
     return (r.data as List).map((e) => TopicWithSubtopics.fromJson(Map<String, dynamic>.from(e))).toList();
@@ -261,27 +306,38 @@ class CurriculumApi {
     return DelayedTopicsReport.fromJson(Map<String, dynamic>.from(r.data));
   }
 
-  /// §11-14: Reschedule a single lesson (ADJUST) to a new target working day.
-  Future<void> rescheduleLesson(String lessonId, {required String targetDate, required String reason}) async {
+  /// §14 ADJUST: move one lesson to `newDate` (yyyy-MM-dd), a real working
+  /// day. Field names match AdjustLessonRequest in schemas.py -- until
+  /// 2026-09-21 this sent `targetDate` and every call 422'd. The server
+  /// answers 409 when that day already holds this book's lesson(s) for
+  /// every period the subject has then.
+  Future<void> rescheduleLesson(String lessonId, {required String newDate, required String reason}) async {
     await _dio.post('/curriculum/scheduled-lessons/$lessonId/reschedule', data: {
-      'targetDate': targetDate,
+      'newDate': newDate,
       'reason': reason,
     });
   }
 
-  /// §11-14: Shift subsequent lessons after an unexpected disruption (PUSH).
-  Future<Map<String, dynamic>> pushSchedule({
+  /// §14 PUSH: shift every still-to-teach lesson on/after `fromDate` one
+  /// teaching slot later (completed/skipped lessons keep their dates).
+  /// `academic_year_id` is a query parameter on the route, not a body
+  /// field; `periodsPerWeek` is sent only when the admin set one -- the
+  /// server otherwise uses the subject's stored period allocation.
+  Future<PushScheduleResult> pushSchedule({
     required String bookId,
     required String academicYearId,
-    required String afterDate,
+    required String fromDate,
     required String reason,
+    int? periodsPerWeek,
   }) async {
-    final r = await _dio.post('/curriculum/books/$bookId/schedule/push', data: {
-      'academicYearId': academicYearId,
-      'afterDate': afterDate,
-      'reason': reason,
-    });
-    return Map<String, dynamic>.from(r.data);
+    final r = await _dio.post('/curriculum/books/$bookId/schedule/push',
+        queryParameters: {'academic_year_id': academicYearId},
+        data: {
+          'fromDate': fromDate,
+          'reason': reason,
+          if (periodsPerWeek != null) 'periodsPerWeek': periodsPerWeek,
+        });
+    return PushScheduleResult.fromJson(Map<String, dynamic>.from(r.data));
   }
 
   /// §5-9, §13: Fetch units for a book.
@@ -314,8 +370,26 @@ class CurriculumApi {
   }
 
   /// §8, §10: Academic calendar setup and working days.
-  Future<CalendarInfo> createCalendar(String academicYearId, {List<int> weeklyOffDays = const [7], String alternateSaturdayRule = 'none'}) async {
+  ///
+  /// `weeklyOffDays` are full weekday names ('sunday') -- the backend's
+  /// CreateCalendarRequest is `list[str]`. This sent `[7]` until 2026-09-22,
+  /// so every create from the Calendar & Setup tab was a 422.
+  /// `alternateSaturdayRule`: 'none' | 'all' | 'second_fourth' |
+  /// 'first_third' | ordinals like '2nd,4th'; anything else is a 422.
+  Future<CalendarInfo> createCalendar(String academicYearId,
+      {List<String> weeklyOffDays = const ['sunday'], String alternateSaturdayRule = 'none'}) async {
     final r = await _dio.post('/curriculum/academic-years/$academicYearId/calendar', data: {
+      'weeklyOffDays': weeklyOffDays,
+      'alternateSaturdayRule': alternateSaturdayRule,
+    });
+    return CalendarInfo.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Corrects an existing calendar (a second create is a 409). Same body
+  /// and validation as [createCalendar].
+  Future<CalendarInfo> updateCalendar(String academicYearId,
+      {required List<String> weeklyOffDays, required String alternateSaturdayRule}) async {
+    final r = await _dio.put('/curriculum/academic-years/$academicYearId/calendar', data: {
       'weeklyOffDays': weeklyOffDays,
       'alternateSaturdayRule': alternateSaturdayRule,
     });
@@ -332,6 +406,9 @@ class CurriculumApi {
     }
   }
 
+  /// `kind`: 'public' | 'school' | 'emergency' | 'holiday' |
+  /// 'unexpected_closure' remove teaching days; 'event' marks a day that
+  /// still teaches. A date outside the academic year is a 422.
   Future<HolidayInfo> addHoliday(String academicYearId, {required String date, required String label, String kind = 'public', String? endDate}) async {
     final r = await _dio.post('/curriculum/academic-years/$academicYearId/holidays', data: {
       'date': date,
@@ -340,6 +417,11 @@ class CurriculumApi {
       if (endDate != null) 'endDate': endDate,
     });
     return HolidayInfo.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Removes a holiday entered by mistake, so that day teaches again.
+  Future<void> deleteHoliday(String academicYearId, String holidayId) async {
+    await _dio.delete('/curriculum/academic-years/$academicYearId/holidays/$holidayId');
   }
 
   Future<List<HolidayInfo>> listHolidays(String academicYearId) async {
@@ -512,13 +594,14 @@ class ChapterSummary {
 class CalendarInfo {
   final String id;
   final String academicYearId;
-  final List<int> weeklyOffDays;
+  /// Lower-case weekday names, as the backend stores them ('sunday').
+  final List<String> weeklyOffDays;
   final String alternateSaturdayRule;
 
   CalendarInfo.fromJson(Map<String, dynamic> j)
       : id = j['id'] as String,
         academicYearId = j['academicYearId'] as String,
-        weeklyOffDays = (j['weeklyOffDays'] as List? ?? const []).map((e) => e as int).toList(),
+        weeklyOffDays = (j['weeklyOffDays'] as List? ?? const []).map((e) => e as String).toList(),
         alternateSaturdayRule = j['alternateSaturdayRule'] as String? ?? 'none';
 }
 

@@ -1,5 +1,5 @@
 """Shared school-ownership checks for the assessment/pillar/mobile route
-modules.
+modules, and for curriculum/routes.py where a check spans both packages.
 
 2026-09-15: extracted from pillar_routes.py's `_require_school_owns_assessment`
 (the one place this pattern already existed) so routes.py and
@@ -32,6 +32,7 @@ logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
     from .consent import ConsentStore
+    from ..curriculum.store import CurriculumStore
     from .mobile_scan import ScanSession
     from .schemas import Assessment, GeneratedPaper
     from .store import AssessmentStore
@@ -87,6 +88,30 @@ def require_school_owns_student(
     if current.role == "student" and current.id != student_id:
         raise HTTPException(403, "students can only access their own data")
     return student
+
+
+def require_own_subtopics(
+    curriculum_store: "CurriculumStore", subtopic_ids: list[str], current: "User",
+) -> None:
+    """For the two routes that take a caller-picked list of curriculum
+    subtopic ids and answer with the question ids tagged to them:
+    curriculum/routes.py's POST /curriculum/questions/by-subtopics and
+    routes.py's POST /questions/search (subtopic_ids). The second is the one
+    the web client sends (assessment_create_page.dart ->
+    QuestionSearchParams.subtopicIds); it had no school check until
+    2026-09-21, so a school_2 caller holding a school_1 subtopic id got the
+    question ids school_1 had tagged to it. One helper so the two cannot
+    drift apart again.
+
+    403 if any id belongs to another school, even mixed in with the caller's
+    own -- dropping it silently would hand back a paper built from a
+    different selection than the one the teacher made. An id that resolves
+    to no school is not refused: it is a subtopic force-deleted since the
+    picker loaded, its question links went with it, and it matches nothing.
+    That is why there is no 404 case here, unlike the functions above."""
+    owners = curriculum_store.school_ids_for_subtopics(subtopic_ids)
+    if any(owner != current.school_id for owner in owners.values()):
+        raise HTTPException(403, "this subtopic belongs to a different school")
 
 
 def require_own_school(school_id: str, current: "User") -> None:

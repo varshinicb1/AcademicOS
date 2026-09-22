@@ -481,6 +481,35 @@ def test_school_id_for_grade(store):
     assert store.school_id_for_grade(grade.id) == "school_x"
 
 
+def _seed_subtopic(store, board_id: str, school_id: str) -> str:
+    year = store.create_academic_year(school_id=school_id, label="y",
+                                      start_date="2026-01-01", end_date="2026-12-31")
+    grade = store.create_grade(academic_year_id=year.id, number=10)
+    subject = store.create_subject(grade_id=grade.id, name="Science")
+    book = store.create_book(subject_id=subject.id, board_id=board_id, title="Book")
+    unit = store.create_unit(canonical_id=f"{school_id}:unit", book_id=book.id,
+                             unit_no="I", name="Unit")
+    chapter = store.create_chapter(canonical_id=f"{school_id}:chap", unit_id=unit.id, name="Chapter")
+    topic = store.create_topic(canonical_id=f"{school_id}:topic", chapter_id=chapter.id, name="Topic")
+    return store.create_subtopic(canonical_id=f"{school_id}:st", topic_id=topic.id, name="Subtopic").id
+
+
+def test_school_ids_for_subtopics_resolves_a_mixed_list_in_one_call(store):
+    """The batch form of school_id_for_subtopic that both subtopic-keyed
+    question routes check a whole request's ids with. Unknown ids are left
+    out rather than mapped to None, so a caller can tell "another school's"
+    from "no longer exists" without a second lookup."""
+    board = store.create_board(name="CBSE", code="CBSE")
+    own = _seed_subtopic(store, board.id, "school_1")
+    other = _seed_subtopic(store, board.id, "school_2")
+
+    assert store.school_ids_for_subtopics([own, other, "st_missing"]) == {
+        own: "school_1", other: "school_2",
+    }
+    assert store.school_ids_for_subtopics([own]) == store.school_ids_for_subtopics([own, own])
+    assert store.school_ids_for_subtopics([]) == {}
+
+
 # --------------------------------------------------------------------- #
 # get_curriculum_store singleton
 # --------------------------------------------------------------------- #

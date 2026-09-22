@@ -7,6 +7,7 @@ import '../../../data/datasources/api/auth_api.dart';
 import '../../../data/datasources/api/curriculum_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import '../widgets/calendar_rules_card.dart';
 import '../widgets/invites_panel.dart';
 
 /// School Admin console (§2, §11-14, §17, §32):
@@ -58,6 +59,8 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     text: DateTime.now().toString().substring(0, 10),
   );
   final _pushReasonController = TextEditingController(text: 'Unexpected school closure');
+  // Left blank, the server uses the subject's stored period allocation.
+  final _pushPeriodsController = TextEditingController();
   bool _pushing = false;
 
   final _adjustLessonIdController = TextEditingController();
@@ -83,9 +86,11 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   int _seqMode = 0; // 0: units, 1: chapters
 
   // --- Calendar & Period Setup State ---
-  int _weeklyOffDay = 7; // Sunday
-  String _altSatRule = 'none';
+  // The weekly-off / Saturday-rule choices live in CalendarRulesCard.
   bool _creatingCalendar = false;
+  // The year's saved calendar, once loaded: its presence turns "Initialize"
+  // into "Update" (a second create is a 409; PUT corrects it in place).
+  CalendarInfo? _calendar;
   final _periodMinutesController = TextEditingController(text: '45');
   bool _savingPeriodMinutes = false;
   final _holidayDateController = TextEditingController(
@@ -98,6 +103,9 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   WorkingDaysSummary? _workingDaysSummary;
   bool _loadingWorkingDays = false;
   List<HolidayInfo> _holidaysList = [];
+  // Why the last calendar load failed, kept on the card: the snackbar is
+  // gone in seconds while the summary stays missing.
+  String? _calendarLoadError;
 
   @override
   void initState() {
@@ -121,6 +129,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     _pushDateController.dispose();
     _pushReasonController.dispose();
     _adjustLessonIdController.dispose();
+    _pushPeriodsController.dispose();
     _adjustDateController.dispose();
     _adjustReasonController.dispose();
     _periodMinutesController.dispose();
@@ -263,6 +272,12 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       _showMessage('Select a subject to push.');
       return;
     }
+    final periodsText = _pushPeriodsController.text.trim();
+    final periodsPerWeek = periodsText.isEmpty ? null : int.tryParse(periodsText);
+    if (periodsText.isNotEmpty && (periodsPerWeek == null || periodsPerWeek <= 0)) {
+      _showMessage('Periods per week must be a positive whole number, or left blank.');
+      return;
+    }
     setState(() => _pushing = true);
     try {
       final books = await GetIt.I<CurriculumApi>().books(_pushSubjectId!);
@@ -273,14 +288,14 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       final res = await GetIt.I<CurriculumApi>().pushSchedule(
         bookId: books.first.id,
         academicYearId: _academicYearId!,
-        afterDate: _pushDateController.text.trim(),
+        fromDate: _pushDateController.text.trim(),
         reason: _pushReasonController.text.trim(),
+        periodsPerWeek: periodsPerWeek,
       );
-      final count = res['pushedCount'] ?? 0;
-      _showMessage('Schedule pushed successfully: $count lessons shifted.');
+      _showMessage(res.summary);
       _loadReporting();
     } catch (e) {
-      _showMessage('Could not push schedule: $e');
+      _showMessage('Could not push schedule: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _pushing = false);
     }
@@ -296,12 +311,12 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     }
     setState(() => _adjusting = true);
     try {
-      await GetIt.I<CurriculumApi>().rescheduleLesson(lessonId, targetDate: targetDate, reason: reason);
+      await GetIt.I<CurriculumApi>().rescheduleLesson(lessonId, newDate: targetDate, reason: reason);
       _showMessage('Lesson rescheduled successfully.');
       _adjustLessonIdController.clear();
       _loadReporting();
     } catch (e) {
-      _showMessage('Could not reschedule lesson: $e');
+      _showMessage('Could not reschedule lesson: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _adjusting = false);
     }
@@ -398,19 +413,23 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     }
   }
 
-  Future<void> _submitCreateCalendar() async {
+  Future<void> _submitCreateCalendar(List<String> weeklyOffDays, String altSatRule) async {
     if (_academicYearId == null) return;
+    final updating = _calendar != null;
     setState(() => _creatingCalendar = true);
     try {
-      await GetIt.I<CurriculumApi>().createCalendar(
-        _academicYearId!,
-        weeklyOffDays: [_weeklyOffDay],
-        alternateSaturdayRule: _altSatRule,
-      );
-      _showMessage('Academic Calendar initialized successfully.');
+      final api = GetIt.I<CurriculumApi>();
+      if (updating) {
+        await api.updateCalendar(_academicYearId!,
+            weeklyOffDays: weeklyOffDays, alternateSaturdayRule: altSatRule);
+      } else {
+        await api.createCalendar(_academicYearId!,
+            weeklyOffDays: weeklyOffDays, alternateSaturdayRule: altSatRule);
+      }
+      _showMessage(updating ? 'Academic Calendar updated.' : 'Academic Calendar initialized successfully.');
       _loadCalendarSetup();
     } catch (e) {
-      _showMessage('Could not initialize calendar: $e');
+      _showMessage('Could not ${updating ? 'update' : 'initialize'} calendar: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _creatingCalendar = false);
     }
@@ -456,9 +475,20 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       _holidayLabelController.clear();
       _loadCalendarSetup();
     } catch (e) {
-      _showMessage('Could not add holiday: $e');
+      _showMessage('Could not add holiday: ${serverErrorMessage(e)}');
     } finally {
       if (mounted) setState(() => _addingHoliday = false);
+    }
+  }
+
+  Future<void> _deleteHoliday(HolidayInfo h) async {
+    if (_academicYearId == null) return;
+    try {
+      await GetIt.I<CurriculumApi>().deleteHoliday(_academicYearId!, h.id);
+      _showMessage('Holiday "${h.label}" removed.');
+      _loadCalendarSetup();
+    } catch (e) {
+      _showMessage('Could not remove holiday: ${serverErrorMessage(e)}');
     }
   }
 
@@ -467,6 +497,19 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     setState(() => _loadingWorkingDays = true);
     try {
       final api = GetIt.I<CurriculumApi>();
+      final cal = await api.getCalendar(_academicYearId!);
+      if (mounted) {
+        setState(() {
+          _calendar = cal;
+          _calendarLoadError = null;
+          // Cleared before the reads below, so a failed or calendar-less
+          // reload never leaves an earlier load's count on screen as if it
+          // described the calendar now saved.
+          _workingDaysSummary = null;
+          _holidaysList = [];
+        });
+      }
+      if (cal == null) return;
       final results = await Future.wait([
         api.getWorkingDays(_academicYearId!),
         api.listHolidays(_academicYearId!),
@@ -477,8 +520,22 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           _holidaysList = results[1] as List<HolidayInfo>;
         });
       }
-    } catch (_) {
-      // Ignored if calendar not yet created
+    } catch (e) {
+      // A missing calendar is not an error here (getCalendar turns its 404
+      // into null, handled above). What lands here is a real failure --
+      // chiefly /working-days' 404 for a saved calendar holding a value
+      // calendar.py now rejects (a legacy 'Sun', an unparseable Saturday
+      // rule), whose detail names that value. Swallowing it left "Saved: ..."
+      // and "Update Calendar" on screen with no count and no reason.
+      final message = serverErrorMessage(e);
+      if (mounted) {
+        setState(() {
+          _calendarLoadError = message;
+          _workingDaysSummary = null;
+          _holidaysList = [];
+        });
+      }
+      _showMessage('Could not load calendar: $message');
     } finally {
       if (mounted) setState(() => _loadingWorkingDays = false);
     }
@@ -924,6 +981,16 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                   border: OutlineInputBorder(),
                 ),
               ),
+              const Gap(12),
+              TextFormField(
+                controller: _pushPeriodsController,
+                keyboardType: TextInputType.number,
+                decoration: const InputDecoration(
+                  labelText: 'Periods per week (optional)',
+                  hintText: "Leave blank to use the subject's stored allocation",
+                  border: OutlineInputBorder(),
+                ),
+              ),
               const Gap(16),
               FilledButton.icon(
                 onPressed: _pushing ? null : _submitPushSchedule,
@@ -1272,43 +1339,10 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         Text('Setup academic calendar rules, period durations, and block holidays (§8, §10).',
             style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
         const Gap(12),
-        AppCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Academic Calendar Rules', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
-              const Gap(8),
-              DropdownButtonFormField<int>(
-                initialValue: _weeklyOffDay,
-                decoration: const InputDecoration(labelText: 'Weekly Off Day', border: OutlineInputBorder()),
-                items: const [
-                  DropdownMenuItem(value: 7, child: Text('Sunday (Default)')),
-                  DropdownMenuItem(value: 6, child: Text('Saturday')),
-                  DropdownMenuItem(value: 5, child: Text('Friday')),
-                ],
-                onChanged: (v) => setState(() => _weeklyOffDay = v ?? 7),
-              ),
-              const Gap(12),
-              DropdownButtonFormField<String>(
-                initialValue: _altSatRule,
-                decoration: const InputDecoration(labelText: 'Alternate Saturday Rule', border: OutlineInputBorder()),
-                items: const [
-                  DropdownMenuItem(value: 'none', child: Text('None (All working)')),
-                  DropdownMenuItem(value: 'second_fourth', child: Text('2nd & 4th Saturdays Off')),
-                  DropdownMenuItem(value: 'all', child: Text('All Saturdays Off')),
-                ],
-                onChanged: (v) => setState(() => _altSatRule = v ?? 'none'),
-              ),
-              const Gap(12),
-              FilledButton.icon(
-                onPressed: _creatingCalendar ? null : _submitCreateCalendar,
-                icon: _creatingCalendar
-                    ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
-                    : const Icon(Icons.calendar_month),
-                label: const Text('Initialize Calendar'),
-              ),
-            ],
-          ),
+        CalendarRulesCard(
+          saved: _calendar,
+          busy: _creatingCalendar,
+          onSubmit: _submitCreateCalendar,
         ),
         const Gap(16),
         AppCard(
@@ -1361,6 +1395,8 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                   DropdownMenuItem(value: 'public', child: Text('Public Holiday')),
                   DropdownMenuItem(value: 'school', child: Text('School Holiday')),
                   DropdownMenuItem(value: 'emergency', child: Text('Emergency Closure')),
+                  // The one kind that does NOT remove a teaching day.
+                  DropdownMenuItem(value: 'event', child: Text('School Event (still a working day)')),
                 ],
                 onChanged: (v) => setState(() => _holidayKind = v ?? 'public'),
               ),
@@ -1411,7 +1447,10 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 Text('Weekly Offs: ${_workingDaysSummary!.weeklyOffCount}'),
                 const Gap(4),
                 Text('Alternate Saturdays Off: ${_workingDaysSummary!.alternateSaturdayOffCount}'),
-              ] else
+              ] else if (_calendarLoadError != null)
+                Text('Working days could not be computed: $_calendarLoadError',
+                    style: TextStyle(color: theme.colorScheme.error))
+              else
                 const Text('Initialize the academic calendar above to compute teaching days.'),
               if (_holidaysList.isNotEmpty) ...[
                 const Gap(8),
@@ -1421,7 +1460,21 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                     style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
                 const Gap(4),
                 ..._holidaysList.map(
-                  (h) => Text('• ${h.date}: ${h.label} (${h.kind})', style: theme.textTheme.bodySmall),
+                  (h) => Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                            '• ${h.date}${h.endDate != null ? ' to ${h.endDate}' : ''}: ${h.label} (${h.kind})',
+                            style: theme.textTheme.bodySmall),
+                      ),
+                      IconButton(
+                        tooltip: 'Remove holiday',
+                        visualDensity: VisualDensity.compact,
+                        icon: const Icon(Icons.delete_outline, size: 18),
+                        onPressed: () => _deleteHoliday(h),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ],
