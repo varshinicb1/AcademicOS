@@ -226,7 +226,7 @@ void main() {
     await tapOnQuestion(tester, '27', 'Pick');
     final searched = calls(api, 'POST', (p) => p == '/questions/search').single;
     expect(searched.body, allOf(containsPair('minMarks', 3), containsPair('maxMarks', 3)));
-    expect(find.textContaining('Answer key ✓'), findsWidgets);
+    expect(find.textContaining('Has answer key'), findsWidgets);
     await tester.tap(find.text(search.first['stem'] as String).first);
     await tester.pumpAndSettle();
     final pick = calls(api, 'POST', (p) => p.endsWith('/questions/27')).single;
