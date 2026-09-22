@@ -359,7 +359,14 @@ def test_the_answer_key_and_every_set_follow_a_swap_and_old_pdfs_are_not_served(
 def test_a_quick_generated_paper_swaps_by_the_slots_marks_type_and_chapters(
         tmp_path, monkeypatch, seeded):
     """No template recorded the section's rules: the slot's own marks, the
-    replaced question's type and the assessment's chapters stand in."""
+    replaced question's type and the assessment's chapters stand in.
+
+    Written after rule_for's fallback, so each clause was checked against a
+    broken copy of it: fallback marks + 2 fails (3 == 1); fallback chapters
+    emptied fails (['ch2'] == ['ch1']); no fallback at all is a 500
+    (AttributeError on None). The type is pinned twice -- here and in
+    choose_swap for any section that names no types -- so it fails only with
+    both pins removed ('mcq' == 'short_answer')."""
     by_id = {r["id"]: r for r in FIXTURE}
     with _boot_client(tmp_path, monkeypatch) as client:
         t1 = _register(client, "school_1", "ana@example.com")
