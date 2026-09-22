@@ -376,3 +376,67 @@ def test_a_unique_violation_on_an_id_that_is_now_there_counts_as_migrated(
     out = capsys.readouterr().out
     assert "FAILED" not in out, out
     assert "inserted 0, already migrated 2" in out
+
+
+# --------------------------------------------------------------------------- #
+# a failed row is a nonzero exit, with no cut-over advice (Task 306 review)
+# --------------------------------------------------------------------------- #
+#
+# An operator or CI job that checks only the exit code must not be told to cut
+# over when rows did not land -- least of all when an audit row in Cloud SQL
+# has the same id as the source but a different entry_hash, which means the
+# two audit trails have diverged.
+
+def test_an_audit_row_with_a_different_hash_exits_nonzero(stub_source, cloud_sql_audit,
+                                                          capsys) -> None:
+    rows = _audit_rows(3)
+    stub_source(rows, table="audit_log")
+    diverged = dict(rows[1], entry_hash="0" * 64)
+    target = cloud_sql_audit(FakeCloudSqlAuditLog([rows[0], diverged]))
+
+    assert migrate.main() != 0
+    out = capsys.readouterr().out
+    assert "different entry_hash" in out
+    assert "FAILED: audit_log" in out
+    assert "Next:" not in out
+    # The diverged row is left as it is, for a person to look at.
+    assert [r for r in target.rows if r["id"] == rows[1]["id"]] == [diverged]
+
+
+def test_any_failed_audit_insert_exits_nonzero(stub_source, cloud_sql_audit, capsys) -> None:
+    stub_source(_audit_rows(2), table="audit_log")
+    target = cloud_sql_audit(FakeCloudSqlAuditLog())
+
+    def broken(row):
+        raise RuntimeError("connection reset")
+    target.insert = broken  # type: ignore[method-assign]
+
+    assert migrate.main() != 0
+    out = capsys.readouterr().out
+    assert "FAILED: audit_log" in out
+    assert "Next:" not in out
+
+
+def test_a_failed_upsert_in_any_table_exits_nonzero(stub_source, monkeypatch,
+                                                     capsys) -> None:
+    stub_source([{"id": "p1", "payload": {}}, {"id": "p2", "payload": {}}], table="papers")
+
+    class HalfBroken:
+        rows: list[dict[str, Any]] = []
+
+        def upsert(self, row, on_conflict):
+            if row["id"] == "p2":
+                raise RuntimeError("value too long")
+            self.rows.append(row)
+
+        def select(self, **kw):
+            return list(self.rows)
+
+    monkeypatch.setattr(migrate.postgres_kv, "postgres_configured", lambda: True)
+    monkeypatch.setattr(migrate, "PostgresTable", lambda table: HalfBroken())
+    monkeypatch.setattr("sys.argv", ["migrate", "--only", "papers"])
+
+    assert migrate.main() != 0
+    out = capsys.readouterr().out
+    assert "FAILED: papers" in out
+    assert "Next:" not in out

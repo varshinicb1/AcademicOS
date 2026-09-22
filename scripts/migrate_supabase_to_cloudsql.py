@@ -32,7 +32,12 @@ audit_log is different, because Cloud SQL enforces that it is append-only
 (deploy/gcp/schema.sql). Its rows are inserted, never upserted: an upsert of a
 row already there is an UPDATE, which the table's trigger refuses, so before
 2026-09-22 a second run printed FAILED for every audit row. A row whose id is
-already in Cloud SQL counts as "already migrated".
+already in Cloud SQL counts as "already migrated"; one whose id is there with
+a different entry_hash is FAILED and left as it is.
+
+Exit status is nonzero, and the cut-over hint is not printed, whenever any
+table was refused, had a row fail, ended up with fewer rows than the source,
+or could not be read. Only a clean run exits 0.
 
 The script also refuses to write audit_log into a Cloud SQL table that holds
 any row not in the source -- for example, entries the GCP service appended
@@ -231,6 +236,12 @@ def main() -> int:
 
     total_rows = 0
     refused: list[str] = []
+    # Tables where rows did not land (a failed write, a destination short of
+    # the source, an unreadable source). Any of these is a nonzero exit with
+    # no cut-over advice: a CI job or operator reading only the exit code
+    # must not cut over onto a partial copy -- least of all when an audit row
+    # has the same id but a different entry_hash, i.e. the trails diverged.
+    failed_tables: list[str] = []
     for table in tables:
         spec = TABLES[table]
         print(f"\n== {table}")
@@ -238,6 +249,7 @@ def main() -> int:
             rows = _fetch_all(url, headers, table)
         except requests.exceptions.RequestException as exc:
             print(f"    source unreachable, skipping: {exc}")
+            failed_tables.append(table)
             continue
 
         if not rows:
@@ -273,21 +285,27 @@ def main() -> int:
             status = "ok" if not failed and back >= len(kept) else "SHORT"
             print(f"    {status}: inserted {inserted}, already migrated {already}, "
                   f"failed {failed}, source {len(kept)}, destination now {back}")
+            if status != "ok":
+                failed_tables.append(table)
             total_rows += inserted
             continue
 
-        written = 0
+        written = failed = 0
         for row in kept:
             try:
                 target.upsert(row, on_conflict=spec["conflict"])
                 written += 1
             except Exception as exc:  # noqa: BLE001 - report and continue
+                failed += 1
                 print(f"    FAILED on {row.get(spec['conflict'].split(',')[0])!r}: {exc}")
 
         # Verify by reading back, rather than trusting the write count.
         back = len(target.select())
-        status = "ok" if back >= len(kept) else "SHORT"
-        print(f"    {status}: wrote {written}, source {len(kept)}, destination now {back}")
+        status = "ok" if not failed and back >= len(kept) else "SHORT"
+        print(f"    {status}: wrote {written}, failed {failed}, source {len(kept)}, "
+              f"destination now {back}")
+        if status != "ok":
+            failed_tables.append(table)
         total_rows += written
 
     verb = "would migrate" if args.dry_run else "migrated"
@@ -295,6 +313,10 @@ def main() -> int:
     if refused:
         print(f"REFUSED: {', '.join(refused)} (see above). Do not cut over until "
               f"it is resolved and this script re-run.")
+    if failed_tables:
+        print(f"FAILED: {', '.join(failed_tables)} (see above). Do not cut over "
+              f"until every row has landed and this script re-runs clean.")
+    if refused or failed_tables:
         return 1
     if not args.dry_run:
         print("Next: verify with the service's /health/storage, then remove the "

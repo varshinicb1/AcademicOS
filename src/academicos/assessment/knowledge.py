@@ -69,6 +69,11 @@ def sheet_source(assessment_id: str, student_id: str) -> str:
     return f"sheet:{assessment_id}:{student_id}"
 
 
+def _ts_key(ts: str) -> float:
+    """Order ISO timestamps by instant, not by string (offsets may differ)."""
+    return datetime.fromisoformat(ts).timestamp()
+
+
 def _status(m: float, confident: bool) -> str:
     if not confident:
         return "learning"
@@ -248,6 +253,17 @@ class KnowledgeStore:
         old = self._tagged(model, source)
         if old and self._signature(old) == self._signature(new):
             return False
+        if old:
+            # A re-finalize corrects evidence from an earlier sitting; it is
+            # not a new sitting. KnowledgeMastery weights confidence by each
+            # answer's age and decays retention from last_seen, so stamping
+            # the replacements with "now" would make a sheet sat 40 days ago
+            # score as if sat today (retention from its 0.10 floor back to
+            # 1.0 at the default 14-day tau) because one mark was corrected.
+            # Keep the sheet's original time.
+            sat = min((i.ts for i in old), key=_ts_key)
+            for i in new:
+                i.ts = sat
         for cid in list(model.concepts):
             state = model.concepts[cid]
             removed = [i for i in state.history if i.source == source]
@@ -258,11 +274,19 @@ class KnowledgeStore:
             state.correct = max(0, state.correct - sum(
                 1 for i in removed
                 if i.kind == "answer" and i.outcome is not None and i.outcome >= 0.5))
-            state.last_seen = state.history[-1].ts if state.history else None
             if not state.history and state.attempts == 0:
                 del model.concepts[cid]
         for i in new:
             model.observe(i)
+        # observe() sets last_seen to the interaction it just appended, and the
+        # replacements carry the sheet's original (older) time, so the last
+        # interaction written is not the newest: practice done after the sheet
+        # must stay the latest evidence. last_seen is the newest ts in history.
+        for cid in {i.concept_id for i in old} | {i.concept_id for i in new}:
+            state = model.concepts.get(cid)
+            if state is not None:
+                state.last_seen = (max((i.ts for i in state.history), key=_ts_key)
+                                   if state.history else None)
         self.save(model)
         return True
 
