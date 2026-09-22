@@ -680,6 +680,97 @@ def test_concurrent_pii_reads_on_one_instance_all_append(tmp_path, monkeypatch):
     assert _local_count(log) == 0
 
 
+class HangingRemoteAudit(FakeRemoteAudit):
+    """A Cloud SQL that is unreachable: every call waits out the pool
+    timeout (10 s in postgres_kv, `delay` here) and then fails as an outage."""
+
+    def __init__(self, delay: float):
+        super().__init__()
+        self.delay = delay
+
+    def select(self, order=None, limit=None, gt=None, **eq):
+        import time
+        from academicos.assessment.supabase_kv import SupabaseUnavailable
+        time.sleep(self.delay)
+        raise SupabaseUnavailable(table="audit_log", op="select",
+                                  body="PoolTimeout: couldn't get a connection")
+
+
+class SlowRemoteAudit(ThreadedRemoteAudit):
+    """A Cloud SQL that answers, but slowly: each head read takes `delay`."""
+
+    def __init__(self, delay: float):
+        super().__init__()
+        self.delay = delay
+
+    def select(self, order=None, limit=None, gt=None, **eq):
+        import time
+        time.sleep(self.delay)
+        return super().select(order=order, limit=limit, gt=gt, **eq)
+
+
+def _concurrent_appends(log: AuditLog, n: int) -> tuple[list, float]:
+    """n appends released together; returns each one's id or exception, and
+    the wall time until the last finished."""
+    from concurrent.futures import ThreadPoolExecutor
+    import threading
+    import time
+    start = threading.Barrier(n)
+
+    def one(i: int):
+        start.wait()
+        try:
+            return log.append("pii_read", actor="t1", student_id=f"s{i}")
+        except Exception as exc:        # noqa: BLE001 -- the test sorts them
+            return exc
+
+    t0 = time.monotonic()
+    with ThreadPoolExecutor(max_workers=n) as pool:
+        results = list(pool.map(one, range(n)))
+    return results, time.monotonic() - t0
+
+
+def test_appends_behind_an_unreachable_remote_do_not_queue(tmp_path, monkeypatch):
+    """Appends in one process take turns, so behind an unreachable remote
+    each would wait out every earlier one's pool timeout: 8 appends at 0.4 s
+    would take 3.2 s in a row, and 16 PII reads at the real 10 s would hold
+    16 threadpool workers for 160 s. Once the append holding the turn has
+    seen the outage, the ones waiting behind it go straight to the local
+    fallback it took, as each would have after its own timeout."""
+    remote = HangingRemoteAudit(delay=0.4)
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    n = 8
+
+    results, elapsed = _concurrent_appends(log, n)
+
+    assert all(isinstance(r, str) for r in results), results
+    assert _local_count(log) == n + 1, "the chain start, then every append"
+    assert elapsed < 1.5, f"{n} appends took {elapsed:.2f} s: they queued"
+
+
+def test_a_slow_remote_bounds_the_wait_for_a_turn(tmp_path, monkeypatch):
+    """A remote that answers slowly is not an outage, so nothing falls back.
+    An append that cannot get its turn within _REMOTE_TURN_WAIT is refused
+    with AuditAppendFailed (a fast 503, no data served) instead of holding a
+    worker thread for as long as the queue ahead of it takes."""
+    monkeypatch.setattr(audit_mod, "_REMOTE_TURN_WAIT", 0.5)
+    remote = SlowRemoteAudit(delay=0.3)
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    n = 8
+
+    results, elapsed = _concurrent_appends(log, n)
+
+    ok = [r for r in results if isinstance(r, str)]
+    refused = [r for r in results if isinstance(r, audit_mod.AuditAppendFailed)]
+    assert len(ok) + len(refused) == n, results
+    assert ok and refused
+    assert elapsed < 2.0, f"{n} appends took {elapsed:.2f} s: the wait was not bounded"
+    assert _local_count(log) == 0, "slow is not down: nothing is written locally"
+    assert log.verify_chain() is None
+
+
 def test_a_lost_race_backs_off_with_jitter_before_retrying(tmp_path, monkeypatch):
     """Two instances cannot share a lock, so between them a lost race is
     still possible. The loser waits a random, growing time before re-reading

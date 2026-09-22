@@ -253,7 +253,11 @@ gets flagged to the user, not silently shipped.
       only two instances can race for a seq; a loser backs off with jitter
       and retries, and an append that loses 12 times in a row answers 503
       and saves no grade (or serves no read); it is not written to local
-      disk.
+      disk. An append waits at most 5 s for its turn, then answers 503 the
+      same way, so a slow database cannot tie up every request thread; if
+      the append ahead of it found the database unreachable, the ones
+      waiting fall back to local disk at once, as it did, instead of each
+      waiting out the 10 s connection timeout in a queue.
       **Manual step, not yet applied to any live project:** the
       `audit_log` block of `docs/supabase-setup.sql` (chain columns, unique
       `seq`, RLS with INSERT/SELECT policies only, UPDATE/DELETE/TRUNCATE

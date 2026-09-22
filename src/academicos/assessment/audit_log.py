@@ -115,6 +115,20 @@ _SEQ_RACE_BACKOFF_CAP = 0.25
 # Module-level so a test can record the waits instead of taking them.
 _sleep = time.sleep
 
+# The longest an append waits for its turn at the remote chain
+# (AuditLog._remote_append_lock) before it is refused with AuditAppendFailed,
+# a 503 with no data served. Every PII read and grading write takes a turn,
+# so an unbounded wait behind a slow remote would hold one sync-threadpool
+# worker per waiting request (40 by default) and starve routes that never
+# touch the log. A healthy turn is two short queries, so 5 s is only reached
+# when the remote is degraded. It is below the pool's 10 s connect timeout on
+# purpose: a waiter gives up before it would have learned of an outage itself.
+_REMOTE_TURN_WAIT = 5.0
+
+# How often a waiting append checks whether the holder of the turn has seen
+# an outage, in which case it stops waiting and falls back to local SQLite.
+_REMOTE_TURN_POLL = 0.02
+
 # Rows per remote read in verify_chain. PostgREST caps a response at its
 # max-rows setting (1000 by default) without saying so, so the read pages by
 # id until a page comes back empty. It does not stop at a short page, because
@@ -342,7 +356,12 @@ class AuditLog:
         # append holds this across network round trips, and local reads
         # (has_entry, sheet_entries) must not wait on those. It is released
         # before append() falls back to _append_local, so the two never nest.
+        # It is only ever taken through _remote_turn, which bounds the wait.
         self._remote_append_lock = threading.Lock()
+        # time.monotonic() of the last remote append that failed as an outage
+        # (not a refusal). Appends waiting for their turn compare it with when
+        # they started waiting: one set since means the remote is down now.
+        self._remote_outage_at = float("-inf")
         db_path.parent.mkdir(parents=True, exist_ok=True)
         self.conn = sqlite3.connect(str(db_path), check_same_thread=False)
         self.conn.row_factory = sqlite3.Row
@@ -374,8 +393,11 @@ class AuditLog:
         }
         if self._remote.enabled:
             try:
-                with self._remote_append_lock:
-                    self._append_remote(entry)
+                if self._remote_turn(entry):
+                    return entry["id"]
+                logger.warning("audit_log append skipped the remote: the append ahead "
+                               "of it found Supabase unavailable; writing to local SQLite")
+                self._append_local(entry)
                 return entry["id"]
             except (DuplicateAuditEntry, AuditAppendFailed):
                 raise
@@ -387,6 +409,44 @@ class AuditLog:
                 logger.warning("Supabase unavailable for audit_log append, falling back to local SQLite", exc_info=True)
         self._append_local(entry)
         return entry["id"]
+
+    def _remote_turn(self, entry: dict[str, Any]) -> bool:
+        """Take this process's turn at the remote chain and append `entry`.
+
+        Returns False, having written nothing, when the append holding the
+        turn found the remote unreachable while this one waited: the caller
+        then falls back to local as that append did, instead of waiting out
+        the same pool timeout in a queue (16 page images at 10 s each would
+        be 160 s, in a row). Raises AuditAppendFailed when the turn does not
+        come within _REMOTE_TURN_WAIT, which is a slow remote, not a down
+        one, so nothing is written locally."""
+        waiting_since = time.monotonic()
+        deadline = waiting_since + _REMOTE_TURN_WAIT
+        lock = self._remote_append_lock
+        while not lock.acquire(timeout=_REMOTE_TURN_POLL):
+            if self._remote_outage_at >= waiting_since:
+                return False
+            if time.monotonic() >= deadline:
+                raise AuditAppendFailed(
+                    table="audit_log", op="insert",
+                    body=f"waited {_REMOTE_TURN_WAIT:g} s for the appends ahead of this "
+                         "one; the remote is answering too slowly")
+        try:
+            if self._remote_outage_at >= waiting_since:
+                return False    # the holder saw the outage as it released
+            try:
+                self._append_remote(entry)
+            except (DuplicateAuditEntry, AuditAppendFailed):
+                raise
+            except (SupabaseUnavailable, requests.exceptions.RequestException) as exc:
+                if not _is_misconfiguration(exc):
+                    # Set before the lock is released, so no waiter can take
+                    # the turn without seeing it.
+                    self._remote_outage_at = time.monotonic()
+                raise
+            return True
+        finally:
+            lock.release()
 
     def _append_remote(self, entry: dict[str, Any]) -> None:
         """Insert `entry` at the next remote seq. The caller holds
