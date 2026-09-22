@@ -15,8 +15,10 @@ could never get past chapters at all.
 A template is the honest deterministic path that was missing: content that
 already exists somewhere real, re-keyed so it can be offered to a new school.
 The two committed sources (see scripts/export_decomposition_templates.py) are
-school_1's approved Class 10 decomposition and the NCERT textbooks' own numbered
-section headings.
+school_1's approved Class 10 decomposition and the NCERT textbooks' own printed
+section headings, the latter read out of the PDFs by
+`academicos.syllabus.textbook_headings` -- in the repo and re-runnable, so
+every committed template can be rebuilt from its source.
 
 Applied as proposals, never as rows. school_1's principal approved those topics
 for school_1; writing them into another school's `topics` table would be this
@@ -50,8 +52,10 @@ PROVENANCE_PREFIX = "template:"
 class TemplateSubtopic:
     name: str
     # The textbook's own section number ("2.2.1") for a heading-derived
-    # template, None for one exported from an approved decomposition. Kept
-    # because it is the thing a principal can check the proposal against.
+    # template. None both for a template exported from an approved
+    # decomposition and for one from a book that prints headings but does not
+    # number them (the Class 6-8 Social Science titles). Kept because, where it
+    # exists, it is the thing a principal can check the proposal against.
     heading_number: Optional[str] = None
 
 

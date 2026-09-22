@@ -126,13 +126,19 @@ def seed_cbse_grade(store: CurriculumStore, *, school_id: str,
     subjects_skipped: list[str] = []
     topic_templates: list[SubjectTemplateReport] = []
 
-    # Get all subjects for this grade from syllabus files
-    from ..syllabus.cbse_syllabus import get_available_subjects_for_grade
-    available_subjects = get_available_subjects_for_grade(grade_number)
-    if not available_subjects and grade_number == 10:
-        available_subjects = list(_FILENAME_BY_SUBJECT.keys())
+    # Every subject this grade SHOULD have, not just the files that happen to
+    # be on disk. The difference is item 3 of the task: while this list came
+    # from `get_available_subjects_for_grade` (which is built by scanning the
+    # syllabus directory), "expected" and "present" were the same set by
+    # construction and `subjects_skipped` could never be non-empty -- measured
+    # 2026-09-23, seeding grade 11 reported nothing skipped although
+    # History_11/Geography_11/Political_Science_11 do not exist.
+    from ..syllabus.cbse_syllabus import get_expected_subjects_for_grade
+    expected_subjects = get_expected_subjects_for_grade(grade_number)
+    if not expected_subjects and grade_number == 10:
+        expected_subjects = list(_FILENAME_BY_SUBJECT.keys())
 
-    for subject_name in available_subjects:
+    for subject_name in expected_subjects:
         doc = load_syllabus(subject_name, grade_number)
         if doc is None:
             subjects_skipped.append(subject_name)

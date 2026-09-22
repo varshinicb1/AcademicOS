@@ -145,20 +145,7 @@
     {
      "name": "Correct Way of Measuring Length",
      "heading_number": "5.3",
-     "subtopics": [
-      {
-       "name": "What is the correct way to place the scale?",
-       "heading_number": null
-      },
-      {
-       "name": "What is the correct position of the eye while reading the scale?",
-       "heading_number": null
-      },
-      {
-       "name": "How to measure the length if the ends of the scale are broken?",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Measuring the length of a curved line",
@@ -423,28 +410,7 @@
     {
      "name": "Our Solar System",
      "heading_number": "12.3",
-     "subtopics": [
-      {
-       "name": "The Sun",
-       "heading_number": null
-      },
-      {
-       "name": "Planets",
-       "heading_number": null
-      },
-      {
-       "name": "Natural Satellites",
-       "heading_number": null
-      },
-      {
-       "name": "Asteroids",
-       "heading_number": null
-      },
-      {
-       "name": "Comets",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "The Milky Way Galaxy",

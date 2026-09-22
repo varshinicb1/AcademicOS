@@ -4,7 +4,7 @@
  "chapters": [
   {
    "chapter_slug": "knowing-our-numbers",
-   "chapter_name": "Patterns in Mathematics",
+   "chapter_name": "PATTERNS IN MATHEMATICS",
    "source_file": "maths/class6_ganita_prakash.pdf",
    "topics": [
     {
@@ -25,16 +25,7 @@
     {
      "name": "Relations among Number Sequences",
      "heading_number": "1.4",
-     "subtopics": [
-      {
-       "name": "A picture can explain it",
-       "heading_number": null
-      },
-      {
-       "name": "Another example of such a relation between sequences: Adding up and down",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Patterns in Shapes",
@@ -97,20 +88,7 @@
     {
      "name": "Measuring Angles",
      "heading_number": "2.9",
-     "subtopics": [
-      {
-       "name": "Degree measures of different angles",
-       "heading_number": null
-      },
-      {
-       "name": "Unlabelled protractor",
-       "heading_number": null
-      },
-      {
-       "name": "Labelled protractor",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Drawing Angles",
@@ -127,18 +105,13 @@
   },
   {
    "chapter_slug": "playing-with-numbers",
-   "chapter_name": "Number Play",
+   "chapter_name": "NUMBER PLAY",
    "source_file": "maths/class6_ganita_prakash.pdf",
    "topics": [
     {
      "name": "Numbers can Tell us Things",
      "heading_number": "3.1",
-     "subtopics": [
-      {
-       "name": "What are these numbers telling us?",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Supercells",
@@ -153,12 +126,7 @@
     {
      "name": "Playing with Digits",
      "heading_number": "3.4",
-     "subtopics": [
-      {
-       "name": "Digit sums of numbers",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Pretty Palindromic Patterns",
@@ -216,12 +184,7 @@
     {
      "name": "Pictographs",
      "heading_number": "4.2",
-     "subtopics": [
-      {
-       "name": "Drawing a Pictograph",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Bar Graphs",
@@ -243,7 +206,7 @@
   },
   {
    "chapter_slug": "fractions-6",
-   "chapter_name": "Prime Time",
+   "chapter_name": "PRIME TIME",
    "source_file": "maths/class6_ganita_prakash.pdf",
    "topics": [
     {
@@ -264,94 +227,30 @@
     {
      "name": "Prime Factorisation",
      "heading_number": "5.4",
-     "subtopics": [
-      {
-       "name": "Prime factorisation",
-       "heading_number": null
-      },
-      {
-       "name": "Prime factorisation of a product of two numbers",
-       "heading_number": null
-      },
-      {
-       "name": "Using prime factorisation to check if two numbers are co-prime",
-       "heading_number": null
-      },
-      {
-       "name": "Using prime factorisation to check if one number is divisible by another",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Divisibility Tests",
      "heading_number": "5.5",
-     "subtopics": [
-      {
-       "name": "Divisibility by 10",
-       "heading_number": null
-      },
-      {
-       "name": "Divisibility by 5",
-       "heading_number": null
-      },
-      {
-       "name": "Divisibility by 2",
-       "heading_number": null
-      },
-      {
-       "name": "Divisibility by 4",
-       "heading_number": null
-      },
-      {
-       "name": "Divisibility by 8",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Fun with numbers",
      "heading_number": "5.6",
-     "subtopics": [
-      {
-       "name": "Special numbers",
-       "heading_number": null
-      },
-      {
-       "name": "A prime puzzle",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     }
    ],
    "provenance": "template:ncert-textbook-headings"
   },
   {
    "chapter_slug": "decimals-6",
-   "chapter_name": "Perimeter and Area",
+   "chapter_name": "PERIMETER AND AREA",
    "source_file": "maths/class6_ganita_prakash.pdf",
    "topics": [
     {
      "name": "Perimeter",
      "heading_number": "6.1",
-     "subtopics": [
-      {
-       "name": "Perimeter of a rectangle",
-       "heading_number": null
-      },
-      {
-       "name": "Perimeter of a square",
-       "heading_number": null
-      },
-      {
-       "name": "Perimeter of a triangle",
-       "heading_number": null
-      },
-      {
-       "name": "Perimeter of a regular polygon",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Area",
@@ -394,34 +293,12 @@
     {
      "name": "Mixed Fractions",
      "heading_number": "7.5",
-     "subtopics": [
-      {
-       "name": "Fractions greater than one",
-       "heading_number": null
-      },
-      {
-       "name": "Writing fractions greater than one as mixed numbers",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Equivalent Fractions",
      "heading_number": "7.6",
-     "subtopics": [
-      {
-       "name": "Using a fraction wall to find equal fractional lengths!",
-       "heading_number": null
-      },
-      {
-       "name": "Understanding equivalent fractions using equal shares",
-       "heading_number": null
-      },
-      {
-       "name": "Expressing a fraction in lowest terms (or in its simplest form)",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Comparing Fractions",
@@ -431,24 +308,7 @@
     {
      "name": "Addition and Subtraction of Fractions",
      "heading_number": "7.8",
-     "subtopics": [
-      {
-       "name": "Adding fractions with the same fractional unit or denominator",
-       "heading_number": null
-      },
-      {
-       "name": "Adding fractions with different fractional units or denominators",
-       "heading_number": null
-      },
-      {
-       "name": "Subtraction of fractions with the same fractional unit or denominator",
-       "heading_number": null
-      },
-      {
-       "name": "Subtraction of fractions with different fractional units or denominators",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "A Pinch of History",
@@ -498,144 +358,46 @@
   },
   {
    "chapter_slug": "symmetry-6",
-   "chapter_name": "Symmetry",
+   "chapter_name": "SYMMETRY",
    "source_file": "maths/class6_ganita_prakash.pdf",
    "topics": [
     {
      "name": "Line of Symmetry",
      "heading_number": "9.1",
-     "subtopics": [
-      {
-       "name": "Figures with more than one line of symmetry",
-       "heading_number": null
-      },
-      {
-       "name": "Reflection",
-       "heading_number": null
-      },
-      {
-       "name": "Generating shapes having lines of symmetry",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Rotational Symmetry",
      "heading_number": "9.2",
-     "subtopics": [
-      {
-       "name": "Symmetries of a circle",
-       "heading_number": null
-      },
-      {
-       "name": "Game",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     }
    ],
    "provenance": "template:ncert-textbook-headings"
   },
   {
    "chapter_slug": "algebra-6",
-   "chapter_name": "The Other Side of Zero",
+   "chapter_name": "THE OTHER SIDE OF ZERO",
    "source_file": "maths/class6_ganita_prakash.pdf",
    "topics": [
     {
      "name": "Bela’s Building of Fun",
      "heading_number": "10.1",
-     "subtopics": [
-      {
-       "name": "Numbering the floors in the building of fun",
-       "heading_number": null
-      },
-      {
-       "name": "Addition to keep track of movement",
-       "heading_number": null
-      },
-      {
-       "name": "Combining button presses is also addition",
-       "heading_number": null
-      },
-      {
-       "name": "Back to zero!",
-       "heading_number": null
-      },
-      {
-       "name": "Comparing numbers using floors",
-       "heading_number": null
-      },
-      {
-       "name": "Subtraction to find which button to press",
-       "heading_number": null
-      },
-      {
-       "name": "Adding and subtracting larger numbers",
-       "heading_number": null
-      },
-      {
-       "name": "Adding, subtracting, and comparing any numbers",
-       "heading_number": null
-      },
-      {
-       "name": "Back to the number line",
-       "heading_number": null
-      },
-      {
-       "name": "Using the unmarked number line to add and subtract",
-       "heading_number": null
-      },
-      {
-       "name": "Converting subtraction to addition and addition to subtraction",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "The Token Model",
      "heading_number": "10.2",
-     "subtopics": [
-      {
-       "name": "Using tokens for addition",
-       "heading_number": null
-      },
-      {
-       "name": "Using tokens for subtraction",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Integers in Other Places",
      "heading_number": "10.3",
-     "subtopics": [
-      {
-       "name": "Credits and debits",
-       "heading_number": null
-      },
-      {
-       "name": "Geographical cross sections",
-       "heading_number": null
-      },
-      {
-       "name": "Temperature",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "Explorations with Integers",
      "heading_number": "10.4",
-     "subtopics": [
-      {
-       "name": "A hollow integer grid",
-       "heading_number": null
-      },
-      {
-       "name": "An amazing grid of numbers!",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     },
     {
      "name": "A Pinch of History",

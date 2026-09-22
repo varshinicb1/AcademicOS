@@ -17,15 +17,15 @@
      "heading_number": null,
      "subtopics": [
       {
-       "name": "Understanding coordinates",
+       "name": "a) Understanding coordinates",
        "heading_number": null
       },
       {
-       "name": "Latitudes",
+       "name": "b) Latitudes",
        "heading_number": null
       },
       {
-       "name": "Longitudes",
+       "name": "c) Longitudes",
        "heading_number": null
       }
      ]
@@ -152,72 +152,6 @@
    "provenance": "template:ncert-textbook-headings"
   },
   {
-   "chapter_slug": "india-that-is-bharat",
-   "chapter_name": "India, That Is Bharat",
-   "source_file": "chapters/fees1/fees105.pdf",
-   "topics": [
-    {
-     "name": "How Indians Named India",
-     "heading_number": null,
-     "subtopics": []
-    },
-    {
-     "name": "How Foreigners Named India",
-     "heading_number": null,
-     "subtopics": []
-    }
-   ],
-   "provenance": "template:ncert-textbook-headings"
-  },
-  {
-   "chapter_slug": "the-beginnings-of-indian-civilisation",
-   "chapter_name": "The Beginnings of Indian Civilisation",
-   "source_file": "chapters/fees1/fees106.pdf",
-   "topics": [
-    {
-     "name": "What Is a Civilisation?",
-     "heading_number": null,
-     "subtopics": []
-    },
-    {
-     "name": "From Village to City",
-     "heading_number": null,
-     "subtopics": [
-      {
-       "name": "The Sarasvatī River",
-       "heading_number": null
-      }
-     ]
-    },
-    {
-     "name": "Town-Planning",
-     "heading_number": null,
-     "subtopics": []
-    },
-    {
-     "name": "Water Management",
-     "heading_number": null,
-     "subtopics": []
-    },
-    {
-     "name": "What Did the Harappans Eat?",
-     "heading_number": null,
-     "subtopics": []
-    },
-    {
-     "name": "A Brisk Trade",
-     "heading_number": null,
-     "subtopics": []
-    },
-    {
-     "name": "The End or a New Beginning?",
-     "heading_number": null,
-     "subtopics": []
-    }
-   ],
-   "provenance": "template:ncert-textbook-headings"
-  },
-  {
    "chapter_slug": "indias-cultural-roots",
    "chapter_name": "India’s Cultural Roots",
    "source_file": "chapters/fees1/fees107.pdf",
@@ -227,15 +161,15 @@
      "heading_number": null,
      "subtopics": [
       {
-       "name": "What are the Vedas?",
+       "name": "a. What are the Vedas?",
        "heading_number": null
       },
       {
-       "name": "Vedic society",
+       "name": "b. Vedic society",
        "heading_number": null
       },
       {
-       "name": "Vedic schools of thought",
+       "name": "c. Vedic schools of thought",
        "heading_number": null
       },
       {
@@ -267,12 +201,7 @@
     {
      "name": "Folk and Tribal Roots",
      "heading_number": null,
-     "subtopics": [
-      {
-       "name": "What is a tribe?",
-       "heading_number": null
-      }
-     ]
+     "subtopics": []
     }
    ],
    "provenance": "template:ncert-textbook-headings"
@@ -348,23 +277,17 @@
      "heading_number": null,
      "subtopics": [
       {
-       "name": "Primary activities",
+       "name": "A. Primary activities",
        "heading_number": null
       },
       {
-       "name": "Secondary activities",
+       "name": "B. Secondary activities",
        "heading_number": null
       },
       {
-       "name": "Tertiary activities",
+       "name": "C. Tertiary activities",
        "heading_number": null
-      }
-     ]
-    },
-    {
-     "name": "Interdependence Among Sectors",
-     "heading_number": null,
-     "subtopics": [
+      },
       {
        "name": "Dairy cooperative: from farm to plate",
        "heading_number": null

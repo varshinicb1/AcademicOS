@@ -104,25 +104,41 @@ def test_seeding_the_same_grade_twice_does_not_duplicate_rows(client, principal)
     assert after == before
 
 
-def test_a_grade_missing_a_subject_file_reports_it_rather_than_seeding_fewer(client, principal,
-                                                                             monkeypatch):
-    """Grade 12 has the most subject files of any grade; deliberately hide one
-    so the route has something real to report. Never silently fewer (item 3)."""
-    from academicos.syllabus import cbse_syllabus
+def test_a_grade_missing_a_subject_file_reports_it_rather_than_seeding_fewer(client, principal):
+    """Item 3, against the REAL gap in this repo's data -- no monkeypatching.
 
-    real_load = cbse_syllabus.load_syllabus.__wrapped__
+    Grade 11 and grade 12 are the same CBSE senior-secondary subject list, and
+    academicos-data/syllabus/ has History_12/Geography_12/Political_Science_12
+    but no grade-11 equivalents. Seeding grade 11 therefore produces fewer
+    subjects than the grade offers, and the whole point of item 3 is that the
+    principal is TOLD which ones, not left to notice.
 
-    def _hide_history(subject: str, grade: int):
-        if subject == "History" and grade == 12:
-            return None
-        return real_load(subject, grade)
+    This is the case the earlier version of this test could not reach: it
+    monkeypatched load_syllabus to force the branch, which passed while the
+    branch was unreachable in production, because the subject list was built by
+    scanning the very files it then checked for.
+    """
+    from academicos.syllabus.cbse_syllabus import load_syllabus
 
-    monkeypatch.setattr(cbse_syllabus, "load_syllabus", _hide_history)
-    monkeypatch.setattr("academicos.curriculum.seed_cbse10.load_syllabus", _hide_history)
+    r = _seed(client, _bearer(principal), 11)
+    assert r.status_code == 200, r.text
+    skipped = set(r.json()["subjectsSkipped"])
+    assert {"History", "Geography", "Political Science"} <= skipped, (
+        "a grade-11 subject with no syllabus file was silently absent")
+    for subject in skipped:
+        assert load_syllabus(subject, 11) is None, (
+            f"{subject} was reported skipped but its syllabus file exists")
+    # ...and everything reported as seeded really was.
+    assert r.json()["subjectsSeeded"] > 0
+    assert not skipped & {"Physics", "Chemistry", "Mathematics", "English"}
 
+
+def test_a_grade_whose_every_subject_file_exists_reports_nothing_skipped(client, principal):
+    """The other half of item 3: "reports the ones that don't" must not turn
+    into crying wolf on a grade that is completely covered."""
     r = _seed(client, _bearer(principal), 12)
     assert r.status_code == 200, r.text
-    assert "History" in r.json()["subjectsSkipped"]
+    assert r.json()["subjectsSkipped"] == []
 
 
 def test_teacher_cannot_seed_a_grade(client, principal):
@@ -369,6 +385,60 @@ def test_the_seed_reports_which_chapters_got_no_template_and_why(client, princip
     science = next(t for t in body["topicTemplates"] if t["subject"] == "Science")
     assert science["chaptersWithTopics"] == 0
     assert science["note"], "no reason given for a subject with no topics at all"
+
+
+def test_a_partly_covered_subject_is_not_told_that_nothing_matched():
+    """Item 5c is "chapters with topics, chapters without, and why", and the
+    "why" has to be true of the subject it is attached to.
+
+    Until 2026-09-23 the exporter returned one sentence per subject -- "...no
+    title matches exactly..." -- as soon as ANY chapter was uncovered, so
+    Science 6, where most chapters did match, carried a reason that was false
+    for it. That string is not buried in a manifest: it is
+    `topicTemplates[].note` in the seed response and a line of CLI output.
+    """
+    from academicos.curriculum.decomposition_templates import manifest
+
+    rows = {(r["subject"], r["grade"]): r for r in manifest()["by_subject_grade"]}
+    partial = [r for r in rows.values()
+               if r["chapters_with_topics"] and r["chapters_without_topics"]]
+    assert partial, "no partly covered subject left to check this on"
+    for row in partial:
+        note = row["why_uncovered"]
+        assert note, f"{row['subject']} {row['grade']} gives no reason"
+        assert (f"{row['chapters_with_topics']} of {row['syllabus_chapters']} "
+                "chapters got topics") in note, note
+        assert "no title matches exactly" not in note
+        for chapter in row["uncovered"]:
+            assert chapter["why"], chapter
+
+
+def test_a_subject_where_nothing_matched_says_so_and_names_the_book():
+    """The other half: Class 7-9 really do get nothing, and the reason has to
+    name the measured cause (the NEP edition renamed the chapters) and the book
+    it was measured against, not a generic apology."""
+    from academicos.curriculum.decomposition_templates import manifest
+
+    rows = {(r["subject"], r["grade"]): r for r in manifest()["by_subject_grade"]}
+    row = rows[("Science", 7)]
+    assert row["chapters_with_topics"] == 0
+    assert row["textbook"]["textbook_chapters"] > 0, (
+        "nothing was read from the Class 7 textbook at all")
+    note = row["why_uncovered"]
+    assert f"none of the {row['syllabus_chapters']} chapters got topics" in note
+    assert "science/class7_curiosity.pdf" in note
+
+
+def test_the_seed_response_note_matches_what_that_subject_actually_got(client, principal):
+    """End to end, through the route a principal actually calls."""
+    body = _seed(client, _bearer(principal), 6).json()
+    for report in body["topicTemplates"]:
+        if report["chaptersWithoutTopics"] == 0:
+            assert report["note"] is None
+            continue
+        assert report["note"]
+        if report["chaptersWithTopics"]:
+            assert f"{report['chaptersWithTopics']} of " in report["note"], report
 
 
 def test_re_seeding_does_not_propose_the_same_template_twice(client, principal):
