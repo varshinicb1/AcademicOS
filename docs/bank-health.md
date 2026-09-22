@@ -27,33 +27,33 @@ Tag accuracy is read from:
 
 ## Summary
 
-| subject | class | questions | keyed | chapter | topic | subtopic | old chapterIds | 1m | 2m | 3m | 4m | 5m+ | board paper (served / all) |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
-| Mathematics | 6 | 583 | 100.0% | 34.8% | 13.7% | 0.5% | 18.7% | 408 | 4 | 159 | 5 | 7 | **no** / **no** |
-| Mathematics | 7 | 602 | 100.0% | 17.3% | 4.5% | 0.2% | 79.1% | 452 | 5 | 139 | 3 | 3 | **no** / **no** |
-| Mathematics | 8 | 892 | 100.0% | 40.5% | 23.3% | 3.3% | 52.1% | 657 | 4 | 224 | 3 | 4 | **no** / **no** |
-| Mathematics | 9 | 337 | 100.0% | 27.9% | 9.2% | 0.0% | 89.9% | 164 | 63 | 48 | 23 | 39 | **no** / yes |
-| Mathematics | 10 | 1,030 | 96.2% | 31.1% | 17.1% | 0.3% | 74.3% | 349 | 213 | 233 | 50 | 146 | yes / yes |
-| Science | 6 | 274 | 100.0% | 33.2% | 11.7% | 1.8% | 14.6% | 123 | 35 | 60 | 5 | 51 | **no** / yes |
-| Science | 7 | 355 | 100.0% | 31.5% | 13.2% | 2.5% | 76.1% | 149 | 65 | 77 | 3 | 61 | **no** / **no** |
-| Science | 8 | 435 | 100.0% | 12.9% | 3.2% | 0.5% | 73.3% | 180 | 102 | 81 | 6 | 66 | **no** / yes |
-| Science | 9 | 476 | 100.0% | 52.1% | 15.5% | 4.0% | 70.4% | 255 | 3 | 145 | 1 | 72 | **no** / **no** |
-| Science | 10 | 938 | 100.0% | 45.0% | 30.3% | 12.3% | 87.3% | 496 | 91 | 227 | 24 | 100 | yes / yes |
-| Social Science | 6 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
-| Social Science | 7 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
-| Social Science | 8 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
-| Social Science | 9 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
-| Social Science | 10 | 375 | 98.1% | 0.0% | 0.0% | 0.0% | 100.0% | 138 | 85 | 93 | 4 | 48 | yes / yes |
-| English | 6 | 11 | 100.0% | 0.0% | 0.0% | 0.0% | 90.9% | 6 | 4 | 0 | 1 | 0 | **no** / **no** |
-| English | 7 | 44 | 100.0% | 0.0% | 0.0% | 0.0% | 95.5% | 26 | 14 | 4 | 0 | 0 | **no** / **no** |
-| English | 8 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
-| English | 9 | 47 | 100.0% | 0.0% | 0.0% | 0.0% | 91.5% | 18 | 29 | 0 | 0 | 0 | **no** / **no** |
-| English | 10 | 140 | 52.1% | 0.0% | 0.0% | 0.0% | 97.1% | 68 | 5 | 0 | 0 | 0 | **no** / **no** |
-| Hindi | 6 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
-| Hindi | 7 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
-| Hindi | 8 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
-| Hindi | 9 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
-| Hindi | 10 | 5 | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
+| subject | class | questions | keyed | chapter | topic | subtopic | old chapterIds | 1m | 2m | 3m | 4m | 5m | 6m+ | board paper (served / all) |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| Mathematics | 6 | 583 | 100.0% | 34.8% | 13.7% | 0.5% | 18.7% | 408 | 4 | 159 | 5 | 4 | 3 | **no** / **no** |
+| Mathematics | 7 | 602 | 100.0% | 17.3% | 4.5% | 0.2% | 79.1% | 452 | 5 | 139 | 3 | 3 | 0 | **no** / **no** |
+| Mathematics | 8 | 892 | 100.0% | 40.5% | 23.3% | 3.3% | 52.1% | 657 | 4 | 224 | 3 | 3 | 1 | **no** / **no** |
+| Mathematics | 9 | 337 | 100.0% | 27.9% | 9.2% | 0.0% | 89.9% | 164 | 63 | 48 | 23 | 26 | 13 | **no** / yes |
+| Mathematics | 10 | 1,030 | 96.2% | 31.1% | 17.1% | 0.3% | 74.3% | 349 | 213 | 233 | 50 | 131 | 15 | yes / yes |
+| Science | 6 | 274 | 100.0% | 33.2% | 11.7% | 1.8% | 14.6% | 123 | 35 | 60 | 5 | 42 | 9 | **no** / yes |
+| Science | 7 | 355 | 100.0% | 31.5% | 13.2% | 2.5% | 76.1% | 149 | 65 | 77 | 3 | 48 | 13 | **no** / **no** |
+| Science | 8 | 435 | 100.0% | 12.9% | 3.2% | 0.5% | 73.3% | 180 | 102 | 81 | 6 | 59 | 7 | **no** / yes |
+| Science | 9 | 476 | 100.0% | 52.1% | 15.5% | 4.0% | 70.4% | 255 | 3 | 145 | 1 | 55 | 17 | **no** / **no** |
+| Science | 10 | 938 | 100.0% | 45.0% | 30.3% | 12.3% | 87.3% | 496 | 91 | 227 | 24 | 83 | 17 | yes / yes |
+| Social Science | 6 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
+| Social Science | 7 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
+| Social Science | 8 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
+| Social Science | 9 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
+| Social Science | 10 | 375 | 98.1% | 0.0% | 0.0% | 0.0% | 100.0% | 138 | 85 | 93 | 4 | 48 | 0 | yes / yes |
+| English | 6 | 11 | 100.0% | 0.0% | 0.0% | 0.0% | 90.9% | 6 | 4 | 0 | 1 | 0 | 0 | **no** / **no** |
+| English | 7 | 44 | 100.0% | 0.0% | 0.0% | 0.0% | 95.5% | 26 | 14 | 4 | 0 | 0 | 0 | **no** / **no** |
+| English | 8 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
+| English | 9 | 47 | 100.0% | 0.0% | 0.0% | 0.0% | 91.5% | 18 | 29 | 0 | 0 | 0 | 0 | **no** / **no** |
+| English | 10 | 140 | 52.1% | 0.0% | 0.0% | 0.0% | 97.1% | 68 | 5 | 0 | 0 | 0 | 0 | **no** / **no** |
+| Hindi | 6 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
+| Hindi | 7 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
+| Hindi | 8 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
+| Hindi | 9 | 0 | 0.0% | 0.0% | 0.0% | 0.0% | 0.0% | 0 | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
+| Hindi | 10 | 5 | 0.0% | 0.0% | 0.0% | 0.0% | 100.0% | 0 | 0 | 0 | 0 | 0 | 0 | **no** / **no** |
 
 **No question at all (9):** Social Science 6, Social Science 7, Social Science 8, Social Science 9, English 8, Hindi 6, Hindi 7, Hindi 8, Hindi 9.
 
@@ -258,24 +258,24 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 583 keyed questions; 380 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | Patterns in Mathematics | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| 2 | Lines and Angles | 17 | 27 | 13 | 0 | 3 | 0 | 1 | 3/11 |
-| 3 | Number Play | 6 | 8 | 5 | 0 | 1 | 0 | 0 | 1/12 |
-| 4 | Data Handling and Presentation | 4 | 8 | 3 | 0 | 0 | 0 | 1 | 0/5 |
-| 5 | Prime Time | 22 | 28 | 20 | 0 | 1 | 0 | 1 | 2/6 |
-| 6 | Perimeter and Area | 37 | 98 | 12 | 1 | 19 | 2 | 3 | 2/3 |
-| 7 | Fractions | 8 | 10 | 7 | 0 | 1 | 0 | 0 | 1/9 |
-| 8 | Playing with Constructions | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| 9 | Symmetry | 47 | 53 | 44 | 0 | 3 | 0 | 0 | 1/2 |
-| 10 | The Other Side of Zero | 62 | 98 | 44 | 0 | 18 | 0 | 0 | 4/5 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | Patterns in Mathematics | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| 2 | Lines and Angles | 17 | 27 | 13 | 0 | 3 | 0 | 1 | 0 | 3/11 |
+| 3 | Number Play | 6 | 8 | 5 | 0 | 1 | 0 | 0 | 0 | 1/12 |
+| 4 | Data Handling and Presentation | 4 | 8 | 3 | 0 | 0 | 0 | 1 | 0 | 0/5 |
+| 5 | Prime Time | 22 | 28 | 20 | 0 | 1 | 0 | 1 | 0 | 2/6 |
+| 6 | Perimeter and Area | 37 | 98 | 12 | 1 | 19 | 2 | 0 | 3 | 2/3 |
+| 7 | Fractions | 8 | 10 | 7 | 0 | 1 | 0 | 0 | 0 | 1/9 |
+| 8 | Playing with Constructions | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| 9 | Symmetry | 47 | 53 | 44 | 0 | 3 | 0 | 0 | 0 | 1/2 |
+| 10 | The Other Side of Zero | 62 | 98 | 44 | 0 | 18 | 0 | 0 | 0 | 4/5 |
 
 **Chapters with no question (2):** Patterns in Mathematics; Playing with Constructions.
 
 **Chapters with no 3-mark question (3):** Patterns in Mathematics; Data Handling and Presentation; Playing with Constructions.
 
-**Chapters with no 5-mark question (6):** Patterns in Mathematics; Number Play; Fractions; Playing with Constructions; Symmetry; The Other Side of Zero.
+**Chapters with no 5-mark question (7):** Patterns in Mathematics; Number Play; Perimeter and Area; Fractions; Playing with Constructions; Symmetry; The Other Side of Zero.
 
 **Topics with no question (51):** Patterns in Mathematics > What is Mathematics?; Patterns in Mathematics > Patterns in Numbers; Patterns in Mathematics > Visualising Number Sequences; Patterns in Mathematics > Relations among Number Sequences; Patterns in Mathematics > Patterns in Shapes; Patterns in Mathematics > Relation to Number Sequences; Lines and Angles > Point; Lines and Angles > Line; Lines and Angles > Angle; Lines and Angles > Comparing Angles; Lines and Angles > Making Rotating Arms; Lines and Angles > Measuring Angles; Lines and Angles > Drawing Angles; Lines and Angles > Types of Angles and their Measures; Number Play > Numbers can Tell us Things; Number Play > Supercells; Number Play > Patterns of Numbers on the Number Line; Number Play > Pretty Palindromic Patterns; Number Play > The Magic Number of Kaprekar; Number Play > Clock and Calendar Numbers; Number Play > Mental Math; Number Play > Playing with Number Patterns; Number Play > An Unsolved Mystery — the Collatz Conjecture!; Number Play > Simple Estimation; Number Play > Games and Winning Strategies; Data Handling and Presentation > Collecting and Organising Data; Data Handling and Presentation > Pictographs; Data Handling and Presentation > Bar Graphs; Data Handling and Presentation > Drawing a Bar Graph; Data Handling and Presentation > Artistic and Aesthetic Considerations; Prime Time > Co-prime numbers for safekeeping treasures; Prime Time > Prime Factorisation; Prime Time > Divisibility Tests; Prime Time > Fun with numbers; Perimeter and Area > Area; Fractions > Fractional Units and Equal Shares; Fractions > Fractional Units as Parts of a Whole; Fractions > Measuring Using Fractional Units; Fractions > Marking Fraction Lengths on the Number Line; Fractions > Equivalent Fractions; Fractions > Comparing Fractions; Fractions > Addition and Subtraction of Fractions; Fractions > A Pinch of History; Playing with Constructions > Artwork; Playing with Constructions > Squares and Rectangles; Playing with Constructions > Constructing Squares and Rectangles; Playing with Constructions > An Exploration in Rectangles; Playing with Constructions > Exploring Diagonals of Rectangles and Squares; Playing with Constructions > Points Equidistant from Two Given Points; Symmetry > Rotational Symmetry; The Other Side of Zero > Bela’s Building of Fun.
 
@@ -287,23 +287,23 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 602 keyed questions; 498 of them carry no chapter tag and are counted in no chapter below.
 
-| book | # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Ganita Prakash Part 1 | 1 | Large Numbers Around Us | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| Ganita Prakash Part 1 | 2 | Arithmetic Expressions | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/2 |
-| Ganita Prakash Part 1 | 3 | A Peek Beyond the Point | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
-| Ganita Prakash Part 1 | 4 | Expressions using Letter-Numbers | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| Ganita Prakash Part 1 | 5 | Parallel and Intersecting Lines | 20 | 26 | 17 | 0 | 3 | 0 | 0 | 1/9 |
-| Ganita Prakash Part 1 | 6 | Number Play | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| Ganita Prakash Part 1 | 7 | A Tale of Three Intersecting Lines | 23 | 33 | 18 | 0 | 5 | 0 | 0 | 2/5 |
-| Ganita Prakash Part 1 | 8 | Working with Fractions | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
-| Ganita Prakash Part 2 | 1 | Geometric Twins | 18 | 30 | 13 | 0 | 4 | 0 | 1 | 2/3 |
-| Ganita Prakash Part 2 | 2 | Operations with Integers | 30 | 38 | 26 | 0 | 4 | 0 | 0 | 2/2 |
-| Ganita Prakash Part 2 | 3 | Finding Common Ground | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
-| Ganita Prakash Part 2 | 4 | Another Peek Beyond the Point | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0/4 |
-| Ganita Prakash Part 2 | 5 | Connecting the Dots… | 5 | 7 | 4 | 0 | 1 | 0 | 0 | 0/4 |
-| Ganita Prakash Part 2 | 6 | Constructions and Tilings | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/2 |
-| Ganita Prakash Part 2 | 7 | Finding the Unknown | 6 | 6 | 6 | 0 | 0 | 0 | 0 | 1/4 |
+| book | # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Ganita Prakash Part 1 | 1 | Large Numbers Around Us | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| Ganita Prakash Part 1 | 2 | Arithmetic Expressions | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/2 |
+| Ganita Prakash Part 1 | 3 | A Peek Beyond the Point | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
+| Ganita Prakash Part 1 | 4 | Expressions using Letter-Numbers | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| Ganita Prakash Part 1 | 5 | Parallel and Intersecting Lines | 20 | 26 | 17 | 0 | 3 | 0 | 0 | 0 | 1/9 |
+| Ganita Prakash Part 1 | 6 | Number Play | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| Ganita Prakash Part 1 | 7 | A Tale of Three Intersecting Lines | 23 | 33 | 18 | 0 | 5 | 0 | 0 | 0 | 2/5 |
+| Ganita Prakash Part 1 | 8 | Working with Fractions | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
+| Ganita Prakash Part 2 | 1 | Geometric Twins | 18 | 30 | 13 | 0 | 4 | 0 | 1 | 0 | 2/3 |
+| Ganita Prakash Part 2 | 2 | Operations with Integers | 30 | 38 | 26 | 0 | 4 | 0 | 0 | 0 | 2/2 |
+| Ganita Prakash Part 2 | 3 | Finding Common Ground | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
+| Ganita Prakash Part 2 | 4 | Another Peek Beyond the Point | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| Ganita Prakash Part 2 | 5 | Connecting the Dots… | 5 | 7 | 4 | 0 | 1 | 0 | 0 | 0 | 0/4 |
+| Ganita Prakash Part 2 | 6 | Constructions and Tilings | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/2 |
+| Ganita Prakash Part 2 | 7 | Finding the Unknown | 6 | 6 | 6 | 0 | 0 | 0 | 0 | 0 | 1/4 |
 
 **Chapters with no question (8):** Large Numbers Around Us; Arithmetic Expressions; A Peek Beyond the Point; Expressions using Letter-Numbers; Number Play; Working with Fractions; Finding Common Ground; Constructions and Tilings.
 
@@ -321,22 +321,22 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 892 keyed questions; 531 of them carry no chapter tag and are counted in no chapter below.
 
-| book | # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Ganita Prakash Part 1 | 1 | A Square and A Cube | 99 | 167 | 65 | 0 | 34 | 0 | 0 | 2/3 |
-| Ganita Prakash Part 1 | 2 | Power Play | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| Ganita Prakash Part 1 | 3 | A Story of Numbers | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| Ganita Prakash Part 1 | 4 | Quadrilaterals | 101 | 138 | 84 | 0 | 15 | 1 | 1 | 5/6 |
-| Ganita Prakash Part 1 | 5 | Number Play | 30 | 36 | 27 | 0 | 3 | 0 | 0 | 1/3 |
-| Ganita Prakash Part 1 | 6 | We Distribute, Yet Things Multiply | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| Ganita Prakash Part 1 | 7 | Proportional Reasoning-1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| Ganita Prakash Part 2 | 1 | Fractions in Disguise | 58 | 107 | 36 | 0 | 19 | 1 | 2 | 2/3 |
-| Ganita Prakash Part 2 | 2 | The Baudhāyana-pythagoras Theorem | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 1/7 |
-| Ganita Prakash Part 2 | 3 | Proportional Reasoning–2 | 34 | 50 | 26 | 0 | 8 | 0 | 0 | 1/6 |
-| Ganita Prakash Part 2 | 4 | Exploring Some Geometric Themes | 28 | 38 | 23 | 0 | 5 | 0 | 0 | 1/2 |
-| Ganita Prakash Part 2 | 5 | Tales by Dots and Lines | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 1/2 |
-| Ganita Prakash Part 2 | 6 | Algebra Play | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| Ganita Prakash Part 2 | 7 | Area | 8 | 12 | 6 | 0 | 2 | 0 | 0 | 1/1 |
+| book | # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Ganita Prakash Part 1 | 1 | A Square and A Cube | 99 | 167 | 65 | 0 | 34 | 0 | 0 | 0 | 2/3 |
+| Ganita Prakash Part 1 | 2 | Power Play | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| Ganita Prakash Part 1 | 3 | A Story of Numbers | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| Ganita Prakash Part 1 | 4 | Quadrilaterals | 101 | 138 | 84 | 0 | 15 | 1 | 1 | 0 | 5/6 |
+| Ganita Prakash Part 1 | 5 | Number Play | 30 | 36 | 27 | 0 | 3 | 0 | 0 | 0 | 1/3 |
+| Ganita Prakash Part 1 | 6 | We Distribute, Yet Things Multiply | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| Ganita Prakash Part 1 | 7 | Proportional Reasoning-1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| Ganita Prakash Part 2 | 1 | Fractions in Disguise | 58 | 107 | 36 | 0 | 19 | 1 | 2 | 0 | 2/3 |
+| Ganita Prakash Part 2 | 2 | The Baudhāyana-pythagoras Theorem | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 1/7 |
+| Ganita Prakash Part 2 | 3 | Proportional Reasoning–2 | 34 | 50 | 26 | 0 | 8 | 0 | 0 | 0 | 1/6 |
+| Ganita Prakash Part 2 | 4 | Exploring Some Geometric Themes | 28 | 38 | 23 | 0 | 5 | 0 | 0 | 0 | 1/2 |
+| Ganita Prakash Part 2 | 5 | Tales by Dots and Lines | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 1/2 |
+| Ganita Prakash Part 2 | 6 | Algebra Play | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| Ganita Prakash Part 2 | 7 | Area | 8 | 12 | 6 | 0 | 2 | 0 | 0 | 0 | 1/1 |
 
 **Chapters with no question (5):** Power Play; A Story of Numbers; We Distribute, Yet Things Multiply; Proportional Reasoning-1; Algebra Play.
 
@@ -354,16 +354,16 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 337 keyed questions; 243 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | Orienting Yourself: The Use of Coordinates | 26 | 48 | 17 | 2 | 3 | 2 | 2 | 2/4 |
-| 2 | Introduction to Linear Polynomials | 6 | 20 | 1 | 1 | 0 | 3 | 1 | 1/6 |
-| 3 | The World of Numbers | 7 | 13 | 5 | 0 | 0 | 2 | 0 | 2/7 |
-| 4 | Exploring Algebraic Identities | 9 | 36 | 2 | 0 | 1 | 2 | 4 | 1/8 |
-| 5 | I’m Up and Down, and Round and Round | 35 | 112 | 8 | 8 | 8 | 2 | 9 | 5/8 |
-| 6 | Measuring Space: Perimeter and Area | 7 | 13 | 4 | 2 | 0 | 0 | 1 | 2/10 |
-| 7 | The Mathematics of Maybe: Introduction to Probability | 4 | 8 | 2 | 1 | 0 | 1 | 0 | 1/4 |
-| 8 | Predicting What Comes Next: Exploring Sequences and Progressions | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | Orienting Yourself: The Use of Coordinates | 26 | 48 | 17 | 2 | 3 | 2 | 2 | 0 | 2/4 |
+| 2 | Introduction to Linear Polynomials | 6 | 20 | 1 | 1 | 0 | 3 | 1 | 0 | 1/6 |
+| 3 | The World of Numbers | 7 | 13 | 5 | 0 | 0 | 2 | 0 | 0 | 2/7 |
+| 4 | Exploring Algebraic Identities | 9 | 36 | 2 | 0 | 1 | 2 | 2 | 2 | 1/8 |
+| 5 | I’m Up and Down, and Round and Round | 35 | 112 | 8 | 8 | 8 | 2 | 2 | 7 | 5/8 |
+| 6 | Measuring Space: Perimeter and Area | 7 | 13 | 4 | 2 | 0 | 0 | 1 | 0 | 2/10 |
+| 7 | The Mathematics of Maybe: Introduction to Probability | 4 | 8 | 2 | 1 | 0 | 1 | 0 | 0 | 1/4 |
+| 8 | Predicting What Comes Next: Exploring Sequences and Progressions | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
 
 **Chapters with no question (1):** Predicting What Comes Next: Exploring Sequences and Progressions.
 
@@ -381,51 +381,51 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 991 keyed questions; 671 of them carry no chapter tag and are counted in no chapter below. 645 questions of this class and subject were never run through the tagger.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | Real Numbers | 26 | 41 | 14 | 9 | 3 | 0 | 0 | 3/3 |
-| 2 | Polynomials | 15 | 24 | 12 | 1 | 0 | 0 | 2 | 1/3 |
-| 3 | Pair of Linear Equations in Two Variables | 33 | 83 | 12 | 4 | 11 | 2 | 4 | 2/3 |
-| 4 | Quadratic Equations | 12 | 26 | 6 | 3 | 1 | 0 | 2 | 3/4 |
-| 5 | Arithmetic Progressions | 45 | 113 | 15 | 6 | 16 | 2 | 6 | 3/4 |
-| 6 | Triangles | 20 | 47 | 4 | 11 | 3 | 0 | 2 | 3/4 |
-| 7 | Coordinate Geometry | 33 | 73 | 12 | 10 | 7 | 1 | 3 | 2/3 |
-| 8 | Introduction to Trigonometry | 10 | 26 | 2 | 4 | 1 | 2 | 1 | 1/4 |
-| 9 | Some Applications of Trigonometry | 12 | 36 | 2 | 5 | 1 | 1 | 3 | 1/1 |
-| 10 | Circles | 22 | 53 | 3 | 13 | 3 | 0 | 3 | 1/3 |
-| 11 | Areas Related to Circles | 22 | 56 | 7 | 8 | 2 | 0 | 5 | 1/1 |
-| 12 | Surface Areas and Volumes | 39 | 144 | 4 | 4 | 12 | 3 | 16 | 2/3 |
-| 13 | Statistics | 12 | 39 | 2 | 3 | 3 | 1 | 3 | 1/4 |
-| 14 | Probability | 19 | 28 | 14 | 3 | 0 | 2 | 0 | 1/1 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | Real Numbers | 26 | 41 | 14 | 9 | 3 | 0 | 0 | 0 | 3/3 |
+| 2 | Polynomials | 15 | 24 | 12 | 1 | 0 | 0 | 2 | 0 | 1/3 |
+| 3 | Pair of Linear Equations in Two Variables | 33 | 83 | 12 | 4 | 11 | 2 | 3 | 1 | 2/3 |
+| 4 | Quadratic Equations | 12 | 26 | 6 | 3 | 1 | 0 | 1 | 1 | 3/4 |
+| 5 | Arithmetic Progressions | 45 | 113 | 15 | 6 | 16 | 2 | 6 | 0 | 3/4 |
+| 6 | Triangles | 20 | 47 | 4 | 11 | 3 | 0 | 0 | 2 | 3/4 |
+| 7 | Coordinate Geometry | 33 | 73 | 12 | 10 | 7 | 1 | 2 | 1 | 2/3 |
+| 8 | Introduction to Trigonometry | 10 | 26 | 2 | 4 | 1 | 2 | 1 | 0 | 1/4 |
+| 9 | Some Applications of Trigonometry | 12 | 36 | 2 | 5 | 1 | 1 | 1 | 2 | 1/1 |
+| 10 | Circles | 22 | 53 | 3 | 13 | 3 | 0 | 3 | 0 | 1/3 |
+| 11 | Areas Related to Circles | 22 | 56 | 7 | 8 | 2 | 0 | 3 | 2 | 1/1 |
+| 12 | Surface Areas and Volumes | 39 | 144 | 4 | 4 | 12 | 3 | 14 | 2 | 2/3 |
+| 13 | Statistics | 12 | 39 | 2 | 3 | 3 | 1 | 1 | 2 | 1/4 |
+| 14 | Probability | 19 | 28 | 14 | 3 | 0 | 2 | 0 | 0 | 1/1 |
 
 **Chapters with no 3-mark question (2):** Polynomials; Probability.
 
-**Chapters with no 5-mark question (2):** Real Numbers; Probability.
+**Chapters with no 5-mark question (3):** Real Numbers; Triangles; Probability.
 
 **Topics with no question (16):** Polynomials > Introduction; Polynomials > Geometrical Meaning of the Zeroes of a Polynomial; Pair of Linear Equations in Two Variables > Introduction; Quadratic Equations > Introduction; Arithmetic Progressions > Introduction; Triangles > Introduction; Coordinate Geometry > Introduction; Introduction to Trigonometry > Introduction; Introduction to Trigonometry > Trigonometric Ratios; Introduction to Trigonometry > Trigonometric Ratios of Some Specific Angles; Circles > Introduction; Circles > Tangent to a Circle; Surface Areas and Volumes > Introduction; Statistics > Introduction; Statistics > Mean of Grouped Data; Statistics > Mode of Grouped Data.
 
 **Topics with questions but no 3-mark question (12):** Real Numbers > The Fundamental Theorem of Arithmetic; Real Numbers > Revisiting Irrational Numbers; Polynomials > Relationship between Zeroes and Coefficients of a Polynomial; Quadratic Equations > Quadratic Equations; Quadratic Equations > Solution of a Quadratic Equation by Factorisation; Arithmetic Progressions > Arithmetic Progressions; Triangles > Similar Figures; Triangles > Similarity of Triangles; Triangles > Criteria for Similarity of Triangles; Introduction to Trigonometry > Trigonometric Identities; Circles > Number of Tangents from a Point on a Circle; Probability > Probability — A Theoretical Approach.
 
-**Topics with questions but no 5-mark question (13):** Real Numbers > Introduction; Real Numbers > The Fundamental Theorem of Arithmetic; Real Numbers > Revisiting Irrational Numbers; Polynomials > Relationship between Zeroes and Coefficients of a Polynomial; Quadratic Equations > Solution of a Quadratic Equation by Factorisation; Quadratic Equations > Nature of Roots; Arithmetic Progressions > Arithmetic Progressions; Triangles > Similar Figures; Triangles > Criteria for Similarity of Triangles; Coordinate Geometry > Section Formula; Introduction to Trigonometry > Trigonometric Identities; Statistics > Median of Grouped Data; Probability > Probability — A Theoretical Approach.
+**Topics with questions but no 5-mark question (14):** Real Numbers > Introduction; Real Numbers > The Fundamental Theorem of Arithmetic; Real Numbers > Revisiting Irrational Numbers; Polynomials > Relationship between Zeroes and Coefficients of a Polynomial; Quadratic Equations > Solution of a Quadratic Equation by Factorisation; Quadratic Equations > Nature of Roots; Arithmetic Progressions > Arithmetic Progressions; Triangles > Similar Figures; Triangles > Similarity of Triangles; Triangles > Criteria for Similarity of Triangles; Coordinate Geometry > Section Formula; Introduction to Trigonometry > Trigonometric Identities; Statistics > Median of Grouped Data; Probability > Probability — A Theoretical Approach.
 
 ### Science class 6
 
 274 keyed questions; 183 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | The Wonderful World of Science | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 2 | Diversity in the Living World | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 1/3 |
-| 3 | Mindful Eating: A Path to a Healthy Body | 24 | 70 | 9 | 0 | 9 | 1 | 5 | 3/6 |
-| 4 | Exploring Magnets | 12 | 39 | 4 | 2 | 1 | 1 | 4 | 2/5 |
-| 5 | Measurement of Length and Motion | 9 | 22 | 3 | 3 | 1 | 0 | 2 | 2/7 |
-| 6 | Materials Around Us | 16 | 39 | 8 | 2 | 2 | 0 | 4 | 2/4 |
-| 7 | Temperature and its Measurement | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
-| 8 | A Journey through States of Water | 10 | 18 | 6 | 0 | 4 | 0 | 0 | 2/7 |
-| 9 | Methods of Separation in Everyday Life | 15 | 31 | 9 | 2 | 1 | 1 | 2 | 0/0 |
-| 10 | Living Creatures: Exploring their Characteristics | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0/5 |
-| 11 | Nature’s Treasures | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
-| 12 | Beyond Earth | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | The Wonderful World of Science | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 2 | Diversity in the Living World | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 1/3 |
+| 3 | Mindful Eating: A Path to a Healthy Body | 24 | 70 | 9 | 0 | 9 | 1 | 3 | 2 | 3/6 |
+| 4 | Exploring Magnets | 12 | 39 | 4 | 2 | 1 | 1 | 3 | 1 | 2/5 |
+| 5 | Measurement of Length and Motion | 9 | 22 | 3 | 3 | 1 | 0 | 2 | 0 | 2/7 |
+| 6 | Materials Around Us | 16 | 39 | 8 | 2 | 2 | 0 | 3 | 1 | 2/4 |
+| 7 | Temperature and its Measurement | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
+| 8 | A Journey through States of Water | 10 | 18 | 6 | 0 | 4 | 0 | 0 | 0 | 2/7 |
+| 9 | Methods of Separation in Everyday Life | 15 | 31 | 9 | 2 | 1 | 1 | 1 | 1 | 0/0 |
+| 10 | Living Creatures: Exploring their Characteristics | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| 11 | Nature’s Treasures | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
+| 12 | Beyond Earth | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
 
 **Chapters with no question (4):** The Wonderful World of Science; Temperature and its Measurement; Nature’s Treasures; Beyond Earth.
 
@@ -437,64 +437,64 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 **Topics with questions but no 3-mark question (8):** Diversity in the Living World > How to Group Plants and Animals?; Mindful Eating: A Path to a Healthy Body > Balanced Diet; Exploring Magnets > Poles of Magnet; Exploring Magnets > Attraction and Repulsion between Magnets; Measurement of Length and Motion > Moving Things; Measurement of Length and Motion > Types of Motion; Materials Around Us > How to Group Materials?; Materials Around Us > What are the different Properties of Materials?.
 
-**Topics with questions but no 5-mark question (6):** Diversity in the Living World > How to Group Plants and Animals?; Mindful Eating: A Path to a Healthy Body > Balanced Diet; Measurement of Length and Motion > Types of Motion; Materials Around Us > How to Group Materials?; A Journey through States of Water > How can Water be Evaporated Faster or Slower?; A Journey through States of Water > How do Clouds give us Rain?.
+**Topics with questions but no 5-mark question (7):** Diversity in the Living World > How to Group Plants and Animals?; Mindful Eating: A Path to a Healthy Body > How to Test Different Components of Food?; Mindful Eating: A Path to a Healthy Body > Balanced Diet; Measurement of Length and Motion > Types of Motion; Materials Around Us > How to Group Materials?; A Journey through States of Water > How can Water be Evaporated Faster or Slower?; A Journey through States of Water > How do Clouds give us Rain?.
 
 ### Science class 7
 
 355 keyed questions; 243 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | The Ever-Evolving World of Science | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/1 |
-| 2 | Exploring Substances: Acidic, Basic, and Neutral | 24 | 57 | 13 | 3 | 3 | 0 | 5 | 3/3 |
-| 3 | Electricity: Circuits and their Components | 12 | 34 | 4 | 3 | 2 | 0 | 3 | 1/4 |
-| 4 | The World of Metals and Non-metals | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0/5 |
-| 5 | Changes Around Us: Physical and Chemical | 17 | 36 | 8 | 3 | 4 | 0 | 2 | 2/7 |
-| 6 | Adolescence: A Stage of Growth and Change | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| 7 | Heat Transfer in Nature | 4 | 15 | 1 | 1 | 0 | 0 | 2 | 0/4 |
-| 8 | Measurement of Time and Motion | 5 | 18 | 1 | 1 | 1 | 0 | 2 | 0/4 |
-| 9 | Life Processes in Animals | 26 | 57 | 13 | 6 | 4 | 0 | 3 | 2/2 |
-| 10 | Life Processes in Plants | 6 | 12 | 2 | 2 | 2 | 0 | 0 | 0/4 |
-| 11 | Light: Shadows and Reflections | 17 | 45 | 5 | 2 | 7 | 0 | 3 | 1/8 |
-| 12 | Earth, Moon, and the Sun | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | The Ever-Evolving World of Science | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/1 |
+| 2 | Exploring Substances: Acidic, Basic, and Neutral | 24 | 57 | 13 | 3 | 3 | 0 | 4 | 1 | 3/3 |
+| 3 | Electricity: Circuits and their Components | 12 | 34 | 4 | 3 | 2 | 0 | 1 | 2 | 1/4 |
+| 4 | The World of Metals and Non-metals | 1 | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| 5 | Changes Around Us: Physical and Chemical | 17 | 36 | 8 | 3 | 4 | 0 | 2 | 0 | 2/7 |
+| 6 | Adolescence: A Stage of Growth and Change | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| 7 | Heat Transfer in Nature | 4 | 15 | 1 | 1 | 0 | 0 | 0 | 2 | 0/4 |
+| 8 | Measurement of Time and Motion | 5 | 18 | 1 | 1 | 1 | 0 | 1 | 1 | 0/4 |
+| 9 | Life Processes in Animals | 26 | 57 | 13 | 6 | 4 | 0 | 2 | 1 | 2/2 |
+| 10 | Life Processes in Plants | 6 | 12 | 2 | 2 | 2 | 0 | 0 | 0 | 0/4 |
+| 11 | Light: Shadows and Reflections | 17 | 45 | 5 | 2 | 7 | 0 | 3 | 0 | 1/8 |
+| 12 | Earth, Moon, and the Sun | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
 
 **Chapters with no question (3):** The Ever-Evolving World of Science; Adolescence: A Stage of Growth and Change; Earth, Moon, and the Sun.
 
 **Chapters with no 3-mark question (5):** The Ever-Evolving World of Science; The World of Metals and Non-metals; Adolescence: A Stage of Growth and Change; Heat Transfer in Nature; Earth, Moon, and the Sun.
 
-**Chapters with no 5-mark question (5):** The Ever-Evolving World of Science; The World of Metals and Non-metals; Adolescence: A Stage of Growth and Change; Life Processes in Plants; Earth, Moon, and the Sun.
+**Chapters with no 5-mark question (6):** The Ever-Evolving World of Science; The World of Metals and Non-metals; Adolescence: A Stage of Growth and Change; Heat Transfer in Nature; Life Processes in Plants; Earth, Moon, and the Sun.
 
 **Topics with no question (41):** The Ever-Evolving World of Science > Happy Exploring!; Electricity: Circuits and their Components > A Torchlight; Electricity: Circuits and their Components > Circuit Diagrams; Electricity: Circuits and their Components > Electrical Conductors and Insulators; The World of Metals and Non-metals > Properties of Materials; The World of Metals and Non-metals > Effect of Air and Water on Metals: Iron; The World of Metals and Non-metals > Effect of Air and Water on Other Metals; The World of Metals and Non-metals > Substances that Behave Differently from Metals in Air and Water; The World of Metals and Non-metals > Are Non-metals Essential in Everyday Life?; Changes Around Us: Physical and Chemical > A Substance May Change in Appearance but Remain the Same!; Changes Around Us: Physical and Chemical > Some Other Processes Involving Chemical Changes; Changes Around Us: Physical and Chemical > Are Changes Permanent?; Changes Around Us: Physical and Chemical > Are All Changes Desirable?; Changes Around Us: Physical and Chemical > Some Slow Natural Changes; Adolescence: A Stage of Growth and Change > Growing With Age: The Teenage Years; Adolescence: A Stage of Growth and Change > Changes that Indicate Reproductive Capability; Adolescence: A Stage of Growth and Change > Emotional and Behavioural Changes in Adolescents; Adolescence: A Stage of Growth and Change > Making Adolescence a Joyful Experience; Adolescence: A Stage of Growth and Change > The ‘Why’ Question for Adolescence; Heat Transfer in Nature > Conduction of Heat; Heat Transfer in Nature > Convection; Heat Transfer in Nature > Radiation; Heat Transfer in Nature > Water Cycle; Measurement of Time and Motion > Measurement of Time; Measurement of Time and Motion > Slow or Fast; Measurement of Time and Motion > Speed; Measurement of Time and Motion > Uniform and Non-uniform Linear Motion; Life Processes in Plants > How Do Plants Grow?; Life Processes in Plants > How Do Plants Get Food for their Growth?; Life Processes in Plants > Transport in Plants; Life Processes in Plants > Do Plants Respire?; Light: Shadows and Reflections > Sources of Light; Light: Shadows and Reflections > Does Light Travel in a Straight Line?; Light: Shadows and Reflections > Light through Transparent, Translucent, and Opaque Materials; Light: Shadows and Reflections > Shadow Formation; Light: Shadows and Reflections > Reflection of Light; Light: Shadows and Reflections > Pinhole Camera; Light: Shadows and Reflections > Making Some Useful Items; Earth, Moon, and the Sun > Rotation of the Earth; Earth, Moon, and the Sun > Revolution of the Earth; Earth, Moon, and the Sun > Eclipses.
 
 **Topics with questions but no 3-mark question (5):** Exploring Substances: Acidic, Basic, and Neutral > Nature — Our Science Laboratory; Exploring Substances: Acidic, Basic, and Neutral > What Happens When Acidic Substances Mix with Basic Substances?; Electricity: Circuits and their Components > A Simple Electrical Circuit; Changes Around Us: Physical and Chemical > Can Physical and Chemical Changes Occur in the Same Process?; Life Processes in Animals > Respiration in Animals.
 
-**Topics with questions but no 5-mark question (3):** Exploring Substances: Acidic, Basic, and Neutral > Nature — Our Science Laboratory; Changes Around Us: Physical and Chemical > A Substance May Change in Appearance and Not Remain the Same!; Changes Around Us: Physical and Chemical > Can Physical and Chemical Changes Occur in the Same Process?.
+**Topics with questions but no 5-mark question (5):** Exploring Substances: Acidic, Basic, and Neutral > Nature — Our Science Laboratory; Electricity: Circuits and their Components > A Simple Electrical Circuit; Changes Around Us: Physical and Chemical > A Substance May Change in Appearance and Not Remain the Same!; Changes Around Us: Physical and Chemical > Can Physical and Chemical Changes Occur in the Same Process?; Life Processes in Animals > Respiration in Animals.
 
 ### Science class 8
 
 435 keyed questions; 379 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | Exploring the Investigative World of Science | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 2 | The Invisible Living World: Beyond Our Naked Eye | 13 | 19 | 11 | 1 | 0 | 0 | 1 | 2/5 |
-| 3 | Health: The Ultimate Treasure | 1 | 5 | 0 | 0 | 0 | 0 | 1 | 0/5 |
-| 4 | Electricity: Magnetic and Heating Effects | 3 | 4 | 2 | 1 | 0 | 0 | 0 | 1/3 |
-| 5 | Exploring Forces | 20 | 50 | 7 | 6 | 3 | 0 | 4 | 2/6 |
-| 6 | Pressure, Winds, Storms, and Cyclones | 2 | 8 | 0 | 0 | 1 | 0 | 1 | 0/6 |
-| 7 | Particulate Nature of Matter | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| 8 | Nature of Matter: Elements, Compounds, and Mixtures | 5 | 20 | 2 | 0 | 0 | 0 | 3 | 0/5 |
-| 9 | The Amazing World of Solutes, Solvents, and Solutions | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| 10 | Light: Mirrors and Lenses | 4 | 9 | 0 | 3 | 1 | 0 | 0 | 3/4 |
-| 11 | Keeping Time with the Skies | 2 | 4 | 0 | 2 | 0 | 0 | 0 | 0/4 |
-| 12 | How Nature Works in Harmony | 1 | 3 | 0 | 0 | 1 | 0 | 0 | 0/9 |
-| 13 | Our Home: Earth, a Unique Life Sustaining Planet | 5 | 11 | 3 | 0 | 1 | 0 | 1 | 1/6 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | Exploring the Investigative World of Science | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 2 | The Invisible Living World: Beyond Our Naked Eye | 13 | 19 | 11 | 1 | 0 | 0 | 0 | 1 | 2/5 |
+| 3 | Health: The Ultimate Treasure | 1 | 5 | 0 | 0 | 0 | 0 | 1 | 0 | 0/5 |
+| 4 | Electricity: Magnetic and Heating Effects | 3 | 4 | 2 | 1 | 0 | 0 | 0 | 0 | 1/3 |
+| 5 | Exploring Forces | 20 | 50 | 7 | 6 | 3 | 0 | 2 | 2 | 2/6 |
+| 6 | Pressure, Winds, Storms, and Cyclones | 2 | 8 | 0 | 0 | 1 | 0 | 1 | 0 | 0/6 |
+| 7 | Particulate Nature of Matter | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| 8 | Nature of Matter: Elements, Compounds, and Mixtures | 5 | 20 | 2 | 0 | 0 | 0 | 2 | 1 | 0/5 |
+| 9 | The Amazing World of Solutes, Solvents, and Solutions | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| 10 | Light: Mirrors and Lenses | 4 | 9 | 0 | 3 | 1 | 0 | 0 | 0 | 3/4 |
+| 11 | Keeping Time with the Skies | 2 | 4 | 0 | 2 | 0 | 0 | 0 | 0 | 0/4 |
+| 12 | How Nature Works in Harmony | 1 | 3 | 0 | 0 | 1 | 0 | 0 | 0 | 0/9 |
+| 13 | Our Home: Earth, a Unique Life Sustaining Planet | 5 | 11 | 3 | 0 | 1 | 0 | 1 | 0 | 1/6 |
 
 **Chapters with no question (3):** Exploring the Investigative World of Science; Particulate Nature of Matter; The Amazing World of Solutes, Solvents, and Solutions.
 
 **Chapters with no 3-mark question (8):** Exploring the Investigative World of Science; The Invisible Living World: Beyond Our Naked Eye; Health: The Ultimate Treasure; Electricity: Magnetic and Heating Effects; Particulate Nature of Matter; Nature of Matter: Elements, Compounds, and Mixtures; The Amazing World of Solutes, Solvents, and Solutions; Keeping Time with the Skies.
 
-**Chapters with no 5-mark question (7):** Exploring the Investigative World of Science; Electricity: Magnetic and Heating Effects; Particulate Nature of Matter; The Amazing World of Solutes, Solvents, and Solutions; Light: Mirrors and Lenses; Keeping Time with the Skies; How Nature Works in Harmony.
+**Chapters with no 5-mark question (8):** Exploring the Investigative World of Science; The Invisible Living World: Beyond Our Naked Eye; Electricity: Magnetic and Heating Effects; Particulate Nature of Matter; The Amazing World of Solutes, Solvents, and Solutions; Light: Mirrors and Lenses; Keeping Time with the Skies; How Nature Works in Harmony.
 
 **Topics with no question (53):** The Invisible Living World: Beyond Our Naked Eye > What Are Microorganisms?; The Invisible Living World: Beyond Our Naked Eye > How Are We Connected to Microbes?; The Invisible Living World: Beyond Our Naked Eye > Why Is Cell Considered to Be a Basic Unit of Life?; Health: The Ultimate Treasure > Health: Is It More Than Not Falling Sick?; Health: The Ultimate Treasure > How Can We Stay Healthy?; Health: The Ultimate Treasure > How Do We Know That We Are Unwell?; Health: The Ultimate Treasure > Diseases: What Are the Causes and Types?; Health: The Ultimate Treasure > How to Prevent and Control Diseases?; Electricity: Magnetic and Heating Effects > Does a Current Carrying Wire Get Hot?; Electricity: Magnetic and Heating Effects > How Does a Battery Generate Electricity?; Exploring Forces > What Can a Force Do to the Objects on Which It Is Applied?; Exploring Forces > What Are the Different Types of Forces?; Exploring Forces > Weight and Its Measurement; Exploring Forces > Floating and Sinking; Pressure, Winds, Storms, and Cyclones > Pressure; Pressure, Winds, Storms, and Cyclones > Pressure Exerted by Air; Pressure, Winds, Storms, and Cyclones > Formation of Wind; Pressure, Winds, Storms, and Cyclones > High-Speed Winds Result in Lowering of Air Pressure; Pressure, Winds, Storms, and Cyclones > Storms, Thunderstorms, and Lightning; Pressure, Winds, Storms, and Cyclones > Cyclone; Particulate Nature of Matter > What Is Matter Composed of?; Particulate Nature of Matter > What Decides Different States of Matter?; Particulate Nature of Matter > How Does the Interparticle Spacing Differ in the Three States of Matter?; Particulate Nature of Matter > How Particles Move in Different States of Matter?; Nature of Matter: Elements, Compounds, and Mixtures > What Are Mixtures?; Nature of Matter: Elements, Compounds, and Mixtures > What Are Pure Substances?; Nature of Matter: Elements, Compounds, and Mixtures > What Are the Types of Pure Substances?; Nature of Matter: Elements, Compounds, and Mixtures > How Do We Use Elements, Compounds, and Mixtures?; Nature of Matter: Elements, Compounds, and Mixtures > What Are Minerals?; The Amazing World of Solutes, Solvents, and Solutions > What Are Solute, Solvent, and Solution?; The Amazing World of Solutes, Solvents, and Solutions > How Much Solute Can a Fixed Amount of Solvent Dissolve?; The Amazing World of Solutes, Solvents, and Solutions > Solubility of Gases; The Amazing World of Solutes, Solvents, and Solutions > Why Do Objects Float or Sink in Water?; The Amazing World of Solutes, Solvents, and Solutions > What Is Density?; Light: Mirrors and Lenses > What Are Spherical Mirrors?; Keeping Time with the Skies > How Does the Moon’s Appearance Change and Why?; Keeping Time with the Skies > How Did Calendars Come into Existence?; Keeping Time with the Skies > Are Festivals Related to Astronomical Phenomena?; Keeping Time with the Skies > Why Do We Launch Artificial Satellites in Space?; How Nature Works in Harmony > How Do We Experience and Interpret Our Surroundings?; How Nature Works in Harmony > Who All Live Together in Nature?; How Nature Works in Harmony > Does Every Organism in a Community Matter?; How Nature Works in Harmony > What Are the Different Types of Interactions Among Organisms and their Surroundings?; How Nature Works in Harmony > Who Eats Whom?; How Nature Works in Harmony > What Happens to Waste in Nature?; How Nature Works in Harmony > How Does One Change Lead to Another?; How Nature Works in Harmony > How Do Interactions Maintain Balance in Ecosystems?; How Nature Works in Harmony > What Are the Benefits of an Ecosystem?; Our Home: Earth, a Unique Life Sustaining Planet > Why Is Earth a Unique Planet?; Our Home: Earth, a Unique Life Sustaining Planet > What Do the Planets of Our Solar System Look Like?; Our Home: Earth, a Unique Life Sustaining Planet > What Makes the Earth Suitable for Life to Exist?; Our Home: Earth, a Unique Life Sustaining Planet > What Allows Life to Be Sustained on Earth?; Our Home: Earth, a Unique Life Sustaining Planet > What Are the Threats to Life on Earth?.
 
@@ -506,84 +506,84 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 476 keyed questions; 228 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | Exploration: Entering the World of Secondary Science | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 2 | Cell: The Building Block of Life | 51 | 106 | 27 | 0 | 22 | 0 | 2 | 3/5 |
-| 3 | Tissues in Action | 46 | 72 | 35 | 0 | 9 | 0 | 2 | 3/6 |
-| 4 | Describing Motion Around Us | 8 | 10 | 7 | 0 | 1 | 0 | 0 | 1/4 |
-| 5 | Exploring Mixtures and their Separation | 19 | 76 | 3 | 0 | 10 | 0 | 6 | 4/5 |
-| 6 | How Forces Affect Motion | 10 | 18 | 6 | 0 | 4 | 0 | 0 | 2/7 |
-| 7 | Work, Energy, and Simple Machines | 9 | 27 | 5 | 0 | 2 | 0 | 2 | 1/6 |
-| 8 | Journey Inside the Atom | 34 | 83 | 16 | 0 | 12 | 0 | 6 | 3/9 |
-| 9 | Atomic Foundations of Matter | 10 | 31 | 3 | 1 | 2 | 0 | 4 | 2/8 |
-| 10 | Sound Waves: Characteristics and Applications | 10 | 20 | 8 | 0 | 0 | 0 | 2 | 2/8 |
-| 11 | Reproduction: How Life Continues | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| 12 | Patterns in Life: Diversity and Classification | 25 | 50 | 17 | 1 | 4 | 0 | 3 | 4/10 |
-| 13 | Earth as a System: Energy, Matter, and Life | 26 | 76 | 13 | 0 | 6 | 0 | 7 | 2/4 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | Exploration: Entering the World of Secondary Science | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 2 | Cell: The Building Block of Life | 51 | 106 | 27 | 0 | 22 | 0 | 1 | 1 | 3/5 |
+| 3 | Tissues in Action | 46 | 72 | 35 | 0 | 9 | 0 | 2 | 0 | 3/6 |
+| 4 | Describing Motion Around Us | 8 | 10 | 7 | 0 | 1 | 0 | 0 | 0 | 1/4 |
+| 5 | Exploring Mixtures and their Separation | 19 | 76 | 3 | 0 | 10 | 0 | 3 | 3 | 4/5 |
+| 6 | How Forces Affect Motion | 10 | 18 | 6 | 0 | 4 | 0 | 0 | 0 | 2/7 |
+| 7 | Work, Energy, and Simple Machines | 9 | 27 | 5 | 0 | 2 | 0 | 0 | 2 | 1/6 |
+| 8 | Journey Inside the Atom | 34 | 83 | 16 | 0 | 12 | 0 | 5 | 1 | 3/9 |
+| 9 | Atomic Foundations of Matter | 10 | 31 | 3 | 1 | 2 | 0 | 4 | 0 | 2/8 |
+| 10 | Sound Waves: Characteristics and Applications | 10 | 20 | 8 | 0 | 0 | 0 | 0 | 2 | 2/8 |
+| 11 | Reproduction: How Life Continues | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| 12 | Patterns in Life: Diversity and Classification | 25 | 50 | 17 | 1 | 4 | 0 | 2 | 1 | 4/10 |
+| 13 | Earth as a System: Energy, Matter, and Life | 26 | 76 | 13 | 0 | 6 | 0 | 4 | 3 | 2/4 |
 
 **Chapters with no question (2):** Exploration: Entering the World of Secondary Science; Reproduction: How Life Continues.
 
 **Chapters with no 3-mark question (3):** Exploration: Entering the World of Secondary Science; Sound Waves: Characteristics and Applications; Reproduction: How Life Continues.
 
-**Chapters with no 5-mark question (4):** Exploration: Entering the World of Secondary Science; Describing Motion Around Us; How Forces Affect Motion; Reproduction: How Life Continues.
+**Chapters with no 5-mark question (6):** Exploration: Entering the World of Secondary Science; Describing Motion Around Us; How Forces Affect Motion; Work, Energy, and Simple Machines; Sound Waves: Characteristics and Applications; Reproduction: How Life Continues.
 
 **Topics with no question (50):** Cell: The Building Block of Life > How to Study Cells?; Cell: The Building Block of Life > How do Normal Cells Grow and Divide?; Tissues in Action > Why are Plant and Animal Tissues Different?; Tissues in Action > Types of Joints; Tissues in Action > Skeletal System; Describing Motion Around Us > Motion in a Straight Line; Describing Motion Around Us > Graphical Representation of Motion; Describing Motion Around Us > Kinematic Equations for Motion in a Straight Line with Constant Acceleration; Exploring Mixtures and their Separation > How Can We Separate the Components of Heterogeneous Mixtures?; How Forces Affect Motion > The Concept of Force; How Forces Affect Motion > The Force of Friction: Often Overlooked but Always Present; How Forces Affect Motion > Newton’s First Law of Motion; How Forces Affect Motion > Newton’s Second Law of Motion; How Forces Affect Motion > Newton’s Third Law of Motion; Work, Energy, and Simple Machines > Work Done by a Constant Force; Work, Energy, and Simple Machines > The Work-Energy Theorem; Work, Energy, and Simple Machines > Forms of Energy; Work, Energy, and Simple Machines > Power; Work, Energy, and Simple Machines > Simple Machines; Journey Inside the Atom > Rediscovering the Roots of Atomic Theory; Journey Inside the Atom > What Components Contribute to the Mass of an Atom?; Journey Inside the Atom > Symbols of Elements; Journey Inside the Atom > Atomic Number; Journey Inside the Atom > Mass Number; Journey Inside the Atom > A Deeper Look into Atomic Structure; Atomic Foundations of Matter > Law of Conservation of Mass; Atomic Foundations of Matter > Law of Constant Proportions; Atomic Foundations of Matter > Dalton’s Atomic Theory; Atomic Foundations of Matter > How Atoms Combine?; Atomic Foundations of Matter > Properties of the Ionic and the Covalent Compounds; Atomic Foundations of Matter > Formula Unit Mass of Ionic Compounds; Sound Waves: Characteristics and Applications > Production of Sound; Sound Waves: Characteristics and Applications > Propagation of Sound; Sound Waves: Characteristics and Applications > Sound Waves; Sound Waves: Characteristics and Applications > Energy of Sound Waves; Sound Waves: Characteristics and Applications > Graphical Representation of a Sound Wave; Sound Waves: Characteristics and Applications > Reflection of Sound; Reproduction: How Life Continues > Asexual Reproduction; Reproduction: How Life Continues > Sexual Reproduction; Reproduction: How Life Continues > Sexual Reproduction in Animals; Reproduction: How Life Continues > Variations in Reproduction in Animals; Reproduction: How Life Continues > Reproduction in Human Beings; Patterns in Life: Diversity and Classification > India as a Biodiversity Hotspot; Patterns in Life: Diversity and Classification > How has the Biodiversity Evolved?; Patterns in Life: Diversity and Classification > How to Classify Organisms?; Patterns in Life: Diversity and Classification > The Need for Classification; Patterns in Life: Diversity and Classification > Five Kingdom Classification; Patterns in Life: Diversity and Classification > Fossils as Evidence; Earth as a System: Energy, Matter, and Life > Uneven Heating of the Earth; Earth as a System: Energy, Matter, and Life > Human Impact on Earth’s Processes.
 
 **Topics with questions but no 3-mark question (14):** Cell: The Building Block of Life > Cell Theory — The Unifying Principle of Biology; Tissues in Action > The Musculoskeletal System; Describing Motion Around Us > Motion in a Plane; Exploring Mixtures and their Separation > How Can We Classify Mixtures?; Exploring Mixtures and their Separation > Solutions; How Forces Affect Motion > Balanced and Unbalanced Forces; Atomic Foundations of Matter > Molecular Mass of Covalent Compounds; Sound Waves: Characteristics and Applications > Characteristics of a Sound Wave; Sound Waves: Characteristics and Applications > Ultrasonic and Infrasonic Waves, and their Applications; Patterns in Life: Diversity and Classification > Biological Classification Systems Over Time; Patterns in Life: Diversity and Classification > Adaptations as Outcomes of Structural Change; Patterns in Life: Diversity and Classification > Scientific Naming — The Binomial System; Patterns in Life: Diversity and Classification > Biodiversity Under Threat; Earth as a System: Energy, Matter, and Life > Biogeochemical Cycles.
 
-**Topics with questions but no 5-mark question (20):** Cell: The Building Block of Life > Structure of a Cell; Cell: The Building Block of Life > Cell Theory — The Unifying Principle of Biology; Tissues in Action > Animal Tissues; Tissues in Action > The Musculoskeletal System; Describing Motion Around Us > Motion in a Plane; Exploring Mixtures and their Separation > Methods of Separation of Homogeneous Mixtures; Exploring Mixtures and their Separation > Tyndall Effect; How Forces Affect Motion > Balanced and Unbalanced Forces; How Forces Affect Motion > Forces Acting on a System of Objects; Journey Inside the Atom > How Are Electrons Distributed in Different Energy Levels?; Journey Inside the Atom > Combining Capacity of an Atom: Valency; Atomic Foundations of Matter > Writing Chemical Formulae; Sound Waves: Characteristics and Applications > Characteristics of a Sound Wave; Sound Waves: Characteristics and Applications > Ultrasonic and Infrasonic Waves, and their Applications; Patterns in Life: Diversity and Classification > Biological Classification Systems Over Time; Patterns in Life: Diversity and Classification > Adaptations as Outcomes of Structural Change; Patterns in Life: Diversity and Classification > Scientific Naming — The Binomial System; Patterns in Life: Diversity and Classification > Biodiversity Under Threat; Earth as a System: Energy, Matter, and Life > Uneven Heating Causes Wind and Ocean Currents; Earth as a System: Energy, Matter, and Life > Biogeochemical Cycles.
+**Topics with questions but no 5-mark question (22):** Cell: The Building Block of Life > Structure of a Cell; Cell: The Building Block of Life > Cell Theory — The Unifying Principle of Biology; Tissues in Action > Animal Tissues; Tissues in Action > The Musculoskeletal System; Describing Motion Around Us > Motion in a Plane; Exploring Mixtures and their Separation > Solutions; Exploring Mixtures and their Separation > Methods of Separation of Homogeneous Mixtures; Exploring Mixtures and their Separation > Tyndall Effect; How Forces Affect Motion > Balanced and Unbalanced Forces; How Forces Affect Motion > Forces Acting on a System of Objects; Work, Energy, and Simple Machines > Mechanical Energy; Journey Inside the Atom > How Are Electrons Distributed in Different Energy Levels?; Journey Inside the Atom > Combining Capacity of an Atom: Valency; Atomic Foundations of Matter > Writing Chemical Formulae; Sound Waves: Characteristics and Applications > Characteristics of a Sound Wave; Sound Waves: Characteristics and Applications > Ultrasonic and Infrasonic Waves, and their Applications; Patterns in Life: Diversity and Classification > Biological Classification Systems Over Time; Patterns in Life: Diversity and Classification > Adaptations as Outcomes of Structural Change; Patterns in Life: Diversity and Classification > Scientific Naming — The Binomial System; Patterns in Life: Diversity and Classification > Biodiversity Under Threat; Earth as a System: Energy, Matter, and Life > Uneven Heating Causes Wind and Ocean Currents; Earth as a System: Energy, Matter, and Life > Biogeochemical Cycles.
 
 ### Science class 10
 
 938 keyed questions; 516 of them carry no chapter tag and are counted in no chapter below. 408 questions of this class and subject were never run through the tagger.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | Chemical Reactions and Equations | 27 | 59 | 17 | 1 | 5 | 0 | 4 | 2/3 |
-| 2 | Acids, Bases and Salts | 30 | 46 | 26 | 0 | 2 | 0 | 2 | 3/4 |
-| 3 | Metals and Non-metals | 54 | 112 | 32 | 0 | 17 | 0 | 5 | 5/5 |
-| 4 | Carbon and its Compounds | 27 | 49 | 19 | 0 | 7 | 0 | 1 | 5/5 |
-| 5 | Life Processes | 69 | 155 | 34 | 0 | 27 | 0 | 8 | 5/5 |
-| 6 | Control and Coordination | 47 | 97 | 33 | 0 | 5 | 0 | 9 | 3/3 |
-| 7 | How do Organisms Reproduce? | 44 | 96 | 23 | 0 | 16 | 0 | 5 | 3/3 |
-| 8 | Heredity | 32 | 60 | 22 | 1 | 7 | 0 | 2 | 2/2 |
-| 9 | Light – Reflection and Refraction | 19 | 60 | 11 | 0 | 4 | 0 | 4 | 2/3 |
-| 10 | The Human Eye and the Colourful World | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 2/6 |
-| 11 | Electricity | 19 | 42 | 11 | 2 | 4 | 0 | 2 | 4/8 |
-| 12 | Magnetic Effects of Electric Current | 15 | 41 | 5 | 1 | 8 | 0 | 1 | 3/4 |
-| 13 | Our Environment | 37 | 92 | 21 | 0 | 7 | 0 | 9 | 2/2 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | Chemical Reactions and Equations | 27 | 59 | 17 | 1 | 5 | 0 | 3 | 1 | 2/3 |
+| 2 | Acids, Bases and Salts | 30 | 46 | 26 | 0 | 2 | 0 | 1 | 1 | 3/4 |
+| 3 | Metals and Non-metals | 54 | 112 | 32 | 0 | 17 | 0 | 4 | 1 | 5/5 |
+| 4 | Carbon and its Compounds | 27 | 49 | 19 | 0 | 7 | 0 | 0 | 1 | 5/5 |
+| 5 | Life Processes | 69 | 155 | 34 | 0 | 27 | 0 | 8 | 0 | 5/5 |
+| 6 | Control and Coordination | 47 | 97 | 33 | 0 | 5 | 0 | 8 | 1 | 3/3 |
+| 7 | How do Organisms Reproduce? | 44 | 96 | 23 | 0 | 16 | 0 | 5 | 0 | 3/3 |
+| 8 | Heredity | 32 | 60 | 22 | 1 | 7 | 0 | 0 | 2 | 2/2 |
+| 9 | Light – Reflection and Refraction | 19 | 60 | 11 | 0 | 4 | 0 | 0 | 4 | 2/3 |
+| 10 | The Human Eye and the Colourful World | 2 | 2 | 2 | 0 | 0 | 0 | 0 | 0 | 2/6 |
+| 11 | Electricity | 19 | 42 | 11 | 2 | 4 | 0 | 1 | 1 | 4/8 |
+| 12 | Magnetic Effects of Electric Current | 15 | 41 | 5 | 1 | 8 | 0 | 0 | 1 | 3/4 |
+| 13 | Our Environment | 37 | 92 | 21 | 0 | 7 | 0 | 7 | 2 | 2/2 |
 
 **Chapters with no 3-mark question (1):** The Human Eye and the Colourful World.
 
-**Chapters with no 5-mark question (1):** The Human Eye and the Colourful World.
+**Chapters with no 5-mark question (5):** Carbon and its Compounds; Heredity; Light – Reflection and Refraction; The Human Eye and the Colourful World; Magnetic Effects of Electric Current.
 
 **Topics with no question (12):** Chemical Reactions and Equations > Have You Observed the Effects of Oxidation Reactions in Everyday Life?; Acids, Bases and Salts > What Do All Acids and All Bases Have in Common?; Light – Reflection and Refraction > Reflection of Light; The Human Eye and the Colourful World > Refraction of Light Through a Prism; The Human Eye and the Colourful World > Dispersion of White Light by a Glass Prism; The Human Eye and the Colourful World > Atmospheric Refraction; The Human Eye and the Colourful World > Scattering of Light; Electricity > Electric Current and Circuit; Electricity > Electric Potential and Potential Difference; Electricity > Circuit Diagram; Electricity > Ohm’s Law; Magnetic Effects of Electric Current > Magnetic Field and Field Lines.
 
 **Topics with questions but no 3-mark question (11):** Chemical Reactions and Equations > Chemical Equations; Acids, Bases and Salts > Understanding the Chemical Properties of Acids and Bases; Acids, Bases and Salts > More About Salts; Metals and Non-metals > How Do Metals and Non-metals React?; Carbon and its Compounds > Bonding in Carbon – the Covalent Bond; Carbon and its Compounds > Versatile Nature of Carbon; Carbon and its Compounds > Chemical Properties of Carbon Compounds; Life Processes > What Are Life Processes?; The Human Eye and the Colourful World > The Human Eye; The Human Eye and the Colourful World > Defects of Vision and Their Correction; Electricity > Factors on Which the Resistance of a Conductor Depends.
 
-**Topics with questions but no 5-mark question (25):** Chemical Reactions and Equations > Chemical Equations; Acids, Bases and Salts > Understanding the Chemical Properties of Acids and Bases; Acids, Bases and Salts > How Strong Are Acid or Base Solutions?; Acids, Bases and Salts > More About Salts; Metals and Non-metals > Physical Properties; Metals and Non-metals > How Do Metals and Non-metals React?; Metals and Non-metals > Occurrence of Metals; Metals and Non-metals > Corrosion; Carbon and its Compounds > Bonding in Carbon – the Covalent Bond; Carbon and its Compounds > Versatile Nature of Carbon; Carbon and its Compounds > Chemical Properties of Carbon Compounds; Carbon and its Compounds > Soaps and Detergents; Life Processes > What Are Life Processes?; Life Processes > Excretion; How do Organisms Reproduce? > Modes of Reproduction Used by Single Organisms; Heredity > Accumulation of Variation During Reproduction; Light – Reflection and Refraction > Spherical Mirrors; The Human Eye and the Colourful World > The Human Eye; The Human Eye and the Colourful World > Defects of Vision and Their Correction; Electricity > Factors on Which the Resistance of a Conductor Depends; Electricity > Heating Effect of Electric Current; Electricity > Electric Power; Magnetic Effects of Electric Current > Magnetic Field Due to a Current-carrying Conductor; Magnetic Effects of Electric Current > Force on a Current-carrying Conductor in a Magnetic Field; Magnetic Effects of Electric Current > Domestic Electric Circuits.
+**Topics with questions but no 5-mark question (29):** Chemical Reactions and Equations > Chemical Equations; Acids, Bases and Salts > Understanding the Chemical Properties of Acids and Bases; Acids, Bases and Salts > How Strong Are Acid or Base Solutions?; Acids, Bases and Salts > More About Salts; Metals and Non-metals > Physical Properties; Metals and Non-metals > How Do Metals and Non-metals React?; Metals and Non-metals > Occurrence of Metals; Metals and Non-metals > Corrosion; Carbon and its Compounds > Bonding in Carbon – the Covalent Bond; Carbon and its Compounds > Versatile Nature of Carbon; Carbon and its Compounds > Chemical Properties of Carbon Compounds; Carbon and its Compounds > Some Important Carbon Compounds – Ethanol and Ethanoic Acid; Carbon and its Compounds > Soaps and Detergents; Life Processes > What Are Life Processes?; Life Processes > Excretion; How do Organisms Reproduce? > Modes of Reproduction Used by Single Organisms; Heredity > Accumulation of Variation During Reproduction; Heredity > Heredity; Light – Reflection and Refraction > Spherical Mirrors; Light – Reflection and Refraction > Refraction of Light; The Human Eye and the Colourful World > The Human Eye; The Human Eye and the Colourful World > Defects of Vision and Their Correction; Electricity > Factors on Which the Resistance of a Conductor Depends; Electricity > Resistance of a System of Resistors; Electricity > Heating Effect of Electric Current; Electricity > Electric Power; Magnetic Effects of Electric Current > Magnetic Field Due to a Current-carrying Conductor; Magnetic Effects of Electric Current > Force on a Current-carrying Conductor in a Magnetic Field; Magnetic Effects of Electric Current > Domestic Electric Circuits.
 
 ### Social Science class 6
 
 0 keyed questions; 0 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | Locating Places on the Earth | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
-| 2 | Oceans and Continents | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| 3 | Landforms and Life | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| 4 | Timeline and Sources of History | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| 5 | India, That Is Bharat | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/2 |
-| 6 | The Beginnings of Indian Civilisation | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
-| 7 | India’s Cultural Roots | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/2 |
-| 8 | Unity in Diversity, or ‘Many in the One’ | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| 9 | Family and Community | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
-| 10 | Grassroots Democracy – Part 1: Governance | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| 11 | Grassroots Democracy – Part 2: Local Government in Rural Areas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| 12 | Grassroots Democracy – Part 3: Local Government in Urban Areas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/2 |
-| 13 | The Value of Work | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/2 |
-| 14 | Economic Activities Around Us | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | Locating Places on the Earth | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
+| 2 | Oceans and Continents | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| 3 | Landforms and Life | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| 4 | Timeline and Sources of History | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| 5 | India, That Is Bharat | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/2 |
+| 6 | The Beginnings of Indian Civilisation | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
+| 7 | India’s Cultural Roots | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/2 |
+| 8 | Unity in Diversity, or ‘Many in the One’ | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| 9 | Family and Community | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
+| 10 | Grassroots Democracy – Part 1: Governance | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| 11 | Grassroots Democracy – Part 2: Local Government in Rural Areas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| 12 | Grassroots Democracy – Part 3: Local Government in Urban Areas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/2 |
+| 13 | The Value of Work | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/2 |
+| 14 | Economic Activities Around Us | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
 
 **Chapters with no question (14):** Locating Places on the Earth; Oceans and Continents; Landforms and Life; Timeline and Sources of History; India, That Is Bharat; The Beginnings of Indian Civilisation; India’s Cultural Roots; Unity in Diversity, or ‘Many in the One’; Family and Community; Grassroots Democracy – Part 1: Governance; Grassroots Democracy – Part 2: Local Government in Rural Areas; Grassroots Democracy – Part 3: Local Government in Urban Areas; The Value of Work; Economic Activities Around Us.
 
@@ -597,28 +597,28 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 0 keyed questions; 0 of them carry no chapter tag and are counted in no chapter below.
 
-| book | # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Exploring Society: India and Beyond Part 1 | 1 | Geographical Diversity of India | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/10 |
-| Exploring Society: India and Beyond Part 1 | 2 | Understanding the Weather | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| Exploring Society: India and Beyond Part 1 | 3 | Climates of India | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
-| Exploring Society: India and Beyond Part 1 | 4 | New Beginnings: Cities and States | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
-| Exploring Society: India and Beyond Part 1 | 5 | The Rise of Empires | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
-| Exploring Society: India and Beyond Part 1 | 6 | The Age of Reorganisation | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| Exploring Society: India and Beyond Part 1 | 7 | The Gupta Era: An Age of Tireless Creativity | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
-| Exploring Society: India and Beyond Part 1 | 8 | How the Land Becomes Sacred | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
-| Exploring Society: India and Beyond Part 1 | 9 | From the Rulers to the Ruled: Types of Governments | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
-| Exploring Society: India and Beyond Part 1 | 10 | The Constitution of India — An Introduction | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| Exploring Society: India and Beyond Part 1 | 11 | From Barter to Money | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
-| Exploring Society: India and Beyond Part 1 | 12 | Understanding Markets | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| Exploring Society: India and Beyond Part 2 | 1 | The Story of Indian Farming | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
-| Exploring Society: India and Beyond Part 2 | 2 | India and Her Neighbours | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| Exploring Society: India and Beyond Part 2 | 3 | Empires and Kingdoms: 6th to 10th Centuries | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
-| Exploring Society: India and Beyond Part 2 | 4 | Turning Tides: 11th and 12th Centuries | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| Exploring Society: India and Beyond Part 2 | 5 | India, a Home to Many | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/11 |
-| Exploring Society: India and Beyond Part 2 | 6 | The State, the Government, and You | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/9 |
-| Exploring Society: India and Beyond Part 2 | 7 | Infrastructure: Engine of India’s Development | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| Exploring Society: India and Beyond Part 2 | 8 | Banks and the Magic of Finance | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| book | # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Exploring Society: India and Beyond Part 1 | 1 | Geographical Diversity of India | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/10 |
+| Exploring Society: India and Beyond Part 1 | 2 | Understanding the Weather | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| Exploring Society: India and Beyond Part 1 | 3 | Climates of India | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
+| Exploring Society: India and Beyond Part 1 | 4 | New Beginnings: Cities and States | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
+| Exploring Society: India and Beyond Part 1 | 5 | The Rise of Empires | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
+| Exploring Society: India and Beyond Part 1 | 6 | The Age of Reorganisation | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| Exploring Society: India and Beyond Part 1 | 7 | The Gupta Era: An Age of Tireless Creativity | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
+| Exploring Society: India and Beyond Part 1 | 8 | How the Land Becomes Sacred | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
+| Exploring Society: India and Beyond Part 1 | 9 | From the Rulers to the Ruled: Types of Governments | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
+| Exploring Society: India and Beyond Part 1 | 10 | The Constitution of India — An Introduction | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| Exploring Society: India and Beyond Part 1 | 11 | From Barter to Money | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
+| Exploring Society: India and Beyond Part 1 | 12 | Understanding Markets | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| Exploring Society: India and Beyond Part 2 | 1 | The Story of Indian Farming | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
+| Exploring Society: India and Beyond Part 2 | 2 | India and Her Neighbours | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| Exploring Society: India and Beyond Part 2 | 3 | Empires and Kingdoms: 6th to 10th Centuries | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
+| Exploring Society: India and Beyond Part 2 | 4 | Turning Tides: 11th and 12th Centuries | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| Exploring Society: India and Beyond Part 2 | 5 | India, a Home to Many | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/11 |
+| Exploring Society: India and Beyond Part 2 | 6 | The State, the Government, and You | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/9 |
+| Exploring Society: India and Beyond Part 2 | 7 | Infrastructure: Engine of India’s Development | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| Exploring Society: India and Beyond Part 2 | 8 | Banks and the Magic of Finance | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
 
 **Chapters with no question (20):** Geographical Diversity of India; Understanding the Weather; Climates of India; New Beginnings: Cities and States; The Rise of Empires; The Age of Reorganisation; The Gupta Era: An Age of Tireless Creativity; How the Land Becomes Sacred; From the Rulers to the Ruled: Types of Governments; The Constitution of India — An Introduction; From Barter to Money; Understanding Markets; The Story of Indian Farming; India and Her Neighbours; Empires and Kingdoms: 6th to 10th Centuries; Turning Tides: 11th and 12th Centuries; India, a Home to Many; The State, the Government, and You; Infrastructure: Engine of India’s Development; Banks and the Magic of Finance.
 
@@ -632,23 +632,23 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 0 keyed questions; 0 of them carry no chapter tag and are counted in no chapter below.
 
-| book | # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Exploring Society: India and Beyond Part 1 | 1 | Natural Resources and Their Use | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| Exploring Society: India and Beyond Part 1 | 2 | Reshaping India’s Political Map | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| Exploring Society: India and Beyond Part 1 | 3 | The Rise of the Marathas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| Exploring Society: India and Beyond Part 1 | 4 | The Colonial Era in India | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
-| Exploring Society: India and Beyond Part 1 | 5 | Universal Franchise and India’s Electoral System | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| Exploring Society: India and Beyond Part 1 | 6 | The Parliamentary System: Legislature and Executive | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
-| Exploring Society: India and Beyond Part 1 | 7 | Factors of Production | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| Exploring Society: India and Beyond Part 2 | 1 | World Geography: Some Glimpses | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| Exploring Society: India and Beyond Part 2 | 2 | India’s Long Road to Independence | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/21 |
-| Exploring Society: India and Beyond Part 2 | 3 | A Journey Through Indian Architecture | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/11 |
-| Exploring Society: India and Beyond Part 2 | 4 | The Role of the Judiciary in Our Society | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
-| Exploring Society: India and Beyond Part 2 | 5 | Citizenship: Rights and Duties | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| Exploring Society: India and Beyond Part 2 | 6 | Dynamics of Population | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| Exploring Society: India and Beyond Part 2 | 7 | India’s Urban Landscape | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
-| Exploring Society: India and Beyond Part 2 | 8 | Cultural Currents: 13 to 17 Centuries | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/10 |
+| book | # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Exploring Society: India and Beyond Part 1 | 1 | Natural Resources and Their Use | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| Exploring Society: India and Beyond Part 1 | 2 | Reshaping India’s Political Map | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| Exploring Society: India and Beyond Part 1 | 3 | The Rise of the Marathas | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| Exploring Society: India and Beyond Part 1 | 4 | The Colonial Era in India | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
+| Exploring Society: India and Beyond Part 1 | 5 | Universal Franchise and India’s Electoral System | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| Exploring Society: India and Beyond Part 1 | 6 | The Parliamentary System: Legislature and Executive | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
+| Exploring Society: India and Beyond Part 1 | 7 | Factors of Production | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| Exploring Society: India and Beyond Part 2 | 1 | World Geography: Some Glimpses | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| Exploring Society: India and Beyond Part 2 | 2 | India’s Long Road to Independence | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/21 |
+| Exploring Society: India and Beyond Part 2 | 3 | A Journey Through Indian Architecture | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/11 |
+| Exploring Society: India and Beyond Part 2 | 4 | The Role of the Judiciary in Our Society | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
+| Exploring Society: India and Beyond Part 2 | 5 | Citizenship: Rights and Duties | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| Exploring Society: India and Beyond Part 2 | 6 | Dynamics of Population | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| Exploring Society: India and Beyond Part 2 | 7 | India’s Urban Landscape | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
+| Exploring Society: India and Beyond Part 2 | 8 | Cultural Currents: 13 to 17 Centuries | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/10 |
 
 **Chapters with no question (15):** Natural Resources and Their Use; Reshaping India’s Political Map; The Rise of the Marathas; The Colonial Era in India; Universal Franchise and India’s Electoral System; The Parliamentary System: Legislature and Executive; Factors of Production; World Geography: Some Glimpses; India’s Long Road to Independence; A Journey Through Indian Architecture; The Role of the Judiciary in Our Society; Citizenship: Rights and Duties; Dynamics of Population; India’s Urban Landscape; Cultural Currents: 13 to 17 Centuries.
 
@@ -662,17 +662,17 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 0 keyed questions; 0 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | Understanding Social Science | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| 2 | Shaping of the Earth’s Surface | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| 3 | Atmosphere and Climate | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| 4 | Early Humans and Beginning of Civilisation | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| 5 | State and Society up to 1000 CE | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/10 |
-| 6 | Democracy | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| 7 | Elections | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
-| 8 | Building Blocks in Economics The Problem of Choice | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| 9 | The Price Puzzle: What Drives the Market | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | Understanding Social Science | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| 2 | Shaping of the Earth’s Surface | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| 3 | Atmosphere and Climate | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| 4 | Early Humans and Beginning of Civilisation | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| 5 | State and Society up to 1000 CE | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/10 |
+| 6 | Democracy | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| 7 | Elections | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
+| 8 | Building Blocks in Economics The Problem of Choice | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| 9 | The Price Puzzle: What Drives the Market | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
 
 **Chapters with no question (9):** Understanding Social Science; Shaping of the Earth’s Surface; Atmosphere and Climate; Early Humans and Beginning of Civilisation; State and Society up to 1000 CE; Democracy; Elections; Building Blocks in Economics The Problem of Choice; The Price Puzzle: What Drives the Market.
 
@@ -686,30 +686,30 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 368 keyed questions; 368 of them carry no chapter tag and are counted in no chapter below. 375 questions of this class and subject were never run through the tagger.
 
-| book | # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| India and the Contemporary World II | 1 | The Rise of Nationalism in Europe | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| India and the Contemporary World II | 2 | Nationalism in India | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| India and the Contemporary World II | 3 | The Making of a Global World | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| India and the Contemporary World II | 4 | The Age of Industrialisation | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| India and the Contemporary World II | 5 | Print Culture and the Modern World | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/9 |
-| Contemporary India II | 1 | Resources and Development | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| Contemporary India II | 2 | Forest and Wildlife Resources | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| Contemporary India II | 3 | Water Resources | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| Contemporary India II | 4 | Agriculture | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| Contemporary India II | 5 | Minerals and Energy Resources | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| Contemporary India II | 6 | Manufacturing Industries | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| Contemporary India II | 7 | Lifelines of National Economy | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| Democratic Politics II | 1 | Power-sharing | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| Democratic Politics II | 2 | Federalism | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
-| Democratic Politics II | 3 | Gender, Religion and Caste | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
-| Democratic Politics II | 4 | Political Parties | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| Democratic Politics II | 5 | Outcomes of Democracy | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
-| Understanding Economic Development | 1 | Development | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
-| Understanding Economic Development | 2 | Sectors of the Indian Economy | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
-| Understanding Economic Development | 3 | Money and Credit | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
-| Understanding Economic Development | 4 | Globalisation and the Indian Economy | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
-| Understanding Economic Development | 5 | Consumer Rights | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| book | # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| India and the Contemporary World II | 1 | The Rise of Nationalism in Europe | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| India and the Contemporary World II | 2 | Nationalism in India | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| India and the Contemporary World II | 3 | The Making of a Global World | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| India and the Contemporary World II | 4 | The Age of Industrialisation | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| India and the Contemporary World II | 5 | Print Culture and the Modern World | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/9 |
+| Contemporary India II | 1 | Resources and Development | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| Contemporary India II | 2 | Forest and Wildlife Resources | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| Contemporary India II | 3 | Water Resources | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| Contemporary India II | 4 | Agriculture | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| Contemporary India II | 5 | Minerals and Energy Resources | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| Contemporary India II | 6 | Manufacturing Industries | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| Contemporary India II | 7 | Lifelines of National Economy | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| Democratic Politics II | 1 | Power-sharing | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| Democratic Politics II | 2 | Federalism | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
+| Democratic Politics II | 3 | Gender, Religion and Caste | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/3 |
+| Democratic Politics II | 4 | Political Parties | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| Democratic Politics II | 5 | Outcomes of Democracy | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/6 |
+| Understanding Economic Development | 1 | Development | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
+| Understanding Economic Development | 2 | Sectors of the Indian Economy | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/5 |
+| Understanding Economic Development | 3 | Money and Credit | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/7 |
+| Understanding Economic Development | 4 | Globalisation and the Indian Economy | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/8 |
+| Understanding Economic Development | 5 | Consumer Rights | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/4 |
 
 **Chapters with no question (22):** The Rise of Nationalism in Europe; Nationalism in India; The Making of a Global World; The Age of Industrialisation; Print Culture and the Modern World; Resources and Development; Forest and Wildlife Resources; Water Resources; Agriculture; Minerals and Energy Resources; Manufacturing Industries; Lifelines of National Economy; Power-sharing; Federalism; Gender, Religion and Caste; Political Parties; Outcomes of Democracy; Development; Sectors of the Indian Economy; Money and Credit; Globalisation and the Indian Economy; Consumer Rights.
 
@@ -723,24 +723,24 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 11 keyed questions; 11 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | A Bottle of Dew | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 2 | The Raven and the Fox | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 3 | Rama to the Rescue | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 4 | The Unlikely Best Friends | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 5 | A Friend’s Prayer | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 6 | The Chair | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 7 | Neem Baba | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 8 | What a Bird Thought | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 9 | Spices that Heal Us | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 10 | Change of Heart | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 11 | The Winner | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 12 | Yoga—A Way of Life | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 13 | Hamara Bharat—Incredible India! | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 14 | The Kites | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 15 | Ila Sachani Embroidering Dreams with her Feet | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 16 | National War Memorial | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | A Bottle of Dew | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 2 | The Raven and the Fox | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 3 | Rama to the Rescue | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 4 | The Unlikely Best Friends | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 5 | A Friend’s Prayer | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 6 | The Chair | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 7 | Neem Baba | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 8 | What a Bird Thought | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 9 | Spices that Heal Us | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 10 | Change of Heart | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 11 | The Winner | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 12 | Yoga—A Way of Life | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 13 | Hamara Bharat—Incredible India! | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 14 | The Kites | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 15 | Ila Sachani Embroidering Dreams with her Feet | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 16 | National War Memorial | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
 
 **Chapters with no question (16):** A Bottle of Dew; The Raven and the Fox; Rama to the Rescue; The Unlikely Best Friends; A Friend’s Prayer; The Chair; Neem Baba; What a Bird Thought; Spices that Heal Us; Change of Heart; The Winner; Yoga—A Way of Life; Hamara Bharat—Incredible India!; The Kites; Ila Sachani Embroidering Dreams with her Feet; National War Memorial.
 
@@ -752,23 +752,23 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 44 keyed questions; 44 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | The Day the River Spoke | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 2 | Try Again | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 3 | Three Days to See | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 4 | Animals, Birds, and Dr. Dolittle | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 5 | A Funny Man | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 6 | Say the Right Thing | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 7 | My Brother’s Great Invention | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 8 | Paper Boats | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 9 | North, South, East, West | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 10 | The Tunnel | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 11 | Travel | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 12 | Conquering the Summit | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 13 | A Homage to Our Brave Soldiers | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 14 | My Dear Soldiers | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 15 | Rani Abbakka | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | The Day the River Spoke | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 2 | Try Again | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 3 | Three Days to See | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 4 | Animals, Birds, and Dr. Dolittle | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 5 | A Funny Man | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 6 | Say the Right Thing | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 7 | My Brother’s Great Invention | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 8 | Paper Boats | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 9 | North, South, East, West | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 10 | The Tunnel | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 11 | Travel | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 12 | Conquering the Summit | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 13 | A Homage to Our Brave Soldiers | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 14 | My Dear Soldiers | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 15 | Rani Abbakka | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
 
 **Chapters with no question (15):** The Day the River Spoke; Try Again; Three Days to See; Animals, Birds, and Dr. Dolittle; A Funny Man; Say the Right Thing; My Brother’s Great Invention; Paper Boats; North, South, East, West; The Tunnel; Travel; Conquering the Summit; A Homage to Our Brave Soldiers; My Dear Soldiers; Rani Abbakka.
 
@@ -780,23 +780,23 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 0 keyed questions; 0 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | The Wit that Won Hearts | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 2 | A Concrete Example | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 3 | Wisdom Paves the Way | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 4 | A Tale of Valour: Major Somnath Sharma and the Battle of Badgam | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 5 | Somebody’s Mother | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 6 | Verghese Kurien— I Too Had A Dream | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 7 | The Case of the Fifth Word | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 8 | The Magic Brush of Dreams | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 9 | Spectacular Wonders | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 10 | The Cherry Tree | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 11 | Harvest Hymn | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 12 | Waiting for the Rain | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 13 | Feathered Friend | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 14 | Magnifying Glass | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 15 | Bibha Chowdhuri: The Beam of Light that Lit the Path for Women in Indian Science | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | The Wit that Won Hearts | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 2 | A Concrete Example | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 3 | Wisdom Paves the Way | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 4 | A Tale of Valour: Major Somnath Sharma and the Battle of Badgam | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 5 | Somebody’s Mother | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 6 | Verghese Kurien— I Too Had A Dream | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 7 | The Case of the Fifth Word | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 8 | The Magic Brush of Dreams | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 9 | Spectacular Wonders | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 10 | The Cherry Tree | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 11 | Harvest Hymn | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 12 | Waiting for the Rain | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 13 | Feathered Friend | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 14 | Magnifying Glass | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 15 | Bibha Chowdhuri: The Beam of Light that Lit the Path for Women in Indian Science | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
 
 **Chapters with no question (15):** The Wit that Won Hearts; A Concrete Example; Wisdom Paves the Way; A Tale of Valour: Major Somnath Sharma and the Battle of Badgam; Somebody’s Mother; Verghese Kurien— I Too Had A Dream; The Case of the Fifth Word; The Magic Brush of Dreams; Spectacular Wonders; The Cherry Tree; Harvest Hymn; Waiting for the Rain; Feathered Friend; Magnifying Glass; Bibha Chowdhuri: The Beam of Light that Lit the Path for Women in Indian Science.
 
@@ -808,24 +808,24 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 47 keyed questions; 47 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | How I Taught My Grandmother to Read | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 2 | Bharat Our Land | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 3 | The Pot Maker | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 4 | Gifts of Grace: Honouring Our Vocations | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 5 | Winds of Change | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 6 | Canvas of Soil | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 7 | Vitamin-M | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 8 | I Cannot Remember My Mother | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 9 | The World of Limitless Possibilities | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 10 | Nine Gold Medals | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 11 | Twin Melodies | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 12 | A Friend Found in Music | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 13 | Carrier of Words | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 14 | Words | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 15 | Follow That Dream | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 16 | Believe in Yourself | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | How I Taught My Grandmother to Read | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 2 | Bharat Our Land | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 3 | The Pot Maker | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 4 | Gifts of Grace: Honouring Our Vocations | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 5 | Winds of Change | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 6 | Canvas of Soil | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 7 | Vitamin-M | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 8 | I Cannot Remember My Mother | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 9 | The World of Limitless Possibilities | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 10 | Nine Gold Medals | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 11 | Twin Melodies | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 12 | A Friend Found in Music | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 13 | Carrier of Words | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 14 | Words | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 15 | Follow That Dream | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 16 | Believe in Yourself | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
 
 **Chapters with no question (16):** How I Taught My Grandmother to Read; Bharat Our Land; The Pot Maker; Gifts of Grace: Honouring Our Vocations; Winds of Change; Canvas of Soil; Vitamin-M; I Cannot Remember My Mother; The World of Limitless Possibilities; Nine Gold Medals; Twin Melodies; A Friend Found in Music; Carrier of Words; Words; Follow That Dream; Believe in Yourself.
 
@@ -837,22 +837,22 @@ Keyed questions and the marks they carry, per textbook chapter of the taxonomy t
 
 0 keyed questions; 0 of them carry no chapter tag and are counted in no chapter below.
 
-| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ | topics with a question |
-|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| 1 | दो बैलों की कथा | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 2 | क् या लिखूँ? | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 3 | संवा दहीन | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 4 | ऐसी भी बातें होत ी हैं (लता मंगेशकर से सा क्षात् का र) यतीं द्र मिश्र | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 5 | आखिरी चट्टा न त क | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 6 | रीढ़ की हड्‌डी | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 7 | मैं और मेरा देश | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 8 | निर्मल जीत सिं ह सेखों (साथ -साथ पढ़ें) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 9 | पद | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 10 | रा म-लक्षम ण-परशुरा म संवा द | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 11 | भा रति, जय, विजयकरे! | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 12 | झाँ सी की रा नी | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 13 | घर की या द | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
-| 14 | तब याद तुम्हारी आती है (साथ -साथ पढ़ें) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| # | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ | topics with a question |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 | दो बैलों की कथा | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 2 | क् या लिखूँ? | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 3 | संवा दहीन | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 4 | ऐसी भी बातें होत ी हैं (लता मंगेशकर से सा क्षात् का र) यतीं द्र मिश्र | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 5 | आखिरी चट्टा न त क | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 6 | रीढ़ की हड्‌डी | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 7 | मैं और मेरा देश | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 8 | निर्मल जीत सिं ह सेखों (साथ -साथ पढ़ें) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 9 | पद | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 10 | रा म-लक्षम ण-परशुरा म संवा द | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 11 | भा रति, जय, विजयकरे! | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 12 | झाँ सी की रा नी | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 13 | घर की या द | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
+| 14 | तब याद तुम्हारी आती है (साथ -साथ पढ़ें) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0/0 |
 
 **Chapters with no question (14):** दो बैलों की कथा; क् या लिखूँ?; संवा दहीन; ऐसी भी बातें होत ी हैं (लता मंगेशकर से सा क्षात् का र) यतीं द्र मिश्र; आखिरी चट्टा न त क; रीढ़ की हड्‌डी; मैं और मेरा देश; निर्मल जीत सिं ह सेखों (साथ -साथ पढ़ें); पद; रा म-लक्षम ण-परशुरा म संवा द; भा रति, जय, विजयकरे!; झाँ सी की रा नी; घर की या द; तब याद तुम्हारी आती है (साथ -साथ पढ़ें).
 

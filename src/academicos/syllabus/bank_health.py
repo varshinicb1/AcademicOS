@@ -43,7 +43,9 @@ from .tagger import SUBJECTS as TAGGER_SUBJECTS
 
 SUBJECTS = ("Mathematics", "Science", "Social Science", "English", "Hindi")
 GRADES = tuple(range(6, 11))
-MARK_BUCKETS = ("1", "2", "3", "4", "5+")
+# 5 is its own bucket: the board paper's long-answer section needs exactly 5
+# marks, and a 6-10 mark CBE item cannot fill it.
+MARK_BUCKETS = ("1", "2", "3", "4", "5", "6+")
 LEVEL_FIELDS = {"chapter": "taxonomyChapterId", "topic": "topicIds", "subtopic": "subtopicIds"}
 
 
@@ -70,7 +72,7 @@ def grade_of(rec: dict) -> int | None:
 
 def mark_bucket(marks) -> str:
     m = int(marks or 0)
-    return "5+" if m >= 5 else str(m)
+    return "6+" if m >= 6 else str(m)
 
 
 def has_answer_key(rec: dict) -> bool:
@@ -198,10 +200,10 @@ def _cell(subject: str, grade: int, recs: list[tuple[str, dict]], tree: dict | N
         chapters=chapters,
         emptyChapters=[c["id"] for c in chapters if not c["questions"]],
         chaptersWithout3Mark=[c["id"] for c in chapters if not c["byMarks"]["3"]],
-        chaptersWithout5Mark=[c["id"] for c in chapters if not c["byMarks"]["5+"]],
+        chaptersWithout5Mark=[c["id"] for c in chapters if not c["byMarks"]["5"]],
         emptyTopics=[t["id"] for t in topics if not t["questions"]],
         topicsWithout3Mark=[t["id"] for t in topics if not t["byMarks"]["3"]],
-        topicsWithout5Mark=[t["id"] for t in topics if not t["byMarks"]["5+"]],
+        topicsWithout5Mark=[t["id"] for t in topics if not t["byMarks"]["5"]],
     )
     papers = {"all": _paper_verdicts(keyed, presets)}
     if served is not None:
@@ -352,8 +354,8 @@ def render_markdown(report: dict) -> str:
 
     out += ["", "## Summary", "",
             "| subject | class | questions | keyed | chapter | topic | subtopic | old chapterIds "
-            "| 1m | 2m | 3m | 4m | 5m+ | board paper (served / all) |",
-            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
+            "| 1m | 2m | 3m | 4m | 5m | 6m+ | board paper (served / all) |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
     for c in cells:
         t, m = c["tagged"], c["marks"]
         board = c["papers"]["all"].get("board")
@@ -362,7 +364,7 @@ def render_markdown(report: dict) -> str:
             f"| {c['subject']} | {c['grade']} | {c['questions']:,} | {c['keyedPct']}% "
             f"| {t['chapter']['pct']}% | {t['topic']['pct']}% | {t['subtopic']['pct']}% "
             f"| {t['oldChapterIds']['pct']}% | {m['1']} | {m['2']} | {m['3']} | {m['4']} "
-            f"| {m['5+']} | {_yes_no(sboard)} / {_yes_no(board)} |")
+            f"| {m['5']} | {m['6+']} | {_yes_no(sboard)} / {_yes_no(board)} |")
     no_q = [f"{c['subject']} {c['grade']}" for c in cells if not c["questions"]]
     if no_q:
         out += ["", f"**No question at all ({len(no_q)}):** " + ", ".join(no_q) + "."]
@@ -435,16 +437,16 @@ def render_markdown(report: dict) -> str:
         out += ["", f"### {c['subject']} class {c['grade']}", "",
                 f"{c['keyed']:,} keyed questions; {c['untaggedKeyed']:,} of them carry no "
                 "chapter tag and are counted in no chapter below." + never, "",
-                f"| {book_head}# | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ "
+                f"| {book_head}# | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ "
                 "| topics with a question |",
-                f"|{book_rule}---:|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
+                f"|{book_rule}---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
         for ch in c["chapters"]:
             b = ch["byMarks"]
             with_q = sum(1 for t in ch["topics"] if t["questions"])
             book = f"{ch.get('book')} | " if multi else ""
             out.append(f"| {book}{ch['number'] if ch['number'] is not None else ''} | {ch['name']} "
                        f"| {ch['questions']} | {ch['marks']} | {b['1']} | {b['2']} | {b['3']} "
-                       f"| {b['4']} | {b['5+']} | {with_q}/{len(ch['topics'])} |")
+                       f"| {b['4']} | {b['5']} | {b['6+']} | {with_q}/{len(ch['topics'])} |")
 
         def listing(title, ids):
             if ids:

@@ -103,12 +103,12 @@ def test_cell_counts():
     # the tagger declining, and the report keeps the two apart
     assert c["neverTagged"] == 2
     # the marks and types of the questions that can be served (keyed)
-    assert c["marks"] == {"1": 2, "2": 1, "3": 1, "4": 0, "5+": 2}
+    assert c["marks"] == {"1": 2, "2": 1, "3": 1, "4": 0, "5": 1, "6+": 1}
     assert c["types"] == {"short_answer": 5, "long_answer": 1}
 
 
 def test_mark_buckets_and_subject_families():
-    assert [mark_bucket(m) for m in (1, 2, 3, 4, 5, 6, 10)] == ["1", "2", "3", "4", "5+", "5+", "5+"]
+    assert [mark_bucket(m) for m in (1, 2, 3, 4, 5, 6, 10)] == ["1", "2", "3", "4", "5", "6+", "6+"]
     assert subject_family({"subject": "Mathematics (Standard)"}) == "Mathematics"
     assert subject_family({"subject": "Hindi Course A"}) == "Hindi"
     assert subject_family({"subject": "English Language and Literature"}) == "English"
@@ -128,7 +128,7 @@ def test_chapters_and_topics_count_keyed_questions_and_marks():
     chapters = {ch["id"]: ch for ch in _cell(_report())["chapters"]}
     integers = chapters["mathematics-7/integers"]
     assert integers["questions"] == 3 and integers["marks"] == 9
-    assert integers["byMarks"] == {"1": 1, "2": 0, "3": 1, "4": 0, "5+": 1}
+    assert integers["byMarks"] == {"1": 1, "2": 0, "3": 1, "4": 0, "5": 1, "6+": 0}
     adding = next(t for t in integers["topics"] if t["id"] == ADD)
     assert adding["questions"] == 2 and adding["marks"] == 4
     fractions = chapters["mathematics-7/fractions"]
@@ -142,6 +142,22 @@ def test_empty_chapters_and_topics_are_listed():
     assert c["chaptersWithout5Mark"] == ["mathematics-7/fractions", "mathematics-7/symmetry"]
     assert c["emptyTopics"] == ["mathematics-7/integers/history"]
     assert c["untaggedKeyed"] == 2                 # a5 and a7 sit in no chapter
+
+
+def test_a_chapter_whose_only_long_question_is_not_5_marks_has_no_5_mark_question():
+    # the board paper's Section D needs exactly 5 marks; an 8-mark CBE item does not fill it
+    bank = [_q("f1", 8, chapter="mathematics-7/fractions", topic="mathematics-7/fractions/halves"),
+            _q("f2", 5, chapter="mathematics-7/integers", topic=ADD)]
+    c = _cell(_report(bank))
+    fractions = next(ch for ch in c["chapters"] if ch["id"] == "mathematics-7/fractions")
+    assert fractions["byMarks"]["5"] == 0 and fractions["byMarks"]["6+"] == 1
+    assert "mathematics-7/fractions" in c["chaptersWithout5Mark"]
+    assert "mathematics-7/fractions/halves" in c["topicsWithout5Mark"]
+    assert "mathematics-7/integers" not in c["chaptersWithout5Mark"]
+    assert ADD not in c["topicsWithout5Mark"]
+    md = render_markdown(_report(bank))
+    assert "| 5m | 6m+ |" in md
+    assert "**Chapters with no 5-mark question (2):** Fractions" in md
 
 
 def test_paper_verdict_and_its_reason():
