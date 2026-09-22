@@ -74,3 +74,26 @@ def test_scheme_coverage_counts_carried_official_schemes(layout):
     payload = json.loads(layout.served.read_text(encoding="utf-8"))
     assert payload["schemeCoverage"] == 1.0
     assert payload["composedFrom"] == {"board": 1, "cbe": 1, "sqp": 0}
+
+
+def test_chapter_names_come_from_the_syllabus():
+    from academicos.syllabus.cbse_syllabus import load_syllabus
+
+    names = mqb._chapter_names([board(subject="Mathematics", grade=6),
+                                board(2, subject="Nonsense", grade=6),
+                                board(3, subject="Mathematics", grade=None)])
+    expected = {("Mathematics", 6, c.id): c.name
+                for _u, c in load_syllabus("Mathematics", 6).all_chapters()}
+    assert expected and names == expected
+
+
+def test_check_reports_unresolved_and_shared_chapter_labels(layout, capsys):
+    _write(layout.cbe, [
+        cbe_mcq(1, chapterIds=["7N1a"], tags=["Integers"]),
+        cbe_mcq(2, chapterIds=["7N1b"], tags=["Integers"],
+                stem="Which of these is the smallest number? Select one option.")],
+        chapterTaggedAt="t")
+    assert mqb.run(layout, check=True) == 0
+    out = capsys.readouterr().out
+    assert "unresolved chapter ids (non-board): 2" in out
+    assert "Mathematics 7: 'Integers' covers 7N1a, 7N1b" in out

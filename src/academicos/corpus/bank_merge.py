@@ -879,3 +879,43 @@ def apply_chapter_names(records: list[dict],
         rec["tags"] = [name] + [t for t in rec.get("tags") or [] if t != name]
         out.append(rec)
     return out
+
+
+def unresolved_chapters(records: list[dict],
+                        names: dict[tuple[str, int, str], str]) -> int:
+    """How many non-board records have a chapter id the syllabus does not know.
+
+    apply_chapter_names leaves these records' tags alone, so the phone still
+    names their chapter by a topic. The root cause is the chapter tagger keeping
+    a raw CBE content code; merge_question_banks.py prints this count on every
+    run so the gap shows instead of shipping silently.
+    """
+    return sum(
+        1 for rec in records
+        if rec.get("source") != BOARD_SOURCE
+        and (rec.get("subject"), rec.get("grade"),
+             (rec.get("chapterIds") or [None])[0]) not in names)
+
+
+def shared_chapter_labels(records: list[dict]) -> dict[tuple[str, int], dict[str, list[str]]]:
+    """(subject, grade) -> {label: chapter ids} wherever one label names several chapters.
+
+    Mirrors the phone's chapter picker (corpus_repository.dart, chapters()): it
+    groups questions by every chapter id they carry and names each group by the
+    first tag of its first question, falling back to the id. Two chapters with
+    one label look like one chapter listed twice.
+    """
+    first_label: dict[tuple, str] = {}
+    for rec in records:
+        tags = rec.get("tags") or []
+        for cid in rec.get("chapterIds") or []:
+            key = (rec.get("subject"), rec.get("grade"), cid)
+            first_label.setdefault(key, tags[0] if tags else cid)
+    by_label: dict[tuple[str, int], dict[str, list[str]]] = {}
+    for (subject, grade, cid), label in first_label.items():
+        by_label.setdefault((subject, grade), {}).setdefault(label, []).append(cid)
+    return {
+        sg: {label: sorted(cids) for label, cids in labels.items() if len(cids) > 1}
+        for sg, labels in by_label.items()
+        if any(len(cids) > 1 for cids in labels.values())
+    }

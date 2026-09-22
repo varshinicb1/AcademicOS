@@ -1114,3 +1114,53 @@ def test_board_records_keep_their_tags():
 def test_an_unknown_chapter_leaves_tags_alone():
     rec = board(source="cbse_question_bank", chapterIds=["9N1e"], tags=["Number systems"])
     assert bm.apply_chapter_names([rec], {})[0]["tags"] == ["Number systems"]
+
+
+def test_a_chapter_name_already_in_the_tags_is_moved_not_repeated():
+    rec = board(source="cbse_question_bank", subject="Mathematics", grade=6,
+                chapterIds=["decimals-6"], tags=["Algebra", "Decimals"])
+    out = bm.apply_chapter_names([rec], {("Mathematics", 6, "decimals-6"): "Decimals"})
+    assert out[0]["tags"] == ["Decimals", "Algebra"]
+
+
+def test_a_known_chapter_with_no_tags_gets_its_name():
+    names = {("Mathematics", 6, "decimals-6"): "Decimals"}
+    for tags in ([], None):
+        rec = board(source="cbse_question_bank", subject="Mathematics", grade=6,
+                    chapterIds=["decimals-6"], tags=tags)
+        assert bm.apply_chapter_names([rec], names)[0]["tags"] == ["Decimals"]
+
+
+def test_naming_chapters_leaves_the_input_records_unchanged():
+    """The script keeps compose's list; a record edited in place would change it too."""
+    rec = board(source="cbse_question_bank", subject="Mathematics", grade=6,
+                chapterIds=["decimals-6"], tags=["Algebra"])
+    records = [rec]
+    bm.apply_chapter_names(records, {("Mathematics", 6, "decimals-6"): "Decimals"})
+    assert records[0] is rec
+    assert rec["tags"] == ["Algebra"]
+
+
+def test_unresolved_chapters_counts_only_non_board_records_the_syllabus_misses():
+    names = {("Mathematics", 6, "decimals-6"): "Decimals"}
+    recs = [
+        board(source="cbse_question_bank", subject="Mathematics", grade=6,
+              chapterIds=["decimals-6"]),
+        board(2, source="cbse_question_bank", subject="Mathematics", grade=6,
+              chapterIds=["6N1a"]),
+        board(3, source="cbse_question_bank", subject="Mathematics", grade=6, chapterIds=[]),
+        board(4, chapterIds=["unknown-board-chapter"]),
+    ]
+    assert bm.unresolved_chapters(recs, names) == 2
+
+
+def test_shared_chapter_labels_finds_one_name_on_several_chapters():
+    """Mirrors the phone's picker: a chapter is named by its first question's first tag."""
+    def rec(i, cid, tags):
+        return board(i, source="cbse_question_bank", subject="Mathematics", grade=6,
+                     chapterIds=[cid], tags=tags)
+    recs = [rec(1, "6N1a", ["Number systems"]), rec(2, "6N1b", ["Number systems"]),
+            rec(3, "6N1b", ["Other"]), rec(4, "decimals-6", ["Decimals"]),
+            board(5, chapterIds=["light"], tags=["Light"])]
+    assert bm.shared_chapter_labels(recs) == {
+        ("Mathematics", 6): {"Number systems": ["6N1a", "6N1b"]}}

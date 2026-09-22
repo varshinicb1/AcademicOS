@@ -86,7 +86,8 @@ def run(paths: Paths, *, check: bool) -> int:
             return 2
 
     result = bank_merge.compose(served["questions"], cbe["questions"], sqp["questions"])
-    questions = bank_merge.apply_chapter_names(result.questions, _chapter_names(result.questions))
+    names = _chapter_names(result.questions)
+    questions = bank_merge.apply_chapter_names(result.questions, names)
     covered = sum(1 for q in questions if _has_official_scheme(q))
 
     # Deterministic, so re-running on unchanged sources gives identical bytes:
@@ -112,6 +113,17 @@ def run(paths: Paths, *, check: bool) -> int:
         print(f"  {n:5,}  {str(source):20s} {reason}")
     print("by grade:", dict(sorted(collections.Counter(q.get("grade") for q in questions).items())))
     print(f"official scheme coverage: {covered:,}/{len(questions):,}")
+    # Records the syllabus cannot name keep a topic as their first tag, so the
+    # phone's picker can show several chapters under one label. The fix belongs
+    # to the chapter tagger; this keeps the gap visible on every --check.
+    print(f"unresolved chapter ids (non-board): "
+          f"{bank_merge.unresolved_chapters(questions, names):,}")
+    shared = bank_merge.shared_chapter_labels(questions)
+    if shared:
+        print("chapter labels shared by several chapter ids:")
+        for (subject, grade), labels in sorted(shared.items(), key=lambda kv: (str(kv[0][0]), kv[0][1] or 0)):
+            for label, cids in sorted(labels.items()):
+                print(f"  {subject} {grade}: {label!r} covers {', '.join(cids)}")
     if check:
         print("\n--check: nothing written")
         return 0
