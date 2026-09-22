@@ -951,3 +951,180 @@ def test_numeric_options_are_not_numbered_parts():
     """SQP Kathak XII 2022-23 Q7: "(a)8 (b)6 (c)12 (d)4" -- the digits are option text."""
     out, reason = bm.normalise(sqp_inline(stem_tail="(a)8 (b)6 (c)12 (d)4", answer="(a) 8"))
     assert reason is None and out["type"] == "mcq"
+
+
+# ---- options-first, half-question stems, roman and numeric options (Task 41 review 2) --
+
+def painting_xii_3():
+    """Served at fa8b78b: the question text is gone, the stem is its options and
+    the next question's opening, and the key is a bare label."""
+    return _raw_sqp(
+        "ClassXII_2023_24", "Painting", 3, grade=12, marks=1, page=2,
+        stem="i. Tribal Paintings ii. Company Paintings iii. Bengal School of Painting iv. "
+             "Miniature Paintings The painting ‘Nand, Yashoda, and Krishna with kinsmen "
+             "going to",
+        answer="(iv)")
+
+
+def carnatic_percussion_x(q):
+    """SQP Carnatic Music (Percussion) X 2022-23 Q12-13: part i of Q13 sits at the end
+    of Q12's stem, and Q13 was served as its part ii alone."""
+    if q == 12:
+        return _raw_sqp(
+            "ClassX_2022_23", "Carnatic Music (Percussion)", 12, grade=10, marks=2, page=2,
+            family="Carnatic Music",
+            stem="i. Explain the differences of Left and right side of Mridangam ii. The "
+                 "difference of Shadanga and Shodasanga i. Explain the following terms: Choru, "
+                 "Varu and Toppi",
+            answer="i. Candidates need to explain the different application of left and right "
+                   "head of mridangam in performance. ii. Candidate expected to brief about the "
+                   "details in both Shadanga and 2 Shodasanga.")
+    return _raw_sqp(
+        "ClassX_2022_23", "Carnatic Music (Percussion)", 13, grade=10, marks=2, page=2,
+        family="Carnatic Music",
+        stem="ii. Explain the following term: Tattu, Meetu and Gumki SECTION – C",
+        answer="i. Define the term Choru, Varu and Toppi briefly ii. Candidate need to define "
+               "the terms briefly. 2 Section – C")
+
+
+def test_a_one_mark_stem_that_opens_with_roman_options_is_a_fragment():
+    assert bm.normalise(painting_xii_3())[1] == "stem-fragment"
+    result = bm.compose([], [], [painting_xii_3()])
+    assert result.questions == []
+    assert [e["reason"] for e in result.excluded] == ["stem-fragment"]
+
+
+@pytest.mark.parametrize("stem", [
+    "1. Tribal Paintings 2. Company Paintings 3. Bengal School 4. Miniature Paintings",
+    "a] Tribal Paintings b] Company Paintings c] Bengal School d] Miniature Paintings",
+    "(i) Tribal Paintings (ii) Company Paintings (iii) Bengal School (iv) Miniature Paintings",
+])
+def test_a_one_mark_stem_that_opens_with_options_in_any_style_is_a_fragment(stem):
+    rec = painting_xii_3()
+    rec["stem"] = stem
+    assert bm.normalise(rec)[1] == "stem-fragment"
+
+
+def test_a_multi_mark_stem_that_opens_with_its_sub_parts_is_a_question():
+    """Three labelled parts under 3 marks are the question's parts, not options."""
+    rec = painting_xii_3()
+    rec["marks"] = rec["answerScheme"]["totalMarks"] = 3
+    rec["stem"] = ("i. Define tempera. ii. Name one binder used in it. iii. Explain why it "
+                   "dries quickly.")
+    assert bm.normalise(rec)[1] is None
+
+
+@pytest.mark.parametrize("tail,answer", [
+    ("i. avoid ii. control iii. forget iv. understand", "(ii)"),
+    ("i) avoid ii) control iii) forget iv) understand", "ii"),
+    ("(i) avoid (ii) control (iii) forget (iv) understand", "ii. control"),
+    ("1. avoid 2. control 3. forget 4. understand", "2."),
+    ("1) avoid 2) control 3) forget 4) understand", "2"),
+    ("a] avoid b] control c] forget d] understand", "b"),
+    ("i. avoid ii. control iii. forget", "(ii)"),             # three labels are enough
+])
+def test_roman_numeric_and_bracket_options_make_an_mcq(tail, answer):
+    out, reason = bm.normalise(sqp_inline(stem_tail=tail, answer=answer))
+    assert reason is None
+    assert out["type"] == "mcq" and out["metadata"]["typeInferred"] is True
+    assert out["answerScheme"]["metadata"]["correctOption"] == "B"
+    assert out["stem"].count("control") == 1
+
+
+def test_roman_and_numeric_options_are_printed_with_the_letters_the_key_uses():
+    """The phone reads a student's answer as a letter; "iii" never matches "C"."""
+    out, _ = bm.normalise(sqp_inline(stem_tail="i. avoid ii. control iii. forget iv. understand",
+                                     answer="(ii)"))
+    assert out["stem"] == ("Which word best completes the sentence below? "
+                           "(A) avoid (B) control (C) forget (D) understand")
+
+
+def test_a_real_roman_option_mcq_is_served_with_its_letter():
+    """SQP Painting X 2023-24 Q6, served at fa8b78b as short_answer keyed "(iii)"."""
+    rec = _raw_sqp("ClassX_2023_24", "Painting", 6, grade=10, marks=1, page=2,
+                   stem="Hog brushes are made from which animal hair? i. Squirrel ii. Tiger "
+                        "iii. Swine iv. Sheep", answer="(iii)")
+    out, reason = bm.normalise(rec)
+    assert reason is None and out["type"] == "mcq"
+    assert out["answerScheme"]["metadata"]["correctOption"] == "C"
+    assert "(C) Swine" in out["stem"]
+
+
+def test_a_real_bracket_option_mcq_is_served_with_its_letter():
+    """SQP Bharatanatyam XII 2022-23 Q7, served at fa8b78b as short_answer keyed "b"."""
+    rec = _raw_sqp("ClassXII_2022_23", "Bharatanatyam", 7, grade=12, marks=1, page=2,
+                   family="Dance",
+                   stem="Dandiya Raas is the folk dance of a] Rajasthan b] Gujarat c] Madhya "
+                        "Pradesh d] Maharashtra", answer="b")
+    out, reason = bm.normalise(rec)
+    assert reason is None and out["type"] == "mcq"
+    assert out["answerScheme"]["metadata"]["correctOption"] == "B"
+
+
+def test_questions_fused_under_numbered_options_are_refused_as_an_mcq():
+    """SQP Kathak XII 2024-25 Q4: the tail of Q1 and three numbered MCQs in one stem,
+    keyed "2."; served at fa8b78b as short_answer."""
+    rec = _raw_sqp("ClassXII_2024_25", "Kathak", 4, grade=12, marks=1, page=1, family="Dance",
+                   stem="Satvik 2. How many types of rasas are there? 1. 7 2. 8 3. 9 4. 11 3. "
+                        "Speed of time spend in music is called-: 1. Taal 2. Laya 3. Matra 4. "
+                        "Vibhaag 4. Choose the name of classical dance of north india. 1. "
+                        "Kathakali 2. Kathak 3. Satriya 4. Mohiniattam", answer="2.")
+    out, reason = bm.normalise(rec)
+    assert out["type"] == "mcq"
+    assert reason is not None
+
+
+@pytest.mark.parametrize("answer", [
+    "3",               # option 3, or the option whose text is "3"
+    "3. 4.",           # two labels (SQP Kathak XII 2024-25 Q5)
+    "C",               # a letter where the options are numbered
+    "3. SECTION-B",    # the key ran into the next heading (SQP Odissi XII 2024-25 Q8)
+])
+def test_an_unclear_numbered_key_is_refused(answer):
+    out, reason = bm.normalise(sqp_inline(stem_tail="1. 7 2. 8 3. 3 4. 11", answer=answer))
+    assert out["type"] == "mcq"
+    assert reason == "mcq-answer-unresolved"
+
+
+def test_a_stem_that_opens_with_a_later_part_is_a_fragment():
+    assert bm.normalise(carnatic_percussion_x(13))[1] == "stem-fragment"
+
+
+def test_the_stem_holding_the_lost_first_part_runs_on():
+    result = bm.compose([], [], [carnatic_percussion_x(12), carnatic_percussion_x(13)])
+    assert result.questions == []
+    assert {e["id"].rsplit(":", 1)[1]: e["reason"] for e in result.excluded} == {
+        "12": "stem-runs-on", "13": "stem-fragment"}
+
+
+@pytest.mark.parametrize("stem", [
+    "b) Give two reasons for the decline in the sex ratio.",
+    "(b) Give two reasons for the decline in the sex ratio.",
+    "B. Give two reasons for the decline in the sex ratio.",
+    "iii. Give two reasons for the decline in the sex ratio.",
+])
+def test_any_later_part_label_opening_is_a_fragment(stem):
+    rec = geography_23()
+    rec["stem"] = stem
+    assert bm.normalise(rec)[1] == "stem-fragment"
+
+
+def test_an_initial_is_not_a_part_label():
+    rec = geography_23()
+    rec["stem"] = "B. R. Ambedkar chaired the drafting committee. Name its other members."
+    assert bm.normalise(rec)[1] != "stem-fragment"
+
+
+@pytest.mark.parametrize("stem,answer", [
+    # SQP Applied Mathematics XII 2022-23 Q14: a two-column option grid read by column
+    ("An investment of 10,000 becomes 60,000 in 4 years, then the CAGR is given by - 4 4 "
+     "c) [6 4 -1] x 100 d) [6 4 + 1] x 100 a) b) 100 100", "(C) option"),
+    # SQP Mathematics (Standard) X 2024-25 Q15: "C )" as extraction spaced it
+    ("The point on the x- axis nearest to the point (-4,-5) is A) (0, 0) B) (-4, 0) "
+     "C ) (-5, 0) D) (41, 0)", "B) (-4, 0)"),
+])
+def test_options_whose_labels_extraction_disordered_are_still_an_mcq(stem, answer):
+    """Served at fa8b78b as short_answer: the labels are there, out of order or spaced."""
+    out, reason = bm.normalise(sqp_inline(stem=stem, answer=answer))
+    assert out["type"] == "mcq"
+    assert reason == "mcq-options-unresolved"
