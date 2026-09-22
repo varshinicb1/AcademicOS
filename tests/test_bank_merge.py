@@ -1767,3 +1767,33 @@ def test_the_pool_still_rejects_what_it_rejected(fn, text, rejected):
     from academicos.assessment import pool
 
     assert bool(getattr(pool, fn)(text)) is rejected
+
+
+@pytest.mark.parametrize("stem,marks", [
+    # A typed MCQ worth 2 marks (the served board set has 5 such records).
+    ("A line intersecting a circle in two distinct points is called a "
+     "(A) secant (B) chord (C) diameter (D) tangent", 2),
+    # A 1-mark MCQ that prints three options.
+    ("A line intersecting a circle in two distinct points is called a "
+     "(A) secant (B) chord (C) diameter", 1),
+])
+def test_a_typed_mcq_with_no_verified_letter_is_refused_whatever_its_marks(stem, marks):
+    # With no verified correctOption there is no answer key to print, so the
+    # MCQ is refused whatever its marks or option count.
+    rec = real_board("c0791b53af11069dbcd68a65:8", stem, answer="secant",
+                     marks=marks, qtype="mcq")
+    assert _served_or_reason(rec) == (None, "mcq-answer-unresolved")
+
+
+def test_a_stem_that_adds_or_drops_a_negation_is_a_different_question():
+    # "is correct" and "is not correct" ask for opposite answers. Share every
+    # other word and they still must not collapse into one question.
+    yes = ("Which of the following statements about photosynthesis in green plants "
+           "is correct? Give a reason for your answer.")
+    no = yes.replace("is correct", "is not correct")
+    assert bm.near_duplicate_score(yes, no) < bm.NEAR_DUPLICATE_MIN
+    result = bm.compose([real_board("f319c93abeb1185b0864d200:30", yes, option=None,
+                                    marks=2, qtype="short_answer"),
+                         real_board("b23bc2e537566a04afbf4415:30", no, option=None,
+                                    marks=2, qtype="short_answer")], [], [])
+    assert len(result.questions) == 2

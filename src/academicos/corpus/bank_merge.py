@@ -1299,6 +1299,11 @@ def repair_board(rec: dict) -> tuple[dict, str | None, list[str]]:
             f"({k}) {v}" for k, v in ASSERTION_REASON_OPTIONS.items())
         meta["options"] = dict(ASSERTION_REASON_OPTIONS)
         repairs.append("assertion-reason-options")
+    elif options is not None and objective and letter is None:
+        # An objective item that prints options but has no verified letter has
+        # no answer key to print, whatever its marks (5 served board MCQs are
+        # worth 2) or option count.
+        return r, "mcq-answer-unresolved", repairs
     elif options is not None and (letter is not None or (r.get("marks") == 1 and len(options) == 4)):
         # A lettered list on a multi-mark item with no verified letter is its
         # parts -- "(a) Explain ... (b) Suggest ..." -- and is left alone.
@@ -1355,6 +1360,10 @@ _NEAR_STOPWORDS = frozenset({
     "it", "its", "this", "that", "with", "from", "by", "as", "be"})
 
 
+_POLARITY = frozenset({"not", "no", "never", "except", "incorrect", "false", "cannot",
+                       "none", "neither", "nor"})
+
+
 def _near_words(text: str) -> list[str]:
     return [t for t in re.findall(r"[^\W_]+", text.lower()) if t not in _NEAR_STOPWORDS]
 
@@ -1371,6 +1380,11 @@ def _words_only_added_or_dropped(a: list[str], b: list[str]) -> bool:
             continue
         dropped.update(a[i1:i2])
         added.update(b[j1:j2])
+    # "is correct" and "is not correct" ask for opposite answers: a negation
+    # added or dropped makes another question (as answer keys agree only with
+    # the same polarity).
+    if (added | dropped) & _POLARITY:
+        return False
     return not (added & dropped)
 
 
