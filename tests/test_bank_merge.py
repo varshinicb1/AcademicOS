@@ -1476,6 +1476,18 @@ def test_an_assertion_reason_item_gets_the_four_standard_options():
     assert result.repairs["assertion-reason-options"] == 1
 
 
+def test_an_assertion_reason_item_that_prints_its_options_is_not_given_them_twice():
+    # stem_options cannot read these labels -- the "(A)" of "Assertion (A)"
+    # comes first -- so only has_option_labels tells the options are there.
+    stem = AR_STEM + " " + " ".join(f"({k}) {v}" for k, v in zip("ABCD", AR_OPTIONS))
+    rec = real_board("af50a3f7e666fdea9cee608f:20", stem, subject="Science",
+                     answer="(B)", option="B")
+    out, reason, repairs = bm.repair_board(rec)
+    assert "assertion-reason-options" not in repairs
+    assert out["stem"] == stem
+    assert out["stem"].count(AR_OPTIONS[0]) == 1
+
+
 def test_an_assertion_reason_item_with_no_verified_letter_is_refused():
     rec = real_board("af50a3f7e666fdea9cee608f:20", AR_STEM, subject="Science",
                      answer="(B)")

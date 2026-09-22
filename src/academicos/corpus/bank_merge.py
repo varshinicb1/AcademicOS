@@ -1225,7 +1225,10 @@ def repair_board(rec: dict) -> tuple[dict, str | None, list[str]]:
     meta = scheme.setdefault("metadata", {})
     letter = str(meta.get("correctOption") or "").strip().upper() or None
     options, at, _ = stem_options(stem, other_styles=False)
-    if options is None and _ASSERTION_REASON.search(stem):
+    # stem_options never reads an A-R stem that prints its options: the "(A)" of
+    # "Assertion (A)" comes first, so the labels run A, A, B, C, D. has_option_labels
+    # sees them, and such a stem keeps its own four rather than gaining four more.
+    if options is None and _ASSERTION_REASON.search(stem) and not has_option_labels(stem):
         if letter not in ASSERTION_REASON_OPTIONS:
             return r, "mcq-answer-unresolved", repairs
         stem = f"{stem.rstrip()} " + " ".join(
