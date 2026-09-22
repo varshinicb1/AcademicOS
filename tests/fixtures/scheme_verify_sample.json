@@ -1,0 +1,3460 @@
+{
+ "about": "Calibration sample for the content-mismatch rule in academicos/corpus/scheme_verify.py. Each pair is a question from the served bank (academicos-data/syllabus/questions.json, 3,286 board records) and one official answer that answer_keys.db holds for the same (paper code, question number). The judgements are an AI reviewer's (Claude, 2026-09-22), made by reading each stem and answer; they are NOT a teacher's. 'correct' = answers this question (a part of it counts); 'wrong' = answers a different question, or is not an answer (instructions, the question repeated, a document id, unreadable legacy font); 'cannot-tell' = the stem or answer is too damaged or too generic to say.",
+ "population": "Subjective pairs: the stem carries no readable (A)-(D) options, the key has no option letter, and both stem and answer are mostly Latin script. 2,129 such pairs in the served bank.",
+ "seed": 20260922,
+ "strata": {
+  "random": "The first 40 'random' pairs were drawn uniformly from the population with random.Random(20260922).sample; the next 40, with the same generator, from the population's pairs whose answer shares at least 10% of its content words with the stem (measured with the drafting tokenizer: [a-z]{3,} words, a shorter stopword list), so that the sample holds enough correct pairs to calibrate on.",
+  "shared>=3": "40 drawn with random.Random(20260922) from the 93 population pairs sharing at least 3 content words with the stem (same drafting tokenizer), excluding pairs already drawn: the region where the threshold decides."
+ },
+ "result": "With the rule in scheme_verify.py: of 76 pairs judged wrong, 0 accepted (65 content-mismatch, 5 unreadable-options for assertion-reason items, 3 legacy-font, 2 option-mismatch, 1 document-id); of 32 judged correct, 17 accepted and 15 rejected (11 content-mismatch, 4 assertion-reason unreadable-options); of 12 cannot-tell, 2 accepted.",
+ "pairs": [
+  {
+   "id": "cbse:q:src:91ad4685a6f0d67f7c1b0e8e:34",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 5,
+   "paperCode": "66/4/1",
+   "qNo": 34,
+   "source": "XII_054_MS_66_4_1_unsigned.pdf",
+   "stem": "Kartik is engaged in trading of Smart Televisions. He purchases these r. All the televisions , Vivek Electronics supplied some defective television sets to Kartik. Kartik is getting complaints about the televisions from almost all the customers. (ii) Vivek Electronics (iii) Consumers",
+   "answerText": "Selection is the process of choosing from among the pool of the The purpose of selection process is to ensure that the organization Promotions refer to being placed in positions of increased To address career related issues and promotional avenues for their Compensation refers to all forms of pay or rewards going to Direct financial payments are of two types : time based or Under the direct recruitment, a notice is placed on the noticeboard of The practice of direct recruitment is followed usually for casual",
+   "valuePoints": [
+    [
+     "Selection is the process of choosing from among the pool of the",
+     0.0
+    ],
+    [
+     "The purpose of selection process is to ensure that the organization",
+     0.0
+    ],
+    [
+     "Promotions refer to being placed in positions of increased",
+     0.0
+    ],
+    [
+     "To address career related issues and promotional avenues for their",
+     0.0
+    ],
+    [
+     "Compensation refers to all forms of pay or rewards going to",
+     0.0
+    ],
+    [
+     "Direct financial payments are of two types : time based or",
+     0.0
+    ],
+    [
+     "Under the direct recruitment, a notice is placed on the noticeboard of",
+     0.0
+    ],
+    [
+     "The practice of direct recruitment is followed usually for casual",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:f319c93abeb1185b0864d200:31",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "430/4/1",
+   "qNo": 31,
+   "source": "430_4_1.pdf",
+   "stem": "{gÕ H$s{OE {H$ : (tan A + sec A)2 + (tan A – sec A)2 = 2 ÷÷ ø ö çç è æ + A sin – 1 A sin 2 2 14- 15 P.T.O. makes an angle of 40° with PQ, then find the measure of Ð POQ.",
+   "answerText": "For Infinite number of solutions  __________________________________________________________________________",
+   "valuePoints": [
+    [
+     "For Infinite number of solutions ",
+     0.0
+    ],
+    [
+     "__________________________________________________________________________",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:6df8d2b3a2f6c8cce1428573:14",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "55/1/1",
+   "qNo": 14,
+   "source": "XII_042_Physics_MS_55_1_1,2,3.pdf",
+   "stem": "Assertion (A) : The mutual inductance between two coils is maximum when the coils are wound on each other. Reason (R) : The flux linkage between two coils is maximum when they are wound on each other.",
+   "answerText": "All the components perpendicular to x- axis are summed over and we obtain a null result Only x- components contribute. The net contribution along x- direction",
+   "valuePoints": [
+    [
+     "All the components perpendicular to x- axis are summed over and we obtain a null result",
+     0.0
+    ],
+    [
+     "Only x- components contribute. The net contribution along x- direction",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:34",
+   "subject": "Science",
+   "grade": 10,
+   "marks": 5,
+   "paperCode": "31/2/1",
+   "qNo": 34,
+   "source": "X_086_Set-.2(31.2.1 to 31.2.3) in  ENGLISH.pdf",
+   "stem": "(a) he presence ium ethanoate. Write the chemical equation for the reaction involved and name it, giving justification for the name.",
+   "answerText": "If the distance of the object from the eye is increased, ciliary If the distance between the object from the eye is decreased,",
+   "valuePoints": [
+    [
+     "If the distance of the object from the eye is increased, ciliary",
+     0.0
+    ],
+    [
+     "If the distance between the object from the eye is decreased,",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:6df8d2b3a2f6c8cce1428573:27",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "55/1/1",
+   "qNo": 27,
+   "source": "XII_042_Physics_MS_55_1_1,2,3.pdf",
+   "stem": "Write the drawbacks of Rutherfor them",
+   "answerText": "ii) ( A) For a convex mirror magnification is always negative",
+   "valuePoints": [
+    [
+     "ii) ( A) For a convex mirror magnification is always negative",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:0b3c7b807dcc7e88fd1809df:28",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "430/5/2",
+   "qNo": 28,
+   "source": "430_5_2.pdf",
+   "stem": "(a) Sabina went to a bank ATM to withdraw < 2,000. She received < 50 and < 100 notes only. If Sabina got 25 notes in all, how many notes of < 50 and < 100 did she receive ?",
+   "answerText": "Let the number of ₹50 notes be x and the number of ₹100 notes be y ATQ x + y = 25 _______ (i) and 50x + 100y = 2000 ________ (ii) Solving (i) and (ii), x= 10, y = 15",
+   "valuePoints": [
+    [
+     "Let the number of ₹50 notes be x and the number of ₹100 notes be y",
+     0.0
+    ],
+    [
+     "ATQ x + y = 25 _______ (i)",
+     0.0
+    ],
+    [
+     "and 50x + 100y = 2000 ________ (ii)",
+     0.0
+    ],
+    [
+     "Solving (i) and (ii), x= 10, y = 15",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "worked solution to this ATM-notes problem (x + y = 25, 50x + 100y = 2000)"
+  },
+  {
+   "id": "cbse:q:src:c9c7961de5a8552ab7829650:27",
+   "subject": "Political Science",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "59/4/3",
+   "qNo": 27,
+   "source": "XII-2-028-4-3 political science_updated 15.04.2026.pdf",
+   "stem": "(a) State any four reasons for considering Japan as an alternate centre of power. 4 1 1 2 =",
+   "answerText": "Explain any four reasons for good and friendly relations between India and Why could Gorbachev not stop the disintegration of Soviet Union ? Explain any (i) Indo-Russian relations are embedded in a history of trust and common interests and are matched by popular perceptions",
+   "valuePoints": [
+    [
+     "Explain any four reasons for good and friendly relations between India and",
+     0.0
+    ],
+    [
+     "Why could Gorbachev not stop the disintegration of Soviet Union ? Explain any",
+     0.0
+    ],
+    [
+     "(i) Indo-Russian relations are embedded in a history of trust and common interests",
+     0.0
+    ],
+    [
+     "and are matched by popular perceptions",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:a1c7e7ed00e830dc692a5589:24",
+   "subject": "Science",
+   "grade": 10,
+   "marks": 2,
+   "paperCode": "31/5/3",
+   "qNo": 24,
+   "source": "X_086_Set-5 (31.5.1 to 31.5.3)  in ENGLISH.pdf",
+   "stem": "Identify the organ in the human female reproductive system where the sperm encounters the egg cell. What will happen if it is blocked ? Name the technique by which it can be blocked.",
+   "answerText": "(A)/ Both A and R are true, and R is the correct explanation of",
+   "valuePoints": [
+    [
+     "(A)/ Both A and R are true, and R is the correct explanation of",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:b4bdd3a5880168f325b77269:10",
+   "subject": "English",
+   "grade": 10,
+   "marks": 1,
+   "paperCode": "2/2/1",
+   "qNo": 10,
+   "source": "2-2-1.pdf",
+   "stem": "Answer any one of the following two questions in 100 – 120 words : 6 Sermon at Benares’.",
+   "answerText": "Any one of two long answer questions to attempted in 100-120 words Valli – a strong desire to travel by bus - favorite pastime - sight of a bus arriving and departing - had courage to travel alone",
+   "valuePoints": [
+    [
+     "Any one of two long answer questions to attempted in 100-120 words",
+     0.0
+    ],
+    [
+     "Valli – a strong desire to travel by bus",
+     0.0
+    ],
+    [
+     "- favorite pastime - sight of a bus arriving and departing",
+     0.0
+    ],
+    [
+     "- had courage to travel alone",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "cannot-tell",
+   "note": "stem is cut to one title; the answer is for the other half of an either/or pair, which may be this item"
+  },
+  {
+   "id": "cbse:q:src:98866485497055b0a9803d2e:9",
+   "subject": "Mathematics",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "65/4/2",
+   "qNo": 9,
+   "source": "XII_MS 041_65-4-2 Mathematics 2024-25.pdf",
+   "stem": "4 0 x dx ) x e ( is equal to :",
+   "answerText": "has no common region with the feasible region",
+   "valuePoints": [
+    [
+     "has no common region with the feasible region",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:e88fea8cdf3e646d8478554b:4",
+   "subject": "English",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "1/4/2",
+   "qNo": 4,
+   "source": "XII_301_1_4_2_MS.pdf",
+   "stem": "Attempt any one from (A) and (B) given below : 5 (A) On behalf of Mr. and Mrs. Shah, draft a printed formal invitation card in 50 words for the marriage of their daughter Rama with Rajat, son of Mr. and Mrs. L.K. Das. Provide the relevant details like day, date, time and venue.",
+   "answerText": "Attempt any one from A and B given below You are Prakriti/Prabhat, a resident of College Road, Bhopal. You see the following advertisement, in the newspaper, for the job of a “Marketing Officer” in Chaitanya Enterprises, Mumbai. Write an",
+   "valuePoints": [
+    [
+     "Attempt any one from A and B given below",
+     0.0
+    ],
+    [
+     "You are Prakriti/Prabhat, a resident of College Road, Bhopal. You",
+     0.0
+    ],
+    [
+     "see the following advertisement, in the newspaper, for the job of a",
+     0.0
+    ],
+    [
+     "“Marketing Officer” in Chaitanya Enterprises, Mumbai. Write an",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:53888230b65ff3f59b83b153:5",
+   "subject": "English",
+   "grade": 10,
+   "marks": 1,
+   "paperCode": "2/5/2",
+   "qNo": 5,
+   "source": "2-5-2.pdf",
+   "stem": "Attempt any one from (A) and (B) given below : 5 (A) The table given below contains data related to the annual increase in the number of vehicles in major Indian cities (percentage data has been given). Write an analytical paragraph in 100 -120 words interpreting the data. Annual Increase in the Number of Vehicles in Major Indian Cities (Percentage) City (in descending order of population) Passengers Private Intermediate Two Wheelers Cars and Jeeps Taxis Three Wheelers Mumbai 12 7 6 9 Kolkata 18 2 17 2 10 8 32 7 Delhi 18 7 19 4 3 6 18 2 Chennai 42 5 31 3 36 8",
+   "answerText": "Attempt any one of the two extracts (a) and (b) given below",
+   "valuePoints": [
+    [
+     "Attempt any one of the two extracts (a) and (b) given below",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:009c1c0b2ba7272fc371da3b:28",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "55/1/2",
+   "qNo": 28,
+   "source": "XII-2-042-1-2.pdf",
+   "stem": "(a) Write two characteristic properties of nuclear force. of their separation. Write two important conclusions that can be drawn from the plot.",
+   "answerText": "SECTION-D ............................................................................................................................................. 12",
+   "valuePoints": [
+    [
+     "SECTION-D ............................................................................................................................................. 12",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:43ca6dafa2a6489ff053db5e:27",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "32/2/2",
+   "qNo": 27,
+   "source": "32-2-2 E.pdf",
+   "stem": "Explain the vertical distribution of power given in the Indian Constitution. 18 of",
+   "answerText": "Note: The following questions are for Visually Impaired Candidates only in Attempt any five questions (37.1) Name the place where Gandhiji broke salt law (37.2) Name the place where Indian National Congress Session was held in",
+   "valuePoints": [
+    [
+     "Note: The following questions are for Visually Impaired Candidates only in",
+     0.0
+    ],
+    [
+     "Attempt any five questions",
+     0.0
+    ],
+    [
+     "(37.1) Name the place where Gandhiji broke salt law",
+     0.0
+    ],
+    [
+     "(37.2) Name the place where Indian National Congress Session was held in",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:2af2d7396537dc683b00f023:25",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 2,
+   "paperCode": "430/3/1",
+   "qNo": 25,
+   "source": "X_241_MS_430_3_1_Unsigned.pdf",
+   "stem": "OPRQ, O 10 cm OP = 10 cm OS = 6 cm = 3·14 6 - (SA) , 3=18",
+   "answerText": "Numbers divisible by 8 are 8, 16, 24, 32, 40, 48, . . . , 80  P(selected number is divisible by 8) = 10  P(selected number is not divisible by 8) = 1 – 1 ---------------------------------------------------------------------------------------------------------------",
+   "valuePoints": [
+    [
+     "Numbers divisible by 8 are 8, 16, 24, 32, 40, 48, . . . , 80",
+     0.0
+    ],
+    [
+     " P(selected number is divisible by 8) = 10",
+     0.0
+    ],
+    [
+     " P(selected number is not divisible by 8) = 1 – 1",
+     0.0
+    ],
+    [
+     "---------------------------------------------------------------------------------------------------------------",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:74d29feaacad629411a49c95:28",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "430/5/2",
+   "qNo": 28,
+   "source": "430_5_2.pdf",
+   "stem": "Find the coordinates of the points of trisection of the line segment joining the points A(5, – 3) and B(– 4, 3).",
+   "answerText": "Let the number of ₹50 notes be x and the number of ₹100 notes be y ATQ x + y = 25 _______ (i) and 50x + 100y = 2000 ________ (ii) Solving (i) and (ii), x= 10, y = 15",
+   "valuePoints": [
+    [
+     "Let the number of ₹50 notes be x and the number of ₹100 notes be y",
+     0.0
+    ],
+    [
+     "ATQ x + y = 25 _______ (i)",
+     0.0
+    ],
+    [
+     "and 50x + 100y = 2000 ________ (ii)",
+     0.0
+    ],
+    [
+     "Solving (i) and (ii), x= 10, y = 15",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:b34adc36798c7b462d3db1cd:25",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 2,
+   "paperCode": "32/1/1",
+   "qNo": 25,
+   "source": "32-1-1 H.pdf",
+   "stem": "Explain the statement in the context of Non-Cooperation Movement.",
+   "answerText": "A. fdUgha rhu dkj.kksa dk o.kZu dhft, tks vlg;ksx vkanksyu ds (ii) Hkkjr ljdkj vfèkfu;e 1919 (iii) tfy;kaokyk ckx gR;kdkaM (vi) 1920 ds dkaxzsl ds vf/kos”ku",
+   "valuePoints": [
+    [
+     "A. fdUgha rhu dkj.kksa dk o.kZu dhft, tks vlg;ksx vkanksyu ds",
+     0.0
+    ],
+    [
+     "(ii) Hkkjr ljdkj vfèkfu;e 1919",
+     0.0
+    ],
+    [
+     "(iii) tfy;kaokyk ckx gR;kdkaM",
+     0.0
+    ],
+    [
+     "(vi) 1920 ds dkaxzsl ds vf/kos”ku",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": "legacy-font (Krutidev) Hindi; reads as the Non-Cooperation question in Hindi, unreadable as served"
+  },
+  {
+   "id": "cbse:q:src:853fd72c9133251d86ac4c5b:31",
+   "subject": "Chemistry",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "56/2/2",
+   "qNo": 31,
+   "source": "XII_043_Chemistry_MS_56_2- 2-.pdf",
+   "stem": ", , , , - : ? 1 (ii) 2 × 1 (ii) 2 × 1 P.T.O.",
+   "answerText": "(b) On heating with NaOH + I2, Butan-2-ol gives yellow ppt. Of iodoform (CHI3) whereas Butan-1- (Or any other suitable chemical test) (c) Ethanol < Water < Phenol",
+   "valuePoints": [
+    [
+     "(b) On heating with NaOH + I2, Butan-2-ol gives yellow ppt. Of iodoform (CHI3) whereas Butan-1-",
+     0.0
+    ],
+    [
+     "(Or any other suitable chemical test)",
+     0.0
+    ],
+    [
+     "(c) Ethanol < Water < Phenol",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "cannot-tell",
+   "note": "stem is extraction debris; nothing to judge against"
+  },
+  {
+   "id": "cbse:q:src:74ad0a018800d922b0200072:1",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 1,
+   "paperCode": "32/4/1",
+   "qNo": 1,
+   "source": "087_32_4_1_H.pdf",
+   "stem": "Power shared between Central to Local Government.",
+   "answerText": "vki tkurs gSa fd ijh{kkfFkZ;ksa ds okLrfod vkSj lgh ewY;kadu esa vkdyu izfØ;k lcls egRoiw.kZ fgLlk gSA ewY;kadu esa ,d NksVh lh xyrh ls xaHkhj ifj.kke gks ldrs gSaA Hkfo\";] f'k{kk ç.kkyh vkSj f'k{k.k is'ks dks çHkkfor dj ldrh gSaA xyfr;ksa ls cpus ds fy,] ;g vuqjksèk fd;k tkrk gS fd ewY;kadu 'kq: djus ls igys] vkidks Li‚V ewY;kadu fn'kkfunZs'kksa dks è;ku ls i<+uk vkSj le>uk pkfg,A",
+   "valuePoints": [
+    [
+     "vki tkurs gSa fd ijh{kkfFkZ;ksa ds okLrfod vkSj lgh ewY;kadu esa vkdyu izfØ;k lcls egRoiw.kZ fgLlk",
+     0.0
+    ],
+    [
+     "gSA ewY;kadu esa ,d NksVh lh xyrh ls xaHkhj ifj.kke gks ldrs gSaA Hkfo\";] f'k{kk ç.kkyh vkSj f'k{k.k is'ks",
+     0.0
+    ],
+    [
+     "dks çHkkfor dj ldrh gSaA xyfr;ksa ls cpus ds fy,] ;g vuqjksèk fd;k tkrk gS fd ewY;kadu 'kq: djus",
+     0.0
+    ],
+    [
+     "ls igys] vkidks Li‚V ewY;kadu fn'kkfunZs'kksa dks è;ku ls i<+uk vkSj le>uk pkfg,A",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": "legacy-font (Krutidev) Hindi evaluation instructions, not an answer"
+  },
+  {
+   "id": "cbse:q:src:c6d75fd02ddaf5c1411d9743:17",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "57/3/1",
+   "qNo": 17,
+   "source": "57-3-1.pdf",
+   "stem": "(a) Explain the process of the development of a male gametophyte in an angiosperm.",
+   "answerText": "Progesterone, Progestogen – Estrogen combination ‘Saheli’ is a non-steroidal preparation, ‘once a week’ pill with very few side effects, Vaccine is a preparation of antigenic proteins of pathogen or inactivated/weakened It is based on the property of memory of immune system, the antibodies produced",
+   "valuePoints": [
+    [
+     "Progesterone, Progestogen – Estrogen combination",
+     0.0
+    ],
+    [
+     "‘Saheli’ is a non-steroidal preparation, ‘once a week’ pill with very few side effects,",
+     0.0
+    ],
+    [
+     "Vaccine is a preparation of antigenic proteins of pathogen or inactivated/weakened",
+     0.0
+    ],
+    [
+     "It is based on the property of memory of immune system, the antibodies produced",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:d52e7a22879ce44bb7610fb6:24",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/4/3",
+   "qNo": 24,
+   "source": "XII_055_MS_67_4_3_unsigned.pdf",
+   "stem": "Pass the necessary journal entries for the issue of debentures in the books of Amrit Ltd. for the following transactions : 10%, redeemable at a premium of 5% after three years. (ii) Issued < 30,00,000, 8% Debentures of < 100 each at par, redeemable at a premium of 5%. (iii) Issued 6,000, 9% Debentures of < 100 each at a premium of 10%, redeemable at a premium of 5%. 6",
+   "answerText": "Bright Motors Ltd. was registered with … (i) (C) 10,00,000 ……………………..………1 (ii) (A) ₹ 2,99,50,000 ……………………..…1 (iii) (D) ₹ 40,000 ……………………….……1",
+   "valuePoints": [
+    [
+     "Bright Motors Ltd. was registered with …",
+     0.0
+    ],
+    [
+     "(i) (C) 10,00,000 ……………………..………1",
+     0.0
+    ],
+    [
+     "(ii) (A) ₹ 2,99,50,000 ……………………..…1",
+     0.0
+    ],
+    [
+     "(iii) (D) ₹ 40,000 ……………………….……1",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:09a7d8a43ab84dbfb45c1229:25",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "57/5/1",
+   "qNo": 25,
+   "source": "57-5-1.pdf",
+   "stem": "If the cells in the leaves of a maize plant contain 10 chromosomes each, write the number of chromosomes in its endosperm and zygote. Name and explain the process by which an endosperm and a zygote are formed in maize.",
+   "answerText": " Endosperm – 15 chromosomes  Endosperm is formed by the process of triple fusion, the fusion of two polar nuclei with one male gamete, - Zygote is formed by the process of syngamy, the fusion of egg cell",
+   "valuePoints": [
+    [
+     " Endosperm – 15 chromosomes",
+     0.0
+    ],
+    [
+     " Endosperm is formed by the process of triple fusion, the fusion of two",
+     0.0
+    ],
+    [
+     "polar nuclei with one male gamete,",
+     0.0
+    ],
+    [
+     "- Zygote is formed by the process of syngamy, the fusion of egg cell",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "endosperm 15 chromosomes, triple fusion, syngamy: answers this maize question"
+  },
+  {
+   "id": "cbse:q:src:f319c93abeb1185b0864d200:21",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 2,
+   "paperCode": "430/4/1",
+   "qNo": 21,
+   "source": "430_4_1.pdf",
+   "stem": "Given that HCF (306, 1314) = 18, find LCM of (306, 1314).",
+   "answerText": " 3 cos  – 4 cos3  = 3 cos 30 – 4 cos3 30 __________________________________________________________________________",
+   "valuePoints": [
+    [
+     " 3 cos  – 4 cos3  = 3 cos 30 – 4 cos3 30",
+     0.0
+    ],
+    [
+     "__________________________________________________________________________",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:8a64f3e94665126f6c18360a:31",
+   "subject": "Chemistry",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "56/3/1",
+   "qNo": 31,
+   "source": "043_56_3_1 Hindi.pdf",
+   "stem": "The polarity of C -X bond of alkyl halides is responsible for their nucleophilic substitution, elimination and their reaction with metal atoms to form organometallic compounds. Alkyl halides are prepared by the free radical halogenation of alkanes, addition of halogen acids to alkenes, replacement of -OH group of alcohols with halogens using phosphorus halides, thionyl chloride",
+   "answerText": "समग्र : Zn(s) + 2MnO2 + 2NH4 + → Zn2+ + 2MnO(OH) + 2NH3",
+   "valuePoints": [
+    [
+     "समग्र : Zn(s) + 2MnO2 + 2NH4",
+     0.0
+    ],
+    [
+     "+ → Zn2+ + 2MnO(OH) + 2NH3",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": "Devanagari chemistry answer (dry cell) on an alkyl-halide passage"
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:23",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "66/1/1",
+   "qNo": 23,
+   "source": "XII_054_MS_66-1-1_Business Studies.pdf",
+   "stem": "A renowned car company named ‘BB Motors’ was known for producing high performance cars. They were committed to ensure that its employees had the skills and knowledge to build these innovative high-performance cars. To achieve this, they implemented a unique approach for training. The company transformed a section of its factory into what they called the ‘Learning Floor’. Actual work environment was created by allotting a specialized space. The space was equipped with a range of car components, tools and sophisticated car equipment identical to those used on the factory floor, where the company’s employees would undergo their training. Identify and explain the method of training used by ‘BB Motors’ to ensure that its employees had the skills and knowledge to build innovative high-performance cars.",
+   "answerText": "Madhwan was appointed as a Human Resource Manager in 'Health Grow Ltd.’ six months back. As a Human Resource Manager, he has to perform many specialised activities and duties like analyzing jobs by collecting",
+   "valuePoints": [
+    [
+     "Madhwan was appointed as a Human Resource Manager",
+     0.0
+    ],
+    [
+     "in 'Health Grow Ltd.’ six months back. As a Human",
+     0.0
+    ],
+    [
+     "Resource Manager, he has to perform many specialised",
+     0.0
+    ],
+    [
+     "activities and duties like analyzing jobs by collecting",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:5b264d90783245ffde0e1c98:3",
+   "subject": "English",
+   "grade": 10,
+   "marks": 1,
+   "paperCode": "2/1/1",
+   "qNo": 3,
+   "source": "2-4-3.pdf",
+   "stem": "Complete any ten of the following twelve tasks, as directed. 10×1=10 (ii) Read the given sentence. Identify the error and supply the correction in the sentence. Ninety-seven percent of the Earth’s water is salty ocean water and another two percent is trapping in the Earth’s ice caps and glaciers. 1 Error Correction (iii) Yukti and Sanjay had a conversation about going to a restaurant. Report Yukti’s question. 1 ‘‘Does this restaurant serve good South Indian food ?’’ (iv) Read the dialogue between Amit and his sister Ananya, regarding her travel to the railway station. 1 Amit : Are you sure you can manage to go to the railway station on your own ? Ananya : Oh yes! I have already booked a cab. Select the correct option to report the above dialogue. Amit asked Ananya ______________ to go to the railway station on her own. Ananya replied in the affirmative and said that she had already booked a cab. (A) if she is sure she can manage (B) if she was sure she could manage (C) if she surely can manage (D) if she was sure to managing 2/1/1 9 of P.T.O. Each year, thousands of birds __________ (migrate/immigrate/emigrate) southwards to avoid the harsh winter, embarking on an incredible journey that spans thousands of miles. (vi) Identify and correct the error in the given line taken from an agency’s advertisement. 1 Tell us much about your project and we’ll select suitable candidates for you to hire. Use the given format for your response. Error Correction (vii) Select the option that identifies the error and supplies the correction for the following line taken from an article about growing obesity. Obesity in teenage children is a major concern between parents today. 1 Option No. Error Correction (A) teenage teenagers (B) concern concerns (C) between among (D) today now (viii) Complete the given narrative with the correct option to fill in the blank. 1 Yesterday, Tanu walked to the park and __________ a breezy evening. (A) to enjoying (B) will enjoy (C) enjoyed (D) did enjoyed 2/1/1 10 of (ix) Report the dialogue between two friends by completing the sentence. 1 Bhawna : I finished the project yesterday. Sohail : That’s great ! Are you going to present it tomorrow ? Bhawna told Sohail that ____________. Sohail responded that it was great and asked if she were going to present it the next day. We are pleased to announce that our Annual Sports Day _________ on 30th April, 2025 at the school playground from 9 a.m. to 3 p.m. (A) is held (B) will be held (C) had been held (D) to be held (xi) Complete the slogan on ‘‘Save Earth’’, by filling in the blank with the correct option. Lets join hands, cultivate conservation, and _________ a greener tomorrow for generations to come. 1 (A) ensuring (B) ensure (C) ensures (D) ensured (xii) Identify the error and supply the correction for the following note in an air purifier’s instruction manual. The plug should fit upto the outlet. If it doesn’t fit, do not force it in. Use the given format for your response. Error Correction 2/1/1 11 of P.T.O. Writing Note : All details presented in the questions in writing section are imaginary and created for assessment purpose.",
+   "answerText": "Any 10 out of 12 questions to be attempted / marked Full credit for correct answers. No partial credit of ½ , for any question in this No error in this sentence. So everyone who has attempted to be allotted 1 mark Sunil asked Monika if / whether she was planning to visit her hometown during",
+   "valuePoints": [
+    [
+     "Any 10 out of 12 questions to be attempted / marked",
+     0.0
+    ],
+    [
+     "Full credit for correct answers. No partial credit of ½ , for any question in this",
+     0.0
+    ],
+    [
+     "No error in this sentence. So everyone who has attempted to be allotted 1 mark",
+     0.0
+    ],
+    [
+     "Sunil asked Monika if / whether she was planning to visit her hometown during",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:80a49b071cb04186873bccda:24",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 2,
+   "paperCode": "30/5/2",
+   "qNo": 24,
+   "source": "MS_X_041_Mathematics_30-5-2_2025-26 (1).pdf",
+   "stem": "A carton consists of 60 shirts of which 48 are good, 8 have major defects and 4 have minor defects. Nigam, a trader, will accept the shirts which are good but Anmol, another trader, will only reject the shirts which have major defects. One shirt is drawn at random from the carton. Find the probability that it is acceptable to Anmol.",
+   "answerText": "Sol. BC = ඥ(−8 −1)ଶ+ (7 −1)ଶ= √117 = 3√13 AB = ඥ(3 −1)ଶ+ (4 −1)ଶ= √13",
+   "valuePoints": [
+    [
+     "Sol. BC = ඥ(−8 −1)ଶ+ (7 −1)ଶ= √117 = 3√13",
+     0.0
+    ],
+    [
+     "AB = ඥ(3 −1)ଶ+ (4 −1)ଶ= √13",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:4f6182240b214906a58eaeab:22",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 2,
+   "paperCode": "30/1/1",
+   "qNo": 22,
+   "source": "X_MS_041_Mathematics Standard_30-1-1_2024-25.pdf",
+   "stem": "Find the zeroes of the polynomial p(x) = x2 + -x -.",
+   "answerText": "MS_X_Mathematics_041_30/1/1_2024-25",
+   "valuePoints": [
+    [
+     "MS_X_Mathematics_041_30/1/1_2024-25",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": "the answer is only the marking scheme's document id"
+  },
+  {
+   "id": "cbse:q:src:019f90c89e88071138b5002a:6",
+   "subject": "English",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "1/3/1",
+   "qNo": 6,
+   "source": "XII_301_1_3_1_MS.pdf",
+   "stem": "Increasing penetration of mobile devices",
+   "answerText": "Answer any two of the following in about 120-150 words each What according to Keats are things of beauty? What is their significance Ans. - Countless objects from nature such as sun, moon, old and young trees, daffodils, clear rill etc / blooming musk rose in the forest/ lovely tales of the",
+   "valuePoints": [
+    [
+     "Answer any two of the following in about 120-150 words each",
+     0.0
+    ],
+    [
+     "What according to Keats are things of beauty? What is their significance",
+     0.0
+    ],
+    [
+     "Ans. - Countless objects from nature such as sun, moon, old and young trees,",
+     0.0
+    ],
+    [
+     "daffodils, clear rill etc / blooming musk rose in the forest/ lovely tales of the",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:09a7d8a43ab84dbfb45c1229:27",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "57/5/1",
+   "qNo": 27,
+   "source": "57-5-1.pdf",
+   "stem": "Explain the processing of heterogeneous nuclear RNA (hnRNA) into a fully functional mRNA in eukaryotes. Where does this processing occur in the cell ?",
+   "answerText": "- hnRNA undergoes capping at 5'-end (methyl guanosine triphosphate or mGppp), and tailing at 3'-end (with polyA tail or adenylate residues) , Further splicing is carried out, where the non-coding or introns are removed, and coding sequences or exons are joined together in a defined manner",
+   "valuePoints": [
+    [
+     "- hnRNA undergoes capping at 5'-end (methyl guanosine triphosphate or",
+     0.0
+    ],
+    [
+     "mGppp), and tailing at 3'-end (with polyA tail or adenylate residues) , Further",
+     0.0
+    ],
+    [
+     "splicing is carried out, where the non-coding or introns are removed, and coding",
+     0.0
+    ],
+    [
+     "sequences or exons are joined together in a defined manner",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "capping, tailing, splicing of hnRNA: answers this question although it shares one content word with it"
+  },
+  {
+   "id": "cbse:q:src:f64a5fa2eca8fc27010a4acb:19",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "55/4/1",
+   "qNo": 19,
+   "source": "XII_042_Physics_MS_55_4_1,2,3.pdf",
+   "stem": "Two identical dipoles are arranged in x-y plane as shown in the figure. Find the magnitude and the direction of net electric field at the origin O. 2 12 of",
+   "answerText": "massof twoelectrons= 1.66 10 massof α-particle= mass of the normal helium atom - mass of two electrons",
+   "valuePoints": [
+    [
+     "massof twoelectrons= 1.66 10",
+     0.0
+    ],
+    [
+     "massof α-particle= mass of the normal helium atom - mass of two electrons",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:b34adc36798c7b462d3db1cd:30",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "32/1/1",
+   "qNo": 30,
+   "source": "32-1-1 H.pdf",
+   "stem": "(a) Analyse administrative system rational and efficient.",
+   "answerText": "A. 19oha 'krkCnh ds vkjafHkd o\"kksZa esa mnkjokn dh fopkjèkkjk us ;wjksi dks fdl çdkj çHkkfor fd;k\\ Li\"V dhft,A (i) mUuhloha lnh dh 'kq#vkr esa ;wjksi esa jk\"Vªh; ,drk ds fopkj mnkjokn dh fopkjèkkjk ls fudVrk ls tqM+s gq, FksA",
+   "valuePoints": [
+    [
+     "A. 19oha 'krkCnh ds vkjafHkd o\"kksZa esa mnkjokn dh fopkjèkkjk us",
+     0.0
+    ],
+    [
+     ";wjksi dks fdl çdkj çHkkfor fd;k\\ Li\"V dhft,A",
+     0.0
+    ],
+    [
+     "(i) mUuhloha lnh dh 'kq#vkr esa ;wjksi esa jk\"Vªh; ,drk ds fopkj mnkjokn",
+     0.0
+    ],
+    [
+     "dh fopkjèkkjk ls fudVrk ls tqM+s gq, FksA",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": "legacy-font (Krutidev) Hindi on liberalism in Europe; the question is about administrative systems"
+  },
+  {
+   "id": "cbse:q:src:4d332115f14c6aeeaa34b438:27",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "67/3/1",
+   "qNo": 27,
+   "source": "67_3_1.pdf",
+   "stem": "(i) From the following a legend can be repositioned on a chart :",
+   "answerText": "The Debt-Equity Ratio of a company ……………………… Ans.(B) -- Issue of Debentures",
+   "valuePoints": [
+    [
+     "The Debt-Equity Ratio of a company ………………………",
+     0.0
+    ],
+    [
+     "Ans.(B) -- Issue of Debentures",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:85449ce85a86819f9e62c27e:34",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 5,
+   "paperCode": "430/2/1",
+   "qNo": 34,
+   "source": "X_241_MS_430_2_1_Unsigned.pdf",
+   "stem": "If a line is drawn parallel to one side of a triangle to intersect the other two sides in distinct points, then prove that the other two sides are divided in the same ratio.",
+   "answerText": "(a) (i) In  AEP and  CDP,  APE =  CPD (vertically opposite angles)   AEP   CDP (AA similarity)   ABD   CBE (AA similarity)",
+   "valuePoints": [
+    [
+     "(a) (i) In  AEP and  CDP,",
+     0.0
+    ],
+    [
+     " APE =  CPD (vertically opposite angles)",
+     0.0
+    ],
+    [
+     "  AEP   CDP (AA similarity)",
+     0.0
+    ],
+    [
+     "  ABD   CBE (AA similarity)",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:b0025252f69babc7d87d90f3:16",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "57/5/2",
+   "qNo": 16,
+   "source": "57-5-2.pdf",
+   "stem": "(A) : () , 1 (R) : /22 P.T.O.",
+   "answerText": "(C) / (A) is true, but (R) is false",
+   "valuePoints": [
+    [
+     "(C) / (A) is true, but (R) is false",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "cannot-tell",
+   "note": "stem is extraction debris"
+  },
+  {
+   "id": "cbse:q:src:eb8839b70f5651efaebcdcd8:19",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "57/1/2",
+   "qNo": 19,
+   "source": "XII_044_MS_57_1_2.pdf",
+   "stem": "(a) Vectors are DNA molecules that can carry a foreign DNA segment into the host cell. (ii) Give one example each of vectors used for cloning genes in plants and animals.",
+   "answerText": "Ori ( Origin of replication)- It is a specific DNA sequence responsible for initiating replication /control copy number Amplification of DNA at high temperature /remains active during high temperature induced denaturation of double",
+   "valuePoints": [
+    [
+     "Ori ( Origin of replication)- It is a specific DNA sequence",
+     0.0
+    ],
+    [
+     "responsible for initiating replication /control copy number",
+     0.0
+    ],
+    [
+     "Amplification of DNA at high temperature /remains active",
+     0.0
+    ],
+    [
+     "during high temperature induced denaturation of double",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:41439dcef4b5c6d47ef118db:30",
+   "subject": "Science",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "31/4/2",
+   "qNo": 30,
+   "source": "X_086_31_4_MS_UNSIGNED_ALL SETS.pdf",
+   "stem": "(A) An object is kept at a distance of 1m from a lens of power +2D : (ii) Calculate its focal length and distance of the image formed.",
+   "answerText": "(A) (i) Convex lens / Converging lens",
+   "valuePoints": [
+    [
+     "(A) (i) Convex lens / Converging lens",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "part (i) of this lens question (the lens is convex); the stem shows only part (ii)"
+  },
+  {
+   "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:35",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 5,
+   "paperCode": "32/5/1",
+   "qNo": 35,
+   "source": "32-5-1 E.pdf",
+   "stem": "Read the given extract and answer the questions that follow : In ancient India, along with the sophisticated hydraulic structures, there existed an extraordinary tradition of water-harvesting system. People had an in-depth knowledge of rainfall regimes and soil types and developed wide ranging techniques to harvest groundwater, rainwater, river water and flood water in keeping with the local ecological conditions and their water needs. In hilly and mountainous regions, people built diversion channels like the kuls and guls of Western Himalayas for agriculture. Rooftop rainwater harvesting was very commonly practised to store drinking water, particularly in Rajasthan. (35.1) Mention any two methods of traditional water-harvesting used in India. 1 (35.2) How do people of Rajasthan utilise rainwater ? 1 (35.3) Explain any two benefits of rainwater harvesting. 2 1=2",
+   "answerText": "2 In which international conference was ‘Agenda-21’ accepted? (1) Rio de Janeiro Earth Summit, 1992",
+   "valuePoints": [
+    [
+     "2 In which international conference was ‘Agenda-21’ accepted? (1)",
+     0.0
+    ],
+    [
+     "Rio de Janeiro Earth Summit, 1992",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:2ee8d7da708461a40ea2c937:30",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "430/3/2",
+   "qNo": 30,
+   "source": "X_241_MS_430_3_2_unsigned.pdf",
+   "stem": "a, b c - / a = 7 × 11 × 13 + 13 b = 6 × 5 × 4 + 4 c = 7 × 13 + 17| P a g e",
+   "answerText": "(b) Let nth level be the required level 41 (n 1) (4) 5 [41 9 × (4)] At 5th level the number of members is 5 times the number of members at level",
+   "valuePoints": [
+    [
+     "(b) Let nth level be the required level",
+     0.0
+    ],
+    [
+     "41 (n 1) (4) 5 [41 9 × (4)]",
+     0.0
+    ],
+    [
+     "At 5th level the number of members is 5 times the number of members at level",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:24",
+   "subject": "Science",
+   "grade": 10,
+   "marks": 2,
+   "paperCode": "31/5/1",
+   "qNo": 24,
+   "source": "X_086_Set-5 (31.5.1 to 31.5.3)  in ENGLISH.pdf",
+   "stem": "In the process of digestion of food in human beings, two protein-digesting enzymes are secreted. Name the enzymes along with the glands that secrete them.",
+   "answerText": "(A)/ Both A and R are true, and R is the correct explanation of A",
+   "valuePoints": [
+    [
+     "(A)/ Both A and R are true, and R is the correct explanation of A",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:856803fb4333bfbe91cef527:29",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "32/5/2",
+   "qNo": 29,
+   "source": "32_5_2 E.pdf",
+   "stem": "How are primary, secondary and tertiary sectors dependent on each other ? Explain.",
+   "answerText": "How primary, secondary and tertiary sectors are dependent on each other? Primary Secondary and Tertiary sectors are interdependent as mentioned below (i) Primary sector activities produces goods by exploiting natural resources and provide raw material to manufacturing sector",
+   "valuePoints": [
+    [
+     "How primary, secondary and tertiary sectors are dependent on each other?",
+     0.0
+    ],
+    [
+     "Primary Secondary and Tertiary sectors are interdependent as mentioned below",
+     0.0
+    ],
+    [
+     "(i) Primary sector activities produces goods by exploiting natural resources and",
+     0.0
+    ],
+    [
+     "provide raw material to manufacturing sector",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "answers this sectors-interdependence question and restates it"
+  },
+  {
+   "id": "cbse:q:src:b2736b370863069266f7c4e0:24",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 2,
+   "paperCode": "30/2/1",
+   "qNo": 24,
+   "source": "MS_X_041_Mathematics_30-2-1_2025-26 (1).pdf",
+   "stem": "( ) ABC BC D ADC = BAC CA2 = CD . CB. ( ) , OA . OB = OC . OD A = C B = D # 15| P a g e P.T.O. angles 35 , 50 and 95 at the centre are shaded. Find the area of the shaded region. [Use = -]",
+   "answerText": "Let the altitude of triangle be x cm then Base of triangle = (x + 10) cm Area of triangle = 600 cm2 Hypotenuse = √(30)2 + (40)2= 50 cm",
+   "valuePoints": [
+    [
+     "Let the altitude of triangle be x cm",
+     0.0
+    ],
+    [
+     "then Base of triangle = (x + 10) cm",
+     0.0
+    ],
+    [
+     "Area of triangle = 600 cm2",
+     0.0
+    ],
+    [
+     "Hypotenuse = √(30)2 + (40)2= 50 cm",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:85449ce85a86819f9e62c27e:22",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 2,
+   "paperCode": "430/2/1",
+   "qNo": 22,
+   "source": "X_241_MS_430_2_1_Unsigned.pdf",
+   "stem": "(a) Find the HCF of the numbers 540 and 630, using prime factorization method.",
+   "answerText": "(a) Let the numbers be x & y Solving to get x = 40 and y = 30 --------------------------------------------------------------------------------------------------------------",
+   "valuePoints": [
+    [
+     "(a) Let the numbers be x & y",
+     0.0
+    ],
+    [
+     "Solving to get x = 40 and y = 30",
+     0.0
+    ],
+    [
+     "--------------------------------------------------------------------------------------------------------------",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:0fb031c2a4a84f5d90c2f9f8:24",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "55/1/3",
+   "qNo": 24,
+   "source": "XII_042_Physics_MS_55_1_1,2,3.pdf",
+   "stem": "Identify the part of electromagnetic spectrum which is : electromagnetic spectrum, and Give one use of each of them.",
+   "answerText": "Note: 1 mark for this part may be given to all the students who have attempted other parts of the question",
+   "valuePoints": [
+    [
+     "Note: 1 mark for this part may be given to all the students who have",
+     0.0
+    ],
+    [
+     "attempted other parts of the question",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:2af2d7396537dc683b00f023:36",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 5,
+   "paperCode": "430/3/1",
+   "qNo": 36,
+   "source": "X_241_MS_430_3_1_Unsigned.pdf",
+   "stem": "5 7 5 3 3 3 , (ii) ? 1 (iii) ( ) 100 5,000 ? 2 ( ) ? 23| P a g e P.T.O.",
+   "answerText": "(i) First Term = 1 and Common difference = 4 (ii) First Term = 4 and Common difference = 12 (iii) (a) Required number of squares = 1 + (9)  4 = 37 Required number of sticks = 4 + 9  12 = 112",
+   "valuePoints": [
+    [
+     "(i) First Term = 1 and Common difference = 4",
+     0.0
+    ],
+    [
+     "(ii) First Term = 4 and Common difference = 12",
+     0.0
+    ],
+    [
+     "(iii) (a) Required number of squares = 1 + (9)  4 = 37",
+     0.0
+    ],
+    [
+     "Required number of sticks = 4 + 9  12 = 112",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "cannot-tell",
+   "note": "stem is extraction debris"
+  },
+  {
+   "id": "cbse:q:src:b165af61c77d38f6eedf8980:34",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 5,
+   "paperCode": "430/1/1",
+   "qNo": 34,
+   "source": "X_241_MS_430_1_1_unsigned.pdf",
+   "stem": "(a) A toy is in the form of a cone surmounted on a hemisphere. The cone and hemisphere have the same radii. The height of the conical part of the toy is equal to the diameter of its base. If the radius of the conical part is 5 cm, find the volume of the toy.",
+   "answerText": "∠DAB = 90o, ∠CBA = 90o (Angle between tangent and radius at point of Hence, p ∥𝑞 as co-interior angles are supplementary",
+   "valuePoints": [
+    [
+     "∠DAB = 90o, ∠CBA = 90o (Angle between tangent and radius at point of",
+     0.0
+    ],
+    [
+     "Hence, p ∥𝑞 as co-interior angles are supplementary",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:d1a8c16b69a85ef6386de3be:32",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "32/4/3",
+   "qNo": 32,
+   "source": "X_087_Social Science_MS 32-4-3 E.pdf",
+   "stem": "(a) ‘‘Democracy stands ahead of any other form of government in promoting dignity and freedom of the individual.’’ Explain the statement with examples.",
+   "answerText": "(A) “Democratic governments are usually attentive to the needs and demands of the people.” Justify the statement with suitable (i) Democracies are successful in setting up regular and free elections providing a fair chance to all its citizens to elect the government",
+   "valuePoints": [
+    [
+     "(A) “Democratic governments are usually attentive to the needs and",
+     0.0
+    ],
+    [
+     "demands of the people.” Justify the statement with suitable",
+     0.0
+    ],
+    [
+     "(i) Democracies are successful in setting up regular and free elections",
+     0.0
+    ],
+    [
+     "providing a fair chance to all its citizens to elect the government",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:c6c45071334b1f6d5d521108:32",
+   "subject": "History",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "61/3/1",
+   "qNo": 32,
+   "source": "set 61_3_1 new 2026.pdf",
+   "stem": "Read the given source and answer the questions that follow : 1+1+2=4 Irrigating trees and fields This is an excerpt from the Babur Nama that describes the irrigation devices the emperor observed in northern India : The greater part of Hindustan country is situated on level land. Many though its towns and cultivated lands are, it nowhere has running waters ... For ... water is not at all a necessity in cultivating crops and orchards. Autumn crops grow by the downpour of the rains themselves; and strange it is that spring crops grow even when no rains fall. (However) to young trees water is made to flow by means of buckets",
+   "answerText": "unprecedented popular movement in the history of colonial India.’’ Justify the statement with suitable",
+   "valuePoints": [
+    [
+     "unprecedented popular movement in the history of",
+     0.0
+    ],
+    [
+     "colonial India.’’ Justify the statement with suitable",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:988359abbe5fb1502b6f69f9:21",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/1/1",
+   "qNo": 21,
+   "source": "67_1_1.pdf",
+   "stem": "Sandesh Ltd. has an authorised capital of < 30,00,000 divided into equity shares of < 10 each. The company invited applications for issuing 70,000 shares. Applications for 69,000 shares were received. All calls were made and duly received except the first and final call of < 2 per share on 3,000 shares. These shares were forfeited. per Schedule III, Part I of the Companies Act, 2013.",
+   "answerText": "Q. Shivalik Ltd. was registered with an authorised capital… 1,00,000 equity shares of ₹10 each 50,000 equity shares of ₹10 each Subscribed & fully paid-up",
+   "valuePoints": [
+    [
+     "Q. Shivalik Ltd. was registered with an authorised capital…",
+     0.0
+    ],
+    [
+     "1,00,000 equity shares of ₹10 each",
+     0.0
+    ],
+    [
+     "50,000 equity shares of ₹10 each",
+     0.0
+    ],
+    [
+     "Subscribed & fully paid-up",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:6eaeb34b2ffcedbf56fd458a:20",
+   "subject": "Science",
+   "grade": 10,
+   "marks": 1,
+   "paperCode": "31/4/1",
+   "qNo": 20,
+   "source": "Revised MS X_086_31.4 ALL ENGLISH.pdf",
+   "stem": "Assertion (A) : Oxygen is essential for all aerobic forms of life. Reason (R) : Free oxygen atoms combine with molecular oxygen to form ozone. 14- 12 IÊS> I 21 -",
+   "answerText": "(A)/ The hydrophobic tail of the soap molecule is in the interior of the cluster, whereas hydrophilic end is on the surface of the cluster",
+   "valuePoints": [
+    [
+     "(A)/ The hydrophobic tail of the soap molecule is in the interior of the cluster,",
+     0.0
+    ],
+    [
+     "whereas hydrophilic end is on the surface of the cluster",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:d6a0af7f19eb5ac30bc846fe:23",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "55/3/2",
+   "qNo": 23,
+   "source": "55-3-1,2,3 English Version.pdf",
+   "stem": "Two wires of equal lengths are shaped in the form of a square loop and a circular loop. Both loops are suspended in a uniform magnetic field. Prove that for the same current, the circular loop will experience larger torque.",
+   "answerText": "F , equal but not collinear. The magnitude of the torque on the loop is",
+   "valuePoints": [
+    [
+     "F , equal but not collinear. The",
+     0.0
+    ],
+    [
+     "magnitude of the torque on the loop is",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "the torque step of this square-vs-circular loop proof"
+  },
+  {
+   "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:22",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/3/2",
+   "qNo": 22,
+   "source": "67.3.2.pdf",
+   "stem": "On 1st April, 2021, Prabha Ltd. was formed with an authorised capital of < 90,00,000 divided into 90,000 equity shares of < 100 each. The company invited applications for 80,000 equity shares. The amount was payable as follows : On application : < 30 per share On allotment : < 40 per share On first and final call : Balance amount Applications for 1,00,000 shares were received. Applications for 20,000 shares were rejected and the application money was refunded. All calls were made. A shareholder holding 600 shares did not pay the first and final call. Schedule III, Part I of the Companies Act, 2013 as at 31st March, 2022.",
+   "answerText": "Q. On 1st April, 2021, Prabha Ltd. was formed with an authorized capital…… 90,000 equity shares of ₹100 each 80,000 equity shares of ₹100 each Subscribed & fully paid-up",
+   "valuePoints": [
+    [
+     "Q. On 1st April, 2021, Prabha Ltd. was formed with an authorized capital……",
+     0.0
+    ],
+    [
+     "90,000 equity shares of ₹100 each",
+     0.0
+    ],
+    [
+     "80,000 equity shares of ₹100 each",
+     0.0
+    ],
+    [
+     "Subscribed & fully paid-up",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "restates Prabha Ltd. and gives its share capital figures"
+  },
+  {
+   "id": "cbse:q:src:9e3aa3f07a84ad1eacbe1210:33",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "30/5/1",
+   "qNo": 33,
+   "source": "MS_X_041_Mathematics_30-5-1_2025-26 (1).pdf",
+   "stem": "(a) A triangle ABC is drawn to circumscribe a circle of radius 4 cm such that the segments BD and DC are of lengths 10 cm and 8 cm respectively. Find the lengths of the sides AB and AC, if it is given",
+   "answerText": "Sol. 156 = 2 × 2 × 3 × 13 = 2ଶ× 3 × 13 216 = 2 × 2 × 2 × 3 × 3 × 3 = 2ଷ× 3ଷ ∴Required side length of the square = HCF(156,216) = 12 cm Number of squares formed = 156 × 216",
+   "valuePoints": [
+    [
+     "Sol. 156 = 2 × 2 × 3 × 13 = 2ଶ× 3 × 13",
+     0.0
+    ],
+    [
+     "216 = 2 × 2 × 2 × 3 × 3 × 3 = 2ଷ× 3ଷ",
+     0.0
+    ],
+    [
+     "∴Required side length of the square = HCF(156,216) = 12 cm",
+     0.0
+    ],
+    [
+     "Number of squares formed = 156 × 216",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:e4eaf2208e62a3b5cbb6c55e:6",
+   "subject": "English",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "1/3/2",
+   "qNo": 6,
+   "source": "XII_301_1_3_2_MS.pdf",
+   "stem": "Attempt any one from (A) and (B) given below : 5 (A) CREATE A SAFE, NON-VIOLENT, AND INCLUSIVE LEARNING ENVIRONMENT FOR CHILDREN Your school had organized a seminar on cyber bullying and online safety. It was attended by counsellors and students from ten different schools. The symposium included a panel discussion, student viewpoints and short skits highlighting the negative effects of cyber bullying on students. As a student reporter, write a report on the event in 120 -150 words to be published in the school weekly. You are Rajshri/Rishi. Mention day, date, time and venue. You may use the above given cues.",
+   "answerText": "Answer any two of the following in about 120-150 words each The objects of beauty remove the gloom from our lives. Discuss with reference to the poem ‘ A Thing of Beauty’ Ans. - Gloom – caused by scarcity of good natured people and man deviating from",
+   "valuePoints": [
+    [
+     "Answer any two of the following in about 120-150 words each",
+     0.0
+    ],
+    [
+     "The objects of beauty remove the gloom from our lives. Discuss with",
+     0.0
+    ],
+    [
+     "reference to the poem ‘ A Thing of Beauty’",
+     0.0
+    ],
+    [
+     "Ans. - Gloom – caused by scarcity of good natured people and man deviating from",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:6a880700da0ea3afd9c139bd:34",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 5,
+   "paperCode": "66/1/1",
+   "qNo": 34,
+   "source": "XII_054_MS_66-1-1_Business Studies.pdf",
+   "stem": "X Ltd. is engaged in the manufacturing of cars. The company surveyed the market and found that customers need a car which runs on eco-friendly fuel instead of petrol",
+   "answerText": "Royal Glaze Ltd. continues to maintain its position as one of the largest consumer goods companies in the world. Its organisational structure is designed to facilitate the achievement of its objectives in alignment with its vision",
+   "valuePoints": [
+    [
+     "Royal Glaze Ltd. continues to maintain its position as one",
+     0.0
+    ],
+    [
+     "of the largest consumer goods companies in the world. Its",
+     0.0
+    ],
+    [
+     "organisational structure is designed to facilitate the",
+     0.0
+    ],
+    [
+     "achievement of its objectives in alignment with its vision",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:677bcc6ee713ed3b56c0e0a6:16",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "57/1/1",
+   "qNo": 16,
+   "source": "57-1-1.pdf",
+   "stem": "Assertion (A) : Birds like pigeon have heterogametic females whereas the males are homogametic. Reason (R) : In pigeons, females have Z and W sex chromosomes whereas males have ZZ sex chromosomes.",
+   "answerText": "(C) / Assertion (A) is true, but reason (R) is false",
+   "valuePoints": [
+    [
+     "(C) / Assertion (A) is true, but reason (R) is false",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": "assertion-reason verdict (C); for this item both statements are true and R explains A, so (A) is expected"
+  },
+  {
+   "id": "cbse:q:src:9e5b18498717709257f60167:36",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 5,
+   "paperCode": "30/4/2",
+   "qNo": 36,
+   "source": "MS_X_041_Mathematics_30-4-2_2025-26 (1).pdf",
+   "stem": "Jagdish has a field which is in the shape of a right angled triangle AQC. He wants to leave a space in the form of a square PQRS inside the field for growing wheat and the remaining for growing vegetables (as shown in the figure). In the field, there is a pole marked as O. Based on the above information, answer the following questions : (ii) (a) What is the area of square PQRS ?",
+   "answerText": "(i) Number of dots formed in each square are 4, 8, 12, … ∴ Numbers of dots form an A.P (ii) an = 4 + (n – 1) 4 = 4n (iii) (a) Here, a = 4, d = 4, Sn = 220",
+   "valuePoints": [
+    [
+     "(i) Number of dots formed in each square are 4, 8, 12, …",
+     0.0
+    ],
+    [
+     "∴ Numbers of dots form an A.P",
+     0.0
+    ],
+    [
+     "(ii) an = 4 + (n – 1) 4 = 4n",
+     0.0
+    ],
+    [
+     "(iii) (a) Here, a = 4, d = 4, Sn = 220",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:bb811bfcf094b1190637d6cd:5",
+   "subject": "English",
+   "grade": 10,
+   "marks": 1,
+   "paperCode": "2/5/2",
+   "qNo": 5,
+   "source": "2-5-2.pdf",
+   "stem": "Attempt any one from (a) and (b) given below : 5 pandemic year and consumers have continued to shop online. Given below is a chart that depicts the various trends associated with E-commerce shopping. Analyze this chart and write an analytical paragraph in about 120 words, by selecting features that support your analysis. 2/5/2-15 P.T.O. For Visually Impaired Candidates only in lieu of Q. No. 5 (a) : E-commerce business for shopping picked up manifold during the pandemic year and consumers have continued to shop online. Based on the information given below, write an analytical paragraph in about 120 words, by selecting features that support your analysis. Modes of shopping Products purchased online E-com websites/apps -49% Groceries, essentials -69% Local retailers offering home delivery -18% Medium-value items -54% Malls, markets -31% High-value items -32% 2%",
+   "answerText": "Attempt any one of the two extracts (a) and (b) given below",
+   "valuePoints": [
+    [
+     "Attempt any one of the two extracts (a) and (b) given below",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:ad3ce0b4b8fd4acfaef20782:32",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "67/1/2",
+   "qNo": 32,
+   "source": "67_1_2.pdf",
+   "stem": "From the given information, calculate : 3 Particulars Amount (<) Liquid Assets 8,00,000 Inventory 2,00,000 Current Liabilities 4,00,000 Net Profit Before Tax 12,80,000 10% Debentures 12,00,000 Shareholders Funds 16,00,000 666 -11 32 of",
+   "answerText": "Q. From the given information, calculate … (a) Current Ratio = Current Assets ½ Current Assets = Liquid Assets + Inventory Current Ratio = 10,00,000 = 2.5:1 ½",
+   "valuePoints": [
+    [
+     "Q. From the given information, calculate …",
+     0.0
+    ],
+    [
+     "(a) Current Ratio = Current Assets ½",
+     0.0
+    ],
+    [
+     "Current Assets = Liquid Assets + Inventory",
+     0.0
+    ],
+    [
+     "Current Ratio = 10,00,000 = 2.5:1 ½",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "current ratio from the stem's liquid assets and inventory"
+  },
+  {
+   "id": "cbse:q:src:4e94e4d50866dd80548b378a:10",
+   "subject": "Economics",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "58/4/2",
+   "qNo": 10,
+   "source": "58-4-2_ENGLISH.pdf",
+   "stem": "Read the following statements : Assertion (A) and Reason (R). Choose the correct alternative given below. 1 Assertion (A) : Excess demand does not lead to any increase in the level of real output. Reason (R) : Excess demand creates a gap between actual demand and desired demand corresponding to full employment level. Alternatives :",
+   "answerText": "A full scale of marks 40 (example 0-40 marks as given in Question Paper) has to be used. Please do not hesitate to award full marks if the answer deserves it",
+   "valuePoints": [
+    [
+     "A full scale of marks 40 (example 0-40 marks as given in Question Paper) has to be used. Please do",
+     0.0
+    ],
+    [
+     "not hesitate to award full marks if the answer deserves it",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:677bcc6ee713ed3b56c0e0a6:13",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "57/1/1",
+   "qNo": 13,
+   "source": "57-1-1.pdf",
+   "stem": "Assertion (A) : A patient of ADA deficiency undergoing treatment for gene therapy requires periodic infusion of genetically engineered lymphocytes. Reason (R) : Lymphocytes are immortal.",
+   "answerText": "(C) / Assertion (A) is true, but Reason (R) is false",
+   "valuePoints": [
+    [
+     "(C) / Assertion (A) is true, but Reason (R) is false",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "lymphocytes are not immortal, so (C) fits this item"
+  },
+  {
+   "id": "cbse:q:src:4d332115f14c6aeeaa34b438:34",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 5,
+   "paperCode": "67/3/1",
+   "qNo": 34,
+   "source": "67.3.1.pdf",
+   "stem": "Read the following hypothetical text and answer the given question on this basis : -in- -up in the The company has been earning good revenue consistently. The financial position of Azad Ltd. as at 31st March, 2022 was as follows : Balance Sheet of Azad Ltd. as at 31st March, 2022 Particulars Note No.",
+   "answerText": "Q. Name the financial function which returns accrued…… Ans The name of the financial function is ACCRINT ACCRINT (issue, first_interest, settlement, rate, par, frequency, basis is the security’s issue date",
+   "valuePoints": [
+    [
+     "Q. Name the financial function which returns accrued……",
+     0.0
+    ],
+    [
+     "Ans The name of the financial function is ACCRINT",
+     0.0
+    ],
+    [
+     "ACCRINT (issue, first_interest, settlement, rate, par, frequency, basis",
+     0.0
+    ],
+    [
+     "is the security’s issue date",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:ee2eb1b0c0f2716d2d269145:31",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "30/4/3",
+   "qNo": 31,
+   "source": "MS_X_041_Mathematics_30-4-3_2025-26 (1).pdf",
+   "stem": "{gÕ H$s{OE {H$ q + q = q + q cot tan ec cos sec . 14- 15 P.T.O. drawn at random from the box, find the probability that it bears a : (ii) number divisible by 5 and greater than 50. (iii) a perfect square number.",
+   "answerText": "MS_X_Mathematics_041_30/4/3_2025-26 (sec θ+tan θ)2 −(sec2θ− tan2 θ) (sec θ+tan θ)2 + (sec2θ− tan2 θ) (sec θ+tan θ) (sec θ+tan θ− sec θ+tan θ)",
+   "valuePoints": [
+    [
+     "MS_X_Mathematics_041_30/4/3_2025-26",
+     0.0
+    ],
+    [
+     "(sec θ+tan θ)2 −(sec2θ− tan2 θ)",
+     0.0
+    ],
+    [
+     "(sec θ+tan θ)2 + (sec2θ− tan2 θ)",
+     0.0
+    ],
+    [
+     "(sec θ+tan θ) (sec θ+tan θ− sec θ+tan θ)",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "cannot-tell",
+   "note": "stem is garbled Hindi around a trig identity; the answer proves a sec/tan identity that may be the first half"
+  },
+  {
+   "id": "cbse:q:src:988359abbe5fb1502b6f69f9:25",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/1/1",
+   "qNo": 25,
+   "source": "XII_055_MS_67_1_1_unsigned.pdf",
+   "stem": "Aadish and Shreyansh were partners in a firm sharing profits and losses in the ratio of 3 : 2. On 31st March, 2022 their Balance Sheet was as follows : Balance Sheet of Aadish and Shreyansh as at 31st March, 2022 Liabilities Amount < Assets Amount < Creditors 90,000 Cash at Bank 20,000 30,000 Stock 24,000 Shreyansh Loan 30,000 Investments 30,000 General Reserve 45,000 Debtors 20,000 Capitals : Less : Provision for Doubtful Debts, 2,000 18,000 Aadish 1,00,000 Plant 1,00,000 Shreyansh 97,000 1,97,000 Advertisement Suspense account 2,00,000 3,92,000 3,92,000 The firm was dissolved on 31st March, 2022 on the following terms : book value. (ii) Aadish pr < 20,000. (iii) Shreyansh took away half of the investments at a discount of 10%. Remaining investments realised < 4,500. (iv) Creditors were paid off at a discount of 10%. Prepare Realisation Account. 6",
+   "answerText": "(a) Sanjay and Vijay were partners in a firm Books of Sanjay, Vijay and Babul To Premium for goodwill A/c (Premium for goodwill brought in by Babul)",
+   "valuePoints": [
+    [
+     "(a) Sanjay and Vijay were partners in a firm",
+     0.0
+    ],
+    [
+     "Books of Sanjay, Vijay and Babul",
+     0.0
+    ],
+    [
+     "To Premium for goodwill A/c",
+     0.0
+    ],
+    [
+     "(Premium for goodwill brought in by Babul)",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:4997f49cb3e3fc272a8a5abb:23",
+   "subject": "Mathematics",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "65/3/1",
+   "qNo": 23,
+   "source": "65_3_1_CBSE_XII_Mathematics_041.pdf",
+   "stem": "If f(x) = a(tan x -cot x), where a 0, then find whether f(x) is increasing",
+   "answerText": "sin[cot−1√2(cos (tan−11)] = sin [cot−1√2 (cos As (1,2) ∈R, but (2,1) ∉R ⇒R is not symmetric relation",
+   "valuePoints": [
+    [
+     "sin[cot−1√2(cos (tan−11)] = sin [cot−1√2 (cos",
+     0.0
+    ],
+    [
+     "As (1,2) ∈R, but (2,1) ∉R ⇒R is not symmetric relation",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:3129d82e0525374adff48e00:17",
+   "subject": "Geography",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "64/3/1",
+   "qNo": 17,
+   "source": "XII_029_MS_64-3-1  ENG UNSIGNED.pdf",
+   "stem": "? (a) {_{Å>`m± CnOmD$ hmo JBª h¢ P.T.O. command area is 5 53 lakh hectares. The command area of Stage-II is spread over Bikaner, Jaisalmer, Barmer, Jodhpur, Nagaur and Churu districts covering culturable command area of 14 10 lakh ha. It comprises desert land dotted with shifting sand dunes and temperature soaring to 50 C in summers. In the lift canal, the water is lifted up to make it to flow against the slope of the land. All the lift canals of Indira Gandhi system originate at the left bank of main canal while all the canals on the right bank of main canal are flow channels. Irrigation in Stage-I command area of the canal was introduced in early 1960s, whereas the command area of Stage-II began receiving irrigation in mid-1980s. The introduction of canal irrigation in this dry land has transformed its ecology, economy and society. It has influenced the environmental conditions of the region both positively as well as negatively. The availability of soil moisture for a longer period of time and various afforestation and pasture development programmes under CAD have resulted in greening the land. This has also helped in reducing wind erosion and siltation of canal systems. But the intensive irrigation and excessive use of water has led to the emergence of twin environmental problems of waterlogging and soil salinity.",
+   "answerText": "Explain the main characteristics of Stage I of the Demographic Transition Theory on the bases of birth rate, death rate and growth of Birth Rate- The first stage has high fertility",
+   "valuePoints": [
+    [
+     "Explain the main characteristics of Stage I of",
+     0.0
+    ],
+    [
+     "the Demographic Transition Theory on the",
+     0.0
+    ],
+    [
+     "bases of birth rate, death rate and growth of",
+     0.0
+    ],
+    [
+     "Birth Rate- The first stage has high fertility",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:009c1c0b2ba7272fc371da3b:17",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "55/1/2",
+   "qNo": 17,
+   "source": "55-1-1,2,3 English Version.pdf",
+   "stem": "Two batteries of emfs 6 V and 3 V and internal resistances 0·8 and 0·2 respectively are connected in series to an external resistance R, as shown in figure. Find the value of R so that the potential difference across the 6 V battery be zero.",
+   "answerText": "As potential difference across 6V is zero;",
+   "valuePoints": [
+    [
+     "As potential difference across 6V is zero;",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "6 V battery potential difference zero: this circuit"
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:34",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 5,
+   "paperCode": "67/1/1",
+   "qNo": 34,
+   "source": "XII_055_MS_67_1_1_unsigned.pdf",
+   "stem": "6 Particulars Amount (<) Surplus i.e. Balance in Statement of Profit and Loss 6,28,000 Provision for Tax 1,50,000 Proposed Dividend for the previous year 72,000 Depreciation 1,40,000 Loss on Sale of Machinery 30,000 Gain on Sale of Investments 20,000 Dividend Received on Investments 6,000 Increase in Current Liabilities 1,61,000 Increase in Current Assets (other than cash and cash equivalents) 6,00,000 Decrease in Current Liabilities 64,000 Income Tax Paid 1,18,000 PART B OPTION -II (Computerised Accounting)",
+   "answerText": "For the year ended 31st March 2025, Sona Ltd… Ans. Calculation of cash flows from operating activities Net Profit before tax (Working Note 1) Add: Depreciation on fixed assets",
+   "valuePoints": [
+    [
+     "For the year ended 31st March 2025, Sona Ltd…",
+     0.0
+    ],
+    [
+     "Ans. Calculation of cash flows from operating activities",
+     0.0
+    ],
+    [
+     "Net Profit before tax (Working Note 1)",
+     0.0
+    ],
+    [
+     "Add: Depreciation on fixed assets",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "cannot-tell",
+   "note": "a cash-flow answer for 'Sona Ltd'; the stem does not name its company, so the set cannot be told"
+  },
+  {
+   "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:27",
+   "subject": "Science",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "31/4/1",
+   "qNo": 27,
+   "source": "Revised MS X_086_31.4 ALL ENGLISH.pdf",
+   "stem": "(i) While electrolysing water before passing the current some drops of an acid are added. Why ? Name the gases liberated at cathode and anode. Write the relationship between the volume of gas collected at anode and the volume of gas collected at cathode. (ii) What is observed when silver chloride is exposed to sunlight ? Give the type of reaction involved.",
+   "answerText": "Anode: Impure copper rod Cathode: Pure copper strip",
+   "valuePoints": [
+    [
+     "Anode: Impure copper rod",
+     0.0
+    ],
+    [
+     "Cathode: Pure copper strip",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:281d955eeac178f6b9b7a91b:36",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 5,
+   "paperCode": "30/1/3",
+   "qNo": 36,
+   "source": "MS_X_041_Mathematics_30-1-3_2025-26 (1).pdf",
+   "stem": "Amrita stood near the base of a lighthouse, gazing up at its towering height. She measured the angle of elevation to the top and found it to be 60 . Then, she climbed a nearby observation deck, 40 metres higher than her original position and noticed the angle of elevation to the top of lighthouse to be 45 . Based on the above given information, answer the following questions : (ii) 24| P a g e (iii) CE [ = 1·73 ] 2 (iii) AC = 100 m , AE 2",
+   "answerText": "(a) Total length of wire required = (5 × 35 + 110) cm (b) Central angle of each sector = MS_X_Mathematics_041_30/1/3_2025-26",
+   "valuePoints": [
+    [
+     "(a) Total length of wire required = (5 × 35 + 110) cm",
+     0.0
+    ],
+    [
+     "(b) Central angle of each sector =",
+     0.0
+    ],
+    [
+     "MS_X_Mathematics_041_30/1/3_2025-26",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:73740fd429b98d913935d905:20",
+   "subject": "Mathematics",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "65/1/2",
+   "qNo": 20,
+   "source": "MS_XII_041_Mathematics_65-1-2_2025-26.pdf",
+   "stem": "Assertion (A) : The number of onto functions from a set P containing 5 elements to a set Q containing 2 elements is 30. Reason (R) : Number of onto functions from a set containing m elements to a set containing n elements is nm. 10 IÊS> I (VSA)",
+   "answerText": "Q. Numbers 21 to 25 are very short answer questions of 2 marks each",
+   "valuePoints": [
+    [
+     "Q. Numbers 21 to 25 are very short answer questions of 2 marks each",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:33",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "66/1/1",
+   "qNo": 33,
+   "source": "66_1_1..pdf",
+   "stem": "Ayush and Rhea were passionate about sustainable agriculture and healthy living. They wanted to start a business selling organic produce. They had a small farm in a rural area where they began growing fresh organic produce and herbs. In the beginning, they faced challenges in marketing their organic products. They realized that their high quality produce needed better presentation and a strong identity to stand out in a competitive market. They named the business ‘Earthy Store’ which indicated the products’ benefits and qualities and reflected the values of the business — sustainablility and health. They chose a ‘logo’ that incorporated elements of nature and used earthy colours to convey their organic commitment. They designed and developed eco-friendly biodegradable bags and reusable containers to courier their products to the customers. They also added personal touch by including handwritten notes in each bag. They also designed and developed product stickers with detailed information about organic certification, nutritional benefits, date of manufacture, date of expiry, etc. The stickers so developed were put on the bags and reusable containers for customers convenience. ‘Earthy Store’ created a user-friendly website and established strong media presence to inform potential customers about their products and persuading them to buy the same. Within a couple of months, they had built a loyal customer base which made them earn profits even in a competitive environment. In a year, they were able to secure contracts with local grocery stores and restaurants. Quoting lines from the above paragraph, identify and explain the three functions of marketing discussed in the above case.",
+   "answerText": "Branding is the process of giving a name, term, sign, Packaging refers to the act of designing and producing Labelling refers to designing and developing the label to Promotion refers to informing the customers about the Under this method of training, the trainee is put under the It is useful for people to become, for example, plumbers, It is a joint programme of training, in which educational Selected candidates work in some factory or office to",
+   "valuePoints": [
+    [
+     "Branding is the process of giving a name, term, sign,",
+     0.0
+    ],
+    [
+     "Packaging refers to the act of designing and producing",
+     0.0
+    ],
+    [
+     "Labelling refers to designing and developing the label to",
+     0.0
+    ],
+    [
+     "Promotion refers to informing the customers about the",
+     0.0
+    ],
+    [
+     "Under this method of training, the trainee is put under the",
+     0.0
+    ],
+    [
+     "It is useful for people to become, for example, plumbers,",
+     0.0
+    ],
+    [
+     "It is a joint programme of training, in which educational",
+     0.0
+    ],
+    [
+     "Selected candidates work in some factory or office to",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:98866485497055b0a9803d2e:21",
+   "subject": "Mathematics",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "65/4/2",
+   "qNo": 21,
+   "source": "MS_XII_041_Mathematics_65_4_2_2025-26.pdf",
+   "stem": "Find the interval in which the function f(x) = 2x3 -3x is strictly increasing.",
+   "answerText": "Find the interval s in which the function",
+   "valuePoints": [
+    [
+     "Find the interval s in which the function",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": "the answer only repeats the question"
+  },
+  {
+   "id": "cbse:q:src:988359abbe5fb1502b6f69f9:22",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/1/1",
+   "qNo": 22,
+   "source": "XII_055_MS_67_1_1_unsigned.pdf",
+   "stem": "Sudhir, Deepak and Naveen were partners in a firm sharing profits and losses in the ratio of 2 : 2 : 1. On 31st March, 2022 their Balance Sheet was as under : Balance Sheet of Sudhir, Deepak and Naveen as at 31st March, 2022 Liabilities Amount < Assets Amount < Creditors 50,000 Land and Building 2,10,000 General Reserve 1,00,000 Machinery 1,90,000 Loan 1,20,000 Stock 30,000 Capitals : Investments 1,70,000 Sudhir 1,60,000 Advertisement Suspense A/c 1,20,000 Deepak 1,50,000 Naveen 1,40,000 4,50,000 7,20,000 7,20,000 18 30 OyZ, 2022 H$m àmdYmZ Wm : 1 dfm] Ho$ H«$¶ Ho$ AmYma na {H$¶m OmEJm & (ii) AWdm hm{Z ma na H$s OmEJr & 31 , 2022 dmbo < 4,00,000 Wr VWm 1 Aà¡b, 2022 go 30 OyZ 2022 VH$ {dH«$¶ H$s am{e < 1,50,000 Wr & 31 , 2022 1,00,000 Wm & (iii) ny±Or na 7% dm{f©H$ Xa go ã¶mO {X¶m OmEJm & gwYra Ho$ {ZînmXH$m| H$mo gm¢nZo Ho$ {bE CZH$m ny±Or ImVm V¡¶ma H$s{OE &",
+   "answerText": "Kiran, Raveena and Hina were partners in… (i) Goodwill= Average profits x Number of years purchase Average Profits= Total profits/ Number of years = (₹4,75,000 + ₹4,05,000 + ₹3,20,000)/3",
+   "valuePoints": [
+    [
+     "Kiran, Raveena and Hina were partners in…",
+     0.0
+    ],
+    [
+     "(i) Goodwill= Average profits x Number of years purchase",
+     0.0
+    ],
+    [
+     "Average Profits= Total profits/ Number of years",
+     0.0
+    ],
+    [
+     "= (₹4,75,000 + ₹4,05,000 + ₹3,20,000)/3",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:9e3aa3f07a84ad1eacbe1210:19",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "paperCode": "30/5/1",
+   "qNo": 19,
+   "source": "MS_X_041_Mathematics_30-5-1_2025-26 (1).pdf",
+   "stem": "Assertion (A) : If the points A(4, 3) and B(x, 5) lie on a circle with centre O(2, 3), then the value of x is 2. Reason (R) : Centre of a circle is the mid-point of each chord of the circle.",
+   "answerText": "Sol. (C) Assertion (A) is true, but Reason (R) is false",
+   "valuePoints": [
+    [
+     "Sol. (C) Assertion (A) is true, but Reason (R) is false",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "R (centre bisects every chord) is false and A is true: (C) fits"
+  },
+  {
+   "id": "cbse:q:src:eb8839b70f5651efaebcdcd8:16",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "57/1/2",
+   "qNo": 16,
+   "source": "XII_044_MS_57_1_2.pdf",
+   "stem": "Assertion (A) : Cattle and goats are never seen browsing on Calotropis growing in abandoned fields. Reason (R) : Cattle and goats avoid grazing on Calotropis because of the offensive smell of its flowers.",
+   "answerText": "(C) / Assertion (A) is true, Reason(R) is false",
+   "valuePoints": [
+    [
+     "(C) / Assertion (A) is true, Reason(R) is false",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "R (offensive smell) is false: (C) fits"
+  },
+  {
+   "id": "cbse:q:src:5a4393f67e8e73f306439993:34",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 5,
+   "paperCode": "32/2/1",
+   "qNo": 34,
+   "source": "32-2-1 E.pdf",
+   "stem": "Read the given source and answer the questions that follow : Yet, till the First World War, industrial growth was slow. The war created a dramatically new situation. With British mills busy with war production to meet the needs of the army, Manchester imports into India declined. Suddenly, Indian mills had a vast home market to supply. As the war prolonged, Indian factories were called upon to supply war needs: jute bags, cloth for army uniforms, tents and leather boots, horse and mule saddles and a host of other items. New factories were set up and old ones ran multiple shifts. Many new workers were employed and everyone was made to work longer hours. Over the war years industrial production boomed. After the war, Manchester could never recapture its old position in the Indian market. Unable to modernise and compete with the US, Germany and Japan, the economy of Britain crumbled after the war. Cotton production collapsed and exports of cotton cloth from Britain fell dramatically. Within the colonies, local industrialists gradually consolidated their position, substituting foreign manufacturers and capturing the home market. (34.1) Why did Manchester imports decline in India ? 1 (34.2) Why could Manchester never recapture its old position in the Indian market after the First World War ? 1 (34.3) Analyse any two benefits of the First World War to India. 2 1=2",
+   "answerText": "1 What method did the colonial government employ to keep track of Indian newspapers? (i) Colonial Government passed Vernacular Press Act and other rules (ii) Imposition of penalties",
+   "valuePoints": [
+    [
+     "1 What method did the colonial government employ to keep",
+     0.0
+    ],
+    [
+     "track of Indian newspapers?",
+     0.0
+    ],
+    [
+     "(i) Colonial Government passed Vernacular Press Act and other rules",
+     0.0
+    ],
+    [
+     "(ii) Imposition of penalties",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:f9ea4903e51b34373488729c:4",
+   "subject": "English",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "1/1/2",
+   "qNo": 4,
+   "source": "XII_301_1_1_2_MS.pdf",
+   "stem": "Attempt any one from (A) and (B) given below : 5 (A) You are Kavita/Karan Sharma. Draft a formal letter of reply in 50 words, accepting the invitation to be the Guest of Honour on 28th February at the Inter-School Debate Competition being organised by Priti Public School. Mention day, date, time and venue.",
+   "answerText": "Attempt any one from A and B given below You are Arun/Arti of Model Town, Kolkata. Write an application with detailed bio-data for the above post in 120-150 words. Invent applications for the post of a Dance teacher. Must be a",
+   "valuePoints": [
+    [
+     "Attempt any one from A and B given below",
+     0.0
+    ],
+    [
+     "You are Arun/Arti of Model Town, Kolkata. Write an application",
+     0.0
+    ],
+    [
+     "with detailed bio-data for the above post in 120-150 words. Invent",
+     0.0
+    ],
+    [
+     "applications for the post of a Dance teacher. Must be a",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:988359abbe5fb1502b6f69f9:22",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/1/1",
+   "qNo": 22,
+   "source": "67_1_1.pdf",
+   "stem": "Sudhir, Deepak and Naveen were partners in a firm sharing profits and losses in the ratio of 2 : 2 : 1. On 31st March, 2022 their Balance Sheet was as under : Balance Sheet of Sudhir, Deepak and Naveen as at 31st March, 2022 Liabilities Amount < Assets Amount < Creditors 50,000 Land and Building 2,10,000 General Reserve 1,00,000 Machinery 1,90,000 Loan 1,20,000 Stock 30,000 Capitals : Investments 1,70,000 Sudhir 1,60,000 Advertisement Suspense A/c 1,20,000 Deepak 1,50,000 Naveen 1,40,000 4,50,000 7,20,000 7,20,000 18 30 OyZ, 2022 H$m àmdYmZ Wm : 1 dfm] Ho$ H«$¶ Ho$ AmYma na {H$¶m OmEJm & (ii) AWdm hm{Z ma na H$s OmEJr & 31 , 2022 dmbo < 4,00,000 Wr VWm 1 Aà¡b, 2022 go 30 OyZ 2022 VH$ {dH«$¶ H$s am{e < 1,50,000 Wr & 31 , 2022 1,00,000 Wm & (iii) ny±Or na 7% dm{f©H$ Xa go ã¶mO {X¶m OmEJm & gwYra Ho$ {ZînmXH$m| H$mo gm¢nZo Ho$ {bE CZH$m ny±Or ImVm V¡¶ma H$s{OE &",
+   "answerText": "Q. Archana, Vandana and Arti were partners in a firm… By Vandana’s capital A/c (½) By Archana’s capital A/c (½) By Loss transferred to Partners’",
+   "valuePoints": [
+    [
+     "Q. Archana, Vandana and Arti were partners in a firm…",
+     0.0
+    ],
+    [
+     "By Vandana’s capital A/c (½)",
+     0.0
+    ],
+    [
+     "By Archana’s capital A/c (½)",
+     0.0
+    ],
+    [
+     "By Loss transferred to Partners’",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:76c1d05b7a35cc9cd91418de:15",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "57/3/2",
+   "qNo": 15,
+   "source": "XII_044_MS_57_3_2.pdf",
+   "stem": "Assertion (A) : Breast-feeding is advised by the doctor as it is essential for the new borns. Reason (R) : Colostrum secreted by the mother during initial days of lactation has abundant antibodies containing IgE and IgG.",
+   "answerText": "(C)Assertion (A) is true, but Reason (R) is false",
+   "valuePoints": [
+    [
+     "(C)Assertion (A) is true, but Reason (R) is false",
+     0.0
+    ]
+   ],
+   "stratum": "random",
+   "judgement": "correct",
+   "note": "colostrum carries IgA, not IgE/IgG, so R is false: (C) fits"
+  },
+  {
+   "id": "cbse:q:src:2eeb4a479953ae7153287aeb:25",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "55/1/3",
+   "qNo": 25,
+   "source": "55-1-1,2,3 English Version.pdf",
+   "stem": "(a) Draw the graphs showing the variation of the following with the frequency of ac source in a circuit : (ii) Capacitive reactance (iii) Inductive reactance 11-",
+   "answerText": "(i) Graph showing variation of R with frequency ½ Graph showing variation of capacitive reactance Graph showing variation of Inductive reactance with Anwer and Justification ½ +1",
+   "valuePoints": [
+    [
+     "(i) Graph showing variation of R with frequency ½",
+     0.0
+    ],
+    [
+     "Graph showing variation of capacitive reactance",
+     0.0
+    ],
+    [
+     "Graph showing variation of Inductive reactance with",
+     0.0
+    ],
+    [
+     "Anwer and Justification ½ +1",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": "graphs of R, capacitive and inductive reactance against frequency: this question"
+  },
+  {
+   "id": "cbse:q:src:e4eaf2208e62a3b5cbb6c55e:3",
+   "subject": "English",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "1/3/2",
+   "qNo": 3,
+   "source": "XII_301_1_3_2_MS.pdf",
+   "stem": "Attempt any one from (A) and (B) given below : 5 (A) requested to send volunteers to participate in this programme. Draft a notice in 50 words for the senior class students to offer themselves as volunteers. State the details of the task expected to be undertaken by the volunteers. Mention relevant details of day, date, time and venue. You are Rashi/Rishi, President, Social Service Club.",
+   "answerText": "Mr. and Mrs. Dhanraj of Appletree Orchard, Nainital, are hosting a party on the occasion of the 21st birthday of their son, Vineet Draft an invitation card giving details of the date, time and venue FORMAT – 1/2 mark (Card Layout)",
+   "valuePoints": [
+    [
+     "Mr. and Mrs. Dhanraj of Appletree Orchard, Nainital, are hosting",
+     0.0
+    ],
+    [
+     "a party on the occasion of the 21st birthday of their son, Vineet",
+     0.0
+    ],
+    [
+     "Draft an invitation card giving details of the date, time and venue",
+     0.0
+    ],
+    [
+     "FORMAT – 1/2 mark (Card Layout)",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": "an invitation-card scheme on a notice question"
+  },
+  {
+   "id": "cbse:q:src:d52e7a22879ce44bb7610fb6:21",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/4/3",
+   "qNo": 21,
+   "source": "67_4_3.pdf",
+   "stem": "Prakash, Aakash and Vikas were partners in a business sharing profits in the ratio of 2 : 2 : 1. Their Balance Sheet as at 31st March, 2022 was as follows: Balance Sheet of Prakash, Aakash and Vikas as at 31st March, 2022 Liabilities Amount < Assets Amount < Creditors 2,00,000 Bank 40,000 General Reserve 1,00,000 Stock 60,000 Debtors 1,60,000 Capitals : Investments 1,40,000 Prakash 1,20,000 Furniture 70,000 Aakash 2,00,000 Building 2,30,000 Vikas 80,000 4,00,000 7,00,000 7,00,000 Vikas died on 30th September, 2022. On the death of a partner the partnership deed provided for the following : (ii) His share in the Goodwill of the firm, calculated on the basis of 3 years purchase of average profits of last four years. Profits for last four years ended 31st March were as follows : 2018 -19, < 1,60,000; 2019 -20, < 1,00,000; 2020 -21, < 80,000 and 2021 -22, < 60,000. (iii) Drawings of the deceased partner up to the date of death were < 20,000. (iv) Interest on capital was allowed @ 12% per annum. 4",
+   "answerText": "Q. Ram, Ravi and…………………………………… By Ram’s Capital A/c(goodwill) ½ By Ravi’s Capital A/c(goodwill) ½ By Proﬁt &Loss Suspense A/c 1",
+   "valuePoints": [
+    [
+     "Q. Ram, Ravi and……………………………………",
+     0.0
+    ],
+    [
+     "By Ram’s Capital A/c(goodwill) ½",
+     0.0
+    ],
+    [
+     "By Ravi’s Capital A/c(goodwill) ½",
+     0.0
+    ],
+    [
+     "By Proﬁt &Loss Suspense A/c 1",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": "a goodwill entry for Ram and Ravi; the question's partners are Prakash, Aakash and Vikas"
+  },
+  {
+   "id": "cbse:q:src:856803fb4333bfbe91cef527:28",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "32/5/2",
+   "qNo": 28,
+   "source": "32_5_2 E.pdf",
+   "stem": "How is a democracy accountable and responsive to the needs and expectations of the citizens ? Analyse.",
+   "answerText": "How is democracy accountable and responsive to the needs and expectations of (i) Democracy gives chance to citizens to participate in decision-making (ii) Democracy ensures that decision-making is based on norms and procedures (iii) In democracy citizens have the right and means to examine the process of",
+   "valuePoints": [
+    [
+     "How is democracy accountable and responsive to the needs and expectations of",
+     0.0
+    ],
+    [
+     "(i) Democracy gives chance to citizens to participate in decision-making",
+     0.0
+    ],
+    [
+     "(ii) Democracy ensures that decision-making is based on norms and procedures",
+     0.0
+    ],
+    [
+     "(iii) In democracy citizens have the right and means to examine the process of",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:19",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "57/1/1",
+   "qNo": 19,
+   "source": "57-1-1.pdf",
+   "stem": "Write the basic steps followed in the Assisted Reproductive Technologies (ART) programme to help childless couples. Why is it also known as test tube baby programme ?",
+   "answerText": "Ova from wife or female donor and sperm from husband or male donor are Test tube baby programme – because initial process is carried out in the laboratory",
+   "valuePoints": [
+    [
+     "Ova from wife or female donor and sperm from husband or male donor are",
+     0.0
+    ],
+    [
+     "Test tube baby programme – because initial process is carried out in the laboratory",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:31",
+   "subject": "Science",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "31/4/1",
+   "qNo": 31,
+   "source": "X_086_31_4_MS_UNSIGNED_ALL SETS.pdf",
+   "stem": "The power of a lens is +4D. Find the focal length of this lens. An object is placed at a distance of 50 cm from the optical centre of this lens. State the nature and magnification of the image formed by the lens and also draw a ray diagram to justify your answer.",
+   "answerText": "Focal length of lens, f(m) =",
+   "valuePoints": [
+    [
+     "Focal length of lens, f(m) =",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "cannot-tell",
+   "note": "right question, but only the fragment 'Focal length of lens, f(m) =' with no value"
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:21",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "57/1/1",
+   "qNo": 21,
+   "source": "57-1-1.pdf",
+   "stem": "Study the diagram of a pyramid of biomass given below. Name the two Name this type of pyramid and the ecosystem in which it is found.",
+   "answerText": "-Inverted pyramid of biomass , -Sea Ecosystem/ Aquatic ecosystem",
+   "valuePoints": [
+    [
+     "-Inverted pyramid of biomass ,",
+     0.0
+    ],
+    [
+     "-Sea Ecosystem/ Aquatic ecosystem",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:27",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "430/3/1",
+   "qNo": 27,
+   "source": "X_241_MS_430_3_1_Unsigned.pdf",
+   "stem": "The altitude of a right-angled triangle is 7 cm less than its base. If its hypotenuse is 17 cm long, then",
+   "answerText": "(a) Let base of the right triangle be x cm  altitude of the right triangle is (x – 7) cm Using Pythagoras theorem: (17)2 = x2 + (x – 7)2  2x2 – 14x – 240 = 0 or x2 – 7x – 120 = 0",
+   "valuePoints": [
+    [
+     "(a) Let base of the right triangle be x cm",
+     0.0
+    ],
+    [
+     " altitude of the right triangle is (x – 7) cm",
+     0.0
+    ],
+    [
+     "Using Pythagoras theorem: (17)2 = x2 + (x – 7)2",
+     0.0
+    ],
+    [
+     " 2x2 – 14x – 240 = 0 or x2 – 7x – 120 = 0",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:29",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "57/1/1",
+   "qNo": 29,
+   "source": "57-1-1.pdf",
+   "stem": "Read the following passage and answer the questions that follow. total land area whereas its share of the global species diversity is an impressive 8·1 per cent ! However, in these estimates of species, prokaryotes do not figure anywhere. Biologists are always keen on collecting data with respect to species diversity observed in different regions of the world. The data collected based on the survey conducted for species richness of groups of mammals in three different regions of the world is shown in the bar graph given below :",
+   "answerText": "This region is less seasonal with constant and more predictable environment / More solar energy so higher productivity and higher diversity / it represent tropical lattitudes which remain relatively undisturbed for millions of years and had a long evolutionary time for species Region I represent temperate region subjected to frequent glaciation and get lesser evolutionary",
+   "valuePoints": [
+    [
+     "This region is less seasonal with constant and more predictable environment / More solar energy",
+     0.0
+    ],
+    [
+     "so higher productivity and higher diversity / it represent tropical lattitudes which remain",
+     0.0
+    ],
+    [
+     "relatively undisturbed for millions of years and had a long evolutionary time for species",
+     0.0
+    ],
+    [
+     "Region I represent temperate region subjected to frequent glaciation and get lesser evolutionary",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:32",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "66/1/1",
+   "qNo": 32,
+   "source": "66_1_1..pdf",
+   "stem": "Atul Sharma was the Chief Executive Officer of a footwear company, ‘Stepone Footwear’. The company manufactured innovative and comfortable footwear for all age groups. Atul Sharma was known for meticulous planning. He ensured that the goals and objectives of the company are clearly stated so that they act as a guide for deciding what action should be taken and in which direction. Before each season, ‘Stepone Footwear’ carefully analysed market trends, customer preferences and production schedules. This analysis enabled the company to look ahead and anticipate changes and develop managerial responses, wherever necessary. As a result, they were able to consistently deliver innovative and comfortable shoes to the market. During one season, there was a sudden surge in demand for eco-friendly shoes. ‘Stepone Footwear’ had already planned their production for the year with specific goals to be achieved within a specific time frame. The managers of ‘Stepone Footwear’ did not have the flexibility to change the plan to cope with the changed circumstances. Another shoe company ‘Eco Step’ quickly adapted and started manufacturing comfortable eco-friendly shoes. By not being able to adjust to the rapidly changing market, ‘Stepone Footwear’ faced inventory surplus while ‘Eco Step’ emerged as a market leader in sustainable eco-friendly footwear. Quoting lines from the above paragraph, identify and explain two benefits and two limitations of ‘Planning’ function of management discussed in the above case. 6 11-",
+   "answerText": "Atul Sharma was the Chief Executive Officer of a footwear company, 'Stepone Footwear’. The company manufactured innovative and comfortable footwear for all age groups. Atul Sharma was known for meticulous",
+   "valuePoints": [
+    [
+     "Atul Sharma was the Chief Executive Officer of a",
+     0.0
+    ],
+    [
+     "footwear company, 'Stepone Footwear’. The company",
+     0.0
+    ],
+    [
+     "manufactured innovative and comfortable footwear for all",
+     0.0
+    ],
+    [
+     "age groups. Atul Sharma was known for meticulous",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": "the answer only repeats the case text"
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:25",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "57/1/1",
+   "qNo": 25,
+   "source": "57-1-1.pdf",
+   "stem": "Identify A, B, C, D, E and F in the table given below : 3 Name of Human Disease Causative Organism Symptoms Pneumonia Streptococcus Typhoid High fever, weakness, headache, stomach pain Common Cold Rhino virus Ringworm Dry scaly lesions on body parts, redness, itching Ascariasis Ascaris Entamoeba histolytica Constipation, cramps, stools with mucous and blood clots",
+   "answerText": "A – Fever / chills / cough / headache / greyish blue lips and nails / severe problem in Nasal congestion / discharge / sore throat / cough / hoarseness /tiredness, D – Microsporum / Trichophyton / Epidermophyton , Internal bleeding / fever / muscular pain / anaemia / blockage of intestinal passage,",
+   "valuePoints": [
+    [
+     "A – Fever / chills / cough / headache / greyish blue lips and nails / severe problem in",
+     0.0
+    ],
+    [
+     "Nasal congestion / discharge / sore throat / cough / hoarseness /tiredness,",
+     0.0
+    ],
+    [
+     "D – Microsporum / Trichophyton / Epidermophyton ,",
+     0.0
+    ],
+    [
+     "Internal bleeding / fever / muscular pain / anaemia / blockage of intestinal passage,",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:c53f84b1d87a8e5a1b43e495:4",
+   "subject": "English",
+   "grade": 10,
+   "marks": 1,
+   "paperCode": "2/5/1",
+   "qNo": 4,
+   "source": "2-5-1.pdf",
+   "stem": "Attempt any one from (A) and (B) given below : 5 (A) You are Swati/Soham living at 14, DLF, Phase III, Gurugram. Your streets and roads get waterlogged during the monsoon season every year. Cars stall, drains overflow and traffic comes to a standstill. It is difficult to lead a normal life and this adds to you woes. Write a letter in 100 -120 words to the editor, The Times of India , highlighting the problems and suggesting measures to control the problem.",
+   "answerText": "Problems of open manholes and drains Relevance of the problem to the safety of the residents Relevance of the problem to the upkeep of the locality Measures to resolve the problem Need for a dedicated space in the community park for senior citizens Measures to create the space",
+   "valuePoints": [
+    [
+     "Problems of open manholes and drains",
+     0.0
+    ],
+    [
+     "Relevance of the problem to the safety of the residents",
+     0.0
+    ],
+    [
+     "Relevance of the problem to the upkeep of the locality",
+     0.0
+    ],
+    [
+     "Measures to resolve the problem",
+     0.0
+    ],
+    [
+     "Need for a dedicated space in the community park for senior citizens",
+     0.0
+    ],
+    [
+     "Measures to create the space",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:cab234f4942dcb652271a122:22",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 2,
+   "paperCode": "30/4/3",
+   "qNo": 22,
+   "source": "X_MS_041_Mathematics Standard_30-4-3_2024-25_.pdf",
+   "stem": "(A) Evaluate 2sec2 θ + 3cosec2 θ – 2sin θcos θ if θ = 45o.",
+   "answerText": "(sin A + cosec A)2 + (cos A + sec A)2 = 𝑥+ tan2A + cot2A ⟹ sin2A + cosec2A + 2 + cos2A + sec2A + 2 = 𝑥+ tan2A + cot2A ⟹1 + 2 + 2 + 1 + cot2A + 1 + tan2A = 𝑥+ tan2A + cot2A MS_X_Mathematics_041_30/4/3_2024-25",
+   "valuePoints": [
+    [
+     "(sin A + cosec A)2 + (cos A + sec A)2 = 𝑥+ tan2A + cot2A",
+     0.0
+    ],
+    [
+     "⟹ sin2A + cosec2A + 2 + cos2A + sec2A + 2 = 𝑥+ tan2A + cot2A",
+     0.0
+    ],
+    [
+     "⟹1 + 2 + 2 + 1 + cot2A + 1 + tan2A = 𝑥+ tan2A + cot2A",
+     0.0
+    ],
+    [
+     "MS_X_Mathematics_041_30/4/3_2024-25",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": "a sec/cosec identity; the question asks to evaluate an expression at 45 degrees"
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:22",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "66/1/1",
+   "qNo": 22,
+   "source": "66_1_1..pdf",
+   "stem": "Kanav, after passing out of college with specialization in renewable energy, was determined to start a solar power plant. The venture required heavy investment in plant and machinery and less on manual labour. Kanav invested in the latest solar panel technology and infrastructure and purchased the latest solar panels, inverters and battery storage systems. Despite the high risk and substantial investment, Kanav’s business had good expansion possibilities. The world was increasingly moving towards clean energy solutions, and there was a growing demand for sustainable power sources. So, Kanav decided to create a higher capacity to meet the anticipated demand quickly. This entailed further investment in fixed assets which Kanav was able to arrange. As the years passed, the solar power plant did very well and played a pivotal role in the city’s transition towards a greener and more sustainable future. Identify and explain the two factors affecting the fixed capital requirements discussed in the above case. 3 11-",
+   "answerText": "A capital-intensive organisation requires higher Labour intensive organisations require less When growth is expected, a company may choose to This entails larger investment in fixed assets and",
+   "valuePoints": [
+    [
+     "A capital-intensive organisation requires higher",
+     0.0
+    ],
+    [
+     "Labour intensive organisations require less",
+     0.0
+    ],
+    [
+     "When growth is expected, a company may choose to",
+     0.0
+    ],
+    [
+     "This entails larger investment in fixed assets and",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:09a7d8a43ab84dbfb45c1229:17",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "paperCode": "57/5/1",
+   "qNo": 17,
+   "source": "57-5-1.pdf",
+   "stem": "(a) “Farmers prefer apomictic seeds to hybrid seeds.” Justify giving two reasons.",
+   "answerText": "(a) Hybrid seeds show segregation of characters in the progeny, production of hybrid seeds are expensive / apomictic seeds would be cheaper if produced , hybrid seeds have to be produced every year, apomictic seeds brings homozygosity / apomictic seeds retain desirable characterstics of plants",
+   "valuePoints": [
+    [
+     "(a) Hybrid seeds show segregation of characters in the progeny, production of",
+     0.0
+    ],
+    [
+     "hybrid seeds are expensive / apomictic seeds would be cheaper if produced ,",
+     0.0
+    ],
+    [
+     "hybrid seeds have to be produced every year, apomictic seeds brings",
+     0.0
+    ],
+    [
+     "homozygosity / apomictic seeds retain desirable characterstics of plants",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:32",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "67/1/1",
+   "qNo": 32,
+   "source": "67_1_1.pdf",
+   "stem": "From the given information, calculate : 3 Particulars Amount (<) Current Assets 4,00,000 Inventory 1,00,000 Current Liabilities 2,00,000 Net Profit Before Tax 7,20,000 Revenue from Operations 10,00,000 Gross Profit Ratio 20% 666 -11 32 of",
+   "answerText": "Q. From the given information, calculate … (a) Quick Ratio= Quick Assets ½ Quick assets = Current Assets – Inventory Quick Ratio = 3,00,000 = 1.5:1 ½",
+   "valuePoints": [
+    [
+     "Q. From the given information, calculate …",
+     0.0
+    ],
+    [
+     "(a) Quick Ratio= Quick Assets ½",
+     0.0
+    ],
+    [
+     "Quick assets = Current Assets – Inventory",
+     0.0
+    ],
+    [
+     "Quick Ratio = 3,00,000 = 1.5:1 ½",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:94cb306f384779a2121f9f55:21",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 2,
+   "paperCode": "430/5/1",
+   "qNo": 21,
+   "source": "430_5_1.pdf",
+   "stem": "Find LCM of 576 and 512 by prime factorization.",
+   "answerText": "Find LCM of 576 and 512 by prime factorization",
+   "valuePoints": [
+    [
+     "Find LCM of 576 and 512 by prime factorization",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": "the answer only repeats the question"
+  },
+  {
+   "id": "cbse:q:src:6df8d2b3a2f6c8cce1428573:31",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "55/1/1",
+   "qNo": 31,
+   "source": "55-1-1,2,3 English Version.pdf",
+   "stem": "(a) (i) Derive an expression for potential energy of an electric dipole p in an external uniform electric field E . When is the potential energy of the dipole (1) maximum, and (2) minimum ? (ii) An electric dipole consists of point charges -1·0 pC and + 1·0 pC located at (0, 0) and (3 mm, 4 mm) respectively in x -y plane. An electric field E = m V 1000 ^i is switched on in the region. Find the torque acting on the dipole.",
+   "answerText": "(2) Potential energy is minimum when",
+   "valuePoints": [
+    [
+     "(2) Potential energy is minimum when",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "cannot-tell",
+   "note": "right question, but only the fragment 'Potential energy is minimum when'"
+  },
+  {
+   "id": "cbse:q:src:4d332115f14c6aeeaa34b438:24",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/3/1",
+   "qNo": 24,
+   "source": "67.3.1.pdf",
+   "stem": "(a) On 31st March, 2022 the Balance Sheet of partners A and B, who were sharing profits in the ratio of 3 : 2 was as follows : Balance Sheet of A and B as at 31st March, 2022 Liabilities Amount < Assets Amount < Creditors 30,000 Cash at Bank 20,000 Investment Fluctuation Fund 12,000 Debtors 85,000 General Reserve 25,000 Less provision 5,000 80,000 Capitals : Stock 1,30,000 A 1,60,000 Investments 60,000 B 1,40,000 3,00,000 Furniture 77,000 3,67,000 3,67,000 On 1st April 2022, they decided to admit C as a new partner for 5 1 share in the profits on the following terms : share of Premium for Goodwill. (ii) One month salary < 2,000 was outstanding. (iii) The market value of investments was < 50,000. (iv) A debtor, whose dues were written off as bad debts, paid < 12,000 in full settlement. Prepare Revaluation Account and Partners Capital Accounts.",
+   "answerText": "(a) On 31st March, 2022 the Balance Sheet of…… To Outstanding Salaries A/c Dr. PARTNERS’ CAPITAL A/c Cr (b ) Q. Anita, Geeta and Sita were partners in a firm…",
+   "valuePoints": [
+    [
+     "(a) On 31st March, 2022 the Balance Sheet of……",
+     0.0
+    ],
+    [
+     "To Outstanding Salaries A/c",
+     0.0
+    ],
+    [
+     "Dr. PARTNERS’ CAPITAL A/c Cr",
+     0.0
+    ],
+    [
+     "(b ) Q. Anita, Geeta and Sita were partners in a firm…",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "cannot-tell",
+   "note": "opens on this question's balance sheet, then runs into another question's partners"
+  },
+  {
+   "id": "cbse:q:src:a12945f6521d50815466fe9c:27",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 3,
+   "paperCode": "32/5/2",
+   "qNo": 27,
+   "source": "32-5-2-E.pdf",
+   "stem": "Analyse the role of political parties in shaping the outcomes of democracy.",
+   "answerText": "(a) Analyze the role of the Party System in Indian democracy There are three different party systems across the world, One Party, Bi Party and Multi -Party system. India follows (ii) Further, political parties in India are classified into two",
+   "valuePoints": [
+    [
+     "(a) Analyze the role of the Party System in Indian democracy",
+     0.0
+    ],
+    [
+     "There are three different party systems across the world,",
+     0.0
+    ],
+    [
+     "One Party, Bi Party and Multi -Party system. India follows",
+     0.0
+    ],
+    [
+     "(ii) Further, political parties in India are classified into two",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:27",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "57/1/1",
+   "qNo": 27,
+   "source": "57-1-1.pdf",
+   "stem": "(a) (i) What are transgenic animals ? 1 (ii) Name the first transgenic cow and state its importance.",
+   "answerText": "(a) (i) Transgenic animals are those which have their DNA manipulated to possess and express a (ii) First transgenic Cow – Rosie, -Produced human protein enriched milk (24 g/litre) / cow milk containing human alpha lactalbumin protein is nutritionally more balanced product for human babies than natural",
+   "valuePoints": [
+    [
+     "(a) (i) Transgenic animals are those which have their DNA manipulated to possess and express a",
+     0.0
+    ],
+    [
+     "(ii) First transgenic Cow – Rosie,",
+     0.0
+    ],
+    [
+     "-Produced human protein enriched milk (24 g/litre) / cow milk containing human alpha",
+     0.0
+    ],
+    [
+     "lactalbumin protein is nutritionally more balanced product for human babies than natural",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:32",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "66/1/1",
+   "qNo": 32,
+   "source": "XII_054_MS_66-1-1_Business Studies.pdf",
+   "stem": "Atul Sharma was the Chief Executive Officer of a footwear company, ‘Stepone Footwear’. The company manufactured innovative and comfortable footwear for all age groups. Atul Sharma was known for meticulous planning. He ensured that the goals and objectives of the company are clearly stated so that they act as a guide for deciding what action should be taken and in which direction. Before each season, ‘Stepone Footwear’ carefully analysed market trends, customer preferences and production schedules. This analysis enabled the company to look ahead and anticipate changes and develop managerial responses, wherever necessary. As a result, they were able to consistently deliver innovative and comfortable shoes to the market. During one season, there was a sudden surge in demand for eco-friendly shoes. ‘Stepone Footwear’ had already planned their production for the year with specific goals to be achieved within a specific time frame. The managers of ‘Stepone Footwear’ did not have the flexibility to change the plan to cope with the changed circumstances. Another shoe company ‘Eco Step’ quickly adapted and started manufacturing comfortable eco-friendly shoes. By not being able to adjust to the rapidly changing market, ‘Stepone Footwear’ faced inventory surplus while ‘Eco Step’ emerged as a market leader in sustainable eco-friendly footwear. Quoting lines from the above paragraph, identify and explain two benefits and two limitations of ‘Planning’ function of management discussed in the above case. 6 11-",
+   "answerText": "(a) Explain the following points of importance of 'Planning (i) Planning provides directions (ii) Planning promotes innovative ideas (iii) Planning reduces the risk of uncertainty",
+   "valuePoints": [
+    [
+     "(a) Explain the following points of importance of 'Planning",
+     0.0
+    ],
+    [
+     "(i) Planning provides directions",
+     0.0
+    ],
+    [
+     "(ii) Planning promotes innovative ideas",
+     0.0
+    ],
+    [
+     "(iii) Planning reduces the risk of uncertainty",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "cannot-tell",
+   "note": "planning points for what may be this case; the case text is cut"
+  },
+  {
+   "id": "cbse:q:src:68c9113b14b77fd03aba75a0:23",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "55/4/3",
+   "qNo": 23,
+   "source": "55-4 -1,2,3 English Version.pdf",
+   "stem": "A particle of charge q and mass m starts moving with uniform velocity v0 ^i . Specify the direction of magnetic field which should be set up in the region so that the particle moves (a) straight undeviated, and (b) in a circle. Justify your answers. 24. (a) Obtain an expression for electrostatic potential energy of a system of three charges q, 2q and -3q placed at the vertices of an equilateral triangle of side a.",
+   "answerText": "Magnetic field at P due to infinite straight conductor carrying current",
+   "valuePoints": [
+    [
+     "Magnetic field at P due to infinite straight conductor carrying current",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:28",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "57/1/1",
+   "qNo": 28,
+   "source": "57-1-1.pdf",
+   "stem": "(a) Explain how it is ensured that the orchid Ophrys is pollinated by a specific species of bee. 2 -11 16 IÊS> K 29 30 -3",
+   "answerText": "-Orchid Ophrys employs ‘Sexual Deceit’to get pollinated by a species of bee -one petal of flower resembles female of bee in size, colour and markings -Male bee attracted and pseudocopulates the flower and gets dusted with pollens -When same bee ‘pseudocopulates’ with other flower, it transfers the pollens to it",
+   "valuePoints": [
+    [
+     "-Orchid Ophrys employs ‘Sexual Deceit’to get pollinated by a species of bee",
+     0.0
+    ],
+    [
+     "-one petal of flower resembles female of bee in size, colour and markings",
+     0.0
+    ],
+    [
+     "-Male bee attracted and pseudocopulates the flower and gets dusted with pollens",
+     0.0
+    ],
+    [
+     "-When same bee ‘pseudocopulates’ with other flower, it transfers the pollens to it",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:4d332115f14c6aeeaa34b438:23",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/3/1",
+   "qNo": 23,
+   "source": "67.3.1.pdf",
+   "stem": "(a) Lotus Ltd. invited applications for issuing 80,000 equity shares of < 10 each at a premium of < 4 per share. The amount was payable as follows : On application -< 5 per share and On allotment -< 9 per share (included premium). Applications were received for 1,40,000 shares and allotment was made to all applicants on pro-rata basis. Money overpaid on applications was adjusted towards sums due on allotment. Rajiv, who had applied for 1,400 shares, failed to pay the allotment money. His shares were forfeited. Later on, these forfeited shares were reissued at < 9 per share as fully paid up. Pass necessary journal entries for the above transactions in the books of Lotus Ltd.",
+   "answerText": "(a) Q. Lotus Ltd. invited applications for issuing…… To Equity Share Application A /c (Application money received on 1,40,000 _________________________________",
+   "valuePoints": [
+    [
+     "(a) Q. Lotus Ltd. invited applications for issuing……",
+     0.0
+    ],
+    [
+     "To Equity Share Application A /c",
+     0.0
+    ],
+    [
+     "(Application money received on 1,40,000",
+     0.0
+    ],
+    [
+     "_________________________________",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:24",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/1/1",
+   "qNo": 24,
+   "source": "67_1_1.pdf",
+   "stem": "On 1st April, 2022, Zubian Ltd. issued < 10,00,000, 7% Debentures of < 100 each at a premium of 6%, redeemable at a premium of 4% after five years. The company had a balance of < 30,000 in Securities Premium Account. Premium Account at the end of the first year itself. 31st March, 2023. 6 666 -11 22 of",
+   "answerText": "Q. on 1st April, 2022, Zubian Ltd. issued… Ans. (a) Books of Zubian Ltd To Debenture Application & (Application money received on 10,000, 7%",
+   "valuePoints": [
+    [
+     "Q. on 1st April, 2022, Zubian Ltd. issued…",
+     0.0
+    ],
+    [
+     "Ans. (a) Books of Zubian Ltd",
+     0.0
+    ],
+    [
+     "To Debenture Application &",
+     0.0
+    ],
+    [
+     "(Application money received on 10,000, 7%",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:988359abbe5fb1502b6f69f9:31",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "67/1/1",
+   "qNo": 31,
+   "source": "67_1_1.pdf",
+   "stem": "Classify the following items under major heads and sub-heads (if any) in the Balance Sheet of a company as per Schedule III, Part I of the Companies Act, 2013 :",
+   "answerText": "Q. Classify the following items under major heads…",
+   "valuePoints": [
+    [
+     "Q. Classify the following items under major heads…",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": "the answer only repeats the question"
+  },
+  {
+   "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:26",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/3/2",
+   "qNo": 26,
+   "source": "67.3.2.pdf",
+   "stem": "(a) On 1st April, 2021, LM Ltd. issued < 45,00,000, 12% Debentures of < 50 each at a discount of 10%. On 31st March, 2022 it decided to write off discount on issue of debentures according to the provisions of the Companies Act, 2013. It had a credit balance of < Pass necessary journal entries for the above transaction in the books of the company. SM Ltd. and took over liabilities of < 10,00,000 for a purchase consideration of < 40,00,000. < 20,00,000 were paid to SM Ltd. by issuing 12% Debentures of < 100 each at a premium of 25%, < 15,00,000 were paid by issuing a crossed cheque in favour of SM Ltd. For the balance, KR Ltd. accepted a Bill of Exchange drawn upon them by SM Ltd. payable after three months. Pass necessary journal entries for the above transactions in the books of the company. 3+3=6 PART B OPTION -I (Analysis of Financial Statements)",
+   "answerText": "(a) Q. On 1st April, 2021 LM Ltd. issued… To Debenture Application & (Application money received on 90,000) __________________________________",
+   "valuePoints": [
+    [
+     "(a) Q. On 1st April, 2021 LM Ltd. issued…",
+     0.0
+    ],
+    [
+     "To Debenture Application &",
+     0.0
+    ],
+    [
+     "(Application money received on 90,000)",
+     0.0
+    ],
+    [
+     "__________________________________",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:4d332115f14c6aeeaa34b438:31",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "67/3/1",
+   "qNo": 31,
+   "source": "67.3.1.pdf",
+   "stem": "Classify the following items under major heads and sub-heads (if any) in the Balance Sheet of a company as per Schedule III, Part I of the Companies Act, 2013. 3 (ii) Income received in advance (iii) Capital work in progress",
+   "answerText": "Q. Classify the following items under major heads… Property, Plant & Equipment Full credit to be given for only writing Intangible Asset or Fixed Asset under the Sub head of (i)Mining Rights",
+   "valuePoints": [
+    [
+     "Q. Classify the following items under major heads…",
+     0.0
+    ],
+    [
+     "Property, Plant & Equipment",
+     0.0
+    ],
+    [
+     "Full credit to be given for only writing Intangible Asset or Fixed Asset under",
+     0.0
+    ],
+    [
+     "the Sub head of (i)Mining Rights",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:32",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "67/3/2",
+   "qNo": 32,
+   "source": "67.3.2.pdf",
+   "stem": "h involves regrouping of data by application of Identify the technique and state any two advantages of the technique identified above.",
+   "answerText": "Q. ‘ It is a technique which involves regrouping……… Advantages of Ratio Analysis ( any two) It helps to understand efficacy of decisions It simplifies complex figures and establishes relationships",
+   "valuePoints": [
+    [
+     "Q. ‘ It is a technique which involves regrouping………",
+     0.0
+    ],
+    [
+     "Advantages of Ratio Analysis ( any two)",
+     0.0
+    ],
+    [
+     "It helps to understand efficacy of decisions",
+     0.0
+    ],
+    [
+     "It simplifies complex figures and establishes relationships",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:437dc259b6f036c024374d17:4",
+   "subject": "English",
+   "grade": 10,
+   "marks": 1,
+   "paperCode": "2/5/3",
+   "qNo": 4,
+   "source": "2-5-3.pdf",
+   "stem": "Attempt any one from (a) and (b) given below : (a) The roads in your locality have developed big potholes after the rains and have not been repaired. Despite several complaint letters to the civic authorities, the problem is still unresolved. Write a letter to the editor of a local daily, in about 120 words, expressing your concern at the situation and suggesting measures to resolve the problem and drawing attention of the concerned authorities. You are Maasumi / Mausan of 17, Crown Apartments, Harsh Vihar, Akash Nagar.",
+   "answerText": "Concern about big potholes after the rains Risks to the safety of the citizens Mention of previous letters of complaint to civic bodies Measures to resolve the problem Concern about the haphazard parking of vehicles in front of the Inconvenience of residents & risk to safety Suggesting measures to resolve the issue",
+   "valuePoints": [
+    [
+     "Concern about big potholes after the rains",
+     0.0
+    ],
+    [
+     "Risks to the safety of the citizens",
+     0.0
+    ],
+    [
+     "Mention of previous letters of complaint to civic bodies",
+     0.0
+    ],
+    [
+     "Measures to resolve the problem",
+     0.0
+    ],
+    [
+     "Concern about the haphazard parking of vehicles in front of the",
+     0.0
+    ],
+    [
+     "Inconvenience of residents & risk to safety",
+     0.0
+    ],
+    [
+     "Suggesting measures to resolve the issue",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:4d332115f14c6aeeaa34b438:21",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/3/1",
+   "qNo": 21,
+   "source": "XII_055_MS_67_3_1_unsigned.pdf",
+   "stem": "Pawan Ltd. was registered with an authorised capital of < 10,00,000 divided into 1,00,000 equity shares of < 10 each. The company offered to the public for subscription, 80,000 equity shares. The amount per share was payable as follows : On application -< 3, On allotment -< 2 On first call -< 3 and On second and final call the balance The issue was fully subscribed and all amounts due were received except the first and final call money on 2,000 shares allotted to Chavi. Her shares were forfeited. Present the Share Capital in the Balance Sheet of the company as per Schedule III, Part I of the Companies Act, 2013. Also prepare Notes to Accounts for the same.",
+   "answerText": "Pass necessary journal entries for…… To Debenture Application & Allotment A/c (Debenture application money received on 30,000 debentures @ `105 per debenture)",
+   "valuePoints": [
+    [
+     "Pass necessary journal entries for……",
+     0.0
+    ],
+    [
+     "To Debenture Application & Allotment A/c",
+     0.0
+    ],
+    [
+     "(Debenture application money received on",
+     0.0
+    ],
+    [
+     "30,000 debentures @ `105 per debenture)",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:bbd21b0e42bac3cafc7a33a0:26",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/4/1",
+   "qNo": 26,
+   "source": "67_4_1.pdf",
+   "stem": "(a) Yash Ltd. invited applications for 50,000 equity shares of <10 each at a premium of 10%. The amount was payable as follows : On application -< 3 per share; on allotment (including premium) -< 3 per share and on first and final call, the balance amount. Applications were received for 1,20,000 shares and shares were allotted on pro-rata basis to all applicants. The excess money received on application was to be adjusted towards sums due on allotment. Application money in excess of sums due on allotment was refunded. A shareholder who applied for 6,000 shares could not pay the first and final call money and his shares were forfeited. The forfeited shares were reissued for < 60,000 fully paid up. Pass necessary journal entries for the above transactions in the books of Yash Ltd.",
+   "answerText": "To Debenture Application and AllotmentA/c (Application money on 9% Debentures Debenture Application and Allotment A/c Dr Discount on issue of Debentures A/c Dr",
+   "valuePoints": [
+    [
+     "To Debenture Application and AllotmentA/c",
+     0.0
+    ],
+    [
+     "(Application money on 9% Debentures",
+     0.0
+    ],
+    [
+     "Debenture Application and Allotment A/c Dr",
+     0.0
+    ],
+    [
+     "Discount on issue of Debentures A/c Dr",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:495c2dcbd7eb576f4dc7039f:22",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "67/1/2",
+   "qNo": 22,
+   "source": "XII_055_MS_67_1_2_unsigned.pdf",
+   "stem": "Sudhir, Deepak and Naveen were partners in a firm sharing profits and losses in the ratio of 2 : 2 : 1. On 31st March, 2022 their Balance Sheet was as under : Balance Sheet of Sudhir, Deepak and Naveen as at 31st March, 2022 Liabilities Amount < Assets Amount < Creditors 50,000 Land and Building 2,10,000 General Reserve 1,00,000 Machinery 1,90,000 Loan 1,20,000 Stock 30,000 Capitals : Investments 1,70,000 Sudhir 1,60,000 Advertisement Suspense A/c 1,20,000 Deepak 1,50,000 Naveen 1,40,000 4,50,000 7,20,000 7,20,000 Sudhir died on 30th June, 2022. The partnership deed provided for the following, on the death of a partner : 1 years purchase of average profits of the previous four years which were < 1,80,000. (ii) to be calculated on the basis of sales. Sales for the year ended 31st March, 2022 amounted to < 4,00,000 and that from 1st April, 2022 to 30th June, 2022 amounted < 1,50,000. The profit for the year ended 31st March, 2022 was < 1,00,000. (iii) Interest on capital was to be provided @ 7% p.a. executors. 4",
+   "answerText": "Kiran, Raveena and Hina were partners in… (i) Goodwill= Average profits x Number of years purchase Average Profits= Total profits/ Number of years = (₹4,75,000 + ₹4,05,000 + ₹3,20,000)/3",
+   "valuePoints": [
+    [
+     "Kiran, Raveena and Hina were partners in…",
+     0.0
+    ],
+    [
+     "(i) Goodwill= Average profits x Number of years purchase",
+     0.0
+    ],
+    [
+     "Average Profits= Total profits/ Number of years",
+     0.0
+    ],
+    [
+     "= (₹4,75,000 + ₹4,05,000 + ₹3,20,000)/3",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": "goodwill for Kiran, Raveena and Hina; the question's partners are Sudhir, Deepak and Naveen"
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:23",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "66/1/1",
+   "qNo": 23,
+   "source": "66_1_1..pdf",
+   "stem": "A renowned car company named ‘BB Motors’ was known for producing high performance cars. They were committed to ensure that its employees had the skills and knowledge to build these innovative high-performance cars. To achieve this, they implemented a unique approach for training. The company transformed a section of its factory into what they called the ‘Learning Floor’. Actual work environment was created by allotting a specialized space. The space was equipped with a range of car components, tools and sophisticated car equipment identical to those used on the factory floor, where the company’s employees would undergo their training. Identify and explain the method of training used by ‘BB Motors’ to ensure that its employees had the skills and knowledge to build innovative high-performance cars.",
+   "answerText": "It is a method of training in which employees learn their This is usually done when employees are required to",
+   "valuePoints": [
+    [
+     "It is a method of training in which employees learn their",
+     0.0
+    ],
+    [
+     "This is usually done when employees are required to",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "cannot-tell",
+   "note": "a truncated training-method definition that may be vestibule training"
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:29",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "67/1/1",
+   "qNo": 29,
+   "source": "67_1_1.pdf",
+   "stem": "(a) Analysis of Financial Statements is useful and significant to different users. Which of the following users is particularly short period of time ? 1 (A) Labour Unions (B) Trade Payables (C) Top Management (D) Finance Manager",
+   "answerText": "Q. (a) Analysis of Financial Statements is useful… (b)______________________ratios are calculated to determine…",
+   "valuePoints": [
+    [
+     "Q. (a) Analysis of Financial Statements is useful…",
+     0.0
+    ],
+    [
+     "(b)______________________ratios are calculated to determine…",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": "the answer only repeats the question"
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:31",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "66/1/1",
+   "qNo": 31,
+   "source": "66_1_1..pdf",
+   "stem": "(a) Explain the following techniques of Scientific Management : 6 (ii) Differential piece wage system (iii) Motion study",
+   "answerText": "It is a technique of scientific management which It is used to determine the number of workers to be Differential Piece Wage System is a technique which In this plan, there are two piece rates – one for those Motion study refers to the study of movements which are It seeks to eliminate unnecessary movements so that it The principles of management are guidelines to action It is so because real business situations are very complex",
+   "valuePoints": [
+    [
+     "It is a technique of scientific management which",
+     0.0
+    ],
+    [
+     "It is used to determine the number of workers to be",
+     0.0
+    ],
+    [
+     "Differential Piece Wage System is a technique which",
+     0.0
+    ],
+    [
+     "In this plan, there are two piece rates – one for those",
+     0.0
+    ],
+    [
+     "Motion study refers to the study of movements which are",
+     0.0
+    ],
+    [
+     "It seeks to eliminate unnecessary movements so that it",
+     0.0
+    ],
+    [
+     "The principles of management are guidelines to action",
+     0.0
+    ],
+    [
+     "It is so because real business situations are very complex",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "correct",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:91ad4685a6f0d67f7c1b0e8e:30",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 3,
+   "paperCode": "66/4/1",
+   "qNo": 30,
+   "source": "66_4_1.pdf",
+   "stem": "smart-watches for adults. The company now wants to manufacture smart-watches for children also. For this it gathered and analysed market information, did marketing planning, product designing and development, standardisation and also decided about the packaging, labelling, branding, pricing, warehousing, transportation and distribution of these smart-watches. Even after doing all the above stated activities the company is not picking up the sales. The Chief Executive Officer of the company asked the Marketing Manager to find out the reason. The Marketing Manager investigated the matter and found out that his marketing team had not performed the two important functions of marketing which may help the company not only in boosting the sales but also in getting repeat sales. Identify and explain the functions of marketing which were not performed by the marketing team.",
+   "answerText": "Kaysons Ltd. was a reputed company manufacturing automotive parts for electric vehicles. As the demand for the electric vehicles grew, Kaysons Ltd. needed more capital to keep up with the demand for automotive parts. Atul, the Finance Manager of",
+   "valuePoints": [
+    [
+     "Kaysons Ltd. was a reputed company manufacturing automotive",
+     0.0
+    ],
+    [
+     "parts for electric vehicles. As the demand for the electric vehicles",
+     0.0
+    ],
+    [
+     "grew, Kaysons Ltd. needed more capital to keep up with the",
+     0.0
+    ],
+    [
+     "demand for automotive parts. Atul, the Finance Manager of",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": ""
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:34",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 5,
+   "paperCode": "67/1/1",
+   "qNo": 34,
+   "source": "67_1_1.pdf",
+   "stem": "6 Particulars Amount (<) Surplus i.e. Balance in Statement of Profit and Loss 6,28,000 Provision for Tax 1,50,000 Proposed Dividend for the previous year 72,000 Depreciation 1,40,000 Loss on Sale of Machinery 30,000 Gain on Sale of Investments 20,000 Dividend Received on Investments 6,000 Increase in Current Liabilities 1,61,000 Increase in Current Assets (other than cash and cash equivalents) 6,00,000 Decrease in Current Liabilities 64,000 Income Tax Paid 1,18,000 PART B OPTION -II (Computerised Accounting)",
+   "answerText": "Q. From the following information… Cash Flows from Operating Activities Net Profit before Tax and Extraordinary items Adjustments for Non- Cash and Non- operating items",
+   "valuePoints": [
+    [
+     "Q. From the following information…",
+     0.0
+    ],
+    [
+     "Cash Flows from Operating Activities",
+     0.0
+    ],
+    [
+     "Net Profit before Tax and Extraordinary items",
+     0.0
+    ],
+    [
+     "Adjustments for Non- Cash and Non- operating items",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "cannot-tell",
+   "note": "a generic cash-flow heading; cannot tell which set"
+  },
+  {
+   "id": "cbse:q:src:b4ff230c53f866b38e302a75:22",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 2,
+   "paperCode": "66/3/1",
+   "qNo": 22,
+   "source": "XII_054_MS_66_3_1_unsigned.pdf",
+   "stem": "Human resources are the most important asset of an organisation. The ability of an organisation to achieve its goal depends upon the quality of its human resources. The General Manager of appointed an IIM graduate, Pawan Rai, specialised in finance as Marketing Manager. On monthly evaluation, it was found that Pawan the monthly targets of the organisation. The Chief Executive Officer (CEO) of the company asked for investigation into the matter. The CEO was told that Pawan Rai has a specialisation in finance but was appointed as a Marketing Manager. The CEO discussed this matter with the General Manager and explained to him the importance of putting the right person at the right job. He further explained that it would not only lead to higher performance but would also provide many other benefits. Besides the benefits of putting the right man at the right job, state the three other benefits which the CEO might have explained to the General Manager that are not given in the above para.",
+   "answerText": "Q. ‘KUL’, an eco-friendly stationery brand is expanding its business in three different markets. For this, it uses different promotional In the corporate gifting market, the company appoints salespersons to contact prospective corporate clients and create awareness about",
+   "valuePoints": [
+    [
+     "Q. ‘KUL’, an eco-friendly stationery brand is expanding its business",
+     0.0
+    ],
+    [
+     "in three different markets. For this, it uses different promotional",
+     0.0
+    ],
+    [
+     "In the corporate gifting market, the company appoints salespersons",
+     0.0
+    ],
+    [
+     "to contact prospective corporate clients and create awareness about",
+     0.0
+    ]
+   ],
+   "stratum": "shared>=3",
+   "judgement": "wrong",
+   "note": ""
+  }
+ ]
+}

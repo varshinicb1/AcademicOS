@@ -197,10 +197,10 @@ def test_index_keys_by_code_not_filename(tmp_path):
     assert idx.rows_total == 3
     assert idx.rows_keyed == 3
     assert idx.codes == {"31/1/1", "32/2/1"}
-    assert idx.lookup("31/1/1", 2).answer_text == "because"
-    assert idx.lookup("31-1-1", 1).correct_option == "D"      # any separator
-    assert idx.lookup("31/1/1", 99) is None                    # absent q_no
-    assert idx.lookup("99/9/9", 1) is None                     # absent code
+    assert idx.candidates("31/1/1", 2)[0].answer_text == "because"
+    assert idx.candidates("31-1-1", 1)[0].correct_option == "D"   # any separator
+    assert idx.candidates("31/1/1", 99) == []                      # absent q_no
+    assert idx.candidates("99/9/9", 1) == []                       # absent code
 
 
 def test_index_skips_filenames_with_no_code(tmp_path):
@@ -226,7 +226,7 @@ def test_index_survives_a_bad_question_number(tmp_path):
 def test_missing_db_is_not_an_error(tmp_path):
     idx = AnswerKeyIndex(tmp_path / "nope.db")
     assert idx.rows_total == 0
-    assert idx.lookup("31/1/1", 1) is None
+    assert idx.candidates("31/1/1", 1) == []
 
 
 @pytest.mark.parametrize("raw,expected", [
@@ -242,7 +242,7 @@ def test_value_point_parsing_is_defensive(tmp_path, raw, expected):
         ("Science", "X", None, 1, "D", "x", raw, 1.0, "X_086_31-1-1 MS.pdf"),
     ])
     idx = AnswerKeyIndex(db)
-    assert len(idx.lookup("31/1/1", 1).value_points) == expected
+    assert len(idx.candidates("31/1/1", 1)[0].value_points) == expected
 
 
 # --------------------------------------------------------------------------- #
@@ -311,11 +311,18 @@ def test_page_lookup_matches_across_line_breaks(tmp_path):
 # the relink
 # --------------------------------------------------------------------------- #
 
+# Q22's official answer must answer Q22: since Task 15 the relink attaches
+# only what `scheme_verify` accepts for the question.
+Q22_ANSWER = "Lead nitrate reacts with potassium iodide to give a yellow precipitate"
+Q22_POINTS = ('[["Lead iodide is formed as a yellow precipitate", 1.0], '
+              '["It is a double displacement reaction", 2.0]]')
+
+
 def _setup(tmp_path):
     db = make_answer_keys(tmp_path / "ak.db", [
         ("Science", "X", None, 1, "D", "opt d", '[["p1", 1.0]]', 1.0,
          "X_086_31-1-1 MS.pdf"),
-        ("Science", "X", None, 22, None, "long answer", '[["a", 0.0], ["b", 0.0]]', 3.0,
+        ("Science", "X", None, 22, None, Q22_ANSWER, Q22_POINTS, 3.0,
          "X_086_31-1-1 MS.pdf"),
     ])
     parse = tmp_path / "parse"
@@ -341,25 +348,27 @@ def test_relink_attaches_an_official_scheme(tmp_path):
     assert recs[0]["provenance"]["pageNumber"] == 2
 
 
-def test_relink_verifies_and_labels_an_existing_scheme(tmp_path):
-    """A scheme the corpus already carries is not trusted on sight: it is
-    resolved against the official index and labeled when it matches, so the
-    provenance field records the same guarantee a freshly attached scheme
-
-    gets. Before this change the `already_had_scheme` branch skipped the record
-    entirely, which left 1,093 board records with real scheme content and no
-    provenance field -- content that could not be told apart from a placeholder.
+def test_relink_replaces_an_existing_scheme_with_the_verified_official_one(tmp_path):
+    """A scheme the corpus already carries is not trusted on sight. It is
+    verified against the question, and the official candidate the verifier
+    accepts is what gets labelled -- so the provenance field records the same
+    guarantee a freshly attached scheme gets. Before Task 15 the existing
+    content was kept and labelled whenever ANY key existed for the question
+    number, which is how 30.5% of the labelled schemes came to be wrong.
     """
-    idx, parse, _ = _setup(tmp_path)
-    existing = {"totalMarks": 3, "markingPoints": [{"id": "k", "description": "kept", "marks": 3}]}
-    recs = [question("a" * 24, 22, scheme=existing)]
+    idx, parse, stem22 = _setup(tmp_path)
+    existing = {"totalMarks": 3, "markingPoints": [{
+        "id": "k", "description": "Lead nitrate and potassium iodide give yellow lead iodide",
+        "marks": 3}]}
+    recs = [question("a" * 24, 22, stem=stem22, scheme=existing)]
     rep = relink_answer_schemes(recs, idx, parse_dir=parse)
 
     assert rep.already_had_scheme == 1
     assert rep.verified_existing_scheme == 1
     assert rep.newly_attached == 0
+    assert rep.quarantined == {}
     sch = recs[0]["answerScheme"]
-    assert sch["markingPoints"][0]["description"] == "kept"
+    assert sch["modelAnswer"] == Q22_ANSWER
     assert sch["provenance"] == "cbse_marking_scheme"
     assert sch["sourcePaperCode"] == "31/1/1"
     assert sch["sourceDocumentId"] == "src:" + "a" * 24
@@ -369,18 +378,33 @@ def test_relink_keeps_an_unverifiable_scheme_but_never_labels_it(tmp_path):
     """Existing content that no official key can account for stays as-is and
     stays honest. Stamping cbse_marking_scheme onto it would be the fabrication
     the unverifiable count exists to make visible instead."""
-    idx, parse, _ = _setup(tmp_path)
+    idx, parse, stem22 = _setup(tmp_path)
     make_parse_tree(parse, "f" * 24, [(1, "Series 99/9/9 Science " + "body " * 40)])
-    existing = {"totalMarks": 3, "markingPoints": [{"id": "k", "description": "kept", "marks": 3}]}
-    recs = [question("f" * 24, 1, scheme=existing)]
+    kept = "Lead nitrate and potassium iodide give yellow lead iodide"
+    existing = {"totalMarks": 3, "markingPoints": [{"id": "k", "description": kept, "marks": 3}]}
+    recs = [question("f" * 24, 1, stem=stem22, scheme=existing)]
     rep = relink_answer_schemes(recs, idx, parse_dir=parse)
 
     assert rep.already_had_scheme == 1
     assert rep.existing_scheme_unverifiable == 1
     assert rep.verified_existing_scheme == 0
     sch = recs[0]["answerScheme"]
-    assert sch["markingPoints"][0]["description"] == "kept"
+    assert sch["markingPoints"][0]["description"] == kept
     assert sch.get("provenance") != "cbse_marking_scheme"
+
+
+def test_relink_removes_an_unlabelled_scheme_that_answers_another_question(tmp_path):
+    """Unlabelled is not harmless: the scorer and the teacher read it all the same."""
+    idx, parse, stem22 = _setup(tmp_path)
+    make_parse_tree(parse, "f" * 24, [(1, "Series 99/9/9 Science " + "body " * 40)])
+    existing = {"totalMarks": 3, "markingPoints": [
+        {"id": "k", "description": "Refraction of light through a glass slab", "marks": 3}]}
+    recs = [question("f" * 24, 1, stem=stem22, scheme=existing)]
+    rep = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert rep.quarantined == {"content-mismatch": 1}
+    assert rep.existing_scheme_unverifiable == 0
+    assert recs[0]["answerScheme"]["markingPoints"] == []
 
 
 def test_relink_reports_a_missing_answer_for_a_known_code(tmp_path):
@@ -458,10 +482,12 @@ def test_relink_attaches_an_objective_scheme_for_a_letter_only_answer(tmp_path):
     assert sch["hasPartialCredit"] is False
 
 
-def test_relink_keeps_the_letter_when_the_stem_carries_no_options(tmp_path):
-    """Most 31/2/1 stems carry no (A)-(D) option text (40 of 53 records). The
-    scheme still must name the option -- the letter alone is the scheme when
-    nothing richer exists."""
+def test_relink_refuses_a_letter_when_the_stem_carries_no_options(tmp_path):
+    """Most 31/2/1 stems carry no (A)-(D) option text (40 of 53 records).
+    Before Task 15 the letter alone became the scheme. A letter that no
+    option in the stem can be checked against ties nothing to this question
+    -- 2 of the 3 such served keys checked by hand keyed the wrong verdict of
+    an assertion-reason item -- so it is no longer labelled official."""
     db = make_answer_keys(tmp_path / "ak.db", [
         ("Science", "X", None, 14, "B", "", "[]", 1.0,
          "X_086_31-1-1 MS.pdf"),
@@ -474,12 +500,12 @@ def test_relink_keeps_the_letter_when_the_stem_carries_no_options(tmp_path):
     recs = [question("a" * 24, 14, marks=1, stem="An electricity line x " * 30)]
     rep = relink_answer_schemes(recs, idx, parse_dir=parse)
 
-    assert rep.newly_attached == 1
+    assert rep.newly_attached == 0
+    assert rep.rejected == {"unreadable-options": 1}
+    assert rep.all_candidates_rejected == 1
     sch = recs[0]["answerScheme"]
-    assert sch["markingPoints"][0]["description"] == "Correct option B"
-    assert sch["markingPoints"][0]["synonyms"] == ["B"]
-    assert sch["metadata"]["correctOption"] == "B"
-    assert sch["markingPoints"], "a letter key must never produce an empty scheme"
+    assert sch.get("provenance") != "cbse_marking_scheme"
+    assert sch["markingPoints"] == []
 
 
 def test_relink_is_blocked_by_a_question_id_it_cannot_read(tmp_path):

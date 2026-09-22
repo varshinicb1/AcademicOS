@@ -32,10 +32,18 @@ import json
 import logging
 import re
 import sqlite3
-from dataclasses import dataclass, field
+from collections import Counter
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any, Iterable, Iterator, Optional
 
+from ..corpus.scheme_verify import (
+    Verdict,
+    medium_of_text,
+    question_medium,
+    question_options,
+    verify,
+)
 from .answer_key import normalize_paper_code
 from .marking import parse_options
 from .schemas import (
@@ -171,20 +179,76 @@ class OfficialAnswer:
     answer_text: str
     value_points: list[tuple[str, float]] = field(default_factory=list)
     marks: float = 0.0
+    # The answer_keys.db row's source file, and the medium of the scheme it
+    # came from ("en", "hi", or "" when neither the filename nor the text
+    # says). One key often holds both media of the same paper.
+    source: str = ""
+    medium: str = ""
+
+    def text(self) -> str:
+        """The answer text and every value point it does not already contain.
+
+        answer_keys.db usually stores the points joined as the answer text as
+        well; judging "X X" instead of "X" would double every word count.
+        """
+        parts = [self.answer_text.strip()] if self.answer_text.strip() else []
+        for point, _ in self.value_points:
+            if point and not any(point in p for p in parts):
+                parts.append(point)
+        return " ".join(parts)
+
+
+# A scheme's medium, from its filename: "55-1-1,2,3 Hindi Version.pdf",
+# "XII_042_..._hindi_med.pdf", "32-1-1 H.pdf", "MS-087-32-3-1-E.pdf",
+# "XII_029_MS_64-1-1  ENG UNSIGNED.pdf".
+_HINDI_NAME = re.compile(r"(?i:hindi)|(?:^|[\s_\-])H(?=[\s_\-.]|$)|\d\s?H(?=\.pdf$)")
+_ENGLISH_NAME = re.compile(r"(?i:english|\beng\b|_eng)|(?:^|[\s_\-])E(?=[\s_\-.]|$)|\dE(?=\.pdf$)")
+
+
+def answer_medium(source: str, text: str) -> str:
+    """'hi' or 'en' from the filename, failing that from the script of the text."""
+    name = Path(source or "").name
+    if _HINDI_NAME.search(name):
+        return "hi"
+    if _ENGLISH_NAME.search(name):
+        return "en"
+    return medium_of_text(text)
+
+
+def verify_answer(record: dict[str, Any], answer: OfficialAnswer) -> Verdict:
+    """`scheme_verify.verify` for one index candidate."""
+    return verify(record, answer.text(), option=answer.correct_option)
+
+
+@dataclass
+class Choice:
+    """What the index made of one question's candidates."""
+
+    best: OfficialAnswer | None
+    rejected: list[tuple[OfficialAnswer, Verdict]] = field(default_factory=list)
+    verdict: Verdict | None = None      # the best candidate's
 
 
 class AnswerKeyIndex:
-    """`answer_keys.db` indexed by normalised paper code.
+    """`answer_keys.db` indexed by normalised paper code, keeping every candidate.
 
     Keyed by code rather than by filename because the code is the only
     identifier both a question paper and its marking scheme reliably carry.
     Filenames vary wildly -- "32-3-2 H.pdf", "MS Science (086) 31-8-1 to 3) in
     HINDI.pdf" -- and content hashes identify a file, not a paper.
+
+    A key holds a LIST. 3,117 of the 11,787 (code, q_no) keys carry answers
+    from more than one source file (measured 2026-09-22): "55-1-1,2,3 English
+    Version.pdf" and "55-1-1,2,3 Hindi Version.pdf" are the two media of one
+    Physics paper, "XII_042_Physics_MS_55_1_1,2,3.pdf" a second edition of the
+    English one whose question numbers do not line up with it. Keeping one
+    entry per key kept whichever row loaded last. `lookup` now chooses among
+    them, and only among those `scheme_verify` accepts for the question.
     """
 
     def __init__(self, db_path: Path | str):
         self.db_path = Path(db_path)
-        self._by_code: dict[str, dict[int, OfficialAnswer]] = {}
+        self._by_code: dict[str, dict[int, list[OfficialAnswer]]] = {}
         self.rows_total = 0
         self.rows_keyed = 0
         if self.db_path.exists():
@@ -235,43 +299,77 @@ class AnswerKeyIndex:
             except (TypeError, ValueError):
                 continue
             points = _parse_value_points(r["value_points"])
+            source = str(r["source"] or "")
+            text = str(r["answer_text"] or "")
             entry = OfficialAnswer(
                 q_no=q_no,
                 correct_option=(r["correct_option"] or None),
-                answer_text=str(r["answer_text"] or ""),
+                answer_text=text,
                 value_points=points,
                 marks=float(r["marks"] or 0.0),
+                source=source,
+                medium=answer_medium(source, text + " " + " ".join(p for p, _ in points)),
             )
-            self._by_code.setdefault(code, {})[q_no] = entry
+            self._by_code.setdefault(code, {}).setdefault(q_no, []).append(entry)
             self.rows_keyed += 1
 
     @property
     def codes(self) -> set[str]:
         return set(self._by_code)
 
-    # Subject code mapping: corpus paper code -> marking scheme paper code
-    _SUBJECT_CODE_MAP = {
-        # English: corpus uses 55, marking scheme uses 301
-        "55": "301",
-        # Physics: corpus uses 64, marking scheme uses 55
-        "64": "55",
-    }
+    # There is no subject-code map. The one that stood here sent 55/* to
+    # 301/* ("English: corpus uses 55") and 64/* to 55/* ("Physics: corpus
+    # uses 64"), and both premises were misreadings. 55/* IS Physics -- the
+    # rows the audit took for English XII come from "55-x-1,2,3 English
+    # Version.pdf", the English-medium Physics scheme, which the writer filed
+    # under subject "English". 64/* is Geography ("XII_029_MS_64-1-1 ENG
+    # UNSIGNED.pdf", 496 rows under its own code). The map's only effect was
+    # to give 7 served Geography questions Hindi-medium Physics answers.
+    # (The 301/* keys that do exist are English Core schemes mis-keyed from
+    # filenames like "XII_301_1_1_3_MS_unsigned (1).pdf", which is paper
+    # 1/1/3; no mapping onto 301 would have reached them correctly either.)
 
-    def lookup(self, code: str, q_no: int) -> OfficialAnswer | None:
+    def candidates(self, code: str, q_no: int) -> list[OfficialAnswer]:
+        """Every official answer filed under this code and question number."""
         if not code:
-            return None
+            return []
         norm = normalize_paper_code(code) or code
-        # Try direct lookup first
-        ans = self._by_code.get(norm, {}).get(q_no)
-        if ans is not None:
-            return ans
-        # Try subject code mapping
-        prefix = norm.split("/")[0] if "/" in norm else norm
-        mapped_prefix = self._SUBJECT_CODE_MAP.get(prefix)
-        if mapped_prefix and "/" in norm:
-            mapped_code = mapped_prefix + norm[len(prefix):]
-            return self._by_code.get(mapped_code, {}).get(q_no)
-        return None
+        return list(self._by_code.get(norm, {}).get(q_no, []))
+
+    def choose(self, code: str, q_no: int, record: dict[str, Any]) -> Choice:
+        """The best candidate `scheme_verify` accepts for `record`, and every
+        rejection with its reason.
+
+        Best means the question's medium first -- an English stem takes the
+        English-medium scheme over an equally acceptable Hindi-medium one --
+        then the verifier's score. Never load order.
+        """
+        medium = question_medium(record)
+        accepted: list[tuple[int, float, OfficialAnswer, Verdict]] = []
+        rejected: list[tuple[OfficialAnswer, Verdict]] = []
+        for cand in self.candidates(code, q_no):
+            verdict = verify_answer(record, cand)
+            if verdict.accepted:
+                # A letter-only key from "XII_042_Physics_MS_55_2_1,2,3.pdf"
+                # names no medium and carries no text to read one from; it
+                # still ranks above one that names the other medium.
+                rank = 2 if cand.medium == medium else (1 if not cand.medium else 0)
+                accepted.append((rank, verdict.score, cand, verdict))
+            else:
+                rejected.append((cand, verdict))
+        accepted.sort(key=lambda t: (t[0], t[1]), reverse=True)
+        if not accepted:
+            return Choice(best=None, rejected=rejected)
+        _, _, best, verdict = accepted[0]
+        if verdict.option and not best.correct_option:
+            # Keyed by the option's words: carry the letter they resolved to,
+            # so the scheme is objective and the scorer can read it.
+            best = replace(best, correct_option=verdict.option)
+        return Choice(best=best, rejected=rejected, verdict=verdict)
+
+    def lookup(self, code: str, q_no: int, record: dict[str, Any]) -> OfficialAnswer | None:
+        """The official answer to label for this question, or None."""
+        return self.choose(code, q_no, record).best
 
     def stats(self) -> dict[str, Any]:
         return {
@@ -314,6 +412,9 @@ class RelinkReport:
     already_had_scheme: int = 0
     verified_existing_scheme: int = 0
     existing_scheme_unverifiable: int = 0
+    # Of those, schemes that were labelled cbse_marking_scheme and lost the
+    # label: their content passed, but no official row backs it.
+    unlabelled: int = 0
     newly_attached: int = 0
     # CBE/SQP records: their ids are not cbse:q:src:<hash>:<n>, so they never
     # reach the answer-key index, but their builder already attached the
@@ -325,26 +426,57 @@ class RelinkReport:
     no_paper_code: int = 0
     code_not_in_answer_keys: int = 0
     answer_not_found_for_qno: int = 0
+    # Records with at least one candidate in the index, and those among them
+    # for which the verifier accepted none.
     found: int = 0
+    all_candidates_rejected: int = 0
+    # Scheme content REMOVED from a record because the verifier rejected it,
+    # by reason; `quarantine` holds one entry per removal for a person to
+    # review. `rejected` counts index candidates never attached, by reason.
+    quarantined: Counter = field(default_factory=Counter)
+    rejected: Counter = field(default_factory=Counter)
+    quarantine: list[dict[str, Any]] = field(default_factory=list)
+
+    @property
+    def verified(self) -> int:
+        """Records that end with an official scheme the verifier accepted --
+        the only ones labelled cbse_marking_scheme."""
+        return self.verified_existing_scheme + self.newly_attached + self.carried_official
 
     @property
     def with_scheme(self) -> int:
-        return self.already_had_scheme + self.newly_attached + self.carried_official
+        """Records carrying any scheme: verified official, plus accepted but
+        unlabelled content no official key accounts for."""
+        return self.verified + self.existing_scheme_unverifiable
 
     def coverage(self) -> float:
-        return (100.0 * self.with_scheme / self.total) if self.total else 0.0
+        """Share of records with a VERIFIED official scheme."""
+        return (100.0 * self.verified / self.total) if self.total else 0.0
 
     def lines(self) -> list[str]:
-        return [
+        out = [
             "questions                      : {:,}".format(self.total),
             "had a scheme before            : {:,}".format(self.already_had_scheme),
-            "  of which verified+labeled    : {:,}".format(self.verified_existing_scheme),
-            "  kept but unverifiable        : {:,}".format(self.existing_scheme_unverifiable),
-            "scheme attached by this pass   : {:,}".format(self.newly_attached),
-            "  carried an official scheme from its builder : {:,}".format(
+            "  ends with a verified official: {:,}".format(self.verified_existing_scheme),
+            "  kept unlabelled (verified content, no official key): {:,}".format(
+                self.existing_scheme_unverifiable),
+            "    of which lost a cbse_marking_scheme label        : {:,}".format(
+                self.unlabelled),
+            "verified official attached new : {:,}".format(self.newly_attached),
+            "  carried an official scheme from its builder, verified : {:,}".format(
                 self.carried_official),
-            "with a scheme after            : {:,}  ({:.1f}%)".format(
-                self.with_scheme, self.coverage()),
+            "with a VERIFIED official scheme: {:,}  ({:.1f}%)".format(
+                self.verified, self.coverage()),
+            "with any scheme                : {:,}".format(self.with_scheme),
+            "",
+            "quarantined (scheme removed from the record): {:,}".format(
+                sum(self.quarantined.values())),
+        ]
+        out += ["  {:<20}: {:,}".format(r, n) for r, n in sorted(self.quarantined.items())]
+        out += ["official candidates rejected (never attached): {:,}".format(
+            sum(self.rejected.values()))]
+        out += ["  {:<20}: {:,}".format(r, n) for r, n in sorted(self.rejected.items())]
+        out += [
             "",
             "did not reach an answer key:",
             "  id is not a cbse:q:src:<hash>:<n> : {:,}".format(self.no_source_hash),
@@ -353,7 +485,9 @@ class RelinkReport:
             "  code absent from answer_keys.db   : {:,}".format(self.code_not_in_answer_keys),
             "  code present, no answer for q_no  : {:,}".format(self.answer_not_found_for_qno),
             "  (an answer key found for)         : {:,}".format(self.found),
+            "  every candidate rejected          : {:,}".format(self.all_candidates_rejected),
         ]
+        return out
 
 
 def build_official_scheme(
@@ -376,6 +510,11 @@ def build_official_scheme(
     a number would be inventing one.
     """
     options = options or {}
+    # Which scheme file the answer came from, so a reviewer can open it: the
+    # question's own document id says nothing about which of a key's
+    # candidates was chosen.
+    source = ({"schemeSource": answer.source, "schemeMedium": answer.medium}
+              if answer.source else {})
     if answer.correct_option:
         key = str(answer.correct_option).strip().upper()
         option_text = options.get(key, "")
@@ -410,7 +549,7 @@ def build_official_scheme(
             alternative_answers=[],
             model_answer=option_text or answer.answer_text,
             has_partial_credit=False,
-            metadata={"objective": True, "options": options, "correctOption": key},
+            metadata={"objective": True, "options": options, "correctOption": key, **source},
             provenance="cbse_marking_scheme",
             source_paper_code=code,
             source_document_id=document_id,
@@ -429,10 +568,66 @@ def build_official_scheme(
         marking_points=points,
         model_answer=answer.answer_text,
         has_partial_credit=len(points) > 1,
+        metadata=dict(source),
         provenance="cbse_marking_scheme",
         source_paper_code=code,
         source_document_id=document_id,
     )
+
+
+def _scheme_content(scheme: dict[str, Any]) -> tuple[str, str | None]:
+    """A record's scheme as the verifier reads a candidate: its text, and
+    its option letter when it is an objective scheme."""
+    meta = scheme.get("metadata") or {}
+    letter = meta.get("correctOption") if meta.get("objective") else None
+    if letter:
+        # An objective scheme's one point is `build_official_scheme`'s own
+        # "Correct option C: harder" -- generated text, not the key's words.
+        # The key's words, if it had any, are the model answer.
+        return str(scheme.get("modelAnswer") or "").strip(), str(letter)
+    parts = [str(scheme.get("modelAnswer") or "").strip()]
+    for mp in scheme.get("markingPoints") or []:
+        desc = str((mp or {}).get("description") or "").strip()
+        if desc and not any(desc in p for p in parts):
+            parts.append(desc)
+    return " ".join(p for p in parts if p), None
+
+
+def _source_row(scheme: dict[str, Any],
+                rejected: list[tuple[OfficialAnswer, Verdict]]) -> Verdict | None:
+    """The rejection of the index row a record's scheme was built from, if
+    one of the rejected candidates is recognisably that row: the same option
+    letter, or the same answer text."""
+    letter = str((scheme.get("metadata") or {}).get("correctOption") or "").upper()
+    model = str(scheme.get("modelAnswer") or "").strip()
+    first = str(((scheme.get("markingPoints") or [{}])[0] or {}).get("description") or "").strip()
+    for cand, verdict in rejected:
+        if letter and str(cand.correct_option or "").upper() == letter:
+            return verdict
+        text = cand.answer_text.strip()
+        points = [p for p, _ in cand.value_points]
+        if (text and text in (model, first)) or (first and first in points):
+            return verdict
+    return None
+
+
+def _has_content(scheme: dict[str, Any]) -> bool:
+    return bool(scheme.get("markingPoints") or str(scheme.get("modelAnswer") or "").strip())
+
+
+def _quarantine(rec: dict[str, Any], report: RelinkReport, reason: str, text: str,
+                code: str, q_no: int | None) -> None:
+    """Remove a rejected scheme from the record and log it for review.
+
+    Removed, not merely unlabelled: another question's answer in the record
+    is harmful whatever its label, because the scorer and the teacher both
+    read it. The record keeps an empty scheme of its own mark value.
+    """
+    report.quarantined[reason] += 1
+    report.quarantine.append({"id": rec.get("id"), "code": code, "q_no": q_no,
+                              "reason": reason, "text": text[:200]})
+    rec["answerScheme"] = AnswerSchemeSchema(
+        total_marks=int(rec.get("marks") or 0)).model_dump(mode="json", by_alias=True)
 
 
 def relink_answer_schemes(
@@ -448,30 +643,67 @@ def relink_answer_schemes(
     is what `questions.json` is made of and rewriting the pipeline's shape here
     would put a second schema in the path. Fields written: `answerScheme`,
     and when `attach_provenance`, `provenance`.
+
+    Every record's scheme is verified first, including one already labelled
+    cbse_marking_scheme: the old shortcut counted a labelled scheme verified
+    and skipped it, and the audit found 30.5% of those detectably wrong. A
+    rejected scheme is removed and quarantined. Then the index is asked for
+    the best candidate the verifier accepts; only that is labelled official.
     """
     report = RelinkReport(total=len(records))
     sources: dict[str, ParsedSource | None] = {}
 
     for rec in records:
         parsed_id = parse_question_id(rec.get("id") or "")
-        if not parsed_id:
-            # Not a board-paper id, so there is no parse tree to relink from.
-            # A record whose builder attached the official scheme is covered
-            # as it stands and is left untouched.
-            own = rec.get("answerScheme") or {}
-            if own.get("provenance") == "cbse_marking_scheme" and (
-                    own.get("markingPoints") or own.get("modelAnswer")):
+        doc_hash, q_no = parsed_id if parsed_id else (None, None)
+        source = None
+        if doc_hash is not None:
+            if doc_hash not in sources:
+                sources[doc_hash] = load_parsed_source(Path(parse_dir), doc_hash)
+            source = sources[doc_hash]
+        code = source.paper_code if source else ""
+
+        scheme = rec.get("answerScheme") or {}
+        had_scheme = _has_content(scheme)
+        kept = had_scheme
+        if had_scheme:
+            text, letter = _scheme_content(scheme)
+            # A CBE/SQP scheme came from its own item, so there is no key to
+            # misalign; the content rule is for board rows (see `verify`).
+            verdict = verify(rec, text, option=letter, judge_content=parsed_id is not None)
+            if not verdict.accepted:
+                _quarantine(rec, report, verdict.reason, text, code, q_no)
+                kept = False
+        labelled = kept and scheme.get("provenance") == "cbse_marking_scheme"
+
+        if parsed_id is None:
+            # Not a board-paper id, so there is no parse tree to relink from:
+            # a CBE/SQP record keeps its builder's scheme if it passed.
+            if labelled:
                 report.carried_official += 1
             else:
                 report.no_source_hash += 1
             continue
-        doc_hash, q_no = parsed_id
+        if had_scheme:
+            report.already_had_scheme += 1
 
-        if doc_hash not in sources:
-            sources[doc_hash] = load_parsed_source(Path(parse_dir), doc_hash)
-        source = sources[doc_hash]
+        def settle_without_candidate() -> None:
+            if not kept:
+                return
+            report.existing_scheme_unverifiable += 1
+            if labelled:
+                # Content the verifier accepts but no official row backs: it
+                # keeps its content and loses the label, which only an
+                # accepted index candidate earns. A labelled MCQ scheme
+                # "verifies" on its own trivially -- `build_official_scheme`
+                # wrote the option's text as its model answer -- and in a
+                # hand check of 21 such served keys 13 were wrong.
+                rec["answerScheme"]["provenance"] = "none"
+                report.unlabelled += 1
+
         if source is None:
             report.no_parse_tree += 1
+            settle_without_candidate()
             continue
 
         if attach_provenance:
@@ -484,52 +716,48 @@ def relink_answer_schemes(
                     confidence=round(1.0 if page else 0.6, 2),
                 ).model_dump(mode="json", by_alias=True)
 
-        scheme = rec.get("answerScheme") or {}
-        if scheme.get("markingPoints"):
-            # The record carries a scheme already. Those may predate the
-            # provenance field, so "already had it" is checked AFTER the
-            # official index resolves it -- content is verified, then labeled,
-            # rather than trusted on sight. An unverifiable scheme keeps its
-            # content but stays unlabeled: claiming cbse_marking_scheme for
-            # something the official key cannot account for would be the same
-            # fabrication `already_had_scheme` was once used to sweep under
-            # the rug.
-            report.already_had_scheme += 1
-            if scheme.get("provenance") == "cbse_marking_scheme":
-                report.verified_existing_scheme += 1
-                continue
-            answer = index.lookup(source.paper_code, q_no) if source.paper_code else None
-            if answer is not None:
-                scheme["provenance"] = "cbse_marking_scheme"
-                scheme["sourcePaperCode"] = source.paper_code
-                scheme["sourceDocumentId"] = source.document_id
-                report.verified_existing_scheme += 1
-            else:
-                report.existing_scheme_unverifiable += 1
-            continue
-
-        if not source.paper_code:
+        if not code:
             report.no_paper_code += 1
+            settle_without_candidate()
             continue
 
-        answer = index.lookup(source.paper_code, q_no)
-        if answer is None:
-            if source.paper_code in index.codes:
+        choice = index.choose(code, q_no, rec)
+        for _, verdict in choice.rejected:
+            report.rejected[verdict.reason] += 1
+        if choice.best is None:
+            if choice.rejected:
+                report.found += 1
+                report.all_candidates_rejected += 1
+                source_row = _source_row(scheme, choice.rejected) if labelled else None
+                if source_row is not None:
+                    # The labelled scheme was built from a row the verifier
+                    # has just rejected. Standing alone it can look right --
+                    # `build_official_scheme` wrote the option's own text as
+                    # its model answer -- but it is only as good as that row.
+                    _quarantine(rec, report, source_row.reason, _scheme_content(scheme)[0],
+                                code, q_no)
+                    kept = labelled = False
+            elif code in index.codes:
                 report.answer_not_found_for_qno += 1
             else:
                 report.code_not_in_answer_keys += 1
+            settle_without_candidate()
             continue
 
         report.found += 1
+        stem = str(rec.get("stem") or "")
         rec["answerScheme"] = build_official_scheme(
-            answer,
+            choice.best,
             marks=int(rec.get("marks") or 0),
             question_id=str(rec.get("id")),
-            code=source.paper_code,
+            code=code,
             document_id=source.document_id,
-            options=parse_options(str(rec.get("stem") or "")),
+            options=question_options(rec) or parse_options(stem),
         ).model_dump(mode="json", by_alias=True)
-        report.newly_attached += 1
+        if had_scheme:
+            report.verified_existing_scheme += 1
+        else:
+            report.newly_attached += 1
 
     return report
 

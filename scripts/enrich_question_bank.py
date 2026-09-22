@@ -36,6 +36,29 @@ TARGETS = [
     REPO / "academicos-data" / "syllabus" / "questions.json",
     REPO / "frontend" / "assets" / "corpus" / "questions.json",
 ]
+# Next to the served bank: every scheme the relink removed, and why.
+QUARANTINE = REPO / "academicos-data" / "syllabus" / "scheme_quarantine.json"
+
+
+def print_subject_grade_table(records: list[dict], report, had_official: set) -> None:
+    """Per subject and grade: records, official before, verified after, quarantined."""
+    quarantined = {e["id"] for e in report.quarantine}
+    rows: dict[tuple[str, str], list[int]] = {}
+    for r in records:
+        key = (str(r.get("subject") or "?"), str(r.get("grade") or "?"))
+        row = rows.setdefault(key, [0, 0, 0, 0])
+        row[0] += 1
+        row[1] += r.get("id") in had_official
+        row[2] += (r.get("answerScheme") or {}).get("provenance") == "cbse_marking_scheme"
+        row[3] += r.get("id") in quarantined
+    print("{:<26} {:>5} {:>8} {:>9} {:>9} {:>12}".format(
+        "subject", "grade", "records", "labelled", "verified", "quarantined"))
+    print("  (labelled = cbse_marking_scheme before the relink; verified = after)")
+    for (subject, grade), (n, before, after, quar) in sorted(rows.items()):
+        print("{:<26} {:>5} {:>8,} {:>9,} {:>9,} {:>12,}".format(
+            subject[:26], grade, n, before, after, quar))
+    tot = [sum(v[i] for v in rows.values()) for i in range(4)]
+    print("{:<26} {:>5} {:>8,} {:>9,} {:>9,} {:>12,}".format("total", "", *tot))
 
 
 def main() -> int:
@@ -60,10 +83,14 @@ def main() -> int:
           "across {distinct_codes:,} paper codes".format(**stats))
     print()
 
+    had_official = {r.get("id") for r in records
+                    if (r.get("answerScheme") or {}).get("provenance") == "cbse_marking_scheme"}
     report = relink_answer_schemes(records, index, parse_dir=data_root / "parse")
     print("relink")
     for line in report.lines():
         print("  " + line)
+    print()
+    print_subject_grade_table(records, report, had_official)
     print()
 
     census = enrich_all(records)
@@ -75,13 +102,25 @@ def main() -> int:
     payload["questions"] = records
     payload["exportedCount"] = len(records)
     # Surfaced in the payload so a consumer can see the bank's own honesty
-    # about how much of it carries an official scheme.
+    # about how much of it carries an official scheme. Since Task 15 the relink
+    # labels cbse_marking_scheme only on schemes `scheme_verify` accepted, so
+    # this counts VERIFIED official schemes, not links to an answer key.
     payload["schemeCoverage"] = round(
         census["with_official_scheme"] / len(records), 4) if records else 0.0
 
     if args.check:
-        print("--check: nothing written")
+        print(f"--check: nothing written (would quarantine "
+              f"{len(report.quarantine):,} schemes to {QUARANTINE.relative_to(REPO)})")
         return 0
+
+    QUARANTINE.write_text(json.dumps({
+        "about": ("Schemes removed from served records because scheme_verify rejected "
+                  "them for their question. For a person to review; see "
+                  "src/academicos/corpus/scheme_verify.py for each reason."),
+        "counts": dict(sorted(report.quarantined.items())),
+        "entries": report.quarantine,
+    }, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"wrote {QUARANTINE.relative_to(REPO)}  ({len(report.quarantine):,} entries)")
 
     text = json.dumps(payload, ensure_ascii=False)
     for target in TARGETS:
