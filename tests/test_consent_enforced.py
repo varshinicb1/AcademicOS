@@ -257,3 +257,85 @@ def test_a_school_can_list_who_is_missing_consent(world):
                          headers=world.headers)
     assert r.status_code == 200, r.text
     assert r.json() == {"checked": 3, "missing": ["s_10", "s_11"]}
+
+
+def test_practice_submit_needs_consent_and_writes_no_mastery_without_it(world):
+    """/practice/submit scores a student's answers and folds them into the
+    knowledge model -- processing, so it is gated like grading. The set is
+    saved the way /practice/generate saves one (as test_role_gates does):
+    generating it through the route would need graded evidence of a weak
+    concept first, and the submit gate reads only the stored set's student.
+
+    Each refusal is checked against the knowledge model, not just the status
+    code: a 409 that still recorded the answers would be the exact DPDP gap
+    this gate closes, and nothing else in the response would show it."""
+    from academicos.assessment import pillar_routes
+    from academicos.assessment.remediation import PracticeItem, PracticeSet
+    from academicos.assessment.schemas import QuestionSchema
+
+    student = register_invited(world.client, "school_1", "consent-ps@example.com",
+                               name="Ravi", role="student")
+    sid = student["user"]["id"]
+    s_auth = {"Authorization": f"Bearer {student['token']}"}
+    question = QuestionSchema.model_validate(question_body())
+    pset = PracticeSet(id="pset_consent", student_id=sid, concept_ids=["linear_eq"],
+                       items=[PracticeItem(question=question, concept_id="linear_eq")])
+    pillar_routes._require_practice().save(pset, school_id="school_1")
+    _, knowledge, _ = pillar_routes._require()
+    body = {"setId": pset.id, "answers": {"q_1": GOOD_ANSWER}}
+
+    def mastery():
+        return [(v.concept_id, v.mastery) for v in knowledge.mastery(sid)]
+
+    _assert_consent_refusal(
+        world.client.post("/api/v1/practice/submit", json=body, headers=s_auth), sid)
+    assert mastery() == [], "a refused submit must not touch the knowledge model"
+
+    world.grant(sid)
+    accepted = world.client.post("/api/v1/practice/submit", json=body, headers=s_auth)
+    assert accepted.status_code == 200, accepted.text
+    after_grant = mastery()
+    assert after_grant, "with consent the submit is recorded in the knowledge model"
+
+    world.withdraw(sid)
+    _assert_consent_refusal(
+        world.client.post("/api/v1/practice/submit", json=body, headers=s_auth), sid)
+    assert mastery() == after_grant, "a submit after withdrawal must change nothing"
+
+
+# --------------------------------------------------------------------------- #
+# an unreadable consent status is no consent
+# --------------------------------------------------------------------------- #
+
+def test_a_consent_row_with_an_empty_status_refuses_grading(tmp_path, monkeypatch):
+    """authz.students_without_consent turns the ValueError consent.from_row
+    raises for a blank status into "missing". Without that branch the error
+    would escape as a 500 from every grading route; with a reader that
+    defaulted instead, it would be a silent 200 -- the pre-2026-09 bug where
+    `status or "granted"` read a truncated row as consent. Neither is the
+    right answer to "I cannot tell"; a 409 naming the student is.
+
+    The column is NOT NULL, so the reachable bad state is an empty string
+    (a partial remote payload or a hand-edited row), written here straight
+    through sqlite because the store's own API can never produce it."""
+    from fastapi import HTTPException
+
+    from academicos.assessment import authz
+    from academicos.assessment.consent import ConsentStore
+
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    store = ConsentStore(tmp_path / "assessment" / "consents.db")
+    store.conn.execute(
+        "INSERT INTO parental_consents (id, school_id, student_id, guardian_name, "
+        "guardian_relationship, method, status, recorded_by, recorded_at) "
+        "VALUES ('c_blank', 'school_1', 's_blank', 'Parent', 'parent', "
+        "'Signed admission form', '', 'u_1', '2026-09-22T00:00:00+00:00')")
+    store.conn.commit()
+
+    with pytest.raises(ValueError):
+        store.has_consent("school_1", "s_blank")  # the store itself fails closed
+    assert authz.students_without_consent(store, "school_1", ["s_blank"]) == ["s_blank"]
+    with pytest.raises(HTTPException) as refused:
+        authz.require_consent(store, "school_1", "s_blank")
+    assert refused.value.status_code == 409
+    assert "no recorded parental consent for student s_blank" in refused.value.detail
