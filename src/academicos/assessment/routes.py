@@ -248,19 +248,32 @@ def optimize_questions(request: QuestionOptimizationRequest,
 
 # ---- Papers ----
 
-def _report_competency(paper: GeneratedPaper, questions: list[QuestionSchema],
-                       target: float | None) -> None:
+def _report_competency(paper: GeneratedPaper, target: float | None) -> list[str]:
     """The CBQ share of the printed questions and whether it meets `target`
     (CBSE: at least 50%). Missed in 17/25 subject/grade pairs at the
-    2026-09-21 audit, with nothing on the paper to say so."""
+    2026-09-21 audit, with nothing on the paper to say so.
+
+    Set B/C print other questions than set A, so each set gets its own share:
+    reporting set A's for all three said 0.45 where B and C held 0.25 and 0.15.
+    Returns a warning per set that misses the target.
+    """
     target = 0.50 if target is None else target
-    paper.competency_share = selection.competency_share(questions)
-    paper.competency_target_met = paper.competency_share >= target
+    warnings: list[str] = []
+    for p in [paper, *paper.sets]:
+        flags = [q.is_competency for s in p.sections for q in s.questions]
+        p.competency_share = round(sum(flags) / len(flags), 3) if flags else 0.0
+        p.competency_target_met = p.competency_share >= target
+        if p is not paper and not p.competency_target_met:
+            warnings.append(
+                f"Set {p.set_label} has {round(p.competency_share * 100, 1)}% "
+                f"competency-based questions (CBSE target: {int(target * 100)}%).")
+    return warnings
 
 
 def _overlap_warnings(paper: GeneratedPaper) -> list[str]:
     return [f"Set {label} repeats {n} question(s) from an earlier set: the question bank "
-            f"has no unused question of the same marks and type left."
+            f"has no unused question of the same marks and type left in the chapters "
+            f"this paper draws from."
             for label, n in paper.set_overlap.items() if n]
 
 
@@ -297,9 +310,14 @@ def generate_paper_endpoint(
     alternatives = None
     if set_count > 1:
         # Sets B, C... draw other questions of the same marks and type.
+        # Limited to the assessment's chapters: a unit test on chapters 1-3
+        # must not print, in set C, a chapter nobody has taught. Running out
+        # there shows up as setOverlap instead.
         grade_roman = _int_grade_to_roman(grade)
+        chapters = assessment.chapter_ids if assessment else []
         alternatives = [to_question_schema(c) for c in
-                        get_pool(cfg, subject=subject, grade=grade_roman).questions]
+                        get_pool(cfg, subject=subject, grade=grade_roman).filter(
+                            chapter_ids=chapters or None)]
     paper = generate_paper_sets(
         paper_id=f"paper_{uuid.uuid4().hex[:12]}",
         assessment_id=request.assessment_id,
@@ -312,8 +330,7 @@ def generate_paper_endpoint(
         alternatives_pool=alternatives,
     )
     paper.warnings = _overlap_warnings(paper)
-    _report_competency(paper, request.selected_questions,
-                       request.blueprint.competency_percentage)
+    paper.warnings += _report_competency(paper, request.blueprint.competency_percentage)
     _require_papers().save(paper, request.template, school_id=current.school_id)
     if paper.sets:
         for s in paper.sets:
@@ -397,13 +414,16 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(get
         blueprint=bp,
         selected_questions=opt_result.selected_questions,
         set_count=max(1, request.set_count),
-        # The whole pool: alternative_sets prefers the replaced question's
-        # chapter, so a set stays in the chosen chapters while they have one.
-        alternatives_pool=all_pool_questions,
+        # The chosen chapters only. Given the whole subject, preferring the
+        # replaced question's chapter was not enough: on Science 10, 40 marks,
+        # three chapters, set B printed 4 and set C 10 questions from other
+        # chapters with setOverlap 0. Running out now repeats a set A question
+        # and setOverlap counts it.
+        alternatives_pool=chapter_candidates or all_pool_questions,
     )
     # The optimizer's warnings (the CBQ one, "tiers unavailable") were dropped here.
-    paper.warnings = [*opt_result.warnings, *_overlap_warnings(paper)]
-    _report_competency(paper, opt_result.selected_questions, bp.competency_percentage)
+    paper.warnings = [*opt_result.warnings, *_overlap_warnings(paper),
+                      *_report_competency(paper, bp.competency_percentage)]
     paper.tiers_available = opt_result.optimization_metrics["tierSignals"]["available"]
     if paper.tiers_available and not selection.tier_changed_selection(
             candidates, bp, fallback, opt_result.selected_questions):
@@ -523,7 +543,7 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(g
         blueprint=bp,
         selected_questions=found_questions,
     )
-    _report_competency(paper, found_questions, bp.competency_percentage)
+    _report_competency(paper, bp.competency_percentage)
 
     template = None
     if request.template_id:

@@ -282,3 +282,71 @@ def test_the_served_bank_paper_reports_its_cbq_share(served, tmp_path, monkeypat
     flags = [q["isCompetency"] for s in data["sections"] for q in s["questions"]]
     assert data["competencyShare"] == round(sum(flags) / len(flags), 3)
     assert data["competencyTargetMet"] is (data["competencyShare"] >= 0.5)
+
+
+# ---- review fixes: sets stay in the chosen chapters; each set's CBQ share ----
+
+def _largest_chapters(pool: QuestionPool, n: int) -> list[str]:
+    from collections import Counter
+    counts = Counter(q.chapter_id for q in pool.questions if q.chapter_id)
+    return [c for c, _ in counts.most_common(n)]
+
+
+def test_sets_b_and_c_stay_in_the_chosen_chapters(served, tmp_path, monkeypatch):
+    """A unit test on chapters 1-3 must not print, in set B or C, a question
+    from a chapter students have not been taught. Where a set cannot stay in
+    them it repeats a set A question, and setOverlap says so."""
+    pool = served["Science"]
+    chosen = _largest_chapters(pool, 3)
+    chapter_of = {q.id: set(q.chapter_ids) for q in map(to_question_schema, pool.questions)}
+    with _client_for(tmp_path, monkeypatch, pool) as client:
+        resp = client.post("/api/v1/papers/quick-generate", headers=_auth(client), json={
+            "subject": "Science", "grade": 10, "totalMarks": 40, "setCount": 3,
+            "chapterIds": chosen})
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    sets = {s["setLabel"]: _printed_ids(s) for s in data["sets"]}
+    outside = {label: [i for i in ids if not chapter_of[i] & set(chosen)]
+               for label, ids in sets.items()}
+    if outside["A"]:
+        # Set A may only borrow with the optimizer saying so.
+        assert any("shortfall" in w for w in data["warnings"]), outside["A"]
+    for label in ("B", "C"):
+        # Anything outside the chapters is a set A repeat, counted as overlap.
+        assert set(outside[label]) <= set(sets["A"]), (label, outside[label])
+        assert data["setOverlap"][label] >= len(outside[label]), label
+
+
+def test_each_set_reports_its_own_cbq_share(served, tmp_path, monkeypatch):
+    with _client_for(tmp_path, monkeypatch, served["Science"]) as client:
+        resp = client.post("/api/v1/papers/quick-generate", headers=_auth(client), json={
+            "subject": "Science", "grade": 10, "totalMarks": 40, "setCount": 3,
+            "chapterIds": _largest_chapters(served["Science"], 3)})
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    for s in data["sets"]:
+        flags = [q["isCompetency"] for sec in s["sections"] for q in sec["questions"]]
+        assert s["competencyShare"] == round(sum(flags) / len(flags), 3), s["setLabel"]
+        assert s["competencyTargetMet"] is (s["competencyShare"] >= 0.5), s["setLabel"]
+        if not s["competencyTargetMet"]:
+            assert any(f"Set {s['setLabel']}" in w and "competency-based" in w
+                       for w in data["warnings"]), s["setLabel"]
+    assert data["competencyShare"] == data["sets"][0]["competencyShare"]
+
+
+def test_a_set_under_the_cbq_target_is_warned_on_the_custom_path(tmp_path, monkeypatch):
+    """/papers/generate: sets B/C are other questions, so their share is their own."""
+    pool = _plain_pool()
+    primary = [to_question_schema(q) for q in pool.questions[:2]]
+    sec = [_section("A", 1, 2)]
+    with _client_for(tmp_path, monkeypatch, pool) as client:
+        resp = client.post("/api/v1/papers/generate", headers=_auth(client), json={
+            "assessmentId": "none", "selectedQuestions": [q.model_dump(mode="json", by_alias=True) for q in primary],
+            "blueprint": _bp(sec, "standard").model_dump(mode="json", by_alias=True),
+            "template": {"id": "tpl_1", "schoolId": "school_1", "name": "Default"},
+            "setCount": 3})
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    assert [s["competencyShare"] for s in data["sets"]] == [0.0, 0.0, 0.0]
+    for label in ("A", "B", "C"):
+        assert any(f"Set {label}" in w and "competency-based" in w for w in data["warnings"])
