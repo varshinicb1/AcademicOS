@@ -6,15 +6,29 @@ not how likely the best is right. This turns them into a probability per level
 was a runner-up, and for the chapter how well the whole Exemplar chapter --
 or the pooled existing chapterIds -- matched it, and which of the two the
 prior came from), and picks for each level the lowest confidence whose
-accepted tags are still at least 90% right -- the rule is that a tag below
-it goes to the review queue, not onto the question.
+accepted tags are at least SELECT_AT (93%) right -- a tag below it goes to
+the review queue, not onto the question.
 
-Measured honestly. The thresholds are chosen on OUT-OF-FOLD confidences
-(5 folds, seed 703): each gold item's confidence comes from a model that never
-saw it. Those out-of-fold numbers are the estimate to quote. The model that is
-written is then refitted on every item, and its in-sample numbers are written
-alongside -- they are what `tests/test_topic_tagger.py` re-measures, and they
-flatter the tagger, which is why they are not the headline.
+Why 93% and not the 90% bar. The thresholds are chosen on OUT-OF-FOLD
+confidences (5 folds, seed 703): each gold item's confidence comes from a model
+that never saw it. That makes the confidences honest, not the choice of cut:
+scanning every cut and keeping the one that accepts the most tags while still
+at 90% lands on the boundary by construction, and measured on the same numbers
+it reads 90% whatever the truth is. Nested cross-validation showed it: with
+each fold's cuts chosen on the other four folds alone, the 90% rule scored
+138/154 = 0.896 on chapters. Choosing at 93% leaves the margin that selection
+eats. The heuristic constants in the tagger were tuned on this gold set too,
+which no refolding undoes; ``_tag_audit.json`` (subtopic) and
+``_tag_audit_chapter_topic.json`` are held-out checks of the written tags.
+
+What to quote. The NESTED estimate (``gold.nested``): each fold's cuts chosen
+on the other folds (their own out-of-fold confidences, 4 inner folds), then
+scored on the fold with a model that never saw it -- it measures the whole
+procedure, choice of cut included -- with its Wilson 95% lower bound. The
+out-of-fold numbers at the chosen cuts are >= 93% by construction and say
+little. The model that is written is refitted on every item, and its in-sample
+numbers are written alongside -- they are what `tests/test_topic_tagger.py`
+re-measures, and they flatter the tagger most.
 
 Gold: ``academicos-data/syllabus/taxonomy/_tag_gold.json`` (labelled by an AI
 reviewer, not a teacher): 328 questions drawn at random, counted at every
@@ -31,6 +45,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import random
 import sys
 from datetime import datetime, timezone
@@ -51,7 +66,8 @@ BANKS = {
     "cbe": REPO / "academicos-data" / "corpus" / "cbse-cbe" / "questions.json",
     "board": REPO / "academicos-data" / "syllabus" / "questions.json",
 }
-TARGET = 0.90
+TARGET = 0.90          # the bar an accepted tag must clear
+SELECT_AT = 0.93       # the precision a threshold is chosen at: TARGET plus a margin
 # A threshold must be shown on at least this many accepted gold tags. Without
 # it the subtopic level "passed" on 1 or 2 out-of-fold tags -- a 100% that
 # says nothing -- and would have accepted subtopics across the bank on that.
@@ -142,15 +158,37 @@ def confidences(tag: tg.TagResult, coef: dict) -> dict:
     return conf
 
 
-def pick_thresholds(rows: list[dict], conf: list[dict]) -> tuple[dict, dict]:
-    """Lowest threshold per level whose accepted tags are >= TARGET right on at
-    least MIN_SUPPORT tags, level by level (a topic can only be accepted under
+def wilson_lower(right: int, n: int, z: float = 1.96) -> float:
+    """Wilson score lower bound (95% by default) of a precision right/n."""
+    if n == 0:
+        return 0.0
+    p = right / n
+    centre = p + z * z / (2 * n)
+    spread = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n))
+    return (centre - spread) / (1 + z * z / n)
+
+
+def _counted(rows: list[dict], i: int, lv: str) -> tuple[int, int]:
+    """(right, tags) that gold row i adds at level lv when accepted there."""
+    if lv not in tg.gold_levels(rows[i]["item"]):
+        return 0, 0
+    j = rows[i]["judged"]
+    if lv == "subtopic":
+        return sum(j["subtopics"]), len(j["subtopics"])
+    return int(j[lv]), 1
+
+
+def pick_thresholds(rows: list[dict], conf: list[dict], idx=None,
+                    select_at: float = SELECT_AT) -> tuple[dict, dict]:
+    """Lowest threshold per level whose accepted tags are >= ``select_at``
+    (SELECT_AT, not the TARGET bar: see the module docstring) right on at
+    least MIN_SUPPORT tags of the rows ``idx`` (default all), level by level (a topic can only be accepted under
     an accepted chapter). A gold item counts only at its `tg.gold_levels`; a
     subtopic-only audit item still has to clear the chapter and topic
     thresholds to be counted at the subtopic. A level where no threshold does gets 1.01: nothing
     at that level is accepted, everything goes to review."""
     thresholds, measured = {}, {}
-    alive = set(range(len(rows)))
+    alive = set(range(len(rows)) if idx is None else idx)
     for lv in tg.LEVELS:
         cands = sorted({conf[i][lv] for i in alive if conf[i][lv] is not None}, reverse=True)
         best = (1.01, 0, 0)
@@ -158,22 +196,59 @@ def pick_thresholds(rows: list[dict], conf: list[dict]) -> tuple[dict, dict]:
             right = tags = 0
             for i in alive:
                 c = conf[i][lv]
-                if c is None or c < t or lv not in tg.gold_levels(rows[i]["item"]):
+                if c is None or c < t:
                     continue
-                j = rows[i]["judged"]
-                if lv == "subtopic":
-                    right += sum(j["subtopics"])
-                    tags += len(j["subtopics"])
-                else:
-                    right += j[lv]
-                    tags += 1
-            if tags >= MIN_SUPPORT and right / tags >= TARGET and tags >= best[2]:
+                r, n = _counted(rows, i, lv)
+                right += r
+                tags += n
+            if tags >= MIN_SUPPORT and right / tags >= select_at and tags >= best[2]:
                 best = (t, right, tags)
         thresholds[lv] = round(best[0] - 1e-9, 6) if best[2] else 1.01
         measured[lv] = {"right": best[1], "tags": best[2],
                         "precision": round(best[1] / best[2], 4) if best[2] else None}
         alive = {i for i in alive if conf[i][lv] is not None and conf[i][lv] >= thresholds[lv]}
     return thresholds, measured
+
+
+def score_thresholds(rows: list[dict], conf: list[dict], idx, thresholds: dict) -> dict:
+    """[right, tags] per level of the rows ``idx`` accepted under ``thresholds``,
+    level by level as `pick_thresholds` counts them."""
+    out = {lv: [0, 0] for lv in tg.LEVELS}
+    alive = set(idx)
+    for lv in tg.LEVELS:
+        alive = {i for i in alive if conf[i][lv] is not None and conf[i][lv] >= thresholds[lv]}
+        for i in alive:
+            r, n = _counted(rows, i, lv)
+            out[lv][0] += r
+            out[lv][1] += n
+    return out
+
+
+def nested_estimate(rows: list[dict], sets: dict, folds: list[set], oof: list[dict]) -> dict:
+    """Precision of the whole procedure -- the choice of cut included -- per level.
+
+    For each outer fold: the other folds get confidences from models fitted
+    without each of them in turn (the 4 other folds are the inner folds), the
+    cuts are chosen on those alone, and they are applied to the outer fold's
+    out-of-fold confidences. The outer folds' counts are pooled."""
+    everything = set(range(len(rows)))
+    total = {lv: [0, 0] for lv in tg.LEVELS}
+    for k, held in enumerate(folds):
+        train = everything - held
+        inner: list[dict] = [None] * len(rows)
+        for j, fold in enumerate(folds):
+            if j == k:
+                continue
+            coef = fit_all(sets, keep=train - fold)
+            for i in fold:
+                inner[i] = confidences(rows[i]["tag"], coef)
+        cuts, _ = pick_thresholds(rows, inner, idx=train)
+        for lv, (r, n) in score_thresholds(rows, oof, held, cuts).items():
+            total[lv][0] += r
+            total[lv][1] += n
+    return {lv: {"right": r, "tags": n, "precision": round(r / n, 4) if n else None,
+                 "wilsonLower95": round(wilson_lower(r, n), 4)}
+            for lv, (r, n) in total.items()}
 
 
 def make_folds(rows: list[dict]) -> list[set]:
@@ -218,9 +293,12 @@ def main(argv=None) -> int:
         for i in held:
             oof[i] = confidences(rows[i]["tag"], coef)
     thresholds, oof_measured = pick_thresholds(rows, oof)
+    nested = nested_estimate(rows, sets, folds, oof)
 
     final = fit_all(sets)
-    model = {"coefficients": final, "thresholds": thresholds}
+    model = {"method": tg.TAG_METHOD,
+             "features": {lv: list(f) for lv, f in FEATURES.items()},
+             "coefficients": final, "thresholds": thresholds}
     tagger = tg.TopicTagger(model=model)
     in_sample = tg.score_against_gold(tagger, items, banks)
 
@@ -235,29 +313,36 @@ def main(argv=None) -> int:
         r = in_sample["raw"][lv]
         print(f"raw {lv:9s} end-to-end {r['right']:3d}/{r['of']:3d}  "
               f"given the level above right {cond[lv]['right']:3d}/{cond[lv]['of']:3d}")
+    print(f"thresholds chosen at {SELECT_AT} out-of-fold; the bar is {TARGET}")
     for lv in tg.LEVELS:
-        o, s = oof_measured[lv], in_sample["accepted"][lv]
-        print(f"accepted {lv:9s} threshold {thresholds[lv]:.4f}  out-of-fold "
-              f"{o['right']}/{o['tags']} = {o['precision']}   in-sample "
-              f"{s['right']}/{s['tags']} = {s['precision']}")
+        n, o, s = nested[lv], oof_measured[lv], in_sample["accepted"][lv]
+        print(f"accepted {lv:9s} threshold {thresholds[lv]:.4f}  nested "
+              f"{n['right']}/{n['tags']} = {n['precision']} (Wilson 95% lower "
+              f"{n['wilsonLower95']})  out-of-fold {o['right']}/{o['tags']} = "
+              f"{o['precision']}  in-sample {s['right']}/{s['tags']} = {s['precision']}")
     bad = [lv for lv in tg.LEVELS
-           if in_sample["accepted"][lv]["tags"] and in_sample["accepted"][lv]["precision"] < TARGET]
+           if (in_sample["accepted"][lv]["tags"] and in_sample["accepted"][lv]["precision"] < TARGET)
+           or (nested[lv]["tags"] and nested[lv]["precision"] < TARGET)]
     for lv in tg.LEVELS:
         if thresholds[lv] > 1:
-            print(f"{lv}: no threshold reaches {TARGET} on {MIN_SUPPORT}+ gold tags -- "
+            print(f"{lv}: no threshold reaches {SELECT_AT} on {MIN_SUPPORT}+ gold tags -- "
                   f"nothing is accepted at this level")
     if bad:
-        print(f"in-sample precision below {TARGET} at {bad}: refusing to write", file=sys.stderr)
+        print(f"in-sample or nested precision below {TARGET} at {bad}: refusing to write",
+              file=sys.stderr)
         return 3
     if args.check:
         return 0
     OUT.write_text(json.dumps({
         "notice": ("Confidence model and thresholds of academicos.syllabus.tagger, fitted by "
                    "scripts/calibrate_topic_tagger.py on _tag_gold.json (AI-reviewer labels, "
-                   "not a teacher's). Quote the outOfFold numbers; inSample flatters."),
+                   "not a teacher's). Thresholds are chosen at selectAt out-of-fold, a "
+                   "margin over the target bar. Quote the nested numbers (the choice of cut "
+                   "included); outOfFold is >= selectAt by construction; inSample flatters."),
         "method": tg.TAG_METHOD,
         "builtAt": datetime.now(timezone.utc).isoformat(),
         "target": TARGET,
+        "selectAt": SELECT_AT,
         "minSupport": MIN_SUPPORT,
         "features": {lv: list(f) for lv, f in FEATURES.items()},
         "coefficients": final,
@@ -265,6 +350,7 @@ def main(argv=None) -> int:
         "trainedOn": {lv: {"items": len(sets[lv]), "right": cond[lv]["right"]}
                       for lv in tg.LEVELS},
         "gold": {"items": len(items), "folds": FOLDS, "seed": SEED,
+                 "nested": {"accepted": nested},
                  "outOfFold": {"accepted": oof_measured},
                  "inSample": in_sample},
     }, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")

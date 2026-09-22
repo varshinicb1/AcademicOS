@@ -1,8 +1,9 @@
 {
- "notice": "Confidence model and thresholds of academicos.syllabus.tagger, fitted by scripts/calibrate_topic_tagger.py on _tag_gold.json (AI-reviewer labels, not a teacher's). Quote the outOfFold numbers; inSample flatters.",
+ "notice": "Confidence model and thresholds of academicos.syllabus.tagger, fitted by scripts/calibrate_topic_tagger.py on _tag_gold.json (AI-reviewer labels, not a teacher's). Thresholds are chosen at selectAt out-of-fold, a margin over the target bar. Quote the nested numbers (the choice of cut included); outOfFold is >= selectAt by construction; inSample flatters.",
  "method": "tfidf_textbook_v2",
- "builtAt": "2026-09-22T16:14:45.732565+00:00",
+ "builtAt": "2026-09-22T16:29:49.891439+00:00",
  "target": 0.9,
+ "selectAt": 0.93,
  "minSupport": 10,
  "features": {
   "chapter": [
@@ -50,9 +51,9 @@
   }
  },
  "thresholds": {
-  "chapter": 0.702774,
-  "topic": 0.739901,
-  "subtopic": 0.656357
+  "chapter": 0.734173,
+  "topic": 0.763954,
+  "subtopic": 0.685029
  },
  "trainedOn": {
   "chapter": {
@@ -72,22 +73,44 @@
   "items": 389,
   "folds": 5,
   "seed": 703,
+  "nested": {
+   "accepted": {
+    "chapter": {
+     "right": 120,
+     "tags": 129,
+     "precision": 0.9302,
+     "wilsonLower95": 0.8727
+    },
+    "topic": {
+     "right": 51,
+     "tags": 55,
+     "precision": 0.9273,
+     "wilsonLower95": 0.8274
+    },
+    "subtopic": {
+     "right": 40,
+     "tags": 43,
+     "precision": 0.9302,
+     "wilsonLower95": 0.8139
+    }
+   }
+  },
   "outOfFold": {
    "accepted": {
     "chapter": {
-     "right": 142,
-     "tags": 157,
-     "precision": 0.9045
+     "right": 135,
+     "tags": 145,
+     "precision": 0.931
     },
     "topic": {
-     "right": 60,
-     "tags": 66,
-     "precision": 0.9091
+     "right": 50,
+     "tags": 53,
+     "precision": 0.9434
     },
     "subtopic": {
-     "right": 52,
-     "tags": 57,
-     "precision": 0.9123
+     "right": 47,
+     "tags": 50,
+     "precision": 0.94
     }
    }
   },
@@ -112,19 +135,19 @@
    },
    "accepted": {
     "chapter": {
-     "right": 141,
-     "tags": 154,
-     "precision": 0.9156
+     "right": 131,
+     "tags": 141,
+     "precision": 0.9291
     },
     "topic": {
-     "right": 62,
-     "tags": 66,
-     "precision": 0.9394
+     "right": 53,
+     "tags": 56,
+     "precision": 0.9464
     },
     "subtopic": {
-     "right": 55,
-     "tags": 59,
-     "precision": 0.9322
+     "right": 47,
+     "tags": 49,
+     "precision": 0.9592
     }
    }
   }

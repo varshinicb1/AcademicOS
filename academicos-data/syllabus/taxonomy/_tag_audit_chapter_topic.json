@@ -1,0 +1,1845 @@
+{
+ "notice": "Held-out audit of the chapter and topic tags written onto the Exemplar and CBE banks by the committed tagger model. Labelled by an AI reviewer (Claude), NOT by a teacher. Not used to fit, threshold or tune anything: _tag_gold.json is; this checks the result.",
+ "sample": "Drawn after the thresholds were re-chosen at 0.93 out-of-fold (Task 703 review), over the records then carrying the tags, excluding every _tag_gold.json and _tag_audit.json item, each sorted by id. Chapter: random.Random(7036).sample of 30 over the 1,796 records with a taxonomyChapterId. Topic: random.Random(7037).sample of 30 over the 830 with topicIds, less the chapter sample (batch 1); then random.Random(7038).sample of 30 more over the same pool less batch 1 (batch 2), drawn because batch 1 read 25/30 and 30 items could not tell that from 90%.",
+ "semantics": "levels: the level the item was drawn for and is counted at. chapters: the tree chapters of the question's own class that teach it (empty = none does). topics: every topic a reviewer would accept as the question's home, including one whose text never uses the question's exact term; empty = none fits. right: the tag written at that level (and, for a topic, its chapter) is among them.",
+ "measured": {
+  "chapter": {
+   "right": 30,
+   "tags": 30
+  },
+  "topic": {
+   "right": 53,
+   "tags": 60
+  }
+ },
+ "items": [
+  {
+   "id": "cbe:q:Science10MS3",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/heredity",
+    "topic": "science-10/heredity/heredity"
+   },
+   "chapters": [
+    "science-10/heredity"
+   ],
+   "right": true
+  },
+  {
+   "id": "cbe:q:Science6SPA41c",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 6,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-6/materials-around-us",
+    "topic": null
+   },
+   "chapters": [
+    "science-6/materials-around-us"
+   ],
+   "note": "solubility in water is taught under properties of materials",
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:mathematics:13:13.1:23",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/probability",
+    "topic": null
+   },
+   "chapters": [
+    "mathematics-10/probability"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:mathematics:1:1.2:2",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/real-numbers",
+    "topic": null
+   },
+   "chapters": [
+    "mathematics-10/real-numbers"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:20",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/our-environment",
+    "topic": "science-10/our-environment/eco-system-what-are-its-components"
+   },
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:1:-:16",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/chemical-reactions-and-equations",
+    "topic": "science-10/chemical-reactions-and-equations/types-of-chemical-reactions"
+   },
+   "chapters": [
+    "science-10/chemical-reactions-and-equations"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:4:-:38",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/carbon-and-its-compounds",
+    "topic": "science-10/carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid"
+   },
+   "chapters": [
+    "science-10/carbon-and-its-compounds"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:33",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/life-processes",
+    "topic": "science-10/life-processes/respiration"
+   },
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:66",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/life-processes",
+    "topic": "science-10/life-processes/nutrition"
+   },
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:43",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/control-and-coordination",
+    "topic": "science-10/control-and-coordination/hormones-in-animals"
+   },
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:mathematics:1:-:140",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-6/prime-time",
+    "topic": null
+   },
+   "chapters": [
+    "mathematics-6/prime-time"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:26",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-6/the-other-side-of-zero",
+    "topic": null
+   },
+   "chapters": [
+    "mathematics-6/the-other-side-of-zero"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:mathematics:6:-:18",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-6/perimeter-and-area",
+    "topic": null
+   },
+   "chapters": [
+    "mathematics-6/perimeter-and-area"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:mathematics:6:-:33",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-6/perimeter-and-area",
+    "topic": "mathematics-6/perimeter-and-area/perimeter"
+   },
+   "chapters": [
+    "mathematics-6/perimeter-and-area"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:13",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-6/symmetry",
+    "topic": null
+   },
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:32",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-6/symmetry",
+    "topic": null
+   },
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:55",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-6/symmetry",
+    "topic": null
+   },
+   "chapters": [
+    "mathematics-6/symmetry"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:science:13:-:17",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-6/exploring-magnets",
+    "topic": null
+   },
+   "chapters": [
+    "science-6/exploring-magnets"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:7:mathematics:1:-:116",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-7/operations-with-integers",
+    "topic": null
+   },
+   "chapters": [
+    "mathematics-7/operations-with-integers"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:7:mathematics:1:-:80",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-7/operations-with-integers",
+    "topic": null
+   },
+   "chapters": [
+    "mathematics-7/operations-with-integers"
+   ],
+   "note": "order of subtraction of integers",
+   "right": true
+  },
+  {
+   "id": "exemplar:q:7:science:1:-:11",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-7/life-processes-in-plants",
+    "topic": null
+   },
+   "chapters": [
+    "science-7/life-processes-in-plants"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:7:science:5:-:17",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-7/exploring-substances-acidic-basic-and-neutral",
+    "topic": "science-7/exploring-substances-acidic-basic-and-neutral/neutralisation-in-daily-life"
+   },
+   "chapters": [
+    "science-7/exploring-substances-acidic-basic-and-neutral"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:15",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/a-square-and-a-cube",
+    "topic": null
+   },
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:21",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/quadrilaterals",
+    "topic": null
+   },
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:9:mathematics:9:9.1:9",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 9,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-9/measuring-space-perimeter-and-area",
+    "topic": "mathematics-9/measuring-space-perimeter-and-area/area-of-a-parallelogram"
+   },
+   "chapters": [
+    "mathematics-9/measuring-space-perimeter-and-area"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:9:science:2:-:16",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-9/exploring-mixtures-and-their-separation",
+    "topic": null
+   },
+   "chapters": [
+    "science-9/exploring-mixtures-and-their-separation"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:9:science:4:-:38",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-9/journey-inside-the-atom",
+    "topic": null
+   },
+   "chapters": [
+    "science-9/journey-inside-the-atom"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:9:science:5:-:32",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-9/cell-the-building-block-of-life",
+    "topic": null
+   },
+   "chapters": [
+    "science-9/cell-the-building-block-of-life"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:9:science:5:-:33",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-9/cell-the-building-block-of-life",
+    "topic": null
+   },
+   "chapters": [
+    "science-9/cell-the-building-block-of-life"
+   ],
+   "note": "the book never says 'endocytosis'; the answer rests on animal cells having no cell wall, which this chapter teaches",
+   "right": true
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:18",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "chapter"
+   ],
+   "taggedAs": {
+    "chapter": "science-9/tissues-in-action",
+    "topic": null
+   },
+   "chapters": [
+    "science-9/tissues-in-action"
+   ],
+   "right": true
+  },
+  {
+   "id": "cbe:q:Math10MM8",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/circles",
+    "topic": "mathematics-10/circles/number-of-tangents-from-a-point-on-a-circle"
+   },
+   "chapters": [
+    "mathematics-10/circles"
+   ],
+   "topics": [
+    "mathematics-10/circles/tangent-to-a-circle",
+    "mathematics-10/circles/number-of-tangents-from-a-point-on-a-circle"
+   ],
+   "right": true
+  },
+  {
+   "id": "cbe:q:Maths10AR1",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/polynomials",
+    "topic": "mathematics-10/polynomials/relationship-between-zeroes-and-coefficients-of-a-polynomial"
+   },
+   "chapters": [
+    "mathematics-10/polynomials"
+   ],
+   "topics": [
+    "mathematics-10/polynomials/relationship-between-zeroes-and-coefficients-of-a-polynomial"
+   ],
+   "right": true
+  },
+  {
+   "id": "cbe:q:Maths10RK3",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/quadratic-equations",
+    "topic": "mathematics-10/quadratic-equations/solution-of-a-quadratic-equation-by-factorisation"
+   },
+   "chapters": [
+    "mathematics-10/quadratic-equations"
+   ],
+   "topics": [
+    "mathematics-10/quadratic-equations/quadratic-equations",
+    "mathematics-10/quadratic-equations/solution-of-a-quadratic-equation-by-factorisation"
+   ],
+   "note": "a root is defined in the factorisation section",
+   "right": true
+  },
+  {
+   "id": "cbe:q:Science9PS3",
+   "batch": 1,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-9/exploring-mixtures-and-their-separation",
+    "topic": "science-9/exploring-mixtures-and-their-separation/solutions"
+   },
+   "chapters": [
+    "science-9/exploring-mixtures-and-their-separation"
+   ],
+   "topics": [
+    "science-9/exploring-mixtures-and-their-separation/solutions",
+    "science-9/exploring-mixtures-and-their-separation/how-can-we-separate-the-components-of-heterogeneous-mixtures"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:mathematics:12:12.4:20",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/surface-areas-and-volumes",
+    "topic": "mathematics-10/surface-areas-and-volumes/volume-of-a-combination-of-solids"
+   },
+   "chapters": [
+    "mathematics-10/surface-areas-and-volumes"
+   ],
+   "topics": [
+    "mathematics-10/surface-areas-and-volumes/volume-of-a-combination-of-solids"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:mathematics:3:3.1:3",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/pair-of-linear-equations-in-two-variables",
+    "topic": "mathematics-10/pair-of-linear-equations-in-two-variables/graphical-method-of-solution-of-a-pair-of-linear-equations"
+   },
+   "chapters": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables"
+   ],
+   "topics": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables/graphical-method-of-solution-of-a-pair-of-linear-equations"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:mathematics:3:3.4:9",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/pair-of-linear-equations-in-two-variables",
+    "topic": "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations"
+   },
+   "chapters": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables"
+   ],
+   "topics": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:mathematics:4:4.4:4",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/quadratic-equations",
+    "topic": "mathematics-10/quadratic-equations/quadratic-equations"
+   },
+   "chapters": [
+    "mathematics-10/quadratic-equations"
+   ],
+   "topics": [
+    "mathematics-10/quadratic-equations/quadratic-equations",
+    "mathematics-10/quadratic-equations/solution-of-a-quadratic-equation-by-factorisation"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:mathematics:5:5.1:13",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/arithmetic-progressions",
+    "topic": "mathematics-10/arithmetic-progressions/nth-term-of-an-ap"
+   },
+   "chapters": [
+    "mathematics-10/arithmetic-progressions"
+   ],
+   "topics": [
+    "mathematics-10/arithmetic-progressions/nth-term-of-an-ap"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:16",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/our-environment",
+    "topic": "science-10/our-environment/eco-system-what-are-its-components"
+   },
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/eco-system-what-are-its-components"
+   ],
+   "note": "the 1% of sunlight captured is in Food Chains and Webs",
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:32",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/our-environment",
+    "topic": "science-10/our-environment/eco-system-what-are-its-components"
+   },
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/eco-system-what-are-its-components"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:1:-:31",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/chemical-reactions-and-equations",
+    "topic": "science-10/chemical-reactions-and-equations/types-of-chemical-reactions"
+   },
+   "chapters": [
+    "science-10/chemical-reactions-and-equations",
+    "science-10/metals-and-non-metals"
+   ],
+   "topics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions",
+    "science-10/metals-and-non-metals/chemical-properties-of-metals"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:1:-:41",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/chemical-reactions-and-equations",
+    "topic": "science-10/chemical-reactions-and-equations/types-of-chemical-reactions"
+   },
+   "chapters": [
+    "science-10/chemical-reactions-and-equations",
+    "science-10/metals-and-non-metals"
+   ],
+   "topics": [
+    "science-10/chemical-reactions-and-equations/types-of-chemical-reactions",
+    "science-10/metals-and-non-metals/chemical-properties-of-metals"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:67",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/life-processes",
+    "topic": "science-10/life-processes/transportation"
+   },
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/transportation"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:24",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-6/the-other-side-of-zero",
+    "topic": "mathematics-6/the-other-side-of-zero/explorations-with-integers"
+   },
+   "chapters": [
+    "mathematics-6/the-other-side-of-zero"
+   ],
+   "topics": [
+    "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun",
+    "mathematics-6/the-other-side-of-zero/the-token-model",
+    "mathematics-6/the-other-side-of-zero/a-pinch-of-history"
+   ],
+   "note": "adding negatives is taught with the building and the tokens, and stated as Brahmagupta's rule in A Pinch of History; Explorations with Integers is grid puzzles",
+   "right": false
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:38",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-6/the-other-side-of-zero",
+    "topic": "mathematics-6/the-other-side-of-zero/explorations-with-integers"
+   },
+   "chapters": [
+    "mathematics-6/the-other-side-of-zero"
+   ],
+   "topics": [
+    "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun",
+    "mathematics-6/the-other-side-of-zero/the-token-model",
+    "mathematics-6/the-other-side-of-zero/a-pinch-of-history"
+   ],
+   "note": "as exemplar:q:6:mathematics:3:-:24",
+   "right": false
+  },
+  {
+   "id": "exemplar:q:6:science:2:-:4",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-6/mindful-eating-a-path-to-a-healthy-body",
+    "topic": "science-6/mindful-eating-a-path-to-a-healthy-body/what-are-the-components-of-food"
+   },
+   "chapters": [
+    "science-6/mindful-eating-a-path-to-a-healthy-body"
+   ],
+   "topics": [
+    "science-6/mindful-eating-a-path-to-a-healthy-body/what-are-the-components-of-food"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:science:4:-:14",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-6/materials-around-us",
+    "topic": "science-6/materials-around-us/what-are-the-different-properties-of-materials"
+   },
+   "chapters": [
+    "science-6/materials-around-us"
+   ],
+   "topics": [
+    "science-6/materials-around-us/what-are-the-different-properties-of-materials"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:7:mathematics:1:-:42",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-7/operations-with-integers",
+    "topic": "mathematics-7/operations-with-integers/multiplication-of-integers"
+   },
+   "chapters": [
+    "mathematics-7/operations-with-integers"
+   ],
+   "topics": [
+    "mathematics-7/operations-with-integers/multiplication-of-integers"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:7:science:15:-:23",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-7/light-shadows-and-reflections",
+    "topic": "science-7/light-shadows-and-reflections/images-formed-in-a-plane-mirror"
+   },
+   "chapters": [],
+   "topics": [],
+   "note": "a convex lens: the class 7 book's light chapter has no lenses (they are in class 8, Light: Mirrors and Lenses)",
+   "right": false
+  },
+  {
+   "id": "exemplar:q:7:science:2:-:4",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-7/life-processes-in-animals",
+    "topic": "science-7/life-processes-in-animals/nutrition-in-animals"
+   },
+   "chapters": [
+    "science-7/life-processes-in-animals"
+   ],
+   "topics": [
+    "science-7/life-processes-in-animals/nutrition-in-animals"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:10:-:28",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/proportional-reasoning-2",
+    "topic": "mathematics-8/proportional-reasoning-2/inverse-proportions"
+   },
+   "chapters": [
+    "mathematics-8/proportional-reasoning-1",
+    "mathematics-8/proportional-reasoning-2"
+   ],
+   "topics": [
+    "mathematics-8/proportional-reasoning-2/proportionality-a-quick-recap",
+    "mathematics-8/proportional-reasoning-1/problem-solving-with-proportional-reasoning"
+   ],
+   "note": "direct proportion; the tag Inverse Proportions is the opposite relation",
+   "right": false
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:47",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/quadrilaterals",
+    "topic": "mathematics-8/quadrilaterals/kite-and-trapezium"
+   },
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [
+    "mathematics-8/quadrilaterals/angles-in-a-quadrilateral",
+    "mathematics-8/quadrilaterals/kite-and-trapezium"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:76",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/quadrilaterals",
+    "topic": "mathematics-8/quadrilaterals/angles-in-a-quadrilateral"
+   },
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [],
+   "note": "when a quadrilateral is fixed by its measurements (construction) is not taught; Angles in a Quadrilateral is the angle sum",
+   "right": false
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:78",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/quadrilaterals",
+    "topic": "mathematics-8/quadrilaterals/angles-in-a-quadrilateral"
+   },
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [
+    "mathematics-8/quadrilaterals/angles-in-a-quadrilateral"
+   ],
+   "note": "the book never says 'concave'; the angle topic is the question's home",
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:6:-:57",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/exploring-some-geometric-themes",
+    "topic": "mathematics-8/exploring-some-geometric-themes/visualising-solids"
+   },
+   "chapters": [
+    "mathematics-8/exploring-some-geometric-themes"
+   ],
+   "topics": [
+    "mathematics-8/exploring-some-geometric-themes/visualising-solids"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:24",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/fractions-in-disguise",
+    "topic": "mathematics-8/fractions-in-disguise/using-percentages"
+   },
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:68",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/fractions-in-disguise",
+    "topic": "mathematics-8/fractions-in-disguise/using-percentages"
+   },
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:98",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/fractions-in-disguise",
+    "topic": "mathematics-8/fractions-in-disguise/using-percentages"
+   },
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:1",
+   "batch": 1,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-9/tissues-in-action",
+    "topic": "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   },
+   "chapters": [
+    "science-9/tissues-in-action"
+   ],
+   "topics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   ],
+   "right": true
+  },
+  {
+   "id": "cbe:q:Maths10AKP10",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/polynomials",
+    "topic": "mathematics-10/polynomials/relationship-between-zeroes-and-coefficients-of-a-polynomial"
+   },
+   "chapters": [
+    "mathematics-10/polynomials"
+   ],
+   "topics": [
+    "mathematics-10/polynomials/relationship-between-zeroes-and-coefficients-of-a-polynomial"
+   ],
+   "right": true
+  },
+  {
+   "id": "cbe:q:Maths10RK7",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/some-applications-of-trigonometry",
+    "topic": "mathematics-10/some-applications-of-trigonometry/heights-and-distances"
+   },
+   "chapters": [
+    "mathematics-10/some-applications-of-trigonometry"
+   ],
+   "topics": [
+    "mathematics-10/some-applications-of-trigonometry/heights-and-distances"
+   ],
+   "right": true
+  },
+  {
+   "id": "cbe:q:Maths7PK7",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 7,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-7/geometric-twins",
+    "topic": "mathematics-7/geometric-twins/angles-of-isosceles-and-equilateral-triangles"
+   },
+   "chapters": [
+    "mathematics-7/geometric-twins"
+   ],
+   "topics": [
+    "mathematics-7/geometric-twins/congruence-of-triangles",
+    "mathematics-7/geometric-twins/angles-of-isosceles-and-equilateral-triangles"
+   ],
+   "note": "part (c), the side opposite 30 degrees as half the hypotenuse, is in the equilateral-triangle section",
+   "right": true
+  },
+  {
+   "id": "cbe:q:Maths9JJ7",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 9,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-9/introduction-to-linear-polynomials",
+    "topic": "mathematics-9/introduction-to-linear-polynomials/visualising-linear-relationships"
+   },
+   "chapters": [
+    "mathematics-9/introduction-to-linear-polynomials"
+   ],
+   "topics": [
+    "mathematics-9/introduction-to-linear-polynomials/linear-relationships",
+    "mathematics-9/introduction-to-linear-polynomials/visualising-linear-relationships"
+   ],
+   "right": true
+  },
+  {
+   "id": "cbe:q:Maths9SM8",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Mathematics",
+   "grade": 9,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-9/orienting-yourself-the-use-of-coordinates",
+    "topic": "mathematics-9/orienting-yourself-the-use-of-coordinates/distance-between-two-points-in-the-2-d-plane"
+   },
+   "chapters": [
+    "mathematics-9/orienting-yourself-the-use-of-coordinates"
+   ],
+   "topics": [
+    "mathematics-9/orienting-yourself-the-use-of-coordinates/the-2-d-cartesian-coordinate-system"
+   ],
+   "note": "plotting points and reading coordinates; the tag is the distance section",
+   "right": false
+  },
+  {
+   "id": "cbe:q:Science10TM4",
+   "batch": 2,
+   "bank": "cbe",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/light-reflection-and-refraction",
+    "topic": "science-10/light-reflection-and-refraction/refraction-of-light"
+   },
+   "chapters": [
+    "science-10/light-reflection-and-refraction",
+    "science-10/the-human-eye-and-the-colourful-world"
+   ],
+   "topics": [
+    "science-10/light-reflection-and-refraction/refraction-of-light"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:mathematics:13:13.1:22",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/probability",
+    "topic": "mathematics-10/probability/probability-a-theoretical-approach"
+   },
+   "chapters": [
+    "mathematics-10/probability"
+   ],
+   "topics": [
+    "mathematics-10/probability/probability-a-theoretical-approach"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:mathematics:3:3.1:2",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-10/pair-of-linear-equations-in-two-variables",
+    "topic": "mathematics-10/pair-of-linear-equations-in-two-variables/graphical-method-of-solution-of-a-pair-of-linear-equations"
+   },
+   "chapters": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables"
+   ],
+   "topics": [
+    "mathematics-10/pair-of-linear-equations-in-two-variables/graphical-method-of-solution-of-a-pair-of-linear-equations",
+    "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:25",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/our-environment",
+    "topic": "science-10/our-environment/eco-system-what-are-its-components"
+   },
+   "chapters": [
+    "science-10/our-environment"
+   ],
+   "topics": [
+    "science-10/our-environment/eco-system-what-are-its-components"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:2:-:13",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/acids-bases-and-salts",
+    "topic": "science-10/acids-bases-and-salts/how-strong-are-acid-or-base-solutions"
+   },
+   "chapters": [
+    "science-10/acids-bases-and-salts"
+   ],
+   "topics": [
+    "science-10/acids-bases-and-salts/how-strong-are-acid-or-base-solutions"
+   ],
+   "note": "tooth decay is under Importance of pH in Everyday Life",
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:2:-:14",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/acids-bases-and-salts",
+    "topic": "science-10/acids-bases-and-salts/how-strong-are-acid-or-base-solutions"
+   },
+   "chapters": [
+    "science-10/acids-bases-and-salts"
+   ],
+   "topics": [
+    "science-10/acids-bases-and-salts/how-strong-are-acid-or-base-solutions"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:3:-:22",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/metals-and-non-metals",
+    "topic": "science-10/metals-and-non-metals/corrosion"
+   },
+   "chapters": [
+    "science-10/metals-and-non-metals"
+   ],
+   "topics": [
+    "science-10/metals-and-non-metals/corrosion"
+   ],
+   "note": "alloys are introduced under Prevention of Corrosion",
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:5",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/life-processes",
+    "topic": "science-10/life-processes/nutrition"
+   },
+   "chapters": [
+    "science-10/life-processes"
+   ],
+   "topics": [
+    "science-10/life-processes/nutrition"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:30",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/control-and-coordination",
+    "topic": "science-10/control-and-coordination/hormones-in-animals"
+   },
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/hormones-in-animals"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:41",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 10,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-10/control-and-coordination",
+    "topic": "science-10/control-and-coordination/hormones-in-animals"
+   },
+   "chapters": [
+    "science-10/control-and-coordination"
+   ],
+   "topics": [
+    "science-10/control-and-coordination/hormones-in-animals"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:14",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 6,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-6/the-other-side-of-zero",
+    "topic": "mathematics-6/the-other-side-of-zero/integers-in-other-places"
+   },
+   "chapters": [
+    "mathematics-6/the-other-side-of-zero"
+   ],
+   "topics": [
+    "mathematics-6/the-other-side-of-zero/integers-in-other-places"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:6:science:7:-:1",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 6,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-6/diversity-in-the-living-world",
+    "topic": "science-6/diversity-in-the-living-world/how-to-group-plants-and-animals"
+   },
+   "chapters": [
+    "science-6/diversity-in-the-living-world"
+   ],
+   "topics": [
+    "science-6/diversity-in-the-living-world/how-to-group-plants-and-animals"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:7:mathematics:1:-:76",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 7,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-7/operations-with-integers",
+    "topic": "mathematics-7/operations-with-integers/a-quick-recap-of-integers"
+   },
+   "chapters": [
+    "mathematics-7/operations-with-integers"
+   ],
+   "topics": [
+    "mathematics-7/operations-with-integers/a-quick-recap-of-integers"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:7:science:2:-:10",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-7/life-processes-in-animals",
+    "topic": "science-7/life-processes-in-animals/nutrition-in-animals"
+   },
+   "chapters": [
+    "science-7/life-processes-in-animals"
+   ],
+   "topics": [
+    "science-7/life-processes-in-animals/nutrition-in-animals"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:7:science:2:-:13",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 7,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-7/life-processes-in-animals",
+    "topic": "science-7/life-processes-in-animals/nutrition-in-animals"
+   },
+   "chapters": [
+    "science-7/life-processes-in-animals"
+   ],
+   "topics": [
+    "science-7/life-processes-in-animals/nutrition-in-animals"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:31",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/a-square-and-a-cube",
+    "topic": "mathematics-8/a-square-and-a-cube/square-numbers"
+   },
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:32",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/a-square-and-a-cube",
+    "topic": "mathematics-8/a-square-and-a-cube/square-numbers"
+   },
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:63",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/a-square-and-a-cube",
+    "topic": "mathematics-8/a-square-and-a-cube/square-numbers"
+   },
+   "chapters": [
+    "mathematics-8/a-square-and-a-cube"
+   ],
+   "topics": [
+    "mathematics-8/a-square-and-a-cube/square-numbers"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:26",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/quadrilaterals",
+    "topic": "mathematics-8/quadrilaterals/angles-in-a-quadrilateral"
+   },
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [
+    "mathematics-8/quadrilaterals/angles-in-a-quadrilateral"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:28",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/quadrilaterals",
+    "topic": "mathematics-8/quadrilaterals/angles-in-a-quadrilateral"
+   },
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [
+    "mathematics-8/quadrilaterals/angles-in-a-quadrilateral"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:53",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/quadrilaterals",
+    "topic": "mathematics-8/quadrilaterals/more-quadrilaterals-with-parallel-opposite-sides"
+   },
+   "chapters": [
+    "mathematics-8/quadrilaterals"
+   ],
+   "topics": [],
+   "note": "naming opposite sides is the chapter's opening vocabulary, not the parallelogram section it was tagged to",
+   "right": false
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:75",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/fractions-in-disguise",
+    "topic": "mathematics-8/fractions-in-disguise/using-percentages"
+   },
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:79",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/fractions-in-disguise",
+    "topic": "mathematics-8/fractions-in-disguise/using-percentages"
+   },
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:8:mathematics:9:-:99",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Mathematics",
+   "grade": 8,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "mathematics-8/fractions-in-disguise",
+    "topic": "mathematics-8/fractions-in-disguise/using-percentages"
+   },
+   "chapters": [
+    "mathematics-8/fractions-in-disguise"
+   ],
+   "topics": [
+    "mathematics-8/fractions-in-disguise/using-percentages"
+   ],
+   "right": true
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:37",
+   "batch": 2,
+   "bank": "exemplar",
+   "subject": "Science",
+   "grade": 9,
+   "levels": [
+    "topic"
+   ],
+   "taggedAs": {
+    "chapter": "science-9/tissues-in-action",
+    "topic": "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   },
+   "chapters": [
+    "science-9/tissues-in-action"
+   ],
+   "topics": [
+    "science-9/tissues-in-action/tissues-for-growth-in-plants"
+   ],
+   "note": "transpiration is described under Permanent Tissues",
+   "right": true
+  }
+ ]
+}

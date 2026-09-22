@@ -48,6 +48,7 @@ import argparse
 import collections
 import hashlib
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -89,10 +90,21 @@ REVIEW_QUEUE = REPO / "academicos-data" / "syllabus" / "taxonomy" / "review_queu
 
 
 def _bank_label(path: Path) -> str:
-    try:
-        return path.resolve().relative_to(REPO).as_posix()
-    except ValueError:
-        return path.name
+    """The bank's key in the review queue: repo-relative inside the repo, else the
+    full resolved path. Every bank is named questions.json, so a bare file name
+    let a second outside bank replace the first one's queue entries.
+
+    Inside-the-repo is read on the absolute path, links unresolved: a checkout
+    whose academicos-data is a junction to another drive (D:/AcademicOS-
+    academicos-data) resolved every bank to a D: path and keyed the served
+    bank's queue entries by it."""
+    absolute = Path(os.path.abspath(path))
+    for candidate in (absolute, path.resolve()):
+        try:
+            return candidate.relative_to(REPO).as_posix()
+        except ValueError:
+            continue
+    return path.resolve().as_posix()
 
 
 def tag_topics(banks: list[Path], check: bool, queue_path: Path) -> int:
@@ -168,6 +180,10 @@ def main(argv: list[str] | None = None) -> int:
                     help="tag these bank files to taxonomy topics/subtopics (see docstring)")
     ap.add_argument("--review-queue", type=Path, default=REVIEW_QUEUE)
     args = ap.parse_args(argv)
+    if args.topics and args.grade is not None:
+        # --topics tags every class 6-10 record in the bank; a --grade that is
+        # silently ignored would look like a one-class run that was not one.
+        ap.error("--grade cannot be combined with --topics")
     if args.topics:
         return tag_topics(args.topics, args.check, args.review_queue)
 

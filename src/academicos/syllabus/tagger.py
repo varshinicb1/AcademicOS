@@ -51,7 +51,8 @@ there was a runner-up) go through a logistic model fitted on the gold set
 A topic's confidence is P(chapter right) x P(topic right | chapter right), a
 subtopic's multiplies once more, so a sure subtopic under an unsure chapter is
 not sure. A level is accepted when its confidence clears the threshold chosen
-so that accepted tags are at least 90% right on the gold set; anything below
+so that accepted tags are at least 93% right out-of-fold on the gold set -- a
+margin over the 90% bar, which nested cross-validation holds them to; anything below
 goes to the review queue, not onto the question. A confidently wrong tag is
 worse than none: the blank shows in the coverage report, the wrong one does
 not.
@@ -89,7 +90,8 @@ PRIOR_WEIGHT = 0.5       # the pooled Exemplar chapter's match, added to the que
 # wrong to right (raw chapter picks on the 108 CBE+board gold items: 75 right
 # without it, 74 at 0.25, 71 at 0.5, 65 at 2.0). At 0.25, with the confidence
 # model told the prior came from chapterIds, accepted tags grew out-of-fold
-# from 138/153 to 142/157 (chapter) and 55/61 to 60/66 (topic).
+# from 138/153 to 142/157 (chapter) and 55/61 to 60/66 (topic), under the old
+# cut-at-90% rule. Tuned on the gold set, so _tag_audit*.json are the held-out checks.
 ID_PRIOR_WEIGHT = 0.25
 SECOND_SUBTOPIC = 0.9    # a second subtopic only when it scores within 10% of the first
 
@@ -313,9 +315,30 @@ def _sigmoid(x: float) -> float:
 
 
 def level_probability(coef: dict, feats: dict) -> float:
-    """P(this level's pick is right), from the fitted logistic model."""
-    z = coef["bias"] + sum(w * float(feats.get(k, 0.0)) for k, w in coef.items() if k != "bias")
+    """P(this level's pick is right), from the fitted logistic model.
+
+    A feature the model scores but ``feats`` lacks is a KeyError: counting it
+    as 0 would let old coefficients go on scoring new tagger output."""
+    z = coef["bias"] + sum(w * float(feats[k]) for k, w in coef.items() if k != "bias")
     return _sigmoid(z)
+
+
+def _check_model(model: dict) -> None:
+    """Refuse a confidence model fitted for other tagger output."""
+    if model.get("method") != TAG_METHOD:
+        raise RuntimeError(
+            f"confidence model was fitted for tag method {model.get('method')!r}, this code "
+            f"is {TAG_METHOD!r}: refit it with scripts/calibrate_topic_tagger.py")
+    for level in LEVELS:
+        declared = set((model.get("features") or {}).get(level) or ())
+        coef = (model.get("coefficients") or {}).get(level)
+        if coef is None or "bias" not in coef:
+            raise RuntimeError(f"confidence model has no {level} coefficients: refit it")
+        unknown = sorted(k for k in coef if k != "bias" and k not in declared)
+        if unknown:
+            raise RuntimeError(
+                f"confidence model scores {level} features {unknown} that its "
+                f"features[{level!r}] does not declare: refit it")
 
 
 class TopicTagger:
@@ -330,7 +353,15 @@ class TopicTagger:
         self.node_text = index["nodes"]
         if model is None:
             path = self.dir / "_tagger_model.json"
-            model = json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+            if not path.exists():
+                # without it every confidence is None and nothing is accepted:
+                # applying would empty every bank's tags into the review queue
+                raise RuntimeError(
+                    f"{path} is missing: fit it with scripts/calibrate_topic_tagger.py "
+                    "(pass model={} only to get raw, unscored picks)")
+            model = json.loads(path.read_text(encoding="utf-8"))
+        if model:
+            _check_model(model)
         self.model = model
         self.thresholds = dict(thresholds if thresholds is not None
                                else (model or {}).get("thresholds") or {})
