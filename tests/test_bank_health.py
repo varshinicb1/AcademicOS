@@ -293,3 +293,22 @@ def test_script_writes_both_reports_with_the_inputs_sha256(tmp_path):
     assert {i["label"]: i["sha256"] for i in report["inputs"]}["served"] == sha
     assert sha in md.read_text(encoding="utf-8")
     assert _cell(report)["byBank"] == {"served": 3, "exemplar": 4}
+
+
+def test_untagged_keyed_questions_make_the_gap_lists_a_lower_bound():
+    # a5 and a7 are keyed but untagged: a chapter with none of the tagged
+    # questions may still hold them, so "no question" would be false.
+    report = _report()
+    c = _cell(report)
+    assert c["chapterCountsComplete"] is False
+    md = render_markdown(report)
+    assert "Chapters with no tagged question" in md
+    assert "Chapters with no question" not in md
+    assert "2 keyed questions are untagged" in md
+
+
+def test_a_fully_tagged_cell_lists_its_gaps_as_absolute():
+    tagged = [q for q in BANK if q.get("taxonomyChapterId") or q["id"] in ("x1", "x2")]
+    report = _report(bank=tagged)
+    assert _cell(report)["chapterCountsComplete"] is True
+    assert "Chapters with no question" in render_markdown(report)

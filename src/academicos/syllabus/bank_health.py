@@ -204,6 +204,10 @@ def _cell(subject: str, grade: int, recs: list[tuple[str, dict]], tree: dict | N
         emptyTopics=[t["id"] for t in topics if not t["questions"]],
         topicsWithout3Mark=[t["id"] for t in topics if not t["byMarks"]["3"]],
         topicsWithout5Mark=[t["id"] for t in topics if not t["byMarks"]["5"]],
+        # The gap lists count only tagged questions. While keyed questions sit
+        # untagged, "no question in this chapter" may be a missing tag, not
+        # missing content -- so the lists are a lower bound, and say so.
+        chapterCountsComplete=cell["untaggedKeyed"] == 0,
     )
     papers = {"all": _paper_verdicts(keyed, presets)}
     if served is not None:
@@ -452,14 +456,18 @@ def render_markdown(report: dict) -> str:
             if ids:
                 out.extend(["", f"**{title} ({len(ids)}):** " + "; ".join(names[i] for i in ids) + "."])
 
-        listing("Chapters with no question", c["emptyChapters"])
-        listing("Chapters with no 3-mark question", c["chaptersWithout3Mark"])
-        listing("Chapters with no 5-mark question", c["chaptersWithout5Mark"])
-        listing("Topics with no question", c["emptyTopics"])
+        q = "question" if c["chapterCountsComplete"] else "tagged question"
+        if not c["chapterCountsComplete"] and (c["emptyChapters"] or c["emptyTopics"]):
+            out.extend(["", f"_The lists below are a lower bound: {c['untaggedKeyed']:,} keyed "
+                        "questions are untagged, and a chapter listed here may hold some of them._"])
+        listing(f"Chapters with no {q}", c["emptyChapters"])
+        listing(f"Chapters with no 3-mark {q}", c["chaptersWithout3Mark"])
+        listing(f"Chapters with no 5-mark {q}", c["chaptersWithout5Mark"])
+        listing(f"Topics with no {q}", c["emptyTopics"])
         empty = set(c["emptyTopics"])
-        listing("Topics with questions but no 3-mark question",
+        listing(f"Topics with questions but no 3-mark {q}",
                 [t for t in c["topicsWithout3Mark"] if t not in empty])
-        listing("Topics with questions but no 5-mark question",
+        listing(f"Topics with questions but no 5-mark {q}",
                 [t for t in c["topicsWithout5Mark"] if t not in empty])
     out.append("")
     return "\n".join(out)
