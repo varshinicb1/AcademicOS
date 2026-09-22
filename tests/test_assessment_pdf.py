@@ -203,8 +203,9 @@ def _gq(stem, qtype="mcq", marks=1):
 
 def test_more_than_four_option_labels_do_not_crash(tmp_path):
     """labels="ABCD" indexed by position raised IndexError on a fifth."""
-    stem = "Pick one. (A) a (B) b (C) c (D) d (D) e"
-    assert export_pdf(_paper_with(_gq(stem)), tmp_path).exists()
+    stem = "Pick one. (A) a (B) b (C) c (D) d (D) fifthoption"
+    text = _extract_text(export_pdf(_paper_with(_gq(stem)), tmp_path))
+    assert "(E)" in text and "fifthoption" in text
 
 
 def test_a_question_taller_than_a_page_exports(tmp_path):
@@ -228,3 +229,74 @@ def test_subparts_of_a_descriptive_question_are_not_gridded_as_options(tmp_path)
 def test_math_italic_letters_survive():
     """'12𝑥2 + 11𝑥−15' printed as '122 + 11−15' -- the variable vanished."""
     assert pdf_safe("12\U0001d4652 + 11\U0001d465−15") == "12x2 + 11x-15"
+
+
+def _option_lines(text: str) -> list[str]:
+    return [line.strip() for line in text.splitlines() if line.strip().startswith("(")]
+
+
+def test_a_paper_typed_mcq_still_grids_its_options(tmp_path):
+    stem = "Which of these is a gas? (A) Oxygen (B) Gold (C) Silver (D) Copper"
+    text = _extract_text(export_pdf(_paper_with(_gq(stem, "mcq", 1)), tmp_path))
+    assert any(line.startswith("(A)") for line in _option_lines(text))
+    assert "gas? (A)" not in text
+
+
+def test_a_board_one_mark_mcq_typed_very_short_answer_grids_its_options(tmp_path):
+    """The board records in questions.json type 1-mark MCQs very_short_answer
+    (586 splittable stems, 538 with exactly four options, against 46 typed mcq).
+    The objective gate ran their options inline into the stem."""
+    stem = ("In the formula of mode given by mode = l + f1 denotes the : "
+            "(A) frequency of the modal class (B) frequency of class preceding modal class "
+            "(C) frequency of class succeeding modal class (D) cumulative frequency of modal class")
+    text = _extract_text(export_pdf(_paper_with(_gq(stem, "very_short_answer", 1)), tmp_path))
+    starts = [line[:3] for line in _option_lines(text)]
+    for label in ("(A)", "(B)", "(C)", "(D)"):
+        assert label in starts, (label, text)
+    assert "denotes the : (A)" not in text
+
+
+def _boot_with_paper(tmp_path, monkeypatch):
+    from test_assessment_routes_auth import _boot_client, _register
+    from test_route_inventory import blueprint_body, question_body
+
+    client = _boot_client(tmp_path, monkeypatch)
+    client.__enter__()
+    teacher = _register(client, "school_1", "render-fail@example.com")
+    auth = {"Authorization": f"Bearer {teacher['token']}"}
+    created = client.post("/api/v1/assessments", json={
+        "teacherId": teacher["user"]["id"], "schoolId": "school_1",
+        "title": "Render Failure", "subject": "Mathematics", "grade": 10,
+        "chapterIds": [], "blueprint": blueprint_body(),
+    }, headers=auth)
+    assert created.status_code == 200, created.text
+    gen = client.post("/api/v1/papers/generate", json={
+        "assessmentId": created.json()["id"], "blueprint": blueprint_body(),
+        "selectedQuestions": [question_body()],
+        "template": {"id": "t1", "schoolId": "school_1", "name": "Default"},
+    }, headers=auth)
+    assert gen.status_code == 200, gen.text
+    return client, auth, gen.json()["id"]
+
+
+@pytest.mark.parametrize("fmt,fn,action", [
+    ("pdf", "export_pdf", "paper_exported"),
+    ("answer-key", "export_answer_key_pdf", "answer_key_exported"),
+])
+def test_a_render_failure_is_a_422_naming_the_cause_and_is_not_audited(
+        tmp_path, monkeypatch, fmt, fn, action):
+    from academicos.assessment import pdf as pdf_mod
+    from academicos.assessment.audit_log import get_audit_log
+
+    client, auth, paper_id = _boot_with_paper(tmp_path, monkeypatch)
+    try:
+        def boom(*a, **k):
+            raise ValueError("stem 7 overflows the frame")
+
+        monkeypatch.setattr(pdf_mod, fn, boom)
+        r = client.post(f"/api/v1/papers/{paper_id}/export/{fmt}", headers=auth)
+        assert r.status_code == 422, r.text
+        assert "stem 7 overflows the frame" in r.json()["detail"]
+        assert get_audit_log(tmp_path).for_action(action) == []
+    finally:
+        client.__exit__(None, None, None)

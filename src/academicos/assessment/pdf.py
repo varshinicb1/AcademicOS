@@ -317,9 +317,16 @@ def _question_flowables(gq, styles: _Styles, content_width: float,
     question's sub-parts "(a) Find ... (b) Explain ..." read exactly like
     options and were gridded as (A)-(D). An empty type is a paper generated
     before GeneratedQuestionSchema carried one, and keeps the old behaviour.
+
+    The board records type most 1-mark MCQs very_short_answer (538 of them
+    split into exactly four options, against 46 typed mcq), so a 1-mark item
+    whose stem splits into four ordered options is objective too. The
+    descriptive sub-part stems in the bank are all multi-mark.
     """
-    objective = gq.type in ("", "mcq", "assertion_reason")
-    head, options = split_stem_and_options(gq.stem) if objective else (gq.stem.strip(), [])
+    split_head, split_options = split_stem_and_options(gq.stem)
+    objective = (gq.type in ("", "mcq", "assertion_reason")
+                 or (gq.marks == 1 and len(split_options) == 4))
+    head, options = (split_head, split_options) if objective else (gq.stem.strip(), [])
     body: list = [Paragraph(escape(head), styles.question)]
 
     if options:
