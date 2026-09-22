@@ -14,10 +14,13 @@ The tests below hold the app to `academicos.api.route_policy.ROUTE_POLICY`:
 3. every `staff`/`principal` route answers a same-school student with the
    gate's own 403 -- with made-up ids, so a 404 would mean the handler ran
    before the gate;
-4. the audit's four attacks replayed (403 for the student, 200 for the
+4. every `self_or_staff` route refuses a same-school student asking about a
+   real classmate -- the dependency check in (2) can only see "logged in"
+   for these, so this is what holds the handler's own check in place;
+5. the audit's four attacks replayed (403 for the student, 200 for the
    teacher, and the marks unchanged in between);
-5. /v1/revise and /v1/plan check that the learner is the caller's school's
-   and, for a student, the caller.
+6. /v1/revise and /v1/plan check that the learner is the caller's school's
+   and, for a student, the caller -- and still answer the caller who is.
 """
 from __future__ import annotations
 
@@ -34,11 +37,15 @@ from academicos.api.route_policy import (
     ANY_USER, API_KEY, PRINCIPAL, PUBLIC, ROUTE_POLICY, SELF_OR_STAFF, STAFF,
     app_operations, iter_routes,
 )
-from academicos.assessment import auth_routes, qbank_routes
+from academicos.assessment import auth_routes, pillar_routes, qbank_routes
+from academicos.assessment.remediation import PracticeSet
+from academicos.graph.schema import new_node
+from academicos.models.enums import NodeType
 
 from _auth_helpers import register_invited
 
 STAFF_DETAIL = "this action requires a teacher or principal account"
+SELF_DETAIL = "students can only access their own data"
 PRINCIPAL_DETAIL = "this action requires the principal role"
 BOOTSTRAP_KEY = "role-gates-bootstrap-key"
 
@@ -79,7 +86,10 @@ def _level_from_code(route) -> str:
     if auth_routes.require_staff in calls:
         return STAFF
     if auth_routes.get_current_user in calls:
-        return ANY_USER  # self_or_staff is any_user plus a check in the handler
+        # self_or_staff is any_user plus a check in the handler, which no
+        # dependency walk can see; test_a_student_cannot_use_a_self_or_staff_
+        # route_on_a_classmate is what holds that check in place.
+        return ANY_USER
     if any(getattr(c, "__module__", "") == qbank_routes.__name__ for c in calls):
         return API_KEY
     return PUBLIC
@@ -184,6 +194,63 @@ def test_a_teacher_is_refused_every_principal_route(world, method, path):
     r = _call(client, method, _concrete(path, teacher["user"]["schoolId"]), _auth(teacher))
     assert r.status_code == 403, f"{method} {path} -> {r.status_code} {r.text[:200]}"
     assert r.json()["detail"] == PRINCIPAL_DETAIL
+
+
+# --------------------------------------------------------------- self_or_staff
+
+
+def _classmate_practice_set(client, people) -> str:
+    """A real practice set whose student is the classmate, saved the way
+    /practice/generate saves one. Generating it through the route would need
+    graded evidence of a weak concept first; the submit check reads only the
+    set's student_id, so the stored set is what the route actually sees."""
+    pset = PracticeSet(id=f"pset_{uuid.uuid4().hex[:8]}",
+                       student_id=people["classmate"]["user"]["id"], concept_ids=[])
+    pillar_routes._require_practice().save(pset, school_id="school_1")
+    return pset.id
+
+
+# (method, path) -> builder(client, people, classmate_id) -> (url, json body or None).
+# One per self_or_staff route; the test below fails if a route is added to
+# that level without one, so a new route cannot be nominally self_or_staff.
+_SELF_OR_STAFF_CALLS = {
+    ("GET", "/api/v1/knowledge/{student_id}"):
+        lambda c, p, cid: (f"/api/v1/knowledge/{cid}", None),
+    ("GET", "/api/v1/knowledge/{student_id}/report"):
+        lambda c, p, cid: (f"/api/v1/knowledge/{cid}/report", None),
+    ("POST", "/api/v1/practice/generate"):
+        lambda c, p, cid: ("/api/v1/practice/generate", {"studentId": cid}),
+    ("POST", "/api/v1/practice/submit"):
+        lambda c, p, cid: ("/api/v1/practice/submit",
+                           {"setId": _classmate_practice_set(c, p), "answers": {}}),
+    ("POST", "/v1/revise"):
+        lambda c, p, cid: ("/v1/revise", {"learner": cid}),
+    ("POST", "/v1/plan"):
+        lambda c, p, cid: ("/v1/plan", {"target": "anything", "learner": cid}),
+}
+_SELF_OR_STAFF = sorted(k for k, p in ROUTE_POLICY.items() if p.level == SELF_OR_STAFF)
+
+
+def test_every_self_or_staff_route_has_a_classmate_probe():
+    missing = set(_SELF_OR_STAFF) - set(_SELF_OR_STAFF_CALLS)
+    stale = set(_SELF_OR_STAFF_CALLS) - set(_SELF_OR_STAFF)
+    assert not missing, (
+        f"self_or_staff routes with no classmate probe in _SELF_OR_STAFF_CALLS: {sorted(missing)}")
+    assert not stale, f"_SELF_OR_STAFF_CALLS entries that are not self_or_staff: {sorted(stale)}"
+
+
+@pytest.mark.parametrize("method,path", _SELF_OR_STAFF, ids=[f"{m} {p}" for m, p in _SELF_OR_STAFF])
+def test_a_student_cannot_use_a_self_or_staff_route_on_a_classmate(world, method, path):
+    """The route-policy check above sees only "logged in" for these routes;
+    the per-student check lives in the handler. A same-school student naming
+    a real classmate must get the ownership check's own 403 -- not a 200, and
+    not a 404/400 from the handler running on someone else's data first."""
+    client, people = world
+    build = _SELF_OR_STAFF_CALLS[(method, path)]
+    url, body = build(client, people, people["classmate"]["user"]["id"])
+    r = client.request(method, url, json=body, headers=_auth(people["student"]))
+    assert r.status_code == 403, f"{method} {path} -> {r.status_code} {r.text[:200]}"
+    assert r.json()["detail"] == SELF_DETAIL
 
 
 # --------------------------------------------------------------- the audit's attacks
@@ -314,3 +381,17 @@ def test_revise_and_plan_check_the_learner_belongs_to_the_caller(world):
                        headers=_auth(people["other_teacher"])).status_code == 403
     assert client.post("/v1/plan", json={"target": "anything", "learner": sid},
                        headers=_auth(classmate)).status_code == 403
+
+    # ...and answers the callers who are entitled. Without these, a check
+    # wrong in the other direction would fail learner-personalised plans
+    # closed for every student and teacher and no test would notice. The
+    # target is seeded into the booted graph so the plan is a real 200.
+    target = new_node(NodeType.CONCEPT, f"Role Gates Target {uuid.uuid4().hex[:6]}",
+                      attributes={"difficulty": 2.0, "learning_hours": 1.0,
+                                  "bloom": "understand"})
+    api_main._graph.upsert_node(target)
+    for caller in ("student", "teacher"):
+        plan = client.post("/v1/plan", json={"target": target.label, "learner": sid},
+                           headers=_auth(people[caller]))
+        assert plan.status_code == 200, f"{caller}: {plan.status_code} {plan.text[:200]}"
+        assert plan.json()["target"] == target.label
