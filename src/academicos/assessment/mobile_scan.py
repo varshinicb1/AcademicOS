@@ -35,7 +35,7 @@ from . import imaging, llm_evaluate, scan, vision
 from .audit_log import get_audit_log
 from .scan_session_store import ScanSessionStore
 from .schemas import GeneratedQuestionSchema, QuestionSchema
-from ..storage.blobs import durable_blob_store
+from ..storage.blobs import durable_blob_store, record_upload_failure
 
 log = logging.getLogger(__name__)
 # GCS on GCP, Supabase Storage on Render, local-only otherwise -- see
@@ -135,7 +135,11 @@ def _upload(session_id: str, key: str, path: Path, content_type: str) -> str:
     """Best-effort upload to Supabase Storage; returns the storage key on
     success, "" on failure or when Storage isn't configured. Never raises --
     a failed durability upload shouldn't sink a scan a teacher is mid-way
-    through, it just means that one artifact stays local-only."""
+    through, it just means that one artifact stays local-only.
+
+    Local-only on Cloud Run means gone at the next redeploy, so a failure is
+    counted for /health/storage (blobs.record_upload_failure) rather than
+    left in a log line nobody reads."""
     if not _storage.enabled:
         return ""
     full_key = f"{session_id}/{key}"
@@ -143,7 +147,9 @@ def _upload(session_id: str, key: str, path: Path, content_type: str) -> str:
         _storage.upload(full_key, path.read_bytes(), content_type)
         return full_key
     except Exception as exc:
-        log.warning("Supabase Storage upload failed for %s: %s", full_key, exc)
+        record_upload_failure("scan-media")
+        log.warning("Scan media upload failed for %s (artifact is on container "
+                    "disk only): %s", full_key, exc)
         return ""
 
 

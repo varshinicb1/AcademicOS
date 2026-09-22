@@ -157,29 +157,72 @@ def test_restore_on_fresh_container_recovers_real_data(
         store2.close()
 
 
-def test_restore_failure_falls_back_to_fresh_empty_db(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    db_path = tmp_path / "curriculum.sqlite"
-    assert not db_path.exists()
-
+def _fake_supabase_storage(monkeypatch: pytest.MonkeyPatch, download):
     from academicos.assessment.supabase_kv import SupabaseStorage
     fake_storage = SupabaseStorage("curriculum-snapshots")
     fake_storage._url = "https://fake-project.supabase.co"
     fake_storage._key = "fake-key"
-
-    def _raise(key: str):
-        raise requests.exceptions.ConnectionError("no snapshot yet / unreachable")
-
-    monkeypatch.setattr(fake_storage, "download", _raise)
+    monkeypatch.setattr(fake_storage, "download", download)
+    monkeypatch.setattr(fake_storage, "upload", lambda key, data, content_type: None)
     monkeypatch.setattr(
         "academicos.curriculum.store.durable_blob_store", lambda bucket: fake_storage
     )
+    return fake_storage
 
-    store = CurriculumStore(db_path)  # must not raise -- falls through to a fresh db
+
+def _http_error(status: int, body: str) -> requests.exceptions.HTTPError:
+    response = requests.Response()
+    response.status_code = status
+    response._content = body.encode()
+    return requests.exceptions.HTTPError(f"{status} error", response=response)
+
+
+@pytest.mark.parametrize("status,body", [
+    # Supabase Storage answers a missing object with 400 + a not_found body
+    # on older deployments and a plain 404 on newer ones; both mean first boot.
+    (400, '{"statusCode":"404","error":"not_found","message":"Object not found"}'),
+    (404, '{"error":"not_found"}'),
+])
+def test_no_snapshot_yet_falls_back_to_fresh_empty_db(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, status: int, body: str
+) -> None:
+    db_path = tmp_path / "curriculum.sqlite"
+
+    def _missing(key: str):
+        raise _http_error(status, body)
+
+    _fake_supabase_storage(monkeypatch, _missing)
+    store = CurriculumStore(db_path)  # first-ever boot: a fresh db, no error
     try:
         assert store.list_boards() == []
         board = store.create_board("CBSE", "cbse")
         assert store.get_board(board.id) is not None
     finally:
         store.close()
+
+
+def test_unreachable_snapshot_store_refuses_to_boot_empty(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Unreachable is not "no snapshot yet". This used to fall through to an
+    empty database too, which served a blank curriculum as if it were real --
+    and whatever an admin re-entered into it was overwritten by nothing and
+    lost at the next restart. Now the constructor fails (503 at the route, a
+    failed startup at boot) and the next attempt restores properly."""
+    from academicos.curriculum.store import CurriculumNotDurable
+    db_path = tmp_path / "curriculum.sqlite"
+
+    def _raise(key: str):
+        raise requests.exceptions.ConnectionError("unreachable")
+
+    _fake_supabase_storage(monkeypatch, _raise)
+    with pytest.raises(CurriculumNotDurable):
+        CurriculumStore(db_path)
+    assert not db_path.exists()
+
+    def _server_error(key: str):
+        raise _http_error(500, "internal error")
+
+    _fake_supabase_storage(monkeypatch, _server_error)
+    with pytest.raises(CurriculumNotDurable):
+        CurriculumStore(db_path)

@@ -63,7 +63,13 @@ from typing import Any, Optional
 
 import requests
 
-from ..storage.blobs import durable_blob_store
+from ..storage.blobs import (
+    BlobConflict,
+    CurriculumNotDurable,
+    durable_blob_store,
+    is_not_found,
+    record_upload_failure,
+)
 
 from .models import (
     AcademicYear,
@@ -337,6 +343,16 @@ class CurriculumStore:
         # acquisition -- a plain Lock would deadlock those paths.
         self._conn_lock = threading.RLock()
         self._last_snapshot_at = 0.0
+        # Snapshot bookkeeping -- see _maybe_snapshot. _commit_seq counts
+        # commits that changed rows; _snapshot_seq is the count the last
+        # successful upload contained. Unequal means "something is not in GCS".
+        self._committed_changes = 0
+        self._commit_seq = 0
+        self._snapshot_seq = 0
+        self._snapshot_timer: Optional[threading.Timer] = None
+        self._snapshot_upload_lock = threading.Lock()
+        self._snapshot_wedged = False
+        self._closed = False
 
         db_path.parent.mkdir(parents=True, exist_ok=True)
         if not db_path.exists() and self._remote_storage.enabled:
@@ -366,18 +382,29 @@ class CurriculumStore:
         is configured -- a fresh container restoring last known state
         instead of starting empty. No snapshot yet (first-ever boot) is the
         normal, expected case, not an error: falls through to a fresh
-        CREATE TABLE against an empty file exactly like before this pass."""
+        CREATE TABLE against an empty file exactly like before this pass.
+
+        Any OTHER failure raises. It used to be logged at INFO and treated
+        exactly like "none yet", so a transient outage at cold start served
+        an empty curriculum as if it were the real one; an admin re-entering
+        it then lost everything at the next deploy. Raising fails app
+        startup (Cloud Run retries the container) or answers 503 at the
+        route, and leaves no local file behind, so the next attempt restores
+        properly."""
         try:
             data = self._remote_storage.download(self._SNAPSHOT_KEY)
-        except requests.exceptions.RequestException:
-            logger.info(
-                "No curriculum snapshot restored from Supabase (none uploaded yet, "
-                "or unreachable) -- starting with a fresh local database",
-                exc_info=True,
-            )
-            return
+        except requests.exceptions.RequestException as exc:
+            if is_not_found(exc):
+                logger.info("No curriculum snapshot uploaded yet -- starting with "
+                            "a fresh local database")
+                return
+            logger.error("Curriculum snapshot restore failed; refusing to start "
+                         "with an empty curriculum", exc_info=True)
+            raise CurriculumNotDurable(
+                f"curriculum snapshot could not be restored ({exc}); not starting "
+                f"empty in its place") from exc
         self.db_path.write_bytes(data)
-        logger.info("Restored CurriculumStore from Supabase snapshot (%d bytes)", len(data))
+        logger.info("Restored CurriculumStore from its remote snapshot (%d bytes)", len(data))
 
     # ------------------------------------------------------------------
     # Serialized SQLite access. The store holds ONE shared connection with
@@ -417,32 +444,170 @@ class CurriculumStore:
         # once is the same race as two threads executing at once.
         with self._conn_lock:
             self.conn.commit()
+            # One shared connection, so commit() commits every thread's
+            # pending rows; total_changes then says whether any row changed.
+            # A commit that changed nothing (schema no-ops at boot) must not
+            # mark the snapshot pending: re-uploading an unchanged restored
+            # database would bump the generation under an overlapping
+            # instance and turn a rollout into a conflict for nothing.
+            if self.conn.total_changes != self._committed_changes:
+                self._committed_changes = self.conn.total_changes
+                self._commit_seq += 1
         self._maybe_snapshot()
+
+    # ------------------------------------------------------------------
+    # Snapshot upload. The debounce limits how often the whole file goes to
+    # GCS; it must never decide WHETHER a commit gets there. It used to: a
+    # commit inside the window simply returned, with no dirty flag and no
+    # trailing upload, so a burst of admin edits reached GCS as its first
+    # edit only and the rest died with the container. Now a commit inside
+    # the window arms one trailing timer for the end of it, a failed upload
+    # re-arms it, and api/main.py's shutdown hook calls
+    # flush_curriculum_snapshots() inside Cloud Run's 10 s SIGTERM grace.
+    # ------------------------------------------------------------------
+
+    def _snapshot_pending(self) -> bool:
+        return self._commit_seq != self._snapshot_seq
 
     def _maybe_snapshot(self) -> None:
         if not self._remote_storage.enabled:
             return
-        now = time.monotonic()
+        if self._snapshot_wedged:
+            raise CurriculumNotDurable(
+                "curriculum snapshot conflict: another instance wrote a newer "
+                "snapshot and it could not be reloaded; this edit is on this "
+                "instance's disk only and will be lost at restart")
         with self._conn_lock:
-            if now - self._last_snapshot_at < self._SNAPSHOT_DEBOUNCE_SECONDS:
+            if not self._snapshot_pending():
                 return
-            self._last_snapshot_at = now
-            try:
-                # WAL mode means recent commits can still live only in the
-                # -wal sidecar file -- checkpoint first so db_path itself is
-                # a complete, self-contained snapshot, not a stale main file
-                # missing whatever hasn't been checkpointed back into it yet.
-                self._exec("PRAGMA wal_checkpoint(TRUNCATE)")
-                data = self.db_path.read_bytes()
-            except OSError:
-                logger.warning("Could not read CurriculumStore db file to snapshot", exc_info=True)
+            wait = self._SNAPSHOT_DEBOUNCE_SECONDS - (time.monotonic() - self._last_snapshot_at)
+            if wait > 0:
+                self._arm_snapshot_timer(wait)
                 return
+        self.flush_snapshot(raise_on_conflict=True)
+
+    def _arm_snapshot_timer(self, delay: float) -> None:
+        """One trailing upload at most; it picks up every commit before it
+        fires. Caller holds _conn_lock."""
+        if self._snapshot_timer is not None or self._closed:
+            return
+        timer = threading.Timer(max(delay, 0.0), self._trailing_snapshot)
+        timer.daemon = True
+        self._snapshot_timer = timer
+        timer.start()
+
+    def _trailing_snapshot(self) -> None:
+        with self._conn_lock:
+            self._snapshot_timer = None
         try:
-            self._remote_storage.upload(self._SNAPSHOT_KEY, data, "application/x-sqlite3")
-        except requests.exceptions.RequestException:
-            logger.warning("Failed to upload CurriculumStore snapshot to Supabase", exc_info=True)
+            self.flush_snapshot()
+        except Exception:  # noqa: BLE001 - a timer thread has nobody to raise to
+            logger.exception("Trailing CurriculumStore snapshot failed")
+
+    def flush_snapshot(self, *, raise_on_conflict: bool = False) -> bool:
+        """Upload now if any commit is not in the remote snapshot yet.
+
+        True when nothing is left pending. On a plain upload failure the
+        trailing timer is re-armed, so the edit is retried rather than
+        dropped. On a conflict see _on_snapshot_conflict; `raise_on_conflict`
+        is set on the request path so the edit that could not be saved
+        answers 503 instead of a false success."""
+        if not self._remote_storage.enabled:
+            return True
+        with self._snapshot_upload_lock:   # uploads in commit order, never two at once
+            with self._conn_lock:
+                if self._closed or not self._snapshot_pending():
+                    return True
+                if self._snapshot_timer is not None:
+                    self._snapshot_timer.cancel()
+                    self._snapshot_timer = None
+                self._last_snapshot_at = time.monotonic()
+                seq = self._commit_seq
+                try:
+                    # WAL mode means recent commits can still live only in the
+                    # -wal sidecar file -- checkpoint first so db_path itself is
+                    # a complete, self-contained snapshot, not a stale main file
+                    # missing whatever hasn't been checkpointed back into it yet.
+                    self._exec("PRAGMA wal_checkpoint(TRUNCATE)")
+                    data = self.db_path.read_bytes()
+                except OSError:
+                    logger.warning("Could not read CurriculumStore db file to snapshot",
+                                   exc_info=True)
+                    self._arm_snapshot_timer(self._SNAPSHOT_DEBOUNCE_SECONDS)
+                    return False
+            try:
+                self._remote_storage.upload(self._SNAPSHOT_KEY, data, "application/x-sqlite3")
+            except BlobConflict as exc:
+                self._on_snapshot_conflict()
+                if raise_on_conflict:
+                    raise CurriculumNotDurable(
+                        "curriculum snapshot conflict: another instance saved a newer "
+                        "curriculum, so this edit was not saved. This instance has "
+                        "reloaded the newer one; retry the edit.") from exc
+                return False
+            except requests.exceptions.RequestException:
+                record_upload_failure("curriculum-snapshots")
+                logger.warning("Failed to upload CurriculumStore snapshot; retrying in "
+                               "%.0f s", self._SNAPSHOT_DEBOUNCE_SECONDS, exc_info=True)
+                with self._conn_lock:
+                    self._arm_snapshot_timer(self._SNAPSHOT_DEBOUNCE_SECONDS)
+                return False
+            with self._conn_lock:
+                # Commits that landed during the upload are not in `data`:
+                # they stay pending and get their own trailing upload.
+                self._snapshot_seq = seq
+                if self._snapshot_pending():
+                    self._arm_snapshot_timer(self._SNAPSHOT_DEBOUNCE_SECONDS)
+            return True
+
+    def _on_snapshot_conflict(self) -> None:
+        """Another instance saved a newer snapshot (blobs.py refused to erase
+        it). Keeping this instance's copy would leave it stale for good: its
+        generation never refreshes, so every later upload 412s while every
+        request reports success -- the "stuck and silent" state. Instead,
+        reload the newer snapshot into the live connection (sqlite3's backup
+        API, under the connection lock, so no reopen and no request sees a
+        half-copied file). The download also refreshes the generation
+        blobs.py holds, so the next upload is accepted. What this instance
+        had not uploaded is discarded -- it is the losing side of the
+        conflict either way -- and the request that hit the conflict is told
+        so with a 503. If the reload itself fails, the store is wedged:
+        every later write answers 503 until the instance restarts."""
+        try:
+            data = self._remote_storage.download(self._SNAPSHOT_KEY)
+            incoming = self.db_path.with_name(self.db_path.name + ".incoming")
+            incoming.write_bytes(data)
+            src = sqlite3.connect(str(incoming))
+            try:
+                with self._conn_lock:
+                    src.backup(self.conn)
+                    self._committed_changes = self.conn.total_changes
+                    self._snapshot_seq = self._commit_seq
+            finally:
+                src.close()
+                incoming.unlink(missing_ok=True)
+        except Exception:  # noqa: BLE001 - any failure here means "wedged"
+            self._snapshot_wedged = True
+            logger.error("Curriculum snapshot conflict and the newer snapshot could "
+                         "not be reloaded; curriculum writes now answer 503 until "
+                         "this instance restarts", exc_info=True)
+            return
+        logger.error("Curriculum snapshot conflict: reloaded the newer snapshot "
+                     "(%d bytes); this instance's unsaved edits were discarded",
+                     len(data))
 
     def close(self) -> None:
+        # Best-effort final upload, then no timer may touch the closed
+        # connection.
+        try:
+            self.flush_snapshot()
+        except Exception:  # noqa: BLE001 - closing must not raise
+            logger.warning("Final CurriculumStore snapshot on close failed", exc_info=True)
+        with self._conn_lock:
+            self._closed = True
+            if self._snapshot_timer is not None:
+                self._snapshot_timer.cancel()
+                self._snapshot_timer = None
         self.conn.close()
 
     # ---------------- boards ----------------
@@ -1486,3 +1651,15 @@ def get_curriculum_store(data_root: Path) -> CurriculumStore:
         instance = CurriculumStore(Path(key))
         _INSTANCE[key] = instance
     return instance
+
+
+def flush_curriculum_snapshots() -> None:
+    """Upload every cached store's pending snapshot now. Called from the
+    app's shutdown hook: Cloud Run sends SIGTERM and allows 10 s, and a
+    commit still inside the debounce window would otherwise die with the
+    container."""
+    for store in list((_INSTANCE or {}).values()):
+        try:
+            store.flush_snapshot()
+        except Exception:  # noqa: BLE001 - one store must not block the rest
+            logger.exception("Shutdown snapshot flush failed for %s", store.db_path)

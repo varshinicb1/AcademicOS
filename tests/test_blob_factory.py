@@ -19,8 +19,12 @@ is HTTP 412).
 """
 from __future__ import annotations
 
+import base64
+import hashlib
 import logging
+import sqlite3
 import sys
+import time
 import types
 from pathlib import Path
 
@@ -47,20 +51,33 @@ class FakeGcsBlob:
         self.name = name
         obj = bucket.objects.get(name)
         self.generation = obj["generation"] if obj else None
+        # GCS reports md5 as base64 of the raw digest, not hex.
+        self.md5_hash = obj["md5"] if obj else None
 
     def upload_from_string(self, data: bytes, content_type: str | None = None,
                            if_generation_match: int | None = None) -> None:
+        client = self._bucket.client
+        if client.fail_reads_and_writes:
+            raise ConnectionError("simulated GCS outage")
         current = self._bucket.objects.get(self.name)
         current_gen = current["generation"] if current else 0
         if if_generation_match is not None and if_generation_match != current_gen:
             raise FakePreconditionFailed(
                 f"412 generation {current_gen} != expected {if_generation_match}")
-        self._bucket.client.counter += 1
+        client.counter += 1
         self._bucket.objects[self.name] = {
             "data": bytes(data), "content_type": content_type,
-            "generation": self._bucket.client.counter,
+            "generation": client.counter,
+            "md5": base64.b64encode(hashlib.md5(bytes(data)).digest()).decode(),
         }
-        self.generation = self._bucket.client.counter
+        self.generation = client.counter
+        if client.lose_next_upload_response:
+            # The write landed, the response did not; the client's
+            # conditional retry then re-sends against the generation it just
+            # created and gets 412. This is that retry's view.
+            client.lose_next_upload_response = False
+            self.generation = None
+            raise FakePreconditionFailed("412 on retry of a write that already landed")
 
     def download_as_bytes(self, if_generation_match: int | None = None) -> bytes:
         obj = self._bucket.objects[self.name]
@@ -79,6 +96,8 @@ class FakeGcsBucket:
         return FakeGcsBlob(self, name)
 
     def get_blob(self, name: str) -> FakeGcsBlob | None:
+        if self.client.fail_reads_and_writes:
+            raise ConnectionError("simulated GCS outage")
         return FakeGcsBlob(self, name) if name in self.objects else None
 
 
@@ -86,12 +105,23 @@ class FakeGcsClient:
     def __init__(self):
         self.buckets: dict[str, FakeGcsBucket] = {}
         self.counter = 0
+        self.fail_reads_and_writes = False
+        self.lose_next_upload_response = False
 
     def bucket(self, name: str) -> FakeGcsBucket:
         return self.buckets.setdefault(name, FakeGcsBucket(self, name))
 
 
 BUCKET = "vidyuthlabs-academicos-media"
+
+
+@pytest.fixture(autouse=True)
+def _fresh_blob_status():
+    """The conflict/failure counters are process-wide on purpose (health reads
+    them); each test starts from zero."""
+    blobs.reset_status()
+    yield
+    blobs.reset_status()
 
 
 @pytest.fixture
@@ -197,12 +227,23 @@ def test_scan_media_round_trip_through_gcs(shared_gcs, tmp_path: Path, monkeypat
     assert mobile_scan.fetch_storage_bytes("scan_abc/missing.jpg") is None
 
 
-def test_download_of_missing_object_raises_a_request_exception(shared_gcs) -> None:
-    """curriculum/store.py's restore path catches RequestException only; a
-    missing first snapshot must land there, not crash the constructor."""
+def test_download_of_missing_object_raises_blob_not_found(shared_gcs) -> None:
+    """A missing object is BlobNotFound -- distinct from "GCS unreachable" --
+    so the curriculum restore can tell a first boot from an outage. Still a
+    RequestException, so callers written against SupabaseStorage keep
+    working."""
     store = durable_blob_store("curriculum-snapshots")
-    with pytest.raises(requests.exceptions.RequestException):
+    with pytest.raises(blobs.BlobNotFound):
         store.download("curriculum.sqlite")
+    assert issubclass(blobs.BlobNotFound, requests.exceptions.RequestException)
+
+
+def test_unreachable_gcs_is_not_reported_as_not_found(shared_gcs) -> None:
+    shared_gcs.fail_reads_and_writes = True
+    store = durable_blob_store("curriculum-snapshots")
+    with pytest.raises(blobs.BlobUnavailable) as info:
+        store.download("curriculum.sqlite")
+    assert not isinstance(info.value, blobs.BlobNotFound)
 
 
 # --------------------------------------------------------------------------- #
@@ -213,39 +254,184 @@ def _snapshot(client: FakeGcsClient) -> dict:
     return client.bucket(BUCKET).objects["academicos/curriculum-snapshots/curriculum.sqlite"]
 
 
+def _boards_in(data: bytes, tmp_path: Path) -> set[str]:
+    """The board codes inside a snapshot blob, read with plain sqlite3."""
+    path = tmp_path / f"inspect_{time.monotonic_ns()}.sqlite"
+    path.write_bytes(data)
+    conn = sqlite3.connect(str(path))
+    try:
+        return {r[0] for r in conn.execute("SELECT code FROM boards")}
+    finally:
+        conn.close()
+
+
 def test_curriculum_store_uses_gcs_on_gcp(shared_gcs, tmp_path: Path) -> None:
     from academicos.curriculum.store import CurriculumStore
     store = CurriculumStore(tmp_path / "a" / "curriculum.sqlite")
     assert store._remote_storage.backend == "gcs"
+    store.create_board("CBSE", "cbse")
     assert _snapshot(shared_gcs)["data"].startswith(b"SQLite format 3")
+    assert _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == {"cbse"}
+    store.close()
+
+
+def test_edits_inside_the_debounce_window_are_uploaded_after_it(
+        shared_gcs, tmp_path: Path) -> None:
+    """The debounce used to DROP a commit that landed inside the window: no
+    dirty flag, no trailing upload. An admin's burst of edits then reached GCS
+    only as its first edit, and the rest died with the container. Two commits
+    a moment apart must both be in the remote object once the window has
+    passed, with no further commit to carry them."""
+    from academicos.curriculum.store import CurriculumStore
+    store = CurriculumStore(tmp_path / "a" / "curriculum.sqlite")
+    store._SNAPSHOT_DEBOUNCE_SECONDS = 0.6   # the 30 s window, scaled for a test
+    store._last_snapshot_at = 0.0
+    store.create_board("CBSE", "cbse")       # past the window: uploads now
+    assert _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == {"cbse"}
+    time.sleep(0.2)
+    store.create_board("ICSE", "icse")       # inside the window: deferred
+
+    deadline = time.monotonic() + 5.0
+    while time.monotonic() < deadline:
+        if _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == {"cbse", "icse"}:
+            break
+        time.sleep(0.05)
+    assert _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == {"cbse", "icse"}
+    store.close()
+
+
+def test_shutdown_flushes_edits_still_inside_the_window(
+        shared_gcs, tmp_path: Path, monkeypatch) -> None:
+    """Cloud Run sends SIGTERM and allows 10 s. The app's shutdown hook must
+    upload whatever the debounce is still holding, or the last edits before a
+    deploy are lost with the container."""
+    from academicos.curriculum import store as store_mod
+    import academicos.api.main as main_mod
+    monkeypatch.setattr(store_mod, "_INSTANCE", None)
+
+    store = store_mod.get_curriculum_store(tmp_path)
+    store._last_snapshot_at = 0.0
+    store.create_board("CBSE", "cbse")       # uploads
+    store.create_board("ICSE", "icse")       # held by the 30 s debounce
+    store.create_board("State", "state")
+    assert _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == {"cbse"}
+
+    # Registered with the app, so uvicorn runs it on SIGTERM.
+    assert main_mod._shutdown in main_mod.app.router.on_shutdown
+    main_mod._shutdown()
+
+    assert _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == {"cbse", "icse", "state"}
+    store.close()
+
+
+def test_first_boot_with_no_snapshot_starts_fresh(shared_gcs, tmp_path: Path) -> None:
+    from academicos.curriculum.store import CurriculumStore
+    store = CurriculumStore(tmp_path / "a" / "curriculum.sqlite")   # BlobNotFound
+    assert store.list_boards() == []
+    store.close()
+
+
+def test_boot_refuses_to_start_empty_when_gcs_is_unreachable(
+        shared_gcs, tmp_path: Path) -> None:
+    """Unreachable is not "no snapshot yet". Starting empty here serves a blank
+    curriculum as if it were real, and the admin who re-enters it loses it all
+    at the next deploy. The constructor must fail so the container fails its
+    startup probe and Cloud Run retries it."""
+    from academicos.curriculum.store import CurriculumStore, CurriculumNotDurable
+    seed = CurriculumStore(tmp_path / "seed" / "curriculum.sqlite")
+    seed.create_board("CBSE", "cbse")         # a real snapshot exists remotely
+    seed.close()
+
+    shared_gcs.fail_reads_and_writes = True
+    db_path = tmp_path / "fresh" / "curriculum.sqlite"
+    with pytest.raises(CurriculumNotDurable):
+        CurriculumStore(db_path)
+    assert not db_path.exists(), "a failed restore must leave nothing to boot from"
+
+    shared_gcs.fail_reads_and_writes = False  # the retry Cloud Run makes
+    store = CurriculumStore(db_path)
+    assert store.get_board_by_code("cbse") is not None
     store.close()
 
 
 def test_stale_curriculum_snapshot_write_is_refused(shared_gcs, tmp_path: Path, caplog) -> None:
-    """Two instances, one snapshot blob. Instance B restores A's snapshot and
+    """Two instances, one snapshot blob -- the overlap every Cloud Run rollout
+    has, since --max-instances is per revision. B restores A's snapshot and
     writes after it; A -- still holding the generation it last wrote -- must
-    NOT replace B's snapshot with its own older copy of the database."""
-    from academicos.curriculum.store import CurriculumStore
+    NOT replace B's snapshot with its own older copy of the database.
 
-    a = CurriculumStore(tmp_path / "a" / "curriculum.sqlite")   # uploads gen 1
-    b = CurriculumStore(tmp_path / "b" / "curriculum.sqlite")   # restores gen 1
+    And A must not stay stuck: it used to keep its stale generation for good,
+    so every later upload 412'd, every request still said "saved", and health
+    showed nothing. Now the refused write answers 503 (a real "not saved"),
+    A reloads the newer snapshot, health names the conflict, and A's next
+    write lands on top of B's."""
+    from academicos.curriculum.store import CurriculumStore, CurriculumNotDurable
+    import academicos.api.main as main_mod
+
+    a = CurriculumStore(tmp_path / "a" / "curriculum.sqlite")
+    a._last_snapshot_at = 0.0
+    a.create_board("CBSE", "cbse")                              # A uploads
+    b = CurriculumStore(tmp_path / "b" / "curriculum.sqlite")   # restores A's
     b._last_snapshot_at = 0.0
-    b.create_board("CBSE", "cbse")                              # B writes after A
+    b.create_board("State", "state")                            # B writes after A
     after_b = _snapshot(shared_gcs)
 
     a._last_snapshot_at = 0.0
     with caplog.at_level(logging.ERROR, logger="academicos.storage.blobs"):
-        a.create_board("ICSE", "icse")   # must not raise into the request either
+        with pytest.raises(CurriculumNotDurable):
+            a.create_board("ICSE", "icse")
 
     assert _snapshot(shared_gcs) == after_b, "A silently erased B's snapshot"
     assert any("refused" in r.getMessage().lower() for r in caplog.records)
+    status = main_mod.health_storage()["blob_status"]
+    assert status["curriculum_snapshot_conflict"] is True
+    assert status["curriculum_snapshot_conflict_count"] == 1
+    assert status["curriculum_snapshot_conflict_at"]
 
-    # B loaded what it is overwriting, so B keeps working.
-    b._last_snapshot_at = 0.0
-    b.create_board("State", "state")
+    # A reloaded B's snapshot: B's board is there, A's refused one is not.
+    assert a.get_board_by_code("state") is not None
+    assert a.get_board_by_code("icse") is None
+
+    # ... so A's retry succeeds and carries B's data with it.
+    a._last_snapshot_at = 0.0
+    a.create_board("ICSE", "icse")
     assert _snapshot(shared_gcs)["generation"] > after_b["generation"]
+    assert _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == {"cbse", "state", "icse"}
     a.close()
     b.close()
+
+
+def test_conflict_is_a_503_not_a_500(shared_gcs) -> None:
+    """api/main.py maps SupabaseUnavailable (and its subclasses) to 503."""
+    from academicos.assessment.supabase_kv import SupabaseUnavailable
+    from academicos.curriculum.store import CurriculumNotDurable
+    assert issubclass(CurriculumNotDurable, SupabaseUnavailable)
+
+
+def test_retry_that_sees_its_own_write_is_not_a_conflict(shared_gcs, caplog) -> None:
+    """With if_generation_match set, google-cloud-storage retries the upload.
+    If the first attempt landed but its response was lost, the retry 412s
+    against the generation it just made. That is our own write: adopt it,
+    do not declare another instance and wedge the store."""
+    store = durable_blob_store("curriculum-snapshots")
+    shared_gcs.lose_next_upload_response = True
+    with caplog.at_level(logging.ERROR, logger="academicos.storage.blobs"):
+        store.upload("curriculum.sqlite", b"mine", "application/x-sqlite3")
+    assert not any("refused" in r.getMessage().lower() for r in caplog.records)
+    assert blobs.blob_status()["curriculum_snapshot_conflict"] is False
+
+    # The adopted generation is the real one: the next write is accepted.
+    store.upload("curriculum.sqlite", b"mine v2", "application/x-sqlite3")
+    assert _snapshot(shared_gcs)["data"] == b"mine v2"
+
+
+def test_real_conflict_with_different_bytes_is_still_refused(shared_gcs) -> None:
+    other = durable_blob_store("curriculum-snapshots")
+    other.upload("curriculum.sqlite", b"other instance", "application/x-sqlite3")
+    fresh = durable_blob_store("curriculum-snapshots")
+    with pytest.raises(blobs.BlobConflict):
+        fresh.upload("curriculum.sqlite", b"mine", "application/x-sqlite3")
+    assert blobs.blob_status()["curriculum_snapshot_conflict_count"] == 1
 
 
 def test_guarded_write_to_a_snapshot_never_loaded_is_refused(shared_gcs) -> None:
@@ -281,3 +467,31 @@ def test_health_storage_reports_blob_backend(clean_env) -> None:
     body = main_mod.health_storage()
     assert body["blob_backend"] == "gcs"
     assert "durability_backend" in body
+    assert body["blob_status"] == {
+        "curriculum_snapshot_conflict": False,
+        "curriculum_snapshot_conflict_count": 0,
+        "curriculum_snapshot_conflict_at": None,
+        "curriculum_snapshot_upload_failures": 0,
+        "curriculum_snapshot_upload_failure_at": None,
+        "scan_media_upload_failures": 0,
+        "scan_media_upload_failure_at": None,
+    }
+
+
+def test_failed_scan_media_upload_is_counted_in_health(
+        shared_gcs, tmp_path: Path, monkeypatch) -> None:
+    """A failed scan upload stays best-effort for the teacher (the scan must
+    not fail mid-way), but on GCP that artifact then exists only on container
+    disk. It must at least be visible: /health/storage counts it."""
+    from academicos.assessment import mobile_scan
+    import academicos.api.main as main_mod
+    monkeypatch.setattr(mobile_scan, "_storage", durable_blob_store("scan-media"))
+    photo = tmp_path / "page_001.jpg"
+    photo.write_bytes(b"\xff\xd8 jpeg")
+
+    shared_gcs.fail_reads_and_writes = True
+    assert mobile_scan._upload("scan_abc", "raw/page_001.jpg", photo, "image/jpeg") == ""
+
+    status = main_mod.health_storage()["blob_status"]
+    assert status["scan_media_upload_failures"] == 1
+    assert status["scan_media_upload_failure_at"]

@@ -39,22 +39,45 @@ reason; this module is the second line of defence. A store created with
 or wrote and uploads with `if_generation_match` set to it (0 -- "must not
 exist" -- for an object it never saw). A snapshot someone else wrote in the
 meantime therefore fails with HTTP 412, and the upload raises BlobConflict,
-logged at ERROR, instead of erasing it. CurriculumStore catches it as a
-RequestException like any other failed upload, so the teacher's request still
-succeeds; the instance's own later writes stay on its local disk until it is
-restarted and restores the newer snapshot. Refusing is the lesser loss: the
+logged at ERROR, instead of erasing it. Refusing is the lesser loss: the
 alternative destroys the other instance's writes with no trace at all.
+
+Two instances overlap even with --max-instances=1: the limit is per revision,
+so every rollout runs the old and new revision side by side for a while.
+
+What happens after a refusal is CurriculumStore's job (curriculum/store.py
+`_on_snapshot_conflict`): the request that triggered it answers 503, the
+store reloads the newer snapshot -- which also refreshes the generation this
+module holds, so the store is not wedged into 412-ing forever -- and the
+conflict is counted here for /health/storage.
+
+A 412 is not always another writer. With if_generation_match set,
+google-cloud-storage retries the upload; when the first attempt landed but
+its response was lost, the retry meets the generation it just created. Before
+declaring a conflict, upload() re-reads the object's metadata and, if its
+md5 is the md5 of the bytes just sent, adopts that generation as its own
+write.
+
+Status, process-wide: `blob_status()` is what /health/storage shows beside
+blob_backend -- snapshot conflicts, failed snapshot uploads and failed
+scan-media uploads, each with a count and the last time. A failed scan upload
+is still best-effort for the teacher (mobile_scan.py), but on GCP it means
+that artifact is on container disk only, so it has to be visible somewhere.
 """
 from __future__ import annotations
 
+import base64
 import contextlib
+import hashlib
 import logging
 import os
 import threading
+from datetime import datetime, timezone
 from typing import Optional
 
 import requests
 
+from ..assessment.supabase_kv import SupabaseUnavailable
 from ..config import credential_or_none
 
 logger = logging.getLogger(__name__)
@@ -74,9 +97,109 @@ class BlobUnavailable(requests.exceptions.RequestException):
     restore and its snapshot path."""
 
 
+class BlobNotFound(BlobUnavailable):
+    """The object does not exist. Split from BlobUnavailable because the two
+    mean opposite things at boot: "no snapshot yet" is a first boot and may
+    start empty; "GCS did not answer" must not, or an outage at cold start
+    serves an empty curriculum as if it were the real one."""
+
+
 class BlobConflict(BlobUnavailable):
     """A guarded upload was refused: the object changed since this process
     last read or wrote it (GCS precondition failure, HTTP 412)."""
+
+
+class CurriculumNotDurable(SupabaseUnavailable):
+    """A curriculum write or boot could not be made durable, and saying
+    "saved" would be a lie: the snapshot restore failed for a reason other
+    than "none yet", or a snapshot upload was refused because another
+    instance wrote a newer one.
+
+    A SupabaseUnavailable subclass for the same reason PostgresUnavailable
+    is one: api/main.py's existing handler turns it into a 503 with this
+    message, so a route cannot forget to."""
+
+    def __init__(self, detail: str):
+        Exception.__init__(self, detail)  # bypass SupabaseUnavailable's wording
+        self.table = "curriculum-snapshots"
+        self.op = "snapshot"
+        self.status = None
+        self.body = detail
+
+
+def is_not_found(exc: BaseException) -> bool:
+    """True when a blob store's download failure means "no such object".
+
+    BlobNotFound for GCS. SupabaseStorage raises the raw HTTPError: a plain
+    404 on newer Storage deployments, a 400 whose body says not_found on
+    older ones. Anything else -- a connection error, a timeout, a 5xx -- is
+    an outage, not an absence."""
+    if isinstance(exc, BlobNotFound):
+        return True
+    response = getattr(exc, "response", None)
+    status = getattr(response, "status_code", None)
+    if status == 404:
+        return True
+    if status == 400:
+        body = (getattr(response, "text", "") or "").lower()
+        return "not_found" in body or "not found" in body
+    return False
+
+
+# --- status for /health/storage ----------------------------------------------
+
+_status_lock = threading.Lock()
+_status: dict[str, dict] = {}
+
+
+def _now() -> str:
+    return datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+def _record(event: str, name: str) -> None:
+    with _status_lock:
+        entry = _status.setdefault(f"{name}:{event}", {"count": 0, "at": None})
+        entry["count"] += 1
+        entry["at"] = _now()
+
+
+def record_conflict(name: str) -> None:
+    """A guarded upload of `name` was refused because of a real concurrent
+    writer (not our own retried request -- see upload())."""
+    _record("conflict", name)
+
+
+def record_upload_failure(name: str) -> None:
+    """An upload of `name` failed for any reason other than a conflict: the
+    bytes are on container disk only until a later upload succeeds."""
+    _record("upload_failure", name)
+
+
+def reset_status() -> None:
+    """Test support: the counters are process-wide by design."""
+    with _status_lock:
+        _status.clear()
+
+
+def blob_status() -> dict:
+    """Flat, stable keys for /health/storage. Counts are since process start;
+    `*_at` is the last occurrence (UTC ISO-8601) or None. Per instance, like
+    /health/llm: a multi-instance view needs a metrics backend."""
+    with _status_lock:
+        def get(key: str) -> dict:
+            return dict(_status.get(key, {"count": 0, "at": None}))
+        conflict = get("curriculum-snapshots:conflict")
+        snap_fail = get("curriculum-snapshots:upload_failure")
+        scan_fail = get("scan-media:upload_failure")
+    return {
+        "curriculum_snapshot_conflict": conflict["count"] > 0,
+        "curriculum_snapshot_conflict_count": conflict["count"],
+        "curriculum_snapshot_conflict_at": conflict["at"],
+        "curriculum_snapshot_upload_failures": snap_fail["count"],
+        "curriculum_snapshot_upload_failure_at": snap_fail["at"],
+        "scan_media_upload_failures": scan_fail["count"],
+        "scan_media_upload_failure_at": scan_fail["at"],
+    }
 
 
 def _gcs_bucket() -> Optional[str]:
@@ -117,13 +240,23 @@ class GcsBlobStore:
                     key, data, content_type, if_generation_match=expected)
             except Exception as exc:
                 if self._guard and _is_precondition_failure(exc):
+                    adopted = self._own_write_generation(key, data)
+                    if adopted is not None:
+                        # A retried request met the write its own first
+                        # attempt made. Not a conflict: adopt it.
+                        logger.warning(
+                            "412 on %s/%s was this instance's own retried "
+                            "upload (md5 matches); adopting generation %s",
+                            self.name, key, adopted)
+                        self._generations[key] = adopted
+                        return
+                    record_conflict(self.name)
                     logger.error(
                         "REFUSED to overwrite gs://%s/%s: it changed since this "
                         "instance loaded generation %s, so another instance wrote "
-                        "it. Keeping the newer object; this instance's writes stay "
-                        "local until it restarts and restores. More than one "
-                        "instance is running against the %s store -- check "
-                        "--max-instances.",
+                        "it. Keeping the newer object. More than one instance is "
+                        "running against the %s store (a rollout overlap, or "
+                        "--max-instances above 1).",
                         self._store.bucket.name, self._store._key(key), expected,
                         self.name)
                     raise BlobConflict(
@@ -131,6 +264,29 @@ class GcsBlobStore:
                         f"generation {expected}") from exc
                 raise BlobUnavailable(f"GCS upload of {self.name}/{key} failed: {exc}") from exc
             self._generations[key] = generation
+
+    def _own_write_generation(self, key: str, data: bytes) -> Optional[int]:
+        """The object's generation if its content is exactly `data`, else None.
+
+        md5 is what GCS records for every non-composite upload (base64 of the
+        raw digest). If it is missing, compare the bytes themselves. A failed
+        read here means we cannot prove the object is ours, so it stays a
+        conflict: wrongly adopting would let this instance overwrite another's
+        snapshot on its next write."""
+        try:
+            meta = self._store.stat(key)
+            if meta is None:
+                return None
+            generation, md5_b64 = meta
+            if md5_b64:
+                mine = base64.b64encode(hashlib.md5(data).digest()).decode()
+                return generation if md5_b64 == mine else None
+            found = self._store.get_bytes(key)
+            return found[1] if found is not None and found[0] == data else None
+        except Exception:  # noqa: BLE001 - unprovable is treated as a conflict
+            logger.warning("could not re-read %s/%s after a 412", self.name, key,
+                           exc_info=True)
+            return None
 
     def download(self, key: str) -> bytes:
         with self._lock:
@@ -141,7 +297,7 @@ class GcsBlobStore:
             if found is None:
                 # Seen absent: creating it later is safe, replacing is not.
                 self._generations[key] = 0
-                raise BlobUnavailable(f"{self.name}/{key} does not exist")
+                raise BlobNotFound(f"{self.name}/{key} does not exist")
             data, generation = found
             self._generations[key] = generation
             return data

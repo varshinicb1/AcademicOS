@@ -188,6 +188,13 @@ jobs:
           # scan media and the curriculum snapshot in GCS (ACOS_GCS_BUCKET,
           # storage/blobs.py). With the Supabase URL present the service would
           # quietly keep writing to it wherever GCP was not wired.
+          # The last store that still read the Supabase secrets itself,
+          # KnowledgeStore (student mastery history), now goes through
+          # durable_table("learner_models") -> Cloud SQL. Before the FIRST
+          # deploy without them, copy its existing rows:
+          #   scripts/migrate_supabase_to_cloudsql.py --only learner_models
+          # (docs/gcp-deployment.md section 8); otherwise that history is
+          # left behind in Supabase, invisible to this service.
           # --set-secrets replaces the service's whole secret list, so dropping
           # them here also removes them from a service deployed with them.
           SECRETS="ACOS_PRINCIPAL_BOOTSTRAP_KEY=principal-bootstrap-key:latest"

@@ -173,3 +173,15 @@ CREATE TABLE IF NOT EXISTS parental_consents (
     PRIMARY KEY (school_id, student_id)
 );
 CREATE INDEX IF NOT EXISTS idx_consents_school ON parental_consents (school_id);
+
+-- -- learner_models ------------------------------------------------------------
+-- KnowledgeStore (assessment/knowledge.py): one row per student holding the
+-- whole mastery history as JSONB. Added 2026-09-22 when the store moved onto
+-- durable_table -- before that it spoke Supabase REST directly and, with the
+-- Supabase secrets dropped from the GCP deploy, would have written local JSON
+-- that every redeploy wipes. Copy existing rows with
+-- scripts/migrate_supabase_to_cloudsql.py --only learner_models.
+CREATE TABLE IF NOT EXISTS learner_models (
+    student_id TEXT PRIMARY KEY,
+    payload    JSONB
+);

@@ -11,35 +11,39 @@ through as a fractional outcome so a 3/5 answer is not recorded as simply
 accuracy, recency-weighted confidence, retention decay and higher-Bloom
 application.
 
-State is persisted per student so the loop survives restarts. When
-SUPABASE_KNOWLEDGE_URL/SUPABASE_KNOWLEDGE_ANON_KEY are set, that persistence
-is a Postgres row (via Supabase's PostgREST API) rather than a local JSON
-file -- this is the one store in the app where losing data to a Render
-redeploy (not just an idle restart) actually matters, since it's a student's
-accumulated mastery history, not a single in-flight session. Falls back to
-local JSON files when those env vars are absent (local dev).
+State is persisted per student so the loop survives restarts: one
+`learner_models` row per student (student_id + JSONB payload), resolved
+through postgres_kv.durable_table like every other JSONB store -- Cloud SQL
+on GCP, Supabase on Render, local JSON files when neither is configured
+(local dev). Losing it matters more than most stores: it is a student's
+accumulated mastery history, not a single in-flight session.
 
-The anon key used here is never shipped to the Flutter client -- it lives
-only as a Render env var on this backend -- so despite the name it functions
-as a private server-side credential, not a public one; RLS on the
-`learner_models` table is scoped accordingly (see the migration that created
-it).
+2026-09-22: this store used to call Supabase's PostgREST API itself, reading
+the Supabase env vars directly. When the GCP deploy dropped those secrets
+(no school data outside GCP), it silently fell back to local JSON under
+/app, which Cloud Run discards on every redeploy -- every student's history
+would have vanished at each deploy with no error anywhere. Going through
+durable_table puts it in Cloud SQL there; the rows already in Supabase are
+copied by scripts/migrate_supabase_to_cloudsql.py (`learner_models` entry).
+
+A live backend failure is not caught here: it raises SupabaseUnavailable
+(PostgresUnavailable on Cloud SQL), which api/main.py answers with a 503.
+Falling back to local JSON on failure would split one student's history
+across two places.
 """
 from __future__ import annotations
 
 import json
-import os
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-import requests
-
 from ..algorithms.learner_model import ConceptState, Interaction, LearnerModel
 from ..algorithms.mastery import KnowledgeMastery
 from .chapters import chapter_name
 from .evaluate import Evaluation
+from .postgres_kv import durable_table
 from .schemas import QuestionSchema
 
 MASTERY_TARGET = 0.85   # the remediation loop drives toward this
@@ -77,27 +81,18 @@ def _status(m: float, confident: bool) -> str:
 
 
 class KnowledgeStore:
-    """Per-student learner models -- Postgres-backed when Supabase is
-    configured, local JSON files otherwise. See module docstring."""
+    """Per-student learner models -- in the `learner_models` durable table
+    when one is configured, local JSON files otherwise. See module docstring."""
 
     def __init__(self, root: Path):
         self.root = root
         self.root.mkdir(parents=True, exist_ok=True)
         self._scorer = KnowledgeMastery()
-        self._supabase_url = (os.environ.get("SUPABASE_KNOWLEDGE_URL", "").strip().rstrip("/")
-                              or None)
-        self._supabase_key = os.environ.get("SUPABASE_KNOWLEDGE_ANON_KEY", "").strip() or None
+        self._table = durable_table("learner_models")
 
     @property
     def _remote(self) -> bool:
-        return bool(self._supabase_url and self._supabase_key)
-
-    def _headers(self) -> dict[str, str]:
-        return {
-            "apikey": self._supabase_key,
-            "Authorization": f"Bearer {self._supabase_key}",
-            "Content-Type": "application/json",
-        }
+        return self._table.enabled
 
     def _path(self, student_id: str) -> Path:
         # Injective sanitization: disallowed chars are percent-encoded rather
@@ -112,13 +107,7 @@ class KnowledgeStore:
 
     def _read_raw(self, student_id: str) -> Optional[dict[str, Any]]:
         if self._remote:
-            r = requests.get(
-                f"{self._supabase_url}/rest/v1/learner_models",
-                params={"student_id": f"eq.{student_id}", "select": "payload"},
-                headers=self._headers(), timeout=10,
-            )
-            r.raise_for_status()
-            rows = r.json()
+            rows = self._table.select(student_id=student_id, limit=1)
             return rows[0]["payload"] if rows else None
         p = self._path(student_id)
         return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
@@ -153,13 +142,8 @@ class KnowledgeStore:
             },
         }
         if self._remote:
-            r = requests.post(
-                f"{self._supabase_url}/rest/v1/learner_models",
-                json={"student_id": model.learner_id, "payload": payload},
-                headers={**self._headers(), "Prefer": "resolution=merge-duplicates"},
-                timeout=10,
-            )
-            r.raise_for_status()
+            self._table.upsert({"student_id": model.learner_id, "payload": payload},
+                               on_conflict="student_id")
         else:
             self._path(model.learner_id).write_text(json.dumps(payload, indent=2), encoding="utf-8")
 

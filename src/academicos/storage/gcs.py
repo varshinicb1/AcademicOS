@@ -70,6 +70,14 @@ class GcsStore(ObjectStore):
         data = blob.download_as_bytes(if_generation_match=generation or None)
         return data, generation
 
+    def stat(self, key: str) -> tuple[int, str | None] | None:
+        """(generation, md5 as GCS reports it -- base64 of the raw digest), or
+        None when the object does not exist. Metadata only, no download."""
+        blob = self.bucket.get_blob(self._key(key))
+        if blob is None:
+            return None
+        return int(blob.generation or 0), getattr(blob, "md5_hash", None)
+
     def exists(self, key: str) -> bool:
         return self.bucket.blob(self._key(key)).exists()
 

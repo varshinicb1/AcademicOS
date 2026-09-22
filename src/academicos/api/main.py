@@ -353,6 +353,16 @@ def _startup() -> None:
     init_runtime()
 
 
+@app.on_event("shutdown")
+def _shutdown() -> None:
+    """Cloud Run sends SIGTERM and allows 10 s before SIGKILL; uvicorn runs
+    this inside that window. CurriculumStore debounces its snapshot upload,
+    so the last edits before a deploy can still be waiting -- upload them
+    now or they die with the container."""
+    from ..curriculum.store import flush_curriculum_snapshots
+    flush_curriculum_snapshots()
+
+
 @app.get("/health")
 def health() -> dict:
     return {"status": "ok"}
@@ -385,7 +395,7 @@ def health_llm() -> dict:
 _DURABLE_STORES = [
     "AssessmentStore", "PaperStore", "PracticeStore", "GradedStore",
     "ScanSessionStore", "TemplateStore", "UserStore", "AuditLog",
-    "EventStore", "CurriculumStore (snapshot/restore)",
+    "EventStore", "KnowledgeStore", "CurriculumStore (snapshot/restore)",
 ]
 
 # One SupabaseTable per _DURABLE_STORES row above (keep the two lists in
@@ -394,7 +404,7 @@ _DURABLE_STORES = [
 _DURABLE_TABLES = [
     "assessments", "papers", "practice_sets", "graded_evaluations",
     "scan_sessions", "school_templates", "users", "sessions",
-    "audit_log", "learner_events",
+    "audit_log", "learner_events", "learner_models",
 ]
 
 # How long one /health/storage answer stays good. The 2026-09-15 stress
@@ -473,6 +483,15 @@ def _refresh_storage_probe(cfg) -> dict:
 
 @app.get("/health/storage")
 def health_storage() -> dict:
+    """The probe below plus `blob_status` (storage/blobs.py): snapshot
+    conflicts and failed blob uploads on this instance. Live, never cached --
+    it is in-process counters, and a conflict must show the moment it
+    happens, not one probe TTL later."""
+    from ..storage.blobs import blob_status
+    return {**_storage_probe(), "blob_status": blob_status()}
+
+
+def _storage_probe() -> dict:
     """Answers "is this actually live" without guessing from the hosting
     dashboard or grepping env vars on the host -- which durability backend
     the stores are bound to, and (only if one is configured) whether every

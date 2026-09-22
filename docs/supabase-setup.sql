@@ -162,20 +162,29 @@ create table if not exists public.parental_consents (
 );
 create index if not exists idx_parental_consents_school on public.parental_consents (school_id);
 
+-- KnowledgeStore's per-student mastery history. Long-standing on the Render
+-- project (created by an earlier migration); listed here so a fresh project
+-- gets it too, now that /health/storage probes it.
+create table if not exists public.learner_models (
+  student_id text primary key,
+  payload    jsonb not null
+);
+
 grant all on public.users, public.sessions, public.assessments, public.papers,
               public.practice_sets, public.graded_evaluations,
               public.scan_sessions, public.school_templates,
               public.audit_log, public.learner_events,
-              public.parental_consents
+              public.parental_consents, public.learner_models
   to anon, authenticated, service_role;
 
--- Verify: should return eleven rows, one per table:
+-- Verify: should return twelve rows, one per table:
 --
 --   select table_name, count(*) as columns
 --   from information_schema.columns
 --   where table_schema = 'public'
 --     and table_name in ('users','sessions','assessments','papers',
 --       'practice_sets','graded_evaluations','scan_sessions',
---       'school_templates','audit_log','learner_events','parental_consents')
+--       'school_templates','audit_log','learner_events','parental_consents',
+--       'learner_models')
 --   group by table_name
 --   order by table_name;

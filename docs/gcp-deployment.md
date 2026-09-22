@@ -149,6 +149,8 @@ cares about the `ACADEMICOS_API` value baked in at build time.
    `deploy/gcp/schema.sql` first. `blob_backend` must read `"gcs"`;
    `"local"` means `ACOS_GCS_BUCKET` is missing and scan photos/PDFs and the
    curriculum snapshot are going to container disk, which Cloud Run discards.
+   `blob_status` must show `curriculum_snapshot_conflict: false` and zero
+   `*_upload_failures`; check it again after every rollout (below).
 4. Rebuild the web app with the new `ACADEMICOS_API` and deploy it.
 5. End-to-end, against the Cloud Run URL:
    - register → login → `GET /assessments` returns 200 (not 401);
@@ -172,20 +174,25 @@ Free tiers do the heavy lifting (Cloud Run: 2M req/mo; Cloud Build:
 120 min/day; Firebase Hosting: 10 GB + 360 MB/day transfer). Credits
 are not the constraint — engineering time is.
 
-## 8. Phase 2: Cloud SQL + GCS (structured data and blobs DONE; three stores open)
+## 8. Phase 2: Cloud SQL + GCS (structured data and blobs DONE; two stores open)
 
 Structured data is now first-class on GCP — this is no longer a future
 project:
 
 - **Cloud SQL Postgres** in `asia-south1` is provisioned by the bootstrap
-  (daily backups, PITR), `deploy/gcp/schema.sql` defines all 11 tables, and
+  (daily backups, PITR), `deploy/gcp/schema.sql` defines all 12 tables, and
   `src/academicos/assessment/postgres_kv.py` implements the Cloud SQL backend
-  behind the same interface the stores already used. All 11 stores now call
+  behind the same interface the stores already used. Every JSONB store,
+  `KnowledgeStore` included (`learner_models`, since 2026-09-22), calls
   `durable_table(...)`, which prefers Cloud SQL whenever `ACOS_POSTGRES_*` is
   set and otherwise falls back to Supabase — so the cutover is an env-var
   change, and the reverse is too.
 - **Migration** is `scripts/migrate_supabase_to_cloudsql.py` (paged, so it does
-  not silently stop at PostgREST's 1000-row cap; idempotent on re-run).
+  not silently stop at PostgREST's 1000-row cap; idempotent on re-run). It
+  copies `learner_models` too. **Run it (at least `--only learner_models`)
+  before the first deploy without the Supabase secrets**: until that deploy
+  the GCP service read and wrote students' mastery history in Supabase, and
+  once the secrets are gone those rows are invisible to it.
 
 - **Blob storage** goes through one factory, `storage/blobs.py`'s
   `durable_blob_store(name)`, mirroring `durable_table`: GCS when
@@ -196,35 +203,62 @@ project:
   `/health/storage` reports `blob_backend` (`gcs`/`supabase`/`local`) next to
   `durability_backend`. Only the env var selects GCS — `config.toml`'s
   `gcs_bucket` is the CLI corpus-sync dev bucket and is ignored here.
-- **The Supabase secrets are no longer injected** into the GCP service.
+- **The Supabase secrets are no longer injected** into the GCP service. That
+  is safe only because nothing on GCP still depended on them: the last store
+  that did, `KnowledgeStore`, moved to `durable_table("learner_models")` in
+  the same change. Removing the secrets first would have sent every
+  student's mastery history to container disk, wiped on each redeploy.
 
 ### The curriculum snapshot has exactly one writer
 
 `CurriculumStore` keeps 18 FK-linked tables in a local SQLite file and
-persists the whole file as one object. Exact behaviour: on boot, if the local
-file does not exist, it downloads the snapshot and writes it to disk before
-opening; after every commit it checkpoints the WAL and uploads the whole file,
-debounced to once per 30 s (a commit inside the window is not uploaded until
-a later commit falls outside it). Two instances would each upload their own
-copy and each would replace the other's wholesale. Two guards:
+persists the whole file as one object. Exact behaviour:
+
+- **Boot.** If the local file does not exist, it downloads the snapshot and
+  writes it to disk before opening. "No snapshot yet" (`BlobNotFound`, or
+  Supabase's 404 / 400-not_found) starts a fresh database. Any other failure —
+  GCS unreachable, a timeout, a 5xx — raises `CurriculumNotDurable` and leaves
+  no local file, so app startup fails and Cloud Run retries the container
+  instead of serving an empty curriculum as if it were the real one.
+- **Upload.** A commit that changed rows marks the snapshot pending. Uploads
+  are debounced to one per 30 s, but the debounce only delays: a commit
+  inside the window arms one trailing timer for the end of it, a failed
+  upload re-arms it (and counts in `blob_status`), and the app's shutdown hook
+  (`api/main.py` `_shutdown`, run by uvicorn on Cloud Run's SIGTERM, inside
+  the 10 s grace) uploads whatever is still pending. Each upload checkpoints
+  the WAL and sends the whole file. A commit that changed nothing (schema
+  no-ops at boot) does not upload, so a freshly restored instance does not
+  bump the generation under an instance it is overlapping with.
+
+Two instances would each upload their own copy and each would replace the
+other's wholesale. `--max-instances=1` does not rule that out: it is per
+revision, so every rollout runs the old and new revision side by side for a
+while, and Cloud Run can briefly exceed it. Three guards:
 
 1. `deploy-gcp.yml` sets `--max-instances=1`. Lift it only when
    `CurriculumStore` moves to Cloud SQL.
 2. The GCS snapshot write carries a generation precondition
    (`if_generation_match`). The store remembers the generation it restored
    or last wrote (0 — "must not exist" — if it never saw the object), so a
-   snapshot another instance wrote in between fails with HTTP 412. The
-   upload is refused and logged at ERROR (`REFUSED to overwrite ...`) instead
-   of erasing the newer snapshot. The request still succeeds; that
-   instance's later curriculum writes stay on its local disk only until it
-   restarts and restores the newer snapshot. A refusal in the logs therefore
-   means two instances ran at once — during a revision rollout Cloud Run can
-   briefly run the old and the new revision together, so check for it after
-   every deploy that happened while an admin was editing the calendar.
+   snapshot another instance wrote in between fails with HTTP 412 and is
+   refused, logged at ERROR (`REFUSED to overwrite ...`), instead of erased.
+   A 412 whose object md5 equals the bytes just sent is this instance's own
+   retried upload (the client retries conditional writes; a lost response
+   makes the retry 412) and is adopted, not treated as a conflict.
+3. After a refusal the instance does not stay stuck. The edit that hit it
+   answers **503** ("not saved, retry"), the store reloads the newer snapshot
+   into its live connection (which also refreshes its generation), and
+   `/health/storage` → `blob_status` shows `curriculum_snapshot_conflict:
+   true` with a count and the time. What that instance had not uploaded is
+   discarded — it is the losing side. If the reload itself fails, every
+   later curriculum write answers 503 until the instance restarts.
 
-Remaining limit even with one instance: the last commits inside the 30 s
-debounce window are not uploaded until a later commit, so an instance killed
-right after an edit can lose that edit.
+Remaining limit: an edit made on the old revision after the new revision
+restored, and never retried, is lost. Its timer-driven upload is refused
+(counted in `blob_status`, logged at ERROR) and no request is left to fail.
+So after each rollout, check `curriculum_snapshot_conflict` on
+`/health/storage`; `true` means an admin edit during the overlap needs
+re-entering. The real fix is moving `CurriculumStore` to Cloud SQL.
 
 ### Store census: where each store's data lives on GCP
 
@@ -244,7 +278,7 @@ Every `sqlite3.connect` under `src/academicos`, plus the one JSON-file store.
 | `EventStore` (`storage/event_store.py`) | learner events | Cloud SQL `learner_events` |
 | `ConsentStore` (`assessment/consent.py`) | parental consent (DPDP) | Cloud SQL `parental_consents` (not yet in the `/health/storage` probe list) |
 | `CurriculumStore` (`curriculum/store.py`) | calendars, sequences, timetable, enrolments | container SQLite + GCS snapshot, one instance (above) |
-| `KnowledgeStore` (`assessment/knowledge.py`, JSON files) | per-student mastery history | **container disk only — OPEN.** It talks to Supabase's `learner_models` over raw REST and has no Cloud SQL table; with the Supabase secrets gone it writes local JSON. Fix: a `learner_models` table in `deploy/gcp/schema.sql` and `durable_table("learner_models")` in the store (not a constructor swap) |
+| `KnowledgeStore` (`assessment/knowledge.py`) | per-student mastery history | Cloud SQL `learner_models` (moved to `durable_table` 2026-09-22; copy the existing Supabase rows with the migration script before dropping the secrets) |
 | `SourceRegistry` + `LocalStore` via `assessment/ingest_routes.py` | a school's own uploaded papers/marking schemes | **container disk only — OPEN.** The file store could become `GcsStore`, but the registry row is local SQLite too, so both need moving together |
 | `ApiKeyStore` (`assessment/api_keys.py`) | partner API keys (hashed) and quota counters | **container disk only — OPEN.** Not student data, but a redeploy revokes every issued key |
 | `AnswerKeyStore` (`assessment/answer_key.py`) | CBSE marking schemes | baked into the image (corpus content, not school data) |
@@ -253,9 +287,26 @@ Every `sqlite3.connect` under `src/academicos`, plus the one JSON-file store.
 | `QuestionBankStore` (`assessment/qbank_store.py`) | item versions/review states | not constructed by the API |
 | embedding cache (`assessment/embedding_chapter_tagger.py`) | chapter-tag embeddings | container disk; derived, safe to lose |
 
-Data already in Supabase (prior scan media, the current curriculum snapshot,
-`learner_models`) is not copied by `scripts/migrate_supabase_to_cloudsql.py`,
-which moves the eleven JSONB tables only.
+Data already in Supabase that the migration script does NOT copy: prior scan
+media and the current curriculum snapshot (blobs, not JSONB rows). The script
+copies the twelve JSONB tables, `learner_models` included. Scan media uploaded
+before the move are not readable by a service whose blob backend is GCS (the
+factory picks one backend); copy them if they are still needed, and copy the `curriculum-snapshots` object into
+`gs://<bucket>/academicos/curriculum-snapshots/curriculum.sqlite` before the
+first GCP boot, or the store starts with an empty curriculum (first-boot
+semantics: no object means "none yet").
+
+Scan-media uploads stay best-effort for the teacher — a failed upload does not
+fail the scan — but on GCP that artifact is then on container disk only. Every
+such failure is counted in `/health/storage` → `blob_status`
+(`scan_media_upload_failures`, `scan_media_upload_failure_at`); a non-zero
+count means artifacts that will be gone at the next redeploy.
+
+GCS behaviour verified so far only against an in-memory fake
+(`tests/test_blob_factory.py`). `tests/test_gcs_blob_integration.py` runs
+create, stale overwrite and 412 against a real bucket; it is skipped unless
+`ACOS_GCS_TEST_BUCKET` names a scratch bucket. Run it once with real
+credentials before the first school goes live.
 
 Still open:
 - Connection sizing: Cloud Run runs at `--concurrency=40`, so the adapter
