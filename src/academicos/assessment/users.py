@@ -400,15 +400,23 @@ class UserStore:
             "password_hash": _hash_password(password, salt), "password_salt": salt.hex(),
             "role": role, "created_at": created_at,
         }
-        saved_remotely = False
+        # No local fallback when the remote store is on. The old path caught
+        # the upsert failure and saved the account to the local file, which
+        # Render wipes at the next cold start; nothing raised, so the invite
+        # claim was never released and the person lost account and code
+        # together. SupabaseUnavailable also wraps a 409, so a unique-email
+        # violation on the remote table was swallowed and the same email was
+        # saved twice. Now an outage propagates (the caller releases the
+        # invite, api/main.py answers 503) and a unique violation is what
+        # it is.
         if self._remote.enabled:
             try:
                 self._remote.upsert(row, on_conflict="id")
-                saved_remotely = True
-            except (SupabaseUnavailable, requests.exceptions.RequestException):
-                logger.warning("Supabase unavailable for user register, falling back to local SQLite", exc_info=True)
-
-        if not saved_remotely:
+            except (SupabaseUnavailable, requests.exceptions.RequestException) as exc:
+                if _is_unique_violation(exc):
+                    raise EmailAlreadyRegistered(email) from exc
+                raise
+        else:
             with self._conn_lock:
                 try:
                     self.conn.execute(
@@ -729,6 +737,16 @@ class UserStore:
         if not self._principal_key or not supplied:
             return False
         return secrets.compare_digest(supplied, self._principal_key)
+
+
+def _is_unique_violation(exc: BaseException) -> bool:
+    """A remote write refused by a unique index, as opposed to an outage.
+    PostgREST answers 409 for SQLSTATE 23505; Cloud SQL (PostgresUnavailable)
+    has no HTTP status, so the wrapped psycopg error's sqlstate is read."""
+    if getattr(exc, "status", None) == 409:
+        return True
+    cause = exc.__cause__
+    return getattr(cause, "sqlstate", None) == "23505"
 
 
 def _row_to_user(row: dict) -> User:

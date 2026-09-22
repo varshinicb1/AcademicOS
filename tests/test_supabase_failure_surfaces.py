@@ -187,22 +187,33 @@ def test_missing_table_raises_typed_error_that_sqlite_fallback_still_catches(
         SupabaseTable("users").select()
 
 
-def test_auth_route_falls_back_to_sqlite_when_the_users_table_is_missing(
+def test_register_answers_503_when_the_users_table_is_missing(
         stub_postgrest, tmp_path, monkeypatch) -> None:
+    """This test used to assert the opposite: registration fell back to
+    local SQLite when the remote `users` table was missing. The Task 301
+    code review showed what that fallback did in production: the account
+    lived only on Render's ephemeral disk (gone at the next cold start)
+    while the remote invite stayed claimed, so the person lost the account
+    AND the code. A missing table is now an honest 503, and the invite is
+    released so it still works once the table exists."""
+    from academicos.assessment import auth_routes
     from test_assessment_routes_auth import _boot_client
 
     stub_postgrest("users", "sessions")
     with _boot_client(tmp_path, monkeypatch) as client:
+        code = invite_code("school_1")
         r = client.post("/api/v1/auth/register", json={
-            "inviteCode": invite_code("school_1"), "name": "QA", "email": "qa@example.test",
+            "inviteCode": code, "name": "QA", "email": "qa@example.test",
             "password": "correct horse battery",
         })
-        # UserStore gracefully falls back to local SQLite so teachers/students
-        # are not locked out when Supabase users/sessions tables are missing
-        assert r.status_code == 200, r.text
-        body = r.json()
-        assert "token" in body
-        assert body["user"]["email"] == "qa@example.test"
+        assert r.status_code == 503, r.text
+        assert "users" in r.json()["detail"]
+        store = auth_routes._require()
+        invite, backend = store._find_invite(code)
+        assert (invite.status(), backend) == ("open", "remote")
+        with store._conn_lock:
+            assert store.conn.execute("SELECT COUNT(*) FROM users "
+                                      "WHERE email='qa@example.test'").fetchone()[0] == 0
 
 
 def test_non_fallback_route_answers_503_not_500_when_table_is_missing(
@@ -310,3 +321,24 @@ def test_real_credentials_still_enable_supabase(monkeypatch) -> None:
     assert table._url == "https://proj.supabase.co"
     assert SupabaseStorage("scan-media").enabled is True
     assert Config.load().supabase_enabled is True
+
+
+def test_health_storage_is_not_ready_when_only_invites_is_missing(
+        stub_postgrest, tmp_path, monkeypatch) -> None:
+    """Deploy-ordering check from the Task 301 review: a project set up
+    before 2026-09-21 has every table except `invites`. Registration by
+    invite then answers 503 everywhere, so the readiness verdict must go
+    false on that table alone, and name it."""
+    import academicos.api.main as main_mod
+    from test_assessment_routes_auth import _boot_client
+
+    stub_postgrest("invites")
+    main_mod._probe_cache.update(at=0.0, body=None)  # no stale verdicts
+    with _boot_client(tmp_path, monkeypatch) as client:
+        r = client.get("/health/storage")
+    body = r.json()
+    assert body["durability_reachable"] is False
+    assert body["supabase_reachable"] is False
+    assert body["tables"]["invites"].startswith("error:")
+    assert "PGRST205" in body["tables"]["invites"]
+    assert [t for t, s in body["tables"].items() if s != "ok"] == ["invites"]

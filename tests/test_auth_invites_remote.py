@@ -195,8 +195,8 @@ def test_a_used_remote_invite_is_refused_the_second_time(store):
 
 def test_failed_user_insert_after_remote_claim_releases_the_invite(store, remote):
     code = store.create_invite(school_id="school_A", role="teacher", created_by="p1").code
-    # Not a RequestException, so _insert_user does not fall back to local
-    # SQLite: the insert genuinely fails after the claim has been made.
+    # Any failure after the claim, not only a storage error: the release
+    # runs on BaseException. The outage case is test (e) below.
     remote["users"].fail["upsert"] = RuntimeError("disk full")
     with pytest.raises(RuntimeError):
         store.register(invite_code=code, name="A", email="a@example.com", password=PASSWORD)
@@ -342,3 +342,84 @@ def test_invite_routes_answer_503_during_an_outage(client, remote):
         "inviteCode": code, "name": "T", "email": "t@example.com", "password": PASSWORD,
     })
     assert ok.status_code == 200, ok.text
+
+
+# --------------------------------------------------------------------- #
+# (e) a failed remote account write never falls back to the local file
+# --------------------------------------------------------------------- #
+# Code review of 83b3383: _insert_user used to catch SupabaseUnavailable on
+# the users upsert and save the account to local SQLite instead. On Render
+# that file is wiped at the next cold start, and because nothing raised,
+# _release_invite never ran: the person lost both the account and the code.
+# SupabaseUnavailable also wraps a 409, so a unique-email violation on the
+# remote table was swallowed and the same email ended up saved twice.
+
+def test_remote_user_write_outage_is_raised_and_the_invite_comes_back_open(store, remote):
+    code = store.create_invite(school_id="school_A", role="teacher", created_by="p1").code
+    remote["users"].fail["upsert"] = SupabaseUnavailable(
+        table="users", op="upsert", status=503, body="fake outage")
+    with pytest.raises(SupabaseUnavailable):
+        store.register(invite_code=code, name="A", email="a@example.com", password=PASSWORD)
+
+    [row] = remote["invites"].rows
+    assert (row["used_by"], row["used_at"]) == ("", "")
+    assert remote["users"].rows == []
+    assert _local_count(store, "users") == 0
+
+    del remote["users"].fail["upsert"]
+    user = store.register(invite_code=code, name="A", email="a@example.com", password=PASSWORD)
+    assert [r["id"] for r in remote["users"].rows] == [user.id]
+
+
+def test_remote_unique_email_violation_is_email_already_registered(store, remote):
+    """Two invites, one email, registered at the same moment: both pass
+    get_by_email, the remote unique index (docs/supabase-setup.sql,
+    idx_users_email) answers 409 to the second. That is the same outcome as
+    the SQLite IntegrityError branch, and the loser's invite is released."""
+    code = store.create_invite(school_id="school_A", role="teacher", created_by="p1").code
+    remote["users"].fail["upsert"] = SupabaseUnavailable(
+        table="users", op="upsert", status=409,
+        body='{"code":"23505","message":"duplicate key value violates unique constraint"}')
+    with pytest.raises(users_mod.EmailAlreadyRegistered):
+        store.register(invite_code=code, name="A", email="a@example.com", password=PASSWORD)
+    [row] = remote["invites"].rows
+    assert (row["used_by"], row["used_at"]) == ("", "")
+    assert _local_count(store, "users") == 0
+
+
+def test_cloud_sql_unique_violation_is_email_already_registered(store, remote):
+    """Cloud SQL reports no HTTP status; the psycopg error it wraps carries
+    SQLSTATE 23505 instead."""
+    from academicos.assessment.postgres_kv import PostgresUnavailable
+
+    class UniqueViolation(Exception):
+        sqlstate = "23505"
+
+    err = PostgresUnavailable(table="users", op="upsert", body="duplicate key")
+    err.__cause__ = UniqueViolation("duplicate key")
+    code = store.create_invite(school_id="school_A", role="teacher", created_by="p1").code
+    remote["users"].fail["upsert"] = err
+    with pytest.raises(users_mod.EmailAlreadyRegistered):
+        store.register(invite_code=code, name="A", email="a@example.com", password=PASSWORD)
+    assert remote["invites"].rows[0]["used_by"] == ""
+
+
+def test_register_route_answers_503_when_the_remote_user_write_fails(client, remote):
+    principal = _bootstrap_principal(client, "school_A", "principal-a@example.com")
+    code = client.post(INVITES, json={"role": "teacher"}, headers=_auth(principal)).json()["code"]
+    remote["users"].fail["upsert"] = SupabaseUnavailable(
+        table="users", op="upsert", status=503, body="fake outage")
+    r = client.post(REGISTER, json={
+        "inviteCode": code, "name": "T", "email": "t@example.com", "password": PASSWORD,
+    })
+    assert r.status_code == 503, r.text
+    assert remote["invites"].rows[0]["used_by"] == ""
+
+
+def test_bootstrap_remote_user_write_outage_is_raised_not_saved_locally(store, remote):
+    remote["users"].fail["upsert"] = SupabaseUnavailable(
+        table="users", op="upsert", status=503, body="fake outage")
+    with pytest.raises(SupabaseUnavailable):
+        store.register(principal_key=KEY, school_id="school_A", name="P",
+                       email="p@example.com", password=PASSWORD)
+    assert _local_count(store, "users") == 0

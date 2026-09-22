@@ -137,7 +137,7 @@ cares about the `ACADEMICOS_API` value baked in at build time.
 2. `curl https://<run-url>/health` → `{"status":"ok"}`.
 3. `curl https://<run-url>/health/storage` → `durability_backend` set,
    `durability_reachable: true`, every table `"ok"`. On Supabase, if
-   `users`/`sessions` error, run `docs/supabase-setup.sql` first — same
+   `users`/`sessions`/`invites` error, run `docs/supabase-setup.sql` first — same
    prerequisite as on Render. On Cloud SQL, apply
    `deploy/gcp/schema.sql` first.
 4. Rebuild the web app with the new `ACADEMICOS_API` and deploy it.

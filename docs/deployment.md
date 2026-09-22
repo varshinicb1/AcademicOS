@@ -134,6 +134,31 @@ behavior. Check whether they're actually configured (and whether Supabase
 is currently reachable) via `GET /health/storage` rather than guessing
 from the Render dashboard.
 
+**Before merging invite registration (2026-09-21) to `master`: run the
+SQL first.** A push to `master` reaches Render with no manual gate (sync,
+image build, auto-redeploy), so the order has to be kept by hand:
+
+1. In the live Supabase project's SQL editor, run `docs/supabase-setup.sql`
+   (it is `if not exists`-guarded; the new table is `invites`).
+2. Confirm `invites` exists in the Supabase table editor. `/health/storage`
+   cannot tell you yet: the deploy before this change does not probe
+   `invites` (it was added to `_DURABLE_TABLES` in the same change).
+3. Only then merge. After the new deploy is live, wait one 30s TTL and
+   check `/health/storage` for `"invites": "ok"`. If the table is missing,
+   `durability_reachable` is `false` and `tables.invites` starts with
+   `error:` (tests/test_supabase_failure_surfaces.py pins this), every
+   invite create/list/revoke/redeem answers 503, and the only way to add
+   an account is the principal bootstrap key; and since 2026-09-22 a
+   missing `users` table makes registration a 503 too, instead of saving
+   the account to the local disk that the next cold start wipes.
+
+The endpoint answers HTTP 200 either way; the verdict is the
+`durability_reachable` field (and the legacy `supabase_reachable`, which the
+Flutter client and the cutover runbook read). It is deliberately not a
+failing health check: nothing points Render's health check at it, and a
+Supabase blip must not make Render kill a container that can still serve
+reads.
+
 **Required Supabase setup** (one-time, in the Supabase project itself):
 - **Run `docs/supabase-setup.sql`** in the project's SQL editor. It
   provisions the Postgres tables (`assessments`, `papers`,

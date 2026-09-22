@@ -81,8 +81,12 @@ CREATE TABLE IF NOT EXISTS graded_evaluations (
 CREATE INDEX IF NOT EXISTS idx_graded_student ON graded_evaluations (student_id);
 
 -- -- users ---------------------------------------------------------------------
--- Emails are stored already lowercased by UserStore.register, so a plain
--- index is enough to serve the login lookup.
+-- Emails are stored already lowercased by UserStore.register. The email
+-- index is UNIQUE, as in docs/supabase-setup.sql: two invites for one email
+-- redeemed at the same moment both pass UserStore's get_by_email check, and
+-- only this index stops the second (UserStore maps SQLSTATE 23505 to
+-- "email already registered"). It was a plain index until 2026-09-22, which
+-- let Cloud SQL store that email twice.
 CREATE TABLE IF NOT EXISTS users (
     id            TEXT PRIMARY KEY,
     school_id     TEXT,
@@ -93,7 +97,8 @@ CREATE TABLE IF NOT EXISTS users (
     role          TEXT,
     created_at    TEXT
 );
-CREATE INDEX IF NOT EXISTS idx_users_email       ON users (email);
+DROP INDEX IF EXISTS idx_users_email;
+CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email_unique ON users (email);
 CREATE INDEX IF NOT EXISTS idx_users_school_role ON users (school_id, role);
 
 -- -- sessions ------------------------------------------------------------------
