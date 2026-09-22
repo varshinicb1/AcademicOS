@@ -418,3 +418,47 @@ def test_single_attempt_policy_makes_no_retries(build):
         llm.chat(MESSAGES)
     assert len(transport.calls) == 1
     assert sleeper.delays == []
+
+
+# -- the bootstrap placeholder is not a key -----------------------------------
+#
+# bootstrap.sh creates acos-llm-api-key as REPLACE_ME and the deploy workflow
+# injects it as SARVAM_API_KEY. Before this was fixed the constructor read that
+# string raw, so `.available` was True and every caller that built SarvamLLM()
+# without an explicit key -- curriculum extraction, /health/llm, the CLI --
+# sent "Bearer REPLACE_ME" to api.sarvam.ai, retried through the backoff curve,
+# and only then gave up. The placeholder has to read as "no key" here, at the
+# one place every model call leaves the process.
+
+def test_placeholder_env_key_reads_as_no_key(monkeypatch):
+    monkeypatch.setenv("SARVAM_API_KEY", "REPLACE_ME")
+    llm = SarvamLLM()
+    assert llm.api_key == ""
+    assert llm.available is False
+
+
+def test_placeholder_explicit_key_reads_as_no_key(monkeypatch):
+    monkeypatch.delenv("SARVAM_API_KEY", raising=False)
+    assert SarvamLLM(api_key="REPLACE_ME").available is False
+    assert SarvamLLM(api_key="  ").available is False
+
+
+def test_placeholder_key_never_reaches_the_network(monkeypatch):
+    monkeypatch.setenv("SARVAM_API_KEY", "REPLACE_ME")
+
+    def boom(*a, **kw):
+        raise AssertionError("placeholder key was sent to the provider")
+
+    monkeypatch.setattr(requests, "post", boom)
+    slept = []
+    llm = SarvamLLM(sleep=slept.append)
+    with pytest.raises(LLMProviderError, match="no API key"):
+        llm.chat([{"role": "user", "content": "hi"}])
+    assert slept == []
+
+
+def test_real_env_key_still_used(monkeypatch):
+    monkeypatch.setenv("SARVAM_API_KEY", "sk-real-looking-key")
+    llm = SarvamLLM()
+    assert llm.api_key == "sk-real-looking-key"
+    assert llm.available is True
