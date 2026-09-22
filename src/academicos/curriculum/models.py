@@ -31,6 +31,25 @@ class AcademicYear:
 
 
 @dataclass
+class Term:
+    """A named date range inside one academic year ("Term 1", 2026-04-01 ..
+    2026-09-30). PRD section 12.6 measures exam coverage and time saved
+    "this term" and section 0 decision 11 compares them "per term"; with
+    academic_years alone none of those could be computed. The school
+    declares its own terms -- nothing is seeded, because CBSE schools split
+    the year differently (two terms, three, semesters). Terms of a year stay
+    inside it and never overlap, so a date falls in at most one term.
+    school_id is copied from the year so "which term is today" is one
+    school-scoped lookup, like scheduled_lessons.school_id."""
+    id: str
+    school_id: str
+    academic_year_id: str
+    name: str
+    start_date: str         # ISO date, inclusive
+    end_date: str           # ISO date, inclusive
+
+
+@dataclass
 class Grade:
     id: str
     academic_year_id: str

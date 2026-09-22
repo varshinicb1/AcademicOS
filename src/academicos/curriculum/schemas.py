@@ -253,6 +253,23 @@ class HolidayResponse(Camel):
     end_date: Optional[str] = None
 
 
+class TermRequest(Camel):
+    """Create and update take the whole term: a term is three fields, and a
+    full replace keeps the overlap check about one complete range."""
+    name: str = Field(min_length=1)
+    start_date: str
+    end_date: str
+
+
+class TermResponse(Camel):
+    id: str
+    school_id: str
+    academic_year_id: str
+    name: str
+    start_date: str
+    end_date: str
+
+
 class SetPeriodConfigurationRequest(Camel):
     period_minutes: int = Field(gt=0)
 

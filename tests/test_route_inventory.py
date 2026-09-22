@@ -149,6 +149,11 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
     ("DELETE", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays/{holiday_id}"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/terms"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/terms"),
+    ("GET", "/api/v1/curriculum/terms/current"),
+    ("PUT", "/api/v1/curriculum/terms/{term_id}"),
+    ("DELETE", "/api/v1/curriculum/terms/{term_id}"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
@@ -281,6 +286,11 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
     ("DELETE", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays/{holiday_id}"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/terms"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/terms"),
+    ("GET", "/api/v1/curriculum/terms/current"),
+    ("PUT", "/api/v1/curriculum/terms/{term_id}"),
+    ("DELETE", "/api/v1/curriculum/terms/{term_id}"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
@@ -459,6 +469,9 @@ def _valid_body_for(method: str, path: str) -> dict:
             "createdAt": "2026-01-01T00:00:00Z",
             "updatedAt": "2026-01-01T00:00:00Z",
         }
+    if path in ("/api/v1/curriculum/academic-years/{academic_year_id}/terms",
+                "/api/v1/curriculum/terms/{term_id}"):  # POST / PUT
+        return {"name": "Term 1", "startDate": "2026-04-01", "endDate": "2026-09-30"}
     if path == "/api/v1/assessments/{assessment_id}/status":  # PATCH
         return {"status": "draft"}
     if path == "/api/v1/questions/search":
@@ -527,7 +540,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 133
+    assert len(API_ROUTES) == 138
 
 
 def test_docs_routes_present():

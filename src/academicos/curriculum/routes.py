@@ -15,7 +15,7 @@ from dataclasses import asdict
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Optional
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 
 from ..assessment.auth_routes import get_current_user, require_principal
 from ..assessment.authz import require_own_school, require_own_subtopics
@@ -85,6 +85,8 @@ from .schemas import (
     TaggedSubtopic,
     TeacherAssignmentResponse,
     TeachingTimeEstimateResponse,
+    TermRequest,
+    TermResponse,
     TopicResponse,
     TopicWithSubtopicsResponse,
     UnitResponse,
@@ -767,6 +769,90 @@ def list_holidays(academic_year_id: str,
             for h in store.holidays_for_calendar(cal.id)]
 
 
+# ---------------- terms (PRD 12.6, section 0 decision 11) ----------------
+# Exam coverage and time saved are measured "this term"; until Task 106 the
+# product had no term, so neither could be computed. A school declares its
+# own terms (nothing is seeded -- CBSE schools split the year differently).
+# Writes are principal-only, reads any signed-in user of the school, all
+# school-scoped like the rest of this file.
+
+
+def _term_response(t) -> TermResponse:
+    return TermResponse(id=t.id, school_id=t.school_id, academic_year_id=t.academic_year_id,
+                        name=t.name, start_date=t.start_date, end_date=t.end_date)
+
+
+def _require_school_owns_term(term_id: str, current: User):
+    term = _require().get_term(term_id)
+    if term is None:
+        raise HTTPException(404, "term not found")
+    if term.school_id != current.school_id:
+        raise HTTPException(403, "this term belongs to a different school")
+    return term
+
+
+@router.post("/academic-years/{academic_year_id}/terms", response_model=TermResponse)
+def create_term(academic_year_id: str, req: TermRequest,
+                principal: User = Depends(require_principal)) -> TermResponse:
+    _require_school_owns_academic_year(academic_year_id, principal)
+    try:
+        t = _require().create_term(academic_year_id=academic_year_id, name=req.name,
+                                   start_date=req.start_date, end_date=req.end_date)
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    return _term_response(t)
+
+
+@router.get("/academic-years/{academic_year_id}/terms", response_model=list[TermResponse])
+def list_terms(academic_year_id: str,
+               current: User = Depends(get_current_user)) -> list[TermResponse]:
+    _require_school_owns_academic_year(academic_year_id, current)
+    return [_term_response(t) for t in _require().terms_for_year(academic_year_id)]
+
+
+# Declared before /terms/{term_id} so "current" is never read as a term id
+# (today only PUT/DELETE take an id, but a later GET by id must not shadow it).
+@router.get("/terms/current", response_model=TermResponse)
+def current_term(on: Optional[str] = Query(None, alias="date"),
+                 current: User = Depends(get_current_user)) -> TermResponse:
+    """The caller's school's term containing `date` (default: the school's
+    today, IST). 404 when no term covers it -- never the nearest term,
+    because a coverage or time-saved figure for the wrong term is worse than
+    an honest "no term declared for this date"."""
+    if on is None:
+        day = _school_today().isoformat()
+    else:
+        try:
+            day = CurriculumStore._iso_date(on, "date")
+        except ValueError as e:
+            raise HTTPException(422, str(e))
+    t = _require().term_for_date(current.school_id, day)
+    if t is None:
+        raise HTTPException(404, f"no term of this school covers {day}")
+    return _term_response(t)
+
+
+@router.put("/terms/{term_id}", response_model=TermResponse)
+def update_term(term_id: str, req: TermRequest,
+                principal: User = Depends(require_principal)) -> TermResponse:
+    _require_school_owns_term(term_id, principal)
+    try:
+        t = _require().update_term(term_id, name=req.name, start_date=req.start_date,
+                                   end_date=req.end_date)
+    except KeyError:
+        raise HTTPException(404, "term not found")
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    return _term_response(t)
+
+
+@router.delete("/terms/{term_id}")
+def delete_term(term_id: str, principal: User = Depends(require_principal)) -> dict:
+    _require_school_owns_term(term_id, principal)
+    _require().delete_term(term_id)
+    return {"ok": True}
+
+
 @router.post("/academic-years/{academic_year_id}/period-configuration",
              response_model=PeriodConfigurationResponse)
 def set_period_configuration(academic_year_id: str, req: SetPeriodConfigurationRequest,
@@ -1360,6 +1446,8 @@ def _curriculum_tree_for_export(store: CurriculumStore, school_id: str) -> list[
         year_dict["holidays"] = (
             [asdict(h) for h in store.holidays_for_calendar(calendar.id)] if calendar else []
         )
+        # A school's declared terms are its own data like its holidays.
+        year_dict["terms"] = [asdict(t) for t in store.terms_for_year(y.id)]
         for g in store.grades_for_year(y.id):
             grade_dict = asdict(g)
             grade_dict["subjects"] = []

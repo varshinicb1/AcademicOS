@@ -6575,6 +6575,69 @@
         "title": "TemplateSaveRequest",
         "type": "object"
       },
+      "TermRequest": {
+        "description": "Create and update take the whole term: a term is three fields, and a\nfull replace keeps the overlap check about one complete range.",
+        "properties": {
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "startDate",
+          "endDate"
+        ],
+        "title": "TermRequest",
+        "type": "object"
+      },
+      "TermResponse": {
+        "properties": {
+          "academicYearId": {
+            "title": "Academicyearid",
+            "type": "string"
+          },
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "schoolId": {
+            "title": "Schoolid",
+            "type": "string"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "schoolId",
+          "academicYearId",
+          "name",
+          "startDate",
+          "endDate"
+        ],
+        "title": "TermResponse",
+        "type": "object"
+      },
       "TimetableResponse": {
         "properties": {
           "allocations": {
@@ -8612,6 +8675,106 @@
         "summary": "Set Subject Period Allocation"
       }
     },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/terms": {
+      "get": {
+        "operationId": "list_terms_api_v1_curriculum_academic_years__academic_year_id__terms_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TermResponse"
+                  },
+                  "title": "Response List Terms Api V1 Curriculum Academic Years  Academic Year Id  Terms Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Terms"
+      },
+      "post": {
+        "operationId": "create_term_api_v1_curriculum_academic_years__academic_year_id__terms_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TermRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Term"
+      }
+    },
     "/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots": {
       "get": {
         "operationId": "list_timetable_slots_api_v1_curriculum_academic_years__academic_year_id__timetable_slots_get",
@@ -10577,6 +10740,156 @@
           }
         ],
         "summary": "Assign Teacher"
+      }
+    },
+    "/api/v1/curriculum/terms/current": {
+      "get": {
+        "description": "The caller's school's term containing `date` (default: the school's\ntoday, IST). 404 when no term covers it -- never the nearest term,\nbecause a coverage or time-saved figure for the wrong term is worse than\nan honest \"no term declared for this date\".",
+        "operationId": "current_term_api_v1_curriculum_terms_current_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Current Term"
+      }
+    },
+    "/api/v1/curriculum/terms/{term_id}": {
+      "delete": {
+        "operationId": "delete_term_api_v1_curriculum_terms__term_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "term_id",
+            "required": true,
+            "schema": {
+              "title": "Term Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Term Api V1 Curriculum Terms  Term Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Term"
+      },
+      "put": {
+        "operationId": "update_term_api_v1_curriculum_terms__term_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "term_id",
+            "required": true,
+            "schema": {
+              "title": "Term Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TermRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Update Term"
       }
     },
     "/api/v1/curriculum/timetable-slots/{slot_id}": {

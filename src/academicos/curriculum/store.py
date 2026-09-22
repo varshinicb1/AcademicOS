@@ -86,6 +86,7 @@ from .models import (
     Subtopic,
     TeacherAssignment,
     TeachingTimeEstimate,
+    Term,
     Topic,
     Unit,
 )
@@ -108,6 +109,23 @@ CREATE TABLE IF NOT EXISTS academic_years (
   status       TEXT NOT NULL DEFAULT 'draft'
 );
 CREATE INDEX IF NOT EXISTS idx_years_school ON academic_years(school_id);
+
+-- Terms (Task 106): a named date range inside one academic year. Added after
+-- school_1's real database existed; CREATE TABLE IF NOT EXISTS is enough
+-- because it is a new table, not a new column. The no-overlap / inside-the-
+-- year rules live in CurriculumStore._check_term (SQLite cannot express
+-- them); the name rule is also a constraint, case-insensitive like the check.
+CREATE TABLE IF NOT EXISTS terms (
+  id           TEXT PRIMARY KEY,
+  school_id    TEXT NOT NULL,
+  academic_year_id TEXT NOT NULL,
+  name         TEXT NOT NULL COLLATE NOCASE,
+  start_date   TEXT NOT NULL,
+  end_date     TEXT NOT NULL,
+  UNIQUE(academic_year_id, name)
+);
+CREATE INDEX IF NOT EXISTS idx_terms_year ON terms(academic_year_id);
+CREATE INDEX IF NOT EXISTS idx_terms_school_dates ON terms(school_id, start_date);
 
 CREATE TABLE IF NOT EXISTS grades (
   id           TEXT PRIMARY KEY,
@@ -504,6 +522,114 @@ class CurriculumStore:
         r = self._fetchone(
             "SELECT * FROM academic_years WHERE school_id=? AND label=?", (school_id, label))
         return AcademicYear(**dict(r)) if r else None
+
+    # ---------------- terms ----------------
+    # PRD 12.6 / section 0 decision 11 measure per term; see models.Term.
+    # create/update raise ValueError (the route's 422) for a range outside
+    # the year, an overlap with another term of the year, or a repeated name.
+    # The check and the write run under one _conn_lock hold: two principals
+    # saving overlapping terms at once must not both pass the check. The
+    # statements inside still go through _exec/_fetch* (the RLock nests),
+    # and _commit runs after the hold so a snapshot upload never happens
+    # while other requests wait on the lock.
+
+    @staticmethod
+    def _iso_date(value: str, field_name: str) -> str:
+        from datetime import date as _date
+        try:
+            parsed = _date.fromisoformat(value)
+        except (TypeError, ValueError):
+            raise ValueError(f"term {field_name} {value!r} is not a YYYY-MM-DD date") from None
+        # fromisoformat also takes '20260401'; stored dates are compared as
+        # strings, so only the canonical form may be stored (the same trap
+        # calendar.validate_holiday documents for holidays).
+        if parsed.isoformat() != value:
+            raise ValueError(f"term {field_name} {value!r} is not a YYYY-MM-DD date")
+        return value
+
+    def _check_term(self, *, year: AcademicYear, name: str, start_date: str, end_date: str,
+                    exclude_term_id: Optional[str] = None) -> str:
+        """Returns the cleaned name, or raises ValueError. Caller holds
+        _conn_lock."""
+        name = (name or "").strip()
+        if not name:
+            raise ValueError("a term needs a name")
+        self._iso_date(start_date, "start_date")
+        self._iso_date(end_date, "end_date")
+        if end_date < start_date:
+            raise ValueError(f"term end_date {end_date} is before its start_date {start_date}")
+        if start_date < year.start_date or end_date > year.end_date:
+            raise ValueError(
+                f"term {start_date} .. {end_date} falls outside the academic year "
+                f"({year.start_date} .. {year.end_date})")
+        for other in self.terms_for_year(year.id):
+            if other.id == exclude_term_id:
+                continue
+            if other.name.casefold() == name.casefold():
+                raise ValueError(f"this academic year already has a term named {other.name!r}")
+            # Inclusive ranges: sharing even one day is an overlap, or that
+            # day would belong to two terms and term_for_date would guess.
+            if start_date <= other.end_date and other.start_date <= end_date:
+                raise ValueError(
+                    f"term {start_date} .. {end_date} overlaps {other.name!r} "
+                    f"({other.start_date} .. {other.end_date})")
+        return name
+
+    def create_term(self, *, academic_year_id: str, name: str, start_date: str,
+                    end_date: str) -> Term:
+        year = self.get_academic_year(academic_year_id)
+        if year is None:
+            raise KeyError(academic_year_id)
+        with self._conn_lock:
+            name = self._check_term(year=year, name=name, start_date=start_date,
+                                    end_date=end_date)
+            t = Term(id=new_id("term"), school_id=year.school_id, academic_year_id=year.id,
+                     name=name, start_date=start_date, end_date=end_date)
+            self._exec(
+                "INSERT INTO terms (id, school_id, academic_year_id, name, start_date, end_date) "
+                "VALUES (?,?,?,?,?,?)",
+                (t.id, t.school_id, t.academic_year_id, t.name, t.start_date, t.end_date))
+        self._commit()
+        return t
+
+    def update_term(self, term_id: str, *, name: str, start_date: str, end_date: str) -> Term:
+        with self._conn_lock:
+            current = self.get_term(term_id)
+            if current is None:
+                raise KeyError(term_id)
+            year = self.get_academic_year(current.academic_year_id)
+            name = self._check_term(year=year, name=name, start_date=start_date,
+                                    end_date=end_date, exclude_term_id=term_id)
+            self._exec("UPDATE terms SET name=?, start_date=?, end_date=? WHERE id=?",
+                       (name, start_date, end_date, term_id))
+        self._commit()
+        return Term(id=current.id, school_id=current.school_id,
+                    academic_year_id=current.academic_year_id,
+                    name=name, start_date=start_date, end_date=end_date)
+
+    def delete_term(self, term_id: str) -> None:
+        self._exec("DELETE FROM terms WHERE id=?", (term_id,))
+        self._commit()
+
+    def get_term(self, term_id: str) -> Optional[Term]:
+        r = self._fetchone("SELECT * FROM terms WHERE id=?", (term_id,))
+        return Term(**dict(r)) if r else None
+
+    def terms_for_year(self, academic_year_id: str) -> list[Term]:
+        rows = self._fetchall(
+            "SELECT * FROM terms WHERE academic_year_id=? ORDER BY start_date", (academic_year_id,))
+        return [Term(**dict(r)) for r in rows]
+
+    def term_for_date(self, school_id: str, date: str) -> Optional[Term]:
+        """The school's term containing `date` (inclusive), or None. Never a
+        guessed term: no term covering the date is None, not the nearest
+        one. Terms of one year cannot overlap; if two of the school's years
+        overlap and each has a term on this date, that is ambiguous too, and
+        also None rather than an arbitrary pick."""
+        rows = self._fetchall(
+            "SELECT * FROM terms WHERE school_id=? AND start_date<=? AND end_date>=? "
+            "ORDER BY start_date", (school_id, date, date))
+        return Term(**dict(rows[0])) if len(rows) == 1 else None
 
     # ---------------- grades ----------------
 
