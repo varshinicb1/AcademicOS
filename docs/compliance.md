@@ -132,16 +132,55 @@ gets flagged to the user, not silently shipped.
       Any *new* write path to student data still needs its own call to this,
       it doesn't happen automatically.)
 - [x] **Anything that could change a finalized grade?** → Is the change logged
-      with a reason and a reviewer identity, not a silent overwrite? Every grading
-      write is now logged (see above) and the scan-review flow has a real
-      regrade path: `mobile_scan.review_decision`'s `regrade` action (and `edit`
-      when it changes marks on an already-approved/edited item) requires a
-      non-empty `reason` and `reviewer_id`, and every correction is appended to
-      the server-side `audit_log` as a distinct `grade_regraded` action carrying
-      `questionId`, `oldMarks`, `newMarks`, `reason`, `reviewerId`, and the
-      automatic timestamp — wired through
-      `POST /scan/sessions/{id}/review/{question_id}`. A first-time `edit` on a
-      still-pending item stays reason-free (historical behavior, unchanged).
+      with a reason and a reviewer identity, not a silent overwrite? **On the
+      server, yes, as of 2026-09-22.** This box was ticked before that without
+      being true. Audit item 8.5 finalized a sheet, changed its marks 0→2
+      through `/award` and back through the sheet review, and the audit row
+      count stayed at 2. What holds now (`assessment/grade_lock.py`,
+      `tests/test_grade_integrity.py`):
+      - A sheet is finalized once `finalize_sheet_review` (or a scan-session
+        finalize) appends its `sheet_reviewed` entry. The log is append-only,
+        so a sheet cannot be un-finalized.
+      - Every server route that writes marks refuses a change to a finalized
+        sheet without a non-empty `reason`, with **409 Conflict**: the sheet
+        review, the grade-by-question award, `/evaluations/sheet` and
+        `/evaluations/answer`. A bulk award with one finalized target is
+        refused whole, before any write. A scan-session finalize takes no
+        reason, so it is refused outright over a finalized sheet.
+      - Every grading write is audited **before** it is saved, with the
+        authenticated caller as `actor` (never None; `sheet_evaluated` used to
+        be logged with actor=None), the marks `before` and `after`, `reason`,
+        `finalized`, and the timestamp. The actions are `sheet_evaluated`,
+        `answer_evaluated`, `sheet_answer_reviewed`, `grade_awarded` (one
+        entry per student changed), and `sheet_reviewed` (finalize).
+      - The scan-review regrade path is unchanged:
+        `mobile_scan.review_decision`'s `regrade` action (and `edit` when it
+        changes marks on an already-approved or edited item) requires a
+        `reason` and a `reviewer_id` and logs `grade_regraded` with
+        `oldMarks`/`newMarks`.
+      **Not covered yet:** the Flutter clients do not send `reason`. After
+      finalize, a web teacher's edit gets the 409 and its message, with no
+      field to fill in. The offline Android engine (`local_pillar_api.dart`)
+      has no finalized lock of its own.
+- [x] **Is the audit log itself append-only, not just by convention?** →
+      **Locally, yes; remotely, only once the SQL below is applied.** The
+      local SQLite file has BEFORE UPDATE and BEFORE DELETE triggers that
+      `RAISE(ABORT)`. They are created with the schema and added to existing
+      files when opened. An append is a plain insert, so an existing id
+      raises `DuplicateAuditEntry` locally and remotely; the remote append
+      was an upsert until 2026-09-22. Each entry carries `seq`, `prev_hash`
+      and `entry_hash` (a SHA-256 chain), and `AuditLog.verify_chain()`
+      returns the first entry that does not fit. That catches an edit or a
+      deletion made by someone who dropped the triggers, but not removal of
+      the newest entries. Rows written before the chain existed are not
+      covered by it. **Manual step, not yet applied to any live project:** the
+      `audit_log` block of `docs/supabase-setup.sql` (chain columns, unique
+      `seq`, RLS with INSERT/SELECT policies only, UPDATE/DELETE/TRUNCATE
+      revoked, and the refuse-change trigger) must be run in the Supabase SQL
+      editor **before** a build with this change is deployed; otherwise every
+      remote append fails and falls back to local disk. `deploy/gcp/schema.sql`
+      carries the same columns and trigger for Cloud SQL. The real-Postgres
+      tests for it run in CI, not locally.
 - [ ] **New third-party integration or vendor** (any API call leaving the
       device/server)? → Is there a DPA-equivalent understanding of what data
       crosses that boundary, and is it in the security notes for that platform's
@@ -312,8 +351,8 @@ keys in any distributable, release-build logging that would leak student PII
 compiled out, local backend/server binds to localhost only, Android's local
 student-data store (`LocalStore`, via Hive) is encrypted at rest (key in the
 app's private storage — see the note below on why it's not Keystore-backed),
-append-only audit logging on every grading write and every paper export on
-both platforms, watermarked/traceable PDF exports, and one real calibration
+audit logging on every grading write and every paper export on both
+platforms, watermarked/traceable PDF exports, and one real calibration
 run against a real teacher-graded dataset (not just cited literature). A
 written incident-response runbook (`docs/incident-response-runbook.md`) and a
 fillable DPA template for onboarding a real school (`docs/dpa-template.md`)
@@ -321,6 +360,16 @@ now also exist — as templates/runbooks requiring a human to fill in the
 brackets and, for the DPA, legal review before adoption. They are **not**
 evidence that an incident-response team, CERT-In registration, or a signed DPA
 exists today.
+
+Correction (2026-09-22): the paragraph above called the server audit log
+"append-only" and said every grading write was logged. Neither was true.
+Audit item 8.5 found no audit entry and no finalized lock on the sheet review
+or the grade-by-question award, `sheet_evaluated` logged with actor=None, raw
+UPDATE and DELETE succeeding on the audit table, and the remote append being
+an upsert. For the server, see "Anything that could change a finalized
+grade?" and "Is the audit log itself append-only" in the checklist above for
+what is true now, and what stays a manual step until the Supabase SQL is
+applied. This correction does not cover the Android `LocalStore` log.
 
 Encryption-key storage note: `flutter_secure_storage` (true OS-Keystore-backed
 key storage) was tried first and dropped — its Windows plugin has a broken
@@ -658,9 +707,11 @@ would alter what reaches real students/teachers.
   and ids that previously collided would have been corrupted anyway. Safe to
   ship; a future remote migration should not depend on local file names.
 - **E1 — Audit Logging & Grade Change Tracking (2026-09-14).**
-  Implemented `src/academicos/assessment/audit_log.py` providing an immutable,
-  append-only audit trail for all grading overrides, assessment state transitions,
-  and administrative operations. Each audit record captures `entry_id`, `action`,
+  Implemented `src/academicos/assessment/audit_log.py` as an audit trail for
+  grading overrides, assessment state transitions and administrative
+  operations. As written on 2026-09-14 it was append-only only by convention.
+  Database triggers, insert-not-upsert and the hash chain arrived on
+  2026-09-22; see the checklist above. Each audit record captures `entry_id`, `action`,
   `assessment_id`, `student_id`, `actor`, `details` (JSON payload), and an ISO-8601
   UTC `timestamp`. Persisted locally in SQLite and synchronized to Supabase
   Postgres (`audit_log` table) when configured, fulfilling CERT-In log retention

@@ -2663,9 +2663,16 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         after = client.get(f"/api/v1/knowledge/{sheet_id}", headers=teacher_auth).json()
         assert after["overallMastery"] < 1.0
 
+        # Re-evaluating the finalized sheet would replace every mark on it
+        # (here with an empty sheet). Without a reason that is 409; with one
+        # it goes through and is audited (grade_lock.py, audit item 8.5).
         assert client.post("/api/v1/evaluations/sheet", json={
             "assessmentId": a_ev, "studentId": sheet_id,
             "questions": [], "answers": {},
+        }, headers=teacher_auth).status_code == 409
+        assert client.post("/api/v1/evaluations/sheet", json={
+            "assessmentId": a_ev, "studentId": sheet_id,
+            "questions": [], "answers": {}, "reason": "re-marking after moderation",
         }, headers=teacher_auth).status_code == 200
 
         # -- knowledge: empty student is 200 (empty mastery), report 404s.

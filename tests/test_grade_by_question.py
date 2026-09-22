@@ -19,7 +19,9 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from academicos.assessment import grade_by_question as gbq
+from academicos.assessment.audit_log import AuditLog
 from academicos.assessment.auth_routes import get_current_user
+from academicos.assessment.grade_lock import FINALIZED_ACTION
 
 
 # --------------------------------------------------------------------------- #
@@ -67,7 +69,7 @@ def sheet(awarded=0, max_marks=3, qid="q1", needs_review=True):
 
 
 @pytest.fixture
-def ctx():
+def ctx(tmp_path):
     sheets = {
         "a1": {
             "s1": sheet(0), "s2": sheet(3, needs_review=False),
@@ -75,7 +77,11 @@ def ctx():
         },
     }
     store = FakeGradedStore(sheets)
+    # A real AuditLog on tmp_path: every award is audited, and the route
+    # refuses to write without one (grade_lock.py).
+    store.audit = AuditLog(tmp_path / "audit.sqlite")
     gbq.init(
+        audit=lambda: store.audit,
         graded=store,
         require=lambda: None,
         require_school_owns_assessment=lambda aid, user: None,
@@ -248,3 +254,47 @@ def test_negative_marks_are_refused(ctx):
     r = c.post("/api/v1/evaluations/assessment/a1/question/q1/award",
                json={"marks": -1, "studentIds": ["s1"]})
     assert r.status_code == 422
+
+
+# --------------------------------------------------------------------------- #
+# the audit trail and the finalized lock (grade_lock.py, audit item 8.5)
+# --------------------------------------------------------------------------- #
+
+def test_every_changed_student_gets_one_audit_entry(ctx):
+    c, store = ctx
+    body = c.post("/api/v1/evaluations/assessment/a1/question/q1/award",
+                  json={"marks": 3, "allStudents": True}).json()
+    assert body["updated"] == 3
+    entries = store.audit.for_action("grade_awarded")
+    # s2 already had 3: unchanged, so no entry for it.
+    assert sorted(e["student_id"] for e in entries) == ["s1", "s3", "s4"]
+    assert all(e["actor"] == "u1" for e in entries)
+    by_student = {e["student_id"]: e["details"] for e in entries}
+    assert by_student["s3"]["before"] == 1 and by_student["s3"]["after"] == 3
+
+
+def test_one_finalized_sheet_refuses_the_whole_award_without_a_reason(ctx):
+    """No half-applied bulk award: the lock on s3 stops s1's change too."""
+    c, store = ctx
+    store.audit.append(FINALIZED_ACTION, assessment_id="a1", student_id="s3", actor="u1")
+    r = c.post("/api/v1/evaluations/assessment/a1/question/q1/award",
+               json={"marks": 3, "studentIds": ["s1", "s3"]})
+    assert r.status_code == 409, r.text
+    assert store.saves == 0
+    assert store.audit.for_action("grade_awarded") == []
+
+    r = c.post("/api/v1/evaluations/assessment/a1/question/q1/award",
+               json={"marks": 3, "studentIds": ["s1", "s3"], "reason": "moderation"})
+    assert r.status_code == 200, r.text
+    finalized = {e["student_id"]: e["details"]["finalized"]
+                 for e in store.audit.for_action("grade_awarded")}
+    assert finalized == {"s1": False, "s3": True}
+
+
+def test_without_an_audit_log_the_award_writes_nothing(ctx):
+    c, store = ctx
+    gbq._deps["audit"] = None
+    r = c.post("/api/v1/evaluations/assessment/a1/question/q1/award",
+               json={"marks": 3, "studentIds": ["s1"]})
+    assert r.status_code == 503
+    assert store.saves == 0

@@ -76,8 +76,11 @@ TABLES: dict[str, dict[str, Any]] = {
     },
     "audit_log": {
         "conflict": "id",
+        # seq/prev_hash/entry_hash: the hash chain (audit_log.py). Dropping
+        # them in transit would turn every migrated entry into an unchained
+        # legacy row that verify_chain() can no longer check.
         "columns": ["id", "timestamp", "action", "assessment_id", "student_id",
-                    "actor", "details"],
+                    "actor", "details", "seq", "prev_hash", "entry_hash"],
     },
     "school_templates": {
         "conflict": "id", "columns": ["id", "school_id", "is_default", "payload"],

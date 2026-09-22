@@ -40,6 +40,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from .auth_routes import require_staff
+from .grade_lock import record_grade_change, require_reason_if_finalized
 from .schemas import Camel
 from .users import User
 
@@ -52,14 +53,20 @@ router = APIRouter(prefix="/api/v1", tags=["evaluations"])
 _deps: dict[str, Any] = {}
 
 
-def init(*, graded, require, require_school_owns_assessment, questions_by_id) -> None:
+def init(*, graded, require, require_school_owns_assessment, questions_by_id,
+         audit=None) -> None:
     """Wire the module to the app's stores and guards.
 
     Passed in rather than imported so a test can substitute a fake store without
     monkeypatching module globals -- and so this module cannot accidentally
     reach a store the rest of the app has not initialised.
+
+    `audit` is a zero-argument callable that returns the AuditLog. Without it
+    the award route answers 503 and writes nothing, because a grading write
+    that cannot be audited is refused (grade_lock.py).
     """
     _deps.update(
+        audit=audit,
         graded=graded,
         require=require,
         require_school_owns_assessment=require_school_owns_assessment,
@@ -72,6 +79,13 @@ def _graded():
     if store is None:
         raise HTTPException(503, "evaluation store not initialised")
     return store
+
+
+def _audit():
+    get_audit = _deps.get("audit")
+    if get_audit is None:
+        raise HTTPException(503, "audit log not initialised; refusing an unaudited grade change")
+    return get_audit()
 
 
 # --------------------------------------------------------------------------- #
@@ -197,6 +211,10 @@ class BulkAwardRequest(Camel):
     # award marks to the whole class.
     all_students: bool = False
     note: str = ""
+    # Needed only when a target sheet is finalized (grade_lock.py). `note`
+    # is the teacher's feedback on the answer; `reason` explains the change
+    # and goes to the audit log.
+    reason: str = ""
 
 
 class BulkAwardResponse(Camel):
@@ -226,6 +244,11 @@ def award_across_students(
     each student's sheet is loaded, clamped and saved through the same path the
     single-student endpoint uses, so a bulk award can never produce a state the
     per-student path could not, and the audit trail stays uniform.
+
+    Every changed student gets its own audit entry, with the caller as the
+    actor. If any target sheet is finalized and no reason is given, the whole
+    request is refused with 409 before anything is written, so a bulk award
+    never lands half-applied.
     """
     require = _deps.get("require")
     owns = _deps.get("require_school_owns_assessment")
@@ -248,6 +271,8 @@ def award_across_students(
     targets = list(sheets) if req.all_students else list(req.student_ids or [])
     updated = unchanged = 0
     skipped: list[str] = []
+    audit = _audit()
+    changes: list[tuple[str, list, int, Any, Any, int]] = []
 
     for student_id in targets:
         graded = sheets.get(student_id)
@@ -266,12 +291,24 @@ def award_across_students(
             unchanged += 1
             continue
 
-        from dataclasses import replace
+        changes.append((student_id, graded, idx, question, evaluation, clamped))
+
+    # Every lock is checked before the first write (see the docstring).
+    finalized = {sid: require_reason_if_finalized(audit, assessment_id, sid, req.reason)
+                 for sid, *_rest in changes}
+
+    from dataclasses import replace
+    for student_id, graded, idx, question, evaluation, clamped in changes:
         updated_eval = replace(
             evaluation, awarded_marks=clamped, needs_review=False,
             reasoning=(req.note or evaluation.reasoning),
         )
         graded[idx] = (question, updated_eval)
+        record_grade_change(audit, "grade_awarded", assessment_id=assessment_id,
+                            student_id=student_id, actor=current.id,
+                            finalized=finalized[student_id], reason=req.reason,
+                            question_id=question_id,
+                            before=int(evaluation.awarded_marks), after=clamped)
         store.save(assessment_id, student_id, graded)
         updated += 1
 

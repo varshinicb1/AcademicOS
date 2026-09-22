@@ -21,7 +21,9 @@ from . import remediation as remediation_mod
 from .authz import require_own_school, require_school_owns_student
 from .authz import require_school_owns_assessment as _authz_require_school_owns_assessment
 from .auth_routes import get_current_user, require_principal, require_staff
+from .audit_log import AuditLog, get_audit_log
 from .evaluate import Evaluation, evaluate_answer
+from .grade_lock import FINALIZED_ACTION, record_grade_change, require_reason_if_finalized
 from .graded_store import GradedStore
 from .knowledge import KnowledgeStore
 from .mapping import to_question_schema
@@ -75,6 +77,12 @@ def _require_graded() -> GradedStore:
     if _graded is None:
         raise HTTPException(503, "pillar module not initialized")
     return _graded
+
+
+def _audit() -> AuditLog:
+    """The audit log every grading write goes through (grade_lock.py)."""
+    cfg, _knowledge_store, _template_store = _require()
+    return get_audit_log(cfg.data_root)
 
 
 def _require_practice() -> PracticeStore:
@@ -450,6 +458,9 @@ class EvaluateAnswerRequest(Camel):
     question: QuestionSchema
     student_answer: str
     answer_scheme: Optional[AnswerSchemeSchema] = None
+    # Needed only when the sheet is finalized (grade_lock.py), because
+    # re-grading one answer on a finalized sheet replaces its marks.
+    reason: str = ""
 
 
 class EvaluationResponse(Camel):
@@ -493,9 +504,17 @@ def evaluate_one(req: EvaluateAnswerRequest, current: User = Depends(require_sta
     concept = req.question.chapter_ids[0] if req.question.chapter_ids else None
     ev = evaluate_answer(req.question, scheme, req.student_answer, concept_label=concept)
     store = _require_graded()
-    bucket = store.get(req.assessment_id, req.student_id) or []
-    bucket = [(q, e) for q, e in bucket if q.id != req.question.id]
+    audit = _audit()
+    finalized = require_reason_if_finalized(audit, req.assessment_id, req.student_id,
+                                            req.reason)
+    existing = store.get(req.assessment_id, req.student_id) or []
+    before = next((e.awarded_marks for q, e in existing if q.id == req.question.id), None)
+    bucket = [(q, e) for q, e in existing if q.id != req.question.id]
     bucket.append((req.question, ev))
+    record_grade_change(audit, "answer_evaluated", assessment_id=req.assessment_id,
+                        student_id=req.student_id, actor=current.id, finalized=finalized,
+                        reason=req.reason, question_id=req.question.id,
+                        before=before, after=ev.awarded_marks)
     store.save(req.assessment_id, req.student_id, bucket)
     return _to_response(ev, req.question, req.student_answer)
 
@@ -507,6 +526,9 @@ class EvaluateSheetRequest(Camel):
     questions: list[QuestionSchema]
     answers: dict[str, str]
     correct_options: dict[str, str] = Field(default_factory=dict)
+    # Needed only when the sheet is finalized (grade_lock.py), because this
+    # call replaces every mark on the sheet.
+    reason: str = ""
 
 
 class EvaluateSheetResponse(Camel):
@@ -522,7 +544,10 @@ class EvaluateSheetResponse(Camel):
 @router.post("/evaluations/sheet", response_model=EvaluateSheetResponse)
 def evaluate_sheet(req: EvaluateSheetRequest, current: User = Depends(require_staff)) -> EvaluateSheetResponse:
     _require_school_owns_assessment(req.assessment_id, current)
-    cfg, knowledge, _ = _require()
+    _require()
+    audit = _audit()
+    finalized = require_reason_if_finalized(audit, req.assessment_id, req.student_id,
+                                            req.reason)
     schemes = build_answer_key(req.questions, req.correct_options)
     graded: list[tuple[QuestionSchema, Evaluation]] = []
     for q in req.questions:
@@ -530,7 +555,21 @@ def evaluate_sheet(req: EvaluateSheetRequest, current: User = Depends(require_st
         ev = evaluate_answer(q, schemes[q.id], req.answers.get(q.id, ""), concept_label=concept)
         graded.append((q, ev))
 
-    _require_graded().save(req.assessment_id, req.student_id, graded)
+    store = _require_graded()
+    previous = store.get(req.assessment_id, req.student_id)
+    awarded = sum(e.awarded_marks for _, e in graded)
+    maximum = sum(e.max_marks for _, e in graded)
+    # Logged before the save, so a change never exists without its entry.
+    # The actor was None here until 2026-09-22 (audit item 8.5).
+    record_grade_change(
+        audit, "sheet_evaluated", assessment_id=req.assessment_id,
+        student_id=req.student_id, actor=current.id, finalized=finalized,
+        reason=req.reason,
+        before=(sum(e.awarded_marks for _, e in previous) if previous is not None else None),
+        after=awarded,
+        extra={"totalAwarded": awarded, "totalMax": maximum, "questionCount": len(graded)},
+    )
+    store.save(req.assessment_id, req.student_id, graded)
     # Deliberately NOT knowledge.record_evaluations() here -- this is the raw
     # AI pass, before any teacher has looked at it. Folding it into mastery
     # immediately would let an unreviewed (and per docs/compliance.md's own
@@ -539,14 +578,6 @@ def evaluate_sheet(req: EvaluateSheetRequest, current: User = Depends(require_st
     # that does this, once, using whatever marks the teacher actually
     # approved -- mirrors mobile_scan.finalize_scan_session's same one-shot
     # design for the scan-and-grade flow.
-
-    awarded = sum(e.awarded_marks for _, e in graded)
-    maximum = sum(e.max_marks for _, e in graded)
-    from .audit_log import get_audit_log
-    get_audit_log(cfg.data_root).append(
-        "sheet_evaluated", assessment_id=req.assessment_id, student_id=req.student_id,
-        details={"totalAwarded": awarded, "totalMax": maximum, "questionCount": len(graded)},
-    )
     return EvaluateSheetResponse(
         assessment_id=req.assessment_id, student_id=req.student_id,
         total_awarded=awarded, total_max=maximum,
@@ -559,6 +590,8 @@ def evaluate_sheet(req: EvaluateSheetRequest, current: User = Depends(require_st
 class SheetReviewRequest(Camel):
     action: str  # "approve" | "edit"
     marks: Optional[int] = None
+    # Needed only to change marks on a finalized sheet (grade_lock.py).
+    reason: str = ""
 
 
 class SheetReviewResponse(Camel):
@@ -574,11 +607,14 @@ def review_sheet_answer(assessment_id: str, student_id: str, question_id: str,
                          current: User = Depends(require_staff)) -> SheetReviewResponse:
     """Records the teacher's approve/adjust decision on one answer from a
     prior POST /evaluations/sheet, so it survives past the Evaluate tab's
-    local widget state. Each question here is decided exactly once (there is
-    no "already approved, now correcting" case like mobile_scan's ReviewItem
-    has) so this mirrors mobile_scan.review_decision's "edit" branch only --
-    no reason/reviewer_id gate, since that gate exists specifically for
-    *changing* an existing decision, which can't happen in this flow.
+    local widget state.
+
+    Before 2026-09-22 this docstring said a decision here could not be changed
+    later, so no reason gate was needed. That was wrong: nothing stopped an
+    edit after finalize, and the audit found a finalized sheet changed with no
+    entry written (item 8.5). A mark change to a finalized sheet now needs a
+    reason (409 without one), and every decision is audited with the caller as
+    the actor. See grade_lock.py.
 
     Requires a real logged-in caller from the assessment's own school (fixed
     2026-09-11: this endpoint mutated the graded store for any
@@ -594,6 +630,7 @@ def review_sheet_answer(assessment_id: str, student_id: str, question_id: str,
     if idx is None:
         raise HTTPException(404, f"question {question_id} not in this sheet")
     question, ev = graded[idx]
+    before = ev.awarded_marks
 
     if req.action == "approve":
         pass  # accept the AI's award as-is
@@ -605,6 +642,19 @@ def review_sheet_answer(assessment_id: str, student_id: str, question_id: str,
     else:
         raise HTTPException(400, f"unknown action {req.action!r}")
 
+    audit = _audit()
+    if ev.awarded_marks != before:
+        finalized = require_reason_if_finalized(audit, assessment_id, student_id, req.reason)
+    else:
+        # An approval, or an edit to the same mark, changes nothing and needs
+        # no reason. It is still logged.
+        finalized = audit.has_entry(FINALIZED_ACTION, assessment_id=assessment_id,
+                                    student_id=student_id)
+    record_grade_change(audit, "sheet_answer_reviewed", assessment_id=assessment_id,
+                        student_id=student_id, actor=current.id, finalized=finalized,
+                        reason=req.reason, question_id=question_id,
+                        before=before, after=ev.awarded_marks,
+                        extra={"decision": req.action})
     store.save(assessment_id, student_id, graded)
     return SheetReviewResponse(
         question_id=question_id, awarded_marks=ev.awarded_marks, max_marks=ev.max_marks,
@@ -651,9 +701,10 @@ def finalize_sheet_review(assessment_id: str, student_id: str,
     knowledge.record_evaluations(student_id, graded)
     awarded = sum(e.awarded_marks for _, e in graded)
     maximum = sum(e.max_marks for _, e in graded)
-    from .audit_log import get_audit_log
-    get_audit_log(cfg.data_root).append(
-        "sheet_reviewed", assessment_id=assessment_id, student_id=student_id,
+    # This entry is also what locks the sheet (grade_lock.FINALIZED_ACTION).
+    # From here on, a mark change needs a reason.
+    _audit().append(
+        FINALIZED_ACTION, assessment_id=assessment_id, student_id=student_id,
         actor=current.id,
         details={"totalAwarded": awarded, "totalMax": maximum, "questionCount": len(graded),
                  "reviewerName": current.name},

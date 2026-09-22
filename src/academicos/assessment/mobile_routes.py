@@ -237,7 +237,17 @@ def finalize_scan_session(session_id: str, current: User = Depends(require_staff
         raise HTTPException(409, "nothing to finalize — process the session first")
 
     from . import pillar_routes
+    from .grade_lock import FINALIZED_ACTION, is_finalized
     cfg, knowledge, templates = pillar_routes._require()
+    # This route overwrites the graded sheet for the same assessment and
+    # student, and it takes no reason. A sheet that is already finalized is
+    # refused before any export or write. Corrections go through the review
+    # or award routes, which take a reason (grade_lock.py, audit item 8.5).
+    audit = pillar_routes._audit()
+    if is_finalized(audit, session.assessment_id, session.student_id):
+        raise HTTPException(
+            409, f"the sheet for student {session.student_id} is already finalized; "
+                 "correct individual marks through review or award with a reason")
     template = templates.default_for("school_1")
 
     mobile_scan.export_raw_booklet_pdf(session, cfg.data_root / "exports")
@@ -277,6 +287,13 @@ def finalize_scan_session(session_id: str, current: User = Depends(require_staff
         )
         graded.append((question, evaluation))
     if graded:
+        # The same finalize entry the sheet route writes, so this sheet is
+        # locked from now on too.
+        audit.append(FINALIZED_ACTION, assessment_id=session.assessment_id,
+                     student_id=session.student_id, actor=current.id,
+                     details={"totalAwarded": awarded, "totalMax": maximum,
+                              "questionCount": len(graded), "source": "scan",
+                              "scanSessionId": session.id})
         pillar_routes._require_graded().save(session.assessment_id, session.student_id, graded)
         knowledge.record_evaluations(session.student_id, graded)
 

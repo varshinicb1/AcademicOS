@@ -338,6 +338,7 @@ def init_runtime(config: Optional[Config] = None) -> None:
         require_school_owns_assessment=pillar_routes._require_school_owns_assessment,
         questions_by_id=lambda qid: (qbank_routes._bank.get(qid)
                                      if qbank_routes._bank is not None else None),
+        audit=pillar_routes._audit,
     )
     if cfg.llm_api_key:
         from ..agents.critic import SarvamCritic

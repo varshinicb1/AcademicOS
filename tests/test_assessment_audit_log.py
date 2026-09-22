@@ -1,12 +1,13 @@
 """Append-only audit log (assessment/audit_log.py).
 
 Verify an appended entry is retrievable via for_assessment(), that the log is
-append-only (no update/delete path exists in application code), and that
+append-only (the database itself refuses UPDATE and DELETE), and that
 entries for different assessment_ids don't leak into each other's results.
 SQLite-backed via tmp_path — never the real data root.
 """
 from __future__ import annotations
 
+import sqlite3
 import sys
 from pathlib import Path
 
@@ -40,10 +41,30 @@ def test_append_and_retrieve(tmp_path):
     assert r["timestamp"]
 
 
-def test_append_is_append_only_no_update_delete():
-    # The point of this module: application code must never UPDATE or DELETE.
-    for forbidden in ("update", "delete", "remove", "edit", "patch", "update_entry"):
-        assert not hasattr(AuditLog, forbidden), f"AuditLog must not expose {forbidden!r}"
+def test_the_database_refuses_update_and_delete(tmp_path):
+    """Behavioural, not by name. The test here used to check only that
+    AuditLog had no method called update or delete. The 2026-09-21 audit
+    (item 8.5) then ran a raw UPDATE and a raw DELETE on the same file and
+    each returned rowcount 1. Now the file's own triggers refuse both, from any
+    connection, and the row is unchanged afterwards."""
+    log = _log(tmp_path)
+    entry_id = log.append("grade.updated", assessment_id="a1", actor="teacher_1",
+                          details={"before": 2, "after": 4})
+
+    other = sqlite3.connect(str(tmp_path / "audit.sqlite"))
+    try:
+        with pytest.raises(sqlite3.DatabaseError, match="append-only"):
+            other.execute("UPDATE audit_log SET actor='x', details='{}' WHERE id=?",
+                          (entry_id,))
+        with pytest.raises(sqlite3.DatabaseError, match="append-only"):
+            other.execute("DELETE FROM audit_log WHERE id=?", (entry_id,))
+    finally:
+        other.close()
+
+    [row] = log.for_assessment("a1")
+    assert row["actor"] == "teacher_1"
+    assert row["details"] == {"before": 2, "after": 4}
+    assert log.verify_chain() is None
 
 
 def test_assessment_ids_do_not_leak(tmp_path):

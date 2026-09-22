@@ -218,6 +218,59 @@ def test_audit_log_uses_details_jsonb_column() -> None:
     assert rows[0]["details"]["setCount"] == 2
 
 
+# --------------------------------------------------------------------- #
+# audit_log is append-only in the database (audit item 8.5, 2026-09-21)
+# --------------------------------------------------------------------- #
+# The SQLite half is proven locally in tests/test_grade_integrity.py. These
+# prove deploy/gcp/schema.sql gives Postgres the same guarantees: the trigger
+# refuses UPDATE and DELETE even for the owner role the service uses, and a
+# plain insert of an existing id is SQLSTATE 23505, not an overwrite.
+
+def test_audit_log_update_and_delete_are_refused_by_the_trigger() -> None:
+    t = PostgresTable("audit_log")
+    t.insert({"id": "log_locked", "timestamp": "2026-09-22T10:00:00+00:00",
+              "action": "grade_awarded", "assessment_id": "asmLock",
+              "student_id": "s1", "actor": "user_1", "details": {"after": 2}})
+    with pytest.raises(PostgresUnavailable, match="append-only"):
+        t.update({"actor": "someone-else"}, id="log_locked")
+    with pytest.raises(PostgresUnavailable, match="append-only"):
+        t.delete(id="log_locked")
+    [row] = t.select(id="log_locked")
+    assert row["actor"] == "user_1"
+
+
+def test_insert_of_an_existing_id_is_a_unique_violation() -> None:
+    from academicos.assessment.supabase_kv import is_unique_violation
+
+    t = PostgresTable("audit_log")
+    row = {"id": "log_once", "timestamp": "2026-09-22T10:00:00+00:00",
+           "action": "grade_awarded", "assessment_id": "asmOnce",
+           "student_id": "s1", "actor": "user_1", "details": {}}
+    t.insert(row)
+    with pytest.raises(PostgresUnavailable) as exc:
+        t.insert({**row, "actor": "attacker"})
+    assert is_unique_violation(exc.value)
+    assert [r["actor"] for r in t.select(id="log_once")] == ["user_1"]
+
+
+def test_audit_log_chain_and_replay_on_real_postgres(tmp_path) -> None:
+    from academicos.assessment.audit_log import AuditLog, DuplicateAuditEntry
+
+    log = AuditLog(tmp_path / "audit.sqlite")
+    assert isinstance(log._remote, PostgresTable)
+    ids = [log.append("grade_awarded", assessment_id="asmChain", student_id="s1",
+                      actor="user_1", details={"after": i}) for i in range(3)]
+    assert log.verify_chain() is None
+    with pytest.raises(DuplicateAuditEntry):
+        log.append("grade_awarded", assessment_id="asmChain", actor="attacker",
+                   entry_id=ids[0])
+    rows = PostgresTable("audit_log").select(assessment_id="asmChain", order="seq.asc")
+    assert [r["id"] for r in rows] == ids
+    assert rows[1]["prev_hash"] == rows[0]["entry_hash"]
+    # Nothing reached the local fallback: the replay was refused, not rerouted.
+    assert log.conn.execute("SELECT COUNT(*) FROM audit_log").fetchone()[0] == 0
+
+
 def test_unsafe_identifier_is_rejected() -> None:
     with pytest.raises(ValueError):
         PostgresTable('assessments"; DROP TABLE users; --')
