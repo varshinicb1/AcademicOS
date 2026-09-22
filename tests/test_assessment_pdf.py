@@ -7,6 +7,7 @@ PyMuPDF (fitz), the same pattern used elsewhere in this repo.
 """
 from __future__ import annotations
 
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -202,10 +203,88 @@ def _gq(stem, qtype="mcq", marks=1):
 
 
 def test_more_than_four_option_labels_do_not_crash(tmp_path):
-    """labels="ABCD" indexed by position raised IndexError on a fifth."""
+    """labels="ABCD" indexed by position raised IndexError on a fifth. A
+    repeated label is not a fifth option either: relabelling it (E) shifted
+    nothing here but would shift every real option elsewhere, so the stem
+    prints verbatim instead."""
     stem = "Pick one. (A) a (B) b (C) c (D) d (D) fifthoption"
+    assert split_stem_and_options(stem) == (stem, [])
     text = _extract_text(export_pdf(_paper_with(_gq(stem)), tmp_path))
-    assert "(E)" in text and "fifthoption" in text
+    assert "(E)" not in text and "(D) d (D) fifthoption" in text
+
+
+# cbe:q:Science10TM2 as the served bank carries it: a CBE "(a)" sub-question
+# label ahead of the real (A)-(D). Taking every label printed "(A) Which
+# conclusions are correct?" and shifted the four options to (B)-(E).
+_SCIENCE10TM2 = (
+    "A student plots the current-voltage graphs of three samples of nichrome wire. "
+    "The samples have resistances R1, R2 and R3. The student writes three conclusions: "
+    "1. R3 has the lowest resistance 2. The resistors are ohmic 3. R3 dissipates the "
+    "most power 1 (a) Which conclusions are correct? (A) 1, 2 and 3 (B) 1 and 2 only "
+    "(C) 1 and 3 only (D) 2 and 3 only")
+
+
+def test_a_sub_question_label_before_the_options_stays_in_the_question():
+    head, options = split_stem_and_options(_SCIENCE10TM2)
+    assert head.endswith("(a) Which conclusions are correct?")
+    assert options == ["1, 2 and 3", "1 and 2 only", "1 and 3 only", "2 and 3 only"]
+
+
+def test_science10tm2_prints_exactly_a_to_d(tmp_path):
+    text = _extract_text(export_pdf(_paper_with(_gq(_SCIENCE10TM2)), tmp_path))
+    starts = [line[:3] for line in _option_lines(text) if re.match(r"\([A-Z]\)", line)]
+    assert sorted(starts) == ["(A)", "(B)", "(C)", "(D)"], text
+    flat = " ".join(text.split())   # the head wraps across lines
+    assert "(E)" not in flat and "(a) Which conclusions are correct? (A) 1, 2 and 3" in flat
+    assert "(A) Which conclusions" not in flat
+
+
+def test_an_assertion_label_is_not_option_a():
+    """cbse:sqp assertion-reason MCQs: 'Assertion (A) and Reason (R)' came out
+    as option (A), the real four as (B)-(E) plus a stray (F)."""
+    stem = ("Two statements are given as Assertion (A) and Reason(R). ASSERTION (A): "
+            "Caste can divide. REASON (R): It diverts attention. "
+            "(A) Both true, R explains A. (B) Both true, R does not explain A. "
+            "(C) A true, R false. (D) A false, R true")
+    head, options = split_stem_and_options(stem)
+    assert "ASSERTION (A): Caste can divide." in head
+    assert options == ["Both true, R explains A", "Both true, R does not explain A",
+                       "A true, R false", "A false, R true"]
+
+
+def test_a_repeated_label_with_no_clean_option_run_prints_verbatim():
+    """cbse:sqp:ClassXII_2023_24:Home Science:17 -- its options are 'a.'-'d.',
+    so its only labels are the two '(A)'s of Assertion and ASSERTION."""
+    stem = ("Given below are two statements labeled as Assertion (A) and reason (R). "
+            "ASSERTION(A): Your mother is unwell. REASON(R): Bacteria are present. "
+            "a. Both true. b. Both true, not explained. c. A true. d. A false.")
+    assert split_stem_and_options(stem) == (stem, [])
+
+
+def test_a_gap_in_the_labels_is_not_an_option_list():
+    stem = "Name the parts. (A) root (C) leaf"
+    assert split_stem_and_options(stem) == (stem, [])
+
+
+def test_a_three_option_item_still_grids():
+    """cbe:q:Science9TS1 really has three options."""
+    stem = "The state of matter which has no fixed shape and no fixed volume is (A) Gas (B) liquid (C) Solid"
+    assert split_stem_and_options(stem)[1] == ["Gas", "liquid", "Solid"]
+
+
+def test_a_delta_that_means_change_in_is_not_a_triangle():
+    """pdf_safe runs on every subject; the geometry mapping printed an
+    Economics 'Increase in Income (ΔY)' as 'triangle Y'."""
+    assert pdf_safe("Increase in Income (ΔY)") == "Increase in Income (delta Y)"
+    assert pdf_safe("Energy released = ∆m × 931.5 MeV") == "Energy released = delta m × 931.5 MeV"
+    assert pdf_safe("∆\U0001d438\U0001d43c\U0001d43c > ∆EIV") == "delta EII > delta EIV"
+
+
+def test_a_geometry_triangle_is_still_a_triangle():
+    assert pdf_safe("∆OAB is an equilateral triangle") == "triangle OAB is an equilateral triangle"
+    assert pdf_safe("Δ ABC ~ Δ PQR") == "triangle ABC ~ triangle PQR"
+    # Italic vertex letters, as CBE Maths writes them.
+    assert pdf_safe("∆\U0001d443\U0001d446\U0001d444 ~ ∆QSR") == "triangle PSQ ~ triangle QSR"
 
 
 def test_a_question_taller_than_a_page_exports(tmp_path):

@@ -52,9 +52,9 @@ String pdfSafe(String text) {
     '≤': '<=',
     '∈': 'in',
     '∞': 'infinity',
-    '∆': 'triangle ', // INCREMENT (U+2206), used for triangle notation in geometry proofs
-    'Δ': 'triangle ', // GREEK CAPITAL LETTER DELTA (U+0394) -- visually identical,
-    // a different codepoint, also real and present in the corpus.
+    // ∆ (U+2206) and Δ (U+0394) are NOT here: whether one means "triangle"
+    // or "change in" depends on what follows, so they are mapped below,
+    // after _demathify has turned italic vertex letters back into ASCII.
     '∫': 'integral',
     '′': "'", // PRIME (e.g. A' in geometry)
     'θ': 'theta',
@@ -102,7 +102,19 @@ String pdfSafe(String text) {
   for (final rune in runes) {
     buffer.write(String.fromCharCode(_demathify(rune) ?? rune));
   }
-  return buffer.toString();
+
+  // ∆ INCREMENT (U+2206) and Δ GREEK CAPITAL DELTA (U+0394), visually
+  // identical and both real in the corpus. Geometry writes a triangle as
+  // "∆ABC", but Economics, Physics and Chemistry use the same glyph for
+  // "change in": "Increase in Income (ΔY)", "Energy released = ∆m x 931.5
+  // MeV", "∆E_I > ∆E_II". Mapping every delta to "triangle" printed
+  // "triangle Y". So "triangle" only before a three-capital vertex name that
+  // is not an energy-level subscript (EII, EIV); everything else is "delta".
+  // Kept identical to pdf_safe() in src/academicos/assessment/pdf.py.
+  return buffer
+      .toString()
+      .replaceAll(RegExp(r'[∆Δ] ?(?=(?!E[IVX]{2}\b)[A-Z]{3}(?![A-Za-z]))'), 'triangle ')
+      .replaceAll(RegExp(r'[∆Δ] ?'), 'delta ');
 }
 
 int? _demathify(int rune) {

@@ -122,7 +122,7 @@ _PDF_MATH = (
     ("−", "-"), ("√", "sqrt"), ("∴", "therefore"), ("∵", "because"),
     ("∠", "angle "), ("⇒", "=>"), ("⟹", "=>"), ("≠", "!="),
     ("≥", ">="), ("≤", "<="), ("∈", "in"), ("∞", "infinity"),
-    ("∆", "triangle "), ("Δ", "triangle "), ("∫", "integral"),
+    ("∫", "integral"),
     ("′", "'"), ("θ", "theta"), ("π", "pi"), ("⃗", ""),
     ("̂", ""), ("₹", "Rs."), ("…", "..."),
     ("ଶ", "2"),        # an OCR artifact standing in for a superscript 2
@@ -131,6 +131,15 @@ _PDF_MATH = (
 # Symbol-font glyph references left by the source PDFs' OCR: no defined
 # meaning, so dropped rather than guessed.
 _PRIVATE_USE = re.compile("[-]")
+# U+2206 INCREMENT and U+0394 GREEK CAPITAL DELTA. Geometry writes a triangle
+# as "∆ABC" (often with italic math letters, so this runs after _demathify),
+# but Economics, Physics and Chemistry use the same glyph for "change in":
+# "Increase in Income (ΔY)", "Energy released = ∆m x 931.5 MeV",
+# "∆E_I > ∆E_II". Mapping every delta to "triangle" printed "triangle Y".
+# So "triangle" only before a three-capital vertex name that is not an
+# energy-level subscript; everything else is "delta".
+_TRIANGLE = re.compile(r"[∆Δ] ?(?=(?!E[IVX]{2}\b)[A-Z]{3}(?![A-Za-z]))")
+_DELTA = re.compile(r"[∆Δ] ?")
 _MATH_LETTER_BLOCKS = (0x1D400, 0x1D434, 0x1D468, 0x1D49C, 0x1D4D0, 0x1D504, 0x1D538,
                        0x1D56C, 0x1D5A0, 0x1D5D4, 0x1D608, 0x1D63C, 0x1D670)
 
@@ -154,7 +163,8 @@ def pdf_safe(text: str) -> str:
     for a, b in _PDF_MATH:
         text = text.replace(a, b)
     text = _PRIVATE_USE.sub("", text)
-    return "".join(chr(_demathify(ord(c)) or ord(c)) for c in text)
+    text = "".join(chr(_demathify(ord(c)) or ord(c)) for c in text)
+    return _DELTA.sub("delta ", _TRIANGLE.sub("triangle ", text))
 
 
 def escape(text: str) -> str:
@@ -209,13 +219,23 @@ def _build_styles(brand_color: str = "#000000") -> _Styles:
 
 
 def split_stem_and_options(stem: str) -> tuple[str, list[str]]:
-    """Separate an MCQ stem from its (A)-(D) options so they can be laid out."""
+    """Separate an MCQ stem from its (A)-(D) options so they can be laid out.
+
+    The labels must run exactly A, B, C[, D]. A label that repeats is text, not
+    an option: CBE Science numbers its sub-question "(a) Which conclusions are
+    correct? (A) ... (D)" (5 served items, e.g. cbe:q:Science10TM2) and SQP
+    assertion-reason items say "Assertion (A) and Reason (R) ... (A) ... (D)".
+    Taking every label printed the question itself as option (A) and shifted
+    each real option down a letter, silently. So on a repeat only the trailing
+    run from the last "A" is the option list; if that run is not A, B, C...
+    either, nothing is split and the stem prints verbatim.
+    """
     matches = list(_OPTION_RE.finditer(stem))
-    if len(matches) < 2:
-        return stem.strip(), []
-    # Options must be in order and near the end; otherwise "(a)" is a part label.
     labels = [m.group(1).upper() for m in matches]
-    if labels != sorted(labels) or labels[0] != "A":
+    if len(set(labels)) != len(labels):
+        last_a = len(labels) - 1 - labels[::-1].index("A") if "A" in labels else 0
+        matches, labels = matches[last_a:], labels[last_a:]
+    if len(matches) < 2 or labels != list("ABCD"[:len(labels)]):
         return stem.strip(), []
     head = stem[: matches[0].start()].strip()
     options: list[str] = []
@@ -336,6 +356,8 @@ def _question_flowables(gq, styles: _Styles, content_width: float,
         for pair in pairs:
             row = []
             for opt in pair:
+                # split_stem_and_options returns at most (A)-(D); chr() is
+                # only a guard so a future fifth label cannot IndexError.
                 row.append(Paragraph(f"({chr(ord('A') + idx)})&nbsp; {escape(opt)}", styles.option))
                 idx += 1
             if len(row) == 1:

@@ -46,7 +46,15 @@ void main() {
         reason: 'U+2206 INCREMENT, the actual codepoint confirmed in the corpus -- visually '
             'identical to but a different codepoint from Greek capital Delta (U+0394), which is '
             'also real and present, and mapped the same way');
-    expect(pdfSafe('\u{0394}x is small'), 'triangle x is small', reason: 'U+0394 GREEK CAPITAL LETTER DELTA');
+    expect(pdfSafe('\u{0394}x is small'), 'delta x is small',
+        reason: 'U+0394 GREEK CAPITAL LETTER DELTA before a variable is "change in", not a triangle');
+    expect(pdfSafe('Increase in Income (\u{0394}Y)'), 'Increase in Income (delta Y)',
+        reason: 'an Economics stem in the served bank printed "triangle Y"');
+    expect(pdfSafe('Energy released = \u{2206}m'), 'Energy released = delta m');
+    expect(pdfSafe('\u{2206}\u{1D443}\u{1D446}\u{1D444} ~ \u{0394} ABC'), 'triangle PSQ ~ triangle ABC',
+        reason: 'italic vertex letters are demathified before the triangle check');
+    expect(pdfSafe('\u{2206}\u{1D438}\u{1D43C}\u{1D43C} > \u{2206}EIV'), 'delta EII > delta EIV',
+        reason: 'Roman-numeral energy levels are not triangle vertices');
   });
 
   // Real gap found the same way: italic/bold math-alphabet variables
