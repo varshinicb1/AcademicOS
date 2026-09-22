@@ -339,7 +339,13 @@ def test_quick_generate_api_endpoint(tmp_path, monkeypatch):
         data = resp.json()
         assert data["setLabel"] == "A"
         assert len(data["sets"]) == 2
-        assert data["metadata"]["totalMarks"] == 25
+        # Maximum Marks is what the paper holds (Task 604). This fixture pool
+        # fills 20 of the 25 marks; the line above used to assert 25, i.e. the
+        # overstated header the 2026-09-22 re-audit found on the live release.
+        held = sum(s["totalMarks"] for s in data["sections"])
+        assert data["metadata"]["totalMarks"] == held
+        if held < 25:
+            assert any(f"{held} of the 25 marks" in w for w in data["warnings"]), data["warnings"]
 
 
 _DISTINCT_TOPICS = [

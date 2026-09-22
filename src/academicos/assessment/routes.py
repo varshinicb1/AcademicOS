@@ -308,6 +308,31 @@ def _similar_question_warnings(selected: list[QuestionSchema], *,
     return warnings
 
 
+def _shortfall_warnings(paper: GeneratedPaper, blueprint: Blueprint) -> list[str]:
+    """What a paper holding fewer marks than its blueprint asked for says
+    about it: the total first, then each section that prints short, in
+    selection.optimize's gap wording.
+
+    The live release returned these papers with `warnings` empty (re-audit,
+    2026-09-22): English 10 asked for 80 marks and held 20, Hindi 10 held 2,
+    Computer Applications 27, Biology 12 48. A teacher looking at a paper
+    with a full-looking header would not notice until the exam. Empty when
+    the paper is full."""
+    held = paper.metadata.total_marks
+    if held >= blueprint.total_marks:
+        return []
+    out = [f"This paper holds {held} of the {blueprint.total_marks} marks asked for; "
+           f"the sections below print short. Its header prints Maximum Marks: {held}."]
+    printed = {s.section_id: len(s.questions) for s in paper.sections}
+    for section in blueprint.sections or []:
+        got = printed.get(section.id, 0)
+        if got < section.question_count:
+            out.append(
+                f"Section {section.label} ({section.name}): only {got} of "
+                f"{section.question_count} questions; the section prints short.")
+    return out
+
+
 @router.post("/papers/generate", response_model=GeneratedPaper)
 def generate_paper_endpoint(
     request: PaperGenerationRequest, current: User = Depends(require_staff),
@@ -362,7 +387,7 @@ def generate_paper_endpoint(
         assessment.updated_at = _now()
         store.save(assessment)
     # Set after saving: the warning is about this request, not the paper.
-    paper.warnings = warnings
+    paper.warnings = _shortfall_warnings(paper, request.blueprint) + warnings
     return paper
 
 
@@ -482,7 +507,8 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
             "questionCount": len(paper.questions) if hasattr(paper, "questions") else 0,
         },
     )
-
+    # After saving, like the other generate routes: about this request.
+    paper.warnings = _shortfall_warnings(paper, bp)
     return paper
 
 
@@ -641,9 +667,17 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(require_staff)
     out_dir = cfg.artifacts_dir / "papers"
     template = _require_papers().get_template(paper_id)
     if template is None:
+        # The paper's own school's default branding, found through its
+        # assessment -- never another school's. This used to read
+        # default_for("school_1"), so school_2's PDF printed school_1's name,
+        # logo and tagline (re-audit, 2026-09-22). A school with no branding
+        # configured gets default_for's placeholder (id "default"), which is
+        # not branding: it gets the neutral header instead.
         from .school_templates import TemplateStore
-        store = TemplateStore(cfg.data_root / "templates" / "templates.sqlite")
-        template = store.default_for("school_1")
+        owner = store.get(paper.assessment_id)
+        t_store = TemplateStore(cfg.data_root / "templates" / "templates.sqlite")
+        configured = t_store.default_for(owner.school_id) if owner is not None else None
+        template = configured if configured is not None and configured.id != "default" else None
     # Every export gets a unique, audit-logged watermark ID stamped into the
     # footer -- if a printed/exported copy of an unreleased paper leaks, it's
     # traceable to exactly which export request produced it, not just "the

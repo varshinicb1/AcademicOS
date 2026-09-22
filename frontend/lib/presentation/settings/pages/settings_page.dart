@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/constants/app_constants.dart';
+import '../../../core/session/current_session.dart';
 import '../../../core/local_engine/app_lock.dart';
 import '../../../data/datasources/api/auth_api.dart';
 import '../../../core/local_engine/corpus_downloader.dart'
@@ -69,7 +70,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _loadLastSyncResult() async {
-    const schoolId = AppConstants.currentSchoolId;
+    final schoolId = CurrentSession.schoolId;
     final result = SyncService.instance.getLastSyncResult(schoolId);
     if (result != null && mounted) {
       setState(() => _lastSyncResult = result);
@@ -411,7 +412,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _manualSync() async {
     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Syncing…')));
-    const schoolId = AppConstants.currentSchoolId;
+    final schoolId = CurrentSession.schoolId;
     try {
       final result = await SyncService.instance.sync(schoolId);
       if (!mounted) return;

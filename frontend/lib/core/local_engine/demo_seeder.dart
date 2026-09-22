@@ -7,12 +7,12 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../domain/entities/entities.dart';
 import '../../domain/repositories/requests.dart';
-import '../constants/app_constants.dart';
 import 'answer_evaluation.dart' as eval_engine;
 import 'corpus_repository.dart';
 import 'local_api_client.dart';
 import 'local_pillar_api.dart';
 import 'local_store.dart';
+import 'offline_identity.dart';
 
 /// Runs once, on a genuinely fresh install of a build compiled with
 /// --dart-define=ACADEMICOS_SEED_DEMO=true (never the default build --
@@ -31,11 +31,11 @@ import 'local_store.dart';
 class DemoSeeder {
   static final _rng = Random(42);
 
-  // Same value as AppConstants.currentSchoolId -- kept as a real reference
-  // (not just a matching literal) after a stress test found the Assessments
-  // list, Planner, and Settings/Sync screens each hardcoding a DIFFERENT
-  // school ID that didn't match this one, silently showing empty/wrong data.
-  static const _demoSchoolId = AppConstants.currentSchoolId;
+  // The offline device's own school (OfflineIdentity) -- a real reference,
+  // not a matching literal, after a stress test found the Assessments list,
+  // Planner, and Settings/Sync screens each hardcoding a DIFFERENT school ID
+  // that didn't match this one, silently showing empty/wrong data.
+  static const _demoSchoolId = OfflineIdentity.schoolId;
 
   // 5 real teacher personas, each a real Class X subject with genuine
   // corpus coverage (checked against the live catalog before picking

@@ -189,14 +189,22 @@ class PushScheduleResult {
 /// date and the IDs of the lessons already there, a completed lesson that
 /// cannot move, PUSH's missing-allocation 422) never reached the principal.
 /// A FastAPI validation 422 sends `detail` as a list; that falls back too.
+///
+/// With no `detail`, the status still says what happened: the web mark sheet
+/// used to show every failure as "check your connection", so a teacher whose
+/// mark was refused (403) retried a request that could never succeed
+/// (re-audit, 2026-09-22). "Connection" is said only when no answer came back.
 String serverErrorMessage(Object e) {
   if (e is DioException) {
     final data = e.response?.data;
     final detail = data is Map ? data['detail'] : null;
     if (detail is String && detail.isNotEmpty) return detail;
     final status = e.response?.statusCode;
+    if (status == 401) return 'your session has ended -- sign in again';
+    if (status == 403) return 'you do not have permission to do this';
+    if (status == 404) return 'the server has no record of it -- it may have been removed';
     if (status != null) return 'the server refused the request (HTTP $status)';
-    return 'could not reach the server';
+    return 'could not reach the server -- check your connection and try again';
   }
   return '$e';
 }

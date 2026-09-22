@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-import '../../../core/constants/app_constants.dart';
+import '../../../core/session/current_session.dart';
 import '../../../data/datasources/api/api_client.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../../domain/entities/entities.dart';
@@ -35,7 +35,7 @@ class _PlannerPageState extends State<PlannerPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AssessmentBloc>().add(const AssessmentEvent.loadAssessmentsBySchool(AppConstants.currentSchoolId));
+    context.read<AssessmentBloc>().add(AssessmentEvent.loadAssessmentsBySchool(CurrentSession.schoolId));
   }
 
   DateTime _dayOf(Assessment a) => a.scheduledAt ?? a.createdAt;
@@ -59,7 +59,7 @@ class _PlannerPageState extends State<PlannerPage> {
             icon: const Icon(Icons.refresh),
             onPressed: () => context
                 .read<AssessmentBloc>()
-                .add(const AssessmentEvent.loadAssessmentsBySchool(AppConstants.currentSchoolId)),
+                .add(AssessmentEvent.loadAssessmentsBySchool(CurrentSession.schoolId)),
           ),
         ],
       ),
@@ -216,7 +216,7 @@ class _PlannerPageState extends State<PlannerPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Scheduled — syncing to Google Calendar')),
       );
-      context.read<AssessmentBloc>().add(const AssessmentEvent.loadAssessmentsBySchool(AppConstants.currentSchoolId));
+      context.read<AssessmentBloc>().add(AssessmentEvent.loadAssessmentsBySchool(CurrentSession.schoolId));
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

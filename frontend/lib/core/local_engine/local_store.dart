@@ -285,10 +285,11 @@ class LocalStore {
   set themeModeName(String v) => _box.put('theme_mode', v);
 
   // ---- Teacher profile (this device's user) ----
-  // No real auth/login system exists yet, so this is deliberately a single
+  // The offline build has no login, so this is deliberately a single
   // "whoever is using this device" profile, not a multi-account store --
   // matches the offline, single-teacher-per-device shape everything else in
-  // this build (AppConstants.currentSchoolId, etc.) already assumes.
+  // that build (OfflineIdentity) already assumes. Signed-in builds take the
+  // user from authUser below instead (CurrentSession).
   String get teacherName => _box.get('teacher_profile_name') as String? ?? '';
   set teacherName(String v) => _box.put('teacher_profile_name', v.trim());
 

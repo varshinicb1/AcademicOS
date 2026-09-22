@@ -16,16 +16,10 @@ class AppConstants {
   static const Duration syncInterval = Duration(minutes: 15);
   static const int maxOfflineDays = 30;
 
-  // Current session -- placeholder until real auth/multi-school onboarding
-  // exists. Real, confirmed bug found via an on-device stress test: three
-  // different hardcoded IDs ('school_1', 'demo_school', 'teacher_1') were
-  // scattered across the app with no shared source of truth, so the
-  // Assessments list, Planner, and Settings/Sync screens each guessed a
-  // different "current school" and silently showed wrong/empty data
-  // against the demo seeder's real 'demo_school' records. Every screen
-  // needing "this school" should reference this constant instead of
-  // hardcoding its own guess.
-  static const String currentSchoolId = 'demo_school';
+  // No "current school" constant lives here any more: a screen gets the
+  // school and user from CurrentSession (core/session/current_session.dart),
+  // i.e. whoever signed in. A fixed id here made the live web app show every
+  // real school the demo school's (empty) data (re-audit, 2026-09-22).
   
   // UI
   static const double defaultPadding = 16.0;

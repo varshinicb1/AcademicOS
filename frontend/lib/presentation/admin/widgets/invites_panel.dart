@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../data/datasources/api/auth_api.dart';
+import '../../../data/datasources/api/curriculum_api.dart' show serverErrorMessage;
 import '../../shared/widgets/common_widgets.dart';
 
 /// Where a principal lets people into their school. Since 2026-09-21 an
@@ -53,8 +54,8 @@ class _InvitesPanelState extends State<InvitesPanel> {
     try {
       final rows = await _api.invites();
       if (mounted) setState(() => _invites = rows);
-    } catch (_) {
-      if (mounted) setState(() => _error = 'Could not load invites. Check your connection.');
+    } catch (e) {
+      if (mounted) setState(() => _error = 'Could not load invites: ${serverErrorMessage(e)}');
     }
   }
 

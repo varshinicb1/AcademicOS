@@ -127,7 +127,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
                       }
                       if (snap.hasError) {
                         return ErrorDisplay(
-                          message: 'Could not load your schedule. Check your connection.',
+                          message: 'Could not load your schedule: ${serverErrorMessage(snap.error!)}',
                           onRetry: () => setState(() => _future = _load()),
                         );
                       }
@@ -430,11 +430,13 @@ class _MySchedulePageState extends State<MySchedulePage> {
                     .markLesson(lesson.lessonId, status: status, note: note.isEmpty ? null : note);
                 if (sheetContext.mounted) Navigator.of(sheetContext).pop();
                 if (mounted) setState(() => _future = _load());
-              } catch (_) {
+              } catch (e) {
+                // The server's reason (or the status's meaning); the
+                // connection is blamed only when no answer came back.
                 setSheetState(() => saving = false);
                 if (sheetContext.mounted) {
                   ScaffoldMessenger.of(sheetContext).showSnackBar(
-                    const SnackBar(content: Text('Could not save -- check your connection and try again.')),
+                    SnackBar(content: Text('Could not save: ${serverErrorMessage(e)}')),
                   );
                 }
               }

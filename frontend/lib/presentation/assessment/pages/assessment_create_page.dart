@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/constants/app_constants.dart';
+import '../../../core/session/current_session.dart';
 import '../../../core/local_engine/paper_selection.dart' show sectionsFromCounts;
 import '../../../domain/entities/entities.dart';
 import '../../../domain/repositories/requests.dart';
@@ -776,8 +776,8 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
       _submitError = null;
     });
     final bloc = context.read<AssessmentBloc>();
-    const teacherId = 'teacher_1';
-    const schoolId = AppConstants.currentSchoolId;
+    final teacherId = CurrentSession.userId;
+    final schoolId = CurrentSession.schoolId;
 
     try {
       bloc.add(AssessmentEvent.createAssessment(CreateAssessmentRequest(

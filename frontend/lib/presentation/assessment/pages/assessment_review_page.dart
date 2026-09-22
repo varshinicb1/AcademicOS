@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:printing/printing.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import '../../../core/download/paper_download.dart';
+import '../../../core/download/pdf_saver.dart';
 import '../../../core/local_engine/local_api_client.dart'
     show AssessmentLockedException, editableAssessmentStatuses;
 import '../../../data/datasources/api/api_client.dart';
+import '../../../data/datasources/api/curriculum_api.dart' show serverErrorMessage;
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../../domain/entities/entities.dart';
 import '../../../domain/repositories/requests.dart';
@@ -40,8 +42,10 @@ class AssessmentReviewPage extends StatefulWidget {
 class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
   bool _exporting = false;
   String? _exportedUrl;
+  String? _exportedPaperId;
   bool _exportingAnswerKey = false;
   String? _exportedAnswerKeyUrl;
+  String? _exportedAnswerKeyPaperId;
   String? _error;
   int _selectedSetIndex = 0;
 
@@ -330,16 +334,17 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                   label: const Text('Preview, print or email'),
                 ),
                 OutlinedButton.icon(
-                  onPressed: () => _openExported(_exportedUrl!),
-                  icon: const Icon(Icons.open_in_new),
-                  label: const Text('Open Paper in browser'),
+                  onPressed: () => _openExported(_exportedUrl!, paperId: _exportedPaperId!),
+                  icon: const Icon(Icons.download),
+                  label: const Text('Download Paper PDF'),
                 ),
               ],
               if (_exportedAnswerKeyUrl != null) ...[
                 OutlinedButton.icon(
-                  onPressed: () => _openExported(_exportedAnswerKeyUrl!),
-                  icon: const Icon(Icons.open_in_new),
-                  label: const Text('Open Answer Key'),
+                  onPressed: () => _openExported(_exportedAnswerKeyUrl!,
+                      paperId: _exportedAnswerKeyPaperId!, answerKey: true),
+                  icon: const Icon(Icons.download),
+                  label: const Text('Download Answer Key'),
                 ),
               ],
             ],
@@ -429,14 +434,26 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
     }
   }
 
+  /// A server export (an http URL) is downloaded as bytes on the app's Dio,
+  /// with the session token, and handed to the browser as a file. It used to
+  /// be opened with launchUrl: /papers/{id}/file is staff-only and a browser
+  /// tab sends no token, so the live release showed a 401 page and the answer
+  /// key could not be had on the web at all (re-audit, 2026-09-22).
+  ///
   /// Local (offline-build) exports return an absolute file path, not a URL
   /// -- launchUrl on a raw file:// path throws FileUriExposedException on
   /// Android 7+, so those go through `printing`'s native share/view sheet
-  /// instead, which handles the content:// URI dance correctly. Hosted
-  /// deployments (http paths) keep using launchUrl exactly as before.
-  Future<void> _openExported(String pathOrUrl) async {
+  /// instead, which handles the content:// URI dance correctly.
+  Future<void> _openExported(String pathOrUrl, {required String paperId, bool answerKey = false}) async {
     if (pathOrUrl.startsWith('http')) {
-      await launchUrl(Uri.parse(pathOrUrl), mode: LaunchMode.externalApplication);
+      final saver = GetIt.I.isRegistered<PdfSaver>() ? GetIt.I<PdfSaver>() : PdfSaver.platform();
+      try {
+        await downloadPaperPdf(GetIt.I<ApiClient>(), saver, paperId, answerKey: answerKey);
+      } catch (e) {
+        if (!mounted) return;
+        setState(() => _error =
+            'Could not download the ${answerKey ? 'answer key' : 'paper'}: ${serverErrorMessage(e)}');
+      }
       return;
     }
     final bytes = await File(pathOrUrl).readAsBytes();
@@ -491,6 +508,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
       }
       setState(() {
         _exportedUrl = path.startsWith('http') ? path : '${GetIt.I<PillarApi>().serverOrigin}$path';
+        _exportedPaperId = paper.id;
         _exporting = false;
       });
     } catch (e) {
@@ -513,6 +531,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
         _exportedAnswerKeyUrl = path.startsWith('http')
             ? path
             : (path.startsWith('/') ? '${GetIt.I<PillarApi>().serverOrigin}$path' : path);
+        _exportedAnswerKeyPaperId = paper.id;
         _exportingAnswerKey = false;
       });
       if (!mounted) return;

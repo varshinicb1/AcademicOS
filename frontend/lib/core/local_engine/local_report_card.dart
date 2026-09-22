@@ -1,6 +1,6 @@
-import '../constants/app_constants.dart';
 import 'concept_subjects.dart';
 import 'local_store.dart';
+import 'offline_identity.dart';
 
 /// One subject's real performance for a student's report card -- built
 /// from actual evaluations recorded against real assessments, never
@@ -118,7 +118,7 @@ String _suggestionFor({required double mastery, required int evidenceCount, requ
 /// a real stored mastery record; a subject with no evaluated assessments
 /// simply doesn't appear rather than showing a fabricated zero.
 class LocalReportCardService {
-  static ReportCardData generate(String studentId, {String schoolId = AppConstants.currentSchoolId}) {
+  static ReportCardData generate(String studentId, {String schoolId = OfflineIdentity.schoolId}) {
     final assessments = LocalStore.instance
         .allAssessments()
         .where((a) => a['schoolId'] == schoolId)

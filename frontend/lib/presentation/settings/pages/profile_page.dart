@@ -4,9 +4,9 @@ import '../../../core/local_engine/local_store.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 
-/// Real, minimal teacher profile for this device -- there is no login/auth
-/// system yet (see AppConstants.currentSchoolId's own comment on the same
-/// gap), so this is deliberately "whoever is using this device," not a
+/// Real, minimal teacher profile for this device -- the offline build has no
+/// login (see OfflineIdentity), so this is deliberately "whoever is using
+/// this device," not a
 /// multi-account switcher. Was a dead `() {}` button before this; a teacher
 /// tapping "Profile" from Settings got nothing at all.
 class ProfilePage extends StatefulWidget {

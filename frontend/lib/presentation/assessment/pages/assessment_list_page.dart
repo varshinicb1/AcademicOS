@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/constants/app_constants.dart';
+import '../../../core/session/current_session.dart';
 import '../../../data/datasources/api/api_client.dart';
 import '../../../domain/entities/entities.dart';
 import '../../../domain/repositories/requests.dart';
@@ -22,7 +22,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
   @override
   void initState() {
     super.initState();
-    context.read<AssessmentBloc>().add(const AssessmentEvent.loadAssessmentsBySchool(AppConstants.currentSchoolId));
+    context.read<AssessmentBloc>().add(AssessmentEvent.loadAssessmentsBySchool(CurrentSession.schoolId));
   }
 
   @override
@@ -53,7 +53,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
               message: message,
               onRetry: () => context
                   .read<AssessmentBloc>()
-                  .add(const AssessmentEvent.loadAssessmentsBySchool(AppConstants.currentSchoolId)),
+                  .add(AssessmentEvent.loadAssessmentsBySchool(CurrentSession.schoolId)),
             ),
             // Any other state (e.g. left over from the create flow) isn't a
             // list result — re-fetch rather than rendering a misleading empty list.
@@ -62,7 +62,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                 if (mounted) {
                   context
                       .read<AssessmentBloc>()
-                      .add(const AssessmentEvent.loadAssessmentsBySchool(AppConstants.currentSchoolId));
+                      .add(AssessmentEvent.loadAssessmentsBySchool(CurrentSession.schoolId));
                 }
               });
               return const Center(child: CircularProgressIndicator());
@@ -277,12 +277,16 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
                               setCount: setCount,
                               title: '$selectedSubject ${selectedPreset.replaceAll('_', ' ').toUpperCase()} ($selectedTier)',
                             );
-                            final paper = await GetIt.I<ApiClient>().quickGeneratePaper(req);
+                            final result = await GetIt.I<ApiClient>().quickGenerateWithWarnings(req);
+                            final paper = result.paper;
                             if (!dialogContext.mounted) return;
                             Navigator.of(dialogContext).pop();
                             if (!context.mounted) return;
+                            // The warnings print above the paper on the review
+                            // page: a short paper must say it is short.
                             context.push('/assessment/${paper.assessmentId}', extra: {
                               'paper': paper,
+                              'warnings': result.warnings,
                             });
                           } catch (e) {
                             setDialogState(() {

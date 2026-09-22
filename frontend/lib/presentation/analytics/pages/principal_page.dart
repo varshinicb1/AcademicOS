@@ -2,21 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../core/constants/app_constants.dart';
+import '../../../core/session/current_session.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 
 /// Pillar 6 — Principal Intelligence: school health, not individual questions.
 class PrincipalPage extends StatefulWidget {
-  final String schoolId;
-  const PrincipalPage({super.key, this.schoolId = AppConstants.currentSchoolId});
+  /// Null means the signed-in user's own school -- the only one the server
+  /// answers for. A fixed default here ('demo_school' until Task 604) got
+  /// every real school a 403 (re-audit, 2026-09-22).
+  final String? schoolId;
+  const PrincipalPage({super.key, this.schoolId});
 
   @override
   State<PrincipalPage> createState() => _PrincipalPageState();
 }
 
 class _PrincipalPageState extends State<PrincipalPage> {
+  String get _schoolId => widget.schoolId ?? CurrentSession.schoolId;
+
   late Future<SchoolInsights> _future;
 
   @override
@@ -29,7 +34,7 @@ class _PrincipalPageState extends State<PrincipalPage> {
     // Block body, not an arrow: `() => _future = ...` returns the Future,
     // and setState rejects a callback that returns anything.
     setState(() {
-      _future = GetIt.I<PillarApi>().schoolInsights(widget.schoolId);
+      _future = GetIt.I<PillarApi>().schoolInsights(_schoolId);
     });
   }
 

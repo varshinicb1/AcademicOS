@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:dio/dio.dart';
 
 import '../../../domain/entities/entities.dart';
@@ -89,9 +91,22 @@ class ApiClient {
     return GeneratedPaper.fromJson(response.data);
   }
 
-  Future<GeneratedPaper> quickGeneratePaper(QuickPaperRequest request) async {
+  Future<GeneratedPaper> quickGeneratePaper(QuickPaperRequest request) async =>
+      (await quickGenerateWithWarnings(request)).paper;
+
+  /// The quick paper plus the server's `warnings` about it -- above all a
+  /// paper holding fewer marks than asked for, section by section. The live
+  /// release dropped them: English 10 asked for 80 marks came back holding 20
+  /// and nothing on screen said so (re-audit, 2026-09-22). GeneratedPaper
+  /// (freezed) has no field for them, so they travel beside it.
+  Future<({GeneratedPaper paper, List<String> warnings})> quickGenerateWithWarnings(
+      QuickPaperRequest request) async {
     final response = await _dio.post('/papers/quick-generate', data: request.toJson());
-    return GeneratedPaper.fromJson(response.data);
+    final data = Map<String, dynamic>.from(response.data as Map);
+    return (
+      paper: GeneratedPaper.fromJson(data),
+      warnings: (data['warnings'] as List? ?? const []).map((w) => '$w').toList(),
+    );
   }
 
   Future<GeneratedPaper> generateFromIds(GenerateFromIdsRequest request) async {
@@ -107,6 +122,20 @@ class ApiClient {
   Future<String> exportPaper(String paperId, ExportFormat format) async {
     final response = await _dio.post('/papers/$paperId/export/${format.name}');
     return response.data['url'] as String;
+  }
+
+  /// The exported PDF's bytes (the paper, or its answer key), fetched on this
+  /// client's Dio so the session interceptor attaches the bearer token.
+  /// /papers/{id}/file is staff-only: the live release opened it with
+  /// launchUrl, a browser tab sends no token, and teachers got a 401 page
+  /// instead of the answer key (re-audit, 2026-09-22).
+  Future<Uint8List> downloadPaperPdf(String paperId, {bool answerKey = false}) async {
+    final response = await _dio.get<List<int>>(
+      '/papers/$paperId/file',
+      queryParameters: {if (answerKey) 'format': 'answer-key'},
+      options: Options(responseType: ResponseType.bytes),
+    );
+    return Uint8List.fromList(response.data ?? const []);
   }
 
   Future<List<SchoolTemplate>> getSchoolPaperTemplates(String schoolId) async {

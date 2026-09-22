@@ -13,6 +13,7 @@ import '../../data/datasources/api/consent_api.dart';
 import '../../data/datasources/api/curriculum_api.dart';
 import '../../data/datasources/api/pillar_api.dart';
 import '../../data/datasources/local/app_database.dart';
+import '../download/pdf_saver.dart';
 import '../local_engine/corpus_repository.dart';
 import '../local_engine/local_api_client.dart';
 import '../local_engine/local_pillar_api.dart';
@@ -121,6 +122,9 @@ Future<void> initDependencies() async {
   // stays uniform rather than conditionally skipping one client.
   sl.registerLazySingleton<CurriculumApi>(() => CurriculumApi(sl<Dio>()));
   sl.registerLazySingleton<ConsentApi>(() => ConsentApi(sl<Dio>()));
+  // Where a downloaded paper / answer-key PDF goes: a browser download on
+  // the web, the share sheet elsewhere (core/download/pdf_saver.dart).
+  sl.registerLazySingleton<PdfSaver>(() => PdfSaver.platform());
 
   // API Client
   // ACADEMICOS_OFFLINE=true is set only by the standalone-Android build --

@@ -5,11 +5,11 @@ import 'package:dio/dio.dart';
 import '../../data/datasources/api/api_client.dart';
 import '../../domain/entities/entities.dart';
 import '../../domain/repositories/requests.dart';
-import '../constants/app_constants.dart';
 import 'corpus_repository.dart';
 import 'local_pdf_export.dart';
 import 'local_pillar_api.dart' show OfflineUnsupportedException;
 import 'local_store.dart';
+import 'offline_identity.dart';
 import 'paper_selection.dart' as selection_engine;
 
 /// Mirrors the real backend's `_require_editable` guard
@@ -361,14 +361,21 @@ class LocalApiClient extends ApiClient {
     return primaryPaper;
   }
 
+  // The on-device quick paper carries no server warnings; without this
+  // override the base class would post to a server this build never has.
+  @override
+  Future<({GeneratedPaper paper, List<String> warnings})> quickGenerateWithWarnings(
+          QuickPaperRequest request) async =>
+      (paper: await quickGeneratePaper(request), warnings: const <String>[]);
+
   @override
   Future<GeneratedPaper> quickGeneratePaper(QuickPaperRequest request) async {
     await CorpusRepository.instance.ensureLoaded();
-    const schoolId = AppConstants.currentSchoolId;
+    const schoolId = OfflineIdentity.schoolId;
     final assessment = Assessment(
       id: _newId('asm_quick'),
       schoolId: schoolId,
-      teacherId: 'teacher_1',
+      teacherId: OfflineIdentity.teacherId,
       title: request.title ?? '${request.subject} Grade ${request.grade} Quick Paper',
       subject: request.subject,
       grade: request.grade,
@@ -419,7 +426,7 @@ class LocalApiClient extends ApiClient {
   @override
   Future<GeneratedPaper> generateFromIds(GenerateFromIdsRequest request) async {
     await CorpusRepository.instance.ensureLoaded();
-    const schoolId = AppConstants.currentSchoolId;
+    const schoolId = OfflineIdentity.schoolId;
     final questions = await getQuestionsByIds(request.questionIds);
     if (questions.isEmpty) throw Exception('No valid questions found for the given IDs.');
 
@@ -427,7 +434,7 @@ class LocalApiClient extends ApiClient {
     final assessment = Assessment(
       id: _newId('asm_curated'),
       schoolId: schoolId,
-      teacherId: 'teacher_1',
+      teacherId: OfflineIdentity.teacherId,
       title: request.title ?? '${request.subject} Curated Paper',
       subject: request.subject,
       grade: request.grade,

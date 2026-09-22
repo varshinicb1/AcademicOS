@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../core/constants/app_constants.dart';
+import '../../../core/session/current_session.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
@@ -13,8 +13,11 @@ import '../../shared/widgets/shell.dart';
 /// means every generated paper conforms exactly: header, margins, and the
 /// school's own section layout (how many sections, marks per question).
 class TemplateMakerPage extends StatefulWidget {
-  final String schoolId;
-  const TemplateMakerPage({super.key, this.schoolId = AppConstants.currentSchoolId});
+  /// Null means the signed-in user's own school -- the only one the server
+  /// answers for. A fixed default here ('demo_school' until Task 604) got
+  /// every real school a 403 (re-audit, 2026-09-22).
+  final String? schoolId;
+  const TemplateMakerPage({super.key, this.schoolId});
 
   @override
   State<TemplateMakerPage> createState() => _TemplateMakerPageState();
@@ -45,6 +48,8 @@ class _SectionDraft {
 }
 
 class _TemplateMakerPageState extends State<TemplateMakerPage> {
+  String get _schoolId => widget.schoolId ?? CurrentSession.schoolId;
+
   final _name = TextEditingController(text: 'School Term Paper Format');
   final _margin = TextEditingController(text: '18');
   final _fontSize = TextEditingController(text: '11');
@@ -101,7 +106,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
     _loadFailed = false;
     try {
       final api = GetIt.I<PillarApi>();
-      final templates = await api.schoolTemplates(widget.schoolId);
+      final templates = await api.schoolTemplates(_schoolId);
       if (templates.isEmpty) return;
       final t = templates.firstWhere((e) => e['isDefault'] == true, orElse: () => templates.first);
       _templateId = (t['id'] as String?) ?? 'new';
@@ -116,7 +121,7 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
       _sectionFormatting = Map<String, dynamic>.from(t['sectionFormatting'] as Map? ?? {});
 
       if (_templateId != 'new' && _templateId != 'default') {
-        final sections = await api.templateSections(widget.schoolId, _templateId);
+        final sections = await api.templateSections(_schoolId, _templateId);
         if (sections.isNotEmpty) {
           _sections = sections
               .map((s) => _SectionDraft(
@@ -151,10 +156,10 @@ class _TemplateMakerPageState extends State<TemplateMakerPage> {
     });
     try {
       final saved = await GetIt.I<PillarApi>().saveTemplate(
-        widget.schoolId,
+        _schoolId,
         {
           'id': _templateId,
-          'schoolId': widget.schoolId,
+          'schoolId': _schoolId,
           'name': _name.text.trim().isEmpty ? 'School Template' : _name.text.trim(),
           'tagline': _tagline,
           'brandColor': _brandColor,
