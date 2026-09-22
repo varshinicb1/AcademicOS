@@ -34,11 +34,91 @@ from _auth_helpers import invite_code
 
 class _StubPostgrest(BaseHTTPRequestHandler):
     """Minimal PostgREST stand-in: 404s each table named in `broken` with a
-    real PGRST205-shaped body, answers every other /rest/v1 read with an
-    empty result set. Storage API paths 404 too — that is the normal
-    "no snapshot uploaded yet" case CurriculumStore already handles."""
+    real PGRST205-shaped body. Every other table is a small in-memory table:
+    POST upserts, PATCH/DELETE apply `col=eq.value` filters, GET returns the
+    matching rows (empty until something is written). Storage API paths 404
+    too — that is the normal "no snapshot uploaded yet" case CurriculumStore
+    already handles.
+
+    The writes were added with Task 301. Registration needs an invite, and
+    since a configured remote no longer lets create_invite fall back to
+    local SQLite (a code saved only on Render's ephemeral disk vanished at
+    the next cold start), a GET-only stub answered the invite upsert with a
+    501 and every registration here failed before reaching the table under
+    test."""
 
     broken: tuple[str, ...] = ()
+
+    def _table(self) -> str | None:
+        path = self.path.split("?")[0]
+        return path.rsplit("/", 1)[-1] if path.startswith("/rest/v1/") else None
+
+    def _query(self) -> dict[str, str]:
+        from urllib.parse import parse_qsl, urlsplit
+        return dict(parse_qsl(urlsplit(self.path).query, keep_blank_values=True))
+
+    def _filters(self) -> dict[str, str]:
+        return {k: v[3:] for k, v in self._query().items() if v.startswith("eq.")}
+
+    @staticmethod
+    def _matches(row: dict, filters: dict[str, str]) -> bool:
+        return all(row.get(k) is not None and str(row.get(k)) == v
+                   for k, v in filters.items())
+
+    def _body(self) -> dict:
+        length = int(self.headers.get("Content-Length") or 0)
+        return json.loads(self.rfile.read(length) or b"{}")
+
+    def _broken(self, table: str) -> bool:
+        if table in self.broken:
+            self._respond(404, json.dumps({
+                "code": "PGRST205",
+                "message": f"Could not find the table 'public.{table}' in the schema cache",
+            }).encode())
+            return True
+        return False
+
+    def do_POST(self) -> None:  # noqa: N802
+        table = self._table()
+        if table is None:
+            return self._respond(404, b'{"error":"not found"}')
+        if self._broken(table):
+            return None
+        row, key = self._body(), self._query().get("on_conflict", "id")
+        with self.server.lock:
+            rows = self.server.rows[table]
+            for existing in rows:
+                if existing.get(key) == row.get(key):
+                    existing.update(row)
+                    break
+            else:
+                rows.append(row)
+        return self._respond(201, b"")
+
+    def do_PATCH(self) -> None:  # noqa: N802
+        table = self._table()
+        if table is None:
+            return self._respond(404, b'{"error":"not found"}')
+        if self._broken(table):
+            return None
+        values, filters = self._body(), self._filters()
+        with self.server.lock:
+            for row in self.server.rows[table]:
+                if self._matches(row, filters):
+                    row.update(values)
+        return self._respond(204, b"")
+
+    def do_DELETE(self) -> None:  # noqa: N802
+        table = self._table()
+        if table is None:
+            return self._respond(404, b'{"error":"not found"}')
+        if self._broken(table):
+            return None
+        filters = self._filters()
+        with self.server.lock:
+            self.server.rows[table] = [r for r in self.server.rows[table]
+                                       if not self._matches(r, filters)]
+        return self._respond(204, b"")
 
     def _respond(self, status: int, body: bytes) -> None:
         self.send_response(status)
@@ -52,12 +132,12 @@ class _StubPostgrest(BaseHTTPRequestHandler):
         if path.startswith("/rest/v1/"):
             table = path.rsplit("/", 1)[-1]
             self.server.counter[table] += 1
-            if table in self.broken:
-                return self._respond(404, json.dumps({
-                    "code": "PGRST205",
-                    "message": f"Could not find the table 'public.{table}' in the schema cache",
-                }).encode())
-            return self._respond(200, b"[]")
+            if self._broken(table):
+                return None
+            filters = self._filters()
+            with self.server.lock:
+                found = [r for r in self.server.rows[table] if self._matches(r, filters)]
+            return self._respond(200, json.dumps(found).encode())
         self.server.counter[path] += 1
         return self._respond(404, b'{"error":"not found"}')
 
@@ -75,6 +155,8 @@ def stub_postgrest(monkeypatch) -> Iterator:
         stub_cls = type("Stub", (_StubPostgrest,), {"broken": tuple(broken)})
         server = ThreadingHTTPServer(("127.0.0.1", 0), stub_cls)
         server.counter = collections.Counter()
+        server.rows = collections.defaultdict(list)
+        server.lock = threading.Lock()
         threading.Thread(target=server.serve_forever, daemon=True).start()
         servers.append(server)
         base = f"http://127.0.0.1:{server.server_port}"

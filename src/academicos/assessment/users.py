@@ -455,15 +455,18 @@ class UserStore:
             expires_at=(now + timedelta(days=days)).isoformat(),
         )
         row = asdict(invite)
-        saved_remotely = False
         if self._remote_invites.enabled:
-            try:
-                self._remote_invites.upsert(row, on_conflict="code")
-                saved_remotely = True
-            except (SupabaseUnavailable, requests.exceptions.RequestException):
-                logger.warning("remote store unavailable for create_invite, falling back to local SQLite",
-                               exc_info=True)
-        if not saved_remotely:
+            # No local fallback when a remote store is configured, unlike
+            # users and sessions. An invite is a credential that has to
+            # outlive the process for days, and on Render the local disk is
+            # wiped at every cold start: a code saved only there was handed
+            # to the principal as working and then answered "not recognised"
+            # after the next restart. The same happened on EVERY call when
+            # the `invites` table had not been created yet (PostgREST 404).
+            # A failure here propagates; the app's handler answers 503 and
+            # the principal can retry.
+            self._remote_invites.upsert(row, on_conflict="code")
+        else:
             with self._conn_lock:
                 self.conn.execute(
                     f"INSERT INTO invites ({', '.join(row)}) VALUES ({', '.join('?' * len(row))})",
@@ -473,8 +476,13 @@ class UserStore:
 
     def invites_for_school(self, school_id: str) -> list[Invite]:
         """Every invite the school has issued, used or not, newest first.
-        Local rows are included too: an invite created while the remote
-        store was down lives only there."""
+        Local rows are included too (a store that ran without a remote
+        before one was configured keeps its invites there).
+
+        A failed remote read raises (503) instead of listing local rows
+        only: during an outage that list is empty or partial, and a
+        principal reading it as complete would issue duplicates of codes
+        that are still live."""
         merged: dict[str, Invite] = {}
         with self._conn_lock:
             rows = self.conn.execute(
@@ -482,12 +490,8 @@ class UserStore:
         for r in rows:
             merged[r["code"]] = _row_to_invite(dict(r))
         if self._remote_invites.enabled:
-            try:
-                for r in self._remote_invites.select(school_id=school_id):
-                    merged[r["code"]] = _row_to_invite(r)
-            except (SupabaseUnavailable, requests.exceptions.RequestException):
-                logger.warning("remote store unavailable for invites_for_school, listing local rows only",
-                               exc_info=True)
+            for r in self._remote_invites.select(school_id=school_id):
+                merged[r["code"]] = _row_to_invite(r)
         return sorted(merged.values(), key=lambda i: i.created_at, reverse=True)
 
     def revoke_invite(self, *, code: str, school_id: str) -> Invite:
@@ -521,18 +525,29 @@ class UserStore:
 
     def _find_invite(self, code: str) -> Optional[tuple[Invite, str]]:
         """The invite and which backend holds it ("remote" | "local"); the
-        claim and the revoke must write to the same place they read from."""
+        claim and the revoke must write to the same place they read from.
+
+        When the remote read fails, only a positive local hit is returned.
+        No local match is NOT "unknown": the local file does not hold
+        remotely stored invites, so answering None here told a user with a
+        valid code "invite code not recognised" (403) and a principal "no
+        such invite at your school" (404) when the truth was that storage
+        was down. The remote error is re-raised instead (503)."""
+        remote_error: Optional[BaseException] = None
         if self._remote_invites.enabled:
             try:
                 rows = self._remote_invites.select(code=code)
                 if rows:
                     return _row_to_invite(rows[0]), "remote"
-            except (SupabaseUnavailable, requests.exceptions.RequestException):
-                logger.warning("remote store unavailable for invite lookup, falling back to local SQLite",
-                               exc_info=True)
+            except (SupabaseUnavailable, requests.exceptions.RequestException) as exc:
+                remote_error = exc
         with self._conn_lock:
             r = self.conn.execute("SELECT * FROM invites WHERE code=?", (code,)).fetchone()
-        return (_row_to_invite(dict(r)), "local") if r else None
+        if r:
+            return _row_to_invite(dict(r)), "local"
+        if remote_error is not None:
+            raise remote_error
+        return None
 
     def _claim_invite(self, code: str, user_id: str, backend: str) -> None:
         """Mark the invite used by `user_id`, or raise RegistrationRefused if

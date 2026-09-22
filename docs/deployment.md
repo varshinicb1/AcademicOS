@@ -140,7 +140,10 @@ from the Render dashboard.
   `practice_sets`, `graded_evaluations`, `scan_sessions`,
   `school_templates`, `users`, `sessions`, `invites`, `audit_log`,
   `learner_events`, `parental_consents`; re-run it after 2026-09-21 to add
-  `invites`, which registration now needs)
+  `invites`, which registration now needs; until it exists, creating,
+  listing, revoking and redeeming invites all answer 503 rather than
+  saving codes on Render's ephemeral disk, and `/health/storage` names the
+  missing table)
   with the exact column shapes each store reads/writes — these are real
   columns, not just an `id` + `payload JSONB`: PostgREST filters and orders
   on columns (e.g. `select(email=eq.…)`, `order="seq.desc"`), and
