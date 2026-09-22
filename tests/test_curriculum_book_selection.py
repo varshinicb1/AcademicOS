@@ -225,3 +225,82 @@ def test_a_subject_with_two_books_and_no_choice_has_no_selected_book(world):
     assert world.store.selected_book_for_subject(subject.id) is None
     r = world.client.get(f"{BASE}/subjects/{subject.id}/selected-book", headers=world.p1)
     assert r.status_code == 404 and "choose" in r.json()["detail"]
+
+
+# --------------------------------------------------------------------- #
+# Every other edition is reported, not only the one chosen just before
+# --------------------------------------------------------------------- #
+
+def _schedule(w, book_id: str, days: tuple[str, ...]) -> None:
+    for day in days:
+        w.store.create_scheduled_lesson(school_id="school_1", academic_year_id=w.year,
+                                        book_id=book_id, subtopic_id="st_1", date=day)
+
+
+def test_a_to_b_to_c_still_reports_the_lessons_of_a(world):
+    """Review finding: the count used to cover only the edition chosen just
+    before this one. A has 2 lessons; choosing B warned about them; choosing
+    C then reported previous=B with 0 lessons and no warning, although A's 2
+    lessons were still in scheduled_lessons -- the silent stale schedule
+    this task exists to prevent."""
+    _schedule(world, world.seeded, ("2026-06-01", "2026-06-02"))
+    b = _add_book(world, title="Mathematics B").json()
+    c = _add_book(world, title="Mathematics C").json()
+    assert _select(world, b["id"]).json()["previousBookScheduledLessons"] == 2
+    body = _select(world, c["id"]).json()
+    assert body["previousBookId"] == b["id"]
+    # The immediately previous edition (B) has none of its own ...
+    assert body["previousBookScheduledLessons"] == 0
+    # ... but the response still accounts for every other edition.
+    assert body["otherEditionsScheduledLessons"] == 2
+    by_book = {e["bookId"]: e for e in body["otherEditions"]}
+    assert by_book[world.seeded]["scheduledLessons"] == 2
+    assert world.seeded in by_book and b["id"] in by_book and c["id"] not in by_book
+    assert body["warning"] and "2 lessons" in body["warning"]
+    assert "official curriculum" in body["warning"], "names the book that holds them"
+
+
+def test_the_first_choice_among_several_books_reports_their_lessons(world):
+    """No recorded choice and several books: there is no "previous" edition,
+    yet lessons scheduled from any of them must still be reported."""
+    subject = world.store.create_subject(
+        grade_id=world.store.get_subject(world.subject).grade_id, name="English")
+    for bid, title in (("book_a", "English A"), ("book_b", "English B")):
+        world.store._exec(
+            "INSERT INTO books (id, subject_id, board_id, title, status) VALUES (?,?,?,?,?)",
+            (bid, subject.id, world.board, title, "ready"))
+    world.store._commit()
+    _schedule(world, "book_a", ("2026-06-01",))
+    r = world.client.put(f"{BASE}/subjects/{subject.id}/selected-book",
+                         json={"bookId": "book_b"}, headers=world.p1)
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["previousBookId"] is None
+    assert body["otherEditionsScheduledLessons"] == 1
+    assert body["warning"] and "1 lesson " in body["warning"] and "English A" in body["warning"]
+
+
+def test_teachers_still_assigned_to_an_old_edition_are_reported(world):
+    """Review finding: choosing an edition leaves teacher_assignments on the
+    old book untouched (the teacher's own views keep showing its schedule),
+    and the response used to say nothing about them."""
+    world.store.assign_teacher(school_id="school_1", teacher_id="teacher_x",
+                               book_id=world.seeded)
+    added = _add_book(world).json()
+    body = _select(world, added["id"]).json()
+    assert body["otherEditionsTeacherAssignments"] == 1
+    by_book = {e["bookId"]: e for e in body["otherEditions"]}
+    assert by_book[world.seeded]["teacherAssignments"] == 1
+    assert body["warning"] and "1 teacher assignment" in body["warning"]
+    # Reported, not moved: the assignment still points at the old book.
+    rows = world.store._fetchall(
+        "SELECT book_id FROM teacher_assignments WHERE teacher_id=?", ("teacher_x",))
+    assert [r["book_id"] for r in rows] == [world.seeded]
+
+
+def test_no_warning_when_no_other_edition_has_lessons_or_teachers(world):
+    added = _add_book(world).json()
+    body = _select(world, added["id"]).json()
+    assert body["otherEditionsScheduledLessons"] == 0
+    assert body["otherEditionsTeacherAssignments"] == 0
+    assert body["warning"] is None

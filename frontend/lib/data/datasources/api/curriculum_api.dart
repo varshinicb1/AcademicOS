@@ -154,8 +154,11 @@ class BoardSummary {
   BoardSummary.fromJson(Map<String, dynamic> j) : id = j['id'] as String, name = j['name'] as String;
 }
 
-/// SelectBookResponse (schemas.py). `warning` is set when lessons are still
-/// scheduled from the previous edition: they are not moved to the new book.
+/// SelectBookResponse (schemas.py). `warning` is set when any other edition
+/// of the subject -- not only the one chosen just before -- still has lessons
+/// scheduled this year or teachers assigned to it. Neither is moved to the
+/// new book, so the warning is what the principal is told; it already names
+/// each old book and its counts.
 class BookSelectionResult {
   final BookSummary book;
   final String? previousBookId;

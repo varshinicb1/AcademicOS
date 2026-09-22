@@ -94,6 +94,30 @@ class BookSelection:
     book_id: str
     previous_book_id: Optional[str] = None
     previous_book_scheduled_lessons: int = 0
+    # Every other book of the subject, not only the one chosen just before:
+    # A -> B -> C must still report A's lessons, and a first choice among
+    # several books has no "previous" at all.
+    other_editions: list["OtherEdition"] = field(default_factory=list)
+
+    @property
+    def other_editions_scheduled_lessons(self) -> int:
+        return sum(e.scheduled_lessons for e in self.other_editions)
+
+    @property
+    def other_editions_teacher_assignments(self) -> int:
+        return sum(e.teacher_assignments for e in self.other_editions)
+
+
+@dataclass
+class OtherEdition:
+    """A book of the subject that is not its edition after a selection, and
+    what still points at it: this year's lessons scheduled from it, and
+    teacher_assignments rows (a teacher assigned to it keeps seeing its
+    schedule). Neither is moved by selecting; both are reported."""
+    book_id: str
+    title: str
+    scheduled_lessons: int = 0
+    teacher_assignments: int = 0
 
 
 @dataclass

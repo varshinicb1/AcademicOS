@@ -65,12 +65,26 @@ class SelectBookRequest(Camel):
     book_id: str = Field(min_length=1)
 
 
+class OtherEditionResponse(Camel):
+    """A book of the subject that is not its edition, with what still
+    points at it: this year's scheduled lessons and teacher assignments."""
+    book_id: str
+    title: str
+    scheduled_lessons: int = 0
+    teacher_assignments: int = 0
+
+
 class SelectBookResponse(Camel):
     book: BookResponse
     previous_book_id: Optional[str] = None
-    # Lessons of this year still scheduled from the previous edition. They
-    # are not moved to the new book; `warning` says so when this is above 0.
+    # Lessons of this year scheduled from the edition chosen just before.
     previous_book_scheduled_lessons: int = 0
+    # Every other book of the subject, not only the previous one: after
+    # A -> B -> C, A's lessons are still there. Nothing listed here is moved
+    # to the new book; `warning` says so whenever either total is above 0.
+    other_editions: list[OtherEditionResponse] = []
+    other_editions_scheduled_lessons: int = 0
+    other_editions_teacher_assignments: int = 0
     warning: Optional[str] = None
 
 

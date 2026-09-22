@@ -57,6 +57,7 @@ from .schemas import (
     MyClassScheduleEntryResponse,
     MyProgressResponse,
     MyScheduleEntryResponse,
+    OtherEditionResponse,
     PeriodConfigurationResponse,
     ProposalResponse,
     PushScheduleRequest,
@@ -362,31 +363,56 @@ def get_selected_book(subject_id: str,
 def select_book(subject_id: str, req: SelectBookRequest,
                 principal: User = Depends(require_principal)) -> SelectBookResponse:
     """Chooses the subject's edition for its year, replacing any earlier
-    choice. Lessons already scheduled from the previous edition are not
+    choice. Lessons already scheduled from any other edition are not
     re-pointed (they were placed from its chapters) and not removed --
     scheduling the new book does not remove them either (it replaces only
-    that book's own lessons) -- so the response counts them and says so."""
+    that book's own lessons) -- and teachers assigned to another edition
+    stay on it; so the response counts both, per book, and says so."""
     _require_school_owns_subject(subject_id, principal)
     store = _require()
     book = store.get_book(req.book_id)
     if book is None or book.subject_id != subject_id:
         raise HTTPException(422, "that book is not one of this subject's books")
     result = store.select_book(book.id)
-    warning = None
-    if result.previous_book_scheduled_lessons:
-        previous = store.get_book(result.previous_book_id)
-        n = result.previous_book_scheduled_lessons
-        warning = (f"{n} lesson{'s' if n != 1 else ''} this year "
-                   f"{'are' if n != 1 else 'is'} still scheduled from "
-                   f"'{previous.title if previous else result.previous_book_id}'. "
-                   "They were not moved to the new book or removed: that schedule "
-                   "still belongs to the old book.")
     return SelectBookResponse(
         book=_book_response(book, book.id),
         previous_book_id=result.previous_book_id,
         previous_book_scheduled_lessons=result.previous_book_scheduled_lessons,
-        warning=warning,
+        other_editions=[
+            OtherEditionResponse(book_id=e.book_id, title=e.title,
+                                 scheduled_lessons=e.scheduled_lessons,
+                                 teacher_assignments=e.teacher_assignments)
+            for e in result.other_editions],
+        other_editions_scheduled_lessons=result.other_editions_scheduled_lessons,
+        other_editions_teacher_assignments=result.other_editions_teacher_assignments,
+        warning=_edition_change_warning(result),
     )
+
+
+def _plural(n: int, word: str) -> str:
+    return f"{n} {word}{'s' if n != 1 else ''}"
+
+
+def _edition_change_warning(result) -> Optional[str]:
+    """Words what still points at books other than the new edition, book by
+    book, or None when nothing does. Lessons and teacher assignments are
+    reported rather than moved: the lessons were placed from the old book's
+    chapters, and a teacher left on the old book keeps seeing its schedule
+    until the principal reassigns them."""
+    parts = []
+    for e in result.other_editions:
+        held = []
+        if e.scheduled_lessons:
+            held.append(_plural(e.scheduled_lessons, "lesson") + " scheduled this year")
+        if e.teacher_assignments:
+            held.append(_plural(e.teacher_assignments, "teacher assignment"))
+        if held:
+            parts.append(f"'{e.title}' still has {' and '.join(held)}")
+    if not parts:
+        return None
+    return ("; ".join(parts) + ". These were not moved to the new book or removed: "
+            "that schedule still belongs to the old book, and teachers assigned to it "
+            "stay on it until they are reassigned.")
 
 
 @router.get("/books/{book_id}/units", response_model=list[UnitResponse])

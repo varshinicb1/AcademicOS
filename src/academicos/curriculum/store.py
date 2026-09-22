@@ -76,6 +76,7 @@ from .models import (
     CurriculumExtractionRun,
     Grade,
     Holiday,
+    OtherEdition,
     PeriodConfiguration,
     SubjectPeriodAllocation,
     SubjectTimetableSlot,
@@ -768,9 +769,13 @@ class CurriculumStore:
     def select_book(self, book_id: str) -> BookSelection:
         """Makes `book_id` its subject's edition for the subject's academic
         year. Raises KeyError for an unknown book. Lessons already scheduled
-        from the previous edition are left exactly where they are -- they were
-        placed from that book's chapters -- and counted in the result so the
-        caller can say so."""
+        from other editions, and teachers assigned to them, are left exactly
+        where they are -- the lessons were placed from those books' chapters
+        -- and counted per book in the result so the caller can say so.
+
+        Counted over every other book of the subject, not just the edition
+        chosen before this one: after A -> B -> C, A's lessons still exist,
+        and a first choice among several books has no previous edition."""
         book = self.get_book(book_id)
         if book is None:
             raise KeyError(book_id)
@@ -782,12 +787,32 @@ class CurriculumStore:
             self._write_selection(year_id, book.subject_id, book.id)
         self._commit()
         previous_id = previous.id if previous is not None else None
-        scheduled = 0
-        if previous_id is not None and previous_id != book.id:
-            scheduled = len(self.scheduled_lessons_for_book(year_id, previous_id))
+        others = [b for b in self.books_for_subject(book.subject_id) if b.id != book.id]
+        lessons: dict[str, int] = {}
+        assignments: dict[str, int] = {}
+        if others:
+            ids = [b.id for b in others]
+            marks = ",".join("?" * len(ids))
+            for r in self._fetchall(
+                    f"SELECT book_id, COUNT(*) AS n FROM scheduled_lessons "
+                    f"WHERE academic_year_id=? AND book_id IN ({marks}) GROUP BY book_id",
+                    (year_id, *ids)):
+                lessons[r["book_id"]] = r["n"]
+            # Books already belong to one subject of one year, so these rows
+            # need no year filter.
+            for r in self._fetchall(
+                    f"SELECT book_id, COUNT(*) AS n FROM teacher_assignments "
+                    f"WHERE book_id IN ({marks}) GROUP BY book_id", tuple(ids)):
+                assignments[r["book_id"]] = r["n"]
+        editions = [OtherEdition(book_id=b.id, title=b.title,
+                                 scheduled_lessons=lessons.get(b.id, 0),
+                                 teacher_assignments=assignments.get(b.id, 0))
+                    for b in others]
         return BookSelection(academic_year_id=year_id, subject_id=book.subject_id,
                              book_id=book.id, previous_book_id=previous_id,
-                             previous_book_scheduled_lessons=scheduled)
+                             previous_book_scheduled_lessons=(
+                                 lessons.get(previous_id, 0) if previous_id != book.id else 0),
+                             other_editions=editions)
 
     def get_book(self, book_id: str):
         from .models import Book

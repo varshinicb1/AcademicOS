@@ -2978,6 +2978,35 @@
         "title": "NodeQuery",
         "type": "object"
       },
+      "OtherEditionResponse": {
+        "description": "A book of the subject that is not its edition, with what still\npoints at it: this year's scheduled lessons and teacher assignments.",
+        "properties": {
+          "bookId": {
+            "title": "Bookid",
+            "type": "string"
+          },
+          "scheduledLessons": {
+            "default": 0,
+            "title": "Scheduledlessons",
+            "type": "integer"
+          },
+          "teacherAssignments": {
+            "default": 0,
+            "title": "Teacherassignments",
+            "type": "integer"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "bookId",
+          "title"
+        ],
+        "title": "OtherEditionResponse",
+        "type": "object"
+      },
       "PaperGenerationRequest": {
         "properties": {
           "assessmentId": {
@@ -5648,6 +5677,24 @@
         "properties": {
           "book": {
             "$ref": "#/components/schemas/BookResponse"
+          },
+          "otherEditions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/OtherEditionResponse"
+            },
+            "title": "Othereditions",
+            "type": "array"
+          },
+          "otherEditionsScheduledLessons": {
+            "default": 0,
+            "title": "Othereditionsscheduledlessons",
+            "type": "integer"
+          },
+          "otherEditionsTeacherAssignments": {
+            "default": 0,
+            "title": "Othereditionsteacherassignments",
+            "type": "integer"
           },
           "previousBookId": {
             "anyOf": [
@@ -10662,7 +10709,7 @@
         "summary": "Get Selected Book"
       },
       "put": {
-        "description": "Chooses the subject's edition for its year, replacing any earlier\nchoice. Lessons already scheduled from the previous edition are not\nre-pointed (they were placed from its chapters) and not removed --\nscheduling the new book does not remove them either (it replaces only\nthat book's own lessons) -- so the response counts them and says so.",
+        "description": "Chooses the subject's edition for its year, replacing any earlier\nchoice. Lessons already scheduled from any other edition are not\nre-pointed (they were placed from its chapters) and not removed --\nscheduling the new book does not remove them either (it replaces only\nthat book's own lessons) -- and teachers assigned to another edition\nstay on it; so the response counts both, per book, and says so.",
         "operationId": "select_book_api_v1_curriculum_subjects__subject_id__selected_book_put",
         "parameters": [
           {
