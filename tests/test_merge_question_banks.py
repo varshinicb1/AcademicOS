@@ -87,6 +87,17 @@ def test_chapter_names_come_from_the_syllabus():
     assert expected and names == expected
 
 
+
+def test_a_paper_variant_subject_takes_its_base_subjects_chapter_names():
+    # SQP files class 10 maths under 'Mathematics (Standard)', 'Mathematics
+    # (Basic, VIC)' and so on; only 'Mathematics' has a syllabus file, and the
+    # chapter ids are the same ones.
+    names = mqb._chapter_names([board(subject="Mathematics (Standard)", grade=10),
+                                board(2, subject="Mathematics (Basic, VIC)", grade=10)])
+    assert names[("Mathematics (Standard)", 10, "algebra")] == "Algebra"
+    assert names[("Mathematics (Basic, VIC)", 10, "algebra")] == "Algebra"
+    assert not any(subject == "Mathematics" for subject, _g, _c in names)
+
 def test_check_reports_unresolved_and_shared_chapter_labels(layout, capsys):
     _write(layout.cbe, [
         cbe_mcq(1, chapterIds=["7N1a"], tags=["Integers"]),

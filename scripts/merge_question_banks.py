@@ -25,6 +25,7 @@ import argparse
 import collections
 import json
 import os
+import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -64,12 +65,21 @@ def _has_official_scheme(rec: dict) -> bool:
 
 
 def _chapter_names(questions: list[dict]) -> dict[tuple[str, int, str], str]:
-    """(subject, grade, chapter id) -> chapter name, from the syllabus files."""
+    """(subject, grade, chapter id) -> chapter name, from the syllabus files.
+
+    A paper variant ('Mathematics (Standard)', 'Mathematics (Basic, VIC)') has
+    no syllabus file of its own but uses its base subject's chapter ids, so it
+    falls back to the base syllabus and keeps its own subject in the key.
+    """
     from academicos.syllabus.cbse_syllabus import load_syllabus
 
     names: dict[tuple[str, int, str], str] = {}
     for subject, grade in {(q.get("subject"), q.get("grade")) for q in questions}:
         syllabus = load_syllabus(subject, grade) if subject and grade else None
+        if syllabus is None and subject and grade:
+            base = re.sub(r"\s*\(.*\)$", "", subject)
+            if base != subject:
+                syllabus = load_syllabus(base, grade)
         if syllabus is None:
             continue
         for _unit, chapter in syllabus.all_chapters():
