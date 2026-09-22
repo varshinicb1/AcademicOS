@@ -220,7 +220,9 @@ def main(argv=None) -> int:
     thresholds, oof_measured = pick_thresholds(rows, oof)
 
     final = fit_all(sets)
-    model = {"coefficients": final, "thresholds": thresholds}
+    model = {"method": tg.TAG_METHOD,
+             "features": {lv: list(f) for lv, f in FEATURES.items()},
+             "coefficients": final, "thresholds": thresholds}
     tagger = tg.TopicTagger(model=model)
     in_sample = tg.score_against_gold(tagger, items, banks)
 

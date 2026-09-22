@@ -22,7 +22,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from academicos.syllabus.tagger import (  # noqa: E402
-    TAG_FIELDS, TopicTagger, apply_tags,
+    TAG_FIELDS, TAG_METHOD, TopicTagger, apply_tags, level_probability,
 )
 
 TAXONOMY = ROOT / "academicos-data" / "syllabus" / "taxonomy"
@@ -263,6 +263,41 @@ def test_threshold_decides_between_tag_and_review_queue():
         "mathematics-10/arithmetic-progressions/sum-of-first-n-terms-of-an-ap"]
     assert tagged[0]["taxonomyChapterId"] == "mathematics-10/arithmetic-progressions"
     assert review == []          # this topic has no subtopics: nothing left to review
+
+
+def _shipped_model():
+    return json.loads((TAXONOMY / "_tagger_model.json").read_text(encoding="utf-8"))
+
+
+def test_a_missing_confidence_model_is_an_error_not_an_empty_tagging(tmp_path):
+    # without the model every confidence is None, nothing is accepted, and the
+    # apply script would wipe every bank's tags into the review queue
+    (tmp_path / "_node_text.json").write_bytes((TAXONOMY / "_node_text.json").read_bytes())
+    with pytest.raises(RuntimeError, match="_tagger_model.json"):
+        TopicTagger(taxonomy_dir=tmp_path)
+    TopicTagger(taxonomy_dir=tmp_path, model={}, thresholds={})   # the calibration path
+
+
+def test_a_model_fitted_for_another_tag_method_is_refused():
+    model = _shipped_model()
+    model["method"] = "tfidf_textbook_v1"
+    assert model["method"] != TAG_METHOD
+    with pytest.raises(RuntimeError, match="method"):
+        TopicTagger(model=model)
+
+
+def test_a_model_scoring_a_feature_it_does_not_declare_is_refused():
+    model = _shipped_model()
+    model["coefficients"]["topic"]["overlap"] = 1.0
+    with pytest.raises(RuntimeError, match="overlap"):
+        TopicTagger(model=model)
+
+
+def test_a_feature_the_tagger_no_longer_emits_is_an_error_not_a_zero():
+    coef = _shipped_model()["coefficients"]["topic"]
+    feats = {"best": 0.5, "margin": 0.2, "single": False}          # no "heading"
+    with pytest.raises(KeyError):
+        level_probability(coef, feats)
 
 
 def test_apply_is_additive(tagger):

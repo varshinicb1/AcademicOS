@@ -313,9 +313,30 @@ def _sigmoid(x: float) -> float:
 
 
 def level_probability(coef: dict, feats: dict) -> float:
-    """P(this level's pick is right), from the fitted logistic model."""
-    z = coef["bias"] + sum(w * float(feats.get(k, 0.0)) for k, w in coef.items() if k != "bias")
+    """P(this level's pick is right), from the fitted logistic model.
+
+    A feature the model scores but ``feats`` lacks is a KeyError: counting it
+    as 0 would let old coefficients go on scoring new tagger output."""
+    z = coef["bias"] + sum(w * float(feats[k]) for k, w in coef.items() if k != "bias")
     return _sigmoid(z)
+
+
+def _check_model(model: dict) -> None:
+    """Refuse a confidence model fitted for other tagger output."""
+    if model.get("method") != TAG_METHOD:
+        raise RuntimeError(
+            f"confidence model was fitted for tag method {model.get('method')!r}, this code "
+            f"is {TAG_METHOD!r}: refit it with scripts/calibrate_topic_tagger.py")
+    for level in LEVELS:
+        declared = set((model.get("features") or {}).get(level) or ())
+        coef = (model.get("coefficients") or {}).get(level)
+        if coef is None or "bias" not in coef:
+            raise RuntimeError(f"confidence model has no {level} coefficients: refit it")
+        unknown = sorted(k for k in coef if k != "bias" and k not in declared)
+        if unknown:
+            raise RuntimeError(
+                f"confidence model scores {level} features {unknown} that its "
+                f"features[{level!r}] does not declare: refit it")
 
 
 class TopicTagger:
@@ -330,7 +351,15 @@ class TopicTagger:
         self.node_text = index["nodes"]
         if model is None:
             path = self.dir / "_tagger_model.json"
-            model = json.loads(path.read_text(encoding="utf-8")) if path.exists() else None
+            if not path.exists():
+                # without it every confidence is None and nothing is accepted:
+                # applying would empty every bank's tags into the review queue
+                raise RuntimeError(
+                    f"{path} is missing: fit it with scripts/calibrate_topic_tagger.py "
+                    "(pass model={} only to get raw, unscored picks)")
+            model = json.loads(path.read_text(encoding="utf-8"))
+        if model:
+            _check_model(model)
         self.model = model
         self.thresholds = dict(thresholds if thresholds is not None
                                else (model or {}).get("thresholds") or {})
