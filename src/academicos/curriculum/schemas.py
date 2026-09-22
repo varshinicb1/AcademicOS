@@ -251,6 +251,14 @@ class HolidayResponse(Camel):
     label: str
     kind: str
     end_date: Optional[str] = None
+    # Set on POST .../holidays only: a closure entered after a schedule exists
+    # moves the still-to-teach lessons off its days, like a PUSH
+    # (scheduling.reflow_after_closure). lessonsUnscheduled no longer fit
+    # before the year ends; rescheduleWarnings names books that could not be
+    # moved and why.
+    lessons_moved: int = 0
+    lessons_unscheduled: list[str] = Field(default_factory=list)
+    reschedule_warnings: list[str] = Field(default_factory=list)
 
 
 class SetPeriodConfigurationRequest(Camel):
@@ -308,6 +316,10 @@ class ComputeTeachingTimeRequest(Camel):
     # value here still always wins (a one-off override), see
     # compute_teaching_time_estimates route's docstring.
     periods_per_week: Optional[int] = Field(default=None, gt=0)
+    # True replaces this computation's own earlier estimates (not an admin's)
+    # -- how estimates made before a calendar change, or by the
+    # pre-2026-09-22 periods x weeks formula, are brought back inside the year.
+    recompute: bool = False
 
 
 class TeachingTimeEstimateResponse(Camel):
@@ -326,10 +338,17 @@ class ComputeTeachingTimeResponse(Camel):
     periods_per_week: int
     period_minutes: int
     calendar_weeks: int
+    # The budget: real teaching periods this subject has this year (working
+    # days x the subject's periods on them), not periods_per_week x weeks.
     total_subject_periods: int
     total_instructional_minutes: int
     units_skipped_no_subtopics: list[str]
     estimates_created: int
+    # Periods every estimate of this book now holds. Above the budget only
+    # when the syllabus has more subtopics than the year has periods.
+    periods_allocated: int = 0
+    periods_short: int = 0
+    fits_in_year: bool = True
 
 
 # ---------------- micro scheduling (§11-14, §38-41) ----------------
@@ -351,6 +370,14 @@ class ScheduleBookResponse(Camel):
     subtopics_without_estimate: list[str]
     first_scheduled_date: Optional[str] = None
     last_scheduled_date: Optional[str] = None
+    teaching_periods_available: int = 0
+    lessons_kept: int = 0
+    # The shortfall flag (rule Q4: a gap is reported, not implied): false,
+    # with `warning` saying how many subtopics have no date and why, whenever
+    # a subtopic is unscheduled, partially scheduled or has no estimate. Still
+    # a 200 -- the lessons that fit were created -- but no longer a silent one.
+    all_subtopics_scheduled: bool = True
+    warning: Optional[str] = None
 
 
 class ScheduledLessonResponse(Camel):
@@ -360,6 +387,9 @@ class ScheduledLessonResponse(Camel):
     book_id: str
     subtopic_id: str
     date: str
+    # scheduled | completed | skipped | unscheduled ('unscheduled': a PUSH or
+    # closure could not fit it before the year ends; `date` is the last day it
+    # was planned for and it holds no day).
     status: str
     note: Optional[str] = None
     completed_by: Optional[str] = None

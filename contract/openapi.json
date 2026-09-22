@@ -1351,6 +1351,11 @@
               }
             ],
             "title": "Periodsperweek"
+          },
+          "recompute": {
+            "default": false,
+            "title": "Recompute",
+            "type": "boolean"
           }
         },
         "title": "ComputeTeachingTimeRequest",
@@ -1374,12 +1379,27 @@
             "title": "Estimatescreated",
             "type": "integer"
           },
+          "fitsInYear": {
+            "default": true,
+            "title": "Fitsinyear",
+            "type": "boolean"
+          },
           "periodMinutes": {
             "title": "Periodminutes",
             "type": "integer"
           },
+          "periodsAllocated": {
+            "default": 0,
+            "title": "Periodsallocated",
+            "type": "integer"
+          },
           "periodsPerWeek": {
             "title": "Periodsperweek",
+            "type": "integer"
+          },
+          "periodsShort": {
+            "default": 0,
+            "title": "Periodsshort",
             "type": "integer"
           },
           "totalInstructionalMinutes": {
@@ -2583,6 +2603,25 @@
           "label": {
             "title": "Label",
             "type": "string"
+          },
+          "lessonsMoved": {
+            "default": 0,
+            "title": "Lessonsmoved",
+            "type": "integer"
+          },
+          "lessonsUnscheduled": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Lessonsunscheduled",
+            "type": "array"
+          },
+          "rescheduleWarnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Reschedulewarnings",
+            "type": "array"
           }
         },
         "required": [
@@ -5033,6 +5072,11 @@
             "title": "Academicyearid",
             "type": "string"
           },
+          "allSubtopicsScheduled": {
+            "default": true,
+            "title": "Allsubtopicsscheduled",
+            "type": "boolean"
+          },
           "bookId": {
             "title": "Bookid",
             "type": "string"
@@ -5061,6 +5105,11 @@
           },
           "lessonsCreated": {
             "title": "Lessonscreated",
+            "type": "integer"
+          },
+          "lessonsKept": {
+            "default": 0,
+            "title": "Lessonskept",
             "type": "integer"
           },
           "periodsPerWeek": {
@@ -5095,6 +5144,22 @@
           "teachingDaysAvailable": {
             "title": "Teachingdaysavailable",
             "type": "integer"
+          },
+          "teachingPeriodsAvailable": {
+            "default": 0,
+            "title": "Teachingperiodsavailable",
+            "type": "integer"
+          },
+          "warning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Warning"
           }
         },
         "required": [
@@ -8528,7 +8593,7 @@
         "summary": "List Timetable Slots"
       },
       "post": {
-        "description": "Persists one real weekday+period a subject meets -- once any slots\nexist for a subject/year, scheduling.py's schedule_book() uses exactly\nthose real weekdays instead of its \"first N working days of the week\"\nfallback heuristic (see _subject_teaching_days's docstring).",
+        "description": "Persists one real weekday+period a subject meets -- once any slots\nexist for a subject/year, scheduling.py's schedule_book() uses exactly\nthose real weekdays instead of its \"first N working days of the week\"\nfallback heuristic (see calendar.subject_teaching_slots's docstring).",
         "operationId": "add_timetable_slot_api_v1_curriculum_academic_years__academic_year_id__timetable_slots_post",
         "parameters": [
           {
@@ -8759,7 +8824,7 @@
         "summary": "Get Book Schedule"
       },
       "post": {
-        "description": "Generates the real, dated schedule for this book -- see\nscheduling.py's module docstring for the full method and its honestly-\ndocumented weekday-assignment simplification. Requires\ncompute_teaching_time_estimates() to have already run for this\n(book, academic_year); a Subtopic without a real estimate is skipped\nand reported, never given a guessed period count.",
+        "description": "Generates the real, dated schedule for this book -- see\nscheduling.py's module docstring for the full method and its honestly-\ndocumented weekday-assignment simplification. Requires\ncompute_teaching_time_estimates() to have already run for this\n(book, academic_year); a Subtopic without a real estimate is skipped\nand reported, never given a guessed period count. `allSubtopicsScheduled`\nis false, with a `warning` sentence, whenever any subtopic ends up\nwithout its full dated periods. `force` keeps completed/skipped lessons\nand replans only what is still to be taught.",
         "operationId": "schedule_book_api_v1_curriculum_books__book_id__schedule_post",
         "parameters": [
           {

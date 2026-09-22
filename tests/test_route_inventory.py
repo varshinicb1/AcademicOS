@@ -1301,9 +1301,20 @@ def test_full_boot_academic_calendar_and_teaching_time_estimates(tmp_path, monke
         tte_body = tte.json()
         assert tte_body["periodMinutes"] == 40
         assert tte_body["estimatesCreated"] >= 1
-        assert tte_body["totalInstructionalMinutes"] == (
-            tte_body["periodsPerWeek"] * tte_body["calendarWeeks"] * tte_body["periodMinutes"]
-        )
+        # The budget is the year's real teaching periods (Task 105): with no
+        # Science timetable, the first 6 working days of each ISO week, after
+        # the 2nd/4th-Saturday rule and the holidays above -- not
+        # periodsPerWeek x calendarWeeks, which ignored every holiday.
+        from collections import defaultdict as _defaultdict
+        from datetime import date as _date
+        weeks = _defaultdict(list)
+        for d in wd2["dates"]:
+            weeks[_date.fromisoformat(d).isocalendar()[:2]].append(d)
+        real_periods = sum(min(6, len(days)) for days in weeks.values())
+        assert tte_body["totalSubjectPeriods"] == real_periods
+        assert real_periods < tte_body["periodsPerWeek"] * tte_body["calendarWeeks"]
+        assert tte_body["totalInstructionalMinutes"] == real_periods * tte_body["periodMinutes"]
+        assert tte_body["fitsInYear"] is True
 
         # -- read one real estimate back
         est = client.get(
@@ -1359,6 +1370,9 @@ def test_full_boot_subject_period_allocation(tmp_path, monkeypatch):
 
         client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration",
                    json={"periodMinutes": 40}, headers=auth)
+        # The estimate is budgeted against the calendar's real teaching days.
+        client.post(f"/api/v1/curriculum/academic-years/{academic_year_id}/calendar",
+                   json={"weeklyOffDays": ["sunday"]}, headers=auth)
         topic = client.post(f"/api/v1/curriculum/chapters/{chapter_id}/topics",
                             json={"name": "Real Topic"}, headers=auth).json()
         client.post(f"/api/v1/curriculum/topics/{topic['id']}/subtopics",
@@ -1894,11 +1908,14 @@ def test_full_boot_rescheduling(tmp_path, monkeypatch):
                                 json={"name": f"Topic {i}"}, headers=principal_auth).json()
             client.post(f"/api/v1/curriculum/topics/{topic['id']}/subtopics",
                        json={"name": f"Subtopic {i}"}, headers=principal_auth)
+        # 5 periods a week: the first-N-days fallback uses Mon-Fri and leaves
+        # Saturdays free. (At 6 the plan now fills every working day of the
+        # year, since the estimate is budgeted against the real periods.)
         client.post(f"/api/v1/curriculum/books/{book_id}/teaching-time-estimates",
                    params={"academic_year_id": academic_year_id},
-                   json={"periodsPerWeek": 6}, headers=principal_auth)
+                   json={"periodsPerWeek": 5}, headers=principal_auth)
         client.post(f"/api/v1/curriculum/books/{book_id}/schedule",
-                   params={"academic_year_id": academic_year_id}, json={"periodsPerWeek": 6},
+                   params={"academic_year_id": academic_year_id}, json={"periodsPerWeek": 5},
                    headers=principal_auth)
 
         mine = client.get("/api/v1/curriculum/my-schedule",
@@ -1977,7 +1994,7 @@ def test_full_boot_rescheduling(tmp_path, monkeypatch):
         pushed = client.post(
             f"/api/v1/curriculum/books/{book_id}/schedule/push",
             params={"academic_year_id": academic_year_id},
-            json={"fromDate": from_date, "periodsPerWeek": 6, "reason": "Unplanned closure"},
+            json={"fromDate": from_date, "periodsPerWeek": 5, "reason": "Unplanned closure"},
             headers=principal_auth,
         )
         assert pushed.status_code == 200, pushed.text

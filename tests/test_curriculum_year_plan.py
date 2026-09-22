@@ -1,0 +1,453 @@
+"""The year plan fits the year, keeps double periods, and reordering works.
+
+The product audit (2026-09-21, reproduced twice on school_1's real data):
+
+- calendar.py sized the teaching-time budget as periods_per_week x calendar
+  weeks, ignoring holidays and alternate Saturdays, then round()-ed each
+  subtopic on its own: Social Science's stored estimates summed to 323
+  periods against a 288 budget, while the scheduler had 258 real slots. 49
+  of 404 real subtopics ended the year with no date, and the route said 200.
+- scheduling.py reduced a timetable to a set of weekdays, so a Monday double
+  period was lost: Mathematics' 6 periods a week became at most 5 lessons.
+- A force regenerate deleted every completion mark.
+- set_sequence updated one row and never shifted its siblings: moving
+  'Carbon and its Compounds' to seq 0 left two chapters of that unit at 0.
+
+And from Task 102's review of the same code:
+
+- a lesson PUSH could not place stayed 'scheduled' on its old date while the
+  previous lesson was moved onto that same date (a double-booked day);
+- the cadence a book was scheduled with was never saved, so PUSH fell back
+  to the subject allocation and could silently reschedule at another cadence.
+
+Plus two found in the re-audit: a closure added after a schedule exists left
+lessons 'scheduled' on the closed day, and a lesson dated in the future could
+be marked completed.
+"""
+from __future__ import annotations
+
+from collections import Counter, defaultdict
+from datetime import date
+from types import SimpleNamespace
+
+import pytest
+
+from academicos.assessment.audit_log import AuditLog
+from academicos.curriculum import calendar as calendar_mod
+from academicos.curriculum import scheduling as scheduling_mod
+from academicos.curriculum.store import CurriculumStore
+
+BASE = "/api/v1/curriculum"
+PRINCIPAL_KEY = "test-bootstrap-key"
+
+# Monday double period, one period Tuesday-Friday: 6 a week, 5 weekdays.
+MON_DOUBLE = [(0, 1), (0, 2), (1, 1), (2, 1), (3, 1), (4, 1)]
+
+
+@pytest.fixture
+def store(tmp_path):
+    s = CurriculumStore(tmp_path / "curriculum.sqlite")
+    yield s
+    s.close()
+
+
+@pytest.fixture
+def audit_log(tmp_path):
+    return AuditLog(tmp_path / "audit.sqlite")
+
+
+def _seed(store, *, units=((30, 7), (20, 5), (30, 9)), start="2026-06-01", end="2027-03-31",
+          weekly_off=("sunday",), saturday_rule="second_fourth", holidays=(), timetable=(),
+          subject="Mathematics", school_id="school_1"):
+    """A book whose units carry (marks, n_subtopics), each unit one chapter
+    per 3 subtopics, on a real calendar with real holidays."""
+    board = store.create_board(name="CBSE", code="CBSE")
+    year = store.create_academic_year(school_id=school_id, label="2026-27",
+                                      start_date=start, end_date=end)
+    grade = store.create_grade(academic_year_id=year.id, number=10)
+    subj = store.create_subject(grade_id=grade.id, name=subject)
+    book = store.create_book(subject_id=subj.id, board_id=board.id, title=subject)
+    chapters = []
+    for u_idx, (marks, n) in enumerate(units):
+        unit = store.create_unit(canonical_id=f"u:{u_idx}", book_id=book.id, unit_no=str(u_idx),
+                                 name=f"Unit {u_idx}", marks=marks, seq=u_idx)
+        for c_idx in range(0, n, 3):
+            chapter = store.create_chapter(canonical_id=f"c:{u_idx}:{c_idx}", unit_id=unit.id,
+                                           name=f"Chapter {u_idx}.{c_idx // 3}", seq=c_idx // 3)
+            chapters.append(chapter)
+            topic = store.create_topic(canonical_id=f"t:{u_idx}:{c_idx}", chapter_id=chapter.id,
+                                       name=f"Topic {u_idx}.{c_idx // 3}", seq=0)
+            for s_idx in range(c_idx, min(c_idx + 3, n)):
+                store.create_subtopic(canonical_id=f"st:{u_idx}:{s_idx}", topic_id=topic.id,
+                                      name=f"Subtopic {u_idx}.{s_idx}", seq=s_idx - c_idx)
+    cal = store.create_calendar(academic_year_id=year.id, weekly_off_days=list(weekly_off),
+                                alternate_saturday_rule=saturday_rule)
+    for h_date, h_end in holidays:
+        store.add_holiday(calendar_id=cal.id, date=h_date, end_date=h_end, label="Break",
+                          kind="school")
+    store.create_period_configuration(school_id=school_id, academic_year_id=year.id,
+                                      period_minutes=40)
+    for day_of_week, period_number in timetable:
+        store.add_timetable_slot(school_id=school_id, academic_year_id=year.id, subject=subject,
+                                 day_of_week=day_of_week, period_number=period_number)
+    return SimpleNamespace(year=year.id, book=book.id, calendar=cal.id, chapters=chapters)
+
+
+def _all_subtopic_ids(store, book_id):
+    return [st.id for u in store.units_for_book(book_id) for c in store.chapters_for_unit(u.id)
+            for t in store.topics_for_chapter(c.id) for st in store.subtopics_for_topic(t.id)]
+
+
+def _first_n_days_per_week(working_dates, n):
+    by_week = defaultdict(list)
+    for d in working_dates:
+        by_week[date.fromisoformat(d).isocalendar()[:2]].append(d)
+    return [d for key in sorted(by_week) for d in sorted(by_week[key])[:n]]
+
+
+HOLIDAYS = (("2026-08-15", None), ("2026-10-12", "2026-10-24"), ("2026-12-24", "2027-01-02"),
+            ("2027-01-26", None))
+
+
+# --------------------------------------------------------------------- #
+# 1-2. The budget is the real number of teaching periods, distributed exactly
+# --------------------------------------------------------------------- #
+
+def test_estimates_are_budgeted_against_real_working_days(store):
+    b = _seed(store, holidays=HOLIDAYS)
+    working = calendar_mod.working_days_for_year(store, b.year).dates
+    real_periods = len(_first_n_days_per_week(working, 6))
+
+    result = calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+
+    # 6 x 44 calendar weeks = 264 was the old budget; alternate Saturdays and
+    # the breaks take real periods away.
+    assert real_periods < 6 * result.calendar_weeks
+    assert result.total_subject_periods == real_periods
+    stored = [store.teaching_time_estimate_for_subtopic(s, b.year) for s in _all_subtopic_ids(store, b.book)]
+    assert all(e is not None and e.estimated_periods >= 1 for e in stored)
+    assert sum(e.estimated_periods for e in stored) == real_periods
+    assert result.fits_in_year and result.periods_short == 0
+
+
+def test_rounding_never_overflows_the_budget(store):
+    """21 subtopics over a budget that divides unevenly: per-subtopic
+    round() rounded most of them up (the 323-over-288 overflow); the
+    largest-remainder split lands on the budget exactly."""
+    b = _seed(store, units=((13, 7), (11, 5), (17, 9)), start="2026-06-01", end="2026-08-31",
+              saturday_rule="none")
+    result = calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=5)
+    periods = [store.teaching_time_estimate_for_subtopic(s, b.year).estimated_periods
+               for s in _all_subtopic_ids(store, b.book)]
+    assert sum(periods) == result.total_subject_periods
+    minutes = [store.teaching_time_estimate_for_subtopic(s, b.year).estimated_minutes
+               for s in _all_subtopic_ids(store, b.book)]
+    assert sum(minutes) == result.total_instructional_minutes
+
+
+def test_estimate_budget_follows_the_timetable_double_period(store):
+    b = _seed(store, timetable=MON_DOUBLE, holidays=HOLIDAYS)
+    working = calendar_mod.working_days_for_year(store, b.year).dates
+    weekday_periods = Counter(dow for dow, _ in MON_DOUBLE)
+    real_periods = sum(weekday_periods[date.fromisoformat(d).weekday()] for d in working)
+
+    result = calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    assert result.total_subject_periods == real_periods
+
+
+# --------------------------------------------------------------------- #
+# 3. Double periods are honoured
+# --------------------------------------------------------------------- #
+
+def test_a_monday_double_gets_two_lessons_and_a_week_yields_six(store):
+    b = _seed(store, timetable=MON_DOUBLE, saturday_rule="none")
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                          book_id=b.book, periods_per_week=6)
+    lessons = store.scheduled_lessons_for_book(b.year, b.book)
+    per_day = Counter(l.date for l in lessons)
+    mondays = [d for d in per_day if date.fromisoformat(d).weekday() == 0]
+    assert mondays and all(per_day[d] == 2 for d in mondays)
+    assert all(n == 1 for d, n in per_day.items() if date.fromisoformat(d).weekday() != 0)
+    # A full Mon-Fri week (no holiday in this calendar) holds 6 lessons.
+    per_week = Counter(date.fromisoformat(l.date).isocalendar()[:2] for l in lessons)
+    assert per_week[date(2026, 6, 8).isocalendar()[:2]] == 6
+    assert result.periods_per_week == 6
+    assert result.lessons_created == result.teaching_periods_available
+
+
+# --------------------------------------------------------------------- #
+# 4. Every subtopic gets a date, or the shortfall is loud
+# --------------------------------------------------------------------- #
+
+def test_a_syllabus_that_fits_dates_every_subtopic(store):
+    b = _seed(store, holidays=HOLIDAYS, timetable=MON_DOUBLE)
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                          book_id=b.book, periods_per_week=6)
+    assert result.subtopics_unscheduled == ()
+    assert result.subtopics_partially_scheduled == ()
+    assert result.all_subtopics_scheduled is True
+    assert result.warning is None
+    dated = {l.subtopic_id for l in store.scheduled_lessons_for_book(b.year, b.book)}
+    assert dated == set(_all_subtopic_ids(store, b.book))
+
+
+def test_a_syllabus_bigger_than_the_year_is_reported(store):
+    """Two weeks, 21 subtopics, one period a day: 12 periods cannot hold 21
+    subtopics. Each subtopic still needs at least one period, so the
+    estimate says how many periods short the year is, and the schedule says
+    how many subtopics have no date."""
+    b = _seed(store, start="2026-06-01", end="2026-06-14", saturday_rule="none")
+    est = calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    assert est.total_subject_periods == 12
+    assert est.fits_in_year is False and est.periods_short == 21 - 12
+
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                          book_id=b.book, periods_per_week=6)
+    assert len(result.subtopics_unscheduled) == 21 - 12
+    assert result.all_subtopics_scheduled is False
+    assert "9 of 21 subtopics" in result.warning
+
+
+# --------------------------------------------------------------------- #
+# 5. Force regenerate preserves completion marks
+# --------------------------------------------------------------------- #
+
+def test_force_regenerate_keeps_completed_and_skipped_lessons(store):
+    b = _seed(store, holidays=HOLIDAYS)
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                 book_id=b.book, periods_per_week=6)
+    lessons = store.scheduled_lessons_for_book(b.year, b.book)
+    store.mark_lesson(lessons[0].id, status="completed", note="done well", completed_by="t1")
+    store.mark_lesson(lessons[1].id, status="skipped", note="assembly", completed_by="t1")
+    store.mark_lesson(lessons[2].id, status="completed", note=None, completed_by="t1")
+    kept = {l.id: store.get_scheduled_lesson(l.id) for l in lessons[:3]}
+
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                          book_id=b.book, periods_per_week=6, force=True)
+
+    after = store.scheduled_lessons_for_book(b.year, b.book)
+    by_id = {l.id: l for l in after}
+    for lesson_id, before in kept.items():
+        assert by_id[lesson_id] == before     # every field, including the note and who marked it
+    assert result.lessons_kept == 3
+    # Only what is still to be taught was replanned, after the recorded ones.
+    last_kept = max(l.date for l in kept.values())
+    replanned = [l for l in after if l.id not in kept]
+    assert replanned and all(l.status == "scheduled" and l.date > last_kept for l in replanned)
+    # Each subtopic still gets exactly its estimated periods, counting the kept ones.
+    per_subtopic = Counter(l.subtopic_id for l in after)
+    for st in _all_subtopic_ids(store, b.book):
+        assert per_subtopic[st] == store.teaching_time_estimate_for_subtopic(st, b.year).estimated_periods
+
+
+# --------------------------------------------------------------------- #
+# 6. Reordering shifts siblings atomically
+# --------------------------------------------------------------------- #
+
+def test_moving_a_chapter_to_seq_0_renumbers_its_siblings(store):
+    b = _seed(store, units=((80, 9),), holidays=HOLIDAYS)   # one unit, three chapters
+    unit_id = b.chapters[0].unit_id
+    first, second, third = store.chapters_for_unit(unit_id)
+
+    store.set_sequence("chapter", third.id, 0)
+
+    ordered = store.chapters_for_unit(unit_id)
+    assert [c.id for c in ordered] == [third.id, first.id, second.id]
+    assert [c.seq for c in ordered] == [0, 1, 2]
+
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                 book_id=b.book, periods_per_week=6)
+    first_lesson = store.scheduled_lessons_for_book(b.year, b.book)[0]
+    third_subtopics = {s.id for t in store.topics_for_chapter(third.id)
+                       for s in store.subtopics_for_topic(t.id)}
+    assert first_lesson.subtopic_id in third_subtopics
+
+
+def test_reorder_repairs_duplicate_seqs_and_clamps_past_the_end(store):
+    """The live unit already had two chapters at seq 0; a move must leave
+    the whole sibling list unique and contiguous, whatever it started as."""
+    b = _seed(store, units=((80, 9),))
+    unit_id = b.chapters[0].unit_id
+    a, c2, c3 = store.chapters_for_unit(unit_id)
+    store.conn.execute("UPDATE chapters SET seq=0 WHERE unit_id=?", (unit_id,))
+    store.conn.commit()
+
+    store.set_sequence("chapter", a.id, 99)
+
+    ordered = store.chapters_for_unit(unit_id)
+    assert [c.seq for c in ordered] == [0, 1, 2]
+    assert ordered[-1].id == a.id
+
+
+def test_reorder_route_returns_renumbered_siblings(principal_world):
+    w = principal_world
+    b = _seed(w.store, units=((80, 9),))
+    unit_id = b.chapters[0].unit_id
+    third = w.store.chapters_for_unit(unit_id)[2]
+    r = w.client.patch(f"{BASE}/chapters/{third.id}/sequence", json={"seq": 0}, headers=w.auth)
+    assert r.status_code == 200, r.text
+    assert r.json()["seq"] == 0
+    seqs = [c.seq for c in w.store.chapters_for_unit(unit_id)]
+    assert seqs == [0, 1, 2]
+
+
+# --------------------------------------------------------------------- #
+# Task 102 review, finding 1: a dropped lesson never double-books a day
+# --------------------------------------------------------------------- #
+
+def test_a_lesson_push_cannot_place_is_unscheduled_not_left_on_its_date(store, audit_log):
+    b = _seed(store, units=((30, 5),), start="2026-06-01", end="2026-06-14", saturday_rule="none")
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                 book_id=b.book, periods_per_week=6)
+    before = store.scheduled_lessons_for_book(b.year, b.book)
+    assert len(before) == 12      # the year is full: every working day holds one lesson
+
+    push = scheduling_mod.push_lessons_after(
+        store, audit_log, academic_year_id=b.year, book_id=b.book, from_date=before[0].date,
+        reason="closure", changed_by="p1")
+
+    assert len(push.lessons_dropped) == 1
+    after = store.scheduled_lessons_for_book(b.year, b.book)
+    dropped = next(l for l in after if l.id == push.lessons_dropped[0])
+    assert dropped.status == "unscheduled"
+    on_the_plan = [l for l in after if l.status == "scheduled"]
+    assert len({l.date for l in on_the_plan}) == len(on_the_plan), "a day holds two lessons"
+    # The calendar views (date-range reads) show only lessons that hold a day.
+    ranged = store.scheduled_lessons_for_date_range("school_1", "2026-06-01", "2026-06-14")
+    assert dropped.id not in {l.id for l in ranged}
+
+
+# --------------------------------------------------------------------- #
+# Task 102 review, finding 2: PUSH uses the cadence the schedule was made with
+# --------------------------------------------------------------------- #
+
+def test_push_uses_the_cadence_the_book_was_scheduled_with(store, audit_log):
+    b = _seed(store, saturday_rule="none")
+    store.set_subject_period_allocation(school_id="school_1", academic_year_id=b.year,
+                                        subject="Mathematics", periods_per_week=3)
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                 book_id=b.book, periods_per_week=6)
+    lessons = store.scheduled_lessons_for_book(b.year, b.book)
+
+    push = scheduling_mod.push_lessons_after(
+        store, audit_log, academic_year_id=b.year, book_id=b.book, from_date=lessons[10].date,
+        reason="closure", changed_by="p1")
+    assert push.periods_per_week == 6
+    per_week = Counter(date.fromisoformat(l.date).isocalendar()[:2]
+                       for l in store.scheduled_lessons_for_book(b.year, b.book)
+                       if l.status == "scheduled")
+    assert max(per_week.values()) == 6
+
+    with pytest.raises(ValueError, match="scheduled at 6"):
+        scheduling_mod.push_lessons_after(
+            store, audit_log, academic_year_id=b.year, book_id=b.book, from_date=lessons[20].date,
+            periods_per_week=3, reason="closure", changed_by="p1")
+
+
+# --------------------------------------------------------------------- #
+# Route level: the shortfall flag, a closure after scheduling, future marks
+# --------------------------------------------------------------------- #
+
+@pytest.fixture
+def principal_world(tmp_path, monkeypatch):
+    from test_assessment_routes_auth import _boot_client, _register
+
+    with _boot_client(tmp_path, monkeypatch) as client:
+        principal = _register(client, "school_1", "p1@example.com", "Priya Principal",
+                              principal_key=PRINCIPAL_KEY)
+        from academicos.curriculum import routes as curriculum_routes
+        yield SimpleNamespace(client=client, auth={"Authorization": f"Bearer {principal['token']}"},
+                              store=curriculum_routes._require(), routes=curriculum_routes)
+
+
+def _schedule_via_route(w, b, periods_per_week=6):
+    r = w.client.post(f"{BASE}/books/{b.book}/teaching-time-estimates",
+                      params={"academic_year_id": b.year}, json={"periodsPerWeek": periods_per_week},
+                      headers=w.auth)
+    assert r.status_code == 200, r.text
+    r = w.client.post(f"{BASE}/books/{b.book}/schedule", params={"academic_year_id": b.year},
+                      json={"periodsPerWeek": periods_per_week}, headers=w.auth)
+    assert r.status_code == 200, r.text
+    return r
+
+
+def test_schedule_route_flags_a_shortfall(principal_world):
+    w = principal_world
+    b = _seed(w.store, start="2026-06-01", end="2026-06-14", saturday_rule="none")
+    body = _schedule_via_route(w, b).json()
+    assert body["allSubtopicsScheduled"] is False
+    assert len(body["subtopicsUnscheduled"]) == 9
+    assert "9 of 21 subtopics" in body["warning"]
+
+
+def test_schedule_route_reports_a_full_plan(principal_world):
+    w = principal_world
+    b = _seed(w.store, holidays=HOLIDAYS)
+    body = _schedule_via_route(w, b).json()
+    assert body["allSubtopicsScheduled"] is True
+    assert body["warning"] is None
+
+
+def test_a_closure_added_after_scheduling_moves_lessons_off_the_closed_days(principal_world):
+    w = principal_world
+    b = _seed(w.store, saturday_rule="none")
+    _schedule_via_route(w, b)
+    before = w.store.scheduled_lessons_for_book(b.year, b.book)
+    order_before = [l.id for l in before]
+
+    r = w.client.post(f"{BASE}/academic-years/{b.year}/holidays",
+                      json={"date": "2026-07-06", "endDate": "2026-07-08", "label": "Flooding",
+                            "kind": "emergency"}, headers=w.auth)
+    assert r.status_code == 200, r.text
+    assert r.json()["lessonsMoved"] > 0
+
+    after = w.store.scheduled_lessons_for_book(b.year, b.book)
+    closed = {"2026-07-06", "2026-07-07", "2026-07-08"}
+    assert not any(l.date in closed and l.status == "scheduled" for l in after)
+    placed = [l for l in after if l.status == "scheduled"]
+    assert len({l.date for l in placed}) == len(placed)
+    # Delivery order is unchanged: only dates moved.
+    assert [l.id for l in sorted(placed, key=lambda l: l.date)] == \
+        [i for i in order_before if i in {l.id for l in placed}]
+    # Lessons before the closure did not move.
+    assert all(a.date == b_.date for a, b_ in zip(after, before) if b_.date < "2026-07-06")
+    # Each move is on the lesson's audit history.
+    moved = next(l for l in before if l.date == "2026-07-06")
+    history = w.client.get(f"{BASE}/scheduled-lessons/{moved.id}/history", headers=w.auth).json()
+    assert history and "Flooding" in history[0]["reason"]
+
+
+def test_a_lesson_dated_in_the_future_cannot_be_marked_completed(principal_world, monkeypatch):
+    w = principal_world
+    b = _seed(w.store, saturday_rule="none")
+    _schedule_via_route(w, b)
+    monkeypatch.setattr(w.routes, "_school_today", lambda: date(2026, 7, 1))
+    lessons = w.store.scheduled_lessons_for_book(b.year, b.book)
+    past = next(l for l in lessons if l.date <= "2026-07-01")
+    future = next(l for l in lessons if l.date > "2026-07-01")
+
+    r = w.client.patch(f"{BASE}/scheduled-lessons/{future.id}", json={"status": "completed"},
+                       headers=w.auth)
+    assert r.status_code == 409, r.text
+    assert future.date in r.json()["detail"]
+    assert w.store.get_scheduled_lesson(future.id).status == "scheduled"
+
+    r = w.client.patch(f"{BASE}/scheduled-lessons/{past.id}", json={"status": "completed"},
+                       headers=w.auth)
+    assert r.status_code == 200, r.text

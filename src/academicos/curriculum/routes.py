@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict
-from datetime import datetime, timezone
+from datetime import date as _date, datetime, timedelta, timezone
 from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -721,8 +721,22 @@ def add_holiday(academic_year_id: str, req: AddHolidayRequest,
         raise HTTPException(422, str(e))
     h = store.add_holiday(calendar_id=cal.id, date=req.date, label=req.label, kind=req.kind,
                           end_date=req.end_date)
-    return HolidayResponse(id=h.id, calendar_id=h.calendar_id, date=h.date, label=h.label,
-                           kind=h.kind, end_date=h.end_date)
+    response = HolidayResponse(id=h.id, calendar_id=h.calendar_id, date=h.date, label=h.label,
+                               kind=h.kind, end_date=h.end_date)
+    if h.kind not in calendar_mod.CLOSURE_KINDS:
+        return response
+    # A closure entered after a schedule exists: its lessons move off the
+    # closed days like a PUSH. Until 2026-09-22 the day left the calendar
+    # while its lessons stayed 'scheduled' on it.
+    from ..assessment.audit_log import get_audit_log
+    reflow = scheduling_mod.reflow_after_closure(
+        store, get_audit_log(_cfg.data_root), school_id=principal.school_id,
+        academic_year_id=academic_year_id, closed_from=h.date, closed_to=h.end_date or h.date,
+        reason=f"Closure: {h.label}", changed_by=principal.id)
+    response.lessons_moved = reflow.lessons_moved
+    response.lessons_unscheduled = list(reflow.lessons_unscheduled)
+    response.reschedule_warnings = list(reflow.warnings)
+    return response
 
 
 @router.delete("/academic-years/{academic_year_id}/holidays/{holiday_id}")
@@ -812,7 +826,7 @@ def add_timetable_slot(academic_year_id: str, req: AddTimetableSlotRequest,
     """Persists one real weekday+period a subject meets -- once any slots
     exist for a subject/year, scheduling.py's schedule_book() uses exactly
     those real weekdays instead of its "first N working days of the week"
-    fallback heuristic (see _subject_teaching_days's docstring)."""
+    fallback heuristic (see calendar.subject_teaching_slots's docstring)."""
     store = _require()
     _require_school_owns_academic_year(academic_year_id, principal)
     slot = store.add_timetable_slot(
@@ -899,7 +913,7 @@ def compute_teaching_time_estimates(book_id: str, academic_year_id: str,
     try:
         result = calendar_mod.compute_teaching_time_estimates(
             store, academic_year_id=academic_year_id, book_id=book_id,
-            periods_per_week=periods_per_week, approved_by=principal.id)
+            periods_per_week=periods_per_week, approved_by=principal.id, recompute=req.recompute)
     except ValueError as e:
         raise HTTPException(404, str(e))
     return ComputeTeachingTimeResponse(
@@ -908,7 +922,8 @@ def compute_teaching_time_estimates(book_id: str, academic_year_id: str,
         calendar_weeks=result.calendar_weeks, total_subject_periods=result.total_subject_periods,
         total_instructional_minutes=result.total_instructional_minutes,
         units_skipped_no_subtopics=list(result.units_skipped_no_subtopics),
-        estimates_created=len(result.estimates))
+        estimates_created=len(result.estimates), periods_allocated=result.periods_allocated,
+        periods_short=result.periods_short, fits_in_year=result.fits_in_year)
 
 
 @router.get("/subtopics/{subtopic_id}/teaching-time-estimate",
@@ -948,7 +963,10 @@ def schedule_book(book_id: str, academic_year_id: str, req: ScheduleBookRequest,
     documented weekday-assignment simplification. Requires
     compute_teaching_time_estimates() to have already run for this
     (book, academic_year); a Subtopic without a real estimate is skipped
-    and reported, never given a guessed period count."""
+    and reported, never given a guessed period count. `allSubtopicsScheduled`
+    is false, with a `warning` sentence, whenever any subtopic ends up
+    without its full dated periods. `force` keeps completed/skipped lessons
+    and replans only what is still to be taught."""
     store = _require()
     _require_school_owns_book(book_id, principal)
     _require_school_owns_academic_year(academic_year_id, principal)
@@ -966,7 +984,10 @@ def schedule_book(book_id: str, academic_year_id: str, req: ScheduleBookRequest,
         subtopics_partially_scheduled=list(result.subtopics_partially_scheduled),
         subtopics_unscheduled=list(result.subtopics_unscheduled),
         subtopics_without_estimate=list(result.subtopics_without_estimate),
-        first_scheduled_date=result.first_scheduled_date, last_scheduled_date=result.last_scheduled_date)
+        first_scheduled_date=result.first_scheduled_date, last_scheduled_date=result.last_scheduled_date,
+        teaching_periods_available=result.teaching_periods_available,
+        lessons_kept=result.lessons_kept, all_subtopics_scheduled=result.all_subtopics_scheduled,
+        warning=result.warning)
 
 
 @router.get("/books/{book_id}/schedule", response_model=list[ScheduledLessonResponse])
@@ -1051,6 +1072,15 @@ def get_my_schedule(start_date: str, end_date: str,
     return out
 
 
+# Schools on this product are in India; the server runs in UTC. A lesson on
+# the school's today must be markable from 00:00 IST, not from 05:30.
+_SCHOOL_UTC_OFFSET = timezone(timedelta(hours=5, minutes=30))
+
+
+def _school_today() -> _date:
+    return datetime.now(_SCHOOL_UTC_OFFSET).date()
+
+
 @router.patch("/scheduled-lessons/{lesson_id}", response_model=ScheduledLessonResponse)
 def mark_lesson(lesson_id: str, req: MarkLessonRequest,
                 current: User = Depends(get_current_user)) -> ScheduledLessonResponse:
@@ -1069,6 +1099,18 @@ def mark_lesson(lesson_id: str, req: MarkLessonRequest,
     is_assigned = lesson.book_id in {a.book_id for a in store.assignments_for_teacher(current.id)}
     if current.role != "principal" and not is_assigned:
         raise HTTPException(403, "you are not assigned to teach this book")
+    # 409s: the request is well formed but contradicts the lesson's own date.
+    # A completion is the record of a lesson taught; a future-dated one
+    # records something that has not happened (the re-audit marked a lesson
+    # months ahead completed with a 200).
+    if req.status == "completed" and lesson.date > _school_today().isoformat():
+        raise HTTPException(
+            409, f"this lesson is planned for {lesson.date}, which has not come yet -- it can be "
+                 "marked completed on or after that day (or ADJUST it to the day it was taught)")
+    if lesson.status == "unscheduled":
+        raise HTTPException(
+            409, "this lesson has no day in the plan (it no longer fit before the year ends) -- "
+                 "ADJUST it onto a working day first")
     updated = store.mark_lesson(lesson_id, status=req.status, note=req.note, completed_by=current.id)
     return _lesson_response(updated)
 
