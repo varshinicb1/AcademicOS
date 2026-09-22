@@ -1,6 +1,6 @@
 {
  "about": "Board records the merge withheld -- no-verified-key, or not answerable as printed (see _merge_excluded.json for each one's reason) -- kept WHOLE and unrepaired so a later relink or repair can bring them back and the next merge serve them again. merge_question_banks.py and enrich_question_bank.py both read this file back; a run adds a record to it or replaces one by id, and none drops one.",
- "count": 3226,
+ "count": 3267,
  "questions": [
   {
    "id": "cbse:q:src:af50a3f7e666fdea9cee608f:4",
@@ -235114,6 +235114,4685 @@
    "provenance": {
     "sourceDocumentId": "src:c9c7961de5a8552ab7829650",
     "pageNumber": 19,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:30",
+   "questionBankId": "src:de9d7a7a1c777974c1dd9138",
+   "subject": "Science",
+   "grade": 10,
+   "chapterIds": [
+    "light-reflection-refraction"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "apply",
+   "difficulty": "easy",
+   "type": "very_short_answer",
+   "stem": "(a) (i) An object of 5 cm height is placed at a distance of 20 cm from the optical centre of a concave lens of focal length 18 cm. Calculate (1) image distance and (2) the magnification in this case. (ii) Compare the values of magnification obtained by a concave lens and a convex lens when both the lenses form virtual images.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 1,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:30:mp1",
+      "description": "Height of object (h) = 5 cm",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:30:mp2",
+      "description": "Object distance (u) = – 20 cm",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:30:mp3",
+      "description": "Focal length (f) = – 18 cm",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Height of object (h) = 5 cm Object distance (u) = – 20 cm Focal length (f) = – 18 cm",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "X_086_31_5_MS_UNSIGNED_ALL SETS.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "31/5/1",
+     "schemeQNo": 30
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "31/5/1",
+    "sourceDocumentId": "src:de9d7a7a1c777974c1dd9138"
+   },
+   "estimatedTimeMinutes": 2,
+   "marks": 1,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.9,
+   "tags": [
+    "Light – Reflection and Refraction"
+   ],
+   "createdAt": "2026-09-15T14:52:35.795384Z",
+   "updatedAt": "2026-09-15T14:52:35.795384Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "light-reflection-refraction",
+     "score": 0.3205,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:de9d7a7a1c777974c1dd9138",
+    "pageNumber": 17,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": "science-10/light-reflection-and-refraction",
+   "topicIds": [],
+   "subtopicIds": [],
+   "tagConfidence": {
+    "chapter": 0.9962,
+    "topic": 0.7013,
+    "subtopic": 0.5356
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:27",
+   "questionBankId": "src:f01c7b6fd6fca7ef7d9987dc",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapterIds": [
+    "trigonometry"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "The altitude of a right-angled triangle is 7 cm less than its base. If its hypotenuse is 17 cm long, then",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:27:mp1",
+      "description": "(a) Let base of the right triangle be x cm",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:27:mp2",
+      "description": "∴ altitude of the right triangle is (x – 7) cm",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:27:mp3",
+      "description": "Using Pythagoras theorem: (17)2 = x2 + (x – 7)2",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:27:mp4",
+      "description": "⇒ 2x2 – 14x – 240 = 0 or x2 – 7x – 120 = 0",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(a) Let base of the right triangle be x cm ∴ altitude of the right triangle is (x – 7) cm Using Pythagoras theorem: (17)2 = x2 + (x – 7)2 ⇒ 2x2 – 14x – 240 = 0 or x2 – 7x – 120 = 0",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "X_241_MS_430_3_1_Unsigned.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "430/3/1",
+     "schemeQNo": 27
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "430/3/1",
+    "sourceDocumentId": "src:f01c7b6fd6fca7ef7d9987dc"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.74,
+   "tags": [
+    "Trigonometry"
+   ],
+   "createdAt": "2026-09-15T14:53:04.151611Z",
+   "updatedAt": "2026-09-15T14:53:04.151611Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "trigonometry",
+     "score": 0.4543,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:f01c7b6fd6fca7ef7d9987dc",
+    "pageNumber": 15,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": null,
+   "topicIds": [],
+   "subtopicIds": [],
+   "tagConfidence": {
+    "chapter": 0.6656,
+    "topic": 0.6219,
+    "subtopic": null
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:34",
+   "questionBankId": "src:f01c7b6fd6fca7ef7d9987dc",
+   "subject": "Mathematics",
+   "grade": 10,
+   "chapterIds": [
+    "trigonometry"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "hard",
+   "type": "case_study",
+   "stem": "Two poles of equal height are standing opposite each other on either side of a road, which is 100 m wide. From a point somewhere between them on the road, the angles of elevation of the top of the poles are 60º and 30º respectively. Find the height of the poles and the distances of the point from the poles.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 5,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:34:mp1",
+      "description": "Let AB and CD represent poles of height h and P is a point on AC",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:34:mp2",
+      "description": "Let x and y be the distances of point P from the poles CD and AB",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:34:mp3",
+      "description": "Solving (i) and (ii) x = 3y but x + y = 100",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:34:mp4",
+      "description": "---------------------------------------------------------------------------------------------------------------",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Let AB and CD represent poles of height h and P is a point on AC Let x and y be the distances of point P from the poles CD and AB Solving (i) and (ii) x = 3y but x + y = 100 ---------------------------------------------------------------------------------------------------------------",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "X_241_MS_430_3_1_Unsigned.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "430/3/1",
+     "schemeQNo": 34
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "430/3/1",
+    "sourceDocumentId": "src:f01c7b6fd6fca7ef7d9987dc"
+   },
+   "estimatedTimeMinutes": 10,
+   "marks": 5,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.75,
+   "tags": [
+    "Trigonometry"
+   ],
+   "createdAt": "2026-09-15T14:53:04.151611Z",
+   "updatedAt": "2026-09-15T14:53:04.151611Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "trigonometry",
+     "score": 0.5036,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:f01c7b6fd6fca7ef7d9987dc",
+    "pageNumber": 19,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": "mathematics-10/some-applications-of-trigonometry",
+   "topicIds": [
+    "mathematics-10/some-applications-of-trigonometry/heights-and-distances"
+   ],
+   "subtopicIds": [],
+   "tagConfidence": {
+    "chapter": 0.9945,
+    "topic": 0.9945,
+    "subtopic": null
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:32",
+   "questionBankId": "src:7d85e69ac9a355f7b0d2eac0",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapterIds": [
+    "political-parties"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "(a) Explain any five challenges faced by political parties in India. 5 1=5",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:32:mp1",
+      "description": "(a) Explain any five challenges faced by political parties in India",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:32:mp2",
+      "description": "(i) Lack of internal democracy within parties",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:32:mp3",
+      "description": "(ii) Parties do not keep membership registers , do not hold organizational meeting",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:32:mp4",
+      "description": "and do not conduct internal election regularly",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(a) Explain any five challenges faced by political parties in India (i) Lack of internal democracy within parties (ii) Parties do not keep membership registers , do not hold organizational meeting and do not conduct internal election regularly",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "32_5_2 E.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "32/5/2",
+     "schemeQNo": 33
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "32/5/1",
+    "sourceDocumentId": "src:7d85e69ac9a355f7b0d2eac0"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.75,
+   "tags": [
+    "Political Parties"
+   ],
+   "createdAt": "2026-09-15T14:53:05.103314Z",
+   "updatedAt": "2026-09-15T14:53:05.103314Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "political-parties",
+     "score": 0.5102,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:7d85e69ac9a355f7b0d2eac0",
+    "pageNumber": 15,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": "social-science-10/political-parties",
+   "topicIds": [
+    "social-science-10/political-parties/challenges-to-political-parties"
+   ],
+   "subtopicIds": [],
+   "tagConfidence": {
+    "chapter": 0.9046,
+    "topic": 0.8112,
+    "subtopic": null
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33",
+   "questionBankId": "src:7d85e69ac9a355f7b0d2eac0",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapterIds": [
+    "money-credit"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "(a) How does credit play a positive and a negative role ? Explain with examples.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33:mp1",
+      "description": "(a) How does credit play a positive and negative role? Explain with examples",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33:mp2",
+      "description": "It plays two roles-positive and negative",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33:mp3",
+      "description": "(i) A large number of transactions in day to day activities involve credit",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33:mp4",
+      "description": "(ii)The credit helps to meet the ongoing expenses of production",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(a) How does credit play a positive and negative role? Explain with examples It plays two roles-positive and negative (i) A large number of transactions in day to day activities involve credit (ii)The credit helps to meet the ongoing expenses of production",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "32_5_2 E.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "32/5/2",
+     "schemeQNo": 30
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "32/5/1",
+    "sourceDocumentId": "src:7d85e69ac9a355f7b0d2eac0"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.76,
+   "tags": [
+    "Money and Credit"
+   ],
+   "createdAt": "2026-09-15T14:53:05.103314Z",
+   "updatedAt": "2026-09-15T14:53:05.103314Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "money-credit",
+     "score": 0.5422,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:7d85e69ac9a355f7b0d2eac0",
+    "pageNumber": 15,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": null,
+   "topicIds": [],
+   "subtopicIds": [],
+   "tagConfidence": {
+    "chapter": 0.5566,
+    "topic": 0.5291,
+    "subtopic": null
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:856803fb4333bfbe91cef527:28",
+   "questionBankId": "src:856803fb4333bfbe91cef527",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapterIds": [
+    "outcomes-of-democracy"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "How is a democracy accountable and responsive to the needs and expectations of the citizens ? Analyse.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:28:mp1",
+      "description": "How is democracy accountable and responsive to the needs and expectations of",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:28:mp2",
+      "description": "(i) Democracy gives chance to citizens to participate in decision-making",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:28:mp3",
+      "description": "(ii) Democracy ensures that decision-making is based on norms and procedures",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:28:mp4",
+      "description": "(iii) In democracy citizens have the right and means to examine the process of",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "How is democracy accountable and responsive to the needs and expectations of (i) Democracy gives chance to citizens to participate in decision-making (ii) Democracy ensures that decision-making is based on norms and procedures (iii) In democracy citizens have the right and means to examine the process of",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "32_5_2 E.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "32/5/2",
+     "schemeQNo": 28
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "32/5/2",
+    "sourceDocumentId": "src:856803fb4333bfbe91cef527"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.81,
+   "tags": [
+    "Outcomes of Democracy"
+   ],
+   "createdAt": "2026-09-15T14:53:05.103314Z",
+   "updatedAt": "2026-09-15T14:53:05.103314Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "outcomes-of-democracy",
+     "score": 0.6852,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:856803fb4333bfbe91cef527",
+    "pageNumber": 15,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": "social-science-10/outcomes-of-democracy",
+   "topicIds": [
+    "social-science-10/outcomes-of-democracy/accountable-responsive-and-legitimate-government"
+   ],
+   "subtopicIds": [],
+   "tagConfidence": {
+    "chapter": 0.9679,
+    "topic": 0.9147,
+    "subtopic": null
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:856803fb4333bfbe91cef527:29",
+   "questionBankId": "src:856803fb4333bfbe91cef527",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapterIds": [
+    "sectors-indian-economy"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "How are primary, secondary and tertiary sectors dependent on each other ? Explain.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:29:mp1",
+      "description": "How primary, secondary and tertiary sectors are dependent on each other?",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:29:mp2",
+      "description": "Primary Secondary and Tertiary sectors are interdependent as mentioned below",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:29:mp3",
+      "description": "(i) Primary sector activities produces goods by exploiting natural resources and",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:29:mp4",
+      "description": "provide raw material to manufacturing sector",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "How primary, secondary and tertiary sectors are dependent on each other? Primary Secondary and Tertiary sectors are interdependent as mentioned below (i) Primary sector activities produces goods by exploiting natural resources and provide raw material to manufacturing sector",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "32_5_2 E.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "32/5/2",
+     "schemeQNo": 29
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "32/5/2",
+    "sourceDocumentId": "src:856803fb4333bfbe91cef527"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.79,
+   "tags": [
+    "Sectors of the Indian Economy"
+   ],
+   "createdAt": "2026-09-15T14:53:05.103314Z",
+   "updatedAt": "2026-09-15T14:53:05.103314Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "sectors-indian-economy",
+     "score": 0.6274,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:856803fb4333bfbe91cef527",
+    "pageNumber": 15,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": "social-science-10/sectors-of-the-indian-economy",
+   "topicIds": [
+    "social-science-10/sectors-of-the-indian-economy/primary-secondary-and-tertiary-sectors-in-india"
+   ],
+   "subtopicIds": [],
+   "tagConfidence": {
+    "chapter": 0.9493,
+    "topic": 0.8017,
+    "subtopic": null
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:856803fb4333bfbe91cef527:31",
+   "questionBankId": "src:856803fb4333bfbe91cef527",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapterIds": [
+    "manufacturing-industries"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "(a) Explain any five factors affecting the location of industries. 5 1=5",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:31:mp1",
+      "description": "(a)Explain any five factors affecting the location of industries",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:31:mp2",
+      "description": "(i) Availability of raw material",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:31:mp3",
+      "description": "(ii) Availability of labour",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:31:mp4",
+      "description": "(iii) Availability of capital",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(a)Explain any five factors affecting the location of industries (i) Availability of raw material (ii) Availability of labour (iii) Availability of capital",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "32_5_2 E.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "32/5/2",
+     "schemeQNo": 31
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "32/5/2",
+    "sourceDocumentId": "src:856803fb4333bfbe91cef527"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.73,
+   "tags": [
+    "Manufacturing Industries"
+   ],
+   "createdAt": "2026-09-15T14:53:05.103314Z",
+   "updatedAt": "2026-09-15T14:53:05.103314Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "manufacturing-industries",
+     "score": 0.4346,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:856803fb4333bfbe91cef527",
+    "pageNumber": 15,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": null,
+   "topicIds": [],
+   "subtopicIds": [],
+   "tagConfidence": {
+    "chapter": 0.3187,
+    "topic": 0.2453,
+    "subtopic": null
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:856803fb4333bfbe91cef527:32",
+   "questionBankId": "src:856803fb4333bfbe91cef527",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapterIds": [
+    "rise-of-nationalism-europe"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "(a) Explain the process of unification of Germany.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:32:mp1",
+      "description": "(a) Explain the process of unification of Germany",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:32:mp2",
+      "description": "(i) Failure of the middle-class Germans to unite the different regions of the German",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:32:mp3",
+      "description": "confederation into a nation-state in the year 1848 failed",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:856803fb4333bfbe91cef527:32:mp4",
+      "description": "(ii) Then Prussia took on the leadership of the movement for national unification",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(a) Explain the process of unification of Germany (i) Failure of the middle-class Germans to unite the different regions of the German confederation into a nation-state in the year 1848 failed (ii) Then Prussia took on the leadership of the movement for national unification",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "32_5_2 E.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "32/5/2",
+     "schemeQNo": 32
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "32/5/2",
+    "sourceDocumentId": "src:856803fb4333bfbe91cef527"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.74,
+   "tags": [
+    "The Rise of Nationalism in Europe"
+   ],
+   "createdAt": "2026-09-15T14:53:05.103314Z",
+   "updatedAt": "2026-09-15T14:53:05.103314Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "rise-of-nationalism-europe",
+     "score": 0.4804,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:856803fb4333bfbe91cef527",
+    "pageNumber": 17,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": null,
+   "topicIds": [],
+   "subtopicIds": [],
+   "tagConfidence": {
+    "chapter": 0.4243,
+    "topic": 0.4038,
+    "subtopic": null
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:a493a2f3223053e6b8581787:36",
+   "questionBankId": "src:a493a2f3223053e6b8581787",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapterIds": [
+    "nationalism-india"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "hard",
+   "type": "case_study",
+   "stem": "Read the following extract and answer the questions that follow : 4 Linguistic diversity of India How many languages do we have in India ? The answer depends on how one counts it. The latest information that we have is from the Census of India held in 2011. This census recorded more than 1300 distinct languages which people mentioned as their mother tongues. These languages were grouped together under some major languages. For example, languages like Bhojpuri, Magadhi, Bundelkhandi, Chhattisgarhi, Rajasthani and many others were grouped together under ‘Hindi’. Even after this grouping, the Census found 121 major languages. Of these, 22 languages are now included in the Eighth Schedule of the Indian Constitution and are therefore called ‘Scheduled Languages’. Others are called ‘Non-Scheduled Languages’. In terms of languages, India is perhaps the most diverse country in the world. (36.1) How many languages were recorded as mother tongues in the 2011 Census of India ? 1 (36.2) How were the languages grouped together in the Census report ? 1 (36.3) How does the inclusion of languages in the Eighth Schedule of the Indian Constitution contribute to linguistic diversity ? Explain. 2 – 2 + 3 = 5) ( )",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 5,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:a493a2f3223053e6b8581787:36:mp1",
+      "description": "1 How many languages were recorded as mother tongues in the 2011",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:a493a2f3223053e6b8581787:36:mp2",
+      "description": "The census of India recorded more than 1300 distinct languages as mother",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "1 How many languages were recorded as mother tongues in the 2011 The census of India recorded more than 1300 distinct languages as mother",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "32-2-2 E.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "32/2/2",
+     "schemeQNo": 34
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "32/2/1",
+    "sourceDocumentId": "src:a493a2f3223053e6b8581787"
+   },
+   "estimatedTimeMinutes": 10,
+   "marks": 5,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Nationalism in India"
+   ],
+   "createdAt": "2026-09-15T14:53:05.103314Z",
+   "updatedAt": "2026-09-15T14:53:05.103314Z",
+   "metadata": {},
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:a493a2f3223053e6b8581787",
+    "pageNumber": null,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 0.6
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": "social-science-10/federalism",
+   "topicIds": [
+    "social-science-10/federalism/how-is-federalism-practised"
+   ],
+   "subtopicIds": [
+    "social-science-10/federalism/how-is-federalism-practised/linguistic-diversity-of-india"
+   ],
+   "tagConfidence": {
+    "chapter": 0.9628,
+    "topic": 0.9592,
+    "subtopic": 0.9452
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:f73780490a16ef016ae67e67:27",
+   "questionBankId": "src:f73780490a16ef016ae67e67",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapterIds": [
+    "political-parties"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "Analyse any three challenges faced by political parties in India.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:f73780490a16ef016ae67e67:27:mp1",
+      "description": "(a) Explain any five challenges faced by political parties in India",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f73780490a16ef016ae67e67:27:mp2",
+      "description": "(i) Lack of internal democracy within parties",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f73780490a16ef016ae67e67:27:mp3",
+      "description": "(ii) Parties do not keep membership registers , do not hold organizational meeting",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f73780490a16ef016ae67e67:27:mp4",
+      "description": "and do not conduct internal election regularly",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(a) Explain any five challenges faced by political parties in India (i) Lack of internal democracy within parties (ii) Parties do not keep membership registers , do not hold organizational meeting and do not conduct internal election regularly",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "32_5_2 E.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "32/5/2",
+     "schemeQNo": 33
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "32/5/1",
+    "sourceDocumentId": "src:f73780490a16ef016ae67e67"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.77,
+   "tags": [
+    "Political Parties"
+   ],
+   "createdAt": "2026-09-15T14:53:05.104314Z",
+   "updatedAt": "2026-09-15T14:53:05.104314Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "political-parties",
+     "score": 0.5655,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:f73780490a16ef016ae67e67",
+    "pageNumber": 17,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": "social-science-10/political-parties",
+   "topicIds": [],
+   "subtopicIds": [],
+   "tagConfidence": {
+    "chapter": 0.8782,
+    "topic": 0.6806,
+    "subtopic": null
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:f73780490a16ef016ae67e67:32",
+   "questionBankId": "src:f73780490a16ef016ae67e67",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapterIds": [
+    "outcomes-of-democracy"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "(a) Explain with examples the role of democracy in the reduction of inequality and poverty.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:f73780490a16ef016ae67e67:32:mp1",
+      "description": "(a) Explain with examples the role of democracy in the reduction of",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f73780490a16ef016ae67e67:32:mp2",
+      "description": "Promotes political equality by supporting universal adult",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f73780490a16ef016ae67e67:32:mp3",
+      "description": "Enhances the dignity of individuals by recognizing them as",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f73780490a16ef016ae67e67:32:mp4",
+      "description": "Improves the quality of decision making through debate and",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(a) Explain with examples the role of democracy in the reduction of Promotes political equality by supporting universal adult Enhances the dignity of individuals by recognizing them as Improves the quality of decision making through debate and",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "32-5-3 E.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "32/5/3",
+     "schemeQNo": 26
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "32/5/1",
+    "sourceDocumentId": "src:f73780490a16ef016ae67e67"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.76,
+   "tags": [
+    "Outcomes of Democracy"
+   ],
+   "createdAt": "2026-09-15T14:53:05.105817Z",
+   "updatedAt": "2026-09-15T14:53:05.105817Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "outcomes-of-democracy",
+     "score": 0.5432,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:f73780490a16ef016ae67e67",
+    "pageNumber": 19,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": "social-science-10/outcomes-of-democracy",
+   "topicIds": [
+    "social-science-10/outcomes-of-democracy/reduction-of-inequality-and-poverty"
+   ],
+   "subtopicIds": [],
+   "tagConfidence": {
+    "chapter": 0.9561,
+    "topic": 0.9557,
+    "subtopic": null
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:f73780490a16ef016ae67e67:35",
+   "questionBankId": "src:f73780490a16ef016ae67e67",
+   "subject": "Social Science",
+   "grade": 10,
+   "chapterIds": [
+    "resources-development"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "hard",
+   "type": "case_study",
+   "stem": "Read the given source and answer the questions that follow : Conservation of Resources At the international level, the Club of Rome advocated resource conservation for the first time in a more systematic way in 1968. Subsequently, in 1974, Gandhian philosophy was once again presented by Schumacher in his book Small is Beautiful. The seminal contribution with respect to resource conservation at the global level was made by the Brundtland Commission Report, 1987. This report introduced the concept of ‘Sustainable Development’ and advocated it as a means for resource conservation, which was subsequently published in a book entitled Our Common Future. Another significant contribution was made at the Earth Summit at Rio de Janeiro, Brazil in 1992. (35.1) Explain the meaning of sustainable development. 1 (35.2) In which international conference was ‘Agenda-21’ accepted ? 1 (35.3) Explain any two outcomes of the Summit. 2%1=2",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 5,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:f73780490a16ef016ae67e67:35:mp1",
+      "description": "2 In which international conference was ‘Agenda-21’ accepted? (1)",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:f73780490a16ef016ae67e67:35:mp2",
+      "description": "Rio de Janeiro Earth Summit, 1992",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "2 In which international conference was ‘Agenda-21’ accepted? (1) Rio de Janeiro Earth Summit, 1992",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "32-5-1 E.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "32/5/1",
+     "schemeQNo": 35
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "32/5/1",
+    "sourceDocumentId": "src:f73780490a16ef016ae67e67"
+   },
+   "estimatedTimeMinutes": 10,
+   "marks": 5,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.74,
+   "tags": [
+    "Resources and Development"
+   ],
+   "createdAt": "2026-09-15T14:53:05.105817Z",
+   "updatedAt": "2026-09-15T14:53:05.105817Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "resources-development",
+     "score": 0.4655,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:f73780490a16ef016ae67e67",
+    "pageNumber": 19,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published",
+   "taxonomyChapterId": "social-science-10/resources-and-development",
+   "topicIds": [],
+   "subtopicIds": [],
+   "tagConfidence": {
+    "chapter": 0.9946,
+    "topic": null,
+    "subtopic": null
+   },
+   "tagMethod": "tfidf_textbook_v2"
+  },
+  {
+   "id": "cbse:q:src:4d332115f14c6aeeaa34b438:21",
+   "questionBankId": "src:4d332115f14c6aeeaa34b438",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "accounting-for-share-capital"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "Pawan Ltd. was registered with an authorised capital of ₹ 10,00,000 divided into 1,00,000 equity shares of ₹ 10 each. The company offered to the public for subscription, 80,000 equity shares. The amount per share was payable as follows : On application -₹ 3, On allotment -₹ 2 On first call -₹ 3 and On second and final call the balance The issue was fully subscribed and all amounts due were received except the first and final call money on 2,000 shares allotted to Chavi. Her shares were forfeited. Present the Share Capital in the Balance Sheet of the company as per Schedule III, Part I of the Companies Act, 2013. Also prepare Notes to Accounts for the same.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:21:mp1",
+      "description": "Q. Pawan Ltd. was registered with……",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:21:mp2",
+      "description": "1,00,000 equity shares of ₹10 each",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:21:mp3",
+      "description": "80,000 equity shares of ₹10 each",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:21:mp4",
+      "description": "Subscribed & fully paid-up",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. Pawan Ltd. was registered with…… 1,00,000 equity shares of ₹10 each 80,000 equity shares of ₹10 each Subscribed & fully paid-up",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67.3.1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/3/1",
+     "schemeQNo": 21
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/3/1",
+    "sourceDocumentId": "src:4d332115f14c6aeeaa34b438"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Accounting for Share Capital"
+   ],
+   "createdAt": "2026-09-15T14:53:06.008385Z",
+   "updatedAt": "2026-09-15T14:53:06.008385Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "accounting-for-share-capital",
+     "score": 0.6185,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:4d332115f14c6aeeaa34b438",
+    "pageNumber": null,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 0.6
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:4d332115f14c6aeeaa34b438:23",
+   "questionBankId": "src:4d332115f14c6aeeaa34b438",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "accounting-for-share-capital"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "(a) Lotus Ltd. invited applications for issuing 80,000 equity shares of ₹ 10 each at a premium of ₹ 4 per share. The amount was payable as follows : On application -₹ 5 per share and On allotment -₹ 9 per share (included premium). Applications were received for 1,40,000 shares and allotment was made to all applicants on pro-rata basis. Money overpaid on applications was adjusted towards sums due on allotment. Rajiv, who had applied for 1,400 shares, failed to pay the allotment money. His shares were forfeited. Later on, these forfeited shares were reissued at ₹ 9 per share as fully paid up. Pass necessary journal entries for the above transactions in the books of Lotus Ltd.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:23:mp1",
+      "description": "(a) Q. Lotus Ltd. invited applications for issuing……",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:23:mp2",
+      "description": "To Equity Share Application A /c",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:23:mp3",
+      "description": "(Application money received on 1,40,000",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:23:mp4",
+      "description": "_________________________________",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(a) Q. Lotus Ltd. invited applications for issuing…… To Equity Share Application A /c (Application money received on 1,40,000 _________________________________",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67.3.1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/3/1",
+     "schemeQNo": 23
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/3/1",
+    "sourceDocumentId": "src:4d332115f14c6aeeaa34b438"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Accounting for Share Capital"
+   ],
+   "createdAt": "2026-09-15T14:53:06.008385Z",
+   "updatedAt": "2026-09-15T14:53:06.008385Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "accounting-for-share-capital",
+     "score": 0.6268,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:4d332115f14c6aeeaa34b438",
+    "pageNumber": 19,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:4d332115f14c6aeeaa34b438:25",
+   "questionBankId": "src:4d332115f14c6aeeaa34b438",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "retirement-death-of-partner"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "Trisha, Anisha and Rishika were partners in a firm sharing profits and losses in the ratio of 2 : 2 : 1. Their Balance Sheet as at 31st March, 2022 was as follows : Balance Sheet of Trisha, Anisha and Rishika as at 31st March, 2022 Liabilities Amount ₹ Assets Amount ₹ Capitals : Plant and Machinery 5,00,000 Trisha 3,00,000 Stock 1,00,000 Anisha 2,00,000 Rishika 1,00,000 6,00,000 Debtors 60,000 General Reserve 50,000 Cash at Bank 40,000 Creditors 50,000 7,00,000 7,00,000 Trisha died on 31st July, 2022. According to the partnership deed, the executors of the deceased partner were entitled to : (ii) Salary @ ₹ 15,000 per quarter. (iii) Share of goodwill calculated on the basis of twice the average of past (iv) Share of profits from the closure of the last accounting year 2019 -20, 2020 -21 and 2021 -22 were ₹ 1,00,000, ₹ 2,00,000 and ₹ 1,50,000 respectively. Showing rendered to her executors. 6",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:25:mp1",
+      "description": "Q. Trisha, Anisha and Rishika were partners……",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:25:mp2",
+      "description": "Dr. Trisha’s Capital A/c Cr",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:25:mp3",
+      "description": "Share of Profit= 150000 x 4 x 2 = `20,000",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:25:mp4",
+      "description": "Goodwill of the Firm= 4,50,000 x 2 =`3,00,000",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. Trisha, Anisha and Rishika were partners…… Dr. Trisha’s Capital A/c Cr Share of Profit= 150000 x 4 x 2 = `20,000 Goodwill of the Firm= 4,50,000 x 2 =`3,00,000",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67.3.1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/3/1",
+     "schemeQNo": 25
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/3/1",
+    "sourceDocumentId": "src:4d332115f14c6aeeaa34b438"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Reconstitution of Partnership: Change in PSR"
+   ],
+   "createdAt": "2026-09-15T14:53:06.008385Z",
+   "updatedAt": "2026-09-15T14:53:06.008385Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "retirement-death-of-partner",
+     "score": 0.5817,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:4d332115f14c6aeeaa34b438",
+    "pageNumber": 25,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:4d332115f14c6aeeaa34b438:32",
+   "questionBankId": "src:4d332115f14c6aeeaa34b438",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "accounting-ratios"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "apply",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "Identify and state the significance of any two ratios that are calculated to measure the efficiency of operations of business based on effective utilisation of resources.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:32:mp1",
+      "description": "Q. Identify and state the significance of any two ratios that are calculated to",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:32:mp2",
+      "description": "measure the efficiency of operations of business based on effective utilization of",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:32:mp3",
+      "description": "Ans. Significance of Turnover Ratios (any two)",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:32:mp4",
+      "description": "(i) Inventory Turnover ratio studies the frequency of conversion of inventory of",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. Identify and state the significance of any two ratios that are calculated to measure the efficiency of operations of business based on effective utilization of Ans. Significance of Turnover Ratios (any two) (i) Inventory Turnover ratio studies the frequency of conversion of inventory of",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67.3.1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/3/1",
+     "schemeQNo": 32
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/3/1",
+    "sourceDocumentId": "src:4d332115f14c6aeeaa34b438"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Tools of Financial Statement Analysis"
+   ],
+   "createdAt": "2026-09-15T14:53:06.009419Z",
+   "updatedAt": "2026-09-15T14:53:06.009419Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "accounting-ratios",
+     "score": 0.4597,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:4d332115f14c6aeeaa34b438",
+    "pageNumber": 31,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:4d332115f14c6aeeaa34b438:33",
+   "questionBankId": "src:4d332115f14c6aeeaa34b438",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "accounting-ratios"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "apply",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "(a) Calculate Gross Profit Ratio from the following information : 4 Average Inventory ₹ 1,60,000; Inventory Turnover Ratio 8 times, Average Trade Receivables ₹ 2,00,000; Trade Receivables Turnover Ratio 6 times and Cash Sales 25% of Total Sales.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:33:mp1",
+      "description": "(a) Q. Calculate Gross Profit Ratio from ……",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:33:mp2",
+      "description": "Ans. Gross Profit Ratio = Gross Profit x 100",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:33:mp3",
+      "description": "Credit Revenue from Operations =Trade Receivables Turnover Ratio x Average",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:4d332115f14c6aeeaa34b438:33:mp4",
+      "description": "Then, Revenue from operations = Cash revenue from operations + Credit revenue",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(a) Q. Calculate Gross Profit Ratio from …… Ans. Gross Profit Ratio = Gross Profit x 100 Credit Revenue from Operations =Trade Receivables Turnover Ratio x Average Then, Revenue from operations = Cash revenue from operations + Credit revenue",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67.3.1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/3/1",
+     "schemeQNo": 33
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/3/1",
+    "sourceDocumentId": "src:4d332115f14c6aeeaa34b438"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Accounting Ratios"
+   ],
+   "createdAt": "2026-09-15T14:53:06.009419Z",
+   "updatedAt": "2026-09-15T14:53:06.009419Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "accounting-ratios",
+     "score": 0.6301,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:4d332115f14c6aeeaa34b438",
+    "pageNumber": 31,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:21",
+   "questionBankId": "src:d4ab284479dbd2fbc3a07c7f",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "dissolution-of-partnership-firm"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "Ravi, Kavi and Chand were partners sharing profits in the ratio of 5 : 3 : 2. On 31st March, 2022, their Balance Sheet was as follows : Balance Sheet of Ravi, Kavi and Chand as on 31st March, 2022 Liabilities Amount ₹ Assets Amount ₹ Sundry Creditors 70,000 Land and Building 3,50,000 Chand 20,000 Stock 3,00,000 Mrs. Chand Loan 20,000 Debtors 2,00,000 Capitals : Less provision 10,000 1,90,000 Ravi 4,00,000 Cash 70,000 Kavi 3,00,000 Chand 1,00,000 8,00,000 9,10,000 9,10,000 The firm was dissolved on the above date. were realised at 10% less than the book value. (ii) Mrs. Chand loan was settled by giving her a computer of ₹ 22,000 not recorded in the books. (iii) Ravi paid off one of the creditors ₹ 20,000 in settlement of his amount of ₹ 30,000. (iv) Remaining creditors were paid in cash. Prepare Realisation Account. 4",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:21:mp1",
+      "description": "Q. Ravi, Kavi and Chand were partners sharing…",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:21:mp2",
+      "description": "Partners’ Capital A/c’s: (1)",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. Ravi, Kavi and Chand were partners sharing… Partners’ Capital A/c’s: (1)",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67.3.1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/3/1",
+     "schemeQNo": 22
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/3/2",
+    "sourceDocumentId": "src:d4ab284479dbd2fbc3a07c7f"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Dissolution of a Partnership Firm"
+   ],
+   "createdAt": "2026-09-15T14:53:06.009419Z",
+   "updatedAt": "2026-09-15T14:53:06.009419Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "dissolution-of-partnership-firm",
+     "score": 0.5532,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:d4ab284479dbd2fbc3a07c7f",
+    "pageNumber": 17,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:22",
+   "questionBankId": "src:d4ab284479dbd2fbc3a07c7f",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "accounting-for-share-capital"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "On 1st April, 2021, Prabha Ltd. was formed with an authorised capital of ₹ 90,00,000 divided into 90,000 equity shares of ₹ 100 each. The company invited applications for 80,000 equity shares. The amount was payable as follows : On application : ₹ 30 per share On allotment : ₹ 40 per share On first and final call : Balance amount Applications for 1,00,000 shares were received. Applications for 20,000 shares were rejected and the application money was refunded. All calls were made. A shareholder holding 600 shares did not pay the first and final call. Schedule III, Part I of the Companies Act, 2013 as at 31st March, 2022.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:22:mp1",
+      "description": "Q. On 1st April, 2021, Prabha Ltd. was formed with an authorized capital……",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:22:mp2",
+      "description": "90,000 equity shares of ₹100 each",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:22:mp3",
+      "description": "80,000 equity shares of ₹100 each",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:22:mp4",
+      "description": "Subscribed & fully paid-up",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. On 1st April, 2021, Prabha Ltd. was formed with an authorized capital…… 90,000 equity shares of ₹100 each 80,000 equity shares of ₹100 each Subscribed & fully paid-up",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67.3.2.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/3/2",
+     "schemeQNo": 22
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/3/2",
+    "sourceDocumentId": "src:d4ab284479dbd2fbc3a07c7f"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Accounting for Share Capital"
+   ],
+   "createdAt": "2026-09-15T14:53:06.009419Z",
+   "updatedAt": "2026-09-15T14:53:06.009419Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "accounting-for-share-capital",
+     "score": 0.5638,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:d4ab284479dbd2fbc3a07c7f",
+    "pageNumber": 19,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:bbd21b0e42bac3cafc7a33a0:26",
+   "questionBankId": "src:bbd21b0e42bac3cafc7a33a0",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "accounting-for-share-capital"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "(a) Yash Ltd. invited applications for 50,000 equity shares of ₹10 each at a premium of 10%. The amount was payable as follows : On application -₹ 3 per share; on allotment (including premium) -₹ 3 per share and on first and final call, the balance amount. Applications were received for 1,20,000 shares and shares were allotted on pro-rata basis to all applicants. The excess money received on application was to be adjusted towards sums due on allotment. Application money in excess of sums due on allotment was refunded. A shareholder who applied for 6,000 shares could not pay the first and final call money and his shares were forfeited. The forfeited shares were reissued for ₹ 60,000 fully paid up. Pass necessary journal entries for the above transactions in the books of Yash Ltd.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:bbd21b0e42bac3cafc7a33a0:26:mp1",
+      "description": "Q. Pass necessary………………………………",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:bbd21b0e42bac3cafc7a33a0:26:mp2",
+      "description": "To Debenture Applica-on and Allotment",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:bbd21b0e42bac3cafc7a33a0:26:mp3",
+      "description": "(Applica-on money on 6% Debentures",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:bbd21b0e42bac3cafc7a33a0:26:mp4",
+      "description": "Debenture Applica-on and Allotment A/c Dr",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. Pass necessary……………………………… To Debenture Applica-on and Allotment (Applica-on money on 6% Debentures Debenture Applica-on and Allotment A/c Dr",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67_4_3.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/4/3",
+     "schemeQNo": 26
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/4/1",
+    "sourceDocumentId": "src:bbd21b0e42bac3cafc7a33a0"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Accounting for Share Capital"
+   ],
+   "createdAt": "2026-09-15T14:53:06.010415Z",
+   "updatedAt": "2026-09-15T14:53:06.010415Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "accounting-for-share-capital",
+     "score": 0.6761,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:bbd21b0e42bac3cafc7a33a0",
+    "pageNumber": 27,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:21",
+   "questionBankId": "src:be7fd19527d3a0bcac687817",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "accounting-for-share-capital"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "Shivalik Limited was registered with an authorized capital of ₹ 10,00,000 divided into equity shares of ₹ 10 each. It offered 50,000 equity shares to the public. The amount was payable as follows : On Application -₹ 2 per share On Allotment -₹ 6 per share On First and Final call -Balance The issue was fully subscribed. All the amounts were duly received except the allotment and first and final call money on 4,000 equity shares. These equity shares were forfeited. Present the Share Capital in the Balance Sheet of the company as per 4",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:21:mp1",
+      "description": "Q. Shivalik Ltd. was registered with an authorised capital…",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:21:mp2",
+      "description": "1,00,000 equity shares of ₹10 each",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:21:mp3",
+      "description": "50,000 equity shares of ₹10 each",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:21:mp4",
+      "description": "Subscribed & fully paid-up",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. Shivalik Ltd. was registered with an authorised capital… 1,00,000 equity shares of ₹10 each 50,000 equity shares of ₹10 each Subscribed & fully paid-up",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67_1_1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/1/1",
+     "schemeQNo": 21
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/1/1",
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Accounting for Share Capital"
+   ],
+   "createdAt": "2026-09-15T14:53:06.011415Z",
+   "updatedAt": "2026-09-15T14:53:06.011415Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "accounting-for-share-capital",
+     "score": 0.503,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817",
+    "pageNumber": 17,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:22",
+   "questionBankId": "src:be7fd19527d3a0bcac687817",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "dissolution-of-partnership-firm"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "Archana, Vandana and Arti were partners in a firm sharing profits and losses in the ratio of 5 : 3 : 2. Their Balance Sheet on 31st March, 2023 was as follows : Balance Sheet of Archana, Vandana and Arti as at 31st March, 2023 Liabilities Amount ₹ Assets Amount ₹ Capitals : Investments 80,000 Archana 80,000 Plant 1,00,000 Vandana 70,000 Stock 40,000 Arti 60,000 2,10,000 Debtors 50,000 General Reserve 30,000 Cash at Bank 30,000 Creditors 60,000 3,00,000 3,00,000 The firm was dissolved on the above date. (i) Assets were realised as follows : Debtors -₹ 40,000 Stock -₹ 50,000 Plant -₹ 60,000 (ii) 25% of the Investments were taken over by Vandana at ₹ 18,000. Remaining Investments were taken over by Archana at 10% less than its book value. (iii) Expenses of realisation ₹ 20,000 were paid by Arti. Prepare Realisation Account.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:22:mp1",
+      "description": "Q. Archana, Vandana and Arti were partners in a firm…",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:22:mp2",
+      "description": "By Vandana’s capital A/c (½)",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:22:mp3",
+      "description": "By Archana’s capital A/c (½)",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:22:mp4",
+      "description": "Partners’ Capital A/c: (½)",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. Archana, Vandana and Arti were partners in a firm… By Vandana’s capital A/c (½) By Archana’s capital A/c (½) Partners’ Capital A/c: (½)",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67_1_2.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/1/2",
+     "schemeQNo": 21
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/1/1",
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Dissolution of a Partnership Firm"
+   ],
+   "createdAt": "2026-09-15T14:53:06.011415Z",
+   "updatedAt": "2026-09-15T14:53:06.011415Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "dissolution-of-partnership-firm",
+     "score": 0.524,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817",
+    "pageNumber": 19,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:24",
+   "questionBankId": "src:be7fd19527d3a0bcac687817",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "accounting-for-debentures"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "On 1st April, 2022, Zubian Ltd. issued ₹ 10,00,000, 7% Debentures of ₹ 100 each at a premium of 6%, redeemable at a premium of 4% after five years. The company had a balance of ₹ 30,000 in Securities Premium Account. Premium Account at the end of the first year itself. 31st March, 2023. 6",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:24:mp1",
+      "description": "Q. on 1st April, 2022, Zubian Ltd. issued…",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:24:mp2",
+      "description": "Ans. (a) Books of Zubian Ltd",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:24:mp3",
+      "description": "To Debenture Application &",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:24:mp4",
+      "description": "(Application money received on 10,000, 7%",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. on 1st April, 2022, Zubian Ltd. issued… Ans. (a) Books of Zubian Ltd To Debenture Application & (Application money received on 10,000, 7%",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67_1_1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/1/1",
+     "schemeQNo": 24
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/1/1",
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Issue and Redemption of Debentures"
+   ],
+   "createdAt": "2026-09-15T14:53:06.011415Z",
+   "updatedAt": "2026-09-15T14:53:06.011415Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "accounting-for-debentures",
+     "score": 0.4387,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817",
+    "pageNumber": null,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 0.6
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:25",
+   "questionBankId": "src:be7fd19527d3a0bcac687817",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "accounting-for-share-capital"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "(a) Qumtan Ltd. invited applications for issuing 1,00,000 equity shares of ₹ 10 each at a premium of ₹ 6 per share. The amount was payable as follows : On Application and Allotment -₹ 8 per share (including premium ₹ 3) On First and Final call -Balance (including premium) Applications for 1,60,000 shares were received. Applications for 10,000 shares were rejected and pro-rata allotment was made to the remaining applicants. Excess money received on application and allotment was returned. Dheeraj, who was allotted 200 shares, failed to pay the first and final call money. His shares were forfeited. All the forfeited shares were reissued at ₹ 5 per share fully paid up. Pass necessary journal entries in the books of Qumtan Ltd.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:25:mp1",
+      "description": "Q. (a) Qumtan Ltd. invited applications…",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:25:mp2",
+      "description": "Ans. In the Books of Qumtan Ltd",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:25:mp3",
+      "description": "To Equity Share Application and",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:25:mp4",
+      "description": "(Application and allotment money received on",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. (a) Qumtan Ltd. invited applications… Ans. In the Books of Qumtan Ltd To Equity Share Application and (Application and allotment money received on",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67_1_1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/1/1",
+     "schemeQNo": 25
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/1/1",
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Accounting for Share Capital"
+   ],
+   "createdAt": "2026-09-15T14:53:06.011415Z",
+   "updatedAt": "2026-09-15T14:53:06.011415Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "accounting-for-share-capital",
+     "score": 0.6516,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817",
+    "pageNumber": 23,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:26",
+   "questionBankId": "src:be7fd19527d3a0bcac687817",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "admission-of-partner"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "(a) Shubhi and Revanshi were partners in a firm sharing profits and losses in the ratio of 3 : 2. Their Balance Sheet as at 31st March, 2023 was as follows : Balance Sheet of Shubhi and Revanshi as at 31st March, 2023 Liabilities Amount ₹ Assets Amount ₹ Capitals : Fixed Assets 90,000 Shubhi 60,000 Stock 38,000 Revanshi 32,000 92,000 Debtors 30,000 General Reserve 30,000 Cash 52,000 Bank Loan 18,000 Creditors 70,000 2,10,000 2,10,000 On 1st April, 2023 they admitted Pari into the partnership on the following terms : share of premium for goodwill for 4 1 th share in the profits of the firm. (ii) Fixed assets were depreciated @ 30%. (iii) Stock was valued at ₹ 45,000. (iv) Bank loan was paid off. was to be paid off",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:26:mp1",
+      "description": "Q. (a) Shubhi and Revanshi were partners in a firm…",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:26:mp2",
+      "description": "Dr. PARTNERS’ CAPITAL A/c Cr",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:26:mp3",
+      "description": "(b)Rishi, Shashi and Trishi were partners in a firm…",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:26:mp4",
+      "description": "Dr. PARTNERS’ CAPITAL A/c Cr",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. (a) Shubhi and Revanshi were partners in a firm… Dr. PARTNERS’ CAPITAL A/c Cr (b)Rishi, Shashi and Trishi were partners in a firm… Dr. PARTNERS’ CAPITAL A/c Cr",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67_1_1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/1/1",
+     "schemeQNo": 26
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/1/1",
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Dissolution of a Partnership Firm"
+   ],
+   "createdAt": "2026-09-15T14:53:06.011415Z",
+   "updatedAt": "2026-09-15T14:53:06.011415Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "admission-of-partner",
+     "score": 0.6,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817",
+    "pageNumber": 25,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:32",
+   "questionBankId": "src:be7fd19527d3a0bcac687817",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "accounting-ratios"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "apply",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "From the given information, calculate : 3 Particulars Amount (₹) Current Assets 4,00,000 Inventory 1,00,000 Current Liabilities 2,00,000 Net Profit Before Tax 7,20,000 Revenue from Operations 10,00,000 Gross Profit Ratio 20%",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:32:mp1",
+      "description": "Q. From the given information, calculate …",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:32:mp2",
+      "description": "(a) Quick Ratio= Quick Assets ½",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:32:mp3",
+      "description": "Quick assets = Current Assets – Inventory",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:32:mp4",
+      "description": "Quick Ratio = 3,00,000 = 1.5:1 ½",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. From the given information, calculate … (a) Quick Ratio= Quick Assets ½ Quick assets = Current Assets – Inventory Quick Ratio = 3,00,000 = 1.5:1 ½",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67_1_1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/1/1",
+     "schemeQNo": 32
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/1/1",
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Accounting Ratios"
+   ],
+   "createdAt": "2026-09-15T14:53:06.012413Z",
+   "updatedAt": "2026-09-15T14:53:06.012413Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "accounting-ratios",
+     "score": 0.5096,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817",
+    "pageNumber": null,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 0.6
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:33",
+   "questionBankId": "src:be7fd19527d3a0bcac687817",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "financial-statement-analysis"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "(a) From the given Balance Sheet of Geox Ltd., prepare Common Size Balance Sheet : 4 Balance Sheet of Geox Ltd. as at 31st March, 2023 Particulars Note No.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:33:mp1",
+      "description": "Q. (a) From the given Balance Sheet of Geox Ltd., ………",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:33:mp2",
+      "description": "As at March 31, 2022 and March 31, 2023",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:33:mp3",
+      "description": "I - Equity and Liabilities",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:be7fd19527d3a0bcac687817:33:mp4",
+      "description": "2. Non- Current Liabilities",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. (a) From the given Balance Sheet of Geox Ltd., ……… As at March 31, 2022 and March 31, 2023 I - Equity and Liabilities 2. Non- Current Liabilities",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67_1_2.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/1/2",
+     "schemeQNo": 33
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/1/1",
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Tools of Financial Statement Analysis"
+   ],
+   "createdAt": "2026-09-15T14:53:06.012413Z",
+   "updatedAt": "2026-09-15T14:53:06.012413Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "financial-statement-analysis",
+     "score": 0.4709,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:be7fd19527d3a0bcac687817",
+    "pageNumber": 33,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:ad3ce0b4b8fd4acfaef20782:32",
+   "questionBankId": "src:ad3ce0b4b8fd4acfaef20782",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "financial-statements-of-company"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "apply",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "From the given information, calculate : 3 Particulars Amount (₹) Liquid Assets 8,00,000 Inventory 2,00,000 Current Liabilities 4,00,000 Net Profit Before Tax 12,80,000 10% Debentures 12,00,000 Shareholders Funds 16,00,000",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:ad3ce0b4b8fd4acfaef20782:32:mp1",
+      "description": "Q. From the given information, calculate …",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:ad3ce0b4b8fd4acfaef20782:32:mp2",
+      "description": "(a) Current Ratio = Current Assets ½",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:ad3ce0b4b8fd4acfaef20782:32:mp3",
+      "description": "Current Assets = Liquid Assets + Inventory",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:ad3ce0b4b8fd4acfaef20782:32:mp4",
+      "description": "Current Ratio = 10,00,000 = 2.5:1 ½",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. From the given information, calculate … (a) Current Ratio = Current Assets ½ Current Assets = Liquid Assets + Inventory Current Ratio = 10,00,000 = 2.5:1 ½",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67_1_2.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/1/2",
+     "schemeQNo": 32
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/1/2",
+    "sourceDocumentId": "src:ad3ce0b4b8fd4acfaef20782"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Financial Statements of a Company"
+   ],
+   "createdAt": "2026-09-15T14:53:06.012413Z",
+   "updatedAt": "2026-09-15T14:53:06.012413Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "financial-statements-of-company",
+     "score": 0.5198,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:ad3ce0b4b8fd4acfaef20782",
+    "pageNumber": null,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 0.6
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:77dfb7463111e74de8cc31bb:32",
+   "questionBankId": "src:77dfb7463111e74de8cc31bb",
+   "subject": "Accountancy",
+   "grade": 12,
+   "chapterIds": [
+    "financial-statements-of-company"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "apply",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "From the given information, calculate : 3 Particulars Amount (₹) Credit Revenue from Operations 80,00,000 Debtors 25,00,000 Bills Receivables 15,00,000 Total Assets 50,00,000 10% Debentures 12,00,000 Creditors 13,00,000 Bills Payable 7,00,000",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:77dfb7463111e74de8cc31bb:32:mp1",
+      "description": "Q. From the given information, calculate …",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:77dfb7463111e74de8cc31bb:32:mp2",
+      "description": "(a) Trade Receivables Turnover Ratio = Credit Revenue from Operations ½",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:77dfb7463111e74de8cc31bb:32:mp3",
+      "description": "Average Trade Receivables = Debtors + Bills Receivables",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:77dfb7463111e74de8cc31bb:32:mp4",
+      "description": "Trade Receivables Turnover Ratio = 80,00,000 = 2 times ½",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Q. From the given information, calculate … (a) Trade Receivables Turnover Ratio = Credit Revenue from Operations ½ Average Trade Receivables = Debtors + Bills Receivables Trade Receivables Turnover Ratio = 80,00,000 = 2 times ½",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "67_1_3.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "67/1/3",
+     "schemeQNo": 32
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "67/1/3",
+    "sourceDocumentId": "src:77dfb7463111e74de8cc31bb"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Issue and Redemption of Debentures"
+   ],
+   "createdAt": "2026-09-15T14:53:06.012413Z",
+   "updatedAt": "2026-09-15T14:53:06.012413Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "financial-statements-of-company",
+     "score": 0.4461,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:77dfb7463111e74de8cc31bb",
+    "pageNumber": null,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 0.6
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:09a7d8a43ab84dbfb45c1229:22",
+   "questionBankId": "src:09a7d8a43ab84dbfb45c1229",
+   "subject": "Biology",
+   "grade": 12,
+   "chapterIds": [
+    "organisms-populations"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "Identify a, b, c, d, e and f in the table given below : 3 Sl. No. Organism Bioactive Molecule Use",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:09a7d8a43ab84dbfb45c1229:22:mp1",
+      "description": "(b) Blood–Cholesterol lowering agent",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:09a7d8a43ab84dbfb45c1229:22:mp2",
+      "description": "2. (c) Penicillium notatum",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:09a7d8a43ab84dbfb45c1229:22:mp3",
+      "description": "(In (c) and (d) any other correct organism and its bioactive molecule can be",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:09a7d8a43ab84dbfb45c1229:22:mp4",
+      "description": "3. (e) Trichoderma polysporum",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(b) Blood–Cholesterol lowering agent 2. (c) Penicillium notatum (In (c) and (d) any other correct organism and its bioactive molecule can be 3. (e) Trichoderma polysporum",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "57-5-1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "57/5/1",
+     "schemeQNo": 22
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "57/5/1",
+    "sourceDocumentId": "src:09a7d8a43ab84dbfb45c1229"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Organisms and Populations"
+   ],
+   "createdAt": "2026-09-15T14:53:06.545330Z",
+   "updatedAt": "2026-09-15T14:53:06.545330Z",
+   "metadata": {},
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:09a7d8a43ab84dbfb45c1229",
+    "pageNumber": 15,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:51de56e82e732c8705ea398e:27",
+   "questionBankId": "src:51de56e82e732c8705ea398e",
+   "subject": "Biology",
+   "grade": 12,
+   "chapterIds": [
+    "ecosystem"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "(a) Construct a pyramid of biomass in sea with phytoplankton and fishes. Explain giving reasons about the characteristic of the constructed pyramid.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:51de56e82e732c8705ea398e:27:mp1",
+      "description": "The pyramid of biomass in sea is generally inverted, because the",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:51de56e82e732c8705ea398e:27:mp2",
+      "description": "biomass of fishes far exceeds that of phytoplankton",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:51de56e82e732c8705ea398e:27:mp3",
+      "description": "Pyramid of energy will always be upright as energy flow is",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:51de56e82e732c8705ea398e:27:mp4",
+      "description": "unidirectional from producers to consumers. / The energy availability",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "The pyramid of biomass in sea is generally inverted, because the biomass of fishes far exceeds that of phytoplankton Pyramid of energy will always be upright as energy flow is unidirectional from producers to consumers. / The energy availability",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "57-5-3.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "57/5/3",
+     "schemeQNo": 27
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "57/5/3",
+    "sourceDocumentId": "src:51de56e82e732c8705ea398e"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Sexual Reproduction in Flowering Plants"
+   ],
+   "createdAt": "2026-09-15T14:53:06.548228Z",
+   "updatedAt": "2026-09-15T14:53:06.548228Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "ecosystem",
+     "score": 0.4613,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:51de56e82e732c8705ea398e",
+    "pageNumber": 17,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:26",
+   "questionBankId": "src:784bd959b5f48fd5620f57e6",
+   "subject": "Biology",
+   "grade": 12,
+   "chapterIds": [
+    "principles-inheritance-variation"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "evaluate",
+   "difficulty": "medium",
+   "type": "short_answer",
+   "stem": "In a family, the father, the daughter and the son are colour blind, whereas the mother has normal vision. Do you think the son and the daughter have inherited the disease from their father ? Work out a cross to justify your answer.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:784bd959b5f48fd5620f57e6:26:mp1",
+      "description": "Son inherited disease from the mother and daughter inherited disease from both mother and",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:784bd959b5f48fd5620f57e6:26:mp2",
+      "description": "XCX (1/2 Mark) X XCY (1/2 Mark)",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:784bd959b5f48fd5620f57e6:26:mp3",
+      "description": "Normal (Carrier) Colour blind",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:784bd959b5f48fd5620f57e6:26:mp4",
+      "description": "XII_ 044 57/1/1 BIOLOGY # pg. 6",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Son inherited disease from the mother and daughter inherited disease from both mother and XCX (1/2 Mark) X XCY (1/2 Mark) Normal (Carrier) Colour blind XII_ 044 57/1/1 BIOLOGY # pg. 6",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "57-1-1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "57/1/1",
+     "schemeQNo": 26
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "57/1/1",
+    "sourceDocumentId": "src:784bd959b5f48fd5620f57e6"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Principles of Inheritance and Variation"
+   ],
+   "createdAt": "2026-09-15T14:53:06.549230Z",
+   "updatedAt": "2026-09-15T14:53:06.549230Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "principles-inheritance-variation",
+     "score": 0.3671,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:784bd959b5f48fd5620f57e6",
+    "pageNumber": 15,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:27",
+   "questionBankId": "src:784bd959b5f48fd5620f57e6",
+   "subject": "Biology",
+   "grade": 12,
+   "chapterIds": [
+    "biotechnology-applications"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "(a) (i) What are transgenic animals ? 1 (ii) Name the first transgenic cow and state its importance.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:784bd959b5f48fd5620f57e6:27:mp1",
+      "description": "(a) (i) Transgenic animals are those which have their DNA manipulated to possess",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:784bd959b5f48fd5620f57e6:27:mp2",
+      "description": "and express a foreign gene",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:784bd959b5f48fd5620f57e6:27:mp3",
+      "description": "(ii) First transgenic Cow – Rosie,",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:784bd959b5f48fd5620f57e6:27:mp4",
+      "description": "-Produced human protein enriched milk (2⋅4 g/litre) / cow milk containing human alpha",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(a) (i) Transgenic animals are those which have their DNA manipulated to possess and express a foreign gene (ii) First transgenic Cow – Rosie, -Produced human protein enriched milk (2⋅4 g/litre) / cow milk containing human alpha",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "57-1-2 ..pdf",
+     "schemeMedium": "en",
+     "schemeCode": "57/1/2",
+     "schemeQNo": 16
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "57/1/1",
+    "sourceDocumentId": "src:784bd959b5f48fd5620f57e6"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Biotechnology and its Applications"
+   ],
+   "createdAt": "2026-09-15T14:53:06.549230Z",
+   "updatedAt": "2026-09-15T14:53:06.549230Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "biotechnology-applications",
+     "score": 0.4139,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:784bd959b5f48fd5620f57e6",
+    "pageNumber": 15,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:28",
+   "questionBankId": "src:784bd959b5f48fd5620f57e6",
+   "subject": "Biology",
+   "grade": 12,
+   "chapterIds": [
+    "organisms-populations"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "(a) Explain how it is ensured that the orchid Ophrys is pollinated by a specific species of bee. 2 -11 16 IÊS> K 29 30 -3",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:784bd959b5f48fd5620f57e6:28:mp1",
+      "description": "-Orchid Ophrys employs ‘Sexual Deceit’to get pollinated by a species of bee",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:784bd959b5f48fd5620f57e6:28:mp2",
+      "description": "-one petal of flower resembles female of bee in size, colour and markings",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:784bd959b5f48fd5620f57e6:28:mp3",
+      "description": "-Male bee attracted and pseudocopulates the flower and gets dusted with pollens",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:784bd959b5f48fd5620f57e6:28:mp4",
+      "description": "-When same bee ‘pseudocopulates’ with other flower, it transfers the pollens to it",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "-Orchid Ophrys employs ‘Sexual Deceit’to get pollinated by a species of bee -one petal of flower resembles female of bee in size, colour and markings -Male bee attracted and pseudocopulates the flower and gets dusted with pollens -When same bee ‘pseudocopulates’ with other flower, it transfers the pollens to it",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "57-1-1.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "57/1/1",
+     "schemeQNo": 28
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "57/1/1",
+    "sourceDocumentId": "src:784bd959b5f48fd5620f57e6"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Biodiversity and its Conservation"
+   ],
+   "createdAt": "2026-09-15T14:53:06.549230Z",
+   "updatedAt": "2026-09-15T14:53:06.549230Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "organisms-populations",
+     "score": 0.4012,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:784bd959b5f48fd5620f57e6",
+    "pageNumber": 15,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:22",
+   "questionBankId": "src:3901e48d946b1f956b5a21c7",
+   "subject": "Business Studies",
+   "grade": 12,
+   "chapterIds": [
+    "financial-management"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "Kanav, after passing out of college with specialization in renewable energy, was determined to start a solar power plant. The venture required heavy investment in plant and machinery and less on manual labour. Kanav invested in the latest solar panel technology and infrastructure and purchased the latest solar panels, inverters and battery storage systems. Despite the high risk and substantial investment, Kanav’s business had good expansion possibilities. The world was increasingly moving towards clean energy solutions, and there was a growing demand for sustainable power sources. So, Kanav decided to create a higher capacity to meet the anticipated demand quickly. This entailed further investment in fixed assets which Kanav was able to arrange. As the years passed, the solar power plant did very well and played a pivotal role in the city’s transition towards a greener and more sustainable future. Identify and explain the two factors affecting the fixed capital requirements discussed in the above case. 3",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:3901e48d946b1f956b5a21c7:22:mp1",
+      "description": "A capital-intensive organisation requires higher investment",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:3901e48d946b1f956b5a21c7:22:mp2",
+      "description": "Labour intensive organisations require less investment in",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:3901e48d946b1f956b5a21c7:22:mp3",
+      "description": "When growth is expected, a company may choose to create",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:3901e48d946b1f956b5a21c7:22:mp4",
+      "description": "This entails larger investment in fixed assets and",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "A capital-intensive organisation requires higher investment Labour intensive organisations require less investment in When growth is expected, a company may choose to create This entails larger investment in fixed assets and",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "66_1_2..pdf",
+     "schemeMedium": "en",
+     "schemeCode": "66/1/2",
+     "schemeQNo": 23
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "66/1/1",
+    "sourceDocumentId": "src:3901e48d946b1f956b5a21c7"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Financial Management"
+   ],
+   "createdAt": "2026-09-15T14:53:07.051305Z",
+   "updatedAt": "2026-09-15T14:53:07.051305Z",
+   "metadata": {},
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:3901e48d946b1f956b5a21c7",
+    "pageNumber": 15,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:31",
+   "questionBankId": "src:3901e48d946b1f956b5a21c7",
+   "subject": "Business Studies",
+   "grade": 12,
+   "chapterIds": [
+    "principles-of-management"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "(a) Explain the following techniques of Scientific Management : 6 (ii) Differential piece wage system (iii) Motion study",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:3901e48d946b1f956b5a21c7:31:mp1",
+      "description": "It is a technique of scientific management which",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:3901e48d946b1f956b5a21c7:31:mp2",
+      "description": "It is used to determine the number of workers to be",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:3901e48d946b1f956b5a21c7:31:mp3",
+      "description": "Differential Piece Wage System is a technique which",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:3901e48d946b1f956b5a21c7:31:mp4",
+      "description": "In this plan, there are two piece rates – one for those",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:3901e48d946b1f956b5a21c7:31:mp5",
+      "description": "Motion study refers to the study of movements which are",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:3901e48d946b1f956b5a21c7:31:mp6",
+      "description": "It seeks to eliminate unnecessary movements so that it",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:3901e48d946b1f956b5a21c7:31:mp7",
+      "description": "The principles of management are guidelines to action",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:3901e48d946b1f956b5a21c7:31:mp8",
+      "description": "It is so because real business situations are very complex",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "It is a technique of scientific management which It is used to determine the number of workers to be Differential Piece Wage System is a technique which In this plan, there are two piece rates – one for those Motion study refers to the study of movements which are It seeks to eliminate unnecessary movements so that it The principles of management are guidelines to action It is so because real business situations are very complex",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "66_1_1..pdf",
+     "schemeMedium": "en",
+     "schemeCode": "66/1/1",
+     "schemeQNo": 31
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "66/1/1",
+    "sourceDocumentId": "src:3901e48d946b1f956b5a21c7"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Principles of Management"
+   ],
+   "createdAt": "2026-09-15T14:53:07.051305Z",
+   "updatedAt": "2026-09-15T14:53:07.051305Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "principles-of-management",
+     "score": 0.5171,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:3901e48d946b1f956b5a21c7",
+    "pageNumber": 23,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:d6a0af7f19eb5ac30bc846fe:23",
+   "questionBankId": "src:d6a0af7f19eb5ac30bc846fe",
+   "subject": "Physics",
+   "grade": 12,
+   "chapterIds": [
+    "moving-charges-magnetism"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "Two wires of equal lengths are shaped in the form of a square loop and a circular loop. Both loops are suspended in a uniform magnetic field. Prove that for the same current, the circular loop will experience larger torque.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:d6a0af7f19eb5ac30bc846fe:23:mp1",
+      "description": "F , equal but not collinear. The",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:d6a0af7f19eb5ac30bc846fe:23:mp2",
+      "description": "magnitude of the torque on the loop is",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "F , equal but not collinear. The magnitude of the torque on the loop is",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "55-3-1,2,3 English Version.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "55/3/2",
+     "schemeQNo": 23
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "55/3/2",
+    "sourceDocumentId": "src:d6a0af7f19eb5ac30bc846fe"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Moving Charges and Magnetism"
+   ],
+   "createdAt": "2026-09-15T14:53:09.738809Z",
+   "updatedAt": "2026-09-15T14:53:09.738809Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "moving-charges-magnetism",
+     "score": 0.3246,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:d6a0af7f19eb5ac30bc846fe",
+    "pageNumber": 13,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:6df8d2b3a2f6c8cce1428573:19",
+   "questionBankId": "src:6df8d2b3a2f6c8cce1428573",
+   "subject": "Physics",
+   "grade": 12,
+   "chapterIds": [
+    "ray-optics"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "very_short_answer",
+   "stem": "An object is placed 30 cm in front of a concave mirror of radius of curvature 40 cm. Find the (i) position of the image formed and (ii) magnification of the image.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 1,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:6df8d2b3a2f6c8cce1428573:19:mp1",
+      "description": "Calculating the radius of the curved surface 2",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:6df8d2b3a2f6c8cce1428573:19:mp2",
+      "description": "(i) position of the image formed",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "Calculating the radius of the curved surface 2 (i) position of the image formed",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "55-1-1,2,3 English Version.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "55/1/1",
+     "schemeQNo": 19
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "55/1/1",
+    "sourceDocumentId": "src:6df8d2b3a2f6c8cce1428573"
+   },
+   "estimatedTimeMinutes": 2,
+   "marks": 1,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Atoms"
+   ],
+   "createdAt": "2026-09-15T14:53:09.739820Z",
+   "updatedAt": "2026-09-15T14:53:09.739820Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "ray-optics",
+     "score": 0.3511,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:6df8d2b3a2f6c8cce1428573",
+    "pageNumber": 11,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:6df8d2b3a2f6c8cce1428573:31",
+   "questionBankId": "src:6df8d2b3a2f6c8cce1428573",
+   "subject": "Physics",
+   "grade": 12,
+   "chapterIds": [
+    "electrostatic-potential-capacitance"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "medium",
+   "type": "long_answer",
+   "stem": "(a) (i) Derive an expression for potential energy of an electric dipole p in an external uniform electric field E . When is the potential energy of the dipole (1) maximum, and (2) minimum ? (ii) An electric dipole consists of point charges -1·0 pC and + 1·0 pC located at (0, 0) and (3 mm, 4 mm) respectively in x -y plane. An electric field E = m V 1000 ^i is switched on in the region. Find the torque acting on the dipole.",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 3,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:6df8d2b3a2f6c8cce1428573:31:mp1",
+      "description": "(1) Potential energy is maximum when",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:6df8d2b3a2f6c8cce1428573:31:mp2",
+      "description": "• Deriving the expression for potential energy 2",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:6df8d2b3a2f6c8cce1428573:31:mp3",
+      "description": "• Maximum & Minimum value of potential energy ( ½ + ½ )",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(1) Potential energy is maximum when • Deriving the expression for potential energy 2 • Maximum & Minimum value of potential energy ( ½ + ½ )",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "55-1-1,2,3 English Version.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "55/1/2",
+     "schemeQNo": 37
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "55/1/1",
+    "sourceDocumentId": "src:6df8d2b3a2f6c8cce1428573"
+   },
+   "estimatedTimeMinutes": 6,
+   "marks": 3,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Electric Charges and Fields"
+   ],
+   "createdAt": "2026-09-15T14:53:09.739820Z",
+   "updatedAt": "2026-09-15T14:53:09.739820Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "electrostatic-potential-capacitance",
+     "score": 0.4414,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:6df8d2b3a2f6c8cce1428573",
+    "pageNumber": 23,
+    "boundingBox": null,
+    "method": "pdf_native",
+    "confidence": 1.0
+   },
+   "rights": {
+    "origin": "CBSE",
+    "redistribution": "unknown",
+    "basis": "",
+    "attribution": "Central Board of Secondary Education, previous year question paper"
+   },
+   "calibration": {
+    "measured": false,
+    "sampleSize": 0,
+    "facility": null,
+    "discrimination": null,
+    "basis": "assigned"
+   },
+   "version": 1,
+   "supersededBy": null,
+   "reviewState": "published"
+  },
+  {
+   "id": "cbse:q:src:2eeb4a479953ae7153287aeb:25",
+   "questionBankId": "src:2eeb4a479953ae7153287aeb",
+   "subject": "Physics",
+   "grade": 12,
+   "chapterIds": [
+    "alternating-current"
+   ],
+   "competencyIds": [],
+   "bloomLevel": "understand",
+   "difficulty": "easy",
+   "type": "short_answer",
+   "stem": "(a) Draw the graphs showing the variation of the following with the frequency of ac source in a circuit : (ii) Capacitive reactance (iii) Inductive reactance",
+   "stemLatex": "",
+   "parts": [],
+   "answerScheme": {
+    "totalMarks": 2,
+    "markingPoints": [
+     {
+      "id": "cbse:q:src:2eeb4a479953ae7153287aeb:25:mp1",
+      "description": "(i) Graph showing variation of R with frequency ½",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:2eeb4a479953ae7153287aeb:25:mp2",
+      "description": "Graph showing variation of capacitive reactance",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:2eeb4a479953ae7153287aeb:25:mp3",
+      "description": "Graph showing variation of Inductive reactance with",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     },
+     {
+      "id": "cbse:q:src:2eeb4a479953ae7153287aeb:25:mp4",
+      "description": "Anwer and Justification ½ +1",
+      "marks": 0,
+      "keyword": "",
+      "isRequired": false,
+      "synonyms": []
+     }
+    ],
+    "rubricLevels": [],
+    "commonErrors": [],
+    "alternativeAnswers": [],
+    "modelAnswer": "(i) Graph showing variation of R with frequency ½ Graph showing variation of capacitive reactance Graph showing variation of Inductive reactance with Anwer and Justification ½ +1",
+    "modelAnswerLatex": "",
+    "hasPartialCredit": true,
+    "metadata": {
+     "schemeSource": "55-1-1,2,3 English Version.pdf",
+     "schemeMedium": "en",
+     "schemeCode": "55/1/3",
+     "schemeQNo": 25
+    },
+    "provenance": "cbse_marking_scheme",
+    "sourcePaperCode": "55/1/3",
+    "sourceDocumentId": "src:2eeb4a479953ae7153287aeb"
+   },
+   "estimatedTimeMinutes": 4,
+   "marks": 2,
+   "language": "en",
+   "source": "cbse_board_paper",
+   "qualityScore": 0.6,
+   "tags": [
+    "Alternating Current"
+   ],
+   "createdAt": "2026-09-15T14:53:09.739820Z",
+   "updatedAt": "2026-09-15T14:53:09.739820Z",
+   "metadata": {
+    "chapterTag": {
+     "chapterId": "alternating-current",
+     "score": 0.5795,
+     "method": "embedding_chapter_v1",
+     "inferred": true
+    }
+   },
+   "diagramAssetId": null,
+   "mapAssetId": null,
+   "graphAssetId": null,
+   "tableAssetId": null,
+   "provenance": {
+    "sourceDocumentId": "src:2eeb4a479953ae7153287aeb",
+    "pageNumber": 13,
     "boundingBox": null,
     "method": "pdf_native",
     "confidence": 1.0

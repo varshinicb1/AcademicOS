@@ -1,11 +1,11 @@
 {
  "notice": "Questions whose chapter, topic or subtopic tag fell below the confidence threshold that keeps accepted tags >= 90% right on the gold set. Each entry names the first level not accepted and the tagger's proposal; the proposal is NOT on the question.",
  "method": "tfidf_textbook_v2",
- "builtAt": "2026-09-22T18:06:36.485314+00:00",
+ "builtAt": "2026-09-22T20:10:34.056370+00:00",
  "counts": {
   "academicos-data/corpus/cbse-cbe/questions.json": 495,
   "academicos-data/corpus/ncert-exemplar/questions.json": 3668,
-  "academicos-data/syllabus/questions.json": 3958
+  "academicos-data/syllabus/questions.json": 3952
  },
  "items": [
   {
@@ -152269,52 +152269,6 @@
    }
   },
   {
-   "id": "cbse:q:src:de9d7a7a1c777974c1dd9138:30",
-   "bank": "academicos-data/syllabus/questions.json",
-   "subject": "Science",
-   "grade": 10,
-   "level": "topic",
-   "stem": "(a) (i) An object of 5 cm height is placed at a distance of 20 cm from the optical centre of a concave lens of focal length 18 cm. Calculate (1) image distance and (2) the magnification in this case. (ii) Compare the values of magnification obtained by a concave lens and a convex lens when both the ",
-   "proposed": {
-    "chapterId": "science-10/light-reflection-and-refraction",
-    "topicId": "science-10/light-reflection-and-refraction/refraction-of-light",
-    "subtopicIds": [
-     "science-10/light-reflection-and-refraction/refraction-of-light/lens-formula-and-magnification"
-    ]
-   },
-   "confidence": {
-    "chapter": 0.9962,
-    "topic": 0.7013,
-    "subtopic": 0.5356
-   },
-   "evidence": {
-    "chapter": [
-     "len",
-     "concave",
-     "image",
-     "magnification",
-     "distance",
-     "virtual"
-    ],
-    "topic": [
-     "len",
-     "lense",
-     "concave",
-     "optical",
-     "distance",
-     "magnification"
-    ],
-    "subtopic": [
-     "magnification",
-     "len",
-     "distance",
-     "height",
-     "image",
-     "object"
-    ]
-   }
-  },
-  {
    "id": "cbse:q:src:0b3c7b807dcc7e88fd1809df:17",
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Mathematics",
@@ -152342,43 +152296,6 @@
      "natural",
      "number",
      "first"
-    ],
-    "subtopic": []
-   }
-  },
-  {
-   "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:27",
-   "bank": "academicos-data/syllabus/questions.json",
-   "subject": "Mathematics",
-   "grade": 10,
-   "level": "chapter",
-   "stem": "The altitude of a right-angled triangle is 7 cm less than its base. If its hypotenuse is 17 cm long, then",
-   "proposed": {
-    "chapterId": "mathematics-10/some-applications-of-trigonometry",
-    "topicId": "mathematics-10/some-applications-of-trigonometry/heights-and-distances",
-    "subtopicIds": []
-   },
-   "confidence": {
-    "chapter": 0.6656,
-    "topic": 0.6219,
-    "subtopic": null
-   },
-   "evidence": {
-    "chapter": [
-     "angl",
-     "altitude",
-     "right",
-     "triangle",
-     "hypotenuse",
-     "long"
-    ],
-    "topic": [
-     "right",
-     "triangle",
-     "angl",
-     "altitude",
-     "long",
-     "hypotenuse"
     ],
     "subtopic": []
    }
@@ -152412,140 +152329,6 @@
      "join",
      "point",
      "line"
-    ],
-    "subtopic": []
-   }
-  },
-  {
-   "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33",
-   "bank": "academicos-data/syllabus/questions.json",
-   "subject": "Social Science",
-   "grade": 10,
-   "level": "chapter",
-   "stem": "(a) How does credit play a positive and a negative role ? Explain with examples.",
-   "proposed": {
-    "chapterId": "social-science-10/money-and-credit",
-    "topicId": "social-science-10/money-and-credit/two-different-credit-situations",
-    "subtopicIds": []
-   },
-   "confidence": {
-    "chapter": 0.5566,
-    "topic": 0.5291,
-    "subtopic": null
-   },
-   "evidence": {
-    "chapter": [
-     "credit",
-     "positive",
-     "role",
-     "play"
-    ],
-    "topic": [
-     "credit",
-     "positive",
-     "play",
-     "role"
-    ],
-    "subtopic": [
-     "(topic as a whole)"
-    ]
-   }
-  },
-  {
-   "id": "cbse:q:src:856803fb4333bfbe91cef527:31",
-   "bank": "academicos-data/syllabus/questions.json",
-   "subject": "Social Science",
-   "grade": 10,
-   "level": "chapter",
-   "stem": "(a) Explain any five factors affecting the location of industries. 5 1=5",
-   "proposed": {
-    "chapterId": "social-science-10/globalisation-and-the-indian-economy",
-    "topicId": "social-science-10/globalisation-and-the-indian-economy/factors-that-have-enabled-globalisation",
-    "subtopicIds": []
-   },
-   "confidence": {
-    "chapter": 0.3187,
-    "topic": 0.2453,
-    "subtopic": null
-   },
-   "evidence": {
-    "chapter": [
-     "location",
-     "industry",
-     "factor",
-     "affect",
-     "five"
-    ],
-    "topic": [
-     "factor",
-     "industry"
-    ],
-    "subtopic": []
-   }
-  },
-  {
-   "id": "cbse:q:src:856803fb4333bfbe91cef527:32",
-   "bank": "academicos-data/syllabus/questions.json",
-   "subject": "Social Science",
-   "grade": 10,
-   "level": "chapter",
-   "stem": "(a) Explain the process of unification of Germany.",
-   "proposed": {
-    "chapterId": "social-science-10/the-rise-of-nationalism-in-europe",
-    "topicId": "social-science-10/the-rise-of-nationalism-in-europe/the-making-of-germany-and-italy",
-    "subtopicIds": []
-   },
-   "confidence": {
-    "chapter": 0.4243,
-    "topic": 0.4038,
-    "subtopic": null
-   },
-   "evidence": {
-    "chapter": [
-     "unification",
-     "germany",
-     "process"
-    ],
-    "topic": [
-     "process",
-     "unification",
-     "germany"
-    ],
-    "subtopic": [
-     "(topic as a whole)"
-    ]
-   }
-  },
-  {
-   "id": "cbse:q:src:f73780490a16ef016ae67e67:27",
-   "bank": "academicos-data/syllabus/questions.json",
-   "subject": "Social Science",
-   "grade": 10,
-   "level": "topic",
-   "stem": "Analyse any three challenges faced by political parties in India.",
-   "proposed": {
-    "chapterId": "social-science-10/political-parties",
-    "topicId": "social-science-10/political-parties/challenges-to-political-parties",
-    "subtopicIds": []
-   },
-   "confidence": {
-    "chapter": 0.8782,
-    "topic": 0.6806,
-    "subtopic": null
-   },
-   "evidence": {
-    "chapter": [
-     "party",
-     "political",
-     "challenge",
-     "faced",
-     "india",
-     "three"
-    ],
-    "topic": [
-     "challenge",
-     "party",
-     "political"
     ],
     "subtopic": []
    }
@@ -159270,9 +159053,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.5531,
-    "topic": 0.3576,
-    "subtopic": 0.2604
+    "chapter": 0.5281,
+    "topic": 0.3415,
+    "subtopic": 0.2487
    },
    "evidence": {
     "chapter": [
@@ -159487,9 +159270,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.9736,
-    "topic": 0.957,
-    "subtopic": 0.5648
+    "chapter": 0.9709,
+    "topic": 0.9544,
+    "subtopic": 0.5632
    },
    "evidence": {
     "chapter": [
@@ -159534,9 +159317,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.992,
-    "topic": 0.5504,
-    "subtopic": 0.2877
+    "chapter": 0.9911,
+    "topic": 0.5499,
+    "subtopic": 0.2875
    },
    "evidence": {
     "chapter": [
@@ -159580,9 +159363,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.998,
-    "topic": 0.6592,
-    "subtopic": 0.4265
+    "chapter": 0.9977,
+    "topic": 0.6591,
+    "subtopic": 0.4264
    },
    "evidence": {
     "chapter": [
@@ -163582,8 +163365,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9056,
-    "topic": 0.7186,
+    "chapter": 0.9068,
+    "topic": 0.7195,
     "subtopic": null
    },
    "evidence": {
@@ -164768,8 +164551,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.8114,
-    "topic": 0.4212,
+    "chapter": 0.8136,
+    "topic": 0.4223,
     "subtopic": null
    },
    "evidence": {
@@ -164805,8 +164588,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.8474,
-    "topic": 0.4928,
+    "chapter": 0.8493,
+    "topic": 0.4939,
     "subtopic": null
    },
    "evidence": {
@@ -164842,8 +164625,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6994,
-    "topic": 0.3839,
+    "chapter": 0.7025,
+    "topic": 0.3856,
     "subtopic": null
    },
    "evidence": {
@@ -164879,8 +164662,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9057,
-    "topic": 0.4862,
+    "chapter": 0.907,
+    "topic": 0.4869,
     "subtopic": null
    },
    "evidence": {
@@ -164916,8 +164699,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6555,
-    "topic": 0.4812,
+    "chapter": 0.6588,
+    "topic": 0.4837,
     "subtopic": null
    },
    "evidence": {
@@ -164953,8 +164736,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9618,
-    "topic": 0.7182,
+    "chapter": 0.9623,
+    "topic": 0.7186,
     "subtopic": null
    },
    "evidence": {
@@ -165085,7 +164868,7 @@
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Social Science",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Differentiate between democratic and non-democratic government.",
    "proposed": {
     "chapterId": "social-science-10/outcomes-of-democracy",
@@ -165093,8 +164876,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.7954,
-    "topic": 0.5454,
+    "chapter": 0.6946,
+    "topic": 0.4763,
     "subtopic": null
    },
    "evidence": {
@@ -165198,8 +164981,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.795,
-    "topic": 0.7348,
+    "chapter": 0.7974,
+    "topic": 0.7371,
     "subtopic": null
    },
    "evidence": {
@@ -165920,9 +165703,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.5561,
-    "topic": 0.4546,
-    "subtopic": 0.3599
+    "chapter": 0.5138,
+    "topic": 0.4201,
+    "subtopic": 0.3325
    },
    "evidence": {
     "chapter": [
@@ -165956,7 +165739,7 @@
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Social Science",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Underemployment is caused when - A. More workers are employed than actually required B. Fewer workers are employed than actually required C. Workers are paid more than their actual output D. Jobs are given only to highly educated workers (A) More workers are employed than actually required (B) Fewer",
    "proposed": {
     "chapterId": "social-science-10/sectors-of-the-indian-economy",
@@ -165964,8 +165747,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.7414,
-    "topic": 0.532,
+    "chapter": 0.7219,
+    "topic": 0.518,
     "subtopic": null
    },
    "evidence": {
@@ -166047,8 +165830,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.8341,
-    "topic": 0.5769,
+    "chapter": 0.8225,
+    "topic": 0.5689,
     "subtopic": null
    },
    "evidence": {
@@ -166084,8 +165867,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.4304,
-    "topic": 0.2567,
+    "chapter": 0.4398,
+    "topic": 0.2624,
     "subtopic": null
    },
    "evidence": {

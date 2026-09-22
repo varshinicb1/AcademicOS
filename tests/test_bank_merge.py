@@ -2324,3 +2324,30 @@ def test_a_content_coded_id_still_takes_its_strands_name():
     out, counts = bm.resolve_chapter_ids(recs, {("Mathematics", 10): MATHS_10})
     assert [r["chapterIds"] for r in out] == [["algebra"], ["algebra"]]
     assert counts == {"resolved": 2, "dropped": 0}
+
+
+def test_a_cbe_record_out_of_scope_keeps_its_own_reason_too():
+    """The board path files the glyph after the FULL gate; the CBE/SQP path
+    filed it after `source_reason` alone, so a record `normalise` or the MCQ
+    gates already refuse for a more useful reason was labelled
+    private-use-glyph instead -- three real SQP records that also span two
+    sections, at a0e156e."""
+    rec = board(source="cbse_question_bank", grade=9, marks=1, type="mcq",
+                stem="Choose the correct value of the current \uf0f0 in the "
+                     "circuit shown:")
+    result = bm.compose([], [rec], [])
+    assert [e["reason"] for e in result.excluded] == ["mcq-options-unresolved"]
+
+
+def test_a_key_whose_marks_are_unallocated_is_not_served():
+    """An answer key whose marking points all carry 0 marks prints every value
+    point as "[0m]": the teacher is shown a key that allocates nothing. The
+    re-audit of 2026-09-22 found 38% of the then-live bank like this. A key
+    that cannot say what each point is worth is no key (PRD rule Q1)."""
+    rec = board(i=2)
+    rec["answerScheme"]["markingPoints"] = [
+        {"id": "mp1", "description": "Scattering of light", "marks": 0,
+         "keyword": "scattering", "isRequired": True, "synonyms": []}]
+    result = bm.compose([rec], [], [])
+    assert [e["reason"] for e in result.excluded] == ["scheme-marks-unallocated"]
+    assert result.questions == []

@@ -203,6 +203,10 @@ EXEMPLAR_SOURCE = "ncert_exemplar"
 NO_VERIFIED_KEY = "no-verified-key"
 # A CBE, SQP or Exemplar key the relink would remove (question_bank.builder_key_reason).
 KEY_REJECTED = "key-rejected"
+# A key whose value points are all worth 0 marks: the paper prints every point
+# as "[0m]", so it tells a teacher nothing about how to award the marks. The
+# re-audit of 2026-09-22 found 38% of the then-live bank like this.
+SCHEME_MARKS_UNALLOCATED = "scheme-marks-unallocated"
 
 # The values each phone converter accepts (frontend/lib/domain/entities/enums.dart).
 BLOOM_LEVELS = frozenset({"remember", "understand", "apply", "analyze", "evaluate", "create"})
@@ -1594,6 +1598,23 @@ class ComposeResult:
     repairs: dict[str, int] = field(default_factory=dict)
 
 
+def unallocated_marks_reason(rec: dict) -> str | None:
+    """`SCHEME_MARKS_UNALLOCATED` when the record's key allocates nothing.
+
+    A key that lists its value points but gives every one 0 marks reads, in
+    the printed answer key, as "[0m]" against each point: PRD rule Q1's "no
+    answer key, no question" applied to what the key actually says. A key
+    that allocates SOME marks is kept as the paper printed it -- only "all
+    points at zero, on a question worth marks" is refused."""
+    scheme = rec.get("answerScheme") or {}
+    points = scheme.get("markingPoints") or []
+    if not points or not (rec.get("marks") or 0):
+        return None
+    if any((p.get("marks") or 0) > 0 for p in points):
+        return None
+    return SCHEME_MARKS_UNALLOCATED
+
+
 def _excluded(rec: dict, reason: str) -> dict:
     return {"id": rec.get("id"), "source": rec.get("source"), "reason": reason,
             "subject": rec.get("subject"), "grade": rec.get("grade"),
@@ -1728,7 +1749,7 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             withheld.append(rec)
             continue
         fixed, reason, made, glyph = repair_board(rec)
-        reason = reason or exclusion_reason(fixed)
+        reason = reason or exclusion_reason(fixed) or unallocated_marks_reason(fixed)
         # Last, as on the CBE/SQP path below: a record already out of scope for
         # a more informative reason keeps that reason.
         if reason is None and glyph is not None:
@@ -1771,8 +1792,6 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             # private-use-glyph" -- about twice this change's real cost, with
             # a dozen answer-bleed records hidden behind the wrong label.
             reason = source_reason(raw)
-            if reason is None and glyph is not None:
-                reason = PRIVATE_USE_GLYPH
             if reason:
                 excluded.append(_excluded(raw, reason))
                 continue
@@ -1789,6 +1808,13 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             # is served here keeps its key there.
             if reason is None and builder_key_reason(rec) is not None:
                 reason = KEY_REJECTED
+            reason = reason or unallocated_marks_reason(rec)
+            # Last, as on the board path: a record already out of scope for a
+            # more informative reason keeps that reason. Filed after
+            # `source_reason` alone, the glyph claimed three SQP records that
+            # also span two sections.
+            if reason is None and glyph is not None:
+                reason = PRIVATE_USE_GLYPH
             if reason:
                 excluded.append(_excluded(raw, reason))
                 continue
