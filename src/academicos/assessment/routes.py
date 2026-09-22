@@ -312,6 +312,13 @@ def _similar_question_warnings(selected: list[QuestionSchema], *,
     return warnings, pairs
 
 
+def _borrowing_warnings(opt_result) -> list[str]:
+    """The optimizer's gap lines that say a section was filled from outside
+    the chapters the request chose. The other gap lines are about a section
+    printing short, which `_shortfall_warnings` says from the paper itself."""
+    return [g for g in opt_result.gaps if "outside the selected chapters" in g]
+
+
 def _shortfall_warnings(paper: GeneratedPaper, blueprint: Blueprint) -> list[str]:
     """What a paper holding fewer marks than its blueprint asked for says
     about it: the total first, then each section that prints short, in
@@ -517,8 +524,14 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
         # and setOverlap counts it.
         alternatives_pool=chapter_candidates or all_pool_questions,
     )
-    # The optimizer's warnings (the CBQ one, "tiers unavailable") were dropped here.
-    paper.warnings = [*opt_result.warnings, *_overlap_warnings(paper),
+    # The optimizer's warnings (the CBQ one, "tiers unavailable") were dropped
+    # here, and so were its `gaps`: a paper that filled a short section from
+    # OUTSIDE the chapters the teacher chose said nothing about it (3 of 20
+    # questions on Science 10, 40 marks, three chapters -- merge of
+    # 2026-09-23). A unit test carrying untaught chapters is exactly the wrong
+    # answer a teacher would not catch until the exam.
+    paper.warnings = [*opt_result.warnings, *_borrowing_warnings(opt_result),
+                      *_overlap_warnings(paper),
                       *_report_competency(paper, bp.competency_percentage)]
     paper.tiers_available = opt_result.optimization_metrics["tierSignals"]["available"]
     if paper.tiers_available and not selection.tier_changed_selection(

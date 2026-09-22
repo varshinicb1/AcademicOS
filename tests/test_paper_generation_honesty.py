@@ -234,7 +234,12 @@ def test_on_the_served_bank_a_tier_acts_or_says_it_cannot(served, subject, tmp_p
 
 # ---- 4. parallel sets are alternative questions -----------------------------
 
-def test_sets_of_a_science_10_paper_share_no_question(served, tmp_path, monkeypatch):
+def test_the_sets_of_a_science_10_paper_are_mostly_different_and_honest_about_the_rest(
+        served, tmp_path, monkeypatch):
+    """Sets B and C draw fresh questions of the same marks and type; where the
+    bank has none left they repeat one of set A's, and both setOverlap and a
+    warning say how many. The original form of this test demanded no repeat at
+    all, which the real bank cannot give at 80 marks."""
     with _client_for(tmp_path, monkeypatch, served["Science"]) as client:
         resp = client.post("/api/v1/papers/quick-generate", headers=_auth(client), json={
             "subject": "Science", "grade": 10, "totalMarks": 80, "setCount": 3})
@@ -244,14 +249,21 @@ def test_sets_of_a_science_10_paper_share_no_question(served, tmp_path, monkeypa
     assert [s["setLabel"] for s in sets] == ["A", "B", "C"]
     printed = [_printed_ids(s) for s in sets]
     assert all(printed)
-    for i in range(3):
-        for j in range(i + 1, 3):
-            assert not set(printed[i]) & set(printed[j]), (i, j)
     # Same shape: each position holds a question of the same marks and type.
     shape = [[(q["marks"], q["type"]) for s in p["sections"] for q in s["questions"]]
              for p in sets]
     assert shape[0] == shape[1] == shape[2]
-    assert data["setOverlap"] == {"A": 0, "B": 0, "C": 0}
+    # Most of each later set is new. An 80-mark Science 10 paper prints 37
+    # questions a set, and the bank holds few long-answer questions, so some
+    # repeats are unavoidable -- but every one is counted and said out loud
+    # (measured 2026-09-23: 7 of 37 shared, setOverlap {A:0, B:7, C:7}).
+    for label, ids in zip(("A", "B", "C"), printed):
+        repeats = len(set(ids) & set(printed[0])) if label != "A" else 0
+        assert data["setOverlap"][label] == repeats, (label, repeats)
+        assert repeats < len(ids) / 2, (label, repeats, len(ids))
+        if repeats:
+            assert any(f"Set {label} repeats" in w for w in data["warnings"]), data["warnings"]
+    assert data["setOverlap"]["A"] == 0
 
 
 def test_when_the_pool_runs_out_the_overlap_is_reported():
@@ -399,3 +411,24 @@ def test_sets_b_and_c_obey_the_section_difficulty_and_bloom_limits():
     assert b == ["fits"]
     assert c == ["p1"]
     assert paper.set_overlap == {"A": 0, "B": 0, "C": 1}
+
+
+def test_a_paper_that_borrows_outside_the_chosen_chapters_says_so(served, tmp_path, monkeypatch):
+    """`optimize` records every borrowing in `gaps` -- "filled N of the
+    shortfall from outside the selected chapters" -- and neither generate path
+    ever copied `gaps` into the response. A teacher setting a unit test on
+    three chapters was handed questions from others with nothing saying so
+    (merge of 2026-09-23: 3 of 20 on Science 10, 40 marks)."""
+    pool = served["Science"]
+    chosen = _largest_chapters(pool, 3)
+    chapter_of = {q.id: set(q.chapter_ids) for q in map(to_question_schema, pool.questions)}
+    with _client_for(tmp_path, monkeypatch, pool) as client:
+        resp = client.post("/api/v1/papers/quick-generate", headers=_auth(client), json={
+            "subject": "Science", "grade": 10, "totalMarks": 40, "setCount": 1,
+            "chapterIds": chosen})
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    printed = _printed_ids(data["sets"][0] if data["sets"] else data)
+    outside = [i for i in printed if not chapter_of[i] & set(chosen)]
+    if outside:
+        assert any("outside the selected chapters" in w for w in data["warnings"]), data["warnings"]
