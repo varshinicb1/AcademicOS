@@ -940,7 +940,45 @@ def _same_answer(ours: dict[str, Any], pick: dict[str, Any],
         return letters[0] == letters[1]
     if _collapse(a["text"]).casefold() == _collapse(b["text"]).casefold():
         return True
-    return share(join_terms(row_text(a["text"])), join_terms(row_text(b["text"]))) >= AGREE_SHARE
+    ta, tb = row_text(a["text"]), row_text(b["text"])
+    # Share is blind to what flips an answer: `join_terms` drops "not", "no",
+    # "yes" and single digits, so "It is a rational number" and "It is not a
+    # rational number" share every term. Editions of one answer keep the
+    # same polarity words and the same numbers; anything else is a conflict,
+    # which fails closed.
+    if _polarity(ta) != _polarity(tb) or _all_numbers(ta) != _all_numbers(tb):
+        return False
+    return share(join_terms(ta), join_terms(tb)) >= AGREE_SHARE
+
+
+# Words that turn one answer into its opposite, each mapped to its sense so
+# "isn't" and "not", "increases" and "increased" count alike.
+_POLARITY_WORD = re.compile(
+    r"\b(not|no|never|none|nor|neither|cannot|yes|true|false|"
+    r"increas\w*|decreas\w*|higher|lower|more|less|positive|negative)\b"
+    r"|n['’]t\b", re.I)
+_POLARITY_SENSE = {"never": "not", "none": "not", "nor": "not", "neither": "not",
+                   "cannot": "not", "n't": "not", "n’t": "not"}
+
+
+def _polarity(text: str) -> frozenset[str]:
+    senses = set()
+    for m in _POLARITY_WORD.finditer(text or ""):
+        w = m.group(0).casefold()
+        if w.startswith("increas"):
+            w = "increase"
+        elif w.startswith("decreas"):
+            w = "decrease"
+        senses.add(_POLARITY_SENSE.get(w, w))
+    return frozenset(senses)
+
+
+_ANY_NUMBER = re.compile(r"\d+(?:\.\d+)?")
+
+
+def _all_numbers(text: str) -> frozenset[str]:
+    """Every number, single digits too (`join_terms` keeps two characters up)."""
+    return frozenset(n.lstrip("0") or "0" for n in _ANY_NUMBER.findall(text or ""))
 
 
 def _serve_neither(rec: dict[str, Any], report: RelinkReport, pick: dict[str, Any],
@@ -955,7 +993,10 @@ def _serve_neither(rec: dict[str, Any], report: RelinkReport, pick: dict[str, An
     nine MCQs of 66/1/1 such as Q16 'Personal selling' against 'Sales
     promotion') and 2 descriptive keys whose join row restates the question
     first (430/5/1 Q24, 430/5/2 Q28) -- likely one answer, but `_same_answer`
-    cannot tell, and a conflict fails closed. Both schemes are quarantined
+    cannot tell, and a conflict fails closed. A 14th since `_same_answer`
+    also requires the same polarity words and numbers: 5884c691 Q31 (lens of
+    +4D), whose join row is cut to "Focal length of lens, f(m) =" against our
+    "... Real and inverted Magnification = -1". Both schemes are quarantined
     whole, each naming the other, and the record keeps no scheme (the merge
     withholds it as no-verified-key) -- only its own key, held under
     `metadata.conflictingKeys` for the next relink to compare again."""

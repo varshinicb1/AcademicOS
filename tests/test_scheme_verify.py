@@ -1100,6 +1100,22 @@ def test_one_answer_written_two_ways_is_no_conflict():
                             "secondary sectors by providing transport and banking"}
     assert _same_answer(one, edition, {})
     assert not _same_answer(one, other, {})
+    # Share alone is blind to polarity and small numbers: `join_terms` drops
+    # "not", "no", "yes" and single digits, so these pairs share almost
+    # every term and are opposite answers. A conflict fails closed.
+    def says(text: str) -> dict:
+        return {"modelAnswer": text}
+    assert not _same_answer(says("It is a rational number"),
+                            says("It is not a rational number"), {})
+    assert not _same_answer(says("Yes, the demand increases because price falls"),
+                            says("No, the demand decreases because price falls"), {})
+    assert not _same_answer(says("The focal length of the lens is 5 cm, a convex lens"),
+                            says("The focal length of the lens is 2 cm, a convex lens"), {})
+    assert not _same_answer(says("Rise in capital intensive techniques reduces employment"),
+                            says("Rise in capital intensive techniques never reduces employment"), {})
+    # Polarity words and numbers that match on both sides still agree.
+    assert _same_answer(says("No, it is not a rational number since 2 has no square root"),
+                        says("No; it is not rational number, since 2 has no square root"), {})
 
 
 @pytest.mark.parametrize("rows", [[EN_KEY, HI_KEY], [HI_KEY, EN_KEY]])
@@ -1594,7 +1610,45 @@ def test_the_census_picks_are_what_choose_picks_today():
         return choice
 
     index.choose = recording
-    relink_answer_schemes(records, index, parse_dir=DATA / "parse")
+    # Which records keep their scheme because `_same_answer` finds the two
+    # descriptive keys share enough terms -- the one path where agreement
+    # is a threshold, not a letter or the same text. Pinned so a change to
+    # `AGREE_SHARE`, `join_terms` or the polarity/number guard cannot widen
+    # it quietly: each id here was read by hand as one answer in two
+    # editions (credit's roles 3901e48d:22, Ravi/Kavi/Chand 7d85e69a:33,
+    # Archana/Vandana be7fd195:22, capital-intensive d4ab2844:21).
+    import academicos.assessment.question_bank as qb
+    by_share: set[str] = set()
+    real_same = qb._same_answer
+
+    def same(ours, pick, options):
+        agree = real_same(ours, pick, options)
+        a, b = qb._answer_of(ours), qb._answer_of(pick)
+        lettered = all(x["option"] or qb.outright_option(x["text"], options) for x in (a, b))
+        if agree and not lettered and qb._collapse(a["text"]).casefold() != qb._collapse(
+                b["text"]).casefold():
+            by_share.add(current["id"])
+        return agree
+
+    current: dict[str, str] = {}
+    choose_then = index.choose
+
+    def tracking(code, q_no, record, *, siblings=()):
+        current["id"] = record.get("id")
+        return choose_then(code, q_no, record, siblings=siblings)
+
+    index.choose = tracking
+    qb._same_answer = same
+    try:
+        relink_answer_schemes(records, index, parse_dir=DATA / "parse")
+    finally:
+        qb._same_answer = real_same
+    assert by_share == {
+        "cbse:q:src:3901e48d946b1f956b5a21c7:22",
+        "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33",
+        "cbse:q:src:be7fd19527d3a0bcac687817:22",
+        "cbse:q:src:d4ab284479dbd2fbc3a07c7f:21",
+    }, f"agree-by-share decisions moved: {sorted(by_share)} -- read each pair by hand"
 
     assert seen.keys() == census.keys()
     # The precision below is measured on the judged pairs only, so the set
