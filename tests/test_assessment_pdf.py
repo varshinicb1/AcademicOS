@@ -498,3 +498,25 @@ def test_a_render_failure_is_a_422_naming_the_cause_and_is_not_audited(
         assert get_audit_log(tmp_path).for_action(action) == []
     finally:
         client.__exit__(None, None, None)
+
+
+def test_the_teachers_header_and_instructions_are_printed(tmp_path):
+    """A paper generated from a teacher's template carries its school name,
+    exam name, date line, duration and instructions (Task 904); the PDF
+    prints them, and the teacher's instructions replace the canned ones."""
+    paper = _make_paper(title="Unit Test 1")
+    paper.metadata = paper.metadata.model_copy(update={
+        "school_name": "Green Valley School", "exam_name": "Unit Test 1",
+        "date_line": "Date: 3 October", "duration_minutes": 40,
+        "instructions": "Write neatly.\nNo calculators are allowed.",
+    })
+    text = _extract_text(export_pdf(paper, tmp_path / "h"))
+    for expected in ("Green Valley School", "Unit Test 1", "Date: 3 October",
+                     "0 hours 40 minutes", "Write neatly.", "No calculators are allowed."):
+        assert expected in text, expected
+    assert "Draw neat diagrams" not in text      # the canned list is replaced
+
+
+def test_a_paper_without_a_header_keeps_the_default_instructions(tmp_path):
+    text = _extract_text(export_pdf(_make_paper(), tmp_path / "d"))
+    assert "Draw neat diagrams" in text

@@ -56,6 +56,18 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("DELETE", "/api/v1/assessments/{assessment_id}"),
     ("PATCH", "/api/v1/assessments/{assessment_id}/status"),
     ("PATCH", "/api/v1/assessments/{assessment_id}/approve"),
+    # --- paper_template_routes.py (teacher paper templates, Task 901) ---
+    ("GET", "/api/v1/schools/{school_id}/teacher-templates"),
+    ("POST", "/api/v1/schools/{school_id}/teacher-templates"),
+    ("GET", "/api/v1/schools/{school_id}/teacher-templates/{template_id}"),
+    ("PUT", "/api/v1/schools/{school_id}/teacher-templates/{template_id}"),
+    ("DELETE", "/api/v1/schools/{school_id}/teacher-templates/{template_id}"),
+    ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/share"),
+    ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/duplicate"),
+    ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/availability"),
+    ("POST", "/api/v1/papers/generate-from-template"),
+    ("POST", "/api/v1/papers/{paper_id}/questions/{slot}/swap"),
+    ("POST", "/api/v1/papers/{paper_id}/questions/{slot}"),
     # --- auth_routes.py (teacher/principal identity) ---
     ("POST", "/api/v1/auth/register"),
     ("POST", "/api/v1/auth/login"),
@@ -221,6 +233,18 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("DELETE", "/api/v1/assessments/{assessment_id}"),
     ("PATCH", "/api/v1/assessments/{assessment_id}/status"),
     ("PATCH", "/api/v1/assessments/{assessment_id}/approve"),
+    # --- paper_template_routes.py (teacher paper templates) ---
+    ("GET", "/api/v1/schools/{school_id}/teacher-templates"),
+    ("POST", "/api/v1/schools/{school_id}/teacher-templates"),
+    ("GET", "/api/v1/schools/{school_id}/teacher-templates/{template_id}"),
+    ("PUT", "/api/v1/schools/{school_id}/teacher-templates/{template_id}"),
+    ("DELETE", "/api/v1/schools/{school_id}/teacher-templates/{template_id}"),
+    ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/share"),
+    ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/duplicate"),
+    ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/availability"),
+    ("POST", "/api/v1/papers/generate-from-template"),
+    ("POST", "/api/v1/papers/{paper_id}/questions/{slot}/swap"),
+    ("POST", "/api/v1/papers/{paper_id}/questions/{slot}"),
     # --- auth_routes.py (identity reads + principal approval) ---
     ("GET", "/api/v1/auth/me"),
     ("GET", "/api/v1/auth/users"),
@@ -369,6 +393,7 @@ def _concrete_path(path: str) -> str:
         .replace("{question_id}", "q_1")
         .replace("{page_no}", "1")
         .replace("{code}", "inv_1")
+        .replace("{slot}", "1")
     )
 
 
@@ -452,6 +477,14 @@ def school_template_body(template_id: str = "tpl_1") -> dict:
     return {"id": template_id, "schoolId": "school_1", "name": "Default"}
 
 
+def teacher_template_body(name: str = "Unit test") -> dict:
+    return {
+        "name": name, "grade": 10, "subject": "Science", "examType": "unit_test",
+        "totalMarks": 5, "durationMinutes": 40,
+        "sections": [{"title": "Section A", "questionCount": 5, "marksEach": 1}],
+    }
+
+
 def _valid_body_for(method: str, path: str) -> dict:
     """A body that passes FastAPI request validation for the route, so the
     handler's own `_require()` (503 before init) is what fires instead of a
@@ -501,6 +534,19 @@ def _valid_body_for(method: str, path: str) -> dict:
         return {"setId": "s", "answers": {}}
     if path == "/api/v1/schools/{school_id}/school-templates":
         return {"template": school_template_body(), "sections": []}
+    if path in ("/api/v1/schools/{school_id}/teacher-templates",
+                "/api/v1/schools/{school_id}/teacher-templates/{template_id}"):
+        return teacher_template_body()
+    if path == "/api/v1/schools/{school_id}/teacher-templates/{template_id}/share":
+        return {"shared": True}
+    if path == "/api/v1/papers/generate-from-template":
+        return {"templateId": "tpl_1"}
+    if path == "/api/v1/papers/{paper_id}/questions/{slot}":
+        return {"questionId": "q_1"}
+    if path == "/api/v1/papers/{paper_id}/questions/{slot}/swap":
+        return {}
+    if path.startswith("/api/v1/schools/{school_id}/teacher-templates/"):
+        return {}  # duplicate / availability: every field optional
     if path == "/api/v1/auth/register":
         return {"inviteCode": "inv_1", "name": "Teacher One",
                 "email": "teacher1@example.com", "password": "correct horse battery"}
@@ -541,7 +587,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 137
+    assert len(API_ROUTES) == 148
 
 
 def test_docs_routes_present():
@@ -2999,3 +3045,88 @@ def test_full_boot_topic_and_subtopic_sequence_routes(tmp_path, monkeypatch):
         topics = client.get(f"/api/v1/curriculum/chapters/{chapter['id']}/topics", headers=auth).json()
         topic = next(t for t in topics if t["id"] == first["id"])
         assert [st["name"] for st in topic["subtopics"]] == ["Word equations", "Balancing equations"]
+
+
+def test_full_boot_teacher_paper_templates(tmp_path, monkeypatch):
+    """Every paper_template_routes.py route once on the happy path and once
+    on a proper 4xx. The behaviour in depth (sharing, presets, availability
+    numbers, gap handling) is tests/test_paper_templates.py; this is the
+    inventory's walk. Empty corpus, so generation is a 400 with the
+    availability attached rather than a paper."""
+    with _boot_client(tmp_path, monkeypatch) as client:
+        teacher = client.post("/api/v1/auth/register", json={
+            "inviteCode": invite_code("school_1"), "name": "Template Teacher",
+            "email": "tpl-walk@example.com", "password": "correct horse battery",
+        }).json()
+        auth = {"Authorization": f"Bearer {teacher['token']}"}
+        base = "/api/v1/schools/school_1/teacher-templates"
+
+        listed = client.get(base, headers=auth)
+        assert listed.status_code == 200 and listed.json()["presets"]
+        assert client.get("/api/v1/schools/school_2/teacher-templates",
+                          headers=auth).status_code == 403
+
+        assert client.post(base, json={}, headers=auth).status_code == 422
+        created = client.post(base, json=teacher_template_body(), headers=auth)
+        assert created.status_code == 200, created.text
+        tid = created.json()["id"]
+
+        assert client.get(f"{base}/{tid}", headers=auth).status_code == 200
+        assert client.get(f"{base}/missing", headers=auth).status_code == 404
+        assert client.put(f"{base}/{tid}", json=teacher_template_body("Renamed"),
+                          headers=auth).json()["name"] == "Renamed"
+        assert client.put(f"{base}/missing", json=teacher_template_body(),
+                          headers=auth).status_code == 404
+        assert client.post(f"{base}/{tid}/share", json={"shared": True},
+                           headers=auth).json()["shared"] is True
+        assert client.post(f"{base}/{tid}/share", json={}, headers=auth).status_code == 422
+        dup = client.post(f"{base}/{tid}/duplicate", json={}, headers=auth)
+        assert dup.status_code == 200 and dup.json()["basedOn"] == tid
+        assert client.post(f"{base}/missing/duplicate", json={},
+                           headers=auth).status_code == 404
+
+        avail = client.post(f"{base}/{tid}/availability", json={}, headers=auth)
+        assert avail.status_code == 200
+        assert avail.json()["sections"][0]["shortfall"] == 5
+        assert client.post(f"{base}/missing/availability", json={},
+                           headers=auth).status_code == 404
+
+        gen = client.post("/api/v1/papers/generate-from-template",
+                          json={"templateId": tid}, headers=auth)
+        assert gen.status_code == 400
+        assert gen.json()["detail"]["availability"]["complete"] is False
+        assert client.post("/api/v1/papers/generate-from-template", json={},
+                           headers=auth).status_code == 422
+
+        assert client.delete(f"{base}/{tid}", headers=auth).json() == {"ok": True}
+        assert client.delete(f"{base}/{tid}", headers=auth).status_code == 404
+
+        # Swap / pick one question: a paper from a seeded 1-mark bank.
+        from academicos.assessment import pool as pool_mod
+        from academicos.models.academic import Question
+
+        bank = pool_mod.QuestionPool()
+        for i, word in enumerate(("magnet", "glacier", "enzyme", "turbine", "orbit",
+                                  "pigment", "lantern")):
+            rec = question_body(f"inv_q{i}", marks=1)
+            rec.update({"subject": "Science", "stem": f"Explain how a {word} works."})
+            bank.questions.append(pool_mod.PoolQuestion(
+                question=Question(canonical_id=rec["id"], title=rec["stem"],
+                                  source_text=rec["stem"], marks=1.0),
+                subject="Science", grade="X", academic_year="2024", chapter_id="ch1",
+                chapter_name=None, chapter_confidence=0.9, text_hash=rec["id"],
+                record=rec))
+        monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), bank)
+        tid = client.post(base, json=teacher_template_body(), headers=auth).json()["id"]
+        paper = client.post("/api/v1/papers/generate-from-template",
+                            json={"templateId": tid}, headers=auth).json()["paper"]
+        pid = paper["id"]
+        swap = client.post(f"/api/v1/papers/{pid}/questions/1/swap", headers=auth)
+        assert swap.status_code == 200, swap.text
+        assert client.post("/api/v1/papers/missing/questions/1/swap",
+                           headers=auth).status_code == 404
+        pick = client.post(f"/api/v1/papers/{pid}/questions/1", headers=auth,
+                           json={"questionId": swap.json()["replacedQuestionId"]})
+        assert pick.status_code == 200, pick.text
+        assert client.post(f"/api/v1/papers/{pid}/questions/1", json={},
+                           headers=auth).status_code == 422

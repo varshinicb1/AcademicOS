@@ -591,6 +591,81 @@
         "title": "AuthResponse",
         "type": "object"
       },
+      "AvailabilityReport": {
+        "properties": {
+          "bankQuestions": {
+            "title": "Bankquestions",
+            "type": "integer"
+          },
+          "complete": {
+            "title": "Complete",
+            "type": "boolean"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "keyedQuestions": {
+            "title": "Keyedquestions",
+            "type": "integer"
+          },
+          "scopeNotes": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Scopenotes",
+            "type": "array"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/SectionAvailability"
+            },
+            "title": "Sections",
+            "type": "array"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          },
+          "templateId": {
+            "title": "Templateid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "templateId",
+          "grade",
+          "subject",
+          "bankQuestions",
+          "keyedQuestions",
+          "complete",
+          "sections"
+        ],
+        "title": "AvailabilityReport",
+        "type": "object"
+      },
+      "AvailabilityRequest": {
+        "properties": {
+          "fillFromOutsideScope": {
+            "default": false,
+            "title": "Fillfromoutsidescope",
+            "type": "boolean"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TemplateScope"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "title": "AvailabilityRequest",
+        "type": "object"
+      },
       "BloomDistribution": {
         "properties": {
           "analyze": {
@@ -1889,6 +1964,23 @@
         "title": "DoubtRequest",
         "type": "object"
       },
+      "DuplicateRequest": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          }
+        },
+        "title": "DuplicateRequest",
+        "type": "object"
+      },
       "EnrollStudentRequest": {
         "properties": {
           "gradeId": {
@@ -2286,7 +2378,6 @@
             "title": "Assessmentid"
           },
           "grade": {
-            "default": 10,
             "title": "Grade",
             "type": "integer"
           },
@@ -2296,6 +2387,11 @@
             },
             "title": "Questionids",
             "type": "array"
+          },
+          "rejectSimilar": {
+            "default": false,
+            "title": "Rejectsimilar",
+            "type": "boolean"
           },
           "subject": {
             "title": "Subject",
@@ -2320,9 +2416,61 @@
         },
         "required": [
           "subject",
+          "grade",
           "questionIds"
         ],
         "title": "GenerateFromIdsRequest",
+        "type": "object"
+      },
+      "GenerateFromTemplateRequest": {
+        "properties": {
+          "allowGaps": {
+            "default": false,
+            "title": "Allowgaps",
+            "type": "boolean"
+          },
+          "fillFromOutsideScope": {
+            "default": false,
+            "title": "Fillfromoutsidescope",
+            "type": "boolean"
+          },
+          "scope": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TemplateScope"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "setCount": {
+            "default": 1,
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Setcount",
+            "type": "integer"
+          },
+          "templateId": {
+            "title": "Templateid",
+            "type": "string"
+          },
+          "title": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Title"
+          }
+        },
+        "required": [
+          "templateId"
+        ],
+        "title": "GenerateFromTemplateRequest",
         "type": "object"
       },
       "GeneratedPaper": {
@@ -2376,6 +2524,13 @@
               "$ref": "#/components/schemas/GeneratedPaper"
             },
             "title": "Sets",
+            "type": "array"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
             "type": "array"
           }
         },
@@ -2451,6 +2606,11 @@
           "stemLatex": {
             "default": "",
             "title": "Stemlatex",
+            "type": "string"
+          },
+          "type": {
+            "default": "",
+            "title": "Type",
             "type": "string"
           }
         },
@@ -3062,6 +3222,51 @@
         "title": "NodeQuery",
         "type": "object"
       },
+      "PaperEditResponse": {
+        "properties": {
+          "counts": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SwapCounts"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "notes": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+          },
+          "paper": {
+            "$ref": "#/components/schemas/GeneratedPaper"
+          },
+          "questionId": {
+            "title": "Questionid",
+            "type": "string"
+          },
+          "replacedQuestionId": {
+            "title": "Replacedquestionid",
+            "type": "string"
+          },
+          "slot": {
+            "title": "Slot",
+            "type": "string"
+          }
+        },
+        "required": [
+          "paper",
+          "slot",
+          "replacedQuestionId",
+          "questionId"
+        ],
+        "title": "PaperEditResponse",
+        "type": "object"
+      },
       "PaperGenerationRequest": {
         "properties": {
           "assessmentId": {
@@ -3082,6 +3287,11 @@
               }
             ],
             "title": "Formattingoptions"
+          },
+          "rejectSimilar": {
+            "default": false,
+            "title": "Rejectsimilar",
+            "type": "boolean"
           },
           "selectedQuestions": {
             "items": {
@@ -3125,9 +3335,31 @@
             "title": "Assessmenttitle",
             "type": "string"
           },
+          "dateLine": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dateline"
+          },
           "durationMinutes": {
             "title": "Durationminutes",
             "type": "integer"
+          },
+          "examName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Examname"
           },
           "examType": {
             "anyOf": [
@@ -3153,6 +3385,28 @@
           "grade": {
             "title": "Grade",
             "type": "integer"
+          },
+          "instructions": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Instructions"
+          },
+          "schoolName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Schoolname"
           },
           "setLabel": {
             "anyOf": [
@@ -3199,6 +3453,312 @@
           "generatedAt"
         ],
         "title": "PaperMetadataSchema",
+        "type": "object"
+      },
+      "PaperTemplate": {
+        "description": "A saved (or preset) teacher template.\n\n`kind` is how `TemplateStore` tells these apart from a school's branding\nrows in the same table, so the older `/school-templates` list never shows\na teacher's private paper to the rest of the school. `is_default` is\nalways False: a paper template must never displace the school's branding\ndefault, which every PDF without a template falls back to.",
+        "properties": {
+          "basedOn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Basedon"
+          },
+          "brandColor": {
+            "default": "#000000",
+            "title": "Brandcolor",
+            "type": "string"
+          },
+          "createdAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Createdat"
+          },
+          "durationMinutes": {
+            "minimum": 1.0,
+            "title": "Durationminutes",
+            "type": "integer"
+          },
+          "examType": {
+            "default": "custom",
+            "enum": [
+              "unit_test",
+              "periodic",
+              "half_yearly",
+              "annual",
+              "custom"
+            ],
+            "title": "Examtype",
+            "type": "string"
+          },
+          "fontFamily": {
+            "default": "Helvetica",
+            "title": "Fontfamily",
+            "type": "string"
+          },
+          "fontSize": {
+            "default": 11,
+            "title": "Fontsize",
+            "type": "integer"
+          },
+          "footerHtml": {
+            "default": "",
+            "title": "Footerhtml",
+            "type": "string"
+          },
+          "grade": {
+            "maximum": 12.0,
+            "minimum": 1.0,
+            "title": "Grade",
+            "type": "integer"
+          },
+          "header": {
+            "$ref": "#/components/schemas/TemplateHeader"
+          },
+          "headerHtml": {
+            "default": "",
+            "title": "Headerhtml",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "instructions": {
+            "default": "",
+            "title": "Instructions",
+            "type": "string"
+          },
+          "instructionsGenerated": {
+            "default": false,
+            "title": "Instructionsgenerated",
+            "type": "boolean"
+          },
+          "isDefault": {
+            "default": false,
+            "title": "Isdefault",
+            "type": "boolean"
+          },
+          "isPreset": {
+            "default": false,
+            "title": "Ispreset",
+            "type": "boolean"
+          },
+          "kind": {
+            "const": "paper",
+            "default": "paper",
+            "title": "Kind",
+            "type": "string"
+          },
+          "lineHeight": {
+            "default": 1.4,
+            "title": "Lineheight",
+            "type": "number"
+          },
+          "logoUrl": {
+            "default": "",
+            "title": "Logourl",
+            "type": "string"
+          },
+          "marginBottom": {
+            "default": 20,
+            "title": "Marginbottom",
+            "type": "number"
+          },
+          "marginLeft": {
+            "default": 20,
+            "title": "Marginleft",
+            "type": "number"
+          },
+          "marginRight": {
+            "default": 20,
+            "title": "Marginright",
+            "type": "number"
+          },
+          "marginTop": {
+            "default": 20,
+            "title": "Margintop",
+            "type": "number"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "ownerId": {
+            "default": "",
+            "title": "Ownerid",
+            "type": "string"
+          },
+          "patternStatus": {
+            "default": "teacher",
+            "enum": [
+              "cbse_board",
+              "suggested",
+              "teacher"
+            ],
+            "title": "Patternstatus",
+            "type": "string"
+          },
+          "schoolId": {
+            "title": "Schoolid",
+            "type": "string"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/TemplateScope"
+          },
+          "scopeNotes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scopenotes",
+            "type": "array"
+          },
+          "sectionFormatting": {
+            "additionalProperties": true,
+            "title": "Sectionformatting",
+            "type": "object"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/TemplateSection"
+            },
+            "minItems": 1,
+            "title": "Sections",
+            "type": "array"
+          },
+          "shared": {
+            "default": false,
+            "title": "Shared",
+            "type": "boolean"
+          },
+          "source": {
+            "default": "",
+            "title": "Source",
+            "type": "string"
+          },
+          "subject": {
+            "minLength": 1,
+            "title": "Subject",
+            "type": "string"
+          },
+          "tagline": {
+            "default": "",
+            "title": "Tagline",
+            "type": "string"
+          },
+          "totalMarks": {
+            "minimum": 1.0,
+            "title": "Totalmarks",
+            "type": "integer"
+          },
+          "updatedAt": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updatedat"
+          }
+        },
+        "required": [
+          "name",
+          "grade",
+          "subject",
+          "totalMarks",
+          "durationMinutes",
+          "sections",
+          "id",
+          "schoolId"
+        ],
+        "title": "PaperTemplate",
+        "type": "object"
+      },
+      "PaperTemplateDraft": {
+        "description": "What a teacher edits. Totals are checked here, on the way in, so a\ntemplate that cannot be printed as described is never saved.",
+        "properties": {
+          "durationMinutes": {
+            "minimum": 1.0,
+            "title": "Durationminutes",
+            "type": "integer"
+          },
+          "examType": {
+            "default": "custom",
+            "enum": [
+              "unit_test",
+              "periodic",
+              "half_yearly",
+              "annual",
+              "custom"
+            ],
+            "title": "Examtype",
+            "type": "string"
+          },
+          "grade": {
+            "maximum": 12.0,
+            "minimum": 1.0,
+            "title": "Grade",
+            "type": "integer"
+          },
+          "header": {
+            "$ref": "#/components/schemas/TemplateHeader"
+          },
+          "instructions": {
+            "default": "",
+            "title": "Instructions",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "scope": {
+            "$ref": "#/components/schemas/TemplateScope"
+          },
+          "sections": {
+            "items": {
+              "$ref": "#/components/schemas/TemplateSection"
+            },
+            "minItems": 1,
+            "title": "Sections",
+            "type": "array"
+          },
+          "subject": {
+            "minLength": 1,
+            "title": "Subject",
+            "type": "string"
+          },
+          "totalMarks": {
+            "minimum": 1.0,
+            "title": "Totalmarks",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "name",
+          "grade",
+          "subject",
+          "totalMarks",
+          "durationMinutes",
+          "sections"
+        ],
+        "title": "PaperTemplateDraft",
         "type": "object"
       },
       "ParentalConsentRecord": {
@@ -3347,6 +3907,20 @@
           "periodMinutes"
         ],
         "title": "PeriodConfigurationResponse",
+        "type": "object"
+      },
+      "PickRequest": {
+        "properties": {
+          "questionId": {
+            "minLength": 1,
+            "title": "Questionid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "questionId"
+        ],
+        "title": "PickRequest",
         "type": "object"
       },
       "PracticeItemResponse": {
@@ -4653,7 +5227,6 @@
             "title": "Examtype"
           },
           "grade": {
-            "default": 10,
             "title": "Grade",
             "type": "integer"
           },
@@ -4700,7 +5273,8 @@
           }
         },
         "required": [
-          "subject"
+          "subject",
+          "grade"
         ],
         "title": "QuickPaperRequest",
         "type": "object"
@@ -5549,6 +6123,95 @@
         "title": "SearchRequest",
         "type": "object"
       },
+      "SectionAvailability": {
+        "properties": {
+          "available": {
+            "title": "Available",
+            "type": "integer"
+          },
+          "borrowed": {
+            "default": 0,
+            "title": "Borrowed",
+            "type": "integer"
+          },
+          "choicesFilled": {
+            "default": 0,
+            "title": "Choicesfilled",
+            "type": "integer"
+          },
+          "choicesNeeded": {
+            "default": 0,
+            "title": "Choicesneeded",
+            "type": "integer"
+          },
+          "filled": {
+            "default": 0,
+            "title": "Filled",
+            "type": "integer"
+          },
+          "fixes": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/SectionFix"
+            },
+            "title": "Fixes",
+            "type": "array"
+          },
+          "marksEach": {
+            "title": "Markseach",
+            "type": "integer"
+          },
+          "needed": {
+            "title": "Needed",
+            "type": "integer"
+          },
+          "notes": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+          },
+          "outsideScopeAvailable": {
+            "default": 0,
+            "title": "Outsidescopeavailable",
+            "type": "integer"
+          },
+          "reason": {
+            "default": "",
+            "title": "Reason",
+            "type": "string"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "shortfall": {
+            "title": "Shortfall",
+            "type": "integer"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "withoutKey": {
+            "default": 0,
+            "title": "Withoutkey",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "sectionId",
+          "title",
+          "marksEach",
+          "needed",
+          "available",
+          "shortfall"
+        ],
+        "title": "SectionAvailability",
+        "type": "object"
+      },
       "SectionBlueprint": {
         "properties": {
           "allowedBloomLevels": {
@@ -5622,6 +6285,100 @@
           "totalMarks"
         ],
         "title": "SectionBlueprint",
+        "type": "object"
+      },
+      "SectionFix": {
+        "description": "One change the teacher can make to a short section, with what it buys.\n\nA reason alone (\"Only 3 are available\") left the teacher guessing which\nof five settings to change; each fix names one setting and how many more\nquestions changing it makes available, so the builder can offer it as a\nsingle tap: every kind carries the value to apply, never only a\nsentence to parse.",
+        "properties": {
+          "available": {
+            "default": 0,
+            "title": "Available",
+            "type": "integer"
+          },
+          "choiceCount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Choicecount"
+          },
+          "kind": {
+            "enum": [
+              "widen_scope",
+              "fill_from_outside_scope",
+              "change_marks",
+              "relax_type",
+              "relax_competency",
+              "reduce_count",
+              "reduce_choices"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          },
+          "marksEach": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Markseach"
+          },
+          "questionCount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Questioncount"
+          },
+          "questionTypes": {
+            "anyOf": [
+              {
+                "items": {
+                  "enum": [
+                    "mcq",
+                    "very_short_answer",
+                    "short_answer",
+                    "long_answer",
+                    "very_long_answer",
+                    "case_study",
+                    "assertion_reason",
+                    "map_based",
+                    "diagram_based",
+                    "graph_based",
+                    "table_based",
+                    "competency_based"
+                  ],
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Questiontypes"
+          }
+        },
+        "required": [
+          "kind",
+          "label"
+        ],
+        "title": "SectionFix",
         "type": "object"
       },
       "SeedCbse10Request": {
@@ -5826,6 +6583,19 @@
           "periodsPerWeek"
         ],
         "title": "SetSubjectPeriodAllocationRequest",
+        "type": "object"
+      },
+      "ShareRequest": {
+        "properties": {
+          "shared": {
+            "title": "Shared",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "shared"
+        ],
+        "title": "ShareRequest",
         "type": "object"
       },
       "SharedMistakeResponse": {
@@ -6434,6 +7204,58 @@
         "title": "SubtopicResponse",
         "type": "object"
       },
+      "SwapCounts": {
+        "description": "Why the bank has as many alternatives for a slot as it has. Every\ncount is of questions the step before let through.",
+        "properties": {
+          "alternatives": {
+            "default": 0,
+            "title": "Alternatives",
+            "type": "integer"
+          },
+          "fitting": {
+            "default": 0,
+            "title": "Fitting",
+            "type": "integer"
+          },
+          "nearDuplicate": {
+            "default": 0,
+            "title": "Nearduplicate",
+            "type": "integer"
+          },
+          "notCompetency": {
+            "default": 0,
+            "title": "Notcompetency",
+            "type": "integer"
+          },
+          "onPaper": {
+            "default": 0,
+            "title": "Onpaper",
+            "type": "integer"
+          },
+          "onRecentPapers": {
+            "default": 0,
+            "title": "Onrecentpapers",
+            "type": "integer"
+          },
+          "outsideScope": {
+            "default": 0,
+            "title": "Outsidescope",
+            "type": "integer"
+          },
+          "swappedOutEarlier": {
+            "default": 0,
+            "title": "Swappedoutearlier",
+            "type": "integer"
+          },
+          "withoutKey": {
+            "default": 0,
+            "title": "Withoutkey",
+            "type": "integer"
+          }
+        },
+        "title": "SwapCounts",
+        "type": "object"
+      },
       "SyllabusResponse": {
         "properties": {
           "grade": {
@@ -6656,6 +7478,101 @@
         "title": "TeachingTimeEstimateResponse",
         "type": "object"
       },
+      "TemplateHeader": {
+        "properties": {
+          "dateLine": {
+            "default": "",
+            "title": "Dateline",
+            "type": "string"
+          },
+          "examName": {
+            "default": "",
+            "title": "Examname",
+            "type": "string"
+          },
+          "schoolName": {
+            "default": "",
+            "title": "Schoolname",
+            "type": "string"
+          }
+        },
+        "title": "TemplateHeader",
+        "type": "object"
+      },
+      "TemplateListResponse": {
+        "properties": {
+          "mine": {
+            "items": {
+              "$ref": "#/components/schemas/PaperTemplate"
+            },
+            "title": "Mine",
+            "type": "array"
+          },
+          "presets": {
+            "items": {
+              "$ref": "#/components/schemas/PaperTemplate"
+            },
+            "title": "Presets",
+            "type": "array"
+          },
+          "shared": {
+            "items": {
+              "$ref": "#/components/schemas/PaperTemplate"
+            },
+            "title": "Shared",
+            "type": "array"
+          }
+        },
+        "required": [
+          "presets",
+          "mine",
+          "shared"
+        ],
+        "title": "TemplateListResponse",
+        "type": "object"
+      },
+      "TemplatePaperResponse": {
+        "properties": {
+          "assessmentId": {
+            "title": "Assessmentid",
+            "type": "string"
+          },
+          "availability": {
+            "$ref": "#/components/schemas/AvailabilityReport"
+          },
+          "complete": {
+            "title": "Complete",
+            "type": "boolean"
+          },
+          "gaps": {
+            "items": {
+              "$ref": "#/components/schemas/SectionAvailability"
+            },
+            "title": "Gaps",
+            "type": "array"
+          },
+          "notes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+          },
+          "paper": {
+            "$ref": "#/components/schemas/GeneratedPaper"
+          }
+        },
+        "required": [
+          "paper",
+          "assessmentId",
+          "complete",
+          "gaps",
+          "notes",
+          "availability"
+        ],
+        "title": "TemplatePaperResponse",
+        "type": "object"
+      },
       "TemplateSaveRequest": {
         "properties": {
           "sections": {
@@ -6673,6 +7590,128 @@
           "template"
         ],
         "title": "TemplateSaveRequest",
+        "type": "object"
+      },
+      "TemplateScope": {
+        "description": "What the paper may draw on. Empty chapter_ids means the whole syllabus.\n\ntopic_ids / subtopic_ids come from the board-level taxonomy another stream\nis building (`academicos-data/syllabus/taxonomy/`). When that file is\nabsent they are stored as given, not validated -- the availability check\nsays so in its `scopeNotes` rather than pretending it checked them.",
+        "properties": {
+          "chapterIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Chapterids",
+            "type": "array"
+          },
+          "subtopicIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Subtopicids",
+            "type": "array"
+          },
+          "topicIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Topicids",
+            "type": "array"
+          }
+        },
+        "title": "TemplateScope",
+        "type": "object"
+      },
+      "TemplateSection": {
+        "description": "One section of a teacher's paper.\n\n`attempt_count` is CBSE's \"attempt any N\": `question_count` questions are\nprinted, `attempt_count` are answered, and only the attempted ones count\ntowards the paper's total. None means every question is attempted.\n\n`question_types` empty means any type at this mark value. The bank's type\nlabels are mostly derived from marks, not read from the paper (231 class\n10 Mathematics 1-mark questions are typed `very_short_answer` and none\n`mcq`; every 5-mark question is `case_study`), so the engine matches the\nlong-form kinds -- long answer, case study, map -- by what the question\nsays (paper_templates._content_fits), and the presets set types only on\nthose sections.\n\n`choice_count` is the CBSE internal choice: that many of the section's\nquestions print with an OR alternative of the same kind and marks, and\nthe student answers one of the two. It adds no marks -- unlike\n`attempt_count`, nothing extra is scored -- so the totals check ignores\nit. The CBSE papers use it, not \"attempt any N\": the Class X 2024-25\nScience SQP has ORs on 2 of 6 questions in Section B, 1 of 7 in C and all\n3 in D (academicos-data/corpus/cbse-sqp/ClassX_2024_25/Science-SQP.pdf).",
+        "properties": {
+          "attemptCount": {
+            "anyOf": [
+              {
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Attemptcount"
+          },
+          "choiceCount": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Choicecount",
+            "type": "integer"
+          },
+          "competencyShare": {
+            "anyOf": [
+              {
+                "maximum": 1.0,
+                "minimum": 0.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Competencyshare"
+          },
+          "difficultyMix": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DifficultyDistribution"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "id": {
+            "default": "",
+            "title": "Id",
+            "type": "string"
+          },
+          "marksEach": {
+            "minimum": 1.0,
+            "title": "Markseach",
+            "type": "integer"
+          },
+          "questionCount": {
+            "minimum": 1.0,
+            "title": "Questioncount",
+            "type": "integer"
+          },
+          "questionTypes": {
+            "items": {
+              "enum": [
+                "mcq",
+                "very_short_answer",
+                "short_answer",
+                "long_answer",
+                "very_long_answer",
+                "case_study",
+                "assertion_reason",
+                "map_based",
+                "diagram_based",
+                "graph_based",
+                "table_based",
+                "competency_based"
+              ],
+              "type": "string"
+            },
+            "title": "Questiontypes",
+            "type": "array"
+          },
+          "title": {
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "questionCount",
+          "marksEach"
+        ],
+        "title": "TemplateSection",
         "type": "object"
       },
       "TimetableResponse": {
@@ -11812,6 +12851,49 @@
         "summary": "Generate From Ids"
       }
     },
+    "/api/v1/papers/generate-from-template": {
+      "post": {
+        "operationId": "generate_from_template_api_v1_papers_generate_from_template_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateFromTemplateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplatePaperResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Generate From Template"
+      }
+    },
     "/api/v1/papers/quick-generate": {
       "post": {
         "description": "Rapid generation of complete, sectioned papers (Examzo-style 1-click generation).",
@@ -12005,6 +13087,124 @@
           }
         ],
         "summary": "Get Paper File"
+      }
+    },
+    "/api/v1/papers/{paper_id}/questions/{slot}": {
+      "post": {
+        "description": "Put the teacher's chosen question in the slot. 422 for a question with\nno verified answer key (rule Q1) or marks that do not fit the slot, 409\nfor one already on the paper or a near-duplicate of one.",
+        "operationId": "pick_paper_question_api_v1_papers__paper_id__questions__slot__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paper_id",
+            "required": true,
+            "schema": {
+              "title": "Paper Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "slot",
+            "required": true,
+            "schema": {
+              "title": "Slot",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PickRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperEditResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Pick Paper Question"
+      }
+    },
+    "/api/v1/papers/{paper_id}/questions/{slot}/swap": {
+      "post": {
+        "description": "The next best question for the slot (\"7\", or \"7_OR\" for its OR\nalternative), saved onto the paper and every set, answer key included.\n409 \"no alternative in this scope\" with the counts when there is none.",
+        "operationId": "swap_paper_question_api_v1_papers__paper_id__questions__slot__swap_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paper_id",
+            "required": true,
+            "schema": {
+              "title": "Paper Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "slot",
+            "required": true,
+            "schema": {
+              "title": "Slot",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperEditResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Swap Paper Question"
       }
     },
     "/api/v1/practice/generate": {
@@ -12871,6 +14071,493 @@
           }
         ],
         "summary": "Template Sections"
+      }
+    },
+    "/api/v1/schools/{school_id}/teacher-templates": {
+      "get": {
+        "description": "Presets + mine + shared with the school, in one call: the builder's\nfirst screen needs all three, and a phone on a slow link should not make\nthree round trips to draw it.",
+        "operationId": "list_teacher_templates_api_v1_schools__school_id__teacher_templates_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "school_id",
+            "required": true,
+            "schema": {
+              "title": "School Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "grade",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Grade"
+            }
+          },
+          {
+            "in": "query",
+            "name": "subject",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subject"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TemplateListResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Teacher Templates"
+      },
+      "post": {
+        "operationId": "create_teacher_template_api_v1_schools__school_id__teacher_templates_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "school_id",
+            "required": true,
+            "schema": {
+              "title": "School Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaperTemplateDraft"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperTemplate"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Teacher Template"
+      }
+    },
+    "/api/v1/schools/{school_id}/teacher-templates/{template_id}": {
+      "delete": {
+        "operationId": "delete_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "school_id",
+            "required": true,
+            "schema": {
+              "title": "School Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "template_id",
+            "required": true,
+            "schema": {
+              "title": "Template Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Teacher Template Api V1 Schools  School Id  Teacher Templates  Template Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Teacher Template"
+      },
+      "get": {
+        "operationId": "get_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "school_id",
+            "required": true,
+            "schema": {
+              "title": "School Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "template_id",
+            "required": true,
+            "schema": {
+              "title": "Template Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperTemplate"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Teacher Template"
+      },
+      "put": {
+        "operationId": "update_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "school_id",
+            "required": true,
+            "schema": {
+              "title": "School Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "template_id",
+            "required": true,
+            "schema": {
+              "title": "Template Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PaperTemplateDraft"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperTemplate"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Update Teacher Template"
+      }
+    },
+    "/api/v1/schools/{school_id}/teacher-templates/{template_id}/availability": {
+      "post": {
+        "description": "Per section: needed vs. eligible (verified key, right marks, in scope),\nwhat the paper will hold, every note generation would add, and why any\nshortfall exists with the changes that would close it -- shown BEFORE\ngenerating, so a teacher never discovers a gap on the printed paper.\nIt is the generator's own selection run without saving anything.",
+        "operationId": "template_availability_api_v1_schools__school_id__teacher_templates__template_id__availability_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "school_id",
+            "required": true,
+            "schema": {
+              "title": "School Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "template_id",
+            "required": true,
+            "schema": {
+              "title": "Template Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AvailabilityRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvailabilityReport"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Template Availability"
+      }
+    },
+    "/api/v1/schools/{school_id}/teacher-templates/{template_id}/duplicate": {
+      "post": {
+        "description": "\"Use as starting point\": any template the caller can read, including a\npreset, becomes a private template they own.\n\nThe copy is labelled the teacher's own pattern from the start, not the\npreset's `cbse_board` / `suggested`: it is theirs to change, and a label\nthat stays \"CBSE board pattern\" until the first edit would vouch for\nwhatever they change it to. Where it came from stays in `based_on` and\nin the source line.",
+        "operationId": "duplicate_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__duplicate_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "school_id",
+            "required": true,
+            "schema": {
+              "title": "School Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "template_id",
+            "required": true,
+            "schema": {
+              "title": "Template Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DuplicateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperTemplate"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Duplicate Teacher Template"
+      }
+    },
+    "/api/v1/schools/{school_id}/teacher-templates/{template_id}/share": {
+      "post": {
+        "operationId": "share_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__share_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "school_id",
+            "required": true,
+            "schema": {
+              "title": "School Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "template_id",
+            "required": true,
+            "schema": {
+              "title": "Template Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ShareRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperTemplate"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Share Teacher Template"
       }
     },
     "/api/v1/schools/{school_id}/templates": {

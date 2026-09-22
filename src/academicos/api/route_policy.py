@@ -167,6 +167,18 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/consent/students/{student_id}"): _p(STAFF, "takes any student id and returns the guardian record"),
     ("DELETE", "/api/v1/consent/students/{student_id}"): _p(STAFF),
 
+    # ---- assessment/paper_template_routes.py (paper-builder Tasks 901-906) ----
+    ("GET", "/api/v1/schools/{school_id}/teacher-templates"): _p(STAFF, "presets + mine + school-shared"),
+    ("POST", "/api/v1/schools/{school_id}/teacher-templates"): _p(STAFF),
+    ("GET", "/api/v1/schools/{school_id}/teacher-templates/{template_id}"): _p(STAFF, "owner or shared; private templates stay private"),
+    ("PUT", "/api/v1/schools/{school_id}/teacher-templates/{template_id}"): _p(STAFF, "owner only (handler)"),
+    ("DELETE", "/api/v1/schools/{school_id}/teacher-templates/{template_id}"): _p(STAFF, "owner or principal (handler)"),
+    ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/share"): _p(STAFF, "owner or principal (handler)"),
+    ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/duplicate"): _p(STAFF),
+    ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/availability"): _p(STAFF),
+    ("POST", "/api/v1/papers/generate-from-template"): _p(STAFF),
+    ("POST", "/api/v1/papers/{paper_id}/questions/{slot}/swap"): _p(STAFF, "edits the teacher's own saved paper"),
+    ("POST", "/api/v1/papers/{paper_id}/questions/{slot}"): _p(STAFF, "edits the teacher's own saved paper"),
     # ---- curriculum/routes.py ----
     # Classified from the dependencies the file has today; this stream does
     # not edit it (the calendar stream owns it). Unauthenticated reads are

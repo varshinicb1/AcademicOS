@@ -365,7 +365,10 @@ def _roll_no_grid(styles: _Styles, boxes: int = 11) -> Table:
 def _header(paper: GeneratedPaper, template: Optional[SchoolTemplate],
             styles: _Styles, content_width: float) -> list:
     m = paper.metadata
-    school_name = (template.name if template and template.name else "AcademicOS School")
+    # The teacher's header wins over the school's branding name: a template
+    # paper may be set for a named branch or a joint exam.
+    school_name = (m.school_name or (template.name if template and template.name else "")
+                   or "AcademicOS School")
     brand = colors.HexColor(template.brand_color) if template and template.brand_color else colors.black
     story: list = []
 
@@ -374,14 +377,20 @@ def _header(paper: GeneratedPaper, template: Optional[SchoolTemplate],
         exam_title += f" &nbsp;&nbsp;|&nbsp;&nbsp; <b>SET {escape(paper.set_label)}</b>"
 
     logo_path = Path(template.logo_url) if template and template.logo_url else None
-    title_block = [
-        Paragraph(escape(school_name), styles.school),
+    title_block = [Paragraph(escape(school_name), styles.school)]
+    # The exam name is normally the title; a teacher who gave the paper its
+    # own title still gets the exam name their template set.
+    if m.exam_name and m.exam_name != m.assessment_title:
+        title_block.append(Paragraph(escape(m.exam_name), styles.exam))
+    title_block += [
         Paragraph(exam_title, styles.exam),
         Paragraph(f"Subject: {escape(m.subject)} &nbsp;&nbsp;|&nbsp;&nbsp; Class: {m.grade}",
                   styles.meta),
     ]
     if template and template.tagline:
         title_block.append(Paragraph(escape(template.tagline), styles.meta))
+    if m.date_line:
+        title_block.append(Paragraph(escape(m.date_line), styles.meta))
     if logo_path and logo_path.exists():
         try:
             band = Table([[Image(str(logo_path), width=18 * mm, height=18 * mm), title_block]],
@@ -423,6 +432,15 @@ def _instructions(paper: GeneratedPaper, styles: _Styles) -> list:
     total_q = sum(len(s.questions) for s in paper.sections)
     labels = ", ".join(s.label for s in paper.sections)
     story = [Paragraph("General Instructions:", styles.instr_head)]
+    teacher = [line.strip() for line in (paper.metadata.instructions or "").splitlines()
+               if line.strip()]
+    if teacher:
+        # The teacher's own instructions replace the canned list: printing
+        # both would put "internal choice has been provided" on a paper whose
+        # template may offer none.
+        for i, line in enumerate(teacher, start=1):
+            story.append(Paragraph(f"({i})&nbsp;&nbsp;{escape(line)}", styles.instr))
+        return story
     for i, tmpl in enumerate(DEFAULT_INSTRUCTIONS, start=1):
         text = tmpl.format(n=total_q, sections=len(paper.sections), labels=labels)
         story.append(Paragraph(f"({i})&nbsp;&nbsp;{text}", styles.instr))

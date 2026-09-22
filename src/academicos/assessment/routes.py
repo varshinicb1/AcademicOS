@@ -28,7 +28,7 @@ from .auth_routes import get_current_user, require_principal, require_staff
 from .users import User, get_user_store
 from .mapping import grade_to_int, to_question_schema
 from .paper import generate_paper as build_generated_paper, generate_paper_sets
-from .pool import get_pool
+from .pool import get_pool, near_duplicate
 from .schemas import (
     Assessment,
     AssessmentStatus,
@@ -262,6 +262,52 @@ def optimize_questions(request: QuestionOptimizationRequest,
 
 # ---- Papers ----
 
+def _similar_question_warnings(selected: list[QuestionSchema], *,
+                               reject_similar: bool) -> list[str]:
+    """One warning per pair of questions this paper would print that restate
+    each other; 422 for the same question id twice, and for a similar pair
+    when the client set `rejectSimilar`.
+
+    POST /papers/generate and /papers/generate-from-ids print what the
+    teacher chose; they do not run selection.optimize, so the near-duplicate
+    guard there (and on the template and swap paths) never sees a hand-built
+    selection. OR partners are printed too, so they count. Warned, not
+    refused (Task 906): Task 905 refused, but `pool.near_duplicate` is a
+    measure and a teacher who means to set two alike questions must not be
+    blocked -- the builder shows the warning with "keep both" / "swap one".
+    Never silently dropped: a paper one question shorter than they built is a
+    wrong answer they would not notice. The same id twice is no judgement
+    call, so it stays refused."""
+    printed: list[tuple[str, str]] = []
+    for q in selected:
+        printed.append((q.id, q.stem))
+        meta = q.metadata or {}
+        partner = meta.get("internal_choice_question") or {}
+        pid = meta.get("internal_choice_id") or partner.get("id")
+        pstem = meta.get("internal_choice_stem") or partner.get("stem")
+        if pid and pstem:
+            printed.append((pid, pstem))
+    warnings: list[str] = []
+    for i, (aid, astem) in enumerate(printed):
+        for bid, bstem in printed[:i]:
+            if aid == bid:
+                raise HTTPException(
+                    422, f"question {aid} is selected twice; a paper prints each "
+                         f"question once -- remove one and generate again")
+            if not near_duplicate(astem, bstem):
+                continue
+            if reject_similar:
+                raise HTTPException(
+                    422,
+                    f"questions {bid} and {aid} are the same question; a paper "
+                    f"may carry only one of them -- remove one and generate again",
+                )
+            warnings.append(
+                f"questions {bid} and {aid} look like the same question -- "
+                f"keep both, or swap one")
+    return warnings
+
+
 @router.post("/papers/generate", response_model=GeneratedPaper)
 def generate_paper_endpoint(
     request: PaperGenerationRequest, current: User = Depends(require_staff),
@@ -282,6 +328,8 @@ def generate_paper_endpoint(
             "chapters/filters matched no real questions in the corpus; "
             "widen the chapter selection or check the subject/grade",
         )
+    warnings = _similar_question_warnings(request.selected_questions,
+                                          reject_similar=request.reject_similar)
     assessment = store.get(request.assessment_id)
     if assessment is not None:
         if assessment.school_id != current.school_id:
@@ -313,6 +361,8 @@ def generate_paper_endpoint(
         assessment.status = "paperGenerated"
         assessment.updated_at = _now()
         store.save(assessment)
+    # Set after saving: the warning is about this request, not the paper.
+    paper.warnings = warnings
     return paper
 
 
@@ -391,7 +441,10 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
     if request.template_id:
         from .school_templates import TemplateStore
         t_store = TemplateStore(cfg.data_root / "templates" / "templates.sqlite")
-        template = t_store.get(request.template_id)
+        # get_branding returns (template, sections); PaperStore.save wants the
+        # template alone -- passing the tuple raised on every templateId.
+        branding = t_store.get_branding(request.template_id, current.school_id)
+        template = branding[0] if branding else None
 
     _require_papers().save(paper, template, school_id=current.school_id)
     if paper.sets:
@@ -449,6 +502,11 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(r
 
     if not found_questions:
         raise HTTPException(404, "None of the specified question_ids were found in the question bank")
+    # The Flutter client's curated path builds the paper straight from these
+    # ids and never runs optimize, so the near-duplicate guard has to run here
+    # too -- warned (or refused on rejectSimilar), exactly like /papers/generate.
+    warnings = _similar_question_warnings(found_questions,
+                                          reject_similar=request.reject_similar)
 
     by_marks: dict[int, list[QuestionSchema]] = {}
     for q in found_questions:
@@ -502,7 +560,10 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(r
     if request.template_id:
         from .school_templates import TemplateStore
         t_store = TemplateStore(cfg.data_root / "templates" / "templates.sqlite")
-        template = t_store.get(request.template_id)
+        # get_branding returns (template, sections); PaperStore.save wants the
+        # template alone -- passing the tuple raised on every templateId.
+        branding = t_store.get_branding(request.template_id, current.school_id)
+        template = branding[0] if branding else None
 
     _require_papers().save(paper, template, school_id=current.school_id)
 
@@ -544,6 +605,7 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(r
             "generationSeconds": round(time.perf_counter() - _started_ids, 3),
         },
     )
+    paper.warnings = warnings   # after saving: about this request, not the paper
     return paper
 
 
