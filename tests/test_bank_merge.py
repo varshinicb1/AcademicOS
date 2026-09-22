@@ -391,8 +391,10 @@ def test_page_furniture_is_stripped_from_a_served_answer():
 
 
 @pytest.mark.parametrize("text,expected", [
-    # "(A)" after a heading is an option, not the heading's title
-    ("SECTION A (A) avoid (B) control", "SECTION A (A) avoid (B) control"),
+    # "(A)" after a heading is an option, not the heading's title: a heading
+    # inside the text is left for `_INNER_SECTION`, a leading one goes alone
+    ("Pick one. SECTION A (A) avoid (B) control", "Pick one. SECTION A (A) avoid (B) control"),
+    ("SECTION A (A) avoid (B) control", "(A) avoid (B) control"),
     # SQP Mathematics (Standard) X 2025-26 Q31: mixed case, in brackets, after a page number
     ("Find their present ages. Page of 8 (Section – D) Section D consists of 4 questions",
      "Find their present ages."),
@@ -658,3 +660,193 @@ def test_a_contract_violation_after_normalising_fails_the_whole_merge(monkeypatc
     monkeypatch.setattr(bm, "normalise", lambda rec: ({"id": rec["id"]}, None))
     with pytest.raises(bm.ContractError):
         bm.compose([], [board(4, id="cbe:q:Z", source="cbse_question_bank")], [])
+
+
+# ---- stems after their furniture is stripped (Task 41) ------------------------
+
+def _raw_sqp(paper, subject, q, *, stem, answer, marks, grade, page, chapter_ids=(),
+             family=None, meta_extra=None):
+    """A raw cbse-sqp record, field for field as academicos-data/corpus/cbse-sqp/
+    questions.json carries it (checked equal to the three real rows below)."""
+    rid = f"cbse:sqp:{paper}:{subject}:{q}"
+    doc = f"cbse-sqp:{paper}:{subject}"
+    return {
+        "id": rid, "questionBankId": doc, "subject": subject, "grade": grade,
+        "chapterIds": list(chapter_ids), "topic": "", "difficulty": "medium",
+        "type": "short_answer", "stem": stem, "stemLatex": "", "parts": [],
+        "answerScheme": {
+            "totalMarks": marks,
+            "markingPoints": [{"id": f"{rid}:mp1", "description": answer, "marks": marks,
+                               "keyword": "", "isRequired": True, "synonyms": []}],
+            "rubricLevels": [], "commonErrors": [], "alternativeAnswers": [],
+            "modelAnswer": answer, "modelAnswerLatex": "", "hasPartialCredit": True,
+            "metadata": {}, "provenance": "cbse_marking_scheme", "sourcePaperCode": "",
+            "sourceDocumentId": doc},
+        "estimatedTimeMinutes": marks * 2, "marks": marks, "language": "en",
+        "source": "cbse_sample_paper", "qualityScore": 0.95,
+        "tags": ["cbse", "sample-paper", paper],
+        "createdAt": "2026-09-18T00:00:00Z", "updatedAt": "2026-09-18T00:00:00Z",
+        "metadata": {"questionKey": str(q), "alternativeOf": None, "options": 0,
+                     "joinedFrom": "sqp+ms-pair", "subjectFamily": family or subject,
+                     **(meta_extra or {})},
+        "diagramAssetId": None, "mapAssetId": None, "graphAssetId": None, "tableAssetId": None,
+        "rights": {"origin": "CBSE", "redistribution": "unknown", "basis": "",
+                   "attribution": "Central Board of Secondary Education, sample question paper "
+                                  "and marking scheme"},
+        "provenance": {"sourceDocumentId": doc, "pageNumber": page, "boundingBox": None,
+                       "method": "pdf_native", "confidence": 0.95},
+        "calibration": {"measured": False, "sampleSize": 0, "facility": None,
+                        "discrimination": None, "basis": "assigned"},
+        "version": 1, "reviewState": "published", "supersededBy": None,
+    }
+
+
+def computer_applications_19():
+    """Served at c45acef with stem '' -- the leading heading took the whole question."""
+    return _raw_sqp(
+        "ClassX_2024_25", "Computer Applications", 19, grade=10, marks=2, page=4,
+        stem="Section – C Page of 7 The following HTML statements are not written properly. "
+             "Re-write the correct",
+        answer="SMS MMS 1 mark for each correct difference. Short Message Service Multimedia "
+               "message Service. One can send only It allows one to send Images, plain text. "
+               "Videos, Audio, GIF’s, PDF’s and Text. SECTION C")
+
+
+def geography_23():
+    """Served at c45acef: a stem that starts mid-sentence, with another question's key."""
+    key = ("1. The Internet is the most effective and advanced personal communication system "
+           "in India. 2. Enables the user to establish direct access to the word of knowledge "
+           "and information. 3. It's like a huge central warehouse of data with detailed "
+           "information on various topics. 4. Provides information on low cost 5. Its being "
+           "used increasingly for e-commerce and carrying out money transactions SECTION C "
+           "Question numbers 24 to 28 are Long Answer based questions.")
+    return _raw_sqp(
+        "ClassXII_2022_23", "Geography", 23, grade=12, marks=3, page=12,
+        chapter_ids=["transport-communication"],
+        meta_extra={"chapterTag": {"chapterId": "transport-communication", "score": 0.3365,
+                                   "method": "embedding_chapter_v1", "inferred": True}},
+        stem="advanced personal communication system in India. SECTION C Question numbers 24 "
+             "to 28 are Long Answer based questions.",
+        answer=key)
+
+
+def kathakali_5():
+    """Served at c45acef as short_answer: lowercase a)-d) options, key never checked."""
+    return _raw_sqp(
+        "ClassXII_2025_26", "Kathakali", 5, grade=12, marks=1, page=1, family="Dance",
+        stem="How many styles are there in Kathakali? a) 1 b) 3 c) 4 d) 2 *Please note that "
+             "the assessment scheme of the Academic Session 2024-25 will continue in the "
+             "current session i.e. 2025-26.",
+        answer="3")
+
+
+def test_a_heading_at_the_start_of_a_stem_keeps_its_question():
+    out, reason = bm.normalise(computer_applications_19())
+    assert out["stem"] == ("The following HTML statements are not written properly. "
+                           "Re-write the correct")
+    assert reason != "stem-empty-after-strip"
+
+
+def test_a_leading_heading_is_stripped_without_the_text_after_it():
+    assert bm._strip_furniture("Section – C Page of 7 Name two protocols used for email.") \
+        == "Name two protocols used for email."
+
+
+@pytest.mark.parametrize("stem", [
+    "Section – C Page of 7",
+    "SECTION C (SHORT ANSWER QUESTIONS)",
+    "*Please note that the assessment scheme of the Academic Session 2024-25 will continue "
+    "in the current session i.e. 2025-26.* Page of 13",
+])
+def test_a_stem_that_is_all_furniture_is_excluded(stem):
+    rec = computer_applications_19()
+    rec["stem"] = stem
+    assert bm.exclusion_reason(rec) is None      # the raw stem passes the pre-strip gates
+    assert bm.normalise(rec)[1] == "stem-empty-after-strip"
+
+
+def test_a_stem_gutted_by_its_strip_is_excluded_from_the_bank():
+    rec = computer_applications_19()
+    rec["stem"] = "Section – C Page of 7"
+    result = bm.compose([], [], [rec])
+    assert result.questions == []
+    assert [e["reason"] for e in result.excluded] == ["stem-empty-after-strip"]
+
+
+@pytest.mark.parametrize("tail", [
+    "a. avoid b. control c. forget d. understand",
+    "a) avoid b) control c) forget d) understand",
+    "(a) avoid (b) control (c) forget (d) understand",
+    "A. avoid B. control C. forget D. understand",
+    "A) avoid B) control C) forget D) understand",
+    "a. avoid b. control c. forget",               # three labels are enough
+])
+def test_every_option_label_style_makes_an_mcq(tail):
+    out, reason = bm.normalise(sqp_inline(stem_tail=tail, answer="(b) control"))
+    assert reason is None
+    assert out["type"] == "mcq" and out["metadata"]["typeInferred"] is True
+    assert out["answerScheme"]["metadata"]["correctOption"] == "B"
+    assert out["stem"].count("control") == 1
+
+
+def test_a_lowercase_option_mcq_goes_through_the_key_check():
+    """Kathakali XII 2025-26 Q5: the key "3" is option b)'s text or option 3 of a
+    numbered list; correct_letter refuses a bare numeral, so the row is not served."""
+    out, reason = bm.normalise(kathakali_5())
+    assert out["type"] == "mcq"
+    assert reason == "mcq-answer-unresolved"
+
+
+def test_a_lettered_list_in_the_stem_of_an_mcq_with_option_parts_is_not_its_options():
+    """SQP Hindustani Music (Vocal) XII 2025-26 Q6: "a. Kan swar i. ..." are a
+    matching list's rows; the parts are the options, and the item is served."""
+    rec = cbe_mcq(stem="Match List I with List II. a. Kan swar b. Meend c. Gamak d. Khatka")
+    out, reason = bm.normalise(rec)
+    assert reason is None
+    assert out["answerScheme"]["metadata"]["correctOption"] == "B"
+
+
+def test_two_lowercase_labels_are_not_an_mcq():
+    out, reason = bm.normalise(sqp_inline(stem_tail="a) avoid b) control", answer="control"))
+    assert reason is None and out["type"] == "short_answer"
+
+
+def test_a_stem_that_starts_mid_sentence_is_excluded():
+    assert bm.normalise(geography_23())[1] == "stem-fragment"
+
+
+@pytest.mark.parametrize("stem", [
+    # cbe:q:Maths10RK2 -- the first letter of "If" was lost
+    "f the lines 3x+2ky – 2 = 0 and 2x+5y+1 = 0 are parallel, then the value of k is",
+    # SQP Computer Applications X 2024-25 Q16
+    "an internet site having URL as: www.children.com/india/~abc.html Now you want to create "
+    "a link to this web page.",
+])
+def test_a_lowercase_opening_that_is_not_a_label_is_a_fragment(stem):
+    rec = geography_23()
+    rec["stem"] = stem
+    assert bm.normalise(rec)[1] == "stem-fragment"
+
+
+def test_an_mcq_whose_stem_opens_with_its_options_is_a_fragment():
+    """SQP Carnatic Music (Percussion) X 2022-23 Q4: the question was lost, only the
+    options and a key "B" survive."""
+    rec = kathakali_5()
+    rec["stem"] = "a. Chappu b. Toppi c. Choru d. Varu"
+    rec["answerScheme"]["modelAnswer"] = "B"
+    rec["answerScheme"]["markingPoints"][0]["description"] = "B"
+    assert bm.normalise(rec)[1] == "stem-fragment"
+
+
+@pytest.mark.parametrize("stem", [
+    # SQP Carnatic Music (Percussion) X 2022-23 Q9: roman-numeral sub-parts
+    "i. Explain the word Tattakaaram ii. Enumerate the Shodasanga with Aksharakala",
+    # SQP Sociology XII 2022-23 Q37: lettered sub-questions on a multi-mark item
+    "a) Give reasons for declining sex-ratio. b) In your opinion, what steps should be taken?",
+    # SQP French X 2022-23 Q6: a part label without its full stop
+    "a Trouvez la question. a. Les sandwiches au fromage sont faciles à préparer.",
+])
+def test_a_stem_that_opens_with_a_part_label_is_not_a_fragment(stem):
+    rec = geography_23()
+    rec["stem"] = stem
+    assert bm.normalise(rec)[1] != "stem-fragment"

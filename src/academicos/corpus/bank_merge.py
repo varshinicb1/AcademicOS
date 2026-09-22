@@ -56,6 +56,10 @@ Nothing is dropped silently; every exclusion is returned with its reason.
   mcq-answer-unresolved  the correct option cannot be recovered with certainty
   stem-spans-sections    a section heading inside the stem: several questions,
                          across a section break, extracted as one
+  stem-empty-after-strip nothing, or only a header, is left of the stem once
+                         its page furniture is stripped
+  stem-fragment          the stem starts mid-sentence, or an MCQ's stem opens
+                         with its options: the question text went elsewhere
   duplicate-id           an id already served
   duplicate-stem         already served, under a board-paper id where possible
 
@@ -64,7 +68,12 @@ types every row `short_answer`, and 92 served 1-mark SQP rows carry four
 inline (A)-(D) options. Those are retyped `mcq` (marked `typeInferred`) and go
 through the same gate as a declared MCQ. The shape is the label set -- all of
 (A), (B), (C), (D) present -- not a clean parse of them, so a stem whose labels
-repeat or come out of order is still an MCQ, and is refused as one.
+repeat or come out of order is still an MCQ, and is refused as one. Three
+consecutive labels in any other style -- a), a., A), A., (a) -- are the shape
+too: at c45acef 141 served 1-mark SQP rows printed them and were served as
+short_answer with keys nobody checked. Gated as MCQs, 80 get a certain letter
+and 61 are refused (34 mcq-answer-unresolved, 15 mcq-options-unresolved, 12
+stem-fragment).
 
 Known limitation
 ----------------
@@ -72,7 +81,8 @@ A non-MCQ key is checked for its shape (empty, instruction text, too long,
 running into another section), never for its content. A key taken from a
 different question that is short, and does not open with an instruction or
 cross a section heading, is still served. No gate here reads whether the key
-answers its stem.
+answers its stem. TODO(Task 15): the scheme verifier checks a key against its
+stem; do not build a second one here.
 """
 from __future__ import annotations
 
@@ -249,8 +259,12 @@ _FOOTER = re.compile(
 # Capitals may drop the dash ("SECTION B"); mixed case keeps it ("(Section – D)")
 # so that "Section 39 of the Act" or "Section A of the paper" in prose is not one.
 _HEADING = r"\(?(?:SECTION\s*[-–]?|Section\s*[-–])\s*[A-F]\b\)?"
+# Only a heading AFTER text: at the start of the stem the `[^()]*` tail would
+# take the question with it. "Section – C Page of 7 The following HTML
+# statements ..." (SQP Computer Applications X 2024-25 Q19) was served with
+# stem '' that way. A leading heading is `_LEADING_SECTION`'s.
 _TRAILING_SECTION = re.compile(
-    rf"(?:^|\s+){_HEADING}[^()]*(?:\((?!(?:[A-Da-d]|[ivxIVX]+)\))[^()]*\)[^()]*)?$")
+    rf"\s+{_HEADING}[^()]*(?:\((?!(?:[A-Da-d]|[ivxIVX]+)\))[^()]*\)[^()]*)?$")
 # In a key, only a heading and its title are furniture: "SECTION C (SHORT ANSWER
 # QUESTION)", "SECTION C POLITICAL SCIENCE (20 marks)". Prose after a heading --
 # "3. SECTION-B Brief explanation and types of Kan, Gamak ..." -- is the next
@@ -264,6 +278,8 @@ _SECTION_NOTE = (r"(?:\s*[\[(]?\s*(?:Each (?:question|[Cc]ase [Ss]tudy)|Question
                  r"This section|consists of|comprises|All questions)\b.*)?")
 _TRAILING_HEADING_ONLY = re.compile(rf"(?:^|\s+){_HEADING}{_TITLE}{_SECTION_NOTE}\s*$",
                                     re.S)
+# A heading that opens the text goes with its title and nothing else.
+_LEADING_SECTION = re.compile(rf"^{_HEADING}{_TITLE}\s*")
 # A heading still inside the text once the trailing one is gone: the text runs
 # on past its own question into another section.
 _INNER_SECTION = re.compile(rf"(?:^|\s){_HEADING}")
@@ -414,6 +430,13 @@ _LEADING_LETTER = re.compile(r"^\s*\(?([A-Da-d])\)?\s*(?:[.)–—:\-]|$)")
 _LABEL = re.compile(r"(?<![A-Za-z])([A-D])\s*[.)–—:\-]")
 _INLINE_OPTION = re.compile(r"\(([A-Da-d])\)\s*")
 _UPPER_LABEL = re.compile(r"\(([A-D])\)")
+# The other ways SQP papers print options inline: "a) 1 b) 3 c) 4 d) 2" (SQP
+# Kathakali XII 2025-26 Q5), "a. Chappu b. Toppi ...", "A. FTP B. SFTP ...". One
+# case and one punctuation mark per style, so a stem is read in the style it
+# was printed in. A label is a lone letter followed by a space: the "e." of
+# "i.e." or the "d." ending "and." is not one.
+_OPTION_STYLES = tuple(re.compile(rf"(?<![\w(.])([{letters}]){punct}(?=\s)")
+                       for letters in ("a-d", "A-D") for punct in (r"\)", r"\."))
 # "(1)", "(1 mark)" after an answer is the mark column, not part of the answer.
 _MARK_NOTE = re.compile(r"(?:\s+\(\s*(?:\d+|½)\s*(?:marks?)?\s*\))+\s*$", re.I)
 # "3" alone may be the number of option (3) in a numbered list, not option text.
@@ -508,19 +531,42 @@ def _options_from_parts(parts: list[dict]) -> dict[str, str] | None:
     return opts
 
 
-def _options_from_stem(stem: str) -> dict[str, str] | None:
-    """Options already written inline as (A)..(D) -- the board and most SQP shape."""
-    matches = list(_INLINE_OPTION.finditer(stem))
+def _read_options(stem: str, matches: list[re.Match], minimum: int) -> dict[str, str] | None:
     labels = [m.group(1).upper() for m in matches]
-    if len(labels) < 2 or labels != list("ABCD"[: len(labels)]):
+    if len(labels) < minimum or labels != list("ABCD"[: len(labels)]):
         return None
     return {labels[i]: stem[m.end(): matches[i + 1].start() if i + 1 < len(matches) else len(stem)]
             .strip(" .;") for i, m in enumerate(matches)}
 
 
-def _has_option_labels(stem: str) -> bool:
-    """All four capital labels (A)-(D) appear, in any order and any number of times.
+def _stem_options(stem: str, other_styles: bool = True) -> tuple[dict[str, str] | None, int]:
+    """The options written inline in the stem, and where the first one starts.
 
+    (A)..(D) -- the board and most SQP shape -- is read first, as before; the
+    other styles only when it does not parse, and only with three labels or
+    more, so a stray "a)" or "B." in prose is never an option list.
+    """
+    matches = list(_INLINE_OPTION.finditer(stem))
+    options = _read_options(stem, matches, 2)
+    if options is not None:
+        return options, matches[0].start()
+    for style in _OPTION_STYLES if other_styles else ():
+        matches = list(style.finditer(stem))
+        options = _read_options(stem, matches, _MIN_OPTIONS)
+        if options is not None:
+            return options, matches[0].start()
+    return None, -1
+
+
+def _options_from_stem(stem: str, other_styles: bool = True) -> dict[str, str] | None:
+    """Options already written inline: (A)..(D), or a), a., A), A. (see `_OPTION_STYLES`)."""
+    return _stem_options(stem, other_styles)[0]
+
+
+def _has_option_labels(stem: str) -> bool:
+    """The stem is labelled like an MCQ, whether or not the labels parse.
+
+    All four capital labels (A)-(D), in any order and any number of times:
     `_options_from_stem` accepts only A, B, C, D once each in order, so two
     shapes read as "no options" and escaped the MCQ gate as short_answer:
     several questions fused into one stem (A-D repeated -- SQP Mathematics
@@ -528,8 +574,16 @@ def _has_option_labels(stem: str) -> bool:
     directions after it), and assertion-reason items, whose "Assertion (A)"
     puts an A before the options. 21 served 1-mark SQP rows had this shape at
     062a939, and at least 9 of their keys answered a different question.
+
+    Or three consecutive labels A, B, C in any one style -- (a), a), a., A),
+    A. -- since the capital (A) test never saw the lowercase ones: served
+    1-mark SQP rows printed "a) 1 b) 3 c) 4 d) 2" and stayed short_answer with
+    keys nobody checked (see the module docstring for the count).
     """
-    return {"A", "B", "C", "D"} <= set(_UPPER_LABEL.findall(stem))
+    if {"A", "B", "C", "D"} <= set(_UPPER_LABEL.findall(stem)):
+        return True
+    return any("ABC" in "".join(m.group(1).upper() for m in style.finditer(stem))
+               for style in (_INLINE_OPTION, *_OPTION_STYLES))
 
 
 def correct_letter(answers: list[str], options: dict[str, str]) -> str | None:
@@ -593,9 +647,48 @@ def _objective_scheme(rec: dict, options: dict[str, str], letter: str) -> dict:
 def _strip_furniture(text: str) -> str:
     """Drop the page footer and a trailing section heading the SQP extraction
     left in the text. Keys carry them as well as stems: "... R is not the
-    correct explanation of A. SECTION C (SHORT ANSWER QUESTION)"."""
+    correct explanation of A. SECTION C (SHORT ANSWER QUESTION)". A heading
+    that opens the text goes without the question after it; what is left may
+    be nothing, which `_stem_after_strip_reason` refuses."""
     text = _PAGE.sub(" ", _FOOTER.sub(" ", text)).strip()
-    return _TRAILING_SECTION.sub("", text).strip()
+    text = _TRAILING_SECTION.sub("", text).strip()
+    return _LEADING_SECTION.sub("", text).strip()
+
+
+# A part label a stem may legitimately open with, lowercase: "i. Explain ...",
+# "a) Give reasons ...", "a, b, c kala d ..." (SQP Tangkhul X 2023-24 Q9), and
+# "a Trouvez la question." (SQP French X 2022-23 Q6-8, the full stop lost).
+_PART_LABEL_OPENING = re.compile(r"^\(?(?:[a-h]|[ivx]{1,4})\)?(?:[.),:]|\s+(?=[A-Z]))")
+
+
+def _stem_after_strip_reason(stem: str) -> str | None:
+    """Why a stem, once its furniture is gone, is no question at all.
+
+    `exclusion_reason` reads the raw stem, so nothing looked at what the strip
+    left: SQP Computer Applications X 2024-25 Q19 was served with stem ''. The
+    same `_MIN_STEM` applies after the strip as before it -- the shortest
+    served stem that is a question is 18 characters ("Define a compound.",
+    cbe:q:Science9PS2), and at c45acef the only served stem under 15 was the
+    empty one.
+
+    A stem that opens with a lowercase word that is not a part label starts
+    mid-sentence: the question's opening went to the previous row. 54 served
+    CBE/SQP stems opened lowercase at c45acef. The 25 that open with a part
+    label ("i. Explain", "a) Give", "a Trouvez") are questions; the other 29
+    are not -- "advanced personal communication system in India." (SQP
+    Geography XII 2022-23 Q23), "f the lines 3x+2ky ..." (cbe:q:Maths10RK2,
+    its "I" lost), "house. Which protocol ... should she prefer" (SQP Computer
+    Applications X 2024-25 Q9, one of 7 from that paper), and 8 rows of SQP
+    Geography XII 2025-26, each opening with the tail of the question before.
+    A question does not need a "?" to be one, nor does a fragment lack one
+    ("above 65 years, what challenge is most likely to arise?"), so the
+    opening word is the signature, not a question cue.
+    """
+    if len(stem) < _MIN_STEM or _HEADER.match(stem):
+        return "stem-empty-after-strip"
+    if re.match(r"[a-z]", stem) and not _PART_LABEL_OPENING.match(stem):
+        return "stem-fragment"
+    return None
 
 
 def _strip_answer_furniture(text: str) -> str:
@@ -682,6 +775,14 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
     r["parts"] = [_normalise_part(p, i, r["id"]) for i, p in enumerate(r.get("parts") or [])]
     r["answerScheme"] = _normalise_scheme(scheme, marks, r["id"])
 
+    reason = _stem_after_strip_reason(r["stem"])
+    if reason is not None:
+        r["metadata"] = meta
+        return r, reason
+    # Read before a passage is put in front of the stem: a stem that opens
+    # with its own options has lost its question.
+    opens_with_options = _stem_options(r["stem"])[1] == 0
+
     if _INNER_SECTION.search(r["stem"]):
         # One stem holding several questions across a section break -- SQP
         # Political Science XII 2023-24 Q4 runs on through "SECTION-E (24 MARKS)
@@ -694,12 +795,18 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
         r["stem"] = f"Read the passage below and answer the question that follows.\n\n{passage}\n\n{r['stem']}"
         meta["passageInline"] = True
 
-    in_stem = _options_from_stem(r["stem"])
     in_parts = _options_from_parts(r["parts"])
+    # With option parts, the parts are the options, and only an (A)-(D) stem is
+    # held against them. Read in the other styles, the stem's labels are as
+    # often a matching list's rows ("Match List I with List II ... a. Kan swar
+    # i. Krishna Rao ...", SQP Hindustani Music (Vocal) XII 2025-26 Q6) or the
+    # parts' own text before extraction cut it at a line end (SQP Economics XII
+    # 2024-25 Q8); compared with the parts, 18 served MCQs were refused.
+    in_stem = _options_from_stem(r["stem"], other_styles=in_parts is None)
     if (r["type"] in _INFERABLE_TYPES and marks == 1
             and (_has_option_labels(r["stem"])
                  or any(o is not None and len(o) == 4 for o in (in_stem, in_parts)))):
-        # An MCQ by its shape: four A-D options on a 1-mark item. Left as
+        # An MCQ by its shape: A-D options on a 1-mark item. Left as
         # short_answer it skipped this gate entirely and was served with a key
         # nobody checked, filling short-answer slots with 1-mark MCQs. The
         # shape is the label set, not a clean parse: a stem whose labels do
@@ -709,6 +816,10 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
 
     if r["type"] == "mcq":
         r["metadata"] = meta
+        if opens_with_options:
+            # "a. Chappu b. Toppi c. Choru d. Varu" (SQP Carnatic Music
+            # (Percussion) X 2022-23 Q4, key "B"): options with no question.
+            return r, "stem-fragment"
         reason = _mcq_reason(r, in_stem, in_parts)
         if reason is not None:
             return r, reason
