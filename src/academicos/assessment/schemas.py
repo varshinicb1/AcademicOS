@@ -329,6 +329,10 @@ class GeneratedQuestionSchema(Camel):
     internal_choice_text: Optional[str] = None
     internal_choice_question_id: Optional[str] = None
     is_competency: bool = False
+    # The question's type, so the renderer grids (A)-(D) only for an MCQ. Without
+    # it, a descriptive question's sub-parts (a)-(d) were printed as options.
+    # Empty for papers generated before this field existed.
+    type: str = ""
 
 
 class GeneratedSectionSchema(Camel):

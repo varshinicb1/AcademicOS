@@ -181,3 +181,50 @@ def test_split_stem_and_options_out_of_order_not_split():
 
 def test_escape_xml_special_chars():
     assert escape("a < b & c > d") == "a &lt; b &amp; c &gt; d"
+
+from academicos.assessment.pdf import export_answer_key_pdf, pdf_safe  # noqa: E402
+
+
+def _paper_with(gq, answer="x"):
+    now = datetime.now(timezone.utc)
+    section = GeneratedSectionSchema(section_id="s", label="A", name="Q",
+                                     questions=[gq], total_marks=gq.marks)
+    meta = PaperMetadataSchema(assessment_title="T", subject="Science", grade=9,
+                               total_marks=gq.marks, duration_minutes=60, generated_at=now)
+    return GeneratedPaper(id="p", assessment_id="a", sections=[section],
+                          metadata=meta, answer_key={"1": answer})
+
+
+def _gq(stem, qtype="mcq", marks=1):
+    return GeneratedQuestionSchema(question_id="q", display_number=1, stem=stem,
+                                   marks=marks, bloom_level="remember",
+                                   difficulty="easy", type=qtype)
+
+
+def test_more_than_four_option_labels_do_not_crash(tmp_path):
+    """labels="ABCD" indexed by position raised IndexError on a fifth."""
+    stem = "Pick one. (A) a (B) b (C) c (D) d (D) e"
+    assert export_pdf(_paper_with(_gq(stem)), tmp_path).exists()
+
+
+def test_a_question_taller_than_a_page_exports(tmp_path):
+    """Each question was one Table row, which cannot split: LayoutError, HTTP 500."""
+    stem = "Explain in detail. " + ("This sentence is deliberately long. " * 900)
+    assert export_pdf(_paper_with(_gq(stem, "long_answer", 5)), tmp_path).exists()
+
+
+def test_an_answer_taller_than_a_page_exports(tmp_path):
+    paper = _paper_with(_gq("Explain photosynthesis fully.", "long_answer", 5),
+                        answer="Value point. " * 3000)
+    assert export_answer_key_pdf(paper, tmp_path).exists()
+
+
+def test_subparts_of_a_descriptive_question_are_not_gridded_as_options(tmp_path):
+    stem = "Two brothers share money. (a) Find each share. (b) Explain. (c) Check. (d) State."
+    text = _extract_text(export_pdf(_paper_with(_gq(stem, "long_answer", 4)), tmp_path))
+    assert "(A)" not in text and "(a) Find each share" in text
+
+
+def test_math_italic_letters_survive():
+    """'12𝑥2 + 11𝑥−15' printed as '122 + 11−15' -- the variable vanished."""
+    assert pdf_safe("12\U0001d4652 + 11\U0001d465−15") == "12x2 + 11x-15"

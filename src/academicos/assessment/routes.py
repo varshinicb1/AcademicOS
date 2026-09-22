@@ -4,6 +4,7 @@ contract exactly (paths, camelCase JSON). Mounted at /api/v1 in api/main.py.
 from __future__ import annotations
 
 import json
+import logging
 import time
 import uuid
 from datetime import datetime, timezone
@@ -54,6 +55,8 @@ from .templates import (
     default_sections,
     get_sections_for_exam_type,
 )
+
+log = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/v1")
 
@@ -572,14 +575,25 @@ def export_paper(paper_id: str, fmt: str, current: User = Depends(get_current_us
     # _page_furniture docstring and docs/compliance.md's paper-release-
     # locking checklist item.
     watermark_id = f"exp_{uuid.uuid4().hex[:10]}"
+    # A render failure is the paper's content, not the server: say so with a
+    # 422 naming the cause instead of a bare 500 (ReportLab raises
+    # LayoutError/IndexError/ValueError on content it cannot lay out).
     if fmt in ("answer-key", "answer_key", "answerKey"):
-        path = pdf_export.export_answer_key_pdf(paper, out_dir, template=template)
+        try:
+            path = pdf_export.export_answer_key_pdf(paper, out_dir, template=template)
+        except Exception as exc:
+            log.exception("answer key for paper %s failed to render", paper_id)
+            raise HTTPException(422, f"this answer key could not be rendered: {exc}") from exc
         get_audit_log(cfg.data_root).append(
             "answer_key_exported", assessment_id=paper.assessment_id,
             details={"paperId": paper_id, "format": fmt, "file": path.name, "watermarkId": watermark_id},
         )
         return {"url": f"/api/v1/papers/{paper_id}/file?format=answer-key", "watermarkId": watermark_id}
-    path = pdf_export.export_pdf(paper, out_dir, template=template, watermark_id=watermark_id)
+    try:
+        path = pdf_export.export_pdf(paper, out_dir, template=template, watermark_id=watermark_id)
+    except Exception as exc:
+        log.exception("paper %s failed to render", paper_id)
+        raise HTTPException(422, f"this paper could not be rendered: {exc}") from exc
     get_audit_log(cfg.data_root).append(
         "paper_exported", assessment_id=paper.assessment_id,
         details={"paperId": paper_id, "format": fmt, "watermarkId": watermark_id},

@@ -103,7 +103,62 @@ def _register_unicode_font() -> None:
             log.warning("could not register font %s: %s", regular, e)
 
 
+# A line-for-line port of frontend/lib/core/local_engine/pdf_text_safety.dart,
+# so a question prints the same on the web as on the phone. The web had no
+# equivalent: CBE Maths writes variables as Mathematical Alphanumeric letters
+# (U+1D434-) and symbol-font private-use characters, and those vanished --
+# "12x^2 + 11x - 15" printed as "122 + 11-15". In production it is worse: the
+# container falls back to Helvetica (WinAnsi only) when DejaVu is missing.
+_PDF_PUNCTUATION = (("—", "-"), ("–", "-"), ("•", "-"),
+                    ("‘", "'"), ("’", "'"), ("“", '"'), ("”", '"'))
+# Subscript digits U+2080-2089; superscript digits U+2070, U+00B9, U+00B2,
+# U+00B3, U+2074-2079. The digit is real content (a formula's subscript, an
+# exponent), so it is kept as a plain digit rather than dropped.
+_SUB_SUPER_DIGITS = str.maketrans(
+    "₀₁₂₃₄₅₆₇₈₉"
+    "⁰¹²³⁴⁵⁶⁷⁸⁹",
+    "01234567890123456789")
+_PDF_MATH = (
+    ("−", "-"), ("√", "sqrt"), ("∴", "therefore"), ("∵", "because"),
+    ("∠", "angle "), ("⇒", "=>"), ("⟹", "=>"), ("≠", "!="),
+    ("≥", ">="), ("≤", "<="), ("∈", "in"), ("∞", "infinity"),
+    ("∆", "triangle "), ("Δ", "triangle "), ("∫", "integral"),
+    ("′", "'"), ("θ", "theta"), ("π", "pi"), ("⃗", ""),
+    ("̂", ""), ("₹", "Rs."), ("…", "..."),
+    ("ଶ", "2"),        # an OCR artifact standing in for a superscript 2
+    ("𝛼", "alpha"), ("𝜃", "theta"), ("𝜋", "pi"),
+)
+# Symbol-font glyph references left by the source PDFs' OCR: no defined
+# meaning, so dropped rather than guessed.
+_PRIVATE_USE = re.compile("[-]")
+_MATH_LETTER_BLOCKS = (0x1D400, 0x1D434, 0x1D468, 0x1D49C, 0x1D4D0, 0x1D504, 0x1D538,
+                       0x1D56C, 0x1D5A0, 0x1D5D4, 0x1D608, 0x1D63C, 0x1D670)
+
+
+def _demathify(cp: int) -> int | None:
+    """A styled Mathematical Alphanumeric letter or digit, back to plain ASCII."""
+    for start in _MATH_LETTER_BLOCKS:
+        offset = cp - start
+        if 0 <= offset < 52:
+            return 0x41 + offset if offset < 26 else 0x61 + offset - 26
+    if 0x1D7CE <= cp <= 0x1D7FF:
+        return 0x30 + (cp - 0x1D7CE) % 10
+    return None
+
+
+def pdf_safe(text: str) -> str:
+    """Text a base PDF font can print, keeping every symbol's meaning."""
+    for a, b in _PDF_PUNCTUATION:
+        text = text.replace(a, b)
+    text = text.translate(_SUB_SUPER_DIGITS)
+    for a, b in _PDF_MATH:
+        text = text.replace(a, b)
+    text = _PRIVATE_USE.sub("", text)
+    return "".join(chr(_demathify(ord(c)) or ord(c)) for c in text)
+
+
 def escape(text: str) -> str:
+    text = pdf_safe(text)
     return text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
 
@@ -256,19 +311,25 @@ def _instructions(paper: GeneratedPaper, styles: _Styles) -> list:
 
 def _question_flowables(gq, styles: _Styles, content_width: float,
                         gutter: float, marks_col: float) -> list:
-    """One question: number in the gutter, marks in the right margin, options gridded."""
-    head, options = split_stem_and_options(gq.stem)
+    """One question: number in the gutter, marks in the right margin, options gridded.
+
+    Options are split out only for an objective question: a descriptive
+    question's sub-parts "(a) Find ... (b) Explain ..." read exactly like
+    options and were gridded as (A)-(D). An empty type is a paper generated
+    before GeneratedQuestionSchema carried one, and keeps the old behaviour.
+    """
+    objective = gq.type in ("", "mcq", "assertion_reason")
+    head, options = split_stem_and_options(gq.stem) if objective else (gq.stem.strip(), [])
     body: list = [Paragraph(escape(head), styles.question)]
 
     if options:
         rows: list[list] = []
-        labels = "ABCD"
         pairs = [options[i:i + 2] for i in range(0, len(options), 2)]
         idx = 0
         for pair in pairs:
             row = []
             for opt in pair:
-                row.append(Paragraph(f"({labels[idx]})&nbsp; {escape(opt)}", styles.option))
+                row.append(Paragraph(f"({chr(ord('A') + idx)})&nbsp; {escape(opt)}", styles.option))
                 idx += 1
             if len(row) == 1:
                 row.append("")
@@ -288,10 +349,13 @@ def _question_flowables(gq, styles: _Styles, content_width: float,
         body.append(Paragraph("OR", styles.choice))
         body.append(Paragraph(escape(gq.internal_choice_text), styles.question))
 
+    # splitInRow: the whole question is one table row, and a row that cannot
+    # split raised LayoutError (HTTP 500) on any question taller than a page.
     row = Table(
         [[Paragraph(f"<b>{gq.display_number}.</b>", styles.question), body,
           Paragraph(str(gq.marks), styles.marks)]],
         colWidths=[gutter, content_width - gutter - marks_col, marks_col],
+        splitInRow=1,
     )
     row.setStyle(TableStyle([
         ("VALIGN", (0, 0), (-1, -1), "TOP"),
@@ -324,7 +388,8 @@ def _section_note(section: GeneratedSectionSchema) -> str:
 
 
 def _section_block(section: GeneratedSectionSchema, styles: _Styles,
-                   content_width: float, gutter: float, marks_col: float) -> list:
+                   content_width: float, gutter: float, marks_col: float,
+                   frame_height: float) -> list:
     note = _section_note(section)
     story: list = [
         Paragraph(f"SECTION {section.label}", styles.section),
@@ -332,8 +397,14 @@ def _section_block(section: GeneratedSectionSchema, styles: _Styles,
                   f"{section.total_marks} marks. This section {note})", styles.section_note),
     ]
     for gq in section.questions:
-        story.append(KeepTogether(
-            _question_flowables(gq, styles, content_width, gutter, marks_col)))
+        flowables = _question_flowables(gq, styles, content_width, gutter, marks_col)
+        # Keep a question on one page when it fits on one; one that cannot
+        # fit anywhere is left free to split across pages instead.
+        height = sum(f.wrap(content_width, frame_height)[1] for f in flowables)
+        if height <= frame_height:
+            story.append(KeepTogether(flowables))
+        else:
+            story.extend(flowables)
     return story
 
 
@@ -394,7 +465,8 @@ def export_pdf(paper: GeneratedPaper, output_dir: Path,
     story.extend(_header(paper, template, styles, content_width))
     story.extend(_instructions(paper, styles))
     for section in paper.sections:
-        story.extend(_section_block(section, styles, content_width, gutter, marks_col))
+        story.extend(_section_block(section, styles, content_width, gutter, marks_col,
+                                    doc.height))
 
     footer = _page_furniture(paper, template, watermark_id=watermark_id)
     doc.build(story, onFirstPage=footer, onLaterPages=footer)
@@ -435,7 +507,8 @@ def export_answer_key_pdf(paper: GeneratedPaper, output_dir: Path,
                 Paragraph(str(gq.marks), styles.option),
                 Paragraph(ans_formatted, styles.option),
             ])
-    table = Table(rows, colWidths=[14 * mm, 14 * mm, None], repeatRows=1)
+    # splitInRow: a model answer longer than a page is one row that must split.
+    table = Table(rows, colWidths=[14 * mm, 14 * mm, None], repeatRows=1, splitInRow=1)
     table.setStyle(TableStyle([
         ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#888888")),
         ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#EEEEEE")),

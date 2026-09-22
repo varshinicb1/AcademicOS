@@ -53,6 +53,7 @@ def generate_paper(*, paper_id: str, assessment_id: str, assessment_title: str,
                 internal_choice_text=choice_stem,
                 internal_choice_question_id=choice_id,
                 is_competency=is_cbq,
+                type=q.type,
             ))
 
             model_ans = q.answer_scheme.model_answer or "(model answer pending)"
