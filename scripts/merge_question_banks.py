@@ -35,12 +35,22 @@ It refuses a source with no chapter tags. Re-running a builder discards the tags
 apply_chapter_tags.py wrote, and merging such a source ships class 6-9 with no
 chapter a paper blueprint can select on.
 
-Run:  python scripts/merge_question_banks.py [--check]
+Board records are gated like CBE and SQP ones (bank_merge.exclusion_reason),
+after the repairs that are certain (bank_merge.repair_board); --check prints
+what each reason removes, the repairs, and the served count by subject and
+grade before and after. `--check --relink-in-memory` measures that on a
+relinked copy of the served and withheld board records -- the relink
+enrich_question_bank.py runs, done in memory and stamped in memory -- so the
+gate can be measured before the tracked bank is relinked. It writes nothing,
+and without --check it is refused.
+
+Run:  python scripts/merge_question_banks.py [--check [--relink-in-memory]]
 """
 from __future__ import annotations
 
 import argparse
 import collections
+import copy
 import json
 import os
 import re
@@ -64,6 +74,9 @@ class Paths:
     excluded: Path
     # Withheld board records, whole. Next to `excluded` unless named.
     held: Path | None = None
+    # What --relink-in-memory reads: the answer-key index and the parse trees.
+    answer_keys: Path | None = None
+    parse_dir: Path | None = None
 
     @property
     def withheld(self) -> Path:
@@ -76,6 +89,8 @@ DEFAULT = Paths(
     cbe=REPO / "academicos-data" / "corpus" / "cbse-cbe" / "questions.json",
     sqp=REPO / "academicos-data" / "corpus" / "cbse-sqp" / "questions.json",
     excluded=REPO / "academicos-data" / "syllabus" / "_merge_excluded.json",
+    answer_keys=REPO / "academicos-data" / "answer_keys.db",
+    parse_dir=REPO / "academicos-data" / "parse",
 )
 
 
@@ -112,8 +127,48 @@ def _chapter_names(questions: list[dict]) -> dict[tuple[str, int, str], str]:
     return names
 
 
-def run(paths: Paths, *, check: bool, allow_no_board: bool = False) -> int:
+def _relink_in_memory(served: dict, held: list[dict], paths: Paths) -> tuple[dict, list[dict]]:
+    """Copies of the served bank and the withheld board records, relinked as
+    enrich_question_bank.py relinks them -- in one pass, so each finds its
+    siblings in the other -- and stamped with the verifier, in memory only."""
+    from academicos.assessment import question_bank
+
+    served, held = copy.deepcopy(served), copy.deepcopy(held)
+    ids = {r.get("id") for r in served["questions"]}
+    index = question_bank.AnswerKeyIndex(paths.answer_keys)
+    question_bank.relink_answer_schemes(
+        served["questions"] + [r for r in held if r.get("id") not in ids], index,
+        parse_dir=paths.parse_dir)
+    served["schemeVerifier"] = SCHEME_VERIFIER
+    return served, held
+
+
+def _by_subject_grade(before: list[dict], after: list[dict]) -> None:
+    """Served count per subject and grade: in the served file now, and what
+    this merge serves (all sources, and board only)."""
+    key = lambda q: (str(q.get("subject")), q.get("grade") if isinstance(q.get("grade"), int) else -1)
+    was = collections.Counter(key(q) for q in before)
+    now = collections.Counter(key(q) for q in after)
+    board = collections.Counter(key(q) for q in after if q.get("source") == bank_merge.BOARD_SOURCE)
+    print("served by subject x grade (before = the served file now; after = this merge):")
+    print(f"  {'subject':32s} {'grade':>5s} {'before':>8s} {'after':>8s} {'board':>8s}")
+    for subject, grade in sorted(set(was) | set(now)):
+        print(f"  {subject[:32]:32s} {grade:5d} {was[(subject, grade)]:8d} "
+              f"{now[(subject, grade)]:8d} {board[(subject, grade)]:8d}")
+
+
+def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
+        relink_in_memory: bool = False) -> int:
+    if relink_in_memory and not check:
+        print("refusing: --relink-in-memory measures a relinked copy and writes nothing; "
+              "pass it with --check (scripts/enrich_question_bank.py relinks for real)")
+        return 2
     served, cbe, sqp = _load(paths.served), _load(paths.cbe), _load(paths.sqp)
+    held = bank_merge.load_withheld(paths.withheld)
+    if relink_in_memory:
+        served, held = _relink_in_memory(served, held, paths)
+        print(f"relinked in memory: {len(served['questions']):,} served and "
+              f"{len(held):,} withheld records (nothing written)")
     stamp = served.get("schemeVerifier")
     if stamp != SCHEME_VERIFIER:
         seen = f"its stamp is {stamp!r}" if stamp else "it carries no stamp"
@@ -127,7 +182,6 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False) -> int:
                   f"run scripts/apply_chapter_tags.py first")
             return 2
 
-    held = bank_merge.load_withheld(paths.withheld)
     result = bank_merge.compose(served["questions"], cbe["questions"], sqp["questions"],
                                 held=held)
     names = _chapter_names(result.questions)
@@ -172,6 +226,9 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False) -> int:
                 print(f"  {subject} {grade}: {label!r} covers {', '.join(cids)}")
     print(f"board records withheld, kept whole in {paths.withheld.name}: "
           f"{len(result.withheld):,}")
+    print("board repairs: " + (", ".join(f"{name} {n:,}" for name, n in sorted(result.repairs.items()))
+                               or "none"))
+    _by_subject_grade(served["questions"], questions)
     # Board records exist but not one carries the relink's stamp: the bank has
     # not been through enrich_question_bank.py since it was built, and a write
     # now would ship a bank with no board question and still exit 0. The
@@ -210,8 +267,11 @@ def main() -> int:
     ap.add_argument("--check", action="store_true", help="report only; write nothing")
     ap.add_argument("--allow-no-board", action="store_true",
                     help="write even when every board record is withheld")
+    ap.add_argument("--relink-in-memory", action="store_true",
+                    help="with --check: measure on a copy relinked and stamped in memory")
     args = ap.parse_args()
-    return run(DEFAULT, check=args.check, allow_no_board=args.allow_no_board)
+    return run(DEFAULT, check=args.check, allow_no_board=args.allow_no_board,
+               relink_in_memory=args.relink_in_memory)
 
 
 if __name__ == "__main__":

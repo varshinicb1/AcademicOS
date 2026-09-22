@@ -1171,3 +1171,468 @@ def test_shared_chapter_labels_finds_one_name_on_several_chapters():
             board(5, chapterIds=["light"], tags=["Light"])]
     assert bm.shared_chapter_labels(recs) == {
         ("Mathematics", 6): {"Number systems": ["6N1a", "6N1b"]}}
+
+
+# ---- board records: answerable as printed (Task 16) --------------------------
+#
+# Every stem below is a real served board record, verbatim unless noted, with
+# the verified-scheme stamp `board()` carries; the ids are cited so each can be
+# checked against academicos-data/syllabus/questions.json.
+
+def real_board(src_q, stem, *, subject="Mathematics", grade=10, marks=1,
+               qtype="very_short_answer", answer="x", option=None, options=None):
+    """A verified board record: the relink's stamp, and for an objective one
+    the letter it verified (answerScheme.metadata.correctOption)."""
+    rec = board(1, id=f"cbse:q:src:{src_q}", subject=subject, grade=grade, marks=marks,
+                type=qtype, stem=stem)
+    scheme = rec["answerScheme"]
+    scheme["totalMarks"] = marks
+    scheme["modelAnswer"] = answer
+    scheme["markingPoints"][0].update(description=answer, marks=marks)
+    if option is not None:
+        scheme["metadata"].update(objective=True, correctOption=option)
+        if options is not None:
+            scheme["metadata"]["options"] = options
+    return rec
+
+
+def _served_or_reason(rec):
+    result = bm.compose([rec], [], [])
+    if result.questions:
+        return result.questions[0], None
+    return None, result.excluded[0]["reason"]
+
+
+# Accountancy XII 67/1/2 Q31, verified: "Classify the following items ... :"
+# and the items never came through.
+CLASSIFY = real_board(
+    "988359abbe5fb1502b6f69f9:31",
+    "Classify the following items under major heads and sub-heads (if any) in the "
+    "Balance Sheet of a company as per Schedule III, Part I of the Companies Act, 2013 :",
+    subject="Accountancy", grade=12, marks=3, qtype="long_answer",
+    answer="Property, Plant and Equipment")
+
+
+def test_an_objective_stem_with_no_options_is_options_missing():
+    assert _served_or_reason(copy.deepcopy(CLASSIFY)) == (None, "options-missing")
+
+
+def test_a_one_mark_which_of_the_following_with_no_options_is_options_missing():
+    # b0025252f69babc7d87d90f3 Q9's question with its options cut off.
+    rec = real_board("b0025252f69babc7d87d90f3:9",
+                     "Which one of the following is not a characteristic feature of "
+                     "“humus” that is formed during decomposition of detritus ?",
+                     subject="Biology", grade=12)
+    assert _served_or_reason(rec) == (None, "options-missing")
+
+
+def test_a_board_stem_pointing_at_a_figure_it_lacks_is_figure_unavailable():
+    # Physics XII 55/1/2 Q17, verified.
+    rec = real_board(
+        "009c1c0b2ba7272fc371da3b:17",
+        "Two batteries of emfs 6 V and 3 V and internal resistances 0·8 and 0·2 "
+        "respectively are connected in series to an external resistance R, as shown in "
+        "figure. Find the value of R so that the potential difference across the 6 V "
+        "battery be zero.", subject="Physics", grade=12)
+    assert _served_or_reason(rec) == (None, "figure-unavailable")
+
+
+def test_a_figure_reference_with_an_asset_is_served():
+    rec = real_board("009c1c0b2ba7272fc371da3b:17",
+                     "Two batteries are connected in series to an external resistance R, "
+                     "as shown in figure. Find the value of R so that the potential "
+                     "difference across the 6 V battery be zero.",
+                     subject="Physics", grade=12)
+    rec["diagramAssetId"] = "asset:circuit"
+    assert _served_or_reason(rec)[1] is None
+
+
+@pytest.mark.parametrize("src_q,stem", [
+    # English X 7e81f931 Q1: the passage, stopping inside its second paragraph,
+    # and not one of its questions.
+    ("7e81f931984b4c9a12e55b2c:1",
+     "Read the passage given below : (1) If you’re like most kids, you may love snow. Not "
+     "only can it get you out of school, but it’s also fun to play with. Who doesn’t love "
+     "to sled and build snowmen ? Snow can also be dangerous, too. You may have heard your "
+     "parents talk about how difficult it can be to drive in snow. Car accidents aren’t the "
+     "only dangers created by snow. If you’re ever skiing in the mountains, you’ll want to "
+     "be aware of avalanches. An avalanche is a sudden flow of snow down a slope, such as a "
+     "mountain. The amount of snow in an avalanche will vary based on many things, but it "
+     "can be such a huge pile that it can bury the bottom of a slope in dozens of feet of "
+     "snow. 2/1/1 P.T.O.*^ (2) Avalanches can be caused by many things. Some of them are "
+     "natural. For example, new snow"),
+    # Mathematics X Q36: the case's opening line, and nothing after it.
+    ("94cb306f384779a2121f9f55:36",
+     "Rainbow is an arch of colours that is visible in the sky after rain"),
+])
+def test_a_case_study_with_no_question_is_excluded(src_q, stem):
+    rec = real_board(src_q, stem, subject="English", marks=5, qtype="case_study")
+    assert _served_or_reason(rec) == (None, "case-study-without-question")
+
+
+def test_a_case_study_that_asks_its_questions_is_served():
+    # Social Science X 32/5/1 Q35, verified (passage shortened).
+    rec = real_board(
+        "f73780490a16ef016ae67e67:35",
+        "Read the given source and answer the questions that follow : Conservation of "
+        "Resources At the international level, the Club of Rome advocated resource "
+        "conservation for the first time in a more systematic way in 1968. Another "
+        "significant contribution was made at the Earth Summit at Rio de Janeiro, Brazil "
+        "in 1992. (35.1) Explain the meaning of sustainable development. 1 (35.2) In which "
+        "international conference was ‘Agenda-21’ accepted ? 1 (35.3) Explain any two "
+        "outcomes of the Summit. 2%1=2 666 -15 22 of",
+        subject="Social Science", marks=4, qtype="case_study")
+    out, reason = _served_or_reason(rec)
+    assert reason is None
+    assert out["stem"].endswith("Explain any two outcomes of the Summit. 2%1=2")
+
+
+@pytest.mark.parametrize("src_q,stem", [
+    # Mathematics X 30/1/1 Q30, verified: the volume and pi are gone.
+    ("4f6182240b214906a58eaeab:30",
+     "A room is in the form of a cylinder surmounted by a hemispherical dome. The base "
+     "radius of the hemisphere is half of the height of the cylindrical part. If the room "
+     "contains m³ of air, find the height of the cylindrical part. (Use = -)."),
+    # Mathematics X f319c93a... Q19: a1/a2 = b1/b2 = c1/c2 flattened into letter
+    # pairs and an empty right side.
+    ("f319c93abeb1185b0864d200:19",
+     "The pair of linear equations a1x + b1y + c1 = 0 and a2x + b2y + c2 = 0 have "
+     "infinitely many solutions, if 2 1 2 1 2 1 c c b b a a = = ."),
+    # Mathematics X 430/3/3 Q15, verified: "a ≠ b" with the Symbol font's ≠ read as
+    # a superscript one.
+    ("f01c7b6fd6fca7ef7d9987dc:5",
+     "The lines represented by linear equations x = a and y = b (a ¹ b) are 1 (A) "
+     "intersecting at (a, b). (B) intersecting at (b, a). (C) parallel. (D) coincident. "
+     "/CD1BA/22"),
+    # Mathematics X f319c93a... Q34: the triangle sign read as a D.
+    ("f319c93abeb1185b0864d200:34",
+     "BL and CM are medians of triangles ABC and PQR, respectively, where D ABC ~ D PQR, "
+     "prove that AB BD PQ QM = ."),
+])
+def test_a_stem_that_lost_its_symbols_is_excluded(src_q, stem):
+    rec = real_board(src_q, stem, marks=3, qtype="long_answer")
+    assert _served_or_reason(rec) == (None, "symbol-loss")
+
+
+@pytest.mark.parametrize("stem", [
+    "Find the area of the corresponding minor sector of a circle of radius 21 cm. "
+    "(Use π = 22/7)",
+    # f319c93a... Q26 prints pi as p (the Symbol font's pi); a student reads it.
+    "Find the area of the corresponding minor sector of a circle of radius 21 cm. "
+    "(Use p = 3·14)",
+])
+def test_a_stem_that_still_carries_its_value_is_not_symbol_loss(stem):
+    rec = real_board("f319c93abeb1185b0864d200:26", stem, marks=3, qtype="long_answer")
+    assert _served_or_reason(rec)[1] is None
+
+
+def test_a_hindi_paper_read_through_a_legacy_font_is_garbled():
+    # Hindi X bee29b9e3a35e0d50d8af5e9 Q3: all 13 served Hindi stems read like this.
+    rec = real_board("bee29b9e3a35e0d50d8af5e9:3",
+                     "Wr & (III) {dH$ën : (A) 1-(I), 2-(II), 3-(III) (B) 1-(III), 2-(I), "
+                     "3-(II) (C) 1-(II), 2-(III), 3-(I) (D) 1-(II), 2-(I), 3-(III) 3/4/1-4",
+                     subject="Hindi", option="A")
+    assert _served_or_reason(rec) == (None, "garbled-script")
+
+
+def test_a_legacy_font_tail_on_an_english_board_stem_is_garbled():
+    # Physics XII 55/4/1 Q34, verified: the Hindi copy of the question came through
+    # as "{ÛY«wd AmKyU©" after the English (shortened).
+    rec = real_board(
+        "f64a5fa2eca8fc27010a4acb:34",
+        "Answer the following questions based on the above : Find the potential energy "
+        "of the dipole. 1 26 of 27 (J) {ÛY«wd AmKyU© 6 10⁻⁷ C-m H$m H$moB© {dÚwV {ÛY«wd "
+        "104 N/C Ho$ EH$g_mZ {dÚwV joÌ _| Bg àH$ma pñWV h¡ {H$ {ÛY«wd AmKyU© Am¡a",
+        subject="Physics", grade=12, marks=4, qtype="case_study")
+    assert _served_or_reason(rec) == (None, "garbled-script")
+
+
+def test_a_stem_whose_words_were_lost_is_a_fragment():
+    # Mathematics X 430/2/2 Q17, verified: the Hindi-medium copy, its words dropped.
+    rec = real_board("c0791b53af11069dbcd68a65:17",
+                     "21 cm 120° 1 (A) 231 cm² (B) 462 cm² (C) 346.5 cm² (D) 693 cm²",
+                     option="B")
+    assert _served_or_reason(rec) == (None, "stem-fragment")
+
+
+@pytest.mark.parametrize("src_q,stem", [
+    # Mathematics X 0916a372 Q7: two words of three letters, and a whole question.
+    ("0916a372de696613bddff07e:7",
+     "Prime factorisation of 424 is : (A) 2 ´ 53 ´ 4 (B) 2 ´ 53 ´ 2 (C) 23 ´ 53 "
+     "(D) 24 ´ 53"),
+    ("0916a372de696613bddff07e:8", "Solve for x : 2x + 3 = 11"),
+])
+def test_a_short_whole_question_is_not_a_fragment(src_q, stem):
+    rec = real_board(src_q, stem, option="D" if "(D)" in stem else None)
+    assert _served_or_reason(rec)[1] is None
+
+
+@pytest.mark.parametrize("stem", [
+    # Social Science X f5f52d3e Q8: a case's question is a fill-in MCQ.
+    "Study the table and answer the question that follows : Year 1990 1800 The "
+    "attendance percentage of this country of the age group of 14 and 15 years is "
+    "__________. (A) 90 percent (B) 80 percent (C) 70 percent (D) 60 percent",
+    # History XII 01e0c514 Q9: its question is an assertion to judge.
+    "Read the source and answer the questions that follow : Assertion (A) : Francois "
+    "Bernier has called the Mughal king as the king of barbarians . Reason (R) : Crown "
+    "ownership of land was its reason.",
+    # Chemistry XII 1c8ab2d6 Q34: numbered statements to account for.
+    "Answer the following questions : (i) Transition metals form complexes. (ii) Cr2⁺ is "
+    "reducing in nature while with the same d-orbital configuration (d4) Mn3⁺ is an "
+    "oxidising agent. (iii) Zn has lowest enthalpy of atomization.",
+])
+def test_a_case_study_that_asks_by_options_or_numbered_parts_is_served(stem):
+    rec = real_board("f5f52d3e0580aac4355f9205:8", stem, subject="Social Science",
+                     marks=1, qtype="case_study", option="A" if "(D)" in stem else None)
+    if "Assertion" in stem:
+        rec["answerScheme"]["metadata"].update(objective=True, correctOption="C")
+    assert _served_or_reason(rec)[1] is None
+
+
+# -- repairs --
+
+def test_inline_options_are_printed_as_a_to_d_with_the_verified_letter():
+    from academicos.assessment.pdf import split_stem_and_options
+
+    # Mathematics X 430/5/1 Q12, verified A.
+    rec = real_board("0b3c7b807dcc7e88fd1809df:17",
+                     "The sum of the first 100 even natural numbers is : (a) 10100 "
+                     "(b) 2550 (c) 5050 (d) 10010", answer="10100", option="A",
+                     options={"A": "10100", "B": "2550", "C": "5050", "D": "10010"})
+    result = bm.compose([rec], [], [])
+    out = result.questions[0]
+    assert out["stem"] == ("The sum of the first 100 even natural numbers is : "
+                           "(A) 10100 (B) 2550 (C) 5050 (D) 10010")
+    head, options = split_stem_and_options(out["stem"])
+    assert head.strip() == "The sum of the first 100 even natural numbers is :"
+    assert options == ["10100", "2550", "5050", "10010"]
+    assert out["answerScheme"]["metadata"]["correctOption"] == "A"
+    assert out["parts"] == []
+    assert bm.contract_errors(out) == []
+    assert result.repairs["options-inline"] == 1
+
+
+def test_the_mark_printed_before_the_options_is_dropped():
+    # Mathematics X 430/2/2 Q12, verified A: "... is called a 1 (A) secant".
+    rec = real_board("c0791b53af11069dbcd68a65:8",
+                     "A line intersecting a circle in two distinct points is called a 1 "
+                     "(A) secant (B) chord (C) diameter (D) tangent", answer="secant",
+                     option="A")
+    out, reason = _served_or_reason(rec)
+    assert reason is None
+    assert out["stem"] == ("A line intersecting a circle in two distinct points is called a "
+                           "(A) secant (B) chord (C) diameter (D) tangent")
+
+
+def test_an_mcq_whose_verified_key_names_no_printed_option_is_refused():
+    rec = real_board("c0791b53af11069dbcd68a65:8",
+                     "A line intersecting a circle in two distinct points is called a "
+                     "(A) secant (B) chord (C) diameter", answer="tangent", option="D")
+    assert _served_or_reason(rec) == (None, "mcq-answer-unresolved")
+
+
+def test_a_one_mark_mcq_with_no_verified_letter_is_refused():
+    rec = real_board("c0791b53af11069dbcd68a65:8",
+                     "A line intersecting a circle in two distinct points is called a "
+                     "(A) secant (B) chord (C) diameter (D) tangent", answer="secant")
+    assert _served_or_reason(rec) == (None, "mcq-answer-unresolved")
+
+
+def test_a_multi_mark_question_in_parts_is_not_read_as_options():
+    rec = real_board("7d85e69ac9a355f7b0d2eac0:32",
+                     "(a) Explain any five challenges faced by political parties in India. "
+                     "(b) Suggest any five measures to reform political parties.",
+                     subject="Social Science", marks=5, qtype="long_answer")
+    out, reason = _served_or_reason(rec)
+    assert reason is None and out["stem"] == rec["stem"]
+
+
+# CBSE's four assertion-reason options, word for word as the Home Science X
+# 2024-25 SQP prints them (cbse:sqp:ClassX_2024_25:Home Science:17).
+AR_OPTIONS = [
+    "Both A and R are true and R is the correct explanation of A.",
+    "Both A and R are true but R is not the correct explanation of A.",
+    "A is true but R is false.",
+    "A is false but R is true.",
+]
+AR_STEM = ("Assertion (A) : The amount of ozone in the atmosphere began to drop sharply "
+           "in the 1980s. Reason (R) : The oxygen atoms combine with molecular oxygen to "
+           "form ozone.")
+
+
+def test_an_assertion_reason_item_gets_the_four_standard_options():
+    from academicos.assessment.pdf import split_stem_and_options
+
+    # Science X af50a3f7e666fdea9cee608f Q20, key B.
+    rec = real_board("af50a3f7e666fdea9cee608f:20", AR_STEM, subject="Science",
+                     answer="(B)", option="B")
+    result = bm.compose([rec], [], [])
+    out = result.questions[0]
+    head, options = split_stem_and_options(out["stem"])
+    assert head.strip() == AR_STEM
+    assert [o.rstrip(".") for o in options] == [o.rstrip(".") for o in AR_OPTIONS]
+    assert out["answerScheme"]["metadata"]["correctOption"] == "B"
+    assert bm.contract_errors(out) == []
+    assert result.repairs["assertion-reason-options"] == 1
+
+
+def test_an_assertion_reason_item_with_no_verified_letter_is_refused():
+    rec = real_board("af50a3f7e666fdea9cee608f:20", AR_STEM, subject="Science",
+                     answer="(B)")
+    assert _served_or_reason(rec) == (None, "mcq-answer-unresolved")
+
+
+@pytest.mark.parametrize("src_q,stem,cleaned", [
+    # Biology XII 57/1/1 Q2, verified B: the paper's series "-11" after option D.
+    ("784bd959b5f48fd5620f57e6:2",
+     "Which one of the following hormones is secreted by the human placenta that helps in "
+     "the maintenance of pregnancy ? (A) Relaxin (B) Human Chorionic Gonadotropin "
+     "(C) Oxytocin (D) Human Placental Lactogen -11",
+     "Which one of the following hormones is secreted by the human placenta that helps in "
+     "the maintenance of pregnancy ? (A) Relaxin (B) Human Chorionic Gonadotropin "
+     "(C) Oxytocin (D) Human Placental Lactogen"),
+    # Biology XII 57/5/2 Q9, verified B: "/22" after option D, the mark before (A).
+    ("b0025252f69babc7d87d90f3:9",
+     "Which one of the following is not a characteristic feature of “humus” that is formed "
+     "during decomposition of detritus ? 1 (A) amorphous, colloidal, dark coloured "
+     "substance (B) amorphous, colloidal, light coloured substance (C) substance resistant "
+     "to microbial action (D) colloidal substance /22",
+     "Which one of the following is not a characteristic feature of “humus” that is formed "
+     "during decomposition of detritus ? (A) amorphous, colloidal, dark coloured "
+     "substance (B) amorphous, colloidal, light coloured substance (C) substance resistant "
+     "to microbial action (D) colloidal substance"),
+])
+def test_page_furniture_is_cleaned_from_a_board_stem_not_dropped(src_q, stem, cleaned):
+    rec = real_board(src_q, stem, subject="Biology", grade=12, option="B")
+    result = bm.compose([rec], [], [])
+    assert [q["stem"] for q in result.questions] == [cleaned]
+    assert result.repairs["page-furniture-stripped"] == 1
+
+
+@pytest.mark.parametrize("text,expected", [
+    ("x cos 60 + y cos 0 + sin 30 - cot 45 = 5 # 15| P a g e",
+     "x cos 60 + y cos 0 + sin 30 - cot 45 = 5"),
+    ("Find the mode of the data. # 17| P a g e P.T.O.", "Find the mode of the data."),
+    ("(D) Papal State # 4 of", "(D) Papal State"),
+    ("(D) < 70,000 666 -11 6 of", "(D) < 70,000"),
+    ("(D) x z < y z 666 465-11 4 of", "(D) x z < y z"),
+    ("(D) 90° /DA2AB/21", "(D) 90°"),
+    ("How were the languages grouped ? /21/BBCA2 Page 28 of 32",
+     "How were the languages grouped ?"),
+    ("Read" + chr(1) + "the" + chr(1) + "following" + chr(5) + "extract",
+     "Read the following extract"),
+    ("Explain the working of an AC generator. 11-", "Explain the working of an AC generator."),
+    ("Faites la question neuf. (vii) 20 10 of", "Faites la question neuf. (vii) 20"),
+    # values, not furniture
+    ("(A) 11 (B) -11", "(A) 11 (B) -11"),
+    ("If x = -11, find y.", "If x = -11, find y."),
+    ("Name the part of a flower. 2", "Name the part of a flower. 2"),
+])
+def test_board_page_furniture(text, expected):
+    assert bm.strip_board_furniture(text) == expected
+
+
+def test_a_stem_that_is_only_furniture_is_excluded_as_page_furniture():
+    # Mathematics X db32b7ab98169b625243c09e Q35: a page footer and a few numbers.
+    rec = real_board("db32b7ab98169b625243c09e:35", "7 cm² cm 14 cm = # 17| P a g e P.T.O.",
+                     marks=5, qtype="case_study")
+    assert _served_or_reason(rec) == (None, "page-furniture")
+
+
+# -- near-duplicates --
+
+# Mathematics X, two papers of one series (f319c93a... Q9, b23bc2e5... Q15): one
+# question, extracted with different tails.
+QUADRATIC_1 = ("Which of the following is not a quadratic equation ? (A) (x – 2)₂ + 1 = "
+               "2x – 3 (B) (2x – 1) (x – 3) = (x + 5) (x – 1) (C) x(x + 1) + 8 = (x + 2) "
+               "(x – 2) (D) 2x + x 3 = 5 14-")
+QUADRATIC_2 = ("Which of the following is not a quadratic equation ? (A) (x – 2)₂ + 1 = "
+               "2x – 3 (B) (2x – 1) (x – 3) = (x + 5) (x – 1) (C) x(x + 1) + 8 = (x + 2) "
+               "(x – 2) (D) 2x + x 3 =")
+
+
+def test_near_identical_stems_are_one_question():
+    assert bm.near_duplicate_score(QUADRATIC_1, QUADRATIC_2) >= bm.NEAR_DUPLICATE_MIN
+
+
+def test_two_real_questions_that_share_most_words_are_not_duplicates():
+    # SQP Bharatanatyam XII 2024-25 Q8 and 2025-26 Q8: the same options, but one
+    # asks for Krishna's bow and the other for Shiva's -- different keys.
+    krishna = ("What is Lord Krishna’s bow called? a) Gandeev b) Pinak c) Dhanush "
+               "d) Sarang")
+    shiva = ("What is the name of Lord Shiva’s bow called? a) Gandeev b) Pinak "
+             "c) Dhanush d) Sarang")
+    assert bm.near_duplicate_score(krishna, shiva) < bm.NEAR_DUPLICATE_MIN
+
+
+def test_a_near_duplicate_board_record_is_withheld_whole():
+    first = real_board("f319c93abeb1185b0864d200:9", QUADRATIC_1, option="D")
+    second = real_board("b23bc2e537566a04afbf4415:15", QUADRATIC_2, option="D")
+    result = bm.compose([first, second], [], [])
+    assert [q["id"] for q in result.questions] == [first["id"]]
+    assert [(e["id"], e["reason"]) for e in result.excluded] == [
+        (second["id"], "duplicate-stem")]
+    assert result.withheld == [second]
+
+
+def test_a_near_duplicate_collapses_to_the_record_with_the_verified_scheme():
+    verified = real_board("f319c93abeb1185b0864d200:9", QUADRATIC_1, option="D")
+    sqp = copy.deepcopy(verified)
+    sqp.update(id="cbse:sqp:ClassX_2024_25:Mathematics:9", source="cbse_sample_paper",
+               stem=QUADRATIC_2 + " 2x")
+    sqp["answerScheme"]["metadata"] = {}
+    sqp["answerScheme"]["modelAnswer"] = sqp["answerScheme"]["markingPoints"][0][
+        "description"] = "(D) 2x + x 3 = 2x"
+    assert bm.compose([], [], [copy.deepcopy(sqp)]).questions  # alone, it is served
+    result = bm.compose([verified], [], [sqp])
+    assert [q["id"] for q in result.questions] == [verified["id"]]
+    assert [e["reason"] for e in result.excluded] == ["duplicate-stem"]
+
+
+# -- every exclusion recorded; excluded board records kept whole --
+
+def test_a_board_record_the_fidelity_gate_excludes_is_recorded_and_kept_whole():
+    rec = copy.deepcopy(CLASSIFY)
+    result = bm.compose([rec], [], [])
+    assert result.excluded == [{"id": rec["id"], "source": "cbse_board_paper",
+                                "reason": "options-missing", "subject": "Accountancy",
+                                "grade": 12, "stem": rec["stem"][:200]}]
+    assert result.withheld == [CLASSIFY]
+
+
+def test_a_repaired_board_record_leaves_its_input_unchanged():
+    rec = real_board("0b3c7b807dcc7e88fd1809df:17",
+                     "The sum of the first 100 even natural numbers is : (a) 10100 "
+                     "(b) 2550 (c) 5050 (d) 10010", answer="10100", option="A")
+    before = copy.deepcopy(rec)
+    bm.compose([rec], [], [])
+    assert rec == before
+
+
+# -- the web registry path uses the same filters --
+
+@pytest.mark.parametrize("name", ["needs_missing_figure", "looks_truncated",
+                                  "has_broken_options", "looks_mangled"])
+def test_the_pool_filters_live_in_bank_merge(name):
+    from academicos.assessment import pool
+
+    assert getattr(pool, name) is getattr(bm, name)
+    assert getattr(bm, name).__module__ == bm.__name__
+
+
+@pytest.mark.parametrize("fn,text,rejected", [
+    ("needs_missing_figure", "In the given figure, find the value of x.", True),
+    ("needs_missing_figure", "In the given figure, which is right? (a) 1 (b) 2 (c) 3", False),
+    ("looks_truncated", "Select the correct option from the following", True),
+    ("looks_truncated", "The products of the reaction are :", True),
+    ("looks_truncated", "Which of the following is a metal? (A) Na (B) Cl", False),
+    ("has_broken_options", "Pick one (a) 12 (c) 14 (d) 15", True),
+    ("has_broken_options", "Pick one (a) 12 (b) (c) 14 (d) 15", True),
+    ("has_broken_options", "(a) Explain the process of digestion in humans", False),
+    ("looks_mangled", "{H$gr Xn©U à{H«$`m _hmoX {H$gr", True),
+    ("looks_mangled", "Explain the process of photosynthesis in green plants.", False),
+])
+def test_the_pool_still_rejects_what_it_rejected(fn, text, rejected):
+    from academicos.assessment import pool
+
+    assert bool(getattr(pool, fn)(text)) is rejected

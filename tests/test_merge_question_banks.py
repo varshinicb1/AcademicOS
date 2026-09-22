@@ -251,3 +251,105 @@ def test_the_merge_keeps_the_stamp_it_read(layout):
     assert mqb.run(layout, check=False) == 0
     for path in (layout.served, layout.apk):
         assert json.loads(path.read_text(encoding="utf-8"))["schemeVerifier"] == SCHEME_VERIFIER
+
+
+# ---- Task 16: what the fidelity gate removes, measured without writing -------
+
+def _furniture_mcq():
+    """Biology XII 57/1/1 Q2, verified B, with the paper's "-11" after option D."""
+    rec = board(3, subject="Biology", grade=12, marks=1, type="very_short_answer",
+                stem="Which one of the following hormones is secreted by the human placenta "
+                     "that helps in the maintenance of pregnancy ? (A) Relaxin (B) Human "
+                     "Chorionic Gonadotropin (C) Oxytocin (D) Human Placental Lactogen -11")
+    rec["answerScheme"]["metadata"].update(objective=True, correctOption="B")
+    return rec
+
+
+def _no_options():
+    """Accountancy XII 67/1/2 Q31, verified: its items never came through."""
+    return board(4, subject="Accountancy", grade=12, stem=(
+        "Classify the following items under major heads and sub-heads (if any) in the "
+        "Balance Sheet of a company as per Schedule III, Part I of the Companies Act, 2013 :"))
+
+
+def test_check_reports_board_reasons_repairs_and_counts_by_subject_and_grade(layout, capsys):
+    _write(layout.served, [board(1), _furniture_mcq(), _no_options()],
+           chapterTaggedAt="t", chapterTagMethod="m", **STAMP)
+    assert mqb.run(layout, check=True) == 0
+    out = capsys.readouterr().out
+    assert "cbse_board_paper     options-missing" in out
+    assert "board repairs: page-furniture-stripped 1" in out
+    assert "served by subject x grade" in out
+    # subject, grade, before (the served file now), after (this merge), board
+    rows = {tuple(line.split()[:2]): [int(n) for n in line.split()[2:]]
+            for line in out.split("served by subject x grade")[1].splitlines()[2:]
+            if line.strip() and line.split()[-1].isdigit()}
+    assert rows[("Accountancy", "12")] == [1, 0, 0]
+    assert rows[("Biology", "12")] == [1, 1, 1]
+    assert rows[("Mathematics", "7")] == [0, 1, 0]
+
+
+def test_a_board_record_the_fidelity_gate_excludes_is_withheld_whole(layout):
+    no_options = _no_options()
+    _write(layout.served, [board(1), no_options],
+           chapterTaggedAt="t", chapterTagMethod="m", **STAMP)
+    assert mqb.run(layout, check=False) == 0
+    served_ids, held = _board_ids(layout)
+    assert served_ids == {board(1)["id"]}
+    assert held == [no_options]
+    excluded = json.loads(layout.excluded.read_text(encoding="utf-8"))["excluded"]
+    assert [(e["id"], e["reason"]) for e in excluded] == [(no_options["id"], "options-missing")]
+
+
+def _fake_relink(monkeypatch, calls):
+    """Stands in for the relink: stamps every board record it is given as
+    verified, in place, as relink_answer_schemes does."""
+    from academicos.assessment import question_bank
+
+    def relink(records, index, *, parse_dir, **_kw):
+        calls.append([r["id"] for r in records])
+        for r in records:
+            r["answerScheme"] = board(1)["answerScheme"]
+        return None
+
+    monkeypatch.setattr(question_bank, "relink_answer_schemes", relink)
+    monkeypatch.setattr(question_bank, "AnswerKeyIndex", lambda path: object())
+
+
+def test_check_can_relink_in_memory_and_writes_nothing(layout, monkeypatch, capsys):
+    """Task 11 runs the relink for real; until then the tracked bank carries
+    no verifier stamp, and --check --relink-in-memory measures the merge on a
+    relinked copy without writing it."""
+    _write(layout.served, [_unverified(1), _unverified(2)],
+           chapterTaggedAt="t", chapterTagMethod="m")
+    before = layout.served.read_bytes()
+    calls = []
+    _fake_relink(monkeypatch, calls)
+    assert mqb.run(layout, check=True, relink_in_memory=True) == 0
+    out = capsys.readouterr().out
+    assert "relinked in memory" in out
+    assert "'board': 2" in out
+    assert calls == [[_unverified(1)["id"], _unverified(2)["id"]]]
+    assert layout.served.read_bytes() == before
+    assert not layout.apk.exists()
+    assert not layout.excluded.exists()
+    assert not layout.excluded.with_name("board_withheld.json").exists()
+
+
+def test_relink_in_memory_reads_the_withheld_board_records_too(layout, monkeypatch):
+    _write(layout.served, [_unverified(1)], chapterTaggedAt="t", chapterTagMethod="m")
+    _write(layout.excluded.with_name("board_withheld.json"), [_unverified(2)])
+    calls = []
+    _fake_relink(monkeypatch, calls)
+    assert mqb.run(layout, check=True, relink_in_memory=True) == 0
+    assert calls == [[_unverified(1)["id"], _unverified(2)["id"]]]
+
+
+def test_relink_in_memory_is_refused_without_check(layout, monkeypatch, capsys):
+    _write(layout.served, [_unverified(1)], chapterTaggedAt="t", chapterTagMethod="m")
+    before = layout.served.read_bytes()
+    _fake_relink(monkeypatch, [])
+    assert mqb.run(layout, check=False, relink_in_memory=True) != 0
+    assert "--relink-in-memory" in capsys.readouterr().out
+    assert layout.served.read_bytes() == before
+    assert not layout.apk.exists()
