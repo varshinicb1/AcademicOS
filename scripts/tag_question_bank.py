@@ -26,6 +26,21 @@ counted. A confident wrong chapter is worse than a blank, because the blank is
 visible in the coverage report and the wrong one is not.
 
 Run:  python scripts/tag_question_bank.py [--check] [--grade 10]
+
+Topics and subtopics (classes 6-10)
+-----------------------------------
+``--topics BANK.json [BANK.json ...]`` instead tags each bank's questions to
+the taxonomy trees (``academicos-data/syllabus/taxonomy``) with
+`academicos.syllabus.tagger`, and writes the result INTO each bank file: the
+fields ``taxonomyChapterId``, ``topicIds``, ``subtopicIds``, ``tagConfidence``
+and ``tagMethod`` are added to each class 6-10 Mathematics / Science / Social
+Science record, and nothing else on any record changes. A level whose
+confidence is below the gold-set threshold is left empty on the record and
+the question goes to ``taxonomy/_review_queue.json`` with the tagger's proposal
+(a rerun replaces that bank's entries in the queue). ``--check`` prints the
+coverage per class and subject and writes nothing.
+
+    python scripts/tag_question_bank.py --topics academicos-data/corpus/ncert-exemplar/questions.json
 """
 from __future__ import annotations
 
@@ -68,11 +83,93 @@ def _hash(text: str) -> str:
     return hashlib.sha256(" ".join(text.lower().split()).encode("utf-8")).hexdigest()
 
 
-def main() -> int:
+# Leading underscore like every other non-tree file in taxonomy/: the tree
+# tests glob "[A-Z]*.json", and on Windows that glob matches "review_queue".
+REVIEW_QUEUE = REPO / "academicos-data" / "syllabus" / "taxonomy" / "_review_queue.json"
+
+
+def _bank_label(path: Path) -> str:
+    try:
+        return path.resolve().relative_to(REPO).as_posix()
+    except ValueError:
+        return path.name
+
+
+def tag_topics(banks: list[Path], check: bool, queue_path: Path) -> int:
+    """Tag each bank to chapter/topic/subtopic; see the module docstring."""
+    from academicos.syllabus.tagger import LEVELS, TAG_METHOD, TopicTagger, apply_tags
+
+    tagger = TopicTagger()
+    review_all: dict[str, list[dict]] = {}
+    for path in banks:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        label = _bank_label(path)
+        records, review = apply_tags(payload["questions"], tagger, bank=label)
+        review_all[label] = review
+        queued = collections.Counter(r["id"] for r in review)
+        cells: dict[tuple, collections.Counter] = collections.defaultdict(collections.Counter)
+        for rec in records:
+            if "tagMethod" not in rec:
+                continue
+            c = cells[(rec.get("subject"), int(rec.get("grade")))]
+            c["questions"] += 1
+            c["chapter"] += bool(rec["taxonomyChapterId"])
+            c["topic"] += bool(rec["topicIds"])
+            c["subtopic"] += bool(rec["subtopicIds"])
+            c["review"] += queued[rec.get("id")] > 0
+        print(f"\n{label}  ({len(records):,} records, "
+              f"{sum(c['questions'] for c in cells.values()):,} in the trees' scope)")
+        print(f"{'subject':<16}{'class':>6}{'questions':>11}{'chapter':>9}{'topic':>7}"
+              f"{'subtopic':>10}{'review':>8}")
+        total = collections.Counter()
+        for (subject, grade), c in sorted(cells.items()):
+            total.update(c)
+            print(f"{subject:<16}{grade:>6}{c['questions']:>11}{c['chapter']:>9}{c['topic']:>7}"
+                  f"{c['subtopic']:>10}{c['review']:>8}")
+        print(f"{'all':<22}{total['questions']:>11}{total['chapter']:>9}{total['topic']:>7}"
+              f"{total['subtopic']:>10}{total['review']:>8}")
+        by_level = collections.Counter(r["level"] for r in review)
+        print("review queue by first unaccepted level: "
+              + ", ".join(f"{lv} {by_level[lv]}" for lv in LEVELS))
+        if not check:
+            payload["questions"] = records
+            # the banks are written as their builders write them: one line
+            path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+            print(f"wrote {label}")
+    if check:
+        print("\n--check: nothing written")
+        return 0
+    items: list[dict] = []
+    if queue_path.exists():
+        old = json.loads(queue_path.read_text(encoding="utf-8"))
+        items = [e for e in old.get("items", []) if e.get("bank") not in review_all]
+    for label in review_all:
+        items.extend(review_all[label])
+    queue_path.parent.mkdir(parents=True, exist_ok=True)
+    queue_path.write_text(json.dumps({
+        "notice": ("Questions whose chapter, topic or subtopic tag fell below the confidence "
+                   "threshold that keeps accepted tags >= 90% right on the gold set. Each "
+                   "entry names the first level not accepted and the tagger's proposal; the "
+                   "proposal is NOT on the question."),
+        "method": TAG_METHOD,
+        "builtAt": datetime.now(timezone.utc).isoformat(),
+        "counts": dict(collections.Counter(e["bank"] for e in items)),
+        "items": items,
+    }, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    print(f"wrote {_bank_label(queue_path)}  ({len(items):,} entries)")
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true", help="report only, write nothing")
     ap.add_argument("--grade", type=int, default=None, help="limit to one grade")
-    args = ap.parse_args()
+    ap.add_argument("--topics", nargs="+", type=Path, default=None, metavar="BANK",
+                    help="tag these bank files to taxonomy topics/subtopics (see docstring)")
+    ap.add_argument("--review-queue", type=Path, default=REVIEW_QUEUE)
+    args = ap.parse_args(argv)
+    if args.topics:
+        return tag_topics(args.topics, args.check, args.review_queue)
 
     from academicos.assessment.embedding_chapter_tagger import (
         ChapterTagCache, tag_questions,

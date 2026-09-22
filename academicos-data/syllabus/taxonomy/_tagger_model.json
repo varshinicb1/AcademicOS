@@ -1,0 +1,132 @@
+{
+ "notice": "Confidence model and thresholds of academicos.syllabus.tagger, fitted by scripts/calibrate_topic_tagger.py on _tag_gold.json (AI-reviewer labels, not a teacher's). Quote the outOfFold numbers; inSample flatters.",
+ "method": "tfidf_textbook_v1",
+ "builtAt": "2026-09-22T15:40:01.449722+00:00",
+ "target": 0.9,
+ "minSupport": 10,
+ "features": {
+  "chapter": [
+   "best",
+   "margin",
+   "heading",
+   "prior",
+   "hasPrior"
+  ],
+  "topic": [
+   "best",
+   "margin",
+   "heading",
+   "single"
+  ],
+  "subtopic": [
+   "best",
+   "margin",
+   "heading",
+   "single"
+  ]
+ },
+ "coefficients": {
+  "chapter": {
+   "bias": -1.0403077733057247,
+   "best": 11.571180981991978,
+   "margin": 9.133699515055984,
+   "heading": 2.345510199691161,
+   "prior": 2.041501010038395,
+   "hasPrior": -2.881621771879678
+  },
+  "topic": {
+   "bias": 0.3159365539340351,
+   "best": -2.00569930550364,
+   "margin": 24.161504625520177,
+   "heading": 0.8574041207939608,
+   "single": 0.012363851918518274
+  },
+  "subtopic": {
+   "bias": 0.3374885097664519,
+   "best": -2.2506917283673666,
+   "margin": 5.943111137097573,
+   "heading": 2.6047072703025385,
+   "single": -0.7735722056605339
+  }
+ },
+ "thresholds": {
+  "chapter": 0.709236,
+  "topic": 0.745485,
+  "subtopic": 1.01
+ },
+ "trainedOn": {
+  "chapter": {
+   "items": 328,
+   "right": 194
+  },
+  "topic": {
+   "items": 188,
+   "right": 148
+  },
+  "subtopic": {
+   "items": 81,
+   "right": 54
+  }
+ },
+ "gold": {
+  "items": 328,
+  "folds": 5,
+  "seed": 703,
+  "outOfFold": {
+   "accepted": {
+    "chapter": {
+     "right": 138,
+     "tags": 153,
+     "precision": 0.902
+    },
+    "topic": {
+     "right": 55,
+     "tags": 61,
+     "precision": 0.9016
+    },
+    "subtopic": {
+     "right": 0,
+     "tags": 0,
+     "precision": null
+    }
+   }
+  },
+  "inSample": {
+   "items": 328,
+   "raw": {
+    "chapter": {
+     "right": 194,
+     "of": 328,
+     "accuracy": 0.5915
+    },
+    "topic": {
+     "right": 148,
+     "of": 320,
+     "accuracy": 0.4625
+    },
+    "subtopic": {
+     "right": 54,
+     "of": 163,
+     "accuracy": 0.3313
+    }
+   },
+   "accepted": {
+    "chapter": {
+     "right": 135,
+     "tags": 149,
+     "precision": 0.906
+    },
+    "topic": {
+     "right": 55,
+     "tags": 59,
+     "precision": 0.9322
+    },
+    "subtopic": {
+     "right": 0,
+     "tags": 0,
+     "precision": null
+    }
+   }
+  }
+ }
+}

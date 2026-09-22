@@ -44,6 +44,20 @@ _$QuestionImpl _$$QuestionImplFromJson(Map<String, dynamic> json) =>
       mapAssetId: json['mapAssetId'] as String?,
       graphAssetId: json['graphAssetId'] as String?,
       tableAssetId: json['tableAssetId'] as String?,
+      taxonomyChapterId: json['taxonomyChapterId'] as String?,
+      topicIds: (json['topicIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      subtopicIds: (json['subtopicIds'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      tagConfidence: (json['tagConfidence'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(k, (e as num?)?.toDouble()),
+          ) ??
+          const {},
+      tagMethod: json['tagMethod'] as String?,
     );
 
 Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
@@ -74,6 +88,11 @@ Map<String, dynamic> _$$QuestionImplToJson(_$QuestionImpl instance) =>
       'mapAssetId': instance.mapAssetId,
       'graphAssetId': instance.graphAssetId,
       'tableAssetId': instance.tableAssetId,
+      'taxonomyChapterId': instance.taxonomyChapterId,
+      'topicIds': instance.topicIds,
+      'subtopicIds': instance.subtopicIds,
+      'tagConfidence': instance.tagConfidence,
+      'tagMethod': instance.tagMethod,
     };
 
 _$QuestionPartImpl _$$QuestionPartImplFromJson(Map<String, dynamic> json) =>

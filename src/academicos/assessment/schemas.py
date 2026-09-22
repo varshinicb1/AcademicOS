@@ -251,6 +251,17 @@ class QuestionSchema(Camel):
     # Set instead of deleting when a curriculum revision retires a question.
     superseded_by: Optional[str] = None
 
+    # -- taxonomy tags (academicos.syllabus.tagger) --------------------------
+    # Ids from academicos-data/syllabus/taxonomy (the NCERT textbook headings,
+    # classes 6-10). Written only where the tagger's confidence clears the
+    # gold-set threshold; below it they stay empty and the question is in
+    # taxonomy/_review_queue.json. Optional: most banks do not carry them yet.
+    taxonomy_chapter_id: Optional[str] = None
+    topic_ids: list[str] = Field(default_factory=list)
+    subtopic_ids: list[str] = Field(default_factory=list)
+    tag_confidence: dict[str, Optional[float]] = Field(default_factory=dict)
+    tag_method: Optional[str] = None
+
 
 class QuestionSearchParams(Camel):
     subject: str
