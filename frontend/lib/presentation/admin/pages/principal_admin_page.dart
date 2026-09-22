@@ -100,6 +100,9 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   WorkingDaysSummary? _workingDaysSummary;
   bool _loadingWorkingDays = false;
   List<HolidayInfo> _holidaysList = [];
+  // Why the last calendar load failed, kept on the card: the snackbar is
+  // gone in seconds while the summary stays missing.
+  String? _calendarLoadError;
 
   @override
   void initState() {
@@ -493,7 +496,15 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       final api = GetIt.I<CurriculumApi>();
       final cal = await api.getCalendar(_academicYearId!);
       if (mounted) {
-        setState(() => _calendar = cal);
+        setState(() {
+          _calendar = cal;
+          _calendarLoadError = null;
+          // Cleared before the reads below, so a failed or calendar-less
+          // reload never leaves an earlier load's count on screen as if it
+          // described the calendar now saved.
+          _workingDaysSummary = null;
+          _holidaysList = [];
+        });
       }
       if (cal == null) return;
       final results = await Future.wait([
@@ -506,8 +517,22 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           _holidaysList = results[1] as List<HolidayInfo>;
         });
       }
-    } catch (_) {
-      // Ignored if calendar not yet created
+    } catch (e) {
+      // A missing calendar is not an error here (getCalendar turns its 404
+      // into null, handled above). What lands here is a real failure --
+      // chiefly /working-days' 404 for a saved calendar holding a value
+      // calendar.py now rejects (a legacy 'Sun', an unparseable Saturday
+      // rule), whose detail names that value. Swallowing it left "Saved: ..."
+      // and "Update Calendar" on screen with no count and no reason.
+      final message = serverErrorMessage(e);
+      if (mounted) {
+        setState(() {
+          _calendarLoadError = message;
+          _workingDaysSummary = null;
+          _holidaysList = [];
+        });
+      }
+      _showMessage('Could not load calendar: $message');
     } finally {
       if (mounted) setState(() => _loadingWorkingDays = false);
     }
@@ -1408,7 +1433,10 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 Text('Weekly Offs: ${_workingDaysSummary!.weeklyOffCount}'),
                 const Gap(4),
                 Text('Alternate Saturdays Off: ${_workingDaysSummary!.alternateSaturdayOffCount}'),
-              ] else
+              ] else if (_calendarLoadError != null)
+                Text('Working days could not be computed: $_calendarLoadError',
+                    style: TextStyle(color: theme.colorScheme.error))
+              else
                 const Text('Initialize the academic calendar above to compute teaching days.'),
               if (_holidaysList.isNotEmpty) ...[
                 const Gap(8),
