@@ -97,6 +97,7 @@ def test_setup(tmp_path: Path):
     return {
         "school_id": school_id, "other_school_id": other_school_id,
         "p_token": p_token, "teacher": teacher,
+        "store": store, "grade": grade, "subject": subject, "board": board, "book": book,
     }
 
 
@@ -169,3 +170,44 @@ def test_export_users_exclude_password_fields(test_setup):
     for u in body["users"]:
         assert "password_hash" not in u
         assert "password_salt" not in u
+
+
+# The export is the school's own record of its curriculum decisions, so the
+# chosen book edition (PRD 12.7, "one per subject per year, chosen by the
+# school") belongs in it. It arrived with no test at all: a subject that
+# exported selected_book_id=null -- the answer for several books and no
+# recorded choice -- would have looked exactly like a working export.
+
+def _export(token: str) -> dict:
+    client = TestClient(app)
+    r = client.get("/api/v1/curriculum/export", headers={"Authorization": f"Bearer {token}"})
+    assert r.status_code == 200, r.text
+    return r.json()
+
+
+def _only_subject(body: dict, name: str) -> dict:
+    subjects = body["curriculum"][0]["grades"][0]["subjects"]
+    return next(s for s in subjects if s["name"] == name)
+
+
+def test_export_names_the_chosen_book_edition(test_setup):
+    """A subject holding a recorded choice exports that book, not the other
+    one and not null."""
+    store: CurriculumStore = test_setup["store"]
+    subject = test_setup["subject"]
+    second = store.create_book(subject_id=subject.id, board_id=test_setup["board"].id,
+                               title="Science 10 (2027 edition)")
+    store.select_book(second.id)
+
+    exported = _only_subject(_export(test_setup["p_token"]), "Science")
+    assert {b["title"] for b in exported["books"]} == {"Science 10", "Science 10 (2027 edition)"}
+    assert exported["selected_book_id"] == second.id
+
+
+def test_export_names_the_single_seeded_book_as_the_edition(test_setup):
+    """Every seeded subject has exactly one book and no book_selections row:
+    that book is the edition (the rule that keeps existing data working), so
+    the export must name it rather than exporting null."""
+    exported = _only_subject(_export(test_setup["p_token"]), "Science")
+    assert exported["selected_book_id"] == test_setup["book"].id
+    assert exported["selected_book_id"] is not None

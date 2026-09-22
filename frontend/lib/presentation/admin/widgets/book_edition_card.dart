@@ -72,20 +72,50 @@ class _BookEditionCardState extends State<BookEditionCard> {
     });
   }
 
+  /// Re-keys the subject's dropdown so it re-reads `initialValue` from the
+  /// books already held, without asking the server for anything. After a
+  /// refused choice the menu otherwise keeps showing the book the server did
+  /// not accept.
+  void _rekeyPicker(String subjectId) {
+    if (!mounted) return;
+    setState(() => _reloads[subjectId] = (_reloads[subjectId] ?? 0) + 1);
+  }
+
   Future<void> _select(SubjectSummary subject, String? bookId) async {
     if (bookId == null) return;
     final current = _books[subject.id]?.where((b) => b.selected).firstOrNull;
     if (current?.id == bookId) return;
     setState(() => _saving.add(subject.id));
     try {
-      final res = await _api.selectBook(subject.id, bookId);
-      final chosen = '"${res.book.title}" is now the ${subject.name} edition for this year.';
-      widget.onMessage(res.warning == null ? chosen : '$chosen ${res.warning}');
-      await _reloadBooks(subject.id);
-    } catch (e) {
-      widget.onMessage('Could not choose the book: ${serverErrorMessage(e)}');
-      // The dropdown already shows the attempted choice; put the server's back.
-      await _reloadBooks(subject.id);
+      final BookSelectionResult res;
+      try {
+        res = await _api.selectBook(subject.id, bookId);
+      } catch (e) {
+        widget.onMessage('Could not choose the book: ${serverErrorMessage(e)}');
+        // The write did not land. Put the server's own answer back in the
+        // dropdown from the list already in hand -- the refresh below throws
+        // for the same reason the PUT did, and used to escape this Future
+        // (nothing awaits it), leaving the refused book on screen.
+        _rekeyPicker(subject.id);
+        try {
+          await _reloadBooks(subject.id);
+        } catch (_) {
+          // Nothing to add: the principal has already been told.
+        }
+        return;
+      }
+      var message = '"${res.book.title}" is now the ${subject.name} edition for this year.';
+      if (res.warning != null) message = '$message ${res.warning}';
+      // The choice is saved. A refresh that fails now leaves a stale list,
+      // not a failed write: saying "Could not choose the book" here would be
+      // a wrong answer about a change that actually happened.
+      try {
+        await _reloadBooks(subject.id);
+      } catch (e) {
+        message = '$message (The book list could not be refreshed: '
+            '${serverErrorMessage(e)})';
+      }
+      widget.onMessage(message);
     } finally {
       if (mounted) setState(() => _saving.remove(subject.id));
     }

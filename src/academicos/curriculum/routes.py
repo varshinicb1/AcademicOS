@@ -1426,7 +1426,10 @@ def get_my_class_schedule(start_date: str, end_date: str,
     remark about it."""
     store = _require()
     enrollment = _require_student_enrollment(store, current)
-    book_ids = set(store.book_ids_for_grade(enrollment.grade_id))
+    # The chosen edition per subject (PRD 12.7), not every book: with an old
+    # and a new edition on one subject this showed both editions' lessons on
+    # the same days, as if the class were taught twice.
+    book_ids = set(store.selected_book_ids_for_grade(enrollment.grade_id))
     lessons = [l for l in store.scheduled_lessons_for_date_range(current.school_id, start_date, end_date)
               if l.book_id in book_ids]
 
@@ -1462,7 +1465,11 @@ def get_my_progress(academic_year_id: str,
     store = _require()
     enrollment = _require_student_enrollment(store, current)
     as_of = _school_today().isoformat()
-    book_ids = store.book_ids_for_grade(enrollment.grade_id)
+    # One row per subject, from the edition the school chose (PRD 12.7).
+    # Enumerating every book gave a student two 'Mathematics' rows -- the
+    # abandoned edition's counts beside the real ones, with nothing in the
+    # response to say which was which.
+    book_ids = store.selected_book_ids_for_grade(enrollment.grade_id)
 
     subjects: list[SubjectProgressResponse] = []
     for book_id in book_ids:

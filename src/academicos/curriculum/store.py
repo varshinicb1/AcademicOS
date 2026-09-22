@@ -917,10 +917,35 @@ class CurriculumStore:
         return r["grade_id"] if r else None
 
     def book_ids_for_grade(self, grade_id: str) -> list[str]:
+        """Every book of every subject of the grade, abandoned editions
+        included. Reads that answer "what is this class taught?" want
+        selected_book_ids_for_grade instead."""
         rows = self._fetchall(
             "SELECT b.id FROM books b JOIN subjects s ON b.subject_id = s.id WHERE s.grade_id=?",
             (grade_id,))
         return [r["id"] for r in rows]
+
+    def selected_book_ids_for_grade(self, grade_id: str) -> list[str]:
+        """One book per subject of the grade: the edition the school chose
+        (PRD 12.7), or the subject's only book when no choice was recorded
+        -- selected_book_for_subject's rule, applied to a whole class.
+
+        Every read of "this class's books" goes through this rather than
+        book_ids_for_grade. The review of fc279a4 drove a student through
+        the real routes after a principal added a second edition: my-progress
+        returned two 'Mathematics' rows (2 lessons from the abandoned book,
+        3 from the chosen one) with nothing to tell them apart, and the class
+        calendar showed both editions' lessons on the same days. A subject
+        with several books and no recorded choice contributes nothing, the
+        same "report, never guess" answer selected_book_for_subject gives --
+        create_book records the implicit choice before a second book lands,
+        so that case needs a hand-written row to reach."""
+        out: list[str] = []
+        for s in self.subjects_for_grade(grade_id):
+            b = self.selected_book_for_subject(s.id)
+            if b is not None:
+                out.append(b.id)
+        return out
 
     def school_id_for_unit(self, unit_id: str) -> Optional[str]:
         r = self._fetchone(
@@ -1666,7 +1691,16 @@ class CurriculumStore:
     def get_coverage_report(self, *, school_id: str, academic_year_id: str,
                             as_of_date: Optional[str] = None) -> dict[str, Any]:
         """Planned vs. actually-taught coverage, variance, and completion %
-        aggregated by Subject and Chapter for school management (§17, §32)."""
+        aggregated by Subject and Chapter for school management (§17, §32).
+
+        Only the subject's chosen edition counts (PRD 12.7). The review of
+        fc279a4 ran this against a subject with an old and a new edition and
+        got ONE 'Mathematics' row titled after the chosen book whose chapter
+        list was ['Chapter new', 'Chapter old'] -- the abandoned edition's
+        work attributed to the chosen book on the principal's own Coverage &
+        Pace screen. A subject with no recorded choice keeps every book
+        (that is the seeded single-book case), and the per-subject key below
+        carries the book so two editions can never merge into one row."""
         from datetime import datetime, timezone
         if not as_of_date:
             as_of_date = datetime.now(timezone.utc).date().isoformat()
@@ -1687,6 +1721,12 @@ class CurriculumStore:
             JOIN subjects s ON b.subject_id = s.id
             JOIN grades g ON s.grade_id = g.id
             WHERE l.school_id = ? AND l.academic_year_id = ?
+              AND (l.book_id = (SELECT sel.book_id FROM book_selections sel
+                                 WHERE sel.academic_year_id = l.academic_year_id
+                                   AND sel.subject_id = s.id)
+                   OR NOT EXISTS (SELECT 1 FROM book_selections sel
+                                   WHERE sel.academic_year_id = l.academic_year_id
+                                     AND sel.subject_id = s.id))
             ORDER BY g.number, s.name, ch.name, l.date
             """,
             (school_id, academic_year_id),
@@ -1698,12 +1738,16 @@ class CurriculumStore:
         )
         teacher_for_book = {r["book_id"]: r["teacher_id"] for r in assignment_rows}
 
-        subjects_map: dict[str, dict[str, Any]] = {}
+        # Keyed on (subject, book), not the subject alone: an edition the
+        # school did not choose -- possible only with a hand-written books
+        # row, since the filter above keeps just the chosen one -- reports
+        # under its own title instead of being folded into another book's.
+        subjects_map: dict[tuple[str, str], dict[str, Any]] = {}
         for r in rows:
-            sid = r["subject_id"]
+            sid = (r["subject_id"], r["book_id"])
             if sid not in subjects_map:
                 subjects_map[sid] = {
-                    "subject_id": sid,
+                    "subject_id": r["subject_id"],
                     "subject_name": r["subject_name"],
                     "grade_number": r["grade_number"],
                     "book_id": r["book_id"],
@@ -1734,7 +1778,7 @@ class CurriculumStore:
         overall_variance = completed_to_date - planned_to_date
 
         subjects_out = []
-        for sid, sdata in subjects_map.items():
+        for sdata in subjects_map.values():
             s_lessons = sdata["lessons"]
             s_total = len(s_lessons)
             s_completed = sum(1 for l in s_lessons if l["status"] == "completed")
@@ -1763,7 +1807,7 @@ class CurriculumStore:
                 })
 
             subjects_out.append({
-                "subject_id": sid,
+                "subject_id": sdata["subject_id"],
                 "subject_name": sdata["subject_name"],
                 "grade_number": sdata["grade_number"],
                 "book_id": sdata["book_id"],

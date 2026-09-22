@@ -304,3 +304,129 @@ def test_no_warning_when_no_other_edition_has_lessons_or_teachers(world):
     assert body["otherEditionsScheduledLessons"] == 0
     assert body["otherEditionsTeacherAssignments"] == 0
     assert body["warning"] is None
+
+
+# --------------------------------------------------------------------- #
+# Every downstream read follows the choice (review of fc279a4)
+# --------------------------------------------------------------------- #
+# Requirement 2 ("a read that returns the selected book, which every caller
+# uses") was applied to the web admin's three books.first.id sites but not to
+# the student and management reads, which still enumerated every book of a
+# subject. Driven through the real routes, the review saw the abandoned
+# edition reappear the moment a principal used 'Add book' + choose: two
+# 'Mathematics' rows in my-progress, both editions' lessons on the same days
+# in the class calendar, and one coverage row titled after the chosen book
+# whose chapters included the old book's.
+
+
+def _content(w, book_id: str, chapter_name: str, n: int) -> list[str]:
+    """A real unit -> chapter -> topic -> subtopic chain for a book: the
+    reporting query joins them, so lessons need somewhere real to point."""
+    unit = w.store.create_unit(book_id=book_id, canonical_id=f"u_{book_id}",
+                               unit_no="1", name=f"Unit of {chapter_name}")
+    chapter = w.store.create_chapter(canonical_id=f"c_{book_id}", unit_id=unit.id,
+                                     name=chapter_name)
+    topic = w.store.create_topic(chapter_id=chapter.id, canonical_id=f"t_{book_id}",
+                                 name=f"Topic of {chapter_name}")
+    return [w.store.create_subtopic(topic_id=topic.id, canonical_id=f"st_{book_id}_{i}",
+                                    name=f"{chapter_name} subtopic {i}").id
+            for i in range(n)]
+
+
+def _two_editions(w, old_days: tuple[str, ...], new_days: tuple[str, ...]) -> str:
+    """The situation this task's own 'Add book' + choose flow creates: the
+    seeded book with lessons already scheduled from it, a second edition
+    chosen over it, and lessons scheduled from that one too. Returns the
+    chosen book's id."""
+    old_subtopics = _content(w, w.seeded, "Chapter old", len(old_days))
+    for day, st in zip(old_days, old_subtopics):
+        w.store.create_scheduled_lesson(school_id="school_1", academic_year_id=w.year,
+                                        book_id=w.seeded, subtopic_id=st, date=day)
+    new = _add_book(w, title="New edition").json()["id"]
+    new_subtopics = _content(w, new, "Chapter new", len(new_days))
+    assert _select(w, new).status_code == 200
+    for day, st in zip(new_days, new_subtopics):
+        w.store.create_scheduled_lesson(school_id="school_1", academic_year_id=w.year,
+                                        book_id=new, subtopic_id=st, date=day)
+    return new
+
+
+def _student(w):
+    """A registered student of school_1, enrolled in the grade that owns the
+    subject, with their own bearer headers."""
+    r = w.client.post("/api/v1/auth/register", json={
+        "schoolId": "school_1", "name": "Sam Student", "email": "sam@example.com",
+        "password": "correct horse battery", "role": "student"})
+    assert r.status_code == 200, r.text
+    student = r.json()
+    grade_id = w.store.get_subject(w.subject).grade_id
+    e = w.client.post(f"{BASE}/student-enrollments",
+                      json={"studentId": student["user"]["id"], "gradeId": grade_id},
+                      headers=w.p1)
+    assert e.status_code == 200, e.text
+    return _bearer(student)
+
+
+def test_my_progress_counts_only_the_chosen_edition(world):
+    _two_editions(world, ("2026-06-01", "2026-06-02"), ("2026-06-03", "2026-06-04", "2026-06-05"))
+    r = world.client.get(f"{BASE}/my-progress", params={"academic_year_id": world.year},
+                         headers=_student(world))
+    assert r.status_code == 200, r.text
+    subjects = r.json()["subjects"]
+    # Two rows both named 'Mathematics' -- {2 of 2} and {3 of 3} -- was what
+    # a student saw, with no field saying which book either row came from.
+    assert [s["subjectName"] for s in subjects] == ["Mathematics"]
+    assert subjects[0]["totalCount"] == 3 and subjects[0]["scheduledCount"] == 3
+
+
+def test_the_class_calendar_shows_only_the_chosen_editions_lessons(world):
+    # The same two days in both editions: the abandoned book used to double
+    # every entry of the student's timetable.
+    _two_editions(world, ("2026-06-01", "2026-06-02"), ("2026-06-01", "2026-06-02"))
+    r = world.client.get(f"{BASE}/my-class-schedule",
+                         params={"start_date": "2026-06-01", "end_date": "2026-06-30"},
+                         headers=_student(world))
+    assert r.status_code == 200, r.text
+    entries = r.json()
+    assert len(entries) == 2
+    assert {e["chapterName"] for e in entries} == {"Chapter new"}
+
+
+def test_coverage_reports_only_the_chosen_editions_chapters(world):
+    _two_editions(world, ("2026-06-01", "2026-06-02"), ("2026-06-03", "2026-06-04", "2026-06-05"))
+    r = world.client.get(f"{BASE}/reporting/coverage",
+                         params={"academic_year_id": world.year, "as_of_date": "2026-09-01"},
+                         headers=world.p1)
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert len(body["subjects"]) == 1
+    subject = body["subjects"][0]
+    assert subject["bookTitle"] == "New edition"
+    # The chapters listed under a book must be that book's own: the review
+    # saw ['Chapter new', 'Chapter old'] on the principal's decision screen.
+    assert [c["chapterName"] for c in subject["chapters"]] == ["Chapter new"]
+    assert subject["totalLessons"] == 3 and body["totalLessons"] == 3
+
+
+def test_coverage_keeps_an_unchosen_edition_under_its_own_title(world):
+    """Two books written straight into the store with no choice recorded:
+    nothing is filtered (there is no choice to honour), but the two editions
+    stay separate rows -- one book's chapters are never reported under the
+    other's title."""
+    subject = world.store.create_subject(
+        grade_id=world.store.get_subject(world.subject).grade_id, name="English")
+    for bid, title in (("book_a", "English A"), ("book_b", "English B")):
+        world.store._exec(
+            "INSERT INTO books (id, subject_id, board_id, title, status) VALUES (?,?,?,?,?)",
+            (bid, subject.id, world.board, title, "ready"))
+    world.store._commit()
+    for bid, chapter in (("book_a", "Chapter A"), ("book_b", "Chapter B")):
+        st = _content(world, bid, chapter, 1)[0]
+        world.store.create_scheduled_lesson(school_id="school_1", academic_year_id=world.year,
+                                            book_id=bid, subtopic_id=st, date="2026-06-01")
+    r = world.client.get(f"{BASE}/reporting/coverage",
+                         params={"academic_year_id": world.year, "as_of_date": "2026-09-01"},
+                         headers=world.p1)
+    assert r.status_code == 200, r.text
+    rows = {s["bookTitle"]: [c["chapterName"] for c in s["chapters"]] for s in r.json()["subjects"]}
+    assert rows == {"English A": ["Chapter A"], "English B": ["Chapter B"]}

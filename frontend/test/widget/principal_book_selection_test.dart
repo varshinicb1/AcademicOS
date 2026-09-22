@@ -38,6 +38,11 @@ class _Backend extends Interceptor {
   // Which book the server holds as the edition; PUT selected-book changes it.
   String chosen = 'book_chosen';
   int previousScheduled = 0;
+  // Two independent failures: the PUT that records the choice, and the GET
+  // that refreshes the list afterwards. A server (or network) that refuses
+  // one usually refuses the other, which is why they are exercised together.
+  bool failSelect = false;
+  bool failListBooks = false;
 
   List<Map<String, Object?>> get _books => [
         _book('book_first', 'Mathematics (listed first)', selected: chosen == 'book_first'),
@@ -63,10 +68,23 @@ class _Backend extends Interceptor {
         {'id': 'subj_math', 'gradeId': 'grade_10', 'name': 'Mathematics', 'code': null},
       ];
     } else if (path == '/curriculum/subjects/subj_math/books') {
-      body = _books;
+      if (failListBooks) {
+        status = 503;
+        body = {'detail': 'books unavailable'};
+      } else {
+        body = _books;
+      }
     } else if (path == '/curriculum/subjects/subj_math/selected-book' && options.method == 'GET') {
       body = _books.firstWhere((b) => b['id'] == chosen);
     } else if (path == '/curriculum/subjects/subj_math/selected-book' && options.method == 'PUT') {
+      if (failSelect) {
+        status = 503;
+        body = {'detail': 'selection unavailable'};
+        final refused = Response(requestOptions: options, statusCode: status, data: body);
+        handler.reject(DioException.badResponse(
+            statusCode: status, requestOptions: options, response: refused));
+        return;
+      }
       final previous = chosen;
       chosen = (options.data as Map)['bookId'] as String;
       body = {
@@ -234,5 +252,45 @@ void main() {
     expect((puts.single.data as Map)['bookId'], 'book_first');
     expect(find.textContaining('12 lessons this year are still scheduled from the old book'), findsOneWidget,
         reason: 'the schedule belongs to the old book; the principal is told, not left to find out');
+  });
+
+  // Review of fc279a4: the card reported a saved choice as a failure when the
+  // follow-up GET /books failed, and the recovery reload in the catch block
+  // was itself unguarded -- it threw for the same reason the PUT did, escaping
+  // a Future nothing awaits and leaving the refused book in the dropdown.
+
+  testWidgets('a saved choice is not reported as a failure when the refresh fails', (tester) async {
+    await _openPage(tester);
+    final card = find.byKey(const ValueKey('book-editions-card'));
+    await _pick(tester, find.descendant(of: card, matching: _dropdownLabelled('Grade')), 'Grade 10');
+
+    // The PUT lands; only the list refresh after it fails.
+    _backend.failListBooks = true;
+    await _pick(tester, find.byKey(const ValueKey('book-edition-subj_math')), 'Mathematics (listed first)');
+
+    expect(_backend.chosen, 'book_first', reason: 'the write reached the server');
+    expect(find.textContaining('Could not choose the book'), findsNothing,
+        reason: 'the choice was saved -- telling the principal it failed is a wrong answer');
+    expect(find.textContaining('is now the Mathematics edition for this year'), findsOneWidget);
+    expect(find.textContaining('could not be refreshed'), findsOneWidget,
+        reason: 'the list on screen is stale, and the principal is told that much');
+  });
+
+  testWidgets('a refused choice is reported once and the dropdown goes back to the chosen book',
+      (tester) async {
+    await _openPage(tester);
+    final card = find.byKey(const ValueKey('book-editions-card'));
+    await _pick(tester, find.descendant(of: card, matching: _dropdownLabelled('Grade')), 'Grade 10');
+
+    // The usual case: whatever refuses the PUT refuses the reload too.
+    _backend.failSelect = true;
+    _backend.failListBooks = true;
+    final picker = find.byKey(const ValueKey('book-edition-subj_math'));
+    await _pick(tester, picker, 'Mathematics (listed first)');
+
+    expect(_backend.chosen, 'book_chosen', reason: 'nothing was saved');
+    expect(find.textContaining('Could not choose the book'), findsOneWidget);
+    expect(find.descendant(of: picker, matching: find.text('Mathematics (chosen edition)')), findsOneWidget,
+        reason: 'the dropdown must not keep showing the book the server refused');
   });
 }
