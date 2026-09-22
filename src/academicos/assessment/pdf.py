@@ -57,6 +57,7 @@ log = logging.getLogger(__name__)
 # every supported Windows version, so it goes first.
 _BODY_FONT = "Helvetica"
 _BODY_FONT_BOLD = "Helvetica-Bold"
+_BODY_FONT_PATH = ""  # the TTF actually registered, for the startup log
 _FONT_CANDIDATES = (
     ("AcademicSans", r"C:\Windows\Fonts\segoeui.ttf", r"C:\Windows\Fonts\segoeuib.ttf"),
     ("AcademicSans", r"C:\Windows\Fonts\arial.ttf", r"C:\Windows\Fonts\arialbd.ttf"),
@@ -95,12 +96,34 @@ _SECTION_NOTE = {
 }
 
 
+def find_unicode_font(candidates=_FONT_CANDIDATES) -> tuple[str, str, str] | None:
+    """The first candidate whose regular face exists on disk, or None.
+
+    On the production image that is DejaVu, installed by the Dockerfile's
+    `fonts-dejavu-core` (audit 1.2: the image had no Unicode font at all, so
+    subscripts and symbols -- in 4.6% of stems -- printed as boxes).
+    """
+    for name, regular, bold in candidates:
+        if Path(regular).exists():
+            return name, regular, bold
+    return None
+
+
+def register_unicode_font() -> str:
+    """Register the body font now and say which one it is, for the startup
+    log: a missing font is otherwise invisible until a paper prints boxes."""
+    _register_unicode_font()
+    if _BODY_FONT == "Helvetica":
+        return "Helvetica (built-in, Latin-1 only -- no Unicode font found)"
+    return f"{_BODY_FONT} ({_BODY_FONT_PATH})"
+
+
 def _register_unicode_font() -> None:
-    global _BODY_FONT, _BODY_FONT_BOLD
+    global _BODY_FONT, _BODY_FONT_BOLD, _BODY_FONT_PATH
     if _BODY_FONT != "Helvetica":
         return
     for name, regular, bold in _FONT_CANDIDATES:
-        if not Path(regular).exists():
+        if find_unicode_font([(name, regular, bold)]) is None:
             continue
         try:
             pdfmetrics.registerFont(TTFont(name, regular))
@@ -110,6 +133,7 @@ def _register_unicode_font() -> None:
             else:
                 _BODY_FONT_BOLD = name
             _BODY_FONT = name
+            _BODY_FONT_PATH = regular
             return
         except Exception as e:
             log.warning("could not register font %s: %s", regular, e)

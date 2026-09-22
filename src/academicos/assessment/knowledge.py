@@ -11,35 +11,51 @@ through as a fractional outcome so a 3/5 answer is not recorded as simply
 accuracy, recency-weighted confidence, retention decay and higher-Bloom
 application.
 
-State is persisted per student so the loop survives restarts. When
-SUPABASE_KNOWLEDGE_URL/SUPABASE_KNOWLEDGE_ANON_KEY are set, that persistence
-is a Postgres row (via Supabase's PostgREST API) rather than a local JSON
-file -- this is the one store in the app where losing data to a Render
-redeploy (not just an idle restart) actually matters, since it's a student's
-accumulated mastery history, not a single in-flight session. Falls back to
-local JSON files when those env vars are absent (local dev).
+State is persisted per student so the loop survives restarts: one
+`learner_models` row per student (student_id + JSONB payload), resolved
+through postgres_kv.durable_table like every other JSONB store -- Cloud SQL
+on GCP, Supabase on Render, local JSON files when neither is configured
+(local dev). Losing it matters more than most stores: it is a student's
+accumulated mastery history, not a single in-flight session.
 
-The anon key used here is never shipped to the Flutter client -- it lives
-only as a Render env var on this backend -- so despite the name it functions
-as a private server-side credential, not a public one; RLS on the
-`learner_models` table is scoped accordingly (see the migration that created
-it).
+2026-09-22: this store used to call Supabase's PostgREST API itself, reading
+the Supabase env vars directly. When the GCP deploy dropped those secrets
+(no school data outside GCP), it silently fell back to local JSON under
+/app, which Cloud Run discards on every redeploy -- every student's history
+would have vanished at each deploy with no error anywhere. Going through
+durable_table puts it in Cloud SQL there; the rows already in Supabase are
+copied by scripts/migrate_supabase_to_cloudsql.py (`learner_models` entry).
+
+A live backend failure is not caught here: it raises SupabaseUnavailable
+(PostgresUnavailable on Cloud SQL), which api/main.py answers with a 503.
+Falling back to local JSON on failure would split one student's history
+across two places.
+
+Migration-order guard: that copy is a manual step, and deployed before it
+the service did not fail -- every student read as a brand-new learner. So on
+Cloud SQL an EMPTY learner_models table is treated as "not migrated" and
+answers 503 (LearnerModelsNotMigrated) on read and write, until either a row
+exists or ACOS_LEARNER_MODELS_ALLOW_EMPTY=1 says this is a new school with
+no history. Writes are blocked too: one new row would satisfy the check and
+hide that everyone else's history is missing. Checked once per process;
+once satisfied it costs nothing.
 """
 from __future__ import annotations
 
 import json
 import os
+import threading
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Optional
 
-import requests
-
 from ..algorithms.learner_model import ConceptState, Interaction, LearnerModel
 from ..algorithms.mastery import KnowledgeMastery
 from .chapters import chapter_name
 from .evaluate import Evaluation
+from .postgres_kv import PostgresTable, durable_table
+from .supabase_kv import SupabaseUnavailable
 from .schemas import QuestionSchema
 
 MASTERY_TARGET = 0.85   # the remediation loop drives toward this
@@ -86,28 +102,58 @@ def _status(m: float, confident: bool) -> str:
     return "needsReview"
 
 
+class LearnerModelsNotMigrated(SupabaseUnavailable):
+    """Cloud SQL's learner_models is empty and nobody said that is expected.
+    A SupabaseUnavailable subclass so api/main.py answers 503 with this text."""
+
+    def __init__(self) -> None:
+        detail = ("learner_models in Cloud SQL is empty, so every student's mastery "
+                  "history would read as a brand-new learner. Copy it with "
+                  "scripts/migrate_supabase_to_cloudsql.py --only learner_models, or, "
+                  "for a new school with no history, set "
+                  "ACOS_LEARNER_MODELS_ALLOW_EMPTY=1")
+        Exception.__init__(self, detail)  # bypass SupabaseUnavailable's wording
+        self.table = "learner_models"
+        self.op = "migration check"
+        self.status = None
+        self.body = detail
+
+
+def _is_cloud_sql(table: Any) -> bool:
+    """Only Cloud SQL is a migration destination (Render's Supabase table
+    always held the rows). A function so tests can mark a fake as Cloud SQL."""
+    return isinstance(table, PostgresTable)
+
+
 class KnowledgeStore:
-    """Per-student learner models -- Postgres-backed when Supabase is
-    configured, local JSON files otherwise. See module docstring."""
+    """Per-student learner models -- in the `learner_models` durable table
+    when one is configured, local JSON files otherwise. See module docstring."""
 
     def __init__(self, root: Path):
         self.root = root
         self.root.mkdir(parents=True, exist_ok=True)
         self._scorer = KnowledgeMastery()
-        self._supabase_url = (os.environ.get("SUPABASE_KNOWLEDGE_URL", "").strip().rstrip("/")
-                              or None)
-        self._supabase_key = os.environ.get("SUPABASE_KNOWLEDGE_ANON_KEY", "").strip() or None
+        self._table = durable_table("learner_models")
+        self._migration_checked = False
+        self._migration_lock = threading.Lock()
 
     @property
     def _remote(self) -> bool:
-        return bool(self._supabase_url and self._supabase_key)
+        return self._table.enabled
 
-    def _headers(self) -> dict[str, str]:
-        return {
-            "apikey": self._supabase_key,
-            "Authorization": f"Bearer {self._supabase_key}",
-            "Content-Type": "application/json",
-        }
+    def _require_migrated(self) -> None:
+        """See the module docstring's migration-order guard."""
+        if self._migration_checked:
+            return
+        with self._migration_lock:
+            if self._migration_checked:
+                return
+            if (not _is_cloud_sql(self._table)
+                    or os.environ.get("ACOS_LEARNER_MODELS_ALLOW_EMPTY", "").strip() == "1"
+                    or self._table.select(limit=1)):
+                self._migration_checked = True
+                return
+        raise LearnerModelsNotMigrated()
 
     def _path(self, student_id: str) -> Path:
         # Injective sanitization: disallowed chars are percent-encoded rather
@@ -122,13 +168,8 @@ class KnowledgeStore:
 
     def _read_raw(self, student_id: str) -> Optional[dict[str, Any]]:
         if self._remote:
-            r = requests.get(
-                f"{self._supabase_url}/rest/v1/learner_models",
-                params={"student_id": f"eq.{student_id}", "select": "payload"},
-                headers=self._headers(), timeout=10,
-            )
-            r.raise_for_status()
-            rows = r.json()
+            self._require_migrated()
+            rows = self._table.select(student_id=student_id, limit=1)
             return rows[0]["payload"] if rows else None
         p = self._path(student_id)
         return json.loads(p.read_text(encoding="utf-8")) if p.exists() else None
@@ -163,13 +204,9 @@ class KnowledgeStore:
             },
         }
         if self._remote:
-            r = requests.post(
-                f"{self._supabase_url}/rest/v1/learner_models",
-                json={"student_id": model.learner_id, "payload": payload},
-                headers={**self._headers(), "Prefer": "resolution=merge-duplicates"},
-                timeout=10,
-            )
-            r.raise_for_status()
+            self._require_migrated()
+            self._table.upsert({"student_id": model.learner_id, "payload": payload},
+                               on_conflict="student_id")
         else:
             self._path(model.learner_id).write_text(json.dumps(payload, indent=2), encoding="utf-8")
 

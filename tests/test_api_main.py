@@ -107,7 +107,7 @@ def test_health_without_startup():
     client = TestClient(app)
     r = client.get("/health")
     assert r.status_code == 200
-    assert r.json() == {"status": "ok"}
+    assert r.json()["status"] == "ok" and set(r.json()) == {"status", "commit", "builtAt"}
 
 
 def test_docs_and_openapi_without_startup():
@@ -222,7 +222,7 @@ def test_blueprint_generate_full_boot(tmp_path, monkeypatch):
 def test_full_boot_health_registry_stats_and_empty_search(tmp_path, monkeypatch):
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
     with TestClient(app) as client:
-        assert client.get("/health").json() == {"status": "ok"}
+        assert client.get("/health").json()["status"] == "ok"
         _, auth = register_and_login(client)
 
         stats = client.get("/v1/registry/stats", headers=auth)

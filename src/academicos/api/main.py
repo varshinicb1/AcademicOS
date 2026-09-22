@@ -35,7 +35,8 @@ from ..assessment.postgres_kv import durable_table
 from ..assessment.auth_routes import get_current_user
 from ..assessment.authz import require_school_owns_student
 from ..assessment.users import User
-from ..config import Config, get_config
+from ..config import (Config, LLMNotEnabled, build_identity, enforce_production_config,
+                      get_config, is_production)
 from ..curriculum import routes as curriculum_routes
 from ..graph.store import GraphStore
 from ..llm.budget import LLMBudgetExceeded, llm_budget
@@ -132,7 +133,10 @@ else:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=_cors_origins,
-        allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$|^https://.*\.onrender\.com$|^https://.*\.web\.app$|^https://.*\.firebaseapp\.com$|^https://.*\.github\.io$",
+        # Any *.web.app is ANY Firebase site, not this school's. In production
+        # only the origins CI passes in ACOS_CORS_ORIGINS (the project's own
+        # web.app / firebaseapp.com) are answered; the wildcards stay for dev.
+        allow_origin_regex=None if is_production() else r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$|^https://.*\.onrender\.com$|^https://.*\.web\.app$|^https://.*\.firebaseapp\.com$|^https://.*\.github\.io$",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -237,6 +241,16 @@ def _on_llm_evaluation_error(_request: Any, exc: LLMEvaluationError) -> JSONResp
         status_code=502,
         content={"detail": "the language model returned an unusable response"},
     )
+
+
+@app.exception_handler(LLMNotEnabled)
+def _on_llm_not_enabled(_request: Any, exc: LLMNotEnabled) -> JSONResponse:
+    """501: this deployment has no AI provider key. Not 503 -- retrying will
+    never help until an administrator configures one -- and a distinct `code`
+    so a client can show "not enabled for this school" rather than an error."""
+    logger.info("LLM feature requested with no provider key configured")
+    return JSONResponse(status_code=501,
+                        content={"detail": str(exc), "code": "llm_not_enabled"})
 
 
 class SearchRequest(BaseModel):
@@ -354,12 +368,32 @@ def init_runtime(config: Optional[Config] = None) -> None:
 
 @app.on_event("startup")
 def _startup() -> None:
-    init_runtime()
+    cfg = Config.load()
+    # First, before any store opens: a misconfigured production service must
+    # fail to start (the Cloud Run revision never goes ready and the deploy
+    # goes red) rather than serve a school on placeholder secrets.
+    enforce_production_config(cfg)
+    from ..assessment.pdf import register_unicode_font
+    logger.info("PDF body font: %s", register_unicode_font())
+    init_runtime(cfg)
+
+
+@app.on_event("shutdown")
+def _shutdown() -> None:
+    """Cloud Run sends SIGTERM and allows 10 s before SIGKILL; uvicorn runs
+    this inside that window. CurriculumStore debounces its snapshot upload
+    (storage/snapshot_sync.py), so the last edits before a deploy can still
+    be waiting -- upload them now or they die with the container."""
+    from ..storage.snapshot_sync import flush_all_snapshots
+    flush_all_snapshots()
 
 
 @app.get("/health")
 def health() -> dict:
-    return {"status": "ok"}
+    """Liveness plus build identity. The 2026-09-21 audit found the live
+    service a build 4+ days behind its source and unable to say so; the deploy
+    job now fails unless `commit` is the commit it just deployed."""
+    return {"status": "ok", **build_identity()}
 
 
 @app.get("/health/llm")
@@ -389,16 +423,24 @@ def health_llm() -> dict:
 _DURABLE_STORES = [
     "AssessmentStore", "PaperStore", "PracticeStore", "GradedStore",
     "ScanSessionStore", "TemplateStore", "UserStore", "AuditLog",
-    "EventStore", "CurriculumStore (snapshot/restore)",
+    "EventStore", "KnowledgeStore", "ConsentStore",
+    "CurriculumStore (snapshot/restore)",
 ]
 
 # One SupabaseTable per _DURABLE_STORES row above (keep the two lists in
 # sync): the real table each store reads/writes, so the probe below covers
 # every durability-critical table, not just one of them.
+#
+# This is also THE list of tables the service requires, on either backend:
+# tests/test_health_storage_schema.py pins it to exactly the tables
+# deploy/gcp/schema.sql creates (schema.sql itself is not in the image, so it
+# cannot be read at runtime). parental_consents joined 2026-09-22: ConsentStore
+# has used it since the DPDP pass, but the probe never looked, so a Cloud SQL
+# instance missing it would have reported healthy.
 _DURABLE_TABLES = [
     "assessments", "papers", "practice_sets", "graded_evaluations",
     "scan_sessions", "school_templates", "users", "sessions", "invites",
-    "audit_log", "learner_events",
+    "audit_log", "learner_events", "learner_models", "parental_consents",
 ]
 
 # How long one /health/storage answer stays good. The 2026-09-15 stress
@@ -416,20 +458,62 @@ _probe_cache: dict[str, Any] = {"at": 0.0, "body": None}
 _probe_lock = threading.Lock()
 
 
-def _probe_table(table: str) -> tuple[str, str]:
+def _table_missing(exc: SupabaseUnavailable) -> bool:
+    """True only when the error says the table itself does not exist -- not
+    for an outage, a timeout or a permissions problem, which say nothing
+    about the schema. Cloud SQL: psycopg's UndefinedTable, SQLSTATE 42P01,
+    which postgres_kv chains as the PostgresUnavailable's cause. Supabase:
+    PostgREST's PGRST205 ("Could not find the table")."""
+    if getattr(exc.__cause__, "sqlstate", None) == "42P01":
+        return True
+    return getattr(exc, "status", None) == 404 and "PGRST205" in str(exc)
+
+
+def _probe_table(table: str) -> tuple[str, str, Optional[bool]]:
+    """(table, "ok" | "error: ...", exists). `exists` is None when the probe
+    could not tell -- the backend did not answer."""
     try:
         durable_table(table).select(limit=1)
-        return table, "ok"
+        return table, "ok", True
     except SupabaseUnavailable as exc:
-        return table, f"error: {exc}"
+        return table, f"error: {exc}", (False if _table_missing(exc) else None)
 
 
-def _probe_all_tables() -> dict[str, str]:
+def _probe_all_tables() -> tuple[dict[str, str], dict[str, Optional[bool]]]:
     tables: dict[str, str] = {}
+    exists: dict[str, Optional[bool]] = {}
     with ThreadPoolExecutor(max_workers=len(_DURABLE_TABLES)) as pool:
-        for table, status in pool.map(_probe_table, _DURABLE_TABLES):
+        for table, status, present in pool.map(_probe_table, _DURABLE_TABLES):
             tables[table] = status
-    return tables
+            exists[table] = present
+    return tables, exists
+
+
+# Where /health/storage sends an operator for each backend when a required
+# table is missing. On Cloud SQL nothing applies schema.sql automatically --
+# not the workflow, not bootstrap.sh -- so a table added to schema.sql (as
+# learner_models was) is missing on every instance provisioned before it.
+_SCHEMA_FIX = {
+    "cloudsql": "apply deploy/gcp/schema.sql with scripts/apply_cloudsql_schema.sh "
+                "(docs/gcp-deployment.md section 6)",
+    "supabase": "run docs/supabase-setup.sql in the Supabase SQL editor",
+}
+
+
+def _overall_status(backend: str, tables: dict[str, str],
+                    exists: dict[str, Optional[bool]]) -> tuple[str, str, list[str]]:
+    """(status, status_detail, missing_tables). "ok" only when every required
+    table answered. A missing table outranks an unreachable one: it is the
+    one an operator can fix in one command, and it does not heal itself."""
+    missing = [t for t in _DURABLE_TABLES if exists.get(t) is False]
+    if missing:
+        return ("schema_missing",
+                f"required tables missing: {', '.join(missing)}; "
+                f"{_SCHEMA_FIX.get(backend, 'apply the schema')}", missing)
+    if all(status == "ok" for status in tables.values()):
+        return "ok", "every required table answered", missing
+    broken = [t for t, status in tables.items() if status != "ok"]
+    return "unreachable", f"tables did not answer: {', '.join(broken)}", missing
 
 
 def _durable_backend(cfg) -> str:
@@ -445,12 +529,27 @@ def _durable_backend(cfg) -> str:
     return "supabase" if cfg.supabase_enabled else "none"
 
 
+def _blob_backend() -> str:
+    """Where scan media and the curriculum snapshot actually go right now
+    (gcs | supabase | local) -- see storage/blobs.py. Reported separately from
+    durability_backend because the two moved to GCP independently: a service
+    can be on Cloud SQL and still be writing blobs to container disk."""
+    from ..storage.blobs import blob_backend
+    return blob_backend()
+
+
 def _refresh_storage_probe(cfg) -> dict:
-    tables = _probe_all_tables()
+    tables, exists = _probe_all_tables()
     reachable = all(status == "ok" for status in tables.values())
     backend = _durable_backend(cfg)
+    status, detail, missing = _overall_status(backend, tables, exists)
     body = {
+        "status": status,
+        "status_detail": detail,
+        "missing_tables": missing,
+        "table_exists": exists,
         "durability_backend": backend,
+        "blob_backend": _blob_backend(),
         "durability_reachable": reachable,
         "supabase_configured": cfg.supabase_enabled,
         # Legacy key: the Flutter client and the live cutover runbook both
@@ -471,6 +570,23 @@ def health_storage() -> dict:
     dashboard or grepping env vars on the host -- which durability backend
     the stores are bound to, and (only if one is configured) whether every
     durability-critical table is actually reachable right now, one limit-1
+    select each. `blob_backend` says where scan media and the curriculum
+    snapshot go (gcs | supabase | local).
+
+    `blob_status` (storage/blobs.py) adds this instance's snapshot conflicts,
+    the conflict copies that hold edits awaiting a merge, and failed blob
+    uploads. It is live, never cached: in-process counters, and a conflict
+    must show the moment it happens, not one probe TTL later. The table probe
+    is cached and single-flighted (see _storage_probe)."""
+    from ..storage.blobs import blob_status
+    return {**_storage_probe(), "blob_status": blob_status()}
+
+
+def _storage_probe() -> dict:
+    """Answers "is this actually live" without guessing from the hosting
+    dashboard or grepping env vars on the host -- which durability backend
+    the stores are bound to, and (only if one is configured) whether every
+    durability-critical table is actually reachable right now, one limit-1
     select each.
 
     `durability_reachable` is true only when ALL of them answer. Probing a
@@ -479,6 +595,14 @@ def health_storage() -> dict:
     `users`/`sessions` tables were missing and every auth call 500'd --
     the per-table detail below is the point: it names the broken one.
 
+    `status` is "ok" only when every required table answered;
+    "schema_missing" names the tables that do not exist (`missing_tables`,
+    `table_exists`) and the one command that creates them -- a Cloud SQL
+    instance provisioned before a table was added to schema.sql is exactly
+    that, and nothing applies schema.sql on deploy. "unreachable" is an
+    outage, which says nothing about the schema. The HTTP status stays 200:
+    this is a diagnostic, and the body is the verdict.
+
     Answers are cached for _STORAGE_PROBE_TTL_S seconds and refreshes are
     single-flighted (see above): this endpoint is 10x-amplified upstream
     traffic and must never be able to saturate the worker pool itself."""
@@ -486,7 +610,13 @@ def health_storage() -> dict:
     backend = _durable_backend(cfg)
     if backend == "none":
         return {
+            "status": "unconfigured",
+            "status_detail": "no durability backend configured: every store is "
+                             "on local disk",
+            "missing_tables": [],
+            "table_exists": {},
             "durability_backend": "none",
+            "blob_backend": _blob_backend(),
             "durability_reachable": None,
             "supabase_configured": False,
             "supabase_reachable": None,

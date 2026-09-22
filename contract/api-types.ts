@@ -2085,7 +2085,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Health */
+        /**
+         * Health
+         * @description Liveness plus build identity. The 2026-09-21 audit found the live
+         *     service a build 4+ days behind its source and unable to say so; the deploy
+         *     job now fails unless `commit` is the commit it just deployed.
+         */
         get: operations["health_health_get"];
         put?: never;
         post?: never;
@@ -2139,17 +2144,14 @@ export interface paths {
          *     dashboard or grepping env vars on the host -- which durability backend
          *     the stores are bound to, and (only if one is configured) whether every
          *     durability-critical table is actually reachable right now, one limit-1
-         *     select each.
+         *     select each. `blob_backend` says where scan media and the curriculum
+         *     snapshot go (gcs | supabase | local).
          *
-         *     `durability_reachable` is true only when ALL of them answer. Probing a
-         *     single table (this route's original behavior) is exactly how a live
-         *     deployment spent its whole life reporting "reachable" while the
-         *     `users`/`sessions` tables were missing and every auth call 500'd --
-         *     the per-table detail below is the point: it names the broken one.
-         *
-         *     Answers are cached for _STORAGE_PROBE_TTL_S seconds and refreshes are
-         *     single-flighted (see above): this endpoint is 10x-amplified upstream
-         *     traffic and must never be able to saturate the worker pool itself.
+         *     `blob_status` (storage/blobs.py) adds this instance's snapshot conflicts,
+         *     the conflict copies that hold edits awaiting a merge, and failed blob
+         *     uploads. It is live, never cached: in-process counters, and a conflict
+         *     must show the moment it happens, not one probe TTL later. The table probe
+         *     is cached and single-flighted (see _storage_probe).
          */
         get: operations["health_storage_health_storage_get"];
         put?: never;

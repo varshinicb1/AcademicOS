@@ -16,6 +16,24 @@ name: Deploy to GCP (Cloud Run + Firebase Hosting)
 # Repo variables (Settings -> Secrets and variables -> Actions -> Variables):
 #   GCP_PROJECT_ID, GCP_REGION, WIF_PROVIDER, DEPLOY_SA, RUNTIME_SA,
 #   GCP_SERVICE, AR_IMAGE, GCS_MEDIA_BUCKET, SQL_CONNECTION, CORS_ORIGINS
+#   CORS_ORIGINS is the Firebase Hosting origins, comma-separated:
+#                      https://<project>.web.app,https://<project>.firebaseapp.com
+#                      ('*' or http:// origins stop the service starting).
+#   GCS_TEST_BUCKET -- a scratch bucket DEPLOY_SA can write to
+#                      (vidyuthlabs-academicos-ci-test). The real-GCS
+#                      integration test runs against it before every deploy;
+#                      with it unset the backend job FAILS (see below).
+# Optional:
+#   ALLOW_UNVERIFIED_GCS -- 'true' deploys without GCS_TEST_BUCKET, with a
+#                      warning. An explicit, visible override for an
+#                      emergency, never the default.
+#   LLM_BASE_URL / LLM_MODEL -- the school's chosen LLM provider for the
+#                      doubt critic (ACOS_LLM_BASE_URL / ACOS_LLM_MODEL). Must
+#                      be a host in docs/compliance.md's LLM provider table
+#                      when an LLM key is set, or the service refuses to start.
+#   FRESH_INSTALL   -- '1' only for a brand-new school with no Supabase history
+#                      (lets an empty curriculum snapshot / learner_models boot;
+#                      see the deploy step). Remove it after the first deploy.
 # No repo *secrets* are needed -- app secrets live in Secret Manager.
 #
 # Prior to provisioning, this workflow is a no-op: the `test` job still runs
@@ -161,14 +179,64 @@ jobs:
 
       - uses: google-github-actions/setup-gcloud@v2
 
+      # storage/blobs.py's single-writer guarantee rests on GCS behaviour
+      # (object generations after upload, 412 on a stale if_generation_match,
+      # md5 format, get_blob + pinned download) that the unit suite checks only
+      # against an in-memory fake written to the same assumptions. This runs
+      # tests/test_gcs_blob_integration.py against the real service with the
+      # deploy's own credentials. A skipped test counts as a failure here: a
+      # skip is exactly how "never actually verified" looks green. So does a
+      # run in which nothing passed.
+      #
+      # With GCS_TEST_BUCKET unset the job fails before anything is built.
+      # It used to emit a ::warning:: and deploy anyway, so a school service
+      # could ship on storage semantics that had never run against GCS.
+      # ALLOW_UNVERIFIED_GCS=true is the only way past, and it says so.
+      # tests/test_deploy_gcp_workflow.py evaluates these `if:` conditions.
+      - uses: actions/setup-python@v5
+        if: vars.GCS_TEST_BUCKET != ''
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Verify GCS semantics against a real scratch bucket
+        if: vars.GCS_TEST_BUCKET != ''
+        env:
+          ACOS_GCS_TEST_BUCKET: ${{ vars.GCS_TEST_BUCKET }}
+        run: |
+          set -o pipefail
+          pip install -q -e ".[dev,gcs]"
+          python -m pytest tests/test_gcs_blob_integration.py -v -rs 2>&1 | tee gcs-it.log
+          if grep -q "SKIPPED" gcs-it.log; then
+            echo "::error::GCS integration test skipped -- it must run, not skip"
+            exit 1
+          fi
+          if ! grep -Eq "[0-9]+ passed" gcs-it.log; then
+            echo "::error::no GCS integration test passed -- nothing was verified"
+            exit 1
+          fi
+
+      - name: Block a deploy whose GCS semantics were never verified
+        if: vars.GCS_TEST_BUCKET == '' && vars.ALLOW_UNVERIFIED_GCS != 'true'
+        run: |
+          echo "::error::GCS_TEST_BUCKET is not set, so the curriculum snapshot's generation/412/md5 handling would ship without ever having run against real GCS. Set the GCS_TEST_BUCKET repository variable to a scratch bucket DEPLOY_SA can write to (vidyuthlabs-academicos-ci-test), or set ALLOW_UNVERIFIED_GCS=true to deploy anyway (docs/gcp-deployment.md section 8)."
+          exit 1
+
+      - name: Deploy with unverified GCS semantics (ALLOW_UNVERIFIED_GCS=true)
+        if: vars.GCS_TEST_BUCKET == '' && vars.ALLOW_UNVERIFIED_GCS == 'true'
+        run: |
+          echo "::warning::ALLOW_UNVERIFIED_GCS=true: deploying although the GCS integration test did not run (GCS_TEST_BUCKET unset). Remove the override once GCS_TEST_BUCKET is set."
+
       - name: Build + push image (Cloud Build, layer-cached)
         env:
           AR_IMAGE: ${{ vars.AR_IMAGE }}
         run: |
+          # _COMMIT_SHA/_BUILT_AT become the image's build identity, served
+          # by GET /health and checked after the deploy (see below).
           gcloud builds submit \
             --project "$PROJECT_ID" \
             --config deploy/gcp/cloudbuild.yaml \
-            --substitutions=_IMAGE="${AR_IMAGE}" \
+            --substitutions=_IMAGE="${AR_IMAGE}",_COMMIT_SHA=${GITHUB_SHA},_BUILT_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
             .
 
       - name: Deploy to Cloud Run
@@ -179,20 +247,86 @@ jobs:
           SQL_CONNECTION: ${{ vars.SQL_CONNECTION }}
           CORS_ORIGINS: ${{ vars.CORS_ORIGINS }}
           RUNTIME_SA: ${{ vars.RUNTIME_SA }}
+          FRESH_INSTALL: ${{ vars.FRESH_INSTALL }}
+          LLM_BASE_URL: ${{ vars.LLM_BASE_URL }}
+          LLM_MODEL: ${{ vars.LLM_MODEL }}
         run: |
           # Every data-access backing service reaches the app through these.
           # Secrets come from Secret Manager, never from the repo.
-          SECRETS="SUPABASE_KNOWLEDGE_URL=supabase-url:latest"
-          SECRETS="$SECRETS,SUPABASE_KNOWLEDGE_ANON_KEY=supabase-anon-key:latest"
-          SECRETS="$SECRETS,ACOS_PRINCIPAL_BOOTSTRAP_KEY=principal-bootstrap-key:latest"
-          SECRETS="$SECRETS,ACOS_LLM_API_KEY=acos-llm-api-key:latest"
+          #
+          # No Supabase secrets, on purpose: on GCP every byte of school data
+          # lives in GCP -- the JSONB stores in Cloud SQL (ACOS_POSTGRES_*),
+          # scan media and the curriculum snapshot in GCS (ACOS_GCS_BUCKET,
+          # storage/blobs.py). With the Supabase URL present the service would
+          # quietly keep writing to it wherever GCP was not wired.
+          # The last store that still read the Supabase secrets itself,
+          # KnowledgeStore (student mastery history), now goes through
+          # durable_table("learner_models") -> Cloud SQL. Before the FIRST
+          # deploy without them, copy its existing rows:
+          #   scripts/migrate_supabase_to_cloudsql.py --only learner_models
+          # (docs/gcp-deployment.md section 8). Forgetting is no longer
+          # silent: an empty Cloud SQL learner_models answers 503 (see below).
+          # --set-secrets replaces the service's whole secret list, so dropping
+          # them here also removes them from a service deployed with them.
+          SECRETS="ACOS_PRINCIPAL_BOOTSTRAP_KEY=principal-bootstrap-key:latest"
           SECRETS="$SECRETS,ACOS_POSTGRES_PASSWORD=postgres-password:latest"
+          # ONE secret, both key names. assessment/vision.py (scan OCR) and
+          # assessment/llm_evaluate.py (AI marking) read SARVAM_API_KEY; the
+          # doubt critic reads ACOS_LLM_API_KEY. Only the latter used to be
+          # injected, so on GCP every scanned page OCR'd as blank. Leaving
+          # the secret at bootstrap's REPLACE_ME means "no AI features": they
+          # answer 501 "not enabled for this school".
+          SECRETS="$SECRETS,ACOS_LLM_API_KEY=acos-llm-api-key:latest"
+          SECRETS="$SECRETS,SARVAM_API_KEY=acos-llm-api-key:latest"
 
-          ENV_VARS="ACOS_POSTGRES_HOST=/cloudsql/${SQL_CONNECTION}"
+          # ACOS_ENV=production arms the startup guard (config.py
+          # production_config_problems): placeholder/empty secrets, CORS '*',
+          # demo accounts, a short bootstrap key, or an LLM URL outside
+          # docs/compliance.md's provider table stop the revision starting.
+          ENV_VARS="ACOS_ENV=production"
+          ENV_VARS="$ENV_VARS,ACOS_POSTGRES_HOST=/cloudsql/${SQL_CONNECTION}"
           ENV_VARS="$ENV_VARS,ACOS_POSTGRES_DB=academicos"
           ENV_VARS="$ENV_VARS,ACOS_POSTGRES_USER=academicos"
           ENV_VARS="$ENV_VARS,ACOS_GCS_BUCKET=${GCS_MEDIA_BUCKET}"
           ENV_VARS="$ENV_VARS,ACOS_CORS_ORIGINS=${CORS_ORIGINS}"
+
+          # The LLM provider is explicit, never inherited from
+          # config/config.toml (whose llm_base_url is api.groq.com, a vendor
+          # no document lists). Unset means config.toml's value, which the
+          # startup guard refuses once a key is set. The provider is the
+          # school's decision; docs/gcp-deployment.md section 4.
+          if [ -n "${LLM_BASE_URL}" ]; then
+            ENV_VARS="$ENV_VARS,ACOS_LLM_BASE_URL=${LLM_BASE_URL}"
+          fi
+          if [ -n "${LLM_MODEL}" ]; then
+            ENV_VARS="$ENV_VARS,ACOS_LLM_MODEL=${LLM_MODEL}"
+          fi
+
+          # An empty curriculum snapshot in GCS, or an empty learner_models in
+          # Cloud SQL, is what a service migrated off Supabase sees before the
+          # copy scripts run -- so the app refuses both (503 / failed boot)
+          # rather than serving blank data as if it were the school's. Before
+          # the first deploy of a MIGRATED school run:
+          #   scripts/migrate_supabase_to_cloudsql.py            (incl. learner_models)
+          #   scripts/migrate_supabase_blobs_to_gcs.py           (snapshot + scan media)
+          # For a NEW school with nothing to migrate, set the FRESH_INSTALL
+          # repo variable to 1 for the first deploy, then delete it:
+          # --set-env-vars replaces the whole list, so the next deploy drops it.
+          if [ "${FRESH_INSTALL}" = "1" ]; then
+            echo "::warning::FRESH_INSTALL=1: empty curriculum / mastery history allowed. Remove the variable after this deploy."
+            ENV_VARS="$ENV_VARS,ACOS_CURRICULUM_ALLOW_EMPTY_BOOT=1"
+            ENV_VARS="$ENV_VARS,ACOS_LEARNER_MODELS_ALLOW_EMPTY=1"
+          fi
+
+          # --max-instances=1 is a correctness limit, not a cost one.
+          # CurriculumStore keeps its 18 FK-linked tables in a local SQLite
+          # file and persists it as ONE GCS object (the snapshot). Two
+          # instances would each hold their own copy and each upload would
+          # replace the other's wholesale: lost calendar/sequence edits.
+          # storage/blobs.py also refuses a stale overwrite (GCS generation
+          # precondition), but that only turns silent loss into a logged
+          # refusal; one instance is what prevents it. Lift this when
+          # CurriculumStore moves to Cloud SQL like the JSONB stores.
 
           gcloud run deploy "$SERVICE" \
             --project "$PROJECT_ID" \
@@ -205,7 +339,7 @@ jobs:
             --concurrency=40 \
             --timeout=300 \
             --min-instances=1 \
-            --max-instances=3 \
+            --max-instances=1 \
             --cpu-boost \
             --add-cloudsql-instances "${SQL_CONNECTION}" \
             --service-account "$RUNTIME_SA" \
@@ -219,21 +353,26 @@ jobs:
           echo "url=$URL" >> "$GITHUB_OUTPUT"
           echo "Deployed: $URL"
 
-      # A deploy that returns 200 on /health is the only definition of
-      # "shipped" that has ever been reliable here (an image can deploy
-      # cleanly and still 500 on every authenticated route).
-      - name: Verify the live service answers /health
+      # "Shipped" means /health answers AND reports the commit this job
+      # built. A 200 alone proved only that *a* revision was up: the audit
+      # (8.3, 2026-09-21) found a live service 4+ days behind its source that
+      # nobody could tell apart. A revision refused by the production guard
+      # never goes ready, so the old one keeps answering -- with the old
+      # commit, which fails here too.
+      - name: Verify the live service answers /health with the deployed commit
         run: |
           URL="${{ steps.deploy.outputs.url }}"
           for i in $(seq 1 20); do
-            if curl -fsS --max-time 10 "$URL/health" >/dev/null; then
-              echo "healthy after ${i} attempt(s): $URL"
-              curl -fsS --max-time 10 "$URL/health" || true
-              exit 0
+            if BODY="$(curl -fsS --max-time 10 "$URL/health")"; then
+              echo "$BODY"
+              if printf '%s' "$BODY" | python3 deploy/gcp/check_served_commit.py "$GITHUB_SHA"; then
+                echo "healthy and current after ${i} attempt(s): $URL"
+                exit 0
+              fi
             fi
             sleep 6
           done
-          echo "ERROR: $URL/health never came up" >&2
+          echo "::error::$URL/health never reported commit $GITHUB_SHA -- the deployed build is not the one serving"
           exit 1
 
   frontend:

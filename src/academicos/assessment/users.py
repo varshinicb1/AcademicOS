@@ -81,6 +81,7 @@ import requests
 
 from .supabase_kv import SupabaseUnavailable
 from .postgres_kv import durable_table
+from ..config import demo_accounts_enabled
 
 logger = logging.getLogger(__name__)
 
@@ -260,6 +261,12 @@ class UserStore:
         principal account in production each time. The opt-in replaces the
         pytest check as well: nothing seeds unless someone asked for it."""
         if os.environ.get(_DEMO_SEED_ENV, "").strip().lower() not in ("1", "true", "yes"):
+            return
+        # Never on the GCP release, even when requested: login falls back to
+        # this SQLite file when Cloud SQL has no row, so a seeded
+        # principal@school.com/password123 would be a known principal password
+        # on a school's service (and the production guard refuses the flag).
+        if not demo_accounts_enabled():
             return
         logger.warning(
             "%s is set: seeding demo accounts with a published password into "

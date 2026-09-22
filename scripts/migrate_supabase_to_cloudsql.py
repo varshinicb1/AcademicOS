@@ -120,6 +120,8 @@ TABLES: dict[str, dict[str, Any]] = {
                     "notes", "recorded_by", "recorded_at", "revoked_at",
                     "revoked_by"],
     },
+    # KnowledgeStore's per-student mastery history (assessment/knowledge.py).
+    "learner_models": {"conflict": "student_id", "columns": ["student_id", "payload"]},
 }
 
 

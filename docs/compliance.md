@@ -114,6 +114,29 @@ auto-scored. Before any real deployment, run the calibration harness (see
 "Before you ship" below) against a real graded batch and publish the actual
 agreement rate, high or low.
 
+## Vendors that receive school data
+
+### LLM providers
+
+The only hosts an AI feature (scan OCR, AI marking, the doubt critic,
+curriculum extraction) may send school data to. **This table is enforced:**
+`APPROVED_LLM_HOSTS` in `src/academicos/config.py` must equal it
+(`tests/test_production_guard.py` pins the two), and on the GCP release a
+service with an LLM key set whose LLM base URL points anywhere else refuses to
+start. Adding a provider means a row here, the host in `APPROVED_LLM_HOSTS`,
+and the DPA's sub-processor list (`docs/dpa-template.md` §5) — in that order,
+before any key for it is deployed.
+
+| Provider | Host | Used for | Data it receives |
+|---|---|---|---|
+| Sarvam AI | `api.sarvam.ai` | Scan OCR (`assessment/vision.py`), AI marking (`assessment/llm_evaluate.py`), curriculum extraction (`llm/sarvam.py`); the doubt critic when `ACOS_LLM_BASE_URL` points here | Answer-sheet images, OCR'd answer text, student-typed doubts, textbook chapter text |
+
+Not listed, so refused in production: Groq (`api.groq.com`), which
+`config/config.toml`'s `llm_base_url` still names for local batch extraction.
+Choosing the provider is the school's decision; with no key configured the AI
+features answer 501 "not enabled for this school" and nothing leaves the
+service.
+
 ## Before you ship — per-feature checklist
 
 Check every box that applies to the feature being built. Anything checked "no"

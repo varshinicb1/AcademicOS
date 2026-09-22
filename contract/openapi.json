@@ -12884,6 +12884,7 @@
     },
     "/health": {
       "get": {
+        "description": "Liveness plus build identity. The 2026-09-21 audit found the live\nservice a build 4+ days behind its source and unable to say so; the deploy\njob now fails unless `commit` is the commit it just deployed.",
         "operationId": "health_health_get",
         "responses": {
           "200": {
@@ -12925,7 +12926,7 @@
     },
     "/health/storage": {
       "get": {
-        "description": "Answers \"is this actually live\" without guessing from the hosting\ndashboard or grepping env vars on the host -- which durability backend\nthe stores are bound to, and (only if one is configured) whether every\ndurability-critical table is actually reachable right now, one limit-1\nselect each.\n\n`durability_reachable` is true only when ALL of them answer. Probing a\nsingle table (this route's original behavior) is exactly how a live\ndeployment spent its whole life reporting \"reachable\" while the\n`users`/`sessions` tables were missing and every auth call 500'd --\nthe per-table detail below is the point: it names the broken one.\n\nAnswers are cached for _STORAGE_PROBE_TTL_S seconds and refreshes are\nsingle-flighted (see above): this endpoint is 10x-amplified upstream\ntraffic and must never be able to saturate the worker pool itself.",
+        "description": "Answers \"is this actually live\" without guessing from the hosting\ndashboard or grepping env vars on the host -- which durability backend\nthe stores are bound to, and (only if one is configured) whether every\ndurability-critical table is actually reachable right now, one limit-1\nselect each. `blob_backend` says where scan media and the curriculum\nsnapshot go (gcs | supabase | local).\n\n`blob_status` (storage/blobs.py) adds this instance's snapshot conflicts,\nthe conflict copies that hold edits awaiting a merge, and failed blob\nuploads. It is live, never cached: in-process counters, and a conflict\nmust show the moment it happens, not one probe TTL later. The table probe\nis cached and single-flighted (see _storage_probe).",
         "operationId": "health_storage_health_storage_get",
         "responses": {
           "200": {

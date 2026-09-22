@@ -145,6 +145,7 @@ Pages) needs the same `rm` by hand.
 | `docs/deployment.md` | The **Render release**, live — pipeline, Supabase, known gaps |
 | `docs/gcp-deployment.md` | The **GCP release** — architecture, cutover, costs |
 | `docs/gcp-bootstrap.md` | The **GCP release** — one-time owner runbook |
+| `docs/school-onboarding.md` | The **GCP release** — onboarding one school: first principal, consent, calendar, first paper, backups and restore |
 | `docs/system-review.html` | Both sub-products and both releases, reviewed for a CTO |
 | `AGENTS.md` | Codebase invariants; §3 covers storage/durability, §4 the two client sub-products |
 

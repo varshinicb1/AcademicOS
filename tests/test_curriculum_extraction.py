@@ -478,3 +478,34 @@ def test_extract_and_ingest_toc_creates_real_rows(store):
     assert "Kinematics in One Dimension" in chap_names
     assert "Newton's Laws of Motion" in chap_names
     assert "Work and Kinetic Energy" in chap_names
+
+
+def test_extract_route_llm_with_placeholder_key_does_not_call_provider(store, monkeypatch):
+    """Task 502 item 9(c): on a fresh GCP release SARVAM_API_KEY holds the
+    bootstrap placeholder REPLACE_ME. The route's real `_llm()` must then
+    report no LLM, so propose() records manual_required at once -- no request
+    with "Bearer REPLACE_ME", no retry sleeps, no provider 401 dressed up as a
+    failed extraction."""
+    import requests
+    from academicos.curriculum import routes as curriculum_routes
+    from academicos.llm import sarvam
+
+    monkeypatch.setenv("SARVAM_API_KEY", "REPLACE_ME")
+    monkeypatch.setenv("ACOS_LLM_API_KEY", "REPLACE_ME")
+    monkeypatch.setattr(curriculum_routes, "_cfg", None)
+
+    def boom(*a, **kw):
+        raise AssertionError("placeholder key was sent to the provider")
+
+    monkeypatch.setattr(requests, "post", boom)
+    monkeypatch.setattr(sarvam.time, "sleep", boom)
+
+    llm = curriculum_routes._llm()
+    assert llm.available is False
+
+    book, chapter = _seed_chapter(store)
+    run = extraction.propose(store, school_id="s", chapter=chapter, book_id=book.id,
+                             subject="Science", grade=10, llm=llm)
+    assert run.status == "manual_required"
+    assert run.model is None
+    assert store.proposals_for_run(run.id) == []

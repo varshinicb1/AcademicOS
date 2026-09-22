@@ -56,14 +56,11 @@ import json
 import logging
 import sqlite3
 import threading
-import time
 import uuid
 from pathlib import Path
 from typing import Any, Optional
 
-import requests
-
-from ..assessment.supabase_kv import SupabaseStorage
+from ..storage.snapshot_sync import SnapshotSync
 
 from .models import (
     AcademicYear,
@@ -331,16 +328,16 @@ class CurriculumStore:
 
     def __init__(self, db_path: Path):
         self.db_path = db_path
-        self._remote_storage = SupabaseStorage("curriculum-snapshots")
         # RLock, not Lock: helpers below take it per-call, and _commit/
-        # _maybe_snapshot nest a raw connection use inside their own
+        # the snapshot sync nest a raw connection use inside their own
         # acquisition -- a plain Lock would deadlock those paths.
         self._conn_lock = threading.RLock()
-        self._last_snapshot_at = 0.0
+        # Restores the last snapshot into db_path before the connect below;
+        # upload, conflicts and flush live there too (storage/snapshot_sync.py).
+        self._snapshots = SnapshotSync("curriculum-snapshots", self._SNAPSHOT_KEY, db_path,
+                                       self._conn_lock, debounce_seconds=self._SNAPSHOT_DEBOUNCE_SECONDS)
 
         db_path.parent.mkdir(parents=True, exist_ok=True)
-        if not db_path.exists() and self._remote_storage.enabled:
-            self._restore_from_remote()
 
         self.conn = sqlite3.connect(str(db_path), check_same_thread=False)
         self.conn.row_factory = sqlite3.Row
@@ -360,24 +357,6 @@ class CurriculumStore:
         cols = {r["name"] for r in self._fetchall("PRAGMA table_info(holidays)")}
         if "end_date" not in cols:
             self._exec("ALTER TABLE holidays ADD COLUMN end_date TEXT")
-
-    def _restore_from_remote(self) -> None:
-        """Called only when db_path doesn't exist locally yet and Supabase
-        is configured -- a fresh container restoring last known state
-        instead of starting empty. No snapshot yet (first-ever boot) is the
-        normal, expected case, not an error: falls through to a fresh
-        CREATE TABLE against an empty file exactly like before this pass."""
-        try:
-            data = self._remote_storage.download(self._SNAPSHOT_KEY)
-        except requests.exceptions.RequestException:
-            logger.info(
-                "No curriculum snapshot restored from Supabase (none uploaded yet, "
-                "or unreachable) -- starting with a fresh local database",
-                exc_info=True,
-            )
-            return
-        self.db_path.write_bytes(data)
-        logger.info("Restored CurriculumStore from Supabase snapshot (%d bytes)", len(data))
 
     # ------------------------------------------------------------------
     # Serialized SQLite access. The store holds ONE shared connection with
@@ -415,34 +394,11 @@ class CurriculumStore:
         # The commit itself is a shared-connection use and must be
         # serialized like every other one -- two threads committing at
         # once is the same race as two threads executing at once.
-        with self._conn_lock:
-            self.conn.commit()
-        self._maybe_snapshot()
-
-    def _maybe_snapshot(self) -> None:
-        if not self._remote_storage.enabled:
-            return
-        now = time.monotonic()
-        with self._conn_lock:
-            if now - self._last_snapshot_at < self._SNAPSHOT_DEBOUNCE_SECONDS:
-                return
-            self._last_snapshot_at = now
-            try:
-                # WAL mode means recent commits can still live only in the
-                # -wal sidecar file -- checkpoint first so db_path itself is
-                # a complete, self-contained snapshot, not a stale main file
-                # missing whatever hasn't been checkpointed back into it yet.
-                self._exec("PRAGMA wal_checkpoint(TRUNCATE)")
-                data = self.db_path.read_bytes()
-            except OSError:
-                logger.warning("Could not read CurriculumStore db file to snapshot", exc_info=True)
-                return
-        try:
-            self._remote_storage.upload(self._SNAPSHOT_KEY, data, "application/x-sqlite3")
-        except requests.exceptions.RequestException:
-            logger.warning("Failed to upload CurriculumStore snapshot to Supabase", exc_info=True)
+        # SnapshotSync.commit takes self._conn_lock around the commit.
+        self._snapshots.commit(self.conn)
 
     def close(self) -> None:
+        self._snapshots.close()
         self.conn.close()
 
     # ---------------- boards ----------------

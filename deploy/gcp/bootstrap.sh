@@ -400,8 +400,13 @@ else
   if gcloud sql instances describe "$SQL_INSTANCE" --project "$PROJECT_ID" >/dev/null 2>&1; then
     ok "instance ${SQL_INSTANCE} already exists"
   else
+    # --edition=ENTERPRISE: new Postgres instances default to Enterprise
+    # Plus, which has no shared-core tiers -- the 2026-09-22 run failed with
+    # "Invalid Tier (db-g1-small) for (ENTERPRISE_PLUS) Edition". Enterprise
+    # accepts every tier offered here, db-custom-1-3840 included.
     SQL_FLAGS=(
       --database-version=POSTGRES_16
+      --edition=ENTERPRISE
       --tier="$SQL_TIER"
       --region="$REGION"
       --storage-size=10GB

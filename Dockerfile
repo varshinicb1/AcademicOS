@@ -17,8 +17,15 @@ FROM python:3.12-slim
 # time even in headless mode, and python:slim doesn't ship it.
 # --no-install-recommends (not --no-install-recurse-suggests, which this
 # Debian trixie-based image's apt rejects outright) keeps the image lean.
+#
+# fonts-dejavu-core: the Unicode TTF assessment/pdf.py registers on Linux
+# (/usr/share/fonts/truetype/dejavu/DejaVuSans{,-Bold}.ttf). Without it the
+# paper falls back to Helvetica, which is Latin-1 only, and subscripts,
+# Greek and arrows -- in 4.6% of stems -- print as boxes (audit 1.2). pdf.py
+# registers no Devanagari face, so none is installed. Startup logs the font
+# it registered ("PDF body font: ...").
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgl1 libglib2.0-0 \
+    libgl1 libglib2.0-0 fonts-dejavu-core \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -58,5 +65,14 @@ USER 1001:1001
 # baked into the image.
 ENV PORT=8080
 EXPOSE 8080
+
+# Build identity, served by GET /health as {"commit", "builtAt"}. The deploy
+# job fails unless the served commit is the one it built -- the audit (8.3)
+# found a live service 4+ days behind its source with no way to tell. Declared
+# last so a new commit invalidates only this layer, not the pip install.
+ARG BUILD_COMMIT=unknown
+ARG BUILT_AT=unknown
+ENV ACOS_BUILD_COMMIT=${BUILD_COMMIT} \
+    ACOS_BUILT_AT=${BUILT_AT}
 
 CMD ["sh", "-c", "python -m academicos.cli serve --host 0.0.0.0 --port ${PORT}"]
