@@ -11,8 +11,11 @@ Outputs, under ``academicos-data/syllabus/taxonomy/``:
   <Subject>_<grade>.json   the tree: {subject, grade, book, source_files,
                            chapters: [{id, name, number, topics: [{id, name,
                            page, subtopics: [{id, name, page}]}]}]}. Ids are
-                           slugs "chapter/topic/subtopic", so a tag survives a
-                           rebuild as long as the book's heading does.
+                           slugs "subject-grade/chapter/topic/subtopic"
+                           ("science-7/..."), unique across every tree, so a
+                           class 7 and a class 8 question never share a tag,
+                           and a tag survives a rebuild as long as the book's
+                           heading does.
   _manifest.json           counts per tree, every chapter with no topics and
                            why, the page offsets found, the measured precision
                            and recall against ``_hand_checked.json``, and every
@@ -300,6 +303,16 @@ def _chapters_of_folder(src: Source, folder: Path, read, root: Path) -> list[Raw
     return out
 
 
+def tree_prefix(subject: str, grade: int) -> str:
+    """The first segment of every id in one tree: "social-science-7".
+
+    Chapter slugs alone repeat across trees ("number-play" is a chapter of
+    Mathematics 6, 7 and 8; "number-play/digits-in-disguise" a subtopic of
+    both 7 and 8), so a tag on a class 7 question would also name class 8.
+    """
+    return f"{th.slug(subject)}-{grade}"
+
+
 def _display_name(name: str) -> str:
     return th.title_case(name) if len(name) > 3 else name
 
@@ -307,6 +320,7 @@ def _display_name(name: str) -> str:
 def build_tree(subject: str, grade: int, sources: list[Source], root: Path, read,
                problems: list) -> dict:
     chapter_level = subject in CHAPTER_LEVEL_ONLY
+    prefix = tree_prefix(subject, grade)
     chapters, used = [], set()
     files = []
     for src in sources:
@@ -319,7 +333,7 @@ def build_tree(subject: str, grade: int, sources: list[Source], root: Path, read
             files.append(rel)
             raws = _chapters_of_book(src, read(path), rel, problems, chapter_level)
         for r in raws:
-            cid = th._unique(th.slug(r.name), used)
+            cid = th._unique(f"{prefix}/{th.slug(r.name)}", used)
             ch = {"id": cid, "name": r.name, "number": r.number, "book": src.book}
             if src.part:
                 ch["part"] = src.part
@@ -461,6 +475,11 @@ def invariant_errors(tree: dict) -> list[str]:
       order the tree lists them (a topic sorted out of place shows here);
     - in a chapter with numbered headings, the numbers ascend, topics and
       the subtopics under each;
+    - chapter numbers ascend within a part (Ganita Prakash 7 and 8 and
+      Exploring Society 7 and 8 restart at 1 for Part 2) or strand (Class 10
+      Social Science: History 1-5, Geography 1-7, ...), and no (part,
+      strand, number) repeats: a book that restarts its numbering must say
+      where, or two chapters answer to one number;
     - no topic or subtopic is a box label, panel or end matter
       (`th._not_a_topic`), and no unnumbered one is a line cut off
       mid-phrase (`th._dangling`). A numbered heading that ends that way is
@@ -470,6 +489,13 @@ def invariant_errors(tree: dict) -> list[str]:
     """
     errs = []
     where = f'{tree["subject"]}_{tree["grade"]}'
+    # parts in their own order, strands in the order the tree lists them
+    strands = list(dict.fromkeys(ch.get("strand") or "" for ch in tree["chapters"]))
+    keyed = [(ch.get("part") or 0, strands.index(ch.get("strand") or ""), ch["number"])
+             for ch in tree["chapters"]]
+    if keyed != sorted(set(keyed)):
+        errs.append(f"{where}: chapter numbers repeat or go back within a part/strand: "
+                    f"{[ch['number'] for ch in tree['chapters']]}")
     for ch in tree["chapters"]:
         at = f'{where} ch{ch["number"]} ({ch["source_file"]})'
         seq = []

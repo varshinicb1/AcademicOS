@@ -7,7 +7,7 @@
  ],
  "chapters": [
   {
-   "id": "patterns-in-mathematics",
+   "id": "mathematics-6/patterns-in-mathematics",
    "name": "Patterns in Mathematics",
    "number": 1,
    "book": "Ganita Prakash",
@@ -20,53 +20,53 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "patterns-in-mathematics/what-is-mathematics",
+     "id": "mathematics-6/patterns-in-mathematics/what-is-mathematics",
      "name": "What is Mathematics?",
      "page": 21,
      "number": "1.1",
      "subtopics": []
     },
     {
-     "id": "patterns-in-mathematics/patterns-in-numbers",
+     "id": "mathematics-6/patterns-in-mathematics/patterns-in-numbers",
      "name": "Patterns in Numbers",
      "page": 22,
      "number": "1.2",
      "subtopics": []
     },
     {
-     "id": "patterns-in-mathematics/visualising-number-sequences",
+     "id": "mathematics-6/patterns-in-mathematics/visualising-number-sequences",
      "name": "Visualising Number Sequences",
      "page": 23,
      "number": "1.3",
      "subtopics": []
     },
     {
-     "id": "patterns-in-mathematics/relations-among-number-sequences",
+     "id": "mathematics-6/patterns-in-mathematics/relations-among-number-sequences",
      "name": "Relations among Number Sequences",
      "page": 26,
      "number": "1.4",
      "subtopics": [
       {
-       "id": "patterns-in-mathematics/relations-among-number-sequences/a-picture-can-explain-it",
+       "id": "mathematics-6/patterns-in-mathematics/relations-among-number-sequences/a-picture-can-explain-it",
        "name": "A picture can explain it",
        "page": 26
       },
       {
-       "id": "patterns-in-mathematics/relations-among-number-sequences/another-example-of-such-a-relation-between-sequences-adding",
+       "id": "mathematics-6/patterns-in-mathematics/relations-among-number-sequences/another-example-of-such-a-relation-between-sequences-adding",
        "name": "Another example of such a relation between sequences: Adding up and down",
        "page": 27
       }
      ]
     },
     {
-     "id": "patterns-in-mathematics/patterns-in-shapes",
+     "id": "mathematics-6/patterns-in-mathematics/patterns-in-shapes",
      "name": "Patterns in Shapes",
      "page": 29,
      "number": "1.5",
      "subtopics": []
     },
     {
-     "id": "patterns-in-mathematics/relation-to-number-sequences",
+     "id": "mathematics-6/patterns-in-mathematics/relation-to-number-sequences",
      "name": "Relation to Number Sequences",
      "page": 31,
      "number": "1.6",
@@ -75,7 +75,7 @@
    ]
   },
   {
-   "id": "lines-and-angles",
+   "id": "mathematics-6/lines-and-angles",
    "name": "Lines and Angles",
    "number": 2,
    "book": "Ganita Prakash",
@@ -88,93 +88,93 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "lines-and-angles/point",
+     "id": "mathematics-6/lines-and-angles/point",
      "name": "Point",
      "page": 38,
      "number": "2.1",
      "subtopics": []
     },
     {
-     "id": "lines-and-angles/line-segment",
+     "id": "mathematics-6/lines-and-angles/line-segment",
      "name": "Line Segment",
      "page": 39,
      "number": "2.2",
      "subtopics": []
     },
     {
-     "id": "lines-and-angles/line",
+     "id": "mathematics-6/lines-and-angles/line",
      "name": "Line",
      "page": 39,
      "number": "2.3",
      "subtopics": []
     },
     {
-     "id": "lines-and-angles/ray",
+     "id": "mathematics-6/lines-and-angles/ray",
      "name": "Ray",
      "page": 40,
      "number": "2.4",
      "subtopics": []
     },
     {
-     "id": "lines-and-angles/angle",
+     "id": "mathematics-6/lines-and-angles/angle",
      "name": "Angle",
      "page": 42,
      "number": "2.5",
      "subtopics": []
     },
     {
-     "id": "lines-and-angles/comparing-angles",
+     "id": "mathematics-6/lines-and-angles/comparing-angles",
      "name": "Comparing Angles",
      "page": 46,
      "number": "2.6",
      "subtopics": []
     },
     {
-     "id": "lines-and-angles/making-rotating-arms",
+     "id": "mathematics-6/lines-and-angles/making-rotating-arms",
      "name": "Making Rotating Arms",
      "page": 50,
      "number": "2.7",
      "subtopics": []
     },
     {
-     "id": "lines-and-angles/special-types-of-angles",
+     "id": "mathematics-6/lines-and-angles/special-types-of-angles",
      "name": "Special Types of Angles",
      "page": 52,
      "number": "2.8",
      "subtopics": []
     },
     {
-     "id": "lines-and-angles/measuring-angles",
+     "id": "mathematics-6/lines-and-angles/measuring-angles",
      "name": "Measuring Angles",
      "page": 57,
      "number": "2.9",
      "subtopics": [
       {
-       "id": "lines-and-angles/measuring-angles/degree-measures-of-different-angles",
+       "id": "mathematics-6/lines-and-angles/measuring-angles/degree-measures-of-different-angles",
        "name": "Degree measures of different angles",
        "page": 59
       },
       {
-       "id": "lines-and-angles/measuring-angles/unlabelled-protractor",
+       "id": "mathematics-6/lines-and-angles/measuring-angles/unlabelled-protractor",
        "name": "Unlabelled protractor",
        "page": 60
       },
       {
-       "id": "lines-and-angles/measuring-angles/labelled-protractor",
+       "id": "mathematics-6/lines-and-angles/measuring-angles/labelled-protractor",
        "name": "Labelled protractor",
        "page": 61
       }
      ]
     },
     {
-     "id": "lines-and-angles/drawing-angles",
+     "id": "mathematics-6/lines-and-angles/drawing-angles",
      "name": "Drawing Angles",
      "page": 71,
      "number": "2.10",
      "subtopics": []
     },
     {
-     "id": "lines-and-angles/types-of-angles-and-their-measures",
+     "id": "mathematics-6/lines-and-angles/types-of-angles-and-their-measures",
      "name": "Types of Angles and their Measures",
      "page": 75,
      "number": "2.11",
@@ -183,7 +183,7 @@
    ]
   },
   {
-   "id": "number-play",
+   "id": "mathematics-6/number-play",
    "name": "Number Play",
    "number": 3,
    "book": "Ganita Prakash",
@@ -196,96 +196,96 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "number-play/numbers-can-tell-us-things",
+     "id": "mathematics-6/number-play/numbers-can-tell-us-things",
      "name": "Numbers can Tell us Things",
      "page": 91,
      "number": "3.1",
      "subtopics": [
       {
-       "id": "number-play/numbers-can-tell-us-things/what-are-these-numbers-telling-us",
+       "id": "mathematics-6/number-play/numbers-can-tell-us-things/what-are-these-numbers-telling-us",
        "name": "What are these numbers telling us?",
        "page": 91
       }
      ]
     },
     {
-     "id": "number-play/supercells",
+     "id": "mathematics-6/number-play/supercells",
      "name": "Supercells",
      "page": 93,
      "number": "3.2",
      "subtopics": []
     },
     {
-     "id": "number-play/patterns-of-numbers-on-the-number-line",
+     "id": "mathematics-6/number-play/patterns-of-numbers-on-the-number-line",
      "name": "Patterns of Numbers on the Number Line",
      "page": 95,
      "number": "3.3",
      "subtopics": []
     },
     {
-     "id": "number-play/playing-with-digits",
+     "id": "mathematics-6/number-play/playing-with-digits",
      "name": "Playing with Digits",
      "page": 96,
      "number": "3.4",
      "subtopics": [
       {
-       "id": "number-play/playing-with-digits/digit-sums-of-numbers",
+       "id": "mathematics-6/number-play/playing-with-digits/digit-sums-of-numbers",
        "name": "Digit sums of numbers",
        "page": 96
       }
      ]
     },
     {
-     "id": "number-play/pretty-palindromic-patterns",
+     "id": "mathematics-6/number-play/pretty-palindromic-patterns",
      "name": "Pretty Palindromic Patterns",
      "page": 97,
      "number": "3.5",
      "subtopics": []
     },
     {
-     "id": "number-play/the-magic-number-of-kaprekar",
+     "id": "mathematics-6/number-play/the-magic-number-of-kaprekar",
      "name": "The Magic Number of Kaprekar",
      "page": 98,
      "number": "3.6",
      "subtopics": []
     },
     {
-     "id": "number-play/clock-and-calendar-numbers",
+     "id": "mathematics-6/number-play/clock-and-calendar-numbers",
      "name": "Clock and Calendar Numbers",
      "page": 100,
      "number": "3.7",
      "subtopics": []
     },
     {
-     "id": "number-play/mental-math",
+     "id": "mathematics-6/number-play/mental-math",
      "name": "Mental Math",
      "page": 101,
      "number": "3.8",
      "subtopics": []
     },
     {
-     "id": "number-play/playing-with-number-patterns",
+     "id": "mathematics-6/number-play/playing-with-number-patterns",
      "name": "Playing with Number Patterns",
      "page": 103,
      "number": "3.9",
      "subtopics": []
     },
     {
-     "id": "number-play/an-unsolved-mystery-the-collatz-conjecture",
+     "id": "mathematics-6/number-play/an-unsolved-mystery-the-collatz-conjecture",
      "name": "An Unsolved Mystery — the Collatz Conjecture!",
      "page": 104,
      "number": "3.10",
      "subtopics": []
     },
     {
-     "id": "number-play/simple-estimation",
+     "id": "mathematics-6/number-play/simple-estimation",
      "name": "Simple Estimation",
      "page": 105,
      "number": "3.11",
      "subtopics": []
     },
     {
-     "id": "number-play/games-and-winning-strategies",
+     "id": "mathematics-6/number-play/games-and-winning-strategies",
      "name": "Games and Winning Strategies",
      "page": 107,
      "number": "3.12",
@@ -294,7 +294,7 @@
    ]
   },
   {
-   "id": "data-handling-and-presentation",
+   "id": "mathematics-6/data-handling-and-presentation",
    "name": "Data Handling and Presentation",
    "number": 4,
    "book": "Ganita Prakash",
@@ -307,41 +307,41 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "data-handling-and-presentation/collecting-and-organising-data",
+     "id": "mathematics-6/data-handling-and-presentation/collecting-and-organising-data",
      "name": "Collecting and Organising Data",
      "page": 123,
      "number": "4.1",
      "subtopics": []
     },
     {
-     "id": "data-handling-and-presentation/pictographs",
+     "id": "mathematics-6/data-handling-and-presentation/pictographs",
      "name": "Pictographs",
      "page": 128,
      "number": "4.2",
      "subtopics": [
       {
-       "id": "data-handling-and-presentation/pictographs/drawing-a-pictograph",
+       "id": "mathematics-6/data-handling-and-presentation/pictographs/drawing-a-pictograph",
        "name": "Drawing a Pictograph",
        "page": 130
       }
      ]
     },
     {
-     "id": "data-handling-and-presentation/bar-graphs",
+     "id": "mathematics-6/data-handling-and-presentation/bar-graphs",
      "name": "Bar Graphs",
      "page": 134,
      "number": "4.3",
      "subtopics": []
     },
     {
-     "id": "data-handling-and-presentation/drawing-a-bar-graph",
+     "id": "mathematics-6/data-handling-and-presentation/drawing-a-bar-graph",
      "name": "Drawing a Bar Graph",
      "page": 138,
      "number": "4.4",
      "subtopics": []
     },
     {
-     "id": "data-handling-and-presentation/artistic-and-aesthetic-considerations",
+     "id": "mathematics-6/data-handling-and-presentation/artistic-and-aesthetic-considerations",
      "name": "Artistic and Aesthetic Considerations",
      "page": 150,
      "number": "4.5",
@@ -350,7 +350,7 @@
    ]
   },
   {
-   "id": "prime-time",
+   "id": "mathematics-6/prime-time",
    "name": "Prime Time",
    "number": 5,
    "book": "Ganita Prakash",
@@ -363,100 +363,100 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "prime-time/common-multiples-and-common-factors",
+     "id": "mathematics-6/prime-time/common-multiples-and-common-factors",
      "name": "Common Multiples and Common Factors",
      "page": 167,
      "number": "5.1",
      "subtopics": []
     },
     {
-     "id": "prime-time/prime-numbers",
+     "id": "mathematics-6/prime-time/prime-numbers",
      "name": "Prime Numbers",
      "page": 172,
      "number": "5.2",
      "subtopics": []
     },
     {
-     "id": "prime-time/co-prime-numbers-for-safekeeping-treasures",
+     "id": "mathematics-6/prime-time/co-prime-numbers-for-safekeeping-treasures",
      "name": "Co-prime numbers for safekeeping treasures",
      "page": 175,
      "number": "5.3",
      "subtopics": []
     },
     {
-     "id": "prime-time/prime-factorisation",
+     "id": "mathematics-6/prime-time/prime-factorisation",
      "name": "Prime Factorisation",
      "page": 177,
      "number": "5.4",
      "subtopics": [
       {
-       "id": "prime-time/prime-factorisation/prime-factorisation",
+       "id": "mathematics-6/prime-time/prime-factorisation/prime-factorisation",
        "name": "Prime factorisation",
        "page": 178
       },
       {
-       "id": "prime-time/prime-factorisation/prime-factorisation-of-a-product-of-two-numbers",
+       "id": "mathematics-6/prime-time/prime-factorisation/prime-factorisation-of-a-product-of-two-numbers",
        "name": "Prime factorisation of a product of two numbers",
        "page": 179
       },
       {
-       "id": "prime-time/prime-factorisation/using-prime-factorisation-to-check-if-two-numbers-are-co-pri",
+       "id": "mathematics-6/prime-time/prime-factorisation/using-prime-factorisation-to-check-if-two-numbers-are-co-pri",
        "name": "Using prime factorisation to check if two numbers are co-prime",
        "page": 180
       },
       {
-       "id": "prime-time/prime-factorisation/using-prime-factorisation-to-check-if-one-number-is-divisibl",
+       "id": "mathematics-6/prime-time/prime-factorisation/using-prime-factorisation-to-check-if-one-number-is-divisibl",
        "name": "Using prime factorisation to check if one number is divisible by another",
        "page": 181
       }
      ]
     },
     {
-     "id": "prime-time/divisibility-tests",
+     "id": "mathematics-6/prime-time/divisibility-tests",
      "name": "Divisibility Tests",
      "page": 182,
      "number": "5.5",
      "subtopics": [
       {
-       "id": "prime-time/divisibility-tests/divisibility-by-10",
+       "id": "mathematics-6/prime-time/divisibility-tests/divisibility-by-10",
        "name": "Divisibility by 10",
        "page": 183
       },
       {
-       "id": "prime-time/divisibility-tests/divisibility-by-5",
+       "id": "mathematics-6/prime-time/divisibility-tests/divisibility-by-5",
        "name": "Divisibility by 5",
        "page": 183
       },
       {
-       "id": "prime-time/divisibility-tests/divisibility-by-2",
+       "id": "mathematics-6/prime-time/divisibility-tests/divisibility-by-2",
        "name": "Divisibility by 2",
        "page": 183
       },
       {
-       "id": "prime-time/divisibility-tests/divisibility-by-4",
+       "id": "mathematics-6/prime-time/divisibility-tests/divisibility-by-4",
        "name": "Divisibility by 4",
        "page": 184
       },
       {
-       "id": "prime-time/divisibility-tests/divisibility-by-8",
+       "id": "mathematics-6/prime-time/divisibility-tests/divisibility-by-8",
        "name": "Divisibility by 8",
        "page": 185
       }
      ]
     },
     {
-     "id": "prime-time/fun-with-numbers",
+     "id": "mathematics-6/prime-time/fun-with-numbers",
      "name": "Fun with numbers",
      "page": 186,
      "number": "5.6",
      "subtopics": [
       {
-       "id": "prime-time/fun-with-numbers/special-numbers",
+       "id": "mathematics-6/prime-time/fun-with-numbers/special-numbers",
        "name": "Special numbers",
        "page": 186
       },
       {
-       "id": "prime-time/fun-with-numbers/a-prime-puzzle",
+       "id": "mathematics-6/prime-time/fun-with-numbers/a-prime-puzzle",
        "name": "A prime puzzle",
        "page": 187
       }
@@ -465,7 +465,7 @@
    ]
   },
   {
-   "id": "perimeter-and-area",
+   "id": "mathematics-6/perimeter-and-area",
    "name": "Perimeter and Area",
    "number": 6,
    "book": "Ganita Prakash",
@@ -478,42 +478,42 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "perimeter-and-area/perimeter",
+     "id": "mathematics-6/perimeter-and-area/perimeter",
      "name": "Perimeter",
      "page": 200,
      "number": "6.1",
      "subtopics": [
       {
-       "id": "perimeter-and-area/perimeter/perimeter-of-a-rectangle",
+       "id": "mathematics-6/perimeter-and-area/perimeter/perimeter-of-a-rectangle",
        "name": "Perimeter of a rectangle",
        "page": 200
       },
       {
-       "id": "perimeter-and-area/perimeter/perimeter-of-a-square",
+       "id": "mathematics-6/perimeter-and-area/perimeter/perimeter-of-a-square",
        "name": "Perimeter of a square",
        "page": 201
       },
       {
-       "id": "perimeter-and-area/perimeter/perimeter-of-a-triangle",
+       "id": "mathematics-6/perimeter-and-area/perimeter/perimeter-of-a-triangle",
        "name": "Perimeter of a triangle",
        "page": 202
       },
       {
-       "id": "perimeter-and-area/perimeter/perimeter-of-a-regular-polygon",
+       "id": "mathematics-6/perimeter-and-area/perimeter/perimeter-of-a-regular-polygon",
        "name": "Perimeter of a regular polygon",
        "page": 206
       }
      ]
     },
     {
-     "id": "perimeter-and-area/area",
+     "id": "mathematics-6/perimeter-and-area/area",
      "name": "Area",
      "page": 208,
      "number": "6.2",
      "subtopics": []
     },
     {
-     "id": "perimeter-and-area/area-of-a-triangle",
+     "id": "mathematics-6/perimeter-and-area/area-of-a-triangle",
      "name": "Area of a Triangle",
      "page": 213,
      "number": "6.3",
@@ -522,7 +522,7 @@
    ]
   },
   {
-   "id": "fractions",
+   "id": "mathematics-6/fractions",
    "name": "Fractions",
    "number": 7,
    "book": "Ganita Prakash",
@@ -535,111 +535,111 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "fractions/fractional-units-and-equal-shares",
+     "id": "mathematics-6/fractions/fractional-units-and-equal-shares",
      "name": "Fractional Units and Equal Shares",
      "page": 230,
      "number": "7.1",
      "subtopics": []
     },
     {
-     "id": "fractions/fractional-units-as-parts-of-a-whole",
+     "id": "mathematics-6/fractions/fractional-units-as-parts-of-a-whole",
      "name": "Fractional Units as Parts of a Whole",
      "page": 232,
      "number": "7.2",
      "subtopics": []
     },
     {
-     "id": "fractions/measuring-using-fractional-units",
+     "id": "mathematics-6/fractions/measuring-using-fractional-units",
      "name": "Measuring Using Fractional Units",
      "page": 234,
      "number": "7.3",
      "subtopics": []
     },
     {
-     "id": "fractions/marking-fraction-lengths-on-the-number-line",
+     "id": "mathematics-6/fractions/marking-fraction-lengths-on-the-number-line",
      "name": "Marking Fraction Lengths on the Number Line",
      "page": 237,
      "number": "7.4",
      "subtopics": []
     },
     {
-     "id": "fractions/mixed-fractions",
+     "id": "mathematics-6/fractions/mixed-fractions",
      "name": "Mixed Fractions",
      "page": 239,
      "number": "7.5",
      "subtopics": [
       {
-       "id": "fractions/mixed-fractions/fractions-greater-than-one",
+       "id": "mathematics-6/fractions/mixed-fractions/fractions-greater-than-one",
        "name": "Fractions greater than one",
        "page": 239
       },
       {
-       "id": "fractions/mixed-fractions/writing-fractions-greater-than-one-as-mixed-numbers",
+       "id": "mathematics-6/fractions/mixed-fractions/writing-fractions-greater-than-one-as-mixed-numbers",
        "name": "Writing fractions greater than one as mixed numbers",
        "page": 240
       }
      ]
     },
     {
-     "id": "fractions/equivalent-fractions",
+     "id": "mathematics-6/fractions/equivalent-fractions",
      "name": "Equivalent Fractions",
      "page": 241,
      "number": "7.6",
      "subtopics": [
       {
-       "id": "fractions/equivalent-fractions/using-a-fraction-wall-to-find-equal-fractional-lengths",
+       "id": "mathematics-6/fractions/equivalent-fractions/using-a-fraction-wall-to-find-equal-fractional-lengths",
        "name": "Using a fraction wall to find equal fractional lengths!",
        "page": 241
       },
       {
-       "id": "fractions/equivalent-fractions/understanding-equivalent-fractions-using-equal-shares",
+       "id": "mathematics-6/fractions/equivalent-fractions/understanding-equivalent-fractions-using-equal-shares",
        "name": "Understanding equivalent fractions using equal shares",
        "page": 243
       },
       {
-       "id": "fractions/equivalent-fractions/expressing-a-fraction-in-lowest-terms-or-in-its-simplest-for",
+       "id": "mathematics-6/fractions/equivalent-fractions/expressing-a-fraction-in-lowest-terms-or-in-its-simplest-for",
        "name": "Expressing a fraction in lowest terms (or in its simplest form)",
        "page": 250
       }
      ]
     },
     {
-     "id": "fractions/comparing-fractions",
+     "id": "mathematics-6/fractions/comparing-fractions",
      "name": "Comparing Fractions",
      "page": 251,
      "number": "7.7",
      "subtopics": []
     },
     {
-     "id": "fractions/addition-and-subtraction-of-fractions",
+     "id": "mathematics-6/fractions/addition-and-subtraction-of-fractions",
      "name": "Addition and Subtraction of Fractions",
      "page": 253,
      "number": "7.8",
      "subtopics": [
       {
-       "id": "fractions/addition-and-subtraction-of-fractions/adding-fractions-with-the-same-fractional-unit-or-denominato",
+       "id": "mathematics-6/fractions/addition-and-subtraction-of-fractions/adding-fractions-with-the-same-fractional-unit-or-denominato",
        "name": "Adding fractions with the same fractional unit or denominator",
        "page": 254
       },
       {
-       "id": "fractions/addition-and-subtraction-of-fractions/adding-fractions-with-different-fractional-units-or-denomina",
+       "id": "mathematics-6/fractions/addition-and-subtraction-of-fractions/adding-fractions-with-different-fractional-units-or-denomina",
        "name": "Adding fractions with different fractional units or denominators",
        "page": 255
       },
       {
-       "id": "fractions/addition-and-subtraction-of-fractions/subtraction-of-fractions-with-the-same-fractional-unit-or-de",
+       "id": "mathematics-6/fractions/addition-and-subtraction-of-fractions/subtraction-of-fractions-with-the-same-fractional-unit-or-de",
        "name": "Subtraction of fractions with the same fractional unit or denominator",
        "page": 258
       },
       {
-       "id": "fractions/addition-and-subtraction-of-fractions/subtraction-of-fractions-with-different-fractional-units-or",
+       "id": "mathematics-6/fractions/addition-and-subtraction-of-fractions/subtraction-of-fractions-with-different-fractional-units-or",
        "name": "Subtraction of fractions with different fractional units or denominators",
        "page": 259
       }
      ]
     },
     {
-     "id": "fractions/a-pinch-of-history",
+     "id": "mathematics-6/fractions/a-pinch-of-history",
      "name": "A Pinch of History",
      "page": 260,
      "number": "7.9",
@@ -648,7 +648,7 @@
    ]
   },
   {
-   "id": "playing-with-constructions",
+   "id": "mathematics-6/playing-with-constructions",
    "name": "Playing with Constructions",
    "number": 8,
    "book": "Ganita Prakash",
@@ -661,42 +661,42 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "playing-with-constructions/artwork",
+     "id": "mathematics-6/playing-with-constructions/artwork",
      "name": "Artwork",
      "page": 279,
      "number": "8.1",
      "subtopics": []
     },
     {
-     "id": "playing-with-constructions/squares-and-rectangles",
+     "id": "mathematics-6/playing-with-constructions/squares-and-rectangles",
      "name": "Squares and Rectangles",
      "page": 284,
      "number": "8.2",
      "subtopics": []
     },
     {
-     "id": "playing-with-constructions/constructing-squares-and-rectangles",
+     "id": "mathematics-6/playing-with-constructions/constructing-squares-and-rectangles",
      "name": "Constructing Squares and Rectangles",
      "page": 287,
      "number": "8.3",
      "subtopics": []
     },
     {
-     "id": "playing-with-constructions/an-exploration-in-rectangles",
+     "id": "mathematics-6/playing-with-constructions/an-exploration-in-rectangles",
      "name": "An Exploration in Rectangles",
      "page": 289,
      "number": "8.4",
      "subtopics": []
     },
     {
-     "id": "playing-with-constructions/exploring-diagonals-of-rectangles-and-squares",
+     "id": "mathematics-6/playing-with-constructions/exploring-diagonals-of-rectangles-and-squares",
      "name": "Exploring Diagonals of Rectangles and Squares",
      "page": 295,
      "number": "8.5",
      "subtopics": []
     },
     {
-     "id": "playing-with-constructions/points-equidistant-from-two-given-points",
+     "id": "mathematics-6/playing-with-constructions/points-equidistant-from-two-given-points",
      "name": "Points Equidistant from Two Given Points",
      "page": 303,
      "number": "8.6",
@@ -705,7 +705,7 @@
    ]
   },
   {
-   "id": "symmetry",
+   "id": "mathematics-6/symmetry",
    "name": "Symmetry",
    "number": 9,
    "book": "Ganita Prakash",
@@ -718,41 +718,41 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "symmetry/line-of-symmetry",
+     "id": "mathematics-6/symmetry/line-of-symmetry",
      "name": "Line of Symmetry",
      "page": 319,
      "number": "9.1",
      "subtopics": [
       {
-       "id": "symmetry/line-of-symmetry/figures-with-more-than-one-line-of-symmetry",
+       "id": "mathematics-6/symmetry/line-of-symmetry/figures-with-more-than-one-line-of-symmetry",
        "name": "Figures with more than one line of symmetry",
        "page": 320
       },
       {
-       "id": "symmetry/line-of-symmetry/reflection",
+       "id": "mathematics-6/symmetry/line-of-symmetry/reflection",
        "name": "Reflection",
        "page": 321
       },
       {
-       "id": "symmetry/line-of-symmetry/generating-shapes-having-lines-of-symmetry",
+       "id": "mathematics-6/symmetry/line-of-symmetry/generating-shapes-having-lines-of-symmetry",
        "name": "Generating shapes having lines of symmetry",
        "page": 322
       }
      ]
     },
     {
-     "id": "symmetry/rotational-symmetry",
+     "id": "mathematics-6/symmetry/rotational-symmetry",
      "name": "Rotational Symmetry",
      "page": 330,
      "number": "9.2",
      "subtopics": [
       {
-       "id": "symmetry/rotational-symmetry/symmetries-of-a-circle",
+       "id": "mathematics-6/symmetry/rotational-symmetry/symmetries-of-a-circle",
        "name": "Symmetries of a circle",
        "page": 337
       },
       {
-       "id": "symmetry/rotational-symmetry/game",
+       "id": "mathematics-6/symmetry/rotational-symmetry/game",
        "name": "Game",
        "page": 341
       }
@@ -761,7 +761,7 @@
    ]
   },
   {
-   "id": "the-other-side-of-zero",
+   "id": "mathematics-6/the-other-side-of-zero",
    "name": "The Other Side of Zero",
    "number": 10,
    "book": "Ganita Prakash",
@@ -774,129 +774,129 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "the-other-side-of-zero/bela-s-building-of-fun",
+     "id": "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun",
      "name": "Bela’s Building of Fun",
      "page": 358,
      "number": "10.1",
      "subtopics": [
       {
-       "id": "the-other-side-of-zero/bela-s-building-of-fun/numbering-the-floors-in-the-building-of-fun",
+       "id": "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/numbering-the-floors-in-the-building-of-fun",
        "name": "Numbering the floors in the building of fun",
        "page": 359
       },
       {
-       "id": "the-other-side-of-zero/bela-s-building-of-fun/addition-to-keep-track-of-movement",
+       "id": "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/addition-to-keep-track-of-movement",
        "name": "Addition to keep track of movement",
        "page": 360
       },
       {
-       "id": "the-other-side-of-zero/bela-s-building-of-fun/combining-button-presses-is-also-addition",
+       "id": "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/combining-button-presses-is-also-addition",
        "name": "Combining button presses is also addition",
        "page": 360
       },
       {
-       "id": "the-other-side-of-zero/bela-s-building-of-fun/back-to-zero",
+       "id": "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/back-to-zero",
        "name": "Back to zero!",
        "page": 361
       },
       {
-       "id": "the-other-side-of-zero/bela-s-building-of-fun/comparing-numbers-using-floors",
+       "id": "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/comparing-numbers-using-floors",
        "name": "Comparing numbers using floors",
        "page": 361
       },
       {
-       "id": "the-other-side-of-zero/bela-s-building-of-fun/subtraction-to-find-which-button-to-press",
+       "id": "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/subtraction-to-find-which-button-to-press",
        "name": "Subtraction to find which button to press",
        "page": 362
       },
       {
-       "id": "the-other-side-of-zero/bela-s-building-of-fun/adding-and-subtracting-larger-numbers",
+       "id": "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/adding-and-subtracting-larger-numbers",
        "name": "Adding and subtracting larger numbers",
        "page": 365
       },
       {
-       "id": "the-other-side-of-zero/bela-s-building-of-fun/adding-subtracting-and-comparing-any-numbers",
+       "id": "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/adding-subtracting-and-comparing-any-numbers",
        "name": "Adding, subtracting, and comparing any numbers",
        "page": 366
       },
       {
-       "id": "the-other-side-of-zero/bela-s-building-of-fun/back-to-the-number-line",
+       "id": "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/back-to-the-number-line",
        "name": "Back to the number line",
        "page": 367
       },
       {
-       "id": "the-other-side-of-zero/bela-s-building-of-fun/using-the-unmarked-number-line-to-add-and-subtract",
+       "id": "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/using-the-unmarked-number-line-to-add-and-subtract",
        "name": "Using the unmarked number line to add and subtract",
        "page": 369
       },
       {
-       "id": "the-other-side-of-zero/bela-s-building-of-fun/converting-subtraction-to-addition-and-addition-to-subtracti",
+       "id": "mathematics-6/the-other-side-of-zero/bela-s-building-of-fun/converting-subtraction-to-addition-and-addition-to-subtracti",
        "name": "Converting subtraction to addition and addition to subtraction",
        "page": 370
       }
      ]
     },
     {
-     "id": "the-other-side-of-zero/the-token-model",
+     "id": "mathematics-6/the-other-side-of-zero/the-token-model",
      "name": "The Token Model",
      "page": 371,
      "number": "10.2",
      "subtopics": [
       {
-       "id": "the-other-side-of-zero/the-token-model/using-tokens-for-addition",
+       "id": "mathematics-6/the-other-side-of-zero/the-token-model/using-tokens-for-addition",
        "name": "Using tokens for addition",
        "page": 371
       },
       {
-       "id": "the-other-side-of-zero/the-token-model/using-tokens-for-subtraction",
+       "id": "mathematics-6/the-other-side-of-zero/the-token-model/using-tokens-for-subtraction",
        "name": "Using tokens for subtraction",
        "page": 372
       }
      ]
     },
     {
-     "id": "the-other-side-of-zero/integers-in-other-places",
+     "id": "mathematics-6/the-other-side-of-zero/integers-in-other-places",
      "name": "Integers in Other Places",
      "page": 374,
      "number": "10.3",
      "subtopics": [
       {
-       "id": "the-other-side-of-zero/integers-in-other-places/credits-and-debits",
+       "id": "mathematics-6/the-other-side-of-zero/integers-in-other-places/credits-and-debits",
        "name": "Credits and debits",
        "page": 374
       },
       {
-       "id": "the-other-side-of-zero/integers-in-other-places/geographical-cross-sections",
+       "id": "mathematics-6/the-other-side-of-zero/integers-in-other-places/geographical-cross-sections",
        "name": "Geographical cross sections",
        "page": 375
       },
       {
-       "id": "the-other-side-of-zero/integers-in-other-places/temperature",
+       "id": "mathematics-6/the-other-side-of-zero/integers-in-other-places/temperature",
        "name": "Temperature",
        "page": 377
       }
      ]
     },
     {
-     "id": "the-other-side-of-zero/explorations-with-integers",
+     "id": "mathematics-6/the-other-side-of-zero/explorations-with-integers",
      "name": "Explorations with Integers",
      "page": 378,
      "number": "10.4",
      "subtopics": [
       {
-       "id": "the-other-side-of-zero/explorations-with-integers/a-hollow-integer-grid",
+       "id": "mathematics-6/the-other-side-of-zero/explorations-with-integers/a-hollow-integer-grid",
        "name": "A hollow integer grid",
        "page": 378
       },
       {
-       "id": "the-other-side-of-zero/explorations-with-integers/an-amazing-grid-of-numbers",
+       "id": "mathematics-6/the-other-side-of-zero/explorations-with-integers/an-amazing-grid-of-numbers",
        "name": "An amazing grid of numbers!",
        "page": 379
       }
      ]
     },
     {
-     "id": "the-other-side-of-zero/a-pinch-of-history",
+     "id": "mathematics-6/the-other-side-of-zero/a-pinch-of-history",
      "name": "A Pinch of History",
      "page": 381,
      "number": "10.5",

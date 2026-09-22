@@ -1031,6 +1031,131 @@
      "page": 213
     }
    ]
+  },
+  {
+   "family": "SS",
+   "file": "chapters/gees1/gees102.pdf",
+   "chapter": 2,
+   "pages": "PDF pp1-18",
+   "note": "Task 7021: sub-headings lettered a) .. e) (pp5-11), read off the rendered pages without their letter. pp15-18 are end matter only.",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Weather and its Elements",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "Weather and its Elements",
+     "name": "What is weather?",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "Weather and its Elements",
+     "name": "Observing Nature’s clues",
+     "page": 4
+    },
+    {
+     "level": 1,
+     "name": "Weather Instruments",
+     "page": 5
+    },
+    {
+     "level": 2,
+     "parent": "Weather Instruments",
+     "name": "Temperature",
+     "page": 5
+    },
+    {
+     "level": 2,
+     "parent": "Weather Instruments",
+     "name": "Precipitation",
+     "page": 7
+    },
+    {
+     "level": 2,
+     "parent": "Weather Instruments",
+     "name": "Atmospheric pressure",
+     "page": 8
+    },
+    {
+     "level": 2,
+     "parent": "Weather Instruments",
+     "name": "Wind",
+     "page": 10
+    },
+    {
+     "level": 2,
+     "parent": "Weather Instruments",
+     "name": "Humidity",
+     "page": 11
+    },
+    {
+     "level": 1,
+     "name": "Weather Stations",
+     "page": 13
+    },
+    {
+     "level": 2,
+     "parent": "Weather Stations",
+     "name": "An automated weather station",
+     "page": 13
+    },
+    {
+     "level": 1,
+     "name": "Predicting the Weather",
+     "page": 13
+    }
+   ]
+  },
+  {
+   "family": "SS",
+   "file": "chapters/fees1/fees114.pdf",
+   "chapter": 14,
+   "pages": "PDF pp1-14",
+   "note": "Task 7021: sub-headings lettered A. .. C. (pp2, 5, 7), read off the rendered pages without their letter. pp13-14 are boxes and end matter only.",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Introduction",
+     "page": 1
+    },
+    {
+     "level": 1,
+     "name": "The Classification of Economic Activities into Economic Sectors",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "The Classification of Economic Activities into Economic Sectors",
+     "name": "Primary activities",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "The Classification of Economic Activities into Economic Sectors",
+     "name": "Secondary activities",
+     "page": 5
+    },
+    {
+     "level": 2,
+     "parent": "The Classification of Economic Activities into Economic Sectors",
+     "name": "Tertiary activities",
+     "page": 7
+    },
+    {
+     "level": 1,
+     "name": "Interdependence Among Sectors",
+     "page": 8
+    },
+    {
+     "level": 2,
+     "parent": "Interdependence Among Sectors",
+     "name": "Dairy cooperative: from farm to plate",
+     "page": 8
+    }
+   ]
   }
  ]
 }

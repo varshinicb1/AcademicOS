@@ -410,3 +410,66 @@ def test_hanging_second_line_of_a_numbered_heading_is_joined():
     assert not [h.name for h in heads if th._dangling(h.name)]
     assert next(h.name for h in heads if h.number == "2.1.3") == (
         "How do Metal Carbonates and Metal Hydrogencarbonates React with Acids?")
+
+
+# --------------------------------------------------------------------------- #
+# Task 7021: lettered sub-headings
+# --------------------------------------------------------------------------- #
+
+def test_lettered_sub_headings_are_subtopics_with_clean_names_gees102():
+    # gees102.pdf pp5-11: "Weather Instruments" (17pt) is followed by "a)
+    # Temperature" .. "e) Humidity", 15pt bold in the sub-section colour. Read
+    # as a title, "a) ..." starts in lower case and all five were dropped.
+    heads, kind = th.chapter_headings(_lines("gees102"), 2)
+    assert kind == "unnumbered"
+    assert [(h.level, h.name, h.page) for h in heads] == [
+        (1, "Weather and its Elements", 2),
+        (2, "What is weather?", 2),
+        (2, "Observing Nature’s clues", 4),
+        (1, "Weather Instruments", 5),
+        (2, "Temperature", 5),
+        (2, "Precipitation", 7),
+        (2, "Atmospheric pressure", 8),
+        (2, "Wind", 10),
+        (2, "Humidity", 11),
+        (1, "Weather Stations", 13),
+        (2, "An automated weather station", 13),
+        (1, "Predicting the Weather", 13),
+    ]
+
+
+def test_capital_lettered_sub_headings_lose_their_label_fees114():
+    # fees114.pdf pp2, 5, 7: "A. Primary activities" .. "C. Tertiary
+    # activities" were kept, with the "A." in the name.
+    heads, _ = th.chapter_headings(_lines("fees114"), 14)
+    topics, orphans = th.build_topics("ch", heads)
+    assert orphans == 0
+    by_name = {t["name"]: [s["name"] for s in t["subtopics"]] for t in topics}
+    assert by_name["The Classification of Economic Activities into Economic Sectors"] == [
+        "Primary activities", "Secondary activities", "Tertiary activities"]
+
+
+@pytest.mark.parametrize("text,label,rest", [
+    ("a) Temperature", "a", "Temperature"),
+    ("a. What are the Vedas?", "a", "What are the Vedas?"),
+    ("(c) Proximity to the sea", "c", "Proximity to the sea"),
+    ("A. Primary activities", "A", "Primary activities"),
+    ("B) Secondary activities", "B", "Secondary activities"),
+    ("A Tale of Two Cities", None, "A Tale of Two Cities"),       # no label
+    ("E. F. Hayward", None, "E. F. Hayward"),                     # initials
+    ("Weather Instruments", None, "Weather Instruments"),
+])
+def test_letter_label_is_read_off_the_front(text, label, rest):
+    assert th.letter_label(text) == (label, rest)
+
+
+def test_a_lone_initial_is_not_a_lettered_heading():
+    # "O. Henry" (an author's name in heading type) is not item O of a list:
+    # a letter counts as a label only in a run that starts at a/A.
+    y = 100.0
+    lines = [th.Line(1, "The Gift", 17.0, "NotoSerif-Bold", True, 35395, 64, y, 300, y + 20),
+             th.Line(1, "O. Henry", 15.0, "NotoSerif-Bold", True, 35395, 64, y + 60, 300, y + 78)]
+    lines += [th.Line(1, "body text " * 6, 12.0, "NotoSerif-Regular", False, 2301728,
+                      64, y + 100 + 17 * k, 434, y + 117 + 17 * k) for k in range(30)]
+    assert [(h.level, h.name) for h in th.unnumbered_headings(lines)] == [
+        (1, "The Gift"), (2, "O. Henry")]

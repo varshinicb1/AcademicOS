@@ -669,7 +669,7 @@
   "Social Science_6": {
    "chapters": 14,
    "topics": 52,
-   "subtopics": 19,
+   "subtopics": 25,
    "headingKinds": {
     "unnumbered": 14
    },
@@ -680,7 +680,7 @@
   "Social Science_7": {
    "chapters": 20,
    "topics": 128,
-   "subtopics": 108,
+   "subtopics": 129,
    "headingKinds": {
     "unnumbered": 20
    },
@@ -789,11 +789,11 @@
     "correct": 48
    },
    "all": {
-    "precision": 0.987,
-    "recall": 0.963,
-    "extracted": 159,
-    "handRead": 163,
-    "correct": 157
+    "precision": 0.989,
+    "recall": 0.967,
+    "extracted": 178,
+    "handRead": 182,
+    "correct": 176
    },
    "Science": {
     "precision": 1.0,
@@ -803,11 +803,11 @@
     "correct": 42
    },
    "SS": {
-    "precision": 0.971,
-    "recall": 0.918,
-    "extracted": 69,
-    "handRead": 73,
-    "correct": 67
+    "precision": 0.977,
+    "recall": 0.935,
+    "extracted": 88,
+    "handRead": 92,
+    "correct": 86
    }
   },
   "chapters": [
@@ -1013,6 +1013,30 @@
     "recall": 1.0,
     "wrong": [],
     "missed": []
+   },
+   {
+    "family": "SS",
+    "file": "chapters/gees1/gees102.pdf",
+    "chapter": 2,
+    "extracted": 12,
+    "handRead": 12,
+    "correct": 12,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "SS",
+    "file": "chapters/fees1/fees114.pdf",
+    "chapter": 14,
+    "extracted": 7,
+    "handRead": 7,
+    "correct": 7,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
    }
   ]
  },
@@ -1063,82 +1087,82 @@
     {
      "number": 1,
      "name": "A Bottle of Dew",
-     "id": "a-bottle-of-dew"
+     "id": "english-6/a-bottle-of-dew"
     },
     {
      "number": 2,
      "name": "The Raven and the Fox",
-     "id": "the-raven-and-the-fox"
+     "id": "english-6/the-raven-and-the-fox"
     },
     {
      "number": 3,
      "name": "Rama to the Rescue",
-     "id": "rama-to-the-rescue"
+     "id": "english-6/rama-to-the-rescue"
     },
     {
      "number": 4,
      "name": "The Unlikely Best Friends",
-     "id": "the-unlikely-best-friends"
+     "id": "english-6/the-unlikely-best-friends"
     },
     {
      "number": 5,
      "name": "A Friend’s Prayer",
-     "id": "a-friend-s-prayer"
+     "id": "english-6/a-friend-s-prayer"
     },
     {
      "number": 6,
      "name": "The Chair",
-     "id": "the-chair"
+     "id": "english-6/the-chair"
     },
     {
      "number": 7,
      "name": "Neem Baba",
-     "id": "neem-baba"
+     "id": "english-6/neem-baba"
     },
     {
      "number": 8,
      "name": "What a Bird Thought",
-     "id": "what-a-bird-thought"
+     "id": "english-6/what-a-bird-thought"
     },
     {
      "number": 9,
      "name": "Spices that Heal Us",
-     "id": "spices-that-heal-us"
+     "id": "english-6/spices-that-heal-us"
     },
     {
      "number": 10,
      "name": "Change of Heart",
-     "id": "change-of-heart"
+     "id": "english-6/change-of-heart"
     },
     {
      "number": 11,
      "name": "The Winner",
-     "id": "the-winner"
+     "id": "english-6/the-winner"
     },
     {
      "number": 12,
      "name": "Yoga—A Way of Life",
-     "id": "yoga-a-way-of-life"
+     "id": "english-6/yoga-a-way-of-life"
     },
     {
      "number": 13,
      "name": "Hamara Bharat—Incredible India!",
-     "id": "hamara-bharat-incredible-india"
+     "id": "english-6/hamara-bharat-incredible-india"
     },
     {
      "number": 14,
      "name": "The Kites",
-     "id": "the-kites"
+     "id": "english-6/the-kites"
     },
     {
      "number": 15,
      "name": "Ila Sachani Embroidering Dreams with her Feet",
-     "id": "ila-sachani-embroidering-dreams-with-her-feet"
+     "id": "english-6/ila-sachani-embroidering-dreams-with-her-feet"
     },
     {
      "number": 16,
      "name": "National War Memorial",
-     "id": "national-war-memorial"
+     "id": "english-6/national-war-memorial"
     }
    ]
   },
@@ -1191,77 +1215,77 @@
     {
      "number": 1,
      "name": "The Day the River Spoke",
-     "id": "the-day-the-river-spoke"
+     "id": "english-7/the-day-the-river-spoke"
     },
     {
      "number": 2,
      "name": "Try Again",
-     "id": "try-again"
+     "id": "english-7/try-again"
     },
     {
      "number": 3,
      "name": "Three Days to See",
-     "id": "three-days-to-see"
+     "id": "english-7/three-days-to-see"
     },
     {
      "number": 4,
      "name": "Animals, Birds, and Dr. Dolittle",
-     "id": "animals-birds-and-dr-dolittle"
+     "id": "english-7/animals-birds-and-dr-dolittle"
     },
     {
      "number": 5,
      "name": "A Funny Man",
-     "id": "a-funny-man"
+     "id": "english-7/a-funny-man"
     },
     {
      "number": 6,
      "name": "Say the Right Thing",
-     "id": "say-the-right-thing"
+     "id": "english-7/say-the-right-thing"
     },
     {
      "number": 7,
      "name": "My Brother’s Great Invention",
-     "id": "my-brother-s-great-invention"
+     "id": "english-7/my-brother-s-great-invention"
     },
     {
      "number": 8,
      "name": "Paper Boats",
-     "id": "paper-boats"
+     "id": "english-7/paper-boats"
     },
     {
      "number": 9,
      "name": "North, South, East, West",
-     "id": "north-south-east-west"
+     "id": "english-7/north-south-east-west"
     },
     {
      "number": 10,
      "name": "The Tunnel",
-     "id": "the-tunnel"
+     "id": "english-7/the-tunnel"
     },
     {
      "number": 11,
      "name": "Travel",
-     "id": "travel"
+     "id": "english-7/travel"
     },
     {
      "number": 12,
      "name": "Conquering the Summit",
-     "id": "conquering-the-summit"
+     "id": "english-7/conquering-the-summit"
     },
     {
      "number": 13,
      "name": "A Homage to Our Brave Soldiers",
-     "id": "a-homage-to-our-brave-soldiers"
+     "id": "english-7/a-homage-to-our-brave-soldiers"
     },
     {
      "number": 14,
      "name": "My Dear Soldiers",
-     "id": "my-dear-soldiers"
+     "id": "english-7/my-dear-soldiers"
     },
     {
      "number": 15,
      "name": "Rani Abbakka",
-     "id": "rani-abbakka"
+     "id": "english-7/rani-abbakka"
     }
    ]
   },
@@ -1314,77 +1338,77 @@
     {
      "number": 1,
      "name": "The Wit that Won Hearts",
-     "id": "the-wit-that-won-hearts"
+     "id": "english-8/the-wit-that-won-hearts"
     },
     {
      "number": 2,
      "name": "A Concrete Example",
-     "id": "a-concrete-example"
+     "id": "english-8/a-concrete-example"
     },
     {
      "number": 3,
      "name": "Wisdom Paves the Way",
-     "id": "wisdom-paves-the-way"
+     "id": "english-8/wisdom-paves-the-way"
     },
     {
      "number": 4,
      "name": "A Tale of Valour: Major Somnath Sharma and the Battle of Badgam",
-     "id": "a-tale-of-valour-major-somnath-sharma-and-the-battle-of-badg"
+     "id": "english-8/a-tale-of-valour-major-somnath-sharma-and-the-battle-of-badg"
     },
     {
      "number": 5,
      "name": "Somebody’s Mother",
-     "id": "somebody-s-mother"
+     "id": "english-8/somebody-s-mother"
     },
     {
      "number": 6,
      "name": "Verghese Kurien— I Too Had A Dream",
-     "id": "verghese-kurien-i-too-had-a-dream"
+     "id": "english-8/verghese-kurien-i-too-had-a-dream"
     },
     {
      "number": 7,
      "name": "The Case of the Fifth Word",
-     "id": "the-case-of-the-fifth-word"
+     "id": "english-8/the-case-of-the-fifth-word"
     },
     {
      "number": 8,
      "name": "The Magic Brush of Dreams",
-     "id": "the-magic-brush-of-dreams"
+     "id": "english-8/the-magic-brush-of-dreams"
     },
     {
      "number": 9,
      "name": "Spectacular Wonders",
-     "id": "spectacular-wonders"
+     "id": "english-8/spectacular-wonders"
     },
     {
      "number": 10,
      "name": "The Cherry Tree",
-     "id": "the-cherry-tree"
+     "id": "english-8/the-cherry-tree"
     },
     {
      "number": 11,
      "name": "Harvest Hymn",
-     "id": "harvest-hymn"
+     "id": "english-8/harvest-hymn"
     },
     {
      "number": 12,
      "name": "Waiting for the Rain",
-     "id": "waiting-for-the-rain"
+     "id": "english-8/waiting-for-the-rain"
     },
     {
      "number": 13,
      "name": "Feathered Friend",
-     "id": "feathered-friend"
+     "id": "english-8/feathered-friend"
     },
     {
      "number": 14,
      "name": "Magnifying Glass",
-     "id": "magnifying-glass"
+     "id": "english-8/magnifying-glass"
     },
     {
      "number": 15,
      "name": "Bibha Chowdhuri: The Beam of Light that Lit the Path for Women in Indian Science",
-     "id": "bibha-chowdhuri-the-beam-of-light-that-lit-the-path-for-wome"
+     "id": "english-8/bibha-chowdhuri-the-beam-of-light-that-lit-the-path-for-wome"
     }
    ]
   },
@@ -1438,82 +1462,82 @@
     {
      "number": 1,
      "name": "How I Taught My Grandmother to Read",
-     "id": "how-i-taught-my-grandmother-to-read"
+     "id": "english-9/how-i-taught-my-grandmother-to-read"
     },
     {
      "number": 2,
      "name": "Bharat Our Land",
-     "id": "bharat-our-land"
+     "id": "english-9/bharat-our-land"
     },
     {
      "number": 3,
      "name": "The Pot Maker",
-     "id": "the-pot-maker"
+     "id": "english-9/the-pot-maker"
     },
     {
      "number": 4,
      "name": "Gifts of Grace: Honouring Our Vocations",
-     "id": "gifts-of-grace-honouring-our-vocations"
+     "id": "english-9/gifts-of-grace-honouring-our-vocations"
     },
     {
      "number": 5,
      "name": "Winds of Change",
-     "id": "winds-of-change"
+     "id": "english-9/winds-of-change"
     },
     {
      "number": 6,
      "name": "Canvas of Soil",
-     "id": "canvas-of-soil"
+     "id": "english-9/canvas-of-soil"
     },
     {
      "number": 7,
      "name": "Vitamin-M",
-     "id": "vitamin-m"
+     "id": "english-9/vitamin-m"
     },
     {
      "number": 8,
      "name": "I Cannot Remember My Mother",
-     "id": "i-cannot-remember-my-mother"
+     "id": "english-9/i-cannot-remember-my-mother"
     },
     {
      "number": 9,
      "name": "The World of Limitless Possibilities",
-     "id": "the-world-of-limitless-possibilities"
+     "id": "english-9/the-world-of-limitless-possibilities"
     },
     {
      "number": 10,
      "name": "Nine Gold Medals",
-     "id": "nine-gold-medals"
+     "id": "english-9/nine-gold-medals"
     },
     {
      "number": 11,
      "name": "Twin Melodies",
-     "id": "twin-melodies"
+     "id": "english-9/twin-melodies"
     },
     {
      "number": 12,
      "name": "A Friend Found in Music",
-     "id": "a-friend-found-in-music"
+     "id": "english-9/a-friend-found-in-music"
     },
     {
      "number": 13,
      "name": "Carrier of Words",
-     "id": "carrier-of-words"
+     "id": "english-9/carrier-of-words"
     },
     {
      "number": 14,
      "name": "Words",
-     "id": "words"
+     "id": "english-9/words"
     },
     {
      "number": 15,
      "name": "Follow That Dream",
-     "id": "follow-that-dream"
+     "id": "english-9/follow-that-dream"
     },
     {
      "number": 16,
      "name": "Believe in Yourself",
-     "id": "believe-in-yourself"
+     "id": "english-9/believe-in-yourself"
     }
    ]
   },
@@ -1593,72 +1617,72 @@
     {
      "number": 1,
      "name": "दो बैलों की कथा",
-     "id": "दो-बैलों-की-कथा"
+     "id": "hindi-9/दो-बैलों-की-कथा"
     },
     {
      "number": 2,
      "name": "क् या लिखूँ?",
-     "id": "क्-या-लिखूँ"
+     "id": "hindi-9/क्-या-लिखूँ"
     },
     {
      "number": 3,
      "name": "संवा दहीन",
-     "id": "संवा-दहीन"
+     "id": "hindi-9/संवा-दहीन"
     },
     {
      "number": 4,
      "name": "ऐसी भी बातें होत ी हैं (लता मंगेशकर से सा क्षात् का र) यतीं द्र मिश्र",
-     "id": "ऐसी-भी-बातें-होत-ी-हैं-लता-मंगेशकर-से-सा-क्षात्-का-र-यतीं-द्"
+     "id": "hindi-9/ऐसी-भी-बातें-होत-ी-हैं-लता-मंगेशकर-से-सा-क्षात्-का-र-यतीं-द्"
     },
     {
      "number": 5,
      "name": "आखिरी चट्टा न त क",
-     "id": "आखिरी-चट्टा-न-त-क"
+     "id": "hindi-9/आखिरी-चट्टा-न-त-क"
     },
     {
      "number": 6,
      "name": "रीढ़ की हड्‌डी",
-     "id": "रीढ़-की-हड्-डी"
+     "id": "hindi-9/रीढ़-की-हड्-डी"
     },
     {
      "number": 7,
      "name": "मैं और मेरा देश",
-     "id": "मैं-और-मेरा-देश"
+     "id": "hindi-9/मैं-और-मेरा-देश"
     },
     {
      "number": 8,
      "name": "निर्मल जीत सिं ह सेखों (साथ -साथ पढ़ें)",
-     "id": "निर्मल-जीत-सिं-ह-सेखों-साथ-साथ-पढ़ें"
+     "id": "hindi-9/निर्मल-जीत-सिं-ह-सेखों-साथ-साथ-पढ़ें"
     },
     {
      "number": 9,
      "name": "पद",
-     "id": "पद"
+     "id": "hindi-9/पद"
     },
     {
      "number": 10,
      "name": "रा म-लक्षम ण-परशुरा म संवा द",
-     "id": "रा-म-लक्षम-ण-परशुरा-म-संवा-द"
+     "id": "hindi-9/रा-म-लक्षम-ण-परशुरा-म-संवा-द"
     },
     {
      "number": 11,
      "name": "भा रति, जय, विजयकरे!",
-     "id": "भा-रति-जय-विजयकरे"
+     "id": "hindi-9/भा-रति-जय-विजयकरे"
     },
     {
      "number": 12,
      "name": "झाँ सी की रा नी",
-     "id": "झाँ-सी-की-रा-नी"
+     "id": "hindi-9/झाँ-सी-की-रा-नी"
     },
     {
      "number": 13,
      "name": "घर की या द",
-     "id": "घर-की-या-द"
+     "id": "hindi-9/घर-की-या-द"
     },
     {
      "number": 14,
      "name": "तब याद तुम्हारी आती है (साथ -साथ पढ़ें)",
-     "id": "तब-याद-तुम्हारी-आती-है-साथ-साथ-पढ़ें"
+     "id": "hindi-9/तब-याद-तुम्हारी-आती-है-साथ-साथ-पढ़ें"
     }
    ]
   },
@@ -1716,52 +1740,52 @@
     {
      "number": 1,
      "name": "Patterns in Mathematics",
-     "id": "patterns-in-mathematics"
+     "id": "mathematics-6/patterns-in-mathematics"
     },
     {
      "number": 2,
      "name": "Lines and Angles",
-     "id": "lines-and-angles"
+     "id": "mathematics-6/lines-and-angles"
     },
     {
      "number": 3,
      "name": "Number Play",
-     "id": "number-play"
+     "id": "mathematics-6/number-play"
     },
     {
      "number": 4,
      "name": "Data Handling and Presentation",
-     "id": "data-handling-and-presentation"
+     "id": "mathematics-6/data-handling-and-presentation"
     },
     {
      "number": 5,
      "name": "Prime Time",
-     "id": "prime-time"
+     "id": "mathematics-6/prime-time"
     },
     {
      "number": 6,
      "name": "Perimeter and Area",
-     "id": "perimeter-and-area"
+     "id": "mathematics-6/perimeter-and-area"
     },
     {
      "number": 7,
      "name": "Fractions",
-     "id": "fractions"
+     "id": "mathematics-6/fractions"
     },
     {
      "number": 8,
      "name": "Playing with Constructions",
-     "id": "playing-with-constructions"
+     "id": "mathematics-6/playing-with-constructions"
     },
     {
      "number": 9,
      "name": "Symmetry",
-     "id": "symmetry"
+     "id": "mathematics-6/symmetry"
     },
     {
      "number": 10,
      "name": "The Other Side of Zero",
-     "id": "the-other-side-of-zero"
+     "id": "mathematics-6/the-other-side-of-zero"
     }
    ]
   },
@@ -1846,91 +1870,91 @@
     {
      "number": 1,
      "name": "Large Numbers Around Us",
-     "id": "large-numbers-around-us",
+     "id": "mathematics-7/large-numbers-around-us",
      "part": 1
     },
     {
      "number": 2,
      "name": "Arithmetic Expressions",
-     "id": "arithmetic-expressions",
+     "id": "mathematics-7/arithmetic-expressions",
      "part": 1
     },
     {
      "number": 3,
      "name": "A Peek Beyond the Point",
-     "id": "a-peek-beyond-the-point",
+     "id": "mathematics-7/a-peek-beyond-the-point",
      "part": 1
     },
     {
      "number": 4,
      "name": "Expressions using Letter-Numbers",
-     "id": "expressions-using-letter-numbers",
+     "id": "mathematics-7/expressions-using-letter-numbers",
      "part": 1
     },
     {
      "number": 5,
      "name": "Parallel and Intersecting Lines",
-     "id": "parallel-and-intersecting-lines",
+     "id": "mathematics-7/parallel-and-intersecting-lines",
      "part": 1
     },
     {
      "number": 6,
      "name": "Number Play",
-     "id": "number-play",
+     "id": "mathematics-7/number-play",
      "part": 1
     },
     {
      "number": 7,
      "name": "A Tale of Three Intersecting Lines",
-     "id": "a-tale-of-three-intersecting-lines",
+     "id": "mathematics-7/a-tale-of-three-intersecting-lines",
      "part": 1
     },
     {
      "number": 8,
      "name": "Working with Fractions",
-     "id": "working-with-fractions",
+     "id": "mathematics-7/working-with-fractions",
      "part": 1
     },
     {
      "number": 1,
      "name": "Geometric Twins",
-     "id": "geometric-twins",
+     "id": "mathematics-7/geometric-twins",
      "part": 2
     },
     {
      "number": 2,
      "name": "Operations with Integers",
-     "id": "operations-with-integers",
+     "id": "mathematics-7/operations-with-integers",
      "part": 2
     },
     {
      "number": 3,
      "name": "Finding Common Ground",
-     "id": "finding-common-ground",
+     "id": "mathematics-7/finding-common-ground",
      "part": 2
     },
     {
      "number": 4,
      "name": "Another Peek Beyond the Point",
-     "id": "another-peek-beyond-the-point",
+     "id": "mathematics-7/another-peek-beyond-the-point",
      "part": 2
     },
     {
      "number": 5,
      "name": "Connecting the Dots…",
-     "id": "connecting-the-dots",
+     "id": "mathematics-7/connecting-the-dots",
      "part": 2
     },
     {
      "number": 6,
      "name": "Constructions and Tilings",
-     "id": "constructions-and-tilings",
+     "id": "mathematics-7/constructions-and-tilings",
      "part": 2
     },
     {
      "number": 7,
      "name": "Finding the Unknown",
-     "id": "finding-the-unknown",
+     "id": "mathematics-7/finding-the-unknown",
      "part": 2
     }
    ]
@@ -2015,85 +2039,85 @@
     {
      "number": 1,
      "name": "A Square and A Cube",
-     "id": "a-square-and-a-cube",
+     "id": "mathematics-8/a-square-and-a-cube",
      "part": 1
     },
     {
      "number": 2,
      "name": "Power Play",
-     "id": "power-play",
+     "id": "mathematics-8/power-play",
      "part": 1
     },
     {
      "number": 3,
      "name": "A Story of Numbers",
-     "id": "a-story-of-numbers",
+     "id": "mathematics-8/a-story-of-numbers",
      "part": 1
     },
     {
      "number": 4,
      "name": "Quadrilaterals",
-     "id": "quadrilaterals",
+     "id": "mathematics-8/quadrilaterals",
      "part": 1
     },
     {
      "number": 5,
      "name": "Number Play",
-     "id": "number-play",
+     "id": "mathematics-8/number-play",
      "part": 1
     },
     {
      "number": 6,
      "name": "We Distribute, Yet Things Multiply",
-     "id": "we-distribute-yet-things-multiply",
+     "id": "mathematics-8/we-distribute-yet-things-multiply",
      "part": 1
     },
     {
      "number": 7,
      "name": "Proportional Reasoning-1",
-     "id": "proportional-reasoning-1",
+     "id": "mathematics-8/proportional-reasoning-1",
      "part": 1
     },
     {
      "number": 1,
      "name": "Fractions in Disguise",
-     "id": "fractions-in-disguise",
+     "id": "mathematics-8/fractions-in-disguise",
      "part": 2
     },
     {
      "number": 2,
      "name": "The Baudhāyana-pythagoras Theorem",
-     "id": "the-baudhayana-pythagoras-theorem",
+     "id": "mathematics-8/the-baudhayana-pythagoras-theorem",
      "part": 2
     },
     {
      "number": 3,
      "name": "Proportional Reasoning–2",
-     "id": "proportional-reasoning-2",
+     "id": "mathematics-8/proportional-reasoning-2",
      "part": 2
     },
     {
      "number": 4,
      "name": "Exploring Some Geometric Themes",
-     "id": "exploring-some-geometric-themes",
+     "id": "mathematics-8/exploring-some-geometric-themes",
      "part": 2
     },
     {
      "number": 5,
      "name": "Tales by Dots and Lines",
-     "id": "tales-by-dots-and-lines",
+     "id": "mathematics-8/tales-by-dots-and-lines",
      "part": 2
     },
     {
      "number": 6,
      "name": "Algebra Play",
-     "id": "algebra-play",
+     "id": "mathematics-8/algebra-play",
      "part": 2
     },
     {
      "number": 7,
      "name": "Area",
-     "id": "area",
+     "id": "mathematics-8/area",
      "part": 2
     }
    ]
@@ -2168,42 +2192,42 @@
     {
      "number": 1,
      "name": "Orienting Yourself: The Use of Coordinates",
-     "id": "orienting-yourself-the-use-of-coordinates"
+     "id": "mathematics-9/orienting-yourself-the-use-of-coordinates"
     },
     {
      "number": 2,
      "name": "Introduction to Linear Polynomials",
-     "id": "introduction-to-linear-polynomials"
+     "id": "mathematics-9/introduction-to-linear-polynomials"
     },
     {
      "number": 3,
      "name": "The World of Numbers",
-     "id": "the-world-of-numbers"
+     "id": "mathematics-9/the-world-of-numbers"
     },
     {
      "number": 4,
      "name": "Exploring Algebraic Identities",
-     "id": "exploring-algebraic-identities"
+     "id": "mathematics-9/exploring-algebraic-identities"
     },
     {
      "number": 5,
      "name": "I’m Up and Down, and Round and Round",
-     "id": "i-m-up-and-down-and-round-and-round"
+     "id": "mathematics-9/i-m-up-and-down-and-round-and-round"
     },
     {
      "number": 6,
      "name": "Measuring Space: Perimeter and Area",
-     "id": "measuring-space-perimeter-and-area"
+     "id": "mathematics-9/measuring-space-perimeter-and-area"
     },
     {
      "number": 7,
      "name": "The Mathematics of Maybe: Introduction to Probability",
-     "id": "the-mathematics-of-maybe-introduction-to-probability"
+     "id": "mathematics-9/the-mathematics-of-maybe-introduction-to-probability"
     },
     {
      "number": 8,
      "name": "Predicting What Comes Next: Exploring Sequences and Progressions",
-     "id": "predicting-what-comes-next-exploring-sequences-and-progressi"
+     "id": "mathematics-9/predicting-what-comes-next-exploring-sequences-and-progressi"
     }
    ]
   },
@@ -2234,72 +2258,72 @@
     {
      "number": 1,
      "name": "Real Numbers",
-     "id": "real-numbers"
+     "id": "mathematics-10/real-numbers"
     },
     {
      "number": 2,
      "name": "Polynomials",
-     "id": "polynomials"
+     "id": "mathematics-10/polynomials"
     },
     {
      "number": 3,
      "name": "Pair of Linear Equations in Two Variables",
-     "id": "pair-of-linear-equations-in-two-variables"
+     "id": "mathematics-10/pair-of-linear-equations-in-two-variables"
     },
     {
      "number": 4,
      "name": "Quadratic Equations",
-     "id": "quadratic-equations"
+     "id": "mathematics-10/quadratic-equations"
     },
     {
      "number": 5,
      "name": "Arithmetic Progressions",
-     "id": "arithmetic-progressions"
+     "id": "mathematics-10/arithmetic-progressions"
     },
     {
      "number": 6,
      "name": "Triangles",
-     "id": "triangles"
+     "id": "mathematics-10/triangles"
     },
     {
      "number": 7,
      "name": "Coordinate Geometry",
-     "id": "coordinate-geometry"
+     "id": "mathematics-10/coordinate-geometry"
     },
     {
      "number": 8,
      "name": "Introduction to Trigonometry",
-     "id": "introduction-to-trigonometry"
+     "id": "mathematics-10/introduction-to-trigonometry"
     },
     {
      "number": 9,
      "name": "Some Applications of Trigonometry",
-     "id": "some-applications-of-trigonometry"
+     "id": "mathematics-10/some-applications-of-trigonometry"
     },
     {
      "number": 10,
      "name": "Circles",
-     "id": "circles"
+     "id": "mathematics-10/circles"
     },
     {
      "number": 11,
      "name": "Areas Related to Circles",
-     "id": "areas-related-to-circles"
+     "id": "mathematics-10/areas-related-to-circles"
     },
     {
      "number": 12,
      "name": "Surface Areas and Volumes",
-     "id": "surface-areas-and-volumes"
+     "id": "mathematics-10/surface-areas-and-volumes"
     },
     {
      "number": 13,
      "name": "Statistics",
-     "id": "statistics"
+     "id": "mathematics-10/statistics"
     },
     {
      "number": 14,
      "name": "Probability",
-     "id": "probability"
+     "id": "mathematics-10/probability"
     }
    ]
   },
@@ -2391,62 +2415,62 @@
     {
      "number": 1,
      "name": "The Ever-Evolving World of Science",
-     "id": "the-ever-evolving-world-of-science"
+     "id": "science-7/the-ever-evolving-world-of-science"
     },
     {
      "number": 2,
      "name": "Exploring Substances: Acidic, Basic, and Neutral",
-     "id": "exploring-substances-acidic-basic-and-neutral"
+     "id": "science-7/exploring-substances-acidic-basic-and-neutral"
     },
     {
      "number": 3,
      "name": "Electricity: Circuits and their Components",
-     "id": "electricity-circuits-and-their-components"
+     "id": "science-7/electricity-circuits-and-their-components"
     },
     {
      "number": 4,
      "name": "The World of Metals and Non-metals",
-     "id": "the-world-of-metals-and-non-metals"
+     "id": "science-7/the-world-of-metals-and-non-metals"
     },
     {
      "number": 5,
      "name": "Changes Around Us: Physical and Chemical",
-     "id": "changes-around-us-physical-and-chemical"
+     "id": "science-7/changes-around-us-physical-and-chemical"
     },
     {
      "number": 6,
      "name": "Adolescence: A Stage of Growth and Change",
-     "id": "adolescence-a-stage-of-growth-and-change"
+     "id": "science-7/adolescence-a-stage-of-growth-and-change"
     },
     {
      "number": 7,
      "name": "Heat Transfer in Nature",
-     "id": "heat-transfer-in-nature"
+     "id": "science-7/heat-transfer-in-nature"
     },
     {
      "number": 8,
      "name": "Measurement of Time and Motion",
-     "id": "measurement-of-time-and-motion"
+     "id": "science-7/measurement-of-time-and-motion"
     },
     {
      "number": 9,
      "name": "Life Processes in Animals",
-     "id": "life-processes-in-animals"
+     "id": "science-7/life-processes-in-animals"
     },
     {
      "number": 10,
      "name": "Life Processes in Plants",
-     "id": "life-processes-in-plants"
+     "id": "science-7/life-processes-in-plants"
     },
     {
      "number": 11,
      "name": "Light: Shadows and Reflections",
-     "id": "light-shadows-and-reflections"
+     "id": "science-7/light-shadows-and-reflections"
     },
     {
      "number": 12,
      "name": "Earth, Moon, and the Sun",
-     "id": "earth-moon-and-the-sun"
+     "id": "science-7/earth-moon-and-the-sun"
     }
    ]
   },
@@ -2533,67 +2557,67 @@
     {
      "number": 1,
      "name": "Exploring the Investigative World of Science",
-     "id": "exploring-the-investigative-world-of-science"
+     "id": "science-8/exploring-the-investigative-world-of-science"
     },
     {
      "number": 2,
      "name": "The Invisible Living World: Beyond Our Naked Eye",
-     "id": "the-invisible-living-world-beyond-our-naked-eye"
+     "id": "science-8/the-invisible-living-world-beyond-our-naked-eye"
     },
     {
      "number": 3,
      "name": "Health: The Ultimate Treasure",
-     "id": "health-the-ultimate-treasure"
+     "id": "science-8/health-the-ultimate-treasure"
     },
     {
      "number": 4,
      "name": "Electricity: Magnetic and Heating Effects",
-     "id": "electricity-magnetic-and-heating-effects"
+     "id": "science-8/electricity-magnetic-and-heating-effects"
     },
     {
      "number": 5,
      "name": "Exploring Forces",
-     "id": "exploring-forces"
+     "id": "science-8/exploring-forces"
     },
     {
      "number": 6,
      "name": "Pressure, Winds, Storms, and Cyclones",
-     "id": "pressure-winds-storms-and-cyclones"
+     "id": "science-8/pressure-winds-storms-and-cyclones"
     },
     {
      "number": 7,
      "name": "Particulate Nature of Matter",
-     "id": "particulate-nature-of-matter"
+     "id": "science-8/particulate-nature-of-matter"
     },
     {
      "number": 8,
      "name": "Nature of Matter: Elements, Compounds, and Mixtures",
-     "id": "nature-of-matter-elements-compounds-and-mixtures"
+     "id": "science-8/nature-of-matter-elements-compounds-and-mixtures"
     },
     {
      "number": 9,
      "name": "The Amazing World of Solutes, Solvents, and Solutions",
-     "id": "the-amazing-world-of-solutes-solvents-and-solutions"
+     "id": "science-8/the-amazing-world-of-solutes-solvents-and-solutions"
     },
     {
      "number": 10,
      "name": "Light: Mirrors and Lenses",
-     "id": "light-mirrors-and-lenses"
+     "id": "science-8/light-mirrors-and-lenses"
     },
     {
      "number": 11,
      "name": "Keeping Time with the Skies",
-     "id": "keeping-time-with-the-skies"
+     "id": "science-8/keeping-time-with-the-skies"
     },
     {
      "number": 12,
      "name": "How Nature Works in Harmony",
-     "id": "how-nature-works-in-harmony"
+     "id": "science-8/how-nature-works-in-harmony"
     },
     {
      "number": 13,
      "name": "Our Home: Earth, a Unique Life Sustaining Planet",
-     "id": "our-home-earth-a-unique-life-sustaining-planet"
+     "id": "science-8/our-home-earth-a-unique-life-sustaining-planet"
     }
    ]
   },
@@ -2672,67 +2696,67 @@
     {
      "number": 1,
      "name": "Exploration: Entering the World of Secondary Science",
-     "id": "exploration-entering-the-world-of-secondary-science"
+     "id": "science-9/exploration-entering-the-world-of-secondary-science"
     },
     {
      "number": 2,
      "name": "Cell: The Building Block of Life",
-     "id": "cell-the-building-block-of-life"
+     "id": "science-9/cell-the-building-block-of-life"
     },
     {
      "number": 3,
      "name": "Tissues in Action",
-     "id": "tissues-in-action"
+     "id": "science-9/tissues-in-action"
     },
     {
      "number": 4,
      "name": "Describing Motion Around Us",
-     "id": "describing-motion-around-us"
+     "id": "science-9/describing-motion-around-us"
     },
     {
      "number": 5,
      "name": "Exploring Mixtures and their Separation",
-     "id": "exploring-mixtures-and-their-separation"
+     "id": "science-9/exploring-mixtures-and-their-separation"
     },
     {
      "number": 6,
      "name": "How Forces Affect Motion",
-     "id": "how-forces-affect-motion"
+     "id": "science-9/how-forces-affect-motion"
     },
     {
      "number": 7,
      "name": "Work, Energy, and Simple Machines",
-     "id": "work-energy-and-simple-machines"
+     "id": "science-9/work-energy-and-simple-machines"
     },
     {
      "number": 8,
      "name": "Journey Inside the Atom",
-     "id": "journey-inside-the-atom"
+     "id": "science-9/journey-inside-the-atom"
     },
     {
      "number": 9,
      "name": "Atomic Foundations of Matter",
-     "id": "atomic-foundations-of-matter"
+     "id": "science-9/atomic-foundations-of-matter"
     },
     {
      "number": 10,
      "name": "Sound Waves: Characteristics and Applications",
-     "id": "sound-waves-characteristics-and-applications"
+     "id": "science-9/sound-waves-characteristics-and-applications"
     },
     {
      "number": 11,
      "name": "Reproduction: How Life Continues",
-     "id": "reproduction-how-life-continues"
+     "id": "science-9/reproduction-how-life-continues"
     },
     {
      "number": 12,
      "name": "Patterns in Life: Diversity and Classification",
-     "id": "patterns-in-life-diversity-and-classification"
+     "id": "science-9/patterns-in-life-diversity-and-classification"
     },
     {
      "number": 13,
      "name": "Earth as a System: Energy, Matter, and Life",
-     "id": "earth-as-a-system-energy-matter-and-life"
+     "id": "science-9/earth-as-a-system-energy-matter-and-life"
     }
    ]
   },
@@ -2777,72 +2801,72 @@
     {
      "number": 1,
      "name": "Locating Places on the Earth",
-     "id": "locating-places-on-the-earth"
+     "id": "social-science-6/locating-places-on-the-earth"
     },
     {
      "number": 2,
      "name": "Oceans and Continents",
-     "id": "oceans-and-continents"
+     "id": "social-science-6/oceans-and-continents"
     },
     {
      "number": 3,
      "name": "Landforms and Life",
-     "id": "landforms-and-life"
+     "id": "social-science-6/landforms-and-life"
     },
     {
      "number": 4,
      "name": "Timeline and Sources of History",
-     "id": "timeline-and-sources-of-history"
+     "id": "social-science-6/timeline-and-sources-of-history"
     },
     {
      "number": 5,
      "name": "India, That Is Bharat",
-     "id": "india-that-is-bharat"
+     "id": "social-science-6/india-that-is-bharat"
     },
     {
      "number": 6,
      "name": "The Beginnings of Indian Civilisation",
-     "id": "the-beginnings-of-indian-civilisation"
+     "id": "social-science-6/the-beginnings-of-indian-civilisation"
     },
     {
      "number": 7,
      "name": "India’s Cultural Roots",
-     "id": "india-s-cultural-roots"
+     "id": "social-science-6/india-s-cultural-roots"
     },
     {
      "number": 8,
      "name": "Unity in Diversity, or ‘Many in the One’",
-     "id": "unity-in-diversity-or-many-in-the-one"
+     "id": "social-science-6/unity-in-diversity-or-many-in-the-one"
     },
     {
      "number": 9,
      "name": "Family and Community",
-     "id": "family-and-community"
+     "id": "social-science-6/family-and-community"
     },
     {
      "number": 10,
      "name": "Grassroots Democracy – Part 1: Governance",
-     "id": "grassroots-democracy-part-1-governance"
+     "id": "social-science-6/grassroots-democracy-part-1-governance"
     },
     {
      "number": 11,
      "name": "Grassroots Democracy – Part 2: Local Government in Rural Areas",
-     "id": "grassroots-democracy-part-2-local-government-in-rural-areas"
+     "id": "social-science-6/grassroots-democracy-part-2-local-government-in-rural-areas"
     },
     {
      "number": 12,
      "name": "Grassroots Democracy – Part 3: Local Government in Urban Areas",
-     "id": "grassroots-democracy-part-3-local-government-in-urban-areas"
+     "id": "social-science-6/grassroots-democracy-part-3-local-government-in-urban-areas"
     },
     {
      "number": 13,
      "name": "The Value of Work",
-     "id": "the-value-of-work"
+     "id": "social-science-6/the-value-of-work"
     },
     {
      "number": 14,
      "name": "Economic Activities Around Us",
-     "id": "economic-activities-around-us"
+     "id": "social-science-6/economic-activities-around-us"
     }
    ]
   },
@@ -2972,121 +2996,121 @@
     {
      "number": 1,
      "name": "Geographical Diversity of India",
-     "id": "geographical-diversity-of-india",
+     "id": "social-science-7/geographical-diversity-of-india",
      "part": 1
     },
     {
      "number": 2,
      "name": "Understanding the Weather",
-     "id": "understanding-the-weather",
+     "id": "social-science-7/understanding-the-weather",
      "part": 1
     },
     {
      "number": 3,
      "name": "Climates of India",
-     "id": "climates-of-india",
+     "id": "social-science-7/climates-of-india",
      "part": 1
     },
     {
      "number": 4,
      "name": "New Beginnings: Cities and States",
-     "id": "new-beginnings-cities-and-states",
+     "id": "social-science-7/new-beginnings-cities-and-states",
      "part": 1
     },
     {
      "number": 5,
      "name": "The Rise of Empires",
-     "id": "the-rise-of-empires",
+     "id": "social-science-7/the-rise-of-empires",
      "part": 1
     },
     {
      "number": 6,
      "name": "The Age of Reorganisation",
-     "id": "the-age-of-reorganisation",
+     "id": "social-science-7/the-age-of-reorganisation",
      "part": 1
     },
     {
      "number": 7,
      "name": "The Gupta Era: An Age of Tireless Creativity",
-     "id": "the-gupta-era-an-age-of-tireless-creativity",
+     "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity",
      "part": 1
     },
     {
      "number": 8,
      "name": "How the Land Becomes Sacred",
-     "id": "how-the-land-becomes-sacred",
+     "id": "social-science-7/how-the-land-becomes-sacred",
      "part": 1
     },
     {
      "number": 9,
      "name": "From the Rulers to the Ruled: Types of Governments",
-     "id": "from-the-rulers-to-the-ruled-types-of-governments",
+     "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments",
      "part": 1
     },
     {
      "number": 10,
      "name": "The Constitution of India — An Introduction",
-     "id": "the-constitution-of-india-an-introduction",
+     "id": "social-science-7/the-constitution-of-india-an-introduction",
      "part": 1
     },
     {
      "number": 11,
      "name": "From Barter to Money",
-     "id": "from-barter-to-money",
+     "id": "social-science-7/from-barter-to-money",
      "part": 1
     },
     {
      "number": 12,
      "name": "Understanding Markets",
-     "id": "understanding-markets",
+     "id": "social-science-7/understanding-markets",
      "part": 1
     },
     {
      "number": 1,
      "name": "The Story of Indian Farming",
-     "id": "the-story-of-indian-farming",
+     "id": "social-science-7/the-story-of-indian-farming",
      "part": 2
     },
     {
      "number": 2,
      "name": "India and Her Neighbours",
-     "id": "india-and-her-neighbours",
+     "id": "social-science-7/india-and-her-neighbours",
      "part": 2
     },
     {
      "number": 3,
      "name": "Empires and Kingdoms: 6th to 10th Centuries",
-     "id": "empires-and-kingdoms-6th-to-10th-centuries",
+     "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries",
      "part": 2
     },
     {
      "number": 4,
      "name": "Turning Tides: 11th and 12th Centuries",
-     "id": "turning-tides-11th-and-12th-centuries",
+     "id": "social-science-7/turning-tides-11th-and-12th-centuries",
      "part": 2
     },
     {
      "number": 5,
      "name": "India, a Home to Many",
-     "id": "india-a-home-to-many",
+     "id": "social-science-7/india-a-home-to-many",
      "part": 2
     },
     {
      "number": 6,
      "name": "The State, the Government, and You",
-     "id": "the-state-the-government-and-you",
+     "id": "social-science-7/the-state-the-government-and-you",
      "part": 2
     },
     {
      "number": 7,
      "name": "Infrastructure: Engine of India’s Development",
-     "id": "infrastructure-engine-of-india-s-development",
+     "id": "social-science-7/infrastructure-engine-of-india-s-development",
      "part": 2
     },
     {
      "number": 8,
      "name": "Banks and the Magic of Finance",
-     "id": "banks-and-the-magic-of-finance",
+     "id": "social-science-7/banks-and-the-magic-of-finance",
      "part": 2
     }
    ]
@@ -3204,91 +3228,91 @@
     {
      "number": 1,
      "name": "Natural Resources and Their Use",
-     "id": "natural-resources-and-their-use",
+     "id": "social-science-8/natural-resources-and-their-use",
      "part": 1
     },
     {
      "number": 2,
      "name": "Reshaping India’s Political Map",
-     "id": "reshaping-india-s-political-map",
+     "id": "social-science-8/reshaping-india-s-political-map",
      "part": 1
     },
     {
      "number": 3,
      "name": "The Rise of the Marathas",
-     "id": "the-rise-of-the-marathas",
+     "id": "social-science-8/the-rise-of-the-marathas",
      "part": 1
     },
     {
      "number": 4,
      "name": "The Colonial Era in India",
-     "id": "the-colonial-era-in-india",
+     "id": "social-science-8/the-colonial-era-in-india",
      "part": 1
     },
     {
      "number": 5,
      "name": "Universal Franchise and India’s Electoral System",
-     "id": "universal-franchise-and-india-s-electoral-system",
+     "id": "social-science-8/universal-franchise-and-india-s-electoral-system",
      "part": 1
     },
     {
      "number": 6,
      "name": "The Parliamentary System: Legislature and Executive",
-     "id": "the-parliamentary-system-legislature-and-executive",
+     "id": "social-science-8/the-parliamentary-system-legislature-and-executive",
      "part": 1
     },
     {
      "number": 7,
      "name": "Factors of Production",
-     "id": "factors-of-production",
+     "id": "social-science-8/factors-of-production",
      "part": 1
     },
     {
      "number": 1,
      "name": "World Geography: Some Glimpses",
-     "id": "world-geography-some-glimpses",
+     "id": "social-science-8/world-geography-some-glimpses",
      "part": 2
     },
     {
      "number": 2,
      "name": "India’s Long Road to Independence",
-     "id": "india-s-long-road-to-independence",
+     "id": "social-science-8/india-s-long-road-to-independence",
      "part": 2
     },
     {
      "number": 3,
      "name": "A Journey Through Indian Architecture",
-     "id": "a-journey-through-indian-architecture",
+     "id": "social-science-8/a-journey-through-indian-architecture",
      "part": 2
     },
     {
      "number": 4,
      "name": "The Role of the Judiciary in Our Society",
-     "id": "the-role-of-the-judiciary-in-our-society",
+     "id": "social-science-8/the-role-of-the-judiciary-in-our-society",
      "part": 2
     },
     {
      "number": 5,
      "name": "Citizenship: Rights and Duties",
-     "id": "citizenship-rights-and-duties",
+     "id": "social-science-8/citizenship-rights-and-duties",
      "part": 2
     },
     {
      "number": 6,
      "name": "Dynamics of Population",
-     "id": "dynamics-of-population",
+     "id": "social-science-8/dynamics-of-population",
      "part": 2
     },
     {
      "number": 7,
      "name": "India’s Urban Landscape",
-     "id": "india-s-urban-landscape",
+     "id": "social-science-8/india-s-urban-landscape",
      "part": 2
     },
     {
      "number": 8,
      "name": "Cultural Currents: 13 to 17 Centuries",
-     "id": "cultural-currents-13-to-17-centuries",
+     "id": "social-science-8/cultural-currents-13-to-17-centuries",
      "part": 2
     }
    ]
@@ -3396,55 +3420,55 @@
     {
      "number": 1,
      "name": "Understanding Social Science",
-     "id": "understanding-social-science",
+     "id": "social-science-9/understanding-social-science",
      "part": 1
     },
     {
      "number": 2,
      "name": "Shaping of the Earth’s Surface",
-     "id": "shaping-of-the-earth-s-surface",
+     "id": "social-science-9/shaping-of-the-earth-s-surface",
      "part": 1
     },
     {
      "number": 3,
      "name": "Atmosphere and Climate",
-     "id": "atmosphere-and-climate",
+     "id": "social-science-9/atmosphere-and-climate",
      "part": 1
     },
     {
      "number": 4,
      "name": "Early Humans and Beginning of Civilisation",
-     "id": "early-humans-and-beginning-of-civilisation",
+     "id": "social-science-9/early-humans-and-beginning-of-civilisation",
      "part": 1
     },
     {
      "number": 5,
      "name": "State and Society up to 1000 CE",
-     "id": "state-and-society-up-to-1000-ce",
+     "id": "social-science-9/state-and-society-up-to-1000-ce",
      "part": 1
     },
     {
      "number": 6,
      "name": "Democracy",
-     "id": "democracy",
+     "id": "social-science-9/democracy",
      "part": 1
     },
     {
      "number": 7,
      "name": "Elections",
-     "id": "elections",
+     "id": "social-science-9/elections",
      "part": 1
     },
     {
      "number": 8,
      "name": "Building Blocks in Economics The Problem of Choice",
-     "id": "building-blocks-in-economics-the-problem-of-choice",
+     "id": "social-science-9/building-blocks-in-economics-the-problem-of-choice",
      "part": 1
     },
     {
      "number": 9,
      "name": "The Price Puzzle: What Drives the Market",
-     "id": "the-price-puzzle-what-drives-the-market",
+     "id": "social-science-9/the-price-puzzle-what-drives-the-market",
      "part": 1
     }
    ]

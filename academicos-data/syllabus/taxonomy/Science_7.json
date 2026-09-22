@@ -7,7 +7,7 @@
  ],
  "chapters": [
   {
-   "id": "the-ever-evolving-world-of-science",
+   "id": "science-7/the-ever-evolving-world-of-science",
    "name": "The Ever-Evolving World of Science",
    "number": 1,
    "book": "Curiosity",
@@ -20,7 +20,7 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "the-ever-evolving-world-of-science/happy-exploring",
+     "id": "science-7/the-ever-evolving-world-of-science/happy-exploring",
      "name": "Happy Exploring!",
      "page": 25,
      "number": "1.1",
@@ -29,7 +29,7 @@
    ]
   },
   {
-   "id": "exploring-substances-acidic-basic-and-neutral",
+   "id": "science-7/exploring-substances-acidic-basic-and-neutral",
    "name": "Exploring Substances: Acidic, Basic, and Neutral",
    "number": 2,
    "book": "Curiosity",
@@ -42,25 +42,25 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "exploring-substances-acidic-basic-and-neutral/nature-our-science-laboratory",
+     "id": "science-7/exploring-substances-acidic-basic-and-neutral/nature-our-science-laboratory",
      "name": "Nature — Our Science Laboratory",
      "page": 28,
      "number": "2.1",
      "subtopics": [
       {
-       "id": "exploring-substances-acidic-basic-and-neutral/nature-our-science-laboratory/litmus-as-an-indicator",
+       "id": "science-7/exploring-substances-acidic-basic-and-neutral/nature-our-science-laboratory/litmus-as-an-indicator",
        "name": "Litmus as an indicator",
        "page": 28,
        "number": "2.1.1"
       },
       {
-       "id": "exploring-substances-acidic-basic-and-neutral/nature-our-science-laboratory/red-rose-as-an-indicator",
+       "id": "science-7/exploring-substances-acidic-basic-and-neutral/nature-our-science-laboratory/red-rose-as-an-indicator",
        "name": "Red rose as an indicator",
        "page": 32,
        "number": "2.1.2"
       },
       {
-       "id": "exploring-substances-acidic-basic-and-neutral/nature-our-science-laboratory/turmeric-as-an-indicator",
+       "id": "science-7/exploring-substances-acidic-basic-and-neutral/nature-our-science-laboratory/turmeric-as-an-indicator",
        "name": "Turmeric as an indicator",
        "page": 34,
        "number": "2.1.3"
@@ -68,14 +68,14 @@
      ]
     },
     {
-     "id": "exploring-substances-acidic-basic-and-neutral/what-happens-when-acidic-substances-mix-with-basic-substance",
+     "id": "science-7/exploring-substances-acidic-basic-and-neutral/what-happens-when-acidic-substances-mix-with-basic-substance",
      "name": "What Happens When Acidic Substances Mix with Basic Substances?",
      "page": 37,
      "number": "2.2",
      "subtopics": []
     },
     {
-     "id": "exploring-substances-acidic-basic-and-neutral/neutralisation-in-daily-life",
+     "id": "science-7/exploring-substances-acidic-basic-and-neutral/neutralisation-in-daily-life",
      "name": "Neutralisation in Daily Life",
      "page": 38,
      "number": "2.3",
@@ -84,7 +84,7 @@
    ]
   },
   {
-   "id": "electricity-circuits-and-their-components",
+   "id": "science-7/electricity-circuits-and-their-components",
    "name": "Electricity: Circuits and their Components",
    "number": 3,
    "book": "Curiosity",
@@ -97,50 +97,50 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "electricity-circuits-and-their-components/a-torchlight",
+     "id": "science-7/electricity-circuits-and-their-components/a-torchlight",
      "name": "A Torchlight",
      "page": 44,
      "number": "3.1",
      "subtopics": []
     },
     {
-     "id": "electricity-circuits-and-their-components/a-simple-electrical-circuit",
+     "id": "science-7/electricity-circuits-and-their-components/a-simple-electrical-circuit",
      "name": "A Simple Electrical Circuit",
      "page": 45,
      "number": "3.2",
      "subtopics": [
       {
-       "id": "electricity-circuits-and-their-components/a-simple-electrical-circuit/electric-cell",
+       "id": "science-7/electricity-circuits-and-their-components/a-simple-electrical-circuit/electric-cell",
        "name": "Electric cell",
        "page": 45,
        "number": "3.2.1"
       },
       {
-       "id": "electricity-circuits-and-their-components/a-simple-electrical-circuit/battery",
+       "id": "science-7/electricity-circuits-and-their-components/a-simple-electrical-circuit/battery",
        "name": "Battery",
        "page": 45,
        "number": "3.2.2"
       },
       {
-       "id": "electricity-circuits-and-their-components/a-simple-electrical-circuit/electric-lamp",
+       "id": "science-7/electricity-circuits-and-their-components/a-simple-electrical-circuit/electric-lamp",
        "name": "Electric lamp",
        "page": 46,
        "number": "3.2.3"
       },
       {
-       "id": "electricity-circuits-and-their-components/a-simple-electrical-circuit/making-an-electric-lamp-glow-using-an-electric-cell-or-batte",
+       "id": "science-7/electricity-circuits-and-their-components/a-simple-electrical-circuit/making-an-electric-lamp-glow-using-an-electric-cell-or-batte",
        "name": "Making an electric lamp glow using an electric cell or battery",
        "page": 47,
        "number": "3.2.4"
       },
       {
-       "id": "electricity-circuits-and-their-components/a-simple-electrical-circuit/an-electrical-circuit",
+       "id": "science-7/electricity-circuits-and-their-components/a-simple-electrical-circuit/an-electrical-circuit",
        "name": "An electrical circuit",
        "page": 50,
        "number": "3.2.5"
       },
       {
-       "id": "electricity-circuits-and-their-components/a-simple-electrical-circuit/electric-switch",
+       "id": "science-7/electricity-circuits-and-their-components/a-simple-electrical-circuit/electric-switch",
        "name": "Electric switch",
        "page": 52,
        "number": "3.2.6"
@@ -148,14 +148,14 @@
      ]
     },
     {
-     "id": "electricity-circuits-and-their-components/circuit-diagrams",
+     "id": "science-7/electricity-circuits-and-their-components/circuit-diagrams",
      "name": "Circuit Diagrams",
      "page": 53,
      "number": "3.3",
      "subtopics": []
     },
     {
-     "id": "electricity-circuits-and-their-components/electrical-conductors-and-insulators",
+     "id": "science-7/electricity-circuits-and-their-components/electrical-conductors-and-insulators",
      "name": "Electrical Conductors and Insulators",
      "page": 54,
      "number": "3.4",
@@ -164,7 +164,7 @@
    ]
   },
   {
-   "id": "the-world-of-metals-and-non-metals",
+   "id": "science-7/the-world-of-metals-and-non-metals",
    "name": "The World of Metals and Non-metals",
    "number": 4,
    "book": "Curiosity",
@@ -177,37 +177,37 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "the-world-of-metals-and-non-metals/properties-of-materials",
+     "id": "science-7/the-world-of-metals-and-non-metals/properties-of-materials",
      "name": "Properties of Materials",
      "page": 62,
      "number": "4.1",
      "subtopics": [
       {
-       "id": "the-world-of-metals-and-non-metals/properties-of-materials/malleability",
+       "id": "science-7/the-world-of-metals-and-non-metals/properties-of-materials/malleability",
        "name": "Malleability",
        "page": 62,
        "number": "4.1.1"
       },
       {
-       "id": "the-world-of-metals-and-non-metals/properties-of-materials/ductility",
+       "id": "science-7/the-world-of-metals-and-non-metals/properties-of-materials/ductility",
        "name": "Ductility",
        "page": 64,
        "number": "4.1.2"
       },
       {
-       "id": "the-world-of-metals-and-non-metals/properties-of-materials/sonority",
+       "id": "science-7/the-world-of-metals-and-non-metals/properties-of-materials/sonority",
        "name": "Sonority",
        "page": 65,
        "number": "4.1.3"
       },
       {
-       "id": "the-world-of-metals-and-non-metals/properties-of-materials/conduction-of-heat",
+       "id": "science-7/the-world-of-metals-and-non-metals/properties-of-materials/conduction-of-heat",
        "name": "Conduction of heat",
        "page": 66,
        "number": "4.1.4"
       },
       {
-       "id": "the-world-of-metals-and-non-metals/properties-of-materials/conduction-of-electricity",
+       "id": "science-7/the-world-of-metals-and-non-metals/properties-of-materials/conduction-of-electricity",
        "name": "Conduction of electricity",
        "page": 67,
        "number": "4.1.5"
@@ -215,28 +215,28 @@
      ]
     },
     {
-     "id": "the-world-of-metals-and-non-metals/effect-of-air-and-water-on-metals-iron",
+     "id": "science-7/the-world-of-metals-and-non-metals/effect-of-air-and-water-on-metals-iron",
      "name": "Effect of Air and Water on Metals: Iron",
      "page": 68,
      "number": "4.2",
      "subtopics": []
     },
     {
-     "id": "the-world-of-metals-and-non-metals/effect-of-air-and-water-on-other-metals",
+     "id": "science-7/the-world-of-metals-and-non-metals/effect-of-air-and-water-on-other-metals",
      "name": "Effect of Air and Water on Other Metals",
      "page": 71,
      "number": "4.3",
      "subtopics": []
     },
     {
-     "id": "the-world-of-metals-and-non-metals/substances-that-behave-differently-from-metals-in-air-and-wa",
+     "id": "science-7/the-world-of-metals-and-non-metals/substances-that-behave-differently-from-metals-in-air-and-wa",
      "name": "Substances that Behave Differently from Metals in Air and Water",
      "page": 72,
      "number": "4.4",
      "subtopics": []
     },
     {
-     "id": "the-world-of-metals-and-non-metals/are-non-metals-essential-in-everyday-life",
+     "id": "science-7/the-world-of-metals-and-non-metals/are-non-metals-essential-in-everyday-life",
      "name": "Are Non-metals Essential in Everyday Life?",
      "page": 73,
      "number": "4.5",
@@ -245,7 +245,7 @@
    ]
   },
   {
-   "id": "changes-around-us-physical-and-chemical",
+   "id": "science-7/changes-around-us-physical-and-chemical",
    "name": "Changes Around Us: Physical and Chemical",
    "number": 5,
    "book": "Curiosity",
@@ -258,33 +258,33 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "changes-around-us-physical-and-chemical/a-substance-may-change-in-appearance-but-remain-the-same",
+     "id": "science-7/changes-around-us-physical-and-chemical/a-substance-may-change-in-appearance-but-remain-the-same",
      "name": "A Substance May Change in Appearance but Remain the Same!",
      "page": 79,
      "number": "5.1",
      "subtopics": []
     },
     {
-     "id": "changes-around-us-physical-and-chemical/a-substance-may-change-in-appearance-and-not-remain-the-same",
+     "id": "science-7/changes-around-us-physical-and-chemical/a-substance-may-change-in-appearance-and-not-remain-the-same",
      "name": "A Substance May Change in Appearance and Not Remain the Same!",
      "page": 80,
      "number": "5.2",
      "subtopics": []
     },
     {
-     "id": "changes-around-us-physical-and-chemical/some-other-processes-involving-chemical-changes",
+     "id": "science-7/changes-around-us-physical-and-chemical/some-other-processes-involving-chemical-changes",
      "name": "Some Other Processes Involving Chemical Changes",
      "page": 82,
      "number": "5.3",
      "subtopics": [
       {
-       "id": "changes-around-us-physical-and-chemical/some-other-processes-involving-chemical-changes/rusting",
+       "id": "science-7/changes-around-us-physical-and-chemical/some-other-processes-involving-chemical-changes/rusting",
        "name": "Rusting",
        "page": 82,
        "number": "5.3.1"
       },
       {
-       "id": "changes-around-us-physical-and-chemical/some-other-processes-involving-chemical-changes/combustion",
+       "id": "science-7/changes-around-us-physical-and-chemical/some-other-processes-involving-chemical-changes/combustion",
        "name": "Combustion",
        "page": 82,
        "number": "5.3.2"
@@ -292,40 +292,40 @@
      ]
     },
     {
-     "id": "changes-around-us-physical-and-chemical/can-physical-and-chemical-changes-occur-in-the-same-process",
+     "id": "science-7/changes-around-us-physical-and-chemical/can-physical-and-chemical-changes-occur-in-the-same-process",
      "name": "Can Physical and Chemical Changes Occur in the Same Process?",
      "page": 84,
      "number": "5.4",
      "subtopics": []
     },
     {
-     "id": "changes-around-us-physical-and-chemical/are-changes-permanent",
+     "id": "science-7/changes-around-us-physical-and-chemical/are-changes-permanent",
      "name": "Are Changes Permanent?",
      "page": 86,
      "number": "5.5",
      "subtopics": []
     },
     {
-     "id": "changes-around-us-physical-and-chemical/are-all-changes-desirable",
+     "id": "science-7/changes-around-us-physical-and-chemical/are-all-changes-desirable",
      "name": "Are All Changes Desirable?",
      "page": 86,
      "number": "5.6",
      "subtopics": []
     },
     {
-     "id": "changes-around-us-physical-and-chemical/some-slow-natural-changes",
+     "id": "science-7/changes-around-us-physical-and-chemical/some-slow-natural-changes",
      "name": "Some Slow Natural Changes",
      "page": 87,
      "number": "5.7",
      "subtopics": [
       {
-       "id": "changes-around-us-physical-and-chemical/some-slow-natural-changes/weathering-of-rocks",
+       "id": "science-7/changes-around-us-physical-and-chemical/some-slow-natural-changes/weathering-of-rocks",
        "name": "Weathering of rocks",
        "page": 87,
        "number": "5.7.1"
       },
       {
-       "id": "changes-around-us-physical-and-chemical/some-slow-natural-changes/erosion",
+       "id": "science-7/changes-around-us-physical-and-chemical/some-slow-natural-changes/erosion",
        "name": "Erosion",
        "page": 88,
        "number": "5.7.2"
@@ -335,7 +335,7 @@
    ]
   },
   {
-   "id": "adolescence-a-stage-of-growth-and-change",
+   "id": "science-7/adolescence-a-stage-of-growth-and-change",
    "name": "Adolescence: A Stage of Growth and Change",
    "number": 6,
    "book": "Curiosity",
@@ -348,58 +348,58 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "adolescence-a-stage-of-growth-and-change/growing-with-age-the-teenage-years",
+     "id": "science-7/adolescence-a-stage-of-growth-and-change/growing-with-age-the-teenage-years",
      "name": "Growing With Age: The Teenage Years",
      "page": 94,
      "number": "6.1",
      "subtopics": []
     },
     {
-     "id": "adolescence-a-stage-of-growth-and-change/changes-that-indicate-reproductive-capability",
+     "id": "science-7/adolescence-a-stage-of-growth-and-change/changes-that-indicate-reproductive-capability",
      "name": "Changes that Indicate Reproductive Capability",
      "page": 97,
      "number": "6.2",
      "subtopics": []
     },
     {
-     "id": "adolescence-a-stage-of-growth-and-change/emotional-and-behavioural-changes-in-adolescents",
+     "id": "science-7/adolescence-a-stage-of-growth-and-change/emotional-and-behavioural-changes-in-adolescents",
      "name": "Emotional and Behavioural Changes in Adolescents",
      "page": 98,
      "number": "6.3",
      "subtopics": []
     },
     {
-     "id": "adolescence-a-stage-of-growth-and-change/making-adolescence-a-joyful-experience",
+     "id": "science-7/adolescence-a-stage-of-growth-and-change/making-adolescence-a-joyful-experience",
      "name": "Making Adolescence a Joyful Experience",
      "page": 99,
      "number": "6.4",
      "subtopics": [
       {
-       "id": "adolescence-a-stage-of-growth-and-change/making-adolescence-a-joyful-experience/meeting-nutritional-needs",
+       "id": "science-7/adolescence-a-stage-of-growth-and-change/making-adolescence-a-joyful-experience/meeting-nutritional-needs",
        "name": "Meeting nutritional needs",
        "page": 99,
        "number": "6.4.1"
       },
       {
-       "id": "adolescence-a-stage-of-growth-and-change/making-adolescence-a-joyful-experience/personal-hygiene",
+       "id": "science-7/adolescence-a-stage-of-growth-and-change/making-adolescence-a-joyful-experience/personal-hygiene",
        "name": "Personal hygiene",
        "page": 100,
        "number": "6.4.2"
       },
       {
-       "id": "adolescence-a-stage-of-growth-and-change/making-adolescence-a-joyful-experience/physical-activities",
+       "id": "science-7/adolescence-a-stage-of-growth-and-change/making-adolescence-a-joyful-experience/physical-activities",
        "name": "Physical activities",
        "page": 101,
        "number": "6.4.3"
       },
       {
-       "id": "adolescence-a-stage-of-growth-and-change/making-adolescence-a-joyful-experience/balanced-social-life",
+       "id": "science-7/adolescence-a-stage-of-growth-and-change/making-adolescence-a-joyful-experience/balanced-social-life",
        "name": "Balanced social life",
        "page": 102,
        "number": "6.4.4"
       },
       {
-       "id": "adolescence-a-stage-of-growth-and-change/making-adolescence-a-joyful-experience/avoiding-harmful-substances-learn-to-say-no",
+       "id": "science-7/adolescence-a-stage-of-growth-and-change/making-adolescence-a-joyful-experience/avoiding-harmful-substances-learn-to-say-no",
        "name": "Avoiding harmful substances — learn to say NO",
        "page": 103,
        "number": "6.4.5"
@@ -407,7 +407,7 @@
      ]
     },
     {
-     "id": "adolescence-a-stage-of-growth-and-change/the-why-question-for-adolescence",
+     "id": "science-7/adolescence-a-stage-of-growth-and-change/the-why-question-for-adolescence",
      "name": "The ‘Why’ Question for Adolescence",
      "page": 104,
      "number": "6.5",
@@ -416,7 +416,7 @@
    ]
   },
   {
-   "id": "heat-transfer-in-nature",
+   "id": "science-7/heat-transfer-in-nature",
    "name": "Heat Transfer in Nature",
    "number": 7,
    "book": "Curiosity",
@@ -429,20 +429,20 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "heat-transfer-in-nature/conduction-of-heat",
+     "id": "science-7/heat-transfer-in-nature/conduction-of-heat",
      "name": "Conduction of Heat",
      "page": 110,
      "number": "7.1",
      "subtopics": []
     },
     {
-     "id": "heat-transfer-in-nature/convection",
+     "id": "science-7/heat-transfer-in-nature/convection",
      "name": "Convection",
      "page": 112,
      "number": "7.2",
      "subtopics": [
       {
-       "id": "heat-transfer-in-nature/convection/land-and-sea-breeze",
+       "id": "science-7/heat-transfer-in-nature/convection/land-and-sea-breeze",
        "name": "Land and Sea Breeze",
        "page": 114,
        "number": "7.2.1"
@@ -450,20 +450,20 @@
      ]
     },
     {
-     "id": "heat-transfer-in-nature/radiation",
+     "id": "science-7/heat-transfer-in-nature/radiation",
      "name": "Radiation",
      "page": 116,
      "number": "7.3",
      "subtopics": []
     },
     {
-     "id": "heat-transfer-in-nature/water-cycle",
+     "id": "science-7/heat-transfer-in-nature/water-cycle",
      "name": "Water Cycle",
      "page": 118,
      "number": "7.4",
      "subtopics": [
       {
-       "id": "heat-transfer-in-nature/water-cycle/seepage-of-water-beneath-the-earth",
+       "id": "science-7/heat-transfer-in-nature/water-cycle/seepage-of-water-beneath-the-earth",
        "name": "Seepage of water beneath the Earth",
        "page": 119,
        "number": "7.4.1"
@@ -473,7 +473,7 @@
    ]
   },
   {
-   "id": "measurement-of-time-and-motion",
+   "id": "science-7/measurement-of-time-and-motion",
    "name": "Measurement of Time and Motion",
    "number": 8,
    "book": "Curiosity",
@@ -486,19 +486,19 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "measurement-of-time-and-motion/measurement-of-time",
+     "id": "science-7/measurement-of-time-and-motion/measurement-of-time",
      "name": "Measurement of Time",
      "page": 126,
      "number": "8.1",
      "subtopics": [
       {
-       "id": "measurement-of-time-and-motion/measurement-of-time/a-simple-pendulum",
+       "id": "science-7/measurement-of-time-and-motion/measurement-of-time/a-simple-pendulum",
        "name": "A simple pendulum",
        "page": 129,
        "number": "8.1.1"
       },
       {
-       "id": "measurement-of-time-and-motion/measurement-of-time/si-unit-of-time",
+       "id": "science-7/measurement-of-time-and-motion/measurement-of-time/si-unit-of-time",
        "name": "SI unit of time",
        "page": 131,
        "number": "8.1.2"
@@ -506,20 +506,20 @@
      ]
     },
     {
-     "id": "measurement-of-time-and-motion/slow-or-fast",
+     "id": "science-7/measurement-of-time-and-motion/slow-or-fast",
      "name": "Slow or Fast",
      "page": 132,
      "number": "8.2",
      "subtopics": []
     },
     {
-     "id": "measurement-of-time-and-motion/speed",
+     "id": "science-7/measurement-of-time-and-motion/speed",
      "name": "Speed",
      "page": 133,
      "number": "8.3",
      "subtopics": [
       {
-       "id": "measurement-of-time-and-motion/speed/relationship-between-speed-distance-and-time",
+       "id": "science-7/measurement-of-time-and-motion/speed/relationship-between-speed-distance-and-time",
        "name": "Relationship between speed, distance, and time",
        "page": 135,
        "number": "8.3.1"
@@ -527,7 +527,7 @@
      ]
     },
     {
-     "id": "measurement-of-time-and-motion/uniform-and-non-uniform-linear-motion",
+     "id": "science-7/measurement-of-time-and-motion/uniform-and-non-uniform-linear-motion",
      "name": "Uniform and Non-uniform Linear Motion",
      "page": 136,
      "number": "8.4",
@@ -536,7 +536,7 @@
    ]
   },
   {
-   "id": "life-processes-in-animals",
+   "id": "science-7/life-processes-in-animals",
    "name": "Life Processes in Animals",
    "number": 9,
    "book": "Curiosity",
@@ -549,19 +549,19 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "life-processes-in-animals/nutrition-in-animals",
+     "id": "science-7/life-processes-in-animals/nutrition-in-animals",
      "name": "Nutrition in Animals",
      "page": 142,
      "number": "9.1",
      "subtopics": [
       {
-       "id": "life-processes-in-animals/nutrition-in-animals/digestion-in-human-beings",
+       "id": "science-7/life-processes-in-animals/nutrition-in-animals/digestion-in-human-beings",
        "name": "Digestion in human beings",
        "page": 142,
        "number": "9.1.1"
       },
       {
-       "id": "life-processes-in-animals/nutrition-in-animals/do-all-animals-digest-food-the-same-way-as-humans-do",
+       "id": "science-7/life-processes-in-animals/nutrition-in-animals/do-all-animals-digest-food-the-same-way-as-humans-do",
        "name": "Do all animals digest food the same way as humans do?",
        "page": 147,
        "number": "9.1.2"
@@ -569,19 +569,19 @@
      ]
     },
     {
-     "id": "life-processes-in-animals/respiration-in-animals",
+     "id": "science-7/life-processes-in-animals/respiration-in-animals",
      "name": "Respiration in Animals",
      "page": 148,
      "number": "9.2",
      "subtopics": [
       {
-       "id": "life-processes-in-animals/respiration-in-animals/respiration-in-humans",
+       "id": "science-7/life-processes-in-animals/respiration-in-animals/respiration-in-humans",
        "name": "Respiration in humans",
        "page": 149,
        "number": "9.2.1"
       },
       {
-       "id": "life-processes-in-animals/respiration-in-animals/do-other-animals-breathe-the-same-way-as-humans-do",
+       "id": "science-7/life-processes-in-animals/respiration-in-animals/do-other-animals-breathe-the-same-way-as-humans-do",
        "name": "Do other animals breathe the same way as humans do?",
        "page": 153,
        "number": "9.2.2"
@@ -591,7 +591,7 @@
    ]
   },
   {
-   "id": "life-processes-in-plants",
+   "id": "science-7/life-processes-in-plants",
    "name": "Life Processes in Plants",
    "number": 10,
    "book": "Curiosity",
@@ -604,38 +604,38 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "life-processes-in-plants/how-do-plants-grow",
+     "id": "science-7/life-processes-in-plants/how-do-plants-grow",
      "name": "How Do Plants Grow?",
      "page": 158,
      "number": "10.1",
      "subtopics": []
     },
     {
-     "id": "life-processes-in-plants/how-do-plants-get-food-for-their-growth",
+     "id": "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth",
      "name": "How Do Plants Get Food for their Growth?",
      "page": 160,
      "number": "10.2",
      "subtopics": [
       {
-       "id": "life-processes-in-plants/how-do-plants-get-food-for-their-growth/leaves-the-food-factories-of-plants",
+       "id": "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth/leaves-the-food-factories-of-plants",
        "name": "Leaves: the ̒ food factories̓ of plants",
        "page": 160,
        "number": "10.2.1"
       },
       {
-       "id": "life-processes-in-plants/how-do-plants-get-food-for-their-growth/role-of-air-in-the-preparation-of-food",
+       "id": "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth/role-of-air-in-the-preparation-of-food",
        "name": "Role of air in the preparation of food",
        "page": 163,
        "number": "10.2.2"
       },
       {
-       "id": "life-processes-in-plants/how-do-plants-get-food-for-their-growth/photosynthesis-in-a-nutshell",
+       "id": "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth/photosynthesis-in-a-nutshell",
        "name": "Photosynthesis: in a nutshell",
        "page": 166,
        "number": "10.2.3"
       },
       {
-       "id": "life-processes-in-plants/how-do-plants-get-food-for-their-growth/how-do-leaves-exchange-gases-during-photosynthesis",
+       "id": "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth/how-do-leaves-exchange-gases-during-photosynthesis",
        "name": "How do leaves exchange gases during photosynthesis?",
        "page": 166,
        "number": "10.2.4"
@@ -643,19 +643,19 @@
      ]
     },
     {
-     "id": "life-processes-in-plants/transport-in-plants",
+     "id": "science-7/life-processes-in-plants/transport-in-plants",
      "name": "Transport in Plants",
      "page": 167,
      "number": "10.3",
      "subtopics": [
       {
-       "id": "life-processes-in-plants/transport-in-plants/transport-of-water-and-minerals",
+       "id": "science-7/life-processes-in-plants/transport-in-plants/transport-of-water-and-minerals",
        "name": "Transport of water and minerals",
        "page": 167,
        "number": "10.3.1"
       },
       {
-       "id": "life-processes-in-plants/transport-in-plants/transport-of-food",
+       "id": "science-7/life-processes-in-plants/transport-in-plants/transport-of-food",
        "name": "Transport of food",
        "page": 168,
        "number": "10.3.2"
@@ -663,7 +663,7 @@
      ]
     },
     {
-     "id": "life-processes-in-plants/do-plants-respire",
+     "id": "science-7/life-processes-in-plants/do-plants-respire",
      "name": "Do Plants Respire?",
      "page": 169,
      "number": "10.4",
@@ -672,7 +672,7 @@
    ]
   },
   {
-   "id": "light-shadows-and-reflections",
+   "id": "science-7/light-shadows-and-reflections",
    "name": "Light: Shadows and Reflections",
    "number": 11,
    "book": "Curiosity",
@@ -685,68 +685,68 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "light-shadows-and-reflections/sources-of-light",
+     "id": "science-7/light-shadows-and-reflections/sources-of-light",
      "name": "Sources of Light",
      "page": 174,
      "number": "11.1",
      "subtopics": []
     },
     {
-     "id": "light-shadows-and-reflections/does-light-travel-in-a-straight-line",
+     "id": "science-7/light-shadows-and-reflections/does-light-travel-in-a-straight-line",
      "name": "Does Light Travel in a Straight Line?",
      "page": 175,
      "number": "11.2",
      "subtopics": []
     },
     {
-     "id": "light-shadows-and-reflections/light-through-transparent-translucent-and-opaque-materials",
+     "id": "science-7/light-shadows-and-reflections/light-through-transparent-translucent-and-opaque-materials",
      "name": "Light through Transparent, Translucent, and Opaque Materials",
      "page": 176,
      "number": "11.3",
      "subtopics": []
     },
     {
-     "id": "light-shadows-and-reflections/shadow-formation",
+     "id": "science-7/light-shadows-and-reflections/shadow-formation",
      "name": "Shadow Formation",
      "page": 177,
      "number": "11.4",
      "subtopics": []
     },
     {
-     "id": "light-shadows-and-reflections/reflection-of-light",
+     "id": "science-7/light-shadows-and-reflections/reflection-of-light",
      "name": "Reflection of Light",
      "page": 179,
      "number": "11.5",
      "subtopics": []
     },
     {
-     "id": "light-shadows-and-reflections/images-formed-in-a-plane-mirror",
+     "id": "science-7/light-shadows-and-reflections/images-formed-in-a-plane-mirror",
      "name": "Images Formed in a Plane Mirror",
      "page": 181,
      "number": "11.6",
      "subtopics": []
     },
     {
-     "id": "light-shadows-and-reflections/pinhole-camera",
+     "id": "science-7/light-shadows-and-reflections/pinhole-camera",
      "name": "Pinhole Camera",
      "page": 182,
      "number": "11.7",
      "subtopics": []
     },
     {
-     "id": "light-shadows-and-reflections/making-some-useful-items",
+     "id": "science-7/light-shadows-and-reflections/making-some-useful-items",
      "name": "Making Some Useful Items",
      "page": 184,
      "number": "11.8",
      "subtopics": [
       {
-       "id": "light-shadows-and-reflections/making-some-useful-items/periscope",
+       "id": "science-7/light-shadows-and-reflections/making-some-useful-items/periscope",
        "name": "Periscope",
        "page": 184,
        "number": "11.8.1"
       },
       {
-       "id": "light-shadows-and-reflections/making-some-useful-items/kaleidoscope",
+       "id": "science-7/light-shadows-and-reflections/making-some-useful-items/kaleidoscope",
        "name": "Kaleidoscope",
        "page": 184,
        "number": "11.8.2"
@@ -756,7 +756,7 @@
    ]
   },
   {
-   "id": "earth-moon-and-the-sun",
+   "id": "science-7/earth-moon-and-the-sun",
    "name": "Earth, Moon, and the Sun",
    "number": 12,
    "book": "Curiosity",
@@ -769,26 +769,26 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "earth-moon-and-the-sun/rotation-of-the-earth",
+     "id": "science-7/earth-moon-and-the-sun/rotation-of-the-earth",
      "name": "Rotation of the Earth",
      "page": 190,
      "number": "12.1",
      "subtopics": []
     },
     {
-     "id": "earth-moon-and-the-sun/revolution-of-the-earth",
+     "id": "science-7/earth-moon-and-the-sun/revolution-of-the-earth",
      "name": "Revolution of the Earth",
      "page": 195,
      "number": "12.2",
      "subtopics": [
       {
-       "id": "earth-moon-and-the-sun/revolution-of-the-earth/changing-view-of-night-sky-from-the-earth",
+       "id": "science-7/earth-moon-and-the-sun/revolution-of-the-earth/changing-view-of-night-sky-from-the-earth",
        "name": "Changing view of night sky from the Earth",
        "page": 196,
        "number": "12.2.1"
       },
       {
-       "id": "earth-moon-and-the-sun/revolution-of-the-earth/seasons-on-the-earth",
+       "id": "science-7/earth-moon-and-the-sun/revolution-of-the-earth/seasons-on-the-earth",
        "name": "Seasons on the Earth",
        "page": 197,
        "number": "12.2.2"
@@ -796,19 +796,19 @@
      ]
     },
     {
-     "id": "earth-moon-and-the-sun/eclipses",
+     "id": "science-7/earth-moon-and-the-sun/eclipses",
      "name": "Eclipses",
      "page": 199,
      "number": "12.3",
      "subtopics": [
       {
-       "id": "earth-moon-and-the-sun/eclipses/solar-eclipse",
+       "id": "science-7/earth-moon-and-the-sun/eclipses/solar-eclipse",
        "name": "Solar eclipse",
        "page": 200,
        "number": "12.3.1"
       },
       {
-       "id": "earth-moon-and-the-sun/eclipses/lunar-eclipse",
+       "id": "science-7/earth-moon-and-the-sun/eclipses/lunar-eclipse",
        "name": "Lunar eclipse",
        "page": 202,
        "number": "12.3.2"

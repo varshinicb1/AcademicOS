@@ -210,3 +210,79 @@ def test_committed_trees_hold_the_invariants(bt):
     for f in sorted(out.glob("[A-Z]*.json")):
         errs += bt.invariant_errors(json.loads(f.read_text(encoding="utf-8")))
     assert errs == []
+
+
+# --------------------------------------------------------------------------- #
+# Task 7021: ids unique across the whole taxonomy
+# --------------------------------------------------------------------------- #
+
+def _all_ids(tree):
+    for ch in tree["chapters"]:
+        yield ch["id"]
+        for t in ch["topics"]:
+            yield t["id"]
+            yield from (s["id"] for s in t["subtopics"])
+
+
+def test_ids_carry_subject_and_grade_and_survive_a_rebuild(bt, tmp_path):
+    # 'number-play' is a chapter of Mathematics 6, 7 and 8: without the
+    # subject and grade in the id a class 7 and a class 8 question share a tag
+    src = bt.Source("Ganita Prakash Part 2", "chapters/gegp2", (), 2)
+    tree, _ = _folder_tree(bt, tmp_path / "a", "chapters/gegp2", {"gegp205": "gegp205"}, src)
+    again, _ = _folder_tree(bt, tmp_path / "b", "chapters/gegp2", {"gegp205": "gegp205"}, src)
+    ids = list(_all_ids(tree))
+    assert ids == list(_all_ids(again))
+    (ch,) = tree["chapters"]
+    assert ch["id"] == "mathematics-7/" + th.slug(ch["name"])
+    assert all(i.startswith("mathematics-7/") for i in ids)
+    assert len(ids) == len(set(ids))
+
+
+def test_no_id_repeats_across_all_committed_trees(bt):
+    import collections
+    out = ROOT / "academicos-data" / "syllabus" / "taxonomy"
+    seen = collections.Counter()
+    for f in sorted(out.glob("[A-Z]*.json")):
+        tree = json.loads(f.read_text(encoding="utf-8"))
+        prefix = bt.tree_prefix(tree["subject"], tree["grade"]) + "/"
+        ids = list(_all_ids(tree))
+        assert all(i.startswith(prefix) for i in ids), f.name
+        seen.update(ids)
+    assert [i for i, n in seen.items() if n > 1] == []
+
+
+def _committed(name):
+    return json.loads((ROOT / "academicos-data" / "syllabus" / "taxonomy" / name)
+                      .read_text(encoding="utf-8"))
+
+
+def test_committed_weather_instruments_has_its_lettered_subtopics():
+    tree = _committed("Social_Science_7.json")
+    ch = next(c for c in tree["chapters"] if c["source_file"] == "chapters/gees1/gees102.pdf")
+    t = next(t for t in ch["topics"] if t["name"] == "Weather Instruments")
+    assert [s["name"] for s in t["subtopics"]] == [
+        "Temperature", "Precipitation", "Atmospheric pressure", "Wind", "Humidity"]
+    assert t["subtopics"][0]["id"] == (
+        "social-science-7/understanding-the-weather/weather-instruments/temperature")
+
+
+def test_committed_primary_activities_loses_its_letter():
+    tree = _committed("Social_Science_6.json")
+    names = {s["name"] for c in tree["chapters"] for t in c["topics"] for s in t["subtopics"]}
+    assert {"Primary activities", "Secondary activities", "Tertiary activities"} <= names
+    assert not [n for n in names if th.letter_label(n)[0]]
+
+
+def test_invariants_catch_a_chapter_number_that_repeats_without_a_part(bt):
+    # Ganita Prakash 7 restarts at 1 for Part 2: told apart by "part", and
+    # listed in (part, number) order
+    ok = {"subject": "Mathematics", "grade": 7, "chapters": [
+        {"number": 1, "part": 1, "name": "A", "source_file": "a.pdf", "topics": []},
+        {"number": 2, "part": 1, "name": "B", "source_file": "a.pdf", "topics": []},
+        {"number": 1, "part": 2, "name": "C", "source_file": "c.pdf", "topics": []}]}
+    assert bt.invariant_errors(ok) == []
+    no_part = {**ok, "chapters": [{k: v for k, v in c.items() if k != "part"}
+                                  for c in ok["chapters"]]}
+    assert any("chapter numbers" in e for e in bt.invariant_errors(no_part))
+    backwards = {**ok, "chapters": [ok["chapters"][2], *ok["chapters"][:2]]}
+    assert any("chapter numbers" in e for e in bt.invariant_errors(backwards))

@@ -17,7 +17,7 @@
  ],
  "chapters": [
   {
-   "id": "a-square-and-a-cube",
+   "id": "mathematics-8/a-square-and-a-cube",
    "name": "A Square and A Cube",
    "number": 1,
    "book": "Ganita Prakash Part 1",
@@ -31,53 +31,53 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "a-square-and-a-cube/square-numbers",
+     "id": "mathematics-8/a-square-and-a-cube/square-numbers",
      "name": "Square Numbers",
      "page": 19,
      "number": "1.1",
      "subtopics": [
       {
-       "id": "a-square-and-a-cube/square-numbers/patterns-and-properties-of-perfect-squares",
+       "id": "mathematics-8/a-square-and-a-cube/square-numbers/patterns-and-properties-of-perfect-squares",
        "name": "Patterns and Properties of Perfect Squares",
        "page": 20
       },
       {
-       "id": "a-square-and-a-cube/square-numbers/perfect-squares-and-triangular-numbers",
+       "id": "mathematics-8/a-square-and-a-cube/square-numbers/perfect-squares-and-triangular-numbers",
        "name": "Perfect Squares and Triangular Numbers",
        "page": 23
       },
       {
-       "id": "a-square-and-a-cube/square-numbers/square-roots",
+       "id": "mathematics-8/a-square-and-a-cube/square-numbers/square-roots",
        "name": "Square Roots",
        "page": 23
       }
      ]
     },
     {
-     "id": "a-square-and-a-cube/cubic-numbers",
+     "id": "mathematics-8/a-square-and-a-cube/cubic-numbers",
      "name": "Cubic Numbers",
      "page": 27,
      "number": "1.2",
      "subtopics": [
       {
-       "id": "a-square-and-a-cube/cubic-numbers/perfect-cubes-and-consecutive-odd-numbers",
+       "id": "mathematics-8/a-square-and-a-cube/cubic-numbers/perfect-cubes-and-consecutive-odd-numbers",
        "name": "Perfect Cubes and Consecutive Odd Numbers",
        "page": 30
       },
       {
-       "id": "a-square-and-a-cube/cubic-numbers/cube-roots",
+       "id": "mathematics-8/a-square-and-a-cube/cubic-numbers/cube-roots",
        "name": "Cube Roots",
        "page": 30
       },
       {
-       "id": "a-square-and-a-cube/cubic-numbers/successive-differences",
+       "id": "mathematics-8/a-square-and-a-cube/cubic-numbers/successive-differences",
        "name": "Successive Differences",
        "page": 31
       }
      ]
     },
     {
-     "id": "a-square-and-a-cube/a-pinch-of-history",
+     "id": "mathematics-8/a-square-and-a-cube/a-pinch-of-history",
      "name": "A Pinch of History",
      "page": 31,
      "number": "1.3",
@@ -86,7 +86,7 @@
    ]
   },
   {
-   "id": "power-play",
+   "id": "mathematics-8/power-play",
    "name": "Power Play",
    "number": 2,
    "book": "Ganita Prakash Part 1",
@@ -100,75 +100,75 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "power-play/experiencing-the-power-play",
+     "id": "mathematics-8/power-play/experiencing-the-power-play",
      "name": "Experiencing the Power Play ...",
      "page": 39,
      "number": "2.1",
      "subtopics": [
       {
-       "id": "power-play/experiencing-the-power-play/an-impossible-venture",
+       "id": "mathematics-8/power-play/experiencing-the-power-play/an-impossible-venture",
        "name": "An Impossible Venture!",
        "page": 39
       }
      ]
     },
     {
-     "id": "power-play/exponential-notation-and-operations",
+     "id": "mathematics-8/power-play/exponential-notation-and-operations",
      "name": "Exponential Notation and Operations",
      "page": 41,
      "number": "2.2",
      "subtopics": [
       {
-       "id": "power-play/exponential-notation-and-operations/magical-pond",
+       "id": "mathematics-8/power-play/exponential-notation-and-operations/magical-pond",
        "name": "Magical Pond",
        "page": 45
       },
       {
-       "id": "power-play/exponential-notation-and-operations/how-many-combinations",
+       "id": "mathematics-8/power-play/exponential-notation-and-operations/how-many-combinations",
        "name": "How Many Combinations",
        "page": 46
       }
      ]
     },
     {
-     "id": "power-play/the-other-side-of-powers",
+     "id": "mathematics-8/power-play/the-other-side-of-powers",
      "name": "The Other Side of Powers",
      "page": 47,
      "number": "2.3",
      "subtopics": [
       {
-       "id": "power-play/the-other-side-of-powers/power-lines",
+       "id": "mathematics-8/power-play/the-other-side-of-powers/power-lines",
        "name": "Power Lines",
        "page": 49
       }
      ]
     },
     {
-     "id": "power-play/powers-of-10",
+     "id": "mathematics-8/power-play/powers-of-10",
      "name": "Powers of 10",
      "page": 50,
      "number": "2.4",
      "subtopics": [
       {
-       "id": "power-play/powers-of-10/scientific-notation",
+       "id": "mathematics-8/power-play/powers-of-10/scientific-notation",
        "name": "Scientific Notation",
        "page": 51
       }
      ]
     },
     {
-     "id": "power-play/did-you-ever-wonder",
+     "id": "mathematics-8/power-play/did-you-ever-wonder",
      "name": "Did You Ever Wonder?",
      "page": 53,
      "number": "2.5",
      "subtopics": [
       {
-       "id": "power-play/did-you-ever-wonder/linear-growth-vs-exponential-growth",
+       "id": "mathematics-8/power-play/did-you-ever-wonder/linear-growth-vs-exponential-growth",
        "name": "Linear Growth vs. Exponential Growth",
        "page": 55
       },
       {
-       "id": "power-play/did-you-ever-wonder/getting-a-sense-for-large-numbers",
+       "id": "mathematics-8/power-play/did-you-ever-wonder/getting-a-sense-for-large-numbers",
        "name": "Getting a Sense for Large Numbers",
        "page": 56
       }
@@ -177,7 +177,7 @@
    ]
   },
   {
-   "id": "a-story-of-numbers",
+   "id": "mathematics-8/a-story-of-numbers",
    "name": "A Story of Numbers",
    "number": 3,
    "book": "Ganita Prakash Part 1",
@@ -191,92 +191,92 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "a-story-of-numbers/reema-s-curiosity",
+     "id": "mathematics-8/a-story-of-numbers/reema-s-curiosity",
      "name": "Reema’s Curiosity",
      "page": 77,
      "number": "3.1",
      "subtopics": [
       {
-       "id": "a-story-of-numbers/reema-s-curiosity/the-mechanism-of-counting",
+       "id": "mathematics-8/a-story-of-numbers/reema-s-curiosity/the-mechanism-of-counting",
        "name": "The Mechanism of Counting",
        "page": 80
       }
      ]
     },
     {
-     "id": "a-story-of-numbers/some-early-number-systems",
+     "id": "mathematics-8/a-story-of-numbers/some-early-number-systems",
      "name": "Some Early Number Systems",
      "page": 83,
      "number": "3.2",
      "subtopics": [
       {
-       "id": "a-story-of-numbers/some-early-number-systems/i-use-of-body-parts",
+       "id": "mathematics-8/a-story-of-numbers/some-early-number-systems/i-use-of-body-parts",
        "name": "I. Use of Body Parts",
        "page": 83
       },
       {
-       "id": "a-story-of-numbers/some-early-number-systems/ii-tally-marks-on-bones-and-other-surfaces",
+       "id": "mathematics-8/a-story-of-numbers/some-early-number-systems/ii-tally-marks-on-bones-and-other-surfaces",
        "name": "II. Tally Marks on Bones and Other Surfaces",
        "page": 84
       },
       {
-       "id": "a-story-of-numbers/some-early-number-systems/iii-number-names-obtained-by-counting-in-twos",
+       "id": "mathematics-8/a-story-of-numbers/some-early-number-systems/iii-number-names-obtained-by-counting-in-twos",
        "name": "III. Number Names Obtained by Counting in Twos",
        "page": 85
       },
       {
-       "id": "a-story-of-numbers/some-early-number-systems/iv-the-roman-numerals",
+       "id": "mathematics-8/a-story-of-numbers/some-early-number-systems/iv-the-roman-numerals",
        "name": "IV. The Roman Numerals",
        "page": 87
       }
      ]
     },
     {
-     "id": "a-story-of-numbers/the-idea-of-a-base",
+     "id": "mathematics-8/a-story-of-numbers/the-idea-of-a-base",
      "name": "The Idea of a Base",
      "page": 90,
      "number": "3.3",
      "subtopics": [
       {
-       "id": "a-story-of-numbers/the-idea-of-a-base/i-the-egyptian-number-system",
+       "id": "mathematics-8/a-story-of-numbers/the-idea-of-a-base/i-the-egyptian-number-system",
        "name": "I. The Egyptian Number System",
        "page": 90
       },
       {
-       "id": "a-story-of-numbers/the-idea-of-a-base/ii-variations-on-the-egyptian-system-and-the-notion-of-base",
+       "id": "mathematics-8/a-story-of-numbers/the-idea-of-a-base/ii-variations-on-the-egyptian-system-and-the-notion-of-base",
        "name": "II. Variations on the Egyptian System and the Notion of Base",
        "page": 91
       },
       {
-       "id": "a-story-of-numbers/the-idea-of-a-base/iii-shortcomings-of-the-egyptian-system",
+       "id": "mathematics-8/a-story-of-numbers/the-idea-of-a-base/iii-shortcomings-of-the-egyptian-system",
        "name": "III. Shortcomings of the Egyptian System",
        "page": 98
       }
      ]
     },
     {
-     "id": "a-story-of-numbers/place-value-representation",
+     "id": "mathematics-8/a-story-of-numbers/place-value-representation",
      "name": "Place Value Representation",
      "page": 99,
      "number": "3.4",
      "subtopics": [
       {
-       "id": "a-story-of-numbers/place-value-representation/i-the-mesopotamian-number-system",
+       "id": "mathematics-8/a-story-of-numbers/place-value-representation/i-the-mesopotamian-number-system",
        "name": "I. The Mesopotamian Number System",
        "page": 99
       },
       {
-       "id": "a-story-of-numbers/place-value-representation/ii-the-mayan-number-system",
+       "id": "mathematics-8/a-story-of-numbers/place-value-representation/ii-the-mayan-number-system",
        "name": "II. The Mayan Number System",
        "page": 103
       },
       {
-       "id": "a-story-of-numbers/place-value-representation/iii-the-chinese-number-system",
+       "id": "mathematics-8/a-story-of-numbers/place-value-representation/iii-the-chinese-number-system",
        "name": "III. The Chinese Number System",
        "page": 105
       },
       {
-       "id": "a-story-of-numbers/place-value-representation/iv-the-hindu-number-system",
+       "id": "mathematics-8/a-story-of-numbers/place-value-representation/iv-the-hindu-number-system",
        "name": "IV. The Hindu Number System",
        "page": 107
       }
@@ -285,7 +285,7 @@
    ]
   },
   {
-   "id": "quadrilaterals",
+   "id": "mathematics-8/quadrilaterals",
    "name": "Quadrilaterals",
    "number": 4,
    "book": "Ganita Prakash Part 1",
@@ -299,85 +299,85 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "quadrilaterals/rectangles-and-squares",
+     "id": "mathematics-8/quadrilaterals/rectangles-and-squares",
      "name": "Rectangles and Squares",
      "page": 124,
      "number": "4.1",
      "subtopics": [
       {
-       "id": "quadrilaterals/rectangles-and-squares/a-carpenter-s-problem",
+       "id": "mathematics-8/quadrilaterals/rectangles-and-squares/a-carpenter-s-problem",
        "name": "A Carpenter’s Problem",
        "page": 124
       },
       {
-       "id": "quadrilaterals/rectangles-and-squares/the-process-of-finding-properties",
+       "id": "mathematics-8/quadrilaterals/rectangles-and-squares/the-process-of-finding-properties",
        "name": "The Process of Finding Properties",
        "page": 129
       },
       {
-       "id": "quadrilaterals/rectangles-and-squares/a-special-rectangle",
+       "id": "mathematics-8/quadrilaterals/rectangles-and-squares/a-special-rectangle",
        "name": "A Special Rectangle",
        "page": 131
       },
       {
-       "id": "quadrilaterals/rectangles-and-squares/properties-of-a-square",
+       "id": "mathematics-8/quadrilaterals/rectangles-and-squares/properties-of-a-square",
        "name": "Properties of a Square",
        "page": 134
       }
      ]
     },
     {
-     "id": "quadrilaterals/angles-in-a-quadrilateral",
+     "id": "mathematics-8/quadrilaterals/angles-in-a-quadrilateral",
      "name": "Angles in a Quadrilateral",
      "page": 135,
      "number": "4.2",
      "subtopics": []
     },
     {
-     "id": "quadrilaterals/more-quadrilaterals-with-parallel-opposite-sides",
+     "id": "mathematics-8/quadrilaterals/more-quadrilaterals-with-parallel-opposite-sides",
      "name": "More Quadrilaterals with Parallel Opposite Sides",
      "page": 136,
      "number": "4.3",
      "subtopics": []
     },
     {
-     "id": "quadrilaterals/quadrilaterals-with-equal-sidelengths",
+     "id": "mathematics-8/quadrilaterals/quadrilaterals-with-equal-sidelengths",
      "name": "Quadrilaterals with Equal Sidelengths",
      "page": 140,
      "number": "4.4",
      "subtopics": []
     },
     {
-     "id": "quadrilaterals/playing-with-quadrilaterals",
+     "id": "mathematics-8/quadrilaterals/playing-with-quadrilaterals",
      "name": "Playing with Quadrilaterals",
      "page": 144,
      "number": "4.5",
      "subtopics": [
       {
-       "id": "quadrilaterals/playing-with-quadrilaterals/geoboard-activity",
+       "id": "mathematics-8/quadrilaterals/playing-with-quadrilaterals/geoboard-activity",
        "name": "Geoboard Activity",
        "page": 144
       },
       {
-       "id": "quadrilaterals/playing-with-quadrilaterals/joining-triangles",
+       "id": "mathematics-8/quadrilaterals/playing-with-quadrilaterals/joining-triangles",
        "name": "Joining Triangles",
        "page": 145
       }
      ]
     },
     {
-     "id": "quadrilaterals/kite-and-trapezium",
+     "id": "mathematics-8/quadrilaterals/kite-and-trapezium",
      "name": "Kite and Trapezium",
      "page": 146,
      "number": "4.6",
      "subtopics": [
       {
-       "id": "quadrilaterals/kite-and-trapezium/kite",
+       "id": "mathematics-8/quadrilaterals/kite-and-trapezium/kite",
        "name": "Kite",
        "page": 146
       },
       {
-       "id": "quadrilaterals/kite-and-trapezium/trapezium",
+       "id": "mathematics-8/quadrilaterals/kite-and-trapezium/trapezium",
        "name": "Trapezium",
        "page": 147
       }
@@ -386,7 +386,7 @@
    ]
   },
   {
-   "id": "number-play",
+   "id": "mathematics-8/number-play",
    "name": "Number Play",
    "number": 5,
    "book": "Ganita Prakash Part 1",
@@ -400,73 +400,73 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "number-play/is-this-a-multiple-of",
+     "id": "mathematics-8/number-play/is-this-a-multiple-of",
      "name": "Is This a Multiple Of?",
      "page": 162,
      "number": "5.1",
      "subtopics": [
       {
-       "id": "number-play/is-this-a-multiple-of/sum-of-consecutive-numbers",
+       "id": "mathematics-8/number-play/is-this-a-multiple-of/sum-of-consecutive-numbers",
        "name": "Sum of Consecutive Numbers",
        "page": 162
       },
       {
-       "id": "number-play/is-this-a-multiple-of/breaking-even",
+       "id": "mathematics-8/number-play/is-this-a-multiple-of/breaking-even",
        "name": "Breaking Even",
        "page": 165
       },
       {
-       "id": "number-play/is-this-a-multiple-of/pairs-to-make-fours",
+       "id": "mathematics-8/number-play/is-this-a-multiple-of/pairs-to-make-fours",
        "name": "Pairs to Make Fours",
        "page": 166
       },
       {
-       "id": "number-play/is-this-a-multiple-of/always-sometimes-or-never",
+       "id": "mathematics-8/number-play/is-this-a-multiple-of/always-sometimes-or-never",
        "name": "Always, Sometimes, or Never",
        "page": 168
       },
       {
-       "id": "number-play/is-this-a-multiple-of/what-remains",
+       "id": "mathematics-8/number-play/is-this-a-multiple-of/what-remains",
        "name": "What Remains?",
        "page": 171
       }
      ]
     },
     {
-     "id": "number-play/checking-divisibility-quickly",
+     "id": "mathematics-8/number-play/checking-divisibility-quickly",
      "name": "Checking Divisibility Quickly",
      "page": 173,
      "number": "5.2",
      "subtopics": [
       {
-       "id": "number-play/checking-divisibility-quickly/a-shortcut-for-divisibility-by-9",
+       "id": "mathematics-8/number-play/checking-divisibility-quickly/a-shortcut-for-divisibility-by-9",
        "name": "A Shortcut for Divisibility by 9",
        "page": 173
       },
       {
-       "id": "number-play/checking-divisibility-quickly/a-shortcut-for-divisibility-by-3",
+       "id": "mathematics-8/number-play/checking-divisibility-quickly/a-shortcut-for-divisibility-by-3",
        "name": "A Shortcut for Divisibility by 3",
        "page": 176
       },
       {
-       "id": "number-play/checking-divisibility-quickly/a-shortcut-for-divisibility-by-11",
+       "id": "mathematics-8/number-play/checking-divisibility-quickly/a-shortcut-for-divisibility-by-11",
        "name": "A Shortcut for Divisibility by 11",
        "page": 176
       },
       {
-       "id": "number-play/checking-divisibility-quickly/more-on-divisibility-shortcuts",
+       "id": "mathematics-8/number-play/checking-divisibility-quickly/more-on-divisibility-shortcuts",
        "name": "More on Divisibility Shortcuts",
        "page": 179
       },
       {
-       "id": "number-play/checking-divisibility-quickly/digital-roots",
+       "id": "mathematics-8/number-play/checking-divisibility-quickly/digital-roots",
        "name": "Digital Roots",
        "page": 180
       }
      ]
     },
     {
-     "id": "number-play/digits-in-disguise",
+     "id": "mathematics-8/number-play/digits-in-disguise",
      "name": "Digits in Disguise",
      "page": 181,
      "number": "5.3",
@@ -475,7 +475,7 @@
    ]
   },
   {
-   "id": "we-distribute-yet-things-multiply",
+   "id": "mathematics-8/we-distribute-yet-things-multiply",
    "name": "We Distribute, Yet Things Multiply",
    "number": 6,
    "book": "Ganita Prakash Part 1",
@@ -489,50 +489,50 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "we-distribute-yet-things-multiply/some-properties-of-multiplication",
+     "id": "mathematics-8/we-distribute-yet-things-multiply/some-properties-of-multiplication",
      "name": "Some Properties of Multiplication",
      "page": 199,
      "number": "6.1",
      "subtopics": [
       {
-       "id": "we-distribute-yet-things-multiply/some-properties-of-multiplication/increments-in-products",
+       "id": "mathematics-8/we-distribute-yet-things-multiply/some-properties-of-multiplication/increments-in-products",
        "name": "Increments in Products",
        "page": 199
       },
       {
-       "id": "we-distribute-yet-things-multiply/some-properties-of-multiplication/fast-multiplications-using-the-distributive-property",
+       "id": "mathematics-8/we-distribute-yet-things-multiply/some-properties-of-multiplication/fast-multiplications-using-the-distributive-property",
        "name": "Fast Multiplications Using the Distributive Property",
        "page": 206
       }
      ]
     },
     {
-     "id": "we-distribute-yet-things-multiply/special-cases-of-the-distributive-property",
+     "id": "mathematics-8/we-distribute-yet-things-multiply/special-cases-of-the-distributive-property",
      "name": "Special Cases of the Distributive Property",
      "page": 208,
      "number": "6.2",
      "subtopics": [
       {
-       "id": "we-distribute-yet-things-multiply/special-cases-of-the-distributive-property/square-of-the-sum-difference-of-two-numbers",
+       "id": "mathematics-8/we-distribute-yet-things-multiply/special-cases-of-the-distributive-property/square-of-the-sum-difference-of-two-numbers",
        "name": "Square of the Sum/Difference of Two Numbers",
        "page": 208
       },
       {
-       "id": "we-distribute-yet-things-multiply/special-cases-of-the-distributive-property/investigating-patterns",
+       "id": "mathematics-8/we-distribute-yet-things-multiply/special-cases-of-the-distributive-property/investigating-patterns",
        "name": "Investigating Patterns",
        "page": 210
       }
      ]
     },
     {
-     "id": "we-distribute-yet-things-multiply/mind-the-mistake-mend-the-mistake",
+     "id": "mathematics-8/we-distribute-yet-things-multiply/mind-the-mistake-mend-the-mistake",
      "name": "Mind the Mistake, Mend the Mistake",
      "page": 213,
      "number": "6.3",
      "subtopics": []
     },
     {
-     "id": "we-distribute-yet-things-multiply/this-way-or-that-way-all-ways-lead-to-the-bay",
+     "id": "mathematics-8/we-distribute-yet-things-multiply/this-way-or-that-way-all-ways-lead-to-the-bay",
      "name": "This Way or That Way, All Ways Lead to the Bay",
      "page": 213,
      "number": "6.4",
@@ -541,7 +541,7 @@
    ]
   },
   {
-   "id": "proportional-reasoning-1",
+   "id": "mathematics-8/proportional-reasoning-1",
    "name": "Proportional Reasoning-1",
    "number": 7,
    "book": "Ganita Prakash Part 1",
@@ -555,48 +555,48 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "proportional-reasoning-1/observing-similarity-in-change",
+     "id": "mathematics-8/proportional-reasoning-1/observing-similarity-in-change",
      "name": "Observing Similarity in Change",
      "page": 234,
      "number": "7.1",
      "subtopics": []
     },
     {
-     "id": "proportional-reasoning-1/ratios",
+     "id": "mathematics-8/proportional-reasoning-1/ratios",
      "name": "Ratios",
      "page": 236,
      "number": "7.2",
      "subtopics": []
     },
     {
-     "id": "proportional-reasoning-1/ratios-in-their-simplest-form",
+     "id": "mathematics-8/proportional-reasoning-1/ratios-in-their-simplest-form",
      "name": "Ratios in their Simplest Form",
      "page": 236,
      "number": "7.3",
      "subtopics": []
     },
     {
-     "id": "proportional-reasoning-1/problem-solving-with-proportional-reasoning",
+     "id": "mathematics-8/proportional-reasoning-1/problem-solving-with-proportional-reasoning",
      "name": "Problem Solving with Proportional Reasoning",
      "page": 237,
      "number": "7.4",
      "subtopics": [
       {
-       "id": "proportional-reasoning-1/problem-solving-with-proportional-reasoning/trairasika-the-rule-of-three",
+       "id": "mathematics-8/proportional-reasoning-1/problem-solving-with-proportional-reasoning/trairasika-the-rule-of-three",
        "name": "Trairasika — The Rule of Three",
        "page": 242
       }
      ]
     },
     {
-     "id": "proportional-reasoning-1/sharing-but-not-equally",
+     "id": "mathematics-8/proportional-reasoning-1/sharing-but-not-equally",
      "name": "Sharing, but Not Equally!",
      "page": 247,
      "number": "7.5",
      "subtopics": []
     },
     {
-     "id": "proportional-reasoning-1/unit-conversions",
+     "id": "mathematics-8/proportional-reasoning-1/unit-conversions",
      "name": "Unit Conversions",
      "page": 250,
      "number": "7.6",
@@ -605,7 +605,7 @@
    ]
   },
   {
-   "id": "fractions-in-disguise",
+   "id": "mathematics-8/fractions-in-disguise",
    "name": "Fractions in Disguise",
    "number": 1,
    "book": "Ganita Prakash Part 2",
@@ -619,64 +619,64 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "fractions-in-disguise/fractions-as-percentages",
+     "id": "mathematics-8/fractions-in-disguise/fractions-as-percentages",
      "name": "Fractions as Percentages",
      "page": 1,
      "number": "1.1",
      "subtopics": [
       {
-       "id": "fractions-in-disguise/fractions-as-percentages/expressing-fractions-as-percentages",
+       "id": "mathematics-8/fractions-in-disguise/fractions-as-percentages/expressing-fractions-as-percentages",
        "name": "Expressing Fractions as Percentages",
        "page": 1
       }
      ]
     },
     {
-     "id": "fractions-in-disguise/percentage-of-some-quantity",
+     "id": "mathematics-8/fractions-in-disguise/percentage-of-some-quantity",
      "name": "Percentage of Some Quantity",
      "page": 6,
      "number": "1.2",
      "subtopics": [
       {
-       "id": "fractions-in-disguise/percentage-of-some-quantity/free-hand-computations",
+       "id": "mathematics-8/fractions-in-disguise/percentage-of-some-quantity/free-hand-computations",
        "name": "Free-hand Computations",
        "page": 7
       },
       {
-       "id": "fractions-in-disguise/percentage-of-some-quantity/the-fdp-trio-fractions-decimals-and-percentages",
+       "id": "mathematics-8/fractions-in-disguise/percentage-of-some-quantity/the-fdp-trio-fractions-decimals-and-percentages",
        "name": "The FDP Trio — Fractions, Decimals, and Percentages",
        "page": 8
       },
       {
-       "id": "fractions-in-disguise/percentage-of-some-quantity/percentages-greater-than-100",
+       "id": "mathematics-8/fractions-in-disguise/percentage-of-some-quantity/percentages-greater-than-100",
        "name": "Percentages Greater than 100",
        "page": 10
       }
      ]
     },
     {
-     "id": "fractions-in-disguise/using-percentages",
+     "id": "mathematics-8/fractions-in-disguise/using-percentages",
      "name": "Using Percentages",
      "page": 14,
      "number": "1.3",
      "subtopics": [
       {
-       "id": "fractions-in-disguise/using-percentages/percentage-increase-or-decrease",
+       "id": "mathematics-8/fractions-in-disguise/using-percentages/percentage-increase-or-decrease",
        "name": "Percentage Increase or Decrease",
        "page": 15
       },
       {
-       "id": "fractions-in-disguise/using-percentages/taxes",
+       "id": "mathematics-8/fractions-in-disguise/using-percentages/taxes",
        "name": "Taxes",
        "page": 19
       },
       {
-       "id": "fractions-in-disguise/using-percentages/growth-and-compounding",
+       "id": "mathematics-8/fractions-in-disguise/using-percentages/growth-and-compounding",
        "name": "Growth and Compounding",
        "page": 20
       },
       {
-       "id": "fractions-in-disguise/using-percentages/tricky-percentages",
+       "id": "mathematics-8/fractions-in-disguise/using-percentages/tricky-percentages",
        "name": "Tricky Percentages",
        "page": 25
       }
@@ -685,7 +685,7 @@
    ]
   },
   {
-   "id": "the-baudhayana-pythagoras-theorem",
+   "id": "mathematics-8/the-baudhayana-pythagoras-theorem",
    "name": "The Baudhāyana-pythagoras Theorem",
    "number": 2,
    "book": "Ganita Prakash Part 2",
@@ -699,61 +699,61 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "the-baudhayana-pythagoras-theorem/doubling-a-square",
+     "id": "mathematics-8/the-baudhayana-pythagoras-theorem/doubling-a-square",
      "name": "Doubling a Square",
      "page": 1,
      "number": "2.1",
      "subtopics": []
     },
     {
-     "id": "the-baudhayana-pythagoras-theorem/halving-a-square",
+     "id": "mathematics-8/the-baudhayana-pythagoras-theorem/halving-a-square",
      "name": "Halving a Square",
      "page": 4,
      "number": "2.2",
      "subtopics": []
     },
     {
-     "id": "the-baudhayana-pythagoras-theorem/hypotenuse-of-an-isosceles-right-triangle",
+     "id": "mathematics-8/the-baudhayana-pythagoras-theorem/hypotenuse-of-an-isosceles-right-triangle",
      "name": "Hypotenuse of an Isosceles Right Triangle",
      "page": 5,
      "number": "2.3",
      "subtopics": [
       {
-       "id": "the-baudhayana-pythagoras-theorem/hypotenuse-of-an-isosceles-right-triangle/decimal-representation-of-2",
+       "id": "mathematics-8/the-baudhayana-pythagoras-theorem/hypotenuse-of-an-isosceles-right-triangle/decimal-representation-of-2",
        "name": "Decimal Representation of 2",
        "page": 6
       }
      ]
     },
     {
-     "id": "the-baudhayana-pythagoras-theorem/combining-two-different-squares",
+     "id": "mathematics-8/the-baudhayana-pythagoras-theorem/combining-two-different-squares",
      "name": "Combining Two Different Squares",
      "page": 9,
      "number": "2.4",
      "subtopics": []
     },
     {
-     "id": "the-baudhayana-pythagoras-theorem/right-triangles-having-integer-sidelengths",
+     "id": "mathematics-8/the-baudhayana-pythagoras-theorem/right-triangles-having-integer-sidelengths",
      "name": "Right–Triangles Having Integer Sidelengths",
      "page": 16,
      "number": "2.5",
      "subtopics": []
     },
     {
-     "id": "the-baudhayana-pythagoras-theorem/a-long-standing-open-problem",
+     "id": "mathematics-8/the-baudhayana-pythagoras-theorem/a-long-standing-open-problem",
      "name": "A Long-Standing Open Problem",
      "page": 18,
      "number": "2.6",
      "subtopics": []
     },
     {
-     "id": "the-baudhayana-pythagoras-theorem/further-applications-of-the-baudhayana-pythagoras-theorem",
+     "id": "mathematics-8/the-baudhayana-pythagoras-theorem/further-applications-of-the-baudhayana-pythagoras-theorem",
      "name": "Further Applications of the Baudhāyana - Pythagoras Theorem",
      "page": 20,
      "number": "2.7",
      "subtopics": [
       {
-       "id": "the-baudhayana-pythagoras-theorem/further-applications-of-the-baudhayana-pythagoras-theorem/a-problem-from-bhaskaracharya-s-lilavati",
+       "id": "mathematics-8/the-baudhayana-pythagoras-theorem/further-applications-of-the-baudhayana-pythagoras-theorem/a-problem-from-bhaskaracharya-s-lilavati",
        "name": "A Problem from Bhāskarāchārya’s Līlāvatī",
        "page": 20
       }
@@ -762,7 +762,7 @@
    ]
   },
   {
-   "id": "proportional-reasoning-2",
+   "id": "mathematics-8/proportional-reasoning-2",
    "name": "Proportional Reasoning–2",
    "number": 3,
    "book": "Ganita Prakash Part 2",
@@ -776,42 +776,42 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "proportional-reasoning-2/proportionality-a-quick-recap",
+     "id": "mathematics-8/proportional-reasoning-2/proportionality-a-quick-recap",
      "name": "Proportionality — A Quick Recap",
      "page": 1,
      "number": "3.1",
      "subtopics": []
     },
     {
-     "id": "proportional-reasoning-2/ratios-in-maps",
+     "id": "mathematics-8/proportional-reasoning-2/ratios-in-maps",
      "name": "Ratios in Maps",
      "page": 2,
      "number": "3.2",
      "subtopics": []
     },
     {
-     "id": "proportional-reasoning-2/ratios-with-more-than-2-terms",
+     "id": "mathematics-8/proportional-reasoning-2/ratios-with-more-than-2-terms",
      "name": "Ratios with More than 2 Terms",
      "page": 3,
      "number": "3.3",
      "subtopics": []
     },
     {
-     "id": "proportional-reasoning-2/dividing-a-whole-in-a-given-ratio",
+     "id": "mathematics-8/proportional-reasoning-2/dividing-a-whole-in-a-given-ratio",
      "name": "Dividing a Whole in a Given Ratio",
      "page": 4,
      "number": "3.4",
      "subtopics": []
     },
     {
-     "id": "proportional-reasoning-2/a-slice-of-the-pie",
+     "id": "mathematics-8/proportional-reasoning-2/a-slice-of-the-pie",
      "name": "A Slice of the Pie",
      "page": 6,
      "number": "3.5",
      "subtopics": []
     },
     {
-     "id": "proportional-reasoning-2/inverse-proportions",
+     "id": "mathematics-8/proportional-reasoning-2/inverse-proportions",
      "name": "Inverse Proportions",
      "page": 9,
      "number": "3.6",
@@ -820,7 +820,7 @@
    ]
   },
   {
-   "id": "exploring-some-geometric-themes",
+   "id": "mathematics-8/exploring-some-geometric-themes",
    "name": "Exploring Some Geometric Themes",
    "number": 4,
    "book": "Ganita Prakash Part 2",
@@ -834,66 +834,66 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "exploring-some-geometric-themes/fractals",
+     "id": "mathematics-8/exploring-some-geometric-themes/fractals",
      "name": "Fractals",
      "page": 1,
      "number": "4.1",
      "subtopics": [
       {
-       "id": "exploring-some-geometric-themes/fractals/sierpinski-carpet",
+       "id": "mathematics-8/exploring-some-geometric-themes/fractals/sierpinski-carpet",
        "name": "Sierpinski Carpet",
        "page": 1
       },
       {
-       "id": "exploring-some-geometric-themes/fractals/sierpinski-gasket",
+       "id": "mathematics-8/exploring-some-geometric-themes/fractals/sierpinski-gasket",
        "name": "Sierpinski Gasket",
        "page": 3
       },
       {
-       "id": "exploring-some-geometric-themes/fractals/koch-snowflake",
+       "id": "mathematics-8/exploring-some-geometric-themes/fractals/koch-snowflake",
        "name": "Koch Snowflake",
        "page": 4
       },
       {
-       "id": "exploring-some-geometric-themes/fractals/fractals-in-art",
+       "id": "mathematics-8/exploring-some-geometric-themes/fractals/fractals-in-art",
        "name": "Fractals in Art",
        "page": 5
       }
      ]
     },
     {
-     "id": "exploring-some-geometric-themes/visualising-solids",
+     "id": "mathematics-8/exploring-some-geometric-themes/visualising-solids",
      "name": "Visualising Solids",
      "page": 6,
      "number": "4.2",
      "subtopics": [
       {
-       "id": "exploring-some-geometric-themes/visualising-solids/build-it-in-your-imagination",
+       "id": "mathematics-8/exploring-some-geometric-themes/visualising-solids/build-it-in-your-imagination",
        "name": "Build it in Your Imagination",
        "page": 6
       },
       {
-       "id": "exploring-some-geometric-themes/visualising-solids/making-solids",
+       "id": "mathematics-8/exploring-some-geometric-themes/visualising-solids/making-solids",
        "name": "Making Solids",
        "page": 8
       },
       {
-       "id": "exploring-some-geometric-themes/visualising-solids/shortest-paths-on-a-cube",
+       "id": "mathematics-8/exploring-some-geometric-themes/visualising-solids/shortest-paths-on-a-cube",
        "name": "Shortest Paths on a Cube",
        "page": 15
       },
       {
-       "id": "exploring-some-geometric-themes/visualising-solids/representation-of-solids-on-a-plane-surface",
+       "id": "mathematics-8/exploring-some-geometric-themes/visualising-solids/representation-of-solids-on-a-plane-surface",
        "name": "Representation of Solids on a Plane Surface",
        "page": 18
       },
       {
-       "id": "exploring-some-geometric-themes/visualising-solids/isometric-projections",
+       "id": "mathematics-8/exploring-some-geometric-themes/visualising-solids/isometric-projections",
        "name": "Isometric Projections",
        "page": 28
       },
       {
-       "id": "exploring-some-geometric-themes/visualising-solids/drawing-on-isometric-grids",
+       "id": "mathematics-8/exploring-some-geometric-themes/visualising-solids/drawing-on-isometric-grids",
        "name": "Drawing on Isometric Grids",
        "page": 29
       }
@@ -902,7 +902,7 @@
    ]
   },
   {
-   "id": "tales-by-dots-and-lines",
+   "id": "mathematics-8/tales-by-dots-and-lines",
    "name": "Tales by Dots and Lines",
    "number": 5,
    "book": "Ganita Prakash Part 2",
@@ -916,76 +916,76 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "tales-by-dots-and-lines/the-balancing-act",
+     "id": "mathematics-8/tales-by-dots-and-lines/the-balancing-act",
      "name": "The Balancing Act",
      "page": 1,
      "number": "5.1",
      "subtopics": [
       {
-       "id": "tales-by-dots-and-lines/the-balancing-act/unchanging-mean",
+       "id": "mathematics-8/tales-by-dots-and-lines/the-balancing-act/unchanging-mean",
        "name": "Unchanging Mean!",
        "page": 3
       },
       {
-       "id": "tales-by-dots-and-lines/the-balancing-act/relatively-unchanged",
+       "id": "mathematics-8/tales-by-dots-and-lines/the-balancing-act/relatively-unchanged",
        "name": "Relatively Unchanged!",
        "page": 4
       },
       {
-       "id": "tales-by-dots-and-lines/the-balancing-act/tinkering-with-median",
+       "id": "mathematics-8/tales-by-dots-and-lines/the-balancing-act/tinkering-with-median",
        "name": "Tinkering with Median",
        "page": 6
       },
       {
-       "id": "tales-by-dots-and-lines/the-balancing-act/finding-the-unknown",
+       "id": "mathematics-8/tales-by-dots-and-lines/the-balancing-act/finding-the-unknown",
        "name": "Finding the Unknown",
        "page": 7
       },
       {
-       "id": "tales-by-dots-and-lines/the-balancing-act/mean-and-median-with-frequencies",
+       "id": "mathematics-8/tales-by-dots-and-lines/the-balancing-act/mean-and-median-with-frequencies",
        "name": "Mean and Median with Frequencies",
        "page": 8
       },
       {
-       "id": "tales-by-dots-and-lines/the-balancing-act/spreadsheets",
+       "id": "mathematics-8/tales-by-dots-and-lines/the-balancing-act/spreadsheets",
        "name": "Spreadsheets",
        "page": 9
       }
      ]
     },
     {
-     "id": "tales-by-dots-and-lines/visualising-and-interpreting-data",
+     "id": "mathematics-8/tales-by-dots-and-lines/visualising-and-interpreting-data",
      "name": "Visualising and Interpreting Data",
      "page": 14,
      "number": "5.2",
      "subtopics": [
       {
-       "id": "tales-by-dots-and-lines/visualising-and-interpreting-data/line-graphs",
+       "id": "mathematics-8/tales-by-dots-and-lines/visualising-and-interpreting-data/line-graphs",
        "name": "Line Graphs",
        "page": 14
       },
       {
-       "id": "tales-by-dots-and-lines/visualising-and-interpreting-data/space-jam-a-traffic-problem-in-the-future",
+       "id": "mathematics-8/tales-by-dots-and-lines/visualising-and-interpreting-data/space-jam-a-traffic-problem-in-the-future",
        "name": "Space Jam: A Traffic Problem in the Future?",
        "page": 17
       },
       {
-       "id": "tales-by-dots-and-lines/visualising-and-interpreting-data/catch-the-pattern-in-rain",
+       "id": "mathematics-8/tales-by-dots-and-lines/visualising-and-interpreting-data/catch-the-pattern-in-rain",
        "name": "Catch the (Pattern in) Rain",
        "page": 18
       },
       {
-       "id": "tales-by-dots-and-lines/visualising-and-interpreting-data/infographics",
+       "id": "mathematics-8/tales-by-dots-and-lines/visualising-and-interpreting-data/infographics",
        "name": "Infographics",
        "page": 21
       },
       {
-       "id": "tales-by-dots-and-lines/visualising-and-interpreting-data/what-can-a-strip-say",
+       "id": "mathematics-8/tales-by-dots-and-lines/visualising-and-interpreting-data/what-can-a-strip-say",
        "name": "What can a Strip Say?",
        "page": 23
       },
       {
-       "id": "tales-by-dots-and-lines/visualising-and-interpreting-data/data-story-sleepy-deepy",
+       "id": "mathematics-8/tales-by-dots-and-lines/visualising-and-interpreting-data/data-story-sleepy-deepy",
        "name": "Data Story: Sleepy-Deepy",
        "page": 24
       }
@@ -994,7 +994,7 @@
    ]
   },
   {
-   "id": "algebra-play",
+   "id": "mathematics-8/algebra-play",
    "name": "Algebra Play",
    "number": 6,
    "book": "Ganita Prakash Part 2",
@@ -1008,53 +1008,53 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "algebra-play/algebra-play",
+     "id": "mathematics-8/algebra-play/algebra-play",
      "name": "Algebra Play",
      "page": 1,
      "number": "6.1",
      "subtopics": []
     },
     {
-     "id": "algebra-play/thinking-about-think-of-a-number-tricks",
+     "id": "mathematics-8/algebra-play/thinking-about-think-of-a-number-tricks",
      "name": "Thinking about ‘Think of a Number’ Tricks",
      "page": 1,
      "number": "6.2",
      "subtopics": []
     },
     {
-     "id": "algebra-play/number-pyramids",
+     "id": "mathematics-8/algebra-play/number-pyramids",
      "name": "Number Pyramids",
      "page": 3,
      "number": "6.3",
      "subtopics": []
     },
     {
-     "id": "algebra-play/fun-with-grids",
+     "id": "mathematics-8/algebra-play/fun-with-grids",
      "name": "Fun with Grids",
      "page": 7,
      "number": "6.4",
      "subtopics": [
       {
-       "id": "algebra-play/fun-with-grids/calendar-magic",
+       "id": "mathematics-8/algebra-play/fun-with-grids/calendar-magic",
        "name": "Calendar Magic",
        "page": 7
       },
       {
-       "id": "algebra-play/fun-with-grids/algebra-grids",
+       "id": "mathematics-8/algebra-play/fun-with-grids/algebra-grids",
        "name": "Algebra Grids",
        "page": 8
       }
      ]
     },
     {
-     "id": "algebra-play/the-largest-product",
+     "id": "mathematics-8/algebra-play/the-largest-product",
      "name": "The Largest Product",
      "page": 8,
      "number": "6.5",
      "subtopics": []
     },
     {
-     "id": "algebra-play/decoding-divisibility-tricks",
+     "id": "mathematics-8/algebra-play/decoding-divisibility-tricks",
      "name": "Decoding Divisibility Tricks",
      "page": 10,
      "number": "6.6",
@@ -1063,7 +1063,7 @@
    ]
   },
   {
-   "id": "area",
+   "id": "mathematics-8/area",
    "name": "Area",
    "number": 7,
    "book": "Ganita Prakash Part 2",
@@ -1077,48 +1077,48 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "area/rectangle-and-squares",
+     "id": "mathematics-8/area/rectangle-and-squares",
      "name": "Rectangle and Squares",
      "page": 1,
      "number": "7.1",
      "subtopics": [
       {
-       "id": "area/rectangle-and-squares/why-can-t-perimeter-be-a-measure-of-area",
+       "id": "mathematics-8/area/rectangle-and-squares/why-can-t-perimeter-be-a-measure-of-area",
        "name": "Why Can’t Perimeter be a Measure of Area?",
        "page": 3
       },
       {
-       "id": "area/rectangle-and-squares/triangles",
+       "id": "mathematics-8/area/rectangle-and-squares/triangles",
        "name": "Triangles",
        "page": 6
       },
       {
-       "id": "area/rectangle-and-squares/area-of-any-polygon",
+       "id": "mathematics-8/area/rectangle-and-squares/area-of-any-polygon",
        "name": "Area of any Polygon",
        "page": 12
       },
       {
-       "id": "area/rectangle-and-squares/parallelogram",
+       "id": "mathematics-8/area/rectangle-and-squares/parallelogram",
        "name": "Parallelogram",
        "page": 14
       },
       {
-       "id": "area/rectangle-and-squares/rhombus",
+       "id": "mathematics-8/area/rectangle-and-squares/rhombus",
        "name": "Rhombus",
        "page": 17
       },
       {
-       "id": "area/rectangle-and-squares/trapezium",
+       "id": "mathematics-8/area/rectangle-and-squares/trapezium",
        "name": "Trapezium",
        "page": 19
       },
       {
-       "id": "area/rectangle-and-squares/finding-the-area-using-two-copies-of-the-trapezium",
+       "id": "mathematics-8/area/rectangle-and-squares/finding-the-area-using-two-copies-of-the-trapezium",
        "name": "Finding the Area Using Two Copies of the Trapezium",
        "page": 21
       },
       {
-       "id": "area/rectangle-and-squares/areas-in-real-life",
+       "id": "mathematics-8/area/rectangle-and-squares/areas-in-real-life",
        "name": "Areas in Real Life",
        "page": 23
       }

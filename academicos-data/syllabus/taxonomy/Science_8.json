@@ -7,7 +7,7 @@
  ],
  "chapters": [
   {
-   "id": "exploring-the-investigative-world-of-science",
+   "id": "science-8/exploring-the-investigative-world-of-science",
    "name": "Exploring the Investigative World of Science",
    "number": 1,
    "book": "Curiosity",
@@ -22,7 +22,7 @@
    "topics": []
   },
   {
-   "id": "the-invisible-living-world-beyond-our-naked-eye",
+   "id": "science-8/the-invisible-living-world-beyond-our-naked-eye",
    "name": "The Invisible Living World: Beyond Our Naked Eye",
    "number": 2,
    "book": "Curiosity",
@@ -35,13 +35,13 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "the-invisible-living-world-beyond-our-naked-eye/what-is-a-cell",
+     "id": "science-8/the-invisible-living-world-beyond-our-naked-eye/what-is-a-cell",
      "name": "What Is a Cell?",
      "page": 30,
      "number": "2.1",
      "subtopics": [
       {
-       "id": "the-invisible-living-world-beyond-our-naked-eye/what-is-a-cell/variation-in-shape-and-structure-of-cells",
+       "id": "science-8/the-invisible-living-world-beyond-our-naked-eye/what-is-a-cell/variation-in-shape-and-structure-of-cells",
        "name": "Variation in shape and structure of cells",
        "page": 33,
        "number": "2.1.1"
@@ -49,39 +49,39 @@
      ]
     },
     {
-     "id": "the-invisible-living-world-beyond-our-naked-eye/what-are-the-levels-of-organisation-in-the-body-of-a-living",
+     "id": "science-8/the-invisible-living-world-beyond-our-naked-eye/what-are-the-levels-of-organisation-in-the-body-of-a-living",
      "name": "What Are the Levels of Organisation in the Body of a Living Organism?",
      "page": 34,
      "number": "2.2",
      "subtopics": []
     },
     {
-     "id": "the-invisible-living-world-beyond-our-naked-eye/what-are-microorganisms",
+     "id": "science-8/the-invisible-living-world-beyond-our-naked-eye/what-are-microorganisms",
      "name": "What Are Microorganisms?",
      "page": 35,
      "number": "2.3",
      "subtopics": []
     },
     {
-     "id": "the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes",
+     "id": "science-8/the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes",
      "name": "How Are We Connected to Microbes?",
      "page": 38,
      "number": "2.4",
      "subtopics": [
       {
-       "id": "the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes/key-players-in-cleaning-the-environment",
+       "id": "science-8/the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes/key-players-in-cleaning-the-environment",
        "name": "Key players in cleaning the environment",
        "page": 38,
        "number": "2.4.1"
       },
       {
-       "id": "the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes/microorganisms-and-food",
+       "id": "science-8/the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes/microorganisms-and-food",
        "name": "Microorganisms and food",
        "page": 40,
        "number": "2.4.2"
       },
       {
-       "id": "the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes/amazing-microalgae-tiny-helpers-in-water",
+       "id": "science-8/the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes/amazing-microalgae-tiny-helpers-in-water",
        "name": "Amazing microalgae: tiny helpers in water",
        "page": 42,
        "number": "2.4.3"
@@ -89,7 +89,7 @@
      ]
     },
     {
-     "id": "the-invisible-living-world-beyond-our-naked-eye/why-is-cell-considered-to-be-a-basic-unit-of-life",
+     "id": "science-8/the-invisible-living-world-beyond-our-naked-eye/why-is-cell-considered-to-be-a-basic-unit-of-life",
      "name": "Why Is Cell Considered to Be a Basic Unit of Life?",
      "page": 43,
      "number": "2.5",
@@ -98,7 +98,7 @@
    ]
   },
   {
-   "id": "health-the-ultimate-treasure",
+   "id": "science-8/health-the-ultimate-treasure",
    "name": "Health: The Ultimate Treasure",
    "number": 3,
    "book": "Curiosity",
@@ -111,26 +111,26 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "health-the-ultimate-treasure/health-is-it-more-than-not-falling-sick",
+     "id": "science-8/health-the-ultimate-treasure/health-is-it-more-than-not-falling-sick",
      "name": "Health: Is It More Than Not Falling Sick?",
      "page": 49,
      "number": "3.1",
      "subtopics": []
     },
     {
-     "id": "health-the-ultimate-treasure/how-can-we-stay-healthy",
+     "id": "science-8/health-the-ultimate-treasure/how-can-we-stay-healthy",
      "name": "How Can We Stay Healthy?",
      "page": 49,
      "number": "3.2",
      "subtopics": [
       {
-       "id": "health-the-ultimate-treasure/how-can-we-stay-healthy/maintain-a-healthy-lifestyle",
+       "id": "science-8/health-the-ultimate-treasure/how-can-we-stay-healthy/maintain-a-healthy-lifestyle",
        "name": "Maintain a healthy lifestyle",
        "page": 50,
        "number": "3.2.1"
       },
       {
-       "id": "health-the-ultimate-treasure/how-can-we-stay-healthy/keep-the-environment-clean",
+       "id": "science-8/health-the-ultimate-treasure/how-can-we-stay-healthy/keep-the-environment-clean",
        "name": "Keep the environment clean",
        "page": 51,
        "number": "3.2.2"
@@ -138,26 +138,26 @@
      ]
     },
     {
-     "id": "health-the-ultimate-treasure/how-do-we-know-that-we-are-unwell",
+     "id": "science-8/health-the-ultimate-treasure/how-do-we-know-that-we-are-unwell",
      "name": "How Do We Know That We Are Unwell?",
      "page": 51,
      "number": "3.3",
      "subtopics": []
     },
     {
-     "id": "health-the-ultimate-treasure/diseases-what-are-the-causes-and-types",
+     "id": "science-8/health-the-ultimate-treasure/diseases-what-are-the-causes-and-types",
      "name": "Diseases: What Are the Causes and Types?",
      "page": 52,
      "number": "3.4",
      "subtopics": [
       {
-       "id": "health-the-ultimate-treasure/diseases-what-are-the-causes-and-types/how-are-communicable-diseases-caused-and-spread",
+       "id": "science-8/health-the-ultimate-treasure/diseases-what-are-the-causes-and-types/how-are-communicable-diseases-caused-and-spread",
        "name": "How are communicable diseases caused and spread?",
        "page": 52,
        "number": "3.4.1"
       },
       {
-       "id": "health-the-ultimate-treasure/diseases-what-are-the-causes-and-types/how-are-non-communicable-diseases-caused",
+       "id": "science-8/health-the-ultimate-treasure/diseases-what-are-the-causes-and-types/how-are-non-communicable-diseases-caused",
        "name": "How are non-communicable diseases caused?",
        "page": 55,
        "number": "3.4.2"
@@ -165,13 +165,13 @@
      ]
     },
     {
-     "id": "health-the-ultimate-treasure/how-to-prevent-and-control-diseases",
+     "id": "science-8/health-the-ultimate-treasure/how-to-prevent-and-control-diseases",
      "name": "How to Prevent and Control Diseases?",
      "page": 57,
      "number": "3.5",
      "subtopics": [
       {
-       "id": "health-the-ultimate-treasure/how-to-prevent-and-control-diseases/treatment-of-diseases",
+       "id": "science-8/health-the-ultimate-treasure/how-to-prevent-and-control-diseases/treatment-of-diseases",
        "name": "Treatment of diseases",
        "page": 59,
        "number": "3.5.1"
@@ -181,7 +181,7 @@
    ]
   },
   {
-   "id": "electricity-magnetic-and-heating-effects",
+   "id": "science-8/electricity-magnetic-and-heating-effects",
    "name": "Electricity: Magnetic and Heating Effects",
    "number": 4,
    "book": "Curiosity",
@@ -194,19 +194,19 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "electricity-magnetic-and-heating-effects/does-an-electric-current-have-a-magnetic-effect",
+     "id": "science-8/electricity-magnetic-and-heating-effects/does-an-electric-current-have-a-magnetic-effect",
      "name": "Does an Electric Current Have a Magnetic Effect?",
      "page": 67,
      "number": "4.1",
      "subtopics": [
       {
-       "id": "electricity-magnetic-and-heating-effects/does-an-electric-current-have-a-magnetic-effect/electromagnets",
+       "id": "science-8/electricity-magnetic-and-heating-effects/does-an-electric-current-have-a-magnetic-effect/electromagnets",
        "name": "Electromagnets",
        "page": 69,
        "number": "4.1.1"
       },
       {
-       "id": "electricity-magnetic-and-heating-effects/does-an-electric-current-have-a-magnetic-effect/lifting-electromagnets",
+       "id": "science-8/electricity-magnetic-and-heating-effects/does-an-electric-current-have-a-magnetic-effect/lifting-electromagnets",
        "name": "Lifting electromagnets",
        "page": 72,
        "number": "4.1.2"
@@ -214,32 +214,32 @@
      ]
     },
     {
-     "id": "electricity-magnetic-and-heating-effects/does-a-current-carrying-wire-get-hot",
+     "id": "science-8/electricity-magnetic-and-heating-effects/does-a-current-carrying-wire-get-hot",
      "name": "Does a Current Carrying Wire Get Hot?",
      "page": 72,
      "number": "4.2",
      "subtopics": []
     },
     {
-     "id": "electricity-magnetic-and-heating-effects/how-does-a-battery-generate-electricity",
+     "id": "science-8/electricity-magnetic-and-heating-effects/how-does-a-battery-generate-electricity",
      "name": "How Does a Battery Generate Electricity?",
      "page": 75,
      "number": "4.3",
      "subtopics": [
       {
-       "id": "electricity-magnetic-and-heating-effects/how-does-a-battery-generate-electricity/voltaic-cell",
+       "id": "science-8/electricity-magnetic-and-heating-effects/how-does-a-battery-generate-electricity/voltaic-cell",
        "name": "Voltaic cell",
        "page": 75,
        "number": "4.3.1"
       },
       {
-       "id": "electricity-magnetic-and-heating-effects/how-does-a-battery-generate-electricity/dry-cells",
+       "id": "science-8/electricity-magnetic-and-heating-effects/how-does-a-battery-generate-electricity/dry-cells",
        "name": "Dry cells",
        "page": 77,
        "number": "4.3.2"
       },
       {
-       "id": "electricity-magnetic-and-heating-effects/how-does-a-battery-generate-electricity/rechargeable-batteries",
+       "id": "science-8/electricity-magnetic-and-heating-effects/how-does-a-battery-generate-electricity/rechargeable-batteries",
        "name": "Rechargeable batteries",
        "page": 77,
        "number": "4.3.3"
@@ -249,7 +249,7 @@
    ]
   },
   {
-   "id": "exploring-forces",
+   "id": "science-8/exploring-forces",
    "name": "Exploring Forces",
    "number": 5,
    "book": "Curiosity",
@@ -262,40 +262,40 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "exploring-forces/what-is-a-force",
+     "id": "science-8/exploring-forces/what-is-a-force",
      "name": "What Is a Force?",
      "page": 83,
      "number": "5.1",
      "subtopics": []
     },
     {
-     "id": "exploring-forces/what-can-a-force-do-to-the-objects-on-which-it-is-applied",
+     "id": "science-8/exploring-forces/what-can-a-force-do-to-the-objects-on-which-it-is-applied",
      "name": "What Can a Force Do to the Objects on Which It Is Applied?",
      "page": 84,
      "number": "5.2",
      "subtopics": []
     },
     {
-     "id": "exploring-forces/are-forces-an-interaction-between-two-or-more-objects",
+     "id": "science-8/exploring-forces/are-forces-an-interaction-between-two-or-more-objects",
      "name": "Are Forces an Interaction Between Two or More Objects?",
      "page": 85,
      "number": "5.3",
      "subtopics": []
     },
     {
-     "id": "exploring-forces/what-are-the-different-types-of-forces",
+     "id": "science-8/exploring-forces/what-are-the-different-types-of-forces",
      "name": "What Are the Different Types of Forces?",
      "page": 86,
      "number": "5.4",
      "subtopics": [
       {
-       "id": "exploring-forces/what-are-the-different-types-of-forces/contact-forces",
+       "id": "science-8/exploring-forces/what-are-the-different-types-of-forces/contact-forces",
        "name": "Contact forces",
        "page": 86,
        "number": "5.4.1"
       },
       {
-       "id": "exploring-forces/what-are-the-different-types-of-forces/non-contact-forces",
+       "id": "science-8/exploring-forces/what-are-the-different-types-of-forces/non-contact-forces",
        "name": "Non-contact forces",
        "page": 89,
        "number": "5.4.2"
@@ -303,14 +303,14 @@
      ]
     },
     {
-     "id": "exploring-forces/weight-and-its-measurement",
+     "id": "science-8/exploring-forces/weight-and-its-measurement",
      "name": "Weight and Its Measurement",
      "page": 92,
      "number": "5.5",
      "subtopics": []
     },
     {
-     "id": "exploring-forces/floating-and-sinking",
+     "id": "science-8/exploring-forces/floating-and-sinking",
      "name": "Floating and Sinking",
      "page": 96,
      "number": "5.6",
@@ -319,7 +319,7 @@
    ]
   },
   {
-   "id": "pressure-winds-storms-and-cyclones",
+   "id": "science-8/pressure-winds-storms-and-cyclones",
    "name": "Pressure, Winds, Storms, and Cyclones",
    "number": 6,
    "book": "Curiosity",
@@ -332,42 +332,42 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "pressure-winds-storms-and-cyclones/pressure",
+     "id": "science-8/pressure-winds-storms-and-cyclones/pressure",
      "name": "Pressure",
      "page": 101,
      "number": "6.1",
      "subtopics": []
     },
     {
-     "id": "pressure-winds-storms-and-cyclones/pressure-exerted-by-air",
+     "id": "science-8/pressure-winds-storms-and-cyclones/pressure-exerted-by-air",
      "name": "Pressure Exerted by Air",
      "page": 105,
      "number": "6.2",
      "subtopics": []
     },
     {
-     "id": "pressure-winds-storms-and-cyclones/formation-of-wind",
+     "id": "science-8/pressure-winds-storms-and-cyclones/formation-of-wind",
      "name": "Formation of Wind",
      "page": 107,
      "number": "6.3",
      "subtopics": []
     },
     {
-     "id": "pressure-winds-storms-and-cyclones/high-speed-winds-result-in-lowering-of-air-pressure",
+     "id": "science-8/pressure-winds-storms-and-cyclones/high-speed-winds-result-in-lowering-of-air-pressure",
      "name": "High-Speed Winds Result in Lowering of Air Pressure",
      "page": 109,
      "number": "6.4",
      "subtopics": []
     },
     {
-     "id": "pressure-winds-storms-and-cyclones/storms-thunderstorms-and-lightning",
+     "id": "science-8/pressure-winds-storms-and-cyclones/storms-thunderstorms-and-lightning",
      "name": "Storms, Thunderstorms, and Lightning",
      "page": 110,
      "number": "6.5",
      "subtopics": []
     },
     {
-     "id": "pressure-winds-storms-and-cyclones/cyclone",
+     "id": "science-8/pressure-winds-storms-and-cyclones/cyclone",
      "name": "Cyclone",
      "page": 112,
      "number": "6.6",
@@ -376,7 +376,7 @@
    ]
   },
   {
-   "id": "particulate-nature-of-matter",
+   "id": "science-8/particulate-nature-of-matter",
    "name": "Particulate Nature of Matter",
    "number": 7,
    "book": "Curiosity",
@@ -389,32 +389,32 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "particulate-nature-of-matter/what-is-matter-composed-of",
+     "id": "science-8/particulate-nature-of-matter/what-is-matter-composed-of",
      "name": "What Is Matter Composed of?",
      "page": 119,
      "number": "7.1",
      "subtopics": []
     },
     {
-     "id": "particulate-nature-of-matter/what-decides-different-states-of-matter",
+     "id": "science-8/particulate-nature-of-matter/what-decides-different-states-of-matter",
      "name": "What Decides Different States of Matter?",
      "page": 121,
      "number": "7.2",
      "subtopics": [
       {
-       "id": "particulate-nature-of-matter/what-decides-different-states-of-matter/solid-state",
+       "id": "science-8/particulate-nature-of-matter/what-decides-different-states-of-matter/solid-state",
        "name": "Solid state",
        "page": 122,
        "number": "7.2.1"
       },
       {
-       "id": "particulate-nature-of-matter/what-decides-different-states-of-matter/liquid-state",
+       "id": "science-8/particulate-nature-of-matter/what-decides-different-states-of-matter/liquid-state",
        "name": "Liquid state",
        "page": 124,
        "number": "7.2.2"
       },
       {
-       "id": "particulate-nature-of-matter/what-decides-different-states-of-matter/gaseous-state",
+       "id": "science-8/particulate-nature-of-matter/what-decides-different-states-of-matter/gaseous-state",
        "name": "Gaseous state",
        "page": 125,
        "number": "7.2.3"
@@ -422,14 +422,14 @@
      ]
     },
     {
-     "id": "particulate-nature-of-matter/how-does-the-interparticle-spacing-differ-in-the-three-state",
+     "id": "science-8/particulate-nature-of-matter/how-does-the-interparticle-spacing-differ-in-the-three-state",
      "name": "How Does the Interparticle Spacing Differ in the Three States of Matter?",
      "page": 127,
      "number": "7.3",
      "subtopics": []
     },
     {
-     "id": "particulate-nature-of-matter/how-particles-move-in-different-states-of-matter",
+     "id": "science-8/particulate-nature-of-matter/how-particles-move-in-different-states-of-matter",
      "name": "How Particles Move in Different States of Matter?",
      "page": 129,
      "number": "7.4",
@@ -438,7 +438,7 @@
    ]
   },
   {
-   "id": "nature-of-matter-elements-compounds-and-mixtures",
+   "id": "science-8/nature-of-matter-elements-compounds-and-mixtures",
    "name": "Nature of Matter: Elements, Compounds, and Mixtures",
    "number": 8,
    "book": "Curiosity",
@@ -451,19 +451,19 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "nature-of-matter-elements-compounds-and-mixtures/what-are-mixtures",
+     "id": "science-8/nature-of-matter-elements-compounds-and-mixtures/what-are-mixtures",
      "name": "What Are Mixtures?",
      "page": 137,
      "number": "8.1",
      "subtopics": [
       {
-       "id": "nature-of-matter-elements-compounds-and-mixtures/what-are-mixtures/is-air-a-mixture",
+       "id": "science-8/nature-of-matter-elements-compounds-and-mixtures/what-are-mixtures/is-air-a-mixture",
        "name": "Is air a mixture?",
        "page": 138,
        "number": "8.1.1"
       },
       {
-       "id": "nature-of-matter-elements-compounds-and-mixtures/what-are-mixtures/types-of-mixtures",
+       "id": "science-8/nature-of-matter-elements-compounds-and-mixtures/what-are-mixtures/types-of-mixtures",
        "name": "Types of mixtures",
        "page": 140,
        "number": "8.1.2"
@@ -471,26 +471,26 @@
      ]
     },
     {
-     "id": "nature-of-matter-elements-compounds-and-mixtures/what-are-pure-substances",
+     "id": "science-8/nature-of-matter-elements-compounds-and-mixtures/what-are-pure-substances",
      "name": "What Are Pure Substances?",
      "page": 140,
      "number": "8.2",
      "subtopics": []
     },
     {
-     "id": "nature-of-matter-elements-compounds-and-mixtures/what-are-the-types-of-pure-substances",
+     "id": "science-8/nature-of-matter-elements-compounds-and-mixtures/what-are-the-types-of-pure-substances",
      "name": "What Are the Types of Pure Substances?",
      "page": 141,
      "number": "8.3",
      "subtopics": [
       {
-       "id": "nature-of-matter-elements-compounds-and-mixtures/what-are-the-types-of-pure-substances/elements",
+       "id": "science-8/nature-of-matter-elements-compounds-and-mixtures/what-are-the-types-of-pure-substances/elements",
        "name": "Elements",
        "page": 143,
        "number": "8.3.1"
       },
       {
-       "id": "nature-of-matter-elements-compounds-and-mixtures/what-are-the-types-of-pure-substances/compounds",
+       "id": "science-8/nature-of-matter-elements-compounds-and-mixtures/what-are-the-types-of-pure-substances/compounds",
        "name": "Compounds",
        "page": 144,
        "number": "8.3.2"
@@ -498,14 +498,14 @@
      ]
     },
     {
-     "id": "nature-of-matter-elements-compounds-and-mixtures/how-do-we-use-elements-compounds-and-mixtures",
+     "id": "science-8/nature-of-matter-elements-compounds-and-mixtures/how-do-we-use-elements-compounds-and-mixtures",
      "name": "How Do We Use Elements, Compounds, and Mixtures?",
      "page": 148,
      "number": "8.4",
      "subtopics": []
     },
     {
-     "id": "nature-of-matter-elements-compounds-and-mixtures/what-are-minerals",
+     "id": "science-8/nature-of-matter-elements-compounds-and-mixtures/what-are-minerals",
      "name": "What Are Minerals?",
      "page": 149,
      "number": "8.5",
@@ -514,7 +514,7 @@
    ]
   },
   {
-   "id": "the-amazing-world-of-solutes-solvents-and-solutions",
+   "id": "science-8/the-amazing-world-of-solutes-solvents-and-solutions",
    "name": "The Amazing World of Solutes, Solvents, and Solutions",
    "number": 9,
    "book": "Curiosity",
@@ -527,20 +527,20 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "the-amazing-world-of-solutes-solvents-and-solutions/what-are-solute-solvent-and-solution",
+     "id": "science-8/the-amazing-world-of-solutes-solvents-and-solutions/what-are-solute-solvent-and-solution",
      "name": "What Are Solute, Solvent, and Solution?",
      "page": 155,
      "number": "9.1",
      "subtopics": []
     },
     {
-     "id": "the-amazing-world-of-solutes-solvents-and-solutions/how-much-solute-can-a-fixed-amount-of-solvent-dissolve",
+     "id": "science-8/the-amazing-world-of-solutes-solvents-and-solutions/how-much-solute-can-a-fixed-amount-of-solvent-dissolve",
      "name": "How Much Solute Can a Fixed Amount of Solvent Dissolve?",
      "page": 156,
      "number": "9.2",
      "subtopics": [
       {
-       "id": "the-amazing-world-of-solutes-solvents-and-solutions/how-much-solute-can-a-fixed-amount-of-solvent-dissolve/how-does-temperature-affect-the-solubility-of-a-solute",
+       "id": "science-8/the-amazing-world-of-solutes-solvents-and-solutions/how-much-solute-can-a-fixed-amount-of-solvent-dissolve/how-does-temperature-affect-the-solubility-of-a-solute",
        "name": "How does temperature affect the solubility of a solute?",
        "page": 157,
        "number": "9.2.1"
@@ -548,39 +548,39 @@
      ]
     },
     {
-     "id": "the-amazing-world-of-solutes-solvents-and-solutions/solubility-of-gases",
+     "id": "science-8/the-amazing-world-of-solutes-solvents-and-solutions/solubility-of-gases",
      "name": "Solubility of Gases",
      "page": 159,
      "number": "9.3",
      "subtopics": []
     },
     {
-     "id": "the-amazing-world-of-solutes-solvents-and-solutions/why-do-objects-float-or-sink-in-water",
+     "id": "science-8/the-amazing-world-of-solutes-solvents-and-solutions/why-do-objects-float-or-sink-in-water",
      "name": "Why Do Objects Float or Sink in Water?",
      "page": 160,
      "number": "9.4",
      "subtopics": []
     },
     {
-     "id": "the-amazing-world-of-solutes-solvents-and-solutions/what-is-density",
+     "id": "science-8/the-amazing-world-of-solutes-solvents-and-solutions/what-is-density",
      "name": "What Is Density?",
      "page": 160,
      "number": "9.5",
      "subtopics": [
       {
-       "id": "the-amazing-world-of-solutes-solvents-and-solutions/what-is-density/determination-of-density",
+       "id": "science-8/the-amazing-world-of-solutes-solvents-and-solutions/what-is-density/determination-of-density",
        "name": "Determination of density",
        "page": 161,
        "number": "9.5.1"
       },
       {
-       "id": "the-amazing-world-of-solutes-solvents-and-solutions/what-is-density/effect-of-temperature-on-density",
+       "id": "science-8/the-amazing-world-of-solutes-solvents-and-solutions/what-is-density/effect-of-temperature-on-density",
        "name": "Effect of temperature on density",
        "page": 167,
        "number": "9.5.2"
       },
       {
-       "id": "the-amazing-world-of-solutes-solvents-and-solutions/what-is-density/effect-of-pressure-on-density",
+       "id": "science-8/the-amazing-world-of-solutes-solvents-and-solutions/what-is-density/effect-of-pressure-on-density",
        "name": "Effect of pressure on density",
        "page": 168,
        "number": "9.5.3"
@@ -590,7 +590,7 @@
    ]
   },
   {
-   "id": "light-mirrors-and-lenses",
+   "id": "science-8/light-mirrors-and-lenses",
    "name": "Light: Mirrors and Lenses",
    "number": 10,
    "book": "Curiosity",
@@ -603,28 +603,28 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "light-mirrors-and-lenses/what-are-spherical-mirrors",
+     "id": "science-8/light-mirrors-and-lenses/what-are-spherical-mirrors",
      "name": "What Are Spherical Mirrors?",
      "page": 173,
      "number": "10.1",
      "subtopics": []
     },
     {
-     "id": "light-mirrors-and-lenses/what-are-the-characteristics-of-images-formed-by-spherical-m",
+     "id": "science-8/light-mirrors-and-lenses/what-are-the-characteristics-of-images-formed-by-spherical-m",
      "name": "What Are the Characteristics of Images Formed by Spherical Mirrors?",
      "page": 175,
      "number": "10.2",
      "subtopics": []
     },
     {
-     "id": "light-mirrors-and-lenses/what-are-the-laws-of-reflection",
+     "id": "science-8/light-mirrors-and-lenses/what-are-the-laws-of-reflection",
      "name": "What Are the Laws of Reflection?",
      "page": 177,
      "number": "10.3",
      "subtopics": []
     },
     {
-     "id": "light-mirrors-and-lenses/what-is-a-lens",
+     "id": "science-8/light-mirrors-and-lenses/what-is-a-lens",
      "name": "What Is a Lens?",
      "page": 182,
      "number": "10.4",
@@ -633,7 +633,7 @@
    ]
   },
   {
-   "id": "keeping-time-with-the-skies",
+   "id": "science-8/keeping-time-with-the-skies",
    "name": "Keeping Time with the Skies",
    "number": 11,
    "book": "Curiosity",
@@ -646,25 +646,25 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "keeping-time-with-the-skies/how-does-the-moon-s-appearance-change-and-why",
+     "id": "science-8/keeping-time-with-the-skies/how-does-the-moon-s-appearance-change-and-why",
      "name": "How Does the Moon’s Appearance Change and Why?",
      "page": 191,
      "number": "11.1",
      "subtopics": [
       {
-       "id": "keeping-time-with-the-skies/how-does-the-moon-s-appearance-change-and-why/phases-of-the-moon",
+       "id": "science-8/keeping-time-with-the-skies/how-does-the-moon-s-appearance-change-and-why/phases-of-the-moon",
        "name": "Phases of the Moon",
        "page": 192,
        "number": "11.1.1"
       },
       {
-       "id": "keeping-time-with-the-skies/how-does-the-moon-s-appearance-change-and-why/locating-the-moon",
+       "id": "science-8/keeping-time-with-the-skies/how-does-the-moon-s-appearance-change-and-why/locating-the-moon",
        "name": "Locating the Moon",
        "page": 193,
        "number": "11.1.2"
       },
       {
-       "id": "keeping-time-with-the-skies/how-does-the-moon-s-appearance-change-and-why/making-sense-of-our-observations",
+       "id": "science-8/keeping-time-with-the-skies/how-does-the-moon-s-appearance-change-and-why/making-sense-of-our-observations",
        "name": "Making sense of our observations",
        "page": 194,
        "number": "11.1.3"
@@ -672,31 +672,31 @@
      ]
     },
     {
-     "id": "keeping-time-with-the-skies/how-did-calendars-come-into-existence",
+     "id": "science-8/keeping-time-with-the-skies/how-did-calendars-come-into-existence",
      "name": "How Did Calendars Come into Existence?",
      "page": 198,
      "number": "11.2",
      "subtopics": [
       {
-       "id": "keeping-time-with-the-skies/how-did-calendars-come-into-existence/lunar-calendars",
+       "id": "science-8/keeping-time-with-the-skies/how-did-calendars-come-into-existence/lunar-calendars",
        "name": "Lunar calendars",
        "page": 199,
        "number": "11.2.1"
       },
       {
-       "id": "keeping-time-with-the-skies/how-did-calendars-come-into-existence/solar-calendars",
+       "id": "science-8/keeping-time-with-the-skies/how-did-calendars-come-into-existence/solar-calendars",
        "name": "Solar calendars",
        "page": 200,
        "number": "11.2.2"
       },
       {
-       "id": "keeping-time-with-the-skies/how-did-calendars-come-into-existence/luni-solar-calendars",
+       "id": "science-8/keeping-time-with-the-skies/how-did-calendars-come-into-existence/luni-solar-calendars",
        "name": "Luni-solar calendars",
        "page": 201,
        "number": "11.2.3"
       },
       {
-       "id": "keeping-time-with-the-skies/how-did-calendars-come-into-existence/the-indian-national-calendar",
+       "id": "science-8/keeping-time-with-the-skies/how-did-calendars-come-into-existence/the-indian-national-calendar",
        "name": "The Indian National Calendar",
        "page": 202,
        "number": "11.2.4"
@@ -704,14 +704,14 @@
      ]
     },
     {
-     "id": "keeping-time-with-the-skies/are-festivals-related-to-astronomical-phenomena",
+     "id": "science-8/keeping-time-with-the-skies/are-festivals-related-to-astronomical-phenomena",
      "name": "Are Festivals Related to Astronomical Phenomena?",
      "page": 203,
      "number": "11.3",
      "subtopics": []
     },
     {
-     "id": "keeping-time-with-the-skies/why-do-we-launch-artificial-satellites-in-space",
+     "id": "science-8/keeping-time-with-the-skies/why-do-we-launch-artificial-satellites-in-space",
      "name": "Why Do We Launch Artificial Satellites in Space?",
      "page": 205,
      "number": "11.4",
@@ -720,7 +720,7 @@
    ]
   },
   {
-   "id": "how-nature-works-in-harmony",
+   "id": "science-8/how-nature-works-in-harmony",
    "name": "How Nature Works in Harmony",
    "number": 12,
    "book": "Curiosity",
@@ -733,75 +733,75 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "how-nature-works-in-harmony/how-do-we-experience-and-interpret-our-surroundings",
+     "id": "science-8/how-nature-works-in-harmony/how-do-we-experience-and-interpret-our-surroundings",
      "name": "How Do We Experience and Interpret Our Surroundings?",
      "page": 211,
      "number": "12.1",
      "subtopics": []
     },
     {
-     "id": "how-nature-works-in-harmony/who-all-live-together-in-nature",
+     "id": "science-8/how-nature-works-in-harmony/who-all-live-together-in-nature",
      "name": "Who All Live Together in Nature?",
      "page": 213,
      "number": "12.2",
      "subtopics": []
     },
     {
-     "id": "how-nature-works-in-harmony/does-every-organism-in-a-community-matter",
+     "id": "science-8/how-nature-works-in-harmony/does-every-organism-in-a-community-matter",
      "name": "Does Every Organism in a Community Matter?",
      "page": 214,
      "number": "12.3",
      "subtopics": []
     },
     {
-     "id": "how-nature-works-in-harmony/what-are-the-different-types-of-interactions-among-organisms",
+     "id": "science-8/how-nature-works-in-harmony/what-are-the-different-types-of-interactions-among-organisms",
      "name": "What Are the Different Types of Interactions Among Organisms and their Surroundings?",
      "page": 215,
      "number": "12.4",
      "subtopics": []
     },
     {
-     "id": "how-nature-works-in-harmony/who-eats-whom",
+     "id": "science-8/how-nature-works-in-harmony/who-eats-whom",
      "name": "Who Eats Whom?",
      "page": 218,
      "number": "12.5",
      "subtopics": []
     },
     {
-     "id": "how-nature-works-in-harmony/what-happens-to-waste-in-nature",
+     "id": "science-8/how-nature-works-in-harmony/what-happens-to-waste-in-nature",
      "name": "What Happens to Waste in Nature?",
      "page": 220,
      "number": "12.6",
      "subtopics": []
     },
     {
-     "id": "how-nature-works-in-harmony/how-does-one-change-lead-to-another",
+     "id": "science-8/how-nature-works-in-harmony/how-does-one-change-lead-to-another",
      "name": "How Does One Change Lead to Another?",
      "page": 221,
      "number": "12.7",
      "subtopics": []
     },
     {
-     "id": "how-nature-works-in-harmony/how-do-interactions-maintain-balance-in-ecosystems",
+     "id": "science-8/how-nature-works-in-harmony/how-do-interactions-maintain-balance-in-ecosystems",
      "name": "How Do Interactions Maintain Balance in Ecosystems?",
      "page": 222,
      "number": "12.8",
      "subtopics": []
     },
     {
-     "id": "how-nature-works-in-harmony/what-are-the-benefits-of-an-ecosystem",
+     "id": "science-8/how-nature-works-in-harmony/what-are-the-benefits-of-an-ecosystem",
      "name": "What Are the Benefits of an Ecosystem?",
      "page": 223,
      "number": "12.9",
      "subtopics": [
       {
-       "id": "how-nature-works-in-harmony/what-are-the-benefits-of-an-ecosystem/human-made-ecosystems",
+       "id": "science-8/how-nature-works-in-harmony/what-are-the-benefits-of-an-ecosystem/human-made-ecosystems",
        "name": "Human-made ecosystems",
        "page": 225,
        "number": "12.9.1"
       },
       {
-       "id": "how-nature-works-in-harmony/what-are-the-benefits-of-an-ecosystem/how-do-healthy-ecosystems-serve-our-farms",
+       "id": "science-8/how-nature-works-in-harmony/what-are-the-benefits-of-an-ecosystem/how-do-healthy-ecosystems-serve-our-farms",
        "name": "How do healthy ecosystems serve our farms?",
        "page": 225,
        "number": "12.9.2"
@@ -811,7 +811,7 @@
    ]
   },
   {
-   "id": "our-home-earth-a-unique-life-sustaining-planet",
+   "id": "science-8/our-home-earth-a-unique-life-sustaining-planet",
    "name": "Our Home: Earth, a Unique Life Sustaining Planet",
    "number": 13,
    "book": "Curiosity",
@@ -824,39 +824,39 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "our-home-earth-a-unique-life-sustaining-planet/why-is-earth-a-unique-planet",
+     "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/why-is-earth-a-unique-planet",
      "name": "Why Is Earth a Unique Planet?",
      "page": 231,
      "number": "13.1",
      "subtopics": []
     },
     {
-     "id": "our-home-earth-a-unique-life-sustaining-planet/what-do-the-planets-of-our-solar-system-look-like",
+     "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-do-the-planets-of-our-solar-system-look-like",
      "name": "What Do the Planets of Our Solar System Look Like?",
      "page": 232,
      "number": "13.2",
      "subtopics": []
     },
     {
-     "id": "our-home-earth-a-unique-life-sustaining-planet/what-makes-the-earth-suitable-for-life-to-exist",
+     "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-makes-the-earth-suitable-for-life-to-exist",
      "name": "What Makes the Earth Suitable for Life to Exist?",
      "page": 234,
      "number": "13.3",
      "subtopics": [
       {
-       "id": "our-home-earth-a-unique-life-sustaining-planet/what-makes-the-earth-suitable-for-life-to-exist/position-of-the-earth",
+       "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-makes-the-earth-suitable-for-life-to-exist/position-of-the-earth",
        "name": "Position of the Earth",
        "page": 234,
        "number": "13.3.1"
       },
       {
-       "id": "our-home-earth-a-unique-life-sustaining-planet/what-makes-the-earth-suitable-for-life-to-exist/size-of-the-earth",
+       "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-makes-the-earth-suitable-for-life-to-exist/size-of-the-earth",
        "name": "Size of the Earth",
        "page": 235,
        "number": "13.3.2"
       },
       {
-       "id": "our-home-earth-a-unique-life-sustaining-planet/what-makes-the-earth-suitable-for-life-to-exist/magnetic-field-of-the-earth",
+       "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-makes-the-earth-suitable-for-life-to-exist/magnetic-field-of-the-earth",
        "name": "Magnetic field of the Earth",
        "page": 237,
        "number": "13.3.3"
@@ -864,31 +864,31 @@
      ]
     },
     {
-     "id": "our-home-earth-a-unique-life-sustaining-planet/what-allows-life-to-be-sustained-on-earth",
+     "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-allows-life-to-be-sustained-on-earth",
      "name": "What Allows Life to Be Sustained on Earth?",
      "page": 237,
      "number": "13.4",
      "subtopics": [
       {
-       "id": "our-home-earth-a-unique-life-sustaining-planet/what-allows-life-to-be-sustained-on-earth/air-water-and-sunlight",
+       "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-allows-life-to-be-sustained-on-earth/air-water-and-sunlight",
        "name": "Air, water, and sunlight",
        "page": 237,
        "number": "13.4.1"
       },
       {
-       "id": "our-home-earth-a-unique-life-sustaining-planet/what-allows-life-to-be-sustained-on-earth/soil-rocks-and-minerals",
+       "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-allows-life-to-be-sustained-on-earth/soil-rocks-and-minerals",
        "name": "Soil, rocks, and minerals",
        "page": 238,
        "number": "13.4.2"
       },
       {
-       "id": "our-home-earth-a-unique-life-sustaining-planet/what-allows-life-to-be-sustained-on-earth/plants-animals-and-microorganisms",
+       "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-allows-life-to-be-sustained-on-earth/plants-animals-and-microorganisms",
        "name": "Plants, animals, and microorganisms",
        "page": 239,
        "number": "13.4.3"
       },
       {
-       "id": "our-home-earth-a-unique-life-sustaining-planet/what-allows-life-to-be-sustained-on-earth/the-importance-of-balance",
+       "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-allows-life-to-be-sustained-on-earth/the-importance-of-balance",
        "name": "The importance of balance",
        "page": 239,
        "number": "13.4.4"
@@ -896,19 +896,19 @@
      ]
     },
     {
-     "id": "our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing",
+     "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing",
      "name": "What Keeps Life from Disappearing?",
      "page": 239,
      "number": "13.5",
      "subtopics": [
       {
-       "id": "our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing/asexual-reproduction",
+       "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing/asexual-reproduction",
        "name": "Asexual reproduction",
        "page": 240,
        "number": "13.5.1"
       },
       {
-       "id": "our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing/sexual-reproduction",
+       "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing/sexual-reproduction",
        "name": "Sexual reproduction",
        "page": 241,
        "number": "13.5.2"
@@ -916,7 +916,7 @@
      ]
     },
     {
-     "id": "our-home-earth-a-unique-life-sustaining-planet/what-are-the-threats-to-life-on-earth",
+     "id": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-are-the-threats-to-life-on-earth",
      "name": "What Are the Threats to Life on Earth?",
      "page": 243,
      "number": "13.6",

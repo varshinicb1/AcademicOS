@@ -29,7 +29,7 @@
  ],
  "chapters": [
   {
-   "id": "geographical-diversity-of-india",
+   "id": "social-science-7/geographical-diversity-of-india",
    "name": "Geographical Diversity of India",
    "number": 1,
    "book": "Exploring Society: India and Beyond Part 1",
@@ -43,89 +43,89 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "geographical-diversity-of-india/the-himalayas",
+     "id": "social-science-7/geographical-diversity-of-india/the-himalayas",
      "name": "The Himalayas",
      "page": 3,
      "subtopics": [
       {
-       "id": "geographical-diversity-of-india/the-himalayas/how-the-himalayas-were-formed-an-interesting-story",
+       "id": "social-science-7/geographical-diversity-of-india/the-himalayas/how-the-himalayas-were-formed-an-interesting-story",
        "name": "How the Himalayas were formed ... an interesting story",
        "page": 5
       }
      ]
     },
     {
-     "id": "geographical-diversity-of-india/the-cold-desert-of-india",
+     "id": "social-science-7/geographical-diversity-of-india/the-cold-desert-of-india",
      "name": "The cold desert of India",
      "page": 8,
      "subtopics": []
     },
     {
-     "id": "geographical-diversity-of-india/the-gangetic-plains",
+     "id": "social-science-7/geographical-diversity-of-india/the-gangetic-plains",
      "name": "The Gangetic Plains",
      "page": 9,
      "subtopics": []
     },
     {
-     "id": "geographical-diversity-of-india/the-great-indian-desert-or-thar-desert",
+     "id": "social-science-7/geographical-diversity-of-india/the-great-indian-desert-or-thar-desert",
      "name": "The Great Indian Desert or Thar Desert",
      "page": 12,
      "subtopics": []
     },
     {
-     "id": "geographical-diversity-of-india/the-aravalli-hills",
+     "id": "social-science-7/geographical-diversity-of-india/the-aravalli-hills",
      "name": "The Aravalli Hills",
      "page": 14,
      "subtopics": []
     },
     {
-     "id": "geographical-diversity-of-india/the-peninsular-plateau",
+     "id": "social-science-7/geographical-diversity-of-india/the-peninsular-plateau",
      "name": "The Peninsular Plateau",
      "page": 16,
      "subtopics": []
     },
     {
-     "id": "geographical-diversity-of-india/india-s-amazing-coastlines",
+     "id": "social-science-7/geographical-diversity-of-india/india-s-amazing-coastlines",
      "name": "India’s Amazing Coastlines",
      "page": 19,
      "subtopics": [
       {
-       "id": "geographical-diversity-of-india/india-s-amazing-coastlines/the-west-coast-of-india",
+       "id": "social-science-7/geographical-diversity-of-india/india-s-amazing-coastlines/the-west-coast-of-india",
        "name": "The West Coast of India",
        "page": 19
       },
       {
-       "id": "geographical-diversity-of-india/india-s-amazing-coastlines/the-east-coast",
+       "id": "social-science-7/geographical-diversity-of-india/india-s-amazing-coastlines/the-east-coast",
        "name": "The East Coast",
        "page": 20
       }
      ]
     },
     {
-     "id": "geographical-diversity-of-india/indian-islands",
+     "id": "social-science-7/geographical-diversity-of-india/indian-islands",
      "name": "Indian Islands",
      "page": 20,
      "subtopics": [
       {
-       "id": "geographical-diversity-of-india/indian-islands/lakshadweep-islands",
+       "id": "social-science-7/geographical-diversity-of-india/indian-islands/lakshadweep-islands",
        "name": "Lakshadweep islands",
        "page": 21
       },
       {
-       "id": "geographical-diversity-of-india/indian-islands/andaman-and-nicobar-islands",
+       "id": "social-science-7/geographical-diversity-of-india/indian-islands/andaman-and-nicobar-islands",
        "name": "Andaman and Nicobar islands",
        "page": 21
       }
      ]
     },
     {
-     "id": "geographical-diversity-of-india/the-delta-in-west-bengal-and-the-sundarbans",
+     "id": "social-science-7/geographical-diversity-of-india/the-delta-in-west-bengal-and-the-sundarbans",
      "name": "The Delta in West Bengal and the Sundarbans",
      "page": 22,
      "subtopics": []
     },
     {
-     "id": "geographical-diversity-of-india/the-hills-of-the-northeast",
+     "id": "social-science-7/geographical-diversity-of-india/the-hills-of-the-northeast",
      "name": "The hills of the Northeast",
      "page": 23,
      "subtopics": []
@@ -133,7 +133,7 @@
    ]
   },
   {
-   "id": "understanding-the-weather",
+   "id": "social-science-7/understanding-the-weather",
    "name": "Understanding the Weather",
    "number": 2,
    "book": "Exploring Society: India and Beyond Part 1",
@@ -147,42 +147,68 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "understanding-the-weather/weather-and-its-elements",
+     "id": "social-science-7/understanding-the-weather/weather-and-its-elements",
      "name": "Weather and its Elements",
      "page": 2,
      "subtopics": [
       {
-       "id": "understanding-the-weather/weather-and-its-elements/what-is-weather",
+       "id": "social-science-7/understanding-the-weather/weather-and-its-elements/what-is-weather",
        "name": "What is weather?",
        "page": 2
       },
       {
-       "id": "understanding-the-weather/weather-and-its-elements/observing-nature-s-clues",
+       "id": "social-science-7/understanding-the-weather/weather-and-its-elements/observing-nature-s-clues",
        "name": "Observing Nature’s clues",
        "page": 4
       }
      ]
     },
     {
-     "id": "understanding-the-weather/weather-instruments",
+     "id": "social-science-7/understanding-the-weather/weather-instruments",
      "name": "Weather Instruments",
      "page": 5,
-     "subtopics": []
+     "subtopics": [
+      {
+       "id": "social-science-7/understanding-the-weather/weather-instruments/temperature",
+       "name": "Temperature",
+       "page": 5
+      },
+      {
+       "id": "social-science-7/understanding-the-weather/weather-instruments/precipitation",
+       "name": "Precipitation",
+       "page": 7
+      },
+      {
+       "id": "social-science-7/understanding-the-weather/weather-instruments/atmospheric-pressure",
+       "name": "Atmospheric pressure",
+       "page": 8
+      },
+      {
+       "id": "social-science-7/understanding-the-weather/weather-instruments/wind",
+       "name": "Wind",
+       "page": 10
+      },
+      {
+       "id": "social-science-7/understanding-the-weather/weather-instruments/humidity",
+       "name": "Humidity",
+       "page": 11
+      }
+     ]
     },
     {
-     "id": "understanding-the-weather/weather-stations",
+     "id": "social-science-7/understanding-the-weather/weather-stations",
      "name": "Weather Stations",
      "page": 13,
      "subtopics": [
       {
-       "id": "understanding-the-weather/weather-stations/an-automated-weather-station",
+       "id": "social-science-7/understanding-the-weather/weather-stations/an-automated-weather-station",
        "name": "An automated weather station",
        "page": 13
       }
      ]
     },
     {
-     "id": "understanding-the-weather/predicting-the-weather",
+     "id": "social-science-7/understanding-the-weather/predicting-the-weather",
      "name": "Predicting the Weather",
      "page": 13,
      "subtopics": []
@@ -190,7 +216,7 @@
    ]
   },
   {
-   "id": "climates-of-india",
+   "id": "social-science-7/climates-of-india",
    "name": "Climates of India",
    "number": 3,
    "book": "Exploring Society: India and Beyond Part 1",
@@ -204,43 +230,90 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "climates-of-india/weather-seasons-and-the-climate",
+     "id": "social-science-7/climates-of-india/weather-seasons-and-the-climate",
      "name": "Weather, Seasons and the Climate",
      "page": 2,
      "subtopics": []
     },
     {
-     "id": "climates-of-india/types-of-climates-in-india",
+     "id": "social-science-7/climates-of-india/types-of-climates-in-india",
      "name": "Types of Climates in India",
      "page": 4,
      "subtopics": []
     },
     {
-     "id": "climates-of-india/factors-determining-the-climate",
+     "id": "social-science-7/climates-of-india/factors-determining-the-climate",
      "name": "Factors Determining the Climate",
      "page": 5,
-     "subtopics": []
+     "subtopics": [
+      {
+       "id": "social-science-7/climates-of-india/factors-determining-the-climate/latitude",
+       "name": "Latitude",
+       "page": 5
+      },
+      {
+       "id": "social-science-7/climates-of-india/factors-determining-the-climate/altitude",
+       "name": "Altitude",
+       "page": 6
+      },
+      {
+       "id": "social-science-7/climates-of-india/factors-determining-the-climate/proximity-to-the-sea",
+       "name": "Proximity to the sea",
+       "page": 7
+      },
+      {
+       "id": "social-science-7/climates-of-india/factors-determining-the-climate/winds",
+       "name": "Winds",
+       "page": 8
+      },
+      {
+       "id": "social-science-7/climates-of-india/factors-determining-the-climate/topography",
+       "name": "Topography",
+       "page": 8
+      }
+     ]
     },
     {
-     "id": "climates-of-india/the-monsoons",
+     "id": "social-science-7/climates-of-india/the-monsoons",
      "name": "The Monsoons",
      "page": 10,
      "subtopics": []
     },
     {
-     "id": "climates-of-india/climate-and-our-lives",
+     "id": "social-science-7/climates-of-india/climate-and-our-lives",
      "name": "Climate and our Lives",
      "page": 12,
      "subtopics": []
     },
     {
-     "id": "climates-of-india/climates-and-disasters",
+     "id": "social-science-7/climates-of-india/climates-and-disasters",
      "name": "Climates and Disasters",
      "page": 14,
-     "subtopics": []
+     "subtopics": [
+      {
+       "id": "social-science-7/climates-of-india/climates-and-disasters/cyclones",
+       "name": "Cyclones",
+       "page": 14
+      },
+      {
+       "id": "social-science-7/climates-of-india/climates-and-disasters/floods",
+       "name": "Floods",
+       "page": 16
+      },
+      {
+       "id": "social-science-7/climates-of-india/climates-and-disasters/landslides",
+       "name": "Landslides",
+       "page": 18
+      },
+      {
+       "id": "social-science-7/climates-of-india/climates-and-disasters/forest-fires",
+       "name": "Forest fires",
+       "page": 18
+      }
+     ]
     },
     {
-     "id": "climates-of-india/climate-change",
+     "id": "social-science-7/climates-of-india/climate-change",
      "name": "Climate Change",
      "page": 19,
      "subtopics": []
@@ -248,7 +321,7 @@
    ]
   },
   {
-   "id": "new-beginnings-cities-and-states",
+   "id": "social-science-7/new-beginnings-cities-and-states",
    "name": "New Beginnings: Cities and States",
    "number": 4,
    "book": "Exploring Society: India and Beyond Part 1",
@@ -262,19 +335,19 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "new-beginnings-cities-and-states/early-democratic-traditions",
+     "id": "social-science-7/new-beginnings-cities-and-states/early-democratic-traditions",
      "name": "Early Democratic Traditions",
      "page": 4,
      "subtopics": []
     },
     {
-     "id": "new-beginnings-cities-and-states/more-innovations",
+     "id": "social-science-7/new-beginnings-cities-and-states/more-innovations",
      "name": "More Innovations",
      "page": 7,
      "subtopics": []
     },
     {
-     "id": "new-beginnings-cities-and-states/developments-elsewhere-in-india",
+     "id": "social-science-7/new-beginnings-cities-and-states/developments-elsewhere-in-india",
      "name": "Developments Elsewhere in India",
      "page": 12,
      "subtopics": []
@@ -282,7 +355,7 @@
    ]
   },
   {
-   "id": "the-rise-of-empires",
+   "id": "social-science-7/the-rise-of-empires",
    "name": "The Rise of Empires",
    "number": 5,
    "book": "Exploring Society: India and Beyond Part 1",
@@ -296,86 +369,86 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "the-rise-of-empires/what-is-an-empire",
+     "id": "social-science-7/the-rise-of-empires/what-is-an-empire",
      "name": "What is an Empire?",
      "page": 5,
      "subtopics": [
       {
-       "id": "the-rise-of-empires/what-is-an-empire/features-of-an-empire",
+       "id": "social-science-7/the-rise-of-empires/what-is-an-empire/features-of-an-empire",
        "name": "Features of an empire",
        "page": 6
       },
       {
-       "id": "the-rise-of-empires/what-is-an-empire/trade-trade-routes-and-guilds",
+       "id": "social-science-7/the-rise-of-empires/what-is-an-empire/trade-trade-routes-and-guilds",
        "name": "Trade, trade routes and guilds",
        "page": 9
       }
      ]
     },
     {
-     "id": "the-rise-of-empires/the-rise-of-magadha",
+     "id": "social-science-7/the-rise-of-empires/the-rise-of-magadha",
      "name": "The Rise of Magadha",
      "page": 11,
      "subtopics": []
     },
     {
-     "id": "the-rise-of-empires/the-arrival-of-the-greeks",
+     "id": "social-science-7/the-rise-of-empires/the-arrival-of-the-greeks",
      "name": "The Arrival of the Greeks",
      "page": 14,
      "subtopics": []
     },
     {
-     "id": "the-rise-of-empires/the-mighty-mauryas",
+     "id": "social-science-7/the-rise-of-empires/the-mighty-mauryas",
      "name": "The Mighty Mauryas",
      "page": 16,
      "subtopics": [
       {
-       "id": "the-rise-of-empires/the-mighty-mauryas/the-story-of-kautilya",
+       "id": "social-science-7/the-rise-of-empires/the-mighty-mauryas/the-story-of-kautilya",
        "name": "The story of Kauṭilya",
        "page": 17
       },
       {
-       "id": "the-rise-of-empires/the-mighty-mauryas/the-rise-of-chandragupta-maurya",
+       "id": "social-science-7/the-rise-of-empires/the-mighty-mauryas/the-rise-of-chandragupta-maurya",
        "name": "The rise of Chandragupta Maurya",
        "page": 18
       },
       {
-       "id": "the-rise-of-empires/the-mighty-mauryas/kautilya-s-concept-of-a-kingdom",
+       "id": "social-science-7/the-rise-of-empires/the-mighty-mauryas/kautilya-s-concept-of-a-kingdom",
        "name": "Kauṭilya’s concept of a kingdom",
        "page": 19
       }
      ]
     },
     {
-     "id": "the-rise-of-empires/the-king-who-chose-peace",
+     "id": "social-science-7/the-rise-of-empires/the-king-who-chose-peace",
      "name": "The King Who Chose Peace",
      "page": 22,
      "subtopics": []
     },
     {
-     "id": "the-rise-of-empires/life-in-the-mauryan-period",
+     "id": "social-science-7/the-rise-of-empires/life-in-the-mauryan-period",
      "name": "Life in the Mauryan period",
      "page": 26,
      "subtopics": [
       {
-       "id": "the-rise-of-empires/life-in-the-mauryan-period/some-contributions-of-the-mauryas",
+       "id": "social-science-7/the-rise-of-empires/life-in-the-mauryan-period/some-contributions-of-the-mauryas",
        "name": "Some Contributions of the Mauryas",
        "page": 28
       },
       {
-       "id": "the-rise-of-empires/life-in-the-mauryan-period/life-and-people",
+       "id": "social-science-7/the-rise-of-empires/life-in-the-mauryan-period/life-and-people",
        "name": "Life and people",
        "page": 28
       },
       {
-       "id": "the-rise-of-empires/life-in-the-mauryan-period/art-and-architecture",
+       "id": "social-science-7/the-rise-of-empires/life-in-the-mauryan-period/art-and-architecture",
        "name": "Art and architecture",
        "page": 29
       }
      ]
     },
     {
-     "id": "the-rise-of-empires/the-fragile-nature-of-empires",
+     "id": "social-science-7/the-rise-of-empires/the-fragile-nature-of-empires",
      "name": "The Fragile Nature of Empires",
      "page": 30,
      "subtopics": []
@@ -383,7 +456,7 @@
    ]
   },
   {
-   "id": "the-age-of-reorganisation",
+   "id": "social-science-7/the-age-of-reorganisation",
    "name": "The Age of Reorganisation",
    "number": 6,
    "book": "Exploring Society: India and Beyond Part 1",
@@ -397,70 +470,70 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "the-age-of-reorganisation/surge-of-the-shungas",
+     "id": "social-science-7/the-age-of-reorganisation/surge-of-the-shungas",
      "name": "Surge of the Śhungas",
      "page": 5,
      "subtopics": [
       {
-       "id": "the-age-of-reorganisation/surge-of-the-shungas/some-shunga-contribution-to-art",
+       "id": "social-science-7/the-age-of-reorganisation/surge-of-the-shungas/some-shunga-contribution-to-art",
        "name": "Some Śhunga Contribution to Art",
        "page": 7
       }
      ]
     },
     {
-     "id": "the-age-of-reorganisation/the-satavahanas",
+     "id": "social-science-7/the-age-of-reorganisation/the-satavahanas",
      "name": "The Sātavāhanas",
      "page": 8,
      "subtopics": [
       {
-       "id": "the-age-of-reorganisation/the-satavahanas/life-under-the-satavahanas",
+       "id": "social-science-7/the-age-of-reorganisation/the-satavahanas/life-under-the-satavahanas",
        "name": "Life under the Sātavāhanas",
        "page": 10
       }
      ]
     },
     {
-     "id": "the-age-of-reorganisation/coming-of-the-chedis",
+     "id": "social-science-7/the-age-of-reorganisation/coming-of-the-chedis",
      "name": "Coming of the Chedis",
      "page": 12,
      "subtopics": []
     },
     {
-     "id": "the-age-of-reorganisation/kingdoms-and-life-in-the-south",
+     "id": "social-science-7/the-age-of-reorganisation/kingdoms-and-life-in-the-south",
      "name": "Kingdoms and Life in the South",
      "page": 13,
      "subtopics": [
       {
-       "id": "the-age-of-reorganisation/kingdoms-and-life-in-the-south/the-cholas",
+       "id": "social-science-7/the-age-of-reorganisation/kingdoms-and-life-in-the-south/the-cholas",
        "name": "The Cholas",
        "page": 14
       },
       {
-       "id": "the-age-of-reorganisation/kingdoms-and-life-in-the-south/silappadikaram-the-tale-of-the-anklet",
+       "id": "social-science-7/the-age-of-reorganisation/kingdoms-and-life-in-the-south/silappadikaram-the-tale-of-the-anklet",
        "name": "Silappadikāram: The Tale of the Anklet",
        "page": 15
       },
       {
-       "id": "the-age-of-reorganisation/kingdoms-and-life-in-the-south/the-cheras",
+       "id": "social-science-7/the-age-of-reorganisation/kingdoms-and-life-in-the-south/the-cheras",
        "name": "The Cheras",
        "page": 17
       },
       {
-       "id": "the-age-of-reorganisation/kingdoms-and-life-in-the-south/the-pandyas",
+       "id": "social-science-7/the-age-of-reorganisation/kingdoms-and-life-in-the-south/the-pandyas",
        "name": "The Pānḍyas",
        "page": 17
       }
      ]
     },
     {
-     "id": "the-age-of-reorganisation/invasions-of-the-indo-greeks",
+     "id": "social-science-7/the-age-of-reorganisation/invasions-of-the-indo-greeks",
      "name": "Invasions of the Indo-Greeks",
      "page": 18,
      "subtopics": []
     },
     {
-     "id": "the-age-of-reorganisation/the-emergence-of-the-kushanas",
+     "id": "social-science-7/the-age-of-reorganisation/the-emergence-of-the-kushanas",
      "name": "The Emergence of the Kuṣhāṇas",
      "page": 20,
      "subtopics": []
@@ -468,7 +541,7 @@
    ]
   },
   {
-   "id": "the-gupta-era-an-age-of-tireless-creativity",
+   "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity",
    "name": "The Gupta Era: An Age of Tireless Creativity",
    "number": 7,
    "book": "Exploring Society: India and Beyond Part 1",
@@ -482,65 +555,65 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "the-gupta-era-an-age-of-tireless-creativity/a-new-power-emerges",
+     "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity/a-new-power-emerges",
      "name": "A New Power Emerges",
      "page": 4,
      "subtopics": [
       {
-       "id": "the-gupta-era-an-age-of-tireless-creativity/a-new-power-emerges/the-warrior-king",
+       "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity/a-new-power-emerges/the-warrior-king",
        "name": "The warrior king",
        "page": 5
       }
      ]
     },
     {
-     "id": "the-gupta-era-an-age-of-tireless-creativity/a-traveller-s-account-of-indian-society-in-the-gupta-age",
+     "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity/a-traveller-s-account-of-indian-society-in-the-gupta-age",
      "name": "A Traveller’s Account of Indian Society in the Gupta Age",
      "page": 9,
      "subtopics": []
     },
     {
-     "id": "the-gupta-era-an-age-of-tireless-creativity/glimpses-of-the-gupta-empire",
+     "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity/glimpses-of-the-gupta-empire",
      "name": "Glimpses of the Gupta Empire",
      "page": 10,
      "subtopics": [
       {
-       "id": "the-gupta-era-an-age-of-tireless-creativity/glimpses-of-the-gupta-empire/governance-and-administration",
+       "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity/glimpses-of-the-gupta-empire/governance-and-administration",
        "name": "Governance and administration",
        "page": 10
       },
       {
-       "id": "the-gupta-era-an-age-of-tireless-creativity/glimpses-of-the-gupta-empire/thriving-trade",
+       "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity/glimpses-of-the-gupta-empire/thriving-trade",
        "name": "Thriving trade",
        "page": 12
       }
      ]
     },
     {
-     "id": "the-gupta-era-an-age-of-tireless-creativity/new-ideas-and-wonders-the-classical-age",
+     "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity/new-ideas-and-wonders-the-classical-age",
      "name": "New Ideas and Wonders: The Classical Age",
      "page": 12,
      "subtopics": []
     },
     {
-     "id": "the-gupta-era-an-age-of-tireless-creativity/the-quest-for-beauty",
+     "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity/the-quest-for-beauty",
      "name": "The Quest for Beauty",
      "page": 16,
      "subtopics": []
     },
     {
-     "id": "the-gupta-era-an-age-of-tireless-creativity/the-decline-of-the-guptas",
+     "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity/the-decline-of-the-guptas",
      "name": "The Decline of the Guptas",
      "page": 17,
      "subtopics": []
     },
     {
-     "id": "the-gupta-era-an-age-of-tireless-creativity/meanwhile-in-the-south-and-northeast",
+     "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity/meanwhile-in-the-south-and-northeast",
      "name": "Meanwhile in the South and Northeast ...",
      "page": 17,
      "subtopics": [
       {
-       "id": "the-gupta-era-an-age-of-tireless-creativity/meanwhile-in-the-south-and-northeast/various-aspects-of-gupta-art",
+       "id": "social-science-7/the-gupta-era-an-age-of-tireless-creativity/meanwhile-in-the-south-and-northeast/various-aspects-of-gupta-art",
        "name": "Various aspects of Gupta art",
        "page": 18
       }
@@ -549,7 +622,7 @@
    ]
   },
   {
-   "id": "how-the-land-becomes-sacred",
+   "id": "social-science-7/how-the-land-becomes-sacred",
    "name": "How the Land Becomes Sacred",
    "number": 8,
    "book": "Exploring Society: India and Beyond Part 1",
@@ -563,66 +636,66 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "how-the-land-becomes-sacred/what-is-sacredness",
+     "id": "social-science-7/how-the-land-becomes-sacred/what-is-sacredness",
      "name": "What is ‘Sacredness’?",
      "page": 2,
      "subtopics": []
     },
     {
-     "id": "how-the-land-becomes-sacred/pilgrimages",
+     "id": "social-science-7/how-the-land-becomes-sacred/pilgrimages",
      "name": "Pilgrimages",
      "page": 4,
      "subtopics": [
       {
-       "id": "how-the-land-becomes-sacred/pilgrimages/more-sacred-sites",
+       "id": "social-science-7/how-the-land-becomes-sacred/pilgrimages/more-sacred-sites",
        "name": "More sacred sites",
        "page": 6
       }
      ]
     },
     {
-     "id": "how-the-land-becomes-sacred/becoming-aware-of-sacred-geography",
+     "id": "social-science-7/how-the-land-becomes-sacred/becoming-aware-of-sacred-geography",
      "name": "Becoming Aware of Sacred Geography",
      "page": 7,
      "subtopics": []
     },
     {
-     "id": "how-the-land-becomes-sacred/sacred-ecology",
+     "id": "social-science-7/how-the-land-becomes-sacred/sacred-ecology",
      "name": "Sacred Ecology",
      "page": 9,
      "subtopics": [
       {
-       "id": "how-the-land-becomes-sacred/sacred-ecology/rivers-and-sangams-confluence-of-rivers",
+       "id": "social-science-7/how-the-land-becomes-sacred/sacred-ecology/rivers-and-sangams-confluence-of-rivers",
        "name": "Rivers and sangams (confluence of rivers)",
        "page": 9
       }
      ]
     },
     {
-     "id": "how-the-land-becomes-sacred/mountains-and-forests",
+     "id": "social-science-7/how-the-land-becomes-sacred/mountains-and-forests",
      "name": "Mountains and Forests",
      "page": 11,
      "subtopics": []
     },
     {
-     "id": "how-the-land-becomes-sacred/trees-forests-and-sacred-groves",
+     "id": "social-science-7/how-the-land-becomes-sacred/trees-forests-and-sacred-groves",
      "name": "Trees, Forests and Sacred Groves",
      "page": 12,
      "subtopics": [
       {
-       "id": "how-the-land-becomes-sacred/trees-forests-and-sacred-groves/from-pilgrimage-to-trade",
+       "id": "social-science-7/how-the-land-becomes-sacred/trees-forests-and-sacred-groves/from-pilgrimage-to-trade",
        "name": "From pilgrimage to trade",
        "page": 15
       }
      ]
     },
     {
-     "id": "how-the-land-becomes-sacred/sacred-geography-beyond-india",
+     "id": "social-science-7/how-the-land-becomes-sacred/sacred-geography-beyond-india",
      "name": "Sacred Geography beyond India",
      "page": 16,
      "subtopics": [
       {
-       "id": "how-the-land-becomes-sacred/sacred-geography-beyond-india/restoring-and-conserving-the-sacred",
+       "id": "social-science-7/how-the-land-becomes-sacred/sacred-geography-beyond-india/restoring-and-conserving-the-sacred",
        "name": "Restoring and conserving the sacred",
        "page": 16
       }
@@ -631,7 +704,7 @@
    ]
   },
   {
-   "id": "from-the-rulers-to-the-ruled-types-of-governments",
+   "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments",
    "name": "From the Rulers to the Ruled: Types of Governments",
    "number": 9,
    "book": "Exploring Society: India and Beyond Part 1",
@@ -645,89 +718,89 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "from-the-rulers-to-the-ruled-types-of-governments/what-is-government-what-are-its-functions",
+     "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/what-is-government-what-are-its-functions",
      "name": "What is Government? What are its Functions?",
      "page": 2,
      "subtopics": []
     },
     {
-     "id": "from-the-rulers-to-the-ruled-types-of-governments/what-is-democracy",
+     "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/what-is-democracy",
      "name": "What is Democracy?",
      "page": 3,
      "subtopics": [
       {
-       "id": "from-the-rulers-to-the-ruled-types-of-governments/what-is-democracy/a-school-example",
+       "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/what-is-democracy/a-school-example",
        "name": "A school example",
        "page": 3
       }
      ]
     },
     {
-     "id": "from-the-rulers-to-the-ruled-types-of-governments/functions-of-government",
+     "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/functions-of-government",
      "name": "Functions of Government",
      "page": 4,
      "subtopics": []
     },
     {
-     "id": "from-the-rulers-to-the-ruled-types-of-governments/what-makes-governments-different",
+     "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/what-makes-governments-different",
      "name": "What Makes Governments Different?",
      "page": 6,
      "subtopics": [
       {
-       "id": "from-the-rulers-to-the-ruled-types-of-governments/what-makes-governments-different/key-differences-between-governments",
+       "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/what-makes-governments-different/key-differences-between-governments",
        "name": "Key differences between governments",
        "page": 6
       }
      ]
     },
     {
-     "id": "from-the-rulers-to-the-ruled-types-of-governments/democratic-governments-around-the-world",
+     "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/democratic-governments-around-the-world",
      "name": "Democratic Governments around the World",
      "page": 7,
      "subtopics": [
       {
-       "id": "from-the-rulers-to-the-ruled-types-of-governments/democratic-governments-around-the-world/fundamental-principles-of-democracy",
+       "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/democratic-governments-around-the-world/fundamental-principles-of-democracy",
        "name": "Fundamental principles of democracy",
        "page": 7
       },
       {
-       "id": "from-the-rulers-to-the-ruled-types-of-governments/democratic-governments-around-the-world/different-forms-of-democratic-governments",
+       "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/democratic-governments-around-the-world/different-forms-of-democratic-governments",
        "name": "Different forms of democratic governments",
        "page": 8
       },
       {
-       "id": "from-the-rulers-to-the-ruled-types-of-governments/democratic-governments-around-the-world/what-do-these-terms-mean",
+       "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/democratic-governments-around-the-world/what-do-these-terms-mean",
        "name": "What do these terms mean?",
        "page": 10
       }
      ]
     },
     {
-     "id": "from-the-rulers-to-the-ruled-types-of-governments/a-peek-into-history",
+     "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/a-peek-into-history",
      "name": "A Peek into History",
      "page": 13,
      "subtopics": [
       {
-       "id": "from-the-rulers-to-the-ruled-types-of-governments/a-peek-into-history/early-republics",
+       "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/a-peek-into-history/early-republics",
        "name": "Early republics",
        "page": 13
       }
      ]
     },
     {
-     "id": "from-the-rulers-to-the-ruled-types-of-governments/other-forms-of-government",
+     "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/other-forms-of-government",
      "name": "Other Forms of Government",
      "page": 14,
      "subtopics": [
       {
-       "id": "from-the-rulers-to-the-ruled-types-of-governments/other-forms-of-government/story-of-shane",
+       "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/other-forms-of-government/story-of-shane",
        "name": "Story of Shane",
        "page": 19
       }
      ]
     },
     {
-     "id": "from-the-rulers-to-the-ruled-types-of-governments/why-democracy-matters",
+     "id": "social-science-7/from-the-rulers-to-the-ruled-types-of-governments/why-democracy-matters",
      "name": "Why Democracy Matters",
      "page": 21,
      "subtopics": []
@@ -735,7 +808,7 @@
    ]
   },
   {
-   "id": "the-constitution-of-india-an-introduction",
+   "id": "social-science-7/the-constitution-of-india-an-introduction",
    "name": "The Constitution of India — An Introduction",
    "number": 10,
    "book": "Exploring Society: India and Beyond Part 1",
@@ -749,71 +822,71 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "the-constitution-of-india-an-introduction/what-is-a-constitution",
+     "id": "social-science-7/the-constitution-of-india-an-introduction/what-is-a-constitution",
      "name": "What Is a Constitution?",
      "page": 3,
      "subtopics": [
       {
-       "id": "the-constitution-of-india-an-introduction/what-is-a-constitution/why-do-we-need-a-constitution",
+       "id": "social-science-7/the-constitution-of-india-an-introduction/what-is-a-constitution/why-do-we-need-a-constitution",
        "name": "Why do we need a constitution?",
        "page": 3
       }
      ]
     },
     {
-     "id": "the-constitution-of-india-an-introduction/writing-the-constitution-of-india",
+     "id": "social-science-7/the-constitution-of-india-an-introduction/writing-the-constitution-of-india",
      "name": "Writing the Constitution of India",
      "page": 5,
      "subtopics": [
       {
-       "id": "the-constitution-of-india-an-introduction/writing-the-constitution-of-india/how-was-our-constitution-developed",
+       "id": "social-science-7/the-constitution-of-india-an-introduction/writing-the-constitution-of-india/how-was-our-constitution-developed",
        "name": "How was our Constitution developed?",
        "page": 6
       }
      ]
     },
     {
-     "id": "the-constitution-of-india-an-introduction/what-shaped-and-influenced-the-indian-constitution",
+     "id": "social-science-7/the-constitution-of-india-an-introduction/what-shaped-and-influenced-the-indian-constitution",
      "name": "What Shaped and Influenced the Indian Constitution?",
      "page": 7,
      "subtopics": [
       {
-       "id": "the-constitution-of-india-an-introduction/what-shaped-and-influenced-the-indian-constitution/influence-of-the-indian-freedom-movement",
+       "id": "social-science-7/the-constitution-of-india-an-introduction/what-shaped-and-influenced-the-indian-constitution/influence-of-the-indian-freedom-movement",
        "name": "Influence of the Indian Freedom Movement",
        "page": 7
       },
       {
-       "id": "the-constitution-of-india-an-introduction/what-shaped-and-influenced-the-indian-constitution/india-s-civilisational-heritage-and-history",
+       "id": "social-science-7/the-constitution-of-india-an-introduction/what-shaped-and-influenced-the-indian-constitution/india-s-civilisational-heritage-and-history",
        "name": "India’s civilisational heritage and history",
        "page": 8
       },
       {
-       "id": "the-constitution-of-india-an-introduction/what-shaped-and-influenced-the-indian-constitution/learnings-from-across-the-world",
+       "id": "social-science-7/the-constitution-of-india-an-introduction/what-shaped-and-influenced-the-indian-constitution/learnings-from-across-the-world",
        "name": "Learnings from across the world",
        "page": 9
       }
      ]
     },
     {
-     "id": "the-constitution-of-india-an-introduction/key-features-of-the-constitution-of-india",
+     "id": "social-science-7/the-constitution-of-india-an-introduction/key-features-of-the-constitution-of-india",
      "name": "Key Features of the Constitution of India",
      "page": 12,
      "subtopics": [
       {
-       "id": "the-constitution-of-india-an-introduction/key-features-of-the-constitution-of-india/directive-principles-of-state-policy",
+       "id": "social-science-7/the-constitution-of-india-an-introduction/key-features-of-the-constitution-of-india/directive-principles-of-state-policy",
        "name": "Directive Principles of State Policy",
        "page": 14
       }
      ]
     },
     {
-     "id": "the-constitution-of-india-an-introduction/the-constitution-is-a-living-document",
+     "id": "social-science-7/the-constitution-of-india-an-introduction/the-constitution-is-a-living-document",
      "name": "The Constitution is a Living Document",
      "page": 15,
      "subtopics": []
     },
     {
-     "id": "the-constitution-of-india-an-introduction/understanding-the-preamble-the-guiding-values-of-the-constit",
+     "id": "social-science-7/the-constitution-of-india-an-introduction/understanding-the-preamble-the-guiding-values-of-the-constit",
      "name": "Understanding the Preamble: The Guiding Values of the Constitution of India",
      "page": 16,
      "subtopics": []
@@ -821,7 +894,7 @@
    ]
   },
   {
-   "id": "from-barter-to-money",
+   "id": "social-science-7/from-barter-to-money",
    "name": "From Barter to Money",
    "number": 11,
    "book": "Exploring Society: India and Beyond Part 1",
@@ -835,34 +908,34 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "from-barter-to-money/why-do-we-need-money",
+     "id": "social-science-7/from-barter-to-money/why-do-we-need-money",
      "name": "Why Do we Need Money?",
      "page": 3,
      "subtopics": []
     },
     {
-     "id": "from-barter-to-money/basic-functions-of-money",
+     "id": "social-science-7/from-barter-to-money/basic-functions-of-money",
      "name": "Basic Functions of Money",
      "page": 8,
      "subtopics": []
     },
     {
-     "id": "from-barter-to-money/the-journey-of-money",
+     "id": "social-science-7/from-barter-to-money/the-journey-of-money",
      "name": "The Journey of Money",
      "page": 10,
      "subtopics": [
       {
-       "id": "from-barter-to-money/the-journey-of-money/coinage",
+       "id": "social-science-7/from-barter-to-money/the-journey-of-money/coinage",
        "name": "Coinage",
        "page": 10
       },
       {
-       "id": "from-barter-to-money/the-journey-of-money/paper-money",
+       "id": "social-science-7/from-barter-to-money/the-journey-of-money/paper-money",
        "name": "Paper Money",
        "page": 13
       },
       {
-       "id": "from-barter-to-money/the-journey-of-money/new-forms-of-money",
+       "id": "social-science-7/from-barter-to-money/the-journey-of-money/new-forms-of-money",
        "name": "New Forms of Money",
        "page": 15
       }
@@ -871,7 +944,7 @@
    ]
   },
   {
-   "id": "understanding-markets",
+   "id": "social-science-7/understanding-markets",
    "name": "Understanding Markets",
    "number": 12,
    "book": "Exploring Society: India and Beyond Part 1",
@@ -885,79 +958,79 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "understanding-markets/what-is-a-market",
+     "id": "social-science-7/understanding-markets/what-is-a-market",
      "name": "What is a Market?",
      "page": 4,
      "subtopics": []
     },
     {
-     "id": "understanding-markets/prices-and-markets",
+     "id": "social-science-7/understanding-markets/prices-and-markets",
      "name": "Prices and Markets",
      "page": 6,
      "subtopics": []
     },
     {
-     "id": "understanding-markets/markets-around-us",
+     "id": "social-science-7/understanding-markets/markets-around-us",
      "name": "Markets Around Us",
      "page": 8,
      "subtopics": [
       {
-       "id": "understanding-markets/markets-around-us/physical-and-online-markets",
+       "id": "social-science-7/understanding-markets/markets-around-us/physical-and-online-markets",
        "name": "Physical and online markets",
        "page": 8
       },
       {
-       "id": "understanding-markets/markets-around-us/domestic-and-international-markets",
+       "id": "social-science-7/understanding-markets/markets-around-us/domestic-and-international-markets",
        "name": "Domestic and international markets",
        "page": 9
       }
      ]
     },
     {
-     "id": "understanding-markets/wholesale-and-retail-markets",
+     "id": "social-science-7/understanding-markets/wholesale-and-retail-markets",
      "name": "Wholesale and Retail Markets",
      "page": 11,
      "subtopics": []
     },
     {
-     "id": "understanding-markets/the-role-of-markets-in-people-s-lives",
+     "id": "social-science-7/understanding-markets/the-role-of-markets-in-people-s-lives",
      "name": "The Role of Markets in People’s Lives",
      "page": 17,
      "subtopics": [
       {
-       "id": "understanding-markets/the-role-of-markets-in-people-s-lives/how-markets-benefit-society",
+       "id": "social-science-7/understanding-markets/the-role-of-markets-in-people-s-lives/how-markets-benefit-society",
        "name": "How markets benefit society",
        "page": 17
       }
      ]
     },
     {
-     "id": "understanding-markets/government-s-role-in-the-market",
+     "id": "social-science-7/understanding-markets/government-s-role-in-the-market",
      "name": "Government’s Role in the Market",
      "page": 19,
      "subtopics": [
       {
-       "id": "understanding-markets/government-s-role-in-the-market/controlling-prices-for-protecting-buyers-and-sellers",
+       "id": "social-science-7/understanding-markets/government-s-role-in-the-market/controlling-prices-for-protecting-buyers-and-sellers",
        "name": "Controlling prices for protecting buyers and sellers",
        "page": 19
       },
       {
-       "id": "understanding-markets/government-s-role-in-the-market/ensuring-quality-and-safety-standards",
+       "id": "social-science-7/understanding-markets/government-s-role-in-the-market/ensuring-quality-and-safety-standards",
        "name": "Ensuring quality and safety standards",
        "page": 20
       },
       {
-       "id": "understanding-markets/government-s-role-in-the-market/mitigating-the-external-effects-of-markets",
+       "id": "social-science-7/understanding-markets/government-s-role-in-the-market/mitigating-the-external-effects-of-markets",
        "name": "Mitigating the external effects of markets",
        "page": 20
       },
       {
-       "id": "understanding-markets/government-s-role-in-the-market/providing-public-goods",
+       "id": "social-science-7/understanding-markets/government-s-role-in-the-market/providing-public-goods",
        "name": "Providing public goods",
        "page": 21
       },
       {
-       "id": "understanding-markets/government-s-role-in-the-market/how-can-consumers-assess-the-quality-of-products-and-service",
+       "id": "social-science-7/understanding-markets/government-s-role-in-the-market/how-can-consumers-assess-the-quality-of-products-and-service",
        "name": "How can consumers assess the quality of products and services?",
        "page": 21
       }
@@ -966,7 +1039,7 @@
    ]
   },
   {
-   "id": "the-story-of-indian-farming",
+   "id": "social-science-7/the-story-of-indian-farming",
    "name": "The Story of Indian Farming",
    "number": 1,
    "book": "Exploring Society: India and Beyond Part 2",
@@ -980,103 +1053,113 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "the-story-of-indian-farming/india-s-agricultural-landscape",
+     "id": "social-science-7/the-story-of-indian-farming/india-s-agricultural-landscape",
      "name": "India’s Agricultural Landscape",
      "page": 2,
      "subtopics": []
     },
     {
-     "id": "the-story-of-indian-farming/echoes-from-the-past",
+     "id": "social-science-7/the-story-of-indian-farming/echoes-from-the-past",
      "name": "Echoes from the Past",
      "page": 3,
      "subtopics": []
     },
     {
-     "id": "the-story-of-indian-farming/climate-seasons-and-crops-what-grows-where-and-when",
+     "id": "social-science-7/the-story-of-indian-farming/climate-seasons-and-crops-what-grows-where-and-when",
      "name": "Climate, Seasons, and Crops: What Grows Where and When?",
      "page": 6,
      "subtopics": [
       {
-       "id": "the-story-of-indian-farming/climate-seasons-and-crops-what-grows-where-and-when/the-monsoon-and-agriculture",
+       "id": "social-science-7/the-story-of-indian-farming/climate-seasons-and-crops-what-grows-where-and-when/the-monsoon-and-agriculture",
        "name": "The monsoon and agriculture",
        "page": 7
       },
       {
-       "id": "the-story-of-indian-farming/climate-seasons-and-crops-what-grows-where-and-when/the-rhythm-of-seasons-and-crops-kharif-rabi-and-zaid",
+       "id": "social-science-7/the-story-of-indian-farming/climate-seasons-and-crops-what-grows-where-and-when/the-rhythm-of-seasons-and-crops-kharif-rabi-and-zaid",
        "name": "The rhythm of seasons and crops: kharif, rabi, and zaid",
        "page": 8
       }
      ]
     },
     {
-     "id": "the-story-of-indian-farming/soil-the-foundation-of-cultivation",
+     "id": "social-science-7/the-story-of-indian-farming/soil-the-foundation-of-cultivation",
      "name": "Soil, the Foundation of Cultivation",
      "page": 10,
      "subtopics": [
       {
-       "id": "the-story-of-indian-farming/soil-the-foundation-of-cultivation/how-is-soil-formed",
+       "id": "social-science-7/the-story-of-indian-farming/soil-the-foundation-of-cultivation/how-is-soil-formed",
        "name": "How is soil formed?",
        "page": 10
       },
       {
-       "id": "the-story-of-indian-farming/soil-the-foundation-of-cultivation/soils-of-india",
+       "id": "social-science-7/the-story-of-indian-farming/soil-the-foundation-of-cultivation/soils-of-india",
        "name": "Soils of India",
        "page": 11
       },
       {
-       "id": "the-story-of-indian-farming/soil-the-foundation-of-cultivation/soil-crop-linkages",
+       "id": "social-science-7/the-story-of-indian-farming/soil-the-foundation-of-cultivation/soil-crop-linkages",
        "name": "Soil-crop linkages",
        "page": 11
       },
       {
-       "id": "the-story-of-indian-farming/soil-the-foundation-of-cultivation/nurturing-the-soil",
+       "id": "social-science-7/the-story-of-indian-farming/soil-the-foundation-of-cultivation/nurturing-the-soil",
        "name": "Nurturing the soil",
        "page": 14
       }
      ]
     },
     {
-     "id": "the-story-of-indian-farming/water-rain-fed-vs-irrigated-agriculture",
+     "id": "social-science-7/the-story-of-indian-farming/water-rain-fed-vs-irrigated-agriculture",
      "name": "Water: Rain-Fed vs. Irrigated Agriculture",
      "page": 15,
      "subtopics": [
       {
-       "id": "the-story-of-indian-farming/water-rain-fed-vs-irrigated-agriculture/seeds",
+       "id": "social-science-7/the-story-of-indian-farming/water-rain-fed-vs-irrigated-agriculture/rain-fed-agriculture",
+       "name": "Rain-fed agriculture",
+       "page": 15
+      },
+      {
+       "id": "social-science-7/the-story-of-indian-farming/water-rain-fed-vs-irrigated-agriculture/irrigated-agriculture",
+       "name": "Irrigated agriculture",
+       "page": 16
+      },
+      {
+       "id": "social-science-7/the-story-of-indian-farming/water-rain-fed-vs-irrigated-agriculture/seeds",
        "name": "Seeds",
        "page": 18
       }
      ]
     },
     {
-     "id": "the-story-of-indian-farming/agricultural-practices-traditional-wisdom-and-modern-innovat",
+     "id": "social-science-7/the-story-of-indian-farming/agricultural-practices-traditional-wisdom-and-modern-innovat",
      "name": "Agricultural Practices: Traditional Wisdom and Modern Innovations",
      "page": 19,
      "subtopics": [
       {
-       "id": "the-story-of-indian-farming/agricultural-practices-traditional-wisdom-and-modern-innovat/traditional-farming-systems",
+       "id": "social-science-7/the-story-of-indian-farming/agricultural-practices-traditional-wisdom-and-modern-innovat/traditional-farming-systems",
        "name": "Traditional farming systems",
        "page": 20
       },
       {
-       "id": "the-story-of-indian-farming/agricultural-practices-traditional-wisdom-and-modern-innovat/contemporary-agriculture",
+       "id": "social-science-7/the-story-of-indian-farming/agricultural-practices-traditional-wisdom-and-modern-innovat/contemporary-agriculture",
        "name": "Contemporary agriculture",
        "page": 21
       },
       {
-       "id": "the-story-of-indian-farming/agricultural-practices-traditional-wisdom-and-modern-innovat/sustainable-pathways",
+       "id": "social-science-7/the-story-of-indian-farming/agricultural-practices-traditional-wisdom-and-modern-innovat/sustainable-pathways",
        "name": "Sustainable pathways",
        "page": 22
       }
      ]
     },
     {
-     "id": "the-story-of-indian-farming/the-role-of-the-government",
+     "id": "social-science-7/the-story-of-indian-farming/the-role-of-the-government",
      "name": "The Role of the Government",
      "page": 24,
      "subtopics": []
     },
     {
-     "id": "the-story-of-indian-farming/challenges",
+     "id": "social-science-7/the-story-of-indian-farming/challenges",
      "name": "Challenges",
      "page": 25,
      "subtopics": []
@@ -1084,7 +1167,7 @@
    ]
   },
   {
-   "id": "india-and-her-neighbours",
+   "id": "social-science-7/india-and-her-neighbours",
    "name": "India and Her Neighbours",
    "number": 2,
    "book": "Exploring Society: India and Beyond Part 2",
@@ -1098,98 +1181,98 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "india-and-her-neighbours/framing-the-neighbourhood",
+     "id": "social-science-7/india-and-her-neighbours/framing-the-neighbourhood",
      "name": "Framing the Neighbourhood",
      "page": 2,
      "subtopics": []
     },
     {
-     "id": "india-and-her-neighbours/india-and-her-land-based-neighbours",
+     "id": "social-science-7/india-and-her-neighbours/india-and-her-land-based-neighbours",
      "name": "India and Her Land-based Neighbours",
      "page": 4,
      "subtopics": [
       {
-       "id": "india-and-her-neighbours/india-and-her-land-based-neighbours/india-and-her-largest-neighbour",
+       "id": "social-science-7/india-and-her-neighbours/india-and-her-land-based-neighbours/india-and-her-largest-neighbour",
        "name": "India and her largest neighbour",
        "page": 4
       },
       {
-       "id": "india-and-her-neighbours/india-and-her-land-based-neighbours/india-and-pakistan",
+       "id": "social-science-7/india-and-her-neighbours/india-and-her-land-based-neighbours/india-and-pakistan",
        "name": "India and Pakistan",
        "page": 6
       },
       {
-       "id": "india-and-her-neighbours/india-and-her-land-based-neighbours/a-newborn-neighbour",
+       "id": "social-science-7/india-and-her-neighbours/india-and-her-land-based-neighbours/a-newborn-neighbour",
        "name": "A newborn neighbour",
        "page": 8
       },
       {
-       "id": "india-and-her-neighbours/india-and-her-land-based-neighbours/in-the-lap-of-the-himalayas",
+       "id": "social-science-7/india-and-her-neighbours/india-and-her-land-based-neighbours/in-the-lap-of-the-himalayas",
        "name": "In the lap of the Himalayas",
        "page": 10
       },
       {
-       "id": "india-and-her-neighbours/india-and-her-land-based-neighbours/the-land-of-the-thunder-dragon",
+       "id": "social-science-7/india-and-her-neighbours/india-and-her-land-based-neighbours/the-land-of-the-thunder-dragon",
        "name": "The ‘Land of the Thunder Dragon’",
        "page": 12
       },
       {
-       "id": "india-and-her-neighbours/india-and-her-land-based-neighbours/india-s-gateway-to-southeast-asia",
+       "id": "social-science-7/india-and-her-neighbours/india-and-her-land-based-neighbours/india-s-gateway-to-southeast-asia",
        "name": "India’s gateway to Southeast Asia",
        "page": 14
       },
       {
-       "id": "india-and-her-neighbours/india-and-her-land-based-neighbours/a-land-locked-neighbour",
+       "id": "social-science-7/india-and-her-neighbours/india-and-her-land-based-neighbours/a-land-locked-neighbour",
        "name": "A land-locked neighbour",
        "page": 16
       }
      ]
     },
     {
-     "id": "india-and-her-neighbours/india-s-maritime-neighbours",
+     "id": "social-science-7/india-and-her-neighbours/india-s-maritime-neighbours",
      "name": "India’s Maritime Neighbours",
      "page": 17,
      "subtopics": [
       {
-       "id": "india-and-her-neighbours/india-s-maritime-neighbours/india-s-nearest-maritime-neighbour",
+       "id": "social-science-7/india-and-her-neighbours/india-s-maritime-neighbours/india-s-nearest-maritime-neighbour",
        "name": "India’s nearest maritime neighbour",
        "page": 17
       },
       {
-       "id": "india-and-her-neighbours/india-s-maritime-neighbours/a-nation-of-islets",
+       "id": "social-science-7/india-and-her-neighbours/india-s-maritime-neighbours/a-nation-of-islets",
        "name": "A nation of islets",
        "page": 19
       },
       {
-       "id": "india-and-her-neighbours/india-s-maritime-neighbours/from-dvaraka-to-dvaravati-and-ayodhya-to-ayutthaya",
+       "id": "social-science-7/india-and-her-neighbours/india-s-maritime-neighbours/from-dvaraka-to-dvaravati-and-ayodhya-to-ayutthaya",
        "name": "From Dvārakā to Dvāravatī and Ayodhyā to Ayutthayā",
        "page": 21
       },
       {
-       "id": "india-and-her-neighbours/india-s-maritime-neighbours/the-malay-peninsula",
+       "id": "social-science-7/india-and-her-neighbours/india-s-maritime-neighbours/the-malay-peninsula",
        "name": "The Malay Peninsula",
        "page": 24
       },
       {
-       "id": "india-and-her-neighbours/india-s-maritime-neighbours/the-lion-city",
+       "id": "social-science-7/india-and-her-neighbours/india-s-maritime-neighbours/the-lion-city",
        "name": "The ‘Lion City’",
        "page": 25
       },
       {
-       "id": "india-and-her-neighbours/india-s-maritime-neighbours/the-indonesian-archipelago",
+       "id": "social-science-7/india-and-her-neighbours/india-s-maritime-neighbours/the-indonesian-archipelago",
        "name": "The Indonesian archipelago",
        "page": 26
       }
      ]
     },
     {
-     "id": "india-and-her-neighbours/an-ancient-neighbour",
+     "id": "social-science-7/india-and-her-neighbours/an-ancient-neighbour",
      "name": "An Ancient Neighbour",
      "page": 28,
      "subtopics": []
     },
     {
-     "id": "india-and-her-neighbours/the-land-of-copper",
+     "id": "social-science-7/india-and-her-neighbours/the-land-of-copper",
      "name": "The ‘Land of Copper’",
      "page": 30,
      "subtopics": []
@@ -1197,7 +1280,7 @@
    ]
   },
   {
-   "id": "empires-and-kingdoms-6th-to-10th-centuries",
+   "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries",
    "name": "Empires and Kingdoms: 6th to 10th Centuries",
    "number": 3,
    "book": "Exploring Society: India and Beyond Part 2",
@@ -1211,112 +1294,112 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "empires-and-kingdoms-6th-to-10th-centuries/the-great-king-of-kings",
+     "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/the-great-king-of-kings",
      "name": "The ‘Great King of Kings’",
      "page": 3,
      "subtopics": []
     },
     {
-     "id": "empires-and-kingdoms-6th-to-10th-centuries/a-tripartite-struggle-for-kannauj",
+     "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/a-tripartite-struggle-for-kannauj",
      "name": "A Tripartite Struggle for Kannauj",
      "page": 7,
      "subtopics": [
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/a-tripartite-struggle-for-kannauj/the-palas",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/a-tripartite-struggle-for-kannauj/the-palas",
        "name": "The Pālas",
        "page": 8
       },
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/a-tripartite-struggle-for-kannauj/the-gurjara-pratiharas",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/a-tripartite-struggle-for-kannauj/the-gurjara-pratiharas",
        "name": "The Gurjara-Pratīhāras",
        "page": 10
       },
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/a-tripartite-struggle-for-kannauj/the-rashtrakutas",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/a-tripartite-struggle-for-kannauj/the-rashtrakutas",
        "name": "The Rāṣhṭrakūṭas",
        "page": 11
       }
      ]
     },
     {
-     "id": "empires-and-kingdoms-6th-to-10th-centuries/kashmir",
+     "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/kashmir",
      "name": "Kashmir",
      "page": 13,
      "subtopics": []
     },
     {
-     "id": "empires-and-kingdoms-6th-to-10th-centuries/the-deccan-and-beyond",
+     "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/the-deccan-and-beyond",
      "name": "The Deccan and Beyond",
      "page": 15,
      "subtopics": [
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/the-deccan-and-beyond/the-chalukyas",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/the-deccan-and-beyond/the-chalukyas",
        "name": "The Chālukyas",
        "page": 16
       },
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/the-deccan-and-beyond/the-pallavas",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/the-deccan-and-beyond/the-pallavas",
        "name": "The Pallavas",
        "page": 18
       },
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/the-deccan-and-beyond/further-south",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/the-deccan-and-beyond/further-south",
        "name": "Further South",
        "page": 20
       }
      ]
     },
     {
-     "id": "empires-and-kingdoms-6th-to-10th-centuries/other-developments",
+     "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/other-developments",
      "name": "Other Developments",
      "page": 22,
      "subtopics": [
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/other-developments/polity-and-administration",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/other-developments/polity-and-administration",
        "name": "Polity and administration",
        "page": 22
       },
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/other-developments/trade-economy-and-urbanisation",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/other-developments/trade-economy-and-urbanisation",
        "name": "Trade, economy and urbanisation",
        "page": 23
       },
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/other-developments/social-life",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/other-developments/social-life",
        "name": "Social life",
        "page": 24
       },
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/other-developments/cultural-life",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/other-developments/cultural-life",
        "name": "Cultural life",
        "page": 26
       },
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/other-developments/a-galaxy-of-mathematicians-and-astronomers",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/other-developments/a-galaxy-of-mathematicians-and-astronomers",
        "name": "A galaxy of mathematicians and astronomers",
        "page": 28
       }
      ]
     },
     {
-     "id": "empires-and-kingdoms-6th-to-10th-centuries/foreign-invasions",
+     "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/foreign-invasions",
      "name": "Foreign Invasions",
      "page": 29,
      "subtopics": [
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/foreign-invasions/the-hun-as-challenge",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/foreign-invasions/the-hun-as-challenge",
        "name": "The Hūṇ as’ challenge",
        "page": 30
       },
       {
-       "id": "empires-and-kingdoms-6th-to-10th-centuries/foreign-invasions/the-arabs-arrive-on-india-s-shores",
+       "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/foreign-invasions/the-arabs-arrive-on-india-s-shores",
        "name": "The Arabs arrive on India’s shores",
        "page": 31
       }
      ]
     },
     {
-     "id": "empires-and-kingdoms-6th-to-10th-centuries/taking-stock",
+     "id": "social-science-7/empires-and-kingdoms-6th-to-10th-centuries/taking-stock",
      "name": "Taking Stock",
      "page": 34,
      "subtopics": []
@@ -1324,7 +1407,7 @@
    ]
   },
   {
-   "id": "turning-tides-11th-and-12th-centuries",
+   "id": "social-science-7/turning-tides-11th-and-12th-centuries",
    "name": "Turning Tides: 11th and 12th Centuries",
    "number": 4,
    "book": "Exploring Society: India and Beyond Part 2",
@@ -1338,75 +1421,75 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "turning-tides-11th-and-12th-centuries/the-ghaznavid-invasions",
+     "id": "social-science-7/turning-tides-11th-and-12th-centuries/the-ghaznavid-invasions",
      "name": "The Ghaznavid Invasions",
      "page": 3,
      "subtopics": [
       {
-       "id": "turning-tides-11th-and-12th-centuries/the-ghaznavid-invasions/al-biruni",
+       "id": "social-science-7/turning-tides-11th-and-12th-centuries/the-ghaznavid-invasions/al-biruni",
        "name": "Al-Bīrūnī",
        "page": 8
       },
       {
-       "id": "turning-tides-11th-and-12th-centuries/the-ghaznavid-invasions/bhaskaracharya",
+       "id": "social-science-7/turning-tides-11th-and-12th-centuries/the-ghaznavid-invasions/bhaskaracharya",
        "name": "Bhāskarāchārya",
        "page": 8
       }
      ]
     },
     {
-     "id": "turning-tides-11th-and-12th-centuries/eastern-india",
+     "id": "social-science-7/turning-tides-11th-and-12th-centuries/eastern-india",
      "name": "Eastern India",
      "page": 11,
      "subtopics": []
     },
     {
-     "id": "turning-tides-11th-and-12th-centuries/further-south",
+     "id": "social-science-7/turning-tides-11th-and-12th-centuries/further-south",
      "name": "Further South",
      "page": 11,
      "subtopics": [
       {
-       "id": "turning-tides-11th-and-12th-centuries/further-south/the-kakatiyas",
+       "id": "social-science-7/turning-tides-11th-and-12th-centuries/further-south/the-kakatiyas",
        "name": "The Kākatīyas",
        "page": 12
       },
       {
-       "id": "turning-tides-11th-and-12th-centuries/further-south/the-hoysalas",
+       "id": "social-science-7/turning-tides-11th-and-12th-centuries/further-south/the-hoysalas",
        "name": "The Hoysalas",
        "page": 13
       },
       {
-       "id": "turning-tides-11th-and-12th-centuries/further-south/the-cholas-masters-of-the-seas",
+       "id": "social-science-7/turning-tides-11th-and-12th-centuries/further-south/the-cholas-masters-of-the-seas",
        "name": "The Cholas, masters of the seas",
        "page": 14
       }
      ]
     },
     {
-     "id": "turning-tides-11th-and-12th-centuries/back-to-the-north",
+     "id": "social-science-7/turning-tides-11th-and-12th-centuries/back-to-the-north",
      "name": "Back to the North",
      "page": 17,
      "subtopics": [
       {
-       "id": "turning-tides-11th-and-12th-centuries/back-to-the-north/the-paramaras",
+       "id": "social-science-7/turning-tides-11th-and-12th-centuries/back-to-the-north/the-paramaras",
        "name": "The Paramāras",
        "page": 17
       },
       {
-       "id": "turning-tides-11th-and-12th-centuries/back-to-the-north/a-turning-point-the-ghurids-in-india",
+       "id": "social-science-7/turning-tides-11th-and-12th-centuries/back-to-the-north/a-turning-point-the-ghurids-in-india",
        "name": "A turning point: the Ghūrids in India",
        "page": 18
       }
      ]
     },
     {
-     "id": "turning-tides-11th-and-12th-centuries/governance-trade-and-cultural-life",
+     "id": "social-science-7/turning-tides-11th-and-12th-centuries/governance-trade-and-cultural-life",
      "name": "Governance, Trade and Cultural Life",
      "page": 22,
      "subtopics": []
     },
     {
-     "id": "turning-tides-11th-and-12th-centuries/taking-stock",
+     "id": "social-science-7/turning-tides-11th-and-12th-centuries/taking-stock",
      "name": "Taking Stock",
      "page": 25,
      "subtopics": []
@@ -1414,7 +1497,7 @@
    ]
   },
   {
-   "id": "india-a-home-to-many",
+   "id": "social-science-7/india-a-home-to-many",
    "name": "India, a Home to Many",
    "number": 5,
    "book": "Exploring Society: India and Beyond Part 2",
@@ -1428,67 +1511,67 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "india-a-home-to-many/the-story-of-indian-jews",
+     "id": "social-science-7/india-a-home-to-many/the-story-of-indian-jews",
      "name": "The Story of Indian Jews",
      "page": 2,
      "subtopics": []
     },
     {
-     "id": "india-a-home-to-many/the-syriac-christian-community",
+     "id": "social-science-7/india-a-home-to-many/the-syriac-christian-community",
      "name": "The Syriac Christian Community",
      "page": 5,
      "subtopics": []
     },
     {
-     "id": "india-a-home-to-many/the-legend-of-the-parsi-wise-man-milk-and-sugar",
+     "id": "social-science-7/india-a-home-to-many/the-legend-of-the-parsi-wise-man-milk-and-sugar",
      "name": "The Legend of the Parsi Wise Man, Milk, and Sugar",
      "page": 6,
      "subtopics": []
     },
     {
-     "id": "india-a-home-to-many/the-arab-merchant-community",
+     "id": "social-science-7/india-a-home-to-many/the-arab-merchant-community",
      "name": "The Arab Merchant Community",
      "page": 9,
      "subtopics": []
     },
     {
-     "id": "india-a-home-to-many/the-african-connection",
+     "id": "social-science-7/india-a-home-to-many/the-african-connection",
      "name": "The African Connection",
      "page": 9,
      "subtopics": []
     },
     {
-     "id": "india-a-home-to-many/the-armenians-in-india",
+     "id": "social-science-7/india-a-home-to-many/the-armenians-in-india",
      "name": "The Armenians in India",
      "page": 11,
      "subtopics": []
     },
     {
-     "id": "india-a-home-to-many/the-baha-i-community-in-india",
+     "id": "social-science-7/india-a-home-to-many/the-baha-i-community-in-india",
      "name": "The Baha’i Community in India",
      "page": 12,
      "subtopics": []
     },
     {
-     "id": "india-a-home-to-many/the-good-maharaja-and-the-polish-children",
+     "id": "social-science-7/india-a-home-to-many/the-good-maharaja-and-the-polish-children",
      "name": "The ‘Good Maharaja’ and the Polish Children",
      "page": 12,
      "subtopics": []
     },
     {
-     "id": "india-a-home-to-many/tibetan-refugees-in-india",
+     "id": "social-science-7/india-a-home-to-many/tibetan-refugees-in-india",
      "name": "Tibetan Refugees in India",
      "page": 13,
      "subtopics": []
     },
     {
-     "id": "india-a-home-to-many/the-whole-world-is-family",
+     "id": "social-science-7/india-a-home-to-many/the-whole-world-is-family",
      "name": "“The Whole World is Family”",
      "page": 16,
      "subtopics": []
     },
     {
-     "id": "india-a-home-to-many/indian-values-beyond-india",
+     "id": "social-science-7/india-a-home-to-many/indian-values-beyond-india",
      "name": "Indian Values Beyond India",
      "page": 17,
      "subtopics": []
@@ -1496,7 +1579,7 @@
    ]
   },
   {
-   "id": "the-state-the-government-and-you",
+   "id": "social-science-7/the-state-the-government-and-you",
    "name": "The State, the Government, and You",
    "number": 6,
    "book": "Exploring Society: India and Beyond Part 2",
@@ -1510,93 +1593,93 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "the-state-the-government-and-you/what-is-a-state",
+     "id": "social-science-7/the-state-the-government-and-you/what-is-a-state",
      "name": "What is a State?",
      "page": 2,
      "subtopics": []
     },
     {
-     "id": "the-state-the-government-and-you/what-is-a-government",
+     "id": "social-science-7/the-state-the-government-and-you/what-is-a-government",
      "name": "What is a Government?",
      "page": 4,
      "subtopics": []
     },
     {
-     "id": "the-state-the-government-and-you/democracy-and-republic",
+     "id": "social-science-7/the-state-the-government-and-you/democracy-and-republic",
      "name": "Democracy and Republic",
      "page": 6,
      "subtopics": []
     },
     {
-     "id": "the-state-the-government-and-you/india-a-republic-that-protects-the-rights-of-all",
+     "id": "social-science-7/the-state-the-government-and-you/india-a-republic-that-protects-the-rights-of-all",
      "name": "India, a Republic that Protects the Rights of All",
      "page": 7,
      "subtopics": [
       {
-       "id": "the-state-the-government-and-you/india-a-republic-that-protects-the-rights-of-all/why-is-the-protection-of-rights-important",
+       "id": "social-science-7/the-state-the-government-and-you/india-a-republic-that-protects-the-rights-of-all/why-is-the-protection-of-rights-important",
        "name": "Why is the protection of rights important?",
        "page": 8
       }
      ]
     },
     {
-     "id": "the-state-the-government-and-you/legislature-the-lawmaking-body",
+     "id": "social-science-7/the-state-the-government-and-you/legislature-the-lawmaking-body",
      "name": "Legislature: The Lawmaking Body",
      "page": 10,
      "subtopics": []
     },
     {
-     "id": "the-state-the-government-and-you/executive-the-law-implementing-and-policymaking-body",
+     "id": "social-science-7/the-state-the-government-and-you/executive-the-law-implementing-and-policymaking-body",
      "name": "Executive: The Law-Implementing and Policymaking Body",
      "page": 10,
      "subtopics": [
       {
-       "id": "the-state-the-government-and-you/executive-the-law-implementing-and-policymaking-body/the-executive-political-and-permanent",
+       "id": "social-science-7/the-state-the-government-and-you/executive-the-law-implementing-and-policymaking-body/the-executive-political-and-permanent",
        "name": "The executive: political and permanent",
        "page": 10
       },
       {
-       "id": "the-state-the-government-and-you/executive-the-law-implementing-and-policymaking-body/political-executive",
+       "id": "social-science-7/the-state-the-government-and-you/executive-the-law-implementing-and-policymaking-body/political-executive",
        "name": "Political executive",
        "page": 11
       },
       {
-       "id": "the-state-the-government-and-you/executive-the-law-implementing-and-policymaking-body/permanent-executive",
+       "id": "social-science-7/the-state-the-government-and-you/executive-the-law-implementing-and-policymaking-body/permanent-executive",
        "name": "Permanent executive",
        "page": 11
       }
      ]
     },
     {
-     "id": "the-state-the-government-and-you/the-government-and-you",
+     "id": "social-science-7/the-state-the-government-and-you/the-government-and-you",
      "name": "The Government and You",
      "page": 14,
      "subtopics": []
     },
     {
-     "id": "the-state-the-government-and-you/judiciary-guardian-of-the-constitution",
+     "id": "social-science-7/the-state-the-government-and-you/judiciary-guardian-of-the-constitution",
      "name": "Judiciary: Guardian of the Constitution",
      "page": 18,
      "subtopics": [
       {
-       "id": "the-state-the-government-and-you/judiciary-guardian-of-the-constitution/what-does-the-judiciary-do",
+       "id": "social-science-7/the-state-the-government-and-you/judiciary-guardian-of-the-constitution/what-does-the-judiciary-do",
        "name": "What does the judiciary do?",
        "page": 18
       },
       {
-       "id": "the-state-the-government-and-you/judiciary-guardian-of-the-constitution/why-is-the-judiciary-important",
+       "id": "social-science-7/the-state-the-government-and-you/judiciary-guardian-of-the-constitution/why-is-the-judiciary-important",
        "name": "Why is the judiciary important?",
        "page": 18
       }
      ]
     },
     {
-     "id": "the-state-the-government-and-you/tiers-of-government",
+     "id": "social-science-7/the-state-the-government-and-you/tiers-of-government",
      "name": "Tiers of Government",
      "page": 19,
      "subtopics": [
       {
-       "id": "the-state-the-government-and-you/tiers-of-government/what-is-decentralisation",
+       "id": "social-science-7/the-state-the-government-and-you/tiers-of-government/what-is-decentralisation",
        "name": "What is decentralisation?",
        "page": 20
       }
@@ -1605,7 +1688,7 @@
    ]
   },
   {
-   "id": "infrastructure-engine-of-india-s-development",
+   "id": "social-science-7/infrastructure-engine-of-india-s-development",
    "name": "Infrastructure: Engine of India’s Development",
    "number": 7,
    "book": "Exploring Society: India and Beyond Part 2",
@@ -1619,31 +1702,57 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "infrastructure-engine-of-india-s-development/introduction",
+     "id": "social-science-7/infrastructure-engine-of-india-s-development/introduction",
      "name": "Introduction",
      "page": 2,
      "subtopics": [
       {
-       "id": "infrastructure-engine-of-india-s-development/introduction/why-is-physical-infrastructure-important",
+       "id": "social-science-7/infrastructure-engine-of-india-s-development/introduction/why-is-physical-infrastructure-important",
        "name": "Why is physical infrastructure important?",
        "page": 3
       }
      ]
     },
     {
-     "id": "infrastructure-engine-of-india-s-development/transportation-infrastructure",
+     "id": "social-science-7/infrastructure-engine-of-india-s-development/transportation-infrastructure",
      "name": "Transportation Infrastructure",
      "page": 5,
-     "subtopics": []
+     "subtopics": [
+      {
+       "id": "social-science-7/infrastructure-engine-of-india-s-development/transportation-infrastructure/road-and-highway-network",
+       "name": "Road and highway network",
+       "page": 5
+      },
+      {
+       "id": "social-science-7/infrastructure-engine-of-india-s-development/transportation-infrastructure/indian-railway-network",
+       "name": "Indian railway network",
+       "page": 8
+      },
+      {
+       "id": "social-science-7/infrastructure-engine-of-india-s-development/transportation-infrastructure/metro-train-systems",
+       "name": "Metro train systems",
+       "page": 12
+      },
+      {
+       "id": "social-science-7/infrastructure-engine-of-india-s-development/transportation-infrastructure/air-transport",
+       "name": "Air transport",
+       "page": 12
+      },
+      {
+       "id": "social-science-7/infrastructure-engine-of-india-s-development/transportation-infrastructure/shipping-and-ports",
+       "name": "Shipping and ports",
+       "page": 15
+      }
+     ]
     },
     {
-     "id": "infrastructure-engine-of-india-s-development/communications-infrastructure",
+     "id": "social-science-7/infrastructure-engine-of-india-s-development/communications-infrastructure",
      "name": "Communications Infrastructure",
      "page": 16,
      "subtopics": []
     },
     {
-     "id": "infrastructure-engine-of-india-s-development/collective-responsibility-towards-infrastructure",
+     "id": "social-science-7/infrastructure-engine-of-india-s-development/collective-responsibility-towards-infrastructure",
      "name": "Collective Responsibility Towards Infrastructure",
      "page": 20,
      "subtopics": []
@@ -1651,7 +1760,7 @@
    ]
   },
   {
-   "id": "banks-and-the-magic-of-finance",
+   "id": "social-science-7/banks-and-the-magic-of-finance",
    "name": "Banks and the Magic of Finance",
    "number": 8,
    "book": "Exploring Society: India and Beyond Part 2",
@@ -1665,42 +1774,42 @@
    "headingKind": "unnumbered",
    "topics": [
     {
-     "id": "banks-and-the-magic-of-finance/what-are-banks-and-what-do-they-do",
+     "id": "social-science-7/banks-and-the-magic-of-finance/what-are-banks-and-what-do-they-do",
      "name": "What are banks and what do they do?",
      "page": 4,
      "subtopics": [
       {
-       "id": "banks-and-the-magic-of-finance/what-are-banks-and-what-do-they-do/hold-deposits",
+       "id": "social-science-7/banks-and-the-magic-of-finance/what-are-banks-and-what-do-they-do/hold-deposits",
        "name": "Hold deposits",
        "page": 4
       },
       {
-       "id": "banks-and-the-magic-of-finance/what-are-banks-and-what-do-they-do/offer-loans-or-credit",
+       "id": "social-science-7/banks-and-the-magic-of-finance/what-are-banks-and-what-do-they-do/offer-loans-or-credit",
        "name": "Offer loans or credit",
        "page": 7
       }
      ]
     },
     {
-     "id": "banks-and-the-magic-of-finance/other-financial-institutions",
+     "id": "social-science-7/banks-and-the-magic-of-finance/other-financial-institutions",
      "name": "Other Financial Institutions",
      "page": 9,
      "subtopics": []
     },
     {
-     "id": "banks-and-the-magic-of-finance/payment-modes-and-systems",
+     "id": "social-science-7/banks-and-the-magic-of-finance/payment-modes-and-systems",
      "name": "Payment Modes and Systems",
      "page": 11,
      "subtopics": [
       {
-       "id": "banks-and-the-magic-of-finance/payment-modes-and-systems/how-can-money-be-transferred-from-one-bank-account-to-anothe",
+       "id": "social-science-7/banks-and-the-magic-of-finance/payment-modes-and-systems/how-can-money-be-transferred-from-one-bank-account-to-anothe",
        "name": "How can money be transferred from one bank account to another?",
        "page": 12
       }
      ]
     },
     {
-     "id": "banks-and-the-magic-of-finance/stock-market",
+     "id": "social-science-7/banks-and-the-magic-of-finance/stock-market",
      "name": "Stock Market",
      "page": 15,
      "subtopics": []

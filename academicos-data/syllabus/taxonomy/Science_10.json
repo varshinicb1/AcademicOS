@@ -19,7 +19,7 @@
  ],
  "chapters": [
   {
-   "id": "chemical-reactions-and-equations",
+   "id": "science-10/chemical-reactions-and-equations",
    "name": "Chemical Reactions and Equations",
    "number": 1,
    "book": "Science",
@@ -32,19 +32,19 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "chemical-reactions-and-equations/chemical-equations",
+     "id": "science-10/chemical-reactions-and-equations/chemical-equations",
      "name": "Chemical Equations",
      "page": 2,
      "number": "1.1",
      "subtopics": [
       {
-       "id": "chemical-reactions-and-equations/chemical-equations/writing-a-chemical-equation",
+       "id": "science-10/chemical-reactions-and-equations/chemical-equations/writing-a-chemical-equation",
        "name": "Writing a Chemical Equation",
        "page": 3,
        "number": "1.1.1"
       },
       {
-       "id": "chemical-reactions-and-equations/chemical-equations/balanced-chemical-equations",
+       "id": "science-10/chemical-reactions-and-equations/chemical-equations/balanced-chemical-equations",
        "name": "Balanced Chemical Equations",
        "page": 3,
        "number": "1.1.2"
@@ -52,37 +52,37 @@
      ]
     },
     {
-     "id": "chemical-reactions-and-equations/types-of-chemical-reactions",
+     "id": "science-10/chemical-reactions-and-equations/types-of-chemical-reactions",
      "name": "Types of Chemical Reactions",
      "page": 6,
      "number": "1.2",
      "subtopics": [
       {
-       "id": "chemical-reactions-and-equations/types-of-chemical-reactions/combination-reaction",
+       "id": "science-10/chemical-reactions-and-equations/types-of-chemical-reactions/combination-reaction",
        "name": "Combination Reaction",
        "page": 6,
        "number": "1.2.1"
       },
       {
-       "id": "chemical-reactions-and-equations/types-of-chemical-reactions/decomposition-reaction",
+       "id": "science-10/chemical-reactions-and-equations/types-of-chemical-reactions/decomposition-reaction",
        "name": "Decomposition Reaction",
        "page": 8,
        "number": "1.2.2"
       },
       {
-       "id": "chemical-reactions-and-equations/types-of-chemical-reactions/displacement-reaction",
+       "id": "science-10/chemical-reactions-and-equations/types-of-chemical-reactions/displacement-reaction",
        "name": "Displacement Reaction",
        "page": 10,
        "number": "1.2.3"
       },
       {
-       "id": "chemical-reactions-and-equations/types-of-chemical-reactions/double-displacement-reaction",
+       "id": "science-10/chemical-reactions-and-equations/types-of-chemical-reactions/double-displacement-reaction",
        "name": "Double Displacement Reaction",
        "page": 11,
        "number": "1.2.4"
       },
       {
-       "id": "chemical-reactions-and-equations/types-of-chemical-reactions/oxidation-and-reduction",
+       "id": "science-10/chemical-reactions-and-equations/types-of-chemical-reactions/oxidation-and-reduction",
        "name": "Oxidation and Reduction",
        "page": 12,
        "number": "1.2.5"
@@ -90,19 +90,19 @@
      ]
     },
     {
-     "id": "chemical-reactions-and-equations/have-you-observed-the-effects-of-oxidation-reactions-in-ever",
+     "id": "science-10/chemical-reactions-and-equations/have-you-observed-the-effects-of-oxidation-reactions-in-ever",
      "name": "Have You Observed the Effects of Oxidation Reactions in Everyday Life?",
      "page": 13,
      "number": "1.3",
      "subtopics": [
       {
-       "id": "chemical-reactions-and-equations/have-you-observed-the-effects-of-oxidation-reactions-in-ever/corrosion",
+       "id": "science-10/chemical-reactions-and-equations/have-you-observed-the-effects-of-oxidation-reactions-in-ever/corrosion",
        "name": "Corrosion",
        "page": 13,
        "number": "1.3.1"
       },
       {
-       "id": "chemical-reactions-and-equations/have-you-observed-the-effects-of-oxidation-reactions-in-ever/rancidity",
+       "id": "science-10/chemical-reactions-and-equations/have-you-observed-the-effects-of-oxidation-reactions-in-ever/rancidity",
        "name": "Rancidity",
        "page": 13,
        "number": "1.3.2"
@@ -112,7 +112,7 @@
    ]
   },
   {
-   "id": "acids-bases-and-salts",
+   "id": "science-10/acids-bases-and-salts",
    "name": "Acids, Bases and Salts",
    "number": 2,
    "book": "Science",
@@ -125,43 +125,43 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases",
+     "id": "science-10/acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases",
      "name": "Understanding the Chemical Properties of Acids and Bases",
      "page": 2,
      "number": "2.1",
      "subtopics": [
       {
-       "id": "acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/acids-and-bases-in-the-laboratory",
+       "id": "science-10/acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/acids-and-bases-in-the-laboratory",
        "name": "Acids and Bases in the Laboratory",
        "page": 2,
        "number": "2.1.1"
       },
       {
-       "id": "acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/how-do-acids-and-bases-react-with-metals",
+       "id": "science-10/acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/how-do-acids-and-bases-react-with-metals",
        "name": "How do Acids and Bases React with Metals?",
        "page": 3,
        "number": "2.1.2"
       },
       {
-       "id": "acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/how-do-metal-carbonates-and-metal-hydrogencarbonates-react-w",
+       "id": "science-10/acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/how-do-metal-carbonates-and-metal-hydrogencarbonates-react-w",
        "name": "How do Metal Carbonates and Metal Hydrogencarbonates React with Acids?",
        "page": 4,
        "number": "2.1.3"
       },
       {
-       "id": "acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/how-do-acids-and-bases-react-with-each-other",
+       "id": "science-10/acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/how-do-acids-and-bases-react-with-each-other",
        "name": "How do Acids and Bases React with each other?",
        "page": 5,
        "number": "2.1.4"
       },
       {
-       "id": "acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/reaction-of-metallic-oxides-with-acids",
+       "id": "science-10/acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/reaction-of-metallic-oxides-with-acids",
        "name": "Reaction of Metallic Oxides with Acids",
        "page": 5,
        "number": "2.1.5"
       },
       {
-       "id": "acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/reaction-of-a-non-metallic-oxide-with-base",
+       "id": "science-10/acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases/reaction-of-a-non-metallic-oxide-with-base",
        "name": "Reaction of a Non-metallic Oxide with Base",
        "page": 6,
        "number": "2.1.6"
@@ -169,13 +169,13 @@
      ]
     },
     {
-     "id": "acids-bases-and-salts/what-do-all-acids-and-all-bases-have-in-common",
+     "id": "science-10/acids-bases-and-salts/what-do-all-acids-and-all-bases-have-in-common",
      "name": "What Do All Acids and All Bases Have in Common?",
      "page": 6,
      "number": "2.2",
      "subtopics": [
       {
-       "id": "acids-bases-and-salts/what-do-all-acids-and-all-bases-have-in-common/what-happens-to-an-acid-or-a-base-in-a-water-solution",
+       "id": "science-10/acids-bases-and-salts/what-do-all-acids-and-all-bases-have-in-common/what-happens-to-an-acid-or-a-base-in-a-water-solution",
        "name": "What Happens to an Acid or a Base in a Water Solution?",
        "page": 7,
        "number": "2.2.1"
@@ -183,13 +183,13 @@
      ]
     },
     {
-     "id": "acids-bases-and-salts/how-strong-are-acid-or-base-solutions",
+     "id": "science-10/acids-bases-and-salts/how-strong-are-acid-or-base-solutions",
      "name": "How Strong Are Acid or Base Solutions?",
      "page": 9,
      "number": "2.3",
      "subtopics": [
       {
-       "id": "acids-bases-and-salts/how-strong-are-acid-or-base-solutions/importance-of-ph-in-everyday-life",
+       "id": "science-10/acids-bases-and-salts/how-strong-are-acid-or-base-solutions/importance-of-ph-in-everyday-life",
        "name": "Importance of pH in Everyday Life",
        "page": 10,
        "number": "2.3.1"
@@ -197,31 +197,31 @@
      ]
     },
     {
-     "id": "acids-bases-and-salts/more-about-salts",
+     "id": "science-10/acids-bases-and-salts/more-about-salts",
      "name": "More About Salts",
      "page": 12,
      "number": "2.4",
      "subtopics": [
       {
-       "id": "acids-bases-and-salts/more-about-salts/family-of-salts",
+       "id": "science-10/acids-bases-and-salts/more-about-salts/family-of-salts",
        "name": "Family of Salts",
        "page": 12,
        "number": "2.4.1"
       },
       {
-       "id": "acids-bases-and-salts/more-about-salts/ph-of-salts",
+       "id": "science-10/acids-bases-and-salts/more-about-salts/ph-of-salts",
        "name": "pH of Salts",
        "page": 13,
        "number": "2.4.2"
       },
       {
-       "id": "acids-bases-and-salts/more-about-salts/chemicals-from-common-salt",
+       "id": "science-10/acids-bases-and-salts/more-about-salts/chemicals-from-common-salt",
        "name": "Chemicals from Common Salt",
        "page": 13,
        "number": "2.4.3"
       },
       {
-       "id": "acids-bases-and-salts/more-about-salts/are-the-crystals-of-salts-really-dry",
+       "id": "science-10/acids-bases-and-salts/more-about-salts/are-the-crystals-of-salts-really-dry",
        "name": "Are the Crystals of Salts really Dry?",
        "page": 16,
        "number": "2.4.4"
@@ -231,7 +231,7 @@
    ]
   },
   {
-   "id": "metals-and-non-metals",
+   "id": "science-10/metals-and-non-metals",
    "name": "Metals and Non-metals",
    "number": 3,
    "book": "Science",
@@ -244,19 +244,19 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "metals-and-non-metals/physical-properties",
+     "id": "science-10/metals-and-non-metals/physical-properties",
      "name": "Physical Properties",
      "page": 1,
      "number": "3.1",
      "subtopics": [
       {
-       "id": "metals-and-non-metals/physical-properties/metals",
+       "id": "science-10/metals-and-non-metals/physical-properties/metals",
        "name": "Metals",
        "page": 1,
        "number": "3.1.1"
       },
       {
-       "id": "metals-and-non-metals/physical-properties/non-metals",
+       "id": "science-10/metals-and-non-metals/physical-properties/non-metals",
        "name": "Non-metals",
        "page": 3,
        "number": "3.1.2"
@@ -264,37 +264,37 @@
      ]
     },
     {
-     "id": "metals-and-non-metals/chemical-properties-of-metals",
+     "id": "science-10/metals-and-non-metals/chemical-properties-of-metals",
      "name": "Chemical Properties of Metals",
      "page": 4,
      "number": "3.2",
      "subtopics": [
       {
-       "id": "metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-are-burnt-in-air",
+       "id": "science-10/metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-are-burnt-in-air",
        "name": "What happens when Metals are burnt in Air?",
        "page": 5,
        "number": "3.2.1"
       },
       {
-       "id": "metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-react-with-water",
+       "id": "science-10/metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-react-with-water",
        "name": "What happens when Metals react with Water?",
        "page": 6,
        "number": "3.2.2"
       },
       {
-       "id": "metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-react-with-acids",
+       "id": "science-10/metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-react-with-acids",
        "name": "What happens when Metals react with Acids?",
        "page": 7,
        "number": "3.2.3"
       },
       {
-       "id": "metals-and-non-metals/chemical-properties-of-metals/how-do-metals-react-with-solutions-of-other-metal-salts",
+       "id": "science-10/metals-and-non-metals/chemical-properties-of-metals/how-do-metals-react-with-solutions-of-other-metal-salts",
        "name": "How do Metals react with Solutions of other Metal Salts?",
        "page": 8,
        "number": "3.2.4"
       },
       {
-       "id": "metals-and-non-metals/chemical-properties-of-metals/the-reactivity-series",
+       "id": "science-10/metals-and-non-metals/chemical-properties-of-metals/the-reactivity-series",
        "name": "The Reactivity Series",
        "page": 9,
        "number": "3.2.5"
@@ -302,13 +302,13 @@
      ]
     },
     {
-     "id": "metals-and-non-metals/how-do-metals-and-non-metals-react",
+     "id": "science-10/metals-and-non-metals/how-do-metals-and-non-metals-react",
      "name": "How Do Metals and Non-metals React?",
      "page": 10,
      "number": "3.3",
      "subtopics": [
       {
-       "id": "metals-and-non-metals/how-do-metals-and-non-metals-react/properties-of-ionic-compounds",
+       "id": "science-10/metals-and-non-metals/how-do-metals-and-non-metals-react/properties-of-ionic-compounds",
        "name": "Properties of Ionic Compounds",
        "page": 12,
        "number": "3.3.1"
@@ -316,43 +316,43 @@
      ]
     },
     {
-     "id": "metals-and-non-metals/occurrence-of-metals",
+     "id": "science-10/metals-and-non-metals/occurrence-of-metals",
      "name": "Occurrence of Metals",
      "page": 13,
      "number": "3.4",
      "subtopics": [
       {
-       "id": "metals-and-non-metals/occurrence-of-metals/extraction-of-metals",
+       "id": "science-10/metals-and-non-metals/occurrence-of-metals/extraction-of-metals",
        "name": "Extraction of Metals",
        "page": 13,
        "number": "3.4.1"
       },
       {
-       "id": "metals-and-non-metals/occurrence-of-metals/enrichment-of-ores",
+       "id": "science-10/metals-and-non-metals/occurrence-of-metals/enrichment-of-ores",
        "name": "Enrichment of Ores",
        "page": 14,
        "number": "3.4.2"
       },
       {
-       "id": "metals-and-non-metals/occurrence-of-metals/extracting-metals-low-in-the-activity-series",
+       "id": "science-10/metals-and-non-metals/occurrence-of-metals/extracting-metals-low-in-the-activity-series",
        "name": "Extracting Metals Low in the Activity Series",
        "page": 15,
        "number": "3.4.3"
       },
       {
-       "id": "metals-and-non-metals/occurrence-of-metals/extracting-metals-in-the-middle-of-the-activity-series",
+       "id": "science-10/metals-and-non-metals/occurrence-of-metals/extracting-metals-in-the-middle-of-the-activity-series",
        "name": "Extracting Metals in the Middle of the Activity Series",
        "page": 15,
        "number": "3.4.4"
       },
       {
-       "id": "metals-and-non-metals/occurrence-of-metals/extracting-metals-towards-the-top-of-the-activity-series",
+       "id": "science-10/metals-and-non-metals/occurrence-of-metals/extracting-metals-towards-the-top-of-the-activity-series",
        "name": "Extracting Metals towards the Top of the Activity Series",
        "page": 16,
        "number": "3.4.5"
       },
       {
-       "id": "metals-and-non-metals/occurrence-of-metals/refining-of-metals",
+       "id": "science-10/metals-and-non-metals/occurrence-of-metals/refining-of-metals",
        "name": "Refining of Metals",
        "page": 16,
        "number": "3.4.6"
@@ -360,13 +360,13 @@
      ]
     },
     {
-     "id": "metals-and-non-metals/corrosion",
+     "id": "science-10/metals-and-non-metals/corrosion",
      "name": "Corrosion",
      "page": 17,
      "number": "3.5",
      "subtopics": [
       {
-       "id": "metals-and-non-metals/corrosion/prevention-of-corrosion",
+       "id": "science-10/metals-and-non-metals/corrosion/prevention-of-corrosion",
        "name": "Prevention of Corrosion",
        "page": 18,
        "number": "3.5.1"
@@ -376,7 +376,7 @@
    ]
   },
   {
-   "id": "carbon-and-its-compounds",
+   "id": "science-10/carbon-and-its-compounds",
    "name": "Carbon and its Compounds",
    "number": 4,
    "book": "Science",
@@ -389,44 +389,44 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "carbon-and-its-compounds/bonding-in-carbon-the-covalent-bond",
+     "id": "science-10/carbon-and-its-compounds/bonding-in-carbon-the-covalent-bond",
      "name": "Bonding in Carbon – the Covalent Bond",
      "page": 1,
      "number": "4.1",
      "subtopics": []
     },
     {
-     "id": "carbon-and-its-compounds/versatile-nature-of-carbon",
+     "id": "science-10/carbon-and-its-compounds/versatile-nature-of-carbon",
      "name": "Versatile Nature of Carbon",
      "page": 5,
      "number": "4.2",
      "subtopics": [
       {
-       "id": "carbon-and-its-compounds/versatile-nature-of-carbon/saturated-and-unsaturated-carbon-compounds",
+       "id": "science-10/carbon-and-its-compounds/versatile-nature-of-carbon/saturated-and-unsaturated-carbon-compounds",
        "name": "Saturated and Unsaturated Carbon Compounds",
        "page": 6,
        "number": "4.2.1"
       },
       {
-       "id": "carbon-and-its-compounds/versatile-nature-of-carbon/chains-branches-and-rings",
+       "id": "science-10/carbon-and-its-compounds/versatile-nature-of-carbon/chains-branches-and-rings",
        "name": "Chains, Branches and Rings",
        "page": 7,
        "number": "4.2.2"
       },
       {
-       "id": "carbon-and-its-compounds/versatile-nature-of-carbon/will-you-be-my-friend",
+       "id": "science-10/carbon-and-its-compounds/versatile-nature-of-carbon/will-you-be-my-friend",
        "name": "Will you be my Friend?",
        "page": 8,
        "number": "4.2.3"
       },
       {
-       "id": "carbon-and-its-compounds/versatile-nature-of-carbon/homologous-series",
+       "id": "science-10/carbon-and-its-compounds/versatile-nature-of-carbon/homologous-series",
        "name": "Homologous Series",
        "page": 9,
        "number": "4.2.4"
       },
       {
-       "id": "carbon-and-its-compounds/versatile-nature-of-carbon/nomenclature-of-carbon-compounds",
+       "id": "science-10/carbon-and-its-compounds/versatile-nature-of-carbon/nomenclature-of-carbon-compounds",
        "name": "Nomenclature of Carbon Compounds",
        "page": 10,
        "number": "4.2.5"
@@ -434,31 +434,31 @@
      ]
     },
     {
-     "id": "carbon-and-its-compounds/chemical-properties-of-carbon-compounds",
+     "id": "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds",
      "name": "Chemical Properties of Carbon Compounds",
      "page": 12,
      "number": "4.3",
      "subtopics": [
       {
-       "id": "carbon-and-its-compounds/chemical-properties-of-carbon-compounds/combustion",
+       "id": "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds/combustion",
        "name": "Combustion",
        "page": 12,
        "number": "4.3.1"
       },
       {
-       "id": "carbon-and-its-compounds/chemical-properties-of-carbon-compounds/oxidation",
+       "id": "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds/oxidation",
        "name": "Oxidation",
        "page": 13,
        "number": "4.3.2"
       },
       {
-       "id": "carbon-and-its-compounds/chemical-properties-of-carbon-compounds/addition-reaction",
+       "id": "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds/addition-reaction",
        "name": "Addition Reaction",
        "page": 14,
        "number": "4.3.3"
       },
       {
-       "id": "carbon-and-its-compounds/chemical-properties-of-carbon-compounds/substitution-reaction",
+       "id": "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds/substitution-reaction",
        "name": "Substitution Reaction",
        "page": 14,
        "number": "4.3.4"
@@ -466,19 +466,19 @@
      ]
     },
     {
-     "id": "carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid",
+     "id": "science-10/carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid",
      "name": "Some Important Carbon Compounds – Ethanol and Ethanoic Acid",
      "page": 14,
      "number": "4.4",
      "subtopics": [
       {
-       "id": "carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid/properties-of-ethanol",
+       "id": "science-10/carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid/properties-of-ethanol",
        "name": "Properties of Ethanol",
        "page": 15,
        "number": "4.4.1"
       },
       {
-       "id": "carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid/properties-of-ethanoic-acid",
+       "id": "science-10/carbon-and-its-compounds/some-important-carbon-compounds-ethanol-and-ethanoic-acid/properties-of-ethanoic-acid",
        "name": "Properties of Ethanoic Acid",
        "page": 16,
        "number": "4.4.2"
@@ -486,7 +486,7 @@
      ]
     },
     {
-     "id": "carbon-and-its-compounds/soaps-and-detergents",
+     "id": "science-10/carbon-and-its-compounds/soaps-and-detergents",
      "name": "Soaps and Detergents",
      "page": 17,
      "number": "4.5",
@@ -495,7 +495,7 @@
    ]
   },
   {
-   "id": "life-processes",
+   "id": "science-10/life-processes",
    "name": "Life Processes",
    "number": 5,
    "book": "Science",
@@ -508,38 +508,38 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "life-processes/what-are-life-processes",
+     "id": "science-10/life-processes/what-are-life-processes",
      "name": "What Are Life Processes?",
      "page": 1,
      "number": "5.1",
      "subtopics": []
     },
     {
-     "id": "life-processes/nutrition",
+     "id": "science-10/life-processes/nutrition",
      "name": "Nutrition",
      "page": 3,
      "number": "5.2",
      "subtopics": [
       {
-       "id": "life-processes/nutrition/autotrophic-nutrition",
+       "id": "science-10/life-processes/nutrition/autotrophic-nutrition",
        "name": "Autotrophic Nutrition",
        "page": 3,
        "number": "5.2.1"
       },
       {
-       "id": "life-processes/nutrition/heterotrophic-nutrition",
+       "id": "science-10/life-processes/nutrition/heterotrophic-nutrition",
        "name": "Heterotrophic Nutrition",
        "page": 6,
        "number": "5.2.2"
       },
       {
-       "id": "life-processes/nutrition/how-do-organisms-obtain-their-nutrition",
+       "id": "science-10/life-processes/nutrition/how-do-organisms-obtain-their-nutrition",
        "name": "How do Organisms obtain their Nutrition?",
        "page": 6,
        "number": "5.2.3"
       },
       {
-       "id": "life-processes/nutrition/nutrition-in-human-beings",
+       "id": "science-10/life-processes/nutrition/nutrition-in-human-beings",
        "name": "Nutrition in Human Beings",
        "page": 6,
        "number": "5.2.4"
@@ -547,26 +547,26 @@
      ]
     },
     {
-     "id": "life-processes/respiration",
+     "id": "science-10/life-processes/respiration",
      "name": "Respiration",
      "page": 9,
      "number": "5.3",
      "subtopics": []
     },
     {
-     "id": "life-processes/transportation",
+     "id": "science-10/life-processes/transportation",
      "name": "Transportation",
      "page": 13,
      "number": "5.4",
      "subtopics": [
       {
-       "id": "life-processes/transportation/transportation-in-human-beings",
+       "id": "science-10/life-processes/transportation/transportation-in-human-beings",
        "name": "Transportation in Human Beings",
        "page": 13,
        "number": "5.4.1"
       },
       {
-       "id": "life-processes/transportation/transportation-in-plants",
+       "id": "science-10/life-processes/transportation/transportation-in-plants",
        "name": "Transportation in Plants",
        "page": 16,
        "number": "5.4.2"
@@ -574,19 +574,19 @@
      ]
     },
     {
-     "id": "life-processes/excretion",
+     "id": "science-10/life-processes/excretion",
      "name": "Excretion",
      "page": 18,
      "number": "5.5",
      "subtopics": [
       {
-       "id": "life-processes/excretion/excretion-in-human-beings",
+       "id": "science-10/life-processes/excretion/excretion-in-human-beings",
        "name": "Excretion in Human Beings",
        "page": 18,
        "number": "5.5.1"
       },
       {
-       "id": "life-processes/excretion/excretion-in-plants",
+       "id": "science-10/life-processes/excretion/excretion-in-plants",
        "name": "Excretion in Plants",
        "page": 20,
        "number": "5.5.2"
@@ -596,7 +596,7 @@
    ]
   },
   {
-   "id": "control-and-coordination",
+   "id": "science-10/control-and-coordination",
    "name": "Control and Coordination",
    "number": 6,
    "book": "Science",
@@ -609,31 +609,31 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "control-and-coordination/animals-nervous-system",
+     "id": "science-10/control-and-coordination/animals-nervous-system",
      "name": "Animals – Nervous System",
      "page": 1,
      "number": "6.1",
      "subtopics": [
       {
-       "id": "control-and-coordination/animals-nervous-system/what-happens-in-reflex-actions",
+       "id": "science-10/control-and-coordination/animals-nervous-system/what-happens-in-reflex-actions",
        "name": "What happens in Reflex Actions?",
        "page": 3,
        "number": "6.1.1"
       },
       {
-       "id": "control-and-coordination/animals-nervous-system/human-brain",
+       "id": "science-10/control-and-coordination/animals-nervous-system/human-brain",
        "name": "Human Brain",
        "page": 4,
        "number": "6.1.2"
       },
       {
-       "id": "control-and-coordination/animals-nervous-system/how-are-these-tissues-protected",
+       "id": "science-10/control-and-coordination/animals-nervous-system/how-are-these-tissues-protected",
        "name": "How are these Tissues protected?",
        "page": 6,
        "number": "6.1.3"
       },
       {
-       "id": "control-and-coordination/animals-nervous-system/how-does-the-nervous-tissue-cause-action",
+       "id": "science-10/control-and-coordination/animals-nervous-system/how-does-the-nervous-tissue-cause-action",
        "name": "How does the Nervous Tissue cause Action?",
        "page": 6,
        "number": "6.1.4"
@@ -641,19 +641,19 @@
      ]
     },
     {
-     "id": "control-and-coordination/coordination-in-plants",
+     "id": "science-10/control-and-coordination/coordination-in-plants",
      "name": "Coordination in Plants",
      "page": 6,
      "number": "6.2",
      "subtopics": [
       {
-       "id": "control-and-coordination/coordination-in-plants/immediate-response-to-stimulus",
+       "id": "science-10/control-and-coordination/coordination-in-plants/immediate-response-to-stimulus",
        "name": "Immediate Response to Stimulus",
        "page": 7,
        "number": "6.2.1"
       },
       {
-       "id": "control-and-coordination/coordination-in-plants/movement-due-to-growth",
+       "id": "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth",
        "name": "Movement Due to Growth",
        "page": 7,
        "number": "6.2.2"
@@ -661,7 +661,7 @@
      ]
     },
     {
-     "id": "control-and-coordination/hormones-in-animals",
+     "id": "science-10/control-and-coordination/hormones-in-animals",
      "name": "Hormones in Animals",
      "page": 10,
      "number": "6.3",
@@ -670,7 +670,7 @@
    ]
   },
   {
-   "id": "how-do-organisms-reproduce",
+   "id": "science-10/how-do-organisms-reproduce",
    "name": "How do Organisms Reproduce?",
    "number": 7,
    "book": "Science",
@@ -683,13 +683,13 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "how-do-organisms-reproduce/do-organisms-create-exact-copies-of-themselves",
+     "id": "science-10/how-do-organisms-reproduce/do-organisms-create-exact-copies-of-themselves",
      "name": "Do Organisms Create Exact Copies of Themselves?",
      "page": 1,
      "number": "7.1",
      "subtopics": [
       {
-       "id": "how-do-organisms-reproduce/do-organisms-create-exact-copies-of-themselves/the-importance-of-variation",
+       "id": "science-10/how-do-organisms-reproduce/do-organisms-create-exact-copies-of-themselves/the-importance-of-variation",
        "name": "The Importance of Variation",
        "page": 2,
        "number": "7.1.1"
@@ -697,43 +697,43 @@
      ]
     },
     {
-     "id": "how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms",
+     "id": "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms",
      "name": "Modes of Reproduction Used by Single Organisms",
      "page": 3,
      "number": "7.2",
      "subtopics": [
       {
-       "id": "how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/fission",
+       "id": "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/fission",
        "name": "Fission",
        "page": 3,
        "number": "7.2.1"
       },
       {
-       "id": "how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/fragmentation",
+       "id": "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/fragmentation",
        "name": "Fragmentation",
        "page": 4,
        "number": "7.2.2"
       },
       {
-       "id": "how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/regeneration",
+       "id": "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/regeneration",
        "name": "Regeneration",
        "page": 4,
        "number": "7.2.3"
       },
       {
-       "id": "how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/budding",
+       "id": "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/budding",
        "name": "Budding",
        "page": 5,
        "number": "7.2.4"
       },
       {
-       "id": "how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/vegetative-propagation",
+       "id": "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/vegetative-propagation",
        "name": "Vegetative Propagation",
        "page": 5,
        "number": "7.2.5"
       },
       {
-       "id": "how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/spore-formation",
+       "id": "science-10/how-do-organisms-reproduce/modes-of-reproduction-used-by-single-organisms/spore-formation",
        "name": "Spore Formation",
        "page": 6,
        "number": "7.2.6"
@@ -741,25 +741,25 @@
      ]
     },
     {
-     "id": "how-do-organisms-reproduce/sexual-reproduction",
+     "id": "science-10/how-do-organisms-reproduce/sexual-reproduction",
      "name": "Sexual Reproduction",
      "page": 7,
      "number": "7.3",
      "subtopics": [
       {
-       "id": "how-do-organisms-reproduce/sexual-reproduction/why-the-sexual-mode-of-reproduction",
+       "id": "science-10/how-do-organisms-reproduce/sexual-reproduction/why-the-sexual-mode-of-reproduction",
        "name": "Why the Sexual Mode of Reproduction?",
        "page": 7,
        "number": "7.3.1"
       },
       {
-       "id": "how-do-organisms-reproduce/sexual-reproduction/sexual-reproduction-in-flowering-plants",
+       "id": "science-10/how-do-organisms-reproduce/sexual-reproduction/sexual-reproduction-in-flowering-plants",
        "name": "Sexual Reproduction in Flowering Plants",
        "page": 8,
        "number": "7.3.2"
       },
       {
-       "id": "how-do-organisms-reproduce/sexual-reproduction/reproduction-in-human-beings",
+       "id": "science-10/how-do-organisms-reproduce/sexual-reproduction/reproduction-in-human-beings",
        "name": "Reproduction in Human Beings",
        "page": 9,
        "number": "7.3.3"
@@ -769,7 +769,7 @@
    ]
   },
   {
-   "id": "heredity",
+   "id": "science-10/heredity",
    "name": "Heredity",
    "number": 8,
    "book": "Science",
@@ -783,38 +783,38 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "heredity/accumulation-of-variation-during-reproduction",
+     "id": "science-10/heredity/accumulation-of-variation-during-reproduction",
      "name": "Accumulation of Variation During Reproduction",
      "page": 1,
      "number": "8.1",
      "subtopics": []
     },
     {
-     "id": "heredity/heredity",
+     "id": "science-10/heredity/heredity",
      "name": "Heredity",
      "page": 2,
      "number": "8.2",
      "subtopics": [
       {
-       "id": "heredity/heredity/inherited-traits",
+       "id": "science-10/heredity/heredity/inherited-traits",
        "name": "Inherited Traits",
        "page": 2,
        "number": "8.2.1"
       },
       {
-       "id": "heredity/heredity/rules-for-the-inheritance-of-traits-mendel-s-contributions",
+       "id": "science-10/heredity/heredity/rules-for-the-inheritance-of-traits-mendel-s-contributions",
        "name": "Rules for the Inheritance of Traits – Mendel’s Contributions",
        "page": 2,
        "number": "8.2.2"
       },
       {
-       "id": "heredity/heredity/how-do-these-traits-get-expressed",
+       "id": "science-10/heredity/heredity/how-do-these-traits-get-expressed",
        "name": "How do these Traits get Expressed?",
        "page": 4,
        "number": "8.2.3"
       },
       {
-       "id": "heredity/heredity/sex-determination",
+       "id": "science-10/heredity/heredity/sex-determination",
        "name": "Sex Determination",
        "page": 5,
        "number": "8.2.4"
@@ -824,7 +824,7 @@
    ]
   },
   {
-   "id": "light-reflection-and-refraction",
+   "id": "science-10/light-reflection-and-refraction",
    "name": "Light – Reflection and Refraction",
    "number": 9,
    "book": "Science",
@@ -837,38 +837,38 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "light-reflection-and-refraction/reflection-of-light",
+     "id": "science-10/light-reflection-and-refraction/reflection-of-light",
      "name": "Reflection of Light",
      "page": 1,
      "number": "9.1",
      "subtopics": []
     },
     {
-     "id": "light-reflection-and-refraction/spherical-mirrors",
+     "id": "science-10/light-reflection-and-refraction/spherical-mirrors",
      "name": "Spherical Mirrors",
      "page": 2,
      "number": "9.2",
      "subtopics": [
       {
-       "id": "light-reflection-and-refraction/spherical-mirrors/image-formation-by-spherical-mirrors",
+       "id": "science-10/light-reflection-and-refraction/spherical-mirrors/image-formation-by-spherical-mirrors",
        "name": "Image Formation by Spherical Mirrors",
        "page": 4,
        "number": "9.2.1"
       },
       {
-       "id": "light-reflection-and-refraction/spherical-mirrors/representation-of-images-formed-by-spherical-mirrors-using-r",
+       "id": "science-10/light-reflection-and-refraction/spherical-mirrors/representation-of-images-formed-by-spherical-mirrors-using-r",
        "name": "Representation of Images Formed by Spherical Mirrors Using Ray Diagrams",
        "page": 5,
        "number": "9.2.2"
       },
       {
-       "id": "light-reflection-and-refraction/spherical-mirrors/sign-convention-for-reflection-by-spherical-mirrors",
+       "id": "science-10/light-reflection-and-refraction/spherical-mirrors/sign-convention-for-reflection-by-spherical-mirrors",
        "name": "Sign Convention for Reflection by Spherical Mirrors",
        "page": 9,
        "number": "9.2.3"
       },
       {
-       "id": "light-reflection-and-refraction/spherical-mirrors/mirror-formula-and-magnification",
+       "id": "science-10/light-reflection-and-refraction/spherical-mirrors/mirror-formula-and-magnification",
        "name": "Mirror Formula and Magnification",
        "page": 10,
        "number": "9.2.4"
@@ -876,55 +876,55 @@
      ]
     },
     {
-     "id": "light-reflection-and-refraction/refraction-of-light",
+     "id": "science-10/light-reflection-and-refraction/refraction-of-light",
      "name": "Refraction of Light",
      "page": 12,
      "number": "9.3",
      "subtopics": [
       {
-       "id": "light-reflection-and-refraction/refraction-of-light/refraction-through-a-rectangular-glass-slab",
+       "id": "science-10/light-reflection-and-refraction/refraction-of-light/refraction-through-a-rectangular-glass-slab",
        "name": "Refraction through a Rectangular Glass Slab",
        "page": 13,
        "number": "9.3.1"
       },
       {
-       "id": "light-reflection-and-refraction/refraction-of-light/the-refractive-index",
+       "id": "science-10/light-reflection-and-refraction/refraction-of-light/the-refractive-index",
        "name": "The Refractive Index",
        "page": 15,
        "number": "9.3.2"
       },
       {
-       "id": "light-reflection-and-refraction/refraction-of-light/refraction-by-spherical-lenses",
+       "id": "science-10/light-reflection-and-refraction/refraction-of-light/refraction-by-spherical-lenses",
        "name": "Refraction by Spherical Lenses",
        "page": 17,
        "number": "9.3.3"
       },
       {
-       "id": "light-reflection-and-refraction/refraction-of-light/image-formation-by-lenses",
+       "id": "science-10/light-reflection-and-refraction/refraction-of-light/image-formation-by-lenses",
        "name": "Image Formation by Lenses",
        "page": 19,
        "number": "9.3.4"
       },
       {
-       "id": "light-reflection-and-refraction/refraction-of-light/image-formation-in-lenses-using-ray-diagrams",
+       "id": "science-10/light-reflection-and-refraction/refraction-of-light/image-formation-in-lenses-using-ray-diagrams",
        "name": "Image Formation in Lenses Using Ray Diagrams",
        "page": 20,
        "number": "9.3.5"
       },
       {
-       "id": "light-reflection-and-refraction/refraction-of-light/sign-convention-for-spherical-lenses",
+       "id": "science-10/light-reflection-and-refraction/refraction-of-light/sign-convention-for-spherical-lenses",
        "name": "Sign Convention for Spherical Lenses",
        "page": 22,
        "number": "9.3.6"
       },
       {
-       "id": "light-reflection-and-refraction/refraction-of-light/lens-formula-and-magnification",
+       "id": "science-10/light-reflection-and-refraction/refraction-of-light/lens-formula-and-magnification",
        "name": "Lens Formula and Magnification",
        "page": 22,
        "number": "9.3.7"
       },
       {
-       "id": "light-reflection-and-refraction/refraction-of-light/power-of-a-lens",
+       "id": "science-10/light-reflection-and-refraction/refraction-of-light/power-of-a-lens",
        "name": "Power of a Lens",
        "page": 24,
        "number": "9.3.8"
@@ -934,7 +934,7 @@
    ]
   },
   {
-   "id": "the-human-eye-and-the-colourful-world",
+   "id": "science-10/the-human-eye-and-the-colourful-world",
    "name": "The Human Eye and the Colourful World",
    "number": 10,
    "book": "Science",
@@ -948,13 +948,13 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "the-human-eye-and-the-colourful-world/the-human-eye",
+     "id": "science-10/the-human-eye-and-the-colourful-world/the-human-eye",
      "name": "The Human Eye",
      "page": 1,
      "number": "10.1",
      "subtopics": [
       {
-       "id": "the-human-eye-and-the-colourful-world/the-human-eye/power-of-accommodation",
+       "id": "science-10/the-human-eye-and-the-colourful-world/the-human-eye/power-of-accommodation",
        "name": "Power of Accommodation",
        "page": 2,
        "number": "10.1.1"
@@ -962,47 +962,47 @@
      ]
     },
     {
-     "id": "the-human-eye-and-the-colourful-world/defects-of-vision-and-their-correction",
+     "id": "science-10/the-human-eye-and-the-colourful-world/defects-of-vision-and-their-correction",
      "name": "Defects of Vision and Their Correction",
      "page": 2,
      "number": "10.2",
      "subtopics": []
     },
     {
-     "id": "the-human-eye-and-the-colourful-world/refraction-of-light-through-a-prism",
+     "id": "science-10/the-human-eye-and-the-colourful-world/refraction-of-light-through-a-prism",
      "name": "Refraction of Light Through a Prism",
      "page": 5,
      "number": "10.3",
      "subtopics": []
     },
     {
-     "id": "the-human-eye-and-the-colourful-world/dispersion-of-white-light-by-a-glass-prism",
+     "id": "science-10/the-human-eye-and-the-colourful-world/dispersion-of-white-light-by-a-glass-prism",
      "name": "Dispersion of White Light by a Glass Prism",
      "page": 6,
      "number": "10.4",
      "subtopics": []
     },
     {
-     "id": "the-human-eye-and-the-colourful-world/atmospheric-refraction",
+     "id": "science-10/the-human-eye-and-the-colourful-world/atmospheric-refraction",
      "name": "Atmospheric Refraction",
      "page": 8,
      "number": "10.5",
      "subtopics": []
     },
     {
-     "id": "the-human-eye-and-the-colourful-world/scattering-of-light",
+     "id": "science-10/the-human-eye-and-the-colourful-world/scattering-of-light",
      "name": "Scattering of Light",
      "page": 9,
      "number": "10.6",
      "subtopics": [
       {
-       "id": "the-human-eye-and-the-colourful-world/scattering-of-light/tyndall-effect",
+       "id": "science-10/the-human-eye-and-the-colourful-world/scattering-of-light/tyndall-effect",
        "name": "Tyndall Effect",
        "page": 9,
        "number": "10.6.1"
       },
       {
-       "id": "the-human-eye-and-the-colourful-world/scattering-of-light/why-is-the-colour-of-the-clear-sky-blue",
+       "id": "science-10/the-human-eye-and-the-colourful-world/scattering-of-light/why-is-the-colour-of-the-clear-sky-blue",
        "name": "Why is the colour of the clear Sky Blue?",
        "page": 9,
        "number": "10.6.2"
@@ -1012,7 +1012,7 @@
    ]
   },
   {
-   "id": "electricity",
+   "id": "science-10/electricity",
    "name": "Electricity",
    "number": 11,
    "book": "Science",
@@ -1025,54 +1025,54 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "electricity/electric-current-and-circuit",
+     "id": "science-10/electricity/electric-current-and-circuit",
      "name": "Electric Current and Circuit",
      "page": 1,
      "number": "11.1",
      "subtopics": []
     },
     {
-     "id": "electricity/electric-potential-and-potential-difference",
+     "id": "science-10/electricity/electric-potential-and-potential-difference",
      "name": "Electric Potential and Potential Difference",
      "page": 3,
      "number": "11.2",
      "subtopics": []
     },
     {
-     "id": "electricity/circuit-diagram",
+     "id": "science-10/electricity/circuit-diagram",
      "name": "Circuit Diagram",
      "page": 4,
      "number": "11.3",
      "subtopics": []
     },
     {
-     "id": "electricity/ohm-s-law",
+     "id": "science-10/electricity/ohm-s-law",
      "name": "Ohm’s Law",
      "page": 5,
      "number": "11.4",
      "subtopics": []
     },
     {
-     "id": "electricity/factors-on-which-the-resistance-of-a-conductor-depends",
+     "id": "science-10/electricity/factors-on-which-the-resistance-of-a-conductor-depends",
      "name": "Factors on Which the Resistance of a Conductor Depends",
      "page": 7,
      "number": "11.5",
      "subtopics": []
     },
     {
-     "id": "electricity/resistance-of-a-system-of-resistors",
+     "id": "science-10/electricity/resistance-of-a-system-of-resistors",
      "name": "Resistance of a System of Resistors",
      "page": 11,
      "number": "11.6",
      "subtopics": [
       {
-       "id": "electricity/resistance-of-a-system-of-resistors/resistors-in-series",
+       "id": "science-10/electricity/resistance-of-a-system-of-resistors/resistors-in-series",
        "name": "Resistors in Series",
        "page": 12,
        "number": "11.6.1"
       },
       {
-       "id": "electricity/resistance-of-a-system-of-resistors/resistors-in-parallel",
+       "id": "science-10/electricity/resistance-of-a-system-of-resistors/resistors-in-parallel",
        "name": "Resistors in Parallel",
        "page": 15,
        "number": "11.6.2"
@@ -1080,13 +1080,13 @@
      ]
     },
     {
-     "id": "electricity/heating-effect-of-electric-current",
+     "id": "science-10/electricity/heating-effect-of-electric-current",
      "name": "Heating Effect of Electric Current",
      "page": 18,
      "number": "11.7",
      "subtopics": [
       {
-       "id": "electricity/heating-effect-of-electric-current/practical-applications-of-heating-effect-of-electric-current",
+       "id": "science-10/electricity/heating-effect-of-electric-current/practical-applications-of-heating-effect-of-electric-current",
        "name": "Practical Applications of Heating Effect of Electric Current",
        "page": 20,
        "number": "11.7.1"
@@ -1094,7 +1094,7 @@
      ]
     },
     {
-     "id": "electricity/electric-power",
+     "id": "science-10/electricity/electric-power",
      "name": "Electric Power",
      "page": 21,
      "number": "11.8",
@@ -1103,7 +1103,7 @@
    ]
   },
   {
-   "id": "magnetic-effects-of-electric-current",
+   "id": "science-10/magnetic-effects-of-electric-current",
    "name": "Magnetic Effects of Electric Current",
    "number": 12,
    "book": "Science",
@@ -1116,38 +1116,38 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "magnetic-effects-of-electric-current/magnetic-field-and-field-lines",
+     "id": "science-10/magnetic-effects-of-electric-current/magnetic-field-and-field-lines",
      "name": "Magnetic Field and Field Lines",
      "page": 2,
      "number": "12.1",
      "subtopics": []
     },
     {
-     "id": "magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor",
+     "id": "science-10/magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor",
      "name": "Magnetic Field Due to a Current-carrying Conductor",
      "page": 3,
      "number": "12.2",
      "subtopics": [
       {
-       "id": "magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-through-a-straight-conductor",
+       "id": "science-10/magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-through-a-straight-conductor",
        "name": "Magnetic Field due to a Current through a Straight Conductor",
        "page": 4,
        "number": "12.2.1"
       },
       {
-       "id": "magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/right-hand-thumb-rule",
+       "id": "science-10/magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/right-hand-thumb-rule",
        "name": "Right-Hand Thumb Rule",
        "page": 5,
        "number": "12.2.2"
       },
       {
-       "id": "magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-through-a-circular-loop",
+       "id": "science-10/magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-through-a-circular-loop",
        "name": "Magnetic Field due to a Current through a Circular Loop",
        "page": 6,
        "number": "12.2.3"
       },
       {
-       "id": "magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-in-a-solenoid",
+       "id": "science-10/magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-in-a-solenoid",
        "name": "Magnetic Field due to a Current in a Solenoid",
        "page": 7,
        "number": "12.2.4"
@@ -1155,14 +1155,14 @@
      ]
     },
     {
-     "id": "magnetic-effects-of-electric-current/force-on-a-current-carrying-conductor-in-a-magnetic-field",
+     "id": "science-10/magnetic-effects-of-electric-current/force-on-a-current-carrying-conductor-in-a-magnetic-field",
      "name": "Force on a Current-carrying Conductor in a Magnetic Field",
      "page": 8,
      "number": "12.3",
      "subtopics": []
     },
     {
-     "id": "magnetic-effects-of-electric-current/domestic-electric-circuits",
+     "id": "science-10/magnetic-effects-of-electric-current/domestic-electric-circuits",
      "name": "Domestic Electric Circuits",
      "page": 10,
      "number": "12.4",
@@ -1171,7 +1171,7 @@
    ]
   },
   {
-   "id": "our-environment",
+   "id": "science-10/our-environment",
    "name": "Our Environment",
    "number": 13,
    "book": "Science",
@@ -1184,13 +1184,13 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "our-environment/eco-system-what-are-its-components",
+     "id": "science-10/our-environment/eco-system-what-are-its-components",
      "name": "Eco-system — What Are Its Components?",
      "page": 1,
      "number": "13.1",
      "subtopics": [
       {
-       "id": "our-environment/eco-system-what-are-its-components/food-chains-and-webs",
+       "id": "science-10/our-environment/eco-system-what-are-its-components/food-chains-and-webs",
        "name": "Food Chains and Webs",
        "page": 3,
        "number": "13.1.1"
@@ -1198,19 +1198,19 @@
      ]
     },
     {
-     "id": "our-environment/how-do-our-activities-affect-the-environment",
+     "id": "science-10/our-environment/how-do-our-activities-affect-the-environment",
      "name": "How Do Our Activities Affect the Environment?",
      "page": 5,
      "number": "13.2",
      "subtopics": [
       {
-       "id": "our-environment/how-do-our-activities-affect-the-environment/ozone-layer-and-how-it-is-getting-depleted",
+       "id": "science-10/our-environment/how-do-our-activities-affect-the-environment/ozone-layer-and-how-it-is-getting-depleted",
        "name": "Ozone Layer and How it is Getting Depleted",
        "page": 5,
        "number": "13.2.1"
       },
       {
-       "id": "our-environment/how-do-our-activities-affect-the-environment/managing-the-garbage-we-produce",
+       "id": "science-10/our-environment/how-do-our-activities-affect-the-environment/managing-the-garbage-we-produce",
        "name": "Managing the Garbage we Produce",
        "page": 6,
        "number": "13.2.2"

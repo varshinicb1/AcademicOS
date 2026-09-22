@@ -29,7 +29,10 @@ its size, font, weight and colour. Within one chapter:
                 in the chapter is the topic level and the next one down the
                 subtopic level (Exploring Society, class 6: 17pt ExtraBold and
                 15pt Bold, fees102.pdf pp3, 7). Marked ``headingKind:
-                "unnumbered"`` because it is the weaker signal.
+                "unnumbered"`` because it is the weaker signal. A heading
+                lettered "a)", "a.", "(a)" or "A." in a run from a/A is a
+                subtopic, named without its letter ("a) Temperature",
+                gees102.pdf p5).
 
 What is never a topic, whatever its type: activities, examples, figures,
 tables, exercises, boxes ("LET'S EXPLORE", "Think and Reflect", "Probe and
@@ -335,6 +338,30 @@ def _starts_like_a_title(text: str) -> bool:
     return t[0].isupper() or t[0].isdigit() or not t[0].isascii()
 
 
+# "a) Temperature", "a. What are the Vedas?", "(c) Floods", "A. Primary
+# activities": one letter, then ")" or ".", then the name. Not "E. F. Hayward"
+# (initials: another letter label follows) and not "A Tale ..." (no mark).
+_LETTER_LABEL = re.compile(r"^\(?([A-Za-z])[.)]\s+(?![A-Za-z][.)](?:\s|$))(\S.*)$")
+
+
+def letter_label(text: str) -> tuple[str | None, str]:
+    """(letter, name) of a lettered heading; (None, text) for any other."""
+    m = _LETTER_LABEL.match(text)
+    return (m.group(1), m.group(2)) if m else (None, text)
+
+
+def _in_letter_run(label: str, prev: str | None) -> bool:
+    """``label`` opens a run (a/A) or follows ``prev`` in the same case.
+
+    A letter counts as a label only inside such a run: a lone "O. Henry" in
+    heading type is an author, not item O of a list.
+    """
+    if label in "aA":
+        return True
+    return (prev is not None and prev.islower() == label.islower()
+            and ord(label) == ord(prev) + 1)
+
+
 def _latin_share(text: str) -> float:
     letters = [ch for ch in text if ch.isalpha()]
     return sum(ch.isascii() for ch in letters) / len(letters) if letters else 0.0
@@ -602,13 +629,31 @@ def unnumbered_headings(lines: list[Line], skip_pages: frozenset = frozenset()) 
     at least 1.5pt above body size and below chapter-title size (24pt). The
     largest candidate size in the chapter is the topic level; the next size at
     least 0.9pt smaller is the subtopic level; anything smaller is ignored.
+
+    A heading lettered as an item of a list -- "a) Temperature" .. "e)
+    Humidity" under "Weather Instruments" (gees102.pdf pp5-11), "A. Primary
+    activities" .. "C. Tertiary activities" (fees114.pdf pp2-7) -- is a
+    subtopic of the heading above it, named without its letter. Read as a
+    title, the lower-case letter dropped 31 such headings in the Social
+    Science books of classes 6-9 (21 gees, 6 fees, 4 Understanding Society
+    9). It is a subtopic whichever of the two levels it is set in: gees207.pdf
+    p8 sets "b) Indian railway network" in the 17pt topic type between "a)"
+    and "c)" at 15pt.
     """
     body, body_font = body_style(lines)
     family = re.split(r"[-,]", body_font)[0]
     by_page: dict[int, list[Line]] = collections.defaultdict(list)
     for ln in lines:
         by_page[ln.page].append(ln)
-    cands: list[tuple[Line, str]] = []
+
+    def acceptable(name: str) -> bool:
+        return (sum(ch.isalpha() for ch in name) >= 3 and len(name) <= 110
+                and not _not_a_topic(name) and not name.endswith((",", ";"))
+                and not _dangling(name)
+                and _starts_like_a_title(name) and not _foreign_script(name, lines))
+
+    cands: list[tuple[Line, str, bool]] = []     # (line, name, lettered)
+    prev_letter: str | None = None
     i = 0
     while i < len(lines):
         ln = lines[i]
@@ -624,19 +669,21 @@ def unnumbered_headings(lines: list[Line], skip_pages: frozenset = frozenset()) 
                 and ln.size < 24 and not ln.text[:1].isdigit()):
             text, j = _with_continuations(lines, i, lambda t: False)
             name = _clean(text)
-            if (sum(ch.isalpha() for ch in name) >= 3 and len(name) <= 110
-                    and not _not_a_topic(name) and not name.endswith((",", ";"))
-                    and not _dangling(name)
-                    and _starts_like_a_title(name) and not _foreign_script(name, lines)
+            label, rest = letter_label(name)
+            lettered = (label is not None and _in_letter_run(label, prev_letter)
+                        and acceptable(rest))
+            if ((lettered or acceptable(name))
                     and not _captions_a_table(ln, lines[j], by_page[ln.page], body)):
-                cands.append((ln, name))
+                cands.append((ln, rest if lettered else name, lettered))
+                if lettered:
+                    prev_letter = label
             i = j + 1
             continue
         i += 1
     # Sizes within 0.6pt are one level: gees105.pdf sets the same sub-heading
     # style at 15pt and 15.43pt (pp6, 17).
     levels: list[list[float]] = []
-    for size in sorted({ln.size for ln, _ in cands}, reverse=True):
+    for size in sorted({ln.size for ln, _, _ in cands}, reverse=True):
         if levels and levels[-1][0] - size <= 0.6:
             levels[-1].append(size)
         else:
@@ -646,8 +693,10 @@ def unnumbered_headings(lines: list[Line], skip_pages: frozenset = frozenset()) 
     top = set(levels[0])
     second = set(levels[1]) if len(levels) > 1 and levels[0][-1] - levels[1][0] >= 0.9 else set()
     out = []
-    for ln, name in cands:
-        if ln.size in top:
+    for ln, name, lettered in cands:
+        if lettered and (ln.size in top or ln.size in second):
+            out.append(Heading(2, name, ln.page, None, "unnumbered"))
+        elif ln.size in top:
             out.append(Heading(1, name, ln.page, None, "unnumbered"))
         elif ln.size in second:
             out.append(Heading(2, name, ln.page, None, "unnumbered"))
