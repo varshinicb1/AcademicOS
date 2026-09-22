@@ -116,6 +116,40 @@ List<List<Question>> pickForSections(List<Question> pool, List<SectionBlueprint>
 List<Question> selectForSections(List<Question> pool, List<SectionBlueprint> sections) =>
     pickForSections(pool, sections).expand((picks) => picks).toList();
 
+/// The Quick Paper's sections for [totalMarks]: one-, two- and three-mark
+/// sections that add up to exactly [totalMarks].
+///
+/// They used to be fixed at 5 + 6 + 9 = 20 marks while the header took the
+/// requested total, and the dialog never sends 20 -- it sends 25, 40, 50 or
+/// 80 (QuickPaperRequest defaults to 80) -- so every real Quick Paper printed
+/// "25 marks" or more over 20 marks of questions. The 20-mark 5/3/3 layout is
+/// scaled: two- and three-markers keep their 3/20 share each, and the
+/// one-mark section takes the remainder, so 25 -> 5/4/4, 40 -> 10/6/6,
+/// 50 -> 10/8/8, 80 -> 20/12/12. A section that comes out empty is left out.
+List<SectionBlueprint> quickPaperSections(int totalMarks) {
+  if (totalMarks <= 0) {
+    throw ArgumentError.value(totalMarks, 'totalMarks', 'must be positive');
+  }
+  var threes = (totalMarks * 3 / 20).round();
+  var twos = (totalMarks * 3 / 20).round();
+  int ones() => totalMarks - 2 * twos - 3 * threes;
+  while (ones() < 0) {
+    if (threes > 0) {
+      threes--;
+    } else {
+      twos--;
+    }
+  }
+  return [
+    if (ones() > 0)
+      SectionBlueprint(id: 'A', label: 'A', name: 'MCQs', marksPerQuestion: 1, questionCount: ones(), totalMarks: ones(), allowedBloomLevels: const [BloomLevel.remember, BloomLevel.understand], allowedDifficulties: const [Difficulty.easy, Difficulty.medium]),
+    if (twos > 0)
+      SectionBlueprint(id: 'B', label: 'B', name: 'Short Answer', marksPerQuestion: 2, questionCount: twos, totalMarks: 2 * twos, allowedBloomLevels: const [BloomLevel.understand, BloomLevel.apply], allowedDifficulties: const [Difficulty.easy, Difficulty.medium]),
+    if (threes > 0)
+      SectionBlueprint(id: 'C', label: 'C', name: 'Long Answer', marksPerQuestion: 3, questionCount: threes, totalMarks: 3 * threes, allowedBloomLevels: const [BloomLevel.apply, BloomLevel.analyze], allowedDifficulties: const [Difficulty.medium, Difficulty.hard], hasInternalChoice: true, internalChoiceCount: 1),
+  ];
+}
+
 const editableAssessmentStatuses = {
   AssessmentStatus.draft,
   AssessmentStatus.blueprintReady,
@@ -445,6 +479,7 @@ class LocalApiClient extends ApiClient {
   Future<GeneratedPaper> quickGeneratePaper(QuickPaperRequest request) async {
     await CorpusRepository.instance.ensureLoaded();
     const schoolId = AppConstants.currentSchoolId;
+    final sections = quickPaperSections(request.totalMarks);
     final assessment = Assessment(
       id: _newId('asm_quick'),
       schoolId: schoolId,
@@ -454,17 +489,15 @@ class LocalApiClient extends ApiClient {
       grade: request.grade,
       chapterIds: request.chapterIds,
       blueprint: Blueprint(
-        totalMarks: request.totalMarks,
+        // From the sections, which add up to the request, so the header can
+        // never again state a total the questions do not.
+        totalMarks: sections.fold(0, (sum, s) => sum + s.totalMarks),
         durationMinutes: request.durationMinutes ?? (request.totalMarks <= 25 ? 45 : request.totalMarks <= 50 ? 90 : 180),
         difficulty: const DifficultyDistribution(easy: 0.3, medium: 0.5, hard: 0.2),
         bloom: const BloomDistribution(remember: 0.2, understand: 0.25, apply: 0.3, analyze: 0.15, evaluate: 0.05, create: 0.05),
         chapterWeights: const ChapterWeights(weights: {}),
         competencyWeights: const CompetencyWeights(weights: {}),
-        sections: [
-          const SectionBlueprint(id: 'A', label: 'A', name: 'MCQs', marksPerQuestion: 1, questionCount: 5, totalMarks: 5, allowedBloomLevels: [BloomLevel.remember, BloomLevel.understand], allowedDifficulties: [Difficulty.easy, Difficulty.medium]),
-          const SectionBlueprint(id: 'B', label: 'B', name: 'Short Answer', marksPerQuestion: 2, questionCount: 3, totalMarks: 6, allowedBloomLevels: [BloomLevel.understand, BloomLevel.apply], allowedDifficulties: [Difficulty.easy, Difficulty.medium]),
-          const SectionBlueprint(id: 'C', label: 'C', name: 'Long Answer', marksPerQuestion: 3, questionCount: 3, totalMarks: 9, allowedBloomLevels: [BloomLevel.apply, BloomLevel.analyze], allowedDifficulties: [Difficulty.medium, Difficulty.hard], hasInternalChoice: true, internalChoiceCount: 1),
-        ],
+        sections: sections,
         tier: request.tier,
         examType: request.examType,
       ),
@@ -482,7 +515,6 @@ class LocalApiClient extends ApiClient {
     if (pool.isEmpty) {
       throw NoQuestionsForGradeException(request.subject, request.grade);
     }
-    final sections = assessment.blueprint.sections;
     final picks = pickForSections(pool, sections);
     final shortfalls = [
       for (var i = 0; i < sections.length; i++)

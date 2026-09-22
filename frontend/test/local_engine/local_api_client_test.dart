@@ -135,32 +135,86 @@ void main() {
     });
   });
 
-  // Against the real bundled corpus, which (2026-09-21) holds only classes 10
-  // and 12: the old quick path fell back to every grade of the subject, so a
-  // class 7 Science request came back as eleven class 10 questions under a
-  // "Class 10" header.
+  // Against the real bundled corpus. Neither refusal test hard-codes a gap
+  // in today's bank: the merge exists to close those gaps (class 7 Science
+  // gains CBE questions, English 10 may gain SQP 2-markers), and a test
+  // pinned to one would fail, or be weakened, the day the gap closes.
   group('quickGeneratePaper', () {
+    // The bank is CBSE classes 6-12; class 3 can never have questions. The
+    // old quick path fell back to every grade of the subject, so a request
+    // for a grade with none came back as another grade's questions.
     test('a grade with no questions refuses instead of serving another grade', () async {
       await expectLater(
-        () => api.quickGeneratePaper(const QuickPaperRequest(subject: 'Science', grade: 7, totalMarks: 20)),
+        () => api.quickGeneratePaper(const QuickPaperRequest(subject: 'Science', grade: 3, totalMarks: 20)),
         throwsA(isA<NoQuestionsForGradeException>()),
       );
       expect(await api.getAssessmentsBySchool(AppConstants.currentSchoolId), isEmpty,
           reason: 'a refused request must not leave an empty draft in the Assessments list');
     });
 
-    // English class 10 holds 127 one-markers and no 2- or 3-markers
-    // (2026-09-22): the paper used to come out as 5 questions worth 5 marks
-    // under a "20 marks" header.
-    test('a grade that cannot fill a section refuses instead of printing a short paper', () async {
+    // English class 10 once held 127 one-markers and no 2- or 3-markers
+    // (2026-09-22), and its paper came out as 5 questions worth 5 marks under
+    // a "20 marks" header. The short request is found at runtime -- a whole
+    // grade, else a single chapter, whose pool cannot fill some section --
+    // so the test keeps biting as the bank fills in.
+    test('a pool that cannot fill a section refuses instead of printing a short paper', () async {
+      final sections = quickPaperSections(20);
+      final pairs = {
+        for (final q in CorpusRepository.instance.all) (q.subject, q.grade),
+      }.toList()
+        ..sort((a, b) => '${a.$1}${a.$2}'.compareTo('${b.$1}${b.$2}'));
+      QuickPaperRequest? short;
+      SectionBlueprint? shortSection;
+      var shortFound = 0;
+      search:
+      for (final (subject, grade) in pairs) {
+        final chapters = {
+          for (final q in CorpusRepository.instance.search(QuestionSearchParams(subject: subject, grade: grade)))
+            ...q.chapterIds,
+        }.toList()
+          ..sort();
+        for (final filter in [<String>[], for (final c in chapters) [c]]) {
+          final pool = CorpusRepository.instance.search(
+              QuestionSearchParams(subject: subject, grade: grade, chapterIds: filter.isEmpty ? null : filter));
+          if (pool.isEmpty) continue;
+          for (final section in sections) {
+            final have = pool.where((q) => q.marks == section.marksPerQuestion).length;
+            if (have < section.questionCount) {
+              short = QuickPaperRequest(subject: subject, grade: grade, chapterIds: filter, totalMarks: 20);
+              shortSection = section;
+              shortFound = have;
+              break search;
+            }
+          }
+        }
+      }
+      expect(short, isNotNull,
+          reason: 'every grade and every single chapter can fill a 20-mark paper: pick another short case');
+      final word = {1: 'one', 2: 'two', 3: 'three'}[shortSection!.marksPerQuestion];
       await expectLater(
-        () => api.quickGeneratePaper(const QuickPaperRequest(subject: 'English', grade: 10, totalMarks: 20)),
-        throwsA(isA<InsufficientQuestionsException>().having(
-            (e) => e.toString(), 'message', contains('Only 0 of 3 two-mark questions for English class 10'))),
+        () => api.quickGeneratePaper(short!),
+        throwsA(isA<InsufficientQuestionsException>().having((e) => e.toString(), 'message',
+            contains('Only $shortFound of ${shortSection.questionCount} $word-mark questions '
+                'for ${short!.subject} class ${short.grade}'))),
       );
       expect(await api.getAssessmentsBySchool(AppConstants.currentSchoolId), isEmpty,
           reason: 'a refused request must not leave an empty draft in the Assessments list');
     });
+
+    // The Quick Paper dialog sends 25, 40, 50 or 80 -- never 20. The sections
+    // used to be fixed at 5+6+9 = 20 marks while the header took the
+    // requested total, so a class test printed "25 marks" over 20 marks of
+    // questions.
+    for (final total in const [25, 40, 50, 80]) {
+      test('a $total-mark dialog preset prints $total marks of questions under a $total-mark header', () async {
+        final paper = await api.quickGeneratePaper(
+            QuickPaperRequest(subject: 'Science', grade: 10, totalMarks: total));
+        expect(paper.metadata.totalMarks, total);
+        expect(paper.sections.fold<int>(0, (s, sec) => s + sec.totalMarks), total);
+        expect(
+            paper.sections.expand((s) => s.questions).fold<int>(0, (s, q) => s + q.marks), total);
+      });
+    }
 
     test('the paper carries the requested grade and fills every section', () async {
       final paper = await api.quickGeneratePaper(

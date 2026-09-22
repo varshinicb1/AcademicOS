@@ -62,4 +62,29 @@ void main() {
     expect(e.toString(), contains('Only 0 of 3 two-mark questions for English class 10'));
     expect(e.toString(), contains('Only 1 of 3 three-mark questions for English class 10'));
   });
+
+  // The dialog sends 25, 40, 50 or 80 (assessment_list_page.dart), and
+  // QuickPaperRequest defaults to 80. Fixed 5+6+9 = 20-mark sections printed
+  // every one of them over 20 marks of questions.
+  for (final total in const [20, 25, 40, 50, 80]) {
+    test('the $total-mark Quick Paper sections add up to $total', () {
+      final sections = quickPaperSections(total);
+      expect(sections.fold<int>(0, (s, x) => s + x.marksPerQuestion * x.questionCount), total);
+      for (final x in sections) {
+        expect(x.totalMarks, x.marksPerQuestion * x.questionCount, reason: 'section ${x.id}');
+        expect(x.questionCount, greaterThan(0), reason: 'section ${x.id}');
+      }
+    });
+  }
+
+  test('20 marks keeps the original 5 + 3 + 3 layout', () {
+    expect(quickPaperSections(20).map((s) => s.questionCount), [5, 3, 3]);
+  });
+
+  test('a total too small for every section still adds up', () {
+    for (var total = 1; total < 20; total++) {
+      final sections = quickPaperSections(total);
+      expect(sections.fold<int>(0, (s, x) => s + x.totalMarks), total, reason: '$total marks');
+    }
+  });
 }
