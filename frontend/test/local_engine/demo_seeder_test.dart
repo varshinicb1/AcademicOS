@@ -170,6 +170,16 @@ void main() {
     for (final r in edited) {
       expect((r['teacherComment'] as String).isNotEmpty, isTrue);
       expect(r['finalMarks'], r['maxMarks'], reason: 'the override in this seeder always awards full marks');
+      // A teacher calling an answer "correct" must be looking at a real
+      // answer -- never a blank or a copy of the question stem, which the
+      // seeder also produces for its wrong/unattempted mix.
+      final answer = (r['studentAnswer'] as String).trim();
+      final stem = (r['stem'] as String).trim();
+      expect(answer, isNotEmpty, reason: 'override must not award full marks to a blank answer');
+      expect(answer.startsWith('Attempt:'), isFalse,
+          reason: 'override must not award full marks to a copied stem: $answer');
+      expect(answer == 'Answer: $stem' || (stem.isNotEmpty && answer.contains(stem)), isFalse,
+          reason: 'override must not award full marks to a copied stem: $answer');
     }
 
     // Cross-check against the real assessment/paper this session grades --
