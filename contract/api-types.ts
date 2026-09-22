@@ -4088,12 +4088,24 @@ export interface components {
             stemLatex: string;
             /** Subject */
             subject: string;
+            /** Subtopicids */
+            subtopicIds?: string[];
             /** Supersededby */
             supersededBy?: string | null;
             /** Tableassetid */
             tableAssetId?: string | null;
+            /** Tagconfidence */
+            tagConfidence?: {
+                [key: string]: number | null;
+            };
+            /** Tagmethod */
+            tagMethod?: string | null;
             /** Tags */
             tags?: string[];
+            /** Taxonomychapterid */
+            taxonomyChapterId?: string | null;
+            /** Topicids */
+            topicIds?: string[];
             /**
              * Type
              * @enum {string}

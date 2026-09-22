@@ -4168,6 +4168,13 @@
             "title": "Subject",
             "type": "string"
           },
+          "subtopicIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Subtopicids",
+            "type": "array"
+          },
           "supersededBy": {
             "anyOf": [
               {
@@ -4190,11 +4197,54 @@
             ],
             "title": "Tableassetid"
           },
+          "tagConfidence": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Tagconfidence",
+            "type": "object"
+          },
+          "tagMethod": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tagmethod"
+          },
           "tags": {
             "items": {
               "type": "string"
             },
             "title": "Tags",
+            "type": "array"
+          },
+          "taxonomyChapterId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Taxonomychapterid"
+          },
+          "topicIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Topicids",
             "type": "array"
           },
           "type": {
