@@ -28,7 +28,7 @@ from academicos.api.main import app
 from academicos.assessment import audit_log as audit_mod
 from academicos.assessment.audit_log import AuditLog, DuplicateAuditEntry
 
-from _auth_helpers import register_invited
+from _auth_helpers import grant_consent, register_invited
 from test_route_inventory import blueprint_body, question_body
 
 
@@ -95,6 +95,8 @@ def sheet(tmp_path, monkeypatch):
     with TestClient(app) as client:
         teacher = register_invited(client, "school_1", "integrity-t@example.com",
                                    name="Ana Teacher")
+        # Grading needs recorded parental consent (authz.require_consent).
+        grant_consent("school_1", "s_integrity", "s_integrity_2")
         headers = {"Authorization": f"Bearer {teacher['token']}"}
         created = client.post("/api/v1/assessments", json={
             "teacherId": teacher["user"]["id"], "schoolId": "school_1",

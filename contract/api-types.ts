@@ -269,6 +269,34 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/consent/missing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Missing Consents
+         * @description Which of these students have no active parental consent at the
+         *     caller's school -- so a school can see, before a test, whose sheets
+         *     grading will refuse (authz.require_consent). Withdrawn consent is listed
+         *     as missing.
+         *
+         *     Takes the roster as `studentIds` (repeat the parameter) rather than a
+         *     class or assessment id: the server holds no roster for either. An
+         *     assessment records how many students sit it, not which, and the web
+         *     client's Classes page is where the class list lives.
+         */
+        get: operations["missing_consents_api_v1_consent_missing_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/consent/students/{student_id}": {
         parameters: {
             query?: never;
@@ -1323,9 +1351,10 @@ export interface paths {
          *     per-student path could not, and the audit trail stays uniform.
          *
          *     Every changed student gets its own audit entry, with the caller as the
-         *     actor. If any target sheet is finalized and no reason is given, the whole
-         *     request is refused with 409 before anything is written, so a bulk award
-         *     never lands half-applied.
+         *     actor. If any target sheet is finalized and no reason is given, or any
+         *     target student has no active parental consent, the whole request is
+         *     refused with 409 before anything is written, so a bulk award never lands
+         *     half-applied.
          */
         post: operations["award_across_students_api_v1_evaluations_assessment__assessment_id__question__question_id__award_post"];
         delete?: never;
@@ -1366,6 +1395,21 @@ export interface paths {
          *     is currently in the graded store) into the student's knowledge state,
          *     exactly once. See the comment on evaluate_sheet() for why that endpoint
          *     doesn't do this itself.
+         *
+         *     "Exactly once" holds across repeated calls (fixed 2026-09-22, Task 306).
+         *     Before, every call appended the whole sheet to mastery again, and the
+         *     obvious workflow after grade_lock.py -- correct a finalized mark with a
+         *     reason, press Finalize again -- counted the sheet twice. Now:
+         *
+         *     * finalize again with no mark changed since: 200 with the same totals, and
+         *       nothing is written (no mastery update, no second finalize entry);
+         *     * finalize again after a correction: a new finalize entry
+         *       (`refinalized: true`), and the sheet's earlier contribution to mastery
+         *       is replaced by the corrected one (KnowledgeStore.record_sheet);
+         *     * a sheet finalized before this fix, whose answers are in mastery
+         *       untagged and so cannot be told apart from other evidence: 409. Adding
+         *       the sheet again would count it twice, so it is refused rather than
+         *       guessed at.
          *
          *     Requires a real logged-in caller from the assessment's own school (fixed
          *     2026-09-11: auth used to be optional here despite this endpoint mutating
@@ -3507,6 +3551,13 @@ export interface components {
             marks: number;
             /** Synonyms */
             synonyms?: string[];
+        };
+        /** MissingConsentResponse */
+        MissingConsentResponse: {
+            /** Checked */
+            checked: number;
+            /** Missing */
+            missing: string[];
         };
         /** MyClassScheduleEntryResponse */
         MyClassScheduleEntryResponse: {
@@ -5710,6 +5761,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ParentalConsentRecord"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    missing_consents_api_v1_consent_missing_get: {
+        parameters: {
+            query?: {
+                studentIds?: string[];
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MissingConsentResponse"];
                 };
             };
             /** @description Validation Error */

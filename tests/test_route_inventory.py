@@ -30,7 +30,7 @@ from academicos.assessment import audit_log
 from academicos.assessment import mobile_scan, routes as assessment_routes
 from academicos.api.main import app
 
-from _auth_helpers import invite_code
+from _auth_helpers import grant_consent, invite_code
 
 # Canonical backend route inventory. Keeping it explicit (not derived from
 # openapi at runtime) is the point: it is the contract every Dart call is
@@ -181,6 +181,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     # --- consent_routes.py (DPDP Act 2023 parental consent) ---
     ("GET", "/api/v1/consent"),
     ("POST", "/api/v1/consent"),
+    ("GET", "/api/v1/consent/missing"),
     ("GET", "/api/v1/consent/students/{student_id}"),
     ("DELETE", "/api/v1/consent/students/{student_id}"),
 })
@@ -301,6 +302,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     # --- consent_routes.py (DPDP Act 2023 parental consent) ---
     ("GET", "/api/v1/consent"),
     ("POST", "/api/v1/consent"),
+    ("GET", "/api/v1/consent/missing"),
     ("GET", "/api/v1/consent/students/{student_id}"),
     ("DELETE", "/api/v1/consent/students/{student_id}"),
     # --- api/main.py (the /v1/* pillar surface) ---
@@ -523,7 +525,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 134
+    assert len(API_ROUTES) == 135
 
 
 def test_docs_routes_present():
@@ -970,9 +972,10 @@ def test_full_boot_school_roster(tmp_path, monkeypatch):
 
 
 def test_full_boot_parental_consent(tmp_path, monkeypatch):
-    """Exercises the 4 parental consent compliance endpoints (DPDP Act 2023 §9):
-    POST /api/v1/consent, GET /api/v1/consent, GET /api/v1/consent/students/{student_id},
-    and DELETE /api/v1/consent/students/{student_id}. Enforces school isolation."""
+    """Exercises the 5 parental consent compliance endpoints (DPDP Act 2023 §9):
+    POST /api/v1/consent, GET /api/v1/consent, GET /api/v1/consent/missing,
+    GET /api/v1/consent/students/{student_id}, and
+    DELETE /api/v1/consent/students/{student_id}. Enforces school isolation."""
     with _boot_client(tmp_path, monkeypatch) as client:
         teacher1 = client.post("/api/v1/auth/register", json={
             "inviteCode": invite_code("school_1"), "name": "Teacher One", "email": "t1@example.com",
@@ -1019,6 +1022,18 @@ def test_full_boot_parental_consent(tmp_path, monkeypatch):
         assert school2_status.json()["hasConsent"] is False
         assert len(client.get("/api/v1/consent", headers=auth2).json()) == 0
 
+        # Who is missing consent: s1 is covered at school_1 only.
+        missing = client.get("/api/v1/consent/missing",
+                             params=[("studentIds", "s1"), ("studentIds", "s2")],
+                             headers=auth1)
+        assert missing.status_code == 200
+        assert missing.json() == {"checked": 2, "missing": ["s2"]}
+        assert client.get("/api/v1/consent/missing", params={"studentIds": "s1"},
+                          headers=auth2).json()["missing"] == ["s1"]
+        assert client.get("/api/v1/consent/missing",
+                          params=[("studentIds", f"s{i}") for i in range(501)],
+                          headers=auth1).status_code == 400
+
         # Revoke consent
         revoked = client.delete("/api/v1/consent/students/s1", headers=auth1)
         assert revoked.status_code == 200
@@ -1028,6 +1043,9 @@ def test_full_boot_parental_consent(tmp_path, monkeypatch):
         status_revoked = client.get("/api/v1/consent/students/s1", headers=auth1)
         assert status_revoked.status_code == 200
         assert status_revoked.json()["hasConsent"] is False
+        # Withdrawn consent is missing consent.
+        assert client.get("/api/v1/consent/missing", params={"studentIds": "s1"},
+                          headers=auth1).json()["missing"] == ["s1"]
 
 
 def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):
@@ -2561,6 +2579,9 @@ def test_full_boot_evaluations_knowledge_practice_insights(tmp_path, monkeypatch
         }, headers=teacher_auth)
         assert created.status_code == 200, created.text
         a_ev = created.json()["id"]
+        # Every student this test grades or practises has a parent's consent
+        # on file (authz.require_consent refuses otherwise).
+        grant_consent("school_1", "s_answer", sheet_id, unknown_id)
 
         # -- evaluation: single answer and full sheet (both now require the
         # authenticated caller from the assessment's own school).
@@ -2724,6 +2745,7 @@ def test_full_boot_scan_session_error_paths(tmp_path, monkeypatch):
         }, headers=auth)
         assert assessment.status_code == 200, assessment.text
         a_scan = assessment.json()["id"]
+        grant_consent("school_1", "s1")  # scanning needs it (authz.require_consent)
 
         created = client.post("/api/v1/scan/sessions", json={
             "assessmentId": a_scan, "studentId": "s1", "studentName": "Student",

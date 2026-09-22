@@ -339,6 +339,7 @@ def init_runtime(config: Optional[Config] = None) -> None:
         questions_by_id=lambda qid: (qbank_routes._bank.get(qid)
                                      if qbank_routes._bank is not None else None),
         audit=pillar_routes._audit,
+        consent=pillar_routes._consents,
     )
     if cfg.llm_api_key:
         from ..agents.critic import SarvamCritic

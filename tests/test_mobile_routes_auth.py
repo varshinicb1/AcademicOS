@@ -12,7 +12,7 @@ import pytest
 from academicos.api.main import app
 
 from test_route_inventory import blueprint_body
-from _auth_helpers import invite_code
+from _auth_helpers import grant_consent, invite_code
 
 
 def _boot_client(tmp_path, monkeypatch):
@@ -56,6 +56,9 @@ def test_scan_routes_auth_boundary(tmp_path, monkeypatch):
         auth_other = {"Authorization": f"Bearer {other['token']}"}
 
         a1 = _create_assessment(client, auth_ok)
+        # Scanning needs recorded parental consent (authz.require_consent);
+        # without it the owning school would get 409, not the path below.
+        grant_consent("school_1", "s1", "s2")
         created = client.post("/api/v1/scan/sessions", json={
             "assessmentId": a1, "studentId": "s1", "studentName": "Student",
         }, headers=auth_ok)

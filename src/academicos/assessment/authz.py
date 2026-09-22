@@ -23,11 +23,12 @@ function of its inputs instead of creating a new cross-module coupling.
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Iterable
 
 from fastapi import HTTPException
 
 if TYPE_CHECKING:
+    from .consent import ConsentStore
     from .mobile_scan import ScanSession
     from .schemas import Assessment, GeneratedPaper
     from .store import AssessmentStore
@@ -92,3 +93,66 @@ def require_own_school(school_id: str, current: "User") -> None:
     403 if it isn't the caller's own school."""
     if school_id != current.school_id:
         raise HTTPException(403, "this action is scoped to a different school")
+
+
+def _consent_refusal(student_ids: "list[str]") -> HTTPException:
+    who = (f"student {student_ids[0]}" if len(student_ids) == 1
+           else "students " + ", ".join(student_ids))
+    return HTTPException(
+        409, f"no recorded parental consent for {who}; record it under Classes "
+             "before grading")
+
+
+def students_without_consent(
+    consent_store: "ConsentStore", school_id: str, student_ids: "Iterable[str]",
+) -> list[str]:
+    """The ids in `student_ids`, in order and without repeats, that have no
+    ACTIVE consent on file for `school_id`. A revoked record is kept (the
+    revocation is part of the trail) with status "revoked", and
+    `ConsentStore.has_consent` reads only "granted" as consent, so a
+    withdrawal counts as none. A record whose status cannot be read raises
+    ValueError in consent.py; that is counted as missing too -- "I cannot
+    tell" is "no" (the same fail-closed reading consent.from_row makes)."""
+    missing: list[str] = []
+    for sid in dict.fromkeys(student_ids):
+        try:
+            granted = consent_store.has_consent(school_id, sid)
+        except ValueError:
+            granted = False
+        if not granted:
+            missing.append(sid)
+    return missing
+
+
+def require_consent(consent_store: "ConsentStore", school_id: str, student_id: str) -> None:
+    """409 unless the student has active parental consent at `school_id`.
+
+    DPDP Act 2023 s.9: a minor's personal data is processed only with
+    verifiable parental consent, and every CBSE student is a minor. Until
+    2026-09-22 consent was recorded (consent_routes.py) but nothing read it;
+    the audit (item 8.5) found grading and scanning proceeded without it.
+    Every route that processes a named student's work -- evaluating, reviewing,
+    finalizing, awarding, scanning, practice -- calls this before it does, and
+    after its own 401/403/404 checks, so a caller from another school still
+    learns nothing about this school's consent records.
+
+    409, not 403: the caller is allowed to grade; the student's record is in
+    a state that forbids it until a staff member records consent, which is the
+    usual meaning of Conflict and what the web client shows verbatim.
+
+    Reads are not gated. A teacher looking at marks already stored is not
+    processing new data, and withdrawal must not hide what was graded while
+    consent was in force (docs/compliance.md)."""
+    if students_without_consent(consent_store, school_id, [student_id]):
+        raise _consent_refusal([student_id])
+
+
+def require_consent_for_all(
+    consent_store: "ConsentStore", school_id: str, student_ids: "Iterable[str]",
+) -> None:
+    """require_consent for a batch, refusing the whole batch if any one
+    student lacks consent, and naming every such student. Used by the bulk
+    award, which must never land half-applied."""
+    missing = students_without_consent(consent_store, school_id, student_ids)
+    if missing:
+        raise _consent_refusal(missing)

@@ -163,6 +163,7 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     # ---- assessment/consent_routes.py (DPDP Act 2023) ----
     ("GET", "/api/v1/consent"): _p(STAFF, "every guardian's name at the school"),
     ("POST", "/api/v1/consent"): _p(STAFF, "a student recording their own parent's consent is not consent"),
+    ("GET", "/api/v1/consent/missing"): _p(STAFF, "which students at the school have no parental consent"),
     ("GET", "/api/v1/consent/students/{student_id}"): _p(STAFF, "takes any student id and returns the guardian record"),
     ("DELETE", "/api/v1/consent/students/{student_id}"): _p(STAFF),
 

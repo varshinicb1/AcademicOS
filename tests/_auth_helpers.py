@@ -37,3 +37,21 @@ def register_invited(client, school_id: str, email: str, *, name: str = "Teacher
     })
     assert r.status_code == 200, r.text
     return r.json()
+
+
+def grant_consent(school_id: str, *student_ids: str) -> None:
+    """Record parental consent for each student at `school_id`, as a staff
+    member would from a signed admission form (`recorded_by="test-fixture"`).
+
+    Since 2026-09-22 every route that processes a named student's work refuses
+    with 409 until that student has active consent (authz.require_consent,
+    DPDP Act 2023 s.9). Tests that grade, scan or practise record it here,
+    through the store the running app reads -- never by switching the rule
+    off. Needs a booted app, like the helpers above."""
+    from academicos.assessment import consent_routes
+
+    store = consent_routes._require_store()
+    for sid in student_ids:
+        store.record_consent(school_id=school_id, student_id=sid,
+                             guardian_name=f"Guardian of {sid}",
+                             method="Signed admission form", recorded_by="test-fixture")

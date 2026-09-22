@@ -2885,6 +2885,27 @@
         "title": "MarkingPointSchema",
         "type": "object"
       },
+      "MissingConsentResponse": {
+        "properties": {
+          "checked": {
+            "title": "Checked",
+            "type": "integer"
+          },
+          "missing": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Missing",
+            "type": "array"
+          }
+        },
+        "required": [
+          "checked",
+          "missing"
+        ],
+        "title": "MissingConsentResponse",
+        "type": "object"
+      },
       "MyClassScheduleEntryResponse": {
         "properties": {
           "chapterName": {
@@ -8084,6 +8105,57 @@
         ]
       }
     },
+    "/api/v1/consent/missing": {
+      "get": {
+        "description": "Which of these students have no active parental consent at the\ncaller's school -- so a school can see, before a test, whose sheets\ngrading will refuse (authz.require_consent). Withdrawn consent is listed\nas missing.\n\nTakes the roster as `studentIds` (repeat the parameter) rather than a\nclass or assessment id: the server holds no roster for either. An\nassessment records how many students sit it, not which, and the web\nclient's Classes page is where the class list lives.",
+        "operationId": "missing_consents_api_v1_consent_missing_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "studentIds",
+            "required": false,
+            "schema": {
+              "items": {
+                "type": "string"
+              },
+              "title": "Studentids",
+              "type": "array"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MissingConsentResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Missing Consents",
+        "tags": [
+          "Parental Consent"
+        ]
+      }
+    },
     "/api/v1/consent/students/{student_id}": {
       "delete": {
         "description": "Revoke parental consent for a student.",
@@ -10917,7 +10989,7 @@
     },
     "/api/v1/evaluations/assessment/{assessment_id}/question/{question_id}/award": {
       "post": {
-        "description": "Award the same mark for one question to many students.\n\nThis is the write half of grade-by-question and the reason it saves time: a\nteacher who has just read the value points decides once and applies it\nforty times.\n\nDeliberately server-side and per-student rather than a single bulk UPDATE:\neach student's sheet is loaded, clamped and saved through the same path the\nsingle-student endpoint uses, so a bulk award can never produce a state the\nper-student path could not, and the audit trail stays uniform.\n\nEvery changed student gets its own audit entry, with the caller as the\nactor. If any target sheet is finalized and no reason is given, the whole\nrequest is refused with 409 before anything is written, so a bulk award\nnever lands half-applied.",
+        "description": "Award the same mark for one question to many students.\n\nThis is the write half of grade-by-question and the reason it saves time: a\nteacher who has just read the value points decides once and applies it\nforty times.\n\nDeliberately server-side and per-student rather than a single bulk UPDATE:\neach student's sheet is loaded, clamped and saved through the same path the\nsingle-student endpoint uses, so a bulk award can never produce a state the\nper-student path could not, and the audit trail stays uniform.\n\nEvery changed student gets its own audit entry, with the caller as the\nactor. If any target sheet is finalized and no reason is given, or any\ntarget student has no active parental consent, the whole request is\nrefused with 409 before anything is written, so a bulk award never lands\nhalf-applied.",
         "operationId": "award_across_students_api_v1_evaluations_assessment__assessment_id__question__question_id__award_post",
         "parameters": [
           {
@@ -11027,7 +11099,7 @@
     },
     "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/finalize": {
       "post": {
-        "description": "Folds a teacher-reviewed sheet (whatever mix of approved/edited marks\nis currently in the graded store) into the student's knowledge state,\nexactly once. See the comment on evaluate_sheet() for why that endpoint\ndoesn't do this itself.\n\nRequires a real logged-in caller from the assessment's own school (fixed\n2026-09-11: auth used to be optional here despite this endpoint mutating\nthe knowledge model and writing an authoritative audit entry, falling\nback to a client-supplied free-text reviewerId with no verification at\nall -- flagged by automated security review). req.reviewer_id is no\nlonger read; the field stays on the wire schema only so an older client\nthat still sends it doesn't 422.",
+        "description": "Folds a teacher-reviewed sheet (whatever mix of approved/edited marks\nis currently in the graded store) into the student's knowledge state,\nexactly once. See the comment on evaluate_sheet() for why that endpoint\ndoesn't do this itself.\n\n\"Exactly once\" holds across repeated calls (fixed 2026-09-22, Task 306).\nBefore, every call appended the whole sheet to mastery again, and the\nobvious workflow after grade_lock.py -- correct a finalized mark with a\nreason, press Finalize again -- counted the sheet twice. Now:\n\n* finalize again with no mark changed since: 200 with the same totals, and\n  nothing is written (no mastery update, no second finalize entry);\n* finalize again after a correction: a new finalize entry\n  (`refinalized: true`), and the sheet's earlier contribution to mastery\n  is replaced by the corrected one (KnowledgeStore.record_sheet);\n* a sheet finalized before this fix, whose answers are in mastery\n  untagged and so cannot be told apart from other evidence: 409. Adding\n  the sheet again would count it twice, so it is refused rather than\n  guessed at.\n\nRequires a real logged-in caller from the assessment's own school (fixed\n2026-09-11: auth used to be optional here despite this endpoint mutating\nthe knowledge model and writing an authoritative audit entry, falling\nback to a client-supplied free-text reviewerId with no verification at\nall -- flagged by automated security review). req.reviewer_id is no\nlonger read; the field stays on the wire schema only so an older client\nthat still sends it doesn't 422.",
         "operationId": "finalize_sheet_review_api_v1_evaluations_sheet__assessment_id___student_id__finalize_post",
         "parameters": [
           {

@@ -18,10 +18,11 @@ from ..config import Config
 from . import insights as insights_mod
 from . import mailer as mailer_mod
 from . import remediation as remediation_mod
-from .authz import require_own_school, require_school_owns_student
+from .authz import require_consent, require_own_school, require_school_owns_student
 from .authz import require_school_owns_assessment as _authz_require_school_owns_assessment
 from .auth_routes import get_current_user, require_principal, require_staff
 from .audit_log import AuditLog, get_audit_log
+from .consent import ConsentStore, get_consent_store
 from .evaluate import Evaluation, evaluate_answer
 from .grade_lock import FINALIZED_ACTION, record_grade_change, require_reason_if_finalized
 from .graded_store import GradedStore
@@ -83,6 +84,24 @@ def _audit() -> AuditLog:
     """The audit log every grading write goes through (grade_lock.py)."""
     cfg, _knowledge_store, _template_store = _require()
     return get_audit_log(cfg.data_root)
+
+
+def _consents() -> ConsentStore:
+    """The parental-consent store every route that processes a student's work
+    checks before it does (authz.require_consent). The same path-keyed instance
+    consent_routes.py records into, because both resolve it from the one
+    data root. Also handed to grade_by_question and read by mobile_routes."""
+    cfg, _knowledge_store, _template_store = _require()
+    return get_consent_store(cfg.data_root)
+
+
+def _require_consent(student_id: str, current: User) -> None:
+    """authz.require_consent at the caller's own school: the school doing the
+    grading is the one that must hold the parent's consent, and every caller
+    of this has already passed its school-ownership check. (The evaluation
+    routes accept a student id that is no registered user, so there is no
+    other school to look it up under.)"""
+    require_consent(_consents(), current.school_id, student_id)
 
 
 def _require_practice() -> PracticeStore:
@@ -500,6 +519,7 @@ def _to_response(ev: Evaluation, question: QuestionSchema, student_answer: str) 
 def evaluate_one(req: EvaluateAnswerRequest, current: User = Depends(require_staff)) -> EvaluationResponse:
     _require_school_owns_assessment(req.assessment_id, current)
     _require()
+    _require_consent(req.student_id, current)
     scheme = req.answer_scheme or build_answer_scheme(req.question)
     concept = req.question.chapter_ids[0] if req.question.chapter_ids else None
     ev = evaluate_answer(req.question, scheme, req.student_answer, concept_label=concept)
@@ -545,6 +565,9 @@ class EvaluateSheetResponse(Camel):
 def evaluate_sheet(req: EvaluateSheetRequest, current: User = Depends(require_staff)) -> EvaluateSheetResponse:
     _require_school_owns_assessment(req.assessment_id, current)
     _require()
+    # Before the answers are read, not just before they are saved: scoring
+    # them is the processing DPDP asks consent for.
+    _require_consent(req.student_id, current)
     audit = _audit()
     finalized = require_reason_if_finalized(audit, req.assessment_id, req.student_id,
                                             req.reason)
@@ -629,6 +652,7 @@ def review_sheet_answer(assessment_id: str, student_id: str, question_id: str,
     idx = next((i for i, (q, _e) in enumerate(graded) if q.id == question_id), None)
     if idx is None:
         raise HTTPException(404, f"question {question_id} not in this sheet")
+    _require_consent(student_id, current)
     question, ev = graded[idx]
     before = ev.awarded_marks
 
@@ -712,6 +736,9 @@ def finalize_sheet_review(assessment_id: str, student_id: str,
     graded = store.get(assessment_id, student_id)
     if not graded:
         raise HTTPException(404, "no evaluated sheet found for this assessment/student")
+    # Finalizing folds the sheet into the student's mastery model -- new
+    # processing, so a withdrawn consent stops it (authz.require_consent).
+    _require_consent(student_id, current)
 
     awarded = sum(e.awarded_marks for _, e in graded)
     maximum = sum(e.max_marks for _, e in graded)
@@ -849,6 +876,7 @@ class PracticeSetResponse(Camel):
 def generate_practice(req: PracticeRequestBody, current: User = Depends(get_current_user)) -> PracticeSetResponse:
     require_school_owns_student(_users(), req.student_id, current)
     _, knowledge, _ = _require()
+    _require_consent(req.student_id, current)
     weak = knowledge.weak_concepts(req.student_id, limit=3)
     if not weak:
         raise HTTPException(400, "No weak concepts for this student — nothing to remediate yet.")
@@ -897,6 +925,7 @@ def submit_practice(body: PracticeSubmitBody, current: User = Depends(get_curren
     if pset is None:
         raise HTTPException(404, "practice set not found")
     require_school_owns_student(_users(), pset.student_id, current)
+    _require_consent(pset.student_id, current)
     res = remediation_mod.submit_practice(pset, body.answers, knowledge)
     return PracticeResultResponse(
         set_id=res.set_id, student_id=res.student_id, score=res.score, max_score=res.max_score,

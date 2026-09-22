@@ -16,6 +16,7 @@ from pydantic import BaseModel, Field
 
 from .audit_log import AuditLog, get_audit_log
 from .auth_routes import require_staff
+from .authz import students_without_consent
 from .consent import ConsentStore, ParentalConsentRecord, get_consent_store
 from .schemas import Camel
 from .users import User
@@ -121,6 +122,37 @@ def list_consents(
     """List all parental consent records for the caller's school."""
     store = _require_store()
     return store.list_for_school(user.school_id)
+
+
+# A class is ~40 students; 500 leaves room for a whole grade and stops one
+# request from turning into thousands of consent lookups.
+MAX_ROSTER = 500
+
+
+class MissingConsentResponse(Camel):
+    checked: int
+    missing: list[str]
+
+
+@router.get("/missing", response_model=MissingConsentResponse)
+def missing_consents(
+    student_ids: list[str] = Query(default_factory=list, alias="studentIds"),
+    user: User = Depends(require_staff),
+) -> MissingConsentResponse:
+    """Which of these students have no active parental consent at the
+    caller's school -- so a school can see, before a test, whose sheets
+    grading will refuse (authz.require_consent). Withdrawn consent is listed
+    as missing.
+
+    Takes the roster as `studentIds` (repeat the parameter) rather than a
+    class or assessment id: the server holds no roster for either. An
+    assessment records how many students sit it, not which, and the web
+    client's Classes page is where the class list lives."""
+    ids = [sid.strip() for sid in student_ids if sid.strip()]
+    if len(ids) > MAX_ROSTER:
+        raise HTTPException(400, f"at most {MAX_ROSTER} studentIds per request")
+    missing = students_without_consent(_require_store(), user.school_id, ids)
+    return MissingConsentResponse(checked=len(dict.fromkeys(ids)), missing=missing)
 
 
 @router.get("/students/{student_id}", response_model=ConsentStatusResponse)

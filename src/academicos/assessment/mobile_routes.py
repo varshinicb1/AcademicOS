@@ -16,7 +16,7 @@ from pydantic import Field
 
 from . import mobile_scan
 from . import routes as assessment_routes
-from .authz import require_school_owns_scan_session
+from .authz import require_consent, require_school_owns_scan_session
 from .auth_routes import require_staff
 from .evaluate import Evaluation, MarkingPointOutcome
 from .mapping import to_question_schema
@@ -39,6 +39,24 @@ def _get_session_owned(session_id: str, current: User) -> mobile_scan.ScanSessio
     if assessment_routes._store is None:
         raise HTTPException(503, "assessment module not initialized")
     return require_school_owns_scan_session(session, assessment_routes._store, current)
+
+
+def _get_session_to_process(session_id: str, current: User) -> mobile_scan.ScanSession:
+    """_get_session_owned, plus the student's parental consent (DPDP Act
+    2023 s.9; authz.require_consent). For every route that adds to or
+    changes a session: a page photo, OCR and scoring, a review decision, the
+    finalize into mastery. Consent is checked on each one, not only at
+    creation, so a withdrawal mid-session stops the rest of it. The read
+    routes (review queue, page image, PDFs) use _get_session_owned alone:
+    looking at what was captured while consent held is not new processing."""
+    session = _get_session_owned(session_id, current)
+    require_consent(_consents(), current.school_id, session.student_id)
+    return session
+
+
+def _consents():
+    from . import pillar_routes
+    return pillar_routes._consents()
 
 log = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/v1")
@@ -84,6 +102,7 @@ def create_scan_session(
     assessment = assessment_routes._store.get(req.assessment_id) if assessment_routes._store else None
     if assessment is not None and assessment.school_id != current.school_id:
         raise HTTPException(403, "this assessment belongs to a different school")
+    require_consent(_consents(), current.school_id, req.student_id)
     subject = assessment.subject if assessment else "Science"
     grade = assessment.grade if assessment else 10
     session = mobile_scan.create_session(req.assessment_id, req.student_id, req.student_name,
@@ -102,7 +121,7 @@ class CapturedPageResponse(Camel):
 async def upload_scan_page(
     session_id: str, file: UploadFile = File(...), current: User = Depends(require_staff),
 ) -> CapturedPageResponse:
-    session = _get_session_owned(session_id, current)
+    session = _get_session_to_process(session_id, current)
     image_bytes = await file.read()
     if not image_bytes:
         raise HTTPException(400, "empty file upload")
@@ -154,7 +173,7 @@ class ProcessSessionResponse(Camel):
 
 @router.post("/scan/sessions/{session_id}/process", response_model=ProcessSessionResponse)
 def process_scan_session(session_id: str, current: User = Depends(require_staff)) -> ProcessSessionResponse:
-    session = _get_session_owned(session_id, current)
+    session = _get_session_to_process(session_id, current)
 
     papers = assessment_routes._require_papers()
     paper = papers.get(session.assessment_id)
@@ -208,7 +227,7 @@ def submit_review_decision(session_id: str, question_id: str,
     "gated" examples in this whole module). reviewer_id is always the real
     authenticated identity now; the request field stays on the wire schema
     only so an older client that still sends it doesn't 422."""
-    session = _get_session_owned(session_id, current)
+    session = _get_session_to_process(session_id, current)
     cfg, _ = assessment_routes._require()
     reviewer_id = current.id
     try:
@@ -232,7 +251,7 @@ class FinalizeResponse(Camel):
 
 @router.post("/scan/sessions/{session_id}/finalize", response_model=FinalizeResponse)
 def finalize_scan_session(session_id: str, current: User = Depends(require_staff)) -> FinalizeResponse:
-    session = _get_session_owned(session_id, current)
+    session = _get_session_to_process(session_id, current)
     if not session.review:
         raise HTTPException(409, "nothing to finalize — process the session first")
 

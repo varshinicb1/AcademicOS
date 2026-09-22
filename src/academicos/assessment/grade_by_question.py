@@ -40,6 +40,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from .auth_routes import require_staff
+from .authz import require_consent_for_all
 from .grade_lock import record_grade_change, require_reason_if_finalized
 from .schemas import Camel
 from .users import User
@@ -54,7 +55,7 @@ _deps: dict[str, Any] = {}
 
 
 def init(*, graded, require, require_school_owns_assessment, questions_by_id,
-         audit=None) -> None:
+         audit=None, consent=None) -> None:
     """Wire the module to the app's stores and guards.
 
     Passed in rather than imported so a test can substitute a fake store without
@@ -64,9 +65,15 @@ def init(*, graded, require, require_school_owns_assessment, questions_by_id,
     `audit` is a zero-argument callable that returns the AuditLog. Without it
     the award route answers 503 and writes nothing, because a grading write
     that cannot be audited is refused (grade_lock.py).
+
+    `consent` is a zero-argument callable that returns the ConsentStore. The
+    same rule: without it the award route answers 503, because a grade change
+    whose student's parental consent cannot be checked is refused
+    (authz.require_consent).
     """
     _deps.update(
         audit=audit,
+        consent=consent,
         graded=graded,
         require=require,
         require_school_owns_assessment=require_school_owns_assessment,
@@ -79,6 +86,15 @@ def _graded():
     if store is None:
         raise HTTPException(503, "evaluation store not initialised")
     return store
+
+
+def _consents():
+    get_consents = _deps.get("consent")
+    if get_consents is None:
+        raise HTTPException(
+            503, "consent store not initialised; refusing a grade change that "
+                 "cannot be checked against parental consent")
+    return get_consents()
 
 
 def _audit():
@@ -246,9 +262,10 @@ def award_across_students(
     per-student path could not, and the audit trail stays uniform.
 
     Every changed student gets its own audit entry, with the caller as the
-    actor. If any target sheet is finalized and no reason is given, the whole
-    request is refused with 409 before anything is written, so a bulk award
-    never lands half-applied.
+    actor. If any target sheet is finalized and no reason is given, or any
+    target student has no active parental consent, the whole request is
+    refused with 409 before anything is written, so a bulk award never lands
+    half-applied.
     """
     require = _deps.get("require")
     owns = _deps.get("require_school_owns_assessment")
@@ -292,6 +309,15 @@ def award_across_students(
             continue
 
         changes.append((student_id, graded, idx, question, evaluation, clamped))
+
+    # Consent, like the lock, is checked for every target before the first
+    # write, so one student without it refuses the whole request (409 naming
+    # each such student) rather than awarding the rest. Every student whose
+    # sheet holds this question is checked, changed or not: fail closed.
+    require_consent_for_all(
+        _consents(), current.school_id,
+        [sid for sid in targets
+         if sid in sheets and any(q.id == question_id for q, _e in sheets[sid])])
 
     # Every lock is checked before the first write (see the docstring).
     finalized = {sid: require_reason_if_finalized(audit, assessment_id, sid, req.reason)

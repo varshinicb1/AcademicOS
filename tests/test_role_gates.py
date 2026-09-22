@@ -42,7 +42,7 @@ from academicos.assessment.remediation import PracticeSet
 from academicos.graph.schema import new_node
 from academicos.models.enums import NodeType
 
-from _auth_helpers import register_invited
+from _auth_helpers import grant_consent, register_invited
 
 STAFF_DETAIL = "this action requires a teacher or principal account"
 SELF_DETAIL = "students can only access their own data"
@@ -145,6 +145,11 @@ def world(tmp_path_factory):
                                               name="Bala", role="student"),
                 "other_teacher": register_invited(client, "school_2", f"o-{tag}@example.com"),
             }
+            # Both students' parents have consented, so a teacher grading
+            # them reaches the handler (authz.require_consent). The gates
+            # tested here come before consent, so this changes none of them.
+            grant_consent("school_1", people["student"]["user"]["id"],
+                          people["classmate"]["user"]["id"])
             yield client, people
     finally:
         mp.undo()

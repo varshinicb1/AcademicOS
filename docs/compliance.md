@@ -21,6 +21,11 @@ specifically, not just its general ones.
       clause or an in-app "I agree" does not satisfy this. Consent needs to be a
       distinct, verifiable step tied to the parent/guardian, not the student.
       ([campusfeed.in](https://campusfeed.in/dpdp-act-schools-child-data-privacy/))
+  - Since 2026-09-22 the web server **refuses to process a student's work
+    without it** — see "Parental consent is enforced on the server" below for
+    exactly which paths check it and which do not. What still makes this box
+    unticked is the *verifiable* half: consent is recorded by staff from a
+    signed form, and nothing in the product verifies the guardian.
 - [ ] **No behavioral profiling, tracking, or targeted advertising** aimed at a
       student, ever, regardless of what else consent covers.
 - [ ] **No secondary use of student data** (e.g. using real answer sheets to
@@ -587,6 +592,58 @@ cannot be told apart from a real one, so review each school's roster
 (`GET /api/v1/auth/users` as its principal) once and remove anyone who does
 not belong. Also check the durable store for `principal@school.com` /
 `teacher@school.com` and delete them if present.
+
+## Parental consent is enforced on the server (2026-09-22)
+
+Audit item 8.5 (2026-09-21): consent was recorded (`consent.py`,
+`consent_routes.py`) but never read — a grep found no consent reference
+anywhere else, so grading and scanning ran for a student with no consent on
+file. Now one check, `authz.require_consent`, answers **409 "no recorded
+parental consent for student X; record it under Classes before grading"**
+unless the student has an active consent record at the caller's school.
+Withdrawn consent (`status: "revoked"`) counts as none, and so does a record
+whose status cannot be read (fail closed, as `ParentalConsentRecord.from_row`
+already did). Consent recorded by another school does not count.
+
+**Enforced — every web-server path that processes a named student's work**,
+checked after the route's own 401/403/404 checks and before anything is
+scored or written (`tests/test_consent_enforced.py`):
+
+- `POST /evaluations/answer` and `POST /evaluations/sheet` — before the
+  answers are scored, not only before they are saved;
+- `POST /evaluations/sheet/{aid}/{sid}/review/{qid}` and `.../finalize` —
+  finalize folds the sheet into mastery, which is new processing;
+- `POST /evaluations/assessment/{aid}/question/{qid}/award` — every target
+  student is checked before the first write; one without consent refuses the
+  whole request and is named;
+- `POST /scan/sessions`, and on an existing session `.../pages`,
+  `.../process`, `.../review/{qid}`, `.../finalize` — checked on each call,
+  so a withdrawal mid-session stops the rest of it;
+- `POST /practice/generate` and `POST /practice/submit`.
+
+**Not gated, deliberately:** reads of what is already stored — the question
+grid, class and school insights, `/knowledge/{sid}` and its PDF report, a scan
+session's review queue, page images and PDFs, `/v1/revise` and `/v1/plan`.
+Reading stored marks is not processing new data, and withdrawal must not hide
+what was graded while consent was in force. No web-server route writes the
+learner event store (only the CLI does), so there is no event write to gate.
+
+**Before a test:** `GET /api/v1/consent/missing?studentIds=a&studentIds=b`
+(staff only) returns which of those students have no active consent. It takes
+the roster as ids because the server holds none: an assessment records how
+many students sit it, not which, and the class list lives in the web client's
+Classes page, which is also where consent is recorded. The grading, scanning
+and practice pages show the 409 sentence itself (`apiErrorMessage` in
+`pillar_api.dart`) instead of Dio's generic error.
+
+**Not covered here:**
+
+- anything graded on-device by the Flutter local engine
+  (`LocalPillarApi`): the offline phone app, and the demo seeder, which grades
+  its sample class that way. None of it reaches these routes, so none of this
+  check applies; the phone is Task 305's concern in another stream.
+- Tests record consent in their setup (`grant_consent` in
+  `tests/_auth_helpers.py`); nothing bypasses the rule.
 
 ## Six-dimension audit (2026-08-19) — fixed bugs and open decisions
 

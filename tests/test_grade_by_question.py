@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from academicos.assessment import grade_by_question as gbq
 from academicos.assessment.audit_log import AuditLog
 from academicos.assessment.auth_routes import get_current_user
+from academicos.assessment.consent import ConsentStore
 from academicos.assessment.grade_lock import FINALIZED_ACTION
 
 
@@ -80,8 +81,17 @@ def ctx(tmp_path):
     # A real AuditLog on tmp_path: every award is audited, and the route
     # refuses to write without one (grade_lock.py).
     store.audit = AuditLog(tmp_path / "audit.sqlite")
+    # A real ConsentStore too: every student here has a parent's consent on
+    # file, because the route refuses to grade anyone without it
+    # (authz.require_consent).
+    store.consent = ConsentStore(tmp_path / "consents.db")
+    for sid in ("s1", "s2", "s3", "s4"):
+        store.consent.record_consent(school_id="school_1", student_id=sid,
+                                     guardian_name="Guardian", method="Signed admission form",
+                                     recorded_by="test-fixture")
     gbq.init(
         audit=lambda: store.audit,
+        consent=lambda: store.consent,
         graded=store,
         require=lambda: None,
         require_school_owns_assessment=lambda aid, user: None,
@@ -289,6 +299,27 @@ def test_one_finalized_sheet_refuses_the_whole_award_without_a_reason(ctx):
     finalized = {e["student_id"]: e["details"]["finalized"]
                  for e in store.audit.for_action("grade_awarded")}
     assert finalized == {"s1": False, "s3": True}
+
+
+def test_one_student_without_consent_refuses_the_whole_award(ctx):
+    """Withdrawn consent on s3 stops s1's change too, and names s3."""
+    c, store = ctx
+    store.consent.revoke_consent("school_1", "s3", revoked_by="u1")
+    r = c.post("/api/v1/evaluations/assessment/a1/question/q1/award",
+               json={"marks": 3, "studentIds": ["s1", "s3"]})
+    assert r.status_code == 409, r.text
+    assert "no recorded parental consent for student s3" in r.json()["detail"]
+    assert store.saves == 0
+    assert store.audit.for_action("grade_awarded") == []
+
+
+def test_without_a_consent_store_the_award_writes_nothing(ctx):
+    c, store = ctx
+    gbq._deps["consent"] = None
+    r = c.post("/api/v1/evaluations/assessment/a1/question/q1/award",
+               json={"marks": 3, "studentIds": ["s1"]})
+    assert r.status_code == 503
+    assert store.saves == 0
 
 
 def test_without_an_audit_log_the_award_writes_nothing(ctx):

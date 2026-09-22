@@ -11,7 +11,7 @@ import pytest
 from academicos.api.main import app
 
 from test_route_inventory import blueprint_body, question_body
-from _auth_helpers import invite_code
+from _auth_helpers import grant_consent, invite_code
 
 
 def _boot_client(tmp_path, monkeypatch):
@@ -68,6 +68,10 @@ def test_pillar_routes_auth_boundary(tmp_path, monkeypatch):
         }, headers={"Authorization": f"Bearer {teacher['token']}"})
         assert created.status_code == 200, created.text
         a1 = created.json()["id"]
+        # Grading and practice need recorded parental consent
+        # (authz.require_consent); with it, the owning school reaches each
+        # handler's real path instead of a consent 409.
+        grant_consent("school_1", "s_unreg", sid)
 
         auth_ok = {"Authorization": f"Bearer {teacher['token']}"}
         auth_other = {"Authorization": f"Bearer {other['token']}"}
