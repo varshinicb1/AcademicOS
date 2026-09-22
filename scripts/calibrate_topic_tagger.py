@@ -3,8 +3,9 @@
 The tagger's raw scores are cosine similarities; they say which node is best,
 not how likely the best is right. This turns them into a probability per level
 (a logistic model on best score, margin over the runner-up, whether there
-was a runner-up, and for the chapter how well the whole Exemplar chapter
-matched it), and picks for each level the lowest confidence whose
+was a runner-up, and for the chapter how well the whole Exemplar chapter --
+or the pooled existing chapterIds -- matched it, and which of the two the
+prior came from), and picks for each level the lowest confidence whose
 accepted tags are still at least 90% right -- the rule is that a tag below
 it goes to the review queue, not onto the question.
 
@@ -82,7 +83,7 @@ def fit_logistic(X: np.ndarray, y: np.ndarray) -> np.ndarray:
     return np.concatenate([[w[0] - float(raw @ mu)], raw])
 
 
-FEATURES = {"chapter": ("best", "margin", "heading", "prior", "hasPrior"),
+FEATURES = {"chapter": ("best", "margin", "heading", "prior", "hasPrior", "idPrior"),
             "topic": ("best", "margin", "heading", "single"),
             "subtopic": ("best", "margin", "heading", "single")}
 

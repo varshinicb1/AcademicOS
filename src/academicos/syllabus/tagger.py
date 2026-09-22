@@ -22,9 +22,21 @@ were printed in. All questions of one Exemplar chapter are pooled and matched
 as one document, and that match is added at half weight to each question's
 own. The Exemplar chapter names are the pre-2024 books' ("Integers"), and the
 classes 6-9 trees are the new books ("The Other Side of Zero"), so the name
-cannot be looked up; the pooled text can be matched. Chapter ids already on a
-record are NOT used: in the CBE and board banks they were inferred by an
-earlier tagger, and the old syllabus ids do not name the new books' chapters.
+cannot be looked up; the pooled text can be matched.
+
+A record with no Exemplar chapter gets the same kind of prior from the
+``chapterIds`` it already carries (CBE and board banks). Those ids are of
+three kinds -- old syllabus slugs ("light-reflection-refraction", which the
+class 10 tree names almost word for word; "integers", which the new class 7
+book does not), class 10 Maths unit names ("algebra") and CBE learning-outcome
+codes ("6N1a", "10.3.11") -- so none can be looked up either. Each id is pooled
+over the records of the bank that carry it, plus its name's words (from the
+existing ``syllabus/<Subject>_<grade>.json`` where it is listed there, else the
+slug's words), and matched like an Exemplar pool. An id seen on one record only
+and with no name words is not a prior: its pool would be the question itself.
+Many of these ids were inferred by an earlier tagger (``metadata.chapterTag``
+says ``inferred``), so the prior is weighted, not obeyed, and the confidence
+model sees that it came from ``chapterIds`` (feature ``idPrior``).
 
 Confidence. Each level's raw scores (best, margin over the runner-up, whether
 there was a runner-up) go through a logistic model fitted on the gold set
@@ -63,6 +75,14 @@ GRADES = range(6, 11)
 HEADING_WEIGHT = 3.0     # a heading word counts as three occurrences of it
 ANSWER_WEIGHT = 0.5      # answer text: see the module docstring
 PRIOR_WEIGHT = 0.5       # the pooled Exemplar chapter's match, added to the question's
+# The pooled chapterIds' match, likewise, but at a quarter: on the gold set the
+# ids already on CBE/board records are often wrong (an earlier embedding
+# tagger's guesses), and a heavier prior moved more right picks to wrong than
+# wrong to right (raw chapter picks on the 108 CBE+board gold items: 75 right
+# without it, 74 at 0.25, 71 at 0.5, 65 at 2.0). At 0.25, with the confidence
+# model told the prior came from chapterIds, accepted tags grew out-of-fold
+# from 138/153 to 142/157 (chapter) and 55/61 to 60/66 (topic).
+ID_PRIOR_WEIGHT = 0.25
 SECOND_SUBTOPIC = 0.9    # a second subtopic only when it scores within 10% of the first
 
 # Board-paper records carry answer text that often belongs to another
@@ -278,6 +298,7 @@ class TopicTagger:
         self.thresholds = dict(thresholds if thresholds is not None
                                else (model or {}).get("thresholds") or {})
         self._trees: dict[tuple[str, int], Tree | None] = {}
+        self._id_names: dict[tuple[str, int], dict[str, str]] = {}
 
     # ------------------------------------------------------------------ trees
     def tree(self, subject: str, grade: int) -> Tree | None:
@@ -292,15 +313,17 @@ class TopicTagger:
     def tag_records(self, records: list[dict]) -> list[TagResult | None]:
         """Tag every record; None for one with no tree (another subject or class).
 
-        Exemplar questions are pooled per Exemplar chapter across ``records``,
-        so pass a whole bank, not one question at a time, to get the prior.
+        Questions are pooled per Exemplar chapter, or else per existing chapter
+        id, across ``records``, so pass a whole bank, not one question at a
+        time, to get the full prior.
         """
         pools: dict[tuple, collections.Counter] = collections.defaultdict(collections.Counter)
+        members: collections.Counter = collections.Counter()
         for rec in records:
-            key = _pool_key(rec)
-            if key:
+            for key in _pool_keys(rec):
                 pools[key].update(question_terms(rec))
-                pools[key].update(_heading_terms(key[2]))
+                pools[key].update(_heading_terms(self._prior_name(key)))
+                members[key] += 1
         out = []
         for rec in records:
             subject, grade = question_subject(rec), question_grade(rec)
@@ -308,20 +331,39 @@ class TopicTagger:
             if tree is None:
                 out.append(None)
                 continue
-            key = _pool_key(rec)
-            out.append(self._tag(tree, question_terms(rec), pools.get(key) if key else None))
+            keys = [k for k in _pool_keys(rec)
+                    if k[2] == "exemplar" or members[k] > 1 or tokens(self._prior_name(k))]
+            out.append(self._tag(tree, question_terms(rec), [pools[k] for k in keys],
+                                 from_ids=bool(keys) and keys[0][2] == "chapterId"))
         return out
 
+    def _prior_name(self, key: tuple) -> str:
+        """The words a pool key names its chapter by: the Exemplar chapter
+        title, or a chapter id's name in the existing syllabus file."""
+        subject, grade, kind, value = key
+        if kind == "exemplar":
+            return value
+        if (subject, grade) not in self._id_names:
+            self._id_names[(subject, grade)] = _syllabus_names(subject, grade)
+        name = self._id_names[(subject, grade)].get(value)
+        if name is not None:
+            return name
+        # "decimals-6", "circles-9": the slug's words without the class
+        return " ".join(w for w in value.split("-") if not w.isdigit())
+
     def _tag(self, tree: Tree, terms: collections.Counter,
-             pool: collections.Counter | None) -> TagResult:
+             pools: list[collections.Counter], from_ids: bool = False) -> TagResult:
         feats: dict = {"chapter": None, "topic": None, "subtopic": None}
         evidence: dict = {"chapter": [], "topic": [], "subtopic": []}
 
         scores, qv = tree.chapters.scores(terms)
         prior = [0.0] * len(scores)
-        if pool is not None:
-            prior, _ = tree.chapters.scores(pool)
-            scores = [s + PRIOR_WEIGHT * p for s, p in zip(scores, prior)]
+        if pools:
+            # a record with two chapter ids gets the mean of their matches
+            for pool in pools:
+                prior = [a + b / len(pools) for a, b in zip(prior, tree.chapters.scores(pool)[0])]
+            weight = ID_PRIOR_WEIGHT if from_ids else PRIOR_WEIGHT
+            scores = [s + weight * p for s, p in zip(scores, prior)]
         ci = max(range(len(scores)), key=lambda i: (scores[i], -i))
         chapter = tree.chapters.nodes[ci]
         feats["chapter"] = _features(scores)
@@ -329,7 +371,8 @@ class TopicTagger:
         # how well the whole Exemplar chapter matches this one: a chapter of the
         # old book that the new book dropped matches nothing well
         feats["chapter"]["prior"] = prior[ci]
-        feats["chapter"]["hasPrior"] = pool is not None
+        feats["chapter"]["hasPrior"] = bool(pools)
+        feats["chapter"]["idPrior"] = bool(pools) and from_ids
         evidence["chapter"] = tree.chapters.shared_terms(qv, ci)
 
         topic, subtopics = None, []
@@ -382,11 +425,33 @@ class TopicTagger:
         return accepted
 
 
-def _pool_key(rec: dict) -> tuple | None:
+def _pool_keys(rec: dict) -> list[tuple]:
+    """The chapter prior's pools a record belongs to: its Exemplar chapter if
+    it has one (the book it was printed in), else each of its chapter ids."""
+    subject, grade = question_subject(rec), question_grade(rec)
     ex = (rec.get("metadata") or {}).get("exemplarChapter")
-    if not ex or not ex.get("title"):
-        return None
-    return (question_subject(rec), question_grade(rec), ex["title"])
+    if ex and ex.get("title"):
+        return [(subject, grade, "exemplar", ex["title"])]
+    ids = [c for c in rec.get("chapterIds") or [] if isinstance(c, str) and c.strip()]
+    return [(subject, grade, "chapterId", c) for c in dict.fromkeys(ids)]
+
+
+def _syllabus_names(subject: str | None, grade: int | None) -> dict[str, str]:
+    """Chapter id -> name, and unit slug -> name, from the existing syllabus
+    file (``academicos-data/syllabus/<Subject>_<grade>.json``, read only)."""
+    if subject not in SUBJECTS or grade is None:
+        return {}
+    path = TAXONOMY_DIR.parent / f"{SUBJECTS[subject]}_{grade}.json"
+    if not path.exists():
+        return {}
+    names = {}
+    for unit in json.loads(path.read_text(encoding="utf-8")).get("units") or []:
+        if unit.get("name"):
+            names["-".join(re.findall(r"[a-z]+", unit["name"].lower()))] = unit["name"]
+        for ch in unit.get("chapters") or []:
+            if ch.get("id") and ch.get("name"):
+                names[ch["id"]] = ch["name"]
+    return names
 
 
 # --------------------------------------------------------------------------- #

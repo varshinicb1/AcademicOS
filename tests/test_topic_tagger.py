@@ -114,6 +114,56 @@ def test_social_science_question_tags_chapter_and_topic(tagger):
                             "the-making-of-nationalism-in-europe")
 
 
+# Board-paper records (academicos-data/syllabus/questions.json) whose stem
+# alone leans to the wrong chapter, and whose existing chapterIds is right.
+# cbse:q:src:9ea9344987df8c25364b39a1:31 -- "national economy" pulls it to
+# Lifelines of National Economy without the prior.
+INDUSTRIES = _q("cbse:q:src:9ea9344987df8c25364b39a1:31", "Social Science", 10,
+                "(a) How are industries contributing to the national economy ? Explain.",
+                chapterIds=["manufacturing-industries"], source="cbse_board_paper")
+# cbse:q:src:e6935f18e16e69433650b0a3:27 -- "political participation" pulls it
+# to Political Parties without the prior.
+WOMEN = _q("cbse:q:src:e6935f18e16e69433650b0a3:27", "Social Science", 10,
+           "Suggest any three ways to enhance political participation of women in India. 3 1=3",
+           chapterIds=["gender-religion-caste"], source="cbse_board_paper")
+
+
+@pytest.mark.parametrize("rec,chapter", [
+    (INDUSTRIES, "social-science-10/manufacturing-industries"),
+    (WOMEN, "social-science-10/gender-religion-and-caste"),
+])
+def test_existing_chapter_ids_are_a_prior(tagger, rec, chapter):
+    [with_prior] = tagger.tag_records([rec])
+    assert with_prior.features["chapter"]["hasPrior"]
+    assert with_prior.features["chapter"]["idPrior"]
+    assert with_prior.chapter_id == chapter
+    [without] = tagger.tag_records([dict(rec, chapterIds=[])])
+    assert not without.features["chapter"]["hasPrior"]
+    assert without.chapter_id != chapter          # the prior is what moved it
+
+
+def test_chapter_ids_pool_the_bank_like_exemplar_chapters(tagger):
+    """A chapter id that names no chapter by its words (a CBE learning-outcome
+    code) is still a prior: the records sharing it are pooled and matched."""
+    a = _q("t:1", "Science", 10, "Balance the chemical equation Fe + H2O -> Fe3O4 + H2.",
+           chapterIds=["10.1.22"])
+    b = _q("t:2", "Science", 10, "What is a displacement reaction? Give an example.",
+           chapterIds=["10.1.22"])
+    tags = tagger.tag_records([a, b])
+    assert all(t.features["chapter"]["hasPrior"] for t in tags)
+    # a code seen on one record only, with no name, is no prior: the pool would
+    # be the question itself
+    [lone] = tagger.tag_records([dict(a, chapterIds=["10.9.4"])])
+    assert not lone.features["chapter"]["hasPrior"]
+
+
+def test_exemplar_chapter_wins_over_chapter_ids(tagger):
+    rec = dict(NUTRITION, chapterIds=["electricity"])
+    [tag] = tagger.tag_records([rec])
+    assert tag.features["chapter"]["hasPrior"] and not tag.features["chapter"]["idPrior"]
+    assert tag.chapter_id == "science-7/life-processes-in-animals"
+
+
 def test_every_tag_names_its_evidence(tagger):
     [tag] = tagger.tag_records([AP_SUM])
     assert tag.evidence["chapter"]            # the shared terms that decided it
@@ -224,7 +274,7 @@ def test_accepted_tags_on_the_gold_set_are_at_least_90_percent_right(tagger):
         assert acc["tags"] >= 10, (level, acc)             # not vacuous
         assert acc["precision"] >= 0.90, (level, acc)
     # Subtopics: no threshold reaches 90% on 10+ gold tags (measured: a picked
-    # subtopic is right 54 times in 81 when its topic is right), so the model
+    # subtopic is right 55 times in 82 when its topic is right), so the model
     # accepts none and every subtopic goes to review. If a later model does
     # accept subtopics, they are held to the same bar.
     acc = report["accepted"]["subtopic"]
