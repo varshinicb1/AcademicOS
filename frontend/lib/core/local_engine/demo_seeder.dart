@@ -308,6 +308,48 @@ class DemoSeeder {
 
     final questionsById = {for (final q in CorpusRepository.instance.all) q.id: q};
     final review = <Map<String, dynamic>>[];
+    // The question each review item grades, by index into [review] -- the
+    // fallback override below needs it to seed a real answer.
+    final reviewQuestions = <Question>[];
+    Map<String, dynamic> gradedItem(Question question, GeneratedQuestion gq, String answerText) {
+      final result = eval_engine.evaluateAnswer(question, question.answerScheme, answerText);
+      return <String, dynamic>{
+        'questionId': gq.questionId,
+        'displayNumber': gq.displayNumber,
+        'stem': gq.stem,
+        'maxMarks': gq.marks,
+        'studentAnswer': answerText,
+        'awardedMarks': result.awardedMarks,
+        'verdict': result.verdict,
+        'confidence': result.confidence,
+        'reasoning': result.reasoning,
+        'markingPoints': result.markingPoints
+            .map((m) => {
+                  'id': m.markingPointId,
+                  'description': m.description,
+                  'awarded': m.awarded,
+                  'marks': m.marks,
+                  'reason': m.reason,
+                })
+            .toList(),
+        'ocrWarnings': const <String>[],
+        'needsReview': false,
+        'status': 'approved',
+        'teacherMarks': null,
+        'teacherComment': '',
+        'finalMarks': result.awardedMarks,
+        'pageImageUrls': pageImagePaths,
+      };
+    }
+
+    void overrideToFull(Map<String, dynamic> item, String comment) {
+      final max = item['maxMarks'] as num;
+      item['status'] = 'edited';
+      item['teacherMarks'] = max;
+      item['finalMarks'] = max;
+      item['teacherComment'] = comment;
+    }
+
     var editedOne = false;
     for (final section in paper.sections) {
       for (final gq in section.questions) {
@@ -322,47 +364,60 @@ class DemoSeeder {
             : roll < 0.8
                 ? 'Attempt: ${question.stem.substring(0, min(30, question.stem.length))}'
                 : '';
-        final result = eval_engine.evaluateAnswer(question, question.answerScheme, answerText);
-        final item = <String, dynamic>{
-          'questionId': gq.questionId,
-          'displayNumber': gq.displayNumber,
-          'stem': gq.stem,
-          'maxMarks': gq.marks,
-          'studentAnswer': answerText,
-          'awardedMarks': result.awardedMarks,
-          'verdict': result.verdict,
-          'confidence': result.confidence,
-          'reasoning': result.reasoning,
-          'markingPoints': result.markingPoints
-              .map((m) => {
-                    'id': m.markingPointId,
-                    'description': m.description,
-                    'awarded': m.awarded,
-                    'marks': m.marks,
-                    'reason': m.reason,
-                  })
-              .toList(),
-          'ocrWarnings': const <String>[],
-          'needsReview': false,
-          'status': 'approved',
-          'teacherMarks': null,
-          'teacherComment': '',
-          'finalMarks': result.awardedMarks,
-          'pageImageUrls': pageImagePaths,
-        };
+        final item = gradedItem(question, gq, answerText);
+        final awarded = item['awardedMarks'] as num;
         // One real teacher override, on the first partial-credit question --
-        // demos the actual red-pen/edited-annotation feature, not just AI marks.
-        if (!editedOne && result.awardedMarks > 0 && result.awardedMarks < gq.marks) {
-          item['status'] = 'edited';
-          item['teacherMarks'] = gq.marks;
-          item['finalMarks'] = gq.marks;
-          item['teacherComment'] = 'Full method shown on paper -- awarding full marks.';
+        // demos the actual red-pen/edited-annotation feature, not just AI
+        // marks. Only on a genuine answer: a teacher never awards full marks
+        // to a blank or a copied stem.
+        if (!editedOne && awarded > 0 && awarded < gq.marks && _isGenuineAnswer(answerText, question)) {
+          overrideToFull(item, 'Full method shown on paper -- awarding full marks.');
           editedOne = true;
         }
         review.add(item);
+        reviewQuestions.add(question);
       }
     }
     if (review.isEmpty) return;
+    // No partial-credit genuine answer to override: on the bank the merge
+    // (Task 11) composed, the demo paper's answers were all marked full or
+    // zero. About 45% of this seeder's answers are blanks or 'Attempt: '
+    // stem copies that score 0, so "the first answer marked short" was
+    // almost always one of those -- and the demo then showed a teacher
+    // calling a blank answer correct. Instead the override only acts on a
+    // genuine answer the engine marked short; if none exists, one question
+    // the student left short is given the plausible answer (re-graded by
+    // the real engine) and the override acts on that, if the engine still
+    // marks it short.
+    if (!editedOne) {
+      for (var i = 0; i < review.length && !editedOne; i++) {
+        final item = review[i];
+        final question = reviewQuestions[i];
+        if ((item['awardedMarks'] as num) >= (item['maxMarks'] as num)) continue;
+        if (_isGenuineAnswer(item['studentAnswer'] as String, question)) {
+          overrideToFull(item, 'Answer is correct as written -- awarding full marks.');
+          editedOne = true;
+        }
+      }
+    }
+    if (!editedOne) {
+      final gqById = {
+        for (final section in paper.sections)
+          for (final gq in section.questions) gq.questionId: gq,
+      };
+      for (var i = 0; i < review.length && !editedOne; i++) {
+        final question = reviewQuestions[i];
+        final answer = _plausibleCorrectAnswer(question);
+        if ((review[i]['awardedMarks'] as num) >= (review[i]['maxMarks'] as num)) continue;
+        if (!_isGenuineAnswer(answer, question)) continue;
+        final regraded = gradedItem(question, gqById[review[i]['questionId']]!, answer);
+        review[i] = regraded;
+        if ((regraded['awardedMarks'] as num) < (regraded['maxMarks'] as num)) {
+          overrideToFull(regraded, 'Answer is correct as written -- awarding full marks.');
+          editedOne = true;
+        }
+      }
+    }
 
     final sessionId = 'demo_scan_$studentId';
     final pages = [
@@ -419,6 +474,18 @@ class DemoSeeder {
   /// giving a genuinely "correct" synthetic answer real coverage across
   /// every marking point the same way an actual strong student's full
   /// written answer would.
+  /// True for an answer a teacher could honestly call correct: not blank,
+  /// not one of this seeder's 'Attempt: <stem>' copies, and not the
+  /// 'Answer: <stem>' fallback [_plausibleCorrectAnswer] uses when a
+  /// question has neither keywords nor a model answer.
+  static bool _isGenuineAnswer(String answer, Question q) {
+    final a = answer.trim();
+    if (a.isEmpty || a.startsWith('Attempt:')) return false;
+    final stem = q.stem.trim();
+    if (stem.isNotEmpty && (a == 'Answer: $stem' || a.contains(stem))) return false;
+    return true;
+  }
+
   static String _plausibleCorrectAnswer(Question q) {
     final key = q.answerScheme.metadata['correctOption']?.toString();
     if (key != null && key.isNotEmpty) return '($key)';

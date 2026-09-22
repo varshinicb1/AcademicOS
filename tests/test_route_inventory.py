@@ -125,7 +125,11 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/v1/questions/{question_id}"),
     ("GET", "/v1/questions/{question_id}/scheme"),
     ("GET", "/v1/subtopics/{subtopic_id}/questions"),
-    ("GET", "/v1/facets"),    ("POST", "/v1/search"),
+    ("GET", "/v1/facets"),
+    # Answer-key coverage per subject x class. The same numbers the MCP
+    # server's coverage_report returns, from the same function (rule Q5).
+    ("GET", "/v1/coverage"),
+    ("POST", "/v1/search"),
     ("POST", "/v1/agent/doubt"),
     ("POST", "/v1/agent/score"),
     ("POST", "/v1/agent/analyze"),
@@ -462,6 +466,11 @@ def question_body(qid: str = "q_1", marks: int = 2) -> dict:
             "modelAnswerLatex": "",
             "hasPartialCredit": False,
             "metadata": {},
+            # Rule Q1 (qbank_routes.QuestionBank.has_answer_key) takes a
+            # published provenance AND real content; a fixture question that
+            # stands in for a servable one carries the board's label, or no
+            # paper path will print it.
+            "provenance": "cbse_marking_scheme",
         },
         "estimatedTimeMinutes": 3,
         "marks": marks,
@@ -580,7 +589,7 @@ def _valid_body_for(method: str, path: str) -> dict:
 
 
 def test_canonical_route_inventory_matches_live_app():
-    """The enumerated app must equal the 62-route inventory exactly."""
+    """The enumerated app must equal the 150-route inventory exactly."""
     live = _enumerate_routes()
     live_api = live - DOC_ROUTES
     assert live_api == API_ROUTES, (
@@ -589,7 +598,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 149
+    assert len(API_ROUTES) == 150
 
 
 def test_docs_routes_present():
@@ -686,6 +695,7 @@ def test_gated_routes_return_503_without_startup():
                 ("GET", "/v1/questions/{question_id}/scheme"),
                 ("GET", "/v1/subtopics/{subtopic_id}/questions"),
                 ("GET", "/v1/facets"),
+                ("GET", "/v1/coverage"),
             }:
                 continue
             concrete = _concrete_path(path)

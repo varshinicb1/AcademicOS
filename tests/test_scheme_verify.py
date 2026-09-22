@@ -11,6 +11,7 @@ cited by record id or source file, except where a docstring says otherwise.
 """
 from __future__ import annotations
 
+import copy
 import json
 import re
 import sqlite3
@@ -31,6 +32,7 @@ from academicos.assessment.question_bank import (  # noqa: E402
 from academicos.corpus.scheme_verify import REASONS, verify  # noqa: E402
 
 FIXTURE = ROOT / "tests" / "fixtures" / "scheme_verify_sample.json"
+SHARE_FIXTURE = ROOT / "tests" / "fixtures" / "census_share_pre_relink.json"
 
 ANSWER_KEYS_SCHEMA = """
 CREATE TABLE answer_keys (
@@ -896,6 +898,250 @@ def test_the_relink_attaches_the_recovered_key_and_counts_it(tmp_path):
     assert report.newly_attached == 1 and report.recovered_elsewhere == 1
 
 
+def _pole_scheme(letter: str, words: str, source: str) -> dict:
+    """30/5/2 Q17's scheme as an earlier relink built it from `source`."""
+    from academicos.assessment.question_bank import build_official_scheme
+    qid = "cbse:q:src:" + "8" * 24 + ":17"
+    return build_official_scheme(
+        OfficialAnswer(q_no=17, correct_option=letter, answer_text=words, marks=1.0,
+                       source=source, medium="en", code="30/5/2"),
+        marks=1, question_id=qid, code="30/5/2", document_id="src:" + "8" * 24,
+        options=question_options(rec(POLE_STEM, subject="Mathematics", marks=1)),
+    ).model_dump(mode="json", by_alias=True)
+
+
+def test_two_official_keys_that_disagree_serve_neither(tmp_path):
+    """Task 151's review: a record's own scheme that `verify` passes was
+    overwritten by the content join's pick even when the pick was another
+    answer, and counted verified_existing_scheme -- 17 of 53 on the real
+    bank, 30/5/2 Q17 '90°' -> '30°' among them. Two official keys naming
+    different answers cannot both be right, and nothing here says which is:
+    both are quarantined as conflicting-keys, whole, and nothing is served."""
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "8" * 24, "Series 30/5/2 Mathematics")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db",
+                                          [POLE_OWN, POLE_SET1, COS_60, TAN_60]))
+    old = _pole_scheme("A", "90°", "an earlier edition.pdf")
+    assert verify(rec(POLE_STEM, subject="Mathematics", marks=1), "90°", option="A").accepted
+    recs = [_board("8" * 24, 17, POLE_STEM, json.loads(json.dumps(old)),
+                   subject="Mathematics", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    scheme = recs[0]["answerScheme"]
+    assert scheme.get("provenance") != "cbse_marking_scheme"
+    assert scheme["markingPoints"] == [] and scheme["modelAnswer"] == ""
+    assert not bank_merge.has_verified_key(recs[0])
+    assert report.verified == 0 and report.verified_existing_scheme == 0
+    assert report.conflicting_keys == 1
+    assert report.existing_scheme_removed == 1
+
+    entries = [e for e in report.quarantine if e["reason"] == "conflicting-keys"]
+    assert len(entries) == 2
+    by_source = {e["schemeSource"]: e for e in entries}
+    assert by_source["an earlier edition.pdf"]["scheme"] == old
+    assert by_source["an earlier edition.pdf"]["correctOption"] == "A"
+    join = by_source[POLE_SET1[-1]]
+    assert join["correctOption"] == "D"
+    assert join["scheme"]["metadata"]["schemeCode"] == "30/5/1"
+    assert join["scheme"]["metadata"]["schemeQNo"] == 11
+    assert all(e["id"] == recs[0]["id"] for e in entries)
+
+    [conflict] = report.conflicts
+    assert conflict["id"] == recs[0]["id"]
+    assert (conflict["existing"]["option"], conflict["existing"]["text"]) == ("A", "90°")
+    assert (conflict["join"]["option"], conflict["join"]["text"]) == ("D", "30°")
+    assert conflict["join"]["source"] == POLE_SET1[-1]
+
+
+def test_two_official_keys_that_agree_serve_the_join_pick(tmp_path):
+    """The same answer from another edition is no conflict: it is kept as
+    verified, counted as the record's own scheme verified."""
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "8" * 24, "Series 30/5/2 Mathematics")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db",
+                                          [POLE_OWN, POLE_SET1, COS_60, TAN_60]))
+    old = _pole_scheme("D", "30°", "an earlier edition.pdf")
+    recs = [_board("8" * 24, 17, POLE_STEM, old, subject="Mathematics", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert bank_merge.has_verified_key(recs[0])
+    assert recs[0]["answerScheme"]["metadata"]["correctOption"] == "D"
+    assert report.verified_existing_scheme == 1 and report.verified == 1
+    assert report.conflicting_keys == 0 and report.conflicts == []
+    assert report.quarantine == []
+
+
+def _pole_index(tmp_path):
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "8" * 24, "Series 30/5/2 Mathematics")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db",
+                                          [POLE_OWN, POLE_SET1, COS_60, TAN_60]))
+    return idx, parse
+
+
+def test_a_conflict_still_serves_neither_on_the_next_relink(tmp_path):
+    """Task 152's review: serving neither held for one run only. The record
+    kept no scheme, so the next relink saw nothing to compare and attached
+    the join's pick as newly attached -- and the pipeline's own order
+    (enrich, merge, enrich) runs the relink twice. The conflict is held on
+    the record, so every later relink sees both keys again."""
+    idx, parse = _pole_index(tmp_path)
+    recs = [_board("8" * 24, 17, POLE_STEM, _pole_scheme("A", "90°", "old.pdf"),
+                   subject="Mathematics", marks=1)]
+    relink_answer_schemes(recs, idx, parse_dir=parse)
+    recs = json.loads(json.dumps(recs))          # written and read back
+    again = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert not bank_merge.has_verified_key(recs[0])
+    scheme = recs[0]["answerScheme"]
+    assert scheme["markingPoints"] == [] and scheme["modelAnswer"] == ""
+    assert not scheme["metadata"].get("correctOption")
+    assert again.verified == 0 and again.newly_attached == 0
+    assert again.conflicting_keys == 1
+    [conflict] = again.conflicts
+    assert (conflict["existing"]["option"], conflict["join"]["option"]) == ("A", "D")
+    # Written to the quarantine file again, the same entries dedupe away.
+    assert {(e["reason"], e["correctOption"]) for e in again.quarantine} == {
+        ("conflicting-keys", "A"), ("conflicting-keys", "D")}
+    # And a third run, the same.
+    third = relink_answer_schemes(json.loads(json.dumps(recs)), idx, parse_dir=parse)
+    assert third.verified == 0 and third.conflicting_keys == 1
+
+
+def test_a_held_conflict_the_join_now_agrees_with_is_served(tmp_path):
+    """A conflict is held until the two keys agree: when a later join picks
+    the answer the held key names, both official keys say one thing."""
+    from academicos.assessment.question_bank import CONFLICT_HELD
+    idx, parse = _pole_index(tmp_path)
+    held = {"totalMarks": 1, "markingPoints": [], "modelAnswer": "",
+            "metadata": {CONFLICT_HELD: {"existing": _pole_scheme("D", "30°", "old.pdf")}}}
+    recs = [_board("8" * 24, 17, POLE_STEM, held, subject="Mathematics", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert bank_merge.has_verified_key(recs[0])
+    assert recs[0]["answerScheme"]["metadata"]["correctOption"] == "D"
+    assert CONFLICT_HELD not in recs[0]["answerScheme"]["metadata"]
+    assert report.conflicting_keys == 0 and report.verified == 1
+
+
+def test_an_enrich_rerun_does_not_serve_a_conflict(tmp_path):
+    """The documented order, enrich then merge then enrich, through the
+    script: the conflicted record is still keyless after the second run."""
+    script = _load_enrich_script()
+    data = tmp_path / "data"
+    make_parse_tree(data / "parse", "8" * 24, "Series 30/5/2 Mathematics")
+    make_answer_keys(data / "answer_keys.db", [POLE_OWN, POLE_SET1, COS_60, TAN_60])
+    bank = data / "syllabus" / "questions.json"
+    bank.parent.mkdir(parents=True)
+    pole = _board("8" * 24, 17, POLE_STEM, _pole_scheme("A", "90°", "old.pdf"),
+                  subject="Mathematics", marks=1)
+    bank.write_text(json.dumps({"questions": [pole]}), encoding="utf-8")
+    kwargs = dict(targets=[bank], quarantine=bank.with_name("q.json"), data_root=data)
+    for _ in range(2):
+        assert script.run(check=False, **kwargs) == 0
+        [back] = json.loads(bank.read_text(encoding="utf-8"))["questions"]
+        assert not bank_merge.has_verified_key(back)
+        assert not back["answerScheme"]["metadata"].get("correctOption")
+    entries = json.loads(bank.with_name("q.json").read_text(encoding="utf-8"))["entries"]
+    assert len(entries) == 2
+
+
+def test_an_unlabelled_scheme_naming_another_answer_is_superseded_not_verified(tmp_path):
+    """Task 152's review: an unlabelled scheme is no official key, so the
+    join's accepted pick replaces it -- but when it names another answer it
+    was counted verified_existing_scheme, as if the record's own scheme had
+    been confirmed. It is quarantined whole as superseded-by-official,
+    counted as replaced, and reported by id with both answers."""
+    from academicos.assessment.question_bank import SUPERSEDED_BY_OFFICIAL
+    idx, parse = _pole_index(tmp_path)
+    old = _pole_scheme("A", "90°", "old.pdf")
+    old["provenance"] = "none"
+    recs = [_board("8" * 24, 17, POLE_STEM, json.loads(json.dumps(old)),
+                   subject="Mathematics", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert recs[0]["answerScheme"]["metadata"]["correctOption"] == "D"
+    assert report.verified_existing_scheme == 0
+    assert report.replaced_after_quarantine == 1 and report.verified == 1
+    assert report.conflicting_keys == 0
+    assert report.quarantined == {SUPERSEDED_BY_OFFICIAL: 1}
+    [entry] = report.quarantine
+    assert entry["scheme"] == old and entry["correctOption"] == "A"
+    [sup] = report.superseded
+    assert sup["id"] == recs[0]["id"]
+    assert (sup["existing"]["option"], sup["join"]["option"]) == ("A", "D")
+    assert any(SUPERSEDED_BY_OFFICIAL.replace("-", " ") in ln or "superseded" in ln
+               for ln in report.lines())
+
+
+def test_an_unlabelled_scheme_naming_the_same_answer_is_verified(tmp_path):
+    idx, parse = _pole_index(tmp_path)
+    old = _pole_scheme("D", "30°", "old.pdf")
+    old["provenance"] = "none"
+    recs = [_board("8" * 24, 17, POLE_STEM, old, subject="Mathematics", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+    assert report.verified_existing_scheme == 1 and report.superseded == []
+    assert report.quarantine == []
+
+
+def test_one_answer_written_two_ways_is_no_conflict():
+    """57/5/2 Q9: a pre-Task-15 scheme kept "(B)/ Amorphous, ..." as text,
+    the join's pick is option B -- one answer. Two editions of a descriptive
+    answer sharing most of their words are one answer too; another option
+    or another answer is not."""
+    from academicos.assessment.question_bank import _same_answer
+    options = question_options(rec(POLE_STEM, subject="Mathematics", marks=1))
+    as_text = {"modelAnswer": "(D) / 30°", "markingPoints": [], "metadata": {}}
+    assert _same_answer(as_text, _pole_scheme("D", "30°", "x.pdf"), options)
+    assert not _same_answer(as_text, _pole_scheme("A", "90°", "x.pdf"), options)
+    one = {"modelAnswer": "Primary sector activities produce goods by exploiting natural "
+                          "resources and provide raw material to the manufacturing sector"}
+    edition = {"modelAnswer": "Primary sector activities produces goods by exploiting "
+                              "natural resources and provide raw material to manufacturing"}
+    other = {"modelAnswer": "Tertiary sector activities help the development of primary and "
+                            "secondary sectors by providing transport and banking"}
+    assert _same_answer(one, edition, {})
+    assert not _same_answer(one, other, {})
+    # Share alone is blind to polarity and small numbers: `join_terms` drops
+    # "not", "no", "yes" and single digits, so these pairs share almost
+    # every term and are opposite answers. A conflict fails closed.
+    def says(text: str) -> dict:
+        return {"modelAnswer": text}
+    assert not _same_answer(says("It is a rational number"),
+                            says("It is not a rational number"), {})
+    assert not _same_answer(says("Yes, the demand increases because price falls"),
+                            says("No, the demand decreases because price falls"), {})
+    assert not _same_answer(says("The focal length of the lens is 5 cm, a convex lens"),
+                            says("The focal length of the lens is 2 cm, a convex lens"), {})
+    assert not _same_answer(says("Rise in capital intensive techniques reduces employment"),
+                            says("Rise in capital intensive techniques never reduces employment"), {})
+    # Polarity words and numbers that match on both sides still agree.
+    assert _same_answer(says("No, it is not a rational number since 2 has no square root"),
+                        says("No; it is not rational number, since 2 has no square root"), {})
+
+
+def test_a_restored_symbol_is_not_a_different_answer():
+    """The merge restores the characters a symbol font took with it
+    (corpus/symbol_font.py), and the answer-key store still holds the
+    private-use character the extraction left: cbse:q:src:784bd959b5f48fd5620f57e6:27
+    is served "2⋅4 g/litre" where the store reads "2<U+F0D7>4 g/litre". The
+    two are one answer. Without this a short key whose only difference is the
+    symbol -- too few words for the share rule to decide -- would read as a
+    conflict, and the record would lose the key the merge served it with."""
+    from academicos.assessment.question_bank import _same_answer
+
+    def says(text: str) -> dict:
+        return {"modelAnswer": text}
+
+    assert _same_answer(says("ρ = m/V"), says("\uf072 = m/V"), {})
+    assert _same_answer(says("Milk with 2⋅4 g/litre of human protein"),
+                        says("Milk with 2\uf0d74 g/litre of human protein"), {})
+    # A private-use character the table cannot name is still a difference:
+    # nothing here knows what it was.
+    assert not _same_answer(says("Ca + H2O → Ca(OH)2"),
+                            says("Ca + H2O \uf0e0 Ca(OH)2"), {})
+
+
 @pytest.mark.parametrize("rows", [[EN_KEY, HI_KEY], [HI_KEY, EN_KEY]])
 def test_an_english_question_never_takes_a_hindi_medium_answer(tmp_path, rows):
     """56/4/2 Q3: the Hindi-medium key ("043_56_4_2_Hindi.pdf") is not in an
@@ -1272,6 +1518,81 @@ def test_the_relinks_scheme_carries_the_stamp_the_merge_reads(tmp_path):
     assert bank_merge.has_verified_key(rec_)
 
 
+def test_the_relink_restores_the_symbols_in_the_scheme_it_writes(tmp_path):
+    """The merge repairs the record's text, but the scheme the relink writes is
+    built from the answer-key store's rows, which still hold what the
+    marking-scheme PDF's symbol font left: "30<U+F0B0>" for "30°". Task 11's
+    runbook runs the relink AFTER the merge, so without a repair here the
+    documented pipeline puts the holes straight back -- and the merge's
+    private-use gate cannot catch it, because that gate only runs inside
+    `compose`."""
+    # cbse:q:src:f01c7b6fd6fca7ef7d9987dc:27, the shape the review measured
+    # reverting: a descriptive key whose "therefore" is Symbol code 0x5C.
+    stem = ("The altitude of a right triangle is 7 cm less than its base. If the "
+            "hypotenuse is 13 cm, find the other two sides of the triangle.")
+    answer = ("Let the base be x cm  altitude = (x - 7) cm, hypotenuse 13 cm, "
+              "so base = 12 cm and altitude = 5 cm")
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "9" * 24, "Series 30/5/1 Mathematics")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [
+        ("Mathematics", "X", "30/5/1", 27, None, answer, "[]", 3.0,
+         "X_MS_041_Mathematics Standard_30-5-1_2024-25.pdf")]))
+    recs = [_board("9" * 24, 27, stem, {}, subject="Mathematics", marks=3)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    scheme = recs[0]["answerScheme"]
+    assert scheme["provenance"] == "cbse_marking_scheme"
+    assert "x cm ∴ altitude" in scheme["modelAnswer"]
+    assert bank_merge.PRIVATE_USE.search(json.dumps(scheme, ensure_ascii=False)) is None
+    assert report.symbol_font_restored == 1
+    assert report.symbol_font_unnameable == 0
+
+
+def test_a_scheme_symbol_the_table_cannot_name_is_reported(tmp_path):
+    """The other half of the same pass. `restore_symbol_font` restores the codes
+    the Adobe Symbol table covers and leaves the rest -- 46 of the 15,605 rows
+    in answer_keys.db carry a private-use character it cannot name (U+F0E0, the
+    reaction arrow, among them). Such a scheme is written into a served
+    record's `modelAnswer`, a hole a scorer reads, and the only thing that ever
+    notices is the next merge, which then withholds the whole question rather
+    than just its key. It is a hole the run has to raise its hand about."""
+    stem = ("Name the gas evolved when calcium metal reacts with water and "
+            "state how it is tested in the laboratory.")
+    answer = ("The gas evolved when calcium metal reacts with water is hydrogen: "
+              "Ca + 2H2O  Ca(OH)2 + H2. It is tested in the laboratory with a "
+              "burning splint, which burns with a pop sound.")
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "6" * 24, "Series 31/5/1 Science")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [
+        ("Science", "X", "31/5/1", 19, None, answer, "[]", 3.0,
+         "X_MS_086_Science_31-5-1_2024-25.pdf")]))
+    recs = [_board("6" * 24, 19, stem, {}, subject="Science", marks=3)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert recs[0]["answerScheme"]["provenance"] == "cbse_marking_scheme"
+    assert report.symbol_font_restored == 0
+    assert report.symbol_font_unnameable == 1
+    assert any("the table cannot name: 1" in line for line in report.lines())
+
+
+def test_a_quarantined_scheme_keeps_the_characters_the_extraction_left(tmp_path):
+    """Provenance, not print: a quarantine entry is a copy of what was removed,
+    as it was removed, and a person reviewing one needs to see the code point
+    the extractor actually produced."""
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "7" * 24, "Series 64/4/1 Geography")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", []))
+    wrong = {"totalMarks": 5, "modelAnswer": PHYSICS_IN_HINDI + " 30",
+             "markingPoints": [{"id": "m1", "description": PHYSICS_IN_HINDI, "marks": 5}],
+             "provenance": "cbse_marking_scheme", "sourcePaperCode": "64/4/1"}
+    recs = [_board("7" * 24, 24, GEOGRAPHY_STEM, wrong)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert report.quarantined == {"legacy-font": 1}
+    assert report.quarantine[0]["scheme"]["modelAnswer"].endswith("30")
+    assert report.symbol_font_restored == 0
+
+
 def test_an_enrich_run_relinks_the_withheld_board_records_too(tmp_path):
     """A board record the merge withheld lives only in board_withheld.json.
     The relink reads it there, so a later, better join can re-attach its key,
@@ -1298,6 +1619,80 @@ def test_an_enrich_run_relinks_the_withheld_board_records_too(tmp_path):
     assert back["id"] == pole["id"]
     assert bank_merge.has_verified_key(back)
     assert back["answerScheme"]["metadata"]["correctOption"] == "D"
+
+
+def test_an_enrich_run_stamps_the_bank_with_its_verifier(tmp_path):
+    """merge_question_banks.py serves what the relink verified, so it must
+    run after the relink. The relink stamps the bank it wrote with the
+    verifier it ran, and the merge refuses a bank without that stamp."""
+    from academicos.assessment.question_bank import SCHEME_VERIFIER
+    script = _load_enrich_script()
+    data = tmp_path / "data"
+    make_parse_tree(data / "parse", "8" * 24, "Series 30/5/2 Mathematics")
+    make_answer_keys(data / "answer_keys.db", [POLE_OWN, POLE_SET1, COS_60, TAN_60])
+    bank = data / "syllabus" / "questions.json"
+    mirror = tmp_path / "frontend" / "questions.json"
+    bank.parent.mkdir(parents=True)
+    pole = _board("8" * 24, 17, POLE_STEM, {}, subject="Mathematics", marks=1)
+    bank.write_text(json.dumps({"questions": [pole]}), encoding="utf-8")
+    kwargs = dict(targets=[bank, mirror], quarantine=bank.with_name("q.json"), data_root=data)
+
+    assert script.run(check=True, **kwargs) == 0
+    assert "schemeVerifier" not in json.loads(bank.read_text(encoding="utf-8"))
+    assert script.run(check=False, **kwargs) == 0
+    for path in (bank, mirror):
+        assert json.loads(path.read_text(encoding="utf-8"))["schemeVerifier"] == SCHEME_VERIFIER
+
+
+def test_an_enrich_run_names_every_conflict(tmp_path, capsys):
+    """Each record whose two official keys disagree is printed by id with
+    both answers, so a person can settle it."""
+    script = _load_enrich_script()
+    data = tmp_path / "data"
+    make_parse_tree(data / "parse", "8" * 24, "Series 30/5/2 Mathematics")
+    make_answer_keys(data / "answer_keys.db", [POLE_OWN, POLE_SET1, COS_60, TAN_60])
+    bank = data / "syllabus" / "questions.json"
+    bank.parent.mkdir(parents=True)
+    pole = _board("8" * 24, 17, POLE_STEM, _pole_scheme("A", "90°", "old.pdf"),
+                  subject="Mathematics", marks=1)
+    bank.write_text(json.dumps({"questions": [pole]}), encoding="utf-8")
+    assert script.run(targets=[bank], quarantine=bank.with_name("q.json"),
+                      data_root=data, check=True) == 0
+    out = capsys.readouterr().out
+    assert "conflicting official keys (neither served): 1" in out
+    line = next(ln for ln in out.splitlines() if pole["id"] in ln)
+    assert "A 90°" in line and "D 30°" in line
+
+
+def test_the_conflict_listing_survives_a_cp1252_stdout(tmp_path, monkeypatch):
+    """Scheme text from symbol-font PDFs carries private-use characters
+    (U+F0DE in 5884c691 Q31). On Windows a redirected stdout (a CI log,
+    `--check > out.txt`) is cp1252, and printing that text raised
+    UnicodeEncodeError after the first conflict line, so a logged run
+    aborted before writing anything. capsys is UTF-8 and hides this."""
+    import io
+    script = _load_enrich_script()
+    data = tmp_path / "data"
+    make_parse_tree(data / "parse", "8" * 24, "Series 30/5/2 Mathematics")
+    make_answer_keys(data / "answer_keys.db", [POLE_OWN, POLE_SET1, COS_60, TAN_60])
+    bank = data / "syllabus" / "questions.json"
+    bank.parent.mkdir(parents=True)
+    scheme = _pole_scheme("A", "90°", "old.pdf")
+    scheme["modelAnswer"] = "90° "
+    pole = _board("8" * 24, 17, POLE_STEM, scheme, subject="Mathematics", marks=1)
+    bank.write_text(json.dumps({"questions": [pole]}), encoding="utf-8")
+    raw = io.BytesIO()
+    out = io.TextIOWrapper(raw, encoding="cp1252", errors="strict", write_through=True)
+    monkeypatch.setattr(sys, "stdout", out)
+    rc = script.run(targets=[bank], quarantine=bank.with_name("q.json"),
+                    data_root=data, check=True)
+    out.flush()
+    monkeypatch.undo()
+    assert rc == 0
+    text = raw.getvalue().decode(out.encoding)
+    line = next(ln for ln in text.splitlines() if pole["id"] in ln)
+    assert "D 30°" in line and "" in line
+    assert "enrichment" in text        # the run got past the listing
 
 
 # --------------------------------------------------------------------------- #
@@ -1330,21 +1725,85 @@ def test_the_census_picks_are_what_choose_picks_today():
         records += [r for r in json.loads(held.read_text(encoding="utf-8"))["questions"]
                     if r.get("id") not in ids]
     assert census.keys() <= {r.get("id") for r in records}
+    # The share rule decides a record only while it holds its own scheme; the
+    # relink then replaces that with the pick (Task 11 relinked the bank for
+    # real). The pinned records get their pre-relink schemes back, frozen in
+    # SHARE_FIXTURE, so the rule runs on them as it did -- and any other
+    # record the rule decides still fails the exact equality below.
+    pre_relink = json.loads(SHARE_FIXTURE.read_text(encoding="utf-8"))["schemes"]
+    for r in records:
+        if r.get("id") in pre_relink:
+            r["answerScheme"] = copy.deepcopy(pre_relink[r["id"]])
 
     index = AnswerKeyIndex(DATA / "answer_keys.db")
     seen: dict[str, object] = {}
+    accepted: set[str] = set()
     real_choose = index.choose
 
     def recording(code, q_no, record, *, siblings=()):
         choice = real_choose(code, q_no, record, siblings=siblings)
         if record.get("id") in census:
             seen[record["id"]] = choice
+        if choice.best is not None:
+            accepted.add(record["id"])
         return choice
 
     index.choose = recording
-    relink_answer_schemes(records, index, parse_dir=DATA / "parse")
+    # Which records keep their scheme because `_same_answer` finds the two
+    # descriptive keys share enough terms -- the one path where agreement
+    # is a threshold, not a letter or the same text. Pinned so a change to
+    # `AGREE_SHARE`, `join_terms` or the polarity/number guard cannot widen
+    # it quietly: each id here was read by hand as one answer in two
+    # editions (credit's roles 3901e48d:22, Ravi/Kavi/Chand 7d85e69a:33,
+    # Archana/Vandana be7fd195:22, capital-intensive d4ab2844:21).
+    import academicos.assessment.question_bank as qb
+    by_share: set[str] = set()
+    real_same = qb._same_answer
+
+    def same(ours, pick, options):
+        agree = real_same(ours, pick, options)
+        a, b = qb._answer_of(ours), qb._answer_of(pick)
+        lettered = all(x["option"] or qb.outright_option(x["text"], options) for x in (a, b))
+        # `_agreeable`, not `_collapse`: the exact-text branch reads a symbol
+        # the merge restored and the answer-key store did not as the same
+        # character (Task 121), so a pair that differs only there is still
+        # decided by text, not by share.
+        if agree and not lettered and qb._agreeable(a["text"]) != qb._agreeable(b["text"]):
+            by_share.add(current["id"])
+        return agree
+
+    current: dict[str, str] = {}
+    choose_then = index.choose
+
+    def tracking(code, q_no, record, *, siblings=()):
+        current["id"] = record.get("id")
+        return choose_then(code, q_no, record, siblings=siblings)
+
+    index.choose = tracking
+    qb._same_answer = same
+    try:
+        relink_answer_schemes(records, index, parse_dir=DATA / "parse")
+    finally:
+        qb._same_answer = real_same
+    assert by_share == {
+        "cbse:q:src:3901e48d946b1f956b5a21c7:22",
+        "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33",
+        "cbse:q:src:be7fd19527d3a0bcac687817:22",
+        "cbse:q:src:d4ab284479dbd2fbc3a07c7f:21",
+    } == set(pre_relink), f"agree-by-share decisions moved: {sorted(by_share)} -- read each pair by hand"
 
     assert seen.keys() == census.keys()
+    # The precision below is measured on the judged pairs only, so the set
+    # the join accepts over the WHOLE bank is pinned to them: a change to
+    # `choose`, `_siblings`, `row_code` or the pool that accepts a pick for
+    # any other question fails here, not silently (Task 151's review).
+    judged = {rid for rid, p in census.items() if _join_accepted(p)}
+    unjudged = sorted(accepted - judged)
+    assert not unjudged, (
+        f"the join now accepts {len(unjudged)} question(s) no one has judged: "
+        f"{unjudged} -- judge each pick and add it to {FIXTURE.name} as a "
+        f"join-accepted pair before serving it")
+    assert accepted == judged
     drift = []
     for rid, p in census.items():
         c = seen[rid]

@@ -13,7 +13,9 @@ What it does, in order:
   2. Enrich. Sets `rights`, `calibration`, `version`, `reviewState`, `language`,
      and page-level `provenance`.
   3. Writes both copies of the corpus (the server-side one and the Flutter
-     asset) so they cannot drift.
+     asset) so they cannot drift, stamped `schemeVerifier` with the verifier
+     it ran: merge_question_banks.py refuses a bank without that stamp, so
+     it cannot serve labels this relink has not seen.
   4. Adds every scheme the relink removed to scheme_quarantine.json, next to
      the served bank, whole (marking points, model answer, option letter,
      scheme file). It merges, never overwrites: a rerun finds almost nothing
@@ -24,9 +26,17 @@ What it does, in order:
      there whole (never into the served files), so a later, better join can
      re-attach a key.
 
-After a real run, run merge_question_banks.py again: its no-verified-key gate
-reads the labels and stamps this relink writes, and serves a withheld record
-this relink verified.
+A record whose own verified scheme and the join's accepted pick name
+different answers keeps neither: both go to the quarantine as
+conflicting-keys, and each is printed by id with both answers. The record
+holds its own key (answerScheme.metadata.conflictingKeys), so a rerun finds
+the conflict again instead of serving the pick. An unlabelled scheme that
+names another answer than the pick is replaced by it, quarantined as
+superseded-by-official, and printed the same way.
+
+Run this BEFORE merge_question_banks.py, and again after it: the merge's
+no-verified-key gate reads the labels and stamps this relink writes, and
+serves a withheld record this relink verified.
 
 Idempotent: re-running does not double-bump versions or overwrite a rights
 decision someone has since recorded. `--check` verifies without writing, for CI.
@@ -43,6 +53,7 @@ REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 
 from academicos.assessment.question_bank import (          # noqa: E402
+    SCHEME_VERIFIER,
     AnswerKeyIndex,
     enrich_all,
     relink_answer_schemes,
@@ -62,12 +73,14 @@ def print_subject_grade_table(records: list[dict], report, had_official: set) ->
     quarantined records split so no column overlaps another's meaning:
     `replaced` had a scheme quarantined and a verified official attached in
     its place (it is counted in `verified` too); `quarantined` had a scheme
-    quarantined and ends with none verified."""
+    quarantined and ends with none verified; `conflicts`, among those, had
+    two official keys naming different answers."""
     quarantined = {e["id"] for e in report.quarantine}
+    conflicted = {c["id"] for c in report.conflicts}
     rows: dict[tuple[str, str], list[int]] = {}
     for r in records:
         key = (str(r.get("subject") or "?"), str(r.get("grade") or "?"))
-        row = rows.setdefault(key, [0, 0, 0, 0, 0])
+        row = rows.setdefault(key, [0, 0, 0, 0, 0, 0])
         verified = (r.get("answerScheme") or {}).get("provenance") == "cbse_marking_scheme"
         removed = r.get("id") in quarantined
         row[0] += 1
@@ -75,16 +88,18 @@ def print_subject_grade_table(records: list[dict], report, had_official: set) ->
         row[2] += verified
         row[3] += removed and verified
         row[4] += removed and not verified
-    fmt = "{:<26} {:>5} {:>8} {:>9} {:>9} {:>9} {:>12}"
+        row[5] += r.get("id") in conflicted
+    fmt = "{:<26} {:>5} {:>8} {:>9} {:>9} {:>9} {:>12} {:>10}"
     print(fmt.format("subject", "grade", "records", "labelled", "verified", "replaced",
-                     "quarantined"))
+                     "quarantined", "conflicts"))
     print("  (labelled = cbse_marking_scheme before the relink; verified = after;")
     print("   replaced = scheme quarantined, a verified official attached instead,")
-    print("   and counted in verified; quarantined = scheme removed, none verified)")
-    num = "{:<26} {:>5} {:>8,} {:>9,} {:>9,} {:>9,} {:>12,}"
+    print("   and counted in verified; quarantined = scheme removed, none verified;")
+    print("   conflicts = of those, two official keys named different answers)")
+    num = "{:<26} {:>5} {:>8,} {:>9,} {:>9,} {:>9,} {:>12,} {:>10,}"
     for (subject, grade), vals in sorted(rows.items()):
         print(num.format(subject[:26], grade, *vals))
-    tot = [sum(v[i] for v in rows.values()) for i in range(5)]
+    tot = [sum(v[i] for v in rows.values()) for i in range(6)]
     print(num.format("total", "", *tot))
 
 
@@ -93,10 +108,38 @@ QUARANTINE_ABOUT = (
     "their question. For a person to review and, if right, restore: each entry "
     "keeps the whole removed scheme ('scheme'), its option letter and its scheme "
     "file. See src/academicos/corpus/scheme_verify.py and "
-    "src/academicos/assessment/question_bank.py (unbacked-key) for each "
+    "src/academicos/assessment/question_bank.py (unbacked-key, "
+    "superseded-by-official) for each "
     "reason. Every run ADDS to this file and never drops an entry: "
     "after one run the served bank no longer holds what was removed, so a "
     "rerun finds almost nothing, and overwriting would lose the review list.")
+
+
+def _answer(a: dict) -> str:
+    words = " ".join(str(a.get("text") or "").split())
+    words = words if len(words) <= 60 else words[:57] + "..."
+    return f"{a.get('option') or '-'} {words}".strip()
+
+
+def _print_pairs(title: str, pairs: list[dict]) -> None:
+    if not pairs:
+        return
+    print(f"{title} ({len(pairs):,}):")
+    print("  (id  code Qn: the record's own scheme  |  the join's pick  [pick's row])")
+    for c in pairs:
+        join = c["join"]
+        print(f"  {c['id']}  {c['code']} Q{c['q_no']}: {_answer(c['existing'])}  |  "
+              f"{_answer(join)}  [{join.get('code')} Q{join.get('qNo')}, {join.get('source')}]")
+    print()
+
+
+def print_conflicts(report) -> None:
+    """Every record whose two official keys disagree, with both answers, so a
+    person can settle it; neither is served until then. Then every
+    unlabelled scheme the official pick superseded with another answer."""
+    _print_pairs("conflicting official keys, neither served", report.conflicts)
+    _print_pairs("unlabelled schemes naming another answer, superseded by the official",
+                 report.superseded)
 
 
 def _entry_key(e: dict) -> tuple:
@@ -143,7 +186,21 @@ def main() -> int:
                data_root=REPO / "academicos-data", check=args.check)
 
 
+def _utf8_stdout() -> None:
+    """The conflict listing prints scheme text, and scheme text from
+    symbol-font PDFs carries private-use characters (U+F0DE in 5884c691
+    Q31). On Windows a redirected stdout -- a CI log, `--check > out.txt`
+    -- is cp1252, which cannot encode them: the print raised after the first
+    conflict line, and a write run aborted before writing anything. Write
+    UTF-8, and escape what still cannot be written rather than fail."""
+    reconfigure = getattr(sys.stdout, "reconfigure", None)
+    if reconfigure is not None:
+        sys.stdout.flush()
+        reconfigure(encoding="utf-8", errors="backslashreplace")
+
+
 def run(*, targets: list[Path], quarantine: Path, data_root: Path, check: bool) -> int:
+    _utf8_stdout()
     primary = targets[0]
     if not primary.exists():
         print(f"missing corpus: {primary}", file=sys.stderr)
@@ -179,6 +236,7 @@ def run(*, targets: list[Path], quarantine: Path, data_root: Path, check: bool) 
     for line in report.lines():
         print("  " + line)
     print()
+    print_conflicts(report)
     print_subject_grade_table(records + held, report, had_official)
     print()
 
@@ -196,6 +254,7 @@ def run(*, targets: list[Path], quarantine: Path, data_root: Path, check: bool) 
     # this counts VERIFIED official schemes, not links to an answer key.
     payload["schemeCoverage"] = round(
         census["with_official_scheme"] / len(records), 4) if records else 0.0
+    payload["schemeVerifier"] = SCHEME_VERIFIER
 
     if check:
         print(f"--check: nothing written (would add up to "

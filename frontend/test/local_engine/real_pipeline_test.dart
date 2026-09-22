@@ -24,8 +24,15 @@ void main() {
       print('${c.subject} grade ${c.grade}: ${c.questionCount} questions, ${c.chapters} chapters');
     }
 
-    expect(CorpusRepository.instance.all.length, greaterThan(3000));
-    expect(science10.questionCount, 408);
+    // The served bank as merge_question_banks.py composed it (Task 11): 60
+    // board records with a verified key, CBE, SQP and NCERT Exemplar. Science
+    // 10 was 408 board questions in 13 chapters; it is now 1 board, 36 CBE
+    // and 468 Exemplar. Task 121 dropped the 37th CBE record (its key holds a
+    // symbol-font character nothing can name) and put every raw content code
+    // back on the chapter it belongs to, so the 24 "chapters" -- 13 real ones
+    // and 11 codes such as "10.6.9" -- are the syllabus's 13 again.
+    expect(CorpusRepository.instance.all.length, greaterThan(5000));
+    expect(science10.questionCount, 505);
     expect(science10.chapters, 13);
   });
 
@@ -44,14 +51,19 @@ void main() {
       sections: selection.defaultSections(30),
     );
 
+    // Mathematics 10, not Science 10: since Task 11 no Science 10 question
+    // is worth 4 marks (the board case studies have no verified key), so its
+    // section E cannot be filled from anywhere -- the honest gap the next
+    // test covers, not a recovery.
+    //
     // Deliberately narrow: a single real chapter, to exercise the
     // fallback/backfill rescue -- this is the exact bug class found and
     // fixed earlier this session (a narrow pick returning a blank paper).
     final candidates = CorpusRepository.instance.search(QuestionSearchParams(
-      subject: 'Science', grade: 10, chapterIds: const ['our-environment'], limit: 500,
+      subject: 'Mathematics', grade: 10, chapterIds: const ['trigonometry'], limit: 500,
     ));
     final fallback = CorpusRepository.instance.search(
-      QuestionSearchParams(subject: 'Science', grade: 10, limit: 2000),
+      QuestionSearchParams(subject: 'Mathematics', grade: 10, limit: 2000),
     );
 
     final result = selection.optimize(candidates, blueprint, fallbackCandidates: fallback);
@@ -142,9 +154,10 @@ void main() {
     // no human review. This is the Dart engine's copy of that fix, ported
     // from evaluate.py's _evaluate_objective -- was stale here until now.
     await CorpusRepository.instance.ensureLoaded();
+    // The first Science 10 MCQ: the bank's first question is no longer one.
     final q = CorpusRepository.instance
-        .search(QuestionSearchParams(subject: 'Science', grade: 10, limit: 1))
-        .first;
+        .search(QuestionSearchParams(subject: 'Science', grade: 10, limit: 2000))
+        .firstWhere((q) => q.answerScheme.metadata['correctOption'] != null);
     final scheme = q.answerScheme;
     final key = scheme.metadata['correctOption']!.toString();
 

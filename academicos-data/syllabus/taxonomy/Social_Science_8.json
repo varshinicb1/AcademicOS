@@ -1,0 +1,1444 @@
+{
+ "subject": "Social Science",
+ "grade": 8,
+ "book": [
+  "Exploring Society: India and Beyond Part 1",
+  "Exploring Society: India and Beyond Part 2"
+ ],
+ "source_files": [
+  "chapters/hees1/hees101.pdf",
+  "chapters/hees1/hees102.pdf",
+  "chapters/hees1/hees103.pdf",
+  "chapters/hees1/hees104.pdf",
+  "chapters/hees1/hees105.pdf",
+  "chapters/hees1/hees106.pdf",
+  "chapters/hees1/hees107.pdf",
+  "chapters/hees2/hees201.pdf",
+  "chapters/hees2/hees202.pdf",
+  "chapters/hees2/hees203.pdf",
+  "chapters/hees2/hees204.pdf",
+  "chapters/hees2/hees205.pdf",
+  "chapters/hees2/hees206.pdf",
+  "chapters/hees2/hees207.pdf",
+  "chapters/hees2/hees208.pdf"
+ ],
+ "chapters": [
+  {
+   "id": "social-science-8/natural-resources-and-their-use",
+   "name": "Natural Resources and Their Use",
+   "number": 1,
+   "book": "Exploring Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "chapters/hees1/hees101.pdf",
+   "pages": [
+    1,
+    20
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/natural-resources-and-their-use/when-does-nature-become-a-resource",
+     "name": "When does Nature become a Resource?",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/natural-resources-and-their-use/categories-of-natural-resources",
+     "name": "Categories of Natural Resources",
+     "page": 3,
+     "subtopics": [
+      {
+       "id": "social-science-8/natural-resources-and-their-use/categories-of-natural-resources/resources-essential-for-life",
+       "name": "Resources essential for life",
+       "page": 4
+      },
+      {
+       "id": "social-science-8/natural-resources-and-their-use/categories-of-natural-resources/resources-for-materials",
+       "name": "Resources for materials",
+       "page": 4
+      },
+      {
+       "id": "social-science-8/natural-resources-and-their-use/categories-of-natural-resources/resources-for-energy",
+       "name": "Resources for energy",
+       "page": 4
+      },
+      {
+       "id": "social-science-8/natural-resources-and-their-use/categories-of-natural-resources/renewable-and-non-renewable-resources",
+       "name": "Renewable and non-renewable resources",
+       "page": 5
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/natural-resources-and-their-use/distribution-of-natural-resources-and-its-implications",
+     "name": "Distribution of Natural Resources and its Implications",
+     "page": 8,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/natural-resources-and-their-use/the-paradox-of-plenty",
+     "name": "The ‘Paradox of Plenty’",
+     "page": 11,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/natural-resources-and-their-use/responsible-and-wise-use-of-natural-resources-stewardship",
+     "name": "Responsible and Wise Use of Natural Resources: Stewardship",
+     "page": 12,
+     "subtopics": [
+      {
+       "id": "social-science-8/natural-resources-and-their-use/responsible-and-wise-use-of-natural-resources-stewardship/restoration-and-regeneration-of-renewable-resources",
+       "name": "Restoration and regeneration of renewable resources",
+       "page": 12
+      },
+      {
+       "id": "social-science-8/natural-resources-and-their-use/responsible-and-wise-use-of-natural-resources-stewardship/responsible-and-judicious-use-of-resources",
+       "name": "Responsible and judicious use of resources",
+       "page": 17
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/reshaping-india-s-political-map",
+   "name": "Reshaping India’s Political Map",
+   "number": 2,
+   "book": "Exploring Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "chapters/hees1/hees102.pdf",
+   "pages": [
+    1,
+    40
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/reshaping-india-s-political-map/rise-and-fall-of-the-delhi-sultanate",
+     "name": "Rise and Fall of the Delhi Sultanate",
+     "page": 5,
+     "subtopics": [
+      {
+       "id": "social-science-8/reshaping-india-s-political-map/rise-and-fall-of-the-delhi-sultanate/resistance-to-the-delhi-sultanate",
+       "name": "Resistance to the Delhi Sultanate",
+       "page": 9
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/reshaping-india-s-political-map/the-vijayanagara-empire",
+     "name": "The Vijayanagara Empire",
+     "page": 11,
+     "subtopics": [
+      {
+       "id": "social-science-8/reshaping-india-s-political-map/the-vijayanagara-empire/krishnadevaraya",
+       "name": "Krishnadevaraya",
+       "page": 14
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/reshaping-india-s-political-map/the-mughals",
+     "name": "The Mughals",
+     "page": 16,
+     "subtopics": [
+      {
+       "id": "social-science-8/reshaping-india-s-political-map/the-mughals/akbar",
+       "name": "Akbar",
+       "page": 18
+      },
+      {
+       "id": "social-science-8/reshaping-india-s-political-map/the-mughals/aurangzeb",
+       "name": "Aurangzeb",
+       "page": 22
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/reshaping-india-s-political-map/resistance-to-the-mughals",
+     "name": "Resistance to the Mughals",
+     "page": 25,
+     "subtopics": [
+      {
+       "id": "social-science-8/reshaping-india-s-political-map/resistance-to-the-mughals/surge-of-the-rajputs",
+       "name": "Surge of the Rajputs",
+       "page": 26
+      },
+      {
+       "id": "social-science-8/reshaping-india-s-political-map/resistance-to-the-mughals/the-ahoms",
+       "name": "The Ahoms",
+       "page": 28
+      },
+      {
+       "id": "social-science-8/reshaping-india-s-political-map/resistance-to-the-mughals/the-rise-of-the-sikhs",
+       "name": "The Rise of the Sikhs",
+       "page": 30
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/reshaping-india-s-political-map/administering-india",
+     "name": "Administering India",
+     "page": 33,
+     "subtopics": [
+      {
+       "id": "social-science-8/reshaping-india-s-political-map/administering-india/administration-under-the-delhi-sultanate",
+       "name": "Administration under the Delhi Sultanate",
+       "page": 33
+      },
+      {
+       "id": "social-science-8/reshaping-india-s-political-map/administering-india/the-mughal-administrative-framework",
+       "name": "The Mughal administrative framework",
+       "page": 33
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/reshaping-india-s-political-map/people-s-lives",
+     "name": "People’s Lives",
+     "page": 35,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/the-rise-of-the-marathas",
+   "name": "The Rise of the Marathas",
+   "number": 3,
+   "book": "Exploring Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "chapters/hees1/hees103.pdf",
+   "pages": [
+    1,
+    22
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/the-rise-of-the-marathas/who-are-the-marathas",
+     "name": "Who are the Marathas?",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-rise-of-the-marathas/foundation-of-maratha-power-and-the-rise-of-chhatrapati-shiv",
+     "name": "Foundation of Maratha Power and the Rise of Chhatrapati Shivaji",
+     "page": 4,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-rise-of-the-marathas/the-marathas-after-chhatrapati-shivaji",
+     "name": "The Marathas after Chhatrapati Shivaji",
+     "page": 9,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-rise-of-the-marathas/maratha-administration",
+     "name": "Maratha Administration",
+     "page": 11,
+     "subtopics": [
+      {
+       "id": "social-science-8/the-rise-of-the-marathas/maratha-administration/civilian-administration",
+       "name": "Civilian administration",
+       "page": 11
+      },
+      {
+       "id": "social-science-8/the-rise-of-the-marathas/maratha-administration/military-administration",
+       "name": "Military administration",
+       "page": 13
+      },
+      {
+       "id": "social-science-8/the-rise-of-the-marathas/maratha-administration/maritime-supremacy",
+       "name": "Maritime supremacy",
+       "page": 14
+      },
+      {
+       "id": "social-science-8/the-rise-of-the-marathas/maratha-administration/judicial-system",
+       "name": "Judicial system",
+       "page": 15
+      },
+      {
+       "id": "social-science-8/the-rise-of-the-marathas/maratha-administration/trade-networks",
+       "name": "Trade networks",
+       "page": 16
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/the-rise-of-the-marathas/cultural-revival",
+     "name": "Cultural Revival",
+     "page": 16,
+     "subtopics": [
+      {
+       "id": "social-science-8/the-rise-of-the-marathas/cultural-revival/the-mighty-maratha-women",
+       "name": "The mighty Maratha women",
+       "page": 17
+      },
+      {
+       "id": "social-science-8/the-rise-of-the-marathas/cultural-revival/in-focus-thanjavur",
+       "name": "In focus: Thanjavur",
+       "page": 18
+      },
+      {
+       "id": "social-science-8/the-rise-of-the-marathas/cultural-revival/the-maratha-legacy",
+       "name": "The Maratha legacy",
+       "page": 20
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/the-colonial-era-in-india",
+   "name": "The Colonial Era in India",
+   "number": 4,
+   "book": "Exploring Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "chapters/hees1/hees104.pdf",
+   "pages": [
+    1,
+    34
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/the-colonial-era-in-india/the-age-of-colonialism",
+     "name": "The Age of Colonialism",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-colonial-era-in-india/europeans-in-india",
+     "name": "Europeans in India",
+     "page": 5,
+     "subtopics": [
+      {
+       "id": "social-science-8/the-colonial-era-in-india/europeans-in-india/the-portuguese-commerce-and-atrocities",
+       "name": "The Portuguese: commerce and atrocities",
+       "page": 5
+      },
+      {
+       "id": "social-science-8/the-colonial-era-in-india/europeans-in-india/the-dutch-commerce-and-competition",
+       "name": "The Dutch: commerce and competition",
+       "page": 7
+      },
+      {
+       "id": "social-science-8/the-colonial-era-in-india/europeans-in-india/the-french-colonial-ambitions",
+       "name": "The French: colonial ambitions",
+       "page": 8
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/the-colonial-era-in-india/enter-the-british",
+     "name": "Enter the British",
+     "page": 9,
+     "subtopics": [
+      {
+       "id": "social-science-8/the-colonial-era-in-india/enter-the-british/from-traders-to-rulers",
+       "name": "From traders to rulers",
+       "page": 10
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/the-colonial-era-in-india/from-paradise-to-hell",
+     "name": "From Paradise to Hell?",
+     "page": 13,
+     "subtopics": [
+      {
+       "id": "social-science-8/the-colonial-era-in-india/from-paradise-to-hell/devastating-famines",
+       "name": "Devastating famines",
+       "page": 13
+      },
+      {
+       "id": "social-science-8/the-colonial-era-in-india/from-paradise-to-hell/the-drain-of-india-s-wealth",
+       "name": "The drain of India’s wealth",
+       "page": 15
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/the-colonial-era-in-india/changing-landscapes",
+     "name": "Changing Landscapes",
+     "page": 17,
+     "subtopics": [
+      {
+       "id": "social-science-8/the-colonial-era-in-india/changing-landscapes/decline-of-india-s-indigenous-industries",
+       "name": "Decline of India’s indigenous industries",
+       "page": 18
+      },
+      {
+       "id": "social-science-8/the-colonial-era-in-india/changing-landscapes/dismantling-traditional-governance-structures",
+       "name": "Dismantling traditional governance structures",
+       "page": 18
+      },
+      {
+       "id": "social-science-8/the-colonial-era-in-india/changing-landscapes/transforming-indian-education-creating-brown-englishmen",
+       "name": "Transforming Indian education: creating ‘brown Englishmen’",
+       "page": 19
+      },
+      {
+       "id": "social-science-8/the-colonial-era-in-india/changing-landscapes/reshaping-economic-structures-to-serve-imperial-needs",
+       "name": "Reshaping economic structures to serve imperial needs",
+       "page": 21
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/the-colonial-era-in-india/early-resistance-movements-challenging-colonial-authority",
+     "name": "Early Resistance Movements: Challenging Colonial Authority",
+     "page": 22,
+     "subtopics": [
+      {
+       "id": "social-science-8/the-colonial-era-in-india/early-resistance-movements-challenging-colonial-authority/the-sannyasi-fakir-rebellion",
+       "name": "The ‘Sannyasi-Fakir rebellion’",
+       "page": 23
+      },
+      {
+       "id": "social-science-8/the-colonial-era-in-india/early-resistance-movements-challenging-colonial-authority/tribal-uprisings",
+       "name": "Tribal uprisings",
+       "page": 24
+      },
+      {
+       "id": "social-science-8/the-colonial-era-in-india/early-resistance-movements-challenging-colonial-authority/peasant-uprisings-against-economic-exploitation",
+       "name": "Peasant uprisings against economic exploitation",
+       "page": 25
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/the-colonial-era-in-india/the-great-rebellion-of-1857",
+     "name": "The Great Rebellion of 1857",
+     "page": 26,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-colonial-era-in-india/the-legacy-of-european-colonialism-in-india",
+     "name": "The Legacy of European Colonialism in India",
+     "page": 28,
+     "subtopics": [
+      {
+       "id": "social-science-8/the-colonial-era-in-india/the-legacy-of-european-colonialism-in-india/two-heroines",
+       "name": "Two heroines",
+       "page": 29
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/universal-franchise-and-india-s-electoral-system",
+   "name": "Universal Franchise and India’s Electoral System",
+   "number": 5,
+   "book": "Exploring Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "chapters/hees1/hees105.pdf",
+   "pages": [
+    1,
+    22
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/universal-franchise-and-india-s-electoral-system/universal-adult-franchise",
+     "name": "Universal Adult Franchise",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/universal-franchise-and-india-s-electoral-system/bridging-barriers-enabling-participation-ensuring-universal",
+     "name": "Bridging Barriers, Enabling Participation: Ensuring Universal Franchise",
+     "page": 4,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/universal-franchise-and-india-s-electoral-system/the-role-of-the-election-commission-of-india-eci",
+     "name": "The Role of the Election Commission of India (ECI)",
+     "page": 10,
+     "subtopics": [
+      {
+       "id": "social-science-8/universal-franchise-and-india-s-electoral-system/the-role-of-the-election-commission-of-india-eci/election-commission-of-india-a-brief-introduction",
+       "name": "Election Commission of India — A brief introduction",
+       "page": 10
+      },
+      {
+       "id": "social-science-8/universal-franchise-and-india-s-electoral-system/the-role-of-the-election-commission-of-india-eci/managing-the-electoral-process",
+       "name": "Managing the electoral process",
+       "page": 12
+      },
+      {
+       "id": "social-science-8/universal-franchise-and-india-s-electoral-system/the-role-of-the-election-commission-of-india-eci/model-code-of-conduct-mcc",
+       "name": "Model Code of Conduct (MCC)",
+       "page": 14
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/universal-franchise-and-india-s-electoral-system/understanding-elections-in-india-a-very-brief-overview",
+     "name": "Understanding Elections in India — A Very Brief Overview",
+     "page": 16,
+     "subtopics": [
+      {
+       "id": "social-science-8/universal-franchise-and-india-s-electoral-system/understanding-elections-in-india-a-very-brief-overview/election-to-the-lok-sabha-and-state-legislative-assemblies",
+       "name": "Election to the Lok Sabha and State Legislative Assemblies",
+       "page": 16
+      },
+      {
+       "id": "social-science-8/universal-franchise-and-india-s-electoral-system/understanding-elections-in-india-a-very-brief-overview/election-to-the-rajya-sabha",
+       "name": "Election to the Rajya Sabha",
+       "page": 18
+      },
+      {
+       "id": "social-science-8/universal-franchise-and-india-s-electoral-system/understanding-elections-in-india-a-very-brief-overview/election-of-the-president-of-india",
+       "name": "Election of the President of India",
+       "page": 20
+      },
+      {
+       "id": "social-science-8/universal-franchise-and-india-s-electoral-system/understanding-elections-in-india-a-very-brief-overview/election-of-the-vice-president-of-india",
+       "name": "Election of the Vice President of India",
+       "page": 21
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/universal-franchise-and-india-s-electoral-system/challenges-and-the-road-ahead",
+     "name": "Challenges and The Road Ahead",
+     "page": 21,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/the-parliamentary-system-legislature-and-executive",
+   "name": "The Parliamentary System: Legislature and Executive",
+   "number": 6,
+   "book": "Exploring Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "chapters/hees1/hees106.pdf",
+   "pages": [
+    1,
+    24
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/the-parliamentary-system-legislature-and-executive/introduction",
+     "name": "Introduction",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-parliamentary-system-legislature-and-executive/composition-of-the-parliament-of-india",
+     "name": "Composition of the Parliament of India",
+     "page": 4,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-parliamentary-system-legislature-and-executive/function",
+     "name": "Function",
+     "page": 5,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-parliamentary-system-legislature-and-executive/legislative-functions-of-the-parliament",
+     "name": "Legislative Functions of the Parliament",
+     "page": 7,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-parliamentary-system-legislature-and-executive/executive-functions-of-parliament",
+     "name": "Executive Functions of Parliament",
+     "page": 13,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-parliamentary-system-legislature-and-executive/the-judiciary-role-of-checks-and-balances",
+     "name": "The Judiciary — Role of Checks and Balances",
+     "page": 16,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-parliamentary-system-legislature-and-executive/legislative-and-executive-functions-at-the-state-level",
+     "name": "Legislative and Executive Functions at the State Level",
+     "page": 17,
+     "subtopics": [
+      {
+       "id": "social-science-8/the-parliamentary-system-legislature-and-executive/legislative-and-executive-functions-at-the-state-level/structure-of-state-legislatures",
+       "name": "Structure of State Legislatures",
+       "page": 19
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/the-parliamentary-system-legislature-and-executive/challenges-to-the-effective-functioning-of-the-legislatures",
+     "name": "Challenges to the Effective Functioning of the Legislatures",
+     "page": 19,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/factors-of-production",
+   "name": "Factors of Production",
+   "number": 7,
+   "book": "Exploring Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "chapters/hees1/hees107.pdf",
+   "pages": [
+    1,
+    32
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/factors-of-production/introduction",
+     "name": "Introduction",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/factors-of-production/factors-of-production",
+     "name": "Factors of Production",
+     "page": 4,
+     "subtopics": [
+      {
+       "id": "social-science-8/factors-of-production/factors-of-production/land-natural-resources",
+       "name": "Land (natural resources)",
+       "page": 4
+      },
+      {
+       "id": "social-science-8/factors-of-production/factors-of-production/labour-human-resources",
+       "name": "Labour (human resources)",
+       "page": 4
+      },
+      {
+       "id": "social-science-8/factors-of-production/factors-of-production/capital",
+       "name": "Capital",
+       "page": 10
+      },
+      {
+       "id": "social-science-8/factors-of-production/factors-of-production/entrepreneurship",
+       "name": "Entrepreneurship",
+       "page": 11
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/factors-of-production/technology-an-enabler-of-production",
+     "name": "Technology: An Enabler of Production",
+     "page": 14,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/factors-of-production/how-are-the-factors-connected",
+     "name": "How are the Factors Connected?",
+     "page": 16,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/factors-of-production/responsibilities-towards-factors-of-production",
+     "name": "Responsibilities towards Factors of Production",
+     "page": 18,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/world-geography-some-glimpses",
+   "name": "World Geography: Some Glimpses",
+   "number": 1,
+   "book": "Exploring Society: India and Beyond Part 2",
+   "part": 2,
+   "source_file": "chapters/hees2/hees201.pdf",
+   "pages": [
+    1,
+    34
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/world-geography-some-glimpses/the-complexity-of-mapping-the-earth",
+     "name": "The Complexity of Mapping the Earth",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/world-geography-some-glimpses/the-blue-of-the-blue-planet-the-oceans",
+     "name": "The Blue of the Blue Planet, the Oceans",
+     "page": 4,
+     "subtopics": [
+      {
+       "id": "social-science-8/world-geography-some-glimpses/the-blue-of-the-blue-planet-the-oceans/the-oceans",
+       "name": "The oceans",
+       "page": 5
+      },
+      {
+       "id": "social-science-8/world-geography-some-glimpses/the-blue-of-the-blue-planet-the-oceans/ocean-currents",
+       "name": "Ocean currents",
+       "page": 5
+      },
+      {
+       "id": "social-science-8/world-geography-some-glimpses/the-blue-of-the-blue-planet-the-oceans/ocean-trenches",
+       "name": "Ocean trenches",
+       "page": 6
+      },
+      {
+       "id": "social-science-8/world-geography-some-glimpses/the-blue-of-the-blue-planet-the-oceans/the-great-barrier-reef",
+       "name": "The Great Barrier Reef",
+       "page": 7
+      },
+      {
+       "id": "social-science-8/world-geography-some-glimpses/the-blue-of-the-blue-planet-the-oceans/smaller-water-bodies-and-waterways",
+       "name": "Smaller water bodies and waterways",
+       "page": 8
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/world-geography-some-glimpses/the-continents-variety-on-land",
+     "name": "The Continents: Variety on Land",
+     "page": 10,
+     "subtopics": [
+      {
+       "id": "social-science-8/world-geography-some-glimpses/the-continents-variety-on-land/asia",
+       "name": "Asia",
+       "page": 11
+      },
+      {
+       "id": "social-science-8/world-geography-some-glimpses/the-continents-variety-on-land/europe",
+       "name": "Europe",
+       "page": 17
+      },
+      {
+       "id": "social-science-8/world-geography-some-glimpses/the-continents-variety-on-land/africa",
+       "name": "Africa",
+       "page": 19
+      },
+      {
+       "id": "social-science-8/world-geography-some-glimpses/the-continents-variety-on-land/south-america",
+       "name": "South America",
+       "page": 22
+      },
+      {
+       "id": "social-science-8/world-geography-some-glimpses/the-continents-variety-on-land/north-america",
+       "name": "North America",
+       "page": 26
+      },
+      {
+       "id": "social-science-8/world-geography-some-glimpses/the-continents-variety-on-land/the-australian-continent",
+       "name": "The Australian Continent",
+       "page": 29
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/world-geography-some-glimpses/looking-back-and-forward",
+     "name": "Looking back and forward…",
+     "page": 33,
+     "subtopics": [
+      {
+       "id": "social-science-8/world-geography-some-glimpses/looking-back-and-forward/the-paika-sangram-odisha-s-early-uprising-against-colonial-r",
+       "name": "The Paika Sangram: Odisha’s Early Uprising Against Colonial Rule",
+       "page": 33
+      },
+      {
+       "id": "social-science-8/world-geography-some-glimpses/looking-back-and-forward/the-sambalpur-uprising-a-saga-of-resilience",
+       "name": "The Sambalpur Uprising: A Saga of Resilience",
+       "page": 34
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/india-s-long-road-to-independence",
+   "name": "India’s Long Road to Independence",
+   "number": 2,
+   "book": "Exploring Society: India and Beyond Part 2",
+   "part": 2,
+   "source_file": "chapters/hees2/hees202.pdf",
+   "pages": [
+    1,
+    50
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/a-royal-proclamation",
+     "name": "A Royal Proclamation",
+     "page": 4,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/reform-movements",
+     "name": "Reform Movements",
+     "page": 6,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/other-influences",
+     "name": "Other Influences",
+     "page": 6,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/the-rise-of-the-indian-national-congress",
+     "name": "The Rise of the Indian National Congress",
+     "page": 10,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/growing-discontent",
+     "name": "Growing Discontent",
+     "page": 11,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/the-1905-partition-of-bengal-and-national-awakening",
+     "name": "The 1905 Partition of Bengal and National Awakening",
+     "page": 13,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/the-nationalist-agenda",
+     "name": "The Nationalist Agenda",
+     "page": 15,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/the-all-india-muslim-league",
+     "name": "The All-India Muslim League",
+     "page": 18,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/the-1907-surat-split",
+     "name": "The 1907 Surat Split",
+     "page": 18,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/the-revolutionaries",
+     "name": "The Revolutionaries",
+     "page": 20,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/home-rule-movement-and-the-lucknow-pact",
+     "name": "Home Rule Movement and the Lucknow Pact",
+     "page": 25,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/gandhi-and-the-non-cooperation-movement",
+     "name": "Gandhi and the Non-Cooperation Movement",
+     "page": 26,
+     "subtopics": [
+      {
+       "id": "social-science-8/india-s-long-road-to-independence/gandhi-and-the-non-cooperation-movement/the-non-cooperation-movement",
+       "name": "The Non-Cooperation Movement",
+       "page": 27
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/the-jallianwala-bagh-massacre-and-its-aftermath",
+     "name": "The Jallianwala Bagh Massacre and its Aftermath",
+     "page": 28,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/the-khilafat-movement-and-its-aftermath",
+     "name": "The Khilafat Movement and its Aftermath",
+     "page": 29,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/protests-repression-and-revenge",
+     "name": "Protests, Repression and Revenge",
+     "page": 31,
+     "subtopics": [
+      {
+       "id": "social-science-8/india-s-long-road-to-independence/protests-repression-and-revenge/more-revolutionary-actions",
+       "name": "More revolutionary actions",
+       "page": 32
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/purna-swaraj-and-civil-disobedience",
+     "name": "Purna Swaraj and Civil Disobedience",
+     "page": 33,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/the-gandhi-irwin-pact",
+     "name": "The Gandhi-Irwin Pact",
+     "page": 37,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/the-idea-of-separate-nations",
+     "name": "The Idea of Separate Nations",
+     "page": 38,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/world-war-ii-and-the-indian-national-army",
+     "name": "World War II and the Indian National Army",
+     "page": 39,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/the-quit-india-movement",
+     "name": "The Quit India Movement",
+     "page": 40,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-long-road-to-independence/partition-turmoil-and-independence",
+     "name": "Partition, Turmoil, and Independence",
+     "page": 42,
+     "subtopics": [
+      {
+       "id": "social-science-8/india-s-long-road-to-independence/partition-turmoil-and-independence/direct-action",
+       "name": "‘Direct Action’",
+       "page": 43
+      },
+      {
+       "id": "social-science-8/india-s-long-road-to-independence/partition-turmoil-and-independence/the-partition-of-india",
+       "name": "The Partition of India",
+       "page": 43
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/a-journey-through-indian-architecture",
+   "name": "A Journey Through Indian Architecture",
+   "number": 3,
+   "book": "Exploring Society: India and Beyond Part 2",
+   "part": 2,
+   "source_file": "chapters/hees2/hees203.pdf",
+   "pages": [
+    1,
+    40
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/a-journey-through-indian-architecture/the-beginnings",
+     "name": "The Beginnings …",
+     "page": 6,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/a-journey-through-indian-architecture/structural-stupa-architecture",
+     "name": "Structural Stupa Architecture",
+     "page": 8,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/a-journey-through-indian-architecture/rock-cut-architecture",
+     "name": "Rock-Cut Architecture",
+     "page": 10,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/a-journey-through-indian-architecture/water-structures",
+     "name": "Water Structures",
+     "page": 13,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/a-journey-through-indian-architecture/classical-temple-architecture",
+     "name": "Classical Temple Architecture",
+     "page": 15,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/a-journey-through-indian-architecture/the-architecture-of-mosques",
+     "name": "The Architecture of Mosques",
+     "page": 22,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/a-journey-through-indian-architecture/forts-and-palaces",
+     "name": "Forts and Palaces",
+     "page": 25,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/a-journey-through-indian-architecture/tombs-and-mausoleums",
+     "name": "Tombs and Mausoleums",
+     "page": 30,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/a-journey-through-indian-architecture/traditional-houses",
+     "name": "Traditional Houses",
+     "page": 34,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/a-journey-through-indian-architecture/churches-in-india",
+     "name": "Churches in India",
+     "page": 36,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/a-journey-through-indian-architecture/colonial-architecture",
+     "name": "Colonial Architecture",
+     "page": 38,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/the-role-of-the-judiciary-in-our-society",
+   "name": "The Role of the Judiciary in Our Society",
+   "number": 4,
+   "book": "Exploring Society: India and Beyond Part 2",
+   "part": 2,
+   "source_file": "chapters/hees2/hees204.pdf",
+   "pages": [
+    1,
+    18
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/the-role-of-the-judiciary-in-our-society/the-connection-between-law-and-justice",
+     "name": "The Connection Between Law and Justice",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-role-of-the-judiciary-in-our-society/the-judicial-system-in-india",
+     "name": "The Judicial System in India",
+     "page": 6,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-role-of-the-judiciary-in-our-society/the-supreme-court-of-india",
+     "name": "The Supreme Court of India",
+     "page": 6,
+     "subtopics": [
+      {
+       "id": "social-science-8/the-role-of-the-judiciary-in-our-society/the-supreme-court-of-india/writ-jurisdiction-of-the-supreme-court-and-high-court",
+       "name": "Writ Jurisdiction of the Supreme Court and High Court",
+       "page": 7
+      },
+      {
+       "id": "social-science-8/the-role-of-the-judiciary-in-our-society/the-supreme-court-of-india/original-jurisdiction-of-the-supreme-court",
+       "name": "Original Jurisdiction of the Supreme Court",
+       "page": 8
+      },
+      {
+       "id": "social-science-8/the-role-of-the-judiciary-in-our-society/the-supreme-court-of-india/appellate-jurisdiction-of-the-supreme-court",
+       "name": "Appellate Jurisdiction of the Supreme Court",
+       "page": 9
+      },
+      {
+       "id": "social-science-8/the-role-of-the-judiciary-in-our-society/the-supreme-court-of-india/advisory-jurisdiction",
+       "name": "Advisory Jurisdiction",
+       "page": 9
+      },
+      {
+       "id": "social-science-8/the-role-of-the-judiciary-in-our-society/the-supreme-court-of-india/special-leave-petitions-article-136",
+       "name": "Special Leave Petitions (Article 136)",
+       "page": 9
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/the-role-of-the-judiciary-in-our-society/high-court",
+     "name": "High Court",
+     "page": 10,
+     "subtopics": [
+      {
+       "id": "social-science-8/the-role-of-the-judiciary-in-our-society/high-court/jurisdiction-of-the-high-courts",
+       "name": "Jurisdiction of the High Courts",
+       "page": 11
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/the-role-of-the-judiciary-in-our-society/subordinate-courts",
+     "name": "Subordinate Courts",
+     "page": 12,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-role-of-the-judiciary-in-our-society/tribunals",
+     "name": "Tribunals",
+     "page": 12,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-role-of-the-judiciary-in-our-society/digital-technology-and-judicial-system",
+     "name": "Digital Technology and Judicial System",
+     "page": 14,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/the-role-of-the-judiciary-in-our-society/alternate-modes-of-dispute-resolution",
+     "name": "Alternate Modes of Dispute Resolution",
+     "page": 15,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/citizenship-rights-and-duties",
+   "name": "Citizenship: Rights and Duties",
+   "number": 5,
+   "book": "Exploring Society: India and Beyond Part 2",
+   "part": 2,
+   "source_file": "chapters/hees2/hees205.pdf",
+   "pages": [
+    1,
+    24
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/citizenship-rights-and-duties/who-is-a-citizen",
+     "name": "Who Is a Citizen?",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/citizenship-rights-and-duties/rights",
+     "name": "Rights",
+     "page": 3,
+     "subtopics": [
+      {
+       "id": "social-science-8/citizenship-rights-and-duties/rights/what-are-rights",
+       "name": "What are rights?",
+       "page": 5
+      },
+      {
+       "id": "social-science-8/citizenship-rights-and-duties/rights/fundamental-rights-in-the-indian-constitution",
+       "name": "Fundamental Rights in the Indian Constitution",
+       "page": 5
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/citizenship-rights-and-duties/duties",
+     "name": "Duties",
+     "page": 13,
+     "subtopics": [
+      {
+       "id": "social-science-8/citizenship-rights-and-duties/duties/what-are-duties",
+       "name": "What are duties?",
+       "page": 14
+      },
+      {
+       "id": "social-science-8/citizenship-rights-and-duties/duties/understanding-duties",
+       "name": "Understanding duties",
+       "page": 14
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/citizenship-rights-and-duties/rights-and-duties-two-sides-of-the-same-coin",
+     "name": "Rights and Duties: Two Sides of the Same Coin",
+     "page": 17,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/citizenship-rights-and-duties/discrimination",
+     "name": "Discrimination",
+     "page": 18,
+     "subtopics": [
+      {
+       "id": "social-science-8/citizenship-rights-and-duties/discrimination/understanding-discrimination",
+       "name": "Understanding discrimination",
+       "page": 18
+      },
+      {
+       "id": "social-science-8/citizenship-rights-and-duties/discrimination/visible-and-invisible-discrimination",
+       "name": "Visible and invisible discrimination",
+       "page": 20
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/citizenship-rights-and-duties/inclusion",
+     "name": "Inclusion",
+     "page": 20,
+     "subtopics": [
+      {
+       "id": "social-science-8/citizenship-rights-and-duties/inclusion/understanding-inclusion",
+       "name": "Understanding inclusion",
+       "page": 21
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/dynamics-of-population",
+   "name": "Dynamics of Population",
+   "number": 6,
+   "book": "Exploring Society: India and Beyond Part 2",
+   "part": 2,
+   "source_file": "chapters/hees2/hees206.pdf",
+   "pages": [
+    1,
+    24
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/dynamics-of-population/what-is-demography",
+     "name": "What Is Demography?",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/dynamics-of-population/population-at-a-glance",
+     "name": "Population at a Glance",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/dynamics-of-population/what-determines-the-population-of-a-country",
+     "name": "What Determines the Population of a Country?",
+     "page": 6,
+     "subtopics": [
+      {
+       "id": "social-science-8/dynamics-of-population/what-determines-the-population-of-a-country/birth-and-fertility-rates",
+       "name": "Birth and fertility rates",
+       "page": 7
+      },
+      {
+       "id": "social-science-8/dynamics-of-population/what-determines-the-population-of-a-country/death-or-mortality-rate",
+       "name": "Death or mortality rate",
+       "page": 10
+      },
+      {
+       "id": "social-science-8/dynamics-of-population/what-determines-the-population-of-a-country/migration",
+       "name": "Migration",
+       "page": 10
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/dynamics-of-population/how-do-countries-experience-population-change",
+     "name": "How Do Countries Experience Population Change?",
+     "page": 11,
+     "subtopics": [
+      {
+       "id": "social-science-8/dynamics-of-population/how-do-countries-experience-population-change/india-s-population-composition-and-trends",
+       "name": "India’s Population: Composition and Trends",
+       "page": 12
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/dynamics-of-population/india-s-demographic-dividend-a-limited-window-of-opportunity",
+     "name": "India’s Demographic Dividend — A Limited Window of Opportunity",
+     "page": 17,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/india-s-urban-landscape",
+   "name": "India’s Urban Landscape",
+   "number": 7,
+   "book": "Exploring Society: India and Beyond Part 2",
+   "part": 2,
+   "source_file": "chapters/hees2/hees207.pdf",
+   "pages": [
+    1,
+    24
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/india-s-urban-landscape/introduction",
+     "name": "Introduction",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-urban-landscape/population-density-in-cities",
+     "name": "Population Density in Cities",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-urban-landscape/how-do-cities-become-centres-of-economic-activities",
+     "name": "How do Cities Become Centres of Economic Activities?",
+     "page": 4,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-urban-landscape/what-leads-to-urbanisation",
+     "name": "What Leads to Urbanisation?",
+     "page": 6,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-urban-landscape/cities-as-cultural-hubs",
+     "name": "Cities as Cultural Hubs",
+     "page": 11,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-urban-landscape/challenges-faced-by-cities",
+     "name": "Challenges Faced by Cities",
+     "page": 13,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/india-s-urban-landscape/planning-our-cities",
+     "name": "Planning Our Cities",
+     "page": 16,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-8/cultural-currents-13-to-17-centuries",
+   "name": "Cultural Currents: 13 to 17 Centuries",
+   "number": 8,
+   "book": "Exploring Society: India and Beyond Part 2",
+   "part": 2,
+   "source_file": "chapters/hees2/hees208.pdf",
+   "pages": [
+    1,
+    35
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-8/cultural-currents-13-to-17-centuries/belief-systems",
+     "name": "Belief Systems",
+     "page": 4,
+     "subtopics": [
+      {
+       "id": "social-science-8/cultural-currents-13-to-17-centuries/belief-systems/the-power-of-the-bhakti-tradition",
+       "name": "The power of the bhakti tradition",
+       "page": 4
+      },
+      {
+       "id": "social-science-8/cultural-currents-13-to-17-centuries/belief-systems/regional-saints-and-their-messages",
+       "name": "Regional saints and their messages",
+       "page": 5
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/cultural-currents-13-to-17-centuries/musical-traditions-continuation-and-evolution",
+     "name": "Musical Traditions — Continuation and Evolution",
+     "page": 9,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/cultural-currents-13-to-17-centuries/from-walls-to-paper-miniature-paintings",
+     "name": "From Walls to Paper — Miniature Paintings",
+     "page": 11,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/cultural-currents-13-to-17-centuries/changing-landscapes-gardens",
+     "name": "Changing Landscapes — Gardens",
+     "page": 15,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/cultural-currents-13-to-17-centuries/women-in-society-contextual-variations-in-their-role-and-sta",
+     "name": "Women in Society — Contextual Variations in Their Role and Status",
+     "page": 16,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/cultural-currents-13-to-17-centuries/education-and-knowledge-traditions",
+     "name": "Education and Knowledge Traditions",
+     "page": 19,
+     "subtopics": [
+      {
+       "id": "social-science-8/cultural-currents-13-to-17-centuries/education-and-knowledge-traditions/institutions-of-learning",
+       "name": "Institutions of learning",
+       "page": 19
+      },
+      {
+       "id": "social-science-8/cultural-currents-13-to-17-centuries/education-and-knowledge-traditions/vocational-education-and-knowledge-sharing",
+       "name": "Vocational education and knowledge sharing",
+       "page": 21
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/cultural-currents-13-to-17-centuries/growth-of-literature-and-language",
+     "name": "Growth of Literature and Language",
+     "page": 23,
+     "subtopics": [
+      {
+       "id": "social-science-8/cultural-currents-13-to-17-centuries/growth-of-literature-and-language/the-development-of-urdu",
+       "name": "The development of Urdu",
+       "page": 25
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/cultural-currents-13-to-17-centuries/developments-in-science-and-technology",
+     "name": "Developments in Science and Technology",
+     "page": 26,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-8/cultural-currents-13-to-17-centuries/regional-architectural-developments",
+     "name": "Regional Architectural Developments",
+     "page": 27,
+     "subtopics": [
+      {
+       "id": "social-science-8/cultural-currents-13-to-17-centuries/regional-architectural-developments/temple-building-and-reconstruction",
+       "name": "Temple building and reconstruction",
+       "page": 29
+      }
+     ]
+    },
+    {
+     "id": "social-science-8/cultural-currents-13-to-17-centuries/cultural-exchange-in-daily-life",
+     "name": "Cultural Exchange in Daily Life",
+     "page": 31,
+     "subtopics": [
+      {
+       "id": "social-science-8/cultural-currents-13-to-17-centuries/cultural-exchange-in-daily-life/food",
+       "name": "Food",
+       "page": 31
+      },
+      {
+       "id": "social-science-8/cultural-currents-13-to-17-centuries/cultural-exchange-in-daily-life/clothing",
+       "name": "Clothing",
+       "page": 32
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

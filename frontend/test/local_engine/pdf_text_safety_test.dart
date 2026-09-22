@@ -3,6 +3,9 @@
 // in assets/corpus/questions.json by grep) rendered as tofu boxes in the
 // pdf package's base Helvetica font -- caught by eye on a real emulator
 // screenshot of the new corrected-sheet PDF, not by static analysis.
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:academicos/core/local_engine/pdf_text_safety.dart';
@@ -109,4 +112,92 @@ void main() {
   test('unmappable Private Use Area glyphs from OCR font substitution are dropped', () {
     expect(pdfSafe('stray glyph \u{F05C} here'), 'stray glyph  here');
   });
+
+  // Task 121 review: the map was a sample, not a guard. The merge put two new
+  // characters into the bundled corpus and only one of them was added here --
+  // U+22C5 DOT OPERATOR (2 occurrences) was, U+03C1 GREEK SMALL LETTER RHO
+  // (12) was not. That rho is cbe:q:Science9PS1's, the record the whole
+  // symbol repair was built around: its options are "W rho g", "W rho / g",
+  // "W g / rho", "W / rho g", and on the phone every rho printed as a box.
+  test('the rho the symbol repair restores prints as a word, not a box', () {
+    expect(pdfSafe('a body of weight W and density \u{03C1}'),
+        'a body of weight W and density rho');
+    expect(pdfSafe('(A) W \u{03C1} g (B) W \u{03C1} / g'), '(A) W rho g (B) W rho / g');
+  });
+
+  test('the Greek and arrow characters the corpus carries are readable', () {
+    expect(pdfSafe('R1 = 20 \u{03A9}'), 'R1 = 20 Omega');
+    expect(pdfSafe('2\u{03B1} + 50\u{00B0}'), '2alpha + 50°');
+    expect(pdfSafe('\u{03BB} = 600 nm, \u{03C9}t'), 'lambda = 600 nm, omegat');
+    expect(pdfSafe('Zn + CuSO4 \u{2192} ZnSO4 + Cu'), 'Zn + CuSO4 -> ZnSO4 + Cu');
+    expect(pdfSafe('\u{2211}fi xi'), 'sumfi xi');
+    expect(pdfSafe('\u{2220}A = 100\u{00B0}'), 'angle A = 100°');
+    expect(pdfSafe('\u{0391}BC'), 'ABC',
+        reason: 'GREEK CAPITAL ALPHA in the corpus is a mis-encoded vertex name');
+  });
+
+  // The guard the sample above could not be: every symbol character the real
+  // bundled corpus holds, through pdfSafe, must come out Latin-1 -- that is
+  // exactly what base Helvetica can draw, and anything else is a box. A
+  // language paper written in its own script (the Assamese, Bhutia, Tibetan
+  // and Persian SQPs) is a different problem, not a character table's: no
+  // base font draws Bengali, Tibetan or Arabic and no ASCII reading replaces
+  // them, so those blocks are out of scope here and named as such.
+  const symbolBlocks = [
+    [0x0370, 0x03FF], // Greek
+    [0x02B0, 0x02FF], // spacing modifier letters (the ring-above degree)
+    [0x2000, 0x206F], // general punctuation
+    [0x2070, 0x209F], // super/subscripts
+    [0x20A0, 0x20CF], // currency
+    [0x20D0, 0x20FF], // combining marks for symbols
+    [0x2100, 0x214F], // letterlike
+    [0x2190, 0x21FF], // arrows
+    [0x2200, 0x22FF], // mathematical operators
+    [0x2300, 0x23FF], // miscellaneous technical
+    [0x2500, 0x257F], // box drawing
+    [0x25A0, 0x25FF], // geometric shapes
+    [0x2600, 0x26FF], // miscellaneous symbols
+    [0x27C0, 0x27EF], // miscellaneous mathematical A
+    [0x2980, 0x29FF], // miscellaneous mathematical B
+    [0x2A00, 0x2AFF], // supplemental mathematical operators
+    [0x1D400, 0x1D7FF], // mathematical alphanumeric
+    [0xE000, 0xF8FF], // private use (dropped, so it must come out empty)
+    [0xFF01, 0xFF5E], // fullwidth forms
+  ];
+
+  bool isSymbol(int rune) =>
+      symbolBlocks.any((b) => rune >= b[0] && rune <= b[1]);
+
+  test('every symbol character in the real bundled corpus survives pdfSafe as Latin-1', () {
+    final file = File('assets/corpus/questions.json');
+    if (!file.existsSync()) {
+      markTestSkipped('assets/corpus/questions.json not bundled');
+      return;
+    }
+    final runes = <int>{};
+    void walk(dynamic value) {
+      if (value is String) {
+        for (final r in value.runes) {
+          if (isSymbol(r)) runes.add(r);
+        }
+      } else if (value is Map) {
+        value.values.forEach(walk);
+      } else if (value is List) {
+        value.forEach(walk);
+      }
+    }
+
+    walk(jsonDecode(file.readAsStringSync()));
+    expect(runes, isNotEmpty, reason: 'the corpus should carry math symbols');
+    final unprintable = <String>[];
+    for (final rune in runes) {
+      final ch = String.fromCharCode(rune);
+      if (pdfSafe(ch).runes.any((r) => r > 0xFF)) {
+        unprintable.add('U+${rune.toRadixString(16).toUpperCase()} $ch');
+      }
+    }
+    expect(unprintable, isEmpty,
+        reason: 'these print as tofu boxes in the pdf package base Helvetica');
+  });
+
 }

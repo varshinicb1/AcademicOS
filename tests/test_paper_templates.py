@@ -299,6 +299,11 @@ def _record(qid: str, marks: int, chapter: str, *, keyed: bool = True,
             "markingPoints": ([{"id": "mp1", "description": "correct reasoning",
                                 "marks": marks}] if keyed else []),
             "modelAnswer": "the model answer" if keyed else "",
+            # Rule Q1 takes a published provenance AND real content
+            # (qbank_routes.KEY_PROVENANCE). A keyed fixture record stands in
+            # for a real board record, so it carries the board's label; the
+            # unkeyed one still holds nothing and stays ineligible either way.
+            "provenance": "cbse_marking_scheme" if keyed else "teacher_authored",
         },
         "estimatedTimeMinutes": marks * 2, "marks": marks, "source": "cbse_board_paper",
         "qualityScore": 0.8, "createdAt": "2026-01-01T00:00:00Z",
@@ -986,23 +991,67 @@ def test_availability_equals_generation_for_every_class_10_preset_on_the_real_ba
 
 @needs_real_bank
 def test_the_real_banks_competency_sections_warn_before_generating(real_class10_pools):
+    """A section that asks for competency-based questions is never quietly
+    filled with something else -- the report says so before generating.
+
+    Re-measured after the question-bank merge (2026-09-23). Class 10 Science
+    now holds 504 questions but none at 4 marks at all (308 1-mark MCQ, 127
+    3-mark short answers, 51 5-mark long answers, 4+4+3 else), so Section E
+    reports a whole-section shortfall naming the kind it needs instead of the
+    competency-share note it carried when the pre-merge bank filled it from
+    5-mark source items. The share note only ever describes a section that
+    printed something, so the general guard below is the one that has to
+    hold whatever the bank looks like: short, or noted, never silent.
+    """
+    from academicos.assessment.paper_templates import _is_competency
+
     report, _ = _real_plan(real_class10_pools, "preset:cbse:10:science:annual")
     e = next(s for s in report.sections if s.title.startswith("Section E"))
-    assert any("competency-based" in n for n in e.notes), e.notes
+    assert (e.available, e.shortfall, e.needed) == (0, 3, 3), e
+    assert "4-mark case study" in e.reason and "Class 10 Science" in e.reason, e.reason
+
     english, _ = _real_plan(real_class10_pools, "preset:cbse:10:english:annual")
     reading = next(s for s in english.sections if "Reading" in s.title)
-    assert any("competency-based" in n for n in reading.notes), reading.notes
+    assert reading.shortfall and reading.reason, reading
+
+    for preset in presets(grade=10):
+        rep, plans = _real_plan(real_class10_pools, preset.id)
+        for section, avail, plan_ in zip(preset.sections, rep.sections, plans):
+            if not section.competency_share:
+                continue
+            printed = plan_.picked + plan_.borrowed
+            got = sum(1 for q in printed if _is_competency(q))
+            if got >= round(section.competency_share * len(printed)):
+                continue
+            assert avail.shortfall or avail.notes, (preset.id, avail.title)
 
 
 @needs_real_bank
 def test_the_real_banks_social_science_gaps_name_their_binding_constraint(real_class10_pools):
+    """Re-measured after the question-bank merge (2026-09-23): Class 10 Social
+    Science is down to 14 served questions -- 12 one-mark MCQs and 2 three-mark
+    short answers -- from 375 before, so the 5-mark and 4-mark sections have
+    nothing of any kind rather than the wrong kind. What is checked is
+    unchanged: the reason names the binding constraint (the marks AND the
+    type the section needs), and a fix is only offered where the bank really
+    has something to switch to."""
     report, _ = _real_plan(real_class10_pools, SS10)
     by_title = {s.title: s for s in report.sections}
     d = by_title["Section D - Long answer"]
-    assert d.shortfall and "source / case based" in d.reason, d.reason
+    assert d.shortfall == d.needed
+    assert "5-mark long answer/very long answer" in d.reason, d.reason
+    assert "Class 10 Social Science" in d.reason, d.reason
     e = by_title["Section E - Case based"]
-    assert e.shortfall and "5 marks" in e.reason, e.reason
-    assert any(f.kind == "change_marks" and f.marks_each == 5 for f in e.fixes), e.fixes
+    assert e.shortfall == e.needed
+    assert "4-mark case study" in e.reason, e.reason
+    # Nothing of that kind at any mark value, so no "change the marks" fix is
+    # invented; the honest fix left is to shorten or drop the section.
+    assert not any(f.kind == "change_marks" for f in e.fixes), e.fixes
+    assert any(f.kind == "reduce_count" for f in e.fixes), e.fixes
+    # A section the bank can partly fill still says how far it gets.
+    c = by_title["Section C - Short answer"]
+    assert (c.available, c.shortfall) == (2, 3), c
+    assert "Only 2 3-mark question(s) are available; 3 short." in c.reason, c.reason
 
 
 # ---- presets checked against the real papers
@@ -1348,13 +1397,21 @@ def test_the_real_banks_map_and_case_sections_are_never_offered_the_other_kind(
     cannot answer a map-skill section, so neither is a reason or a fix.
     Before: Section F offered "the 45 5-mark question(s) that read as source
     / case based" and Section E "the 3 4-mark question(s) that are map
-    questions"."""
+    questions".
+
+    Re-measured after the question-bank merge (2026-09-23): Class 10 Social
+    Science now holds no map question at ANY mark value (14 questions: 12
+    1-mark MCQ, 2 3-mark short answers), where before it held three at 4
+    marks. So the "change the marks" fix that used to point at them is now
+    correctly not offered at all -- which is the same guard from the other
+    side: a fix is never invented out of the wrong kind of question."""
     report, _ = _real_plan(real_class10_pools, SS10)
     by_title = {s.title: s for s in report.sections}
     f = by_title["Section F - Map skill"]
     assert f.shortfall and "source" not in f.reason, f.reason
+    assert "5-mark map based" in f.reason, f.reason
     assert not any(x.kind == "relax_type" for x in f.fixes), f.fixes
-    assert any(x.kind == "change_marks" and x.marks_each == 4 for x in f.fixes), f.fixes
+    assert not any(x.kind == "change_marks" for x in f.fixes), f.fixes
     e = by_title["Section E - Case based"]
     assert e.shortfall and "map" not in e.reason, e.reason
     assert not any("map" in x.label for x in e.fixes), e.fixes
@@ -1367,8 +1424,11 @@ def test_the_real_banks_map_and_case_sections_are_never_offered_the_other_kind(
 @needs_real_bank
 def test_the_real_papers_instructions_match_the_ors_it_prints(
         tmp_path, monkeypatch, real_class10_pools):
-    """Social Science Section D pairs 0 of its 4 ORs on the real bank; the
-    General Instructions printed on the paper must not promise them."""
+    """Social Science Section C pairs 0 of its 1 OR on the merged bank -- the
+    two 3-mark questions it has are both printed as compulsory, leaving none
+    to offer -- and the General Instructions printed on the paper must not
+    promise it. Before the question-bank merge the unpaired ORs were Section
+    D's 4, which the merged bank cannot fill at all (2026-09-23)."""
     for subject, pool in real_class10_pools.items():
         monkeypatch.setitem(pool_mod._CACHE, (subject, "X"), pool)
     with _boot_client(tmp_path, monkeypatch) as client:
@@ -1377,8 +1437,8 @@ def test_the_real_papers_instructions_match_the_ors_it_prints(
         r = client.post(GEN, json={"templateId": SS10, "allowGaps": True}, headers=t1)
         assert r.status_code == 200, r.text
         paper = r.json()["paper"]
-    d = next(s for s in report["sections"] if s["title"] == "Section D - Long answer")
-    assert d["choicesNeeded"] > d["choicesFilled"] == 0
+    c = next(s for s in report["sections"] if s["title"] == "Section C - Short answer")
+    assert c["choicesNeeded"] > c["choicesFilled"] == 0
     for p in [paper] + paper["sets"]:
         lines = p["metadata"]["instructions"].splitlines()
         printed = [s for s in report["sections"] if s["filled"]]

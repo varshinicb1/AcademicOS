@@ -73,6 +73,11 @@ def _rec(qid: str, marks: int, chapter: str, n: int, *, keyed: bool = True,
             "markingPoints": ([{"id": "mp1", "description": f"point for {qid}",
                                 "marks": marks}] if keyed else []),
             "modelAnswer": f"model answer for {qid}" if keyed else "",
+            # Rule Q1 is a published provenance AND real content
+            # (qbank_routes.KEY_PROVENANCE): a keyed fixture record stands in
+            # for a real board record and carries the board's label. The
+            # unkeyed one holds nothing and stays unprintable either way.
+            "provenance": "cbse_marking_scheme" if keyed else "teacher_authored",
         },
         "estimatedTimeMinutes": marks * 2, "marks": marks, "source": "cbse_board_paper",
         "qualityScore": quality, "createdAt": "2026-01-01T00:00:00Z",
@@ -816,11 +821,26 @@ def test_generate_swap_and_pick_timings_on_the_real_class_10_science_bank(
             assert r.status_code == 200, r.text
             papers.append(r.json()["paper"])
         paper = papers[-1]
-        # Sections A-D (36 questions). Section E's case units are all the
-        # bank has at 4 marks, so a swap there is the "no alternative" answer,
-        # which is not what this measures.
-        numbers = [q["displayNumber"] for s in paper["sections"][:4] for q in s["questions"]]
-        assert len(numbers) == 36
+        # Only the slots the bank can actually answer. What is measured is how
+        # long the search for an alternative takes; a slot with nothing to
+        # swap to answers 409 in no time and would flatter the numbers.
+        # Which slots those are is read from the bank rather than written
+        # down, because the bank's shape moves under this test: it used to be
+        # "sections A-D, 36 questions", and on the merged bank (2026-09-23)
+        # Science 10 holds exactly 3 questions at 2 marks and 4 1-mark very
+        # short answers -- every one of which a single paper prints -- and
+        # nothing at all at 4 marks.
+        from collections import Counter
+
+        from academicos.assessment.mapping import to_question_schema
+
+        spare = Counter((q.marks, q.type) for q in
+                        map(to_question_schema, pool_mod._CACHE[("Science", "X")].questions))
+        printed = [q for s in paper["sections"] for q in s["questions"]]
+        on_paper = Counter((q["marks"], q["type"]) for q in printed)
+        numbers = [q["displayNumber"] for q in printed
+                   if spare[(q["marks"], q["type"])] > on_paper[(q["marks"], q["type"])]]
+        assert len(numbers) >= 20, (len(numbers), on_paper)
         for i in range(20):
             slot = str(numbers[(i * 7) % len(numbers)])      # 20 different slots
             t = time.perf_counter()

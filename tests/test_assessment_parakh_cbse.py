@@ -436,15 +436,21 @@ def test_generate_from_ids_api_endpoint(tmp_path, monkeypatch):
 
 
 def test_baked_in_question_bank_loads_when_parse_dir_empty(tmp_path):
-    """build_pool loads questions from baked-in questions.json when no parse dump exists."""
+    """build_pool loads questions from baked-in questions.json when no parse dump exists.
+
+    Asked for Science X: since the merge serves only board records with a
+    verified key, Physics XII has 17 served questions (16 through the web
+    gates), below this test's floor of 50; Science X, which also carries CBE
+    and NCERT Exemplar records, has 506 (500 through the gates).
+    """
     from academicos.config import Config
     from academicos.assessment.pool import build_pool
 
     cfg = Config(data_root=tmp_path)
     cfg._load_baked_questions = True
-    pool = build_pool(cfg, subject="Physics", grade="XII")
+    pool = build_pool(cfg, subject="Science", grade="X")
     assert len(pool.questions) >= 50
-    assert any(q.subject == "Physics" for q in pool.questions)
+    assert any(q.subject == "Science" for q in pool.questions)
 
 
 def test_generate_paper_copies_each_questions_type():

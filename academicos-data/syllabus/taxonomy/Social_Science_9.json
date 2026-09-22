@@ -1,0 +1,810 @@
+{
+ "subject": "Social Science",
+ "grade": 9,
+ "book": "Understanding Society: India and Beyond Part 1",
+ "source_files": [
+  "social_science/class9_understanding_society_part1.pdf"
+ ],
+ "chapters": [
+  {
+   "id": "social-science-9/understanding-social-science",
+   "name": "Understanding Social Science",
+   "number": 1,
+   "book": "Understanding Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "social_science/class9_understanding_society_part1.pdf",
+   "pages": [
+    25,
+    36
+   ],
+   "nameSource": "contents",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-9/understanding-social-science/social-science-in-everyday-life",
+     "name": "Social Science in Everyday Life",
+     "page": 25,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/understanding-social-science/understanding-society-through-time-and-traditions",
+     "name": "Understanding Society through Time and Traditions",
+     "page": 27,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/understanding-social-science/social-science-as-a-study-of-disciplines",
+     "name": "Social Science as a Study of Disciplines",
+     "page": 28,
+     "subtopics": [
+      {
+       "id": "social-science-9/understanding-social-science/social-science-as-a-study-of-disciplines/geography",
+       "name": "Geography",
+       "page": 29
+      },
+      {
+       "id": "social-science-9/understanding-social-science/social-science-as-a-study-of-disciplines/history",
+       "name": "History",
+       "page": 30
+      },
+      {
+       "id": "social-science-9/understanding-social-science/social-science-as-a-study-of-disciplines/literary-sources",
+       "name": "Literary Sources",
+       "page": 31
+      },
+      {
+       "id": "social-science-9/understanding-social-science/social-science-as-a-study-of-disciplines/archaeological-sources",
+       "name": "Archaeological Sources",
+       "page": 31
+      },
+      {
+       "id": "social-science-9/understanding-social-science/social-science-as-a-study-of-disciplines/epigraphic-sources",
+       "name": "Epigraphic Sources",
+       "page": 32
+      },
+      {
+       "id": "social-science-9/understanding-social-science/social-science-as-a-study-of-disciplines/numismatic-sources",
+       "name": "Numismatic Sources",
+       "page": 32
+      },
+      {
+       "id": "social-science-9/understanding-social-science/social-science-as-a-study-of-disciplines/political-science",
+       "name": "Political Science",
+       "page": 33
+      },
+      {
+       "id": "social-science-9/understanding-social-science/social-science-as-a-study-of-disciplines/economics",
+       "name": "Economics",
+       "page": 34
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/understanding-social-science/why-should-we-study-social-science",
+     "name": "Why Should We Study Social Science?",
+     "page": 34,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/understanding-social-science/the-future-of-social-science",
+     "name": "The Future of Social Science",
+     "page": 35,
+     "subtopics": [
+      {
+       "id": "social-science-9/understanding-social-science/the-future-of-social-science/secondary-stage-social-science-your-two-year-learning-journe",
+       "name": "Secondary-Stage Social Science: Your Two-Year Learning Journey (Grades 9–10)",
+       "page": 36
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-9/shaping-of-the-earth-s-surface",
+   "name": "Shaping of the Earth’s Surface",
+   "number": 2,
+   "book": "Understanding Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "social_science/class9_understanding_society_part1.pdf",
+   "pages": [
+    37,
+    62
+   ],
+   "nameSource": "contents",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-9/shaping-of-the-earth-s-surface/plate-tectonics",
+     "name": "Plate Tectonics",
+     "page": 37,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/shaping-of-the-earth-s-surface/process-of-weathering-and-erosion",
+     "name": "Process of Weathering and Erosion",
+     "page": 43,
+     "subtopics": [
+      {
+       "id": "social-science-9/shaping-of-the-earth-s-surface/process-of-weathering-and-erosion/weathering",
+       "name": "Weathering",
+       "page": 43
+      },
+      {
+       "id": "social-science-9/shaping-of-the-earth-s-surface/process-of-weathering-and-erosion/erosion",
+       "name": "Erosion",
+       "page": 44
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/shaping-of-the-earth-s-surface/agents-of-gradation",
+     "name": "Agents of Gradation",
+     "page": 45,
+     "subtopics": [
+      {
+       "id": "social-science-9/shaping-of-the-earth-s-surface/agents-of-gradation/running-water",
+       "name": "Running Water",
+       "page": 46
+      },
+      {
+       "id": "social-science-9/shaping-of-the-earth-s-surface/agents-of-gradation/waves-and-currents",
+       "name": "Waves and Currents",
+       "page": 49
+      },
+      {
+       "id": "social-science-9/shaping-of-the-earth-s-surface/agents-of-gradation/glaciers",
+       "name": "Glaciers",
+       "page": 51
+      },
+      {
+       "id": "social-science-9/shaping-of-the-earth-s-surface/agents-of-gradation/wind",
+       "name": "Wind",
+       "page": 53
+      },
+      {
+       "id": "social-science-9/shaping-of-the-earth-s-surface/agents-of-gradation/underground-water",
+       "name": "Underground Water",
+       "page": 55
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/shaping-of-the-earth-s-surface/landforms-and-disasters",
+     "name": "Landforms and Disasters",
+     "page": 56,
+     "subtopics": [
+      {
+       "id": "social-science-9/shaping-of-the-earth-s-surface/landforms-and-disasters/landslides",
+       "name": "Landslides",
+       "page": 57
+      },
+      {
+       "id": "social-science-9/shaping-of-the-earth-s-surface/landforms-and-disasters/avalanches",
+       "name": "Avalanches",
+       "page": 58
+      },
+      {
+       "id": "social-science-9/shaping-of-the-earth-s-surface/landforms-and-disasters/glofs",
+       "name": "GLOFs",
+       "page": 59
+      },
+      {
+       "id": "social-science-9/shaping-of-the-earth-s-surface/landforms-and-disasters/dust-storms",
+       "name": "Dust Storms",
+       "page": 60
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-9/atmosphere-and-climate",
+   "name": "Atmosphere and Climate",
+   "number": 3,
+   "book": "Understanding Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "social_science/class9_understanding_society_part1.pdf",
+   "pages": [
+    63,
+    84
+   ],
+   "nameSource": "contents",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-9/atmosphere-and-climate/composition-and-structure-of-the-atmosphere",
+     "name": "Composition and Structure of the Atmosphere",
+     "page": 64,
+     "subtopics": [
+      {
+       "id": "social-science-9/atmosphere-and-climate/composition-and-structure-of-the-atmosphere/composition-of-the-atmosphere",
+       "name": "Composition of the Atmosphere",
+       "page": 64
+      },
+      {
+       "id": "social-science-9/atmosphere-and-climate/composition-and-structure-of-the-atmosphere/structure-of-the-atmosphere",
+       "name": "Structure of the Atmosphere",
+       "page": 64
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/atmosphere-and-climate/weather-and-climate",
+     "name": "Weather and Climate",
+     "page": 67,
+     "subtopics": [
+      {
+       "id": "social-science-9/atmosphere-and-climate/weather-and-climate/elements-of-weather-and-climate",
+       "name": "Elements of Weather and Climate",
+       "page": 67
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/atmosphere-and-climate/seasons-in-india",
+     "name": "Seasons in India",
+     "page": 71,
+     "subtopics": [
+      {
+       "id": "social-science-9/atmosphere-and-climate/seasons-in-india/monsoon",
+       "name": "Monsoon",
+       "page": 73
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/atmosphere-and-climate/climate-change",
+     "name": "Climate Change",
+     "page": 77,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/atmosphere-and-climate/punjab-floods-2025-a-case-study",
+     "name": "Punjab Floods 2025: A Case Study",
+     "page": 78,
+     "subtopics": [
+      {
+       "id": "social-science-9/atmosphere-and-climate/punjab-floods-2025-a-case-study/causes",
+       "name": "Causes",
+       "page": 79
+      },
+      {
+       "id": "social-science-9/atmosphere-and-climate/punjab-floods-2025-a-case-study/effects-of-the-floods-in-punjab",
+       "name": "Effects of the Floods in Punjab",
+       "page": 80
+      },
+      {
+       "id": "social-science-9/atmosphere-and-climate/punjab-floods-2025-a-case-study/classroom-discussion",
+       "name": "Classroom Discussion",
+       "page": 80
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-9/early-humans-and-beginning-of-civilisation",
+   "name": "Early Humans and Beginning of Civilisation",
+   "number": 4,
+   "book": "Understanding Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "social_science/class9_understanding_society_part1.pdf",
+   "pages": [
+    85,
+    118
+   ],
+   "nameSource": "contents",
+   "headingKind": "unnumbered",
+   "orphanSubtopicsDropped": 1,
+   "headingsBelowSubtopicLevel": [
+    {
+     "name": "The Sumerians",
+     "page": 103,
+     "under": "social-science-9/early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/mesopotamian-civilisation"
+    },
+    {
+     "name": "The Akkadians",
+     "page": 105,
+     "under": "social-science-9/early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/mesopotamian-civilisation"
+    },
+    {
+     "name": "The Assyrians",
+     "page": 107,
+     "under": "social-science-9/early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/mesopotamian-civilisation"
+    },
+    {
+     "name": "The Babylonians",
+     "page": 107,
+     "under": "social-science-9/early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/mesopotamian-civilisation"
+    }
+   ],
+   "topics": [
+    {
+     "id": "social-science-9/early-humans-and-beginning-of-civilisation/why-should-we-study-early-human-history",
+     "name": "Why Should We Study Early Human History?",
+     "page": 87,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/early-humans-and-beginning-of-civilisation/who-were-our-human-ancestors",
+     "name": "Who Were Our Human Ancestors?",
+     "page": 89,
+     "subtopics": [
+      {
+       "id": "social-science-9/early-humans-and-beginning-of-civilisation/who-were-our-human-ancestors/palaeolithic-hunter-gatherers",
+       "name": "Palaeolithic Hunter–Gatherers",
+       "page": 92
+      },
+      {
+       "id": "social-science-9/early-humans-and-beginning-of-civilisation/who-were-our-human-ancestors/mesolithic-hunter-gatherers",
+       "name": "Mesolithic Hunter–Gatherers",
+       "page": 94
+      },
+      {
+       "id": "social-science-9/early-humans-and-beginning-of-civilisation/who-were-our-human-ancestors/the-neolithic-revolution",
+       "name": "The Neolithic Revolution",
+       "page": 95
+      },
+      {
+       "id": "social-science-9/early-humans-and-beginning-of-civilisation/who-were-our-human-ancestors/neolithic-period-in-indian-subcontinent",
+       "name": "Neolithic Period in Indian Subcontinent",
+       "page": 97
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/early-humans-and-beginning-of-civilisation/sindhu-sarasvati-civilisation",
+     "name": "Sindhu–Sarasvatī Civilisation",
+     "page": 98,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india",
+     "name": "Bronze Age Civilisations Outside India",
+     "page": 101,
+     "subtopics": [
+      {
+       "id": "social-science-9/early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/mesopotamian-civilisation",
+       "name": "Mesopotamian Civilisation",
+       "page": 101
+      },
+      {
+       "id": "social-science-9/early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/egyptian-civilisation",
+       "name": "Egyptian Civilisation",
+       "page": 107
+      },
+      {
+       "id": "social-science-9/early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/the-chinese-civilisation",
+       "name": "The Chinese Civilisation",
+       "page": 113
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-9/state-and-society-up-to-1000-ce",
+   "name": "State and Society up to 1000 CE",
+   "number": 5,
+   "book": "Understanding Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "social_science/class9_understanding_society_part1.pdf",
+   "pages": [
+    119,
+    160
+   ],
+   "nameSource": "contents",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-9/state-and-society-up-to-1000-ce/understanding-early-indian-state-and-society",
+     "name": "Understanding Early Indian State and Society",
+     "page": 121,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/state-and-society-up-to-1000-ce/state-and-administration",
+     "name": "State and Administration",
+     "page": 123,
+     "subtopics": [
+      {
+       "id": "social-science-9/state-and-society-up-to-1000-ce/state-and-administration/the-vedic-period",
+       "name": "The Vedic Period",
+       "page": 123
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/state-and-society-up-to-1000-ce/political-institutions-in-the-vedic-period",
+     "name": "Political Institutions in the Vedic Period",
+     "page": 124,
+     "subtopics": [
+      {
+       "id": "social-science-9/state-and-society-up-to-1000-ce/political-institutions-in-the-vedic-period/early-kingdoms-and-republics",
+       "name": "Early Kingdoms and Republics",
+       "page": 127
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/state-and-society-up-to-1000-ce/duties-and-ideals-of-the-king",
+     "name": "Duties and Ideals of the King",
+     "page": 130,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/state-and-society-up-to-1000-ce/council-of-ministers",
+     "name": "Council of Ministers",
+     "page": 132,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/state-and-society-up-to-1000-ce/how-were-empires-administered",
+     "name": "How Were Empires Administered?",
+     "page": 135,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/state-and-society-up-to-1000-ce/ethics-the-foundation-of-law-and-life",
+     "name": "Ethics: The Foundation of Law and Life",
+     "page": 140,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/state-and-society-up-to-1000-ce/social-structures-and-everyday-life",
+     "name": "Social Structures and Everyday Life",
+     "page": 142,
+     "subtopics": [
+      {
+       "id": "social-science-9/state-and-society-up-to-1000-ce/social-structures-and-everyday-life/varna-and-jati",
+       "name": "Varṇa and Jāti",
+       "page": 142
+      },
+      {
+       "id": "social-science-9/state-and-society-up-to-1000-ce/social-structures-and-everyday-life/family-and-society",
+       "name": "Family and Society",
+       "page": 144
+      },
+      {
+       "id": "social-science-9/state-and-society-up-to-1000-ce/social-structures-and-everyday-life/role-of-women",
+       "name": "Role of Women",
+       "page": 146
+      },
+      {
+       "id": "social-science-9/state-and-society-up-to-1000-ce/social-structures-and-everyday-life/religious-life-and-the-emergence-of-bhakti",
+       "name": "Religious Life and the Emergence of Bhakti",
+       "page": 147
+      },
+      {
+       "id": "social-science-9/state-and-society-up-to-1000-ce/social-structures-and-everyday-life/the-quest-for-knowledge",
+       "name": "The Quest for Knowledge",
+       "page": 148
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/state-and-society-up-to-1000-ce/literary-heritage-of-early-india",
+     "name": "Literary Heritage of Early India",
+     "page": 151,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/state-and-society-up-to-1000-ce/economy",
+     "name": "Economy",
+     "page": 152,
+     "subtopics": [
+      {
+       "id": "social-science-9/state-and-society-up-to-1000-ce/economy/agriculture-and-land-revenue",
+       "name": "Agriculture and Land Revenue",
+       "page": 152
+      },
+      {
+       "id": "social-science-9/state-and-society-up-to-1000-ce/economy/irrigation",
+       "name": "Irrigation",
+       "page": 152
+      },
+      {
+       "id": "social-science-9/state-and-society-up-to-1000-ce/economy/trade-trade-routes-and-ports",
+       "name": "Trade: Trade Routes and Ports",
+       "page": 153
+      },
+      {
+       "id": "social-science-9/state-and-society-up-to-1000-ce/economy/guilds",
+       "name": "Guilds",
+       "page": 155
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-9/democracy",
+   "name": "Democracy",
+   "number": 6,
+   "book": "Understanding Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "social_science/class9_understanding_society_part1.pdf",
+   "pages": [
+    161,
+    184
+   ],
+   "nameSource": "contents",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-9/democracy/tracing-democratic-traditions-from-early-times",
+     "name": "Tracing Democratic Traditions from Early Times",
+     "page": 162,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/democracy/principles-of-democracy",
+     "name": "Principles of Democracy",
+     "page": 164,
+     "subtopics": [
+      {
+       "id": "social-science-9/democracy/principles-of-democracy/popular-sovereignty",
+       "name": "Popular Sovereignty",
+       "page": 164
+      },
+      {
+       "id": "social-science-9/democracy/principles-of-democracy/rule-of-law",
+       "name": "Rule of Law",
+       "page": 165
+      },
+      {
+       "id": "social-science-9/democracy/principles-of-democracy/fundamental-rights",
+       "name": "Fundamental Rights",
+       "page": 165
+      },
+      {
+       "id": "social-science-9/democracy/principles-of-democracy/separation-of-powers",
+       "name": "Separation of Powers",
+       "page": 166
+      },
+      {
+       "id": "social-science-9/democracy/principles-of-democracy/accountability-and-transparency",
+       "name": "Accountability and Transparency",
+       "page": 166
+      },
+      {
+       "id": "social-science-9/democracy/principles-of-democracy/multi-party-system",
+       "name": "Multi-Party System",
+       "page": 167
+      },
+      {
+       "id": "social-science-9/democracy/principles-of-democracy/safeguarding-the-rights-of-vulnerable-groups",
+       "name": "Safeguarding the Rights of Vulnerable Groups",
+       "page": 167
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/democracy/types-of-democracy",
+     "name": "Types of Democracy",
+     "page": 170,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/democracy/democracy-in-practice-india-s-living-democracy",
+     "name": "Democracy in Practice: India’s Living Democracy",
+     "page": 173,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/democracy/challenges-to-democratic-practices-in-india",
+     "name": "Challenges to Democratic Practices in India",
+     "page": 178,
+     "subtopics": [
+      {
+       "id": "social-science-9/democracy/challenges-to-democratic-practices-in-india/democracy-and-you",
+       "name": "Democracy and You",
+       "page": 180
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-9/elections",
+   "name": "Elections",
+   "number": 7,
+   "book": "Understanding Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "social_science/class9_understanding_society_part1.pdf",
+   "pages": [
+    185,
+    206
+   ],
+   "nameSource": "contents",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-9/elections/why-do-elections-matter",
+     "name": "Why do Elections Matter?",
+     "page": 185,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/elections/inside-india-s-election-machinery",
+     "name": "Inside India’s Election Machinery",
+     "page": 186,
+     "subtopics": [
+      {
+       "id": "social-science-9/elections/inside-india-s-election-machinery/the-electoral-system",
+       "name": "The Electoral System",
+       "page": 187
+      },
+      {
+       "id": "social-science-9/elections/inside-india-s-election-machinery/the-laws",
+       "name": "The Laws",
+       "page": 189
+      },
+      {
+       "id": "social-science-9/elections/inside-india-s-election-machinery/delimitation-commission",
+       "name": "Delimitation Commission",
+       "page": 190
+      },
+      {
+       "id": "social-science-9/elections/inside-india-s-election-machinery/election-commission-of-india-eci",
+       "name": "Election Commission of India (ECI)",
+       "page": 190
+      },
+      {
+       "id": "social-science-9/elections/inside-india-s-election-machinery/political-parties",
+       "name": "Political Parties",
+       "page": 196
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/elections/challenges-to-free-and-fair-elections",
+     "name": "Challenges to Free and Fair Elections",
+     "page": 201,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "social-science-9/building-blocks-in-economics-the-problem-of-choice",
+   "name": "Building Blocks in Economics The Problem of Choice",
+   "number": 8,
+   "book": "Understanding Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "social_science/class9_understanding_society_part1.pdf",
+   "pages": [
+    207,
+    218
+   ],
+   "nameSource": "contents",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-9/building-blocks-in-economics-the-problem-of-choice/choices-and-limited-resources",
+     "name": "Choices and Limited Resources",
+     "page": 208,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/building-blocks-in-economics-the-problem-of-choice/what-does-economics-deal-with",
+     "name": "What does Economics Deal with?",
+     "page": 210,
+     "subtopics": []
+    },
+    {
+     "id": "social-science-9/building-blocks-in-economics-the-problem-of-choice/key-questions-in-economics",
+     "name": "Key Questions in Economics",
+     "page": 212,
+     "subtopics": [
+      {
+       "id": "social-science-9/building-blocks-in-economics-the-problem-of-choice/key-questions-in-economics/what-to-produce-and-for-whom",
+       "name": "What to Produce and for Whom?",
+       "page": 212
+      },
+      {
+       "id": "social-science-9/building-blocks-in-economics-the-problem-of-choice/key-questions-in-economics/how-to-produce",
+       "name": "How to Produce?",
+       "page": 213
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/building-blocks-in-economics-the-problem-of-choice/economic-systems-and-how-choices-are-made",
+     "name": "Economic Systems and How Choices are Made",
+     "page": 214,
+     "subtopics": [
+      {
+       "id": "social-science-9/building-blocks-in-economics-the-problem-of-choice/economic-systems-and-how-choices-are-made/planned-economy",
+       "name": "Planned Economy",
+       "page": 215
+      },
+      {
+       "id": "social-science-9/building-blocks-in-economics-the-problem-of-choice/economic-systems-and-how-choices-are-made/market-economy",
+       "name": "Market Economy",
+       "page": 215
+      },
+      {
+       "id": "social-science-9/building-blocks-in-economics-the-problem-of-choice/economic-systems-and-how-choices-are-made/mixed-economy",
+       "name": "Mixed Economy",
+       "page": 216
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "social-science-9/the-price-puzzle-what-drives-the-market",
+   "name": "The Price Puzzle: What Drives the Market",
+   "number": 9,
+   "book": "Understanding Society: India and Beyond Part 1",
+   "part": 1,
+   "source_file": "social_science/class9_understanding_society_part1.pdf",
+   "pages": [
+    219,
+    241
+   ],
+   "nameSource": "contents",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "social-science-9/the-price-puzzle-what-drives-the-market/demand",
+     "name": "Demand",
+     "page": 220,
+     "subtopics": [
+      {
+       "id": "social-science-9/the-price-puzzle-what-drives-the-market/demand/other-determinants-of-demand",
+       "name": "Other Determinants of Demand",
+       "page": 222
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/the-price-puzzle-what-drives-the-market/supply",
+     "name": "Supply",
+     "page": 224,
+     "subtopics": [
+      {
+       "id": "social-science-9/the-price-puzzle-what-drives-the-market/supply/other-determinants-of-supply",
+       "name": "Other Determinants of Supply",
+       "page": 226
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/the-price-puzzle-what-drives-the-market/market-equilibrium",
+     "name": "Market Equilibrium",
+     "page": 227,
+     "subtopics": [
+      {
+       "id": "social-science-9/the-price-puzzle-what-drives-the-market/market-equilibrium/does-market-equilibrium-exist-in-the-real-world",
+       "name": "Does Market Equilibrium Exist in the Real World?",
+       "page": 228
+      }
+     ]
+    },
+    {
+     "id": "social-science-9/the-price-puzzle-what-drives-the-market/role-of-government-in-the-economy",
+     "name": "Role of Government in the Economy",
+     "page": 230,
+     "subtopics": [
+      {
+       "id": "social-science-9/the-price-puzzle-what-drives-the-market/role-of-government-in-the-economy/regulation-of-unfair-practices",
+       "name": "Regulation of Unfair Practices",
+       "page": 230
+      },
+      {
+       "id": "social-science-9/the-price-puzzle-what-drives-the-market/role-of-government-in-the-economy/provision-of-public-goods",
+       "name": "Provision of Public Goods",
+       "page": 231
+      },
+      {
+       "id": "social-science-9/the-price-puzzle-what-drives-the-market/role-of-government-in-the-economy/limitations-of-government-intervention",
+       "name": "Limitations of Government Intervention",
+       "page": 232
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

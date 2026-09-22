@@ -92,6 +92,53 @@ export interface paths {
         patch: operations["update_status_api_v1_assessments__assessment_id__status_patch"];
         trace?: never;
     };
+    "/api/v1/auth/invites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Invites
+         * @description The caller's school's invites, used and unused, newest first. Each
+         *     row says who created it and which account used it and when.
+         */
+        get: operations["list_invites_api_v1_auth_invites_get"];
+        put?: never;
+        /**
+         * Create Invite
+         * @description A single-use invite to the CALLER's school. There is no school field
+         *     to send: a principal can only ever invite people into their own school.
+         */
+        post: operations["create_invite_api_v1_auth_invites_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/auth/invites/{code}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Revoke Invite
+         * @description Withdraw an unused invite. Another school's code is a 404, the same as
+         *     an unknown one.
+         */
+        delete: operations["revoke_invite_api_v1_auth_invites__code__delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/auth/login": {
         parameters: {
             query?: never;
@@ -152,7 +199,14 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Register */
+        /**
+         * Register
+         * @description Needs an invite code, or (for a school's first principal only) the
+         *     operator's principal key with a schoolId. 403 without either, or when
+         *     the invite is unknown/used/revoked/expired/for another email, or the
+         *     school already has a principal. 400 when schoolId/role disagree with the
+         *     invite. Until 2026-09-21 any caller could name any school here.
+         */
         post: operations["register_api_v1_auth_register_post"];
         delete?: never;
         options?: never;
@@ -347,7 +401,14 @@ export interface paths {
         };
         /** Get Calendar */
         get: operations["get_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_get"];
-        put?: never;
+        /**
+         * Update Calendar
+         * @description Corrects this year's weekly offs / Saturday rule. Working days are
+         *     computed on read, so /working-days follows at once; lessons already
+         *     scheduled keep their dates until the principal re-schedules or pushes
+         *     them -- a calendar edit never silently moves a teacher's plan.
+         */
+        put: operations["update_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_put"];
         /** Create Calendar */
         post: operations["create_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_post"];
         delete?: never;
@@ -386,6 +447,27 @@ export interface paths {
         /** Add Holiday */
         post: operations["add_holiday_api_v1_curriculum_academic_years__academic_year_id__holidays_post"];
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/holidays/{holiday_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete Holiday
+         * @description Removes a holiday entered by mistake, so the day teaches again --
+         *     without it a typo'd date took a teaching day away for the whole year.
+         */
+        delete: operations["delete_holiday_api_v1_curriculum_academic_years__academic_year_id__holidays__holiday_id__delete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -449,7 +531,7 @@ export interface paths {
          * @description Persists one real weekday+period a subject meets -- once any slots
          *     exist for a subject/year, scheduling.py's schedule_book() uses exactly
          *     those real weekdays instead of its "first N working days of the week"
-         *     fallback heuristic (see _subject_teaching_days's docstring).
+         *     fallback heuristic (see calendar.subject_teaching_slots's docstring).
          */
         post: operations["add_timetable_slot_api_v1_curriculum_academic_years__academic_year_id__timetable_slots_post"];
         delete?: never;
@@ -534,7 +616,14 @@ export interface paths {
          *     documented weekday-assignment simplification. Requires
          *     compute_teaching_time_estimates() to have already run for this
          *     (book, academic_year); a Subtopic without a real estimate is skipped
-         *     and reported, never given a guessed period count.
+         *     and reported, never given a guessed period count. `allSubtopicsScheduled`
+         *     is false, with a `warning` sentence, whenever any subtopic ends up
+         *     without its full dated periods. `force` keeps completed/skipped lessons,
+         *     and every lesson dated before today (taught or overdue), and replans
+         *     only what is still to be taught. New lessons are placed from
+         *     the school's today (or the year's first day, if later): a day that has
+         *     passed cannot be taught on, and the shortfall warning counts only the
+         *     periods left.
          */
         post: operations["schedule_book_api_v1_curriculum_books__book_id__schedule_post"];
         delete?: never;
@@ -554,10 +643,12 @@ export interface paths {
         put?: never;
         /**
          * Push Schedule
-         * @description PUSH: real disruption handling -- shifts every lesson on/after
-         *     `from_date` one real teaching slot later. See scheduling.py's
-         *     push_lessons_after() docstring for the full method, including why
-         *     `periods_per_week` must be supplied again.
+         * @description PUSH: real disruption handling -- shifts every still-to-teach lesson
+         *     on/after `from_date` one real teaching slot later; completed/skipped
+         *     lessons keep their dates. With a timetable, the timetable decides the
+         *     days and `periodsPerWeek` is not needed; without one it is optional and
+         *     defaults to the subject's stored allocation (422 if neither exists). See
+         *     scheduling.py's push_lessons_after() docstring for the full method.
          */
         post: operations["push_schedule_api_v1_curriculum_books__book_id__schedule_push_post"];
         delete?: never;
@@ -863,6 +954,12 @@ export interface paths {
          *     lessons (up to today) have actually been marked completed vs skipped
          *     vs still just scheduled -- computed from the same real ScheduledLesson
          *     rows the teacher/principal views use, never a separate estimate.
+         *
+         *     An 'unscheduled' lesson (a PUSH found it no period before the year
+         *     ends) is counted in `unscheduledCount` and in `totalCount` whatever its
+         *     stale date: it is still owed, and it has no day to be "up to today" by.
+         *     Until the review of 2026-09-22 one dated on or before today was in the
+         *     total and in none of the parts, so the counts did not add up.
          */
         get: operations["get_my_progress_api_v1_curriculum_my_progress_get"];
         put?: never;
@@ -949,7 +1046,10 @@ export interface paths {
         /**
          * Get Delayed Topics
          * @description All scheduled lessons past due (date < as_of_date) still in
-         *     'scheduled' status, with days overdue (§17, §32).
+         *     'scheduled' status, with days overdue (§17, §32), plus every lesson a
+         *     PUSH left 'unscheduled' (no day before the year ends -- the worst
+         *     delay, which this report left out until the review of 2026-09-22).
+         *     `as_of_date` defaults to the school's today (IST).
          */
         get: operations["get_delayed_topics_api_v1_curriculum_reporting_delayed_topics_get"];
         put?: never;
@@ -1019,7 +1119,8 @@ export interface paths {
         };
         /**
          * Get Lesson History
-         * @description Every real PUSH/ADJUST ever applied to this lesson -- readable by
+         * @description Every real PUSH/ADJUST ever applied to this lesson (newDate is null
+         *     where a PUSH left it 'unscheduled') -- readable by
          *     the assigned teacher or a same-school principal, same posture as
          *     marking completion.
          */
@@ -1044,6 +1145,11 @@ export interface paths {
         /**
          * Adjust Lesson
          * @description ADJUST: move exactly one lesson to a specific new real working day.
+         *     409 when that day already holds as many of this book's lessons as the
+         *     subject has periods then (scheduling.RescheduleClash), or when the
+         *     lesson is already completed/skipped (scheduling.LessonAlreadyRecorded
+         *     -- its date is the teaching record); 422 for a day that isn't a
+         *     working day at all.
          */
         post: operations["adjust_lesson_api_v1_curriculum_scheduled_lessons__lesson_id__reschedule_post"];
         delete?: never;
@@ -1761,7 +1867,15 @@ export interface paths {
          *     for one already on the paper or a near-duplicate of one.
          */
         post: operations["pick_paper_question_api_v1_papers__paper_id__questions__slot__post"];
-        delete?: never;
+        /**
+         * Remove Paper Question
+         * @description Take a question off the paper and every set: "7" removes question 7
+         *     with its OR alternative and renumbers what follows; "7_OR" removes only
+         *     the alternative. The section and the paper lose its marks -- the
+         *     builder shows the section as short until the teacher is content with it.
+         *     409 for the paper's last question (a paper with none is not a paper).
+         */
+        delete: operations["remove_paper_question_api_v1_papers__paper_id__questions__slot__delete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -2410,6 +2524,35 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/coverage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Coverage
+         * @description How much of the bank is answerable, per subject and class.
+         *
+         *     The audit found no way to ask this over HTTP (`/v1/coverage` was a 404)
+         *     while the MCP server had `coverage_report` -- so the number a buyer could
+         *     read and the number an agent could read came from different places, or in
+         *     the HTTP case from nowhere. Both now return `QuestionBank.coverage()`
+         *     verbatim (rule Q5).
+         *
+         *     Aggregate counts, so it takes `facets:read` rather than `questions:read`:
+         *     no question text or marking scheme crosses this route.
+         */
+        get: operations["get_coverage_v1_coverage_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/facets": {
         parameters: {
             query?: never;
@@ -2516,6 +2659,9 @@ export interface paths {
         /**
          * List Questions
          * @description Paged, filtered question list. The workhorse endpoint.
+         *
+         *     **Answer-keyed by default (rule Q1).** See `_q1_filter` for the two ways
+         *     to ask for the rest.
          */
         get: operations["list_questions_v1_questions_get"];
         put?: never;
@@ -2634,6 +2780,9 @@ export interface paths {
         /**
          * Questions For Subtopic
          * @description Curriculum-driven listing: everything tagged to one subtopic.
+         *
+         *     Answer-keyed by default, like `/v1/questions` -- a rule that held on one
+         *     listing route and not its neighbour would not be a rule.
          */
         get: operations["questions_for_subtopic_v1_subtopics__subtopic_id__questions_get"];
         put?: never;
@@ -3230,6 +3379,11 @@ export interface components {
         ComputeTeachingTimeRequest: {
             /** Periodsperweek */
             periodsPerWeek?: number | null;
+            /**
+             * Recompute
+             * @default false
+             */
+            recompute: boolean;
         };
         /** ComputeTeachingTimeResponse */
         ComputeTeachingTimeResponse: {
@@ -3241,10 +3395,25 @@ export interface components {
             calendarWeeks: number;
             /** Estimatescreated */
             estimatesCreated: number;
+            /**
+             * Fitsinyear
+             * @default true
+             */
+            fitsInYear: boolean;
             /** Periodminutes */
             periodMinutes: number;
+            /**
+             * Periodsallocated
+             * @default 0
+             */
+            periodsAllocated: number;
             /** Periodsperweek */
             periodsPerWeek: number;
+            /**
+             * Periodsshort
+             * @default 0
+             */
+            periodsShort: number;
             /** Totalinstructionalminutes */
             totalInstructionalMinutes: number;
             /** Totalsubjectperiods */
@@ -3343,7 +3512,14 @@ export interface components {
             /** Title */
             title: string;
         };
-        /** CreateCalendarRequest */
+        /**
+         * CreateCalendarRequest
+         * @description Body of both POST (create) and PUT (correct) .../calendar. The routes
+         *     validate the values (calendar.normalize_weekly_off_days /
+         *     normalize_alternate_saturday_rule) and answer 422 naming what is
+         *     accepted -- plain `str` here so that message, not pydantic's, is what
+         *     the web admin shows.
+         */
         CreateCalendarRequest: {
             /**
              * Alternatesaturdayrule
@@ -3397,6 +3573,16 @@ export interface components {
             delayedLessons: components["schemas"]["DelayedLessonResponse"][];
             /** Schoolid */
             schoolId: string;
+            /**
+             * Unscheduledcount
+             * @default 0
+             */
+            unscheduledCount: number;
+            /**
+             * Unscheduledlessons
+             * @default []
+             */
+            unscheduledLessons: components["schemas"]["UnscheduledLessonResponse"][];
         };
         /** DifficultyDistribution */
         DifficultyDistribution: {
@@ -3614,6 +3800,8 @@ export interface components {
              * @default false
              */
             allowGaps: boolean;
+            /** Avoidquestionids */
+            avoidQuestionIds?: string[];
             /**
              * Fillfromoutsidescope
              * @default false
@@ -3638,6 +3826,10 @@ export interface components {
             };
             /** Assessmentid */
             assessmentId: string;
+            /** Competencyshare */
+            competencyShare?: number | null;
+            /** Competencytargetmet */
+            competencyTargetMet?: boolean | null;
             /**
              * Formattedcontent
              * @default
@@ -3655,10 +3847,16 @@ export interface components {
             sections: components["schemas"]["GeneratedSectionSchema"][];
             /** Setlabel */
             setLabel?: string | null;
+            /** Setoverlap */
+            setOverlap?: {
+                [key: string]: number;
+            };
             /** Sets */
             sets?: components["schemas"]["GeneratedPaper"][];
             /** Similarpairs */
             similarPairs?: string[][];
+            /** Tiersavailable */
+            tiersAvailable?: boolean | null;
             /** Warnings */
             warnings?: string[];
         };
@@ -3774,6 +3972,38 @@ export interface components {
             unitIds: string[];
             /** Unitscreated */
             unitsCreated: number;
+        };
+        /** InviteCreateRequest */
+        InviteCreateRequest: {
+            /** Email */
+            email?: string | null;
+            /** Expiresindays */
+            expiresInDays?: number | null;
+            /** Role */
+            role: string;
+        };
+        /** InviteResponse */
+        InviteResponse: {
+            /** Code */
+            code: string;
+            /** Createdat */
+            createdAt: string;
+            /** Createdby */
+            createdBy: string;
+            /** Email */
+            email?: string | null;
+            /** Expiresat */
+            expiresAt: string;
+            /** Revokedat */
+            revokedAt?: string | null;
+            /** Role */
+            role: string;
+            /** Status */
+            status: string;
+            /** Usedat */
+            usedAt?: string | null;
+            /** Usedby */
+            usedBy?: string | null;
         };
         /** LoginRequest */
         LoginRequest: {
@@ -3969,6 +4199,14 @@ export interface components {
              * @default 1.0
              */
             version: string;
+        };
+        /** PaperRemoveResponse */
+        PaperRemoveResponse: {
+            paper: components["schemas"]["GeneratedPaper"];
+            /** Removedquestionids */
+            removedQuestionIds: string[];
+            /** Slot */
+            slot: string;
         };
         /**
          * PaperTemplate
@@ -4376,7 +4614,7 @@ export interface components {
             /** Fromdate */
             fromDate: string;
             /** Periodsperweek */
-            periodsPerWeek: number;
+            periodsPerWeek?: number | null;
             /** Reason */
             reason: string;
         };
@@ -4612,12 +4850,24 @@ export interface components {
             stemLatex: string;
             /** Subject */
             subject: string;
+            /** Subtopicids */
+            subtopicIds?: string[];
             /** Supersededby */
             supersededBy?: string | null;
             /** Tableassetid */
             tableAssetId?: string | null;
+            /** Tagconfidence */
+            tagConfidence?: {
+                [key: string]: number | null;
+            };
+            /** Tagmethod */
+            tagMethod?: string | null;
             /** Tags */
             tags?: string[];
+            /** Taxonomychapterid */
+            taxonomyChapterId?: string | null;
+            /** Topicids */
+            topicIds?: string[];
             /**
              * Type
              * @enum {string}
@@ -4739,6 +4989,8 @@ export interface components {
         RegisterRequest: {
             /** Email */
             email: string;
+            /** Invitecode */
+            inviteCode?: string | null;
             /** Name */
             name: string;
             /** Password */
@@ -4748,7 +5000,7 @@ export interface components {
             /** Role */
             role?: string | null;
             /** Schoolid */
-            schoolId: string;
+            schoolId?: string | null;
         };
         /** RenameRequest */
         RenameRequest: {
@@ -4762,7 +5014,7 @@ export interface components {
             /** Mode */
             mode: string;
             /** Newdate */
-            newDate: string;
+            newDate?: string | null;
             /** Olddate */
             oldDate: string;
             /** Reason */
@@ -4939,6 +5191,11 @@ export interface components {
         ScheduleBookResponse: {
             /** Academicyearid */
             academicYearId: string;
+            /**
+             * Allsubtopicsscheduled
+             * @default true
+             */
+            allSubtopicsScheduled: boolean;
             /** Bookid */
             bookId: string;
             /** Firstscheduleddate */
@@ -4947,6 +5204,16 @@ export interface components {
             lastScheduledDate?: string | null;
             /** Lessonscreated */
             lessonsCreated: number;
+            /**
+             * Lessonskept
+             * @default 0
+             */
+            lessonsKept: number;
+            /**
+             * Pastlessonskept
+             * @default 0
+             */
+            pastLessonsKept: number;
             /** Periodsperweek */
             periodsPerWeek: number;
             /** Subtopicspartiallyscheduled */
@@ -4959,6 +5226,13 @@ export interface components {
             subtopicsWithoutEstimate: string[];
             /** Teachingdaysavailable */
             teachingDaysAvailable: number;
+            /**
+             * Teachingperiodsavailable
+             * @default 0
+             */
+            teachingPeriodsAvailable: number;
+            /** Warning */
+            warning?: string | null;
         };
         /** ScheduledLessonResponse */
         ScheduledLessonResponse: {
@@ -5491,6 +5765,11 @@ export interface components {
             subjectName: string;
             /** Totalcount */
             totalCount: number;
+            /**
+             * Unscheduledcount
+             * @default 0
+             */
+            unscheduledCount: number;
         };
         /** SubjectResponse */
         SubjectResponse: {
@@ -5900,6 +6179,32 @@ export interface components {
             /** Unitno */
             unitNo: string;
         };
+        /**
+         * UnscheduledLessonResponse
+         * @description A lesson a PUSH found no period for before the year ends. It has no
+         *     day, so no days-overdue figure; lastPlannedDate is the day it held
+         *     before it was dropped.
+         */
+        UnscheduledLessonResponse: {
+            /** Chaptername */
+            chapterName: string;
+            /** Gradenumber */
+            gradeNumber: number;
+            /** Lastplanneddate */
+            lastPlannedDate: string;
+            /** Lessonid */
+            lessonId: string;
+            /** Subjectname */
+            subjectName: string;
+            /** Subtopicname */
+            subtopicName: string;
+            /** Teacherid */
+            teacherId?: string | null;
+            /** Teachername */
+            teacherName?: string | null;
+            /** Topicname */
+            topicName: string;
+        };
         /** UserResponse */
         UserResponse: {
             /** Email */
@@ -6215,6 +6520,90 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Assessment"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_invites_api_v1_auth_invites_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InviteResponse"][];
+                };
+            };
+        };
+    };
+    create_invite_api_v1_auth_invites_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["InviteCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InviteResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    revoke_invite_api_v1_auth_invites__code__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["InviteResponse"];
                 };
             };
             /** @description Validation Error */
@@ -6671,6 +7060,41 @@ export interface operations {
             };
         };
     };
+    update_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCalendarRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CalendarResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     create_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_post: {
         parameters: {
             query?: never;
@@ -6790,6 +7214,40 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["HolidayResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_holiday_api_v1_curriculum_academic_years__academic_year_id__holidays__holiday_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+                holiday_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */
@@ -9030,6 +9488,38 @@ export interface operations {
             };
         };
     };
+    remove_paper_question_api_v1_papers__paper_id__questions__slot__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                paper_id: string;
+                slot: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaperRemoveResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     swap_paper_question_api_v1_papers__paper_id__questions__slot__swap_post: {
         parameters: {
             query?: never;
@@ -10196,6 +10686,38 @@ export interface operations {
             };
         };
     };
+    get_coverage_v1_coverage_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+                "X-API-Key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     get_facets_v1_facets_get: {
         parameters: {
             query?: {
@@ -10380,6 +10902,7 @@ export interface operations {
                 bloom?: string | null;
                 chapter_id?: string | null;
                 subtopic_id?: string | null;
+                /** @description true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing. */
                 has_scheme?: boolean | null;
                 review_state?: string | null;
                 keyword?: string | null;
@@ -10387,6 +10910,8 @@ export interface operations {
                 cursor?: string | null;
                 /** @description include facet counts */
                 facets?: boolean;
+                /** @description serve questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in. */
+                include_unkeyed?: boolean;
             };
             header?: {
                 authorization?: string | null;
@@ -10582,6 +11107,7 @@ export interface operations {
             query?: {
                 limit?: number;
                 cursor?: string | null;
+                include_unkeyed?: boolean;
             };
             header?: {
                 authorization?: string | null;

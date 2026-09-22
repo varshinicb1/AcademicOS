@@ -56,6 +56,11 @@ String pdfSafe(String text) {
     // or "change in" depends on what follows, so they are mapped below,
     // after _demathify has turned italic vertex letters back into ASCII.
     '∫': 'integral',
+    '⋅': '·', // DOT OPERATOR (U+22C5) -- restored from a symbol font by the
+    // merge (corpus/symbol_font.py) and drawn by no bundled font, while
+    // MIDDLE DOT (U+00B7) draws the same mark and is Latin-1. The mark is
+    // kept rather than read: the papers use it for a decimal point
+    // ("2⋅4 g/litre") as well as for a product.
     '′': "'", // PRIME (e.g. A' in geometry)
     'θ': 'theta',
     'π': 'pi',
@@ -77,6 +82,152 @@ String pdfSafe(String text) {
     '𝜋': 'pi', // MATHEMATICAL ITALIC SMALL PI (U+1D70B) -- three real,
     // styled-Greek variants found in the corpus, outside the Latin-only
     // Mathematical Alphanumeric range _demathify() covers below.
+    // Every remaining character the bundled corpus holds that base Helvetica
+    // cannot draw, plus every value of the Adobe Symbol table the merge's
+    // repair can restore (src/academicos/corpus/symbol_font.py). Counted on
+    // assets/corpus/questions.json, not guessed: U+2192 RIGHTWARDS ARROW 388
+    // times, U+03A9 OMEGA 48 (Science 10's resistors), U+03C1 RHO 12 -- the
+    // rho of cbe:q:Science9PS1, whose options "W rho g / W rho / g / W g /
+    // rho / W / rho g" are the whole reason the symbol repair exists and
+    // which printed four boxes here until this line. The repair can emit any
+    // of the table's 95 non-Latin-1 values the day a source uses that code,
+    // so the table is covered whole rather than sampled.
+    //
+    // This is where the port diverges from pdf_safe() in
+    // src/academicos/assessment/pdf.py, and why: that renderer registers a
+    // real Unicode font (Segoe UI, Arial or DejaVu) and keeps the glyphs it
+    // draws -- a web paper prints a real rho. The pdf package here has only
+    // its base Helvetica, which is Latin-1 and nothing else, so every one of
+    // these has to be spelled out. Greek capitals that are letter-for-letter
+    // a Latin capital (Alpha, Beta, Epsilon, ... ) read as that letter: in
+    // the corpus they are a mis-encoded vertex name, "angle A = 100 degrees"
+    // (exemplar:q:7:mathematics:6:-:40), not the Greek letter.
+    '∀': 'for all ', // FOR ALL
+    '∃': 'there exists ', // THERE EXISTS
+    '∋': 'contains', // CONTAINS AS MEMBER
+    '∗': '*', // ASTERISK OPERATOR
+    '≅': 'congruent', // APPROXIMATELY EQUAL TO
+    'Α': 'A', // GREEK CAPITAL LETTER ALPHA
+    'Β': 'B', // GREEK CAPITAL LETTER BETA
+    'Ε': 'E', // GREEK CAPITAL LETTER EPSILON
+    'Φ': 'Phi', // GREEK CAPITAL LETTER PHI
+    'Γ': 'Gamma', // GREEK CAPITAL LETTER GAMMA
+    'Η': 'H', // GREEK CAPITAL LETTER ETA
+    'Ι': 'I', // GREEK CAPITAL LETTER IOTA
+    'ϑ': 'theta', // GREEK THETA SYMBOL
+    'Κ': 'K', // GREEK CAPITAL LETTER KAPPA
+    'Λ': 'Lambda', // GREEK CAPITAL LETTER LAMDA
+    'Μ': 'M', // GREEK CAPITAL LETTER MU
+    'Ν': 'N', // GREEK CAPITAL LETTER NU
+    'Ο': 'O', // GREEK CAPITAL LETTER OMICRON
+    'Π': 'Pi', // GREEK CAPITAL LETTER PI
+    'Θ': 'Theta', // GREEK CAPITAL LETTER THETA
+    'Ρ': 'P', // GREEK CAPITAL LETTER RHO
+    'Σ': 'Sigma', // GREEK CAPITAL LETTER SIGMA
+    'Τ': 'T', // GREEK CAPITAL LETTER TAU
+    'Υ': 'Y', // GREEK CAPITAL LETTER UPSILON
+    'ς': 'sigma', // GREEK SMALL LETTER FINAL SIGMA
+    'Ω': 'Omega', // GREEK CAPITAL LETTER OMEGA
+    'Ξ': 'Xi', // GREEK CAPITAL LETTER XI
+    'Ψ': 'Psi', // GREEK CAPITAL LETTER PSI
+    'Ζ': 'Z', // GREEK CAPITAL LETTER ZETA
+    '⊥': 'perpendicular', // UP TACK
+    'α': 'alpha', // GREEK SMALL LETTER ALPHA
+    'β': 'beta', // GREEK SMALL LETTER BETA
+    'χ': 'chi', // GREEK SMALL LETTER CHI
+    'δ': 'delta', // GREEK SMALL LETTER DELTA
+    'ε': 'epsilon', // GREEK SMALL LETTER EPSILON
+    'φ': 'phi', // GREEK SMALL LETTER PHI
+    'γ': 'gamma', // GREEK SMALL LETTER GAMMA
+    'η': 'eta', // GREEK SMALL LETTER ETA
+    'ι': 'iota', // GREEK SMALL LETTER IOTA
+    'ϕ': 'phi', // GREEK PHI SYMBOL
+    'κ': 'kappa', // GREEK SMALL LETTER KAPPA
+    'λ': 'lambda', // GREEK SMALL LETTER LAMDA
+    'μ': 'mu', // GREEK SMALL LETTER MU
+    'ν': 'nu', // GREEK SMALL LETTER NU
+    'ο': 'o', // GREEK SMALL LETTER OMICRON
+    'ρ': 'rho', // GREEK SMALL LETTER RHO
+    'σ': 'sigma', // GREEK SMALL LETTER SIGMA
+    'τ': 'tau', // GREEK SMALL LETTER TAU
+    'υ': 'upsilon', // GREEK SMALL LETTER UPSILON
+    'ω': 'omega', // GREEK SMALL LETTER OMEGA
+    'ξ': 'xi', // GREEK SMALL LETTER XI
+    'ψ': 'psi', // GREEK SMALL LETTER PSI
+    'ζ': 'zeta', // GREEK SMALL LETTER ZETA
+    '∼': '~', // TILDE OPERATOR
+    '€': 'EUR', // EURO SIGN
+    'ϒ': 'Y', // GREEK UPSILON WITH HOOK SYMBOL
+    '⁄': '/', // FRACTION SLASH
+    'ƒ': 'f', // LATIN SMALL LETTER F WITH HOOK
+    '↔': '<->', // LEFT RIGHT ARROW
+    '←': '<-', // LEFTWARDS ARROW
+    '↑': 'up', // UPWARDS ARROW
+    '→': '->', // RIGHTWARDS ARROW
+    '↓': 'down', // DOWNWARDS ARROW
+    '″': '"', // DOUBLE PRIME
+    '∝': 'proportional to', // PROPORTIONAL TO
+    '∂': 'd', // PARTIAL DIFFERENTIAL
+    '≡': '==', // IDENTICAL TO
+    '≈': '~=', // ALMOST EQUAL TO
+    '↵': '', // DOWNWARDS ARROW WITH CORNER LEFTWARDS
+    'ℵ': 'aleph', // ALEF SYMBOL
+    'ℑ': 'Im', // BLACK-LETTER CAPITAL I
+    'ℜ': 'Re', // BLACK-LETTER CAPITAL R
+    '℘': 'P', // SCRIPT CAPITAL P
+    '⊗': '(x)', // CIRCLED TIMES
+    '⊕': '(+)', // CIRCLED PLUS
+    '∅': 'empty set', // EMPTY SET
+    '∩': 'intersection', // INTERSECTION
+    '∪': 'union', // UNION
+    '⊃': 'superset of', // SUPERSET OF
+    '⊇': 'superset of or equal to', // SUPERSET OF OR EQUAL TO
+    '⊄': 'not a subset of', // NOT A SUBSET OF
+    '⊂': 'subset of', // SUBSET OF
+    '⊆': 'subset of or equal to', // SUBSET OF OR EQUAL TO
+    '∉': 'not in', // NOT AN ELEMENT OF
+    '∇': 'nabla', // NABLA
+    '∏': 'product', // N-ARY PRODUCT
+    '∧': 'and', // LOGICAL AND
+    '∨': 'or', // LOGICAL OR
+    '⇔': '<=>', // LEFT RIGHT DOUBLE ARROW
+    '⇐': '<==', // LEFTWARDS DOUBLE ARROW
+    '⇑': 'up', // UPWARDS DOUBLE ARROW
+    '⇓': 'down', // DOWNWARDS DOUBLE ARROW
+    '\u{2329}': '<', // LEFT-POINTING ANGLE BRACKET
+    '∑': 'sum', // N-ARY SUMMATION
+    '\u{232A}': '>', // RIGHT-POINTING ANGLE BRACKET
+    '⁻': '-', // SUPERSCRIPT MINUS
+    '\u{1D6E5}': '\u{0394}', // MATHEMATICAL ITALIC CAPITAL DELTA
+    'ℎ': 'h', // PLANCK CONSTANT
+    '∘': '°', // RING OPERATOR
+    '⁺': '+', // SUPERSCRIPT PLUS SIGN
+    '\u{1D6FD}': 'beta', // MATHEMATICAL ITALIC SMALL BETA
+    '●': '-', // BLACK CIRCLE
+    '\u{1D700}': 'epsilon', // MATHEMATICAL ITALIC SMALL EPSILON
+    '△': 'triangle ', // WHITE UP-POINTING TRIANGLE
+    '\u{1D707}': 'mu', // MATHEMATICAL ITALIC SMALL MU
+    'ⁿ': 'n', // SUPERSCRIPT LATIN SMALL LETTER N
+    '∥': '||', // PARALLEL TO
+    '⩭': 'congruent', // CONGRUENT WITH DOT ABOVE
+    '‟': '"', // DOUBLE HIGH-REVERSED-9 QUOTATION MARK
+    'ₙ': 'n', // LATIN SUBSCRIPT SMALL LETTER N
+    '\u{1D6F4}': 'Sigma', // MATHEMATICAL ITALIC CAPITAL SIGMA
+    '\u{1D70E}': 'sigma', // MATHEMATICAL ITALIC SMALL SIGMA
+    '„': '"', // DOUBLE LOW-9 QUOTATION MARK
+    '\u{1D714}': 'omega', // MATHEMATICAL ITALIC SMALL OMEGA
+    '∜': '4th root ', // FOURTH ROOT
+    '∛': 'cbrt', // CUBE ROOT
+    '∶': ':', // RATIO
+    '║': '||', // BOX DRAWINGS DOUBLE VERTICAL
+    '⟘': 'perpendicular', // LARGE UP TACK
+    '\u{1D745}': 'pi', // MATHEMATICAL BOLD ITALIC SMALL PI
+    'ₖ': 'k', // LATIN SUBSCRIPT SMALL LETTER K
+    '˚': '°', // RING ABOVE
+    '（': '(', // FULLWIDTH LEFT PARENTHESIS
+    '）': ')', // FULLWIDTH RIGHT PARENTHESIS
+    '～': '~', // FULLWIDTH TILDE
+    '土': '±', // CJK UNIFIED IDEOGRAPH-571F
   };
   mathSymbols.forEach((k, v) => out = out.replaceAll(k, v));
 

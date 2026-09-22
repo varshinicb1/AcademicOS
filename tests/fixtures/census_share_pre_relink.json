@@ -1,0 +1,177 @@
+{
+ "about": "The answerScheme of each record test_the_census_picks_are_what_choose_picks_today pins as decided by agree-by-share, as the served bank held it before its first real relink (academicos-data/syllabus/questions.json at ea0c50d). The relink replaces a share-agreeing scheme with the join's pick, so on a relinked bank the rule compares the pick with itself; the test puts these back to run the rule.",
+ "schemes": {
+  "cbse:q:src:3901e48d946b1f956b5a21c7:22": {
+   "totalMarks": 2,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:3901e48d946b1f956b5a21c7:22:mp1",
+     "description": "A capital-intensive organisation requires higher",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:3901e48d946b1f956b5a21c7:22:mp2",
+     "description": "Labour intensive organisations require less",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:3901e48d946b1f956b5a21c7:22:mp3",
+     "description": "When growth is expected, a company may choose to",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:3901e48d946b1f956b5a21c7:22:mp4",
+     "description": "This entails larger investment in fixed assets and",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "A capital-intensive organisation requires higher Labour intensive organisations require less When growth is expected, a company may choose to This entails larger investment in fixed assets and",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {},
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "66/1/1",
+   "sourceDocumentId": "src:3901e48d946b1f956b5a21c7"
+  },
+  "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33:mp1",
+     "description": "(a) How does credit play a positive and negative role? Explain with",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33:mp2",
+     "description": "Credit plays two roles-positive and negative",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33:mp3",
+     "description": "A. Positive role of credit",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33:mp4",
+     "description": "(i) A large number of transactions in day to day activities involve credit",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "(a) How does credit play a positive and negative role? Explain with Credit plays two roles-positive and negative A. Positive role of credit (i) A large number of transactions in day to day activities involve credit",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {},
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "32/5/1",
+   "sourceDocumentId": "src:7d85e69ac9a355f7b0d2eac0"
+  },
+  "cbse:q:src:be7fd19527d3a0bcac687817:22": {
+   "totalMarks": 2,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:be7fd19527d3a0bcac687817:22:mp1",
+     "description": "Q. Archana, Vandana and Arti were partners in a firm…",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:be7fd19527d3a0bcac687817:22:mp2",
+     "description": "By Vandana’s capital A/c (½)",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:be7fd19527d3a0bcac687817:22:mp3",
+     "description": "By Archana’s capital A/c (½)",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:be7fd19527d3a0bcac687817:22:mp4",
+     "description": "By Loss transferred to Partners’",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "Q. Archana, Vandana and Arti were partners in a firm… By Vandana’s capital A/c (½) By Archana’s capital A/c (½) By Loss transferred to Partners’",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {},
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "67/1/1",
+   "sourceDocumentId": "src:be7fd19527d3a0bcac687817"
+  },
+  "cbse:q:src:d4ab284479dbd2fbc3a07c7f:21": {
+   "totalMarks": 2,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:21:mp1",
+     "description": "Q. Ravi, Kavi and Chand were partners sharing…",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:d4ab284479dbd2fbc3a07c7f:21:mp2",
+     "description": "Partners’ Capital A/c: (1)",
+     "marks": 0,
+     "keyword": "",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "Q. Ravi, Kavi and Chand were partners sharing… Partners’ Capital A/c: (1)",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {},
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "67/3/2",
+   "sourceDocumentId": "src:d4ab284479dbd2fbc3a07c7f"
+  }
+ }
+}

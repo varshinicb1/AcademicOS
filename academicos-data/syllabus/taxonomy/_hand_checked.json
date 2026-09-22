@@ -1,0 +1,1161 @@
+{
+ "about": "Headings read off the textbook pages by hand, 2026-09-22, to measure scripts/build_taxonomy.py. Three or more chapters per subject family, spread over classes 6-10 and over the book designs (numbered old books, numbered new books, unnumbered new Social Science, Class 10 History/Political Science/Economics). A topic is the book's first heading level inside a chapter, a subtopic its second. Not counted as headings: boxes and panels (Know a scientist, DON'T MISS OUT, Math Talk), activities, figures, tables, exercises, 'Summary'/'Before we move on' end matter, and a third, smaller heading level (Ganita Prakash 13pt black 'Idli-Vada Game'; Exploration's bold organelle names; hees101's 14pt italic 'Renewable resources'). A subtopic is matched together with its parent topic, so a right name under the wrong topic counts as wrong. The first eleven chapters were read while the extractor was being built on the same books, so their numbers are not independent; the three marked heldOut were read and written down before the extractor was run on them, and are reported separately. First run on the held-out three, before any change prompted by them: Maths 13/13 correct of 13 extracted against 14 true once 'Kite' is counted; Science 10/10 and 10/10; Social Science 9/9 extracted correct but only 9/15 found -- the subtopic level was lost to a 15.43pt vs 15pt size split (fixed by clustering sizes within 0.6pt).",
+ "chapters": [
+  {
+   "family": "Maths",
+   "file": "maths/class6_ganita_prakash.pdf",
+   "chapter": 5,
+   "pages": "PDF pp167-188",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Common Multiples and Common Factors",
+     "page": 167
+    },
+    {
+     "level": 1,
+     "name": "Prime Numbers",
+     "page": 172
+    },
+    {
+     "level": 1,
+     "name": "Co-prime numbers for safekeeping treasures",
+     "page": 175
+    },
+    {
+     "level": 1,
+     "name": "Prime Factorisation",
+     "page": 177
+    },
+    {
+     "level": 2,
+     "parent": "Prime Factorisation",
+     "name": "Prime factorisation",
+     "page": 178
+    },
+    {
+     "level": 2,
+     "parent": "Prime Factorisation",
+     "name": "Prime factorisation of a product of two numbers",
+     "page": 179
+    },
+    {
+     "level": 2,
+     "parent": "Prime Factorisation",
+     "name": "Using prime factorisation to check if two numbers are co-prime",
+     "page": 180
+    },
+    {
+     "level": 2,
+     "parent": "Prime Factorisation",
+     "name": "Using prime factorisation to check if one number is divisible by another",
+     "page": 181
+    },
+    {
+     "level": 1,
+     "name": "Divisibility Tests",
+     "page": 182
+    },
+    {
+     "level": 2,
+     "parent": "Divisibility Tests",
+     "name": "Divisibility by 10",
+     "page": 183
+    },
+    {
+     "level": 2,
+     "parent": "Divisibility Tests",
+     "name": "Divisibility by 5",
+     "page": 183
+    },
+    {
+     "level": 2,
+     "parent": "Divisibility Tests",
+     "name": "Divisibility by 2",
+     "page": 183
+    },
+    {
+     "level": 2,
+     "parent": "Divisibility Tests",
+     "name": "Divisibility by 4",
+     "page": 184
+    },
+    {
+     "level": 2,
+     "parent": "Divisibility Tests",
+     "name": "Divisibility by 8",
+     "page": 185
+    },
+    {
+     "level": 1,
+     "name": "Fun with numbers",
+     "page": 186
+    },
+    {
+     "level": 2,
+     "parent": "Fun with numbers",
+     "name": "Special numbers",
+     "page": 186
+    },
+    {
+     "level": 2,
+     "parent": "Fun with numbers",
+     "name": "A prime puzzle",
+     "page": 187
+    }
+   ]
+  },
+  {
+   "family": "Maths",
+   "file": "maths/class9_ganita_manjari.pdf",
+   "chapter": 2,
+   "pages": "PDF pp36-60",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Introduction",
+     "page": 36
+    },
+    {
+     "level": 1,
+     "name": "Linear Polynomials",
+     "page": 39
+    },
+    {
+     "level": 1,
+     "name": "Exploring linear patterns",
+     "page": 41
+    },
+    {
+     "level": 1,
+     "name": "Linear growth and linear decay",
+     "page": 44
+    },
+    {
+     "level": 1,
+     "name": "Linear Relationships",
+     "page": 46
+    },
+    {
+     "level": 1,
+     "name": "Visualising linear relationships",
+     "page": 47
+    }
+   ]
+  },
+  {
+   "family": "Maths",
+   "file": "chapters/jemh1/jemh106.pdf",
+   "chapter": 6,
+   "pages": "pp1-26",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Introduction",
+     "page": 1
+    },
+    {
+     "level": 1,
+     "name": "Similar Figures",
+     "page": 2
+    },
+    {
+     "level": 1,
+     "name": "Similarity of Triangles",
+     "page": 7
+    },
+    {
+     "level": 1,
+     "name": "Criteria for Similarity of Triangles",
+     "page": 13
+    }
+   ]
+  },
+  {
+   "family": "Science",
+   "file": "science/class6_curiosity.pdf",
+   "chapter": 2,
+   "pages": "PDF pp27-52",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Diversity in Plants and Animals Around Us",
+     "page": 28
+    },
+    {
+     "level": 1,
+     "name": "How to Group Plants and Animals?",
+     "page": 32
+    },
+    {
+     "level": 2,
+     "parent": "How to Group Plants and Animals?",
+     "name": "How to group plants?",
+     "page": 33
+    },
+    {
+     "level": 2,
+     "parent": "How to Group Plants and Animals?",
+     "name": "How to group animals?",
+     "page": 38
+    },
+    {
+     "level": 1,
+     "name": "Plants and Animals in Different Surroundings",
+     "page": 41
+    }
+   ]
+  },
+  {
+   "family": "Science",
+   "file": "science/class9_exploration.pdf",
+   "chapter": 2,
+   "pages": "PDF pp28-47",
+   "headings": [
+    {
+     "level": 1,
+     "name": "How to Study Cells?",
+     "page": 29
+    },
+    {
+     "level": 1,
+     "name": "Structure of a Cell",
+     "page": 31
+    },
+    {
+     "level": 2,
+     "parent": "Structure of a Cell",
+     "name": "Cell membrane — The universal feature of a cell",
+     "page": 31
+    },
+    {
+     "level": 2,
+     "parent": "Structure of a Cell",
+     "name": "Cell wall — The outer covering of cells",
+     "page": 33
+    },
+    {
+     "level": 1,
+     "name": "The Cell Interior — A Coordinated Working System",
+     "page": 34
+    },
+    {
+     "level": 2,
+     "parent": "The Cell Interior — A Coordinated Working System",
+     "name": "Why do eukaryotic cells need these organelles?",
+     "page": 36
+    },
+    {
+     "level": 1,
+     "name": "How do Normal Cells Grow and Divide?",
+     "page": 40
+    },
+    {
+     "level": 2,
+     "parent": "How do Normal Cells Grow and Divide?",
+     "name": "Cell division",
+     "page": 41
+    },
+    {
+     "level": 1,
+     "name": "Cell Theory — The Unifying Principle of Biology",
+     "page": 43
+    },
+    {
+     "level": 2,
+     "parent": "Cell Theory — The Unifying Principle of Biology",
+     "name": "Do cells grow and reproduce forever?",
+     "page": 43
+    }
+   ]
+  },
+  {
+   "family": "Science",
+   "file": "chapters/jesc1/jesc101.pdf",
+   "chapter": 1,
+   "pages": "pp1-16",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Chemical Equations",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "Chemical Equations",
+     "name": "Writing a Chemical Equation",
+     "page": 3
+    },
+    {
+     "level": 2,
+     "parent": "Chemical Equations",
+     "name": "Balanced Chemical Equations",
+     "page": 3
+    },
+    {
+     "level": 1,
+     "name": "Types of Chemical Reactions",
+     "page": 6
+    },
+    {
+     "level": 2,
+     "parent": "Types of Chemical Reactions",
+     "name": "Combination Reaction",
+     "page": 6
+    },
+    {
+     "level": 2,
+     "parent": "Types of Chemical Reactions",
+     "name": "Decomposition Reaction",
+     "page": 8
+    },
+    {
+     "level": 2,
+     "parent": "Types of Chemical Reactions",
+     "name": "Displacement Reaction",
+     "page": 10
+    },
+    {
+     "level": 2,
+     "parent": "Types of Chemical Reactions",
+     "name": "Double Displacement Reaction",
+     "page": 11
+    },
+    {
+     "level": 2,
+     "parent": "Types of Chemical Reactions",
+     "name": "Oxidation and Reduction",
+     "page": 12
+    },
+    {
+     "level": 1,
+     "name": "Have You Observed the Effects of Oxidation Reactions in Everyday Life?",
+     "page": 13
+    },
+    {
+     "level": 2,
+     "parent": "Have You Observed the Effects of Oxidation Reactions in Everyday Life?",
+     "name": "Corrosion",
+     "page": 13
+    },
+    {
+     "level": 2,
+     "parent": "Have You Observed the Effects of Oxidation Reactions in Everyday Life?",
+     "name": "Rancidity",
+     "page": 13
+    }
+   ]
+  },
+  {
+   "family": "SS",
+   "file": "chapters/fees1/fees102.pdf",
+   "chapter": 2,
+   "pages": "pp1-14",
+   "headings": [
+    {
+     "level": 1,
+     "name": "The Distribution of Water and Land on the Earth",
+     "page": 3
+    },
+    {
+     "level": 1,
+     "name": "Oceans",
+     "page": 5
+    },
+    {
+     "level": 2,
+     "parent": "Oceans",
+     "name": "Oceans and disasters",
+     "page": 7
+    },
+    {
+     "level": 1,
+     "name": "Continents",
+     "page": 8
+    },
+    {
+     "level": 2,
+     "parent": "Continents",
+     "name": "Islands",
+     "page": 10
+    },
+    {
+     "level": 1,
+     "name": "Oceans and Life",
+     "page": 11
+    }
+   ]
+  },
+  {
+   "family": "SS",
+   "file": "chapters/hees1/hees101.pdf",
+   "chapter": 1,
+   "pages": "pp1-20",
+   "headings": [
+    {
+     "level": 1,
+     "name": "When does Nature become a Resource?",
+     "page": 2
+    },
+    {
+     "level": 1,
+     "name": "Categories of Natural Resources",
+     "page": 3
+    },
+    {
+     "level": 2,
+     "parent": "Categories of Natural Resources",
+     "name": "Resources essential for life",
+     "page": 4
+    },
+    {
+     "level": 2,
+     "parent": "Categories of Natural Resources",
+     "name": "Resources for materials",
+     "page": 4
+    },
+    {
+     "level": 2,
+     "parent": "Categories of Natural Resources",
+     "name": "Resources for energy",
+     "page": 4
+    },
+    {
+     "level": 2,
+     "parent": "Categories of Natural Resources",
+     "name": "Renewable and non-renewable resources",
+     "page": 5
+    },
+    {
+     "level": 1,
+     "name": "Distribution of Natural Resources and its Implications",
+     "page": 8
+    },
+    {
+     "level": 1,
+     "name": "The ‘Paradox of Plenty’",
+     "page": 11
+    },
+    {
+     "level": 1,
+     "name": "Responsible and Wise Use of Natural Resources: Stewardship",
+     "page": 12
+    },
+    {
+     "level": 2,
+     "parent": "Responsible and Wise Use of Natural Resources: Stewardship",
+     "name": "Restoration and regeneration of renewable resources",
+     "page": 12
+    },
+    {
+     "level": 2,
+     "parent": "Responsible and Wise Use of Natural Resources: Stewardship",
+     "name": "Responsible and judicious use of resources",
+     "page": 17
+    }
+   ]
+  },
+  {
+   "family": "SS",
+   "file": "chapters/jess3/jess302.pdf",
+   "chapter": 2,
+   "pages": "pp1-22",
+   "headings": [
+    {
+     "level": 1,
+     "name": "The First World War, Khilafat and Non-Cooperation",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "The First World War, Khilafat and Non-Cooperation",
+     "name": "The Idea of Satyagraha",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "The First World War, Khilafat and Non-Cooperation",
+     "name": "The Rowlatt Act",
+     "page": 3
+    },
+    {
+     "level": 2,
+     "parent": "The First World War, Khilafat and Non-Cooperation",
+     "name": "Why Non-cooperation?",
+     "page": 4
+    },
+    {
+     "level": 1,
+     "name": "Differing Strands within the Movement",
+     "page": 6
+    },
+    {
+     "level": 2,
+     "parent": "Differing Strands within the Movement",
+     "name": "The Movement in the Towns",
+     "page": 6
+    },
+    {
+     "level": 2,
+     "parent": "Differing Strands within the Movement",
+     "name": "Rebellion in the Countryside",
+     "page": 6
+    },
+    {
+     "level": 2,
+     "parent": "Differing Strands within the Movement",
+     "name": "Swaraj in the Plantations",
+     "page": 8
+    },
+    {
+     "level": 1,
+     "name": "Towards Civil Disobedience",
+     "page": 10
+    },
+    {
+     "level": 2,
+     "parent": "Towards Civil Disobedience",
+     "name": "The Salt March and the Civil Disobedience Movement",
+     "page": 11
+    },
+    {
+     "level": 2,
+     "parent": "Towards Civil Disobedience",
+     "name": "How Participants saw the Movement",
+     "page": 13
+    },
+    {
+     "level": 2,
+     "parent": "Towards Civil Disobedience",
+     "name": "The Limits of Civil Disobedience",
+     "page": 15
+    },
+    {
+     "level": 1,
+     "name": "The Sense of Collective Belonging",
+     "page": 18
+    },
+    {
+     "level": 1,
+     "name": "Conclusion",
+     "page": 21
+    }
+   ]
+  },
+  {
+   "family": "SS",
+   "file": "chapters/jess4/jess403.pdf",
+   "chapter": 3,
+   "pages": "pp1-17",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Gender and politics",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "Gender and politics",
+     "name": "Public/private division",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "Gender and politics",
+     "name": "Women’s political representation",
+     "page": 6
+    },
+    {
+     "level": 1,
+     "name": "Religion, communalism and politics",
+     "page": 8
+    },
+    {
+     "level": 2,
+     "parent": "Religion, communalism and politics",
+     "name": "Communalism",
+     "page": 8
+    },
+    {
+     "level": 2,
+     "parent": "Religion, communalism and politics",
+     "name": "Secular state",
+     "page": 9
+    },
+    {
+     "level": 1,
+     "name": "Caste and politics",
+     "page": 10
+    },
+    {
+     "level": 2,
+     "parent": "Caste and politics",
+     "name": "Caste inequalities",
+     "page": 10
+    },
+    {
+     "level": 2,
+     "parent": "Caste and politics",
+     "name": "Caste in politics",
+     "page": 12
+    },
+    {
+     "level": 2,
+     "parent": "Caste and politics",
+     "name": "Politics in caste",
+     "page": 14
+    }
+   ]
+  },
+  {
+   "family": "SS",
+   "file": "chapters/jess2/jess203.pdf",
+   "chapter": 3,
+   "pages": "pp1-16",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Money as a Medium of Exchange",
+     "page": 2
+    },
+    {
+     "level": 1,
+     "name": "Modern Forms of Money",
+     "page": 3
+    },
+    {
+     "level": 2,
+     "parent": "Modern Forms of Money",
+     "name": "Currency",
+     "page": 3
+    },
+    {
+     "level": 2,
+     "parent": "Modern Forms of Money",
+     "name": "Deposits with Banks",
+     "page": 3
+    },
+    {
+     "level": 2,
+     "parent": "Modern Forms of Money",
+     "name": "Cheque Payments",
+     "page": 4
+    },
+    {
+     "level": 1,
+     "name": "Loan Activities of Banks",
+     "page": 5
+    },
+    {
+     "level": 1,
+     "name": "Two Different Credit Situations",
+     "page": 6
+    },
+    {
+     "level": 2,
+     "parent": "Two Different Credit Situations",
+     "name": "(1) Festival Season",
+     "page": 6
+    },
+    {
+     "level": 2,
+     "parent": "Two Different Credit Situations",
+     "name": "(2) Swapna’s Problem",
+     "page": 6
+    },
+    {
+     "level": 1,
+     "name": "Terms of Credit",
+     "page": 7
+    },
+    {
+     "level": 2,
+     "parent": "Terms of Credit",
+     "name": "A House Loan",
+     "page": 8
+    },
+    {
+     "level": 1,
+     "name": "Variety of Credit Arrangements",
+     "page": 9
+    },
+    {
+     "level": 2,
+     "parent": "Variety of Credit Arrangements",
+     "name": "Loans from Cooperatives",
+     "page": 10
+    },
+    {
+     "level": 1,
+     "name": "Formal Sector Credit in India",
+     "page": 11
+    },
+    {
+     "level": 2,
+     "parent": "Formal Sector Credit in India",
+     "name": "Formal and Informal Credit: Who gets what?",
+     "page": 12
+    },
+    {
+     "level": 1,
+     "name": "Self-Help Groups for the Poor",
+     "page": 13
+    },
+    {
+     "level": 2,
+     "parent": "Self-Help Groups for the Poor",
+     "name": "Grameen Bank of Bangladesh",
+     "page": 15
+    }
+   ]
+  },
+  {
+   "family": "Maths",
+   "heldOut": true,
+   "file": "maths/class8_ganita_prakash.pdf",
+   "chapter": 4,
+   "pages": "PDF pp123-161",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Rectangles and Squares",
+     "page": 124
+    },
+    {
+     "level": 2,
+     "parent": "Rectangles and Squares",
+     "name": "A Carpenter’s Problem",
+     "page": 124
+    },
+    {
+     "level": 2,
+     "parent": "Rectangles and Squares",
+     "name": "The Process of Finding Properties",
+     "page": 129
+    },
+    {
+     "level": 2,
+     "parent": "Rectangles and Squares",
+     "name": "A Special Rectangle",
+     "page": 131
+    },
+    {
+     "level": 2,
+     "parent": "Rectangles and Squares",
+     "name": "Properties of a Square",
+     "page": 134
+    },
+    {
+     "level": 1,
+     "name": "Angles in a Quadrilateral",
+     "page": 135
+    },
+    {
+     "level": 1,
+     "name": "More Quadrilaterals with Parallel Opposite Sides",
+     "page": 136
+    },
+    {
+     "level": 1,
+     "name": "Quadrilaterals with Equal Sidelengths",
+     "page": 140
+    },
+    {
+     "level": 1,
+     "name": "Playing with Quadrilaterals",
+     "page": 144
+    },
+    {
+     "level": 2,
+     "parent": "Playing with Quadrilaterals",
+     "name": "Geoboard Activity",
+     "page": 144
+    },
+    {
+     "level": 2,
+     "parent": "Playing with Quadrilaterals",
+     "name": "Joining Triangles",
+     "page": 145
+    },
+    {
+     "level": 1,
+     "name": "Kite and Trapezium",
+     "page": 146
+    },
+    {
+     "level": 2,
+     "parent": "Kite and Trapezium",
+     "name": "Kite",
+     "page": 146,
+     "note": "added after the first run: the reviewer's own listing hid 4-letter lines; p146 sets 'Kite' in the same 14pt a24327 bold as 'Trapezium'"
+    },
+    {
+     "level": 2,
+     "parent": "Kite and Trapezium",
+     "name": "Trapezium",
+     "page": 147
+    }
+   ]
+  },
+  {
+   "family": "Science",
+   "heldOut": true,
+   "file": "science/class7_curiosity.pdf",
+   "chapter": 11,
+   "pages": "PDF pp173-188",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Sources of Light",
+     "page": 174
+    },
+    {
+     "level": 1,
+     "name": "Does Light Travel in a Straight Line?",
+     "page": 175
+    },
+    {
+     "level": 1,
+     "name": "Light through Transparent, Translucent, and Opaque Materials",
+     "page": 176
+    },
+    {
+     "level": 1,
+     "name": "Shadow Formation",
+     "page": 177
+    },
+    {
+     "level": 1,
+     "name": "Reflection of Light",
+     "page": 179
+    },
+    {
+     "level": 1,
+     "name": "Images Formed in a Plane Mirror",
+     "page": 181
+    },
+    {
+     "level": 1,
+     "name": "Pinhole Camera",
+     "page": 182
+    },
+    {
+     "level": 1,
+     "name": "Making Some Useful Items",
+     "page": 184
+    },
+    {
+     "level": 2,
+     "parent": "Making Some Useful Items",
+     "name": "Periscope",
+     "page": 184
+    },
+    {
+     "level": 2,
+     "parent": "Making Some Useful Items",
+     "name": "Kaleidoscope",
+     "page": 184
+    }
+   ]
+  },
+  {
+   "family": "SS",
+   "heldOut": true,
+   "file": "chapters/gees1/gees105.pdf",
+   "chapter": 5,
+   "pages": "pp1-34",
+   "headings": [
+    {
+     "level": 1,
+     "name": "What is an Empire?",
+     "page": 5
+    },
+    {
+     "level": 2,
+     "parent": "What is an Empire?",
+     "name": "Features of an empire",
+     "page": 6
+    },
+    {
+     "level": 2,
+     "parent": "What is an Empire?",
+     "name": "Trade, trade routes and guilds",
+     "page": 9
+    },
+    {
+     "level": 1,
+     "name": "The Rise of Magadha",
+     "page": 11
+    },
+    {
+     "level": 1,
+     "name": "The Arrival of the Greeks",
+     "page": 14
+    },
+    {
+     "level": 1,
+     "name": "The Mighty Mauryas",
+     "page": 16
+    },
+    {
+     "level": 2,
+     "parent": "The Mighty Mauryas",
+     "name": "The story of Kauṭilya",
+     "page": 17
+    },
+    {
+     "level": 2,
+     "parent": "The Mighty Mauryas",
+     "name": "The rise of Chandragupta Maurya",
+     "page": 18
+    },
+    {
+     "level": 2,
+     "parent": "The Mighty Mauryas",
+     "name": "Kauṭilya’s concept of a kingdom",
+     "page": 19
+    },
+    {
+     "level": 1,
+     "name": "The King Who Chose Peace",
+     "page": 22
+    },
+    {
+     "level": 1,
+     "name": "Life in the Mauryan period",
+     "page": 26
+    },
+    {
+     "level": 2,
+     "parent": "Life in the Mauryan period",
+     "name": "Some Contributions of the Mauryas",
+     "page": 28
+    },
+    {
+     "level": 2,
+     "parent": "Life in the Mauryan period",
+     "name": "Life and people",
+     "page": 28
+    },
+    {
+     "level": 2,
+     "parent": "Life in the Mauryan period",
+     "name": "Art and architecture",
+     "page": 29
+    },
+    {
+     "level": 1,
+     "name": "The Fragile Nature of Empires",
+     "page": 30
+    }
+   ]
+  },
+  {
+   "family": "Science",
+   "file": "science/class6_curiosity.pdf",
+   "chapter": 4,
+   "pages": "PDF pp79-96",
+   "note": "Added in the review of 2026-09-22 to measure the path that adds unnumbered sub-heads under numbered topics (unnumbered_subtopics). Read from the rendered pages pp80, 82, 83, 84, 86, 88, 89, 92, 94 and from every bold line of pp79-96 at 14pt or more: the chapter has no sub-heading; its 14pt lines are activity titles and the 'More to know!' / 'Do you know?' panels. Read after the fix, so not held out.",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Magnetic and Non-magnetic Materials",
+     "page": 80
+    },
+    {
+     "level": 1,
+     "name": "Poles of Magnet",
+     "page": 82
+    },
+    {
+     "level": 1,
+     "name": "Finding Directions",
+     "page": 83
+    },
+    {
+     "level": 1,
+     "name": "Attraction and Repulsion between Magnets",
+     "page": 86
+    },
+    {
+     "level": 1,
+     "name": "Fun with Magnets",
+     "page": 89
+    }
+   ]
+  },
+  {
+   "family": "Maths",
+   "file": "maths/class6_ganita_prakash.pdf",
+   "chapter": 6,
+   "pages": "PDF pp200-221",
+   "note": "Added in the review of 2026-09-22, same path. Read from the rendered pages pp200, 204, 206, 208, 213, 216: the sub-sections are the 14pt blue heads; 'Matha Pachchi!' is a game panel, 'Teacher's Note' a boxed note, and 'Perimeter of an equilateral triangle', 'Split and rejoin', 'Making it More or Less' are 13pt black run-in heads, the third level this file does not count. Read after the fix, so not held out.",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Perimeter",
+     "page": 200
+    },
+    {
+     "level": 2,
+     "parent": "Perimeter",
+     "name": "Perimeter of a rectangle",
+     "page": 200
+    },
+    {
+     "level": 2,
+     "parent": "Perimeter",
+     "name": "Perimeter of a square",
+     "page": 201
+    },
+    {
+     "level": 2,
+     "parent": "Perimeter",
+     "name": "Perimeter of a triangle",
+     "page": 202
+    },
+    {
+     "level": 2,
+     "parent": "Perimeter",
+     "name": "Perimeter of a regular polygon",
+     "page": 206
+    },
+    {
+     "level": 1,
+     "name": "Area",
+     "page": 208
+    },
+    {
+     "level": 1,
+     "name": "Area of a Triangle",
+     "page": 213
+    }
+   ]
+  },
+  {
+   "family": "SS",
+   "file": "chapters/gees1/gees102.pdf",
+   "chapter": 2,
+   "pages": "PDF pp1-18",
+   "note": "Task 7021: sub-headings lettered a) .. e) (pp5-11), read off the rendered pages without their letter. pp15-18 are end matter only.",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Weather and its Elements",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "Weather and its Elements",
+     "name": "What is weather?",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "Weather and its Elements",
+     "name": "Observing Nature’s clues",
+     "page": 4
+    },
+    {
+     "level": 1,
+     "name": "Weather Instruments",
+     "page": 5
+    },
+    {
+     "level": 2,
+     "parent": "Weather Instruments",
+     "name": "Temperature",
+     "page": 5
+    },
+    {
+     "level": 2,
+     "parent": "Weather Instruments",
+     "name": "Precipitation",
+     "page": 7
+    },
+    {
+     "level": 2,
+     "parent": "Weather Instruments",
+     "name": "Atmospheric pressure",
+     "page": 8
+    },
+    {
+     "level": 2,
+     "parent": "Weather Instruments",
+     "name": "Wind",
+     "page": 10
+    },
+    {
+     "level": 2,
+     "parent": "Weather Instruments",
+     "name": "Humidity",
+     "page": 11
+    },
+    {
+     "level": 1,
+     "name": "Weather Stations",
+     "page": 13
+    },
+    {
+     "level": 2,
+     "parent": "Weather Stations",
+     "name": "An automated weather station",
+     "page": 13
+    },
+    {
+     "level": 1,
+     "name": "Predicting the Weather",
+     "page": 13
+    }
+   ]
+  },
+  {
+   "family": "SS",
+   "file": "chapters/fees1/fees114.pdf",
+   "chapter": 14,
+   "pages": "PDF pp1-14",
+   "note": "Task 7021: sub-headings lettered A. .. C. (pp2, 5, 7), read off the rendered pages without their letter. pp13-14 are boxes and end matter only.",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Introduction",
+     "page": 1
+    },
+    {
+     "level": 1,
+     "name": "The Classification of Economic Activities into Economic Sectors",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "The Classification of Economic Activities into Economic Sectors",
+     "name": "Primary activities",
+     "page": 2
+    },
+    {
+     "level": 2,
+     "parent": "The Classification of Economic Activities into Economic Sectors",
+     "name": "Secondary activities",
+     "page": 5
+    },
+    {
+     "level": 2,
+     "parent": "The Classification of Economic Activities into Economic Sectors",
+     "name": "Tertiary activities",
+     "page": 7
+    },
+    {
+     "level": 1,
+     "name": "Interdependence Among Sectors",
+     "page": 8
+    },
+    {
+     "level": 2,
+     "parent": "Interdependence Among Sectors",
+     "name": "Dairy cooperative: from farm to plate",
+     "page": 8
+    }
+   ]
+  }
+ ]
+}

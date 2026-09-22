@@ -2525,6 +2525,28 @@
             "title": "Assessmentid",
             "type": "string"
           },
+          "competencyShare": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Competencyshare"
+          },
+          "competencyTargetMet": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Competencytargetmet"
+          },
           "formattedContent": {
             "default": "",
             "title": "Formattedcontent",
@@ -2560,6 +2582,13 @@
             ],
             "title": "Setlabel"
           },
+          "setOverlap": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Setoverlap",
+            "type": "object"
+          },
           "sets": {
             "items": {
               "$ref": "#/components/schemas/GeneratedPaper"
@@ -2576,6 +2605,17 @@
             },
             "title": "Similarpairs",
             "type": "array"
+          },
+          "tiersAvailable": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tiersavailable"
           },
           "warnings": {
             "items": {
@@ -4926,6 +4966,13 @@
             "title": "Subject",
             "type": "string"
           },
+          "subtopicIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Subtopicids",
+            "type": "array"
+          },
           "supersededBy": {
             "anyOf": [
               {
@@ -4948,11 +4995,54 @@
             ],
             "title": "Tableassetid"
           },
+          "tagConfidence": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "title": "Tagconfidence",
+            "type": "object"
+          },
+          "tagMethod": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tagmethod"
+          },
           "tags": {
             "items": {
               "type": "string"
             },
             "title": "Tags",
+            "type": "array"
+          },
+          "taxonomyChapterId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Taxonomychapterid"
+          },
+          "topicIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Topicids",
             "type": "array"
           },
           "type": {
@@ -15159,6 +15249,70 @@
         "summary": "Agent Score"
       }
     },
+    "/v1/coverage": {
+      "get": {
+        "description": "How much of the bank is answerable, per subject and class.\n\nThe audit found no way to ask this over HTTP (`/v1/coverage` was a 404)\nwhile the MCP server had `coverage_report` -- so the number a buyer could\nread and the number an agent could read came from different places, or in\nthe HTTP case from nowhere. Both now return `QuestionBank.coverage()`\nverbatim (rule Q5).\n\nAggregate counts, so it takes `facets:read` rather than `questions:read`:\nno question text or marking scheme crosses this route.",
+        "operationId": "get_coverage_v1_coverage_get",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-API-Key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Coverage",
+        "tags": [
+          "question-bank"
+        ]
+      }
+    },
     "/v1/facets": {
       "get": {
         "description": "The filter vocabulary and its counts under the current filter.",
@@ -15437,7 +15591,7 @@
     },
     "/v1/questions": {
       "get": {
-        "description": "Paged, filtered question list. The workhorse endpoint.",
+        "description": "Paged, filtered question list. The workhorse endpoint.\n\n**Answer-keyed by default (rule Q1).** See `_q1_filter` for the two ways\nto ask for the rest.",
         "operationId": "list_questions_v1_questions_get",
         "parameters": [
           {
@@ -15569,6 +15723,7 @@
             }
           },
           {
+            "description": "true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing.",
             "in": "query",
             "name": "has_scheme",
             "required": false,
@@ -15581,6 +15736,7 @@
                   "type": "null"
                 }
               ],
+              "description": "true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing.",
               "title": "Has Scheme"
             }
           },
@@ -15653,6 +15809,18 @@
               "default": false,
               "description": "include facet counts",
               "title": "Facets",
+              "type": "boolean"
+            }
+          },
+          {
+            "description": "serve questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in.",
+            "in": "query",
+            "name": "include_unkeyed",
+            "required": false,
+            "schema": {
+              "default": false,
+              "description": "serve questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in.",
+              "title": "Include Unkeyed",
               "type": "boolean"
             }
           },
@@ -15979,7 +16147,7 @@
     },
     "/v1/subtopics/{subtopic_id}/questions": {
       "get": {
-        "description": "Curriculum-driven listing: everything tagged to one subtopic.",
+        "description": "Curriculum-driven listing: everything tagged to one subtopic.\n\nAnswer-keyed by default, like `/v1/questions` -- a rule that held on one\nlisting route and not its neighbour would not be a rule.",
         "operationId": "questions_for_subtopic_v1_subtopics__subtopic_id__questions_get",
         "parameters": [
           {
@@ -16017,6 +16185,16 @@
                 }
               ],
               "title": "Cursor"
+            }
+          },
+          {
+            "in": "query",
+            "name": "include_unkeyed",
+            "required": false,
+            "schema": {
+              "default": false,
+              "title": "Include Unkeyed",
+              "type": "boolean"
             }
           },
           {

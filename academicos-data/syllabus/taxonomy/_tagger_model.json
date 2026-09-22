@@ -1,0 +1,155 @@
+{
+ "notice": "Confidence model and thresholds of academicos.syllabus.tagger, fitted by scripts/calibrate_topic_tagger.py on _tag_gold.json (AI-reviewer labels, not a teacher's). Thresholds are chosen at selectAt out-of-fold, a margin over the target bar. Quote the nested numbers (the choice of cut included); outOfFold is >= selectAt by construction; inSample flatters.",
+ "method": "tfidf_textbook_v2",
+ "builtAt": "2026-09-22T16:29:49.891439+00:00",
+ "target": 0.9,
+ "selectAt": 0.93,
+ "minSupport": 10,
+ "features": {
+  "chapter": [
+   "best",
+   "margin",
+   "heading",
+   "prior",
+   "hasPrior",
+   "idPrior"
+  ],
+  "topic": [
+   "best",
+   "margin",
+   "heading",
+   "single"
+  ],
+  "subtopic": [
+   "best",
+   "margin",
+   "heading"
+  ]
+ },
+ "coefficients": {
+  "chapter": {
+   "bias": -1.5331844419468375,
+   "best": 12.192300327814323,
+   "margin": 9.87528949697676,
+   "heading": 2.9079205827728414,
+   "prior": 1.1178209528697118,
+   "hasPrior": -2.3845495676807,
+   "idPrior": 1.6919520690847414
+  },
+  "topic": {
+   "bias": 0.323140591977116,
+   "best": -2.0353678008591474,
+   "margin": 23.60332529181669,
+   "heading": 0.9376639282982081,
+   "single": 0.015110714655182397
+  },
+  "subtopic": {
+   "bias": 0.922024724812504,
+   "best": -3.5767338228687264,
+   "margin": 10.564227314133303,
+   "heading": -0.2607108349831598
+  }
+ },
+ "thresholds": {
+  "chapter": 0.734173,
+  "topic": 0.763954,
+  "subtopic": 0.685029
+ },
+ "trainedOn": {
+  "chapter": {
+   "items": 328,
+   "right": 193
+  },
+  "topic": {
+   "items": 186,
+   "right": 146
+  },
+  "subtopic": {
+   "items": 123,
+   "right": 95
+  }
+ },
+ "gold": {
+  "items": 389,
+  "folds": 5,
+  "seed": 703,
+  "nested": {
+   "accepted": {
+    "chapter": {
+     "right": 120,
+     "tags": 129,
+     "precision": 0.9302,
+     "wilsonLower95": 0.8727
+    },
+    "topic": {
+     "right": 51,
+     "tags": 55,
+     "precision": 0.9273,
+     "wilsonLower95": 0.8274
+    },
+    "subtopic": {
+     "right": 40,
+     "tags": 43,
+     "precision": 0.9302,
+     "wilsonLower95": 0.8139
+    }
+   }
+  },
+  "outOfFold": {
+   "accepted": {
+    "chapter": {
+     "right": 135,
+     "tags": 145,
+     "precision": 0.931
+    },
+    "topic": {
+     "right": 50,
+     "tags": 53,
+     "precision": 0.9434
+    },
+    "subtopic": {
+     "right": 47,
+     "tags": 50,
+     "precision": 0.94
+    }
+   }
+  },
+  "inSample": {
+   "items": 389,
+   "raw": {
+    "chapter": {
+     "right": 193,
+     "of": 328,
+     "accuracy": 0.5884
+    },
+    "topic": {
+     "right": 146,
+     "of": 321,
+     "accuracy": 0.4548
+    },
+    "subtopic": {
+     "right": 95,
+     "of": 187,
+     "accuracy": 0.508
+    }
+   },
+   "accepted": {
+    "chapter": {
+     "right": 131,
+     "tags": 141,
+     "precision": 0.9291
+    },
+    "topic": {
+     "right": 53,
+     "tags": 56,
+     "precision": 0.9464
+    },
+    "subtopic": {
+     "right": 47,
+     "tags": 49,
+     "precision": 0.9592
+    }
+   }
+  }
+ }
+}

@@ -49,7 +49,17 @@ mixin _$Question {
   String? get diagramAssetId => throw _privateConstructorUsedError;
   String? get mapAssetId => throw _privateConstructorUsedError;
   String? get graphAssetId => throw _privateConstructorUsedError;
-  String? get tableAssetId => throw _privateConstructorUsedError;
+  String? get tableAssetId =>
+      throw _privateConstructorUsedError; // Taxonomy tags (scripts/tag_question_bank.py --topics): ids from
+// academicos-data/syllabus/taxonomy, written only where the tagger's
+// confidence clears the gold-set threshold. Optional with empty defaults
+// -- most banks do not carry them, and fromJson throws on a missing
+// required field.
+  String? get taxonomyChapterId => throw _privateConstructorUsedError;
+  List<String> get topicIds => throw _privateConstructorUsedError;
+  List<String> get subtopicIds => throw _privateConstructorUsedError;
+  Map<String, double?> get tagConfidence => throw _privateConstructorUsedError;
+  String? get tagMethod => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -88,7 +98,12 @@ abstract class $QuestionCopyWith<$Res> {
       String? diagramAssetId,
       String? mapAssetId,
       String? graphAssetId,
-      String? tableAssetId});
+      String? tableAssetId,
+      String? taxonomyChapterId,
+      List<String> topicIds,
+      List<String> subtopicIds,
+      Map<String, double?> tagConfidence,
+      String? tagMethod});
 
   $AnswerSchemeCopyWith<$Res> get answerScheme;
 }
@@ -132,6 +147,11 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
     Object? mapAssetId = freezed,
     Object? graphAssetId = freezed,
     Object? tableAssetId = freezed,
+    Object? taxonomyChapterId = freezed,
+    Object? topicIds = null,
+    Object? subtopicIds = null,
+    Object? tagConfidence = null,
+    Object? tagMethod = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -238,6 +258,26 @@ class _$QuestionCopyWithImpl<$Res, $Val extends Question>
           ? _value.tableAssetId
           : tableAssetId // ignore: cast_nullable_to_non_nullable
               as String?,
+      taxonomyChapterId: freezed == taxonomyChapterId
+          ? _value.taxonomyChapterId
+          : taxonomyChapterId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      topicIds: null == topicIds
+          ? _value.topicIds
+          : topicIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      subtopicIds: null == subtopicIds
+          ? _value.subtopicIds
+          : subtopicIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      tagConfidence: null == tagConfidence
+          ? _value.tagConfidence
+          : tagConfidence // ignore: cast_nullable_to_non_nullable
+              as Map<String, double?>,
+      tagMethod: freezed == tagMethod
+          ? _value.tagMethod
+          : tagMethod // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -284,7 +324,12 @@ abstract class _$$QuestionImplCopyWith<$Res>
       String? diagramAssetId,
       String? mapAssetId,
       String? graphAssetId,
-      String? tableAssetId});
+      String? tableAssetId,
+      String? taxonomyChapterId,
+      List<String> topicIds,
+      List<String> subtopicIds,
+      Map<String, double?> tagConfidence,
+      String? tagMethod});
 
   @override
   $AnswerSchemeCopyWith<$Res> get answerScheme;
@@ -327,6 +372,11 @@ class __$$QuestionImplCopyWithImpl<$Res>
     Object? mapAssetId = freezed,
     Object? graphAssetId = freezed,
     Object? tableAssetId = freezed,
+    Object? taxonomyChapterId = freezed,
+    Object? topicIds = null,
+    Object? subtopicIds = null,
+    Object? tagConfidence = null,
+    Object? tagMethod = freezed,
   }) {
     return _then(_$QuestionImpl(
       id: null == id
@@ -433,6 +483,26 @@ class __$$QuestionImplCopyWithImpl<$Res>
           ? _value.tableAssetId
           : tableAssetId // ignore: cast_nullable_to_non_nullable
               as String?,
+      taxonomyChapterId: freezed == taxonomyChapterId
+          ? _value.taxonomyChapterId
+          : taxonomyChapterId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      topicIds: null == topicIds
+          ? _value._topicIds
+          : topicIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      subtopicIds: null == subtopicIds
+          ? _value._subtopicIds
+          : subtopicIds // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      tagConfidence: null == tagConfidence
+          ? _value._tagConfidence
+          : tagConfidence // ignore: cast_nullable_to_non_nullable
+              as Map<String, double?>,
+      tagMethod: freezed == tagMethod
+          ? _value.tagMethod
+          : tagMethod // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -466,12 +536,20 @@ class _$QuestionImpl implements _Question {
       this.diagramAssetId,
       this.mapAssetId,
       this.graphAssetId,
-      this.tableAssetId})
+      this.tableAssetId,
+      this.taxonomyChapterId,
+      final List<String> topicIds = const [],
+      final List<String> subtopicIds = const [],
+      final Map<String, double?> tagConfidence = const {},
+      this.tagMethod})
       : _chapterIds = chapterIds,
         _competencyIds = competencyIds,
         _parts = parts,
         _tags = tags,
-        _metadata = metadata;
+        _metadata = metadata,
+        _topicIds = topicIds,
+        _subtopicIds = subtopicIds,
+        _tagConfidence = tagConfidence;
 
   factory _$QuestionImpl.fromJson(Map<String, dynamic> json) =>
       _$$QuestionImplFromJson(json);
@@ -563,10 +641,46 @@ class _$QuestionImpl implements _Question {
   final String? graphAssetId;
   @override
   final String? tableAssetId;
+// Taxonomy tags (scripts/tag_question_bank.py --topics): ids from
+// academicos-data/syllabus/taxonomy, written only where the tagger's
+// confidence clears the gold-set threshold. Optional with empty defaults
+// -- most banks do not carry them, and fromJson throws on a missing
+// required field.
+  @override
+  final String? taxonomyChapterId;
+  final List<String> _topicIds;
+  @override
+  @JsonKey()
+  List<String> get topicIds {
+    if (_topicIds is EqualUnmodifiableListView) return _topicIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_topicIds);
+  }
+
+  final List<String> _subtopicIds;
+  @override
+  @JsonKey()
+  List<String> get subtopicIds {
+    if (_subtopicIds is EqualUnmodifiableListView) return _subtopicIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_subtopicIds);
+  }
+
+  final Map<String, double?> _tagConfidence;
+  @override
+  @JsonKey()
+  Map<String, double?> get tagConfidence {
+    if (_tagConfidence is EqualUnmodifiableMapView) return _tagConfidence;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_tagConfidence);
+  }
+
+  @override
+  final String? tagMethod;
 
   @override
   String toString() {
-    return 'Question(id: $id, questionBankId: $questionBankId, subject: $subject, grade: $grade, chapterIds: $chapterIds, competencyIds: $competencyIds, bloomLevel: $bloomLevel, difficulty: $difficulty, type: $type, stem: $stem, stemLatex: $stemLatex, parts: $parts, answerScheme: $answerScheme, estimatedTimeMinutes: $estimatedTimeMinutes, marks: $marks, language: $language, source: $source, qualityScore: $qualityScore, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt, metadata: $metadata, diagramAssetId: $diagramAssetId, mapAssetId: $mapAssetId, graphAssetId: $graphAssetId, tableAssetId: $tableAssetId)';
+    return 'Question(id: $id, questionBankId: $questionBankId, subject: $subject, grade: $grade, chapterIds: $chapterIds, competencyIds: $competencyIds, bloomLevel: $bloomLevel, difficulty: $difficulty, type: $type, stem: $stem, stemLatex: $stemLatex, parts: $parts, answerScheme: $answerScheme, estimatedTimeMinutes: $estimatedTimeMinutes, marks: $marks, language: $language, source: $source, qualityScore: $qualityScore, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt, metadata: $metadata, diagramAssetId: $diagramAssetId, mapAssetId: $mapAssetId, graphAssetId: $graphAssetId, tableAssetId: $tableAssetId, taxonomyChapterId: $taxonomyChapterId, topicIds: $topicIds, subtopicIds: $subtopicIds, tagConfidence: $tagConfidence, tagMethod: $tagMethod)';
   }
 
   @override
@@ -615,7 +729,16 @@ class _$QuestionImpl implements _Question {
             (identical(other.graphAssetId, graphAssetId) ||
                 other.graphAssetId == graphAssetId) &&
             (identical(other.tableAssetId, tableAssetId) ||
-                other.tableAssetId == tableAssetId));
+                other.tableAssetId == tableAssetId) &&
+            (identical(other.taxonomyChapterId, taxonomyChapterId) ||
+                other.taxonomyChapterId == taxonomyChapterId) &&
+            const DeepCollectionEquality().equals(other._topicIds, _topicIds) &&
+            const DeepCollectionEquality()
+                .equals(other._subtopicIds, _subtopicIds) &&
+            const DeepCollectionEquality()
+                .equals(other._tagConfidence, _tagConfidence) &&
+            (identical(other.tagMethod, tagMethod) ||
+                other.tagMethod == tagMethod));
   }
 
   @JsonKey(ignore: true)
@@ -647,7 +770,12 @@ class _$QuestionImpl implements _Question {
         diagramAssetId,
         mapAssetId,
         graphAssetId,
-        tableAssetId
+        tableAssetId,
+        taxonomyChapterId,
+        const DeepCollectionEquality().hash(_topicIds),
+        const DeepCollectionEquality().hash(_subtopicIds),
+        const DeepCollectionEquality().hash(_tagConfidence),
+        tagMethod
       ]);
 
   @JsonKey(ignore: true)
@@ -691,7 +819,12 @@ abstract class _Question implements Question {
       final String? diagramAssetId,
       final String? mapAssetId,
       final String? graphAssetId,
-      final String? tableAssetId}) = _$QuestionImpl;
+      final String? tableAssetId,
+      final String? taxonomyChapterId,
+      final List<String> topicIds,
+      final List<String> subtopicIds,
+      final Map<String, double?> tagConfidence,
+      final String? tagMethod}) = _$QuestionImpl;
 
   factory _Question.fromJson(Map<String, dynamic> json) =
       _$QuestionImpl.fromJson;
@@ -752,6 +885,20 @@ abstract class _Question implements Question {
   String? get graphAssetId;
   @override
   String? get tableAssetId;
+  @override // Taxonomy tags (scripts/tag_question_bank.py --topics): ids from
+// academicos-data/syllabus/taxonomy, written only where the tagger's
+// confidence clears the gold-set threshold. Optional with empty defaults
+// -- most banks do not carry them, and fromJson throws on a missing
+// required field.
+  String? get taxonomyChapterId;
+  @override
+  List<String> get topicIds;
+  @override
+  List<String> get subtopicIds;
+  @override
+  Map<String, double?> get tagConfidence;
+  @override
+  String? get tagMethod;
   @override
   @JsonKey(ignore: true)
   _$$QuestionImplCopyWith<_$QuestionImpl> get copyWith =>
