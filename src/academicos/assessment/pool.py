@@ -431,6 +431,20 @@ def _exact_tokens(norm: str) -> _ExactTokens:
                         tuple(m.end() for m in found), text)
 
 
+# How many exact tokens the shorter stem needs before one extra token in the
+# middle of the longer is read as extraction noise. The different questions
+# the measure must keep apart differ by one to three tokens out of at most
+# eight (RADICAL: 1 against 4; ROOT_K: 8 against 8); the one real duplicate
+# differing mid-stem shares 39.
+_MIDDLE_INSERT_MIN_TOKENS = 10
+
+
+def _one_insertion(short: tuple[str, ...], long_: tuple[str, ...]) -> bool:
+    """`long_` is `short` with one token added somewhere."""
+    i = next((k for k, (x, y) in enumerate(zip(short, long_)) if x != y), len(short))
+    return short[i:] == long_[i + 1:]
+
+
 def _same_exact_tokens(a: _ExactTokens, b: _ExactTokens) -> bool:
     """Equal, or one the other cut short: extraction cuts a question short
     at the end ("(D) 2x + x 3 =" in one paper, "... = 5" in the other), it
@@ -443,11 +457,22 @@ def _same_exact_tokens(a: _ExactTokens, b: _ExactTokens) -> bool:
     extra numbers sit in the middle, not after a cut. A stem with none of
     them against one with some is not a cut copy either: "Prove that is an
     irrational number" lost its radicand, and matched both "root 5" and
-    "root 3" otherwise."""
+    "root 3" otherwise.
+
+    One stray token in the middle of a long run is a copy too: the
+    Hindi-medium frequency-table case study, its words lost, reads "... 20
+    -24 1 x y 12 x y" in one paper and "... 20 -24 1 x y x y" in two others
+    (Task 906's code review). 39 tokens agreeing in order but one is
+    extraction noise, not a different question; one token against four
+    ("3" against "3 + 2 5") is. So the exception needs the shorter to carry
+    `_MIDDLE_INSERT_MIN_TOKENS` and the longer exactly one more."""
     short, long_ = (a, b) if len(a.tokens) <= len(b.tokens) else (b, a)
     n = len(short.tokens)
     if not n:
         return not long_.tokens
+    if (n >= _MIDDLE_INSERT_MIN_TOKENS and len(long_.tokens) == n + 1
+            and _one_insertion(short.tokens, long_.tokens)):
+        return True
     if long_.tokens[:n] != short.tokens:
         return False
     if n == len(long_.tokens):
@@ -487,11 +512,13 @@ def near_duplicate(a: str, b: str) -> bool:
     (2026-09-22): Mathematics 17 pairs, every one the same question as it
     prints (an MCQ in two papers, a page footer or a cut copy apart);
     Science 0 of 408 questions. With signs, folded superscripts and the
-    cut-at-the-end check: Mathematics 15, Science 0. The two it let go are
-    one Hindi-medium frequency-table question (f362e1b5f114f91a against
-    ae497fcc14c0b5ec and 044c59c402f9020a) whose words extraction lost, one
-    copy carrying an extra "12" mid-stem: the same shape as root 3 against
-    3 + 2 root 5, and from the numbers alone not told apart from it."""
+    cut-at-the-end check: Mathematics 15, Science 0, which let one
+    Hindi-medium frequency-table question print twice (a stray "12" in the
+    middle of one copy). With one mid-stem token allowed in a long run
+    (`_MIDDLE_INSERT_MIN_TOKENS`): Mathematics 17 (the
+    15 plus that question against its two other copies,
+    0b075a8b722f16f272c0cc4d:34 against db32b7ab98169b625243c09e:32 and
+    c42982ff54131ed0d5b7d9b0:35, and nothing else), Science 0."""
     na, sa, ca, xa = _stem_key(a)
     nb, sb, cb, xb = _stem_key(b)
     if na == nb:

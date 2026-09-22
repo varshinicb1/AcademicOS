@@ -468,6 +468,17 @@ FOOTER = (
     "(D) 2a + b = 5| P a g e",
     "x = 1 y = 2, 2x -3y + a = 0 2x + 3y -b = 0 , (A) a = 2b (B) 2a = b (C) a + 2b = 0 "
     "(D) 2a + b = 9| P a g e")
+# ... and one question whose copies differ by one token in the middle: the
+# Hindi-medium frequency-table case study, its words lost in extraction, one
+# copy carrying a stray "12" before its last "x y" (Task 906's code review,
+# cbse:q:src:0b075a8b722f16f272c0cc4d:34 against
+# cbse:q:src:db32b7ab98169b625243c09e:32, and against
+# cbse:q:src:c42982ff54131ed0d5b7d9b0:35 with its page footer). The
+# cut-at-the-end rule alone let both pairs print on one paper.
+_FREQ_TABLE = ("( ) (mm ) 100 -120 8 120 -140 9 140 -160 12 160 -180 5 180 -200 6 mm ( ) "
+               "(Record) 0 -4 4 -8 8 -12 12 -16 16 -20 20 -24 1 x y")
+FREQ_TABLE = (_FREQ_TABLE + " 12 x y", _FREQ_TABLE + " x y")
+FREQ_TABLE_FOOTER = (_FREQ_TABLE + " 12 x y", _FREQ_TABLE + " x y # 17| P a g e")
 
 
 def test_numbers_polarity_and_functions_tell_different_questions_apart():
@@ -478,7 +489,8 @@ def test_numbers_polarity_and_functions_tell_different_questions_apart():
         assert not pool_mod.near_duplicate(a, b), (a, b)
         assert not pool_mod.near_duplicate(b, a), (a, b)
     # A page footer or a copy cut short is not a different question.
-    for a, b in (FACTORISE, FOOTER, (QUADRATIC_A[1], QUADRATIC_B[1])):
+    for a, b in (FACTORISE, FOOTER, (QUADRATIC_A[1], QUADRATIC_B[1]), FREQ_TABLE,
+                 FREQ_TABLE_FOOTER):
         assert pool_mod.near_duplicate(a, b), (a, b)
         assert pool_mod.near_duplicate(b, a), (a, b)
 
