@@ -52,6 +52,7 @@ import requests
 
 from .supabase_kv import SupabaseUnavailable
 from .postgres_kv import durable_table
+from ..config import demo_accounts_enabled
 
 logger = logging.getLogger(__name__)
 
@@ -121,6 +122,11 @@ class UserStore:
 
     def _seed_default_users_if_empty(self) -> None:
         if "PYTEST_CURRENT_TEST" in os.environ:
+            return
+        # Never on the GCP release: login falls back to this SQLite file when
+        # Cloud SQL has no row, so a seeded principal@school.com/password123
+        # would be a known principal password on a school's service.
+        if not demo_accounts_enabled():
             return
         with self._conn_lock:
             count = self.conn.execute("SELECT COUNT(*) FROM users").fetchone()[0]

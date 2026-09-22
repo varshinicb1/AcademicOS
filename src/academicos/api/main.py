@@ -33,7 +33,8 @@ from ..assessment.qbank_store import ReviewStateError
 from ..llm.sarvam import LLMProviderError
 from ..assessment.postgres_kv import durable_table
 from ..assessment.auth_routes import get_current_user
-from ..config import Config, get_config
+from ..config import (Config, LLMNotEnabled, build_identity, enforce_production_config,
+                      get_config, is_production)
 from ..curriculum import routes as curriculum_routes
 from ..graph.store import GraphStore
 from ..llm.budget import LLMBudgetExceeded, llm_budget
@@ -130,7 +131,10 @@ else:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=_cors_origins,
-        allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$|^https://.*\.onrender\.com$|^https://.*\.web\.app$|^https://.*\.firebaseapp\.com$|^https://.*\.github\.io$",
+        # Any *.web.app is ANY Firebase site, not this school's. In production
+        # only the origins CI passes in ACOS_CORS_ORIGINS (the project's own
+        # web.app / firebaseapp.com) are answered; the wildcards stay for dev.
+        allow_origin_regex=None if is_production() else r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$|^https://.*\.onrender\.com$|^https://.*\.web\.app$|^https://.*\.firebaseapp\.com$|^https://.*\.github\.io$",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
@@ -235,6 +239,16 @@ def _on_llm_evaluation_error(_request: Any, exc: LLMEvaluationError) -> JSONResp
         status_code=502,
         content={"detail": "the language model returned an unusable response"},
     )
+
+
+@app.exception_handler(LLMNotEnabled)
+def _on_llm_not_enabled(_request: Any, exc: LLMNotEnabled) -> JSONResponse:
+    """501: this deployment has no AI provider key. Not 503 -- retrying will
+    never help until an administrator configures one -- and a distinct `code`
+    so a client can show "not enabled for this school" rather than an error."""
+    logger.info("LLM feature requested with no provider key configured")
+    return JSONResponse(status_code=501,
+                        content={"detail": str(exc), "code": "llm_not_enabled"})
 
 
 class SearchRequest(BaseModel):
@@ -350,7 +364,14 @@ def init_runtime(config: Optional[Config] = None) -> None:
 
 @app.on_event("startup")
 def _startup() -> None:
-    init_runtime()
+    cfg = Config.load()
+    # First, before any store opens: a misconfigured production service must
+    # fail to start (the Cloud Run revision never goes ready and the deploy
+    # goes red) rather than serve a school on placeholder secrets.
+    enforce_production_config(cfg)
+    from ..assessment.pdf import register_unicode_font
+    logger.info("PDF body font: %s", register_unicode_font())
+    init_runtime(cfg)
 
 
 @app.on_event("shutdown")
@@ -365,7 +386,10 @@ def _shutdown() -> None:
 
 @app.get("/health")
 def health() -> dict:
-    return {"status": "ok"}
+    """Liveness plus build identity. The 2026-09-21 audit found the live
+    service a build 4+ days behind its source and unable to say so; the deploy
+    job now fails unless `commit` is the commit it just deployed."""
+    return {"status": "ok", **build_identity()}
 
 
 @app.get("/health/llm")

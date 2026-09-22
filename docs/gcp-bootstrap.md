@@ -37,7 +37,7 @@ Anything else can be overridden; all have defaults:
 |---|---|---|
 | `REGION` | `asia-south1` | Mumbai — closest to the schools, and the DPDP story |
 | `GITHUB_REPO` | `varshinicb1/AcademicOS` | The **only** repo trusted to deploy |
-| `SQL_TIER` | `db-f1-micro` | Bump to `db-g1-small` when onboarding real schools |
+| `SQL_TIER` | `db-custom-1-3840` | Dedicated core. `db-g1-small` is cheaper but shared-core (trial only; set `SQL_PITR=0` with it). The instance is created with `--edition=ENTERPRISE`: new Postgres instances otherwise default to Enterprise Plus, which rejects every shared-core tier (`Invalid Tier (db-g1-small) for (ENTERPRISE_PLUS) Edition`, 2026-09-22) |
 | `SKIP_SQL` / `SKIP_FIREBASE` | `0` | Set to `1` to skip that piece |
 
 The script is **idempotent**. If it fails halfway (a quota, a transient API
@@ -79,7 +79,7 @@ redeploys, ever.
    gh variable set AR_IMAGE         --body "asia-south1-docker.pkg.dev/…/academicos/backend"
    gh variable set GCS_MEDIA_BUCKET --body "your-project-id-academicos-media"
    gh variable set SQL_CONNECTION   --body "your-project-id:asia-south1:academicos-pg"
-   gh variable set CORS_ORIGINS     --body "https://your-project-id.web.app"
+   gh variable set CORS_ORIGINS     --body "https://your-project-id.web.app,https://your-project-id.firebaseapp.com"
    ```
 
 2. **Paste the real secret values** (never into git):
@@ -87,9 +87,15 @@ redeploys, ever.
    ```bash
    printf '%s' 'https://<proj>.supabase.co' | gcloud secrets versions add supabase-url --data-file=-
    printf '%s' '<anon-key>'                 | gcloud secrets versions add supabase-anon-key --data-file=-
-   printf '%s' '<bootstrap-key>'            | gcloud secrets versions add principal-bootstrap-key --data-file=-
+   openssl rand -hex 32 | tr -d '\n'       | gcloud secrets versions add principal-bootstrap-key --data-file=-
    printf '%s' '<sarvam-api-key>'           | gcloud secrets versions add acos-llm-api-key --data-file=-
    ```
+
+   The service **refuses to start** (`ACOS_ENV=production`, see
+   `docs/gcp-deployment.md` §4) while `principal-bootstrap-key` or
+   `postgres-password` is still `REPLACE_ME` or empty, or the bootstrap key
+   is under 32 characters. `acos-llm-api-key` may stay `REPLACE_ME`: that is
+   a school without AI features, which answer "not enabled for this school".
 
 3. **Apply the database schema** (and again after any change to
    `deploy/gcp/schema.sql` — CI never applies it; see

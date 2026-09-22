@@ -207,7 +207,11 @@ def add_page(session: ScanSession, image_bytes: bytes, *, language: str = "en-IN
     step degrades to "keep the raw/less-processed image and flag a warning"
     rather than losing the page — one bad photo should not sink a 12-page
     booklet a teacher already captured.
+
+    No provider key is not a bad photo: OCR would fail on every page and each
+    would be stored as blank. Refused up front with LLMNotEnabled instead.
     """
+    vision.api_key()
     page_no = len(session.pages) + 1
     raw_dir = session.workdir / "raw"
     raw_dir.mkdir(parents=True, exist_ok=True)

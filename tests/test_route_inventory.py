@@ -532,7 +532,7 @@ def test_health_without_startup():
     finally:
         client.close()
     assert r.status_code == 200
-    assert r.json() == {"status": "ok"}
+    assert r.json()["status"] == "ok" and set(r.json()) == {"status", "commit", "builtAt"}
 
 
 def test_non_gated_routes_work_without_startup():
@@ -686,7 +686,7 @@ def test_full_boot_v1_surface_requires_auth(tmp_path, monkeypatch):
     from test_assessment_routes_auth import _register
 
     with _boot_client(tmp_path, monkeypatch) as client:
-        assert client.get("/health").json() == {"status": "ok"}
+        assert client.get("/health").json()["status"] == "ok"
 
         # No token -> 401 on every route in this surface, including the
         # cheapest read, so nothing here is anonymously reachable.

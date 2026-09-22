@@ -130,6 +130,61 @@ set.
 
 CI does **not** apply `deploy/gcp/schema.sql`. That is a manual step, §6.
 
+**Build identity.** The workflow passes the commit it is deploying to Cloud
+Build (`_COMMIT_SHA`, `_BUILT_AT`), the Dockerfile bakes them in as
+`ACOS_BUILD_COMMIT` / `ACOS_BUILT_AT`, and `GET /health` answers
+`{"status": "ok", "commit": "<sha>", "builtAt": "<utc time>"}`. After the
+deploy the job polls `/health` and **fails unless `commit` equals the commit
+it deployed** (`deploy/gcp/check_served_commit.py`). The 2026-09-21 audit
+found the Render release serving a build 4+ days older than its source,
+reporting `0.1.0` and nothing else; this is the check that would have caught
+it. `commit: "unknown"` means an image built outside the workflow.
+
+**Production guard.** The deploy sets `ACOS_ENV=production`, and the service
+also treats a Cloud SQL socket host (`ACOS_POSTGRES_HOST=/cloudsql/...`) as
+production. There, startup fails, with one `REFUSING TO START (production
+config): ...` log line per problem, if:
+
+- `ACOS_PRINCIPAL_BOOTSTRAP_KEY` or `ACOS_POSTGRES_PASSWORD` is empty or the
+  bootstrap placeholder `REPLACE_ME`;
+- the principal bootstrap key is shorter than 32 characters;
+- CORS allows `*`, or any origin is not `https://` (which is what an unset
+  `CORS_ORIGINS` gives: the localhost dev list);
+- `ACOS_DEMO_ACCOUNTS` is on (the demo principal's password is `password123`;
+  demo accounts are otherwise never seeded in production);
+- an LLM key is set and an LLM feature's base URL is not a host in
+  `docs/compliance.md`'s LLM provider table.
+
+A revision that fails to start never becomes ready, so the previous one keeps
+serving and the `/health` commit check turns the job red. Local, dev and test
+runs are never refused.
+
+**CORS.** `CORS_ORIGINS` is the Firebase Hosting origins, comma-separated;
+for vidyuthlabs: `https://vidyuthlabs.web.app,https://vidyuthlabs.firebaseapp.com`.
+In production only these are answered; the `*.web.app` / `*.onrender.com`
+wildcards the app accepts in development (any Firebase site, not just this
+one) are switched off. Add a school's custom domain here when it is attached.
+
+**LLM provider: explicit, and the school's decision.** One Secret Manager
+entry, `acos-llm-api-key`, is injected under both names the code reads:
+`SARVAM_API_KEY` (scan OCR, `assessment/vision.py`; AI marking,
+`assessment/llm_evaluate.py`; curriculum extraction, `llm/sarvam.py`) and
+`ACOS_LLM_API_KEY` (the doubt critic). The critic's endpoint is
+`ACOS_LLM_BASE_URL` / `ACOS_LLM_MODEL`, set from the optional `LLM_BASE_URL`
+/ `LLM_MODEL` repo variables; unset, it falls back to `config/config.toml`,
+whose `llm_base_url` is Groq, which the production guard refuses because no
+document lists Groq as a vendor. With the secret left at `REPLACE_ME` no
+provider is called at all: scan capture and AI marking answer
+**501 `{"code": "llm_not_enabled"}`** ("not enabled for this school") instead
+of storing blank pages or a booklet of needs-review zeros.
+
+| Env var (Cloud Run) | Set from | Read by |
+|---|---|---|
+| `SARVAM_API_KEY` | secret `acos-llm-api-key` | scan OCR, AI marking, curriculum extraction |
+| `ACOS_LLM_API_KEY` | secret `acos-llm-api-key` | doubt critic |
+| `ACOS_LLM_BASE_URL` | repo variable `LLM_BASE_URL` (optional) | doubt critic |
+| `ACOS_LLM_MODEL` | repo variable `LLM_MODEL` (optional) | doubt critic |
+
 Note the frontend job depends on the backend job: the API URL is baked into
 the Dart build, so it must be compiled *after* the backend URL is known.
 
@@ -138,13 +193,25 @@ Keep the Render service warm for a week as instant rollback.
 
 ## 5. Frontend web: Firebase Hosting (optional move)
 
+The workflow's frontend job does this on every deploy; by hand it is:
+
 ```bash
 cd frontend
 flutter build web --release \
   --dart-define=ACADEMICOS_API=https://academicos-backend-xxx.a.run.app/api/v1
-firebase init hosting   # public dir: build/web, single-page rewrites on
-firebase deploy --only hosting
+rm -f build/web/assets/assets/corpus/questions.json   # offline-only asset
+cd .. && firebase deploy --only hosting --project vidyuthlabs
 ```
+
+Never pass `ACADEMICOS_OFFLINE` to a web build (that is the standalone
+Android app). `firebase.json` at the repo root holds the Hosting config:
+public dir `frontend/build/web`, single-page rewrites, and on every response
+`Strict-Transport-Security`, `X-Content-Type-Options: nosniff`,
+`Referrer-Policy: strict-origin-when-cross-origin`, and
+`Content-Security-Policy: frame-ancestors 'none'` (plus `X-Frame-Options:
+DENY` for older browsers). The CSP restricts framing only, on purpose: a
+`script-src` would have to allow `'wasm-unsafe-eval'` and `blob:` for the
+Flutter renderers, and getting that wrong blanks the app.
 
 Then attach the school's domain in the Firebase console (free Google-
 managed SSL). Skip this entirely if GitHub Pages is fine — the app only
@@ -155,6 +222,25 @@ cares about the `ACADEMICOS_API` value baked in at build time.
 0. **Apply the Cloud SQL schema — required before the first deploy, and
    again after any change to `deploy/gcp/schema.sql`** (before the deploy
    that ships code using it):
+
+   **First, check for duplicate emails.** A schema change that makes
+   `users.email` unique (the invites work, Task 301, drops `idx_users_email`
+   and creates a UNIQUE index) fails on a database that already holds two
+   accounts with the same email, and the script runs under `ON_ERROR_STOP`,
+   so every statement after it (the invites table included) is never
+   applied. Run this first (`gcloud sql connect academicos-pg
+   --user=academicos --database=academicos --project vidyuthlabs`):
+
+   ```sql
+   SELECT lower(email), count(*) FROM users GROUP BY 1 HAVING count(*) > 1;
+   ```
+
+   No rows: go ahead. Rows: do not apply the schema yet. For each email, list
+   the accounts (`SELECT id, school_id, name, role, created_at FROM users
+   WHERE lower(email) = '<email>';`), decide with the school which account is
+   the real one, and move or delete the others (their sessions and anything
+   they own first) until the query returns nothing. A new, empty database
+   (vidyuthlabs' own, 2026-09-22) returns nothing.
 
    ```bash
    PROJECT_ID=vidyuthlabs bash scripts/apply_cloudsql_schema.sh
@@ -168,7 +254,10 @@ cares about the `ACADEMICOS_API` value baked in at build time.
    `IF NOT EXISTS`), stops on the first SQL error, and reads the password
    from the `postgres-password` secret. Run it from Cloud Shell.
 1. Deploy backend to Cloud Run; leave Render untouched.
-2. `curl https://<run-url>/health` → `{"status":"ok"}`.
+2. `curl https://<run-url>/health` → `{"status":"ok","commit":"<the sha you
+   pushed>","builtAt":"..."}`. CI checks the commit itself; a different one
+   means the new revision did not start: read its logs for `REFUSING TO
+   START`.
 3. `curl https://<run-url>/health/storage` → `"status": "ok"`,
    `durability_backend` set, `durability_reachable: true`, every table
    `"ok"`. `"status": "schema_missing"` lists the absent tables in

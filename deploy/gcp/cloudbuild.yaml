@@ -8,15 +8,21 @@
 # (opencv/numpy + baked corpus), and without a cache every deploy re-installs
 # the whole dependency tree. With it, only the layers that actually changed
 # rebuild.
+#
+# _COMMIT_SHA / _BUILT_AT are passed by the workflow. The built-in COMMIT_SHA
+# is only populated for trigger-started builds; under `gcloud builds submit`
+# it is empty, which would tag the image `backend:` and bake in no identity.
 steps:
   - name: gcr.io/cloud-builders/docker
     id: build
     args:
       - build
-      - --tag=${_IMAGE}:${COMMIT_SHA}
+      - --tag=${_IMAGE}:${_COMMIT_SHA}
       - --tag=${_IMAGE}:latest
       - --cache-from=${_IMAGE}:latest
       - --build-arg=BUILDKIT_INLINE_CACHE=1
+      - --build-arg=BUILD_COMMIT=${_COMMIT_SHA}
+      - --build-arg=BUILT_AT=${_BUILT_AT}
       - .
 
   - name: gcr.io/cloud-builders/docker
@@ -25,6 +31,8 @@ steps:
 
 substitutions:
   _IMAGE: 'REPLACE_WITH_AR_IMAGE'
+  _COMMIT_SHA: 'unknown'
+  _BUILT_AT: 'unknown'
 
 options:
   machineType: E2_HIGHCPU_8   # the dependency install is the long pole; 8 vCPU pays for itself
