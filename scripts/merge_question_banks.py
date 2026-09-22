@@ -20,6 +20,10 @@ records come from the served file this script replaces, and
 _merge_excluded.json keeps 200 characters of a stem and is rewritten every
 run, so without it a withheld question would leave the pipeline for good.
 
+It refuses, unless --allow-no-board is given, a board input none of whose
+records carries a verified key: that is a bank enrich_question_bank.py has not
+relinked yet, and writing it would serve no board question at all.
+
 It refuses a source with no chapter tags. Re-running a builder discards the tags
 apply_chapter_tags.py wrote, and merging such a source ships class 6-9 with no
 chapter a paper blueprint can select on.
@@ -100,7 +104,7 @@ def _chapter_names(questions: list[dict]) -> dict[tuple[str, int, str], str]:
     return names
 
 
-def run(paths: Paths, *, check: bool) -> int:
+def run(paths: Paths, *, check: bool, allow_no_board: bool = False) -> int:
     served, cbe, sqp = _load(paths.served), _load(paths.cbe), _load(paths.sqp)
     for name, payload in (("CBE", cbe), ("SQP", sqp)):
         if payload.get("questions") and not payload.get("chapterTaggedAt"):
@@ -153,6 +157,17 @@ def run(paths: Paths, *, check: bool) -> int:
                 print(f"  {subject} {grade}: {label!r} covers {', '.join(cids)}")
     print(f"board records withheld, kept whole in {paths.withheld.name}: "
           f"{len(result.withheld):,}")
+    # Board records exist but not one carries the relink's stamp: the bank has
+    # not been through enrich_question_bank.py since it was built, and a write
+    # now would ship a bank with no board question and still exit 0. The
+    # records would survive in the withheld file, but a silent collapse of the
+    # served bank is the bad ship this pipeline refuses.
+    if result.withheld and not result.counts["board"] and not allow_no_board:
+        print(f"\nrefusing: none of the {len(result.withheld):,} board records carries "
+              f"a verified key, so the served bank would have no board question -- "
+              f"run scripts/enrich_question_bank.py first "
+              f"(or pass --allow-no-board to write it anyway)")
+        return 2
     if check:
         print("\n--check: nothing written")
         return 0
@@ -178,7 +193,10 @@ def run(paths: Paths, *, check: bool) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--check", action="store_true", help="report only; write nothing")
-    return run(DEFAULT, check=ap.parse_args().check)
+    ap.add_argument("--allow-no-board", action="store_true",
+                    help="write even when every board record is withheld")
+    args = ap.parse_args()
+    return run(DEFAULT, check=args.check, allow_no_board=args.allow_no_board)
 
 
 if __name__ == "__main__":

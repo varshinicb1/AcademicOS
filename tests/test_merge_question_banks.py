@@ -167,3 +167,33 @@ def test_check_writes_no_withheld_file(layout):
     _write(layout.served, [board(1), _unverified(2)], chapterTaggedAt="t", chapterTagMethod="m")
     assert mqb.run(layout, check=True) == 0
     assert not layout.excluded.with_name("board_withheld.json").exists()
+
+
+# ---- a bank the relink has not stamped ---------------------------------------
+
+def test_a_never_relinked_bank_makes_the_merge_refuse(layout, capsys):
+    """No board record carries the relink's stamp before enrich runs, so a
+    merge then would withhold every one and ship a bank with no board
+    question -- and exit 0. It refuses instead, writing nothing."""
+    _write(layout.served, [_unverified(1), _unverified(2)],
+           chapterTaggedAt="t", chapterTagMethod="m")
+    before = layout.served.read_bytes()
+    assert mqb.run(layout, check=False) != 0
+    assert "run scripts/enrich_question_bank.py first" in capsys.readouterr().out
+    assert layout.served.read_bytes() == before
+    assert not layout.apk.exists()
+    assert not layout.excluded.exists()
+    assert not layout.excluded.with_name("board_withheld.json").exists()
+
+
+def test_check_on_a_never_relinked_bank_reports_the_refusal(layout, capsys):
+    _write(layout.served, [_unverified(1)], chapterTaggedAt="t", chapterTagMethod="m")
+    assert mqb.run(layout, check=True) != 0
+    assert "run scripts/enrich_question_bank.py first" in capsys.readouterr().out
+
+
+def test_the_refusal_can_be_overridden_explicitly(layout):
+    _write(layout.served, [_unverified(1)], chapterTaggedAt="t", chapterTagMethod="m")
+    assert mqb.run(layout, check=False, allow_no_board=True) == 0
+    served_ids, held = _board_ids(layout)
+    assert served_ids == set() and [q["id"] for q in held] == [_unverified(1)["id"]]
