@@ -1,12 +1,19 @@
 """Compose the served question bank from board papers, CBE and SQP.
 
-Run AFTER the builders and the chapter tagger:
+Run AFTER the builders, the chapter tagger and the relink:
 
     build_cbe_bank.py   build_sqp_bank.py
     tag_question_bank.py
     apply_chapter_tags.py
+    enrich_question_bank.py        relinks and verifies the board schemes
     merge_question_banks.py        <- this
-    enrich_question_bank.py
+    enrich_question_bank.py        again: fills the added records' asset fields
+
+It refuses a served bank enrich_question_bank.py has not stamped with the
+current scheme verifier (`schemeVerifier`, question_bank.SCHEME_VERIFIER).
+The merge serves the board records the relink verified; run before the
+relink, or after a relink under older rules, it would serve labels no current
+verifier has seen. --allow-no-board does not override this.
 
 It writes academicos-data/syllabus/questions.json and its APK copy,
 frontend/assets/corpus/questions.json, byte-identical, plus every record it left
@@ -44,6 +51,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 
+from academicos.assessment.question_bank import SCHEME_VERIFIER  # noqa: E402
 from academicos.corpus import bank_merge  # noqa: E402
 
 
@@ -106,6 +114,13 @@ def _chapter_names(questions: list[dict]) -> dict[tuple[str, int, str], str]:
 
 def run(paths: Paths, *, check: bool, allow_no_board: bool = False) -> int:
     served, cbe, sqp = _load(paths.served), _load(paths.cbe), _load(paths.sqp)
+    stamp = served.get("schemeVerifier")
+    if stamp != SCHEME_VERIFIER:
+        seen = f"its stamp is {stamp!r}" if stamp else "it carries no stamp"
+        print(f"refusing: the served bank has not been through the scheme verifier "
+              f"{SCHEME_VERIFIER!r} ({seen}), so its board labels are not verified -- "
+              f"run scripts/enrich_question_bank.py first, then this")
+        return 2
     for name, payload in (("CBE", cbe), ("SQP", sqp)):
         if payload.get("questions") and not payload.get("chapterTaggedAt"):
             print(f"refusing: the {name} bank carries no chapter tags -- "

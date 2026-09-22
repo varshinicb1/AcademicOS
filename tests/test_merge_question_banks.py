@@ -13,7 +13,12 @@ sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "tests"))
 
 import merge_question_banks as mqb  # noqa: E402
+from academicos.assessment.question_bank import SCHEME_VERIFIER  # noqa: E402
 from test_bank_merge import board, cbe_mcq  # noqa: E402
+
+# What enrich_question_bank.py writes on a bank its relink verified. The merge
+# refuses a served bank without it (see the tests at the end).
+STAMP = {"schemeVerifier": SCHEME_VERIFIER}
 
 
 def _write(path: Path, questions, **extra):
@@ -27,7 +32,7 @@ def layout(tmp_path):
         served=tmp_path / "served.json", apk=tmp_path / "apk.json",
         cbe=tmp_path / "cbe.json", sqp=tmp_path / "sqp.json",
         excluded=tmp_path / "excluded.json")
-    _write(paths.served, [board()], chapterTaggedAt="t", chapterTagMethod="m")
+    _write(paths.served, [board()], chapterTaggedAt="t", chapterTagMethod="m", **STAMP)
     _write(paths.cbe, [cbe_mcq()], chapterTaggedAt="t", builtAt="2026-09-19T00:00:00+00:00")
     _write(paths.sqp, [], chapterTaggedAt="t", builtAt="2026-09-19T00:00:00+00:00")
     return paths
@@ -137,7 +142,8 @@ def test_two_merges_after_a_relink_keep_every_board_record_whole(layout):
     which every run adds to and none overwrites, and the next merge reads it
     back: after two merges every board record is somewhere, whole."""
     unverified = _unverified(2)
-    _write(layout.served, [board(1), unverified], chapterTaggedAt="t", chapterTagMethod="m")
+    _write(layout.served, [board(1), unverified],
+           chapterTaggedAt="t", chapterTagMethod="m", **STAMP)
     for _ in range(2):
         assert mqb.run(layout, check=False) == 0
 
@@ -150,7 +156,8 @@ def test_two_merges_after_a_relink_keep_every_board_record_whole(layout):
 
 def test_a_withheld_record_the_relink_later_verifies_is_served_again(layout):
     unverified = _unverified(2)
-    _write(layout.served, [board(1), unverified], chapterTaggedAt="t", chapterTagMethod="m")
+    _write(layout.served, [board(1), unverified],
+           chapterTaggedAt="t", chapterTagMethod="m", **STAMP)
     mqb.run(layout, check=False)
     # A later, better relink verifies it where it is kept.
     held_path = layout.excluded.with_name("board_withheld.json")
@@ -164,7 +171,8 @@ def test_a_withheld_record_the_relink_later_verifies_is_served_again(layout):
 
 
 def test_check_writes_no_withheld_file(layout):
-    _write(layout.served, [board(1), _unverified(2)], chapterTaggedAt="t", chapterTagMethod="m")
+    _write(layout.served, [board(1), _unverified(2)],
+           chapterTaggedAt="t", chapterTagMethod="m", **STAMP)
     assert mqb.run(layout, check=True) == 0
     assert not layout.excluded.with_name("board_withheld.json").exists()
 
@@ -193,7 +201,53 @@ def test_check_on_a_never_relinked_bank_reports_the_refusal(layout, capsys):
 
 
 def test_the_refusal_can_be_overridden_explicitly(layout):
-    _write(layout.served, [_unverified(1)], chapterTaggedAt="t", chapterTagMethod="m")
+    _write(layout.served, [_unverified(1)], chapterTaggedAt="t", chapterTagMethod="m", **STAMP)
     assert mqb.run(layout, check=False, allow_no_board=True) == 0
     served_ids, held = _board_ids(layout)
     assert served_ids == set() and [q["id"] for q in held] == [_unverified(1)["id"]]
+
+
+def test_the_merge_refuses_a_bank_the_relink_has_not_stamped(layout, capsys):
+    """Pipeline order (Task 151's concern): the merge serves what the relink
+    verified, so a merge run before enrich_question_bank.py would serve the
+    labels of a bank no verifier has seen. The relink stamps the bank it
+    wrote; the merge refuses one without the stamp, writing nothing, even
+    when every board record looks verified -- and --allow-no-board, which
+    overrides a different refusal, does not override this one."""
+    _write(layout.served, [board(1)], chapterTaggedAt="t", chapterTagMethod="m")
+    before = layout.served.read_bytes()
+    for kwargs in ({"check": False}, {"check": True},
+                   {"check": False, "allow_no_board": True}):
+        assert mqb.run(layout, **kwargs) != 0
+        out = capsys.readouterr().out
+        assert "not been through the scheme verifier" in out
+        assert "run scripts/enrich_question_bank.py first" in out
+    assert layout.served.read_bytes() == before
+    assert not layout.apk.exists()
+    assert not layout.excluded.exists()
+    assert not layout.excluded.with_name("board_withheld.json").exists()
+
+
+def test_the_merge_refuses_a_bank_stamped_by_an_older_verifier(layout, capsys):
+    _write(layout.served, [board(1)], chapterTaggedAt="t", chapterTagMethod="m",
+           schemeVerifier="an older verifier")
+    assert mqb.run(layout, check=False) != 0
+    out = capsys.readouterr().out
+    assert "'an older verifier'" in out and SCHEME_VERIFIER in out
+    assert not layout.apk.exists()
+
+
+def test_a_stamped_bank_that_verified_nothing_is_still_refused(layout, capsys):
+    """The stamp says the relink ran, not that it verified anything: a bank
+    with no verified board record is still the no-board refusal."""
+    _write(layout.served, [_unverified(1)], chapterTaggedAt="t", chapterTagMethod="m",
+           **STAMP)
+    assert mqb.run(layout, check=False) != 0
+    assert "carries a verified key" in capsys.readouterr().out
+    assert not layout.apk.exists()
+
+
+def test_the_merge_keeps_the_stamp_it_read(layout):
+    assert mqb.run(layout, check=False) == 0
+    for path in (layout.served, layout.apk):
+        assert json.loads(path.read_text(encoding="utf-8"))["schemeVerifier"] == SCHEME_VERIFIER

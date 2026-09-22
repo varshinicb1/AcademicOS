@@ -248,6 +248,15 @@ def verify_answer(record: dict[str, Any], answer: OfficialAnswer) -> Verdict:
 # unverified scheme is not served at all.
 UNBACKED_KEY = "unbacked-key"
 
+# The verifier a relink ran, stamped on the bank it wrote (`schemeVerifier`,
+# written by scripts/enrich_question_bank.py). merge_question_banks.py serves
+# the board records this relink verified, so it refuses a served bank without
+# this stamp: merged before the relink, it would serve labels no verifier has
+# seen (Task 151's pipeline-order concern). Change it whenever `verify`,
+# `join_verdict`, `AnswerKeyIndex.choose` or the relink's own rules change
+# what is served, so a bank relinked under the old rules is refused too.
+SCHEME_VERIFIER = "scheme-verify/content-join/conflicting-keys 2026-09-22"
+
 
 def row_code(stored: str, source: str) -> str:
     """The paper code an answer_keys row is filed under, or "".
@@ -657,6 +666,13 @@ class RelinkReport:
     quarantined: Counter = field(default_factory=Counter)
     rejected: Counter = field(default_factory=Counter)
     quarantine: list[dict[str, Any]] = field(default_factory=list)
+    # Records whose own official (cbse_marking_scheme) scheme verified while
+    # the content join accepted a DIFFERENT answer: two official keys, nothing
+    # to say which is right, so
+    # neither is served (both are in `quarantine` as conflicting-keys). Each
+    # entry names the record and both answers, for a person to settle.
+    conflicting_keys: int = 0
+    conflicts: list[dict[str, Any]] = field(default_factory=list)
 
     @property
     def verified(self) -> int:
@@ -684,6 +700,8 @@ class RelinkReport:
                 self.replaced_after_quarantine),
             "  its scheme quarantined, nothing in its place: {:,}".format(
                 self.existing_scheme_removed),
+            "    conflicting official keys (neither served): {:,}".format(
+                self.conflicting_keys),
             "verified official attached new : {:,}".format(self.newly_attached),
             "  (verified officials found away from the question's own number: {:,})".format(
                 self.recovered_elsewhere),
@@ -843,7 +861,7 @@ def _has_content(scheme: dict[str, Any]) -> bool:
 
 
 def _quarantine(rec: dict[str, Any], report: RelinkReport, reason: str, text: str,
-                code: str, q_no: int | None) -> None:
+                code: str, q_no: int | None, **extra: Any) -> None:
     """Remove a rejected scheme from the record and log it for review.
 
     Removed, not merely unlabelled: another question's answer in the record
@@ -863,9 +881,73 @@ def _quarantine(rec: dict[str, Any], report: RelinkReport, reason: str, text: st
         "correctOption": meta.get("correctOption"),
         "schemeSource": meta.get("schemeSource") or "",
         "scheme": removed,
+        **extra,
     })
     rec["answerScheme"] = AnswerSchemeSchema(
         total_marks=int(rec.get("marks") or 0)).model_dump(mode="json", by_alias=True)
+
+
+def _answer_of(scheme: dict[str, Any]) -> dict[str, Any]:
+    """What a scheme says the answer is, and which scheme file says it."""
+    text, letter = _scheme_content(scheme)
+    meta = scheme.get("metadata") or {}
+    return {"option": letter, "text": text, "source": meta.get("schemeSource") or "",
+            "code": meta.get("schemeCode") or "", "qNo": meta.get("schemeQNo")}
+
+
+def _same_answer(ours: dict[str, Any], pick: dict[str, Any],
+                 options: dict[str, str]) -> bool:
+    """Two schemes name the same answer, by the join's own tests.
+
+    An objective answer is its option: the scheme's letter, or for a scheme
+    built without one the option its words are (`outright_option` -- a
+    pre-Task-15 scheme keeps "(B)/ Amorphous, colloidal ..." as text). Two
+    letters agree when they are the same letter. Otherwise two texts agree
+    when they are editions of one answer, which is what `choose` calls a row
+    sharing `AGREE_SHARE` of the pick's join terms: two sets of a series
+    print one descriptive answer in different words and layout. On the
+    served bank at 7747f7f exact text found 20 disagreements, 7 of them one
+    answer (57/5/2 Q9 "(B)/ Amorphous, ..." against B; five descriptive
+    editions such as 67/1/1 Q22 against 67/1/2 Q21); this rule finds 13."""
+    a, b = _answer_of(ours), _answer_of(pick)
+    letters = [str(x["option"] or outright_option(x["text"], options) or "").strip().upper()
+               for x in (a, b)]
+    if all(letters):
+        return letters[0] == letters[1]
+    if _collapse(a["text"]).casefold() == _collapse(b["text"]).casefold():
+        return True
+    return share(join_terms(row_text(a["text"])), join_terms(row_text(b["text"]))) >= AGREE_SHARE
+
+
+def _serve_neither(rec: dict[str, Any], report: RelinkReport, pick: dict[str, Any],
+                   code: str, q_no: int | None) -> None:
+    """The record's own verified official scheme and the join's accepted
+    pick name different answers. Both passed the verifier, so the verifier cannot say
+    which is the board's; serving either would be a coin toss labelled
+    official. Until Task 152 the join's pick simply overwrote the record's
+    scheme and was counted verified_existing_scheme. On the served bank at
+    7747f7f 13 of those 53 records name two answers: 11 option letters
+    (30/5/2 Q17 A '90°' against D '30°', 430/2/3 Q6 C '60°' against A '30°',
+    nine MCQs of 66/1/1 such as Q16 'Personal selling' against 'Sales
+    promotion') and 2 descriptive keys whose join row restates the question
+    first (430/5/1 Q24, 430/5/2 Q28) -- likely one answer, but `_same_answer`
+    cannot tell, and a conflict fails closed. Both schemes are quarantined
+    whole, each naming the other, and the record keeps no scheme (the merge
+    withholds it as no-verified-key)."""
+    ours = _answer_of(rec.get("answerScheme") or {})
+    theirs = _answer_of(pick)
+    report.conflicting_keys += 1
+    report.conflicts.append({"id": rec.get("id"), "code": code, "q_no": q_no,
+                             "existing": ours, "join": theirs})
+    _quarantine(rec, report, CONFLICTING_KEYS, ours["text"], code, q_no,
+                conflictsWith=theirs)
+    # The pick was never on the record: a refused candidate, kept for review.
+    report.rejected[CONFLICTING_KEYS] += 1
+    report.quarantine.append({
+        "id": rec.get("id"), "code": code, "q_no": q_no, "reason": CONFLICTING_KEYS,
+        "text": theirs["text"], "correctOption": theirs["option"],
+        "schemeSource": theirs["source"], "scheme": pick, "conflictsWith": ours,
+    })
 
 
 def relink_answer_schemes(
@@ -889,6 +971,10 @@ def relink_answer_schemes(
     is asked for the family row that answers the question (`AnswerKeyIndex.
     choose`); only an accepted one is labelled official. A record with no
     accepted row keeps no scheme at all: an unverified scheme is not served.
+    A record whose own verified cbse_marking_scheme names another answer
+    than the accepted row keeps none either: two official keys that disagree
+    are a conflict, not an overwrite (`_serve_neither`). An unlabelled
+    scheme is no key, so the accepted row replaces it.
     """
     report = RelinkReport(total=len(records))
     sources: dict[str, ParsedSource | None] = {}
@@ -996,14 +1082,19 @@ def relink_answer_schemes(
 
         report.found += 1
         stem = str(rec.get("stem") or "")
-        rec["answerScheme"] = build_official_scheme(
+        options = question_options(rec) or parse_options(stem)
+        pick = build_official_scheme(
             choice.best,
             marks=int(rec.get("marks") or 0),
             question_id=str(rec.get("id")),
             code=code,
             document_id=source.document_id,
-            options=question_options(rec) or parse_options(stem),
+            options=options,
         ).model_dump(mode="json", by_alias=True)
+        if labelled and not _same_answer(scheme, pick, options):
+            _serve_neither(rec, report, pick, code, q_no)
+            continue
+        rec["answerScheme"] = pick
         if (choice.best.code, choice.best.q_no) != (normalize_paper_code(code) or code, q_no):
             report.recovered_elsewhere += 1
         if not had_scheme:
