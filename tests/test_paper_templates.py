@@ -516,21 +516,47 @@ def test_every_preset_carries_its_exam_types_intended_total():
         assert sum(s.marks for s in p.sections) == INTENDED_TOTAL[p.exam_type], p.id
 
 
-def test_board_science_and_social_science_follow_the_2025_board_papers():
-    """Read from the General Instructions (p. 3) of the CBSE Class X 2025 board
-    papers in cbse-dataset (31-1-1_Science.pdf, 32-1-1_Social Science.pdf).
-    The 2024-25 SQP PDFs an earlier source line cited are not on this
-    machine, so the board papers are the evidence (Task 904)."""
+# Read (Task 904, PyMuPDF) from the CBSE Class X 2024-25 SQPs in
+# academicos-data/corpus/cbse-sqp/ClassX_2024_25/ (the PDFs are git-ignored;
+# the 2025-26 SQPs beside them say the 2024-25 scheme continues). Per
+# section: (questions, marks each, questions carrying a whole-question OR).
+# Section E's choice in Science and Mathematics is inside a case unit's
+# sub-part ("Attempt either subpart B or C"), part of the question itself,
+# so it is not a whole-question OR here.
+SQP_2024_25 = {
+    # Science-SQP.pdf p. 1 General Instructions; ORs: B Q23, Q25 (pp. 5-6),
+    # C Q28 (p. 8), D Q34-36 (pp. 10-13).
+    "Science": [(20, 1, 0), (6, 2, 2), (7, 3, 1), (3, 5, 3), (3, 4, 0)],
+    # SocialScience-SQP.pdf p. 1; ORs: B Q22 (p. 7), C Q26 (p. 8), D Q30-33
+    # (pp. 8-9); none in E (case based) or F (map).
+    "Social Science": [(20, 1, 0), (4, 2, 1), (5, 3, 1), (4, 5, 4), (3, 4, 0), (1, 5, 0)],
+    # MathsStandard-SQP.pdf p. 1, instruction 8: "an internal choice in 2
+    # Question of Section B, 2 Questions of Section C and 2 Questions of
+    # Section D".
+    "Mathematics": [(20, 1, 0), (5, 2, 2), (6, 3, 2), (4, 5, 2), (3, 4, 0)],
+}
+
+
+def test_board_presets_match_the_2024_25_sqps_including_internal_choice():
     by_key = {(p.grade, p.subject, p.exam_type): p for p in presets()}
-    sci = by_key[(10, "Science", "annual")]
-    assert [(s.question_count, s.marks_each) for s in sci.sections] == [
-        (20, 1), (6, 2), (7, 3), (3, 5), (3, 4)]
-    sst = by_key[(10, "Social Science", "annual")]
-    assert [(s.question_count, s.marks_each) for s in sst.sections] == [
-        (20, 1), (4, 2), (5, 3), (4, 5), (3, 4), (1, 5)]
-    for p in (sci, sst):
+    for subject, rows in SQP_2024_25.items():
+        p = by_key[(10, subject, "annual")]
+        assert [(s.question_count, s.marks_each, s.choice_count) for s in p.sections] == rows, \
+            subject
         assert p.pattern_status == "cbse_board"
-        assert "board paper 2025" in p.source and "General Instructions" in p.source
+        # The board design applied to class 9 and the half-yearly keeps the
+        # same choices.
+        for key in ((9, subject, "annual"), (10, subject, "half_yearly")):
+            assert [s.choice_count for s in by_key[key].sections] == [r[2] for r in rows], key
+    sci = by_key[(10, "Science", "annual")].source
+    assert "16 MCQ + 4 assertion-reason" in sci, sci
+    sst = by_key[(10, "Social Science", "annual")]
+    # The SQP's own heading (p. 9): "CASE-BASED QUESTIONS (3X4=12)".
+    assert [s.title for s in sst.sections][4] == "Section E - Case based"
+    for p in presets():
+        assert "not on this machine" not in p.source, p.id
+    # The printed instructions say which questions carry the choice.
+    assert "OR" in by_key[(10, "Science", "annual")].instructions
 
 
 def test_a_copy_of_a_preset_is_the_teachers_not_a_board_pattern(tmp_path, monkeypatch):
@@ -745,7 +771,7 @@ def test_a_case_or_map_question_is_never_placed_under_the_wrong_heading():
         return {q.id for q in p.picked + p.borrowed}
 
     long_ids = ids("Section D - Long answer")
-    case_ids = ids("Section E - Case / source based")
+    case_ids = ids("Section E - Case based")
     map_ids = ids("Section F - Map skill")
     assert long_ids and all(i.startswith("long") for i in long_ids), long_ids
     assert case_ids and all(i.startswith("case") for i in case_ids), case_ids
@@ -767,7 +793,7 @@ def test_a_competency_section_with_no_competency_question_is_a_gap():
     bank = _ss_bank(case4=False) + [
         _q("plain4", 4, "List four features of the region's climate.", "long_answer")]
     report, plans = _plan_preset(SS10, bank)
-    e = next(p for p in plans if p.section.title == "Section E - Case / source based")
+    e = next(p for p in plans if p.section.title == "Section E - Case based")
     assert "plain4" not in {q.id for q in e.picked}
     assert e.availability.shortfall == 3
     assert "competency" in e.availability.reason.lower()
@@ -832,7 +858,7 @@ def test_a_shortfall_reason_names_the_constraint_that_left_questions_out():
     assert relax.available == 6 and "source / case based" in relax.label
     assert next(f for f in d.fixes if f.kind == "reduce_count").question_count == 3
 
-    e = by_title["Section E - Case / source based"]
+    e = by_title["Section E - Case based"]
     assert e.shortfall == 3
     # The real cause: the source items carry 5 marks, the section asks for 4.
     assert "5 marks" in e.reason and "6" in e.reason, e.reason
@@ -852,7 +878,7 @@ def test_availability_reports_the_mix_shortfall_generation_reports():
     for s, p in zip(report.sections, plans):
         assert s.notes == p.notes, s.title
         assert s.filled == len(p.picked) + len(p.borrowed)
-    e = next(s for s in report.sections if s.title == "Section E - Case / source based")
+    e = next(s for s in report.sections if s.title == "Section E - Case based")
     assert e.shortfall == 0 and e.filled == 3
     assert any("competency" in n for n in e.notes), e.notes
 
@@ -948,7 +974,7 @@ def test_the_real_banks_social_science_gaps_name_their_binding_constraint(real_c
     by_title = {s.title: s for s in report.sections}
     d = by_title["Section D - Long answer"]
     assert d.shortfall and "source / case based" in d.reason, d.reason
-    e = by_title["Section E - Case / source based"]
+    e = by_title["Section E - Case based"]
     assert e.shortfall and "5 marks" in e.reason, e.reason
     assert any(f.kind == "change_marks" and f.marks_each == 5 for f in e.fixes), e.fixes
 
@@ -957,11 +983,15 @@ def test_the_real_banks_social_science_gaps_name_their_binding_constraint(real_c
 
 def test_board_presets_cite_the_paper_file_and_page_they_were_read_from():
     by_key = {(p.grade, p.subject, p.exam_type): p for p in presets()}
-    for subject, code in (("Mathematics", "30-1-1"), ("Science", "31-1-1"),
-                          ("Social Science", "32-1-1")):
+    for subject, name in (("Mathematics", "MathsStandard"), ("Science", "Science"),
+                          ("Social Science", "SocialScience")):
         p = by_key[(10, subject, "annual")]
         assert p.pattern_status == "cbse_board", subject
-        assert code in p.source and ".pdf" in p.source and "p. 3" in p.source, p.source
+        for year in ("ClassX_2024_25", "ClassX_2025_26"):
+            assert f"{year}/{name}-SQP.pdf" in p.source, (subject, p.source)
+        # The marking scheme was read too: its section headings agree.
+        assert f"ClassX_2024_25/{name}-MS.pdf" in p.source, p.source
+        assert "General Instructions" in p.source and "p. 1" in p.source, p.source
     # CBSE sets no class IX paper: the class X design applied there is a
     # suggestion, and says so.
     for subject in ("Mathematics", "Science", "Social Science"):
@@ -1037,3 +1067,135 @@ def test_quick_and_custom_generation_accept_a_branding_template_id(tmp_path, mon
         assert quick.status_code == 200, quick.text
         stored = routes_mod._require_papers().get_template(quick.json()["id"])
         assert stored.name == "Green Valley Public School"
+
+
+# ---- internal choice (OR), as the CBSE papers print it
+
+def test_choice_count_above_question_count_is_rejected():
+    body = _draft(sections=[_section("Section A", 4, 1),
+                            _section("Section B", 2, 3, choiceCount=3)])
+    with pytest.raises(ValidationError) as err:
+        PaperTemplateDraft.model_validate(body)
+    assert "Section B" in str(err.value) and "OR" in str(err.value)
+
+
+def _choice_template(choices: int):
+    return PaperTemplateDraft.model_validate(_draft(
+        totalMarks=9, scope={},
+        sections=[_section("Section A", 3, 1),
+                  _section("Section B", 2, 3, choiceCount=choices)]))
+
+
+def _choice_bank(threes: int):
+    bank = ([_q(f"one{i}", 1, f"One-mark item {i}?", "very_short_answer") for i in range(3)]
+            + [_q(f"three{i}", 3, f"Three-mark item {i}?", "short_answer") for i in range(threes)])
+    for q in bank:
+        q.subject = "Science"
+    return bank
+
+
+def _plan_draft(t, bank):
+    from academicos.assessment.paper_templates import build_scope_filter, plan
+    from academicos.assessment.schemas import TemplateScope
+    return plan(t, "tpl", bank, build_scope_filter(TemplateScope(), bank))
+
+
+def test_a_section_with_internal_choice_pairs_an_or_alternative_per_choice():
+    report, plans = _plan_draft(_choice_template(2), _choice_bank(4))
+    b = plans[1]
+    assert len(b.picked) == 2 and len(b.alternatives) == 2
+    primaries = {q.id for q in b.picked}
+    alts = {q.id for q in b.alternatives.values()}
+    assert set(b.alternatives) <= primaries and not alts & primaries
+    s = report.sections[1]
+    assert (s.choices_needed, s.choices_filled, s.shortfall) == (2, 2, 0)
+    assert report.complete is True and s.notes == []
+
+
+def test_an_or_the_bank_cannot_pair_is_reported_before_generating():
+    report, plans = _plan_draft(_choice_template(2), _choice_bank(3))
+    s = report.sections[1]
+    assert (s.filled, s.choices_needed, s.choices_filled) == (2, 2, 1)
+    assert any("OR" in n and "1 of 2" in n for n in s.notes), s.notes
+    assert s.notes == plans[1].notes
+    assert any(f.kind == "reduce_choices" for f in s.fixes), s.fixes
+
+
+def test_the_generated_paper_prints_each_or_alternative(tmp_path, monkeypatch):
+    bank = [_record(f"one{i}", 1, "ch1") for i in range(3)] + \
+           [_record(f"three{i}", 3, "ch1") for i in range(4)]
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _fixture_pool(bank))
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        tid = client.post(BASE, json=_draft(
+            totalMarks=9, sections=[_section("Section A", 3, 1),
+                                    _section("Section B", 2, 3, choiceCount=2)]),
+            headers=t1).json()["id"]
+        avail = client.post(f"{BASE}/{tid}/availability", json={}, headers=t1).json()
+        assert avail["sections"][1]["choicesFilled"] == 2
+        r = client.post(GEN, json={"templateId": tid, "setCount": 2}, headers=t1)
+        assert r.status_code == 200, r.text
+        paper = r.json()["paper"]
+        for p in [paper] + paper["sets"]:
+            b = p["sections"][1]
+            assert len(b["questions"]) == 2 and b["totalMarks"] == 6
+            ors = [q["internalChoiceQuestionId"] for q in b["questions"]]
+            assert all(ors) and not set(ors) & {q["questionId"] for q in b["questions"]}
+        assert paper["metadata"]["totalMarks"] == 9
+        assert any(k.endswith("_OR") for k in paper["answerKey"])
+
+
+# The SQP PDFs are git-ignored; point ACOS_CBSE_SQP_DIR at a checkout that has
+# them to re-read the counts above from the papers themselves.
+import os as _os  # noqa: E402
+
+_SQP_DIR = _Path(_os.environ.get("ACOS_CBSE_SQP_DIR") or
+                 _Path(__file__).resolve().parents[1] / "academicos-data" / "corpus" / "cbse-sqp")
+
+
+@pytest.mark.skipif(not (_SQP_DIR / "ClassX_2024_25" / "Science-SQP.pdf").exists(),
+                    reason="the CBSE SQP PDFs are not in this checkout")
+def test_the_sqp_pdfs_say_what_the_presets_say():
+    import re
+
+    import fitz
+
+    def text(name):
+        doc = fitz.open(str(_SQP_DIR / "ClassX_2024_25" / f"{name}-SQP.pdf"))
+        out = "\n".join(page.get_text() for page in doc)
+        doc.close()
+        return out
+
+    def ors_per_section(body, heading, marker):
+        parts = re.split(heading, body)[1:]          # text of each section, in order
+        return [len(re.findall(marker, part, re.M)) for part in parts]
+
+    sci = text("Science")
+    assert "16 simple/complex MCQs and 04 Assertion-Reasoning" in sci
+    # Science marks each whole-question OR "Attempt either option A or B."
+    # (a visually-impaired alternative also prints "OR", so count the marker).
+    got = ors_per_section(sci, r"\nSection\s*[-–]\s*[A-E]\s*\n", r"Attempt either option A or B")
+    assert got == [c for _, _, c in SQP_2024_25["Science"]], got
+
+    sst = text("SocialScience")
+    got = ors_per_section(sst, r"\nSECTION [A-F]\s*\n", r"^\s*OR\s*$")
+    assert got == [c for _, _, c in SQP_2024_25["Social Science"]], got
+
+    maths = " ".join(text("MathsStandard").split())
+    assert ("internal choice in 2 Question of Section B, 2 Questions of Section C and "
+            "2 Questions of Section D") in maths
+
+
+@needs_real_bank
+def test_a_short_sections_fixes_keep_the_mix_fixes_without_repeating_one(real_class10_pools):
+    """`_diagnose`'s fixes used to replace the competency (mix) fixes of a
+    short section instead of joining them; merged now, one per kind and value."""
+    for p in presets(grade=10):
+        if p.subject == "Hindi":
+            continue
+        report, _ = _real_plan(real_class10_pools, p.id)
+        for s in report.sections:
+            keys = [(f.kind, f.marks_each, f.question_count, f.choice_count) for f in s.fixes]
+            assert len(keys) == len(set(keys)), (p.id, s.title, keys)
+            if s.shortfall:
+                assert any(f.kind == "reduce_count" for f in s.fixes), (p.id, s.title)

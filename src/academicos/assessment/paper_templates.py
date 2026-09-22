@@ -30,6 +30,12 @@ A shortfall's reason names the constraint that left questions out, largest
 first, and `fixes` lists the changes that would close it (widen the scope,
 change the marks, relax the kind or the competency rule, ask for fewer).
 
+A section with internal choice (`choice_count`) pairs that many of its
+questions with an OR alternative, drawn from the same eligible pool and
+claimed like any pick, so availability counts the alternatives the paper
+will print and a later section cannot reuse them. An OR the bank cannot
+pair is a note and a fix, not a gap: the paper still carries its marks.
+
 A heading that names a kind nothing here can check (grammar, reading,
 extract, writing, literature -- the bank does not label questions that way)
 is reported as "section content not checked" instead of passing silently.
@@ -122,7 +128,7 @@ def check_scope_ids(scope: TemplateScope) -> tuple[list[str], list[str]]:
 
 
 FixKind = Literal["widen_scope", "fill_from_outside_scope", "change_marks", "relax_type",
-                  "relax_competency", "reduce_count"]
+                  "relax_competency", "reduce_count", "reduce_choices"]
 
 
 class SectionFix(Camel):
@@ -140,6 +146,8 @@ class SectionFix(Camel):
     marks_each: Optional[int] = None
     # reduce_count: the count the bank can fill (0 = drop the section).
     question_count: Optional[int] = None
+    # reduce_choices: the number of ORs the bank can pair.
+    choice_count: Optional[int] = None
 
 
 class SectionAvailability(Camel):
@@ -159,6 +167,9 @@ class SectionAvailability(Camel):
     outside_scope_available: int = 0
     # In scope with the right marks and type, but no verified answer key.
     without_key: int = 0
+    # Internal choice: ORs the section asks for, and ORs the paper will print.
+    choices_needed: int = 0
+    choices_filled: int = 0
     reason: str = ""
     # Everything generation will report about this section -- difficulty and
     # competency shortfalls, borrowed questions, headings nothing could check.
@@ -363,6 +374,8 @@ class SectionPlan:
     borrowed: list[QuestionSchema]
     availability: SectionAvailability
     notes: list[str] = field(default_factory=list)
+    # Primary question id -> its OR alternative (internal choice).
+    alternatives: dict[str, QuestionSchema] = field(default_factory=dict)
 
 
 @dataclass
@@ -466,27 +479,42 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
                 f"{section.title}: {len(borrowed)} question(s) taken from outside the "
                 f"chosen chapters to fill the section ({', '.join(q.id for q in borrowed)}).")
         claimed.update(q.id for q in picked + borrowed)
+        alternatives = _pair_choices(
+            section, picked + borrowed,
+            [q for q in eligible if q.id not in claimed],
+            [q for q in outside if q.id not in claimed] if fill_from_outside_scope else [])
+        claimed.update(q.id for q in alternatives.values())
         mix_notes, mix_fixes = _mix_notes(section, picked + borrowed, left_out)
         notes.extend(mix_notes)
+        choice_notes, choice_fixes = _choice_notes(section, picked + borrowed, alternatives,
+                                                   eligible_ids={q.id for q in eligible})
+        notes.extend(choice_notes)
         notes.extend(_content_notes(section))
 
         filled = len(picked) + len(borrowed)
         shortfall = needed - filled
-        reason, fixes = "", list(mix_fixes)
+        reason, fixes = "", [*mix_fixes, *choice_fixes]
         if shortfall:
-            reason, fixes = _diagnose(
+            reason, gap_fixes = _diagnose(
                 template, section, available=len(eligible), filled=filled,
                 borrowed=len(borrowed), bank=len(candidates), keyed=len(keyed),
                 fits=len(fits_all), outside=len(outside), without_key=without_key,
                 used_elsewhere=used_elsewhere, not_competency=not_competency,
                 left_out=left_out)
+            # Merged, not replaced: the mix and choice fixes stand whether or
+            # not the section is short. `_diagnose` offers the same
+            # change-marks fix a competency shortfall does, so one fix per
+            # kind and value is kept.
+            fixes = _merge_fixes(gap_fixes, fixes)
         availability = SectionAvailability(
             section_id=section.id, title=section.title, marks_each=section.marks_each,
             needed=needed, available=len(eligible), shortfall=shortfall, filled=filled,
             borrowed=len(borrowed), outside_scope_available=len(outside),
-            without_key=without_key, reason=reason, notes=notes, fixes=fixes,
+            without_key=without_key, choices_needed=min(section.choice_count, filled),
+            choices_filled=len(alternatives), reason=reason, notes=notes, fixes=fixes,
         )
-        plans.append(SectionPlan(section, picked, borrowed, availability, notes))
+        plans.append(SectionPlan(section, picked, borrowed, availability, notes,
+                                 alternatives))
 
     report = AvailabilityReport(
         template_id=template_id, grade=template.grade, subject=template.subject,
@@ -495,6 +523,71 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
         sections=[p.availability for p in plans], scope_notes=scope.notes,
     )
     return report, plans
+
+
+def _merge_fixes(first: list[SectionFix], then: list[SectionFix]) -> list[SectionFix]:
+    out: list[SectionFix] = []
+    seen: set[tuple] = set()
+    for f in [*first, *then]:
+        key = (f.kind, f.marks_each, f.question_count, f.choice_count)
+        if key not in seen:
+            seen.add(key)
+            out.append(f)
+    return out
+
+
+def _pair_choices(section: TemplateSection, printed: list[QuestionSchema],
+                  pool: list[QuestionSchema], outside: list[QuestionSchema],
+                  ) -> dict[str, QuestionSchema]:
+    """An OR alternative for `choice_count` of the printed questions.
+
+    The alternative comes from the questions this section may take (same
+    marks, kind and scope), so "Q23 ... OR ..." is two questions of one
+    kind. The CBSE papers pair within a chapter where they can, so a
+    same-chapter alternative is preferred, and for a competency-based
+    question a competency-based one. The last questions of the section carry
+    the ORs, as in the SQPs (Science Section D: all three; Social Science
+    Section D: all four). Outside-scope questions are used only when the
+    caller allowed filling from outside the scope, and are named in a note."""
+    want = min(section.choice_count, len(printed))
+    if want <= 0:
+        return {}
+    left = _order(pool) + _order(outside)
+    pairs: dict[str, QuestionSchema] = {}
+    for primary in printed[len(printed) - want:]:
+        if not left:
+            break
+        chapters = set(primary.chapter_ids)
+        cbq = _is_competency(primary)
+        # First best by (same chapter, same competency-ness), ties to the
+        # better-ordered question -- `left` is already best first.
+        alt = max(enumerate(left), key=lambda ic: (
+            bool(chapters & set(ic[1].chapter_ids)), _is_competency(ic[1]) == cbq, -ic[0]))[1]
+        pairs[primary.id] = alt
+        left.remove(alt)
+    return pairs
+
+
+def _choice_notes(section: TemplateSection, printed: list[QuestionSchema],
+                  alternatives: dict[str, QuestionSchema], *, eligible_ids: set[str],
+                  ) -> tuple[list[str], list[SectionFix]]:
+    notes: list[str] = []
+    fixes: list[SectionFix] = []
+    want = min(section.choice_count, len(printed))
+    borrowed = [a.id for a in alternatives.values() if a.id not in eligible_ids]
+    if borrowed:
+        notes.append(f"{section.title}: {len(borrowed)} OR alternative(s) taken from outside "
+                     f"the chosen chapters ({', '.join(borrowed)}).")
+    if len(alternatives) < want:
+        notes.append(
+            f"{section.title}: {len(alternatives)} of {want} internal choice (OR) "
+            f"alternative(s) could be paired -- the bank has no more {section.marks_each}-mark "
+            "questions this section takes, so the rest print without an OR.")
+        fixes.append(SectionFix(
+            kind="reduce_choices", choice_count=len(alternatives),
+            label=(f"Offer {len(alternatives)} OR choice(s) instead of {want}."
+                   if alternatives else "Print this section without OR choices.")))
+    return notes, fixes
 
 
 def _order(pool: list[QuestionSchema]) -> list[QuestionSchema]:

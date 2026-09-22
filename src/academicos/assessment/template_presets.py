@@ -9,26 +9,28 @@ Where each pattern comes from -- said in each preset's `source` so a teacher
 (or a principal checking the paper) can verify it:
 
 * **Class 10, annual, Mathematics, Science, Social Science** -- `cbse_board`,
-  read (Task 904, PyMuPDF) from the General Instructions on page 3 of the
-  CBSE 2025 class X board papers in `cbse-dataset/question-papers/
-  question-paper/2025/X/` (set 1 of each: `041_Mathematics_Standard.zip` ->
-  `30-1-1_Mathematics Standard.pdf`, `086_Science.zip` -> `31-1-1_Science.pdf`,
-  `087_Social_Science.zip` -> `32-1-1_Social Science.pdf`). Every section
-  count and mark value below matches those pages. The 2024-25 SQP PDFs the
-  earlier version cited are not on this machine (the corpus holds only
-  their extracted text and download manifest), so the board papers are the
-  evidence now; the Mathematics design is also in the SQP text
-  (`academicos-data/corpus/cbse-sqp/questions.json`).
-  The 2026 board papers regroup Science by discipline (Biology 30 /
-  Chemistry 25 / Physics 25, `2026/X/Science.zip` -> `31-2-1.pdf` p. 3) and
-  Social Science into four 20-mark discipline sections with the map item
-  split in two (`2026/X/Social_Science.zip` -> `1165-1_32-4-1_Social Sc..pdf`
-  p. 3); the question kinds and mark values are unchanged, so the 2025 A-E/F
-  design is kept.
-  What a template cannot hold: the board's internal choice is an OR
-  alternative inside a question (Mathematics: 2 questions in B, 2 in C, 2 in
-  D, 3 in E), not "attempt any N of M". The presets print one question per
-  slot and say so in their source line.
+  read (Task 904, PyMuPDF) from the CBSE Class X 2024-25 sample question
+  papers and marking schemes in `academicos-data/corpus/cbse-sqp/
+  ClassX_2024_25/` (`MathsStandard-SQP.pdf`, `Science-SQP.pdf`,
+  `SocialScience-SQP.pdf` and their `-MS.pdf`; the PDFs are git-ignored, so
+  they are in the main checkout, not in every worktree). Section names,
+  counts and marks come from each SQP's General Instructions on p. 1, and
+  the internal choice from counting the ORs question by question:
+    - Mathematics: OR in 2 questions of B, 2 of C, 2 of D (instruction 8).
+    - Science: "Attempt either option A or B" on Q23 and Q25 (B, pp. 5-6),
+      Q28 (C, p. 8), Q34-36 (D, pp. 10-13).
+    - Social Science: OR on Q22 (B, p. 7), Q26 (C, p. 8), Q30-33 (D,
+      pp. 8-9); none in E (case based) or F (map).
+  Section E's choice in Mathematics and Science is inside a case unit's
+  2-mark sub-part ("Attempt either subpart B or C"): part of the question's
+  own text, which a template cannot add, and the source line says so.
+  `tests/test_paper_templates.py::test_the_sqp_pdfs_say_what_the_presets_say`
+  re-reads all of this from the PDFs where they are present.
+  The 2025-26 SQPs (`ClassX_2025_26/`, p. 1 of each) state that "the
+  assessment scheme of the Academic Session 2024-25 will continue"; Science
+  and Social Science regroup the same questions by discipline (Biology /
+  Chemistry / Physics; four 20-mark sections with the map item split into
+  Q9 and Q19), so the 2024-25 A-E/F design is kept.
 * **Class 9, every subject** -- `suggested`. CBSE sets no class IX paper; the
   annual preset applies the class X board design, which is what most schools
   do, and is labelled as such.
@@ -88,61 +90,70 @@ _MIX = {
     6: DifficultyDistribution(easy=0.2, medium=0.4, hard=0.4),
 }
 
-# (title, questions, marks each, attempt or None, competency share or None)
-_Row = tuple[str, int, int, "int | None", "float | None"]
+# (title, questions, marks each, attempt or None, competency share or None
+#  [, questions carrying an OR alternative -- the CBSE internal choice])
+_Row = tuple  # 5 or 6 fields, see above
 
 _BOARD: dict[str, list[_Row]] = {
     "Mathematics": [
         ("Section A - Objective (MCQ / assertion-reason)", 20, 1, None, None),
-        ("Section B - Very short answer", 5, 2, None, None),
-        ("Section C - Short answer", 6, 3, None, None),
-        ("Section D - Long answer", 4, 5, None, None),
+        ("Section B - Very short answer", 5, 2, None, None, 2),
+        ("Section C - Short answer", 6, 3, None, None, 2),
+        ("Section D - Long answer", 4, 5, None, None, 2),
         ("Section E - Case-study based", 3, 4, None, 1.0),
     ],
     "Science": [
         ("Section A - Objective (MCQ / assertion-reason)", 20, 1, None, None),
-        ("Section B - Very short answer", 6, 2, None, None),
-        ("Section C - Short answer", 7, 3, None, None),
-        ("Section D - Long answer", 3, 5, None, None),
+        ("Section B - Very short answer", 6, 2, None, None, 2),
+        ("Section C - Short answer", 7, 3, None, None, 1),
+        ("Section D - Long answer", 3, 5, None, None, 3),
         ("Section E - Source / case based", 3, 4, None, 1.0),
     ],
     "Social Science": [
         ("Section A - Objective (MCQ)", 20, 1, None, None),
-        ("Section B - Very short answer", 4, 2, None, None),
-        ("Section C - Short answer", 5, 3, None, None),
-        ("Section D - Long answer", 4, 5, None, None),
-        ("Section E - Case / source based", 3, 4, None, 1.0),
+        ("Section B - Very short answer", 4, 2, None, None, 1),
+        ("Section C - Short answer", 5, 3, None, None, 1),
+        ("Section D - Long answer", 4, 5, None, None, 4),
+        # The SQP's own heading (p. 9): "CASE-BASED QUESTIONS (3X4=12)".
+        ("Section E - Case based", 3, 4, None, 1.0),
         ("Section F - Map skill", 1, 5, None, None),
     ],
 }
 
 _QP = "cbse-dataset/question-papers/question-paper/2025/X/"
-_NO_OR = (" Internal choice on the board paper is an OR alternative inside a "
-          "question{which}; this preset prints one question per slot.")
+_SQP = "academicos-data/corpus/cbse-sqp/"
+
+
+def _sqp_source(subject: str, name: str, design: str, choice: str) -> str:
+    return (
+        f"CBSE Class X Sample Question Paper 2024-25, {subject}, General Instructions, "
+        f"{_SQP}ClassX_2024_25/{name}-SQP.pdf, p. 1: {design} = 80. Internal choice: "
+        f"{choice} Section headings checked against the marking scheme "
+        f"{_SQP}ClassX_2024_25/{name}-MS.pdf. The 2025-26 SQP "
+        f"({_SQP}ClassX_2025_26/{name}-SQP.pdf, p. 1) keeps the 2024-25 scheme.")
+
 
 _BOARD_SOURCE = {
-    "Mathematics": (
-        "CBSE Class X board paper 2025, Mathematics (Standard), General Instructions, "
-        f"{_QP}041_Mathematics_Standard.zip -> 30-1-1_Mathematics Standard.pdf, p. 3: "
-        "A 18 MCQ + 2 assertion-reason x1, B 5x2, C 6x3, D 4x5, E 3 case studies x4 = 80. "
-        "The same design is in the 2024-25 and 2025-26 SQP text "
-        "(academicos-data/corpus/cbse-sqp)."
-        + _NO_OR.format(which=" (2 in B, 2 in C, 2 in D, 3 in E)")),
-    "Science": (
-        "CBSE Class X board paper 2025, Science, General Instructions, "
-        f"{_QP}086_Science.zip -> 31-1-1_Science.pdf, p. 3: A 20 MCQ x1 (assertion-"
-        "reason items among them), B 6x2, C 7x3, D 3x5, E 3 source/case-based units "
-        "x4 = 80. The 2026 paper regroups these as Biology 30 / Chemistry 25 / "
-        "Physics 25 (2026/X/Science.zip -> 31-2-1.pdf, p. 3)."
-        + _NO_OR.format(which=" (in some sections)")),
-    "Social Science": (
-        "CBSE Class X board paper 2025, Social Science, General Instructions, "
-        f"{_QP}087_Social_Science.zip -> 32-1-1_Social Science.pdf, p. 3: A 20 MCQ x1, "
-        "B 4x2, C 5x3, D 4x5, E 3 case/source-based x4, F one map question of 5 "
-        "(History 2 + Geography 3) = 80. The 2026 paper regroups these into four "
-        "20-mark discipline sections (2026/X/Social_Science.zip -> "
-        "1165-1_32-4-1_Social Sc..pdf, p. 3)."
-        + _NO_OR.format(which="")),
+    "Mathematics": _sqp_source(
+        "Mathematics (Standard)", "MathsStandard",
+        "A 18 MCQ + 2 assertion-reason x1, B 5x2, C 6x3, D 4x5, E 3 case studies x4",
+        "an OR in 2 questions each of B, C and D (instruction 8), printed as OR "
+        "alternatives. The choice in every case study's 2-mark sub-part is part of "
+        "the question's own text; this preset does not add one."),
+    "Science": _sqp_source(
+        "Science", "Science",
+        "A 16 MCQ + 4 assertion-reason x1, B 6x2, C 7x3, D 3x5, E 3 source / case "
+        "based units x4",
+        "an OR on 2 questions of B (Q23, Q25, pp. 5-6), 1 of C (Q28, p. 8) and all 3 "
+        "of D (Q34-36, pp. 10-13), printed as OR alternatives. The choice in each "
+        "Section E unit's sub-part (pp. 14-16) is part of the question's own text; "
+        "this preset does not add one."),
+    "Social Science": _sqp_source(
+        "Social Science", "SocialScience",
+        "A 20 MCQ x1, B 4x2, C 5x3, D 4x5, E 3 case based x4, F one map question of 5 "
+        "(History 2 + Geography 3)",
+        "an OR on 1 question of B (Q22, p. 7), 1 of C (Q26, p. 8) and all 4 of D "
+        "(Q30-33, pp. 8-9); none in E or F. Printed as OR alternatives."),
 }
 
 # Language papers at question level, keeping the SQP's weights (see module doc).
@@ -253,8 +264,10 @@ def _instructions(sections: list[TemplateSection]) -> str:
     lines = [f"This question paper has {len(sections)} sections."]
     for s in sections:
         attempt = (f" Attempt any {s.attempts}." if s.attempts < s.question_count else "")
+        choice = (f" {s.choice_count} of them offer an internal choice (OR): attempt only "
+                  "one of the two." if s.choice_count else "")
         lines.append(f"{s.title}: {s.question_count} question(s) of {s.marks_each} "
-                     f"mark(s) each.{attempt}")
+                     f"mark(s) each.{attempt}{choice}")
     lines.append("All questions are compulsory unless a choice is stated.")
     return "\n".join(lines)
 
@@ -289,8 +302,9 @@ def _build(grade: int, subject: str, exam_type: str) -> PaperTemplate:
             id=f"s{i + 1}", title=title, question_count=count, marks_each=marks,
             attempt_count=attempt, difficulty_mix=_MIX.get(marks),
             competency_share=competency, question_types=_types_for(title),
+            choice_count=choices[0] if choices else 0,
         )
-        for i, (title, count, marks, attempt, competency) in enumerate(rows)
+        for i, (title, count, marks, attempt, competency, *choices) in enumerate(rows)
     ]
     exam_name = _EXAM_NAMES[exam_type]
     return PaperTemplate(

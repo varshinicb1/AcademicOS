@@ -378,6 +378,7 @@ def generate_from_template(
             "availability": report.model_dump(by_alias=True, mode="json"),
             "gaps": [g.model_dump(by_alias=True, mode="json") for g in gaps]})
 
+    _attach_choices(plans)
     selected, blueprint = _blueprint(template, plans)
     asm_id = f"asm_tpl_{uuid.uuid4().hex[:8]}"
     title = req.title or template.header.exam_name or template.name
@@ -420,6 +421,24 @@ def generate_from_template(
     )
     return TemplatePaperResponse(paper=paper, assessment_id=asm_id, complete=not gaps,
                                  gaps=gaps, notes=notes, availability=report)
+
+
+def _attach_choices(plans: list[SectionPlan]) -> None:
+    """Each planned OR alternative onto its question, under the metadata keys
+    `paper.generate_paper` prints as "OR" and keys as "<n>_OR" -- the same
+    keys `selection.optimize` uses, so the renderer, the PDF exporter and the
+    set rotation (which swaps primary and alternative) need nothing new. The
+    questions are this request's own copies (`_candidates` builds them per
+    call), so the served bank is never touched."""
+    for p in plans:
+        for q in p.picked + p.borrowed:
+            alt = p.alternatives.get(q.id)
+            if alt is None:
+                continue
+            q.metadata["internal_choice_id"] = alt.id
+            q.metadata["internal_choice_stem"] = alt.stem
+            q.metadata["internal_choice_scheme"] = alt.answer_scheme.model_answer
+            q.metadata["internal_choice_question"] = alt.model_dump(by_alias=False)
 
 
 def _with_header(paper: GeneratedPaper, template: PaperTemplate) -> GeneratedPaper:

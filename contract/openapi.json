@@ -5876,6 +5876,16 @@
             "title": "Borrowed",
             "type": "integer"
           },
+          "choicesFilled": {
+            "default": 0,
+            "title": "Choicesfilled",
+            "type": "integer"
+          },
+          "choicesNeeded": {
+            "default": 0,
+            "title": "Choicesneeded",
+            "type": "integer"
+          },
           "filled": {
             "default": 0,
             "title": "Filled",
@@ -6027,6 +6037,17 @@
             "title": "Available",
             "type": "integer"
           },
+          "choiceCount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Choicecount"
+          },
           "kind": {
             "enum": [
               "widen_scope",
@@ -6034,7 +6055,8 @@
               "change_marks",
               "relax_type",
               "relax_competency",
-              "reduce_count"
+              "reduce_count",
+              "reduce_choices"
             ],
             "title": "Kind",
             "type": "string"
@@ -7256,7 +7278,7 @@
         "type": "object"
       },
       "TemplateSection": {
-        "description": "One section of a teacher's paper.\n\n`attempt_count` is CBSE's \"attempt any N\": `question_count` questions are\nprinted, `attempt_count` are answered, and only the attempted ones count\ntowards the paper's total. None means every question is attempted.\n\n`question_types` empty means any type at this mark value. The bank's type\nlabels are mostly derived from marks, not read from the paper (231 class\n10 Mathematics 1-mark questions are typed `very_short_answer` and none\n`mcq`; every 5-mark question is `case_study`), so the engine matches the\nlong-form kinds -- long answer, case study, map -- by what the question\nsays (paper_templates._content_fits), and the presets set types only on\nthose sections.",
+        "description": "One section of a teacher's paper.\n\n`attempt_count` is CBSE's \"attempt any N\": `question_count` questions are\nprinted, `attempt_count` are answered, and only the attempted ones count\ntowards the paper's total. None means every question is attempted.\n\n`question_types` empty means any type at this mark value. The bank's type\nlabels are mostly derived from marks, not read from the paper (231 class\n10 Mathematics 1-mark questions are typed `very_short_answer` and none\n`mcq`; every 5-mark question is `case_study`), so the engine matches the\nlong-form kinds -- long answer, case study, map -- by what the question\nsays (paper_templates._content_fits), and the presets set types only on\nthose sections.\n\n`choice_count` is the CBSE internal choice: that many of the section's\nquestions print with an OR alternative of the same kind and marks, and\nthe student answers one of the two. It adds no marks -- unlike\n`attempt_count`, nothing extra is scored -- so the totals check ignores\nit. The CBSE papers use it, not \"attempt any N\": the Class X 2024-25\nScience SQP has ORs on 2 of 6 questions in Section B, 1 of 7 in C and all\n3 in D (academicos-data/corpus/cbse-sqp/ClassX_2024_25/Science-SQP.pdf).",
         "properties": {
           "attemptCount": {
             "anyOf": [
@@ -7269,6 +7291,12 @@
               }
             ],
             "title": "Attemptcount"
+          },
+          "choiceCount": {
+            "default": 0,
+            "minimum": 0.0,
+            "title": "Choicecount",
+            "type": "integer"
           },
           "competencyShare": {
             "anyOf": [

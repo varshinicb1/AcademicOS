@@ -334,6 +334,14 @@ class TemplateSection(Camel):
     long-form kinds -- long answer, case study, map -- by what the question
     says (paper_templates._content_fits), and the presets set types only on
     those sections.
+
+    `choice_count` is the CBSE internal choice: that many of the section's
+    questions print with an OR alternative of the same kind and marks, and
+    the student answers one of the two. It adds no marks -- unlike
+    `attempt_count`, nothing extra is scored -- so the totals check ignores
+    it. The CBSE papers use it, not "attempt any N": the Class X 2024-25
+    Science SQP has ORs on 2 of 6 questions in Section B, 1 of 7 in C and all
+    3 in D (academicos-data/corpus/cbse-sqp/ClassX_2024_25/Science-SQP.pdf).
     """
 
     id: str = ""
@@ -344,6 +352,7 @@ class TemplateSection(Camel):
     attempt_count: Optional[int] = Field(default=None, ge=1)
     difficulty_mix: Optional[DifficultyDistribution] = None
     competency_share: Optional[float] = Field(default=None, ge=0.0, le=1.0)
+    choice_count: int = Field(default=0, ge=0)
 
     @property
     def attempts(self) -> int:
@@ -397,6 +406,10 @@ class PaperTemplateDraft(Camel):
             if s.attempt_count is not None and s.attempt_count > s.question_count:
                 problems.append(
                     f"{s.title}: attempt {s.attempt_count} is more than its "
+                    f"{s.question_count} questions")
+            if s.choice_count > s.question_count:
+                problems.append(
+                    f"{s.title}: {s.choice_count} OR choices is more than its "
                     f"{s.question_count} questions")
             mix = s.difficulty_mix
             if mix is not None and abs(mix.easy + mix.medium + mix.hard - 1.0) > 0.011:
