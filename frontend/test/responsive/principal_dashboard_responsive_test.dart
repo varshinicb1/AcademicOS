@@ -181,7 +181,7 @@ Finder _button(String label) =>
 /// scrolled to before it can be checked and tapped. [find.widgetWithText] and
 /// not [find.text]: 'Reschedule' is both a tab and a button on the coverage
 /// dashboard.
-Future<void> _openTab(WidgetTester tester, String label, Size size) async {
+Future<void> _openTab(WidgetTester tester, String label, Screen size) async {
   final tab = find.widgetWithText(Tab, label);
   await tester.ensureVisible(tab);
   await tester.pumpAndSettle();
@@ -289,7 +289,7 @@ void main() {
           label: 'Reschedule on an overdue lesson');
       expectNoOverflow(tester, where: ' at the delayed lessons');
 
-      if (size.width > phone.width) {
+      if (size.size.width > phone.width) {
         // The heading is Flexible (loose), not Expanded (tight): a tight fit
         // makes "Delayed Topics" swallow the whole row and throws its
         // "2 overdue" chip out to the card's right edge, 1 000 px from the
@@ -297,9 +297,9 @@ void main() {
         // the heading its natural width wherever the pair fits.
         await scrollUntilPresent(tester, find.text('Delayed Topics'), dashboard);
         final chip = tester.getRect(find.text('2 overdue'));
-        expect(chip.left, lessThan(size.width / 2),
+        expect(chip.left, lessThan(size.size.width / 2),
             reason: 'the overdue chip starts at ${chip.left.toStringAsFixed(0)} on a '
-                '${size.width.toInt()} px screen: it must stay beside the heading it counts, in the '
+                '${size.size.width.toInt()} px screen: it must stay beside the heading it counts, in the '
                 'left half of the card, not out at the right-hand edge');
       }
 
@@ -404,7 +404,7 @@ void main() {
     // tall there. flutter_test pins the platform to android, so no other
     // test in this file can see it (review of 2026-09-23).
     await withDesktopDensity(() async {
-      await pumpPage(tester, const PrincipalAdminPage(), phone);
+      await pumpPage(tester, const PrincipalAdminPage(), phoneScreen);
       final tab = find.text('Coverage & Pace');
       await tester.ensureVisible(tab);
       await tester.pumpAndSettle();
@@ -414,7 +414,7 @@ void main() {
 
       final dashboard = find.descendant(of: find.byType(RefreshIndicator), matching: find.byType(Scrollable)).first;
       await scrollUntilPresent(tester, find.widgetWithText(TextButton, 'Reschedule'), dashboard);
-      await scrollToAndExpectReady(tester, find.widgetWithText(TextButton, 'Reschedule').first, phone,
+      await scrollToAndExpectReady(tester, find.widgetWithText(TextButton, 'Reschedule').first, phoneScreen,
           label: 'Reschedule on a desktop density');
     });
   });
@@ -427,8 +427,8 @@ void main() {
     // Update Calendar, Add Holiday and the rest -- and is measured against a
     // bare FilledButton pumped in the same theme at the same density.
     await withDesktopDensity(() async {
-      final shipped = await themeButtonHeight(tester, laptop);
-      await pumpPage(tester, const PrincipalAdminPage(), laptop);
+      final shipped = await themeButtonHeight(tester, laptopScreen);
+      await pumpPage(tester, const PrincipalAdminPage(), laptopScreen);
       expectNoOverflow(tester, where: ' on the Roster tab at a laptop width');
       final create = tester.getRect(paintedTarget(tester, _button('Create invite'))).height;
       expect(create, shipped,

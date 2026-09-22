@@ -35,7 +35,7 @@ void useInMemoryHive() {
   setUp(() => LocalStore.instance.box.clear());
 }
 
-Future<(FixtureAdapter, SavedPdfs)> pumpBuilder(WidgetTester tester, Size size, {bool quick = false}) async {
+Future<(FixtureAdapter, SavedPdfs)> pumpBuilder(WidgetTester tester, Screen size, {bool quick = false}) async {
   useScreen(tester, size);
   final adapter = FixtureAdapter();
   final saved = SavedPdfs();
@@ -73,7 +73,7 @@ Finder cardButton(String cardText, String button) => find.descendant(
 
 /// Class 10 Science, the half-yearly CBSE preset, the whole syllabus:
 /// leaves the builder on the chapters step with Generate ready.
-Future<void> toChaptersStep(WidgetTester tester, Size size) async {
+Future<void> toChaptersStep(WidgetTester tester, Screen size) async {
   expectNoOverflow(tester, where: ' on class & subject');
   expectActionReady(tester, find.ancestor(of: find.text('Class 10'), matching: find.byType(ChoiceChip)), size,
       label: 'the Class 10 choice');
@@ -105,7 +105,7 @@ Future<void> toChaptersStep(WidgetTester tester, Size size) async {
 }
 
 /// From the chapters step: Generate, and land on the paper.
-Future<void> generate(WidgetTester tester, Size size) async {
+Future<void> generate(WidgetTester tester, Screen size) async {
   await tester.tap(builderPrimary());
   await tester.pumpAndSettle();
   expectNoOverflow(tester, where: ' on the paper');

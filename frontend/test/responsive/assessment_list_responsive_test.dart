@@ -103,9 +103,9 @@ void main() {
       // The whole row, chip included, stays inside the screen -- a chip
       // pushed past the right edge is the failure this row's shape invites.
       final chip = tester.getRect(find.text(AssessmentStatus.questionOptimized.name));
-      expect(chip.right, lessThanOrEqualTo(size.width),
+      expect(chip.right, lessThanOrEqualTo(size.size.width),
           reason: 'the status chip ends at ${chip.right.toStringAsFixed(0)} on a '
-              '${size.width.toInt()} px screen');
+              '${size.size.width.toInt()} px screen');
 
       expectActionReady(tester, find.byTooltip('Quick paper (CBSE pattern)'), size, label: 'Quick paper');
       expectActionReady(tester, find.byTooltip('Create assessment'), size, label: 'Create assessment');
@@ -118,14 +118,14 @@ void main() {
     // gets (`compact`, -8 -8), which the tests above cannot reach because
     // flutter_test pins the platform to android (review of 2026-09-23).
     await withDesktopDensity(() async {
-      useScreen(tester, phone);
+      useScreen(tester, phoneScreen);
       await tester.pumpWidget(wrapForTest(const AssessmentListPage(),
           bloc: env.buildAssessmentBloc(), theme: AppTheme.lightTheme));
       await tester.pumpAndSettle();
       expectNoOverflow(tester);
-      expectActionReady(tester, find.byTooltip('Quick paper (CBSE pattern)'), phone,
+      expectActionReady(tester, find.byTooltip('Quick paper (CBSE pattern)'), phoneScreen,
           label: 'Quick paper on a desktop density');
-      expectActionReady(tester, find.byTooltip('Create assessment'), phone,
+      expectActionReady(tester, find.byTooltip('Create assessment'), phoneScreen,
           label: 'Create assessment on a desktop density');
     });
   });

@@ -51,14 +51,14 @@ void main() {
   useAppFonts();
 
   testWidgets('on a phone the rail is a drawer, opened from the page and big enough to tap', (tester) async {
-    useScreen(tester, phone);
+    useScreen(tester, phoneScreen);
     await tester.pumpWidget(_shellApp());
     await tester.pumpAndSettle();
     expectNoOverflow(tester);
 
     expect(find.byType(NavigationRail), findsNothing, reason: 'a rail would eat a phone screen');
     final menu = find.byTooltip('Menu');
-    expectActionReady(tester, menu, phone, label: 'the Menu button');
+    expectActionReady(tester, menu, phoneScreen, label: 'the Menu button');
 
     await tester.tap(menu);
     await tester.pumpAndSettle();
@@ -85,25 +85,25 @@ void main() {
     // own visualDensity keeps the one way into the navigation thumb-sized
     // there (review of 2026-09-23).
     await withDesktopDensity(() async {
-      useScreen(tester, phone);
+      useScreen(tester, phoneScreen);
       await tester.pumpWidget(_shellApp());
       await tester.pumpAndSettle();
       expectNoOverflow(tester);
-      expectActionReady(tester, find.byTooltip('Menu'), phone, label: 'the Menu button on a desktop density');
+      expectActionReady(tester, find.byTooltip('Menu'), phoneScreen, label: 'the Menu button on a desktop density');
     });
   });
 
   testWidgets('a tablet keeps the drawer: 768 px is still narrower than the rail wants', (tester) async {
-    useScreen(tester, tablet);
+    useScreen(tester, tabletScreen);
     await tester.pumpWidget(_shellApp());
     await tester.pumpAndSettle();
     expectNoOverflow(tester);
-    expectActionReady(tester, find.byTooltip('Menu'), tablet, label: 'the Menu button');
+    expectActionReady(tester, find.byTooltip('Menu'), tabletScreen, label: 'the Menu button');
     expect(find.byType(NavigationRail), findsNothing);
   });
 
   testWidgets('a laptop shows the rail with every destination and Settings', (tester) async {
-    useScreen(tester, laptop);
+    useScreen(tester, laptopScreen);
     await tester.pumpWidget(_shellApp());
     await tester.pumpAndSettle();
     expectNoOverflow(tester);
@@ -114,6 +114,6 @@ void main() {
       'Mastery', 'Teacher', 'Principal']) {
       expect(find.descendant(of: find.byType(NavigationRail), matching: find.text(destination)), findsOneWidget);
     }
-    expectActionReady(tester, find.byTooltip('Settings'), laptop, label: 'Settings in the rail');
+    expectActionReady(tester, find.byTooltip('Settings'), laptopScreen, label: 'Settings in the rail');
   });
 }

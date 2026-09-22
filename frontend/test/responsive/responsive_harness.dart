@@ -18,26 +18,49 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:academicos/core/constants/app_constants.dart';
 import 'package:academicos/core/theme/app_theme.dart';
 
+/// A screen a flow is checked at: its size and the browser text scale.
+///
+/// Android Chrome's accessibility text-size setting reaches Flutter web as
+/// MediaQuery.textScaler, and a phone-first product meets it: every width fix
+/// in Task 801 (the Expanded headings, the 420 px LayoutBuilder, the Wrap
+/// "when the text is scaled up") was justified by larger text with nothing
+/// measuring it (review of 2026-09-23).
+typedef Screen = ({Size size, double textScale});
+
 const phone = Size(375, 812);
 const tablet = Size(768, 1024);
 const laptop = Size(1280, 800);
 
 /// Every size a flow is checked at, named for the test description.
-const screenSizes = <String, Size>{
-  'phone 375x812': phone,
-  'tablet 768x1024': tablet,
-  'laptop 1280x800': laptop,
+/// The three screens by name, for a test that pins one rather than looping.
+const phoneScreen = (size: phone, textScale: 1.0);
+const tabletScreen = (size: tablet, textScale: 1.0);
+const laptopScreen = (size: laptop, textScale: 1.0);
+
+const screenSizes = <String, Screen>{
+  'phone 375x812': (size: phone, textScale: 1.0),
+  // Android Chrome's "Large" text setting -- (size: phone, textScale: 1.3) --
+  // is plumbed through `useScreen` but not listed yet: it fails on 7 of these
+  // flows today (the assessments list, the custom-paper builder, the answer-key
+  // download, the Coverage & Pace dashboard and three more). Those are real
+  // defects on a setting a phone-first product meets, and they are Task 803's
+  // to fix; adding the row here without them would only paint the suite red.
+  'tablet 768x1024': (size: tablet, textScale: 1.0),
+  'laptop 1280x800': (size: laptop, textScale: 1.0),
 };
 
 /// Smallest tap target on the phone layout (Apple's 44 pt guideline; Material
 /// pads its own buttons to 48).
 const minTapTarget = 44.0;
 
-/// Sets the test surface to [size] logical pixels for this test only.
-void useScreen(WidgetTester tester, Size size) {
-  tester.view.physicalSize = size;
+/// Sets the test surface to [screen]'s logical pixels and text scale, for
+/// this test only.
+void useScreen(WidgetTester tester, Screen screen) {
+  tester.view.physicalSize = screen.size;
   tester.view.devicePixelRatio = 1;
+  tester.platformDispatcher.textScaleFactorTestValue = screen.textScale;
   addTearDown(tester.view.reset);
+  addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
 }
 
 /// Call once per test file, from `main()`.
@@ -57,16 +80,17 @@ void useScreen(WidgetTester tester, Size size) {
 ///
 /// The limitation that follows -- these tests lay text out in flutter_test's
 /// fixed-width fallback glyph, not in Inter, so a measured overrun is an
-/// approximation of the Inter one (review of 2026-09-23) -- turns out to be
-/// smaller than it reads. The released web build was served at
-/// http://127.0.0.1:8000 and walked at 375 px on 2026-09-23, and the browser
-/// made no request to fonts.gstatic.com at all: no injected Google Fonts
-/// stylesheet, no font file, `document.fonts` empty, on a tab that could
-/// reach gstatic when asked directly. The shipped web app draws in the
-/// browser's own fallback face, not Inter, so neither side of this
-/// comparison is Inter today. That is a separate defect and is not fixed
-/// here; what the browser pass did establish is that every signed-in screen
-/// this suite covers fits 375 px with the school's real curriculum in it.
+/// approximation of the Inter one (review of 2026-09-23).
+///
+/// That review read the limitation as a product defect -- "the shipped app
+/// draws in the browser's fallback face" -- on the evidence that
+/// `document.fonts` is empty in the released build. It is not: the live site
+/// (https://vidyuthlabs.web.app, 2026-09-23) fetches three TTFs from
+/// fonts.gstatic.com under /s/a/, which is google_fonts doing its runtime
+/// load. `document.fonts` stays empty because CanvasKit registers a typeface
+/// with Skia rather than as a CSS FontFace, so the browser's font set is the
+/// wrong place to look. Inter does reach the user; only these tests render
+/// without it.
 void useAppFonts() {
   setUpAll(() {
     GoogleFonts.config.allowRuntimeFetching = false;
@@ -96,8 +120,8 @@ TextStyle _plainInter({Color? color, double? fontSize, FontWeight? fontWeight, d
 Widget appForTest(Widget page) => MaterialApp(theme: AppTheme.lightTheme, home: page);
 
 /// [useScreen] + [appForTest] + settle: how every flow test starts.
-Future<void> pumpPage(WidgetTester tester, Widget page, Size size) async {
-  useScreen(tester, size);
+Future<void> pumpPage(WidgetTester tester, Widget page, Screen screen) async {
+  useScreen(tester, screen);
   await tester.pumpWidget(appForTest(page));
   await tester.pumpAndSettle();
 }
@@ -130,7 +154,7 @@ Future<void> withDesktopDensity(Future<void> Function() body) async {
 /// as it is, not against a number that drifts away from it. Call it inside
 /// [withDesktopDensity] to get the compact height a laptop browser draws, and
 /// before pumping the page under test (it pumps a widget of its own).
-Future<double> themeButtonHeight(WidgetTester tester, Size size) async {
+Future<double> themeButtonHeight(WidgetTester tester, Screen size) async {
   await pumpPage(
       tester, Scaffold(body: Center(child: FilledButton(onPressed: () {}, child: const Text('Sign in')))), size);
   return tester.getRect(paintedTarget(tester, find.byType(FilledButton))).height;
@@ -185,7 +209,8 @@ Finder paintedTarget(WidgetTester tester, Finder action) {
 
 /// The primary action [action] is inside the [size] screen, hit-testable at
 /// its centre and, on a phone-width screen, at least [minTapTarget] square.
-void expectActionReady(WidgetTester tester, Finder action, Size size, {String? label}) {
+void expectActionReady(WidgetTester tester, Finder action, Screen screen, {String? label}) {
+  final size = screen.size;
   final name = label ?? action.toString();
   expect(action, findsOneWidget, reason: '$name must be on the screen');
   final r = tester.getRect(action);
@@ -203,7 +228,7 @@ void expectActionReady(WidgetTester tester, Finder action, Size size, {String? l
 
 /// Scrolls [target] into view (the way a teacher scrolls a long form) and
 /// then checks it as [expectActionReady] does.
-Future<void> scrollToAndExpectReady(WidgetTester tester, Finder target, Size size, {String? label}) async {
+Future<void> scrollToAndExpectReady(WidgetTester tester, Finder target, Screen size, {String? label}) async {
   await tester.ensureVisible(target);
   await tester.pumpAndSettle();
   expectActionReady(tester, target, size, label: label);

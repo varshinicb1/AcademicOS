@@ -53,11 +53,11 @@ void main() {
     // there. flutter_test pins the platform to android, so none of the tests
     // above can see it (review of 2026-09-23).
     await withDesktopDensity(() async {
-      await pumpPage(tester, const LoginPage(), phone);
+      await pumpPage(tester, const LoginPage(), phoneScreen);
       expectNoOverflow(tester, where: ' at a desktop density');
-      expectActionReady(tester, find.widgetWithText(FilledButton, 'Sign in'), phone,
+      expectActionReady(tester, find.widgetWithText(FilledButton, 'Sign in'), phoneScreen,
           label: 'Sign in on a desktop density');
-      expectActionReady(tester, find.byType(SegmentedButton<bool>), phone,
+      expectActionReady(tester, find.byType(SegmentedButton<bool>), phoneScreen,
           label: 'the Sign in / Create account switch on a desktop density');
     });
   });
@@ -74,8 +74,8 @@ void main() {
     // bare FilledButton pumped in the same theme at the same density, so it
     // stays true if the theme's button metrics ever change.
     await withDesktopDensity(() async {
-      final shipped = await themeButtonHeight(tester, laptop);
-      await pumpPage(tester, const LoginPage(), laptop);
+      final shipped = await themeButtonHeight(tester, laptopScreen);
+      await pumpPage(tester, const LoginPage(), laptopScreen);
       expectNoOverflow(tester, where: ' on a laptop at a desktop density');
       final signIn = tester.getRect(paintedTarget(tester, find.widgetWithText(FilledButton, 'Sign in'))).height;
       expect(signIn, shipped,
