@@ -334,6 +334,28 @@ def test_empty_gcs_boot_needs_an_explicit_acknowledgement(
     assert not db_path.exists(), "a refused boot must leave nothing to boot from"
 
 
+def test_an_allowed_empty_boot_saves_its_snapshot_so_the_next_deploy_starts(
+        shared_gcs, tmp_path: Path, monkeypatch) -> None:
+    """The live GCP service first booted with ACOS_CURRICULUM_ALLOW_EMPTY_BOOT=1
+    and nobody edited a curriculum afterwards. A schema-only start commits no
+    row change, so no snapshot was ever uploaded, and the next deploy
+    (revision 00003, 2026-09-22) refused to start: "no curriculum snapshot in
+    GCS". The acknowledgement is a FIRST-boot variable, so the empty
+    curriculum is saved at once and the next boot restores it."""
+    from academicos.curriculum import store as store_mod
+    monkeypatch.setattr(store_mod, "_INSTANCE", None)
+    monkeypatch.setenv("ACOS_CURRICULUM_ALLOW_EMPTY_BOOT", "1")
+    first = store_mod.get_curriculum_store(tmp_path / "boot1")
+    assert _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == set()
+    first.close()
+
+    monkeypatch.setattr(store_mod, "_INSTANCE", None)
+    monkeypatch.delenv("ACOS_CURRICULUM_ALLOW_EMPTY_BOOT")
+    second = store_mod.get_curriculum_store(tmp_path / "boot2")   # the next deploy
+    assert second.list_boards() == []
+    second.close()
+
+
 def test_empty_boot_guard_does_not_apply_off_gcs(clean_env, tmp_path: Path) -> None:
     """Local dev (no bucket) never restores and must keep starting empty."""
     from academicos.curriculum.store import CurriculumStore

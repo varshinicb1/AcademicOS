@@ -1615,5 +1615,8 @@ def get_curriculum_store(data_root: Path) -> CurriculumStore:
     instance = _INSTANCE.get(key)
     if instance is None:
         instance = CurriculumStore(Path(key))
+        # A service that started empty saves that empty curriculum now, so the
+        # next deploy restores it instead of refusing to start.
+        instance._snapshots.save_empty_boot(instance.conn)
         _INSTANCE[key] = instance
     return instance
