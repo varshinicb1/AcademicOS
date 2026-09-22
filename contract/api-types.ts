@@ -2033,7 +2033,12 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Health */
+        /**
+         * Health
+         * @description Liveness plus build identity. The 2026-09-21 audit found the live
+         *     service a build 4+ days behind its source and unable to say so; the deploy
+         *     job now fails unless `commit` is the commit it just deployed.
+         */
         get: operations["health_health_get"];
         put?: never;
         post?: never;
