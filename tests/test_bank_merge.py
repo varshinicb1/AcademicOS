@@ -1151,7 +1151,11 @@ def test_unresolved_chapters_counts_only_non_board_records_the_syllabus_misses()
         board(3, source="cbse_question_bank", subject="Mathematics", grade=6, chapterIds=[]),
         board(4, chapterIds=["unknown-board-chapter"]),
     ]
-    assert bm.unresolved_chapters(recs, names) == 2
+    # A record with no chapter id is not an "unknown chapter id": the two are
+    # different gaps (untagged vs. a raw code like 6N1a the syllabus can't name),
+    # and folding them together printed 840 where only ~149 were unknown ids.
+    assert bm.unresolved_chapters(recs, names) == 1
+    assert bm.untagged_chapters(recs) == 1
 
 
 def test_shared_chapter_labels_finds_one_name_on_several_chapters():

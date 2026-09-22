@@ -893,8 +893,20 @@ def unresolved_chapters(records: list[dict],
     return sum(
         1 for rec in records
         if rec.get("source") != BOARD_SOURCE
-        and (rec.get("subject"), rec.get("grade"),
-             (rec.get("chapterIds") or [None])[0]) not in names)
+        and rec.get("chapterIds")
+        and (rec.get("subject"), rec.get("grade"), rec["chapterIds"][0]) not in names)
+
+
+def untagged_chapters(records: list[dict]) -> int:
+    """How many non-board records carry no chapter id at all.
+
+    Kept apart from unresolved_chapters: an untagged record (mostly SQP subjects
+    with no syllabus file -- Home Science, Odissi, Carnatic Music, Sociology) is
+    a different gap from a raw code the syllabus cannot name. Counted together
+    they read as 840 unknown ids on the real sources when only ~149 were.
+    """
+    return sum(1 for rec in records
+               if rec.get("source") != BOARD_SOURCE and not rec.get("chapterIds"))
 
 
 def shared_chapter_labels(records: list[dict]) -> dict[tuple[str, int], dict[str, list[str]]]:

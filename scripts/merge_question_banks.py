@@ -126,8 +126,10 @@ def run(paths: Paths, *, check: bool) -> int:
     # Records the syllabus cannot name keep a topic as their first tag, so the
     # phone's picker can show several chapters under one label. The fix belongs
     # to the chapter tagger; this keeps the gap visible on every --check.
-    print(f"unresolved chapter ids (non-board): "
+    print(f"chapter ids the syllabus cannot name (non-board): "
           f"{bank_merge.unresolved_chapters(questions, names):,}")
+    print(f"records with no chapter id (non-board): "
+          f"{bank_merge.untagged_chapters(questions):,}")
     shared = bank_merge.shared_chapter_labels(questions)
     if shared:
         print("chapter labels shared by several chapter ids:")

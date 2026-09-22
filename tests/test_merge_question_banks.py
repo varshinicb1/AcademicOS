@@ -106,5 +106,6 @@ def test_check_reports_unresolved_and_shared_chapter_labels(layout, capsys):
         chapterTaggedAt="t")
     assert mqb.run(layout, check=True) == 0
     out = capsys.readouterr().out
-    assert "unresolved chapter ids (non-board): 2" in out
+    assert "chapter ids the syllabus cannot name (non-board): 2" in out
+    assert "records with no chapter id (non-board): 0" in out
     assert "Mathematics 7: 'Integers' covers 7N1a, 7N1b" in out
