@@ -141,6 +141,13 @@ def validate_holiday(*, date_: str, end_date: Optional[str], kind: str,
             parsed[field_name] = _parse_date(value)
         except (TypeError, ValueError):
             raise ValueError(f"holiday {field_name} {value!r} is not a YYYY-MM-DD date") from None
+        # Python 3.11+ fromisoformat also takes '20261005' and '2026-W41-1'.
+        # The raw string is what gets stored, and working_days_for_year matches
+        # holidays against d.isoformat(), so such a holiday was listed but
+        # closed zero days (261 working days before and after), and a mixed
+        # '20261006' .. '2026-10-08' pair 500'd on the store's string compare.
+        if parsed[field_name].isoformat() != value:
+            raise ValueError(f"holiday {field_name} {value!r} is not a YYYY-MM-DD date")
     start = parsed["date"]
     end = parsed.get("end_date", start)
     if end < start:

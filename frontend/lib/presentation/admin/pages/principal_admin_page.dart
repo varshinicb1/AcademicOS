@@ -7,6 +7,7 @@ import '../../../data/datasources/api/auth_api.dart';
 import '../../../data/datasources/api/curriculum_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import '../widgets/calendar_rules_card.dart';
 
 /// School Admin console (§2, §11-14, §17, §32):
 /// 1. Roster: Assign teachers to books and enroll students into grades.
@@ -82,10 +83,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
   int _seqMode = 0; // 0: units, 1: chapters
 
   // --- Calendar & Period Setup State ---
-  // Weekday names and rule values exactly as the backend's
-  // CreateCalendarRequest takes them (see CurriculumApi.createCalendar).
-  String _weeklyOffDay = 'sunday';
-  String _altSatRule = 'none';
+  // The weekly-off / Saturday-rule choices live in CalendarRulesCard.
   bool _creatingCalendar = false;
   // The year's saved calendar, once loaded: its presence turns "Initialize"
   // into "Update" (a second create is a 409; PUT corrects it in place).
@@ -409,7 +407,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     }
   }
 
-  Future<void> _submitCreateCalendar() async {
+  Future<void> _submitCreateCalendar(List<String> weeklyOffDays, String altSatRule) async {
     if (_academicYearId == null) return;
     final updating = _calendar != null;
     setState(() => _creatingCalendar = true);
@@ -417,10 +415,10 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       final api = GetIt.I<CurriculumApi>();
       if (updating) {
         await api.updateCalendar(_academicYearId!,
-            weeklyOffDays: [_weeklyOffDay], alternateSaturdayRule: _altSatRule);
+            weeklyOffDays: weeklyOffDays, alternateSaturdayRule: altSatRule);
       } else {
         await api.createCalendar(_academicYearId!,
-            weeklyOffDays: [_weeklyOffDay], alternateSaturdayRule: _altSatRule);
+            weeklyOffDays: weeklyOffDays, alternateSaturdayRule: altSatRule);
       }
       _showMessage(updating ? 'Academic Calendar updated.' : 'Academic Calendar initialized successfully.');
       _loadCalendarSetup();
@@ -488,9 +486,6 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     }
   }
 
-  static const _weeklyOffChoices = {'sunday', 'saturday', 'friday'};
-  static const _altSatChoices = {'none', 'second_fourth', 'all'};
-
   Future<void> _loadCalendarSetup() async {
     if (_academicYearId == null) return;
     setState(() => _loadingWorkingDays = true);
@@ -498,17 +493,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       final api = GetIt.I<CurriculumApi>();
       final cal = await api.getCalendar(_academicYearId!);
       if (mounted) {
-        setState(() {
-          _calendar = cal;
-          // Show the saved rules in the dropdowns when they can hold them
-          // (the API also accepts forms these menus don't offer).
-          if (cal != null && cal.weeklyOffDays.length == 1 &&
-              _weeklyOffChoices.contains(cal.weeklyOffDays.single)) {
-            _weeklyOffDay = cal.weeklyOffDays.single;
-          }
-          final rule = cal?.alternateSaturdayRule == '2nd,4th' ? 'second_fourth' : cal?.alternateSaturdayRule;
-          if (rule != null && _altSatChoices.contains(rule)) _altSatRule = rule;
-        });
+        setState(() => _calendar = cal);
       }
       if (cal == null) return;
       final results = await Future.wait([
@@ -1315,54 +1300,10 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         Text('Setup academic calendar rules, period durations, and block holidays (§8, §10).',
             style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
         const Gap(12),
-        AppCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Academic Calendar Rules', style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
-              const Gap(8),
-              if (_calendar != null) ...[
-                Text(
-                  'Saved: weekly off ${_calendar!.weeklyOffDays.join(', ')}; '
-                  'Saturday rule ${_calendar!.alternateSaturdayRule}',
-                  style: theme.textTheme.bodySmall,
-                ),
-                const Gap(8),
-              ],
-              DropdownButtonFormField<String>(
-                // Re-keyed on load so the saved value replaces the default.
-                key: ValueKey('weekly-off-${_calendar?.id}'),
-                initialValue: _weeklyOffDay,
-                decoration: const InputDecoration(labelText: 'Weekly Off Day', border: OutlineInputBorder()),
-                items: const [
-                  DropdownMenuItem(value: 'sunday', child: Text('Sunday (Default)')),
-                  DropdownMenuItem(value: 'saturday', child: Text('Saturday')),
-                  DropdownMenuItem(value: 'friday', child: Text('Friday')),
-                ],
-                onChanged: (v) => setState(() => _weeklyOffDay = v ?? 'sunday'),
-              ),
-              const Gap(12),
-              DropdownButtonFormField<String>(
-                key: ValueKey('alt-sat-${_calendar?.id}'),
-                initialValue: _altSatRule,
-                decoration: const InputDecoration(labelText: 'Alternate Saturday Rule', border: OutlineInputBorder()),
-                items: const [
-                  DropdownMenuItem(value: 'none', child: Text('None (All working)')),
-                  DropdownMenuItem(value: 'second_fourth', child: Text('2nd & 4th Saturdays Off')),
-                  DropdownMenuItem(value: 'all', child: Text('All Saturdays Off')),
-                ],
-                onChanged: (v) => setState(() => _altSatRule = v ?? 'none'),
-              ),
-              const Gap(12),
-              FilledButton.icon(
-                onPressed: _creatingCalendar ? null : _submitCreateCalendar,
-                icon: _creatingCalendar
-                    ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
-                    : const Icon(Icons.calendar_month),
-                label: Text(_calendar == null ? 'Initialize Calendar' : 'Update Calendar'),
-              ),
-            ],
-          ),
+        CalendarRulesCard(
+          saved: _calendar,
+          busy: _creatingCalendar,
+          onSubmit: _submitCreateCalendar,
         ),
         const Gap(16),
         AppCard(

@@ -160,10 +160,16 @@ def test_end_date_before_date_is_a_422_not_a_500(world):
                              "kind": "public"})
 
 
+@pytest.mark.parametrize("value", ["next monday", "20261005", "2026-W41-1"])
 @pytest.mark.parametrize("field", ["date", "endDate"])
-def test_an_unparseable_date_is_refused(world, field):
+def test_an_unparseable_date_is_refused(world, field, value):
+    # '20261005' and '2026-W41-1' parse under Python 3.11+ fromisoformat, but
+    # the stored string never equals a d.isoformat() the working-day count
+    # matches on, so the holiday was listed and counted zero days (261 stayed
+    # 261); a mixed basic/extended pair hit the store's string comparison and
+    # 500'd. Only the YYYY-MM-DD form the count compares against is accepted.
     body = {"date": "2026-10-05", "label": "x", "kind": "public"}
-    body[field] = "next monday"
+    body[field] = value
     _holiday_refused(world, body)
 
 
