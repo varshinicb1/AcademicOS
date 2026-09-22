@@ -63,6 +63,20 @@ def _has_official_scheme(rec: dict) -> bool:
         scheme.get("markingPoints") or (scheme.get("modelAnswer") or "").strip())
 
 
+def _chapter_names(questions: list[dict]) -> dict[tuple[str, int, str], str]:
+    """(subject, grade, chapter id) -> chapter name, from the syllabus files."""
+    from academicos.syllabus.cbse_syllabus import load_syllabus
+
+    names: dict[tuple[str, int, str], str] = {}
+    for subject, grade in {(q.get("subject"), q.get("grade")) for q in questions}:
+        syllabus = load_syllabus(subject, grade) if subject and grade else None
+        if syllabus is None:
+            continue
+        for _unit, chapter in syllabus.all_chapters():
+            names[(subject, grade, chapter.id)] = chapter.name
+    return names
+
+
 def run(paths: Paths, *, check: bool) -> int:
     served, cbe, sqp = _load(paths.served), _load(paths.cbe), _load(paths.sqp)
     for name, payload in (("CBE", cbe), ("SQP", sqp)):
@@ -72,7 +86,7 @@ def run(paths: Paths, *, check: bool) -> int:
             return 2
 
     result = bank_merge.compose(served["questions"], cbe["questions"], sqp["questions"])
-    questions = result.questions
+    questions = bank_merge.apply_chapter_names(result.questions, _chapter_names(result.questions))
     covered = sum(1 for q in questions if _has_official_scheme(q))
 
     # Deterministic, so re-running on unchanged sources gives identical bytes:

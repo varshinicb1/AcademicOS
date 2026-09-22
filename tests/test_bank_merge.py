@@ -1097,3 +1097,20 @@ def test_numbered_options_that_name_no_letter_are_still_relabelled():
                                           answer="2."))
     assert reason is None
     assert "(B) control" in out["stem"]
+
+
+def test_chapter_name_is_moved_to_the_front_of_tags():
+    rec = board(source="cbse_question_bank", subject="Mathematics", grade=6,
+                chapterIds=["decimals-6"], tags=["Algebra", "6N1a"])
+    out = bm.apply_chapter_names([rec], {("Mathematics", 6, "decimals-6"): "Decimals"})
+    assert out[0]["tags"] == ["Decimals", "Algebra", "6N1a"]
+
+
+def test_board_records_keep_their_tags():
+    rec = board(chapterIds=["x"], tags=["Light"])
+    assert bm.apply_chapter_names([rec], {("Science", 10, "x"): "Other"})[0]["tags"] == ["Light"]
+
+
+def test_an_unknown_chapter_leaves_tags_alone():
+    rec = board(source="cbse_question_bank", chapterIds=["9N1e"], tags=["Number systems"])
+    assert bm.apply_chapter_names([rec], {})[0]["tags"] == ["Number systems"]

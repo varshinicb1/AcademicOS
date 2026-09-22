@@ -856,3 +856,26 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict]) -> ComposeResu
             counts[label] += 1
 
     return ComposeResult(questions=out, excluded=excluded, counts=counts)
+
+
+def apply_chapter_names(records: list[dict],
+                        names: dict[tuple[str, int, str], str]) -> list[dict]:
+    """Put each non-board record's syllabus chapter name first in its tags.
+
+    The phone bundles no syllabus, so its chapter picker names a chapter by the
+    first tag of its first question. CBE records carried a topic there, which
+    labelled several different chapters "Algebra". Board records already lead
+    with the chapter name and are left alone. A chapter id the syllabus does not
+    know -- a raw CBE content code like "9N1e" -- keeps its tags unchanged.
+    """
+    out = []
+    for rec in records:
+        chapter = (rec.get("chapterIds") or [None])[0]
+        name = names.get((rec.get("subject"), rec.get("grade"), chapter))
+        if rec.get("source") == BOARD_SOURCE or not name:
+            out.append(rec)
+            continue
+        rec = dict(rec)
+        rec["tags"] = [name] + [t for t in rec.get("tags") or [] if t != name]
+        out.append(rec)
+    return out
