@@ -1765,6 +1765,16 @@
       },
       "DelayedLessonResponse": {
         "properties": {
+          "bookId": {
+            "default": "",
+            "title": "Bookid",
+            "type": "string"
+          },
+          "bookTitle": {
+            "default": "",
+            "title": "Booktitle",
+            "type": "string"
+          },
           "chapterName": {
             "title": "Chaptername",
             "type": "string"
@@ -1776,6 +1786,11 @@
           "gradeNumber": {
             "title": "Gradenumber",
             "type": "integer"
+          },
+          "isChosenEdition": {
+            "default": true,
+            "title": "Ischosenedition",
+            "type": "boolean"
           },
           "lessonId": {
             "title": "Lessonid",
@@ -7146,6 +7161,16 @@
       "UnscheduledLessonResponse": {
         "description": "A lesson a PUSH found no period for before the year ends. It has no\nday, so no days-overdue figure; lastPlannedDate is the day it held\nbefore it was dropped.",
         "properties": {
+          "bookId": {
+            "default": "",
+            "title": "Bookid",
+            "type": "string"
+          },
+          "bookTitle": {
+            "default": "",
+            "title": "Booktitle",
+            "type": "string"
+          },
           "chapterName": {
             "title": "Chaptername",
             "type": "string"
@@ -7153,6 +7178,11 @@
           "gradeNumber": {
             "title": "Gradenumber",
             "type": "integer"
+          },
+          "isChosenEdition": {
+            "default": true,
+            "title": "Ischosenedition",
+            "type": "boolean"
           },
           "lastPlannedDate": {
             "title": "Lastplanneddate",

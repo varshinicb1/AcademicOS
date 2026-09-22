@@ -1857,7 +1857,8 @@ class CurriculumStore:
             SELECT l.id as lesson_id, l.date as scheduled_date, l.subtopic_id,
                    st.name as subtopic_name, tp.name as topic_name,
                    ch.name as chapter_name, s.name as subject_name,
-                   g.number as grade_number, b.id as book_id
+                   g.number as grade_number, b.id as book_id, b.title as book_title,
+                   s.id as subject_id
             FROM scheduled_lessons l
             JOIN subtopics st ON l.subtopic_id = st.id
             JOIN topics tp ON st.topic_id = tp.id
@@ -1879,6 +1880,19 @@ class CurriculumStore:
         )
         teacher_for_book = {r["book_id"]: r["teacher_id"] for r in assignment_rows}
 
+        # An edition the school stopped teaching keeps its overdue lessons
+        # (nothing deletes them), and the row said nothing about which book it
+        # came from: a principal chased work on a book nobody teaches. Coverage
+        # drops the old edition; this report names it instead, because an
+        # overdue lesson is a fact about the past either way.
+        chosen_cache: dict[str, Optional[str]] = {}
+
+        def _chosen(subject_id: str) -> Optional[str]:
+            if subject_id not in chosen_cache:
+                book = self.selected_book_for_subject(subject_id)
+                chosen_cache[subject_id] = book.id if book else None
+            return chosen_cache[subject_id]
+
         delayed = []
         for r in rows:
             sched_d = date.fromisoformat(r["scheduled_date"])
@@ -1892,6 +1906,9 @@ class CurriculumStore:
                 "chapter_name": r["chapter_name"],
                 "topic_name": r["topic_name"],
                 "subtopic_name": r["subtopic_name"],
+                "book_id": r["book_id"],
+                "book_title": r["book_title"],
+                "is_chosen_edition": _chosen(r["subject_id"]) == r["book_id"],
                 "teacher_id": teacher_for_book.get(r["book_id"]),
                 "teacher_name": None,
             })
@@ -1899,6 +1916,9 @@ class CurriculumStore:
         unscheduled = [{
             "lesson_id": r["lesson_id"],
             "last_planned_date": r["scheduled_date"],
+            "book_id": r["book_id"],
+            "book_title": r["book_title"],
+            "is_chosen_edition": _chosen(r["subject_id"]) == r["book_id"],
             "grade_number": r["grade_number"],
             "subject_name": r["subject_name"],
             "chapter_name": r["chapter_name"],

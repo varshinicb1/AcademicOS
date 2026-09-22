@@ -55,7 +55,8 @@ def world(tmp_path, monkeypatch):
                                    status="ready")
         yield SimpleNamespace(client=client, store=store, board=board.id, year=year.id,
                               subject=subject.id, seeded=seeded.id,
-                              p1=_bearer(p1), p2=_bearer(p2), teacher=_bearer(teacher))
+                              p1=_bearer(p1), p2=_bearer(p2), teacher=_bearer(teacher),
+                              teacher_id=teacher["user"]["id"])
 
 
 def _add_book(w, auth=None, **overrides):
@@ -430,3 +431,37 @@ def test_coverage_keeps_an_unchosen_edition_under_its_own_title(world):
     assert r.status_code == 200, r.text
     rows = {s["bookTitle"]: [c["chapterName"] for c in s["chapters"]] for s in r.json()["subjects"]}
     assert rows == {"English A": ["Chapter A"], "English B": ["Chapter B"]}
+
+
+def test_my_schedule_shows_only_the_chosen_edition(world):
+    """Review finding: the student's views were filtered to the chosen
+    edition, the teacher's own day was not. Assigned to both books, a teacher
+    saw 'Chapter old' and 'Chapter new' on the same day and taught whichever
+    came first."""
+    new = _two_editions(world, ("2026-06-01", "2026-06-02"), ("2026-06-01", "2026-06-02"))
+    teacher_id = world.teacher_id
+    for book in (world.seeded, new):
+        world.store.assign_teacher(school_id="school_1", teacher_id=teacher_id, book_id=book)
+
+    r = world.client.get(f"{BASE}/my-schedule",
+                         params={"start_date": "2026-06-01", "end_date": "2026-06-30"},
+                         headers=world.teacher)
+    assert r.status_code == 200, r.text
+    entries = r.json()
+    assert {e["chapterName"] for e in entries} == {"Chapter new"}
+    assert len(entries) == 2
+
+
+def test_delayed_topics_name_the_book_each_overdue_lesson_belongs_to(world):
+    """Review finding: an abandoned edition's overdue lessons stayed on the
+    principal's list forever, with no field to tell them from the live
+    edition's."""
+    _two_editions(world, ("2026-06-01", "2026-06-02"), ("2026-06-03",))
+    r = world.client.get(f"{BASE}/reporting/delayed-topics",
+                         params={"academic_year_id": world.year, "as_of_date": "2026-09-01"},
+                         headers=world.p1)
+    assert r.status_code == 200, r.text
+    rows = r.json()["delayedLessons"]
+    assert {row["bookTitle"] for row in rows} == {
+        "CBSE Class 10 Mathematics — official curriculum (NCERT)", "New edition"}
+    assert {row["isChosenEdition"] for row in rows} == {False, True}

@@ -1239,7 +1239,16 @@ def get_my_schedule(start_date: str, end_date: str,
     (a fresh teacher account, or a principal who isn't also a teacher)
     honestly gets an empty list, not someone else's data."""
     store = _require()
-    book_ids = {a.book_id for a in store.assignments_for_teacher(current.id)}
+    # Through the subject's CHOSEN edition (PRD 12.7), not every assigned
+    # book: choosing an edition leaves the old assignment in place, and a
+    # teacher assigned to both saw each day twice -- "Chapter old" and
+    # "Chapter new" -- with no way to tell which one the school teaches.
+    book_ids = set()
+    for a in store.assignments_for_teacher(current.id):
+        book = store.get_book(a.book_id)
+        chosen = store.selected_book_for_subject(book.subject_id) if book else None
+        if chosen is not None:
+            book_ids.add(chosen.id)
     if not book_ids:
         return []
     lessons = [l for l in store.scheduled_lessons_for_date_range(current.school_id, start_date, end_date)

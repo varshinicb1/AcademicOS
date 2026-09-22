@@ -626,6 +626,11 @@ class DelayedLessonResponse(Camel):
     chapter_name: str
     topic_name: str
     subtopic_name: str
+    # Which book this lesson belongs to, and whether the school still teaches
+    # that edition: an abandoned edition's lessons stay overdue for ever.
+    book_id: str = ""
+    book_title: str = ""
+    is_chosen_edition: bool = True
     teacher_id: Optional[str] = None
     teacher_name: Optional[str] = None
 
@@ -636,6 +641,9 @@ class UnscheduledLessonResponse(Camel):
     before it was dropped."""
     lesson_id: str
     last_planned_date: str
+    book_id: str = ""
+    book_title: str = ""
+    is_chosen_edition: bool = True
     grade_number: int
     subject_name: str
     chapter_name: str
