@@ -663,6 +663,65 @@ def test_a_statement_inside_a_question_is_not_an_open_instruction():
     assert qs["3"].section_kind == ex.SA
 
 
+def test_a_true_false_or_fill_in_question_carries_its_instruction(maths8_unit1):
+    # The kind reached the student only as "very_short_answer", so heep201's
+    # "... x + 1 = x." went out keyed False with nothing asking true or false.
+    # heep201 p.15: "In each of the following, state whether the statements
+    # are true (T) or false (F)." -- id exemplar:q:8:mathematics:1:-:62.
+    tf = "State whether the statements are true (T) or false (F): "
+    q = _q(maths8_unit1, 62)
+    assert q.stem.startswith(tf)
+    assert q.stem.endswith("where x and y are rational numbers.")
+    assert q.instruction == tf.rstrip()
+    assert ex.to_bank_record(q)["stem"] == q.stem
+    assert ex.exclusion_reason(q) is None
+    # heep201 p.13: "In questions 26 to 47, fill in the blanks to make the
+    # statements true." -- the range goes, the book's words stay
+    # (exemplar:q:8:mathematics:1:-:29; heep2an p.1 "29. positive rational number").
+    q29 = _q(maths8_unit1, 29)
+    assert q29.stem == ("Fill in the blanks to make the statements true: "
+                        "The reciprocal of a positive rational number is ___________.")
+    assert ex.exclusion_reason(q29) is None
+    # Question 100 ends the true/false run (its answer is a list): it goes
+    # back to short answer and loses the true/false lead-in with the kind.
+    q100 = _q(maths8_unit1, 100)
+    assert q100.section_kind == ex.SA and q100.instruction == ""
+    assert "true (T)" not in q100.stem
+
+
+def test_an_instruction_that_points_back_makes_its_questions_shared_stimulus():
+    # gemp109 pp.21-22: "Observe all the four triangles FAB, EAB, DAB and CAB
+    # as shown in Fig. 9.28", then "Now answer Questions 62 to 65:". Question
+    # 62, "All triangles have the same base and the same altitude.", is about
+    # the drawn triangles; served alone it was keyed True, which is false.
+    book = _book(7, "Mathematics")
+    page = ("Exercise\nIn questions 1 to 3, state whether the statements are True or False.\n"
+            "1. All congruent triangles are equal in area.\n"
+            "Now answer Questions 2 to 3:\n"
+            "2. All triangles have the same base and the same altitude.\n"
+            "3. All triangles are congruent.")
+    qs = {q.number: q for q in ex.parse_chapter_pages([page], book, "x.pdf", 9)}
+    assert not qs["1"].shared_stimulus
+    assert qs["1"].stem == ("State whether the statements are True or False: "
+                            "All congruent triangles are equal in area.")
+    for n in ("2", "3"):
+        assert qs[n].shared_stimulus, n
+        qs[n].chapter_verified = True        # the snippet prints no "UNIT 9" head
+        assert ex.exclusion_reason(qs[n]) == "shared-stimulus", n
+
+
+def test_a_range_instruction_becomes_a_lead_in_in_the_books_words():
+    lead = ex._question_instruction
+    # feep102 p.9, feep103 p.8, gemp101 p.14, heep204 p.11
+    assert lead("State whether the statements given in questions 32 to 41 are true (T) "
+                "or false (F).") == "State whether the statements are true (T) or false (F):"
+    assert lead("In questions 50 to 58, fill in the blanks using <, = or >.") == (
+        "Fill in the blanks using <, = or >:")
+    assert lead("In Questions 72 to 108, state whether the statements are True or False.") == (
+        "State whether the statements are True or False:")
+    assert lead("In each of the questions 1 to 16, fill in the blanks:") == "Fill in the blanks:"
+
+
 # --------------------------------------------------------------------------- #
 # the rendering path on real pages
 # --------------------------------------------------------------------------- #
@@ -802,3 +861,52 @@ def test_every_written_record_is_servable():
                 and r["metadata"]["sectionKind"] != ex.VSA):
             bad.append(f"{r['id']}: a true/false statement in a {r['marks']}-mark slot")
     assert not bad, bad[:20]
+
+
+# --------------------------------------------------------------------------- #
+# the PDF library the bank was verified on
+# --------------------------------------------------------------------------- #
+
+def test_the_running_pymupdf_is_the_one_the_bank_was_verified_on():
+    # PyMuPDF 1.27.2.3 fails three of these tests and writes 10 more records,
+    # their stacked fractions flattened into plain digits. The pin in
+    # pyproject.toml, the lock and the guard must all name this version.
+    import pymupdf
+
+    assert pymupdf.VersionBind == ex.VERIFIED_PYMUPDF
+    pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert f'"pymupdf=={ex.VERIFIED_PYMUPDF}"' in pyproject
+    ex.require_verified_pymupdf()             # does not raise
+
+
+def test_a_different_pymupdf_is_refused(monkeypatch):
+    import pymupdf
+
+    monkeypatch.setattr(pymupdf, "VersionBind", "1.27.2.3")
+    with pytest.raises(RuntimeError, match=r"1\.27\.2\.3.*1\.28\.2"):
+        ex.require_verified_pymupdf()
+    with pytest.raises(RuntimeError, match="PyMuPDF"):
+        ex.read_pdf(Path("never-opened.pdf"))
+
+
+@pytest.mark.skipif(not BUILT.exists(), reason="Exemplar bank not built")
+def test_committed_true_false_and_fill_in_records_carry_their_instruction():
+    """577 served records lost the book's instruction (Task 701 review)."""
+    records = {r["id"]: r for r in json.loads(BUILT.read_text(encoding="utf-8"))["questions"]}
+    # feep101: "XXIX = 31", keyed F -- answerable only if it asks true or false.
+    q = records["exemplar:q:6:mathematics:1:-:45"]
+    assert re.fullmatch(r"State whether .*true.*false.*: XXIX = 31", q["stem"], re.I), q["stem"]
+    assert q["answerScheme"]["modelAnswer"] == "False"
+    # feep103 p.8: "0 _______ 1", keyed "<" -- only with the symbols allowed.
+    q = records["exemplar:q:6:mathematics:3:-:52"]
+    assert re.fullmatch(r"Fill in the blanks using <, = or >: 0 _+ 1", q["stem"]), q["stem"]
+    assert q["answerScheme"]["modelAnswer"] == "<"
+    bad = []
+    for r in records.values():
+        kind, stem = r["metadata"]["sectionKind"], r["stem"]
+        lead = stem.split(":", 1)[0].lower() if ":" in stem else ""
+        if kind == ex.TRUE_FALSE and not ("true" in lead and "false" in lead):
+            bad.append(f"{r['id']}: {stem[:60]}")
+        if kind == ex.FILL_BLANK and "fill in" not in lead:
+            bad.append(f"{r['id']}: {stem[:60]}")
+    assert not bad, (len(bad), bad[:10])

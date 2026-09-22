@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-09-22T11:28:23.802619+00:00",
+ "builtAt": "2026-09-22T12:08:48.136002+00:00",
  "root": "ncert-dataset/exemplar",
  "counts": {
   "10|Mathematics": {
@@ -52,11 +52,11 @@
    "chapterMapped": 51,
    "excluded:answer-part-missing": 1,
    "excluded:blank-lost": 2,
-   "excluded:figure-unavailable": 137,
+   "excluded:figure-unavailable": 139,
    "excluded:no-answer": 74,
    "excluded:options-unparsed": 1,
    "excluded:shared-stimulus": 9,
-   "excluded:symbol-loss": 129,
+   "excluded:symbol-loss": 128,
    "excluded:table-layout": 1,
    "found": 880,
    "kind:fill_blank": 183,
@@ -64,11 +64,11 @@
    "kind:mcq_single": 152,
    "kind:sa": 370,
    "kind:true_false": 171,
-   "marks:1": 373,
+   "marks:1": 372,
    "marks:3": 153,
    "withAnswer": 800,
-   "written": 526,
-   "written:fill_blank": 117,
+   "written": 525,
+   "written:fill_blank": 116,
    "written:mcq_single": 109,
    "written:sa": 153,
    "written:true_false": 147
@@ -101,13 +101,13 @@
    "written:vsa": 34
   },
   "7|Mathematics": {
-   "chapterMapped": 439,
+   "chapterMapped": 435,
    "excluded:blank-lost": 66,
    "excluded:figure-unavailable": 338,
    "excluded:no-answer": 68,
    "excluded:options-unparsed": 7,
    "excluded:reading-order": 13,
-   "excluded:shared-stimulus": 11,
+   "excluded:shared-stimulus": 15,
    "excluded:stem-too-short": 1,
    "excluded:symbol-loss": 362,
    "found": 1431,
@@ -116,14 +116,14 @@
    "kind:mcq_single": 311,
    "kind:sa": 559,
    "kind:true_false": 258,
-   "marks:1": 428,
+   "marks:1": 424,
    "marks:3": 137,
    "withAnswer": 1356,
-   "written": 565,
+   "written": 561,
    "written:fill_blank": 98,
    "written:mcq_single": 134,
    "written:sa": 137,
-   "written:true_false": 196
+   "written:true_false": 192
   },
   "7|Science": {
    "chapterMapped": 224,

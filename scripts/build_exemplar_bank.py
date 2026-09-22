@@ -52,12 +52,8 @@ SYLLABUS = REPO / "academicos-data" / "syllabus"
 def render_key() -> str:
     """What the rendered pages depend on besides the PDF: the parser module's
     source (the renderer lives in it) and the PyMuPDF version."""
-    try:
-        import pymupdf as fitz
-    except ImportError:                    # pragma: no cover - older installs
-        import fitz
     h = hashlib.sha256(Path(ex.__file__).read_bytes())
-    h.update(str(getattr(fitz, "VersionBind", "")).encode())
+    h.update(str(getattr(ex._pymupdf(), "VersionBind", "")).encode())
     return h.hexdigest()[:16]
 
 
@@ -92,6 +88,13 @@ def main() -> int:
     if not args.root.exists():
         print(f"no Exemplar files at {args.root}", file=sys.stderr)
         return 1
+    try:
+        # Before anything is read: under another PyMuPDF the same PDFs give a
+        # different bank (see "PDF library" in the parser's docstring).
+        ex.require_verified_pymupdf()
+    except RuntimeError as e:
+        print(f"refusing to build: {e}", file=sys.stderr)
+        return 2
 
     questions, reports = ex.parse_all(args.root, _reader(args.cache))
     book_of = {(b.grade, b.subject): b for b in ex.BOOKS}

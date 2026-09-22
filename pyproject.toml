@@ -9,7 +9,7 @@ description = "AcademicOS - CBSE/NCERT Academic Brain: evidence-grounded knowled
 requires-python = ">=3.12"
 dependencies = [
     "pydantic>=2.7",
-    "pymupdf>=1.24",
+    "pymupdf==1.28.2",  # the version the Exemplar bank was verified on (ncert_exemplar.VERIFIED_PYMUPDF)
     "requests>=2.31",
     "numpy>=1.26",  # package-level import in assessment/imaging.py (loaded by the API app)
     "spacy>=3.7",   # package-level import in extract/local_ie.py (openie/concept-profile)

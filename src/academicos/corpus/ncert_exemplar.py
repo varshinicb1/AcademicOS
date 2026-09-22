@@ -76,6 +76,18 @@ reads as a confidently wrong number. This module renders pages from
     marked (`_out_of_order_blocks`) and excludes whatever question takes it
     in (``reading-order``).
 
+PDF library
+-----------
+Everything above rests on the span boxes, baselines and drawings PyMuPDF
+reports, and those differ between releases. Loss detection is where it shows:
+the stacked-fraction test compares line boxes, and under PyMuPDF 1.27.2.3 it
+misses fractions that 1.28.2 catches -- 3 of 55 tests fail and the build
+writes 10 more records whose fractions were silently flattened ("7 over 8 - x"
+served as "7 8 – x"). Nothing in the output says which library made it, so
+`read_pdf` refuses to run on any version but `VERIFIED_PYMUPDF`, the one the
+bank was checked on; pyproject.toml pins the same version. Moving to another
+release means re-verifying the bank on it, then changing the constant.
+
 A question that leans on data it does not carry -- a figure, a table, "In
 question 42 above", the data block of a range instruction -- is excluded
 (``figure-unavailable``, ``shared-stimulus``), as is a fill-in-the-blank whose
@@ -111,6 +123,10 @@ import unicodedata
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable, Iterable, Optional
+
+# See "PDF library" in the module docstring. pyproject.toml and uv.lock pin
+# the same version.
+VERIFIED_PYMUPDF = "1.28.2"
 
 SOURCE = "ncert_exemplar"
 PROVENANCE = "ncert_exemplar_answer"
@@ -827,12 +843,34 @@ def _mark_stacked(lines: list[_Line]) -> None:
                             l.text = LOSS + l.text
 
 
-def read_pdf(path: Path) -> list[str]:
-    """Every page of a PDF through `render_page`. The one PDF-touching function."""
+def _pymupdf():
     try:
         import pymupdf as fitz
     except ImportError:                    # pragma: no cover - older installs
         import fitz
+    return fitz
+
+
+def require_verified_pymupdf() -> None:
+    """Refuse to render under any PyMuPDF but `VERIFIED_PYMUPDF`.
+
+    See "PDF library" in the module docstring: another version changes which
+    fractions are detected as lost, and so changes the bank without a word.
+    """
+    running = str(getattr(_pymupdf(), "VersionBind", "unknown"))
+    if running != VERIFIED_PYMUPDF:
+        raise RuntimeError(
+            f"PyMuPDF {running} is installed, but the Exemplar parser was verified on "
+            f"PyMuPDF {VERIFIED_PYMUPDF} only: under 1.27.2.3 it wrote 10 records whose "
+            f"stacked fractions were flattened into plain digits. Install "
+            f"pymupdf=={VERIFIED_PYMUPDF} (pyproject.toml, uv.lock), or re-verify the "
+            f"bank on the new version and change VERIFIED_PYMUPDF.")
+
+
+def read_pdf(path: Path) -> list[str]:
+    """Every page of a PDF through `render_page`. The one PDF-touching function."""
+    require_verified_pymupdf()
+    fitz = _pymupdf()
     doc = fitz.open(str(path))
     try:
         pages = list(doc)
@@ -1543,6 +1581,14 @@ _RANGE = re.compile(r"\bquestions?\s*,?\s*(?:from\s+)?(\d{1,3})\s*,?\s*(?:to|and
 _INSTRUCTION_START = re.compile(
     r"^\s*(?:In|State|Translate|Encircle|Using|Now|Work|Answer|Fill|Write|Choose|What|"
     r"Express|Replace|Solve|Observe|The following|Based)\b")
+# The range as an instruction words it -- "In questions 39 to 98, ", "In each
+# of the following, ", "... given in questions 32 to 41 ..." -- which means
+# nothing once the question stands alone in a paper.
+_RANGE_WORDS = re.compile(
+    r"^\s*in\s+(?:each\s+of\s+)?(?:the\s+)?(?:following|questions?\s*,?\s*(?:from\s+)?"
+    r"\d{1,3}\s*,?\s*(?:to|and|-|–|—)\s*\d{1,3})\b\s*,?"
+    r"|\s*\b(?:given\s+)?(?:in|for)\s+(?:the\s+)?questions?\s*,?\s*(?:from\s+)?"
+    r"\d{1,3}\s*,?\s*(?:to|and|-|–|—)\s*\d{1,3}\b", re.I)
 _UNIT_EXERCISE = re.compile(r"^\s*(?:\(C\)\s*)?Exercises?\s*$", re.I)
 _UNIT_END_WORDS = re.compile(r"^\s*(?:\(D\)\s*)?(?:Activit|Applicat|Games|Think)", re.I)
 
@@ -1674,7 +1720,10 @@ def _parse_maths_unit(tagged, book, source_file, chapter, name) -> list[Exemplar
     (appending them to the question before is how "In questions 39 to 98
     state whether..." became the text of option (D) of question 38). Three
     kinds of instruction are the book's section kinds (MCQ, fill in the
-    blanks, true/false). Any other short instruction -- "In questions 56 to
+    blanks, true/false); the true/false and fill-in ones also lead every stem
+    they cover, without their range (`_lead_with_instruction`), because the
+    served type cannot say "true or false" or "using <, = or >". Any other
+    short instruction -- "In questions 56 to
     74, choose a letter x, y, z ... and write the corresponding expressions"
     -- is part of every question it covers and is put in front of each stem.
     An instruction that carries data (a table, a figure, more than three
@@ -1766,14 +1815,56 @@ def _parse_maths_unit(tagged, book, source_file, chapter, name) -> list[Exemplar
                 q.open_run = k + 1 if open_end else 0
                 if kind in OPTION_KINDS:
                     _reoption(q)
+                else:
+                    _lead_with_instruction(q, text)
             elif (len(lines) > 3 or FIGURE_MARK in text or LOSS in text
-                  or ASIDE_MARK in text):
+                  or ASIDE_MARK in text or _POINTS_BACK.match(text)):
                 q.shared_stimulus = True
             else:
                 q.stem = f"{text} {q.stem}".strip()
                 q.raw_lines = [text] + q.raw_lines
                 q.instruction = text
     return col.questions
+
+
+# "Now answer Questions 62 to 65:" (gemp109 p.22) answers questions about
+# what was printed before it -- there, the triangles of Fig. 9.28. Served
+# alone, "All triangles have the same base and the same altitude." was keyed
+# True, which without the figure is false.
+_POINTS_BACK = re.compile(r"^\s*Now\b", re.I)
+
+
+def _question_instruction(text: str) -> str:
+    """A range instruction as one question's lead-in, in the book's words:
+    "In questions 39 to 98, state whether the given statements are true (T)
+    or false (F)." -> "State whether the given statements are true (T) or
+    false (F):". Only the range goes; every other word is the book's."""
+    s = re.sub(r"\s+", " ", _RANGE_WORDS.sub(" ", text)).strip(" ,")
+    s = re.sub(r"[\s.:;,]+$", "", s)
+    return f"{s[0].upper()}{s[1:]}:" if s else ""
+
+
+def _lead_with_instruction(q: ExemplarQuestion, text: str) -> None:
+    """Put a true/false or fill-in-the-blank instruction in front of the stem.
+
+    The kind alone does not reach the student: the served type is
+    ``very_short_answer`` for both (no true/false type exists in the schema
+    or the app), so "XXIX = 31" keyed "False" was served with nothing asking
+    for true or false, and "0 _______ 1" keyed "<" without "using <, = or >"
+    (feep103 p.8). Before this, 568 true/false and 418 fill-in records of
+    the committed bank carried no instruction at all.
+    """
+    lead = _question_instruction(text)
+    if lead:
+        q.instruction = lead
+        q.stem = f"{lead} {q.stem}".strip()
+
+
+def _drop_instruction(q: ExemplarQuestion) -> None:
+    """Undo `_lead_with_instruction` for a question the kind turned out not to fit."""
+    if q.instruction and q.stem.startswith(q.instruction):
+        q.stem = q.stem[len(q.instruction):].lstrip()
+    q.instruction = ""
 
 
 def _next_question_within(body: list[_Tagged], i: int, last: int, n: int) -> bool:
@@ -1954,6 +2045,8 @@ def pair_answers(questions: list[ExemplarQuestion], key: AnswerKey, answer_file:
                 q.stem, q.options, q.option_labels, q.options_error = before
                 continue                      # a bare letter is no answer to prose
             q.section_kind, q.section_label = MCQ_SINGLE, "Multiple Choice Questions"
+            if q.instruction and not q.stem.startswith(q.instruction):
+                q.instruction = ""        # a true/false or fill-in lead-in; not an MCQ's
         if q.section_kind in OPTION_KINDS:
             if q.options_error:
                 continue
@@ -1993,7 +2086,7 @@ def _fits_kind(q: ExemplarQuestion) -> Optional[bool]:
         text = q.answer_text.replace(LOSS, " ").strip()
         return bool(_TF_ANSWER.fullmatch(text)) if text else None
     if q.section_kind == FILL_BLANK:
-        return bool(_BLANK.search(q.stem))
+        return bool(_BLANK.search(q.stem[len(q.instruction):]))
     return True
 
 
@@ -2015,6 +2108,7 @@ def _close_open_kinds(questions: list[ExemplarQuestion]) -> None:
             ended.add(run)
         if run in ended:
             q.section_kind, q.section_label, q.open_run = SA, "Exercise", 0
+            _drop_instruction(q)
 
 
 # --------------------------------------------------------------------------- #
@@ -2199,7 +2293,13 @@ def exclusion_reason(q: ExemplarQuestion) -> Optional[str]:
         return "symbol-loss"
     if ASIDE_MARK in everything:
         return "reading-order"
-    if q.section_kind == FILL_BLANK and not _BLANK.search(q.stem):
+    # The question without a true/false or fill-in lead-in (`_lead_with_instruction`),
+    # which would otherwise supply the blank or the length it lacks. Any other
+    # instruction is part of the question: "Encircle the odd one of the
+    # following (Questions 26 to 30)" is the whole stem of five MCQs.
+    own = (q.stem[len(q.instruction):] if q.section_kind in (TRUE_FALSE, FILL_BLANK)
+           else q.stem)
+    if q.section_kind == FILL_BLANK and not _BLANK.search(own):
         # The blank was a drawn rule, not text: "Two squares are congruent,
         # if they have same ." cannot be answered from the text.
         return "blank-lost"
@@ -2207,7 +2307,7 @@ def exclusion_reason(q: ExemplarQuestion) -> Optional[str]:
         return "table-layout"
     # Counted with symbols: "(– 19) × (– 11) = 19 × 11" is a whole question
     # in eight letters and digits.
-    if len(re.sub(r"\s", "", q.stem)) < 6:
+    if len(re.sub(r"\s", "", own)) < 6:
         return "stem-too-short"
     if q.section_kind not in OPTION_KINDS and is_pointer_answer(q.answer_text):
         return "answer-is-a-pointer"
