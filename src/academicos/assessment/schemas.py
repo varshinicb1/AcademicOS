@@ -327,11 +327,13 @@ class TemplateSection(Camel):
     printed, `attempt_count` are answered, and only the attempted ones count
     towards the paper's total. None means every question is attempted.
 
-    `question_types` empty means any type at this mark value. The CBSE presets
-    leave it empty on purpose: the bank's type labels are derived from marks,
-    not read from the paper (231 class 10 Mathematics 1-mark questions are
-    typed `very_short_answer` and none `mcq`), so a type filter there would
-    report a gap the bank does not really have.
+    `question_types` empty means any type at this mark value. The bank's type
+    labels are mostly derived from marks, not read from the paper (231 class
+    10 Mathematics 1-mark questions are typed `very_short_answer` and none
+    `mcq`; every 5-mark question is `case_study`), so the engine matches the
+    long-form kinds -- long answer, case study, map -- by what the question
+    says (paper_templates._content_fits), and the presets set types only on
+    those sections.
     """
 
     id: str = ""

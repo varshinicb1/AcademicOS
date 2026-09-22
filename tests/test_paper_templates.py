@@ -661,3 +661,129 @@ def test_one_unreadable_template_row_does_not_break_the_list(tmp_path, monkeypat
         r = client.get(BASE, headers=t1)
         assert r.status_code == 200, r.text
         assert [t["id"] for t in r.json()["mine"]] == [good]
+
+
+# ------------------------------------------------------------------ section content (review of 248e832)
+#
+# The engine used to match a question to a section by marks alone, so the
+# class 10 Social Science annual preset reported complete=True while putting
+# "Read the given source" items under "Section D - Long answer" and "Section
+# F - Map skill", and outline-map items under "Section E - Case based". The
+# fixture below reproduces the shape of the real bank: its type labels come
+# from marks (mapping._resolve_type: 3-4 -> long_answer, 5+ -> case_study), so
+# a source item stored as 5 marks is labelled case_study exactly like a real
+# 5-mark long answer, and a map item stored as 4 marks is labelled long_answer.
+
+def _q(qid: str, marks: int, stem: str, qtype: str, quality: float = 0.8):
+    from academicos.assessment.schemas import QuestionSchema
+    rec = _record(qid, marks, "ch1", qtype=qtype, subject="Social Science")
+    rec["stem"] = stem
+    rec["qualityScore"] = quality
+    return QuestionSchema.model_validate(rec)
+
+
+SOURCE = "Read the given source and answer the questions that follow : {}"
+MAP = ("Two places A and B have been marked on the given political outline map of "
+       "India. Identify them and write their names. {}")
+LONG = "Explain, with examples, how {} changed the economy of the region."
+
+
+def _ss_bank(*, map5: bool = True, case4: bool = True):
+    bank = ([_q(f"a{i}", 1, f"One-mark item {i}?", "very_short_answer") for i in range(20)]
+            + [_q(f"b{i}", 2, f"Two-mark item {i}?", "short_answer") for i in range(4)]
+            + [_q(f"c{i}", 3, f"Three-mark item {i}?", "long_answer") for i in range(5)]
+            # 5 marks: source items and real long answers share the label.
+            # The wrong-kind items score higher, so a marks-only engine
+            # reaches for them first rather than by luck of id order.
+            + [_q(f"src{i}", 5, SOURCE.format(i), "case_study", 0.95) for i in range(4)]
+            + [_q(f"long{i}", 5, LONG.format(i), "case_study") for i in range(4)]
+            # 4 marks: map items labelled long_answer by their marks.
+            + [_q(f"map{i}", 4, MAP.format(i), "long_answer", 0.95) for i in range(3)])
+    if case4:
+        bank += [_q(f"case{i}", 4, SOURCE.format(f"case {i}"), "long_answer") for i in range(3)]
+    if map5:
+        bank += [_q("map5", 5, MAP.format("five"), "case_study", 0.5)]
+    return bank
+
+
+def _plan_preset(preset_id: str, bank):
+    from academicos.assessment.paper_templates import build_scope_filter, plan
+    from academicos.assessment.schemas import TemplateScope
+    from academicos.assessment.template_presets import get_preset
+
+    t = get_preset(preset_id)
+    return plan(t, t.id, bank, build_scope_filter(TemplateScope(), bank))
+
+
+SS10 = "preset:cbse:10:social-science:annual"
+
+
+def test_board_presets_name_the_question_kind_of_their_long_case_and_map_sections():
+    for subject in ("Mathematics", "Science", "Social Science"):
+        for grade in (9, 10):
+            p = next(p for p in presets(grade=grade, subject=subject) if p.exam_type == "annual")
+            by_title = {s.title: s for s in p.sections}
+            d = next(s for t, s in by_title.items() if "Long answer" in t)
+            e = next(s for t, s in by_title.items() if "ase" in t and "Section E" in t)
+            assert "long_answer" in d.question_types and "case_study" not in d.question_types
+            assert e.question_types == ["case_study"]
+            if subject == "Social Science":
+                assert by_title["Section F - Map skill"].question_types == ["map_based"]
+
+
+def test_a_case_or_map_question_is_never_placed_under_the_wrong_heading():
+    report, plans = _plan_preset(SS10, _ss_bank())
+    by_title = {p.section.title: p for p in plans}
+
+    def ids(title):
+        p = by_title[title]
+        return {q.id for q in p.picked + p.borrowed}
+
+    long_ids = ids("Section D - Long answer")
+    case_ids = ids("Section E - Case based")
+    map_ids = ids("Section F - Map skill")
+    assert long_ids and all(i.startswith("long") for i in long_ids), long_ids
+    assert case_ids and all(i.startswith("case") for i in case_ids), case_ids
+    assert map_ids == {"map5"}
+    assert report.complete is True
+
+
+def test_a_map_section_with_no_map_question_is_a_gap_not_any_5_mark_question():
+    report, plans = _plan_preset(SS10, _ss_bank(map5=False))
+    f = next(p for p in plans if p.section.title == "Section F - Map skill")
+    assert f.picked == [] and f.availability.shortfall == 1
+    assert "map" in f.availability.reason.lower()
+    assert report.complete is False
+
+
+def test_a_competency_section_with_no_competency_question_is_a_gap():
+    # Only map items at 4 marks, which the case section refuses; and with a
+    # plain 4-mark item that is not competency-based, still not complete.
+    bank = _ss_bank(case4=False) + [
+        _q("plain4", 4, "List four features of the region's climate.", "long_answer")]
+    report, plans = _plan_preset(SS10, bank)
+    e = next(p for p in plans if p.section.title == "Section E - Case based")
+    assert "plain4" not in {q.id for q in e.picked}
+    assert e.availability.shortfall == 3
+    assert "competency" in e.availability.reason.lower()
+    assert report.complete is False
+
+
+def test_a_heading_no_constraint_checks_says_so():
+    """English Grammar/Reading/Literature are filled by marks alone -- the bank
+    does not label a question as grammar -- so the report must say the
+    section's content was not checked rather than implying it was."""
+    from academicos.assessment.template_presets import get_preset
+    bank = [_q(f"e{i}", 1, "Answer any four of the following in 40-50 words.",
+               "very_short_answer") for i in range(40)]
+    for q in bank:
+        q.subject = "English"
+    report, _ = _plan_preset("preset:cbse:10:english:annual", bank)
+    by_title = {s.title: s for s in report.sections}
+    grammar = by_title["Section B - Grammar (attempt any 10)"]
+    assert any("not checked" in n for n in grammar.notes), grammar.notes
+
+    ss_report, _ = _plan_preset(SS10, _ss_bank())
+    for s in ss_report.sections:
+        assert not any("not checked" in n for n in s.notes), (s.title, s.notes)
+    assert get_preset(SS10) is not None

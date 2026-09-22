@@ -10,8 +10,15 @@ Eligibility, in the order it narrows (each step is reported, so a shortfall
 names the constraint that caused it rather than a bare zero):
 
   bank (class + subject) -> verified answer key (PRD rule Q1: no answer key,
-  no question) -> marks match the section -> allowed question types ->
-  inside the template's scope (chapters, subtopics, topics)
+  no question) -> marks match the section -> the section's question kind
+  (read from the question's content where the bank's type label cannot be
+  trusted, see `_content_fits`) -> competency-based, for a section that is
+  all competency questions -> inside the template's scope (chapters,
+  subtopics, topics)
+
+A heading that names a kind nothing here can check (grammar, reading,
+extract, writing, literature -- the bank does not label questions that way)
+is reported as "section content not checked" instead of passing silently.
 
 A section with a shortfall is filled from outside the scope only when the
 caller asks (`fill_from_outside_scope`), and every borrowed question is
@@ -22,6 +29,7 @@ builder to show the gap first.
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
@@ -111,6 +119,9 @@ class SectionAvailability(Camel):
     # In scope with the right marks and type, but no verified answer key.
     without_key: int = 0
     reason: str = ""
+    # What this check could not verify about the section, e.g. a "Grammar"
+    # heading filled by marks alone. Shown before generating, like `reason`.
+    notes: list[str] = []
 
 
 class AvailabilityReport(Camel):
@@ -188,10 +199,118 @@ def _topic_ids(q: QuestionSchema) -> list[str]:
     return [*ids, single] if single else list(ids)
 
 
+# Evidence in the question's own text of what kind of question it is. The
+# served bank's type labels cannot say this: when extraction found no type,
+# mapping._resolve_type derives one from marks (3-4 -> long_answer, 5+ ->
+# case_study). Measured on the class 10 bank (2026-09-22): all 76 Mathematics
+# and 30 Science 5-mark questions are labelled case_study, though they are the
+# papers' long answers; every 4-mark question, the real case studies included,
+# is labelled long_answer; Social Science stores its outline-map items as 4
+# marks (long_answer) and 20 "Read the given source" items as 5 (case_study).
+# So the label alone would put a source item under "Long answer" and a map
+# item under "Case based" -- or, used as a filter, report the real long
+# answers and case studies as missing.
+# Not "Map Skill": in the Social Science bank that phrase is the next
+# section's heading run into the end of a source item's stem (an extraction
+# artifact), and it made "Read the given source ... Loans from Cooperatives"
+# a map question.
+_MAP_RE = re.compile(
+    r"\b(?:outline|political|physical)\s+(?:outline\s+)?map\b|\bon the (?:given )?"
+    r"(?:outline )?map\b|\bmap of (?:india|the world)\b", re.I)
+_CASE_RE = re.compile(
+    r"\bread the (?:given |following |above )?(?:source|passage|case|extract|text|"
+    r"paragraph|information)\b|\bcase[- ]?(?:study|based)\b|\bsource[- ]based\b|"
+    r"\bbased on the (?:above |given |following )?(?:source|passage|case|extract|"
+    r"information|text|paragraph)\b", re.I)
+# CBSE numbers a source-based question's sub-parts "(36.1) ... (36.2)"; long
+# answers use "(a) ... OR (b)". In the class 10 Social Science bank 36 of the
+# 48 5-mark items carry this numbering -- many are fragments that lost their
+# "Read the given source" opening -- and no Mathematics or Science item does.
+_SUBPART_RE = re.compile(r"\((\d{1,2})\.1\).*\(\1\.2\)", re.S)
+# Labels the bank assigns from marks, so between them marks decide, not label.
+_LONG_FORM = frozenset({"long_answer", "very_long_answer", "case_study"})
+
+
+def is_map_question(q: QuestionSchema) -> bool:
+    # Tags are not used: in the bank they are inferred chapter names, and the
+    # "Map Work" tag sits on a 1-mark History quotation question too.
+    if q.type == "map_based" or q.map_asset_id:
+        return True
+    return bool(_MAP_RE.search(q.stem))
+
+
+def is_case_question(q: QuestionSchema) -> bool:
+    """Source / passage / case based, by what the stem says. Only positive
+    evidence counts: many real case studies open with a plain narrative
+    ("In a coffee shop, coffee is served in two types of cups..."), so the
+    absence of these words is not evidence of a long answer."""
+    return bool(_CASE_RE.search(q.stem) or _SUBPART_RE.search(q.stem))
+
+
+def _is_competency(q: QuestionSchema) -> bool:
+    from .selection import is_competency_question
+    return is_competency_question(q) or is_case_question(q)
+
+
+def _content_fits(q: QuestionSchema, types: list[str]) -> bool:
+    """Does the question belong under a section asking for `types`?
+
+    * A map question belongs only in a map section, and a map section takes
+      only a map question -- never "any 5-mark question".
+    * Between the long-form labels (long / very long answer, case study) the
+      label is mark-derived, so the text decides: a question that reads as
+      source / case based goes only to a case-study section; one that does
+      not is taken by either, and the section's marks place it (in the CBSE
+      board papers the 4-mark questions are the case studies).
+    * Every other label is matched as it stands.
+    """
+    wanted = set(types)
+    if is_map_question(q):
+        return "map_based" in wanted
+    wanted.discard("map_based")
+    if q.type in _LONG_FORM and wanted & _LONG_FORM:
+        if is_case_question(q):
+            return "case_study" in wanted
+        return True
+    return q.type in wanted
+
+
 def _fits(q: QuestionSchema, section: TemplateSection) -> bool:
     if q.marks != section.marks_each:
         return False
-    return not section.question_types or q.type in section.question_types
+    return not section.question_types or _content_fits(q, section.question_types)
+
+
+def _all_competency(section: TemplateSection) -> bool:
+    return (section.competency_share or 0.0) >= 1.0
+
+
+# Kinds a heading can name, and whether the section's constraints check it.
+# Only map and case / source are checkable (see `_content_fits`); the bank
+# carries no label for grammar, reading, extract, writing or literature.
+_HEADING_KINDS: tuple[tuple[str, "re.Pattern[str]", Callable[[TemplateSection], bool]], ...] = (
+    ("map", re.compile(r"\bmaps?\b", re.I),
+     lambda s: "map_based" in s.question_types),
+    ("case / source", re.compile(r"\bcase\b|\bsource\b", re.I),
+     lambda s: "case_study" in s.question_types or _all_competency(s)),
+    ("reading", re.compile(r"\breading\b|\bcomprehension\b|\bpassage\b", re.I),
+     lambda s: False),
+    ("grammar", re.compile(r"\bgrammar\b", re.I), lambda s: False),
+    ("extract", re.compile(r"\bextracts?\b", re.I), lambda s: False),
+    ("writing", re.compile(r"\bwriting\b", re.I), lambda s: False),
+    ("literature", re.compile(r"\bliterature\b", re.I), lambda s: False),
+)
+
+
+def _content_notes(section: TemplateSection) -> list[str]:
+    unchecked = [name for name, pattern, checked in _HEADING_KINDS
+                 if pattern.search(section.title) and not checked(section)]
+    if not unchecked:
+        return []
+    by = "marks and question type" if section.question_types else "marks"
+    return [f"{section.title}: section content not checked -- the heading says "
+            f"{', '.join(unchecked)}, which nothing in the bank labels, so the "
+            f"section is filled by {by} alone. Read its questions before printing."]
 
 
 @dataclass
@@ -222,6 +341,16 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
         fits_keyed = [q for q in fits_all if q.id in keyed_ids and q.id not in claimed]
         eligible = [q for q in fits_keyed if scope.in_scope(q)]
         outside = [q for q in fits_keyed if not scope.in_scope(q)]
+        # A section that is all competency questions (the case-based
+        # sections) and has not one competency question to draw on is a gap,
+        # not a section of whatever else carries those marks. A partial
+        # match is picked competency-first and reported by `_mix_notes`.
+        not_competency = 0
+        if _all_competency(section):
+            if eligible and not any(_is_competency(q) for q in eligible):
+                not_competency, eligible = len(eligible), []
+            if outside and not any(_is_competency(q) for q in outside):
+                outside = []
         without_key = sum(1 for q in fits_all if q.id not in keyed_ids and scope.in_scope(q))
         used_elsewhere = sum(1 for q in fits_all if q.id in claimed and scope.in_scope(q))
 
@@ -236,6 +365,8 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
                 f"chosen chapters to fill the section ({', '.join(q.id for q in borrowed)}).")
         claimed.update(q.id for q in picked + borrowed)
         notes.extend(_mix_notes(section, picked + borrowed))
+        content_notes = _content_notes(section)
+        notes.extend(content_notes)
 
         available = len(eligible)
         shortfall = max(0, needed - available)
@@ -246,7 +377,8 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
             without_key=without_key,
             reason=_reason(template, section, shortfall, available, len(candidates),
                            len(keyed), len(fits_all), len(outside), without_key,
-                           used_elsewhere) if shortfall else "",
+                           used_elsewhere, not_competency) if shortfall else "",
+            notes=content_notes,
         )
         plans.append(SectionPlan(section, picked, borrowed, availability, notes))
 
@@ -272,7 +404,6 @@ def _pick(pool: list[QuestionSchema], section: TemplateSection, n: int) -> list[
     mismatch is reported by `_mix_notes`."""
     if n <= 0 or not pool:
         return []
-    from .selection import is_competency_question
 
     remaining = _order(pool)
     targets = _difficulty_targets(section.difficulty_mix, n)
@@ -282,10 +413,10 @@ def _pick(pool: list[QuestionSchema], section: TemplateSection, n: int) -> list[
     def take(from_list: list[QuestionSchema]) -> Optional[QuestionSchema]:
         if not from_list:
             return None
-        want_cbq = sum(1 for q in picked if is_competency_question(q)) < cbq_target
+        want_cbq = sum(1 for q in picked if _is_competency(q)) < cbq_target
         if want_cbq:
             for q in from_list:
-                if is_competency_question(q):
+                if _is_competency(q):
                     return q
         return from_list[0]
 
@@ -329,9 +460,8 @@ def _mix_notes(section: TemplateSection, picked: list[QuestionSchema]) -> list[s
                 f"{wanted['easy']}/{wanted['medium']}/{wanted['hard']} -- the bank has "
                 "too few at the requested level.")
     if section.competency_share and picked:
-        from .selection import is_competency_question
         target = round(section.competency_share * len(picked))
-        got_cbq = sum(1 for q in picked if is_competency_question(q))
+        got_cbq = sum(1 for q in picked if _is_competency(q))
         if got_cbq < target:
             notes.append(f"{section.title}: {got_cbq} competency-based question(s), "
                          f"the template asked for {target}.")
@@ -340,7 +470,7 @@ def _mix_notes(section: TemplateSection, picked: list[QuestionSchema]) -> list[s
 
 def _reason(template: PaperTemplateDraft, section: TemplateSection, shortfall: int,
             available: int, bank: int, keyed: int, fits: int, outside: int,
-            without_key: int, used_elsewhere: int) -> str:
+            without_key: int, used_elsewhere: int, not_competency: int = 0) -> str:
     """The binding constraint, in words a teacher can act on."""
     who = f"Class {template.grade} {template.subject}"
     kind = f"{section.marks_each}-mark"
@@ -353,6 +483,10 @@ def _reason(template: PaperTemplateDraft, section: TemplateSection, shortfall: i
                 "answer key yet, so none can be printed.")
     if fits == 0:
         return f"The bank has no {kind} {who} questions."
+    if not_competency:
+        return (f"None of the {not_competency} {kind} {who} question(s) is "
+                "competency-based, and this section asks for competency-based "
+                "questions only.")
     parts = [f"Only {available} {kind} question(s) are available; {shortfall} short."]
     if outside:
         parts.append(f"{outside} more are in other chapters -- widen the chapters "

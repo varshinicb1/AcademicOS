@@ -5830,6 +5830,14 @@
             "title": "Needed",
             "type": "integer"
           },
+          "notes": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+          },
           "outsideScopeAvailable": {
             "default": 0,
             "title": "Outsidescopeavailable",
@@ -7127,7 +7135,7 @@
         "type": "object"
       },
       "TemplateSection": {
-        "description": "One section of a teacher's paper.\n\n`attempt_count` is CBSE's \"attempt any N\": `question_count` questions are\nprinted, `attempt_count` are answered, and only the attempted ones count\ntowards the paper's total. None means every question is attempted.\n\n`question_types` empty means any type at this mark value. The CBSE presets\nleave it empty on purpose: the bank's type labels are derived from marks,\nnot read from the paper (231 class 10 Mathematics 1-mark questions are\ntyped `very_short_answer` and none `mcq`), so a type filter there would\nreport a gap the bank does not really have.",
+        "description": "One section of a teacher's paper.\n\n`attempt_count` is CBSE's \"attempt any N\": `question_count` questions are\nprinted, `attempt_count` are answered, and only the attempted ones count\ntowards the paper's total. None means every question is attempted.\n\n`question_types` empty means any type at this mark value. The bank's type\nlabels are mostly derived from marks, not read from the paper (231 class\n10 Mathematics 1-mark questions are typed `very_short_answer` and none\n`mcq`; every 5-mark question is `case_study`), so the engine matches the\nlong-form kinds -- long answer, case study, map -- by what the question\nsays (paper_templates._content_fits), and the presets set types only on\nthose sections.",
         "properties": {
           "attemptCount": {
             "anyOf": [

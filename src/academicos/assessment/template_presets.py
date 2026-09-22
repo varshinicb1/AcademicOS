@@ -40,6 +40,11 @@ Where each pattern comes from -- said in each preset's `source` so a teacher
 
 Difficulty mixes are suggestions in every case: CBSE does not publish a
 per-section difficulty split.
+
+Long-answer, case-based and map sections carry the question kind they
+promise (`_types_for`), so a source item cannot fill a long-answer heading
+and a map section is a gap, not any 5-mark question, when the bank has no map
+question at that mark value.
 """
 from __future__ import annotations
 
@@ -220,13 +225,36 @@ def _instructions(sections: list[TemplateSection]) -> str:
     return "\n".join(lines)
 
 
+def _types_for(title: str) -> list[str]:
+    """The question kind a heading promises, where the engine can check it.
+
+    Without this every section was matched by marks alone, and the class 10
+    Social Science annual preset reported itself complete while printing
+    "Read the given source" items under "Long answer" and outline-map items
+    under "Case based". The engine reads map and case / source from the
+    question text (paper_templates._content_fits), not from the bank's
+    mark-derived type label, so these filters do not empty the real long
+    answers (labelled case_study at 5 marks) or case studies (labelled
+    long_answer at 4). Other headings (objective, short answer, grammar...)
+    stay untyped: nothing in the bank could check them, and the engine says
+    so for the ones that name a kind."""
+    low = title.lower()
+    if "map" in low:
+        return ["map_based"]
+    if "case" in low:
+        return ["case_study"]
+    if "long answer" in low:
+        return ["long_answer", "very_long_answer"]
+    return []
+
+
 def _build(grade: int, subject: str, exam_type: str) -> PaperTemplate:
     rows, status, source = _pattern(grade, subject, exam_type)
     sections = [
         TemplateSection(
             id=f"s{i + 1}", title=title, question_count=count, marks_each=marks,
             attempt_count=attempt, difficulty_mix=_MIX.get(marks),
-            competency_share=competency,
+            competency_share=competency, question_types=_types_for(title),
         )
         for i, (title, count, marks, attempt, competency) in enumerate(rows)
     ]
