@@ -197,6 +197,8 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
             choice_quota = section.internal_choice_count if section.internal_choice_count > 0 else max(1, len(take) // 3)
             # Select target questions to receive an "OR" alternative
             eligible_for_or = take[-choice_quota:]
+            offered = 0
+            left_out_as_repeat = 0
             for primary_q in eligible_for_or:
                 # Find best alternative from same chapter and section fit
                 alt_pool = [
@@ -218,6 +220,7 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
                     # down the ranking, not over the whole pool.
                     alt_q = next((c for c in alt_pool if not _repeats_paper(c, selected, paired)), None)
                     if alt_q is None:
+                        left_out_as_repeat += 1
                         continue
                     primary_q.metadata["internal_choice_id"] = alt_q.id
                     primary_q.metadata["internal_choice_stem"] = alt_q.stem
@@ -229,6 +232,20 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
                         remaining.remove(alt_q)
                     elif alt_q in fallback_remaining:
                         fallback_remaining.remove(alt_q)
+                    offered += 1
+            # A section offering fewer ORs than its blueprint asks for (the
+            # Hindi Khand Gha rows need 2 and 1) says so: a silently missing
+            # choice is a wrong paper the teacher would not notice.
+            # Counted against the primaries actually printed: a section that
+            # already prints short has its own gap above.
+            if offered < len(eligible_for_or):
+                why = ("the other alternatives repeat a question already on the paper"
+                       if left_out_as_repeat else
+                       "no other question of this section's marks and type is left to offer")
+                gaps.append(
+                    f"Section {section.label}: only {offered} of {len(eligible_for_or)} internal "
+                    f"choices offered; {why}."
+                )
 
     selected_ids = {q.id for q in selected}
     rejected = [q for q in candidates if q.id not in selected_ids and q.id not in paired_choice_ids]

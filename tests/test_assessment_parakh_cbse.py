@@ -341,10 +341,34 @@ def test_quick_generate_api_endpoint(tmp_path, monkeypatch):
         assert data["metadata"]["totalMarks"] == 25
 
 
+_DISTINCT_TOPICS = [
+    "the reaction of zinc granules with dilute sulphuric acid",
+    "why silver chloride turns grey when left in sunlight",
+    "the colour change when an iron nail sits in copper sulphate",
+    "how quicklime reacts vigorously with water to form slaked lime",
+    "why chips packets are flushed with nitrogen gas",
+]
+
+
+def _make_distinct_pool():
+    """`_make_pool` with a different stem per question. Its stems differ only
+    in the number ("Sample question 1?", "... 2?"), which the paper's
+    near-duplicate guard rightly reads as one question printed twice; a route
+    that builds a paper straight from curated ids needs genuinely distinct
+    questions to succeed."""
+    pool = _make_pool()
+    for i, pq in enumerate(pool.questions):
+        text = f"Describe {_DISTINCT_TOPICS[i % len(_DISTINCT_TOPICS)]} (item {i})?"
+        pq.question.title = text
+        pq.question.source_text = text
+    return pool
+
+
 def test_generate_from_ids_api_endpoint(tmp_path, monkeypatch):
     """POST /api/v1/papers/generate-from-ids compiles specific question IDs."""
     monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
-    monkeypatch.setattr("academicos.assessment.routes.get_pool", lambda cfg, subject, grade, llm=None: _make_pool())
+    monkeypatch.setattr("academicos.assessment.routes.get_pool",
+                        lambda cfg, subject, grade, llm=None: _make_distinct_pool())
     with TestClient(app) as client:
         reg_resp = client.post(
             "/api/v1/auth/register",

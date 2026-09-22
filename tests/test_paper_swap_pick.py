@@ -556,6 +556,19 @@ def test_an_or_alternative_is_never_a_near_duplicate_of_the_paper():
     assert alt and alt != QUADRATIC_B[0]
 
 
+def test_an_or_choice_left_out_for_repeating_the_paper_is_reported_as_a_gap():
+    """One slot, one OR, and the only alternative is the twin of the primary.
+    The OR is rightly not offered -- but a section printing fewer internal
+    choices than its blueprint asks for has to say so, not drop it silently."""
+    from academicos.assessment.selection import optimize
+    result = optimize(_schemas(_TWINS), _one_mark_blueprint(1, choice=1))
+    assert [q.id for q in result.selected_questions] == [QUADRATIC_A[0]]
+    assert not result.selected_questions[0].metadata.get("internal_choice_id")
+    assert any("only 0 of 1 internal choices" in g
+               and "repeat a question already on the paper" in g
+               for g in result.gaps), result.gaps
+
+
 def test_a_quick_generated_paper_never_carries_both_near_duplicates(tmp_path, monkeypatch):
     monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _pool(_TWINS + FIXTURE))
     with _boot_client(tmp_path, monkeypatch) as client:
@@ -611,6 +624,24 @@ def test_generate_refuses_selected_questions_that_repeat_each_other(tmp_path, mo
         ok = client.post("/api/v1/papers/generate", headers=t1, json={
             "assessmentId": "asm_none", "blueprint": bp,
             "selectedQuestions": _TWINS[:1] + others, "template": tpl})
+        assert ok.status_code == 200, ok.text
+
+
+def test_generate_from_ids_refuses_ids_that_repeat_each_other(tmp_path, monkeypatch):
+    """POST /papers/generate-from-ids builds the paper straight from the
+    teacher's curated ids (the Flutter client's path); both twins curated
+    together are refused, naming the pair, like /papers/generate."""
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _pool(_TWINS + FIXTURE))
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        body = {"subject": "Science", "grade": 10}
+        gen = client.post("/api/v1/papers/generate-from-ids", headers=t1, json={
+            **body, "questionIds": [QUADRATIC_A[0], "o0", QUADRATIC_B[0]]})
+        assert gen.status_code == 422, gen.text
+        detail = gen.json()["detail"]
+        assert QUADRATIC_A[0] in detail and QUADRATIC_B[0] in detail, detail
+        ok = client.post("/api/v1/papers/generate-from-ids", headers=t1, json={
+            **body, "questionIds": [QUADRATIC_A[0], "o0"]})
         assert ok.status_code == 200, ok.text
 
 

@@ -468,6 +468,10 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(g
 
     if not found_questions:
         raise HTTPException(404, "None of the specified question_ids were found in the question bank")
+    # The Flutter client's curated path builds the paper straight from these
+    # ids and never runs optimize, so the near-duplicate guard has to run here
+    # too -- refused, naming the pair, exactly like POST /papers/generate.
+    _refuse_repeated_questions(found_questions)
 
     by_marks: dict[int, list[QuestionSchema]] = {}
     for q in found_questions:
