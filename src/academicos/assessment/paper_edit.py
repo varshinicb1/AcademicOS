@@ -218,7 +218,8 @@ def _repeats(q: QuestionSchema, printed: list[Printed]) -> Optional[Printed]:
 class SwapCounts(Camel):
     """Why the bank has as many alternatives for a slot as it has. Every
     count is of questions the step before let through."""
-    fitting: int = 0             # same marks and kind as the slot's section
+    fitting: int = 0             # same marks and kind as the slot's section, and
+                                 # its question's type when the section names none
     without_key: int = 0         # ... but no verified answer key (Q1)
     not_competency: int = 0      # ... but the section is competency-based only
     on_paper: int = 0            # ... but already on this paper
@@ -243,11 +244,22 @@ def choose_swap(slot: Slot, rule: SlotRule, bank: Bank, printed: list[Printed],
     target = bank.by_id.get(slot.question_id)
     difficulty = target.difficulty if target is not None else slot.question.difficulty
     section = rule.section
+    # Same type as the question it replaces. A section that names types
+    # already holds the swap to them (`_fits`); one that names none (the
+    # class 10 Science annual preset's Sections A-C) lets any type of its
+    # marks in at generation, and the served bank's 1-mark keyed questions
+    # include 3 long_answer and 1 mcq beside 164 very short answers -- a
+    # swap must not turn a very short answer into one of those.
+    same_type = None
+    if not section.question_types:
+        same_type = target.type if target is not None else (slot.question.type or None)
+        if same_type:
+            section = section.model_copy(update={"question_types": [same_type]})
     all_cbq = _all_competency(section)
     counts = SwapCounts()
     usable: list[tuple[bool, QuestionSchema]] = []
     for q in bank.questions:
-        if not _fits(q, section):
+        if not _fits(q, rule.section) or (same_type and q.type != same_type):
             continue
         counts.fitting += 1
         inside = rule.scope.in_scope(q)

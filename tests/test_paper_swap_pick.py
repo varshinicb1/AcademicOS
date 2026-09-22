@@ -184,6 +184,39 @@ def test_swap_returns_a_different_question_of_the_same_marks_type_and_scope(
         assert _swap(client, t1, "paper_missing", "1").status_code == 404
 
 
+def test_swap_keeps_the_replaced_questions_type_when_the_section_names_none(
+        tmp_path, monkeypatch, seeded):
+    """A section may list no question types (the class 10 Science annual
+    preset's Sections A-C do): any type of the right marks may fill it at
+    generation. A swap still replaces like with like -- the served bank has
+    164 keyed 1-mark very short answers but also 3 long_answer and 1 mcq at
+    1 mark, and a 1-mark short answer must not turn into one of those
+    because it scores higher."""
+    by_id = {r["id"]: r for r in FIXTURE}
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        paper = _generate(client, t1)
+        before = _at(paper, 1)["questionId"]
+        assert by_id[before]["type"] == "short_answer"
+        # Two better-scoring, in-scope, keyed 1-mark questions of other types
+        # arrive after generation (a new pool object, so the bank is rebuilt).
+        odd = [_rec("m0", 1, "ch1", 0, qtype="mcq", quality=0.99,
+                    stem="Which gas turns lime water milky when passed through it?"),
+               _rec("l0", 1, "ch1", 0, qtype="long_answer", quality=0.98,
+                    stem="Name the organ that produces bile in the human body.")]
+        monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _pool(FIXTURE + odd))
+
+        seen = []
+        while True:
+            r = _swap(client, t1, paper["id"], "1")
+            if r.status_code != 200:
+                break
+            seen.append(r.json()["questionId"])
+        assert seen and all(by_id.get(q, {}).get("type") == "short_answer" for q in seen), seen
+        assert r.status_code == 409, r.text
+        assert "short answer" in r.json()["detail"]["message"]
+
+
 def test_swap_never_returns_a_question_already_on_the_paper_or_swapped_out_before(
         tmp_path, monkeypatch, seeded):
     with _boot_client(tmp_path, monkeypatch) as client:
@@ -335,6 +368,14 @@ def test_a_quick_generated_paper_swaps_by_the_slots_marks_type_and_chapters(
         assert r.status_code == 200, r.text
         paper = r.json()
         first = next(q for s in paper["sections"] for q in s["questions"] if q["marks"] == 1)
+        # Better-scoring in-scope keyed 1-mark questions of other types: only
+        # the type rule keeps them out of this short-answer slot.
+        odd = [_rec("m0", 1, "ch1", 0, qtype="mcq", quality=0.99,
+                    stem="Which gas turns lime water milky when passed through it?"),
+               _rec("l0", 1, "ch1", 0, qtype="long_answer", quality=0.98,
+                    stem="Name the organ that produces bile in the human body.")]
+        monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _pool(FIXTURE + odd))
+        by_id.update({r["id"]: r for r in odd})
         swap = _swap(client, t1, paper["id"], str(first["displayNumber"]))
         assert swap.status_code == 200, swap.text
         new = by_id[swap.json()["questionId"]]
