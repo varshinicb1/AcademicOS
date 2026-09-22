@@ -12,6 +12,8 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import pytest
+
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -226,3 +228,126 @@ def test_same_heading_twice_gets_distinct_ids():
              th.Heading(1, "Introduction", 9, None, "unnumbered")]
     topics, _ = th.build_topics("ch", heads)
     assert [t["id"] for t in topics] == ["ch/introduction", "ch/introduction-2"]
+
+
+# --------------------------------------------------------------------------- #
+# review of 2026-09-22
+# --------------------------------------------------------------------------- #
+
+def test_wrapped_numbered_topic_keeps_its_place_and_its_subtopics():
+    # class7_ganita_prakash.pdf p216: "5.4 Parallel and Perpendicular Lines in
+    # Paper" / "Folding", 16pt bold on two lines, then the 14pt sub-head
+    # "Notations" (p217). Found again by its text, the joined name is in no
+    # single line: 5.4 sorted to the front and its sub-head went under 5.3.
+    heads, kind = th.chapter_headings(_lines("class7_ganita_prakash_ch5"), 5)
+    assert kind == "numbered"
+    assert [h.number for h in heads if h.level == 1] == [f"5.{k}" for k in range(1, 10)]
+    assert [h.page for h in heads] == sorted(h.page for h in heads)
+    topics, orphans = th.build_topics("lines-and-angles", heads)
+    assert orphans == 0
+    by_number = {t["number"]: t for t in topics}
+    assert by_number["5.4"]["name"] == "Parallel and Perpendicular Lines in Paper Folding"
+    assert [s["name"] for s in by_number["5.4"]["subtopics"]] == ["Notations"]      # p217
+    assert [s["name"] for s in by_number["5.1"]["subtopics"]] == ["Measurements and Geometry"]
+    assert by_number["5.3"]["subtopics"] == []
+
+
+def test_unnumbered_subtopics_refuses_a_topic_it_cannot_place():
+    lines = th.reading_order(_lines("class7_ganita_prakash_ch5"))
+    unplaced = th.Heading(1, "Parallel and Perpendicular Lines in Paper Folding", 216, "5.4")
+    with pytest.raises(ValueError):
+        th.unnumbered_subtopics(lines, [unplaced])
+
+
+def test_panel_labels_are_not_subtopics_class6_curiosity():
+    # class6_curiosity.pdf pp249-272: "More to know!" is printed 16 times and
+    # "Do you know?" 5 times in 14pt ExtraBold, the chapter's most used
+    # sub-head type; the sections under 12.3 are 15pt ("The Sun", p256).
+    heads, kind = th.chapter_headings(_lines("class6_curiosity_ch12"), 12)
+    assert kind == "numbered"
+    subs = [h.name for h in heads if h.level == 2]
+    assert subs == ["The Sun", "Planets", "Natural Satellites", "Asteroids", "Comets"]
+
+
+def test_ganita_prakash_sub_sections_are_the_blue_heads_not_the_panels():
+    # class6_ganita_prakash.pdf pp200-221: 14pt blue sub-sections; 13pt black
+    # "Matha Pachchi!" (a game, p204), "Teacher's Note" (boxed, pp207-213),
+    # "Let's Explore!" (twice, p212) and run-in heads are not subtopics.
+    heads, _ = th.chapter_headings(_lines("class6_ganita_prakash_ch6"), 6)
+    topics, _ = th.build_topics("perimeter-and-area", heads)
+    assert [(t["number"], [s["name"] for s in t["subtopics"]]) for t in topics] == [
+        ("6.1", ["Perimeter of a rectangle", "Perimeter of a square", "Perimeter of a triangle",
+                 "Perimeter of a regular polygon"]),
+        ("6.2", []),
+        ("6.3", []),
+    ]
+
+
+@pytest.mark.parametrize("label", [
+    "Do you know?", "Do You Know?", "Let’s Explore!", "Before we move on...",
+    "Before we move on …", "Before we move on…", "Additional Activity / Project",
+    "Additional Projects / Activities", "Suggested Readings", "Suggested Reading",
+    "More to know!", "More to do!", "Think it over!", "Teacher’s Note", "Discussion",
+    "Let’s Play a Game #1", "Puzzle!", "True or False", "True or false",
+    "Mind the Mistake, Mend the Mistake!", "Figure it Out", "Activity 4.1: Let us explore",
+    "Box 2", "Summary:",
+])
+def test_box_labels_match_whatever_follows_the_key(label):
+    assert th._not_a_topic(label)
+
+
+@pytest.mark.parametrize("name", [
+    "Sources of Energy", "Puzzles and Patterns", "Projectile Motion", "Discussing Democracy",
+    "Moreover", "Tables and Chairs",
+])
+def test_headings_that_only_start_like_a_label_are_kept(name):
+    assert not th._not_a_topic(name)
+
+
+def test_a_numbered_panel_is_the_books_section():
+    # gegp207.pdf p18 numbers it "7.3"; class6_ganita_prakash.pdf p69 does not
+    assert not th._not_a_topic("Mind the Mistake, Mend the Mistake", numbered=True)
+    assert th._not_a_topic("Mind the Mistake, Mend the Mistake", numbered=False)
+
+
+@pytest.mark.parametrize("name,cut", [
+    ("Steps to follow: Start with a", True),       # class6_ganita_prakash.pdf p97
+    ("More to", True),                              # class6_curiosity.pdf p96
+    ("The Proof of Irrationality of", True),
+    ("Settling In", False), ("Powers of 10", False), ("Where to?", False),
+    ("What is soluble in water; what is not?", False),
+])
+def test_dangling_line_ends(name, cut):
+    assert th._dangling(name) is cut
+
+
+def test_numbered_heading_in_lower_case_is_read_when_next_in_sequence():
+    # jemh105.pdf p8: "5.3 nth Term of an AP", 12pt Times-Bold
+    heads, _ = th.chapter_headings(_lines("jemh105"), 5)
+    assert [(h.number, h.name) for h in heads] == [
+        ("5.1", "Introduction"), ("5.2", "Arithmetic Progressions"),
+        ("5.3", "nth Term of an AP"), ("5.4", "Sum of First n Terms of an AP")]
+
+
+def test_numbered_subtopic_in_lower_case_class10_science():
+    # jesc102.pdf p13: "2.4.2 pH of Salts", 14pt coloured
+    heads, _ = th.chapter_headings(_lines("jesc102"), 2)
+    assert [h.number for h in heads if h.number.startswith("2.4")] == [
+        "2.4", "2.4.1", "2.4.2", "2.4.3", "2.4.4"]
+    assert next(h.name for h in heads if h.number == "2.4.2") == "pH of Salts"
+
+
+def test_numbered_heading_opening_with_of():
+    # gegp205.pdf p1: "5.1 Of Questions and Statements", 16pt bold
+    heads, _ = th.chapter_headings(_lines("gegp205"), 5)
+    assert [(h.number, h.name) for h in heads if h.level == 1] == [
+        ("5.1", "Of Questions and Statements"), ("5.2", "Representative Values"),
+        ("5.3", "Visualising Data"), ("5.4", "Data Detective")]
+
+
+def test_hanging_second_line_of_a_numbered_heading_is_joined():
+    # jesc102.pdf: every numbered heading is read whole, none ends mid-phrase
+    heads, _ = th.chapter_headings(_lines("jesc102"), 2)
+    assert not [h.name for h in heads if th._dangling(h.name)]
+    assert next(h.name for h in heads if h.number == "2.1.3") == (
+        "How do Metal Carbonates and Metal Hydrogencarbonates React with Acids?")

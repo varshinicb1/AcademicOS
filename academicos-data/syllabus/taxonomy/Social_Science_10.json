@@ -1180,13 +1180,7 @@
      "id": "development/sustainability-of-development",
      "name": "Sustainability of Development",
      "page": 13,
-     "subtopics": [
-      {
-       "id": "development/sustainability-of-development/natural-resources",
-       "name": "Natural Resources",
-       "page": 14
-      }
-     ]
+     "subtopics": []
     }
    ]
   },
@@ -1226,18 +1220,7 @@
      "id": "sectors-of-the-indian-economy/division-of-sectors-as-organised-and-unorganised",
      "name": "Division of Sectors as Organised and Unorganised",
      "page": 13,
-     "subtopics": [
-      {
-       "id": "sectors-of-the-indian-economy/division-of-sectors-as-organised-and-unorganised/kanta",
-       "name": "Kanta",
-       "page": 13
-      },
-      {
-       "id": "sectors-of-the-indian-economy/division-of-sectors-as-organised-and-unorganised/kamal",
-       "name": "Kamal",
-       "page": 13
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "sectors-of-the-indian-economy/sectors-in-terms-of-ownership-public-and-private-sectors",
@@ -1440,12 +1423,6 @@
      "name": "The Struggle for a Fair Globalisation",
      "page": 17,
      "subtopics": []
-    },
-    {
-     "id": "globalisation-and-the-indian-economy/additional-activity-project",
-     "name": "Additional Activity / Project",
-     "page": 20,
-     "subtopics": []
     }
    ]
   },
@@ -1488,16 +1465,6 @@
      "page": 6,
      "subtopics": [
       {
-       "id": "consumer-rights/consumer-rights/reji-s-suffering",
-       "name": "Reji’s Suffering",
-       "page": 6
-      },
-      {
-       "id": "consumer-rights/consumer-rights/waiting",
-       "name": "Waiting...",
-       "page": 7
-      },
-      {
        "id": "consumer-rights/consumer-rights/a-refund",
        "name": "A Refund",
        "page": 8
@@ -1514,18 +1481,6 @@
      "name": "Taking the Consumer Movement Forward",
      "page": 13,
      "subtopics": []
-    },
-    {
-     "id": "consumer-rights/additional-projects-activities",
-     "name": "Additional Projects / Activities",
-     "page": 15,
-     "subtopics": [
-      {
-       "id": "consumer-rights/additional-projects-activities/suggested-readings",
-       "name": "Suggested Readings",
-       "page": 19
-      }
-     ]
     }
    ]
   }

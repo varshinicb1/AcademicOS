@@ -299,13 +299,6 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "quadrilaterals/more-quadrilaterals-with-parallel-opposite-sides",
-     "name": "More Quadrilaterals with Parallel Opposite Sides",
-     "page": 136,
-     "number": "4.3",
-     "subtopics": []
-    },
-    {
      "id": "quadrilaterals/rectangles-and-squares",
      "name": "Rectangles and Squares",
      "page": 124,
@@ -338,6 +331,13 @@
      "name": "Angles in a Quadrilateral",
      "page": 135,
      "number": "4.2",
+     "subtopics": []
+    },
+    {
+     "id": "quadrilaterals/more-quadrilaterals-with-parallel-opposite-sides",
+     "name": "More Quadrilaterals with Parallel Opposite Sides",
+     "page": 136,
+     "number": "4.3",
      "subtopics": []
     },
     {
@@ -699,13 +699,6 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "the-baudhayana-pythagoras-theorem/further-applications-of-the-baudhayana-pythagoras-theorem",
-     "name": "Further Applications of the Baudhāyana - Pythagoras Theorem",
-     "page": 20,
-     "number": "2.7",
-     "subtopics": []
-    },
-    {
      "id": "the-baudhayana-pythagoras-theorem/doubling-a-square",
      "name": "Doubling a Square",
      "page": 1,
@@ -751,9 +744,16 @@
      "name": "A Long-Standing Open Problem",
      "page": 18,
      "number": "2.6",
+     "subtopics": []
+    },
+    {
+     "id": "the-baudhayana-pythagoras-theorem/further-applications-of-the-baudhayana-pythagoras-theorem",
+     "name": "Further Applications of the Baudhāyana - Pythagoras Theorem",
+     "page": 20,
+     "number": "2.7",
      "subtopics": [
       {
-       "id": "the-baudhayana-pythagoras-theorem/a-long-standing-open-problem/a-problem-from-bhaskaracharya-s-lilavati",
+       "id": "the-baudhayana-pythagoras-theorem/further-applications-of-the-baudhayana-pythagoras-theorem/a-problem-from-bhaskaracharya-s-lilavati",
        "name": "A Problem from Bhāskarāchārya’s Līlāvatī",
        "page": 20
       }

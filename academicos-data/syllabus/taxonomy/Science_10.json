@@ -209,6 +209,12 @@
        "number": "2.4.1"
       },
       {
+       "id": "acids-bases-and-salts/more-about-salts/ph-of-salts",
+       "name": "pH of Salts",
+       "page": 13,
+       "number": "2.4.2"
+      },
+      {
        "id": "acids-bases-and-salts/more-about-salts/chemicals-from-common-salt",
        "name": "Chemicals from Common Salt",
        "page": 13,
@@ -850,8 +856,8 @@
        "number": "9.2.1"
       },
       {
-       "id": "light-reflection-and-refraction/spherical-mirrors/representation-of-images-formed-by-spherical",
-       "name": "Representation of Images Formed by Spherical",
+       "id": "light-reflection-and-refraction/spherical-mirrors/representation-of-images-formed-by-spherical-mirrors-using-r",
+       "name": "Representation of Images Formed by Spherical Mirrors Using Ray Diagrams",
        "page": 5,
        "number": "9.2.2"
       },
@@ -1080,8 +1086,8 @@
      "number": "11.7",
      "subtopics": [
       {
-       "id": "electricity/heating-effect-of-electric-current/practical-applications-of-heating-effect-of",
-       "name": "Practical Applications of Heating Effect of",
+       "id": "electricity/heating-effect-of-electric-current/practical-applications-of-heating-effect-of-electric-current",
+       "name": "Practical Applications of Heating Effect of Electric Current",
        "page": 20,
        "number": "11.7.1"
       }
@@ -1123,8 +1129,8 @@
      "number": "12.2",
      "subtopics": [
       {
-       "id": "magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-through-a-straight",
-       "name": "Magnetic Field due to a Current through a Straight",
+       "id": "magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-through-a-straight-conductor",
+       "name": "Magnetic Field due to a Current through a Straight Conductor",
        "page": 4,
        "number": "12.2.1"
       },
@@ -1135,8 +1141,8 @@
        "number": "12.2.2"
       },
       {
-       "id": "magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-through-a",
-       "name": "Magnetic Field due to a Current through a",
+       "id": "magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor/magnetic-field-due-to-a-current-through-a-circular-loop",
+       "name": "Magnetic Field due to a Current through a Circular Loop",
        "page": 6,
        "number": "12.2.3"
       },
@@ -1192,19 +1198,19 @@
      ]
     },
     {
-     "id": "our-environment/how-do-our-activities-affect-the",
-     "name": "How Do Our Activities Affect the",
+     "id": "our-environment/how-do-our-activities-affect-the-environment",
+     "name": "How Do Our Activities Affect the Environment?",
      "page": 5,
      "number": "13.2",
      "subtopics": [
       {
-       "id": "our-environment/how-do-our-activities-affect-the/ozone-layer-and-how-it-is-getting-depleted",
+       "id": "our-environment/how-do-our-activities-affect-the-environment/ozone-layer-and-how-it-is-getting-depleted",
        "name": "Ozone Layer and How it is Getting Depleted",
        "page": 5,
        "number": "13.2.1"
       },
       {
-       "id": "our-environment/how-do-our-activities-affect-the/managing-the-garbage-we-produce",
+       "id": "our-environment/how-do-our-activities-affect-the-environment/managing-the-garbage-we-produce",
        "name": "Managing the Garbage we Produce",
        "page": 6,
        "number": "13.2.2"

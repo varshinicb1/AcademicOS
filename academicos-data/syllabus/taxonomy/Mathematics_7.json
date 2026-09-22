@@ -61,6 +61,13 @@
      "subtopics": []
     },
     {
+     "id": "large-numbers-around-us/of-crores-and-crores",
+     "name": "Of Crores and Crores!",
+     "page": 44,
+     "number": "1.3",
+     "subtopics": []
+    },
+    {
      "id": "large-numbers-around-us/exact-and-approximate-values",
      "name": "Exact and Approximate Values",
      "page": 45,
@@ -339,13 +346,6 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "expressions-using-letter-numbers/omission-of-the-multiplication-symbol-in-algebraic-expressio",
-     "name": "Omission of the Multiplication Symbol in Algebraic Expressions",
-     "page": 175,
-     "number": "4.3",
-     "subtopics": []
-    },
-    {
      "id": "expressions-using-letter-numbers/the-notion-of-letter-numbers",
      "name": "The Notion of Letter-Numbers",
      "page": 170,
@@ -357,26 +357,21 @@
      "name": "Revisiting Arithmetic Expressions",
      "page": 174,
      "number": "4.2",
-     "subtopics": [
-      {
-       "id": "expressions-using-letter-numbers/revisiting-arithmetic-expressions/mind-the-mistake-mend-the-mistake",
-       "name": "Mind the Mistake, Mend the Mistake",
-       "page": 176
-      }
-     ]
+     "subtopics": []
+    },
+    {
+     "id": "expressions-using-letter-numbers/omission-of-the-multiplication-symbol-in-algebraic-expressio",
+     "name": "Omission of the Multiplication Symbol in Algebraic Expressions",
+     "page": 175,
+     "number": "4.3",
+     "subtopics": []
     },
     {
      "id": "expressions-using-letter-numbers/simplification-of-algebraic-expressions",
      "name": "Simplification of Algebraic Expressions",
      "page": 176,
      "number": "4.4",
-     "subtopics": [
-      {
-       "id": "expressions-using-letter-numbers/simplification-of-algebraic-expressions/mind-the-mistake-mend-the-mistake",
-       "name": "Mind the Mistake, Mend the Mistake",
-       "page": 183
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "expressions-using-letter-numbers/pick-patterns-and-reveal-relationships",
@@ -423,13 +418,6 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "parallel-and-intersecting-lines/parallel-and-perpendicular-lines-in-paper-folding",
-     "name": "Parallel and Perpendicular Lines in Paper Folding",
-     "page": 216,
-     "number": "5.4",
-     "subtopics": []
-    },
-    {
      "id": "parallel-and-intersecting-lines/across-the-line",
      "name": "Across the Line",
      "page": 211,
@@ -454,9 +442,16 @@
      "name": "Between Lines",
      "page": 214,
      "number": "5.3",
+     "subtopics": []
+    },
+    {
+     "id": "parallel-and-intersecting-lines/parallel-and-perpendicular-lines-in-paper-folding",
+     "name": "Parallel and Perpendicular Lines in Paper Folding",
+     "page": 216,
+     "number": "5.4",
      "subtopics": [
       {
-       "id": "parallel-and-intersecting-lines/between-lines/notations",
+       "id": "parallel-and-intersecting-lines/parallel-and-perpendicular-lines-in-paper-folding/notations",
        "name": "Notations",
        "page": 217
       }
@@ -520,13 +515,6 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "number-play/nature-s-favourite-sequence-the-virahanka-fibonacci-numbers",
-     "name": "Nature’s Favourite Sequence: The Virahāṅka– Fibonacci Numbers!",
-     "page": 257,
-     "number": "6.4",
-     "subtopics": []
-    },
-    {
      "id": "number-play/numbers-tell-us-things",
      "name": "Numbers Tell us Things",
      "page": 245,
@@ -571,9 +559,17 @@
        "id": "number-play/some-explorations-in-grids/magic-squares-in-history-and-culture",
        "name": "Magic Squares in History and Culture",
        "page": 256
-      },
+      }
+     ]
+    },
+    {
+     "id": "number-play/nature-s-favourite-sequence-the-virahanka-fibonacci-numbers",
+     "name": "Nature’s Favourite Sequence: The Virahāṅka– Fibonacci Numbers!",
+     "page": 257,
+     "number": "6.4",
+     "subtopics": [
       {
-       "id": "number-play/some-explorations-in-grids/discovery-of-the-virahanka-numbers",
+       "id": "number-play/nature-s-favourite-sequence-the-virahanka-fibonacci-numbers/discovery-of-the-virahanka-numbers",
        "name": "Discovery of the Virahāṅka Numbers",
        "page": 257
       }
@@ -603,52 +599,53 @@
    "headingKind": "numbered",
    "topics": [
     {
+     "id": "a-tale-of-three-intersecting-lines/equilateral-triangles",
+     "name": "Equilateral Triangles",
+     "page": 277,
+     "number": "7.1",
+     "subtopics": []
+    },
+    {
      "id": "a-tale-of-three-intersecting-lines/constructing-a-triangle-when-its-sides-are-given",
      "name": "Constructing a Triangle When its Sides are Given",
      "page": 279,
      "number": "7.2",
-     "subtopics": []
+     "subtopics": [
+      {
+       "id": "a-tale-of-three-intersecting-lines/constructing-a-triangle-when-its-sides-are-given/construct",
+       "name": "Construct",
+       "page": 281
+      },
+      {
+       "id": "a-tale-of-three-intersecting-lines/constructing-a-triangle-when-its-sides-are-given/are-triangles-possible-for-any-lengths",
+       "name": "Are Triangles Possible for any Lengths?",
+       "page": 282
+      }
+     ]
     },
     {
      "id": "a-tale-of-three-intersecting-lines/construction-of-triangles-when-some-sides-and-angles-are-giv",
      "name": "Construction of Triangles When Some Sides and Angles are Given",
      "page": 291,
      "number": "7.3",
-     "subtopics": []
-    },
-    {
-     "id": "a-tale-of-three-intersecting-lines/equilateral-triangles",
-     "name": "Equilateral Triangles",
-     "page": 277,
-     "number": "7.1",
      "subtopics": [
       {
-       "id": "a-tale-of-three-intersecting-lines/equilateral-triangles/construct",
-       "name": "Construct",
-       "page": 281
-      },
-      {
-       "id": "a-tale-of-three-intersecting-lines/equilateral-triangles/are-triangles-possible-for-any-lengths",
-       "name": "Are Triangles Possible for any Lengths?",
-       "page": 282
-      },
-      {
-       "id": "a-tale-of-three-intersecting-lines/equilateral-triangles/two-sides-and-the-included-angle",
+       "id": "a-tale-of-three-intersecting-lines/construction-of-triangles-when-some-sides-and-angles-are-giv/two-sides-and-the-included-angle",
        "name": "Two Sides and the Included Angle",
        "page": 291
       },
       {
-       "id": "a-tale-of-three-intersecting-lines/equilateral-triangles/two-angles-and-the-included-side",
+       "id": "a-tale-of-three-intersecting-lines/construction-of-triangles-when-some-sides-and-angles-are-giv/two-angles-and-the-included-side",
        "name": "Two Angles and the Included Side",
        "page": 292
       },
       {
-       "id": "a-tale-of-three-intersecting-lines/equilateral-triangles/angle-sum-property",
+       "id": "a-tale-of-three-intersecting-lines/construction-of-triangles-when-some-sides-and-angles-are-giv/angle-sum-property",
        "name": "Angle Sum Property",
        "page": 296
       },
       {
-       "id": "a-tale-of-three-intersecting-lines/equilateral-triangles/exterior-angles",
+       "id": "a-tale-of-three-intersecting-lines/construction-of-triangles-when-some-sides-and-angles-are-giv/exterior-angles",
        "name": "Exterior Angles",
        "page": 298
       }
@@ -702,19 +699,9 @@
      "number": "8.1",
      "subtopics": [
       {
-       "id": "working-with-fractions/multiplication-of-fractions/discussion",
-       "name": "Discussion",
-       "page": 313
-      },
-      {
        "id": "working-with-fractions/multiplication-of-fractions/multiplying-two-fractions",
        "name": "Multiplying Two Fractions",
        "page": 315
-      },
-      {
-       "id": "working-with-fractions/multiplication-of-fractions/discussion-2",
-       "name": "Discussion",
-       "page": 317
       },
       {
        "id": "working-with-fractions/multiplication-of-fractions/connection-between-the-area-of-a-rectangle-and-fraction-mult",
@@ -730,11 +717,6 @@
        "id": "working-with-fractions/multiplication-of-fractions/multiplication-of-fractions-simplifying-to-lowest-form",
        "name": "Multiplication of Fractions — Simplifying to Lowest Form",
        "page": 320
-      },
-      {
-       "id": "working-with-fractions/multiplication-of-fractions/a-pinch-of-history",
-       "name": "A Pinch of History",
-       "page": 321
       },
       {
        "id": "working-with-fractions/multiplication-of-fractions/is-the-product-always-greater-than-the-numbers-multiplied",
@@ -754,11 +736,6 @@
      "page": 324,
      "number": "8.2",
      "subtopics": [
-      {
-       "id": "working-with-fractions/division-of-fractions/discussion",
-       "name": "Discussion",
-       "page": 326
-      },
       {
        "id": "working-with-fractions/division-of-fractions/dividend-divisor-and-the-quotient",
        "name": "Dividend, Divisor and the Quotient",
@@ -781,11 +758,6 @@
        "id": "working-with-fractions/some-problems-involving-fractions/a-dramma-tic-donation",
        "name": "A Dramma-tic Donation",
        "page": 331
-      },
-      {
-       "id": "working-with-fractions/some-problems-involving-fractions/a-pinch-of-history",
-       "name": "A Pinch of History",
-       "page": 332
       }
      ]
     }
@@ -1128,6 +1100,13 @@
    "nameSource": "display",
    "headingKind": "numbered",
    "topics": [
+    {
+     "id": "connecting-the-dots/of-questions-and-statements",
+     "name": "Of Questions and Statements",
+     "page": 1,
+     "number": "5.1",
+     "subtopics": []
+    },
     {
      "id": "connecting-the-dots/representative-values",
      "name": "Representative Values",

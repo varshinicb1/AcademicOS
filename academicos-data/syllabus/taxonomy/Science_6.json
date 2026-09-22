@@ -191,18 +191,7 @@
      "name": "Finding Directions",
      "page": 83,
      "number": "4.3",
-     "subtopics": [
-      {
-       "id": "exploring-magnets/finding-directions/more-to-know",
-       "name": "More to know!",
-       "page": 84
-      },
-      {
-       "id": "exploring-magnets/finding-directions/do-you-know",
-       "name": "Do you know?",
-       "page": 85
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "exploring-magnets/attraction-and-repulsion-between-magnets",
@@ -216,23 +205,7 @@
      "name": "Fun with Magnets",
      "page": 89,
      "number": "4.5",
-     "subtopics": [
-      {
-       "id": "exploring-magnets/fun-with-magnets/more-to-know",
-       "name": "More to know!",
-       "page": 90
-      },
-      {
-       "id": "exploring-magnets/fun-with-magnets/more-to-know-2",
-       "name": "More to know!",
-       "page": 91
-      },
-      {
-       "id": "exploring-magnets/fun-with-magnets/more-to",
-       "name": "More to",
-       "page": 96
-      }
-     ]
+     "subtopics": []
     }
    ]
   },
@@ -254,26 +227,14 @@
      "name": "How do we Measure?",
      "page": 98,
      "number": "5.1",
-     "subtopics": [
-      {
-       "id": "measurement-of-length-and-motion/how-do-we-measure/more-to-know",
-       "name": "More to know!",
-       "page": 100
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "measurement-of-length-and-motion/standard-units",
      "name": "Standard Units",
      "page": 100,
      "number": "5.2",
-     "subtopics": [
-      {
-       "id": "measurement-of-length-and-motion/standard-units/do-you-know",
-       "name": "Do you know?",
-       "page": 101
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "measurement-of-length-and-motion/correct-way-of-measuring-length",
@@ -282,14 +243,19 @@
      "number": "5.3",
      "subtopics": [
       {
-       "id": "measurement-of-length-and-motion/correct-way-of-measuring-length/do-you-know",
-       "name": "Do you know?",
-       "page": 103
+       "id": "measurement-of-length-and-motion/correct-way-of-measuring-length/what-is-the-correct-way-to-place-the-scale",
+       "name": "What is the correct way to place the scale?",
+       "page": 102
       },
       {
-       "id": "measurement-of-length-and-motion/correct-way-of-measuring-length/do-you-know-2",
-       "name": "Do you know?",
-       "page": 104
+       "id": "measurement-of-length-and-motion/correct-way-of-measuring-length/what-is-the-correct-position-of-the-eye-while-reading-the-sc",
+       "name": "What is the correct position of the eye while reading the scale?",
+       "page": 102
+      },
+      {
+       "id": "measurement-of-length-and-motion/correct-way-of-measuring-length/how-to-measure-the-length-if-the-ends-of-the-scale-are-broke",
+       "name": "How to measure the length if the ends of the scale are broken?",
+       "page": 103
       }
      ]
     },
@@ -312,31 +278,14 @@
      "name": "Moving Things",
      "page": 108,
      "number": "5.6",
-     "subtopics": [
-      {
-       "id": "measurement-of-length-and-motion/moving-things/more-to-know",
-       "name": "More to know!",
-       "page": 109
-      },
-      {
-       "id": "measurement-of-length-and-motion/moving-things/think-it-over",
-       "name": "Think it over!",
-       "page": 109
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "measurement-of-length-and-motion/types-of-motion",
      "name": "Types of Motion",
      "page": 109,
      "number": "5.7",
-     "subtopics": [
-      {
-       "id": "measurement-of-length-and-motion/types-of-motion/more-to-know",
-       "name": "More to know!",
-       "page": 112
-      }
-     ]
+     "subtopics": []
     }
    ]
   },
@@ -489,37 +438,18 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "a-journey-through-states-of-water/how-can-water-be-evaporated-faster-or-slower",
-     "name": "How can Water be Evaporated Faster or Slower?",
-     "page": 171,
-     "number": "8.5",
-     "subtopics": []
-    },
-    {
      "id": "a-journey-through-states-of-water/investigating-water-s-disappearing-act",
      "name": "Investigating Water’s Disappearing Act",
      "page": 162,
      "number": "8.1",
-     "subtopics": [
-      {
-       "id": "a-journey-through-states-of-water/investigating-water-s-disappearing-act/do-you-know",
-       "name": "Do you know?",
-       "page": 163
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "a-journey-through-states-of-water/another-mystery",
      "name": "Another Mystery",
      "page": 164,
      "number": "8.2",
-     "subtopics": [
-      {
-       "id": "a-journey-through-states-of-water/another-mystery/more-to-do",
-       "name": "More to do!",
-       "page": 167
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "a-journey-through-states-of-water/what-are-the-different-states-of-water",
@@ -533,18 +463,14 @@
      "name": "How can we change the States of Water?",
      "page": 169,
      "number": "8.4",
-     "subtopics": [
-      {
-       "id": "a-journey-through-states-of-water/how-can-we-change-the-states-of-water/more-to-know",
-       "name": "More to know!",
-       "page": 170
-      },
-      {
-       "id": "a-journey-through-states-of-water/how-can-we-change-the-states-of-water/do-you-know",
-       "name": "Do you know?",
-       "page": 174
-      }
-     ]
+     "subtopics": []
+    },
+    {
+     "id": "a-journey-through-states-of-water/how-can-water-be-evaporated-faster-or-slower",
+     "name": "How can Water be Evaporated Faster or Slower?",
+     "page": 171,
+     "number": "8.5",
+     "subtopics": []
     },
     {
      "id": "a-journey-through-states-of-water/cooling-effect",
@@ -558,13 +484,7 @@
      "name": "How do Clouds give us Rain?",
      "page": 175,
      "number": "8.7",
-     "subtopics": [
-      {
-       "id": "a-journey-through-states-of-water/how-do-clouds-give-us-rain/do-you-know",
-       "name": "Do you know?",
-       "page": 175
-      }
-     ]
+     "subtopics": []
     }
    ]
   },
@@ -660,73 +580,32 @@
    "headingKind": "numbered",
    "topics": [
     {
-     "id": "nature-s-treasures/natural-resources-renewable-and-non-renewable",
-     "name": "Natural Resources: renewable and non-renewable",
-     "page": 241,
-     "number": "11.7",
-     "subtopics": []
-    },
-    {
      "id": "nature-s-treasures/air",
      "name": "Air",
      "page": 226,
      "number": "11.1",
-     "subtopics": [
-      {
-       "id": "nature-s-treasures/air/do-you-know",
-       "name": "Do you know?",
-       "page": 227
-      },
-      {
-       "id": "nature-s-treasures/air/more-to-know",
-       "name": "More to know!",
-       "page": 227
-      },
-      {
-       "id": "nature-s-treasures/air/more-to-know-2",
-       "name": "More to know!",
-       "page": 228
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "nature-s-treasures/water",
      "name": "Water",
      "page": 229,
      "number": "11.2",
-     "subtopics": [
-      {
-       "id": "nature-s-treasures/water/do-you-know",
-       "name": "Do you know?",
-       "page": 232
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "nature-s-treasures/energy-from-the-sun",
      "name": "Energy from the Sun",
      "page": 232,
      "number": "11.3",
-     "subtopics": [
-      {
-       "id": "nature-s-treasures/energy-from-the-sun/do-you-know",
-       "name": "Do you know?",
-       "page": 233
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "nature-s-treasures/forests",
      "name": "Forests",
      "page": 234,
      "number": "11.4",
-     "subtopics": [
-      {
-       "id": "nature-s-treasures/forests/do-you-know",
-       "name": "Do you know?",
-       "page": 235
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "nature-s-treasures/soil-rocks-and-minerals",
@@ -740,13 +619,14 @@
      "name": "Fossil Fuels",
      "page": 239,
      "number": "11.6",
-     "subtopics": [
-      {
-       "id": "nature-s-treasures/fossil-fuels/do-you-know",
-       "name": "Do you know?",
-       "page": 240
-      }
-     ]
+     "subtopics": []
+    },
+    {
+     "id": "nature-s-treasures/natural-resources-renewable-and-non-renewable",
+     "name": "Natural Resources: renewable and non-renewable",
+     "page": 241,
+     "number": "11.7",
+     "subtopics": []
     },
     {
      "id": "nature-s-treasures/resources-we-use",
@@ -775,46 +655,14 @@
      "name": "Stars and Constellations",
      "page": 251,
      "number": "12.1",
-     "subtopics": [
-      {
-       "id": "beyond-earth/stars-and-constellations/more-to-know",
-       "name": "More to know!",
-       "page": 251
-      },
-      {
-       "id": "beyond-earth/stars-and-constellations/more-to-know-2",
-       "name": "More to know!",
-       "page": 252
-      },
-      {
-       "id": "beyond-earth/stars-and-constellations/more-to-know-3",
-       "name": "More to know!",
-       "page": 253
-      },
-      {
-       "id": "beyond-earth/stars-and-constellations/do-you-know",
-       "name": "Do you know?",
-       "page": 253
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "beyond-earth/night-sky-watching",
      "name": "Night Sky Watching",
      "page": 254,
      "number": "12.2",
-     "subtopics": [
-      {
-       "id": "beyond-earth/night-sky-watching/do-you-know",
-       "name": "Do you know?",
-       "page": 254
-      },
-      {
-       "id": "beyond-earth/night-sky-watching/more-to-know",
-       "name": "More to know!",
-       "page": 254
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "beyond-earth/our-solar-system",
@@ -823,54 +671,29 @@
      "number": "12.3",
      "subtopics": [
       {
-       "id": "beyond-earth/our-solar-system/more-to-know",
-       "name": "More to know!",
-       "page": 257
+       "id": "beyond-earth/our-solar-system/the-sun",
+       "name": "The Sun",
+       "page": 256
       },
       {
-       "id": "beyond-earth/our-solar-system/more-to-know-2",
-       "name": "More to know!",
+       "id": "beyond-earth/our-solar-system/planets",
+       "name": "Planets",
        "page": 258
       },
       {
-       "id": "beyond-earth/our-solar-system/more-to-know-3",
-       "name": "More to know!",
-       "page": 258
-      },
-      {
-       "id": "beyond-earth/our-solar-system/more-to-know-4",
-       "name": "More to know!",
-       "page": 259
-      },
-      {
-       "id": "beyond-earth/our-solar-system/more-to-know-5",
-       "name": "More to know!",
-       "page": 260
-      },
-      {
-       "id": "beyond-earth/our-solar-system/do-you-know",
-       "name": "Do you know?",
-       "page": 261
-      },
-      {
-       "id": "beyond-earth/our-solar-system/more-to-know-6",
-       "name": "More to know!",
+       "id": "beyond-earth/our-solar-system/natural-satellites",
+       "name": "Natural Satellites",
        "page": 262
       },
       {
-       "id": "beyond-earth/our-solar-system/do-you-know-2",
-       "name": "Do you know?",
+       "id": "beyond-earth/our-solar-system/asteroids",
+       "name": "Asteroids",
        "page": 263
       },
       {
-       "id": "beyond-earth/our-solar-system/more-to-know-7",
-       "name": "More to know!",
+       "id": "beyond-earth/our-solar-system/comets",
+       "name": "Comets",
        "page": 263
-      },
-      {
-       "id": "beyond-earth/our-solar-system/more-to-know-8",
-       "name": "More to know!",
-       "page": 264
       }
      ]
     },
@@ -886,13 +709,7 @@
      "name": "The Universe",
      "page": 265,
      "number": "12.5",
-     "subtopics": [
-      {
-       "id": "beyond-earth/the-universe/more-to-know",
-       "name": "More to know!",
-       "page": 270
-      }
-     ]
+     "subtopics": []
     }
    ]
   }

@@ -106,7 +106,9 @@
      "file": "english/class6_poorvi.pdf",
      "why": "chapter-level-only"
     }
-   ]
+   ],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "English_7": {
    "chapters": 15,
@@ -206,7 +208,9 @@
      "file": "english/class7_poorvi.pdf",
      "why": "chapter-level-only"
     }
-   ]
+   ],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "English_8": {
    "chapters": 15,
@@ -306,7 +310,9 @@
      "file": "english/class8_poorvi.pdf",
      "why": "chapter-level-only"
     }
-   ]
+   ],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "English_9": {
    "chapters": 16,
@@ -412,7 +418,9 @@
      "file": "english/class9_kaveri.pdf",
      "why": "chapter-level-only"
     }
-   ]
+   ],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Hindi_9": {
    "chapters": 14,
@@ -506,25 +514,31 @@
      "file": "hindi/class9_ganga.pdf",
      "why": "chapter-level-only"
     }
-   ]
+   ],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Mathematics_6": {
    "chapters": 10,
    "topics": 65,
-   "subtopics": 75,
+   "subtopics": 55,
    "headingKinds": {
     "numbered": 10
    },
-   "chaptersWithoutTopics": []
+   "chaptersWithoutTopics": [],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Mathematics_7": {
    "chapters": 15,
-   "topics": 63,
-   "subtopics": 117,
+   "topics": 65,
+   "subtopics": 110,
    "headingKinds": {
     "numbered": 15
    },
-   "chaptersWithoutTopics": []
+   "chaptersWithoutTopics": [],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Mathematics_8": {
    "chapters": 14,
@@ -533,7 +547,9 @@
    "headingKinds": {
     "numbered": 14
    },
-   "chaptersWithoutTopics": []
+   "chaptersWithoutTopics": [],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Mathematics_9": {
    "chapters": 8,
@@ -542,21 +558,33 @@
    "headingKinds": {
     "numbered": 8
    },
-   "chaptersWithoutTopics": []
+   "chaptersWithoutTopics": [],
+   "numberGaps": [],
+   "namesCutShort": [
+    {
+     "chapter": 3,
+     "number": "3.5.1",
+     "name": "The Proof of Irrationality of",
+     "page": 73,
+     "file": "maths/class9_ganita_manjari.pdf"
+    }
+   ]
   },
   "Mathematics_10": {
    "chapters": 14,
-   "topics": 40,
+   "topics": 41,
    "subtopics": 2,
    "headingKinds": {
     "numbered": 14
    },
-   "chaptersWithoutTopics": []
+   "chaptersWithoutTopics": [],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Science_6": {
    "chapters": 12,
    "topics": 53,
-   "subtopics": 59,
+   "subtopics": 26,
    "headingKinds": {
     "none": 2,
     "numbered": 10
@@ -574,7 +602,9 @@
      "file": "science/class6_curiosity.pdf",
      "why": "no numbered heading and no bold heading line >= 14.5pt (body 13pt NotoSerif) outside boxes and activities"
     }
-   ]
+   ],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Science_7": {
    "chapters": 12,
@@ -583,7 +613,9 @@
    "headingKinds": {
     "numbered": 12
    },
-   "chaptersWithoutTopics": []
+   "chaptersWithoutTopics": [],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Science_8": {
    "chapters": 13,
@@ -600,7 +632,9 @@
      "file": "science/class8_curiosity.pdf",
      "why": "no numbered heading and no bold heading line >= 13.5pt (body 12pt NotoSerif) outside boxes and activities"
     }
-   ]
+   ],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Science_9": {
    "chapters": 13,
@@ -617,57 +651,69 @@
      "file": "science/class9_exploration.pdf",
      "why": "no numbered heading and no bold heading line >= 12.5pt (body 11pt NotoSerif) outside boxes and activities"
     }
-   ]
+   ],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Science_10": {
    "chapters": 13,
    "topics": 53,
-   "subtopics": 99,
+   "subtopics": 100,
    "headingKinds": {
     "numbered": 13
    },
-   "chaptersWithoutTopics": []
+   "chaptersWithoutTopics": [],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Social Science_6": {
    "chapters": 14,
    "topics": 52,
-   "subtopics": 22,
+   "subtopics": 19,
    "headingKinds": {
     "unnumbered": 14
    },
-   "chaptersWithoutTopics": []
+   "chaptersWithoutTopics": [],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Social Science_7": {
    "chapters": 20,
    "topics": 128,
-   "subtopics": 109,
+   "subtopics": 108,
    "headingKinds": {
     "unnumbered": 20
    },
-   "chaptersWithoutTopics": []
+   "chaptersWithoutTopics": [],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Social Science_8": {
    "chapters": 15,
    "topics": 114,
-   "subtopics": 95,
+   "subtopics": 92,
    "headingKinds": {
     "unnumbered": 15
    },
-   "chaptersWithoutTopics": []
+   "chaptersWithoutTopics": [],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Social Science_9": {
    "chapters": 9,
    "topics": 44,
-   "subtopics": 66,
+   "subtopics": 69,
    "headingKinds": {
     "unnumbered": 9
    },
-   "chaptersWithoutTopics": []
+   "chaptersWithoutTopics": [],
+   "numberGaps": [],
+   "namesCutShort": []
   },
   "Social Science_10": {
    "chapters": 22,
-   "topics": 85,
-   "subtopics": 100,
+   "topics": 83,
+   "subtopics": 94,
    "headingKinds": {
     "section": 5,
     "none": 7,
@@ -717,7 +763,9 @@
      "file": "chapters/jess1/jess107.pdf",
      "why": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR."
     }
-   ]
+   ],
+   "numberGaps": [],
+   "namesCutShort": []
   }
  },
  "notOnDisk": {
@@ -736,23 +784,23 @@
    "Maths": {
     "precision": 1.0,
     "recall": 1.0,
-    "extracted": 41,
-    "handRead": 41,
-    "correct": 41
+    "extracted": 48,
+    "handRead": 48,
+    "correct": 48
    },
    "all": {
-    "precision": 0.973,
-    "recall": 0.96,
-    "extracted": 149,
-    "handRead": 151,
-    "correct": 145
+    "precision": 0.975,
+    "recall": 0.963,
+    "extracted": 161,
+    "handRead": 163,
+    "correct": 157
    },
    "Science": {
     "precision": 1.0,
     "recall": 1.0,
-    "extracted": 37,
-    "handRead": 37,
-    "correct": 37
+    "extracted": 42,
+    "handRead": 42,
+    "correct": 42
    },
    "SS": {
     "precision": 0.944,
@@ -940,6 +988,30 @@
     "extracted": 15,
     "handRead": 15,
     "correct": 15,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "Science",
+    "file": "science/class6_curiosity.pdf",
+    "chapter": 4,
+    "extracted": 5,
+    "handRead": 5,
+    "correct": 5,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "Maths",
+    "file": "maths/class6_ganita_prakash.pdf",
+    "chapter": 6,
+    "extracted": 7,
+    "handRead": 7,
+    "correct": 7,
     "precision": 1.0,
     "recall": 1.0,
     "wrong": [],

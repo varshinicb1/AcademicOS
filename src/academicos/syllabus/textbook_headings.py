@@ -34,9 +34,12 @@ its size, font, weight and colour. Within one chapter:
 What is never a topic, whatever its type: activities, examples, figures,
 tables, exercises, boxes ("LET'S EXPLORE", "Think and Reflect", "Probe and
 ponder"), and the end-of-chapter matter ("Before we move on", "In a Nutshell",
-"What you have learnt"). A numbered line whose text starts in lower case is a
-cross-reference in running text ("2.4 and 2.5. They also ...",
-class8_curiosity.pdf p36), not a heading.
+"What you have learnt"), matched up to the first non-letter so trailing "?",
+"!" or "..." do not hide them. A numbered line whose text starts in lower case
+is a cross-reference in running text ("2.4 and 2.5. They also ...",
+class8_curiosity.pdf p36), not a heading -- unless it is bold or larger than
+body and carries exactly the next number of the chapter ("5.3 nth Term of an
+AP", jemh105.pdf p8).
 
 The measured precision and recall of all this, against headings read off the
 pages by hand, are in ``academicos-data/syllabus/taxonomy/_manifest.json``
@@ -204,6 +207,10 @@ class Heading:
     page: int
     number: str | None = None   # "2.1", "2.2.1"; None when the book prints none
     kind: str = "numbered"      # numbered | section | unnumbered
+    # Index, in the reading-ordered lines it came from, of the line the heading
+    # starts on. Merging by this, not by searching for the text again, keeps a
+    # heading that wraps onto a second line in its place (-1: not recorded).
+    line: int = -1
 
 
 def body_style(lines: list[Line]) -> tuple[float, str]:
@@ -228,7 +235,9 @@ def _blackish(color: int) -> bool:
 
 
 # Box labels, feature panels and end matter. Matched against the start of the
-# heading, case- and apostrophe-insensitively.
+# heading, case- and apostrophe-insensitively, up to a non-letter: "Do you
+# know?", "Let's Explore!" and "Before we move on..." all match, "Sources of
+# Energy" does not match "source".
 _NOT_TOPICS = (
     "activity", "activities", "example", "examples", "fig ", "fig.", "figure", "table",
     "exercise", "exercises", "box", "project", "projects", "discuss", "source",
@@ -242,8 +251,15 @@ _NOT_TOPICS = (
     "did you know", "fun facts", "try this", "try these", "math talk", "puzzle time",
     "notes for", "a note on", "write in brief", "points to ponder", "remember",
     "happy investigating", "questions", "let's work", "let us work", "summing up",
-    "sources for information", "chapter", "additional project", "additional activit",
-    "suggested reading", "notes", "class activity", "answer the following",
+    "sources for information", "chapter", "additional project", "additional projects",
+    "additional activity", "additional activities", "suggested reading",
+    "suggested readings", "notes", "class activity", "answer the following",
+    # the recurring panels of the new books (Curiosity 6: "More to know!" 22
+    # times, class6_curiosity.pdf pp84-270; Ganita Prakash 6: "Teacher's Note",
+    # class6_ganita_prakash.pdf pp135-213), set in the sub-heading type
+    "more to know", "more to do", "think it over", "teacher's note", "teachers' note",
+    "discussion", "let's play a game", "let us play a game", "puzzle",
+    "true or false", "steps to follow",
 )
 
 
@@ -252,10 +268,37 @@ def _norm_words(text: str) -> str:
     return re.sub(r"\s+", " ", t).strip()
 
 
-def _not_a_topic(name: str) -> bool:
-    t = _norm_words(name)
-    return any(t == k or t.startswith(k + " ") or t.startswith(k + ":")
-               or (k.endswith((" ", ".")) and t.startswith(k)) for k in _NOT_TOPICS)
+_TRAILING = re.compile(r"[\s?!.:;,…]+$")
+
+
+# Panels that Ganita Prakash sometimes numbers as a section of their own
+# ("7.3 Mind the Mistake, Mend the Mistake", gegp207.pdf p18) and sometimes
+# sets as an unnumbered box (class6_ganita_prakash.pdf p69). Numbered, the
+# book counts it a section, and so does the tree.
+_UNNUMBERED_PANELS = ("mind the mistake",)
+
+
+def _not_a_topic(name: str, numbered: bool = False) -> bool:
+    t = _TRAILING.sub("", _norm_words(name))
+    for k in _NOT_TOPICS + (() if numbered else _UNNUMBERED_PANELS):
+        if not t.startswith(k):
+            continue
+        rest = t[len(k):]
+        # the key ends at a word boundary: nothing after it, or a non-letter
+        if not rest or not rest[0].isalpha() or k.endswith((" ", ".")):
+            return True
+    return False
+
+
+# A heading does not end on one of these: "Steps to follow: Start with a"
+# (class6_ganita_prakash.pdf p97) and "More to" (class6_curiosity.pdf p96)
+# are the first line of a sentence or of a label cut off at its line end.
+_DANGLING = {"a", "an", "the", "to", "of", "with", "and", "or", "for", "from", "into"}
+
+
+def _dangling(name: str) -> bool:
+    words = re.findall(r"[\w']+", name)
+    return bool(words) and not re.search(r"[?!.)…]$", name) and words[-1].lower() in _DANGLING
 
 
 _NUMBERED = re.compile(r"^(\d{1,2})\.(\d{1,2})(?:\.(\d{1,2}))?\.?\s*(.*)$")
@@ -311,16 +354,22 @@ def _set_apart(ln: Line, body: float, body_font: str) -> bool:
             or (not _blackish(ln.color) and ln.font != body_font))
 
 
-def _continuation(prev: Line, ln: Line) -> bool:
-    """``ln`` carries on the heading ``prev`` on the next printed line."""
+def _continuation(prev: Line, ln: Line, hang: float = 0.0) -> bool:
+    """``ln`` carries on the heading ``prev`` on the next printed line.
+
+    ``hang`` is how far a numbered heading's second line may sit right of its
+    first: it hangs under the title, past the number ("11.7.1 Practical
+    Applications of Heating Effect of" / "Electric Current" 42.7pt in,
+    jesc111.pdf p20).
+    """
     return (ln.page == prev.page and abs(ln.size - prev.size) < 0.3
             and ln.font == prev.font and ln.color == prev.color
             and -0.5 * ln.size <= ln.y0 - prev.y1 <= 0.8 * ln.size
-            and (abs(ln.x0 - prev.x0) <= max(40.0, 3 * ln.size)       # ragged right
+            and (-max(40.0, 3 * ln.size) <= ln.x0 - prev.x0 <= max(40.0, 3 * ln.size) + hang
                  or abs(ln.x0 + ln.x1 - prev.x0 - prev.x1) <= 6 * ln.size))  # centred
 
 
-def _with_continuations(lines: list[Line], i: int, stop) -> tuple[str, int]:
+def _with_continuations(lines: list[Line], i: int, stop, hang: float = 0.0) -> tuple[str, int]:
     """Text of the heading at ``lines[i]`` plus its wrapped lines below.
 
     Looks a few lines ahead, because in reading order a margin note at the
@@ -329,7 +378,7 @@ def _with_continuations(lines: list[Line], i: int, stop) -> tuple[str, int]:
     text, j = lines[i].text, i
     while len(text) < 160:
         nxt = next((k for k in range(j + 1, min(j + 5, len(lines)))
-                    if _continuation(lines[j], lines[k])), None)
+                    if _continuation(lines[j], lines[k], hang if j == i else 0.0)), None)
         if nxt is None or stop(lines[nxt].text):
             break
         j = nxt
@@ -375,6 +424,15 @@ def numbered_headings(lines: list[Line], chapter: int) -> list[Heading]:
     A number is taken once, at its first appearance, and only if it comes
     after the previous one: running heads and cross-references repeat numbers
     out of order, headings do not.
+
+    The lower-case and "Of ..."/"And ..." guards (`_starts_like_a_title`) are
+    for cross-references and wrapped captions. They are waived for a line
+    that is bold or larger than body and carries exactly the next number in
+    the chapter's sequence: that is a heading which happens to open with
+    "nth" ("5.3 nth Term of an AP", jemh105.pdf p8), "pH" ("2.4.2 pH of
+    Salts", jesc102.pdf p13) or "Of" ("1.3 Of Crores and Crores!",
+    class7_ganita_prakash.pdf p44; "5.1 Of Questions and Statements",
+    gegp205.pdf p1).
     """
     body, body_font = body_style(lines)
     out: list[Heading] = []
@@ -386,18 +444,23 @@ def numbered_headings(lines: list[Line], chapter: int) -> list[Heading]:
             continue
         k = int(m.group(2))
         sub = int(m.group(3)) if m.group(3) else 0
-        text, _ = _with_continuations(lines, i, lambda t: bool(_NUMBERED.match(t)))
+        key = (k, sub)
+        # the number's width, roughly: 0.6em a character
+        hang = 0.6 * ln.size * (len(ln.text) - len(m.group(4)))
+        text, _ = _with_continuations(lines, i, lambda t: bool(_NUMBERED.match(t)), hang)
         name = _clean(_NUMBERED.match(text).group(4))
-        if (not name or not _starts_like_a_title(name) or _not_a_topic(name)
+        next_in_sequence = key in ((last[0] + 1, 0), (last[0], last[1] + 1))
+        strong = next_in_sequence and (ln.bold or ln.size >= body + 0.9)
+        if (not name or not (strong or _starts_like_a_title(name)) or _not_a_topic(name, True)
                 or len(name) > 150 or sum(ch.isalpha() for ch in name) < 3):
             continue
-        key = (k, sub)
         if key in seen or key <= last:
             continue
         seen.add(key)
         last = key
         number = f"{chapter}.{k}" + (f".{sub}" if sub else "")
-        out.append(Heading(level=2 if sub else 1, name=name, page=ln.page, number=number))
+        out.append(Heading(level=2 if sub else 1, name=name, page=ln.page, number=number,
+                           line=i))
     return out
 
 
@@ -410,12 +473,21 @@ def unnumbered_subtopics(lines: list[Line], topics: list[Heading]) -> list[Headi
     numbered subtopic: bold, not white, set between body and topic size, and
     only the one (size, font, colour) most used for such lines -- a third,
     smaller level (13pt black "Idli-Vada Game") stays out.
+
+    The topics must carry the index of the line they were read from
+    (`Heading.line`, set by `numbered_headings` on these same lines): a topic
+    is never looked for again by its text, because a heading that wraps
+    ("5.4 Parallel and Perpendicular Lines in Paper" / "Folding",
+    class7_ganita_prakash.pdf p216) is in no single line, and a topic that
+    cannot be placed would take the wrong subtopics.
     """
     if not topics:
         return topics
+    missing = [t.number or t.name for t in topics if not 0 <= t.line < len(lines)]
+    if missing:
+        raise ValueError(f"topics without the line they were read from: {missing}")
     body, _ = body_style(lines)
-    k = _position(lines, topics[0])
-    top = lines[k].size if k >= 0 else body + 4
+    top = lines[topics[0].line].size
     cands = []
     for i, ln in enumerate(lines):
         if (ln.bold and not _whitish(ln.color) and body + 0.9 <= ln.size <= top - 0.9
@@ -424,11 +496,24 @@ def unnumbered_subtopics(lines: list[Line], topics: list[Heading]) -> list[Headi
             name = _clean(text)
             if (sum(ch.isalpha() for ch in name) >= 3 and len(name) <= 110
                     and _starts_like_a_title(name) and not _not_a_topic(name)
+                    and not _dangling(name)
                     and not name.endswith((",", ";", ".")) and not _foreign_script(name, lines)):
                 cands.append((ln, name, i))
+    # A text printed more than once in the chapter is a panel label, not a
+    # section: it does not vote for the sub-heading style, nor is it taken.
+    repeats = collections.Counter(_TRAILING.sub("", _norm_words(n)) for _, n, _ in cands)
+    cands = [c for c in cands if repeats[_TRAILING.sub("", _norm_words(c[1]))] == 1]
     if not cands:
         return topics
-    style = collections.Counter((ln.size, ln.font, ln.color) for ln, _, _ in cands).most_common(1)[0][0]
+    # The largest style used at least twice: the level just under the topic.
+    # Not the most used one -- Ganita Prakash sets more run-in heads and game
+    # titles (13pt black: "Matha Pachchi!", "Split and rejoin") than sections
+    # (14pt blue: "Perimeter of a rectangle" .. "Perimeter of a regular
+    # polygon", class6_ganita_prakash.pdf pp200-206).
+    votes = collections.Counter((ln.size, ln.font, ln.color) for ln, _, _ in cands)
+    recurring = [st for st in votes if votes[st] >= 2]
+    style = (max(recurring, key=lambda st: (st[0], votes[st])) if recurring
+             else max(votes, key=lambda st: (votes[st], st[0])))
     # a continuation line was also a candidate on its own: keep the first
     taken, subs = set(), []
     for ln, name, i in cands:
@@ -436,19 +521,10 @@ def unnumbered_subtopics(lines: list[Line], topics: list[Heading]) -> list[Headi
             continue
         _, j = _with_continuations(lines, i, lambda t: False)
         taken.update(range(i, j + 1))
-        subs.append((ln, Heading(2, name, ln.page, None, "numbered")))
+        subs.append((ln, Heading(2, name, ln.page, None, "numbered", line=i)))
     # interleave by position in reading order
-    index = {id(ln): k for k, ln in enumerate(lines)}
-    merged = [(_position(lines, t), t) for t in topics]
-    merged += [(index[id(ln)], h) for ln, h in subs]
-    merged.sort(key=lambda kv: kv[0])
-    return [h for _, h in merged]
-
-
-def _position(lines: list[Line], h: Heading) -> int:
-    """Index of the line a heading was read from (-1 if not found)."""
-    return next((k for k, ln in enumerate(lines)
-                 if ln.page == h.page and h.name in _clean(ln.text)), -1)
+    merged = sorted(topics + [h for _, h in subs], key=lambda h: h.line)
+    return merged
 
 
 def section_headings(lines: list[Line]) -> list[Heading]:
@@ -515,6 +591,7 @@ def unnumbered_headings(lines: list[Line], skip_pages: frozenset = frozenset()) 
             name = _clean(text)
             if (sum(ch.isalpha() for ch in name) >= 3 and len(name) <= 110
                     and not _not_a_topic(name) and not name.endswith((",", ";"))
+                    and not _dangling(name)
                     and _starts_like_a_title(name) and not _foreign_script(name, lines)):
                 cands.append((ln, name))
             i = j + 1
@@ -562,6 +639,12 @@ def _matches(ln: Line, st: HeadingStyle) -> bool:
             and (not st.caps or ln.text.upper() == ln.text))
 
 
+def _next_line_in_style(prev: Line, ln: Line) -> bool:
+    """``ln`` is the next line of ``prev``'s title, however it is aligned."""
+    return (ln.page == prev.page and ln.size == prev.size and ln.font == prev.font
+            and ln.color == prev.color and 0 <= ln.y0 - prev.y0 <= 1.5 * ln.size)
+
+
 def styled_headings(lines: list[Line], topic: HeadingStyle, sub: HeadingStyle | None = None,
                     skip_pages: frozenset = frozenset()) -> list[Heading]:
     """Headings in a declared type style (see `HeadingStyle`), in reading order."""
@@ -575,7 +658,12 @@ def styled_headings(lines: list[Line], topic: HeadingStyle, sub: HeadingStyle | 
             name = _clean(text)
             if (sum(ch.isalpha() for ch in name) >= 3 and not _not_a_topic(name)
                     and _starts_like_a_title(name) and not _foreign_script(name, lines)):
-                out.append(Heading(level, name, ln.page, None, "styled"))
+                out.append(Heading(level, name, ln.page, None, "styled", line=i))
+            elif j + 1 < len(lines) and _next_line_in_style(lines[j], lines[j + 1]):
+                # the rest of a refused title: "Example 2: Exhaustion of" /
+                # "Natural Resources", 18pt, the second line offset right
+                # (jess201.pdf p14)
+                j += 1
             i = j + 1
             continue
         i += 1

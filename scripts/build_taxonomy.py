@@ -72,6 +72,9 @@ class Source:
     # Why chapters of this book yield no topics, when that is known from the
     # page rather than from a count.
     no_topics_note: str | None = None
+    # Names set in the book's heading type that head a story or case, not a
+    # section, dropped by exact name (after th._clean).
+    story_titles: frozenset = frozenset()
 
 
 TREES: dict[tuple[str, int], list[Source]] = {
@@ -122,6 +125,13 @@ TREES: dict[tuple[str, int], list[Source]] = {
                styles=(th.HeadingStyle(13.5, 14.5, white=True, caps=True),
                        th.HeadingStyle(17.5, 18.5)),
                skip_first_page=True,     # "Notes for the teacher"
+               # Boxed stories set in the same 18pt type as the sub-sections:
+               # two workers side by side (jess202.pdf p13) and a consumer's
+               # case told in instalments (jess205.pdf pp6-7). Not "(1)
+               # Festival Season" / "(2) Swapna's Problem" (jess203.pdf p6):
+               # they are the two halves of "Two Different Credit Situations",
+               # and were read as its subtopics in _hand_checked.json.
+               story_titles=frozenset({"Kanta", "Kamal", "Reji’s Suffering", "Waiting..."}),
                typed_titles=((1, "Development"), (2, "Sectors of the Indian Economy"),
                              (3, "Money and Credit"), (4, "Globalisation and the Indian Economy"),
                              (5, "Consumer Rights")))],
@@ -329,6 +339,7 @@ def build_tree(subject: str, grade: int, sources: list[Source], root: Path, read
             else:
                 skip = frozenset({r.first_page}) if src.skip_first_page else frozenset()
                 heads, kind = th.chapter_headings(r.lines, r.number, skip, src.styles)
+                heads = [h for h in heads if h.name not in src.story_titles]
                 for h in heads:
                     h.name = _display_name(h.name)
                 topics, orphans = th.build_topics(cid, heads)
@@ -431,6 +442,84 @@ def compare_syllabus(tree: dict) -> dict | None:
 
 
 # --------------------------------------------------------------------------- #
+# invariants: a tree that breaks one is not written
+# --------------------------------------------------------------------------- #
+
+def _num(n: str) -> tuple[int, ...]:
+    return tuple(int(x) for x in n.split("."))
+
+
+def invariant_errors(tree: dict) -> list[str]:
+    """What must hold of every tree before it is written.
+
+    - pages never go back: topic, its subtopics, the next topic, ... in the
+      order the tree lists them (a topic sorted out of place shows here);
+    - in a chapter with numbered headings, the numbers ascend, topics and
+      the subtopics under each;
+    - no topic or subtopic is a box label, panel or end matter
+      (`th._not_a_topic`), and no unnumbered one is a line cut off
+      mid-phrase (`th._dangling`). A numbered heading that ends that way is
+      the book's own heading with its formula drawn rather than typed ("3.5.1
+      The Proof of Irrationality of" + a drawn root 2, class9_ganita_manjari.pdf
+      p73); it is kept and listed by `cut_short`.
+    """
+    errs = []
+    where = f'{tree["subject"]}_{tree["grade"]}'
+    for ch in tree["chapters"]:
+        at = f'{where} ch{ch["number"]} ({ch["source_file"]})'
+        seq = []
+        for t in ch["topics"]:
+            seq.append(t)
+            seq.extend(t["subtopics"])
+        pages = [h["page"] for h in seq]
+        if pages != sorted(pages):
+            errs.append(f"{at}: pages go back: {pages}")
+        tnums = [_num(t["number"]) for t in ch["topics"] if t.get("number")]
+        if tnums != sorted(set(tnums)):
+            errs.append(f'{at}: topic numbers out of order: {[t.get("number") for t in ch["topics"]]}')
+        for t in ch["topics"]:
+            snums = [_num(s["number"]) for s in t["subtopics"] if s.get("number")]
+            if snums != sorted(set(snums)):
+                errs.append(f'{at}: subtopic numbers out of order under {t["name"]!r}')
+        for h in seq:
+            numbered = bool(h.get("number"))
+            if th._not_a_topic(h["name"], numbered) or (th._dangling(h["name"]) and not numbered):
+                errs.append(f'{at}: box label or fragment as a heading: {h["name"]!r} p{h["page"]}')
+    return errs
+
+
+def cut_short(tree: dict) -> list[dict]:
+    """Numbered headings whose text layer ends mid-phrase (see invariant_errors)."""
+    return [{"chapter": ch["number"], "number": h.get("number"), "name": h["name"],
+             "page": h["page"], "file": ch["source_file"]}
+            for ch in tree["chapters"] for t in ch["topics"] for h in [t, *t["subtopics"]]
+            if h.get("number") and th._dangling(h["name"])]
+
+
+def number_gaps(tree: dict) -> list[dict]:
+    """Numbers missing from a numbered chapter's sequence ("5.3" between 5.2
+    and 5.4): a heading the extractor did not read, reported, not guessed."""
+    out = []
+    for ch in tree["chapters"]:
+        tops = [t for t in ch["topics"] if t.get("number")]
+        if not tops:
+            continue
+        missing = []
+        have = {_num(t["number"])[-1] for t in tops}
+        first = tops[0]["number"]
+        prefix = first.rsplit(".", 1)[0] + "." if "." in first else ""
+        missing += [f"{prefix}{k}" for k in range(1, max(have) + 1) if k not in have]
+        for t in tops:
+            subs = {_num(s["number"])[-1] for s in t["subtopics"] if s.get("number")}
+            if subs:
+                missing += [f'{t["number"]}.{k}' for k in range(1, max(subs) + 1) if k not in subs]
+        if missing:
+            out.append({"number": ch["number"], "name": ch["name"], "file": ch["source_file"],
+                        "missing": missing})
+    return out
+
+
+# --------------------------------------------------------------------------- #
 
 def counts(tree: dict) -> dict:
     chs = tree["chapters"]
@@ -441,7 +530,9 @@ def counts(tree: dict) -> dict:
             "chaptersWithoutTopics": [{"number": c["number"], "name": c["name"],
                                        "file": c["source_file"],
                                        "why": c.get("noTopicsReason", c["headingKind"])}
-                                      for c in chs if not c["topics"]]}
+                                      for c in chs if not c["topics"]],
+            "numberGaps": number_gaps(tree),
+            "namesCutShort": cut_short(tree)}
 
 
 def main() -> int:
@@ -486,6 +577,15 @@ def main() -> int:
               f"({s['correct']}/{s['extracted']} extracted, {s['correct']}/{s['handRead']} hand-read)")
     for p in problems:
         print("problem:", p)
+    for name, c in manifest["trees"].items():
+        for g in c["numberGaps"]:
+            print(f'gap: {name} ch{g["number"]} ({g["file"]}): {", ".join(g["missing"])}')
+    errors = [e for t in trees.values() for e in invariant_errors(t)]
+    for e in errors:
+        print("INVARIANT:", e, file=sys.stderr)
+    if errors:
+        print(f"refusing to write: {len(errors)} invariant violations", file=sys.stderr)
+        return 3
     if args.check:
         return 0
     OUT_DIR.mkdir(parents=True, exist_ok=True)
@@ -494,7 +594,7 @@ def main() -> int:
             json.dumps(tree, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     (OUT_DIR / "_manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
-    print(f"wrote {len(trees)} trees to {OUT_DIR.relative_to(REPO)}")
+    print(f"wrote {len(trees)} trees to {OUT_DIR}")
     return 0
 
 

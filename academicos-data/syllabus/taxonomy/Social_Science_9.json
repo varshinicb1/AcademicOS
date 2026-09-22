@@ -192,11 +192,6 @@
        "id": "shaping-of-the-earth-s-surface/landforms-and-disasters/dust-storms",
        "name": "Dust Storms",
        "page": 60
-      },
-      {
-       "id": "shaping-of-the-earth-s-surface/landforms-and-disasters/before-we-move-on",
-       "name": "Before we move on…",
-       "page": 61
       }
      ]
     }
@@ -282,11 +277,6 @@
        "id": "atmosphere-and-climate/punjab-floods-2025-a-case-study/classroom-discussion",
        "name": "Classroom Discussion",
        "page": 80
-      },
-      {
-       "id": "atmosphere-and-climate/punjab-floods-2025-a-case-study/before-we-move-on",
-       "name": "Before we move on...",
-       "page": 80
       }
      ]
     }
@@ -365,11 +355,6 @@
        "id": "early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/the-chinese-civilisation",
        "name": "The Chinese Civilisation",
        "page": 113
-      },
-      {
-       "id": "early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/before-we-move-on",
-       "name": "Before we move on...",
-       "page": 117
       }
      ]
     }
@@ -505,11 +490,6 @@
        "id": "state-and-society-up-to-1000-ce/economy/guilds",
        "name": "Guilds",
        "page": 155
-      },
-      {
-       "id": "state-and-society-up-to-1000-ce/economy/before-we-move-on",
-       "name": "Before we move on...",
-       "page": 157
       }
      ]
     }
@@ -598,11 +578,6 @@
        "id": "democracy/challenges-to-democratic-practices-in-india/democracy-and-you",
        "name": "Democracy and You",
        "page": 180
-      },
-      {
-       "id": "democracy/challenges-to-democratic-practices-in-india/before-we-move-on",
-       "name": "Before we move on...",
-       "page": 181
       }
      ]
     }
@@ -664,13 +639,7 @@
      "id": "elections/challenges-to-free-and-fair-elections",
      "name": "Challenges to Free and Fair Elections",
      "page": 201,
-     "subtopics": [
-      {
-       "id": "elections/challenges-to-free-and-fair-elections/before-we-move-on",
-       "name": "Before we move on...",
-       "page": 202
-      }
-     ]
+     "subtopics": []
     }
    ]
   },
@@ -704,7 +673,18 @@
      "id": "building-blocks-in-economics-the-problem-of-choice/key-questions-in-economics",
      "name": "Key Questions in Economics",
      "page": 212,
-     "subtopics": []
+     "subtopics": [
+      {
+       "id": "building-blocks-in-economics-the-problem-of-choice/key-questions-in-economics/what-to-produce-and-for-whom",
+       "name": "What to Produce and for Whom?",
+       "page": 212
+      },
+      {
+       "id": "building-blocks-in-economics-the-problem-of-choice/key-questions-in-economics/how-to-produce",
+       "name": "How to Produce?",
+       "page": 213
+      }
+     ]
     },
     {
      "id": "building-blocks-in-economics-the-problem-of-choice/economic-systems-and-how-choices-are-made",
@@ -712,9 +692,19 @@
      "page": 214,
      "subtopics": [
       {
-       "id": "building-blocks-in-economics-the-problem-of-choice/economic-systems-and-how-choices-are-made/before-we-move-on",
-       "name": "Before we move on...",
-       "page": 217
+       "id": "building-blocks-in-economics-the-problem-of-choice/economic-systems-and-how-choices-are-made/planned-economy",
+       "name": "Planned Economy",
+       "page": 215
+      },
+      {
+       "id": "building-blocks-in-economics-the-problem-of-choice/economic-systems-and-how-choices-are-made/market-economy",
+       "name": "Market Economy",
+       "page": 215
+      },
+      {
+       "id": "building-blocks-in-economics-the-problem-of-choice/economic-systems-and-how-choices-are-made/mixed-economy",
+       "name": "Mixed Economy",
+       "page": 216
       }
      ]
     }
@@ -738,19 +728,37 @@
      "id": "the-price-puzzle-what-drives-the-market/demand",
      "name": "Demand",
      "page": 220,
-     "subtopics": []
+     "subtopics": [
+      {
+       "id": "the-price-puzzle-what-drives-the-market/demand/other-determinants-of-demand",
+       "name": "Other Determinants of Demand",
+       "page": 222
+      }
+     ]
     },
     {
      "id": "the-price-puzzle-what-drives-the-market/supply",
      "name": "Supply",
      "page": 224,
-     "subtopics": []
+     "subtopics": [
+      {
+       "id": "the-price-puzzle-what-drives-the-market/supply/other-determinants-of-supply",
+       "name": "Other Determinants of Supply",
+       "page": 226
+      }
+     ]
     },
     {
      "id": "the-price-puzzle-what-drives-the-market/market-equilibrium",
      "name": "Market Equilibrium",
      "page": 227,
-     "subtopics": []
+     "subtopics": [
+      {
+       "id": "the-price-puzzle-what-drives-the-market/market-equilibrium/does-market-equilibrium-exist-in-the-real-world",
+       "name": "Does Market Equilibrium Exist in the Real World?",
+       "page": 228
+      }
+     ]
     },
     {
      "id": "the-price-puzzle-what-drives-the-market/role-of-government-in-the-economy",
@@ -758,9 +766,19 @@
      "page": 230,
      "subtopics": [
       {
-       "id": "the-price-puzzle-what-drives-the-market/role-of-government-in-the-economy/before-we-move-on",
-       "name": "Before we move on...",
-       "page": 233
+       "id": "the-price-puzzle-what-drives-the-market/role-of-government-in-the-economy/regulation-of-unfair-practices",
+       "name": "Regulation of Unfair Practices",
+       "page": 230
+      },
+      {
+       "id": "the-price-puzzle-what-drives-the-market/role-of-government-in-the-economy/provision-of-public-goods",
+       "name": "Provision of Public Goods",
+       "page": 231
+      },
+      {
+       "id": "the-price-puzzle-what-drives-the-market/role-of-government-in-the-economy/limitations-of-government-intervention",
+       "name": "Limitations of Government Intervention",
+       "page": 232
       }
      ]
     }

@@ -127,18 +127,7 @@
      "name": "Comparing Angles",
      "page": 46,
      "number": "2.6",
-     "subtopics": [
-      {
-       "id": "lines-and-angles/comparing-angles/comparing-angles-by-superimposition",
-       "name": "Comparing angles by superimposition",
-       "page": 47
-      },
-      {
-       "id": "lines-and-angles/comparing-angles/comparing-angles-without-superimposition",
-       "name": "Comparing angles without superimposition",
-       "page": 48
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "lines-and-angles/making-rotating-arms",
@@ -152,13 +141,7 @@
      "name": "Special Types of Angles",
      "page": 52,
      "number": "2.8",
-     "subtopics": [
-      {
-       "id": "lines-and-angles/special-types-of-angles/classifying-angles",
-       "name": "Classifying Angles",
-       "page": 56
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "lines-and-angles/measuring-angles",
@@ -167,24 +150,19 @@
      "number": "2.9",
      "subtopics": [
       {
-       "id": "lines-and-angles/measuring-angles/a-pinch-of-history",
-       "name": "A pinch of history",
-       "page": 58
+       "id": "lines-and-angles/measuring-angles/degree-measures-of-different-angles",
+       "name": "Degree measures of different angles",
+       "page": 59
       },
       {
-       "id": "lines-and-angles/measuring-angles/how-can-we-measure-angles-directly-without-having-to-subtrac",
-       "name": "How can we measure angles directly without having to subtract?",
-       "page": 62
+       "id": "lines-and-angles/measuring-angles/unlabelled-protractor",
+       "name": "Unlabelled protractor",
+       "page": 60
       },
       {
-       "id": "lines-and-angles/measuring-angles/make-your-own-protractor",
-       "name": "Make your own Protractor!",
-       "page": 62
-      },
-      {
-       "id": "lines-and-angles/measuring-angles/mind-the-mistake-mend-the-mistake",
-       "name": "Mind the Mistake, Mend the Mistake!",
-       "page": 69
+       "id": "lines-and-angles/measuring-angles/labelled-protractor",
+       "name": "Labelled protractor",
+       "page": 61
       }
      ]
     },
@@ -193,18 +171,7 @@
      "name": "Drawing Angles",
      "page": 71,
      "number": "2.10",
-     "subtopics": [
-      {
-       "id": "lines-and-angles/drawing-angles/let-s-play-a-game-1",
-       "name": "Let’s Play a Game #1",
-       "page": 73
-      },
-      {
-       "id": "lines-and-angles/drawing-angles/let-s-play-a-game-2",
-       "name": "Let’s Play a Game #2",
-       "page": 73
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "lines-and-angles/types-of-angles-and-their-measures",
@@ -233,7 +200,13 @@
      "name": "Numbers can Tell us Things",
      "page": 91,
      "number": "3.1",
-     "subtopics": []
+     "subtopics": [
+      {
+       "id": "number-play/numbers-can-tell-us-things/what-are-these-numbers-telling-us",
+       "name": "What are these numbers telling us?",
+       "page": 91
+      }
+     ]
     },
     {
      "id": "number-play/supercells",
@@ -256,9 +229,9 @@
      "number": "3.4",
      "subtopics": [
       {
-       "id": "number-play/playing-with-digits/digit-detectives",
-       "name": "Digit Detectives",
-       "page": 97
+       "id": "number-play/playing-with-digits/digit-sums-of-numbers",
+       "name": "Digit sums of numbers",
+       "page": 96
       }
      ]
     },
@@ -267,23 +240,7 @@
      "name": "Pretty Palindromic Patterns",
      "page": 97,
      "number": "3.5",
-     "subtopics": [
-      {
-       "id": "number-play/pretty-palindromic-patterns/all-palindromes-using-1-2-3",
-       "name": "All palindromes using 1, 2, 3",
-       "page": 97
-      },
-      {
-       "id": "number-play/pretty-palindromic-patterns/reverse-and-add-palindromes",
-       "name": "Reverse-and-add palindromes",
-       "page": 97
-      },
-      {
-       "id": "number-play/pretty-palindromic-patterns/steps-to-follow-start-with-a",
-       "name": "Steps to follow: Start with a",
-       "page": 97
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "number-play/the-magic-number-of-kaprekar",
@@ -304,18 +261,7 @@
      "name": "Mental Math",
      "page": 101,
      "number": "3.8",
-     "subtopics": [
-      {
-       "id": "number-play/mental-math/adding-and-subtracting",
-       "name": "Adding and Subtracting",
-       "page": 102
-      },
-      {
-       "id": "number-play/mental-math/digits-and-operations",
-       "name": "Digits and Operations",
-       "page": 102
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "number-play/playing-with-number-patterns",
@@ -336,13 +282,7 @@
      "name": "Simple Estimation",
      "page": 105,
      "number": "3.11",
-     "subtopics": [
-      {
-       "id": "number-play/simple-estimation/estimate-the-answer",
-       "name": "Estimate the answer",
-       "page": 106
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "number-play/games-and-winning-strategies",
@@ -378,33 +318,27 @@
      "name": "Pictographs",
      "page": 128,
      "number": "4.2",
-     "subtopics": []
+     "subtopics": [
+      {
+       "id": "data-handling-and-presentation/pictographs/drawing-a-pictograph",
+       "name": "Drawing a Pictograph",
+       "page": 130
+      }
+     ]
     },
     {
      "id": "data-handling-and-presentation/bar-graphs",
      "name": "Bar Graphs",
      "page": 134,
      "number": "4.3",
-     "subtopics": [
-      {
-       "id": "data-handling-and-presentation/bar-graphs/teacher-s-note",
-       "name": "Teacher’s Note",
-       "page": 135
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "data-handling-and-presentation/drawing-a-bar-graph",
      "name": "Drawing a Bar Graph",
      "page": 138,
      "number": "4.4",
-     "subtopics": [
-      {
-       "id": "data-handling-and-presentation/drawing-a-bar-graph/teacher-s-note",
-       "name": "Teacher’s Note",
-       "page": 149
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "data-handling-and-presentation/artistic-and-aesthetic-considerations",
@@ -550,29 +484,24 @@
      "number": "6.1",
      "subtopics": [
       {
-       "id": "perimeter-and-area/perimeter/matha-pachchi",
-       "name": "Matha Pachchi!",
-       "page": 204
+       "id": "perimeter-and-area/perimeter/perimeter-of-a-rectangle",
+       "name": "Perimeter of a rectangle",
+       "page": 200
       },
       {
-       "id": "perimeter-and-area/perimeter/estimate-and-verify",
-       "name": "Estimate and Verify",
-       "page": 205
+       "id": "perimeter-and-area/perimeter/perimeter-of-a-square",
+       "name": "Perimeter of a square",
+       "page": 201
       },
       {
-       "id": "perimeter-and-area/perimeter/perimeter-of-an-equilateral-triangle",
-       "name": "Perimeter of an equilateral triangle",
+       "id": "perimeter-and-area/perimeter/perimeter-of-a-triangle",
+       "name": "Perimeter of a triangle",
+       "page": 202
+      },
+      {
+       "id": "perimeter-and-area/perimeter/perimeter-of-a-regular-polygon",
+       "name": "Perimeter of a regular polygon",
        "page": 206
-      },
-      {
-       "id": "perimeter-and-area/perimeter/teacher-s-note",
-       "name": "Teacher’s Note",
-       "page": 207
-      },
-      {
-       "id": "perimeter-and-area/perimeter/split-and-rejoin",
-       "name": "Split and rejoin",
-       "page": 207
       }
      ]
     },
@@ -581,46 +510,14 @@
      "name": "Area",
      "page": 208,
      "number": "6.2",
-     "subtopics": [
-      {
-       "id": "perimeter-and-area/area/teacher-s-note",
-       "name": "Teacher’s Note",
-       "page": 208
-      },
-      {
-       "id": "perimeter-and-area/area/let-s-explore",
-       "name": "Let’s Explore!",
-       "page": 212
-      },
-      {
-       "id": "perimeter-and-area/area/let-s-explore-2",
-       "name": "Let’s Explore!",
-       "page": 212
-      }
-     ]
+     "subtopics": []
     },
     {
      "id": "perimeter-and-area/area-of-a-triangle",
      "name": "Area of a Triangle",
      "page": 213,
      "number": "6.3",
-     "subtopics": [
-      {
-       "id": "perimeter-and-area/area-of-a-triangle/teacher-s-note",
-       "name": "Teacher’s Note",
-       "page": 213
-      },
-      {
-       "id": "perimeter-and-area/area-of-a-triangle/making-it-more-or-less",
-       "name": "Making it ‘More’ or ‘Less’",
-       "page": 216
-      },
-      {
-       "id": "perimeter-and-area/area-of-a-triangle/area-maze-puzzles",
-       "name": "Area Maze Puzzles",
-       "page": 219
-      }
-     ]
+     "subtopics": []
     }
    ]
   },
@@ -746,13 +643,7 @@
      "name": "A Pinch of History",
      "page": 260,
      "number": "7.9",
-     "subtopics": [
-      {
-       "id": "fractions/a-pinch-of-history/puzzle",
-       "name": "Puzzle!",
-       "page": 262
-      }
-     ]
+     "subtopics": []
     }
    ]
   },
@@ -833,14 +724,19 @@
      "number": "9.1",
      "subtopics": [
       {
-       "id": "symmetry/line-of-symmetry/ink-blot-devils",
-       "name": "Ink Blot Devils",
-       "page": 322
+       "id": "symmetry/line-of-symmetry/figures-with-more-than-one-line-of-symmetry",
+       "name": "Figures with more than one line of symmetry",
+       "page": 320
       },
       {
-       "id": "symmetry/line-of-symmetry/paper-folding-and-cutting",
-       "name": "Paper Folding and Cutting",
-       "page": 323
+       "id": "symmetry/line-of-symmetry/reflection",
+       "name": "Reflection",
+       "page": 321
+      },
+      {
+       "id": "symmetry/line-of-symmetry/generating-shapes-having-lines-of-symmetry",
+       "name": "Generating shapes having lines of symmetry",
+       "page": 322
       }
      ]
     },
@@ -851,19 +747,14 @@
      "number": "9.2",
      "subtopics": [
       {
-       "id": "symmetry/rotational-symmetry/rotational-symmetry-of-figures-with-radial-arms",
-       "name": "Rotational Symmetry of Figures with Radial Arms",
-       "page": 332
+       "id": "symmetry/rotational-symmetry/symmetries-of-a-circle",
+       "name": "Symmetries of a circle",
+       "page": 337
       },
       {
-       "id": "symmetry/rotational-symmetry/true-or-false",
-       "name": "True or False",
-       "page": 336
-      },
-      {
-       "id": "symmetry/rotational-symmetry/playing-with-tiles",
-       "name": "Playing with Tiles",
-       "page": 339
+       "id": "symmetry/rotational-symmetry/game",
+       "name": "Game",
+       "page": 341
       }
      ]
     }

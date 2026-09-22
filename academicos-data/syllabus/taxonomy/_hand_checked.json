@@ -949,6 +949,88 @@
      "page": 30
     }
    ]
+  },
+  {
+   "family": "Science",
+   "file": "science/class6_curiosity.pdf",
+   "chapter": 4,
+   "pages": "PDF pp79-96",
+   "note": "Added in the review of 2026-09-22 to measure the path that adds unnumbered sub-heads under numbered topics (unnumbered_subtopics). Read from the rendered pages pp80, 82, 83, 84, 86, 88, 89, 92, 94 and from every bold line of pp79-96 at 14pt or more: the chapter has no sub-heading; its 14pt lines are activity titles and the 'More to know!' / 'Do you know?' panels. Read after the fix, so not held out.",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Magnetic and Non-magnetic Materials",
+     "page": 80
+    },
+    {
+     "level": 1,
+     "name": "Poles of Magnet",
+     "page": 82
+    },
+    {
+     "level": 1,
+     "name": "Finding Directions",
+     "page": 83
+    },
+    {
+     "level": 1,
+     "name": "Attraction and Repulsion between Magnets",
+     "page": 86
+    },
+    {
+     "level": 1,
+     "name": "Fun with Magnets",
+     "page": 89
+    }
+   ]
+  },
+  {
+   "family": "Maths",
+   "file": "maths/class6_ganita_prakash.pdf",
+   "chapter": 6,
+   "pages": "PDF pp200-221",
+   "note": "Added in the review of 2026-09-22, same path. Read from the rendered pages pp200, 204, 206, 208, 213, 216: the sub-sections are the 14pt blue heads; 'Matha Pachchi!' is a game panel, 'Teacher's Note' a boxed note, and 'Perimeter of an equilateral triangle', 'Split and rejoin', 'Making it More or Less' are 13pt black run-in heads, the third level this file does not count. Read after the fix, so not held out.",
+   "headings": [
+    {
+     "level": 1,
+     "name": "Perimeter",
+     "page": 200
+    },
+    {
+     "level": 2,
+     "parent": "Perimeter",
+     "name": "Perimeter of a rectangle",
+     "page": 200
+    },
+    {
+     "level": 2,
+     "parent": "Perimeter",
+     "name": "Perimeter of a square",
+     "page": 201
+    },
+    {
+     "level": 2,
+     "parent": "Perimeter",
+     "name": "Perimeter of a triangle",
+     "page": 202
+    },
+    {
+     "level": 2,
+     "parent": "Perimeter",
+     "name": "Perimeter of a regular polygon",
+     "page": 206
+    },
+    {
+     "level": 1,
+     "name": "Area",
+     "page": 208
+    },
+    {
+     "level": 1,
+     "name": "Area of a Triangle",
+     "page": 213
+    }
+   ]
   }
  ]
 }
