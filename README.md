@@ -81,6 +81,10 @@ python -m venv .venv
 # Install core and optional dependencies
 pip install -e ".[api,mobile-scan,dev]"
 
+# The question-bank MCP server (python -m academicos.mcp.qbank_server) needs
+# the MCP SDK as well; [api] already covers uvicorn for its network transports.
+pip install -e ".[api,mcp]"
+
 # Download required spaCy NLP model
 python -m pip install en_core_web_md@https://github.com/explosion/spacy-models/releases/download/en_core_web_md-3.8.0/en_core_web_md-3.8.0-py3-none-any.whl
 

@@ -57,7 +57,7 @@ jobs:
       # was actually verified. Correctness here matters more than install
       # time.
       - name: Install academicos with all extras
-        run: pip install -e ".[dev,api,ocr,retrieval,parse-vlm,mobile-scan,gcs]"
+        run: pip install -e ".[dev,api,ocr,retrieval,parse-vlm,mobile-scan,gcs,mcp]"
 
       - name: Run the real test suite
         run: pytest tests/ -q

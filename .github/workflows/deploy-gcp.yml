@@ -101,7 +101,7 @@ jobs:
       # service and ACOS_TEST_PG_* are set), they error on a missing psycopg
       # import, which is a worse failure than either skipping or passing.
       - name: Install academicos with all extras
-        run: pip install -e ".[dev,api,ocr,retrieval,parse-vlm,mobile-scan,gcs,postgres]"
+        run: pip install -e ".[dev,api,ocr,retrieval,parse-vlm,mobile-scan,gcs,postgres,mcp]"
 
       - name: Run the real test suite
         run: pytest tests/ -q

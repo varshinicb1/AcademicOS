@@ -233,9 +233,16 @@ def test_a_key_without_the_scope_is_403_not_404(client):
     assert "questions:read" in r.json()["detail"]
 
 
+# `include_unkeyed=true` below, wherever a test is about paging or filtering
+# over the WHOLE fixture: rule Q1 makes the default path answer-keyed, so
+# 45 of these 60 records are off it (tests/test_qbank_q1_q5.py owns that rule).
+# These tests are about the cursor and the filters, and they need the full 60.
+UNFILTERED = {"include_unkeyed": "true"}
+
+
 def test_the_list_returns_items_and_total(client):
     c, store = client
-    r = c.get("/v1/questions", headers=_headers(store))
+    r = c.get("/v1/questions", params=UNFILTERED, headers=_headers(store))
     body = r.json()
     assert r.status_code == 200
     assert body["count"] == 25               # default page size
@@ -257,7 +264,7 @@ def test_cursor_paging_walks_the_whole_set_without_duplicates(client):
     h = _headers(store)
     seen, cursor, pages = [], None, 0
     while True:
-        params = {"limit": 7}
+        params = {"limit": 7, **UNFILTERED}
         if cursor:
             params["cursor"] = cursor
         body = c.get("/v1/questions", params=params, headers=h).json()
@@ -274,7 +281,7 @@ def test_cursor_paging_walks_the_whole_set_without_duplicates(client):
 
 def test_the_last_page_has_no_cursor(client):
     c, store = client
-    body = c.get("/v1/questions", params={"limit": 200},
+    body = c.get("/v1/questions", params={"limit": 200, **UNFILTERED},
                  headers=_headers(store)).json()
     assert body["nextCursor"] is None
     assert body["count"] == 60
@@ -290,7 +297,7 @@ def test_a_corrupt_cursor_is_a_400_not_a_crash(client):
 
 def test_filters_narrow_the_set(client):
     c, store = client
-    r = c.get("/v1/questions", params={"subject": "Science"},
+    r = c.get("/v1/questions", params={"subject": "Science", **UNFILTERED},
               headers=_headers(store)).json()
     assert r["totalMatching"] == 30
     assert all(i["subject"] == "Science" for i in r["items"])
@@ -317,7 +324,7 @@ def test_the_list_projection_omits_the_scheme_body(client):
 
 def test_facets_come_back_in_the_same_round_trip(client):
     c, store = client
-    body = c.get("/v1/questions", params={"facets": "true"},
+    body = c.get("/v1/questions", params={"facets": "true", **UNFILTERED},
                  headers=_headers(store)).json()
     assert "facets" in body
     subjects = {f["value"]: f["count"] for f in body["facets"]["subject"]}

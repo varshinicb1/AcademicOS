@@ -2185,6 +2185,35 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/coverage": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Coverage
+         * @description How much of the bank is answerable, per subject and class.
+         *
+         *     The audit found no way to ask this over HTTP (`/v1/coverage` was a 404)
+         *     while the MCP server had `coverage_report` -- so the number a buyer could
+         *     read and the number an agent could read came from different places, or in
+         *     the HTTP case from nowhere. Both now return `QuestionBank.coverage()`
+         *     verbatim (rule Q5).
+         *
+         *     Aggregate counts, so it takes `facets:read` rather than `questions:read`:
+         *     no question text or marking scheme crosses this route.
+         */
+        get: operations["get_coverage_v1_coverage_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/facets": {
         parameters: {
             query?: never;
@@ -2291,6 +2320,9 @@ export interface paths {
         /**
          * List Questions
          * @description Paged, filtered question list. The workhorse endpoint.
+         *
+         *     **Answer-keyed by default (rule Q1).** See `_q1_filter` for the two ways
+         *     to ask for the rest.
          */
         get: operations["list_questions_v1_questions_get"];
         put?: never;
@@ -2409,6 +2441,9 @@ export interface paths {
         /**
          * Questions For Subtopic
          * @description Curriculum-driven listing: everything tagged to one subtopic.
+         *
+         *     Answer-keyed by default, like `/v1/questions` -- a rule that held on one
+         *     listing route and not its neighbour would not be a rule.
          */
         get: operations["questions_for_subtopic_v1_subtopics__subtopic_id__questions_get"];
         put?: never;
@@ -9013,6 +9048,38 @@ export interface operations {
             };
         };
     };
+    get_coverage_v1_coverage_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string | null;
+                "X-API-Key"?: string | null;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     get_facets_v1_facets_get: {
         parameters: {
             query?: {
@@ -9197,6 +9264,7 @@ export interface operations {
                 bloom?: string | null;
                 chapter_id?: string | null;
                 subtopic_id?: string | null;
+                /** @description true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing. */
                 has_scheme?: boolean | null;
                 review_state?: string | null;
                 keyword?: string | null;
@@ -9204,6 +9272,8 @@ export interface operations {
                 cursor?: string | null;
                 /** @description include facet counts */
                 facets?: boolean;
+                /** @description serve questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in. */
+                include_unkeyed?: boolean;
             };
             header?: {
                 authorization?: string | null;
@@ -9399,6 +9469,7 @@ export interface operations {
             query?: {
                 limit?: number;
                 cursor?: string | null;
+                include_unkeyed?: boolean;
             };
             header?: {
                 authorization?: string | null;
