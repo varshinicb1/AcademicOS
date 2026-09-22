@@ -288,6 +288,66 @@ def test_health_says_unknown_when_the_image_carries_no_identity():
     assert body["commit"] == "unknown" and body["builtAt"] == "unknown"
 
 
+# --------------------------------------------------------------------------- #
+# CORS: production answers only the configured origins
+# --------------------------------------------------------------------------- #
+
+# api/main.py decides the CORS policy once, at import time, from is_production()
+# -- so it is checked in a fresh interpreter per environment rather than by
+# reloading the module this suite (and others) already imported. The child
+# sends real preflights through the app and prints what came back.
+_CORS_PROBE = """
+import json
+from fastapi.testclient import TestClient
+import academicos.api.main as m
+client = TestClient(m.app)
+out = {}
+for origin in ("https://vidyuthlabs.web.app", "https://other.web.app",
+               "https://other.onrender.com"):
+    r = client.options("/health", headers={
+        "Origin": origin, "Access-Control-Request-Method": "GET"})
+    out[origin] = [r.status_code, r.headers.get("access-control-allow-origin")]
+print(json.dumps(out))
+"""
+
+
+def _cors_preflights(tmp_path, **env: str) -> dict:
+    import os
+
+    child_env = {k: v for k, v in os.environ.items() if k not in _GUARD_ENV}
+    child_env.update(
+        PYTHONPATH=str(REPO / "src"), PYTHONIOENCODING="utf-8",
+        ACOS_DATA_ROOT=str(tmp_path / "data"),
+        ACOS_CORS_ORIGINS="https://vidyuthlabs.web.app,https://vidyuthlabs.firebaseapp.com",
+        **env,
+    )
+    proc = subprocess.run([sys.executable, "-c", _CORS_PROBE], env=child_env, cwd=str(REPO),
+                          capture_output=True, text=True, timeout=180)
+    assert proc.returncode == 0, proc.stderr[-2000:]
+    return json.loads(proc.stdout.strip().splitlines()[-1])
+
+
+def test_production_cors_refuses_other_firebase_and_render_sites(tmp_path):
+    """Any *.web.app is ANY Firebase site. With credentials allowed, echoing
+    one back would let a stranger's page call this school's API as the
+    logged-in teacher. Production answers only ACOS_CORS_ORIGINS."""
+    res = _cors_preflights(tmp_path, ACOS_ENV="production")
+    assert res["https://vidyuthlabs.web.app"] == [200, "https://vidyuthlabs.web.app"]
+    for stranger in ("https://other.web.app", "https://other.onrender.com"):
+        status, acao = res[stranger]
+        assert acao is None, f"production echoed {stranger} back: {res}"
+        assert status == 400
+
+
+def test_dev_cors_still_answers_any_firebase_and_render_origin(tmp_path):
+    """Outside production the wildcard stays, so Firebase preview channels and
+    the old Render frontend keep working against a dev API."""
+    res = _cors_preflights(tmp_path, ACOS_ENV="development")
+    for origin in ("https://vidyuthlabs.web.app", "https://other.web.app",
+                   "https://other.onrender.com"):
+        assert res[origin] == [200, origin], res
+
+
 def _check(body: str, expected: str) -> subprocess.CompletedProcess:
     return subprocess.run([sys.executable, str(CHECK_SCRIPT), expected], input=body,
                           capture_output=True, text=True, timeout=60)
