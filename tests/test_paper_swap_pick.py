@@ -464,6 +464,102 @@ def test_near_duplicate_stems_never_share_a_paper(tmp_path, monkeypatch):
         assert len(_on_paper(same.json()["paper"]) & twin_ids) == 1
 
 
+# The same guard on the other two ways a paper is made (Task 905). Both run
+# through `selection.optimize`, which had no near-duplicate check: the spec
+# review of Task 903 ran the real pair plus 10 filler 1-mark questions
+# through it with a 4-question 1-mark section and got both copies.
+
+_TWINS = [
+    _rec(QUADRATIC_A[0], 1, "ch1", 0, stem=QUADRATIC_A[1], quality=0.99),
+    _rec(QUADRATIC_B[0], 1, "ch1", 0, stem=QUADRATIC_B[1], quality=0.98),
+]
+_TWIN_IDS = {QUADRATIC_A[0], QUADRATIC_B[0]}
+
+
+def _schemas(records: list[dict]):
+    from academicos.assessment.schemas import QuestionSchema
+    return [QuestionSchema.model_validate(r) for r in records]
+
+
+def _one_mark_blueprint(count: int, *, choice: int = 0):
+    from academicos.assessment.schemas import (
+        BloomDistribution, Blueprint, ChapterWeights, CompetencyWeights,
+        DifficultyDistribution, SectionBlueprint)
+    return Blueprint(
+        total_marks=count, duration_minutes=30,
+        difficulty=DifficultyDistribution(easy=0.3, medium=0.4, hard=0.3),
+        bloom=BloomDistribution(remember=0.2, understand=0.2, apply=0.2,
+                                analyze=0.2, evaluate=0.1, create=0.1),
+        chapter_weights=ChapterWeights(), competency_weights=CompetencyWeights(),
+        sections=[SectionBlueprint(
+            id="section-a", label="A", name="Section A", marks_per_question=1,
+            question_count=count, total_marks=count,
+            has_internal_choice=choice > 0, internal_choice_count=choice)],
+    )
+
+
+def _ids_selected(result) -> set[str]:
+    ids = set()
+    for q in result.selected_questions:
+        ids.add(q.id)
+        if q.metadata.get("internal_choice_id"):
+            ids.add(q.metadata["internal_choice_id"])
+    return ids
+
+
+def test_optimize_never_selects_both_near_duplicates():
+    """The spec review's repro: the real pair, 10 fillers, four 1-mark slots.
+    The twins score highest, so without the guard both are taken."""
+    from academicos.assessment.selection import optimize
+    fillers = [_rec(f"f{i}", 1, "ch1", i + 1, quality=0.7 - i * 0.01) for i in range(10)]
+    result = optimize(_schemas(_TWINS + fillers), _one_mark_blueprint(4))
+    assert len(result.selected_questions) == 4
+    assert len(_ids_selected(result) & _TWIN_IDS) == 1
+
+
+def test_an_or_alternative_is_never_a_near_duplicate_of_the_paper():
+    """The OR partner is printed on the paper too: the twin of a question
+    (its best-scoring same-chapter alternative) must not be offered as it."""
+    from academicos.assessment.selection import optimize
+    fillers = [_rec(f"f{i}", 1, "ch1", i + 1, quality=0.7 - i * 0.01) for i in range(3)]
+    result = optimize(_schemas(_TWINS + fillers), _one_mark_blueprint(1, choice=1))
+    assert result.selected_questions[0].id == QUADRATIC_A[0]
+    alt = result.selected_questions[0].metadata.get("internal_choice_id")
+    assert alt and alt != QUADRATIC_B[0]
+
+
+def test_a_quick_generated_paper_never_carries_both_near_duplicates(tmp_path, monkeypatch):
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _pool(_TWINS + FIXTURE))
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        r = client.post("/api/v1/papers/quick-generate", headers=t1, json={
+            "subject": "Science", "grade": 10, "chapterIds": ["ch1"], "totalMarks": 20})
+        assert r.status_code == 200, r.text
+        on_paper = _on_paper(r.json())
+        assert len(on_paper & _TWIN_IDS) == 1, sorted(on_paper)
+
+
+def test_optimize_then_generate_never_carries_both_near_duplicates(tmp_path, monkeypatch):
+    """The builder's other path: POST /questions/optimize picks, POST
+    /papers/generate prints what it picked."""
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _pool(_TWINS + FIXTURE))
+    keyed_ones = [r for r in _TWINS + FIXTURE if r["marks"] == 1 and r["id"] != "o7"]
+    bp = _one_mark_blueprint(4).model_dump(by_alias=True)
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        opt = client.post("/api/v1/questions/optimize", headers=t1,
+                          json={"candidates": keyed_ones, "blueprint": bp})
+        assert opt.status_code == 200, opt.text
+        picked = opt.json()["selectedQuestions"]
+        assert len(picked) == 4
+        gen = client.post("/api/v1/papers/generate", headers=t1, json={
+            "assessmentId": "asm_none", "blueprint": bp, "selectedQuestions": picked,
+            "template": {"id": "tpl", "schoolId": "school_1", "name": "Plain"}})
+        assert gen.status_code == 200, gen.text
+        on_paper = _on_paper(gen.json())
+        assert len(on_paper & _TWIN_IDS) == 1, sorted(on_paper)
+
+
 # ------------------------------------------------------------------ recent papers
 
 def test_swap_avoids_the_teachers_recent_papers_while_the_bank_has_alternatives(

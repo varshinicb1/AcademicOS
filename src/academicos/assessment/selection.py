@@ -26,6 +26,7 @@ from __future__ import annotations
 
 from collections import Counter
 
+from .pool import near_duplicate
 from .schemas import Blueprint, QuestionOptimizationResult, QuestionSchema, SectionBlueprint
 from .templates import default_sections
 
@@ -98,6 +99,12 @@ def _fits_section(q: QuestionSchema, section: SectionBlueprint) -> bool:
     return True
 
 
+def _repeats_paper(q: QuestionSchema, *on_paper: list[QuestionSchema]) -> bool:
+    """Is `q` a near-duplicate of any question already printed, OR partners
+    included? One implementation, `pool.near_duplicate`, for every path."""
+    return any(near_duplicate(q.stem, p.stem) for group in on_paper for p in group)
+
+
 def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
             fallback_candidates: list[QuestionSchema] | None = None) -> QuestionOptimizationResult:
     sections = blueprint.sections or default_sections(blueprint.total_marks)
@@ -112,6 +119,7 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
     fallback_remaining = [q for q in (fallback_candidates or []) if q.id not in selected_ids_seen]
     selected: list[QuestionSchema] = []
     paired_choice_ids: set[str] = set()
+    paired: list[QuestionSchema] = []   # the OR partners: printed too
     used_chapters: Counter = Counter()
     warnings: list[str] = []
     gaps: list[str] = []
@@ -145,7 +153,22 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
             key=lambda q: _score(q, chapter_weights, used_chapters, tier, need_cbq),
             reverse=True,
         )
-        take = pool[: section.question_count]
+        # Accept in rank order, skipping a question that restates one already
+        # on the paper (`pool.near_duplicate`, the guard the template path and
+        # swap/pick use). Without it the real pair of Class 10 Mathematics
+        # MCQs (Task 903's test) filled two slots of one 1-mark section.
+        take = []
+        for q in pool:
+            if len(take) == section.question_count:
+                break
+            if not _repeats_paper(q, selected + take, paired):
+                take.append(q)
+        if shortfall <= 0 and len(take) < section.question_count:
+            gaps.append(
+                f"Section {section.label} ({section.name}): only {len(take)} of "
+                f"{section.question_count} questions after leaving out ones that repeat "
+                f"a question already on the paper."
+            )
         for q in take:
             selected.append(q)
             if q in remaining:
@@ -177,12 +200,18 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
                         ),
                         reverse=True,
                     )
-                    alt_q = alt_pool[0]
+                    # The partner is printed too, so it may not restate any
+                    # question on the paper -- its own primary included. Checked
+                    # down the ranking, not over the whole pool.
+                    alt_q = next((c for c in alt_pool if not _repeats_paper(c, selected, paired)), None)
+                    if alt_q is None:
+                        continue
                     primary_q.metadata["internal_choice_id"] = alt_q.id
                     primary_q.metadata["internal_choice_stem"] = alt_q.stem
                     primary_q.metadata["internal_choice_scheme"] = alt_q.answer_scheme.model_answer
                     primary_q.metadata["internal_choice_question"] = alt_q.model_dump(by_alias=False)
                     paired_choice_ids.add(alt_q.id)
+                    paired.append(alt_q)
                     if alt_q in remaining:
                         remaining.remove(alt_q)
                     elif alt_q in fallback_remaining:
