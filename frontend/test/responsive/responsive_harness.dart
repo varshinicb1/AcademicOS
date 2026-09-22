@@ -12,8 +12,8 @@
 //     both directions -- the smallest target a thumb reliably hits.
 import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show FontLoader, rootBundle;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:academicos/core/constants/app_constants.dart';
 import 'package:academicos/core/theme/app_theme.dart';
@@ -65,48 +65,40 @@ void useScreen(WidgetTester tester, Screen screen) {
 
 /// Call once per test file, from `main()`.
 ///
-/// AppTheme's styles come from google_fonts, which downloads Inter over HTTP
-/// the first time each weight is asked for -- gstatic.com URLs, from a widget
-/// test -- and rethrows when it cannot, which lands as an unhandled error in
-/// the test's zone and fails whichever test happens to be running. Disabling
-/// its runtime fetching does not help: it throws there too (its own
-/// loadFontIfNecessary rethrows both ways), and this app bundles no font
-/// assets for it to fall back on.
+/// Loads the shipped typeface into the test binding, so a flow is measured in
+/// the face a teacher actually reads it in.
 ///
-/// So the theme's typeface is swapped instead, for a plain TextStyle naming
-/// the same family. Nothing these tests measure changes: a widget test has no
-/// Inter to render with either way and falls back to the test font, and what
-/// is measured here is padding, constraints and density.
+/// Without this a widget test lays every string out in flutter_test's fallback
+/// glyph, which is a fixed-width box unrelated to Inter, and a width assertion
+/// on a 375 px phone is then only an approximation of the real one. It used to
+/// be unavoidable: AppTheme's styles came from google_fonts, which downloads
+/// Inter over HTTP on first use and rethrows when it cannot -- always, in a
+/// widget test -- so the typeface had to be swapped out for a bare TextStyle
+/// naming the same absent family. Now that Inter is a bundled asset
+/// (pubspec.yaml's `fonts:` block) there is a real font to load, and
+/// [FontLoader] puts it in front of the same text the app draws.
 ///
-/// The limitation that follows -- these tests lay text out in flutter_test's
-/// fixed-width fallback glyph, not in Inter, so a measured overrun is an
-/// approximation of the Inter one (review of 2026-09-23).
-///
-/// That review read the limitation as a product defect -- "the shipped app
-/// draws in the browser's fallback face" -- on the evidence that
-/// `document.fonts` is empty in the released build. It is not: the live site
-/// (https://vidyuthlabs.web.app, 2026-09-23) fetches three TTFs from
-/// fonts.gstatic.com under /s/a/, which is google_fonts doing its runtime
-/// load. `document.fonts` stays empty because CanvasKit registers a typeface
-/// with Skia rather than as a CSS FontFace, so the browser's font set is the
-/// wrong place to look. Inter does reach the user; only these tests render
-/// without it.
+/// All four weights are registered under the one family, matching how the
+/// pubspec declares them, so a style's `fontWeight` picks a real face here
+/// too rather than a synthesised one.
 void useAppFonts() {
-  setUpAll(() {
-    GoogleFonts.config.allowRuntimeFetching = false;
-    AppTheme.font = _plainInter;
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    final loader = FontLoader(AppConstants.fontFamily);
+    for (final asset in _interAssets) {
+      loader.addFont(rootBundle.load(asset));
+    }
+    await loader.load();
   });
-  tearDownAll(() => AppTheme.font = AppTheme.inter);
 }
 
-TextStyle _plainInter({Color? color, double? fontSize, FontWeight? fontWeight, double? letterSpacing}) =>
-    TextStyle(
-      fontFamily: AppConstants.fontFamily,
-      color: color,
-      fontSize: fontSize,
-      fontWeight: fontWeight,
-      letterSpacing: letterSpacing,
-    );
+/// The Inter faces pubspec.yaml bundles, in the same order it declares them.
+const _interAssets = <String>[
+  'assets/fonts/Inter-Regular.ttf',
+  'assets/fonts/Inter-Medium.ttf',
+  'assets/fonts/Inter-SemiBold.ttf',
+  'assets/fonts/Inter-Bold.ttf',
+];
 
 /// [page] inside the MaterialApp main.dart builds, theme and all.
 ///

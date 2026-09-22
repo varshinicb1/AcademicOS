@@ -33,7 +33,7 @@ class BlueprintRequest with _$BlueprintRequest {
     required List<SectionBlueprint> sections,
     Map<String, dynamic>? schoolTemplate,
     String? tier,
-    int? competencyPercentage,
+    double? competencyPercentage,
     String? examType,
   }) = _BlueprintRequest;
 
@@ -157,7 +157,6 @@ class GeneratedQuestion with _$GeneratedQuestion {
 class PaperMetadata with _$PaperMetadata {
   const factory PaperMetadata({
     required String assessmentTitle,
-    required String schoolName,
     required String subject,
     required int grade,
     required int totalMarks,
@@ -165,6 +164,14 @@ class PaperMetadata with _$PaperMetadata {
     required DateTime generatedAt,
     required String generatedBy,
     required String version,
+    // The header a teacher template sets, and null when the paper did not
+    // come from one -- a CBSE preset has none. It was `required String` here
+    // until a generated paper opened from "my papers" threw `type 'Null' is
+    // not a subtype of type 'String'` on the detail screen, which the paper
+    // builder never saw because it patched the field in before parsing.
+    // Both exporters fall back on null, as the server's does: the school's
+    // branding name, then "AcademicOS School".
+    String? schoolName,
     String? setLabel,
     String? tier,
     String? examType,

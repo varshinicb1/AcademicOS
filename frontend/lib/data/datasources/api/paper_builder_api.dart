@@ -337,15 +337,22 @@ class AvailabilityView {
 }
 
 /// The server's paper JSON, made readable by the shared [GeneratedPaper]
-/// model. Two fields generate-from-template leaves null that the model
-/// requires: `schoolName` (blank header -> the PDF falls back to the school's
-/// branding name) and a set's `formattedContent*`. Filled with '' here rather
-/// than loosening the shared model under every other screen.
+/// model.
+///
+/// This used to also fill in `metadata.schoolName`, which a paper generated
+/// from a template leaves null. That made this the only parse that survived
+/// such a paper: the assessment detail screen reads the same body straight
+/// through `GeneratedPaper.fromJson` and threw on it. `schoolName` is
+/// nullable on the model now, so nothing here may patch it back -- the two
+/// paths have to produce the same paper from the same bytes, which
+/// test/assessment_detail/assessment_detail_contract_test.dart holds them to.
+///
+/// What is left fills fields the server gives defaults for anyway, kept for
+/// papers stored before those defaults existed.
 GeneratedPaper parsePaper(Map<String, dynamic> j) {
   Map<String, dynamic> fix(Map<String, dynamic> p) {
     final m = Map<String, dynamic>.from(p);
     final meta = Map<String, dynamic>.from(m['metadata'] as Map);
-    meta['schoolName'] ??= '';
     meta['generatedBy'] ??= 'AcademicOS';
     meta['version'] ??= '1.0';
     m['metadata'] = meta;

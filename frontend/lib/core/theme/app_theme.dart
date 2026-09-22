@@ -1,41 +1,32 @@
 ﻿import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../constants/app_constants.dart';
 
-/// How the theme builds one text style.
-///
-/// Only the four arguments AppTheme actually passes; [GoogleFonts.inter] has
-/// the same shape, so it is the default.
-typedef ThemeFont = TextStyle Function({
-  Color? color,
-  double? fontSize,
-  FontWeight? fontWeight,
-  double? letterSpacing,
-});
-
 class AppTheme {
-  /// The typeface every style below is built from.
+  /// The typeface every style below is built from: Inter, the one family the
+  /// design system names for anything user-facing (design/tokens.json,
+  /// `typography.family.ui`).
   ///
-  /// google_fonts downloads Inter over HTTP the first time each weight is
-  /// asked for, and rethrows when it cannot -- which is always in a widget
-  /// test: there is no network and this app bundles no font assets. So a
-  /// layout test that renders the shipped theme (Task 801's responsive
-  /// suite) could not use it at all until this was injectable. Swapping the
-  /// typeface loses nothing such a test measures: Flutter falls back to the
-  /// test font whatever family is named, and what those tests check is
-  /// padding, constraints and density (review of 2026-09-23).
-  static ThemeFont font = inter;
-
-  /// The shipped typeface, and the default for [font].
-  static TextStyle inter({
+  /// It is a bundled asset -- `assets/fonts/Inter-*.ttf`, declared with their
+  /// weights in pubspec.yaml -- not a runtime download. google_fonts used to
+  /// fetch it from fonts.gstatic.com on first paint, which worked on the web
+  /// but meant the first frame was never the design system's, the offline
+  /// desktop build had no way to get the typeface at all, and every weight
+  /// arrived as its own one-face family so `copyWith(fontWeight: ...)`
+  /// resolved to a synthesised face. See pubspec.yaml for the full note.
+  ///
+  /// Naming only the family (not a per-weight family) is what lets Flutter
+  /// pick the real 400/500/600/700 face for whatever weight is asked for,
+  /// here or in any `copyWith` downstream.
+  static TextStyle font({
     Color? color,
     double? fontSize,
     FontWeight? fontWeight,
     double? letterSpacing,
   }) =>
-      GoogleFonts.inter(
+      TextStyle(
+        fontFamily: AppConstants.fontFamily,
         color: color,
         fontSize: fontSize,
         fontWeight: fontWeight,

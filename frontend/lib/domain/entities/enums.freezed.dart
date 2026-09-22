@@ -1099,8 +1099,10 @@ mixin _$Blueprint {
   CompetencyWeights get competencyWeights => throw _privateConstructorUsedError;
   List<SectionBlueprint> get sections => throw _privateConstructorUsedError;
   Map<String, dynamic> get metadata => throw _privateConstructorUsedError;
-  String? get tier => throw _privateConstructorUsedError;
-  int? get competencyPercentage => throw _privateConstructorUsedError;
+  String? get tier =>
+      throw _privateConstructorUsedError; // A share of the paper, 0.5 = half. A float on the wire: read into an
+// `int?` it silently truncated to 0.
+  double? get competencyPercentage => throw _privateConstructorUsedError;
   String? get examType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1124,7 +1126,7 @@ abstract class $BlueprintCopyWith<$Res> {
       List<SectionBlueprint> sections,
       Map<String, dynamic> metadata,
       String? tier,
-      int? competencyPercentage,
+      double? competencyPercentage,
       String? examType});
 
   $DifficultyDistributionCopyWith<$Res> get difficulty;
@@ -1198,7 +1200,7 @@ class _$BlueprintCopyWithImpl<$Res, $Val extends Blueprint>
       competencyPercentage: freezed == competencyPercentage
           ? _value.competencyPercentage
           : competencyPercentage // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       examType: freezed == examType
           ? _value.examType
           : examType // ignore: cast_nullable_to_non_nullable
@@ -1257,7 +1259,7 @@ abstract class _$$BlueprintImplCopyWith<$Res>
       List<SectionBlueprint> sections,
       Map<String, dynamic> metadata,
       String? tier,
-      int? competencyPercentage,
+      double? competencyPercentage,
       String? examType});
 
   @override
@@ -1333,7 +1335,7 @@ class __$$BlueprintImplCopyWithImpl<$Res>
       competencyPercentage: freezed == competencyPercentage
           ? _value.competencyPercentage
           : competencyPercentage // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       examType: freezed == examType
           ? _value.examType
           : examType // ignore: cast_nullable_to_non_nullable
@@ -1394,8 +1396,10 @@ class _$BlueprintImpl implements _Blueprint {
 
   @override
   final String? tier;
+// A share of the paper, 0.5 = half. A float on the wire: read into an
+// `int?` it silently truncated to 0.
   @override
-  final int? competencyPercentage;
+  final double? competencyPercentage;
   @override
   final String? examType;
 
@@ -1470,7 +1474,7 @@ abstract class _Blueprint implements Blueprint {
       required final List<SectionBlueprint> sections,
       final Map<String, dynamic> metadata,
       final String? tier,
-      final int? competencyPercentage,
+      final double? competencyPercentage,
       final String? examType}) = _$BlueprintImpl;
 
   factory _Blueprint.fromJson(Map<String, dynamic> json) =
@@ -1494,8 +1498,9 @@ abstract class _Blueprint implements Blueprint {
   Map<String, dynamic> get metadata;
   @override
   String? get tier;
-  @override
-  int? get competencyPercentage;
+  @override // A share of the paper, 0.5 = half. A float on the wire: read into an
+// `int?` it silently truncated to 0.
+  double? get competencyPercentage;
   @override
   String? get examType;
   @override

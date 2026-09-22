@@ -52,7 +52,7 @@ _$BlueprintRequestImpl _$$BlueprintRequestImplFromJson(
           .toList(),
       schoolTemplate: json['schoolTemplate'] as Map<String, dynamic>?,
       tier: json['tier'] as String?,
-      competencyPercentage: (json['competencyPercentage'] as num?)?.toInt(),
+      competencyPercentage: (json['competencyPercentage'] as num?)?.toDouble(),
       examType: json['examType'] as String?,
     );
 
@@ -330,7 +330,6 @@ Map<String, dynamic> _$$GeneratedQuestionImplToJson(
 _$PaperMetadataImpl _$$PaperMetadataImplFromJson(Map<String, dynamic> json) =>
     _$PaperMetadataImpl(
       assessmentTitle: json['assessmentTitle'] as String,
-      schoolName: json['schoolName'] as String,
       subject: json['subject'] as String,
       grade: (json['grade'] as num).toInt(),
       totalMarks: (json['totalMarks'] as num).toInt(),
@@ -338,6 +337,7 @@ _$PaperMetadataImpl _$$PaperMetadataImplFromJson(Map<String, dynamic> json) =>
       generatedAt: DateTime.parse(json['generatedAt'] as String),
       generatedBy: json['generatedBy'] as String,
       version: json['version'] as String,
+      schoolName: json['schoolName'] as String?,
       setLabel: json['setLabel'] as String?,
       tier: json['tier'] as String?,
       examType: json['examType'] as String?,
@@ -346,7 +346,6 @@ _$PaperMetadataImpl _$$PaperMetadataImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$PaperMetadataImplToJson(_$PaperMetadataImpl instance) =>
     <String, dynamic>{
       'assessmentTitle': instance.assessmentTitle,
-      'schoolName': instance.schoolName,
       'subject': instance.subject,
       'grade': instance.grade,
       'totalMarks': instance.totalMarks,
@@ -354,6 +353,7 @@ Map<String, dynamic> _$$PaperMetadataImplToJson(_$PaperMetadataImpl instance) =>
       'generatedAt': instance.generatedAt.toIso8601String(),
       'generatedBy': instance.generatedBy,
       'version': instance.version,
+      'schoolName': instance.schoolName,
       'setLabel': instance.setLabel,
       'tier': instance.tier,
       'examType': instance.examType,

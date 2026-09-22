@@ -140,7 +140,7 @@ _$BlueprintImpl _$$BlueprintImplFromJson(Map<String, dynamic> json) =>
           .toList(),
       metadata: json['metadata'] as Map<String, dynamic>? ?? const {},
       tier: json['tier'] as String?,
-      competencyPercentage: (json['competencyPercentage'] as num?)?.toInt(),
+      competencyPercentage: (json['competencyPercentage'] as num?)?.toDouble(),
       examType: json['examType'] as String?,
     );
 

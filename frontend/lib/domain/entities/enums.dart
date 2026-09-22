@@ -597,7 +597,9 @@ class Blueprint with _$Blueprint {
     required List<SectionBlueprint> sections,
     @Default({}) Map<String, dynamic> metadata,
     String? tier,
-    int? competencyPercentage,
+    // A share of the paper, 0.5 = half. A float on the wire: read into an
+    // `int?` it silently truncated to 0.
+    double? competencyPercentage,
     String? examType,
   }) = _Blueprint;
 

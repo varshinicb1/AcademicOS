@@ -40,6 +40,35 @@ const _phoneTapTarget = ButtonStyle(
   visualDensity: VisualDensity.standard,
 );
 
+/// [phoneTapTarget] for a [SegmentedButton], whose segments cannot be given a
+/// minimum height at all.
+///
+/// A segment is a real TextButton, so [phoneTapTarget] looks like it should
+/// work on one -- it does not, by two separate routes, and the switch on the
+/// sign-in page sat at 40 px for it (review of 2026-09-23):
+///   * handed to the SegmentedButton directly, the style is rebuilt by
+///     `segmentStyleFor` (segmented_button.dart:530) from a fixed list of
+///     properties that `minimumSize` is not on;
+///   * handed down as a TextButton theme, it is shadowed -- SegmentedButton
+///     wraps its own segments in `TextButtonTheme(data: segmentThemeStyle)`
+///     (segmented_button.dart:692), which came through the same filter.
+///
+/// `padding` and `visualDensity` do survive both, so the height has to be
+/// built out of those: pin the density a desktop-UA browser would otherwise
+/// compact away, then pad the label to the target. 14 px each side of a 14 px
+/// label's line box measures 48 against [AppTheme]'s text styles in Inter -- the
+/// same height [phoneTapTarget] asks for, and asserted by the sign-in test
+/// rather than written down here.
+ButtonStyle phoneSegmentTapTarget(BuildContext context) =>
+    MediaQuery.sizeOf(context).width < AppConstants.mobileBreakpoint
+        ? _phoneSegmentTapTarget
+        : const ButtonStyle();
+
+const _phoneSegmentTapTarget = ButtonStyle(
+  visualDensity: VisualDensity.standard,
+  padding: WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 12, vertical: 14)),
+);
+
 class AppCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;

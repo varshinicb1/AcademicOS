@@ -1182,6 +1182,11 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               Expanded(
                 child: Center(
                   child: TextButton.icon(
+                    // Changing the day is this tab's primary action, and a
+                    // TextButton's M3 minimum is 40 px -- under the 44 a thumb
+                    // reliably hits. The two arrows either side already get
+                    // their 48 from _IconButtonDefaultsM3.
+                    style: phoneTapTarget(context),
                     onPressed: () async {
                       final picked = await showDatePicker(
                         context: context,

@@ -1,0 +1,40 @@
+{
+ "command": "PYTHONPATH=src PYTHONIOENCODING=utf-8 python scripts/capture_assessment_detail_fixtures.py",
+ "bank": "academicos-data/syllabus/questions.json",
+ "responses": [
+  {
+   "file": "generate_from_template_10_maths_unit_test.json",
+   "method": "POST",
+   "path": "/api/v1/papers/generate-from-template",
+   "status": 200,
+   "body": {
+    "templateId": "preset:cbse:10:mathematics:unit_test",
+    "scope": {
+     "chapterIds": []
+    },
+    "allowGaps": true
+   }
+  },
+  {
+   "file": "assessment_10_maths_unit_test.json",
+   "method": "GET",
+   "path": "/api/v1/assessments/asm_tpl_61647e34",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "assessments_by_school.json",
+   "method": "GET",
+   "path": "/api/v1/assessments?school_id=school_demo_detail",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "paper_10_maths_unit_test.json",
+   "method": "GET",
+   "path": "/api/v1/papers/paper_77858f81a135",
+   "status": 200,
+   "body": null
+  }
+ ]
+}

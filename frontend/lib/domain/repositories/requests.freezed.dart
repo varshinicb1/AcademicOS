@@ -350,7 +350,7 @@ mixin _$BlueprintRequest {
   Map<String, dynamic>? get schoolTemplate =>
       throw _privateConstructorUsedError;
   String? get tier => throw _privateConstructorUsedError;
-  int? get competencyPercentage => throw _privateConstructorUsedError;
+  double? get competencyPercentage => throw _privateConstructorUsedError;
   String? get examType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -375,7 +375,7 @@ abstract class $BlueprintRequestCopyWith<$Res> {
       List<SectionBlueprint> sections,
       Map<String, dynamic>? schoolTemplate,
       String? tier,
-      int? competencyPercentage,
+      double? competencyPercentage,
       String? examType});
 
   $DifficultyDistributionCopyWith<$Res> get difficulty;
@@ -449,7 +449,7 @@ class _$BlueprintRequestCopyWithImpl<$Res, $Val extends BlueprintRequest>
       competencyPercentage: freezed == competencyPercentage
           ? _value.competencyPercentage
           : competencyPercentage // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       examType: freezed == examType
           ? _value.examType
           : examType // ignore: cast_nullable_to_non_nullable
@@ -508,7 +508,7 @@ abstract class _$$BlueprintRequestImplCopyWith<$Res>
       List<SectionBlueprint> sections,
       Map<String, dynamic>? schoolTemplate,
       String? tier,
-      int? competencyPercentage,
+      double? competencyPercentage,
       String? examType});
 
   @override
@@ -584,7 +584,7 @@ class __$$BlueprintRequestImplCopyWithImpl<$Res>
       competencyPercentage: freezed == competencyPercentage
           ? _value.competencyPercentage
           : competencyPercentage // ignore: cast_nullable_to_non_nullable
-              as int?,
+              as double?,
       examType: freezed == examType
           ? _value.examType
           : examType // ignore: cast_nullable_to_non_nullable
@@ -647,7 +647,7 @@ class _$BlueprintRequestImpl implements _BlueprintRequest {
   @override
   final String? tier;
   @override
-  final int? competencyPercentage;
+  final double? competencyPercentage;
   @override
   final String? examType;
 
@@ -724,7 +724,7 @@ abstract class _BlueprintRequest implements BlueprintRequest {
       required final List<SectionBlueprint> sections,
       final Map<String, dynamic>? schoolTemplate,
       final String? tier,
-      final int? competencyPercentage,
+      final double? competencyPercentage,
       final String? examType}) = _$BlueprintRequestImpl;
 
   factory _BlueprintRequest.fromJson(Map<String, dynamic> json) =
@@ -749,7 +749,7 @@ abstract class _BlueprintRequest implements BlueprintRequest {
   @override
   String? get tier;
   @override
-  int? get competencyPercentage;
+  double? get competencyPercentage;
   @override
   String? get examType;
   @override
@@ -2960,14 +2960,21 @@ PaperMetadata _$PaperMetadataFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$PaperMetadata {
   String get assessmentTitle => throw _privateConstructorUsedError;
-  String get schoolName => throw _privateConstructorUsedError;
   String get subject => throw _privateConstructorUsedError;
   int get grade => throw _privateConstructorUsedError;
   int get totalMarks => throw _privateConstructorUsedError;
   int get durationMinutes => throw _privateConstructorUsedError;
   DateTime get generatedAt => throw _privateConstructorUsedError;
   String get generatedBy => throw _privateConstructorUsedError;
-  String get version => throw _privateConstructorUsedError;
+  String get version =>
+      throw _privateConstructorUsedError; // The header a teacher template sets, and null when the paper did not
+// come from one -- a CBSE preset has none. It was `required String` here
+// until a generated paper opened from "my papers" threw `type 'Null' is
+// not a subtype of type 'String'` on the detail screen, which the paper
+// builder never saw because it patched the field in before parsing.
+// Both exporters fall back on null, as the server's does: the school's
+// branding name, then "AcademicOS School".
+  String? get schoolName => throw _privateConstructorUsedError;
   String? get setLabel => throw _privateConstructorUsedError;
   String? get tier => throw _privateConstructorUsedError;
   String? get examType => throw _privateConstructorUsedError;
@@ -2986,7 +2993,6 @@ abstract class $PaperMetadataCopyWith<$Res> {
   @useResult
   $Res call(
       {String assessmentTitle,
-      String schoolName,
       String subject,
       int grade,
       int totalMarks,
@@ -2994,6 +3000,7 @@ abstract class $PaperMetadataCopyWith<$Res> {
       DateTime generatedAt,
       String generatedBy,
       String version,
+      String? schoolName,
       String? setLabel,
       String? tier,
       String? examType});
@@ -3013,7 +3020,6 @@ class _$PaperMetadataCopyWithImpl<$Res, $Val extends PaperMetadata>
   @override
   $Res call({
     Object? assessmentTitle = null,
-    Object? schoolName = null,
     Object? subject = null,
     Object? grade = null,
     Object? totalMarks = null,
@@ -3021,6 +3027,7 @@ class _$PaperMetadataCopyWithImpl<$Res, $Val extends PaperMetadata>
     Object? generatedAt = null,
     Object? generatedBy = null,
     Object? version = null,
+    Object? schoolName = freezed,
     Object? setLabel = freezed,
     Object? tier = freezed,
     Object? examType = freezed,
@@ -3029,10 +3036,6 @@ class _$PaperMetadataCopyWithImpl<$Res, $Val extends PaperMetadata>
       assessmentTitle: null == assessmentTitle
           ? _value.assessmentTitle
           : assessmentTitle // ignore: cast_nullable_to_non_nullable
-              as String,
-      schoolName: null == schoolName
-          ? _value.schoolName
-          : schoolName // ignore: cast_nullable_to_non_nullable
               as String,
       subject: null == subject
           ? _value.subject
@@ -3062,6 +3065,10 @@ class _$PaperMetadataCopyWithImpl<$Res, $Val extends PaperMetadata>
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as String,
+      schoolName: freezed == schoolName
+          ? _value.schoolName
+          : schoolName // ignore: cast_nullable_to_non_nullable
+              as String?,
       setLabel: freezed == setLabel
           ? _value.setLabel
           : setLabel // ignore: cast_nullable_to_non_nullable
@@ -3088,7 +3095,6 @@ abstract class _$$PaperMetadataImplCopyWith<$Res>
   @useResult
   $Res call(
       {String assessmentTitle,
-      String schoolName,
       String subject,
       int grade,
       int totalMarks,
@@ -3096,6 +3102,7 @@ abstract class _$$PaperMetadataImplCopyWith<$Res>
       DateTime generatedAt,
       String generatedBy,
       String version,
+      String? schoolName,
       String? setLabel,
       String? tier,
       String? examType});
@@ -3113,7 +3120,6 @@ class __$$PaperMetadataImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? assessmentTitle = null,
-    Object? schoolName = null,
     Object? subject = null,
     Object? grade = null,
     Object? totalMarks = null,
@@ -3121,6 +3127,7 @@ class __$$PaperMetadataImplCopyWithImpl<$Res>
     Object? generatedAt = null,
     Object? generatedBy = null,
     Object? version = null,
+    Object? schoolName = freezed,
     Object? setLabel = freezed,
     Object? tier = freezed,
     Object? examType = freezed,
@@ -3129,10 +3136,6 @@ class __$$PaperMetadataImplCopyWithImpl<$Res>
       assessmentTitle: null == assessmentTitle
           ? _value.assessmentTitle
           : assessmentTitle // ignore: cast_nullable_to_non_nullable
-              as String,
-      schoolName: null == schoolName
-          ? _value.schoolName
-          : schoolName // ignore: cast_nullable_to_non_nullable
               as String,
       subject: null == subject
           ? _value.subject
@@ -3162,6 +3165,10 @@ class __$$PaperMetadataImplCopyWithImpl<$Res>
           ? _value.version
           : version // ignore: cast_nullable_to_non_nullable
               as String,
+      schoolName: freezed == schoolName
+          ? _value.schoolName
+          : schoolName // ignore: cast_nullable_to_non_nullable
+              as String?,
       setLabel: freezed == setLabel
           ? _value.setLabel
           : setLabel // ignore: cast_nullable_to_non_nullable
@@ -3183,7 +3190,6 @@ class __$$PaperMetadataImplCopyWithImpl<$Res>
 class _$PaperMetadataImpl implements _PaperMetadata {
   const _$PaperMetadataImpl(
       {required this.assessmentTitle,
-      required this.schoolName,
       required this.subject,
       required this.grade,
       required this.totalMarks,
@@ -3191,6 +3197,7 @@ class _$PaperMetadataImpl implements _PaperMetadata {
       required this.generatedAt,
       required this.generatedBy,
       required this.version,
+      this.schoolName,
       this.setLabel,
       this.tier,
       this.examType});
@@ -3200,8 +3207,6 @@ class _$PaperMetadataImpl implements _PaperMetadata {
 
   @override
   final String assessmentTitle;
-  @override
-  final String schoolName;
   @override
   final String subject;
   @override
@@ -3216,6 +3221,15 @@ class _$PaperMetadataImpl implements _PaperMetadata {
   final String generatedBy;
   @override
   final String version;
+// The header a teacher template sets, and null when the paper did not
+// come from one -- a CBSE preset has none. It was `required String` here
+// until a generated paper opened from "my papers" threw `type 'Null' is
+// not a subtype of type 'String'` on the detail screen, which the paper
+// builder never saw because it patched the field in before parsing.
+// Both exporters fall back on null, as the server's does: the school's
+// branding name, then "AcademicOS School".
+  @override
+  final String? schoolName;
   @override
   final String? setLabel;
   @override
@@ -3225,7 +3239,7 @@ class _$PaperMetadataImpl implements _PaperMetadata {
 
   @override
   String toString() {
-    return 'PaperMetadata(assessmentTitle: $assessmentTitle, schoolName: $schoolName, subject: $subject, grade: $grade, totalMarks: $totalMarks, durationMinutes: $durationMinutes, generatedAt: $generatedAt, generatedBy: $generatedBy, version: $version, setLabel: $setLabel, tier: $tier, examType: $examType)';
+    return 'PaperMetadata(assessmentTitle: $assessmentTitle, subject: $subject, grade: $grade, totalMarks: $totalMarks, durationMinutes: $durationMinutes, generatedAt: $generatedAt, generatedBy: $generatedBy, version: $version, schoolName: $schoolName, setLabel: $setLabel, tier: $tier, examType: $examType)';
   }
 
   @override
@@ -3235,8 +3249,6 @@ class _$PaperMetadataImpl implements _PaperMetadata {
             other is _$PaperMetadataImpl &&
             (identical(other.assessmentTitle, assessmentTitle) ||
                 other.assessmentTitle == assessmentTitle) &&
-            (identical(other.schoolName, schoolName) ||
-                other.schoolName == schoolName) &&
             (identical(other.subject, subject) || other.subject == subject) &&
             (identical(other.grade, grade) || other.grade == grade) &&
             (identical(other.totalMarks, totalMarks) ||
@@ -3248,6 +3260,8 @@ class _$PaperMetadataImpl implements _PaperMetadata {
             (identical(other.generatedBy, generatedBy) ||
                 other.generatedBy == generatedBy) &&
             (identical(other.version, version) || other.version == version) &&
+            (identical(other.schoolName, schoolName) ||
+                other.schoolName == schoolName) &&
             (identical(other.setLabel, setLabel) ||
                 other.setLabel == setLabel) &&
             (identical(other.tier, tier) || other.tier == tier) &&
@@ -3260,7 +3274,6 @@ class _$PaperMetadataImpl implements _PaperMetadata {
   int get hashCode => Object.hash(
       runtimeType,
       assessmentTitle,
-      schoolName,
       subject,
       grade,
       totalMarks,
@@ -3268,6 +3281,7 @@ class _$PaperMetadataImpl implements _PaperMetadata {
       generatedAt,
       generatedBy,
       version,
+      schoolName,
       setLabel,
       tier,
       examType);
@@ -3289,7 +3303,6 @@ class _$PaperMetadataImpl implements _PaperMetadata {
 abstract class _PaperMetadata implements PaperMetadata {
   const factory _PaperMetadata(
       {required final String assessmentTitle,
-      required final String schoolName,
       required final String subject,
       required final int grade,
       required final int totalMarks,
@@ -3297,6 +3310,7 @@ abstract class _PaperMetadata implements PaperMetadata {
       required final DateTime generatedAt,
       required final String generatedBy,
       required final String version,
+      final String? schoolName,
       final String? setLabel,
       final String? tier,
       final String? examType}) = _$PaperMetadataImpl;
@@ -3306,8 +3320,6 @@ abstract class _PaperMetadata implements PaperMetadata {
 
   @override
   String get assessmentTitle;
-  @override
-  String get schoolName;
   @override
   String get subject;
   @override
@@ -3322,6 +3334,14 @@ abstract class _PaperMetadata implements PaperMetadata {
   String get generatedBy;
   @override
   String get version;
+  @override // The header a teacher template sets, and null when the paper did not
+// come from one -- a CBSE preset has none. It was `required String` here
+// until a generated paper opened from "my papers" threw `type 'Null' is
+// not a subtype of type 'String'` on the detail screen, which the paper
+// builder never saw because it patched the field in before parsing.
+// Both exporters fall back on null, as the server's does: the school's
+// branding name, then "AcademicOS School".
+  String? get schoolName;
   @override
   String? get setLabel;
   @override

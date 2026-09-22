@@ -212,10 +212,12 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 24),
                   SegmentedButton<bool>(
-                    // A segment is a TextButton, so it inherits M3's 40 px
-                    // minimum -- and this switch is how a teacher gets from
-                    // Sign in to the invite form at all.
-                    style: phoneTapTarget(context),
+                    // This switch is how a teacher gets from Sign in to the
+                    // invite form at all, so it has to take a thumb. Not
+                    // `phoneTapTarget`: a SegmentedButton drops the minimum
+                    // height out of any style it is given, so the size has to
+                    // be built from padding -- see [phoneSegmentTapTarget].
+                    style: phoneSegmentTapTarget(context),
                     segments: const [
                       ButtonSegment(value: false, label: Text('Sign in')),
                       ButtonSegment(value: true, label: Text('Create account')),

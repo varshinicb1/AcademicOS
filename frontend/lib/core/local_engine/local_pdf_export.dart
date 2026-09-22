@@ -29,6 +29,13 @@ class LocalPdfExporter {
   /// equivalents on every user-supplied string before it reaches pw.Text.
   static String _safe(String text) => pdfSafe(text);
 
+  /// The header line. `metadata.schoolName` is only set when the paper came
+  /// from a teacher template, so a paper generated from a CBSE preset has
+  /// none and printed a blank heading. Falls back the way the server's own
+  /// exporter does (assessment/pdf.py `_header`).
+  static String _schoolLine(PaperMetadata meta) =>
+      _safe((meta.schoolName ?? '').trim().isEmpty ? 'AcademicOS School' : meta.schoolName!);
+
   static Future<String> exportPaper(GeneratedPaper paper) async {
     final doc = pw.Document();
     final meta = paper.metadata;
@@ -88,7 +95,7 @@ class LocalPdfExporter {
         header: (context) => pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.center,
           children: [
-            pw.Text(_safe(meta.schoolName),
+            pw.Text(_schoolLine(meta),
                 style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold)),
             pw.SizedBox(height: 4),
             pw.Text(_safe('${meta.assessmentTitle}$setStr - Answer Key & Marking Scheme'),
@@ -187,7 +194,7 @@ class LocalPdfExporter {
     return pw.Column(
       crossAxisAlignment: pw.CrossAxisAlignment.center,
       children: [
-        pw.Text(_safe(meta.schoolName),
+        pw.Text(_schoolLine(meta),
             style: pw.TextStyle(fontSize: 18, fontWeight: pw.FontWeight.bold)),
         pw.SizedBox(height: 4),
         pw.Text(_safe('${meta.assessmentTitle}$setStr'),
@@ -247,7 +254,7 @@ class LocalPdfExporter {
         pw.Row(
           mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
           children: [
-            pw.Text(_safe(meta.schoolName), style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700)),
+            pw.Text(_schoolLine(meta), style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700)),
             pw.Text(_safe('${meta.subject}$setStr - Class ${meta.grade}'),
                 style: const pw.TextStyle(fontSize: 9, color: PdfColors.grey700)),
           ],

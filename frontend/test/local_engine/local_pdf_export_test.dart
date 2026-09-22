@@ -5,6 +5,7 @@
 // inputs, and the resulting file exists with a plausible non-zero size
 // (a near-empty PDF, like the old bare-bones exporter risked producing for
 // an all-blank paper, would be suspiciously small).
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
@@ -209,6 +210,32 @@ void main() {
     );
 
     final path = await LocalPdfExporter.exportPaper(paper);
+    expect(await File(path).exists(), isTrue);
+  });
+
+  // A paper generated from a CBSE preset carries `metadata.schoolName: null`
+  // -- the field that used to be `required String` on the model. The exporter
+  // has to print a header for it rather than a blank line, so this drives the
+  // real captured body end to end (see
+  // test/assessment_detail/assessment_detail_contract_test.dart for where it
+  // comes from).
+  test('exports a real PDF for a template paper that carries no school name', () async {
+    final paper = GeneratedPaper.fromJson(Map<String, dynamic>.from(jsonDecode(
+        File('test/assessment_detail/fixtures/paper_10_maths_unit_test.json')
+            .readAsStringSync()) as Map));
+    expect(paper.metadata.schoolName, isNull, reason: 'the case under test');
+
+    final path = await LocalPdfExporter.exportPaper(paper);
+    final bytes = await File(path).readAsBytes();
+    expect(bytes.length, greaterThan(2000),
+        reason: 'the header must still render, not collapse to a blank page');
+  });
+
+  test('exports its answer key too', () async {
+    final paper = GeneratedPaper.fromJson(Map<String, dynamic>.from(jsonDecode(
+        File('test/assessment_detail/fixtures/paper_10_maths_unit_test.json')
+            .readAsStringSync()) as Map));
+    final path = await LocalPdfExporter.exportAnswerKey(paper);
     expect(await File(path).exists(), isTrue);
   });
 }
