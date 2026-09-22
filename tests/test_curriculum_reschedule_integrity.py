@@ -126,13 +126,16 @@ def test_push_honours_a_mon_to_fri_timetable(principal_world):
     """Six Mathematics periods a week, all Monday-Friday (two on Monday).
     Saturday is a working day in this calendar, so the old "first N working
     days of the week" fallback put the 6th period on Saturday -- exactly
-    the audit's finding. The timetable says Mathematics never meets then."""
+    the audit's finding. The timetable says Mathematics never meets then.
+    No periodsPerWeek is sent: 6 (the slot count) contradicts the 5 lessons a
+    week this timetable places and is a 422 since 2026-09-22 (see
+    test_push_refuses_a_cadence_the_timetable_contradicts)."""
     w = principal_world
     mon_to_fri = [(0, 1), (0, 2), (1, 1), (2, 1), (3, 1), (4, 1)]
     book = _seed_book(w.store, school_id="school_1", periods_per_week=6, timetable=mon_to_fri)
     assert all(date.fromisoformat(l.date).weekday() < 5 for l in book.lessons)
 
-    r = _push(w, book, book.lessons[2].date, periods_per_week=6)
+    r = _push(w, book, book.lessons[2].date)
     assert r.status_code == 200, r.text
     assert r.json()["lessonsPushed"] > 0
     for m in r.json()["reschedules"]:
@@ -221,9 +224,14 @@ def test_push_with_a_timetable_needs_no_allocation(principal_world):
     """With SubjectTimetableSlot rows the timetable alone decides the days
     (_subject_teaching_days ignores periods_per_week when weekday_slots is
     set), so demanding an allocation or periodsPerWeek made the admin type a
-    number that changed nothing -- and the response echoed it back as the
-    cadence. The review reproduced the 422 with a Mon-Fri timetable and no
-    allocation. The reported periodsPerWeek is the timetable's slot count."""
+    number that changed nothing. The review reproduced the 422 with a Mon-Fri
+    timetable and no allocation.
+
+    The reported periodsPerWeek is the lessons actually placed per week: one
+    per distinct timetable weekday, because _subject_teaching_days returns
+    each date once. Until 2026-09-22 it was the slot count, so this 6-slot
+    timetable (two Monday periods) reported 6 while the pushed schedule held 5
+    lessons a week."""
     w = principal_world
     mon_to_fri = [(0, 1), (0, 2), (1, 1), (2, 1), (3, 1), (4, 1)]
     book = _seed_book(w.store, school_id="school_1", periods_per_week=6, timetable=mon_to_fri)
@@ -231,13 +239,37 @@ def test_push_with_a_timetable_needs_no_allocation(principal_world):
     r = _push(w, book, book.lessons[2].date)
     assert r.status_code == 200, r.text
     assert r.json()["lessonsPushed"] > 0
-    assert r.json()["periodsPerWeek"] == len(mon_to_fri)
+    assert r.json()["periodsPerWeek"] == 5
     assert all(date.fromisoformat(m["newDate"]).weekday() < 5 for m in r.json()["reschedules"])
 
-    # An override the timetable makes irrelevant is not echoed as the cadence.
-    r = _push(w, book, book.lessons[2].date, periods_per_week=2)
+    per_week: dict = {}
+    for l in w.store.scheduled_lessons_for_book(book.year, book.book):
+        per_week.setdefault(date.fromisoformat(l.date).isocalendar()[:2], set()).add(l.date)
+    assert max(len(days) for days in per_week.values()) == r.json()["periodsPerWeek"]
+
+    # Supplying the cadence the timetable already implies is accepted.
+    r = _push(w, book, book.lessons[3].date, periods_per_week=5)
     assert r.status_code == 200, r.text
-    assert r.json()["periodsPerWeek"] == len(mon_to_fri)
+    assert r.json()["periodsPerWeek"] == 5
+
+
+def test_push_refuses_a_cadence_the_timetable_contradicts(principal_world):
+    """Until 2026-09-22 a periodsPerWeek that disagreed with the timetable was
+    dropped without a word: the push returned 200 and the Reschedule tab said
+    'Schedule pushed', while the admin's 2 lessons a week were never used. The
+    timetable still decides (the existing schedule was placed by it), but an
+    explicit input it overrides is a 422 naming the timetable's cadence, and
+    nothing moves."""
+    w = principal_world
+    mon_to_fri = [(0, 1), (0, 2), (1, 1), (2, 1), (3, 1), (4, 1)]
+    book = _seed_book(w.store, school_id="school_1", periods_per_week=6, timetable=mon_to_fri)
+    before = {l.id: l.date for l in w.store.scheduled_lessons_for_book(book.year, book.book)}
+
+    r = _push(w, book, book.lessons[2].date, periods_per_week=2)
+    assert r.status_code == 422, r.text
+    assert "timetable" in r.json()["detail"] and "5" in r.json()["detail"]
+    after = {l.id: l.date for l in w.store.scheduled_lessons_for_book(book.year, book.book)}
+    assert after == before
 
 
 @pytest.mark.parametrize("status", ["completed", "skipped"])

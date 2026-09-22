@@ -279,7 +279,7 @@ class PushResult:
     academic_year_id: str
     book_id: str
     from_date: str
-    periods_per_week: int   # the cadence actually used: the timetable's slot count when it decided
+    periods_per_week: int   # lessons placed per week: distinct timetable weekdays when a timetable decided
     lessons_pushed: int
     lessons_dropped: tuple[str, ...]   # ran out of real teaching days before the year ends
     reschedules: tuple[RescheduleResult, ...]
@@ -303,12 +303,20 @@ def push_lessons_after(
 
     With SubjectTimetableSlot rows the timetable alone decides the days,
     so no cadence is needed and `periods_per_week` in the result is the
-    timetable's slot count, whatever was passed: until 2026-09-22 a subject
-    with a timetable but no allocation was a 422, and an override that
-    changed nothing was echoed back as the cadence used. Without a
-    timetable, `periods_per_week` defaults to the subject's persisted
-    SubjectPeriodAllocation; passing it overrides. With neither, the push
-    is refused rather than guessing a cadence that would select a
+    lessons the timetable places per week: one per distinct timetable
+    weekday, because _subject_teaching_days returns each date once. (Until
+    2026-09-22 it reported the slot count, so a timetable with two Monday
+    periods said 6 while the pushed schedule held 5 lessons a week.) A
+    supplied `periods_per_week` that disagrees with that is refused rather
+    than dropped: until 2026-09-22 the push returned 200 and the Reschedule
+    tab said "Schedule pushed" while the admin's number was never used.
+    This departs from Task 102's "supplying it still overrides" for the
+    timetable case only -- overriding would place lessons on weekdays the
+    timetable does not have, the Saturday bug that task fixed.
+
+    Without a timetable, `periods_per_week` defaults to the subject's
+    persisted SubjectPeriodAllocation; passing it overrides. With neither,
+    the push is refused rather than guessing a cadence that would select a
     different set of weekdays than the existing schedule used.
 
     Lessons that run past the real academic year's last teaching day are
@@ -318,7 +326,13 @@ def push_lessons_after(
         raise ValueError("periods_per_week must be positive")
     slots = _timetable_slots_for_book(store, academic_year_id, book_id)
     if slots:
-        periods_per_week = len(slots)
+        timetable_cadence = len({s.day_of_week for s in slots})
+        if periods_per_week is not None and periods_per_week != timetable_cadence:
+            raise ValueError(
+                f"periodsPerWeek={periods_per_week} conflicts with this subject's timetable, which "
+                f"places {timetable_cadence} lesson(s) a week (one per timetable weekday) -- the "
+                f"timetable decides the days, so leave periodsPerWeek blank or change the timetable")
+        periods_per_week = timetable_cadence
     elif periods_per_week is None:
         subject = store.subject_name_for_book(book_id)
         alloc = store.subject_period_allocation(academic_year_id, subject) if subject else None
