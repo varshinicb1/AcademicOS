@@ -1,0 +1,678 @@
+{
+ "subject": "Mathematics",
+ "grade": 9,
+ "book": "Ganita Manjari",
+ "source_files": [
+  "maths/class9_ganita_manjari.pdf"
+ ],
+ "chapters": [
+  {
+   "id": "orienting-yourself-the-use-of-coordinates",
+   "name": "Orienting Yourself: The Use of Coordinates",
+   "number": 1,
+   "book": "Ganita Manjari",
+   "source_file": "maths/class9_ganita_manjari.pdf",
+   "pages": [
+    21,
+    35
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "orienting-yourself-the-use-of-coordinates/introduction",
+     "name": "Introduction",
+     "page": 21,
+     "number": "1.1",
+     "subtopics": []
+    },
+    {
+     "id": "orienting-yourself-the-use-of-coordinates/settling-in",
+     "name": "Settling In",
+     "page": 22,
+     "number": "1.2",
+     "subtopics": []
+    },
+    {
+     "id": "orienting-yourself-the-use-of-coordinates/the-2-d-cartesian-coordinate-system",
+     "name": "The 2-d Cartesian Coordinate System",
+     "page": 23,
+     "number": "1.3",
+     "subtopics": []
+    },
+    {
+     "id": "orienting-yourself-the-use-of-coordinates/distance-between-two-points-in-the-2-d-plane",
+     "name": "Distance Between Two Points in the 2-D Plane",
+     "page": 28,
+     "number": "1.4",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "introduction-to-linear-polynomials",
+   "name": "Introduction to Linear Polynomials",
+   "number": 2,
+   "book": "Ganita Manjari",
+   "source_file": "maths/class9_ganita_manjari.pdf",
+   "pages": [
+    36,
+    60
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "introduction-to-linear-polynomials/introduction",
+     "name": "Introduction",
+     "page": 36,
+     "number": "2.1",
+     "subtopics": []
+    },
+    {
+     "id": "introduction-to-linear-polynomials/linear-polynomials",
+     "name": "Linear Polynomials",
+     "page": 39,
+     "number": "2.2",
+     "subtopics": []
+    },
+    {
+     "id": "introduction-to-linear-polynomials/exploring-linear-patterns",
+     "name": "Exploring linear patterns",
+     "page": 41,
+     "number": "2.3",
+     "subtopics": []
+    },
+    {
+     "id": "introduction-to-linear-polynomials/linear-growth-and-linear-decay",
+     "name": "Linear growth and linear decay",
+     "page": 44,
+     "number": "2.4",
+     "subtopics": []
+    },
+    {
+     "id": "introduction-to-linear-polynomials/linear-relationships",
+     "name": "Linear Relationships",
+     "page": 46,
+     "number": "2.5",
+     "subtopics": []
+    },
+    {
+     "id": "introduction-to-linear-polynomials/visualising-linear-relationships",
+     "name": "Visualising linear relationships",
+     "page": 47,
+     "number": "2.6",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "the-world-of-numbers",
+   "name": "The World of Numbers",
+   "number": 3,
+   "book": "Ganita Manjari",
+   "source_file": "maths/class9_ganita_manjari.pdf",
+   "pages": [
+    61,
+    87
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "the-world-of-numbers/the-dawn-of-mathematics-the-human-need-to-count",
+     "name": "The Dawn of Mathematics: The Human Need to Count",
+     "page": 61,
+     "number": "3.1",
+     "subtopics": [
+      {
+       "id": "the-world-of-numbers/the-dawn-of-mathematics-the-human-need-to-count/a-history-written-in-bone",
+       "name": "A History Written in Bone",
+       "page": 61,
+       "number": "3.1.1"
+      },
+      {
+       "id": "the-world-of-numbers/the-dawn-of-mathematics-the-human-need-to-count/the-indian-context-trade-and-astronomy",
+       "name": "The Indian Context: Trade and Astronomy",
+       "page": 62,
+       "number": "3.1.2"
+      }
+     ]
+    },
+    {
+     "id": "the-world-of-numbers/the-revolution-of-shunya-when-nothing-became-something",
+     "name": "The Revolution of Śhūnya: When Nothing Became Something",
+     "page": 63,
+     "number": "3.2",
+     "subtopics": [
+      {
+       "id": "the-world-of-numbers/the-revolution-of-shunya-when-nothing-became-something/from-philosophy-to-mathematics-the-concept-of-shunyata",
+       "name": "From Philosophy to Mathematics: The Concept of Śhūnyatā",
+       "page": 63,
+       "number": "3.2.1"
+      },
+      {
+       "id": "the-world-of-numbers/the-revolution-of-shunya-when-nothing-became-something/the-bakhshali-manuscript-and-brahmagupta-s-rules",
+       "name": "The Bakhśhālī Manuscript and Brahmagupta’s Rules",
+       "page": 64,
+       "number": "3.2.2"
+      }
+     ]
+    },
+    {
+     "id": "the-world-of-numbers/integers-expanding-the-horizon",
+     "name": "Integers: Expanding the Horizon",
+     "page": 65,
+     "number": "3.3",
+     "subtopics": [
+      {
+       "id": "the-world-of-numbers/integers-expanding-the-horizon/the-arithmetic-of-integers",
+       "name": "The Arithmetic of Integers",
+       "page": 65,
+       "number": "3.3.1"
+      }
+     ]
+    },
+    {
+     "id": "the-world-of-numbers/filling-the-spaces-fractions-and-rational-numbers",
+     "name": "Filling the Spaces: Fractions and Rational Numbers",
+     "page": 66,
+     "number": "3.4",
+     "subtopics": [
+      {
+       "id": "the-world-of-numbers/filling-the-spaces-fractions-and-rational-numbers/representation-of-rational-numbers-on-the-number-line",
+       "name": "Representation of Rational Numbers on the Number Line",
+       "page": 70,
+       "number": "3.4.1"
+      },
+      {
+       "id": "the-world-of-numbers/filling-the-spaces-fractions-and-rational-numbers/the-density-of-rational-numbers",
+       "name": "The Density of Rational Numbers",
+       "page": 72,
+       "number": "3.4.2"
+      }
+     ]
+    },
+    {
+     "id": "the-world-of-numbers/irrational-numbers",
+     "name": "Irrational Numbers",
+     "page": 73,
+     "number": "3.5",
+     "subtopics": [
+      {
+       "id": "the-world-of-numbers/irrational-numbers/the-proof-of-irrationality-of",
+       "name": "The Proof of Irrationality of",
+       "page": 73,
+       "number": "3.5.1"
+      },
+      {
+       "id": "the-world-of-numbers/irrational-numbers/construction-of-length",
+       "name": "Construction of Length",
+       "page": 75,
+       "number": "3.5.2"
+      },
+      {
+       "id": "the-world-of-numbers/irrational-numbers/the-story-of-pi-π-and-madhava-s-infinite-series",
+       "name": "The Story of Pi (π) and Madhava’s Infinite Series",
+       "page": 76,
+       "number": "3.5.3"
+      }
+     ]
+    },
+    {
+     "id": "the-world-of-numbers/real-numbers-decimals-and-cyclic-patterns",
+     "name": "Real Numbers: Decimals and Cyclic Patterns",
+     "page": 77,
+     "number": "3.6",
+     "subtopics": [
+      {
+       "id": "the-world-of-numbers/real-numbers-decimals-and-cyclic-patterns/rational-decimals-terminating-and-repeating",
+       "name": "Rational Decimals: Terminating and Repeating",
+       "page": 77,
+       "number": "3.6.1"
+      },
+      {
+       "id": "the-world-of-numbers/real-numbers-decimals-and-cyclic-patterns/the-magic-of-cyclic-numbers",
+       "name": "The Magic of Cyclic Numbers",
+       "page": 81,
+       "number": "3.6.2"
+      },
+      {
+       "id": "the-world-of-numbers/real-numbers-decimals-and-cyclic-patterns/irrational-decimals-chaos-and-infinity",
+       "name": "Irrational Decimals: Chaos and Infinity",
+       "page": 81,
+       "number": "3.6.3"
+      }
+     ]
+    },
+    {
+     "id": "the-world-of-numbers/conclusion-the-never-ending-journey",
+     "name": "Conclusion: The Never-Ending Journey",
+     "page": 82,
+     "number": "3.7",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "exploring-algebraic-identities",
+   "name": "Exploring Algebraic Identities",
+   "number": 4,
+   "book": "Ganita Manjari",
+   "source_file": "maths/class9_ganita_manjari.pdf",
+   "pages": [
+    88,
+    111
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "exploring-algebraic-identities/introduction",
+     "name": "Introduction",
+     "page": 88,
+     "number": "4.1",
+     "subtopics": []
+    },
+    {
+     "id": "exploring-algebraic-identities/visualising-identities",
+     "name": "Visualising Identities",
+     "page": 89,
+     "number": "4.2",
+     "subtopics": []
+    },
+    {
+     "id": "exploring-algebraic-identities/factorisation-of-algebraic-expressions-using-identities",
+     "name": "Factorisation of Algebraic Expressions Using Identities",
+     "page": 92,
+     "number": "4.3",
+     "subtopics": []
+    },
+    {
+     "id": "exploring-algebraic-identities/more-identities",
+     "name": "More Identities",
+     "page": 95,
+     "number": "4.4",
+     "subtopics": []
+    },
+    {
+     "id": "exploring-algebraic-identities/factorisation-using-algebra-tiles",
+     "name": "Factorisation Using Algebra Tiles",
+     "page": 98,
+     "number": "4.5",
+     "subtopics": []
+    },
+    {
+     "id": "exploring-algebraic-identities/factorisation-without-using-algebra-tiles",
+     "name": "Factorisation Without Using Algebra Tiles",
+     "page": 100,
+     "number": "4.6",
+     "subtopics": []
+    },
+    {
+     "id": "exploring-algebraic-identities/finding-new-identities",
+     "name": "Finding New Identities",
+     "page": 102,
+     "number": "4.7",
+     "subtopics": []
+    },
+    {
+     "id": "exploring-algebraic-identities/simplifying-rational-expressions",
+     "name": "Simplifying Rational Expressions",
+     "page": 106,
+     "number": "4.8",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "i-m-up-and-down-and-round-and-round",
+   "name": "I’m Up and Down, and Round and Round",
+   "number": 5,
+   "book": "Ganita Manjari",
+   "source_file": "maths/class9_ganita_manjari.pdf",
+   "pages": [
+    112,
+    137
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "i-m-up-and-down-and-round-and-round/definitions",
+     "name": "Definitions",
+     "page": 113,
+     "number": "5.1",
+     "subtopics": []
+    },
+    {
+     "id": "i-m-up-and-down-and-round-and-round/symmetries-of-a-circle",
+     "name": "Symmetries of a Circle",
+     "page": 114,
+     "number": "5.2",
+     "subtopics": []
+    },
+    {
+     "id": "i-m-up-and-down-and-round-and-round/how-many-circles",
+     "name": "How Many Circles?",
+     "page": 114,
+     "number": "5.3",
+     "subtopics": []
+    },
+    {
+     "id": "i-m-up-and-down-and-round-and-round/chords-and-the-angles-they-subtend",
+     "name": "Chords and the Angles They Subtend",
+     "page": 118,
+     "number": "5.4",
+     "subtopics": []
+    },
+    {
+     "id": "i-m-up-and-down-and-round-and-round/midpoints-and-perpendicular-bisectors-of-chords",
+     "name": "Midpoints and Perpendicular Bisectors of Chords",
+     "page": 120,
+     "number": "5.5",
+     "subtopics": []
+    },
+    {
+     "id": "i-m-up-and-down-and-round-and-round/distance-of-chords-from-the-centre",
+     "name": "Distance of Chords from the Centre",
+     "page": 122,
+     "number": "5.6",
+     "subtopics": [
+      {
+       "id": "i-m-up-and-down-and-round-and-round/distance-of-chords-from-the-centre/which-of-the-two-unequal-chords-is-farther-from-the-centre",
+       "name": "Which of the two unequal chords is farther from the centre?",
+       "page": 124,
+       "number": "5.6.1"
+      }
+     ]
+    },
+    {
+     "id": "i-m-up-and-down-and-round-and-round/angles-subtended-by-an-arc",
+     "name": "Angles Subtended by an Arc",
+     "page": 126,
+     "number": "5.7",
+     "subtopics": [
+      {
+       "id": "i-m-up-and-down-and-round-and-round/angles-subtended-by-an-arc/angle-subtended-by-an-arc-at-a-point-on-the-circle-outside-t",
+       "name": "Angle subtended by an arc at a point on the circle outside the arc",
+       "page": 127,
+       "number": "5.7.1"
+      }
+     ]
+    },
+    {
+     "id": "i-m-up-and-down-and-round-and-round/concyclicity-of-points",
+     "name": "Concyclicity of Points",
+     "page": 131,
+     "number": "5.8",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "measuring-space-perimeter-and-area",
+   "name": "Measuring Space: Perimeter and Area",
+   "number": 6,
+   "book": "Ganita Manjari",
+   "source_file": "maths/class9_ganita_manjari.pdf",
+   "pages": [
+    138,
+    174
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "measuring-space-perimeter-and-area/perimeter-of-a-shape",
+     "name": "Perimeter of a Shape",
+     "page": 139,
+     "number": "6.1",
+     "subtopics": []
+    },
+    {
+     "id": "measuring-space-perimeter-and-area/perimeter-of-a-circle-the-c-d-ratio",
+     "name": "Perimeter of a Circle — The C D Ratio",
+     "page": 140,
+     "number": "6.2",
+     "subtopics": []
+    },
+    {
+     "id": "measuring-space-perimeter-and-area/π-is-irrational",
+     "name": "π Is Irrational",
+     "page": 143,
+     "number": "6.3",
+     "subtopics": []
+    },
+    {
+     "id": "measuring-space-perimeter-and-area/length-of-an-arc-of-a-circle",
+     "name": "Length of an Arc of a Circle",
+     "page": 145,
+     "number": "6.4",
+     "subtopics": []
+    },
+    {
+     "id": "measuring-space-perimeter-and-area/problems-puzzles-and-paradoxes-on-perimeter",
+     "name": "Problems, Puzzles, and Paradoxes on Perimeter",
+     "page": 147,
+     "number": "6.5",
+     "subtopics": []
+    },
+    {
+     "id": "measuring-space-perimeter-and-area/area-of-a-rectangle",
+     "name": "Area of a Rectangle",
+     "page": 150,
+     "number": "6.6",
+     "subtopics": []
+    },
+    {
+     "id": "measuring-space-perimeter-and-area/area-of-a-parallelogram",
+     "name": "Area of a Parallelogram",
+     "page": 150,
+     "number": "6.7",
+     "subtopics": []
+    },
+    {
+     "id": "measuring-space-perimeter-and-area/area-of-a-triangle",
+     "name": "Area of a Triangle",
+     "page": 152,
+     "number": "6.8",
+     "subtopics": [
+      {
+       "id": "measuring-space-perimeter-and-area/area-of-a-triangle/heron-s-formula",
+       "name": "Heron’s formula",
+       "page": 154,
+       "number": "6.8.1"
+      }
+     ]
+    },
+    {
+     "id": "measuring-space-perimeter-and-area/squaring-a-rectangle",
+     "name": "Squaring a Rectangle",
+     "page": 160,
+     "number": "6.9",
+     "subtopics": []
+    },
+    {
+     "id": "measuring-space-perimeter-and-area/area-of-a-circle",
+     "name": "Area of a Circle",
+     "page": 163,
+     "number": "6.10",
+     "subtopics": [
+      {
+       "id": "measuring-space-perimeter-and-area/area-of-a-circle/area-of-sector-of-a-circle",
+       "name": "Area of Sector of a Circle",
+       "page": 166,
+       "number": "6.10.1"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "the-mathematics-of-maybe-introduction-to-probability",
+   "name": "The Mathematics of Maybe: Introduction to Probability",
+   "number": 7,
+   "book": "Ganita Manjari",
+   "source_file": "maths/class9_ganita_manjari.pdf",
+   "pages": [
+    175,
+    193
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "the-mathematics-of-maybe-introduction-to-probability/what-is-probability",
+     "name": "What is Probability?",
+     "page": 175,
+     "number": "7.1",
+     "subtopics": [
+      {
+       "id": "the-mathematics-of-maybe-introduction-to-probability/what-is-probability/what-is-randomness",
+       "name": "What is Randomness?",
+       "page": 176,
+       "number": "7.1.1"
+      },
+      {
+       "id": "the-mathematics-of-maybe-introduction-to-probability/what-is-probability/the-probability-scale",
+       "name": "The Probability Scale",
+       "page": 177,
+       "number": "7.1.2"
+      }
+     ]
+    },
+    {
+     "id": "the-mathematics-of-maybe-introduction-to-probability/measuring-probability-objectively",
+     "name": "Measuring Probability Objectively",
+     "page": 179,
+     "number": "7.2",
+     "subtopics": [
+      {
+       "id": "the-mathematics-of-maybe-introduction-to-probability/measuring-probability-objectively/experimental-probability-performing-observations-or-experime",
+       "name": "Experimental Probability: Performing Observations or Experiments",
+       "page": 180,
+       "number": "7.2.1"
+      },
+      {
+       "id": "the-mathematics-of-maybe-introduction-to-probability/measuring-probability-objectively/theoretical-probability",
+       "name": "Theoretical Probability",
+       "page": 181,
+       "number": "7.2.2"
+      },
+      {
+       "id": "the-mathematics-of-maybe-introduction-to-probability/measuring-probability-objectively/analysing-statistical-data-using-probability",
+       "name": "Analysing Statistical Data Using Probability",
+       "page": 182,
+       "number": "7.2.3"
+      }
+     ]
+    },
+    {
+     "id": "the-mathematics-of-maybe-introduction-to-probability/elements-of-probability-sample-spaces-and-events",
+     "name": "Elements of Probability: Sample Spaces and Events",
+     "page": 186,
+     "number": "7.3",
+     "subtopics": [
+      {
+       "id": "the-mathematics-of-maybe-introduction-to-probability/elements-of-probability-sample-spaces-and-events/sample-space",
+       "name": "Sample Space",
+       "page": 186,
+       "number": "7.3.1"
+      },
+      {
+       "id": "the-mathematics-of-maybe-introduction-to-probability/elements-of-probability-sample-spaces-and-events/events",
+       "name": "Events",
+       "page": 187,
+       "number": "7.3.2"
+      }
+     ]
+    },
+    {
+     "id": "the-mathematics-of-maybe-introduction-to-probability/tree-diagrams",
+     "name": "Tree diagrams",
+     "page": 188,
+     "number": "7.4",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "predicting-what-comes-next-exploring-sequences-and-progressi",
+   "name": "Predicting What Comes Next: Exploring Sequences and Progressions",
+   "number": 8,
+   "book": "Ganita Manjari",
+   "source_file": "maths/class9_ganita_manjari.pdf",
+   "pages": [
+    194,
+    216
+   ],
+   "nameSource": "contents",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "predicting-what-comes-next-exploring-sequences-and-progressi/introduction-to-sequences",
+     "name": "Introduction to Sequences",
+     "page": 194,
+     "number": "8.1",
+     "subtopics": []
+    },
+    {
+     "id": "predicting-what-comes-next-exploring-sequences-and-progressi/explicit-rule-for-a-sequence",
+     "name": "Explicit Rule for a Sequence",
+     "page": 196,
+     "number": "8.2",
+     "subtopics": []
+    },
+    {
+     "id": "predicting-what-comes-next-exploring-sequences-and-progressi/recursive-rule-for-a-sequence",
+     "name": "Recursive Rule for a Sequence",
+     "page": 198,
+     "number": "8.3",
+     "subtopics": []
+    },
+    {
+     "id": "predicting-what-comes-next-exploring-sequences-and-progressi/arithmetic-progressions",
+     "name": "Arithmetic Progressions",
+     "page": 200,
+     "number": "8.4",
+     "subtopics": [
+      {
+       "id": "predicting-what-comes-next-exploring-sequences-and-progressi/arithmetic-progressions/visualising-an-ap",
+       "name": "Visualising an AP",
+       "page": 201,
+       "number": "8.4.1"
+      }
+     ]
+    },
+    {
+     "id": "predicting-what-comes-next-exploring-sequences-and-progressi/sum-of-the-first-n-natural-numbers",
+     "name": "Sum of the First n Natural Numbers",
+     "page": 203,
+     "number": "8.5",
+     "subtopics": []
+    },
+    {
+     "id": "predicting-what-comes-next-exploring-sequences-and-progressi/geometric-progressions",
+     "name": "Geometric Progressions",
+     "page": 206,
+     "number": "8.6",
+     "subtopics": [
+      {
+       "id": "predicting-what-comes-next-exploring-sequences-and-progressi/geometric-progressions/fun-with-fractals",
+       "name": "Fun with Fractals",
+       "page": 208,
+       "number": "8.6.1"
+      },
+      {
+       "id": "predicting-what-comes-next-exploring-sequences-and-progressi/geometric-progressions/visualising-a-gp",
+       "name": "Visualising a GP",
+       "page": 210,
+       "number": "8.6.2"
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1533 @@
+{
+ "subject": "Social Science",
+ "grade": 10,
+ "book": [
+  "India and the Contemporary World II",
+  "Contemporary India II",
+  "Democratic Politics II",
+  "Understanding Economic Development"
+ ],
+ "source_files": [
+  "chapters/jess3/jess301.pdf",
+  "chapters/jess3/jess302.pdf",
+  "chapters/jess3/jess303.pdf",
+  "chapters/jess3/jess304.pdf",
+  "chapters/jess3/jess305.pdf",
+  "chapters/jess1/jess101.pdf",
+  "chapters/jess1/jess102.pdf",
+  "chapters/jess1/jess103.pdf",
+  "chapters/jess1/jess104.pdf",
+  "chapters/jess1/jess105.pdf",
+  "chapters/jess1/jess106.pdf",
+  "chapters/jess1/jess107.pdf",
+  "chapters/jess4/jess401.pdf",
+  "chapters/jess4/jess402.pdf",
+  "chapters/jess4/jess403.pdf",
+  "chapters/jess4/jess404.pdf",
+  "chapters/jess4/jess405.pdf",
+  "chapters/jess2/jess201.pdf",
+  "chapters/jess2/jess202.pdf",
+  "chapters/jess2/jess203.pdf",
+  "chapters/jess2/jess204.pdf",
+  "chapters/jess2/jess205.pdf"
+ ],
+ "chapters": [
+  {
+   "id": "the-rise-of-nationalism-in-europe",
+   "name": "The Rise of Nationalism in Europe",
+   "number": 1,
+   "book": "India and the Contemporary World II",
+   "strand": "History",
+   "source_file": "chapters/jess3/jess301.pdf",
+   "pages": [
+    1,
+    28
+   ],
+   "nameSource": "typed",
+   "headingKind": "section",
+   "topics": [
+    {
+     "id": "the-rise-of-nationalism-in-europe/the-french-revolution-and-the-idea-of-the-nation",
+     "name": "The French Revolution and the Idea of the Nation",
+     "page": 5,
+     "number": "1",
+     "subtopics": []
+    },
+    {
+     "id": "the-rise-of-nationalism-in-europe/the-making-of-nationalism-in-europe",
+     "name": "The Making of Nationalism in Europe",
+     "page": 8,
+     "number": "2",
+     "subtopics": [
+      {
+       "id": "the-rise-of-nationalism-in-europe/the-making-of-nationalism-in-europe/the-aristocracy-and-the-new-middle-class",
+       "name": "The Aristocracy and the New Middle Class",
+       "page": 8,
+       "number": "2.1"
+      },
+      {
+       "id": "the-rise-of-nationalism-in-europe/the-making-of-nationalism-in-europe/what-did-liberal-nationalism-stand-for",
+       "name": "What did Liberal Nationalism Stand for?",
+       "page": 9,
+       "number": "2.2"
+      },
+      {
+       "id": "the-rise-of-nationalism-in-europe/the-making-of-nationalism-in-europe/a-new-conservatism-after-1815",
+       "name": "A New Conservatism after 1815",
+       "page": 10,
+       "number": "2.3"
+      },
+      {
+       "id": "the-rise-of-nationalism-in-europe/the-making-of-nationalism-in-europe/the-revolutionaries",
+       "name": "The Revolutionaries",
+       "page": 12,
+       "number": "2.4"
+      }
+     ]
+    },
+    {
+     "id": "the-rise-of-nationalism-in-europe/the-age-of-revolutions-1830-1848",
+     "name": "The Age of Revolutions: 1830-1848",
+     "page": 13,
+     "number": "3",
+     "subtopics": [
+      {
+       "id": "the-rise-of-nationalism-in-europe/the-age-of-revolutions-1830-1848/the-romantic-imagination-and-national-feeling",
+       "name": "The Romantic Imagination and National Feeling",
+       "page": 13,
+       "number": "3.1"
+      },
+      {
+       "id": "the-rise-of-nationalism-in-europe/the-age-of-revolutions-1830-1848/hunger-hardship-and-popular-revolt",
+       "name": "Hunger, Hardship and Popular Revolt",
+       "page": 15,
+       "number": "3.2"
+      },
+      {
+       "id": "the-rise-of-nationalism-in-europe/the-age-of-revolutions-1830-1848/1848-the-revolution-of-the-liberals",
+       "name": "1848: The Revolution of the Liberals",
+       "page": 17,
+       "number": "3.3"
+      }
+     ]
+    },
+    {
+     "id": "the-rise-of-nationalism-in-europe/the-making-of-germany-and-italy",
+     "name": "The Making of Germany and Italy",
+     "page": 19,
+     "number": "4",
+     "subtopics": [
+      {
+       "id": "the-rise-of-nationalism-in-europe/the-making-of-germany-and-italy/germany-can-the-army-be-the-architect-of-a-nation",
+       "name": "Germany – Can the Army be the Architect of a Nation?",
+       "page": 19,
+       "number": "4.1"
+      },
+      {
+       "id": "the-rise-of-nationalism-in-europe/the-making-of-germany-and-italy/italy-unified",
+       "name": "Italy Unified",
+       "page": 20,
+       "number": "4.2"
+      },
+      {
+       "id": "the-rise-of-nationalism-in-europe/the-making-of-germany-and-italy/the-strange-case-of-britain",
+       "name": "The Strange Case of Britain",
+       "page": 21,
+       "number": "4.3"
+      }
+     ]
+    },
+    {
+     "id": "the-rise-of-nationalism-in-europe/visualising-the-nation",
+     "name": "Visualising the Nation",
+     "page": 23,
+     "number": "5",
+     "subtopics": []
+    },
+    {
+     "id": "the-rise-of-nationalism-in-europe/nationalism-and-imperialism",
+     "name": "Nationalism and Imperialism",
+     "page": 26,
+     "number": "6",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "nationalism-in-india",
+   "name": "Nationalism in India",
+   "number": 2,
+   "book": "India and the Contemporary World II",
+   "strand": "History",
+   "source_file": "chapters/jess3/jess302.pdf",
+   "pages": [
+    1,
+    22
+   ],
+   "nameSource": "typed",
+   "headingKind": "section",
+   "topics": [
+    {
+     "id": "nationalism-in-india/the-first-world-war-khilafat-and-non-cooperation",
+     "name": "The First World War, Khilafat and Non-Cooperation",
+     "page": 2,
+     "number": "1",
+     "subtopics": [
+      {
+       "id": "nationalism-in-india/the-first-world-war-khilafat-and-non-cooperation/the-idea-of-satyagraha",
+       "name": "The Idea of Satyagraha",
+       "page": 2,
+       "number": "1.1"
+      },
+      {
+       "id": "nationalism-in-india/the-first-world-war-khilafat-and-non-cooperation/the-rowlatt-act",
+       "name": "The Rowlatt Act",
+       "page": 3,
+       "number": "1.2"
+      },
+      {
+       "id": "nationalism-in-india/the-first-world-war-khilafat-and-non-cooperation/why-non-cooperation",
+       "name": "Why Non-cooperation?",
+       "page": 4,
+       "number": "1.3"
+      }
+     ]
+    },
+    {
+     "id": "nationalism-in-india/differing-strands-within-the-movement",
+     "name": "Differing Strands within the Movement",
+     "page": 6,
+     "number": "2",
+     "subtopics": [
+      {
+       "id": "nationalism-in-india/differing-strands-within-the-movement/the-movement-in-the-towns",
+       "name": "The Movement in the Towns",
+       "page": 6,
+       "number": "2.1"
+      },
+      {
+       "id": "nationalism-in-india/differing-strands-within-the-movement/rebellion-in-the-countryside",
+       "name": "Rebellion in the Countryside",
+       "page": 6,
+       "number": "2.2"
+      },
+      {
+       "id": "nationalism-in-india/differing-strands-within-the-movement/swaraj-in-the-plantations",
+       "name": "Swaraj in the Plantations",
+       "page": 8,
+       "number": "2.3"
+      }
+     ]
+    },
+    {
+     "id": "nationalism-in-india/towards-civil-disobedience",
+     "name": "Towards Civil Disobedience",
+     "page": 10,
+     "number": "3",
+     "subtopics": [
+      {
+       "id": "nationalism-in-india/towards-civil-disobedience/the-salt-march-and-the-civil-disobedience-movement",
+       "name": "The Salt March and the Civil Disobedience Movement",
+       "page": 11,
+       "number": "3.1"
+      },
+      {
+       "id": "nationalism-in-india/towards-civil-disobedience/how-participants-saw-the-movement",
+       "name": "How Participants saw the Movement",
+       "page": 13,
+       "number": "3.2"
+      },
+      {
+       "id": "nationalism-in-india/towards-civil-disobedience/the-limits-of-civil-disobedience",
+       "name": "The Limits of Civil Disobedience",
+       "page": 15,
+       "number": "3.3"
+      }
+     ]
+    },
+    {
+     "id": "nationalism-in-india/the-sense-of-collective-belonging",
+     "name": "The Sense of Collective Belonging",
+     "page": 18,
+     "number": "4",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "the-making-of-a-global-world",
+   "name": "The Making of a Global World",
+   "number": 3,
+   "book": "India and the Contemporary World II",
+   "strand": "History",
+   "source_file": "chapters/jess3/jess303.pdf",
+   "pages": [
+    1,
+    28
+   ],
+   "nameSource": "typed",
+   "cbse2025_26": "board examination covers subtopics 1 to 1.3 (Pre-modern World to Conquest, Disease and Trade); 2 to 4.4 are an interdisciplinary project",
+   "headingKind": "section",
+   "topics": [
+    {
+     "id": "the-making-of-a-global-world/the-pre-modern-world",
+     "name": "The Pre-modern World",
+     "page": 3,
+     "number": "1",
+     "subtopics": [
+      {
+       "id": "the-making-of-a-global-world/the-pre-modern-world/silk-routes-link-the-world",
+       "name": "Silk Routes Link the World",
+       "page": 4,
+       "number": "1.1"
+      },
+      {
+       "id": "the-making-of-a-global-world/the-pre-modern-world/food-travels-spaghetti-and-potato",
+       "name": "Food Travels: Spaghetti and Potato",
+       "page": 4,
+       "number": "1.2"
+      },
+      {
+       "id": "the-making-of-a-global-world/the-pre-modern-world/conquest-disease-and-trade",
+       "name": "Conquest, Disease and Trade",
+       "page": 5,
+       "number": "1.3"
+      }
+     ]
+    },
+    {
+     "id": "the-making-of-a-global-world/the-nineteenth-century-1815-1914",
+     "name": "The Nineteenth Century (1815-1914)",
+     "page": 7,
+     "number": "2",
+     "subtopics": [
+      {
+       "id": "the-making-of-a-global-world/the-nineteenth-century-1815-1914/a-world-economy-takes-shape",
+       "name": "A World Economy Takes Shape",
+       "page": 7,
+       "number": "2.1"
+      },
+      {
+       "id": "the-making-of-a-global-world/the-nineteenth-century-1815-1914/role-of-technology",
+       "name": "Role of Technology",
+       "page": 9,
+       "number": "2.2"
+      },
+      {
+       "id": "the-making-of-a-global-world/the-nineteenth-century-1815-1914/late-nineteenth-century-colonialism",
+       "name": "Late nineteenth-century Colonialism",
+       "page": 10,
+       "number": "2.3"
+      },
+      {
+       "id": "the-making-of-a-global-world/the-nineteenth-century-1815-1914/rinderpest-or-the-cattle-plague",
+       "name": "Rinderpest, or the Cattle Plague",
+       "page": 12,
+       "number": "2.4"
+      },
+      {
+       "id": "the-making-of-a-global-world/the-nineteenth-century-1815-1914/indian-entrepreneurs-abroad",
+       "name": "Indian Entrepreneurs Abroad",
+       "page": 15,
+       "number": "2.5"
+      },
+      {
+       "id": "the-making-of-a-global-world/the-nineteenth-century-1815-1914/indian-trade-colonialism-and-the-global-system",
+       "name": "Indian Trade, Colonialism and the Global System",
+       "page": 15,
+       "number": "2.6"
+      }
+     ]
+    },
+    {
+     "id": "the-making-of-a-global-world/the-inter-war-economy",
+     "name": "The Inter-war Economy",
+     "page": 18,
+     "number": "3",
+     "subtopics": [
+      {
+       "id": "the-making-of-a-global-world/the-inter-war-economy/wartime-transformations",
+       "name": "Wartime Transformations",
+       "page": 18,
+       "number": "3.1"
+      },
+      {
+       "id": "the-making-of-a-global-world/the-inter-war-economy/post-war-recovery",
+       "name": "Post-war Recovery",
+       "page": 19,
+       "number": "3.2"
+      },
+      {
+       "id": "the-making-of-a-global-world/the-inter-war-economy/rise-of-mass-production-and-consumption",
+       "name": "Rise of Mass Production and Consumption",
+       "page": 19,
+       "number": "3.3"
+      },
+      {
+       "id": "the-making-of-a-global-world/the-inter-war-economy/the-great-depression",
+       "name": "The Great Depression",
+       "page": 21,
+       "number": "3.4"
+      },
+      {
+       "id": "the-making-of-a-global-world/the-inter-war-economy/india-and-the-great-depression",
+       "name": "India and the Great Depression",
+       "page": 22,
+       "number": "3.5"
+      }
+     ]
+    },
+    {
+     "id": "the-making-of-a-global-world/rebuilding-a-world-economy-the-post-war-era",
+     "name": "Rebuilding a World Economy: The Post-war Era",
+     "page": 24,
+     "number": "4",
+     "subtopics": [
+      {
+       "id": "the-making-of-a-global-world/rebuilding-a-world-economy-the-post-war-era/post-war-settlement-and-the-bretton-woods-institutions",
+       "name": "Post-war Settlement and the Bretton Woods Institutions",
+       "page": 24,
+       "number": "4.1"
+      },
+      {
+       "id": "the-making-of-a-global-world/rebuilding-a-world-economy-the-post-war-era/the-early-post-war-years",
+       "name": "The Early Post-war Years",
+       "page": 25,
+       "number": "4.2"
+      },
+      {
+       "id": "the-making-of-a-global-world/rebuilding-a-world-economy-the-post-war-era/decolonisation-and-independence",
+       "name": "Decolonisation and Independence",
+       "page": 26,
+       "number": "4.3"
+      },
+      {
+       "id": "the-making-of-a-global-world/rebuilding-a-world-economy-the-post-war-era/end-of-bretton-woods-and-the-beginning-of-globalisation",
+       "name": "End of Bretton Woods and the Beginning of ‘Globalisation’",
+       "page": 27,
+       "number": "4.4"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "the-age-of-industrialisation",
+   "name": "The Age of Industrialisation",
+   "number": 4,
+   "book": "India and the Contemporary World II",
+   "strand": "History",
+   "source_file": "chapters/jess3/jess304.pdf",
+   "pages": [
+    1,
+    24
+   ],
+   "nameSource": "typed",
+   "cbse2025_26": "assessed as part of Periodic Assessment only",
+   "headingKind": "section",
+   "topics": [
+    {
+     "id": "the-age-of-industrialisation/before-the-industrial-revolution",
+     "name": "Before the Industrial Revolution",
+     "page": 3,
+     "number": "1",
+     "subtopics": [
+      {
+       "id": "the-age-of-industrialisation/before-the-industrial-revolution/the-coming-up-of-the-factory",
+       "name": "The Coming Up of the Factory",
+       "page": 4,
+       "number": "1.1"
+      },
+      {
+       "id": "the-age-of-industrialisation/before-the-industrial-revolution/the-pace-of-industrial-change",
+       "name": "The Pace of Industrial Change",
+       "page": 5,
+       "number": "1.2"
+      }
+     ]
+    },
+    {
+     "id": "the-age-of-industrialisation/hand-labour-and-steam-power",
+     "name": "Hand Labour and Steam Power",
+     "page": 7,
+     "number": "2",
+     "subtopics": [
+      {
+       "id": "the-age-of-industrialisation/hand-labour-and-steam-power/life-of-the-workers",
+       "name": "Life of the Workers",
+       "page": 8,
+       "number": "2.1"
+      }
+     ]
+    },
+    {
+     "id": "the-age-of-industrialisation/industrialisation-in-the-colonies",
+     "name": "Industrialisation in the Colonies",
+     "page": 11,
+     "number": "3",
+     "subtopics": [
+      {
+       "id": "the-age-of-industrialisation/industrialisation-in-the-colonies/the-age-of-indian-textiles",
+       "name": "The Age of Indian Textiles",
+       "page": 11,
+       "number": "3.1"
+      },
+      {
+       "id": "the-age-of-industrialisation/industrialisation-in-the-colonies/what-happened-to-weavers",
+       "name": "What Happened to Weavers?",
+       "page": 12,
+       "number": "3.2"
+      },
+      {
+       "id": "the-age-of-industrialisation/industrialisation-in-the-colonies/manchester-comes-to-india",
+       "name": "Manchester Comes to India",
+       "page": 14,
+       "number": "3.3"
+      }
+     ]
+    },
+    {
+     "id": "the-age-of-industrialisation/factories-come-up",
+     "name": "Factories Come Up",
+     "page": 16,
+     "number": "4",
+     "subtopics": [
+      {
+       "id": "the-age-of-industrialisation/factories-come-up/the-early-entrepreneurs",
+       "name": "The Early Entrepreneurs",
+       "page": 16,
+       "number": "4.1"
+      },
+      {
+       "id": "the-age-of-industrialisation/factories-come-up/where-did-the-workers-come-from",
+       "name": "Where Did the Workers Come From?",
+       "page": 17,
+       "number": "4.2"
+      }
+     ]
+    },
+    {
+     "id": "the-age-of-industrialisation/the-peculiarities-of-industrial-growth",
+     "name": "The Peculiarities of Industrial Growth",
+     "page": 19,
+     "number": "5",
+     "subtopics": [
+      {
+       "id": "the-age-of-industrialisation/the-peculiarities-of-industrial-growth/small-scale-industries-predominate",
+       "name": "Small-scale Industries Predominate",
+       "page": 20,
+       "number": "5.1"
+      }
+     ]
+    },
+    {
+     "id": "the-age-of-industrialisation/market-for-goods",
+     "name": "Market for Goods",
+     "page": 22,
+     "number": "6",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "print-culture-and-the-modern-world",
+   "name": "Print Culture and the Modern World",
+   "number": 5,
+   "book": "India and the Contemporary World II",
+   "strand": "History",
+   "source_file": "chapters/jess3/jess305.pdf",
+   "pages": [
+    1,
+    26
+   ],
+   "nameSource": "typed",
+   "headingKind": "section",
+   "topics": [
+    {
+     "id": "print-culture-and-the-modern-world/the-first-printed-books",
+     "name": "The First Printed Books",
+     "page": 4,
+     "number": "1",
+     "subtopics": [
+      {
+       "id": "print-culture-and-the-modern-world/the-first-printed-books/print-in-japan",
+       "name": "Print in Japan",
+       "page": 4,
+       "number": "1.1"
+      }
+     ]
+    },
+    {
+     "id": "print-culture-and-the-modern-world/print-comes-to-europe",
+     "name": "Print Comes to Europe",
+     "page": 6,
+     "number": "2",
+     "subtopics": [
+      {
+       "id": "print-culture-and-the-modern-world/print-comes-to-europe/gutenberg-and-the-printing-press",
+       "name": "Gutenberg and the Printing Press",
+       "page": 7,
+       "number": "2.1"
+      }
+     ]
+    },
+    {
+     "id": "print-culture-and-the-modern-world/the-print-revolution-and-its-impact",
+     "name": "The Print Revolution and Its Impact",
+     "page": 9,
+     "number": "3",
+     "subtopics": [
+      {
+       "id": "print-culture-and-the-modern-world/the-print-revolution-and-its-impact/a-new-reading-public",
+       "name": "A New Reading Public",
+       "page": 9,
+       "number": "3.1"
+      },
+      {
+       "id": "print-culture-and-the-modern-world/the-print-revolution-and-its-impact/religious-debates-and-the-fear-of-print",
+       "name": "Religious Debates and the Fear of Print",
+       "page": 10,
+       "number": "3.2"
+      },
+      {
+       "id": "print-culture-and-the-modern-world/the-print-revolution-and-its-impact/print-and-dissent",
+       "name": "Print and Dissent",
+       "page": 11,
+       "number": "3.3"
+      }
+     ]
+    },
+    {
+     "id": "print-culture-and-the-modern-world/the-reading-mania",
+     "name": "The Reading Mania",
+     "page": 12,
+     "number": "4",
+     "subtopics": [
+      {
+       "id": "print-culture-and-the-modern-world/the-reading-mania/tremble-therefore-tyrants-of-the-world",
+       "name": "‘Tremble, therefore, tyrants of the world!’",
+       "page": 13,
+       "number": "4.1"
+      },
+      {
+       "id": "print-culture-and-the-modern-world/the-reading-mania/print-culture-and-the-french-revolution",
+       "name": "Print Culture and the French Revolution",
+       "page": 13,
+       "number": "4.2"
+      }
+     ]
+    },
+    {
+     "id": "print-culture-and-the-modern-world/the-nineteenth-century",
+     "name": "The Nineteenth Century",
+     "page": 15,
+     "number": "5",
+     "subtopics": [
+      {
+       "id": "print-culture-and-the-modern-world/the-nineteenth-century/children-women-and-workers",
+       "name": "Children, Women and Workers",
+       "page": 15,
+       "number": "5.1"
+      },
+      {
+       "id": "print-culture-and-the-modern-world/the-nineteenth-century/further-innovations",
+       "name": "Further Innovations",
+       "page": 16,
+       "number": "5.2"
+      }
+     ]
+    },
+    {
+     "id": "print-culture-and-the-modern-world/india-and-the-world-of-print",
+     "name": "India and the World of Print",
+     "page": 17,
+     "number": "6",
+     "subtopics": [
+      {
+       "id": "print-culture-and-the-modern-world/india-and-the-world-of-print/manuscripts-before-the-age-of-print",
+       "name": "Manuscripts Before the Age of Print",
+       "page": 17,
+       "number": "6.1"
+      },
+      {
+       "id": "print-culture-and-the-modern-world/india-and-the-world-of-print/print-comes-to-india",
+       "name": "Print Comes to India",
+       "page": 18,
+       "number": "6.2"
+      }
+     ]
+    },
+    {
+     "id": "print-culture-and-the-modern-world/religious-reform-and-public-debates",
+     "name": "Religious Reform and Public Debates",
+     "page": 19,
+     "number": "7",
+     "subtopics": []
+    },
+    {
+     "id": "print-culture-and-the-modern-world/new-forms-of-publication",
+     "name": "New Forms of Publication",
+     "page": 21,
+     "number": "8",
+     "subtopics": [
+      {
+       "id": "print-culture-and-the-modern-world/new-forms-of-publication/women-and-print",
+       "name": "Women and Print",
+       "page": 22,
+       "number": "8.1"
+      },
+      {
+       "id": "print-culture-and-the-modern-world/new-forms-of-publication/print-and-the-poor-people",
+       "name": "Print and the Poor People",
+       "page": 24,
+       "number": "8.2"
+      }
+     ]
+    },
+    {
+     "id": "print-culture-and-the-modern-world/print-and-censorship",
+     "name": "Print and Censorship",
+     "page": 25,
+     "number": "9",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "resources-and-development",
+   "name": "Resources and Development",
+   "number": 1,
+   "book": "Contemporary India II",
+   "strand": "Geography",
+   "source_file": "chapters/jess1/jess101.pdf",
+   "pages": [
+    1,
+    12
+   ],
+   "nameSource": "typed",
+   "headingKind": "none",
+   "noTopicsReason": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR.",
+   "topics": []
+  },
+  {
+   "id": "forest-and-wildlife-resources",
+   "name": "Forest and Wildlife Resources",
+   "number": 2,
+   "book": "Contemporary India II",
+   "strand": "Geography",
+   "source_file": "chapters/jess1/jess102.pdf",
+   "pages": [
+    1,
+    6
+   ],
+   "nameSource": "typed",
+   "headingKind": "none",
+   "noTopicsReason": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR.",
+   "topics": []
+  },
+  {
+   "id": "water-resources",
+   "name": "Water Resources",
+   "number": 3,
+   "book": "Contemporary India II",
+   "strand": "Geography",
+   "source_file": "chapters/jess1/jess103.pdf",
+   "pages": [
+    1,
+    11
+   ],
+   "nameSource": "typed",
+   "headingKind": "none",
+   "noTopicsReason": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR.",
+   "topics": []
+  },
+  {
+   "id": "agriculture",
+   "name": "Agriculture",
+   "number": 4,
+   "book": "Contemporary India II",
+   "strand": "Geography",
+   "source_file": "chapters/jess1/jess104.pdf",
+   "pages": [
+    1,
+    12
+   ],
+   "nameSource": "typed",
+   "headingKind": "none",
+   "noTopicsReason": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR.",
+   "topics": []
+  },
+  {
+   "id": "minerals-and-energy-resources",
+   "name": "Minerals and Energy Resources",
+   "number": 5,
+   "book": "Contemporary India II",
+   "strand": "Geography",
+   "source_file": "chapters/jess1/jess105.pdf",
+   "pages": [
+    1,
+    16
+   ],
+   "nameSource": "typed",
+   "headingKind": "none",
+   "noTopicsReason": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR.",
+   "topics": []
+  },
+  {
+   "id": "manufacturing-industries",
+   "name": "Manufacturing Industries",
+   "number": 6,
+   "book": "Contemporary India II",
+   "strand": "Geography",
+   "source_file": "chapters/jess1/jess106.pdf",
+   "pages": [
+    1,
+    13
+   ],
+   "nameSource": "typed",
+   "headingKind": "none",
+   "noTopicsReason": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR.",
+   "topics": []
+  },
+  {
+   "id": "lifelines-of-national-economy",
+   "name": "Lifelines of National Economy",
+   "number": 7,
+   "book": "Contemporary India II",
+   "strand": "Geography",
+   "source_file": "chapters/jess1/jess107.pdf",
+   "pages": [
+    1,
+    13
+   ],
+   "nameSource": "typed",
+   "cbse2025_26": "only map pointing is evaluated in the board examination",
+   "headingKind": "none",
+   "noTopicsReason": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR.",
+   "topics": []
+  },
+  {
+   "id": "power-sharing",
+   "name": "Power-sharing",
+   "number": 1,
+   "book": "Democratic Politics II",
+   "strand": "Political Science",
+   "source_file": "chapters/jess4/jess401.pdf",
+   "pages": [
+    1,
+    12
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "power-sharing/belgium-and-sri-lanka",
+     "name": "Belgium and Sri Lanka",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "power-sharing/majoritarianism-in-sri-lanka",
+     "name": "Majoritarianism in Sri Lanka",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "power-sharing/accommodation-in-belgium",
+     "name": "Accommodation in Belgium",
+     "page": 4,
+     "subtopics": [
+      {
+       "id": "power-sharing/accommodation-in-belgium/why-power-sharing-is-desirable",
+       "name": "Why power sharing is desirable?",
+       "page": 6
+      }
+     ]
+    },
+    {
+     "id": "power-sharing/forms-of-power-sharing",
+     "name": "Forms of power-sharing",
+     "page": 8,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "federalism",
+   "name": "Federalism",
+   "number": 2,
+   "book": "Democratic Politics II",
+   "strand": "Political Science",
+   "source_file": "chapters/jess4/jess402.pdf",
+   "pages": [
+    1,
+    16
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "federalism/what-is-federalism",
+     "name": "What is federalism?",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "federalism/what-makes-india-a-federal-country",
+     "name": "What makes India a federal country?",
+     "page": 4,
+     "subtopics": []
+    },
+    {
+     "id": "federalism/how-is-federalism-practised",
+     "name": "How is federalism practised?",
+     "page": 7,
+     "subtopics": [
+      {
+       "id": "federalism/how-is-federalism-practised/linguistic-states",
+       "name": "Linguistic States",
+       "page": 7
+      },
+      {
+       "id": "federalism/how-is-federalism-practised/language-policy",
+       "name": "Language policy",
+       "page": 8
+      },
+      {
+       "id": "federalism/how-is-federalism-practised/centre-state-relations",
+       "name": "Centre-State relations",
+       "page": 8
+      },
+      {
+       "id": "federalism/how-is-federalism-practised/linguistic-diversity-of-india",
+       "name": "Linguistic diversity of India",
+       "page": 10
+      },
+      {
+       "id": "federalism/how-is-federalism-practised/scheduled-languages-of-india",
+       "name": "Scheduled Languages of India",
+       "page": 10
+      }
+     ]
+    },
+    {
+     "id": "federalism/decentralisation-in-india",
+     "name": "Decentralisation in India",
+     "page": 12,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "gender-religion-and-caste",
+   "name": "Gender, Religion and Caste",
+   "number": 3,
+   "book": "Democratic Politics II",
+   "strand": "Political Science",
+   "source_file": "chapters/jess4/jess403.pdf",
+   "pages": [
+    1,
+    17
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "gender-religion-and-caste/gender-and-politics",
+     "name": "Gender and politics",
+     "page": 2,
+     "subtopics": [
+      {
+       "id": "gender-religion-and-caste/gender-and-politics/public-private-division",
+       "name": "Public/private division",
+       "page": 2
+      },
+      {
+       "id": "gender-religion-and-caste/gender-and-politics/daily-time-use-hours-minutes",
+       "name": "Daily time use (hours: minutes)",
+       "page": 4
+      },
+      {
+       "id": "gender-religion-and-caste/gender-and-politics/women-s-political-representation",
+       "name": "Women’s political representation",
+       "page": 6
+      }
+     ]
+    },
+    {
+     "id": "gender-religion-and-caste/religion-communalism-and-politics",
+     "name": "Religion, communalism and politics",
+     "page": 8,
+     "subtopics": [
+      {
+       "id": "gender-religion-and-caste/religion-communalism-and-politics/communalism",
+       "name": "Communalism",
+       "page": 8
+      },
+      {
+       "id": "gender-religion-and-caste/religion-communalism-and-politics/secular-state",
+       "name": "Secular state",
+       "page": 9
+      }
+     ]
+    },
+    {
+     "id": "gender-religion-and-caste/caste-and-politics",
+     "name": "Caste and politics",
+     "page": 10,
+     "subtopics": [
+      {
+       "id": "gender-religion-and-caste/caste-and-politics/caste-inequalities",
+       "name": "Caste inequalities",
+       "page": 10
+      },
+      {
+       "id": "gender-religion-and-caste/caste-and-politics/caste-in-politics",
+       "name": "Caste in politics",
+       "page": 12
+      },
+      {
+       "id": "gender-religion-and-caste/caste-and-politics/percentage-of-population-living-below-the-poverty-line-1999",
+       "name": "Percentage of population living below the poverty line, 1999–— 2000",
+       "page": 13
+      },
+      {
+       "id": "gender-religion-and-caste/caste-and-politics/politics-in-caste",
+       "name": "Politics in caste",
+       "page": 14
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "political-parties",
+   "name": "Political Parties",
+   "number": 4,
+   "book": "Democratic Politics II",
+   "strand": "Political Science",
+   "source_file": "chapters/jess4/jess404.pdf",
+   "pages": [
+    1,
+    17
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "political-parties/why-do-we-need-political-parties",
+     "name": "Why do we need political parties?",
+     "page": 2,
+     "subtopics": [
+      {
+       "id": "political-parties/why-do-we-need-political-parties/meaning",
+       "name": "Meaning",
+       "page": 2
+      },
+      {
+       "id": "political-parties/why-do-we-need-political-parties/functions",
+       "name": "Functions",
+       "page": 3
+      },
+      {
+       "id": "political-parties/why-do-we-need-political-parties/necessity",
+       "name": "Necessity",
+       "page": 4
+      }
+     ]
+    },
+    {
+     "id": "political-parties/how-many-parties-should-we-have",
+     "name": "How many parties should we have?",
+     "page": 5,
+     "subtopics": []
+    },
+    {
+     "id": "political-parties/national-parties",
+     "name": "National parties",
+     "page": 8,
+     "subtopics": []
+    },
+    {
+     "id": "political-parties/state-parties",
+     "name": "State parties",
+     "page": 10,
+     "subtopics": []
+    },
+    {
+     "id": "political-parties/challenges-to-political-parties",
+     "name": "Challenges to political parties",
+     "page": 12,
+     "subtopics": []
+    },
+    {
+     "id": "political-parties/how-can-parties-be-reformed",
+     "name": "How can parties be reformed?",
+     "page": 14,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "outcomes-of-democracy",
+   "name": "Outcomes of Democracy",
+   "number": 5,
+   "book": "Democratic Politics II",
+   "strand": "Political Science",
+   "source_file": "chapters/jess4/jess405.pdf",
+   "pages": [
+    1,
+    12
+   ],
+   "nameSource": "display",
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "outcomes-of-democracy/how-do-we-assess-democracy-s-outcomes",
+     "name": "How do we assess democracy’s outcomes?",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "outcomes-of-democracy/accountable-responsive-and-legitimate-government",
+     "name": "Accountable, responsive and legitimate government",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "outcomes-of-democracy/economic-growth-and-development",
+     "name": "Economic growth and development",
+     "page": 5,
+     "subtopics": []
+    },
+    {
+     "id": "outcomes-of-democracy/reduction-of-inequality-and-poverty",
+     "name": "Reduction of inequality and poverty",
+     "page": 7,
+     "subtopics": []
+    },
+    {
+     "id": "outcomes-of-democracy/accommodation-of-social-diversity",
+     "name": "Accommodation of social diversity",
+     "page": 8,
+     "subtopics": []
+    },
+    {
+     "id": "outcomes-of-democracy/dignity-and-freedom-of-the-citizens",
+     "name": "Dignity and freedom of the citizens",
+     "page": 9,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "development",
+   "name": "Development",
+   "number": 1,
+   "book": "Understanding Economic Development",
+   "strand": "Economics",
+   "source_file": "chapters/jess2/jess201.pdf",
+   "pages": [
+    1,
+    16
+   ],
+   "nameSource": "typed",
+   "headingKind": "styled",
+   "topics": [
+    {
+     "id": "development/what-development-promises-different-people-different-goals",
+     "name": "What Development Promises — Different People, Different Goals",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "development/income-and-other-goals",
+     "name": "Income and Other Goals",
+     "page": 4,
+     "subtopics": []
+    },
+    {
+     "id": "development/national-development",
+     "name": "National Development",
+     "page": 5,
+     "subtopics": []
+    },
+    {
+     "id": "development/how-to-compare-different-countries-or-states",
+     "name": "How to Compare Different Countries or States?",
+     "page": 7,
+     "subtopics": [
+      {
+       "id": "development/how-to-compare-different-countries-or-states/average-income",
+       "name": "Average Income",
+       "page": 8
+      }
+     ]
+    },
+    {
+     "id": "development/income-and-other-criteria",
+     "name": "Income and Other Criteria",
+     "page": 9,
+     "subtopics": []
+    },
+    {
+     "id": "development/public-facilities",
+     "name": "Public Facilities",
+     "page": 10,
+     "subtopics": []
+    },
+    {
+     "id": "development/sustainability-of-development",
+     "name": "Sustainability of Development",
+     "page": 13,
+     "subtopics": [
+      {
+       "id": "development/sustainability-of-development/natural-resources",
+       "name": "Natural Resources",
+       "page": 14
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "sectors-of-the-indian-economy",
+   "name": "Sectors of the Indian Economy",
+   "number": 2,
+   "book": "Understanding Economic Development",
+   "strand": "Economics",
+   "source_file": "chapters/jess2/jess202.pdf",
+   "pages": [
+    1,
+    20
+   ],
+   "nameSource": "typed",
+   "headingKind": "styled",
+   "topics": [
+    {
+     "id": "sectors-of-the-indian-economy/sectors-of-economic-activities",
+     "name": "Sectors of Economic Activities",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "sectors-of-the-indian-economy/comparing-the-three-sectors",
+     "name": "Comparing the Three Sectors",
+     "page": 5,
+     "subtopics": []
+    },
+    {
+     "id": "sectors-of-the-indian-economy/primary-secondary-and-tertiary-sectors-in-india",
+     "name": "Primary, Secondary and Tertiary Sectors in India",
+     "page": 7,
+     "subtopics": []
+    },
+    {
+     "id": "sectors-of-the-indian-economy/division-of-sectors-as-organised-and-unorganised",
+     "name": "Division of Sectors as Organised and Unorganised",
+     "page": 13,
+     "subtopics": [
+      {
+       "id": "sectors-of-the-indian-economy/division-of-sectors-as-organised-and-unorganised/kanta",
+       "name": "Kanta",
+       "page": 13
+      },
+      {
+       "id": "sectors-of-the-indian-economy/division-of-sectors-as-organised-and-unorganised/kamal",
+       "name": "Kamal",
+       "page": 13
+      }
+     ]
+    },
+    {
+     "id": "sectors-of-the-indian-economy/sectors-in-terms-of-ownership-public-and-private-sectors",
+     "name": "Sectors in Terms of Ownership: Public and Private Sectors",
+     "page": 16,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "money-and-credit",
+   "name": "Money and Credit",
+   "number": 3,
+   "book": "Understanding Economic Development",
+   "strand": "Economics",
+   "source_file": "chapters/jess2/jess203.pdf",
+   "pages": [
+    1,
+    16
+   ],
+   "nameSource": "typed",
+   "headingKind": "styled",
+   "topics": [
+    {
+     "id": "money-and-credit/money-as-a-medium-of-exchange",
+     "name": "Money as a Medium of Exchange",
+     "page": 2,
+     "subtopics": []
+    },
+    {
+     "id": "money-and-credit/modern-forms-of-money",
+     "name": "Modern Forms of Money",
+     "page": 3,
+     "subtopics": [
+      {
+       "id": "money-and-credit/modern-forms-of-money/cheque-payments",
+       "name": "Cheque Payments",
+       "page": 4
+      }
+     ]
+    },
+    {
+     "id": "money-and-credit/loan-activities-of-banks",
+     "name": "Loan Activities of Banks",
+     "page": 5,
+     "subtopics": []
+    },
+    {
+     "id": "money-and-credit/two-different-credit-situations",
+     "name": "Two Different Credit Situations",
+     "page": 6,
+     "subtopics": [
+      {
+       "id": "money-and-credit/two-different-credit-situations/1-festival-season",
+       "name": "(1) Festival Season",
+       "page": 6
+      },
+      {
+       "id": "money-and-credit/two-different-credit-situations/2-swapna-s-problem",
+       "name": "(2) Swapna’s Problem",
+       "page": 6
+      }
+     ]
+    },
+    {
+     "id": "money-and-credit/terms-of-credit",
+     "name": "Terms of Credit",
+     "page": 7,
+     "subtopics": [
+      {
+       "id": "money-and-credit/terms-of-credit/a-house-loan",
+       "name": "A House Loan",
+       "page": 8
+      },
+      {
+       "id": "money-and-credit/terms-of-credit/variety-of-credit-arrangements",
+       "name": "Variety of Credit Arrangements",
+       "page": 9
+      },
+      {
+       "id": "money-and-credit/terms-of-credit/loans-from-cooperatives",
+       "name": "Loans from Cooperatives",
+       "page": 10
+      }
+     ]
+    },
+    {
+     "id": "money-and-credit/formal-sector-credit-in-india",
+     "name": "Formal Sector Credit in India",
+     "page": 11,
+     "subtopics": []
+    },
+    {
+     "id": "money-and-credit/self-help-groups-for-the-poor",
+     "name": "Self-help Groups for the Poor",
+     "page": 13,
+     "subtopics": [
+      {
+       "id": "money-and-credit/self-help-groups-for-the-poor/grameen-bank-of-bangladesh",
+       "name": "Grameen Bank of Bangladesh",
+       "page": 15
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "globalisation-and-the-indian-economy",
+   "name": "Globalisation and the Indian Economy",
+   "number": 4,
+   "book": "Understanding Economic Development",
+   "strand": "Economics",
+   "source_file": "chapters/jess2/jess204.pdf",
+   "pages": [
+    1,
+    20
+   ],
+   "nameSource": "typed",
+   "cbse2025_26": "split between the board examination and an interdisciplinary project; the course structure lists which sections go where (Social_Science_Sec_2025-26.pdf p13) in an order the text layer does not keep -- check the page before relying on the split",
+   "headingKind": "styled",
+   "topics": [
+    {
+     "id": "globalisation-and-the-indian-economy/production-across-countries",
+     "name": "Production Across Countries",
+     "page": 3,
+     "subtopics": [
+      {
+       "id": "globalisation-and-the-indian-economy/production-across-countries/spreading-of-production-by-an-mnc",
+       "name": "Spreading of Production by an MNC",
+       "page": 3
+      }
+     ]
+    },
+    {
+     "id": "globalisation-and-the-indian-economy/interlinking-production-across-countries",
+     "name": "Interlinking Production Across Countries",
+     "page": 4,
+     "subtopics": []
+    },
+    {
+     "id": "globalisation-and-the-indian-economy/foreign-trade-and-integration-of-markets",
+     "name": "Foreign Trade and Integration of Markets",
+     "page": 6,
+     "subtopics": [
+      {
+       "id": "globalisation-and-the-indian-economy/foreign-trade-and-integration-of-markets/chinese-toys-in-india",
+       "name": "Chinese Toys in India",
+       "page": 7
+      }
+     ]
+    },
+    {
+     "id": "globalisation-and-the-indian-economy/what-is-globalisation",
+     "name": "What Is Globalisation?",
+     "page": 8,
+     "subtopics": []
+    },
+    {
+     "id": "globalisation-and-the-indian-economy/factors-that-have-enabled-globalisation",
+     "name": "Factors That Have Enabled Globalisation",
+     "page": 9,
+     "subtopics": []
+    },
+    {
+     "id": "globalisation-and-the-indian-economy/world-trade-organisation",
+     "name": "World Trade Organisation",
+     "page": 12,
+     "subtopics": [
+      {
+       "id": "globalisation-and-the-indian-economy/world-trade-organisation/debate-on-trade-practices",
+       "name": "Debate on Trade Practices",
+       "page": 12
+      }
+     ]
+    },
+    {
+     "id": "globalisation-and-the-indian-economy/impact-of-globalisation-in-india",
+     "name": "Impact of Globalisation in India",
+     "page": 13,
+     "subtopics": [
+      {
+       "id": "globalisation-and-the-indian-economy/impact-of-globalisation-in-india/steps-to-attract-foreign-investment",
+       "name": "Steps to Attract Foreign Investment",
+       "page": 14
+      },
+      {
+       "id": "globalisation-and-the-indian-economy/impact-of-globalisation-in-india/rising-competition",
+       "name": "Rising Competition",
+       "page": 15
+      },
+      {
+       "id": "globalisation-and-the-indian-economy/impact-of-globalisation-in-india/a-garment-worker",
+       "name": "A Garment Worker",
+       "page": 16
+      }
+     ]
+    },
+    {
+     "id": "globalisation-and-the-indian-economy/the-struggle-for-a-fair-globalisation",
+     "name": "The Struggle for a Fair Globalisation",
+     "page": 17,
+     "subtopics": []
+    },
+    {
+     "id": "globalisation-and-the-indian-economy/additional-activity-project",
+     "name": "Additional Activity / Project",
+     "page": 20,
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "consumer-rights",
+   "name": "Consumer Rights",
+   "number": 5,
+   "book": "Understanding Economic Development",
+   "strand": "Economics",
+   "source_file": "chapters/jess2/jess205.pdf",
+   "pages": [
+    1,
+    19
+   ],
+   "nameSource": "typed",
+   "cbse2025_26": "project work only",
+   "headingKind": "styled",
+   "topics": [
+    {
+     "id": "consumer-rights/the-consumer-in-the-marketplace",
+     "name": "The Consumer in the Marketplace",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "consumer-rights/consumer-movement",
+     "name": "Consumer Movement",
+     "page": 4,
+     "subtopics": [
+      {
+       "id": "consumer-rights/consumer-movement/consumers-international",
+       "name": "Consumers International",
+       "page": 5
+      }
+     ]
+    },
+    {
+     "id": "consumer-rights/consumer-rights",
+     "name": "Consumer Rights",
+     "page": 6,
+     "subtopics": [
+      {
+       "id": "consumer-rights/consumer-rights/reji-s-suffering",
+       "name": "Reji’s Suffering",
+       "page": 6
+      },
+      {
+       "id": "consumer-rights/consumer-rights/waiting",
+       "name": "Waiting...",
+       "page": 7
+      },
+      {
+       "id": "consumer-rights/consumer-rights/a-refund",
+       "name": "A Refund",
+       "page": 8
+      },
+      {
+       "id": "consumer-rights/consumer-rights/isi-and-agmark",
+       "name": "ISI and Agmark",
+       "page": 12
+      }
+     ]
+    },
+    {
+     "id": "consumer-rights/taking-the-consumer-movement-forward",
+     "name": "Taking the Consumer Movement Forward",
+     "page": 13,
+     "subtopics": []
+    },
+    {
+     "id": "consumer-rights/additional-projects-activities",
+     "name": "Additional Projects / Activities",
+     "page": 15,
+     "subtopics": [
+      {
+       "id": "consumer-rights/additional-projects-activities/suggested-readings",
+       "name": "Suggested Readings",
+       "page": 19
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

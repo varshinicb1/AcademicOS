@@ -1,0 +1,187 @@
+{
+ "subject": "English",
+ "grade": 6,
+ "book": "Poorvi",
+ "source_files": [
+  "english/class6_poorvi.pdf"
+ ],
+ "chapters": [
+  {
+   "id": "a-bottle-of-dew",
+   "name": "A Bottle of Dew",
+   "number": 1,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 1,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "the-raven-and-the-fox",
+   "name": "The Raven and the Fox",
+   "number": 2,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 13,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "rama-to-the-rescue",
+   "name": "Rama to the Rescue",
+   "number": 3,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 20,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "the-unlikely-best-friends",
+   "name": "The Unlikely Best Friends",
+   "number": 4,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 39,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "a-friend-s-prayer",
+   "name": "A Friend’s Prayer",
+   "number": 5,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 52,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "the-chair",
+   "name": "The Chair",
+   "number": 6,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 59,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "neem-baba",
+   "name": "Neem Baba",
+   "number": 7,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 75,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "what-a-bird-thought",
+   "name": "What a Bird Thought",
+   "number": 8,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 85,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "spices-that-heal-us",
+   "name": "Spices that Heal Us",
+   "number": 9,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 93,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "change-of-heart",
+   "name": "Change of Heart",
+   "number": 10,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 103,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "the-winner",
+   "name": "The Winner",
+   "number": 11,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 115,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "yoga-a-way-of-life",
+   "name": "Yoga—A Way of Life",
+   "number": 12,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 122,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "hamara-bharat-incredible-india",
+   "name": "Hamara Bharat—Incredible India!",
+   "number": 13,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 131,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "the-kites",
+   "name": "The Kites",
+   "number": 14,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 141,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "ila-sachani-embroidering-dreams-with-her-feet",
+   "name": "Ila Sachani Embroidering Dreams with her Feet",
+   "number": 15,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 151,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  },
+  {
+   "id": "national-war-memorial",
+   "name": "National War Memorial",
+   "number": 16,
+   "book": "Poorvi",
+   "source_file": "english/class6_poorvi.pdf",
+   "printedPage": 160,
+   "nameSource": "contents",
+   "headingKind": "chapter-level-only",
+   "topics": []
+  }
+ ],
+ "note": "Chapter level only: the chapters are lessons and poems, which carry no section headings to make topics of."
+}

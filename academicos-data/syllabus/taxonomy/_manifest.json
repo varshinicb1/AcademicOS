@@ -1,0 +1,3402 @@
+{
+ "builtFrom": "ncert-dataset/textbooks (read-only), scripts/build_taxonomy.py",
+ "pymupdf": "1.28.2",
+ "trees": {
+  "English_6": {
+   "chapters": 16,
+   "topics": 0,
+   "subtopics": 0,
+   "headingKinds": {
+    "chapter-level-only": 16
+   },
+   "chaptersWithoutTopics": [
+    {
+     "number": 1,
+     "name": "A Bottle of Dew",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 2,
+     "name": "The Raven and the Fox",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 3,
+     "name": "Rama to the Rescue",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 4,
+     "name": "The Unlikely Best Friends",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 5,
+     "name": "A Friend’s Prayer",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 6,
+     "name": "The Chair",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 7,
+     "name": "Neem Baba",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 8,
+     "name": "What a Bird Thought",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 9,
+     "name": "Spices that Heal Us",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 10,
+     "name": "Change of Heart",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 11,
+     "name": "The Winner",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 12,
+     "name": "Yoga—A Way of Life",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 13,
+     "name": "Hamara Bharat—Incredible India!",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 14,
+     "name": "The Kites",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 15,
+     "name": "Ila Sachani Embroidering Dreams with her Feet",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 16,
+     "name": "National War Memorial",
+     "file": "english/class6_poorvi.pdf",
+     "why": "chapter-level-only"
+    }
+   ]
+  },
+  "English_7": {
+   "chapters": 15,
+   "topics": 0,
+   "subtopics": 0,
+   "headingKinds": {
+    "chapter-level-only": 15
+   },
+   "chaptersWithoutTopics": [
+    {
+     "number": 1,
+     "name": "The Day the River Spoke",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 2,
+     "name": "Try Again",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 3,
+     "name": "Three Days to See",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 4,
+     "name": "Animals, Birds, and Dr. Dolittle",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 5,
+     "name": "A Funny Man",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 6,
+     "name": "Say the Right Thing",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 7,
+     "name": "My Brother’s Great Invention",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 8,
+     "name": "Paper Boats",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 9,
+     "name": "North, South, East, West",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 10,
+     "name": "The Tunnel",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 11,
+     "name": "Travel",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 12,
+     "name": "Conquering the Summit",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 13,
+     "name": "A Homage to Our Brave Soldiers",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 14,
+     "name": "My Dear Soldiers",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 15,
+     "name": "Rani Abbakka",
+     "file": "english/class7_poorvi.pdf",
+     "why": "chapter-level-only"
+    }
+   ]
+  },
+  "English_8": {
+   "chapters": 15,
+   "topics": 0,
+   "subtopics": 0,
+   "headingKinds": {
+    "chapter-level-only": 15
+   },
+   "chaptersWithoutTopics": [
+    {
+     "number": 1,
+     "name": "The Wit that Won Hearts",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 2,
+     "name": "A Concrete Example",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 3,
+     "name": "Wisdom Paves the Way",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 4,
+     "name": "A Tale of Valour: Major Somnath Sharma and the Battle of Badgam",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 5,
+     "name": "Somebody’s Mother",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 6,
+     "name": "Verghese Kurien— I Too Had A Dream",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 7,
+     "name": "The Case of the Fifth Word",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 8,
+     "name": "The Magic Brush of Dreams",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 9,
+     "name": "Spectacular Wonders",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 10,
+     "name": "The Cherry Tree",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 11,
+     "name": "Harvest Hymn",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 12,
+     "name": "Waiting for the Rain",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 13,
+     "name": "Feathered Friend",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 14,
+     "name": "Magnifying Glass",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 15,
+     "name": "Bibha Chowdhuri: The Beam of Light that Lit the Path for Women in Indian Science",
+     "file": "english/class8_poorvi.pdf",
+     "why": "chapter-level-only"
+    }
+   ]
+  },
+  "English_9": {
+   "chapters": 16,
+   "topics": 0,
+   "subtopics": 0,
+   "headingKinds": {
+    "chapter-level-only": 16
+   },
+   "chaptersWithoutTopics": [
+    {
+     "number": 1,
+     "name": "How I Taught My Grandmother to Read",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 2,
+     "name": "Bharat Our Land",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 3,
+     "name": "The Pot Maker",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 4,
+     "name": "Gifts of Grace: Honouring Our Vocations",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 5,
+     "name": "Winds of Change",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 6,
+     "name": "Canvas of Soil",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 7,
+     "name": "Vitamin-M",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 8,
+     "name": "I Cannot Remember My Mother",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 9,
+     "name": "The World of Limitless Possibilities",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 10,
+     "name": "Nine Gold Medals",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 11,
+     "name": "Twin Melodies",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 12,
+     "name": "A Friend Found in Music",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 13,
+     "name": "Carrier of Words",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 14,
+     "name": "Words",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 15,
+     "name": "Follow That Dream",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 16,
+     "name": "Believe in Yourself",
+     "file": "english/class9_kaveri.pdf",
+     "why": "chapter-level-only"
+    }
+   ]
+  },
+  "Hindi_9": {
+   "chapters": 14,
+   "topics": 0,
+   "subtopics": 0,
+   "headingKinds": {
+    "chapter-level-only": 14
+   },
+   "chaptersWithoutTopics": [
+    {
+     "number": 1,
+     "name": "दो बैलों की कथा",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 2,
+     "name": "क् या लिखूँ?",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 3,
+     "name": "संवा दहीन",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 4,
+     "name": "ऐसी भी बातें होत ी हैं (लता मंगेशकर से सा क्षात् का र) यतीं द्र मिश्र",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 5,
+     "name": "आखिरी चट्टा न त क",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 6,
+     "name": "रीढ़ की हड्‌डी",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 7,
+     "name": "मैं और मेरा देश",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 8,
+     "name": "निर्मल जीत सिं ह सेखों (साथ -साथ पढ़ें)",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 9,
+     "name": "पद",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 10,
+     "name": "रा म-लक्षम ण-परशुरा म संवा द",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 11,
+     "name": "भा रति, जय, विजयकरे!",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 12,
+     "name": "झाँ सी की रा नी",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 13,
+     "name": "घर की या द",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    },
+    {
+     "number": 14,
+     "name": "तब याद तुम्हारी आती है (साथ -साथ पढ़ें)",
+     "file": "hindi/class9_ganga.pdf",
+     "why": "chapter-level-only"
+    }
+   ]
+  },
+  "Mathematics_6": {
+   "chapters": 10,
+   "topics": 65,
+   "subtopics": 75,
+   "headingKinds": {
+    "numbered": 10
+   },
+   "chaptersWithoutTopics": []
+  },
+  "Mathematics_7": {
+   "chapters": 15,
+   "topics": 63,
+   "subtopics": 117,
+   "headingKinds": {
+    "numbered": 15
+   },
+   "chaptersWithoutTopics": []
+  },
+  "Mathematics_8": {
+   "chapters": 14,
+   "topics": 58,
+   "subtopics": 90,
+   "headingKinds": {
+    "numbered": 14
+   },
+   "chaptersWithoutTopics": []
+  },
+  "Mathematics_9": {
+   "chapters": 8,
+   "topics": 53,
+   "subtopics": 27,
+   "headingKinds": {
+    "numbered": 8
+   },
+   "chaptersWithoutTopics": []
+  },
+  "Mathematics_10": {
+   "chapters": 14,
+   "topics": 40,
+   "subtopics": 2,
+   "headingKinds": {
+    "numbered": 14
+   },
+   "chaptersWithoutTopics": []
+  },
+  "Science_6": {
+   "chapters": 12,
+   "topics": 53,
+   "subtopics": 59,
+   "headingKinds": {
+    "none": 2,
+    "numbered": 10
+   },
+   "chaptersWithoutTopics": [
+    {
+     "number": 1,
+     "name": "The Wonderful World of Science",
+     "file": "science/class6_curiosity.pdf",
+     "why": "no numbered heading and no bold heading line >= 14.5pt (body 13pt NotoSerif) outside boxes and activities"
+    },
+    {
+     "number": 9,
+     "name": "Methods of Separation in Everyday Life",
+     "file": "science/class6_curiosity.pdf",
+     "why": "no numbered heading and no bold heading line >= 14.5pt (body 13pt NotoSerif) outside boxes and activities"
+    }
+   ]
+  },
+  "Science_7": {
+   "chapters": 12,
+   "topics": 50,
+   "subtopics": 44,
+   "headingKinds": {
+    "numbered": 12
+   },
+   "chaptersWithoutTopics": []
+  },
+  "Science_8": {
+   "chapters": 13,
+   "topics": 62,
+   "subtopics": 45,
+   "headingKinds": {
+    "none": 1,
+    "numbered": 12
+   },
+   "chaptersWithoutTopics": [
+    {
+     "number": 1,
+     "name": "Exploring the Investigative World of Science",
+     "file": "science/class8_curiosity.pdf",
+     "why": "no numbered heading and no bold heading line >= 13.5pt (body 12pt NotoSerif) outside boxes and activities"
+    }
+   ]
+  },
+  "Science_9": {
+   "chapters": 13,
+   "topics": 77,
+   "subtopics": 98,
+   "headingKinds": {
+    "none": 1,
+    "numbered": 12
+   },
+   "chaptersWithoutTopics": [
+    {
+     "number": 1,
+     "name": "Exploration: Entering the World of Secondary Science",
+     "file": "science/class9_exploration.pdf",
+     "why": "no numbered heading and no bold heading line >= 12.5pt (body 11pt NotoSerif) outside boxes and activities"
+    }
+   ]
+  },
+  "Science_10": {
+   "chapters": 13,
+   "topics": 53,
+   "subtopics": 99,
+   "headingKinds": {
+    "numbered": 13
+   },
+   "chaptersWithoutTopics": []
+  },
+  "Social Science_6": {
+   "chapters": 14,
+   "topics": 50,
+   "subtopics": 22,
+   "headingKinds": {
+    "unnumbered": 13,
+    "none": 1
+   },
+   "chaptersWithoutTopics": [
+    {
+     "number": 5,
+     "name": "India, That Is Bharat",
+     "file": "chapters/fees1/fees105.pdf",
+     "why": "no numbered heading and no bold heading line >= 14.5pt (body 13pt NotoSerif-Regular) outside boxes and activities"
+    }
+   ]
+  },
+  "Social Science_7": {
+   "chapters": 20,
+   "topics": 128,
+   "subtopics": 109,
+   "headingKinds": {
+    "unnumbered": 20
+   },
+   "chaptersWithoutTopics": []
+  },
+  "Social Science_8": {
+   "chapters": 15,
+   "topics": 114,
+   "subtopics": 95,
+   "headingKinds": {
+    "unnumbered": 15
+   },
+   "chaptersWithoutTopics": []
+  },
+  "Social Science_9": {
+   "chapters": 9,
+   "topics": 44,
+   "subtopics": 66,
+   "headingKinds": {
+    "unnumbered": 9
+   },
+   "chaptersWithoutTopics": []
+  },
+  "Social Science_10": {
+   "chapters": 22,
+   "topics": 85,
+   "subtopics": 100,
+   "headingKinds": {
+    "section": 5,
+    "none": 7,
+    "unnumbered": 5,
+    "styled": 5
+   },
+   "chaptersWithoutTopics": [
+    {
+     "number": 1,
+     "name": "Resources and Development",
+     "file": "chapters/jess1/jess101.pdf",
+     "why": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR."
+    },
+    {
+     "number": 2,
+     "name": "Forest and Wildlife Resources",
+     "file": "chapters/jess1/jess102.pdf",
+     "why": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR."
+    },
+    {
+     "number": 3,
+     "name": "Water Resources",
+     "file": "chapters/jess1/jess103.pdf",
+     "why": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR."
+    },
+    {
+     "number": 4,
+     "name": "Agriculture",
+     "file": "chapters/jess1/jess104.pdf",
+     "why": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR."
+    },
+    {
+     "number": 5,
+     "name": "Minerals and Energy Resources",
+     "file": "chapters/jess1/jess105.pdf",
+     "why": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR."
+    },
+    {
+     "number": 6,
+     "name": "Manufacturing Industries",
+     "file": "chapters/jess1/jess106.pdf",
+     "why": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR."
+    },
+    {
+     "number": 7,
+     "name": "Lifelines of National Economy",
+     "file": "chapters/jess1/jess107.pdf",
+     "why": "Contemporary India II draws its section headings as graphics: the text layer holds only a heading's initials (12pt 'R', 'P' at jess101.pdf p2 y=568) or nothing, and no line of the chapter is set above 10.5pt; no topic can be read without OCR."
+    }
+   ]
+  }
+ },
+ "notOnDisk": {
+  "English_10": "no class 10 English textbook in ncert-dataset/textbooks",
+  "Hindi_6": "no class 6 Hindi textbook (Malhar) in ncert-dataset/textbooks",
+  "Hindi_7": "no class 7 Hindi textbook in ncert-dataset/textbooks",
+  "Hindi_8": "no class 8 Hindi textbook in ncert-dataset/textbooks",
+  "Hindi_10": "no class 10 Hindi textbook in ncert-dataset/textbooks"
+ },
+ "partial": {
+  "Social Science_9": "only Part 1 of Understanding Society is on disk; Part 2's chapters are missing"
+ },
+ "locatingProblems": [],
+ "precision": {
+  "byFamily": {
+   "Maths": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "extracted": 41,
+    "handRead": 41,
+    "correct": 41
+   },
+   "all": {
+    "precision": 0.973,
+    "recall": 0.96,
+    "extracted": 149,
+    "handRead": 151,
+    "correct": 145
+   },
+   "Science": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "extracted": 37,
+    "handRead": 37,
+    "correct": 37
+   },
+   "SS": {
+    "precision": 0.944,
+    "recall": 0.918,
+    "extracted": 71,
+    "handRead": 73,
+    "correct": 67
+   }
+  },
+  "chapters": [
+   {
+    "family": "Maths",
+    "file": "maths/class6_ganita_prakash.pdf",
+    "chapter": 5,
+    "extracted": 17,
+    "handRead": 17,
+    "correct": 17,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "Maths",
+    "file": "maths/class9_ganita_manjari.pdf",
+    "chapter": 2,
+    "extracted": 6,
+    "handRead": 6,
+    "correct": 6,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "Maths",
+    "file": "chapters/jemh1/jemh106.pdf",
+    "chapter": 6,
+    "extracted": 4,
+    "handRead": 4,
+    "correct": 4,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "Science",
+    "file": "science/class6_curiosity.pdf",
+    "chapter": 2,
+    "extracted": 5,
+    "handRead": 5,
+    "correct": 5,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "Science",
+    "file": "science/class9_exploration.pdf",
+    "chapter": 2,
+    "extracted": 10,
+    "handRead": 10,
+    "correct": 10,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "Science",
+    "file": "chapters/jesc1/jesc101.pdf",
+    "chapter": 1,
+    "extracted": 12,
+    "handRead": 12,
+    "correct": 12,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "SS",
+    "file": "chapters/fees1/fees102.pdf",
+    "chapter": 2,
+    "extracted": 6,
+    "handRead": 6,
+    "correct": 6,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "SS",
+    "file": "chapters/hees1/hees101.pdf",
+    "chapter": 1,
+    "extracted": 11,
+    "handRead": 11,
+    "correct": 11,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "SS",
+    "file": "chapters/jess3/jess302.pdf",
+    "chapter": 2,
+    "extracted": 13,
+    "handRead": 14,
+    "correct": 13,
+    "precision": 1.0,
+    "recall": 0.929,
+    "wrong": [],
+    "missed": [
+     "conclusion"
+    ]
+   },
+   {
+    "family": "SS",
+    "file": "chapters/jess4/jess403.pdf",
+    "chapter": 3,
+    "extracted": 12,
+    "handRead": 10,
+    "correct": 10,
+    "precision": 0.833,
+    "recall": 1.0,
+    "wrong": [
+     "casteandpolitics/percentageofpopulationlivingbelowthepovertyline1999",
+     "genderandpolitics/dailytimeusehoursminutes"
+    ],
+    "missed": []
+   },
+   {
+    "family": "SS",
+    "file": "chapters/jess2/jess203.pdf",
+    "chapter": 3,
+    "extracted": 14,
+    "handRead": 17,
+    "correct": 12,
+    "precision": 0.857,
+    "recall": 0.706,
+    "wrong": [
+     "termsofcredit/loansfromcooperatives",
+     "termsofcredit/varietyofcreditarrangements"
+    ],
+    "missed": [
+     "formalsectorcreditinindia/formalandinformalcreditwhogetswhat",
+     "modernformsofmoney/currency",
+     "modernformsofmoney/depositswithbanks",
+     "varietyofcreditarrangements",
+     "varietyofcreditarrangements/loansfromcooperatives"
+    ]
+   },
+   {
+    "family": "Maths",
+    "file": "maths/class8_ganita_prakash.pdf",
+    "chapter": 4,
+    "extracted": 14,
+    "handRead": 14,
+    "correct": 14,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "Science",
+    "file": "science/class7_curiosity.pdf",
+    "chapter": 11,
+    "extracted": 10,
+    "handRead": 10,
+    "correct": 10,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   },
+   {
+    "family": "SS",
+    "file": "chapters/gees1/gees105.pdf",
+    "chapter": 5,
+    "extracted": 15,
+    "handRead": 15,
+    "correct": 15,
+    "precision": 1.0,
+    "recall": 1.0,
+    "wrong": [],
+    "missed": []
+   }
+  ]
+ },
+ "syllabusMismatches": {
+  "English_6": {
+   "syllabusFile": "academicos-data/syllabus/English_6.json",
+   "syllabusChapters": 4,
+   "bookChapters": 16,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "reading-comprehension",
+     "name": "Reading Comprehension"
+    },
+    {
+     "id": "grammar",
+     "name": "Grammar (Nouns, Verbs, Articles, Simple Sentences)"
+    },
+    {
+     "id": "writing-skills",
+     "name": "Paragraph Writing, Message Writing, Picture Description"
+    },
+    {
+     "id": "poorvi-textbook",
+     "name": "Poorvi (Units: Fables and Folk Tales, Friendship, Nurturing Nature, Sports and Games, Culture and Tradition)"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "A Bottle of Dew",
+    "The Raven and the Fox",
+    "Rama to the Rescue",
+    "The Unlikely Best Friends",
+    "A Friend’s Prayer",
+    "The Chair",
+    "Neem Baba",
+    "What a Bird Thought",
+    "Spices that Heal Us",
+    "Change of Heart",
+    "The Winner",
+    "Yoga—A Way of Life",
+    "Hamara Bharat—Incredible India!",
+    "The Kites",
+    "Ila Sachani Embroidering Dreams with her Feet",
+    "National War Memorial"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "A Bottle of Dew",
+     "id": "a-bottle-of-dew"
+    },
+    {
+     "number": 2,
+     "name": "The Raven and the Fox",
+     "id": "the-raven-and-the-fox"
+    },
+    {
+     "number": 3,
+     "name": "Rama to the Rescue",
+     "id": "rama-to-the-rescue"
+    },
+    {
+     "number": 4,
+     "name": "The Unlikely Best Friends",
+     "id": "the-unlikely-best-friends"
+    },
+    {
+     "number": 5,
+     "name": "A Friend’s Prayer",
+     "id": "a-friend-s-prayer"
+    },
+    {
+     "number": 6,
+     "name": "The Chair",
+     "id": "the-chair"
+    },
+    {
+     "number": 7,
+     "name": "Neem Baba",
+     "id": "neem-baba"
+    },
+    {
+     "number": 8,
+     "name": "What a Bird Thought",
+     "id": "what-a-bird-thought"
+    },
+    {
+     "number": 9,
+     "name": "Spices that Heal Us",
+     "id": "spices-that-heal-us"
+    },
+    {
+     "number": 10,
+     "name": "Change of Heart",
+     "id": "change-of-heart"
+    },
+    {
+     "number": 11,
+     "name": "The Winner",
+     "id": "the-winner"
+    },
+    {
+     "number": 12,
+     "name": "Yoga—A Way of Life",
+     "id": "yoga-a-way-of-life"
+    },
+    {
+     "number": 13,
+     "name": "Hamara Bharat—Incredible India!",
+     "id": "hamara-bharat-incredible-india"
+    },
+    {
+     "number": 14,
+     "name": "The Kites",
+     "id": "the-kites"
+    },
+    {
+     "number": 15,
+     "name": "Ila Sachani Embroidering Dreams with her Feet",
+     "id": "ila-sachani-embroidering-dreams-with-her-feet"
+    },
+    {
+     "number": 16,
+     "name": "National War Memorial",
+     "id": "national-war-memorial"
+    }
+   ]
+  },
+  "English_7": {
+   "syllabusFile": "academicos-data/syllabus/English_7.json",
+   "syllabusChapters": 5,
+   "bookChapters": 15,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "reading-comprehension",
+     "name": "Reading Comprehension"
+    },
+    {
+     "id": "grammar",
+     "name": "Grammar (Nouns, Pronouns, Adjectives, Adverbs, Prepositions)"
+    },
+    {
+     "id": "writing-skills",
+     "name": "Paragraph Writing, Informal Letters, Story Writing"
+    },
+    {
+     "id": "honeycomb-textbook",
+     "name": "Honeycomb (Textbook in English)"
+    },
+    {
+     "id": "an-alien-hand",
+     "name": "An Alien Hand (Supplementary Reader)"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "The Day the River Spoke",
+    "Try Again",
+    "Three Days to See",
+    "Animals, Birds, and Dr. Dolittle",
+    "A Funny Man",
+    "Say the Right Thing",
+    "My Brother’s Great Invention",
+    "Paper Boats",
+    "North, South, East, West",
+    "The Tunnel",
+    "Travel",
+    "Conquering the Summit",
+    "A Homage to Our Brave Soldiers",
+    "My Dear Soldiers",
+    "Rani Abbakka"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "The Day the River Spoke",
+     "id": "the-day-the-river-spoke"
+    },
+    {
+     "number": 2,
+     "name": "Try Again",
+     "id": "try-again"
+    },
+    {
+     "number": 3,
+     "name": "Three Days to See",
+     "id": "three-days-to-see"
+    },
+    {
+     "number": 4,
+     "name": "Animals, Birds, and Dr. Dolittle",
+     "id": "animals-birds-and-dr-dolittle"
+    },
+    {
+     "number": 5,
+     "name": "A Funny Man",
+     "id": "a-funny-man"
+    },
+    {
+     "number": 6,
+     "name": "Say the Right Thing",
+     "id": "say-the-right-thing"
+    },
+    {
+     "number": 7,
+     "name": "My Brother’s Great Invention",
+     "id": "my-brother-s-great-invention"
+    },
+    {
+     "number": 8,
+     "name": "Paper Boats",
+     "id": "paper-boats"
+    },
+    {
+     "number": 9,
+     "name": "North, South, East, West",
+     "id": "north-south-east-west"
+    },
+    {
+     "number": 10,
+     "name": "The Tunnel",
+     "id": "the-tunnel"
+    },
+    {
+     "number": 11,
+     "name": "Travel",
+     "id": "travel"
+    },
+    {
+     "number": 12,
+     "name": "Conquering the Summit",
+     "id": "conquering-the-summit"
+    },
+    {
+     "number": 13,
+     "name": "A Homage to Our Brave Soldiers",
+     "id": "a-homage-to-our-brave-soldiers"
+    },
+    {
+     "number": 14,
+     "name": "My Dear Soldiers",
+     "id": "my-dear-soldiers"
+    },
+    {
+     "number": 15,
+     "name": "Rani Abbakka",
+     "id": "rani-abbakka"
+    }
+   ]
+  },
+  "English_8": {
+   "syllabusFile": "academicos-data/syllabus/English_8.json",
+   "syllabusChapters": 5,
+   "bookChapters": 15,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "reading-comprehension",
+     "name": "Reading Comprehension"
+    },
+    {
+     "id": "grammar",
+     "name": "Grammar (Tenses, Active-Passive, Direct-Indirect, Conjunctions)"
+    },
+    {
+     "id": "writing-skills",
+     "name": "Formal and Informal Letters, Notice, Paragraph Writing"
+    },
+    {
+     "id": "honeydew-textbook",
+     "name": "Honeydew (Textbook in English)"
+    },
+    {
+     "id": "it-so-happened",
+     "name": "It So Happened (Supplementary Reader)"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "The Wit that Won Hearts",
+    "A Concrete Example",
+    "Wisdom Paves the Way",
+    "A Tale of Valour: Major Somnath Sharma and the Battle of Badgam",
+    "Somebody’s Mother",
+    "Verghese Kurien— I Too Had A Dream",
+    "The Case of the Fifth Word",
+    "The Magic Brush of Dreams",
+    "Spectacular Wonders",
+    "The Cherry Tree",
+    "Harvest Hymn",
+    "Waiting for the Rain",
+    "Feathered Friend",
+    "Magnifying Glass",
+    "Bibha Chowdhuri: The Beam of Light that Lit the Path for Women in Indian Science"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "The Wit that Won Hearts",
+     "id": "the-wit-that-won-hearts"
+    },
+    {
+     "number": 2,
+     "name": "A Concrete Example",
+     "id": "a-concrete-example"
+    },
+    {
+     "number": 3,
+     "name": "Wisdom Paves the Way",
+     "id": "wisdom-paves-the-way"
+    },
+    {
+     "number": 4,
+     "name": "A Tale of Valour: Major Somnath Sharma and the Battle of Badgam",
+     "id": "a-tale-of-valour-major-somnath-sharma-and-the-battle-of-badg"
+    },
+    {
+     "number": 5,
+     "name": "Somebody’s Mother",
+     "id": "somebody-s-mother"
+    },
+    {
+     "number": 6,
+     "name": "Verghese Kurien— I Too Had A Dream",
+     "id": "verghese-kurien-i-too-had-a-dream"
+    },
+    {
+     "number": 7,
+     "name": "The Case of the Fifth Word",
+     "id": "the-case-of-the-fifth-word"
+    },
+    {
+     "number": 8,
+     "name": "The Magic Brush of Dreams",
+     "id": "the-magic-brush-of-dreams"
+    },
+    {
+     "number": 9,
+     "name": "Spectacular Wonders",
+     "id": "spectacular-wonders"
+    },
+    {
+     "number": 10,
+     "name": "The Cherry Tree",
+     "id": "the-cherry-tree"
+    },
+    {
+     "number": 11,
+     "name": "Harvest Hymn",
+     "id": "harvest-hymn"
+    },
+    {
+     "number": 12,
+     "name": "Waiting for the Rain",
+     "id": "waiting-for-the-rain"
+    },
+    {
+     "number": 13,
+     "name": "Feathered Friend",
+     "id": "feathered-friend"
+    },
+    {
+     "number": 14,
+     "name": "Magnifying Glass",
+     "id": "magnifying-glass"
+    },
+    {
+     "number": 15,
+     "name": "Bibha Chowdhuri: The Beam of Light that Lit the Path for Women in Indian Science",
+     "id": "bibha-chowdhuri-the-beam-of-light-that-lit-the-path-for-wome"
+    }
+   ]
+  },
+  "English_9": {
+   "syllabusFile": "academicos-data/syllabus/English_9.json",
+   "syllabusChapters": 5,
+   "bookChapters": 16,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "reading-comprehension",
+     "name": "Reading Comprehension"
+    },
+    {
+     "id": "grammar",
+     "name": "Grammar (Tenses, Modals, Subject-Verb Concord, Reported Speech)"
+    },
+    {
+     "id": "writing-skills",
+     "name": "Descriptive Paragraph and Diary Entry / Story Writing"
+    },
+    {
+     "id": "beehive-textbook",
+     "name": "Beehive (Prose and Poetry)"
+    },
+    {
+     "id": "moments-supplementary",
+     "name": "Moments (Supplementary Reader)"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "How I Taught My Grandmother to Read",
+    "Bharat Our Land",
+    "The Pot Maker",
+    "Gifts of Grace: Honouring Our Vocations",
+    "Winds of Change",
+    "Canvas of Soil",
+    "Vitamin-M",
+    "I Cannot Remember My Mother",
+    "The World of Limitless Possibilities",
+    "Nine Gold Medals",
+    "Twin Melodies",
+    "A Friend Found in Music",
+    "Carrier of Words",
+    "Words",
+    "Follow That Dream",
+    "Believe in Yourself"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "How I Taught My Grandmother to Read",
+     "id": "how-i-taught-my-grandmother-to-read"
+    },
+    {
+     "number": 2,
+     "name": "Bharat Our Land",
+     "id": "bharat-our-land"
+    },
+    {
+     "number": 3,
+     "name": "The Pot Maker",
+     "id": "the-pot-maker"
+    },
+    {
+     "number": 4,
+     "name": "Gifts of Grace: Honouring Our Vocations",
+     "id": "gifts-of-grace-honouring-our-vocations"
+    },
+    {
+     "number": 5,
+     "name": "Winds of Change",
+     "id": "winds-of-change"
+    },
+    {
+     "number": 6,
+     "name": "Canvas of Soil",
+     "id": "canvas-of-soil"
+    },
+    {
+     "number": 7,
+     "name": "Vitamin-M",
+     "id": "vitamin-m"
+    },
+    {
+     "number": 8,
+     "name": "I Cannot Remember My Mother",
+     "id": "i-cannot-remember-my-mother"
+    },
+    {
+     "number": 9,
+     "name": "The World of Limitless Possibilities",
+     "id": "the-world-of-limitless-possibilities"
+    },
+    {
+     "number": 10,
+     "name": "Nine Gold Medals",
+     "id": "nine-gold-medals"
+    },
+    {
+     "number": 11,
+     "name": "Twin Melodies",
+     "id": "twin-melodies"
+    },
+    {
+     "number": 12,
+     "name": "A Friend Found in Music",
+     "id": "a-friend-found-in-music"
+    },
+    {
+     "number": 13,
+     "name": "Carrier of Words",
+     "id": "carrier-of-words"
+    },
+    {
+     "number": 14,
+     "name": "Words",
+     "id": "words"
+    },
+    {
+     "number": 15,
+     "name": "Follow That Dream",
+     "id": "follow-that-dream"
+    },
+    {
+     "number": 16,
+     "name": "Believe in Yourself",
+     "id": "believe-in-yourself"
+    }
+   ]
+  },
+  "Hindi_9": {
+   "syllabusFile": "academicos-data/syllabus/Hindi_9.json",
+   "syllabusChapters": 12,
+   "bookChapters": 14,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "apthit-gadyansh",
+     "name": "Apthit Gadyansh va Kavyansh"
+    },
+    {
+     "id": "upsarg-pratyay",
+     "name": "Upsarg va Pratyay"
+    },
+    {
+     "id": "samas",
+     "name": "Samas"
+    },
+    {
+     "id": "arth-ke-aadhar-par-vakya",
+     "name": "Arth ke Aadhar par Vakya Bhed"
+    },
+    {
+     "id": "alankar-9",
+     "name": "Alankar"
+    },
+    {
+     "id": "kshitij-bhag-1-gadya",
+     "name": "Kshitij Bhag 1 (Gadya Khand)"
+    },
+    {
+     "id": "kshitij-bhag-1-kavya",
+     "name": "Kshitij Bhag 1 (Kavya Khand)"
+    },
+    {
+     "id": "kritika-bhag-1",
+     "name": "Kritika Bhag 1"
+    },
+    {
+     "id": "anuchhed-lekhan",
+     "name": "Anuchhed Lekhan"
+    },
+    {
+     "id": "patra-lekhan",
+     "name": "Patra Lekhan"
+    },
+    {
+     "id": "laghukatha-samvad-lekhan",
+     "name": "Laghukatha va Samvad Lekhan"
+    },
+    {
+     "id": "email-suchna-lekhan",
+     "name": "Email va Suchna Lekhan"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "दो बैलों की कथा",
+    "क् या लिखूँ?",
+    "संवा दहीन",
+    "ऐसी भी बातें होत ी हैं (लता मंगेशकर से सा क्षात् का र) यतीं द्र मिश्र",
+    "आखिरी चट्टा न त क",
+    "रीढ़ की हड्‌डी",
+    "मैं और मेरा देश",
+    "निर्मल जीत सिं ह सेखों (साथ -साथ पढ़ें)",
+    "पद",
+    "रा म-लक्षम ण-परशुरा म संवा द",
+    "भा रति, जय, विजयकरे!",
+    "झाँ सी की रा नी",
+    "घर की या द",
+    "तब याद तुम्हारी आती है (साथ -साथ पढ़ें)"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "दो बैलों की कथा",
+     "id": "दो-बैलों-की-कथा"
+    },
+    {
+     "number": 2,
+     "name": "क् या लिखूँ?",
+     "id": "क्-या-लिखूँ"
+    },
+    {
+     "number": 3,
+     "name": "संवा दहीन",
+     "id": "संवा-दहीन"
+    },
+    {
+     "number": 4,
+     "name": "ऐसी भी बातें होत ी हैं (लता मंगेशकर से सा क्षात् का र) यतीं द्र मिश्र",
+     "id": "ऐसी-भी-बातें-होत-ी-हैं-लता-मंगेशकर-से-सा-क्षात्-का-र-यतीं-द्"
+    },
+    {
+     "number": 5,
+     "name": "आखिरी चट्टा न त क",
+     "id": "आखिरी-चट्टा-न-त-क"
+    },
+    {
+     "number": 6,
+     "name": "रीढ़ की हड्‌डी",
+     "id": "रीढ़-की-हड्-डी"
+    },
+    {
+     "number": 7,
+     "name": "मैं और मेरा देश",
+     "id": "मैं-और-मेरा-देश"
+    },
+    {
+     "number": 8,
+     "name": "निर्मल जीत सिं ह सेखों (साथ -साथ पढ़ें)",
+     "id": "निर्मल-जीत-सिं-ह-सेखों-साथ-साथ-पढ़ें"
+    },
+    {
+     "number": 9,
+     "name": "पद",
+     "id": "पद"
+    },
+    {
+     "number": 10,
+     "name": "रा म-लक्षम ण-परशुरा म संवा द",
+     "id": "रा-म-लक्षम-ण-परशुरा-म-संवा-द"
+    },
+    {
+     "number": 11,
+     "name": "भा रति, जय, विजयकरे!",
+     "id": "भा-रति-जय-विजयकरे"
+    },
+    {
+     "number": 12,
+     "name": "झाँ सी की रा नी",
+     "id": "झाँ-सी-की-रा-नी"
+    },
+    {
+     "number": 13,
+     "name": "घर की या द",
+     "id": "घर-की-या-द"
+    },
+    {
+     "number": 14,
+     "name": "तब याद तुम्हारी आती है (साथ -साथ पढ़ें)",
+     "id": "तब-याद-तुम्हारी-आती-है-साथ-साथ-पढ़ें"
+    }
+   ]
+  },
+  "Mathematics_6": {
+   "syllabusFile": "academicos-data/syllabus/Mathematics_6.json",
+   "syllabusChapters": 11,
+   "bookChapters": 10,
+   "matched": 10,
+   "inSyllabusNotInBook": [
+    {
+     "id": "ratio-and-proportion",
+     "name": "Ratio and Proportion"
+    }
+   ],
+   "inBookNotInSyllabus": [],
+   "idDisagreesWithName": [
+    {
+     "id": "knowing-our-numbers",
+     "name": "Patterns in Mathematics"
+    },
+    {
+     "id": "whole-numbers",
+     "name": "Lines and Angles"
+    },
+    {
+     "id": "playing-with-numbers",
+     "name": "Number Play"
+    },
+    {
+     "id": "integers-6",
+     "name": "Data Handling and Presentation"
+    },
+    {
+     "id": "fractions-6",
+     "name": "Prime Time"
+    },
+    {
+     "id": "decimals-6",
+     "name": "Perimeter and Area"
+    },
+    {
+     "id": "basic-geometrical-ideas",
+     "name": "Fractions"
+    },
+    {
+     "id": "understanding-elementary-shapes",
+     "name": "Playing with Constructions"
+    },
+    {
+     "id": "algebra-6",
+     "name": "The Other Side of Zero"
+    }
+   ],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "Patterns in Mathematics",
+     "id": "patterns-in-mathematics"
+    },
+    {
+     "number": 2,
+     "name": "Lines and Angles",
+     "id": "lines-and-angles"
+    },
+    {
+     "number": 3,
+     "name": "Number Play",
+     "id": "number-play"
+    },
+    {
+     "number": 4,
+     "name": "Data Handling and Presentation",
+     "id": "data-handling-and-presentation"
+    },
+    {
+     "number": 5,
+     "name": "Prime Time",
+     "id": "prime-time"
+    },
+    {
+     "number": 6,
+     "name": "Perimeter and Area",
+     "id": "perimeter-and-area"
+    },
+    {
+     "number": 7,
+     "name": "Fractions",
+     "id": "fractions"
+    },
+    {
+     "number": 8,
+     "name": "Playing with Constructions",
+     "id": "playing-with-constructions"
+    },
+    {
+     "number": 9,
+     "name": "Symmetry",
+     "id": "symmetry"
+    },
+    {
+     "number": 10,
+     "name": "The Other Side of Zero",
+     "id": "the-other-side-of-zero"
+    }
+   ]
+  },
+  "Mathematics_7": {
+   "syllabusFile": "academicos-data/syllabus/Mathematics_7.json",
+   "syllabusChapters": 13,
+   "bookChapters": 15,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "integers",
+     "name": "Integers"
+    },
+    {
+     "id": "fractions-and-decimals",
+     "name": "Fractions and Decimals"
+    },
+    {
+     "id": "rational-numbers-7",
+     "name": "Rational Numbers"
+    },
+    {
+     "id": "exponents-and-powers-7",
+     "name": "Exponents and Powers"
+    },
+    {
+     "id": "simple-equations",
+     "name": "Simple Equations"
+    },
+    {
+     "id": "algebraic-expressions-7",
+     "name": "Algebraic Expressions"
+    },
+    {
+     "id": "comparing-quantities-7",
+     "name": "Comparing Quantities"
+    },
+    {
+     "id": "lines-and-angles-7",
+     "name": "Lines and Angles"
+    },
+    {
+     "id": "the-triangle-and-its-properties",
+     "name": "The Triangle and its Properties"
+    },
+    {
+     "id": "perimeter-and-area",
+     "name": "Perimeter and Area"
+    },
+    {
+     "id": "symmetry",
+     "name": "Symmetry"
+    },
+    {
+     "id": "visualising-solid-shapes",
+     "name": "Visualising Solid Shapes"
+    },
+    {
+     "id": "data-handling-7",
+     "name": "Data Handling"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "Large Numbers Around Us",
+    "Arithmetic Expressions",
+    "A Peek Beyond the Point",
+    "Expressions using Letter-Numbers",
+    "Parallel and Intersecting Lines",
+    "Number Play",
+    "A Tale of Three Intersecting Lines",
+    "Working with Fractions",
+    "Geometric Twins",
+    "Operations with Integers",
+    "Finding Common Ground",
+    "Another Peek Beyond the Point",
+    "Connecting the Dots…",
+    "Constructions and Tilings",
+    "Finding the Unknown"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "Large Numbers Around Us",
+     "id": "large-numbers-around-us",
+     "part": 1
+    },
+    {
+     "number": 2,
+     "name": "Arithmetic Expressions",
+     "id": "arithmetic-expressions",
+     "part": 1
+    },
+    {
+     "number": 3,
+     "name": "A Peek Beyond the Point",
+     "id": "a-peek-beyond-the-point",
+     "part": 1
+    },
+    {
+     "number": 4,
+     "name": "Expressions using Letter-Numbers",
+     "id": "expressions-using-letter-numbers",
+     "part": 1
+    },
+    {
+     "number": 5,
+     "name": "Parallel and Intersecting Lines",
+     "id": "parallel-and-intersecting-lines",
+     "part": 1
+    },
+    {
+     "number": 6,
+     "name": "Number Play",
+     "id": "number-play",
+     "part": 1
+    },
+    {
+     "number": 7,
+     "name": "A Tale of Three Intersecting Lines",
+     "id": "a-tale-of-three-intersecting-lines",
+     "part": 1
+    },
+    {
+     "number": 8,
+     "name": "Working with Fractions",
+     "id": "working-with-fractions",
+     "part": 1
+    },
+    {
+     "number": 1,
+     "name": "Geometric Twins",
+     "id": "geometric-twins",
+     "part": 2
+    },
+    {
+     "number": 2,
+     "name": "Operations with Integers",
+     "id": "operations-with-integers",
+     "part": 2
+    },
+    {
+     "number": 3,
+     "name": "Finding Common Ground",
+     "id": "finding-common-ground",
+     "part": 2
+    },
+    {
+     "number": 4,
+     "name": "Another Peek Beyond the Point",
+     "id": "another-peek-beyond-the-point",
+     "part": 2
+    },
+    {
+     "number": 5,
+     "name": "Connecting the Dots…",
+     "id": "connecting-the-dots",
+     "part": 2
+    },
+    {
+     "number": 6,
+     "name": "Constructions and Tilings",
+     "id": "constructions-and-tilings",
+     "part": 2
+    },
+    {
+     "number": 7,
+     "name": "Finding the Unknown",
+     "id": "finding-the-unknown",
+     "part": 2
+    }
+   ]
+  },
+  "Mathematics_8": {
+   "syllabusFile": "academicos-data/syllabus/Mathematics_8.json",
+   "syllabusChapters": 13,
+   "bookChapters": 14,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "rational-numbers",
+     "name": "Rational Numbers"
+    },
+    {
+     "id": "squares-and-square-roots",
+     "name": "Squares and Square Roots"
+    },
+    {
+     "id": "cubes-and-cube-roots",
+     "name": "Cubes and Cube Roots"
+    },
+    {
+     "id": "comparing-quantities",
+     "name": "Comparing Quantities"
+    },
+    {
+     "id": "exponents-and-powers",
+     "name": "Exponents and Powers"
+    },
+    {
+     "id": "direct-and-inverse-proportions",
+     "name": "Direct and Inverse Proportions"
+    },
+    {
+     "id": "linear-equations-one-variable",
+     "name": "Linear Equations in One Variable"
+    },
+    {
+     "id": "algebraic-expressions-identities",
+     "name": "Algebraic Expressions and Identities"
+    },
+    {
+     "id": "factorisation",
+     "name": "Factorisation"
+    },
+    {
+     "id": "understanding-quadrilaterals",
+     "name": "Understanding Quadrilaterals"
+    },
+    {
+     "id": "mensuration-8",
+     "name": "Mensuration"
+    },
+    {
+     "id": "data-handling",
+     "name": "Data Handling"
+    },
+    {
+     "id": "introduction-to-graphs",
+     "name": "Introduction to Graphs"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "A Square and A Cube",
+    "Power Play",
+    "A Story of Numbers",
+    "Quadrilaterals",
+    "Number Play",
+    "We Distribute, Yet Things Multiply",
+    "Proportional Reasoning-1",
+    "Fractions in Disguise",
+    "The Baudhāyana-pythagoras Theorem",
+    "Proportional Reasoning–2",
+    "Exploring Some Geometric Themes",
+    "Tales by Dots and Lines",
+    "Algebra Play",
+    "Area"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "A Square and A Cube",
+     "id": "a-square-and-a-cube",
+     "part": 1
+    },
+    {
+     "number": 2,
+     "name": "Power Play",
+     "id": "power-play",
+     "part": 1
+    },
+    {
+     "number": 3,
+     "name": "A Story of Numbers",
+     "id": "a-story-of-numbers",
+     "part": 1
+    },
+    {
+     "number": 4,
+     "name": "Quadrilaterals",
+     "id": "quadrilaterals",
+     "part": 1
+    },
+    {
+     "number": 5,
+     "name": "Number Play",
+     "id": "number-play",
+     "part": 1
+    },
+    {
+     "number": 6,
+     "name": "We Distribute, Yet Things Multiply",
+     "id": "we-distribute-yet-things-multiply",
+     "part": 1
+    },
+    {
+     "number": 7,
+     "name": "Proportional Reasoning-1",
+     "id": "proportional-reasoning-1",
+     "part": 1
+    },
+    {
+     "number": 1,
+     "name": "Fractions in Disguise",
+     "id": "fractions-in-disguise",
+     "part": 2
+    },
+    {
+     "number": 2,
+     "name": "The Baudhāyana-pythagoras Theorem",
+     "id": "the-baudhayana-pythagoras-theorem",
+     "part": 2
+    },
+    {
+     "number": 3,
+     "name": "Proportional Reasoning–2",
+     "id": "proportional-reasoning-2",
+     "part": 2
+    },
+    {
+     "number": 4,
+     "name": "Exploring Some Geometric Themes",
+     "id": "exploring-some-geometric-themes",
+     "part": 2
+    },
+    {
+     "number": 5,
+     "name": "Tales by Dots and Lines",
+     "id": "tales-by-dots-and-lines",
+     "part": 2
+    },
+    {
+     "number": 6,
+     "name": "Algebra Play",
+     "id": "algebra-play",
+     "part": 2
+    },
+    {
+     "number": 7,
+     "name": "Area",
+     "id": "area",
+     "part": 2
+    }
+   ]
+  },
+  "Mathematics_9": {
+   "syllabusFile": "academicos-data/syllabus/Mathematics_9.json",
+   "syllabusChapters": 12,
+   "bookChapters": 8,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "number-systems-9",
+     "name": "Number Systems"
+    },
+    {
+     "id": "polynomials-9",
+     "name": "Polynomials"
+    },
+    {
+     "id": "linear-equations-two-variables",
+     "name": "Linear Equations in Two Variables"
+    },
+    {
+     "id": "coordinate-geometry-9",
+     "name": "Coordinate Geometry"
+    },
+    {
+     "id": "intro-euclid-geometry",
+     "name": "Introduction to Euclid's Geometry"
+    },
+    {
+     "id": "lines-and-angles",
+     "name": "Lines and Angles"
+    },
+    {
+     "id": "triangles-9",
+     "name": "Triangles"
+    },
+    {
+     "id": "quadrilaterals",
+     "name": "Quadrilaterals"
+    },
+    {
+     "id": "circles-9",
+     "name": "Circles"
+    },
+    {
+     "id": "herons-formula",
+     "name": "Heron's Formula"
+    },
+    {
+     "id": "surface-areas-and-volumes-9",
+     "name": "Surface Areas and Volumes"
+    },
+    {
+     "id": "statistics-9",
+     "name": "Statistics"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "Orienting Yourself: The Use of Coordinates",
+    "Introduction to Linear Polynomials",
+    "The World of Numbers",
+    "Exploring Algebraic Identities",
+    "I’m Up and Down, and Round and Round",
+    "Measuring Space: Perimeter and Area",
+    "The Mathematics of Maybe: Introduction to Probability",
+    "Predicting What Comes Next: Exploring Sequences and Progressions"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "Orienting Yourself: The Use of Coordinates",
+     "id": "orienting-yourself-the-use-of-coordinates"
+    },
+    {
+     "number": 2,
+     "name": "Introduction to Linear Polynomials",
+     "id": "introduction-to-linear-polynomials"
+    },
+    {
+     "number": 3,
+     "name": "The World of Numbers",
+     "id": "the-world-of-numbers"
+    },
+    {
+     "number": 4,
+     "name": "Exploring Algebraic Identities",
+     "id": "exploring-algebraic-identities"
+    },
+    {
+     "number": 5,
+     "name": "I’m Up and Down, and Round and Round",
+     "id": "i-m-up-and-down-and-round-and-round"
+    },
+    {
+     "number": 6,
+     "name": "Measuring Space: Perimeter and Area",
+     "id": "measuring-space-perimeter-and-area"
+    },
+    {
+     "number": 7,
+     "name": "The Mathematics of Maybe: Introduction to Probability",
+     "id": "the-mathematics-of-maybe-introduction-to-probability"
+    },
+    {
+     "number": 8,
+     "name": "Predicting What Comes Next: Exploring Sequences and Progressions",
+     "id": "predicting-what-comes-next-exploring-sequences-and-progressi"
+    }
+   ]
+  },
+  "Mathematics_10": {
+   "syllabusFile": "academicos-data/syllabus/Mathematics_10.json",
+   "syllabusChapters": 0,
+   "bookChapters": 14,
+   "matched": 0,
+   "inSyllabusNotInBook": [],
+   "inBookNotInSyllabus": [
+    "Real Numbers",
+    "Polynomials",
+    "Pair of Linear Equations in Two Variables",
+    "Quadratic Equations",
+    "Arithmetic Progressions",
+    "Triangles",
+    "Coordinate Geometry",
+    "Introduction to Trigonometry",
+    "Some Applications of Trigonometry",
+    "Circles",
+    "Areas Related to Circles",
+    "Surface Areas and Volumes",
+    "Statistics",
+    "Probability"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "Real Numbers",
+     "id": "real-numbers"
+    },
+    {
+     "number": 2,
+     "name": "Polynomials",
+     "id": "polynomials"
+    },
+    {
+     "number": 3,
+     "name": "Pair of Linear Equations in Two Variables",
+     "id": "pair-of-linear-equations-in-two-variables"
+    },
+    {
+     "number": 4,
+     "name": "Quadratic Equations",
+     "id": "quadratic-equations"
+    },
+    {
+     "number": 5,
+     "name": "Arithmetic Progressions",
+     "id": "arithmetic-progressions"
+    },
+    {
+     "number": 6,
+     "name": "Triangles",
+     "id": "triangles"
+    },
+    {
+     "number": 7,
+     "name": "Coordinate Geometry",
+     "id": "coordinate-geometry"
+    },
+    {
+     "number": 8,
+     "name": "Introduction to Trigonometry",
+     "id": "introduction-to-trigonometry"
+    },
+    {
+     "number": 9,
+     "name": "Some Applications of Trigonometry",
+     "id": "some-applications-of-trigonometry"
+    },
+    {
+     "number": 10,
+     "name": "Circles",
+     "id": "circles"
+    },
+    {
+     "number": 11,
+     "name": "Areas Related to Circles",
+     "id": "areas-related-to-circles"
+    },
+    {
+     "number": 12,
+     "name": "Surface Areas and Volumes",
+     "id": "surface-areas-and-volumes"
+    },
+    {
+     "number": 13,
+     "name": "Statistics",
+     "id": "statistics"
+    },
+    {
+     "number": 14,
+     "name": "Probability",
+     "id": "probability"
+    }
+   ]
+  },
+  "Science_6": {
+   "syllabusFile": "academicos-data/syllabus/Science_6.json",
+   "syllabusChapters": 12,
+   "bookChapters": 12,
+   "matched": 12,
+   "inSyllabusNotInBook": [],
+   "inBookNotInSyllabus": [],
+   "idDisagreesWithName": [],
+   "proposedChapterList": null
+  },
+  "Science_7": {
+   "syllabusFile": "academicos-data/syllabus/Science_7.json",
+   "syllabusChapters": 13,
+   "bookChapters": 12,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "nutrition-in-plants",
+     "name": "Nutrition in Plants"
+    },
+    {
+     "id": "nutrition-in-animals",
+     "name": "Nutrition in Animals"
+    },
+    {
+     "id": "respiration-in-organisms",
+     "name": "Respiration in Organisms"
+    },
+    {
+     "id": "transportation-animals-plants",
+     "name": "Transportation in Animals and Plants"
+    },
+    {
+     "id": "reproduction-in-plants",
+     "name": "Reproduction in Plants"
+    },
+    {
+     "id": "heat",
+     "name": "Heat"
+    },
+    {
+     "id": "acids-bases-salts-7",
+     "name": "Acids, Bases and Salts"
+    },
+    {
+     "id": "physical-and-chemical-changes",
+     "name": "Physical and Chemical Changes"
+    },
+    {
+     "id": "motion-and-time",
+     "name": "Motion and Time"
+    },
+    {
+     "id": "electric-current-effects",
+     "name": "Electric Current and its Effects"
+    },
+    {
+     "id": "light-7",
+     "name": "Light"
+    },
+    {
+     "id": "forests-our-lifeline",
+     "name": "Forests: Our Lifeline"
+    },
+    {
+     "id": "wastewater-story",
+     "name": "Wastewater Story"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "The Ever-Evolving World of Science",
+    "Exploring Substances: Acidic, Basic, and Neutral",
+    "Electricity: Circuits and their Components",
+    "The World of Metals and Non-metals",
+    "Changes Around Us: Physical and Chemical",
+    "Adolescence: A Stage of Growth and Change",
+    "Heat Transfer in Nature",
+    "Measurement of Time and Motion",
+    "Life Processes in Animals",
+    "Life Processes in Plants",
+    "Light: Shadows and Reflections",
+    "Earth, Moon, and the Sun"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "The Ever-Evolving World of Science",
+     "id": "the-ever-evolving-world-of-science"
+    },
+    {
+     "number": 2,
+     "name": "Exploring Substances: Acidic, Basic, and Neutral",
+     "id": "exploring-substances-acidic-basic-and-neutral"
+    },
+    {
+     "number": 3,
+     "name": "Electricity: Circuits and their Components",
+     "id": "electricity-circuits-and-their-components"
+    },
+    {
+     "number": 4,
+     "name": "The World of Metals and Non-metals",
+     "id": "the-world-of-metals-and-non-metals"
+    },
+    {
+     "number": 5,
+     "name": "Changes Around Us: Physical and Chemical",
+     "id": "changes-around-us-physical-and-chemical"
+    },
+    {
+     "number": 6,
+     "name": "Adolescence: A Stage of Growth and Change",
+     "id": "adolescence-a-stage-of-growth-and-change"
+    },
+    {
+     "number": 7,
+     "name": "Heat Transfer in Nature",
+     "id": "heat-transfer-in-nature"
+    },
+    {
+     "number": 8,
+     "name": "Measurement of Time and Motion",
+     "id": "measurement-of-time-and-motion"
+    },
+    {
+     "number": 9,
+     "name": "Life Processes in Animals",
+     "id": "life-processes-in-animals"
+    },
+    {
+     "number": 10,
+     "name": "Life Processes in Plants",
+     "id": "life-processes-in-plants"
+    },
+    {
+     "number": 11,
+     "name": "Light: Shadows and Reflections",
+     "id": "light-shadows-and-reflections"
+    },
+    {
+     "number": 12,
+     "name": "Earth, Moon, and the Sun",
+     "id": "earth-moon-and-the-sun"
+    }
+   ]
+  },
+  "Science_8": {
+   "syllabusFile": "academicos-data/syllabus/Science_8.json",
+   "syllabusChapters": 14,
+   "bookChapters": 13,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "crop-production-management",
+     "name": "Crop Production and Management"
+    },
+    {
+     "id": "microorganisms-friend-foe",
+     "name": "Microorganisms: Friend and Foe"
+    },
+    {
+     "id": "conservation-plants-animals",
+     "name": "Conservation of Plants and Animals"
+    },
+    {
+     "id": "reproduction-in-animals",
+     "name": "Reproduction in Animals"
+    },
+    {
+     "id": "reaching-age-of-adolescence",
+     "name": "Reaching the Age of Adolescence"
+    },
+    {
+     "id": "coal-and-petroleum",
+     "name": "Coal and Petroleum"
+    },
+    {
+     "id": "combustion-and-flame",
+     "name": "Combustion and Flame"
+    },
+    {
+     "id": "chemical-effects-electric-current",
+     "name": "Chemical Effects of Electric Current"
+    },
+    {
+     "id": "force-and-pressure",
+     "name": "Force and Pressure"
+    },
+    {
+     "id": "friction",
+     "name": "Friction"
+    },
+    {
+     "id": "sound-8",
+     "name": "Sound"
+    },
+    {
+     "id": "some-natural-phenomena",
+     "name": "Some Natural Phenomena"
+    },
+    {
+     "id": "light-8",
+     "name": "Light"
+    },
+    {
+     "id": "pollution-air-water",
+     "name": "Pollution of Air and Water"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "Exploring the Investigative World of Science",
+    "The Invisible Living World: Beyond Our Naked Eye",
+    "Health: The Ultimate Treasure",
+    "Electricity: Magnetic and Heating Effects",
+    "Exploring Forces",
+    "Pressure, Winds, Storms, and Cyclones",
+    "Particulate Nature of Matter",
+    "Nature of Matter: Elements, Compounds, and Mixtures",
+    "The Amazing World of Solutes, Solvents, and Solutions",
+    "Light: Mirrors and Lenses",
+    "Keeping Time with the Skies",
+    "How Nature Works in Harmony",
+    "Our Home: Earth, a Unique Life Sustaining Planet"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "Exploring the Investigative World of Science",
+     "id": "exploring-the-investigative-world-of-science"
+    },
+    {
+     "number": 2,
+     "name": "The Invisible Living World: Beyond Our Naked Eye",
+     "id": "the-invisible-living-world-beyond-our-naked-eye"
+    },
+    {
+     "number": 3,
+     "name": "Health: The Ultimate Treasure",
+     "id": "health-the-ultimate-treasure"
+    },
+    {
+     "number": 4,
+     "name": "Electricity: Magnetic and Heating Effects",
+     "id": "electricity-magnetic-and-heating-effects"
+    },
+    {
+     "number": 5,
+     "name": "Exploring Forces",
+     "id": "exploring-forces"
+    },
+    {
+     "number": 6,
+     "name": "Pressure, Winds, Storms, and Cyclones",
+     "id": "pressure-winds-storms-and-cyclones"
+    },
+    {
+     "number": 7,
+     "name": "Particulate Nature of Matter",
+     "id": "particulate-nature-of-matter"
+    },
+    {
+     "number": 8,
+     "name": "Nature of Matter: Elements, Compounds, and Mixtures",
+     "id": "nature-of-matter-elements-compounds-and-mixtures"
+    },
+    {
+     "number": 9,
+     "name": "The Amazing World of Solutes, Solvents, and Solutions",
+     "id": "the-amazing-world-of-solutes-solvents-and-solutions"
+    },
+    {
+     "number": 10,
+     "name": "Light: Mirrors and Lenses",
+     "id": "light-mirrors-and-lenses"
+    },
+    {
+     "number": 11,
+     "name": "Keeping Time with the Skies",
+     "id": "keeping-time-with-the-skies"
+    },
+    {
+     "number": 12,
+     "name": "How Nature Works in Harmony",
+     "id": "how-nature-works-in-harmony"
+    },
+    {
+     "number": 13,
+     "name": "Our Home: Earth, a Unique Life Sustaining Planet",
+     "id": "our-home-earth-a-unique-life-sustaining-planet"
+    }
+   ]
+  },
+  "Science_9": {
+   "syllabusFile": "academicos-data/syllabus/Science_9.json",
+   "syllabusChapters": 12,
+   "bookChapters": 13,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "matter-in-our-surroundings",
+     "name": "Matter in Our Surroundings"
+    },
+    {
+     "id": "is-matter-around-us-pure",
+     "name": "Is Matter Around Us Pure"
+    },
+    {
+     "id": "atoms-and-molecules",
+     "name": "Atoms and Molecules"
+    },
+    {
+     "id": "structure-of-the-atom",
+     "name": "Structure of the Atom"
+    },
+    {
+     "id": "fundamental-unit-of-life",
+     "name": "The Fundamental Unit of Life"
+    },
+    {
+     "id": "tissues",
+     "name": "Tissues"
+    },
+    {
+     "id": "motion",
+     "name": "Motion"
+    },
+    {
+     "id": "force-and-laws-of-motion",
+     "name": "Force and Laws of Motion"
+    },
+    {
+     "id": "gravitation-9",
+     "name": "Gravitation"
+    },
+    {
+     "id": "work-and-energy",
+     "name": "Work and Energy"
+    },
+    {
+     "id": "sound",
+     "name": "Sound"
+    },
+    {
+     "id": "improvement-in-food-resources",
+     "name": "Improvement in Food Resources"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "Exploration: Entering the World of Secondary Science",
+    "Cell: The Building Block of Life",
+    "Tissues in Action",
+    "Describing Motion Around Us",
+    "Exploring Mixtures and their Separation",
+    "How Forces Affect Motion",
+    "Work, Energy, and Simple Machines",
+    "Journey Inside the Atom",
+    "Atomic Foundations of Matter",
+    "Sound Waves: Characteristics and Applications",
+    "Reproduction: How Life Continues",
+    "Patterns in Life: Diversity and Classification",
+    "Earth as a System: Energy, Matter, and Life"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "Exploration: Entering the World of Secondary Science",
+     "id": "exploration-entering-the-world-of-secondary-science"
+    },
+    {
+     "number": 2,
+     "name": "Cell: The Building Block of Life",
+     "id": "cell-the-building-block-of-life"
+    },
+    {
+     "number": 3,
+     "name": "Tissues in Action",
+     "id": "tissues-in-action"
+    },
+    {
+     "number": 4,
+     "name": "Describing Motion Around Us",
+     "id": "describing-motion-around-us"
+    },
+    {
+     "number": 5,
+     "name": "Exploring Mixtures and their Separation",
+     "id": "exploring-mixtures-and-their-separation"
+    },
+    {
+     "number": 6,
+     "name": "How Forces Affect Motion",
+     "id": "how-forces-affect-motion"
+    },
+    {
+     "number": 7,
+     "name": "Work, Energy, and Simple Machines",
+     "id": "work-energy-and-simple-machines"
+    },
+    {
+     "number": 8,
+     "name": "Journey Inside the Atom",
+     "id": "journey-inside-the-atom"
+    },
+    {
+     "number": 9,
+     "name": "Atomic Foundations of Matter",
+     "id": "atomic-foundations-of-matter"
+    },
+    {
+     "number": 10,
+     "name": "Sound Waves: Characteristics and Applications",
+     "id": "sound-waves-characteristics-and-applications"
+    },
+    {
+     "number": 11,
+     "name": "Reproduction: How Life Continues",
+     "id": "reproduction-how-life-continues"
+    },
+    {
+     "number": 12,
+     "name": "Patterns in Life: Diversity and Classification",
+     "id": "patterns-in-life-diversity-and-classification"
+    },
+    {
+     "number": 13,
+     "name": "Earth as a System: Energy, Matter, and Life",
+     "id": "earth-as-a-system-energy-matter-and-life"
+    }
+   ]
+  },
+  "Science_10": {
+   "syllabusFile": "academicos-data/syllabus/Science_10.json",
+   "syllabusChapters": 13,
+   "bookChapters": 13,
+   "matched": 13,
+   "inSyllabusNotInBook": [],
+   "inBookNotInSyllabus": [],
+   "idDisagreesWithName": [
+    {
+     "id": "reproduction",
+     "name": "How do Organisms Reproduce"
+    }
+   ],
+   "proposedChapterList": null
+  },
+  "Social Science_6": {
+   "syllabusFile": "academicos-data/syllabus/Social_Science_6.json",
+   "syllabusChapters": 12,
+   "bookChapters": 14,
+   "matched": 10,
+   "inSyllabusNotInBook": [
+    {
+     "id": "grassroots-democracy-part-1-governance-in-villages",
+     "name": "Grassroots Democracy - Part 1: Governance in Villages"
+    },
+    {
+     "id": "grassroots-democracy-part-2-governance-in-towns",
+     "name": "Grassroots Democracy - Part 2: Governance in Towns"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "Grassroots Democracy – Part 1: Governance",
+    "Grassroots Democracy – Part 2: Local Government in Rural Areas",
+    "Grassroots Democracy – Part 3: Local Government in Urban Areas",
+    "The Value of Work"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "Locating Places on the Earth",
+     "id": "locating-places-on-the-earth"
+    },
+    {
+     "number": 2,
+     "name": "Oceans and Continents",
+     "id": "oceans-and-continents"
+    },
+    {
+     "number": 3,
+     "name": "Landforms and Life",
+     "id": "landforms-and-life"
+    },
+    {
+     "number": 4,
+     "name": "Timeline and Sources of History",
+     "id": "timeline-and-sources-of-history"
+    },
+    {
+     "number": 5,
+     "name": "India, That Is Bharat",
+     "id": "india-that-is-bharat"
+    },
+    {
+     "number": 6,
+     "name": "The Beginnings of Indian Civilisation",
+     "id": "the-beginnings-of-indian-civilisation"
+    },
+    {
+     "number": 7,
+     "name": "India’s Cultural Roots",
+     "id": "india-s-cultural-roots"
+    },
+    {
+     "number": 8,
+     "name": "Unity in Diversity, or ‘Many in the One’",
+     "id": "unity-in-diversity-or-many-in-the-one"
+    },
+    {
+     "number": 9,
+     "name": "Family and Community",
+     "id": "family-and-community"
+    },
+    {
+     "number": 10,
+     "name": "Grassroots Democracy – Part 1: Governance",
+     "id": "grassroots-democracy-part-1-governance"
+    },
+    {
+     "number": 11,
+     "name": "Grassroots Democracy – Part 2: Local Government in Rural Areas",
+     "id": "grassroots-democracy-part-2-local-government-in-rural-areas"
+    },
+    {
+     "number": 12,
+     "name": "Grassroots Democracy – Part 3: Local Government in Urban Areas",
+     "id": "grassroots-democracy-part-3-local-government-in-urban-areas"
+    },
+    {
+     "number": 13,
+     "name": "The Value of Work",
+     "id": "the-value-of-work"
+    },
+    {
+     "number": 14,
+     "name": "Economic Activities Around Us",
+     "id": "economic-activities-around-us"
+    }
+   ]
+  },
+  "Social Science_7": {
+   "syllabusFile": "academicos-data/syllabus/Social_Science_7.json",
+   "syllabusChapters": 23,
+   "bookChapters": 20,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "tracing-changes-thousand-years",
+     "name": "Tracing Changes through a Thousand Years"
+    },
+    {
+     "id": "kings-and-kingdoms",
+     "name": "Kings and Kingdoms"
+    },
+    {
+     "id": "delhi-12th-to-15th-century",
+     "name": "Delhi: 12th to 15th Century"
+    },
+    {
+     "id": "the-mughals-16th-to-17th-century",
+     "name": "The Mughals (16th to 17th Century)"
+    },
+    {
+     "id": "tribes-nomads-settled-communities",
+     "name": "Tribes, Nomads and Settled Communities"
+    },
+    {
+     "id": "devotional-paths-to-divine",
+     "name": "Devotional Paths to the Divine"
+    },
+    {
+     "id": "making-of-regional-cultures",
+     "name": "The Making of Regional Cultures"
+    },
+    {
+     "id": "eighteenth-century-political-formations",
+     "name": "Eighteenth-Century Political Formations"
+    },
+    {
+     "id": "environment",
+     "name": "Environment"
+    },
+    {
+     "id": "inside-our-earth",
+     "name": "Inside Our Earth"
+    },
+    {
+     "id": "our-changing-earth",
+     "name": "Our Changing Earth"
+    },
+    {
+     "id": "air",
+     "name": "Air"
+    },
+    {
+     "id": "water",
+     "name": "Water"
+    },
+    {
+     "id": "human-environment-interactions",
+     "name": "Human-Environment Interactions: Tropical and Subtropical Regions"
+    },
+    {
+     "id": "life-in-deserts",
+     "name": "Life in the Deserts"
+    },
+    {
+     "id": "on-equality",
+     "name": "On Equality"
+    },
+    {
+     "id": "role-of-government-in-health",
+     "name": "Role of the Government in Health"
+    },
+    {
+     "id": "how-state-government-works",
+     "name": "How the State Government Works"
+    },
+    {
+     "id": "growing-up-as-boys-and-girls",
+     "name": "Growing up as Boys and Girls"
+    },
+    {
+     "id": "women-change-the-world",
+     "name": "Women Change the World"
+    },
+    {
+     "id": "understanding-media",
+     "name": "Understanding Media"
+    },
+    {
+     "id": "markets-around-us",
+     "name": "Markets Around Us"
+    },
+    {
+     "id": "a-shirt-in-the-market",
+     "name": "A Shirt in the Market"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "Geographical Diversity of India",
+    "Understanding the Weather",
+    "Climates of India",
+    "New Beginnings: Cities and States",
+    "The Rise of Empires",
+    "The Age of Reorganisation",
+    "The Gupta Era: An Age of Tireless Creativity",
+    "How the Land Becomes Sacred",
+    "From the Rulers to the Ruled: Types of Governments",
+    "The Constitution of India — An Introduction",
+    "From Barter to Money",
+    "Understanding Markets",
+    "The Story of Indian Farming",
+    "India and Her Neighbours",
+    "Empires and Kingdoms: 6th to 10th Centuries",
+    "Turning Tides: 11th and 12th Centuries",
+    "India, a Home to Many",
+    "The State, the Government, and You",
+    "Infrastructure: Engine of India’s Development",
+    "Banks and the Magic of Finance"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "Geographical Diversity of India",
+     "id": "geographical-diversity-of-india",
+     "part": 1
+    },
+    {
+     "number": 2,
+     "name": "Understanding the Weather",
+     "id": "understanding-the-weather",
+     "part": 1
+    },
+    {
+     "number": 3,
+     "name": "Climates of India",
+     "id": "climates-of-india",
+     "part": 1
+    },
+    {
+     "number": 4,
+     "name": "New Beginnings: Cities and States",
+     "id": "new-beginnings-cities-and-states",
+     "part": 1
+    },
+    {
+     "number": 5,
+     "name": "The Rise of Empires",
+     "id": "the-rise-of-empires",
+     "part": 1
+    },
+    {
+     "number": 6,
+     "name": "The Age of Reorganisation",
+     "id": "the-age-of-reorganisation",
+     "part": 1
+    },
+    {
+     "number": 7,
+     "name": "The Gupta Era: An Age of Tireless Creativity",
+     "id": "the-gupta-era-an-age-of-tireless-creativity",
+     "part": 1
+    },
+    {
+     "number": 8,
+     "name": "How the Land Becomes Sacred",
+     "id": "how-the-land-becomes-sacred",
+     "part": 1
+    },
+    {
+     "number": 9,
+     "name": "From the Rulers to the Ruled: Types of Governments",
+     "id": "from-the-rulers-to-the-ruled-types-of-governments",
+     "part": 1
+    },
+    {
+     "number": 10,
+     "name": "The Constitution of India — An Introduction",
+     "id": "the-constitution-of-india-an-introduction",
+     "part": 1
+    },
+    {
+     "number": 11,
+     "name": "From Barter to Money",
+     "id": "from-barter-to-money",
+     "part": 1
+    },
+    {
+     "number": 12,
+     "name": "Understanding Markets",
+     "id": "understanding-markets",
+     "part": 1
+    },
+    {
+     "number": 1,
+     "name": "The Story of Indian Farming",
+     "id": "the-story-of-indian-farming",
+     "part": 2
+    },
+    {
+     "number": 2,
+     "name": "India and Her Neighbours",
+     "id": "india-and-her-neighbours",
+     "part": 2
+    },
+    {
+     "number": 3,
+     "name": "Empires and Kingdoms: 6th to 10th Centuries",
+     "id": "empires-and-kingdoms-6th-to-10th-centuries",
+     "part": 2
+    },
+    {
+     "number": 4,
+     "name": "Turning Tides: 11th and 12th Centuries",
+     "id": "turning-tides-11th-and-12th-centuries",
+     "part": 2
+    },
+    {
+     "number": 5,
+     "name": "India, a Home to Many",
+     "id": "india-a-home-to-many",
+     "part": 2
+    },
+    {
+     "number": 6,
+     "name": "The State, the Government, and You",
+     "id": "the-state-the-government-and-you",
+     "part": 2
+    },
+    {
+     "number": 7,
+     "name": "Infrastructure: Engine of India’s Development",
+     "id": "infrastructure-engine-of-india-s-development",
+     "part": 2
+    },
+    {
+     "number": 8,
+     "name": "Banks and the Magic of Finance",
+     "id": "banks-and-the-magic-of-finance",
+     "part": 2
+    }
+   ]
+  },
+  "Social Science_8": {
+   "syllabusFile": "academicos-data/syllabus/Social_Science_8.json",
+   "syllabusChapters": 21,
+   "bookChapters": 15,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "how-when-and-where",
+     "name": "How, When and Where"
+    },
+    {
+     "id": "from-trade-to-territory",
+     "name": "From Trade to Territory: Company Establishes Power"
+    },
+    {
+     "id": "ruling-the-countryside",
+     "name": "Ruling the Countryside"
+    },
+    {
+     "id": "tribals-dikus-golden-age",
+     "name": "Tribals, Dikus and the Vision of a Golden Age"
+    },
+    {
+     "id": "when-people-rebel-1857",
+     "name": "When People Rebel: 1857 and After"
+    },
+    {
+     "id": "civilising-the-native",
+     "name": "Civilising the Native, Educating the Nation"
+    },
+    {
+     "id": "women-caste-and-reform",
+     "name": "Women, Caste and Reform"
+    },
+    {
+     "id": "making-of-national-movement",
+     "name": "The Making of the National Movement: 1870s-1947"
+    },
+    {
+     "id": "resources",
+     "name": "Resources"
+    },
+    {
+     "id": "land-soil-water-natural-vegetation",
+     "name": "Land, Soil, Water, Natural Vegetation and Wildlife"
+    },
+    {
+     "id": "agriculture-8",
+     "name": "Agriculture"
+    },
+    {
+     "id": "industries",
+     "name": "Industries"
+    },
+    {
+     "id": "human-resources",
+     "name": "Human Resources"
+    },
+    {
+     "id": "the-indian-constitution",
+     "name": "The Indian Constitution"
+    },
+    {
+     "id": "understanding-secularism",
+     "name": "Understanding Secularism"
+    },
+    {
+     "id": "parliament-and-making-of-laws",
+     "name": "Parliament and the Making of Laws"
+    },
+    {
+     "id": "judiciary",
+     "name": "Judiciary"
+    },
+    {
+     "id": "understanding-marginalisation",
+     "name": "Understanding Marginalisation"
+    },
+    {
+     "id": "confronting-marginalisation",
+     "name": "Confronting Marginalisation"
+    },
+    {
+     "id": "public-facilities",
+     "name": "Public Facilities"
+    },
+    {
+     "id": "law-and-social-justice",
+     "name": "Law and Social Justice"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "Natural Resources and Their Use",
+    "Reshaping India’s Political Map",
+    "The Rise of the Marathas",
+    "The Colonial Era in India",
+    "Universal Franchise and India’s Electoral System",
+    "The Parliamentary System: Legislature and Executive",
+    "Factors of Production",
+    "World Geography: Some Glimpses",
+    "India’s Long Road to Independence",
+    "A Journey Through Indian Architecture",
+    "The Role of the Judiciary in Our Society",
+    "Citizenship: Rights and Duties",
+    "Dynamics of Population",
+    "India’s Urban Landscape",
+    "Cultural Currents: 13 to 17 Centuries"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "Natural Resources and Their Use",
+     "id": "natural-resources-and-their-use",
+     "part": 1
+    },
+    {
+     "number": 2,
+     "name": "Reshaping India’s Political Map",
+     "id": "reshaping-india-s-political-map",
+     "part": 1
+    },
+    {
+     "number": 3,
+     "name": "The Rise of the Marathas",
+     "id": "the-rise-of-the-marathas",
+     "part": 1
+    },
+    {
+     "number": 4,
+     "name": "The Colonial Era in India",
+     "id": "the-colonial-era-in-india",
+     "part": 1
+    },
+    {
+     "number": 5,
+     "name": "Universal Franchise and India’s Electoral System",
+     "id": "universal-franchise-and-india-s-electoral-system",
+     "part": 1
+    },
+    {
+     "number": 6,
+     "name": "The Parliamentary System: Legislature and Executive",
+     "id": "the-parliamentary-system-legislature-and-executive",
+     "part": 1
+    },
+    {
+     "number": 7,
+     "name": "Factors of Production",
+     "id": "factors-of-production",
+     "part": 1
+    },
+    {
+     "number": 1,
+     "name": "World Geography: Some Glimpses",
+     "id": "world-geography-some-glimpses",
+     "part": 2
+    },
+    {
+     "number": 2,
+     "name": "India’s Long Road to Independence",
+     "id": "india-s-long-road-to-independence",
+     "part": 2
+    },
+    {
+     "number": 3,
+     "name": "A Journey Through Indian Architecture",
+     "id": "a-journey-through-indian-architecture",
+     "part": 2
+    },
+    {
+     "number": 4,
+     "name": "The Role of the Judiciary in Our Society",
+     "id": "the-role-of-the-judiciary-in-our-society",
+     "part": 2
+    },
+    {
+     "number": 5,
+     "name": "Citizenship: Rights and Duties",
+     "id": "citizenship-rights-and-duties",
+     "part": 2
+    },
+    {
+     "number": 6,
+     "name": "Dynamics of Population",
+     "id": "dynamics-of-population",
+     "part": 2
+    },
+    {
+     "number": 7,
+     "name": "India’s Urban Landscape",
+     "id": "india-s-urban-landscape",
+     "part": 2
+    },
+    {
+     "number": 8,
+     "name": "Cultural Currents: 13 to 17 Centuries",
+     "id": "cultural-currents-13-to-17-centuries",
+     "part": 2
+    }
+   ]
+  },
+  "Social Science_9": {
+   "syllabusFile": "academicos-data/syllabus/Social_Science_9.json",
+   "syllabusChapters": 20,
+   "bookChapters": 9,
+   "matched": 0,
+   "inSyllabusNotInBook": [
+    {
+     "id": "french-revolution",
+     "name": "The French Revolution"
+    },
+    {
+     "id": "socialism-europe-russian-revolution",
+     "name": "Socialism in Europe and the Russian Revolution"
+    },
+    {
+     "id": "nazism-rise-of-hitler",
+     "name": "Nazism and the Rise of Hitler"
+    },
+    {
+     "id": "forest-society-colonialism",
+     "name": "Forest Society and Colonialism"
+    },
+    {
+     "id": "pastoralists-modern-world",
+     "name": "Pastoralists in the Modern World"
+    },
+    {
+     "id": "india-size-and-location",
+     "name": "India - Size and Location"
+    },
+    {
+     "id": "physical-features-of-india",
+     "name": "Physical Features of India"
+    },
+    {
+     "id": "drainage",
+     "name": "Drainage"
+    },
+    {
+     "id": "climate",
+     "name": "Climate"
+    },
+    {
+     "id": "natural-vegetation-wildlife",
+     "name": "Natural Vegetation and Wildlife"
+    },
+    {
+     "id": "population",
+     "name": "Population"
+    },
+    {
+     "id": "what-is-democracy-why",
+     "name": "What is Democracy? Why Democracy?"
+    },
+    {
+     "id": "constitutional-design",
+     "name": "Constitutional Design"
+    },
+    {
+     "id": "electoral-politics",
+     "name": "Electoral Politics"
+    },
+    {
+     "id": "working-of-institutions",
+     "name": "Working of Institutions"
+    },
+    {
+     "id": "democratic-rights",
+     "name": "Democratic Rights"
+    },
+    {
+     "id": "story-village-palampur",
+     "name": "The Story of Village Palampur"
+    },
+    {
+     "id": "people-as-resource",
+     "name": "People as Resource"
+    },
+    {
+     "id": "poverty-as-a-challenge",
+     "name": "Poverty as a Challenge"
+    },
+    {
+     "id": "food-security-in-india",
+     "name": "Food Security in India"
+    }
+   ],
+   "inBookNotInSyllabus": [
+    "Understanding Social Science",
+    "Shaping of the Earth’s Surface",
+    "Atmosphere and Climate",
+    "Early Humans and Beginning of Civilisation",
+    "State and Society up to 1000 CE",
+    "Democracy",
+    "Elections",
+    "Building Blocks in Economics The Problem of Choice",
+    "The Price Puzzle: What Drives the Market"
+   ],
+   "idDisagreesWithName": [],
+   "proposedChapterList": [
+    {
+     "number": 1,
+     "name": "Understanding Social Science",
+     "id": "understanding-social-science",
+     "part": 1
+    },
+    {
+     "number": 2,
+     "name": "Shaping of the Earth’s Surface",
+     "id": "shaping-of-the-earth-s-surface",
+     "part": 1
+    },
+    {
+     "number": 3,
+     "name": "Atmosphere and Climate",
+     "id": "atmosphere-and-climate",
+     "part": 1
+    },
+    {
+     "number": 4,
+     "name": "Early Humans and Beginning of Civilisation",
+     "id": "early-humans-and-beginning-of-civilisation",
+     "part": 1
+    },
+    {
+     "number": 5,
+     "name": "State and Society up to 1000 CE",
+     "id": "state-and-society-up-to-1000-ce",
+     "part": 1
+    },
+    {
+     "number": 6,
+     "name": "Democracy",
+     "id": "democracy",
+     "part": 1
+    },
+    {
+     "number": 7,
+     "name": "Elections",
+     "id": "elections",
+     "part": 1
+    },
+    {
+     "number": 8,
+     "name": "Building Blocks in Economics The Problem of Choice",
+     "id": "building-blocks-in-economics-the-problem-of-choice",
+     "part": 1
+    },
+    {
+     "number": 9,
+     "name": "The Price Puzzle: What Drives the Market",
+     "id": "the-price-puzzle-what-drives-the-market",
+     "part": 1
+    }
+   ]
+  },
+  "Social Science_10": {
+   "syllabusFile": "academicos-data/syllabus/Social_Science_10.json",
+   "syllabusChapters": 22,
+   "bookChapters": 22,
+   "matched": 22,
+   "inSyllabusNotInBook": [],
+   "inBookNotInSyllabus": [],
+   "idDisagreesWithName": [],
+   "proposedChapterList": null
+  }
+ }
+}

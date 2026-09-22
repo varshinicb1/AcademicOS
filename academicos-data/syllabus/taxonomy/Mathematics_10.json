@@ -1,0 +1,526 @@
+{
+ "subject": "Mathematics",
+ "grade": 10,
+ "book": "Mathematics",
+ "source_files": [
+  "chapters/jemh1/jemh101.pdf",
+  "chapters/jemh1/jemh102.pdf",
+  "chapters/jemh1/jemh103.pdf",
+  "chapters/jemh1/jemh104.pdf",
+  "chapters/jemh1/jemh105.pdf",
+  "chapters/jemh1/jemh106.pdf",
+  "chapters/jemh1/jemh107.pdf",
+  "chapters/jemh1/jemh108.pdf",
+  "chapters/jemh1/jemh109.pdf",
+  "chapters/jemh1/jemh110.pdf",
+  "chapters/jemh1/jemh111.pdf",
+  "chapters/jemh1/jemh112.pdf",
+  "chapters/jemh1/jemh113.pdf",
+  "chapters/jemh1/jemh114.pdf"
+ ],
+ "chapters": [
+  {
+   "id": "real-numbers",
+   "name": "Real Numbers",
+   "number": 1,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh101.pdf",
+   "pages": [
+    1,
+    9
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "real-numbers/introduction",
+     "name": "Introduction",
+     "page": 1,
+     "number": "1.1",
+     "subtopics": []
+    },
+    {
+     "id": "real-numbers/the-fundamental-theorem-of-arithmetic",
+     "name": "The Fundamental Theorem of Arithmetic",
+     "page": 2,
+     "number": "1.2",
+     "subtopics": []
+    },
+    {
+     "id": "real-numbers/revisiting-irrational-numbers",
+     "name": "Revisiting Irrational Numbers",
+     "page": 6,
+     "number": "1.3",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "polynomials",
+   "name": "Polynomials",
+   "number": 2,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh102.pdf",
+   "pages": [
+    1,
+    14
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "polynomials/introduction",
+     "name": "Introduction",
+     "page": 1,
+     "number": "2.1",
+     "subtopics": []
+    },
+    {
+     "id": "polynomials/geometrical-meaning-of-the-zeroes-of-a-polynomial",
+     "name": "Geometrical Meaning of the Zeroes of a Polynomial",
+     "page": 2,
+     "number": "2.2",
+     "subtopics": []
+    },
+    {
+     "id": "polynomials/relationship-between-zeroes-and-coefficients-of-a-polynomial",
+     "name": "Relationship between Zeroes and Coefficients of a Polynomial",
+     "page": 9,
+     "number": "2.3",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "pair-of-linear-equations-in-two-variables",
+   "name": "Pair of Linear Equations in Two Variables",
+   "number": 3,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh103.pdf",
+   "pages": [
+    1,
+    14
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "pair-of-linear-equations-in-two-variables/introduction",
+     "name": "Introduction",
+     "page": 1,
+     "number": "3.1",
+     "subtopics": []
+    },
+    {
+     "id": "pair-of-linear-equations-in-two-variables/graphical-method-of-solution-of-a-pair-of-linear-equations",
+     "name": "Graphical Method of Solution of a Pair of Linear Equations",
+     "page": 2,
+     "number": "3.2",
+     "subtopics": []
+    },
+    {
+     "id": "pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations",
+     "name": "Algebraic Methods of Solving a Pair of Linear Equations",
+     "page": 7,
+     "number": "3.3",
+     "subtopics": [
+      {
+       "id": "pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations/substitution-method",
+       "name": "Substitution Method",
+       "page": 7,
+       "number": "3.3.1"
+      },
+      {
+       "id": "pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations/elimination-method",
+       "name": "Elimination Method",
+       "page": 11,
+       "number": "3.3.2"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "quadratic-equations",
+   "name": "Quadratic Equations",
+   "number": 4,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh104.pdf",
+   "pages": [
+    1,
+    11
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "quadratic-equations/introduction",
+     "name": "Introduction",
+     "page": 1,
+     "number": "4.1",
+     "subtopics": []
+    },
+    {
+     "id": "quadratic-equations/quadratic-equations",
+     "name": "Quadratic Equations",
+     "page": 2,
+     "number": "4.2",
+     "subtopics": []
+    },
+    {
+     "id": "quadratic-equations/solution-of-a-quadratic-equation-by-factorisation",
+     "name": "Solution of a Quadratic Equation by Factorisation",
+     "page": 5,
+     "number": "4.3",
+     "subtopics": []
+    },
+    {
+     "id": "quadratic-equations/nature-of-roots",
+     "name": "Nature of Roots",
+     "page": 7,
+     "number": "4.4",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "arithmetic-progressions",
+   "name": "Arithmetic Progressions",
+   "number": 5,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh105.pdf",
+   "pages": [
+    1,
+    24
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "arithmetic-progressions/introduction",
+     "name": "Introduction",
+     "page": 1,
+     "number": "5.1",
+     "subtopics": []
+    },
+    {
+     "id": "arithmetic-progressions/arithmetic-progressions",
+     "name": "Arithmetic Progressions",
+     "page": 3,
+     "number": "5.2",
+     "subtopics": []
+    },
+    {
+     "id": "arithmetic-progressions/sum-of-first-n-terms-of-an-ap",
+     "name": "Sum of First n Terms of an AP",
+     "page": 15,
+     "number": "5.4",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "triangles",
+   "name": "Triangles",
+   "number": 6,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh106.pdf",
+   "pages": [
+    1,
+    26
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "triangles/introduction",
+     "name": "Introduction",
+     "page": 1,
+     "number": "6.1",
+     "subtopics": []
+    },
+    {
+     "id": "triangles/similar-figures",
+     "name": "Similar Figures",
+     "page": 2,
+     "number": "6.2",
+     "subtopics": []
+    },
+    {
+     "id": "triangles/similarity-of-triangles",
+     "name": "Similarity of Triangles",
+     "page": 7,
+     "number": "6.3",
+     "subtopics": []
+    },
+    {
+     "id": "triangles/criteria-for-similarity-of-triangles",
+     "name": "Criteria for Similarity of Triangles",
+     "page": 13,
+     "number": "6.4",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "coordinate-geometry",
+   "name": "Coordinate Geometry",
+   "number": 7,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh107.pdf",
+   "pages": [
+    1,
+    14
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "coordinate-geometry/introduction",
+     "name": "Introduction",
+     "page": 1,
+     "number": "7.1",
+     "subtopics": []
+    },
+    {
+     "id": "coordinate-geometry/distance-formula",
+     "name": "Distance Formula",
+     "page": 2,
+     "number": "7.2",
+     "subtopics": []
+    },
+    {
+     "id": "coordinate-geometry/section-formula",
+     "name": "Section Formula",
+     "page": 8,
+     "number": "7.3",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "introduction-to-trigonometry",
+   "name": "Introduction to Trigonometry",
+   "number": 8,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh108.pdf",
+   "pages": [
+    1,
+    20
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "introduction-to-trigonometry/introduction",
+     "name": "Introduction",
+     "page": 1,
+     "number": "8.1",
+     "subtopics": []
+    },
+    {
+     "id": "introduction-to-trigonometry/trigonometric-ratios",
+     "name": "Trigonometric Ratios",
+     "page": 2,
+     "number": "8.2",
+     "subtopics": []
+    },
+    {
+     "id": "introduction-to-trigonometry/trigonometric-ratios-of-some-specific-angles",
+     "name": "Trigonometric Ratios of Some Specific Angles",
+     "page": 9,
+     "number": "8.3",
+     "subtopics": []
+    },
+    {
+     "id": "introduction-to-trigonometry/trigonometric-identities",
+     "name": "Trigonometric Identities",
+     "page": 16,
+     "number": "8.4",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "some-applications-of-trigonometry",
+   "name": "Some Applications of Trigonometry",
+   "number": 9,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh109.pdf",
+   "pages": [
+    1,
+    11
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "some-applications-of-trigonometry/heights-and-distances",
+     "name": "Heights and Distances",
+     "page": 1,
+     "number": "9.1",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "circles",
+   "name": "Circles",
+   "number": 10,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh110.pdf",
+   "pages": [
+    1,
+    10
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "circles/introduction",
+     "name": "Introduction",
+     "page": 1,
+     "number": "10.1",
+     "subtopics": []
+    },
+    {
+     "id": "circles/tangent-to-a-circle",
+     "name": "Tangent to a Circle",
+     "page": 2,
+     "number": "10.2",
+     "subtopics": []
+    },
+    {
+     "id": "circles/number-of-tangents-from-a-point-on-a-circle",
+     "name": "Number of Tangents from a Point on a Circle",
+     "page": 4,
+     "number": "10.3",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "areas-related-to-circles",
+   "name": "Areas Related to Circles",
+   "number": 11,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh111.pdf",
+   "pages": [
+    1,
+    7
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "areas-related-to-circles/areas-of-sector-and-segment-of-a-circle",
+     "name": "Areas of Sector and Segment of a Circle",
+     "page": 1,
+     "number": "11.1",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "surface-areas-and-volumes",
+   "name": "Surface Areas and Volumes",
+   "number": 12,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh112.pdf",
+   "pages": [
+    1,
+    10
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "surface-areas-and-volumes/introduction",
+     "name": "Introduction",
+     "page": 1,
+     "number": "12.1",
+     "subtopics": []
+    },
+    {
+     "id": "surface-areas-and-volumes/surface-area-of-a-combination-of-solids",
+     "name": "Surface Area of a Combination of Solids",
+     "page": 2,
+     "number": "12.2",
+     "subtopics": []
+    },
+    {
+     "id": "surface-areas-and-volumes/volume-of-a-combination-of-solids",
+     "name": "Volume of a Combination of Solids",
+     "page": 7,
+     "number": "12.3",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "statistics",
+   "name": "Statistics",
+   "number": 13,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh113.pdf",
+   "pages": [
+    1,
+    31
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "statistics/introduction",
+     "name": "Introduction",
+     "page": 1,
+     "number": "13.1",
+     "subtopics": []
+    },
+    {
+     "id": "statistics/mean-of-grouped-data",
+     "name": "Mean of Grouped Data",
+     "page": 1,
+     "number": "13.2",
+     "subtopics": []
+    },
+    {
+     "id": "statistics/mode-of-grouped-data",
+     "name": "Mode of Grouped Data",
+     "page": 13,
+     "number": "13.3",
+     "subtopics": []
+    },
+    {
+     "id": "statistics/median-of-grouped-data",
+     "name": "Median of Grouped Data",
+     "page": 18,
+     "number": "13.4",
+     "subtopics": []
+    }
+   ]
+  },
+  {
+   "id": "probability",
+   "name": "Probability",
+   "number": 14,
+   "book": "Mathematics",
+   "source_file": "chapters/jemh1/jemh114.pdf",
+   "pages": [
+    1,
+    16
+   ],
+   "nameSource": "typed",
+   "headingKind": "numbered",
+   "topics": [
+    {
+     "id": "probability/probability-a-theoretical-approach",
+     "name": "Probability — A Theoretical Approach",
+     "page": 1,
+     "number": "14.1",
+     "subtopics": []
+    }
+   ]
+  }
+ ]
+}
