@@ -1557,7 +1557,11 @@ mixin _$PaperGenerationRequest {
   Map<String, dynamic>? get formattingOptions =>
       throw _privateConstructorUsedError;
   int get setCount => throw _privateConstructorUsedError;
-  String? get tier => throw _privateConstructorUsedError;
+  String? get tier =>
+      throw _privateConstructorUsedError; // The teacher chose these questions, so two that look alike are printed
+// with a `warnings` entry on the paper; true asks the server to refuse
+// them (422) instead.
+  bool get rejectSimilar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1578,7 +1582,8 @@ abstract class $PaperGenerationRequestCopyWith<$Res> {
       SchoolTemplate template,
       Map<String, dynamic>? formattingOptions,
       int setCount,
-      String? tier});
+      String? tier,
+      bool rejectSimilar});
 
   $BlueprintCopyWith<$Res> get blueprint;
   $SchoolTemplateCopyWith<$Res> get template;
@@ -1605,6 +1610,7 @@ class _$PaperGenerationRequestCopyWithImpl<$Res,
     Object? formattingOptions = freezed,
     Object? setCount = null,
     Object? tier = freezed,
+    Object? rejectSimilar = null,
   }) {
     return _then(_value.copyWith(
       assessmentId: null == assessmentId
@@ -1635,6 +1641,10 @@ class _$PaperGenerationRequestCopyWithImpl<$Res,
           ? _value.tier
           : tier // ignore: cast_nullable_to_non_nullable
               as String?,
+      rejectSimilar: null == rejectSimilar
+          ? _value.rejectSimilar
+          : rejectSimilar // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -1671,7 +1681,8 @@ abstract class _$$PaperGenerationRequestImplCopyWith<$Res>
       SchoolTemplate template,
       Map<String, dynamic>? formattingOptions,
       int setCount,
-      String? tier});
+      String? tier,
+      bool rejectSimilar});
 
   @override
   $BlueprintCopyWith<$Res> get blueprint;
@@ -1699,6 +1710,7 @@ class __$$PaperGenerationRequestImplCopyWithImpl<$Res>
     Object? formattingOptions = freezed,
     Object? setCount = null,
     Object? tier = freezed,
+    Object? rejectSimilar = null,
   }) {
     return _then(_$PaperGenerationRequestImpl(
       assessmentId: null == assessmentId
@@ -1729,6 +1741,10 @@ class __$$PaperGenerationRequestImplCopyWithImpl<$Res>
           ? _value.tier
           : tier // ignore: cast_nullable_to_non_nullable
               as String?,
+      rejectSimilar: null == rejectSimilar
+          ? _value.rejectSimilar
+          : rejectSimilar // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -1743,7 +1759,8 @@ class _$PaperGenerationRequestImpl implements _PaperGenerationRequest {
       required this.template,
       final Map<String, dynamic>? formattingOptions,
       this.setCount = 1,
-      this.tier})
+      this.tier,
+      this.rejectSimilar = false})
       : _selectedQuestions = selectedQuestions,
         _formattingOptions = formattingOptions;
 
@@ -1781,10 +1798,16 @@ class _$PaperGenerationRequestImpl implements _PaperGenerationRequest {
   final int setCount;
   @override
   final String? tier;
+// The teacher chose these questions, so two that look alike are printed
+// with a `warnings` entry on the paper; true asks the server to refuse
+// them (422) instead.
+  @override
+  @JsonKey()
+  final bool rejectSimilar;
 
   @override
   String toString() {
-    return 'PaperGenerationRequest(assessmentId: $assessmentId, blueprint: $blueprint, selectedQuestions: $selectedQuestions, template: $template, formattingOptions: $formattingOptions, setCount: $setCount, tier: $tier)';
+    return 'PaperGenerationRequest(assessmentId: $assessmentId, blueprint: $blueprint, selectedQuestions: $selectedQuestions, template: $template, formattingOptions: $formattingOptions, setCount: $setCount, tier: $tier, rejectSimilar: $rejectSimilar)';
   }
 
   @override
@@ -1804,7 +1827,9 @@ class _$PaperGenerationRequestImpl implements _PaperGenerationRequest {
                 .equals(other._formattingOptions, _formattingOptions) &&
             (identical(other.setCount, setCount) ||
                 other.setCount == setCount) &&
-            (identical(other.tier, tier) || other.tier == tier));
+            (identical(other.tier, tier) || other.tier == tier) &&
+            (identical(other.rejectSimilar, rejectSimilar) ||
+                other.rejectSimilar == rejectSimilar));
   }
 
   @JsonKey(ignore: true)
@@ -1817,7 +1842,8 @@ class _$PaperGenerationRequestImpl implements _PaperGenerationRequest {
       template,
       const DeepCollectionEquality().hash(_formattingOptions),
       setCount,
-      tier);
+      tier,
+      rejectSimilar);
 
   @JsonKey(ignore: true)
   @override
@@ -1842,7 +1868,8 @@ abstract class _PaperGenerationRequest implements PaperGenerationRequest {
       required final SchoolTemplate template,
       final Map<String, dynamic>? formattingOptions,
       final int setCount,
-      final String? tier}) = _$PaperGenerationRequestImpl;
+      final String? tier,
+      final bool rejectSimilar}) = _$PaperGenerationRequestImpl;
 
   factory _PaperGenerationRequest.fromJson(Map<String, dynamic> json) =
       _$PaperGenerationRequestImpl.fromJson;
@@ -1861,6 +1888,10 @@ abstract class _PaperGenerationRequest implements PaperGenerationRequest {
   int get setCount;
   @override
   String? get tier;
+  @override // The teacher chose these questions, so two that look alike are printed
+// with a `warnings` entry on the paper; true asks the server to refuse
+// them (422) instead.
+  bool get rejectSimilar;
   @override
   @JsonKey(ignore: true)
   _$$PaperGenerationRequestImplCopyWith<_$PaperGenerationRequestImpl>
@@ -1881,7 +1912,15 @@ mixin _$GeneratedPaper {
   Map<String, dynamic> get answerKey => throw _privateConstructorUsedError;
   PaperMetadata get metadata => throw _privateConstructorUsedError;
   String? get setLabel => throw _privateConstructorUsedError;
-  List<GeneratedPaper> get sets => throw _privateConstructorUsedError;
+  List<GeneratedPaper> get sets =>
+      throw _privateConstructorUsedError; // About the request that made this paper, not stored with it: the
+// server prints two hand-picked questions that look like the same
+// question and says so here instead of refusing them. Empty on a paper
+// read back later.
+  List<String> get warnings =>
+      throw _privateConstructorUsedError; // The pairs those warnings name, [earlier id, later id], index-aligned
+// with [warnings] -- what the review page's "swap one" acts on.
+  List<List<String>> get similarPairs => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1904,7 +1943,9 @@ abstract class $GeneratedPaperCopyWith<$Res> {
       Map<String, dynamic> answerKey,
       PaperMetadata metadata,
       String? setLabel,
-      List<GeneratedPaper> sets});
+      List<GeneratedPaper> sets,
+      List<String> warnings,
+      List<List<String>> similarPairs});
 
   $PaperMetadataCopyWith<$Res> get metadata;
 }
@@ -1931,6 +1972,8 @@ class _$GeneratedPaperCopyWithImpl<$Res, $Val extends GeneratedPaper>
     Object? metadata = null,
     Object? setLabel = freezed,
     Object? sets = null,
+    Object? warnings = null,
+    Object? similarPairs = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -1969,6 +2012,14 @@ class _$GeneratedPaperCopyWithImpl<$Res, $Val extends GeneratedPaper>
           ? _value.sets
           : sets // ignore: cast_nullable_to_non_nullable
               as List<GeneratedPaper>,
+      warnings: null == warnings
+          ? _value.warnings
+          : warnings // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      similarPairs: null == similarPairs
+          ? _value.similarPairs
+          : similarPairs // ignore: cast_nullable_to_non_nullable
+              as List<List<String>>,
     ) as $Val);
   }
 
@@ -1998,7 +2049,9 @@ abstract class _$$GeneratedPaperImplCopyWith<$Res>
       Map<String, dynamic> answerKey,
       PaperMetadata metadata,
       String? setLabel,
-      List<GeneratedPaper> sets});
+      List<GeneratedPaper> sets,
+      List<String> warnings,
+      List<List<String>> similarPairs});
 
   @override
   $PaperMetadataCopyWith<$Res> get metadata;
@@ -2024,6 +2077,8 @@ class __$$GeneratedPaperImplCopyWithImpl<$Res>
     Object? metadata = null,
     Object? setLabel = freezed,
     Object? sets = null,
+    Object? warnings = null,
+    Object? similarPairs = null,
   }) {
     return _then(_$GeneratedPaperImpl(
       id: null == id
@@ -2062,6 +2117,14 @@ class __$$GeneratedPaperImplCopyWithImpl<$Res>
           ? _value._sets
           : sets // ignore: cast_nullable_to_non_nullable
               as List<GeneratedPaper>,
+      warnings: null == warnings
+          ? _value._warnings
+          : warnings // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      similarPairs: null == similarPairs
+          ? _value._similarPairs
+          : similarPairs // ignore: cast_nullable_to_non_nullable
+              as List<List<String>>,
     ));
   }
 }
@@ -2078,10 +2141,14 @@ class _$GeneratedPaperImpl implements _GeneratedPaper {
       required final Map<String, dynamic> answerKey,
       required this.metadata,
       this.setLabel,
-      final List<GeneratedPaper> sets = const []})
+      final List<GeneratedPaper> sets = const [],
+      final List<String> warnings = const [],
+      final List<List<String>> similarPairs = const []})
       : _sections = sections,
         _answerKey = answerKey,
-        _sets = sets;
+        _sets = sets,
+        _warnings = warnings,
+        _similarPairs = similarPairs;
 
   factory _$GeneratedPaperImpl.fromJson(Map<String, dynamic> json) =>
       _$$GeneratedPaperImplFromJson(json);
@@ -2123,9 +2190,39 @@ class _$GeneratedPaperImpl implements _GeneratedPaper {
     return EqualUnmodifiableListView(_sets);
   }
 
+// About the request that made this paper, not stored with it: the
+// server prints two hand-picked questions that look like the same
+// question and says so here instead of refusing them. Empty on a paper
+// read back later.
+  final List<String> _warnings;
+// About the request that made this paper, not stored with it: the
+// server prints two hand-picked questions that look like the same
+// question and says so here instead of refusing them. Empty on a paper
+// read back later.
+  @override
+  @JsonKey()
+  List<String> get warnings {
+    if (_warnings is EqualUnmodifiableListView) return _warnings;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_warnings);
+  }
+
+// The pairs those warnings name, [earlier id, later id], index-aligned
+// with [warnings] -- what the review page's "swap one" acts on.
+  final List<List<String>> _similarPairs;
+// The pairs those warnings name, [earlier id, later id], index-aligned
+// with [warnings] -- what the review page's "swap one" acts on.
+  @override
+  @JsonKey()
+  List<List<String>> get similarPairs {
+    if (_similarPairs is EqualUnmodifiableListView) return _similarPairs;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_similarPairs);
+  }
+
   @override
   String toString() {
-    return 'GeneratedPaper(id: $id, assessmentId: $assessmentId, sections: $sections, formattedContent: $formattedContent, formattedContentLatex: $formattedContentLatex, answerKey: $answerKey, metadata: $metadata, setLabel: $setLabel, sets: $sets)';
+    return 'GeneratedPaper(id: $id, assessmentId: $assessmentId, sections: $sections, formattedContent: $formattedContent, formattedContentLatex: $formattedContentLatex, answerKey: $answerKey, metadata: $metadata, setLabel: $setLabel, sets: $sets, warnings: $warnings, similarPairs: $similarPairs)';
   }
 
   @override
@@ -2147,7 +2244,10 @@ class _$GeneratedPaperImpl implements _GeneratedPaper {
                 other.metadata == metadata) &&
             (identical(other.setLabel, setLabel) ||
                 other.setLabel == setLabel) &&
-            const DeepCollectionEquality().equals(other._sets, _sets));
+            const DeepCollectionEquality().equals(other._sets, _sets) &&
+            const DeepCollectionEquality().equals(other._warnings, _warnings) &&
+            const DeepCollectionEquality()
+                .equals(other._similarPairs, _similarPairs));
   }
 
   @JsonKey(ignore: true)
@@ -2162,7 +2262,9 @@ class _$GeneratedPaperImpl implements _GeneratedPaper {
       const DeepCollectionEquality().hash(_answerKey),
       metadata,
       setLabel,
-      const DeepCollectionEquality().hash(_sets));
+      const DeepCollectionEquality().hash(_sets),
+      const DeepCollectionEquality().hash(_warnings),
+      const DeepCollectionEquality().hash(_similarPairs));
 
   @JsonKey(ignore: true)
   @override
@@ -2189,7 +2291,9 @@ abstract class _GeneratedPaper implements GeneratedPaper {
       required final Map<String, dynamic> answerKey,
       required final PaperMetadata metadata,
       final String? setLabel,
-      final List<GeneratedPaper> sets}) = _$GeneratedPaperImpl;
+      final List<GeneratedPaper> sets,
+      final List<String> warnings,
+      final List<List<String>> similarPairs}) = _$GeneratedPaperImpl;
 
   factory _GeneratedPaper.fromJson(Map<String, dynamic> json) =
       _$GeneratedPaperImpl.fromJson;
@@ -2212,6 +2316,14 @@ abstract class _GeneratedPaper implements GeneratedPaper {
   String? get setLabel;
   @override
   List<GeneratedPaper> get sets;
+  @override // About the request that made this paper, not stored with it: the
+// server prints two hand-picked questions that look like the same
+// question and says so here instead of refusing them. Empty on a paper
+// read back later.
+  List<String> get warnings;
+  @override // The pairs those warnings name, [earlier id, later id], index-aligned
+// with [warnings] -- what the review page's "swap one" acts on.
+  List<List<String>> get similarPairs;
   @override
   @JsonKey(ignore: true)
   _$$GeneratedPaperImplCopyWith<_$GeneratedPaperImpl> get copyWith =>
@@ -3564,7 +3676,9 @@ mixin _$GenerateFromIdsRequest {
   SchoolTemplate? get template => throw _privateConstructorUsedError;
   int get setCount => throw _privateConstructorUsedError;
   String? get tier => throw _privateConstructorUsedError;
-  String? get examType => throw _privateConstructorUsedError;
+  String? get examType =>
+      throw _privateConstructorUsedError; // As PaperGenerationRequest.rejectSimilar.
+  bool get rejectSimilar => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -3586,7 +3700,8 @@ abstract class $GenerateFromIdsRequestCopyWith<$Res> {
       SchoolTemplate? template,
       int setCount,
       String? tier,
-      String? examType});
+      String? examType,
+      bool rejectSimilar});
 
   $SchoolTemplateCopyWith<$Res>? get template;
 }
@@ -3613,6 +3728,7 @@ class _$GenerateFromIdsRequestCopyWithImpl<$Res,
     Object? setCount = null,
     Object? tier = freezed,
     Object? examType = freezed,
+    Object? rejectSimilar = null,
   }) {
     return _then(_value.copyWith(
       questionIds: null == questionIds
@@ -3647,6 +3763,10 @@ class _$GenerateFromIdsRequestCopyWithImpl<$Res,
           ? _value.examType
           : examType // ignore: cast_nullable_to_non_nullable
               as String?,
+      rejectSimilar: null == rejectSimilar
+          ? _value.rejectSimilar
+          : rejectSimilar // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -3680,7 +3800,8 @@ abstract class _$$GenerateFromIdsRequestImplCopyWith<$Res>
       SchoolTemplate? template,
       int setCount,
       String? tier,
-      String? examType});
+      String? examType,
+      bool rejectSimilar});
 
   @override
   $SchoolTemplateCopyWith<$Res>? get template;
@@ -3707,6 +3828,7 @@ class __$$GenerateFromIdsRequestImplCopyWithImpl<$Res>
     Object? setCount = null,
     Object? tier = freezed,
     Object? examType = freezed,
+    Object? rejectSimilar = null,
   }) {
     return _then(_$GenerateFromIdsRequestImpl(
       questionIds: null == questionIds
@@ -3741,6 +3863,10 @@ class __$$GenerateFromIdsRequestImplCopyWithImpl<$Res>
           ? _value.examType
           : examType // ignore: cast_nullable_to_non_nullable
               as String?,
+      rejectSimilar: null == rejectSimilar
+          ? _value.rejectSimilar
+          : rejectSimilar // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -3756,7 +3882,8 @@ class _$GenerateFromIdsRequestImpl implements _GenerateFromIdsRequest {
       this.template,
       this.setCount = 1,
       this.tier,
-      this.examType})
+      this.examType,
+      this.rejectSimilar = false})
       : _questionIds = questionIds;
 
   factory _$GenerateFromIdsRequestImpl.fromJson(Map<String, dynamic> json) =>
@@ -3786,10 +3913,14 @@ class _$GenerateFromIdsRequestImpl implements _GenerateFromIdsRequest {
   final String? tier;
   @override
   final String? examType;
+// As PaperGenerationRequest.rejectSimilar.
+  @override
+  @JsonKey()
+  final bool rejectSimilar;
 
   @override
   String toString() {
-    return 'GenerateFromIdsRequest(questionIds: $questionIds, subject: $subject, grade: $grade, title: $title, template: $template, setCount: $setCount, tier: $tier, examType: $examType)';
+    return 'GenerateFromIdsRequest(questionIds: $questionIds, subject: $subject, grade: $grade, title: $title, template: $template, setCount: $setCount, tier: $tier, examType: $examType, rejectSimilar: $rejectSimilar)';
   }
 
   @override
@@ -3808,7 +3939,9 @@ class _$GenerateFromIdsRequestImpl implements _GenerateFromIdsRequest {
                 other.setCount == setCount) &&
             (identical(other.tier, tier) || other.tier == tier) &&
             (identical(other.examType, examType) ||
-                other.examType == examType));
+                other.examType == examType) &&
+            (identical(other.rejectSimilar, rejectSimilar) ||
+                other.rejectSimilar == rejectSimilar));
   }
 
   @JsonKey(ignore: true)
@@ -3822,7 +3955,8 @@ class _$GenerateFromIdsRequestImpl implements _GenerateFromIdsRequest {
       template,
       setCount,
       tier,
-      examType);
+      examType,
+      rejectSimilar);
 
   @JsonKey(ignore: true)
   @override
@@ -3848,7 +3982,8 @@ abstract class _GenerateFromIdsRequest implements GenerateFromIdsRequest {
       final SchoolTemplate? template,
       final int setCount,
       final String? tier,
-      final String? examType}) = _$GenerateFromIdsRequestImpl;
+      final String? examType,
+      final bool rejectSimilar}) = _$GenerateFromIdsRequestImpl;
 
   factory _GenerateFromIdsRequest.fromJson(Map<String, dynamic> json) =
       _$GenerateFromIdsRequestImpl.fromJson;
@@ -3869,6 +4004,8 @@ abstract class _GenerateFromIdsRequest implements GenerateFromIdsRequest {
   String? get tier;
   @override
   String? get examType;
+  @override // As PaperGenerationRequest.rejectSimilar.
+  bool get rejectSimilar;
   @override
   @JsonKey(ignore: true)
   _$$GenerateFromIdsRequestImplCopyWith<_$GenerateFromIdsRequestImpl>

@@ -670,6 +670,9 @@ def test_generate_warns_about_selected_questions_that_repeat_each_other(tmp_path
             warnings = gen.json()["warnings"]
             assert len(warnings) == 1, warnings
             assert QUADRATIC_A[0] in warnings[0] and QUADRATIC_B[0] in warnings[0], warnings
+            # The same pair as ids, so the builder can swap one without
+            # reading ids back out of the sentence.
+            assert gen.json()["similarPairs"] == [[QUADRATIC_A[0], QUADRATIC_B[0]]]
             assert _TWIN_IDS <= _on_paper(gen.json())
             refused = post(picked, rejectSimilar=True)
             assert refused.status_code == 422, refused.text
@@ -678,6 +681,7 @@ def test_generate_warns_about_selected_questions_that_repeat_each_other(tmp_path
         ok = post(_TWINS[:1] + others)
         assert ok.status_code == 200, ok.text
         assert ok.json()["warnings"] == []
+        assert ok.json()["similarPairs"] == []
         twice = post(_TWINS[:1] + _TWINS[:1] + others[:1])
         assert twice.status_code == 422, twice.text
         assert QUADRATIC_A[0] in twice.json()["detail"]
@@ -702,11 +706,13 @@ def test_generate_from_ids_warns_about_ids_that_repeat_each_other(tmp_path, monk
         warnings = gen.json()["warnings"]
         assert len(warnings) == 1, warnings
         assert QUADRATIC_A[0] in warnings[0] and QUADRATIC_B[0] in warnings[0], warnings
+        assert [sorted(p) for p in gen.json()["similarPairs"]] == [sorted(_TWIN_IDS)]
         assert _TWIN_IDS <= _on_paper(gen.json())
         # The warning belongs to this generation, not to the stored paper.
         stored = client.get(f"/api/v1/papers/{gen.json()['id']}", headers=t1)
         assert stored.status_code == 200, stored.text
         assert stored.json()["warnings"] == []
+        assert stored.json()["similarPairs"] == []
         refused = post([QUADRATIC_A[0], "o0", QUADRATIC_B[0]], rejectSimilar=True)
         assert refused.status_code == 422, refused.text
         detail = refused.json()["detail"]

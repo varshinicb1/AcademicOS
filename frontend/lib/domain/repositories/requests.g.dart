@@ -209,6 +209,7 @@ _$PaperGenerationRequestImpl _$$PaperGenerationRequestImplFromJson(
       formattingOptions: json['formattingOptions'] as Map<String, dynamic>?,
       setCount: (json['setCount'] as num?)?.toInt() ?? 1,
       tier: json['tier'] as String?,
+      rejectSimilar: json['rejectSimilar'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$PaperGenerationRequestImplToJson(
@@ -221,6 +222,7 @@ Map<String, dynamic> _$$PaperGenerationRequestImplToJson(
       'formattingOptions': instance.formattingOptions,
       'setCount': instance.setCount,
       'tier': instance.tier,
+      'rejectSimilar': instance.rejectSimilar,
     };
 
 _$GeneratedPaperImpl _$$GeneratedPaperImplFromJson(Map<String, dynamic> json) =>
@@ -240,6 +242,15 @@ _$GeneratedPaperImpl _$$GeneratedPaperImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => GeneratedPaper.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
+      warnings: (json['warnings'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      similarPairs: (json['similarPairs'] as List<dynamic>?)
+              ?.map(
+                  (e) => (e as List<dynamic>).map((e) => e as String).toList())
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$$GeneratedPaperImplToJson(
@@ -254,6 +265,8 @@ Map<String, dynamic> _$$GeneratedPaperImplToJson(
       'metadata': instance.metadata,
       'setLabel': instance.setLabel,
       'sets': instance.sets,
+      'warnings': instance.warnings,
+      'similarPairs': instance.similarPairs,
     };
 
 _$GeneratedSectionImpl _$$GeneratedSectionImplFromJson(
@@ -392,6 +405,7 @@ _$GenerateFromIdsRequestImpl _$$GenerateFromIdsRequestImplFromJson(
       setCount: (json['setCount'] as num?)?.toInt() ?? 1,
       tier: json['tier'] as String?,
       examType: json['examType'] as String?,
+      rejectSimilar: json['rejectSimilar'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$GenerateFromIdsRequestImplToJson(
@@ -405,6 +419,7 @@ Map<String, dynamic> _$$GenerateFromIdsRequestImplToJson(
       'setCount': instance.setCount,
       'tier': instance.tier,
       'examType': instance.examType,
+      'rejectSimilar': instance.rejectSimilar,
     };
 
 _$SchoolTemplateImpl _$$SchoolTemplateImplFromJson(Map<String, dynamic> json) =>

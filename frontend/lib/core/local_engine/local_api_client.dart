@@ -416,6 +416,17 @@ class LocalApiClient extends ApiClient {
     ));
   }
 
+  /// The server's swap ranks every alternative in the served bank against
+  /// the slot's rule (paper_edit.choose_swap); the on-device engine has no
+  /// port of it, and this client never produces the similar-question pairs
+  /// the review page offers "swap one" on. Refused by name rather than
+  /// falling through to ApiClient's Dio call with no base URL, which would
+  /// fail with a connection error that says nothing useful.
+  @override
+  Future<GeneratedPaper> swapPaperQuestion(String paperId, String slot) async {
+    throw OfflineUnsupportedException('Swapping a question');
+  }
+
   @override
   Future<GeneratedPaper> generateFromIds(GenerateFromIdsRequest request) async {
     await CorpusRepository.instance.ensureLoaded();

@@ -99,6 +99,17 @@ class ApiClient {
     return GeneratedPaper.fromJson(response.data);
   }
 
+  /// The next best question for one printed slot ("7", or "7_OR" for its
+  /// OR alternative), saved onto the paper and every set by the server
+  /// (POST /papers/{id}/questions/{slot}/swap). Returns the updated paper.
+  /// The review page's "swap one" on a pair of hand-picked questions that
+  /// look alike calls this for the later of the two.
+  Future<GeneratedPaper> swapPaperQuestion(String paperId, String slot) async {
+    final response = await _dio.post(
+        '/papers/${Uri.encodeComponent(paperId)}/questions/${Uri.encodeComponent(slot)}/swap');
+    return GeneratedPaper.fromJson(response.data['paper'] as Map<String, dynamic>);
+  }
+
   Future<GeneratedPaper> getPaper(String paperId) async {
     final response = await _dio.get('/papers/$paperId');
     return GeneratedPaper.fromJson(response.data);

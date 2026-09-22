@@ -249,10 +249,12 @@ def optimize_questions(request: QuestionOptimizationRequest,
 # ---- Papers ----
 
 def _similar_question_warnings(selected: list[QuestionSchema], *,
-                               reject_similar: bool) -> list[str]:
+                               reject_similar: bool) -> tuple[list[str], list[list[str]]]:
     """One warning per pair of questions this paper would print that restate
-    each other; 422 for the same question id twice, and for a similar pair
-    when the client set `rejectSimilar`.
+    each other, and the same pairs as [earlier id, later id] (the client's
+    "swap one" needs the ids, not a sentence to parse them back out of); 422
+    for the same question id twice, and for a similar pair when the client
+    set `rejectSimilar`.
 
     POST /papers/generate and /papers/generate-from-ids print what the
     teacher chose; they do not run selection.optimize, so the near-duplicate
@@ -274,6 +276,7 @@ def _similar_question_warnings(selected: list[QuestionSchema], *,
         if pid and pstem:
             printed.append((pid, pstem))
     warnings: list[str] = []
+    pairs: list[list[str]] = []
     for i, (aid, astem) in enumerate(printed):
         for bid, bstem in printed[:i]:
             if aid == bid:
@@ -291,7 +294,8 @@ def _similar_question_warnings(selected: list[QuestionSchema], *,
             warnings.append(
                 f"questions {bid} and {aid} look like the same question -- "
                 f"keep both, or swap one")
-    return warnings
+            pairs.append([bid, aid])
+    return warnings, pairs
 
 
 @router.post("/papers/generate", response_model=GeneratedPaper)
@@ -314,8 +318,8 @@ def generate_paper_endpoint(
             "chapters/filters matched no real questions in the corpus; "
             "widen the chapter selection or check the subject/grade",
         )
-    warnings = _similar_question_warnings(request.selected_questions,
-                                          reject_similar=request.reject_similar)
+    warnings, pairs = _similar_question_warnings(request.selected_questions,
+                                                 reject_similar=request.reject_similar)
     assessment = store.get(request.assessment_id)
     if assessment is not None:
         if assessment.school_id != current.school_id:
@@ -348,7 +352,7 @@ def generate_paper_endpoint(
         assessment.updated_at = _now()
         store.save(assessment)
     # Set after saving: the warning is about this request, not the paper.
-    paper.warnings = warnings
+    paper.warnings, paper.similar_pairs = warnings, pairs
     return paper
 
 
@@ -491,8 +495,8 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(g
     # The Flutter client's curated path builds the paper straight from these
     # ids and never runs optimize, so the near-duplicate guard has to run here
     # too -- warned (or refused on rejectSimilar), exactly like /papers/generate.
-    warnings = _similar_question_warnings(found_questions,
-                                          reject_similar=request.reject_similar)
+    warnings, pairs = _similar_question_warnings(found_questions,
+                                                 reject_similar=request.reject_similar)
 
     by_marks: dict[int, list[QuestionSchema]] = {}
     for q in found_questions:
@@ -591,7 +595,8 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(g
             "generationSeconds": round(time.perf_counter() - _started_ids, 3),
         },
     )
-    paper.warnings = warnings   # after saving: about this request, not the paper
+    # After saving: about this request, not the paper.
+    paper.warnings, paper.similar_pairs = warnings, pairs
     return paper
 
 
