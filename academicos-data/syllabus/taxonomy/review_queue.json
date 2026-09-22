@@ -1,10 +1,10 @@
 {
  "notice": "Questions whose chapter, topic or subtopic tag fell below the confidence threshold that keeps accepted tags >= 90% right on the gold set. Each entry names the first level not accepted and the tagger's proposal; the proposal is NOT on the question.",
  "method": "tfidf_textbook_v2",
- "builtAt": "2026-09-22T16:14:50.302424+00:00",
+ "builtAt": "2026-09-22T16:29:52.905595+00:00",
  "counts": {
-  "academicos-data/corpus/ncert-exemplar/questions.json": 3591,
-  "academicos-data/corpus/cbse-cbe/questions.json": 481
+  "academicos-data/corpus/ncert-exemplar/questions.json": 3668,
+  "academicos-data/corpus/cbse-cbe/questions.json": 495
  },
  "items": [
   {
@@ -317,6 +317,42 @@
      "number"
     ],
     "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:6:mathematics:1:-:12",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 6,
+   "level": "topic",
+   "stem": "The largest 5-digit number having three different digits is",
+   "proposed": {
+    "chapterId": "mathematics-6/number-play",
+    "topicId": "mathematics-6/number-play/playing-with-digits",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.7451,
+    "topic": 0.7413,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "digit",
+     "number",
+     "largest",
+     "different",
+     "three"
+    ],
+    "topic": [
+     "digit",
+     "three",
+     "number",
+     "largest"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
+    ]
    }
   },
   {
@@ -826,7 +862,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "A number is divisible by 5 and 6. It may not be divisible by",
    "proposed": {
     "chapterId": "mathematics-6/prime-time",
@@ -955,7 +991,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Which of the following numbers is divisible by 11?",
    "proposed": {
     "chapterId": "mathematics-6/prime-time",
@@ -1440,6 +1476,41 @@
    }
   },
   {
+   "id": "exemplar:q:6:mathematics:1:-:53",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 6,
+   "level": "topic",
+   "stem": "State whether the given statements are true (T) or false (F): The largest 4-digit number formed by the digits 6, 7, 0, 9 using each digit only once is 9760.",
+   "proposed": {
+    "chapterId": "mathematics-6/number-play",
+    "topicId": "mathematics-6/number-play/playing-with-digits",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.7493,
+    "topic": 0.7463,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "digit",
+     "number",
+     "largest",
+     "form"
+    ],
+    "topic": [
+     "digit",
+     "number",
+     "form",
+     "largest"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:6:mathematics:1:-:54",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -1475,7 +1546,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the given statements are true (T) or false (F): Successor of a one digit number is always a one digit number.",
    "proposed": {
     "chapterId": "mathematics-6/number-play",
@@ -1507,7 +1578,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the given statements are true (T) or false (F): Successor of a 3-digit number is always a 3-digit number.",
    "proposed": {
     "chapterId": "mathematics-6/number-play",
@@ -1539,7 +1610,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the given statements are true (T) or false (F): Predecessor of a two digit number is always a two digit number.",
    "proposed": {
     "chapterId": "mathematics-6/number-play",
@@ -2303,7 +2374,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the given statements are true (T) or false (F): If a number is divisible both by 2 and 3, then it is divisible by 12.",
    "proposed": {
     "chapterId": "mathematics-6/prime-time",
@@ -2467,7 +2538,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the given statements are true (T) or false (F): All numbers which are divisible by 4 may not be divisible by 8.",
    "proposed": {
     "chapterId": "mathematics-6/prime-time",
@@ -3836,7 +3907,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Fill in the blanks to make the statements true: A number is a _____ of each of its factor.",
    "proposed": {
     "chapterId": "mathematics-6/prime-time",
@@ -4071,7 +4142,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Fill in the blanks to make the statements true: If the sum of the digits in a number is a _____ of 3, then the number is divisible by 3.",
    "proposed": {
     "chapterId": "mathematics-6/prime-time",
@@ -4616,7 +4687,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Find the difference between the largest number of seven digits and the smallest number of eight digits.",
    "proposed": {
     "chapterId": "mathematics-6/number-play",
@@ -4652,7 +4723,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "A mobile number consists of ten digits. The first four digits of the number are 9, 9, 8 and 7. The last three digits are 3, 5 and 5. The remaining digits are distinct and make the mobile number, the greatest possible number. What are these digits?",
    "proposed": {
     "chapterId": "mathematics-6/number-play",
@@ -4726,7 +4797,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "In a five digit number, digit at ten’s place is 4, digit at unit’s place is one fourth of ten’s place digit, digit at hunderd’s place is 0, digit at thousand’s place is 5 times of the digit at unit’s place and ten thousand’s place digit is double the digit at ten’s place. Write the number.",
    "proposed": {
     "chapterId": "mathematics-6/number-play",
@@ -4763,7 +4834,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Find the sum of the greatest and the least six digit numbers formed by the digits 2, 0, 4, 7, 6, 5 using each digit only once.",
    "proposed": {
     "chapterId": "mathematics-6/number-play",
@@ -5781,6 +5852,43 @@
    }
   },
   {
+   "id": "exemplar:q:6:mathematics:2:-:11",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 6,
+   "level": "topic",
+   "stem": "If the sum of two angles is greater than 180°, then which of the following is not possible for the two angles?",
+   "proposed": {
+    "chapterId": "mathematics-6/lines-and-angles",
+    "topicId": "mathematics-6/lines-and-angles/special-types-of-angles",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9921,
+    "topic": 0.7414,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "acute",
+     "angle",
+     "obtuse",
+     "reflex",
+     "right",
+     "greater"
+    ],
+    "topic": [
+     "right",
+     "acute",
+     "obtuse",
+     "angle",
+     "possible",
+     "greater"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "exemplar:q:6:mathematics:2:-:17",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -6009,6 +6117,37 @@
    }
   },
   {
+   "id": "exemplar:q:6:mathematics:2:-:38",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 6,
+   "level": "topic",
+   "stem": "State whether the statements are true (T) or false (F): Two line segments may intersect at two points.",
+   "proposed": {
+    "chapterId": "mathematics-6/lines-and-angles",
+    "topicId": "mathematics-6/lines-and-angles/line-segment",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.7499,
+    "topic": 0.7497,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "intersect",
+     "segment",
+     "point",
+     "line"
+    ],
+    "topic": [
+     "segment",
+     "line"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "exemplar:q:6:mathematics:2:-:39",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -6100,6 +6239,39 @@
      "point",
      "exactly",
      "angle"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:6:mathematics:2:-:55",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 6,
+   "level": "topic",
+   "stem": "Find out the incorrect statement, if any, in the following: An angle is formed when we have (a) two rays with a common end-point (b) two line segments with a common end-point (c) a ray and a line segment with a common end-point",
+   "proposed": {
+    "chapterId": "mathematics-6/lines-and-angles",
+    "topicId": "mathematics-6/lines-and-angles/line-segment",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9595,
+    "topic": 0.7411,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "ray",
+     "angle",
+     "point",
+     "segment",
+     "line",
+     "common"
+    ],
+    "topic": [
+     "segment",
+     "line"
     ],
     "subtopic": []
    }
@@ -6498,6 +6670,94 @@
     "chapter": [],
     "topic": [],
     "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:13",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 6,
+   "level": "subtopic",
+   "stem": "The additive inverse of a negative integer",
+   "proposed": {
+    "chapterId": "mathematics-6/the-other-side-of-zero",
+    "topicId": "mathematics-6/the-other-side-of-zero/explorations-with-integers",
+    "subtopicIds": [
+     "mathematics-6/the-other-side-of-zero/explorations-with-integers/an-amazing-grid-of-numbers"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9984,
+    "topic": 0.7821,
+    "subtopic": 0.666
+   },
+   "evidence": {
+    "chapter": [
+     "negative",
+     "positive",
+     "integer",
+     "inverse",
+     "zero",
+     "additive"
+    ],
+    "topic": [
+     "alway",
+     "integer",
+     "positive",
+     "negative",
+     "zero"
+    ],
+    "subtopic": [
+     "positive",
+     "negative",
+     "alway",
+     "integer",
+     "zero"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:14",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 6,
+   "level": "subtopic",
+   "stem": "Amulya and Amar visited two places A and B respectively in Kashmir and recorded the minimum temperatures on a particular day as –4°C at A and –1°C at B. Which of the following statement is true?",
+   "proposed": {
+    "chapterId": "mathematics-6/the-other-side-of-zero",
+    "topicId": "mathematics-6/the-other-side-of-zero/integers-in-other-places",
+    "subtopicIds": [
+     "mathematics-6/the-other-side-of-zero/integers-in-other-places/temperature"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.8333,
+    "topic": 0.8071,
+    "subtopic": 0.6787
+   },
+   "evidence": {
+    "chapter": [
+     "temperature",
+     "cooler",
+     "day",
+     "particular",
+     "place",
+     "minimum"
+    ],
+    "topic": [
+     "temperature",
+     "day",
+     "cooler",
+     "place",
+     "minimum"
+    ],
+    "subtopic": [
+     "temperature",
+     "cooler",
+     "place",
+     "day",
+     "minimum"
+    ]
    }
   },
   {
@@ -7137,7 +7397,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the given statements are true (T) or false (F): –2 is to the left of –5 on the number line.",
    "proposed": {
     "chapterId": "mathematics-6/the-other-side-of-zero",
@@ -7898,6 +8158,49 @@
     ],
     "subtopic": [
      "sum",
+     "integer"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:71",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 6,
+   "level": "subtopic",
+   "stem": "Using number line, how do you compare (a) two negative integers? (b) two positive integers? (c) one positive and one negative integer?",
+   "proposed": {
+    "chapterId": "mathematics-6/the-other-side-of-zero",
+    "topicId": "mathematics-6/the-other-side-of-zero/explorations-with-integers",
+    "subtopicIds": [
+     "mathematics-6/the-other-side-of-zero/explorations-with-integers/an-amazing-grid-of-numbers"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9946,
+    "topic": 0.8201,
+    "subtopic": 0.6724
+   },
+   "evidence": {
+    "chapter": [
+     "negative",
+     "positive",
+     "integer",
+     "number",
+     "line",
+     "compare"
+    ],
+    "topic": [
+     "number",
+     "integer",
+     "positive",
+     "negative",
+     "right"
+    ],
+    "subtopic": [
+     "positive",
+     "negative",
+     "number",
      "integer"
     ]
    }
@@ -9342,7 +9645,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State which of the statements are true and which are false: To find the cost of painting a wall we need to find the perimeter of the wall.",
    "proposed": {
     "chapterId": "mathematics-6/perimeter-and-area",
@@ -9578,7 +9881,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Base of a tent is a regular hexagon of perimeter 60cm. What is the length of each side of the base?",
    "proposed": {
     "chapterId": "mathematics-6/perimeter-and-area",
@@ -9705,7 +10008,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Anmol has a chart paper of measure 90cm × 40cm, whereas Abhishek has one which measures 50cm × 70cm. Which will cover more area on the table and by how much?",
    "proposed": {
     "chapterId": "mathematics-6/perimeter-and-area",
@@ -12224,6 +12527,52 @@
    }
   },
   {
+   "id": "exemplar:q:6:mathematics:7:-:93",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 6,
+   "level": "subtopic",
+   "stem": "Perimeter of a rectangle is found by using the formula P = 2 ( l + w), where l and w are respectively the length and breadth of the rectangle. Write the rule that is expressed by this formula in words.",
+   "proposed": {
+    "chapterId": "mathematics-6/perimeter-and-area",
+    "topicId": "mathematics-6/perimeter-and-area/perimeter",
+    "subtopicIds": [
+     "mathematics-6/perimeter-and-area/perimeter/perimeter-of-a-rectangle"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.8858,
+    "topic": 0.7842,
+    "subtopic": 0.6573
+   },
+   "evidence": {
+    "chapter": [
+     "perimeter",
+     "formula",
+     "breadth",
+     "rectangle",
+     "length",
+     "respectively"
+    ],
+    "topic": [
+     "perimeter",
+     "length",
+     "rectangle",
+     "breadth",
+     "formula",
+     "respectively"
+    ],
+    "subtopic": [
+     "rectangle",
+     "breadth",
+     "length",
+     "perimeter",
+     "formula",
+     "respectively"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:6:mathematics:7:-:94",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -14494,6 +14843,48 @@
    }
   },
   {
+   "id": "exemplar:q:6:mathematics:9:-:23",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 6,
+   "level": "subtopic",
+   "stem": "Fill in the blanks to make the statements true: If an angle of measure 80° is reflected in a line of symmetry, then the reflection is an ______ of measure _______.",
+   "proposed": {
+    "chapterId": "mathematics-6/symmetry",
+    "topicId": "mathematics-6/symmetry/line-of-symmetry",
+    "subtopicIds": [
+     "mathematics-6/symmetry/line-of-symmetry/reflection"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9912,
+    "topic": 0.77,
+    "subtopic": 0.6643
+   },
+   "evidence": {
+    "chapter": [
+     "symmetry",
+     "reflection",
+     "reflect",
+     "angle",
+     "line"
+    ],
+    "topic": [
+     "line",
+     "symmetry",
+     "reflect",
+     "angle",
+     "reflection"
+    ],
+    "subtopic": [
+     "reflect",
+     "reflection",
+     "line",
+     "symmetry"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:6:mathematics:9:-:24",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -15186,7 +15577,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "State whether the statements are true (T) or false (F): A square and a rectangle have the same number of lines of symmetry.",
    "proposed": {
     "chapterId": "mathematics-6/symmetry",
@@ -15258,6 +15649,39 @@
      "square",
      "symmetry",
      "line"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:6:mathematics:9:-:59",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 6,
+   "level": "topic",
+   "stem": "State whether the statements are true (T) or false (F): A regular octagon has 10 lines of symmetry.",
+   "proposed": {
+    "chapterId": "mathematics-6/symmetry",
+    "topicId": "mathematics-6/symmetry/line-of-symmetry",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9821,
+    "topic": 0.7497,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "symmetry",
+     "regular",
+     "line",
+     "octagon"
+    ],
+    "topic": [
+     "line",
+     "symmetry"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
     ]
    }
   },
@@ -15906,6 +16330,43 @@
      "oil",
      "piece"
     ]
+   }
+  },
+  {
+   "id": "exemplar:q:6:science:2:-:14",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 6,
+   "level": "topic",
+   "stem": "Paheli avoids eating vegetables but likes to eat biscuits, noodles and white bread. She frequently complains of stomachache and constipation. What are the food items that she should include in her diet to get rid of the problem? Give reason for your answer.",
+   "proposed": {
+    "chapterId": "science-6/mindful-eating-a-path-to-a-healthy-body",
+    "topicId": "science-6/mindful-eating-a-path-to-a-healthy-body/balanced-diet",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9868,
+    "topic": 0.7604,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "diet",
+     "vegetable",
+     "item",
+     "bread",
+     "rid",
+     "include"
+    ],
+    "topic": [
+     "diet",
+     "problem",
+     "frequently",
+     "avoid",
+     "include",
+     "food"
+    ],
+    "subtopic": []
    }
   },
   {
@@ -17168,6 +17629,52 @@
      "solution",
      "form",
      "dissolve"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:6:science:4:-:14",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 6,
+   "level": "subtopic",
+   "stem": "On a bright sunny day, Shikha was playing hide and seek with her brother. She hid herself behind a glass door. Do you think her brother will be able to locate her. If yes, why? If no, why not?",
+   "proposed": {
+    "chapterId": "science-6/materials-around-us",
+    "topicId": "science-6/materials-around-us/what-are-the-different-properties-of-materials",
+    "subtopicIds": [
+     "science-6/materials-around-us/what-are-the-different-properties-of-materials/explore-materials-through-which-one-can-see-or-cannot-see"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.8231,
+    "topic": 0.7717,
+    "subtopic": 0.6688
+   },
+   "evidence": {
+    "chapter": [
+     "brother",
+     "hide",
+     "glass",
+     "door",
+     "behind",
+     "translucent"
+    ],
+    "topic": [
+     "brother",
+     "glass",
+     "hide",
+     "behind",
+     "able",
+     "play"
+    ],
+    "subtopic": [
+     "brother",
+     "hide",
+     "glass",
+     "behind",
+     "seek",
+     "door"
     ]
    }
   },
@@ -20826,6 +21333,38 @@
    }
   },
   {
+   "id": "exemplar:q:6:science:13:-:8",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 6,
+   "level": "topic",
+   "stem": "How will you test that ‘tea dust’ is not adulterated with iron powder?",
+   "proposed": {
+    "chapterId": "science-6/exploring-magnets",
+    "topicId": "science-6/exploring-magnets/poles-of-magnet",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9648,
+    "topic": 0.7616,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "magnet",
+     "iron",
+     "stick",
+     "test"
+    ],
+    "topic": [
+     "iron",
+     "magnet",
+     "stick"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "exemplar:q:6:science:13:-:11",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
@@ -21116,7 +21655,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Wells are fed by",
    "proposed": {
     "chapterId": "science-6/a-journey-through-states-of-water",
@@ -23557,7 +24096,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 7,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Fill in the blanks to make the statements true: If we multiply five positive integers and one negative integer, then the resulting integer is _______.",
    "proposed": {
     "chapterId": "mathematics-7/operations-with-integers",
@@ -23940,7 +24479,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the statements are True or False: Integers are closed under subtraction.",
    "proposed": {
     "chapterId": "mathematics-7/operations-with-integers",
@@ -24400,6 +24939,37 @@
    }
   },
   {
+   "id": "exemplar:q:7:mathematics:1:-:92",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 7,
+   "level": "topic",
+   "stem": "State whether the statements are True or False: Integers are closed under multiplication.",
+   "proposed": {
+    "chapterId": "mathematics-7/operations-with-integers",
+    "topicId": "mathematics-7/operations-with-integers/multiplication-of-integers",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.7688,
+    "topic": 0.7565,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "integer",
+     "multiplication"
+    ],
+    "topic": [
+     "multiplication",
+     "integer"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:7:mathematics:1:-:93",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -24721,7 +25291,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the statements are True or False: Integers are closed under division.",
    "proposed": {
     "chapterId": "mathematics-7/operations-with-integers",
@@ -27787,6 +28357,52 @@
    }
   },
   {
+   "id": "exemplar:q:7:mathematics:3:-:69",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 7,
+   "level": "topic",
+   "stem": "Given below are heights of 15 boys of a class measured in cm: 128, 144, 146, 143, 136, 142, 138, 129, 140, 152, 144, 140, 150, 142, 154. Find (a) The height of the tallest boy. (b) The height of the shortest boy. (c) The range of the given data. (d) The median height of the boys.",
+   "proposed": {
+    "chapterId": "mathematics-7/connecting-the-dots",
+    "topicId": "mathematics-7/connecting-the-dots/data-detective",
+    "subtopicIds": [
+     "mathematics-7/connecting-the-dots/data-detective/telling-tall-tales"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.8078,
+    "topic": 0.7538,
+    "subtopic": 0.6678
+   },
+   "evidence": {
+    "chapter": [
+     "boy",
+     "median",
+     "data",
+     "height",
+     "range",
+     "tallest"
+    ],
+    "topic": [
+     "boy",
+     "height",
+     "median",
+     "range",
+     "data",
+     "tallest"
+    ],
+    "subtopic": [
+     "height",
+     "boy",
+     "median",
+     "data",
+     "tallest",
+     "range"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:7:mathematics:4:-:2",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -28027,7 +28643,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 7,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Which of the following numbers satisfy the equation –6 + x = –12 ?",
    "proposed": {
     "chapterId": "mathematics-7/finding-the-unknown",
@@ -30029,7 +30645,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Measures (in degrees) of two complementary angles are two consecutive even integers. Find the angles.",
    "proposed": {
     "chapterId": "mathematics-7/parallel-and-intersecting-lines",
@@ -30226,7 +30842,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The top of a broken tree touches the ground at a distance of 12 m from its base. If the tree is broken at a height of 5 m from the ground then the actual height of the tree is",
    "proposed": {
     "chapterId": "mathematics-7/a-tale-of-three-intersecting-lines",
@@ -30735,7 +31351,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the statements are True or False: The difference between the lengths of any two sides of a triangle is smaller than the length of third side.",
    "proposed": {
     "chapterId": "mathematics-7/a-tale-of-three-intersecting-lines",
@@ -30806,7 +31422,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 7,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "State whether the statements are True or False: Sum of any two angles of a triangle is always greater than the third angle.",
    "proposed": {
     "chapterId": "mathematics-7/a-tale-of-three-intersecting-lines",
@@ -31155,7 +31771,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the statements are True or False: A right-angled triangle may have all sides equal.",
    "proposed": {
     "chapterId": "mathematics-7/a-tale-of-three-intersecting-lines",
@@ -33457,7 +34073,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "To reduce a rational number to its standard form, we divide its numerator and denominator by their",
    "proposed": {
     "chapterId": "mathematics-7/finding-common-ground",
@@ -40332,6 +40948,45 @@
    }
   },
   {
+   "id": "exemplar:q:7:science:1:-:3",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 7,
+   "level": "topic",
+   "stem": "Which of the following statements is/are correct? (i) All green plants can prepare their own food. (ii) Most animals are autotrophs. (iii) Carbon dioxide is not required for photosynthesis. (iv) Oxygen is liberated during photosynthesis. Choose the correct answer from the options below:",
+   "proposed": {
+    "chapterId": "science-7/life-processes-in-plants",
+    "topicId": "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9331,
+    "topic": 0.7585,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "photosynthesis",
+     "dioxide",
+     "carbon",
+     "green",
+     "oxygen",
+     "food"
+    ],
+    "topic": [
+     "photosynthesis",
+     "prepare",
+     "dioxide",
+     "carbon",
+     "animal",
+     "oxygen"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:7:science:1:-:4",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
@@ -40736,7 +41391,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 7,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Sunlight, chlorophyll, carbon dioxide, water and minerals are raw materials essential for photosynthesis. Do you know where they are available? Fill in the blanks with the appropriate raw materials. (a) Available in the plant : _______________ (b) Available in the soil : _______________, ___________",
    "proposed": {
     "chapterId": "science-7/life-processes-in-plants",
@@ -41162,6 +41817,52 @@
      "good",
      "human",
      "blood"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:7:science:2:-:13",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 7,
+   "level": "subtopic",
+   "stem": "Name the parts of the alimentary canal where (i) water gets absorbed from undigested food. (ii) digested food gets absorbed. (iii) taste of the food is perceived. (iv) bile juice is produced.",
+   "proposed": {
+    "chapterId": "science-7/life-processes-in-animals",
+    "topicId": "science-7/life-processes-in-animals/nutrition-in-animals",
+    "subtopicIds": [
+     "science-7/life-processes-in-animals/nutrition-in-animals/digestion-in-human-beings"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9918,
+    "topic": 0.9817,
+    "subtopic": 0.6786
+   },
+   "evidence": {
+    "chapter": [
+     "intestine",
+     "digest",
+     "canal",
+     "alimentary",
+     "absorb",
+     "food"
+    ],
+    "topic": [
+     "food",
+     "intestine",
+     "absorb",
+     "digest",
+     "alimentary",
+     "canal"
+    ],
+    "subtopic": [
+     "absorb",
+     "food",
+     "juice",
+     "intestine",
+     "water",
+     "taste"
     ]
    }
   },
@@ -42615,7 +43316,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 7,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Turmeric is a natural indicator. On adding its paste to acid and base separately, which colours would be observed",
    "proposed": {
     "chapterId": "science-7/exploring-substances-acidic-basic-and-neutral",
@@ -42653,6 +43354,89 @@
      "colour",
      "indicator",
      "adding"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:7:science:5:-:4",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 7,
+   "level": "topic",
+   "stem": "Phenolphthalein is a synthetic indicator and its colours in acidic and basic solutions, respectively are",
+   "proposed": {
+    "chapterId": "science-7/exploring-substances-acidic-basic-and-neutral",
+    "topicId": "science-7/exploring-substances-acidic-basic-and-neutral/what-happens-when-acidic-substances-mix-with-basic-substance",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9854,
+    "topic": 0.7637,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "blue",
+     "red",
+     "acidic",
+     "indicator",
+     "basic",
+     "pink"
+    ],
+    "topic": [
+     "blue",
+     "colour",
+     "red",
+     "solution",
+     "acidic",
+     "basic"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:7:science:5:-:6",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 7,
+   "level": "subtopic",
+   "stem": "‘Litmus’, a natural dye is an extract of which of the following?",
+   "proposed": {
+    "chapterId": "science-7/exploring-substances-acidic-basic-and-neutral",
+    "topicId": "science-7/exploring-substances-acidic-basic-and-neutral/nature-our-science-laboratory",
+    "subtopicIds": [
+     "science-7/exploring-substances-acidic-basic-and-neutral/nature-our-science-laboratory/red-rose-as-an-indicator"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9857,
+    "topic": 0.9232,
+    "subtopic": 0.6774
+   },
+   "evidence": {
+    "chapter": [
+     "lichen",
+     "litmus",
+     "rose",
+     "extract",
+     "blue",
+     "jamun"
+    ],
+    "topic": [
+     "lichen",
+     "extract",
+     "rose",
+     "litmus",
+     "natural",
+     "blue"
+    ],
+    "subtopic": [
+     "rose",
+     "extract",
+     "jamun",
+     "gudhal",
+     "beetroot",
+     "blue"
     ]
    }
   },
@@ -43105,6 +43889,43 @@
      "iron",
      "fact",
      "delhi"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:7:science:6:-:7",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 7,
+   "level": "topic",
+   "stem": "Galvanisation is a process used to prevent the rusting of which of the following?",
+   "proposed": {
+    "chapterId": "science-7/the-world-of-metals-and-non-metals",
+    "topicId": "science-7/the-world-of-metals-and-non-metals/effect-of-air-and-water-on-metals-iron",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.7669,
+    "topic": 0.7552,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "iron",
+     "copper",
+     "rust",
+     "aluminium",
+     "zinc",
+     "galvanisation"
+    ],
+    "topic": [
+     "iron",
+     "rust",
+     "zinc",
+     "process",
+     "galvanisation",
+     "prevent"
     ],
     "subtopic": []
    }
@@ -47195,7 +48016,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "A bus travels 54 km in 90 minutes. The speed of the bus is",
    "proposed": {
     "chapterId": "science-7/measurement-of-time-and-motion",
@@ -47232,7 +48053,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The correct symbol to represent the speed of an object is",
    "proposed": {
     "chapterId": "science-7/measurement-of-time-and-motion",
@@ -47307,7 +48128,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 7,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Paheli and Boojho have to cover different distances to reach their school but they take the same time to reach the school. What can you say about their speed?",
    "proposed": {
     "chapterId": "science-7/measurement-of-time-and-motion",
@@ -47378,6 +48199,40 @@
      "express",
      "average",
      "second"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:7:science:13:-:15",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 7,
+   "level": "topic",
+   "stem": "A spaceship travels 36,000 km in one hour. Express its speed in km/s.",
+   "proposed": {
+    "chapterId": "science-7/measurement-of-time-and-motion",
+    "topicId": "science-7/measurement-of-time-and-motion/speed",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.7667,
+    "topic": 0.761,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "speed",
+     "express",
+     "travel",
+     "hour"
+    ],
+    "topic": [
+     "express",
+     "speed",
+     "hour"
     ],
     "subtopic": [
      "(topic as a whole)"
@@ -48101,7 +48956,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Fill in the blanks: (a) The inner surface of a steel spoon acts as a ___________ mirror. (b) The outer surface of a flat steel plate acts as a ___________ mirror. (c) The outer shining surface of a round bottom steel bowl acts as a __________ mirror. (d) The inner surface of the reflector of a torch",
    "proposed": {
     "chapterId": "science-7/light-shadows-and-reflections",
@@ -48129,6 +48984,43 @@
      "plate",
      "act",
      "torch"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:7:science:15:-:12",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 7,
+   "level": "topic",
+   "stem": "What type of mirror is used as a side mirror in a scooter? Why is this type of mirror chosen?",
+   "proposed": {
+    "chapterId": "science-7/light-shadows-and-reflections",
+    "topicId": "science-7/light-shadows-and-reflections/images-formed-in-a-plane-mirror",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.7745,
+    "topic": 0.7421,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "mirror",
+     "side",
+     "image",
+     "behind",
+     "type",
+     "object"
+    ],
+    "topic": [
+     "mirror",
+     "type",
+     "image",
+     "behind",
+     "form",
+     "object"
     ],
     "subtopic": []
    }
@@ -53546,6 +54438,75 @@
    }
   },
   {
+   "id": "exemplar:q:8:mathematics:3:-:6",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "subtopic",
+   "stem": "Which of the following cannot be a perfect square?",
+   "proposed": {
+    "chapterId": "mathematics-8/a-square-and-a-cube",
+    "topicId": "mathematics-8/a-square-and-a-cube/square-numbers",
+    "subtopicIds": [
+     "mathematics-8/a-square-and-a-cube/square-numbers/perfect-squares-and-triangular-numbers"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9901,
+    "topic": 0.9336,
+    "subtopic": 0.6757
+   },
+   "evidence": {
+    "chapter": [
+     "perfect",
+     "square"
+    ],
+    "topic": [
+     "square",
+     "perfect"
+    ],
+    "subtopic": [
+     "square",
+     "perfect"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:8",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "topic",
+   "stem": "A square board has an area of 144 square units. How long is each side of the board?",
+   "proposed": {
+    "chapterId": "mathematics-8/a-square-and-a-cube",
+    "topicId": "mathematics-8/a-square-and-a-cube/square-numbers",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.864,
+    "topic": 0.7598,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "square",
+     "unit",
+     "area",
+     "side"
+    ],
+    "topic": [
+     "unit",
+     "square",
+     "area",
+     "side"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:8:mathematics:3:-:10",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -53612,6 +54573,49 @@
     "subtopic": [
      "successive",
      "odd",
+     "number"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:12",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "subtopic",
+   "stem": "The sum of first n odd natural numbers is",
+   "proposed": {
+    "chapterId": "mathematics-8/a-square-and-a-cube",
+    "topicId": "mathematics-8/a-square-and-a-cube/square-numbers",
+    "subtopicIds": [
+     "mathematics-8/a-square-and-a-cube/square-numbers/patterns-and-properties-of-perfect-squares"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.8829,
+    "topic": 0.7677,
+    "subtopic": 0.6624
+   },
+   "evidence": {
+    "chapter": [
+     "odd",
+     "natural",
+     "number",
+     "sum",
+     "first"
+    ],
+    "topic": [
+     "number",
+     "sum",
+     "natural",
+     "first",
+     "odd"
+    ],
+    "subtopic": [
+     "odd",
+     "sum",
+     "natural",
+     "first",
      "number"
     ]
    }
@@ -53797,11 +54801,45 @@
    }
   },
   {
-   "id": "exemplar:q:8:mathematics:3:-:26",
+   "id": "exemplar:q:8:mathematics:3:-:25",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
    "level": "subtopic",
+   "stem": "Fill in the blanks to make the statements true: There are _________ perfect squares between 1 and 100.",
+   "proposed": {
+    "chapterId": "mathematics-8/a-square-and-a-cube",
+    "topicId": "mathematics-8/a-square-and-a-cube/square-numbers",
+    "subtopicIds": [
+     "mathematics-8/a-square-and-a-cube/square-numbers/perfect-squares-and-triangular-numbers"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9901,
+    "topic": 0.9336,
+    "subtopic": 0.6757
+   },
+   "evidence": {
+    "chapter": [
+     "perfect",
+     "square"
+    ],
+    "topic": [
+     "square",
+     "perfect"
+    ],
+    "subtopic": [
+     "square",
+     "perfect"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:26",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "topic",
    "stem": "Fill in the blanks to make the statements true: There are _________ perfect cubes between 1 and 1000.",
    "proposed": {
     "chapterId": "mathematics-8/a-square-and-a-cube",
@@ -53827,6 +54865,40 @@
     "subtopic": [
      "cube",
      "perfect"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:28",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "subtopic",
+   "stem": "Fill in the blanks to make the statements true: The square of 500 will have _________ zeroes.",
+   "proposed": {
+    "chapterId": "mathematics-8/a-square-and-a-cube",
+    "topicId": "mathematics-8/a-square-and-a-cube/square-numbers",
+    "subtopicIds": [
+     "mathematics-8/a-square-and-a-cube/square-numbers/patterns-and-properties-of-perfect-squares"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.974,
+    "topic": 0.9411,
+    "subtopic": 0.6693
+   },
+   "evidence": {
+    "chapter": [
+     "zeroe",
+     "square"
+    ],
+    "topic": [
+     "square",
+     "zeroe"
+    ],
+    "subtopic": [
+     "zeroe",
+     "square"
     ]
    }
   },
@@ -53861,6 +54933,43 @@
     "subtopic": [
      "natural",
      "number"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:30",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "subtopic",
+   "stem": "Fill in the blanks to make the statements true: The square root of 24025 will have _________ digits.",
+   "proposed": {
+    "chapterId": "mathematics-8/a-square-and-a-cube",
+    "topicId": "mathematics-8/a-square-and-a-cube/square-numbers",
+    "subtopicIds": [
+     "mathematics-8/a-square-and-a-cube/square-numbers/square-roots"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.984,
+    "topic": 0.8662,
+    "subtopic": 0.6593
+   },
+   "evidence": {
+    "chapter": [
+     "root",
+     "square",
+     "digit"
+    ],
+    "topic": [
+     "square",
+     "root",
+     "digit"
+    ],
+    "subtopic": [
+     "root",
+     "square",
+     "digit"
     ]
    }
   },
@@ -54622,6 +55731,83 @@
    }
   },
   {
+   "id": "exemplar:q:8:mathematics:3:-:62",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "subtopic",
+   "stem": "State whether the statements are true (T) or false (F): The sum of first n odd natural numbers is n².",
+   "proposed": {
+    "chapterId": "mathematics-8/a-square-and-a-cube",
+    "topicId": "mathematics-8/a-square-and-a-cube/square-numbers",
+    "subtopicIds": [
+     "mathematics-8/a-square-and-a-cube/square-numbers/patterns-and-properties-of-perfect-squares"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.8829,
+    "topic": 0.7677,
+    "subtopic": 0.6624
+   },
+   "evidence": {
+    "chapter": [
+     "odd",
+     "natural",
+     "number",
+     "sum",
+     "first"
+    ],
+    "topic": [
+     "number",
+     "sum",
+     "natural",
+     "first",
+     "odd"
+    ],
+    "subtopic": [
+     "odd",
+     "sum",
+     "natural",
+     "first",
+     "number"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:63",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "subtopic",
+   "stem": "State whether the statements are true (T) or false (F): 1000 is a perfect square.",
+   "proposed": {
+    "chapterId": "mathematics-8/a-square-and-a-cube",
+    "topicId": "mathematics-8/a-square-and-a-cube/square-numbers",
+    "subtopicIds": [
+     "mathematics-8/a-square-and-a-cube/square-numbers/perfect-squares-and-triangular-numbers"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9901,
+    "topic": 0.9336,
+    "subtopic": 0.6757
+   },
+   "evidence": {
+    "chapter": [
+     "perfect",
+     "square"
+    ],
+    "topic": [
+     "square",
+     "perfect"
+    ],
+    "subtopic": [
+     "square",
+     "perfect"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:8:mathematics:3:-:65",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -54933,7 +56119,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "State whether the statements are true (T) or false (F): 999 is a perfect cube.",
    "proposed": {
     "chapterId": "mathematics-8/a-square-and-a-cube",
@@ -54967,7 +56153,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "State whether the statements are true (T) or false (F): 363 × 81 is a perfect cube.",
    "proposed": {
     "chapterId": "mathematics-8/a-square-and-a-cube",
@@ -55363,6 +56549,46 @@
     "subtopic": [
      "triplet",
      "number"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:96",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "subtopic",
+   "stem": "Using prime factorisation, find the square roots of (a)11025 (b) 4761",
+   "proposed": {
+    "chapterId": "mathematics-8/a-square-and-a-cube",
+    "topicId": "mathematics-8/a-square-and-a-cube/square-numbers",
+    "subtopicIds": [
+     "mathematics-8/a-square-and-a-cube/square-numbers/square-roots"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9919,
+    "topic": 0.8142,
+    "subtopic": 0.6815
+   },
+   "evidence": {
+    "chapter": [
+     "root",
+     "factorisation",
+     "prime",
+     "square"
+    ],
+    "topic": [
+     "square",
+     "root",
+     "prime",
+     "factorisation"
+    ],
+    "subtopic": [
+     "root",
+     "factorisation",
+     "prime",
+     "square"
     ]
    }
   },
@@ -59225,6 +60451,40 @@
    }
   },
   {
+   "id": "exemplar:q:8:mathematics:5:-:39",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "topic",
+   "stem": "The sum of angles of a concave quadrilateral is",
+   "proposed": {
+    "chapterId": "mathematics-8/quadrilaterals",
+    "topicId": "mathematics-8/quadrilaterals/angles-in-a-quadrilateral",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.8957,
+    "topic": 0.747,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "quadrilateral",
+     "angle",
+     "equal",
+     "sum",
+     "less"
+    ],
+    "topic": [
+     "angle",
+     "sum",
+     "quadrilateral",
+     "equal"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "exemplar:q:8:mathematics:5:-:40",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -59260,6 +60520,39 @@
      "polygon",
      "regular"
     ]
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:5:-:44",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "topic",
+   "stem": "PQRS is a square. PR and SQ intersect at O. Then ∠POQ is a",
+   "proposed": {
+    "chapterId": "mathematics-8/quadrilaterals",
+    "topicId": "mathematics-8/quadrilaterals/angles-in-a-quadrilateral",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.7847,
+    "topic": 0.7554,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "angle",
+     "intersect",
+     "square",
+     "right",
+     "straight",
+     "complete"
+    ],
+    "topic": [
+     "angle",
+     "right"
+    ],
+    "subtopic": []
    }
   },
   {
@@ -59371,7 +60664,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "If a diagonal of a quadrilateral bisects both the angles, then it is a",
    "proposed": {
     "chapterId": "mathematics-8/quadrilaterals",
@@ -60940,6 +62233,37 @@
    }
   },
   {
+   "id": "exemplar:q:8:mathematics:5:-:114",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "topic",
+   "stem": "State whether the statements are true (T) or (F) false: Every trapezium is a parallelogram.",
+   "proposed": {
+    "chapterId": "mathematics-8/quadrilaterals",
+    "topicId": "mathematics-8/quadrilaterals/kite-and-trapezium",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.744,
+    "topic": 0.7428,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "parallelogram",
+     "trapezium"
+    ],
+    "topic": [
+     "trapezium",
+     "parallelogram"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:8:mathematics:5:-:115",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -61124,7 +62448,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the statements are true (T) or (F) false: Every rhombus is a trapezium.",
    "proposed": {
     "chapterId": "mathematics-8/quadrilaterals",
@@ -61828,6 +63152,40 @@
    }
   },
   {
+   "id": "exemplar:q:8:mathematics:5:-:166",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "topic",
+   "stem": "Both the pairs of opposite angles of a quadrilateral are equal and supplementary. Find the measure of each angle.",
+   "proposed": {
+    "chapterId": "mathematics-8/quadrilaterals",
+    "topicId": "mathematics-8/quadrilaterals/angles-in-a-quadrilateral",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9746,
+    "topic": 0.7617,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "angle",
+     "quadrilateral",
+     "opposite",
+     "supplementary",
+     "measure",
+     "equal"
+    ],
+    "topic": [
+     "angle",
+     "quadrilateral",
+     "equal"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "exemplar:q:8:mathematics:5:-:167",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -61923,7 +63281,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "ABCD is a parallelogram. Points P and Q are taken on the sides AB and AD respectively and the parallelogram PRQA is formed. If ∠C = 45°, find ∠R.",
    "proposed": {
     "chapterId": "mathematics-8/quadrilaterals",
@@ -62422,7 +63780,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Fill in the blanks to make the statements true: In a three-dimensional shape, diagonal is a line segment that joins two vertices that do not lie on the ______ face.",
    "proposed": {
     "chapterId": "mathematics-8/exploring-some-geometric-themes",
@@ -62588,7 +63946,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the following statements are true (T) or false (F): A polyhedron can have 3 faces.",
    "proposed": {
     "chapterId": "mathematics-8/exploring-some-geometric-themes",
@@ -62662,7 +64020,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "State whether the following statements are true (T) or false (F): Regular octahedron has 8 congruent faces which are isosceles triangles.",
    "proposed": {
     "chapterId": "mathematics-8/exploring-some-geometric-themes",
@@ -62778,7 +64136,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the following statements are true (T) or false (F): The number of edges in a parallelogram is 4.",
    "proposed": {
     "chapterId": "mathematics-8/exploring-some-geometric-themes",
@@ -65467,7 +66825,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "The height of a triangle is x⁴ + y⁴ and its base is 14xy. Find the area of the triangle.",
    "proposed": {
     "chapterId": "mathematics-8/area",
@@ -68676,7 +70034,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "A TV set was bought for Rs 26,250 including 5% VAT. The original price of the TV set is",
    "proposed": {
     "chapterId": "mathematics-8/fractions-in-disguise",
@@ -69052,7 +70410,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Fill in the blanks to make the statements true: The time period after which the interest is added each time to form a new principal is called the _________.",
    "proposed": {
     "chapterId": "mathematics-8/fractions-in-disguise",
@@ -69972,7 +71330,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "In 1975, the consumption of water for human use was about 3850 cu.km/year. It increased to about 6000 cu.km/year in the year 2000. Find the per cent increase in the consumption of water from 1975 to 2000. Also, find the annual per cent increase in consumption (assuming water consumption increases un",
    "proposed": {
     "chapterId": "mathematics-8/fractions-in-disguise",
@@ -70017,7 +71375,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Harshna gave her car for service at service station on 27-05-2009 and was charged as follows: (a) 3.10 litres engine oil @ Rs 178.75 per litre and VAT @ 20%. (b) Rs 1,105.12 for all other services and VAT @ 12.5%. (c) Rs 2,095.80 as labour charges and service tax @10%. (d) 3% cess on service Tax. Fi",
    "proposed": {
     "chapterId": "mathematics-8/fractions-in-disguise",
@@ -70144,7 +71502,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Kritika ordered one pizza and one garlic bread from a pizza store and paid Rs 387 inclusive of taxes of Rs 43. Find the tax%.",
    "proposed": {
     "chapterId": "mathematics-8/fractions-in-disguise",
@@ -70452,6 +71810,52 @@
    }
   },
   {
+   "id": "exemplar:q:8:mathematics:9:-:97",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "subtopic",
+   "stem": "A lady buys some pencils for Rs 3 and an equal number for Rs 6. She sells them for Rs 7. Find her gain or loss%.",
+   "proposed": {
+    "chapterId": "mathematics-8/fractions-in-disguise",
+    "topicId": "mathematics-8/fractions-in-disguise/using-percentages",
+    "subtopicIds": [
+     "mathematics-8/fractions-in-disguise/using-percentages/tricky-percentages"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9039,
+    "topic": 0.8826,
+    "subtopic": 0.6586
+   },
+   "evidence": {
+    "chapter": [
+     "loss",
+     "sell",
+     "buy",
+     "pencil",
+     "gain",
+     "number"
+    ],
+    "topic": [
+     "sell",
+     "loss",
+     "buy",
+     "gain",
+     "pencil",
+     "number"
+    ],
+    "subtopic": [
+     "pencil",
+     "loss",
+     "number",
+     "equal",
+     "sell",
+     "buy"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:8:mathematics:9:-:98",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -70547,7 +71951,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Achal bought a second-hand car for Rs 2,25,000 and spend Rs 25,000 for repairing. If he sold it for Rs 3,25,000, what is his profit per cent?",
    "proposed": {
     "chapterId": "mathematics-8/fractions-in-disguise",
@@ -71084,7 +72488,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Both u and v vary directly with each other. When u is 10, v is 15, which of the following is not a possible pair of corresponding values of u and v?",
    "proposed": {
     "chapterId": "mathematics-8/proportional-reasoning-2",
@@ -71110,6 +72514,39 @@
      "correspond",
      "vary",
      "pair"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:10:-:3",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "topic",
+   "stem": "Assuming land to be uniformly fertile, the area of land and the yield on it vary",
+   "proposed": {
+    "chapterId": "mathematics-8/proportional-reasoning-2",
+    "topicId": "mathematics-8/proportional-reasoning-2/inverse-proportions",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.8075,
+    "topic": 0.7444,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "inversely",
+     "directly",
+     "vary",
+     "assum"
+    ],
+    "topic": [
+     "inversely",
+     "directly",
+     "assum",
+     "vary"
     ],
     "subtopic": []
    }
@@ -71151,7 +72588,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Both x and y vary directly with each other and when x is 10, y is 14, which of the following is not a possible pair of corresponding values of x and y?",
    "proposed": {
     "chapterId": "mathematics-8/proportional-reasoning-2",
@@ -71489,7 +72926,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "State whether the statements are true (T) or false (F): When two quantities are related in such a manner that, if one increases, the other also increases, then they always vary directly.",
    "proposed": {
     "chapterId": "mathematics-8/proportional-reasoning-2",
@@ -71514,6 +72951,43 @@
      "directly",
      "quantity",
      "vary"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:10:-:58",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "topic",
+   "stem": "State whether the statements are true (T) or false (F): For fixed time period and rate of interest, the simple interest is directly proportional to the principal.",
+   "proposed": {
+    "chapterId": "mathematics-8/proportional-reasoning-2",
+    "topicId": "mathematics-8/proportional-reasoning-2/inverse-proportions",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.8147,
+    "topic": 0.7426,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "proportional",
+     "rate",
+     "period",
+     "fixed",
+     "directly",
+     "time"
+    ],
+    "topic": [
+     "time",
+     "fixed",
+     "directly",
+     "period",
+     "rate",
+     "proportional"
     ],
     "subtopic": []
    }
@@ -71993,7 +73467,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "A bowler throws a cricket ball at a speed of 120 km/h. How long does this ball take to travel a distance of 20 metres to reach the batsman?",
    "proposed": {
     "chapterId": "mathematics-8/proportional-reasoning-2",
@@ -72030,7 +73504,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Many schools have a recommended students-teacher ratio as 35:1. Next year, school expects an increase in enrolment by 280 students. How many new teachers will they have to appoint to maintain the students-teacher ratio?",
    "proposed": {
     "chapterId": "mathematics-8/proportional-reasoning-2",
@@ -72458,7 +73932,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Area of a quadrilateral ABCD is 20 cm² and perpendiculars on BD from opposite vertices are 1 cm and 1.5 cm. The length of BD is",
    "proposed": {
     "chapterId": "mathematics-8/quadrilaterals",
@@ -72821,7 +74295,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Fill in the blanks to make the statements true: A trapezium with 3 equal sides and one side double the equal side can be divided into __________ equilateral triangles of _______ area.",
    "proposed": {
     "chapterId": "mathematics-8/area",
@@ -74757,6 +76231,43 @@
    }
   },
   {
+   "id": "exemplar:q:8:mathematics:13:-:6",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "topic",
+   "stem": "A four-digit number aabb is divisible by 55. Then possible value(s) of b is/are",
+   "proposed": {
+    "chapterId": "mathematics-8/number-play",
+    "topicId": "mathematics-8/number-play/digits-in-disguise",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.7829,
+    "topic": 0.749,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "divisible",
+     "digit",
+     "number",
+     "value",
+     "possible",
+     "four"
+    ],
+    "topic": [
+     "digit",
+     "possible",
+     "number",
+     "divisible",
+     "value",
+     "four"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "exemplar:q:8:mathematics:13:-:7",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -74798,7 +76309,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "If abc is a three digit number, then the number abc – a – b – c is divisible by",
    "proposed": {
     "chapterId": "mathematics-8/number-play",
@@ -75018,7 +76529,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Fill in the blanks to make the statements true: 3134673 is divisible by 3 and ______.",
    "proposed": {
     "chapterId": "mathematics-8/number-play",
@@ -75035,6 +76546,35 @@
      "divisible"
     ],
     "topic": [
+     "divisible"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:13:-:20",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "topic",
+   "stem": "Fill in the blanks to make the statements true: 3x5 is divisible by 9 if the digit x is __________.",
+   "proposed": {
+    "chapterId": "mathematics-8/number-play",
+    "topicId": "mathematics-8/number-play/digits-in-disguise",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.7822,
+    "topic": 0.7489,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "divisible",
+     "digit"
+    ],
+    "topic": [
+     "digit",
      "divisible"
     ],
     "subtopic": []
@@ -75146,6 +76686,39 @@
      "reverse",
      "three",
      "alway"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:13:-:28",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "topic",
+   "stem": "Fill in the blanks to make the statements true: A four-digit number abcd is divisible by 11, if d + b = _______ or _____",
+   "proposed": {
+    "chapterId": "mathematics-8/number-play",
+    "topicId": "mathematics-8/number-play/digits-in-disguise",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.8343,
+    "topic": 0.7601,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "divisible",
+     "digit",
+     "number",
+     "four"
+    ],
+    "topic": [
+     "digit",
+     "number",
+     "divisible",
+     "four"
     ],
     "subtopic": []
    }
@@ -75281,6 +76854,39 @@
     "topic": [
      "digit",
      "number"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:8:mathematics:13:-:36",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "topic",
+   "stem": "State whether the statements are true (T) or false (F): A four-digit number abcd is divisible by 4 if ab is divisible by 4.",
+   "proposed": {
+    "chapterId": "mathematics-8/number-play",
+    "topicId": "mathematics-8/number-play/digits-in-disguise",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.855,
+    "topic": 0.762,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "divisible",
+     "digit",
+     "number",
+     "four"
+    ],
+    "topic": [
+     "digit",
+     "divisible",
+     "number",
+     "four"
     ],
     "subtopic": []
    }
@@ -77305,7 +78911,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Give reasons for the following. (a) Fresh milk is boiled before consumption while processed milk stored in packets can be consumed without boiling. (b) Raw vegetables and fruits are kept in refrigerators whereas jams and pickles can be kept outside. (c) Farmers prefer to grow beans and peas in nitro",
    "proposed": {
     "chapterId": "science-8/the-invisible-living-world-beyond-our-naked-eye",
@@ -78612,7 +80218,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Which of the following reacts with cold water vigorously?",
    "proposed": {
     "chapterId": "science-8/nature-of-matter-elements-compounds-and-mixtures",
@@ -78731,7 +80337,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Generally metallic oxides are basic and non-metallic oxides are acidic in nature. Solution of which of the following oxides in water will change the colour of blue litmus to red?",
    "proposed": {
     "chapterId": "science-8/nature-of-matter-elements-compounds-and-mixtures",
@@ -81893,7 +83499,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The place meant for conservation of biodiversity in their natural habitat are (i) Zoological garden (iii) Wildlife sanctuary (ii) Botanical garden (iv) National park",
    "proposed": {
     "chapterId": "science-8/how-nature-works-in-harmony",
@@ -82786,7 +84392,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Choose the correct statement with respect to unicellular organisms:",
    "proposed": {
     "chapterId": "science-8/the-invisible-living-world-beyond-our-naked-eye",
@@ -82967,7 +84573,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The jelly-like fluid substance present in cells is called",
    "proposed": {
     "chapterId": "science-8/the-invisible-living-world-beyond-our-naked-eye",
@@ -83443,7 +85049,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "In leaves, name the cell organelle and pigment that is responsible for green colour.",
    "proposed": {
     "chapterId": "science-8/the-invisible-living-world-beyond-our-naked-eye",
@@ -83914,6 +85520,52 @@
      "reproduction",
      "take",
      "bacteria"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:8:science:9:-:6",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 8,
+   "level": "topic",
+   "stem": "Which of the following statements about reproduction in humans is correct?",
+   "proposed": {
+    "chapterId": "science-8/our-home-earth-a-unique-life-sustaining-planet",
+    "topicId": "science-8/our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing",
+    "subtopicIds": [
+     "science-8/our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing/sexual-reproduction"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.7779,
+    "topic": 0.763,
+    "subtopic": 0.7029
+   },
+   "evidence": {
+    "chapter": [
+     "fertilisation",
+     "female",
+     "reproduction",
+     "sperm",
+     "egg",
+     "human"
+    ],
+    "topic": [
+     "fertilisation",
+     "female",
+     "sperm",
+     "take",
+     "reproduction",
+     "egg"
+    ],
+    "subtopic": [
+     "fertilisation",
+     "female",
+     "human",
+     "egg",
+     "place",
+     "sperm"
     ]
    }
   },
@@ -84510,7 +86162,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Hens and frogs are both oviparous exhibiting different types of fertilisation. Explain.",
    "proposed": {
     "chapterId": "science-8/our-home-earth-a-unique-life-sustaining-planet",
@@ -87579,7 +89231,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The movement of the earth’s plates causes",
    "proposed": {
     "chapterId": "science-8/pressure-winds-storms-and-cyclones",
@@ -88057,6 +89709,43 @@
      "build",
      "air",
      "charge"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:8:science:15:-:17",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 8,
+   "level": "topic",
+   "stem": "If air and cloud were good conductors of electricity, do you think lightning could occur? Explain.",
+   "proposed": {
+    "chapterId": "science-8/pressure-winds-storms-and-cyclones",
+    "topicId": "science-8/pressure-winds-storms-and-cyclones/storms-thunderstorms-and-lightning",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.8067,
+    "topic": 0.7464,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "lightn",
+     "cloud",
+     "conductor",
+     "charge",
+     "occur",
+     "air"
+    ],
+    "topic": [
+     "cloud",
+     "lightn",
+     "occur",
+     "conductor",
+     "charge",
+     "place"
     ],
     "subtopic": []
    }
@@ -89210,7 +90899,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Explain why we always see the same side of moon.",
    "proposed": {
     "chapterId": "science-8/keeping-time-with-the-skies",
@@ -90568,7 +92257,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Degree of the polynomial 4x⁴ + 0x³ + 0x⁵ + 5x + 7 is",
    "proposed": {
     "chapterId": "mathematics-9/introduction-to-linear-polynomials",
@@ -91421,7 +93110,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Find the following product : (2x – y + 3z) (4x² + y² + 9z² + 2xy + 3yz – 6xz)",
    "proposed": {
     "chapterId": "mathematics-9/exploring-algebraic-identities",
@@ -91746,7 +93435,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Abscissa of all the points on the x-axis is",
    "proposed": {
     "chapterId": "mathematics-9/orienting-yourself-the-use-of-coordinates",
@@ -91777,7 +93466,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Ordinate of all points on the x-axis is",
    "proposed": {
     "chapterId": "mathematics-9/orienting-yourself-the-use-of-coordinates",
@@ -95158,7 +96847,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Opposite angles of a quadrilateral ABCD are equal. If AB = 4 cm, determine CD.",
    "proposed": {
     "chapterId": "mathematics-9/i-m-up-and-down-and-round-and-round",
@@ -95397,7 +97086,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "PQRS is a parallelogram whose area is 180 cm² and A is any point on the diagonal QS. The area of ∆ ASR = 90 cm².",
    "proposed": {
     "chapterId": "mathematics-9/measuring-space-perimeter-and-area",
@@ -95993,7 +97682,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The area of a triangle with base 4 cm and height 6 cm is 24 cm².",
    "proposed": {
     "chapterId": "mathematics-9/measuring-space-perimeter-and-area",
@@ -98620,7 +100309,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Which of the following are physical changes? (i) Melting of iron metal (ii) Rusting of iron (iii) Bending of an iron rod (iv) Drawing a wire of iron metal",
    "proposed": {
     "chapterId": "science-9/exploring-mixtures-and-their-separation",
@@ -99448,7 +101137,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The chemical symbol for nitrogen gas is",
    "proposed": {
     "chapterId": "science-9/atomic-foundations-of-matter",
@@ -99481,7 +101170,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "The chemical symbol for sodium is",
    "proposed": {
     "chapterId": "science-9/atomic-foundations-of-matter",
@@ -99975,7 +101664,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Compute the difference in masses of one mole each of aluminium atoms and one mole of its ions. (Mass of an electron is 9.1×10⁻²⁸ g). Which one is heavier?",
    "proposed": {
     "chapterId": "science-9/atomic-foundations-of-matter",
@@ -100239,7 +101928,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Rutherford’s α–particle scattering experiment showed that (i) electrons have negative charge (ii) the mass and positive charge of the atom is concentrated in the nucleus (iii) neutron exists in the nucleus (iv) most of the space in atom is empty Which of the above statements are correct?",
    "proposed": {
     "chapterId": "science-9/journey-inside-the-atom",
@@ -100278,6 +101967,43 @@
      "charge",
      "mass"
     ]
+   }
+  },
+  {
+   "id": "exemplar:q:9:science:4:-:9",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 9,
+   "level": "topic",
+   "stem": "The ion of an element has 3 positive charges. Mass number of the atom is 27 and the number of neutrons is 14. What is the number of electrons in the ion?",
+   "proposed": {
+    "chapterId": "science-9/journey-inside-the-atom",
+    "topicId": "science-9/journey-inside-the-atom/mass-number",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9491,
+    "topic": 0.7538,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "neutron",
+     "electron",
+     "atom",
+     "charge",
+     "element",
+     "number"
+    ],
+    "topic": [
+     "number",
+     "mass",
+     "neutron",
+     "electron",
+     "atom",
+     "element"
+    ],
+    "subtopic": []
    }
   },
   {
@@ -101178,6 +102904,52 @@
    }
   },
   {
+   "id": "exemplar:q:9:science:5:-:8",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 9,
+   "level": "subtopic",
+   "stem": "Which of the following are covered by a single membrane?",
+   "proposed": {
+    "chapterId": "science-9/cell-the-building-block-of-life",
+    "topicId": "science-9/cell-the-building-block-of-life/the-cell-interior-a-coordinated-working-system",
+    "subtopicIds": [
+     "science-9/cell-the-building-block-of-life/the-cell-interior-a-coordinated-working-system/why-do-eukaryotic-cells-need-these-organelles"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9791,
+    "topic": 0.8996,
+    "subtopic": 0.6648
+   },
+   "evidence": {
+    "chapter": [
+     "plastid",
+     "vacuole",
+     "lysosome",
+     "membrane",
+     "mitochondria",
+     "cover"
+    ],
+    "topic": [
+     "vacuole",
+     "plastid",
+     "mitochondria",
+     "membrane",
+     "lysosome",
+     "single"
+    ],
+    "subtopic": [
+     "plastid",
+     "vacuole",
+     "single",
+     "membrane",
+     "mitochondria",
+     "lysosome"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:9:science:5:-:9",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
@@ -101362,6 +103134,45 @@
    }
   },
   {
+   "id": "exemplar:q:9:science:5:-:13",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 9,
+   "level": "topic",
+   "stem": "The undefined nuclear region of prokaryotes are also known as",
+   "proposed": {
+    "chapterId": "science-9/cell-the-building-block-of-life",
+    "topicId": "science-9/cell-the-building-block-of-life/the-cell-interior-a-coordinated-working-system",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.898,
+    "topic": 0.7618,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "nucleoid",
+     "nucleolus",
+     "nucleus",
+     "nuclear",
+     "acid",
+     "region"
+    ],
+    "topic": [
+     "nuclear",
+     "nucleoid",
+     "nucleolus",
+     "nucleus",
+     "region",
+     "acid"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:9:science:5:-:14",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
@@ -101458,7 +103269,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Amoeba acquires its food through a process, termed",
    "proposed": {
     "chapterId": "science-9/cell-the-building-block-of-life",
@@ -102347,6 +104158,45 @@
    }
   },
   {
+   "id": "exemplar:q:9:science:5:-:42",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 9,
+   "level": "topic",
+   "stem": "Name the organelles which show the analogy written as under (a) Transporting channels of the cell—— (b) Power house of the cell—— (c) Packaging and dispatching unit of the cell—— (d) Digestive bag of the cell—— (e) Storage sacs of the cell—— (f) Kitchen of the cell—— (g) Control room of the cell——",
+   "proposed": {
+    "chapterId": "science-9/cell-the-building-block-of-life",
+    "topicId": "science-9/cell-the-building-block-of-life/the-cell-interior-a-coordinated-working-system",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9795,
+    "topic": 0.752,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "cell",
+     "organelle",
+     "sac",
+     "golgi",
+     "reticulum",
+     "endoplasmic"
+    ],
+    "topic": [
+     "cell",
+     "organelle",
+     "transport",
+     "sac",
+     "storage",
+     "vacuole"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:9:science:5:-:43",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
@@ -102651,6 +104501,52 @@
      "chromosome",
      "relat",
      "made"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:1",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 9,
+   "level": "subtopic",
+   "stem": "Which of the following tissues has dead cells?",
+   "proposed": {
+    "chapterId": "science-9/tissues-in-action",
+    "topicId": "science-9/tissues-in-action/tissues-for-growth-in-plants",
+    "subtopicIds": [
+     "science-9/tissues-in-action/tissues-for-growth-in-plants/permanent-tissues"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9961,
+    "topic": 0.8426,
+    "subtopic": 0.672
+   },
+   "evidence": {
+    "chapter": [
+     "sclerenchyma",
+     "parenchyma",
+     "tissue",
+     "epithelial",
+     "collenchyma",
+     "cell"
+    ],
+    "topic": [
+     "sclerenchyma",
+     "parenchyma",
+     "collenchyma",
+     "tissue",
+     "dead",
+     "cell"
+    ],
+    "subtopic": [
+     "sclerenchyma",
+     "parenchyma",
+     "collenchyma",
+     "tissue",
+     "dead",
+     "cell"
     ]
    }
   },
@@ -103295,6 +105191,52 @@
      "sieve",
      "tube",
      "vessel"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:26",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 9,
+   "level": "subtopic",
+   "stem": "If the tip of sugarcane plant is removed from the field, even then it keeps on growing in length. It is due to the presence of",
+   "proposed": {
+    "chapterId": "science-9/tissues-in-action",
+    "topicId": "science-9/tissues-in-action/tissues-for-growth-in-plants",
+    "subtopicIds": [
+     "science-9/tissues-in-action/tissues-for-growth-in-plants/intercalary-meristem-how-do-plants-grow-after-being-cut"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.987,
+    "topic": 0.9747,
+    "subtopic": 0.6727
+   },
+   "evidence": {
+    "chapter": [
+     "meristem",
+     "intercalary",
+     "lateral",
+     "apical",
+     "cambium",
+     "tip"
+    ],
+    "topic": [
+     "meristem",
+     "intercalary",
+     "length",
+     "tip",
+     "apical",
+     "presence"
+    ],
+    "subtopic": [
+     "intercalary",
+     "meristem",
+     "tip",
+     "grow",
+     "lateral",
+     "apical"
     ]
    }
   },
@@ -104296,7 +106238,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Pteridophyta do not have",
    "proposed": {
     "chapterId": "science-9/patterns-in-life-diversity-and-classification",
@@ -104610,7 +106552,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Corals are",
    "proposed": {
     "chapterId": "science-9/patterns-in-life-diversity-and-classification",
@@ -105029,7 +106971,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The ‘Origin of Species’ is written by",
    "proposed": {
     "chapterId": "science-9/patterns-in-life-diversity-and-classification",
@@ -105442,7 +107384,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Give examples for the following (a) Bilateral, dorsiventral symmetry is found in———. (b) Worms causing disease elephantiasis is———. (c) Open circulatory system is found in———where coelomic cavity is filled with blood. (d) ———are known to have pseudocoelom.",
    "proposed": {
     "chapterId": "science-9/patterns-in-life-diversity-and-classification",
@@ -105918,7 +107860,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Which of the following statement is not correct for an object moving along a straight path in an accelerated motion?",
    "proposed": {
     "chapterId": "science-9/how-forces-affect-motion",
@@ -106029,7 +107971,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The inertia of an object tends to cause the object",
    "proposed": {
     "chapterId": "science-9/how-forces-affect-motion",
@@ -107161,7 +109103,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "A car is accelerated on a levelled road and attains a velocity 4 times of its initial velocity. In this process the potential energy of the car",
    "proposed": {
     "chapterId": "science-9/work-energy-and-simple-machines",
@@ -107243,7 +109185,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "A girl is carrying a school bag of 3 kg mass on her back and moves 200 m on a levelled road. The work done against the gravitational force will be (g =10 m s⁻²)",
    "proposed": {
     "chapterId": "science-9/work-energy-and-simple-machines",
@@ -107691,7 +109633,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Infrasound can be heard by",
    "proposed": {
     "chapterId": "science-9/sound-waves-characteristics-and-applications",
@@ -109278,7 +111220,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "The atmosphere of the earth is heated by radiations which are mainly",
    "proposed": {
     "chapterId": "science-9/earth-as-a-system-energy-matter-and-life",
@@ -109980,7 +111922,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "When we breathe in air, nitrogen also goes inside along with oxygen. What is the fate of this nitrogen?",
    "proposed": {
     "chapterId": "science-9/earth-as-a-system-energy-matter-and-life",
@@ -110061,7 +112003,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Choose the correct sequences",
    "proposed": {
     "chapterId": "science-9/earth-as-a-system-energy-matter-and-life",
@@ -114118,7 +116060,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 10,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "The father’s age is six times his son’s age. Four years hence, the age of the father will be four times his son’s age. The present ages, in years, of the son and the father are, respectively",
    "proposed": {
     "chapterId": "mathematics-10/pair-of-linear-equations-in-two-variables",
@@ -114297,6 +116239,52 @@
    }
   },
   {
+   "id": "exemplar:q:10:mathematics:3:3.3:16",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "Two years ago, Salim was thrice as old as his daughter and six years later, he will be four years older than twice her age. How old are they now?",
+   "proposed": {
+    "chapterId": "mathematics-10/pair-of-linear-equations-in-two-variables",
+    "topicId": "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations",
+    "subtopicIds": [
+     "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations/substitution-method"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.8911,
+    "topic": 0.8735,
+    "subtopic": 0.6775
+   },
+   "evidence": {
+    "chapter": [
+     "old",
+     "year",
+     "daughter",
+     "age",
+     "ago",
+     "twice"
+    ],
+    "topic": [
+     "year",
+     "old",
+     "age",
+     "daughter",
+     "ago",
+     "later"
+    ],
+    "subtopic": [
+     "age",
+     "year",
+     "daughter",
+     "old",
+     "ago",
+     "later"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:10:mathematics:3:3.3:17",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -114450,7 +116438,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Determine, graphically, the vertices of the triangle formed by the lines y = x, 3y = x, x + y = 8",
    "proposed": {
     "chapterId": "mathematics-10/pair-of-linear-equations-in-two-variables",
@@ -114884,7 +116872,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "If b = 0, c < 0, is it true that the roots of x² + bx + c = 0 are numerically equal and opposite in sign? Justify.",
    "proposed": {
     "chapterId": "mathematics-10/quadratic-equations",
@@ -115761,6 +117749,37 @@
    }
   },
   {
+   "id": "exemplar:q:10:mathematics:5:5.4:6",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 10,
+   "level": "topic",
+   "stem": "The ratio of the 11th term to the 18th term of an AP is 2 : 3. Find the ratio of the 5th term to the 21st term, and also the ratio of the sum of the first five terms to the sum of the first 21 terms.",
+   "proposed": {
+    "chapterId": "mathematics-10/arithmetic-progressions",
+    "topicId": "mathematics-10/arithmetic-progressions/sum-of-first-n-terms-of-an-ap",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.845,
+    "topic": 0.7549,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "term",
+     "sum",
+     "first"
+    ],
+    "topic": [
+     "term",
+     "sum",
+     "first"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "exemplar:q:10:mathematics:5:5.4:8",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -115859,6 +117878,40 @@
      "collect",
      "day",
      "back"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:10:mathematics:6:6.1:7",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 10,
+   "level": "topic",
+   "stem": "In triangles ABC and DEF, \u0001B = \u0001E, \u0001F = \u0001C and AB = 3 DE. Then, the two triangles are",
+   "proposed": {
+    "chapterId": "mathematics-10/triangles",
+    "topicId": "mathematics-10/triangles/similar-figures",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9955,
+    "topic": 0.7491,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "congruent",
+     "similar",
+     "def",
+     "triangle",
+     "abc",
+     "well"
+    ],
+    "topic": [
+     "similar",
+     "congruent",
+     "triangle"
     ],
     "subtopic": []
    }
@@ -116224,6 +118277,41 @@
     ],
     "topic": [
      "area",
+     "vertice"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:10:mathematics:7:7.1:8",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 10,
+   "level": "topic",
+   "stem": "The points (–4, 0), (4, 0), (0, 3) are the vertices of a",
+   "proposed": {
+    "chapterId": "mathematics-10/coordinate-geometry",
+    "topicId": "mathematics-10/coordinate-geometry/distance-formula",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.8894,
+    "topic": 0.7418,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "triangle",
+     "vertice",
+     "isoscele",
+     "point",
+     "right"
+    ],
+    "topic": [
+     "triangle",
+     "right",
+     "isoscele",
+     "point",
      "vertice"
     ],
     "subtopic": []
@@ -116674,7 +118762,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "If cos (α + β) = 0, then sin (α – β) can be reduced to",
    "proposed": {
     "chapterId": "mathematics-10/introduction-to-trigonometry",
@@ -116768,7 +118856,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The value of the expression (sin 80° – cos 80°) is negative.",
    "proposed": {
     "chapterId": "mathematics-10/introduction-to-trigonometry",
@@ -116853,6 +118941,43 @@
     "topic": [
      "tan",
      "sec"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:10:mathematics:8:8.2:8",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 10,
+   "level": "topic",
+   "stem": "If a man standing on a platform 3 metres above the surface of a lake observes a cloud and its reflection in the lake, then the angle of elevation of the cloud is equal to the angle of depression of its reflection.",
+   "proposed": {
+    "chapterId": "mathematics-10/some-applications-of-trigonometry",
+    "topicId": "mathematics-10/some-applications-of-trigonometry/heights-and-distances",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.8017,
+    "topic": 0.7509,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "elevation",
+     "depression",
+     "angle",
+     "stand",
+     "man",
+     "equal"
+    ],
+    "topic": [
+     "angle",
+     "elevation",
+     "depression",
+     "stand",
+     "equal",
+     "man"
     ],
     "subtopic": []
    }
@@ -117104,6 +119229,41 @@
    }
   },
   {
+   "id": "exemplar:q:10:mathematics:11:11.1:6",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 10,
+   "level": "topic",
+   "stem": "It is proposed to build a single circular park equal in area to the sum of areas of two circular parks of diameters 16 m and 12 m in a locality. The radius of the new park would be",
+   "proposed": {
+    "chapterId": "mathematics-10/areas-related-to-circles",
+    "topicId": "mathematics-10/areas-related-to-circles/areas-of-sector-and-segment-of-a-circle",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.776,
+    "topic": 0.7604,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "area",
+     "radius",
+     "circular",
+     "diameter",
+     "equal"
+    ],
+    "topic": [
+     "area",
+     "circular",
+     "radius",
+     "equal",
+     "diameter"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "exemplar:q:10:mathematics:11:11.2:5",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -117139,7 +119299,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Is the area of the largest circle that can be drawn inside a rectangle of length a cm and breadth b cm (a > b) is π b² cm²? Why?",
    "proposed": {
     "chapterId": "mathematics-10/areas-related-to-circles",
@@ -117442,6 +119602,43 @@
    }
   },
   {
+   "id": "exemplar:q:10:mathematics:12:12.3:14",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 10,
+   "level": "topic",
+   "stem": "Find the number of metallic circular disc with 1.5 cm base diameter and of height 0.2 cm to be melted to form a right circular cylinder of height 10 cm and diameter 4.5 cm.",
+   "proposed": {
+    "chapterId": "mathematics-10/surface-areas-and-volumes",
+    "topicId": "mathematics-10/surface-areas-and-volumes/volume-of-a-combination-of-solids",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9953,
+    "topic": 0.7413,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "cylinder",
+     "height",
+     "base",
+     "diameter",
+     "circular",
+     "right"
+    ],
+    "topic": [
+     "height",
+     "diameter",
+     "circular",
+     "right",
+     "base",
+     "form"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "exemplar:q:10:mathematics:12:12.4:1",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Mathematics",
@@ -117474,6 +119671,43 @@
      "right",
      "circular",
      "base"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:10:mathematics:12:12.4:2",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 10,
+   "level": "topic",
+   "stem": "A rectangular water tank of base 11 m × 6 m contains water upto a height of 5 m. If the water in the tank is transferred to a cylindrical tank of radius 3.5 m, find the height of the water level in the tank.",
+   "proposed": {
+    "chapterId": "mathematics-10/surface-areas-and-volumes",
+    "topicId": "mathematics-10/surface-areas-and-volumes/volume-of-a-combination-of-solids",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9903,
+    "topic": 0.7428,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "water",
+     "cylindrical",
+     "height",
+     "base",
+     "radius",
+     "contain"
+    ],
+    "topic": [
+     "water",
+     "height",
+     "radius",
+     "contain",
+     "base",
+     "cylindrical"
     ],
     "subtopic": []
    }
@@ -117622,6 +119856,43 @@
      "hemispherical",
      "cylindrical",
      "shap"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:10:mathematics:12:12.4:18",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Mathematics",
+   "grade": 10,
+   "level": "topic",
+   "stem": "Water flows through a cylindrical pipe, whose inner radius is 1 cm, at the rate of 80 cm/sec in an empty cylindrical tank, the radius of whose base is 40 cm. What is the rise of water level in tank in half an hour?",
+   "proposed": {
+    "chapterId": "mathematics-10/surface-areas-and-volumes",
+    "topicId": "mathematics-10/surface-areas-and-volumes/volume-of-a-combination-of-solids",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9938,
+    "topic": 0.7516,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "cylindrical",
+     "water",
+     "radius",
+     "base",
+     "inner",
+     "flow"
+    ],
+    "topic": [
+     "radius",
+     "water",
+     "half",
+     "cylindrical",
+     "base",
+     "inner"
     ],
     "subtopic": []
    }
@@ -117809,7 +120080,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Which of the following is not a physical change?",
    "proposed": {
     "chapterId": "science-10/chemical-reactions-and-equations",
@@ -120371,6 +122642,98 @@
    }
   },
   {
+   "id": "exemplar:q:10:science:3:-:37",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "Iqbal treated a lustrous, divalent element M with sodium hydroxide. He observed the formation of bubbles in reaction mixture. He made the same observations when this element was treated with hydrochloric acid. Suggest how can he identify the produced gas. Write chemical equations for both the reacti",
+   "proposed": {
+    "chapterId": "science-10/metals-and-non-metals",
+    "topicId": "science-10/metals-and-non-metals/chemical-properties-of-metals",
+    "subtopicIds": [
+     "science-10/metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-react-with-acids"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9618,
+    "topic": 0.9052,
+    "subtopic": 0.6788
+   },
+   "evidence": {
+    "chapter": [
+     "element",
+     "gas",
+     "sodium",
+     "reaction",
+     "lustrous",
+     "bubble"
+    ],
+    "topic": [
+     "gas",
+     "bubble",
+     "acid",
+     "hydroxide",
+     "hydrochloric",
+     "reaction"
+    ],
+    "subtopic": [
+     "acid",
+     "produc",
+     "formation",
+     "hydrochloric",
+     "gas",
+     "bubble"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:10:science:3:-:40",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "Generally, when metals are treated with mineral acids, hydrogen gas is liberated but when metals (except Mn and Mg), treated with HNO₃, hydrogen is not liberated, why?",
+   "proposed": {
+    "chapterId": "science-10/metals-and-non-metals",
+    "topicId": "science-10/metals-and-non-metals/chemical-properties-of-metals",
+    "subtopicIds": [
+     "science-10/metals-and-non-metals/chemical-properties-of-metals/what-happens-when-metals-react-with-acids"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9839,
+    "topic": 0.8475,
+    "subtopic": 0.6567
+   },
+   "evidence": {
+    "chapter": [
+     "metal",
+     "hydrogen",
+     "gas",
+     "hno",
+     "liberat",
+     "except"
+    ],
+    "topic": [
+     "hydrogen",
+     "acid",
+     "hno",
+     "metal",
+     "gas",
+     "except"
+    ],
+    "subtopic": [
+     "hno",
+     "acid",
+     "hydrogen",
+     "metal",
+     "gas",
+     "except"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:10:science:3:-:41",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
@@ -120459,6 +122822,52 @@
      "catche",
      "metal",
      "water"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:10:science:3:-:44",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "The following reaction takes place when aluminium powder is heated with MnO₂ 3 MnO₂ (s) + 4 Al (s) → 3 Mn (l) + 2 Al₂O₃ (l) + Heat (a) Is aluminium getting reduced? (b) Is MnO₂ getting oxidised?",
+   "proposed": {
+    "chapterId": "science-10/metals-and-non-metals",
+    "topicId": "science-10/metals-and-non-metals/occurrence-of-metals",
+    "subtopicIds": [
+     "science-10/metals-and-non-metals/occurrence-of-metals/extracting-metals-in-the-middle-of-the-activity-series"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9142,
+    "topic": 0.7783,
+    "subtopic": 0.6794
+   },
+   "evidence": {
+    "chapter": [
+     "aluminium",
+     "mno",
+     "reduc",
+     "powder",
+     "reaction",
+     "heat"
+    ],
+    "topic": [
+     "reduc",
+     "mno",
+     "gett",
+     "aluminium",
+     "heat",
+     "oxidis"
+    ],
+    "subtopic": [
+     "aluminium",
+     "heat",
+     "reduc",
+     "mno",
+     "gett",
+     "reaction"
     ]
    }
   },
@@ -120980,6 +123389,52 @@
    }
   },
   {
+   "id": "exemplar:q:10:science:4:-:7",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "Oils on treating with hydrogen in the presence of palladium or nickel catalyst form fats. This is an example of",
+   "proposed": {
+    "chapterId": "science-10/carbon-and-its-compounds",
+    "topicId": "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds",
+    "subtopicIds": [
+     "science-10/carbon-and-its-compounds/chemical-properties-of-carbon-compounds/addition-reaction"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9552,
+    "topic": 0.9212,
+    "subtopic": 0.6765
+   },
+   "evidence": {
+    "chapter": [
+     "reaction",
+     "addition",
+     "hydrogen",
+     "oil",
+     "oxidation",
+     "catalyst"
+    ],
+    "topic": [
+     "reaction",
+     "oxidation",
+     "oil",
+     "substitution",
+     "nickel",
+     "fat"
+    ],
+    "subtopic": [
+     "addition",
+     "reaction",
+     "catalyst",
+     "nickel",
+     "fat",
+     "oil"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:10:science:4:-:8",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
@@ -121231,11 +123686,57 @@
    }
   },
   {
-   "id": "exemplar:q:10:science:4:-:35",
+   "id": "exemplar:q:10:science:4:-:29",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 10,
    "level": "subtopic",
+   "stem": "The first member of alkyne homologous series is",
+   "proposed": {
+    "chapterId": "science-10/carbon-and-its-compounds",
+    "topicId": "science-10/carbon-and-its-compounds/versatile-nature-of-carbon",
+    "subtopicIds": [
+     "science-10/carbon-and-its-compounds/versatile-nature-of-carbon/homologous-series"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9895,
+    "topic": 0.9765,
+    "subtopic": 0.6643
+   },
+   "evidence": {
+    "chapter": [
+     "ethyne",
+     "homologous",
+     "methane",
+     "ethene",
+     "alkyne",
+     "propyne"
+    ],
+    "topic": [
+     "sery",
+     "homologous",
+     "alkyne",
+     "ethyne",
+     "ethene",
+     "propyne"
+    ],
+    "subtopic": [
+     "sery",
+     "homologous",
+     "member",
+     "ethene",
+     "first",
+     "alkyne"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:10:science:4:-:35",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "topic",
    "stem": "Name the functional groups present in the following compounds (a) CH₃ CO CH₂ CH₂ CH₂ CH₃ (b) CH₃ CH₂ CH₂ COOH (c) CH₃ CH₂ CH₂ CH₂ CHO (d) CH₃ CH₂ OH",
    "proposed": {
     "chapterId": "science-10/carbon-and-its-compounds",
@@ -122626,6 +125127,45 @@
    }
   },
   {
+   "id": "exemplar:q:10:science:6:-:3",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "topic",
+   "stem": "Select the correct statement",
+   "proposed": {
+    "chapterId": "science-10/life-processes",
+    "topicId": "science-10/life-processes/nutrition",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9776,
+    "topic": 0.7499,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "synthesise",
+     "photosynthesis",
+     "food",
+     "heterotroph",
+     "dioxide",
+     "carbohydrate"
+    ],
+    "topic": [
+     "food",
+     "carbohydrate",
+     "heterotroph",
+     "synthesise",
+     "dioxide",
+     "energy"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:10:science:6:-:8",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
@@ -122714,6 +125254,52 @@
      "flow",
      "cycle",
      "passage"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:20",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "In which of the following vertebrate group/groups, heart does not pump oxygenated blood to different parts of the body?",
+   "proposed": {
+    "chapterId": "science-10/life-processes",
+    "topicId": "science-10/life-processes/transportation",
+    "subtopicIds": [
+     "science-10/life-processes/transportation/transportation-in-human-beings"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9731,
+    "topic": 0.8489,
+    "subtopic": 0.6696
+   },
+   "evidence": {
+    "chapter": [
+     "oxygenat",
+     "blood",
+     "heart",
+     "amphibian",
+     "pump",
+     "body"
+    ],
+    "topic": [
+     "oxygenat",
+     "heart",
+     "amphibian",
+     "pump",
+     "blood",
+     "vertebrate"
+    ],
+    "subtopic": [
+     "heart",
+     "pump",
+     "blood",
+     "body",
+     "amphibian",
+     "oxygenat"
     ]
    }
   },
@@ -122970,6 +125556,52 @@
      "open",
      "cell",
      "stomatal"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:10:science:6:-:30",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "Choose the forms in which most plants absorb nitrogen (i) Proteins (ii) Nitrates and Nitrites (iii) Urea (iv) Atmospheric nitrogen",
+   "proposed": {
+    "chapterId": "science-10/life-processes",
+    "topicId": "science-10/life-processes/nutrition",
+    "subtopicIds": [
+     "science-10/life-processes/nutrition/autotrophic-nutrition"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9693,
+    "topic": 0.8112,
+    "subtopic": 0.6792
+   },
+   "evidence": {
+    "chapter": [
+     "absorb",
+     "nitrogen",
+     "protein",
+     "plant",
+     "nitrite",
+     "urea"
+    ],
+    "topic": [
+     "iii",
+     "nitrogen",
+     "protein",
+     "plant",
+     "form",
+     "nitrite"
+    ],
+    "subtopic": [
+     "nitrogen",
+     "iii",
+     "plant",
+     "nitrite",
+     "nitrate",
+     "atmospheric"
     ]
    }
   },
@@ -123708,6 +126340,92 @@
    }
   },
   {
+   "id": "exemplar:q:10:science:7:-:9",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "Spinal cord originates from",
+   "proposed": {
+    "chapterId": "science-10/control-and-coordination",
+    "topicId": "science-10/control-and-coordination/animals-nervous-system",
+    "subtopicIds": [
+     "science-10/control-and-coordination/animals-nervous-system/human-brain"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9803,
+    "topic": 0.8919,
+    "subtopic": 0.6786
+   },
+   "evidence": {
+    "chapter": [
+     "spinal",
+     "cord",
+     "medulla",
+     "cerebellum"
+    ],
+    "topic": [
+     "spinal",
+     "cord",
+     "medulla",
+     "cerebellum"
+    ],
+    "subtopic": [
+     "medulla",
+     "spinal",
+     "cord",
+     "cerebellum"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:11",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "The main function of abscisic acid in plants is to",
+   "proposed": {
+    "chapterId": "science-10/control-and-coordination",
+    "topicId": "science-10/control-and-coordination/coordination-in-plants",
+    "subtopicIds": [
+     "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9896,
+    "topic": 0.936,
+    "subtopic": 0.6675
+   },
+   "evidence": {
+    "chapter": [
+     "growth",
+     "promote",
+     "inhibit",
+     "cell",
+     "plant",
+     "function"
+    ],
+    "topic": [
+     "growth",
+     "promote",
+     "plant",
+     "cell",
+     "stem",
+     "inhibit"
+    ],
+    "subtopic": [
+     "cell",
+     "promote",
+     "growth",
+     "inhibit",
+     "division",
+     "plant"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:10:science:7:-:16",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
@@ -123754,11 +126472,57 @@
    }
   },
   {
-   "id": "exemplar:q:10:science:7:-:23",
+   "id": "exemplar:q:10:science:7:-:19",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 10,
    "level": "subtopic",
+   "stem": "The movement of sunflower in accordance with the path of sun is due to",
+   "proposed": {
+    "chapterId": "science-10/control-and-coordination",
+    "topicId": "science-10/control-and-coordination/coordination-in-plants",
+    "subtopicIds": [
+     "science-10/control-and-coordination/coordination-in-plants/movement-due-to-growth"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9848,
+    "topic": 0.8675,
+    "subtopic": 0.6808
+   },
+   "evidence": {
+    "chapter": [
+     "movement",
+     "phototropism",
+     "hydrotropism",
+     "geotropism",
+     "chemotropism",
+     "sunflower"
+    ],
+    "topic": [
+     "movement",
+     "hydrotropism",
+     "geotropism",
+     "chemotropism",
+     "sunflower",
+     "due"
+    ],
+    "subtopic": [
+     "due",
+     "hydrotropism",
+     "geotropism",
+     "chemotropism",
+     "movement",
+     "sunflower"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:23",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "topic",
    "stem": "Which of the following is not an involuntary action?",
    "proposed": {
     "chapterId": "science-10/control-and-coordination",
@@ -123796,6 +126560,45 @@
      "salivation",
      "heart",
      "beat"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:24",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "topic",
+   "stem": "When a person is suffering from severe cold, he or she cannot",
+   "proposed": {
+    "chapterId": "science-10/control-and-coordination",
+    "topicId": "science-10/control-and-coordination/animals-nervous-system",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9673,
+    "topic": 0.7631,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "object",
+     "agarbatti",
+     "smell",
+     "light",
+     "taste",
+     "cold"
+    ],
+    "topic": [
+     "smell",
+     "taste",
+     "hot",
+     "object",
+     "cold",
+     "agarbatti"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
     ]
    }
   },
@@ -124312,6 +127115,52 @@
      "spread",
      "sporangia",
      "hyphae"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:16",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "Which of the following statements are true for flowers? (i) Flowers are always bisexual (ii) They are the sexual reproductive organs (iii) They are produced in all groups of plants (iv) After fertilisation they give rise to fruits",
+   "proposed": {
+    "chapterId": "science-10/how-do-organisms-reproduce",
+    "topicId": "science-10/how-do-organisms-reproduce/sexual-reproduction",
+    "subtopicIds": [
+     "science-10/how-do-organisms-reproduce/sexual-reproduction/sexual-reproduction-in-flowering-plants"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9714,
+    "topic": 0.8453,
+    "subtopic": 0.6673
+   },
+   "evidence": {
+    "chapter": [
+     "fertilisation",
+     "sexual",
+     "flower",
+     "reproductive",
+     "organ",
+     "plant"
+    ],
+    "topic": [
+     "sexual",
+     "flower",
+     "fertilisation",
+     "reproductive",
+     "organ",
+     "plant"
+    ],
+    "subtopic": [
+     "flower",
+     "plant",
+     "fruit",
+     "fertilisation",
+     "bisexual",
+     "reproductive"
     ]
    }
   },
@@ -125205,7 +128054,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "A basket of vegetables contains carrot, potato, radish and tomato. Which of them represent the correct homologous structures?",
    "proposed": {
     "chapterId": "science-10/heredity",
@@ -125327,6 +128176,52 @@
      "inherit"
     ],
     "subtopic": []
+   }
+  },
+  {
+   "id": "exemplar:q:10:science:9:-:21",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "Select the statements that describe characteristics of genes (i) genes are specific sequence of bases in a DNA molecule (ii) a gene does not code for proteins (iii) in individuals of a given species, a specific gene is located on a particular chromosome (iv) each chromosome has only one gene",
+   "proposed": {
+    "chapterId": "science-10/heredity",
+    "topicId": "science-10/heredity/heredity",
+    "subtopicIds": [
+     "science-10/heredity/heredity/how-do-these-traits-get-expressed"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9919,
+    "topic": 0.8975,
+    "subtopic": 0.6814
+   },
+   "evidence": {
+    "chapter": [
+     "gene",
+     "chromosome",
+     "dna",
+     "specy",
+     "protein",
+     "individual"
+    ],
+    "topic": [
+     "gene",
+     "chromosome",
+     "characteristic",
+     "protein",
+     "particular",
+     "dna"
+    ],
+    "subtopic": [
+     "gene",
+     "chromosome",
+     "protein",
+     "dna",
+     "characteristic",
+     "particular"
+    ]
    }
   },
   {
@@ -125846,7 +128741,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "In which of the following, the image of an object placed at infinity will be highly diminished and point sized?",
    "proposed": {
     "chapterId": "science-10/light-reflection-and-refraction",
@@ -127712,7 +130607,7 @@
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Depletion of ozone is mainly due to",
    "proposed": {
     "chapterId": "science-10/our-environment",
@@ -127834,6 +130729,52 @@
      "skin",
      "cancer",
      "human"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:12",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "In the following groups of materials, which group (s) contains only non-biodegradable items? (i) Wood, paper, leather (ii) Polythene, detergent, PVC (iii) Plastic, detergent, grass (iv) Plastic, bakelite, DDT",
+   "proposed": {
+    "chapterId": "science-10/our-environment",
+    "topicId": "science-10/our-environment/how-do-our-activities-affect-the-environment",
+    "subtopicIds": [
+     "science-10/our-environment/how-do-our-activities-affect-the-environment/managing-the-garbage-we-produce"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9791,
+    "topic": 0.8841,
+    "subtopic": 0.6846
+   },
+   "evidence": {
+    "chapter": [
+     "biodegradable",
+     "grass",
+     "plastic",
+     "item",
+     "leather",
+     "wood"
+    ],
+    "topic": [
+     "plastic",
+     "biodegradable",
+     "material",
+     "paper",
+     "item",
+     "non"
+    ],
+    "subtopic": [
+     "plastic",
+     "biodegradable",
+     "non",
+     "material",
+     "paper",
+     "item"
     ]
    }
   },
@@ -127963,6 +130904,52 @@
    }
   },
   {
+   "id": "exemplar:q:10:science:15:-:20",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "If a grass hopper is eaten by a frog, then the energy transfer will be from",
+   "proposed": {
+    "chapterId": "science-10/our-environment",
+    "topicId": "science-10/our-environment/eco-system-what-are-its-components",
+    "subtopicIds": [
+     "science-10/our-environment/eco-system-what-are-its-components/food-chains-and-webs"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.997,
+    "topic": 0.9906,
+    "subtopic": 0.6625
+   },
+   "evidence": {
+    "chapter": [
+     "consumer",
+     "producer",
+     "primary",
+     "decomposer",
+     "grass",
+     "secondary"
+    ],
+    "topic": [
+     "consumer",
+     "primary",
+     "producer",
+     "decomposer",
+     "eaten",
+     "energy"
+    ],
+    "subtopic": [
+     "consumer",
+     "eaten",
+     "energy",
+     "secondary",
+     "primary",
+     "producer"
+    ]
+   }
+  },
+  {
    "id": "exemplar:q:10:science:15:-:24",
    "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
    "subject": "Science",
@@ -128005,6 +130992,52 @@
      "material",
      "environment",
      "thing"
+    ]
+   }
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:36",
+   "bank": "academicos-data/corpus/ncert-exemplar/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "Suggest suitable mechanism (s) for waste management in fertiliser industries.",
+   "proposed": {
+    "chapterId": "science-10/our-environment",
+    "topicId": "science-10/our-environment/how-do-our-activities-affect-the-environment",
+    "subtopicIds": [
+     "science-10/our-environment/how-do-our-activities-affect-the-environment/managing-the-garbage-we-produce"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9531,
+    "topic": 0.8812,
+    "subtopic": 0.679
+   },
+   "evidence": {
+    "chapter": [
+     "waste",
+     "suggest",
+     "mechanism",
+     "industry",
+     "environment",
+     "treat"
+    ],
+    "topic": [
+     "mechanism",
+     "waste",
+     "suggest",
+     "industry",
+     "treat",
+     "environment"
+    ],
+    "subtopic": [
+     "mechanism",
+     "suggest",
+     "waste",
+     "industry",
+     "treat",
+     "environment"
     ]
    }
   },
@@ -129418,7 +132451,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Which of the following is a factor of p(x) = 3x2 – 2 − 5x?",
    "proposed": {
     "chapterId": "mathematics-9/exploring-algebraic-identities",
@@ -130105,6 +133138,43 @@
    }
   },
   {
+   "id": "cbe:q:Maths9RS1",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Mathematics",
+   "grade": 9,
+   "level": "topic",
+   "stem": "Coordinate of a point A ( 2 , 5) and B (4, - 13 ). The value of (abscissa of A) – (ordinate of B) is:",
+   "proposed": {
+    "chapterId": "mathematics-9/orienting-yourself-the-use-of-coordinates",
+    "topicId": "mathematics-9/orienting-yourself-the-use-of-coordinates/distance-between-two-points-in-the-2-d-plane",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9142,
+    "topic": 0.7507,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "coordinate",
+     "point",
+     "plane",
+     "geometry",
+     "plot",
+     "allow"
+    ],
+    "topic": [
+     "plot",
+     "point",
+     "coordinate",
+     "plane",
+     "value",
+     "allow"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "cbe:q:Maths9SK4",
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
@@ -130362,6 +133432,82 @@
    }
   },
   {
+   "id": "cbe:q:Maths9MS6",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Mathematics",
+   "grade": 9,
+   "level": "topic",
+   "stem": "The angle subtended by an arc BC of a circle cantered at O is 2 + 50. 1 (a) Find BAC in terms of .  1 (b) If  = 30, find the reflex angle of BOC  1 (c) If the length of the chord of the circle AB = 16 cm and is at the distance of 15 cm from the centre of the circle, then find the radius of th",
+   "proposed": {
+    "chapterId": "mathematics-9/i-m-up-and-down-and-round-and-round",
+    "topicId": "mathematics-9/i-m-up-and-down-and-round-and-round/angles-subtended-by-an-arc",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9366,
+    "topic": 0.7532,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "angle",
+     "subtend",
+     "arc",
+     "circle",
+     "reflex",
+     "centre"
+    ],
+    "topic": [
+     "arc",
+     "subtend",
+     "fact",
+     "angle",
+     "circle",
+     "centre"
+    ],
+    "subtopic": [
+     "(topic as a whole)"
+    ]
+   }
+  },
+  {
+   "id": "cbe:q:Maths9NK8",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Mathematics",
+   "grade": 9,
+   "level": "topic",
+   "stem": "1 (a) 1 (b) State the relationship between angle ‘x’, ‘y’ & 127˚.  Find the measures of all angles of the ∆𝑃𝑄𝑅 in the above figure if the two lines AB and CD are parallel.   4)",
+   "proposed": {
+    "chapterId": "mathematics-9/i-m-up-and-down-and-round-and-round",
+    "topicId": "mathematics-9/i-m-up-and-down-and-round-and-round/concyclicity-of-points",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.8509,
+    "topic": 0.7472,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "angle",
+     "exterior",
+     "triangle",
+     "measure",
+     "interior",
+     "opposite"
+    ],
+    "topic": [
+     "opposite",
+     "exterior",
+     "angle",
+     "sum",
+     "line",
+     "pqr"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "cbe:q:Maths9NM8",
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
@@ -130574,6 +133720,43 @@
    }
   },
   {
+   "id": "cbe:q:Maths9LK6",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Mathematics",
+   "grade": 9,
+   "level": "topic",
+   "stem": "In the given figure ∠ABD is an exterior angle of ∆ABC. 1 (a) Find the value of x  1 (b) Find the measure of ∠ABC   3)",
+   "proposed": {
+    "chapterId": "mathematics-9/i-m-up-and-down-and-round-and-round",
+    "topicId": "mathematics-9/i-m-up-and-down-and-round-and-round/concyclicity-of-points",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.8579,
+    "topic": 0.7538,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "angle",
+     "exterior",
+     "triangle",
+     "abc",
+     "interior",
+     "opposite"
+    ],
+    "topic": [
+     "sum",
+     "exterior",
+     "opposite",
+     "side",
+     "angle",
+     "interior"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "cbe:q:Maths9CN3",
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
@@ -130689,7 +133872,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "ΔABC is an isosceles triangle in which AB = AC. If ∠𝐴= 36𝑜. Find the measure of ∠𝐶.   2)",
    "proposed": {
     "chapterId": "mathematics-9/i-m-up-and-down-and-round-and-round",
@@ -130726,7 +133909,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Item identity AO1 marks AO2 marks C/N/E* Content Reference(s) Marks Maths9DP4 E 9G6f Be able to use the fact that: Angles in the same segment of a circle are equal.   1)",
    "proposed": {
     "chapterId": "mathematics-9/i-m-up-and-down-and-round-and-round",
@@ -130931,6 +134114,43 @@
      "radius",
      "distance"
     ]
+   }
+  },
+  {
+   "id": "cbe:q:Maths9LK8",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Mathematics",
+   "grade": 9,
+   "level": "topic",
+   "stem": "If the radius of a circle is 5 cm, AB = 6 cm and CD = 8 cm then determine PQ   3) Diagram not drawn to scale Q P O D C B A",
+   "proposed": {
+    "chapterId": "mathematics-9/i-m-up-and-down-and-round-and-round",
+    "topicId": "mathematics-9/i-m-up-and-down-and-round-and-round/midpoints-and-perpendicular-bisectors-of-chords",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.938,
+    "topic": 0.7497,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "chord",
+     "bisect",
+     "perpendicular",
+     "circle",
+     "centre",
+     "conversely"
+    ],
+    "topic": [
+     "perpendicular",
+     "chord",
+     "bisect",
+     "circle",
+     "centre",
+     "line"
+    ],
+    "subtopic": []
    }
   },
   {
@@ -133323,7 +136543,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Rohan painted 512512 of a wall white and 1313 of the wall yellow. The rest of the wall is red. 1 (a) Calculate the fraction of the wall that is painted red. Give your answer in simplest form.  1 (b) Convert the fraction of the wall that is white to a decimal correct to four decimal places.   4)",
    "proposed": {
     "chapterId": "mathematics-6/fractions",
@@ -133366,7 +136586,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
    "grade": 6,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "The length of a rectangular lawn is 5 times its breadth. The perimeter of the lawn is 648.6 cm. Find the breadth of the lawn.   1)",
    "proposed": {
     "chapterId": "mathematics-6/perimeter-and-area",
@@ -134732,7 +137952,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "1 (a) Expand 3(2ab2 + 5)  1 (b) Add (7ab2 + 12) to (6ab2 - 4) and simplify  1 (c) Subtract (8 – 2ab2) from (13ab2 + 12) and simplify (2 marks}  5)",
    "proposed": {
     "chapterId": "mathematics-7/expressions-using-letter-numbers",
@@ -136359,7 +139579,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "What is the area of a rectangle with length 9y and breadth 4y2",
    "proposed": {
     "chapterId": "mathematics-8/we-distribute-yet-things-multiply",
@@ -136589,7 +139809,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "1(a) 1(b) A certain amount of water was heated and the temperature at different intervals of time was observed as shown in the table above. Draw a temperature-time graph from t = 0 minute to t= 9 minute  What would be the expected temperature of water at 7 minutes  (Total mark 4)",
    "proposed": {
     "chapterId": "mathematics-8/tales-by-dots-and-lines",
@@ -136910,7 +140130,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "1(a) 1(b) 1(c) Study the above pictures and answer the questions. Identify the net given in picture A  Identify the net given in picture B  Identify the net given in picture C.   3) Diagram not drawn to scale Diagram not drawn to scale",
    "proposed": {
     "chapterId": "mathematics-8/exploring-some-geometric-themes",
@@ -137388,7 +140608,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "1 (a) A three-digit number is 65N is divisible by 9. What is the value of the digit N?  1 (b) David bought 171 litres of milk. He selected 9 orphanages near his locality and wants to distribute milk equally amongst them without leaving any milk. With the help of the divisibility rule, check whether ",
    "proposed": {
     "chapterId": "mathematics-8/number-play",
@@ -138052,6 +141272,52 @@
    }
   },
   {
+   "id": "cbe:q:Maths8DG5",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Mathematics",
+   "grade": 8,
+   "level": "subtopic",
+   "stem": "A shopkeeper earns his livelihood by selling apples. At the end of the year he saves the profit earned in the bank on compound interest. 1 (a) Suppose the shopkeeper has bought 1 kg of apples for Rs 100 and sold it for Rs120 per kg Calculate the percentage of the profit gained by the shopkeeper.  1 ",
+   "proposed": {
+    "chapterId": "mathematics-8/fractions-in-disguise",
+    "topicId": "mathematics-8/fractions-in-disguise/using-percentages",
+    "subtopicIds": [
+     "mathematics-8/fractions-in-disguise/using-percentages/growth-and-compounding"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9865,
+    "topic": 0.97,
+    "subtopic": 0.6747
+   },
+   "evidence": {
+    "chapter": [
+     "percentage",
+     "compound",
+     "shopkeeper",
+     "profit",
+     "discount",
+     "annum"
+    ],
+    "topic": [
+     "compound",
+     "profit",
+     "shopkeeper",
+     "year",
+     "sell",
+     "discount"
+    ],
+    "subtopic": [
+     "compound",
+     "interest",
+     "annum",
+     "bank",
+     "year",
+     "end"
+    ]
+   }
+  },
+  {
    "id": "cbe:q:Maths8BS7",
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
@@ -138186,7 +141452,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "1 If 15 workers can make a batch of masks in 12 days, how many workers will do the same work in 6 days?",
    "proposed": {
     "chapterId": "mathematics-8/proportional-reasoning-2",
@@ -138445,7 +141711,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Methane gas is burnt in air. State whether the reaction is exothermic or endothermic.",
    "proposed": {
     "chapterId": "science-10/chemical-reactions-and-equations",
@@ -138487,7 +141753,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Which statement about litmus in acids and bases is correct?",
    "proposed": {
     "chapterId": "science-10/acids-bases-and-salts",
@@ -138568,7 +141834,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The table shown above gives some information about five substances: A, B, C, D and E. Substanc e Melting point (K) Electrical conductivity Solid Liquid/aqueous Solid A poor poor B poor poor C poor good D poor poor E poor good Which substances are covalent compounds?",
    "proposed": {
     "chapterId": "science-10/carbon-and-its-compounds",
@@ -138690,7 +141956,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "1 (a) Pure aluminium is extracted from alumina by electrolysis as shown in Fig. 1. Fig. 1 Write an ionic half-equation for the reaction at each electrode.",
    "proposed": {
     "chapterId": "science-10/metals-and-non-metals",
@@ -138820,7 +142086,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Photosynthesis occurs in plants. 1(a) What type of reaction is photosynthesis?",
    "proposed": {
     "chapterId": "science-10/chemical-reactions-and-equations",
@@ -139063,6 +142329,43 @@
    }
   },
   {
+   "id": "cbe:q:Science10GK3",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "topic",
+   "stem": "In an electric motor a coil of wire spins in a magnetic field. 1(a) Complete the sentence to describe the useful energy transfers in an electric motor. An electric motor energy is transferred from __________ energy to __________ energy.  1(b) State and explain the rule that is used to determine the ",
+   "proposed": {
+    "chapterId": "science-10/magnetic-effects-of-electric-current",
+    "topicId": "science-10/magnetic-effects-of-electric-current/force-on-a-current-carrying-conductor-in-a-magnetic-field",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.985,
+    "topic": 0.7509,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "magnetic",
+     "electric",
+     "current",
+     "wire",
+     "field",
+     "rule"
+    ],
+    "topic": [
+     "left",
+     "rule",
+     "fleming",
+     "motor",
+     "current",
+     "direction"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "cbe:q:Science10YP2",
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
@@ -139190,6 +142493,52 @@
     ],
     "subtopic": [
      "(topic as a whole)"
+    ]
+   }
+  },
+  {
+   "id": "cbe:q:Science10DP3",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "Nivedita has dark brown eyes, like her mother. But she has the same shaped nose as her father. 1 (a) Explain why Nivedita has features from both of her parents.  1 (b) Explain why Nivedita is genetically female.  1 (c) Which contraceptive method protects against sexually transmitted infections?   7)",
+   "proposed": {
+    "chapterId": "science-10/heredity",
+    "topicId": "science-10/heredity/heredity",
+    "subtopicIds": [
+     "science-10/heredity/heredity/sex-determination"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9056,
+    "topic": 0.8744,
+    "subtopic": 0.676
+   },
+   "evidence": {
+    "chapter": [
+     "gene",
+     "parent",
+     "sex",
+     "chromosome",
+     "offspr",
+     "sexually"
+    ],
+    "topic": [
+     "sex",
+     "parent",
+     "gene",
+     "chromosome",
+     "science",
+     "determin"
+    ],
+    "subtopic": [
+     "sex",
+     "determin",
+     "chromosome",
+     "genetically",
+     "father",
+     "gene"
     ]
    }
   },
@@ -139330,7 +142679,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Which row is the sequence of organs that urine passes through after it is formed in the nephron?",
    "proposed": {
     "chapterId": "science-10/life-processes",
@@ -139500,6 +142849,43 @@
      "sex",
      "sexually"
     ]
+   }
+  },
+  {
+   "id": "cbe:q:Science10DP2",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "topic",
+   "stem": "Examples of responses to hormones are listed. 1. growth of facial hair 2. increased blood pressure and pulse rate 3. widened pupils 1 (a) Which responses are caused by the hormone adrenaline?",
+   "proposed": {
+    "chapterId": "science-10/control-and-coordination",
+    "topicId": "science-10/control-and-coordination/hormones-in-animals",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.7905,
+    "topic": 0.7586,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "response",
+     "hormone",
+     "adrenaline",
+     "blood",
+     "growth",
+     "level"
+    ],
+    "topic": [
+     "hormone",
+     "adrenaline",
+     "growth",
+     "blood",
+     "level",
+     "rate"
+    ],
+    "subtopic": []
    }
   },
   {
@@ -139771,6 +143157,52 @@
    }
   },
   {
+   "id": "cbe:q:Science10GK5",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Science",
+   "grade": 10,
+   "level": "subtopic",
+   "stem": "Fig. 1 shows part of a desert food web. Fig. 1 1(a) Identify in Fig. 1.1: 1(a)(i) A producer  1(a)(ii) A primary consumer  1(a)(iii) A secondary consumer  1(b) Draw a food chain containing a snake. < 4 cm space >  1(c) Discuss the impact of pesticides on the food web in Fig.1.   9)",
+   "proposed": {
+    "chapterId": "science-10/our-environment",
+    "topicId": "science-10/our-environment/eco-system-what-are-its-components",
+    "subtopicIds": [
+     "science-10/our-environment/eco-system-what-are-its-components/food-chains-and-webs"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.9709,
+    "topic": 0.9169,
+    "subtopic": 0.6826
+   },
+   "evidence": {
+    "chapter": [
+     "consumer",
+     "producer",
+     "impact",
+     "chain",
+     "pesticide",
+     "web"
+    ],
+    "topic": [
+     "consumer",
+     "chain",
+     "food",
+     "primary",
+     "producer",
+     "web"
+    ],
+    "subtopic": [
+     "web",
+     "food",
+     "consumer",
+     "chain",
+     "pesticide",
+     "primary"
+    ]
+   }
+  },
+  {
    "id": "cbe:q:Science10PB2",
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
@@ -139935,7 +143367,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "1 What is the main constituent of biogas?",
    "proposed": {
     "chapterId": "science-10/carbon-and-its-compounds",
@@ -141045,7 +144477,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 6,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "A group of students were given a few materials to test, such as sugar, chalk, sand, baking soda and Epsom salts in water. They were asked to mix the contents by adding a tablespoon of each material to different containers of water having equal amount of water. 1 (a) State the materials which are sol",
    "proposed": {
     "chapterId": "science-6/materials-around-us",
@@ -141350,7 +144782,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 6,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Read the given passage carefully and answer the following questions. Rachel wants to make her brother John happy by performing magic. She took a glass beaker and partially filled it with water. She then took a spoon full of white magical powder (X) and showed it to her brother. She then covered the ",
    "proposed": {
     "chapterId": "science-6/materials-around-us",
@@ -141570,7 +145002,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "A student took some dilute hydrochloric acid in a flask, added a few drops of phenolphthalein and mixed it gently. After that the student added sodium hydroxide drop by drop to this colourless solution and continued until he saw some change in the colour of the solution. 1 (a) Name the type of react",
    "proposed": {
     "chapterId": "science-7/exploring-substances-acidic-basic-and-neutral",
@@ -143021,7 +146453,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 7,
-   "level": "topic",
+   "level": "chapter",
    "stem": "‘Breathing rate’ means the number of times a person breathes per minute. During breathing, inhalation and exhalation take place alternately. One inhalation plus one exhalation completes a single breath. 1 (a) Explain why the breathing rate increases during strenuous exercise.  1 (b) When we exercise",
    "proposed": {
     "chapterId": "science-7/life-processes-in-animals",
@@ -143558,6 +146990,43 @@
      "force",
      "moving",
      "appli"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "cbe:q:Science8SB2",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Science",
+   "grade": 8,
+   "level": "topic",
+   "stem": "When a stone is rotated on a circular path uniformly, the effect of force will be",
+   "proposed": {
+    "chapterId": "science-8/exploring-forces",
+    "topicId": "science-8/exploring-forces/what-can-a-force-do-to-the-objects-on-which-it-is-applied",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.8229,
+    "topic": 0.7589,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "force",
+     "motion",
+     "direction",
+     "change",
+     "object",
+     "path"
+    ],
+    "topic": [
+     "effect",
+     "change",
+     "motion",
+     "force",
+     "direction",
+     "shape"
     ],
     "subtopic": []
    }
@@ -145285,6 +148754,52 @@
    }
   },
   {
+   "id": "cbe:q:Science9TP1",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Science",
+   "grade": 9,
+   "level": "topic",
+   "stem": "Asha starts cycling around a circular track of length 100 m. She completes one revolution every 40 seconds. Calculate her displacement from her starting position after 4 minutes.",
+   "proposed": {
+    "chapterId": "science-9/describing-motion-around-us",
+    "topicId": "science-9/describing-motion-around-us/motion-in-a-plane",
+    "subtopicIds": [
+     "science-9/describing-motion-around-us/motion-in-a-plane/uniform-circular-motion"
+    ]
+   },
+   "confidence": {
+    "chapter": 0.8128,
+    "topic": 0.7472,
+    "subtopic": 0.6753
+   },
+   "evidence": {
+    "chapter": [
+     "revolution",
+     "track",
+     "displacement",
+     "circular",
+     "position",
+     "start"
+    ],
+    "topic": [
+     "circular",
+     "revolution",
+     "minute",
+     "track",
+     "start",
+     "complete"
+    ],
+    "subtopic": [
+     "start",
+     "displacement",
+     "position",
+     "second",
+     "track",
+     "revolution"
+    ]
+   }
+  },
+  {
    "id": "cbe:q:Science9PS1",
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
@@ -145371,7 +148886,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Define a compound.",
    "proposed": {
     "chapterId": "science-9/atomic-foundations-of-matter",
@@ -146117,7 +149632,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "subtopic",
+   "level": "topic",
    "stem": "Fig. 1 shows moss growing on a tree trunk. Fig. 1 1(a) Moss is one of the bryophytes. Bryophytes are known as “the amphibians of the plant kingdom”. Using your knowledge of amphibians suggest the conditions bryophytes need: • in their habitat, • to complete their life cycle.  1(b) Vascular tissues a",
    "proposed": {
     "chapterId": "science-9/patterns-in-life-diversity-and-classification",
@@ -147610,6 +151125,43 @@
    }
   },
   {
+   "id": "cbe:q:Maths10SR1",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Mathematics",
+   "grade": 10,
+   "level": "topic",
+   "stem": "Three cubical warehouses of volume 165m3, 195m3, and 285m3 are to be used for storage. What is the volume of the greatest cubical box that can be kept in the warehouse so that no space is left vacant?",
+   "proposed": {
+    "chapterId": "mathematics-10/real-numbers",
+    "topicId": "mathematics-10/real-numbers/the-fundamental-theorem-of-arithmetic",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.9613,
+    "topic": 0.758,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "fundamental",
+     "prime",
+     "arithmetic",
+     "factorisation",
+     "unique",
+     "theorem"
+    ],
+    "topic": [
+     "number",
+     "greatest",
+     "prime",
+     "theorem",
+     "fundamental",
+     "three"
+    ],
+    "subtopic": []
+   }
+  },
+  {
    "id": "cbe:q:Maths10AS9",
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
@@ -148394,7 +151946,7 @@
    "bank": "academicos-data/corpus/cbse-cbe/questions.json",
    "subject": "Mathematics",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The value of θ, for which Sin2θ=1/2; 0º<θ<90º is",
    "proposed": {
     "chapterId": "mathematics-10/introduction-to-trigonometry",
@@ -148570,6 +152122,43 @@
      "formula",
      "point",
      "respectively"
+    ],
+    "subtopic": []
+   }
+  },
+  {
+   "id": "cbe:q:Maths10AS8",
+   "bank": "academicos-data/corpus/cbse-cbe/questions.json",
+   "subject": "Mathematics",
+   "grade": 10,
+   "level": "topic",
+   "stem": "1 The area of a circular playground is 9856 m2. 1 (a) Find the radius of the circular field. (Using = )  1 (b) Find the cost of fencing this ground at the rate of Rs 50 per m.   3)",
+   "proposed": {
+    "chapterId": "mathematics-10/areas-related-to-circles",
+    "topicId": "mathematics-10/areas-related-to-circles/areas-of-sector-and-segment-of-a-circle",
+    "subtopicIds": []
+   },
+   "confidence": {
+    "chapter": 0.7596,
+    "topic": 0.7508,
+    "subtopic": null
+   },
+   "evidence": {
+    "chapter": [
+     "area",
+     "circle",
+     "radius",
+     "circumference",
+     "circular",
+     "field"
+    ],
+    "topic": [
+     "area",
+     "circle",
+     "circular",
+     "radius",
+     "triangle",
+     "total"
     ],
     "subtopic": []
    }

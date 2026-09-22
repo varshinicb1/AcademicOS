@@ -399,12 +399,116 @@ def test_accepted_tags_on_the_gold_set_are_at_least_90_percent_right(tagger):
     assert acc["tags"] >= 10, acc
     assert acc["precision"] >= 0.90, acc
     assert model["thresholds"]["subtopic"] <= 1.0
-    # the headline is the out-of-fold estimate: it too clears the bar per level
+    # Thresholds are chosen with a margin: each is the cut whose out-of-fold
+    # accepted precision is >= selectAt (0.93), not >= the 0.90 bar itself --
+    # a cut picked at the bar on the numbers it is scored on lands on the
+    # boundary by construction and is optimistic.
+    assert model["target"] == 0.90 and model["selectAt"] >= 0.93
     for level in ("chapter", "topic", "subtopic"):
         oof = model["gold"]["outOfFold"]["accepted"][level]
-        assert oof["tags"] >= 10 and oof["precision"] >= 0.90, (level, oof)
+        assert oof["tags"] >= 10 and oof["precision"] >= model["selectAt"], (level, oof)
+    # The headline is nested cross-validation: every fold's cut chosen on the
+    # other folds alone, then scored on the fold. It clears the 0.90 bar per
+    # level, on 10+ tags, and the Wilson 95% lower bound is reported with it.
+    for level in ("chapter", "topic", "subtopic"):
+        nested = model["gold"]["nested"]["accepted"][level]
+        assert nested["tags"] >= 10 and nested["precision"] >= 0.90, (level, nested)
+        assert 0 < nested["wilsonLower95"] < nested["precision"], (level, nested)
     # the committed model reports the same numbers the test measures
     assert model["gold"]["inSample"]["accepted"] == report["accepted"]
+
+
+def _calibrate_module():
+    spec = importlib.util.spec_from_file_location(
+        "calibrate_topic_tagger", ROOT / "scripts" / "calibrate_topic_tagger.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_a_threshold_is_not_picked_on_the_bar_it_must_clear():
+    """20 chapter tags, by falling confidence: the top 15 have one wrong
+    (14/15 = 0.933), the 16th is wrong, all 20 are 18/20 = 0.90. Accepting 20 sits
+    exactly on the bar, measured on the numbers that chose it; the rule keeps
+    a margin and stops at 15."""
+    cal = _calibrate_module()
+    wrong = {3, 15}
+    rows = [{"item": {"id": f"q{i}"},
+             "judged": {"chapter": i not in wrong, "topic": False, "subtopics": []}}
+            for i in range(20)]
+    conf = [{"chapter": 1.0 - i / 100, "topic": None, "subtopic": None} for i in range(20)]
+    thresholds, measured = cal.pick_thresholds(rows, conf)
+    assert measured["chapter"] == {"right": 14, "tags": 15, "precision": 0.9333}
+    assert conf[14]["chapter"] >= thresholds["chapter"] > conf[15]["chapter"]
+    assert thresholds["topic"] == thresholds["subtopic"] == 1.01
+
+
+def test_wilson_lower_bound():
+    cal = _calibrate_module()
+    assert cal.wilson_lower(28, 30) == pytest.approx(0.7868, abs=1e-3)
+    assert cal.wilson_lower(0, 0) == 0.0
+    assert cal.wilson_lower(10, 10) < 1.0
+
+
+def _chapter_topic_audit():
+    """_tag_audit_chapter_topic.json re-judged against the committed tagger:
+    [right, tags] per level, counting an item only at the level it was drawn
+    for and only while the tagger still accepts a tag there."""
+    audit = json.loads((TAXONOMY / "_tag_audit_chapter_topic.json").read_text(encoding="utf-8"))
+    assert "not by a teacher" in audit["notice"].lower()
+    gold_ids = {it["id"] for it in json.loads(
+        (TAXONOMY / "_tag_gold.json").read_text(encoding="utf-8"))["items"]}
+    items = {it["id"]: it for it in audit["items"]}
+    assert not gold_ids & set(items)                   # held out from the fit
+    tagger = TopicTagger()
+    counts = {"chapter": [0, 0], "topic": [0, 0]}
+    for path in (EXEMPLAR, CBE):
+        recs = json.loads(path.read_text(encoding="utf-8"))["questions"]
+        for rec, tag in zip(recs, tagger.tag_records(recs)):
+            it = items.get(rec["id"])
+            if it is None or tag is None:
+                continue
+            chapter_ok = tag.chapter_id in it["chapters"]
+            if "chapter" in it["levels"] and tag.accepted["chapter"]:
+                counts["chapter"][0] += chapter_ok
+                counts["chapter"][1] += 1
+            if "topic" in it["levels"] and tag.accepted["topic"]:
+                counts["topic"][0] += chapter_ok and tag.topic_id in it["topics"]
+                counts["topic"][1] += 1
+    return audit, counts
+
+
+def test_held_out_audit_of_written_chapter_tags_is_at_least_90_percent_right():
+    """Seeded random sample of the chapter tags as written onto the banks,
+    labelled after the thresholds were fixed and never used to fit, threshold
+    or tune anything -- the check that the constants tuned against
+    _tag_gold.json did not just fit that sample."""
+    audit, counts = _chapter_topic_audit()
+    right, tags = counts["chapter"]
+    assert tags >= 20, tags
+    assert right / tags >= 0.90, (right, tags)
+    assert audit["measured"]["chapter"] == {"right": right, "tags": tags}
+
+
+def test_held_out_audit_of_written_topic_tags_is_what_the_fixture_records():
+    """The topic audit re-measures to the number the fixture records (53/60
+    when it was labelled), so the xfail below reports a real figure."""
+    audit, counts = _chapter_topic_audit()
+    right, tags = counts["topic"]
+    assert tags >= 20, tags
+    assert audit["measured"]["topic"] == {"right": right, "tags": tags}
+
+
+@pytest.mark.xfail(strict=True, reason=(
+    "held-out topic tags were 53/60 = 0.883 right (_tag_audit_chapter_topic.json): "
+    "every miss had topic confidence >= 0.78, so no threshold removes them -- the "
+    "question's home was chapter-opening text or a concept the book lacks, and the "
+    "tagger has no chapter-level candidate at the topic level. Open decision; see "
+    "the Task 703 review notes."))
+def test_held_out_audit_of_written_topic_tags_is_at_least_90_percent_right():
+    _, counts = _chapter_topic_audit()
+    right, tags = counts["topic"]
+    assert right / tags >= 0.90, (right, tags)
 
 
 def test_held_out_audit_of_written_subtopic_tags_is_at_least_90_percent_right():
