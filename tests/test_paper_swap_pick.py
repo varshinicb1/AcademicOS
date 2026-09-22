@@ -441,6 +441,21 @@ IRRATIONAL = (  # cbse:q:src:f516dfe29cfec4ac6d74feec:27 / cbse:q:src:9e5b184987
 IDENTITY = (  # cbse:q:src:abf68dc97d40281d455ffaa2:28 / cbse:q:src:db32b7ab98169b625243c09e:26
     "Prove the following trigonometric identity : = sec A -tan A",
     "Prove the following trigonometric identity : = cot A")
+# Task 906's review: the radical is lost in extraction, so "root 3" and "3 +
+# 2 root 5" differ only by numbers the shorter never had. A cut copy loses
+# its end, not a middle; these differ in the middle.
+RADICAL = ("Prove that 3 is an irrational number.",
+           "Prove that 3 + 2 5 is an irrational number.")
+RADICAL_2 = ("Prove that 2 is an irrational number.",
+             "Prove that 2 3 is an irrational number.")
+# ... and a sign or an exponent is a different question too, including the
+# superscript and subscript digits the served stems carry ("(x – 2)₂").
+SIGN = ("Find the zeroes of the quadratic polynomial x2 + 7x + 10 and verify the "
+        "relationship between the zeroes and the coefficients.",
+        "Find the zeroes of the quadratic polynomial x2 – 7x + 10 and verify the "
+        "relationship between the zeroes and the coefficients.")
+EXPONENT = ("Find the zeroes of the polynomial x² + 7x + 10 and verify the relationship.",
+            "Find the zeroes of the polynomial x³ + 7x + 10 and verify the relationship.")
 # ... and real pairs that are one question: the same MCQ in two papers, one
 # copy carrying the page footer ("15-", "5| P a g e") or cut before its last
 # number (cbse:q:src:0916a372de696613bddff07e:7 / cbse:q:src:7bc43935e9890c40e2e44322:12;
@@ -458,7 +473,8 @@ FOOTER = (
 def test_numbers_polarity_and_functions_tell_different_questions_apart():
     """Task 905's review: over every pair in the real class 10 Mathematics
     pool the text measure flagged 28, and some were different questions."""
-    for a, b in (ROOT_K, SUNDAYS, IRRATIONAL, IDENTITY):
+    for a, b in (ROOT_K, SUNDAYS, IRRATIONAL, IDENTITY, RADICAL, RADICAL_2, SIGN,
+                 EXPONENT):
         assert not pool_mod.near_duplicate(a, b), (a, b)
         assert not pool_mod.near_duplicate(b, a), (a, b)
     # A page footer or a copy cut short is not a different question.
