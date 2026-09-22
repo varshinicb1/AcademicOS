@@ -149,11 +149,18 @@ class RealTestEnv {
   }
 }
 
-/// Wraps [child] the same way main.dart does: MaterialApp + (optionally) the
-/// one real BlocProvider the app actually uses.
-Widget wrapForTest(Widget child, {AssessmentBloc? bloc}) {
+/// Wraps [child] the way main.dart does: MaterialApp + (optionally) the one
+/// real BlocProvider the app actually uses.
+///
+/// [theme] defaults to Flutter's, which is *not* what main.dart ships -- the
+/// callers here are checking behaviour (what a page does, what it calls),
+/// and behaviour does not depend on padding. A caller measuring layout has
+/// to pass AppTheme.lightTheme, because the shipped theme's button padding,
+/// filled form fields and chip styles decide whether a row fits a phone
+/// (test/responsive/responsive_harness.dart's appForTest).
+Widget wrapForTest(Widget child, {AssessmentBloc? bloc, ThemeData? theme}) {
   final body = bloc != null
       ? BlocProvider<AssessmentBloc>.value(value: bloc, child: child)
       : child;
-  return MaterialApp(home: body);
+  return MaterialApp(theme: theme, home: body);
 }

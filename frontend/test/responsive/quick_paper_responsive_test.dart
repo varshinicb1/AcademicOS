@@ -10,6 +10,7 @@ import 'responsive_harness.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  useAppFonts();
   useInMemoryHive();
 
   for (final MapEntry(key: name, value: size) in screenSizes.entries) {

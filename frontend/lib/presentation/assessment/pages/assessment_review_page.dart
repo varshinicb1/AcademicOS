@@ -441,6 +441,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
             children: [
               FilledButton.icon(
                 onPressed: _exporting ? null : _exportPdf,
+                style: phoneTapTarget,
                 icon: _exporting
                     ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
                     : const Icon(Icons.picture_as_pdf),
@@ -448,6 +449,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
               ),
               FilledButton.tonalIcon(
                 onPressed: _exportingAnswerKey ? null : () => _exportAnswerKey(paper),
+                style: phoneTapTarget,
                 icon: _exportingAnswerKey
                     ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
                     : const Icon(Icons.fact_check),
@@ -456,11 +458,13 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
               if (_exportedUrl != null) ...[
                 FilledButton.tonalIcon(
                   onPressed: _openDelivery,
+                  style: phoneTapTarget,
                   icon: const Icon(Icons.outgoing_mail),
                   label: const Text('Preview, print or email'),
                 ),
                 OutlinedButton.icon(
                   onPressed: () => _openExported(_exportedUrl!, paperId: _exportedPaperId!),
+                  style: phoneTapTarget,
                   icon: const Icon(Icons.download),
                   label: const Text('Download Paper PDF'),
                 ),
@@ -469,6 +473,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
                 OutlinedButton.icon(
                   onPressed: () => _openExported(_exportedAnswerKeyUrl!,
                       paperId: _exportedAnswerKeyPaperId!, answerKey: true),
+                  style: phoneTapTarget,
                   icon: const Icon(Icons.download),
                   label: const Text('Download Answer Key'),
                 ),

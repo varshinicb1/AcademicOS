@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
+import 'package:academicos/core/theme/app_theme.dart';
 import 'package:academicos/presentation/shared/widgets/shell.dart';
 
 import 'responsive_harness.dart';
@@ -43,10 +44,12 @@ Widget _shellApp() {
       ),
     ],
   );
-  return MaterialApp.router(routerConfig: router);
+  return MaterialApp.router(theme: AppTheme.lightTheme, routerConfig: router);
 }
 
 void main() {
+  useAppFonts();
+
   testWidgets('on a phone the rail is a drawer, opened from the page and big enough to tap', (tester) async {
     useScreen(tester, phone);
     await tester.pumpWidget(_shellApp());
@@ -72,6 +75,22 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Assessments body'), findsOneWidget);
     expectNoOverflow(tester, where: ' after navigating');
+  });
+
+  testWidgets('in a desktop-UA browser at phone width the Menu button is still 48 px', (tester) async {
+    // A phone browser reports android/iOS and gets the standard density the
+    // test above runs at; a desktop browser narrowed to 375 px -- how this
+    // task's screenshots were taken -- reports windows and gets `compact`,
+    // which shrinks every button's minimumSize by 8 px. Only shellLeading's
+    // own visualDensity keeps the one way into the navigation thumb-sized
+    // there (review of 2026-09-23).
+    await withDesktopDensity(() async {
+      useScreen(tester, phone);
+      await tester.pumpWidget(_shellApp());
+      await tester.pumpAndSettle();
+      expectNoOverflow(tester);
+      expectActionReady(tester, find.byTooltip('Menu'), phone, label: 'the Menu button on a desktop density');
+    });
   });
 
   testWidgets('a tablet keeps the drawer: 768 px is still narrower than the rail wants', (tester) async {

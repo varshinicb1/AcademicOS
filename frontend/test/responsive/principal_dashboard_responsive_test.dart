@@ -205,6 +205,7 @@ Future<void> _pickFromDropdown(WidgetTester tester, String label, String option)
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  useAppFonts();
 
   setUpAll(() async {
     Hive.init(Directory.systemTemp.createTempSync('responsive_principal_test_').path);
@@ -231,9 +232,7 @@ void main() {
 
   for (final MapEntry(key: name, value: size) in screenSizes.entries) {
     testWidgets('the Roster tab fits and Create invite is ready at $name', (tester) async {
-      useScreen(tester, size);
-      await tester.pumpWidget(const MaterialApp(home: PrincipalAdminPage()));
-      await tester.pumpAndSettle();
+      await pumpPage(tester, const PrincipalAdminPage(), size);
       expectNoOverflow(tester, where: ' on the Roster tab');
       expect(find.textContaining('open-code-1234567890ab'), findsOneWidget);
       await scrollToAndExpectReady(tester, _button('Create invite'), size, label: 'Create invite');
@@ -242,9 +241,7 @@ void main() {
     });
 
     testWidgets('the Coverage & Pace dashboard fits and Reschedule is reachable at $name', (tester) async {
-      useScreen(tester, size);
-      await tester.pumpWidget(const MaterialApp(home: PrincipalAdminPage()));
-      await tester.pumpAndSettle();
+      await pumpPage(tester, const PrincipalAdminPage(), size);
       // The tab row scrolls sideways on a phone; the tab must still be hit.
       final tab = find.text('Coverage & Pace');
       await tester.ensureVisible(tab);
@@ -299,9 +296,7 @@ void main() {
     });
 
     testWidgets('the Master Calendar tab fits and its day can be changed at $name', (tester) async {
-      useScreen(tester, size);
-      await tester.pumpWidget(const MaterialApp(home: PrincipalAdminPage()));
-      await tester.pumpAndSettle();
+      await pumpPage(tester, const PrincipalAdminPage(), size);
       await _openTab(tester, 'Master Calendar', size);
 
       // The three status tallies and the day's lessons, as the school sees them.
@@ -321,9 +316,7 @@ void main() {
     });
 
     testWidgets('the Sequence Reorder tab fits and can be driven at $name', (tester) async {
-      useScreen(tester, size);
-      await tester.pumpWidget(const MaterialApp(home: PrincipalAdminPage()));
-      await tester.pumpAndSettle();
+      await pumpPage(tester, const PrincipalAdminPage(), size);
       await _openTab(tester, 'Sequence Reorder', size);
 
       await _pickFromDropdown(tester, 'Select Grade', 'Grade 7');
@@ -343,9 +336,7 @@ void main() {
     });
 
     testWidgets('the Reschedule tab fits and both its actions are ready at $name', (tester) async {
-      useScreen(tester, size);
-      await tester.pumpWidget(const MaterialApp(home: PrincipalAdminPage()));
-      await tester.pumpAndSettle();
+      await pumpPage(tester, const PrincipalAdminPage(), size);
       await _openTab(tester, 'Reschedule', size);
 
       // PUSH needs a grade and a subject before it can run.
@@ -363,9 +354,7 @@ void main() {
     });
 
     testWidgets('the Calendar & Setup tab fits and its three actions are ready at $name', (tester) async {
-      useScreen(tester, size);
-      await tester.pumpWidget(const MaterialApp(home: PrincipalAdminPage()));
-      await tester.pumpAndSettle();
+      await pumpPage(tester, const PrincipalAdminPage(), size);
       await _openTab(tester, 'Calendar & Setup', size);
 
       await scrollToAndExpectReady(tester, _button('Update Calendar'), size, label: 'Update Calendar');
@@ -383,4 +372,29 @@ void main() {
       expectNoOverflow(tester, where: ' after scrolling the Calendar & Setup tab');
     });
   }
+
+  testWidgets('in a desktop-UA browser at phone width Reschedule is still 44 px tall', (tester) async {
+    // Reschedule on an overdue lesson is the one action on the coverage
+    // dashboard, and it is a TextButton -- M3 gives those a 64x40 minimum,
+    // so it carries its own minimumSize. That minimum is reduced by the
+    // theme's visual density, and a desktop browser narrowed to 375 px (how
+    // this task's screenshots were taken) gets `compact`, -8 px in each
+    // direction: without the button's own visualDensity it renders 36 px
+    // tall there. flutter_test pins the platform to android, so no other
+    // test in this file can see it (review of 2026-09-23).
+    await withDesktopDensity(() async {
+      await pumpPage(tester, const PrincipalAdminPage(), phone);
+      final tab = find.text('Coverage & Pace');
+      await tester.ensureVisible(tab);
+      await tester.pumpAndSettle();
+      await tester.tap(tab);
+      await tester.pumpAndSettle();
+      expectNoOverflow(tester, where: ' on the Coverage & Pace tab at a desktop density');
+
+      final dashboard = find.descendant(of: find.byType(RefreshIndicator), matching: find.byType(Scrollable)).first;
+      await scrollUntilPresent(tester, find.widgetWithText(TextButton, 'Reschedule'), dashboard);
+      await scrollToAndExpectReady(tester, find.widgetWithText(TextButton, 'Reschedule').first, phone,
+          label: 'Reschedule on a desktop density');
+    });
+  });
 }

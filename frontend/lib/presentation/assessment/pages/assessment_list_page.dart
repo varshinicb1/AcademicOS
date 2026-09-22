@@ -39,7 +39,12 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
             icon: const Icon(Icons.flash_on),
             // On a phone these two icons are the only way from this screen to
             // a paper; Material's default leaves them 40 px square, under the
-            // 44 px a thumb reliably hits (Task 801).
+            // 44 px a thumb reliably hits (Task 801). An IconButton needs no
+            // visualDensity with it -- _IconButtonDefaultsM3 already pins
+            // `standard` (icon_button.dart:1152), so a desktop browser's
+            // `compact` theme density never reaches this minimum, which the
+            // desktop-density test in
+            // test/responsive/assessment_list_responsive_test.dart holds.
             style: IconButton.styleFrom(minimumSize: const Size(48, 48)),
             // Online, the quick paper is the builder with the CBSE preset
             // already chosen (Task 902); the offline build keeps its dialog.

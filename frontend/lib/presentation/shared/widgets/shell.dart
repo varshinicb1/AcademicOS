@@ -31,6 +31,12 @@ Widget? forceShellLeading(BuildContext context) {
     // The only way to the navigation on a phone, and Material's default
     // leaves it 40 px square -- below the 44 px a thumb reliably hits
     // (Task 801). The AppBar gives its leading 56 px, so 48 fits.
+    //
+    // No visualDensity needed here, unlike the TextButton on the coverage
+    // dashboard: _IconButtonDefaultsM3 pins visualDensity to `standard`
+    // (icon_button.dart:1152), so a desktop browser's `compact` theme
+    // density never reaches this minimum. Pinned by the desktop-density test
+    // in test/responsive/navigation_shell_responsive_test.dart.
     style: IconButton.styleFrom(minimumSize: const Size(48, 48)),
     onPressed: openDrawer,
   );

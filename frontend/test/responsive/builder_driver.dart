@@ -39,15 +39,13 @@ Future<(FixtureAdapter, SavedPdfs)> pumpBuilder(WidgetTester tester, Size size, 
   useScreen(tester, size);
   final adapter = FixtureAdapter();
   final saved = SavedPdfs();
-  await tester.pumpWidget(MaterialApp(
-    home: PaperBuilderPage(
-      quick: quick,
-      api: fixtureApi(adapter),
-      savePdf: saved.call,
-      schoolId: 'school_1',
-      userId: fixtureTeacherId,
-    ),
-  ));
+  await tester.pumpWidget(appForTest(PaperBuilderPage(
+    quick: quick,
+    api: fixtureApi(adapter),
+    savePdf: saved.call,
+    schoolId: 'school_1',
+    userId: fixtureTeacherId,
+  )));
   await tester.pumpAndSettle();
   return (adapter, saved);
 }

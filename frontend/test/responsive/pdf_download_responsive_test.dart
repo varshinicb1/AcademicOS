@@ -58,6 +58,7 @@ class _Saver implements PdfSaver {
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  useAppFonts();
   useInMemoryHive();
 
   for (final MapEntry(key: name, value: size) in screenSizes.entries) {
@@ -98,7 +99,6 @@ void main() {
 
     testWidgets('a reopened paper: Export Answer Key then Download Answer Key fit and download at $name',
         (tester) async {
-      useScreen(tester, size);
       final (assessment, paper) = _reviewedPaper();
       // ApiClient asks for /export/answerKey (ExportFormat.name); the server
       // takes that spelling too (assessment/routes.py export_paper). The
@@ -115,10 +115,8 @@ void main() {
         ..registerSingleton<PdfSaver>(saver);
       addTearDown(GetIt.I.reset);
 
-      await tester.pumpWidget(MaterialApp(
-        home: AssessmentReviewPage(assessmentId: assessment.id, assessment: assessment, paper: paper),
-      ));
-      await tester.pumpAndSettle();
+      await pumpPage(tester,
+          AssessmentReviewPage(assessmentId: assessment.id, assessment: assessment, paper: paper), size);
       expectNoOverflow(tester, where: ' on the review page');
 
       Finder button(String label) =>

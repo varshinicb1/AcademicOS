@@ -82,6 +82,7 @@ Finder _tappable(String text) => find.ancestor(of: find.text(text), matching: fi
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  useAppFonts();
 
   // The Today page reads LocalStore; an in-memory box keeps its reads inside
   // a widget test's fake clock (see paper_builder_flow_test.dart).
@@ -102,18 +103,14 @@ void main() {
 
   for (final MapEntry(key: name, value: size) in screenSizes.entries) {
     testWidgets('the Today page fits and New Assessment and My Schedule are ready at $name', (tester) async {
-      useScreen(tester, size);
-      await tester.pumpWidget(const MaterialApp(home: HomePage()));
-      await tester.pumpAndSettle();
+      await pumpPage(tester, const HomePage(), size);
       expectNoOverflow(tester);
       expectActionReady(tester, _tappable('New Assessment'), size, label: 'New Assessment');
       expectActionReady(tester, _tappable('My Schedule'), size, label: 'the My Schedule card');
     });
 
     testWidgets("today's lessons fit and one is marked taught with Yes at $name", (tester) async {
-      useScreen(tester, size);
-      await tester.pumpWidget(const MaterialApp(home: MySchedulePage()));
-      await tester.pumpAndSettle();
+      await pumpPage(tester, const MySchedulePage(), size);
       expectNoOverflow(tester, where: ' on the day view');
       expectActionReady(tester, _tappable(_longLesson), size, label: "today's first lesson");
 
@@ -139,9 +136,7 @@ void main() {
 
     for (final view in ['Week', 'Month']) {
       testWidgets("the $view view fits with the day's lessons under the calendar at $name", (tester) async {
-        useScreen(tester, size);
-        await tester.pumpWidget(const MaterialApp(home: MySchedulePage()));
-        await tester.pumpAndSettle();
+        await pumpPage(tester, const MySchedulePage(), size);
         await tester.tap(find.text(view));
         await tester.pumpAndSettle();
         expectNoOverflow(tester, where: ' on the $view view');

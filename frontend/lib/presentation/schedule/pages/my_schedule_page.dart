@@ -471,6 +471,10 @@ class _MySchedulePageState extends State<MySchedulePage> {
                       Expanded(
                         child: OutlinedButton.icon(
                           onPressed: saving ? null : () => mark('skipped'),
+                          // Marking a lesson taught is the one thing a
+                          // teacher does on this sheet, so both answers are
+                          // phone-sized.
+                          style: phoneTapTarget,
                           icon: const Icon(Icons.close),
                           label: const Text('No'),
                         ),
@@ -479,6 +483,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
                       Expanded(
                         child: FilledButton.icon(
                           onPressed: saving ? null : () => mark('completed'),
+                          style: phoneTapTarget,
                           icon: saving
                               ? const SizedBox(width: 16, height: 16,
                                   child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))

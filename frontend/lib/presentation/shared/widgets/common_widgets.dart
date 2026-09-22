@@ -2,6 +2,26 @@ import 'package:flutter/material.dart';
 
 import '../../../core/constants/app_constants.dart';
 
+/// The style a main action carries so a thumb can hit it on the phone layout.
+///
+/// Material's M3 defaults give a button a 40 px minimum height. The 48 px box
+/// it is wrapped in (`_InputPadding`) is invisible and only exists on android
+/// and iOS, so what a teacher aims at is the 40 px the button paints -- under
+/// the 44 px a thumb reliably hits (Task 801). The whole responsive suite
+/// used to measure that invisible box and therefore passed on every button,
+/// however small; it now measures the painted one, and these are the actions
+/// that failed (review of 2026-09-23).
+///
+/// `visualDensity` is pinned with the minimum because ThemeData hands a
+/// desktop-UA browser `VisualDensity.compact`, which takes another 8 px off
+/// every `minimumSize`. A phone browser reports android and gets `standard`
+/// either way; a desktop window narrowed to 375 px -- the one this task's
+/// screenshots were taken in -- does not.
+const phoneTapTarget = ButtonStyle(
+  minimumSize: WidgetStatePropertyAll(Size(64, 48)),
+  visualDensity: VisualDensity.standard,
+);
+
 class AppCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
