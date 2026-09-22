@@ -17,6 +17,7 @@ losing it silently reverts every generated paper to the default CBSE look.
 from __future__ import annotations
 
 import json
+import logging
 import sqlite3
 import uuid
 from pathlib import Path
@@ -25,6 +26,8 @@ from typing import Optional
 from .schemas import PaperTemplate, SchoolTemplate, SectionBlueprint
 from .postgres_kv import durable_table
 from .templates import default_sections, template_section_blueprints
+
+log = logging.getLogger(__name__)
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS school_templates (
@@ -179,10 +182,21 @@ class TemplateStore:
         return PaperTemplate.model_validate(_payload_template(rows[0]))
 
     def list_paper_templates(self, school_id: str) -> list[PaperTemplate]:
-        return sorted(
-            (PaperTemplate.model_validate(_payload_template(r))
-             for r in self._rows_for_school(school_id) if _payload_kind(r) == "paper"),
-            key=lambda t: t.name.lower())
+        """Every readable paper template of the school. A row that no longer
+        validates (saved before a validator tightened, or written through the
+        remote path) is skipped and logged: failing the whole list would take
+        down the builder's first screen for every teacher in the school over
+        one template."""
+        out: list[PaperTemplate] = []
+        for r in self._rows_for_school(school_id):
+            if _payload_kind(r) != "paper":
+                continue
+            try:
+                out.append(PaperTemplate.model_validate(_payload_template(r)))
+            except ValueError as exc:  # pydantic's ValidationError is a ValueError
+                log.warning("skipping unreadable paper template %s of school %s: %s",
+                            r["id"], school_id, exc)
+        return sorted(out, key=lambda t: t.name.lower())
 
     def sections_for(self, school_id: str, template_id: str | None,
                      total_marks: int) -> list[SectionBlueprint]:

@@ -260,11 +260,12 @@ def test_presets_are_read_only_but_copyable(tmp_path, monkeypatch):
 # ------------------------------------------------------------------ availability + generation
 
 def _record(qid: str, marks: int, chapter: str, *, keyed: bool = True,
-            difficulty: str = "medium", subject: str = "Science", grade: int = 10) -> dict:
+            difficulty: str = "medium", subject: str = "Science", grade: int = 10,
+            qtype: str = "short_answer") -> dict:
     return {
         "id": qid, "questionBankId": "fixture", "subject": subject, "grade": grade,
         "chapterIds": [chapter], "competencyIds": [], "bloomLevel": "understand",
-        "difficulty": difficulty, "type": "short_answer",
+        "difficulty": difficulty, "type": qtype,
         "stem": f"Fixture question {qid}: explain the observed change in detail.",
         "parts": [],
         "answerScheme": {
@@ -540,3 +541,123 @@ def test_a_copy_of_a_preset_is_the_teachers_not_a_board_pattern(tmp_path, monkey
         assert copy["patternStatus"] == "teacher"
         assert copy["source"].startswith("Copied from")
         assert copy["basedOn"] == pid
+
+
+# ------------------------------------------------------------------ review fixes (2)
+
+GEN = "/api/v1/papers/generate-from-template"
+
+
+def test_generated_paper_prints_the_schools_branding_not_the_template_name(
+        tmp_path, monkeypatch, seeded):
+    """The PDF exporter reads the branding stored with the paper. Storing the
+    PaperTemplate there printed the template's name ("Unit test - Chemical
+    reactions") as the school's, and lost the logo and brand colour."""
+    from academicos.assessment import paper_template_routes
+
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        brand = client.post("/api/v1/schools/school_1/school-templates", json={"template": {
+            "id": "new", "schoolId": "school_1", "name": "Green Valley Public School",
+            "logoUrl": "logos/gv.png", "brandColor": "#1a5c2e", "isDefault": True}},
+            headers=t1)
+        assert brand.status_code == 200, brand.text
+        exact = _draft(totalMarks=6, sections=[_section("Objective", 3, 1),
+                                               _section("Short", 1, 3)])
+        tid = client.post(BASE, json=exact, headers=t1).json()["id"]
+        r = client.post(GEN, json={"templateId": tid, "setCount": 2}, headers=t1)
+        assert r.status_code == 200, r.text
+        paper = r.json()["paper"]
+        for pid in [paper["id"]] + [s["id"] for s in paper["sets"]]:
+            stored = paper_template_routes._papers.get_template(pid)
+            # The teacher's header names the school; the logo and colour are
+            # the school's own.
+            assert stored.name == "Green Valley School"
+            assert stored.logo_url == "logos/gv.png" and stored.brand_color == "#1a5c2e"
+            assert "Date: ________" in stored.tagline
+            assert type(stored).__name__ == "SchoolTemplate"
+
+        # Without a header school name, the school's branding name prints.
+        plain = client.post(BASE, json={**exact, "name": "Plain", "header": {}},
+                            headers=t1).json()["id"]
+        pid = client.post(GEN, json={"templateId": plain}, headers=t1).json()["paper"]["id"]
+        assert paper_template_routes._papers.get_template(pid).name ==             "Green Valley Public School"
+
+
+TYPED = ([_record(f"a{i}", 1, "ch1", qtype="mcq") for i in range(3)]
+         + [_record(f"b{i}", 1, "ch1", qtype="assertion_reason") for i in range(3)])
+
+
+def test_every_set_keeps_each_sections_questions_in_that_section(tmp_path, monkeypatch):
+    """Sets used to rotate each mark value across the whole paper, so set B
+    moved an assertion-reason question under the MCQ heading."""
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _fixture_pool(TYPED))
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        tid = client.post(BASE, json=_draft(totalMarks=6, sections=[
+            _section("MCQ", 3, 1, questionTypes=["mcq"]),
+            _section("Assertion-Reason", 3, 1, questionTypes=["assertion_reason"])]),
+            headers=t1).json()["id"]
+        r = client.post(GEN, json={"templateId": tid, "setCount": 3}, headers=t1)
+        assert r.status_code == 200, r.text
+        sets = r.json()["paper"]["sets"]
+        assert [s["setLabel"] for s in sets] == ["A", "B", "C"]
+        orders = []
+        for s in sets:
+            mcq, ar = s["sections"]
+            assert sorted(q["questionId"] for q in mcq["questions"]) == ["a0", "a1", "a2"]
+            assert sorted(q["questionId"] for q in ar["questions"]) == ["b0", "b1", "b2"]
+            orders.append([q["questionId"] for q in mcq["questions"]])
+        assert orders[0] != orders[1], "a later set is a reordering, not a copy"
+
+
+def test_attempt_any_sections_print_attempted_marks_that_add_up(tmp_path, monkeypatch, seeded):
+    """"Attempt any 3 of 4" 1-mark questions is a 3-mark section: printing 4
+    made the sections add up to more than the paper's Maximum Marks."""
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        tid = client.post(BASE, json=_draft(
+            totalMarks=6, scope={"chapterIds": ["ch1", "ch2"]},
+            sections=[_section("Grammar", 4, 1, attempt=3), _section("Short", 1, 3)]),
+            headers=t1).json()["id"]
+        r = client.post(GEN, json={"templateId": tid, "setCount": 2}, headers=t1)
+        assert r.status_code == 200, r.text
+        paper = r.json()["paper"]
+        for p in [paper] + paper["sets"]:
+            assert [s["totalMarks"] for s in p["sections"]] == [3, 3]
+            assert sum(s["totalMarks"] for s in p["sections"]) == p["metadata"]["totalMarks"] == 6
+            assert "(3 marks)" in p["formattedContent"]
+
+
+def test_set_count_is_bounded_to_the_labelled_sets(tmp_path, monkeypatch, seeded):
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        tid = client.post(BASE, json=_draft(totalMarks=6, sections=[
+            _section("Objective", 3, 1), _section("Short", 1, 3)]), headers=t1).json()["id"]
+        for bad in (0, 6, 10000):
+            assert client.post(GEN, json={"templateId": tid, "setCount": bad},
+                               headers=t1).status_code == 422, bad
+
+
+def test_one_unreadable_template_row_does_not_break_the_list(tmp_path, monkeypatch):
+    """A row saved before a validator tightened (or written through the remote
+    path) must not 500 the teacher's first screen for the whole school."""
+    import json as _json
+    import sqlite3
+
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        good = client.post(BASE, json=_draft(name="Good"), headers=t1).json()["id"]
+        bad = client.post(BASE, json=_draft(name="Legacy"), headers=t1).json()["id"]
+        db = sqlite3.connect(str(tmp_path / "templates" / "templates.sqlite"))
+        payload = _json.loads(db.execute("SELECT payload FROM school_templates WHERE id=?",
+                                         (bad,)).fetchone()[0])
+        payload["total_marks"] = 999          # no longer matches its sections
+        db.execute("UPDATE school_templates SET payload=? WHERE id=?",
+                   (_json.dumps(payload), bad))
+        db.commit()
+        db.close()
+
+        r = client.get(BASE, headers=t1)
+        assert r.status_code == 200, r.text
+        assert [t["id"] for t in r.json()["mine"]] == [good]

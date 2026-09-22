@@ -68,12 +68,20 @@ def generate_paper(*, paper_id: str, assessment_id: str, assessment_title: str,
 
             display_no += 1
 
+        # A section with a choice ("attempt any 10 of 12") is worth the marks
+        # a student can score, which the blueprint states; the printed
+        # questions' sum would overstate it and make the sections add up to
+        # more than Maximum Marks. min() keeps an under-filled section (and
+        # the CBSE OR-choice sections, whose total is count x marks) at what
+        # is actually printed.
+        printed = sum(q.marks for q in gen_questions)
         gen_sections.append(GeneratedSectionSchema(
             section_id=section.id,
             label=section.label,
             name=section.name,
             questions=gen_questions,
-            total_marks=sum(q.marks for q in gen_questions),
+            total_marks=min(printed, section.total_marks) if section.has_internal_choice
+            else printed,
         ))
 
     formatted = _render_text(assessment_title, subject, grade, blueprint, gen_sections, set_label)
@@ -99,8 +107,21 @@ def generate_paper(*, paper_id: str, assessment_id: str, assessment_title: str,
 def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: str,
                         subject: str, grade: int, blueprint: Blueprint,
                         selected_questions: list[QuestionSchema],
-                        set_count: int = 1) -> GeneratedPaper:
-    """Generate parallel equivalent question paper sets (Sets A, B, C...) with strictly invariant difficulty."""
+                        set_count: int = 1,
+                        rotation_groups: list[list[QuestionSchema]] | None = None,
+                        ) -> GeneratedPaper:
+    """Generate parallel equivalent question paper sets (Sets A, B, C...) with strictly invariant difficulty.
+
+    Each later set rotates questions within a group. By default a group is
+    every question of one mark value, which is right when each mark value is
+    one section. A teacher's template can have several sections at the same
+    mark (reading, grammar, extract), each with its own type and difficulty
+    rules; rotating across all of them moved questions into the wrong
+    section in set B. `rotation_groups` -- one list per section, in section
+    order, together exactly `selected_questions` -- keeps each question in
+    its own section: `generate_paper` takes same-mark sections in order, so
+    concatenating the rotated groups in order refills each section from its
+    own group."""
     if set_count <= 1:
         return generate_paper(
             paper_id=paper_id,
@@ -121,11 +142,15 @@ def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: 
 
     for idx, label in enumerate(labels):
         variant_questions: list[QuestionSchema] = []
-        by_marks: dict[int, list[QuestionSchema]] = {}
-        for q in selected_questions:
-            by_marks.setdefault(q.marks, []).append(q)
+        if rotation_groups is not None:
+            groups = rotation_groups
+        else:
+            by_marks: dict[int, list[QuestionSchema]] = {}
+            for q in selected_questions:
+                by_marks.setdefault(q.marks, []).append(q)
+            groups = list(by_marks.values())
 
-        for marks, q_list in by_marks.items():
+        for q_list in groups:
             curr_list = [q.model_copy(deep=True) for q in q_list]
             if idx > 0:
                 shift = idx % max(1, len(curr_list))

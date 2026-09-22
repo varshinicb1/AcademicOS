@@ -22,6 +22,7 @@ from datetime import datetime, timezone
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import Field
 
 from ..config import Config
 from . import grades
@@ -45,6 +46,7 @@ from .schemas import (
     PaperTemplate,
     PaperTemplateDraft,
     QuestionSchema,
+    SchoolTemplate,
     SectionBlueprint,
     TemplateScope,
 )
@@ -108,7 +110,10 @@ class GenerateFromTemplateRequest(Camel):
     template_id: str
     scope: Optional[TemplateScope] = None
     title: Optional[str] = None
-    set_count: int = 1
+    # A-E: `generate_paper_sets` labels five sets, and every set is saved as
+    # its own papers row, so an unbounded count is unbounded work and writes
+    # in one request. Out of range is a 422, not a silent clamp.
+    set_count: int = Field(1, ge=1, le=5)
     # A short paper is never produced silently: without this, any section
     # the bank cannot fill is a 409 carrying the gaps.
     allow_gaps: bool = False
@@ -377,12 +382,15 @@ def generate_from_template(
     paper = generate_paper_sets(
         paper_id=f"paper_{uuid.uuid4().hex[:12]}", assessment_id=asm_id,
         assessment_title=title, subject=template.subject, grade=template.grade,
-        blueprint=blueprint, selected_questions=selected,
-        set_count=max(1, req.set_count),
+        blueprint=blueprint, selected_questions=selected, set_count=req.set_count,
+        # Sets rotate within each section, never across two same-mark
+        # sections (an assertion-reason question under the MCQ heading).
+        rotation_groups=[p.picked + p.borrowed for p in plans if p.picked or p.borrowed],
     )
-    _papers.save(paper, template, school_id=current.school_id)
+    branding = _branding(template, current.school_id)
+    _papers.save(paper, branding, school_id=current.school_id)
     for s in paper.sets:
-        _papers.save(s, template, school_id=current.school_id)
+        _papers.save(s, branding, school_id=current.school_id)
 
     notes = [n for p in plans for n in p.notes] + list(report.scope_notes)
     now = _now()
@@ -409,6 +417,26 @@ def generate_from_template(
     )
     return TemplatePaperResponse(paper=paper, assessment_id=asm_id, complete=not gaps,
                                  gaps=gaps, notes=notes, availability=report)
+
+
+def _branding(template: PaperTemplate, school_id: str) -> SchoolTemplate:
+    """What the PDF exporter prints in the header: the school's own branding
+    (logo, colour, fonts), with the teacher's header on top.
+
+    The exporter prints `name` as the school's name, so storing the paper
+    template itself there printed "Unit test - Chemical reactions" where the
+    school goes and dropped the logo. The exam name is already the paper's
+    title; the date line goes under the subject line with the school's
+    tagline, which is where the exporter prints `tagline`."""
+    _, store = _require()
+    school = store.default_for(school_id)
+    header = template.header
+    tagline = " | ".join(t for t in (school.tagline, header.date_line) if t)
+    return SchoolTemplate.model_validate({
+        **school.model_dump(),
+        "name": header.school_name or school.name,
+        "tagline": tagline,
+    })
 
 
 def _blueprint(template: PaperTemplate,

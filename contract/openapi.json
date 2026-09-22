@@ -2420,6 +2420,8 @@
           },
           "setCount": {
             "default": 1,
+            "maximum": 5.0,
+            "minimum": 1.0,
             "title": "Setcount",
             "type": "integer"
           },
