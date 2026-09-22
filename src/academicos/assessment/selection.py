@@ -129,45 +129,58 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
         current_cbq = sum(1 for q in selected if is_competency_question(q))
         need_cbq = (current_cbq / len(selected) < competency_target) if selected else True
 
-        pool = [q for q in remaining if _fits_section(q, section)]
-        shortfall = section.question_count - len(pool)
-        if shortfall > 0:
-            gaps.append(
-                f"Section {section.label} ({section.name}): needs {section.question_count} "
-                f"questions worth {section.marks_per_question} marks each, only {len(pool)} "
-                f"available in the selected chapters."
+        def ranked(qs: list[QuestionSchema]) -> list[QuestionSchema]:
+            return sorted(
+                qs,
+                key=lambda q: _score(q, chapter_weights, used_chapters, tier, need_cbq),
+                reverse=True,
             )
-            extra = [q for q in fallback_remaining if _fits_section(q, section)]
-            if extra:
-                extra.sort(
-                    key=lambda q: _score(q, chapter_weights, used_chapters, tier, need_cbq),
-                    reverse=True,
-                )
-                borrowed = extra[:shortfall]
-                pool = pool + borrowed
-                gaps.append(
-                    f"Section {section.label}: filled {len(borrowed)} of the shortfall from "
-                    f"outside the selected chapters so the section isn't left blank."
-                )
-        pool.sort(
-            key=lambda q: _score(q, chapter_weights, used_chapters, tier, need_cbq),
-            reverse=True,
-        )
+
         # Accept in rank order, skipping a question that restates one already
         # on the paper (`pool.near_duplicate`, the guard the template path and
         # swap/pick use). Without it the real pair of Class 10 Mathematics
         # MCQs (Task 903's test) filled two slots of one 1-mark section.
-        take = []
-        for q in pool:
-            if len(take) == section.question_count:
-                break
-            if not _repeats_paper(q, selected + take, paired):
-                take.append(q)
-        if shortfall <= 0 and len(take) < section.question_count:
+        # Returns how many it skipped as repeats, for the gap wording.
+        take: list[QuestionSchema] = []
+
+        def accept(qs: list[QuestionSchema]) -> int:
+            skipped = 0
+            for q in ranked(qs):
+                if len(take) == section.question_count:
+                    break
+                if _repeats_paper(q, selected + take, paired):
+                    skipped += 1
+                else:
+                    take.append(q)
+            return skipped
+
+        # The duplicate filter runs BEFORE the fallback is asked, and the
+        # fallback is filtered the same way. Borrowing exactly the raw
+        # shortfall first and filtering after (the order before this) left a
+        # section short whenever the filter dropped a question -- while the
+        # gap said the shortfall had been filled.
+        repeats = accept([q for q in remaining if _fits_section(q, section)])
+        if len(take) < section.question_count:
+            gaps.append(
+                f"Section {section.label} ({section.name}): needs {section.question_count} "
+                f"questions worth {section.marks_per_question} marks each, only {len(take)} "
+                f"available in the selected chapters."
+            )
+            before = len(take)
+            repeats += accept([q for q in fallback_remaining if _fits_section(q, section)])
+            if len(take) > before:
+                gaps.append(
+                    f"Section {section.label}: filled {len(take) - before} of the shortfall from "
+                    f"outside the selected chapters so the section isn't left blank."
+                )
+        # Whatever the cause -- too few in the bank, or the rest repeating a
+        # question already on the paper -- a section that prints short says so.
+        if len(take) < section.question_count:
+            why = (" after leaving out ones that repeat a question already on the paper"
+                   if repeats else "")
             gaps.append(
                 f"Section {section.label} ({section.name}): only {len(take)} of "
-                f"{section.question_count} questions after leaving out ones that repeat "
-                f"a question already on the paper."
+                f"{section.question_count} questions{why}; the section prints short."
             )
         for q in take:
             selected.append(q)

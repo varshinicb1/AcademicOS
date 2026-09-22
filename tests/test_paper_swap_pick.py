@@ -517,6 +517,34 @@ def test_optimize_never_selects_both_near_duplicates():
     assert len(_ids_selected(result) & _TWIN_IDS) == 1
 
 
+def test_a_short_section_is_filled_from_the_fallback_after_the_duplicate_is_left_out():
+    """The code-quality review's repro: the twins and one filler in the chosen
+    chapter, four 1-mark slots, five unused questions outside it. Borrowing
+    exactly the shortfall (one) before the duplicate filter ran printed three
+    questions under a gap saying the shortfall had been filled."""
+    from academicos.assessment.selection import optimize
+    fillers = [_rec("f0", 1, "ch1", 1, quality=0.7)]
+    outside = [_rec(f"g{i}", 1, "ch2", i + 2, quality=0.6 - i * 0.01) for i in range(5)]
+    result = optimize(_schemas(_TWINS + fillers), _one_mark_blueprint(4),
+                      fallback_candidates=_schemas(outside))
+    ids = _ids_selected(result)
+    assert len(result.selected_questions) == 4, sorted(ids)
+    assert len(ids & _TWIN_IDS) == 1
+    assert len(ids & {f"g{i}" for i in range(5)}) == 2
+    assert any("filled 2 of the shortfall" in g for g in result.gaps), result.gaps
+    assert not any("only 3 of 4" in g for g in result.gaps), result.gaps
+
+
+def test_a_section_the_fallback_cannot_fill_says_how_short_it_prints():
+    """Nothing outside the chapters fits either: the gap reports the count
+    actually printed, not the count available before duplicates were cut."""
+    from academicos.assessment.selection import optimize
+    fillers = [_rec("f0", 1, "ch1", 1, quality=0.7)]
+    result = optimize(_schemas(_TWINS + fillers), _one_mark_blueprint(4))
+    assert len(result.selected_questions) == 2
+    assert any("only 2 of 4" in g for g in result.gaps), result.gaps
+
+
 def test_an_or_alternative_is_never_a_near_duplicate_of_the_paper():
     """The OR partner is printed on the paper too: the twin of a question
     (its best-scoring same-chapter alternative) must not be offered as it."""
@@ -558,6 +586,32 @@ def test_optimize_then_generate_never_carries_both_near_duplicates(tmp_path, mon
         assert gen.status_code == 200, gen.text
         on_paper = _on_paper(gen.json())
         assert len(on_paper & _TWIN_IDS) == 1, sorted(on_paper)
+
+
+def test_generate_refuses_selected_questions_that_repeat_each_other(tmp_path, monkeypatch):
+    """POST /papers/generate prints what the client posts; it does not run
+    optimize. A hand-built selection holding both twins -- as two questions,
+    or as a question and its OR partner -- is refused, naming the pair."""
+    bp = _one_mark_blueprint(3).model_dump(by_alias=True)
+    others = [r for r in FIXTURE if r["marks"] == 1 and r["id"] in ("o0", "o1")]
+    partnered = dict(_TWINS[0], metadata={
+        "internal_choice_id": QUADRATIC_B[0],
+        "internal_choice_stem": QUADRATIC_B[1],
+        "internal_choice_question": _TWINS[1]})
+    tpl = {"id": "tpl", "schoolId": "school_1", "name": "Plain"}
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        for picked in (_TWINS + others[:1], [partnered] + others):
+            gen = client.post("/api/v1/papers/generate", headers=t1, json={
+                "assessmentId": "asm_none", "blueprint": bp,
+                "selectedQuestions": picked, "template": tpl})
+            assert gen.status_code == 422, gen.text
+            detail = gen.json()["detail"]
+            assert QUADRATIC_A[0] in detail and QUADRATIC_B[0] in detail, detail
+        ok = client.post("/api/v1/papers/generate", headers=t1, json={
+            "assessmentId": "asm_none", "blueprint": bp,
+            "selectedQuestions": _TWINS[:1] + others, "template": tpl})
+        assert ok.status_code == 200, ok.text
 
 
 # ------------------------------------------------------------------ recent papers

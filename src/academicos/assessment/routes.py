@@ -25,7 +25,7 @@ from .auth_routes import get_current_user, require_principal
 from .users import User, get_user_store
 from .mapping import grade_to_int, to_question_schema
 from .paper import generate_paper as build_generated_paper, generate_paper_sets
-from .pool import get_pool
+from .pool import get_pool, near_duplicate
 from .schemas import (
     Assessment,
     AssessmentStatus,
@@ -248,6 +248,35 @@ def optimize_questions(request: QuestionOptimizationRequest,
 
 # ---- Papers ----
 
+def _refuse_repeated_questions(selected: list[QuestionSchema]) -> None:
+    """422 when two questions this paper would print restate each other.
+
+    POST /papers/generate prints the `selectedQuestions` the client posts; it
+    does not run selection.optimize, so the near-duplicate guard there (and on
+    the template and swap/pick paths) never sees a hand-built selection. OR
+    partners are printed too, so they count. Refused rather than silently
+    dropped: the teacher chose these, and a paper one question shorter than
+    they built is a wrong answer they would not notice. Same measure,
+    `pool.near_duplicate`, as every other path."""
+    printed: list[tuple[str, str]] = []
+    for q in selected:
+        printed.append((q.id, q.stem))
+        meta = q.metadata or {}
+        partner = meta.get("internal_choice_question") or {}
+        pid = meta.get("internal_choice_id") or partner.get("id")
+        pstem = meta.get("internal_choice_stem") or partner.get("stem")
+        if pid and pstem:
+            printed.append((pid, pstem))
+    for i, (aid, astem) in enumerate(printed):
+        for bid, bstem in printed[:i]:
+            if near_duplicate(astem, bstem):
+                raise HTTPException(
+                    422,
+                    f"questions {bid} and {aid} are the same question; a paper "
+                    f"may carry only one of them -- remove one and generate again",
+                )
+
+
 @router.post("/papers/generate", response_model=GeneratedPaper)
 def generate_paper_endpoint(
     request: PaperGenerationRequest, current: User = Depends(get_current_user),
@@ -268,6 +297,7 @@ def generate_paper_endpoint(
             "chapters/filters matched no real questions in the corpus; "
             "widen the chapter selection or check the subject/grade",
         )
+    _refuse_repeated_questions(request.selected_questions)
     assessment = store.get(request.assessment_id)
     if assessment is not None:
         if assessment.school_id != current.school_id:
