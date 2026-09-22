@@ -500,3 +500,30 @@ def test_lettered_headings_below_subtopic_level_are_returned_apart_class9_societ
         "Mesopotamian Civilisation", "Egyptian Civilisation", "The Chinese Civilisation"]
     # a 13pt heading with no letter at that size stays ignored, as before
     assert "How do we know what we know about China?" not in {h.name for h in heads}
+
+
+def _synthetic_chapter(heads: list[tuple[str, float]]) -> list:
+    y, lines = 100.0, []
+    for text, size in heads:
+        lines.append(th.Line(1, text, size, "NotoSerif-Bold", True, 35395, 64, y, 300, y + size))
+        y += 60
+    lines += [th.Line(1, "body text " * 6, 12.0, "NotoSerif-Regular", False, 2301728,
+                      64, y + 17 * k, 434, y + 17 + 17 * k) for k in range(30)]
+    return lines
+
+
+def test_lettered_run_between_the_two_sizes_does_not_push_out_the_subtopics():
+    # The topic and subtopic sizes are the book's unlettered headings; a
+    # lettered run set between them is a subtopic, and does not make itself
+    # the subtopic level and drop the real 15pt subtopics.
+    lines = _synthetic_chapter([("Big Topic", 17.0), ("Real Subtopic", 15.0),
+                                ("a) Alpha", 16.0), ("b) Beta", 16.0), ("Another Sub", 15.0)])
+    assert [(h.level, h.name) for h in th.unnumbered_headings(lines)] == [
+        (1, "Big Topic"), (2, "Real Subtopic"), (2, "Alpha"), (2, "Beta"), (2, "Another Sub")]
+
+
+def test_lettered_run_larger_than_the_topics_does_not_demote_them():
+    lines = _synthetic_chapter([("Big Topic", 17.0), ("Real Subtopic", 15.0),
+                                ("a) Alpha", 19.0), ("b) Beta", 19.0), ("Another Sub", 15.0)])
+    assert [(h.level, h.name) for h in th.unnumbered_headings(lines)] == [
+        (1, "Big Topic"), (2, "Real Subtopic"), (2, "Alpha"), (2, "Beta"), (2, "Another Sub")]

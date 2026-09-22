@@ -690,19 +690,41 @@ def unnumbered_headings(lines: list[Line], skip_pages: frozenset = frozenset()) 
         i += 1
     # Sizes within 0.6pt are one level: gees105.pdf sets the same sub-heading
     # style at 15pt and 15.43pt (pp6, 17).
-    levels: list[list[float]] = []
-    for size in sorted({ln.size for ln, _, _ in cands}, reverse=True):
-        if levels and levels[-1][0] - size <= 0.6:
-            levels[-1].append(size)
-        else:
-            levels.append([size])
-    if not levels:
+    def two_levels(sizes: set[float]) -> tuple[set[float], set[float]]:
+        levels: list[list[float]] = []
+        for size in sorted(sizes, reverse=True):
+            if levels and levels[-1][0] - size <= 0.6:
+                levels[-1].append(size)
+            else:
+                levels.append([size])
+        if not levels:
+            return set(), set()
+        second = (set(levels[1]) if len(levels) > 1 and levels[0][-1] - levels[1][0] >= 0.9
+                  else set())
+        return set(levels[0]), second
+
+    # The two sizes are the book's unlettered headings'. A lettered heading is
+    # a subtopic whatever its size, so its size says nothing about the levels:
+    # counted in, a lettered run set between the topic and subtopic sizes
+    # became the subtopic level and the real subtopics fell to a third level
+    # and out of the tree; a run set above the topics demoted them. Only when
+    # the chapter has no unlettered subtopics do the lettered sizes decide
+    # where the subtopic level starts.
+    top, second = two_levels({ln.size for ln, _, lettered in cands if not lettered})
+    everything_top, everything_second = two_levels({ln.size for ln, _, _ in cands})
+    if not top:
+        top, second = everything_top, everything_second
+    if not top:
         return []
-    top = set(levels[0])
-    second = set(levels[1]) if len(levels) > 1 and levels[0][-1] - levels[1][0] >= 0.9 else set()
+    if second:
+        sub_floor = min(second)
+    elif everything_second and min(everything_second) < min(top):
+        sub_floor = min(everything_second)
+    else:
+        sub_floor = min(top)
     out = []
     for ln, name, lettered in cands:
-        if lettered and (ln.size in top or ln.size in second):
+        if lettered and ln.size >= sub_floor:
             out.append(Heading(2, name, ln.page, None, "unnumbered"))
         elif lettered:
             out.append(Heading(3, name, ln.page, None, "unnumbered"))
