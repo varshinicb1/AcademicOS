@@ -32,7 +32,10 @@ from __future__ import annotations
 
 import base64
 import binascii
+import logging
 from typing import Any
+
+log = logging.getLogger(__name__)
 
 # Hard ceiling on page size. A consumer asking for 10,000 items is either
 # scraping or has misunderstood; either way the answer is no, not 10,000.
@@ -94,6 +97,45 @@ def has_answer_key(rec: dict[str, Any]) -> bool:
         ((pt.get("description") or pt.get("text") or "")).strip()
         for pt in (scheme.get("markingPoints") or [])
     )
+
+
+def topics_of(rec: dict[str, Any]) -> list[str]:
+    """Every topic label a question carries.
+
+    Chapters come from `chapterIds` (the keyword/embedding tagger) and the
+    learning-ladder reference from the CBSE CBE import; both are real mappings,
+    so both are exposed. Lives here rather than in `mcp/qbank_server.py`
+    because `?topic=` is now part of the one filter chain both surfaces run.
+    """
+    out = [str(c) for c in (rec.get("chapterIds") or []) if c]
+    for key in ("topic", "contentCode", "contentReference"):
+        v = rec.get(key)
+        if v:
+            out.append(str(v))
+    return list(dict.fromkeys(out)) or ["unmapped"]
+
+
+def topic_matches(rec: dict[str, Any], topic: str) -> bool:
+    """Substring, case-insensitive, against any of a record's topic labels.
+
+    Deliberately looser than `chapter_id`, which is an exact id: an agent asks
+    for "Algebra" and means the chapter, the content code and the ladder
+    reference alike.
+    """
+    needle = topic.strip().lower()
+    return any(needle in t.lower() for t in topics_of(rec))
+
+
+def source_document_of(rec: dict[str, Any]) -> str:
+    """The id of the document a question was extracted from.
+
+    Its own filter, because it used to be a silent third term in the MCP
+    surface's keyword haystack: `keyword=CBSE2023` matched a source document id
+    over MCP and nothing over HTTP, which is one keyword with two meanings on
+    one corpus. Asking for a source paper is a real need, so it keeps working
+    -- by name.
+    """
+    return str((rec.get("provenance") or {}).get("sourceDocumentId") or "")
 
 
 def key_provenance_of(rec: dict[str, Any]) -> str:
@@ -158,12 +200,51 @@ class QuestionBank:
 
         The parameter remains so a caller who genuinely wants a pre-filtered
         bank can ask for one; nothing does today.
+
+        **One collection, not two.** `_by_id` was built by a comprehension
+        (`{str(r.get("id")): r for r in records if r.get("id")}`) that dropped
+        id-less records and kept only the last of a duplicated id, while
+        `self.records` kept every one of them. `page()` and `facets()` iterate
+        the first, `coverage()` counted the second, so a bank with one repeated
+        id made `/v1/coverage` advertise a question `/v1/questions` could not
+        serve -- Q5's failure in a new axis, and the MCP's old `Corpus.load`
+        (`seen[rid] = rec`, blank ids skipped) used to prevent it. `records` is
+        now that same de-duplicated collection, so every count in this class is
+        counted over the records it can actually hand over.
+
+        A dropped record is a data bug in the bank file, and load is the only
+        place it can be noticed, so it is logged rather than swallowed. It is
+        not raised: the bank is a data file, a single bad record must not take
+        the API down with it, and the honest response is to serve the rest and
+        say what was dropped.
         """
         if require_answer_key:
             records = [r for r in records if self.has_answer_key(r)]
-        self.records = records
-        self._by_id = {str(r.get("id")): r for r in records if r.get("id")}
-        self._sorted_ids = sorted(self._by_id)
+
+        by_id: dict[str, dict[str, Any]] = {}
+        without_id = 0
+        duplicated: list[str] = []
+        for rec in records:
+            rid = str(rec.get("id") or "").strip()
+            if not rid:
+                without_id += 1
+                continue
+            if rid in by_id:
+                duplicated.append(rid)
+            # Last one wins, which is what the comprehension and the MCP's old
+            # loader both did; the point of this rewrite is that it is now
+            # counted, not that it resolves differently.
+            by_id[rid] = rec
+        if without_id:
+            log.warning("question bank: dropped %d record(s) with no id", without_id)
+        if duplicated:
+            log.warning(
+                "question bank: %d duplicate id(s), keeping the last of each "
+                "(first few: %s)", len(duplicated), ", ".join(duplicated[:5]))
+
+        self._by_id = by_id
+        self.records = list(by_id.values())
+        self._sorted_ids = sorted(by_id)
 
     # The module-level rule, bound here so the many existing
     # `QuestionBank.has_answer_key(rec)` call sites keep reading the way they
@@ -182,11 +263,15 @@ class QuestionBank:
         subject: str | None = None,
         grade: int | None = None,
         marks: int | None = None,
+        min_marks: int | None = None,
+        max_marks: int | None = None,
         type_: str | None = None,
         difficulty: str | None = None,
         bloom: str | None = None,
         chapter_id: str | None = None,
         subtopic_id: str | None = None,
+        topic: str | None = None,
+        source_document_id: str | None = None,
         has_scheme: bool | None = None,
         key_provenance: str | None = None,
         review_state: str | None = None,
@@ -211,8 +296,10 @@ class QuestionBank:
         for qid in self._sorted_ids:
             rec = self._by_id[qid]
             if not _matches(rec, subject=subject, grade=grade, marks=marks,
+                            min_marks=min_marks, max_marks=max_marks,
                             type_=type_, difficulty=difficulty, bloom=bloom,
                             chapter_id=chapter_id, subtopic_id=subtopic_id,
+                            topic=topic, source_document_id=source_document_id,
                             has_scheme=has_scheme,
                             key_provenance=key_provenance,
                             review_state=review_state, needle=needle):
@@ -249,10 +336,15 @@ class QuestionBank:
             if not _matches(
                 rec,
                 subject=filters.get("subject"), grade=filters.get("grade"),
-                marks=filters.get("marks"), type_=filters.get("type_"),
+                marks=filters.get("marks"),
+                min_marks=filters.get("min_marks"),
+                max_marks=filters.get("max_marks"),
+                type_=filters.get("type_"),
                 difficulty=filters.get("difficulty"), bloom=filters.get("bloom"),
                 chapter_id=filters.get("chapter_id"),
                 subtopic_id=filters.get("subtopic_id"),
+                topic=filters.get("topic"),
+                source_document_id=filters.get("source_document_id"),
                 has_scheme=filters.get("has_scheme"),
                 key_provenance=filters.get("key_provenance"),
                 review_state=filters.get("review_state"),
@@ -290,16 +382,23 @@ class QuestionBank:
         no query could return, because every serving path applies
         `has_answer_key`. It now counts keyed records whose key is CBSE's, which
         is exactly what `?key_provenance=cbse_marking_scheme` returns.
+
+        Counted over `_by_id.values()` -- the collection `page()` and
+        `facets()` serve from -- and not over a second list that might hold
+        records those two cannot reach. `__init__` makes `self.records` the
+        same collection; this spells out which one is authoritative, so the
+        two cannot drift apart again if that ever changes.
         """
-        total = len(self.records)
-        with_key = sum(1 for r in self.records if has_answer_key(r))
-        official = sum(1 for r in self.records
+        served = list(self._by_id.values())
+        total = len(served)
+        with_key = sum(1 for r in served if has_answer_key(r))
+        official = sum(1 for r in served
                        if has_answer_key(r)
                        and key_provenance_of(r) == "cbse_marking_scheme")
 
         by_subject: dict[str, dict[str, int]] = {}
         by_pair: dict[tuple[str, int], dict[str, Any]] = {}
-        for r in self.records:
+        for r in served:
             subject = str(r.get("subject") or "unknown")
             grade = int(r.get("grade") or 0)
             keyed = has_answer_key(r)
@@ -341,7 +440,7 @@ class QuestionBank:
             "withOfficialCbseScheme": official,
             "answerKeyCoverage": round(with_key / total, 4) if total else 0.0,
             "subjects": dict(sorted(by_subject.items())),
-            "grades": sorted({int(r.get("grade") or 0) for r in self.records}),
+            "grades": sorted({int(r.get("grade") or 0) for r in served}),
             "bySubjectClass": by_subject_class,
             "note": ("Questions without an answer key are excluded from every "
                      "search by default. They exist in the corpus and are "
@@ -354,13 +453,34 @@ class QuestionBank:
 
 def _matches(rec: dict[str, Any], *, subject, grade, marks, type_, difficulty,
              bloom, chapter_id, subtopic_id, has_scheme, review_state,
-             needle: str, key_provenance: str | None = None) -> bool:
+             needle: str, key_provenance: str | None = None,
+             min_marks: int | None = None, max_marks: int | None = None,
+             topic: str | None = None,
+             source_document_id: str | None = None) -> bool:
+    """**The** filter chain, for every surface.
+
+    `min_marks`, `max_marks`, `topic` and `source_document_id` are here rather
+    than in the MCP server because `Corpus.search` used to run its own copy of
+    this function, and a copy is how two surfaces start answering one question
+    differently -- which they did, on `keyword`. Only some of these are exposed
+    as HTTP query parameters; the chain is shared whether or not both surfaces
+    spell every filter.
+    """
     if subject and str(rec.get("subject") or "").lower() != subject.lower():
         return False
     if grade is not None and rec.get("grade") != grade:
         return False
     if marks is not None and rec.get("marks") != marks:
         return False
+    if min_marks is not None and int(rec.get("marks") or 0) < min_marks:
+        return False
+    if max_marks is not None and int(rec.get("marks") or 0) > max_marks:
+        return False
+    if topic and not topic_matches(rec, topic):
+        return False
+    if source_document_id:
+        if source_document_id.lower() not in source_document_of(rec).lower():
+            return False
     if type_ and str(rec.get("type") or "") != type_:
         return False
     if difficulty and str(rec.get("difficulty") or "") != difficulty:

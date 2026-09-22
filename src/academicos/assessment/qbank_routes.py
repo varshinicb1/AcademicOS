@@ -245,7 +245,8 @@ KEY_PROVENANCE_PARAM = Query(
     description="narrow to ONE kind of published key: 'cbse_marking_scheme' "
                 "for the board's own schemes, 'ncert_exemplar_answer' for "
                 "NCERT's Exemplar answers. Narrows within the answer-keyed "
-                "set; it never widens past rule Q1.")
+                "set; it never widens past rule Q1, so combining it with "
+                "has_scheme=false is a 400 rather than an empty page.")
 
 
 def _checked_key_provenance(value: str | None) -> str | None:
@@ -270,6 +271,36 @@ def _checked_key_provenance(value: str | None) -> str | None:
                        + ", ".join(sorted(KEY_PROVENANCE))),
         })
     return value
+
+
+def _checked_key_filters(has_scheme: bool | None,
+                         key_provenance: str | None) -> str | None:
+    """The same refusal, for a pair that contradicts itself.
+
+    `?has_scheme=false&key_provenance=cbse_marking_scheme` asks for the records
+    with no answer key whose answer key is CBSE's. The two filters cannot both
+    hold -- `key_provenance` narrows within the keyed set by construction --
+    so the request answered 200 with an empty page, and an auditor combining
+    the flags was told the unanswerable set contains no CBSE records. True, and
+    meaningless: it is the same "silent empty page that reads like 'the bank
+    has none of those'" that `_checked_key_provenance` above exists to prevent,
+    arrived at from the other direction.
+
+    Only an explicitly false `has_scheme` conflicts. `include_unkeyed=true`
+    widens and `key_provenance` narrows back to the keyed records of that kind,
+    which is a set the API can actually hand over.
+    """
+    if key_provenance is not None and has_scheme is False:
+        raise HTTPException(400, detail={
+            "type": "about:blank", "title": "contradictory filters",
+            "status": 400,
+            "detail": ("has_scheme=false selects questions with NO answer key, "
+                       "and key_provenance selects a kind of answer key; no "
+                       "record can satisfy both. Drop one of them: "
+                       "has_scheme=false for the unanswerable set, or "
+                       "key_provenance alone for the board's own schemes."),
+        })
+    return _checked_key_provenance(key_provenance)
 
 
 def _page(bank: QuestionBank, **filters: Any):
@@ -333,7 +364,7 @@ def list_questions(
                    difficulty=difficulty, bloom=bloom, chapter_id=chapter_id,
                    subtopic_id=subtopic_id,
                    has_scheme=_q1_filter(has_scheme, include_unkeyed),
-                   key_provenance=_checked_key_provenance(key_provenance),
+                   key_provenance=_checked_key_filters(has_scheme, key_provenance),
                    review_state=review_state, keyword=keyword)
 
     items, next_cursor, total = _page(_bank, cursor=cursor, limit=limit, **filters)
@@ -425,7 +456,7 @@ def questions_for_subtopic(
     items, next_cursor, total = _page(
         _bank, subtopic_id=subtopic_id, cursor=cursor, limit=limit,
         has_scheme=_q1_filter(has_scheme, include_unkeyed),
-        key_provenance=_checked_key_provenance(key_provenance))
+        key_provenance=_checked_key_filters(has_scheme, key_provenance))
     return JSONResponse({
         "subtopicId": subtopic_id,
         "items": [_slim(r) for r in items],
@@ -490,5 +521,6 @@ def get_facets(
     return JSONResponse(
         _bank.facets(subject=subject, grade=grade,
                      has_scheme=_q1_filter(has_scheme, include_unkeyed),
-                     key_provenance=_checked_key_provenance(key_provenance)),
+                     key_provenance=_checked_key_filters(has_scheme,
+                                                         key_provenance)),
         headers=_rate_headers(key))

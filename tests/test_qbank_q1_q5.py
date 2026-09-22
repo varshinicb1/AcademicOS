@@ -817,3 +817,217 @@ def test_has_answer_is_the_one_rule_for_a_bank_record(tmp_path, monkeypatch):
     pq = built.questions[0]
     assert pq.answer_text == ""          # the old rule's only evidence
     assert pq.has_answer is True
+
+
+# --------------------------------------------------------------------------- #
+# 7. the collection the counts are counted over, and the filter chain
+# --------------------------------------------------------------------------- #
+#
+# Q5 is "one corpus, two surfaces", and it fails in two more ways that the
+# first pass left standing:
+#
+#   * `coverage()` counted `self.records` while `page()` and `facets()`
+#     iterated `_by_id`, built by a dict comprehension that silently dropped
+#     id-less records and kept only the last of a duplicated id. One bank, two
+#     totals -- `/v1/coverage` advertising questions `/v1/questions` cannot
+#     serve.
+#   * `Corpus.search` reimplemented the filter chain inline, and its keyword
+#     haystack included `provenance.sourceDocumentId` where the HTTP
+#     `_matches` haystack did not. One keyword, two answers.
+
+def _dup(i: int, dup_of: int, **overrides) -> dict:
+    rec = _record(i, board_scheme(), **overrides)
+    rec["id"] = f"t:q:{dup_of:04d}"
+    return rec
+
+
+def test_a_duplicated_id_is_counted_once_by_every_surface():
+    """`len`, `coverage()` and `page()` must report the same number.
+
+    Three records, one id repeated: the bank used to answer 3, 3 and 2.
+    """
+    bank = QuestionBank([
+        _record(1, board_scheme()),
+        _record(2, board_scheme()),
+        _dup(3, 1),
+    ])
+    _, _, total = bank.page(limit=100)
+    assert len(bank) == 2
+    assert bank.coverage()["questions"] == 2
+    assert total == 2
+
+
+def test_an_id_less_record_is_counted_once_by_every_surface():
+    bank = QuestionBank([
+        _record(1, board_scheme()),
+        {**_record(2, board_scheme()), "id": ""},
+    ])
+    _, _, total = bank.page(limit=100)
+    assert len(bank) == 1
+    assert bank.coverage()["questions"] == 1
+    assert total == 1
+
+
+def test_a_dropped_record_is_logged_rather_than_vanishing(caplog):
+    """Either reject them or say so -- what the loader must not do is drop
+    them without a word. A bank file holding three records whose API serves
+    one is a data bug, and load is the only place it can be noticed."""
+    import logging as _logging
+    with caplog.at_level(_logging.WARNING,
+                         logger="academicos.assessment.qbank_engine"):
+        QuestionBank([
+            _record(1, board_scheme()),
+            {**_record(2, board_scheme()), "id": None},
+            _dup(3, 1),
+        ])
+    said = " ".join(caplog.messages).lower()
+    assert "id" in said
+    assert "duplicate" in said
+
+
+def test_coverage_grades_come_from_the_collection_the_page_serves():
+    """`grades` was derived from `self.records` too, so a class that existed
+    only on a dropped record was advertised and then unqueryable."""
+    bank = QuestionBank([
+        _record(1, board_scheme(), subject="Science", grade=10),
+        _dup(2, 1, subject="Science", grade=6),
+    ])
+    grades = bank.coverage()["grades"]
+    served = {r["grade"] for r in bank.page(limit=100)[0]}
+    assert set(grades) == served
+
+
+def test_the_mcp_corpus_de_duplicates_like_the_old_loader_did():
+    """`Corpus.load` used to do this itself (`seen[rid] = rec`, blank ids
+    skipped) and the rewrite dropped it. The engine now owns it, so both
+    surfaces inherit it -- but the MCP surface must still have it."""
+    corpus = qbank_server.Corpus([
+        _record(1, board_scheme()),
+        _dup(2, 1),
+        {**_record(3, board_scheme()), "id": ""},
+    ])
+    assert len(corpus) == 1
+    assert corpus.coverage()["questions"] == 1
+    assert len(corpus.search(limit=100)) == 1
+
+
+# --- the filter chain ------------------------------------------------------ #
+
+def _sourced(i: int, source: str, **overrides) -> dict:
+    """A record whose source document id is NOT in its stem or its tags."""
+    rec = _record(i, board_scheme(), **overrides)
+    rec["provenance"] = {"sourceDocumentId": source, "pageNumber": 1}
+    return rec
+
+
+def sourced_records() -> list[dict]:
+    return [_sourced(9001, "CBSE2023"), _sourced(9002, "NCERT-EX")]
+
+
+def _bank_client(tmp_path: Path, records: list[dict], name: str = "alt"):
+    """An HTTP client over an arbitrary bank, so the two surfaces can be
+    compared record for record rather than only in totals."""
+    path = tmp_path / name / "questions.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({"questions": records}), encoding="utf-8")
+    routes.init(tmp_path / f"{name}-keys.sqlite", path)
+    app = FastAPI()
+    app.include_router(routes.router)
+    return TestClient(app), routes._store, path
+
+
+def test_one_keyword_cannot_mean_two_things(tmp_path):
+    """The MCP haystack was stem + tags + `provenance.sourceDocumentId`; the
+    HTTP one was stem + tags. `keyword=CBSE2023` therefore selected one record
+    over MCP and none over HTTP, from the same bank."""
+    c, store, path = _bank_client(tmp_path, sourced_records())
+    http = {i["id"] for i in c.get(
+        "/v1/questions", params={"keyword": "CBSE2023", "limit": 200},
+        headers=_headers(store)).json()["items"]}
+    mcp = {q["id"] for q in _mcp_tool(
+        qbank_server.Corpus.load(path), "search_questions",
+        {"keyword": "CBSE2023", "limit": 200})["questions"]}
+    assert http == mcp
+
+
+def test_the_source_document_is_a_filter_of_its_own_not_a_keyword_term():
+    """Selecting by source paper is a real need -- it is how an agent asks for
+    "the 2023 board paper". It keeps working, as a named parameter, rather
+    than as a term smuggled into one surface's keyword search."""
+    corpus = qbank_server.Corpus(sourced_records())
+    hits = corpus.search(source_document_id="CBSE2023", limit=100)
+    assert [r["id"] for r in hits] == ["t:q:9001"]
+    assert corpus.search(source_document_id="nothing", limit=100) == []
+
+
+def test_every_shared_filter_answers_the_same_on_both_surfaces(tmp_path):
+    """The docstring claims `Corpus` wraps the engine "so the MCP surface and
+    the HTTP surface answer identically". This is that claim, tested."""
+    records = build_records() + sourced_records()
+    c, store, path = _bank_client(tmp_path, records, name="shared")
+    corpus = qbank_server.Corpus.load(path)
+
+    cases = [
+        ({}, {}),
+        ({"subject": "Science"}, {"subject": "Science"}),
+        ({"grade": 9}, {"grade": 9}),
+        ({"marks": 2}, {"marks": 2}),
+        ({"type": "short_answer"}, {"question_type": "short_answer"}),
+        ({"difficulty": "easy"}, {"difficulty": "easy"}),
+        ({"keyword": "Science"}, {"keyword": "Science"}),
+        ({"keyword": "CBSE2023"}, {"keyword": "CBSE2023"}),
+        ({"has_scheme": "false"}, {"answer_key_state": "none"}),
+        ({"key_provenance": "cbse_marking_scheme"},
+         {"answer_key_state": "official"}),
+    ]
+    for http_params, mcp_args in cases:
+        http = {i["id"] for i in c.get(
+            "/v1/questions", params={**http_params, "limit": 200},
+            headers=_headers(store)).json()["items"]}
+        mcp = {q["id"] for q in _mcp_tool(
+            corpus, "search_questions", {**mcp_args, "limit": 200})["questions"]}
+        assert http == mcp, http_params
+
+
+def test_an_unknown_answer_key_state_is_refused_not_ignored():
+    """It fell through every branch, so a typo widened the query past Q1 and
+    handed back the unanswerable set."""
+    corpus = qbank_server.Corpus(build_records())
+    with pytest.raises(ValueError):
+        corpus.search(answer_key_state="offical", limit=200)
+
+
+# --- the contradictory pair ------------------------------------------------ #
+
+@pytest.mark.parametrize("route", [
+    "/v1/questions",
+    "/v1/subtopics/subtopic-one/questions",
+    "/v1/facets",
+])
+def test_unkeyed_and_a_kind_of_key_together_are_a_400(client, route):
+    """`?has_scheme=false&key_provenance=cbse_marking_scheme` asks for the
+    records with no answer key that have a CBSE answer key. It answered 200
+    with an empty page, which reads as "the bank holds no CBSE records in the
+    unanswerable set" -- true, and meaningless. That is the failure
+    `_checked_key_provenance` was written to prevent, in its own words: not
+    "a silent empty page that reads like 'the bank has none of those'"."""
+    c, store = client
+    r = c.get(route, params={"has_scheme": "false",
+                             "key_provenance": "cbse_marking_scheme"},
+              headers=_headers(store))
+    assert r.status_code == 400
+    body = json.dumps(r.json()).lower()
+    assert "has_scheme" in body and "key_provenance" in body
+
+
+def test_the_opt_in_is_not_the_contradiction(client):
+    """`include_unkeyed=true` widens and `key_provenance` narrows back, and
+    the result is the keyed CBSE set -- a set the API can hand over. Only an
+    explicitly false `has_scheme` is a contradiction."""
+    c, store = client
+    r = c.get("/v1/questions",
+              params={"include_unkeyed": "true",
+                      "key_provenance": "cbse_marking_scheme", "limit": 200},
+              headers=_headers(store))
+    assert r.status_code == 200
+    assert r.json()["totalMatching"] == 6
