@@ -257,6 +257,49 @@ def test_an_inferred_mcq_goes_through_the_same_gate(stem_tail, answer, reason):
     assert bm.normalise(sqp_inline(stem_tail, answer))[1] == reason
 
 
+# Real 1-mark SQP stems whose (A)-(D) labels do not parse as exactly A,B,C,D
+# once each. They stayed short_answer and were served with keys nobody
+# checked; the first key below answers only the first of two fused questions.
+_REPEATED_BLOCKS = (
+    # SQP Mathematics (Standard) X 2025-26 Q18: a tangent MCQ fused with the
+    # assertion-reason directions that follow it -- A-D appear twice.
+    "The length of a tangent drawn to a circle of radius 9 cm from a point at a distance of "
+    "41cm from the centre of the circle is (A) 40cm (B) 9cm (C) 41cm (D) 50cm DIRECTIONS: In "
+    "the question number 19 and 20, a statement of Assertion (A) is followed by a statement of "
+    "Reason (R). Choose the correct option: (A) Both assertion (A) and reason (R) are true and "
+    "reason (R) is the correct explanation of assertion (A) (B) Both assertion (A) and reason "
+    "(R) are true and reason (R) is not the explanation of assertion (A) (C) Assertion (A) is "
+    "true but reason (R) is false. (D) Assertion (A) is false but reason (R) is true.")
+_ASSERTION_REASON = (
+    # SQP Home Science X 2024-25 Q17: "Assertion (A)" puts an A label before the options.
+    "Given below are two statements labeled as Assertion (A) and Reason (R) ASSERTION (A): "
+    "Energy management is a strategy which helps to utilize energy (CBQ) to maximum. REASON "
+    "(R): Energy management helps in doing productive work in more time. Select the most "
+    "appropriate answer from the options given below: (A) Both A and R are true and R is the "
+    "correct explanation of A. (B) Both A and R are true but R is not the correct explanation "
+    "of A. (C) A is true but R is false. (D) A is false but R is true.")
+
+
+@pytest.mark.parametrize("stem,answer", [
+    (_REPEATED_BLOCKS, "(A) 40cm Since, tangent is perpendicular to the radius at the point of "
+                       "contact In ∆OPT, right angled at T OP2=OT2+TP2 412=92+TP2 TP=40cm"),
+    (_ASSERTION_REASON, "(C) A is true but R is false."),
+])
+def test_an_mcq_whose_labels_do_not_parse_is_still_gated_as_an_mcq(stem, answer):
+    """21 served 1-mark SQP rows carried all four (A)-(D) labels, repeated or out of
+    order, and skipped the MCQ gate as short_answer."""
+    rec = sqp_inline(answer=answer, stem=stem)
+    out, reason = bm.normalise(rec)
+    assert reason == "mcq-options-unresolved"
+    assert out["type"] == "mcq" and out["metadata"]["typeInferred"] is True
+
+
+def test_a_one_mark_item_missing_an_option_label_is_not_retyped():
+    """Only the full A-D set marks an MCQ: "Assertion (A) ... Reason (R)" alone is not one."""
+    out, reason = bm.normalise(sqp_inline(stem_tail="Assertion (A) and Reason (R) (B) are named."))
+    assert reason is None and out["type"] == "short_answer"
+
+
 def test_a_multi_mark_item_with_inline_options_is_not_retyped():
     """A 3-mark case study may list (A)-(D); it is not one MCQ."""
     out, reason = bm.normalise(sqp_inline(marks=3))
@@ -321,6 +364,90 @@ def test_a_trailing_section_heading_is_stripped():
     out, _ = bm.normalise(sqp_inline(stem_tail="(A) avoid (B) control (C) forget (D) understand "
                                                "SECTION B Question numbers 18-23 are SA type questions."))
     assert out["stem"].endswith("(D) understand")
+
+
+def test_a_parenthesised_section_heading_is_stripped_from_the_stem():
+    """SQP Home Science X 2024-25 Q18 ends "... (D) A is false but R is true. SECTION C
+    (SHORT ANSWER QUESTIONS)"; the parenthesis kept the heading from being stripped."""
+    out, _ = bm.normalise(sqp_inline(stem_tail="(A) avoid (B) control (C) forget (D) understand "
+                                               "SECTION C (SHORT ANSWER QUESTIONS)"))
+    assert out["stem"].endswith("(D) understand")
+
+
+def test_page_furniture_is_stripped_from_a_served_answer():
+    """Keys carry the headings too: a teacher reading the model answer of a
+    non-MCQ row must not see the next section's title or the page footer."""
+    footer = (" *Please note that the assessment scheme of the Academic Session 2024-25 will "
+              "continue in the current session i.e. 2025-26.* Page of 13")
+    rec = board(7, id="cbse:sqp:ClassX_2024_25:Home Science:20", source="cbse_sample_paper",
+                stem="Explain two ways in which energy can be managed at home.")
+    heading = " SECTION C (SHORT ANSWER QUESTION)"
+    rec["answerScheme"]["modelAnswer"] = "Plan the work and use labour saving devices." + heading
+    rec["answerScheme"]["markingPoints"][0]["description"] = "Plan the work." + footer
+    out, reason = bm.normalise(rec)
+    assert reason is None and out["type"] == "short_answer"
+    assert out["answerScheme"]["modelAnswer"] == "Plan the work and use labour saving devices."
+    assert out["answerScheme"]["markingPoints"][0]["description"] == "Plan the work."
+
+
+@pytest.mark.parametrize("text,expected", [
+    # "(A)" after a heading is an option, not the heading's title
+    ("SECTION A (A) avoid (B) control", "SECTION A (A) avoid (B) control"),
+    # SQP Mathematics (Standard) X 2025-26 Q31: mixed case, in brackets, after a page number
+    ("Find their present ages. Page of 8 (Section – D) Section D consists of 4 questions",
+     "Find their present ages."),
+    # SQP Tangkhul XII 2025-26 Q9
+    ("Khili morphophonemics hokhala? Page of 7 SECTION D (Literature)",
+     "Khili morphophonemics hokhala?"),
+    # prose that names a section is not a heading
+    ("Explain Section 39 of the Companies Act.", "Explain Section 39 of the Companies Act."),
+])
+def test_furniture_is_stripped_and_content_is_kept(text, expected):
+    assert bm._strip_furniture(text) == expected
+
+
+def test_a_stem_that_runs_across_a_section_break_is_excluded():
+    """SQP Political Science XII 2023-24 Q4 (6 marks) ran on into Section E and was
+    served with a key from another question entirely."""
+    rec = board(8, id="cbse:sqp:ClassXII_2023_24:Political Science:4", source="cbse_sample_paper",
+                marks=6, stem="4) Why did the Janata party fail to remain in power for a full "
+                              "term? SECTION-E (24 MARKS) 27 2+2+2 Explain the factors that make "
+                              "European Union a highly influential =6 regional organisation. "
+                              "28 'Reforming the UN means restructuring of the Security "
+                              "Council'. Justify (CB) this statement with suitable arguments.")
+    assert bm.normalise(rec)[1] == "stem-spans-sections"
+
+
+@pytest.mark.parametrize("answer,reason", [
+    # SQP Hindustani Music (Percussion) X 2024-25 Q8: the whole key is the next heading
+    ("SECTION-B", "no-answer"),
+    # SQP Hindustani Music (Vocal) XII 2023-24 Q8: the key runs on into Section B
+    ("3. SECTION-B Brief explanation and types of Kan, Gamak, Murchhana, Khatka", "answer-bleed"),
+])
+def test_a_key_that_is_or_crosses_a_section_heading_is_excluded(answer, reason):
+    _check_key(answer, reason)
+
+
+@pytest.mark.parametrize("answer,kept", [
+    # SQP Applied Mathematics XII 2022-23 Q25: the next section's instructions
+    ("= 25% Section – C Each question carries 3-mark weightage", "= 25%"),
+    # SQP Geography XII 2022-23 Q23
+    ("for e-commerce and carrying out money transactions SECTION C Question numbers 24 to 28 "
+     "are Long Answer based questions.", "for e-commerce and carrying out money transactions"),
+])
+def test_a_key_ending_in_its_next_sections_instructions_is_kept(answer, kept):
+    out, reason = _check_key(answer, None)
+    assert out["answerScheme"]["modelAnswer"] == kept
+
+
+def _check_key(answer, reason):
+    rec = board(9, id="cbse:sqp:ClassX_2024_25:Hindustani Music (Percussion):8",
+                source="cbse_sample_paper", stem="Name the ten pranas of tala and describe two.")
+    rec["answerScheme"]["modelAnswer"] = answer
+    rec["answerScheme"]["markingPoints"][0]["description"] = answer
+    out, got = bm.normalise(rec)
+    assert got == reason
+    return out, got
 
 
 def test_an_option_that_runs_on_into_the_next_section_is_refused():

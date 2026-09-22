@@ -40,8 +40,9 @@ Nothing is dropped silently; every exclusion is returned with its reason.
   no-answer              rule Q1: no answer key, no question
   answer-is-question-text  the scheme joined the wrong text -- often another
                          question's stem
-  answer-bleed           an answer far longer than its marks allow: the
-                         scheme ran on into the following questions
+  answer-bleed           an answer far longer than its marks allow, or one that
+                         runs on past a section heading: the scheme ran on
+                         into the following questions
   figure-referenced      the stem points at a figure, graph, map or a table
                          "above" that was not extracted with it
   garbled-script         legacy-font extraction produced text nobody can read
@@ -53,13 +54,25 @@ Nothing is dropped silently; every exclusion is returned with its reason.
                          student could not choose between them (empty, or two
                          read alike)
   mcq-answer-unresolved  the correct option cannot be recovered with certainty
+  stem-spans-sections    a section heading inside the stem: several questions,
+                         across a section break, extracted as one
   duplicate-id           an id already served
   duplicate-stem         already served, under a board-paper id where possible
 
 An item is an MCQ by its shape, not only by its declared type: the SQP source
 types every row `short_answer`, and 92 served 1-mark SQP rows carry four
 inline (A)-(D) options. Those are retyped `mcq` (marked `typeInferred`) and go
-through the same gate as a declared MCQ.
+through the same gate as a declared MCQ. The shape is the label set -- all of
+(A), (B), (C), (D) present -- not a clean parse of them, so a stem whose labels
+repeat or come out of order is still an MCQ, and is refused as one.
+
+Known limitation
+----------------
+A non-MCQ key is checked for its shape (empty, instruction text, too long,
+running into another section), never for its content. A key taken from a
+different question that is short, and does not open with an instruction or
+cross a section heading, is still served. No gate here reads whether the key
+answers its stem.
 """
 from __future__ import annotations
 
@@ -230,7 +243,33 @@ _FOOTER = re.compile(
     r"(?:\s*Page\s+(?:\d+\s+)?of\s+\d+)?", re.I)
 # The next section's heading, run on after the last question of a section
 # ("(d) Agriculture SECTION B Question numbers 18-23 are SA type questions.").
-_TRAILING_SECTION = re.compile(r"\s+SECTION\s*[-–]?\s*[A-E]\b[^()]*$")
+# The heading may carry one parenthesised title -- "SECTION C (SHORT ANSWER
+# QUESTIONS)", "SECTION D (Literature)" -- but an option or item label after it,
+# "(A) avoid", "(ii) ...", is content, not a title.
+# Capitals may drop the dash ("SECTION B"); mixed case keeps it ("(Section – D)")
+# so that "Section 39 of the Act" or "Section A of the paper" in prose is not one.
+_HEADING = r"\(?(?:SECTION\s*[-–]?|Section\s*[-–])\s*[A-F]\b\)?"
+_TRAILING_SECTION = re.compile(
+    rf"(?:^|\s+){_HEADING}[^()]*(?:\((?!(?:[A-Da-d]|[ivxIVX]+)\))[^()]*\)[^()]*)?$")
+# In a key, only a heading and its title are furniture: "SECTION C (SHORT ANSWER
+# QUESTION)", "SECTION C POLITICAL SCIENCE (20 marks)". Prose after a heading --
+# "3. SECTION-B Brief explanation and types of Kan, Gamak ..." -- is the next
+# section's answers, and is left in for `_INNER_SECTION` to refuse; stripped
+# the looser way, that key would read "3.".
+_TITLE = r"(?:\s*(?:\((?!(?:[A-Da-d]|[ivxIVX]+)\))[^()]*\)|[A-Z]{2,}\b))*"
+# The section's own instructions may follow its title ("Section – B Each question
+# carries 2-mark weightage", SQP Applied Mathematics XII 2022-23 Q20); they are
+# furniture too. Anything else after a heading is not.
+_SECTION_NOTE = (r"(?:\s*[\[(]?\s*(?:Each (?:question|[Cc]ase [Ss]tudy)|Question numbers?|"
+                 r"This section|consists of|comprises|All questions)\b.*)?")
+_TRAILING_HEADING_ONLY = re.compile(rf"(?:^|\s+){_HEADING}{_TITLE}{_SECTION_NOTE}\s*$",
+                                    re.S)
+# A heading still inside the text once the trailing one is gone: the text runs
+# on past its own question into another section.
+_INNER_SECTION = re.compile(rf"(?:^|\s){_HEADING}")
+# A page number left anywhere in the text: "Page of 10", "Page 3 of 12", or a
+# bare "Page of" where the number was lost.
+_PAGE = re.compile(r"\s*\bPage\s+(?:\d+\s+)?of(?:\s+\d+\b)?")
 _AWARD = re.compile(r"\s*\bAward\b.*$", re.I | re.S)
 _MIN_STEM = 15
 _GARBLE_RUNS = 3
@@ -374,6 +413,7 @@ _PART_OPTION = re.compile(r"^\s*\(?([A-Da-d])\)?\s*[.)–—:\-]\s*(.*)$", re.S)
 _LEADING_LETTER = re.compile(r"^\s*\(?([A-Da-d])\)?\s*(?:[.)–—:\-]|$)")
 _LABEL = re.compile(r"(?<![A-Za-z])([A-D])\s*[.)–—:\-]")
 _INLINE_OPTION = re.compile(r"\(([A-Da-d])\)\s*")
+_UPPER_LABEL = re.compile(r"\(([A-D])\)")
 # "(1)", "(1 mark)" after an answer is the mark column, not part of the answer.
 _MARK_NOTE = re.compile(r"(?:\s+\(\s*(?:\d+|½)\s*(?:marks?)?\s*\))+\s*$", re.I)
 # "3" alone may be the number of option (3) in a numbered list, not option text.
@@ -478,6 +518,20 @@ def _options_from_stem(stem: str) -> dict[str, str] | None:
             .strip(" .;") for i, m in enumerate(matches)}
 
 
+def _has_option_labels(stem: str) -> bool:
+    """All four capital labels (A)-(D) appear, in any order and any number of times.
+
+    `_options_from_stem` accepts only A, B, C, D once each in order, so two
+    shapes read as "no options" and escaped the MCQ gate as short_answer:
+    several questions fused into one stem (A-D repeated -- SQP Mathematics
+    (Standard) X 2025-26 Q18 carries a tangent MCQ and the assertion-reason
+    directions after it), and assertion-reason items, whose "Assertion (A)"
+    puts an A before the options. 21 served 1-mark SQP rows had this shape at
+    062a939, and at least 9 of their keys answered a different question.
+    """
+    return {"A", "B", "C", "D"} <= set(_UPPER_LABEL.findall(stem))
+
+
 def correct_letter(answers: list[str], options: dict[str, str]) -> str | None:
     """The correct option, only when the scheme states it unambiguously.
 
@@ -536,6 +590,20 @@ def _objective_scheme(rec: dict, options: dict[str, str], letter: str) -> dict:
 # normalisation
 # --------------------------------------------------------------------------- #
 
+def _strip_furniture(text: str) -> str:
+    """Drop the page footer and a trailing section heading the SQP extraction
+    left in the text. Keys carry them as well as stems: "... R is not the
+    correct explanation of A. SECTION C (SHORT ANSWER QUESTION)"."""
+    text = _PAGE.sub(" ", _FOOTER.sub(" ", text)).strip()
+    return _TRAILING_SECTION.sub("", text).strip()
+
+
+def _strip_answer_furniture(text: str) -> str:
+    """As `_strip_furniture`, but a trailing heading goes only with its title."""
+    text = _PAGE.sub(" ", _FOOTER.sub(" ", text)).strip()
+    return _TRAILING_HEADING_ONLY.sub("", text).strip()
+
+
 def _normalise_scheme(scheme: dict, marks: int, record_id: str) -> dict:
     s = dict(scheme)
     s["totalMarks"] = int(s.get("totalMarks") or marks)
@@ -544,7 +612,7 @@ def _normalise_scheme(scheme: dict, marks: int, record_id: str) -> dict:
         points.append({
             **mp,
             "id": str(mp.get("id") or f"{record_id}:mp{i + 1}"),
-            "description": str(mp.get("description") or ""),
+            "description": _strip_answer_furniture(str(mp.get("description") or "")),
             "marks": int(mp.get("marks") or 0),
             "keyword": str(mp.get("keyword") or ""),
             "isRequired": bool(mp.get("isRequired", False)),
@@ -554,7 +622,7 @@ def _normalise_scheme(scheme: dict, marks: int, record_id: str) -> dict:
     s["rubricLevels"] = [r for r in (s.get("rubricLevels") or []) if isinstance(r, dict)]
     s["commonErrors"] = [str(x) for x in (s.get("commonErrors") or [])]
     s["alternativeAnswers"] = [str(x) for x in (s.get("alternativeAnswers") or [])]
-    s["modelAnswer"] = str(s.get("modelAnswer") or "")
+    s["modelAnswer"] = _strip_answer_furniture(str(s.get("modelAnswer") or ""))
     s["modelAnswerLatex"] = str(s.get("modelAnswerLatex") or "")
     s["hasPartialCredit"] = bool(s.get("hasPartialCredit", len(points) > 1))
     s["metadata"] = dict(s.get("metadata") or {})
@@ -600,7 +668,7 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
     for key in ("chapterIds", "competencyIds", "tags"):
         r[key] = [str(x) for x in (r.get(key) or [])]
     # Page furniture the SQP extraction left in the stem, where it would print.
-    r["stem"] = _TRAILING_SECTION.sub("", _FOOTER.sub(" ", str(r.get("stem") or "")).strip())
+    r["stem"] = _strip_furniture(str(r.get("stem") or ""))
     r["stemLatex"] = str(r.get("stemLatex") or "")
     r["language"] = str(r.get("language") or "en")
     r["questionBankId"] = str(r.get("questionBankId") or r.get("source") or "unknown")
@@ -614,6 +682,13 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
     r["parts"] = [_normalise_part(p, i, r["id"]) for i, p in enumerate(r.get("parts") or [])]
     r["answerScheme"] = _normalise_scheme(scheme, marks, r["id"])
 
+    if _INNER_SECTION.search(r["stem"]):
+        # One stem holding several questions across a section break -- SQP
+        # Political Science XII 2023-24 Q4 runs on through "SECTION-E (24 MARKS)
+        # 27 ..." and its key answers a different question.
+        r["metadata"] = meta
+        return r, "stem-spans-sections"
+
     passage = str(meta.get("passage") or "").strip()
     if passage:
         r["stem"] = f"Read the passage below and answer the question that follows.\n\n{passage}\n\n{r['stem']}"
@@ -622,10 +697,13 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
     in_stem = _options_from_stem(r["stem"])
     in_parts = _options_from_parts(r["parts"])
     if (r["type"] in _INFERABLE_TYPES and marks == 1
-            and any(o is not None and len(o) == 4 for o in (in_stem, in_parts))):
+            and (_has_option_labels(r["stem"])
+                 or any(o is not None and len(o) == 4 for o in (in_stem, in_parts)))):
         # An MCQ by its shape: four A-D options on a 1-mark item. Left as
         # short_answer it skipped this gate entirely and was served with a key
-        # nobody checked, filling short-answer slots with 1-mark MCQs.
+        # nobody checked, filling short-answer slots with 1-mark MCQs. The
+        # shape is the label set, not a clean parse: a stem whose labels do
+        # not parse is still an MCQ, and one the gate then refuses.
         r["type"] = "mcq"
         meta["typeInferred"] = True
 
@@ -635,9 +713,14 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
         if reason is not None:
             return r, reason
         options = in_parts or in_stem
+        # The key is read as the scheme wrote it, before its furniture is
+        # stripped for display: "(b) SECTION-B" (SQP Kathak 2022-23 Q8) is a
+        # key that ran into the next heading and is refused; stripped, it
+        # would read as a clean "(b)".
         letter = correct_letter(
-            [r["answerScheme"]["modelAnswer"]]
-            + [mp["description"] for mp in r["answerScheme"]["markingPoints"]],
+            [str(scheme.get("modelAnswer") or "")]
+            + [str(mp.get("description") or "") for mp in scheme.get("markingPoints") or []
+               if isinstance(mp, dict)],
             options)
         if letter is None:
             return r, "mcq-answer-unresolved"
@@ -645,6 +728,17 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
             r["stem"] = r["stem"] + " " + " ".join(f"({k}) {v}" for k, v in options.items())
         r["parts"] = []            # options live inline, as on every board MCQ
         r["answerScheme"] = _normalise_scheme(_objective_scheme(r, options, letter), marks, r["id"])
+    else:
+        shown = r["answerScheme"]
+        texts = [shown["modelAnswer"]] + [mp["description"] for mp in shown["markingPoints"]]
+        r["metadata"] = meta
+        if not any(t.strip() for t in texts):
+            # The whole key was a heading: "SECTION-B" (SQP Music papers, Q8).
+            return r, "no-answer"
+        if any(_INNER_SECTION.search(t) for t in texts):
+            # "3. SECTION-B Brief explanation of Kan, Gamak ..." (SQP Hindustani
+            # Music (Vocal) XII 2023-24 Q8): the key ran on into the next section.
+            return r, "answer-bleed"
 
     r["metadata"] = meta
     return r, None
