@@ -318,6 +318,19 @@ _9081575F_7 = (  # cbse:q:src:9081575f9ac53e99a3ff660c:7, verbatim: "both" befor
     "is observed in : (A) Only testis (B) Only ovary (C) Ovary and testis both "
     "(D) All cells of the body")
 
+_872D1DD8_1 = (  # cbse:q:src:872d1dd81acb76a5b3aff133:1, verbatim: "neither" option
+    "A function f : R+ ® R (where R+ is the set of all non-negative real numbers) defined "
+    "by f(x) = 4x + 3 is : (A) one-one but not onto (B) onto but not one-one "
+    "(C) both one-one and onto (D) neither one-one nor onto")
+_4F618224_8 = (  # cbse:q:src:4f6182240b214906a58eaeab:8, verbatim: "neither" mid-list
+    "In triangles ABC and DEF, B = E, F = C and AB = 3 DE. Then, the two triangles are : "
+    "(A) congruent but not similar (B) congruent as well as similar "
+    "(C) neither congruent nor similar (D) similar but not congruent")
+_9365570E_11 = (  # cbse:q:src:9365570e1f6928bdf661841d:11, verbatim: "neither" option
+    "The function f(x) = x|x|is 1 (A) continuous and differentiable at x = 0. "
+    "(B) continuous but not differentiable at x = 0. (C) differentiable but not "
+    "continuous at x = 0. (D) neither differentiable nor continuous at x = 0.")
+
 
 @pytest.mark.parametrize("stem,options", [
     (_E268_2, ["Autocratic leadership style", "Democratic leadership style",
@@ -331,7 +344,16 @@ _9081575F_7 = (  # cbse:q:src:9081575f9ac53e99a3ff660c:7, verbatim: "both" befor
                 "Assertion (A) is wrong, but Reason (R) is correct"]),
     (_9081575F_7, ["Only testis", "Only ovary", "Ovary and testis both",
                    "All cells of the body"]),
-], ids=["e268:2", "History-XII-2025-26:10", "bbd21:6", "9081575f:7"])
+    (_872D1DD8_1, ["one-one but not onto", "onto but not one-one",
+                   "both one-one and onto", "neither one-one nor onto"]),
+    (_4F618224_8, ["congruent but not similar", "congruent as well as similar",
+                   "neither congruent nor similar", "similar but not congruent"]),
+    (_9365570E_11, ["continuous and differentiable at x = 0",
+                    "continuous but not differentiable at x = 0",
+                    "differentiable but not continuous at x = 0",
+                    "neither differentiable nor continuous at x = 0"]),
+], ids=["e268:2", "History-XII-2025-26:10", "bbd21:6", "9081575f:7",
+        "872d1dd8:1", "4f618224:8", "9365570e:11"])
 def test_served_stems_whose_options_name_other_options_split_correctly(stem, options):
     head, got = split_stem_and_options(stem)
     assert got == options
