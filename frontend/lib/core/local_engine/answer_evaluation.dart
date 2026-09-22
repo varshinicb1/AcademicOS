@@ -273,6 +273,35 @@ LocalEvaluation _evaluateDescriptive(
     verdict = 'noCredit';
   }
 
+  // A marking point whose keyword and synonyms are all empty cannot be matched
+  // against anything, so "not awarded" says nothing about the answer. CBE and
+  // SQP schemes carry the official value point as a description only, and so
+  // do 1,248 of the 2,544 descriptive board-paper questions in the bundled
+  // corpus (measured 2026-09-22). The confidence formula below gives a total
+  // miss the same 0.9 as a full match, so such a scheme used to report 0 marks
+  // at 0.9 confidence with no review flag. Treat it as unscorable and hand it
+  // to the teacher instead. The verdict stays 'noCredit' because verdicts are
+  // parsed into EvaluationVerdict, which has no review value; needsReview and
+  // the low confidence carry the signal.
+  final unscorable = scheme.markingPoints.isNotEmpty &&
+      scheme.markingPoints.every((p) =>
+          p.keyword.trim().isEmpty && p.synonyms.every((s) => s.trim().isEmpty));
+  if (unscorable) {
+    return LocalEvaluation(
+      questionId: question.id,
+      awardedMarks: 0,
+      maxMarks: maxMarks,
+      verdict: 'noCredit',
+      confidence: 0.2,
+      reasoning: 'The marking scheme has no keywords to match, so this answer '
+          'could not be scored automatically. Mark it by hand against the '
+          "official value point: '${scheme.markingPoints.first.description}'.",
+      markingPoints: outcomes,
+      ocrWarnings: ocrFlags,
+      needsReview: true,
+    );
+  }
+
   final matched = outcomes.where((o) => o.awarded).length;
   final totalPoints = outcomes.isNotEmpty ? outcomes.length : 1;
   final ratio = matched / totalPoints;
