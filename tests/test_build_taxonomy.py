@@ -286,3 +286,36 @@ def test_invariants_catch_a_chapter_number_that_repeats_without_a_part(bt):
     assert any("chapter numbers" in e for e in bt.invariant_errors(no_part))
     backwards = {**ok, "chapters": [ok["chapters"][2], *ok["chapters"][:2]]}
     assert any("chapter numbers" in e for e in bt.invariant_errors(backwards))
+
+
+def test_lettered_headings_below_subtopic_level_are_listed_not_dropped(bt, tmp_path):
+    # class9_understanding_society_part1.pdf pp103-107: "a. The Sumerians" ..
+    # "d. The Babylonians", 13pt under the 15pt "Mesopotamian Civilisation".
+    # The tree has no third level; the chapter and the manifest say so.
+    src = bt.Source("Understanding Society Part 1", "chapters/us9",
+                    typed_titles=((4, "Early Humans and Beginning of Civilisation"),))
+    tree, _ = _folder_tree(bt, tmp_path, "chapters/us9",
+                           {"us904": "class9_understanding_society_ch4"}, src,
+                           subject="Social Science", grade=9)
+    (ch,) = tree["chapters"]
+    below = ch["headingsBelowSubtopicLevel"]
+    assert [(h["name"], h["page"]) for h in below] == [
+        ("The Sumerians", 103), ("The Akkadians", 105),
+        ("The Assyrians", 107), ("The Babylonians", 107)]
+    assert {h["under"] for h in below} == {
+        "social-science-9/early-humans-and-beginning-of-civilisation/"
+        "bronze-age-civilisations-outside-india/mesopotamian-civilisation"}
+    names = {s["name"] for t in ch["topics"] for s in t["subtopics"]}
+    assert not {"The Sumerians", "The Babylonians"} & names
+    listed = bt.counts(tree)["headingsBelowSubtopicLevel"]
+    assert [h["name"] for h in listed] == [h["name"] for h in below]
+    assert listed[0]["file"] == "chapters/us9/us904.pdf"
+    assert bt.invariant_errors(tree) == []
+
+
+def test_committed_manifest_lists_the_class9_society_headings_it_does_not_represent():
+    man = _committed("_manifest.json")
+    listed = man["trees"]["Social Science_9"]["headingsBelowSubtopicLevel"]
+    assert [h["name"] for h in listed] == [
+        "The Sumerians", "The Akkadians", "The Assyrians", "The Babylonians"]
+    assert "not represented" in man["headingsBelowSubtopicLevel"]

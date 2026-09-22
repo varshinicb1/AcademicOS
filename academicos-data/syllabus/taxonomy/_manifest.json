@@ -108,7 +108,8 @@
     }
    ],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "English_7": {
    "chapters": 15,
@@ -210,7 +211,8 @@
     }
    ],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "English_8": {
    "chapters": 15,
@@ -312,7 +314,8 @@
     }
    ],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "English_9": {
    "chapters": 16,
@@ -420,7 +423,8 @@
     }
    ],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Hindi_9": {
    "chapters": 14,
@@ -516,7 +520,8 @@
     }
    ],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Mathematics_6": {
    "chapters": 10,
@@ -527,7 +532,8 @@
    },
    "chaptersWithoutTopics": [],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Mathematics_7": {
    "chapters": 15,
@@ -538,7 +544,8 @@
    },
    "chaptersWithoutTopics": [],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Mathematics_8": {
    "chapters": 14,
@@ -549,7 +556,8 @@
    },
    "chaptersWithoutTopics": [],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Mathematics_9": {
    "chapters": 8,
@@ -568,7 +576,8 @@
      "page": 73,
      "file": "maths/class9_ganita_manjari.pdf"
     }
-   ]
+   ],
+   "headingsBelowSubtopicLevel": []
   },
   "Mathematics_10": {
    "chapters": 14,
@@ -579,7 +588,8 @@
    },
    "chaptersWithoutTopics": [],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Science_6": {
    "chapters": 12,
@@ -604,7 +614,8 @@
     }
    ],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Science_7": {
    "chapters": 12,
@@ -615,7 +626,8 @@
    },
    "chaptersWithoutTopics": [],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Science_8": {
    "chapters": 13,
@@ -634,7 +646,8 @@
     }
    ],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Science_9": {
    "chapters": 13,
@@ -653,7 +666,8 @@
     }
    ],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Science_10": {
    "chapters": 13,
@@ -664,7 +678,8 @@
    },
    "chaptersWithoutTopics": [],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Social Science_6": {
    "chapters": 14,
@@ -675,7 +690,8 @@
    },
    "chaptersWithoutTopics": [],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Social Science_7": {
    "chapters": 20,
@@ -686,7 +702,8 @@
    },
    "chaptersWithoutTopics": [],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Social Science_8": {
    "chapters": 15,
@@ -697,7 +714,8 @@
    },
    "chaptersWithoutTopics": [],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   },
   "Social Science_9": {
    "chapters": 9,
@@ -708,7 +726,37 @@
    },
    "chaptersWithoutTopics": [],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": [
+    {
+     "name": "The Sumerians",
+     "page": 103,
+     "under": "social-science-9/early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/mesopotamian-civilisation",
+     "chapter": 4,
+     "file": "social_science/class9_understanding_society_part1.pdf"
+    },
+    {
+     "name": "The Akkadians",
+     "page": 105,
+     "under": "social-science-9/early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/mesopotamian-civilisation",
+     "chapter": 4,
+     "file": "social_science/class9_understanding_society_part1.pdf"
+    },
+    {
+     "name": "The Assyrians",
+     "page": 107,
+     "under": "social-science-9/early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/mesopotamian-civilisation",
+     "chapter": 4,
+     "file": "social_science/class9_understanding_society_part1.pdf"
+    },
+    {
+     "name": "The Babylonians",
+     "page": 107,
+     "under": "social-science-9/early-humans-and-beginning-of-civilisation/bronze-age-civilisations-outside-india/mesopotamian-civilisation",
+     "chapter": 4,
+     "file": "social_science/class9_understanding_society_part1.pdf"
+    }
+   ]
   },
   "Social Science_10": {
    "chapters": 22,
@@ -765,7 +813,8 @@
     }
    ],
    "numberGaps": [],
-   "namesCutShort": []
+   "namesCutShort": [],
+   "headingsBelowSubtopicLevel": []
   }
  },
  "notOnDisk": {
@@ -779,6 +828,7 @@
   "Social Science_9": "only Part 1 of Understanding Society is on disk; Part 2's chapters are missing"
  },
  "locatingProblems": [],
+ "headingsBelowSubtopicLevel": "headings below subtopic level, not represented: lettered headings a book sets a size below its subtopic type (class9_understanding_society_part1.pdf pp103-107, 'a. The Sumerians' .. 'd. The Babylonians', 13pt under the 15pt 'Mesopotamian Civilisation'). The tree has two levels, so each is listed per tree under trees.<name>.headingsBelowSubtopicLevel, with the id it sits under, and in its chapter.",
  "precision": {
   "byFamily": {
    "Maths": {

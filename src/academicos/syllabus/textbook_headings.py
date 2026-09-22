@@ -205,7 +205,10 @@ def read_lines(path: Path) -> list[Line]:
 
 @dataclass
 class Heading:
-    level: int                  # 1 = topic, 2 = subtopic
+    # 1 = topic, 2 = subtopic, 3 = a lettered heading below the subtopic
+    # level: the tree has no third level, so `build_topics` leaves it out and
+    # the build lists it as not represented rather than dropping it unseen.
+    level: int
     name: str
     page: int
     number: str | None = None   # "2.1", "2.2.1"; None when the book prints none
@@ -638,7 +641,12 @@ def unnumbered_headings(lines: list[Line], skip_pages: frozenset = frozenset()) 
     Science books of classes 6-9 (21 gees, 6 fees, 4 Understanding Society
     9). It is a subtopic whichever of the two levels it is set in: gees207.pdf
     p8 sets "b) Indian railway network" in the 17pt topic type between "a)"
-    and "c)" at 15pt.
+    and "c)" at 15pt. That recovers 27 of the 31. The other 4 sit below the
+    subtopic level: class9_understanding_society_part1.pdf pp103-107 sets
+    "a. The Sumerians" .. "d. The Babylonians" in 13pt bold italic under the
+    15pt "Mesopotamian Civilisation". The tree has no third level, so they
+    come back as level 3, for the build to list as not represented; an
+    unlettered heading at a third size is still ignored.
     """
     body, body_font = body_style(lines)
     family = re.split(r"[-,]", body_font)[0]
@@ -696,6 +704,8 @@ def unnumbered_headings(lines: list[Line], skip_pages: frozenset = frozenset()) 
     for ln, name, lettered in cands:
         if lettered and (ln.size in top or ln.size in second):
             out.append(Heading(2, name, ln.page, None, "unnumbered"))
+        elif lettered:
+            out.append(Heading(3, name, ln.page, None, "unnumbered"))
         elif ln.size in top:
             out.append(Heading(1, name, ln.page, None, "unnumbered"))
         elif ln.size in second:
@@ -812,18 +822,27 @@ def _unique(base: str, used: set[str]) -> str:
     return sid
 
 
-def build_topics(chapter_id: str, headings: list[Heading]) -> tuple[list[dict], int]:
+def build_topics(chapter_id: str, headings: list[Heading],
+                 below: list[dict] | None = None) -> tuple[list[dict], int]:
     """Nest subtopics under the topic before them. Returns (topics, orphans).
 
     An orphan is a subtopic with no topic before it in the chapter, or whose
     number names another topic; it is counted and dropped rather than hung
-    under a guessed parent.
+    under a guessed parent. A level-3 heading (below the subtopic level) is
+    not part of the tree: it is appended to ``below``, when given, as
+    {name, page, under} -- ``under`` the id of the topic or subtopic placed
+    last before it (None if none) -- so the caller can list it.
     """
     topics: list[dict] = []
     used_t: set[str] = set()
     used_s: dict[str, set] = {}
     orphans = 0
+    last: str | None = None
     for h in headings:
+        if h.level > 2:
+            if below is not None:
+                below.append({"name": h.name, "page": h.page, "under": last})
+            continue
         if h.level == 1:
             tid = _unique(f"{chapter_id}/{slug(h.name)}", used_t)
             t = {"id": tid, "name": h.name, "page": h.page}
@@ -832,6 +851,7 @@ def build_topics(chapter_id: str, headings: list[Heading]) -> tuple[list[dict], 
             t["subtopics"] = []
             used_s[tid] = set()
             topics.append(t)
+            last = tid
             continue
         if not topics or (h.number and topics[-1].get("number")
                           and not h.number.startswith(topics[-1]["number"] + ".")):
@@ -843,6 +863,7 @@ def build_topics(chapter_id: str, headings: list[Heading]) -> tuple[list[dict], 
         if h.number:
             s["number"] = h.number
         t["subtopics"].append(s)
+        last = s["id"]
     return topics, orphans
 
 

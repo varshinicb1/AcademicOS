@@ -473,3 +473,30 @@ def test_a_lone_initial_is_not_a_lettered_heading():
                       64, y + 100 + 17 * k, 434, y + 117 + 17 * k) for k in range(30)]
     assert [(h.level, h.name) for h in th.unnumbered_headings(lines)] == [
         (1, "The Gift"), (2, "O. Henry")]
+
+
+def test_lettered_headings_below_subtopic_level_are_returned_apart_class9_society():
+    # class9_understanding_society_part1.pdf pp101-107: under the topic
+    # "Bronze Age Civilisations Outside India" (17pt) and its subtopic
+    # "Mesopotamian Civilisation" (15pt) the book sets "a. The Sumerians" ..
+    # "d. The Babylonians" in 13pt bold italic, a third level. The tree has
+    # two levels, so they come back as level 3 -- named without the letter,
+    # for the build to list as not represented -- and never as subtopics.
+    heads, kind = th.chapter_headings(_lines("class9_understanding_society_ch4"), 4)
+    assert kind == "unnumbered"
+    assert [(h.name, h.page) for h in heads if h.level == 3] == [
+        ("The Sumerians", 103), ("The Akkadians", 105),
+        ("The Assyrians", 107), ("The Babylonians", 107)]
+    below: list = []
+    topics, orphans = th.build_topics("ch", heads, below)
+    # the one orphan is p87 "The Invention of Writing: Before and After", 15pt
+    # before the first topic; the level-3 headings are not counted as orphans
+    assert orphans == 1
+    assert [(b["name"], b["under"]) for b in below] == [
+        (n, "ch/bronze-age-civilisations-outside-india/mesopotamian-civilisation")
+        for n in ("The Sumerians", "The Akkadians", "The Assyrians", "The Babylonians")]
+    by_name = {t["name"]: [s["name"] for s in t["subtopics"]] for t in topics}
+    assert by_name["Bronze Age Civilisations Outside India"] == [
+        "Mesopotamian Civilisation", "Egyptian Civilisation", "The Chinese Civilisation"]
+    # a 13pt heading with no letter at that size stays ignored, as before
+    assert "How do we know what we know about China?" not in {h.name for h in heads}

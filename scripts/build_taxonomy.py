@@ -181,6 +181,14 @@ CBSE_2025_26 = {
 CBSE_SCIENCE_NOTE = ("CBSE 2025-26: information in the NCERT book's boxes is not assessed in the "
                      "year-end examination (Science_Sec_2025-26.pdf, note for teachers)")
 
+HEADINGS_BELOW_NOTE = (
+    "headings below subtopic level, not represented: lettered headings a book sets "
+    "a size below its subtopic type (class9_understanding_society_part1.pdf "
+    "pp103-107, 'a. The Sumerians' .. 'd. The Babylonians', 13pt under the 15pt "
+    "'Mesopotamian Civilisation'). The tree has two levels, so each is listed per "
+    "tree under trees.<name>.headingsBelowSubtopicLevel, with the id it sits under, "
+    "and in its chapter.")
+
 PARTIAL = {
     ("Social Science", 9): "only Part 1 of Understanding Society is on disk; Part 2's chapters are missing",
 }
@@ -361,10 +369,15 @@ def build_tree(subject: str, grade: int, sources: list[Source], root: Path, read
                 heads = [h for h in heads if h.name not in src.story_titles]
                 for h in heads:
                     h.name = _display_name(h.name)
-                topics, orphans = th.build_topics(cid, heads)
+                below: list[dict] = []
+                topics, orphans = th.build_topics(cid, heads, below)
                 ch["headingKind"] = kind
                 if orphans:
                     ch["orphanSubtopicsDropped"] = orphans
+                if below:
+                    # lettered headings set a size below the subtopic level;
+                    # the tree has two levels, so they are listed, not placed
+                    ch["headingsBelowSubtopicLevel"] = below
                 if not topics:
                     ch["noTopicsReason"] = src.no_topics_note or _why_none(r.lines, kind)
                 ch["topics"] = topics
@@ -563,7 +576,10 @@ def counts(tree: dict) -> dict:
                                        "why": c.get("noTopicsReason", c["headingKind"])}
                                       for c in chs if not c["topics"]],
             "numberGaps": number_gaps(tree),
-            "namesCutShort": cut_short(tree)}
+            "namesCutShort": cut_short(tree),
+            "headingsBelowSubtopicLevel": [
+                {**h, "chapter": c["number"], "file": c["source_file"]}
+                for c in chs for h in c.get("headingsBelowSubtopicLevel", [])]}
 
 
 def main() -> int:
@@ -595,6 +611,7 @@ def main() -> int:
         "notOnDisk": {f"{s}_{g}": why for (s, g), why in NOT_ON_DISK.items()},
         "partial": {f"{s}_{g}": why for (s, g), why in PARTIAL.items()},
         "locatingProblems": problems,
+        "headingsBelowSubtopicLevel": HEADINGS_BELOW_NOTE,
         "precision": precision,
         "syllabusMismatches": {f"{s}_{g}": compare_syllabus(t)
                                for (s, g), t in sorted(trees.items())},
@@ -611,6 +628,9 @@ def main() -> int:
     for name, c in manifest["trees"].items():
         for g in c["numberGaps"]:
             print(f'gap: {name} ch{g["number"]} ({g["file"]}): {", ".join(g["missing"])}')
+        for h in c["headingsBelowSubtopicLevel"]:
+            print(f'below subtopic level, not represented: {name} ch{h["chapter"]} '
+                  f'p{h["page"]} {h["name"]!r} under {h["under"]}')
     errors = [e for t in trees.values() for e in invariant_errors(t)]
     for e in errors:
         print("INVARIANT:", e, file=sys.stderr)
