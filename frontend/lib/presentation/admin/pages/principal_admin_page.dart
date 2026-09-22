@@ -783,9 +783,14 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           const Gap(24),
           Row(
             children: [
-              // Expanded: the heading and its count chip together are wider
-              // than a 375 px phone (Task 801).
-              Expanded(
+              // Flexible, not Expanded: the heading and its count chip
+              // together are wider than a 375 px phone (Task 801), so the
+              // heading needs a bound to wrap against -- but Expanded is a
+              // tight fit, which would make the heading eat every spare pixel
+              // and shove the "N overdue" chip to the far right of the card on
+              // a laptop, away from the number it counts. Loose keeps the
+              // heading at its natural width whenever it fits.
+              Flexible(
                 child: Text('Delayed Topics',
                     style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
               ),
@@ -1465,13 +1470,18 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               const Gap(12),
               DropdownButtonFormField<String>(
                 initialValue: _holidayKind,
+                // isExpanded + ellipsis, as _dropdown<T> does: without them the
+                // field sizes itself to its widest entry, 'School Event (still
+                // a working day)', and runs off a 375 px phone (Task 801).
+                isExpanded: true,
                 decoration: const InputDecoration(labelText: 'Holiday Kind', border: OutlineInputBorder()),
                 items: const [
-                  DropdownMenuItem(value: 'public', child: Text('Public Holiday')),
-                  DropdownMenuItem(value: 'school', child: Text('School Holiday')),
-                  DropdownMenuItem(value: 'emergency', child: Text('Emergency Closure')),
+                  DropdownMenuItem(value: 'public', child: Text('Public Holiday', overflow: TextOverflow.ellipsis)),
+                  DropdownMenuItem(value: 'school', child: Text('School Holiday', overflow: TextOverflow.ellipsis)),
+                  DropdownMenuItem(value: 'emergency', child: Text('Emergency Closure', overflow: TextOverflow.ellipsis)),
                   // The one kind that does NOT remove a teaching day.
-                  DropdownMenuItem(value: 'event', child: Text('School Event (still a working day)')),
+                  DropdownMenuItem(
+                      value: 'event', child: Text('School Event (still a working day)', overflow: TextOverflow.ellipsis)),
                 ],
                 onChanged: (v) => setState(() => _holidayKind = v ?? 'public'),
               ),

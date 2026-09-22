@@ -81,16 +81,23 @@ class _CalendarRulesCardState extends State<CalendarRulesCard> {
 
   String _dayName(String d) => d.isEmpty ? d : d[0].toUpperCase() + d.substring(1);
 
+  /// Every menu entry ellipsizes rather than overflow. Without this and the
+  /// `isExpanded: true` below, the field sizes itself to its widest entry --
+  /// '2nd & 4th Saturdays Off' -- which is wider than a 375 px phone's card
+  /// and overflowed it by 118 px (Task 801, review of 2026-09-22). Same shape
+  /// as the console's own _dropdown<T> helper.
+  static Widget _entry(String text) => Text(text, overflow: TextOverflow.ellipsis);
+
   List<DropdownMenuItem<String>> _weeklyOffItems() {
     final items = [
-      for (final e in _weeklyOffChoices.entries) DropdownMenuItem(value: e.key, child: Text(e.value)),
+      for (final e in _weeklyOffChoices.entries) DropdownMenuItem(value: e.key, child: _entry(e.value)),
     ];
     final saved = _savedWeeklyOff;
     if (saved != null && !_weeklyOffChoices.containsKey(saved)) {
       final days = widget.saved!.weeklyOffDays;
       items.add(DropdownMenuItem(
         value: saved,
-        child: Text('Saved: ${days.isEmpty ? 'no weekly off day' : days.map(_dayName).join(' & ')}'),
+        child: _entry('Saved: ${days.isEmpty ? 'no weekly off day' : days.map(_dayName).join(' & ')}'),
       ));
     }
     return items;
@@ -98,11 +105,11 @@ class _CalendarRulesCardState extends State<CalendarRulesCard> {
 
   List<DropdownMenuItem<String>> _ruleItems() {
     final items = [
-      for (final e in _ruleChoices.entries) DropdownMenuItem(value: e.key, child: Text(e.value)),
+      for (final e in _ruleChoices.entries) DropdownMenuItem(value: e.key, child: _entry(e.value)),
     ];
     final saved = _savedRule;
     if (saved != null && !_ruleChoices.containsKey(saved)) {
-      items.add(DropdownMenuItem(value: saved, child: Text('Saved: $saved')));
+      items.add(DropdownMenuItem(value: saved, child: _entry('Saved: $saved')));
     }
     return items;
   }
@@ -134,6 +141,7 @@ class _CalendarRulesCardState extends State<CalendarRulesCard> {
           DropdownButtonFormField<String>(
             key: ValueKey('weekly-off-$_generation'),
             initialValue: _weeklyOff,
+            isExpanded: true,
             decoration: const InputDecoration(labelText: 'Weekly Off Day', border: OutlineInputBorder()),
             items: _weeklyOffItems(),
             onChanged: (v) => setState(() => _weeklyOff = v ?? 'sunday'),
@@ -142,6 +150,7 @@ class _CalendarRulesCardState extends State<CalendarRulesCard> {
           DropdownButtonFormField<String>(
             key: ValueKey('alt-sat-$_generation'),
             initialValue: _rule,
+            isExpanded: true,
             decoration: const InputDecoration(labelText: 'Alternate Saturday Rule', border: OutlineInputBorder()),
             items: _ruleItems(),
             onChanged: (v) => setState(() => _rule = v ?? 'none'),
