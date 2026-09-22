@@ -375,21 +375,56 @@ def _jaccard(a: frozenset[str], b: frozenset[str]) -> float:
 # one question on a printed paper. Measured on the served bank (class 10,
 # 2026-09-22): Science has no keyed pair at or above 0.9, Mathematics 26 --
 # the same MCQ in two board papers (cbse:q:src:f319c93abeb1185b0864d200:9 /
-# cbse:q:src:b23bc2e537566a04afbf4415:15), "prove that root 5 / root 3 is
-# irrational", an assertion and its reason extracted as two items. Just below
+# cbse:q:src:b23bc2e537566a04afbf4415:15), but also "prove that root 5 / root
+# 3 is irrational" and an assertion vs its reason, which `near_duplicate` now
+# tells apart by their numbers and polarity (`_same_exact_tokens`). Just below
 # it sit different questions that share a template: a concave lens vs a
 # concave mirror problem (0.873), LCM of 576 and 512 vs HCF of 660 and 704
 # (0.851).
 STEM_SIMILARITY_THRESHOLD = 0.9
 
 
+# What a board paper's page adds to a question the extractor ran on into:
+# the footer ("5| P a g e", "# 17| P a g e"), "P.T.O." and a trailing page
+# number ("... (D) 24 ´ 53 15-"). Removed before the numbers are read, or the
+# same MCQ from pages 5 and 9 would count as two questions.
+_PAGE_NOISE = re.compile(
+    r"#?\s*\d+\s*\|\s*p\s*a\s*g\s*e|p\.\s*t\.\s*o\.?|\b\d+\s*-\s*$")
+# The tokens that make two otherwise identical sentences different questions,
+# kept in the order they appear: numbers ("root 5" vs "root 3"), function
+# names ("= sec A - tan A" vs "= cot A"; LCM vs HCF), polarity ("leap" vs
+# "non-leap") and an assertion-reason item's role.
+_EXACT_TOKENS = re.compile(
+    r"\d+(?:\.\d+)?"
+    r"|\b(?:sin|cos|tan|cot|sec|cosec|log|lcm|hcf)\b"
+    r"|\b(?:not|non|no|never|cannot)\b"
+    r"|\b(?:assertion|reason)(?=\s*\()")
+
+
+def _exact_tokens(norm: str) -> tuple[str, ...]:
+    return tuple(_EXACT_TOKENS.findall(_PAGE_NOISE.sub(" ", norm)))
+
+
+def _same_exact_tokens(a: tuple[str, ...], b: tuple[str, ...]) -> bool:
+    """Equal, or one a prefix of the other: extraction cuts a question short
+    at the end ("(D) 2x + x 3 =" in one paper, "... = 5" in the other), it
+    does not change a number in the middle. A stem with none of them against
+    one with some is not a cut copy: "Prove that is an irrational number"
+    lost its radicand, and matched both "root 5" and "root 3" otherwise."""
+    short, long_ = (a, b) if len(a) <= len(b) else (b, a)
+    if not short:
+        return not long_
+    return long_[:len(short)] == short
+
+
 @lru_cache(maxsize=16384)
-def _stem_key(text: str) -> tuple[str, frozenset[str], Counter]:
-    """Normalised text, content-word signature and character counts, once per
-    stem. The counts are difflib's `quick_ratio` bound precomputed: building
-    them per pair was 90% of a swap's time on the class 10 Science bank."""
+def _stem_key(text: str) -> tuple[str, frozenset[str], Counter, tuple[str, ...]]:
+    """Normalised text, content-word signature, character counts and exact
+    tokens, once per stem. The counts are difflib's `quick_ratio` bound
+    precomputed: building them per pair was 90% of a swap's time on the
+    class 10 Science bank."""
     norm = _normalize(text)
-    return norm, _signature(text), Counter(norm)
+    return norm, _signature(text), Counter(norm), _exact_tokens(norm)
 
 
 def near_duplicate(a: str, b: str) -> bool:
@@ -401,11 +436,23 @@ def near_duplicate(a: str, b: str) -> bool:
     ("Which of the following is not a quadratic equation ? (A) (x - 2)^2 ..."
     has three), so two copies of one MCQ passed it and could print as Q3 and
     Q9. The cheap upper bounds on the ratio run first, so most pairs never
-    reach the full comparison."""
-    na, sa, ca = _stem_key(a)
-    nb, sb, cb = _stem_key(b)
+    reach the full comparison.
+
+    Words alone over-flag: over every pair in the class 10 Mathematics pool
+    (645 questions) they flagged 28, among them "If 3/2 is a root of kx^2 -
+    x - 2 = 0, find k" vs "If 2/1 is a root of x^2 + kx - 4/5 = 0, find k",
+    "root 5" vs "root 3 is irrational" and an assertion about leap years vs
+    its reason about non-leap years. So the numbers, function names and
+    polarity must also agree (`_same_exact_tokens`). Re-measured with it
+    (2026-09-22): Mathematics 17 pairs, every one the same question as it
+    prints (an MCQ in two papers, a page footer or a cut copy apart);
+    Science 0 of 408 questions."""
+    na, sa, ca, xa = _stem_key(a)
+    nb, sb, cb, xb = _stem_key(b)
     if na == nb:
         return True
+    if not _same_exact_tokens(xa, xb):
+        return False
     if len(sa) >= 4 and len(sb) >= 4 and _jaccard(sa, sb) >= NEAR_DUPLICATE_THRESHOLD:
         return True
     t = STEM_SIMILARITY_THRESHOLD

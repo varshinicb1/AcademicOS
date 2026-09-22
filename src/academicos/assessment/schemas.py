@@ -476,6 +476,10 @@ class PaperGenerationRequest(Camel):
     formatting_options: Optional[dict[str, Any]] = None
     set_count: int = 1
     tier: Optional[str] = None
+    # The teacher chose these questions: two that look alike print with a
+    # `warnings` entry. True refuses them (422) instead. See routes.py
+    # `_similar_question_warnings`.
+    reject_similar: bool = False
 
 
 class GeneratedQuestionSchema(Camel):
@@ -538,6 +542,10 @@ class GeneratedPaper(Camel):
     metadata: PaperMetadataSchema
     set_label: Optional[str] = None
     sets: list[GeneratedPaper] = Field(default_factory=list)
+    # About the request that made this paper, not stored with it: e.g. two
+    # hand-picked questions that look like the same question. Empty on a
+    # stored paper.
+    warnings: list[str] = Field(default_factory=list)
 
 
 class QuickPaperRequest(Camel):
@@ -562,6 +570,8 @@ class GenerateFromIdsRequest(Camel):
     grade: int
     question_ids: list[str]
     template_id: Optional[str] = None
+    # As PaperGenerationRequest.reject_similar.
+    reject_similar: bool = False
 
 
 # ---- Assessment ----

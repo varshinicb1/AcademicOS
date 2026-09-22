@@ -426,6 +426,47 @@ def test_the_near_duplicate_measure_on_real_pairs():
     assert not pool_mod.near_duplicate(LCM, HCF)
 
 
+# Real pairs the text measure alone called one question (Task 906, from the
+# class 10 Mathematics pool, ids cited). Near-identical words, but different
+# numbers, polarity or function: a teacher sets both.
+ROOT_K = (  # cbse:q:src:0916a372de696613bddff07e:23 / cbse:q:src:74d29feaacad629411a49c95:21
+    "If 3 2 is a root of the quadratic equation kx2 – x – 2 = 0, then find the value of k.",
+    "If 2 1 is a root of the quadratic equation x2 + kx – 4 5 = 0, then find the value of k.")
+SUNDAYS = (  # cbse:q:src:f516dfe29cfec4ac6d74feec:19 / cbse:q:src:f516dfe29cfec4ac6d74feec:7
+    "Assertion (A) : The probability that a leap year has 53 Sundays is",
+    "Reason (R) : The probability that a non-leap year has 53 Sundays is")
+IRRATIONAL = (  # cbse:q:src:f516dfe29cfec4ac6d74feec:27 / cbse:q:src:9e5b18498717709257f60167:30
+    "Prove that 5 is an irrational number.",
+    "Prove that 3 is an irrational number.")
+IDENTITY = (  # cbse:q:src:abf68dc97d40281d455ffaa2:28 / cbse:q:src:db32b7ab98169b625243c09e:26
+    "Prove the following trigonometric identity : = sec A -tan A",
+    "Prove the following trigonometric identity : = cot A")
+# ... and real pairs that are one question: the same MCQ in two papers, one
+# copy carrying the page footer ("15-", "5| P a g e") or cut before its last
+# number (cbse:q:src:0916a372de696613bddff07e:7 / cbse:q:src:7bc43935e9890c40e2e44322:12;
+# cbse:q:src:411ab10b9f5e44bccbdb2339:5 / cbse:q:src:281d955eeac178f6b9b7a91b:12).
+FACTORISE = (
+    "Prime factorisation of 424 is : (A) 2 ´ 53 ´ 4 (B) 2 ´ 53 ´ 2 (C) 23 ´ 53 (D) 24 ´ 53 15-",
+    "Prime factorisation of 424 is : (A) 2 ´ 53 ´ 4 (B) 2 ´ 53 ´ 2 (C) 23 ´ 53 (D) 24 ´")
+FOOTER = (
+    "x = 1 y = 2, 2x -3y + a = 0 2x + 3y -b = 0 , (A) a = 2b (B) 2a = b (C) a + 2b = 0 "
+    "(D) 2a + b = 5| P a g e",
+    "x = 1 y = 2, 2x -3y + a = 0 2x + 3y -b = 0 , (A) a = 2b (B) 2a = b (C) a + 2b = 0 "
+    "(D) 2a + b = 9| P a g e")
+
+
+def test_numbers_polarity_and_functions_tell_different_questions_apart():
+    """Task 905's review: over every pair in the real class 10 Mathematics
+    pool the text measure flagged 28, and some were different questions."""
+    for a, b in (ROOT_K, SUNDAYS, IRRATIONAL, IDENTITY):
+        assert not pool_mod.near_duplicate(a, b), (a, b)
+        assert not pool_mod.near_duplicate(b, a), (a, b)
+    # A page footer or a copy cut short is not a different question.
+    for a, b in (FACTORISE, FOOTER, (QUADRATIC_A[1], QUADRATIC_B[1])):
+        assert pool_mod.near_duplicate(a, b), (a, b)
+        assert pool_mod.near_duplicate(b, a), (a, b)
+
+
 def test_near_duplicate_stems_never_share_a_paper(tmp_path, monkeypatch):
     twins = [
         _rec(QUADRATIC_A[0], 1, "ch1", 0, stem=QUADRATIC_A[1], quality=0.99),
@@ -601,10 +642,13 @@ def test_optimize_then_generate_never_carries_both_near_duplicates(tmp_path, mon
         assert len(on_paper & _TWIN_IDS) == 1, sorted(on_paper)
 
 
-def test_generate_refuses_selected_questions_that_repeat_each_other(tmp_path, monkeypatch):
-    """POST /papers/generate prints what the client posts; it does not run
-    optimize. A hand-built selection holding both twins -- as two questions,
-    or as a question and its OR partner -- is refused, naming the pair."""
+def test_generate_warns_about_selected_questions_that_repeat_each_other(tmp_path, monkeypatch):
+    """POST /papers/generate prints what the client posts, and the teacher
+    chose it. A hand-built selection holding both twins -- as two questions,
+    or as a question and its OR partner -- prints (200) with a warning naming
+    the pair, so the builder can offer "keep both" or "swap one". A client
+    that wants a refusal sets rejectSimilar; the same question id twice is
+    always refused."""
     bp = _one_mark_blueprint(3).model_dump(by_alias=True)
     others = [r for r in FIXTURE if r["marks"] == 1 and r["id"] in ("o0", "o1")]
     partnered = dict(_TWINS[0], metadata={
@@ -614,35 +658,64 @@ def test_generate_refuses_selected_questions_that_repeat_each_other(tmp_path, mo
     tpl = {"id": "tpl", "schoolId": "school_1", "name": "Plain"}
     with _boot_client(tmp_path, monkeypatch) as client:
         t1 = _register(client, "school_1", "ana@example.com")
-        for picked in (_TWINS + others[:1], [partnered] + others):
-            gen = client.post("/api/v1/papers/generate", headers=t1, json={
+
+        def post(picked, **extra):
+            return client.post("/api/v1/papers/generate", headers=t1, json={
                 "assessmentId": "asm_none", "blueprint": bp,
-                "selectedQuestions": picked, "template": tpl})
-            assert gen.status_code == 422, gen.text
-            detail = gen.json()["detail"]
+                "selectedQuestions": picked, "template": tpl, **extra})
+
+        for picked in (_TWINS + others[:1], [partnered] + others):
+            gen = post(picked)
+            assert gen.status_code == 200, gen.text
+            warnings = gen.json()["warnings"]
+            assert len(warnings) == 1, warnings
+            assert QUADRATIC_A[0] in warnings[0] and QUADRATIC_B[0] in warnings[0], warnings
+            assert _TWIN_IDS <= _on_paper(gen.json())
+            refused = post(picked, rejectSimilar=True)
+            assert refused.status_code == 422, refused.text
+            detail = refused.json()["detail"]
             assert QUADRATIC_A[0] in detail and QUADRATIC_B[0] in detail, detail
-        ok = client.post("/api/v1/papers/generate", headers=t1, json={
-            "assessmentId": "asm_none", "blueprint": bp,
-            "selectedQuestions": _TWINS[:1] + others, "template": tpl})
+        ok = post(_TWINS[:1] + others)
         assert ok.status_code == 200, ok.text
+        assert ok.json()["warnings"] == []
+        twice = post(_TWINS[:1] + _TWINS[:1] + others[:1])
+        assert twice.status_code == 422, twice.text
+        assert QUADRATIC_A[0] in twice.json()["detail"]
 
 
-def test_generate_from_ids_refuses_ids_that_repeat_each_other(tmp_path, monkeypatch):
+def test_generate_from_ids_warns_about_ids_that_repeat_each_other(tmp_path, monkeypatch):
     """POST /papers/generate-from-ids builds the paper straight from the
-    teacher's curated ids (the Flutter client's path); both twins curated
-    together are refused, naming the pair, like /papers/generate."""
+    teacher's curated ids (the Flutter client's path): both twins curated
+    together print with a warning naming the pair, like /papers/generate;
+    rejectSimilar refuses them, and one id listed twice is refused."""
     monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _pool(_TWINS + FIXTURE))
     with _boot_client(tmp_path, monkeypatch) as client:
         t1 = _register(client, "school_1", "ana@example.com")
         body = {"subject": "Science", "grade": 10}
-        gen = client.post("/api/v1/papers/generate-from-ids", headers=t1, json={
-            **body, "questionIds": [QUADRATIC_A[0], "o0", QUADRATIC_B[0]]})
-        assert gen.status_code == 422, gen.text
-        detail = gen.json()["detail"]
+
+        def post(ids, **extra):
+            return client.post("/api/v1/papers/generate-from-ids", headers=t1,
+                               json={**body, "questionIds": ids, **extra})
+
+        gen = post([QUADRATIC_A[0], "o0", QUADRATIC_B[0]])
+        assert gen.status_code == 200, gen.text
+        warnings = gen.json()["warnings"]
+        assert len(warnings) == 1, warnings
+        assert QUADRATIC_A[0] in warnings[0] and QUADRATIC_B[0] in warnings[0], warnings
+        assert _TWIN_IDS <= _on_paper(gen.json())
+        # The warning belongs to this generation, not to the stored paper.
+        stored = client.get(f"/api/v1/papers/{gen.json()['id']}", headers=t1)
+        assert stored.status_code == 200, stored.text
+        assert stored.json()["warnings"] == []
+        refused = post([QUADRATIC_A[0], "o0", QUADRATIC_B[0]], rejectSimilar=True)
+        assert refused.status_code == 422, refused.text
+        detail = refused.json()["detail"]
         assert QUADRATIC_A[0] in detail and QUADRATIC_B[0] in detail, detail
-        ok = client.post("/api/v1/papers/generate-from-ids", headers=t1, json={
-            **body, "questionIds": [QUADRATIC_A[0], "o0"]})
+        twice = post([QUADRATIC_A[0], "o0", QUADRATIC_A[0]])
+        assert twice.status_code == 422, twice.text
+        ok = post([QUADRATIC_A[0], "o0"])
         assert ok.status_code == 200, ok.text
+        assert ok.json()["warnings"] == []
 
 
 # ------------------------------------------------------------------ recent papers
