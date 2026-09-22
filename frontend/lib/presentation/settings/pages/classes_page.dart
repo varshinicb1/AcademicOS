@@ -84,7 +84,7 @@ class _ClassesPageState extends State<ClassesPage> {
             // A failed roster read is not "No students yet" (Task 802).
             return ErrorDisplay(
               message: 'Could not load the roster: ${serverErrorMessage(snap.error!)}',
-              onRetry: () => setState(() => _future = _loadRoster()),
+              onRetry: () => setState(() { _future = _loadRoster(); }),
             );
           }
           final roster = snap.data ?? const [];

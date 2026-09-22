@@ -579,7 +579,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           if (snap.hasError) {
             return ErrorDisplay(
               message: 'Could not load school admin data: ${serverErrorMessage(snap.error!)}',
-              onRetry: () => setState(() => _future = _load()),
+              onRetry: () => setState(() { _future = _load(); }),
             );
           }
           final data = snap.data!;

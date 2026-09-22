@@ -128,7 +128,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
                       if (snap.hasError) {
                         return ErrorDisplay(
                           message: 'Could not load your schedule: ${serverErrorMessage(snap.error!)}',
-                          onRetry: () => setState(() => _future = _load()),
+                          onRetry: () => setState(() { _future = _load(); }),
                         );
                       }
                       final lessons = snap.data ?? const [];
@@ -336,7 +336,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
 
   Widget _lessonList(List<MyScheduleEntry> lessons) {
     return RefreshIndicator(
-      onRefresh: () async => setState(() => _future = _load()),
+      onRefresh: () async => setState(() { _future = _load(); }),
       child: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: lessons.length,
@@ -429,7 +429,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
                 await GetIt.I<CurriculumApi>()
                     .markLesson(lesson.lessonId, status: status, note: note.isEmpty ? null : note);
                 if (sheetContext.mounted) Navigator.of(sheetContext).pop();
-                if (mounted) setState(() => _future = _load());
+                if (mounted) setState(() { _future = _load(); });
               } catch (e) {
                 // The server's reason (or the status's meaning); the
                 // connection is blamed only when no answer came back.
