@@ -6,15 +6,21 @@ Run:  python scripts/enrich_question_bank.py [--check]
 What it does, in order:
 
   1. Relink. Walks `question -> parse tree -> paper code -> answer_keys.db` and
-     attaches the official CBSE marking scheme where one exists. Never invents
-     an answer; a question with no match is left without a scheme and counted.
+     attaches the official CBSE marking scheme the content join finds for it
+     across every set of its paper series, where the verifier accepts one.
+     Never invents an answer; a question with no verified scheme is left with
+     none (the merge then excludes it as no-verified-key) and counted.
   2. Enrich. Sets `rights`, `calibration`, `version`, `reviewState`, `language`,
      and page-level `provenance`.
   3. Writes both copies of the corpus (the server-side one and the Flutter
      asset) so they cannot drift.
   4. Adds every scheme the relink removed to scheme_quarantine.json, next to
-     the served bank. It merges, never overwrites: a rerun finds almost
-     nothing left to remove, so an overwrite would lose the review list.
+     the served bank, whole (marking points, model answer, option letter,
+     scheme file). It merges, never overwrites: a rerun finds almost nothing
+     left to remove, so an overwrite would lose the review list.
+
+After a real run, run merge_question_banks.py again: its no-verified-key gate
+reads the labels this relink writes.
 
 Idempotent: re-running does not double-bump versions or overwrite a rights
 decision someone has since recorded. `--check` verifies without writing, for CI.
@@ -77,10 +83,11 @@ def print_subject_grade_table(records: list[dict], report, had_official: set) ->
 
 QUARANTINE_ABOUT = (
     "Schemes removed from served records because the relink rejected them for "
-    "their question. For a person to review; see "
-    "src/academicos/corpus/scheme_verify.py and "
-    "src/academicos/assessment/question_bank.py (conflicting-keys, unbacked-key) "
-    "for each reason. Every run ADDS to this file and never drops an entry: "
+    "their question. For a person to review and, if right, restore: each entry "
+    "keeps the whole removed scheme ('scheme'), its option letter and its scheme "
+    "file. See src/academicos/corpus/scheme_verify.py and "
+    "src/academicos/assessment/question_bank.py (unbacked-key) for each "
+    "reason. Every run ADDS to this file and never drops an entry: "
     "after one run the served bank no longer holds what was removed, so a "
     "rerun finds almost nothing, and overwriting would lose the review list.")
 

@@ -38,13 +38,25 @@ from pathlib import Path
 from typing import Any, Iterable, Iterator, Optional
 
 from ..corpus.scheme_verify import (
+    AGREE_SHARE,
+    CONFLICTING_KEYS,
+    OUTRANKED,
+    SIBLING_SHARE,
     Verdict,
+    idf_weights,
+    join_score,
+    join_terms,
+    join_verdict,
     medium_of_text,
+    norm_of,
+    outright_option,
     question_medium,
     question_options,
+    row_text,
+    share,
     verify,
 )
-from .answer_key import normalize_paper_code
+from .answer_key import _SUBJECT_BY_CODE, normalize_paper_code
 from .marking import parse_options
 from .schemas import (
     AnswerSchemeSchema,
@@ -184,6 +196,9 @@ class OfficialAnswer:
     # says). One key often holds both media of the same paper.
     source: str = ""
     medium: str = ""
+    # The paper code the row is filed under. The content join draws on every
+    # set of a series, so the row's own code can differ from the question's.
+    code: str = ""
 
     def text(self) -> str:
         """The answer text and every value point it does not already contain.
@@ -221,26 +236,83 @@ def verify_answer(record: dict[str, Any], answer: OfficialAnswer) -> Verdict:
 
 
 # Reasons the relink adds to `scheme_verify.REASONS`. Those judge one answer
-# against its question; these judge what the index says about it.
-# Accepted candidates for one question that name different options.
-CONFLICTING_KEYS = "conflicting-keys"
-# A scheme built from an answer_keys row (labelled official) or carrying an
-# option letter, for which the index holds no accepted row. An objective one
-# cannot be checked at all: `build_official_scheme` wrote the option's own
-# text as its model answer, so the key "verifies" against itself.
+# against its question; `scheme_verify.JOIN_REASONS` (near-tie,
+# conflicting-keys, unanchored, not-an-option, outranked) judge the content
+# join's pick and the rows under the question's own number it passed over;
+# this one judges what the index says about a scheme the record already has.
+# A scheme for which the index holds no accepted row. An objective one cannot
+# be checked at all: `build_official_scheme` wrote the option's own text as
+# its model answer, so the key "verifies" against itself. A descriptive one
+# the verifier accepts is on the question's topic, which is not the board's
+# answer: since Task 151 (user decision 2026-09-22, correctness first) an
+# unverified scheme is not served at all.
 UNBACKED_KEY = "unbacked-key"
+
+
+def row_code(stored: str, source: str) -> str:
+    """The paper code an answer_keys row is filed under, or "".
+
+    The writer's `paper_code` column is favoured over the filename (see
+    `AnswerKeyIndex._load`), except where the column is led by a SUBJECT code:
+    English Core rows sit under "301/1/1" for "XII_301_1_1_3_MS_unsigned
+    (1).pdf", which is paper 1/1/3. The writer read three parts from the left
+    of "301/1-1-3" and dropped the set, so sets 1-3 of a series collapsed
+    onto one key no question carries (794 rows; 184/2/* English Language and
+    Literature rows the same way, 34). The filename keeps the set; "XII_301_
+    English Core_MS_Set 6-3.pdf", which names no code, is paper 1/6/3.
+    """
+    if not (stored or "").strip():
+        if not _CODE_HINT.search(source or ""):
+            return ""
+        return normalize_paper_code(source)
+    code = normalize_paper_code(stored) or stored.strip()
+    parts = code.split("/")
+    if len(parts) != 3 or parts[0] not in _SUBJECT_BY_CODE:
+        return code
+    from_name = normalize_paper_code(source or "")
+    if from_name and from_name.split("/")[0] not in _SUBJECT_BY_CODE:
+        return from_name
+    m = re.search(r"Set[\s_]*(\d)\s*[_\-]\s*(\d)(?!\d)", source or "", re.I)
+    if m and m.group(1) == parts[2]:
+        return f"{parts[1]}/{m.group(1)}/{m.group(2)}"
+    return ""
+
+
+def family_of(code: str) -> str:
+    """The paper series a code belongs to: "55/1" for 55/1/1, 55/1/2, 55/1/3.
+    One marking scheme answers all of them."""
+    norm = normalize_paper_code(code) or code
+    return norm.rsplit("/", 1)[0] if norm.count("/") == 2 else ""
 
 
 @dataclass
 class Choice:
     """What the index made of one question's candidates.
 
-    `rejected` holds the verifier's rejections and, when accepted candidates
-    disagree on the option, every one of those as CONFLICTING_KEYS."""
+    `rejected` holds the content join's refused pick (and, when two keys name
+    different options, its runner-up) with the reason, then the verifier's
+    verdict on every other row filed under the question's own (code, q_no) --
+    the rows a question-number join would have tried, which is how the relink
+    recognises the row a labelled scheme was built from."""
 
     best: OfficialAnswer | None
     rejected: list[tuple[OfficialAnswer, Verdict]] = field(default_factory=list)
     verdict: Verdict | None = None      # the best candidate's
+    # The runner-up's score over the pick's, and whether the pick sits at the
+    # question's own number or a sibling's. None when nothing was ranked.
+    ratio: float | None = None
+    anchored: bool = False
+
+
+@dataclass
+class _Pool:
+    """One scheme family in one medium, ready to rank."""
+
+    answers: list[OfficialAnswer]
+    texts: list[str]            # `row_text` of each answer: what is judged
+    terms: list[frozenset[str]]
+    idf: dict[str, float]
+    norms: list[float]
 
 
 class AnswerKeyIndex:
@@ -263,6 +335,8 @@ class AnswerKeyIndex:
     def __init__(self, db_path: Path | str):
         self.db_path = Path(db_path)
         self._by_code: dict[str, dict[int, list[OfficialAnswer]]] = {}
+        self._by_family: dict[str, list[OfficialAnswer]] = {}
+        self._pools: dict[tuple[str, str], _Pool] = {}
         self.rows_total = 0
         self.rows_keyed = 0
         if self.db_path.exists():
@@ -287,27 +361,20 @@ class AnswerKeyIndex:
 
         for r in rows:
             self.rows_total += 1
-            stored = str(r["paper_code"] or "")
-            if stored.strip():
-                # The writer put the canonical code here, derived from the page
-                # headers -- the authoritative place it lives. Favouring the
-                # column over the filename matters: 79 real rows sit under
-                # names like "Science(MS) Set 1.pdf" that carry no code, and
-                # re-deriving from the filename silently dropped those papers
-                # (found 2026-09-20: the board's 31/1/2, 31/2/2, ... 55/*/2,
-                # 55/*/3 variants were keyed from the header at write time and
-                # unreachable at read time).
-                code = normalize_paper_code(stored) or stored.strip()
-            else:
-                source = str(r["source"] or "")
-                if not _CODE_HINT.search(source):
-                    # No code in the filename and none in the column. It may
-                    # still be reachable by content hash, which is a separate
-                    # pass; do not guess a code here.
-                    continue
-                code = normalize_paper_code(source)
-                if not code:
-                    continue
+            # The writer put the canonical code in `paper_code`, derived from
+            # the page headers -- the authoritative place it lives. Favouring
+            # the column over the filename matters: 79 real rows sit under
+            # names like "Science(MS) Set 1.pdf" that carry no code, and
+            # re-deriving from the filename silently dropped those papers
+            # (found 2026-09-20: the board's 31/1/2, 31/2/2, ... 55/*/2,
+            # 55/*/3 variants were keyed from the header at write time and
+            # unreachable at read time). `row_code` makes the one exception.
+            # A row with no code in the column or the filename may still be
+            # reachable by content hash, which is a separate pass; no code is
+            # guessed here.
+            code = row_code(str(r["paper_code"] or ""), str(r["source"] or ""))
+            if not code:
+                continue
             try:
                 q_no = int(r["q_no"])
             except (TypeError, ValueError):
@@ -323,8 +390,10 @@ class AnswerKeyIndex:
                 marks=float(r["marks"] or 0.0),
                 source=source,
                 medium=answer_medium(source, text + " " + " ".join(p for p, _ in points)),
+                code=code,
             )
             self._by_code.setdefault(code, {}).setdefault(q_no, []).append(entry)
+            self._by_family.setdefault(family_of(code), []).append(entry)
             self.rows_keyed += 1
 
     @property
@@ -339,9 +408,13 @@ class AnswerKeyIndex:
     # under subject "English". 64/* is Geography ("XII_029_MS_64-1-1 ENG
     # UNSIGNED.pdf", 496 rows under its own code). The map's only effect was
     # to give 7 served Geography questions Hindi-medium Physics answers.
-    # (The 301/* keys that do exist are English Core schemes mis-keyed from
-    # filenames like "XII_301_1_1_3_MS_unsigned (1).pdf", which is paper
-    # 1/1/3; no mapping onto 301 would have reached them correctly either.)
+    # (The 301/* keys were English Core schemes mis-keyed from filenames like
+    # "XII_301_1_1_3_MS_unsigned (1).pdf", which is paper 1/1/3; `row_code`
+    # now files them there.)
+
+    @property
+    def families(self) -> set[str]:
+        return set(self._by_family)
 
     def candidates(self, code: str, q_no: int) -> list[OfficialAnswer]:
         """Every official answer filed under this code and question number."""
@@ -350,47 +423,133 @@ class AnswerKeyIndex:
         norm = normalize_paper_code(code) or code
         return list(self._by_code.get(norm, {}).get(q_no, []))
 
-    def choose(self, code: str, q_no: int, record: dict[str, Any]) -> Choice:
-        """The best candidate `scheme_verify` accepts for `record`, and every
-        rejection with its reason.
+    def _pool(self, family: str, medium: str) -> _Pool:
+        """Every row of a scheme family in `medium`, or naming none: an
+        English-medium question never ranks a Hindi-medium answer."""
+        key = (family, medium)
+        if key not in self._pools:
+            answers = [a for a in self._by_family.get(family, []) if a.medium in (medium, "")]
+            texts = [row_text(a.text()) for a in answers]
+            terms = [join_terms(t) for t in texts]
+            idf = idf_weights(terms)
+            self._pools[key] = _Pool(answers, texts, terms, idf,
+                                     [norm_of(t, idf) for t in terms])
+        return self._pools[key]
 
-        Best means the question's medium first -- an English stem takes the
-        English-medium scheme over an equally acceptable Hindi-medium one --
-        then the verifier's score. Never load order.
+    def choose(self, code: str, q_no: int, record: dict[str, Any], *,
+               siblings: Iterable[tuple[str, int]] = ()) -> Choice:
+        """The content join: the family row that answers `record`, and why
+        nothing was taken otherwise.
+
+        Every row of the paper's series in the question's medium is scored
+        against the stem, whatever its number: a set-2 question's answer is
+        often filed under set 1's numbering. The pick is the best-scoring row
+        `scheme_verify.join_verdict` would take -- the verifier accepts it and
+        it carries evidence of its own: an objective key whose words are an
+        option, a subjective row that is anchored or restates the question.
+        The runner-up is the best such row that is not an edition of the pick
+        (`AGREE_SHARE`), and the pick must beat it by `JOIN_MARGIN`.
+
+        Rows without that evidence rank but do not compete. The best-scoring
+        row overall answered the question in 20 of 50 questions read (fixture
+        stratum join-random) -- a series holds every chapter's answers -- so
+        letting it veto was letting noise veto: 32/5/2 Q29 lost its own
+        answer ("How primary, secondary and tertiary sectors are dependent on
+        each other? ...") to set 1's tertiary-sector answer, 0.93 of whose
+        score it had.
+
+        `siblings` are the (code, q_no) of the same question served from
+        other sets of the series. A row is anchored when it, or an edition of
+        it, sits at the question's own number or a sibling's: "55-1-1,2,3
+        English Version.pdf" and "XII_042_Physics_MS_55_1_1,2,3.pdf" print one
+        answer under different numbers. Ties keep load order and are refused.
+
+        An objective question takes only keys whose words are one of its
+        options, and ANY key of the series naming another of them is a tie
+        (ratio 1.0), whatever it scores: a key's score is the rarity of its
+        option's words in the series, not evidence that it answers this
+        question. 66/1/1 Q19 (Beenu's bookstore) has "Public relations" under
+        its own number and set 3's "Sales promotion" -- Mehta Sons' key --
+        names option C; in a three-row pool the wrong key outscored the right
+        one by 0.76. A key that shares no word or number with the stem ("x =
+        y", "(– 3, 0)") scores nothing and is taken only when anchored.
         """
-        medium = question_medium(record)
-        accepted: list[tuple[int, float, OfficialAnswer, Verdict]] = []
-        rejected: list[tuple[OfficialAnswer, Verdict]] = []
-        for cand in self.candidates(code, q_no):
-            verdict = verify_answer(record, cand)
-            if verdict.accepted:
-                # A key from "56_4_2.pdf" names no medium in its filename and
-                # may carry too little text to read one from; it still ranks
-                # above one that names the other medium.
-                rank = 2 if cand.medium == medium else (1 if not cand.medium else 0)
-                accepted.append((rank, verdict.score, cand, verdict))
-            else:
-                rejected.append((cand, verdict))
-        accepted.sort(key=lambda t: (t[0], t[1]), reverse=True)
-        if not accepted:
-            return Choice(best=None, rejected=rejected)
-        letters = {str(c.correct_option or v.option or "").strip().upper()
-                   for _, _, c, v in accepted} - {""}
-        if len(letters) > 1:
-            # Accepted keys naming different options: at least one is wrong
-            # and nothing here says which. Ranking would choose anyway -- 56/4/2
-            # Q3 and Q12 each have a medium-less "56_4_2.pdf" key and a Hindi
-            # one that disagree, and the medium-less one won both times; when
-            # rank and score tie, a stable sort hands the key to load order.
-            conflict = Verdict(reason=CONFLICTING_KEYS)
-            return Choice(best=None,
-                          rejected=rejected + [(c, conflict) for _, _, c, _ in accepted])
-        _, _, best, verdict = accepted[0]
-        if verdict.option and not best.correct_option:
-            # Keyed by the option's words: carry the letter they resolved to,
-            # so the scheme is objective and the scorer can read it.
-            best = replace(best, correct_option=verdict.option)
-        return Choice(best=best, rejected=rejected, verdict=verdict)
+        norm = normalize_paper_code(code) or code
+        own = self.candidates(norm, q_no)
+        family = family_of(norm)
+        pool = self._pool(family, question_medium(record)) if family else None
+        if pool is None or not pool.answers:
+            return Choice(best=None, rejected=[(c, _own_verdict(record, c)) for c in own])
+        anchors = {(norm, q_no), *siblings}
+        at_anchor = [i for i, a in enumerate(pool.answers) if (a.code, a.q_no) in anchors]
+        query = join_terms(str(record.get("stem") or ""))
+        scores = [join_score(query, t, pool.idf, n) for t, n in zip(pool.terms, pool.norms)]
+        ranked = sorted((i for i, sc in enumerate(scores) if sc > 0), key=lambda i: -scores[i])
+        options = question_options(record)
+
+        pick: int | None = None
+        runner: int | None = None
+        ratio = 0.0
+        anchored = False
+        if options:
+            letters = {i: letter for i, text in enumerate(pool.texts)
+                       if (letter := outright_option(text, options)) is not None
+                       and verify(record, text).accepted}
+
+            def keyed_anchor(i: int) -> bool:
+                return any(letters.get(j) == letters[i] for j in at_anchor)
+
+            eligible = [i for i in ranked if i in letters]
+            eligible += [i for i in letters if scores[i] <= 0 and keyed_anchor(i)]
+            if eligible:
+                pick = eligible[0]
+                anchored = keyed_anchor(pick)
+                others = [i for i, letter in letters.items() if letter != letters[pick]]
+                if others:
+                    runner = max(others, key=lambda i: scores[i])
+                    ratio = 1.0
+        else:
+            def anchor_of(i: int) -> bool:
+                return i in at_anchor or any(
+                    share(pool.terms[i], pool.terms[j]) >= AGREE_SHARE for j in at_anchor)
+
+            for i in ranked:
+                if pick is not None and share(pool.terms[pick], pool.terms[i]) >= AGREE_SHARE:
+                    continue            # an edition of the pick
+                anch = anchor_of(i)
+                if not join_verdict(record, pool.texts[i], ratio=0.0, anchored=anch).accepted:
+                    continue
+                if pick is None:
+                    pick, anchored = i, anch
+                else:
+                    runner = i
+                    ratio = scores[i] / scores[pick]
+                    break
+        if pick is None and ranked:
+            # Nothing eligible: report the best-scoring row and why it is not.
+            pick = ranked[0]
+            anchored = (pool.answers[pick].code, pool.answers[pick].q_no) in anchors
+        if pick is None:
+            return Choice(best=None, rejected=[(c, _own_verdict(record, c)) for c in own])
+
+        best = pool.answers[pick]
+        verdict = join_verdict(record, pool.texts[pick], ratio=ratio, anchored=anchored)
+        refused: list[tuple[OfficialAnswer, Verdict]] = []
+        if not verdict.accepted:
+            refused.append((best, verdict))
+            if verdict.reason == CONFLICTING_KEYS and runner is not None:
+                refused.append((pool.answers[runner], verdict))
+        listed = [a for a, _ in refused] + ([best] if verdict.accepted else [])
+        rejected = refused + [(c, _own_verdict(record, c)) for c in own
+                              if not any(c is a for a in listed)]
+        if not verdict.accepted:
+            return Choice(best=None, rejected=rejected, ratio=ratio, anchored=anchored)
+        # The letter is the option the key's words are, never the row's own
+        # letter column (another set's row may order the options differently);
+        # a subjective pick carries none, or the scheme would be built objective.
+        best = replace(best, correct_option=verdict.option)
+        return Choice(best=best, rejected=rejected, verdict=verdict, ratio=ratio,
+                      anchored=anchored)
 
     def lookup(self, code: str, q_no: int, record: dict[str, Any]) -> OfficialAnswer | None:
         """The official answer to label for this question, or None."""
@@ -402,6 +561,13 @@ class AnswerKeyIndex:
             "rows_keyed": self.rows_keyed,
             "distinct_codes": len(self._by_code),
         }
+
+
+def _own_verdict(record: dict[str, Any], answer: OfficialAnswer) -> Verdict:
+    """Why a row under the question's own number was not attached: the
+    verifier's reason, or OUTRANKED when the verifier alone would take it."""
+    verdict = verify_answer(record, answer)
+    return verdict if not verdict.accepted else Verdict(OUTRANKED)
 
 
 def _parse_value_points(raw: Any) -> list[tuple[str, float]]:
@@ -434,8 +600,9 @@ class RelinkReport:
     """What the relink actually did. Printed by the pipeline, asserted in tests."""
 
     total: int = 0
-    # Board records that had a scheme end in exactly one of the next four:
-    # verified as it was, replaced, kept unlabelled, or removed.
+    # Board records that had a scheme end in exactly one of the next three:
+    # verified as it was, replaced, or removed. (Nothing is kept unlabelled
+    # any more: a scheme no official row verifies is not served.)
     already_had_scheme: int = 0
     # The record's own scheme passed, and a verified official ends on it.
     verified_existing_scheme: int = 0
@@ -445,11 +612,10 @@ class RelinkReport:
     replaced_after_quarantine: int = 0
     # The record's own scheme was quarantined and nothing verified replaced it.
     existing_scheme_removed: int = 0
-    # Unlabelled descriptive schemes the verifier accepts and no official row
-    # accounts for. A labelled or objective one with no row is quarantined
-    # as UNBACKED_KEY instead.
-    existing_scheme_unverifiable: int = 0
     newly_attached: int = 0
+    # Verified officials the content join found somewhere other than the
+    # question's own (code, q_no): another set's numbering, or another number.
+    recovered_elsewhere: int = 0
     # CBE/SQP records: their ids are not cbse:q:src:<hash>:<n>, so they never
     # reach the answer-key index, but their builder already attached the
     # official scheme. Counting them under no_source_hash made coverage read
@@ -458,15 +624,19 @@ class RelinkReport:
     no_source_hash: int = 0
     no_parse_tree: int = 0
     no_paper_code: int = 0
+    # The code's series has no row in answer_keys.db, or none in the
+    # question's medium that shares a word or number with its stem and none
+    # under its own number either.
     code_not_in_answer_keys: int = 0
-    answer_not_found_for_qno: int = 0
-    # Records with at least one candidate in the index, and those among them
-    # for which the verifier accepted none.
+    no_matching_candidate: int = 0
+    # Records the join ranked a candidate for (or that have a row under their
+    # own number), and those among them for which nothing was accepted.
     found: int = 0
     all_candidates_rejected: int = 0
     # Scheme content REMOVED from a record because the verifier rejected it,
     # by reason; `quarantine` holds one entry per removal for a person to
-    # review. `rejected` counts index candidates never attached, by reason.
+    # review, with the whole scheme. `rejected` counts the join's refused
+    # picks and the rows under a question's own number never attached.
     quarantined: Counter = field(default_factory=Counter)
     rejected: Counter = field(default_factory=Counter)
     quarantine: list[dict[str, Any]] = field(default_factory=list)
@@ -480,9 +650,9 @@ class RelinkReport:
 
     @property
     def with_scheme(self) -> int:
-        """Records carrying any scheme: verified official, plus accepted but
-        unlabelled content no official key accounts for."""
-        return self.verified + self.existing_scheme_unverifiable
+        """Records carrying any scheme. Only a verified official is served,
+        so this is `verified`; kept so a consumer reading it is not misled."""
+        return self.verified
 
     def coverage(self) -> float:
         """Share of records with a VERIFIED official scheme."""
@@ -495,11 +665,11 @@ class RelinkReport:
             "  its scheme verified, official: {:,}".format(self.verified_existing_scheme),
             "  its scheme quarantined, replaced by a verified official: {:,}".format(
                 self.replaced_after_quarantine),
-            "  kept unlabelled (verified content, no official key): {:,}".format(
-                self.existing_scheme_unverifiable),
             "  its scheme quarantined, nothing in its place: {:,}".format(
                 self.existing_scheme_removed),
             "verified official attached new : {:,}".format(self.newly_attached),
+            "  (verified officials found away from the question's own number: {:,})".format(
+                self.recovered_elsewhere),
             "  carried an official scheme from its builder, verified : {:,}".format(
                 self.carried_official),
             "with a VERIFIED official scheme: {:,}  ({:.1f}%)".format(
@@ -521,8 +691,8 @@ class RelinkReport:
             "  id is not a cbse:q:src:<hash>:<n> : {:,}".format(self.no_source_hash),
             "  no parse tree for the source      : {:,}".format(self.no_parse_tree),
             "  no paper code in the parse tree   : {:,}".format(self.no_paper_code),
-            "  code absent from answer_keys.db   : {:,}".format(self.code_not_in_answer_keys),
-            "  code present, no answer for q_no  : {:,}".format(self.answer_not_found_for_qno),
+            "  series absent from answer_keys.db : {:,}".format(self.code_not_in_answer_keys),
+            "  series present, nothing matched   : {:,}".format(self.no_matching_candidate),
             "  (an answer key found for)         : {:,}".format(self.found),
             "  every candidate rejected          : {:,}".format(self.all_candidates_rejected),
         ]
@@ -552,7 +722,8 @@ def build_official_scheme(
     # Which scheme file the answer came from, so a reviewer can open it: the
     # question's own document id says nothing about which of a key's
     # candidates was chosen.
-    source = ({"schemeSource": answer.source, "schemeMedium": answer.medium}
+    source = ({"schemeSource": answer.source, "schemeMedium": answer.medium,
+               "schemeCode": answer.code, "schemeQNo": answer.q_no}
               if answer.source else {})
     if answer.correct_option:
         key = str(answer.correct_option).strip().upper()
@@ -661,10 +832,21 @@ def _quarantine(rec: dict[str, Any], report: RelinkReport, reason: str, text: st
     Removed, not merely unlabelled: another question's answer in the record
     is harmful whatever its label, because the scorer and the teacher both
     read it. The record keeps an empty scheme of its own mark value.
+
+    The entry keeps the WHOLE removed scheme -- every marking point, the
+    model answer, the option letter and the scheme file it came from -- so a
+    person can review it and restore it. It used to keep 200 characters of
+    text, and after one run the served bank no longer holds the rest.
     """
+    removed = dict(rec.get("answerScheme") or {})
+    meta = removed.get("metadata") or {}
     report.quarantined[reason] += 1
-    report.quarantine.append({"id": rec.get("id"), "code": code, "q_no": q_no,
-                              "reason": reason, "text": text[:200]})
+    report.quarantine.append({
+        "id": rec.get("id"), "code": code, "q_no": q_no, "reason": reason, "text": text,
+        "correctOption": meta.get("correctOption"),
+        "schemeSource": meta.get("schemeSource") or "",
+        "scheme": removed,
+    })
     rec["answerScheme"] = AnswerSchemeSchema(
         total_marks=int(rec.get("marks") or 0)).model_dump(mode="json", by_alias=True)
 
@@ -686,22 +868,30 @@ def relink_answer_schemes(
     Every record's scheme is verified first, including one already labelled
     cbse_marking_scheme: the old shortcut counted a labelled scheme verified
     and skipped it, and the audit found 30.5% of those detectably wrong. A
-    rejected scheme is removed and quarantined. Then the index is asked for
-    the best candidate the verifier accepts; only that is labelled official.
+    rejected scheme is removed and quarantined. Then the index's content join
+    is asked for the family row that answers the question (`AnswerKeyIndex.
+    choose`); only an accepted one is labelled official. A record with no
+    accepted row keeps no scheme at all: an unverified scheme is not served.
     """
     report = RelinkReport(total=len(records))
     sources: dict[str, ParsedSource | None] = {}
     had_before: list[dict[str, Any]] = []
 
+    def located(rec: dict[str, Any]) -> tuple[tuple[str, int] | None, ParsedSource | None, str]:
+        parsed = parse_question_id(rec.get("id") or "")
+        if parsed is None:
+            return None, None, ""
+        doc_hash = parsed[0]
+        if doc_hash not in sources:
+            sources[doc_hash] = load_parsed_source(Path(parse_dir), doc_hash)
+        src = sources[doc_hash]
+        return parsed, src, (src.paper_code if src else "")
+
+    siblings = _siblings(records, located)
+
     for rec in records:
-        parsed_id = parse_question_id(rec.get("id") or "")
-        doc_hash, q_no = parsed_id if parsed_id else (None, None)
-        source = None
-        if doc_hash is not None:
-            if doc_hash not in sources:
-                sources[doc_hash] = load_parsed_source(Path(parse_dir), doc_hash)
-            source = sources[doc_hash]
-        code = source.paper_code if source else ""
+        parsed_id, source, code = located(rec)
+        q_no = parsed_id[1] if parsed_id else None
 
         scheme = rec.get("answerScheme") or {}
         had_scheme = _has_content(scheme)
@@ -731,21 +921,18 @@ def relink_answer_schemes(
         def settle_without_candidate() -> None:
             if not kept:
                 return
-            if labelled or (scheme.get("metadata") or {}).get("correctOption"):
-                # No accepted index row backs this scheme. A labelled one was
-                # built from a row that is gone or no longer accepted, and an
-                # option letter cannot be checked against anything: an MCQ
-                # scheme "verifies" on its own trivially, because
-                # `build_official_scheme` wrote the option's text as its model
-                # answer. Dropping only the label is not enough -- the scorer
-                # reads `correctOption` whatever the label says -- and in hand
-                # checks of such served keys 13 of 21, then 4 of 10, were wrong.
-                _quarantine(rec, report, UNBACKED_KEY, _scheme_content(scheme)[0],
-                            code, q_no)
-                return
-            # Unlabelled descriptive content the verifier accepts: kept, and
-            # never labelled -- only an accepted index candidate earns that.
-            report.existing_scheme_unverifiable += 1
+            # No accepted index row backs this scheme. A labelled one was
+            # built from a row that is gone or no longer accepted, and an
+            # option letter cannot be checked against anything: an MCQ scheme
+            # "verifies" on its own trivially, because `build_official_scheme`
+            # wrote the option's text as its model answer. Dropping only the
+            # label is not enough -- the scorer reads `correctOption` whatever
+            # the label says -- and in hand checks of such served keys 13 of
+            # 21, then 4 of 10, were wrong. Unlabelled descriptive content went
+            # the same way in Task 151: correctness first, so what no official
+            # row verifies is not served (the merge then excludes the record
+            # as no-verified-key).
+            _quarantine(rec, report, UNBACKED_KEY, _scheme_content(scheme)[0], code, q_no)
 
         if source is None:
             report.no_parse_tree += 1
@@ -767,7 +954,7 @@ def relink_answer_schemes(
             settle_without_candidate()
             continue
 
-        choice = index.choose(code, q_no, rec)
+        choice = index.choose(code, q_no, rec, siblings=siblings.get(id(rec), ()))
         for _, verdict in choice.rejected:
             report.rejected[verdict.reason] += 1
         if choice.best is None:
@@ -783,8 +970,8 @@ def relink_answer_schemes(
                     _quarantine(rec, report, source_row.reason, _scheme_content(scheme)[0],
                                 code, q_no)
                     kept = labelled = False
-            elif code in index.codes:
-                report.answer_not_found_for_qno += 1
+            elif family_of(code) in index.families:
+                report.no_matching_candidate += 1
             else:
                 report.code_not_in_answer_keys += 1
             settle_without_candidate()
@@ -800,6 +987,8 @@ def relink_answer_schemes(
             document_id=source.document_id,
             options=question_options(rec) or parse_options(stem),
         ).model_dump(mode="json", by_alias=True)
+        if (choice.best.code, choice.best.q_no) != (normalize_paper_code(code) or code, q_no):
+            report.recovered_elsewhere += 1
         if not had_scheme:
             report.newly_attached += 1
         elif kept:
@@ -810,6 +999,32 @@ def relink_answer_schemes(
     report.existing_scheme_removed = sum(
         not _has_content(r.get("answerScheme") or {}) for r in had_before)
     return report
+
+
+def _siblings(records: list[dict[str, Any]], located) -> dict[int, list[tuple[str, int]]]:
+    """For each board record (by `id()`), the (code, q_no) of the same
+    question served from another set of its series: a stem sharing
+    `SIBLING_SHARE` of its join terms, in the same medium.
+
+    A pick at a sibling's own number is the answer the question-number join
+    gives the sibling, found again by content from this set -- two signals
+    agreeing, which is what `join_verdict` calls anchored.
+    """
+    groups: dict[tuple[str, str], list[tuple[int, str, int, frozenset[str]]]] = {}
+    for rec in records:
+        parsed, _, code = located(rec)
+        family = family_of(code) if parsed and code else ""
+        if not family:
+            continue
+        norm = normalize_paper_code(code) or code
+        groups.setdefault((family, question_medium(rec)), []).append(
+            (id(rec), norm, parsed[1], join_terms(str(rec.get("stem") or ""))))
+    out: dict[int, list[tuple[str, int]]] = {}
+    for members in groups.values():
+        for key, code, q_no, terms in members:
+            out[key] = [(c, q) for k, c, q, t in members
+                        if k != key and c != code and terms and share(terms, t) >= SIBLING_SHARE]
+    return out
 
 
 # --------------------------------------------------------------------------- #

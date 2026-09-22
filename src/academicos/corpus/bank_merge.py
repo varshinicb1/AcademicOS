@@ -10,6 +10,8 @@ It is composed from:
 
 Board records pass through untouched: they already decode on the phone and
 render on the web, and this module must not be the thing that breaks them.
+One gate applies to them, no-verified-key: a board record is served only with
+a marking scheme the relink verified.
 CBE and SQP records are normalised to the phone's contract and then gated.
 
 Why the contract is the phone's and not the API's
@@ -73,6 +75,13 @@ Nothing is dropped silently; every exclusion is returned with its reason.
                          one part's mark, keyed with one part's answer
   duplicate-id           an id already served
   duplicate-stem         already served, under a board-paper id where possible
+  no-verified-key        a board record whose scheme the relink did not verify
+                         (`answerScheme.provenance` is not cbse_marking_scheme):
+                         correctness first (user decision, 2026-09-22) -- rule
+                         Q1 applied to board records. The relink
+                         (enrich_question_bank.py) decides what is verified,
+                         so the merge must run after it for this to see the
+                         relink's verdicts.
 
 An item is an MCQ by its shape, not only by its declared type: the SQP source
 types every row `short_answer`, and 92 served 1-mark SQP rows carry four
@@ -145,6 +154,7 @@ from .mcq_shape import (
 )
 
 BOARD_SOURCE = "cbse_board_paper"
+NO_VERIFIED_KEY = "no-verified-key"
 
 # The values each phone converter accepts (frontend/lib/domain/entities/enums.dart).
 BLOOM_LEVELS = frozenset({"remember", "understand", "apply", "analyze", "evaluate", "create"})
@@ -803,6 +813,18 @@ def _runs_on(rows: list[dict]) -> set[str]:
     return {rid for paper, q, rid in numbered if (paper, q + 1) in fragments}
 
 
+def has_verified_key(rec: dict) -> bool:
+    """A board record carries a scheme the relink verified. Since Task 15,
+    `question_bank.relink_answer_schemes` writes cbse_marking_scheme on a
+    board record only for a row the verifier accepted. A bank not relinked
+    since still carries the older labels -- 2,930 board records at 43da0f4,
+    against 89 the relink verifies -- which is why the merge must follow a
+    relink for this gate to mean anything."""
+    scheme = rec.get("answerScheme") or {}
+    has_content = bool(scheme.get("markingPoints") or str(scheme.get("modelAnswer") or "").strip())
+    return has_content and scheme.get("provenance") == "cbse_marking_scheme"
+
+
 def compose(served: list[dict], cbe: list[dict], sqp: list[dict]) -> ComposeResult:
     """Board records from `served`, then CBE, then SQP.
 
@@ -818,6 +840,9 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict]) -> ComposeResu
 
     for rec in served:
         if rec.get("source") != BOARD_SOURCE:
+            continue
+        if not has_verified_key(rec):
+            excluded.append(_excluded(rec, NO_VERIFIED_KEY))
             continue
         errors = contract_errors(rec)
         if errors:

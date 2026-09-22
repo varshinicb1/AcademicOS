@@ -391,8 +391,7 @@ BARE_A = ("English", "XII", "56/4/2", 3, "A", "", "[]", 1.0, "56_4_2.pdf")
 BARE_B = ("Chemistry", "XII", "56/4/2", 3, "B", "", "[]", 1.0, "043_56_4_2_Hindi.pdf")
 
 
-@pytest.mark.parametrize("rows", [[EN_KEY, HI_KEY], [HI_KEY, EN_KEY],
-                                  [SET_A, SET_C], [SET_C, SET_A]])
+@pytest.mark.parametrize("rows", [[SET_A, SET_C], [SET_C, SET_A]])
 def test_accepted_keys_that_disagree_are_ambiguous_in_either_load_order(tmp_path, rows):
     idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", rows))
     record = rec(KOH_STEM, subject="Chemistry", marks=1)
@@ -465,7 +464,7 @@ def test_a_labelled_scheme_built_from_a_bare_letter_is_quarantined(tmp_path):
 def test_a_labelled_scheme_built_from_a_conflicting_key_is_quarantined(tmp_path):
     parse = tmp_path / "parse"
     make_parse_tree(parse, "a" * 24, "Series 56/4/2 Chemistry")
-    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [EN_KEY, HI_KEY]))
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [SET_A, SET_C]))
     served = {"totalMarks": 1, "modelAnswer": "1-phenylpropene",
               "markingPoints": [{"id": "m1", "description": "Correct option A: 1-phenylpropene",
                                  "marks": 1}],
@@ -532,7 +531,7 @@ def test_an_already_labelled_wrong_scheme_is_unlabelled_and_quarantined(tmp_path
     assert entry["id"] == recs[0]["id"]
     assert entry["code"] == "64/4/1" and entry["q_no"] == 24
     assert entry["reason"] == "legacy-font"
-    assert entry["text"] == PHYSICS_IN_HINDI[:200]
+    assert entry["text"] == PHYSICS_IN_HINDI
 
 
 def test_a_rejected_existing_scheme_is_replaced_by_a_verified_candidate(tmp_path):
@@ -564,8 +563,8 @@ def test_a_rejected_existing_scheme_is_replaced_by_a_verified_candidate(tmp_path
 
 def test_the_relink_counts_of_records_that_had_a_scheme_add_up(tmp_path):
     """Every board record that had a scheme ends in exactly one bucket:
-    verified as it was, replaced after quarantine, kept unlabelled, or
-    removed with nothing in its place."""
+    verified as it was, replaced after quarantine, or removed with nothing in
+    its place. (Kept-unlabelled is gone: an unverified scheme is not served.)"""
     parse = tmp_path / "parse"
     make_parse_tree(parse, "d" * 24, "Series 57/1/1 Biology")
     make_parse_tree(parse, "c" * 24, "Series 64/4/1 Geography")
@@ -587,10 +586,9 @@ def test_the_relink_counts_of_records_that_had_a_scheme_add_up(tmp_path):
     assert report.replaced_after_quarantine == 1
     assert report.verified_existing_scheme == 1
     assert report.existing_scheme_removed == 1
-    assert report.existing_scheme_unverifiable == 0
     assert report.already_had_scheme == (
         report.verified_existing_scheme + report.replaced_after_quarantine
-        + report.existing_scheme_unverifiable + report.existing_scheme_removed)
+        + report.existing_scheme_removed)
     assert sum(report.quarantined.values()) == 2
 
 
@@ -623,7 +621,7 @@ def test_a_labelled_mcq_key_no_official_row_backs_is_quarantined(tmp_path):
     assert report.quarantined == {"unbacked-key": 1}
     [entry] = report.quarantine
     assert entry["reason"] == "unbacked-key" and entry["text"] == "Crystalline lens"
-    assert report.verified == 0 and report.existing_scheme_unverifiable == 0
+    assert report.verified == 0 and report.with_scheme == 0
 
 
 def test_a_labelled_subjective_scheme_no_official_row_backs_is_quarantined(tmp_path):
@@ -745,9 +743,13 @@ def test_the_quarantine_merge_adds_and_never_drops(tmp_path):
 # --------------------------------------------------------------------------- #
 
 def _fixture_verdicts():
+    """The verifier alone on the question-number strata. The join strata
+    (join-*) calibrate `join_verdict`; see test_the_combined_fixture_is_precise."""
     fx = json.loads(FIXTURE.read_text(encoding="utf-8"))
     out = []
     for p in fx["pairs"]:
+        if p["stratum"].startswith("join-"):
+            continue
         ans = OfficialAnswer(q_no=p["qNo"], correct_option=p.get("correctOption"),
                              answer_text=p["answerText"],
                              value_points=[tuple(v) for v in p["valuePoints"]])
@@ -830,3 +832,361 @@ def _unlabelled(p) -> str:
     text = " ".join([p["answerText"]] + [v[0] for v in p["valuePoints"]]).strip()
     text = re.sub(r"^(?:ans\.?\s*)?\(?\s*[A-Da-d]\s*\)?\s*[/.):\-]*", "", text, flags=re.I)
     return re.sub(r"(?:\s*(?:\d+|½)\s*marks?\b)+\s*$", "", text, flags=re.I)
+
+
+# --------------------------------------------------------------------------- #
+# the content join (Task 151): the answer is found by content across every
+# set of the paper series, not by question number
+# --------------------------------------------------------------------------- #
+
+from academicos.corpus import bank_merge  # noqa: E402
+from academicos.corpus.scheme_verify import (  # noqa: E402
+    JOIN_MARGIN,
+    join_verdict,
+    outright_option,
+    question_options,
+    row_text,
+)
+
+# cbse:q:src:80a49b071cb04186873bccda:17 is 30/5/2 Q17. Its own row in
+# "X_MS_041_Mathematics Standard_30-5-2_2024-25.pdf" keys A, "17 cm" --
+# another question's answer. Set 1 prints the question as Q11, and
+# "X_MS_041_Mathematics Standard_30-5-1_2024-25.pdf" keys it D, "30°".
+POLE_STEM = ("The ratio of the length of a pole and its shadow on the ground is 1 : 3 . "
+             "The angle of elevation of the Sun is : (A) 90° (B) 60° (C) 45° (D) 30°")
+POLE_OWN = ("Mathematics", "X", "30/5/2", 17, "A", "17 cm", "[]", 1.0,
+            "X_MS_041_Mathematics Standard_30-5-2_2024-25.pdf")
+POLE_SET1 = ("Mathematics", "X", "30/5/1", 11, "D", "30°", "[]", 1.0,
+             "X_MS_041_Mathematics Standard_30-5-1_2024-25.pdf")
+# Two more real rows of the series that mention angles and name no option.
+COS_60 = ("Mathematics", "X", "30/5/1", 12, "B", "cos 60°", "[]", 1.0,
+          "X_MS_041_Mathematics Standard_30-5-1_2024-25.pdf")
+TAN_60 = ("Mathematics", "X", "30/5/2", 12, "B", "– tan 60°", "[]", 1.0,
+          "X_MS_041_Mathematics Standard_30-5-2_2024-25.pdf")
+
+
+def test_a_set_two_question_is_answered_from_set_one_numbering(tmp_path):
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db",
+                                          [POLE_OWN, POLE_SET1, COS_60, TAN_60]))
+    record = rec(POLE_STEM, subject="Mathematics", marks=1)
+    choice = idx.choose("30/5/2", 17, record)
+
+    assert choice.best is not None
+    assert (choice.best.code, choice.best.q_no) == ("30/5/1", 11)
+    assert choice.best.source == POLE_SET1[-1]
+    assert choice.best.correct_option == "D"
+    # The own-number row answers another question; it is never attached.
+    assert [(a.answer_text, v.reason) for a, v in choice.rejected] == [
+        ("17 cm", "option-mismatch")]
+
+
+def test_the_relink_attaches_the_recovered_key_and_counts_it(tmp_path):
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "8" * 24, "Series 30/5/2 Mathematics")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db",
+                                          [POLE_OWN, POLE_SET1, COS_60, TAN_60]))
+    recs = [_board("8" * 24, 17, POLE_STEM, {}, subject="Mathematics", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    scheme = recs[0]["answerScheme"]
+    assert scheme["provenance"] == "cbse_marking_scheme"
+    assert scheme["metadata"]["correctOption"] == "D"
+    assert scheme["metadata"]["schemeCode"] == "30/5/1"
+    assert scheme["metadata"]["schemeQNo"] == 11
+    assert report.newly_attached == 1 and report.recovered_elsewhere == 1
+
+
+@pytest.mark.parametrize("rows", [[EN_KEY, HI_KEY], [HI_KEY, EN_KEY]])
+def test_an_english_question_never_takes_a_hindi_medium_answer(tmp_path, rows):
+    """56/4/2 Q3: the Hindi-medium key ("043_56_4_2_Hindi.pdf") is not in an
+    English stem's pool at all, so it neither answers nor conflicts."""
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", rows))
+    best = idx.lookup("56/4/2", 3, rec(KOH_STEM, subject="Chemistry", marks=1))
+    assert best is not None and best.source == EN_KEY[-1]
+    assert best.correct_option == "A"
+
+
+def test_a_hindi_medium_key_alone_answers_nothing_in_english(tmp_path):
+    """Even one whose words are an option: HI_KEY_A names 1-phenylpropene."""
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [HI_KEY_A]))
+    assert idx.lookup("56/4/2", 3, rec(KOH_STEM, subject="Chemistry", marks=1)) is None
+
+
+# Constructed: two answers to 32/5/2 Q29 (SECTORS_STEM) that restate it alike
+# and then say different things, each with five words of its own -- the
+# runner-up scores exactly what the best does.
+TIE_A = ("Primary, secondary and tertiary sectors are dependent: agriculture supplies "
+         "cotton, jute, sugarcane, timber, minerals")
+TIE_B = ("Primary, secondary and tertiary sectors are dependent: railways carry "
+         "fertiliser, tractors, pumps, seeds, credit")
+
+
+def test_a_near_tie_between_two_candidates_is_refused(tmp_path):
+    rows = [("Social Science", "X", "32/5/2", 29, None, TIE_A, "[]", 3.0, "32_5_2 E.pdf"),
+            ("Social Science", "X", "32/5/2", 29, None, TIE_B, "[]", 3.0, "32-5-2 E v2.pdf")]
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", rows))
+    record = rec(SECTORS_STEM, subject="Social Science")
+    assert all(verify(record, r[5]).accepted for r in rows)
+    choice = idx.choose("32/5/2", 29, record)
+    assert choice.best is None
+    assert choice.ratio == pytest.approx(1.0)
+    assert choice.rejected[0][1].reason == "near-tie"
+
+
+def test_the_margin_is_what_decides_a_close_pair():
+    record = rec(SECTORS_STEM, subject="Social Science")
+    assert join_verdict(record, SECTORS_ENGLISH, ratio=0.0, anchored=True).accepted
+    edge = 1.0 - JOIN_MARGIN
+    assert join_verdict(record, SECTORS_ENGLISH, ratio=edge - 0.01, anchored=True).accepted
+    assert join_verdict(record, SECTORS_ENGLISH, ratio=edge + 0.01,
+                        anchored=True).reason == "near-tie"
+
+
+TERTIARY = ("(a) Describe the importance of tertiary sector in the economy The activities of "
+            "tertiary sector help in the development of the primary and secondary sectors "
+            "Tertiary activities do not produce goods but they are")     # "32-5-1-E.pdf" Q38
+
+
+def test_an_unanchored_subjective_pick_must_restate_the_question():
+    """A topical answer from another number of the series is not evidence
+    unless it restates the question: 32/5/1 Q38's tertiary-sector answer
+    shares enough words with 32/5/2 Q29 to pass the verifier."""
+    record = rec(SECTORS_STEM, subject="Social Science")
+    assert verify(record, TERTIARY).accepted
+    assert join_verdict(record, TERTIARY, ratio=0.0, anchored=False).reason == "unanchored"
+    assert join_verdict(record, TERTIARY, ratio=0.0, anchored=True).accepted
+
+
+def test_a_restated_question_from_another_set_is_recovered(tmp_path):
+    """32/5/1 Q27 ("Analyse any three challenges ...") is answered by
+    "32_5_2 E.pdf" under set 2's Q33, which restates it and then answers.
+    The Hindi-medium row under that number is not in the pool."""
+    stem = "Analyse any three challenges faced by political parties in India."
+    parties = ("(a) Explain any five challenges faced by political parties in India (i) Lack "
+               "of internal democracy within parties (ii) Parties do not keep membership "
+               "registers , do not hold organizational meeting and do not conduct internal "
+               "election regularly")
+    credit = ("(a) How does credit play a positive and negative role? Explain with examples "
+              "It plays two roles-positive and negative (i) A large number of transactions "
+              "in day to day activities involve credit")
+    hindi = ("1 सत्ता की साझेर्दारी राििीनतक खस्थरता को कैसे िावा (i) सत्ता की साझेदारी के "
+             "माध्यम से िोग सीधे राजनीनतक प्रणािी में भाग िेते हैं।")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [
+        ("Science", "X", "32/5/2", 33, None, parties, "[]", 0.0, "32_5_2 E.pdf"),
+        ("Science", "X", "32/5/2", 30, None, credit, "[]", 0.0, "32_5_2 E.pdf"),
+        ("Social Science", "X", "32/5/2", 33, None, hindi, "[]", 0.0, "32-5-2 H.pdf"),
+    ]))
+    record = rec(stem, subject="Social Science")
+    choice = idx.choose("32/5/1", 27, record)
+    assert choice.best is not None and (choice.best.code, choice.best.q_no) == ("32/5/2", 33)
+    assert choice.best.source == "32_5_2 E.pdf"
+    assert choice.anchored is False
+
+
+def test_a_pick_at_a_sibling_questions_number_is_anchored(tmp_path):
+    """The same question served from another set: a pick at ITS number is
+    the answer the question-number join gives it, found again by content."""
+    record = rec(SECTORS_STEM, subject="Social Science")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [
+        ("Social Science", "X", "32/5/1", 38, None, TERTIARY, "[]", 5.0, "32-5-1-E.pdf")]))
+    assert idx.choose("32/5/2", 29, record).rejected[0][1].reason == "unanchored"
+    choice = idx.choose("32/5/2", 29, record, siblings=[("32/5/1", 38)])
+    assert choice.best is not None and choice.anchored
+
+
+# cbse:q:src:13313fa90a8d349b3d8f7299:2 (61/3/2 Q2, the Visually Impaired
+# alternative). Krishnadeva Raya was of the Tuluva dynasty (b).
+KRISHNADEVA = ("Identify the given image of a temple from the following options : Note : "
+               "The following question is for the Visually Impaired Candidates, only in "
+               "lieu of Q. No. 2 : Krishnadeva Raya belonged to which of the following "
+               "dynasties of Vijayanagara Empire ? (a) Sangama (b) Tuluva (c) Saluva "
+               "(d) Aravidu")
+# "set 61_3_2 new 2026.pdf" Q54: a sentence from another answer that opens
+# with option (a)'s word.
+SANGAMA = ("English", "XII", "61/3/2", 54, None,
+           "Sangama dynasty, the first dynasty, exercised control till 1485",
+           '[["Sangama dynasty, the first dynasty, exercised control till 1485", 0.0]]',
+           0.0, "set 61_3_2 new 2026.pdf")
+
+
+def test_an_objective_key_is_accepted_only_when_its_words_are_the_option(tmp_path):
+    record = rec(KRISHNADEVA, subject="History", marks=1)
+    # The verifier alone takes it: its words open with option (a).
+    assert verify(record, SANGAMA[5]).accepted
+    assert outright_option(SANGAMA[5], question_options(record)) is None
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [SANGAMA]))
+    choice = idx.choose("61/3/2", 2, record)
+    assert choice.best is None
+    assert choice.rejected[0][1].reason == "not-an-option"
+    # The option's own words, label and mark note aside, are the key.
+    assert outright_option("(b) / Tuluva 1 mark", question_options(record)) == "B"
+
+
+def test_a_bare_letter_is_no_key_to_the_join_either(tmp_path):
+    """The real 56/4/2 Q3 rows are bare letters; the join ranks nothing."""
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [BARE_A, BARE_B]))
+    choice = idx.choose("56/4/2", 3, rec(KOH_STEM, subject="Chemistry", marks=1))
+    assert choice.best is None and choice.ratio is None
+
+
+# "66_1_3..pdf" Q6 keys the Mehta Sons question and runs on into the next one
+# (the row, shortened).
+MEHTA_ROW = ("English", "XII", "66/1/3", 6, "C",
+             "Sales promotion 1 mark 7 Q. Beenu had a bookstore in Sabad called 'Book-mark' "
+             "For years, the bookstore was doing reasonably well but with the rise of digital "
+             "books and online retailers, her sales had declined. Beenu's daughter decided "
+             "to launch a marketing campaign to revive the bookstore. The tool of "
+             "communication used by Beenu's daughter to revive the bookstore was "
+             "(A) Advertising 6 (B) Personal selling (C) Sales promotion (D) Public relations",
+             "[]", 1.0, "66_1_3..pdf")
+BEENU_STEM = ("Beenu had a bookstore in Sabad called ‘Book-mark’. For years, the bookstore "
+              "was doing reasonably well but with the rise of digital books and online "
+              "retailers, her sales had declined. Beenu’s daughter, who had just completed "
+              "her MBA with a specialisation in marketing decided to launch a marketing "
+              "campaign to revive the bookstore. The tool of communication used by Beenu’s "
+              "daughter to revive the bookstore was : (A) Advertising (B) Personal selling "
+              "(C) Sales promotion (D) Public relations 11-")
+
+
+def test_a_row_is_not_ranked_by_the_next_question_it_ran_on_into(tmp_path):
+    """cbse:q:src:3901e48d946b1f956b5a21c7:19 (66/1/1 Q19, Beenu) is keyed
+    "Public relations" in every set (66_1_1..pdf Q19, 66_1_3..pdf Q7). Set 3's
+    Q6 row keys Mehta Sons "Sales promotion" and then prints Beenu's question
+    in full, so ranked on its whole text it beat the right keys by far and
+    Beenu took "Sales promotion". Read up to its mark note, it scores as a
+    key naming another option does, and the two are too close to call."""
+    assert row_text(MEHTA_ROW[5]) == "Sales promotion"
+    own = ("Business Studies", "XII", "66/1/1", 19, "D",
+           "Public relations 1 mark 20 Q. 'Best Electronics' is led by its visionary "
+           "Chief Executive Officer, Nikhil.", "[]", 1.0, "66_1_1..pdf")
+    set3 = ("Business Studies", "XII", "66/1/3", 7, "D",
+            "Public relations 1 mark 8 Q. The marketing management philosophy which uses "
+            "availability and affordability as a means to achieve the objectives is",
+            "[]", 1.0, "66_1_3..pdf")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [MEHTA_ROW, own, set3]))
+    choice = idx.choose("66/1/1", 19, rec(BEENU_STEM, subject="Business Studies", marks=1))
+    assert choice.best is None or choice.best.correct_option == "D"
+    assert "C" not in {a.correct_option for a, v in choice.rejected if v.accepted}
+
+
+def test_english_core_rows_are_filed_under_their_real_paper(tmp_path):
+    """The writer filed "XII_301_1_1_3_MS_unsigned (1).pdf" under 301/1/1
+    (subject code 301 read as the series) and "XII_301_English Core_MS_Set
+    6-3.pdf" under 301/1/6. They are papers 1/1/3 and 1/6/3."""
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [
+        ("English", "XII", "301/1/1", 4, None, "Notice: audition for the play", "[]", 5.0,
+         "XII_301_1_1_3_MS_unsigned (1).pdf"),
+        ("English", "XII", "301/1/6", 7, None, "The poet recalls her mother", "[]", 3.0,
+         "XII_301_English Core_MS_Set 6-3.pdf"),
+        ("English", "XII", "301/1/2", 9, None, "No set in this name", "[]", 3.0,
+         "XII_301_English Core_MS.pdf"),
+    ]))
+    assert [a.source for a in idx.candidates("1/1/3", 4)] == [
+        "XII_301_1_1_3_MS_unsigned (1).pdf"]
+    assert [a.source for a in idx.candidates("1/6/3", 7)] == [
+        "XII_301_English Core_MS_Set 6-3.pdf"]
+    assert idx.candidates("301/1/1", 4) == [] and idx.candidates("301/1/6", 7) == []
+    assert "301/1/2" not in idx.codes          # no set to read: not guessed
+    assert {"1/1", "1/6"} <= idx.families
+
+
+def test_a_quarantine_entry_keeps_the_whole_scheme(tmp_path):
+    """A person must be able to review a removed scheme and restore it: every
+    marking point, the model answer, the option letter and the scheme file.
+    The entry used to keep 200 characters."""
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "9" * 24, "Series 99/9/9 Science")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", []))
+    long_point = "Crystalline lens " + "focuses light on the retina " * 12
+    scheme = {"totalMarks": 1, "modelAnswer": "Crystalline lens",
+              "markingPoints": [{"id": "m1", "description": "Correct option B: Crystalline lens",
+                                 "marks": 1},
+                                {"id": "m2", "description": long_point, "marks": 0}],
+              "metadata": {"objective": True, "correctOption": "B",
+                           "schemeSource": "X_086_31_4_MS.pdf"},
+              "provenance": "cbse_marking_scheme"}
+    stem = ("In the human eye, most of the refraction for the light rays entering the eye "
+            "occurs at the surface of : (A) Cornea (B) Crystalline lens (C) Pupil "
+            "(D) Aqueous humor")
+    recs = [_board("9" * 24, 13, stem, json.loads(json.dumps(scheme)),
+                   subject="Science", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    [entry] = report.quarantine
+    assert entry["reason"] == "unbacked-key"
+    assert entry["code"] == "99/9/9" and entry["q_no"] == 13
+    assert entry["correctOption"] == "B"
+    assert entry["schemeSource"] == "X_086_31_4_MS.pdf"
+    assert entry["scheme"] == scheme
+    assert len(entry["scheme"]["markingPoints"][1]["description"]) > 200
+
+
+def test_the_merge_serves_no_board_record_without_a_verified_key():
+    """Rule Q1 for board records (user decision 2026-09-22): a board record
+    whose scheme the relink did not verify is excluded as no-verified-key,
+    recorded like every other exclusion."""
+    sys.path.insert(0, str(ROOT / "tests"))
+    from test_bank_merge import board
+    verified = board(1)
+    unlabelled = board(2)
+    unlabelled["answerScheme"] = dict(unlabelled["answerScheme"], provenance="none")
+    emptied = board(3)
+    emptied["answerScheme"] = dict(emptied["answerScheme"], markingPoints=[], modelAnswer="")
+    result = bank_merge.compose([verified, unlabelled, emptied], [], [])
+
+    assert [q["id"] for q in result.questions] == [verified["id"]]
+    assert [(e["id"], e["reason"]) for e in result.excluded] == [
+        (unlabelled["id"], "no-verified-key"), (emptied["id"], "no-verified-key")]
+    assert result.counts["board"] == 1
+
+
+# --------------------------------------------------------------------------- #
+# calibration of the join: the combined fixture
+# --------------------------------------------------------------------------- #
+
+def _join_accepted(p) -> bool:
+    """What the join does with a fixture pair: accepted only when the pair's
+    row is the join's pick for its question and `join_verdict` takes it with
+    the stored pool features."""
+    if not p["joinPicked"]:
+        return False
+    ans = OfficialAnswer(q_no=p["qNo"], correct_option=p.get("correctOption"),
+                         answer_text=p["answerText"],
+                         value_points=[tuple(v) for v in p["valuePoints"]])
+    record = {"stem": p["stem"], "subject": p["subject"], "marks": p["marks"]}
+    if "type" in p:
+        record["type"] = p["type"]
+    return join_verdict(record, row_text(ans.text()), ratio=p["joinRatio"],
+                        anchored=p["joinAnchored"]).accepted
+
+
+def test_the_join_strata_are_seeded_and_judged():
+    fx = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    join = [p for p in fx["pairs"] if p["stratum"].startswith("join-")]
+    assert {p["stratum"] for p in join} == {"join-accepted", "join-random"}
+    assert len(join) >= 80
+    assert "20260922" in fx["strata"]["join-random"]
+    assert all("joinPicked" in p for p in fx["pairs"])
+    assert "AI reviewer" in fx["about"] and "NOT a teacher" in fx["about"]
+
+
+def test_the_combined_fixture_is_precise():
+    """Every judged pair, old strata and join strata alike, through the join.
+
+    Precision is judged-correct over judged-correct plus judged-wrong among
+    the accepted; cannot-tell pairs are counted apart, not as correct. Pinned
+    so a change to the join shows its cost: 116 correct, 3 wrong, 10
+    cannot-tell -- precision 0.975, or 0.899 if every cannot-tell were wrong.
+    The 3 wrong: 30/1/1 Q3 took 30/1/1 Q8's "x-axis"; 67/4/1 Q26 (Yash Ltd.'s
+    shares) took the debenture answer both sets print under Q26, its OR
+    part; 64/4/1 Q29 took another set's Visually Impaired alternative.
+    Recall: 116 of the fixture's 153 pairs judged correct (0.758); the strata
+    over-sample what the rules accept, so that is not the bank's recall."""
+    fx = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    accepted = [p for p in fx["pairs"] if _join_accepted(p)]
+    judged = {j: sum(p["judgement"] == j for p in accepted)
+              for j in ("correct", "wrong", "cannot-tell")}
+    precision = judged["correct"] / (judged["correct"] + judged["wrong"])
+    assert precision >= 0.95
+    assert judged == {"correct": 116, "wrong": 3, "cannot-tell": 10}
+    assert sum(p["judgement"] == "correct" for p in fx["pairs"]) == 153

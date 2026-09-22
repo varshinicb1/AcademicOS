@@ -374,10 +374,13 @@ def test_relink_replaces_an_existing_scheme_with_the_verified_official_one(tmp_p
     assert sch["sourceDocumentId"] == "src:" + "a" * 24
 
 
-def test_relink_keeps_an_unverifiable_scheme_but_never_labels_it(tmp_path):
-    """Existing content that no official key can account for stays as-is and
-    stays honest. Stamping cbse_marking_scheme onto it would be the fabrication
-    the unverifiable count exists to make visible instead."""
+def test_relink_does_not_serve_a_scheme_no_official_key_verifies(tmp_path):
+    """Existing content no official key accounts for is never labelled --
+    that would be the fabrication the relink exists to prevent -- and since
+    Task 151 it is not served unlabelled either (user decision 2026-09-22,
+    correctness first): it goes to the quarantine as unbacked-key, whole, for
+    a person to review. It used to be kept: on-topic is not the board's
+    answer."""
     idx, parse, stem22 = _setup(tmp_path)
     make_parse_tree(parse, "f" * 24, [(1, "Series 99/9/9 Science " + "body " * 40)])
     kept = "Lead nitrate and potassium iodide give yellow lead iodide"
@@ -386,11 +389,15 @@ def test_relink_keeps_an_unverifiable_scheme_but_never_labels_it(tmp_path):
     rep = relink_answer_schemes(recs, idx, parse_dir=parse)
 
     assert rep.already_had_scheme == 1
-    assert rep.existing_scheme_unverifiable == 1
     assert rep.verified_existing_scheme == 0
+    assert rep.existing_scheme_removed == 1
+    assert rep.quarantined == {"unbacked-key": 1}
+    assert rep.with_scheme == 0
     sch = recs[0]["answerScheme"]
-    assert sch["markingPoints"][0]["description"] == kept
+    assert sch["markingPoints"] == [] and sch["modelAnswer"] == ""
     assert sch.get("provenance") != "cbse_marking_scheme"
+    [entry] = rep.quarantine
+    assert entry["scheme"]["markingPoints"][0]["description"] == kept
 
 
 def test_relink_removes_an_unlabelled_scheme_that_answers_another_question(tmp_path):
@@ -403,19 +410,21 @@ def test_relink_removes_an_unlabelled_scheme_that_answers_another_question(tmp_p
     rep = relink_answer_schemes(recs, idx, parse_dir=parse)
 
     assert rep.quarantined == {"content-mismatch": 1}
-    assert rep.existing_scheme_unverifiable == 0
+    assert rep.with_scheme == 0
     assert recs[0]["answerScheme"]["markingPoints"] == []
 
 
-def test_relink_reports_a_missing_answer_for_a_known_code(tmp_path):
-    """Code exists in the index, but not this question number -- distinct from
-    the code being absent entirely, and the report says which."""
+def test_relink_reports_a_series_with_nothing_that_matches(tmp_path):
+    """The series is in the index, but no row shares a word with the stem and
+    none sits under the question's own number -- distinct from the series
+    being absent entirely, and the report says which. (Before the content
+    join this was "code present, no answer for q_no".)"""
     idx, parse, _ = _setup(tmp_path)
     recs = [question("a" * 24, 5)]
     rep = relink_answer_schemes(recs, idx, parse_dir=parse)
 
     assert rep.newly_attached == 0
-    assert rep.answer_not_found_for_qno == 1
+    assert rep.no_matching_candidate == 1
     assert rep.code_not_in_answer_keys == 0
 
 

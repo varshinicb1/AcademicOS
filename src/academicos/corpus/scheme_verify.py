@@ -1,9 +1,9 @@
 """Does this official answer answer this question?
 
 Pure functions: a question record and one candidate answer in, a verdict out.
-The index (`assessment.question_bank.AnswerKeyIndex`) asks this of every
-candidate it holds for a (paper code, question number) and labels only an
-accepted one `cbse_marking_scheme`.
+The index (`assessment.question_bank.AnswerKeyIndex`) ranks every row of a
+question's paper series against it (the content join, at the end of this
+module) and labels only a row `join_verdict` accepts `cbse_marking_scheme`.
 
 Why it exists
 -------------
@@ -36,6 +36,7 @@ of the 29 judged wrong and 24 of the 32 judged correct.
 """
 from __future__ import annotations
 
+import math
 import re
 import unicodedata
 from dataclasses import dataclass
@@ -465,3 +466,201 @@ def verify(record: dict, answer: str, option: str | None = None, *,
     if not judge_content:
         return Verdict(score=0.0)
     return _content_verdict(str(record.get("stem") or ""), answer)
+
+
+# --------------------------------------------------------------------------- #
+# the content join
+# --------------------------------------------------------------------------- #
+#
+# One CBSE marking scheme covers sets 1-3 of a paper series and is keyed under
+# one code, while sets 2 and 3 print the same questions in another order. A
+# set-2 question joined by (code, q_no) gets another question's answer. The
+# index (`AnswerKeyIndex.choose`) therefore ranks every row of the scheme
+# FAMILY -- all sets of the series, in the question's medium, whatever their
+# question number -- against the stem, and `join_verdict` decides the best.
+#
+# Ranking alone is not enough. On the served bank, of 50 content-best picks
+# the verifier accepted, drawn at random with seed 20260922 and judged by
+# reading (an AI reviewer's judgements, not a teacher's), 20 answer this
+# question and 21 another: a family holds every chapter's answers, and an
+# answer to the neighbouring question on the same topic shares as many words
+# as the right one. What separated them, in that sample and the census of
+# the 89 picks the rule below accepts (fixture strata join-random and
+# join-accepted; the census counts follow each rule):
+#
+#   * an objective key whose words ARE one option, with no key of the series
+#     naming another. "(B) / Human Chorionic Gonadotropin", "30°". A key that
+#     only opens with an option's words is a sentence from another answer:
+#     "Sangama dynasty, the first dynasty, exercised control till 1485"
+#     (61/3/2 Q54) named option (a) of "Krishna Deva Raya belonged to which
+#     dynasty" (Tuluva). Census: 37 accepted, 33 correct, 1 wrong (30/1/1
+#     Q3 took 30/1/1 Q8's "x-axis"), 3 cannot-tell.
+#   * a subjective pick that sits at the question's own (code, q_no), or at
+#     the number of the same question served from another set -- two
+#     independent signals agreeing. Census: 46, 41 correct, 2 wrong, 3
+#     cannot-tell. Both wrong ones are rows every set files under the
+#     question's number: 67/4/1 and 67/4/3 both print Q26's OR part
+#     (debentures) where the question asks for equity shares, and 64/4/1
+#     Q29 takes another set's Visually Impaired alternative;
+#   * or one that opens by restating most of the question and then answers
+#     it: "(a) Explain any five challenges faced by political parties in
+#     India (i) Lack of internal democracy ..." for set 1's "Analyse any three
+#     challenges faced by political parties in India" (32/5/2 Q33 for 32/5/1
+#     Q27). A restatement of instructions alone ("Read the given passage
+#     carefully and answer", "On the given political outline map of India")
+#     covers too little of a long stem to count, and a restatement with no
+#     answer after it ("Mahabharata is considered as a dynamic text. Explain
+#     the") is no answer. Census: 6, all correct.
+
+# The best candidate must beat the runner-up -- the best-scoring candidate
+# that does not agree with it -- by this share of its score. Only rows the
+# gates above would accept compete (see `AnswerKeyIndex.choose`), and on the
+# served bank two such rows rarely meet: of the 89 subjective and objective
+# picks accepted, 1 has a subjective runner-up at all (430/5/2 Q28, 0.42 of
+# its pick's score). So the margin is a guard for the day two evidenced rows
+# disagree, set where one row's score is plainly not the other's; it is not
+# what the precision rests on -- the gates are, and the objective rule that
+# any dissenting key is a tie. See test_the_combined_fixture_is_precise.
+JOIN_MARGIN = 0.1
+# Two subjective candidates agree -- two editions of one answer, which split
+# and trim value points differently -- when this share of their join terms is
+# common. A judgement, not a calibration: the fixture holds no pair that
+# turns on it.
+AGREE_SHARE = 0.5
+# Two served stems are the same question printed in two sets. Also a
+# judgement; set above AGREE_SHARE because a stem is the whole question and
+# sets reword little (the 2 wrong anchored picks above are not siblings).
+SIBLING_SHARE = 0.6
+# Restatement: a run of at least RESTATE_RUN tokens copied from the stem,
+# starting within the pick's first RESTATE_HEAD tokens, covering at least
+# RESTATE_COVER of the stem, with at least RESTATE_REST tokens of answer after.
+RESTATE_RUN = 6
+RESTATE_HEAD = 4
+RESTATE_COVER = 0.5
+RESTATE_REST = 5
+
+NEAR_TIE = "near-tie"
+CONFLICTING_KEYS = "conflicting-keys"
+UNANCHORED = "unanchored"
+NOT_AN_OPTION = "not-an-option"
+# A row under the question's own number the verifier accepts on its own, which
+# the join did not pick: another row answers the question better, or none
+# could be told apart from its runner-up.
+OUTRANKED = "outranked"
+JOIN_REASONS = (NEAR_TIE, CONFLICTING_KEYS, UNANCHORED, NOT_AN_OPTION, OUTRANKED)
+
+# "Q.", "Q. No. 12", "(a)", "(iii)", "2." -- the labels a scheme row opens with
+# before it restates its question.
+_ROW_LABEL = re.compile(
+    r"^\s*(?:q\.?\s*(?:no\.?)?\s*\d*\s*[.:)]?\s*)?(?:\(?[a-z0-9ivx]{1,4}\)\s*|[a-z0-9]{1,3}\.\s+)*",
+    re.I)
+
+
+# "Sales promotion 1 mark 7 Q. Beenu had a bookstore ..." (66_1_3..pdf Q6): a
+# row runs on past its mark note into the next question, whose words then
+# rank the row for THAT question. The join reads a row up to the cut.
+_NEXT_QUESTION = re.compile(r"\s(?:\d+|½)\s*marks?\s+(?:\d+\s+)*Q\b.*$", re.I | re.S)
+
+
+def row_text(text: str) -> str:
+    """A scheme row's text without the next question it ran on into."""
+    return _NEXT_QUESTION.sub("", text or "").strip()
+
+
+def join_terms(text: str) -> frozenset[str]:
+    """What the join compares: content words (as `content_words`) and numbers
+    of two significant characters or more, marked so "12" never meets a word."""
+    return frozenset(content_words(text)) | {"#" + n for n in numbers(text)}
+
+
+def idf_weights(pool: list[frozenset[str]]) -> dict[str, float]:
+    """Inverse document frequency fitted on the candidate pool itself: a word
+    every answer of the family uses ("figure", "diagram") weighs little."""
+    n = len(pool)
+    df: dict[str, int] = {}
+    for terms in pool:
+        for t in terms:
+            df[t] = df.get(t, 0) + 1
+    return {t: math.log((n + 1) / (k + 1)) + 1.0 for t, k in df.items()}
+
+
+def join_score(query: frozenset[str], doc: frozenset[str], idf: dict[str, float],
+               doc_norm: float) -> float:
+    """Cosine of binary TF-IDF vectors. A query word no candidate uses takes
+    the rarest weight; it lowers every candidate's score alike."""
+    shared = query & doc
+    if not shared or not doc_norm:
+        return 0.0
+    unseen = max(idf.values(), default=1.0)
+    q_norm = math.sqrt(sum(idf.get(t, unseen) ** 2 for t in query))
+    return sum(idf[t] ** 2 for t in shared) / (q_norm * doc_norm)
+
+
+def norm_of(doc: frozenset[str], idf: dict[str, float]) -> float:
+    return math.sqrt(sum(idf[t] ** 2 for t in doc))
+
+
+def share(a: frozenset[str], b: frozenset[str]) -> float:
+    return len(a & b) / len(a | b) if (a or b) else 0.0
+
+
+# A key read as an option ends at its mark note, whatever follows: "Efficiency
+# 1 mark 5 Q. 'Dovex' was a large company ..." (66_1_1..pdf Q4).
+_RUNS_ON = re.compile(r"\s(?:\d+|½)\s*marks?\b.*$", re.I | re.S)
+
+
+def outright_option(answer: str, options: dict[str, str]) -> str | None:
+    """The option a key IS: its words, once the "(B) /" label, the mark note
+    and whatever runs on after it are cut, are exactly one option's. None for
+    a key that names no option, several, or one followed by anything else."""
+    body = _MARK_NOTE.sub("", _RUNS_ON.sub("", _KEY_LABEL.sub("", answer or ""))).strip()
+    words = [t for t in tokens(body) if t != "/"]
+    hits = [k for k, v in options.items()
+            if (core := _core(v)) and any(re.search(r"[^\W_]", t) for t in core)
+            and words == core]
+    return hits[0] if len(hits) == 1 else None
+
+
+def restates(stem: str, answer: str) -> bool:
+    """True when `answer` opens by restating most of `stem` and then answers."""
+    pick = re.findall(r"\w+", _ROW_LABEL.sub("", answer or "").casefold())
+    words = re.findall(r"\w+", (stem or "").casefold())
+    if not pick or not words:
+        return False
+    blocks = SequenceMatcher(None, pick[:40], words, autojunk=False).get_matching_blocks()
+    for b in blocks:
+        if (b.a <= RESTATE_HEAD and b.size >= RESTATE_RUN
+                and b.size >= RESTATE_COVER * len(words)
+                and len(pick) - (b.a + b.size) >= RESTATE_REST):
+            return True
+    return False
+
+
+def join_verdict(record: dict, answer: str, *, ratio: float, anchored: bool) -> Verdict:
+    """Accept the content join's best candidate for `record`, or say why not.
+
+    `ratio` is the runner-up's score over the best's (0 when nothing
+    disagrees with the best); `anchored` is True when the best sits at the
+    question's own (code, q_no) or at that of the same question served from
+    another set. Both come from the pool, which only the index sees.
+
+    An objective key is judged on its words alone: a letter from another
+    set's row may name another option, and a bare letter is not evidence
+    (43da0f4). The letter returned is the option the words are.
+    """
+    verdict = verify(record, answer, option=None)
+    if not verdict.accepted:
+        return verdict
+    options = question_options(record)
+    if options:
+        letter = outright_option(answer, options)
+        if letter is None:
+            return Verdict(NOT_AN_OPTION)
+        if ratio > 1.0 - JOIN_MARGIN:
+            return Verdict(CONFLICTING_KEYS)
+        return Verdict(score=verdict.score, option=letter)
+    if not anchored and not restates(str(record.get("stem") or ""), answer):
+        return Verdict(UNANCHORED)
+    if ratio > 1.0 - JOIN_MARGIN:
+        return Verdict(NEAR_TIE)
+    return verdict
