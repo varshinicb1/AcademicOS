@@ -61,4 +61,27 @@ void main() {
           label: 'the Sign in / Create account switch on a desktop density');
     });
   });
+
+  testWidgets('on a laptop Sign in keeps the compact height the desktop app ships', (tester) async {
+    // The other side of the rule above. `phoneTapTarget` used to be a const
+    // style applied at every width, so the 48 px minimum and the pinned
+    // standard density followed these buttons onto a 1280 px screen, where
+    // ThemeData's compact density draws them 32 px tall: Sign in and about
+    // fourteen console and form actions silently grew and gained padding on
+    // a laptop, against Task 801's "keep the desktop look", and nothing in
+    // this suite could see it because every desktop-density test above runs
+    // at phone width (review of 2026-09-23). The comparison is against a
+    // bare FilledButton pumped in the same theme at the same density, so it
+    // stays true if the theme's button metrics ever change.
+    await withDesktopDensity(() async {
+      final shipped = await themeButtonHeight(tester, laptop);
+      await pumpPage(tester, const LoginPage(), laptop);
+      expectNoOverflow(tester, where: ' on a laptop at a desktop density');
+      final signIn = tester.getRect(paintedTarget(tester, find.widgetWithText(FilledButton, 'Sign in'))).height;
+      expect(signIn, shipped,
+          reason: 'Sign in draws ${signIn.toStringAsFixed(0)} px tall on a 1280 px screen; an unstyled '
+              'button in the same theme draws ${shipped.toStringAsFixed(0)} px. A phone tap target must '
+              'not follow the app onto a laptop.');
+    });
+  });
 }

@@ -215,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                     // A segment is a TextButton, so it inherits M3's 40 px
                     // minimum -- and this switch is how a teacher gets from
                     // Sign in to the invite form at all.
-                    style: phoneTapTarget,
+                    style: phoneTapTarget(context),
                     segments: const [
                       ButtonSegment(value: false, label: Text('Sign in')),
                       ButtonSegment(value: true, label: Text('Create account')),
@@ -329,7 +329,7 @@ class _LoginPageState extends State<LoginPage> {
                           const SizedBox(height: 20),
                           FilledButton(
                             // The form's one submit.
-                            style: phoneTapTarget,
+                            style: phoneTapTarget(context),
                             onPressed: _submitting ? null : _submit,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(vertical: 4),

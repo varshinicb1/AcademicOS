@@ -28,6 +28,14 @@ class AppConstants {
   static const double cardElevation = 2.0;
   static const double borderRadius = 12.0;
   static const Duration animationDuration = Duration(milliseconds: 200);
+
+  /// Below this logical width the app is laid out for a touch screen held in
+  /// a hand: the shell collapses its side navigation into a drawer
+  /// (presentation/shared/widgets/shell.dart) and a main action pins itself
+  /// to a 48 px tap target (presentation/shared/widgets/common_widgets.dart).
+  /// One number for both so a screen cannot be "mobile" for its navigation
+  /// and "desktop" for its buttons at the same width.
+  static const double mobileBreakpoint = 800.0;
   
   // CBSE
   static const int minGrade = 1;

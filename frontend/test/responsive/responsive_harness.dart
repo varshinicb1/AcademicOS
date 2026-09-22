@@ -54,6 +54,19 @@ void useScreen(WidgetTester tester, Size size) {
 /// the same family. Nothing these tests measure changes: a widget test has no
 /// Inter to render with either way and falls back to the test font, and what
 /// is measured here is padding, constraints and density.
+///
+/// The limitation that follows -- these tests lay text out in flutter_test's
+/// fixed-width fallback glyph, not in Inter, so a measured overrun is an
+/// approximation of the Inter one (review of 2026-09-23) -- turns out to be
+/// smaller than it reads. The released web build was served at
+/// http://127.0.0.1:8000 and walked at 375 px on 2026-09-23, and the browser
+/// made no request to fonts.gstatic.com at all: no injected Google Fonts
+/// stylesheet, no font file, `document.fonts` empty, on a tab that could
+/// reach gstatic when asked directly. The shipped web app draws in the
+/// browser's own fallback face, not Inter, so neither side of this
+/// comparison is Inter today. That is a separate defect and is not fixed
+/// here; what the browser pass did establish is that every signed-in screen
+/// this suite covers fits 375 px with the school's real curriculum in it.
 void useAppFonts() {
   setUpAll(() {
     GoogleFonts.config.allowRuntimeFetching = false;
@@ -107,6 +120,20 @@ Future<void> withDesktopDensity(Future<void> Function() body) async {
   } finally {
     debugDefaultTargetPlatformOverride = null;
   }
+}
+
+/// The height a main action draws at when it carries no style of its own.
+///
+/// Pumped, not written down: it is [AppTheme.lightTheme] plus whatever visual
+/// density the running platform gives it, which is the whole point -- an
+/// assertion that "the desktop look is unchanged" has to be against the theme
+/// as it is, not against a number that drifts away from it. Call it inside
+/// [withDesktopDensity] to get the compact height a laptop browser draws, and
+/// before pumping the page under test (it pumps a widget of its own).
+Future<double> themeButtonHeight(WidgetTester tester, Size size) async {
+  await pumpPage(
+      tester, Scaffold(body: Center(child: FilledButton(onPressed: () {}, child: const Text('Sign in')))), size);
+  return tester.getRect(paintedTarget(tester, find.byType(FilledButton))).height;
 }
 
 /// Fails with the overflow (or any other exception) the last frames raised.

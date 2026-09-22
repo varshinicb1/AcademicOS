@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/constants/app_constants.dart';
+
 /// Drop into any page's `AppBar(leading: shellLeading(context), ...)`.
 ///
 /// Every route in app_router.dart is nested inside MainShell's ShellRoute, so
@@ -22,7 +24,7 @@ Widget? shellLeading(BuildContext context) {
 /// where go_router can leave a parent segment on the stack and canPop true
 /// even though there's nowhere meaningful to go back to.
 Widget? forceShellLeading(BuildContext context) {
-  if (MediaQuery.of(context).size.width >= 800) return null;
+  if (MediaQuery.of(context).size.width >= AppConstants.mobileBreakpoint) return null;
   final openDrawer = _ShellDrawerScope.maybeOpenDrawerOf(context);
   if (openDrawer == null) return null;
   return IconButton(
@@ -82,7 +84,7 @@ class MainShell extends StatelessWidget {
   Widget build(BuildContext context) {
     // NavigationRail asserts labelType must be null/none when extended.
     final extended = MediaQuery.of(context).size.width >= 1000;
-    final isMobile = MediaQuery.of(context).size.width < 800;
+    final isMobile = MediaQuery.of(context).size.width < AppConstants.mobileBreakpoint;
     final selectedIndex = _calculateSelectedIndex(context);
     return _ShellDrawerScope(
       openDrawer: () => _scaffoldKey.currentState?.openDrawer(),

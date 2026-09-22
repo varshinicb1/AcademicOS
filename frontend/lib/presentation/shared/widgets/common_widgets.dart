@@ -13,11 +13,29 @@ import '../../../core/constants/app_constants.dart';
 /// that failed (review of 2026-09-23).
 ///
 /// `visualDensity` is pinned with the minimum because ThemeData hands a
-/// desktop-UA browser `VisualDensity.compact`, which takes another 8 px off
-/// every `minimumSize`. A phone browser reports android and gets `standard`
-/// either way; a desktop window narrowed to 375 px -- the one this task's
-/// screenshots were taken in -- does not.
-const phoneTapTarget = ButtonStyle(
+/// desktop-UA browser `VisualDensity.compact`, which takes 8 px off every
+/// `minimumSize` *and* 8 px off the top and bottom of the button's padding
+/// (`ButtonStyleButton` adds `baseSizeAdjustment` to both). A phone browser
+/// reports android and gets `standard` either way; a desktop window narrowed
+/// to 375 px -- the one this task's screenshots were taken in -- does not.
+///
+/// It is width-aware because that pin is wrong above phone width. Task 801
+/// asks for 44 px targets "on the phone layout" and for the desktop look to
+/// be kept, and applying this style at every width broke the second: with
+/// compact density AppTheme's elevated buttons draw 32 px tall, pinning
+/// standard makes them 48 and more padded, and even the bare 48 px minimum
+/// alone leaves them at 40. That is a visible change to roughly fifteen
+/// laptop controls -- Sign in, Create invite, Withdraw, the six console
+/// tabs' actions, Yes/No on the mark-taught sheet -- that nobody asked for
+/// and no test could see (review of 2026-09-23). Above the breakpoint this
+/// resolves to an empty style, which merges into the theme as no change at
+/// all.
+ButtonStyle phoneTapTarget(BuildContext context) =>
+    MediaQuery.sizeOf(context).width < AppConstants.mobileBreakpoint
+        ? _phoneTapTarget
+        : const ButtonStyle();
+
+const _phoneTapTarget = ButtonStyle(
   minimumSize: WidgetStatePropertyAll(Size(64, 48)),
   visualDensity: VisualDensity.standard,
 );

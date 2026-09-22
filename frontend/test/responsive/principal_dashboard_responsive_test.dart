@@ -79,6 +79,17 @@ Map<String, Object?> _lesson(String id, int period, String status, String subtop
     };
 
 class _Backend extends Interceptor {
+  /// Every request this fixture had no answer for, as "METHOD /path".
+  ///
+  /// Asserted empty after each test. Without it a tab that calls a route the
+  /// fixture does not serve catches the DioException, renders an empty or
+  /// error state, and passes every "fits and the action is ready" check --
+  /// an empty tab overflows nothing. Six tabs load several endpoints each,
+  /// so the odds of one silently 404ing are not small, and a silently wrong
+  /// screen is worse than an error (review of 2026-09-23;
+  /// quick_paper_responsive_test.dart already checked its fixture this way).
+  final rejected = <String>[];
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     final path = options.path;
@@ -152,6 +163,7 @@ class _Backend extends Interceptor {
     } else {
       status = 404;
       body = {'detail': 'not found'};
+      rejected.add('${options.method} $path');
     }
     final response = Response(requestOptions: options, statusCode: status, data: body);
     if (status < 400) {
@@ -213,6 +225,7 @@ void main() {
   });
   tearDownAll(() async => Hive.close());
 
+  late _Backend backend;
   setUp(() async {
     // Awaited: an unawaited clear() lands after the writes below and wipes them.
     await LocalStore.instance.box.clear();
@@ -223,12 +236,20 @@ void main() {
       'email': 'principal@school.invalid',
       'role': 'principal',
     };
-    final dio = Dio(BaseOptions(baseUrl: 'http://backend.invalid/api/v1'))..interceptors.add(_Backend());
+    backend = _Backend();
+    final dio = Dio(BaseOptions(baseUrl: 'http://backend.invalid/api/v1'))..interceptors.add(backend);
     GetIt.I
       ..registerSingleton<CurriculumApi>(CurriculumApi(dio))
       ..registerSingleton<AuthApi>(AuthApi(dio));
   });
-  tearDown(() => GetIt.I.reset());
+  tearDown(() {
+    // Before the reset, so a tab that quietly fell back to an empty state
+    // fails the test that was meant to prove it fits. See [_Backend.rejected].
+    expect(backend.rejected, isEmpty,
+        reason: 'the console asked for routes this fixture does not serve, so whatever those calls fill '
+            'was empty or errored on the screen this test just measured');
+    GetIt.I.reset();
+  });
 
   for (final MapEntry(key: name, value: size) in screenSizes.entries) {
     testWidgets('the Roster tab fits and Create invite is ready at $name', (tester) async {
@@ -395,6 +416,25 @@ void main() {
       await scrollUntilPresent(tester, find.widgetWithText(TextButton, 'Reschedule'), dashboard);
       await scrollToAndExpectReady(tester, find.widgetWithText(TextButton, 'Reschedule').first, phone,
           label: 'Reschedule on a desktop density');
+    });
+  });
+
+  testWidgets('on a laptop Create invite keeps the compact height the desktop console ships', (tester) async {
+    // The console is where the width-blind tap-target style did most of its
+    // damage: fourteen of the roughly fifteen actions it silently grew on a
+    // 1280 px screen are on these six tabs (review of 2026-09-23). Create
+    // invite stands for the family -- same FilledButton metrics as Withdraw,
+    // Update Calendar, Add Holiday and the rest -- and is measured against a
+    // bare FilledButton pumped in the same theme at the same density.
+    await withDesktopDensity(() async {
+      final shipped = await themeButtonHeight(tester, laptop);
+      await pumpPage(tester, const PrincipalAdminPage(), laptop);
+      expectNoOverflow(tester, where: ' on the Roster tab at a laptop width');
+      final create = tester.getRect(paintedTarget(tester, _button('Create invite'))).height;
+      expect(create, shipped,
+          reason: 'Create invite draws ${create.toStringAsFixed(0)} px tall on a 1280 px screen; an '
+              'unstyled button in the same theme draws ${shipped.toStringAsFixed(0)} px. Task 801 asks '
+              'for 44 px targets on the phone layout, not on a laptop.');
     });
   });
 }

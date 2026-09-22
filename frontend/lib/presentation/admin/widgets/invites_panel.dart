@@ -168,7 +168,7 @@ class _InvitesPanelState extends State<InvitesPanel> {
               const Gap(12),
               FilledButton.icon(
                 onPressed: _busy ? null : _create,
-                style: phoneTapTarget,
+                style: phoneTapTarget(context),
                 icon: const Icon(Icons.add),
                 label: const Text('Create invite'),
               ),
@@ -203,7 +203,7 @@ class _InvitesPanelState extends State<InvitesPanel> {
                     trailing: i.isOpen
                         ? TextButton(
                             onPressed: _busy ? null : () => _revoke(i),
-                            style: phoneTapTarget,
+                            style: phoneTapTarget(context),
                             child: const Text('Withdraw'),
                           )
                         : null,

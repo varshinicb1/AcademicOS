@@ -161,7 +161,7 @@ class _CalendarRulesCardState extends State<CalendarRulesCard> {
                 ? null
                 : () => widget.onSubmit(
                     _weeklyOff.split(',').where((d) => d.isNotEmpty).toList(), _rule),
-            style: phoneTapTarget,
+            style: phoneTapTarget(context),
             icon: widget.busy
                 ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
                 : const Icon(Icons.calendar_month),

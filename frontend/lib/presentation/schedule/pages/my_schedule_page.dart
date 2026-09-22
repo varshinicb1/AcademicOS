@@ -474,7 +474,18 @@ class _MySchedulePageState extends State<MySchedulePage> {
                           // Marking a lesson taught is the one thing a
                           // teacher does on this sheet, so both answers are
                           // phone-sized.
-                          style: phoneTapTarget,
+                          //
+                          // sheetContext, not the `context` this method was
+                          // handed: that one belongs to the lesson card, and
+                          // the card is deactivated by the reload this sheet
+                          // triggers on success. The sheet still rebuilds
+                          // once while it animates out, and reading
+                          // MediaQuery off a deactivated element throws
+                          // ("Looking up a deactivated widget's ancestor is
+                          // unsafe") -- which the responsive test for
+                          // marking a lesson caught the moment the style
+                          // started reading the width.
+                          style: phoneTapTarget(sheetContext),
                           icon: const Icon(Icons.close),
                           label: const Text('No'),
                         ),
@@ -483,7 +494,7 @@ class _MySchedulePageState extends State<MySchedulePage> {
                       Expanded(
                         child: FilledButton.icon(
                           onPressed: saving ? null : () => mark('completed'),
-                          style: phoneTapTarget,
+                          style: phoneTapTarget(sheetContext),
                           icon: saving
                               ? const SizedBox(width: 16, height: 16,
                                   child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))

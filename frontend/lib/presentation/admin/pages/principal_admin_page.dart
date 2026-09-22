@@ -683,7 +683,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 onPressed: (_assigningTeacher || _assignTeacherId == null || _assignSubjectId == null)
                     ? null
                     : _submitAssignTeacher,
-                style: phoneTapTarget,
+                style: phoneTapTarget(context),
                 child: _assigningTeacher
                     ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
                     : const Text('Assign Teacher'),
@@ -721,7 +721,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
                 onPressed: (_enrollingStudent || _enrollStudentId == null || _enrollGradeId == null)
                     ? null
                     : _submitEnrollStudent,
-                style: phoneTapTarget,
+                style: phoneTapTarget(context),
                 child: _enrollingStudent
                     ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
                     : const Text('Enroll Student'),
@@ -749,7 +749,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       return Center(
         child: FilledButton.icon(
           onPressed: _loadReporting,
-          style: phoneTapTarget,
+          style: phoneTapTarget(context),
           icon: const Icon(Icons.refresh),
           label: const Text('Load Coverage Report'),
         ),
@@ -975,7 +975,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         _tabController.animateTo(_AdminTab.reschedule.index);
       },
       // The one action on the coverage dashboard, so it is phone-sized.
-      style: phoneTapTarget,
+      style: phoneTapTarget(context),
       child: const Text('Reschedule'),
     );
 
@@ -1077,7 +1077,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               const Gap(16),
               FilledButton.icon(
                 onPressed: _pushing ? null : _submitPushSchedule,
-                style: phoneTapTarget,
+                style: phoneTapTarget(context),
                 icon: _pushing
                     ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
                     : const Icon(Icons.fast_forward_outlined),
@@ -1123,7 +1123,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               const Gap(16),
               FilledButton.icon(
                 onPressed: _adjusting ? null : _submitAdjustLesson,
-                style: phoneTapTarget,
+                style: phoneTapTarget(context),
                 icon: _adjusting
                     ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
                     : const Icon(Icons.edit_calendar),
@@ -1448,7 +1448,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               const Gap(12),
               FilledButton.icon(
                 onPressed: _savingPeriodMinutes ? null : _submitSavePeriodDuration,
-                style: phoneTapTarget,
+                style: phoneTapTarget(context),
                 icon: _savingPeriodMinutes
                     ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
                     : const Icon(Icons.timer_outlined),
@@ -1499,7 +1499,7 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
               const Gap(12),
               FilledButton.icon(
                 onPressed: _addingHoliday ? null : _submitAddHoliday,
-                style: phoneTapTarget,
+                style: phoneTapTarget(context),
                 icon: _addingHoliday
                     ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
                     : const Icon(Icons.add_circle_outline),

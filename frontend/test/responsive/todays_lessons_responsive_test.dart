@@ -37,6 +37,15 @@ class _Schedule extends Interceptor {
   final statuses = {'lesson_1': 'scheduled', 'lesson_2': 'scheduled', 'lesson_3': 'completed'};
   final patches = <Object?>[];
 
+  /// Every request this fixture had no answer for, as "METHOD /path".
+  ///
+  /// Asserted empty after each test. A page that calls a route the fixture
+  /// does not serve catches the DioException and renders an empty or error
+  /// state, which fits any screen and overflows nothing -- so without this
+  /// the test would keep passing while measuring a blank page (review of
+  /// 2026-09-23).
+  final rejected = <String>[];
+
   Map<String, Object?> _lesson(String id, String chapter, String topic, String subtopic) => {
         'lessonId': id,
         'date': _today(),
@@ -68,6 +77,7 @@ class _Schedule extends Interceptor {
       handler.resolve(Response(requestOptions: options, statusCode: 200, data: null));
       return;
     }
+    rejected.add('${options.method} ${options.path}');
     handler.reject(DioException.badResponse(
         statusCode: 404,
         requestOptions: options,
@@ -99,7 +109,14 @@ void main() {
     final dio = Dio(BaseOptions(baseUrl: 'http://backend.invalid/api/v1'))..interceptors.add(server);
     GetIt.I.registerSingleton<CurriculumApi>(CurriculumApi(dio));
   });
-  tearDown(() => GetIt.I.reset());
+  tearDown(() {
+    // Before the reset, so a page that quietly fell back to an empty state
+    // fails the test that was meant to prove it fits. See [_Schedule.rejected].
+    expect(server.rejected, isEmpty,
+        reason: 'the page asked for routes this fixture does not serve, so whatever those calls fill was '
+            'empty or errored on the screen this test just measured');
+    GetIt.I.reset();
+  });
 
   for (final MapEntry(key: name, value: size) in screenSizes.entries) {
     testWidgets('the Today page fits and New Assessment and My Schedule are ready at $name', (tester) async {
