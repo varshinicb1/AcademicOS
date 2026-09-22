@@ -13,7 +13,7 @@ billing enabled (the $50k credit pool covers decades of this — see §7) and
 owner access to the one GitHub repo that matters here, `varshinicb1/AcademicOS`.
 
 The GCP release is deliberately **not** the Render release moved. It is
-GCP-native: Cloud Run for compute, Cloud SQL for the eleven durable tables, GCS
+GCP-native: Cloud Run for compute, Cloud SQL for the twelve durable tables, GCS
 for blobs, Secret Manager for secrets, and keyless CI via Workload Identity
 Federation so that no service-account key exists anywhere. The GCP deploy
 injects no Supabase credentials at all: structured data is in Cloud SQL and
@@ -96,7 +96,7 @@ Notes (all learned the hard way on Render):
   rather than 24/7.
 - Health check path is `/health` (cheap). Do NOT point uptime checks at
   `/health/storage` more often than every few minutes — one call fans out
-  to 10 upstream selects (cached 30s server-side, but still).
+  to 12 upstream selects (cached 30s server-side, but still).
 
 ## 4. CI/CD: already wired
 
@@ -115,8 +115,20 @@ Auth is keyless (Workload Identity Federation): GitHub's OIDC token is
 exchanged for short-lived credentials, so there is no service-account key
 stored in the repo. The only inputs are repo *variables* (not secrets) —
 `GCP_PROJECT_ID`, `GCP_REGION`, `WIF_PROVIDER`, `DEPLOY_SA`, `GCP_SERVICE`,
-`AR_IMAGE`, `GCS_MEDIA_BUCKET`, `SQL_CONNECTION`, `CORS_ORIGINS` — and app
-secrets, which live in Secret Manager and are injected via `--set-secrets`.
+`AR_IMAGE`, `GCS_MEDIA_BUCKET`, `SQL_CONNECTION`, `CORS_ORIGINS`,
+`GCS_TEST_BUCKET` — and app secrets, which live in Secret Manager and are
+injected via `--set-secrets`.
+
+`GCS_TEST_BUCKET` (`vidyuthlabs-academicos-ci-test`, a scratch bucket whose
+objects auto-delete after a day) is what the backend job runs
+`tests/test_gcs_blob_integration.py` against before it builds anything. With
+it unset the job **fails**: the curriculum snapshot's single-writer guarantee
+would otherwise ship without ever having run against real GCS (§8). The only
+way past is the repo variable `ALLOW_UNVERIFIED_GCS=true`, which deploys with
+a warning — an emergency override, to be deleted once the bucket variable is
+set.
+
+CI does **not** apply `deploy/gcp/schema.sql`. That is a manual step, §6.
 
 Note the frontend job depends on the backend job: the API URL is baked into
 the Dart build, so it must be compiled *after* the backend URL is known.
@@ -140,13 +152,30 @@ cares about the `ACADEMICOS_API` value baked in at build time.
 
 ## 6. Cutover + verification (do this, in this order)
 
+0. **Apply the Cloud SQL schema — required before the first deploy, and
+   again after any change to `deploy/gcp/schema.sql`** (before the deploy
+   that ships code using it):
+
+   ```bash
+   PROJECT_ID=vidyuthlabs bash scripts/apply_cloudsql_schema.sh
+   ```
+
+   Nothing else applies it: `bootstrap.sh` creates the instance, database
+   and user, and the workflow only builds and deploys. An instance
+   provisioned before a table was added (as `learner_models` was, 2026-09-22)
+   does not have it, and every request touching it answers 503 while
+   `/health` stays green. The script is idempotent (every statement is
+   `IF NOT EXISTS`), stops on the first SQL error, and reads the password
+   from the `postgres-password` secret. Run it from Cloud Shell.
 1. Deploy backend to Cloud Run; leave Render untouched.
 2. `curl https://<run-url>/health` → `{"status":"ok"}`.
-3. `curl https://<run-url>/health/storage` → `durability_backend` set,
-   `durability_reachable: true`, every table `"ok"`. On Supabase, if
-   `users`/`sessions` error, run `docs/supabase-setup.sql` first — same
-   prerequisite as on Render. On Cloud SQL, apply
-   `deploy/gcp/schema.sql` first. `blob_backend` must read `"gcs"`;
+3. `curl https://<run-url>/health/storage` → `"status": "ok"`,
+   `durability_backend` set, `durability_reachable: true`, every table
+   `"ok"`. `"status": "schema_missing"` lists the absent tables in
+   `missing_tables` (and `table_exists` per table) and names the fix: on
+   Cloud SQL, step 0's script; on Supabase, `docs/supabase-setup.sql`.
+   `"unreachable"` is an outage, not a schema problem. The probe caches for
+   30 s, so allow that long after a fix. `blob_backend` must read `"gcs"`;
    `"local"` means `ACOS_GCS_BUCKET` is missing and scan photos/PDFs and the
    curriculum snapshot are going to container disk, which Cloud Run discards.
    `blob_status` must show `curriculum_snapshot_conflict: false` and zero
@@ -180,7 +209,9 @@ Structured data is now first-class on GCP — this is no longer a future
 project:
 
 - **Cloud SQL Postgres** in `asia-south1` is provisioned by the bootstrap
-  (daily backups, PITR), `deploy/gcp/schema.sql` defines all 12 tables, and
+  (daily backups, PITR), `deploy/gcp/schema.sql` defines all 12 tables
+  (applied by `scripts/apply_cloudsql_schema.sh`, §6 step 0 — never by CI;
+  `/health/storage` names any that are missing), and
   `src/academicos/assessment/postgres_kv.py` implements the Cloud SQL backend
   behind the same interface the stores already used. Every JSONB store,
   `KnowledgeStore` included (`learner_models`, since 2026-09-22), calls
@@ -226,7 +257,10 @@ project:
 ### The curriculum snapshot has exactly one writer
 
 `CurriculumStore` keeps 18 FK-linked tables in a local SQLite file and
-persists the whole file as one object. Exact behaviour:
+persists the whole file as one object. The mechanism is
+`storage/snapshot_sync.py`'s `SnapshotSync`: the store constructs it and
+routes every commit through it, nothing more (tests:
+`tests/test_snapshot_sync.py`). Exact behaviour:
 
 - **Boot.** If the local file does not exist, it downloads the snapshot and
   writes it to disk before opening. "No snapshot yet" (`BlobNotFound`, or
@@ -300,7 +334,7 @@ Every `sqlite3.connect` under `src/academicos`, plus the one JSON-file store.
 | `UserStore` (`assessment/users.py`) | users, sessions | Cloud SQL `users`, `sessions` |
 | `AuditLog` (`assessment/audit_log.py`) | audit trail | Cloud SQL `audit_log` |
 | `EventStore` (`storage/event_store.py`) | learner events | Cloud SQL `learner_events` |
-| `ConsentStore` (`assessment/consent.py`) | parental consent (DPDP) | Cloud SQL `parental_consents` (not yet in the `/health/storage` probe list) |
+| `ConsentStore` (`assessment/consent.py`) | parental consent (DPDP) | Cloud SQL `parental_consents` (in the `/health/storage` probe since 2026-09-22) |
 | `CurriculumStore` (`curriculum/store.py`) | calendars, sequences, timetable, enrolments | container SQLite + GCS snapshot, one instance (above) |
 | `KnowledgeStore` (`assessment/knowledge.py`) | per-student mastery history | Cloud SQL `learner_models` (moved to `durable_table` 2026-09-22; copy the existing Supabase rows with the migration script — an empty table answers 503 until then) |
 | `SourceRegistry` + `LocalStore` via `assessment/ingest_routes.py` | a school's own uploaded papers/marking schemes | **container disk only — OPEN.** The file store could become `GcsStore`, but the registry row is local SQLite too, so both need moving together |
@@ -333,10 +367,10 @@ count means artifacts that will be gone at the next redeploy.
 bucket: create, stale overwrite and a real 412, md5 format, the self-412 on a
 retried upload being adopted, the generation-pinned download, and a
 conflict-copy key. It is skipped unless `ACOS_GCS_TEST_BUCKET` names a
-scratch bucket. `deploy-gcp.yml` runs it before every deploy when the
-`GCS_TEST_BUCKET` repo variable is set (and fails on a skip); until then the
-workflow emits a warning. **Set it, and see it pass once, before the first
-school goes live.** Likewise the KnowledgeStore JSONB round trip against real
+scratch bucket. `deploy-gcp.yml` runs it before every deploy against the
+`GCS_TEST_BUCKET` repo variable and fails on a skip or on zero passes. With
+the variable unset the deploy **fails** unless `ALLOW_UNVERIFIED_GCS=true`
+is set (§4); it no longer ships on a warning. Likewise the KnowledgeStore JSONB round trip against real
 Postgres (`tests/test_postgres_kv.py`) runs only where `ACOS_TEST_PG_*` is set
 — the CI `test` job, which gates every deploy.
 

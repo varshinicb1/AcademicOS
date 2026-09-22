@@ -16,9 +16,14 @@ name: Deploy to GCP (Cloud Run + Firebase Hosting)
 # Repo variables (Settings -> Secrets and variables -> Actions -> Variables):
 #   GCP_PROJECT_ID, GCP_REGION, WIF_PROVIDER, DEPLOY_SA, RUNTIME_SA,
 #   GCP_SERVICE, AR_IMAGE, GCS_MEDIA_BUCKET, SQL_CONNECTION, CORS_ORIGINS
+#   GCS_TEST_BUCKET -- a scratch bucket DEPLOY_SA can write to
+#                      (vidyuthlabs-academicos-ci-test). The real-GCS
+#                      integration test runs against it before every deploy;
+#                      with it unset the backend job FAILS (see below).
 # Optional:
-#   GCS_TEST_BUCKET -- a scratch bucket DEPLOY_SA can write to; when set, the
-#                      real-GCS integration test runs before every deploy.
+#   ALLOW_UNVERIFIED_GCS -- 'true' deploys without GCS_TEST_BUCKET, with a
+#                      warning. An explicit, visible override for an
+#                      emergency, never the default.
 #   FRESH_INSTALL   -- '1' only for a brand-new school with no Supabase history
 #                      (lets an empty curriculum snapshot / learner_models boot;
 #                      see the deploy step). Remove it after the first deploy.
@@ -173,7 +178,14 @@ jobs:
       # against an in-memory fake written to the same assumptions. This runs
       # tests/test_gcs_blob_integration.py against the real service with the
       # deploy's own credentials. A skipped test counts as a failure here: a
-      # skip is exactly how "never actually verified" looks green.
+      # skip is exactly how "never actually verified" looks green. So does a
+      # run in which nothing passed.
+      #
+      # With GCS_TEST_BUCKET unset the job fails before anything is built.
+      # It used to emit a ::warning:: and deploy anyway, so a school service
+      # could ship on storage semantics that had never run against GCS.
+      # ALLOW_UNVERIFIED_GCS=true is the only way past, and it says so.
+      # tests/test_deploy_gcp_workflow.py evaluates these `if:` conditions.
       - uses: actions/setup-python@v5
         if: vars.GCS_TEST_BUCKET != ''
         with:
@@ -192,11 +204,21 @@ jobs:
             echo "::error::GCS integration test skipped -- it must run, not skip"
             exit 1
           fi
+          if ! grep -Eq "[0-9]+ passed" gcs-it.log; then
+            echo "::error::no GCS integration test passed -- nothing was verified"
+            exit 1
+          fi
 
-      - name: Flag unverified GCS semantics
-        if: vars.GCS_TEST_BUCKET == ''
+      - name: Block a deploy whose GCS semantics were never verified
+        if: vars.GCS_TEST_BUCKET == '' && vars.ALLOW_UNVERIFIED_GCS != 'true'
         run: |
-          echo "::warning::GCS_TEST_BUCKET is not set, so the curriculum snapshot's generation/412/md5 handling has never run against real GCS. Set it before a school deployment (docs/gcp-deployment.md section 8)."
+          echo "::error::GCS_TEST_BUCKET is not set, so the curriculum snapshot's generation/412/md5 handling would ship without ever having run against real GCS. Set the GCS_TEST_BUCKET repository variable to a scratch bucket DEPLOY_SA can write to (vidyuthlabs-academicos-ci-test), or set ALLOW_UNVERIFIED_GCS=true to deploy anyway (docs/gcp-deployment.md section 8)."
+          exit 1
+
+      - name: Deploy with unverified GCS semantics (ALLOW_UNVERIFIED_GCS=true)
+        if: vars.GCS_TEST_BUCKET == '' && vars.ALLOW_UNVERIFIED_GCS == 'true'
+        run: |
+          echo "::warning::ALLOW_UNVERIFIED_GCS=true: deploying although the GCS integration test did not run (GCS_TEST_BUCKET unset). Remove the override once GCS_TEST_BUCKET is set."
 
       - name: Build + push image (Cloud Build, layer-cached)
         env:

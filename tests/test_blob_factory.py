@@ -252,7 +252,13 @@ def test_unreachable_gcs_is_not_reported_as_not_found(shared_gcs) -> None:
 
 
 # --------------------------------------------------------------------------- #
-# curriculum snapshot: single writer
+# curriculum snapshot: single writer, through CurriculumStore
+#
+# The mechanism itself (debounce, trailing upload, conflict copy, reload,
+# wedge) is tested directly in tests/test_snapshot_sync.py. What stays here
+# proves the store is wired to it: its writes reach GCS, its constructor
+# restores and refuses, a refused write answers 503 from a store method, and
+# the app's shutdown hook flushes a store's pending edits.
 # --------------------------------------------------------------------------- #
 
 def _snapshot(client: FakeGcsClient) -> dict:
@@ -273,36 +279,13 @@ def _boards_in(data: bytes, tmp_path: Path) -> set[str]:
 def test_curriculum_store_uses_gcs_on_gcp(shared_gcs, tmp_path: Path) -> None:
     from academicos.curriculum.store import CurriculumStore
     store = CurriculumStore(tmp_path / "a" / "curriculum.sqlite")
-    assert store._remote_storage.backend == "gcs"
+    assert store._snapshots.remote.backend == "gcs"
     store.create_board("CBSE", "cbse")
     assert _snapshot(shared_gcs)["data"].startswith(b"SQLite format 3")
     assert _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == {"cbse"}
     store.close()
 
 
-def test_edits_inside_the_debounce_window_are_uploaded_after_it(
-        shared_gcs, tmp_path: Path) -> None:
-    """The debounce used to DROP a commit that landed inside the window: no
-    dirty flag, no trailing upload. An admin's burst of edits then reached GCS
-    only as its first edit, and the rest died with the container. Two commits
-    a moment apart must both be in the remote object once the window has
-    passed, with no further commit to carry them."""
-    from academicos.curriculum.store import CurriculumStore
-    store = CurriculumStore(tmp_path / "a" / "curriculum.sqlite")
-    store._SNAPSHOT_DEBOUNCE_SECONDS = 0.6   # the 30 s window, scaled for a test
-    store._last_snapshot_at = 0.0
-    store.create_board("CBSE", "cbse")       # past the window: uploads now
-    assert _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == {"cbse"}
-    time.sleep(0.2)
-    store.create_board("ICSE", "icse")       # inside the window: deferred
-
-    deadline = time.monotonic() + 5.0
-    while time.monotonic() < deadline:
-        if _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == {"cbse", "icse"}:
-            break
-        time.sleep(0.05)
-    assert _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == {"cbse", "icse"}
-    store.close()
 
 
 def test_shutdown_flushes_edits_still_inside_the_window(
@@ -315,7 +298,7 @@ def test_shutdown_flushes_edits_still_inside_the_window(
     monkeypatch.setattr(store_mod, "_INSTANCE", None)
 
     store = store_mod.get_curriculum_store(tmp_path)
-    store._last_snapshot_at = 0.0
+    store._snapshots._last_upload_at = 0.0
     store.create_board("CBSE", "cbse")       # uploads
     store.create_board("ICSE", "icse")       # held by the 30 s debounce
     store.create_board("State", "state")
@@ -329,11 +312,6 @@ def test_shutdown_flushes_edits_still_inside_the_window(
     store.close()
 
 
-def test_first_boot_with_no_snapshot_starts_fresh(shared_gcs, tmp_path: Path) -> None:
-    from academicos.curriculum.store import CurriculumStore
-    store = CurriculumStore(tmp_path / "a" / "curriculum.sqlite")   # BlobNotFound
-    assert store.list_boards() == []
-    store.close()
 
 
 def test_empty_gcs_boot_needs_an_explicit_acknowledgement(
@@ -345,7 +323,8 @@ def test_empty_gcs_boot_needs_an_explicit_acknowledgement(
     reached by a different road. On GCS an empty start now needs
     ACOS_CURRICULUM_ALLOW_EMPTY_BOOT=1 (a genuinely new school); otherwise
     boot fails and names the migration script."""
-    from academicos.curriculum.store import CurriculumStore, CurriculumNotDurable
+    from academicos.curriculum.store import CurriculumStore
+    from academicos.storage.blobs import CurriculumNotDurable
     monkeypatch.delenv("ACOS_CURRICULUM_ALLOW_EMPTY_BOOT")
     db_path = tmp_path / "fresh" / "curriculum.sqlite"
     with pytest.raises(CurriculumNotDurable) as info:
@@ -369,7 +348,8 @@ def test_boot_refuses_to_start_empty_when_gcs_is_unreachable(
     curriculum as if it were real, and the admin who re-enters it loses it all
     at the next deploy. The constructor must fail so the container fails its
     startup probe and Cloud Run retries it."""
-    from academicos.curriculum.store import CurriculumStore, CurriculumNotDurable
+    from academicos.curriculum.store import CurriculumStore
+    from academicos.storage.blobs import CurriculumNotDurable
     seed = CurriculumStore(tmp_path / "seed" / "curriculum.sqlite")
     seed.create_board("CBSE", "cbse")         # a real snapshot exists remotely
     seed.close()
@@ -397,18 +377,19 @@ def test_stale_curriculum_snapshot_write_is_refused(shared_gcs, tmp_path: Path, 
     showed nothing. Now the refused write answers 503 (a real "not saved"),
     A reloads the newer snapshot, health names the conflict, and A's next
     write lands on top of B's."""
-    from academicos.curriculum.store import CurriculumStore, CurriculumNotDurable
+    from academicos.curriculum.store import CurriculumStore
+    from academicos.storage.blobs import CurriculumNotDurable
     import academicos.api.main as main_mod
 
     a = CurriculumStore(tmp_path / "a" / "curriculum.sqlite")
-    a._last_snapshot_at = 0.0
+    a._snapshots._last_upload_at = 0.0
     a.create_board("CBSE", "cbse")                              # A uploads
     b = CurriculumStore(tmp_path / "b" / "curriculum.sqlite")   # restores A's
-    b._last_snapshot_at = 0.0
+    b._snapshots._last_upload_at = 0.0
     b.create_board("State", "state")                            # B writes after A
     after_b = _snapshot(shared_gcs)
 
-    a._last_snapshot_at = 0.0
+    a._snapshots._last_upload_at = 0.0
     with caplog.at_level(logging.ERROR, logger="academicos.storage.blobs"):
         with pytest.raises(CurriculumNotDurable):
             a.create_board("ICSE", "icse")
@@ -425,7 +406,7 @@ def test_stale_curriculum_snapshot_write_is_refused(shared_gcs, tmp_path: Path, 
     assert a.get_board_by_code("icse") is None
 
     # ... so A's retry succeeds and carries B's data with it.
-    a._last_snapshot_at = 0.0
+    a._snapshots._last_upload_at = 0.0
     a.create_board("ICSE", "icse")
     assert _snapshot(shared_gcs)["generation"] > after_b["generation"]
     assert _boards_in(_snapshot(shared_gcs)["data"], tmp_path) == {"cbse", "state", "icse"}
@@ -438,102 +419,16 @@ def _conflict_copies(client: FakeGcsClient) -> dict[str, dict]:
     return {k: v for k, v in client.bucket(BUCKET).objects.items() if k.startswith(prefix)}
 
 
-def test_deferred_edit_that_loses_a_conflict_is_preserved_not_destroyed(
-        shared_gcs, tmp_path: Path, caplog) -> None:
-    """The review's reproduction. A uploads; B restores; A creates ICSE inside
-    the debounce window -- the request returns success; B writes; A's trailing
-    timer fires, meets B's generation (412) and reloads B's snapshot.
-
-    That reload used to throw ICSE away: it existed nowhere, locally or
-    remotely, though the admin had been told it was saved. The same happens on
-    every rollout when the old revision's SIGTERM flush loses to a write the new
-    revision already made. The losing file must be uploaded, byte for byte, to
-    curriculum-snapshots/conflicts/ BEFORE the reload, and health must name it."""
-    from academicos.curriculum.store import CurriculumStore
-    import academicos.api.main as main_mod
-
-    a = CurriculumStore(tmp_path / "a" / "curriculum.sqlite")
-    a._last_snapshot_at = 0.0
-    a.create_board("CBSE", "cbse")                              # A uploads
-    b = CurriculumStore(tmp_path / "b" / "curriculum.sqlite")   # restores A's
-    a.create_board("ICSE", "icse")      # inside A's window: deferred, "saved"
-    b._last_snapshot_at = 0.0
-    b.create_board("State", "state")                            # B writes
-    after_b = _snapshot(shared_gcs)
-
-    with caplog.at_level(logging.ERROR):
-        a._trailing_snapshot()          # the timer thread's call, run inline
-
-    assert _snapshot(shared_gcs) == after_b, "A must still not erase B's snapshot"
-    copies = _conflict_copies(shared_gcs)
-    assert len(copies) == 1, "the losing file must be preserved in GCS"
-    (copy_key, copy), = copies.items()
-    assert _boards_in(copy["data"], tmp_path) == {"cbse", "icse"}, \
-        "the preserved copy must hold the edit that was reported as saved"
-    assert a.get_board_by_code("state") is not None   # A now serves B's view
-    status = main_mod.health_storage()["blob_status"]
-    assert status["curriculum_snapshot_conflict_copies"] == 1
-    assert status["curriculum_snapshot_last_conflict_copy"] == copy_key.split(
-        "academicos/curriculum-snapshots/", 1)[1]
-    assert any(status["curriculum_snapshot_last_conflict_copy"] in r.getMessage()
-               for r in caplog.records), "the ERROR log must say where the edits went"
-    a.close()
-    b.close()
 
 
-def test_shutdown_flush_that_loses_a_conflict_is_preserved(
-        shared_gcs, tmp_path: Path) -> None:
-    """Rollout overlap: the old revision's SIGTERM flush meets a write the new
-    revision already made."""
-    from academicos.curriculum.store import CurriculumStore
-    old = CurriculumStore(tmp_path / "old" / "curriculum.sqlite")
-    old._last_snapshot_at = 0.0
-    old.create_board("CBSE", "cbse")
-    new = CurriculumStore(tmp_path / "new" / "curriculum.sqlite")
-    old.create_board("ICSE", "icse")                 # deferred on the old one
-    new._last_snapshot_at = 0.0
-    new.create_board("State", "state")
-    assert old.flush_snapshot() is False             # the shutdown hook's call
-    (copy,) = _conflict_copies(shared_gcs).values()
-    assert _boards_in(copy["data"], tmp_path) == {"cbse", "icse"}
-    old.close()
-    new.close()
 
 
-def test_conflict_copy_that_cannot_be_saved_keeps_the_local_file(
-        shared_gcs, tmp_path: Path, monkeypatch) -> None:
-    """If the losing file cannot be preserved, reloading would destroy it.
-    Keep it (the store wedges: writes answer 503) rather than discard it."""
-    from academicos.curriculum.store import CurriculumStore, CurriculumNotDurable
-    a = CurriculumStore(tmp_path / "a" / "curriculum.sqlite")
-    a._last_snapshot_at = 0.0
-    a.create_board("CBSE", "cbse")
-    b = CurriculumStore(tmp_path / "b" / "curriculum.sqlite")
-    a.create_board("ICSE", "icse")
-    b._last_snapshot_at = 0.0
-    b.create_board("State", "state")
-
-    real_upload = a._remote_storage.upload
-
-    def upload(key, data, content_type):
-        if key.startswith("conflicts/"):
-            raise blobs.BlobUnavailable("simulated: conflict copy upload failed")
-        return real_upload(key, data, content_type)
-
-    monkeypatch.setattr(a._remote_storage, "upload", upload)
-    a._trailing_snapshot()
-    assert a.get_board_by_code("icse") is not None, "the unsaved edit was discarded"
-    assert a.get_board_by_code("state") is None
-    with pytest.raises(CurriculumNotDurable):
-        a.create_board("More", "more")
-    a.close()
-    b.close()
 
 
 def test_conflict_is_a_503_not_a_500(shared_gcs) -> None:
     """api/main.py maps SupabaseUnavailable (and its subclasses) to 503."""
     from academicos.assessment.supabase_kv import SupabaseUnavailable
-    from academicos.curriculum.store import CurriculumNotDurable
+    from academicos.storage.blobs import CurriculumNotDurable
     assert issubclass(CurriculumNotDurable, SupabaseUnavailable)
 
 

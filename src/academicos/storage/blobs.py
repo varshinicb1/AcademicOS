@@ -2,7 +2,7 @@
 
 Two call sites keep binary blobs that are school data: scan-session photos and
 PDFs (assessment/mobile_scan.py, name "scan-media") and the curriculum store's
-whole-file SQLite snapshot (curriculum/store.py, name "curriculum-snapshots").
+whole-file SQLite snapshot (storage/snapshot_sync.py, name "curriculum-snapshots").
 Both were built against SupabaseStorage's three-member interface -- `enabled`,
 `upload(key, data, content_type)`, `download(key) -> bytes` -- and
 `durable_blob_store(name)` returns an object with exactly that interface, so
@@ -45,8 +45,8 @@ alternative destroys the other instance's writes with no trace at all.
 Two instances overlap even with --max-instances=1: the limit is per revision,
 so every rollout runs the old and new revision side by side for a while.
 
-What happens after a refusal is CurriculumStore's job (curriculum/store.py
-`_on_snapshot_conflict`): it first uploads its own losing file, whole, to
+What happens after a refusal is the snapshot sync's job (storage/snapshot_sync.py
+`SnapshotSync._on_conflict`): it first uploads its own losing file, whole, to
 `conflicts/<utc>-<instance>.sqlite` in this store, then reloads the newer
 snapshot -- which also refreshes the generation this module holds, so the
 store is not wedged into 412-ing forever. The request that triggered it (if
@@ -97,7 +97,7 @@ class BlobUnavailable(requests.exceptions.RequestException):
 
     A RequestException subclass on purpose, like SupabaseUnavailable: the call
     sites were written against SupabaseStorage, whose failures are requests
-    errors, and curriculum/store.py catches exactly that type on both its
+    errors, and storage/snapshot_sync.py catches exactly that type on both its
     restore and its snapshot path."""
 
 
@@ -181,7 +181,7 @@ def record_upload_failure(name: str) -> None:
 
 def record_conflict_copy(name: str, key: str) -> None:
     """The losing side of a snapshot conflict was preserved under `key`
-    (curriculum/store.py _on_snapshot_conflict) before the store reloaded the
+    (storage/snapshot_sync.py SnapshotSync._on_conflict) before it reloaded the
     newer snapshot. Health names the last one so an operator can find the
     edits the reload took out of the live view."""
     _record("conflict_copy", name)

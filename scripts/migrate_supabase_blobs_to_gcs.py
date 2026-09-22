@@ -8,8 +8,8 @@ store's whole-file SQLite snapshot and scan-session photos/PDFs. After it,
 both are read from GCS -- where, until this script runs, neither exists:
 
   * the curriculum store would find no snapshot. It now refuses to boot empty
-    on GCS unless ACOS_CURRICULUM_ALLOW_EMPTY_BOOT=1 (curriculum/store.py
-    `_restore_from_remote`), so the service fails loudly instead of serving
+    on GCS unless ACOS_CURRICULUM_ALLOW_EMPTY_BOOT=1 (storage/snapshot_sync.py
+    `SnapshotSync._restore`), so the service fails loudly instead of serving
     a blank curriculum as if it were the school's.
   * every scan artifact captured before the cutover would read back as "not
     found" (mobile_scan.fetch_storage_bytes returns None).

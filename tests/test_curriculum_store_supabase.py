@@ -5,7 +5,9 @@ CurriculumStore was the last store AGENTS.md's inventory listed as
 already had a Supabase path. Unlike the flat single-object stores, this
 one snapshots/restores the whole SQLite file as a blob via SupabaseStorage
 rather than wrapping each of its 18 tables individually (see the module
-docstring in curriculum/store.py for why). These tests exercise the actual
+docstring in curriculum/store.py for why). The mechanism is
+storage/snapshot_sync.py, tested directly in tests/test_snapshot_sync.py;
+these tests prove CurriculumStore is wired to it, through the actual
 mechanism: restore-on-fresh-container is the concrete "redeploy doesn't
 wipe the curriculum" scenario this whole pass exists to fix.
 """
@@ -20,14 +22,14 @@ from academicos.curriculum.store import CurriculumStore
 
 
 def _enable_remote(store: CurriculumStore) -> None:
-    store._remote_storage._url = "https://fake-project.supabase.co"
-    store._remote_storage._key = "fake-key"
-    assert store._remote_storage.enabled
+    store._snapshots.remote._url = "https://fake-project.supabase.co"
+    store._snapshots.remote._key = "fake-key"
+    assert store._snapshots.remote.enabled
 
 
 def test_no_remote_by_default(tmp_path: Path) -> None:
     store = CurriculumStore(tmp_path / "curriculum.sqlite")
-    assert store._remote_storage.enabled is False
+    assert store._snapshots.remote.enabled is False
     store.create_board("CBSE", "cbse")  # must not attempt any network call
     store.close()
 
@@ -37,11 +39,11 @@ def test_snapshot_uploads_after_write_when_enabled(
 ) -> None:
     store = CurriculumStore(tmp_path / "curriculum.sqlite")
     _enable_remote(store)
-    store._last_snapshot_at = 0.0  # force past the debounce window
+    store._snapshots._last_upload_at = 0.0  # force past the debounce window
 
     uploaded: list[tuple[str, bytes, str]] = []
     monkeypatch.setattr(
-        store._remote_storage, "upload",
+        store._snapshots.remote, "upload",
         lambda key, data, content_type: uploaded.append((key, data, content_type)),
     )
 
@@ -55,24 +57,6 @@ def test_snapshot_uploads_after_write_when_enabled(
     store.close()
 
 
-def test_snapshot_debounced_within_window(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    store = CurriculumStore(tmp_path / "curriculum.sqlite")
-    _enable_remote(store)
-    store._last_snapshot_at = 0.0
-
-    uploaded: list[bytes] = []
-    monkeypatch.setattr(
-        store._remote_storage, "upload",
-        lambda key, data, content_type: uploaded.append(data),
-    )
-
-    store.create_board("CBSE", "cbse")   # first write: past debounce, uploads
-    store.create_board("ICSE", "icse")   # second write: within debounce window, skipped
-
-    assert len(uploaded) == 1
-    store.close()
 
 
 def test_snapshot_upload_failure_does_not_break_the_write(
@@ -80,12 +64,12 @@ def test_snapshot_upload_failure_does_not_break_the_write(
 ) -> None:
     store = CurriculumStore(tmp_path / "curriculum.sqlite")
     _enable_remote(store)
-    store._last_snapshot_at = 0.0
+    store._snapshots._last_upload_at = 0.0
 
     def _raise(*args, **kwargs):
         raise requests.exceptions.ConnectionError("simulated failure")
 
-    monkeypatch.setattr(store._remote_storage, "upload", _raise)
+    monkeypatch.setattr(store._snapshots.remote, "upload", _raise)
 
     board = store.create_board("CBSE", "cbse")  # must not raise
     assert store.get_board(board.id) is not None
@@ -103,14 +87,14 @@ def test_restore_on_fresh_container_recovers_real_data(
     # --- "old container": write real data, capture what gets uploaded ---
     store1 = CurriculumStore(db_path)
     _enable_remote(store1)
-    store1._last_snapshot_at = 0.0
+    store1._snapshots._last_upload_at = 0.0
     snapshots: list[bytes] = []
     monkeypatch.setattr(
-        store1._remote_storage, "upload",
+        store1._snapshots.remote, "upload",
         lambda key, data, content_type: snapshots.append(data),
     )
     board = store1.create_board("CBSE", "cbse")
-    store1._last_snapshot_at = 0.0  # past the debounce window again for the 2nd write
+    store1._snapshots._last_upload_at = 0.0  # past the debounce window again for the 2nd write
     year = store1.create_academic_year(
         school_id="school_1", label="2026-27", start_date="2026-06-01", end_date="2027-04-30",
     )
@@ -123,11 +107,11 @@ def test_restore_on_fresh_container_recovers_real_data(
     db_path.unlink()
     assert not db_path.exists()
 
-    # CurriculumStore.__init__ constructs its own blob store internally
-    # (storage/blobs.py's durable_blob_store, which returns SupabaseStorage
-    # when only Supabase is configured) and checks `.enabled` before __init__
-    # has returned an instance to monkeypatch -- so the fake has to be
-    # injected by patching the factory the module uses, not by patching an
+    # CurriculumStore.__init__ constructs its SnapshotSync, which builds its
+    # own blob store (storage/blobs.py's durable_blob_store, SupabaseStorage
+    # when only Supabase is configured) and restores before __init__ has
+    # returned an instance to monkeypatch -- so the fake has to be injected by
+    # patching the factory storage/snapshot_sync.py uses, not by patching an
     # instance after the fact.
     from academicos.assessment.supabase_kv import SupabaseStorage
     fake_storage = SupabaseStorage("curriculum-snapshots")
@@ -143,7 +127,7 @@ def test_restore_on_fresh_container_recovers_real_data(
         return fake_storage
 
     monkeypatch.setattr(
-        "academicos.curriculum.store.durable_blob_store", fake_supabase_storage_ctor
+        "academicos.storage.snapshot_sync.durable_blob_store", fake_supabase_storage_ctor
     )
 
     store2 = CurriculumStore(db_path)  # should restore from `last_snapshot` before opening
@@ -165,7 +149,7 @@ def _fake_supabase_storage(monkeypatch: pytest.MonkeyPatch, download):
     monkeypatch.setattr(fake_storage, "download", download)
     monkeypatch.setattr(fake_storage, "upload", lambda key, data, content_type: None)
     monkeypatch.setattr(
-        "academicos.curriculum.store.durable_blob_store", lambda bucket: fake_storage
+        "academicos.storage.snapshot_sync.durable_blob_store", lambda bucket: fake_storage
     )
     return fake_storage
 
@@ -209,7 +193,7 @@ def test_unreachable_snapshot_store_refuses_to_boot_empty(
     and whatever an admin re-entered into it was overwritten by nothing and
     lost at the next restart. Now the constructor fails (503 at the route, a
     failed startup at boot) and the next attempt restores properly."""
-    from academicos.curriculum.store import CurriculumNotDurable
+    from academicos.storage.blobs import CurriculumNotDurable
     db_path = tmp_path / "curriculum.sqlite"
 
     def _raise(key: str):

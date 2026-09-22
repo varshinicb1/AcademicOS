@@ -91,11 +91,12 @@ redeploys, ever.
    printf '%s' '<sarvam-api-key>'           | gcloud secrets versions add acos-llm-api-key --data-file=-
    ```
 
-3. **Apply the database schema:**
+3. **Apply the database schema** (and again after any change to
+   `deploy/gcp/schema.sql` — CI never applies it; see
+   `docs/gcp-deployment.md` §6 step 0):
 
    ```bash
-   gcloud sql connect academicos-pg --user=academicos --database=academicos \
-     < deploy/gcp/schema.sql
+   PROJECT_ID=vidyuthlabs bash scripts/apply_cloudsql_schema.sh
    ```
 
 4. Push to `master`. `.github/workflows/deploy-gcp.yml` tests, builds, and

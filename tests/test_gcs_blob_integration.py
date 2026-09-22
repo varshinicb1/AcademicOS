@@ -115,7 +115,7 @@ def test_download_is_pinned_to_the_generation_it_reports(real_store) -> None:
 
 
 def test_conflict_copy_lands_in_the_real_bucket(real_store) -> None:
-    """curriculum/store.py preserves a losing snapshot under conflicts/ with a
+    """storage/snapshot_sync.py preserves a losing snapshot under conflicts/ with a
     key the guarded store has never seen, i.e. if_generation_match=0."""
     a = real_store()
     a.upload("conflicts/20260922T000000Z-test-abcd1234.sqlite", b"losing file",
