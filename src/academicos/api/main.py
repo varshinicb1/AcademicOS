@@ -441,12 +441,22 @@ def _durable_backend(cfg) -> str:
     return "supabase" if cfg.supabase_enabled else "none"
 
 
+def _blob_backend() -> str:
+    """Where scan media and the curriculum snapshot actually go right now
+    (gcs | supabase | local) -- see storage/blobs.py. Reported separately from
+    durability_backend because the two moved to GCP independently: a service
+    can be on Cloud SQL and still be writing blobs to container disk."""
+    from ..storage.blobs import blob_backend
+    return blob_backend()
+
+
 def _refresh_storage_probe(cfg) -> dict:
     tables = _probe_all_tables()
     reachable = all(status == "ok" for status in tables.values())
     backend = _durable_backend(cfg)
     body = {
         "durability_backend": backend,
+        "blob_backend": _blob_backend(),
         "durability_reachable": reachable,
         "supabase_configured": cfg.supabase_enabled,
         # Legacy key: the Flutter client and the live cutover runbook both
@@ -483,6 +493,7 @@ def health_storage() -> dict:
     if backend == "none":
         return {
             "durability_backend": "none",
+            "blob_backend": _blob_backend(),
             "durability_reachable": None,
             "supabase_configured": False,
             "supabase_reachable": None,

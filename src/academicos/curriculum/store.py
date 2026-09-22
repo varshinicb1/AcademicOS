@@ -63,7 +63,7 @@ from typing import Any, Optional
 
 import requests
 
-from ..assessment.supabase_kv import SupabaseStorage
+from ..storage.blobs import durable_blob_store
 
 from .models import (
     AcademicYear,
@@ -331,7 +331,7 @@ class CurriculumStore:
 
     def __init__(self, db_path: Path):
         self.db_path = db_path
-        self._remote_storage = SupabaseStorage("curriculum-snapshots")
+        self._remote_storage = durable_blob_store("curriculum-snapshots")
         # RLock, not Lock: helpers below take it per-call, and _commit/
         # _maybe_snapshot nest a raw connection use inside their own
         # acquisition -- a plain Lock would deadlock those paths.

@@ -123,10 +123,11 @@ def test_restore_on_fresh_container_recovers_real_data(
     db_path.unlink()
     assert not db_path.exists()
 
-    # CurriculumStore.__init__ constructs its own SupabaseStorage internally
-    # and checks `.enabled` before __init__ has returned an instance to
-    # monkeypatch -- so the fake has to be injected by patching the
-    # SupabaseStorage constructor the module uses, not by patching an
+    # CurriculumStore.__init__ constructs its own blob store internally
+    # (storage/blobs.py's durable_blob_store, which returns SupabaseStorage
+    # when only Supabase is configured) and checks `.enabled` before __init__
+    # has returned an instance to monkeypatch -- so the fake has to be
+    # injected by patching the factory the module uses, not by patching an
     # instance after the fact.
     from academicos.assessment.supabase_kv import SupabaseStorage
     fake_storage = SupabaseStorage("curriculum-snapshots")
@@ -142,7 +143,7 @@ def test_restore_on_fresh_container_recovers_real_data(
         return fake_storage
 
     monkeypatch.setattr(
-        "academicos.curriculum.store.SupabaseStorage", fake_supabase_storage_ctor
+        "academicos.curriculum.store.durable_blob_store", fake_supabase_storage_ctor
     )
 
     store2 = CurriculumStore(db_path)  # should restore from `last_snapshot` before opening
@@ -172,7 +173,7 @@ def test_restore_failure_falls_back_to_fresh_empty_db(
 
     monkeypatch.setattr(fake_storage, "download", _raise)
     monkeypatch.setattr(
-        "academicos.curriculum.store.SupabaseStorage", lambda bucket: fake_storage
+        "academicos.curriculum.store.durable_blob_store", lambda bucket: fake_storage
     )
 
     store = CurriculumStore(db_path)  # must not raise -- falls through to a fresh db

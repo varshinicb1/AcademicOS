@@ -35,10 +35,12 @@ from . import imaging, llm_evaluate, scan, vision
 from .audit_log import get_audit_log
 from .scan_session_store import ScanSessionStore
 from .schemas import GeneratedQuestionSchema, QuestionSchema
-from .supabase_kv import SupabaseStorage
+from ..storage.blobs import durable_blob_store
 
 log = logging.getLogger(__name__)
-_storage = SupabaseStorage("scan-media")
+# GCS on GCP, Supabase Storage on Render, local-only otherwise -- see
+# storage/blobs.py for the precedence.
+_storage = durable_blob_store("scan-media")
 
 
 @dataclass

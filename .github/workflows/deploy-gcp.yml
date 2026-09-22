@@ -182,9 +182,15 @@ jobs:
         run: |
           # Every data-access backing service reaches the app through these.
           # Secrets come from Secret Manager, never from the repo.
-          SECRETS="SUPABASE_KNOWLEDGE_URL=supabase-url:latest"
-          SECRETS="$SECRETS,SUPABASE_KNOWLEDGE_ANON_KEY=supabase-anon-key:latest"
-          SECRETS="$SECRETS,ACOS_PRINCIPAL_BOOTSTRAP_KEY=principal-bootstrap-key:latest"
+          #
+          # No Supabase secrets, on purpose: on GCP every byte of school data
+          # lives in GCP -- the JSONB stores in Cloud SQL (ACOS_POSTGRES_*),
+          # scan media and the curriculum snapshot in GCS (ACOS_GCS_BUCKET,
+          # storage/blobs.py). With the Supabase URL present the service would
+          # quietly keep writing to it wherever GCP was not wired.
+          # --set-secrets replaces the service's whole secret list, so dropping
+          # them here also removes them from a service deployed with them.
+          SECRETS="ACOS_PRINCIPAL_BOOTSTRAP_KEY=principal-bootstrap-key:latest"
           SECRETS="$SECRETS,ACOS_LLM_API_KEY=acos-llm-api-key:latest"
           SECRETS="$SECRETS,ACOS_POSTGRES_PASSWORD=postgres-password:latest"
 
@@ -193,6 +199,16 @@ jobs:
           ENV_VARS="$ENV_VARS,ACOS_POSTGRES_USER=academicos"
           ENV_VARS="$ENV_VARS,ACOS_GCS_BUCKET=${GCS_MEDIA_BUCKET}"
           ENV_VARS="$ENV_VARS,ACOS_CORS_ORIGINS=${CORS_ORIGINS}"
+
+          # --max-instances=1 is a correctness limit, not a cost one.
+          # CurriculumStore keeps its 18 FK-linked tables in a local SQLite
+          # file and persists it as ONE GCS object (the snapshot). Two
+          # instances would each hold their own copy and each upload would
+          # replace the other's wholesale: lost calendar/sequence edits.
+          # storage/blobs.py also refuses a stale overwrite (GCS generation
+          # precondition), but that only turns silent loss into a logged
+          # refusal; one instance is what prevents it. Lift this when
+          # CurriculumStore moves to Cloud SQL like the JSONB stores.
 
           gcloud run deploy "$SERVICE" \
             --project "$PROJECT_ID" \
@@ -205,7 +221,7 @@ jobs:
             --concurrency=40 \
             --timeout=300 \
             --min-instances=1 \
-            --max-instances=3 \
+            --max-instances=1 \
             --cpu-boost \
             --add-cloudsql-instances "${SQL_CONNECTION}" \
             --service-account "$RUNTIME_SA" \
