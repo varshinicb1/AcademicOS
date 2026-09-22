@@ -315,6 +315,11 @@ class RelinkReport:
     verified_existing_scheme: int = 0
     existing_scheme_unverifiable: int = 0
     newly_attached: int = 0
+    # CBE/SQP records: their ids are not cbse:q:src:<hash>:<n>, so they never
+    # reach the answer-key index, but their builder already attached the
+    # official scheme. Counting them under no_source_hash made coverage read
+    # 50.4% when the real figure was 93.9%.
+    carried_official: int = 0
     no_source_hash: int = 0
     no_parse_tree: int = 0
     no_paper_code: int = 0
@@ -324,7 +329,7 @@ class RelinkReport:
 
     @property
     def with_scheme(self) -> int:
-        return self.already_had_scheme + self.newly_attached
+        return self.already_had_scheme + self.newly_attached + self.carried_official
 
     def coverage(self) -> float:
         return (100.0 * self.with_scheme / self.total) if self.total else 0.0
@@ -336,6 +341,8 @@ class RelinkReport:
             "  of which verified+labeled    : {:,}".format(self.verified_existing_scheme),
             "  kept but unverifiable        : {:,}".format(self.existing_scheme_unverifiable),
             "scheme attached by this pass   : {:,}".format(self.newly_attached),
+            "  carried an official scheme from its builder : {:,}".format(
+                self.carried_official),
             "with a scheme after            : {:,}  ({:.1f}%)".format(
                 self.with_scheme, self.coverage()),
             "",
@@ -448,7 +455,15 @@ def relink_answer_schemes(
     for rec in records:
         parsed_id = parse_question_id(rec.get("id") or "")
         if not parsed_id:
-            report.no_source_hash += 1
+            # Not a board-paper id, so there is no parse tree to relink from.
+            # A record whose builder attached the official scheme is covered
+            # as it stands and is left untouched.
+            own = rec.get("answerScheme") or {}
+            if own.get("provenance") == "cbse_marking_scheme" and (
+                    own.get("markingPoints") or own.get("modelAnswer")):
+                report.carried_official += 1
+            else:
+                report.no_source_hash += 1
             continue
         doc_hash, q_no = parsed_id
 

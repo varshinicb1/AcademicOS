@@ -3,62 +3,30 @@ into a single compact JSON file for bundling as a Flutter asset -- the
 on-device data source for the standalone Android build. Only the final
 extracted questions + marking schemes are exported, not raw source PDFs or
 parse artifacts, so this is a small fraction of academicos-data's 1.24GB.
+
+Retired as a writer. It discovered subject/grade pairs from the registry's
+question papers -- only grades X and XII exist there -- and wrote that
+board-only export over frontend/assets/corpus/questions.json. Once the served
+bank merged CBE and SQP questions (4,475 served: 3,286 board, 386 CBE, 803
+SQP), running it would silently strip every CBE/SQP item from the offline app.
+It now refuses and names the scripts that own the APK copy.
 """
 from __future__ import annotations
 
-import json
 import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
-
-from academicos.config import Config
-from academicos.assessment.pool import get_pool
-from academicos.assessment.mapping import to_question_schema
 
 
-def question_to_dict(q) -> dict:
-    # Exact same serialization the live FastAPI responses already use (Camel
-    # alias_generator, camelCase keys) -- guarantees this is parseable by the
-    # same Question.fromJson() the app already uses for HTTP responses today,
-    # no hand-rolled field mapping to get subtly wrong.
-    return q.model_dump(mode="json", by_alias=True)
-
-
-def main() -> None:
-    cfg = Config.load()
-
-    # Discover subject/grade pairs from the registry (same source the
-    # /catalog endpoint reads from).
-    import sqlite3
-    reg = sqlite3.connect(cfg.registry_db)
-    reg.row_factory = sqlite3.Row
-    pairs = reg.execute(
-        "SELECT DISTINCT subject, grade FROM sources "
-        "WHERE doc_type='question_paper' AND subject IS NOT NULL AND grade IS NOT NULL"
-    ).fetchall()
-    reg.close()
-
-    all_questions = []
-    seen_ids = set()
-    for row in pairs:
-        subject, grade = row["subject"], row["grade"]
-        pool = get_pool(cfg, subject=subject, grade=grade)
-        for pq in pool.questions:
-            schema = to_question_schema(pq)
-            if schema.id in seen_ids:
-                continue
-            seen_ids.add(schema.id)
-            all_questions.append(question_to_dict(schema))
-        print(f"{subject} grade {grade}: {len(pool.questions)} questions")
-
-    out = {"questions": all_questions, "exportedCount": len(all_questions)}
-    out_path = Path(__file__).resolve().parent.parent / "frontend" / "assets" / "corpus" / "questions.json"
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(json.dumps(out, ensure_ascii=False), encoding="utf-8")
-    print(f"\nWrote {len(all_questions)} questions to {out_path}")
-    print(f"File size: {out_path.stat().st_size / 1_000_000:.1f} MB")
+def main() -> int:
+    print(
+        "export_mobile_corpus.py no longer writes the APK corpus.\n"
+        "It rebuilt it from registry question papers only -- grades X and XII -- and\n"
+        "wrote that straight over frontend/assets/corpus/questions.json, which would\n"
+        "silently delete every merged CBE and SQP question from the offline app.\n"
+        "The APK copy is now written by scripts/merge_question_banks.py (and kept in\n"
+        "step by scripts/enrich_question_bank.py). Run those instead.",
+        file=sys.stderr)
+    return 2
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

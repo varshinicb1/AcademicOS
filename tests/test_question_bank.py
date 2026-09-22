@@ -540,3 +540,16 @@ def test_calibration_declares_itself_assigned():
     assert cal.measured is False
     assert cal.sample_size == 0
     assert cal.facility is None
+
+
+def test_relink_counts_a_carried_official_scheme_as_covered(tmp_path):
+    """A CBE/SQP record keeps its builder's scheme and must count toward coverage."""
+    rec = {"id": "cbe:q:Maths7X1", "answerScheme": {
+        "provenance": "cbse_marking_scheme", "modelAnswer": "5",
+        "markingPoints": [{"description": "5"}]}}
+    before = json.dumps(rec, sort_keys=True)
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", []))
+    report = relink_answer_schemes([rec], idx, parse_dir=tmp_path)
+    assert json.dumps(rec, sort_keys=True) == before
+    assert report.carried_official == 1
+    assert report.with_scheme == 1
