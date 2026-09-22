@@ -60,6 +60,12 @@ Nothing is dropped silently; every exclusion is returned with its reason.
                          its page furniture is stripped
   stem-fragment          the stem starts mid-sentence, or an MCQ's stem opens
                          with its options: the question text went elsewhere
+  stem-runs-on           the next question of the same paper is a stem-fragment:
+                         this stem lost its ending to it or took its opening,
+                         and its key is likely another question's
+  stem-holds-group       a 1-mark item whose stem prints its group's numbered
+                         parts, "1 (a) ... 1 (b) ...": several questions under
+                         one part's mark, keyed with one part's answer
   duplicate-id           an id already served
   duplicate-stem         already served, under a board-paper id where possible
 
@@ -73,7 +79,9 @@ consecutive labels in any other style -- a), a., A), A., (a) -- are the shape
 too: at c45acef 141 served 1-mark SQP rows printed them and were served as
 short_answer with keys nobody checked. Gated as MCQs, 80 get a certain letter
 and 61 are refused (34 mcq-answer-unresolved, 15 mcq-options-unresolved, 12
-stem-fragment).
+stem-fragment); one of the 80, SQP Carnatic Music (Percussion) X 2022-23 Q3,
+then goes as stem-runs-on. A CBE "1 (a) 1 (b) 1 (c)" group is not this shape:
+its labels are parts, and a 1-mark item holding them is stem-holds-group.
 
 Known limitation
 ----------------
@@ -274,8 +282,13 @@ _TITLE = r"(?:\s*(?:\((?!(?:[A-Da-d]|[ivxIVX]+)\))[^()]*\)|[A-Z]{2,}\b))*"
 # The section's own instructions may follow its title ("Section – B Each question
 # carries 2-mark weightage", SQP Applied Mathematics XII 2022-23 Q20); they are
 # furniture too. Anything else after a heading is not.
-_SECTION_NOTE = (r"(?:\s*[\[(]?\s*(?:Each (?:question|[Cc]ase [Ss]tudy)|Question numbers?|"
-                 r"This section|consists of|comprises|All questions)\b.*)?")
+_NOTE_OPENING = (r"[\[(]?\s*(?:Each (?:question|[Cc]ase [Ss]tudy)|Question numbers?|"
+                 r"This section|consists of|comprises|All questions)\b")
+_SECTION_NOTE = rf"(?:\s*{_NOTE_OPENING}.*)?"
+# What is left of "SECTION B This section consists of 6 questions of 2 marks
+# each." once `_LEADING_SECTION` takes the heading: the instructions, and no
+# question.
+_SECTION_NOTE_STEM = re.compile(rf"^{_NOTE_OPENING}")
 _TRAILING_HEADING_ONLY = re.compile(rf"(?:^|\s+){_HEADING}{_TITLE}{_SECTION_NOTE}\s*$",
                                     re.S)
 # A heading that opens the text goes with its title and nothing else.
@@ -445,6 +458,10 @@ _DASHES = str.maketrans(dict.fromkeys("−–—‐‑", "-"))
 # "1 (a) ...", "1(a) ...": the first part of a numbered group, not an MCQ in
 # its own right -- cbe:q:Science9DT3 carried its group's 8 marks this way.
 _SUB_PART = re.compile(r"^\s*(?:\d+\s*)?\(\s*[a-z]\s*\)\s*\S")
+# CBE prints each part of a numbered group under the group's number: "1 (a)",
+# "1(b)". The same number before two different letters is a group's parts;
+# "(a)8 (b)6 (c)12" (SQP Kathak XII 2022-23 Q7) is options with numeric text.
+_GROUP_PART = re.compile(r"(?<![\w.])(\d+)\s*\(([a-z])\)")
 # CBE authors some 2-mark MCQs (71 in the raw bank); none worth more than 2 was
 # a single MCQ when read (measured 2026-09-22).
 _MCQ_MAX_MARKS = 2
@@ -586,6 +603,14 @@ def _has_option_labels(stem: str) -> bool:
                for style in (_INLINE_OPTION, *_OPTION_STYLES))
 
 
+def _holds_group(stem: str) -> bool:
+    """Two or more parts of one numbered group: "1 (a) ... 1 (b) ..."."""
+    letters: dict[str, set[str]] = {}
+    for m in _GROUP_PART.finditer(stem):
+        letters.setdefault(m.group(1), set()).add(m.group(2))
+    return any(len(v) >= 2 for v in letters.values())
+
+
 def correct_letter(answers: list[str], options: dict[str, str]) -> str | None:
     """The correct option, only when the scheme states it unambiguously.
 
@@ -683,8 +708,12 @@ def _stem_after_strip_reason(stem: str) -> str | None:
     A question does not need a "?" to be one, nor does a fragment lack one
     ("above 65 years, what challenge is most likely to arise?"), so the
     opening word is the signature, not a question cue.
+
+    A stem that is a heading and its section's instructions ("SECTION B This
+    section consists of 6 questions of 2 marks each.") keeps the instructions
+    once the heading goes; they are furniture too, and no question.
     """
-    if len(stem) < _MIN_STEM or _HEADER.match(stem):
+    if len(stem) < _MIN_STEM or _HEADER.match(stem) or _SECTION_NOTE_STEM.match(stem):
         return "stem-empty-after-strip"
     if re.match(r"[a-z]", stem) and not _PART_LABEL_OPENING.match(stem):
         return "stem-fragment"
@@ -790,6 +819,14 @@ def normalise(rec: dict) -> tuple[dict, str | None]:
         r["metadata"] = meta
         return r, "stem-spans-sections"
 
+    if marks == 1 and r["type"] != "mcq" and _holds_group(r["stem"]):
+        # cbe:q:Maths9RS7 "1 (a) 1 (b) 1 (c) The weights of new born babies
+        # ...": three questions under 1 mark, keyed with part (a)'s answer
+        # running on into "1 (b) ...". Its (a)-(c) are parts, not options;
+        # typed an MCQ by their shape it was refused as an MCQ it never was.
+        r["metadata"] = meta
+        return r, "stem-holds-group"
+
     passage = str(meta.get("passage") or "").strip()
     if passage:
         r["stem"] = f"Read the passage below and answer the question that follows.\n\n{passage}\n\n{r['stem']}"
@@ -893,6 +930,30 @@ def _excluded(rec: dict, reason: str) -> dict:
             "stem": str(rec.get("stem") or "")[:200]}
 
 
+def _runs_on(rows: list[dict]) -> set[str]:
+    """Ids whose next question in the same paper is a stem-fragment.
+
+    A fragment's opening went somewhere, and in these papers it went to the
+    question before: SQP Computer Applications X 2024-25 Q19 ends "Re-write
+    the correct", Q20 opens "statements with underlined corrections", and
+    Q19's key ("SMS MMS ...") answers a third question. Q19 read as a whole
+    question, so it was served. The next question is the one numbered one on
+    (`metadata.questionKey`), whatever else excludes it; CBE items carry no
+    question number and are not paired.
+    """
+    fragments: set[tuple[str, int]] = set()
+    numbered: list[tuple[str, int, str]] = []
+    for rec in rows:
+        key = str((rec.get("metadata") or {}).get("questionKey") or "")
+        if not key.isdigit():
+            continue
+        paper = str(rec.get("questionBankId") or "")
+        numbered.append((paper, int(key), str(rec.get("id"))))
+        if normalise(rec)[1] == "stem-fragment":
+            fragments.add((paper, int(key)))
+    return {rid for paper, q, rid in numbered if (paper, q + 1) in fragments}
+
+
 def compose(served: list[dict], cbe: list[dict], sqp: list[dict]) -> ComposeResult:
     """Board records from `served`, then CBE, then SQP.
 
@@ -918,6 +979,7 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict]) -> ComposeResu
         counts["board"] += 1
 
     for label, rows in (("cbe", cbe), ("sqp", sqp)):
+        runs_on = _runs_on(rows)
         for raw in rows:
             if raw.get("id") in seen_ids:
                 excluded.append(_excluded(raw, "duplicate-id"))
@@ -927,6 +989,8 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict]) -> ComposeResu
                 excluded.append(_excluded(raw, reason))
                 continue
             rec, reason = normalise(raw)
+            if reason is None and raw.get("id") in runs_on:
+                reason = "stem-runs-on"
             if reason:
                 excluded.append(_excluded(raw, reason))
                 continue

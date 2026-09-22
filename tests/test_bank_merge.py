@@ -740,11 +740,61 @@ def kathakali_5():
         answer="3")
 
 
-def test_a_heading_at_the_start_of_a_stem_keeps_its_question():
-    out, reason = bm.normalise(computer_applications_19())
+def computer_applications_20():
+    """The row after Q19: it opens with the end of Q19's sentence."""
+    return _raw_sqp(
+        "ClassX_2024_25", "Computer Applications", 20, grade=10, marks=3, page=5,
+        stem="statements with underlined corrections. The desired purpose of each statement is "
+             "mentioned under it. I. <BODY color=\"red\"> <!--Page background color should be "
+             "red--> II. <FONT type=\"arial\"> <!--Type of Font should be Arial--> III. <img "
+             "source=\"img_girl.jpg\" size=\"500\" height=\"600\"> <!—Image source should be "
+             "img_girl.jpg, width and height both should be 500--> Consider the URL: "
+             "https://www.cbse.gov.in and answer the following questions: 3",
+        answer="The correct code is 1 mark for each correction. I) <BODY bgcolor = \"red\" > "
+               "II) <FONT face=arial> III) <img src=\"img_girl.jpg\" width=\"500\" "
+               "height=\"600\"> Page of 5")
+
+
+def test_a_heading_at_the_start_of_a_stem_is_stripped_alone():
+    out, _ = bm.normalise(computer_applications_19())
     assert out["stem"] == ("The following HTML statements are not written properly. "
                            "Re-write the correct")
-    assert reason != "stem-empty-after-strip"
+
+
+def test_a_stem_whose_next_question_is_a_fragment_is_excluded():
+    """Q19 breaks off mid-sentence -- Q20 holds the rest -- and its key ("SMS MMS ...")
+    answers another question. Served, it looked like a real question."""
+    result = bm.compose([], [], [computer_applications_19(), computer_applications_20()])
+    assert result.questions == []
+    assert {e["id"].rsplit(":", 1)[1]: e["reason"] for e in result.excluded} == {
+        "19": "stem-runs-on", "20": "stem-fragment"}
+
+
+def test_a_stem_whose_next_question_opens_with_its_options_is_excluded():
+    """SQP Carnatic Music (Percussion) X 2022-23: Q3's stem ends with Q4's question
+    ("The left side of the mridangam is known as"); Q4 kept only the options."""
+    q3 = _raw_sqp("ClassX_2022_23", "Carnatic Music (Percussion)", 3, grade=10, marks=1,
+                  page=1, stem="The number of aksharas in Druva tala a. 9 b. 11 c. 13 d. 15 "
+                               "The left side of the mridangam is known as", answer="b. 11")
+    q4 = _raw_sqp("ClassX_2022_23", "Carnatic Music (Percussion)", 4, grade=10, marks=1,
+                  page=1, stem="a. Chappu b. Toppi c. Choru d. Varu", answer="B")
+    result = bm.compose([], [], [q3, q4])
+    assert result.questions == []
+    assert [e["reason"] for e in result.excluded] == ["stem-runs-on", "stem-fragment"]
+
+
+def test_a_stem_whose_next_question_is_whole_is_served():
+    q20 = computer_applications_20()
+    q20["stem"] = "Rewrite these HTML statements with their corrections underlined."
+    result = bm.compose([], [], [computer_applications_19(), q20])
+    assert [q["id"].rsplit(":", 1)[1] for q in result.questions] == ["19", "20"]
+
+
+def test_a_fragment_in_another_paper_does_not_exclude_a_stem():
+    q20 = computer_applications_20()
+    q20["questionBankId"] = "cbse-sqp:ClassX_2023_24:Computer Applications"
+    result = bm.compose([], [], [computer_applications_19(), q20])
+    assert [q["id"].rsplit(":", 1)[1] for q in result.questions] == ["19"]
 
 
 def test_a_leading_heading_is_stripped_without_the_text_after_it():
@@ -757,6 +807,10 @@ def test_a_leading_heading_is_stripped_without_the_text_after_it():
     "SECTION C (SHORT ANSWER QUESTIONS)",
     "*Please note that the assessment scheme of the Academic Session 2024-25 will continue "
     "in the current session i.e. 2025-26.* Page of 13",
+    # a heading and its section's instructions: no question after them
+    "SECTION B This section consists of 6 questions of 2 marks each.",
+    "Section – B Each question carries 2-mark weightage",
+    "SECTION C Question numbers 24 to 28 are Long Answer based questions.",
 ])
 def test_a_stem_that_is_all_furniture_is_excluded(stem):
     rec = computer_applications_19()
@@ -850,3 +904,50 @@ def test_a_stem_that_opens_with_a_part_label_is_not_a_fragment(stem):
     rec = geography_23()
     rec["stem"] = stem
     assert bm.normalise(rec)[1] != "stem-fragment"
+
+
+# ---- a 1-mark item that holds its group's parts (Task 41 review) -------------
+
+def cbe_group(stem, marks=1, **kw):
+    """The CBE shape of cbe:q:Maths9RS7: one item per numbered group, each part
+    printed "1 (a)", "1 (b)" -- here under one part's mark, with one part's key."""
+    rec = board(7, id="cbe:q:Maths9RS7", subject="Mathematics", grade=9,
+                source="cbse_question_bank", type="very_short_answer", marks=marks, stem=stem)
+    answer = ("Range = Highest observation – lowest observation = 4.0 – 2.1 = 1.9 kg A1 For "
+              "correct answer 1 (b) How many babies weigh below 3.0 kg (1 mark)")
+    rec["answerScheme"]["modelAnswer"] = answer
+    rec["answerScheme"]["markingPoints"][0]["description"] = answer
+    rec.update(kw)
+    return rec
+
+
+@pytest.mark.parametrize("stem", [
+    # cbe:q:Maths9RS7: labels first, questions after
+    "1 (a) 1 (b) 1 (c) The weights of new born babies in kg are recorded by a hospital. "
+    "Find the range of the data. How many babies weigh below 3.0 kg. What is the mean weight.",
+    # cbe:q:Maths7SC6: a lead-in, then each part under its label
+    "1 Read the graph and answer the following questions. 1 (a) Which is the favourite colour "
+    "of most students? 1 (b) Find the ratio of the number of students. 1 (c) What percentage "
+    "of all 30 students represents students whose favourite colour is red?",
+    # cbe:q:Maths6MG4: two parts, no MCQ shape at all
+    "A boy is walking around a rectangular garden of length a metres. 1 (a) What is the "
+    "perimeter of the garden? 1 (b) If the breadth b is 5 metres how long does he walk?",
+])
+def test_a_one_mark_item_holding_its_groups_parts_is_excluded_as_one(stem):
+    """Not an MCQ: its (a)-(c) are parts, so an MCQ reason would misreport it."""
+    out, reason = bm.normalise(cbe_group(stem))
+    assert reason == "stem-holds-group"
+    assert out["type"] != "mcq"
+
+
+def test_a_multi_mark_item_with_numbered_parts_is_kept():
+    """cbe:q:Maths9RS6 (5 marks) and its kind are served with their parts."""
+    stem = ("1 (a) 1 (b) Two brothers Ashish and Amit wanted to start a business together. "
+            "Find each share. Find the ratio of their shares.")
+    assert bm.normalise(cbe_group(stem, marks=5))[1] is None
+
+
+def test_numeric_options_are_not_numbered_parts():
+    """SQP Kathak XII 2022-23 Q7: "(a)8 (b)6 (c)12 (d)4" -- the digits are option text."""
+    out, reason = bm.normalise(sqp_inline(stem_tail="(a)8 (b)6 (c)12 (d)4", answer="(a) 8"))
+    assert reason is None and out["type"] == "mcq"
