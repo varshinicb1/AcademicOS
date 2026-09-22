@@ -124,9 +124,8 @@ void main() {
     final confidentMisses = <String>[];
     for (final q in unscorable) {
       // A fixed, plainly non-blank English answer, so every row reaches the
-      // descriptive path. (The Hindi model answers cannot be used here: the
-      // Dart blank check only counts ASCII letters and digits, so a
-      // Devanagari-only answer takes the 'blank' path before scoring.)
+      // descriptive path whatever its model answer holds. Devanagari answers
+      // are covered in answer_evaluation_unicode_test.dart.
       final result = evaluateAnswer(q, q.answerScheme,
           'The student wrote a full sentence answer to this question here.');
       if (!result.needsReview || result.confidence >= 0.5) confidentMisses.add(q.id);

@@ -84,6 +84,21 @@ def test_not_attempted_phrase_is_blank_not_no_credit():
         assert ev.needs_review is False
 
 
+def test_devanagari_only_answer_is_not_blank():
+    # A Hindi-medium answer has no ASCII letter or digit. isalnum() counts
+    # Devanagari, so it must reach scoring; the Dart port used [a-zA-Z0-9] and
+    # zeroed such answers as 'blank' (fixed alongside this test).
+    q = _question()
+    ev = evaluate_answer(q, q.answer_scheme, "प्रबल अम्ल जल में अधिक आयन देते हैं।")
+    assert ev.verdict != "blank"
+
+
+def test_devanagari_punctuation_only_is_blank():
+    q = _question()
+    ev = evaluate_answer(q, q.answer_scheme, " । ॥ , ? - ")
+    assert ev.verdict == "blank"
+
+
 # -------------------------------------------------------------- objective ---
 
 def test_objective_correct_option_full_credit():
@@ -115,7 +130,10 @@ def test_objective_unidentifiable_option_needs_review():
 def test_objective_missing_key_needs_teacher():
     q = _question(marks=1, scheme=_objective_scheme(correct_option=None))
     ev = evaluate_answer(q, q.answer_scheme, "(B)")
-    assert ev.verdict == "partialCredit"
+    # 0 marks: 'noCredit', so the review UI never shows "Partial Credit" on 0/N.
+    # needs_review and the 0.0 confidence carry the "cannot score" signal.
+    assert ev.verdict == "noCredit"
+    assert ev.awarded_marks == 0
     assert ev.confidence == 0.0
     assert ev.needs_review is True
     assert "teacher must set the key" in ev.reasoning
@@ -348,7 +366,9 @@ def test_keyless_scheme_routes_to_review_not_confident_zero():
     assert keyless.marking_points == []  # genuinely keyless
     ev_keyless = evaluate_answer(_question(marks=2, scheme=keyless), keyless, answer)
     assert ev_keyless.awarded_marks == 0
-    assert ev_keyless.verdict == "partialCredit"      # cannot score, not zero-credit
+    # Cannot score: 0 marks is 'noCredit' (never "Partial Credit" on 0/N); the
+    # 0.0 confidence and needs_review say it is unscored rather than wrong.
+    assert ev_keyless.verdict == "noCredit"
     assert ev_keyless.confidence == 0.0
     assert ev_keyless.confidence < REVIEW_THRESHOLD
     assert ev_keyless.needs_review is True

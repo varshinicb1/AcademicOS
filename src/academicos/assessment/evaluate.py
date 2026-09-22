@@ -154,10 +154,14 @@ def evaluate_answer(question: QuestionSchema, scheme: AnswerSchemeSchema,
         # zero-credit answer, which a real key still scores confidently.
         # The model answer, when one is recorded, is the only key the teacher
         # has; the 345 bundled no-point rows carry none, so it is optional.
+        # Verdict 'noCredit', not 'partialCredit': the review UI renders the
+        # verdict as a label, and "Partial Credit" on 0/N reads as a marking
+        # error. confidence=0.0 and needs_review carry the "unscored" signal,
+        # as in the keyword-less branch of _evaluate_descriptive.
         model = (scheme.model_answer or "").strip()
         return Evaluation(
             question_id=question.id, awarded_marks=0, max_marks=max_marks,
-            verdict="partialCredit", confidence=0.0,
+            verdict="noCredit", confidence=0.0,
             reasoning=("This question has no marking scheme (no marking points) to "
                        "score against — it cannot be graded automatically; a teacher "
                        "must mark it manually."
@@ -198,9 +202,10 @@ def _evaluate_objective(question: QuestionSchema, scheme: AnswerSchemeSchema, an
         ambiguous = len(distinct) > 1
 
     if not key:
+        # 0 marks, so 'noCredit' (see the no-marking-points branch above).
         return Evaluation(
             question_id=question.id, awarded_marks=0, max_marks=max_marks,
-            verdict="partialCredit", confidence=0.0,
+            verdict="noCredit", confidence=0.0,
             reasoning="No correct option recorded in the marking scheme — teacher must set the key.",
             ocr_warnings=ocr_flags, needs_review=True,
         )

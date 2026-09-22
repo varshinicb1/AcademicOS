@@ -19,7 +19,16 @@ import '../../domain/entities/entities.dart';
 const reviewThreshold = 0.75;
 const descriptiveMinChars = 8;
 
-final _wordPattern = RegExp(r'[A-Za-z][A-Za-z0-9\-]+');
+// Unicode letters, not [A-Za-z]: 213 bundled questions (measured 2026-09-22)
+// carry a Devanagari keyword on a marking point, and an ASCII-only tokeniser
+// drops every Devanagari word from the answer, so those points could never be
+// awarded. \p{M} keeps the vowel signs and virama inside a word ('प्रबल' is
+// प + ् + र + ब + ल); without it each word would split at every matra. On
+// ASCII text this matches exactly what the old pattern did. evaluate.py's
+// _WORD is still ASCII-only; Python keyword matching is not on the phone's path.
+final _wordPattern = RegExp(r'\p{L}[\p{L}\p{M}\p{N}\-]+', unicode: true);
+// Python's str.isalnum(): any Unicode letter or digit. See evaluateAnswer.
+final _alnumPattern = RegExp(r'[\p{L}\p{N}]', unicode: true);
 final _fusedNumberPattern = RegExp(r'\b\d{5,}\b');
 final _optionAnswerPattern = RegExp(r'\b(?:OPTION\s*)?\(?([A-D])\)?\b');
 const _blankPhrases = {
@@ -136,7 +145,13 @@ LocalEvaluation evaluateAnswer(Question question, AnswerScheme scheme, String st
   final ocrFlags = ocrRiskFlags(answer);
   final objective = scheme.metadata['objective'] == true;
 
-  final hasAlnum = answer.split('').any((c) => RegExp(r'[a-zA-Z0-9]').hasMatch(c));
+  // evaluate.py uses `any(c.isalnum() for c in answer)`. This used to be
+  // [a-zA-Z0-9], so an answer written only in Devanagari took this path: 0
+  // marks at 0.95 confidence, no review. 149 bundled rows have a model answer
+  // with no ASCII letter or digit (measured 2026-09-22, e.g.
+  // cbse:q:src:de9d7a7a1c777974c1dd9138:13); written out by a student, each
+  // scored 'blank'.
+  final hasAlnum = _alnumPattern.hasMatch(answer);
   final stripped = answer.replaceAll(RegExp(r'^[ .]+|[ .]+$'), '').toLowerCase();
   if (!hasAlnum || _blankPhrases.contains(stripped)) {
     return LocalEvaluation(
@@ -175,12 +190,15 @@ LocalEvaluation evaluateAnswer(Question question, AnswerScheme scheme, String st
     // board-paper rows (grades 10 and 12) with markingPoints=[] and an empty
     // modelAnswer (measured 2026-09-22), and paper_selection.dart does not
     // filter them out, so they reach Scan & Grade.
+    // Verdict 'noCredit', not 'partialCredit': the review UI shows the verdict
+    // as a label, and "Partial Credit" on 0/N reads as a marking error. The 0.0
+    // confidence and needsReview carry the "unscored" signal.
     final model = scheme.modelAnswer.trim();
     return LocalEvaluation(
       questionId: question.id,
       awardedMarks: 0,
       maxMarks: maxMarks,
-      verdict: 'partialCredit',
+      verdict: 'noCredit',
       confidence: 0.0,
       reasoning: 'This question has no marking scheme (no marking points) to '
           'score against — it cannot be graded automatically; a teacher '
@@ -216,11 +234,12 @@ LocalEvaluation _evaluateObjective(
   }
 
   if (key.isEmpty) {
+    // 0 marks, so 'noCredit' (see the no-marking-points branch in evaluateAnswer).
     return LocalEvaluation(
       questionId: question.id,
       awardedMarks: 0,
       maxMarks: maxMarks,
-      verdict: 'partialCredit',
+      verdict: 'noCredit',
       confidence: 0.0,
       reasoning: 'No correct option recorded in the marking scheme — teacher must set the key.',
       ocrWarnings: ocrFlags,
