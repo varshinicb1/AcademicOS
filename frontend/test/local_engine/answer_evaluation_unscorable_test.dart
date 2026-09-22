@@ -36,8 +36,12 @@ Question _question() => Question.fromJson({
       'updatedAt': '2026-09-19T00:00:00.000Z',
     });
 
-bool _keywordless(AnswerScheme s) =>
-    s.markingPoints.isNotEmpty &&
+// Either shape leaves the matcher nothing to match: every point keyword-less
+// (1,248 bundled descriptive rows), or no points at all (345 more bundled
+// descriptive rows, all cbse_board_paper grades 10 and 12, measured
+// 2026-09-22). paper_selection.dart does not filter the second kind out, so
+// both can land on a generated paper and be scanned.
+bool _unscorable(AnswerScheme s) =>
     s.markingPoints.every((p) =>
         p.keyword.trim().isEmpty && p.synonyms.every((x) => x.trim().isEmpty));
 
@@ -55,6 +59,45 @@ void main() {
         reason: 'the teacher needs the official value point to mark it by hand');
   });
 
+  test('keyword-less points tell the teacher to mark by hand, not "no mention of ''"', () {
+    final scheme = AnswerScheme.fromJson(_schemeJson());
+    final result = evaluateAnswer(_question(), scheme,
+        'Because blue light is scattered more by the atmosphere.');
+    expect(result.markingPoints, hasLength(1));
+    final outcome = result.markingPoints.single;
+    expect(outcome.markingPointId, 'mp1');
+    expect(outcome.description, 'Scattering of sunlight by air');
+    expect(outcome.awarded, isFalse);
+    expect(outcome.reason, isNot(contains("''")));
+    expect(outcome.reason, contains('mark by hand'));
+  });
+
+  test('a scheme with no marking points at all is sent for review, not scored 0 at 0.9', () {
+    final json = _schemeJson()..['markingPoints'] = <dynamic>[];
+    final scheme = AnswerScheme.fromJson(json);
+    final result = evaluateAnswer(_question(), scheme,
+        'Because blue light is scattered more by the atmosphere.');
+    expect(result.needsReview, isTrue);
+    expect(result.confidence, lessThan(0.5));
+    expect(result.awardedMarks, 0);
+    expect(result.markingPoints, isEmpty);
+    expect(result.reasoning.toLowerCase(), contains('no marking scheme'));
+    expect(result.reasoning, contains('Scattering of sunlight by air'),
+        reason: 'the model answer, when recorded, is the only key the teacher has');
+  });
+
+  test('no marking points and no model answer still reads sensibly', () {
+    final json = _schemeJson()
+      ..['markingPoints'] = <dynamic>[]
+      ..['modelAnswer'] = '';
+    final scheme = AnswerScheme.fromJson(json);
+    final result = evaluateAnswer(_question(), scheme,
+        'Because blue light is scattered more by the atmosphere.');
+    expect(result.needsReview, isTrue);
+    expect(result.reasoning.toLowerCase(), contains('no marking scheme'));
+    expect(result.reasoning, isNot(contains("''")));
+  });
+
   test('a scheme with a real keyword is still scored, not sent for review', () {
     final json = _schemeJson();
     (json['markingPoints'] as List).first['keyword'] = 'scattering';
@@ -66,12 +109,14 @@ void main() {
     expect(result.needsReview, isFalse);
   });
 
-  test('every keyword-less descriptive question in the bundled corpus goes to review', () async {
+  test('every unscorable descriptive question in the bundled corpus goes to review', () async {
     await CorpusRepository.instance.ensureLoaded();
     final unscorable = CorpusRepository.instance.all
         .where((q) =>
-            q.answerScheme.metadata['objective'] != true && _keywordless(q.answerScheme))
+            q.answerScheme.metadata['objective'] != true && _unscorable(q.answerScheme))
         .toList();
+    expect(unscorable.where((q) => q.answerScheme.markingPoints.isEmpty), isNotEmpty,
+        reason: 'the sweep must cover the no-marking-points rows as well');
     expect(unscorable, isNotEmpty,
         reason: 'the bundled corpus is expected to still carry keyword-less schemes; '
             'if the bank no longer has any, this sweep proves nothing and should be revisited');
@@ -87,7 +132,7 @@ void main() {
       if (!result.needsReview || result.confidence >= 0.5) confidentMisses.add(q.id);
     }
     expect(confidentMisses, isEmpty,
-        reason: '${confidentMisses.length} of ${unscorable.length} keyword-less questions '
+        reason: '${confidentMisses.length} of ${unscorable.length} unscorable questions '
             'were still scored confidently, e.g. ${confidentMisses.take(3)}');
   });
 }

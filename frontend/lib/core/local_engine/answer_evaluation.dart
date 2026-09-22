@@ -1,8 +1,11 @@
-/// Faithful Dart port of src/academicos/assessment/evaluate.py -- the
+/// Dart port of src/academicos/assessment/evaluate.py -- the
 /// deterministic (no LLM, no network) marking-point/keyword evaluation
 /// engine. This is the real scoring logic, not a simplified stand-in: every
 /// mark still traces to a named marking point, confidence still gates
-/// needsReview, MCQ vs descriptive still branch the same way.
+/// needsReview, MCQ vs descriptive still branch the same way. Keep the two
+/// in step: a scheme with no marking points, or only keyword-less ones, must
+/// go to review in both engines (tests/test_assessment_evaluate.py and
+/// test/local_engine/answer_evaluation_unscorable_test.dart pin each side).
 ///
 /// llm_evaluate.py's richer natural-language grading (the version used for
 /// the real handwritten-booklet proof earlier) genuinely needs a cloud LLM
@@ -165,6 +168,29 @@ LocalEvaluation evaluateAnswer(Question question, AnswerScheme scheme, String st
     );
   }
 
+  if (scheme.markingPoints.isEmpty) {
+    // Mirrors evaluate.py's C4 branch. With no points, outcomes is empty, so
+    // matched=0, totalPoints=1, ratio=0 and the confidence formula gives 0.9:
+    // 0 marks, noCredit, no review. The bundled corpus has 345 descriptive
+    // board-paper rows (grades 10 and 12) with markingPoints=[] and an empty
+    // modelAnswer (measured 2026-09-22), and paper_selection.dart does not
+    // filter them out, so they reach Scan & Grade.
+    final model = scheme.modelAnswer.trim();
+    return LocalEvaluation(
+      questionId: question.id,
+      awardedMarks: 0,
+      maxMarks: maxMarks,
+      verdict: 'partialCredit',
+      confidence: 0.0,
+      reasoning: 'This question has no marking scheme (no marking points) to '
+          'score against — it cannot be graded automatically; a teacher '
+          'must mark it manually.'
+          '${model.isEmpty ? '' : " Model answer: '$model'."}',
+      ocrWarnings: ocrFlags,
+      needsReview: true,
+    );
+  }
+
   return _evaluateDescriptive(question, scheme, answer, maxMarks, ocrFlags);
 }
 
@@ -283,9 +309,10 @@ LocalEvaluation _evaluateDescriptive(
   // to the teacher instead. The verdict stays 'noCredit' because verdicts are
   // parsed into EvaluationVerdict, which has no review value; needsReview and
   // the low confidence carry the signal.
-  final unscorable = scheme.markingPoints.isNotEmpty &&
-      scheme.markingPoints.every((p) =>
-          p.keyword.trim().isEmpty && p.synonyms.every((s) => s.trim().isEmpty));
+  // evaluateAnswer has already returned for an empty markingPoints list, so
+  // `every` here is never vacuously true.
+  final unscorable = scheme.markingPoints.every((p) =>
+      p.keyword.trim().isEmpty && p.synonyms.every((s) => s.trim().isEmpty));
   if (unscorable) {
     return LocalEvaluation(
       questionId: question.id,
@@ -296,7 +323,20 @@ LocalEvaluation _evaluateDescriptive(
       reasoning: 'The marking scheme has no keywords to match, so this answer '
           'could not be scored automatically. Mark it by hand against the '
           "official value point: '${scheme.markingPoints.first.description}'.",
-      markingPoints: outcomes,
+      // Fresh outcomes rather than _matchPoint's: its miss reason would read
+      // "no mention of '' or its variants" once per point in the review UI,
+      // which blames the answer for a gap in the scheme.
+      markingPoints: [
+        for (final p in scheme.markingPoints)
+          MarkingPointOutcome(
+            markingPointId: p.id,
+            description: p.description,
+            awarded: false,
+            marks: 0,
+            reason: 'no keyword in the scheme; mark by hand',
+            similarity: 0.0,
+          ),
+      ],
       ocrWarnings: ocrFlags,
       needsReview: true,
     );

@@ -356,6 +356,57 @@ def test_keyless_scheme_routes_to_review_not_confident_zero():
     assert "cannot be graded automatically" in ev_keyless.reasoning.lower()
 
 
+def test_keywordless_points_route_to_review_not_confident_zero():
+    # Every point has a description but no keyword or synonym -- the shape of
+    # 1,248 of the 2,544 descriptive board-paper questions in the bundled
+    # corpus (measured 2026-09-22), and of every CBE/SQP value point. Nothing
+    # can match, the ratio is 0, and 0.9 - 0.5 * (1 - |2*0 - 1|) is 0.9, so
+    # this used to be a confident 0 with no review. The Dart port
+    # (answer_evaluation.dart) returns the same shape.
+    answer = "Because blue light is scattered more by the atmosphere."
+    scheme = AnswerSchemeSchema(
+        total_marks=2,
+        marking_points=[_point("mp1", 1, "", description="Scattering of sunlight by air"),
+                        _point("mp2", 1, "  ", description="Blue has the shorter wavelength")],
+        metadata={},
+    )
+    ev = evaluate_answer(_question(marks=2, scheme=scheme), scheme, answer)
+    assert ev.awarded_marks == 0
+    assert ev.verdict == "noCredit"
+    assert ev.confidence < REVIEW_THRESHOLD
+    assert ev.needs_review is True
+    assert "Scattering of sunlight by air" in ev.reasoning
+    # One outcome per point, none blaming the answer with "no mention of ''".
+    assert [o.marking_point_id for o in ev.marking_points] == ["mp1", "mp2"]
+    assert all(not o.awarded and o.marks == 0 for o in ev.marking_points)
+    assert all("''" not in o.reason and "mark by hand" in o.reason
+               for o in ev.marking_points)
+
+
+def test_one_keyed_point_keeps_the_scheme_scorable():
+    # Only an all-keyword-less scheme is unscorable; a single real keyword
+    # means the matcher has evidence, so normal scoring applies.
+    scheme = AnswerSchemeSchema(
+        total_marks=2,
+        marking_points=[_point("mp1", 1, "scattering"),
+                        _point("mp2", 1, "", description="wavelength point")],
+        metadata={},
+    )
+    ev = evaluate_answer(_question(marks=2, scheme=scheme), scheme,
+                         "Scattering of blue light by the atmosphere.")
+    assert ev.awarded_marks == 1
+    assert ev.verdict == "partialCredit"
+
+
+def test_keyless_scheme_reasoning_quotes_model_answer_when_recorded():
+    scheme = AnswerSchemeSchema(total_marks=2, metadata={},
+                                model_answer="Scattering of sunlight by air")
+    ev = evaluate_answer(_question(marks=2, scheme=scheme), scheme,
+                         "Because blue light is scattered more by the atmosphere.")
+    assert ev.needs_review is True
+    assert "Scattering of sunlight by air" in ev.reasoning
+
+
 # ------------------------------------------------------------ ocr risk ----
 
 def test_ocr_risk_flags_fused_number():
