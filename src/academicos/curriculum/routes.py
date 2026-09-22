@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import asdict
-from datetime import date as _date, datetime, timedelta, timezone
+from datetime import datetime, timezone
 from typing import Any, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -721,22 +721,8 @@ def add_holiday(academic_year_id: str, req: AddHolidayRequest,
         raise HTTPException(422, str(e))
     h = store.add_holiday(calendar_id=cal.id, date=req.date, label=req.label, kind=req.kind,
                           end_date=req.end_date)
-    response = HolidayResponse(id=h.id, calendar_id=h.calendar_id, date=h.date, label=h.label,
-                               kind=h.kind, end_date=h.end_date)
-    if h.kind not in calendar_mod.CLOSURE_KINDS:
-        return response
-    # A closure entered after a schedule exists: its lessons move off the
-    # closed days like a PUSH. Until 2026-09-22 the day left the calendar
-    # while its lessons stayed 'scheduled' on it.
-    from ..assessment.audit_log import get_audit_log
-    reflow = scheduling_mod.reflow_after_closure(
-        store, get_audit_log(_cfg.data_root), school_id=principal.school_id,
-        academic_year_id=academic_year_id, closed_from=h.date, closed_to=h.end_date or h.date,
-        reason=f"Closure: {h.label}", changed_by=principal.id)
-    response.lessons_moved = reflow.lessons_moved
-    response.lessons_unscheduled = list(reflow.lessons_unscheduled)
-    response.reschedule_warnings = list(reflow.warnings)
-    return response
+    return HolidayResponse(id=h.id, calendar_id=h.calendar_id, date=h.date, label=h.label,
+                           kind=h.kind, end_date=h.end_date)
 
 
 @router.delete("/academic-years/{academic_year_id}/holidays/{holiday_id}")
@@ -1072,15 +1058,6 @@ def get_my_schedule(start_date: str, end_date: str,
     return out
 
 
-# Schools on this product are in India; the server runs in UTC. A lesson on
-# the school's today must be markable from 00:00 IST, not from 05:30.
-_SCHOOL_UTC_OFFSET = timezone(timedelta(hours=5, minutes=30))
-
-
-def _school_today() -> _date:
-    return datetime.now(_SCHOOL_UTC_OFFSET).date()
-
-
 @router.patch("/scheduled-lessons/{lesson_id}", response_model=ScheduledLessonResponse)
 def mark_lesson(lesson_id: str, req: MarkLessonRequest,
                 current: User = Depends(get_current_user)) -> ScheduledLessonResponse:
@@ -1099,14 +1076,8 @@ def mark_lesson(lesson_id: str, req: MarkLessonRequest,
     is_assigned = lesson.book_id in {a.book_id for a in store.assignments_for_teacher(current.id)}
     if current.role != "principal" and not is_assigned:
         raise HTTPException(403, "you are not assigned to teach this book")
-    # 409s: the request is well formed but contradicts the lesson's own date.
-    # A completion is the record of a lesson taught; a future-dated one
-    # records something that has not happened (the re-audit marked a lesson
-    # months ahead completed with a 200).
-    if req.status == "completed" and lesson.date > _school_today().isoformat():
-        raise HTTPException(
-            409, f"this lesson is planned for {lesson.date}, which has not come yet -- it can be "
-                 "marked completed on or after that day (or ADJUST it to the day it was taught)")
+    # 409: the request is well formed but the lesson holds no day to have
+    # been taught on (a PUSH could not fit it before the year ends).
     if lesson.status == "unscheduled":
         raise HTTPException(
             409, "this lesson has no day in the plan (it no longer fit before the year ends) -- "
@@ -1181,7 +1152,8 @@ def push_schedule(book_id: str, academic_year_id: str, req: PushScheduleRequest,
 @router.get("/scheduled-lessons/{lesson_id}/history", response_model=list[RescheduleHistoryEntryResponse])
 def get_lesson_history(lesson_id: str,
                        current: User = Depends(get_current_user)) -> list[RescheduleHistoryEntryResponse]:
-    """Every real PUSH/ADJUST ever applied to this lesson -- readable by
+    """Every real PUSH/ADJUST ever applied to this lesson (newDate is null
+    where a PUSH left it 'unscheduled') -- readable by
     the assigned teacher or a same-school principal, same posture as
     marking completion."""
     store = _require()

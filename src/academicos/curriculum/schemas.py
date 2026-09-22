@@ -251,14 +251,6 @@ class HolidayResponse(Camel):
     label: str
     kind: str
     end_date: Optional[str] = None
-    # Set on POST .../holidays only: a closure entered after a schedule exists
-    # moves the still-to-teach lessons off its days, like a PUSH
-    # (scheduling.reflow_after_closure). lessonsUnscheduled no longer fit
-    # before the year ends; rescheduleWarnings names books that could not be
-    # moved and why.
-    lessons_moved: int = 0
-    lessons_unscheduled: list[str] = Field(default_factory=list)
-    reschedule_warnings: list[str] = Field(default_factory=list)
 
 
 class SetPeriodConfigurationRequest(Camel):
@@ -387,9 +379,9 @@ class ScheduledLessonResponse(Camel):
     book_id: str
     subtopic_id: str
     date: str
-    # scheduled | completed | skipped | unscheduled ('unscheduled': a PUSH or
-    # closure could not fit it before the year ends; `date` is the last day it
-    # was planned for and it holds no day).
+    # scheduled | completed | skipped | unscheduled ('unscheduled': a PUSH
+    # could not fit it before the year ends; `date` is the last day it was
+    # planned for and it holds no day).
     status: str
     note: Optional[str] = None
     completed_by: Optional[str] = None
@@ -441,9 +433,9 @@ class PushScheduleResponse(Camel):
 class RescheduleHistoryEntryResponse(Camel):
     timestamp: str
     actor: Optional[str] = None
-    mode: str
+    mode: str               # adjust | push | unscheduled
     old_date: str
-    new_date: str
+    new_date: Optional[str] = None   # null when a PUSH left the lesson with no day
     reason: str
 
 

@@ -1279,7 +1279,7 @@ class CurriculumStore:
         return self.get_scheduled_lesson(lesson_id)
 
     def mark_lesson_unscheduled(self, lesson_id: str) -> None:
-        """A still-to-teach lesson a PUSH/closure reflow could not fit
+        """A still-to-teach lesson a PUSH could not fit
         before the year ends: it stops holding its day (see models.py's
         STATUS_VALUES note). Its date is left as the last one planned."""
         self._exec("UPDATE scheduled_lessons SET status='unscheduled' WHERE id=? AND status='scheduled'",
@@ -1328,12 +1328,6 @@ class CurriculumStore:
             rowcount = cur.rowcount
         self._commit()
         return rowcount
-
-    def book_ids_with_lessons(self, academic_year_id: str, school_id: str) -> list[str]:
-        rows = self._fetchall(
-            "SELECT DISTINCT book_id FROM scheduled_lessons WHERE academic_year_id=? AND school_id=? "
-            "ORDER BY book_id", (academic_year_id, school_id))
-        return [r["book_id"] for r in rows]
 
     def set_book_schedule_cadence(self, academic_year_id: str, book_id: str,
                                   periods_per_week: int) -> None:

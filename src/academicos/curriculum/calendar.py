@@ -243,7 +243,7 @@ def working_days_for_year(store: CurriculumStore, academic_year_id: str) -> Work
 # --------------------------------------------------------------------- #
 # Teaching slots: which real periods of the year a subject gets. One rule,
 # shared by the teaching-time budget below and by scheduling.py (placing,
-# PUSH, closure reflow), so the budget can never promise periods the
+# PUSH), so the budget can never promise periods the
 # scheduler does not have. Until 2026-09-22 the two used different numbers:
 # the budget was periods_per_week x calendar weeks (264 for a 6-period
 # subject) while the scheduler had 220 real slots once alternate Saturdays

@@ -430,14 +430,11 @@ class _MySchedulePageState extends State<MySchedulePage> {
                     .markLesson(lesson.lessonId, status: status, note: note.isEmpty ? null : note);
                 if (sheetContext.mounted) Navigator.of(sheetContext).pop();
                 if (mounted) setState(() => _future = _load());
-              } catch (e) {
+              } catch (_) {
                 setSheetState(() => saving = false);
-                // The server's own reason, e.g. a lesson dated in the future
-                // cannot be marked completed yet (a 409 since 2026-09-22) --
-                // "check your connection" was wrong for every refusal.
                 if (sheetContext.mounted) {
                   ScaffoldMessenger.of(sheetContext).showSnackBar(
-                    SnackBar(content: Text('Could not save: ${serverErrorMessage(e)}')),
+                    const SnackBar(content: Text('Could not save -- check your connection and try again.')),
                   );
                 }
               }

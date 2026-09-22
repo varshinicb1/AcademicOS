@@ -2603,25 +2603,6 @@
           "label": {
             "title": "Label",
             "type": "string"
-          },
-          "lessonsMoved": {
-            "default": 0,
-            "title": "Lessonsmoved",
-            "type": "integer"
-          },
-          "lessonsUnscheduled": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Lessonsunscheduled",
-            "type": "array"
-          },
-          "rescheduleWarnings": {
-            "items": {
-              "type": "string"
-            },
-            "title": "Reschedulewarnings",
-            "type": "array"
           }
         },
         "required": [
@@ -4717,8 +4698,15 @@
             "type": "string"
           },
           "newDate": {
-            "title": "Newdate",
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Newdate"
           },
           "oldDate": {
             "title": "Olddate",
@@ -4737,7 +4725,6 @@
           "timestamp",
           "mode",
           "oldDate",
-          "newDate",
           "reason"
         ],
         "title": "RescheduleHistoryEntryResponse",
@@ -9998,7 +9985,7 @@
     },
     "/api/v1/curriculum/scheduled-lessons/{lesson_id}/history": {
       "get": {
-        "description": "Every real PUSH/ADJUST ever applied to this lesson -- readable by\nthe assigned teacher or a same-school principal, same posture as\nmarking completion.",
+        "description": "Every real PUSH/ADJUST ever applied to this lesson (newDate is null\nwhere a PUSH left it 'unscheduled') -- readable by\nthe assigned teacher or a same-school principal, same posture as\nmarking completion.",
         "operationId": "get_lesson_history_api_v1_curriculum_scheduled_lessons__lesson_id__history_get",
         "parameters": [
           {

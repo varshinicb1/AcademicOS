@@ -298,7 +298,7 @@ class StudentEnrollment:
     created_at: str = ""
 
 
-# 'unscheduled': a still-to-teach lesson a PUSH or closure reflow could not
+# 'unscheduled': a still-to-teach lesson a PUSH could not
 # fit before the year ends. It holds no day (the calendar views and every
 # clash check ignore it) and keeps the last date it was planned for, because
 # the date column is NOT NULL and every client parses it. Until 2026-09-22

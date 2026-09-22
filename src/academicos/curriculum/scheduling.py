@@ -27,8 +27,8 @@ from .store import CurriculumStore
 
 def _resolve_cadence(store: CurriculumStore, academic_year_id: str, book_id: str,
                      periods_per_week: Optional[int]) -> int:
-    """The periods a week this book's lessons are laid out at, for PUSH and
-    the closure reflow -- the cadence the existing schedule was made with.
+    """The periods a week this book's lessons are laid out at, for PUSH --
+    the cadence the existing schedule was made with.
 
     With SubjectTimetableSlot rows the timetable decides: one lesson per
     timetable period, so a Monday double counts twice (until 2026-09-22 it
@@ -135,11 +135,12 @@ def schedule_book(
     raises unless `force=True`. A regenerate replans only what is still to
     be taught: completed and skipped lessons are the teaching record and
     are kept exactly as they are, each counts toward its subtopic's
-    estimate, and the replanned lessons start after the latest of them.
-    Until 2026-09-22 force deleted every lesson, completion marks included.
+    estimate and holds its own period, and the replanned lessons fill every
+    other period of the year, in delivery order. Until 2026-09-22 force
+    deleted every lesson, completion marks included.
 
-    Records the cadence the lessons were laid out at, so PUSH and the
-    closure reflow move them at the same cadence (Task 102 review)."""
+    Records the cadence the lessons were laid out at, so PUSH moves them at
+    the same cadence (Task 102 review)."""
     if periods_per_week <= 0:
         raise ValueError("periods_per_week must be positive")
 
@@ -153,10 +154,17 @@ def schedule_book(
                 "lessons are kept; only what is still to be taught is replanned)")
         store.delete_unrecorded_lessons_for_book(academic_year_id, book_id)
 
-    slots = calendar_mod.teaching_slots_for_book(store, academic_year_id, book_id, periods_per_week)
-    if kept:
-        last_kept = max(l.date for l in kept)
-        slots = [d for d in slots if d.isoformat() > last_kept]
+    # A kept lesson holds only its own period. Cutting the slot list after
+    # the latest kept lesson (the first version of this fix) threw the whole
+    # year before it away: a skip may be marked on a future lesson, and one
+    # skip in March left the rest of the syllabus to fit after March.
+    held = Counter(l.date for l in kept)
+    slots = []
+    for d in calendar_mod.teaching_slots_for_book(store, academic_year_id, book_id, periods_per_week):
+        if held[d.isoformat()] > 0:
+            held[d.isoformat()] -= 1
+            continue
+        slots.append(d)
     kept_per_subtopic = Counter(l.subtopic_id for l in kept)
 
     ordered: list[tuple[str, int]] = []   # (subtopic_id, periods still needed)
@@ -240,13 +248,15 @@ class RescheduleResult:
     lesson_id: str
     subtopic_id: str
     old_date: str
-    new_date: str
+    new_date: Optional[str]   # None only for mode "unscheduled"
     reason: str
-    mode: str   # "adjust" | "push"
+    mode: str   # "adjust" | "push" | "unscheduled" (a PUSH could not fit it)
 
 
-def _log_reschedule(audit_log: AuditLog, *, lesson, new_date: str, reason: str, mode: str,
-                    changed_by: str) -> RescheduleResult:
+def _log_reschedule(audit_log: AuditLog, *, lesson, new_date: Optional[str], reason: str,
+                    mode: str, changed_by: str) -> RescheduleResult:
+    """`new_date` is None for mode 'unscheduled': the lesson lost its day
+    and got no other."""
     old_date = lesson.date
     audit_log.append(
         RESCHEDULE_ACTION, actor=changed_by,
@@ -334,19 +344,20 @@ def _reflow(store: CurriculumStore, audit_log: AuditLog, *, academic_year_id: st
             periods_per_week: int, from_date: str, skip_disruption_day: bool, reason: str,
             changed_by: str) -> tuple[list[RescheduleResult], list[str]]:
     """Lays every still-to-teach lesson dated on/after `from_date` onto the
-    book's teaching periods from `from_date` on, in delivery order -- the
-    one placement rule PUSH and the closure reflow share.
+    book's teaching periods from `from_date` on, in delivery order -- PUSH's
+    placement rule.
 
     Completed/skipped lessons never move and keep their periods; an
     'unscheduled' lesson holds none. `skip_disruption_day` gives up every
     period of the first teaching day on/after `from_date` (PUSH: "today
-    just became a holiday"; a double period there is lost too). A closure
-    needs no skip: the calendar already excludes its days.
+    just became a holiday"; a double period there is lost too).
 
     A lesson with no period left before the year ends becomes
     'unscheduled' (returned as dropped). Until 2026-09-22 it stayed
     'scheduled' on its old date while the lesson before it was moved onto
-    that same date -- a double-booked day."""
+    that same date -- a double-booked day. Losing its day is logged like a
+    move (mode 'unscheduled', no new date), so the lesson's history says
+    why it has none."""
     on_or_after = [l for l in store.scheduled_lessons_for_book(academic_year_id, book_id)
                    if l.date >= from_date]
     affected = [l for l in on_or_after if l.status == "scheduled"]   # date, then delivery order
@@ -377,6 +388,8 @@ def _reflow(store: CurriculumStore, audit_log: AuditLog, *, academic_year_id: st
     for i, lesson in enumerate(affected):
         if i >= len(free):
             store.mark_lesson_unscheduled(lesson.id)
+            _log_reschedule(audit_log, lesson=lesson, new_date=None, reason=reason,
+                            mode="unscheduled", changed_by=changed_by)
             dropped.append(lesson.id)
             continue
         if free[i] == lesson.date:
@@ -432,53 +445,9 @@ def push_lessons_after(
                       lessons_dropped=tuple(dropped), reschedules=tuple(moves))
 
 
-@dataclass(frozen=True)
-class ClosureReflowResult:
-    lessons_moved: int
-    lessons_unscheduled: tuple[str, ...]
-    warnings: tuple[str, ...]    # books that could not be moved, and why
-
-
-def reflow_after_closure(
-    store: CurriculumStore, audit_log: AuditLog, *, school_id: str, academic_year_id: str,
-    closed_from: str, closed_to: str, reason: str, changed_by: str,
-) -> ClosureReflowResult:
-    """A closure (holiday, emergency...) entered after a schedule exists:
-    every book with a still-to-teach lesson on a closed day has its lessons
-    from `closed_from` on moved onto its remaining teaching periods, in
-    order, exactly like a PUSH -- each move is on the lesson's audit
-    history. Until 2026-09-22 the closure took the day out of the calendar
-    but its lessons stayed 'scheduled' on it.
-
-    Call after the holiday row is stored, so the teaching periods already
-    exclude the closed days. A book whose cadence cannot be resolved (a
-    schedule made before cadences were recorded, no timetable and no
-    allocation) is not moved and is named in `warnings`, instead of failing
-    the holiday the principal entered."""
-    moved = 0
-    unscheduled: list[str] = []
-    warnings: list[str] = []
-    for book_id in store.book_ids_with_lessons(academic_year_id, school_id):
-        lessons = store.scheduled_lessons_for_book(academic_year_id, book_id)
-        if not any(l.status == "scheduled" and closed_from <= l.date <= closed_to for l in lessons):
-            continue
-        try:
-            cadence = _resolve_cadence(store, academic_year_id, book_id, None)
-            moves, dropped = _reflow(
-                store, audit_log, academic_year_id=academic_year_id, book_id=book_id,
-                periods_per_week=cadence, from_date=closed_from, skip_disruption_day=False,
-                reason=reason, changed_by=changed_by)
-        except ValueError as e:
-            warnings.append(f"lessons of book {book_id} on the closed day(s) were not moved: {e}")
-            continue
-        moved += len(moves)
-        unscheduled.extend(dropped)
-    return ClosureReflowResult(lessons_moved=moved, lessons_unscheduled=tuple(unscheduled),
-                               warnings=tuple(warnings))
-
-
 def reschedule_history_for_lesson(audit_log: AuditLog, lesson_id: str) -> list[dict]:
-    """Every real PUSH/ADJUST ever applied to this lesson, newest first --
+    """Every real PUSH/ADJUST ever applied to this lesson (and a PUSH that
+    left it 'unscheduled'), newest first --
     reads through the same audit log the writes above went through, rather
     than a parallel history table. `for_action` is a full-table scan of
     this one action type (audit_log.py has no generic entity-scoped query

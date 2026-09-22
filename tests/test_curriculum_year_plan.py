@@ -19,10 +19,6 @@ And from Task 102's review of the same code:
   previous lesson was moved onto that same date (a double-booked day);
 - the cadence a book was scheduled with was never saved, so PUSH fell back
   to the subject allocation and could silently reschedule at another cadence.
-
-Plus two found in the re-audit: a closure added after a schedule exists left
-lessons 'scheduled' on the closed day, and a lesson dated in the future could
-be marked completed.
 """
 from __future__ import annotations
 
@@ -158,6 +154,34 @@ def test_estimate_budget_follows_the_timetable_double_period(store):
     assert result.total_subject_periods == real_periods
 
 
+def test_recompute_brings_earlier_estimates_back_inside_a_smaller_year(store):
+    """Estimates are kept on a re-run, so ones computed before a break was
+    entered (or by the old periods x weeks formula, as school_1's are)
+    stay over the budget. recompute=True replaces the computation's own
+    estimates and still leaves an admin's hand-set number alone."""
+    b = _seed(store)
+    ids = _all_subtopic_ids(store, b.book)
+    store.create_teaching_time_estimate(subtopic_id=ids[0], academic_year_id=b.year,
+                                        estimated_minutes=200, estimated_periods=5)
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    for h_date, h_end in HOLIDAYS:
+        store.add_holiday(calendar_id=b.calendar, date=h_date, end_date=h_end, label="Break",
+                          kind="school")
+
+    def stored_sum():
+        return sum(store.teaching_time_estimate_for_subtopic(s, b.year).estimated_periods for s in ids)
+
+    kept = calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    assert stored_sum() > kept.total_subject_periods     # the breaks took periods away
+
+    redone = calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6, recompute=True)
+    assert stored_sum() == redone.total_subject_periods and redone.fits_in_year
+    assert store.teaching_time_estimate_for_subtopic(ids[0], b.year).estimated_periods == 5
+
+
 # --------------------------------------------------------------------- #
 # 3. Double periods are honoured
 # --------------------------------------------------------------------- #
@@ -240,11 +264,45 @@ def test_force_regenerate_keeps_completed_and_skipped_lessons(store):
     for lesson_id, before in kept.items():
         assert by_id[lesson_id] == before     # every field, including the note and who marked it
     assert result.lessons_kept == 3
-    # Only what is still to be taught was replanned, after the recorded ones.
-    last_kept = max(l.date for l in kept.values())
+    # Only what is still to be taught was replanned, around the recorded ones:
+    # the three kept lessons hold the first three periods, nothing shares them.
     replanned = [l for l in after if l.id not in kept]
-    assert replanned and all(l.status == "scheduled" and l.date > last_kept for l in replanned)
+    assert replanned and all(l.status == "scheduled" for l in replanned)
+    assert not {l.date for l in replanned} & {l.date for l in kept.values()}
     # Each subtopic still gets exactly its estimated periods, counting the kept ones.
+    per_subtopic = Counter(l.subtopic_id for l in after)
+    for st in _all_subtopic_ids(store, b.book):
+        assert per_subtopic[st] == store.teaching_time_estimate_for_subtopic(st, b.year).estimated_periods
+
+
+def test_a_skip_late_in_the_year_does_not_throw_away_the_periods_before_it(store):
+    """A skip may be marked on a future lesson; a regenerate after one must
+    still use every free period before it. Until the review of 2026-09-22
+    the replan started after the latest recorded lesson, so one skip in
+    March pushed the whole remaining syllabus past March and left subtopics
+    undated in a year with room for them."""
+    b = _seed(store, holidays=HOLIDAYS)
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                 book_id=b.book, periods_per_week=6)
+    lessons = store.scheduled_lessons_for_book(b.year, b.book)
+    late = next(l for l in lessons if l.date >= "2027-03-01")
+    store.mark_lesson(late.id, status="skipped", note="exam prep", completed_by="t1")
+
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                          book_id=b.book, periods_per_week=6, force=True)
+
+    assert result.all_subtopics_scheduled, result.warning
+    assert result.subtopics_unscheduled == () and result.subtopics_partially_scheduled == ()
+    after = store.scheduled_lessons_for_book(b.year, b.book)
+    assert store.get_scheduled_lesson(late.id).status == "skipped"
+    replanned = [l for l in after if l.id != late.id]
+    assert min(l.date for l in replanned) == lessons[0].date   # the year's first period is used
+    # The skipped lesson keeps its own period: no replanned lesson shares its day
+    # (no timetable here, so each working day is one period).
+    assert late.date not in {l.date for l in replanned}
+    assert len({l.date for l in after}) == len(after)
     per_subtopic = Counter(l.subtopic_id for l in after)
     for st in _all_subtopic_ids(store, b.book):
         assert per_subtopic[st] == store.teaching_time_estimate_for_subtopic(st, b.year).estimated_periods
@@ -329,6 +387,13 @@ def test_a_lesson_push_cannot_place_is_unscheduled_not_left_on_its_date(store, a
     # The calendar views (date-range reads) show only lessons that hold a day.
     ranged = store.scheduled_lessons_for_date_range("school_1", "2026-06-01", "2026-06-14")
     assert dropped.id not in {l.id for l in ranged}
+    # Losing its day is on the lesson's history, like every move.
+    history = scheduling_mod.reschedule_history_for_lesson(audit_log, dropped.id)
+    assert len(history) == 1
+    details = history[0]["details"]
+    assert details["mode"] == "unscheduled"
+    assert details["old_date"] == dropped.date and details["new_date"] is None
+    assert details["reason"] == "closure"
 
 
 # --------------------------------------------------------------------- #
@@ -361,7 +426,7 @@ def test_push_uses_the_cadence_the_book_was_scheduled_with(store, audit_log):
 
 
 # --------------------------------------------------------------------- #
-# Route level: the shortfall flag, a closure after scheduling, future marks
+# Route level: the shortfall flag
 # --------------------------------------------------------------------- #
 
 @pytest.fixture
@@ -402,52 +467,3 @@ def test_schedule_route_reports_a_full_plan(principal_world):
     body = _schedule_via_route(w, b).json()
     assert body["allSubtopicsScheduled"] is True
     assert body["warning"] is None
-
-
-def test_a_closure_added_after_scheduling_moves_lessons_off_the_closed_days(principal_world):
-    w = principal_world
-    b = _seed(w.store, saturday_rule="none")
-    _schedule_via_route(w, b)
-    before = w.store.scheduled_lessons_for_book(b.year, b.book)
-    order_before = [l.id for l in before]
-
-    r = w.client.post(f"{BASE}/academic-years/{b.year}/holidays",
-                      json={"date": "2026-07-06", "endDate": "2026-07-08", "label": "Flooding",
-                            "kind": "emergency"}, headers=w.auth)
-    assert r.status_code == 200, r.text
-    assert r.json()["lessonsMoved"] > 0
-
-    after = w.store.scheduled_lessons_for_book(b.year, b.book)
-    closed = {"2026-07-06", "2026-07-07", "2026-07-08"}
-    assert not any(l.date in closed and l.status == "scheduled" for l in after)
-    placed = [l for l in after if l.status == "scheduled"]
-    assert len({l.date for l in placed}) == len(placed)
-    # Delivery order is unchanged: only dates moved.
-    assert [l.id for l in sorted(placed, key=lambda l: l.date)] == \
-        [i for i in order_before if i in {l.id for l in placed}]
-    # Lessons before the closure did not move.
-    assert all(a.date == b_.date for a, b_ in zip(after, before) if b_.date < "2026-07-06")
-    # Each move is on the lesson's audit history.
-    moved = next(l for l in before if l.date == "2026-07-06")
-    history = w.client.get(f"{BASE}/scheduled-lessons/{moved.id}/history", headers=w.auth).json()
-    assert history and "Flooding" in history[0]["reason"]
-
-
-def test_a_lesson_dated_in_the_future_cannot_be_marked_completed(principal_world, monkeypatch):
-    w = principal_world
-    b = _seed(w.store, saturday_rule="none")
-    _schedule_via_route(w, b)
-    monkeypatch.setattr(w.routes, "_school_today", lambda: date(2026, 7, 1))
-    lessons = w.store.scheduled_lessons_for_book(b.year, b.book)
-    past = next(l for l in lessons if l.date <= "2026-07-01")
-    future = next(l for l in lessons if l.date > "2026-07-01")
-
-    r = w.client.patch(f"{BASE}/scheduled-lessons/{future.id}", json={"status": "completed"},
-                       headers=w.auth)
-    assert r.status_code == 409, r.text
-    assert future.date in r.json()["detail"]
-    assert w.store.get_scheduled_lesson(future.id).status == "scheduled"
-
-    r = w.client.patch(f"{BASE}/scheduled-lessons/{past.id}", json={"status": "completed"},
-                       headers=w.auth)
-    assert r.status_code == 200, r.text
