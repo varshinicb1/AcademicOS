@@ -1565,6 +1565,37 @@ def test_an_enrich_run_names_every_conflict(tmp_path, capsys):
     assert "A 90°" in line and "D 30°" in line
 
 
+def test_the_conflict_listing_survives_a_cp1252_stdout(tmp_path, monkeypatch):
+    """Scheme text from symbol-font PDFs carries private-use characters
+    (U+F0DE in 5884c691 Q31). On Windows a redirected stdout (a CI log,
+    `--check > out.txt`) is cp1252, and printing that text raised
+    UnicodeEncodeError after the first conflict line, so a logged run
+    aborted before writing anything. capsys is UTF-8 and hides this."""
+    import io
+    script = _load_enrich_script()
+    data = tmp_path / "data"
+    make_parse_tree(data / "parse", "8" * 24, "Series 30/5/2 Mathematics")
+    make_answer_keys(data / "answer_keys.db", [POLE_OWN, POLE_SET1, COS_60, TAN_60])
+    bank = data / "syllabus" / "questions.json"
+    bank.parent.mkdir(parents=True)
+    scheme = _pole_scheme("A", "90°", "old.pdf")
+    scheme["modelAnswer"] = "90° "
+    pole = _board("8" * 24, 17, POLE_STEM, scheme, subject="Mathematics", marks=1)
+    bank.write_text(json.dumps({"questions": [pole]}), encoding="utf-8")
+    raw = io.BytesIO()
+    out = io.TextIOWrapper(raw, encoding="cp1252", errors="strict", write_through=True)
+    monkeypatch.setattr(sys, "stdout", out)
+    rc = script.run(targets=[bank], quarantine=bank.with_name("q.json"),
+                    data_root=data, check=True)
+    out.flush()
+    monkeypatch.undo()
+    assert rc == 0
+    text = raw.getvalue().decode(out.encoding)
+    line = next(ln for ln in text.splitlines() if pole["id"] in ln)
+    assert "D 30°" in line and "" in line
+    assert "enrichment" in text        # the run got past the listing
+
+
 # --------------------------------------------------------------------------- #
 # the census through the real index
 # --------------------------------------------------------------------------- #

@@ -186,7 +186,21 @@ def main() -> int:
                data_root=REPO / "academicos-data", check=args.check)
 
 
+def _utf8_stdout() -> None:
+    """The conflict listing prints scheme text, and scheme text from
+    symbol-font PDFs carries private-use characters (U+F0DE in 5884c691
+    Q31). On Windows a redirected stdout -- a CI log, `--check > out.txt`
+    -- is cp1252, which cannot encode them: the print raised after the first
+    conflict line, and a write run aborted before writing anything. Write
+    UTF-8, and escape what still cannot be written rather than fail."""
+    reconfigure = getattr(sys.stdout, "reconfigure", None)
+    if reconfigure is not None:
+        sys.stdout.flush()
+        reconfigure(encoding="utf-8", errors="backslashreplace")
+
+
 def run(*, targets: list[Path], quarantine: Path, data_root: Path, check: bool) -> int:
+    _utf8_stdout()
     primary = targets[0]
     if not primary.exists():
         print(f"missing corpus: {primary}", file=sys.stderr)
