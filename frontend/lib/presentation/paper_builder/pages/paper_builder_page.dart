@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:printing/printing.dart';
 
-import '../../../core/constants/app_constants.dart';
-import '../../../core/local_engine/local_store.dart';
+import '../../../core/download/pdf_saver.dart' as download;
+import '../../../core/session/current_session.dart';
 import '../../../data/datasources/api/paper_builder_api.dart';
 import '../../shared/widgets/shell.dart';
 import '../builder_memory.dart';
@@ -46,12 +45,13 @@ class _PaperBuilderPageState extends State<PaperBuilderPage> {
   @override
   void initState() {
     super.initState();
-    final user = LocalStore.instance.authUser;
+    // Identity from the signed-in session (Task 604), never a demo default;
+    // the PDF goes through PdfSaver: a browser download on the web.
     c = PaperBuilderController(
       api: widget.api ?? GetIt.I<PaperBuilderApi>(),
-      schoolId: widget.schoolId ?? user?['schoolId'] as String? ?? AppConstants.currentSchoolId,
-      memory: BuilderMemory(widget.userId ?? user?['id'] as String? ?? 'local'),
-      savePdf: widget.savePdf ?? (bytes, name) => Printing.sharePdf(bytes: bytes, filename: name),
+      schoolId: widget.schoolId ?? CurrentSession.schoolId,
+      memory: BuilderMemory(widget.userId ?? CurrentSession.userId),
+      savePdf: widget.savePdf ?? GetIt.I<download.PdfSaver>().save,
       quick: widget.quick,
     )..start();
   }
