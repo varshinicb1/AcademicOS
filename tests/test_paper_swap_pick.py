@@ -841,3 +841,20 @@ def test_generate_swap_and_pick_timings_on_the_real_class_10_science_bank(
     print(f"\nclass 10 Science annual, real bank, 20 runs each (ms): {timings}")
     assert builds == []                 # the pool is built once, never per request
     assert len(mapped) == 1             # and mapped to the wire shape once
+
+
+def test_one_inserted_sign_mid_stem_is_a_different_question():
+    """Task 906's review: the mid-stem exception took any single extra token,
+    so '... 2x - 4y = 24 ...' and '... 2x - 4y = -24 ...' (one inserted '-',
+    with >= 10 exact tokens) were near-duplicates. Only a stray NUMBER is
+    extraction noise; a sign, relation, function name, polarity word or
+    assertion/reason label changes the question."""
+    from academicos.assessment import pool
+
+    a = ("Solve the pair of linear equations 2x + 3y = 11 and 2x - 4y = 24 and "
+         "hence find the value of m for which y = mx + 3.")
+    b = a.replace("= 24", "= -24")
+    assert not pool.near_duplicate(a, b)
+    assert not pool.near_duplicate(b, a)
+    c = a.replace("= 11 and", "= 11 not and")
+    assert not pool.near_duplicate(a, c)

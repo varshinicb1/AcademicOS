@@ -440,9 +440,14 @@ _MIDDLE_INSERT_MIN_TOKENS = 10
 
 
 def _one_insertion(short: tuple[str, ...], long_: tuple[str, ...]) -> bool:
-    """`long_` is `short` with one token added somewhere."""
+    """`long_` is `short` with one stray NUMBER added somewhere.
+
+    Only a number: that is what extraction noise mid-stem looks like (a stray
+    "12" in the Hindi-medium case study). A sign, relation, function name,
+    polarity word or assertion/reason label changes the question --
+    "2x - 4y = 24" and "= -24" are different (Task 906's review)."""
     i = next((k for k, (x, y) in enumerate(zip(short, long_)) if x != y), len(short))
-    return short[i:] == long_[i + 1:]
+    return short[i:] == long_[i + 1:] and long_[i][:1].isdigit()
 
 
 def _same_exact_tokens(a: _ExactTokens, b: _ExactTokens) -> bool:
