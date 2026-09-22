@@ -437,8 +437,16 @@ def principal_world(tmp_path, monkeypatch):
         principal = _register(client, "school_1", "p1@example.com", "Priya Principal",
                               principal_key=PRINCIPAL_KEY)
         from academicos.curriculum import routes as curriculum_routes
-        yield SimpleNamespace(client=client, auth={"Authorization": f"Bearer {principal['token']}"},
-                              store=curriculum_routes._require(), routes=curriculum_routes)
+        # The schedule route plans from the school's today; pinned to the
+        # first day of these test years so the tests do not change with the
+        # real date. A test that needs a mid-year today sets w.today.
+        w = SimpleNamespace(today=date(2026, 6, 1))
+        monkeypatch.setattr(curriculum_routes, "_school_today", lambda: w.today)
+        w.__dict__.update(
+            client=client, auth={"Authorization": f"Bearer {principal['token']}"},
+            store=curriculum_routes._require(), routes=curriculum_routes,
+            principal=principal)
+        yield w
 
 
 def _schedule_via_route(w, b, periods_per_week=6):
@@ -467,3 +475,199 @@ def test_schedule_route_reports_a_full_plan(principal_world):
     body = _schedule_via_route(w, b).json()
     assert body["allSubtopicsScheduled"] is True
     assert body["warning"] is None
+
+
+# --------------------------------------------------------------------- #
+# Review of 75ca9a1, finding 1: a mid-year regenerate plans from today
+# --------------------------------------------------------------------- #
+
+def _periods_from(store, year_id, book_id, from_date, periods_per_week=6):
+    return [d for d in calendar_mod.teaching_slots_for_book(store, year_id, book_id, periods_per_week)
+            if d.isoformat() >= from_date]
+
+
+def test_a_mid_year_regenerate_plans_only_from_today(store):
+    """The review reproduced it: 10 lessons marked in June, regenerated as
+    if in November, and 100 of the 210 replanned lessons were dated before
+    November (from 2026-06-12) with allSubtopicsScheduled=true. A lesson on
+    a day that has passed cannot be taught, so the replan starts at today,
+    and a syllabus that no longer fits the rest of the year is flagged."""
+    b = _seed(store, holidays=HOLIDAYS)
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                 book_id=b.book, periods_per_week=6)
+    lessons = store.scheduled_lessons_for_book(b.year, b.book)
+    for l in lessons[:10]:
+        store.mark_lesson(l.id, status="completed", note=None, completed_by="t1")
+    today = "2026-11-02"
+
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                          book_id=b.book, periods_per_week=6, force=True,
+                                          from_date=today)
+
+    after = store.scheduled_lessons_for_book(b.year, b.book)
+    replanned = [l for l in after if l.status == "scheduled"]
+    assert replanned
+    assert min(l.date for l in replanned) >= today
+    assert result.first_scheduled_date >= today
+    assert result.lessons_kept == 10
+    assert sum(1 for l in after if l.status == "completed") == 10
+    left = _periods_from(store, b.year, b.book, today)
+    assert result.teaching_periods_available == len(left)
+    assert len(replanned) == len(left)          # every period left is used, none twice
+    # The estimates were sized for the whole year; with June-October gone
+    # the rest of the syllabus no longer fits, and the response says so.
+    assert result.all_subtopics_scheduled is False
+    assert result.subtopics_unscheduled or result.subtopics_partially_scheduled
+    assert f"{len(left)} teaching periods left" in result.warning
+    assert today in result.warning
+
+
+def test_a_plan_made_before_the_year_starts_uses_the_whole_year(store):
+    """Planning from today must not invent a shortfall: before the year's
+    first day, the plan starts on that day and fits exactly as before."""
+    b = _seed(store, holidays=HOLIDAYS)
+    calendar_mod.compute_teaching_time_estimates(
+        store, academic_year_id=b.year, book_id=b.book, periods_per_week=6)
+    result = scheduling_mod.schedule_book(store, school_id="school_1", academic_year_id=b.year,
+                                          book_id=b.book, periods_per_week=6,
+                                          from_date="2026-05-20")
+    assert result.all_subtopics_scheduled, result.warning
+    assert result.first_scheduled_date == "2026-06-01"
+
+
+def test_schedule_route_plans_from_the_school_today(principal_world):
+    w = principal_world
+    b = _seed(w.store, holidays=HOLIDAYS)
+    _schedule_via_route(w, b)
+    first = w.store.scheduled_lessons_for_book(b.year, b.book)[0]
+    r = w.client.patch(f"{BASE}/scheduled-lessons/{first.id}", json={"status": "completed"},
+                       headers=w.auth)
+    assert r.status_code == 200, r.text
+
+    w.today = date(2026, 11, 2)
+    r = w.client.post(f"{BASE}/books/{b.book}/schedule", params={"academic_year_id": b.year},
+                      json={"periodsPerWeek": 6, "force": True}, headers=w.auth)
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["firstScheduledDate"] >= "2026-11-02"
+    assert body["allSubtopicsScheduled"] is False and body["warning"]
+    assert body["lessonsKept"] == 1
+    replanned = [l for l in w.store.scheduled_lessons_for_book(b.year, b.book)
+                 if l.status == "scheduled"]
+    assert all(l.date >= "2026-11-02" for l in replanned)
+
+
+# --------------------------------------------------------------------- #
+# Review of 75ca9a1, finding 2: an 'unscheduled' lesson at the routes
+# --------------------------------------------------------------------- #
+
+def _short_year_with_a_dropped_lesson(w):
+    """12 working days, 12 lessons, then PUSH from the first day: the last
+    lesson has no period left and becomes 'unscheduled', still carrying its
+    last planned date as a stale date."""
+    b = _seed(w.store, units=((30, 5),), start="2026-06-01", end="2026-06-14",
+              saturday_rule="none")
+    _schedule_via_route(w, b)
+    lessons = w.store.scheduled_lessons_for_book(b.year, b.book)
+    assert len(lessons) == 12
+    r = w.client.post(f"{BASE}/books/{b.book}/schedule/push", params={"academic_year_id": b.year},
+                      json={"fromDate": lessons[0].date, "reason": "closure"}, headers=w.auth)
+    assert r.status_code == 200, r.text
+    dropped_ids = r.json()["lessonsDropped"]
+    assert len(dropped_ids) == 1
+    dropped = w.store.get_scheduled_lesson(dropped_ids[0])
+    assert dropped.status == "unscheduled"
+    return b, dropped
+
+
+def test_marking_an_unscheduled_lesson_is_refused(principal_world):
+    w = principal_world
+    _, dropped = _short_year_with_a_dropped_lesson(w)
+    r = w.client.patch(f"{BASE}/scheduled-lessons/{dropped.id}", json={"status": "completed"},
+                       headers=w.auth)
+    assert r.status_code == 409, r.text
+    assert "no day" in r.json()["detail"]
+    assert w.store.get_scheduled_lesson(dropped.id).status == "unscheduled"
+
+
+def test_adjust_ignores_an_unscheduled_lesson_and_gives_it_a_day_back(principal_world):
+    w = principal_world
+    b, dropped = _short_year_with_a_dropped_lesson(w)
+    on_plan = [l for l in w.store.scheduled_lessons_for_book(b.year, b.book)
+               if l.status == "scheduled"]
+    # The PUSH moved another lesson onto the dropped lesson's stale date.
+    # Move that one to the day the closure freed.
+    holder = next(l for l in on_plan if l.date == dropped.date)
+    r = w.client.post(f"{BASE}/scheduled-lessons/{holder.id}/reschedule",
+                      json={"newDate": "2026-06-01", "reason": "reopened"}, headers=w.auth)
+    assert r.status_code == 200, r.text
+
+    # Only the unscheduled lesson now carries that date. It holds no period,
+    # so another lesson can move there (no timetable: one period a day).
+    mover = next(l for l in on_plan if l.id != holder.id)
+    r = w.client.post(f"{BASE}/scheduled-lessons/{mover.id}/reschedule",
+                      json={"newDate": dropped.date, "reason": "swap"}, headers=w.auth)
+    assert r.status_code == 200, r.text
+
+    # ADJUST puts the dropped lesson back on the plan, on the day the mover left.
+    r = w.client.post(f"{BASE}/scheduled-lessons/{dropped.id}/reschedule",
+                      json={"newDate": mover.date, "reason": "extra class"}, headers=w.auth)
+    assert r.status_code == 200, r.text
+    assert r.json()["status"] == "scheduled" and r.json()["date"] == mover.date
+    back = w.store.get_scheduled_lesson(dropped.id)
+    assert back.status == "scheduled" and back.date == mover.date
+
+    history = w.client.get(f"{BASE}/scheduled-lessons/{dropped.id}/history", headers=w.auth).json()
+    assert [h["mode"] for h in history] == ["adjust", "unscheduled"]   # newest first
+    assert history[0]["newDate"] == mover.date and history[0]["reason"] == "extra class"
+
+    after = [l for l in w.store.scheduled_lessons_for_book(b.year, b.book) if l.status == "scheduled"]
+    assert len({l.date for l in after}) == len(after) == 12
+
+
+# --------------------------------------------------------------------- #
+# Review of 75ca9a1, finding 3: unscheduled lessons are counted and reported
+# --------------------------------------------------------------------- #
+
+def test_progress_and_delayed_topics_count_an_unscheduled_lesson(principal_world):
+    w = principal_world
+    b, dropped = _short_year_with_a_dropped_lesson(w)
+    student = w.client.post("/api/v1/auth/register", json={
+        "schoolId": "school_1", "name": "Student", "email": "s1@example.com",
+        "password": "correct horse battery", "role": "student"}).json()
+    subject = w.store.get_subject(w.store.get_book(b.book).subject_id)
+    r = w.client.post(f"{BASE}/student-enrollments",
+                      json={"studentId": student["user"]["id"], "gradeId": subject.grade_id},
+                      headers=w.auth)
+    assert r.status_code == 200, r.text
+    first = next(l for l in w.store.scheduled_lessons_for_book(b.year, b.book)
+                 if l.status == "scheduled")
+    r = w.client.patch(f"{BASE}/scheduled-lessons/{first.id}", json={"status": "completed"},
+                       headers=w.auth)
+    assert r.status_code == 200, r.text
+
+    w.today = date(2026, 6, 20)      # the short year is over
+    r = w.client.get(f"{BASE}/my-progress", params={"academic_year_id": b.year},
+                     headers={"Authorization": f"Bearer {student['token']}"})
+    assert r.status_code == 200, r.text
+    assert r.json()["asOfDate"] == "2026-06-20"
+    p = r.json()["subjects"][0]
+    assert p["unscheduledCount"] == 1
+    assert p["completedCount"] == 1
+    assert (p["scheduledCount"] + p["completedCount"] + p["skippedCount"] + p["unscheduledCount"]
+            == p["totalCount"] == 12)
+
+    r = w.client.get(f"{BASE}/reporting/delayed-topics", params={"academic_year_id": b.year},
+                     headers=w.auth)
+    assert r.status_code == 200, r.text
+    body = r.json()
+    assert body["asOfDate"] == "2026-06-20"
+    assert body["delayedCount"] == 10               # still 'scheduled' on a day that has passed
+    assert body["unscheduledCount"] == 1
+    entry = body["unscheduledLessons"][0]
+    assert entry["lessonId"] == dropped.id
+    assert entry["lastPlannedDate"] == dropped.date
+    assert entry["subjectName"] == "Mathematics" and entry["subtopicName"]
+    assert dropped.id not in {l["lessonId"] for l in body["delayedLessons"]}

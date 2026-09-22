@@ -688,6 +688,13 @@ def _boot_client(tmp_path, monkeypatch):
     monkeypatch.setattr(consent_mod, "_INSTANCE", None)
     monkeypatch.setattr(consent_routes_mod, "_store", None)
     monkeypatch.setattr(consent_routes_mod, "_audit", None)
+    # The schedule route plans from the school's today and /my-progress
+    # counts up to it. Every year these tests create starts 2026-06-01, so
+    # pin today there: on the real date the tests would change as the year
+    # passes (and stop scheduling anything once 2027-03-31 is behind us).
+    from datetime import date
+    from academicos.curriculum import routes as curriculum_routes
+    monkeypatch.setattr(curriculum_routes, "_school_today", lambda: date(2026, 6, 1))
     from fastapi.testclient import TestClient
 
     return TestClient(app)

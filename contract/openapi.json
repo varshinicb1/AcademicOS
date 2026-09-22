@@ -1821,6 +1821,19 @@
           "schoolId": {
             "title": "Schoolid",
             "type": "string"
+          },
+          "unscheduledCount": {
+            "default": 0,
+            "title": "Unscheduledcount",
+            "type": "integer"
+          },
+          "unscheduledLessons": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/UnscheduledLessonResponse"
+            },
+            "title": "Unscheduledlessons",
+            "type": "array"
           }
         },
         "required": [
@@ -6117,6 +6130,11 @@
           "totalCount": {
             "title": "Totalcount",
             "type": "integer"
+          },
+          "unscheduledCount": {
+            "default": 0,
+            "title": "Unscheduledcount",
+            "type": "integer"
           }
         },
         "required": [
@@ -6919,6 +6937,72 @@
           "seq"
         ],
         "title": "UnitResponse",
+        "type": "object"
+      },
+      "UnscheduledLessonResponse": {
+        "description": "A lesson a PUSH found no period for before the year ends. It has no\nday, so no days-overdue figure; lastPlannedDate is the day it held\nbefore it was dropped.",
+        "properties": {
+          "chapterName": {
+            "title": "Chaptername",
+            "type": "string"
+          },
+          "gradeNumber": {
+            "title": "Gradenumber",
+            "type": "integer"
+          },
+          "lastPlannedDate": {
+            "title": "Lastplanneddate",
+            "type": "string"
+          },
+          "lessonId": {
+            "title": "Lessonid",
+            "type": "string"
+          },
+          "subjectName": {
+            "title": "Subjectname",
+            "type": "string"
+          },
+          "subtopicName": {
+            "title": "Subtopicname",
+            "type": "string"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          },
+          "teacherName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teachername"
+          },
+          "topicName": {
+            "title": "Topicname",
+            "type": "string"
+          }
+        },
+        "required": [
+          "lessonId",
+          "lastPlannedDate",
+          "gradeNumber",
+          "subjectName",
+          "chapterName",
+          "topicName",
+          "subtopicName"
+        ],
+        "title": "UnscheduledLessonResponse",
         "type": "object"
       },
       "UserResponse": {
@@ -8811,7 +8895,7 @@
         "summary": "Get Book Schedule"
       },
       "post": {
-        "description": "Generates the real, dated schedule for this book -- see\nscheduling.py's module docstring for the full method and its honestly-\ndocumented weekday-assignment simplification. Requires\ncompute_teaching_time_estimates() to have already run for this\n(book, academic_year); a Subtopic without a real estimate is skipped\nand reported, never given a guessed period count. `allSubtopicsScheduled`\nis false, with a `warning` sentence, whenever any subtopic ends up\nwithout its full dated periods. `force` keeps completed/skipped lessons\nand replans only what is still to be taught.",
+        "description": "Generates the real, dated schedule for this book -- see\nscheduling.py's module docstring for the full method and its honestly-\ndocumented weekday-assignment simplification. Requires\ncompute_teaching_time_estimates() to have already run for this\n(book, academic_year); a Subtopic without a real estimate is skipped\nand reported, never given a guessed period count. `allSubtopicsScheduled`\nis false, with a `warning` sentence, whenever any subtopic ends up\nwithout its full dated periods. `force` keeps completed/skipped lessons\nand replans only what is still to be taught. New lessons are placed from\nthe school's today (or the year's first day, if later): a day that has\npassed cannot be taught on, and the shortfall warning counts only the\nperiods left.",
         "operationId": "schedule_book_api_v1_curriculum_books__book_id__schedule_post",
         "parameters": [
           {
@@ -9603,7 +9687,7 @@
     },
     "/api/v1/curriculum/my-progress": {
       "get": {
-        "description": "Real per-subject progress: how many of this class's real scheduled\nlessons (up to today) have actually been marked completed vs skipped\nvs still just scheduled -- computed from the same real ScheduledLesson\nrows the teacher/principal views use, never a separate estimate.",
+        "description": "Real per-subject progress: how many of this class's real scheduled\nlessons (up to today) have actually been marked completed vs skipped\nvs still just scheduled -- computed from the same real ScheduledLesson\nrows the teacher/principal views use, never a separate estimate.\n\nAn 'unscheduled' lesson (a PUSH found it no period before the year\nends) is counted in `unscheduledCount` and in `totalCount` whatever its\nstale date: it is still owed, and it has no day to be \"up to today\" by.\nUntil the review of 2026-09-22 one dated on or before today was in the\ntotal and in none of the parts, so the counts did not add up.",
         "operationId": "get_my_progress_api_v1_curriculum_my_progress_get",
         "parameters": [
           {
@@ -9811,7 +9895,7 @@
     },
     "/api/v1/curriculum/reporting/delayed-topics": {
       "get": {
-        "description": "All scheduled lessons past due (date < as_of_date) still in\n'scheduled' status, with days overdue (§17, §32).",
+        "description": "All scheduled lessons past due (date < as_of_date) still in\n'scheduled' status, with days overdue (§17, §32), plus every lesson a\nPUSH left 'unscheduled' (no day before the year ends -- the worst\ndelay, which this report left out until the review of 2026-09-22).\n`as_of_date` defaults to the school's today (IST).",
         "operationId": "get_delayed_topics_api_v1_curriculum_reporting_delayed_topics_get",
         "parameters": [
           {

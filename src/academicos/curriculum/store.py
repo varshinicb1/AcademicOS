@@ -1548,14 +1548,17 @@ class CurriculumStore:
     def get_delayed_topics(self, *, school_id: str, academic_year_id: str,
                            as_of_date: Optional[str] = None) -> dict[str, Any]:
         """All scheduled lessons past due (date < as_of_date) still in
-        'scheduled' status (§17, §32)."""
+        'scheduled' status (§17, §32), and separately every 'unscheduled'
+        lesson (a PUSH found it no period before the year ends), whatever
+        its stale date: a lesson that lost its day is the worst delay, and
+        until the review of 2026-09-22 the `status = 'scheduled'` filter
+        kept it off this report entirely."""
         from datetime import date, datetime, timezone
         if not as_of_date:
             as_of_date = datetime.now(timezone.utc).date().isoformat()
         as_of = date.fromisoformat(as_of_date)
 
-        rows = self._fetchall(
-            """
+        select = """
             SELECT l.id as lesson_id, l.date as scheduled_date, l.subtopic_id,
                    st.name as subtopic_name, tp.name as topic_name,
                    ch.name as chapter_name, s.name as subject_name,
@@ -1567,11 +1570,13 @@ class CurriculumStore:
             JOIN books b ON l.book_id = b.id
             JOIN subjects s ON b.subject_id = s.id
             JOIN grades g ON s.grade_id = g.id
-            WHERE l.school_id = ? AND l.academic_year_id = ? AND l.date < ? AND l.status = 'scheduled'
+            WHERE l.school_id = ? AND l.academic_year_id = ? AND {cond}
             ORDER BY l.date, g.number, s.name
-            """,
-            (school_id, academic_year_id, as_of_date),
-        )
+            """
+        rows = self._fetchall(select.format(cond="l.date < ? AND l.status = 'scheduled'"),
+                              (school_id, academic_year_id, as_of_date))
+        unscheduled_rows = self._fetchall(select.format(cond="l.status = 'unscheduled'"),
+                                          (school_id, academic_year_id))
 
         assignment_rows = self._fetchall(
             "SELECT teacher_id, book_id FROM teacher_assignments WHERE school_id=?",
@@ -1596,12 +1601,26 @@ class CurriculumStore:
                 "teacher_name": None,
             })
 
+        unscheduled = [{
+            "lesson_id": r["lesson_id"],
+            "last_planned_date": r["scheduled_date"],
+            "grade_number": r["grade_number"],
+            "subject_name": r["subject_name"],
+            "chapter_name": r["chapter_name"],
+            "topic_name": r["topic_name"],
+            "subtopic_name": r["subtopic_name"],
+            "teacher_id": teacher_for_book.get(r["book_id"]),
+            "teacher_name": None,
+        } for r in unscheduled_rows]
+
         return {
             "school_id": school_id,
             "academic_year_id": academic_year_id,
             "as_of_date": as_of_date,
             "delayed_count": len(delayed),
             "delayed_lessons": delayed,
+            "unscheduled_count": len(unscheduled),
+            "unscheduled_lessons": unscheduled,
         }
 
 

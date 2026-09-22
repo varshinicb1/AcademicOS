@@ -95,16 +95,20 @@ class ScheduleResult:
 
 
 def _shortfall_warning(*, total: int, unscheduled: int, partial: int, without_estimate: int,
-                       periods_available: int, periods_needed: int) -> Optional[str]:
+                       periods_available: int, periods_needed: int,
+                       from_date: Optional[str]) -> Optional[str]:
     """One sentence a principal cannot miss. The audit found 49 of 404 real
-    subtopics with no date behind a plain 200 and a list of ids."""
+    subtopics with no date behind a plain 200 and a list of ids. The
+    periods-left figure counts from the day the plan starts, so a mid-year
+    regenerate reports what is really left."""
     parts = []
     if unscheduled:
         parts.append(f"{unscheduled} of {total} subtopics have no date")
     if partial:
         parts.append(f"{partial} of {total} subtopics got fewer periods than their estimate")
     if unscheduled or partial:
-        parts.append(f"this subject has {periods_available} teaching periods left in the year "
+        since = f" from {from_date}" if from_date else ""
+        parts.append(f"this subject has {periods_available} teaching periods left in the year{since} "
                      f"and the estimates need {periods_needed}")
     if without_estimate:
         parts.append(f"{without_estimate} of {total} subtopics have no teaching-time estimate yet "
@@ -114,7 +118,7 @@ def _shortfall_warning(*, total: int, unscheduled: int, partial: int, without_es
 
 def schedule_book(
     store: CurriculumStore, *, school_id: str, academic_year_id: str, book_id: str,
-    periods_per_week: int, force: bool = False,
+    periods_per_week: int, force: bool = False, from_date: Optional[str] = None,
 ) -> ScheduleResult:
     """Schedules every real, approved Subtopic in a book's real delivery
     order (Unit.seq -> Chapter.seq -> Topic.seq -> Subtopic.seq -- §13's
@@ -139,6 +143,16 @@ def schedule_book(
     other period of the year, in delivery order. Until 2026-09-22 force
     deleted every lesson, completion marks included.
 
+    `from_date` (ISO date; the route passes the school's today) is the first
+    day a new lesson may use: a day that has passed can no longer be taught
+    on. Until the review of 2026-09-22 a regenerate filled every free period
+    from the year's first day, so a November regenerate (10 lessons marked
+    in June) dated 100 of 210 replanned lessons before November and still
+    said every subtopic was scheduled. Periods before `from_date` are simply
+    not offered; kept lessons on or after it still hold their own periods,
+    and the shortfall warning counts only the periods left. None means the
+    year's first day (the pure planning case the tests build on).
+
     Records the cadence the lessons were laid out at, so PUSH moves them at
     the same cadence (Task 102 review)."""
     if periods_per_week <= 0:
@@ -161,6 +175,8 @@ def schedule_book(
     held = Counter(l.date for l in kept)
     slots = []
     for d in calendar_mod.teaching_slots_for_book(store, academic_year_id, book_id, periods_per_week):
+        if from_date is not None and d.isoformat() < from_date:
+            continue        # a day that has passed: nothing new can be taught on it
         if held[d.isoformat()] > 0:
             held[d.isoformat()] -= 1
             continue
@@ -228,7 +244,7 @@ def schedule_book(
         warning=_shortfall_warning(
             total=total_subtopics, unscheduled=len(unscheduled), partial=len(partially_scheduled),
             without_estimate=len(without_estimate), periods_available=len(slots),
-            periods_needed=sum(n for _, n in ordered)),
+            periods_needed=sum(n for _, n in ordered), from_date=from_date),
     )
 
 

@@ -472,6 +472,10 @@ class SubjectProgressResponse(Camel):
     scheduled_count: int
     completed_count: int
     skipped_count: int
+    # Lessons a PUSH left with no day (status 'unscheduled'), counted
+    # whatever their stale date; totalCount includes them, so
+    # scheduled + completed + skipped + unscheduled == total.
+    unscheduled_count: int = 0
     total_count: int
 
 
@@ -568,12 +572,29 @@ class DelayedLessonResponse(Camel):
     teacher_name: Optional[str] = None
 
 
+class UnscheduledLessonResponse(Camel):
+    """A lesson a PUSH found no period for before the year ends. It has no
+    day, so no days-overdue figure; lastPlannedDate is the day it held
+    before it was dropped."""
+    lesson_id: str
+    last_planned_date: str
+    grade_number: int
+    subject_name: str
+    chapter_name: str
+    topic_name: str
+    subtopic_name: str
+    teacher_id: Optional[str] = None
+    teacher_name: Optional[str] = None
+
+
 class DelayedTopicsReportResponse(Camel):
     school_id: str
     academic_year_id: str
     as_of_date: str
     delayed_count: int
     delayed_lessons: list[DelayedLessonResponse]
+    unscheduled_count: int = 0
+    unscheduled_lessons: list[UnscheduledLessonResponse] = []
 
 
 class IngestTocRequest(Camel):
