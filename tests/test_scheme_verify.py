@@ -11,6 +11,7 @@ cited by record id or source file, except where a docstring says otherwise.
 """
 from __future__ import annotations
 
+import copy
 import json
 import re
 import sqlite3
@@ -31,6 +32,7 @@ from academicos.assessment.question_bank import (  # noqa: E402
 from academicos.corpus.scheme_verify import REASONS, verify  # noqa: E402
 
 FIXTURE = ROOT / "tests" / "fixtures" / "scheme_verify_sample.json"
+SHARE_FIXTURE = ROOT / "tests" / "fixtures" / "census_share_pre_relink.json"
 
 ANSWER_KEYS_SCHEMA = """
 CREATE TABLE answer_keys (
@@ -1626,6 +1628,15 @@ def test_the_census_picks_are_what_choose_picks_today():
         records += [r for r in json.loads(held.read_text(encoding="utf-8"))["questions"]
                     if r.get("id") not in ids]
     assert census.keys() <= {r.get("id") for r in records}
+    # The share rule decides a record only while it holds its own scheme; the
+    # relink then replaces that with the pick (Task 11 relinked the bank for
+    # real). The pinned records get their pre-relink schemes back, frozen in
+    # SHARE_FIXTURE, so the rule runs on them as it did -- and any other
+    # record the rule decides still fails the exact equality below.
+    pre_relink = json.loads(SHARE_FIXTURE.read_text(encoding="utf-8"))["schemes"]
+    for r in records:
+        if r.get("id") in pre_relink:
+            r["answerScheme"] = copy.deepcopy(pre_relink[r["id"]])
 
     index = AnswerKeyIndex(DATA / "answer_keys.db")
     seen: dict[str, object] = {}
@@ -1650,23 +1661,15 @@ def test_the_census_picks_are_what_choose_picks_today():
     # Archana/Vandana be7fd195:22, capital-intensive d4ab2844:21).
     import academicos.assessment.question_bank as qb
     by_share: set[str] = set()
-    # Once the bank has been relinked for real (Task 11), a record the share
-    # rule accepted carries the pick itself as its own scheme, and a rerun
-    # compares the pick with itself: the same text, not a share. Those are
-    # recorded apart, so a pinned id is either still decided by share or
-    # already holds the very answer the share rule accepted.
-    same_text: set[str] = set()
     real_same = qb._same_answer
 
     def same(ours, pick, options):
         agree = real_same(ours, pick, options)
         a, b = qb._answer_of(ours), qb._answer_of(pick)
         lettered = all(x["option"] or qb.outright_option(x["text"], options) for x in (a, b))
-        if agree and not lettered:
-            if qb._collapse(a["text"]).casefold() != qb._collapse(b["text"]).casefold():
-                by_share.add(current["id"])
-            else:
-                same_text.add(current["id"])
+        if agree and not lettered and qb._collapse(a["text"]).casefold() != qb._collapse(
+                b["text"]).casefold():
+            by_share.add(current["id"])
         return agree
 
     current: dict[str, str] = {}
@@ -1682,15 +1685,12 @@ def test_the_census_picks_are_what_choose_picks_today():
         relink_answer_schemes(records, index, parse_dir=DATA / "parse")
     finally:
         qb._same_answer = real_same
-    pinned = {
+    assert by_share == {
         "cbse:q:src:3901e48d946b1f956b5a21c7:22",
         "cbse:q:src:7d85e69ac9a355f7b0d2eac0:33",
         "cbse:q:src:be7fd19527d3a0bcac687817:22",
         "cbse:q:src:d4ab284479dbd2fbc3a07c7f:21",
-    }
-    assert by_share <= pinned and pinned <= by_share | same_text, (
-        f"agree-by-share decisions moved: {sorted(by_share)} "
-        f"(already reconciled: {sorted(pinned & same_text)}) -- read each pair by hand")
+    } == set(pre_relink), f"agree-by-share decisions moved: {sorted(by_share)} -- read each pair by hand"
 
     assert seen.keys() == census.keys()
     # The precision below is measured on the judged pairs only, so the set

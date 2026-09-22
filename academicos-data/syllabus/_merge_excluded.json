@@ -29321,6 +29321,14 @@
    "stem": "A quadratic polynomial whose zeroes are 2 −1 is 𝑎𝑛𝑑 5 5 (A) 25𝑥2 (B) 5𝑥2 + 5𝑥−2 −2𝑥+ 1 5𝑥2 25𝑥2 (C) + 2𝑥−1 (D) −5𝑥−2 DIRECTION: In the question number 19 and 20, a statement of Assertion (A) is follow"
   },
   {
+   "id": "cbse:sqp:ClassX_2024_25:Mathematics (Basic):19",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Mathematics (Basic)",
+   "grade": 10,
+   "stem": "Assertion(A): The sequence −1, −1 −1, . . . , −1 is an AP. Reason(R): In an AP, 𝑎𝑛−𝑎𝑛−1 is constant where 𝑛≥2 and 𝑛∈𝑁"
+  },
+  {
    "id": "cbse:sqp:ClassX_2024_25:Mathematics (Basic):20",
    "source": "cbse_sample_paper",
    "reason": "figure-referenced",
@@ -29377,6 +29385,14 @@
    "stem": "2 −1 A quadratic polynomial whose zeroes are is 𝑎𝑛𝑑 5 5 (A) 25𝑥2 + 5𝑥−2 (B) 5𝑥2 −2𝑥+ 1 (C) 5𝑥2 (D) 25𝑥2 + 2𝑥−1 −5𝑥−2 DIRECTION: In the question number 19 and 20, a statement of Assertion (A) is follow"
   },
   {
+   "id": "cbse:sqp:ClassX_2024_25:Mathematics (Basic, VIC):19",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Mathematics (Basic, VIC)",
+   "grade": 10,
+   "stem": "Assertion(A): The sequence is an AP. −1, −1 −1, . . . , −1 Reason(R): In an AP, 𝑎𝑛−𝑎𝑛−1 is constant where 𝑛≥2 and 𝑛∈𝑁"
+  },
+  {
    "id": "cbse:sqp:ClassX_2024_25:Mathematics (Basic, VIC):20",
    "source": "cbse_sample_paper",
    "reason": "answer-bleed",
@@ -29423,6 +29439,30 @@
    "subject": "Mathematics (Standard)",
    "grade": 10,
    "stem": "The point on the x- axis nearest to the point (-4,-5) is A) (0, 0) B) (-4, 0) C ) (-5, 0) D) (√41, 0)"
+  },
+  {
+   "id": "cbse:sqp:ClassX_2024_25:Mathematics (Standard):18",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Mathematics (Standard)",
+   "grade": 10,
+   "stem": "A card is drawn from a well shuffled deck of playing cards. The probability of getting red 1 face card is 3 1 3 𝐴) B) C) D) 13 2 52 26 DIRECTION: In the question number 19 and 20, a statement of Asser"
+  },
+  {
+   "id": "cbse:sqp:ClassX_2024_25:Mathematics (Standard):19",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Mathematics (Standard)",
+   "grade": 10,
+   "stem": "Assertion (A): HCF of any two consecutive even natural numbers is always 2. Reason (R): Even natural numbers are divisible by 2."
+  },
+  {
+   "id": "cbse:sqp:ClassX_2024_25:Mathematics (Standard):20",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Mathematics (Standard)",
+   "grade": 10,
+   "stem": "Assertion (A): If the radius of sector of a circle is reduced to its half and angle is doubled then the perimeter of the sector remains the same. Reason (R): The length of the arc subtending angle θ a"
   },
   {
    "id": "cbse:sqp:ClassX_2024_25:Mathematics (Standard):22",
@@ -29487,6 +29527,30 @@
    "subject": "Mathematics (Standard, VIC)",
    "grade": 10,
    "stem": "The point on the x- axis nearest to the point (-4,-5) is A)(0, 0) B) (-4, 0) C) (-5, 0) D) (√41, 0)"
+  },
+  {
+   "id": "cbse:sqp:ClassX_2024_25:Mathematics (Standard, VIC):18",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Mathematics (Standard, VIC)",
+   "grade": 10,
+   "stem": "A card is drawn from a well shuffled deck of playing cards. The probability of getting red 1 face card is 3 1 3 𝐴) B) C) D) 13 2 52 26 DIRECTION: In the question number 19 and 20, a statement of Asser"
+  },
+  {
+   "id": "cbse:sqp:ClassX_2024_25:Mathematics (Standard, VIC):19",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Mathematics (Standard, VIC)",
+   "grade": 10,
+   "stem": "Assertion (A): HCF of any two consecutive even natural numbers is always 2. Reason (R): Even natural numbers are divisible by 2."
+  },
+  {
+   "id": "cbse:sqp:ClassX_2024_25:Mathematics (Standard, VIC):20",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Mathematics (Standard, VIC)",
+   "grade": 10,
+   "stem": "Assertion (A): If the radius of sector of a circle is reduced to its half and angle is doubled then the perimeter of the sector remains the same. Reason (R): The length of the arc subtending angle θ a"
   },
   {
    "id": "cbse:sqp:ClassX_2024_25:Mathematics (Standard, VIC):22",
@@ -30449,6 +30513,22 @@
    "stem": "The length of a tangent drawn to a circle of radius 9 cm from a point at a distance of 41cm from the centre of the circle is (A) 40cm (B) 9cm (C) 41cm (D) 50cm DIRECTIONS: In the question number 19 an"
   },
   {
+   "id": "cbse:sqp:ClassX_2025_26:Mathematics (Standard):19",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Mathematics (Standard)",
+   "grade": 10,
+   "stem": "Assertion (A): The number 5n cannot end with the digit 0, where n is a natural number Reason (R): A number ends with 0, if its prime factorization contains both 2 and 5"
+  },
+  {
+   "id": "cbse:sqp:ClassX_2025_26:Mathematics (Standard):20",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Mathematics (Standard)",
+   "grade": 10,
+   "stem": "Assertion (A): If cosA + cos2A=1, then sin2A + sin4A =1 sin2A cos2A Reason (R): + =1 (Section – B) Section B consists of 5 questions of 2 marks each."
+  },
+  {
    "id": "cbse:sqp:ClassX_2025_26:Mathematics (Standard):21",
    "source": "cbse_sample_paper",
    "reason": "garbled-script",
@@ -31335,6 +31415,14 @@
    "subject": "Computer Science",
    "grade": 12,
    "stem": "Assertion (A):- If the arguments in function call statement match the number and order of arguments as defined in the function definition, such arguments are called positional arguments. Reasoning (R)"
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2022_23:Computer Science:18",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Computer Science",
+   "grade": 12,
+   "stem": "Assertion (A): CSV (Comma Separated Values) is a file format for data storage which looks like a text file. Reason (R): The information is organized with one record on each line and each field is sepa"
   },
   {
    "id": "cbse:sqp:ClassXII_2022_23:Computer Science:19",
@@ -32359,6 +32447,14 @@
    "subject": "Carnatic Music (Vocal)",
    "grade": 12,
    "stem": "Statement I: Samudaya kritis are composed by Tyagaraja. Statement II: Muthuswam Dikshitar did not composed samudaya kritis. Choose the correct option: 1. Statement I & II both are true 2. Statement I "
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2023_24:Chemistry:16",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Chemistry",
+   "grade": 12,
+   "stem": "Given below are two statements labelled as Assertion (A) and Reason (R) During electrolysis of aqueous copper sulphate solution using copper electrodes Assertion (A): hydrogen gas is released at the c"
   },
   {
    "id": "cbse:sqp:ClassXII_2023_24:Chemistry:30",
@@ -35801,6 +35897,14 @@
    "stem": "What do you know by the term Tandav? Define the term Pallavi."
   },
   {
+   "id": "cbse:sqp:ClassXII_2025_26:Persian:5",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Persian",
+   "grade": 12,
+   "stem": "Read the following passage carefully and choose the correct answer for the following questions. کی جواب درست کے سواالت گئے دئے نیچے کر پڑھ سے غور کو اقتباس ذیل درج ۔ کیجیئے نشاندھی و ید د را ها اژد . "
+  },
+  {
    "id": "cbse:sqp:ClassXII_2025_26:Persian:13",
    "source": "cbse_sample_paper",
    "reason": "answer-bleed",
@@ -35887,6 +35991,38 @@
    "subject": "Physics",
    "grade": 12,
    "stem": "When we move magnetic compass from point P to Q then which of the following statement is true * Please note that the assessment scheme of the Academic Session 2024-25 will continue in the current sess"
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2025_26:Physics:13",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Physics",
+   "grade": 12,
+   "stem": "Assertion (A): Total energy of an electron in hydrogen atom is negative. Reason (R): The centripetal force is provided by electrostatic force."
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2025_26:Physics:14",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Physics",
+   "grade": 12,
+   "stem": "Assertion (A): The critical angle of light passing from glass to air is minimum for violet colour. Reason (R): The wavelength of blue light is greater than the light of other colours."
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2025_26:Physics:15",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Physics",
+   "grade": 12,
+   "stem": "Assertion (A): Two light sources emitting waves of similar wavelengths are coherent. Reason (R): Two light sources emitting waves having zero or constant phase difference are known as coherent sources"
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2025_26:Physics:16",
+   "source": "cbse_sample_paper",
+   "reason": "key-rejected",
+   "subject": "Physics",
+   "grade": 12,
+   "stem": "Assertion (A): For three point charges to be in equilibrium, they must be collinear. Reason(R): One of the three charges must have different polarity than rest of the two. SECTION B"
   },
   {
    "id": "cbse:sqp:ClassXII_2025_26:Physics:18",
@@ -36911,6 +37047,7 @@
   "answer-is-question-text": 15,
   "option-labels-collide": 6,
   "stem-spans-sections": 19,
+  "key-rejected": 17,
   "duplicate-stem": 78,
   "stem-empty-after-strip": 2
  }

@@ -78,15 +78,17 @@ def has_answer_key(rec: dict) -> bool:
 
 
 def key_verified(rec: dict) -> bool | None:
-    """Whether the record's key passed the answer-key verifier; None when it was
-    never checked.
+    """Whether the record's key passed the answer-key verifier; None when it
+    has no key to check.
 
-    The verifier is Task 15 of the main stream and was not on this branch when
-    this was written, so the field name is an assumption:
-    ``answerScheme.verification`` as ``{"passed": bool}`` or
-    ``{"status": "passed"|...}``, or a bare bool, or ``answerScheme.verified``.
-    If the verifier writes something else, this is the one place to change;
-    until it does, every cell reads "not verified" rather than a guess.
+    The verifier is the relink's (main-stream Task 15), and it writes no
+    per-record verdict field, so the verdict is read the way the pipeline
+    reads it: a board record's key is verified when the relink stamped the
+    official row it accepted (`bank_merge.has_verified_key`); a CBE, SQP or
+    Exemplar record's own key when the rule the relink and the merge share
+    accepts it (`question_bank.builder_key_reason`). An explicit
+    ``answerScheme.verification`` (``{"passed": bool}`` or ``{"status": ...}``)
+    or ``answerScheme.verified`` still wins, for a verdict recorded by hand.
     """
     scheme = rec.get("answerScheme") or {}
     v = scheme.get("verification", scheme.get("verified"))
@@ -97,7 +99,15 @@ def key_verified(rec: dict) -> bool | None:
             return bool(v["passed"])
         if "status" in v:
             return str(v["status"]).lower() in ("passed", "verified", "ok")
-    return None
+    if not has_answer_key(rec):
+        return None
+    # Imported here: bank_merge is heavy, and the rest of this module is not.
+    from ..assessment.question_bank import builder_key_reason
+    from ..corpus.bank_merge import BOARD_SOURCE, has_verified_key
+
+    if rec.get("source") == BOARD_SOURCE:
+        return has_verified_key(rec)
+    return builder_key_reason(rec) is None
 
 
 def _pct(n: int, d: int) -> float:

@@ -862,6 +862,39 @@ def _scheme_content(scheme: dict[str, Any]) -> tuple[str, str | None]:
     return " ".join(p for p in parts if p), None
 
 
+def builder_key_reason(rec: dict[str, Any]) -> str | None:
+    """Why the relink removes a non-board record's own scheme, or None.
+
+    One rule for both ends of the pipeline: `relink_answer_schemes` applies
+    it to every record with no board-paper id, and the merge
+    (`bank_merge.compose`) refuses a CBE, SQP or Exemplar record it fails as
+    key-rejected. Before, the merge served keys the relink after it removed --
+    67 at 8e92ed9, left served with no key.
+
+    The options are the ones the builder resolved when it wrote an objective
+    scheme (`metadata.options`, `bank_merge._objective_scheme`), not the
+    record re-read: the verifier's own reader takes the numbered statements
+    before cbe:q:Science10MS2's (A)-(D) for its options. A scheme that is not
+    objective, on a record not typed mcq, has no options to name: its
+    builder did not make it an MCQ, and read as one, the "(a) ... (b) ..."
+    blanks of exemplar:q:6:mathematics:1:-:99 were four options its key named
+    none of. A record with no scheme content is not this rule's to judge.
+    """
+    scheme = rec.get("answerScheme") or {}
+    if not _has_content(scheme):
+        return None
+    text, letter = _scheme_content(scheme)
+    meta = scheme.get("metadata") or {}
+    resolved = meta.get("options") if letter else None
+    if isinstance(resolved, dict) and resolved:
+        options: dict[str, str] | None = {str(k): str(v) for k, v in resolved.items()}
+    elif not letter and rec.get("type") != "mcq":
+        options = {}
+    else:
+        options = None
+    return verify(rec, text, option=letter, judge_content=False, options=options).reason
+
+
 def _source_row(scheme: dict[str, Any],
                 rejected: list[tuple[OfficialAnswer, Verdict]]) -> Verdict | None:
     """The rejection of the index row a record's scheme was built from, if
@@ -1091,11 +1124,13 @@ def relink_answer_schemes(
         kept = had_scheme
         if had_scheme:
             text, letter = _scheme_content(scheme)
-            # A CBE/SQP scheme came from its own item, so there is no key to
-            # misalign; the content rule is for board rows (see `verify`).
-            verdict = verify(rec, text, option=letter, judge_content=parsed_id is not None)
-            if not verdict.accepted:
-                _quarantine(rec, report, verdict.reason, text, code, q_no)
+            # A CBE/SQP/Exemplar scheme came from its own item, so there is no
+            # key to misalign; the content rule is for board rows (see
+            # `verify`), and the options are the ones its builder resolved.
+            reason = (builder_key_reason(rec) if parsed_id is None else
+                      verify(rec, text, option=letter, judge_content=True).reason)
+            if reason is not None:
+                _quarantine(rec, report, reason, text, code, q_no)
                 kept = False
         labelled = kept and scheme.get("provenance") == "cbse_marking_scheme"
 

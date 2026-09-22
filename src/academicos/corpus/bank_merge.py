@@ -101,6 +101,13 @@ Nothing is dropped silently; every exclusion is returned with its reason.
   duplicate-id           an id already served
   duplicate-stem         already served, under a board-paper id where possible;
                          exactly, or near-identically (`NEAR_DUPLICATE_MIN`)
+  key-rejected           a CBE, SQP or Exemplar record whose own key the
+                         relink's verifier rejects (question_bank.
+                         builder_key_reason): an assertion-reason letter for a
+                         stem that prints no options, a key in another
+                         script. The relink runs again after the merge; served,
+                         the record would lose its key there and stay served
+                         with none (17 at 8e92ed9)
   no-verified-key        a board record whose scheme the relink did not verify
                          (not cbse_marking_scheme, or no relink stamp -- see
                          `has_verified_key`): correctness first (user
@@ -176,7 +183,8 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from ..assessment.question_bank import OfficialAnswer, build_official_scheme
+from ..assessment.question_bank import (OfficialAnswer, build_official_scheme,
+                                         builder_key_reason)
 from .mcq_shape import (
     INSTRUCTION, LATER_PART_OPENING, LETTERS, MIN_OPTIONS, PART_LABEL_OPENING, SUB_PART,
     answerable, has_option_labels, holds_group, key_letter, names_option_letter, norm,
@@ -186,6 +194,8 @@ from .mcq_shape import (
 BOARD_SOURCE = "cbse_board_paper"
 EXEMPLAR_SOURCE = "ncert_exemplar"
 NO_VERIFIED_KEY = "no-verified-key"
+# A CBE, SQP or Exemplar key the relink would remove (question_bank.builder_key_reason).
+KEY_REJECTED = "key-rejected"
 
 # The values each phone converter accepts (frontend/lib/domain/entities/enums.dart).
 BLOOM_LEVELS = frozenset({"remember", "understand", "apply", "analyze", "evaluate", "create"})
@@ -1644,6 +1654,11 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             # SQP Home Science X 2024-25 Q14's options -- and its options are
             # inline.
             reason = reason or unanswerable_reason(rec)
+            # Last, on the normalised record and its normalised scheme: the
+            # relink that runs after the merge applies the same rule, so what
+            # is served here keeps its key there.
+            if reason is None and builder_key_reason(rec) is not None:
+                reason = KEY_REJECTED
             if reason:
                 excluded.append(_excluded(raw, reason))
                 continue

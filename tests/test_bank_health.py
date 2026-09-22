@@ -117,11 +117,31 @@ def test_mark_buckets_and_subject_families():
 
 
 def test_verifier_state_is_said_not_implied():
-    assert _cell(_report())["verified"] == {"state": "not verified"}
+    """The relink's own rule decides (question_bank.builder_key_reason for a
+    CBE/SQP/Exemplar key, bank_merge.has_verified_key for a board one); a
+    verdict recorded on the scheme wins."""
+    v = _cell(_report())["verified"]
+    assert v["state"] == "verified" and v["passed"] == v["of"] == 6 and v["unchecked"] == 0
     bank = [dict(q, answerScheme=dict(q["answerScheme"], verification={"passed": q["id"] != "a2"}))
             for q in BANK]
     v = _cell(_report(bank))["verified"]
     assert v["state"] == "verified" and v["passed"] == 5 and v["of"] == 6
+    assert _cell(_report([BANK[5]]))["verified"] == {"state": "not verified"}
+
+
+def test_a_key_the_relink_would_remove_and_an_unstamped_board_key_fail():
+    from academicos.syllabus.bank_health import key_verified
+
+    # An assertion-reason letter for a stem that prints no options.
+    ar = _q("s1", 1, key="B)", source="cbse_sample_paper", prov="cbse_marking_scheme",
+            stem="Assertion (A): HCF of any two consecutive even natural numbers is always 2. "
+                 "Reason (R): Even natural numbers are divisible by 2.")
+    assert key_verified(ar) is False
+    board = _q("b1", 2, source="cbse_board_paper", prov="cbse_marking_scheme")
+    assert key_verified(board) is False          # no relink stamp: fails closed
+    board["answerScheme"]["metadata"] = {"schemeCode": "31/1/1", "schemeQNo": 4}
+    assert key_verified(board) is True
+    assert key_verified(_q("n1", 2, key="")) is None
 
 
 def test_chapters_and_topics_count_keyed_questions_and_marks():
@@ -206,7 +226,8 @@ def test_markdown_names_its_inputs_date_gaps_and_verdicts():
     report["tagging"] = tagging_accuracy(MODEL, AUDIT_SUB, AUDIT_CT)
     md = render_markdown(report)
     assert "ab" * 32 in md and "2026-09-22" in md
-    assert "not verified" in md
+    assert "| 6/6 passed (100.0% of keyed; 0 unchecked) |" in md  # the verifier's verdict
+    assert "not verified" in render_markdown(_report([BANK[5]]))  # a6: no key to check
     assert "Symmetry" in md                               # the empty chapter, by name
     assert "needs 2 keyed 3-mark questions" in md          # the verdict's reason
     assert "51/55" in md and "2/4" in md                   # nested and held-out topic figures
@@ -240,3 +261,16 @@ def test_script_writes_both_reports_with_the_inputs_sha256(tmp_path):
     assert {i["label"]: i["sha256"] for i in report["inputs"]}["served"] == sha
     assert sha in md.read_text(encoding="utf-8")
     assert _cell(report)["byBank"] == {"served": 3, "exemplar": 4}
+
+
+def test_repo_banks_are_named_by_their_repo_path_even_through_a_junction():
+    """This checkout's academicos-data is a junction to another drive; the
+    report named every input by its D: path until it read the path unresolved."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("bank_health_script_rel",
+                                                  ROOT / "scripts" / "bank_health.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    assert mod._rel(mod.SERVED) == "academicos-data/syllabus/questions.json"
+    assert mod._label(mod.EXTRA[0], served=False) == "ncert-exemplar"

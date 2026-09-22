@@ -1912,3 +1912,105 @@ def test_every_served_exemplar_mcq_keeps_ncerts_letter():
         want = [c.upper() for c in by_id[q["id"]]["metadata"]["correctOptions"]]
         assert [q["answerScheme"]["metadata"]["correctOption"]] == want, q["id"]
         assert q["answerScheme"]["provenance"] == "ncert_exemplar_answer"
+
+
+# ---- the relink after the merge strips no key the merge served (Task 11) -----
+#
+# enrich_question_bank.py runs again after the merge. At 8e92ed9 that second
+# relink would have removed the keys of 67 served non-board records (37
+# Exemplar, 30 CBE/SQP) and left them served keyless: the relink re-read their
+# options with the board verifier's readers, which differ from the merge's.
+# Each case below is a real record of those 67.
+
+def _relinked(questions, tmp_path):
+    from academicos.assessment.question_bank import AnswerKeyIndex, relink_answer_schemes
+    from test_scheme_verify import make_answer_keys
+
+    served = copy.deepcopy(questions)
+    report = relink_answer_schemes(served, AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [])),
+                                   parse_dir=tmp_path)
+    return served, report
+
+
+def _cbe_listed(rid, stem, options, answer, **kw):
+    rec = cbe_mcq(id=rid, stem=stem, answer=answer, **kw)
+    return _with_options(rec, [f"{l}. {t}" for l, t in zip("ABCD", options)])
+
+
+# cbe:q:Maths9SM2 -- the option opens with the article "a", which the key
+# reader took for an "(a)" label and cut: "rational number" named no option.
+MATHS9SM2 = _cbe_listed(
+    "cbe:q:Maths9SM2", "The number 0.318564318564318564………is:",
+    ["a natural number", "an integer", "a rational number", "an irrational number"],
+    "C. a rational number (1)", grade=9)
+# cbe:q:Science10MS2 -- numbered statements before the (A)-(D) options: the
+# relink read "1. Abstinence ... 4. Oral pill" as the options.
+SCIENCE10MS2 = _cbe_listed(
+    "cbe:q:Science10MS2",
+    "Some methods of birth control are listed. 1. Abstinence 2. Condom 3. Inter-Uterine "
+    "Device 4. Oral pill 1 (a) Which methods limit the spread of sexually transmitted diseases?",
+    ["1 and 2 only", "2 and 3 only", "2 and 4 only", "3 and 4 only"], "A.",
+    subject="Science", grade=10)
+
+
+@pytest.mark.parametrize("raw", [MATHS9SM2, SCIENCE10MS2], ids=lambda r: r["id"])
+def test_a_served_cbe_key_survives_the_relink_after_the_merge(raw, tmp_path):
+    result = bm.compose([], [copy.deepcopy(raw)], [])
+    assert len(result.questions) == 1, result.excluded
+    served, report = _relinked(result.questions, tmp_path)
+    assert report.quarantined == {}
+    assert served[0]["answerScheme"] == result.questions[0]["answerScheme"]
+
+
+def test_a_served_exemplar_key_survives_the_relink_after_the_merge(tmp_path):
+    """exemplar:q:6:science:11:-:6 keyed "(c) A shoe box" (the article "A"
+    was cut as a label), and exemplar:q:6:mathematics:1:-:99, a fill-in-the-
+    blanks item whose "(a) ... (b) ..." blanks the relink read as options."""
+    shadow = exemplar_mcq(id="exemplar:q:6:science:11:-:6", subject="Science",
+                          stem="Which of the following can never form a circular shadow?")
+    shadow["parts"][0].update(options=["A ball", "A flat disc", "A shoe box",
+                                       "An ice cream cone"], expectedAnswer="(c) A shoe box")
+    shadow["answerScheme"]["modelAnswer"] = "(c) A shoe box"
+    shadow["answerScheme"]["markingPoints"][0]["description"] = "(c) A shoe box"
+    shadow["metadata"]["correctOptions"] = ["c"]
+    blanks = exemplar_short(id="exemplar:q:6:mathematics:1:-:99", subject="Mathematics",
+                            grade=6, type="very_short_answer", marks=1,
+                            stem="Fill in the blanks to make the statements true: (a) 10 million "
+                                 "= _____ crore. (b) 10 lakh = _____ million.")
+    blanks["answerScheme"]["modelAnswer"] = "(a) 1 (b) 1"
+    blanks["answerScheme"]["markingPoints"][0]["description"] = "(a) 1 (b) 1"
+    result = bm.compose([], [], [], exemplar=[shadow, blanks])
+    assert result.counts["exemplar"] == 2, result.excluded
+    served, report = _relinked(result.questions, tmp_path)
+    assert report.quarantined == {}
+    assert [q["answerScheme"] for q in served] == [q["answerScheme"] for q in result.questions]
+
+
+def test_a_key_the_relink_rejects_is_not_served():
+    """SQP Mathematics (Standard) X 2024-25 Q19: an assertion-reason item keyed
+    "B)" whose stem prints no options, so nothing ties the letter to it (the
+    relink's unreadable-options). The merge served it at 8e92ed9; the relink
+    after it would have left it served with no key. One verifier decides."""
+    ar = _raw_sqp("ClassX_2024_25", "Mathematics (Standard)", 19, grade=10, marks=1, page=3,
+                  stem="Assertion (A): HCF of any two consecutive even natural numbers is "
+                       "always 2. Reason (R): Even natural numbers are divisible by 2.",
+                  answer="B)")
+    result = bm.compose([], [], [ar])
+    assert result.questions == []
+    assert [e["reason"] for e in result.excluded] == ["key-rejected"]
+
+
+SERVED_BANK = Path(__file__).resolve().parents[1] / "academicos-data" / "syllabus" / "questions.json"
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_the_relink_strips_no_served_non_board_key(tmp_path):
+    """The pipeline's invariant, on the committed served bank: every CBE, SQP
+    and Exemplar key the merge served passes the relink that runs after it."""
+    import json
+
+    rows = [r for r in json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
+            if r.get("source") != bm.BOARD_SOURCE]
+    assert rows
+    _, report = _relinked(rows, tmp_path)
+    assert report.quarantined == {}

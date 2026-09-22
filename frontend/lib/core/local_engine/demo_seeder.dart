@@ -363,6 +363,24 @@ class DemoSeeder {
       }
     }
     if (review.isEmpty) return;
+    // No partial-credit answer to override: on the bank the merge (Task 11)
+    // composed, the demo paper's answers were all marked full or zero, and
+    // the override had nothing to act on. The teacher then
+    // overrides the first answer the engine marked short -- the red-pen
+    // feature still has something real to show.
+    if (!editedOne) {
+      for (final item in review) {
+        final max = item['maxMarks'] as num;
+        if ((item['awardedMarks'] as num) < max) {
+          item['status'] = 'edited';
+          item['teacherMarks'] = max;
+          item['finalMarks'] = max;
+          item['teacherComment'] = 'Answer is correct as written -- awarding full marks.';
+          editedOne = true;
+          break;
+        }
+      }
+    }
 
     final sessionId = 'demo_scan_$studentId';
     final pages = [

@@ -21,7 +21,7 @@
   "ncert-exemplar",
   "cbse-cbe"
  ],
- "duplicateIds": 0,
+ "duplicateIds": 4633,
  "presets": {
   "class_test": "Class Test",
   "weekly_test": "Weekly Periodic Test",
@@ -34,31 +34,36 @@
    "grade": 6,
    "questions": 583,
    "byBank": {
-    "ncert-exemplar": 525,
-    "cbse-cbe": 58
+    "served": 555,
+    "ncert-exemplar": 12,
+    "cbse-cbe": 16
    },
    "bySource": {
-    "ncert_exemplar": 525,
-    "cbse_question_bank": 58
+    "cbse_question_bank": 58,
+    "ncert_exemplar": 525
    },
    "keyed": 583,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "ncert_exemplar_answer": 525,
-    "cbse_marking_scheme": 58
+    "cbse_marking_scheme": 58,
+    "ncert_exemplar_answer": 525
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 583,
+    "of": 583,
+    "unchecked": 0,
+    "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 203,
-     "pct": 34.8
+     "n": 206,
+     "pct": 35.3
     },
     "topic": {
-     "n": 80,
-     "pct": 13.7
+     "n": 81,
+     "pct": 13.9
     },
     "subtopic": {
      "n": 3,
@@ -85,7 +90,7 @@
     "long_answer": 17
    },
    "tree": true,
-   "untaggedKeyed": 380,
+   "untaggedKeyed": 377,
    "chapters": [
     {
      "id": "mathematics-6/patterns-in-mathematics",
@@ -345,12 +350,12 @@
     {
      "id": "mathematics-6/number-play",
      "name": "Number Play",
-     "questions": 6,
-     "marks": 8,
+     "questions": 9,
+     "marks": 17,
      "byMarks": {
       "1": 5,
       "2": 0,
-      "3": 1,
+      "3": 4,
       "4": 0,
       "5+": 0
      },
@@ -399,12 +404,12 @@
       {
        "id": "mathematics-6/number-play/playing-with-digits",
        "name": "Playing with Digits",
-       "questions": 1,
-       "marks": 1,
+       "questions": 2,
+       "marks": 4,
        "byMarks": {
         "1": 1,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -1192,7 +1197,6 @@
     "mathematics-6/number-play/numbers-can-tell-us-things",
     "mathematics-6/number-play/supercells",
     "mathematics-6/number-play/patterns-of-numbers-on-the-number-line",
-    "mathematics-6/number-play/playing-with-digits",
     "mathematics-6/number-play/pretty-palindromic-patterns",
     "mathematics-6/number-play/the-magic-number-of-kaprekar",
     "mathematics-6/number-play/clock-and-calendar-numbers",
@@ -1297,7 +1301,7 @@
     "mathematics-6/the-other-side-of-zero/explorations-with-integers",
     "mathematics-6/the-other-side-of-zero/a-pinch-of-history"
    ],
-   "servedKeyed": 0,
+   "servedKeyed": 555,
    "papers": {
     "all": {
      "class_test": {
@@ -1328,34 +1332,25 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
       ]
      },
      "weekly_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4"
       ]
      },
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
-       "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3",
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
       ]
      }
     }
@@ -1366,27 +1361,32 @@
    "grade": 7,
    "questions": 602,
    "byBank": {
-    "ncert-exemplar": 561,
-    "cbse-cbe": 41
+    "served": 573,
+    "ncert-exemplar": 13,
+    "cbse-cbe": 16
    },
    "bySource": {
-    "ncert_exemplar": 561,
-    "cbse_question_bank": 41
+    "cbse_question_bank": 41,
+    "ncert_exemplar": 561
    },
    "keyed": 602,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "ncert_exemplar_answer": 561,
-    "cbse_marking_scheme": 41
+    "cbse_marking_scheme": 41,
+    "ncert_exemplar_answer": 561
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 601,
+    "of": 602,
+    "unchecked": 0,
+    "pct": 99.8
    },
    "tagged": {
     "chapter": {
-     "n": 104,
-     "pct": 17.3
+     "n": 103,
+     "pct": 17.1
     },
     "topic": {
      "n": 27,
@@ -1412,12 +1412,12 @@
    },
    "types": {
     "mcq": 153,
+    "long_answer": 8,
     "very_short_answer": 299,
-    "short_answer": 142,
-    "long_answer": 8
+    "short_answer": 142
    },
    "tree": true,
-   "untaggedKeyed": 498,
+   "untaggedKeyed": 499,
    "chapters": [
     {
      "id": "mathematics-7/large-numbers-around-us",
@@ -2173,10 +2173,10 @@
     {
      "id": "mathematics-7/operations-with-integers",
      "name": "Operations with Integers",
-     "questions": 30,
-     "marks": 38,
+     "questions": 29,
+     "marks": 37,
      "byMarks": {
-      "1": 26,
+      "1": 25,
       "2": 0,
       "3": 4,
       "4": 0,
@@ -2749,7 +2749,7 @@
     "mathematics-7/finding-the-unknown/mind-the-mistake-mend-the-mistake",
     "mathematics-7/finding-the-unknown/a-pinch-of-history"
    ],
-   "servedKeyed": 0,
+   "servedKeyed": 573,
    "papers": {
     "all": {
      "class_test": {
@@ -2779,34 +2779,26 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
       ]
      },
      "weekly_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4",
+       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 1"
       ]
      },
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
-       "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 1",
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
       ]
      }
     }
@@ -2817,35 +2809,40 @@
    "grade": 8,
    "questions": 892,
    "byBank": {
-    "ncert-exemplar": 838,
-    "cbse-cbe": 54
+    "served": 857,
+    "ncert-exemplar": 21,
+    "cbse-cbe": 14
    },
    "bySource": {
-    "ncert_exemplar": 838,
-    "cbse_question_bank": 54
+    "cbse_question_bank": 54,
+    "ncert_exemplar": 838
    },
    "keyed": 892,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "ncert_exemplar_answer": 838,
-    "cbse_marking_scheme": 54
+    "cbse_marking_scheme": 54,
+    "ncert_exemplar_answer": 838
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 891,
+    "of": 892,
+    "unchecked": 0,
+    "pct": 99.9
    },
    "tagged": {
     "chapter": {
-     "n": 361,
-     "pct": 40.5
+     "n": 356,
+     "pct": 39.9
     },
     "topic": {
-     "n": 208,
-     "pct": 23.3
+     "n": 207,
+     "pct": 23.2
     },
     "subtopic": {
-     "n": 29,
-     "pct": 3.3
+     "n": 28,
+     "pct": 3.1
     },
     "oldChapterIds": {
      "n": 465,
@@ -2863,12 +2860,12 @@
    },
    "types": {
     "mcq": 218,
-    "very_short_answer": 439,
     "short_answer": 217,
-    "long_answer": 18
+    "long_answer": 18,
+    "very_short_answer": 439
    },
    "tree": true,
-   "untaggedKeyed": 531,
+   "untaggedKeyed": 536,
    "chapters": [
     {
      "id": "mathematics-8/a-square-and-a-cube",
@@ -3080,10 +3077,10 @@
     {
      "id": "mathematics-8/quadrilaterals",
      "name": "Quadrilaterals",
-     "questions": 101,
-     "marks": 138,
+     "questions": 99,
+     "marks": 136,
      "byMarks": {
-      "1": 84,
+      "1": 82,
       "2": 0,
       "3": 15,
       "4": 1,
@@ -3108,10 +3105,10 @@
       {
        "id": "mathematics-8/quadrilaterals/angles-in-a-quadrilateral",
        "name": "Angles in a Quadrilateral",
-       "questions": 18,
-       "marks": 22,
+       "questions": 19,
+       "marks": 23,
        "byMarks": {
-        "1": 16,
+        "1": 17,
         "2": 0,
         "3": 2,
         "4": 0,
@@ -3160,10 +3157,10 @@
       {
        "id": "mathematics-8/quadrilaterals/kite-and-trapezium",
        "name": "Kite and Trapezium",
-       "questions": 15,
-       "marks": 21,
+       "questions": 16,
+       "marks": 22,
        "byMarks": {
-        "1": 13,
+        "1": 14,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -3175,10 +3172,10 @@
     {
      "id": "mathematics-8/number-play",
      "name": "Number Play",
-     "questions": 30,
-     "marks": 36,
+     "questions": 29,
+     "marks": 35,
      "byMarks": {
-      "1": 27,
+      "1": 26,
       "2": 0,
       "3": 3,
       "4": 0,
@@ -3216,12 +3213,12 @@
       {
        "id": "mathematics-8/number-play/digits-in-disguise",
        "name": "Digits in Disguise",
-       "questions": 9,
-       "marks": 11,
+       "questions": 6,
+       "marks": 6,
        "byMarks": {
-        "1": 8,
+        "1": 6,
         "2": 0,
-        "3": 1,
+        "3": 0,
         "4": 0,
         "5+": 0
        }
@@ -3395,12 +3392,12 @@
     {
      "id": "mathematics-8/fractions-in-disguise",
      "name": "Fractions in Disguise",
-     "questions": 58,
-     "marks": 107,
+     "questions": 56,
+     "marks": 103,
      "byMarks": {
-      "1": 36,
+      "1": 35,
       "2": 0,
-      "3": 19,
+      "3": 18,
       "4": 1,
       "5+": 2
      },
@@ -3952,6 +3949,7 @@
     "mathematics-8/quadrilaterals/playing-with-quadrilaterals",
     "mathematics-8/number-play/is-this-a-multiple-of",
     "mathematics-8/number-play/checking-divisibility-quickly",
+    "mathematics-8/number-play/digits-in-disguise",
     "mathematics-8/we-distribute-yet-things-multiply/some-properties-of-multiplication",
     "mathematics-8/we-distribute-yet-things-multiply/special-cases-of-the-distributive-property",
     "mathematics-8/we-distribute-yet-things-multiply/mind-the-mistake-mend-the-mistake",
@@ -4045,7 +4043,7 @@
     "mathematics-8/algebra-play/decoding-divisibility-tricks",
     "mathematics-8/area/rectangle-and-squares"
    ],
-   "servedKeyed": 0,
+   "servedKeyed": 857,
    "papers": {
     "all": {
      "class_test": {
@@ -4077,34 +4075,25 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
       ]
      },
      "weekly_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3"
       ]
      },
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
-       "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3",
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
       ]
      }
     }
@@ -4115,31 +4104,36 @@
    "grade": 9,
    "questions": 337,
    "byBank": {
-    "ncert-exemplar": 233,
-    "cbse-cbe": 104
+    "served": 290,
+    "ncert-exemplar": 6,
+    "cbse-cbe": 41
    },
    "bySource": {
-    "ncert_exemplar": 233,
-    "cbse_question_bank": 104
+    "cbse_question_bank": 104,
+    "ncert_exemplar": 233
    },
    "keyed": 337,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "ncert_exemplar_answer": 233,
-    "cbse_marking_scheme": 104
+    "cbse_marking_scheme": 104,
+    "ncert_exemplar_answer": 233
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 337,
+    "of": 337,
+    "unchecked": 0,
+    "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 94,
-     "pct": 27.9
+     "n": 90,
+     "pct": 26.7
     },
     "topic": {
-     "n": 31,
-     "pct": 9.2
+     "n": 29,
+     "pct": 8.6
     },
     "subtopic": {
      "n": 0,
@@ -4161,12 +4155,12 @@
    },
    "types": {
     "mcq": 160,
-    "very_short_answer": 60,
+    "long_answer": 74,
     "short_answer": 43,
-    "long_answer": 74
+    "very_short_answer": 60
    },
    "tree": true,
-   "untaggedKeyed": 243,
+   "untaggedKeyed": 247,
    "chapters": [
     {
      "id": "mathematics-9/orienting-yourself-the-use-of-coordinates",
@@ -4225,12 +4219,12 @@
       {
        "id": "mathematics-9/orienting-yourself-the-use-of-coordinates/distance-between-two-points-in-the-2-d-plane",
        "name": "Distance Between Two Points in the 2-D Plane",
-       "questions": 5,
-       "marks": 13,
+       "questions": 4,
+       "marks": 10,
        "byMarks": {
         "1": 1,
         "2": 1,
-        "3": 2,
+        "3": 1,
         "4": 1,
         "5+": 0
        }
@@ -4240,11 +4234,11 @@
     {
      "id": "mathematics-9/introduction-to-linear-polynomials",
      "name": "Introduction to Linear Polynomials",
-     "questions": 6,
-     "marks": 20,
+     "questions": 5,
+     "marks": 18,
      "byMarks": {
       "1": 1,
-      "2": 1,
+      "2": 0,
       "3": 0,
       "4": 3,
       "5+": 1
@@ -4320,13 +4314,13 @@
       {
        "id": "mathematics-9/introduction-to-linear-polynomials/visualising-linear-relationships",
        "name": "Visualising linear relationships",
-       "questions": 5,
-       "marks": 18,
+       "questions": 4,
+       "marks": 14,
        "byMarks": {
         "1": 1,
         "2": 0,
         "3": 0,
-        "4": 3,
+        "4": 2,
         "5+": 1
        }
       }
@@ -4389,10 +4383,10 @@
       {
        "id": "mathematics-9/the-world-of-numbers/filling-the-spaces-fractions-and-rational-numbers",
        "name": "Filling the Spaces: Fractions and Rational Numbers",
-       "questions": 1,
-       "marks": 1,
+       "questions": 2,
+       "marks": 2,
        "byMarks": {
-        "1": 1,
+        "1": 2,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -4564,14 +4558,14 @@
     {
      "id": "mathematics-9/i-m-up-and-down-and-round-and-round",
      "name": "I’m Up and Down, and Round and Round",
-     "questions": 35,
-     "marks": 112,
+     "questions": 33,
+     "marks": 106,
      "byMarks": {
-      "1": 8,
+      "1": 7,
       "2": 8,
       "3": 8,
       "4": 2,
-      "5+": 9
+      "5+": 8
      },
      "number": 5,
      "book": "Ganita Manjari",
@@ -4685,10 +4679,10 @@
     {
      "id": "mathematics-9/measuring-space-perimeter-and-area",
      "name": "Measuring Space: Perimeter and Area",
-     "questions": 7,
-     "marks": 13,
+     "questions": 6,
+     "marks": 12,
      "byMarks": {
-      "1": 4,
+      "1": 3,
       "2": 2,
       "3": 0,
       "4": 0,
@@ -4791,10 +4785,10 @@
       {
        "id": "mathematics-9/measuring-space-perimeter-and-area/area-of-a-triangle",
        "name": "Area of a Triangle",
-       "questions": 2,
-       "marks": 3,
+       "questions": 1,
+       "marks": 2,
        "byMarks": {
-        "1": 1,
+        "1": 0,
         "2": 1,
         "3": 0,
         "4": 0,
@@ -5153,7 +5147,7 @@
     "mathematics-9/predicting-what-comes-next-exploring-sequences-and-progressi/sum-of-the-first-n-natural-numbers",
     "mathematics-9/predicting-what-comes-next-exploring-sequences-and-progressi/geometric-progressions"
    ],
-   "servedKeyed": 0,
+   "servedKeyed": 290,
    "papers": {
     "all": {
      "class_test": {
@@ -5175,37 +5169,20 @@
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "weekly_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "monthly_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "board": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
-       "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      }
     }
    }
@@ -5213,73 +5190,78 @@
   {
    "subject": "Mathematics",
    "grade": 10,
-   "questions": 1030,
+   "questions": 449,
    "byBank": {
-    "served": 645,
-    "ncert-exemplar": 265,
-    "cbse-cbe": 120
+    "served": 404,
+    "ncert-exemplar": 5,
+    "cbse-cbe": 40
    },
    "bySource": {
-    "cbse_board_paper": 645,
-    "ncert_exemplar": 265,
-    "cbse_question_bank": 120
+    "cbse_board_paper": 6,
+    "cbse_question_bank": 120,
+    "cbse_sample_paper": 58,
+    "ncert_exemplar": 265
    },
-   "keyed": 991,
-   "noKey": 39,
-   "keyedPct": 96.2,
+   "keyed": 449,
+   "noKey": 0,
+   "keyedPct": 100.0,
    "keyProvenance": {
-    "cbse_marking_scheme": 726,
+    "cbse_marking_scheme": 184,
     "ncert_exemplar_answer": 265
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 443,
+    "of": 449,
+    "unchecked": 0,
+    "pct": 98.7
    },
    "tagged": {
     "chapter": {
-     "n": 320,
-     "pct": 31.1
+     "n": 378,
+     "pct": 84.2
     },
     "topic": {
-     "n": 176,
-     "pct": 17.1
+     "n": 219,
+     "pct": 48.8
     },
     "subtopic": {
      "n": 3,
-     "pct": 0.3
+     "pct": 0.7
     },
     "oldChapterIds": {
-     "n": 765,
-     "pct": 74.3
+     "n": 170,
+     "pct": 37.9
     }
    },
    "taggerCovers": true,
-   "neverTagged": 645,
+   "neverTagged": 0,
    "marks": {
-    "1": 349,
-    "2": 213,
-    "3": 233,
-    "4": 50,
-    "5+": 146
+    "1": 152,
+    "2": 105,
+    "3": 93,
+    "4": 16,
+    "5+": 83
    },
    "types": {
-    "very_short_answer": 296,
-    "short_answer": 197,
-    "long_answer": 302,
-    "case_study": 72,
-    "mcq": 124
+    "very_short_answer": 80,
+    "long_answer": 107,
+    "case_study": 1,
+    "mcq": 144,
+    "short_answer": 117
    },
    "tree": true,
-   "untaggedKeyed": 671,
+   "untaggedKeyed": 71,
    "chapters": [
     {
      "id": "mathematics-10/real-numbers",
      "name": "Real Numbers",
-     "questions": 26,
-     "marks": 41,
+     "questions": 31,
+     "marks": 52,
      "byMarks": {
-      "1": 14,
-      "2": 9,
-      "3": 3,
+      "1": 15,
+      "2": 11,
+      "3": 5,
       "4": 0,
       "5+": 0
      },
@@ -5302,11 +5284,11 @@
       {
        "id": "mathematics-10/real-numbers/the-fundamental-theorem-of-arithmetic",
        "name": "The Fundamental Theorem of Arithmetic",
-       "questions": 2,
-       "marks": 3,
+       "questions": 4,
+       "marks": 7,
        "byMarks": {
         "1": 1,
-        "2": 1,
+        "2": 3,
         "3": 0,
         "4": 0,
         "5+": 0
@@ -5315,12 +5297,12 @@
       {
        "id": "mathematics-10/real-numbers/revisiting-irrational-numbers",
        "name": "Revisiting Irrational Numbers",
-       "questions": 4,
-       "marks": 5,
+       "questions": 6,
+       "marks": 11,
        "byMarks": {
         "1": 3,
         "2": 1,
-        "3": 0,
+        "3": 2,
         "4": 0,
         "5+": 0
        }
@@ -5330,12 +5312,12 @@
     {
      "id": "mathematics-10/polynomials",
      "name": "Polynomials",
-     "questions": 15,
-     "marks": 24,
+     "questions": 17,
+     "marks": 30,
      "byMarks": {
       "1": 12,
       "2": 1,
-      "3": 0,
+      "3": 2,
       "4": 0,
       "5+": 2
      },
@@ -5371,12 +5353,12 @@
       {
        "id": "mathematics-10/polynomials/relationship-between-zeroes-and-coefficients-of-a-polynomial",
        "name": "Relationship between Zeroes and Coefficients of a Polynomial",
-       "questions": 8,
-       "marks": 9,
+       "questions": 10,
+       "marks": 15,
        "byMarks": {
         "1": 7,
         "2": 1,
-        "3": 0,
+        "3": 2,
         "4": 0,
         "5+": 0
        }
@@ -5386,12 +5368,12 @@
     {
      "id": "mathematics-10/pair-of-linear-equations-in-two-variables",
      "name": "Pair of Linear Equations in Two Variables",
-     "questions": 33,
-     "marks": 83,
+     "questions": 34,
+     "marks": 86,
      "byMarks": {
       "1": 12,
       "2": 4,
-      "3": 11,
+      "3": 12,
       "4": 2,
       "5+": 4
      },
@@ -5427,12 +5409,12 @@
       {
        "id": "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations",
        "name": "Algebraic Methods of Solving a Pair of Linear Equations",
-       "questions": 5,
-       "marks": 17,
+       "questions": 6,
+       "marks": 20,
        "byMarks": {
         "1": 0,
         "2": 1,
-        "3": 2,
+        "3": 3,
         "4": 1,
         "5+": 1
        }
@@ -5442,11 +5424,11 @@
     {
      "id": "mathematics-10/quadratic-equations",
      "name": "Quadratic Equations",
-     "questions": 12,
-     "marks": 26,
+     "questions": 15,
+     "marks": 30,
      "byMarks": {
-      "1": 6,
-      "2": 3,
+      "1": 8,
+      "2": 4,
       "3": 1,
       "4": 0,
       "5+": 2
@@ -5496,10 +5478,10 @@
       {
        "id": "mathematics-10/quadratic-equations/nature-of-roots",
        "name": "Nature of Roots",
-       "questions": 4,
-       "marks": 6,
+       "questions": 6,
+       "marks": 8,
        "byMarks": {
-        "1": 3,
+        "1": 5,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -5580,12 +5562,12 @@
     {
      "id": "mathematics-10/triangles",
      "name": "Triangles",
-     "questions": 20,
-     "marks": 47,
+     "questions": 21,
+     "marks": 51,
      "byMarks": {
       "1": 4,
-      "2": 11,
-      "3": 3,
+      "2": 10,
+      "3": 5,
       "4": 0,
       "5+": 2
      },
@@ -5649,11 +5631,11 @@
     {
      "id": "mathematics-10/coordinate-geometry",
      "name": "Coordinate Geometry",
-     "questions": 33,
-     "marks": 73,
+     "questions": 39,
+     "marks": 81,
      "byMarks": {
-      "1": 12,
-      "2": 10,
+      "1": 16,
+      "2": 12,
       "3": 7,
       "4": 1,
       "5+": 3
@@ -5690,10 +5672,10 @@
       {
        "id": "mathematics-10/coordinate-geometry/section-formula",
        "name": "Section Formula",
-       "questions": 7,
-       "marks": 14,
+       "questions": 9,
+       "marks": 16,
        "byMarks": {
-        "1": 3,
+        "1": 5,
         "2": 2,
         "3": 1,
         "4": 1,
@@ -5705,12 +5687,12 @@
     {
      "id": "mathematics-10/introduction-to-trigonometry",
      "name": "Introduction to Trigonometry",
-     "questions": 10,
-     "marks": 26,
+     "questions": 18,
+     "marks": 42,
      "byMarks": {
-      "1": 2,
-      "2": 4,
-      "3": 1,
+      "1": 5,
+      "2": 6,
+      "3": 4,
       "4": 2,
       "5+": 1
      },
@@ -5759,12 +5741,12 @@
       {
        "id": "mathematics-10/introduction-to-trigonometry/trigonometric-identities",
        "name": "Trigonometric Identities",
-       "questions": 2,
-       "marks": 4,
+       "questions": 6,
+       "marks": 12,
        "byMarks": {
-        "1": 0,
+        "1": 2,
         "2": 2,
-        "3": 0,
+        "3": 2,
         "4": 0,
         "5+": 0
        }
@@ -5774,14 +5756,14 @@
     {
      "id": "mathematics-10/some-applications-of-trigonometry",
      "name": "Some Applications of Trigonometry",
-     "questions": 12,
-     "marks": 36,
+     "questions": 17,
+     "marks": 49,
      "byMarks": {
-      "1": 2,
+      "1": 5,
       "2": 5,
       "3": 1,
       "4": 1,
-      "5+": 3
+      "5+": 5
      },
      "number": 9,
      "book": "Mathematics",
@@ -5789,14 +5771,14 @@
       {
        "id": "mathematics-10/some-applications-of-trigonometry/heights-and-distances",
        "name": "Heights and Distances",
-       "questions": 11,
-       "marks": 34,
+       "questions": 15,
+       "marks": 46,
        "byMarks": {
-        "1": 2,
+        "1": 4,
         "2": 4,
         "3": 1,
         "4": 1,
-        "5+": 3
+        "5+": 5
        }
       }
      ]
@@ -5804,14 +5786,14 @@
     {
      "id": "mathematics-10/circles",
      "name": "Circles",
-     "questions": 22,
-     "marks": 53,
+     "questions": 31,
+     "marks": 79,
      "byMarks": {
-      "1": 3,
-      "2": 13,
-      "3": 3,
+      "1": 5,
+      "2": 16,
+      "3": 4,
       "4": 0,
-      "5+": 3
+      "5+": 6
      },
      "number": 10,
      "book": "Mathematics",
@@ -5832,10 +5814,10 @@
       {
        "id": "mathematics-10/circles/tangent-to-a-circle",
        "name": "Tangent to a Circle",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -5845,14 +5827,14 @@
       {
        "id": "mathematics-10/circles/number-of-tangents-from-a-point-on-a-circle",
        "name": "Number of Tangents from a Point on a Circle",
-       "questions": 13,
-       "marks": 34,
+       "questions": 20,
+       "marks": 58,
        "byMarks": {
         "1": 1,
-        "2": 9,
-        "3": 0,
+        "2": 12,
+        "3": 1,
         "4": 0,
-        "5+": 3
+        "5+": 6
        }
       }
      ]
@@ -5860,12 +5842,12 @@
     {
      "id": "mathematics-10/areas-related-to-circles",
      "name": "Areas Related to Circles",
-     "questions": 22,
-     "marks": 56,
+     "questions": 24,
+     "marks": 62,
      "byMarks": {
       "1": 7,
       "2": 8,
-      "3": 2,
+      "3": 4,
       "4": 0,
       "5+": 5
      },
@@ -5875,12 +5857,12 @@
       {
        "id": "mathematics-10/areas-related-to-circles/areas-of-sector-and-segment-of-a-circle",
        "name": "Areas of Sector and Segment of a Circle",
-       "questions": 20,
-       "marks": 52,
+       "questions": 23,
+       "marks": 61,
        "byMarks": {
         "1": 6,
         "2": 8,
-        "3": 1,
+        "3": 4,
         "4": 0,
         "5+": 5
        }
@@ -5890,10 +5872,10 @@
     {
      "id": "mathematics-10/surface-areas-and-volumes",
      "name": "Surface Areas and Volumes",
-     "questions": 39,
-     "marks": 144,
+     "questions": 41,
+     "marks": 146,
      "byMarks": {
-      "1": 4,
+      "1": 6,
       "2": 4,
       "3": 12,
       "4": 3,
@@ -5918,10 +5900,10 @@
       {
        "id": "mathematics-10/surface-areas-and-volumes/surface-area-of-a-combination-of-solids",
        "name": "Surface Area of a Combination of Solids",
-       "questions": 10,
-       "marks": 36,
+       "questions": 12,
+       "marks": 38,
        "byMarks": {
-        "1": 0,
+        "1": 2,
         "2": 3,
         "3": 4,
         "4": 0,
@@ -5946,14 +5928,14 @@
     {
      "id": "mathematics-10/statistics",
      "name": "Statistics",
-     "questions": 12,
-     "marks": 39,
+     "questions": 22,
+     "marks": 58,
      "byMarks": {
-      "1": 2,
-      "2": 3,
-      "3": 3,
+      "1": 8,
+      "2": 4,
+      "3": 5,
       "4": 1,
-      "5+": 3
+      "5+": 4
      },
      "number": 13,
      "book": "Mathematics",
@@ -5974,12 +5956,12 @@
       {
        "id": "mathematics-10/statistics/mean-of-grouped-data",
        "name": "Mean of Grouped Data",
-       "questions": 0,
-       "marks": 0,
+       "questions": 2,
+       "marks": 6,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 0,
+        "3": 2,
         "4": 0,
         "5+": 0
        }
@@ -5987,11 +5969,11 @@
       {
        "id": "mathematics-10/statistics/mode-of-grouped-data",
        "name": "Mode of Grouped Data",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 2,
        "byMarks": {
         "1": 0,
-        "2": 0,
+        "2": 1,
         "3": 0,
         "4": 0,
         "5+": 0
@@ -6000,10 +5982,10 @@
       {
        "id": "mathematics-10/statistics/median-of-grouped-data",
        "name": "Median of Grouped Data",
-       "questions": 3,
-       "marks": 6,
+       "questions": 7,
+       "marks": 10,
        "byMarks": {
-        "1": 1,
+        "1": 5,
         "2": 1,
         "3": 1,
         "4": 0,
@@ -6015,14 +5997,14 @@
     {
      "id": "mathematics-10/probability",
      "name": "Probability",
-     "questions": 19,
-     "marks": 28,
+     "questions": 23,
+     "marks": 40,
      "byMarks": {
-      "1": 14,
+      "1": 16,
       "2": 3,
       "3": 0,
       "4": 2,
-      "5+": 0
+      "5+": 2
      },
      "number": 14,
      "book": "Mathematics",
@@ -6030,14 +6012,14 @@
       {
        "id": "mathematics-10/probability/probability-a-theoretical-approach",
        "name": "Probability — A Theoretical Approach",
-       "questions": 18,
-       "marks": 27,
+       "questions": 22,
+       "marks": 39,
        "byMarks": {
-        "1": 13,
+        "1": 15,
         "2": 3,
         "3": 0,
         "4": 2,
-        "5+": 0
+        "5+": 2
        }
       }
      ]
@@ -6045,12 +6027,10 @@
    ],
    "emptyChapters": [],
    "chaptersWithout3Mark": [
-    "mathematics-10/polynomials",
     "mathematics-10/probability"
    ],
    "chaptersWithout5Mark": [
-    "mathematics-10/real-numbers",
-    "mathematics-10/probability"
+    "mathematics-10/real-numbers"
    ],
    "emptyTopics": [
     "mathematics-10/polynomials/introduction",
@@ -6064,18 +6044,13 @@
     "mathematics-10/introduction-to-trigonometry/trigonometric-ratios",
     "mathematics-10/introduction-to-trigonometry/trigonometric-ratios-of-some-specific-angles",
     "mathematics-10/circles/introduction",
-    "mathematics-10/circles/tangent-to-a-circle",
     "mathematics-10/surface-areas-and-volumes/introduction",
-    "mathematics-10/statistics/introduction",
-    "mathematics-10/statistics/mean-of-grouped-data",
-    "mathematics-10/statistics/mode-of-grouped-data"
+    "mathematics-10/statistics/introduction"
    ],
    "topicsWithout3Mark": [
     "mathematics-10/real-numbers/the-fundamental-theorem-of-arithmetic",
-    "mathematics-10/real-numbers/revisiting-irrational-numbers",
     "mathematics-10/polynomials/introduction",
     "mathematics-10/polynomials/geometrical-meaning-of-the-zeroes-of-a-polynomial",
-    "mathematics-10/polynomials/relationship-between-zeroes-and-coefficients-of-a-polynomial",
     "mathematics-10/pair-of-linear-equations-in-two-variables/introduction",
     "mathematics-10/quadratic-equations/introduction",
     "mathematics-10/quadratic-equations/quadratic-equations",
@@ -6090,13 +6065,10 @@
     "mathematics-10/introduction-to-trigonometry/introduction",
     "mathematics-10/introduction-to-trigonometry/trigonometric-ratios",
     "mathematics-10/introduction-to-trigonometry/trigonometric-ratios-of-some-specific-angles",
-    "mathematics-10/introduction-to-trigonometry/trigonometric-identities",
     "mathematics-10/circles/introduction",
     "mathematics-10/circles/tangent-to-a-circle",
-    "mathematics-10/circles/number-of-tangents-from-a-point-on-a-circle",
     "mathematics-10/surface-areas-and-volumes/introduction",
     "mathematics-10/statistics/introduction",
-    "mathematics-10/statistics/mean-of-grouped-data",
     "mathematics-10/statistics/mode-of-grouped-data",
     "mathematics-10/probability/probability-a-theoretical-approach"
    ],
@@ -6128,10 +6100,9 @@
     "mathematics-10/statistics/introduction",
     "mathematics-10/statistics/mean-of-grouped-data",
     "mathematics-10/statistics/mode-of-grouped-data",
-    "mathematics-10/statistics/median-of-grouped-data",
-    "mathematics-10/probability/probability-a-theoretical-approach"
+    "mathematics-10/statistics/median-of-grouped-data"
    ],
-   "servedKeyed": 606,
+   "servedKeyed": 404,
    "papers": {
     "all": {
      "class_test": {
@@ -6176,31 +6147,36 @@
    "grade": 6,
    "questions": 274,
    "byBank": {
-    "ncert-exemplar": 233,
-    "cbse-cbe": 41
+    "served": 247,
+    "ncert-exemplar": 1,
+    "cbse-cbe": 26
    },
    "bySource": {
-    "ncert_exemplar": 233,
-    "cbse_question_bank": 41
+    "cbse_question_bank": 41,
+    "ncert_exemplar": 233
    },
    "keyed": 274,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "ncert_exemplar_answer": 233,
-    "cbse_marking_scheme": 41
+    "cbse_marking_scheme": 41,
+    "ncert_exemplar_answer": 233
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 270,
+    "of": 274,
+    "unchecked": 0,
+    "pct": 98.5
    },
    "tagged": {
     "chapter": {
-     "n": 91,
-     "pct": 33.2
+     "n": 90,
+     "pct": 32.8
     },
     "topic": {
-     "n": 32,
-     "pct": 11.7
+     "n": 30,
+     "pct": 10.9
     },
     "subtopic": {
      "n": 5,
@@ -6222,12 +6198,12 @@
    },
    "types": {
     "mcq": 125,
+    "long_answer": 53,
     "very_short_answer": 38,
-    "short_answer": 58,
-    "long_answer": 53
+    "short_answer": 58
    },
    "tree": true,
-   "untaggedKeyed": 183,
+   "untaggedKeyed": 184,
    "chapters": [
     {
      "id": "science-6/the-wonderful-world-of-science",
@@ -6630,10 +6606,10 @@
       {
        "id": "science-6/materials-around-us/what-are-the-different-properties-of-materials",
        "name": "What are the different Properties of Materials?",
-       "questions": 6,
-       "marks": 19,
+       "questions": 4,
+       "marks": 17,
        "byMarks": {
-        "1": 2,
+        "1": 0,
         "2": 1,
         "3": 0,
         "4": 0,
@@ -6714,10 +6690,10 @@
     {
      "id": "science-6/a-journey-through-states-of-water",
      "name": "A Journey through States of Water",
-     "questions": 10,
-     "marks": 18,
+     "questions": 9,
+     "marks": 17,
      "byMarks": {
-      "1": 6,
+      "1": 5,
       "2": 0,
       "3": 4,
       "4": 0,
@@ -7287,7 +7263,7 @@
     "science-6/beyond-earth/the-milky-way-galaxy",
     "science-6/beyond-earth/the-universe"
    ],
-   "servedKeyed": 0,
+   "servedKeyed": 247,
    "papers": {
     "all": {
      "class_test": {
@@ -7309,36 +7285,21 @@
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "weekly_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "monthly_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
-       "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
       ]
      }
     }
@@ -7349,35 +7310,39 @@
    "grade": 7,
    "questions": 355,
    "byBank": {
-    "ncert-exemplar": 309,
-    "cbse-cbe": 46
+    "served": 335,
+    "cbse-cbe": 20
    },
    "bySource": {
-    "ncert_exemplar": 309,
-    "cbse_question_bank": 46
+    "cbse_question_bank": 46,
+    "ncert_exemplar": 309
    },
    "keyed": 355,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "ncert_exemplar_answer": 309,
-    "cbse_marking_scheme": 46
+    "cbse_marking_scheme": 46,
+    "ncert_exemplar_answer": 309
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 349,
+    "of": 355,
+    "unchecked": 0,
+    "pct": 98.3
    },
    "tagged": {
     "chapter": {
-     "n": 112,
-     "pct": 31.5
+     "n": 111,
+     "pct": 31.3
     },
     "topic": {
-     "n": 47,
-     "pct": 13.2
+     "n": 48,
+     "pct": 13.5
     },
     "subtopic": {
-     "n": 9,
-     "pct": 2.5
+     "n": 10,
+     "pct": 2.8
     },
     "oldChapterIds": {
      "n": 270,
@@ -7394,13 +7359,13 @@
     "5+": 61
    },
    "types": {
-    "mcq": 142,
     "very_short_answer": 72,
-    "short_answer": 79,
-    "long_answer": 62
+    "mcq": 142,
+    "long_answer": 62,
+    "short_answer": 79
    },
    "tree": true,
-   "untaggedKeyed": 243,
+   "untaggedKeyed": 244,
    "chapters": [
     {
      "id": "science-7/the-ever-evolving-world-of-science",
@@ -7463,10 +7428,10 @@
       {
        "id": "science-7/exploring-substances-acidic-basic-and-neutral/what-happens-when-acidic-substances-mix-with-basic-substance",
        "name": "What Happens When Acidic Substances Mix with Basic Substances?",
-       "questions": 7,
-       "marks": 13,
+       "questions": 8,
+       "marks": 14,
        "byMarks": {
-        "1": 4,
+        "1": 5,
         "2": 2,
         "3": 0,
         "4": 0,
@@ -7696,10 +7661,10 @@
       {
        "id": "science-7/changes-around-us-physical-and-chemical/can-physical-and-chemical-changes-occur-in-the-same-process",
        "name": "Can Physical and Chemical Changes Occur in the Same Process?",
-       "questions": 2,
-       "marks": 3,
+       "questions": 1,
+       "marks": 2,
        "byMarks": {
-        "1": 1,
+        "1": 0,
         "2": 1,
         "3": 0,
         "4": 0,
@@ -7832,11 +7797,11 @@
     {
      "id": "science-7/heat-transfer-in-nature",
      "name": "Heat Transfer in Nature",
-     "questions": 4,
-     "marks": 15,
+     "questions": 3,
+     "marks": 13,
      "byMarks": {
       "1": 1,
-      "2": 1,
+      "2": 0,
       "3": 0,
       "4": 0,
       "5+": 2
@@ -7942,12 +7907,12 @@
       {
        "id": "science-7/measurement-of-time-and-motion/speed",
        "name": "Speed",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 3,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -8302,7 +8267,6 @@
     "science-7/heat-transfer-in-nature/water-cycle",
     "science-7/measurement-of-time-and-motion/measurement-of-time",
     "science-7/measurement-of-time-and-motion/slow-or-fast",
-    "science-7/measurement-of-time-and-motion/speed",
     "science-7/measurement-of-time-and-motion/uniform-and-non-uniform-linear-motion",
     "science-7/life-processes-in-plants/how-do-plants-grow",
     "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth",
@@ -8349,7 +8313,6 @@
     "science-7/heat-transfer-in-nature/water-cycle",
     "science-7/measurement-of-time-and-motion/measurement-of-time",
     "science-7/measurement-of-time-and-motion/slow-or-fast",
-    "science-7/measurement-of-time-and-motion/speed",
     "science-7/measurement-of-time-and-motion/uniform-and-non-uniform-linear-motion",
     "science-7/life-processes-in-animals/respiration-in-animals",
     "science-7/life-processes-in-plants/how-do-plants-grow",
@@ -8413,7 +8376,7 @@
     "science-7/earth-moon-and-the-sun/revolution-of-the-earth",
     "science-7/earth-moon-and-the-sun/eclipses"
    ],
-   "servedKeyed": 0,
+   "servedKeyed": 335,
    "papers": {
     "all": {
      "class_test": {
@@ -8437,36 +8400,21 @@
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "weekly_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "monthly_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
-       "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
       ]
      }
     }
@@ -8477,22 +8425,26 @@
    "grade": 8,
    "questions": 435,
    "byBank": {
-    "ncert-exemplar": 399,
-    "cbse-cbe": 36
+    "served": 418,
+    "cbse-cbe": 17
    },
    "bySource": {
-    "ncert_exemplar": 399,
-    "cbse_question_bank": 36
+    "cbse_question_bank": 36,
+    "ncert_exemplar": 399
    },
    "keyed": 435,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "ncert_exemplar_answer": 399,
-    "cbse_marking_scheme": 36
+    "cbse_marking_scheme": 36,
+    "ncert_exemplar_answer": 399
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 431,
+    "of": 435,
+    "unchecked": 0,
+    "pct": 99.1
    },
    "tagged": {
     "chapter": {
@@ -8522,10 +8474,10 @@
     "5+": 66
    },
    "types": {
-    "mcq": 179,
     "very_short_answer": 101,
     "short_answer": 82,
-    "long_answer": 73
+    "long_answer": 73,
+    "mcq": 179
    },
    "tree": true,
    "untaggedKeyed": 379,
@@ -8864,10 +8816,10 @@
     {
      "id": "science-8/pressure-winds-storms-and-cyclones",
      "name": "Pressure, Winds, Storms, and Cyclones",
-     "questions": 2,
-     "marks": 8,
+     "questions": 3,
+     "marks": 9,
      "byMarks": {
-      "1": 0,
+      "1": 1,
       "2": 0,
       "3": 1,
       "4": 0,
@@ -9464,10 +9416,10 @@
     {
      "id": "science-8/our-home-earth-a-unique-life-sustaining-planet",
      "name": "Our Home: Earth, a Unique Life Sustaining Planet",
-     "questions": 5,
-     "marks": 11,
+     "questions": 4,
+     "marks": 10,
      "byMarks": {
-      "1": 3,
+      "1": 2,
       "2": 0,
       "3": 1,
       "4": 0,
@@ -9761,7 +9713,7 @@
     "science-8/our-home-earth-a-unique-life-sustaining-planet/what-keeps-life-from-disappearing",
     "science-8/our-home-earth-a-unique-life-sustaining-planet/what-are-the-threats-to-life-on-earth"
    ],
-   "servedKeyed": 0,
+   "servedKeyed": 418,
    "papers": {
     "all": {
      "class_test": {
@@ -9783,37 +9735,20 @@
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "weekly_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "monthly_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "board": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
-       "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      }
     }
    }
@@ -9823,31 +9758,36 @@
    "grade": 9,
    "questions": 476,
    "byBank": {
-    "ncert-exemplar": 425,
-    "cbse-cbe": 51
+    "served": 457,
+    "ncert-exemplar": 6,
+    "cbse-cbe": 13
    },
    "bySource": {
-    "ncert_exemplar": 425,
-    "cbse_question_bank": 51
+    "cbse_question_bank": 51,
+    "ncert_exemplar": 425
    },
    "keyed": 476,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "ncert_exemplar_answer": 425,
-    "cbse_marking_scheme": 51
+    "cbse_marking_scheme": 51,
+    "ncert_exemplar_answer": 425
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 473,
+    "of": 476,
+    "unchecked": 0,
+    "pct": 99.4
    },
    "tagged": {
     "chapter": {
-     "n": 248,
-     "pct": 52.1
+     "n": 247,
+     "pct": 51.9
     },
     "topic": {
-     "n": 74,
-     "pct": 15.5
+     "n": 72,
+     "pct": 15.1
     },
     "subtopic": {
      "n": 19,
@@ -9868,13 +9808,13 @@
     "5+": 72
    },
    "types": {
-    "mcq": 252,
-    "short_answer": 142,
     "long_answer": 75,
-    "very_short_answer": 7
+    "mcq": 252,
+    "very_short_answer": 7,
+    "short_answer": 142
    },
    "tree": true,
-   "untaggedKeyed": 228,
+   "untaggedKeyed": 229,
    "chapters": [
     {
      "id": "science-9/exploration-entering-the-world-of-secondary-science",
@@ -10005,10 +9945,10 @@
       {
        "id": "science-9/tissues-in-action/tissues-for-growth-in-plants",
        "name": "Tissues for Growth in Plants",
-       "questions": 16,
-       "marks": 26,
+       "questions": 15,
+       "marks": 25,
        "byMarks": {
-        "1": 13,
+        "1": 12,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -10126,10 +10066,10 @@
       {
        "id": "science-9/describing-motion-around-us/motion-in-a-plane",
        "name": "Motion in a Plane",
-       "questions": 1,
-       "marks": 1,
+       "questions": 2,
+       "marks": 2,
        "byMarks": {
-        "1": 1,
+        "1": 2,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -10141,10 +10081,10 @@
     {
      "id": "science-9/exploring-mixtures-and-their-separation",
      "name": "Exploring Mixtures and their Separation",
-     "questions": 19,
-     "marks": 76,
+     "questions": 20,
+     "marks": 77,
      "byMarks": {
-      "1": 3,
+      "1": 4,
       "2": 0,
       "3": 10,
       "4": 0,
@@ -10223,10 +10163,10 @@
     {
      "id": "science-9/how-forces-affect-motion",
      "name": "How Forces Affect Motion",
-     "questions": 10,
-     "marks": 18,
+     "questions": 11,
+     "marks": 19,
      "byMarks": {
-      "1": 6,
+      "1": 7,
       "2": 0,
       "3": 4,
       "4": 0,
@@ -10761,10 +10701,10 @@
       {
        "id": "science-9/sound-waves-characteristics-and-applications/characteristics-of-a-sound-wave",
        "name": "Characteristics of a Sound Wave",
-       "questions": 3,
-       "marks": 3,
+       "questions": 2,
+       "marks": 2,
        "byMarks": {
-        "1": 3,
+        "1": 2,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -10884,10 +10824,10 @@
     {
      "id": "science-9/patterns-in-life-diversity-and-classification",
      "name": "Patterns in Life: Diversity and Classification",
-     "questions": 25,
-     "marks": 50,
+     "questions": 22,
+     "marks": 47,
      "byMarks": {
-      "1": 17,
+      "1": 14,
       "2": 1,
       "3": 4,
       "4": 0,
@@ -10977,10 +10917,10 @@
       {
        "id": "science-9/patterns-in-life-diversity-and-classification/adaptations-as-outcomes-of-structural-change",
        "name": "Adaptations as Outcomes of Structural Change",
-       "questions": 1,
-       "marks": 1,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
-        "1": 1,
+        "1": 0,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -10990,10 +10930,10 @@
       {
        "id": "science-9/patterns-in-life-diversity-and-classification/scientific-naming-the-binomial-system",
        "name": "Scientific Naming — The Binomial System",
-       "questions": 1,
-       "marks": 1,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
-        "1": 1,
+        "1": 0,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -11046,10 +10986,10 @@
       {
        "id": "science-9/earth-as-a-system-energy-matter-and-life/uneven-heating-of-the-earth",
        "name": "Uneven Heating of the Earth",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -11161,8 +11101,9 @@
     "science-9/patterns-in-life-diversity-and-classification/how-to-classify-organisms",
     "science-9/patterns-in-life-diversity-and-classification/the-need-for-classification",
     "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification",
+    "science-9/patterns-in-life-diversity-and-classification/adaptations-as-outcomes-of-structural-change",
+    "science-9/patterns-in-life-diversity-and-classification/scientific-naming-the-binomial-system",
     "science-9/patterns-in-life-diversity-and-classification/fossils-as-evidence",
-    "science-9/earth-as-a-system-energy-matter-and-life/uneven-heating-of-the-earth",
     "science-9/earth-as-a-system-energy-matter-and-life/human-impact-on-earth-s-processes"
    ],
    "topicsWithout3Mark": [
@@ -11303,7 +11244,7 @@
     "science-9/earth-as-a-system-energy-matter-and-life/biogeochemical-cycles",
     "science-9/earth-as-a-system-energy-matter-and-life/human-impact-on-earth-s-processes"
    ],
-   "servedKeyed": 0,
+   "servedKeyed": 457,
    "papers": {
     "all": {
      "class_test": {
@@ -11334,34 +11275,24 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2"
       ]
      },
      "weekly_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 2"
       ]
      },
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
-       "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2",
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
       ]
      }
     }
@@ -11370,63 +11301,66 @@
   {
    "subject": "Science",
    "grade": 10,
-   "questions": 938,
+   "questions": 531,
    "byBank": {
-    "served": 408,
-    "ncert-exemplar": 476,
-    "cbse-cbe": 54
+    "served": 506,
+    "ncert-exemplar": 8,
+    "cbse-cbe": 17
    },
    "bySource": {
-    "cbse_board_paper": 408,
-    "ncert_exemplar": 476,
-    "cbse_question_bank": 54
+    "cbse_board_paper": 1,
+    "cbse_question_bank": 54,
+    "ncert_exemplar": 476
    },
-   "keyed": 938,
+   "keyed": 531,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "cbse_marking_scheme": 462,
+    "cbse_marking_scheme": 55,
     "ncert_exemplar_answer": 476
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 524,
+    "of": 531,
+    "unchecked": 0,
+    "pct": 98.7
    },
    "tagged": {
     "chapter": {
-     "n": 422,
-     "pct": 45.0
+     "n": 424,
+     "pct": 79.8
     },
     "topic": {
-     "n": 284,
-     "pct": 30.3
+     "n": 285,
+     "pct": 53.7
     },
     "subtopic": {
-     "n": 115,
-     "pct": 12.3
+     "n": 117,
+     "pct": 22.0
     },
     "oldChapterIds": {
-     "n": 819,
-     "pct": 87.3
+     "n": 412,
+     "pct": 77.6
     }
    },
    "taggerCovers": true,
-   "neverTagged": 408,
+   "neverTagged": 0,
    "marks": {
-    "1": 496,
-    "2": 91,
-    "3": 227,
-    "4": 24,
-    "5+": 100
+    "1": 329,
+    "2": 5,
+    "3": 128,
+    "4": 0,
+    "5+": 69
    },
    "types": {
-    "very_short_answer": 173,
-    "short_answer": 217,
-    "long_answer": 194,
-    "case_study": 30,
-    "mcq": 324
+    "very_short_answer": 10,
+    "mcq": 323,
+    "short_answer": 132,
+    "long_answer": 66
    },
    "tree": true,
-   "untaggedKeyed": 516,
+   "untaggedKeyed": 107,
    "chapters": [
     {
      "id": "science-10/chemical-reactions-and-equations",
@@ -11914,10 +11848,10 @@
     {
      "id": "science-10/heredity",
      "name": "Heredity",
-     "questions": 32,
-     "marks": 60,
+     "questions": 33,
+     "marks": 61,
      "byMarks": {
-      "1": 22,
+      "1": 23,
       "2": 1,
       "3": 7,
       "4": 0,
@@ -11957,10 +11891,10 @@
     {
      "id": "science-10/light-reflection-and-refraction",
      "name": "Light – Reflection and Refraction",
-     "questions": 19,
-     "marks": 60,
+     "questions": 20,
+     "marks": 61,
      "byMarks": {
-      "1": 11,
+      "1": 12,
       "2": 0,
       "3": 4,
       "4": 0,
@@ -12326,10 +12260,10 @@
       {
        "id": "science-10/our-environment/how-do-our-activities-affect-the-environment",
        "name": "How Do Our Activities Affect the Environment?",
-       "questions": 9,
-       "marks": 31,
+       "questions": 10,
+       "marks": 32,
        "byMarks": {
-        "1": 2,
+        "1": 3,
         "2": 0,
         "3": 3,
         "4": 0,
@@ -12424,12 +12358,14 @@
     "science-10/magnetic-effects-of-electric-current/force-on-a-current-carrying-conductor-in-a-magnetic-field",
     "science-10/magnetic-effects-of-electric-current/domestic-electric-circuits"
    ],
-   "servedKeyed": 408,
+   "servedKeyed": 506,
    "papers": {
     "all": {
      "class_test": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 5"
+      ]
      },
      "weekly_test": {
       "possible": true,
@@ -12440,26 +12376,36 @@
       "reasons": []
      },
      "board": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 5",
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+      ]
      }
     },
     "served": {
      "class_test": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
+      ]
      },
      "weekly_test": {
       "possible": true,
       "reasons": []
      },
      "monthly_test": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4"
+      ]
      },
      "board": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+      ]
      }
     }
    }
@@ -19559,58 +19505,62 @@
   {
    "subject": "Social Science",
    "grade": 10,
-   "questions": 375,
+   "questions": 24,
    "byBank": {
-    "served": 375
+    "served": 24
    },
    "bySource": {
-    "cbse_board_paper": 375
+    "cbse_board_paper": 10,
+    "cbse_sample_paper": 14
    },
-   "keyed": 368,
-   "noKey": 7,
-   "keyedPct": 98.1,
+   "keyed": 24,
+   "noKey": 0,
+   "keyedPct": 100.0,
    "keyProvenance": {
-    "cbse_marking_scheme": 368
+    "cbse_marking_scheme": 24
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 24,
+    "of": 24,
+    "unchecked": 0,
+    "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 0,
-     "pct": 0.0
+     "n": 15,
+     "pct": 62.5
     },
     "topic": {
-     "n": 0,
-     "pct": 0.0
+     "n": 6,
+     "pct": 25.0
     },
     "subtopic": {
-     "n": 0,
-     "pct": 0.0
+     "n": 1,
+     "pct": 4.2
     },
     "oldChapterIds": {
-     "n": 375,
-     "pct": 100.0
+     "n": 22,
+     "pct": 91.7
     }
    },
    "taggerCovers": true,
-   "neverTagged": 375,
+   "neverTagged": 0,
    "marks": {
-    "1": 138,
-    "2": 85,
-    "3": 93,
-    "4": 4,
-    "5+": 48
+    "1": 12,
+    "2": 0,
+    "3": 10,
+    "4": 0,
+    "5+": 2
    },
    "types": {
-    "very_short_answer": 108,
-    "mcq": 28,
-    "short_answer": 84,
-    "long_answer": 100,
-    "case_study": 48
+    "long_answer": 8,
+    "case_study": 2,
+    "short_answer": 2,
+    "mcq": 12
    },
    "tree": true,
-   "untaggedKeyed": 368,
+   "untaggedKeyed": 9,
    "chapters": [
     {
      "id": "social-science-10/the-rise-of-nationalism-in-europe",
@@ -20077,14 +20027,14 @@
     {
      "id": "social-science-10/resources-and-development",
      "name": "Resources and Development",
-     "questions": 0,
-     "marks": 0,
+     "questions": 2,
+     "marks": 6,
      "byMarks": {
-      "1": 0,
+      "1": 1,
       "2": 0,
       "3": 0,
       "4": 0,
-      "5+": 0
+      "5+": 1
      },
      "number": 1,
      "book": "Contemporary India II",
@@ -20109,10 +20059,10 @@
     {
      "id": "social-science-10/water-resources",
      "name": "Water Resources",
-     "questions": 0,
-     "marks": 0,
+     "questions": 1,
+     "marks": 1,
      "byMarks": {
-      "1": 0,
+      "1": 1,
       "2": 0,
       "3": 0,
       "4": 0,
@@ -20189,10 +20139,10 @@
     {
      "id": "social-science-10/power-sharing",
      "name": "Power-sharing",
-     "questions": 0,
-     "marks": 0,
+     "questions": 1,
+     "marks": 1,
      "byMarks": {
-      "1": 0,
+      "1": 1,
       "2": 0,
       "3": 0,
       "4": 0,
@@ -20204,10 +20154,10 @@
       {
        "id": "social-science-10/power-sharing/belgium-and-sri-lanka",
        "name": "Belgium and Sri Lanka",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -20258,14 +20208,14 @@
     {
      "id": "social-science-10/federalism",
      "name": "Federalism",
-     "questions": 0,
-     "marks": 0,
+     "questions": 1,
+     "marks": 5,
      "byMarks": {
       "1": 0,
       "2": 0,
       "3": 0,
       "4": 0,
-      "5+": 0
+      "5+": 1
      },
      "number": 2,
      "book": "Democratic Politics II",
@@ -20299,14 +20249,14 @@
       {
        "id": "social-science-10/federalism/how-is-federalism-practised",
        "name": "How is federalism practised?",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 5,
        "byMarks": {
         "1": 0,
         "2": 0,
         "3": 0,
         "4": 0,
-        "5+": 0
+        "5+": 1
        }
       },
       {
@@ -20383,12 +20333,12 @@
     {
      "id": "social-science-10/political-parties",
      "name": "Political Parties",
-     "questions": 0,
-     "marks": 0,
+     "questions": 2,
+     "marks": 6,
      "byMarks": {
       "1": 0,
       "2": 0,
-      "3": 0,
+      "3": 2,
       "4": 0,
       "5+": 0
      },
@@ -20450,12 +20400,12 @@
       {
        "id": "social-science-10/political-parties/challenges-to-political-parties",
        "name": "Challenges to political parties",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 3,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -20478,12 +20428,12 @@
     {
      "id": "social-science-10/outcomes-of-democracy",
      "name": "Outcomes of Democracy",
-     "questions": 0,
-     "marks": 0,
+     "questions": 3,
+     "marks": 9,
      "byMarks": {
       "1": 0,
       "2": 0,
-      "3": 0,
+      "3": 3,
       "4": 0,
       "5+": 0
      },
@@ -20506,12 +20456,12 @@
       {
        "id": "social-science-10/outcomes-of-democracy/accountable-responsive-and-legitimate-government",
        "name": "Accountable, responsive and legitimate government",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 3,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -20532,12 +20482,12 @@
       {
        "id": "social-science-10/outcomes-of-democracy/reduction-of-inequality-and-poverty",
        "name": "Reduction of inequality and poverty",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 3,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -20573,10 +20523,10 @@
     {
      "id": "social-science-10/development",
      "name": "Development",
-     "questions": 0,
-     "marks": 0,
+     "questions": 1,
+     "marks": 1,
      "byMarks": {
-      "1": 0,
+      "1": 1,
       "2": 0,
       "3": 0,
       "4": 0,
@@ -20681,12 +20631,12 @@
     {
      "id": "social-science-10/sectors-of-the-indian-economy",
      "name": "Sectors of the Indian Economy",
-     "questions": 0,
-     "marks": 0,
+     "questions": 3,
+     "marks": 5,
      "byMarks": {
-      "1": 0,
+      "1": 2,
       "2": 0,
-      "3": 0,
+      "3": 1,
       "4": 0,
       "5+": 0
      },
@@ -20722,12 +20672,12 @@
       {
        "id": "social-science-10/sectors-of-the-indian-economy/primary-secondary-and-tertiary-sectors-in-india",
        "name": "Primary, Secondary and Tertiary Sectors in India",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 3,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -20871,12 +20821,12 @@
     {
      "id": "social-science-10/globalisation-and-the-indian-economy",
      "name": "Globalisation and the Indian Economy",
-     "questions": 0,
-     "marks": 0,
+     "questions": 1,
+     "marks": 3,
      "byMarks": {
       "1": 0,
       "2": 0,
-      "3": 0,
+      "3": 1,
       "4": 0,
       "5+": 0
      },
@@ -21065,22 +21015,13 @@
     "social-science-10/the-making-of-a-global-world",
     "social-science-10/the-age-of-industrialisation",
     "social-science-10/print-culture-and-the-modern-world",
-    "social-science-10/resources-and-development",
     "social-science-10/forest-and-wildlife-resources",
-    "social-science-10/water-resources",
     "social-science-10/agriculture",
     "social-science-10/minerals-and-energy-resources",
     "social-science-10/manufacturing-industries",
     "social-science-10/lifelines-of-national-economy",
-    "social-science-10/power-sharing",
-    "social-science-10/federalism",
     "social-science-10/gender-religion-and-caste",
-    "social-science-10/political-parties",
-    "social-science-10/outcomes-of-democracy",
-    "social-science-10/development",
-    "social-science-10/sectors-of-the-indian-economy",
     "social-science-10/money-and-credit",
-    "social-science-10/globalisation-and-the-indian-economy",
     "social-science-10/consumer-rights"
    ],
    "chaptersWithout3Mark": [
@@ -21099,12 +21040,8 @@
     "social-science-10/power-sharing",
     "social-science-10/federalism",
     "social-science-10/gender-religion-and-caste",
-    "social-science-10/political-parties",
-    "social-science-10/outcomes-of-democracy",
     "social-science-10/development",
-    "social-science-10/sectors-of-the-indian-economy",
     "social-science-10/money-and-credit",
-    "social-science-10/globalisation-and-the-indian-economy",
     "social-science-10/consumer-rights"
    ],
    "chaptersWithout5Mark": [
@@ -21113,7 +21050,6 @@
     "social-science-10/the-making-of-a-global-world",
     "social-science-10/the-age-of-industrialisation",
     "social-science-10/print-culture-and-the-modern-world",
-    "social-science-10/resources-and-development",
     "social-science-10/forest-and-wildlife-resources",
     "social-science-10/water-resources",
     "social-science-10/agriculture",
@@ -21121,7 +21057,6 @@
     "social-science-10/manufacturing-industries",
     "social-science-10/lifelines-of-national-economy",
     "social-science-10/power-sharing",
-    "social-science-10/federalism",
     "social-science-10/gender-religion-and-caste",
     "social-science-10/political-parties",
     "social-science-10/outcomes-of-democracy",
@@ -21161,13 +21096,11 @@
     "social-science-10/print-culture-and-the-modern-world/religious-reform-and-public-debates",
     "social-science-10/print-culture-and-the-modern-world/new-forms-of-publication",
     "social-science-10/print-culture-and-the-modern-world/print-and-censorship",
-    "social-science-10/power-sharing/belgium-and-sri-lanka",
     "social-science-10/power-sharing/majoritarianism-in-sri-lanka",
     "social-science-10/power-sharing/accommodation-in-belgium",
     "social-science-10/power-sharing/forms-of-power-sharing",
     "social-science-10/federalism/what-is-federalism",
     "social-science-10/federalism/what-makes-india-a-federal-country",
-    "social-science-10/federalism/how-is-federalism-practised",
     "social-science-10/federalism/decentralisation-in-india",
     "social-science-10/gender-religion-and-caste/gender-and-politics",
     "social-science-10/gender-religion-and-caste/religion-communalism-and-politics",
@@ -21176,12 +21109,9 @@
     "social-science-10/political-parties/how-many-parties-should-we-have",
     "social-science-10/political-parties/national-parties",
     "social-science-10/political-parties/state-parties",
-    "social-science-10/political-parties/challenges-to-political-parties",
     "social-science-10/political-parties/how-can-parties-be-reformed",
     "social-science-10/outcomes-of-democracy/how-do-we-assess-democracy-s-outcomes",
-    "social-science-10/outcomes-of-democracy/accountable-responsive-and-legitimate-government",
     "social-science-10/outcomes-of-democracy/economic-growth-and-development",
-    "social-science-10/outcomes-of-democracy/reduction-of-inequality-and-poverty",
     "social-science-10/outcomes-of-democracy/accommodation-of-social-diversity",
     "social-science-10/outcomes-of-democracy/dignity-and-freedom-of-the-citizens",
     "social-science-10/development/what-development-promises-different-people-different-goals",
@@ -21193,7 +21123,6 @@
     "social-science-10/development/sustainability-of-development",
     "social-science-10/sectors-of-the-indian-economy/sectors-of-economic-activities",
     "social-science-10/sectors-of-the-indian-economy/comparing-the-three-sectors",
-    "social-science-10/sectors-of-the-indian-economy/primary-secondary-and-tertiary-sectors-in-india",
     "social-science-10/sectors-of-the-indian-economy/division-of-sectors-as-organised-and-unorganised",
     "social-science-10/sectors-of-the-indian-economy/sectors-in-terms-of-ownership-public-and-private-sectors",
     "social-science-10/money-and-credit/money-as-a-medium-of-exchange",
@@ -21261,12 +21190,9 @@
     "social-science-10/political-parties/how-many-parties-should-we-have",
     "social-science-10/political-parties/national-parties",
     "social-science-10/political-parties/state-parties",
-    "social-science-10/political-parties/challenges-to-political-parties",
     "social-science-10/political-parties/how-can-parties-be-reformed",
     "social-science-10/outcomes-of-democracy/how-do-we-assess-democracy-s-outcomes",
-    "social-science-10/outcomes-of-democracy/accountable-responsive-and-legitimate-government",
     "social-science-10/outcomes-of-democracy/economic-growth-and-development",
-    "social-science-10/outcomes-of-democracy/reduction-of-inequality-and-poverty",
     "social-science-10/outcomes-of-democracy/accommodation-of-social-diversity",
     "social-science-10/outcomes-of-democracy/dignity-and-freedom-of-the-citizens",
     "social-science-10/development/what-development-promises-different-people-different-goals",
@@ -21278,7 +21204,6 @@
     "social-science-10/development/sustainability-of-development",
     "social-science-10/sectors-of-the-indian-economy/sectors-of-economic-activities",
     "social-science-10/sectors-of-the-indian-economy/comparing-the-three-sectors",
-    "social-science-10/sectors-of-the-indian-economy/primary-secondary-and-tertiary-sectors-in-india",
     "social-science-10/sectors-of-the-indian-economy/division-of-sectors-as-organised-and-unorganised",
     "social-science-10/sectors-of-the-indian-economy/sectors-in-terms-of-ownership-public-and-private-sectors",
     "social-science-10/money-and-credit/money-as-a-medium-of-exchange",
@@ -21337,7 +21262,6 @@
     "social-science-10/power-sharing/forms-of-power-sharing",
     "social-science-10/federalism/what-is-federalism",
     "social-science-10/federalism/what-makes-india-a-federal-country",
-    "social-science-10/federalism/how-is-federalism-practised",
     "social-science-10/federalism/decentralisation-in-india",
     "social-science-10/gender-religion-and-caste/gender-and-politics",
     "social-science-10/gender-religion-and-caste/religion-communalism-and-politics",
@@ -21386,42 +21310,64 @@
     "social-science-10/consumer-rights/consumer-rights",
     "social-science-10/consumer-rights/taking-the-consumer-movement-forward"
    ],
-   "servedKeyed": 368,
+   "servedKeyed": 24,
    "papers": {
     "all": {
      "class_test": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
+      ]
      },
      "weekly_test": {
       "possible": true,
       "reasons": []
      },
      "monthly_test": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section A (MCQ): needs 15 keyed 1-mark questions, has 12",
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
+       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 2"
+      ]
      },
      "board": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 12",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 2",
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+      ]
      }
     },
     "served": {
      "class_test": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
+      ]
      },
      "weekly_test": {
       "possible": true,
       "reasons": []
      },
      "monthly_test": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section A (MCQ): needs 15 keyed 1-mark questions, has 12",
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
+       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 2"
+      ]
      },
      "board": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 12",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 2",
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+      ]
      }
     }
    }
@@ -21431,7 +21377,8 @@
    "grade": 6,
    "questions": 11,
    "byBank": {
-    "cbse-cbe": 11
+    "served": 7,
+    "cbse-cbe": 4
    },
    "bySource": {
     "cbse_question_bank": 11
@@ -21443,7 +21390,11 @@
     "cbse_marking_scheme": 11
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 11,
+    "of": 11,
+    "unchecked": 0,
+    "pct": 100.0
    },
    "tagged": {
     "chapter": {
@@ -21795,7 +21746,7 @@
    "emptyTopics": [],
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
-   "servedKeyed": 0,
+   "servedKeyed": 7,
    "papers": {
     "all": {
      "class_test": {
@@ -21836,22 +21787,22 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 3",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
       ]
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 3",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ]
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
+       "Section A (MCQ): needs 15 keyed 1-mark questions, has 3",
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ]
@@ -21859,11 +21810,11 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 3",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
       ]
      }
     }
@@ -21886,7 +21837,11 @@
     "cbse_marking_scheme": 44
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 44,
+    "of": 44,
+    "unchecked": 0,
+    "pct": 100.0
    },
    "tagged": {
     "chapter": {
@@ -22703,7 +22658,8 @@
    "grade": 9,
    "questions": 47,
    "byBank": {
-    "cbse-cbe": 47
+    "served": 39,
+    "cbse-cbe": 8
    },
    "bySource": {
     "cbse_question_bank": 47
@@ -22715,7 +22671,11 @@
     "cbse_marking_scheme": 47
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 46,
+    "of": 47,
+    "unchecked": 0,
+    "pct": 97.9
    },
    "tagged": {
     "chapter": {
@@ -23066,7 +23026,7 @@
    "emptyTopics": [],
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
-   "servedKeyed": 0,
+   "servedKeyed": 39,
    "papers": {
     "all": {
      "class_test": {
@@ -23098,24 +23058,18 @@
     },
     "served": {
      "class_test": {
-      "possible": false,
-      "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      "possible": true,
+      "reasons": []
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ]
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 15 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ]
@@ -23123,8 +23077,7 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section A (MCQ): needs 20 keyed 1-mark questions, has 0",
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 15",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
@@ -23136,23 +23089,27 @@
   {
    "subject": "English",
    "grade": 10,
-   "questions": 140,
+   "questions": 15,
    "byBank": {
-    "served": 127,
-    "cbse-cbe": 13
+    "served": 12,
+    "cbse-cbe": 3
    },
    "bySource": {
-    "cbse_board_paper": 127,
-    "cbse_question_bank": 13
+    "cbse_question_bank": 13,
+    "cbse_sample_paper": 2
    },
-   "keyed": 73,
-   "noKey": 67,
-   "keyedPct": 52.1,
+   "keyed": 15,
+   "noKey": 0,
+   "keyedPct": 100.0,
    "keyProvenance": {
-    "cbse_marking_scheme": 73
+    "cbse_marking_scheme": 15
    },
    "verified": {
-    "state": "not verified"
+    "state": "verified",
+    "passed": 12,
+    "of": 15,
+    "unchecked": 0,
+    "pct": 80.0
    },
    "tagged": {
     "chapter": {
@@ -23168,27 +23125,26 @@
      "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 136,
-     "pct": 97.1
+     "n": 9,
+     "pct": 60.0
     }
    },
    "taggerCovers": false,
-   "neverTagged": 140,
+   "neverTagged": 15,
    "marks": {
-    "1": 68,
-    "2": 5,
+    "1": 8,
+    "2": 7,
     "3": 0,
     "4": 0,
     "5+": 0
    },
    "types": {
-    "very_short_answer": 63,
-    "case_study": 2,
-    "mcq": 3,
-    "short_answer": 5
+    "very_short_answer": 5,
+    "short_answer": 7,
+    "mcq": 3
    },
    "tree": false,
-   "untaggedKeyed": 73,
+   "untaggedKeyed": 15,
    "chapters": [],
    "emptyChapters": [],
    "chaptersWithout3Mark": [],
@@ -23196,24 +23152,26 @@
    "emptyTopics": [],
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
-   "servedKeyed": 60,
+   "servedKeyed": 12,
    "papers": {
     "all": {
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 5"
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 8"
       ]
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 8",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ]
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
+       "Section A (MCQ): needs 15 keyed 1-mark questions, has 8",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ]
@@ -23221,7 +23179,7 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 5",
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 8",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
@@ -23232,19 +23190,20 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 5"
       ]
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
+       "Section A (MCQ): needs 10 keyed 1-mark questions, has 5",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
       ]
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
+       "Section A (MCQ): needs 15 keyed 1-mark questions, has 5",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ]
@@ -23252,7 +23211,7 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
+       "Section A (MCQ): needs 20 keyed 1-mark questions, has 5",
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
@@ -24030,15 +23989,11 @@
   {
    "subject": "Hindi",
    "grade": 10,
-   "questions": 5,
-   "byBank": {
-    "served": 5
-   },
-   "bySource": {
-    "cbse_board_paper": 5
-   },
+   "questions": 0,
+   "byBank": {},
+   "bySource": {},
    "keyed": 0,
-   "noKey": 5,
+   "noKey": 0,
    "keyedPct": 0.0,
    "keyProvenance": {},
    "verified": {
@@ -24058,12 +24013,12 @@
      "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 5,
-     "pct": 100.0
+     "n": 0,
+     "pct": 0.0
     }
    },
    "taggerCovers": false,
-   "neverTagged": 5,
+   "neverTagged": 0,
    "marks": {
     "1": 0,
     "2": 0,
@@ -24161,8 +24116,8 @@
   {
    "label": "served",
    "path": "academicos-data/syllabus/questions.json",
-   "sha256": "a2d018370fd2312f700f67b3e78bb7dae07a0f5340d522f68712a6af75f32f65",
-   "records": 3286
+   "sha256": "01bf3528fae3c29ee040b4c329cb95c5252c57de30d1dc56fd6addeed658e1ad",
+   "records": 5476
   },
   {
    "label": "ncert-exemplar",
@@ -24173,7 +24128,7 @@
   {
    "label": "cbse-cbe",
    "path": "academicos-data/corpus/cbse-cbe/questions.json",
-   "sha256": "0a1039f623ed22acf16d4a5fe131788dbb6d2c0445bfc40e6c8265e10d440aa3",
+   "sha256": "590d0328c222dbde1dd2367cbcb60427d0337202b9032c1c3200c2dec4a0ca78",
    "records": 720
   }
  ],
@@ -24263,7 +24218,7 @@
   },
   {
    "path": "academicos-data/syllabus/taxonomy/_tag_audit.json",
-   "sha256": "b7b92c848dca0cc6f911eb6d894c6df6b2f0b2dde0b009a8677253c7406039e3"
+   "sha256": "87db72f35c17fc8dbc7862692f579bd7c3eca030a503e332005df6c9bafa4062"
   },
   {
    "path": "academicos-data/syllabus/taxonomy/_tag_audit_chapter_topic.json",

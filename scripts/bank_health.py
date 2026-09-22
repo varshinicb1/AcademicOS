@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -36,11 +37,16 @@ OUT_JSON = DATA / "syllabus" / "bank_health.json"
 
 
 def _rel(path: Path) -> str:
-    resolved = path.resolve()
-    try:
-        return resolved.relative_to(REPO).as_posix()
-    except ValueError:
-        return resolved.as_posix()
+    """Repo-relative inside the repo, else the full path. Read on the absolute
+    path first, links unresolved: this checkout's academicos-data is a junction
+    to D:/AcademicOS-academicos-data, and resolved, every input was named by
+    its D: path (as in tag_question_bank._bank_label)."""
+    for candidate in (Path(os.path.abspath(path)), path.resolve()):
+        try:
+            return candidate.relative_to(REPO).as_posix()
+        except ValueError:
+            continue
+    return path.resolve().as_posix()
 
 
 def _sha256(path: Path) -> str:
@@ -49,7 +55,7 @@ def _sha256(path: Path) -> str:
 
 def _label(path: Path, served: bool) -> str:
     # every bank is named questions.json; its folder names it
-    return "served" if served else path.resolve().parent.name
+    return "served" if served else Path(os.path.abspath(path)).parent.name
 
 
 def load_trees(taxonomy: Path) -> dict:
