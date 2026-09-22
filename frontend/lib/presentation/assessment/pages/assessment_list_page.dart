@@ -37,6 +37,10 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
           IconButton(
             tooltip: 'Quick paper (CBSE pattern)',
             icon: const Icon(Icons.flash_on),
+            // On a phone these two icons are the only way from this screen to
+            // a paper; Material's default leaves them 40 px square, under the
+            // 44 px a thumb reliably hits (Task 801).
+            style: IconButton.styleFrom(minimumSize: const Size(48, 48)),
             // Online, the quick paper is the builder with the CBSE preset
             // already chosen (Task 902); the offline build keeps its dialog.
             onPressed: () => newPaperLocation(quick: true) == '/assessment/create'
@@ -46,6 +50,7 @@ class _AssessmentListPageState extends State<AssessmentListPage> {
           IconButton(
             tooltip: 'Create assessment',
             icon: const Icon(Icons.add),
+            style: IconButton.styleFrom(minimumSize: const Size(48, 48)),
             onPressed: () => context.push(newPaperLocation()),
           ),
         ],

@@ -25,7 +25,15 @@ Widget? forceShellLeading(BuildContext context) {
   if (MediaQuery.of(context).size.width >= 800) return null;
   final openDrawer = _ShellDrawerScope.maybeOpenDrawerOf(context);
   if (openDrawer == null) return null;
-  return IconButton(icon: const Icon(Icons.menu), tooltip: 'Menu', onPressed: openDrawer);
+  return IconButton(
+    icon: const Icon(Icons.menu),
+    tooltip: 'Menu',
+    // The only way to the navigation on a phone, and Material's default
+    // leaves it 40 px square -- below the 44 px a thumb reliably hits
+    // (Task 801). The AppBar gives its leading 56 px, so 48 fits.
+    style: IconButton.styleFrom(minimumSize: const Size(48, 48)),
+    onPressed: openDrawer,
+  );
 }
 
 class _ShellDrawerScope extends InheritedWidget {

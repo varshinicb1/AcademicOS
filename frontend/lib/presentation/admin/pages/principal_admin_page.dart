@@ -762,9 +762,15 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         padding: const EdgeInsets.all(16),
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Academic Year Progress', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+              // Expanded, not spaceBetween: unbounded, the heading and the
+              // date ran 211 px off a 375 px phone (Task 801). The date still
+              // sits at the right-hand end on a wide screen.
+              Expanded(
+                child: Text('Academic Year Progress',
+                    style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+              ),
+              const Gap(8),
               Text('As of ${rep.asOfDate}', style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
             ],
           ),
@@ -777,7 +783,12 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           const Gap(24),
           Row(
             children: [
-              Text('Delayed Topics', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+              // Expanded: the heading and its count chip together are wider
+              // than a 375 px phone (Task 801).
+              Expanded(
+                child: Text('Delayed Topics',
+                    style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+              ),
               const Gap(8),
               ChipTag(
                 label: '${del.delayedCount} overdue',
@@ -932,42 +943,62 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     );
   }
 
+  /// A delayed lesson and the one action on it. The overdue chip and
+  /// Reschedule sit beside the lesson on a wide screen and under it on a
+  /// phone: side by side they are laid out at their natural width, which
+  /// left 15 px too little for the lesson on a 375 px screen (Task 801).
   Widget _buildDelayedLessonCard(ThemeData theme, DelayedLesson dl) {
+    final lesson = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(dl.subtopicName, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+        const Gap(2),
+        Text('${dl.subjectName} · ${dl.chapterName}',
+            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+        const Gap(2),
+        Text('Scheduled: ${dl.scheduledDate} · Teacher: ${dl.teacherName ?? "Unassigned"}',
+            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+      ],
+    );
+    final overdue = ChipTag(label: '${dl.daysOverdue}d overdue', color: theme.colorScheme.error);
+    final reschedule = TextButton(
+      onPressed: () {
+        _adjustLessonIdController.text = dl.lessonId;
+        _tabController.animateTo(_AdminTab.reschedule.index);
+      },
+      // 44 px tall so a thumb can hit it on the phone layout.
+      style: TextButton.styleFrom(minimumSize: const Size(64, 44)),
+      child: const Text('Reschedule'),
+    );
+
     return AppCard(
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(dl.subtopicName, style: theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
-                const Gap(2),
-                Text('${dl.subjectName} · ${dl.chapterName}',
-                    style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-                const Gap(2),
-                Text('Scheduled: ${dl.scheduledDate} · Teacher: ${dl.teacherName ?? "Unassigned"}',
-                    style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-              ],
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              ChipTag(
-                label: '${dl.daysOverdue}d overdue',
-                color: theme.colorScheme.error,
+      child: LayoutBuilder(
+        builder: (context, constraints) => constraints.maxWidth < 420
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  lesson,
+                  const Gap(4),
+                  // Wrap, not Row: the chip and the button drop onto separate
+                  // lines rather than overflow when the text is scaled up.
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 4,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [overdue, reschedule],
+                  ),
+                ],
+              )
+            : Row(
+                children: [
+                  Expanded(child: lesson),
+                  const Gap(8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [overdue, const Gap(4), reschedule],
+                  ),
+                ],
               ),
-              const Gap(4),
-              TextButton(
-                onPressed: () {
-                  _adjustLessonIdController.text = dl.lessonId;
-                  _tabController.animateTo(_AdminTab.reschedule.index);
-                },
-                child: const Text('Reschedule'),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

@@ -1,0 +1,100 @@
+// Task 801: the app shell at phone, tablet and laptop widths. Every flow
+// below lives inside MainShell, so if the navigation itself does not fit, no
+// flow does. Nine destinations are too many for a bottom bar (see
+// shell.dart), so below 800 px the rail collapses into a drawer opened from
+// the page's own AppBar; at and above 800 px the rail is on screen.
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
+
+import 'package:academicos/presentation/shared/widgets/shell.dart';
+
+import 'responsive_harness.dart';
+
+/// The shell around stand-in pages: this test is about the navigation, not
+/// about what any one screen shows.
+Widget _shellApp() {
+  Widget page(String title) => Builder(
+        builder: (context) => Scaffold(
+          appBar: AppBar(leading: shellLeading(context), title: Text(title)),
+          body: Center(child: Text('$title body')),
+        ),
+      );
+  final router = GoRouter(
+    initialLocation: '/home',
+    routes: [
+      ShellRoute(
+        builder: (context, state, child) => MainShell(child: child),
+        routes: [
+          for (final (path, title) in const [
+            ('/home', 'Today'),
+            ('/syllabus', 'Syllabus'),
+            ('/assessment', 'Assessments'),
+            ('/planner/daily', 'Planner'),
+            ('/questions', 'Questions'),
+            ('/evaluation', 'Evaluate'),
+            ('/analytics/mastery', 'Mastery'),
+            ('/analytics/gaps', 'Teacher'),
+            ('/analytics/school', 'Principal'),
+            ('/settings', 'Settings'),
+          ])
+            GoRoute(path: path, builder: (context, state) => page(title)),
+        ],
+      ),
+    ],
+  );
+  return MaterialApp.router(routerConfig: router);
+}
+
+void main() {
+  testWidgets('on a phone the rail is a drawer, opened from the page and big enough to tap', (tester) async {
+    useScreen(tester, phone);
+    await tester.pumpWidget(_shellApp());
+    await tester.pumpAndSettle();
+    expectNoOverflow(tester);
+
+    expect(find.byType(NavigationRail), findsNothing, reason: 'a rail would eat a phone screen');
+    final menu = find.byTooltip('Menu');
+    expectActionReady(tester, menu, phone, label: 'the Menu button');
+
+    await tester.tap(menu);
+    await tester.pumpAndSettle();
+    expectNoOverflow(tester, where: ' in the drawer');
+    for (final destination in ['Today', 'Syllabus', 'Assessments', 'Planner', 'Questions', 'Evaluate',
+      'Mastery', 'Teacher', 'Principal', 'Settings']) {
+      final tile = find.widgetWithText(ListTile, destination);
+      expect(tile, findsOneWidget, reason: '$destination must be reachable on a phone');
+      final r = tester.getRect(tile);
+      expect(r.height >= minTapTarget, isTrue, reason: '$destination is only ${r.height} px tall');
+    }
+
+    await tester.tap(find.widgetWithText(ListTile, 'Assessments'));
+    await tester.pumpAndSettle();
+    expect(find.text('Assessments body'), findsOneWidget);
+    expectNoOverflow(tester, where: ' after navigating');
+  });
+
+  testWidgets('a tablet keeps the drawer: 768 px is still narrower than the rail wants', (tester) async {
+    useScreen(tester, tablet);
+    await tester.pumpWidget(_shellApp());
+    await tester.pumpAndSettle();
+    expectNoOverflow(tester);
+    expectActionReady(tester, find.byTooltip('Menu'), tablet, label: 'the Menu button');
+    expect(find.byType(NavigationRail), findsNothing);
+  });
+
+  testWidgets('a laptop shows the rail with every destination and Settings', (tester) async {
+    useScreen(tester, laptop);
+    await tester.pumpWidget(_shellApp());
+    await tester.pumpAndSettle();
+    expectNoOverflow(tester);
+
+    expect(find.byType(NavigationRail), findsOneWidget, reason: 'the desktop look is unchanged');
+    expect(find.byTooltip('Menu'), findsNothing, reason: 'no hamburger next to a visible rail');
+    for (final destination in ['Today', 'Syllabus', 'Assessments', 'Planner', 'Questions', 'Evaluate',
+      'Mastery', 'Teacher', 'Principal']) {
+      expect(find.descendant(of: find.byType(NavigationRail), matching: find.text(destination)), findsOneWidget);
+    }
+    expectActionReady(tester, find.byTooltip('Settings'), laptop, label: 'Settings in the rail');
+  });
+}

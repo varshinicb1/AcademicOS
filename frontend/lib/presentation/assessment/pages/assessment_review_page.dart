@@ -169,8 +169,12 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
               children: [
                 const Icon(Icons.copy_all, size: 20),
                 const SizedBox(width: 8),
-                Text('Parallel Question Sets (${paper.sets.length} Sets)',
-                    style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                // Expanded so the heading wraps: unbounded, it ran 156 px off
+                // a 375 px phone's card (Task 801).
+                Expanded(
+                  child: Text('Parallel Question Sets (${paper.sets.length} Sets)',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600)),
+                ),
               ],
             ),
             const SizedBox(height: 4),
