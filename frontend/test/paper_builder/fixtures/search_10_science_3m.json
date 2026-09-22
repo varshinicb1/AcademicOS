@@ -1,0 +1,2948 @@
+[
+ {
+  "id": "cbse:q:src:af50a3f7e666fdea9cee608f:27",
+  "questionBankId": "src:af50a3f7e666fdea9cee608f",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "metals-non-metals"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "evaluate",
+  "difficulty": "hard",
+  "type": "long_answer",
+  "stem": "(a) ‘‘Displacement reactions also play a key role in extracting metals in the middle of the reactivity series.’’ Justify this statement with two examples.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:27:mp1",
+     "description": "When electricity is passed through brine, it decomposes to form",
+     "marks": 1,
+     "keyword": "When",
+     "isRequired": true,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:27:mp2",
+     "description": "At anode: Cl2",
+     "marks": 1,
+     "keyword": "At",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:27:mp3",
+     "description": "At cathode: H2",
+     "marks": 1,
+     "keyword": "At",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "When electricity is passed through brine, it decomposes to form At anode: Cl2 At cathode: H2",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/1/1",
+   "sourceDocumentId": "src:af50a3f7e666fdea9cee608f"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.8,
+  "tags": [
+   "Metals and Non-metals"
+  ],
+  "createdAt": "2026-09-15T14:52:35.792364Z",
+  "updatedAt": "2026-09-15T14:52:35.792364Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "metals-non-metals",
+    "score": 0.483,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:af50a3f7e666fdea9cee608f",
+   "pageNumber": 15,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:af50a3f7e666fdea9cee608f:28",
+  "questionBankId": "src:af50a3f7e666fdea9cee608f",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "metals-non-metals"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(a) With the help of an activity, explain the conditions under which iron articles get rusted.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:28:mp1",
+     "description": "(a) Because it is easier to obtain metal from its oxide",
+     "marks": 1,
+     "keyword": "(a)",
+     "isRequired": true,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:28:mp2",
+     "description": "Because it is easier to reduce metal oxide to metal",
+     "marks": 1,
+     "keyword": "Because",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:28:mp3",
+     "description": "Fe2O3(s)+ 2Al(s) →2Fe(l) + Al2O3(s) + Heat",
+     "marks": 1,
+     "keyword": "Fe2O3(s)+",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:28:mp4",
+     "description": "3MnO2(s) + 4Al(s) →3Mn(l) + 2Al2O3(s) + Heat",
+     "marks": 0,
+     "keyword": "3MnO2(s)",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "(a) Because it is easier to obtain metal from its oxide Because it is easier to reduce metal oxide to metal Fe2O3(s)+ 2Al(s) →2Fe(l) + Al2O3(s) + Heat 3MnO2(s) + 4Al(s) →3Mn(l) + 2Al2O3(s) + Heat",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/1/1",
+   "sourceDocumentId": "src:af50a3f7e666fdea9cee608f"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.6,
+  "tags": [
+   "Chemical Reactions and Equations"
+  ],
+  "createdAt": "2026-09-15T14:52:35.792364Z",
+  "updatedAt": "2026-09-15T14:52:35.792364Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "metals-non-metals",
+    "score": 0.4239,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:af50a3f7e666fdea9cee608f",
+   "pageNumber": 15,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:af50a3f7e666fdea9cee608f:29",
+  "questionBankId": "src:af50a3f7e666fdea9cee608f",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "control-coordination"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "Plants have neither a nervous system nor muscles, even then they respond to stimuli. For example, the leaves of chhui-mui (touch-me-not) plant when touched begin to fold up and droop. of tendrils in a pea plant.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:29:mp1",
+     "description": "Esterification reaction",
+     "marks": 1,
+     "keyword": "Esterification",
+     "isRequired": true,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:29:mp2",
+     "description": "CH3COOC2H5 + NaOH → CH3COONa +C2H5OH",
+     "marks": 1,
+     "keyword": "CH3COOC2H5",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:29:mp3",
+     "description": "Saponification reaction/ De-esterification reaction",
+     "marks": 1,
+     "keyword": "Saponification",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "Esterification reaction CH3COOC2H5 + NaOH → CH3COONa +C2H5OH Saponification reaction/ De-esterification reaction",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/1/1",
+   "sourceDocumentId": "src:af50a3f7e666fdea9cee608f"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.7,
+  "tags": [
+   "Control and Coordination"
+  ],
+  "createdAt": "2026-09-15T14:52:35.792364Z",
+  "updatedAt": "2026-09-15T14:52:35.792364Z",
+  "metadata": {},
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:af50a3f7e666fdea9cee608f",
+   "pageNumber": 17,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:af50a3f7e666fdea9cee608f:30",
+  "questionBankId": "src:af50a3f7e666fdea9cee608f",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "acids-bases-salts"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(a) What are chromosomes ?",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:30:mp1",
+     "description": "(C) / लेंस से - 30 cm और + 30 cm पर",
+     "marks": 3,
+     "keyword": "(C)",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "(C) / लेंस से - 30 cm और + 30 cm पर",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/1/1",
+   "sourceDocumentId": "src:af50a3f7e666fdea9cee608f"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.7,
+  "tags": [
+   "Heredity"
+  ],
+  "createdAt": "2026-09-15T14:52:35.792364Z",
+  "updatedAt": "2026-09-15T14:52:35.792364Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "acids-bases-salts",
+    "score": 0.3304,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:af50a3f7e666fdea9cee608f",
+   "pageNumber": 17,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:af50a3f7e666fdea9cee608f:31",
+  "questionBankId": "src:af50a3f7e666fdea9cee608f",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "light-reflection-refraction"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "Draw ray diagrams to show the nature, position and relative size of the image formed by a convex mirror when the object is placed (i) at infinity and (ii) between infinity and pole P of the mirror.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:31:mp1",
+     "description": "(A) / नेि िी पक्ष्माभी पेकियााँ कसिुड़ जाती है और अकभनेि लेंस म टा ह जाता है।",
+     "marks": 3,
+     "keyword": "(A)",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "(A) / नेि िी पक्ष्माभी पेकियााँ कसिुड़ जाती है और अकभनेि लेंस म टा ह जाता है।",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/1/1",
+   "sourceDocumentId": "src:af50a3f7e666fdea9cee608f"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.8,
+  "tags": [
+   "Light – Reflection and Refraction"
+  ],
+  "createdAt": "2026-09-15T14:52:35.793363Z",
+  "updatedAt": "2026-09-15T14:52:35.793363Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "light-reflection-refraction",
+    "score": 0.3842,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:af50a3f7e666fdea9cee608f",
+   "pageNumber": 17,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:af50a3f7e666fdea9cee608f:33",
+  "questionBankId": "src:af50a3f7e666fdea9cee608f",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "electricity"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(a) Write the relationship between resistivity and resistance of a cylindrical conductor of length l and area of cross-",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:af50a3f7e666fdea9cee608f:33:mp1",
+     "description": "u = -15cm / कबोंब ि लेंस िे आगे 15 cm पर रखा था ।",
+     "marks": 3,
+     "keyword": "u",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "u = -15cm / कबोंब ि लेंस िे आगे 15 cm पर रखा था ।",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/1/1",
+   "sourceDocumentId": "src:af50a3f7e666fdea9cee608f"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.8,
+  "tags": [
+   "Electricity"
+  ],
+  "createdAt": "2026-09-15T14:52:35.793363Z",
+  "updatedAt": "2026-09-15T14:52:35.793363Z",
+  "metadata": {},
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:af50a3f7e666fdea9cee608f",
+   "pageNumber": 19,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:27",
+  "questionBankId": "src:fa5fa78d1ffcf15be5a7dc43",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "chemical-reactions-equations"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "Silver chloride kept in a china dish turns grey in sunlight. dish. chemical equation for the reaction. be used for the same purpose.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:27:mp1",
+     "description": "Colour of copper powder changes from brown to black",
+     "marks": 2,
+     "keyword": "Colour",
+     "isRequired": true,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:27:mp2",
+     "description": "On passing H2 gas, the colour turns brown",
+     "marks": 1,
+     "keyword": "On",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "Colour of copper powder changes from brown to black On passing H2 gas, the colour turns brown",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/1",
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.7,
+  "tags": [
+   "Chemical Reactions and Equations"
+  ],
+  "createdAt": "2026-09-15T14:52:35.793363Z",
+  "updatedAt": "2026-09-15T14:52:35.793363Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "chemical-reactions-equations",
+    "score": 0.3008,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43",
+   "pageNumber": 17,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:28",
+  "questionBankId": "src:fa5fa78d1ffcf15be5a7dc43",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "chemical-reactions-equations"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "With the help of suitable chemical equations, list the two main differences between roasting and calcination. How is metal reduced from the product obtained after roasting/calcination of the ore ? Write the chemical equation for the reaction involved.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:28:mp1",
+     "description": "Bleaching Powder / CaOCl2 / Ca(ClO)2",
+     "marks": 2,
+     "keyword": "Bleaching",
+     "isRequired": true,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:28:mp2",
+     "description": "Ca(OH)2 + Cl2 → CaOCl2 + H2O",
+     "marks": 1,
+     "keyword": "Ca(OH)2",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "Bleaching Powder / CaOCl2 / Ca(ClO)2 Ca(OH)2 + Cl2 → CaOCl2 + H2O",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/1",
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.9,
+  "tags": [
+   "Metals and Non-metals"
+  ],
+  "createdAt": "2026-09-15T14:52:35.793363Z",
+  "updatedAt": "2026-09-15T14:52:35.793363Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "chemical-reactions-equations",
+    "score": 0.4921,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43",
+   "pageNumber": 17,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:29",
+  "questionBankId": "src:fa5fa78d1ffcf15be5a7dc43",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "life-processes"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(a) (i) What is the first step in the breakdown of glucose during aerobic and anaerobic respiration ? Where does it take place ? (ii) ATP is called the energy currency of the cell. Why ? (iii) What is meant by residual volume of air in a breathing cycle ?",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:29:mp1",
+     "description": "Sweet smelling compound/ester is formed",
+     "marks": 3,
+     "keyword": "Sweet",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "Sweet smelling compound/ester is formed",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/1",
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.7,
+  "tags": [
+   "Life Processes"
+  ],
+  "createdAt": "2026-09-15T14:52:35.793363Z",
+  "updatedAt": "2026-09-15T14:52:35.793363Z",
+  "metadata": {},
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43",
+   "pageNumber": 17,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:30",
+  "questionBankId": "src:fa5fa78d1ffcf15be5a7dc43",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "control-coordination"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "Name the hormone released and the gland which secretes it in human beings during scary situations. How does the body respond to enable it to deal with the situation ?",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:30:mp1",
+     "description": "(A) / Concave mirror, Nature of image-real",
+     "marks": 3,
+     "keyword": "(A)",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "(A) / Concave mirror, Nature of image-real",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/1",
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.7,
+  "tags": [
+   "Control and Coordination"
+  ],
+  "createdAt": "2026-09-15T14:52:35.793363Z",
+  "updatedAt": "2026-09-15T14:52:35.793363Z",
+  "metadata": {},
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43",
+   "pageNumber": 17,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:31",
+  "questionBankId": "src:fa5fa78d1ffcf15be5a7dc43",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "light-reflection-refraction"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(a) A student has focussed the image of an object of height 3 cm on a white screen using a concave mirror of focal length 12 cm. If the distance of the object from the mirror is 18 cm, find the values of the following : (ii) Height of the image",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:31:mp1",
+     "description": "(B) / Red, Yellow, Green, Blue, Violet",
+     "marks": 3,
+     "keyword": "(B)",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "(B) / Red, Yellow, Green, Blue, Violet",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/1",
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.9,
+  "tags": [
+   "Light – Reflection and Refraction"
+  ],
+  "createdAt": "2026-09-15T14:52:35.793363Z",
+  "updatedAt": "2026-09-15T14:52:35.793363Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "light-reflection-refraction",
+    "score": 0.3826,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43",
+   "pageNumber": 19,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:32",
+  "questionBankId": "src:fa5fa78d1ffcf15be5a7dc43",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "electricity"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "Explain the meaning of overloading of an electrical circuit. List two possible causes due to which overloading may occur in household circuits. Write one preventive measure that should be taken to avoid overloading of domestic circuits.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:32:mp1",
+     "description": "(C) / Assertion (A) is true, but reason (R) is false",
+     "marks": 3,
+     "keyword": "(C)",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "(C) / Assertion (A) is true, but reason (R) is false",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/1",
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.6,
+  "tags": [
+   "Chemical Reactions and Equations"
+  ],
+  "createdAt": "2026-09-15T14:52:35.793363Z",
+  "updatedAt": "2026-09-15T14:52:35.793363Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "electricity",
+    "score": 0.4048,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43",
+   "pageNumber": 19,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:33",
+  "questionBankId": "src:fa5fa78d1ffcf15be5a7dc43",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "our-environment"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "Explain how some harmful chemicals enter our bodies through the food chain. Why is the concentration of these harmful chemicals found to be maximum in human beings ?",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:33:mp1",
+     "description": "[न ट: यकद i = 90 − 30 = 60 न दिािया गया ह लेकिन िेिल sin 60",
+     "marks": 2,
+     "keyword": "[न",
+     "isRequired": true,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:33:mp2",
+     "description": "कलखा ह त भी अोंि प्रदान िरें ]",
+     "marks": 1,
+     "keyword": "कलखा",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "[न ट: यकद i = 90 − 30 = 60 न दिािया गया ह लेकिन िेिल sin 60 कलखा ह त भी अोंि प्रदान िरें ]",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/1",
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.7,
+  "tags": [
+   "Our Environment"
+  ],
+  "createdAt": "2026-09-15T14:52:35.793363Z",
+  "updatedAt": "2026-09-15T14:52:35.793363Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "our-environment",
+    "score": 0.3445,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:fa5fa78d1ffcf15be5a7dc43",
+   "pageNumber": 19,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:31bbec50d029a03d58c1d68c:27",
+  "questionBankId": "src:31bbec50d029a03d58c1d68c",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "chemical-reactions-equations"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "Write down the balanced chemical equations for the following reactions and identify the type of reaction in each case. dioxide and oxygen. deposit of silver is produced.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:31bbec50d029a03d58c1d68c:27:mp1",
+     "description": "Lithium(Li) / Sodium(Na) / Potassium(K) (anyone)",
+     "marks": 3,
+     "keyword": "Lithium(Li)",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "Lithium(Li) / Sodium(Na) / Potassium(K) (anyone)",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/2",
+   "sourceDocumentId": "src:31bbec50d029a03d58c1d68c"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.7,
+  "tags": [
+   "Chemical Reactions and Equations"
+  ],
+  "createdAt": "2026-09-15T14:52:35.793363Z",
+  "updatedAt": "2026-09-15T14:52:35.793363Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "chemical-reactions-equations",
+    "score": 0.5798,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:31bbec50d029a03d58c1d68c",
+   "pageNumber": 17,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:31bbec50d029a03d58c1d68c:30",
+  "questionBankId": "src:31bbec50d029a03d58c1d68c",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "chemical-reactions-equations"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "Explain the directional movement due to growth in response to touch in a pea plant.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:31bbec50d029a03d58c1d68c:30:mp1",
+     "description": "(B) / Red, Yellow, Green, Blue, Violet",
+     "marks": 3,
+     "keyword": "(B)",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "(B) / Red, Yellow, Green, Blue, Violet",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/2",
+   "sourceDocumentId": "src:31bbec50d029a03d58c1d68c"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.6,
+  "tags": [
+   "Chemical Reactions and Equations"
+  ],
+  "createdAt": "2026-09-15T14:52:35.793363Z",
+  "updatedAt": "2026-09-15T14:52:35.793363Z",
+  "metadata": {},
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:31bbec50d029a03d58c1d68c",
+   "pageNumber": 17,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:31bbec50d029a03d58c1d68c:32",
+  "questionBankId": "src:31bbec50d029a03d58c1d68c",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "magnetic-effects"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "What is a solenoid ? Draw a diagram to show the pattern of magnetic field around a current carrying solenoid. Name the region of uniform magnetic field.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:31bbec50d029a03d58c1d68c:32:mp1",
+     "description": "(C) / Assertion (A) is true, but Reason (R) is false",
+     "marks": 3,
+     "keyword": "(C)",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "(C) / Assertion (A) is true, but Reason (R) is false",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/2",
+   "sourceDocumentId": "src:31bbec50d029a03d58c1d68c"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.8,
+  "tags": [
+   "Magnetic Effects of Electric Current"
+  ],
+  "createdAt": "2026-09-15T14:52:35.794392Z",
+  "updatedAt": "2026-09-15T14:52:35.794392Z",
+  "metadata": {},
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:31bbec50d029a03d58c1d68c",
+   "pageNumber": 19,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:61f69bc87e57ba5a580bf683:27",
+  "questionBankId": "src:61f69bc87e57ba5a580bf683",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "chemical-reactions-equations"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(a) Define oxidation. the chemical equations : (ii) MnO₂ + Al Mn + Al₂O₃",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:61f69bc87e57ba5a580bf683:27:mp1",
+     "description": "(a) The process in which a metal is attacked by substances around it such",
+     "marks": 1,
+     "keyword": "(a)",
+     "isRequired": true,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:61f69bc87e57ba5a580bf683:27:mp2",
+     "description": "(b) Oxidation of fats and oils present in food resulting in change of its",
+     "marks": 1,
+     "keyword": "(b)",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:61f69bc87e57ba5a580bf683:27:mp3",
+     "description": "(c) The reaction in which there is an exchange of ions takes place",
+     "marks": 1,
+     "keyword": "(c)",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "(a) The process in which a metal is attacked by substances around it such (b) Oxidation of fats and oils present in food resulting in change of its (c) The reaction in which there is an exchange of ions takes place",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/3",
+   "sourceDocumentId": "src:61f69bc87e57ba5a580bf683"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.8,
+  "tags": [
+   "Chemical Reactions and Equations"
+  ],
+  "createdAt": "2026-09-15T14:52:35.794392Z",
+  "updatedAt": "2026-09-15T14:52:35.794392Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "chemical-reactions-equations",
+    "score": 0.5188,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:61f69bc87e57ba5a580bf683",
+   "pageNumber": null,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 0.6
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:61f69bc87e57ba5a580bf683:28",
+  "questionBankId": "src:61f69bc87e57ba5a580bf683",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "chemical-reactions-equations"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(a) Copper rea of the green coating formed on the surface of copper. equations for the reaction involved in its extraction.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:61f69bc87e57ba5a580bf683:28:mp1",
+     "description": "A-Bleaching Powder / CaOCl2 / Ca(ClO)2",
+     "marks": 2,
+     "keyword": "A-Bleaching",
+     "isRequired": true,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:61f69bc87e57ba5a580bf683:28:mp2",
+     "description": "Ca(OH)2 + Cl2 → CaOCl2 + H2O",
+     "marks": 1,
+     "keyword": "Ca(OH)2",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "A-Bleaching Powder / CaOCl2 / Ca(ClO)2 Ca(OH)2 + Cl2 → CaOCl2 + H2O",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/3",
+   "sourceDocumentId": "src:61f69bc87e57ba5a580bf683"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.6,
+  "tags": [
+   "Chemical Reactions and Equations"
+  ],
+  "createdAt": "2026-09-15T14:52:35.794392Z",
+  "updatedAt": "2026-09-15T14:52:35.794392Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "chemical-reactions-equations",
+    "score": 0.4273,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:61f69bc87e57ba5a580bf683",
+   "pageNumber": 17,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:61f69bc87e57ba5a580bf683:29",
+  "questionBankId": "src:61f69bc87e57ba5a580bf683",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "life-processes"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(a) (i) What is meant by excretion ? (ii) Name the organ that connects the kidneys with the urinary bladder. State its function. (iii) List two factors on which the amount of water reabsorbed depends.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:61f69bc87e57ba5a580bf683:29:mp1",
+     "description": "Sweet smelling compound/ester is formed",
+     "marks": 3,
+     "keyword": "Sweet",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "Sweet smelling compound/ester is formed",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/3",
+   "sourceDocumentId": "src:61f69bc87e57ba5a580bf683"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.7,
+  "tags": [
+   "Life Processes"
+  ],
+  "createdAt": "2026-09-15T14:52:35.794392Z",
+  "updatedAt": "2026-09-15T14:52:35.794392Z",
+  "metadata": {},
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:61f69bc87e57ba5a580bf683",
+   "pageNumber": 17,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:61f69bc87e57ba5a580bf683:32",
+  "questionBankId": "src:61f69bc87e57ba5a580bf683",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "magnetic-effects"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(a) List two factors on which the magnitude of magnetic field produced by a current carrying straight conductor depends. the above case.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:61f69bc87e57ba5a580bf683:32:mp1",
+     "description": "(C) / Assertion (A) is true, but reason (R) is false",
+     "marks": 3,
+     "keyword": "(C)",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "(C) / Assertion (A) is true, but reason (R) is false",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/2/3",
+   "sourceDocumentId": "src:61f69bc87e57ba5a580bf683"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.7,
+  "tags": [
+   "Magnetic Effects of Electric Current"
+  ],
+  "createdAt": "2026-09-15T14:52:35.794392Z",
+  "updatedAt": "2026-09-15T14:52:35.794392Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "magnetic-effects",
+    "score": 0.5617,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:61f69bc87e57ba5a580bf683",
+   "pageNumber": 19,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:27",
+  "questionBankId": "src:5884c691dbb1f8bbd3c1379d",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "chemical-reactions-equations"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(i) While electrolysing water before passing the current some drops of an acid are added. Why ? Name the gases liberated at cathode and anode. Write the relationship between the volume of gas collected at anode and the volume of gas collected at cathode. (ii) What is observed when silver chloride is exposed to sunlight ? Give the type of reaction involved.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:27:mp1",
+     "description": "Anode: Impure copper rod",
+     "marks": 2,
+     "keyword": "Anode:",
+     "isRequired": true,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:27:mp2",
+     "description": "Cathode: Pure copper strip",
+     "marks": 1,
+     "keyword": "Cathode:",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "Anode: Impure copper rod Cathode: Pure copper strip",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/4/1",
+   "sourceDocumentId": "src:5884c691dbb1f8bbd3c1379d"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.7,
+  "tags": [
+   "Acids, Bases and Salts"
+  ],
+  "createdAt": "2026-09-15T14:52:35.794392Z",
+  "updatedAt": "2026-09-15T14:52:35.794392Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "chemical-reactions-equations",
+    "score": 0.4238,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:5884c691dbb1f8bbd3c1379d",
+   "pageNumber": 13,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:28",
+  "questionBankId": "src:5884c691dbb1f8bbd3c1379d",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "acids-bases-salts"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(i) Suggest a safe procedure of diluting a strong concentrated acid. (ii) Name the salt formed when sulphuric acid is added to sodium hydroxide and write its pH. (iii) Dry HCl gas does not change the colour of dry blue litmus paper. Why ?",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:28:mp1",
+     "description": "Strong acids give more H+ ions in water. / Strong acids pH 1-2",
+     "marks": 2,
+     "keyword": "Strong",
+     "isRequired": true,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:28:mp2",
+     "description": "Weak acids give less H+ ions in water. / Weak acids pH 6-7",
+     "marks": 1,
+     "keyword": "Weak",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "Strong acids give more H+ ions in water. / Strong acids pH 1-2 Weak acids give less H+ ions in water. / Weak acids pH 6-7",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/4/1",
+   "sourceDocumentId": "src:5884c691dbb1f8bbd3c1379d"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.9,
+  "tags": [
+   "Acids, Bases and Salts"
+  ],
+  "createdAt": "2026-09-15T14:52:35.794392Z",
+  "updatedAt": "2026-09-15T14:52:35.794392Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "acids-bases-salts",
+    "score": 0.398,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:5884c691dbb1f8bbd3c1379d",
+   "pageNumber": 13,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:30",
+  "questionBankId": "src:5884c691dbb1f8bbd3c1379d",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "light-reflection-refraction"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(A) Define the following terms in the context of a diverging mirror : 3 (ii) Focal length Draw a labelled ray diagram to illustrate your answer.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:30:mp1",
+     "description": "Correct option selected",
+     "marks": 3,
+     "keyword": "",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 1,
+     "label": "Correct",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "Correct option identified."
+    },
+    {
+     "level": 0,
+     "label": "Incorrect",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Wrong or no option selected."
+    }
+   ],
+   "commonErrors": [
+    "Chose distractor A"
+   ],
+   "alternativeAnswers": [],
+   "modelAnswer": "(i) It is a point on the principal axis of a diverging mirror from where the rays parallel to principal axis appear to diverge after reflection (ii) The distance between the pole and the principal focus of a mirror f=15 cm, u=-25 cm, h=10 cm",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": false,
+   "metadata": {
+    "objective": true,
+    "options": {
+     "A": "Define the following terms in the context of a diverging mirror : 3 (ii) Focal length Draw a labelled ray diagram to illustrate your answer"
+    },
+    "correctOption": ""
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/4/1",
+   "sourceDocumentId": "src:5884c691dbb1f8bbd3c1379d"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.8,
+  "tags": [
+   "Light – Reflection and Refraction"
+  ],
+  "createdAt": "2026-09-15T14:52:35.794392Z",
+  "updatedAt": "2026-09-15T14:52:35.794392Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "light-reflection-refraction",
+    "score": 0.4274,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:5884c691dbb1f8bbd3c1379d",
+   "pageNumber": 15,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:31",
+  "questionBankId": "src:5884c691dbb1f8bbd3c1379d",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "light-reflection-refraction"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "evaluate",
+  "difficulty": "hard",
+  "type": "long_answer",
+  "stem": "The power of a lens is +4D. Find the focal length of this lens. An object is placed at a distance of 50 cm from the optical centre of this lens. State the nature and magnification of the image formed by the lens and also draw a ray diagram to justify your answer.",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:31:mp1",
+     "description": "Focal length of lens, f(m) =",
+     "marks": 1,
+     "keyword": "Focal",
+     "isRequired": true,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:31:mp2",
+     "description": "Real and inverted",
+     "marks": 1,
+     "keyword": "Real",
+     "isRequired": false,
+     "synonyms": []
+    },
+    {
+     "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:31:mp3",
+     "description": "Magnification = -1",
+     "marks": 1,
+     "keyword": "Magnification",
+     "isRequired": false,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 3,
+     "label": "Complete",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "All required points present and correct."
+    },
+    {
+     "level": 2,
+     "label": "Substantial",
+     "minMarks": 1,
+     "maxMarks": 2,
+     "description": "Most points present; minor omissions."
+    },
+    {
+     "level": 1,
+     "label": "Partial",
+     "minMarks": 1,
+     "maxMarks": 1,
+     "description": "Some relevant content; key ideas missing."
+    },
+    {
+     "level": 0,
+     "label": "No credit",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Irrelevant, blank, or conceptually wrong."
+    }
+   ],
+   "commonErrors": [],
+   "alternativeAnswers": [],
+   "modelAnswer": "Focal length of lens, f(m) = Real and inverted Magnification = -1",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": true,
+   "metadata": {
+    "objective": false
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/4/1",
+   "sourceDocumentId": "src:5884c691dbb1f8bbd3c1379d"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.8,
+  "tags": [
+   "Light – Reflection and Refraction"
+  ],
+  "createdAt": "2026-09-15T14:52:35.794392Z",
+  "updatedAt": "2026-09-15T14:52:35.794392Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "light-reflection-refraction",
+    "score": 0.3161,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:5884c691dbb1f8bbd3c1379d",
+   "pageNumber": 15,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ },
+ {
+  "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:32",
+  "questionBankId": "src:5884c691dbb1f8bbd3c1379d",
+  "subject": "Science",
+  "grade": 10,
+  "chapterIds": [
+   "electricity"
+  ],
+  "competencyIds": [],
+  "bloomLevel": "understand",
+  "difficulty": "medium",
+  "type": "long_answer",
+  "stem": "(A) (i) Why is an alternating current (A.C.) considered to be advantageous over direct current (D.C.) for the long distance transmission of electric power ? (ii) How is the type of current used in household supply different from the one given by a battery of dry cells ? (iii) How does an electric fuse prevent the electric circuit and the appliances from a possible damage due to short circuiting",
+  "stemLatex": "",
+  "parts": [],
+  "answerScheme": {
+   "totalMarks": 3,
+   "markingPoints": [
+    {
+     "id": "cbse:q:src:5884c691dbb1f8bbd3c1379d:32:mp1",
+     "description": "Correct option selected",
+     "marks": 3,
+     "keyword": "",
+     "isRequired": true,
+     "synonyms": []
+    }
+   ],
+   "rubricLevels": [
+    {
+     "level": 1,
+     "label": "Correct",
+     "minMarks": 3,
+     "maxMarks": 3,
+     "description": "Correct option identified."
+    },
+    {
+     "level": 0,
+     "label": "Incorrect",
+     "minMarks": 0,
+     "maxMarks": 0,
+     "description": "Wrong or no option selected."
+    }
+   ],
+   "commonErrors": [
+    "Chose distractor A"
+   ],
+   "alternativeAnswers": [],
+   "modelAnswer": "(A) / Both Assertion (A) and Reason (R) both are true, and Reason (R) is the correct explanation of Assertion",
+   "modelAnswerLatex": "",
+   "hasPartialCredit": false,
+   "metadata": {
+    "objective": true,
+    "options": {
+     "A": "(i) Why is an alternating current (A.C.) considered to be advantageous over direct current (D.C.) for the long distance transmission of electric power ? (ii) How is the type of current used in household supply different from the one given by a battery of dry cells ? (iii) How does an electric fuse prevent the electric circuit and the appliances from a possible damage due to short circuiting"
+    },
+    "correctOption": ""
+   },
+   "provenance": "cbse_marking_scheme",
+   "sourcePaperCode": "31/4/1",
+   "sourceDocumentId": "src:5884c691dbb1f8bbd3c1379d"
+  },
+  "estimatedTimeMinutes": 6,
+  "marks": 3,
+  "language": "en",
+  "source": "cbse_board_paper",
+  "qualityScore": 0.8,
+  "tags": [
+   "Electricity"
+  ],
+  "createdAt": "2026-09-15T14:52:35.794392Z",
+  "updatedAt": "2026-09-15T14:52:35.794392Z",
+  "metadata": {
+   "chapterTag": {
+    "chapterId": "electricity",
+    "score": 0.5256,
+    "method": "embedding_chapter_v1",
+    "inferred": true
+   }
+  },
+  "diagramAssetId": null,
+  "mapAssetId": null,
+  "graphAssetId": null,
+  "tableAssetId": null,
+  "rights": {
+   "origin": "CBSE",
+   "redistribution": "unknown",
+   "basis": "",
+   "attribution": "Central Board of Secondary Education, previous year question paper"
+  },
+  "provenance": {
+   "sourceDocumentId": "src:5884c691dbb1f8bbd3c1379d",
+   "pageNumber": 15,
+   "boundingBox": null,
+   "method": "pdf_native",
+   "confidence": 1.0
+  },
+  "calibration": {
+   "measured": false,
+   "sampleSize": 0,
+   "facility": null,
+   "discrimination": null,
+   "basis": "assigned"
+  },
+  "version": 1,
+  "reviewState": "published",
+  "supersededBy": null
+ }
+]

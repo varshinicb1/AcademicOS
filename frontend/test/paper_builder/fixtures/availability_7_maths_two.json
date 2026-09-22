@@ -1,0 +1,62 @@
+{
+ "templateId": "preset:cbse:7:mathematics:unit_test",
+ "grade": 7,
+ "subject": "Mathematics",
+ "bankQuestions": 0,
+ "keyedQuestions": 0,
+ "complete": false,
+ "sections": [
+  {
+   "sectionId": "s1",
+   "title": "Section A - Objective",
+   "marksEach": 1,
+   "needed": 6,
+   "available": 0,
+   "shortfall": 6,
+   "filled": 0,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "The bank has no Class 7 Mathematics questions yet.",
+   "notes": [],
+   "fixes": []
+  },
+  {
+   "sectionId": "s2",
+   "title": "Section B - Very short answer",
+   "marksEach": 2,
+   "needed": 4,
+   "available": 0,
+   "shortfall": 4,
+   "filled": 0,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "The bank has no Class 7 Mathematics questions yet.",
+   "notes": [],
+   "fixes": []
+  },
+  {
+   "sectionId": "s3",
+   "title": "Section C - Short answer",
+   "marksEach": 3,
+   "needed": 2,
+   "available": 0,
+   "shortfall": 2,
+   "filled": 0,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "The bank has no Class 7 Mathematics questions yet.",
+   "notes": [],
+   "fixes": []
+  }
+ ],
+ "scopeNotes": []
+}

@@ -11,6 +11,7 @@ import '../../data/datasources/api/api_client.dart';
 import '../../data/datasources/api/auth_api.dart';
 import '../../data/datasources/api/consent_api.dart';
 import '../../data/datasources/api/curriculum_api.dart';
+import '../../data/datasources/api/paper_builder_api.dart';
 import '../../data/datasources/api/pillar_api.dart';
 import '../../data/datasources/local/app_database.dart';
 import '../local_engine/corpus_repository.dart';
@@ -121,6 +122,9 @@ Future<void> initDependencies() async {
   // stays uniform rather than conditionally skipping one client.
   sl.registerLazySingleton<CurriculumApi>(() => CurriculumApi(sl<Dio>()));
   sl.registerLazySingleton<ConsentApi>(() => ConsentApi(sl<Dio>()));
+  // The guided paper builder's template/availability/swap API. Server-only:
+  // the offline build never routes to the builder (see newPaperLocation).
+  sl.registerLazySingleton<PaperBuilderApi>(() => PaperBuilderApi(sl<Dio>()));
 
   // API Client
   // ACADEMICOS_OFFLINE=true is set only by the standalone-Android build --

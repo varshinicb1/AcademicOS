@@ -7,6 +7,7 @@ import '../../../core/local_engine/local_store.dart';
 import '../../onboarding/pages/app_tour_page.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import '../../paper_builder/pages/paper_builder_page.dart' show newPaperLocation;
 
 const _offlineMode = bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
 const _seedDemoData = bool.fromEnvironment('ACADEMICOS_SEED_DEMO', defaultValue: false);
@@ -181,7 +182,7 @@ class _HomePageState extends State<HomePage> {
             context, theme,
             icon: Icons.assignment_add,
             label: 'New Assessment',
-            onTap: () => context.push('/assessment/create'),
+            onTap: () => context.push(newPaperLocation()),
           ),
         ),
         const Gap(12),
@@ -345,7 +346,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _emptyRecent(BuildContext context, ThemeData theme) {
     return AppCard(
-      onTap: () => context.push('/assessment/create'),
+      onTap: () => context.push(newPaperLocation()),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12),
         child: Row(

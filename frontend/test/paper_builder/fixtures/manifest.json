@@ -1,0 +1,294 @@
+{
+ "command": "PYTHONPATH=src PYTHONIOENCODING=utf-8 python scripts/capture_paper_builder_fixtures.py",
+ "bank": "academicos-data/syllabus/questions.json",
+ "responses": [
+  {
+   "file": "templates_10_science.json",
+   "method": "GET",
+   "path": "/api/v1/schools/school_1/teacher-templates?grade=10&subject=Science",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "chapters_10_science.json",
+   "method": "GET",
+   "path": "/api/v1/catalog/Science/10/chapters",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "availability_10_science_all.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:10:science:half_yearly/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": []
+    }
+   }
+  },
+  {
+   "file": "availability_10_science_half.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:10:science:half_yearly/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": [
+      "chemical-reactions-equations",
+      "acids-bases-salts",
+      "metals-non-metals",
+      "carbon-compounds",
+      "life-processes",
+      "control-coordination"
+     ]
+    }
+   }
+  },
+  {
+   "file": "generate_10_science.json",
+   "method": "POST",
+   "path": "/api/v1/papers/generate-from-template",
+   "status": 200,
+   "body": {
+    "templateId": "preset:cbse:10:science:half_yearly",
+    "scope": {
+     "chapterIds": []
+    },
+    "setCount": 2,
+    "allowGaps": true
+   }
+  },
+  {
+   "file": "swap_10_science.json",
+   "method": "POST",
+   "path": "/api/v1/papers/paper_614d0d7bcd9a/questions/1/swap",
+   "status": 200,
+   "body": {}
+  },
+  {
+   "file": "search_10_science_3m.json",
+   "method": "POST",
+   "path": "/api/v1/questions/search",
+   "status": 200,
+   "body": {
+    "subject": "Science",
+    "grade": 10,
+    "minMarks": 3,
+    "maxMarks": 3,
+    "limit": 25
+   }
+  },
+  {
+   "file": "pick_10_science.json",
+   "method": "POST",
+   "path": "/api/v1/papers/paper_614d0d7bcd9a/questions/27",
+   "status": 200,
+   "body": {
+    "questionId": "cbse:q:src:af50a3f7e666fdea9cee608f:27"
+   }
+  },
+  {
+   "file": "paper_10_science_set_b.json",
+   "method": "GET",
+   "path": "/api/v1/papers/paper_614d0d7bcd9a_set_B",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "export_10_science_pdf.json",
+   "method": "POST",
+   "path": "/api/v1/papers/paper_614d0d7bcd9a/export/pdf",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": null,
+   "method": "GET",
+   "path": "/api/v1/papers/paper_614d0d7bcd9a/file",
+   "status": 200,
+   "bytes": 56821,
+   "startsWith": "%PDF-"
+  },
+  {
+   "file": "export_10_science_answer_key.json",
+   "method": "POST",
+   "path": "/api/v1/papers/paper_614d0d7bcd9a/export/answer-key",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": null,
+   "method": "GET",
+   "path": "/api/v1/papers/paper_614d0d7bcd9a/file?format=answer-key",
+   "status": 200,
+   "bytes": 48706,
+   "startsWith": "%PDF-"
+  },
+  {
+   "file": "export_10_science_set_b_pdf.json",
+   "method": "POST",
+   "path": "/api/v1/papers/paper_614d0d7bcd9a_set_B/export/pdf",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": null,
+   "method": "GET",
+   "path": "/api/v1/papers/paper_614d0d7bcd9a_set_B/file",
+   "status": 200,
+   "bytes": 56937,
+   "startsWith": "%PDF-"
+  },
+  {
+   "file": "export_10_science_set_b_answer_key.json",
+   "method": "POST",
+   "path": "/api/v1/papers/paper_614d0d7bcd9a_set_B/export/answer-key",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": null,
+   "method": "GET",
+   "path": "/api/v1/papers/paper_614d0d7bcd9a_set_B/file?format=answer-key",
+   "status": 200,
+   "bytes": 48658,
+   "startsWith": "%PDF-"
+  },
+  {
+   "file": "availability_10_science_annual_all.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:10:science:annual/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": []
+    }
+   }
+  },
+  {
+   "file": "templates_7_maths.json",
+   "method": "GET",
+   "path": "/api/v1/schools/school_1/teacher-templates?grade=7&subject=Mathematics",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "chapters_7_maths.json",
+   "method": "GET",
+   "path": "/api/v1/catalog/Mathematics/7/chapters",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "availability_7_maths_all.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:7:mathematics:unit_test/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": []
+    }
+   }
+  },
+  {
+   "file": "availability_7_maths_two.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:7:mathematics:unit_test/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": [
+      "integers",
+      "fractions-and-decimals"
+     ]
+    }
+   }
+  },
+  {
+   "file": "generate_7_maths_refused.json",
+   "method": "POST",
+   "path": "/api/v1/papers/generate-from-template",
+   "status": 400,
+   "body": {
+    "templateId": "preset:cbse:7:mathematics:unit_test",
+    "scope": {
+     "chapterIds": [
+      "integers",
+      "fractions-and-decimals"
+     ]
+    }
+   }
+  },
+  {
+   "file": "create_template_mismatch.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates",
+   "status": 422,
+   "body": {
+    "name": "Weekly check",
+    "grade": 10,
+    "subject": "Science",
+    "examType": "custom",
+    "totalMarks": 25,
+    "durationMinutes": 45,
+    "sections": [
+     {
+      "title": "Section A",
+      "questionCount": 10,
+      "marksEach": 1
+     },
+     {
+      "title": "Section B",
+      "questionCount": 4,
+      "marksEach": 3
+     }
+    ]
+   }
+  },
+  {
+   "file": "create_template_ok.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates",
+   "status": 200,
+   "body": {
+    "name": "Weekly check",
+    "grade": 10,
+    "subject": "Science",
+    "examType": "custom",
+    "totalMarks": 22,
+    "durationMinutes": 45,
+    "sections": [
+     {
+      "title": "Section A",
+      "questionCount": 10,
+      "marksEach": 1
+     },
+     {
+      "title": "Section B",
+      "questionCount": 4,
+      "marksEach": 3
+     }
+    ]
+   }
+  },
+  {
+   "file": "templates_10_science_after_create.json",
+   "method": "GET",
+   "path": "/api/v1/schools/school_1/teacher-templates?grade=10&subject=Science",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "availability_created_all.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/tpl_abbbebe79f/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": []
+    }
+   }
+  }
+ ]
+}

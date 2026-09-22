@@ -1,0 +1,70 @@
+{
+ "name": "Weekly check",
+ "grade": 10,
+ "subject": "Science",
+ "examType": "custom",
+ "totalMarks": 22,
+ "durationMinutes": 45,
+ "instructions": "",
+ "header": {
+  "schoolName": "",
+  "examName": "",
+  "dateLine": ""
+ },
+ "sections": [
+  {
+   "id": "s1",
+   "title": "Section A",
+   "questionTypes": [],
+   "questionCount": 10,
+   "marksEach": 1,
+   "attemptCount": null,
+   "difficultyMix": null,
+   "competencyShare": null,
+   "choiceCount": 0
+  },
+  {
+   "id": "s2",
+   "title": "Section B",
+   "questionTypes": [],
+   "questionCount": 4,
+   "marksEach": 3,
+   "attemptCount": null,
+   "difficultyMix": null,
+   "competencyShare": null,
+   "choiceCount": 0
+  }
+ ],
+ "scope": {
+  "chapterIds": [],
+  "topicIds": [],
+  "subtopicIds": []
+ },
+ "id": "tpl_abbbebe79f",
+ "schoolId": "school_1",
+ "tagline": "",
+ "brandColor": "#000000",
+ "headerHtml": "",
+ "footerHtml": "",
+ "logoUrl": "",
+ "marginTop": 20.0,
+ "marginBottom": 20.0,
+ "marginLeft": 20.0,
+ "marginRight": 20.0,
+ "fontFamily": "Helvetica",
+ "fontSize": 11,
+ "lineHeight": 1.4,
+ "sectionFormatting": {},
+ "isDefault": false,
+ "kind": "paper",
+ "ownerId": "user_03a584e1b5f2",
+ "shared": false,
+ "isPreset": false,
+ "patternStatus": "teacher",
+ "source": "",
+ "basedOn": null,
+ "instructionsGenerated": false,
+ "scopeNotes": [],
+ "createdAt": "2026-09-22T14:37:24.384033Z",
+ "updatedAt": "2026-09-22T14:37:24.384033Z"
+}

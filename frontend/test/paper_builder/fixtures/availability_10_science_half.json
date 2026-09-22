@@ -1,0 +1,150 @@
+{
+ "templateId": "preset:cbse:10:science:half_yearly",
+ "grade": 10,
+ "subject": "Science",
+ "bankQuestions": 408,
+ "keyedQuestions": 408,
+ "complete": false,
+ "sections": [
+  {
+   "sectionId": "s1",
+   "title": "Section A - Objective (MCQ / assertion-reason)",
+   "marksEach": 1,
+   "needed": 20,
+   "available": 100,
+   "shortfall": 0,
+   "filled": 20,
+   "borrowed": 0,
+   "outsideScopeAvailable": 68,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "",
+   "notes": [
+    "Section A - Objective (MCQ / assertion-reason): difficulty is easy/medium/hard 18/2/0, the template asked for 10/8/2 -- the bank has too few at the requested level."
+   ],
+   "fixes": []
+  },
+  {
+   "sectionId": "s2",
+   "title": "Section B - Very short answer",
+   "marksEach": 2,
+   "needed": 6,
+   "available": 46,
+   "shortfall": 0,
+   "filled": 6,
+   "borrowed": 0,
+   "outsideScopeAvailable": 40,
+   "withoutKey": 0,
+   "choicesNeeded": 2,
+   "choicesFilled": 2,
+   "reason": "",
+   "notes": [
+    "Section B - Very short answer: difficulty is easy/medium/hard 3/3/0, the template asked for 2/3/1 -- the bank has too few at the requested level."
+   ],
+   "fixes": []
+  },
+  {
+   "sectionId": "s3",
+   "title": "Section C - Short answer",
+   "marksEach": 3,
+   "needed": 7,
+   "available": 45,
+   "shortfall": 0,
+   "filled": 7,
+   "borrowed": 0,
+   "outsideScopeAvailable": 54,
+   "withoutKey": 0,
+   "choicesNeeded": 1,
+   "choicesFilled": 1,
+   "reason": "",
+   "notes": [
+    "Section C - Short answer: difficulty is easy/medium/hard 0/6/1, the template asked for 2/4/1 -- the bank has too few at the requested level."
+   ],
+   "fixes": []
+  },
+  {
+   "sectionId": "s4",
+   "title": "Section D - Long answer",
+   "marksEach": 5,
+   "needed": 3,
+   "available": 19,
+   "shortfall": 0,
+   "filled": 3,
+   "borrowed": 0,
+   "outsideScopeAvailable": 12,
+   "withoutKey": 0,
+   "choicesNeeded": 3,
+   "choicesFilled": 3,
+   "reason": "",
+   "notes": [
+    "Section D - Long answer: difficulty is easy/medium/hard 0/0/3, the template asked for 1/1/1 -- the bank has too few at the requested level."
+   ],
+   "fixes": []
+  },
+  {
+   "sectionId": "s5",
+   "title": "Section E - Source / case based",
+   "marksEach": 4,
+   "needed": 3,
+   "available": 0,
+   "shortfall": 3,
+   "filled": 0,
+   "borrowed": 0,
+   "outsideScopeAvailable": 10,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "None of the 14 4-mark case study Class 10 Science question(s) is competency-based, and this section asks for competency-based questions only. 16 case / competency-based question(s) are in the bank at 5 marks, but this section asks for 4-mark ones -- change the section to 5 marks to use them. 10 more are in other chapters -- widen the chapters or allow filling from outside them.",
+   "notes": [],
+   "fixes": [
+    {
+     "kind": "widen_scope",
+     "label": "Add the chapters that hold 10 more such question(s).",
+     "available": 10,
+     "marksEach": null,
+     "questionCount": null,
+     "choiceCount": null,
+     "questionTypes": null
+    },
+    {
+     "kind": "fill_from_outside_scope",
+     "label": "Fill the gap from outside the chosen chapters (the borrowed questions are listed).",
+     "available": 10,
+     "marksEach": null,
+     "questionCount": null,
+     "choiceCount": null,
+     "questionTypes": null
+    },
+    {
+     "kind": "change_marks",
+     "label": "Make it a 5-mark section: 16 case / competency-based question(s) are in the bank at 5 marks (then rebalance the paper's total).",
+     "available": 16,
+     "marksEach": 5,
+     "questionCount": null,
+     "choiceCount": null,
+     "questionTypes": null
+    },
+    {
+     "kind": "relax_competency",
+     "label": "Drop the competency-only rule and take the 14 ordinary 4-mark question(s).",
+     "available": 14,
+     "marksEach": null,
+     "questionCount": null,
+     "choiceCount": null,
+     "questionTypes": null
+    },
+    {
+     "kind": "reduce_count",
+     "label": "Remove this section (then rebalance the paper's total).",
+     "available": 0,
+     "marksEach": null,
+     "questionCount": 0,
+     "choiceCount": null,
+     "questionTypes": null
+    }
+   ]
+  }
+ ],
+ "scopeNotes": []
+}

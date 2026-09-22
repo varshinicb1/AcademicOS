@@ -1,0 +1,176 @@
+[
+ {
+  "chapterId": "chemical-reactions-equations",
+  "chapterName": "Chemical Reactions and Equations",
+  "questionCount": 102,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "unitName": "Chemical Substances - Nature and Behaviour",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "acids-bases-salts",
+  "chapterName": "Acids, Bases and Salts",
+  "questionCount": 38,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "unitName": "Chemical Substances - Nature and Behaviour",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "metals-non-metals",
+  "chapterName": "Metals and Non-metals",
+  "questionCount": 24,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "unitName": "Chemical Substances - Nature and Behaviour",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "carbon-compounds",
+  "chapterName": "Carbon and its Compounds",
+  "questionCount": 13,
+  "marksAvailable": [
+   1,
+   2,
+   4,
+   5
+  ],
+  "unitName": "Chemical Substances - Nature and Behaviour",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "life-processes",
+  "chapterName": "Life Processes",
+  "questionCount": 24,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "unitName": "World of Living",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "control-coordination",
+  "chapterName": "Control and Coordination",
+  "questionCount": 23,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   5
+  ],
+  "unitName": "World of Living",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "reproduction",
+  "chapterName": "How do Organisms Reproduce",
+  "questionCount": 22,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "unitName": "World of Living",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "heredity",
+  "chapterName": "Heredity",
+  "questionCount": 24,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "unitName": "World of Living",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "light-reflection-refraction",
+  "chapterName": "Light – Reflection and Refraction",
+  "questionCount": 46,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "unitName": "Natural Phenomena",
+  "syllabusMarks": 12
+ },
+ {
+  "chapterId": "human-eye",
+  "chapterName": "The Human Eye and the Colourful World",
+  "questionCount": 13,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   5
+  ],
+  "unitName": "Natural Phenomena",
+  "syllabusMarks": 12
+ },
+ {
+  "chapterId": "electricity",
+  "chapterName": "Electricity",
+  "questionCount": 33,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "unitName": "Effects of Current",
+  "syllabusMarks": 13
+ },
+ {
+  "chapterId": "magnetic-effects",
+  "chapterName": "Magnetic Effects of Electric Current",
+  "questionCount": 26,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   5
+  ],
+  "unitName": "Effects of Current",
+  "syllabusMarks": 13
+ },
+ {
+  "chapterId": "our-environment",
+  "chapterName": "Our Environment",
+  "questionCount": 20,
+  "marksAvailable": [
+   1,
+   2,
+   3
+  ],
+  "unitName": "Natural Resources",
+  "syllabusMarks": 5
+ }
+]

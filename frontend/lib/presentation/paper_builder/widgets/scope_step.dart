@@ -1,0 +1,259 @@
+import 'package:flutter/material.dart';
+
+import '../../../data/datasources/api/paper_builder_api.dart';
+import '../paper_builder_controller.dart';
+import 'class_subject_step.dart';
+import 'section_editor.dart';
+
+/// Step 3: the chapters, with the template's availability check running on
+/// every change -- the gaps are on screen BEFORE Generate, each with the
+/// changes that would close it, one tap each.
+class ScopeStep extends StatelessWidget {
+  final PaperBuilderController c;
+  const ScopeStep({super.key, required this.c});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final t = c.template!;
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+      children: [
+        ClassSubjectBanner(c: c),
+        Row(children: [
+          Icon(Icons.description_outlined, size: 20, color: theme.colorScheme.primary),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text('${t.name} · ${t.totalMarks} marks · ${t.durationMinutes} min',
+                style: theme.textTheme.titleSmall, overflow: TextOverflow.ellipsis, maxLines: 2),
+          ),
+          TextButton(
+            onPressed: () => c.goTo(BuilderStep.template),
+            style: TextButton.styleFrom(minimumSize: const Size(64, 44)),
+            child: const Text('Change'),
+          ),
+        ]),
+        const SizedBox(height: 8),
+        AvailabilityPanel(c: c),
+        if (c.generateError != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text('Could not generate: ${c.generateError}', style: TextStyle(color: theme.colorScheme.error)),
+          ),
+        const SizedBox(height: 16),
+        Text('Question sets', style: theme.textTheme.titleMedium),
+        const SizedBox(height: 4),
+        Text('Sets B and C hold the same questions in a different order, for seating neighbours apart.',
+            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+        const SizedBox(height: 6),
+        SegmentedButton<int>(
+          segments: const [
+            ButtonSegment(value: 1, label: Text('1 set')),
+            ButtonSegment(value: 2, label: Text('A, B')),
+            ButtonSegment(value: 3, label: Text('A, B, C')),
+          ],
+          selected: {c.setCount},
+          onSelectionChanged: (s) => c.setSets(s.first),
+        ),
+        const SizedBox(height: 16),
+        Text('Chapters', style: theme.textTheme.titleMedium),
+        _Chapters(c: c),
+      ],
+    );
+  }
+}
+
+class _Chapters extends StatelessWidget {
+  final PaperBuilderController c;
+  const _Chapters({required this.c});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    if (c.loadingChapters) {
+      return const Padding(padding: EdgeInsets.all(24), child: Center(child: CircularProgressIndicator()));
+    }
+    if (c.chaptersError != null) {
+      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text('Could not load chapters: ${c.chaptersError}', style: TextStyle(color: theme.colorScheme.error)),
+        Text('You can still generate from the whole syllabus.', style: theme.textTheme.bodySmall),
+        OutlinedButton.icon(onPressed: c.loadChapters, icon: const Icon(Icons.refresh), label: const Text('Try again')),
+      ]);
+    }
+    if (c.chapters.isEmpty) {
+      return Text('No chapter list for Class ${c.grade} ${c.subject} yet; the paper draws on the whole syllabus.',
+          style: TextStyle(color: theme.colorScheme.onSurfaceVariant));
+    }
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      CheckboxListTile(
+        contentPadding: EdgeInsets.zero,
+        title: const Text('Whole syllabus (all chapters)'),
+        value: c.chapterIds.isEmpty,
+        onChanged: (_) => c.useAllChapters(),
+      ),
+      for (final (unit, list) in c.chaptersByUnit) ...[
+        Padding(
+          padding: const EdgeInsets.only(top: 8, bottom: 2),
+          child: Text(unit, style: theme.textTheme.labelLarge?.copyWith(color: theme.colorScheme.primary)),
+        ),
+        for (final ch in list)
+          CheckboxListTile(
+            contentPadding: EdgeInsets.zero,
+            title: Text(ch.chapterName),
+            subtitle: Text(ch.questionCount == 0
+                ? 'No questions in the bank yet'
+                : '${ch.questionCount} question${ch.questionCount == 1 ? '' : 's'} available'),
+            value: c.chapterIds.contains(ch.chapterId),
+            onChanged: (_) => c.toggleChapter(ch.chapterId),
+          ),
+      ],
+    ]);
+  }
+}
+
+/// What the bank can put on this paper, section by section.
+class AvailabilityPanel extends StatelessWidget {
+  final PaperBuilderController c;
+  const AvailabilityPanel({super.key, required this.c});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final a = c.availability;
+    if (c.availabilityError != null) {
+      return _box(context, theme.colorScheme.errorContainer, [
+        Text('Could not check the bank: ${c.availabilityError}'),
+        TextButton.icon(
+            onPressed: c.checkAvailability, icon: const Icon(Icons.refresh), label: const Text('Check again')),
+      ]);
+    }
+    if (a == null) {
+      return _box(context, theme.colorScheme.surfaceContainerHighest, [
+        const Row(children: [
+          SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2)),
+          SizedBox(width: 12),
+          Expanded(child: Text('Checking what the question bank holds for this paper…')),
+        ]),
+      ]);
+    }
+    final short = a.short;
+    final scope = c.chapterIds.isEmpty ? 'the whole syllabus' : '${c.chapterIds.length} chapter${c.chapterIds.length == 1 ? '' : 's'}';
+    final notes = [...a.scopeNotes, for (final s in a.sections) ...s.notes];
+    return _box(
+      context,
+      short.isEmpty ? theme.colorScheme.primaryContainer : theme.colorScheme.errorContainer,
+      [
+        Row(children: [
+          Icon(short.isEmpty ? Icons.check_circle : Icons.warning_amber_rounded,
+              color: short.isEmpty ? theme.colorScheme.primary : theme.colorScheme.error),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              a.nothingFits
+                  ? 'The bank has nothing for this paper in $scope yet.'
+                  : short.isEmpty
+                      ? 'Ready: every section can be filled from $scope.'
+                      : '${short.length} of ${a.sections.length} sections cannot be filled from $scope.',
+              key: const ValueKey('availability-summary'),
+              style: theme.textTheme.titleSmall,
+            ),
+          ),
+          if (c.checking) const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2)),
+        ]),
+        if (c.fillFromOutsideScope)
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Text('Gaps are filled from outside the chosen chapters; the paper lists those questions.',
+                style: theme.textTheme.bodySmall),
+          ),
+        for (final s in short) _ShortSection(c: c, s: s),
+        if (a.nothingFits)
+          Padding(
+            padding: const EdgeInsets.only(top: 8),
+            child: Text(
+              'Nothing can be generated until the bank has questions here. Choose other chapters, another '
+              'template, or another class -- or check back when more questions are added.',
+              style: theme.textTheme.bodySmall,
+            ),
+          ),
+        if (notes.isNotEmpty)
+          Theme(
+            data: theme.copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              tilePadding: EdgeInsets.zero,
+              title: Text('${notes.length} note${notes.length == 1 ? '' : 's'} on this paper',
+                  style: theme.textTheme.bodyMedium),
+              children: [
+                for (final n in notes)
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(padding: const EdgeInsets.only(bottom: 6), child: Text('• $n')),
+                  ),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
+
+  // A Material, not a coloured Container: the notes' ExpansionTile paints
+  // its ink on the nearest Material, which a DecoratedBox would hide.
+  Widget _box(BuildContext context, Color color, List<Widget> children) => Material(
+        color: color,
+        borderRadius: BorderRadius.circular(12),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: children),
+          ),
+        ),
+      );
+}
+
+class _ShortSection extends StatelessWidget {
+  final PaperBuilderController c;
+  final SectionAvailabilityView s;
+  const _ShortSection({required this.c, required this.s});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          '${s.title} needs ${s.needed} × ${s.marksEach}-mark, bank has ${s.filled} '
+          '${c.chapterIds.isEmpty ? 'in the whole syllabus' : 'in these chapters'}.',
+          style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+        ),
+        if (s.reason.isNotEmpty) Text(s.reason, style: theme.textTheme.bodySmall),
+        for (final f in s.fixes)
+          InkWell(
+            onTap: () => _apply(context, f),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 44),
+              child: Row(children: [
+                Icon(f.changesScope ? Icons.library_add_outlined : Icons.tune, size: 20, color: theme.colorScheme.primary),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(f.label, style: TextStyle(color: theme.colorScheme.primary)),
+                ),
+              ]),
+            ),
+          ),
+      ]),
+    );
+  }
+
+  Future<void> _apply(BuildContext context, SectionFixView f) async {
+    final before = c.template!;
+    final draft = await c.applyFix(s, f);
+    if (draft == null || !context.mounted) return;
+    final totalNote = draft.totalMarks == before.totalMarks
+        ? ''
+        : ' The total is now ${draft.totalMarks} marks (was ${before.totalMarks}).';
+    await showSectionEditor(context, c, draft,
+        note: 'Changed ${s.title}: ${f.label}$totalNote Save to use it for this paper.');
+  }
+}

@@ -12,6 +12,7 @@ import '../../../domain/entities/entities.dart';
 import '../../blocs/assessment_bloc.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import '../../paper_builder/pages/paper_builder_page.dart' show newPaperLocation;
 
 // Only Class X has real official CBSE syllabus data loaded (see
 // cbse_syllabus.py) -- these are the 4 subjects it covers.
@@ -102,7 +103,7 @@ class _PlannerPageState extends State<PlannerPage> {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/assessment/create'),
+        onPressed: () => context.push(newPaperLocation()),
         icon: const Icon(Icons.add),
         label: const Text('Schedule assessment'),
       ),
