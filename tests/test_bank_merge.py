@@ -1488,10 +1488,109 @@ def test_an_assertion_reason_item_that_prints_its_options_is_not_given_them_twic
     assert out["stem"].count(AR_OPTIONS[0]) == 1
 
 
+def test_an_assertion_reason_item_that_prints_its_options_with_no_verified_letter_is_refused():
+    stem = AR_STEM + " " + " ".join(f"({k}) {v}" for k, v in zip("ABCD", AR_OPTIONS))
+    rec = real_board("af50a3f7e666fdea9cee608f:20", stem, subject="Science", answer="(B)")
+    assert _served_or_reason(rec) == (None, "mcq-answer-unresolved")
+
+
+# Mathematics XII a52469d5f185d77194f532dd Q9 as served: Q9 and Q10 fused, each
+# with its own (A)-(D). stem_options reads neither set; the PDF's
+# split_stem_and_options prints Q10's options under a letter verified for Q9.
+FUSED = ("The Cartesian equations of a line are given as 6x – 2 = 3y + 1 = 2z – 2 The "
+         "direction ratios of the line are : (A) 2, – 1, 3 (B) 1, – 2, – 3 (C) 1, 2, 3 "
+         "(D) 3, 1, 2 10. The solution set of the inequation 2x + 3y < 6 is : (A) open "
+         "half-plane not containing origin (B) whole xy-plane except the points lying on "
+         "the line 2x + 3y = 6 (C) open half-plane containing origin (D) half-plane "
+         "containing the origin and the points lying on the line 2x + 3y = 6 666 "
+         "65(B)-11 8 of")
+
+
+@pytest.mark.parametrize("stem,marks,qtype", [
+    (FUSED, 1, "very_short_answer"),
+    (FUSED, 2, "mcq"),
+    # SQP Mathematics (Standard) X 2024-25 Q15's shape on a board record: a
+    # space before the bracket, none after it -- the labels do not parse.
+    ("The coordinates of the point where the line 2x + y = 4 cuts the x-axis are "
+     "A) (0, 0) B) (-4, 0) C ) (-5, 0) D) (2, 0)", 1, "very_short_answer"),
+])
+def test_a_board_objective_stem_whose_printed_labels_do_not_parse_is_refused(stem, marks, qtype):
+    rec = real_board("a52469d5f185d77194f532dd:9", stem, grade=12, marks=marks, qtype=qtype,
+                     answer="(D)", option="D")
+    assert _served_or_reason(rec) == (None, "mcq-options-unresolved")
+
+
 def test_an_assertion_reason_item_with_no_verified_letter_is_refused():
     rec = real_board("af50a3f7e666fdea9cee608f:20", AR_STEM, subject="Science",
                      answer="(B)")
     assert _served_or_reason(rec) == (None, "mcq-answer-unresolved")
+
+
+# Accountancy XII 67/2/1 Q25, as served: the rupee sign extracted as "<".
+RUPEE_STEM = ("Trisha died on 31st July, 2022. According to the partnership deed, the "
+              "executors of the deceased partner were entitled to : (ii) Salary @ < 15,000 "
+              "per quarter. (iv) Share of profits from the closure of the last accounting "
+              "year 2019 -20, 2020 -21 and 2021 -22 were < 1,00,000, < 2,00,000 and "
+              "< 1,50,000 respectively. Particulars Amount (<) Assets")
+
+
+def test_the_rupee_sign_read_as_less_than_is_restored_in_a_commerce_paper():
+    rec = real_board("4d332115f14c6aeeaa34b438:25", RUPEE_STEM, subject="Accountancy",
+                     grade=12, marks=6, qtype="long_answer")
+    out, reason, repairs = bm.repair_board(rec)
+    assert reason is None
+    assert "Salary @ ₹ 15,000 per quarter" in out["stem"]
+    assert "were ₹ 1,00,000, ₹ 2,00,000 and ₹ 1,50,000 respectively" in out["stem"]
+    assert "Particulars Amount (₹) Assets" in out["stem"]
+    assert "<" not in out["stem"]
+    assert repairs == ["rupee-sign-restored"]
+    result = bm.compose([rec], [], [])
+    assert result.repairs["rupee-sign-restored"] == 1
+
+
+@pytest.mark.parametrize("stem,restored", [
+    # Accountancy XII be7fd19527d3a0bcac687817 Q22: after a dash, no space.
+    ("Debtors -< 40,000 Stock -< 50,000 Plant -< 60,000",
+     "Debtors -₹ 40,000 Stock -₹ 50,000 Plant -₹ 60,000"),
+    # Accountancy XII d4ab284479dbd2fbc3a07c7f Q26: after a word, a comma, a full stop.
+    ("a purchase consideration of < 40,00,000. < 20,00,000 were paid",
+     "a purchase consideration of ₹ 40,00,000. ₹ 20,00,000 were paid"),
+    # A Balance Sheet's head (Accountancy XII be7fd19527d3a0bcac687817 Q22).
+    ("Balance Sheet as at 31st March, 2023 Liabilities Amount < Assets Amount < Capitals :",
+     "Balance Sheet as at 31st March, 2023 Liabilities Amount ₹ Assets Amount ₹ Capitals :"),
+    # An MCQ's options: "(a) < 36,000 (b) < 18,000".
+    ("interest on loan : (a) < 36,000 (b) < 18,000",
+     "interest on loan : (a) ₹ 36,000 (b) ₹ 18,000"),
+    # A comparison is left as printed: after a number or a one-letter variable.
+    ("if 0 < 1 and x < 5", "if 0 < 1 and x < 5"),
+    # SQP Economics XII 2024-25 Q10: "Receipts < Payments" is a less-than.
+    ("C. Receipts < Payments on current account", "C. Receipts < Payments on current account"),
+])
+def test_restore_rupee(stem, restored):
+    assert bm.restore_rupee(stem) == restored
+
+
+@pytest.mark.parametrize("src_q,stem", [
+    ("d4ab284479dbd2fbc3a07c7f:26",
+     "On 31st March, 2022 it decided to write off discount on issue of debentures. It had "
+     "a credit balance of < Pass necessary journal entries for the above transaction."),
+    ("4d332115f14c6aeeaa34b438:26",
+     "Discount on issue of debentures was written off. The company had a balance of < on "
+     "the same date in its Securities Premium. Pass the necessary journal entries."),
+])
+def test_a_commerce_stem_whose_amount_was_lost_with_its_sign_is_symbol_loss(src_q, stem):
+    rec = real_board(src_q, stem, subject="Accountancy", grade=12, marks=6,
+                     qtype="long_answer")
+    assert _served_or_reason(rec) == (None, "symbol-loss")
+
+
+def test_the_rupee_repair_is_made_only_in_commerce_papers():
+    # Mathematics X: "withdraw < 2,000" is a rupee sign too, but "x < 2" in a
+    # Mathematics paper is not, and a Mathematics stem is not read this way.
+    rec = real_board("4d332115f14c6aeeaa34b438:25", RUPEE_STEM, subject="Mathematics",
+                     marks=6, qtype="long_answer")
+    out, _, repairs = bm.repair_board(rec)
+    assert out["stem"] == RUPEE_STEM and repairs == []
 
 
 @pytest.mark.parametrize("src_q,stem,cleaned", [
@@ -1577,6 +1676,26 @@ def test_two_real_questions_that_share_most_words_are_not_duplicates():
     assert bm.near_duplicate_score(krishna, shiva) < bm.NEAR_DUPLICATE_MIN
 
 
+BAG = ("A bag contains 5 red, 8 white, 4 green and 7 black balls. If one ball is drawn "
+       "at random, find the probability that it is not green.")
+
+
+@pytest.mark.parametrize("other", [
+    BAG.replace("not green", "not black"),                 # a word moved in from elsewhere
+    BAG.replace("5 red, 8 white", "8 red, 5 white"),       # two numbers swapped
+    BAG.replace("If one ball", "If one white ball").replace("not green", "not black"),
+])
+def test_questions_that_reuse_each_others_words_are_not_duplicates(other):
+    # Every word of one is a word of the other, so word SETS call them one
+    # question; which word stands where is the question.
+    assert bm.near_duplicate_score(BAG, other) < bm.NEAR_DUPLICATE_MIN
+    result = bm.compose([real_board("f319c93abeb1185b0864d200:30", BAG, option=None,
+                                    marks=2, qtype="short_answer"),
+                         real_board("b23bc2e537566a04afbf4415:30", other, option=None,
+                                    marks=2, qtype="short_answer")], [], [])
+    assert len(result.questions) == 2
+
+
 def test_a_near_duplicate_board_record_is_withheld_whole():
     first = real_board("f319c93abeb1185b0864d200:9", QUADRATIC_1, option="D")
     second = real_board("b23bc2e537566a04afbf4415:15", QUADRATIC_2, option="D")
@@ -1591,10 +1710,10 @@ def test_a_near_duplicate_collapses_to_the_record_with_the_verified_scheme():
     verified = real_board("f319c93abeb1185b0864d200:9", QUADRATIC_1, option="D")
     sqp = copy.deepcopy(verified)
     sqp.update(id="cbse:sqp:ClassX_2024_25:Mathematics:9", source="cbse_sample_paper",
-               stem=QUADRATIC_2 + " 2x")
+               stem=QUADRATIC_2)
     sqp["answerScheme"]["metadata"] = {}
     sqp["answerScheme"]["modelAnswer"] = sqp["answerScheme"]["markingPoints"][0][
-        "description"] = "(D) 2x + x 3 = 2x"
+        "description"] = "(D) 2x + x 3 ="
     assert bm.compose([], [], [copy.deepcopy(sqp)]).questions  # alone, it is served
     result = bm.compose([verified], [], [sqp])
     assert [q["id"] for q in result.questions] == [verified["id"]]

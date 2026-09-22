@@ -171,6 +171,7 @@ import os
 import re
 import unicodedata
 from dataclasses import dataclass, field
+from difflib import SequenceMatcher
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -1197,6 +1198,41 @@ _ASSERTION_REASON = re.compile(r"\bAssertion\s*\(A\).*\bReason\s*\(R\)", re.S)
 _MARK_BEFORE_OPTIONS = re.compile(r"(?<=[A-Za-z?:])\s+[12]$")
 
 
+# The rupee sign, extracted as "<" from every commerce board paper's font:
+# "Salary @ < 15,000 per quarter" (Accountancy XII 4d332115f14c6aeeaa34b438
+# Q25), "Debtors -< 40,000" (be7fd19527d3a0bcac687817 Q22), "a purchase
+# consideration of < 40,00,000. < 20,00,000 were paid" (d4ab284479dbd2fbc3a07c7f
+# Q26), "Amount (<)" in a table's head. Measured on the 3,286 served board
+# records (2026-09-22): 414 "<" before a number in Accountancy, Business
+# Studies and Economics, and not one of them a less-than -- 14 of the 19
+# Accountancy XII records served after relinking printed amounts this way,
+# which on a paper read as "less than". Only before a number (or a blank to
+# fill, "< ______ crore"), and not after a number or a one-letter variable:
+# "Receipts < Payments" (SQP Economics XII 2024-25 Q10) is a less-than, as
+# "x < 5" would be. Commerce papers only: Mathematics X prints "withdraw
+# < 2,000" the same way, but also "f'(x) < 0".
+_COMMERCE_SUBJECTS = frozenset({"accountancy", "business studies", "economics"})
+_RUPEE_READ_AS_LT = re.compile(
+    r"<(?=\s?(?:\d|_{3,}))|(?<=\()<(?=\))"
+    # A Balance Sheet's head, "Liabilities Amount < Assets Amount <" (Accountancy
+    # XII 4d332115f14c6aeeaa34b438 Q25, be7fd19527d3a0bcac687817 Q22).
+    r"|(?<=\bLiabilities Amount )<(?= Assets Amount <)|(?<=\bLiabilities Amount < Assets Amount )<")
+# The amount itself lost, only its sign left: "It had a credit balance of
+# < Pass necessary journal entries" (Accountancy XII d4ab284479dbd2fbc3a07c7f
+# Q26), "The company had a balance of < on the same date" (4d332115f14c6aeeaa34b438
+# Q26), "agreed to pay him < share of goodwill", "Chetan brought < Profit and
+# Loss". After "of", "him" or "brought" a "<" compares nothing.
+_RUPEE_AMOUNT_LOST = re.compile(r"\b(?:of|him|brought)\s?<\s?(?=[^\W\d_])")
+_COMPARED = re.compile(r"(?:\d|(?<![^\W\d_])[^\W\d_])\s?$")
+
+
+def restore_rupee(text: str) -> str:
+    """A commerce stem with its rupee signs, where extraction printed "<"."""
+    def one(m: re.Match) -> str:
+        return m.group(0) if _COMPARED.search(text, 0, m.start()) else "₹"
+    return _RUPEE_READ_AS_LT.sub(one, text)
+
+
 def _board_stem_broken(stem: str) -> bool:
     return len(stem) < _MIN_STEM or bool(_HEADER.match(stem)) or _words_lost(stem)
 
@@ -1221,14 +1257,42 @@ def repair_board(rec: dict) -> tuple[dict, str | None, list[str]]:
         if _board_stem_broken(cleaned):
             return r, "page-furniture", repairs
         stem = cleaned
+    if str(r.get("subject") or "").strip().lower() in _COMMERCE_SUBJECTS:
+        restored = restore_rupee(stem)
+        if restored != stem:
+            repairs.append("rupee-sign-restored")
+            stem = restored
+        if _RUPEE_AMOUNT_LOST.search(stem):
+            return r, "symbol-loss", repairs
     scheme = r.get("answerScheme") or {}
     meta = scheme.setdefault("metadata", {})
     letter = str(meta.get("correctOption") or "").strip().upper() or None
     options, at, _ = stem_options(stem, other_styles=False)
+    # Objective as `normalise` infers it: typed MCQ, or a 1-mark short answer.
+    # A 1-mark case study numbering its questions "(i) ... (ii) ... (iii)" is
+    # a question in parts, not options.
+    objective = (r.get("type") == "mcq"
+                 or (r.get("marks") == 1 and r.get("type") in _INFERABLE_TYPES))
     # stem_options never reads an A-R stem that prints its options: the "(A)" of
     # "Assertion (A)" comes first, so the labels run A, A, B, C, D. has_option_labels
     # sees them, and such a stem keeps its own four rather than gaining four more.
-    if options is None and _ASSERTION_REASON.search(stem) and not has_option_labels(stem):
+    if options is None and has_option_labels(stem) and objective:
+        # Labels printed that do not parse: as for CBE and SQP in `normalise`,
+        # the MCQ cannot be printed as one. Two MCQs fused into one stem
+        # (Mathematics XII a52469d5f185d77194f532dd Q9 runs on into Q10, each
+        # with its (A)-(D)) print, through pdf.split_stem_and_options, the
+        # SECOND question's options under a letter verified for the first --
+        # the shape whose keys answered a different question (mcq_shape.
+        # has_option_labels). "A) (0, 0) B) ... C ) ..." is refused too. Only
+        # an A-R stem is read here: its four printed options, and a verified
+        # letter for them.
+        from ..assessment.pdf import split_stem_and_options  # reportlab, only when needed
+
+        if not _ASSERTION_REASON.search(stem) or len(split_stem_and_options(stem)[1]) != 4:
+            return r, "mcq-options-unresolved", repairs
+        if letter not in ASSERTION_REASON_OPTIONS:
+            return r, "mcq-answer-unresolved", repairs
+    elif options is None and _ASSERTION_REASON.search(stem) and not has_option_labels(stem):
         if letter not in ASSERTION_REASON_OPTIONS:
             return r, "mcq-answer-unresolved", repairs
         stem = f"{stem.rstrip()} " + " ".join(
@@ -1260,16 +1324,28 @@ def repair_board(rec: dict) -> tuple[dict, str | None, list[str]]:
 # near-duplicates
 # --------------------------------------------------------------------------- #
 
-# Two stems are one question when their words and numbers overlap this much.
-# Measured on the served board records with the CBE and SQP sources
-# (2026-09-22), pairs within one subject and grade: at 0.9 and above the pairs
-# are one question printed twice -- "Which of the following is not a
-# quadratic equation ?" in two papers of one series, extracted with different
-# tails; SQP Tangkhul XII Q27 in 2024-25 and 2025-26, differing in "Page 6 of"
-# -- and at 0.75-0.8 they are different questions: SQP Bharatanatyam XII Q8
-# asks for Krishna's bow in 2024-25 and Shiva's in 2025-26, with the same
-# options and a different key. Numbers count as words, or "2x+3=7" and
-# "2x+5=7" would be one question.
+# Two stems are one question when their words and numbers overlap this much,
+# and one is the other with words only added or dropped. Measured on the
+# served board records with the CBE and SQP sources (2026-09-22), pairs within
+# one subject and grade: at 0.9 and above the pairs are one question printed
+# twice -- "Which of the following is not a quadratic equation ?" in two papers
+# of one series, extracted with different tails; SQP Tangkhul XII Q27 in
+# 2024-25 and 2025-26, differing in "Page 6 of" -- and at 0.75-0.8 they are
+# different questions: SQP Bharatanatyam XII Q8 asks for Krishna's bow in
+# 2024-25 and Shiva's in 2025-26, with the same options and a different key.
+# Numbers count as words, or "2x+3=7" and "2x+5=7" would be one question.
+#
+# Overlap alone reads words as a set, and misses which word stands where: "a
+# bag contains 5 red, 8 white, 4 green and 7 black balls ... probability that
+# it is not green" and "... not black" share every word, and scored 1.0. So a
+# word swapped for another, or moved, makes two questions whatever the
+# overlap. Word pairs (bigrams) were tried and do not separate them: that pair
+# scores exactly 0.90 on bigrams, and a longer stem with one word swapped
+# scores higher, while real duplicates with a run-on tail (SQP Bharatanatyam
+# XII 2022-23 Q8 and 2023-24 Q7, "... Section B") fall to 0.83. Of the 83
+# pairs at word-set overlap >= 0.9 in those sources, every one whose stems
+# differ only by words added or dropped (tails, page furniture, "also") is
+# still one question.
 NEAR_DUPLICATE_MIN = 0.9
 # Below this many distinct words a stem is too short to call a duplicate by
 # overlap; exact duplicates are still `norm`'s.
@@ -1279,16 +1355,41 @@ _NEAR_STOPWORDS = frozenset({
     "it", "its", "this", "that", "with", "from", "by", "as", "be"})
 
 
-def _near_tokens(text: str) -> frozenset[str]:
-    return frozenset(t for t in re.findall(r"[^\W_]+", text.lower()) if t not in _NEAR_STOPWORDS)
+def _near_words(text: str) -> list[str]:
+    return [t for t in re.findall(r"[^\W_]+", text.lower()) if t not in _NEAR_STOPWORDS]
+
+
+def _words_only_added_or_dropped(a: list[str], b: list[str]) -> bool:
+    """One stem is the other with words added or dropped: none swapped for
+    another word, none moved to another place."""
+    added: set[str] = set()
+    dropped: set[str] = set()
+    for op, i1, i2, j1, j2 in SequenceMatcher(None, a, b, autojunk=False).get_opcodes():
+        if op == "replace":
+            return False
+        if op == "equal":
+            continue
+        dropped.update(a[i1:i2])
+        added.update(b[j1:j2])
+    return not (added & dropped)
 
 
 def near_duplicate_score(a: str, b: str) -> float:
-    """How far two stems read as one question: 0.0 to 1.0 (Jaccard of their words)."""
-    ta, tb = _near_tokens(a), _near_tokens(b)
+    """How far two stems read as one question: 0.0 to 1.0.
+
+    The overlap of their words (Jaccard), or 0.0 when a word of one was swapped
+    for another or moved: then they ask different things."""
+    wa, wb = _near_words(a), _near_words(b)
+    return _near_score(wa, frozenset(wa), wb, frozenset(wb))
+
+
+def _near_score(wa: list[str], ta: frozenset[str], wb: list[str], tb: frozenset[str]) -> float:
     if not ta or not tb:
         return 0.0
-    return len(ta & tb) / len(ta | tb)
+    overlap = len(ta & tb) / len(ta | tb)
+    if overlap >= NEAR_DUPLICATE_MIN and not _words_only_added_or_dropped(wa, wb):
+        return 0.0
+    return overlap
 
 
 class _NearDuplicates:
@@ -1298,24 +1399,26 @@ class _NearDuplicates:
     sizes within 0.9 of each other."""
 
     def __init__(self) -> None:
-        self._seen: dict[tuple, list[frozenset[str]]] = {}
+        self._seen: dict[tuple, list[tuple[list[str], frozenset[str]]]] = {}
 
     def is_duplicate(self, key: tuple, stem: str) -> bool:
-        tokens = _near_tokens(stem)
+        words = _near_words(stem)
+        tokens = frozenset(words)
         if len(tokens) < _NEAR_MIN_TOKENS:
             return False
-        for other in self._seen.get(key, ()):
+        for other_words, other in self._seen.get(key, ()):
             small, large = sorted((len(tokens), len(other)))
             if small < NEAR_DUPLICATE_MIN * large:
                 continue
-            if len(tokens & other) / len(tokens | other) >= NEAR_DUPLICATE_MIN:
+            if _near_score(words, tokens, other_words, other) >= NEAR_DUPLICATE_MIN:
                 return True
         return False
 
     def add(self, key: tuple, stem: str) -> None:
-        tokens = _near_tokens(stem)
+        words = _near_words(stem)
+        tokens = frozenset(words)
         if len(tokens) >= _NEAR_MIN_TOKENS:
-            self._seen.setdefault(key, []).append(tokens)
+            self._seen.setdefault(key, []).append((words, tokens))
 
 
 @dataclass
@@ -1327,7 +1430,7 @@ class ComposeResult:
     # and these must survive to be relinked, or repaired, and served again.
     withheld: list[dict] = field(default_factory=list)
     # Repairs made to the board records served: page-furniture-stripped,
-    # options-inline, assertion-reason-options.
+    # rupee-sign-restored, options-inline, assertion-reason-options.
     repairs: dict[str, int] = field(default_factory=dict)
 
 
