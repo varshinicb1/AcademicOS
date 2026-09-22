@@ -1542,6 +1542,35 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/paper-timing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Paper Timing
+         * @description Time saved per paper — the renewal criterion, made answerable.
+         *
+         *     Decision 11: *"Renewal is measured as time saved per paper."* Before this
+         *     route the number existed nowhere, so the criterion could not be checked.
+         *
+         *     Scoped to the caller's school. The response separates what was MEASURED
+         *     (generation time, from a monotonic clock) from what was DECLARED (the manual
+         *     baseline), and says so in the payload rather than only in the docs --
+         *     because a saving built on a declared baseline will be quoted at somebody,
+         *     and the word "estimated" has to travel with it.
+         */
+        get: operations["get_paper_timing_api_v1_paper_timing_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/papers/generate": {
         parameters: {
             query?: never;
@@ -1568,10 +1597,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * Generate From Ids
-         * @description Instantly compile selected question IDs into a structured sectioned paper (Examzo-style ID compilation).
-         */
+        /** Generate From Ids */
         post: operations["generate_from_ids_api_v1_papers_generate_from_ids_post"];
         delete?: never;
         options?: never;
@@ -3286,10 +3312,7 @@ export interface components {
         GenerateFromIdsRequest: {
             /** Assessmentid */
             assessmentId?: string | null;
-            /**
-             * Grade
-             * @default 10
-             */
+            /** Grade */
             grade: number;
             /** Questionids */
             questionIds: string[];
@@ -3311,6 +3334,10 @@ export interface components {
             };
             /** Assessmentid */
             assessmentId: string;
+            /** Competencyshare */
+            competencyShare?: number | null;
+            /** Competencytargetmet */
+            competencyTargetMet?: boolean | null;
             /**
              * Formattedcontent
              * @default
@@ -3328,8 +3355,16 @@ export interface components {
             sections: components["schemas"]["GeneratedSectionSchema"][];
             /** Setlabel */
             setLabel?: string | null;
+            /** Setoverlap */
+            setOverlap?: {
+                [key: string]: number;
+            };
             /** Sets */
             sets?: components["schemas"]["GeneratedPaper"][];
+            /** Tiersavailable */
+            tiersAvailable?: boolean | null;
+            /** Warnings */
+            warnings?: string[];
         };
         /** GeneratedQuestionSchema */
         GeneratedQuestionSchema: {
@@ -3361,6 +3396,11 @@ export interface components {
              * @default
              */
             stemLatex: string;
+            /**
+             * Type
+             * @default
+             */
+            type: string;
         };
         /** GeneratedSectionSchema */
         GeneratedSectionSchema: {
@@ -4126,10 +4166,7 @@ export interface components {
             durationMinutes?: number | null;
             /** Examtype */
             examType?: string | null;
-            /**
-             * Grade
-             * @default 10
-             */
+            /** Grade */
             grade: number;
             /**
              * Setcount
@@ -7886,6 +7923,28 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MailBackendStatus"];
+                };
+            };
+        };
+    };
+    get_paper_timing_api_v1_paper_timing_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
         };

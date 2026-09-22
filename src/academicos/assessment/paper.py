@@ -129,7 +129,10 @@ def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: 
     overlaps: list[int] = []
     if alternatives_pool is not None:
         from .selection import alternative_sets
-        alternatives, overlaps = alternative_sets(selected_questions, alternatives_pool, set_count)
+        from .templates import default_sections
+        sections = blueprint.sections or default_sections(blueprint.total_marks)
+        alternatives, overlaps = alternative_sets(selected_questions, alternatives_pool, set_count,
+                                                  sections)
 
     for idx, label in enumerate(labels):
         variant_questions: list[QuestionSchema] = []

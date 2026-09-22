@@ -2270,7 +2270,6 @@
             "title": "Assessmentid"
           },
           "grade": {
-            "default": 10,
             "title": "Grade",
             "type": "integer"
           },
@@ -2304,6 +2303,7 @@
         },
         "required": [
           "subject",
+          "grade",
           "questionIds"
         ],
         "title": "GenerateFromIdsRequest",
@@ -2319,6 +2319,28 @@
           "assessmentId": {
             "title": "Assessmentid",
             "type": "string"
+          },
+          "competencyShare": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Competencyshare"
+          },
+          "competencyTargetMet": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Competencytargetmet"
           },
           "formattedContent": {
             "default": "",
@@ -2355,11 +2377,36 @@
             ],
             "title": "Setlabel"
           },
+          "setOverlap": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Setoverlap",
+            "type": "object"
+          },
           "sets": {
             "items": {
               "$ref": "#/components/schemas/GeneratedPaper"
             },
             "title": "Sets",
+            "type": "array"
+          },
+          "tiersAvailable": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tiersavailable"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
             "type": "array"
           }
         },
@@ -2435,6 +2482,11 @@
           "stemLatex": {
             "default": "",
             "title": "Stemlatex",
+            "type": "string"
+          },
+          "type": {
+            "default": "",
+            "title": "Type",
             "type": "string"
           }
         },
@@ -4493,7 +4545,6 @@
             "title": "Examtype"
           },
           "grade": {
-            "default": 10,
             "title": "Grade",
             "type": "integer"
           },
@@ -4540,7 +4591,8 @@
           }
         },
         "required": [
-          "subject"
+          "subject",
+          "grade"
         ],
         "title": "QuickPaperRequest",
         "type": "object"

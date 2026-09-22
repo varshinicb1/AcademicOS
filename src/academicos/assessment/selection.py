@@ -346,12 +346,24 @@ def _attach_choice(q: QuestionSchema, partner: QuestionSchema) -> None:
     q.metadata["internal_choice_question"] = partner.model_dump(by_alias=False)
 
 
+def _sections_of(q: QuestionSchema, sections: list[SectionBlueprint]) -> list[SectionBlueprint]:
+    """The sections `q` could sit in: those whose limits it meets (optimize()
+    only places a question in such a section)."""
+    return [s for s in sections if _fits_section(q, s)]
+
+
 def _alternative(q: QuestionSchema, pool: list[QuestionSchema], used: set[str],
-                 near_chapters: list[str]) -> QuestionSchema | None:
+                 near_chapters: list[str],
+                 sections: list[SectionBlueprint] | None = None) -> QuestionSchema | None:
     """The unused pool question that stands in for `q`: same marks and type are
-    required; then the closest in CBQ-ness, chapter, difficulty and Bloom level,
-    then quality. None when the pool has no unused question of that shape."""
+    required, and so are the limits of `q`'s section (allowed difficulties and
+    Bloom levels, as optimize() enforces for set A); then the closest in
+    CBQ-ness, chapter, difficulty and Bloom level, then quality. None when the
+    pool has no unused question of that shape."""
     fits = [c for c in pool if c.id not in used and c.marks == q.marks and c.type == q.type]
+    homes = _sections_of(q, sections or [])
+    if homes:
+        fits = [c for c in fits if any(_fits_section(c, s) for s in homes)]
     if not fits:
         return None
     chapters, cbq = set(near_chapters), is_competency_question(q)
@@ -365,9 +377,14 @@ def _alternative(q: QuestionSchema, pool: list[QuestionSchema], used: set[str],
 
 
 def alternative_sets(primary: list[QuestionSchema], pool: list[QuestionSchema],
-                     set_count: int) -> tuple[list[list[QuestionSchema]], list[int]]:
+                     set_count: int,
+                     sections: list[SectionBlueprint] | None = None,
+                     ) -> tuple[list[list[QuestionSchema]], list[int]]:
     """Set A is `primary`; each later set replaces every question -- and every
-    OR alternative -- with a different pool question of the same marks and type.
+    OR alternative -- with a different pool question of the same marks and type
+    that also meets its section's allowed difficulties and Bloom levels
+    (`sections`, the blueprint's). Matching on marks and type alone let set B
+    print a 'hard' or 'apply' question in a section set A kept easy/recall.
 
     Sets B and C used to be set A rotated: the same questions in another order
     (A and C identical when a section had two), which is no protection against
@@ -384,7 +401,7 @@ def alternative_sets(primary: list[QuestionSchema], pool: list[QuestionSchema],
         variant: list[QuestionSchema] = []
         overlap = 0
         for q in primary:
-            alt = _alternative(q, pool, used, q.chapter_ids)
+            alt = _alternative(q, pool, used, q.chapter_ids, sections)
             if alt is None:
                 # Out of alternatives: print set A's question, OR partner and all.
                 variant.append(q.model_copy(deep=True))
@@ -399,7 +416,7 @@ def alternative_sets(primary: list[QuestionSchema], pool: list[QuestionSchema],
                 # the partner matches this set's question, not set A's partner:
                 # set A's partner type is whatever optimize() found, and matching
                 # it ran Science 10's pool out of 3-mark short_answers by set C.
-                partner = _alternative(alt, pool, used, alt.chapter_ids)
+                partner = _alternative(alt, pool, used, alt.chapter_ids, sections)
                 if partner is None:
                     for key in _CHOICE_KEYS:
                         if key in q.metadata:

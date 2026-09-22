@@ -350,3 +350,29 @@ def test_a_set_under_the_cbq_target_is_warned_on_the_custom_path(tmp_path, monke
     assert [s["competencyShare"] for s in data["sets"]] == [0.0, 0.0, 0.0]
     for label in ("A", "B", "C"):
         assert any(f"Set {label}" in w and "competency-based" in w for w in data["warnings"])
+
+
+def test_sets_b_and_c_obey_the_section_difficulty_and_bloom_limits():
+    """Set A obeys a section's allowed difficulties and Bloom levels because
+    optimize() enforces them; sets B and C must too. A 'hard' or 'apply'
+    1-mark question may not stand in for set A's easy recall question in a
+    section limited to easy/medium and remember/understand -- set A's
+    question is reused instead, and the overlap counted."""
+    sec = _section("A", 1, 1)
+    sec.allowed_difficulties = ["easy", "medium"]
+    sec.allowed_bloom_levels = ["remember", "understand"]
+    bp = _bp([sec], "standard")
+    primary = [_q("p1", 1, difficulty="easy", bloom="remember")]
+    pool = primary + [
+        _q("too_hard", 1, difficulty="hard", bloom="remember", quality=0.99),
+        _q("too_high", 1, difficulty="easy", bloom="apply", quality=0.99),
+        _q("fits", 1, difficulty="medium", bloom="understand", quality=0.1),
+    ]
+    paper = generate_paper_sets(
+        paper_id="p", assessment_id="a", assessment_title="T", subject="Science", grade=10,
+        blueprint=bp, selected_questions=primary, set_count=3, alternatives_pool=pool)
+    b = [q.question_id for q in paper.sets[1].sections[0].questions]
+    c = [q.question_id for q in paper.sets[2].sections[0].questions]
+    assert b == ["fits"]
+    assert c == ["p1"]
+    assert paper.set_overlap == {"A": 0, "B": 0, "C": 1}
