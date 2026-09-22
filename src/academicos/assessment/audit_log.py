@@ -63,6 +63,15 @@ inserts the next seq. The unique index on seq means that when two instances
 race for the same seq, one wins and the other retries, so the chain does not
 fork.
 
+Within one process, remote appends take turns (_remote_append_lock), so
+they never race each other. That matters since every read of a student's
+data appends too (record_pii_read): the scan review screen requests all of
+a session's page images at once, and at e8315e0 sixteen concurrent appends
+from one instance lost the race often enough that some ran out of retries
+and answered 503. Races between instances remain, and are rarer; a loser
+waits a random, growing time (_SEQ_RACE_BACKOFF_*) before it re-reads the
+head, so two losers do not collide again in lockstep.
+
 If a real deployment ever needs to prune old entries, that is a deliberate,
 logged, admin-only database operation, not something application code can do.
 """
@@ -70,7 +79,9 @@ from __future__ import annotations
 
 import hashlib
 import json
+import random
 import threading
+import time
 import logging
 import sqlite3
 import uuid
@@ -87,11 +98,22 @@ logger = logging.getLogger(__name__)
 
 GENESIS_HASH = "0" * 64
 
-# Retries when another writer took the seq this one read as next. Losing
-# more than a handful of races in a row is no longer a race, so after that
-# the append raises AuditAppendFailed, which append() does not turn into a
-# local-only entry.
-_SEQ_RACE_RETRIES = 5
+# Retries when another writer took the seq this one read as next. Appends in
+# one process are serialised (AuditLog._remote_append_lock), so only another
+# instance can take the seq, and losing this many races in a row is no longer
+# a race: the append raises AuditAppendFailed, which append() does not turn
+# into a local-only entry. It was 5 while appends were rare grading writes;
+# with every PII read appending, more instances' appends overlap.
+_SEQ_RACE_RETRIES = 12
+
+# Full-jitter backoff after a lost race: a uniform wait in
+# [0, min(CAP, BASE * 2**(n-1))] seconds before the n-th retry. The eleven
+# waits of a fully lost append add up to at most 1.81 s, on average half.
+_SEQ_RACE_BACKOFF_BASE = 0.01
+_SEQ_RACE_BACKOFF_CAP = 0.25
+
+# Module-level so a test can record the waits instead of taking them.
+_sleep = time.sleep
 
 # Rows per remote read in verify_chain. PostgREST caps a response at its
 # max-rows setting (1000 by default) without saying so, so the read pages by
@@ -316,6 +338,11 @@ class AuditLog:
     def __init__(self, db_path: Path):
         self._remote = durable_table("audit_log")
         self._lock = threading.Lock()
+        # Separate from _lock, which guards the SQLite connection: a remote
+        # append holds this across network round trips, and local reads
+        # (has_entry, sheet_entries) must not wait on those. It is released
+        # before append() falls back to _append_local, so the two never nest.
+        self._remote_append_lock = threading.Lock()
         db_path.parent.mkdir(parents=True, exist_ok=True)
         self.conn = sqlite3.connect(str(db_path), check_same_thread=False)
         self.conn.row_factory = sqlite3.Row
@@ -347,7 +374,8 @@ class AuditLog:
         }
         if self._remote.enabled:
             try:
-                self._append_remote(entry)
+                with self._remote_append_lock:
+                    self._append_remote(entry)
                 return entry["id"]
             except (DuplicateAuditEntry, AuditAppendFailed):
                 raise
@@ -361,7 +389,12 @@ class AuditLog:
         return entry["id"]
 
     def _append_remote(self, entry: dict[str, Any]) -> None:
-        for _ in range(_SEQ_RACE_RETRIES):
+        """Insert `entry` at the next remote seq. The caller holds
+        _remote_append_lock, so a conflict here is another instance."""
+        for attempt in range(_SEQ_RACE_RETRIES):
+            if attempt:
+                _sleep(random.uniform(0, min(_SEQ_RACE_BACKOFF_CAP,
+                                             _SEQ_RACE_BACKOFF_BASE * 2 ** (attempt - 1))))
             head = self._remote.select(order="seq.desc", limit=1, gt={"seq": 0})
             if not head:
                 start = _chain_start(self._read_all_remote())

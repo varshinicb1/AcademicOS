@@ -249,8 +249,11 @@ gets flagged to the user, not silently shipped.
       holds INSERT from appending a correctly chained entry: the hash is
       unkeyed, and the INSERT privilege is the control there. The remote
       read pages by id, because PostgREST silently caps one response at
-      max-rows (1000 by default). An append that loses the seq race 5 times
-      answers 503 and saves no grade; it is not written to local disk.
+      max-rows (1000 by default). Appends from one process take turns, so
+      only two instances can race for a seq; a loser backs off with jitter
+      and retries, and an append that loses 12 times in a row answers 503
+      and saves no grade (or serves no read); it is not written to local
+      disk.
       **Manual step, not yet applied to any live project:** the
       `audit_log` block of `docs/supabase-setup.sql` (chain columns, unique
       `seq`, RLS with INSERT/SELECT policies only, UPDATE/DELETE/TRUNCATE

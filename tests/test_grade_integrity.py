@@ -604,6 +604,7 @@ def test_a_lost_seq_race_is_retried(tmp_path, monkeypatch):
 
 def test_exhausting_the_seq_race_fails_the_append(tmp_path, monkeypatch):
     remote = RacingRemoteAudit(losses=audit_mod._SEQ_RACE_RETRIES)
+    monkeypatch.setattr(audit_mod, "_sleep", lambda _s: None)
     monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
     log = _log(tmp_path)
     with pytest.raises(audit_mod.AuditAppendFailed):
@@ -623,6 +624,78 @@ def test_a_failed_id_lookup_after_a_conflict_fails_the_append(tmp_path, monkeypa
     with pytest.raises(audit_mod.AuditAppendFailed):
         log.append("grade_awarded", assessment_id="a1", actor="u1")
     assert _local_count(log) == 0
+
+
+class ThreadedRemoteAudit(FakeRemoteAudit):
+    """FakeRemoteAudit as a real server behaves under concurrent requests:
+    each call is atomic (the unique checks and the write happen together), and
+    a network round trip separates the head read from the insert, which is
+    the window two appenders race in."""
+
+    def __init__(self):
+        super().__init__()
+        import threading
+        self._server = threading.Lock()
+
+    def select(self, order=None, limit=None, gt=None, **eq):
+        import time
+        time.sleep(0.002)
+        with self._server:
+            return [dict(r) for r in super().select(order=order, limit=limit, gt=gt, **eq)]
+
+    def insert(self, row):
+        import time
+        time.sleep(0.002)
+        with self._server:
+            super().insert(row)
+
+
+def test_concurrent_pii_reads_on_one_instance_all_append(tmp_path, monkeypatch):
+    """The scan review screen loads every page image of a session at once,
+    and each GET is a record_pii_read. Reproduced at e8315e0: 16 concurrent
+    remote appends each read the same head, one won per round, and the rest
+    ran out of their 5 retries with AuditAppendFailed, a 503 and a broken
+    image. Appends from one process are now serialised, so none of them
+    races another."""
+    from concurrent.futures import ThreadPoolExecutor
+    import threading
+    remote = ThreadedRemoteAudit()
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    n = 16
+    start = threading.Barrier(n)
+
+    def read(page: int) -> str:
+        start.wait()
+        return audit_mod.record_pii_read(log, actor="t1", what="scan_page_image",
+                                         student_id="s1", assessment_id="a1", page=page)
+
+    with ThreadPoolExecutor(max_workers=n) as pool:
+        ids = list(pool.map(read, range(n)))
+
+    assert len(set(ids)) == n
+    seqs = sorted(r["seq"] for r in remote.rows)
+    assert seqs == list(range(1, n + 2)), "contiguous: the chain start, then one per read"
+    assert log.verify_chain() is None
+    assert _local_count(log) == 0
+
+
+def test_a_lost_race_backs_off_with_jitter_before_retrying(tmp_path, monkeypatch):
+    """Two instances cannot share a lock, so between them a lost race is
+    still possible. The loser waits a random, growing time before re-reading
+    the head, so two losers do not collide again in lockstep."""
+    slept: list[float] = []
+    monkeypatch.setattr(audit_mod, "_sleep", slept.append)
+    remote = RacingRemoteAudit(losses=3)
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    log.append("grade_awarded", assessment_id="a1", actor="u1")
+
+    assert len(slept) == 3, "one wait per lost race, none before the first try"
+    for attempt, delay in enumerate(slept):
+        ceiling = min(audit_mod._SEQ_RACE_BACKOFF_CAP,
+                      audit_mod._SEQ_RACE_BACKOFF_BASE * 2 ** attempt)
+        assert 0 <= delay <= ceiling
 
 
 def test_a_failed_audit_append_is_a_503_and_saves_no_grade(sheet, monkeypatch):
