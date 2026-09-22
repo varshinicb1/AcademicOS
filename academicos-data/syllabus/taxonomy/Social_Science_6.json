@@ -215,9 +215,21 @@
     10
    ],
    "nameSource": "display",
-   "headingKind": "none",
-   "noTopicsReason": "no numbered heading and no bold heading line >= 14.5pt (body 13pt NotoSerif-Regular) outside boxes and activities",
-   "topics": []
+   "headingKind": "unnumbered",
+   "topics": [
+    {
+     "id": "india-that-is-bharat/how-indians-named-india",
+     "name": "How Indians Named India",
+     "page": 3,
+     "subtopics": []
+    },
+    {
+     "id": "india-that-is-bharat/how-foreigners-named-india",
+     "name": "How Foreigners Named India",
+     "page": 7,
+     "subtopics": []
+    }
+   ]
   },
   {
    "id": "the-beginnings-of-indian-civilisation",

@@ -630,20 +630,12 @@
   },
   "Social Science_6": {
    "chapters": 14,
-   "topics": 50,
+   "topics": 52,
    "subtopics": 22,
    "headingKinds": {
-    "unnumbered": 13,
-    "none": 1
+    "unnumbered": 14
    },
-   "chaptersWithoutTopics": [
-    {
-     "number": 5,
-     "name": "India, That Is Bharat",
-     "file": "chapters/fees1/fees105.pdf",
-     "why": "no numbered heading and no bold heading line >= 14.5pt (body 13pt NotoSerif-Regular) outside boxes and activities"
-    }
-   ]
+   "chaptersWithoutTopics": []
   },
   "Social Science_7": {
    "chapters": 20,

@@ -132,6 +132,42 @@ def test_unnumbered_bold_headings_new_social_science_book():
     ]
 
 
+def test_chapter_without_sections_gets_no_topics_not_its_epigraph():
+    lines = _lines("class6_curiosity_ch9")
+    # class6_curiosity.pdf p181 opens with a Kabir doha, 18pt bold; the
+    # chapter's only other set-apart lines are activities and boxes.
+    assert any(ln.text.startswith("साधु ऐसा चाहिए") and ln.size == 18.0 for ln in lines)
+    heads, kind = th.chapter_headings(lines, 9)
+    assert (heads, kind) == ([], "none")
+
+
+def test_heading_in_a_font_named_regular_is_still_found():
+    # fees105.pdf p3, p7: the PDF names the heading font NotoSerif-Regular, but
+    # it is printed 17pt in red on 13pt body -- without these the chapter had
+    # no topics at all.
+    heads, kind = th.chapter_headings(_lines("fees105"), 5)
+    assert kind == "unnumbered"
+    assert [(h.level, h.name, h.page) for h in heads] == [
+        (1, "How Indians Named India", 3),
+        (1, "How Foreigners Named India", 7),
+    ]
+
+
+def test_one_heading_style_at_two_sizes_is_one_level():
+    # gees105.pdf sets its sub-headings at 15pt (p6, p9, p19, p28-29) and at
+    # 15.43pt (pp17-18); read as two sizes, 15pt fell below the subtopic level.
+    heads, _ = th.chapter_headings(_lines("gees105"), 5)
+    subs = [h.name for h in heads if h.level == 2]
+    assert subs == [
+        "Features of an empire", "Trade, trade routes and guilds",
+        "The story of Kauṭilya", "The rise of Chandragupta Maurya",
+        "Kauṭilya’s concept of a kingdom",
+        "Some Contributions of the Mauryas", "Life and people", "Art and architecture",
+    ]
+    assert [h.name for h in heads if h.level == 1][:2] == ["What is an Empire?",
+                                                            "The Rise of Magadha"]
+
+
 def test_two_column_page_is_read_column_by_column():
     # jess403.pdf p10: "Caste and politics" closes the left column (y=607);
     # its first sub-section "Caste inequalities" opens the right one (y=71).

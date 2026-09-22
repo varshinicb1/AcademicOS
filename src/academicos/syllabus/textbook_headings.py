@@ -270,7 +270,8 @@ def _clean(text: str) -> str:
     """One line of heading text as printed: control characters out, ligatures
     spelt ("Reﬂ ection" -> "Reflection", class7_curiosity.pdf p179), no space
     before a comma ("Trade , trade routes", gees105.pdf p9)."""
-    text = _CONTROL.sub(" ", text)
+    # composed form, so "Kauṭilya" is one string whichever way the PDF built it
+    text = unicodedata.normalize("NFC", _CONTROL.sub(" ", text))
     for lig, letters in _LIGATURES.items():
         text = re.sub(lig + r"\s?(?=[a-z])", letters, text).replace(lig, letters)
     text = re.sub(r"\s+([,;:?!])", r"\1", text)
@@ -494,13 +495,22 @@ def unnumbered_headings(lines: list[Line], skip_pages: frozenset = frozenset()) 
     largest candidate size in the chapter is the topic level; the next size at
     least 0.9pt smaller is the subtopic level; anything smaller is ignored.
     """
-    body, _ = body_style(lines)
+    body, body_font = body_style(lines)
+    family = re.split(r"[-,]", body_font)[0]
     cands: list[tuple[Line, str]] = []
     i = 0
     while i < len(lines):
         ln = lines[i]
-        if (ln.page not in skip_pages and ln.bold and not _whitish(ln.color)
-                and body + 1.5 <= ln.size < 24 and not ln.text[:1].isdigit()):
+        # Bold, or -- where the PDF names the heading font "Regular" although
+        # it prints heavy (fees105.pdf p3: "How Indians Named India", 17pt
+        # NotoSerif-Regular in red on 13pt body) -- the text face, upright,
+        # coloured and 3pt up. The text face, because a calendar label in a
+        # display face ("Chaitra", Oswald, class8_curiosity.pdf p25) is not.
+        heading_type = (ln.bold and ln.size >= body + 1.5) or (
+            not _blackish(ln.color) and ln.size >= body + 3 and "italic" not in ln.font.lower()
+            and re.split(r"[-,]", ln.font)[0] == family)
+        if (ln.page not in skip_pages and heading_type and not _whitish(ln.color)
+                and ln.size < 24 and not ln.text[:1].isdigit()):
             text, j = _with_continuations(lines, i, lambda t: False)
             name = _clean(text)
             if (sum(ch.isalpha() for ch in name) >= 3 and len(name) <= 110
