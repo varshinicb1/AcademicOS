@@ -40,7 +40,7 @@
   "topicIds": [],
   "subtopicIds": []
  },
- "id": "tpl_abbbebe79f",
+ "id": "tpl_d58410d827",
  "schoolId": "school_1",
  "tagline": "",
  "brandColor": "#000000",
@@ -57,7 +57,7 @@
  "sectionFormatting": {},
  "isDefault": false,
  "kind": "paper",
- "ownerId": "user_03a584e1b5f2",
+ "ownerId": "user_ffe2e680c230",
  "shared": false,
  "isPreset": false,
  "patternStatus": "teacher",
@@ -65,6 +65,6 @@
  "basedOn": null,
  "instructionsGenerated": false,
  "scopeNotes": [],
- "createdAt": "2026-09-22T14:37:24.384033Z",
- "updatedAt": "2026-09-22T14:37:24.384033Z"
+ "createdAt": "2026-09-22T15:33:47.941615Z",
+ "updatedAt": "2026-09-22T15:33:47.941615Z"
 }

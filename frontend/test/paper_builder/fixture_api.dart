@@ -116,6 +116,19 @@ class FixtureAdapter implements HttpClientAdapter {
       }
     }
     if (method == 'POST' && path == '/papers/generate-from-template' && body is Map) {
+      // "Make another like this": captured with the questions of the paper
+      // as the flow leaves it (swap, pick, remove) -- answered only when the
+      // builder sends exactly that list.
+      if (body['avoidQuestionIds'] != null) {
+        final captured = ((_manifest()['responses'] as List)
+            .firstWhere((r) => r['file'] == 'generate_10_science_another.json') as Map)['body'] as Map;
+        final sent = List<String>.from(body['avoidQuestionIds'] as List);
+        if (body['templateId'] == captured['templateId'] &&
+            sent.join(',') == List<String>.from(captured['avoidQuestionIds'] as List).join(',')) {
+          return (200, fixtureJson('generate_10_science_another'));
+        }
+        return (501, {'detail': 'no captured response for this avoidQuestionIds list'});
+      }
       if (body['templateId'] == 'preset:cbse:10:science:half_yearly' && scope.isEmpty) {
         return (200, fixtureJson('generate_10_science'));
       }
@@ -132,6 +145,10 @@ class FixtureAdapter implements HttpClientAdapter {
     final paperId = fixtureJson('generate_10_science')['paper']['id'] as String;
     if (method == 'POST' && path == '/papers/$paperId/questions/1/swap') return (200, fixtureJson('swap_10_science'));
     if (method == 'POST' && path == '/papers/$paperId/questions/27') return (200, fixtureJson('pick_10_science'));
+    final removed = fixtureJson('remove_10_science')['slot'] as String;
+    if (method == 'DELETE' && path == '/papers/$paperId/questions/$removed') {
+      return (200, fixtureJson('remove_10_science'));
+    }
     if (method == 'GET' && path == '/papers/${paperId}_set_B') return (200, fixtureJson('paper_10_science_set_b'));
     if (method == 'POST' && path == '/questions/search') return (200, _fixtureAny('search_10_science_3m'));
     for (final (id, tag) in [(paperId, ''), ('${paperId}_set_B', '_set_b')]) {

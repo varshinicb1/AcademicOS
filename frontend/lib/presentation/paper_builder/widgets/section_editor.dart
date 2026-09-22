@@ -5,12 +5,14 @@ import '../paper_builder_controller.dart';
 
 /// Opens the section editor on [initial] -- a new template, one of the
 /// teacher's own, a preset or shared one (saved as a copy), or a template
-/// with a fix from the availability check already applied.
+/// with a fix from the availability check already applied. [saveAsNew]
+/// ("Save as new" on one of the teacher's own cards) saves a copy and
+/// leaves the original as it was.
 Future<void> showSectionEditor(BuildContext context, PaperBuilderController c, PaperTemplateView initial,
-    {String? note}) {
+    {String? note, bool saveAsNew = false}) {
   return Navigator.of(context).push(MaterialPageRoute<void>(
     fullscreenDialog: true,
-    builder: (_) => SectionEditor(c: c, initial: initial, note: note),
+    builder: (_) => SectionEditor(c: c, initial: initial, note: note, saveAsNew: saveAsNew),
   ));
 }
 
@@ -40,7 +42,8 @@ class SectionEditor extends StatefulWidget {
   final PaperBuilderController c;
   final PaperTemplateView initial;
   final String? note;
-  const SectionEditor({super.key, required this.c, required this.initial, this.note});
+  final bool saveAsNew;
+  const SectionEditor({super.key, required this.c, required this.initial, this.note, this.saveAsNew = false});
 
   @override
   State<SectionEditor> createState() => _SectionEditorState();
@@ -57,7 +60,7 @@ class _SectionEditorState extends State<SectionEditor> {
   bool _saving = false;
   String? _error;
 
-  bool get _own => widget.initial.id.isNotEmpty && !widget.initial.isPreset &&
+  bool get _own => !widget.saveAsNew && widget.initial.id.isNotEmpty && !widget.initial.isPreset &&
       widget.initial.ownerId == widget.c.memory.userId;
 
   @override
@@ -231,7 +234,7 @@ class _SectionEditorState extends State<SectionEditor> {
                     key: const ValueKey('editor-save'),
                     onPressed: ok && !_saving ? () => _save(asNew: !_own) : null,
                     style: FilledButton.styleFrom(minimumSize: const Size(0, 48)),
-                    child: Text(_saving ? 'Saving…' : (_own ? 'Save' : 'Save & use')),
+                    child: Text(_saving ? 'Saving…' : (_own ? 'Save' : (widget.saveAsNew ? 'Save as new' : 'Save & use'))),
                   ),
                 ),
               ]),

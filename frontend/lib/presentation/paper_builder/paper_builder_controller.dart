@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 
 import '../../data/datasources/api/paper_builder_api.dart';
@@ -66,10 +68,25 @@ class PaperBuilderController extends ChangeNotifier {
   String? availabilityError;
   int _ticket = 0;
 
+  /// How long a chapter tick waits for the next one before the bank is
+  /// checked. Ticking six chapters for a half-yearly paper sent six checks,
+  /// five of them for selections the teacher was only passing through;
+  /// now it sends one. Generate stays off while a check is waiting.
+  static const availabilityDebounce = Duration(milliseconds: 400);
+  Timer? _debounce;
+  Completer<void>? _waiting;
+
   bool generating = false;
   String? generateError;
   TemplatePaperResult? result;
   GeneratedPaper? paper;
+
+  /// The sections the paper was generated from: what "short" is measured
+  /// against after a question is removed.
+  List<TemplateSectionView> _paperSections = const [];
+
+  /// Questions removed from each section (by section id), for the gap line.
+  final Map<String, int> removedBySection = {};
 
   /// Set label -> paper id, from the generated paper (A is the paper itself).
   Map<String, String> setIds = const {};
@@ -91,6 +108,7 @@ class PaperBuilderController extends ChangeNotifier {
 
   @override
   void dispose() {
+    _debounce?.cancel();
     _isDisposed = true;
     super.dispose();
   }
@@ -156,6 +174,8 @@ class PaperBuilderController extends ChangeNotifier {
     busySlots.clear();
     slotErrors.clear();
     slotNotes.clear();
+    removedBySection.clear();
+    _paperSections = const [];
     downloaded.clear();
     downloadError = null;
   }
@@ -299,9 +319,20 @@ class PaperBuilderController extends ChangeNotifier {
     return out;
   }
 
+  /// Ticks a chapter; the bank is checked once the teacher pauses
+  /// ([availabilityDebounce]). Until then the step says it is checking and
+  /// Generate is off, so a paper is never generated against the answer for
+  /// an older selection.
   Future<void> toggleChapter(String id) {
     chapterIds.contains(id) ? chapterIds.remove(id) : chapterIds.add(id);
-    return checkAvailability();
+    _debounce?.cancel();
+    ++_ticket; // an answer on its way is for the selection before this tick
+    checking = true;
+    availabilityError = null;
+    _changed();
+    final waiting = _waiting ??= Completer<void>();
+    _debounce = Timer(availabilityDebounce, checkAvailability);
+    return waiting.future;
   }
 
   Future<void> useAllChapters() {
@@ -319,6 +350,17 @@ class PaperBuilderController extends ChangeNotifier {
   /// Re-run on every change; an answer to an older selection is dropped
   /// when a newer one is already on its way.
   Future<void> checkAvailability() async {
+    _debounce?.cancel();
+    final waiting = _waiting;
+    _waiting = null;
+    try {
+      await _check();
+    } finally {
+      if (waiting != null && !waiting.isCompleted) waiting.complete();
+    }
+  }
+
+  Future<void> _check() async {
     final t = template;
     if (t == null) return;
     final ticket = ++_ticket;
@@ -387,7 +429,9 @@ class PaperBuilderController extends ChangeNotifier {
   bool get canGenerate =>
       template != null && availability != null && !checking && !generating && !availability!.nothingFits;
 
-  Future<void> generate() async {
+  /// [avoid]: questions to print again only where the bank has nothing
+  /// else ("Make another like this").
+  Future<void> generate({List<String> avoid = const []}) async {
     if (!canGenerate) return;
     generating = true;
     generateError = null;
@@ -402,10 +446,12 @@ class PaperBuilderController extends ChangeNotifier {
         // appeared since the check is still refused (409), not printed.
         allowGaps: !availability!.complete,
         fillFromOutsideScope: fillFromOutsideScope,
+        avoidQuestionIds: avoid,
       );
       _resetPaper();
       result = r;
       paper = r.paper;
+      _paperSections = template!.sections;
       setIds = {
         (r.paper.setLabel ?? 'A'): r.paper.id,
         for (final s in r.paper.sets) (s.setLabel ?? s.metadata.setLabel ?? '?'): s.id,
@@ -422,12 +468,17 @@ class PaperBuilderController extends ChangeNotifier {
     }
   }
 
-  /// "Make another like this": the same template and chapters, generated
-  /// again as a new saved paper.
+  /// "Make another like this": the same template and chapters, fresh
+  /// questions, as a new saved paper. Generation is deterministic, so
+  /// without the list the same template and chapters print the same paper
+  /// again; with it, this paper's questions (as the teacher left it, swaps
+  /// and removals included) are printed only where the bank has nothing
+  /// else, and the server's notes name each one.
   Future<void> makeAnother() async {
+    final previous = onPaper.toList()..sort();
     step = BuilderStep.scope;
     _changed();
-    await generate();
+    await generate(avoid: previous);
   }
 
   GeneratedPaper? get shownPaper => viewingSet == 'A' ? paper : _setPapers[viewingSet];
@@ -451,6 +502,53 @@ class PaperBuilderController extends ChangeNotifier {
       setError = apiErrorMessage(e);
     } finally {
       loadingSet = false;
+      _changed();
+    }
+  }
+
+  /// Every section printing fewer questions than the template asks for --
+  /// a gap generation left, or one the teacher made with Remove -- in
+  /// template order. Stays on screen until the paper is generated again.
+  List<({String title, int printed, int needed, int removed})> get shortSections {
+    final p = paper;
+    if (p == null) return const [];
+    final printed = {for (final s in p.sections) s.sectionId: s.questions.length};
+    return [
+      for (final (i, s) in _paperSections.indexed)
+        if ((printed[s.id.isNotEmpty ? s.id : 's${i + 1}'] ?? 0) < s.questionCount)
+          (
+            title: s.title,
+            printed: printed[s.id.isNotEmpty ? s.id : 's${i + 1}'] ?? 0,
+            needed: s.questionCount,
+            removed: removedBySection[s.id.isNotEmpty ? s.id : 's${i + 1}'] ?? 0,
+          ),
+    ];
+  }
+
+  /// Removes question [slot] (with its OR) or only an alternative
+  /// ("7_OR"), from the paper and every set. The numbers after it move up,
+  /// so notes and errors kept under the old numbers are dropped.
+  Future<void> remove(String slot) async {
+    final p = paper;
+    if (p == null || busySlots.contains(slot)) return;
+    final sectionId = p.sections
+        .firstWhere((s) => s.questions.any((q) => '${q.displayNumber}' == slot.split('_').first))
+        .sectionId;
+    busySlots.add(slot);
+    slotErrors.remove(slot);
+    _changed();
+    try {
+      final r = await api.remove(p.id, slot);
+      paper = r.paper;
+      _setPapers.clear();
+      downloaded.clear();
+      slotNotes.clear();
+      slotErrors.clear();
+      if (!slot.endsWith('_OR')) removedBySection[sectionId] = (removedBySection[sectionId] ?? 0) + 1;
+    } catch (e) {
+      slotErrors[slot] = apiErrorMessage(e);
+    } finally {
+      busySlots.remove(slot);
       _changed();
     }
   }

@@ -62,7 +62,7 @@
   {
    "file": "swap_10_science.json",
    "method": "POST",
-   "path": "/api/v1/papers/paper_614d0d7bcd9a/questions/1/swap",
+   "path": "/api/v1/papers/paper_138d323d0acc/questions/1/swap",
    "status": 200,
    "body": {}
   },
@@ -82,78 +82,145 @@
   {
    "file": "pick_10_science.json",
    "method": "POST",
-   "path": "/api/v1/papers/paper_614d0d7bcd9a/questions/27",
+   "path": "/api/v1/papers/paper_138d323d0acc/questions/27",
    "status": 200,
    "body": {
     "questionId": "cbse:q:src:af50a3f7e666fdea9cee608f:27"
    }
   },
   {
+   "file": "remove_10_science.json",
+   "method": "DELETE",
+   "path": "/api/v1/papers/paper_138d323d0acc/questions/34",
+   "status": 200,
+   "body": null
+  },
+  {
    "file": "paper_10_science_set_b.json",
    "method": "GET",
-   "path": "/api/v1/papers/paper_614d0d7bcd9a_set_B",
+   "path": "/api/v1/papers/paper_138d323d0acc_set_B",
    "status": 200,
    "body": null
   },
   {
    "file": "export_10_science_pdf.json",
    "method": "POST",
-   "path": "/api/v1/papers/paper_614d0d7bcd9a/export/pdf",
+   "path": "/api/v1/papers/paper_138d323d0acc/export/pdf",
    "status": 200,
    "body": null
   },
   {
    "file": null,
    "method": "GET",
-   "path": "/api/v1/papers/paper_614d0d7bcd9a/file",
+   "path": "/api/v1/papers/paper_138d323d0acc/file",
    "status": 200,
-   "bytes": 56821,
+   "bytes": 56405,
    "startsWith": "%PDF-"
   },
   {
    "file": "export_10_science_answer_key.json",
    "method": "POST",
-   "path": "/api/v1/papers/paper_614d0d7bcd9a/export/answer-key",
+   "path": "/api/v1/papers/paper_138d323d0acc/export/answer-key",
    "status": 200,
    "body": null
   },
   {
    "file": null,
    "method": "GET",
-   "path": "/api/v1/papers/paper_614d0d7bcd9a/file?format=answer-key",
+   "path": "/api/v1/papers/paper_138d323d0acc/file?format=answer-key",
    "status": 200,
-   "bytes": 48706,
+   "bytes": 48215,
    "startsWith": "%PDF-"
   },
   {
    "file": "export_10_science_set_b_pdf.json",
    "method": "POST",
-   "path": "/api/v1/papers/paper_614d0d7bcd9a_set_B/export/pdf",
+   "path": "/api/v1/papers/paper_138d323d0acc_set_B/export/pdf",
    "status": 200,
    "body": null
   },
   {
    "file": null,
    "method": "GET",
-   "path": "/api/v1/papers/paper_614d0d7bcd9a_set_B/file",
+   "path": "/api/v1/papers/paper_138d323d0acc_set_B/file",
    "status": 200,
-   "bytes": 56937,
+   "bytes": 56520,
    "startsWith": "%PDF-"
   },
   {
    "file": "export_10_science_set_b_answer_key.json",
    "method": "POST",
-   "path": "/api/v1/papers/paper_614d0d7bcd9a_set_B/export/answer-key",
+   "path": "/api/v1/papers/paper_138d323d0acc_set_B/export/answer-key",
    "status": 200,
    "body": null
   },
   {
    "file": null,
    "method": "GET",
-   "path": "/api/v1/papers/paper_614d0d7bcd9a_set_B/file?format=answer-key",
+   "path": "/api/v1/papers/paper_138d323d0acc_set_B/file?format=answer-key",
    "status": 200,
-   "bytes": 48658,
+   "bytes": 48467,
    "startsWith": "%PDF-"
+  },
+  {
+   "file": "generate_10_science_another.json",
+   "method": "POST",
+   "path": "/api/v1/papers/generate-from-template",
+   "status": 200,
+   "body": {
+    "templateId": "preset:cbse:10:science:half_yearly",
+    "scope": {
+     "chapterIds": []
+    },
+    "setCount": 2,
+    "allowGaps": false,
+    "fillFromOutsideScope": false,
+    "avoidQuestionIds": [
+     "cbse:q:src:11f9b943f602a1077a1abe9d:33",
+     "cbse:q:src:19fa6f6a87edb1c10cd470c9:2",
+     "cbse:q:src:31bbec50d029a03d58c1d68c:17",
+     "cbse:q:src:31bbec50d029a03d58c1d68c:36",
+     "cbse:q:src:3f4e9193f1cf1d566e8c645c:25",
+     "cbse:q:src:3f4e9193f1cf1d566e8c645c:38",
+     "cbse:q:src:41439dcef4b5c6d47ef118db:29",
+     "cbse:q:src:41439dcef4b5c6d47ef118db:34",
+     "cbse:q:src:5884c691dbb1f8bbd3c1379d:1",
+     "cbse:q:src:5884c691dbb1f8bbd3c1379d:12",
+     "cbse:q:src:5884c691dbb1f8bbd3c1379d:28",
+     "cbse:q:src:5884c691dbb1f8bbd3c1379d:31",
+     "cbse:q:src:5884c691dbb1f8bbd3c1379d:37",
+     "cbse:q:src:5884c691dbb1f8bbd3c1379d:38",
+     "cbse:q:src:61e1d6400a6a60e19c2d1e33:2",
+     "cbse:q:src:61e1d6400a6a60e19c2d1e33:25",
+     "cbse:q:src:6dd3ff9345090c327a5b5409:19",
+     "cbse:q:src:6dd3ff9345090c327a5b5409:23",
+     "cbse:q:src:6dd3ff9345090c327a5b5409:8",
+     "cbse:q:src:6eaeb34b2ffcedbf56fd458a:1",
+     "cbse:q:src:6eaeb34b2ffcedbf56fd458a:17",
+     "cbse:q:src:6eaeb34b2ffcedbf56fd458a:19",
+     "cbse:q:src:6eaeb34b2ffcedbf56fd458a:26",
+     "cbse:q:src:9081575f9ac53e99a3ff660c:31",
+     "cbse:q:src:916d3af6b5fd07ba1d43db8f:7",
+     "cbse:q:src:916d3af6b5fd07ba1d43db8f:8",
+     "cbse:q:src:9edac9a51073d89dc01385a3:31",
+     "cbse:q:src:aee4293d2db78ad8e8a1dd52:24",
+     "cbse:q:src:af50a3f7e666fdea9cee608f:24",
+     "cbse:q:src:af50a3f7e666fdea9cee608f:27",
+     "cbse:q:src:af50a3f7e666fdea9cee608f:4",
+     "cbse:q:src:bd3251afd338993aac0d9068:12",
+     "cbse:q:src:bd3251afd338993aac0d9068:36",
+     "cbse:q:src:d4219e7119054f266c6cdb71:12",
+     "cbse:q:src:d4219e7119054f266c6cdb71:25",
+     "cbse:q:src:d4219e7119054f266c6cdb71:31",
+     "cbse:q:src:de9d7a7a1c777974c1dd9138:10",
+     "cbse:q:src:de9d7a7a1c777974c1dd9138:16",
+     "cbse:q:src:de9d7a7a1c777974c1dd9138:30",
+     "cbse:q:src:de9d7a7a1c777974c1dd9138:9",
+     "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:23",
+     "cbse:q:src:fa5fa78d1ffcf15be5a7dc43:36",
+     "cbse:q:src:fad6500a5a65bba203f49410:1"
+    ]
+   }
   },
   {
    "file": "availability_10_science_annual_all.json",
@@ -282,7 +349,7 @@
   {
    "file": "availability_created_all.json",
    "method": "POST",
-   "path": "/api/v1/schools/school_1/teacher-templates/tpl_abbbebe79f/availability",
+   "path": "/api/v1/schools/school_1/teacher-templates/tpl_d58410d827/availability",
    "status": 200,
    "body": {
     "scope": {

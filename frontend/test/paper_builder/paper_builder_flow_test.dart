@@ -4,8 +4,10 @@
 //
 // What these pin:
 //   * class/subject -> CBSE preset -> chapters -> generate -> swap one
-//     question -> pick one from the bank -> sets -> download, where the
-//     download produces both PDFs (paper + answer key) for every set;
+//     question -> pick one from the bank -> remove one -> sets -> download,
+//     where the download produces both PDFs (paper + answer key) for every
+//     set, then "Make another like this" asks for fresh questions;
+//   * ticking chapters sends one availability check, not one per tick;
 //   * the section editor refuses a mismatched total, says why, and offers
 //     the one-tap fix -- no request is sent until the total matches;
 //   * gaps are on screen BEFORE Generate, and a paper the bank cannot fill
@@ -24,6 +26,7 @@ import 'package:academicos/core/local_engine/local_store.dart';
 import 'package:academicos/data/datasources/api/paper_builder_api.dart';
 import 'package:academicos/presentation/paper_builder/builder_memory.dart';
 import 'package:academicos/presentation/paper_builder/pages/paper_builder_page.dart';
+import 'package:academicos/presentation/paper_builder/paper_builder_controller.dart';
 import 'package:academicos/presentation/paper_builder/widgets/section_editor.dart';
 
 import 'fixture_api.dart';
@@ -111,6 +114,21 @@ void main() {
     await tester.pumpAndSettle();
   }
 
+  /// Ticks each of [labels] the way a teacher runs a thumb down the list:
+  /// one tap after another, without waiting for the bank check between.
+  Future<void> tickQuickly(WidgetTester tester, Iterable<String> labels) async {
+    for (final label in labels) {
+      final f = find.text(label);
+      await tester.scrollUntilVisible(f, 200, scrollable: find.byType(Scrollable).first);
+      Scrollable.ensureVisible(f.evaluate().first, alignment: 0.5);
+      await tester.pump();
+      await tester.tap(f);
+      await tester.pump(const Duration(milliseconds: 100));
+    }
+    await tester.pump(PaperBuilderController.availabilityDebounce);
+    await tester.pumpAndSettle();
+  }
+
   Finder cardButton(String cardText, String button) => find.descendant(
         of: find.ancestor(of: find.text(cardText), matching: find.byType(Card)),
         matching: find.text(button),
@@ -156,9 +174,11 @@ void main() {
     final names = {
       for (final c in fixtureJsonList('chapters_10_science')) c['chapterId'] as String: c['chapterName'] as String,
     };
-    for (final id in halfYearChapters) {
-      await tapVisible(tester, find.text(names[id]!));
-    }
+    final checksBefore = calls(api, 'POST', (p) => p.endsWith('/availability')).length;
+    await tickQuickly(tester, [for (final id in halfYearChapters) names[id]!]);
+    final checks = calls(api, 'POST', (p) => p.endsWith('/availability')).skip(checksBefore).toList();
+    expect(checks, hasLength(1), reason: 'six ticks, one check: $checks');
+    expect(((checks.single.body as Map)['scope'] as Map)['chapterIds'], unorderedEquals(halfYearChapters));
     await tester.scrollUntilVisible(find.byKey(const ValueKey('availability-summary')), -200,
         scrollable: find.byType(Scrollable).first);
     expect(find.text('1 of 5 sections cannot be filled from 6 chapters.'), findsOneWidget);
@@ -216,6 +236,25 @@ void main() {
     expect(find.text(pickedStem), findsOneWidget);
     expectPhoneReady(tester);
 
+    // Remove the first long answer: asked first, then off the paper and
+    // every set; the totals drop and Section D shows as short.
+    final removedSlot = fixtureJson('remove_10_science')['slot'] as String;
+    final removedStem = (fixtureJson('pick_10_science')['paper']['sections'] as List)
+        .expand((s) => s['questions'] as List)
+        .firstWhere((q) => '${q['displayNumber']}' == removedSlot)['stem'] as String;
+    await tapOnQuestion(tester, removedSlot, 'Remove');
+    expect(find.text('Remove Q$removedSlot?'), findsOneWidget);
+    expect(find.textContaining('drops to 75 marks, its OR choice goes with it'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('confirm-remove')));
+    await tester.pumpAndSettle();
+    expect(calls(api, 'DELETE', (p) => p.endsWith('/questions/$removedSlot')).single.status, 200);
+    expect(find.text(removedStem), findsNothing);
+    await tester.scrollUntilVisible(find.byKey(const ValueKey('paper-totals')), -2000,
+        scrollable: find.byType(Scrollable).first);
+    expect(find.text('75 / 80 marks · 38 questions · Class 10 Science'), findsOneWidget);
+    expect(find.text('• Section D - Long answer: 2 of 3 questions (you removed 1)'), findsOneWidget);
+    expectPhoneReady(tester);
+
     // Set B, fetched fresh because set A was edited.
     await tester.scrollUntilVisible(find.text('Set B'), -300, scrollable: find.byType(Scrollable).first);
     await tester.tap(find.text('Set B'));
@@ -247,12 +286,32 @@ void main() {
     }
     expect(find.text('Paper (Set A) downloaded'), findsOneWidget);
     expect(find.text('Answer key (Set B) downloaded'), findsOneWidget);
-    // The only unanswered requests are the checks for the partial chapter
-    // sets on the way to the six (only the full six was captured); each was
-    // superseded by the next tick, and the last check was answered.
+    // "Make another like this": same template and chapters, with the
+    // questions of the paper just made (swap, pick and removal included)
+    // sent as the ones to avoid. The server's answer is a full 80-mark
+    // paper sharing 4 of its 45 questions with the last one, each named.
+    final lastPaper = (fixtureJson('remove_10_science')['paper']['sections'] as List)
+        .expand((s) => s['questions'] as List)
+        .expand((q) => [q['questionId'], if (q['internalChoiceQuestionId'] != null) q['internalChoiceQuestionId']])
+        .cast<String>()
+        .toList()
+      ..sort();
+    await tester.tap(find.text('Make another like this'));
+    await tester.pumpAndSettle();
+    final another = calls(api, 'POST', (p) => p == '/papers/generate-from-template').last;
+    expect(another.status, 200);
+    expect(another.body, containsPair('templateId', halfYearly['id']));
+    expect((another.body as Map)['avoidQuestionIds'], lastPaper);
+    final freshQ1 = fixtureJson('generate_10_science_another')['paper']['sections'][0]['questions'][0]['stem'] as String;
+    expect(find.text('80 / 80 marks · 39 questions · Class 10 Science'), findsOneWidget);
+    expect(find.byKey(const ValueKey('paper-short')), findsNothing);
+    expect(find.text(freshQ1), findsOneWidget);
+    expect(freshQ1, isNot(q1After));
+
+    // Every request had a captured answer: no check was sent for a
+    // selection the teacher only passed through.
     final failed = api.requests.where((r) => r.status >= 400).toList();
-    expect(failed.every((r) => r.status == 501 && r.path.endsWith('/availability')), isTrue, reason: '$failed');
-    expect(failed, hasLength(halfYearChapters.length - 1));
+    expect(failed, isEmpty, reason: '$failed');
 
     // Remembered for next time.
     final memory = BuilderMemory(fixtureTeacherId);
@@ -350,8 +409,7 @@ void main() {
         .firstWhere((p) => p['examType'] == 'unit_test') as Map;
     await tapVisible(tester, cardButton(unit['name'] as String, 'Use'));
 
-    await tapVisible(tester, find.text('Integers'));
-    await tapVisible(tester, find.text('Fractions and Decimals'));
+    await tickQuickly(tester, ['Integers', 'Fractions and Decimals']);
     expect(find.text('No questions in the bank yet'), findsWidgets);
     await tester.scrollUntilVisible(find.byKey(const ValueKey('availability-summary')), -200,
         scrollable: find.byType(Scrollable).first);

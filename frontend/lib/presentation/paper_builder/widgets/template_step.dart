@@ -154,6 +154,15 @@ class TemplateCard extends StatelessWidget {
                 style: TextButton.styleFrom(minimumSize: const Size(56, 44)),
                 child: Text(mine ? 'Edit' : 'Edit a copy'),
               ),
+              // "Edit a copy" already saves a preset or a colleague's
+              // template as new; on the teacher's own, Edit saves in place,
+              // so a copy is its own action.
+              if (mine)
+                TextButton(
+                  onPressed: () => showSectionEditor(context, c, t.copyWith(name: '${t.name} (new)'), saveAsNew: true),
+                  style: TextButton.styleFrom(minimumSize: const Size(56, 44)),
+                  child: const Text('Save as new'),
+                ),
               TextButton(
                 onPressed: () async {
                   try {

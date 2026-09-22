@@ -5,9 +5,10 @@ import '../paper_builder_controller.dart';
 import 'bank_picker.dart';
 
 /// Step 4: the generated paper, question by question, with Swap (the next
-/// best question for the slot, from the server) and Pick (the teacher's own
-/// choice from the bank). The paper is already saved; every change is saved
-/// to it and to every set as it is made.
+/// best question for the slot, from the server), Pick (the teacher's own
+/// choice from the bank) and Remove (the question off the paper; the
+/// section then shows as short). The paper is already saved; every change
+/// is saved to it and to every set as it is made.
 class PaperStep extends StatelessWidget {
   final PaperBuilderController c;
   const PaperStep({super.key, required this.c});
@@ -48,6 +49,7 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final r = c.result!;
+    final short = c.shortSections;
     final expected = c.template?.totalMarks ?? c.paperMarks;
     return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
       Text(r.paper.metadata.assessmentTitle, style: theme.textTheme.titleMedium),
@@ -58,15 +60,19 @@ class _Header extends StatelessWidget {
       ),
       Text('Saved to your papers. Changes below are saved as you make them.',
           style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
-      if (r.gaps.isNotEmpty)
+      if (short.isNotEmpty)
         Container(
+          key: const ValueKey('paper-short'),
           margin: const EdgeInsets.only(top: 8),
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(color: theme.colorScheme.errorContainer, borderRadius: BorderRadius.circular(12)),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text('This paper is short:', style: theme.textTheme.titleSmall),
-            for (final g in r.gaps)
-              Text('• ${g.title}: ${g.filled} of ${g.needed} questions', style: theme.textTheme.bodySmall),
+            for (final g in short)
+              Text(
+                  '• ${g.title}: ${g.printed} of ${g.needed} questions'
+                  '${g.removed > 0 ? ' (you removed ${g.removed})' : ''}',
+                  style: theme.textTheme.bodySmall),
             TextButton(
               onPressed: () => c.goTo(BuilderStep.scope),
               style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
@@ -174,16 +180,55 @@ class _QuestionCard extends StatelessWidget {
                 label: const Text('Pick'),
                 style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
               ),
-              if (q.internalChoiceText != null)
+              TextButton.icon(
+                onPressed: busy ? null : () => _remove(context, slot),
+                icon: const Icon(Icons.remove_circle_outline),
+                label: const Text('Remove'),
+                style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
+              ),
+              if (q.internalChoiceText != null) ...[
                 TextButton(
                   onPressed: busy ? null : () => c.swap(orSlot),
                   style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
                   child: const Text('Swap OR'),
                 ),
+                TextButton(
+                  onPressed: busy ? null : () => _remove(context, orSlot),
+                  style: TextButton.styleFrom(minimumSize: const Size(0, 44)),
+                  child: const Text('Remove OR'),
+                ),
+              ],
             ]),
         ]),
       ),
     );
+  }
+
+  /// Asks first, and says what the paper loses: a removal renumbers the
+  /// paper and only a Pick by hand brings the question back.
+  Future<void> _remove(BuildContext context, String slot) async {
+    final alternative = slot.endsWith('_OR');
+    final what = alternative
+        ? 'Q${q.displayNumber} will print without its OR choice.'
+        : 'The paper drops to ${c.paperMarks - q.marks} marks'
+            '${q.internalChoiceText != null ? ', its OR choice goes with it,' : ''}'
+            ' and the questions after it are renumbered.';
+    final ok = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: Text(alternative ? 'Remove the OR choice of Q${q.displayNumber}?' : 'Remove Q${q.displayNumber}?'),
+        content: Text(what),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Keep it')),
+          FilledButton(
+            key: const ValueKey('confirm-remove'),
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Remove'),
+          ),
+        ],
+      ),
+    );
+    if (ok == true) await c.remove(slot);
   }
 
   Future<void> _pick(BuildContext context, String slot) async {

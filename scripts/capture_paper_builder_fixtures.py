@@ -41,6 +41,7 @@ def main() -> int:
     manifest: list[dict] = []
 
     def save(name: str, method: str, path: str, r, body=None) -> dict:
+        assert r.status_code < 500, (path, r.status_code, r.text)
         data = r.json()
         (OUT / f"{name}.json").write_text(
             json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -100,6 +101,13 @@ def main() -> int:
             post("pick_10_science",
                  f"/api/v1/papers/{paper['id']}/questions/{slot_q['displayNumber']}",
                  {"questionId": keyed[0]["id"]})
+        # Remove: the first long answer (Section D), OR alternative and all.
+        # The section then prints short, and every later number moves up.
+        long_q = next(s for s in paper["sections"] if s["label"] == "D")["questions"][0]
+        r = client.delete(f"/api/v1/papers/{paper['id']}/questions/{long_q['displayNumber']}",
+                          headers=auth)
+        edited = save("remove_10_science", "DELETE",
+                      f"/api/v1/papers/{paper['id']}/questions/{long_q['displayNumber']}", r)
         # Set B after the swap and pick: the builder fetches a set fresh once
         # set A has been edited (the server edits every set).
         get("paper_10_science_set_b", f"/api/v1/papers/{paper['id']}_set_B")
@@ -113,6 +121,14 @@ def main() -> int:
                                  "status": f.status_code, "bytes": len(f.content),
                                  "startsWith": f.content[:5].decode("latin-1")})
                 print(f"{f.status_code} GET {exp['url']} -> {len(f.content)} bytes")
+        # "Make another like this": the same template and chapters, with the
+        # questions of the paper as the teacher left it to be printed only
+        # where the bank has nothing else.
+        left = sorted({i for s in edited["paper"]["sections"] for q in s["questions"]
+                       for i in (q["questionId"], q.get("internalChoiceQuestionId")) if i})
+        post("generate_10_science_another", "/api/v1/papers/generate-from-template",
+             {"templateId": preset["id"], "scope": {"chapterIds": []}, "setCount": 2,
+              "allowGaps": False, "fillFromOutsideScope": False, "avoidQuestionIds": left})
         # "Quick paper (CBSE pattern)" opens on the annual preset.
         annual = next(p for p in t10["presets"] if p["examType"] == "annual")
         post("availability_10_science_annual_all",

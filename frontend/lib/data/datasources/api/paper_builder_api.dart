@@ -389,6 +389,19 @@ class PaperEditResult {
         notes = List<String>.from(j['notes'] ?? const []);
 }
 
+/// The paper after a question (or only its OR alternative) was taken off.
+/// Numbers after it moved up, so every slot key the client held is stale.
+class PaperRemoveResult {
+  final GeneratedPaper paper;
+  final String slot;
+  final List<String> removedQuestionIds;
+
+  PaperRemoveResult.fromJson(Map<String, dynamic> j)
+      : paper = parsePaper(Map<String, dynamic>.from(j['paper'] as Map)),
+        slot = j['slot'] as String? ?? '',
+        removedQuestionIds = List<String>.from(j['removedQuestionIds'] ?? const []);
+}
+
 /// A bank question as the picker shows it.
 class BankItem {
   final String id;
@@ -471,6 +484,7 @@ class PaperBuilderApi {
     int setCount = 1,
     bool allowGaps = false,
     bool fillFromOutsideScope = false,
+    List<String> avoidQuestionIds = const [],
   }) async {
     final r = await _dio.post('/papers/generate-from-template',
         data: {
@@ -479,6 +493,7 @@ class PaperBuilderApi {
           'setCount': setCount,
           'allowGaps': allowGaps,
           'fillFromOutsideScope': fillFromOutsideScope,
+          if (avoidQuestionIds.isNotEmpty) 'avoidQuestionIds': avoidQuestionIds,
         },
         options: Options(receiveTimeout: const Duration(minutes: 3)));
     return TemplatePaperResult.fromJson(Map<String, dynamic>.from(r.data as Map));
@@ -500,6 +515,14 @@ class PaperBuilderApi {
         '/papers/${Uri.encodeComponent(paperId)}/questions/${Uri.encodeComponent(slot)}',
         data: {'questionId': questionId});
     return PaperEditResult.fromJson(Map<String, dynamic>.from(r.data as Map));
+  }
+
+  /// Takes question [slot] ("7", with its OR) or only an alternative
+  /// ("7_OR") off the paper and every set.
+  Future<PaperRemoveResult> remove(String paperId, String slot) async {
+    final r = await _dio.delete(
+        '/papers/${Uri.encodeComponent(paperId)}/questions/${Uri.encodeComponent(slot)}');
+    return PaperRemoveResult.fromJson(Map<String, dynamic>.from(r.data as Map));
   }
 
   Future<List<BankItem>> searchBank({
