@@ -38,6 +38,41 @@ class NotPrincipalException implements Exception {
       'Settings > Profile if you are the principal';
 }
 
+/// No question exists for this subject at this grade. Raised instead of
+/// quietly serving another grade's questions under this grade's name: the
+/// quick path used to fall back to every grade of the subject, so on the
+/// bundled corpus (classes 10 and 12 only) a class 7 Science request came
+/// back as eleven class 10 questions.
+class NoQuestionsForGradeException implements Exception {
+  NoQuestionsForGradeException(this.subject, this.grade);
+  final String subject;
+  final int grade;
+  @override
+  String toString() => 'There are no $subject questions for class $grade yet.';
+}
+
+/// Fill each section with questions of exactly its marks, in pool order,
+/// never reusing one.
+///
+/// The quick path used to take the first eleven search hits whatever their
+/// marks, and generatePaper then dropped every one that fitted no section: a
+/// 20-mark class 9 Science paper came out as 2 questions worth 4 marks.
+List<Question> selectForSections(List<Question> pool, List<SectionBlueprint> sections) {
+  final used = <String>{};
+  final out = <Question>[];
+  for (final section in sections) {
+    final picks = pool
+        .where((q) => q.marks == section.marksPerQuestion && !used.contains(q.id))
+        .take(section.questionCount)
+        .toList();
+    for (final q in picks) {
+      used.add(q.id);
+      out.add(q);
+    }
+  }
+  return out;
+}
+
 const editableAssessmentStatuses = {
   AssessmentStatus.draft,
   AssessmentStatus.blueprintReady,
@@ -296,8 +331,10 @@ class LocalApiClient extends ApiClient {
       metadata: PaperMetadata(
         assessmentTitle: request.template.name,
         schoolName: LocalStore.instance.schoolName(assessment.schoolId),
-        subject: request.selectedQuestions.firstOrNull?.subject ?? '',
-        grade: request.selectedQuestions.firstOrNull?.grade ?? 0,
+        // The teacher's subject and grade, from the assessment -- not the
+        // first question's, which put "Class 10" on a class 7 request.
+        subject: assessment.subject,
+        grade: assessment.grade,
         totalMarks: request.blueprint.totalMarks,
         durationMinutes: request.blueprint.durationMinutes,
         generatedAt: DateTime.now(),
@@ -392,16 +429,20 @@ class LocalApiClient extends ApiClient {
       createdAt: DateTime.now(),
       updatedAt: DateTime.now(),
     );
-    LocalStore.instance.upsertAssessment(assessment.toJson());
-
-    final searchParams = QuestionSearchParams(
+    // No limit: every question of the grade is a candidate, so a section
+    // whose marks happen to sit late in corpus order still gets filled.
+    final pool = CorpusRepository.instance.search(QuestionSearchParams(
       subject: request.subject,
       grade: request.grade,
       chapterIds: request.chapterIds.isEmpty ? null : request.chapterIds,
-      limit: 100,
-    );
-    final candidates = CorpusRepository.instance.search(searchParams);
-    final selected = (candidates.isNotEmpty ? candidates : CorpusRepository.instance.all.where((q) => q.subject == request.subject).toList()).take(11).toList();
+    ));
+    if (pool.isEmpty) {
+      throw NoQuestionsForGradeException(request.subject, request.grade);
+    }
+    // Saved only once there is something to put in it, so a refused
+    // request leaves no empty draft in the Assessments list.
+    LocalStore.instance.upsertAssessment(assessment.toJson());
+    final selected = selectForSections(pool, assessment.blueprint.sections);
 
     final templates = await getSchoolPaperTemplates(schoolId);
     final template = templates.firstWhere((t) => t.isDefault, orElse: () => templates.first);

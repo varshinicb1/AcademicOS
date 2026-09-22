@@ -145,7 +145,7 @@ class _SyllabusPageState extends State<SyllabusPage> {
                                             ?.copyWith(fontWeight: FontWeight.w600)),
                                     const Gap(4),
                                     Text(
-                                      '${_selected!.questionCount} questions from CBSE board papers',
+                                      '${_selected!.questionCount} questions',
                                       style: theme.textTheme.bodySmall,
                                     ),
                                   ],

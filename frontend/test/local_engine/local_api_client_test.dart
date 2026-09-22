@@ -11,6 +11,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'package:academicos/core/constants/app_constants.dart';
 import 'package:academicos/core/local_engine/corpus_repository.dart';
 import 'package:academicos/core/local_engine/local_api_client.dart';
 import 'package:academicos/domain/entities/entities.dart';
@@ -131,6 +132,35 @@ void main() {
       expect(refetched.scheduledAt, DateTime(2026, 9, 1, 10, 30),
           reason: 'a reschedule that does not survive a re-fetch is exactly the silent-failure '
               'mode a teacher would only discover by reopening the planner later');
+    });
+  });
+
+  // Against the real bundled corpus, which (2026-09-21) holds only classes 10
+  // and 12: the old quick path fell back to every grade of the subject, so a
+  // class 7 Science request came back as eleven class 10 questions under a
+  // "Class 10" header.
+  group('quickGeneratePaper', () {
+    test('a grade with no questions refuses instead of serving another grade', () async {
+      await expectLater(
+        () => api.quickGeneratePaper(const QuickPaperRequest(subject: 'Science', grade: 7, totalMarks: 20)),
+        throwsA(isA<NoQuestionsForGradeException>()),
+      );
+      expect(await api.getAssessmentsBySchool(AppConstants.currentSchoolId), isEmpty,
+          reason: 'a refused request must not leave an empty draft in the Assessments list');
+    });
+
+    test('the paper carries the requested grade and fills every section', () async {
+      final paper = await api.quickGeneratePaper(
+          const QuickPaperRequest(subject: 'Science', grade: 10, totalMarks: 20));
+      expect(paper.metadata.grade, 10);
+      expect(paper.metadata.subject, 'Science');
+      final assessment = await api.getAssessment(paper.assessmentId);
+      for (final section in assessment.blueprint.sections) {
+        final generated = paper.sections.firstWhere((s) => s.sectionId == section.id);
+        expect(generated.questions, hasLength(section.questionCount),
+            reason: 'section ${section.id} (${section.marksPerQuestion}-markers) came out short');
+      }
+      expect(paper.sections.fold<int>(0, (s, sec) => s + sec.totalMarks), 20);
     });
   });
 }
