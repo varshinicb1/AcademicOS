@@ -238,6 +238,48 @@ def test_startup_proceeds_with_a_good_production_config(monkeypatch):
     assert calls == [1]
 
 
+def _patch_serve(monkeypatch):
+    """Stub the two things `cmd_serve` could do before the guard, recording
+    the order they are reached in."""
+    import argparse
+
+    import uvicorn
+
+    import academicos.api.main as main_mod
+
+    calls = []
+    monkeypatch.setattr(main_mod, "init_runtime", lambda *a, **k: calls.append("init_runtime"))
+    monkeypatch.setattr(uvicorn, "run", lambda *a, **k: calls.append("uvicorn.run"))
+    return calls, argparse.Namespace(host="127.0.0.1", port=0)
+
+
+def test_serve_refuses_before_initialising_anything(monkeypatch):
+    """The container's CMD is `python -m academicos.cli serve`, not `_startup`.
+    cmd_serve used to call init_runtime() itself before uvicorn fired
+    `_startup`, so every store opened on the unguarded config, and an
+    init_runtime failure (a store choking on a placeholder credential) crashed
+    the process before the named REFUSING TO START lines were logged."""
+    from academicos import cli
+
+    calls, args = _patch_serve(monkeypatch)
+    _production(monkeypatch)
+    monkeypatch.setenv("ACOS_PRINCIPAL_BOOTSTRAP_KEY", "REPLACE_ME")
+    with pytest.raises(ProductionConfigError):
+        cli.cmd_serve(args)
+    assert calls == []
+
+
+def test_serve_leaves_initialisation_to_startup(monkeypatch):
+    """With a good config cmd_serve only starts uvicorn: `_startup` is the one
+    init path, so the stores are not opened twice."""
+    from academicos import cli
+
+    calls, args = _patch_serve(monkeypatch)
+    _production(monkeypatch)
+    assert cli.cmd_serve(args) == 0
+    assert calls == ["uvicorn.run"]
+
+
 # --------------------------------------------------------------------------- #
 # Demo accounts
 # --------------------------------------------------------------------------- #

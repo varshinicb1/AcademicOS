@@ -1086,10 +1086,18 @@ def cmd_curriculum_approve(args: argparse.Namespace) -> int:
 
 
 def cmd_serve(args: argparse.Namespace) -> int:
+    """The container's entrypoint (Dockerfile CMD). The production guard runs
+    here first, so a misconfigured revision exits on the named problems rather
+    than on whatever a store does with a placeholder credential. Stores are
+    NOT opened here: uvicorn fires `api.main._startup`, which guards again (for
+    anything that starts the app without this command) and is the one place
+    init_runtime runs -- calling it here as well opened every store twice, the
+    first time before any guard."""
     import uvicorn
-    from .api.main import init_runtime
 
-    init_runtime()
+    from .config import enforce_production_config
+
+    enforce_production_config(Config.load())
     uvicorn.run("academicos.api.main:app", host=args.host, port=args.port, reload=False)
     return 0
 
