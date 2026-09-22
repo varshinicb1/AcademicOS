@@ -334,6 +334,7 @@ def _build(grade: int, subject: str, exam_type: str) -> PaperTemplate:
         total_marks=_TOTAL[exam_type],
         duration_minutes=_DURATION[exam_type],
         instructions=instructions_for(sections),
+        instructions_generated=True,
         header=TemplateHeader(exam_name=exam_name),
         sections=sections,
         is_preset=True,

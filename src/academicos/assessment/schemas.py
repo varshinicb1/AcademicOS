@@ -451,6 +451,15 @@ class PaperTemplate(SchoolTemplate, PaperTemplateDraft):
     source: str = ""
     # The preset or template this one was copied from, if any.
     based_on: Optional[str] = None
+    # True while `instructions` is the text a preset generated from its
+    # sections: set on a preset, kept by a copy, cleared once the teacher
+    # changes the instructions. Such text is rebuilt from the paper actually
+    # printed; comparing it with what the *current* sections would generate
+    # was not enough, because a copy whose sections the teacher edited no
+    # longer matched and printed the preset's old lines verbatim ("Section E
+    # ... of 4 mark(s)" after Section E was set to 5 marks). Server-set: the
+    # draft a client sends has no such field.
+    instructions_generated: bool = False
     # Response-only, recomputed on create and update, never stored: what the
     # save could not check about the scope (e.g. topic ids accepted without a
     # taxonomy to check them against).

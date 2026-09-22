@@ -456,6 +456,15 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
     """Walks the sections in order, each claiming its questions so a later
     section with the same mark value only counts what is left.
 
+    Two passes: every section's compulsory questions first, then the OR
+    alternatives from what all of them left. An OR is optional and a
+    compulsory question is not, so an OR must never be what empties a later
+    section. Pairing inside one pass did exactly that: Section A (2 x 3
+    marks, 2 ORs) and Section B (2 x 3 marks) on a bank of four 3-mark
+    questions printed A with two ORs and B empty -- 6 compulsory marks
+    given up for two optional ones, and the report called a bank that could
+    fill the paper incomplete.
+
     The availability report IS this selection, run dry: every section's
     `filled`, `notes` and gaps are read off the questions actually picked,
     so the check before generating and the paper after cannot disagree.
@@ -467,6 +476,7 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
     keyed_ids = {q.id for q in keyed}
     claimed: set[str] = set()
     plans: list[SectionPlan] = []
+    firsts: list[_FirstPass] = []
 
     for section in template.sections:
         fits_all = [q for q in candidates if _fits(q, section)]
@@ -498,6 +508,21 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
                 f"{section.title}: {len(borrowed)} question(s) taken from outside the "
                 f"chosen chapters to fill the section ({', '.join(q.id for q in borrowed)}).")
         claimed.update(q.id for q in picked + borrowed)
+        firsts.append(_FirstPass(section, fits_all, eligible, outside, picked, borrowed,
+                                 notes, left_out, without_key, used_elsewhere,
+                                 not_competency))
+
+    # Second pass: the ORs, section by section, from what no section prints
+    # as a compulsory question.
+    primaries = [{q.id for q in f.picked + f.borrowed} for f in firsts]
+    for i, f in enumerate(firsts):
+        section, picked, borrowed, notes = f.section, f.picked, f.borrowed, f.notes
+        eligible, outside, left_out = f.eligible, f.outside, f.left_out
+        fits_all, without_key = f.fits_all, f.without_key
+        used_elsewhere, not_competency = f.used_elsewhere, f.not_competency
+        pool = eligible + (outside if fill_from_outside_scope else [])
+        later = set().union(*primaries[i + 1:]) if i + 1 < len(firsts) else set()
+        printed_later = sum(1 for q in pool if q.id in later)
         alternatives = _pair_choices(
             section, picked + borrowed,
             [q for q in eligible if q.id not in claimed],
@@ -506,11 +531,13 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
         mix_notes, mix_fixes = _mix_notes(section, picked + borrowed, left_out)
         notes.extend(mix_notes)
         choice_notes, choice_fixes = _choice_notes(section, picked + borrowed, alternatives,
-                                                   eligible_ids={q.id for q in eligible})
+                                                   eligible_ids={q.id for q in eligible},
+                                                   printed_later=printed_later)
         notes.extend(choice_notes)
         notes.extend(_content_notes(section))
 
         filled = len(picked) + len(borrowed)
+        needed = section.question_count
         shortfall = needed - filled
         reason, fixes = "", [*mix_fixes, *choice_fixes]
         if shortfall:
@@ -542,6 +569,23 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
         sections=[p.availability for p in plans], scope_notes=scope.notes,
     )
     return report, plans
+
+
+@dataclass
+class _FirstPass:
+    """A section after its compulsory questions are picked, waiting for the
+    second pass to pair its ORs (see `plan`)."""
+    section: TemplateSection
+    fits_all: list[QuestionSchema]
+    eligible: list[QuestionSchema]
+    outside: list[QuestionSchema]
+    picked: list[QuestionSchema]
+    borrowed: list[QuestionSchema]
+    notes: list[str]
+    left_out: _LeftOut
+    without_key: int
+    used_elsewhere: int
+    not_competency: int
 
 
 def _merge_fixes(first: list[SectionFix], then: list[SectionFix]) -> list[SectionFix]:
@@ -590,7 +634,10 @@ def _pair_choices(section: TemplateSection, printed: list[QuestionSchema],
 
 def _choice_notes(section: TemplateSection, printed: list[QuestionSchema],
                   alternatives: dict[str, QuestionSchema], *, eligible_ids: set[str],
-                  ) -> tuple[list[str], list[SectionFix]]:
+                  printed_later: int = 0) -> tuple[list[str], list[SectionFix]]:
+    """`printed_later`: questions this section could have paired that later
+    sections print as compulsory -- they win, and the note names them, so
+    "the bank has no more" is not said of a bank that has them."""
     notes: list[str] = []
     fixes: list[SectionFix] = []
     want = min(section.choice_count, len(printed))
@@ -599,10 +646,13 @@ def _choice_notes(section: TemplateSection, printed: list[QuestionSchema],
         notes.append(f"{section.title}: {len(borrowed)} OR alternative(s) taken from outside "
                      f"the chosen chapters ({', '.join(borrowed)}).")
     if len(alternatives) < want:
+        why = (f"the {printed_later} other {section.marks_each}-mark question(s) this "
+               "section could pair are printed as compulsory questions in a later section"
+               if printed_later else
+               f"the bank has no more {section.marks_each}-mark questions this section takes")
         notes.append(
             f"{section.title}: {len(alternatives)} of {want} internal choice (OR) "
-            f"alternative(s) could be paired -- the bank has no more {section.marks_each}-mark "
-            "questions this section takes, so the rest print without an OR.")
+            f"alternative(s) could be paired -- {why}, so the rest print without an OR.")
         fixes.append(SectionFix(
             kind="reduce_choices", choice_count=len(alternatives),
             label=(f"Offer {len(alternatives)} OR choice(s) instead of {want}."

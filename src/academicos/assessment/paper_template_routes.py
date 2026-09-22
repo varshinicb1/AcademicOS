@@ -240,7 +240,13 @@ def update_teacher_template(
     if t.owner_id != current.id:
         raise HTTPException(403, "only the template's owner can edit it; duplicate it to change a copy")
     notes = _checked_scope(draft.scope)
+    # Generated instructions stay generated through a section edit (the
+    # client sends them back unchanged); the teacher's first change to the
+    # text makes it theirs, printed as written from then on.
+    generated = (t.instructions_generated
+                 and draft.instructions.strip() == t.instructions.strip())
     updated = t.model_copy(update={**dict(draft), "pattern_status": "teacher",
+                                   "instructions_generated": generated,
                                    "updated_at": _now()})
     saved = store.save_paper_template(PaperTemplate.model_validate(updated.model_dump()))
     return saved.model_copy(update={"scope_notes": notes})
@@ -445,15 +451,23 @@ def _attach_choices(plans: list[SectionPlan]) -> None:
 def _printed_instructions(template: PaperTemplate, plans: list[SectionPlan]) -> str:
     """The instructions to print: the teacher's own words as written, but
     instructions a preset generated (still unedited, on the preset or on a
-    copy of it) rebuilt from what the paper holds.
+    copy of it, whatever sections the teacher has changed since) rebuilt
+    from what the paper holds.
 
     Those lines are the preset describing its own sections, and they replace
     the PDF's default list, so stamping them unchanged printed promises the
     paper did not keep: on the real class 10 bank the Social Science paper
     said "Section D ... 4 of them offer an internal choice (OR)" with not one
     OR in the section. Text the teacher wrote is theirs to word; the
-    availability notes already name the ORs and questions the bank lacks."""
-    if template.instructions.strip() != instructions_for(template.sections).strip():
+    availability notes already name the ORs and questions the bank lacks.
+
+    Generated text is known by `instructions_generated`; text equal to what
+    the sections generate also counts, for a template created from a
+    preset's fields rather than duplicated, and for copies saved before the
+    flag existed."""
+    generated = (template.instructions_generated
+                 or template.instructions.strip() == instructions_for(template.sections).strip())
+    if not generated:
         return template.instructions
     return instructions_for(template.sections, [
         (p.availability.filled, p.availability.choices_filled) for p in plans])

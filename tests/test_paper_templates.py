@@ -1121,6 +1121,37 @@ def test_an_or_the_bank_cannot_pair_is_reported_before_generating():
     assert any(f.kind == "reduce_choices" for f in s.fixes), s.fixes
 
 
+def test_an_or_never_takes_a_question_a_later_section_needs_as_compulsory():
+    # Section A offers ORs, Section B asks for the same marks and kind, and
+    # the bank holds exactly the four questions both sections print. Pairing
+    # A's ORs before B picked left B empty: "incomplete", and with gaps
+    # allowed, 6 compulsory marks lost to print two optional ORs.
+    t = PaperTemplateDraft.model_validate(_draft(totalMarks=12, scope={}, sections=[
+        _section("Section A", 2, 3, choiceCount=2), _section("Section B", 2, 3)]))
+    report, plans = _plan_draft(t, _choice_bank(4)[3:])
+    a, b = report.sections
+    assert report.complete is True
+    assert (b.filled, b.shortfall) == (2, 0), b.reason
+    assert (a.filled, a.choices_needed, a.choices_filled) == (2, 2, 0)
+    # The ORs are what gives way, and the section that offers them says why.
+    assert any("later section" in n for n in a.notes), a.notes
+    assert any(f.kind == "reduce_choices" and f.choice_count == 0 for f in a.fixes), a.fixes
+    printed = [q.id for p in plans for q in p.picked]
+    assert len(printed) == len(set(printed)) == 4
+
+
+def test_ors_pair_from_what_every_section_left_over():
+    # One spare question: it becomes Section A's OR only after B has its two.
+    t = PaperTemplateDraft.model_validate(_draft(totalMarks=12, scope={}, sections=[
+        _section("Section A", 2, 3, choiceCount=2), _section("Section B", 2, 3)]))
+    report, plans = _plan_draft(t, _choice_bank(5)[3:])
+    a, b = report.sections
+    assert report.complete is True and (b.filled, a.choices_filled) == (2, 1)
+    used = [q.id for p in plans for q in p.picked] + \
+           [q.id for p in plans for q in p.alternatives.values()]
+    assert len(used) == len(set(used)) == 5
+
+
 def test_the_generated_paper_prints_each_or_alternative(tmp_path, monkeypatch):
     bank = [_record(f"one{i}", 1, "ch1") for i in range(3)] + \
            [_record(f"three{i}", 3, "ch1") for i in range(4)]
@@ -1287,3 +1318,70 @@ def test_the_real_papers_instructions_match_the_ors_it_prints(
                 assert f"{s['choicesFilled']} of them offer an internal choice" in line, line
             else:
                 assert "OR" not in line, line
+
+
+# ---- review of 9b2f64c: a copied preset's instructions after the teacher edits it
+
+def _assert_instructions_describe(lines: list[str], sections: list[dict]) -> None:
+    printed = [s for s in sections if s["filled"]]
+    assert lines[0] == f"This question paper has {len(printed)} sections.", lines
+    for s in sections:
+        line = next((x for x in lines if x.startswith(s["title"] + ":")), None)
+        if not s["filled"]:
+            assert line is None, line
+            continue
+        assert f"{s['filled']} question(s) of {s['marksEach']} mark(s)" in line, line
+        if s["choicesFilled"]:
+            assert f"{s['choicesFilled']} of them offer an internal choice" in line, line
+        else:
+            assert "OR" not in line, line
+
+
+def _ss_records() -> list[dict]:
+    return ([_record(f"ss1_{i}", 1, "ch1", subject="Social Science",
+                     qtype="very_short_answer") for i in range(22)]
+            + [_record(f"ss2_{i}", 2, "ch1", subject="Social Science") for i in range(5)]
+            + [_record(f"ss3_{i}", 3, "ch1", subject="Social Science") for i in range(6)])
+
+
+def test_a_copied_preset_edited_by_the_teacher_prints_instructions_for_its_paper(
+        tmp_path, monkeypatch):
+    """Duplicate, then edit a section (here the product's own change-marks
+    fix on Section E): the copy's instructions are still the preset's
+    generated text, but no longer equal to what the edited sections would
+    generate, so they were taken for the teacher's own words and printed
+    "Section E - Case based: 3 question(s) of 4 mark(s) each" and Section
+    D's four ORs on a paper that had neither."""
+    monkeypatch.setitem(pool_mod._CACHE, ("Social Science", "X"), _fixture_pool(_ss_records()))
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        copy = client.post(f"{BASE}/{SS10}/duplicate", json={}, headers=t1).json()
+        e = next(s for s in copy["sections"] if s["title"].startswith("Section E"))
+        e["marksEach"] = 5
+        copy["totalMarks"] += 3
+        r = client.put(f"{BASE}/{copy['id']}", json=copy, headers=t1)
+        assert r.status_code == 200, r.text
+        report = client.post(f"{BASE}/{copy['id']}/availability", json={}, headers=t1).json()
+        r = client.post(GEN, json={"templateId": copy["id"], "allowGaps": True}, headers=t1)
+        assert r.status_code == 200, r.text
+        paper = r.json()["paper"]
+    for p in [paper] + paper["sets"]:
+        lines = p["metadata"]["instructions"].splitlines()
+        _assert_instructions_describe(lines, report["sections"])
+        assert not any("4 mark(s)" in x for x in lines), lines
+
+
+def test_instructions_the_teacher_rewrites_on_a_copy_print_as_written(tmp_path, monkeypatch):
+    monkeypatch.setitem(pool_mod._CACHE, ("Social Science", "X"), _fixture_pool(_ss_records()))
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        copy = client.post(f"{BASE}/{SS10}/duplicate", json={}, headers=t1).json()
+        copy["instructions"] = "Answer in your own words.\nMaps are attached."
+        saved = client.put(f"{BASE}/{copy['id']}", json=copy, headers=t1).json()
+        # Editing sections afterwards keeps the teacher's words theirs.
+        saved["sections"][0]["title"] = "Section A - Objective"
+        client.put(f"{BASE}/{copy['id']}", json=saved, headers=t1)
+        r = client.post(GEN, json={"templateId": copy["id"], "allowGaps": True}, headers=t1)
+        assert r.status_code == 200, r.text
+        assert r.json()["paper"]["metadata"]["instructions"] == (
+            "Answer in your own words.\nMaps are attached.")
