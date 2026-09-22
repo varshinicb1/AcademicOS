@@ -563,6 +563,38 @@ def section_headings(lines: list[Line]) -> list[Heading]:
     return out
 
 
+def _captions_a_table(head: Line, last: Line, page_lines: list[Line], body: float) -> bool:
+    """``head`` (ending on ``last``) sits directly above the header row of a
+    grid: three or more bold pieces of text size on one row within two lines
+    below it, each separated by at least two body widths of space.
+
+    Democratic Politics sets its table captions in the sub-section type,
+    13pt orange bold, over "Activities | Men | Women" (jess403.pdf p4) and
+    "Caste and Community groups | Rural | Urban" (p13), each cell bold. The
+    gap is what tells a grid from a justified line spread into words ("of
+    the  Class  Representative", 14pt apart, hees105.pdf p7); bold at text
+    size is what tells it from a body line beside a margin note ("... winds.
+    The" | "Monsoon:", class9 Understanding Society p73) and from the 8pt
+    degree labels of a map under a heading (gees202.pdf p6 "India and
+    Pakistan", "50°E  60°E  70°E").
+    """
+    below = sorted((ln for ln in page_lines
+                    if last.y1 - 2 <= ln.y0 <= last.y1 + 2 * head.size and ln is not last),
+                   key=lambda ln: ln.y0)
+    rows: list[list[Line]] = []
+    for ln in below:
+        if rows and ln.y0 - rows[-1][0].y0 <= 1.5:
+            rows[-1].append(ln)
+        else:
+            rows.append([ln])
+    for row in rows:
+        row.sort(key=lambda ln: ln.x0)
+        if (len(row) >= 3 and all(ln.bold and ln.size >= body - 1 for ln in row)
+                and all(b.x0 - a.x1 >= 2 * body for a, b in zip(row, row[1:]))):
+            return True
+    return False
+
+
 def unnumbered_headings(lines: list[Line], skip_pages: frozenset = frozenset()) -> list[Heading]:
     """Bold headings of a book that numbers nothing, in two size levels.
 
@@ -573,6 +605,9 @@ def unnumbered_headings(lines: list[Line], skip_pages: frozenset = frozenset()) 
     """
     body, body_font = body_style(lines)
     family = re.split(r"[-,]", body_font)[0]
+    by_page: dict[int, list[Line]] = collections.defaultdict(list)
+    for ln in lines:
+        by_page[ln.page].append(ln)
     cands: list[tuple[Line, str]] = []
     i = 0
     while i < len(lines):
@@ -592,7 +627,8 @@ def unnumbered_headings(lines: list[Line], skip_pages: frozenset = frozenset()) 
             if (sum(ch.isalpha() for ch in name) >= 3 and len(name) <= 110
                     and not _not_a_topic(name) and not name.endswith((",", ";"))
                     and not _dangling(name)
-                    and _starts_like_a_title(name) and not _foreign_script(name, lines)):
+                    and _starts_like_a_title(name) and not _foreign_script(name, lines)
+                    and not _captions_a_table(ln, lines[j], by_page[ln.page], body)):
                 cands.append((ln, name))
             i = j + 1
             continue

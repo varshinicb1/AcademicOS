@@ -691,7 +691,7 @@
   "Social Science_8": {
    "chapters": 15,
    "topics": 114,
-   "subtopics": 92,
+   "subtopics": 91,
    "headingKinds": {
     "unnumbered": 15
    },
@@ -713,7 +713,7 @@
   "Social Science_10": {
    "chapters": 22,
    "topics": 83,
-   "subtopics": 94,
+   "subtopics": 92,
    "headingKinds": {
     "section": 5,
     "none": 7,
@@ -789,9 +789,9 @@
     "correct": 48
    },
    "all": {
-    "precision": 0.975,
+    "precision": 0.987,
     "recall": 0.963,
-    "extracted": 161,
+    "extracted": 159,
     "handRead": 163,
     "correct": 157
    },
@@ -803,9 +803,9 @@
     "correct": 42
    },
    "SS": {
-    "precision": 0.944,
+    "precision": 0.971,
     "recall": 0.918,
-    "extracted": 71,
+    "extracted": 69,
     "handRead": 73,
     "correct": 67
    }
@@ -925,15 +925,12 @@
     "family": "SS",
     "file": "chapters/jess4/jess403.pdf",
     "chapter": 3,
-    "extracted": 12,
+    "extracted": 10,
     "handRead": 10,
     "correct": 10,
-    "precision": 0.833,
+    "precision": 1.0,
     "recall": 1.0,
-    "wrong": [
-     "casteandpolitics/percentageofpopulationlivingbelowthepovertyline1999",
-     "genderandpolitics/dailytimeusehoursminutes"
-    ],
+    "wrong": [],
     "missed": []
    },
    {

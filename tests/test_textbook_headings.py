@@ -178,6 +178,65 @@ def test_two_column_page_is_read_column_by_column():
     assert order == ["Caste and politics", "Caste inequalities"]
 
 
+def test_table_captions_are_not_subtopics_democratic_politics():
+    # jess403.pdf p4 and p13 caption their tables in 13pt orange bold -- the
+    # sub-section type -- directly above the header row of the grid
+    # ("Activities | Men | Women", "Caste and Community groups | Rural | Urban").
+    # the chapter's set-apart lines, all of pp4 and 13, and p10 whole (the
+    # two-column page, kept once under "jess403_p10")
+    lines = sorted(_lines("jess403") + _lines("jess403_p10"), key=lambda ln: ln.page)
+    printed = {ln.text for ln in lines}
+    assert {"Daily time use (hours: minutes)",
+            "Percentage of population living below the poverty line, 1999–— 2000"} <= printed
+    heads, kind = th.chapter_headings(lines, 3)
+    assert kind == "unnumbered"
+    assert [(h.level, h.name, h.page) for h in heads] == [   # jess403.pdf pp2-14
+        (1, "Gender and politics", 2),
+        (2, "Public/private division", 2),
+        (2, "Women’s political representation", 6),
+        (1, "Religion, communalism and politics", 8),
+        (2, "Communalism", 8),
+        (2, "Secular state", 9),
+        (1, "Caste and politics", 10),
+        (2, "Caste inequalities", 10),
+        (2, "Caste in politics", 12),
+        (2, "Politics in caste", 14),
+    ]
+
+
+# The row printed under a real heading, as the page sets it: (x0, x1, text,
+# size, bold). None of these is the header row of a table.
+_ROWS_UNDER_HEADINGS = {
+    # hees105.pdf p7: justification spreads "of the Class Representative"
+    # into four pieces 14pt apart
+    "justified words": [(64.2, 78.8, "of", 12.0, False), (93.1, 114.7, "the", 12.0, False),
+                        (129.0, 161.1, "Class", 12.0, False),
+                        (175.4, 265.1, "Representative", 12.0, False)],
+    # class9_understanding_society_part1.pdf p73, under "Monsoon": a body
+    # line with a bold key word, beside a margin note
+    "margin note": [(71.4, 317.6, "The climate of India is strongly influenced by", 12.0, False),
+                    (318.2, 369.7, "monsoon", 12.0, True),
+                    (369.8, 434.3, "winds. The", 12.0, False),
+                    (458.4, 513.1, "Monsoon:", 11.5, True)],
+    # gees202.pdf p6, under "India and Pakistan": a map's degree labels
+    "map labels": [(129, 146, "50°E", 8.0, False), (212, 229, "60°E", 8.0, False),
+                   (292, 310, "70°E", 8.0, False), (373, 390, "80°E", 8.0, False)],
+}
+
+
+@pytest.mark.parametrize("row", list(_ROWS_UNDER_HEADINGS))
+def test_a_heading_over_text_or_a_map_is_not_a_table_caption(row):
+    y = 426.9
+    lines = [th.Line(7, "A heading over body text", 15.0, "NotoSerif-Bold", True, 35395,
+                     64.2, y, 403.4, y + 21.8)]
+    for x0, x1, text, size, bold in _ROWS_UNDER_HEADINGS[row]:
+        lines.append(th.Line(7, text, size, "NotoSerif-Bold" if bold else "NotoSerif-Regular",
+                             bold, 2301728, x0, y + 30, x1, y + 47))
+    lines += [th.Line(7, "body text " * 6, 12.0, "NotoSerif-Regular", False, 2301728,
+                      64.2, y + 47 + 17 * k, 434.5, y + 64 + 17 * k) for k in range(20)]
+    assert [h.name for h in th.unnumbered_headings(lines)] == ["A heading over body text"]
+
+
 # --------------------------------------------------------------------------- #
 # contents pages
 # --------------------------------------------------------------------------- #

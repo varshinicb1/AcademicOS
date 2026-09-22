@@ -101,7 +101,12 @@ TREES: dict[tuple[str, int], list[Source]] = {
     ("Social Science", 6): [Source("Exploring Society: India and Beyond", "chapters/fees1")],
     ("Social Science", 7): [Source("Exploring Society: India and Beyond Part 1", "chapters/gees1", (), 1),
                             Source("Exploring Society: India and Beyond Part 2", "chapters/gees2", (), 2)],
-    ("Social Science", 8): [Source("Exploring Society: India and Beyond Part 1", "chapters/hees1", (), 1),
+    # A class election told as a story in the 15pt sub-section type, with its
+    # own 14pt parts "Campaigning", "Voting day", "The results" (hees105.pdf
+    # pp7-9): an illustration under "Bridging Barriers...", not a section.
+    ("Social Science", 8): [Source("Exploring Society: India and Beyond Part 1", "chapters/hees1", (), 1,
+                                   story_titles=frozenset({
+                                       "Election for class representative — Grade 8, Suryodaya School"})),
                             Source("Exploring Society: India and Beyond Part 2", "chapters/hees2", (), 2)],
     ("Social Science", 9): [Source("Understanding Society: India and Beyond Part 1",
                                    "social_science/class9_understanding_society_part1.pdf", (23,), 1)],

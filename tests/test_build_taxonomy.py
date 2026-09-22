@@ -85,6 +85,19 @@ def test_build_tree_drops_the_economics_story_titles(bt, tmp_path):
     assert bt.invariant_errors(tree) == []
 
 
+def test_class8_election_story_is_not_a_subtopic(bt):
+    # hees105.pdf p7: a class election told as a story in the 15pt sub-section
+    # type, with its own 14pt parts ("Campaigning", "Voting day", "The
+    # results") -- an illustration under "Bridging Barriers...", not a section.
+    title = "Election for class representative — Grade 8, Suryodaya School"
+    part1 = next(s for s in bt.TREES[("Social Science", 8)] if s.part == 1)
+    assert title in part1.story_titles
+    tree = json.loads((bt.OUT_DIR / "Social_Science_8.json").read_text(encoding="utf-8"))
+    names = {s["name"] for c in tree["chapters"] for t in c["topics"] for s in t["subtopics"]}
+    assert title not in names
+    assert "Managing the electoral process" in names
+
+
 # --------------------------------------------------------------------------- #
 # invariants and gaps
 # --------------------------------------------------------------------------- #
