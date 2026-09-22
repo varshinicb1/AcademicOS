@@ -406,8 +406,13 @@ def test_a_question_taller_than_a_page_exports(tmp_path):
     stem = "Explain in detail. " + ("This sentence is deliberately long. " * 900)
     text = _extract_text(export_pdf(_paper_with(_gq(stem, "long_answer", 5)), tmp_path))
     # Every sentence, on whichever page it landed: a split that dropped the
-    # overflow would still export a file.
-    assert " ".join(text.split()).count("deliberately long") == 900
+    # overflow would still export a file. Count one word per sentence, not the
+    # phrase: with a wide font (DejaVu on the production image; Verdana here)
+    # a sentence breaks across a page and the running header lands between
+    # "deliberately" and "long" -- 893 of 900 phrases, all 900 words present.
+    joined = " ".join(text.split())
+    assert joined.count("deliberately") == 900
+    assert joined.count("long.") == 900
 
 
 def test_an_answer_taller_than_a_page_exports(tmp_path):
