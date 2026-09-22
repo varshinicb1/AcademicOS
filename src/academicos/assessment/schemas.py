@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from pydantic.alias_generators import to_camel
 
 BloomLevel = Literal["remember", "understand", "apply", "analyze", "evaluate", "create"]
@@ -305,6 +305,139 @@ class SchoolTemplate(Camel):
     line_height: float = 1.4
     section_formatting: dict[str, Any] = Field(default_factory=dict)
     is_default: bool = True
+
+
+# ---- Teacher paper templates (Task 901) ----
+#
+# A teacher's template is the paper's STRUCTURE (sections, marks, how many to
+# attempt, difficulty mix, scope), where `SchoolTemplate` above is its LOOK
+# (header, logo, fonts). `PaperTemplate` extends `SchoolTemplate` rather than
+# being a parallel model so it is stored by the same `TemplateStore`, and a
+# paper generated from one carries its branding into the PDF exporter
+# unchanged -- `PaperStore.save` and `pdf.export_pdf` already take a
+# `SchoolTemplate`.
+
+PaperExamType = Literal["unit_test", "periodic", "half_yearly", "annual", "custom"]
+
+
+class TemplateSection(Camel):
+    """One section of a teacher's paper.
+
+    `attempt_count` is CBSE's "attempt any N": `question_count` questions are
+    printed, `attempt_count` are answered, and only the attempted ones count
+    towards the paper's total. None means every question is attempted.
+
+    `question_types` empty means any type at this mark value. The CBSE presets
+    leave it empty on purpose: the bank's type labels are derived from marks,
+    not read from the paper (231 class 10 Mathematics 1-mark questions are
+    typed `very_short_answer` and none `mcq`), so a type filter there would
+    report a gap the bank does not really have.
+    """
+
+    id: str = ""
+    title: str = Field(min_length=1)
+    question_types: list[QuestionType] = Field(default_factory=list)
+    question_count: int = Field(ge=1)
+    marks_each: int = Field(ge=1)
+    attempt_count: Optional[int] = Field(default=None, ge=1)
+    difficulty_mix: Optional[DifficultyDistribution] = None
+    competency_share: Optional[float] = Field(default=None, ge=0.0, le=1.0)
+
+    @property
+    def attempts(self) -> int:
+        return self.attempt_count if self.attempt_count is not None else self.question_count
+
+    @property
+    def marks(self) -> int:
+        """The marks this section contributes to the paper's total."""
+        return self.attempts * self.marks_each
+
+
+class TemplateScope(Camel):
+    """What the paper may draw on. Empty chapter_ids means the whole syllabus.
+
+    topic_ids / subtopic_ids come from the board-level taxonomy another stream
+    is building (`academicos-data/syllabus/taxonomy/`). When that file is
+    absent they are stored as given, not validated -- the availability check
+    says so in its `scopeNotes` rather than pretending it checked them.
+    """
+
+    chapter_ids: list[str] = Field(default_factory=list)
+    topic_ids: list[str] = Field(default_factory=list)
+    subtopic_ids: list[str] = Field(default_factory=list)
+
+
+class TemplateHeader(Camel):
+    school_name: str = ""
+    exam_name: str = ""
+    date_line: str = ""
+
+
+class PaperTemplateDraft(Camel):
+    """What a teacher edits. Totals are checked here, on the way in, so a
+    template that cannot be printed as described is never saved."""
+
+    name: str = Field(min_length=1)
+    grade: int = Field(ge=1, le=12)
+    subject: str = Field(min_length=1)
+    exam_type: PaperExamType = "custom"
+    total_marks: int = Field(ge=1)
+    duration_minutes: int = Field(ge=1)
+    instructions: str = ""
+    header: TemplateHeader = Field(default_factory=TemplateHeader)
+    sections: list[TemplateSection] = Field(min_length=1)
+    scope: TemplateScope = Field(default_factory=TemplateScope)
+
+    @model_validator(mode="after")
+    def _totals_are_exact(self):
+        problems: list[str] = []
+        for s in self.sections:
+            if s.attempt_count is not None and s.attempt_count > s.question_count:
+                problems.append(
+                    f"{s.title}: attempt {s.attempt_count} is more than its "
+                    f"{s.question_count} questions")
+            mix = s.difficulty_mix
+            if mix is not None and abs(mix.easy + mix.medium + mix.hard - 1.0) > 0.011:
+                problems.append(
+                    f"{s.title}: difficulty mix adds up to "
+                    f"{round((mix.easy + mix.medium + mix.hard) * 100)}%, not 100%")
+        if problems:
+            raise ValueError("; ".join(problems))
+        added = sum(s.marks for s in self.sections)
+        if added != self.total_marks:
+            parts = ", ".join(
+                f"{s.title} {s.attempts}x{s.marks_each}={s.marks}" for s in self.sections)
+            raise ValueError(
+                f"sections add up to {added} marks but the total is {self.total_marks} "
+                f"({parts})")
+        return self
+
+
+PatternStatus = Literal["cbse_board", "suggested", "teacher"]
+
+
+class PaperTemplate(SchoolTemplate, PaperTemplateDraft):
+    """A saved (or preset) teacher template.
+
+    `kind` is how `TemplateStore` tells these apart from a school's branding
+    rows in the same table, so the older `/school-templates` list never shows
+    a teacher's private paper to the rest of the school. `is_default` is
+    always False: a paper template must never displace the school's branding
+    default, which every PDF without a template falls back to.
+    """
+
+    kind: Literal["paper"] = "paper"
+    is_default: bool = False
+    owner_id: str = ""
+    shared: bool = False
+    is_preset: bool = False
+    pattern_status: PatternStatus = "teacher"
+    # Where a preset's pattern comes from, in words a teacher can check.
+    source: str = ""
+    # The preset or template this one was copied from, if any.
+    based_on: Optional[str] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None
 
 
 class PaperGenerationRequest(Camel):

@@ -22,9 +22,9 @@ import uuid
 from pathlib import Path
 from typing import Optional
 
-from .schemas import SchoolTemplate, SectionBlueprint
+from .schemas import PaperTemplate, SchoolTemplate, SectionBlueprint
 from .postgres_kv import durable_table
-from .templates import default_sections
+from .templates import default_sections, template_section_blueprints
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS school_templates (
@@ -111,13 +111,51 @@ class TemplateStore:
         return self._list_raw(school_id)
 
     def _list_raw(self, school_id: str) -> list[SchoolTemplate]:
+        """The school's BRANDING templates. Teacher paper templates share this
+        table but are left out: they can be private to one teacher, and this
+        list is served to the whole school by `/school-templates`."""
+        return [_row_template(r) for r in self._rows_for_school(school_id)
+                if _payload_kind(r) != "paper"]
+
+    def _rows_for_school(self, school_id: str) -> list:
         if self._remote.enabled:
-            rows = self._remote.select(school_id=school_id, order="is_default.desc")
-            return [_remote_row(r)[0] for r in rows]
-        rows = self.conn.execute(
+            return self._remote.select(school_id=school_id, order="is_default.desc")
+        return self.conn.execute(
             "SELECT * FROM school_templates WHERE school_id=? ORDER BY is_default DESC, name",
             (school_id,)).fetchall()
-        return [_row(r)[0] for r in rows]
+
+    # ---- teacher paper templates (Task 901) ----
+    #
+    # Same table, same durable backend, no schema migration: the kind lives
+    # in the JSON payload, so the Supabase table (whose columns this code
+    # cannot migrate) needs no change either. Rows written before this
+    # existed have no kind and read as branding, which is what they are.
+
+    def save_paper_template(self, template: PaperTemplate) -> PaperTemplate:
+        """Stores the template and its SectionBlueprint form, so its id also
+        works with `sections_for` (quick-generate's `templateId`)."""
+        sections = [s if s.id else s.model_copy(update={"id": f"s{i + 1}"})
+                    for i, s in enumerate(template.sections)]
+        template = template.model_copy(update={
+            "kind": "paper", "is_default": False, "is_preset": False, "sections": sections})
+        saved = self.save(template, template_section_blueprints(template.sections))
+        return template.model_copy(update={"id": saved.id})
+
+    def get_paper_template(self, template_id: str) -> Optional[PaperTemplate]:
+        if self._remote.enabled:
+            rows = self._remote.select(id=template_id)
+        else:
+            rows = self.conn.execute("SELECT * FROM school_templates WHERE id=?",
+                                     (template_id,)).fetchall()
+        if not rows or _payload_kind(rows[0]) != "paper":
+            return None
+        return PaperTemplate.model_validate(_payload_template(rows[0]))
+
+    def list_paper_templates(self, school_id: str) -> list[PaperTemplate]:
+        return sorted(
+            (PaperTemplate.model_validate(_payload_template(r))
+             for r in self._rows_for_school(school_id) if _payload_kind(r) == "paper"),
+            key=lambda t: t.name.lower())
 
     def sections_for(self, school_id: str, template_id: str | None,
                      total_marks: int) -> list[SectionBlueprint]:
@@ -162,6 +200,21 @@ class TemplateStore:
             return
         self.conn.execute("DELETE FROM school_templates WHERE id=?", (template_id,))
         self.conn.commit()
+
+
+def _payload_template(row) -> dict:
+    """The stored template dict, from either backend's row shape."""
+    if isinstance(row, dict):
+        return row["payload"]["template"]
+    return json.loads(row["payload"])
+
+
+def _payload_kind(row) -> str:
+    return _payload_template(row).get("kind") or "school"
+
+
+def _row_template(row) -> SchoolTemplate:
+    return (_remote_row(row) if isinstance(row, dict) else _row(row))[0]
 
 
 def _row(row: sqlite3.Row) -> tuple[SchoolTemplate, list[SectionBlueprint]]:

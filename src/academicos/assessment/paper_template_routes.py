@@ -1,0 +1,429 @@
+"""API for a teacher's paper templates: presets, CRUD, sharing, availability,
+and generating a paper from a template (Task 901; the builder UI is Task 902).
+
+A new module rather than more routes in routes.py / pillar_routes.py: other
+work streams edit those files concurrently, and this surface is self-contained.
+
+Who may do what (staff = teacher or principal; students get 403 everywhere,
+another school gets 403, a missing id 404 -- the authz.py conventions):
+
+  * read:   presets, anything in your school that is yours or shared; a
+            principal may read every template in the school.
+  * edit:   the owner only. A shared template is still its owner's; a
+            colleague who wants changes takes a copy (duplicate).
+  * share / unshare, delete: the owner or the school's principal.
+  * presets are read-only for everyone; "use as starting point" is duplicate.
+"""
+from __future__ import annotations
+
+import time
+import uuid
+from datetime import datetime, timezone
+from typing import Optional
+
+from fastapi import APIRouter, Depends, HTTPException
+
+from ..config import Config
+from . import grades
+from .audit_log import get_audit_log
+from .auth_routes import get_current_user
+from .authz import require_own_school
+from .mapping import to_question_schema
+from .paper import generate_paper_sets
+from .paper_store import PaperStore
+from .paper_templates import AvailabilityReport, SectionAvailability, SectionPlan, \
+    build_scope_filter, plan
+from .pool import get_pool
+from .school_templates import TemplateStore
+from .schemas import (
+    Assessment,
+    Blueprint,
+    Camel,
+    ChapterWeights,
+    CompetencyWeights,
+    GeneratedPaper,
+    PaperTemplate,
+    PaperTemplateDraft,
+    QuestionSchema,
+    SectionBlueprint,
+    TemplateScope,
+)
+from .store import AssessmentStore
+from .template_presets import get_preset, is_preset_id, presets
+from .templates import TIER_BLOOM, TIER_DIFFICULTY
+from .users import User
+
+router = APIRouter(prefix="/api/v1")
+
+_cfg: Optional[Config] = None
+_templates: Optional[TemplateStore] = None
+_assessments: Optional[AssessmentStore] = None
+_papers: Optional[PaperStore] = None
+
+
+def init(config: Config) -> None:
+    """Same files routes.py and pillar_routes.py open (each module owns its
+    own store instances pointed at the shared file; see authz.py)."""
+    global _cfg, _templates, _assessments, _papers
+    _cfg = config
+    _templates = TemplateStore(config.data_root / "templates" / "templates.sqlite")
+    _assessments = AssessmentStore(config.data_root / "assessments" / "assessments.sqlite")
+    _papers = PaperStore(config.data_root / "assessments" / "papers.sqlite")
+
+
+def _require() -> tuple[Config, TemplateStore]:
+    if _cfg is None or _templates is None:
+        raise HTTPException(503, "paper template module not initialized")
+    return _cfg, _templates
+
+
+def _now() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+# ---- request / response shapes ----
+
+class TemplateListResponse(Camel):
+    presets: list[PaperTemplate]
+    mine: list[PaperTemplate]
+    shared: list[PaperTemplate]
+
+
+class ShareRequest(Camel):
+    shared: bool
+
+
+class DuplicateRequest(Camel):
+    name: Optional[str] = None
+
+
+class AvailabilityRequest(Camel):
+    # This paper's chapters, without saving them into the template: a preset
+    # has no scope, and a teacher reusing their own template for next month's
+    # test should not have to edit it first.
+    scope: Optional[TemplateScope] = None
+
+
+class GenerateFromTemplateRequest(Camel):
+    template_id: str
+    scope: Optional[TemplateScope] = None
+    title: Optional[str] = None
+    set_count: int = 1
+    # A short paper is never produced silently: without this, any section
+    # the bank cannot fill is a 409 carrying the gaps.
+    allow_gaps: bool = False
+    fill_from_outside_scope: bool = False
+
+
+class TemplatePaperResponse(Camel):
+    paper: GeneratedPaper
+    assessment_id: str
+    complete: bool
+    gaps: list[SectionAvailability]
+    notes: list[str]
+    availability: AvailabilityReport
+
+
+# ---- permission helpers ----
+
+def _require_staff(current: User) -> None:
+    if current.role not in ("teacher", "principal"):
+        raise HTTPException(403, "paper templates are for teachers and principals")
+
+
+def _load(template_id: str, current: User) -> PaperTemplate:
+    """A template the caller may READ, or the right 403/404."""
+    if is_preset_id(template_id):
+        preset = get_preset(template_id)
+        if preset is None:
+            raise HTTPException(404, "preset not found")
+        return preset
+    _, store = _require()
+    t = store.get_paper_template(template_id)
+    if t is None:
+        raise HTTPException(404, "template not found")
+    if t.school_id != current.school_id:
+        raise HTTPException(403, "this template belongs to a different school")
+    if t.owner_id != current.id and not t.shared and current.role != "principal":
+        raise HTTPException(403, "this template is private to the teacher who made it")
+    return t
+
+
+def _refuse_preset(t: PaperTemplate) -> None:
+    if t.is_preset:
+        raise HTTPException(403, "presets are read-only; duplicate one to make it your own")
+
+
+def _require_owner_or_principal(t: PaperTemplate, current: User, action: str) -> None:
+    if t.owner_id != current.id and current.role != "principal":
+        raise HTTPException(403, f"only the template's owner or the principal can {action} it")
+
+
+def _scoped(school_id: str, current: User) -> None:
+    _require_staff(current)
+    require_own_school(school_id, current)
+
+
+# ---- CRUD + sharing ----
+
+@router.get("/schools/{school_id}/teacher-templates", response_model=TemplateListResponse)
+def list_teacher_templates(
+    school_id: str, grade: Optional[int] = None, subject: Optional[str] = None,
+    current: User = Depends(get_current_user),
+) -> TemplateListResponse:
+    """Presets + mine + shared with the school, in one call: the builder's
+    first screen needs all three, and a phone on a slow link should not make
+    three round trips to draw it."""
+    _scoped(school_id, current)
+    _, store = _require()
+
+    def keep(t: PaperTemplate) -> bool:
+        return ((grade is None or t.grade == grade)
+                and (subject is None or t.subject.lower() == subject.lower()))
+
+    saved = [t for t in store.list_paper_templates(school_id) if keep(t)]
+    return TemplateListResponse(
+        presets=presets(grade=grade, subject=subject),
+        mine=[t for t in saved if t.owner_id == current.id],
+        shared=[t for t in saved if t.owner_id != current.id
+                and (t.shared or current.role == "principal")],
+    )
+
+
+@router.post("/schools/{school_id}/teacher-templates", response_model=PaperTemplate)
+def create_teacher_template(
+    school_id: str, draft: PaperTemplateDraft, current: User = Depends(get_current_user),
+) -> PaperTemplate:
+    _scoped(school_id, current)
+    _, store = _require()
+    now = _now()
+    t = PaperTemplate(**draft.model_dump(), id="new", school_id=school_id,
+                      owner_id=current.id, created_at=now, updated_at=now)
+    return store.save_paper_template(t)
+
+
+@router.get("/schools/{school_id}/teacher-templates/{template_id}", response_model=PaperTemplate)
+def get_teacher_template(
+    school_id: str, template_id: str, current: User = Depends(get_current_user),
+) -> PaperTemplate:
+    _scoped(school_id, current)
+    return _load(template_id, current)
+
+
+@router.put("/schools/{school_id}/teacher-templates/{template_id}", response_model=PaperTemplate)
+def update_teacher_template(
+    school_id: str, template_id: str, draft: PaperTemplateDraft,
+    current: User = Depends(get_current_user),
+) -> PaperTemplate:
+    _scoped(school_id, current)
+    _, store = _require()
+    t = _load(template_id, current)
+    _refuse_preset(t)
+    if t.owner_id != current.id:
+        raise HTTPException(403, "only the template's owner can edit it; duplicate it to change a copy")
+    updated = t.model_copy(update={**dict(draft), "pattern_status": "teacher",
+                                   "updated_at": _now()})
+    return store.save_paper_template(PaperTemplate.model_validate(updated.model_dump()))
+
+
+@router.delete("/schools/{school_id}/teacher-templates/{template_id}")
+def delete_teacher_template(
+    school_id: str, template_id: str, current: User = Depends(get_current_user),
+) -> dict:
+    _scoped(school_id, current)
+    _, store = _require()
+    t = _load(template_id, current)
+    _refuse_preset(t)
+    _require_owner_or_principal(t, current, "delete")
+    store.delete(t.id)
+    return {"ok": True}
+
+
+@router.post("/schools/{school_id}/teacher-templates/{template_id}/share",
+             response_model=PaperTemplate)
+def share_teacher_template(
+    school_id: str, template_id: str, req: ShareRequest,
+    current: User = Depends(get_current_user),
+) -> PaperTemplate:
+    _scoped(school_id, current)
+    _, store = _require()
+    t = _load(template_id, current)
+    _refuse_preset(t)
+    _require_owner_or_principal(t, current, "share or unshare")
+    return store.save_paper_template(t.model_copy(update={"shared": req.shared,
+                                                          "updated_at": _now()}))
+
+
+@router.post("/schools/{school_id}/teacher-templates/{template_id}/duplicate",
+             response_model=PaperTemplate)
+def duplicate_teacher_template(
+    school_id: str, template_id: str, req: DuplicateRequest,
+    current: User = Depends(get_current_user),
+) -> PaperTemplate:
+    """"Use as starting point": any template the caller can read, including a
+    preset, becomes a private template they own."""
+    _scoped(school_id, current)
+    _, store = _require()
+    src = _load(template_id, current)
+    now = _now()
+    copy = src.model_copy(update={
+        "id": "new", "school_id": current.school_id, "owner_id": current.id,
+        "shared": False, "is_preset": False, "based_on": src.id,
+        "name": req.name or (src.name if src.is_preset else f"{src.name} (copy)"),
+        "created_at": now, "updated_at": now,
+    })
+    return store.save_paper_template(copy)
+
+
+# ---- availability + generation ----
+
+def _candidates(cfg: Config, template: PaperTemplateDraft) -> list[QuestionSchema]:
+    try:
+        roman = grades.to_roman(template.grade)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    pool = get_pool(cfg, subject=template.subject, grade=roman)
+    return [to_question_schema(c)
+            for c in pool.filter(subject=template.subject, grade=roman)]
+
+
+def _plan(template: PaperTemplate, scope: Optional[TemplateScope], *,
+          fill_from_outside_scope: bool = False) -> tuple[AvailabilityReport, list[SectionPlan]]:
+    cfg, _ = _require()
+    if scope is not None:
+        template = template.model_copy(update={"scope": scope})
+    candidates = _candidates(cfg, template)
+
+    def subtopic_questions(ids: list[str]) -> list[str]:
+        from ..curriculum.store import get_curriculum_store
+        return get_curriculum_store(cfg.data_root).question_ids_for_subtopics(ids)
+
+    scope_filter = build_scope_filter(template.scope, candidates, subtopic_questions)
+    return plan(template, template.id, candidates, scope_filter,
+                fill_from_outside_scope=fill_from_outside_scope)
+
+
+@router.post("/schools/{school_id}/teacher-templates/{template_id}/availability",
+             response_model=AvailabilityReport)
+def template_availability(
+    school_id: str, template_id: str, req: AvailabilityRequest,
+    current: User = Depends(get_current_user),
+) -> AvailabilityReport:
+    """Per section: needed vs. eligible (verified key, right marks, in scope)
+    and why any shortfall exists -- shown BEFORE generating, so a teacher
+    never discovers a gap on the printed paper."""
+    _scoped(school_id, current)
+    report, _ = _plan(_load(template_id, current), req.scope)
+    return report
+
+
+@router.post("/papers/generate-from-template", response_model=TemplatePaperResponse)
+def generate_from_template(
+    req: GenerateFromTemplateRequest, current: User = Depends(get_current_user),
+) -> TemplatePaperResponse:
+    started = time.perf_counter()
+    _require_staff(current)
+    cfg, _ = _require()
+    if _assessments is None or _papers is None:
+        raise HTTPException(503, "paper template module not initialized")
+    template = _load(req.template_id, current)
+    if req.scope is not None:
+        template = template.model_copy(update={"scope": req.scope})
+    report, plans = _plan(template, None, fill_from_outside_scope=req.fill_from_outside_scope)
+
+    gaps: list[SectionAvailability] = []
+    for p in plans:
+        got = len(p.picked) + len(p.borrowed)
+        if got < p.section.question_count:
+            gaps.append(p.availability.model_copy(
+                update={"shortfall": p.section.question_count - got}))
+    if sum(len(p.picked) + len(p.borrowed) for p in plans) == 0:
+        raise HTTPException(400, {
+            "message": "no question in the bank fits this template",
+            "availability": report.model_dump(by_alias=True, mode="json")})
+    if gaps and not req.allow_gaps:
+        raise HTTPException(409, {
+            "message": f"{len(gaps)} section(s) cannot be filled from the bank; "
+                       "see availability, or generate anyway with allowGaps",
+            "availability": report.model_dump(by_alias=True, mode="json"),
+            "gaps": [g.model_dump(by_alias=True, mode="json") for g in gaps]})
+
+    selected, blueprint = _blueprint(template, plans)
+    asm_id = f"asm_tpl_{uuid.uuid4().hex[:8]}"
+    title = req.title or template.header.exam_name or template.name
+    paper = generate_paper_sets(
+        paper_id=f"paper_{uuid.uuid4().hex[:12]}", assessment_id=asm_id,
+        assessment_title=title, subject=template.subject, grade=template.grade,
+        blueprint=blueprint, selected_questions=selected,
+        set_count=max(1, req.set_count),
+    )
+    _papers.save(paper, template, school_id=current.school_id)
+    for s in paper.sets:
+        _papers.save(s, template, school_id=current.school_id)
+
+    notes = [n for p in plans for n in p.notes] + list(report.scope_notes)
+    now = _now()
+    _assessments.save(Assessment(
+        id=asm_id, school_id=current.school_id, teacher_id=current.id, title=title,
+        subject=template.subject, grade=template.grade,
+        chapter_ids=list(template.scope.chapter_ids), blueprint=blueprint,
+        status="paperGenerated", created_at=now, updated_at=now,
+        template_id=None if template.is_preset else template.id,
+        generated_paper_id=paper.id, selected_question_ids=[q.id for q in selected],
+        # The header and instructions the teacher set, for the paper's print
+        # view; GeneratedPaper itself has no place for them.
+        metadata={"paperTemplate": {
+            "id": template.id, "name": template.name,
+            "header": template.header.model_dump(by_alias=True),
+            "instructions": template.instructions,
+            "gaps": [g.model_dump(by_alias=True) for g in gaps], "notes": notes}},
+    ))
+    get_audit_log(cfg.data_root).append(
+        "template_paper_generated", assessment_id=asm_id,
+        details={"paperId": paper.id, "templateId": template.id, "userId": current.id,
+                 "schoolId": current.school_id, "gaps": len(gaps),
+                 "generationSeconds": round(time.perf_counter() - started, 3)},
+    )
+    return TemplatePaperResponse(paper=paper, assessment_id=asm_id, complete=not gaps,
+                                 gaps=gaps, notes=notes, availability=report)
+
+
+def _blueprint(template: PaperTemplate,
+               plans: list[SectionPlan]) -> tuple[list[QuestionSchema], Blueprint]:
+    """The picked questions in section order, and a blueprint whose sections
+    say exactly how many each got. `paper.generate_paper` buckets questions
+    by mark value and takes each section's count in order, so recording the
+    real count per section is what keeps two same-mark sections apart.
+
+    The paper's total is the attempted marks it actually carries: a short
+    paper the teacher accepted must not print the template's full total as
+    its maximum marks."""
+    selected: list[QuestionSchema] = []
+    sections: list[SectionBlueprint] = []
+    total = 0
+    for i, p in enumerate(plans):
+        got = p.picked + p.borrowed
+        if not got:
+            continue
+        attempts = min(p.section.attempts, len(got))
+        label = chr(ord("A") + len(sections))
+        name = p.section.title
+        if attempts < len(got):
+            name = f"{name} (attempt any {attempts} of {len(got)})"
+        sections.append(SectionBlueprint(
+            id=p.section.id or f"s{i + 1}", label=label, name=name,
+            marks_per_question=p.section.marks_each, question_count=len(got),
+            total_marks=attempts * p.section.marks_each,
+            has_internal_choice=attempts < len(got),
+            internal_choice_count=len(got) - attempts,
+        ))
+        total += attempts * p.section.marks_each
+        selected.extend(got)
+    blueprint = Blueprint(
+        total_marks=total, duration_minutes=template.duration_minutes,
+        difficulty=TIER_DIFFICULTY["standard"], bloom=TIER_BLOOM["standard"],
+        chapter_weights=ChapterWeights(), competency_weights=CompetencyWeights(),
+        sections=sections, exam_type=template.exam_type,
+        metadata={"templateId": template.id},
+    )
+    return selected, blueprint

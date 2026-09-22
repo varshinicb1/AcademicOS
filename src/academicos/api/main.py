@@ -24,6 +24,7 @@ from pydantic import BaseModel, Field
 from ..agents.orchestrator import DoubtSolver, ExaminerScorer, PaperAnalyst
 from ..assessment import auth_routes, consent_routes, ingest_routes, mobile_routes, mobile_scan, pillar_routes
 from ..assessment import grade_by_question
+from ..assessment import paper_template_routes
 from ..assessment import qbank_routes
 from ..assessment import routes as assessment_routes
 from ..assessment.supabase_kv import SupabaseUnavailable
@@ -142,6 +143,7 @@ app.include_router(ingest_routes.router)
 app.include_router(auth_routes.router)
 app.include_router(consent_routes.router)
 app.include_router(curriculum_routes.router)
+app.include_router(paper_template_routes.router)
 # The question-bank API carries its own `/v1/...` paths and its own key auth,
 # so it is mounted at the root rather than under `/api/v1` -- its paths are
 # part of a published contract that third parties will build against, and
@@ -317,6 +319,7 @@ def init_runtime(config: Optional[Config] = None) -> None:
     auth_routes.init(cfg)
     consent_routes.init(cfg.data_root)
     curriculum_routes.init(cfg)
+    paper_template_routes.init(cfg)
     mobile_scan.configure_workdir(cfg.data_root / "scan-sessions")
     # The public question-bank API. Its own key store and its own scope
     # vocabulary, deliberately separate from the user auth above: an API key is
