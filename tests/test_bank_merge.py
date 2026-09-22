@@ -2014,3 +2014,171 @@ def test_the_relink_strips_no_served_non_board_key(tmp_path):
     assert rows
     _, report = _relinked(rows, tmp_path)
     assert report.quarantined == {}
+
+
+# ---- symbol-font private-use glyphs (Task 121) -------------------------------
+#
+# The source PDFs write °, ρ, ∠, × and the rest with a symbol font, and the
+# extraction kept the font's own code points (U+F0B0, U+F072, ...) instead of
+# the characters. Nothing drew them: 45 served records printed a hole where a
+# symbol belonged, and Science 9 PS1's options read alike without their ρ.
+
+CBE_BANK = (Path(__file__).resolve().parents[1] / "academicos-data" / "corpus"
+            / "cbse-cbe" / "questions.json")
+
+
+def real_cbe(record_id: str) -> dict:
+    """A record from the real CBE bank, so the glyphs are the ones it holds."""
+    import json
+
+    rows = json.loads(CBE_BANK.read_text(encoding="utf-8"))["questions"]
+    return next(r for r in rows if r["id"] == record_id)
+
+
+@pytest.mark.parametrize("text,restored", [
+    # Adobe Symbol 0x72 rho, 0x2F slash (cbe:q:Science9PS1's options).
+    ("W \uf072 \uf02f g", "W ρ / g"),
+    # 0xB0 degree, 0x61 alpha, 0xD0 angle (cbe:q:Maths9MS6).
+    ("2\uf061 + 50\uf0b0. Find \uf0d0BAC", "2α + 50°. Find ∠BAC"),
+    # 0x57 Omega (cbe:q:Science10SD1's resistors), 0x44 Delta (cbe:q:Maths9BS8).
+    ("R1 20 \uf057 In \uf044ACE use Pythagoras", "R1 20 Ω In ΔACE use Pythagoras"),
+    # 0xB4 multiply, 0xB8 divide (cbe:q:Maths6RB5), 0x5C therefore, 0xDE implies.
+    ("26.16 \uf0b8 4 = 6.54 \uf0b4 1 \uf05c x \uf0de y", "26.16 ÷ 4 = 6.54 × 1 ∴ x ⇒ y"),
+    # 0xB7 bullet, the marking-scheme bullet of 1,449 SQP lines.
+    ("\uf0b7 Deriving the expression", "• Deriving the expression"),
+    # Text with no symbol-font character is returned unchanged, byte for byte.
+    ("Find the value of m.", "Find the value of m."),
+])
+def test_restore_symbol_font(text, restored):
+    assert bm.restore_symbol_font(text) == restored
+
+
+@pytest.mark.skipif(not CBE_BANK.exists(), reason="CBE bank not built")
+def test_a_served_record_keeps_its_rho_instead_of_a_symbol_font_code_point():
+    """cbe:q:Science9PS1: without ρ its options read "(A) W g (B) W / g (C) W g /
+    (D) W / g" -- two of them alike, so the question cannot be answered."""
+    result = bm.compose([], [real_cbe("cbe:q:Science9PS1")], [])
+    assert [q["id"] for q in result.questions] == ["cbe:q:Science9PS1"]
+    stem = result.questions[0]["stem"]
+    assert "weight W and density ρ" in stem
+    assert "(A) W ρ g (B) W ρ / g (C) W g / ρ (D) W / ρ g" in stem
+    assert bm.private_use_glyph(stem) is None
+    scheme = result.questions[0]["answerScheme"]
+    assert scheme["metadata"]["options"]["B"] == "W ρ / g"
+    assert result.repairs["symbol-font-restored"] == 1
+
+
+@pytest.mark.skipif(not CBE_BANK.exists(), reason="CBE bank not built")
+def test_a_private_use_glyph_the_table_does_not_cover_is_excluded():
+    """cbe:q:Maths10PS2's key writes its two implication arrows in a font that is
+    not Symbol (U+F0F0 is undefined there, and the same code is a Wingdings
+    arrow), so nothing here can say what the character was."""
+    result = bm.compose([], [real_cbe("cbe:q:Maths10PS2")], [])
+    assert result.questions == []
+    assert [e["reason"] for e in result.excluded] == ["private-use-glyph"]
+
+
+def test_a_board_record_loses_no_symbol_in_print():
+    rec = board(stem="The angle subtended at the centre is 50\uf0b0. Find \uf0d0BOC in "
+                     "terms of \uf061 and give a reason for your answer.")
+    out, reason, repairs = bm.repair_board(rec)
+    assert reason is None
+    assert out["stem"] == ("The angle subtended at the centre is 50°. Find ∠BOC in "
+                           "terms of α and give a reason for your answer.")
+    assert repairs == ["symbol-font-restored"]
+    assert bm.compose([rec], [], []).repairs["symbol-font-restored"] == 1
+
+
+def test_a_board_record_with_an_uncovered_glyph_is_withheld_whole():
+    rec = board(stem="Ca + H2O \uf0e0 Ca(OH)2. Name the gas evolved and give a reason.")
+    result = bm.compose([rec], [], [])
+    assert result.questions == []
+    assert [e["reason"] for e in result.excluded] == ["private-use-glyph"]
+    assert result.withheld == [rec]
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_no_served_record_holds_a_private_use_glyph():
+    """The bank the web and the APK read: no hole where a symbol belongs."""
+    import json
+
+    rows = json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
+    holes = [r["id"] for r in rows if bm.PRIVATE_USE.search(json.dumps(r, ensure_ascii=False))]
+    assert holes == []
+
+
+# ---- chapter ids a teacher sees (Task 121) -----------------------------------
+#
+# A CBE content code ("10A2b", "9.1.6") is not a chapter: printed in a chapter
+# list it reads "10A2B", and the same chapter then appears under several ids
+# (Mathematics 10 listed "Trigonometry" three times at f90f42c).
+
+MATHS_10 = {"number-systems": "Number Systems", "algebra": "Algebra",
+            "trigonometry": "Trigonometry", "mensuration": "Mensuration",
+            "statistics-and-probability": "Statistics and Probability"}
+
+
+def cbe_coded(i, code, **kw):
+    """A CBE record tagged with nothing but its content code, as the builder
+    leaves one the chapter tagger could not place."""
+    return board(i, id=f"cbe:q:Maths10X{i}", source="cbse_question_bank",
+                 subject="Mathematics", chapterIds=[code],
+                 tags=kw.pop("tags", [code]), grade=kw.pop("grade", 10), **kw)
+
+
+def test_a_content_code_the_records_name_becomes_its_syllabus_chapter():
+    """"Number systems" is what CBSE calls the 10N strand on the records that
+    carry a topic; the strand is the syllabus unit a teacher picks."""
+    recs = [cbe_coded(1, "10N1a", tags=["Number systems", "10N1a"]),
+            cbe_coded(2, "10N1c")]
+    out, counts = bm.resolve_chapter_ids(recs, {("Mathematics", 10): MATHS_10})
+    assert [r["chapterIds"] for r in out] == [["number-systems"], ["number-systems"]]
+    assert counts == {"resolved": 2, "dropped": 0}
+
+
+def test_one_chapter_is_listed_once_however_many_codes_reach_it():
+    recs = [cbe_coded(1, "trigonometry", tags=["Trigonometry"]),
+            cbe_coded(2, "10T1c", tags=["Trigonometry", "10T1c"]),
+            cbe_coded(3, "10T2a", tags=["Trigonometry", "10T2a"])]
+    out, _ = bm.resolve_chapter_ids(recs, {("Mathematics", 10): MATHS_10})
+    assert {cid for r in out for cid in r["chapterIds"]} == {"trigonometry"}
+
+
+def test_a_code_no_chapter_name_matches_is_dropped_not_shown():
+    """Nothing here can say which class 9 chapter the "9G2b" geometry strand
+    is, and a teacher must never be offered "9G2B" as a chapter."""
+    rec = cbe_coded(1, "9G2b", grade=9, tags=["Geometry", "9G2b"])
+    out, counts = bm.resolve_chapter_ids([rec], {("Mathematics", 9): {"circles-9": "Circles"}})
+    assert out[0]["chapterIds"] == []
+    assert counts == {"resolved": 0, "dropped": 1}
+    assert rec["chapterIds"] == ["9G2b"], "the input records are left as they were"
+
+
+def test_a_taxonomy_chapter_names_the_syllabus_chapter():
+    """The topic tagger's chapter (Task 703) where the record carries no topic
+    and no strand name: "science-10/acids-bases-and-salts"."""
+    rec = board(source="cbse_question_bank", subject="Science", grade=10,
+                chapterIds=["10.4.3"], tags=["10.4.3"],
+                taxonomyChapterId="science-10/acids-bases-and-salts")
+    out, counts = bm.resolve_chapter_ids(
+        [rec], {("Science", 10): {"acids-bases-salts": "Acids, Bases and Salts"}},
+        taxonomy_names={"science-10/acids-bases-and-salts": "Acids, Bases and Salts"})
+    assert out[0]["chapterIds"] == ["acids-bases-salts"]
+    assert counts == {"resolved": 1, "dropped": 0}
+
+
+def test_a_chapter_the_syllabus_knows_is_left_alone():
+    rec = cbe_coded(1, "algebra", tags=["Algebra"])
+    out, counts = bm.resolve_chapter_ids([rec], {("Mathematics", 10): MATHS_10})
+    assert out[0]["chapterIds"] == ["algebra"]
+    assert counts == {"resolved": 0, "dropped": 0}
+
+
+def test_a_subject_with_no_syllabus_keeps_the_ids_it_has():
+    """Nothing to check against: Home Science and the SQP arts subjects have no
+    syllabus file, so their ids are left exactly as they are."""
+    rec = board(source="cbse_sample_paper", subject="Home Science", grade=10,
+                chapterIds=["meal-planning"])
+    out, counts = bm.resolve_chapter_ids([rec], {})
+    assert out[0]["chapterIds"] == ["meal-planning"]
+    assert counts == {"resolved": 0, "dropped": 0}

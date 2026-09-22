@@ -26414,7 +26414,7 @@
    "reason": "symbol-loss",
    "subject": "Mathematics",
    "grade": 9,
-   "stem": "1 (a) 1 (b) 1 (a) In figure 1 (given above) APC  = and BPD  = . Find CPD   In figure 2 (Given above) if AB and CD are straight lines intersecting at O and OE is perpendicular to CD, find the values"
+   "stem": "1 (a) 1 (b) 1 (a) In figure 1 (given above) APC ∠ = and BPD ∠ = . Find CPD ∠  In figure 2 (Given above) if AB and CD are straight lines intersecting at O and OE is perpendicular to CD, find the values"
   },
   {
    "id": "cbe:q:Maths9BS7",
@@ -26422,7 +26422,7 @@
    "reason": "figure-unavailable",
    "subject": "Mathematics",
    "grade": 9,
-   "stem": "1 (a) In the diagram 1(a), ABCD and AEFG are two parallelograms. If ∠BCD = 75º, determine AGF  1 (b) In diagram 1(b) , AB || DE, AB = DE, AC || DF and AC = DF. Prove that BC || EF and find the value "
+   "stem": "1 (a) In the diagram 1(a), ABCD and AEFG are two parallelograms. If ∠BCD = 75º, determine ∠AGF  1 (b) In diagram 1(b) , AB || DE, AB = DE, AC || DF and AC = DF. Prove that BC || EF and find the value "
   },
   {
    "id": "cbe:q:Maths9BS6",
@@ -26686,7 +26686,7 @@
    "reason": "figure-unavailable",
    "subject": "Mathematics",
    "grade": 6,
-   "stem": "In the given figure, ABC is an equilateral triangle. Calculate the perimeter of the shaded region. Choose the correct answer."
+   "stem": "In the given figure, ΔABC is an equilateral triangle. Calculate the perimeter of the shaded region. Choose the correct answer."
   },
   {
    "id": "cbe:q:Maths6AJ6",
@@ -26766,7 +26766,7 @@
    "reason": "figure-unavailable",
    "subject": "Mathematics",
    "grade": 7,
-   "stem": "In the given figure, ∆𝑄𝑃𝑅𝑄𝑃𝑅 is a right-angled triangle with angle QPR = 70°. Diagram not drawn to scale Q 70 y P S R T x z 1 (a) Find the value of y  1 (b) Find the value of x  1 (c) Find the value "
+   "stem": "In the given figure, ∆𝑄𝑃𝑅𝑄𝑃𝑅 is a right-angled triangle with angle QPR = 70°. Diagram not drawn to scale Q 70° y P S R T x z 1 (a) Find the value of y  1 (b) Find the value of x  1 (c) Find the value "
   },
   {
    "id": "cbe:q:Maths7PS3",
@@ -26774,7 +26774,7 @@
    "reason": "figure-unavailable",
    "subject": "Mathematics",
    "grade": 7,
-   "stem": "1 In the diagram above, find angle x.   2) x Diagram not drawn to scale 46 100 64"
+   "stem": "1 In the diagram above, find angle x.   2) x Diagram not drawn to scale 46° 100° 64°"
   },
   {
    "id": "cbe:q:Maths7RKS6",
@@ -27015,6 +27015,14 @@
    "subject": "Science",
    "grade": 10,
    "stem": "1. The acidic properties of hydrochloric acid are due to the concentration of"
+  },
+  {
+   "id": "cbe:q:Science10NG31c",
+   "source": "cbse_question_bank",
+   "reason": "private-use-glyph",
+   "subject": "Science",
+   "grade": 10,
+   "stem": "Calcium oxide reacts vigorously with water. 1(a)(i) Construct the balanced symbol equation for the reaction between calcium oxide and water.  1(a)(ii) State and explain the type of reaction between ca"
   },
   {
    "id": "cbe:q:Science10SG3",
@@ -27721,6 +27729,14 @@
    "stem": "1 The diagram shows a satellite travelling in uniform circular motion around the Earth. 1 (a) Explain what is meant by the term uniform circular motion.  1 (b) i. The satellite is kept in orbit by a f"
   },
   {
+   "id": "cbe:q:Maths10PS2",
+   "source": "cbse_question_bank",
+   "reason": "private-use-glyph",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "The product of the zeroes of a quadratic polynomial, 2𝑥2 −5𝑥+ 𝑚 is 4. Find the value of m.   1)"
+  },
+  {
    "id": "cbe:q:Maths10RK1",
    "source": "cbse_question_bank",
    "reason": "mcq-options-unresolved",
@@ -27753,6 +27769,14 @@
    "stem": "f the lines 3x+2ky – 2 = 0 and 2x+5y+1 = 0 are parallel, then the value of k is"
   },
   {
+   "id": "cbe:q:Maths10PS8",
+   "source": "cbse_question_bank",
+   "reason": "private-use-glyph",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "Two numbers, x and y (x > y), have a difference of 6 and an average of 4. 1 (a) Frame a pair of linear equations in two variables.  1 (b) Determine the values of the two numbers.   3)"
+  },
+  {
    "id": "cbe:q:Maths10GS3",
    "source": "cbse_question_bank",
    "reason": "figure-referenced",
@@ -27771,7 +27795,7 @@
   {
    "id": "cbe:q:Maths10PS7",
    "source": "cbse_question_bank",
-   "reason": "figure-referenced",
+   "reason": "private-use-glyph",
    "subject": "Mathematics",
    "grade": 10,
    "stem": "In the above figure, line BC is drawn parallel to DE to intersect side AD and EA of triangle ABC at distinct points B and C. Given that AB = x cm, BD = 5 cm, BC = 3 cm and DE = 8 cm. Find the value of"
@@ -27823,6 +27847,14 @@
    "subject": "Mathematics",
    "grade": 10,
    "stem": "In the above figure AB || CD || EF. AC =12cm, BD = 9cm, DF = 6cm, CE = x 1 (a) Find x  1 (b) Find AE   3) C A E F D B"
+  },
+  {
+   "id": "cbe:q:Maths10PS6",
+   "source": "cbse_question_bank",
+   "reason": "private-use-glyph",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "From an external point P, the length of the tangent PA to a circle is 8 cm. The distance from the centre O to the external point P is 10 cm. Find the diameter of the circle.   2) P A O Diagram not dra"
   },
   {
    "id": "cbe:q:Maths10PR7",
@@ -28001,12 +28033,20 @@
    "stem": "The rod of the TV disc antenna is fixed at the right angle to wall AB and a rod CD supports the disc, as shown in Figure. If AC = 1.5 m long and CD = 3 m. 1 (a) Find the length of the rod AD.  1 (b) C"
   },
   {
+   "id": "cbe:q:Maths10PS9",
+   "source": "cbse_question_bank",
+   "reason": "private-use-glyph",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "A rectangular-shaped gardening block measures 12 m by 5 m and angle CAD = 𝜃 (theta) . 1 (a) Determine the value of 12 tan 𝜃. .  1 (b) Determine the value of 1− 𝑡𝑎𝑛2 𝜃 1+ 𝑡𝑎𝑛2 𝜃 .   4) 5m 12m D C B A θ"
+  },
+  {
    "id": "cbe:q:Maths10AR6",
    "source": "cbse_question_bank",
    "reason": "figure-unavailable",
    "subject": "Mathematics",
    "grade": 10,
-   "stem": "1(a) Prove that 1 - 1 ——— ——— = 2 tan x sec x 1-sinx 1+sinx  Diagram not drawn to scale C D B A 10m 45 30 1(b) In the diagram above, BC is perpendicular to AD, and BD is 10 m, ACB  = and BCD  = . "
+   "stem": "1(a) Prove that 1 - 1 ——— ——— = 2 tan x sec x 1-sinx 1+sinx  Diagram not drawn to scale C D B A 10m 45° 30° 1(b) In the diagram above, BC is perpendicular to AD, and BD is 10 m, ACB ∠ = and BCD ∠ = . "
   },
   {
    "id": "cbe:q:Maths10RK7",
@@ -28014,7 +28054,7 @@
    "reason": "stem-fragment",
    "subject": "Mathematics",
    "grade": 10,
-   "stem": "h 30 200m 8m 30m 45 Tree House 1 (a) A laser rangefinder shows that the top of a tower is 200 meters from a point on the ground. It is at an angle of elevation of 300. Find the height of the tower. "
+   "stem": "h 30° 200m 8m 30m 45° Tree House 1 (a) A laser rangefinder shows that the top of a tower is 200 meters from a point on the ground. It is at an angle of elevation of 300. Find the height of the tower. "
   },
   {
    "id": "cbe:q:Maths10RM3",
@@ -28099,7 +28139,7 @@
   {
    "id": "cbse:sqp:ClassX_2022_23:English (Language & Literature):5",
    "source": "cbse_sample_paper",
-   "reason": "answer-bleed",
+   "reason": "private-use-glyph",
    "subject": "English (Language & Literature)",
    "grade": 10,
    "stem": "modernity A. 1 & 3 B. 2 & 4 C. 2 & 5 D. 1 & 4 iii Complete the following analogy correctly with a word/ phrase from paragraph 1: aroma: cooking:: : painting (Clue: Just like aroma is integral to cooki"
@@ -28467,7 +28507,7 @@
   {
    "id": "cbse:sqp:ClassX_2023_24:English (Language & Literature):2",
    "source": "cbse_sample_paper",
-   "reason": "answer-bleed",
+   "reason": "private-use-glyph",
    "subject": "English (Language & Literature)",
    "grade": 10,
    "stem": "Read the following text. 10 m Reduction in green areas has caused various environmental problems. People squeezed between (1) concrete structures are looking for various ways to meet their longing for"
@@ -28742,7 +28782,7 @@
    "reason": "answer-bleed",
    "subject": "Painting",
    "grade": 10,
-   "stem": "‘Kailashanatha Temple’ is a megalith structure carved from a single rock.  Describe this structure based on its size, and architecture  Explain what is vertical excavation. (OR) The Indian temple ar"
+   "stem": "‘Kailashanatha Temple’ is a megalith structure carved from a single rock. • Describe this structure based on its size, and architecture • Explain what is vertical excavation. (OR) The Indian temple ar"
   },
   {
    "id": "cbse:sqp:ClassX_2023_24:Painting:11",
@@ -28750,7 +28790,7 @@
    "reason": "answer-bleed",
    "subject": "Painting",
    "grade": 10,
-   "stem": "Explain the difference between  Oil Pastels and Crayons.  Water colours and the poster colours (OR) Which is  An opaque medium of Painting and in which popular colourful folk art it is used?  Writ"
+   "stem": "Explain the difference between • Oil Pastels and Crayons. • Water colours and the poster colours (OR) Which is • An opaque medium of Painting and in which popular colourful folk art it is used? • Writ"
   },
   {
    "id": "cbse:sqp:ClassX_2023_24:Painting:12",
@@ -28766,7 +28806,7 @@
    "reason": "answer-bleed",
    "subject": "Painting",
    "grade": 10,
-   "stem": "Give your views on:  What are the 2 kinds of space?  How do we appreciate a painting on the bases of handling of its space ? (OR) Principles of composition give the paintings a structure’  Describe"
+   "stem": "Give your views on: • What are the 2 kinds of space? • How do we appreciate a painting on the bases of handling of its space ? (OR) Principles of composition give the paintings a structure’ • Describe"
   },
   {
    "id": "cbse:sqp:ClassX_2023_24:Social Science:10",
@@ -28843,7 +28883,7 @@
   {
    "id": "cbse:sqp:ClassX_2023_24:Social Science:20",
    "source": "cbse_sample_paper",
-   "reason": "answer-bleed",
+   "reason": "private-use-glyph",
    "subject": "Social Science",
    "grade": 10,
    "stem": "There are two statements marked as Assertion (A) and Reason (R). Mark your answer as per the codes provided below: Assertion (A): India is a country with a multi-party system set up. Reason (R): The m"
@@ -29115,7 +29155,7 @@
   {
    "id": "cbse:sqp:ClassX_2024_25:English (Language & Literature):3",
    "source": "cbse_sample_paper",
-   "reason": "answer-bleed",
+   "reason": "private-use-glyph",
    "subject": "English (Language & Literature)",
    "grade": 10,
    "stem": "Attempt questions based on specific instructions for each Part. SECTION A READING SKILLS (20 marks) 1. Read the following text. 10 (1) Water is one of the most essential resources on Earth, yet it is "
@@ -29473,6 +29513,14 @@
    "stem": "(A) Two dice are rolled together bearing numbers 4, 6, 7, 9, 11, 12. Find the probability that the product of numbers obtained is an odd number (B) How many positive three digit integers have the hund"
   },
   {
+   "id": "cbse:sqp:ClassX_2024_25:Mathematics (Standard):28",
+   "source": "cbse_sample_paper",
+   "reason": "private-use-glyph",
+   "subject": "Mathematics (Standard)",
+   "grade": 10,
+   "stem": "If 𝛼 and 𝛽 are zeroes of a polynomial 6𝑥2 -5x+1 then form a quadratic polynomial whose zeroes are 𝛼2 and 𝛽2."
+  },
+  {
    "id": "cbse:sqp:ClassX_2024_25:Mathematics (Standard):36",
    "source": "cbse_sample_paper",
    "reason": "answer-bleed",
@@ -29559,6 +29607,14 @@
    "subject": "Mathematics (Standard, VIC)",
    "grade": 10,
    "stem": "(A) Two dice are rolled together bearing numbers 4, 6, 7, 9, 11, 12. Find the probability that the product of numbers obtained is an odd number (B) How many positive three digit integers have the hund"
+  },
+  {
+   "id": "cbse:sqp:ClassX_2024_25:Mathematics (Standard, VIC):28",
+   "source": "cbse_sample_paper",
+   "reason": "private-use-glyph",
+   "subject": "Mathematics (Standard, VIC)",
+   "grade": 10,
+   "stem": "If 𝛼 and 𝛽 are zeroes of a polynomial 6𝑥2 -5𝑥+1 then form a quadratic polynomial whose zeroes are 𝛼2 and 𝛽2."
   },
   {
    "id": "cbse:sqp:ClassX_2024_25:Mathematics (Standard, VIC):36",
@@ -30059,7 +30115,7 @@
   {
    "id": "cbse:sqp:ClassX_2025_26:English (Language & Literature):3",
    "source": "cbse_sample_paper",
-   "reason": "answer-bleed",
+   "reason": "private-use-glyph",
    "subject": "English (Language & Literature)",
    "grade": 10,
    "stem": "Attempt questions based on specific instructions for each Part. SECTION A READING SKILLS (20 marks) 1. Read the following passage. 10 The growing preference for indigenous craft items is a welcome tre"
@@ -31521,9 +31577,17 @@
    "stem": "This paper contains 4 Long Answer Questions type questions of 6 marks each to be answered in 100 to 150 words. Q.NO. SECTION A – MACRO ECONOMICS MARKS Read the following statements carefully: Statemen"
   },
   {
+   "id": "cbse:sqp:ClassXII_2022_23:English (Core):1",
+   "source": "cbse_sample_paper",
+   "reason": "private-use-glyph",
+   "subject": "English (Core)",
+   "grade": 12,
+   "stem": "Attempt ANY ONE from A and B given below. A You are Josely Mathew, the President of the school book club. The club is organising a drive for promoting reuse of study materials and books. Draft a notic"
+  },
+  {
    "id": "cbse:sqp:ClassXII_2022_23:English (Core):3",
    "source": "cbse_sample_paper",
-   "reason": "answer-bleed",
+   "reason": "private-use-glyph",
    "subject": "English (Core)",
    "grade": 12,
    "stem": "Attempt ANY ONE from A and B given below. A You are Minu Sen, an intern in a software company in Hyderabad. You feel that the growing relationship of companies with non-profit organisations have made "
@@ -31531,7 +31595,7 @@
   {
    "id": "cbse:sqp:ClassXII_2022_23:English (Core):4",
    "source": "cbse_sample_paper",
-   "reason": "answer-bleed",
+   "reason": "private-use-glyph",
    "subject": "English (Core)",
    "grade": 12,
    "stem": "Attempt ANY ONE from A and B given below. Page of 15 A The construction sector is believed to be quite hazardous and has the maximum number of fatal work injuries because apart from other causes, stak"
@@ -32363,7 +32427,7 @@
   {
    "id": "cbse:sqp:ClassXII_2023_24:Bharatanatyam:15",
    "source": "cbse_sample_paper",
-   "reason": "answer-bleed",
+   "reason": "private-use-glyph",
    "subject": "Bharatanatyam",
    "grade": 12,
    "stem": "Define Tandava and Lasya (OR) Explain the costumes of Bharatnatyam, Kuchipudi, and Kathakali."
@@ -32550,7 +32614,7 @@
    "reason": "answer-bleed",
    "subject": "Graphic Design",
    "grade": 12,
-   "stem": "„Satisfaction leads to happiness, without being dependent on money. Natural surroundings and trees have healing power and brings happiness in life‟  Looking at the artwork „Man, Woman and Tree‟, desc"
+   "stem": "„Satisfaction leads to happiness, without being dependent on money. Natural surroundings and trees have healing power and brings happiness in life‟ • Looking at the artwork „Man, Woman and Tree‟, desc"
   },
   {
    "id": "cbse:sqp:ClassXII_2023_24:Graphic Design:10",
@@ -32558,7 +32622,7 @@
    "reason": "answer-bleed",
    "subject": "Graphic Design",
    "grade": 12,
-   "stem": "Identify the subject matter highlighting Radha‟s „Change of Attitude‟ towards Krishna during indoor and outdoor in the artwork „Krishna on Swing‟  Explain the reason and its subject matter from your "
+   "stem": "Identify the subject matter highlighting Radha‟s „Change of Attitude‟ towards Krishna during indoor and outdoor in the artwork „Krishna on Swing‟ • Explain the reason and its subject matter from your "
   },
   {
    "id": "cbse:sqp:ClassXII_2023_24:Graphic Design:11",
@@ -32566,7 +32630,7 @@
    "reason": "answer-bleed",
    "subject": "Graphic Design",
    "grade": 12,
-   "stem": "Using elements of art as your parameter  the painting „Mother and Child‟. Explain  Write the name of the Artist, time period, medium and technique. (OR) On the basis of aesthetic parameters  Explai"
+   "stem": "Using elements of art as your parameter • the painting „Mother and Child‟. Explain • Write the name of the Artist, time period, medium and technique. (OR) On the basis of aesthetic parameters • Explai"
   },
   {
    "id": "cbse:sqp:ClassXII_2023_24:Graphic Design:12",
@@ -32574,7 +32638,7 @@
    "reason": "answer-bleed",
    "subject": "Graphic Design",
    "grade": 12,
-   "stem": "On the basis of the study of „Life Drawings‟,  Appreciate the painting „Falcon on Bird Rest‟.  Mention the name of its Artist, time period, technique and medium. (OR) On the basis of its Composition"
+   "stem": "On the basis of the study of „Life Drawings‟, • Appreciate the painting „Falcon on Bird Rest‟. • Mention the name of its Artist, time period, technique and medium. (OR) On the basis of its Composition"
   },
   {
    "id": "cbse:sqp:ClassXII_2023_24:Graphic Design:13",
@@ -32582,7 +32646,7 @@
    "reason": "answer-bleed",
    "subject": "Graphic Design",
    "grade": 12,
-   "stem": "Our Karma is Our Dharma‟-  How does our National Flag inculcate these values in us.  Write its symbolic meaning in your own words (OR) Explain our Indian National Flag  On the basis of its colours "
+   "stem": "Our Karma is Our Dharma‟- • How does our National Flag inculcate these values in us. • Write its symbolic meaning in your own words (OR) Explain our Indian National Flag • On the basis of its colours "
   },
   {
    "id": "cbse:sqp:ClassXII_2023_24:Hindustani Music (Melodic):5",
@@ -33070,7 +33134,7 @@
    "reason": "answer-bleed",
    "subject": "Painting",
    "grade": 12,
-   "stem": "Instead of mythological themes in his artwork, a disciple of Abanindranath Tagore showed how men, women and labourers diligently engage in their routine to achieve victory.  Who was this sensitive ar"
+   "stem": "Instead of mythological themes in his artwork, a disciple of Abanindranath Tagore showed how men, women and labourers diligently engage in their routine to achieve victory. • Who was this sensitive ar"
   },
   {
    "id": "cbse:sqp:ClassXII_2023_24:Painting:10",
@@ -33078,7 +33142,7 @@
    "reason": "answer-bleed",
    "subject": "Painting",
    "grade": 12,
-   "stem": "‘Raghukul Reeti Sada Chali Aaye, Praan Jai Par Vachan Na Jaai’  Which miniature painting from Rajasthan School showcasing strong bond of brotherhood between Rama and Bharat, re-lives this saying and "
+   "stem": "‘Raghukul Reeti Sada Chali Aaye, Praan Jai Par Vachan Na Jaai’ • Which miniature painting from Rajasthan School showcasing strong bond of brotherhood between Rama and Bharat, re-lives this saying and "
   },
   {
    "id": "cbse:sqp:ClassXII_2023_24:Painting:11",
@@ -33086,7 +33150,7 @@
    "reason": "answer-bleed",
    "subject": "Painting",
    "grade": 12,
-   "stem": "In this sculpture, the sacred representation of the divine power of ‘Ganesh’ as a leader and an artist are depicted with indigenous character of cave and temple sculpture.  Write the material used an"
+   "stem": "In this sculpture, the sacred representation of the divine power of ‘Ganesh’ as a leader and an artist are depicted with indigenous character of cave and temple sculpture. • Write the material used an"
   },
   {
    "id": "cbse:sqp:ClassXII_2023_24:Painting:12",
@@ -33139,7 +33203,7 @@
   {
    "id": "cbse:sqp:ClassXII_2023_24:TeluguTelangana:6",
    "source": "cbse_sample_paper",
-   "reason": "garbled-script",
+   "reason": "private-use-glyph",
    "subject": "TeluguTelangana",
    "grade": 12,
    "stem": "Section E consists of creative writing skills which include questions on ఐదవ భాగము నందు సృజనారక dialogue writing and translation. (PART-E) రచనకు సం బంధంచిన సంభాషణా రచనా మరియు అనవ్యదానికి సంబంధంచిన ప్ర"
@@ -33155,7 +33219,7 @@
   {
    "id": "cbse:sqp:ClassXII_2024_25:Applied Mathematics:4",
    "source": "cbse_sample_paper",
-   "reason": "figure-referenced",
+   "reason": "private-use-glyph",
    "subject": "Applied Mathematics",
    "grade": 12,
    "stem": "555 5 If it is currently pm in clock then what will be the time after hours? Q.11. 6: 00 12 hours 375 (A) 6 am (B) 6 pm (C) 9 am (D) 9 pm 1 Q.12. The values of for the given values of is 𝑥∈(−1,3) −{0}"
@@ -33163,7 +33227,7 @@
   {
    "id": "cbse:sqp:ClassXII_2024_25:Applied-MathsVIC:4",
    "source": "cbse_sample_paper",
-   "reason": "stem-spans-sections",
+   "reason": "private-use-glyph",
    "subject": "Applied-MathsVIC",
    "grade": 12,
    "stem": "032] 𝑡5(0.01) = Q.28. A traffic engineer records the number of bicycle riders that use a particular cycle track. He records that an average of 3.2 bicycle riders use the cycle track every hour. Given "
@@ -33315,7 +33379,7 @@
   {
    "id": "cbse:sqp:ClassXII_2024_25:Bharatanatyam:15",
    "source": "cbse_sample_paper",
-   "reason": "answer-bleed",
+   "reason": "private-use-glyph",
    "subject": "Bharatanatyam",
    "grade": 12,
    "stem": "Define Tandava and Lasya (OR) Explain the costumes of Bharatnatyam, Kuchipudi, and Kathakali."
@@ -34283,7 +34347,7 @@
   {
    "id": "cbse:sqp:ClassXII_2024_25:MathsVIC:1",
    "source": "cbse_sample_paper",
-   "reason": "stem-spans-sections",
+   "reason": "private-use-glyph",
    "subject": "MathsVIC",
    "grade": 12,
    "stem": "Q.32. Using integration, find the area of the region bounded by + = 1 Q.33. The equation of the path traversed by the ball headed by the footballer is 𝑦= 𝑎𝑥2 + 𝑏𝑥+ 𝑐; (𝑤ℎ𝑒𝑟𝑒 0 ≤𝑥≤14 𝑎𝑛𝑑 𝑎, 𝑏, 𝑐 ∈𝑅 𝑎𝑛𝑑"
@@ -34987,7 +35051,7 @@
   {
    "id": "cbse:sqp:ClassXII_2025_26:Chemistry:8",
    "source": "cbse_sample_paper",
-   "reason": "stem-spans-sections",
+   "reason": "private-use-glyph",
    "subject": "Chemistry",
    "grade": 12,
    "stem": "Use of log tables and calculators is not allowed. Section-A Question 1 to 16 are multiple choice questions. Only one of the choices is correct. Select and write the correct choice as well as the answe"
@@ -35678,7 +35742,7 @@
    "reason": "stem-spans-sections",
    "subject": "Legal Studies",
    "grade": 12,
-   "stem": "2. Section B – Q.21 – Q.28 2 Marks each. The answers should not exceed 40 words each.  1.3. Section C – Q.29 – Q36. 3 marks each. The answers should exceed 100 words each.  1.4. Section D – Q.37 – Q"
+   "stem": "2. Section B – Q.21 – Q.28 2 Marks each. The answers should not exceed 40 words each. • 1.3. Section C – Q.29 – Q36. 3 marks each. The answers should exceed 100 words each. • 1.4. Section D – Q.37 – Q"
   },
   {
    "id": "cbse:sqp:ClassXII_2025_26:Legal Studies:2",
@@ -37030,23 +37094,24 @@
   "stem-fragment": 58,
   "symbol-loss": 7,
   "options-missing": 7,
-  "garbled-script": 112,
+  "garbled-script": 111,
   "page-furniture": 1,
   "figure-unavailable": 122,
   "mcq-answer-unresolved": 264,
   "passage-unavailable": 49,
   "stem-too-short": 12,
-  "figure-referenced": 72,
+  "figure-referenced": 70,
   "mcq-options-unresolved": 191,
   "stem-holds-group": 6,
   "mcq-marks-implausible": 44,
+  "private-use-glyph": 23,
   "mcq-part-of-group": 5,
   "header-as-stem": 11,
   "stem-runs-on": 9,
-  "answer-bleed": 307,
+  "answer-bleed": 298,
   "answer-is-question-text": 15,
   "option-labels-collide": 6,
-  "stem-spans-sections": 19,
+  "stem-spans-sections": 16,
   "key-rejected": 17,
   "duplicate-stem": 78,
   "stem-empty-after-strip": 2

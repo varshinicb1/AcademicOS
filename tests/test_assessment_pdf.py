@@ -498,3 +498,41 @@ def test_a_render_failure_is_a_422_naming_the_cause_and_is_not_audited(
         assert get_audit_log(tmp_path).for_action(action) == []
     finally:
         client.__exit__(None, None, None)
+
+
+# ---- a restored symbol must reach the page (Task 121) -----------------------
+#
+# The merge restores the characters a symbol font took with it
+# (corpus/symbol_font.py): U+F072 back to ρ, U+F0B0 back to °. That is only
+# half the repair -- a character the registered font has no glyph for prints
+# as a notdef box, which PyMuPDF reads back as NUL. These are every character
+# the repair puts into the served bank, measured on the merge's own output.
+
+RESTORED_SYMBOLS = (
+    # the repaired text, as the record now holds it, and what the page shows
+    ("density ρ", "density ρ"),            # cbe:q:Science9PS1
+    ("50° at O", "50° at O"),              # cbe:q:Maths9MS6
+    ("2α + 1", "2α + 1"),                  # cbe:q:Maths9MS6
+    ("find ∠BAC", "find angle BAC"),       # cbe:q:Maths9MS6
+    ("6.54 × 4", "6.54 × 4"),              # cbe:q:Maths10AS6
+    ("26.16 ÷ 4", "26.16 ÷ 4"),            # cbe:q:Maths6RB5
+    ("(Using π = 3.14)", "(Using pi = 3.14)"),   # cbe:q:Maths10AS8
+    ("R1 20 Ω", "R1 20 Ω"),                # cbe:q:Science10SD1
+    ("x ⇒ y", "x => y"),                   # cbe:q:Maths10AS8's working
+    ("∴ altitude", "therefore altitude"),  # Mathematics X f01c7b6f Q27
+    ("• Deriving", "- Deriving"),          # the SQP marking schemes' bullet
+    ("2⋅4 g/litre", "2·4 g/litre"),        # Biology XII 784bd959 Q27
+    ("In ΔACE", "In triangle ACE"),        # cbe:q:Maths9BS8
+)
+
+
+def test_every_restored_symbol_reaches_the_page(tmp_path):
+    stem = ("Restored symbols: " + "; ".join(text for text, _ in RESTORED_SYMBOLS)
+            + " -- explain each one and give a reason for your answer.")
+    paper = _make_paper()
+    paper.sections[0].questions[0].stem = stem
+    raw = _extract_text(export_pdf(paper, tmp_path / "symbols"))
+    assert "\x00" not in raw, "a character the font cannot draw printed as a notdef box"
+    printed = " ".join(raw.split())    # the renderer wraps the stem where it must
+    for repaired, on_the_page in RESTORED_SYMBOLS:
+        assert on_the_page in printed, f"{repaired!r} did not reach the page"

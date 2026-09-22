@@ -64,6 +64,11 @@ Nothing is dropped silently; every exclusion is returned with its reason.
                          -- on a board stem, anywhere in it (`_legacy_font`)
   symbol-loss            a math symbol the extraction dropped or misread:
                          "(Use = 3·14)", "(a ¹ b)", "c c b b a a = = ."
+  private-use-glyph      a symbol-font character nothing can name (corpus/
+                         symbol_font.py): the ones the Adobe Symbol encoding
+                         covers are restored (symbol-font-restored), and a
+                         record still holding one prints a hole where a symbol
+                         belongs
   options-missing        an objective stem -- typed MCQ, ending in a colon, or
                          a 1-mark "which of the following" -- with no options
   case-study-without-question  a case study, or a stem announcing a text,
@@ -177,6 +182,7 @@ import json
 import os
 import re
 import unicodedata
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from difflib import SequenceMatcher
 from datetime import datetime
@@ -190,6 +196,7 @@ from .mcq_shape import (
     answerable, has_option_labels, holds_group, key_letter, names_option_letter, norm,
     options_from_parts, stem_options, tokens,
 )
+from .symbol_font import PRIVATE_USE, private_use_glyph, restore_symbol_font
 
 BOARD_SOURCE = "cbse_board_paper"
 EXEMPLAR_SOURCE = "ncert_exemplar"
@@ -1265,6 +1272,63 @@ def restore_rupee(text: str) -> str:
     return _RUPEE_READ_AS_LT.sub(one, text)
 
 
+# Everything a student reads or a scorer scores: the stem, the options (inline
+# in the stem, or in the parts), the answer key, and the relink's copy of the
+# options in answerScheme.metadata. A CBE passage is put in front of the stem
+# by `normalise`, so it prints too.
+_SYMBOL_TEXT_FIELDS = ("stem", "stemLatex", "parts", "answerScheme")
+PRIVATE_USE_GLYPH = "private-use-glyph"
+
+
+def _strings(value: Any) -> Iterator[str]:
+    """Every string inside a record's field, however deeply nested."""
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for item in value.values():
+            yield from _strings(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _strings(item)
+
+
+def repair_symbol_font(rec: dict) -> tuple[dict, bool, str | None]:
+    """A copy of `rec` with its symbol-font code points restored, whether any
+    were, and the first private-use character the table cannot name.
+
+    The characters are restored wherever they print (`_SYMBOL_TEXT_FIELDS` and
+    the passage), because an option and its key must agree: cbe:q:Science9PS1
+    keys "W / ρ g", and a stem repaired without its scheme would be scored
+    against the unrepaired text.
+    """
+    restored = False
+
+    def fix(value: Any) -> Any:
+        nonlocal restored
+        if isinstance(value, str):
+            out = restore_symbol_font(value)
+            restored = restored or out != value
+            return out
+        if isinstance(value, dict):
+            return {k: fix(v) for k, v in value.items()}
+        if isinstance(value, list):
+            return [fix(v) for v in value]
+        return value
+
+    r = dict(rec)
+    for field_name in _SYMBOL_TEXT_FIELDS:
+        if field_name in r:
+            r[field_name] = fix(r[field_name])
+    meta = r.get("metadata")
+    if isinstance(meta, dict) and isinstance(meta.get("passage"), str):
+        r["metadata"] = {**meta, "passage": fix(meta["passage"])}
+    printed = {k: r.get(k) for k in _SYMBOL_TEXT_FIELDS}
+    printed["passage"] = (r.get("metadata") or {}).get("passage")
+    left = next((glyph for text in _strings(printed)
+                 if (glyph := private_use_glyph(text)) is not None), None)
+    return r, restored, left
+
+
 def _board_stem_broken(stem: str) -> bool:
     return len(stem) < _MIN_STEM or bool(_HEADER.match(stem)) or _words_lost(stem)
 
@@ -1282,6 +1346,13 @@ def repair_board(rec: dict) -> tuple[dict, str | None, list[str]]:
     """
     r = copy.deepcopy(rec)
     repairs: list[str] = []
+    # First, so every gate below reads the symbols the paper printed rather
+    # than a font's code points.
+    r, symbols_restored, glyph = repair_symbol_font(r)
+    if symbols_restored:
+        repairs.append("symbol-font-restored")
+    if glyph is not None:
+        return r, PRIVATE_USE_GLYPH, repairs
     stem = str(r.get("stem") or "")
     cleaned = strip_board_furniture(stem)
     if cleaned != stem:
@@ -1475,8 +1546,9 @@ class ComposeResult:
     # Board records excluded, whole: `excluded` keeps 200 characters of a stem,
     # and these must survive to be relinked, or repaired, and served again.
     withheld: list[dict] = field(default_factory=list)
-    # Repairs made to the board records served: page-furniture-stripped,
-    # rupee-sign-restored, options-inline, assertion-reason-options.
+    # Repairs made to the records served: page-furniture-stripped,
+    # rupee-sign-restored, options-inline, assertion-reason-options (board
+    # records only), and symbol-font-restored (every source).
     repairs: dict[str, int] = field(default_factory=dict)
 
 
@@ -1642,6 +1714,12 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             if raw.get("id") in seen_ids:
                 excluded.append(_excluded(raw, "duplicate-id"))
                 continue
+            # Before the gates, as for a board record: the symbols are what the
+            # paper printed, and a stem whose glyph nothing can name is excluded.
+            raw, symbols_restored, glyph = repair_symbol_font(raw)
+            if glyph is not None:
+                excluded.append(_excluded(raw, PRIVATE_USE_GLYPH))
+                continue
             reason = source_reason(raw)
             if reason:
                 excluded.append(_excluded(raw, reason))
@@ -1676,9 +1754,112 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             seen_stems.add(key)
             near.add(group, stem)
             counts[label] += 1
+            if symbols_restored:
+                repairs["symbol-font-restored"] = repairs.get("symbol-font-restored", 0) + 1
 
     return ComposeResult(questions=out, excluded=excluded, counts=counts, withheld=withheld,
                          repairs=repairs)
+
+
+def _chapter_key(name: Any) -> str:
+    """A chapter name as it compares: "Statistics & Probability" and
+    "Statistics and Probability" are one chapter, as are "Number systems" and
+    "Number Systems"."""
+    return " ".join(re.findall(r"[a-z0-9]+", str(name or "").lower().replace("&", " and ")))
+
+
+def _strand_chapters(records: list[dict], chapters: dict[tuple[str, int], dict[str, str]],
+                     by_name: dict[tuple[str, int], dict[str, str]],
+                     ) -> dict[tuple[tuple[str, int], str], str]:
+    """(subject, grade, CBE strand) -> the syllabus chapter its records name.
+
+    CBSE issues a content code per strand ("10A2b", "10A4a" are both the 10A
+    strand) and prints the strand's name on the records that carry a topic:
+    every 10A record that has one says "Algebra". So a coded record with no
+    name of its own takes the name its strand's siblings carry. A strand whose
+    records name two different chapters is left out -- it names neither.
+    """
+    from ..assessment.topic_mapper import coarse_code
+
+    found: dict[tuple[tuple[str, int], str], set[str]] = {}
+    for rec in records:
+        group = (rec.get("subject"), rec.get("grade"))
+        known = chapters.get(group)
+        if not known:
+            continue
+        for cid in rec.get("chapterIds") or []:
+            if cid in known:
+                continue
+            for name in (rec.get("topic"), (rec.get("tags") or [None])[0]):
+                chapter = by_name[group].get(_chapter_key(name)) if name else None
+                if chapter:
+                    found.setdefault((group, coarse_code(cid)), set()).add(chapter)
+                    break
+    return {key: next(iter(names)) for key, names in found.items() if len(names) == 1}
+
+
+def resolve_chapter_ids(records: list[dict], chapters: dict[tuple[str, int], dict[str, str]],
+                        taxonomy_names: dict[str, str] | None = None,
+                        ) -> tuple[list[dict], dict[str, int]]:
+    """The records with every chapter id a teacher can be offered, and how many
+    ids were resolved and how many dropped.
+
+    `chapters` is {(subject, grade): {chapter id: name}} from the CBSE syllabus
+    files; `taxonomy_names` is {taxonomy chapter id: name} from the NCERT
+    taxonomy trees, for the record's `taxonomyChapterId` (Task 703's tagger).
+
+    A record whose chapter id the syllabus does not know carries a raw CBE
+    content code -- "10A2b", "9.1.6" -- which the chapter tagger could not
+    place. Both chapter pickers name a chapter by what its questions carry
+    (the web's catalog route titles the id itself, "10A2B"; the phone takes
+    the first tag), so such a code is printed to a teacher as a chapter, and
+    the same chapter is then listed several times: Mathematics 10 listed
+    "Trigonometry" three times and 17 chapters against the syllabus's 7
+    (measured at f90f42c).
+
+    So each unknown id is resolved to the syllabus chapter its own names give
+    -- CBSE's topic, the record's first tag, the taxonomy chapter, then its
+    strand's name (`_strand_chapters`) -- and dropped when none of them names
+    one. Dropped, the question keeps every other field and is still served and
+    searchable; it is only not offered under a chapter, which is what a raw
+    code was doing anyway. A subject with no syllabus file (Home Science, the
+    SQP arts subjects) has nothing to check against and is left alone.
+    """
+    from ..assessment.topic_mapper import coarse_code
+
+    taxonomy_names = taxonomy_names or {}
+    by_name = {group: {_chapter_key(name): cid for cid, name in ids.items()}
+               for group, ids in chapters.items()}
+    strands = _strand_chapters(records, chapters, by_name)
+    counts = {"resolved": 0, "dropped": 0}
+    out: list[dict] = []
+    for rec in records:
+        group = (rec.get("subject"), rec.get("grade"))
+        known = chapters.get(group)
+        if not known or not rec.get("chapterIds"):
+            out.append(rec)
+            continue
+        resolved: list[str] = []
+        for cid in rec["chapterIds"]:
+            if cid in known:
+                chapter = cid
+            else:
+                names = [rec.get("topic"), (rec.get("tags") or [None])[0],
+                         taxonomy_names.get(rec.get("taxonomyChapterId"))]
+                chapter = next(
+                    (by_name[group][_chapter_key(n)] for n in names
+                     if n and _chapter_key(n) in by_name[group]),
+                    strands.get((group, coarse_code(cid))))
+                counts["resolved" if chapter else "dropped"] += 1
+            if chapter and chapter not in resolved:
+                resolved.append(chapter)
+        if resolved == list(rec["chapterIds"]):
+            out.append(rec)
+            continue
+        rec = dict(rec)
+        rec["chapterIds"] = resolved
+        out.append(rec)
+    return out, counts
 
 
 def apply_chapter_names(records: list[dict],

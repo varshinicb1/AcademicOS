@@ -56,6 +56,11 @@ String pdfSafe(String text) {
     // or "change in" depends on what follows, so they are mapped below,
     // after _demathify has turned italic vertex letters back into ASCII.
     '∫': 'integral',
+    '⋅': '·', // DOT OPERATOR (U+22C5) -- restored from a symbol font by the
+    // merge (corpus/symbol_font.py) and drawn by no bundled font, while
+    // MIDDLE DOT (U+00B7) draws the same mark and is Latin-1. The mark is
+    // kept rather than read: the papers use it for a decimal point
+    // ("2⋅4 g/litre") as well as for a product.
     '′': "'", // PRIME (e.g. A' in geometry)
     'θ': 'theta',
     'π': 'pi',

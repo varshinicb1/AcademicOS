@@ -1120,6 +1120,28 @@ def test_one_answer_written_two_ways_is_no_conflict():
                         says("No; it is not rational number, since 2 has no square root"), {})
 
 
+def test_a_restored_symbol_is_not_a_different_answer():
+    """The merge restores the characters a symbol font took with it
+    (corpus/symbol_font.py), and the answer-key store still holds the
+    private-use character the extraction left: cbse:q:src:784bd959b5f48fd5620f57e6:27
+    is served "2⋅4 g/litre" where the store reads "2<U+F0D7>4 g/litre". The
+    two are one answer. Without this a short key whose only difference is the
+    symbol -- too few words for the share rule to decide -- would read as a
+    conflict, and the record would lose the key the merge served it with."""
+    from academicos.assessment.question_bank import _same_answer
+
+    def says(text: str) -> dict:
+        return {"modelAnswer": text}
+
+    assert _same_answer(says("ρ = m/V"), says("\uf072 = m/V"), {})
+    assert _same_answer(says("Milk with 2⋅4 g/litre of human protein"),
+                        says("Milk with 2\uf0d74 g/litre of human protein"), {})
+    # A private-use character the table cannot name is still a difference:
+    # nothing here knows what it was.
+    assert not _same_answer(says("Ca + H2O → Ca(OH)2"),
+                            says("Ca + H2O \uf0e0 Ca(OH)2"), {})
+
+
 @pytest.mark.parametrize("rows", [[EN_KEY, HI_KEY], [HI_KEY, EN_KEY]])
 def test_an_english_question_never_takes_a_hindi_medium_answer(tmp_path, rows):
     """56/4/2 Q3: the Hindi-medium key ("043_56_4_2_Hindi.pdf") is not in an
@@ -1667,8 +1689,11 @@ def test_the_census_picks_are_what_choose_picks_today():
         agree = real_same(ours, pick, options)
         a, b = qb._answer_of(ours), qb._answer_of(pick)
         lettered = all(x["option"] or qb.outright_option(x["text"], options) for x in (a, b))
-        if agree and not lettered and qb._collapse(a["text"]).casefold() != qb._collapse(
-                b["text"]).casefold():
+        # `_agreeable`, not `_collapse`: the exact-text branch reads a symbol
+        # the merge restored and the answer-key store did not as the same
+        # character (Task 121), so a pair that differs only there is still
+        # decided by text, not by share.
+        if agree and not lettered and qb._agreeable(a["text"]) != qb._agreeable(b["text"]):
             by_share.add(current["id"])
         return agree
 

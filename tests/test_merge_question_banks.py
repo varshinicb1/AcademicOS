@@ -104,17 +104,38 @@ def test_a_paper_variant_subject_takes_its_base_subjects_chapter_names():
     assert names[("Mathematics (Basic, VIC)", 10, "algebra")] == "Algebra"
     assert not any(subject == "Mathematics" for subject, _g, _c in names)
 
-def test_check_reports_unresolved_and_shared_chapter_labels(layout, capsys):
+def test_check_reports_the_codes_it_resolved_and_the_ones_it_dropped(layout, capsys):
+    """Task 121: a content code is resolved to the chapter the record names
+    ("Integers" is a real class 7 chapter) or dropped ("Geometry" is a strand,
+    and no class 7 chapter is called that). Both ids were shown to a teacher
+    before, "7N1A" and "7G2B", and 7N1a/7N1b listed one chapter twice."""
     _write(layout.cbe, [
         cbe_mcq(1, chapterIds=["7N1a"], tags=["Integers"]),
-        cbe_mcq(2, chapterIds=["7N1b"], tags=["Integers"],
+        cbe_mcq(2, chapterIds=["7G2b"], tags=["Geometry"],
+                stem="Which of these is the smallest number? Select one option.")],
+        chapterTaggedAt="t")
+    assert mqb.run(layout, check=True) == 0
+    out = capsys.readouterr().out
+    assert "chapter ids resolved to a syllabus chapter: 1; dropped, no chapter named: 1" in out
+    assert "chapter ids the syllabus cannot name (non-board): 0" in out
+    assert "records with no chapter id (non-board): 1" in out
+
+
+def test_check_still_reports_a_label_two_chapters_share(layout, capsys):
+    """A subject with no syllabus file has nothing to resolve against, so its
+    ids are left alone -- and the phone's picker can still show one label on
+    two of them."""
+    _write(layout.cbe, [
+        cbe_mcq(1, subject="Home Science", grade=10, chapterIds=["hs1"],
+                tags=["Meal Planning"]),
+        cbe_mcq(2, subject="Home Science", grade=10, chapterIds=["hs2"],
+                tags=["Meal Planning"],
                 stem="Which of these is the smallest number? Select one option.")],
         chapterTaggedAt="t")
     assert mqb.run(layout, check=True) == 0
     out = capsys.readouterr().out
     assert "chapter ids the syllabus cannot name (non-board): 2" in out
-    assert "records with no chapter id (non-board): 0" in out
-    assert "Mathematics 7: 'Integers' covers 7N1a, 7N1b" in out
+    assert "Home Science 10: 'Meal Planning' covers hs1, hs2" in out
 
 
 # ---- board records the no-verified-key gate withholds ------------------------
@@ -279,7 +300,7 @@ def test_check_reports_board_reasons_repairs_and_counts_by_subject_and_grade(lay
     assert mqb.run(layout, check=True) == 0
     out = capsys.readouterr().out
     assert "cbse_board_paper     options-missing" in out
-    assert "board repairs: page-furniture-stripped 1" in out
+    assert "repairs: page-furniture-stripped 1" in out
     assert "served by subject x grade" in out
     # subject, grade, before (the served file now), after (this merge), board
     rows = {tuple(line.split()[:2]): [int(n) for n in line.split()[2:]]

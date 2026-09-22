@@ -952,6 +952,25 @@ def _answer_of(scheme: dict[str, Any]) -> dict[str, Any]:
             "code": meta.get("schemeCode") or "", "qNo": meta.get("schemeQNo")}
 
 
+def _agreeable(text: str) -> str:
+    """One answer's text as it compares with another's.
+
+    Whitespace collapsed, case folded, and the symbol-font code points the
+    merge restores (corpus/symbol_font.py) read as the characters they stand
+    for: the served bank carries cbse:q:src:784bd959b5f48fd5620f57e6:27 as
+    "2⋅4 g/litre" and the answer-key store still holds the extraction's
+    "2<U+F0D7>4 g/litre". They are one answer, and a short key whose only
+    difference is the symbol shares too few words for the share rule below to
+    decide -- it would read as a conflict and the record would lose its key.
+    A private-use character the table cannot name is left as it is: nothing
+    knows what it was, so it stays a difference.
+    """
+    # Imported here, not at the top: corpus imports this module.
+    from ..corpus.symbol_font import restore_symbol_font
+
+    return restore_symbol_font(_collapse(text or "")).casefold()
+
+
 def _same_answer(ours: dict[str, Any], pick: dict[str, Any],
                  options: dict[str, str]) -> bool:
     """Two schemes name the same answer, by the join's own tests.
@@ -971,7 +990,7 @@ def _same_answer(ours: dict[str, Any], pick: dict[str, Any],
                for x in (a, b)]
     if all(letters):
         return letters[0] == letters[1]
-    if _collapse(a["text"]).casefold() == _collapse(b["text"]).casefold():
+    if _agreeable(a["text"]) == _agreeable(b["text"]):
         return True
     ta, tb = row_text(a["text"]), row_text(b["text"])
     # Share is blind to what flips an answer: `join_terms` drops "not", "no",

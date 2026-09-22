@@ -135,6 +135,11 @@ _PDF_MATH = (
     ("∠", "angle "), ("⇒", "=>"), ("⟹", "=>"), ("≠", "!="),
     ("≥", ">="), ("≤", "<="), ("∈", "in"), ("∞", "infinity"),
     ("∫", "integral"),
+    # DOT OPERATOR (U+22C5): Segoe UI has no glyph for it, so it printed as a
+    # notdef box, while MIDDLE DOT (U+00B7) draws the same mark and is Latin-1.
+    # The papers use it for both a decimal point and a product -- Biology XII
+    # 784bd959 Q27's "2⋅4 g/litre" -- so the mark is kept, not read.
+    ("⋅", "·"),
     ("′", "'"), ("θ", "theta"), ("π", "pi"), ("⃗", ""),
     ("̂", ""), ("₹", "Rs."), ("…", "..."),
     ("ଶ", "2"),        # an OCR artifact standing in for a superscript 2

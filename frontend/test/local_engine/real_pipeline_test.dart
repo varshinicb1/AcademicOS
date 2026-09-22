@@ -26,12 +26,14 @@ void main() {
 
     // The served bank as merge_question_banks.py composed it (Task 11): 60
     // board records with a verified key, CBE, SQP and NCERT Exemplar. Science
-    // 10 was 408 board questions in 13 chapters; it is now 1 board, 37 CBE
-    // and 468 Exemplar, and CBE's raw content codes count as chapters of
-    // their own.
+    // 10 was 408 board questions in 13 chapters; it is now 1 board, 36 CBE
+    // and 468 Exemplar. Task 121 dropped the 37th CBE record (its key holds a
+    // symbol-font character nothing can name) and put every raw content code
+    // back on the chapter it belongs to, so the 24 "chapters" -- 13 real ones
+    // and 11 codes such as "10.6.9" -- are the syllabus's 13 again.
     expect(CorpusRepository.instance.all.length, greaterThan(5000));
-    expect(science10.questionCount, 506);
-    expect(science10.chapters, 24);
+    expect(science10.questionCount, 505);
+    expect(science10.chapters, 13);
   });
 
   test('real paper generation produces a non-empty, correctly-sectioned paper', () async {

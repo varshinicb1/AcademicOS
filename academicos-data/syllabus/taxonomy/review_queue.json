@@ -1,11 +1,11 @@
 {
  "notice": "Questions whose chapter, topic or subtopic tag fell below the confidence threshold that keeps accepted tags >= 90% right on the gold set. Each entry names the first level not accepted and the tagger's proposal; the proposal is NOT on the question.",
  "method": "tfidf_textbook_v2",
- "builtAt": "2026-09-22T16:56:43.100083+00:00",
+ "builtAt": "2026-09-22T18:06:36.485314+00:00",
  "counts": {
   "academicos-data/corpus/cbse-cbe/questions.json": 495,
   "academicos-data/corpus/ncert-exemplar/questions.json": 3668,
-  "academicos-data/syllabus/questions.json": 3963
+  "academicos-data/syllabus/questions.json": 3958
  },
  "items": [
   {
@@ -152327,8 +152327,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9413,
-    "topic": 0.6924,
+    "chapter": 0.9045,
+    "topic": 0.6653,
     "subtopic": null
    },
    "evidence": {
@@ -152359,8 +152359,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.672,
-    "topic": 0.6279,
+    "chapter": 0.6656,
+    "topic": 0.6219,
     "subtopic": null
    },
    "evidence": {
@@ -152745,8 +152745,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.8911,
-    "topic": 0.6147,
+    "chapter": 0.8897,
+    "topic": 0.6137,
     "subtopic": null
    },
    "evidence": {
@@ -152817,8 +152817,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9046,
-    "topic": 0.6123,
+    "chapter": 0.9063,
+    "topic": 0.6134,
     "subtopic": null
    },
    "evidence": {
@@ -152853,8 +152853,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6057,
-    "topic": 0.37,
+    "chapter": 0.6103,
+    "topic": 0.3729,
     "subtopic": null
    },
    "evidence": {
@@ -153176,7 +153176,7 @@
    "subject": "Mathematics",
    "grade": 9,
    "level": "topic",
-   "stem": "The angle subtended by an arc BC of a circle cantered at O is 2 + 50. 1 (a) Find BAC in terms of .  1 (b) If  = 30, find the reflex angle of BOC  1 (c) If the length of the chord of the circle AB = 16 cm and is at the distance of 15 cm from the centre of the circle, then find the radius of th",
+   "stem": "The angle subtended by an arc BC of a circle cantered at O is 2α + 50°. 1 (a) Find ∠BAC in terms of α.  1 (b) If α = 30°, find the reflex angle of ∠BOC  1 (c) If the length of the chord of the circle AB = 16 cm and is at the distance of 15 cm from the centre of the circle, then find the radius of th",
    "proposed": {
     "chapterId": "mathematics-9/i-m-up-and-down-and-round-and-round",
     "topicId": "mathematics-9/i-m-up-and-down-and-round-and-round/angles-subtended-by-an-arc",
@@ -153215,7 +153215,7 @@
    "subject": "Mathematics",
    "grade": 9,
    "level": "chapter",
-   "stem": "Find the measure of PBC  (A) 370 (B) 530 (C) 570 (D) 630",
+   "stem": "Find the measure of PBC ∠ (A) 370 (B) 530 (C) 570 (D) 630",
    "proposed": {
     "chapterId": "mathematics-9/orienting-yourself-the-use-of-coordinates",
     "topicId": "mathematics-9/orienting-yourself-the-use-of-coordinates/distance-between-two-points-in-the-2-d-plane",
@@ -153248,7 +153248,7 @@
    "subject": "Mathematics",
    "grade": 9,
    "level": "chapter",
-   "stem": "1 The angles of a triangle are in the ratio 3 : 5 : 7. The smallest angle of the triangle is (A) 12 (B) 36 (C) 60 (D) 84",
+   "stem": "1 The angles of a triangle are in the ratio 3 : 5 : 7. The smallest angle of the triangle is (A) 12° (B) 36° (C) 60° (D) 84°",
    "proposed": {
     "chapterId": "mathematics-9/i-m-up-and-down-and-round-and-round",
     "topicId": "mathematics-9/i-m-up-and-down-and-round-and-round/chords-and-the-angles-they-subtend",
@@ -153866,8 +153866,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.4557,
-    "topic": 0.4357,
+    "chapter": 0.4698,
+    "topic": 0.4492,
     "subtopic": null
    },
    "evidence": {
@@ -153903,8 +153903,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.5303,
-    "topic": 0.3309,
+    "chapter": 0.5587,
+    "topic": 0.3486,
     "subtopic": null
    },
    "evidence": {
@@ -153940,8 +153940,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.4373,
-    "topic": 0.2885,
+    "chapter": 0.4603,
+    "topic": 0.3037,
     "subtopic": null
    },
    "evidence": {
@@ -154014,9 +154014,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.9525,
-    "topic": 0.5058,
-    "subtopic": 0.3026
+    "chapter": 0.9487,
+    "topic": 0.5038,
+    "subtopic": 0.3014
    },
    "evidence": {
     "chapter": [
@@ -154058,8 +154058,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6092,
-    "topic": 0.3551,
+    "chapter": 0.6535,
+    "topic": 0.381,
     "subtopic": null
    },
    "evidence": {
@@ -154134,8 +154134,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.7522,
-    "topic": 0.5724,
+    "chapter": 0.7865,
+    "topic": 0.5985,
     "subtopic": null
    },
    "evidence": {
@@ -154173,8 +154173,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.804,
-    "topic": 0.4598,
+    "chapter": 0.8328,
+    "topic": 0.4762,
     "subtopic": null
    },
    "evidence": {
@@ -154212,8 +154212,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6444,
-    "topic": 0.4273,
+    "chapter": 0.6875,
+    "topic": 0.4558,
     "subtopic": null
    },
    "evidence": {
@@ -154329,9 +154329,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.5835,
-    "topic": 0.4746,
-    "subtopic": 0.2996
+    "chapter": 0.6853,
+    "topic": 0.5574,
+    "subtopic": 0.3518
    },
    "evidence": {
     "chapter": [
@@ -154371,8 +154371,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.5466,
-    "topic": 0.4464,
+    "chapter": 0.6399,
+    "topic": 0.5227,
     "subtopic": null
    },
    "evidence": {
@@ -154486,9 +154486,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.4686,
-    "topic": 0.3194,
-    "subtopic": 0.2196
+    "chapter": 0.5178,
+    "topic": 0.353,
+    "subtopic": 0.2426
    },
    "evidence": {
     "chapter": [
@@ -154529,9 +154529,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.3617,
-    "topic": 0.2187,
-    "subtopic": 0.1558
+    "chapter": 0.4188,
+    "topic": 0.2532,
+    "subtopic": 0.1804
    },
    "evidence": {
     "chapter": [
@@ -155038,9 +155038,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.4114,
-    "topic": 0.2436,
-    "subtopic": 0.1916
+    "chapter": 0.4903,
+    "topic": 0.2903,
+    "subtopic": 0.2284
    },
    "evidence": {
     "chapter": [
@@ -155080,8 +155080,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.3363,
-    "topic": 0.212,
+    "chapter": 0.42,
+    "topic": 0.2648,
     "subtopic": null
    },
    "evidence": {
@@ -155116,8 +155116,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.5028,
-    "topic": 0.2989,
+    "chapter": 0.5153,
+    "topic": 0.3063,
     "subtopic": null
    },
    "evidence": {
@@ -155157,9 +155157,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.5605,
-    "topic": 0.3455,
-    "subtopic": 0.2405
+    "chapter": 0.5728,
+    "topic": 0.3531,
+    "subtopic": 0.2457
    },
    "evidence": {
     "chapter": [
@@ -155372,9 +155372,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.9085,
-    "topic": 0.7968,
-    "subtopic": 0.5062
+    "chapter": 0.929,
+    "topic": 0.8148,
+    "subtopic": 0.5177
    },
    "evidence": {
     "chapter": [
@@ -155415,9 +155415,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.5879,
-    "topic": 0.3883,
-    "subtopic": 0.2497
+    "chapter": 0.4875,
+    "topic": 0.322,
+    "subtopic": 0.2071
    },
    "evidence": {
     "chapter": [
@@ -155548,8 +155548,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.3244,
-    "topic": 0.3092,
+    "chapter": 0.408,
+    "topic": 0.3889,
     "subtopic": null
    },
    "evidence": {
@@ -155590,9 +155590,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.3814,
-    "topic": 0.2071,
-    "subtopic": 0.1288
+    "chapter": 0.4576,
+    "topic": 0.2485,
+    "subtopic": 0.1545
    },
    "evidence": {
     "chapter": [
@@ -155676,8 +155676,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9731,
-    "topic": 0.5642,
+    "chapter": 0.9909,
+    "topic": 0.5745,
     "subtopic": null
    },
    "evidence": {
@@ -156027,9 +156027,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.1887,
-    "topic": 0.1256,
-    "subtopic": 0.0948
+    "chapter": 0.2677,
+    "topic": 0.1781,
+    "subtopic": 0.1346
    },
    "evidence": {
     "chapter": [
@@ -156069,9 +156069,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.2119,
-    "topic": 0.1424,
-    "subtopic": 0.1111
+    "chapter": 0.3038,
+    "topic": 0.2041,
+    "subtopic": 0.1592
    },
    "evidence": {
     "chapter": [
@@ -156144,8 +156144,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9221,
-    "topic": 0.4864,
+    "chapter": 0.9634,
+    "topic": 0.5082,
     "subtopic": null
    },
    "evidence": {
@@ -156986,8 +156986,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.3005,
-    "topic": 0.2281,
+    "chapter": 0.3877,
+    "topic": 0.2942,
     "subtopic": null
    },
    "evidence": {
@@ -157025,9 +157025,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.2784,
-    "topic": 0.1589,
-    "subtopic": 0.1176
+    "chapter": 0.3714,
+    "topic": 0.2119,
+    "subtopic": 0.1569
    },
    "evidence": {
     "chapter": [
@@ -157513,9 +157513,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.3895,
-    "topic": 0.3395,
-    "subtopic": 0.2263
+    "chapter": 0.4503,
+    "topic": 0.3925,
+    "subtopic": 0.2617
    },
    "evidence": {
     "chapter": [
@@ -157559,9 +157559,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.3548,
-    "topic": 0.3164,
-    "subtopic": 0.2173
+    "chapter": 0.4139,
+    "topic": 0.3691,
+    "subtopic": 0.2535
    },
    "evidence": {
     "chapter": [
@@ -157601,8 +157601,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.2964,
-    "topic": 0.2567,
+    "chapter": 0.2227,
+    "topic": 0.1929,
     "subtopic": null
    },
    "evidence": {
@@ -157676,9 +157676,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.6869,
-    "topic": 0.5648,
-    "subtopic": 0.3868
+    "chapter": 0.6379,
+    "topic": 0.5245,
+    "subtopic": 0.3592
    },
    "evidence": {
     "chapter": [
@@ -157769,9 +157769,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.4334,
-    "topic": 0.3583,
-    "subtopic": 0.2419
+    "chapter": 0.3412,
+    "topic": 0.2821,
+    "subtopic": 0.1905
    },
    "evidence": {
     "chapter": [
@@ -157816,9 +157816,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.3708,
-    "topic": 0.3067,
-    "subtopic": 0.2095
+    "chapter": 0.2852,
+    "topic": 0.2359,
+    "subtopic": 0.1611
    },
    "evidence": {
     "chapter": [
@@ -158298,9 +158298,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.9531,
-    "topic": 0.8822,
-    "subtopic": 0.5503
+    "chapter": 0.9124,
+    "topic": 0.8444,
+    "subtopic": 0.5267
    },
    "evidence": {
     "chapter": [
@@ -158380,7 +158380,7 @@
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Mathematics",
    "grade": 8,
-   "level": "topic",
+   "level": "chapter",
    "stem": "8% of children in a class of 25 like getting wet in the rain. How many children do not like getting wet in the rain?  (Total mark 1)",
    "proposed": {
     "chapterId": "mathematics-8/fractions-in-disguise",
@@ -158391,9 +158391,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.8106,
-    "topic": 0.697,
-    "subtopic": 0.4488
+    "chapter": 0.6891,
+    "topic": 0.5925,
+    "subtopic": 0.3815
    },
    "evidence": {
     "chapter": [
@@ -158437,9 +158437,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.9865,
-    "topic": 0.97,
-    "subtopic": 0.6747
+    "chapter": 0.9732,
+    "topic": 0.9569,
+    "subtopic": 0.6656
    },
    "evidence": {
     "chapter": [
@@ -158484,9 +158484,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.6795,
-    "topic": 0.4086,
-    "subtopic": 0.2742
+    "chapter": 0.5234,
+    "topic": 0.3147,
+    "subtopic": 0.2112
    },
    "evidence": {
     "chapter": [
@@ -158574,8 +158574,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.4597,
-    "topic": 0.4503,
+    "chapter": 0.4468,
+    "topic": 0.4376,
     "subtopic": null
    },
    "evidence": {
@@ -158611,8 +158611,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.7337,
-    "topic": 0.7318,
+    "chapter": 0.7239,
+    "topic": 0.722,
     "subtopic": null
    },
    "evidence": {
@@ -158724,9 +158724,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.9145,
-    "topic": 0.7512,
-    "subtopic": 0.4903
+    "chapter": 0.8788,
+    "topic": 0.7219,
+    "subtopic": 0.4712
    },
    "evidence": {
     "chapter": [
@@ -158810,9 +158810,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.9663,
-    "topic": 0.9618,
-    "subtopic": 0.6427
+    "chapter": 0.9892,
+    "topic": 0.9846,
+    "subtopic": 0.6579
    },
    "evidence": {
     "chapter": [
@@ -158970,8 +158970,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9614,
-    "topic": 0.6573,
+    "chapter": 0.98,
+    "topic": 0.67,
     "subtopic": null
    },
    "evidence": {
@@ -159137,8 +159137,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.8722,
-    "topic": 0.5483,
+    "chapter": 0.9023,
+    "topic": 0.5672,
     "subtopic": null
    },
    "evidence": {
@@ -159160,52 +159160,6 @@
     ],
     "subtopic": [
      "(topic as a whole)"
-    ]
-   }
-  },
-  {
-   "id": "cbe:q:Science10DP3",
-   "bank": "academicos-data/syllabus/questions.json",
-   "subject": "Science",
-   "grade": 10,
-   "level": "subtopic",
-   "stem": "Nivedita has dark brown eyes, like her mother. But she has the same shaped nose as her father. 1 (a) Explain why Nivedita has features from both of her parents.  1 (b) Explain why Nivedita is genetically female.  1 (c) Which contraceptive method protects against sexually transmitted infections?   7)",
-   "proposed": {
-    "chapterId": "science-10/heredity",
-    "topicId": "science-10/heredity/heredity",
-    "subtopicIds": [
-     "science-10/heredity/heredity/sex-determination"
-    ]
-   },
-   "confidence": {
-    "chapter": 0.9056,
-    "topic": 0.8744,
-    "subtopic": 0.676
-   },
-   "evidence": {
-    "chapter": [
-     "gene",
-     "parent",
-     "sex",
-     "chromosome",
-     "offspr",
-     "sexually"
-    ],
-    "topic": [
-     "sex",
-     "parent",
-     "gene",
-     "chromosome",
-     "science",
-     "determin"
-    ],
-    "subtopic": [
-     "sex",
-     "determin",
-     "chromosome",
-     "genetically",
-     "father",
-     "gene"
     ]
    }
   },
@@ -159346,7 +159300,7 @@
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "topic",
+   "level": "subtopic",
    "stem": "Which row is the sequence of organs that urine passes through after it is formed in the nephron? (A) Collecting duct-> urethra-> urinary bladder->ureter (B) Ureter-> urinary bladder-> collecting duct -> urethra (C) Collecting duct-> ureter-> urinary bladder-> urethra (D) Urethra-> urinary bladder-> ",
    "proposed": {
     "chapterId": "science-10/life-processes",
@@ -159356,9 +159310,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.7458,
-    "topic": 0.7402,
-    "subtopic": 0.5653
+    "chapter": 0.7755,
+    "topic": 0.7697,
+    "subtopic": 0.5878
    },
    "evidence": {
     "chapter": [
@@ -159519,43 +159473,6 @@
    }
   },
   {
-   "id": "cbe:q:Science10DP2",
-   "bank": "academicos-data/syllabus/questions.json",
-   "subject": "Science",
-   "grade": 10,
-   "level": "topic",
-   "stem": "Examples of responses to hormones are listed. 1. growth of facial hair 2. increased blood pressure and pulse rate 3. widened pupils 1 (a) Which responses are caused by the hormone adrenaline? (A) 1 and 2 only (B) 1 and 3 only (C) 2 and 3 only (D) 1, 2 and 3",
-   "proposed": {
-    "chapterId": "science-10/control-and-coordination",
-    "topicId": "science-10/control-and-coordination/hormones-in-animals",
-    "subtopicIds": []
-   },
-   "confidence": {
-    "chapter": 0.7905,
-    "topic": 0.7586,
-    "subtopic": null
-   },
-   "evidence": {
-    "chapter": [
-     "response",
-     "hormone",
-     "adrenaline",
-     "blood",
-     "growth",
-     "level"
-    ],
-    "topic": [
-     "hormone",
-     "adrenaline",
-     "growth",
-     "blood",
-     "level",
-     "rate"
-    ],
-    "subtopic": []
-   }
-  },
-  {
    "id": "cbe:q:Science10TM4",
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Science",
@@ -159695,52 +159612,6 @@
    }
   },
   {
-   "id": "cbe:q:Science10GK5",
-   "bank": "academicos-data/syllabus/questions.json",
-   "subject": "Science",
-   "grade": 10,
-   "level": "subtopic",
-   "stem": "Fig. 1 shows part of a desert food web. Fig. 1 1(a) Identify in Fig. 1.1: 1(a)(i) A producer  1(a)(ii) A primary consumer  1(a)(iii) A secondary consumer  1(b) Draw a food chain containing a snake. < 4 cm space >  1(c) Discuss the impact of pesticides on the food web in Fig.1.   9)",
-   "proposed": {
-    "chapterId": "science-10/our-environment",
-    "topicId": "science-10/our-environment/eco-system-what-are-its-components",
-    "subtopicIds": [
-     "science-10/our-environment/eco-system-what-are-its-components/food-chains-and-webs"
-    ]
-   },
-   "confidence": {
-    "chapter": 0.9709,
-    "topic": 0.9169,
-    "subtopic": 0.6826
-   },
-   "evidence": {
-    "chapter": [
-     "consumer",
-     "producer",
-     "impact",
-     "chain",
-     "pesticide",
-     "web"
-    ],
-    "topic": [
-     "consumer",
-     "chain",
-     "food",
-     "primary",
-     "producer",
-     "web"
-    ],
-    "subtopic": [
-     "web",
-     "food",
-     "consumer",
-     "chain",
-     "pesticide",
-     "primary"
-    ]
-   }
-  },
-  {
    "id": "cbe:q:Science10PB2",
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Science",
@@ -159753,8 +159624,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.5882,
-    "topic": 0.5187,
+    "chapter": 0.7333,
+    "topic": 0.6467,
     "subtopic": null
    },
    "evidence": {
@@ -159784,7 +159655,7 @@
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "topic",
+   "level": "subtopic",
    "stem": "A food web is shown. 1 (a) Using the information in the food web draws a food chain that has the most efficient transfer of energy to the human.",
    "proposed": {
     "chapterId": "science-10/our-environment",
@@ -159794,9 +159665,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.7434,
-    "topic": 0.6854,
-    "subtopic": 0.5357
+    "chapter": 0.8943,
+    "topic": 0.8245,
+    "subtopic": 0.6445
    },
    "evidence": {
     "chapter": [
@@ -159827,7 +159698,7 @@
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Science",
    "grade": 10,
-   "level": "chapter",
+   "level": "topic",
    "stem": "Electrical power is generated from different sources. Fig. 1 shows how the percentage of power generated, in India, using energy from different sources is expected to change. Fig. 1 1(a) Describe the trends in Fig.1 from 2020 to 2040.  1(b) Explain one adverse effect of burning coal on the environme",
    "proposed": {
     "chapterId": "science-10/electricity",
@@ -159835,8 +159706,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6428,
-    "topic": 0.4979,
+    "chapter": 0.8011,
+    "topic": 0.6205,
     "subtopic": null
    },
    "evidence": {
@@ -159922,9 +159793,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.2431,
-    "topic": 0.1981,
-    "subtopic": 0.1458
+    "chapter": 0.3291,
+    "topic": 0.2682,
+    "subtopic": 0.1973
    },
    "evidence": {
     "chapter": [
@@ -159966,8 +159837,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.5347,
-    "topic": 0.4239,
+    "chapter": 0.601,
+    "topic": 0.4764,
     "subtopic": null
    },
    "evidence": {
@@ -160005,9 +159876,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.4415,
-    "topic": 0.3291,
-    "subtopic": 0.2697
+    "chapter": 0.5171,
+    "topic": 0.3855,
+    "subtopic": 0.3158
    },
    "evidence": {
     "chapter": [
@@ -160052,9 +159923,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.9915,
-    "topic": 0.986,
-    "subtopic": 0.3295
+    "chapter": 0.9975,
+    "topic": 0.9919,
+    "subtopic": 0.3315
    },
    "evidence": {
     "chapter": [
@@ -160144,9 +160015,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.9802,
-    "topic": 0.7769,
-    "subtopic": 0.3834
+    "chapter": 0.9928,
+    "topic": 0.787,
+    "subtopic": 0.3884
    },
    "evidence": {
     "chapter": [
@@ -160180,7 +160051,7 @@
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Science",
    "grade": 6,
-   "level": "chapter",
+   "level": "topic",
    "stem": "1 (a) Three similar potted plants were taken to conduct an activity to determine the conditions essential for plant growth: Plant A was kept in sunlight but not watered. Plant B was kept in sunlight and watered. Plant C was watered and kept in a dark room. Which plant will grow best, and which plant",
    "proposed": {
     "chapterId": "science-6/living-creatures-exploring-their-characteristics",
@@ -160188,8 +160059,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6898,
-    "topic": 0.3955,
+    "chapter": 0.7473,
+    "topic": 0.4285,
     "subtopic": null
    },
    "evidence": {
@@ -160297,8 +160168,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9757,
-    "topic": 0.7048,
+    "chapter": 0.9874,
+    "topic": 0.7133,
     "subtopic": null
    },
    "evidence": {
@@ -160373,9 +160244,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.5418,
-    "topic": 0.3663,
-    "subtopic": 0.3073
+    "chapter": 0.4953,
+    "topic": 0.3348,
+    "subtopic": 0.2809
    },
    "evidence": {
     "chapter": [
@@ -160454,9 +160325,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.6948,
-    "topic": 0.6346,
-    "subtopic": 0.5312
+    "chapter": 0.6539,
+    "topic": 0.5972,
+    "subtopic": 0.4999
    },
    "evidence": {
     "chapter": [
@@ -160500,9 +160371,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.6819,
-    "topic": 0.608,
-    "subtopic": 0.498
+    "chapter": 0.6353,
+    "topic": 0.5665,
+    "subtopic": 0.464
    },
    "evidence": {
     "chapter": [
@@ -160782,8 +160653,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.4578,
-    "topic": 0.4177,
+    "chapter": 0.3927,
+    "topic": 0.3583,
     "subtopic": null
    },
    "evidence": {
@@ -160812,8 +160683,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.2209,
-    "topic": 0.1599,
+    "chapter": 0.2427,
+    "topic": 0.1757,
     "subtopic": null
    },
    "evidence": {
@@ -160849,9 +160720,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.1404,
-    "topic": 0.1001,
-    "subtopic": 0.0741
+    "chapter": 0.1577,
+    "topic": 0.1124,
+    "subtopic": 0.0832
    },
    "evidence": {
     "chapter": [
@@ -161131,9 +161002,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.6348,
-    "topic": 0.6078,
-    "subtopic": 0.3488
+    "chapter": 0.636,
+    "topic": 0.609,
+    "subtopic": 0.3495
    },
    "evidence": {
     "chapter": [
@@ -161175,8 +161046,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.4126,
-    "topic": 0.2342,
+    "chapter": 0.4003,
+    "topic": 0.2272,
     "subtopic": null
    },
    "evidence": {
@@ -161211,8 +161082,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6882,
-    "topic": 0.5905,
+    "chapter": 0.6402,
+    "topic": 0.5494,
     "subtopic": null
    },
    "evidence": {
@@ -161248,8 +161119,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.7806,
-    "topic": 0.4875,
+    "chapter": 0.7431,
+    "topic": 0.4641,
     "subtopic": null
    },
    "evidence": {
@@ -161499,8 +161370,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.2542,
-    "topic": 0.1635,
+    "chapter": 0.2036,
+    "topic": 0.1309,
     "subtopic": null
    },
    "evidence": {
@@ -161803,9 +161674,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.3196,
-    "topic": 0.1787,
-    "subtopic": 0.1351
+    "chapter": 0.4111,
+    "topic": 0.2299,
+    "subtopic": 0.1738
    },
    "evidence": {
     "chapter": [
@@ -162192,8 +162063,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.4292,
-    "topic": 0.3035,
+    "chapter": 0.5043,
+    "topic": 0.3566,
     "subtopic": null
    },
    "evidence": {
@@ -162485,8 +162356,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.479,
-    "topic": 0.3626,
+    "chapter": 0.513,
+    "topic": 0.3884,
     "subtopic": null
    },
    "evidence": {
@@ -162522,8 +162393,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.4355,
-    "topic": 0.306,
+    "chapter": 0.4623,
+    "topic": 0.3248,
     "subtopic": null
    },
    "evidence": {
@@ -162932,7 +162803,7 @@
    "subject": "Science",
    "grade": 9,
    "level": "chapter",
-   "stem": "A block of wood has weight W and density . The gravitational field strength is g. Which expression gives the volume of the block? (A) W  g (B) W   g (C) W g /  (D) W /  g",
+   "stem": "A block of wood has weight W and density ρ. The gravitational field strength is g. Which expression gives the volume of the block? (A) W ρ g (B) W ρ / g (C) W g / ρ (D) W / ρ g",
    "proposed": {
     "chapterId": "science-9/exploring-mixtures-and-their-separation",
     "topicId": "science-9/exploring-mixtures-and-their-separation/solutions",
@@ -163308,9 +163179,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.9383,
-    "topic": 0.5163,
-    "subtopic": 0.3571
+    "chapter": 0.9035,
+    "topic": 0.4971,
+    "subtopic": 0.3439
    },
    "evidence": {
     "chapter": [
@@ -163344,7 +163215,7 @@
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Science",
    "grade": 9,
-   "level": "topic",
+   "level": "chapter",
    "stem": "Which major plant group has only stem and leaf-like structures in their plants? (A) Bryophyta (B) Gymnospermae (C) Pteridophyta (D) Thallophyta",
    "proposed": {
     "chapterId": "science-9/patterns-in-life-diversity-and-classification",
@@ -163354,9 +163225,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.7586,
-    "topic": 0.5932,
-    "subtopic": 0.492
+    "chapter": 0.6557,
+    "topic": 0.5127,
+    "subtopic": 0.4253
    },
    "evidence": {
     "chapter": [
@@ -163400,9 +163271,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.8728,
-    "topic": 0.5957,
-    "subtopic": 0.4598
+    "chapter": 0.8084,
+    "topic": 0.5517,
+    "subtopic": 0.4258
    },
    "evidence": {
     "chapter": [
@@ -163699,45 +163570,6 @@
    }
   },
   {
-   "id": "cbe:q:Maths10PS8",
-   "bank": "academicos-data/syllabus/questions.json",
-   "subject": "Mathematics",
-   "grade": 10,
-   "level": "topic",
-   "stem": "Two numbers, x and y (x > y), have a difference of 6 and an average of 4. 1 (a) Frame a pair of linear equations in two variables.  1 (b) Determine the values of the two numbers.   3)",
-   "proposed": {
-    "chapterId": "mathematics-10/pair-of-linear-equations-in-two-variables",
-    "topicId": "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations",
-    "subtopicIds": []
-   },
-   "confidence": {
-    "chapter": 0.9718,
-    "topic": 0.692,
-    "subtopic": null
-   },
-   "evidence": {
-    "chapter": [
-     "linear",
-     "equation",
-     "pair",
-     "substitution",
-     "elimination",
-     "variable"
-    ],
-    "topic": [
-     "equation",
-     "substitution",
-     "pair",
-     "value",
-     "solve",
-     "elimination"
-    ],
-    "subtopic": [
-     "(topic as a whole)"
-    ]
-   }
-  },
-  {
    "id": "cbe:q:Maths10RK6",
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Mathematics",
@@ -163750,8 +163582,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9071,
-    "topic": 0.7197,
+    "chapter": 0.9056,
+    "topic": 0.7186,
     "subtopic": null
    },
    "evidence": {
@@ -163789,9 +163621,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.9199,
-    "topic": 0.72,
-    "subtopic": 0.4915
+    "chapter": 0.8801,
+    "topic": 0.6888,
+    "subtopic": 0.4702
    },
    "evidence": {
     "chapter": [
@@ -163835,9 +163667,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.6926,
-    "topic": 0.5351,
-    "subtopic": 0.3604
+    "chapter": 0.6951,
+    "topic": 0.5371,
+    "subtopic": 0.3617
    },
    "evidence": {
     "chapter": [
@@ -163879,8 +163711,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.5697,
-    "topic": 0.3322,
+    "chapter": 0.7328,
+    "topic": 0.4273,
     "subtopic": null
    },
    "evidence": {
@@ -163908,7 +163740,7 @@
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Mathematics",
    "grade": 10,
-   "level": "chapter",
+   "level": "topic",
    "stem": "Mr. Singh is the owner of a famous amusement park in Delhi. Generally, he does not go to the park, and it is managed by a team of staff. The ticket charge for the park is Rs 150 for children and Rs 400 for adults. One day Mr Singh decided to visit the park for a random check. When he checked the cas",
    "proposed": {
     "chapterId": "mathematics-10/quadratic-equations",
@@ -163916,8 +163748,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6078,
-    "topic": 0.3507,
+    "chapter": 0.7625,
+    "topic": 0.44,
     "subtopic": null
    },
    "evidence": {
@@ -163953,8 +163785,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9274,
-    "topic": 0.5994,
+    "chapter": 0.9561,
+    "topic": 0.618,
     "subtopic": null
    },
    "evidence": {
@@ -163990,8 +163822,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9834,
-    "topic": 0.7299,
+    "chapter": 0.9683,
+    "topic": 0.7187,
     "subtopic": null
    },
    "evidence": {
@@ -164027,8 +163859,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.8879,
-    "topic": 0.5186,
+    "chapter": 0.9366,
+    "topic": 0.547,
     "subtopic": null
    },
    "evidence": {
@@ -164064,8 +163896,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.5657,
-    "topic": 0.4965,
+    "chapter": 0.6801,
+    "topic": 0.5969,
     "subtopic": null
    },
    "evidence": {
@@ -164101,8 +163933,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9786,
-    "topic": 0.5591,
+    "chapter": 0.9632,
+    "topic": 0.5503,
     "subtopic": null
    },
    "evidence": {
@@ -164138,8 +163970,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.8878,
-    "topic": 0.6885,
+    "chapter": 0.9377,
+    "topic": 0.7272,
     "subtopic": null
    },
    "evidence": {
@@ -164175,8 +164007,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9094,
-    "topic": 0.4992,
+    "chapter": 0.9483,
+    "topic": 0.5206,
     "subtopic": null
    },
    "evidence": {
@@ -164212,8 +164044,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9423,
-    "topic": 0.5034,
+    "chapter": 0.9688,
+    "topic": 0.5175,
     "subtopic": null
    },
    "evidence": {
@@ -164249,8 +164081,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.7419,
-    "topic": 0.6912,
+    "chapter": 0.8165,
+    "topic": 0.7607,
     "subtopic": null
    },
    "evidence": {
@@ -164283,8 +164115,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.8536,
-    "topic": 0.4493,
+    "chapter": 0.8517,
+    "topic": 0.4483,
     "subtopic": null
    },
    "evidence": {
@@ -164357,7 +164189,7 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9998,
+    "chapter": 0.9996,
     "topic": 0.5364,
     "subtopic": null
    },
@@ -164394,8 +164226,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9731,
-    "topic": 0.6965,
+    "chapter": 0.9485,
+    "topic": 0.6789,
     "subtopic": null
    },
    "evidence": {
@@ -164431,8 +164263,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9747,
-    "topic": 0.617,
+    "chapter": 0.9688,
+    "topic": 0.6133,
     "subtopic": null
    },
    "evidence": {
@@ -164468,8 +164300,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9393,
-    "topic": 0.5722,
+    "chapter": 0.9548,
+    "topic": 0.5816,
     "subtopic": null
    },
    "evidence": {
@@ -164500,30 +164332,27 @@
    "level": "chapter",
    "stem": "Shilpi wants to organize a party. She has 36 kiwis and 60 oranges at home and decided to distribute them equally among all. She decides to add 42 apples also. In this case, how many maximum guests can she invite? (A) 6 (B) 12 (C) 120 (D) 180",
    "proposed": {
-    "chapterId": "mathematics-10/quadratic-equations",
-    "topicId": "mathematics-10/quadratic-equations/quadratic-equations",
+    "chapterId": "mathematics-10/real-numbers",
+    "topicId": "mathematics-10/real-numbers/revisiting-irrational-numbers",
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.2892,
-    "topic": 0.1668,
+    "chapter": 0.5203,
+    "topic": 0.3132,
     "subtopic": null
    },
    "evidence": {
     "chapter": [
      "real",
-     "solve",
-     "problem",
-     "decide",
-     "life",
-     "number"
+     "number",
+     "allow",
+     "apply",
+     "decid",
+     "relat"
     ],
     "topic": [
-     "requir",
-     "decid",
      "number",
-     "problem",
-     "life",
+     "case",
      "real"
     ],
     "subtopic": []
@@ -164537,31 +164366,29 @@
    "level": "chapter",
    "stem": "Shweta wants to organize a party. She has 336 guavas and 54 oranges at home and decided to distribute them equally among all. How many maximum guests can she invite? (A) 6 (B) 9 (C) 56 (D) 3024",
    "proposed": {
-    "chapterId": "mathematics-10/quadratic-equations",
-    "topicId": "mathematics-10/quadratic-equations/quadratic-equations",
+    "chapterId": "mathematics-10/real-numbers",
+    "topicId": "mathematics-10/real-numbers/introduction",
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.2748,
-    "topic": 0.1637,
+    "chapter": 0.551,
+    "topic": 0.3252,
     "subtopic": null
    },
    "evidence": {
     "chapter": [
      "real",
-     "solve",
-     "problem",
-     "life",
      "number",
-     "decid"
+     "allow",
+     "apply",
+     "decid",
+     "relat"
     ],
     "topic": [
-     "requir",
-     "decid",
+     "relat",
+     "real",
      "number",
-     "problem",
-     "life",
-     "real"
+     "apply"
     ],
     "subtopic": []
    }
@@ -164574,31 +164401,31 @@
    "level": "chapter",
    "stem": "Radha has 30 English books and 54 Mathematics books. 1 (a) She wants to stack them in such a way that each stack has the same number of books of a single subject. Find the minimum number of stacks possible in this arrangement.  1 (b) Her friend, Sona, brings 70 Science books and arranges them in the",
    "proposed": {
-    "chapterId": "mathematics-10/quadratic-equations",
-    "topicId": "mathematics-10/quadratic-equations/quadratic-equations",
+    "chapterId": "mathematics-10/real-numbers",
+    "topicId": "mathematics-10/real-numbers/the-fundamental-theorem-of-arithmetic",
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.417,
-    "topic": 0.3108,
+    "chapter": 0.6972,
+    "topic": 0.4607,
     "subtopic": null
    },
    "evidence": {
     "chapter": [
      "real",
      "number",
-     "solve",
-     "problem",
-     "life",
-     "book"
+     "mathematic",
+     "hcf",
+     "book",
+     "science"
     ],
     "topic": [
-     "book",
      "number",
+     "book",
+     "possible",
      "mathematic",
-     "left",
-     "problem",
-     "total"
+     "science",
+     "allow"
     ],
     "subtopic": []
    }
@@ -164616,8 +164443,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.4149,
-    "topic": 0.2491,
+    "chapter": 0.3495,
+    "topic": 0.2098,
     "subtopic": null
    },
    "evidence": {
@@ -164643,7 +164470,7 @@
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Mathematics",
    "grade": 10,
-   "level": "chapter",
+   "level": "topic",
    "stem": "In a conference, the number of participants in the Army, Navy, and Airforce are 60,84 and 108, respectively. Find the minimum number of rooms required if the same number of participants are to be seated in each room and all of them being in the same department.   2)",
    "proposed": {
     "chapterId": "mathematics-10/real-numbers",
@@ -164651,8 +164478,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6414,
-    "topic": 0.4294,
+    "chapter": 0.8518,
+    "topic": 0.5702,
     "subtopic": null
    },
    "evidence": {
@@ -164680,42 +164507,31 @@
    "level": "chapter",
    "stem": "Bhargav has 455 erasers and 210 pencils. He wants to distribute them in groups, each with the same combination of erasers and pencils, with none left over. What is the greatest number of groups Bhargav can distribute?   2)",
    "proposed": {
-    "chapterId": "mathematics-10/pair-of-linear-equations-in-two-variables",
-    "topicId": "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations",
-    "subtopicIds": [
-     "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations/substitution-method"
-    ]
+    "chapterId": "mathematics-10/real-numbers",
+    "topicId": "mathematics-10/real-numbers/revisiting-irrational-numbers",
+    "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.3902,
-    "topic": 0.2424,
-    "subtopic": 0.186
+    "chapter": 0.5923,
+    "topic": 0.3544,
+    "subtopic": null
    },
    "evidence": {
     "chapter": [
-     "pencil",
-     "eraser",
      "number",
-     "solve",
-     "problem",
-     "requir"
+     "greatest",
+     "real",
+     "hcf",
+     "allow",
+     "apply"
     ],
     "topic": [
-     "eraser",
-     "pencil",
      "number",
-     "solve",
-     "problem",
-     "therefore"
+     "real",
+     "therefore",
+     "hcf"
     ],
-    "subtopic": [
-     "pencil",
-     "eraser",
-     "number",
-     "problem",
-     "solve",
-     "therefore"
-    ]
+    "subtopic": []
    }
   },
   {
@@ -164726,31 +164542,31 @@
    "level": "chapter",
    "stem": "People of a society thought of donating books to an orphanage. The details of books they could collect are tabulated above. The books are to be stacked in such a manner that each stack has the same number of books, all of the same language, and with as small a number of stacks as possible. Find the ",
    "proposed": {
-    "chapterId": "mathematics-10/quadratic-equations",
-    "topicId": "mathematics-10/quadratic-equations/quadratic-equations",
+    "chapterId": "mathematics-10/real-numbers",
+    "topicId": "mathematics-10/real-numbers/the-fundamental-theorem-of-arithmetic",
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.339,
-    "topic": 0.2293,
+    "chapter": 0.6793,
+    "topic": 0.3789,
     "subtopic": null
    },
    "evidence": {
     "chapter": [
-     "real",
      "number",
+     "real",
+     "hcf",
      "book",
-     "type",
-     "solve",
-     "problem"
+     "possible",
+     "detail"
     ],
     "topic": [
-     "book",
      "number",
+     "book",
+     "possible",
+     "allow",
      "form",
-     "requir",
-     "problem",
-     "type"
+     "apply"
     ],
     "subtopic": []
    }
@@ -164768,8 +164584,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9535,
-    "topic": 0.5367,
+    "chapter": 0.9269,
+    "topic": 0.5217,
     "subtopic": null
    },
    "evidence": {
@@ -164804,8 +164620,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9756,
-    "topic": 0.5888,
+    "chapter": 0.9611,
+    "topic": 0.58,
     "subtopic": null
    },
    "evidence": {
@@ -164841,8 +164657,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.868,
-    "topic": 0.6075,
+    "chapter": 0.8703,
+    "topic": 0.6091,
     "subtopic": null
    },
    "evidence": {
@@ -164952,8 +164768,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.8108,
-    "topic": 0.4209,
+    "chapter": 0.8114,
+    "topic": 0.4212,
     "subtopic": null
    },
    "evidence": {
@@ -164977,43 +164793,6 @@
    }
   },
   {
-   "id": "cbe:q:Maths10PS9",
-   "bank": "academicos-data/syllabus/questions.json",
-   "subject": "Mathematics",
-   "grade": 10,
-   "level": "topic",
-   "stem": "A rectangular-shaped gardening block measures 12 m by 5 m and angle CAD = 𝜃 (theta) . 1 (a) Determine the value of 12 tan 𝜃. .  1 (b) Determine the value of 1− 𝑡𝑎𝑛2 𝜃 1+ 𝑡𝑎𝑛2 𝜃 .   4) 5m 12m D C B A ",
-   "proposed": {
-    "chapterId": "mathematics-10/introduction-to-trigonometry",
-    "topicId": "mathematics-10/introduction-to-trigonometry/trigonometric-ratios-of-some-specific-angles",
-    "subtopicIds": []
-   },
-   "confidence": {
-    "chapter": 0.9211,
-    "topic": 0.6097,
-    "subtopic": null
-   },
-   "evidence": {
-    "chapter": [
-     "tan",
-     "trigonometric",
-     "acute",
-     "angl",
-     "angle",
-     "ratio"
-    ],
-    "topic": [
-     "tan",
-     "value",
-     "angle",
-     "ratio",
-     "trigonometric",
-     "angl"
-    ],
-    "subtopic": []
-   }
-  },
-  {
    "id": "cbe:q:Maths10AS5",
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Mathematics",
@@ -165026,8 +164805,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.8469,
-    "topic": 0.4925,
+    "chapter": 0.8474,
+    "topic": 0.4928,
     "subtopic": null
    },
    "evidence": {
@@ -165055,33 +164834,33 @@
    "bank": "academicos-data/syllabus/questions.json",
    "subject": "Mathematics",
    "grade": 10,
-   "level": "topic",
+   "level": "chapter",
    "stem": "The value of θ, for which Sin2θ=1/2; 0º<θ<90º is (A) 15º (B) 30º (C) 45º (D) 60º",
    "proposed": {
-    "chapterId": "mathematics-10/some-applications-of-trigonometry",
-    "topicId": "mathematics-10/some-applications-of-trigonometry/heights-and-distances",
+    "chapterId": "mathematics-10/introduction-to-trigonometry",
+    "topicId": "mathematics-10/introduction-to-trigonometry/trigonometric-ratios",
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.743,
-    "topic": 0.6994,
+    "chapter": 0.6994,
+    "topic": 0.3839,
     "subtopic": null
    },
    "evidence": {
     "chapter": [
      "trigonometric",
-     "trigonometry",
      "sin",
-     "ratio",
+     "trigonometry",
      "value",
-     "requir"
+     "ratio",
+     "know"
     ],
     "topic": [
-     "ratio",
      "value",
+     "sin",
+     "ratio",
      "trigonometric",
      "requir",
-     "sin",
      "know"
     ],
     "subtopic": []
@@ -165100,8 +164879,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9054,
-    "topic": 0.486,
+    "chapter": 0.9057,
+    "topic": 0.4862,
     "subtopic": null
    },
    "evidence": {
@@ -165137,8 +164916,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6546,
-    "topic": 0.4806,
+    "chapter": 0.6555,
+    "topic": 0.4812,
     "subtopic": null
    },
    "evidence": {
@@ -165174,8 +164953,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9592,
-    "topic": 0.7163,
+    "chapter": 0.9618,
+    "topic": 0.7182,
     "subtopic": null
    },
    "evidence": {
@@ -165211,8 +164990,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.78,
-    "topic": 0.5889,
+    "chapter": 0.7736,
+    "topic": 0.5841,
     "subtopic": null
    },
    "evidence": {
@@ -165247,8 +165026,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6274,
-    "topic": 0.4755,
+    "chapter": 0.529,
+    "topic": 0.4009,
     "subtopic": null
    },
    "evidence": {
@@ -165274,30 +165053,29 @@
    "level": "chapter",
    "stem": "The traffic lights at three different road crossings change after every 48 sec, 72 sec and 108 sec respectively. If they all change simultaneously at 9:20:00 hrs, when will they again change simultaneously?   2)",
    "proposed": {
-    "chapterId": "mathematics-10/introduction-to-trigonometry",
-    "topicId": "mathematics-10/introduction-to-trigonometry/trigonometric-ratios",
+    "chapterId": "mathematics-10/real-numbers",
+    "topicId": "mathematics-10/real-numbers/the-fundamental-theorem-of-arithmetic",
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.3094,
-    "topic": 0.1765,
+    "chapter": 0.3838,
+    "topic": 0.2301,
     "subtopic": null
    },
    "evidence": {
     "chapter": [
-     "sec",
-     "change",
-     "requir",
-     "different",
-     "respectively",
-     "apply"
+     "real",
+     "allow",
+     "three",
+     "apply",
+     "relat",
+     "respectively"
     ],
     "topic": [
-     "sec",
-     "change",
+     "three",
      "respectively",
-     "different",
-     "requir"
+     "allow",
+     "apply"
     ],
     "subtopic": []
    }
@@ -165389,8 +165167,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.6004,
-    "topic": 0.5856,
+    "chapter": 0.5934,
+    "topic": 0.5788,
     "subtopic": null
    },
    "evidence": {
@@ -165420,8 +165198,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.7944,
-    "topic": 0.7343,
+    "chapter": 0.795,
+    "topic": 0.7348,
     "subtopic": null
    },
    "evidence": {
@@ -165457,8 +165235,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.9967,
-    "topic": 0.5127,
+    "chapter": 0.9966,
+    "topic": 0.5126,
     "subtopic": null
    },
    "evidence": {
@@ -165494,8 +165272,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.7062,
-    "topic": 0.6527,
+    "chapter": 0.7051,
+    "topic": 0.6517,
     "subtopic": null
    },
    "evidence": {
@@ -165633,8 +165411,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.8515,
-    "topic": 0.5544,
+    "chapter": 0.8495,
+    "topic": 0.5532,
     "subtopic": null
    },
    "evidence": {
@@ -165778,8 +165556,8 @@
     "subtopicIds": []
    },
    "confidence": {
-    "chapter": 0.892,
-    "topic": 0.6411,
+    "chapter": 0.8905,
+    "topic": 0.64,
     "subtopic": null
    },
    "evidence": {
@@ -166029,9 +165807,9 @@
     ]
    },
    "confidence": {
-    "chapter": 0.9155,
-    "topic": 0.8969,
-    "subtopic": 0.5138
+    "chapter": 0.9181,
+    "topic": 0.8994,
+    "subtopic": 0.5152
    },
    "evidence": {
     "chapter": [

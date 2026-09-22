@@ -41,6 +41,13 @@ build_exemplar_bank.py) is read when it exists and gated like CBE and SQP
 held to the chapter-tag rule: its builder tags a chapter from the book's own
 chapter title, and apply_chapter_tags.py never writes it.
 
+Every record's symbol-font characters are restored before the gates read it
+(bank_merge.repair_symbol_font), and one still holding a private-use character
+is excluded; every chapter id the (subject, grade) syllabus does not know --
+a raw CBE content code such as "10A2b" -- is resolved to the chapter the
+record names or dropped (bank_merge.resolve_chapter_ids), so no teacher is
+offered "10A2B" as a chapter and no chapter is listed twice.
+
 Board records are gated like CBE and SQP ones (bank_merge.exclusion_reason),
 after the repairs that are certain (bank_merge.repair_board); --check prints
 what each reason removes, the repairs, and the served count by subject and
@@ -80,6 +87,8 @@ class Paths:
     excluded: Path
     # The NCERT Exemplar bank; no file (or None) serves none.
     exemplar: Path | None = None
+    # The NCERT taxonomy trees, which name a record's taxonomyChapterId.
+    taxonomy: Path | None = None
     # Withheld board records, whole. Next to `excluded` unless named.
     held: Path | None = None
     # What --relink-in-memory reads: the answer-key index and the parse trees.
@@ -98,6 +107,7 @@ DEFAULT = Paths(
     sqp=REPO / "academicos-data" / "corpus" / "cbse-sqp" / "questions.json",
     excluded=REPO / "academicos-data" / "syllabus" / "_merge_excluded.json",
     exemplar=REPO / "academicos-data" / "corpus" / "ncert-exemplar" / "questions.json",
+    taxonomy=REPO / "academicos-data" / "syllabus" / "taxonomy",
     answer_keys=REPO / "academicos-data" / "answer_keys.db",
     parse_dir=REPO / "academicos-data" / "parse",
 )
@@ -133,6 +143,31 @@ def _chapter_names(questions: list[dict]) -> dict[tuple[str, int, str], str]:
             continue
         for _unit, chapter in syllabus.all_chapters():
             names[(subject, grade, chapter.id)] = chapter.name
+    return names
+
+
+def _chapters_by_grade(names: dict[tuple[str, int, str], str]) -> dict[tuple[str, int], dict]:
+    """`_chapter_names` regrouped as resolve_chapter_ids reads it: one chapter
+    id -> name map per (subject, grade)."""
+    out: dict[tuple[str, int], dict[str, str]] = {}
+    for (subject, grade, chapter_id), name in names.items():
+        out.setdefault((subject, grade), {})[chapter_id] = name
+    return out
+
+
+def _taxonomy_names(path: Path | None) -> dict[str, str]:
+    """Taxonomy chapter id -> name, from the NCERT taxonomy trees (Task 703).
+
+    The tagger writes `taxonomyChapterId` on a record; only the tree names it,
+    and that name is what a raw CBE content code is resolved against.
+    """
+    names: dict[str, str] = {}
+    for tree in sorted((path or Path()).glob("*.json")) if path and path.exists() else []:
+        if tree.name.startswith("_") or tree.name == "review_queue.json":
+            continue
+        for chapter in json.loads(tree.read_text(encoding="utf-8")).get("chapters") or []:
+            if chapter.get("id") and chapter.get("name"):
+                names[chapter["id"]] = chapter["name"]
     return names
 
 
@@ -196,7 +231,9 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
     result = bank_merge.compose(served["questions"], cbe["questions"], sqp["questions"],
                                 held=held, exemplar=exemplar["questions"])
     names = _chapter_names(result.questions)
-    questions = bank_merge.apply_chapter_names(result.questions, names)
+    questions, chapter_ids = bank_merge.resolve_chapter_ids(
+        result.questions, _chapters_by_grade(names), _taxonomy_names(paths.taxonomy))
+    questions = bank_merge.apply_chapter_names(questions, names)
     covered = sum(1 for q in questions if _has_official_scheme(q))
 
     # Deterministic, so re-running on unchanged sources gives identical bytes:
@@ -222,9 +259,10 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
         print(f"  {n:5,}  {str(source):20s} {reason}")
     print("by grade:", dict(sorted(collections.Counter(q.get("grade") for q in questions).items())))
     print(f"official scheme coverage: {covered:,}/{len(questions):,}")
-    # Records the syllabus cannot name keep a topic as their first tag, so the
-    # phone's picker can show several chapters under one label. The fix belongs
-    # to the chapter tagger; this keeps the gap visible on every --check.
+    # A raw CBE content code is never offered as a chapter: it is resolved to
+    # the syllabus chapter the record names, or dropped (Task 121).
+    print(f"chapter ids resolved to a syllabus chapter: {chapter_ids['resolved']:,}; "
+          f"dropped, no chapter named: {chapter_ids['dropped']:,}")
     print(f"chapter ids the syllabus cannot name (non-board): "
           f"{bank_merge.unresolved_chapters(questions, names):,}")
     print(f"records with no chapter id (non-board): "
@@ -237,7 +275,7 @@ def run(paths: Paths, *, check: bool, allow_no_board: bool = False,
                 print(f"  {subject} {grade}: {label!r} covers {', '.join(cids)}")
     print(f"board records withheld, kept whole in {paths.withheld.name}: "
           f"{len(result.withheld):,}")
-    print("board repairs: " + (", ".join(f"{name} {n:,}" for name, n in sorted(result.repairs.items()))
+    print("repairs: " + (", ".join(f"{name} {n:,}" for name, n in sorted(result.repairs.items()))
                                or "none"))
     _by_subject_grade(served["questions"], questions)
     # Board records exist but not one carries the relink's stamp: the bank has
