@@ -364,9 +364,9 @@ class AnswerKeyIndex:
         for cand in self.candidates(code, q_no):
             verdict = verify_answer(record, cand)
             if verdict.accepted:
-                # A letter-only key from "XII_042_Physics_MS_55_2_1,2,3.pdf"
-                # names no medium and carries no text to read one from; it
-                # still ranks above one that names the other medium.
+                # A key from "56_4_2.pdf" names no medium in its filename and
+                # may carry too little text to read one from; it still ranks
+                # above one that names the other medium.
                 rank = 2 if cand.medium == medium else (1 if not cand.medium else 0)
                 accepted.append((rank, verdict.score, cand, verdict))
             else:
@@ -434,8 +434,17 @@ class RelinkReport:
     """What the relink actually did. Printed by the pipeline, asserted in tests."""
 
     total: int = 0
+    # Board records that had a scheme end in exactly one of the next four:
+    # verified as it was, replaced, kept unlabelled, or removed.
     already_had_scheme: int = 0
+    # The record's own scheme passed, and a verified official ends on it.
     verified_existing_scheme: int = 0
+    # The record's own scheme was quarantined, and a verified official
+    # candidate was attached in its place. Counted apart from the above: the
+    # scheme the record had is the one removed, not the one verified.
+    replaced_after_quarantine: int = 0
+    # The record's own scheme was quarantined and nothing verified replaced it.
+    existing_scheme_removed: int = 0
     # Unlabelled descriptive schemes the verifier accepts and no official row
     # accounts for. A labelled or objective one with no row is quarantined
     # as UNBACKED_KEY instead.
@@ -466,7 +475,8 @@ class RelinkReport:
     def verified(self) -> int:
         """Records that end with an official scheme the verifier accepted --
         the only ones labelled cbse_marking_scheme."""
-        return self.verified_existing_scheme + self.newly_attached + self.carried_official
+        return (self.verified_existing_scheme + self.replaced_after_quarantine
+                + self.newly_attached + self.carried_official)
 
     @property
     def with_scheme(self) -> int:
@@ -482,9 +492,13 @@ class RelinkReport:
         out = [
             "questions                      : {:,}".format(self.total),
             "had a scheme before            : {:,}".format(self.already_had_scheme),
-            "  ends with a verified official: {:,}".format(self.verified_existing_scheme),
+            "  its scheme verified, official: {:,}".format(self.verified_existing_scheme),
+            "  its scheme quarantined, replaced by a verified official: {:,}".format(
+                self.replaced_after_quarantine),
             "  kept unlabelled (verified content, no official key): {:,}".format(
                 self.existing_scheme_unverifiable),
+            "  its scheme quarantined, nothing in its place: {:,}".format(
+                self.existing_scheme_removed),
             "verified official attached new : {:,}".format(self.newly_attached),
             "  carried an official scheme from its builder, verified : {:,}".format(
                 self.carried_official),
@@ -494,6 +508,8 @@ class RelinkReport:
             "",
             "quarantined (scheme removed from the record): {:,}".format(
                 sum(self.quarantined.values())),
+            "  (of which replaced by a verified official: {:,})".format(
+                self.replaced_after_quarantine),
         ]
         out += ["  {:<20}: {:,}".format(r, n) for r, n in sorted(self.quarantined.items())]
         out += ["official candidates rejected (never attached): {:,}".format(
@@ -675,6 +691,7 @@ def relink_answer_schemes(
     """
     report = RelinkReport(total=len(records))
     sources: dict[str, ParsedSource | None] = {}
+    had_before: list[dict[str, Any]] = []
 
     for rec in records:
         parsed_id = parse_question_id(rec.get("id") or "")
@@ -709,6 +726,7 @@ def relink_answer_schemes(
             continue
         if had_scheme:
             report.already_had_scheme += 1
+            had_before.append(rec)
 
         def settle_without_candidate() -> None:
             if not kept:
@@ -782,11 +800,15 @@ def relink_answer_schemes(
             document_id=source.document_id,
             options=question_options(rec) or parse_options(stem),
         ).model_dump(mode="json", by_alias=True)
-        if had_scheme:
+        if not had_scheme:
+            report.newly_attached += 1
+        elif kept:
             report.verified_existing_scheme += 1
         else:
-            report.newly_attached += 1
+            report.replaced_after_quarantine += 1
 
+    report.existing_scheme_removed = sum(
+        not _has_content(r.get("answerScheme") or {}) for r in had_before)
     return report
 
 

@@ -45,24 +45,34 @@ QUARANTINE = REPO / "academicos-data" / "syllabus" / "scheme_quarantine.json"
 
 
 def print_subject_grade_table(records: list[dict], report, had_official: set) -> None:
-    """Per subject and grade: records, official before, verified after, quarantined."""
+    """Per subject and grade: records, official before, verified after, and the
+    quarantined records split so no column overlaps another's meaning:
+    `replaced` had a scheme quarantined and a verified official attached in
+    its place (it is counted in `verified` too); `quarantined` had a scheme
+    quarantined and ends with none verified."""
     quarantined = {e["id"] for e in report.quarantine}
     rows: dict[tuple[str, str], list[int]] = {}
     for r in records:
         key = (str(r.get("subject") or "?"), str(r.get("grade") or "?"))
-        row = rows.setdefault(key, [0, 0, 0, 0])
+        row = rows.setdefault(key, [0, 0, 0, 0, 0])
+        verified = (r.get("answerScheme") or {}).get("provenance") == "cbse_marking_scheme"
+        removed = r.get("id") in quarantined
         row[0] += 1
         row[1] += r.get("id") in had_official
-        row[2] += (r.get("answerScheme") or {}).get("provenance") == "cbse_marking_scheme"
-        row[3] += r.get("id") in quarantined
-    print("{:<26} {:>5} {:>8} {:>9} {:>9} {:>12}".format(
-        "subject", "grade", "records", "labelled", "verified", "quarantined"))
-    print("  (labelled = cbse_marking_scheme before the relink; verified = after)")
-    for (subject, grade), (n, before, after, quar) in sorted(rows.items()):
-        print("{:<26} {:>5} {:>8,} {:>9,} {:>9,} {:>12,}".format(
-            subject[:26], grade, n, before, after, quar))
-    tot = [sum(v[i] for v in rows.values()) for i in range(4)]
-    print("{:<26} {:>5} {:>8,} {:>9,} {:>9,} {:>12,}".format("total", "", *tot))
+        row[2] += verified
+        row[3] += removed and verified
+        row[4] += removed and not verified
+    fmt = "{:<26} {:>5} {:>8} {:>9} {:>9} {:>9} {:>12}"
+    print(fmt.format("subject", "grade", "records", "labelled", "verified", "replaced",
+                     "quarantined"))
+    print("  (labelled = cbse_marking_scheme before the relink; verified = after;")
+    print("   replaced = scheme quarantined, a verified official attached instead,")
+    print("   and counted in verified; quarantined = scheme removed, none verified)")
+    num = "{:<26} {:>5} {:>8,} {:>9,} {:>9,} {:>9,} {:>12,}"
+    for (subject, grade), vals in sorted(rows.items()):
+        print(num.format(subject[:26], grade, *vals))
+    tot = [sum(v[i] for v in rows.values()) for i in range(5)]
+    print(num.format("total", "", *tot))
 
 
 QUARANTINE_ABOUT = (

@@ -12,6 +12,7 @@ cited by record id or source file, except where a docstring says otherwise.
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 import sys
 from pathlib import Path
@@ -143,9 +144,61 @@ def test_option_mismatch_rejects_a_key_naming_no_option():
     assert v.reason == "option-mismatch"
 
 
-def test_an_mcq_keyed_by_letter_is_accepted():
-    assert verify(rec(TOMATO, marks=1), "", option="D").accepted
-    assert verify(rec(TOMATO, marks=1), "(d) Oxalic acid").accepted
+def test_an_mcq_keyed_by_letter_and_its_options_words_is_accepted():
+    assert verify(rec(TOMATO, marks=1), "(d) Oxalic acid", option="D").accepted
+    assert verify(rec(TOMATO, marks=1), "Oxalic acid 1 mark", option="D").accepted
+    assert verify(rec(TOMATO, marks=1), "(d) Oxalic acid").option == "D"
+
+
+# cbse:q:src:0b3c7b807dcc7e88fd1809df:17 (430/5/2 Q17): "430_5_2.pdf" keys it
+# B, a bare letter. The sum is 100 x 101 = 10100, option A.
+EVENS = ("The sum of the first 100 even natural numbers is : (a) 10100 (b) 2550 "
+         "(c) 5050 (d) 10010")
+# cbse:q:src:6df8d2b3a2f6c8cce1428573:1 (55/1/1 Q1): the Hindi-medium scheme
+# keys it A, a bare letter. The field at the centre of a charged ring is zero.
+RING = ("A thin plastic rod is bent into a circular ring of radius R. It is uniformly "
+        "charged with charge density . The magnitude of the electric field at its centre "
+        "is : (A) R 2 0 (B) Zero (C) 0R (D) R 4")
+
+
+@pytest.mark.parametrize("stem, subject, letter", [(EVENS, "Mathematics", "B"),
+                                                   (RING, "Physics", "A")])
+def test_a_bare_letter_key_is_not_trusted(stem, subject, letter):
+    """A letter is always "among the options", so on its own it says nothing
+    about which question its row answers. Of the 24 bare-letter keys the
+    verifier accepted at 960455e, 12 were judged wrong and 8 correct (fixture
+    stratum objective-accepted) -- 430/5/2 Q17 and 55/1/1 Q1 among the wrong."""
+    record = rec(stem, subject=subject, marks=1)
+    assert verify(record, "", option=letter).reason == "unverifiable-letter"
+    assert verify(record, f"({letter.lower()})", option=letter).reason == "unverifiable-letter"
+    assert verify(record, f"({letter})").reason == "unverifiable-letter"
+
+
+def test_a_numeric_option_can_be_named_in_words():
+    """The page-footer cut used to strip "2550" to nothing, so no key could
+    name a numeric option -- and a served scheme "2550" for option B could
+    not even be traced back to its (bare-letter) row."""
+    record = rec(EVENS, subject="Mathematics", marks=1)
+    assert verify(record, "10100", option="A").option == "A"
+    assert verify(record, "10100").option == "A"
+    assert verify(record, "2550", option="A").reason == "option-mismatch"
+
+
+def test_options_that_extracted_as_dashes_name_nothing():
+    """cbse:q:src:88532141f34ac8143c0d1b45:6 (30/3/2 Q6): the options are
+    extraction debris, and the key "– 3x2 – x – 6" from
+    "MS_X_041_Mathematics_30-3-2_2025-26 (1).pdf" is another question's
+    polynomial that merely opens with a dash."""
+    stem = "p(y) = 7y2 -y (A) -, -(B) -, (C) -, -(D) -,"
+    v = verify(rec(stem, subject="Mathematics", marks=1), "– 3x2 – x – 6", option="D")
+    assert v.reason == "option-mismatch"
+
+
+def test_a_bare_letter_from_the_items_own_builder_is_kept():
+    """A CBE/SQP scheme was attached from its own item (judge_content=False):
+    there is no row to misalign, so its letter stands."""
+    record = rec(EVENS, subject="Mathematics", marks=1)
+    assert verify(record, "", option="A", judge_content=False).accepted
 
 
 def test_a_letter_outside_the_options_is_an_option_mismatch():
@@ -278,7 +331,8 @@ def test_a_hindi_question_accepts_a_devanagari_answer():
 
 def test_every_reason_is_named():
     assert set(REASONS) == {"document-id", "legacy-font", "script-mismatch",
-                            "unreadable-options", "option-mismatch", "content-mismatch"}
+                            "unreadable-options", "unverifiable-letter", "option-mismatch",
+                            "content-mismatch"}
 
 
 # --------------------------------------------------------------------------- #
@@ -313,22 +367,28 @@ def test_an_english_stem_gets_the_english_answer_in_either_load_order(tmp_path, 
     assert best.source == EN_ROW[-1]
 
 
-# 56/4/2 Q3 (cbse:q:src:a5d35ea98c8f5dd80214b6f2:3): two letter keys, both
-# among the options, so both pass the verifier -- and they disagree.
-# "56_4_2.pdf" names no medium and says A; "043_56_4_2_Hindi.pdf" says B. The
-# index used to take A because an unknown medium outranks the other one; the
-# same pair answer Q12 A and C. Nothing here says which is right.
+# 56/4/2 Q3 (cbse:q:src:a5d35ea98c8f5dd80214b6f2:3): "56_4_2.pdf" names no
+# medium and keys it A; "043_56_4_2_Hindi.pdf" keys it B. Both real rows are
+# bare letters (BARE_A, BARE_B), which the verifier no longer accepts, so the
+# keys below add the option's words to each: two accepted keys that disagree.
+# (Constructed from the real rows.) The index used to take A because an
+# unknown medium outranks the other one. Nothing here says which is right.
 KOH_STEM = ("Reaction of 1-phenyl-2-chloropropane with alcoholic KOH gives mainly : "
             "(a) 1-phenylpropene (b) 3-phenylpropene (c) 1-phenylpropan-3-ol "
             "(d) 1-phenylypropan-2-ol")
-EN_KEY = ("English", "XII", "56/4/2", 3, "A", "", "[]", 1.0, "56_4_2.pdf")
-HI_KEY = ("Chemistry", "XII", "56/4/2", 3, "B", "", "[]", 1.0, "043_56_4_2_Hindi.pdf")
-HI_KEY_A = HI_KEY[:4] + ("A",) + HI_KEY[5:]
+EN_KEY = ("English", "XII", "56/4/2", 3, "A", "1-phenylpropene", "[]", 1.0, "56_4_2.pdf")
+HI_KEY = ("Chemistry", "XII", "56/4/2", 3, "B", "3-phenylpropene", "[]", 1.0,
+          "043_56_4_2_Hindi.pdf")
+HI_KEY_A = HI_KEY[:4] + ("A", "1-phenylpropene") + HI_KEY[6:]
 # Two keys of the SAME rank (neither names a medium) that disagree: rank and
 # score tie, so a stable sort would have handed the key to load order.
-# (Constructed from the two real rows above; the second filename is invented.)
-SET_A = ("Chemistry", "XII", "56/4/2", 3, "A", "", "[]", 1.0, "56_4_2.pdf")
-SET_C = ("Chemistry", "XII", "56/4/2", 3, "C", "", "[]", 1.0, "XII_043_56_4_2.pdf")
+# (The second filename is invented.)
+SET_A = ("Chemistry", "XII", "56/4/2", 3, "A", "1-phenylpropene", "[]", 1.0, "56_4_2.pdf")
+SET_C = ("Chemistry", "XII", "56/4/2", 3, "C", "1-phenylpropan-3-ol", "[]", 1.0,
+         "XII_043_56_4_2.pdf")
+# The real bare-letter rows.
+BARE_A = ("English", "XII", "56/4/2", 3, "A", "", "[]", 1.0, "56_4_2.pdf")
+BARE_B = ("Chemistry", "XII", "56/4/2", 3, "B", "", "[]", 1.0, "043_56_4_2_Hindi.pdf")
 
 
 @pytest.mark.parametrize("rows", [[EN_KEY, HI_KEY], [HI_KEY, EN_KEY],
@@ -357,6 +417,49 @@ def test_a_key_in_words_and_a_key_by_letter_that_agree_are_not_a_conflict(tmp_pa
     idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [SET_A, words]))
     best = idx.lookup("56/4/2", 3, rec(KOH_STEM, subject="Chemistry", marks=1))
     assert best is not None and best.correct_option == "A"
+
+
+@pytest.mark.parametrize("rows", [[BARE_A, BARE_B], [BARE_B, BARE_A], [BARE_A]])
+def test_bare_letter_rows_answer_nothing(tmp_path, rows):
+    """The real 56/4/2 Q3 rows: two bare letters. Neither is labelled."""
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", rows))
+    choice = idx.choose("56/4/2", 3, rec(KOH_STEM, subject="Chemistry", marks=1))
+    assert choice.best is None
+    assert {v.reason for _, v in choice.rejected} == {"unverifiable-letter"}
+
+
+def test_a_bare_letter_row_does_not_outvote_a_key_in_words(tmp_path):
+    """A bare letter that disagrees with a key naming its option in words is
+    not a conflict: the letter is not evidence, the words are."""
+    words = ("English", "XII", "56/4/2", 3, None, "(a) 1-phenylpropene", "[]", 1.0,
+             "56-4-2 English.pdf")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [BARE_B, words]))
+    choice = idx.choose("56/4/2", 3, rec(KOH_STEM, subject="Chemistry", marks=1))
+    assert choice.best is not None and choice.best.correct_option == "A"
+    assert [v.reason for _, v in choice.rejected] == ["unverifiable-letter"]
+
+
+def test_a_labelled_scheme_built_from_a_bare_letter_is_quarantined(tmp_path):
+    """cbse:q:src:0b3c7b807dcc7e88fd1809df:17 (430/5/2 Q17) served "Correct
+    option B: 2550" as official, from the bare letter in "430_5_2.pdf". Standing
+    alone the scheme names its option -- `build_official_scheme` wrote the
+    option's text as the model answer -- but its row is a bare letter."""
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "b" * 24, "Series 430/5/2 Mathematics")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [
+        ("Mathematics", "X", "430/5/2", 17, "B", "", "[]", 1.0, "430_5_2.pdf")]))
+    served = {"totalMarks": 1, "modelAnswer": "2550",
+              "markingPoints": [{"id": "m1", "description": "Correct option B: 2550", "marks": 1}],
+              "metadata": {"objective": True, "correctOption": "B"},
+              "provenance": "cbse_marking_scheme"}
+    recs = [_board("b" * 24, 17, EVENS, served, subject="Mathematics", marks=1)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    scheme = recs[0]["answerScheme"]
+    assert scheme.get("provenance") != "cbse_marking_scheme"
+    assert "correctOption" not in (scheme.get("metadata") or {})
+    assert report.quarantined == {"unverifiable-letter": 1}
+    assert report.verified == 0
 
 
 def test_a_labelled_scheme_built_from_a_conflicting_key_is_quarantined(tmp_path):
@@ -450,8 +553,45 @@ def test_a_rejected_existing_scheme_is_replaced_by_a_verified_candidate(tmp_path
     assert scheme["metadata"]["schemeSource"] == EN_ROW[-1]
     assert scheme["metadata"]["schemeMedium"] == "en"
     assert report.quarantined == {"script-mismatch": 1}
-    assert report.verified_existing_scheme == 1
+    # Replaced, not verified: the scheme the record had is the one removed.
+    assert report.replaced_after_quarantine == 1
+    assert report.verified_existing_scheme == 0
+    assert report.verified == 1
     assert report.rejected == {"script-mismatch": 1}      # the Hindi candidate
+    assert any("replaced" in line and line.rstrip().endswith(": 1")
+               for line in report.lines())
+
+
+def test_the_relink_counts_of_records_that_had_a_scheme_add_up(tmp_path):
+    """Every board record that had a scheme ends in exactly one bucket:
+    verified as it was, replaced after quarantine, kept unlabelled, or
+    removed with nothing in its place."""
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "d" * 24, "Series 57/1/1 Biology")
+    make_parse_tree(parse, "c" * 24, "Series 64/4/1 Geography")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [EN_ROW, HI_ROW]))
+    hindi = {"totalMarks": 1, "modelAnswer": HI_ROW[5], "provenance": "cbse_marking_scheme",
+             "markingPoints": [{"id": "m1", "description": HI_ROW[5], "marks": 1}]}
+    english = {"totalMarks": 1, "modelAnswer": "Human Chorionic Gonadotropin",
+               "markingPoints": [{"id": "m1", "description": "Human Chorionic Gonadotropin",
+                                  "marks": 1}]}
+    wrong = {"totalMarks": 5, "modelAnswer": PHYSICS_IN_HINDI,
+             "markingPoints": [{"id": "m1", "description": PHYSICS_IN_HINDI, "marks": 5}],
+             "provenance": "cbse_marking_scheme"}
+    recs = [_board("d" * 24, 2, HCG_STEM, hindi, subject="Biology", marks=1),
+            _board("d" * 24, 2, HCG_STEM, english, subject="Biology", marks=1),
+            _board("c" * 24, 24, GEOGRAPHY_STEM, wrong)]
+    report = relink_answer_schemes(recs, idx, parse_dir=parse)
+
+    assert report.already_had_scheme == 3
+    assert report.replaced_after_quarantine == 1
+    assert report.verified_existing_scheme == 1
+    assert report.existing_scheme_removed == 1
+    assert report.existing_scheme_unverifiable == 0
+    assert report.already_had_scheme == (
+        report.verified_existing_scheme + report.replaced_after_quarantine
+        + report.existing_scheme_unverifiable + report.existing_scheme_removed)
+    assert sum(report.quarantined.values()) == 2
 
 
 def test_a_labelled_mcq_key_no_official_row_backs_is_quarantined(tmp_path):
@@ -535,8 +675,10 @@ def test_a_carried_scheme_is_verified_too(tmp_path):
 
 
 def test_verify_answer_reads_the_candidates_letter_and_points():
-    ans = OfficialAnswer(q_no=4, correct_option="D", answer_text="")
+    ans = OfficialAnswer(q_no=4, correct_option="D", answer_text="Oxalic acid")
     assert verify_answer(rec(TOMATO, marks=1), ans).accepted
+    ans = OfficialAnswer(q_no=4, correct_option="D", answer_text="")
+    assert verify_answer(rec(TOMATO, marks=1), ans).reason == "unverifiable-letter"
     ans = OfficialAnswer(q_no=4, correct_option=None, answer_text="",
                          value_points=[("(d) Oxalic acid", 1.0)])
     assert verify_answer(rec(TOMATO, marks=1), ans).accepted
@@ -606,11 +748,18 @@ def _fixture_verdicts():
     fx = json.loads(FIXTURE.read_text(encoding="utf-8"))
     out = []
     for p in fx["pairs"]:
-        ans = OfficialAnswer(q_no=p["qNo"], correct_option=None, answer_text=p["answerText"],
+        ans = OfficialAnswer(q_no=p["qNo"], correct_option=p.get("correctOption"),
+                             answer_text=p["answerText"],
                              value_points=[tuple(v) for v in p["valuePoints"]])
         record = {"stem": p["stem"], "subject": p["subject"], "marks": p["marks"]}
+        if "type" in p:
+            record["type"] = p["type"]
         out.append((p, verify_answer(record, ans)))
     return fx, out
+
+
+def _objective(verdicts):
+    return [(p, v) for p, v in verdicts if p["stratum"].startswith("objective")]
 
 
 def test_the_fixture_is_seeded_and_says_whose_judgements_they_are():
@@ -633,6 +782,51 @@ def test_the_calibrated_rule_keeps_what_it_can():
     verdicts (which no overlap can tell apart) and correct answers that share
     too few words with a long stem."""
     _, verdicts = _fixture_verdicts()
-    correct = [(p, v) for p, v in verdicts if p["judgement"] == "correct"]
+    correct = [(p, v) for p, v in verdicts
+               if p["judgement"] == "correct" and not p["stratum"].startswith("objective")]
     assert len(correct) == 32
     assert sum(v.accepted for _, v in correct) == 17
+
+
+def test_the_objective_strata_are_judged_and_seeded():
+    fx, verdicts = _fixture_verdicts()
+    objective = _objective(verdicts)
+    assert {p["stratum"] for p, _ in objective} == {"objective-accepted", "objective-random"}
+    assert len(objective) == 75
+    assert "20260922" in fx["strata"]["objective-random"]
+    assert all(p["options"] for p, _ in objective)
+
+
+def test_no_objective_pair_judged_wrong_is_accepted():
+    """The census of every objective key the verifier accepted at 960455e:
+    12 of its 24 bare letters were judged wrong (430/5/2 Q17, 30/2/3 Q8,
+    430/5/3 Q2 and Q12, 30/5/1 Q18, 430/2/1 Q16, 56/1/3 Q2, 56/4/3 Q3,
+    55/1/1 Q1, ...). None may be accepted."""
+    _, verdicts = _fixture_verdicts()
+    wrong = [(p, v) for p, v in _objective(verdicts) if p["judgement"] == "wrong"]
+    assert len(wrong) == 29
+    assert [p["id"] for p, v in wrong if v.accepted] == []
+
+
+def test_an_objective_key_is_accepted_only_on_its_options_words():
+    """Pinned so a change to `_option_verdict` or `_named_options` shows up:
+    every objective pair accepted resolves to an option and carries words
+    beyond its letter, and of the 32 judged correct 24 are accepted -- the 8
+    lost are bare letters."""
+    _, verdicts = _fixture_verdicts()
+    objective = _objective(verdicts)
+    for p, v in objective:
+        if v.accepted:
+            assert v.option, p["id"]
+            assert re.search(r"\w", _unlabelled(p)), p["id"]
+    correct = [(p, v) for p, v in objective if p["judgement"] == "correct"]
+    assert len(correct) == 32
+    assert sum(v.accepted for _, v in correct) == 24
+    assert [v.reason for _, v in correct if not v.accepted] == ["unverifiable-letter"] * 8
+
+
+def _unlabelled(p) -> str:
+    """The key's text with its option label and mark note cut."""
+    text = " ".join([p["answerText"]] + [v[0] for v in p["valuePoints"]]).strip()
+    text = re.sub(r"^(?:ans\.?\s*)?\(?\s*[A-Da-d]\s*\)?\s*[/.):\-]*", "", text, flags=re.I)
+    return re.sub(r"(?:\s*(?:\d+|½)\s*marks?\b)+\s*$", "", text, flags=re.I)

@@ -1,12 +1,15 @@
 {
  "about": "Calibration sample for the content-mismatch rule in academicos/corpus/scheme_verify.py. Each pair is a question from the served bank (academicos-data/syllabus/questions.json, 3,286 board records) and one official answer that answer_keys.db holds for the same (paper code, question number). The judgements are an AI reviewer's (Claude, 2026-09-22), made by reading each stem and answer; they are NOT a teacher's. 'correct' = answers this question (a part of it counts); 'wrong' = answers a different question, or is not an answer (instructions, the question repeated, a document id, unreadable legacy font); 'cannot-tell' = the stem or answer is too damaged or too generic to say.",
  "population": "Subjective pairs: the stem carries no readable (A)-(D) options, the key has no option letter, and both stem and answer are mostly Latin script. 2,129 such pairs in the served bank.",
+ "objectivePopulation": "Objective pairs: a served board record whose stem carries readable options (scheme_verify.question_options), and one answer_keys.db candidate for its (paper code, question number), whatever the key holds -- a letter, a letter and words, or words. 839 such pairs: 26 a bare letter, 174 a letter with words, 636 words alone, 3 a letter written as the answer text.",
  "seed": 20260922,
  "strata": {
   "random": "The first 40 'random' pairs were drawn uniformly from the population with random.Random(20260922).sample; the next 40, with the same generator, from the population's pairs whose answer shares at least 10% of its content words with the stem (measured with the drafting tokenizer: [a-z]{3,} words, a shorter stopword list), so that the sample holds enough correct pairs to calibrate on.",
-  "shared>=3": "40 drawn with random.Random(20260922) from the 93 population pairs sharing at least 3 content words with the stem (same drafting tokenizer), excluding pairs already drawn: the region where the threshold decides."
+  "shared>=3": "40 drawn with random.Random(20260922) from the 93 population pairs sharing at least 3 content words with the stem (same drafting tokenizer), excluding pairs already drawn: the region where the threshold decides.",
+  "objective-accepted": "Every objective pair the verifier accepted at commit 960455e, and the one more the rule accepts once a numeric option can be named in words (30/1/2 Q13) -- a census, not a sample: 55 pairs, 24 of them a bare option letter with no words. That is the region the rule decides, and what ships as cbse_marking_scheme.",
+  "objective-random": "20 drawn with random.Random(20260922).sample from the other 785 objective pairs, sorted by (id, source) first."
  },
- "result": "With the rule in scheme_verify.py: of 76 pairs judged wrong, 0 accepted (65 content-mismatch, 5 unreadable-options for assertion-reason items, 3 legacy-font, 2 option-mismatch, 1 document-id); of 32 judged correct, 17 accepted and 15 rejected (11 content-mismatch, 4 assertion-reason unreadable-options); of 12 cannot-tell, 2 accepted.",
+ "result": "Subjective strata, with the rule in scheme_verify.py: of 76 pairs judged wrong, 0 accepted (65 content-mismatch, 5 unreadable-options for assertion-reason items, 3 legacy-font, 2 option-mismatch, 1 document-id); of 32 judged correct, 17 accepted and 15 rejected (11 content-mismatch, 4 assertion-reason unreadable-options); of 12 cannot-tell, 2 accepted. Objective strata (75 pairs): of the 24 bare letters, 12 were judged wrong and 8 correct (4 cannot-tell) -- the reason a bare letter is now rejected as unverifiable-letter; every key whose words name its option was judged correct or cannot-tell. With the rule: of 29 objective pairs judged wrong, 0 accepted; of 32 judged correct, 24 accepted (the 8 lost are bare letters); of 14 cannot-tell, 7 accepted.",
  "pairs": [
   {
    "id": "cbse:q:src:91ad4685a6f0d67f7c1b0e8e:34",
@@ -3455,6 +3458,2017 @@
    "stratum": "shared>=3",
    "judgement": "wrong",
    "note": ""
+  },
+  {
+   "id": "cbse:q:src:0b3c7b807dcc7e88fd1809df:17",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "430/5/2",
+   "qNo": 17,
+   "source": "430_5_2.pdf",
+   "stem": "The sum of the first 100 even natural numbers is : (a) 10100 (b) 2550 (c) 5050 (d) 10010",
+   "options": {
+    "A": "10100",
+    "B": "2550",
+    "C": "5050",
+    "D": "10010"
+   },
+   "correctOption": "B",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "wrong",
+   "note": "Sum of the first 100 even numbers is 100 x 101 = 10100 (A); keyed B (2550)."
+  },
+  {
+   "id": "cbse:q:src:21678520eebf643d7dfe26ef:8",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "30/2/3",
+   "qNo": 8,
+   "source": "X_MS_041_Mathematics Standard_30-2-3_2024-25.pdf",
+   "stem": "The coordinates of the vertex A of a rectangle ABCD whose three vertices are given as B(0, 0), C(3, 0) and D(0, 4) are : (a) (4, 0) (b) (0, 3) (c) (3, 4) (d) (4, 3)",
+   "options": {
+    "A": "(4, 0)",
+    "B": "(0, 3)",
+    "C": "(3, 4)",
+    "D": "(4, 3)"
+   },
+   "correctOption": "A",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "wrong",
+   "note": "A rectangle with B(0,0), C(3,0), D(0,4) has A at (3, 4) (C); keyed A (4, 0)."
+  },
+  {
+   "id": "cbse:q:src:f01c7b6fd6fca7ef7d9987dc:16",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "430/3/1",
+   "qNo": 16,
+   "source": "X_241_MS_430_3_1_Unsigned.pdf",
+   "stem": "14 cm : 1 (A) 7 cm (B) 14 cm (C) 7 cm (D) 14 cm",
+   "options": {
+    "A": "7 cm",
+    "B": "14 cm",
+    "C": "7 cm",
+    "D": "14 cm"
+   },
+   "correctOption": "A",
+   "answerText": "7 cm",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "cannot-tell",
+   "note": "Stem lost to extraction; options (A)-(D) repeat 7 cm / 14 cm."
+  },
+  {
+   "id": "cbse:q:src:b5a6be42826a4f8e38a72950:13",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "430/3/3",
+   "qNo": 13,
+   "source": "X_241_MS_430_3_3_Unsigned.pdf",
+   "stem": "P(x, y), (1, 0) (0, 1) , ? 1 (A) x + y = 0 (B) x = y + 1 (C) y = x + 1 (D) x = y",
+   "options": {
+    "A": "x + y = 0",
+    "B": "x = y + 1",
+    "C": "y = x + 1",
+    "D": "x = y"
+   },
+   "correctOption": "D",
+   "answerText": "x = y",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Equidistant from (1,0) and (0,1) is the line x = y (D)."
+  },
+  {
+   "id": "cbse:q:src:6ab66ce49325a1a0279d70a5:17",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "430/4/3",
+   "qNo": 17,
+   "source": "X_241_MS_430_4_3_Unsigned.pdf",
+   "stem": "The midpoint of the line segment joining the points (– 6, – 4) and (0, 4) is : (A) (– 6, 0) (B) (– 3, 0) (C) (– 6, 8) (D) (– 6, 4)",
+   "options": {
+    "A": "(– 6, 0)",
+    "B": "(– 3, 0)",
+    "C": "(– 6, 8)",
+    "D": "(– 6, 4)"
+   },
+   "correctOption": "B",
+   "answerText": "(– 3, 0)",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Midpoint of (-6,-4) and (0,4) is (-3, 0) (B)."
+  },
+  {
+   "id": "cbse:q:src:0916a372de696613bddff07e:11",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "430/5/1",
+   "qNo": 11,
+   "source": "430_5_1.pdf",
+   "stem": "If tan2 q = 3, where q is an acute angle, then the value of q is : (A) 30° (B) 60° (C) 0° (D) 45°",
+   "options": {
+    "A": "30°",
+    "B": "60°",
+    "C": "0°",
+    "D": "45°"
+   },
+   "correctOption": "B",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "tan^2 q = 3 gives q = 60 degrees (B)."
+  },
+  {
+   "id": "cbse:q:src:7bc43935e9890c40e2e44322:2",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "430/5/3",
+   "qNo": 2,
+   "source": "X_241_MS_ 430_5_3_unsigned.pdf",
+   "stem": "The area of a sector of a circle of radius 16 cm cut off by an arc, which is 18·5 cm long, is : (A) 168 cm² (B) 148 cm² (C) 154 cm² (D) 176 cm²",
+   "options": {
+    "A": "168 cm²",
+    "B": "148 cm²",
+    "C": "154 cm²",
+    "D": "176 cm²"
+   },
+   "correctOption": "C",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "wrong",
+   "note": "Sector area = 1/2 x 18.5 x 16 = 148 cm^2 (B); keyed C (154)."
+  },
+  {
+   "id": "cbse:q:src:7bc43935e9890c40e2e44322:12",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "430/5/3",
+   "qNo": 12,
+   "source": "X_241_MS_ 430_5_3_unsigned.pdf",
+   "stem": "Prime factorisation of 424 is : (A) 2 ´ 53 ´ 4 (B) 2 ´ 53 ´ 2 (C) 23 ´ 53 (D) 24 ´",
+   "options": {
+    "A": "2 ´ 53 ´ 4",
+    "B": "2 ´ 53 ´ 2",
+    "C": "23 ´ 53",
+    "D": "24 ´"
+   },
+   "correctOption": "B",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "wrong",
+   "note": "424 = 2^3 x 53 (C); keyed B."
+  },
+  {
+   "id": "cbse:q:src:fc5d166768a67685f57d09e7:18",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "long_answer",
+   "paperCode": "30/5/1",
+   "qNo": 18,
+   "source": "X_MS_041_Mathematics Standard_30-5-1_2024-25.pdf",
+   "stem": "If a vertical pole of length 7·5 m casts a shadow 5 m long on the ground and at the same time, a tower casts a shadow 24 m long, then the height of the tower is : (A) 20 m (B) 40 m (C) 60 m (D) 36 m",
+   "options": {
+    "A": "20 m",
+    "B": "40 m",
+    "C": "60 m",
+    "D": "36 m"
+   },
+   "correctOption": "B",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "wrong",
+   "note": "7.5/5 = h/24 gives 36 m (D); keyed B (40 m)."
+  },
+  {
+   "id": "cbse:q:src:80a49b071cb04186873bccda:5",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "30/5/2",
+   "qNo": 5,
+   "source": "X_MS_041_Mathematics Standard_30-5-2_2024-25.pdf",
+   "stem": "If x = a cos q and y = b sin q, then the value of b2x2 + a2y2 is : (A) a2b2 (B) ab (C) a4b4 (D) a2 + b2",
+   "options": {
+    "A": "a2b2",
+    "B": "ab",
+    "C": "a4b4",
+    "D": "a2 + b2"
+   },
+   "correctOption": "A",
+   "answerText": "a",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "b^2x^2 + a^2y^2 = a^2b^2 (A). The key's text is the bare letter."
+  },
+  {
+   "id": "cbse:q:src:1d136a7fdc1456e45ef248be:1",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "30/2/2",
+   "qNo": 1,
+   "source": "X_MS_041_Mathematics Standard_30-2-2_2024-25.pdf",
+   "stem": "(A) ax2 -ax + 1 = 0 (B) ax2 -a2x + 1 = 0 (C) ax2 + ax + 1 = 0 (D) ax2 + a2x -1 =",
+   "options": {
+    "A": "ax2 -ax + 1 = 0",
+    "B": "ax2 -a2x + 1 = 0",
+    "C": "ax2 + ax + 1 = 0",
+    "D": "ax2 + a2x -1 ="
+   },
+   "correctOption": "B",
+   "answerText": "ax2 – a2x + 1 = 0",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "cannot-tell",
+   "note": "Stem lost; only the options survive."
+  },
+  {
+   "id": "cbse:q:src:602ab71e36d4d7faa892e49d:18",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "30/3/1",
+   "qNo": 18,
+   "source": "MS_X_041_Mathematics_30-3-1_2025-26 (1).pdf",
+   "stem": "In the given figure, in ABC, AD BC and BAC = 90 . If BC = 16 cm and DC = 4 cm, then the value of x is : (A) 4 cm (B) 5 cm (C) 8 cm (D) 3 cm",
+   "options": {
+    "A": "4 cm",
+    "B": "5 cm",
+    "C": "8 cm",
+    "D": "3 cm"
+   },
+   "correctOption": "C",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Figure not seen, but AC^2 = DC x BC = 64 gives 8 cm (C), the only option any side of the figure can take (AD = 4v3, BD = 12)."
+  },
+  {
+   "id": "cbse:q:src:c42982ff54131ed0d5b7d9b0:16",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "430/2/1",
+   "qNo": 16,
+   "source": "X_241_MS_430_2_1_undersigned.pdf",
+   "stem": "In the formula of mode given by mode = l + f1 denotes the : (A) frequency of the modal class (B) frequency of class preceding modal class (C) frequency of class succeeding modal class (D) cumulative frequency of modal class",
+   "options": {
+    "A": "frequency of the modal class",
+    "B": "frequency of class preceding modal class",
+    "C": "frequency of class succeeding modal class",
+    "D": "cumulative frequency of modal class"
+   },
+   "correctOption": "B",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "wrong",
+   "note": "In mode = l + (f1 - f0)/(2f1 - f0 - f2) x h, f1 is the frequency of the modal class (A); keyed B."
+  },
+  {
+   "id": "cbse:q:src:2af2d7396537dc683b00f023:10",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "430/3/1",
+   "qNo": 10,
+   "source": "X_241_MS_430_3_1_Unsigned.pdf",
+   "stem": ", x y ABC QRP ? (A) x = 6, y = 5 (B) x = 5, y = 6 (C) x = 6, y = 6 (D) x = 12, y = 3·2",
+   "options": {
+    "A": "x = 6, y = 5",
+    "B": "x = 5, y = 6",
+    "C": "x = 6, y = 6",
+    "D": "x = 12, y = 3·2"
+   },
+   "correctOption": "C",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "cannot-tell",
+   "note": "Stem lost to extraction (similar triangles, figure)."
+  },
+  {
+   "id": "cbse:q:src:2af2d7396537dc683b00f023:14",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "430/3/1",
+   "qNo": 14,
+   "source": "X_241_MS_430_3_1_Unsigned.pdf",
+   "stem": "The perimeter of a quadrant of a circle of circumference 22 cm is : (A) 29 cm (B) 22 cm (C) 12·5 cm (D) 5·5 cm",
+   "options": {
+    "A": "29 cm",
+    "B": "22 cm",
+    "C": "12·5 cm",
+    "D": "5·5 cm"
+   },
+   "correctOption": "C",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "r = 3.5 cm; quadrant perimeter = 5.5 + 7 = 12.5 cm (C)."
+  },
+  {
+   "id": "cbse:q:src:b50c76373821081f7b537205:11",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "430/3/3",
+   "qNo": 11,
+   "source": "X_241_MS_430_3_3_Unsigned.pdf",
+   "stem": "(3, 5) ( -1, -1) - (a, 2b) (a, b) : (A) (1, 2) (B) (2, 2) (C) (2, 1) (D) (1, -1)",
+   "options": {
+    "A": "(1, 2)",
+    "B": "(2, 2)",
+    "C": "(2, 1)",
+    "D": "(1, -1)"
+   },
+   "correctOption": "C",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "cannot-tell",
+   "note": "Stem garbled; reading it as 'midpoint (a - b, 2b)' gives (2, 1) (C), but the reading is a guess."
+  },
+  {
+   "id": "cbse:q:src:09a7d8a43ab84dbfb45c1229:10",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "57/5/1",
+   "qNo": 10,
+   "source": "57-5-1.pdf",
+   "stem": "‘A’ ‘B’ 1 A B a. ‘i’ (i) - b. ‘z’ (ii) c. ‘a’ (iii) d. ‘y’ (iv) : : a b c d (A) (i) (iii) (ii) (iv) (B) (iii) (i) (ii) (iv) (C) (iii) (i) (iv) (ii) (D) (iii) (iv) (i) (ii) /22",
+   "options": {
+    "A": "(i) (iii) (ii) (iv)",
+    "B": "(iii) (i) (ii) (iv)",
+    "C": "(iii) (i) (iv) (ii)",
+    "D": "(iii) (iv) (i) (ii) /22"
+   },
+   "correctOption": null,
+   "answerText": "(C) / (iii), (i), (iv), (ii)",
+   "valuePoints": [
+    [
+     "(C) / (iii), (i), (iv), (ii)",
+     0.0
+    ]
+   ],
+   "stratum": "objective-accepted",
+   "judgement": "cannot-tell",
+   "note": "Matching question; the columns are lost to extraction."
+  },
+  {
+   "id": "cbse:q:src:b0025252f69babc7d87d90f3:9",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "57/5/2",
+   "qNo": 9,
+   "source": "57-5-2.pdf",
+   "stem": "Which one of the following is not a characteristic feature of “humus” that is formed during decomposition of detritus ? 1 (A) amorphous, colloidal, dark coloured substance (B) amorphous, colloidal, light coloured substance (C) substance resistant to microbial action (D) colloidal substance /22",
+   "options": {
+    "A": "amorphous, colloidal, dark coloured substance",
+    "B": "amorphous, colloidal, light coloured substance",
+    "C": "substance resistant to microbial action",
+    "D": "colloidal substance /22"
+   },
+   "correctOption": null,
+   "answerText": "(B)/ Amorphous, colloidal, light coloured substance",
+   "valuePoints": [
+    [
+     "(B)/ Amorphous, colloidal, light coloured substance",
+     0.0
+    ]
+   ],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Humus is dark coloured, so 'light coloured' is not a feature (B)."
+  },
+  {
+   "id": "cbse:q:src:51de56e82e732c8705ea398e:5",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "57/5/3",
+   "qNo": 5,
+   "source": "57-5-3.pdf",
+   "stem": "Which one of the following statements is correct in the context of observing DNA separation by agarose gel electrophoresis ? 1 (A) DNA can be seen in visible light. (B) DNA can be seen without staining in visible light. (C) Ethidium bromide stained DNA can be seen in visible light (D) Ethidium bromide stained DNA can be seen under UV light.",
+   "options": {
+    "A": "DNA can be seen in visible light",
+    "B": "DNA can be seen without staining in visible light",
+    "C": "Ethidium bromide stained DNA can be seen in visible light",
+    "D": "Ethidium bromide stained DNA can be seen under UV light"
+   },
+   "correctOption": null,
+   "answerText": "(D) / Ethidium bromide stained DNA can be seen under UV light",
+   "valuePoints": [
+    [
+     "(D) / Ethidium bromide stained DNA can be seen under UV light",
+     0.0
+    ]
+   ],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Ethidium bromide stained DNA is seen under UV light (D)."
+  },
+  {
+   "id": "cbse:q:src:51de56e82e732c8705ea398e:8",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "57/5/3",
+   "qNo": 8,
+   "source": "57-5-3.pdf",
+   "stem": "The source of ‘Smack’ is : 1 (A) Leaves of Cannabis sativa (B) Flowers of Datura (C) Fruits of Erythroxylum coca (D) Latex of Papaver somniferum",
+   "options": {
+    "A": "Leaves of Cannabis sativa",
+    "B": "Flowers of Datura",
+    "C": "Fruits of Erythroxylum coca",
+    "D": "Latex of Papaver somniferum"
+   },
+   "correctOption": null,
+   "answerText": "(D) /Latex of Papaver somniferum",
+   "valuePoints": [
+    [
+     "(D) /Latex of Papaver somniferum",
+     0.0
+    ]
+   ],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Smack comes from the latex of Papaver somniferum (D)."
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:2",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "57/1/1",
+   "qNo": 2,
+   "source": "57-1-1.pdf",
+   "stem": "Which one of the following hormones is secreted by the human placenta that helps in the maintenance of pregnancy ? (A) Relaxin (B) Human Chorionic Gonadotropin (C) Oxytocin (D) Human Placental Lactogen -11",
+   "options": {
+    "A": "Relaxin",
+    "B": "Human Chorionic Gonadotropin",
+    "C": "Oxytocin",
+    "D": "Human Placental Lactogen -11"
+   },
+   "correctOption": null,
+   "answerText": "(B) / Human Chorionic Gonadotropin",
+   "valuePoints": [
+    [
+     "(B) / Human Chorionic Gonadotropin",
+     0.0
+    ]
+   ],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "hCG (B)."
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:3",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "57/1/1",
+   "qNo": 3,
+   "source": "57-1-1.pdf",
+   "stem": "The periodic abstinence by a couple for family planning should be from : (A) Day 5 to 10 of menstrual cycle (B) Day 13 to 15 of menstrual cycle (C) Day 10 to 17 of menstrual cycle (D) Day 16 to 20 of menstrual cycle",
+   "options": {
+    "A": "Day 5 to 10 of menstrual cycle",
+    "B": "Day 13 to 15 of menstrual cycle",
+    "C": "Day 10 to 17 of menstrual cycle",
+    "D": "Day 16 to 20 of menstrual cycle"
+   },
+   "correctOption": null,
+   "answerText": "(C) / Day 10 to 17 of menstrual cycle",
+   "valuePoints": [
+    [
+     "(C) / Day 10 to 17 of menstrual cycle",
+     0.0
+    ]
+   ],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Periodic abstinence: day 10 to 17 (C)."
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:6",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "57/1/1",
+   "qNo": 6,
+   "source": "57-1-1.pdf",
+   "stem": "The type of bond represented by the dotted line -in a schematic polynucleotide chain is : (A) Hydrogen bond (B) Peptide bond (C) N-glycosidic linkage (D) Phosphodiester bond -11",
+   "options": {
+    "A": "Hydrogen bond",
+    "B": "Peptide bond",
+    "C": "N-glycosidic linkage",
+    "D": "Phosphodiester bond -11"
+   },
+   "correctOption": null,
+   "answerText": "(C) / N–glycosidic linkage",
+   "valuePoints": [
+    [
+     "(C) / N–glycosidic linkage",
+     0.0
+    ]
+   ],
+   "stratum": "objective-accepted",
+   "judgement": "cannot-tell",
+   "note": "The dotted line is in a figure not seen."
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:8",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "57/1/1",
+   "qNo": 8,
+   "source": "57-1-1.pdf",
+   "stem": "Lactobacillus that sets milk into curd is categorised as : (A) Cyanobacteria (B) Archaebacteria (C) Chemosynthetic bacteria (D) Heterotrophic bacteria",
+   "options": {
+    "A": "Cyanobacteria",
+    "B": "Archaebacteria",
+    "C": "Chemosynthetic bacteria",
+    "D": "Heterotrophic bacteria"
+   },
+   "correctOption": null,
+   "answerText": "(D) / Heterotrophic bacteria",
+   "valuePoints": [
+    [
+     "(D) / Heterotrophic bacteria",
+     0.0
+    ]
+   ],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Lactobacillus is a heterotrophic bacterium (D)."
+  },
+  {
+   "id": "cbse:q:src:784bd959b5f48fd5620f57e6:11",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "57/1/1",
+   "qNo": 11,
+   "source": "57-1-1.pdf",
+   "stem": "The improved trait that is found in the genetically modified transgenic crop -Golden rice is : (A) High lysine content (B) Insect resistant (C) High protein content (D) High vitamin-A content",
+   "options": {
+    "A": "High lysine content",
+    "B": "Insect resistant",
+    "C": "High protein content",
+    "D": "High vitamin-A content"
+   },
+   "correctOption": null,
+   "answerText": "(D) / High vitamin – A content",
+   "valuePoints": [
+    [
+     "(D) / High vitamin – A content",
+     0.0
+    ]
+   ],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Golden rice: vitamin A (D)."
+  },
+  {
+   "id": "cbse:q:src:c7dde115d25c393b11b0a613:4",
+   "subject": "Biology",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "57/1/2",
+   "qNo": 4,
+   "source": "57-1-2 ..pdf",
+   "stem": "The specific Bt toxin genes which protect the cotton plants against the cotton bollworms are : (A) Cry-I Ac and Cry-II Ab (B) Cry-I Ab and Cry-I Bc (C) Cry-II Ac and Cry-I Ac (D) Cry-II Ab and Cry-I Ab",
+   "options": {
+    "A": "Cry-I Ac and Cry-II Ab",
+    "B": "Cry-I Ab and Cry-I Bc",
+    "C": "Cry-II Ac and Cry-I Ac",
+    "D": "Cry-II Ab and Cry-I Ab"
+   },
+   "correctOption": null,
+   "answerText": "(A) / Cry-I Ac and Cry-II Ab",
+   "valuePoints": [
+    [
+     "(A) / Cry-I Ac and Cry-II Ab",
+     0.0
+    ]
+   ],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "cry IAc and cry IIAb (A)."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:2",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 2,
+   "source": "66_1_1..pdf",
+   "stem": "Which of the following is an element of ‘Social Environment’ ? (A) Rates of saving and investment (B) Expectations from the workforce (C) The nature of relationship of our country with foreign countries (D) Planned outlay in public and private sectors 11-",
+   "options": {
+    "A": "Rates of saving and investment",
+    "B": "Expectations from the workforce",
+    "C": "The nature of relationship of our country with foreign countries",
+    "D": "Planned outlay in public and private sectors 11-"
+   },
+   "correctOption": "B",
+   "answerText": "Expectations from the workforce 1 mark",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Expectations from the workforce is a social factor (B)."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:3",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 3,
+   "source": "66_1_1..pdf",
+   "stem": "Statement I : Delegation is the entrustment of responsibility and authority to another, and the creation of accountability for performance. Statement II : Irrespective of the extent of delegated authority, the manager shall still be accountable to the same extent as before delegation. Choose the correct option from the following : (A) Statement I is true and Statement II is false. (B) Statement II is true and Statement I is false. (C) Both the Statements are true. (D) Both the Statements are false.",
+   "options": {
+    "A": "Statement I is true and Statement II is false",
+    "B": "Statement II is true and Statement I is false",
+    "C": "Both the Statements are true",
+    "D": "Both the Statements are false"
+   },
+   "correctOption": "C",
+   "answerText": "Both the Statements are true 1 mark 4 Q. _------------ refers to doing the task correctly and with minimum cost (A) Effectiveness (B) Coordination (C) Process (D) Efficiency",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Both statements on delegation are true (C)."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:4",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 4,
+   "source": "66_1_1..pdf",
+   "stem": "____________ refers to doing the task correctly and with minimum cost. (A) Effectiveness (B) Coordination (C) Process (D) Efficiency",
+   "options": {
+    "A": "Effectiveness",
+    "B": "Coordination",
+    "C": "Process",
+    "D": "Efficiency"
+   },
+   "correctOption": "D",
+   "answerText": "Efficiency 1 mark 5 Q. 'Dovex' was a large company with a renowned name in healthcare industry, specialising in the development and production of life saving medications and medical devices With a strong reputation for ethical practices, 'Dovex' attracted a large number of investors who had great faith in the company's future. This allowed 'Dovex' to raise capital easily from the market whenever expansion or new projects were to be undertaken. As a result, it could pay high dividends to the shareholders. The factor affecting dividend decision discussed above, which allowed 'Dovex' to pay high dividends to the shareholders is (A) Cash flow position (B) Stock market reaction (C) Legal constraints (D) Access to capital market",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Efficiency (D)."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:6",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 6,
+   "source": "66_1_1..pdf",
+   "stem": "‘‘It is a career oriented process designed to help the employees in the progress towards maturity and actualization of their potential capabilities.’’ Identify the process : (A) Staffing (B) Selection (C) Development (D) Training 11-",
+   "options": {
+    "A": "Staffing",
+    "B": "Selection",
+    "C": "Development",
+    "D": "Training 11-"
+   },
+   "correctOption": "C",
+   "answerText": "Development 1 mark 7 Q. 'SK Builders' became the market leader in the designer house segment as it was the first to recognize the need of using Artificial Intelligence in designing houses in the changing environment of technological advancement. This highlights the following point of importance of business environment (A) It helps to identify threats and early warning signals (B) It enables the firm to identify opportunities and getting the first mover advantage (C) It helps in tapping useful resources (D) It helps in improving performance",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Development (C)."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:7",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 7,
+   "source": "66_1_1..pdf",
+   "stem": "‘SK Builders’ became the market leader in the designer house segment as it was the first to recognize the need of using Artificial Intelligence in designing houses in the changing environment of technological advancement. This highlights the following point of importance of business environment : (A) It helps to identify threats and early warning signals. (B) It enables the firm to identify opportunities and getting the first mover advantage. (C) It helps in tapping useful resources. (D) It helps in improving performance.",
+   "options": {
+    "A": "It helps to identify threats and early warning signals",
+    "B": "It enables the firm to identify opportunities and getting the first mover advantage",
+    "C": "It helps in tapping useful resources",
+    "D": "It helps in improving performance"
+   },
+   "correctOption": "B",
+   "answerText": "It enables the firm to identify opportunities and getting the first mover advantage 1 mark 8 Q. In the ---------- market, prices are determined and decided by the management of the company (A) Primary (B) Secondary (C) Money (D) Stock",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "First mover advantage (B)."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:8",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 8,
+   "source": "66_1_1..pdf",
+   "stem": "In the ____________ market, prices are determined and decided by the management of the company. (A) Primary (B) Secondary (C) Money (D) Stock",
+   "options": {
+    "A": "Primary",
+    "B": "Secondary",
+    "C": "Money",
+    "D": "Stock"
+   },
+   "correctOption": "A",
+   "answerText": "Primary 1 mark 9 Q. The process of estimating fund requirements of a business and specifying the sources of funds is called (A) Capital structure (B) Financial planning (C) Financial management (D) Capital budgeting",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Primary market: the issuing company fixes the price (A)."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:9",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 9,
+   "source": "66_1_1..pdf",
+   "stem": "The process of estimating fund requirements of a business and specifying the sources of funds is called : (A) Capital structure (B) Financial planning (C) Financial management (D) Capital budgeting",
+   "options": {
+    "A": "Capital structure",
+    "B": "Financial planning",
+    "C": "Financial management",
+    "D": "Capital budgeting"
+   },
+   "correctOption": "B",
+   "answerText": "Financial planning 1 mark 6 10 Q. Statement I: A financial market facilitates the transfer of savings from savers to investors Statement II: It gives savers the choice of different investments and helps to channelise surplus funds into the most productive use Choose the correct option from the following (A) Statement I is true and Statement II is false (B) Statement II is true and Statement I is false (C) Both the Statements are true (D) Both the Statements are false",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Financial planning (B)."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:10",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 10,
+   "source": "66_1_1..pdf",
+   "stem": "Statement I : A financial market facilitates the transfer of savings from savers to investors. Statement II : It gives savers the choice of different investments and helps to channelise surplus funds into the most productive use. Choose the correct option from the following : (A) Statement I is true and Statement II is false. (B) Statement II is true and Statement I is false. (C) Both the Statements are true. (D) Both the Statements are false.",
+   "options": {
+    "A": "Statement I is true and Statement II is false",
+    "B": "Statement II is true and Statement I is false",
+    "C": "Both the Statements are true",
+    "D": "Both the Statements are false"
+   },
+   "correctOption": "C",
+   "answerText": "Both the Statements are true 1 mark 11 Q. Choose the incorrect statement from the following about functions of a Stock Exchange (A) Provides liquidity and marketability to new securities (B) Ensures safety of transactions (C) Contributes to economic growth (D) Provides scope for speculation",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Both statements on the financial market are true (C)."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:11",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "mcq",
+   "paperCode": "66/1/1",
+   "qNo": 11,
+   "source": "66_1_1..pdf",
+   "stem": "Choose the incorrect statement from the following about functions of a Stock Exchange : (A) Provides liquidity and marketability to new securities (B) Ensures safety of transactions (C) Contributes to economic growth (D) Provides scope for speculation 11-",
+   "options": {
+    "A": "Provides liquidity and marketability to new securities",
+    "B": "Ensures safety of transactions",
+    "C": "Contributes to economic growth",
+    "D": "Provides scope for speculation 11-"
+   },
+   "correctOption": "A",
+   "answerText": "Provides liquidity and marketability to new securities 1 mark 12 Q. Online retailer 'Bizen' has grown to be the biggest provider worldwide in the field of e-commerce. Its revenues are growing steadily year after year. It owes its success to the rapid rate of digitisation and its organisational structure. 'Bizen's Managing Director, Mohit makes strategic decisions and has control over the entire organisation. In 'Bizen', jobs of similar nature are grouped together into Human Resource Department, Marketing Department, Purchase Department and Research and Development Department. These departments are further divided into sections and all departmental heads report to Mohit who is the co-ordinating head. This ensures efficiency in the utilization of manpower and minimizes duplication of efforts. The type of organizational structure of 'Bizen' is (A) Informal organisational structure 7 (B) Divisional organisational structure (C) Functional organisational structure (D) Both (B) and (C)",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "A stock exchange gives liquidity to EXISTING securities, so (A) is the incorrect statement."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:15",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 15,
+   "source": "66_1_1..pdf",
+   "stem": "The marketing management philosophy which uses availability and affordability as a means to achieve the objectives is : (A) Marketing concept (B) Selling concept (C) Product concept (D) Production concept",
+   "options": {
+    "A": "Marketing concept",
+    "B": "Selling concept",
+    "C": "Product concept",
+    "D": "Production concept"
+   },
+   "correctOption": "D",
+   "answerText": "Production concept 1 mark 16 Q. Identify the tool of promotion used by 'Mehta Sons Garments' to boost its sales (A) Advertising (B) Personal selling (C) Sales promotion (D) Public relations",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Production concept (D)."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:16",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 16,
+   "source": "66_1_1..pdf",
+   "stem": "Identify the tool of promotion used by ‘Mehta Sons Garments’ to boost its sales : (A) Advertising (B) Personal selling (C) Sales promotion (D) Public relations MEHTA SONS GARMENTS 11-",
+   "options": {
+    "A": "Advertising",
+    "B": "Personal selling",
+    "C": "Sales promotion",
+    "D": "Public relations MEHTA SONS GARMENTS 11-"
+   },
+   "correctOption": "C",
+   "answerText": "Sales promotion 1 mark 17 Q. Read the following statements: Assertion (A) and Reason (R). Choose the correct alternative from the options given below Assertion (A): Many enlightened business firms have set up their own consumer service and grievance cells 9 Reason (R): The consumer has a right to file a complaint and to be heard in case of dissatisfaction with a good or service (A) Both Assertion (A) and Reason (R) are true and Reason (R) is the correct explanation of Assertion (A) (B) Both Assertion (A) and Reason (R) are true, but Reason(R) is not the correct explanation of Assertion(A) (C) Assertion (A) is true, but Reason (R) is false (D) Assertion (A) is false, but Reason (R) is true",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "cannot-tell",
+   "note": "The case the question refers to is lost from the stem."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:18",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 18,
+   "source": "66_1_1..pdf",
+   "stem": "Which of the following is not a component of ‘Physical Distribution’ ? (A) Inventory control (B) Standardisation and grading (C) Order processing (D) Transportation",
+   "options": {
+    "A": "Inventory control",
+    "B": "Standardisation and grading",
+    "C": "Order processing",
+    "D": "Transportation"
+   },
+   "correctOption": "B",
+   "answerText": "Standardisation and grading 1 mark 19 Q. Beenu had a bookstore in Sabad called 'Book-mark'. For years, the bookstore was doing reasonably well but with the rise of digital books and online retailers, her sales had declined. Beenu's daughter, who had just completed her MBA with a specialisation in marketing decided to launch a marketing campaign to revive the bookstore. The campaign's focus was on the joy of reading books in physical form, the joy of turning pages and the warm atmosphere of the bookstore. She organised story writing and other competitions every weekend. The information of these was given to the parents and children through television, radio, children's magazines, etc. Attractive prizes were offered to the winners. This increased the footfall of the children and their parents and the bookstore soon became popular 10 The tool of communication used by Beenu's daughter to revive the bookstore was (A) Advertising (B) Personal selling (C) Sales promotion (D) Public relations",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Standardisation and grading is not physical distribution (B)."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:19",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 19,
+   "source": "66_1_1..pdf",
+   "stem": "Beenu had a bookstore in Sabad called ‘Book-mark’. For years, the bookstore was doing reasonably well but with the rise of digital books and online retailers, her sales had declined. Beenu’s daughter, who had just completed her MBA with a specialisation in marketing decided to launch a marketing campaign to revive the bookstore. The campaign’s focus was on the joy of reading books in physical form, the joy of turning pages and the warm atmosphere of the bookstore. She organised story writing and other competitions every weekend. The information of these was given to the parents and children through television, radio, children’s magazines, etc. Attractive prizes were offered to the winners. This increased the footfall of the children and their parents and the bookstore soon became popular. The tool of communication used by Beenu’s daughter to revive the bookstore was : (A) Advertising (B) Personal selling (C) Sales promotion (D) Public relations 11-",
+   "options": {
+    "A": "Advertising",
+    "B": "Personal selling",
+    "C": "Sales promotion",
+    "D": "Public relations 11-"
+   },
+   "correctOption": "D",
+   "answerText": "Public relations 1 mark 20 Q. 'Best Electronics' is led by its visionary Chief Executive Officer, Nikhil. It has a reputation for good quality products and customer service. Nikhil recognised the need to continually innovate and provide customers with the latest products. He wanted the company to be the market leader in electronics Nikhil knew that to realise his ambitious vision, he needed a clear and well-defined plan that would provide broad contours of the company's business. His team conducted extensive market research to uncover emerging trends, customer preferences, and potential competitors. On its basis, a plan was prepared defining the company's direction and scope in the long run. On the implementation of the plan 'Best Electronics' became the market leader in two years. The type of plan which helped 'Best Electronics' to become the market leader was (A) Policy (B) Rule (C) Strategy (D) Procedure",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "cannot-tell",
+   "note": "Stem truncated before the question is asked."
+  },
+  {
+   "id": "cbse:q:src:3901e48d946b1f956b5a21c7:20",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/1",
+   "qNo": 20,
+   "source": "66_1_1..pdf",
+   "stem": "‘Best Electronics’ is led by its visionary Chief Executive Officer, Nikhil. It has a reputation for good quality products and customer service. Nikhil recognised the need to continually innovate and provide customers with the latest products. He wanted the company to be the market leader in electronics. Nikhil knew that to realise his ambitious vision, he needed a clear and well-defined plan that would provide broad contours of the company’s business. His team conducted extensive market research to uncover emerging trends, customer preferences, and potential competitors. On its basis, a plan was prepared defining the company’s direction and scope in the long run. On the implementation of the plan ‘Best Electronics’ became the market leader in two years. The type of plan which helped ‘Best Electronics’ to become the market leader was : (A) Policy (B) Rule (C) Strategy (D) Procedure",
+   "options": {
+    "A": "Policy",
+    "B": "Rule",
+    "C": "Strategy",
+    "D": "Procedure"
+   },
+   "correctOption": "C",
+   "answerText": "Strategy 1 mark 21 Q(a). State any three features of business environment Ans (a) Features of business environment are: (Any three) (i) Business environment is the sum total of all factors/things external to business firms and, as such, is aggregative in nature (ii) Business environment includes both specific such as customers, investors, etc and general forces such as political, social, etc 11 (iii) Different elements or parts of business environment are closely inter-related (iv) Dynamic nature: Business environment is dynamic and keeps on changing whether in terms of technological improvement, shifts in consumer preferences , etc (v) Business environment is uncertain as it is very difficult to predict future happenings, especially when environment changes are taking place too frequently (vi) Business environment is complex as it consists of numerous interrelated and dynamic conditions or forces that are relatively easier to understand in parts but difficult to grasp in its totality (vii) Business environment is a relative concept since it differs from country to country and even region to region (If an examinee has only listed the underlined points, ½ mark for each point should be awarded) OR Q(b). State any three features of 'Demonetization'",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Strategy (C)."
+  },
+  {
+   "id": "cbse:q:src:1b672788c7d510720f1d85d3:1",
+   "subject": "Chemistry",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "56/1/3",
+   "qNo": 1,
+   "source": "XII_043_Chemistry_MS_56_1- 3.pdf",
+   "stem": "On dissolving ammonium chloride in water at room temperature, the solution feels cool to touch. Under which of the following conditions does salt dissolve faster ? (a) Powdered salt in cold water (b) Powdered salt in hot water (c) Salt crystals in cold water (d) Salt crystals in hot water",
+   "options": {
+    "A": "Powdered salt in cold water",
+    "B": "Powdered salt in hot water",
+    "C": "Salt crystals in cold water",
+    "D": "Salt crystals in hot water"
+   },
+   "correctOption": "B",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Powdered salt in hot water (B)."
+  },
+  {
+   "id": "cbse:q:src:1b672788c7d510720f1d85d3:2",
+   "subject": "Chemistry",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "56/1/3",
+   "qNo": 2,
+   "source": "XII_043_Chemistry_MS_56_1- 3.pdf",
+   "stem": "Lanthanoid contraction is due to increase in : (a) atomic number (b) shielding by 4f electrons (c) effective nuclear charge (d) atomic radius",
+   "options": {
+    "A": "atomic number",
+    "B": "shielding by 4f electrons",
+    "C": "effective nuclear charge",
+    "D": "atomic radius"
+   },
+   "correctOption": "B",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "wrong",
+   "note": "Lanthanoid contraction is due to increasing effective nuclear charge (C) (imperfect 4f shielding); keyed B."
+  },
+  {
+   "id": "cbse:q:src:a5d35ea98c8f5dd80214b6f2:2",
+   "subject": "Chemistry",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "56/4/2",
+   "qNo": 2,
+   "source": "56_4_2.pdf",
+   "stem": "For the reaction A + 2B -C + D, the rate law is given by r = k[A] [B]2, the concentration of A is kept constant while that of B is doubled. The rate of the reaction will : (a) double (b) become half",
+   "options": {
+    "A": "double",
+    "B": "become half"
+   },
+   "correctOption": "B",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "wrong",
+   "note": "Rate becomes four times; the printed options are only 'double' and 'become half', and the key says 'become half' (B)."
+  },
+  {
+   "id": "cbse:q:src:a5d35ea98c8f5dd80214b6f2:3",
+   "subject": "Chemistry",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "56/4/2",
+   "qNo": 3,
+   "source": "56_4_2.pdf",
+   "stem": "Reaction of 1-phenyl-2-chloropropane with alcoholic KOH gives mainly : (a) 1-phenylpropene (b) 3-phenylpropene (c) 1-phenylpropan-3-ol (d) 1-phenylypropan-2-ol",
+   "options": {
+    "A": "1-phenylpropene",
+    "B": "3-phenylpropene",
+    "C": "1-phenylpropan-3-ol",
+    "D": "1-phenylypropan-2-ol"
+   },
+   "correctOption": "A",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Elimination gives the conjugated 1-phenylpropene (A)."
+  },
+  {
+   "id": "cbse:q:src:a5d35ea98c8f5dd80214b6f2:3",
+   "subject": "Chemistry",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "56/4/2",
+   "qNo": 3,
+   "source": "043_56_4_2_Hindi.pdf",
+   "stem": "Reaction of 1-phenyl-2-chloropropane with alcoholic KOH gives mainly : (a) 1-phenylpropene (b) 3-phenylpropene (c) 1-phenylpropan-3-ol (d) 1-phenylypropan-2-ol",
+   "options": {
+    "A": "1-phenylpropene",
+    "B": "3-phenylpropene",
+    "C": "1-phenylpropan-3-ol",
+    "D": "1-phenylypropan-2-ol"
+   },
+   "correctOption": "B",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "wrong",
+   "note": "The Hindi-medium key for the same item says 3-phenylpropene (B); the answer is A."
+  },
+  {
+   "id": "cbse:q:src:a5d35ea98c8f5dd80214b6f2:4",
+   "subject": "Chemistry",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "56/4/2",
+   "qNo": 4,
+   "source": "56_4_2.pdf",
+   "stem": "The interstitial compounds of transition metals are (a) softer (b) more ductile (c) harder (d) more metallic than the metal itself.",
+   "options": {
+    "A": "softer",
+    "B": "more ductile",
+    "C": "harder",
+    "D": "more metallic than the metal itself"
+   },
+   "correctOption": "C",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Interstitial compounds are harder (C)."
+  },
+  {
+   "id": "cbse:q:src:a5d35ea98c8f5dd80214b6f2:4",
+   "subject": "Chemistry",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "56/4/2",
+   "qNo": 4,
+   "source": "043_56_4_2_Hindi.pdf",
+   "stem": "The interstitial compounds of transition metals are (a) softer (b) more ductile (c) harder (d) more metallic than the metal itself.",
+   "options": {
+    "A": "softer",
+    "B": "more ductile",
+    "C": "harder",
+    "D": "more metallic than the metal itself"
+   },
+   "correctOption": "C",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Interstitial compounds are harder (C)."
+  },
+  {
+   "id": "cbse:q:src:a5d35ea98c8f5dd80214b6f2:12",
+   "subject": "Chemistry",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "56/4/2",
+   "qNo": 12,
+   "source": "56_4_2.pdf",
+   "stem": "The deficiency of which of the following vitamins causes Scurvy ? This reaction is known as : (a) Cannizzaro reaction (b) Etard reaction (c) Rosenmund reduction (d) Aldol condensation",
+   "options": {
+    "A": "Cannizzaro reaction",
+    "B": "Etard reaction",
+    "C": "Rosenmund reduction",
+    "D": "Aldol condensation"
+   },
+   "correctOption": "A",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "cannot-tell",
+   "note": "Two questions fused in the stem (scurvy, and an unseen reaction)."
+  },
+  {
+   "id": "cbse:q:src:a5d35ea98c8f5dd80214b6f2:12",
+   "subject": "Chemistry",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "56/4/2",
+   "qNo": 12,
+   "source": "043_56_4_2_Hindi.pdf",
+   "stem": "The deficiency of which of the following vitamins causes Scurvy ? This reaction is known as : (a) Cannizzaro reaction (b) Etard reaction (c) Rosenmund reduction (d) Aldol condensation",
+   "options": {
+    "A": "Cannizzaro reaction",
+    "B": "Etard reaction",
+    "C": "Rosenmund reduction",
+    "D": "Aldol condensation"
+   },
+   "correctOption": "C",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "cannot-tell",
+   "note": "Two questions fused in the stem (scurvy, and an unseen reaction)."
+  },
+  {
+   "id": "cbse:q:src:30a7ceb84b052aed1c11c960:3",
+   "subject": "Chemistry",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "56/4/3",
+   "qNo": 3,
+   "source": "56_4_3.pdf",
+   "stem": "Which of the following Cu2+ halide is not known ? (a) CuBr₂ (b) CuI₂",
+   "options": {
+    "A": "CuBr₂",
+    "B": "CuI₂"
+   },
+   "correctOption": "A",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "wrong",
+   "note": "CuI2 is the Cu2+ halide not known (B); keyed A (CuBr2)."
+  },
+  {
+   "id": "cbse:q:src:6df8d2b3a2f6c8cce1428573:1",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "55/1/1",
+   "qNo": 1,
+   "source": "XII_042_Physics_MS_55_1_1,2,3_hindi_med.pdf",
+   "stem": "A thin plastic rod is bent into a circular ring of radius R. It is uniformly charged with charge density . The magnitude of the electric field at its centre is : (A) R 2 0 (B) Zero (C) 0R (D) R 4",
+   "options": {
+    "A": "R 2 0",
+    "B": "Zero",
+    "C": "0R",
+    "D": "R 4"
+   },
+   "correctOption": "A",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "wrong",
+   "note": "Field at the centre of a uniformly charged ring is zero (B); keyed A."
+  },
+  {
+   "id": "cbse:q:src:6df8d2b3a2f6c8cce1428573:10",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "55/1/1",
+   "qNo": 10,
+   "source": "55-1-1,2,3 English Version.pdf",
+   "stem": "Ge is doped with As. Due to doping, (A) the structure of Ge lattice is distorted. (B) the number of conduction electrons increases. (C) the number of holes increases. (D) the number of conduction electrons decreases.",
+   "options": {
+    "A": "the structure of Ge lattice is distorted",
+    "B": "the number of conduction electrons increases",
+    "C": "the number of holes increases",
+    "D": "the number of conduction electrons decreases"
+   },
+   "correctOption": null,
+   "answerText": "(B) the number of conduction electrons increases",
+   "valuePoints": [
+    [
+     "(B) the number of conduction electrons increases",
+     0.0
+    ]
+   ],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "Doping Ge with As adds conduction electrons (B)."
+  },
+  {
+   "id": "cbse:q:src:009c1c0b2ba7272fc371da3b:8",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "55/1/2",
+   "qNo": 8,
+   "source": "55-1-1,2,3 English Version.pdf",
+   "stem": "The electric and magnetic fields of electromagnetic waves are : (A) In the same phase and perpendicular to each other. (B) In the same phase and not perpendicular to each other. (C) Not in the same phase but are perpendicular to each other. (D) Neither in the same phase nor perpendicular to each other.",
+   "options": {
+    "A": "In the same phase and perpendicular to each other",
+    "B": "In the same phase and not perpendicular to each other",
+    "C": "Not in the same phase but are perpendicular to each other",
+    "D": "Neither in the same phase nor perpendicular to each other"
+   },
+   "correctOption": null,
+   "answerText": "(A) In the same phase and perpendicular to each other",
+   "valuePoints": [
+    [
+     "(A) In the same phase and perpendicular to each other",
+     0.0
+    ]
+   ],
+   "stratum": "objective-accepted",
+   "judgement": "correct",
+   "note": "E and B are in phase and perpendicular (A)."
+  },
+  {
+   "id": "cbse:q:src:2eeb4a479953ae7153287aeb:8",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "55/1/3",
+   "qNo": 8,
+   "source": "XII_042_Physics_MS_55_1_1,2,3_hindi_med.pdf",
+   "stem": "The first scientist who produced and observed electromagnetic waves of wavelengths in the range 25 mm⁻⁵ mm was : (A) J.C. Maxwell (B) H.R. Hertz (C) J.C. Bose (D) G. Marconi",
+   "options": {
+    "A": "J.C. Maxwell",
+    "B": "H.R. Hertz",
+    "C": "J.C. Bose",
+    "D": "G. Marconi"
+   },
+   "correctOption": "B",
+   "answerText": "",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "wrong",
+   "note": "J.C. Bose produced 25 mm - 5 mm waves (C, NCERT Physics XII ch. 8); keyed B (Hertz)."
+  },
+  {
+   "id": "cbse:q:src:411ab10b9f5e44bccbdb2339:13",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "30/1/2",
+   "qNo": 13,
+   "source": "MS_X_041_Mathematics_30-1-2_2025-26 (1).pdf",
+   "stem": ", (A) 60 (B) 30 (C) -120 (D) 9| P a g e",
+   "options": {
+    "A": "60",
+    "B": "30",
+    "C": "-120",
+    "D": "9| P a g e"
+   },
+   "correctOption": "A",
+   "answerText": "60°",
+   "valuePoints": [],
+   "stratum": "objective-accepted",
+   "judgement": "cannot-tell",
+   "note": "Stem lost to extraction; the key's '60°' names option A (60)."
+  },
+  {
+   "id": "cbse:q:src:f64a5fa2eca8fc27010a4acb:13",
+   "subject": "Physics",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "55/4/1",
+   "qNo": 13,
+   "source": "XII_042_Physics_MS_55_4_1,2,3_hindi_med.pdf",
+   "stem": "The potential energy of an electron in the second excited state in hydrogen atom is : (a) -3·4 eV (b) -3·02 eV (c) -1·51 eV (d) -6·8 eV",
+   "options": {
+    "A": "-3·4 eV",
+    "B": "-3·02 eV",
+    "C": "-1·51 eV",
+    "D": "-6·8 eV"
+   },
+   "correctOption": null,
+   "answerText": "(A) ) थ (A) औ (R) , औ (R), थ (A)",
+   "valuePoints": [
+    [
+     "(A) ) थ (A) औ (R) , औ (R), थ (A)",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Garbled Hindi assertion-reason text; the answer is -3.02 eV (B)."
+  },
+  {
+   "id": "cbse:q:src:f446bead7fedb62943daa9c7:8",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 1,
+   "type": "mcq",
+   "paperCode": "32/4/1",
+   "qNo": 8,
+   "source": "087_32_4_1_H.pdf",
+   "stem": "Read the arguments given in the favour of power sharing and choose the correct option. I. Reduces the likelihood of bias. II. Barricades the decision-making process. III. Accommodates diversities. IV. Increases the participation of people in power. Options : (A) Only I, II and are correct. (B) Only II, and IV are correct. (C) Only I, and IV are correct. (D) Only I, II and IV are correct. 666 -14 8 of",
+   "options": {
+    "A": "Only I, II and are correct",
+    "B": "Only II, and IV are correct",
+    "C": "Only I, and IV are correct",
+    "D": "Only I, II and IV are correct. 666 -14 8 of"
+   },
+   "correctOption": null,
+   "answerText": ";fn fdlh ç'u ds Hkkx gSa] rks —i;k çR;sd Hkkx ds fy, nkbZa vksj vad nsaA ç'u ds fofHkUu Hkkxksa ds fy, fn, x, vadksa dks tksM+ fn;k tkuk pkfg, vkSj ck,a gkFk ds ekftZu esa fy[kk tkuk pkfg, vkSj ?ksjs esa fy[kk tkuk pkfg,A bldk l[rh ls vuqikyu fd;k tkuk vko';d gSA",
+   "valuePoints": [
+    [
+     ";fn fdlh ç'u ds Hkkx gSa] rks —i;k çR;sd Hkkx ds fy, nkbZa vksj vad nsaA ç'u ds fofHkUu Hkkxksa ds fy,",
+     0.0
+    ],
+    [
+     "fn, x, vadksa dks tksM+ fn;k tkuk pkfg, vkSj ck,a gkFk ds ekftZu esa fy[kk tkuk pkfg, vkSj ?ksjs esa fy[kk",
+     0.0
+    ],
+    [
+     "tkuk pkfg,A bldk l[rh ls vuqikyu fd;k tkuk vko';d gSA",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Krutidev examiner instructions, not an answer."
+  },
+  {
+   "id": "cbse:q:src:f73780490a16ef016ae67e67:1",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "32/5/1",
+   "qNo": 1,
+   "source": "32-5-1-E.pdf",
+   "stem": "Who among the following hosted the ‘Vienna Congress’ in 1815 ? 1 (A) Chancellor Duke Metternich (B) Ernst Renan (C) William I (D) Otto von Bismarck 666 -15 4 of",
+   "options": {
+    "A": "Chancellor Duke Metternich",
+    "B": "Ernst Renan",
+    "C": "William I",
+    "D": "Otto von Bismarck 666 -15 4 of"
+   },
+   "correctOption": null,
+   "answerText": "Students will divide the answer book in 04 sections in Social Science for writing answers.2. Replies of questions are to be written only within the space identified for the concerned section only. 3. Reply of a section should not be written or mixed in any other section. 4. In case, if replies are mixed, these will not be evaluated, and no",
+   "valuePoints": [
+    [
+     "Students will divide the answer book in 04 sections in Social Science for writing",
+     0.0
+    ],
+    [
+     "answers.2. Replies of questions are to be written only within the space identified for",
+     0.0
+    ],
+    [
+     "the concerned section only. 3. Reply of a section should not be written or mixed in",
+     0.0
+    ],
+    [
+     "any other section. 4. In case, if replies are mixed, these will not be evaluated, and no",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Examiner instructions, not an answer."
+  },
+  {
+   "id": "cbse:q:src:9ea9344987df8c25364b39a1:12",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "32/5/3",
+   "qNo": 12,
+   "source": "32-5-3 H.pdf",
+   "stem": "Which one of the following books was printed first by Gutenberg ? (a) Chapbooks (b) Amar Jivan (c) Bible (d) Almanac",
+   "options": {
+    "A": "Chapbooks",
+    "B": "Amar Jivan",
+    "C": "Bible",
+    "D": "Almanac"
+   },
+   "correctOption": null,
+   "answerText": "Every examiner has to necessarily do evaluation work for full working hours i.e., 8 hours every day and evaluate 20 answer books per day in main subjects and 25 answer books per day in other subjects (Details are given in Spot Guidelines)",
+   "valuePoints": [
+    [
+     "Every examiner has to necessarily do evaluation work for full working hours i.e., 8 hours every day",
+     0.0
+    ],
+    [
+     "and evaluate 20 answer books per day in main subjects and 25 answer books per day in other subjects",
+     0.0
+    ],
+    [
+     "(Details are given in Spot Guidelines)",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Examiner instructions, not an answer."
+  },
+  {
+   "id": "cbse:q:src:2885ce3bdbf8bed376608474:4",
+   "subject": "English",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "2/5/1",
+   "qNo": 4,
+   "source": "2-5-1.pdf",
+   "stem": "Attempt any one from (a) and (b) given below : 5 You are Sam/Karen of 67, Mist Apartments, Gagan Vihar, Akash Nagar.",
+   "options": {
+    "A": "and",
+    "B": "given below : 5 You are Sam/Karen of 67, Mist Apartments, Gagan Vihar, Akash Nagar"
+   },
+   "correctOption": null,
+   "answerText": "Problems of open manholes and drains Relevance of the problem to the safety of the residents Relevance of the problem to the upkeep of the locality Measures to resolve the problem Need for a dedicated space in the community park for senior citizens Measures to create the space",
+   "valuePoints": [
+    [
+     "Problems of open manholes and drains",
+     0.0
+    ],
+    [
+     "Relevance of the problem to the safety of the residents",
+     0.0
+    ],
+    [
+     "Relevance of the problem to the upkeep of the locality",
+     0.0
+    ],
+    [
+     "Measures to resolve the problem",
+     0.0
+    ],
+    [
+     "Need for a dedicated space in the community park for senior citizens",
+     0.0
+    ],
+    [
+     "Measures to create the space",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "cannot-tell",
+   "note": "Not an MCQ (a letter-writing task); the options are debris of the instructions."
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:11",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "67/1/1",
+   "qNo": 11,
+   "source": "XII_055_MS_67_1_1_unsigned.pdf",
+   "stem": "Xeno Ltd. issued 25,000 equity shares of < 10 each. The amount was payable as follows : On Application -< 4 per share On Allotment -< 5 per share On First and Final call -Balance All the shares offered were applied for and allotted. All the money due on allotment was received except on 1,500 shares. These shares were forfeited immediately after allotment. First and final call was not yet made. At the time of forfeiture, Share Capital Account will be debited by : 1 (A) < 15,000 (B) < 24,000 (C) < 13,500 (D) < 18,000",
+   "options": {
+    "A": "< 15,000",
+    "B": "< 24,000",
+    "C": "< 13,500",
+    "D": "< 18,000"
+   },
+   "correctOption": "D",
+   "answerText": "₹5,00,000",
+   "valuePoints": [],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Rs 5,00,000 is no option; Share Capital is debited Rs 13,500 (C)."
+  },
+  {
+   "id": "cbse:q:src:00ee963d4fb86dd7848842d6:3",
+   "subject": "Business Studies",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "66/1/2",
+   "qNo": 3,
+   "source": "XII_054_MS_66_1_2_UNSIGNED.pdf",
+   "stem": "____________ refers to the obligation of a subordinate to properly perform the assigned duty. (a) Authority (b) Responsibility (c) Accountability (d) Delegation",
+   "options": {
+    "A": "Authority",
+    "B": "Responsibility",
+    "C": "Accountability",
+    "D": "Delegation"
+   },
+   "correctOption": "C",
+   "answerText": "Assertion (A) is true and Reason (R) is false 1 Mark 4 Q Sudha is a corporate executive and has to attend a felicitation function to be held in her office tomorrow. So she decides to colour her hair. On recommendation of her friend, she purchased 'NATURO' hair colour. After reading essential details such as shade, its ingredients, usage instructions and expiry date mentioned on the box, Sudha opened the box. She took out the colour tube and developer bottle from the box and threw away the box The level of packaging of box thrown away by Sudha was (A) Primary packaging (B) Transportation packaging (C) Secondary packaging (D) General packaging",
+   "valuePoints": [],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "An assertion-reason verdict and the next question; the answer is Responsibility (B)."
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:28",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 3,
+   "type": "long_answer",
+   "paperCode": "67/1/1",
+   "qNo": 28,
+   "source": "67_1_1.pdf",
+   "stem": "Identify whi 1 (A) Payment to creditors (B) Interest received by a non-finance company (C) Dividend received by a non-finance company (D) Amount received from debtors",
+   "options": {
+    "A": "Payment to creditors",
+    "B": "Interest received by a non-finance company",
+    "C": "Dividend received by a non-finance company",
+    "D": "Amount received from debtors"
+   },
+   "correctOption": null,
+   "answerText": "Q. Identify which of the following transactions… Ans. (D) Amount received from debtors",
+   "valuePoints": [
+    [
+     "Q. Identify which of the following transactions…",
+     0.0
+    ],
+    [
+     "Ans. (D) Amount received from debtors",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "cannot-tell",
+   "note": "Stem truncated ('Identify whi'); the key names option D in words."
+  },
+  {
+   "id": "cbse:q:src:0b075a8b722f16f272c0cc4d:8",
+   "subject": "Mathematics",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "430/2/2",
+   "qNo": 8,
+   "source": "X_241_MS_430_2_2_Unsigned.pdf",
+   "stem": ": (A) -r2 (B) -r2 (C) r2 (D) 2 r2 # 5| P a g e",
+   "options": {
+    "A": "-r2",
+    "B": "-r2",
+    "C": "r2",
+    "D": "2 r2 # 5| P a g e"
+   },
+   "correctOption": "A",
+   "answerText": "2",
+   "valuePoints": [],
+   "stratum": "objective-random",
+   "judgement": "cannot-tell",
+   "note": "Stem lost; the key's text is '2'."
+  },
+  {
+   "id": "cbse:q:src:c6c45071334b1f6d5d521108:8",
+   "subject": "History",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "61/3/1",
+   "qNo": 8,
+   "source": "set 61_3_1 new 2026 Hindi.pdf",
+   "stem": "Which of the following are correct about Mughal Land Revenue Collection ? Choose the correct option : (a) (ii) and (iv) (b) (iii) and (iv) (c) (i) and (ii) (d) (ii) and (iii)",
+   "options": {
+    "A": "(ii) and (iv)",
+    "B": "(iii) and (iv)",
+    "C": "(i) and (ii)",
+    "D": "(ii) and (iii)"
+   },
+   "correctOption": null,
+   "answerText": "संस्कृि सातहतत्यक कृतियााँ",
+   "valuePoints": [
+    [
+     "संस्कृि सातहतत्यक कृतियााँ",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Hindi text on Sanskrit literature for a question on Mughal land revenue."
+  },
+  {
+   "id": "cbse:q:src:f446bead7fedb62943daa9c7:1",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 1,
+   "type": "mcq",
+   "paperCode": "32/4/1",
+   "qNo": 1,
+   "source": "087_32_4_1_H.pdf",
+   "stem": "Arrange the following incidents in chronological order and choose the correct option. 1 I. French Revolution II. Napoleon’s invasion of Italy III. Unification of Italy IV. Vienna Peace Treaty Options : (A) I, II, IV, (B) II, IV, I, (C) II, III, I, IV (D) I, III, II, IV 666 -14 4 of",
+   "options": {
+    "A": "I, II, IV,",
+    "B": "II, IV, I,",
+    "C": "II, III, I, IV",
+    "D": "I, III, II, IV 666 -14 4 of"
+   },
+   "correctOption": null,
+   "answerText": "vki tkurs gSa fd ijh{kkfFkZ;ksa ds okLrfod vkSj lgh ewY;kadu esa vkdyu izfØ;k lcls egRoiw.kZ fgLlk gSA ewY;kadu esa ,d NksVh lh xyrh ls xaHkhj ifj.kke gks ldrs gSaA Hkfo\";] f'k{kk ç.kkyh vkSj f'k{k.k is'ks dks çHkkfor dj ldrh gSaA xyfr;ksa ls cpus ds fy,] ;g vuqjksèk fd;k tkrk gS fd ewY;kadu 'kq: djus ls igys] vkidks Li‚V ewY;kadu fn'kkfunZs'kksa dks è;ku ls i<+uk vkSj le>uk pkfg,A",
+   "valuePoints": [
+    [
+     "vki tkurs gSa fd ijh{kkfFkZ;ksa ds okLrfod vkSj lgh ewY;kadu esa vkdyu izfØ;k lcls egRoiw.kZ fgLlk",
+     0.0
+    ],
+    [
+     "gSA ewY;kadu esa ,d NksVh lh xyrh ls xaHkhj ifj.kke gks ldrs gSaA Hkfo\";] f'k{kk ç.kkyh vkSj f'k{k.k is'ks",
+     0.0
+    ],
+    [
+     "dks çHkkfor dj ldrh gSaA xyfr;ksa ls cpus ds fy,] ;g vuqjksèk fd;k tkrk gS fd ewY;kadu 'kq: djus",
+     0.0
+    ],
+    [
+     "ls igys] vkidks Li‚V ewY;kadu fn'kkfunZs'kksa dks è;ku ls i<+uk vkSj le>uk pkfg,A",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Krutidev examiner instructions."
+  },
+  {
+   "id": "cbse:q:src:be7fd19527d3a0bcac687817:5",
+   "subject": "Accountancy",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "67/1/1",
+   "qNo": 5,
+   "source": "XII_055_MS_67_1_1_unsigned.pdf",
+   "stem": "Alex, Benn and Cole were partners in a firm sharing profits and losses in the ratio of 5 : 3 : 2. They admitted Dona as a new partner for 5 1 th share in the future profits. Dona agreed to contribute proportionate capital. On the date of admission, capitals of Alex, Benn and Cole after all adjustments were < 1,20,000; < 80,000 and < 1,00,000 respectively. The amount of capital brought in by Dona will be : 1 (A) < 75,000 (B) < 60,000 (C) < 65,000 (D) < 70,000 666 -11 6 of",
+   "options": {
+    "A": "< 75,000",
+    "B": "< 60,000",
+    "C": "< 65,000",
+    "D": "< 70,000 666 -11 6 of"
+   },
+   "correctOption": "B",
+   "answerText": "₹3,72,000 OR Q. (b) Ashok and Vasu were partners…",
+   "valuePoints": [],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Rs 3,72,000 is no option; Dona brings Rs 75,000 (A)."
+  },
+  {
+   "id": "cbse:q:src:077337741cead93d98b37d12:6",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "32/2/1",
+   "qNo": 6,
+   "source": "32-2-1 H.pdf",
+   "stem": "- ? : I. - II. III. IV. : (A) I, II (B) I, II IV (C) II, IV (D) I, IV # 5 of",
+   "options": {
+    "A": "I, II",
+    "B": "I, II IV",
+    "C": "II, IV",
+    "D": "I, IV # 5 of"
+   },
+   "correctOption": null,
+   "answerText": "eq[; ijh{kd dks igys fnu çR;sd ewY;kadudrkZ }kjk ewY;kadu dh xbZ igyh ikap mÙkj iqfLrdkvksa dks ns[kuk pkfg, vkSj ;g lqfuf'pr djuk pkfg, fd ewY;kadu vad ;kstuk esa fn, x, funZs'kksa ds vuqlkj fd;k x;k gS A ;fn ewY;kadu esa varj gS rks ppkZ ,oa laokn ls mls varj dks lekIr fd;k tkuk pkfg,A ewY;kadu ds fy, j[kh xbZ 'ks\"k mÙkj iqfLrdk,a ;g lqfuf'pr djus ds ckn gh nh tk,a fd O;fäxr",
+   "valuePoints": [
+    [
+     "eq[; ijh{kd dks igys fnu çR;sd ewY;kadudrkZ }kjk ewY;kadu dh xbZ igyh ikap mÙkj iqfLrdkvksa dks",
+     0.0
+    ],
+    [
+     "ns[kuk pkfg, vkSj ;g lqfuf'pr djuk pkfg, fd ewY;kadu vad ;kstuk esa fn, x, funZs'kksa ds vuqlkj",
+     0.0
+    ],
+    [
+     "fd;k x;k gS A ;fn ewY;kadu esa varj gS rks ppkZ ,oa laokn ls mls varj dks lekIr fd;k tkuk pkfg,A",
+     0.0
+    ],
+    [
+     "ewY;kadu ds fy, j[kh xbZ 'ks\"k mÙkj iqfLrdk,a ;g lqfuf'pr djus ds ckn gh nh tk,a fd O;fäxr",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Krutidev examiner instructions."
+  },
+  {
+   "id": "cbse:q:src:0a2d54985ac6bc0fb6b77f91:10",
+   "subject": "Political Science",
+   "grade": 12,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "59/4/1",
+   "qNo": 10,
+   "source": "59-4-1hindi.pdf",
+   "stem": "One of the basic aims of the planners in the initial years was to _______ . (A) Raise the level of national income (B) Raise the military power of the country (C) Raise the political awareness (D) Raise the standard of education",
+   "options": {
+    "A": "Raise the level of national income",
+    "B": "Raise the military power of the country",
+    "C": "Raise the political awareness",
+    "D": "Raise the standard of education"
+   },
+   "correctOption": null,
+   "answerText": "रफी अहमद वकदिई का संबंर् वकस राजनीविक पाटी से था ? (B) िारिीय राष्ट्रीय कााँग्रेस (C) कम्युवनस्ट पाटी ऑफ इंवडया (B) भारतीय राष्टरीय कााँग्रेस",
+   "valuePoints": [
+    [
+     "रफी अहमद वकदिई का संबंर् वकस राजनीविक पाटी से था ?",
+     0.0
+    ],
+    [
+     "(B) िारिीय राष्ट्रीय कााँग्रेस",
+     0.0
+    ],
+    [
+     "(C) कम्युवनस्ट पाटी ऑफ इंवडया",
+     0.0
+    ],
+    [
+     "(B) भारतीय राष्टरीय कााँग्रेस",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Hindi options of a question about Rafi Ahmad Kidwai's party."
+  },
+  {
+   "id": "cbse:q:src:f73780490a16ef016ae67e67:13",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "32/5/1",
+   "qNo": 13,
+   "source": "32-5-1 H.pdf",
+   "stem": "Which one of the following is a scheduled language as per the Constitution of India ? 1 (A) Bhojpuri (B) Garhwali (C) Nepali (D) Rajasthani",
+   "options": {
+    "A": "Bhojpuri",
+    "B": "Garhwali",
+    "C": "Nepali",
+    "D": "Rajasthani"
+   },
+   "correctOption": null,
+   "answerText": "Ensure that you do not make the following common types of errors committed by the Examiner in the past:- Giving more marks for an answer than assigned to it Wrong totaling of marks awarded on an answer Wrong transfer of marks from the inside pages of the answer book to the title page",
+   "valuePoints": [
+    [
+     "Ensure that you do not make the following common types of errors committed by the Examiner in the",
+     0.0
+    ],
+    [
+     "past:- Giving more marks for an answer than assigned to it",
+     0.0
+    ],
+    [
+     "Wrong totaling of marks awarded on an answer",
+     0.0
+    ],
+    [
+     "Wrong transfer of marks from the inside pages of the answer book to the title page",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Examiner instructions."
+  },
+  {
+   "id": "cbse:q:src:f5f52d3e0580aac4355f9205:1",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "32/3/1",
+   "qNo": 1,
+   "source": "32-3-1 H.pdf",
+   "stem": "Which one of the following languages is included in the Eighth Schedule of the Indian Constitution ? 1 (A) Bhojpuri (B) Magadhi (C) Rajasthani (D) Tamil",
+   "options": {
+    "A": "Bhojpuri",
+    "B": "Magadhi",
+    "C": "Rajasthani",
+    "D": "Tamil"
+   },
+   "correctOption": null,
+   "answerText": "You are aware that evaluation is the most important process in the actual and correct assessment of the candidates. A small mistake in evaluation may lead to serious problems which may affect the future of the candidates, education system and teaching profession. To avoid mistakes, it is requested that before starting evaluation, you must read and understand the spot evaluation guidelines carefully",
+   "valuePoints": [
+    [
+     "You are aware that evaluation is the most important process in the actual and correct assessment of the",
+     0.0
+    ],
+    [
+     "candidates. A small mistake in evaluation may lead to serious problems which may affect the future of the",
+     0.0
+    ],
+    [
+     "candidates, education system and teaching profession. To avoid mistakes, it is requested that before starting",
+     0.0
+    ],
+    [
+     "evaluation, you must read and understand the spot evaluation guidelines carefully",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Examiner instructions."
+  },
+  {
+   "id": "cbse:q:src:e4a3a6f64ffaccbf72460f6e:10",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "32/2/3",
+   "qNo": 10,
+   "source": "MS-087- 32-2-3 E.pdf",
+   "stem": "- ? : I. - II. III. IV. : (A) I, II (B) I, II IV (C) II, IV (D) I, IV # 9 of",
+   "options": {
+    "A": "I, II",
+    "B": "I, II IV",
+    "C": "II, IV",
+    "D": "I, IV # 9 of"
+   },
+   "correctOption": null,
+   "answerText": "Please see the attached map Note: The following questions are for the Visually Impaired Candidates only, in lieu of Q. No. 10 (10.1) Name the place where the session of the Indian National",
+   "valuePoints": [
+    [
+     "Please see the attached map",
+     0.0
+    ],
+    [
+     "Note: The following questions are for the Visually Impaired",
+     0.0
+    ],
+    [
+     "Candidates only, in lieu of Q. No. 10",
+     0.0
+    ],
+    [
+     "(10.1) Name the place where the session of the Indian National",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "A map note for visually impaired candidates."
+  },
+  {
+   "id": "cbse:q:src:b34adc36798c7b462d3db1cd:19",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "32/1/1",
+   "qNo": 19,
+   "source": "MS 32-1-1 H.pdf",
+   "stem": "Which of the following groups in urban India depend on informal sources to meet their credit needs ? 1 (A) Poor households (B) Households with few assets (C) Both poor households and households with few assets (D) Both well-off households and households with few assets",
+   "options": {
+    "A": "Poor households",
+    "B": "Households with few assets",
+    "C": "Both poor households and households with few assets",
+    "D": "Both well-off households and households with few assets"
+   },
+   "correctOption": null,
+   "answerText": "(i) पानी पीने से पहले उबालŐ। (iii) पानी को कीटाणु-मुƅ करŐ। (iv) साफ और ढके Šए बतŊन का उपयोग करŐ। िकसी एक िब̢ दु का उʟेख करना अपेिƗत है ।",
+   "valuePoints": [
+    [
+     "(i) पानी पीने से पहले उबालŐ।",
+     0.0
+    ],
+    [
+     "(iii) पानी को कीटाणु-मुƅ करŐ।",
+     0.0
+    ],
+    [
+     "(iv) साफ और ढके Šए बतŊन का उपयोग करŐ।",
+     0.0
+    ],
+    [
+     "िकसी एक िब̢ दु का उʟेख करना अपेिƗत है ।",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Hindi answer about drinking water."
+  },
+  {
+   "id": "cbse:q:src:f446bead7fedb62943daa9c7:7",
+   "subject": "Social Science",
+   "grade": 10,
+   "marks": 1,
+   "type": "mcq",
+   "paperCode": "32/4/1",
+   "qNo": 7,
+   "source": "087_32_4_1_H.pdf",
+   "stem": "Choose the correct option for the following States’ share (in percentage) in the production of ‘manganese’ in India from the highest to the lowest order. 1 (A) Madhya Pradesh, Maharashtra, Karnataka, Odisha (B) Madhya Pradesh, Maharashtra, Odisha, Karnataka (C) Maharashtra, Madhya Pradesh, Karnataka, Odisha (D) Maharashtra, Odisha, Madhya Pradesh, Karnataka",
+   "options": {
+    "A": "Madhya Pradesh, Maharashtra, Karnataka, Odisha",
+    "B": "Madhya Pradesh, Maharashtra, Odisha, Karnataka",
+    "C": "Maharashtra, Madhya Pradesh, Karnataka, Odisha",
+    "D": "Maharashtra, Odisha, Madhya Pradesh, Karnataka"
+   },
+   "correctOption": null,
+   "answerText": "tc Hkh mÙkj lgh gksxk] ewY;kadudrkZ ¼√½ fpfàr djsaxsA xyr mÙkj ds fy, 'X' fpfàr djsaA cgq/kk ewY;kadudrkZ ewY;kadu djrs le; lgh çdkj dk fpUà ugha yxkrs ftlls ;g vkHkkl gksrk gS fd mÙkj lgh gS vkSj dksbZ vad ugha fn;k x;k gSA ;g lcls lkekU; xyrh gS tks ewY;kadudrkZ yxkrkj dj jgs",
+   "valuePoints": [
+    [
+     "tc Hkh mÙkj lgh gksxk] ewY;kadudrkZ ¼√½ fpfàr djsaxsA xyr mÙkj ds fy, 'X' fpfàr djsaA cgq/kk",
+     0.0
+    ],
+    [
+     "ewY;kadudrkZ ewY;kadu djrs le; lgh çdkj dk fpUà ugha yxkrs ftlls ;g vkHkkl gksrk gS fd mÙkj",
+     0.0
+    ],
+    [
+     "lgh gS vkSj dksbZ vad ugha fn;k x;k gSA ;g lcls lkekU; xyrh gS tks ewY;kadudrkZ yxkrkj dj jgs",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Krutidev examiner instructions."
+  },
+  {
+   "id": "cbse:q:src:af50a3f7e666fdea9cee608f:13",
+   "subject": "Science",
+   "grade": 10,
+   "marks": 1,
+   "type": "very_short_answer",
+   "paperCode": "31/1/1",
+   "qNo": 13,
+   "source": "X_086_31.1.1 to 31.1.3 in HINDI.pdf",
+   "stem": "Mirror ‘X’ is used to concentrate sunlight in solar furnace and Mirror ‘Y’ is fitted on the side of the vehicle to see the traffic behind the driver. Which of the following statements are true for the two mirrors ? (ii) The image formed by mirror ‘Y’ is virtual, diminished and erect. (iii) The image formed by mirror ‘X’ is virtual, diminished and erect. (iv) The image formed by mirror ‘Y’ is real, diminished and at its focus. (A) (i) and (ii) (B) (ii) and (iii) (C) (iii) and (iv) (D) 14.",
+   "options": {
+    "A": "(i) and (ii)",
+    "B": "(ii) and (iii)",
+    "C": "(iii) and (iv)",
+    "D": "14"
+   },
+   "correctOption": null,
+   "answerText": "F1 सोंतकत िे सभी पौधे लोंबे थे। F1 सोंतकत में मध्यम/अल्प ऊोंिाई िाले पौधे नहीों देखे गए। F1 सोंतकत िेिल एि ही जनि से कमलती-जुलती थीों।",
+   "valuePoints": [
+    [
+     "F1 सोंतकत िे सभी पौधे लोंबे थे।",
+     0.0
+    ],
+    [
+     "F1 सोंतकत में मध्यम/अल्प ऊोंिाई िाले पौधे नहीों देखे गए।",
+     0.0
+    ],
+    [
+     "F1 सोंतकत िेिल एि ही जनि से कमलती-जुलती थीों।",
+     0.0
+    ]
+   ],
+   "stratum": "objective-random",
+   "judgement": "wrong",
+   "note": "Hindi answer about F1 plants."
   }
  ]
 }

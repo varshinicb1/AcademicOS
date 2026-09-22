@@ -22,6 +22,7 @@ A verdict names one reason, checked in this order:
   legacy-font         Krutidev/legacy-font text, unreadable as served
   script-mismatch     the answer is in another script than the question
   unreadable-options  an option letter, for a stem whose options cannot be read
+  unverifiable-letter a bare option letter: nothing ties it to this question
   option-mismatch     an MCQ key that resolves to none of the stem's options
   content-mismatch    a subjective answer that shares too little with the stem
 
@@ -29,7 +30,9 @@ The content rule was calibrated on 120 hand-judged pairs, saved with their seed
 in tests/fixtures/scheme_verify_sample.json. The judgements are an AI
 reviewer's, not a teacher's. The rule accepts none of the 76 pairs judged wrong
 and 17 of the 32 judged correct; the constants below say where each number
-comes from.
+comes from. The same fixture holds 75 judged objective pairs (every objective
+key accepted at 960455e, and 20 drawn at random): the option rules accept none
+of the 29 judged wrong and 24 of the 32 judged correct.
 """
 from __future__ import annotations
 
@@ -48,7 +51,7 @@ from .mcq_shape import (
 )
 
 REASONS = ("document-id", "legacy-font", "script-mismatch", "unreadable-options",
-           "option-mismatch", "content-mismatch")
+           "unverifiable-letter", "option-mismatch", "content-mismatch")
 
 # --- calibration (tests/fixtures/scheme_verify_sample.json) ---------------- #
 # An answer is judged only on the words it shares with the stem; with fewer
@@ -342,42 +345,78 @@ def question_options(record: dict) -> dict[str, str] | None:
 
 def _core(option: str) -> list[str]:
     """An option's tokens without the page footer extraction glued on:
-    "Public relations 11-" is option D of 66/1/1 Q16."""
+    "Public relations 11-" is option D of 66/1/1 Q16.
+
+    Only a worded option has a footer to cut. A numeric option IS its
+    numbers: cutting them left "2550" (430/5/2 Q17, option B) with no core, so
+    no key could ever name it in words.
+    """
     toks = tokens(option)
+    if not any(re.search(r"[^\W\d_]", t) for t in toks):
+        return toks
     while toks and re.fullmatch(r"\d+|-", toks[-1]):
         toks.pop()
     return toks
 
 
 def _named_options(text: str, options: dict[str, str]) -> list[str]:
-    """The options whose words open `text`, once any "(B) /" label is cut."""
+    """The options whose words open `text`, once any "(B) /" label is cut.
+
+    An option with no letter or digit left names nothing: 30/3/2 Q6 extracts
+    its four options as "-, -" and "-,", and "– 3x2 – x – 6" (another
+    question's polynomial) opens with a dash."""
     body = tokens(_KEY_LABEL.sub("", text))
-    return [k for k, v in options.items() if (core := _core(v)) and body[:len(core)] == core]
+    return [k for k, v in options.items()
+            if (core := _core(v)) and any(re.search(r"[^\W_]", t) for t in core)
+            and body[:len(core)] == core]
 
 
-def _option_verdict(options: dict[str, str], answer: str, option: str | None) -> Verdict:
-    """A key resolves to an option by its letter or by its words -- and when
-    it has both, they must agree.
+def _bare_letter(answer: str) -> bool:
+    """True when a key is its option letter and nothing else ("", "(b)",
+    "B 1 mark")."""
+    return not re.search(r"\w", _MARK_NOTE.sub("", _KEY_LABEL.sub("", answer)).strip())
+
+
+def _option_verdict(options: dict[str, str], answer: str, option: str | None, *,
+                    trust_letter: bool) -> Verdict:
+    """A key resolves to an option by its words -- and when it also has a
+    letter, the two must agree.
 
     A letter alone is always "among the options", so it is only as good as
-    the row it came from. Of the served bank's 200 MCQ candidates with a
-    letter, 26 are the bare letter, 18 carry words naming the letter's option
-    and 156 words naming none: "Noise For Visually Impaired Candidates" keyed
-    C for "doing the task correctly
-    and with minimum cost" (66/1/1 Q4), "59" keyed A among four coordinate
-    pairs. Words that name no option mean the row answers another question.
+    the row it came from, and rows misalign: editions number questions
+    differently. Of the served bank's 200 MCQ candidates with a letter, 26
+    are the bare letter, 18 carry words naming the letter's option and 156
+    words naming none: "Noise For Visually Impaired Candidates" keyed C for
+    "doing the task correctly and with minimum cost" (66/1/1 Q4), "59" keyed A
+    among four coordinate pairs. Words that name no option mean the row
+    answers another question. A bare letter is rejected as
+    unverifiable-letter: of the 24 the verifier used to accept, 12 were judged
+    wrong and 8 correct (fixture stratum objective-accepted) -- 430/5/2 Q17
+    keys 2550 for the sum of the first 100 even numbers, 55/1/1 Q1 a non-zero
+    field at the centre of a charged ring. Keys whose words name their option
+    were right in every case judged.
+
+    `trust_letter` is for a letter from the item's own builder (CBE/SQP):
+    there is no row to misalign, so the letter alone stands.
     """
+    bare = _bare_letter(answer)
     if option:
         letter = str(option).strip().upper()
         if letter not in options:
             return Verdict("option-mismatch")
-        rest = _MARK_NOTE.sub("", _KEY_LABEL.sub("", answer)).strip()
-        if not re.search(r"\w", rest) or letter in _named_options(answer, options):
+        if bare:
+            return Verdict(score=1.0, option=letter) if trust_letter else Verdict(
+                "unverifiable-letter")
+        if letter in _named_options(answer, options):
             return Verdict(score=1.0, option=letter)
         return Verdict("option-mismatch")
     named = _named_options(answer, options)
     letter = correct_letter([answer], options) or (named[0] if len(named) == 1 else None)
-    return Verdict(score=1.0, option=letter) if letter else Verdict("option-mismatch")
+    if not letter:
+        return Verdict("option-mismatch")
+    if bare and not trust_letter:
+        return Verdict("unverifiable-letter")
+    return Verdict(score=1.0, option=letter)
 
 
 # --------------------------------------------------------------------------- #
@@ -394,7 +433,9 @@ def verify(record: dict, answer: str, option: str | None = None, *,
     scheme its builder attached from the same item (CBE/SQP): the rule
     measures how board marking-scheme rows misalign with their questions, the
     calibration sample holds no CBE/SQP pair, and their one-word and numeric
-    answers would all fail it. Every other check still applies.
+    answers would all fail it. For the same reason such a scheme's bare
+    option letter is trusted, where a board row's is unverifiable-letter.
+    Every other check still applies.
     """
     answer = (answer or "").strip()
     options = question_options(record)
@@ -408,7 +449,7 @@ def verify(record: dict, answer: str, option: str | None = None, *,
         # Q17 (hydrogen and nitric acid) to pass as a subjective answer.
         return Verdict("unreadable-options")
     if options and option:
-        return _option_verdict(options, answer, option)
+        return _option_verdict(options, answer, option, trust_letter=not judge_content)
 
     if answer and not strip_document_ids(answer):
         return Verdict("document-id")
@@ -420,7 +461,7 @@ def verify(record: dict, answer: str, option: str | None = None, *,
     if expected and got and got != expected:
         return Verdict("script-mismatch")
     if options:
-        return _option_verdict(options, answer, None)
+        return _option_verdict(options, answer, None, trust_letter=not judge_content)
     if not judge_content:
         return Verdict(score=0.0)
     return _content_verdict(str(record.get("stem") or ""), answer)
