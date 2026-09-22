@@ -1321,6 +1321,11 @@ export interface paths {
          *     each student's sheet is loaded, clamped and saved through the same path the
          *     single-student endpoint uses, so a bulk award can never produce a state the
          *     per-student path could not, and the audit trail stays uniform.
+         *
+         *     Every changed student gets its own audit entry, with the caller as the
+         *     actor. If any target sheet is finalized and no reason is given, the whole
+         *     request is refused with 409 before anything is written, so a bulk award
+         *     never lands half-applied.
          */
         post: operations["award_across_students_api_v1_evaluations_assessment__assessment_id__question__question_id__award_post"];
         delete?: never;
@@ -1390,11 +1395,14 @@ export interface paths {
          * Review Sheet Answer
          * @description Records the teacher's approve/adjust decision on one answer from a
          *     prior POST /evaluations/sheet, so it survives past the Evaluate tab's
-         *     local widget state. Each question here is decided exactly once (there is
-         *     no "already approved, now correcting" case like mobile_scan's ReviewItem
-         *     has) so this mirrors mobile_scan.review_decision's "edit" branch only --
-         *     no reason/reviewer_id gate, since that gate exists specifically for
-         *     *changing* an existing decision, which can't happen in this flow.
+         *     local widget state.
+         *
+         *     Before 2026-09-22 this docstring said a decision here could not be changed
+         *     later, so no reason gate was needed. That was wrong: nothing stopped an
+         *     edit after finalize, and the audit found a finalized sheet changed with no
+         *     entry written (item 8.5). A mark change to a finalized sheet now needs a
+         *     reason (409 without one), and every decision is audited with the caller as
+         *     the actor. See grade_lock.py.
          *
          *     Requires a real logged-in caller from the assessment's own school (fixed
          *     2026-09-11: this endpoint mutated the graded store for any
@@ -2768,6 +2776,11 @@ export interface components {
              * @default
              */
             note: string;
+            /**
+             * Reason
+             * @default
+             */
+            reason: string;
             /** Studentids */
             studentIds?: string[] | null;
         };
@@ -3151,6 +3164,11 @@ export interface components {
             /** Assessmentid */
             assessmentId: string;
             question: components["schemas"]["QuestionSchema"];
+            /**
+             * Reason
+             * @default
+             */
+            reason: string;
             /** Studentanswer */
             studentAnswer: string;
             /** Studentid */
@@ -3170,6 +3188,11 @@ export interface components {
             };
             /** Questions */
             questions: components["schemas"]["QuestionSchema"][];
+            /**
+             * Reason
+             * @default
+             */
+            reason: string;
             /** Studentid */
             studentId: string;
             /**
@@ -4705,6 +4728,11 @@ export interface components {
             action: string;
             /** Marks */
             marks?: number | null;
+            /**
+             * Reason
+             * @default
+             */
+            reason: string;
         };
         /** SheetReviewResponse */
         SheetReviewResponse: {

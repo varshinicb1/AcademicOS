@@ -54,8 +54,11 @@ a correctly chained entry. What stops that is the INSERT privilege itself
 (see the audit_log block of docs/supabase-setup.sql).
 
 Each backend (the remote table when configured, local SQLite otherwise) keeps
-its own chain. A remote outage still falls back to local SQLite, as it did
-before, and those entries chain locally. The writer reads the remote head and
+its own chain. A remote outage (no connection, or a 5xx) still falls back to
+local SQLite, as it did before, and those entries chain locally. A table that
+answers and refuses (a 4xx, or a Cloud SQL schema or permission error) does
+not: that is a misconfiguration, and the append raises AuditAppendFailed (see
+_is_misconfiguration). The writer reads the remote head and
 inserts the next seq. The unique index on seq means that when two instances
 race for the same seq, one wins and the other retries, so the chain does not
 fork.
@@ -142,14 +145,59 @@ class DuplicateAuditEntry(Exception):
 
 class AuditAppendFailed(SupabaseUnavailable):
     """The remote table answered, but the append could not be completed: the
-    seq race was lost _SEQ_RACE_RETRIES times, or the id lookup that tells a
-    replay from a lost race failed after a conflict.
+    seq race was lost _SEQ_RACE_RETRIES times, the id lookup that tells a
+    replay from a lost race failed after a conflict, or the table refused the
+    append outright (_is_misconfiguration).
 
     This is not an outage, so append() does not write the entry to local
     SQLite. On Render that disk is wiped on restart, and a grade saved with
     its only audit entry there would lose the entry. It subclasses
     SupabaseUnavailable so the app-level handler answers 503, and the
     grading routes audit before they save, so no grade is written."""
+
+
+# HTTP statuses in the 4xx range that still mean "try later", not "this
+# request can never succeed": a timeout and a rate limit.
+_TRANSIENT_4XX = frozenset({408, 429})
+
+# psycopg raises OperationalError (or a subclass: AdminShutdown,
+# ConnectionFailure, psycopg_pool.PoolTimeout) when the server could not be
+# reached or dropped the connection, and InterfaceError when the client side
+# of the connection broke. Matched by name so psycopg stays an optional
+# dependency of this module.
+_TRANSPORT_ERROR_NAMES = frozenset({"OperationalError", "InterfaceError", "PoolTimeout"})
+
+# SQLSTATE classes for the same: 08 connection exception, 40 transaction
+# rollback (serialization failure, deadlock), 53 insufficient resources,
+# 57 operator intervention, 58 system error.
+_TRANSPORT_SQLSTATE_CLASSES = frozenset({"08", "40", "53", "57", "58"})
+
+
+def _is_misconfiguration(exc: BaseException) -> bool:
+    """Whether a failed remote append was refused by a table that answered,
+    as opposed to one that could not be reached.
+
+    A refusal is a configuration error: PGRST204 (a chain column the manual
+    SQL in docs/supabase-setup.sql has not added yet) is a 400, RLS or a
+    revoked privilege a 401/403, a missing table a 404, and on Cloud SQL an
+    undefined column or permission denied arrives as a PostgresUnavailable
+    around a psycopg ProgrammingError. None of these goes away by retrying,
+    and falling back to local SQLite for them turned every such append into
+    a silent local-only entry, which Render wipes on restart: a finalize
+    entry lost that way quietly unlocks the sheet it locked (review of
+    2026-09-22). Only a transport error or a 5xx is an outage worth routing
+    around."""
+    status = getattr(exc, "status", None)
+    if status is not None:
+        return 400 <= status < 500 and status not in _TRANSIENT_4XX
+    cause = exc.__cause__
+    if cause is None or isinstance(cause, requests.exceptions.RequestException):
+        return False
+    sqlstate = getattr(cause, "sqlstate", None)
+    if sqlstate:
+        return sqlstate[:2] not in _TRANSPORT_SQLSTATE_CLASSES
+    names = {cls.__name__ for cls in type(cause).__mro__}
+    return not names & _TRANSPORT_ERROR_NAMES
 
 
 def _canonical(entry: dict[str, Any]) -> bytes:
@@ -303,7 +351,11 @@ class AuditLog:
                 return entry["id"]
             except (DuplicateAuditEntry, AuditAppendFailed):
                 raise
-            except (SupabaseUnavailable, requests.exceptions.RequestException):
+            except (SupabaseUnavailable, requests.exceptions.RequestException) as exc:
+                if _is_misconfiguration(exc):
+                    raise AuditAppendFailed(
+                        table="audit_log", op="insert",
+                        body=f"the remote table refused the append: {exc}") from exc
                 logger.warning("Supabase unavailable for audit_log append, falling back to local SQLite", exc_info=True)
         self._append_local(entry)
         return entry["id"]

@@ -698,17 +698,22 @@ def finalize_sheet_review(assessment_id: str, student_id: str,
     if not graded:
         raise HTTPException(404, "no evaluated sheet found for this assessment/student")
 
-    knowledge.record_evaluations(student_id, graded)
     awarded = sum(e.awarded_marks for _, e in graded)
     maximum = sum(e.max_marks for _, e in graded)
     # This entry is also what locks the sheet (grade_lock.FINALIZED_ACTION).
-    # From here on, a mark change needs a reason.
+    # From here on, a mark change needs a reason. It is written before the
+    # knowledge model is touched: if the append raises (a 503 from a lost seq
+    # race or a misconfigured remote table), mastery must not already have
+    # moved, or the client's retry would record the same evaluations twice
+    # into a sheet that is still unlocked. mobile_routes.finalize_scan_session
+    # uses the same order.
     _audit().append(
         FINALIZED_ACTION, assessment_id=assessment_id, student_id=student_id,
         actor=current.id,
         details={"totalAwarded": awarded, "totalMax": maximum, "questionCount": len(graded),
                  "reviewerName": current.name},
     )
+    knowledge.record_evaluations(student_id, graded)
     return SheetFinalizeResponse(
         assessment_id=assessment_id, student_id=student_id,
         total_awarded=awarded, total_max=maximum,

@@ -638,3 +638,262 @@ def test_a_failed_audit_append_is_a_503_and_saves_no_grade(sheet, monkeypatch):
     assert grid.status_code == 200, grid.text
     [row] = grid.json()["answers"]
     assert row["awardedMarks"] == sheet.awarded
+
+
+# --------------------------------------------------------------------------- #
+# a remote table that answers 4xx is misconfigured, not down
+# --------------------------------------------------------------------------- #
+
+class RefusingRemoteAudit(FakeRemoteAudit):
+    """The remote table answers, but refuses the insert: 400 is PostgREST's
+    PGRST204 (a chain column the manual SQL has not added yet), 401/403 is RLS
+    or a revoked privilege, 404 a missing table; None is no connection at all
+    and 5xx the server itself failing."""
+
+    def __init__(self, status):
+        super().__init__()
+        self.status = status
+
+    def insert(self, row):
+        from academicos.assessment.supabase_kv import SupabaseUnavailable
+        raise SupabaseUnavailable(table="audit_log", op="insert", status=self.status,
+                                  body="PGRST204 Could not find the 'seq' column")
+
+
+@pytest.mark.parametrize("status", [400, 401, 403, 404])
+def test_a_4xx_from_the_remote_insert_fails_the_append(tmp_path, monkeypatch, status):
+    """A 4xx is a configuration error. On Render the local file is wiped on
+    restart, so a `sheet_reviewed` entry written there instead would vanish
+    and quietly unlock the sheet."""
+    remote = RefusingRemoteAudit(status)
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    with pytest.raises(audit_mod.AuditAppendFailed):
+        log.append("sheet_reviewed", assessment_id="a1", student_id="s1", actor="u1")
+    assert _local_count(log) == 0
+
+
+@pytest.mark.parametrize("status", [None, 408, 429, 500, 503])
+def test_an_outage_still_falls_back_to_local_disk(tmp_path, monkeypatch, status):
+    remote = RefusingRemoteAudit(status)
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    log.append("grade_awarded", assessment_id="a1", actor="u1")
+    assert _local_count(log) == 2, "the chain-start entry and the real one"
+
+
+class OperationalError(Exception):
+    """Named like psycopg's: a refused connection, an admin shutdown, a pool
+    timeout. psycopg raises it for SQLSTATE classes 08/53/57/58, or with no
+    SQLSTATE at all when the server was never reached."""
+    sqlstate = None
+
+
+class UndefinedColumn(Exception):
+    """Shaped like psycopg.errors.UndefinedColumn (a ProgrammingError): the
+    Cloud SQL schema is behind the code."""
+    sqlstate = "42703"
+
+
+class CloudSqlRemoteAudit(FakeRemoteAudit):
+    def __init__(self, cause):
+        super().__init__()
+        self.cause = cause
+
+    def insert(self, row):
+        from academicos.assessment.postgres_kv import PostgresUnavailable
+        raise PostgresUnavailable(table="audit_log", op="insert",
+                                  body=str(self.cause), cause=self.cause) from self.cause
+
+
+def test_a_cloud_sql_schema_error_fails_the_append(tmp_path, monkeypatch):
+    remote = CloudSqlRemoteAudit(UndefinedColumn('column "seq" does not exist'))
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    with pytest.raises(audit_mod.AuditAppendFailed):
+        log.append("grade_awarded", assessment_id="a1", actor="u1")
+    assert _local_count(log) == 0
+
+
+def test_a_cloud_sql_connection_error_falls_back(tmp_path, monkeypatch):
+    remote = CloudSqlRemoteAudit(OperationalError("connection refused"))
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    log.append("grade_awarded", assessment_id="a1", actor="u1")
+    assert _local_count(log) == 2
+
+
+def _grid_mark(sheet, student_id=None) -> int:
+    grid = sheet.client.get(
+        f"/api/v1/evaluations/assessment/{sheet.aid}/question/q_1", headers=sheet.headers)
+    assert grid.status_code == 200, grid.text
+    student_id = student_id or sheet.student_id
+    [row] = [a for a in grid.json()["answers"] if a["studentId"] == student_id]
+    return row["awardedMarks"]
+
+
+def test_a_400_from_the_remote_insert_is_a_503_and_saves_no_grade(sheet):
+    log = audit_mod.get_audit_log(sheet.data_root)
+    log._remote = RefusingRemoteAudit(400)
+    local_before = _local_count(log)
+
+    r = sheet.award(sheet.other_mark)
+    assert r.status_code == 503, r.text
+    assert _grid_mark(sheet) == sheet.awarded
+    assert _local_count(log) == local_before
+
+
+# --------------------------------------------------------------------------- #
+# the lock read fails closed
+# --------------------------------------------------------------------------- #
+
+class UnreadableRemoteAudit(FakeRemoteAudit):
+    def select(self, order=None, limit=None, gt=None, **eq):
+        from academicos.assessment.supabase_kv import SupabaseUnavailable
+        raise SupabaseUnavailable(table="audit_log", op="select",
+                                  body="connection reset by peer")
+
+
+def test_an_unreadable_lock_is_a_503_and_saves_no_grade(sheet):
+    """grade_lock decides 'finalized' from has_entry. If the remote log cannot
+    be read, the local file alone could say 'not finalized' for a sheet that
+    is, so the write is refused instead."""
+    log = audit_mod.get_audit_log(sheet.data_root)
+    log._remote = UnreadableRemoteAudit()
+
+    r = sheet.award(sheet.other_mark)
+    assert r.status_code == 503, r.text
+    assert _grid_mark(sheet) == sheet.awarded
+    assert not [e for e in sheet.audit() if e["action"] == "grade_awarded"]
+
+
+# --------------------------------------------------------------------------- #
+# finalize: the lock entry is written before mastery moves
+# --------------------------------------------------------------------------- #
+
+def test_a_failed_finalize_entry_leaves_mastery_untouched(sheet, monkeypatch):
+    """If the finalize entry cannot be written, the sheet is not locked, and
+    the client's retry must not fold the same evaluations into mastery twice."""
+    from academicos.assessment import pillar_routes
+
+    recorded: list[str] = []
+    monkeypatch.setattr(pillar_routes._knowledge, "record_evaluations",
+                        lambda student_id, graded: recorded.append(student_id))
+    log = audit_mod.get_audit_log(sheet.data_root)
+    real_append = log.append
+
+    def refuse_finalize(action, **kw):
+        if action != "sheet_reviewed":
+            return real_append(action, **kw)
+        raise audit_mod.AuditAppendFailed(table="audit_log", op="insert",
+                                          body="lost the seq race 5 times")
+    monkeypatch.setattr(log, "append", refuse_finalize)
+
+    r = sheet.client.post(
+        f"/api/v1/evaluations/sheet/{sheet.aid}/{sheet.student_id}/finalize",
+        json={}, headers=sheet.headers)
+    assert r.status_code == 503, r.text
+    assert recorded == []
+
+    monkeypatch.setattr(log, "append", real_append)
+    sheet.finalize()
+    assert recorded == [sheet.student_id]
+
+
+# --------------------------------------------------------------------------- #
+# POST /evaluations/answer re-grades one answer
+# --------------------------------------------------------------------------- #
+
+def _evaluate_one(sheet, **extra):
+    return sheet.client.post("/api/v1/evaluations/answer", json={
+        "assessmentId": sheet.aid, "studentId": sheet.student_id,
+        "question": question_body(), "studentAnswer": "x = 2", **extra,
+    }, headers=sheet.headers)
+
+
+def test_evaluate_one_is_audited_with_before_and_after(sheet):
+    r = _evaluate_one(sheet)
+    assert r.status_code == 200, r.text
+    [entry] = [e for e in sheet.audit() if e["action"] == "answer_evaluated"]
+    assert entry["actor"] == sheet.teacher_id
+    assert entry["student_id"] == sheet.student_id
+    assert entry["details"]["questionId"] == "q_1"
+    assert entry["details"]["before"] == sheet.awarded
+    assert entry["details"]["after"] == r.json()["awardedMarks"]
+    assert entry["details"]["finalized"] is False
+    assert "reason" not in entry["details"]
+
+
+def test_evaluate_one_on_a_finalized_sheet_needs_a_reason(sheet):
+    sheet.finalize()
+    before = len(sheet.audit())
+
+    refused = _evaluate_one(sheet)
+    assert refused.status_code == 409, refused.text
+    assert "reason" in refused.json()["detail"]
+    assert len(sheet.audit()) == before
+    assert _grid_mark(sheet) == sheet.awarded
+
+    accepted = _evaluate_one(sheet, reason="answer re-read from the original booklet")
+    assert accepted.status_code == 200, accepted.text
+    [entry] = [e for e in sheet.audit() if e["action"] == "answer_evaluated"]
+    assert entry["actor"] == sheet.teacher_id
+    assert entry["details"]["before"] == sheet.awarded
+    assert entry["details"]["after"] == accepted.json()["awardedMarks"]
+    assert entry["details"]["reason"] == "answer re-read from the original booklet"
+    assert entry["details"]["finalized"] is True
+
+
+# --------------------------------------------------------------------------- #
+# a bulk award is refused whole
+# --------------------------------------------------------------------------- #
+
+def test_a_bulk_award_touching_one_finalized_sheet_is_refused_whole(sheet):
+    """Two targets, one finalized, no reason: 409, and neither sheet is saved
+    or logged, not even the unlocked one (award_across_students checks every
+    lock before the first write). The unlocked student is listed first, so a
+    route that wrote as it went would already have saved it."""
+    other = "s_integrity_2"
+    r = sheet.client.post("/api/v1/evaluations/sheet", json={
+        "assessmentId": sheet.aid, "studentId": other, "studentName": "Other",
+        "questions": [question_body()],
+        "answers": {"q_1": "The solution is x = 2, obtained by subtracting 3 "
+                           "from both sides then dividing by 2."},
+        "correctOptions": {},
+    }, headers=sheet.headers)
+    assert r.status_code == 200, r.text
+    other_mark = r.json()["totalAwarded"]
+    assert other_mark == sheet.awarded, "same answer, same mark: both targets change"
+    sheet.finalize()
+
+    refused = sheet.award(sheet.other_mark, studentIds=[other, sheet.student_id])
+    assert refused.status_code == 409, refused.text
+    assert _grid_mark(sheet) == sheet.awarded
+    assert _grid_mark(sheet, other) == other_mark
+    all_entries = audit_mod.get_audit_log(sheet.data_root).for_action("grade_awarded")
+    assert all_entries == []
+
+
+# --------------------------------------------------------------------------- #
+# a decision that changes no mark needs no reason, and is still logged
+# --------------------------------------------------------------------------- #
+
+@pytest.mark.parametrize("action", ["approve", "edit"])
+def test_a_no_change_review_on_a_finalized_sheet_needs_no_reason(sheet, action):
+    sheet.finalize()
+    body = {"action": action}
+    if action == "edit":
+        body["marks"] = sheet.awarded
+    r = sheet.client.post(
+        f"/api/v1/evaluations/sheet/{sheet.aid}/{sheet.student_id}/review/q_1",
+        json=body, headers=sheet.headers)
+    assert r.status_code == 200, r.text
+    assert r.json()["awardedMarks"] == sheet.awarded
+
+    [entry] = [e for e in sheet.audit() if e["action"] == "sheet_answer_reviewed"]
+    assert entry["actor"] == sheet.teacher_id
+    assert entry["details"]["before"] == sheet.awarded
+    assert entry["details"]["after"] == sheet.awarded
+    assert entry["details"]["finalized"] is True
+    assert entry["details"]["decision"] == action
+    assert "reason" not in entry["details"]

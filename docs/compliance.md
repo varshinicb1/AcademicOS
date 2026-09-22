@@ -188,7 +188,10 @@ gets flagged to the user, not silently shipped.
       `seq`, RLS with INSERT/SELECT policies only, UPDATE/DELETE/TRUNCATE
       revoked, and the refuse-change trigger) must be run in the Supabase SQL
       editor **before** a build with this change is deployed; otherwise every
-      remote append fails and falls back to local disk. `deploy/gcp/schema.sql`
+      grading write answers 503. A 4xx from the remote table (unknown column,
+      RLS or permission refused) is a configuration error, not an outage, so
+      it is not written to local disk, which Render wipes on restart; only a
+      transport error or a 5xx falls back there. `deploy/gcp/schema.sql`
       carries the same columns and trigger for Cloud SQL. The real-Postgres
       tests for it run in CI, not locally.
 - [ ] **New third-party integration or vendor** (any API call leaving the

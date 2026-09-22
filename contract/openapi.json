@@ -907,6 +907,11 @@
             "title": "Note",
             "type": "string"
           },
+          "reason": {
+            "default": "",
+            "title": "Reason",
+            "type": "string"
+          },
           "studentIds": {
             "anyOf": [
               {
@@ -1922,6 +1927,11 @@
           "question": {
             "$ref": "#/components/schemas/QuestionSchema"
           },
+          "reason": {
+            "default": "",
+            "title": "Reason",
+            "type": "string"
+          },
           "studentAnswer": {
             "title": "Studentanswer",
             "type": "string"
@@ -1966,6 +1976,11 @@
             },
             "title": "Questions",
             "type": "array"
+          },
+          "reason": {
+            "default": "",
+            "title": "Reason",
+            "type": "string"
           },
           "studentId": {
             "title": "Studentid",
@@ -5873,6 +5888,11 @@
               }
             ],
             "title": "Marks"
+          },
+          "reason": {
+            "default": "",
+            "title": "Reason",
+            "type": "string"
           }
         },
         "required": [
@@ -10897,7 +10917,7 @@
     },
     "/api/v1/evaluations/assessment/{assessment_id}/question/{question_id}/award": {
       "post": {
-        "description": "Award the same mark for one question to many students.\n\nThis is the write half of grade-by-question and the reason it saves time: a\nteacher who has just read the value points decides once and applies it\nforty times.\n\nDeliberately server-side and per-student rather than a single bulk UPDATE:\neach student's sheet is loaded, clamped and saved through the same path the\nsingle-student endpoint uses, so a bulk award can never produce a state the\nper-student path could not, and the audit trail stays uniform.",
+        "description": "Award the same mark for one question to many students.\n\nThis is the write half of grade-by-question and the reason it saves time: a\nteacher who has just read the value points decides once and applies it\nforty times.\n\nDeliberately server-side and per-student rather than a single bulk UPDATE:\neach student's sheet is loaded, clamped and saved through the same path the\nsingle-student endpoint uses, so a bulk award can never produce a state the\nper-student path could not, and the audit trail stays uniform.\n\nEvery changed student gets its own audit entry, with the caller as the\nactor. If any target sheet is finalized and no reason is given, the whole\nrequest is refused with 409 before anything is written, so a bulk award\nnever lands half-applied.",
         "operationId": "award_across_students_api_v1_evaluations_assessment__assessment_id__question__question_id__award_post",
         "parameters": [
           {
@@ -11071,7 +11091,7 @@
     },
     "/api/v1/evaluations/sheet/{assessment_id}/{student_id}/review/{question_id}": {
       "post": {
-        "description": "Records the teacher's approve/adjust decision on one answer from a\nprior POST /evaluations/sheet, so it survives past the Evaluate tab's\nlocal widget state. Each question here is decided exactly once (there is\nno \"already approved, now correcting\" case like mobile_scan's ReviewItem\nhas) so this mirrors mobile_scan.review_decision's \"edit\" branch only --\nno reason/reviewer_id gate, since that gate exists specifically for\n*changing* an existing decision, which can't happen in this flow.\n\nRequires a real logged-in caller from the assessment's own school (fixed\n2026-09-11: this endpoint mutated the graded store for any\nassessment/student/question with zero authorization -- flagged by\nautomated security review).",
+        "description": "Records the teacher's approve/adjust decision on one answer from a\nprior POST /evaluations/sheet, so it survives past the Evaluate tab's\nlocal widget state.\n\nBefore 2026-09-22 this docstring said a decision here could not be changed\nlater, so no reason gate was needed. That was wrong: nothing stopped an\nedit after finalize, and the audit found a finalized sheet changed with no\nentry written (item 8.5). A mark change to a finalized sheet now needs a\nreason (409 without one), and every decision is audited with the caller as\nthe actor. See grade_lock.py.\n\nRequires a real logged-in caller from the assessment's own school (fixed\n2026-09-11: this endpoint mutated the graded store for any\nassessment/student/question with zero authorization -- flagged by\nautomated security review).",
         "operationId": "review_sheet_answer_api_v1_evaluations_sheet__assessment_id___student_id__review__question_id__post",
         "parameters": [
           {
