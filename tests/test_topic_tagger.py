@@ -345,6 +345,29 @@ def test_script_writes_only_tag_fields_and_the_review_queue(tmp_path):
     assert len(json.loads(queue.read_text(encoding="utf-8"))["items"]) == len(queued)
 
 
+def _script():
+    spec = importlib.util.spec_from_file_location(
+        "tag_question_bank", ROOT / "scripts" / "tag_question_bank.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_two_outside_banks_with_one_file_name_keep_separate_queue_keys(tmp_path):
+    # Every bank is called questions.json; keyed by file name, the second run
+    # would replace the first bank's review-queue entries.
+    mod = _script()
+    a, b = tmp_path / "a" / "questions.json", tmp_path / "b" / "questions.json"
+    assert mod._bank_label(a) != mod._bank_label(b)
+    assert mod._bank_label(EXEMPLAR) == "academicos-data/corpus/ncert-exemplar/questions.json"
+
+
+def test_grade_with_topics_is_refused_not_ignored(tmp_path):
+    mod = _script()
+    with pytest.raises(SystemExit):
+        mod.main(["--topics", str(tmp_path / "bank.json"), "--grade", "10", "--check"])
+
+
 def _gold_records():
     gold = json.loads((TAXONOMY / "_tag_gold.json").read_text(encoding="utf-8"))
     banks = {"exemplar": EXEMPLAR, "cbe": CBE, "board": BOARD}
