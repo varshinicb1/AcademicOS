@@ -155,7 +155,9 @@ class AnswerSchemeSchema(Camel):
     # Which official scheme this came from, if any. Without this a consumer
     # cannot tell an official CBSE value-point scheme from an empty
     # placeholder, and two thirds of the bank is the latter.
-    provenance: str = "none"          # "none" | "cbse_marking_scheme" | "teacher"
+    # "ncert_exemplar_answer": NCERT's own answer from an Exemplar book's
+    # answers file -- official, but not a CBSE value-point marking scheme.
+    provenance: str = "none"          # "none" | "cbse_marking_scheme" | "ncert_exemplar_answer" | "teacher"
     source_paper_code: str = ""        # e.g. "31/1/1"
     source_document_id: str = ""
 
