@@ -128,6 +128,24 @@ class TemplateSaveRequest(Camel):
     sections: list[SectionBlueprint] = Field(default_factory=list)
 
 
+def _branding_row_or_403(store, school_id: str, template_id: str) -> None:
+    """The table behind these routes also holds teacher paper templates
+    (Task 901), which can be private to one teacher. These routes check only
+    the school, so they refuse paper rows outright -- read, overwrite and
+    delete go through /teacher-templates, which applies the owner and role
+    rules -- and refuse another school's row reached by its id. A missing id
+    passes: save creates it, and sections/delete behave as before."""
+    info = store.row_info(template_id)
+    if info is None:
+        return
+    kind, owner_school = info
+    if kind == "paper":
+        raise HTTPException(403, "this is a teacher's paper template; use "
+                                 "/teacher-templates, which applies its sharing rules")
+    if owner_school != school_id:
+        raise HTTPException(403, "this template belongs to a different school")
+
+
 @router.get("/schools/{school_id}/school-templates", response_model=list[SchoolTemplate])
 def list_templates(school_id: str, current: User = Depends(get_current_user)) -> list[SchoolTemplate]:
     require_own_school(school_id, current)
@@ -142,6 +160,8 @@ def save_template(
 ) -> SchoolTemplate:
     require_own_school(school_id, current)
     _, _, store = _require()
+    if req.template.id and req.template.id != "new":
+        _branding_row_or_403(store, school_id, req.template.id)
     template = req.template.model_copy(update={"school_id": school_id})
     sections = req.sections or store.sections_for(school_id, None, 80)
     return store.save(template, sections)
@@ -154,6 +174,7 @@ def template_sections(
 ) -> list[SectionBlueprint]:
     require_own_school(school_id, current)
     _, _, store = _require()
+    _branding_row_or_403(store, school_id, template_id)
     return store.sections_for(school_id, template_id, 80)
 
 
@@ -163,6 +184,7 @@ def delete_template(
 ) -> dict:
     require_own_school(school_id, current)
     _, _, store = _require()
+    _branding_row_or_403(store, school_id, template_id)
     store.delete(template_id)
     return {"ok": True}
 

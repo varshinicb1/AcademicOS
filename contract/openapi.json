@@ -3346,6 +3346,13 @@
           "scope": {
             "$ref": "#/components/schemas/TemplateScope"
           },
+          "scopeNotes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scopenotes",
+            "type": "array"
+          },
           "sectionFormatting": {
             "additionalProperties": true,
             "title": "Sectionformatting",
@@ -13492,7 +13499,7 @@
     },
     "/api/v1/schools/{school_id}/teacher-templates/{template_id}/duplicate": {
       "post": {
-        "description": "\"Use as starting point\": any template the caller can read, including a\npreset, becomes a private template they own.",
+        "description": "\"Use as starting point\": any template the caller can read, including a\npreset, becomes a private template they own.\n\nThe copy is labelled the teacher's own pattern from the start, not the\npreset's `cbse_board` / `suggested`: it is theirs to change, and a label\nthat stays \"CBSE board pattern\" until the first edit would vouch for\nwhatever they change it to. Where it came from stays in `based_on` and\nin the source line.",
         "operationId": "duplicate_teacher_template_api_v1_schools__school_id__teacher_templates__template_id__duplicate_post",
         "parameters": [
           {

@@ -88,6 +88,30 @@ class TemplateStore:
                                 (template_id,)).fetchone()
         return _row(row) if row else None
 
+    def row_info(self, template_id: str) -> Optional[tuple[str, str]]:
+        """(kind, school_id) of a stored row -- "paper" or "school" -- or None.
+        What the older `/school-templates` routes check before touching an id,
+        since the table holds both kinds and the URL's school proves nothing
+        about which school the row belongs to."""
+        if self._remote.enabled:
+            rows = self._remote.select(id=template_id)
+        else:
+            rows = self.conn.execute("SELECT * FROM school_templates WHERE id=?",
+                                     (template_id,)).fetchall()
+        if not rows:
+            return None
+        return _payload_kind(rows[0]), rows[0]["school_id"]
+
+    def get_branding(self, template_id: str, school_id: str,
+                     ) -> Optional[tuple[SchoolTemplate, list[SectionBlueprint]]]:
+        """`get`, limited to one school's branding rows: the lookup for any
+        caller that resolves a client-supplied `templateId` without an owner
+        check (quick and custom generation, `sections_for`)."""
+        info = self.row_info(template_id)
+        if info is None or info != ("school", school_id):
+            return None
+        return self.get(template_id)
+
     def list_for_school(self, school_id: str) -> list[SchoolTemplate]:
         """Empty here means "school has never saved a template" -- and this
         is the list the AI Assessment Designer checks before it will
@@ -132,12 +156,15 @@ class TemplateStore:
     # existed have no kind and read as branding, which is what they are.
 
     def save_paper_template(self, template: PaperTemplate) -> PaperTemplate:
-        """Stores the template and its SectionBlueprint form, so its id also
-        works with `sections_for` (quick-generate's `templateId`)."""
+        """Stores the template with its SectionBlueprint form in the `sections`
+        column, which the table requires. That column is NOT served for a
+        paper row: `sections_for` and `get_branding` skip paper templates,
+        because they have no owner check and a template can be private."""
         sections = [s if s.id else s.model_copy(update={"id": f"s{i + 1}"})
                     for i, s in enumerate(template.sections)]
         template = template.model_copy(update={
-            "kind": "paper", "is_default": False, "is_preset": False, "sections": sections})
+            "kind": "paper", "is_default": False, "is_preset": False, "sections": sections,
+            "scope_notes": []})
         saved = self.save(template, template_section_blueprints(template.sections))
         return template.model_copy(update={"id": saved.id})
 
@@ -160,9 +187,14 @@ class TemplateStore:
     def sections_for(self, school_id: str, template_id: str | None,
                      total_marks: int) -> list[SectionBlueprint]:
         """The section layout a paper should use: explicit template, the school
-        default, else the built-in CBSE pattern scaled to the mark total."""
+        default, else the built-in CBSE pattern scaled to the mark total.
+
+        An explicit id counts only when it is one of THIS school's branding
+        rows. A teacher's paper template in the same table is private to its
+        owner, and this method has no caller to check that against; its
+        sections are served by `/teacher-templates`, which does."""
         if template_id:
-            found = self.get(template_id)
+            found = self.get_branding(template_id, school_id)
             if found and found[1]:
                 return found[1]
         if self._remote.enabled:

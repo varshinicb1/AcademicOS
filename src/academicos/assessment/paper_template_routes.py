@@ -32,7 +32,7 @@ from .mapping import to_question_schema
 from .paper import generate_paper_sets
 from .paper_store import PaperStore
 from .paper_templates import AvailabilityReport, SectionAvailability, SectionPlan, \
-    build_scope_filter, plan
+    build_scope_filter, check_scope_ids, plan
 from .pool import get_pool
 from .school_templates import TemplateStore
 from .schemas import (
@@ -159,6 +159,15 @@ def _require_owner_or_principal(t: PaperTemplate, current: User, action: str) ->
         raise HTTPException(403, f"only the template's owner or the principal can {action} it")
 
 
+def _checked_scope(scope: TemplateScope) -> list[str]:
+    """422 naming any topic/subtopic id the taxonomy does not define;
+    otherwise the notes on what could not be checked (no taxonomy yet)."""
+    unknown, notes = check_scope_ids(scope)
+    if unknown:
+        raise HTTPException(422, "not in the topic taxonomy: " + ", ".join(unknown))
+    return notes
+
+
 def _scoped(school_id: str, current: User) -> None:
     _require_staff(current)
     require_own_school(school_id, current)
@@ -196,10 +205,11 @@ def create_teacher_template(
 ) -> PaperTemplate:
     _scoped(school_id, current)
     _, store = _require()
+    notes = _checked_scope(draft.scope)
     now = _now()
     t = PaperTemplate(**draft.model_dump(), id="new", school_id=school_id,
                       owner_id=current.id, created_at=now, updated_at=now)
-    return store.save_paper_template(t)
+    return store.save_paper_template(t).model_copy(update={"scope_notes": notes})
 
 
 @router.get("/schools/{school_id}/teacher-templates/{template_id}", response_model=PaperTemplate)
@@ -221,9 +231,11 @@ def update_teacher_template(
     _refuse_preset(t)
     if t.owner_id != current.id:
         raise HTTPException(403, "only the template's owner can edit it; duplicate it to change a copy")
+    notes = _checked_scope(draft.scope)
     updated = t.model_copy(update={**dict(draft), "pattern_status": "teacher",
                                    "updated_at": _now()})
-    return store.save_paper_template(PaperTemplate.model_validate(updated.model_dump()))
+    saved = store.save_paper_template(PaperTemplate.model_validate(updated.model_dump()))
+    return saved.model_copy(update={"scope_notes": notes})
 
 
 @router.delete("/schools/{school_id}/teacher-templates/{template_id}")
@@ -261,7 +273,13 @@ def duplicate_teacher_template(
     current: User = Depends(get_current_user),
 ) -> PaperTemplate:
     """"Use as starting point": any template the caller can read, including a
-    preset, becomes a private template they own."""
+    preset, becomes a private template they own.
+
+    The copy is labelled the teacher's own pattern from the start, not the
+    preset's `cbse_board` / `suggested`: it is theirs to change, and a label
+    that stays "CBSE board pattern" until the first edit would vouch for
+    whatever they change it to. Where it came from stays in `based_on` and
+    in the source line."""
     _scoped(school_id, current)
     _, store = _require()
     src = _load(template_id, current)
@@ -269,6 +287,8 @@ def duplicate_teacher_template(
     copy = src.model_copy(update={
         "id": "new", "school_id": current.school_id, "owner_id": current.id,
         "shared": False, "is_preset": False, "based_on": src.id,
+        "pattern_status": "teacher",
+        "source": f"Copied from {src.name}." + (f" {src.source}" if src.source else ""),
         "name": req.name or (src.name if src.is_preset else f"{src.name} (copy)"),
         "created_at": now, "updated_at": now,
     })
@@ -313,6 +333,8 @@ def template_availability(
     and why any shortfall exists -- shown BEFORE generating, so a teacher
     never discovers a gap on the printed paper."""
     _scoped(school_id, current)
+    if req.scope is not None:
+        _checked_scope(req.scope)
     report, _ = _plan(_load(template_id, current), req.scope)
     return report
 
@@ -328,6 +350,7 @@ def generate_from_template(
         raise HTTPException(503, "paper template module not initialized")
     template = _load(req.template_id, current)
     if req.scope is not None:
+        _checked_scope(req.scope)
         template = template.model_copy(update={"scope": req.scope})
     report, plans = _plan(template, None, fill_from_outside_scope=req.fill_from_outside_scope)
 

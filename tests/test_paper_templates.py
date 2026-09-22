@@ -386,3 +386,157 @@ def test_generation_follows_template_and_never_silently_short(tmp_path, monkeypa
         outsider = _register(client, "school_2", "zed@example.com")
         assert client.post(url, json={"templateId": exact},
                            headers=outsider).status_code == 403
+
+
+# ------------------------------------------------------------------ review fixes
+
+def test_old_school_template_routes_cannot_reach_teacher_paper_templates(tmp_path, monkeypatch):
+    """Paper templates live in the `school_templates` table. The older
+    `/school-templates` routes only check the school, so without a guard a
+    student could read a teacher's private sections or delete the template,
+    and a colleague could overwrite it as a branding row."""
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        t2 = _register(client, "school_1", "bob@example.com")
+        student = _register(client, "school_1", "stu@example.com", role="student")
+        tid = client.post(BASE, json=_draft(), headers=t1).json()["id"]
+        old = "/api/v1/schools/school_1/school-templates"
+
+        assert client.get(f"{old}/{tid}/sections", headers=student).status_code == 403
+        assert client.get(f"{old}/{tid}/sections", headers=t2).status_code == 403
+        overwrite = client.post(old, json={"template": {"id": tid, "schoolId": "school_1",
+                                                        "name": "hijack"}}, headers=t2)
+        assert overwrite.status_code == 403
+        assert client.delete(f"{old}/{tid}", headers=student).status_code == 403
+        assert client.delete(f"{old}/{tid}", headers=t1).status_code == 403
+
+        still = client.get(f"{BASE}/{tid}", headers=t1)
+        assert still.status_code == 200 and still.json()["name"] == _draft()["name"]
+
+        # Branding rows are school-scoped by id too, not just by URL.
+        outsider = _register(client, "school_2", "zed@example.com")
+        bid = client.post(old, json={"template": {"id": "new", "schoolId": "school_1",
+                                                  "name": "Green Valley"}},
+                          headers=t1).json()["id"]
+        other = "/api/v1/schools/school_2/school-templates"
+        assert client.post(other, json={"template": {"id": bid, "schoolId": "school_2",
+                                                     "name": "x"}},
+                           headers=outsider).status_code == 403
+        assert client.get(f"{other}/{bid}/sections", headers=outsider).status_code == 403
+        assert client.delete(f"{other}/{bid}", headers=outsider).status_code == 403
+        assert any(t["id"] == bid for t in client.get(old, headers=t1).json())
+
+
+def test_store_branding_lookups_never_return_a_paper_template(tmp_path):
+    """quick/custom generation resolve `templateId` through the store with no
+    owner check, so the store itself must not hand out a private paper."""
+    from academicos.assessment.school_templates import TemplateStore
+    from academicos.assessment.schemas import SchoolTemplate
+
+    store = TemplateStore(tmp_path / "templates.sqlite")
+    body = PaperTemplateDraft.model_validate(_draft()).model_dump()
+    saved = store.save_paper_template(PaperTemplate(
+        **body, id="new", school_id="school_1", owner_id="u_ana"))
+    assert store.get_branding(saved.id, "school_1") is None
+    got = store.sections_for("school_1", saved.id, 80)
+    assert [s.total_marks for s in got] == [s.total_marks for s in default_sections(80)]
+    # And another school's branding row is not reachable by id either.
+    brand = store.save(SchoolTemplate(id="new", school_id="school_1", name="GV",
+                                      is_default=False), default_sections(40))
+    assert store.get_branding(brand.id, "school_1") is not None
+    assert store.get_branding(brand.id, "school_2") is None
+    assert [s.total_marks for s in store.sections_for("school_2", brand.id, 80)] == \
+        [s.total_marks for s in default_sections(80)]
+
+
+def _taxonomy(tmp_path, monkeypatch):
+    import json as _json
+    from academicos.assessment import paper_templates
+
+    tax = tmp_path / "taxonomy"
+    tax.mkdir()
+    (tax / "science_10.json").write_text(_json.dumps({
+        "subject": "Science", "grade": 10,
+        "chapters": [{"id": "ch1", "topics": [
+            {"id": "sci10.ch1.t1", "name": "Balancing equations",
+             "subtopics": [{"id": "sci10.ch1.t1.s1", "name": "Hit and trial"}]}]}],
+    }), encoding="utf-8")
+    monkeypatch.setattr(paper_templates, "TAXONOMY_DIR", tax)
+    return tax
+
+
+def test_topic_ids_are_checked_against_the_taxonomy_when_present(tmp_path, monkeypatch):
+    _taxonomy(tmp_path, monkeypatch)
+    with _boot_client(tmp_path / "data", monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        good = client.post(BASE, json=_draft(scope={
+            "chapterIds": ["ch1"], "topicIds": ["sci10.ch1.t1"],
+            "subtopicIds": ["sci10.ch1.t1.s1"]}), headers=t1)
+        assert good.status_code == 200, good.text
+        assert good.json()["scopeNotes"] == []
+
+        bad = client.post(BASE, json=_draft(scope={
+            "chapterIds": ["ch1"], "topicIds": ["sci10.ch1.t9"],
+            "subtopicIds": ["nope"]}), headers=t1)
+        assert bad.status_code == 422
+        assert "sci10.ch1.t9" in bad.text and "nope" in bad.text
+
+        tid = good.json()["id"]
+        edit = client.put(f"{BASE}/{tid}", json=_draft(scope={"topicIds": ["zz"]}), headers=t1)
+        assert edit.status_code == 422 and "zz" in edit.text
+        avail = client.post(f"{BASE}/{tid}/availability",
+                            json={"scope": {"subtopicIds": ["zz"]}}, headers=t1)
+        assert avail.status_code == 422 and "zz" in avail.text
+
+
+def test_topic_ids_accepted_unchecked_without_taxonomy_and_saying_so(tmp_path, monkeypatch):
+    from academicos.assessment import paper_templates
+
+    monkeypatch.setattr(paper_templates, "TAXONOMY_DIR", tmp_path / "absent")
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        r = client.post(BASE, json=_draft(scope={"chapterIds": ["ch1"],
+                                                 "topicIds": ["anything"]}), headers=t1)
+        assert r.status_code == 200, r.text
+        assert any("without checking" in n for n in r.json()["scopeNotes"])
+        plain = client.post(BASE, json=_draft(), headers=t1).json()
+        assert plain["scopeNotes"] == []
+
+
+# The mark total each exam type is meant to carry. Written out here, not read
+# from template_presets, so a preset whose rows drift from its intended total
+# fails -- `sum(s.marks) == total_marks` alone is true by construction.
+INTENDED_TOTAL = {"unit_test": 20, "periodic": 40, "half_yearly": 80, "annual": 80}
+
+
+def test_every_preset_carries_its_exam_types_intended_total():
+    for p in presets():
+        assert p.total_marks == INTENDED_TOTAL[p.exam_type], (p.id, p.total_marks)
+        assert sum(s.marks for s in p.sections) == INTENDED_TOTAL[p.exam_type], p.id
+
+
+def test_board_science_and_social_science_follow_the_2024_25_sqp():
+    """Read from the General Instructions of the CBSE Class X 2024-25 SQP PDFs
+    (cbse-sqp/ClassX_2024_25/Science-SQP.pdf and SocialScience-SQP.pdf in the
+    academicos-data corpus)."""
+    by_key = {(p.grade, p.subject, p.exam_type): p for p in presets()}
+    sci = by_key[(10, "Science", "annual")]
+    assert [(s.question_count, s.marks_each) for s in sci.sections] == [
+        (20, 1), (6, 2), (7, 3), (3, 5), (3, 4)]
+    sst = by_key[(10, "Social Science", "annual")]
+    assert [(s.question_count, s.marks_each) for s in sst.sections] == [
+        (20, 1), (4, 2), (5, 3), (4, 5), (3, 4), (1, 5)]
+    for p in (sci, sst):
+        assert p.pattern_status == "cbse_board"
+        assert "2024-25" in p.source and "General Instructions" in p.source
+
+
+def test_a_copy_of_a_preset_is_the_teachers_not_a_board_pattern(tmp_path, monkeypatch):
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        pid = "preset:cbse:10:mathematics:annual"
+        assert client.get(f"{BASE}/{pid}", headers=t1).json()["patternStatus"] == "cbse_board"
+        copy = client.post(f"{BASE}/{pid}/duplicate", json={}, headers=t1).json()
+        assert copy["patternStatus"] == "teacher"
+        assert copy["source"].startswith("Copied from")
+        assert copy["basedOn"] == pid

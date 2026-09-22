@@ -21,7 +21,9 @@ builder to show the gap first.
 """
 from __future__ import annotations
 
+import json
 from dataclasses import dataclass, field
+from functools import lru_cache
 from pathlib import Path
 from typing import Callable, Optional
 
@@ -31,6 +33,70 @@ from .schemas import Camel, DifficultyDistribution, PaperTemplateDraft, Question
 # Where the board-level topic taxonomy will live (being built in another
 # stream). Its absence is reported, never treated as "every id is invalid".
 TAXONOMY_DIR = Path(__file__).resolve().parents[3] / "academicos-data" / "syllabus" / "taxonomy"
+
+
+# Keys under which the taxonomy files may name an entry. The taxonomy's final
+# shape is another stream's decision; reading every id-like key at any depth
+# keeps this check correct for a nested chapters -> topics -> subtopics file
+# and for a flat list alike.
+_TAXONOMY_ID_KEYS = ("id", "topicId", "topic_id", "subtopicId", "subtopic_id")
+
+UNCHECKED_NOTE = ("Topic and subtopic ids were accepted without checking: the topic "
+                  "taxonomy (academicos-data/syllabus/taxonomy/) is not on this server yet.")
+
+
+def taxonomy_ids() -> Optional[set[str]]:
+    """Every id the taxonomy files define, or None when there is no taxonomy.
+    Re-read only when a file changes (keyed on names and mtimes), so a
+    taxonomy dropped in by the other stream is picked up without a restart."""
+    root = TAXONOMY_DIR
+    if not root.is_dir():
+        return None
+    files = tuple(sorted((str(f), f.stat().st_mtime_ns) for f in root.rglob("*.json")))
+    return set(_read_taxonomy_ids(files))
+
+
+@lru_cache(maxsize=4)
+def _read_taxonomy_ids(files: tuple[tuple[str, int], ...]) -> frozenset[str]:
+    found: set[str] = set()
+
+    def walk(node) -> None:
+        if isinstance(node, dict):
+            for key in _TAXONOMY_ID_KEYS:
+                if isinstance(node.get(key), str):
+                    found.add(node[key])
+            for v in node.values():
+                walk(v)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v)
+
+    for path, _ in files:
+        try:
+            walk(json.loads(Path(path).read_text(encoding="utf-8")))
+        except (OSError, ValueError):
+            continue  # one unreadable file must not reject every template
+    return frozenset(found)
+
+
+def check_scope_ids(scope: TemplateScope) -> tuple[list[str], list[str]]:
+    """(unknown ids, notes) for the scope's topic and subtopic ids.
+
+    With a taxonomy present, an id it does not define is unknown -- the
+    caller answers 422 naming it, since a mistyped id would otherwise filter
+    silently to nothing. Without one, the ids are accepted as given and the
+    note says they were not checked. Chapter ids are not checked here: they
+    are the bank's own ids, already validated by the chapter picker."""
+    asked = [*scope.topic_ids, *scope.subtopic_ids]
+    if not asked:
+        return [], []
+    known = taxonomy_ids()
+    if known is None:
+        return [], [UNCHECKED_NOTE]
+    if not known:
+        return [], ["Topic and subtopic ids were accepted without checking: the topic "
+                    "taxonomy on this server defines no ids."]
+    return [i for i in asked if i not in known], []
 
 
 class SectionAvailability(Camel):
@@ -81,11 +147,13 @@ def build_scope_filter(scope: TemplateScope, candidates: list[QuestionSchema],
     chapters = set(scope.chapter_ids)
 
     topics = set(scope.topic_ids)
-    if topics or scope.subtopic_ids:
-        if not TAXONOMY_DIR.exists():
-            notes.append(
-                "Topic and subtopic ids were accepted without checking: the topic "
-                "taxonomy (academicos-data/syllabus/taxonomy/) is not on this server yet.")
+    unknown, id_notes = check_scope_ids(scope)
+    notes.extend(id_notes)
+    if unknown:
+        # Only a template saved before the taxonomy arrived gets here (saving
+        # refuses unknown ids); report it rather than refuse to plan the paper.
+        notes.append("Not in the topic taxonomy (edit the template's scope): "
+                     + ", ".join(unknown) + ".")
     if topics and not any(_topic_ids(q) for q in candidates):
         # No question carries topic tags yet. Filtering on them would empty
         # every section and blame the bank for a tagging gap; say so instead.

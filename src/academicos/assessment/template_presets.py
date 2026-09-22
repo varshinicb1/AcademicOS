@@ -14,12 +14,17 @@ Where each pattern comes from -- said in each preset's `source` so a teacher
   `cbse-sqp:ClassX_2024_25:Mathematics (Standard)` and `..._2025_26:...`):
   "Section A consists of 20 questions of 1 mark each", B 5 x 2, C 6 x 3,
   D 4 x 5, E "3 case study based questions of 4 marks each" = 80.
-* **Class 10 and 9, annual, Science and Social Science** -- `cbse_board`, from
-  the CBSE SQP 2024-25 / 2025-26 documents listed in the corpus manifest
-  (`academicos-data/corpus/cbse-sqp/_manifest.json`, `Science-SQP.pdf`,
-  `SocialScience-SQP.pdf`). The corpus's extracted text does NOT carry those
-  papers' General Instructions, so these two were not re-read from the corpus;
-  the `source` string says so.
+* **Class 10 and 9, annual, Science and Social Science** -- `cbse_board`, read
+  from the General Instructions of the SQP PDFs themselves
+  (`cbse-sqp/ClassX_2024_25/Science-SQP.pdf` and `SocialScience-SQP.pdf` in
+  the academicos-data corpus; the extracted `questions.json` text does not
+  carry those instructions). Science: A 16 MCQ + 4 assertion-reason x 1,
+  B 6 x 2, C 7 x 3, D 3 x 5, E 3 case units x 4 = 80. Social Science: A 20 x 1,
+  B 4 x 2, C 5 x 3, D 4 x 5, E 3 x 4, F one map question of 5 (2 History +
+  3 Geography) = 80. The 2025-26 SQPs regroup the same papers by discipline
+  (Science: Biology / Chemistry / Physics; Social Science: four 20-mark
+  sections) and the Science one states that the 2024-25 assessment scheme
+  continues, so the 2024-25 section design is the one used.
 * **Class 9** uses the class 10 design: CBSE publishes an SQP for class X (and
   XII) only, and the class IX paper follows the same design.
 * **English and Hindi, every class** -- `suggested`. Their SQPs are
@@ -52,6 +57,10 @@ _EXAM_NAMES = {
     "annual": "Annual Examination",
 }
 _DURATION = {"unit_test": 40, "periodic": 90, "half_yearly": 180, "annual": 180}
+# The total each exam type is meant to carry. Passed to the model as the
+# template's total (not summed from the rows), so a row table that drifts
+# from it fails `PaperTemplateDraft`'s exact-totals check at import.
+_TOTAL = {"unit_test": 20, "periodic": 40, "half_yearly": 80, "annual": 80}
 
 # Suggested difficulty mix by mark value: short items lean easy, long ones hard.
 _MIX = {
@@ -97,15 +106,16 @@ _BOARD_SOURCE = {
         "Instructions, read from the SQP text in academicos-data/corpus/cbse-sqp: "
         "A 20x1, B 5x2, C 6x3, D 4x5, E 3x4 = 80."),
     "Science": (
-        "CBSE SQP Class X Science 2024-25 / 2025-26 (Science-SQP.pdf in "
-        "academicos-data/corpus/cbse-sqp/_manifest.json): A 20x1, B 6x2, C 7x3, "
-        "D 3x5, E 3x4 = 80. Not re-read from corpus text, which lacks this "
-        "paper's General Instructions."),
+        "CBSE SQP Class X Science 2024-25 General Instructions, read from "
+        "cbse-sqp/ClassX_2024_25/Science-SQP.pdf in academicos-data: A 16 MCQ + "
+        "4 assertion-reason x1, B 6x2, C 7x3, D 3x5, E 3x4 = 80. The 2025-26 SQP "
+        "keeps this scheme, regrouped as Biology / Chemistry / Physics."),
     "Social Science": (
-        "CBSE SQP Class X Social Science 2024-25 / 2025-26 (SocialScience-SQP.pdf "
-        "in academicos-data/corpus/cbse-sqp/_manifest.json): A 20x1, B 4x2, C 5x3, "
-        "D 4x5, E 3x4, F map 5 = 80. Not re-read from corpus text, which lacks "
-        "this paper's General Instructions."),
+        "CBSE SQP Class X Social Science 2024-25 General Instructions, read from "
+        "cbse-sqp/ClassX_2024_25/SocialScience-SQP.pdf in academicos-data: A 20x1, "
+        "B 4x2, C 5x3, D 4x5, E 3x4, F map 5 (History 2 + Geography 3) = 80. The "
+        "2025-26 SQP keeps these question types, regrouped into four 20-mark "
+        "discipline sections."),
 }
 
 # Language papers at question level, keeping the SQP's weights (see module doc).
@@ -228,7 +238,7 @@ def _build(grade: int, subject: str, exam_type: str) -> PaperTemplate:
         grade=grade,
         subject=subject,
         exam_type=exam_type,
-        total_marks=sum(s.marks for s in sections),
+        total_marks=_TOTAL[exam_type],
         duration_minutes=_DURATION[exam_type],
         instructions=_instructions(sections),
         header=TemplateHeader(exam_name=exam_name),

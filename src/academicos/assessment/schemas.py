@@ -436,6 +436,10 @@ class PaperTemplate(SchoolTemplate, PaperTemplateDraft):
     source: str = ""
     # The preset or template this one was copied from, if any.
     based_on: Optional[str] = None
+    # Response-only, recomputed on create and update, never stored: what the
+    # save could not check about the scope (e.g. topic ids accepted without a
+    # taxonomy to check them against).
+    scope_notes: list[str] = Field(default_factory=list)
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
 
