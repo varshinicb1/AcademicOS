@@ -1237,6 +1237,55 @@ def test_the_sqp_pdfs_say_what_the_presets_say():
             "2 Questions of Section D") in maths
 
 
+# Class X Hindi Course A (002) SQP 2024-25, HindiCourseA-SQP.pdf, read with
+# PyMuPDF: p. 1 General Instructions -- 15 questions in four khands;
+# Khand Ka Q1-2, two unseen passages of 7 marks, each three 1-mark and two
+# 2-mark sub-questions (pp. 1-4); Khand Kha Q3-6, any 4 of 5 one-mark
+# sub-questions each (pp. 4-5); Khand Ga Q7/Q9 five 1-mark extract MCQs each,
+# Q8/Q10 any 3 of 4 two-mark answers, Q11 any 2 of 3 four-mark answers
+# (pp. 5-9); Khand Gha Q12 a paragraph on one of three topics (6), Q13 letter
+# and Q14 CV / e-mail (5 each), Q15 advertisement / message (4), Q13-15 each
+# with an OR (pp. 9-10). (questions printed, marks each, attempted, ORs)
+HINDI_A_2024_25 = [(6, 1, 6, 0), (4, 2, 4, 0), (20, 1, 16, 0), (10, 1, 10, 0),
+                   (8, 2, 6, 0), (3, 4, 2, 0), (3, 6, 1, 0), (2, 5, 2, 2), (1, 4, 1, 1)]
+
+
+def test_hindi_presets_follow_the_course_a_sqp_and_cite_it():
+    by_key = {(p.grade, p.subject, p.exam_type): p for p in presets()}
+    for key in ((10, "Hindi", "annual"), (9, "Hindi", "annual"), (10, "Hindi", "half_yearly")):
+        p = by_key[key]
+        rows = [(s.question_count, s.marks_each, s.attempts, s.choice_count) for s in p.sections]
+        assert rows == HINDI_A_2024_25, (key, rows)
+        assert p.total_marks == 80
+        assert "ClassX_2024_25/HindiCourseA-SQP.pdf" in p.source, p.source
+        assert "does not extract" not in p.source
+    src = by_key[(10, "Hindi", "annual")].source
+    for page in ("p. 1", "pp. 1-4", "pp. 4-5", "pp. 5-9", "pp. 9-10"):
+        assert page in src, (page, src)
+    assert "HindiCourseB-SQP.pdf" in src           # Course B differs, and says where
+
+
+@pytest.mark.skipif(not (_SQP_DIR / "ClassX_2024_25" / "HindiCourseA-SQP.pdf").exists(),
+                    reason="the CBSE SQP PDFs are not in this checkout")
+def test_the_hindi_sqp_pdf_says_what_the_hindi_preset_says():
+    """The Devanagari extracts with some conjuncts mis-mapped, so this reads
+    the marks lines ("4x1=4") and the OR markers, which extract cleanly."""
+    import re
+
+    import fitz
+
+    doc = fitz.open(str(_SQP_DIR / "ClassX_2024_25" / "HindiCourseA-SQP.pdf"))
+    pages = [page.get_text() for page in doc]
+    doc.close()
+    text = "\n".join(pages)
+    marks = re.findall(r"(\d)x(\d)=(\d+)", text)
+    assert marks == [("4", "1", "4")] * 4 + [("5", "1", "5"), ("3", "2", "6"), ("5", "1", "5"),
+                                             ("3", "2", "6"), ("2", "4", "8"), ("1", "6", "6"),
+                                             ("1", "5", "5"), ("1", "5", "5"), ("1", "4", "4")]
+    assert len(re.findall(r"^\s*अथवा\s*$", pages[-1], re.M)) == 3        # Q13-15, p. 10
+    assert "15" in pages[0] and "80" in pages[0]
+
+
 @needs_real_bank
 def test_a_short_sections_fixes_keep_the_mix_fixes_without_repeating_one(real_class10_pools):
     """`_diagnose`'s fixes used to replace the competency (mix) fixes of a
