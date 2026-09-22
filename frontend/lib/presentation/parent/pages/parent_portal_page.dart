@@ -67,8 +67,9 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
       // the server's sentence says why. Anything else is a failure -- this
       // used to swallow every error, so a 500 or a dropped connection showed
       // "No progress recorded" as if the term had not started (Task 802).
-      final status = e.response?.statusCode;
-      if (status != 403 && status != 404) rethrow;
+      // Matched on the sentence, not the status: FastAPI's own 404 "Not
+      // Found" or a route-policy 403 is not an unlinked account.
+      if (!isNotAStudentAnswer(e) && !isNotEnrolledAnswer(e)) rethrow;
       unavailableReason = serverErrorMessage(e);
     }
 
@@ -81,6 +82,15 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
     );
   }
 
+  // A block body on purpose: `setState(() => _future = _load())` hands
+  // setState the Future the assignment evaluates to, which Flutter asserts
+  // against -- in a debug build Retry threw instead of retrying.
+  void _reload() {
+    setState(() {
+      _future = _load();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -90,7 +100,7 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: () => setState(() => _future = _load()),
+            onPressed: _reload,
           ),
         ],
       ),
@@ -103,7 +113,7 @@ class _ParentPortalPageState extends State<ParentPortalPage> {
           if (snap.hasError) {
             return ErrorDisplay(
               message: 'Could not load parent portal data: ${serverErrorMessage(snap.error!)}',
-              onRetry: () => setState(() => _future = _load()),
+              onRetry: _reload,
             );
           }
           final data = snap.data!;

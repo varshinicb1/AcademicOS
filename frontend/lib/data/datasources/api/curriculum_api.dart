@@ -14,6 +14,32 @@ import 'package:dio/dio.dart';
 // lives in api_error.dart, the one error path every screen shares (Task 802).
 export 'api_error.dart';
 
+/// The two answers `_require_student_enrollment` (curriculum/routes.py) gives
+/// `my-progress` and `my-class-schedule` for an account that is not an
+/// enrolled student, verbatim. test/widget/no_silent_failures_stored_test.dart
+/// fails if routes.py stops sending either one.
+const notAStudentDetail = 'this endpoint is for students only';
+const notEnrolledDetail = 'you are not enrolled in a class yet -- ask your principal to enroll you';
+
+/// The status alone is not enough to read either answer. FastAPI answers 404
+/// "Not Found" for a path it does not serve (a web build ahead of its
+/// backend, a wrong proxy prefix) and the route-policy layer answers its own
+/// 403s; read as "not linked" or "not enrolled", either showed an
+/// honest-looking empty screen over a failure, the pattern Task 802 removed.
+/// So these match the status AND the sentence.
+bool _answered(Object e, int status, String detail) {
+  if (e is! DioException) return false;
+  final data = e.response?.data;
+  return e.response?.statusCode == status && data is Map && data['detail'] == detail;
+}
+
+/// The server's 403: the signed-in account is not a student at all (for the
+/// parent portal, a parent account not yet linked to a child).
+bool isNotAStudentAnswer(Object e) => _answered(e, 403, notAStudentDetail);
+
+/// The server's 404: a student account with no class enrollment yet.
+bool isNotEnrolledAnswer(Object e) => _answered(e, 404, notEnrolledDetail);
+
 /// One real, dated lesson from a teacher's own assigned schedule -- already
 /// enriched server-side (subject/chapter/topic/subtopic names resolved),
 /// so this screen never has to stitch together multiple curriculum calls

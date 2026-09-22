@@ -8,9 +8,11 @@
 //    grading then refused the student with 409 "no recorded parental
 //    consent". The on-device record must follow the server's, not lead it.
 //  * Parent portal: every error became "No progress recorded", as if the
-//    term had not started. Only the server's 403/404 (an account not linked
-//    to an enrolled student) is an empty portal; a 500 or a dropped
-//    connection is an error with Retry.
+//    term had not started. Only the server's two "not linked" answers (403
+//    "for students only", 404 "not enrolled") are an empty portal; any other
+//    403/404, a 500 or a dropped connection is an error.
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -60,7 +62,7 @@ void main() {
     const progressPath = 'GET /curriculum/my-progress';
     const schedulePath = 'GET /curriculum/my-class-schedule';
 
-    Future<void> pumpPortal(WidgetTester tester, Object failure) async {
+    Future<FakeServer> pumpPortal(WidgetTester tester, Object failure) async {
       // Tall enough that the progress section is built, not culled below the
       // fold of the ListView.
       tester.view.physicalSize = const Size(1200, 3000);
@@ -73,31 +75,64 @@ void main() {
             'role': 'student',
             'schoolId': 'sunrise',
           });
-      GetIt.instance.registerSingleton<CurriculumApi>(CurriculumApi(fakeDio(FakeServer({
+      final server = FakeServer({
         yearsPath: (200, [
           {'id': 'ay-2026', 'label': '2026-27', 'startDate': '2026-04-01', 'endDate': '2027-03-31'},
         ]),
         progressPath: failure,
         schedulePath: failure,
-      }))));
+      });
+      GetIt.instance.registerSingleton<CurriculumApi>(CurriculumApi(fakeDio(server)));
       await tester.pumpWidget(const MaterialApp(home: ParentPortalPage()));
       await tester.pumpAndSettle();
+      return server;
     }
 
-    for (final status in [403, 404]) {
-      testWidgets('a $status (no enrolled child linked) is the "No class linked yet" empty state', (tester) async {
-        await pumpPortal(tester, (status, {'detail': 'You are not enrolled in a class yet'}));
+    // The two sentences _require_student_enrollment sends
+    // (src/academicos/curriculum/routes.py), verbatim.
+    const notAStudent = 'this endpoint is for students only';
+    const notEnrolled = 'you are not enrolled in a class yet -- ask your principal to enroll you';
+
+    test('the "not linked" sentences the portal matches are the ones the backend sends', () {
+      // isNotAStudentAnswer/isNotEnrolledAnswer match these verbatim; if routes.py
+      // rewords one, a parent with no linked child would get an error screen
+      // instead of the empty portal. Read from the source, not copied.
+      final routes = File('../src/academicos/curriculum/routes.py').readAsStringSync();
+      expect(routes, contains('HTTPException(403, "$notAStudentDetail")'));
+      expect(routes, contains('HTTPException(404, "$notEnrolledDetail")'));
+      expect(notAStudent, notAStudentDetail);
+      expect(notEnrolled, notEnrolledDetail);
+    });
+
+    for (final (status, detail) in [(403, notAStudent), (404, notEnrolled)]) {
+      testWidgets('a $status "$detail" is the "No class linked yet" empty state', (tester) async {
+        await pumpPortal(tester, (status, {'detail': detail}));
 
         expect(find.text('No class linked yet'), findsOneWidget);
-        expect(find.textContaining('You are not enrolled in a class yet'), findsOneWidget,
-            reason: "the server's sentence says why");
+        expect(find.textContaining(detail), findsOneWidget, reason: "the server's sentence says why");
         expect(find.text('No progress recorded'), findsNothing);
         expect(find.byType(ErrorDisplay), findsNothing);
       });
     }
 
+    // Any other 403/404 is not "unlinked": FastAPI's own 404 for a path it
+    // does not have (a frontend ahead of its backend, a proxy prefix wrong)
+    // or the route-policy layer's 403 would otherwise read as an honest empty
+    // portal -- "Not Found. Ask the school to link this account..." -- which
+    // is the wrong-empty-state this task removes.
+    for (final (status, detail) in [(404, 'Not Found'), (403, "role 'parent' may not call this route")]) {
+      testWidgets('a $status "$detail" is an error, not an unlinked account', (tester) async {
+        await pumpPortal(tester, (status, {'detail': detail}));
+
+        expect(find.byType(ErrorDisplay), findsOneWidget);
+        expect(find.text('Could not load parent portal data: $detail'), findsOneWidget);
+        expect(find.text('No class linked yet'), findsNothing);
+        expect(find.text('No progress recorded'), findsNothing);
+      });
+    }
+
     testWidgets('a 500 is an error with Retry, not an empty term', (tester) async {
-      await pumpPortal(tester, (500, null));
+      final server = await pumpPortal(tester, (500, null));
 
       expect(find.byType(ErrorDisplay), findsOneWidget);
       expect(find.textContaining('Could not load parent portal data'), findsOneWidget);
@@ -105,6 +140,19 @@ void main() {
       expect(find.text('Retry'), findsOneWidget);
       expect(find.text('No progress recorded'), findsNothing);
       expect(find.text('No class linked yet'), findsNothing);
+
+      // The server recovers. (Answered with a success on purpose: a retry
+      // that fails again completes before FutureBuilder's next frame
+      // subscribes to it, which the test zone reports as unhandled.)
+      server.routes
+        ..[progressPath] = (200, {'academicYearId': 'ay-2026', 'asOfDate': '2026-09-22'})
+        ..[schedulePath] = (200, <Object>[]);
+      final before = server.requests.where((r) => r == progressPath).length;
+      await tester.tap(find.text('Retry'));
+      await tester.pumpAndSettle();
+      expect(server.requests.where((r) => r == progressPath).length, before + 1,
+          reason: 'Retry must send the request again');
+      expect(find.byType(ErrorDisplay), findsNothing, reason: 'a retry that succeeded shows the portal');
     });
 
     testWidgets('a dropped connection is an error that blames the connection', (tester) async {

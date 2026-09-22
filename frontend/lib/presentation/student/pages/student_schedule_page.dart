@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
@@ -109,6 +108,15 @@ class _StudentSchedulePageState extends State<StudentSchedulePage> {
     );
   }
 
+  // A block body on purpose: `setState(() => _future = _load())` hands
+  // setState the Future the assignment evaluates to, which Flutter asserts
+  // against -- in a debug build Retry threw instead of retrying.
+  void _reload() {
+    setState(() {
+      _future = _load();
+    });
+  }
+
   void _setViewMode(_ViewMode mode) {
     setState(() {
       _viewMode = mode;
@@ -148,7 +156,10 @@ class _StudentSchedulePageState extends State<StudentSchedulePage> {
                       }
                       if (snap.hasError) {
                         final err = snap.error;
-                        final notEnrolled = err is DioException && err.response?.statusCode == 404;
+                        // The server's not-enrolled sentence only: FastAPI's
+                        // bare 404 "Not Found" for a route it does not serve
+                        // is a failure, not an empty class.
+                        final notEnrolled = isNotEnrolledAnswer(err!);
                         if (notEnrolled) {
                           return const EmptyState(
                             icon: Icons.school_outlined,
@@ -160,13 +171,13 @@ class _StudentSchedulePageState extends State<StudentSchedulePage> {
                         // Every other failure said "Check your connection",
                         // a 403 or 500 included (Task 802).
                         return ErrorDisplay(
-                          message: 'Could not load your class: ${serverErrorMessage(err!)}',
-                          onRetry: isRetryable(err) ? () => setState(() => _future = _load()) : null,
+                          message: 'Could not load your class: ${serverErrorMessage(err)}',
+                          onRetry: isRetryable(err) ? _reload : null,
                         );
                       }
                       final data = snap.data!;
                       return RefreshIndicator(
-                        onRefresh: () async => setState(() => _future = _load()),
+                        onRefresh: () async => _reload(),
                         child: _buildBody(theme, data),
                       );
                     },
