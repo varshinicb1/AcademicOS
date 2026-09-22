@@ -483,6 +483,7 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
     skipped_near_dup = 0
     skipped_truncated = 0
     skipped_broken_options = 0
+    skipped_invalid = 0
     near_dupes = _NearDuplicateIndex()
 
     rows = _registry_paper_rows(cfg, subject, grade)
@@ -607,7 +608,16 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                 if p.exists():
                     try:
                         data = json.loads(p.read_text(encoding="utf-8"))
-                        raw_qs = data.get("questions", [])
+                        # Board papers first, stably, and *before* the gates: the
+                        # near-duplicate gate keeps whichever copy it sees first,
+                        # and SQPs reuse board questions. A class 10/12 paper that
+                        # composes today must not be silently re-composed from the
+                        # SQP and CBE items the merged bank adds -- whatever order
+                        # the file happens to hold them in.
+                        raw_qs = sorted(
+                            data.get("questions", []),
+                            key=lambda it: 0 if it.get("source") == "cbse_board_paper" else 1)
+                        from .schemas import QuestionSchema
                         for item in raw_qs:
                             item_subject = item.get("subject", "")
                             try:
@@ -630,6 +640,18 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                                 continue
                             if looks_truncated(stem):
                                 skipped_truncated += 1
+                                continue
+                            # The record is served as-is (mapping.to_question_schema),
+                            # so it must be a valid QuestionSchema. The phone contract
+                            # bank_merge checks is a separate check; a record that
+                            # passes it but not this would otherwise raise inside
+                            # every paper request for this subject and grade.
+                            try:
+                                QuestionSchema.model_validate(item)
+                            except ValueError as err:
+                                skipped_invalid += 1
+                                log.warning("baked bank record %s is not a valid QuestionSchema, "
+                                            "skipped: %s", item.get("id"), err)
                                 continue
                             if near_dupes.is_duplicate(stem):
                                 skipped_near_dup += 1
@@ -656,11 +678,6 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                             )
                             pool.questions.append(pq)
                         if pool.questions:
-                            # Board papers first, stably: a class 10/12 paper that
-                            # composes today must not be silently re-composed from
-                            # the SQP and CBE items the merged bank adds after them.
-                            pool.questions.sort(
-                                key=lambda pq: 0 if (pq.record or {}).get("source") == "cbse_board_paper" else 1)
                             log.info("Loaded %d questions for %s Grade %s from baked-in question bank at %s", len(pool.questions), subject, grade, p)
                             break
                     except Exception as e:
@@ -668,9 +685,9 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
 
     log.info("question pool built: %d questions from %d papers, %d with official answers "
              "(skipped: %d need a figure, %d unreadable Hindi, %d near-duplicates, "
-             "%d truncated/missing options, %d broken option lists)",
+             "%d truncated/missing options, %d broken option lists, %d invalid records)",
              len(pool.questions), len(rows), keyed, skipped_figure, skipped_mangled,
-             skipped_near_dup, skipped_truncated, skipped_broken_options)
+             skipped_near_dup, skipped_truncated, skipped_broken_options, skipped_invalid)
     return pool
 
 
