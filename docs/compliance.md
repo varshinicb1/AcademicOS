@@ -173,7 +173,17 @@ gets flagged to the user, not silently shipped.
       returns the first entry that does not fit. That catches an edit or a
       deletion made by someone who dropped the triggers, but not removal of
       the newest entries. Rows written before the chain existed are not
-      covered by it. **Manual step, not yet applied to any live project:** the
+      hashed into it; the chain's first entry (`audit_chain_started`)
+      records their ids and content hashes, so a later edit or deletion of
+      one, or a raw INSERT of an unchained row at any time after the chain
+      began (backdated or not), is reported too. A log that has no chained
+      entry yet is not checked at all. The chain does not stop anyone who
+      holds INSERT from appending a correctly chained entry: the hash is
+      unkeyed, and the INSERT privilege is the control there. The remote
+      read pages by id, because PostgREST silently caps one response at
+      max-rows (1000 by default). An append that loses the seq race 5 times
+      answers 503 and saves no grade; it is not written to local disk.
+      **Manual step, not yet applied to any live project:** the
       `audit_log` block of `docs/supabase-setup.sql` (chain columns, unique
       `seq`, RLS with INSERT/SELECT policies only, UPDATE/DELETE/TRUNCATE
       revoked, and the refuse-change trigger) must be run in the Supabase SQL

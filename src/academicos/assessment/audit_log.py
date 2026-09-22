@@ -35,9 +35,23 @@ layers:
    that gap; it is not built.
 
 Rows written before the chain existed have no seq and no hashes. They are
-kept as they are and skipped by verify_chain, because hashing them now would
-bless whatever they contain. Once a chained row exists, an unchained row
-after it is reported as a break.
+kept as they are, not re-hashed into the chain. The chain's first entry
+(seq 1) records them instead. It is a `audit_chain_started` entry the log
+writes itself, before the first real entry, and its details map every
+unchained row's id to a hash of its content at that moment. (It is a
+separate entry so that no caller's details grow an extra key.) After
+that, verify_chain reports an unchained row that is not in the map, one
+whose content changed, and a mapped row that is gone. A timestamp cannot do
+this job. The review of 2026-09-22 reproduced a raw INSERT of an unchained
+`sheet_reviewed` row after the chain began, which verify_chain skipped as
+pre-chain, and whoever inserts a row also chooses its timestamp, so a
+backdated row would pass any "older than the chain" test. A log with no
+chained entry at all has nothing to compare against and is not checked.
+
+The chain proves that nothing was changed or removed. It does not prove who
+added an entry: the hash is unkeyed, so anyone allowed to INSERT can append
+a correctly chained entry. What stops that is the INSERT privilege itself
+(see the audit_log block of docs/supabase-setup.sql).
 
 Each backend (the remote table when configured, local SQLite otherwise) keeps
 its own chain. A remote outage still falls back to local SQLite, as it did
@@ -72,8 +86,18 @@ GENESIS_HASH = "0" * 64
 
 # Retries when another writer took the seq this one read as next. Losing
 # more than a handful of races in a row is no longer a race, so after that
-# the append fails loudly instead of spinning.
+# the append raises AuditAppendFailed, which append() does not turn into a
+# local-only entry.
 _SEQ_RACE_RETRIES = 5
+
+# Rows per remote read in verify_chain. PostgREST caps a response at its
+# max-rows setting (1000 by default) without saying so, so the read pages by
+# id until a page comes back empty. It does not stop at a short page, because
+# a server cap below this number makes every page short.
+_REMOTE_PAGE = 1000
+
+# The action of the seq-1 entry that lists the pre-chain rows.
+CHAIN_START_ACTION = "audit_chain_started"
 
 TABLE_SCHEMA = """
 CREATE TABLE IF NOT EXISTS audit_log (
@@ -116,6 +140,18 @@ class DuplicateAuditEntry(Exception):
     somewhere else."""
 
 
+class AuditAppendFailed(SupabaseUnavailable):
+    """The remote table answered, but the append could not be completed: the
+    seq race was lost _SEQ_RACE_RETRIES times, or the id lookup that tells a
+    replay from a lost race failed after a conflict.
+
+    This is not an outage, so append() does not write the entry to local
+    SQLite. On Render that disk is wiped on restart, and a grade saved with
+    its only audit entry there would lose the entry. It subclasses
+    SupabaseUnavailable so the app-level handler answers 503, and the
+    grading routes audit before they save, so no grade is written."""
+
+
 def _canonical(entry: dict[str, Any]) -> bytes:
     """The bytes an entry's hash covers: every stored field except entry_hash
     itself, as sorted-key compact JSON. `details` is hashed as the parsed
@@ -134,13 +170,56 @@ def _entry_hash(entry: dict[str, Any]) -> str:
     return hashlib.sha256(_canonical(entry)).hexdigest()
 
 
+def _is_chained(row: dict[str, Any]) -> bool:
+    return row.get("seq") is not None or bool(row.get("entry_hash"))
+
+
+def _legacy_hash(row: dict[str, Any]) -> str:
+    """A pre-chain row's content hash, for the seq-1 entry's map. 16 hex
+    characters (64 bits) keeps the map small for a large legacy log and is
+    still far beyond forging a matching edit."""
+    body = {k: row.get(k) for k in ("id", "timestamp", "action", "assessment_id",
+                                     "student_id", "actor")}
+    body["details"] = row.get("details") or {}
+    raw = json.dumps(body, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()[:16]
+
+
+def _chain_start(rows: list[dict[str, Any]]) -> dict[str, Any]:
+    """The seq-1 entry, which records every unchained row present when the
+    chain began."""
+    entry = {
+        "id": f"audit_{uuid.uuid4().hex[:12]}",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "action": CHAIN_START_ACTION, "assessment_id": None, "student_id": None,
+        "actor": None,
+        "details": {"legacy_rows": {r["id"]: _legacy_hash(r)
+                                    for r in rows if not _is_chained(r)}},
+        "seq": 1, "prev_hash": GENESIS_HASH,
+    }
+    entry["entry_hash"] = _entry_hash(entry)
+    return entry
+
+
+def _insert_row(conn: sqlite3.Connection, entry: dict[str, Any]) -> None:
+    conn.execute(
+        """INSERT INTO audit_log (id, timestamp, action, assessment_id, student_id,
+                                  actor, details, seq, prev_hash, entry_hash)
+           VALUES (?,?,?,?,?,?,?,?,?,?)""",
+        (entry["id"], entry["timestamp"], entry["action"], entry["assessment_id"],
+         entry["student_id"], entry["actor"], json.dumps(entry["details"]),
+         entry["seq"], entry["prev_hash"], entry["entry_hash"]),
+    )
+
+
 def first_broken_link(rows: list[dict[str, Any]]) -> Optional[dict[str, Any]]:
     """Return the first entry that does not fit the chain, or None if the
     chain is intact.
 
-    The result is {"id", "seq", "reason"}. Pre-chain rows (no seq and no
-    hash) are skipped; see the module docstring."""
-    chained = [r for r in rows if r.get("seq") is not None or r.get("entry_hash")]
+    The result is {"id", "seq", "reason"}. The chain is walked first. Then
+    the unchained rows are compared with the list the seq-1 entry recorded;
+    see the module docstring."""
+    chained = [r for r in rows if _is_chained(r)]
     # A row whose seq was stripped sorts last, where it is reported.
     chained.sort(key=lambda r: (r.get("seq") is None, int(r.get("seq") or 0)))
     prev_hash, expected_seq = GENESIS_HASH, 1
@@ -157,6 +236,31 @@ def first_broken_link(rows: list[dict[str, Any]]) -> Optional[dict[str, Any]]:
         if reason:
             return {"id": row.get("id"), "seq": row.get("seq"), "reason": reason}
         prev_hash, expected_seq = row["entry_hash"], expected_seq + 1
+    if not chained:
+        return None
+    # The chain is intact, so chained[0] is seq 1 and its record is genuine.
+    # A chain begun before the record existed vouches for no unchained row.
+    first = chained[0]
+    recorded = ((first.get("details") or {}).get("legacy_rows") or {}
+                if first.get("action") == CHAIN_START_ACTION else {})
+    unchained = sorted((r for r in rows if not _is_chained(r)),
+                       key=lambda r: str(r.get("id")))
+    for row in unchained:
+        want = recorded.get(row.get("id"))
+        if want is None:
+            return {"id": row.get("id"), "seq": None,
+                    "reason": "an unchained entry that was not in the log when the "
+                              "chain began: it was inserted outside the chain"}
+        if _legacy_hash(row) != want:
+            return {"id": row.get("id"), "seq": None,
+                    "reason": "a pre-chain entry no longer matches the hash recorded "
+                              "when the chain began: it was edited"}
+    present = {r.get("id") for r in unchained}
+    for entry_id in sorted(recorded):
+        if entry_id not in present:
+            return {"id": entry_id, "seq": None,
+                    "reason": "a pre-chain entry recorded when the chain began is "
+                              "missing: it was deleted"}
     return None
 
 
@@ -197,7 +301,7 @@ class AuditLog:
             try:
                 self._append_remote(entry)
                 return entry["id"]
-            except DuplicateAuditEntry:
+            except (DuplicateAuditEntry, AuditAppendFailed):
                 raise
             except (SupabaseUnavailable, requests.exceptions.RequestException):
                 logger.warning("Supabase unavailable for audit_log append, falling back to local SQLite", exc_info=True)
@@ -207,8 +311,17 @@ class AuditLog:
     def _append_remote(self, entry: dict[str, Any]) -> None:
         for _ in range(_SEQ_RACE_RETRIES):
             head = self._remote.select(order="seq.desc", limit=1, gt={"seq": 0})
-            entry["seq"] = int(head[0]["seq"]) + 1 if head else 1
-            entry["prev_hash"] = head[0]["entry_hash"] if head else GENESIS_HASH
+            if not head:
+                start = _chain_start(self._read_all_remote())
+                try:
+                    self._remote.insert(dict(start))
+                except (SupabaseUnavailable, requests.exceptions.RequestException) as exc:
+                    if not is_unique_violation(exc):
+                        raise
+                    continue    # another writer began the chain; re-read the head
+                head = [start]
+            entry["seq"] = int(head[0]["seq"]) + 1
+            entry["prev_hash"] = head[0]["entry_hash"]
             entry["entry_hash"] = _entry_hash(entry)
             try:
                 self._remote.insert(dict(entry))
@@ -216,12 +329,41 @@ class AuditLog:
             except (SupabaseUnavailable, requests.exceptions.RequestException) as exc:
                 if not is_unique_violation(exc):
                     raise
-                if self._remote.select(id=entry["id"]):
+                try:
+                    replayed = bool(self._remote.select(id=entry["id"]))
+                except (SupabaseUnavailable, requests.exceptions.RequestException) as lookup:
+                    # The table just answered the insert, so this is not an
+                    # outage to route around, and not knowing whether the id
+                    # exists is no ground for writing it somewhere else.
+                    raise AuditAppendFailed(
+                        table="audit_log", op="insert",
+                        body="insert conflicted and the id lookup that tells a replay "
+                             "from a lost seq race failed") from lookup
+                if replayed:
                     raise DuplicateAuditEntry(entry["id"]) from exc
                 # The id is new, so another writer took this seq first.
                 # Re-read the head and try again.
-        raise SupabaseUnavailable(table="audit_log", op="insert",
-                                  body=f"lost the seq race {_SEQ_RACE_RETRIES} times")
+        raise AuditAppendFailed(table="audit_log", op="insert",
+                                body=f"lost the seq race {_SEQ_RACE_RETRIES} times")
+
+    def _read_all_remote(self) -> list[dict[str, Any]]:
+        """Every row of the remote table, paged by id (the primary key, so
+        the order is total and a page boundary cannot skip or repeat a row).
+        See _REMOTE_PAGE for why it stops only at an empty page."""
+        rows: list[dict[str, Any]] = []
+        last: Optional[str] = None
+        while True:
+            page = self._remote.select(order="id.asc", limit=_REMOTE_PAGE,
+                                       gt={"id": last} if last is not None else None)
+            if not page:
+                return rows
+            rows.extend(page)
+            nxt = page[-1]["id"]
+            if last is not None and not nxt > last:
+                raise SupabaseUnavailable(
+                    table="audit_log", op="select",
+                    body="paging by id did not advance; the log was not fully read")
+            last = nxt
 
     def _append_local(self, entry: dict[str, Any]) -> None:
         with self._lock:
@@ -232,17 +374,16 @@ class AuditLog:
                 head = self.conn.execute(
                     "SELECT seq, entry_hash FROM audit_log WHERE seq IS NOT NULL "
                     "ORDER BY seq DESC LIMIT 1").fetchone()
-                entry["seq"] = int(head["seq"]) + 1 if head else 1
-                entry["prev_hash"] = head["entry_hash"] if head else GENESIS_HASH
+                if head is None:
+                    legacy = [_row_to_dict(r) for r in self.conn.execute(
+                        "SELECT * FROM audit_log WHERE seq IS NULL AND entry_hash IS NULL")]
+                    start = _chain_start(legacy)
+                    _insert_row(self.conn, start)
+                    head = start
+                entry["seq"] = int(head["seq"]) + 1
+                entry["prev_hash"] = head["entry_hash"]
                 entry["entry_hash"] = _entry_hash(entry)
-                self.conn.execute(
-                    """INSERT INTO audit_log (id, timestamp, action, assessment_id, student_id,
-                                              actor, details, seq, prev_hash, entry_hash)
-                       VALUES (?,?,?,?,?,?,?,?,?,?)""",
-                    (entry["id"], entry["timestamp"], entry["action"], entry["assessment_id"],
-                     entry["student_id"], entry["actor"], json.dumps(entry["details"]),
-                     entry["seq"], entry["prev_hash"], entry["entry_hash"]),
-                )
+                _insert_row(self.conn, entry)
                 self.conn.commit()
             except sqlite3.IntegrityError as exc:
                 self.conn.rollback()
@@ -279,9 +420,11 @@ class AuditLog:
 
         It reads the remote table when one is configured, and local SQLite
         otherwise. A failed remote read raises, because a log that could not
-        be checked must not be reported as intact."""
+        be checked must not be reported as intact. The remote read is paged
+        (see _read_all_remote): a single select would stop at PostgREST's
+        max-rows and check only that part of the log."""
         if self._remote.enabled:
-            rows = self._remote.select()
+            rows = self._read_all_remote()
         else:
             with self._lock:
                 rows = [_row_to_dict(r) for r in self.conn.execute("SELECT * FROM audit_log")]

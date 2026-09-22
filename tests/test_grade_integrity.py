@@ -313,7 +313,7 @@ def test_verify_chain_reports_the_edited_entry(tmp_path):
     broken = log.verify_chain()
     assert broken is not None
     assert broken["id"] == ids[2]
-    assert broken["seq"] == 3
+    assert broken["seq"] == 4, "seq 1 is the chain-start entry"
 
 
 def test_verify_chain_reports_a_deleted_entry(tmp_path):
@@ -381,7 +381,9 @@ def test_remote_append_inserts_and_a_replayed_id_fails(tmp_path, monkeypatch):
                    entry_id="audit_replayed")
 
     assert remote.upserts == 0
-    assert [r["actor"] for r in remote.rows] == ["u1"]
+    assert [r["actor"] for r in remote.rows if r["id"] == "audit_replayed"] == ["u1"]
+    assert [r["action"] for r in remote.rows] == [audit_mod.CHAIN_START_ACTION,
+                                                  "grade_awarded"]
     # A replay is not an outage: it must not be quietly written to the local
     # fallback either.
     assert log.conn.execute("SELECT COUNT(*) FROM audit_log").fetchone()[0] == 0
@@ -393,9 +395,246 @@ def test_remote_chain_links_and_verifies(tmp_path, monkeypatch):
     log = _log(tmp_path)
     for i in range(3):
         log.append(f"op{i}", assessment_id="a1", actor="u1")
-    assert [r["seq"] for r in remote.rows] == [1, 2, 3]
-    assert remote.rows[1]["prev_hash"] == remote.rows[0]["entry_hash"]
+    # seq 1 is the chain-start entry the log writes before the first real one.
+    assert [r["seq"] for r in remote.rows] == [1, 2, 3, 4]
+    assert remote.rows[0]["action"] == audit_mod.CHAIN_START_ACTION
+    assert remote.rows[2]["prev_hash"] == remote.rows[1]["entry_hash"]
     assert log.verify_chain() is None
 
-    remote.rows[1]["actor"] = "someone-else"
-    assert log.verify_chain()["id"] == remote.rows[1]["id"]
+    remote.rows[2]["actor"] = "someone-else"
+    assert log.verify_chain()["id"] == remote.rows[2]["id"]
+
+
+# --------------------------------------------------------------------------- #
+# a row inserted outside the chain is a break, not a legacy row
+# --------------------------------------------------------------------------- #
+
+def _raw_insert(log: AuditLog, entry_id: str, timestamp: str, **cols) -> None:
+    """What anyone who can INSERT can do: the triggers stop UPDATE and
+    DELETE, not INSERT, and nothing makes a raw row carry chain fields."""
+    log.conn.execute(
+        "INSERT INTO audit_log (id, timestamp, action, assessment_id, student_id, "
+        "actor, details) VALUES (?,?,?,?,?,?,?)",
+        (entry_id, timestamp, cols.get("action", "sheet_reviewed"),
+         cols.get("assessment_id", "a1"), cols.get("student_id", "s2"),
+         cols.get("actor"), "{}"))
+    log.conn.commit()
+
+
+@pytest.mark.parametrize("timestamp", [
+    "2099-01-01T00:00:00+00:00",   # written after the chain began
+    "2001-01-01T00:00:00+00:00",   # backdated to look older than the chain
+])
+def test_verify_chain_reports_an_unchained_row_inserted_after_the_chain_began(
+        tmp_path, timestamp):
+    """Reproduced 2026-09-22 in review: two chained appends, then a raw
+    INSERT of an unchained sheet_reviewed row. verify_chain() returned None,
+    because every row without seq was skipped as pre-chain. A timestamp
+    cannot tell the two apart, since the inserter picks the timestamp, so the
+    first chained entry records which rows were there before it."""
+    log = _log(tmp_path)
+    log.append("grade_awarded", assessment_id="a1", actor="u1")
+    log.append("grade_awarded", assessment_id="a1", actor="u1")
+    _raw_insert(log, "audit_forged", timestamp)
+
+    broken = log.verify_chain()
+    assert broken is not None
+    assert broken["id"] == "audit_forged"
+    assert broken["seq"] is None
+
+
+def _legacy_file(tmp_path, rows: list[tuple]):
+    path = tmp_path / "audit.sqlite"
+    legacy = sqlite3.connect(str(path))
+    legacy.execute("""
+        CREATE TABLE audit_log (
+          id TEXT PRIMARY KEY, timestamp TEXT NOT NULL, action TEXT NOT NULL,
+          assessment_id TEXT, student_id TEXT, actor TEXT,
+          details TEXT NOT NULL DEFAULT '{}')""")
+    legacy.executemany("INSERT INTO audit_log VALUES (?,?,?,?,?,?,?)", rows)
+    legacy.commit()
+    legacy.close()
+    return path
+
+
+_LEGACY_ROWS = [
+    ("audit_old1", "2026-01-01T00:00:00+00:00", "sheet_evaluated", "a1", "s1", None, "{}"),
+    ("audit_old2", "2026-01-02T00:00:00+00:00", "sheet_reviewed", "a1", "s1", None,
+     '{"total": 4}'),
+]
+
+
+def test_pre_chain_rows_are_accepted_and_a_later_legacy_looking_row_is_not(tmp_path):
+    log = AuditLog(_legacy_file(tmp_path, _LEGACY_ROWS))
+    log.append("grade_awarded", assessment_id="a1", actor="u1")
+    log.append("grade_awarded", assessment_id="a1", actor="u1")
+    assert log.verify_chain() is None, "rows that predate the chain are not breaks"
+
+    # Backdated to sit among the real legacy rows.
+    _raw_insert(log, "audit_old3", "2026-01-01T12:00:00+00:00", student_id="s1")
+    assert log.verify_chain()["id"] == "audit_old3"
+
+
+def test_an_edited_pre_chain_row_is_reported(tmp_path):
+    log = AuditLog(_legacy_file(tmp_path, _LEGACY_ROWS))
+    log.append("grade_awarded", assessment_id="a1", actor="u1")
+    log.conn.execute("DROP TRIGGER audit_log_no_update")
+    log.conn.execute("UPDATE audit_log SET details='{\"total\": 9}' WHERE id='audit_old2'")
+    log.conn.commit()
+    broken = log.verify_chain()
+    assert broken is not None
+    assert broken["seq"] is None
+
+
+def test_a_deleted_pre_chain_row_is_reported(tmp_path):
+    log = AuditLog(_legacy_file(tmp_path, _LEGACY_ROWS))
+    log.append("grade_awarded", assessment_id="a1", actor="u1")
+    log.conn.execute("DROP TRIGGER audit_log_no_delete")
+    log.conn.execute("DELETE FROM audit_log WHERE id='audit_old1'")
+    log.conn.commit()
+    assert log.verify_chain() is not None
+
+
+# --------------------------------------------------------------------------- #
+# the remote read is paged; a capped response is not an intact chain
+# --------------------------------------------------------------------------- #
+
+class CappedRemoteAudit(FakeRemoteAudit):
+    """PostgREST returns at most max-rows (1000 by default) per response and
+    says nothing when it cuts one short. This fake does the same at `cap`."""
+
+    def __init__(self, cap: int):
+        super().__init__()
+        self.cap = cap
+
+    def select(self, order=None, limit=None, gt=None, **eq):
+        return super().select(order=order, limit=limit, gt=gt, **eq)[:self.cap]
+
+
+def test_remote_verify_reads_past_the_response_cap(tmp_path, monkeypatch):
+    remote = CappedRemoteAudit(cap=7)
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    for i in range(23):
+        log.append(f"op{i}", assessment_id="a1", actor="u1", details={"i": i})
+    assert log.verify_chain() is None
+
+    # Past the first capped page: an unpaged read never sees this row.
+    victim = next(r for r in remote.rows if r["seq"] == 20)
+    victim["actor"] = "someone-else"
+    assert log.verify_chain()["id"] == victim["id"]
+
+
+def test_remote_verify_sees_a_raw_insert_past_the_cap(tmp_path, monkeypatch):
+    remote = CappedRemoteAudit(cap=5)
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    for i in range(12):
+        log.append(f"op{i}", assessment_id="a1", actor="u1")
+    remote.rows.append({"id": "zzz_forged", "timestamp": "2001-01-01T00:00:00+00:00",
+                        "action": "sheet_reviewed", "assessment_id": "a1",
+                        "student_id": "s2", "actor": None, "details": {},
+                        "seq": None, "prev_hash": None, "entry_hash": None})
+    assert log.verify_chain()["id"] == "zzz_forged"
+
+
+def test_remote_pre_chain_rows_are_accepted(tmp_path, monkeypatch):
+    remote = CappedRemoteAudit(cap=3)
+    for i in range(5):
+        remote.rows.append({"id": f"audit_legacy{i}",
+                            "timestamp": f"2026-01-0{i + 1}T00:00:00+00:00",
+                            "action": "sheet_evaluated", "assessment_id": "a1",
+                            "student_id": "s1", "actor": None, "details": {"i": i},
+                            "seq": None, "prev_hash": None, "entry_hash": None})
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    for i in range(4):
+        log.append(f"op{i}", assessment_id="a1", actor="u1")
+    assert log.verify_chain() is None
+
+
+# --------------------------------------------------------------------------- #
+# losing the seq race is a failed append, not a local-only entry
+# --------------------------------------------------------------------------- #
+
+class RacingRemoteAudit(FakeRemoteAudit):
+    """Another writer takes the seq this one read as next, `losses` times:
+    each of those inserts finds a rival row already at its seq."""
+
+    def __init__(self, losses: int, fail_id_lookup: bool = False):
+        super().__init__()
+        self.losses = losses
+        self.fail_id_lookup = fail_id_lookup
+        self.inserts = 0
+
+    def insert(self, row):
+        self.inserts += 1
+        if self.losses > 0:
+            self.losses -= 1
+            rival = dict(row, id=f"audit_rival{self.inserts}", actor="rival")
+            rival["entry_hash"] = audit_mod._entry_hash(rival)
+            self.rows.append(rival)
+        super().insert(row)
+
+    def select(self, order=None, limit=None, gt=None, **eq):
+        if self.fail_id_lookup and "id" in eq:
+            from academicos.assessment.supabase_kv import SupabaseUnavailable
+            raise SupabaseUnavailable(table="audit_log", op="select", status=500)
+        return super().select(order=order, limit=limit, gt=gt, **eq)
+
+
+def _local_count(log: AuditLog) -> int:
+    return log.conn.execute("SELECT COUNT(*) FROM audit_log").fetchone()[0]
+
+
+def test_a_lost_seq_race_is_retried(tmp_path, monkeypatch):
+    remote = RacingRemoteAudit(losses=2)
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    entry_id = log.append("grade_awarded", assessment_id="a1", actor="u1")
+
+    assert remote.inserts == 3
+    [mine] = [r for r in remote.rows if r["id"] == entry_id]
+    assert mine["seq"] == 3, "the retry re-reads the head and takes the next seq"
+    assert log.verify_chain() is None
+    assert _local_count(log) == 0
+
+
+def test_exhausting_the_seq_race_fails_the_append(tmp_path, monkeypatch):
+    remote = RacingRemoteAudit(losses=audit_mod._SEQ_RACE_RETRIES)
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    with pytest.raises(audit_mod.AuditAppendFailed):
+        log.append("grade_awarded", assessment_id="a1", actor="u1")
+    assert remote.inserts == audit_mod._SEQ_RACE_RETRIES
+    # The remote is reachable; this is not an outage, so the entry must not
+    # land on a disk Render wipes on restart.
+    assert _local_count(log) == 0
+
+
+def test_a_failed_id_lookup_after_a_conflict_fails_the_append(tmp_path, monkeypatch):
+    # The first loss is on the chain-start entry, which re-reads the head
+    # without an id lookup; the second is on the real entry.
+    remote = RacingRemoteAudit(losses=2, fail_id_lookup=True)
+    monkeypatch.setattr(audit_mod, "durable_table", lambda name: remote)
+    log = _log(tmp_path)
+    with pytest.raises(audit_mod.AuditAppendFailed):
+        log.append("grade_awarded", assessment_id="a1", actor="u1")
+    assert _local_count(log) == 0
+
+
+def test_a_failed_audit_append_is_a_503_and_saves_no_grade(sheet, monkeypatch):
+    log = audit_mod.get_audit_log(sheet.data_root)
+
+    def refuse(*_a, **_k):
+        raise audit_mod.AuditAppendFailed(table="audit_log", op="insert",
+                                          body="lost the seq race 5 times")
+    monkeypatch.setattr(log, "append", refuse)
+
+    r = sheet.award(sheet.other_mark)
+    assert r.status_code == 503, r.text
+    grid = sheet.client.get(
+        f"/api/v1/evaluations/assessment/{sheet.aid}/question/q_1", headers=sheet.headers)
+    assert grid.status_code == 200, grid.text
+    [row] = grid.json()["answers"]
+    assert row["awardedMarks"] == sheet.awarded
