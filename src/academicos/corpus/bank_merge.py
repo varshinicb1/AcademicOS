@@ -4,14 +4,20 @@ The served bank -- academicos-data/syllabus/questions.json and its byte-identica
 APK copy, frontend/assets/corpus/questions.json -- is what every surface reads.
 It is composed from:
 
-  board  records already in it with source == "cbse_board_paper"
+  board  records already in it with source == "cbse_board_paper", and those
+         an earlier run withheld (academicos-data/syllabus/board_withheld.json)
   cbe    academicos-data/corpus/cbse-cbe/questions.json   (classes 6-10)
   sqp    academicos-data/corpus/cbse-sqp/questions.json   (classes 10, 12)
 
 Board records pass through untouched: they already decode on the phone and
 render on the web, and this module must not be the thing that breaks them.
 One gate applies to them, no-verified-key: a board record is served only with
-a marking scheme the relink verified.
+a marking scheme the relink verified. A board record the gate withholds is kept
+WHOLE in board_withheld.json (`hold`), which every run adds to and none
+overwrites, and read back as a board source on the next run: the served file is
+both this module's board input and its output, so a record left out of it would
+otherwise leave the pipeline for good, and a later, better relink could never
+re-attach its key.
 CBE and SQP records are normalised to the phone's contract and then gated.
 
 Why the contract is the phone's and not the API's
@@ -76,12 +82,13 @@ Nothing is dropped silently; every exclusion is returned with its reason.
   duplicate-id           an id already served
   duplicate-stem         already served, under a board-paper id where possible
   no-verified-key        a board record whose scheme the relink did not verify
-                         (`answerScheme.provenance` is not cbse_marking_scheme):
-                         correctness first (user decision, 2026-09-22) -- rule
-                         Q1 applied to board records. The relink
-                         (enrich_question_bank.py) decides what is verified,
-                         so the merge must run after it for this to see the
-                         relink's verdicts.
+                         (not cbse_marking_scheme, or no relink stamp -- see
+                         `has_verified_key`): correctness first (user
+                         decision, 2026-09-22) -- rule Q1 applied to board
+                         records. The relink (enrich_question_bank.py)
+                         decides what is verified; a label from before it
+                         fails closed. The record is kept whole in
+                         board_withheld.json.
 
 An item is an MCQ by its shape, not only by its declared type: the SQP source
 types every row `short_answer`, and 92 served 1-mark SQP rows carry four
@@ -139,10 +146,13 @@ stem; do not build a second one here.
 from __future__ import annotations
 
 import copy
+import json
+import os
 import re
 import unicodedata
 from dataclasses import dataclass, field
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 
 from ..assessment.mapping import _resolve_bloom, _resolve_difficulty, _resolve_type
@@ -781,6 +791,9 @@ class ComposeResult:
     questions: list[dict]
     excluded: list[dict] = field(default_factory=list)
     counts: dict[str, int] = field(default_factory=dict)
+    # Board records excluded as no-verified-key, whole: `excluded` keeps 200
+    # characters of a stem, and these must survive to be relinked again.
+    withheld: list[dict] = field(default_factory=list)
 
 
 def _excluded(rec: dict, reason: str) -> dict:
@@ -814,19 +827,71 @@ def _runs_on(rows: list[dict]) -> set[str]:
 
 
 def has_verified_key(rec: dict) -> bool:
-    """A board record carries a scheme the relink verified. Since Task 15,
-    `question_bank.relink_answer_schemes` writes cbse_marking_scheme on a
-    board record only for a row the verifier accepted. A bank not relinked
-    since still carries the older labels -- 2,930 board records at 43da0f4,
-    against 89 the relink verifies -- which is why the merge must follow a
-    relink for this gate to mean anything."""
+    """A board record carries a scheme the relink verified.
+
+    The label alone is not enough. Since Task 15 `question_bank.
+    relink_answer_schemes` writes cbse_marking_scheme on a board record only
+    for a row the verifier accepted, but a bank not relinked since still
+    carries the older labels -- 2,930 board records at 43da0f4, against 89
+    the relink verifies, and hand audits found about 30% of those labels
+    detectably wrong. Only the relink's `build_official_scheme` stamps the
+    official row it verified (metadata.schemeCode and schemeQNo), so the
+    gate requires the stamp too: a stale label fails closed whatever order
+    the pipeline ran in."""
     scheme = rec.get("answerScheme") or {}
     has_content = bool(scheme.get("markingPoints") or str(scheme.get("modelAnswer") or "").strip())
-    return has_content and scheme.get("provenance") == "cbse_marking_scheme"
+    meta = scheme.get("metadata") or {}
+    stamped = bool(str(meta.get("schemeCode") or "").strip()) and meta.get("schemeQNo") is not None
+    return has_content and scheme.get("provenance") == "cbse_marking_scheme" and stamped
 
 
-def compose(served: list[dict], cbe: list[dict], sqp: list[dict]) -> ComposeResult:
-    """Board records from `served`, then CBE, then SQP.
+def hold(kept: list[dict], withheld: list[dict]) -> list[dict]:
+    """The withheld board records after this run: `kept` with `withheld`
+    merged in by id -- a newer copy replaces its entry in place, a new id is
+    appended, and nothing is ever dropped. A record served again stays here
+    too; `compose` prefers the served copy."""
+    out = list(kept)
+    at = {str(r.get("id")): i for i, r in enumerate(out)}
+    for rec in withheld:
+        rid = str(rec.get("id"))
+        if rid in at:
+            out[at[rid]] = rec
+        else:
+            at[rid] = len(out)
+            out.append(rec)
+    return out
+
+
+WITHHELD_NAME = "board_withheld.json"
+WITHHELD_ABOUT = (
+    "Board records the merge withheld as no-verified-key, kept WHOLE so a later "
+    "relink can re-attach a verified key and the next merge serve them again. "
+    "merge_question_banks.py and enrich_question_bank.py both read this file "
+    "back; a run adds a record to it or replaces one by id, and none drops one.")
+
+
+def load_withheld(path: Path) -> list[dict]:
+    """The withheld board records, or none when no run has withheld any."""
+    if not path.exists():
+        return []
+    return list(json.loads(path.read_text(encoding="utf-8")).get("questions") or [])
+
+
+def write_withheld(path: Path, records: list[dict]) -> None:
+    """Replace the file with `records`; callers pass `hold(...)`, which never drops one."""
+    body = json.dumps({"about": WITHHELD_ABOUT, "count": len(records), "questions": records},
+                      ensure_ascii=False, indent=1)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(body, encoding="utf-8")
+    os.replace(tmp, path)
+
+
+def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
+            held: list[dict] = ()) -> ComposeResult:
+    """Board records from `served` and then `held` (the withheld ones an
+    earlier run kept, where `served` has no record of that id), then CBE,
+    then SQP.
 
     Non-board rows already in `served` are ignored and rebuilt from their source
     files, so running the merge twice gives the same bank. A normalised record
@@ -834,15 +899,18 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict]) -> ComposeResu
     """
     out: list[dict] = []
     excluded: list[dict] = []
+    withheld: list[dict] = []
     seen_ids: set[str] = set()
     seen_stems: set[tuple] = set()
     counts = {"board": 0, "cbe": 0, "sqp": 0}
 
-    for rec in served:
-        if rec.get("source") != BOARD_SOURCE:
-            continue
+    board = [r for r in served if r.get("source") == BOARD_SOURCE]
+    in_served = {r.get("id") for r in board}
+    board += [r for r in held if r.get("source") == BOARD_SOURCE and r.get("id") not in in_served]
+    for rec in board:
         if not has_verified_key(rec):
             excluded.append(_excluded(rec, NO_VERIFIED_KEY))
+            withheld.append(rec)
             continue
         errors = contract_errors(rec)
         if errors:
@@ -880,7 +948,7 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict]) -> ComposeResu
             seen_stems.add(key)
             counts[label] += 1
 
-    return ComposeResult(questions=out, excluded=excluded, counts=counts)
+    return ComposeResult(questions=out, excluded=excluded, counts=counts, withheld=withheld)
 
 
 def apply_chapter_names(records: list[dict],

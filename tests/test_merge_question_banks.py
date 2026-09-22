@@ -109,3 +109,61 @@ def test_check_reports_unresolved_and_shared_chapter_labels(layout, capsys):
     assert "chapter ids the syllabus cannot name (non-board): 2" in out
     assert "records with no chapter id (non-board): 0" in out
     assert "Mathematics 7: 'Integers' covers 7N1a, 7N1b" in out
+
+
+# ---- board records the no-verified-key gate withholds ------------------------
+
+def _unverified(i):
+    """A board record as a relink leaves one it could not verify: its
+    scheme quarantined, an empty scheme of its own mark value in its place."""
+    rec = board(i, stem=f"Why is the sea salty, question {i}?")
+    rec["answerScheme"] = {"totalMarks": 2, "markingPoints": [], "rubricLevels": [],
+                           "commonErrors": [], "alternativeAnswers": [], "modelAnswer": "",
+                           "modelAnswerLatex": "", "provenance": "none"}
+    return rec
+
+
+def _board_ids(layout) -> tuple[set, list[dict]]:
+    served = json.loads(layout.served.read_text(encoding="utf-8"))["questions"]
+    held_path = layout.excluded.with_name("board_withheld.json")
+    held = json.loads(held_path.read_text(encoding="utf-8"))["questions"]
+    return ({q["id"] for q in served if q["source"] == "cbse_board_paper"}, held)
+
+
+def test_two_merges_after_a_relink_keep_every_board_record_whole(layout):
+    """The merge reads its board records from the file it overwrites, and
+    _merge_excluded.json keeps 200 characters of a stem and is rewritten
+    every run. A withheld board record is kept whole in board_withheld.json,
+    which every run adds to and none overwrites, and the next merge reads it
+    back: after two merges every board record is somewhere, whole."""
+    unverified = _unverified(2)
+    _write(layout.served, [board(1), unverified], chapterTaggedAt="t", chapterTagMethod="m")
+    for _ in range(2):
+        assert mqb.run(layout, check=False) == 0
+
+    served_ids, held = _board_ids(layout)
+    assert served_ids == {board(1)["id"]}
+    assert held == [unverified]
+    excluded = json.loads(layout.excluded.read_text(encoding="utf-8"))["excluded"]
+    assert [(e["id"], e["reason"]) for e in excluded] == [(unverified["id"], "no-verified-key")]
+
+
+def test_a_withheld_record_the_relink_later_verifies_is_served_again(layout):
+    unverified = _unverified(2)
+    _write(layout.served, [board(1), unverified], chapterTaggedAt="t", chapterTagMethod="m")
+    mqb.run(layout, check=False)
+    # A later, better relink verifies it where it is kept.
+    held_path = layout.excluded.with_name("board_withheld.json")
+    verified = board(2, stem=unverified["stem"])
+    _write(held_path, [verified])
+
+    mqb.run(layout, check=False)
+    served_ids, held = _board_ids(layout)
+    assert served_ids == {board(1)["id"], verified["id"]}
+    assert [q["id"] for q in held] == [verified["id"]]      # never dropped
+
+
+def test_check_writes_no_withheld_file(layout):
+    _write(layout.served, [board(1), _unverified(2)], chapterTaggedAt="t", chapterTagMethod="m")
+    assert mqb.run(layout, check=True) == 0
+    assert not layout.excluded.with_name("board_withheld.json").exists()

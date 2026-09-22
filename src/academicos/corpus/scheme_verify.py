@@ -516,7 +516,7 @@ def verify(record: dict, answer: str, option: str | None = None, *,
 # that does not agree with it -- by this share of its score. Only rows the
 # gates above would accept compete (see `AnswerKeyIndex.choose`), and on the
 # served bank two such rows rarely meet: of the 89 subjective and objective
-# picks accepted, 1 has a subjective runner-up at all (430/5/2 Q28, 0.42 of
+# picks accepted at f34680f, 1 has a subjective runner-up at all (430/5/2 Q28, 0.42 of
 # its pick's score). So the margin is a guard for the day two evidenced rows
 # disagree, set where one row's score is plainly not the other's; it is not
 # what the precision rests on -- the gates are, and the objective rule that
@@ -547,7 +547,16 @@ NOT_AN_OPTION = "not-an-option"
 # the join did not pick: another row answers the question better, or none
 # could be told apart from its runner-up.
 OUTRANKED = "outranked"
-JOIN_REASONS = (NEAR_TIE, CONFLICTING_KEYS, UNANCHORED, NOT_AN_OPTION, OUTRANKED)
+# The pick is filed under the question's own paper code at another number.
+# One set's scheme numbers as that set's paper does, so such a row answers
+# another question of the same paper: of the 89 picks the census accepted, 4
+# were such rows, and 3 of them wrong or a fused stem's (30/1/1 Q3 took Q8's
+# "x-axis"; 64/4/1 Q29 Q22's Visually Impaired alternative; 430/3/3 Q7 Q9's
+# "6.4 cm"). Taken only when anchored: the 4th, 66/1/1 Q10, took Q3's "Both
+# the Statements are true", and its own row names the same option.
+OTHER_NUMBER = "other-number"
+JOIN_REASONS = (NEAR_TIE, CONFLICTING_KEYS, UNANCHORED, NOT_AN_OPTION, OUTRANKED,
+                OTHER_NUMBER)
 
 # "Q.", "Q. No. 12", "(a)", "(iii)", "2." -- the labels a scheme row opens with
 # before it restates its question.
@@ -636,13 +645,16 @@ def restates(stem: str, answer: str) -> bool:
     return False
 
 
-def join_verdict(record: dict, answer: str, *, ratio: float, anchored: bool) -> Verdict:
+def join_verdict(record: dict, answer: str, *, ratio: float, anchored: bool,
+                 other_number: bool = False) -> Verdict:
     """Accept the content join's best candidate for `record`, or say why not.
 
     `ratio` is the runner-up's score over the best's (0 when nothing
     disagrees with the best); `anchored` is True when the best sits at the
     question's own (code, q_no) or at that of the same question served from
-    another set. Both come from the pool, which only the index sees.
+    another set. `other_number` is True when the best is filed under the
+    question's own code at another number (OTHER_NUMBER), refused unless
+    anchored. All three come from the pool, which only the index sees.
 
     An objective key is judged on its words alone: a letter from another
     set's row may name another option, and a bare letter is not evidence
@@ -656,9 +668,13 @@ def join_verdict(record: dict, answer: str, *, ratio: float, anchored: bool) -> 
         letter = outright_option(answer, options)
         if letter is None:
             return Verdict(NOT_AN_OPTION)
+        if other_number and not anchored:
+            return Verdict(OTHER_NUMBER)
         if ratio > 1.0 - JOIN_MARGIN:
             return Verdict(CONFLICTING_KEYS)
         return Verdict(score=verdict.score, option=letter)
+    if other_number and not anchored:
+        return Verdict(OTHER_NUMBER)
     if not anchored and not restates(str(record.get("stem") or ""), answer):
         return Verdict(UNANCHORED)
     if ratio > 1.0 - JOIN_MARGIN:

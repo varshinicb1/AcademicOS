@@ -237,8 +237,8 @@ def verify_answer(record: dict[str, Any], answer: OfficialAnswer) -> Verdict:
 
 # Reasons the relink adds to `scheme_verify.REASONS`. Those judge one answer
 # against its question; `scheme_verify.JOIN_REASONS` (near-tie,
-# conflicting-keys, unanchored, not-an-option, outranked) judge the content
-# join's pick and the rows under the question's own number it passed over;
+# conflicting-keys, unanchored, not-an-option, outranked, other-number) judge
+# the content join's pick and the rows under the question's own number it passed over;
 # this one judges what the index says about a scheme the record already has.
 # A scheme for which the index holds no accepted row. An objective one cannot
 # be checked at all: `build_official_scheme` wrote the option's own text as
@@ -302,6 +302,9 @@ class Choice:
     # question's own number or a sibling's. None when nothing was ranked.
     ratio: float | None = None
     anchored: bool = False
+    # The row the join picked, accepted or refused: `best` once accepted
+    # (with the option letter its words are), the refused pick otherwise.
+    pick: OfficialAnswer | None = None
 
 
 @dataclass
@@ -458,6 +461,15 @@ class AnswerKeyIndex:
         each other? ...") to set 1's tertiary-sector answer, 0.93 of whose
         score it had.
 
+        A pick filed under the question's OWN code at another number answers
+        another question of the same paper -- one set's scheme numbers as
+        that set's paper does -- and is refused (OTHER_NUMBER) unless it is
+        anchored by itself: a row at an anchor naming the same option, for an
+        objective key; for a subjective one, the row sitting at an anchor. An
+        edition of the own row does not anchor it: "XII_029_MS_64-4-1 ENG
+        UNSIGNED.pdf" prints one Visually Impaired alternative under Q22 and
+        Q29, and Q22's was taken for Q29 as its edition (judged wrong).
+
         `siblings` are the (code, q_no) of the same question served from
         other sets of the series. A row is anchored when it, or an edition of
         it, sits at the question's own number or a sibling's: "55-1-1,2,3
@@ -533,7 +545,11 @@ class AnswerKeyIndex:
             return Choice(best=None, rejected=[(c, _own_verdict(record, c)) for c in own])
 
         best = pool.answers[pick]
-        verdict = join_verdict(record, pool.texts[pick], ratio=ratio, anchored=anchored)
+        other_number = best.code == norm and best.q_no != q_no
+        if other_number and not options:
+            anchored = pick in at_anchor
+        verdict = join_verdict(record, pool.texts[pick], ratio=ratio, anchored=anchored,
+                               other_number=other_number)
         refused: list[tuple[OfficialAnswer, Verdict]] = []
         if not verdict.accepted:
             refused.append((best, verdict))
@@ -543,13 +559,14 @@ class AnswerKeyIndex:
         rejected = refused + [(c, _own_verdict(record, c)) for c in own
                               if not any(c is a for a in listed)]
         if not verdict.accepted:
-            return Choice(best=None, rejected=rejected, ratio=ratio, anchored=anchored)
+            return Choice(best=None, rejected=rejected, ratio=ratio, anchored=anchored,
+                          pick=best)
         # The letter is the option the key's words are, never the row's own
         # letter column (another set's row may order the options differently);
         # a subjective pick carries none, or the scheme would be built objective.
         best = replace(best, correct_option=verdict.option)
         return Choice(best=best, rejected=rejected, verdict=verdict, ratio=ratio,
-                      anchored=anchored)
+                      anchored=anchored, pick=best)
 
     def lookup(self, code: str, q_no: int, record: dict[str, Any]) -> OfficialAnswer | None:
         """The official answer to label for this question, or None."""

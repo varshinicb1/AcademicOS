@@ -1069,6 +1069,105 @@ def test_a_row_is_not_ranked_by_the_next_question_it_ran_on_into(tmp_path):
     assert "C" not in {a.correct_option for a, v in choice.rejected if v.accepted}
 
 
+# cbse:q:src:4f6182240b214906a58eaeab:3 is 30/1/1 Q3. Its scheme file
+# "MS_X_041_Mathematics_30-1-1_2025-26 (1).pdf" numbers as the paper does:
+# Q3 keys B "6" (words that are no option of this stem, so the row is not
+# eligible) and Q8 keys A "x-axis" -- Q8's answer, whose words happen to be
+# option (A) here. The mid-point (0, 5.5) lies on the y-axis.
+MIDPOINT_STEM = ("The mid-point of the line segment joining the points P( -4, 5) and Q(4, 6) "
+                 "lies on : (A) x-axis (B) y-axis (C) origin (D) neither x-axis nor y-axis")
+MIDPOINT_SCHEME = "MS_X_041_Mathematics_30-1-1_2025-26 (1).pdf"
+MIDPOINT_Q3 = ("Mathematics", "X", "30/1/1", 3, "B", "6", "[]", 1.0, MIDPOINT_SCHEME)
+MIDPOINT_Q8 = ("Mathematics", "X", "30/1/1", 8, "A", "𝑥-axis", "[]", 1.0, MIDPOINT_SCHEME)
+
+
+def test_a_key_at_another_number_of_the_questions_own_paper_is_refused(tmp_path):
+    """One set's scheme numbers as that set's paper does, so a row under the
+    question's own code at another number answers another question on the
+    same paper. The census accepted 30/1/1 Q8's "x-axis" for Q3 (judged
+    wrong); the pick is now refused as other-number."""
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [MIDPOINT_Q3, MIDPOINT_Q8]))
+    record = rec(MIDPOINT_STEM, subject="Mathematics", marks=1)
+    choice = idx.choose("30/1/1", 3, record)
+
+    assert choice.best is None
+    assert choice.pick is not None and (choice.pick.code, choice.pick.q_no) == ("30/1/1", 8)
+    assert choice.anchored is False
+    assert choice.rejected[0][1].reason == "other-number"
+    # The same key served from another set's numbering is still a recovery.
+    assert join_verdict(record, "𝑥-axis", ratio=0.0, anchored=False).accepted
+    assert join_verdict(record, "𝑥-axis", ratio=0.0, anchored=False,
+                        other_number=True).reason == "other-number"
+
+
+def test_an_other_number_key_the_questions_own_row_repeats_is_kept(tmp_path):
+    """cbse:q:src:3901e48d946b1f956b5a21c7:10 (66/1/1 Q10). "66_1_1..pdf"
+    keys Q3 and Q10 alike, "Both the Statements are true", and the join
+    picks Q3's (load order): the question's own row names the same letter,
+    so the pick is anchored and kept."""
+    stem = ("Statement I : A financial market facilitates the transfer of savings from "
+            "savers to investors. Statement II : It gives savers the choice of different "
+            "investments and helps to channelise surplus funds into the most productive use. "
+            "Choose the correct option from the following : (A) Statement I is true and "
+            "Statement II is false. (B) Statement II is true and Statement I is false. "
+            "(C) Both the Statements are true. (D) Both the Statements are false.")
+    q3 = ("English", "XII", "66/1/1", 3, "C",
+          "Both the Statements are true 1 mark 4 Q. _------------ refers to doing the task "
+          "correctly and with minimum cost (A) Effectiveness (B) Coordination (C) Process "
+          "(D) Efficiency", "[]", 1.0, "66_1_1..pdf")
+    q10 = ("English", "XII", "66/1/1", 10, "C",
+           "Both the Statements are true 1 mark 11 Q. Choose the incorrect statement from "
+           "the following about functions of a Stock Exchange (A) Provides liquidity and "
+           "marketability to new securities (B) Ensures safety of transactions (C) Contributes "
+           "to economic growth (D) Provides scope for speculation", "[]", 1.0, "66_1_1..pdf")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [q3, q10]))
+    choice = idx.choose("66/1/1", 10, rec(stem, subject="Business Studies", marks=1))
+    assert choice.best is not None and choice.anchored
+    assert (choice.best.code, choice.best.q_no) == ("66/1/1", 3)
+    assert choice.best.correct_option == "C"
+
+
+def test_an_edition_of_the_own_row_does_not_anchor_another_number(tmp_path):
+    """cbse:q:src:c2655c8196cc86e419c8e9de:29 (64/4/1 Q29, world-map
+    features). "XII_029_MS_64-4-1  ENG UNSIGNED.pdf" prints one Visually
+    Impaired alternative under Q22 and Q29 (0.94 of their terms in common);
+    the join picked Q22's and called it anchored because it is an edition of
+    the own row. Its (29.3) answers a question this set does not ask (judged
+    wrong). At another number of the question's own paper, only the row
+    itself at an anchor would anchor it."""
+    stem = ("On the given political outline map of the World (on page 21), seven "
+            "geographical features have been marked as A, B, C, D, E, F and G. Identify "
+            "any five with the help of the following information and write their correct "
+            "names on the lines drawn near them : 5 1=5 A. An international airport in "
+            "South America B. A canal linking Atlantic Ocean with Pacific Ocean C. A major "
+            "seaport in Australia D. A terminal station of Trans-Siberian Railway E. A major "
+            "area of commercial livestock rearing F. An area of extensive commercial grain "
+            "farming G. A major seaport in Asia Note : The following questions are for "
+            "Visually Impaired Candidates only in lieu of Q. No. 29. Answer any five "
+            "questions out of the following : 5 1=5 (29.1) Name any one international "
+            "airport of Argentina. (29.2) Which canal links Atlantic Ocean with Pacific "
+            "Ocean ? (29.3) Name any one major seaport of Australia. (29.4) Which is the "
+            "terminal station on the eastern end of Trans-Siberian Railway ? (29.5) Mention "
+            "the major area of commercial livestock rearing in Argentina. (29.6) Name any "
+            "one area of extensive commercial grain farming. (29.7) Name any one major "
+            "seaport located in Pakistan.")
+    note = "Note: For Visually Impaired Candidates only in lieu of Q.No. 29"
+    arabia = "(29.3) Arabian Peninsula/ Mongolia / Central China / Tundra region of"
+    usa = "(29.4) United States of America (U.S.A)"
+    tail = "Note : For Visually Impaired Candidates only in lieu of Q. No 30"
+    scheme = "XII_029_MS_64-4-1  ENG UNSIGNED.pdf"
+    q22 = ("Geography", "XII", "64/4/1", 22, None, f"{note} {arabia} {usa}",
+           json.dumps([[note, 0.0], [arabia, 0.0], [usa, 0.0]]), 0.0, scheme)
+    q29 = ("Geography", "XII", "64/4/1", 29, None, f"{note} {arabia} {usa} {tail}",
+           json.dumps([[note, 0.0], [arabia, 0.0], [usa, 0.0], [tail, 0.0]]), 0.0, scheme)
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db", [q22, q29]))
+    choice = idx.choose("64/4/1", 29, rec(stem, subject="Geography", marks=3))
+    assert choice.best is None
+    assert choice.pick is not None and (choice.pick.code, choice.pick.q_no) == ("64/4/1", 22)
+    assert choice.anchored is False
+    assert choice.rejected[0][1].reason == "other-number"
+
+
 def test_english_core_rows_are_filed_under_their_real_paper(tmp_path):
     """The writer filed "XII_301_1_1_3_MS_unsigned (1).pdf" under 301/1/1
     (subject code 301 read as the series) and "XII_301_English Core_MS_Set
@@ -1140,6 +1239,124 @@ def test_the_merge_serves_no_board_record_without_a_verified_key():
     assert result.counts["board"] == 1
 
 
+def test_a_label_the_relink_did_not_stamp_is_no_verified_key():
+    """The served bank still carries 2,930 cbse_marking_scheme labels from
+    before Task 15, and hand audits found about 30% of them detectably wrong.
+    Only the relink's `build_official_scheme` stamps the row it verified
+    (metadata.schemeCode, metadata.schemeQNo), so a label without the stamp
+    fails closed, whether or not the merge ran after a relink."""
+    sys.path.insert(0, str(ROOT / "tests"))
+    from test_bank_merge import board
+    stamped = board(1)
+    stale = board(2)
+    stale["answerScheme"] = dict(stale["answerScheme"], metadata={})
+    half = board(3)
+    half["answerScheme"] = dict(half["answerScheme"], metadata={"schemeCode": "31/1/1"})
+    assert bank_merge.has_verified_key(stamped)
+    result = bank_merge.compose([stamped, stale, half], [], [])
+    assert [q["id"] for q in result.questions] == [stamped["id"]]
+    assert [(e["id"], e["reason"]) for e in result.excluded] == [
+        (stale["id"], "no-verified-key"), (half["id"], "no-verified-key")]
+
+
+def test_the_relinks_scheme_carries_the_stamp_the_merge_reads(tmp_path):
+    parse = tmp_path / "parse"
+    make_parse_tree(parse, "8" * 24, "Series 30/5/2 Mathematics")
+    idx = AnswerKeyIndex(make_answer_keys(tmp_path / "ak.db",
+                                          [POLE_OWN, POLE_SET1, COS_60, TAN_60]))
+    sys.path.insert(0, str(ROOT / "tests"))
+    from test_bank_merge import board
+    rec_ = board(17, id="cbse:q:src:" + "8" * 24 + ":17", subject="Mathematics",
+                 stem=POLE_STEM, marks=1, answerScheme={})
+    relink_answer_schemes([rec_], idx, parse_dir=parse)
+    assert bank_merge.has_verified_key(rec_)
+
+
+def test_an_enrich_run_relinks_the_withheld_board_records_too(tmp_path):
+    """A board record the merge withheld lives only in board_withheld.json.
+    The relink reads it there, so a later, better join can re-attach its key,
+    and writes it back there whole; it never enters the served files."""
+    script = _load_enrich_script()
+    data = tmp_path / "data"
+    parse = data / "parse"
+    make_parse_tree(parse, "8" * 24, "Series 30/5/2 Mathematics")
+    make_answer_keys(data / "answer_keys.db", [POLE_OWN, POLE_SET1, COS_60, TAN_60])
+    bank = data / "syllabus" / "questions.json"
+    mirror = tmp_path / "frontend" / "questions.json"
+    bank.parent.mkdir(parents=True)
+    bank.write_text(json.dumps({"questions": []}), encoding="utf-8")
+    held = bank.with_name("board_withheld.json")
+    pole = _board("8" * 24, 17, POLE_STEM, {}, subject="Mathematics", marks=1)
+    pole["source"] = "cbse_board_paper"
+    held.write_text(json.dumps({"questions": [pole]}), encoding="utf-8")
+
+    assert script.run(targets=[bank, mirror], quarantine=bank.with_name("q.json"),
+                      data_root=data, check=False) == 0
+
+    assert json.loads(bank.read_text(encoding="utf-8"))["questions"] == []
+    [back] = json.loads(held.read_text(encoding="utf-8"))["questions"]
+    assert back["id"] == pole["id"]
+    assert bank_merge.has_verified_key(back)
+    assert back["answerScheme"]["metadata"]["correctOption"] == "D"
+
+
+# --------------------------------------------------------------------------- #
+# the census through the real index
+# --------------------------------------------------------------------------- #
+
+DATA = ROOT / "academicos-data"
+SERVED = DATA / "syllabus" / "questions.json"
+
+
+@pytest.mark.skipif(not (DATA / "answer_keys.db").exists() or not SERVED.exists()
+                    or not (DATA / "parse").exists(),
+                    reason="needs academicos-data: answer_keys.db, the served bank, parse trees")
+def test_the_census_picks_are_what_choose_picks_today():
+    """The pinned precision below runs `join_verdict` on pool features frozen
+    in the fixture; this re-runs the join itself -- ranking, eligibility,
+    edition and sibling anchoring, the objective tie rule, the ratio -- over
+    the real bank, through `relink_answer_schemes` (and so `_siblings`), and
+    holds every census pair to its frozen pick, anchored flag and ratio. A
+    regression in `AnswerKeyIndex.choose` moves one of them."""
+    fx = json.loads(FIXTURE.read_text(encoding="utf-8"))
+    census = {p["id"]: p for p in fx["pairs"] if p["stratum"] == "join-accepted"}
+    assert len(census) == 89
+
+    records = [r for r in json.loads(SERVED.read_text(encoding="utf-8"))["questions"]
+               if r.get("source") == "cbse_board_paper"]
+    held = SERVED.with_name("board_withheld.json")
+    if held.exists():
+        ids = {r.get("id") for r in records}
+        records += [r for r in json.loads(held.read_text(encoding="utf-8"))["questions"]
+                    if r.get("id") not in ids]
+    assert census.keys() <= {r.get("id") for r in records}
+
+    index = AnswerKeyIndex(DATA / "answer_keys.db")
+    seen: dict[str, object] = {}
+    real_choose = index.choose
+
+    def recording(code, q_no, record, *, siblings=()):
+        choice = real_choose(code, q_no, record, siblings=siblings)
+        if record.get("id") in census:
+            seen[record["id"]] = choice
+        return choice
+
+    index.choose = recording
+    relink_answer_schemes(records, index, parse_dir=DATA / "parse")
+
+    assert seen.keys() == census.keys()
+    drift = []
+    for rid, p in census.items():
+        c = seen[rid]
+        got = ((c.pick.code, c.pick.q_no) if c.pick else None, c.anchored,
+               round(c.ratio or 0.0, 4), c.best is not None)
+        want = ((p["paperCode"], p["qNo"]), p["joinAnchored"],
+                round(p["joinRatio"] or 0.0, 4), _join_accepted(p))
+        if got != want:
+            drift.append((rid, got, want))
+    assert drift == []
+
+
 # --------------------------------------------------------------------------- #
 # calibration of the join: the combined fixture
 # --------------------------------------------------------------------------- #
@@ -1156,8 +1373,12 @@ def _join_accepted(p) -> bool:
     record = {"stem": p["stem"], "subject": p["subject"], "marks": p["marks"]}
     if "type" in p:
         record["type"] = p["type"]
+    # A census pair names the question's own (code, q_no) apart from the
+    # picked row's; the older strata are pairs at the question's own number.
+    other_number = ("questionCode" in p and p["paperCode"] == p["questionCode"]
+                    and p["qNo"] != p["questionQNo"])
     return join_verdict(record, row_text(ans.text()), ratio=p["joinRatio"],
-                        anchored=p["joinAnchored"]).accepted
+                        anchored=p["joinAnchored"], other_number=other_number).accepted
 
 
 def test_the_join_strata_are_seeded_and_judged():
@@ -1175,11 +1396,14 @@ def test_the_combined_fixture_is_precise():
 
     Precision is judged-correct over judged-correct plus judged-wrong among
     the accepted; cannot-tell pairs are counted apart, not as correct. Pinned
-    so a change to the join shows its cost: 116 correct, 3 wrong, 10
-    cannot-tell -- precision 0.975, or 0.899 if every cannot-tell were wrong.
-    The 3 wrong: 30/1/1 Q3 took 30/1/1 Q8's "x-axis"; 67/4/1 Q26 (Yash Ltd.'s
-    shares) took the debenture answer both sets print under Q26, its OR
-    part; 64/4/1 Q29 took another set's Visually Impaired alternative.
+    so a change to the join shows its cost: 116 correct, 1 wrong, 9
+    cannot-tell -- precision 0.991, or 0.921 if every cannot-tell were wrong.
+    The 1 wrong: 67/4/1 Q26 (Yash Ltd.'s shares) took the debenture answer
+    both sets print under Q26, its OR part -- at the question's own number,
+    which no rule here can tell from a right key. The other-number rule
+    refused 30/1/1 Q3 (Q8's "x-axis"), 64/4/1 Q29 (Q22's Visually Impaired
+    alternative), both judged wrong, and 430/3/3 Q7 (Q9's "6.4 cm" for a
+    stem that fuses Q7 to Q9, cannot-tell); it was 116, 3 and 10 before.
     Recall: 116 of the fixture's 153 pairs judged correct (0.758); the strata
     over-sample what the rules accept, so that is not the bank's recall."""
     fx = json.loads(FIXTURE.read_text(encoding="utf-8"))
@@ -1188,5 +1412,5 @@ def test_the_combined_fixture_is_precise():
               for j in ("correct", "wrong", "cannot-tell")}
     precision = judged["correct"] / (judged["correct"] + judged["wrong"])
     assert precision >= 0.95
-    assert judged == {"correct": 116, "wrong": 3, "cannot-tell": 10}
+    assert judged == {"correct": 116, "wrong": 1, "cannot-tell": 9}
     assert sum(p["judgement"] == "correct" for p in fx["pairs"]) == 153

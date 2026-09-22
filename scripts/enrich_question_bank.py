@@ -19,8 +19,14 @@ What it does, in order:
      scheme file). It merges, never overwrites: a rerun finds almost nothing
      left to remove, so an overwrite would lose the review list.
 
+  5. Relinks the board records the merge withheld as no-verified-key too,
+     read from board_withheld.json next to the served bank and written back
+     there whole (never into the served files), so a later, better join can
+     re-attach a key.
+
 After a real run, run merge_question_banks.py again: its no-verified-key gate
-reads the labels this relink writes.
+reads the labels and stamps this relink writes, and serves a withheld record
+this relink verified.
 
 Idempotent: re-running does not double-bump versions or overwrite a rights
 decision someone has since recorded. `--check` verifies without writing, for CI.
@@ -41,6 +47,7 @@ from academicos.assessment.question_bank import (          # noqa: E402
     enrich_all,
     relink_answer_schemes,
 )
+from academicos.corpus import bank_merge                     # noqa: E402
 
 TARGETS = [
     REPO / "academicos-data" / "syllabus" / "questions.json",
@@ -152,14 +159,27 @@ def run(*, targets: list[Path], quarantine: Path, data_root: Path, check: bool) 
           "across {distinct_codes:,} paper codes".format(**stats))
     print()
 
-    had_official = {r.get("id") for r in records
+    # Board records the merge withheld as no-verified-key live only in
+    # board_withheld.json. They are relinked with the served ones (in one
+    # pass, so each finds its siblings in the other), so that a better join
+    # can re-attach a key the next merge then serves, and written back there.
+    held_path = primary.with_name(bank_merge.WITHHELD_NAME)
+    held_all = bank_merge.load_withheld(held_path)
+    served_ids = {r.get("id") for r in records}
+    held = [r for r in held_all if r.get("id") not in served_ids]
+    if held_all:
+        print(f"plus {len(held):,} withheld board records from {_rel(held_path)} "
+              f"(relinked, written back there, never served from here)")
+        print()
+
+    had_official = {r.get("id") for r in records + held
                     if (r.get("answerScheme") or {}).get("provenance") == "cbse_marking_scheme"}
-    report = relink_answer_schemes(records, index, parse_dir=data_root / "parse")
+    report = relink_answer_schemes(records + held, index, parse_dir=data_root / "parse")
     print("relink")
     for line in report.lines():
         print("  " + line)
     print()
-    print_subject_grade_table(records, report, had_official)
+    print_subject_grade_table(records + held, report, had_official)
     print()
 
     census = enrich_all(records)
@@ -185,6 +205,9 @@ def run(*, targets: list[Path], quarantine: Path, data_root: Path, check: bool) 
     saved = write_quarantine(quarantine, report.quarantine)
     print(f"wrote {_rel(quarantine)}  ({len(report.quarantine):,} this run, "
           f"{len(saved['entries']):,} entries in all)")
+    if held:
+        bank_merge.write_withheld(held_path, bank_merge.hold(held_all, held))
+        print(f"wrote {_rel(held_path)}  ({len(held):,} relinked)")
 
     text = json.dumps(payload, ensure_ascii=False)
     for target in targets:

@@ -13,6 +13,13 @@ frontend/assets/corpus/questions.json, byte-identical, plus every record it left
 out and why in academicos-data/syllabus/_merge_excluded.json. The rules live in
 src/academicos/corpus/bank_merge.py; this file only does the I/O.
 
+A board record the no-verified-key gate withholds is kept whole in
+academicos-data/syllabus/board_withheld.json, which this script and
+enrich_question_bank.py both read back and neither overwrites: the board
+records come from the served file this script replaces, and
+_merge_excluded.json keeps 200 characters of a stem and is rewritten every
+run, so without it a withheld question would leave the pipeline for good.
+
 It refuses a source with no chapter tags. Re-running a builder discards the tags
 apply_chapter_tags.py wrote, and merging such a source ships class 6-9 with no
 chapter a paper blueprint can select on.
@@ -43,6 +50,12 @@ class Paths:
     cbe: Path
     sqp: Path
     excluded: Path
+    # Withheld board records, whole. Next to `excluded` unless named.
+    held: Path | None = None
+
+    @property
+    def withheld(self) -> Path:
+        return self.held or self.excluded.with_name(bank_merge.WITHHELD_NAME)
 
 
 DEFAULT = Paths(
@@ -95,7 +108,9 @@ def run(paths: Paths, *, check: bool) -> int:
                   f"run scripts/apply_chapter_tags.py first")
             return 2
 
-    result = bank_merge.compose(served["questions"], cbe["questions"], sqp["questions"])
+    held = bank_merge.load_withheld(paths.withheld)
+    result = bank_merge.compose(served["questions"], cbe["questions"], sqp["questions"],
+                                held=held)
     names = _chapter_names(result.questions)
     questions = bank_merge.apply_chapter_names(result.questions, names)
     covered = sum(1 for q in questions if _has_official_scheme(q))
@@ -136,10 +151,15 @@ def run(paths: Paths, *, check: bool) -> int:
         for (subject, grade), labels in sorted(shared.items(), key=lambda kv: (str(kv[0][0]), kv[0][1] or 0)):
             for label, cids in sorted(labels.items()):
                 print(f"  {subject} {grade}: {label!r} covers {', '.join(cids)}")
+    print(f"board records withheld, kept whole in {paths.withheld.name}: "
+          f"{len(result.withheld):,}")
     if check:
         print("\n--check: nothing written")
         return 0
 
+    # The withheld records first: a board record leaving the served file is
+    # kept somewhere before that file is replaced.
+    bank_merge.write_withheld(paths.withheld, bank_merge.hold(held, result.withheld))
     body = json.dumps(payload, ensure_ascii=False)
     for target in (paths.served, paths.apk):
         target.parent.mkdir(parents=True, exist_ok=True)
@@ -150,7 +170,8 @@ def run(paths: Paths, *, check: bool) -> int:
         {"excluded": result.excluded, "counts": dict(collections.Counter(
             e["reason"] for e in result.excluded))}, ensure_ascii=False, indent=1),
         encoding="utf-8")
-    print(f"\nwrote {paths.served}\nwrote {paths.apk}\nwrote {paths.excluded}")
+    print(f"\nwrote {paths.withheld}\nwrote {paths.served}\nwrote {paths.apk}"
+          f"\nwrote {paths.excluded}")
     return 0
 
 

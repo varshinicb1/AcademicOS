@@ -8589,7 +8589,7 @@
    "note": "World-map features; the key is another set's Visually Impaired alternative ((29.3) Arabian Peninsula ...), not this set's.",
    "joinPicked": true,
    "joinRatio": 0.0,
-   "joinAnchored": true
+   "joinAnchored": false
   },
   {
    "id": "cbse:q:src:c7dde115d25c393b11b0a613:4",
@@ -10349,5 +10349,5 @@
    "joinAnchored": false
   }
  ],
- "joinFields": "joinPicked: the join's pick for the question (at the commit that added the join strata) is this pair's row. joinRatio: the runner-up's score over the pick's. joinAnchored: the pick, or an edition of it ranked above the runner-up, sits at the question's own (code, q_no) or at that of the same question served from another set. Pool features: only the index sees the pool, so they are stored, and the test recomputes the rest."
+ "joinFields": "joinPicked: the join's pick for the question (at the commit that added the join strata) is this pair's row. joinRatio: the runner-up's score over the pick's. joinAnchored: the pick, or an edition of it ranked above the runner-up, sits at the question's own (code, q_no) or at that of the same question served from another set. A pick filed under the question's own code at another number is anchored only by itself sitting at an anchor, or, for an objective key, by a row at an anchor naming the same option -- never as an edition of the own row (Task 151 review: 64/4/1 Q29's pick of Q22 was recorded anchored that way, and is now false). Pool features: only the index sees the pool, so they are stored, and the test recomputes the rest."
 }

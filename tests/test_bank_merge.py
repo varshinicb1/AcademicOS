@@ -26,6 +26,9 @@ def board(i=1, **kw):
              "keyword": "scattering", "isRequired": True, "synonyms": []}],
             "rubricLevels": [], "commonErrors": [], "alternativeAnswers": [],
             "modelAnswer": "Scattering of light", "modelAnswerLatex": "",
+            # The relink's stamp of the official row it verified: without it
+            # the merge takes the label for a pre-Task-15 one.
+            "metadata": {"schemeCode": "31/1/1", "schemeQNo": i},
             "provenance": "cbse_marking_scheme"},
         "estimatedTimeMinutes": 4, "marks": 2, "language": "en",
         "source": "cbse_board_paper", "qualityScore": 0.8, "tags": [],
