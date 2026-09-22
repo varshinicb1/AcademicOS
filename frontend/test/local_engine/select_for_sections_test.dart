@@ -45,4 +45,21 @@ void main() {
     final picked = selectForSections(pool, [_s('A', 1, 2), _s('A2', 1, 2)]);
     expect(picked.map((q) => q.id).toSet(), hasLength(picked.length));
   });
+
+  test("pickForSections keeps each section's picks apart, so a short one is visible", () {
+    // Two sections of the same marks: counting a flat list by marks could not
+    // tell which of them came out short.
+    final pool = [_q('a', 1), _q('b', 1), _q('c', 1)];
+    final picks = pickForSections(pool, [_s('A', 1, 2), _s('A2', 1, 2)]);
+    expect(picks.map((p) => p.length), [2, 1]);
+  });
+
+  test('the shortfall message names every short section', () {
+    final e = InsufficientQuestionsException('English', 10, const [
+      SectionShortfall(sectionId: 'B', marksPerQuestion: 2, wanted: 3, found: 0),
+      SectionShortfall(sectionId: 'C', marksPerQuestion: 3, wanted: 3, found: 1),
+    ]);
+    expect(e.toString(), contains('Only 0 of 3 two-mark questions for English class 10'));
+    expect(e.toString(), contains('Only 1 of 3 three-mark questions for English class 10'));
+  });
 }

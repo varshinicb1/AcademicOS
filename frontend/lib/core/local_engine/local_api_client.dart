@@ -51,27 +51,70 @@ class NoQuestionsForGradeException implements Exception {
   String toString() => 'There are no $subject questions for class $grade yet.';
 }
 
-/// Fill each section with questions of exactly its marks, in pool order,
-/// never reusing one.
+/// One section the pool could not fill: [found] of the [wanted] questions
+/// worth [marksPerQuestion] marks.
+class SectionShortfall {
+  const SectionShortfall({
+    required this.sectionId,
+    required this.marksPerQuestion,
+    required this.wanted,
+    required this.found,
+  });
+  final String sectionId;
+  final int marksPerQuestion;
+  final int wanted;
+  final int found;
+}
+
+/// The grade has questions, but not enough of some section's marks to fill
+/// it.
 ///
-/// The quick path used to take the first eleven search hits whatever their
-/// marks, and generatePaper then dropped every one that fitted no section: a
-/// 20-mark class 9 Science paper came out as 2 questions worth 4 marks.
-List<Question> selectForSections(List<Question> pool, List<SectionBlueprint> sections) {
+/// Checking only for an empty pool let English class 10 -- 127 one-markers
+/// and no 2- or 3-markers in the bundled corpus (2026-09-22) -- come out as 5
+/// questions worth 5 marks under a "20 marks" header. About 10 of the 25
+/// subject/grade pairs the corpus holds are short like this, and a chapter
+/// filter can make any of the others short too, so the paper is refused
+/// rather than printed with the wrong total.
+class InsufficientQuestionsException implements Exception {
+  InsufficientQuestionsException(this.subject, this.grade, this.shortfalls);
+  final String subject;
+  final int grade;
+  final List<SectionShortfall> shortfalls;
+
+  static const _numberWords = {1: 'one', 2: 'two', 3: 'three', 4: 'four', 5: 'five'};
+
+  @override
+  String toString() => shortfalls
+      .map((s) => 'Only ${s.found} of ${s.wanted} '
+          '${_numberWords[s.marksPerQuestion] ?? '${s.marksPerQuestion}'}-mark '
+          'questions for $subject class $grade.')
+      .join(' ');
+}
+
+/// Fill each section with questions of exactly its marks, in pool order,
+/// never reusing one, and return each section's picks separately so a caller
+/// can see which one came out short.
+List<List<Question>> pickForSections(List<Question> pool, List<SectionBlueprint> sections) {
   final used = <String>{};
-  final out = <Question>[];
+  final out = <List<Question>>[];
   for (final section in sections) {
     final picks = pool
         .where((q) => q.marks == section.marksPerQuestion && !used.contains(q.id))
         .take(section.questionCount)
         .toList();
-    for (final q in picks) {
-      used.add(q.id);
-      out.add(q);
-    }
+    used.addAll(picks.map((q) => q.id));
+    out.add(picks);
   }
   return out;
 }
+
+/// [pickForSections], flattened in section order.
+///
+/// The quick path used to take the first eleven search hits whatever their
+/// marks, and generatePaper then dropped every one that fitted no section: a
+/// 20-mark class 9 Science paper came out as 2 questions worth 4 marks.
+List<Question> selectForSections(List<Question> pool, List<SectionBlueprint> sections) =>
+    pickForSections(pool, sections).expand((picks) => picks).toList();
 
 const editableAssessmentStatuses = {
   AssessmentStatus.draft,
@@ -439,10 +482,25 @@ class LocalApiClient extends ApiClient {
     if (pool.isEmpty) {
       throw NoQuestionsForGradeException(request.subject, request.grade);
     }
-    // Saved only once there is something to put in it, so a refused
-    // request leaves no empty draft in the Assessments list.
+    final sections = assessment.blueprint.sections;
+    final picks = pickForSections(pool, sections);
+    final shortfalls = [
+      for (var i = 0; i < sections.length; i++)
+        if (picks[i].length < sections[i].questionCount)
+          SectionShortfall(
+            sectionId: sections[i].id,
+            marksPerQuestion: sections[i].marksPerQuestion,
+            wanted: sections[i].questionCount,
+            found: picks[i].length,
+          ),
+    ];
+    if (shortfalls.isNotEmpty) {
+      throw InsufficientQuestionsException(request.subject, request.grade, shortfalls);
+    }
+    // Saved only once every section can be filled, so a refused request
+    // leaves no empty draft in the Assessments list.
     LocalStore.instance.upsertAssessment(assessment.toJson());
-    final selected = selectForSections(pool, assessment.blueprint.sections);
+    final selected = picks.expand((p) => p).toList();
 
     final templates = await getSchoolPaperTemplates(schoolId);
     final template = templates.firstWhere((t) => t.isDefault, orElse: () => templates.first);

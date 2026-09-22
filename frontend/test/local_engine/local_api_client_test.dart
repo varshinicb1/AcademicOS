@@ -149,6 +149,19 @@ void main() {
           reason: 'a refused request must not leave an empty draft in the Assessments list');
     });
 
+    // English class 10 holds 127 one-markers and no 2- or 3-markers
+    // (2026-09-22): the paper used to come out as 5 questions worth 5 marks
+    // under a "20 marks" header.
+    test('a grade that cannot fill a section refuses instead of printing a short paper', () async {
+      await expectLater(
+        () => api.quickGeneratePaper(const QuickPaperRequest(subject: 'English', grade: 10, totalMarks: 20)),
+        throwsA(isA<InsufficientQuestionsException>().having(
+            (e) => e.toString(), 'message', contains('Only 0 of 3 two-mark questions for English class 10'))),
+      );
+      expect(await api.getAssessmentsBySchool(AppConstants.currentSchoolId), isEmpty,
+          reason: 'a refused request must not leave an empty draft in the Assessments list');
+    });
+
     test('the paper carries the requested grade and fills every section', () async {
       final paper = await api.quickGeneratePaper(
           const QuickPaperRequest(subject: 'Science', grade: 10, totalMarks: 20));
