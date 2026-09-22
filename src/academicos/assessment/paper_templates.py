@@ -55,6 +55,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Callable, Literal, Optional
 
+from .pool import near_duplicate
 from .schemas import Camel, DifficultyDistribution, PaperTemplateDraft, QuestionSchema, \
     QuestionType, TemplateScope, TemplateSection
 
@@ -475,6 +476,9 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
     keyed = [q for q in candidates if has_verified_key(q)]
     keyed_ids = {q.id for q in keyed}
     claimed: set[str] = set()
+    # Every question printed so far, compulsory or OR: a later pick must not
+    # repeat one of them in other words (`pool.near_duplicate`).
+    printed: list[QuestionSchema] = []
     plans: list[SectionPlan] = []
     firsts: list[_FirstPass] = []
 
@@ -499,11 +503,13 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
                                        and scope.in_scope(q)])
 
         needed = section.question_count
-        picked = _pick(eligible, section, needed)
+        picked = _pick(eligible, section, needed, avoid=printed)
+        printed.extend(picked)
         borrowed: list[QuestionSchema] = []
         notes: list[str] = []
         if len(picked) < needed and fill_from_outside_scope and outside:
-            borrowed = _pick(outside, section, needed - len(picked))
+            borrowed = _pick(outside, section, needed - len(picked), avoid=printed)
+            printed.extend(borrowed)
             notes.append(
                 f"{section.title}: {len(borrowed)} question(s) taken from outside the "
                 f"chosen chapters to fill the section ({', '.join(q.id for q in borrowed)}).")
@@ -526,8 +532,10 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
         alternatives = _pair_choices(
             section, picked + borrowed,
             [q for q in eligible if q.id not in claimed],
-            [q for q in outside if q.id not in claimed] if fill_from_outside_scope else [])
+            [q for q in outside if q.id not in claimed] if fill_from_outside_scope else [],
+            avoid=printed)
         claimed.update(q.id for q in alternatives.values())
+        printed.extend(alternatives.values())
         mix_notes, mix_fixes = _mix_notes(section, picked + borrowed, left_out)
         notes.extend(mix_notes)
         choice_notes, choice_fixes = _choice_notes(section, picked + borrowed, alternatives,
@@ -601,7 +609,8 @@ def _merge_fixes(first: list[SectionFix], then: list[SectionFix]) -> list[Sectio
 
 
 def _pair_choices(section: TemplateSection, printed: list[QuestionSchema],
-                  pool: list[QuestionSchema], outside: list[QuestionSchema],
+                  pool: list[QuestionSchema], outside: list[QuestionSchema], *,
+                  avoid: Optional[list[QuestionSchema]] = None,
                   ) -> dict[str, QuestionSchema]:
     """An OR alternative for `choice_count` of the printed questions.
 
@@ -612,23 +621,29 @@ def _pair_choices(section: TemplateSection, printed: list[QuestionSchema],
     question a competency-based one. The last questions of the section carry
     the ORs, as in the SQPs (Science Section D: all three; Social Science
     Section D: all four). Outside-scope questions are used only when the
-    caller allowed filling from outside the scope, and are named in a note."""
+    caller allowed filling from outside the scope, and are named in a note.
+    An alternative that repeats a question already on the paper (`avoid`,
+    and the ORs paired here) in other words is never used."""
     want = min(section.choice_count, len(printed))
     if want <= 0:
         return {}
+    on_paper = list(avoid or [])
     left = _order(pool) + _order(outside)
     pairs: dict[str, QuestionSchema] = {}
     for primary in printed[len(printed) - want:]:
-        if not left:
-            break
         chapters = set(primary.chapter_ids)
         cbq = _is_competency(primary)
         # First best by (same chapter, same competency-ness), ties to the
-        # better-ordered question -- `left` is already best first.
-        alt = max(enumerate(left), key=lambda ic: (
-            bool(chapters & set(ic[1].chapter_ids)), _is_competency(ic[1]) == cbq, -ic[0]))[1]
+        # better-ordered question -- `left` is already best first. Only the
+        # candidates actually reached are compared with the paper.
+        ranked = sorted(range(len(left)), key=lambda i: (
+            not chapters & set(left[i].chapter_ids), _is_competency(left[i]) != cbq, i))
+        alt = next((left[i] for i in ranked if not clashes(left[i], on_paper)), None)
+        if alt is None:
+            break
         pairs[primary.id] = alt
         left.remove(alt)
+        on_paper.append(alt)
     return pairs
 
 
@@ -665,29 +680,51 @@ def _order(pool: list[QuestionSchema]) -> list[QuestionSchema]:
     return sorted(pool, key=lambda q: (-q.quality_score, q.id))
 
 
-def _pick(pool: list[QuestionSchema], section: TemplateSection, n: int) -> list[QuestionSchema]:
+def clashes(q: QuestionSchema, printed: list[QuestionSchema]) -> Optional[QuestionSchema]:
+    """The question on the paper that `q` repeats in other words, if any.
+
+    Near-identical stems never share a paper (Task 903): the served bank
+    holds the same MCQ from two board papers under two ids, which the pool's
+    own dedupe lets through (see `pool.near_duplicate`)."""
+    for other in printed:
+        if other.id != q.id and near_duplicate(q.stem, other.stem):
+            return other
+    return None
+
+
+def _pick(pool: list[QuestionSchema], section: TemplateSection, n: int, *,
+          avoid: Optional[list[QuestionSchema]] = None) -> list[QuestionSchema]:
     """Up to `n` questions honouring the section's difficulty mix and
     competency share as far as the pool allows. When a difficulty runs out,
     the slot goes to the nearest other difficulty rather than staying empty:
     a slightly easier paper is a better outcome than a shorter one, and the
-    mismatch is reported by `_mix_notes`."""
+    mismatch is reported by `_mix_notes`. A question repeating one already
+    printed (`avoid`) or picked here is skipped (`clashes`)."""
     if n <= 0 or not pool:
         return []
 
+    printed = list(avoid or [])
     remaining = _order(pool)
     targets = _difficulty_targets(section.difficulty_mix, n)
     cbq_target = round((section.competency_share or 0.0) * n)
     picked: list[QuestionSchema] = []
+    repeats: set[str] = set()      # clash once, clash for good: `printed` only grows
+
+    def usable(q: QuestionSchema) -> bool:
+        if q.id in repeats:
+            return False
+        if clashes(q, printed):
+            repeats.add(q.id)
+            return False
+        return True
 
     def take(from_list: list[QuestionSchema]) -> Optional[QuestionSchema]:
-        if not from_list:
-            return None
         want_cbq = sum(1 for q in picked if _is_competency(q)) < cbq_target
         if want_cbq:
             for q in from_list:
-                if _is_competency(q):
+                if _is_competency(q) and usable(q):
                     return q
-        return from_list[0]
+        return next((q for q in from_list if usable(q)), None)
 
     for difficulty, count in targets:
         for _ in range(count):
@@ -695,10 +732,14 @@ def _pick(pool: list[QuestionSchema], section: TemplateSection, n: int) -> list[
             if q is None:
                 break
             picked.append(q)
+            printed.append(q)
             remaining.remove(q)
     while len(picked) < n and remaining:
         q = take(remaining)
+        if q is None:
+            break
         picked.append(q)
+        printed.append(q)
         remaining.remove(q)
     return picked
 

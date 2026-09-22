@@ -259,6 +259,26 @@ def test_presets_are_read_only_but_copyable(tmp_path, monkeypatch):
 
 # ------------------------------------------------------------------ availability + generation
 
+# Words that make each fixture question's stem its own. Two stems that
+# differ only in an index ("One-mark item 3?" / "One-mark item 4?") are one
+# question to the near-duplicate guard (pool.near_duplicate, Task 903), which
+# keeps the second off the paper -- so a fixture bank of such stems could
+# never fill a section. Neutral nouns: none is a map, case or source word the
+# kind checks read.
+_VOCAB = ("magnet", "copper", "enzyme", "glacier", "harvest", "lantern", "orbit",
+          "pigment", "quartz", "ribbon", "saddle", "turbine", "valley", "walnut",
+          "yeast", "anchor", "bridge", "candle", "desert", "engine", "falcon",
+          "garnet", "hammer", "island", "jacket", "kettle", "ladder", "meadow",
+          "needle", "oyster", "pepper", "quiver", "rocket", "silver", "tunnel",
+          "velvet", "window", "zipper", "barley", "cotton", "dragon", "feather",
+          "ginger", "helmet", "indigo", "jasmine", "kidney", "lemon")
+
+
+def _distinct(qid: str) -> str:
+    import random
+    return " ".join(random.Random(qid).sample(_VOCAB, 6))
+
+
 def _record(qid: str, marks: int, chapter: str, *, keyed: bool = True,
             difficulty: str = "medium", subject: str = "Science", grade: int = 10,
             qtype: str = "short_answer") -> dict:
@@ -266,7 +286,7 @@ def _record(qid: str, marks: int, chapter: str, *, keyed: bool = True,
         "id": qid, "questionBankId": "fixture", "subject": subject, "grade": grade,
         "chapterIds": [chapter], "competencyIds": [], "bloomLevel": "understand",
         "difficulty": difficulty, "type": qtype,
-        "stem": f"Fixture question {qid}: explain the observed change in detail.",
+        "stem": f"Fixture question {qid}: explain {_distinct(qid)}.",
         "parts": [],
         "answerScheme": {
             "totalMarks": marks,
@@ -708,7 +728,7 @@ def test_one_unreadable_template_row_does_not_break_the_list(tmp_path, monkeypat
 def _q(qid: str, marks: int, stem: str, qtype: str, quality: float = 0.8):
     from academicos.assessment.schemas import QuestionSchema
     rec = _record(qid, marks, "ch1", qtype=qtype, subject="Social Science")
-    rec["stem"] = stem
+    rec["stem"] = f"{stem} [{_distinct(qid)}]"
     rec["qualityScore"] = quality
     return QuestionSchema.model_validate(rec)
 

@@ -3056,6 +3056,51 @@
         "title": "NodeQuery",
         "type": "object"
       },
+      "PaperEditResponse": {
+        "properties": {
+          "counts": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SwapCounts"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "notes": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Notes",
+            "type": "array"
+          },
+          "paper": {
+            "$ref": "#/components/schemas/GeneratedPaper"
+          },
+          "questionId": {
+            "title": "Questionid",
+            "type": "string"
+          },
+          "replacedQuestionId": {
+            "title": "Replacedquestionid",
+            "type": "string"
+          },
+          "slot": {
+            "title": "Slot",
+            "type": "string"
+          }
+        },
+        "required": [
+          "paper",
+          "slot",
+          "replacedQuestionId",
+          "questionId"
+        ],
+        "title": "PaperEditResponse",
+        "type": "object"
+      },
       "PaperGenerationRequest": {
         "properties": {
           "assessmentId": {
@@ -3691,6 +3736,20 @@
           "periodMinutes"
         ],
         "title": "PeriodConfigurationResponse",
+        "type": "object"
+      },
+      "PickRequest": {
+        "properties": {
+          "questionId": {
+            "minLength": 1,
+            "title": "Questionid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "questionId"
+        ],
+        "title": "PickRequest",
         "type": "object"
       },
       "PracticeItemResponse": {
@@ -6944,6 +7003,58 @@
           "sourceType"
         ],
         "title": "SubtopicResponse",
+        "type": "object"
+      },
+      "SwapCounts": {
+        "description": "Why the bank has as many alternatives for a slot as it has. Every\ncount is of questions the step before let through.",
+        "properties": {
+          "alternatives": {
+            "default": 0,
+            "title": "Alternatives",
+            "type": "integer"
+          },
+          "fitting": {
+            "default": 0,
+            "title": "Fitting",
+            "type": "integer"
+          },
+          "nearDuplicate": {
+            "default": 0,
+            "title": "Nearduplicate",
+            "type": "integer"
+          },
+          "notCompetency": {
+            "default": 0,
+            "title": "Notcompetency",
+            "type": "integer"
+          },
+          "onPaper": {
+            "default": 0,
+            "title": "Onpaper",
+            "type": "integer"
+          },
+          "onRecentPapers": {
+            "default": 0,
+            "title": "Onrecentpapers",
+            "type": "integer"
+          },
+          "outsideScope": {
+            "default": 0,
+            "title": "Outsidescope",
+            "type": "integer"
+          },
+          "swappedOutEarlier": {
+            "default": 0,
+            "title": "Swappedoutearlier",
+            "type": "integer"
+          },
+          "withoutKey": {
+            "default": 0,
+            "title": "Withoutkey",
+            "type": "integer"
+          }
+        },
+        "title": "SwapCounts",
         "type": "object"
       },
       "SyllabusResponse": {
@@ -12461,6 +12572,124 @@
           }
         ],
         "summary": "Get Paper File"
+      }
+    },
+    "/api/v1/papers/{paper_id}/questions/{slot}": {
+      "post": {
+        "description": "Put the teacher's chosen question in the slot. 422 for a question with\nno verified answer key (rule Q1) or marks that do not fit the slot, 409\nfor one already on the paper or a near-duplicate of one.",
+        "operationId": "pick_paper_question_api_v1_papers__paper_id__questions__slot__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paper_id",
+            "required": true,
+            "schema": {
+              "title": "Paper Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "slot",
+            "required": true,
+            "schema": {
+              "title": "Slot",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PickRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperEditResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Pick Paper Question"
+      }
+    },
+    "/api/v1/papers/{paper_id}/questions/{slot}/swap": {
+      "post": {
+        "description": "The next best question for the slot (\"7\", or \"7_OR\" for its OR\nalternative), saved onto the paper and every set, answer key included.\n409 \"no alternative in this scope\" with the counts when there is none.",
+        "operationId": "swap_paper_question_api_v1_papers__paper_id__questions__slot__swap_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "paper_id",
+            "required": true,
+            "schema": {
+              "title": "Paper Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "slot",
+            "required": true,
+            "schema": {
+              "title": "Slot",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaperEditResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Swap Paper Question"
       }
     },
     "/api/v1/practice/generate": {

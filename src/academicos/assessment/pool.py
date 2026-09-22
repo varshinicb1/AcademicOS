@@ -5,12 +5,15 @@ grows past what fits in memory.
 """
 from __future__ import annotations
 
+import difflib
 import hashlib
 import json
 import logging
 import os
 import re
+from collections import Counter
 from dataclasses import dataclass, field
+from functools import lru_cache
 from pathlib import Path
 
 from ..config import Config
@@ -366,6 +369,53 @@ def _jaccard(a: frozenset[str], b: frozenset[str]) -> float:
     if not inter:
         return 0.0
     return inter / len(a | b)
+
+
+# Normalised-text similarity (difflib ratio) at or above which two stems are
+# one question on a printed paper. Measured on the served bank (class 10,
+# 2026-09-22): Science has no keyed pair at or above 0.9, Mathematics 26 --
+# the same MCQ in two board papers (cbse:q:src:f319c93abeb1185b0864d200:9 /
+# cbse:q:src:b23bc2e537566a04afbf4415:15), "prove that root 5 / root 3 is
+# irrational", an assertion and its reason extracted as two items. Just below
+# it sit different questions that share a template: a concave lens vs a
+# concave mirror problem (0.873), LCM of 576 and 512 vs HCF of 660 and 704
+# (0.851).
+STEM_SIMILARITY_THRESHOLD = 0.9
+
+
+@lru_cache(maxsize=16384)
+def _stem_key(text: str) -> tuple[str, frozenset[str], Counter]:
+    """Normalised text, content-word signature and character counts, once per
+    stem. The counts are difflib's `quick_ratio` bound precomputed: building
+    them per pair was 90% of a swap's time on the class 10 Science bank."""
+    norm = _normalize(text)
+    return norm, _signature(text), Counter(norm)
+
+
+def near_duplicate(a: str, b: str) -> bool:
+    """Would a teacher see these two stems as the same question on one paper?
+
+    The pool's own gate (content-word Jaccard >= NEAR_DUPLICATE_THRESHOLD)
+    counts, and so does the whole normalised text: the gate skips stems with
+    fewer than four content words, which is most of a mathematics paper
+    ("Which of the following is not a quadratic equation ? (A) (x - 2)^2 ..."
+    has three), so two copies of one MCQ passed it and could print as Q3 and
+    Q9. The cheap upper bounds on the ratio run first, so most pairs never
+    reach the full comparison."""
+    na, sa, ca = _stem_key(a)
+    nb, sb, cb = _stem_key(b)
+    if na == nb:
+        return True
+    if len(sa) >= 4 and len(sb) >= 4 and _jaccard(sa, sb) >= NEAR_DUPLICATE_THRESHOLD:
+        return True
+    t = STEM_SIMILARITY_THRESHOLD
+    total = len(na) + len(nb)
+    # difflib's real_quick_ratio and quick_ratio, both upper bounds on ratio.
+    if 2 * min(len(na), len(nb)) < t * total:
+        return False
+    if 2 * sum((ca & cb).values()) < t * total:
+        return False
+    return difflib.SequenceMatcher(None, na, nb, autojunk=False).ratio() >= t
 
 
 class _NearDuplicateIndex:

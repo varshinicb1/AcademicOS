@@ -25,16 +25,15 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import Field
 
 from ..config import Config
-from . import grades
+from . import paper_edit
 from .audit_log import get_audit_log
 from .auth_routes import get_current_user
-from .authz import require_own_school
-from .mapping import to_question_schema
+from .authz import require_own_school, require_school_owns_paper
 from .paper import generate_paper_sets
-from .paper_store import PaperStore
+from .paper_edit import SwapCounts, bank_for
+from .paper_store import PaperStore, paper_question_ids
 from .paper_templates import AvailabilityReport, SectionAvailability, SectionPlan, \
     build_scope_filter, check_scope_ids, plan
-from .pool import get_pool
 from .school_templates import TemplateStore
 from .schemas import (
     Assessment,
@@ -312,13 +311,13 @@ def duplicate_teacher_template(
 # ---- availability + generation ----
 
 def _candidates(cfg: Config, template: PaperTemplateDraft) -> list[QuestionSchema]:
+    """The class+subject bank, mapped once per pool (`paper_edit.bank_for`)
+    rather than per request: 22 ms of every generation on the class 10
+    Science bank. The questions are shared -- never mutate one here."""
     try:
-        roman = grades.to_roman(template.grade)
+        return list(bank_for(cfg, template.subject, template.grade).questions)
     except ValueError as exc:
         raise HTTPException(422, str(exc)) from exc
-    pool = get_pool(cfg, subject=template.subject, grade=roman)
-    return [to_question_schema(c)
-            for c in pool.filter(subject=template.subject, grade=roman)]
 
 
 def _plan(template: PaperTemplate, scope: Optional[TemplateScope], *,
@@ -418,7 +417,15 @@ def generate_from_template(
             "id": template.id, "name": template.name,
             "header": template.header.model_dump(by_alias=True),
             "instructions": instructions,
-            "gaps": [g.model_dump(by_alias=True) for g in gaps], "notes": notes}},
+            "gaps": [g.model_dump(by_alias=True) for g in gaps], "notes": notes,
+            # The rules each section was filled under, keyed by the section
+            # id the paper prints, so a swap or pick later applies the same
+            # ones even after the template itself is edited or deleted.
+            "sections": [{**s.model_dump(by_alias=True, mode="json"),
+                          "id": s.id or f"s{i + 1}"}
+                         for i, s in enumerate(template.sections)],
+            "scope": template.scope.model_dump(by_alias=True, mode="json"),
+            "fillFromOutsideScope": req.fill_from_outside_scope}},
     ))
     get_audit_log(cfg.data_root).append(
         "template_paper_generated", assessment_id=asm_id,
@@ -435,17 +442,22 @@ def _attach_choices(plans: list[SectionPlan]) -> None:
     `paper.generate_paper` prints as "OR" and keys as "<n>_OR" -- the same
     keys `selection.optimize` uses, so the renderer, the PDF exporter and the
     set rotation (which swaps primary and alternative) need nothing new. The
-    questions are this request's own copies (`_candidates` builds them per
-    call), so the served bank is never touched."""
+    bank's questions are shared across requests (`_candidates`), so a
+    question carrying an OR is a copy, put back in the plan in its place."""
+    def with_choice(q: QuestionSchema, p: SectionPlan) -> QuestionSchema:
+        alt = p.alternatives.get(q.id)
+        if alt is None:
+            return q
+        q = q.model_copy(deep=True)
+        q.metadata["internal_choice_id"] = alt.id
+        q.metadata["internal_choice_stem"] = alt.stem
+        q.metadata["internal_choice_scheme"] = alt.answer_scheme.model_answer
+        q.metadata["internal_choice_question"] = alt.model_dump(by_alias=False)
+        return q
+
     for p in plans:
-        for q in p.picked + p.borrowed:
-            alt = p.alternatives.get(q.id)
-            if alt is None:
-                continue
-            q.metadata["internal_choice_id"] = alt.id
-            q.metadata["internal_choice_stem"] = alt.stem
-            q.metadata["internal_choice_scheme"] = alt.answer_scheme.model_answer
-            q.metadata["internal_choice_question"] = alt.model_dump(by_alias=False)
+        p.picked = [with_choice(q, p) for q in p.picked]
+        p.borrowed = [with_choice(q, p) for q in p.borrowed]
 
 
 def _printed_instructions(template: PaperTemplate, plans: list[SectionPlan]) -> str:
@@ -553,3 +565,135 @@ def _blueprint(template: PaperTemplate,
         metadata={"templateId": template.id},
     )
     return selected, blueprint
+
+
+# ---- swap / pick one question (Task 903; the rules are paper_edit.py's)
+
+class PickRequest(Camel):
+    question_id: str = Field(min_length=1)
+
+
+class PaperEditResponse(Camel):
+    paper: GeneratedPaper
+    slot: str
+    replaced_question_id: str
+    question_id: str
+    # What the teacher should know about the new question (from a recent
+    # paper, outside the chapters, not the section's kind).
+    notes: list[str] = []
+    # A swap's alternatives, constraint by constraint (none for a pick).
+    counts: Optional[SwapCounts] = None
+
+
+@router.post("/papers/{paper_id}/questions/{slot}/swap", response_model=PaperEditResponse)
+def swap_paper_question(paper_id: str, slot: str,
+                        current: User = Depends(get_current_user)) -> PaperEditResponse:
+    """The next best question for the slot ("7", or "7_OR" for its OR
+    alternative), saved onto the paper and every set, answer key included.
+    409 "no alternative in this scope" with the counts when there is none."""
+    return _edit_question(paper_id, slot, current, pick=None)
+
+
+@router.post("/papers/{paper_id}/questions/{slot}", response_model=PaperEditResponse)
+def pick_paper_question(paper_id: str, slot: str, req: PickRequest,
+                        current: User = Depends(get_current_user)) -> PaperEditResponse:
+    """Put the teacher's chosen question in the slot. 422 for a question with
+    no verified answer key (rule Q1) or marks that do not fit the slot, 409
+    for one already on the paper or a near-duplicate of one."""
+    return _edit_question(paper_id, slot, current, pick=req.question_id)
+
+
+def _edit_question(paper_id: str, slot_key: str, current: User, *,
+                   pick: Optional[str]) -> PaperEditResponse:
+    from .routes import _require_editable
+
+    started = time.perf_counter()
+    _require_staff(current)
+    cfg, _ = _require()
+    if _assessments is None or _papers is None:
+        raise HTTPException(503, "paper template module not initialized")
+    paper = require_school_owns_paper(_papers, _assessments, paper_id, current)
+    asm = _assessments.get(paper.assessment_id)
+    _require_editable(asm)
+    try:
+        bank = bank_for(cfg, paper.metadata.subject, paper.metadata.grade)
+        slot = paper_edit.find_slot(paper, slot_key)
+
+        def subtopic_questions(ids: list[str]) -> list[str]:
+            from ..curriculum.store import get_curriculum_store
+            return get_curriculum_store(cfg.data_root).question_ids_for_subtopics(ids)
+
+        rule = paper_edit.rule_for(slot, asm.metadata.get("paperTemplate") or {},
+                                   asm.chapter_ids, bank, subtopic_questions)
+        printed = paper_edit.printed_questions(paper)
+        edits = dict(asm.metadata.get("paperEdits") or {})
+        removed = set(edits.get("removed") or [])
+        recent = _recent_question_ids(asm)
+        if pick is None:
+            choice = paper_edit.choose_swap(slot, rule, bank, printed, removed, recent)
+        else:
+            choice = paper_edit.check_pick(slot, rule, bank, pick, printed, recent,
+                                           grade=paper.metadata.grade,
+                                           subject=paper.metadata.subject)
+    except paper_edit.EditError as err:
+        raise HTTPException(err.status, err.detail) from err
+    except ValueError as err:                      # an unreadable grade on the paper
+        raise HTTPException(422, str(err)) from err
+
+    old_id, new = slot.question_id, choice.question
+    family = _papers.family(paper.id)
+    if not any(m.id == paper.id for m in family):  # a row outside the set naming
+        family.append(paper)
+    edited = paper
+    for member in family:
+        updated = paper_edit.replace_question(member, old_id, new)
+        _papers.save(updated, _papers.get_template(member.id), school_id=asm.school_id)
+        _forget_pdfs(cfg, member.id)
+        if member.id == paper.id:
+            edited = updated
+
+    removed.add(old_id)
+    removed.discard(new.id)
+    kind = "swap" if pick is None else "pick"
+    edits["removed"] = sorted(removed)
+    edits["log"] = [*(edits.get("log") or []), {
+        "kind": kind, "slot": slot.key, "from": old_id, "to": new.id,
+        "by": current.id, "at": _now().isoformat()}]
+    _assessments.save(asm.model_copy(update={
+        "selected_question_ids": [new.id if i == old_id else i
+                                  for i in asm.selected_question_ids],
+        "metadata": {**asm.metadata, "paperEdits": edits},
+        "updated_at": _now()}))
+    get_audit_log(cfg.data_root).append(
+        f"paper_question_{kind}", assessment_id=asm.id,
+        details={"paperId": paper.id, "slot": slot.key, "from": old_id, "to": new.id,
+                 "userId": current.id, "schoolId": current.school_id,
+                 "editSeconds": round(time.perf_counter() - started, 3)})
+    return PaperEditResponse(paper=edited, slot=slot.key, replaced_question_id=old_id,
+                             question_id=new.id, notes=choice.notes, counts=choice.counts)
+
+
+def _recent_question_ids(asm: Assessment) -> set[str]:
+    """Every question on the teacher's `RECENT_PAPERS` most recent other
+    papers for this class and subject (see paper_edit's module doc)."""
+    assert _assessments is not None and _papers is not None
+    others = sorted(
+        (a for a in _assessments.list_by_teacher(asm.teacher_id)
+         if a.id != asm.id and a.generated_paper_id and a.grade == asm.grade
+         and a.subject.lower() == asm.subject.lower()),
+        key=lambda a: a.created_at, reverse=True)
+    ids: set[str] = set()
+    for a in others[:paper_edit.RECENT_PAPERS]:
+        p = _papers.get(a.generated_paper_id)
+        if p is not None:
+            ids |= paper_question_ids(p)
+    return ids
+
+
+def _forget_pdfs(cfg: Config, paper_id: str) -> None:
+    """The export route renders from the stored paper, but a PDF rendered
+    before this edit would still be served by GET /papers/{id}/file until the
+    next export, printing the question the teacher removed. Dropping it makes
+    the file route answer "not generated yet", and the client exports again."""
+    for suffix in (".pdf", "_answer_key.pdf"):
+        (cfg.artifacts_dir / "papers" / f"{paper_id}{suffix}").unlink(missing_ok=True)

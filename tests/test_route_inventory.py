@@ -64,6 +64,8 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/duplicate"),
     ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/availability"),
     ("POST", "/api/v1/papers/generate-from-template"),
+    ("POST", "/api/v1/papers/{paper_id}/questions/{slot}/swap"),
+    ("POST", "/api/v1/papers/{paper_id}/questions/{slot}"),
     # --- auth_routes.py (teacher/principal identity) ---
     ("POST", "/api/v1/auth/register"),
     ("POST", "/api/v1/auth/login"),
@@ -233,6 +235,8 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/duplicate"),
     ("POST", "/api/v1/schools/{school_id}/teacher-templates/{template_id}/availability"),
     ("POST", "/api/v1/papers/generate-from-template"),
+    ("POST", "/api/v1/papers/{paper_id}/questions/{slot}/swap"),
+    ("POST", "/api/v1/papers/{paper_id}/questions/{slot}"),
     # --- auth_routes.py (identity reads + principal approval) ---
     ("GET", "/api/v1/auth/me"),
     ("GET", "/api/v1/auth/users"),
@@ -361,6 +365,7 @@ def _concrete_path(path: str) -> str:
         .replace("{session_id}", "scan_1")
         .replace("{question_id}", "q_1")
         .replace("{page_no}", "1")
+        .replace("{slot}", "1")
     )
 
 
@@ -508,6 +513,10 @@ def _valid_body_for(method: str, path: str) -> dict:
         return {"shared": True}
     if path == "/api/v1/papers/generate-from-template":
         return {"templateId": "tpl_1"}
+    if path == "/api/v1/papers/{paper_id}/questions/{slot}":
+        return {"questionId": "q_1"}
+    if path == "/api/v1/papers/{paper_id}/questions/{slot}/swap":
+        return {}
     if path.startswith("/api/v1/schools/{school_id}/teacher-templates/"):
         return {}  # duplicate / availability: every field optional
     if path == "/api/v1/auth/register":
@@ -548,7 +557,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 140
+    assert len(API_ROUTES) == 142
 
 
 def test_docs_routes_present():
@@ -2907,3 +2916,33 @@ def test_full_boot_teacher_paper_templates(tmp_path, monkeypatch):
 
         assert client.delete(f"{base}/{tid}", headers=auth).json() == {"ok": True}
         assert client.delete(f"{base}/{tid}", headers=auth).status_code == 404
+
+        # Swap / pick one question: a paper from a seeded 1-mark bank.
+        from academicos.assessment import pool as pool_mod
+        from academicos.models.academic import Question
+
+        bank = pool_mod.QuestionPool()
+        for i, word in enumerate(("magnet", "glacier", "enzyme", "turbine", "orbit",
+                                  "pigment", "lantern")):
+            rec = question_body(f"inv_q{i}", marks=1)
+            rec.update({"subject": "Science", "stem": f"Explain how a {word} works."})
+            bank.questions.append(pool_mod.PoolQuestion(
+                question=Question(canonical_id=rec["id"], title=rec["stem"],
+                                  source_text=rec["stem"], marks=1.0),
+                subject="Science", grade="X", academic_year="2024", chapter_id="ch1",
+                chapter_name=None, chapter_confidence=0.9, text_hash=rec["id"],
+                record=rec))
+        monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), bank)
+        tid = client.post(base, json=teacher_template_body(), headers=auth).json()["id"]
+        paper = client.post("/api/v1/papers/generate-from-template",
+                            json={"templateId": tid}, headers=auth).json()["paper"]
+        pid = paper["id"]
+        swap = client.post(f"/api/v1/papers/{pid}/questions/1/swap", headers=auth)
+        assert swap.status_code == 200, swap.text
+        assert client.post("/api/v1/papers/missing/questions/1/swap",
+                           headers=auth).status_code == 404
+        pick = client.post(f"/api/v1/papers/{pid}/questions/1", headers=auth,
+                           json={"questionId": swap.json()["replacedQuestionId"]})
+        assert pick.status_code == 200, pick.text
+        assert client.post(f"/api/v1/papers/{pid}/questions/1", json={},
+                           headers=auth).status_code == 422
