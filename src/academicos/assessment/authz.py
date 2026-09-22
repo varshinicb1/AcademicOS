@@ -23,9 +23,12 @@ function of its inputs instead of creating a new cross-module coupling.
 """
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING, Iterable
 
 from fastapi import HTTPException
+
+logger = logging.getLogger(__name__)
 
 if TYPE_CHECKING:
     from .consent import ConsentStore
@@ -108,16 +111,33 @@ def students_without_consent(
 ) -> list[str]:
     """The ids in `student_ids`, in order and without repeats, that have no
     ACTIVE consent on file for `school_id`. A revoked record is kept (the
-    revocation is part of the trail) with status "revoked", and
-    `ConsentStore.has_consent` reads only "granted" as consent, so a
-    withdrawal counts as none. A record whose status cannot be read raises
-    ValueError in consent.py; that is counted as missing too -- "I cannot
-    tell" is "no" (the same fail-closed reading consent.from_row makes)."""
+    revocation is part of the trail) with status "revoked", and only
+    "granted" reads as consent, so a withdrawal counts as none. A record
+    whose status cannot be read raises ValueError in consent.py; that is
+    counted as missing too -- "I cannot tell" is "no" (the same fail-closed
+    reading consent.from_row makes) -- and LOGGED, because the teacher's 409
+    then says "record it under Classes" for a student whose consent was
+    recorded, and re-recording overwrites the bad row. The warning is the
+    only evidence of a corrupt row, a partial remote payload or schema drift.
+
+    One student is one keyed read. More than one reads the school's records
+    once (ConsentStore.granted_student_ids): per-student reads with the
+    durable table on are one remote select each, so GET /consent/missing
+    with its allowed 500 ids was 500 sequential round trips in one request.
+    The batch read fails closed per row, so the two paths give the same
+    answer (tests/test_consent_enforced.py checks both on revoked, blank and
+    other-school rows)."""
+    ids = list(dict.fromkeys(student_ids))
+    if len(ids) > 1:
+        granted_ids = consent_store.granted_student_ids(school_id)
+        return [sid for sid in ids if sid not in granted_ids]
     missing: list[str] = []
-    for sid in dict.fromkeys(student_ids):
+    for sid in ids:
         try:
             granted = consent_store.has_consent(school_id, sid)
-        except ValueError:
+        except (ValueError, KeyError):
+            logger.warning("unreadable consent record for %s at %s; treating as missing",
+                           sid, school_id, exc_info=True)
             granted = False
         if not granted:
             missing.append(sid)

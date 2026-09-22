@@ -307,7 +307,7 @@ def test_practice_submit_needs_consent_and_writes_no_mastery_without_it(world):
 # an unreadable consent status is no consent
 # --------------------------------------------------------------------------- #
 
-def test_a_consent_row_with_an_empty_status_refuses_grading(tmp_path, monkeypatch):
+def test_a_consent_row_with_an_empty_status_refuses_grading(tmp_path, monkeypatch, caplog):
     """authz.students_without_consent turns the ValueError consent.from_row
     raises for a blank status into "missing". Without that branch the error
     would escape as a 500 from every grading route; with a reader that
@@ -334,8 +334,125 @@ def test_a_consent_row_with_an_empty_status_refuses_grading(tmp_path, monkeypatc
 
     with pytest.raises(ValueError):
         store.has_consent("school_1", "s_blank")  # the store itself fails closed
-    assert authz.students_without_consent(store, "school_1", ["s_blank"]) == ["s_blank"]
+    caplog.clear()
+    with caplog.at_level("WARNING", logger="academicos.assessment.authz"):
+        assert authz.students_without_consent(store, "school_1", ["s_blank"]) == ["s_blank"]
+    # The teacher's 409 says "record it under Classes" for a student whose
+    # consent WAS recorded, and re-recording overwrites the bad row. The log
+    # line is the only evidence the row was unreadable rather than absent.
+    assert any("unreadable consent record for s_blank at school_1" in r.getMessage()
+               for r in caplog.records), "an unreadable consent row must be logged"
     with pytest.raises(HTTPException) as refused:
         authz.require_consent(store, "school_1", "s_blank")
     assert refused.value.status_code == 409
     assert "no recorded parental consent for student s_blank" in refused.value.detail
+
+
+# --------------------------------------------------------------------------- #
+# the batch read gives the per-student answer in one read
+# --------------------------------------------------------------------------- #
+
+def _store_with_every_kind_of_row(tmp_path):
+    from academicos.assessment.consent import ConsentStore
+
+    store = ConsentStore(tmp_path / "assessment" / "consents.db")
+    for sid in ("s_granted", "s_revoked", "s_granted_2"):
+        store.record_consent(school_id="school_1", student_id=sid, guardian_name="Parent",
+                             method="Signed admission form", recorded_by="u_1")
+    store.revoke_consent("school_1", "s_revoked", revoked_by="u_1")
+    # Another school's grant must not count at school_1.
+    store.record_consent(school_id="school_2", student_id="s_elsewhere",
+                         guardian_name="Parent", method="Signed admission form",
+                         recorded_by="u_1")
+    store.conn.execute(
+        "INSERT INTO parental_consents (id, school_id, student_id, guardian_name, "
+        "guardian_relationship, method, status, recorded_by, recorded_at) "
+        "VALUES ('c_blank', 'school_1', 's_blank', 'Parent', 'parent', "
+        "'Signed admission form', '  ', 'u_1', '2026-09-22T00:00:00+00:00')")
+    store.conn.commit()
+    return store
+
+
+def test_the_batch_consent_check_matches_the_per_student_check(tmp_path, caplog):
+    """students_without_consent reads the school's records once for a batch
+    (GET /consent/missing takes up to 500 ids; a per-student read with the
+    durable table on is one remote select each, 10 s timeout apiece). The
+    batch must give exactly the per-student answer: revoked is missing, a
+    blank status is missing (and logged) without failing the other rows,
+    another school's grant is missing, an unknown id is missing."""
+    from academicos.assessment import authz
+
+    store = _store_with_every_kind_of_row(tmp_path)
+    ids = ["s_granted", "s_revoked", "s_blank", "s_elsewhere", "s_unknown",
+           "s_granted_2", "s_revoked"]
+
+    per_student = [sid for sid in dict.fromkeys(ids)
+                   if authz.students_without_consent(store, "school_1", [sid])]
+    with caplog.at_level("WARNING", logger="academicos.assessment"):
+        batch = authz.students_without_consent(store, "school_1", ids)
+
+    assert batch == per_student == ["s_revoked", "s_blank", "s_elsewhere", "s_unknown"]
+    assert any("unreadable consent record for s_blank at school_1" in r.getMessage()
+               for r in caplog.records)
+
+
+def test_the_batch_consent_check_reads_the_store_once(tmp_path, monkeypatch):
+    """The point of the batch path: N students cost one read of the school's
+    records, never one read per student."""
+    from academicos.assessment import authz
+
+    store = _store_with_every_kind_of_row(tmp_path)
+    calls = {"batch": 0}
+    real = store.granted_student_ids
+
+    def counting(school_id):
+        calls["batch"] += 1
+        return real(school_id)
+
+    def per_student(*_a, **_k):
+        raise AssertionError("a batch must not read consent one student at a time")
+
+    monkeypatch.setattr(store, "granted_student_ids", counting)
+    monkeypatch.setattr(store, "has_consent", per_student)
+    monkeypatch.setattr(store, "get_consent", per_student)
+    ids = [f"s_{i}" for i in range(500)] + ["s_granted"]
+    missing = authz.students_without_consent(store, "school_1", ids)
+    assert calls["batch"] == 1
+    assert "s_granted" not in missing and len(missing) == 500
+
+
+def test_granted_ids_page_through_the_remote_table(tmp_path, monkeypatch):
+    """PostgREST caps a response at max-rows (1000 by default) without saying
+    so; a school with more consent records than that must not lose the rest,
+    which would refuse grading for students whose consent is on file. The
+    remote read pages by id until an empty page, like audit_log's."""
+    from academicos.assessment import consent as consent_mod
+
+    rows = [{"id": f"consent_{i:05d}", "school_id": "school_1", "student_id": f"s_{i}",
+             "guardian_name": "P", "method": "Signed admission form",
+             "status": "granted" if i % 7 else "revoked",
+             "recorded_by": "u_1", "recorded_at": "2026-09-22T00:00:00+00:00"}
+            for i in range(2500)]
+    rows[10]["status"] = ""                      # unreadable: skipped, not fatal
+
+    class FakeRemote:
+        enabled = True
+        cap = 1000                               # the server's silent max-rows
+
+        def __init__(self):
+            self.selects = 0
+
+        def select(self, order=None, limit=None, gt=None, **eq):
+            self.selects += 1
+            assert order == "id.asc"
+            out = [r for r in rows if r["school_id"] == eq["school_id"]
+                   and (gt is None or r["id"] > gt["id"])]
+            return out[:min(limit or self.cap, self.cap)]
+
+    store = consent_mod.ConsentStore(tmp_path / "assessment" / "consents.db")
+    fake = FakeRemote()
+    monkeypatch.setattr(store, "_remote", fake)
+    granted = store.granted_student_ids("school_1")
+    expected = {f"s_{i}" for i in range(2500) if i % 7 and i != 10}
+    assert granted == expected
+    assert fake.selects == 4                     # 1000 + 1000 + 500 + the empty page
