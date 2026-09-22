@@ -104,16 +104,17 @@ void main() {
       tmpDir.deleteSync(recursive: true);
     });
 
-    test('a download with one bad row is still used, and the row is counted', () async {
-      final rows = (await _bundledRows()).take(25).toList();
+    test('a download with one bad row in 200 is still used, and the row is counted', () async {
+      final rows = (await _bundledRows()).take(200).toList();
       rows[3].remove('competencyIds');
       await _writeDownload(tmpDir, jsonEncode({'questions': rows}));
 
       await CorpusRepository.instance.reload();
 
       expect(CorpusRepository.instance.loadedFromDownload, isTrue);
-      expect(CorpusRepository.instance.all.length, 24);
+      expect(CorpusRepository.instance.all.length, 199);
       expect(CorpusRepository.instance.skippedRows, 1);
+      expect(CorpusRepository.instance.downloadRejection, isNull);
     });
 
     test('a download with no readable row falls back to the bundled asset', () async {
@@ -126,6 +127,73 @@ void main() {
       expect(CorpusRepository.instance.all.length, greaterThan(3000));
       expect(CorpusRepository.instance.skippedRows, 0,
           reason: "the rejected download's count must not leak onto the bundled corpus");
+      expect(CorpusRepository.instance.downloadRejection?.skipped, 1);
+      expect(CorpusRepository.instance.downloadRejection?.total, 1);
+    });
+
+    test('an SQP-shaped download that loses most of its rows is rejected, not served', () async {
+      // The case the zero-row rule let through: a checksum-valid release
+      // whose SQP rows are unnormalised. Here 3,286 good rows plus 1,834 rows
+      // with no competencyIds/bloomLevel -- the measured SQP shape. Serving
+      // it would look healthy while the SQP questions silently vanished.
+      final good = await _bundledRows();
+      final sqp = [
+        for (var i = 0; i < 1834; i++)
+          Map<String, dynamic>.from(good[i % good.length])
+            ..['id'] = 'sqp-$i'
+            ..remove('competencyIds')
+            ..remove('bloomLevel'),
+      ];
+      await _writeDownload(tmpDir, jsonEncode({'questions': [...good, ...sqp]}));
+
+      await CorpusRepository.instance.reload();
+
+      expect(CorpusRepository.instance.loadedFromDownload, isFalse);
+      expect(CorpusRepository.instance.all.length, good.length);
+      expect(CorpusRepository.instance.skippedRows, 0);
+      final rejection = CorpusRepository.instance.downloadRejection;
+      expect(rejection, isNotNull);
+      expect(rejection!.skipped, 1834);
+      expect(rejection.total, good.length + 1834);
+    });
+
+    test('a download at exactly the 1% skip limit is used', () async {
+      final rows = (await _bundledRows()).take(300).toList();
+      rows[10].remove('competencyIds');
+      rows[20].remove('bloomLevel');
+      rows[30].remove('stemLatex');
+      await _writeDownload(tmpDir, jsonEncode({'questions': rows}));
+
+      await CorpusRepository.instance.reload();
+
+      expect(CorpusRepository.instance.loadedFromDownload, isTrue);
+      expect(CorpusRepository.instance.skippedRows, 3);
+      expect(CorpusRepository.instance.downloadRejection, isNull);
+    });
+
+    test('a download just over the 1% skip limit is rejected', () async {
+      final rows = (await _bundledRows()).take(300).toList();
+      for (final i in [10, 20, 30, 40]) {
+        rows[i].remove('competencyIds');
+      }
+      await _writeDownload(tmpDir, jsonEncode({'questions': rows}));
+
+      await CorpusRepository.instance.reload();
+
+      expect(CorpusRepository.instance.loadedFromDownload, isFalse);
+      expect(CorpusRepository.instance.downloadRejection?.skipped, 4);
+    });
+
+    test('a later reload with no download clears an earlier rejection', () async {
+      final bad = _good('bad')..remove('competencyIds');
+      await _writeDownload(tmpDir, jsonEncode({'questions': [bad]}));
+      await CorpusRepository.instance.reload();
+      expect(CorpusRepository.instance.downloadRejection, isNotNull);
+
+      File('${tmpDir.path}/corpus_downloaded.json').deleteSync();
+      await CorpusRepository.instance.reload();
+
+      expect(CorpusRepository.instance.downloadRejection, isNull);
     });
 
     group('with a substituted bundled asset', () {

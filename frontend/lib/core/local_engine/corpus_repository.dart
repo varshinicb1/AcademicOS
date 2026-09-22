@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io' show File;
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -31,6 +33,23 @@ class CorpusRepository {
   /// Rows the loaded corpus could not decode. Zero for a healthy corpus.
   int get skippedRows => _skippedRows;
 
+  DownloadRejection? _downloadRejection;
+
+  /// Why the last reload() refused a checksum-valid download and served the
+  /// bundled asset instead, or null when no download was refused. Settings
+  /// shows it, so "download succeeded" is never reported as "corpus updated"
+  /// when the phone is in fact still on the bundled bank.
+  DownloadRejection? get downloadRejection => _downloadRejection;
+
+  /// The most of a download's rows that may fail to decode before the whole
+  /// download is refused. A download replaces the complete bundled corpus,
+  /// so a lossy one must not win just because some rows survived: a release
+  /// with its 1,834 SQP rows unnormalised would decode ~64% of 5,120 rows and
+  /// look healthy while every SQP question vanished. 1% still lets a
+  /// 3,000-row release carry up to 30 stray rows rather than being refused
+  /// over one typo; the bundled corpus itself is held to zero by its test.
+  static const double maxDownloadSkipRate = 0.01;
+
   Future<void> ensureLoaded() async {
     if (_questions != null) return;
     await reload();
@@ -49,6 +68,7 @@ class CorpusRepository {
     // escapes uncaught here leaves the app on its native white splash
     // forever -- a real regression this fixed (an earlier version only
     // wrapped the existence/checksum check, not the actual read+parse).
+    _downloadRejection = null;
     final downloaded = await _tryLoadDownloaded();
     if (downloaded != null) {
       _questions = downloaded.questions;
@@ -77,18 +97,35 @@ class CorpusRepository {
   }
 
   /// The downloaded corpus, or null when there is none or it cannot be
-  /// used. A download with no readable row counts as unusable, so the
-  /// bundled asset is served instead of an empty corpus.
+  /// used. A download with no readable row, or with more than
+  /// [maxDownloadSkipRate] of its rows unreadable, counts as unusable: the
+  /// bundled asset is served instead and [downloadRejection] says why.
   Future<ParsedCorpus?> _tryLoadDownloaded() async {
+    final File? downloaded;
     try {
-      final downloaded = await CorpusDownloader.currentDownloadedFile();
-      if (downloaded == null) return null;
-      final parsed = _parse(await downloaded.readAsString());
-      if (parsed.questions.isEmpty) return null;
-      return parsed;
+      downloaded = await CorpusDownloader.currentDownloadedFile();
     } catch (_) {
       return null;
     }
+    // No file, or one that fails its checksum: nothing was accepted, so
+    // there is nothing to report as rejected.
+    if (downloaded == null) return null;
+    final ParsedCorpus parsed;
+    try {
+      parsed = _parse(await downloaded.readAsString());
+    } catch (err) {
+      debugPrint('corpus: downloaded file could not be read: $err');
+      _downloadRejection = const DownloadRejection.unreadable();
+      return null;
+    }
+    final total = parsed.questions.length + parsed.skipped;
+    if (parsed.questions.isEmpty || parsed.skipped > total * maxDownloadSkipRate) {
+      debugPrint('corpus: download rejected, ${parsed.skipped} of $total rows '
+          'unreadable; serving the bundled corpus');
+      _downloadRejection = DownloadRejection(skipped: parsed.skipped, total: total);
+      return null;
+    }
+    return parsed;
   }
 
   /// Decode every row that can be decoded, and count the rest.
@@ -221,6 +258,24 @@ class CorpusRepository {
     }
     return list;
   }
+}
+
+/// Why a checksum-valid download was not served.
+class DownloadRejection {
+  const DownloadRejection({required this.skipped, required this.total}) : unreadable = false;
+
+  /// The file passed its checksum but is not corpus JSON at all.
+  const DownloadRejection.unreadable()
+      : skipped = 0,
+        total = 0,
+        unreadable = true;
+
+  final int skipped;
+  final int total;
+  final bool unreadable;
+
+  String get reason =>
+      unreadable ? 'the file could not be read' : '$skipped of $total rows unreadable';
 }
 
 /// What a corpus parse produced: the rows that decoded, and how many did not.

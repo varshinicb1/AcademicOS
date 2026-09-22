@@ -14,6 +14,7 @@ import '../../../data/datasources/api/auth_api.dart';
 import '../../../core/local_engine/corpus_downloader.dart'
     show CorpusDownloader;
 import '../../../core/local_engine/corpus_repository.dart';
+import '../../../core/local_engine/corpus_status.dart';
 import '../../../core/local_engine/demo_seeder.dart';
 import '../../../core/local_engine/local_store.dart';
 import '../../../core/sync/sync_service.dart';
@@ -164,9 +165,7 @@ class _SettingsPageState extends State<SettingsPage> {
             // this tile at all.
             if (_kOfflineBuild)
               _buildListTile(Icons.download, 'Download Data',
-                  'Corpus source: ${CorpusRepository.instance.loadedFromDownload ? "downloaded" : "bundled with app"} '
-                  '(${CorpusRepository.instance.isLoaded ? CorpusRepository.instance.all.length : "?"} questions)',
-                  _downloadCorpusData),
+                  corpusSourceLineFor(CorpusRepository.instance), _downloadCorpusData),
             _buildListTile(Icons.clear_all, 'Clear Cache', 'Free up storage space', _clearCache),
             if (_kOfflineBuild && LocalStore.instance.isDemoSeeded) ...[
               _buildListTile(
@@ -471,7 +470,9 @@ class _SettingsPageState extends State<SettingsPage> {
       if (!mounted) return;
       setState(() {});
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Corpus updated -- ${CorpusRepository.instance.all.length} questions now available.'),
+        // Not a flat "Corpus updated": a download reload() refused, or one
+        // that lost rows, has to say so here or the teacher never learns it.
+        content: Text(corpusReloadMessageFor(CorpusRepository.instance)),
       ));
     } else {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
