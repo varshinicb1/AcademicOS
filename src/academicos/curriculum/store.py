@@ -716,6 +716,30 @@ class CurriculumStore:
             "WHERE st.id=?", (subtopic_id,))
         return r["school_id"] if r else None
 
+    def school_ids_for_subtopics(self, subtopic_ids: list[str]) -> dict[str, str]:
+        """school_id_for_subtopic for a whole request's ids in one query:
+        {subtopic_id: school_id}. The two subtopic-keyed question routes
+        (curriculum questions/by-subtopics and assessment questions/search)
+        take a caller-picked list, and the per-id lookup is a seven-join query
+        per subtopic. An id that resolves to no school is absent from the result
+        rather than mapped to None -- the callers treat "another school's" and
+        "no longer exists" differently (403 vs. ignore)."""
+        if not subtopic_ids:
+            return {}
+        unique = list(dict.fromkeys(subtopic_ids))
+        placeholders = ",".join("?" * len(unique))
+        rows = self._fetchall(
+            "SELECT st.id AS subtopic_id, y.school_id FROM subtopics st "
+            "JOIN topics t ON st.topic_id = t.id "
+            "JOIN chapters c ON t.chapter_id = c.id "
+            "JOIN units u ON c.unit_id = u.id "
+            "JOIN books b ON u.book_id = b.id "
+            "JOIN subjects s ON b.subject_id = s.id "
+            "JOIN grades g ON s.grade_id = g.id "
+            "JOIN academic_years y ON g.academic_year_id = y.id "
+            f"WHERE st.id IN ({placeholders})", tuple(unique))
+        return {r["subtopic_id"]: r["school_id"] for r in rows}
+
     _SEQUENCE_TABLES = {"unit": "units", "chapter": "chapters", "topic": "topics", "subtopic": "subtopics"}
 
     def set_sequence(self, entity_type: str, entity_id: str, seq: int) -> None:

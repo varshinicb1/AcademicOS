@@ -18,7 +18,7 @@ from typing import Any, Optional
 from fastapi import APIRouter, Depends, HTTPException
 
 from ..assessment.auth_routes import get_current_user, require_principal
-from ..assessment.authz import require_own_school
+from ..assessment.authz import require_own_school, require_own_subtopics
 from ..assessment.users import User
 from ..config import Config
 from . import calendar as calendar_mod
@@ -625,14 +625,12 @@ def questions_by_subtopics(req: QuestionsForSubtopicsRequest,
     """"Generate paper using selected subtopics": every question tagged
     (via tag_question above) to any of the given subtopics."""
     store = _require()
-    for subtopic_id in req.subtopic_ids:
-        # Another school's subtopic is refused like every other cross-school
-        # read in this file. An id that resolves to no school is not: it is a
-        # subtopic force-deleted since the picker loaded, its question links
-        # went with it, and "no questions" is the honest answer for it.
-        owner = store.school_id_for_subtopic(subtopic_id)
-        if owner is not None and owner != current.school_id:
-            raise HTTPException(403, "this subtopic belongs to a different school")
+    # Another school's subtopic is a 403; an id that resolves to no school
+    # (force-deleted since the picker loaded) is ignored. The rule lives in
+    # authz.require_own_subtopics because POST /questions/search's
+    # subtopic_ids needs the identical check -- that is the filter the web
+    # client actually sends; nothing in frontend/lib calls this route.
+    require_own_subtopics(store, req.subtopic_ids, current)
     ids = store.question_ids_for_subtopics(req.subtopic_ids)
     return QuestionsForSubtopicsResponse(question_ids=ids)
 

@@ -26,7 +26,14 @@ import pytest
 from test_assessment_routes_auth import _boot_client, _register
 
 BASE = "/api/v1/curriculum"
+QUESTION_SEARCH = "/api/v1/questions/search"
 PRINCIPAL_KEY = "test-bootstrap-key"
+
+
+def _search_body(subtopic_ids: list[str]) -> dict:
+    """The body assessment_create_page.dart sends when a teacher narrows
+    question search to picked subtopics (QuestionSearchParams.subtopicIds)."""
+    return {"subject": "Science", "grade": 10, "subtopicIds": subtopic_ids}
 
 
 def _bearer(user: dict) -> dict:
@@ -130,6 +137,9 @@ def test_every_curriculum_read_needs_a_token(world):
     r = world.client.post(f"{BASE}/questions/by-subtopics", json={"subtopicIds": [world.s1.subtopic]})
     if r.status_code != 401:
         failures.append(f"subtopic: POST questions/by-subtopics -> {r.status_code}")
+    r = world.client.post(QUESTION_SEARCH, json=_search_body([world.s1.subtopic]))
+    if r.status_code != 401:
+        failures.append(f"subtopic: POST {QUESTION_SEARCH} -> {r.status_code}")
     assert not failures, "anonymous curriculum reads:\n" + "\n".join(failures)
 
 
@@ -146,6 +156,13 @@ def test_another_schools_principal_is_refused_every_row(world):
                           json={"subtopicIds": [world.s1.subtopic]}, headers=world.p2)
     if r.status_code != 403:
         failures.append(f"subtopic: POST questions/by-subtopics -> {r.status_code}")
+    # The subtopic filter the web client actually sends (by-subtopics has no
+    # caller in frontend/lib). A foreign id is refused even mixed in with the
+    # caller's own, not silently dropped from the filter.
+    for ids in ([world.s1.subtopic], [world.s2.subtopic, world.s1.subtopic]):
+        r = world.client.post(QUESTION_SEARCH, json=_search_body(ids), headers=world.p2)
+        if r.status_code != 403:
+            failures.append(f"subtopic: POST {QUESTION_SEARCH} {ids} -> {r.status_code}")
     assert not failures, "cross-school curriculum reads not refused:\n" + "\n".join(failures)
 
     # school_1's approved topic name must not come back in any form.
@@ -207,6 +224,12 @@ def test_own_school_principal_teacher_and_student_read_their_rows(world):
         by_subtopic = c.post(f"{BASE}/questions/by-subtopics",
                              json={"subtopicIds": [s1.subtopic]}, headers=auth)
         assert by_subtopic.status_code == 200, f"{who}: {by_subtopic.text}"
+
+        # An id that resolves to no school (force-deleted since the picker
+        # loaded) is ignored next to the caller's own, not a 403.
+        searched = c.post(QUESTION_SEARCH, json=_search_body([s1.subtopic, "st_deleted"]),
+                          headers=auth)
+        assert searched.status_code == 200, f"{who}: {searched.text}"
 
     student_years = c.get(f"{BASE}/academic-years", params={"school_id": "school_1"},
                           headers=world.student)

@@ -19,7 +19,10 @@ from ..integrations.composio_calendar import sync_to_google_calendar
 from . import pdf as pdf_export
 from . import paper_timing, selection
 from .audit_log import get_audit_log
-from .authz import require_own_school, require_school_owns_assessment, require_school_owns_paper
+from .authz import (
+    require_own_school, require_own_subtopics, require_school_owns_assessment,
+    require_school_owns_paper,
+)
 from .auth_routes import get_current_user, require_principal
 from .users import User, get_user_store
 from .mapping import grade_to_int, to_question_schema
@@ -173,30 +176,41 @@ def get_paper_templates(school_id: str, current: User = Depends(get_current_user
 
 # ---- Questions ----
 #
-# Deliberately unauthenticated, same reasoning as curriculum/routes.py's own
-# public read endpoints and pillar_routes.py's /catalog and /syllabus: these
-# browse the shared CBSE previous-year-paper question pool (public, official,
-# not any one school's confidential exam), not a specific school's generated
-# assessment. Search/optimize never touch AssessmentStore/PaperStore -- see
-# ---- Papers ---- and ---- Assessments ---- below for where a real school's
-# confidential content actually starts, and where auth is required.
+# Signed-in, but not school-scoped as a whole: these browse the shared CBSE
+# previous-year-paper question pool (public, official, not any one school's
+# confidential exam), not a specific school's generated assessment.
+# Search/optimize never touch AssessmentStore/PaperStore -- see ---- Papers
+# ---- and ---- Assessments ---- below for where a real school's confidential
+# content starts. The one school-owned input is search's subtopic_ids: those
+# are a school's own approved curriculum rows, and the question ids tagged to
+# them are that school's tagging, so they get the same ownership check as
+# curriculum/routes.py's questions/by-subtopics.
 
 @router.post("/questions/search", response_model=list[QuestionSchema])
 def search_questions(params: QuestionSearchParams,
                      current: User = Depends(get_current_user)) -> list[QuestionSchema]:
     cfg, _ = _require()
+    curriculum = None
+    if params.subtopic_ids:
+        # Checked before the pool is built, so a refused request costs one
+        # query. Until 2026-09-21 this path resolved any school's subtopic:
+        # school_2 holding a school_1 subtopic id got school_1's tagged
+        # question ids back. by-subtopics had the check; this route -- the
+        # one assessment_create_page.dart actually calls -- did not.
+        from ..curriculum.store import get_curriculum_store
+        curriculum = get_curriculum_store(cfg.data_root)
+        require_own_subtopics(curriculum, params.subtopic_ids, current)
     grade_roman = _int_grade_to_roman(params.grade)
     pool = get_pool(cfg, subject=params.subject, grade=grade_roman)
     candidates = pool.filter(subject=params.subject, grade=grade_roman, chapter_ids=params.chapter_ids)
     schemas = [to_question_schema(c) for c in candidates]
 
-    if params.subtopic_ids:
+    if curriculum is not None:
         # The §21-25 bridge: "Generate Question Paper" from a set of
         # selected, approved Subtopics. Real question ids only -- a
         # subtopic with nothing tagged to it correctly excludes every
         # question rather than falling back to the whole chapter.
-        from ..curriculum.store import get_curriculum_store
-        eligible = set(get_curriculum_store(cfg.data_root).question_ids_for_subtopics(params.subtopic_ids))
+        eligible = set(curriculum.question_ids_for_subtopics(params.subtopic_ids))
         schemas = [q for q in schemas if q.id in eligible]
     if params.bloom_levels:
         schemas = [q for q in schemas if q.bloom_level in params.bloom_levels]
