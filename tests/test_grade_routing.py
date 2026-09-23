@@ -152,13 +152,21 @@ def test_practice_request_default_is_deliberately_still_class_ten():
     assert PracticeRequestBody(student_id="s").grade == "X"
 
 
-@pytest.mark.parametrize("model", ["QuickPaperRequest", "GenerateFromIdsRequest"])
-def test_paper_requests_require_a_grade(model):
+# Each model gets a body that is valid apart from the missing grade. One body
+# for both stopped working when QuickPaperRequest began refusing a field it
+# does not have (c4aa403): `questionIds` belongs to GenerateFromIdsRequest, and
+# the quick request then failed on the stray field as well as the grade, which
+# would have hidden a regression in the grade rule behind an unrelated error.
+@pytest.mark.parametrize("model,body", [
+    ("QuickPaperRequest", {"subject": "Mathematics"}),
+    ("GenerateFromIdsRequest", {"subject": "Mathematics", "questionIds": ["q1"]}),
+])
+def test_paper_requests_require_a_grade(model, body):
     """A request with no grade used to become a class 10 paper (`grade: int = 10`)."""
     from academicos.assessment import schemas
 
     with pytest.raises(ValidationError) as exc:
-        getattr(schemas, model).model_validate({"subject": "Mathematics", "questionIds": ["q1"]})
+        getattr(schemas, model).model_validate(body)
     assert [e["loc"] for e in exc.value.errors()] == [("grade",)]
 
 
