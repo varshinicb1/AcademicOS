@@ -57,7 +57,7 @@ void main() {
 
   Question findRealMcq() {
     final candidates = CorpusRepository.instance.search(
-      QuestionSearchParams(subject: 'Mathematics', grade: 10, limit: 500),
+      const QuestionSearchParams(subject: 'Mathematics', grade: 10, limit: 500),
     );
     final mcq = candidates.firstWhere(
       (q) => (q.answerScheme.metadata['correctOption']?.toString() ?? '').isNotEmpty,
@@ -67,14 +67,14 @@ void main() {
   }
 
   test('classInsights: real average and per-concept accuracy match hand-computed expected values', () async {
-    final assessment = await apiClient.createAssessment(CreateAssessmentRequest(
+    final assessment = await apiClient.createAssessment(const CreateAssessmentRequest(
       teacherId: 'test_teacher',
       schoolId: 'test_school',
       title: 'Insights Test Assessment',
       subject: 'Mathematics',
       grade: 10,
-      chapterIds: const [],
-      blueprint: const BlueprintRequest(
+      chapterIds: [],
+      blueprint: BlueprintRequest(
         totalMarks: 1,
         durationMinutes: 10,
         difficulty: DifficultyDistribution(easy: 1, medium: 0, hard: 0),
@@ -125,14 +125,14 @@ void main() {
   });
 
   test('schoolInsights: real per-subject rollup matches hand-computed awarded/max ratio', () async {
-    final assessment = await apiClient.createAssessment(CreateAssessmentRequest(
+    final assessment = await apiClient.createAssessment(const CreateAssessmentRequest(
       teacherId: 'test_teacher',
       schoolId: 'insights_school',
       title: 'Rollup Test Assessment',
       subject: 'Mathematics',
       grade: 10,
-      chapterIds: const [],
-      blueprint: const BlueprintRequest(
+      chapterIds: [],
+      blueprint: BlueprintRequest(
         totalMarks: 1,
         durationMinutes: 10,
         difficulty: DifficultyDistribution(easy: 1, medium: 0, hard: 0),

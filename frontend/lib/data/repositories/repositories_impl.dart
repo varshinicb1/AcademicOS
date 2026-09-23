@@ -6,7 +6,6 @@ import '../../domain/repositories/repositories.dart';
 import '../../domain/repositories/requests.dart';
 import '../datasources/api/api_client.dart';
 import '../datasources/api/api_error.dart';
-import '../datasources/local/app_database.dart';
 
 // 2026-09-17: AnswerSheetRepositoryImpl, EvaluationRepositoryImpl,
 // MasteryRepositoryImpl, AnalyticsRepositoryImpl, ReportRepositoryImpl, and
@@ -15,16 +14,17 @@ import '../datasources/local/app_database.dart';
 // path in either build. BlueprintRepositoryImpl/QuestionRepositoryImpl/
 // PracticeRepositoryImpl trimmed to their real methods only. See
 // domain/repositories/repositories.dart's matching note.
+//
+// 2026-09-23: the `AppDatabase localDb` every one of them took went the same
+// way. Each stored it in a `_localDb` the class never read -- four of the 20
+// analyzer warnings the re-audit counted for a third time -- and every method
+// here goes to the API client. Callers (service_locator, test/support/real_di)
+// no longer build a drift database to pass in.
 
 class BlueprintRepositoryImpl implements BlueprintRepository {
   final ApiClient _apiClient;
-  final AppDatabase _localDb;
 
-  BlueprintRepositoryImpl({
-    required ApiClient apiClient,
-    required AppDatabase localDb,
-  })  : _apiClient = apiClient,
-        _localDb = localDb;
+  BlueprintRepositoryImpl({required ApiClient apiClient}) : _apiClient = apiClient;
 
   @override
   Future<Either<Failure, Blueprint>> generateBlueprint(BlueprintRequest request) async {
@@ -49,13 +49,8 @@ class BlueprintRepositoryImpl implements BlueprintRepository {
 
 class QuestionRepositoryImpl implements QuestionRepository {
   final ApiClient _apiClient;
-  final AppDatabase _localDb;
 
-  QuestionRepositoryImpl({
-    required ApiClient apiClient,
-    required AppDatabase localDb,
-  })  : _apiClient = apiClient,
-        _localDb = localDb;
+  QuestionRepositoryImpl({required ApiClient apiClient}) : _apiClient = apiClient;
 
   @override
   Future<Either<Failure, List<Question>>> searchQuestions(QuestionSearchParams params) async {
@@ -71,8 +66,8 @@ class QuestionRepositoryImpl implements QuestionRepository {
   Future<Either<Failure, List<Question>>> getQuestionsForBlueprint(Blueprint blueprint) async {
     try {
       final params = QuestionSearchParams(
-        subject: blueprint.metadata?['subject'] as String? ?? 'Mathematics',
-        grade: blueprint.metadata?['grade'] as int? ?? 10,
+        subject: blueprint.metadata['subject'] as String? ?? 'Mathematics',
+        grade: blueprint.metadata['grade'] as int? ?? 10,
         limit: 200,
       );
       return searchQuestions(params);
@@ -100,13 +95,8 @@ class QuestionRepositoryImpl implements QuestionRepository {
 
 class PaperGenerationRepositoryImpl implements PaperGenerationRepository {
   final ApiClient _apiClient;
-  final AppDatabase _localDb;
 
-  PaperGenerationRepositoryImpl({
-    required ApiClient apiClient,
-    required AppDatabase localDb,
-  })  : _apiClient = apiClient,
-        _localDb = localDb;
+  PaperGenerationRepositoryImpl({required ApiClient apiClient}) : _apiClient = apiClient;
 
   @override
   Future<Either<Failure, GeneratedPaper>> generatePaper(PaperGenerationRequest request) async {
@@ -161,13 +151,8 @@ class PaperGenerationRepositoryImpl implements PaperGenerationRepository {
 
 class PracticeRepositoryImpl implements PracticeRepository {
   final ApiClient _apiClient;
-  final AppDatabase _localDb;
 
-  PracticeRepositoryImpl({
-    required ApiClient apiClient,
-    required AppDatabase localDb,
-  })  : _apiClient = apiClient,
-        _localDb = localDb;
+  PracticeRepositoryImpl({required ApiClient apiClient}) : _apiClient = apiClient;
 
   @override
   Future<Either<Failure, PracticeResult>> submitPractice(PracticeSubmission submission) async {

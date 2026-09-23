@@ -4,7 +4,6 @@
 // flow. Uses real demo-seeded data (DemoSeeder), not fabricated widget
 // state, so a real regression here (e.g. the corrected-sheet tile silently
 // stops rendering the real total) actually fails this test.
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:academicos/core/local_engine/demo_seeder.dart';

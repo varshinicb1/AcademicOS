@@ -145,12 +145,12 @@ void main() {
       id: 'paper_test_empty_section',
       assessmentId: 'assessment_test_1',
       sections: [
-        GeneratedSection(
+        const GeneratedSection(
           sectionId: 'section_a',
           label: 'A',
           name: 'MCQ',
           totalMarks: 0,
-          questions: const [],
+          questions: [],
         ),
       ],
       formattedContent: '',

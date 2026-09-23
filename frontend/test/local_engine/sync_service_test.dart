@@ -41,7 +41,8 @@ class _MockHttpClientAdapter implements HttpClientAdapter {
     final key = '${options.method}:${options.uri.path}';
     final route = _routes[key];
     if (route == null) {
-      print('MOCK: No route found for $key');
+      // No print: the exception below carries the same key, and a test that
+      // hits it fails with it (avoid_print, 2026-09-23).
       throw DioException(
         requestOptions: options,
         error: 'No mock route for $key',
@@ -50,10 +51,8 @@ class _MockHttpClientAdapter implements HttpClientAdapter {
       );
     }
 
-    print('MOCK: Calling handler for $key');
     try {
       final response = await route.handler(options);
-      print('MOCK: Handler returned response');
       final headersMap = <String, List<String>>{
         'content-type': ['application/json'],
       };
@@ -63,8 +62,8 @@ class _MockHttpClientAdapter implements HttpClientAdapter {
       final bodyString = response.body is String ? response.body : jsonEncode(response.body);
       return ResponseBody.fromString(bodyString, response.statusCode,
           headers: headersMap);
-    } catch (e, stack) {
-      print('MOCK: Handler threw: $e\n$stack');
+    } catch (_) {
+      // Rethrown whole: the test's own failure prints the error and stack.
       rethrow;
     }
   }
@@ -77,11 +76,15 @@ class _MockRoute {
 
 typedef _MockRouteHandler = Future<_MockResponse> Function(RequestOptions options);
 
+/// A captured 200 answer. Every route below answers 200 or throws a
+/// DioException built directly, so the status and headers are fixed rather
+/// than parameters no call site ever passed (two of the 20 analyzer warnings
+/// the 2026-09-23 re-audit counted).
 class _MockResponse {
   final dynamic body;
-  final int statusCode;
-  final Map<String, dynamic> headers;
-  _MockResponse({required this.body, this.statusCode = 200, this.headers = const {}});
+  final int statusCode = 200;
+  final Map<String, dynamic> headers = const {};
+  _MockResponse({required this.body});
 }
 
 /// Test implementation of SyncService that uses a provided Dio.
@@ -442,9 +445,8 @@ void main() {
         testHelper.mockGetAssessments(() => _MockResponse(body: []));
 
         final result = await testHelper.service.sync(schoolId);
-        print('DEBUG: result = ${result.success}, error = ${result.error}, pushed = ${result.pushedCount}');
 
-        expect(result.success, isTrue);
+        expect(result.success, isTrue, reason: result.error);
         expect(result.pushedCount, 1);
         expect(result.pulledCount, 0);
 
@@ -756,8 +758,8 @@ void main() {
       });
 
       test('concurrent sync calls for different schools do not block each other', () async {
-        final schoolA = 'school_A';
-        final schoolB = 'school_B';
+        const schoolA = 'school_A';
+        const schoolB = 'school_B';
         final localA = makeAssessment(id: 'a1', hasMetadata: false)..update('schoolId', (v) => schoolA);
         final localB = makeAssessment(id: 'b1', hasMetadata: false)..update('schoolId', (v) => schoolB);
         store.upsertAssessment(localA);

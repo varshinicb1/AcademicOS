@@ -144,16 +144,16 @@ class DemoSeeder {
       subject: teacher.subject,
       grade: 10,
       chapterIds: teacher.chapterIds,
-      blueprint: BlueprintRequest(
+      blueprint: const BlueprintRequest(
         totalMarks: 30,
         durationMinutes: 60,
-        difficulty: const DifficultyDistribution(easy: 0.35, medium: 0.45, hard: 0.2),
-        bloom: const BloomDistribution(
+        difficulty: DifficultyDistribution(easy: 0.35, medium: 0.45, hard: 0.2),
+        bloom: BloomDistribution(
           remember: 0.25, understand: 0.25, apply: 0.2, analyze: 0.15, evaluate: 0.1, create: 0.05,
         ),
-        chapterWeights: const ChapterWeights(weights: {}),
-        competencyWeights: const CompetencyWeights(weights: {}),
-        sections: const [],
+        chapterWeights: ChapterWeights(weights: {}),
+        competencyWeights: CompetencyWeights(weights: {}),
+        sections: [],
       ),
     ));
 

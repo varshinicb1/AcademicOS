@@ -163,7 +163,7 @@ void main() {
         displayNumber: 1,
         stem: 'Define photosynthesis in green plants.',
         stemLatex: '',
-        parts: const [],
+        parts: [],
         marks: 3,
         bloomLevel: 'understand',
         difficulty: 'medium',
@@ -172,7 +172,7 @@ void main() {
         isCompetency: true,
       );
 
-      final sectionA = GeneratedSection(
+      const sectionA = GeneratedSection(
         sectionId: 'sec_1',
         label: 'A',
         name: 'Short Answer',

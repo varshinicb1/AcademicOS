@@ -152,22 +152,13 @@ Future<void> initDependencies() async {
     () => AssessmentRepositoryImpl(apiClient: sl<ApiClient>()),
   );
   sl.registerLazySingleton<BlueprintRepository>(
-    () => BlueprintRepositoryImpl(
-      apiClient: sl<ApiClient>(),
-      localDb: sl<AppDatabase>(),
-    ),
+    () => BlueprintRepositoryImpl(apiClient: sl<ApiClient>()),
   );
   sl.registerLazySingleton<QuestionRepository>(
-    () => QuestionRepositoryImpl(
-      apiClient: sl<ApiClient>(),
-      localDb: sl<AppDatabase>(),
-    ),
+    () => QuestionRepositoryImpl(apiClient: sl<ApiClient>()),
   );
   sl.registerLazySingleton<PaperGenerationRepository>(
-    () => PaperGenerationRepositoryImpl(
-      apiClient: sl<ApiClient>(),
-      localDb: sl<AppDatabase>(),
-    ),
+    () => PaperGenerationRepositoryImpl(apiClient: sl<ApiClient>()),
   );
   // 2026-09-17: AnswerSheetRepository, EvaluationRepository,
   // MasteryRepository, AnalyticsRepository, ReportRepository, and
@@ -178,10 +169,7 @@ Future<void> initDependencies() async {
   // (wasted lazy-singleton setup) but never resolved by anything, matching
   // the AssessmentBloc comment just below about the equivalent dead blocs.
   sl.registerLazySingleton<PracticeRepository>(
-    () => PracticeRepositoryImpl(
-      apiClient: sl<ApiClient>(),
-      localDb: sl<AppDatabase>(),
-    ),
+    () => PracticeRepositoryImpl(apiClient: sl<ApiClient>()),
   );
 
   // Use Cases

@@ -68,6 +68,10 @@ dependencies:
   # which broke `flutter build apk` outright. Removed rather than fixed since
   # nothing here needs it.
   image_picker: ^1.1.2
+  # image: generates a real tiny PNG in local_scan_pdf_export_test.dart, and
+  # is already a transitive dep of pdf; declared here so the direct import
+  # resolves. A normal dependency, not a dev one -- declaring it in both is
+  # what `unnecessary_dev_dependency` was warning about.
   image: ^4.2.0
   # google_fonts removed: Inter is bundled as an asset now (see the `fonts:`
   # block under `flutter:`), so nothing downloads a typeface at runtime and
@@ -175,7 +179,15 @@ dev_dependencies:
   # Testing
   # mocktail: ^0.2.0  # Removed - conflict with freezed
   # bloc_test: ^8.5.0  # Removed - conflict with freezed
-  image: ^4.2.0  # generates a real tiny PNG in local_scan_pdf_export_test.dart -- already a transitive dep of pdf, declared here so the direct import resolves
+
+  # Imported directly by the offline-engine tests, which install a
+  # FakePathProvider so a widget test writes into a temp dir instead of the
+  # machine's documents folder. Both arrive transitively via path_provider,
+  # but `depend_on_referenced_packages` counts a direct import that is not a
+  # declared dependency -- ten of the info lints the 2026-09-23 re-audit
+  # listed -- and a transitive version is not a version this repo pinned.
+  path_provider_platform_interface: ^2.1.0
+  plugin_platform_interface: ^2.1.0
 
 flutter:
   uses-material-design: true

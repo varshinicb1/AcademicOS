@@ -65,11 +65,11 @@ void main() {
     // Deliberately narrow: a single real chapter, to exercise the
     // fallback/backfill rescue -- this is the exact bug class found and
     // fixed earlier this session (a narrow pick returning a blank paper).
-    final candidates = CorpusRepository.instance.search(QuestionSearchParams(
-      subject: 'Mathematics', grade: 10, chapterIds: const ['trigonometry'], limit: 500,
+    final candidates = CorpusRepository.instance.search(const QuestionSearchParams(
+      subject: 'Mathematics', grade: 10, chapterIds: ['trigonometry'], limit: 500,
     ));
     final fallback = CorpusRepository.instance.search(
-      QuestionSearchParams(subject: 'Mathematics', grade: 10, limit: 2000),
+      const QuestionSearchParams(subject: 'Mathematics', grade: 10, limit: 2000),
     );
 
     final result = selection.optimize(candidates, blueprint, fallbackCandidates: fallback);
@@ -132,7 +132,7 @@ void main() {
   test('real evaluation engine scores real questions with real reasoning', () async {
     await CorpusRepository.instance.ensureLoaded();
     final questions = CorpusRepository.instance
-        .search(QuestionSearchParams(subject: 'Science', grade: 10, limit: 5));
+        .search(const QuestionSearchParams(subject: 'Science', grade: 10, limit: 5));
 
     // ignore: avoid_print
     print('\n=== REAL EVALUATION (deterministic marking-point engine) ===');
@@ -162,7 +162,7 @@ void main() {
     await CorpusRepository.instance.ensureLoaded();
     // The first Science 10 MCQ: the bank's first question is no longer one.
     final q = CorpusRepository.instance
-        .search(QuestionSearchParams(subject: 'Science', grade: 10, limit: 2000))
+        .search(const QuestionSearchParams(subject: 'Science', grade: 10, limit: 2000))
         .firstWhere((q) => q.answerScheme.metadata['correctOption'] != null);
     final scheme = q.answerScheme;
     final key = scheme.metadata['correctOption']!.toString();

@@ -14,18 +14,15 @@
 //
 // Every repository built here is a REAL implementation talking to a REAL
 // LocalApiClient(), which reads/writes the REAL Hive-backed LocalStore --
-// consistent with this whole test suite's "no fake data" rule. The one
-// exception is AppDatabase: BlueprintRepositoryImpl/QuestionRepositoryImpl/
-// PaperGenerationRepositoryImpl all require one, but `flutter analyze`
-// confirms `_localDb` is an unused field in every one of them (this file's
-// own repositories_impl.dart) -- so a real AppDatabase pointed at a real
-// temp-dir path is constructed (never a mock). Whether or not drift's
-// LazyDatabase ever actually opens its native connection here, drift's own
-// "you've created the database class AppDatabase multiple times" warning
-// fires on construction alone (buildAssessmentBloc() is called once per
-// test) -- and a real, confirmed 12-minute hang traced to one of these never
-// being closed means every AppDatabase this env creates now IS tracked and
-// closed by dispose(), not left to accumulate. See buildAssessmentBloc().
+// consistent with this whole test suite's "no fake data" rule.
+//
+// 2026-09-23: no AppDatabase is built any more. The three repositories that
+// took one never read it (four unused-field warnings in repositories_impl.dart,
+// now gone with the parameter), and this file had to construct, track and
+// close a real drift database per test only to satisfy the constructor -- the
+// same databases whose unclosed handles once cost a confirmed 12-minute hang
+// in classes_page_test.dart's tearDownAll. Nothing to close means nothing to
+// leak.
 import 'dart:async';
 import 'dart:io';
 
@@ -33,7 +30,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path/path.dart' as p;
 import 'package:path_provider_platform_interface/path_provider_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
@@ -41,7 +37,6 @@ import 'package:academicos/core/local_engine/local_api_client.dart';
 import 'package:academicos/core/local_engine/local_pillar_api.dart';
 import 'package:academicos/data/datasources/api/api_client.dart';
 import 'package:academicos/data/datasources/api/pillar_api.dart';
-import 'package:academicos/data/datasources/local/app_database.dart';
 import 'package:academicos/data/repositories/assessment_repository_impl.dart';
 import 'package:academicos/data/repositories/repositories_impl.dart';
 import 'package:academicos/domain/usecases/assessment_usecases.dart';
@@ -60,7 +55,6 @@ class FakePathProvider extends PathProviderPlatform with MockPlatformInterfaceMi
 class RealTestEnv {
   final Directory tmpDir;
   final Box cacheBox;
-  final List<AppDatabase> _databases = [];
 
   RealTestEnv._(this.tmpDir, this.cacheBox);
 
@@ -84,23 +78,15 @@ class RealTestEnv {
 
   /// Builds a real AssessmentBloc wired to a real (offline) ApiClient --
   /// same object graph as service_locator.dart's initDependencies(), just
-  /// constructed directly instead of through GetIt. A fresh AppDatabase is
-  /// built per call rather than shared, so tests stay independent. Tracked
-  /// in _databases and closed by dispose() below: a real, confirmed
-  /// 12-minute hang in classes_page_test.dart's tearDownAll -- happening
-  /// only when it ran after assessment_review_page_test.dart in the same
-  /// process, never when run alone -- traced to these never being closed
-  /// (drift's own "you've created the database class AppDatabase multiple
-  /// times" warning was the on-the-nose symptom pointing here).
+  /// constructed directly instead of through GetIt. A fresh one per call, so
+  /// tests stay independent.
   AssessmentBloc buildAssessmentBloc() {
     final apiClient = LocalApiClient();
-    final localDb = AppDatabase(p.join(tmpDir.path, 'test_${DateTime.now().microsecondsSinceEpoch}.db'));
-    _databases.add(localDb);
 
     final assessmentRepository = AssessmentRepositoryImpl(apiClient: apiClient);
-    final blueprintRepository = BlueprintRepositoryImpl(apiClient: apiClient, localDb: localDb);
-    final questionRepository = QuestionRepositoryImpl(apiClient: apiClient, localDb: localDb);
-    final paperRepository = PaperGenerationRepositoryImpl(apiClient: apiClient, localDb: localDb);
+    final blueprintRepository = BlueprintRepositoryImpl(apiClient: apiClient);
+    final questionRepository = QuestionRepositoryImpl(apiClient: apiClient);
+    final paperRepository = PaperGenerationRepositoryImpl(apiClient: apiClient);
 
     return AssessmentBloc(
       createAssessment: CreateAssessmentUseCase(assessmentRepository, blueprintRepository),
@@ -126,9 +112,6 @@ class RealTestEnv {
   // but it stops one flaky close from taking the whole suite down with it.
   Future<void> dispose() async {
     await GetIt.instance.reset();
-    for (final db in _databases) {
-      await db.close();
-    }
     try {
       await cacheBox.close().timeout(const Duration(seconds: 10));
     } on TimeoutException {

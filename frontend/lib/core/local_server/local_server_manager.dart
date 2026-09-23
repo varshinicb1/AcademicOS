@@ -4,4 +4,5 @@
 /// services (e.g. Sarvam Vision for OCR), never a call back to us.
 ///
 /// No-op on web/mobile, where there's nothing to spawn.
+library;
 export 'local_server_stub.dart' if (dart.library.io) 'local_server_io.dart';

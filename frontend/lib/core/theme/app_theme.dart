@@ -44,20 +44,22 @@ class AppTheme {
         tones: FlexTones.material(brightness),
       );
 
+  // The palette the component themes below still name directly. The secondary,
+  // tertiary, success, warning, onSecondary and onBackground constants that
+  // used to sit here went when _scheme took over the colour roles: nothing read
+  // them, and the analyzer had counted them as six unused fields for three
+  // audits running. The roles themselves live on the generated ColorScheme
+  // (colorScheme.secondary, .tertiary, .onSecondary); AppConstants still holds
+  // the seeds.
   static const Color _primary = Color(AppConstants.primaryColorValue);
-  static const Color _secondary = Color(AppConstants.secondaryColorValue);
-  static const Color _accent = Color(AppConstants.accentColorValue);
-  static const Color _success = Color(AppConstants.successColorValue);
-  static const Color _warning = Color(AppConstants.warningColorValue);
   static const Color _error = Color(AppConstants.errorColorValue);
   static const Color _surface = Color(AppConstants.surfaceColorValue);
   static const Color _background = Color(AppConstants.backgroundColorValue);
-  
+
   static const Color _onPrimary = Colors.white;
-  static const Color _onSecondary = Colors.white;
   static const Color _onSurface = Color(0xFF1E293B);
-  static const Color _onBackground = Color(0xFF1E293B);
-  
+
+
   // Light theme
   static ThemeData get lightTheme => ThemeData(
     useMaterial3: true,

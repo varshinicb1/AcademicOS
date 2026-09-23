@@ -40,7 +40,7 @@ void main() {
     api = LocalApiClient();
   });
 
-  Future<Assessment> createRealAssessment() => api.createAssessment(CreateAssessmentRequest(
+  Future<Assessment> createRealAssessment() => api.createAssessment(const CreateAssessmentRequest(
         teacherId: 'test_teacher',
         schoolId: 'test_school',
         title: 'Real Test Assessment',
@@ -51,8 +51,8 @@ void main() {
         // so filtering by chapterIds here would return zero real
         // candidates. Subject-only search is what demo_seeder.dart itself
         // falls back to for exactly this reason.
-        chapterIds: const [],
-        blueprint: const BlueprintRequest(
+        chapterIds: [],
+        blueprint: BlueprintRequest(
           totalMarks: 20,
           durationMinutes: 40,
           difficulty: DifficultyDistribution(easy: 0.4, medium: 0.4, hard: 0.2),
@@ -85,7 +85,7 @@ void main() {
     test('retrieves a real generated paper with real questions, round-tripped through JSON', () async {
       final assessment = await createRealAssessment();
       final templates = await api.getSchoolPaperTemplates('test_school');
-      final candidates = CorpusRepository.instance.search(QuestionSearchParams(
+      final candidates = CorpusRepository.instance.search(const QuestionSearchParams(
         subject: 'Mathematics',
         grade: 10,
         limit: 200,

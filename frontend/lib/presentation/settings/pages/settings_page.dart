@@ -114,7 +114,11 @@ class _SettingsPageState extends State<SettingsPage> {
               if (v) {
                 final ok = await AppLock.confirmCanEnable();
                 if (!ok) {
-                  if (!mounted) return;
+                  // The build method's own context, not State.context: the
+                  // SnackBar is shown through the one this closure captured,
+                  // so that is the one that has to still be mounted after
+                  // AppLock's await (use_build_context_synchronously).
+                  if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('No fingerprint, face, or device PIN is set up on this phone -- '
                         'set one up in Android Settings first.'),
