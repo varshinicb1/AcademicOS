@@ -13,38 +13,56 @@ or 5 against it. A marking scheme exists so a teacher can give 3 of 5; one
 value point worth all 5 marks is a model answer wearing a scheme's clothes.
 
 The sources print the split. A CBSE marking scheme writes "1+1=2", "1X2=2",
-"Any other, Any two", "Award 1 mark for each point"; an NCERT Exemplar answer
-prints its parts, "(a) ... (b) ... (c) ...". Both importers threw that away.
-This module reads it back -- and NOTHING else. Measured over the 2,449 served
-multi-mark answers at c734a69, 101 of them split and 2,348 keep their single
-point, which is what those answers say:
+"Any other, Any two", "Award 1 mark for each point"; a CBE maths scheme codes
+every step of the working, "M1 4 x 2(12+8) ... M1 their 160 x 5 ... A1 Rs
+800"; an NCERT Exemplar answer prints its parts, "(a) ... (b) ... (c) ...".
+The importers threw all of it away. This module reads it back -- and NOTHING
+else. Measured over the 2,449 served multi-mark answers at bc41780, 126 of
+them split and 2,323 keep their single point, which is what those answers say:
 
-   1,630  prose: no list, no mark annotation, nothing to read
-     388  two answers in one key -- an internal choice, or a CBE group part
+   1,606  prose: no list, no mark annotation, nothing to read
      276  a list whose count does not divide the question's marks
+     213  two answers in one key -- an internal choice
+     168  a CBE group item, whose key covers several sub-questions
       23  a printed per-point value that does not fit the list
       13  answer content outside the list no point would account for
-       7  the board prints half a mark a point, which `marks` cannot carry
-       6  an "any N" that does not divide the marks
-       5  printed marks or addends that do not line up with the list
-       2  a level-of-response rubric, whose bullets are not value points
+       9  the board prints half a mark a point, which `marks` cannot carry
+       4  an "any N" that does not divide the marks or over-awards the list
+       3  a level-of-response rubric, whose bullets are not value points
+       3  named points that do not account for the question's marks
+       3  printed marks or addends that do not line up with the list
+       1  "any one of the following", where one point carries every mark
+       1  a case study, whose parts the paper weights 1, 1 and 2
 
 Every one of those keeps its single point and SAYS so (`allOrNothing`), so a
 teacher sees "this key is all or nothing" rather than assuming steps exist.
 
 The rules, tried in this order
 ------------------------------
+  step-marks     a worked solution with the board's code against each step --
+                 "M1 <method> ... A1 <the result>" -- where the codes add up
+                 to the question's marks and each one has a step beneath it.
   any-of         "Any two of the following" over a list: each listed point is
                  worth marks/N and the scheme records `anyOf: N`, because only
                  N of them are awarded.
   marks-each     "1 mark each", "Award 1 mark for each point", "1X2=2": the
                  per-point value is printed, and it must fit the list exactly.
-  marks-printed  "1+1", "2+1=3": the board printed the split itself, and the
-                 addends are assigned to the list's items in order.
+  marks-printed  "1+1", "2+1=3" printed for the list, or a mark printed after
+                 each point of it ("(i) Definition of refraction 1 (ii)
+                 Statement of the two laws 2"): the board printed the split
+                 itself, and the values are assigned to the items in order.
+  marks-for      "Award 1 mark for a valid explanation of 'daunting'. Award 1
+                 mark for a valid explanation of 'venture'.": the board names
+                 its points and what each is worth. Read only as a set that
+                 accounts for the marks -- one award on its own is a level of
+                 response or a tolerance, not a division of the answer.
   list-equal     a numbered or lettered list with no mark annotation at all --
                  "(a) ... (b) ... (c) ..." against a 3-mark question. The
                  source shows the points; dividing the marks equally over them
-                 is the only allocation consistent with what it shows.
+                 is the only allocation consistent with what it shows. Not
+                 over a case study: CBSE prints its parts as 1, 1 and 2 in the
+                 paper's own general instructions, so equal is known to be
+                 wrong before the answer is read.
 
 Every rule must ACCOUNT FOR THE MARKS. A split is accepted only when the marks
 it reads add up to exactly the question's marks -- under `any N`, when N points
@@ -69,16 +87,21 @@ own key:
 
   * `strip_stem_echo` -- the key opens with the stem. Measured on the served
     bank: 38 records share 20+ characters with the head of their stem, of
-    which 28 are cut, because only a run that ends on a sentence boundary is.
-    An answer that RESTATES the premise in its own words ("Helium atom has 2
-    electrons in its outermost shell...") is left alone.
+    which 30 are cut, because only a run that ends on a sentence boundary is.
+    The 8 left alone are the ones where cutting would be wrong or would leave
+    nothing: 3 answers RESTATE the premise in their own words ("Helium atom
+    has 2 electrons in its outermost shell...") and diverge mid-sentence, 2
+    are nothing BUT the question restated, and 3 diverge on a spelling ("bonne
+    ordre" answered "bon ordre") before any sentence ends.
   * `strip_restated_questions` -- CBE's mark scheme "restates the question,
     then an Answer | Guidance table" (corpus/cbse_cbe.py). In a multi-part item
     every later part's question text lands in the middle of the key: 59 of the
     436 served CBE records read as questions with an answer between them, and
-    none does after this. It runs in the parser, before the answer's 40-word
-    cut, so 143 served CBE keys also reach further into their item than they
-    used to -- the words the cut used to spend on the question.
+    none of the 1,640 parsed items does after this -- including the two that
+    number their sub-questions "3 Explain ..." rather than "1 (c)". It runs in
+    the parser, before the answer's 40-word cut, so 143 served CBE keys also
+    reach further into their item than they used to -- the words the cut used
+    to spend on the question.
 """
 from __future__ import annotations
 
@@ -89,6 +112,8 @@ from dataclasses import dataclass
 ANY_OF = "any-of"
 MARKS_EACH = "marks-each"
 MARKS_PRINTED = "marks-printed"
+MARKS_FOR = "marks-for"
+STEP_MARKS = "step-marks"
 LIST_EQUAL = "list-equal"
 
 # The audit measured the stem bleed at "20+ characters of the stem at the START
@@ -98,6 +123,10 @@ LIST_EQUAL = "list-equal"
 # (answer-is-question-text).
 _MIN_ECHO = 20
 _MIN_KEEP = 15
+# The shortest run that can be cut off the head of an answer once a 20+
+# character echo has been measured -- the echo's last sentence may be shorter
+# than the echo ("Mettez au négatif:").
+_MIN_CUT = 8
 
 # A lead-in ("Hint—", "Various modes of weed control are", "Two examples to
 # show "Play influences social and emotional 1X2=2 development"- Child learns
@@ -115,6 +144,11 @@ _WORD_NUMBERS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
 _ANY_OF = re.compile(
     r"\bany\s+(one|two|three|four|five|six|seven|eight|nine|ten|\d{1,2})\b", re.I)
 
+# "Any one role of each": an "any one" that is an instruction inside every
+# item of the list ("give one role of EACH of a, b and c"), not an instruction
+# over the list.
+_ANY_ONE_EACH = re.compile(r"\bany\s+(?:one|1)\b[^.]{0,40}?\beach\b", re.I)
+
 # "1 mark each", "½ mark each", "Award 1 mark for each point", "One mark each
 # is to be awarded", "1 mark for every correct answer", "Each correct answer
 # merits 1 mark".
@@ -130,6 +164,52 @@ _MARKS_EACH = re.compile(
 # "up to a maximum of 2 marks" is not this: it caps a per-point award.
 _WHOLE_MARK_AWARD = re.compile(
     r"\b(?:award|awarded|for)\s+(\d{1,2})\s+marks?\b(?!\s+(?:for\s+|to\s+)?(?:each|every))", re.I)
+
+# "Award 1 mark for a valid explanation of 'daunting'", "2 marks for the
+# diagram": the board naming a value point and what it is worth. Read only as
+# a SET -- two or more of them that account for the question's marks between
+# them. One on its own is a level-of-response rubric ("Award 2 marks for a
+# clear explanation") when it is worth the whole question, and a tolerance
+# ("Allow 2 marks for the correct answer only") when it is not; neither
+# divides the answer. `_WHOLE_MARK_AWARD` above still refuses any text where
+# one award is worth every mark, which no set of two or more can be.
+_MARKS_FOR = re.compile(
+    r"(?<!\w)(\d{1,2}|one|two|three|four|five|½|half)\s*marks?\s+for\s+"
+    r"(?!each\b|every\b)", re.I)
+# How much of the sentence after "N marks for" is the component's name.
+_MAX_COMPONENT = 120
+
+# "M1", "A 1", "B2": the step codes a mark scheme prints down the side of a
+# worked solution -- M for the method, A for the accurate result it reaches, B
+# for a result that stands on its own -- with the marks that step earns. This
+# is how CBSE's CBE item banks mark a calculation: "M1 4 x 2(12+8) OR
+# equivalent OR 160 seen / M1 their 160 x 5 / A1 Rs 800" (cbe:q:Maths8DB4, 3
+# marks), each step ending in the result it reaches. Read only when the codes
+# account for the question's marks exactly and every one of them has a step
+# written beneath it: "M1 A1 - to find correct inner radius and use correct
+# formula" (cbe:q:Maths9GB8) prints two marks of four and one step for both.
+# The code is uppercase because "28.2191 m2" is square metres, not a 2-mark
+# step, and is not read inside a bracket because "=SUM(A1:A5)" is a cell.
+_STEP_CODE = re.compile(r"(?<![A-Za-z0-9(\[])([MAB])\s?([1-9])(?![0-9])")
+
+# The mark printed after a value point rather than once for the list -- "(i)
+# Definition of refraction 1 (ii) Statement of the two laws 2". A bare number
+# at the end of an item is only a mark when the item SAYS something without
+# it: every Exemplar maths key whose items are answers ("a) 8 b) 13",
+# "(i) 49 (ii) 28") ends each item in a digit that is the answer itself.
+_TRAILING_MARK = re.compile(r"\s(\d{1,2})\s*$")
+_MIN_ITEM_WORDS = 2
+
+# "CASE STUDY - III", "case based": a question whose parts the paper's own
+# general instructions weight unequally. Every CBSE sample paper that carries
+# case studies says so on page 1 -- "Each case study comprises of 3 case-based
+# questions, where 2 VSA type questions are of 1 mark each and 1 SA type
+# question is of 2 marks" (Applied-Maths-SQP.pdf, 2022-23) -- and the per-part
+# marks are printed in a margin column that extraction drops. So the parts of
+# a case study are 1, 1 and 2, never equal, and dividing its marks equally is
+# the one allocation known in advance to be wrong.
+_CASE_STUDY = re.compile(r"\bcase[\s\-]?(?:stud(?:y|ies)|based)\b", re.I)
+
 _MERITS_EACH = re.compile(
     r"\beach\b[^.]{0,40}?\b(?:merits|carries|gets|worth)\s*(\d{1,2}|½|half)\s*marks?", re.I)
 # "1X2=2", "2x1=2", "½ x 4=2": one factor is the per-point value and the other
@@ -174,9 +254,24 @@ _RESTATED = re.compile(_PART_LABEL + r"\s*.{0,400}?\bAnswer\s+Guidance\b\s*", re
 # the restatement early and leave the real heading standing.
 _RESTATED_SPLIT_HEADING = re.compile(
     _PART_LABEL + r"\s*.{0,400}?\bAnswer\b\s*(?=.{0,200}?\bGuidance\b)", re.I | re.S)
+# Two of the 1,640 items number their sub-questions with a bare "3 Explain
+# what is meant by 'crowned by adversity' (lines 18-19)." rather than "1 (b)"
+# -- English9NS1 and English8SM1. A bare number is not a label anywhere else
+# in a key, so it is read as one only where the CBE layout puts one: after a
+# sentence ends, before a capital letter, with the question's own sentence and
+# then the Answer|Guidance heading behind it. Nothing else in a key reaches a
+# heading, because the labelled pass above has already taken every heading
+# that belongs to a labelled restatement.
+_RESTATED_BARE = re.compile(
+    r"(?:(?<=[.?!])|(?<=\n))\s*(\d{1,2})\s+(?=[A-Z])"
+    r"(?:(?!\bAnswer\b).){5,300}?[.?]\s*\bAnswer\s+Guidance\b\s*", re.S)
 
 # Sentence boundaries a stem and its echo can both end on.
 _TERMINATORS = ".:?!)"
+
+# The label that opens the first item of a list -- "a.", "(i)", "1)". A stem
+# echo is never cut past one: the label belongs to the key's own structure.
+_ECHO_LABEL = re.compile(r"(?<!\S)\(?(?:[a-h]|i{1,3}|iv|vi?|\d{1,2})\s*[.)]\s")
 
 _BULLETS = "•●▪‣⁃"
 
@@ -227,19 +322,34 @@ def split_answer(answer: str, marks: int, stem: str = "") -> Split:
     marks = int(marks or 0)
     if not text:
         return Split(points=(), marks=marks)
-    if marks <= 1 or _INTERNAL_CHOICE.search(text) or _GROUP_PART.search(text):
+    if marks <= 1 or _GROUP_PART.search(text):
         return _one_point(text, marks)
     if len(_GROUP_PART.findall(str(stem or ""))) > 1:
+        return _one_point(text, marks)
+
+    if _half_mark_split(text, marks):
+        return _one_point(text, marks)
+    if any(int(n) == marks for n in _WHOLE_MARK_AWARD.findall(text)):
+        return _one_point(text, marks)
+
+    # A worked solution's step codes are read BEFORE the internal-choice
+    # guard, because "M1 4 x 2(12+8) OR equivalent OR 160 seen" is a maths
+    # scheme saying which forms of one step to accept, not two answers in one
+    # key. Both branches of a real internal choice carry the question's whole
+    # marks, so their codes add up to twice it and the split is refused there.
+    stepped = _step_marks(text, marks)
+    if stepped is not None:
+        return stepped
+    if _INTERNAL_CHOICE.search(text):
         return _one_point(text, marks)
 
     listing = _list_items(text)
     lead_in, items, instruction = listing.lead_in, listing.items, listing.instruction
     if not items or len(lead_in) > _MAX_LEAD_IN:
-        return _one_point(text, marks)
-    if _half_mark_split(text, marks):
-        return _one_point(text, marks)
-    if any(int(n) == marks for n in _WHOLE_MARK_AWARD.findall(text)):
-        return _one_point(text, marks)
+        # No list to divide. A mark scheme can still name its value points
+        # ("Award 1 mark for a valid explanation of 'daunting'") where the
+        # answer beside them flattened into prose.
+        return _marks_for(text, marks) or _one_point(text, marks)
 
     # The instruction that governs a list is printed WITH the list -- in the
     # lead-in ("Two reasons ... are-") or after the last item ("Any other, Any
@@ -250,6 +360,16 @@ def split_answer(answer: str, marks: int, stem: str = "") -> Split:
     any_n = _any_of_count(f"{lead_in} {instruction}")
     if any_n is not None and any_n > len(items):
         # More awarded than listed: the list is not the scheme's alternatives.
+        return _one_point(text, marks)
+    if any_n == 1 and not _ANY_ONE_EACH.search(f"{lead_in} {instruction}"):
+        # "Any one of the following" over a list: the board awards the
+        # question's WHOLE marks to whichever one the student gives, so an
+        # equal division tells a teacher that the rest of the answer is
+        # missing when it is not -- and which single point carries them all
+        # is not something a scheme can record. The key stays whole.
+        # "Any one role of EACH of the following" is the other instruction:
+        # one role per listed part, so the parts still divide the marks
+        # (cbse:sqp:ClassXII_2022_23:Home Science:29).
         return _one_point(text, marks)
     if any_n is not None and any_n > 1 and any_n < len(items):
         # "Any two of the following" lists more ways than it awards. Each
@@ -282,6 +402,15 @@ def split_answer(answer: str, marks: int, stem: str = "") -> Split:
                          rule=MARKS_PRINTED, marks=marks)
         return _one_point(text, marks)
 
+    # The mark printed after each point instead of once for the list.
+    after_items = _printed_after_items(items, marks)
+    if after_items is not None:
+        return after_items
+
+    named = _marks_for(text, marks, items)
+    if named is not None:
+        return named
+
     addends = _addends(text, marks)
     if addends is not None:
         if len(addends) == len(items) and all(a >= 1 for a in addends):
@@ -290,6 +419,10 @@ def split_answer(answer: str, marks: int, stem: str = "") -> Split:
         return _one_point(text, marks)
 
     if marks % len(items) == 0:
+        if _CASE_STUDY.search(text) or _CASE_STUDY.search(str(stem or "")):
+            # A case study's parts are 1, 1 and 2 by the paper's own general
+            # instructions, so an equal division is wrong before we read it.
+            return _one_point(text, marks)
         per = marks // len(items)
         return Split(points=tuple(ValuePoint(i, per) for i in items),
                      rule=LIST_EQUAL, marks=marks)
@@ -358,20 +491,48 @@ def strip_stem_echo(stem: str, answer: str) -> str:
     "!" or ")" -- and only when 20+ characters match and something is left to
     read. An answer that restates the premise in its own words shares an
     opening with the stem but diverges mid-sentence, and is returned untouched.
+
+    Spacing is ignored while the run is measured, because the scheme's copy of
+    the question is typeset again rather than copied: "Complétez avec une
+    préposition :" answers "Complétez avec une préposition:"
+    (cbse:sqp:ClassXII_2024_25:French:10) and "y/en/ etc" answers "y/en/etc"
+    (French:4C). Compared character by character the run ends at that space,
+    short of the colon that closes the instruction, and the whole question
+    stays in the key.
     """
     text = " ".join(str(answer or "").split())
     head = " ".join(str(stem or "").split())
     if not text or not head:
         return text
-    shared = 0
-    low_a, low_s = text.lower(), head.lower()
-    while shared < min(len(low_a), len(low_s)) and low_a[shared] == low_s[shared]:
-        shared += 1
+    dense = [(i, c.lower()) for i, c in enumerate(text) if not c.isspace()]
+    stem_dense = [c.lower() for c in head if not c.isspace()]
+    run = 0
+    while run < min(len(dense), len(stem_dense)) and dense[run][1] == stem_dense[run]:
+        run += 1
+    shared = dense[run - 1][0] + 1 if run else 0
     if shared < _MIN_ECHO:
         return text
+    # The echo stops where the answer's own list begins. A key that answers
+    # "a. Ma femme a mis des pâtes ____ cuire" repeats the whole sub-question
+    # around the word it fills in, so the run reaches past "a." -- and cutting
+    # there takes the label with it, leaving four labelled items where the
+    # scheme printed five (cbse:sqp:ClassXII_2024_25:French:10). A label at
+    # the very start is the STEM's part label rather than the key's own list
+    # (cbse:sqp:ClassXII_2022_23:Computer Science:23 answers "(a) ... (i) SMTP
+    # (ii) PPP" with "(i) SMTP: Simple Mail Transfer Protocol"), so it caps
+    # nothing.
+    label = _ECHO_LABEL.search(text[:shared])
+    if label and label.start() > 0:
+        shared = label.start()
+    # The run has to be 20+ characters to count as an echo at all, but the
+    # sentence it ends on can be shorter: "Mettez au négatif:" is the whole of
+    # the question that cbse:sqp:ClassXII_2024_25:French:7 repeats before
+    # answering it, and 18 characters. What is cut still has to read as
+    # something -- two words -- so a key opening "Yes." keeps it.
     cut = 0
-    for i in range(shared, _MIN_ECHO - 1, -1):
-        if text[i - 1] in _TERMINATORS and (i == len(text) or text[i].isspace()):
+    for i in range(shared, _MIN_CUT - 1, -1):
+        if (text[i - 1] in _TERMINATORS and (i == len(text) or text[i].isspace())
+                and len(re.findall(r"[^\W\d_]{2,}", text[:i])) >= 2):
             cut = i
             break
     if not cut or len(text) - cut < _MIN_KEEP:
@@ -387,6 +548,10 @@ def strip_restated_questions(answer: str) -> str:
     which part the answer that follows belongs to -- and everything between it
     and the Answer|Guidance heading goes, because by that layout it is the
     question, not the key.
+
+    The bare-number pass runs last, over what the labelled passes left: by
+    then any remaining Answer|Guidance heading belongs to a restatement that
+    numbered its sub-question "3" rather than "1 (c)".
     """
     text = str(answer or "")
     if "Answer" not in text:
@@ -394,7 +559,8 @@ def strip_restated_questions(answer: str) -> str:
     # Line breaks are left alone: `cbse_cbe._ANSWER_ROW` reads the MCQ answer
     # row off the start of a LINE, so flattening the scheme text here would
     # make it swallow the whole tail.
-    return _RESTATED_SPLIT_HEADING.sub(r"\1 ", _RESTATED.sub(r"\1 ", text))
+    return _RESTATED_BARE.sub(
+        r"\1 ", _RESTATED_SPLIT_HEADING.sub(r"\1 ", _RESTATED.sub(r"\1 ", text)))
 
 
 # --------------------------------------------------------------------------- #
@@ -486,6 +652,108 @@ def _marks_each(text: str) -> int | None:
     if token in ("½", "half"):
         return 0
     return _WORD_NUMBERS.get(token) or int(token)
+
+
+def _step_marks(text: str, marks: int) -> Split | None:
+    """The steps of a worked solution, each carrying the mark the board coded.
+
+    A CBE mark scheme writes the working down the page with a code against
+    every step -- "M1 4 x 2(12+8) OR equivalent OR 160 seen / M1 their 160 x 5
+    / A1 Rs 800" (cbe:q:Maths8DB4) -- and the digit in the code is that step's
+    marks. A student who reaches 160 and stops has earned one of the three.
+
+    Accepted only when the codes account for the question's marks exactly and
+    every code has a step written beneath it. "M1 A1 - to find correct inner
+    radius and use correct formula" (cbe:q:Maths9GB8, 4 marks) fails both: two
+    marks of four, and one step for two codes.
+    """
+    codes = list(_STEP_CODE.finditer(text))
+    if len(codes) < 2:
+        return None
+    values = [int(m.group(2)) for m in codes]
+    if sum(values) != marks:
+        return None
+    if len(text[:codes[0].start()].strip()) > _MAX_LEAD_IN:
+        return None
+    bounds = [m.start() for m in codes] + [len(text)]
+    steps = []
+    for i, code in enumerate(codes):
+        if not _says_something(text[code.end():bounds[i + 1]]):
+            return None
+        steps.append(text[bounds[i]:bounds[i + 1]].strip())
+    return Split(points=tuple(ValuePoint(s, v) for s, v in zip(steps, values)),
+                 rule=STEP_MARKS, marks=marks)
+
+
+def _marks_for(text: str, marks: int, items: tuple[str, ...] = ()) -> Split | None:
+    """The value points the scheme names, with what it says each is worth.
+
+    "Award 1 mark for a valid explanation of 'daunting'. Award 1 mark for a
+    valid explanation of 'venture'." (cbe:q:English9AM33, 2 marks) is the
+    board printing both of its points and both values; the answer beside them
+    is a two-row table that flattens into one line, so nothing in the answer
+    reads as a list.
+
+    Read only as a SET that accounts for the question's marks. Where the list
+    has exactly one item per award and every award is the same, the ITEMS are
+    the descriptions -- they carry the answer, and the awards only say what
+    each is worth. Otherwise the components the board named are.
+    """
+    found = list(_MARKS_FOR.finditer(text))
+    if len(found) < 2:
+        return None
+    values = [_mark_value(m.group(1)) for m in found]
+    if any(v < 1 for v in values) or sum(values) != marks:
+        return None
+    if items and len(items) == len(values) and len(set(values)) == 1:
+        return Split(points=tuple(ValuePoint(i, values[0]) for i in items),
+                     rule=MARKS_FOR, marks=marks)
+    components = []
+    for m in found:
+        rest = text[m.end():m.end() + _MAX_COMPONENT]
+        end = re.search(r"[.;]\s|[.;]$", rest)
+        component = (rest[:end.start()] if end else rest).strip(" .;,")
+        if not _says_something(component):
+            return None
+        components.append(component)
+    if len(set(components)) != len(components):
+        return None
+    return Split(points=tuple(ValuePoint(c, v) for c, v in zip(components, values)),
+                 rule=MARKS_FOR, marks=marks)
+
+
+def _printed_after_items(items: tuple[str, ...], marks: int) -> Split | None:
+    """The mark printed after each point of a list, rather than once for it.
+
+    "(i) Definition of refraction 1 (ii) Statement of the two laws 2" against
+    a 3-mark question. A bare number at the end of an item is a mark only when
+    the item says something without it and the numbers account for the marks:
+    every Exemplar maths key whose items ARE numbers -- "a) 8 b) 13"
+    (exemplar:q:8:mathematics:3:-:97) -- ends each item in its answer.
+    """
+    tails = [_TRAILING_MARK.search(i) for i in items]
+    if not all(tails):
+        return None
+    values = [int(t.group(1)) for t in tails]
+    if any(v < 1 for v in values) or sum(values) != marks:
+        return None
+    points = []
+    for item, tail in zip(items, tails):
+        said = item[:tail.start()].strip()
+        if len(re.findall(r"[^\W\d_]{2,}", said)) < _MIN_ITEM_WORDS:
+            return None
+        points.append(said)
+    return Split(points=tuple(ValuePoint(p, v) for p, v in zip(points, values)),
+                 rule=MARKS_PRINTED, marks=marks)
+
+
+def _mark_value(token: str) -> int:
+    """A printed mark as an int; a half mark comes back 0, which no rule
+    accepts -- `MarkingPoint.marks` is an int on the phone."""
+    token = token.lower()
+    if token in ("½", "half"):
+        return 0
+    return _WORD_NUMBERS.get(token) or (int(token) if token.isdigit() else 0)
 
 
 def _addends(text: str, marks: int) -> list[int] | None:

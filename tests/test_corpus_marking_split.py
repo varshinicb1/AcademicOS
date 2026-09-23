@@ -90,6 +90,100 @@ def test_one_mark_for_each_is_read_as_the_per_point_value():
     assert [p.marks for p in split.points] == [1, 1]
 
 
+def test_a_worked_solutions_steps_split_where_the_scheme_codes_them():
+    """cbe:q:Maths6KK3 -- 2 marks, and the scheme prints the two steps of the
+    working with the mark each earns: "M1 perimeter of top surface 10.45 +
+    4.36 + 10.45 + 4.36 or equivalent" and "A1 = 29 .82cm" (Item-Bank---Maths-
+    Class-6.pdf p31). M is the method mark, A the accurate result; the digit
+    is that step's marks, and the last line of each step is its result."""
+    answer = ("29.82cm M1 perimeter of top surface 10.45 + 4.36 + 10.45 + 4.36 "
+              "or equivalent A1 = 29 .82cm Allow 2 Marks for correct answer")
+    split = ms.split_answer(answer, 2)
+    assert split.rule == ms.STEP_MARKS
+    assert [p.marks for p in split.points] == [1, 1]
+    assert split.points[0].description.startswith("M1 perimeter of top surface")
+    assert split.points[1].description.startswith("A1 = 29 .82cm")
+    assert not split.all_or_nothing
+
+
+def test_a_three_step_solution_carries_the_mark_the_board_codes_on_each_step():
+    """cbe:q:Maths8DB4 -- 3 marks over "M1 4 x 2(12+8) OR equivalent OR 160
+    seen", "M1 their 160 x 5", "A1 Rs 800" (Item-Bank---Maths-Class-8.pdf
+    p75). A student who reaches 160 and stops has earned one of the three."""
+    answer = ("Rs. 800 M1 4 x 2(12+8) OR equivalent OR 160 seen M1 their 160 x 5 "
+              "A1 Rs 800 Allow missing units")
+    split = ms.split_answer(answer, 3)
+    assert split.rule == ms.STEP_MARKS
+    assert [p.marks for p in split.points] == [1, 1, 1]
+    assert split.points[1].description.startswith("M1 their 160 x 5")
+
+
+def test_step_codes_that_do_not_account_for_the_marks_are_not_a_split():
+    """cbe:q:Maths9GB8 -- a 4-mark question whose served key carries "M1 A1 –
+    to find correct inner radius and use correct formula". Two marks of the
+    four are printed; where the other two went, the key does not say."""
+    answer = ("𝑟 = 9cm Surface area = 2𝜋𝑟2 = 508.68 cm2 Cost of painting = "
+              "508.68 cm2 × 2 = ₹ 1017.36 M1 A1 – to find correct inner radius "
+              "and use correct formula")
+    split = ms.split_answer(answer, 4)
+    assert split.rule == ""
+    assert [p.marks for p in split.points] == [4]
+
+
+def test_a_step_code_with_nothing_beneath_it_is_not_a_value_point():
+    """cbe:q:Maths9LK5 -- "... ⇒ x = 1000 M1 to use the angle sum property of
+    a triangle. A1": the A1 closes the key with no step of its own, so what
+    it was awarded for is not in the text."""
+    answer = ("x = 1000 (x – 400)+ (x – 200) +( 𝑥 2 - 100) = 1800 ⇒ x = 1000 "
+              "M1 to use the angle sum property of a triangle. A1")
+    split = ms.split_answer(answer, 2)
+    assert split.rule == ""
+    assert len(split.points) == 1
+
+
+def test_a_mark_printed_after_each_value_point_is_read():
+    """The annotation Task 124 names first -- "... 1" -- printed against each
+    point of a list rather than once for the list ("1 mark each")."""
+    answer = "(i) Definition of refraction 1 (ii) Statement of the two laws 2"
+    split = ms.split_answer(answer, 3)
+    assert split.rule == ms.MARKS_PRINTED
+    assert [p.marks for p in split.points] == [1, 2]
+    # The annotation is not part of what the point says.
+    assert split.points[0].description == "(i) Definition of refraction"
+
+
+def test_a_number_that_is_the_answer_is_not_a_printed_mark():
+    """Every Exemplar maths key whose items ARE numbers -- "a) 8 b) 13"
+    (exemplar:q:8:mathematics:3:-:97), "(i) 49 (ii) 28"
+    (exemplar:q:7:mathematics:1:-:125) -- ends each item in a digit that is
+    the answer. A mark is printed BESIDE a point that says something; a bare
+    number on its own is the point itself."""
+    assert ms.split_answer("a) 8 b) 13", 3).rule == ""
+    assert ms.split_answer("(i) 49 (ii) 28", 3).rule == ""
+    # ... including when the numbers do add up to the question's marks.
+    assert ms.split_answer("(i) 1 (ii) 2", 3).rule == ""
+
+
+def test_marks_for_a_named_component_are_read_when_they_account_for_the_marks():
+    """cbe:q:English9AM33 -- "Award 1 mark for a valid explanation of
+    'daunting'. Award 1 mark for a valid explanation of 'venture'."
+    (Item-Bank-----English---Class-9.pdf p36). The two explanations are the
+    answer column of a two-row table that flattens into one line, so nothing
+    in the answer reads as a list -- but the board named its two points and
+    what each is worth."""
+    answer = ("‘venture’ suggests the transformation is risky / daring (however expressed) "
+              "‘daunting’ suggests the venture is intimidating / formidable (however "
+              "expressed) Award 1 mark for a valid explanation of ‘daunting’. "
+              "Award 1 mark for a valid explanation of ‘venture’.")
+    split = ms.split_answer(answer, 2)
+    assert split.rule == ms.MARKS_FOR
+    assert [p.marks for p in split.points] == [1, 1]
+    assert "daunting" in split.points[0].description
+    assert "venture" in split.points[1].description
+
+
+
+
 # --------------------------------------------------------------------------- #
 # splits the source does NOT print
 # --------------------------------------------------------------------------- #
@@ -212,6 +306,52 @@ def test_a_half_mark_a_point_split_is_not_claimed_to_be_a_mark_a_point():
     assert [p.marks for p in split.points] == [2]
 
 
+def test_any_one_of_the_following_is_not_divided_equally():
+    """"Any one of the following" over three reasons on a 3-mark question:
+    the board awards all three marks to whichever ONE the student gives, so
+    1/1/1 tells a teacher that two thirds of the answer is missing when it is
+    not. Which single point carries the three marks is not something a scheme
+    can record, so the key stays whole and says it is all or nothing."""
+    answer = ("Any one of the following: (i) Reason A here (ii) Reason B here "
+              "(iii) Reason C here")
+    split = ms.split_answer(answer, 3)
+    assert split.rule == ""
+    assert [p.marks for p in split.points] == [3]
+
+
+def test_any_one_of_each_part_is_an_instruction_inside_the_parts():
+    """cbse:sqp:ClassXII_2022_23:Home Science:29 -- "Give one role of each of
+    the following- a. ... b. ... c. ...", 3 marks, and the scheme closes "Any
+    other, Any one role of each". The "any one" is one ROLE per part, not one
+    part of the three, so the three parts still carry a mark each."""
+    answer = ("a.Assistant manager of front office- 3x1=3 1. Organizes and supervises "
+              "front office in absence of front office manager 2. Ensures smooth "
+              "functioning of the front office b.Chef de parties- Supervision of some "
+              "sections of kitchen c.Floor supervisor of housekeeping department- "
+              "Responsible for cleanliness and maintenance of guest room "
+              "Any other, Any one role of each")
+    split = ms.split_answer(answer, 3)
+    assert split.rule == ms.LIST_EQUAL
+    assert [p.marks for p in split.points] == [1, 1, 1]
+
+
+def test_a_case_studys_parts_are_not_divided_equally():
+    """cbse:sqp:ClassXII_2022_23:Applied Mathematics:38 -- a case study whose
+    three parts the paper's own general instructions weight 1, 1 and 2 ("Each
+    case study comprises of 3 case-based questions, where 2 VSA type questions
+    are of 1 mark each and 1 SA type question is of 2 marks", Applied-Maths-
+    SQP.pdf p1). The per-part marks are printed in a margin column extraction
+    drops, so an equal division is the one allocation we know is wrong."""
+    stem = ("CASE STUDY - III Based on the above information, answer the following "
+            "questions. a) Find the value of k. 1 b) What is the probability that "
+            "Sonali will get admission? c) Calculate the mathematical expectation.")
+    answer = ("CASE STUDY - III a) ⇒𝑘= 1 4 b) P (X = 2,3,4) = 23 24 "
+              "c) ∴ E(X) = 3 weeks")
+    split = ms.split_answer(answer, 6, stem)
+    assert split.rule == ""
+    assert [p.marks for p in split.points] == [6]
+
+
 def test_a_group_items_key_is_not_split_over_the_groups_marks():
     """cbe:q:SCIENCE8JS41c -- a 6-mark group of three sub-parts whose key
     holds only part (a)'s three bullets. Two marks a bullet is the group's
@@ -293,6 +433,20 @@ def test_an_instruction_line_shared_with_the_stem_goes_with_it():
     assert ms.strip_stem_echo(stem, answer).startswith("Each correct answer merits")
 
 
+def test_an_echo_that_differs_from_its_stem_only_in_spacing_is_still_cut():
+    """cbse:sqp:ClassXII_2024_25:French:10 -- the key repeats the exercise
+    instruction with a space before its colon ("préposition :" against the
+    paper's "préposition:"), and cbse:sqp:ClassXII_2022_23:French:4C breaks
+    the run at "y/en/ etc" against "y/en/etc". Comparing character by
+    character stops at the space and leaves the whole question standing, so
+    the comparison ignores spacing and the cut still lands on the colon."""
+    stem = ("Complétez avec une préposition: a. Ma femme a mis des pâtes cuire dans "
+            "une casserole. b. Mon étudiant a décidé quitter ses études.")
+    answer = ("Complétez avec une préposition : a. Ma femme a mis des pâtes pour cuire "
+              "dans une casserole. b. Mon étudiant a décidé de quitter ses études")
+    assert ms.strip_stem_echo(stem, answer).startswith("a. Ma femme a mis des pâtes pour")
+
+
 def test_an_answer_that_restates_the_premise_is_left_alone():
     """exemplar:q:9:science:4:-:33 -- "Helium atom has 2 electrons in its
     valence shell..." asked, "...in its outermost shell..." answered. The
@@ -332,12 +486,13 @@ def test_an_answer_with_no_restatement_is_untouched():
 # --------------------------------------------------------------------------- #
 
 def test_the_hand_checked_sample_still_splits_the_way_it_was_judged():
-    """51 splits read against their source PDF on 2026-09-23 -- every CBSE
+    """77 keys read against their source PDF on 2026-09-23 -- every CBSE
     marking scheme, CBE item bank and Exemplar answer booklet the rules fired
-    on, across all four rules. A rule change that moves any of them has to be
-    re-judged against the source, not against this file."""
+    on, across all six rules, plus the one key they are held back from. A rule
+    change that moves any of them has to be re-judged against the source, not
+    against this file."""
     sample = json.loads(HAND_CHECK.read_text(encoding="utf-8"))["samples"]
-    assert len(sample) >= 40
+    assert len([r for r in sample if r["rule"]]) >= 40
     for row in sample:
         split = ms.split_answer(row["answer"], row["marks"], row["stem"])
         got = [[p.description, p.marks] for p in split.points]
@@ -348,9 +503,15 @@ def test_the_hand_checked_sample_still_splits_the_way_it_was_judged():
 
 
 def test_the_hand_checked_precision_is_at_least_0_95():
-    """Under 0.95, only the rules that held ship (Task 124). Measured 50 of 51
-    -- the one wrong split is an Applied Mathematics case study whose per-part
-    marks ("1", "1", "2") are printed in a margin that extraction dropped."""
+    """Under 0.95, only the rules that held ship (Task 124). Measured over the
+    keys that SHIP a split -- a key the rules refuse cannot be a wrong split,
+    and the sample keeps it (`verdict: none`) only so the reason stays with
+    the record. 76 of 76 on 2026-09-23: the Applied Mathematics case study the
+    first check judged wrong is now refused, because a CBSE case study's parts
+    are 1, 1 and 2 by the paper's own general instructions."""
     sample = json.loads(HAND_CHECK.read_text(encoding="utf-8"))["samples"]
-    wrong = [r for r in sample if r["verdict"] == "wrong"]
-    assert len(sample) - len(wrong) >= 0.95 * len(sample), [r["id"] for r in wrong]
+    shipped = [r for r in sample if r["rule"]]
+    wrong = [r for r in shipped if r["verdict"] == "wrong"]
+    assert len(shipped) - len(wrong) >= 0.95 * len(shipped), [r["id"] for r in wrong]
+    # A row that ships no split is not a pass mark: it says so.
+    assert all(r["verdict"] == "none" for r in sample if not r["rule"])

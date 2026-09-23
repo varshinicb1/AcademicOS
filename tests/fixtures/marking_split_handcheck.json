@@ -1,9 +1,9 @@
 {
  "checkedAt": "2026-09-23",
- "bank": "c734a69 (academicos-data/syllabus/questions.json, 5,427 served records)",
- "how": "Each split below was read against the source PDF it came from -- the CBSE marking scheme, the CBE item bank or the NCERT Exemplar answer booklet -- and judged wrong when the board printed a different allocation. The judgements are an AI reviewer's, not a teacher's.",
- "checked": 51,
- "wrong": 1,
+ "bank": "bc41780 (academicos-data/syllabus/questions.json, 5,427 served records)",
+ "how": "Each key below was read against the source PDF it came from -- the CBSE marking scheme, the CBE item bank or the NCERT Exemplar answer booklet -- and judged wrong when the board printed a different allocation. `verdict: none` is a key the check read where the rules ship no split at all, kept so the reason stays with the record. The judgements are an AI reviewer's, not a teacher's.",
+ "checked": 77,
+ "wrong": 0,
  "samples": [
   {
    "id": "cbse:sqp:ClassX_2022_23:Home Science:22",
@@ -1156,24 +1156,16 @@
    "marks": 6,
    "stem": "CASE STUDY – III According to an educational board survey, it was observed that class XII students apply at least one to four weeks ahead of colleges application deadline. Let X represent the week when an average student applies ahead of a college’s application deadline and the probability of student to get admission in the college 𝑃(𝑋= 𝑥) is given as follows: 𝑘𝑥 𝑤ℎ𝑒𝑛 𝑥= 0, 1 𝑜𝑟 2 (1 −𝑘)𝑥 𝑃(𝑋= 𝑥) = 6 𝑤ℎ𝑒𝑛 𝑥= 3 𝑘𝑥 𝑤ℎ𝑒𝑛 𝑥= 4 2 { 0 𝑤ℎ𝑒𝑛 𝑥> 4 Where k is a real number. Based on the above information, answer the following questions. Show steps to support your answers. a) Find the value of k. 1 b) What is the probability that Sonali will get admission in the college, given that she applied at least 2 1 weeks ahead of application deadline? c) Calculate the mathematical expectation of number of weeks taken by a student to apply ahead of a college’s application deadline. To promote early admissions, the college is offering scholarships to the students for applying ahead of deadline as follows: ₹ 50000 for applying 4 weeks early, ₹ 20000 for applying 3 weeks early, 2 ₹ 12000 for applying 2 weeks early, and ₹ 9600 for applying 1 week early What is the expected scholarship offered by the college? ---------------------------",
    "answer": "CASE STUDY - III a) 𝑘 2𝑘 3(1−𝑘) 4𝑘 + + + = 1 ⇒𝑘= 1 6 6 6 2 4 b) P (getting admission on applying at least 2 weeks ahead of application deadline) = P (X = 2,3,4) 1 3 1 23 1 = + + = 12 8 2 24 1 23 [alternate method: 1 – P (X = 1) = 1 - = ] 24 24 c) X = week applied ahead of application deadline X 1 2 3 4 1 1 3 1 P(X) 24 12 8 2 1 1 9 XP(X) 2 24 6 8 80 1 2 ∴ E(X) = = 3 weeks 24 3 X = Scholarship money awarded for the week applied in, before the deadline Week 1 2 3 4 applied in X 9600 12000 20000 50000 1 1 3 1 P(X) 24 12 8 2 XP(X) 9600 12000 60000 50000 24 12 8 2 ∴ E(X) = ₹ 33,900 -------------------------------------",
-   "rule": "list-equal",
+   "rule": "",
    "anyOf": null,
    "points": [
     [
-     "a) 𝑘 2𝑘 3(1−𝑘) 4𝑘 + + + = 1 ⇒𝑘= 1 6 6 6 2 4",
-     2
-    ],
-    [
-     "b) P (getting admission on applying at least 2 weeks ahead of application deadline) = P (X = 2,3,4) 1 3 1 23 1 = + + = 12 8 2 24 1 23 [alternate method: 1 – P (X = 1) = 1 - = ] 24 24",
-     2
-    ],
-    [
-     "c) X = week applied ahead of application deadline X 1 2 3 4 1 1 3 1 P(X) 24 12 8 2 1 1 9 XP(X) 2 24 6 8 80 1 2 ∴ E(X) = = 3 weeks 24 3 X = Scholarship money awarded for the week applied in, before the deadline Week 1 2 3 4 applied in X 9600 12000 20000 50000 1 1 3 1 P(X) 24 12 8 2 XP(X) 9600 12000 60000 50000 24 12 8 2 ∴ E(X) = ₹ 33,900 -------------------------------------",
-     2
+     "CASE STUDY - III a) 𝑘 2𝑘 3(1−𝑘) 4𝑘 + + + = 1 ⇒𝑘= 1 6 6 6 2 4 b) P (getting admission on applying at least 2 weeks ahead of application deadline) = P (X = 2,3,4) 1 3 1 23 1 = + + = 12 8 2 24 1 23 [alternate method: 1 – P (X = 1) = 1 - = ] 24 24 c) X = week applied ahead of application deadline X 1 2 3 4 1 1 3 1 P(X) 24 12 8 2 1 1 9 XP(X) 2 24 6 8 80 1 2 ∴ E(X) = = 3 weeks 24 3 X = Scholarship money awarded for the week applied in, before the deadline Week 1 2 3 4 applied in X 9600 12000 20000 50000 1 1 3 1 P(X) 24 12 8 2 XP(X) 9600 12000 60000 50000 24 12 8 2 ∴ E(X) = ₹ 33,900 -------------------------------------",
+     6
     ]
    ],
-   "verdict": "wrong",
-   "why": "the marking scheme prints 1, 1 and 2 against parts a, b and c; the margin marks did not survive extraction, so the equal split claims 2 for a part the board gave 1"
+   "verdict": "none",
+   "why": "The marking scheme prints 1, 1 and 2 against parts a, b and c (Applied-Maths-MS.pdf p9) and the paper's general instructions say a case study is 1 + 1 + 2 (SQP p1); the per-part marks sit in a margin column extraction drops. The 2/2/2 this split used to ship was the one wrong split of the 2026-09-23 check. No split ships now: a case study's parts are never equal."
   },
   {
    "id": "cbse:sqp:ClassXII_2022_23:Sociology:37",
@@ -1255,7 +1247,7 @@
    "sourceDocument": "French-MS.pdf",
    "marks": 5,
    "stem": "Complétez avec une préposition: a. Ma femme a mis des pâtes cuire dans une casserole. b. Mon étudiant a décidé quitter ses études. c. Son fils travaille à IBM. Il gagne 70,000 roupies mois. d. moi, Alia Bhatt est la plus belle des actrices. e. Tous mes amis étaient là, ma meilleure amie, quel dommage!",
-   "answer": "Complétez avec une préposition : a. Ma femme a mis des pâtes pour cuire dans une casserole. b. Mon étudiant a décidé de quitter ses études c. Son fils travaille à IBM. Il gagne 70,000 roupies par mois. d. Selon moi, Alia Bhatt est la plus belle des actrices. e. Tous mes amis étaient là, sauf ma meilleure amie, quel dommage!",
+   "answer": "a. Ma femme a mis des pâtes pour cuire dans une casserole. b. Mon étudiant a décidé de quitter ses études c. Son fils travaille à IBM. Il gagne 70,000 roupies par mois. d. Selon moi, Alia Bhatt est la plus belle des actrices. e. Tous mes amis étaient là, sauf ma meilleure amie, quel dommage!",
    "rule": "list-equal",
    "anyOf": null,
    "points": [
@@ -1394,6 +1386,663 @@
    ],
    "verdict": "correct",
    "why": ""
+  },
+  {
+   "id": "cbe:q:Maths6KK3",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths-Class-6.pdf",
+   "marks": 2,
+   "stem": "The dimensions of the top surface of a cuboid box are 10.45cm and 4.36cm. Find the perimeter of the top surface of the box. 2)",
+   "answer": "29.82cm M1 perimeter of top surface 10.45 + 4.36 + 10.45 + 4.36 or equivalent A1 = 29 .82cm Allow 2 Marks for correct answer",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 perimeter of top surface 10.45 + 4.36 + 10.45 + 4.36 or equivalent",
+     1
+    ],
+    [
+     "A1 = 29 .82cm Allow 2 Marks for correct answer",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 for the perimeter written out, A1 for 29.82cm (p31)."
+  },
+  {
+   "id": "cbe:q:Maths6RB1",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths-Class-6.pdf",
+   "marks": 2,
+   "stem": "A car travelled 390.4 km to the west of Ranchi and then travelled 1600.2 km to the east from there. How far is the car from Ranchi and in which direction? 2)",
+   "answer": "1209.8 km M1 1600.2 - 390.4 or equivalent A 1 1209.8 km to the west Allow 1 mark for 1209.8 without direction",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 1600.2 - 390.4 or equivalent",
+     1
+    ],
+    [
+     "A 1 1209.8 km to the west Allow 1 mark for 1209.8 without direction",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 1600.2 - 390.4, A1 1209.8 km to the west (p45)."
+  },
+  {
+   "id": "cbe:q:Maths7PD1",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths-Class-7.pdf",
+   "marks": 2,
+   "stem": "Calculate the mean of the first five prime numbers, starting with 2. 2)",
+   "answer": "5.6 M1 (2+3+5+7+11)/5 A1 5.6 Allow 2 marks for the correct answer only",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 (2+3+5+7+11)/5",
+     1
+    ],
+    [
+     "A1 5.6 Allow 2 marks for the correct answer only",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 (2+3+5+7+11)/5, A1 5.6 (p67)."
+  },
+  {
+   "id": "cbe:q:Maths7PD2",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths-Class-7.pdf",
+   "marks": 2,
+   "stem": "Find the value of x if 45% of x marks is 405 2)",
+   "answer": "M1 405 x 100/45 OR equivalent A1 900 Allow 2 marks for the correct answer only",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 405 x 100/45 OR equivalent",
+     1
+    ],
+    [
+     "A1 900 Allow 2 marks for the correct answer only",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 405 x 100/45, A1 900 (p53)."
+  },
+  {
+   "id": "cbe:q:Maths8DB6",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths-Class-8.pdf",
+   "marks": 2,
+   "stem": "1 Multiply (a+7)(b – 5) 2)",
+   "answer": "ab -5a + 7b -35 M1 a( b-5) + 7( b-5) OR equivalent A1 ab -5a + 7b - 35 OR equivalent Maths8AM2 This assessment item is designed to assess the end of class assessments for CBSE schools. Subject Class",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 a( b-5) + 7( b-5) OR equivalent",
+     1
+    ],
+    [
+     "A1 ab -5a + 7b - 35 OR equivalent Maths8AM2 This assessment item is designed to assess the end of class assessments for CBSE schools. Subject Class",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 a(b-5) + 7(b-5), A1 ab -5a + 7b - 35 (p12)."
+  },
+  {
+   "id": "cbe:q:Maths8DB7",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths-Class-8.pdf",
+   "marks": 2,
+   "stem": "1 Shruti’s age is x years. Her father is 4 years more than the 2 times of Shruti’s age. Form an equation and solve it to find Shruti’s age if her father age is 40 years. Show your working. 2)",
+   "answer": "Shruti’s age is 18 years. M1 2x + 4 = 40 A1 18 Maths8AM4 This assessment item is designed to assess the end of class assessments for CBSE schools. Subject Class Question reference/Filename Maths",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 2x + 4 = 40",
+     1
+    ],
+    [
+     "A1 18 Maths8AM4 This assessment item is designed to assess the end of class assessments for CBSE schools. Subject Class Question reference/Filename Maths",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 2x + 4 = 40, A1 18 (p16)."
+  },
+  {
+   "id": "cbe:q:Maths8DB4",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths-Class-8.pdf",
+   "marks": 3,
+   "stem": "The internal measures of a cuboidal room are 12 m long, 8 m wide and 4 m high. Find the total cost of whitewashing all four walls of a room, if the cost of white washing is Rs 5 per m2. 3)",
+   "answer": "Rs. 800 M1 4 x 2(12+8) OR equivalent OR 160 seen M1 their 160 x 5 A1 Rs 800 Allow missing units Maths8AM1 This assessment item is designed to assess the end of class assessments for CBSE schools. Subject Class",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 4 x 2(12+8) OR equivalent OR 160 seen",
+     1
+    ],
+    [
+     "M1 their 160 x 5",
+     1
+    ],
+    [
+     "A1 Rs 800 Allow missing units Maths8AM1 This assessment item is designed to assess the end of class assessments for CBSE schools. Subject Class",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 4 x 2(12+8) OR 160 seen, M1 their 160 x 5, A1 Rs 800 (p75)."
+  },
+  {
+   "id": "cbe:q:Maths8BS7",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths-Class-8.pdf",
+   "marks": 3,
+   "stem": "Green Valley Society Association built a sports club to encourage sporting activities among all residents. 20% of the members play football, 25% play hockey, 40% play cricket and the rest play indoor games. 18 members play indoor games. How many members are there in the sports club? (Total mark 3)",
+   "answer": "M1 Percentage indoor games 100 - (20 + 25 + 40) OR 15% seen M1 Total = 18 x 100 / their 15 A1 120 Maths8PM5 This assessment item is designed to assess the end of class assessments for CBSE",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 Percentage indoor games 100 - (20 + 25 + 40) OR 15% seen",
+     1
+    ],
+    [
+     "M1 Total = 18 x 100 / their 15",
+     1
+    ],
+    [
+     "A1 120 Maths8PM5 This assessment item is designed to assess the end of class assessments for CBSE",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 percentage, M1 total, A1 120 (p129)."
+  },
+  {
+   "id": "cbe:q:Maths8PM2",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths-Class-8.pdf",
+   "marks": 2,
+   "stem": "1 The bar graph represents the number of students playing different sports in a school. Find the ratio of the number of students playing volleyball to the number of students playing cricket. 2)",
+   "answer": "2 : 5 M1 Volleyball = 40 AND Cricket = 100 OR Ratio = 40 : 100 A1 = 2 : 5 1 mark for 5 : 2 Maths8PN4 This assessment item is designed to assess the end of class",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 Volleyball = 40 AND Cricket = 100 OR Ratio = 40 : 100",
+     1
+    ],
+    [
+     "A1 = 2 : 5 1 mark for 5 : 2 Maths8PN4 This assessment item is designed to assess the end of class",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 Volleyball = 40 AND Cricket = 100, A1 = 2 : 5 (p123)."
+  },
+  {
+   "id": "cbe:q:Maths9AG3",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths---Class-9.pdf",
+   "marks": 4,
+   "stem": "Ashima donated a certain amount of money to a blind school. Her friend Manya wanted to know the amount donated by her, but Ashima did not disclose the amount she donated, instead she gave her a hint that if (𝑥+ 𝑥 ) = Rs. 7 then the amount donated by her is Rs. (𝑥3 + 𝑥3). Find the amount donated by Ashima to the school. 4)",
+   "answer": "Rs. 322 M 1 (𝑥+ 𝑥 )3 = 73 M 1 𝑥3 + 𝑥3 + 3𝑥 𝑥 ( 𝑥+ 𝑥 ) = 343 M 1 Put value of 𝑥+ 𝑥 in above A 1 𝑥3 + 𝑥3 = 322 Maths9NM2",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M 1 (𝑥+ 𝑥 )3 = 73",
+     1
+    ],
+    [
+     "M 1 𝑥3 + 𝑥3 + 3𝑥 𝑥 ( 𝑥+ 𝑥 ) = 343",
+     1
+    ],
+    [
+     "M 1 Put value of 𝑥+ 𝑥 in above",
+     1
+    ],
+    [
+     "A 1 𝑥3 + 𝑥3 = 322 Maths9NM2",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1, M1, M1, A1 down the working of (x+1/x)3 = 73 (p31)."
+  },
+  {
+   "id": "cbe:q:Maths9AG2",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths---Class-9.pdf",
+   "marks": 4,
+   "stem": "A child playing with clay forms a spherical ball with a radius of 3 cm. After some time he recasts the same spherical ball into a cylindrical pillar with a radius of 1 cm. Find the height of the new formed pillar. (Use π = 7 ) 4)",
+   "answer": "Height = 36 cm M 1 Volume of Sphere = Volume of Cylinder M 1 Volume of Sphere = 3 𝜋 𝑟3 M 1 Volume of Cylinder = 𝜋 𝑟2 ℎ A 1 3 𝑋 𝜋 𝑋 27 = 𝜋",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M 1 Volume of Sphere = Volume of Cylinder",
+     1
+    ],
+    [
+     "M 1 Volume of Sphere = 3 𝜋 𝑟3",
+     1
+    ],
+    [
+     "M 1 Volume of Cylinder = 𝜋 𝑟2 ℎ",
+     1
+    ],
+    [
+     "A 1 3 𝑋 𝜋 𝑋 27 = 𝜋",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1, M1, M1, A1 down the sphere-to-cylinder working (p188)."
+  },
+  {
+   "id": "cbe:q:Maths9JJ9",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths---Class-9.pdf",
+   "marks": 4,
+   "stem": "Sarah is collecting water for irrigating her agricultural land from a canal 2 m deep, 10 m wide and the water flows through the canal at a rate of 2 km/hr. In every minute she is collecting 𝑡ℎ of the water flowing through the canal and storing it in a cubical tank. If her tank will be fully filled with water in 2 hours, what is the dimension of her tank? 4)",
+   "answer": "20 m x 20 m x 20 m M1 – 4 km length of water passing M1 – calculating water stored as 1/10 x 10 x 2 x 4000 A1 – volume of tank = 8000 m3 A1 – dimensions",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 – 4 km length of water passing",
+     1
+    ],
+    [
+     "M1 – calculating water stored as 1/10 x 10 x 2 x 4000",
+     1
+    ],
+    [
+     "A1 – volume of tank = 8000 m3",
+     1
+    ],
+    [
+     "A1 – dimensions",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1, M1, A1, A1 -- the last is the tank's dimensions (p194)."
+  },
+  {
+   "id": "cbe:q:Maths9BS5",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths---Class-9.pdf",
+   "marks": 2,
+   "stem": "Simplify: √81 −8√216 + 15√32 + √225 2)",
+   "answer": "√81 −8√216 + 15√32 + √225 M1 : 3- 8×6 + 15×2+ 15 3 - 48+ 15+ 30 A1: =0 (Total marks 2) Maths9RS7 This assessment item is designed to assess the end of class assessments for CBSE schools. Subject",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 : 3- 8×6 + 15×2+ 15 3 - 48+ 15+ 30",
+     1
+    ],
+    [
+     "A1: =0 (Total marks 2) Maths9RS7 This assessment item is designed to assess the end of class assessments for CBSE schools. Subject",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 : 3- 8x6 + 15x2+ 15, A1: =0 (p219)."
+  },
+  {
+   "id": "cbe:q:Maths9DP7",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths---Class-9.pdf",
+   "marks": 3,
+   "stem": "Item identity AO1 marks AO2 marks C/N/E* Content Reference(s) Marks Maths9DP7 C 9S1b Presentation of data — construct and interpret bar graphs, histograms (with varying base lengths), frequency polygons for data given in various forms: ungrouped / grouped data in list or tables. If all 5 cards are needed to be used maximum number of times, then how many times in all will all 5 cards be used? Also, calculate how much money in all could be withdrawn if all cards are used maximum number of times? 3)",
+   "answer": "40 times RS 1,840,000 A1 5x8=40 M1 for showing 20,000+20,000+40,000+50,000+100,000=230,000or some attempt to calculate amount on different cards. 230,000×8=1,840,000 A1 for correct answer. Don’t penalise if rupees is not written. Maths9NK7 This assessment item is designed to assess the end",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "A1 5x8=40",
+     1
+    ],
+    [
+     "M1 for showing 20,000+20,000+40,000+50,000+100,000=230,000or some attempt to calculate amount on different cards. 230,000×8=1,840,000",
+     1
+    ],
+    [
+     "A1 for correct answer. Don’t penalise if rupees is not written. Maths9NK7 This assessment item is designed to assess the end",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "A1 5x8=40, M1 for showing the sum, A1 for the answer (p234)."
+  },
+  {
+   "id": "cbe:q:Maths9GB6",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---Maths---Class-9.pdf",
+   "marks": 2,
+   "stem": "The heights (in cm) of ten students of a study group are as follows: 155, 160, 145, 149, 150, 147, 145, 152, 144, and 148 Find the median height of the group of students. 2)",
+   "answer": "148.5 cm M1 – for attempt to order heights to identify 5th & 6th Accept 148.5, without mention of unit A1 for correct answer Explanation: Ascending order: 144, 145, 145, 147, 148, 149, 150, 152, 155, 160 Median = 5𝑡ℎ+6𝑡ℎ",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 – for attempt to order heights to identify 5th & 6th Accept 148.5, without mention of unit",
+     1
+    ],
+    [
+     "A1 for correct answer Explanation: Ascending order: 144, 145, 145, 147, 148, 149, 150, 152, 155, 160 Median = 5𝑡ℎ+6𝑡ℎ",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 for ordering the heights, A1 for the median (p240)."
+  },
+  {
+   "id": "cbe:q:Maths10SK8",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank--Maths---Class-10.pdf",
+   "marks": 2,
+   "stem": "1 Solve 2x – y – 3 = 0, 4 x – y – 5 = 0 using the substitution method. Show your working. 2)",
+   "answer": "y = 2x-3 4x – (2x – 3) – 5 = 0 x = 1 y = 2(1– 3) = –1 x = 1, y = –1 M1 for obtaining substitution A1 correct answer",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 for obtaining substitution",
+     1
+    ],
+    [
+     "A1 correct answer",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 for obtaining substitution, A1 correct answer (p30)."
+  },
+  {
+   "id": "cbe:q:Maths10AS9",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank--Maths---Class-10.pdf",
+   "marks": 2,
+   "stem": "1 Find the sum of exponents of prime factors in the prime factorization of 21600 2)",
+   "answer": "Prime Factorization of 21600 = 25 × 33 × Sum of exponents = 10 M1 – finding the prime factors A1 – finding the correct sum. Total marks = 2 marks",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 – finding the prime factors",
+     1
+    ],
+    [
+     "A1 – finding the correct sum. Total marks = 2 marks",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 finding the prime factors, A1 the sum; 'Total marks = 2' (p145)."
+  },
+  {
+   "id": "cbe:q:Maths10SS2",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank--Maths---Class-10.pdf",
+   "marks": 2,
+   "stem": "Evaluate sin260º - 2 tan 45º - cos230º 2)",
+   "answer": "-2 M1 To substitute correct values of the t ratios (√3 2 )2 – 2(1) - (√3 2 )2 A1 = -2",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 To substitute correct values of the t ratios (√3 2 )2 – 2(1) - (√3 2 )2",
+     1
+    ],
+    [
+     "A1 = -2",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 to substitute the t ratios, A1 = -2 (p205)."
+  },
+  {
+   "id": "cbe:q:Maths10SK5",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank--Maths---Class-10.pdf",
+   "marks": 2,
+   "stem": "1 Simplify the following expression. Show your working. 𝑠𝑖𝑛3𝜃+ 𝑐𝑜𝑠3𝜃 𝑠𝑖𝑛𝜃+ 𝑐𝑜𝑠𝜃 2)",
+   "answer": "(1 −𝑠𝑖𝑛𝜃 𝑐𝑜𝑠𝜃) M1 (𝑠𝑖𝑛𝜃+𝑐𝑜𝑠𝜃)(𝑠𝑖𝑛2𝜃−𝑠𝑖𝑛𝜃𝑐𝑜𝑠𝜃+𝑐𝑜𝑠2𝜃) 𝑠𝑖𝑛𝜃+𝑐𝑜𝑠𝜃 A1 (𝑠𝑖𝑛𝜃+𝑐𝑜𝑠𝜃)(1−𝑠𝑖𝑛𝜃𝑐𝑜𝑠𝜃) 𝑠𝑖𝑛𝜃+𝑐𝑜𝑠𝜃 (1 −𝑠𝑖𝑛𝜃 𝑐𝑜𝑠𝜃)",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 (𝑠𝑖𝑛𝜃+𝑐𝑜𝑠𝜃)(𝑠𝑖𝑛2𝜃−𝑠𝑖𝑛𝜃𝑐𝑜𝑠𝜃+𝑐𝑜𝑠2𝜃) 𝑠𝑖𝑛𝜃+𝑐𝑜𝑠𝜃",
+     1
+    ],
+    [
+     "A1 (𝑠𝑖𝑛𝜃+𝑐𝑜𝑠𝜃)(1−𝑠𝑖𝑛𝜃𝑐𝑜𝑠𝜃) 𝑠𝑖𝑛𝜃+𝑐𝑜𝑠𝜃 (1 −𝑠𝑖𝑛𝜃 𝑐𝑜𝑠𝜃)",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 the factorisation, A1 the cancelled form (p213)."
+  },
+  {
+   "id": "cbe:q:Maths10RK8",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank--Maths---Class-10.pdf",
+   "marks": 3,
+   "stem": "The line segment joining A(2,1) and B(5,-8) is trisected at the points P and Q. If P is closer to point A and lies on the line 2x – y + k = 0, find the value of k. 3)",
+   "answer": "k = -8 M1 For point P 𝑚1: 𝑚2 = AP:PB=1:2 (𝑥1, 𝑦1 = (5, −8)) = 𝐴(2,1)𝑎𝑛𝑑(𝑥2, 𝑦2) A1 Point P = [ 1𝑋5+2𝑋2 1+2 , 1𝑋−8+2𝑋1 1+2 ] =(3,-2) A1 P(3,-2) lies on line 2x-y+k=0 k=-8",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 For point P 𝑚1: 𝑚2 = AP:PB=1:2 (𝑥1, 𝑦1 = (5, −8)) = 𝐴(2,1)𝑎𝑛𝑑(𝑥2, 𝑦2)",
+     1
+    ],
+    [
+     "A1 Point P = [ 1𝑋5+2𝑋2 1+2 , 1𝑋−8+2𝑋1 1+2 ] =(3,-2)",
+     1
+    ],
+    [
+     "A1 P(3,-2) lies on line 2x-y+k=0 k=-8",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 for point P, A1 the section formula, A1 k = -8 (p220)."
+  },
+  {
+   "id": "cbe:q:Maths10SK6",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank--Maths---Class-10.pdf",
+   "marks": 4,
+   "stem": "A tree stands vertically on the bank of a river. From a point on the other bank directly opposite the tree, the angle of elevation of the top of the tree is 60º. From a point, 20m behind this point O, the same bank, the angle of elevation of the tree is 30. Find the height of the tree and the width of the river. Take √3=1.73 4)",
+   "answer": "height of tree =17.3m M1 figure M1 In ∆PBQ PQ/AQ= tan 60º h=x√3 M1 In ∆PBQ PQ/BQ= tan30º h=(x+20)/√3 x=10m A1 height of tree = 10√3=17.3m",
+   "rule": "step-marks",
+   "anyOf": null,
+   "points": [
+    [
+     "M1 figure",
+     1
+    ],
+    [
+     "M1 In ∆PBQ PQ/AQ= tan 60º h=x√3",
+     1
+    ],
+    [
+     "M1 In ∆PBQ PQ/BQ= tan30º h=(x+20)/√3 x=10m",
+     1
+    ],
+    [
+     "A1 height of tree = 10√3=17.3m",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "M1 figure, M1 tan 60, M1 tan 30, A1 the height (p228)."
+  },
+  {
+   "id": "cbe:q:English9AM33",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank-----English---Class-9.pdf",
+   "marks": 2,
+   "stem": "Read the passage below and answer the question that follows. Text B Becoming a free nation This text aims to make the readers aware of the struggles faced by India to attain freedom and the difficulties the nation still faces. Even before Independence, India viewed its own struggles on a global level. If democracy is basically tolerance for others' opinions, the concept of coexistence is democracy on the international plane, for it embodies tolerance of other nations and systems. We avoid involvement in the conflicts and disputes of others and this helps to blunt conflict between power blocs. I should like to think that it has also helped world stability. A country is an extended family. When income and resources are limited, one must budget to ensure that waste is avoided and resources husbanded, priorities established, education and other social needs catered to and special provision made for those who are weaker or smaller. Industry has to be balanced with agriculture, technology with culture, state ventures with private initiatives, economic growth with social justice, the large with the small. Every section of society must be stimulated to creative activity. That is our planning. In no way is it totalitarian or coercive. Industrializing, modernising and transforming an ancient society of immense size is a daunting venture and inevitably, a gradual one. Otherwise, there will be resentment. Transformation should not cause too much dislocation or suffering for the people nor should it jettison the basic spiritual and cultural values of our civilization. India's planning experience sums up the successes and problems of our democratic development. Why has democracy worked in India? Our national leadership was dedicated to it and we wanted it to work, but also because in our society there were elements and traditions which supported the growth of democracy. There may be differences in many spheres, but we rise above them. To keep the country united, we must transcend political, social and religious differences which create dissensions. Fighting for the freedom of our nation meant fighting for political and social justice, equality and economic growth and justice for all. Only one phase is over and another is underway. We have to cover a long and difficult path. Whereas the enemies were visible during earlier days, now they are in disguise. Some of them are openly our enemies, but many become unintentional pawns of others. (377 words) Glossary husbanded – used economically totalitarian – asserting total control Source information: APC Digest English Communicative; Arya Publishing House; 2015 Edition What does the writer mean by describing transforming society as a ‘daunting venture’?",
+   "answer": "‘venture’ suggests the transformation is risky / daring (however expressed) ‘daunting’ suggests the venture is intimidating / formidable (however expressed) Award 1 mark for a valid explanation of ‘daunting’. Award 1 mark for a valid explanation of ‘venture’.",
+   "rule": "marks-for",
+   "anyOf": null,
+   "points": [
+    [
+     "a valid explanation of ‘daunting’",
+     1
+    ],
+    [
+     "a valid explanation of ‘venture’",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "'Award 1 mark for a valid explanation of ‘daunting’. Award 1 mark for a valid explanation of ‘venture’.' (p36)."
+  },
+  {
+   "id": "cbe:q:English9SAK32b",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank-----English---Class-9.pdf",
+   "marks": 2,
+   "stem": "Read the passage below and answer the question that follows. Text B Ancient Centres of Learning The author Pt Jawaharlal Nehru, in his book ‘Discovery of India’, talks about how education was imparted at various centres of learning in ancient times with special focus on Taxila University. In the epic period we have frequent mention of some kind of forest universities, situated not far from a town or city, where students gathered round well-known scholars for training and education, which comprised a variety of subjects, including military training. These forest abodes were preferred so as to avoid the distractions of city life and enable the students to lead a disciplined and continent life. After some years of this training, they were supposed to go back and live as householders and citizens. Benares has always been a centre of learning, but Benares does not appear to have been at any time anything like a university, such as existed then and later in other parts of India. There were numerous groups there, consisting of a teacher and his disciples, and often between rival groups there was fierce debate and argument. But in the north-west, near modern Peshawar, there was an ancient and famous university at Takshashila or Taxila. This was particularly noted for science, especially medicine, and the arts, and people went to it from distant parts of India. The Jataka stories are full of instances of sons of nobles and Brahmins travelling, unattended and unarmed, to Taxila to be educated. Probably students came also from Central Asia and Afghanistan, as it was conveniently situated. It was considered an honour and a distinction to be a graduate of Taxila. Physicians who had studied in the school of medicine there were highly thought of, and it is related that whenever Buddha felt unwell his admirers brought to him a famous physician who had graduated from Taxila. Panini, the great grammarian of the sixth-seventh century B.C., is said to have studied there. Taxila was thus a pre-Buddhist university and a seat of Brahminical learning. During the Buddhist period it became also a centre of Buddhist scholarship and attracted Buddhist students from all over India and across the border. continent – adjective meaning ‘exercising restraint’ Source information: Excerpt from Discovery of India (Enriched Version) By Jawaharlal Nehru 2 (b) Explain the significance of the phrase ‘unattended and unarmed’ (line 14).",
+   "answer": "• ‘unattended’ means alone/unaccompanied • ‘unarmed’ means without weapons • They felt safe / did not feel threatened. Award 1 mark for either of the first two bullets. Award 1 mark for the third bullet, which provides the inference. Maximum of 2 marks. Level of response",
+   "rule": "marks-for",
+   "anyOf": null,
+   "points": [
+    [
+     "either of the first two bullets",
+     1
+    ],
+    [
+     "the third bullet, which provides the inference",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "'Award 1 mark for either of the first two bullets. Award 1 mark for the third bullet, which provides the inference.' (p76)."
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2024_25:French:6",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "French-MS.pdf",
+   "marks": 5,
+   "stem": "Mettez au discours direct/ indirect selon le cas : a. Tu dis que tu n’aimes pas nager. b. Il me dit : <<Je reviens demain.>> c. Le professeur leur dit de travailler vite. d. Léa dit : << Qu’est-ce qu’ils ont donné à leur professeur?>> e. Il me demande ce qui m’est arrivé.",
+   "answer": "a. Tu dis : << Je n’aime pas nager. >> b. Il me dit qu’il revient demain. c. Le professeur leur dit : << Travaillez vite!>> d. Léa demande ce qu’ils ont donné à leur professeur. e. Il me demande : << Qu’est- ce qui t’est arrivé ?>>",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "a. Tu dis : << Je n’aime pas nager. >>",
+     1
+    ],
+    [
+     "b. Il me dit qu’il revient demain.",
+     1
+    ],
+    [
+     "c. Le professeur leur dit : << Travaillez vite!>>",
+     1
+    ],
+    [
+     "d. Léa demande ce qu’ils ont donné à leur professeur.",
+     1
+    ],
+    [
+     "e. Il me demande : << Qu’est- ce qui t’est arrivé ?>>",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "Q6 carries 5 marks over five lettered answers, a mark each (MS p2)."
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2024_25:French:8",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "French-MS.pdf",
+   "marks": 5,
+   "stem": "Remplacez les noms soulignés par les pronoms personnels/ y / en etc : a. M. Vincent a acheté les fleurs roses pour sa femme. b. Voici ma sœur et son ami. c. Choisis une bouteille de bon vin! d. Ma mère peut prêter un peu d’argent à Jeanne. e. Rahul court vers l’autobus chaque matin.",
+   "answer": "a. M. Vincent les a achetées pour elle. b. Les voici. c. Choisis-en une bouteille ! d. Ma mère peut lui en prêter un peu. e. Rahul y court chaque matin.",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "a. M. Vincent les a achetées pour elle.",
+     1
+    ],
+    [
+     "b. Les voici.",
+     1
+    ],
+    [
+     "c. Choisis-en une bouteille !",
+     1
+    ],
+    [
+     "d. Ma mère peut lui en prêter un peu.",
+     1
+    ],
+    [
+     "e. Rahul y court chaque matin.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "Q8 carries 5 marks over five lettered answers, a mark each (MS p3)."
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2024_25:French:9",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "French-MS.pdf",
+   "marks": 5,
+   "stem": "Complétez par un pronom relatif simple ou composé : a. Je veux te présenter mes copains j’ai fait cette formation. b. C’est mon médecin je suis allé hier. c. C’est une réunion je serai présent. d. Voilà les médicaments il faut faire attention. e. C’est un avocat compétent la fille est médecin.",
+   "answer": "a. Je veux te présenter mes copains avec qui j’ai fait cette formation. b. C’est mon médecin chez qui je suis allé hier. c. C’est une réunion où/ à laquelle je serai présent. d. Voilà les médicaments auxquels il faut faire attention. e. C’est un avocat compétent dont la fille est médecin.",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "a. Je veux te présenter mes copains avec qui j’ai fait cette formation.",
+     1
+    ],
+    [
+     "b. C’est mon médecin chez qui je suis allé hier.",
+     1
+    ],
+    [
+     "c. C’est une réunion où/ à laquelle je serai présent.",
+     1
+    ],
+    [
+     "d. Voilà les médicaments auxquels il faut faire attention.",
+     1
+    ],
+    [
+     "e. C’est un avocat compétent dont la fille est médecin.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "Q9 carries 5 marks over five lettered answers, a mark each (MS p3)."
   }
- ]
+ ],
+ "split": 76
 }

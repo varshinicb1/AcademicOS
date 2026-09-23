@@ -419,13 +419,16 @@ def test_no_key_restates_the_question_it_answers(items):
     now "4 (cm); 1 (b) 20 (cm); 1 (c)(i) (1/200=) 0.005 (s); 1 (c)(ii) 40 m/s
     ..." -- one part further into the item than the cut used to reach.
 
-    Two of the 1,640 items still hold one: English9NS1 and English8SM1 number
-    their sub-questions with a bare "3 Explain what is meant by ...", which no
-    label pattern can tell from a number inside an answer, so they are left
-    rather than guessed at."""
+    English9NS1 and English8SM1 number their sub-questions with a bare "3
+    Explain what is meant by ..." rather than "1 (c)". A bare number is read
+    as a label only where the CBE layout puts one -- after a sentence ends,
+    before a capital letter, with the question's own sentence and then the
+    Answer|Guidance heading behind it -- and by then the labelled pass has
+    taken every heading that belongs to a labelled restatement, so nothing
+    else in a key can reach one."""
     restating = [i.item_id for i in items if "Answer" in (i.answer or "")
                  and "Guidance" in (i.answer or "")]
-    assert len(restating) <= 2, restating
+    assert restating == [], restating
 
 
 def test_a_key_carries_the_value_points_the_scheme_prints(items):
