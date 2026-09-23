@@ -980,6 +980,77 @@ def test_the_baked_bank_path_keeps_no_second_copy_of_the_rule():
         "written by an older merge cannot reach a paper")
 
 
+# The two gates, and the vocabulary that may only be spoken behind them. One
+# gate per corpus: `raw_extraction_reason` answers "can this be served" about a
+# stem straight out of PDF extraction, `unservable_reason` about a record the
+# merge has already repaired and normalised. They read different inputs (a bare
+# string against a whole record) and give different answers to the same stem on
+# purpose -- applying the raw one to merged records refused 238 answerable
+# served questions, which is the defect Task 126 exists to close.
+_GATES = ("raw_extraction_reason", "unservable_reason")
+# Every other name in bank_merge that decides, or half-decides, servability.
+_BEHIND_THE_GATE = (
+    "has_broken_options", "needs_missing_figure", "looks_truncated",
+    "exclusion_reason", "unanswerable_reason", "source_reason",
+    "unallocated_marks_reason", "builder_key_reason",
+    "_options_missing", "_options_out_of_order", "_case_without_question",
+    "_shown_below_missing",
+)
+
+
+def _bank_merge_names_used_by(path: Path) -> set[str]:
+    """Every name a shipping module takes from `bank_merge`, by import or
+    through an alias. Parsed, not grepped: `merge_question_banks.py` names
+    `bank_merge.exclusion_reason` in its module docstring, and prose about the
+    gate is not a second copy of it."""
+    import ast
+
+    tree = ast.parse(path.read_text(encoding="utf-8"))
+    names: set[str] = set()
+    aliases: set[str] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom):
+            if (node.module or "").endswith("bank_merge"):
+                names.update(a.name for a in node.names)
+            elif (node.module or "").endswith("corpus") or node.module is None:
+                aliases.update(a.asname or a.name for a in node.names
+                               if a.name == "bank_merge")
+        elif isinstance(node, ast.Import):
+            aliases.update(a.asname or a.name.rsplit(".", 1)[-1] for a in node.names
+                           if a.name.endswith("bank_merge"))
+        elif isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+            if node.value.id in aliases:
+                names.add(node.attr)
+    return names
+
+
+def test_only_the_two_gates_leave_bank_merge():
+    """Requirement 1 asks for exactly ONE implementation of "can this be
+    served". There is one per corpus, and this is what holds it at two: no
+    module outside `bank_merge` may reach past a gate for a rule or for half
+    of the chain behind it, however the rules themselves are shared.
+
+    Repo-wide, not `pool.py` alone. The scan above watches the two branches
+    that were wrong; this one is what stops a third answer appearing in
+    `qbank_routes.py`, `bank_health.py` or a script the day someone needs
+    "just the figure check" somewhere new.
+    """
+    root = Path(__file__).resolve().parents[1]
+    shipping = [p for p in (*(root / "src").rglob("*.py"), *(root / "scripts").glob("*.py"))
+                if p.name != "bank_merge.py"]
+    assert len(shipping) > 100, "the source scan found almost nothing to scan"
+
+    reaching_past = {}
+    for path in shipping:
+        behind = _bank_merge_names_used_by(path) & set(_BEHIND_THE_GATE)
+        if behind:
+            reaching_past[path.relative_to(root).as_posix()] = sorted(behind)
+    assert reaching_past == {}, (
+        "these modules take a servability rule from bank_merge instead of "
+        f"asking one of {_GATES}, which makes each of them a second answer to "
+        f"'can this be served': {reaching_past}")
+
+
 # --------------------------------------------------------------------------- #
 # 7. the collection the counts are counted over, and the filter chain
 # --------------------------------------------------------------------------- #

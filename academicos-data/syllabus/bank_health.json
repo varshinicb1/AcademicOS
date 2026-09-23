@@ -21,7 +21,7 @@
   "ncert-exemplar",
   "cbse-cbe"
  ],
- "duplicateIds": 4628,
+ "duplicateIds": 4627,
  "presets": {
   "class_test": "Class Test",
   "weekly_test": "Weekly Periodic Test",
@@ -58,20 +58,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 236,
-     "pct": 40.5
+     "n": 231,
+     "pct": 39.6
     },
     "topic": {
-     "n": 93,
-     "pct": 16.0
+     "n": 91,
+     "pct": 15.6
     },
     "subtopic": {
      "n": 6,
      "pct": 1.0
     },
     "oldChapterIds": {
-     "n": 100,
-     "pct": 17.2
+     "n": 34,
+     "pct": 5.8
     }
    },
    "taggerCovers": true,
@@ -90,7 +90,7 @@
     "long_answer": 17
    },
    "tree": true,
-   "untaggedKeyed": 347,
+   "untaggedKeyed": 352,
    "chapters": [
     {
      "id": "mathematics-6/patterns-in-mathematics",
@@ -350,12 +350,12 @@
     {
      "id": "mathematics-6/number-play",
      "name": "Number Play",
-     "questions": 9,
-     "marks": 17,
+     "questions": 6,
+     "marks": 8,
      "byMarks": {
       "1": 5,
       "2": 0,
-      "3": 4,
+      "3": 1,
       "4": 0,
       "5+": 0
      },
@@ -404,12 +404,12 @@
       {
        "id": "mathematics-6/number-play/playing-with-digits",
        "name": "Playing with Digits",
-       "questions": 2,
-       "marks": 4,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
         "1": 1,
         "2": 0,
-        "3": 1,
+        "3": 0,
         "4": 0,
         "5+": 0
        }
@@ -672,14 +672,14 @@
       {
        "id": "mathematics-6/prime-time/divisibility-tests",
        "name": "Divisibility Tests",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 5,
        "byMarks": {
         "1": 0,
         "2": 0,
         "3": 0,
         "4": 0,
-        "5+": 0
+        "5+": 1
        }
       },
       {
@@ -715,12 +715,12 @@
       {
        "id": "mathematics-6/perimeter-and-area/perimeter",
        "name": "Perimeter",
-       "questions": 9,
-       "marks": 19,
+       "questions": 8,
+       "marks": 16,
        "byMarks": {
         "1": 4,
         "2": 0,
-        "3": 5,
+        "3": 4,
         "4": 0,
         "5+": 0
        }
@@ -1000,10 +1000,10 @@
       {
        "id": "mathematics-6/symmetry/line-of-symmetry",
        "name": "Line of Symmetry",
-       "questions": 25,
-       "marks": 27,
+       "questions": 24,
+       "marks": 26,
        "byMarks": {
-        "1": 24,
+        "1": 23,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -1028,10 +1028,10 @@
     {
      "id": "mathematics-6/the-other-side-of-zero",
      "name": "The Other Side of Zero",
-     "questions": 83,
-     "marks": 125,
+     "questions": 81,
+     "marks": 123,
      "byMarks": {
-      "1": 62,
+      "1": 60,
       "2": 0,
       "3": 21,
       "4": 0,
@@ -1155,7 +1155,6 @@
     "mathematics-6/data-handling-and-presentation/artistic-and-aesthetic-considerations",
     "mathematics-6/prime-time/co-prime-numbers-for-safekeeping-treasures",
     "mathematics-6/prime-time/prime-factorisation",
-    "mathematics-6/prime-time/divisibility-tests",
     "mathematics-6/prime-time/fun-with-numbers",
     "mathematics-6/perimeter-and-area/area",
     "mathematics-6/fractions/fractional-units-and-equal-shares",
@@ -1194,6 +1193,7 @@
     "mathematics-6/number-play/numbers-can-tell-us-things",
     "mathematics-6/number-play/supercells",
     "mathematics-6/number-play/patterns-of-numbers-on-the-number-line",
+    "mathematics-6/number-play/playing-with-digits",
     "mathematics-6/number-play/pretty-palindromic-patterns",
     "mathematics-6/number-play/the-magic-number-of-kaprekar",
     "mathematics-6/number-play/clock-and-calendar-numbers",
@@ -1269,7 +1269,6 @@
     "mathematics-6/prime-time/prime-numbers",
     "mathematics-6/prime-time/co-prime-numbers-for-safekeeping-treasures",
     "mathematics-6/prime-time/prime-factorisation",
-    "mathematics-6/prime-time/divisibility-tests",
     "mathematics-6/prime-time/fun-with-numbers",
     "mathematics-6/perimeter-and-area/perimeter",
     "mathematics-6/perimeter-and-area/area",
@@ -1350,6 +1349,21 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 28,
+    "byReason": {
+     "figure-unavailable": 10,
+     "stem-fragment": 4,
+     "mcq-answer-unresolved": 3,
+     "mcq-options-unresolved": 2,
+     "figure-referenced": 2,
+     "duplicate-stem": 2,
+     "options-missing": 2,
+     "stem-holds-group": 1,
+     "mcq-marks-implausible": 1,
+     "stem-too-short": 1
+    }
    }
   },
   {
@@ -1381,20 +1395,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 203,
-     "pct": 33.7
+     "n": 202,
+     "pct": 33.6
     },
     "topic": {
      "n": 52,
      "pct": 8.6
     },
     "subtopic": {
-     "n": 8,
-     "pct": 1.3
+     "n": 9,
+     "pct": 1.5
     },
     "oldChapterIds": {
-     "n": 468,
-     "pct": 77.7
+     "n": 180,
+     "pct": 29.9
     }
    },
    "taggerCovers": true,
@@ -1413,7 +1427,7 @@
     "short_answer": 142
    },
    "tree": true,
-   "untaggedKeyed": 399,
+   "untaggedKeyed": 400,
    "chapters": [
     {
      "id": "mathematics-7/large-numbers-around-us",
@@ -1975,12 +1989,12 @@
     {
      "id": "mathematics-7/a-tale-of-three-intersecting-lines",
      "name": "A Tale of Three Intersecting Lines",
-     "questions": 23,
-     "marks": 33,
+     "questions": 22,
+     "marks": 30,
      "byMarks": {
       "1": 18,
       "2": 0,
-      "3": 5,
+      "3": 4,
       "4": 0,
       "5+": 0
      },
@@ -2792,6 +2806,18 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 29,
+    "byReason": {
+     "mcq-options-unresolved": 6,
+     "duplicate-stem": 6,
+     "figure-referenced": 5,
+     "figure-unavailable": 4,
+     "mcq-answer-unresolved": 4,
+     "stem-holds-group": 2,
+     "stem-fragment": 2
+    }
    }
   },
   {
@@ -2823,20 +2849,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 503,
-     "pct": 56.4
+     "n": 506,
+     "pct": 56.7
     },
     "topic": {
-     "n": 299,
-     "pct": 33.5
+     "n": 296,
+     "pct": 33.2
     },
     "subtopic": {
-     "n": 57,
-     "pct": 6.4
+     "n": 59,
+     "pct": 6.6
     },
     "oldChapterIds": {
-     "n": 452,
-     "pct": 50.7
+     "n": 231,
+     "pct": 25.9
     }
    },
    "taggerCovers": true,
@@ -2855,7 +2881,7 @@
     "very_short_answer": 439
    },
    "tree": true,
-   "untaggedKeyed": 389,
+   "untaggedKeyed": 386,
    "chapters": [
     {
      "id": "mathematics-8/a-square-and-a-cube",
@@ -2944,12 +2970,12 @@
       {
        "id": "mathematics-8/power-play/exponential-notation-and-operations",
        "name": "Exponential Notation and Operations",
-       "questions": 3,
-       "marks": 7,
+       "questions": 2,
+       "marks": 4,
        "byMarks": {
         "1": 1,
         "2": 0,
-        "3": 2,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -2970,12 +2996,12 @@
       {
        "id": "mathematics-8/power-play/powers-of-10",
        "name": "Powers of 10",
-       "questions": 24,
-       "marks": 48,
+       "questions": 22,
+       "marks": 42,
        "byMarks": {
         "1": 12,
         "2": 0,
-        "3": 12,
+        "3": 10,
         "4": 0,
         "5+": 0
        }
@@ -3082,12 +3108,12 @@
       {
        "id": "mathematics-8/quadrilaterals/rectangles-and-squares",
        "name": "Rectangles and Squares",
-       "questions": 1,
-       "marks": 3,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 1,
+        "3": 0,
         "4": 0,
         "5+": 0
        }
@@ -3121,12 +3147,12 @@
       {
        "id": "mathematics-8/quadrilaterals/quadrilaterals-with-equal-sidelengths",
        "name": "Quadrilaterals with Equal Sidelengths",
-       "questions": 8,
-       "marks": 10,
+       "questions": 7,
+       "marks": 7,
        "byMarks": {
         "1": 7,
         "2": 0,
-        "3": 1,
+        "3": 0,
         "4": 0,
         "5+": 0
        }
@@ -3147,14 +3173,14 @@
       {
        "id": "mathematics-8/quadrilaterals/kite-and-trapezium",
        "name": "Kite and Trapezium",
-       "questions": 16,
-       "marks": 22,
+       "questions": 15,
+       "marks": 17,
        "byMarks": {
         "1": 14,
         "2": 0,
         "3": 1,
         "4": 0,
-        "5+": 1
+        "5+": 0
        }
       }
      ]
@@ -3162,12 +3188,12 @@
     {
      "id": "mathematics-8/number-play",
      "name": "Number Play",
-     "questions": 45,
-     "marks": 53,
+     "questions": 46,
+     "marks": 56,
      "byMarks": {
       "1": 41,
       "2": 0,
-      "3": 4,
+      "3": 5,
       "4": 0,
       "5+": 0
      },
@@ -3218,10 +3244,10 @@
     {
      "id": "mathematics-8/we-distribute-yet-things-multiply",
      "name": "We Distribute, Yet Things Multiply",
-     "questions": 0,
-     "marks": 0,
+     "questions": 1,
+     "marks": 1,
      "byMarks": {
-      "1": 0,
+      "1": 1,
       "2": 0,
       "3": 0,
       "4": 0,
@@ -3382,10 +3408,10 @@
     {
      "id": "mathematics-8/fractions-in-disguise",
      "name": "Fractions in Disguise",
-     "questions": 83,
-     "marks": 164,
+     "questions": 84,
+     "marks": 165,
      "byMarks": {
-      "1": 45,
+      "1": 46,
       "2": 0,
       "3": 35,
       "4": 1,
@@ -3423,14 +3449,14 @@
       {
        "id": "mathematics-8/fractions-in-disguise/using-percentages",
        "name": "Using Percentages",
-       "questions": 60,
-       "marks": 104,
+       "questions": 63,
+       "marks": 118,
        "byMarks": {
         "1": 38,
         "2": 0,
         "3": 22,
-        "4": 0,
-        "5+": 0
+        "4": 1,
+        "5+": 2
        }
       }
      ]
@@ -3852,7 +3878,6 @@
    ],
    "emptyChapters": [
     "mathematics-8/a-story-of-numbers",
-    "mathematics-8/we-distribute-yet-things-multiply",
     "mathematics-8/proportional-reasoning-1",
     "mathematics-8/algebra-play"
    ],
@@ -3887,6 +3912,7 @@
     "mathematics-8/a-story-of-numbers/some-early-number-systems",
     "mathematics-8/a-story-of-numbers/the-idea-of-a-base",
     "mathematics-8/a-story-of-numbers/place-value-representation",
+    "mathematics-8/quadrilaterals/rectangles-and-squares",
     "mathematics-8/quadrilaterals/playing-with-quadrilaterals",
     "mathematics-8/number-play/checking-divisibility-quickly",
     "mathematics-8/we-distribute-yet-things-multiply/some-properties-of-multiplication",
@@ -3930,6 +3956,8 @@
     "mathematics-8/a-story-of-numbers/some-early-number-systems",
     "mathematics-8/a-story-of-numbers/the-idea-of-a-base",
     "mathematics-8/a-story-of-numbers/place-value-representation",
+    "mathematics-8/quadrilaterals/rectangles-and-squares",
+    "mathematics-8/quadrilaterals/quadrilaterals-with-equal-sidelengths",
     "mathematics-8/quadrilaterals/playing-with-quadrilaterals",
     "mathematics-8/number-play/is-this-a-multiple-of",
     "mathematics-8/number-play/checking-divisibility-quickly",
@@ -3984,6 +4012,7 @@
     "mathematics-8/quadrilaterals/more-quadrilaterals-with-parallel-opposite-sides",
     "mathematics-8/quadrilaterals/quadrilaterals-with-equal-sidelengths",
     "mathematics-8/quadrilaterals/playing-with-quadrilaterals",
+    "mathematics-8/quadrilaterals/kite-and-trapezium",
     "mathematics-8/number-play/is-this-a-multiple-of",
     "mathematics-8/number-play/checking-divisibility-quickly",
     "mathematics-8/number-play/digits-in-disguise",
@@ -3999,7 +4028,6 @@
     "mathematics-8/proportional-reasoning-1/unit-conversions",
     "mathematics-8/fractions-in-disguise/fractions-as-percentages",
     "mathematics-8/fractions-in-disguise/percentage-of-some-quantity",
-    "mathematics-8/fractions-in-disguise/using-percentages",
     "mathematics-8/the-baudhayana-pythagoras-theorem/doubling-a-square",
     "mathematics-8/the-baudhayana-pythagoras-theorem/halving-a-square",
     "mathematics-8/the-baudhayana-pythagoras-theorem/hypotenuse-of-an-isosceles-right-triangle",
@@ -4079,6 +4107,19 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 35,
+    "byReason": {
+     "figure-referenced": 8,
+     "mcq-answer-unresolved": 7,
+     "duplicate-stem": 6,
+     "figure-unavailable": 5,
+     "options-missing": 4,
+     "mcq-options-unresolved": 2,
+     "stem-too-short": 2,
+     "stem-fragment": 1
+    }
    }
   },
   {
@@ -4086,9 +4127,9 @@
    "grade": 9,
    "questions": 337,
    "byBank": {
-    "served": 290,
+    "served": 289,
     "ncert-exemplar": 6,
-    "cbse-cbe": 41
+    "cbse-cbe": 42
    },
    "bySource": {
     "cbse_question_bank": 104,
@@ -4110,20 +4151,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 110,
-     "pct": 32.6
+     "n": 112,
+     "pct": 33.2
     },
     "topic": {
-     "n": 41,
-     "pct": 12.2
+     "n": 44,
+     "pct": 13.1
     },
     "subtopic": {
      "n": 0,
      "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 294,
-     "pct": 87.2
+     "n": 126,
+     "pct": 37.4
     }
    },
    "taggerCovers": true,
@@ -4142,7 +4183,7 @@
     "very_short_answer": 60
    },
    "tree": true,
-   "untaggedKeyed": 227,
+   "untaggedKeyed": 225,
    "chapters": [
     {
      "id": "mathematics-9/orienting-yourself-the-use-of-coordinates",
@@ -4216,11 +4257,11 @@
     {
      "id": "mathematics-9/introduction-to-linear-polynomials",
      "name": "Introduction to Linear Polynomials",
-     "questions": 20,
-     "marks": 35,
+     "questions": 21,
+     "marks": 37,
      "byMarks": {
       "1": 15,
-      "2": 0,
+      "2": 1,
       "3": 1,
       "4": 3,
       "5+": 1
@@ -4296,13 +4337,13 @@
       {
        "id": "mathematics-9/introduction-to-linear-polynomials/visualising-linear-relationships",
        "name": "Visualising linear relationships",
-       "questions": 12,
-       "marks": 24,
+       "questions": 13,
+       "marks": 28,
        "byMarks": {
         "1": 8,
         "2": 0,
         "3": 1,
-        "4": 2,
+        "4": 3,
         "5+": 1
        }
       }
@@ -4540,14 +4581,14 @@
     {
      "id": "mathematics-9/i-m-up-and-down-and-round-and-round",
      "name": "I’m Up and Down, and Round and Round",
-     "questions": 33,
-     "marks": 106,
+     "questions": 35,
+     "marks": 112,
      "byMarks": {
-      "1": 7,
+      "1": 8,
       "2": 8,
       "3": 8,
       "4": 2,
-      "5+": 8
+      "5+": 9
      },
      "number": 5,
      "book": "Ganita Manjari",
@@ -4607,12 +4648,12 @@
       {
        "id": "mathematics-9/i-m-up-and-down-and-round-and-round/midpoints-and-perpendicular-bisectors-of-chords",
        "name": "Midpoints and Perpendicular Bisectors of Chords",
-       "questions": 1,
-       "marks": 2,
+       "questions": 2,
+       "marks": 5,
        "byMarks": {
         "1": 0,
         "2": 1,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -4633,14 +4674,14 @@
       {
        "id": "mathematics-9/i-m-up-and-down-and-round-and-round/angles-subtended-by-an-arc",
        "name": "Angles Subtended by an Arc",
-       "questions": 2,
-       "marks": 6,
+       "questions": 3,
+       "marks": 12,
        "byMarks": {
         "1": 0,
         "2": 0,
         "3": 2,
         "4": 0,
-        "5+": 0
+        "5+": 1
        }
       },
       {
@@ -4661,11 +4702,11 @@
     {
      "id": "mathematics-9/measuring-space-perimeter-and-area",
      "name": "Measuring Space: Perimeter and Area",
-     "questions": 9,
-     "marks": 17,
+     "questions": 8,
+     "marks": 15,
      "byMarks": {
       "1": 4,
-      "2": 4,
+      "2": 3,
       "3": 0,
       "4": 0,
       "5+": 1
@@ -5050,7 +5091,6 @@
     "mathematics-9/i-m-up-and-down-and-round-and-round/definitions",
     "mathematics-9/i-m-up-and-down-and-round-and-round/symmetries-of-a-circle",
     "mathematics-9/i-m-up-and-down-and-round-and-round/how-many-circles",
-    "mathematics-9/i-m-up-and-down-and-round-and-round/midpoints-and-perpendicular-bisectors-of-chords",
     "mathematics-9/i-m-up-and-down-and-round-and-round/distance-of-chords-from-the-centre",
     "mathematics-9/measuring-space-perimeter-and-area/perimeter-of-a-shape",
     "mathematics-9/measuring-space-perimeter-and-area/perimeter-of-a-circle-the-c-d-ratio",
@@ -5104,7 +5144,6 @@
     "mathematics-9/i-m-up-and-down-and-round-and-round/chords-and-the-angles-they-subtend",
     "mathematics-9/i-m-up-and-down-and-round-and-round/midpoints-and-perpendicular-bisectors-of-chords",
     "mathematics-9/i-m-up-and-down-and-round-and-round/distance-of-chords-from-the-centre",
-    "mathematics-9/i-m-up-and-down-and-round-and-round/angles-subtended-by-an-arc",
     "mathematics-9/measuring-space-perimeter-and-area/perimeter-of-a-shape",
     "mathematics-9/measuring-space-perimeter-and-area/perimeter-of-a-circle-the-c-d-ratio",
     "mathematics-9/measuring-space-perimeter-and-area/π-is-irrational",
@@ -5126,7 +5165,7 @@
     "mathematics-9/predicting-what-comes-next-exploring-sequences-and-progressi/sum-of-the-first-n-natural-numbers",
     "mathematics-9/predicting-what-comes-next-exploring-sequences-and-progressi/geometric-progressions"
    ],
-   "servedKeyed": 290,
+   "servedKeyed": 289,
    "papers": {
     "all": {
      "class_test": {
@@ -5164,6 +5203,20 @@
       "reasons": []
      }
     }
+   },
+   "excluded": {
+    "n": 48,
+    "byReason": {
+     "figure-unavailable": 27,
+     "figure-referenced": 6,
+     "mcq-answer-unresolved": 5,
+     "mcq-options-unresolved": 4,
+     "stem-fragment": 2,
+     "symbol-loss": 1,
+     "private-use-glyph": 1,
+     "stem-holds-group": 1,
+     "answer-bleed": 1
+    }
    }
   },
   {
@@ -5197,20 +5250,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 417,
-     "pct": 93.7
+     "n": 412,
+     "pct": 92.6
     },
     "topic": {
-     "n": 241,
-     "pct": 54.2
+     "n": 239,
+     "pct": 53.7
     },
     "subtopic": {
      "n": 5,
      "pct": 1.1
     },
     "oldChapterIds": {
-     "n": 166,
-     "pct": 37.3
+     "n": 109,
+     "pct": 24.5
     }
    },
    "taggerCovers": true,
@@ -5229,16 +5282,16 @@
     "short_answer": 115
    },
    "tree": true,
-   "untaggedKeyed": 28,
+   "untaggedKeyed": 33,
    "chapters": [
     {
      "id": "mathematics-10/real-numbers",
      "name": "Real Numbers",
-     "questions": 33,
-     "marks": 57,
+     "questions": 32,
+     "marks": 55,
      "byMarks": {
       "1": 15,
-      "2": 12,
+      "2": 11,
       "3": 6,
       "4": 0,
       "5+": 0
@@ -5402,14 +5455,14 @@
     {
      "id": "mathematics-10/quadratic-equations",
      "name": "Quadratic Equations",
-     "questions": 20,
-     "marks": 56,
+     "questions": 19,
+     "marks": 50,
      "byMarks": {
       "1": 8,
       "2": 4,
       "3": 1,
       "4": 0,
-      "5+": 7
+      "5+": 6
      },
      "number": 4,
      "book": "Mathematics",
@@ -5499,10 +5552,10 @@
       {
        "id": "mathematics-10/arithmetic-progressions/arithmetic-progressions",
        "name": "Arithmetic Progressions",
-       "questions": 2,
-       "marks": 3,
+       "questions": 3,
+       "marks": 4,
        "byMarks": {
-        "1": 1,
+        "1": 2,
         "2": 1,
         "3": 0,
         "4": 0,
@@ -5609,11 +5662,11 @@
     {
      "id": "mathematics-10/coordinate-geometry",
      "name": "Coordinate Geometry",
-     "questions": 39,
-     "marks": 81,
+     "questions": 36,
+     "marks": 76,
      "byMarks": {
-      "1": 16,
-      "2": 12,
+      "1": 15,
+      "2": 10,
       "3": 7,
       "4": 1,
       "5+": 3
@@ -5665,12 +5718,12 @@
     {
      "id": "mathematics-10/introduction-to-trigonometry",
      "name": "Introduction to Trigonometry",
-     "questions": 18,
-     "marks": 42,
+     "questions": 19,
+     "marks": 45,
      "byMarks": {
       "1": 5,
       "2": 6,
-      "3": 4,
+      "3": 5,
       "4": 2,
       "5+": 1
      },
@@ -5805,14 +5858,14 @@
       {
        "id": "mathematics-10/circles/number-of-tangents-from-a-point-on-a-circle",
        "name": "Number of Tangents from a Point on a Circle",
-       "questions": 20,
-       "marks": 58,
+       "questions": 19,
+       "marks": 53,
        "byMarks": {
         "1": 1,
         "2": 12,
         "3": 1,
         "4": 0,
-        "5+": 6
+        "5+": 5
        }
       }
      ]
@@ -5906,10 +5959,10 @@
     {
      "id": "mathematics-10/statistics",
      "name": "Statistics",
-     "questions": 22,
-     "marks": 58,
+     "questions": 21,
+     "marks": 57,
      "byMarks": {
-      "1": 8,
+      "1": 7,
       "2": 4,
       "3": 5,
       "4": 1,
@@ -5934,12 +5987,12 @@
       {
        "id": "mathematics-10/statistics/mean-of-grouped-data",
        "name": "Mean of Grouped Data",
-       "questions": 2,
-       "marks": 6,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 2,
+        "3": 0,
         "4": 0,
         "5+": 0
        }
@@ -6024,7 +6077,8 @@
     "mathematics-10/introduction-to-trigonometry/trigonometric-ratios-of-some-specific-angles",
     "mathematics-10/circles/introduction",
     "mathematics-10/surface-areas-and-volumes/introduction",
-    "mathematics-10/statistics/introduction"
+    "mathematics-10/statistics/introduction",
+    "mathematics-10/statistics/mean-of-grouped-data"
    ],
    "topicsWithout3Mark": [
     "mathematics-10/real-numbers/the-fundamental-theorem-of-arithmetic",
@@ -6049,6 +6103,7 @@
     "mathematics-10/circles/tangent-to-a-circle",
     "mathematics-10/surface-areas-and-volumes/introduction",
     "mathematics-10/statistics/introduction",
+    "mathematics-10/statistics/mean-of-grouped-data",
     "mathematics-10/statistics/mode-of-grouped-data",
     "mathematics-10/probability/probability-a-theoretical-approach"
    ],
@@ -6120,6 +6175,24 @@
       "reasons": []
      }
     }
+   },
+   "excluded": {
+    "n": 767,
+    "byReason": {
+     "no-verified-key": 634,
+     "garbled-script": 30,
+     "figure-unavailable": 17,
+     "mcq-options-unresolved": 14,
+     "figure-referenced": 13,
+     "answer-bleed": 13,
+     "key-rejected": 10,
+     "mcq-answer-unresolved": 9,
+     "stem-fragment": 8,
+     "header-as-stem": 7,
+     "private-use-glyph": 6,
+     "symbol-loss": 4,
+     "scheme-marks-unallocated": 2
+    }
    }
   },
   {
@@ -6151,8 +6224,8 @@
    },
    "tagged": {
     "chapter": {
-     "n": 117,
-     "pct": 42.7
+     "n": 119,
+     "pct": 43.4
     },
     "topic": {
      "n": 56,
@@ -6163,8 +6236,8 @@
      "pct": 2.9
     },
     "oldChapterIds": {
-     "n": 33,
-     "pct": 12.0
+     "n": 36,
+     "pct": 13.1
     }
    },
    "taggerCovers": true,
@@ -6183,7 +6256,7 @@
     "short_answer": 58
    },
    "tree": true,
-   "untaggedKeyed": 157,
+   "untaggedKeyed": 155,
    "chapters": [
     {
      "id": "science-6/the-wonderful-world-of-science",
@@ -6260,14 +6333,14 @@
     {
      "id": "science-6/mindful-eating-a-path-to-a-healthy-body",
      "name": "Mindful Eating: A Path to a Healthy Body",
-     "questions": 24,
-     "marks": 70,
+     "questions": 25,
+     "marks": 76,
      "byMarks": {
       "1": 9,
       "2": 0,
       "3": 9,
       "4": 1,
-      "5+": 5
+      "5+": 6
      },
      "number": 3,
      "book": "Curiosity",
@@ -6545,14 +6618,14 @@
     {
      "id": "science-6/materials-around-us",
      "name": "Materials Around Us",
-     "questions": 24,
-     "marks": 55,
+     "questions": 26,
+     "marks": 66,
      "byMarks": {
       "1": 12,
       "2": 4,
       "3": 3,
       "4": 0,
-      "5+": 5
+      "5+": 7
      },
      "number": 6,
      "book": "Curiosity",
@@ -6586,14 +6659,14 @@
       {
        "id": "science-6/materials-around-us/what-are-the-different-properties-of-materials",
        "name": "What are the different Properties of Materials?",
-       "questions": 13,
-       "marks": 34,
+       "questions": 14,
+       "marks": 40,
        "byMarks": {
         "1": 5,
         "2": 3,
         "3": 1,
         "4": 0,
-        "5+": 4
+        "5+": 5
        }
       },
       {
@@ -6794,14 +6867,14 @@
     {
      "id": "science-6/living-creatures-exploring-their-characteristics",
      "name": "Living Creatures: Exploring their Characteristics",
-     "questions": 3,
-     "marks": 8,
+     "questions": 2,
+     "marks": 2,
      "byMarks": {
       "1": 2,
       "2": 0,
       "3": 0,
       "4": 0,
-      "5+": 1
+      "5+": 0
      },
      "number": 10,
      "book": "Curiosity",
@@ -6904,10 +6977,10 @@
       {
        "id": "science-6/nature-s-treasures/water",
        "name": "Water",
-       "questions": 1,
-       "marks": 1,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
-        "1": 1,
+        "1": 0,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -7094,6 +7167,7 @@
     "science-6/diversity-in-the-living-world",
     "science-6/temperature-and-its-measurement",
     "science-6/a-journey-through-states-of-water",
+    "science-6/living-creatures-exploring-their-characteristics",
     "science-6/beyond-earth"
    ],
    "emptyTopics": [
@@ -7124,6 +7198,7 @@
     "science-6/living-creatures-exploring-their-characteristics/growth-and-movement-in-plants",
     "science-6/living-creatures-exploring-their-characteristics/life-cycle-of-a-plant",
     "science-6/living-creatures-exploring-their-characteristics/life-cycle-of-animals",
+    "science-6/nature-s-treasures/water",
     "science-6/nature-s-treasures/energy-from-the-sun",
     "science-6/nature-s-treasures/forests",
     "science-6/nature-s-treasures/soil-rocks-and-minerals",
@@ -7273,6 +7348,16 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 27,
+    "byReason": {
+     "figure-unavailable": 17,
+     "mcq-marks-implausible": 4,
+     "mcq-answer-unresolved": 4,
+     "mcq-part-of-group": 1,
+     "stem-too-short": 1
+    }
    }
   },
   {
@@ -7303,20 +7388,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 131,
-     "pct": 36.9
+     "n": 133,
+     "pct": 37.5
     },
     "topic": {
-     "n": 65,
-     "pct": 18.3
+     "n": 62,
+     "pct": 17.5
     },
     "subtopic": {
-     "n": 11,
-     "pct": 3.1
+     "n": 14,
+     "pct": 3.9
     },
     "oldChapterIds": {
-     "n": 261,
-     "pct": 73.5
+     "n": 146,
+     "pct": 41.1
     }
    },
    "taggerCovers": true,
@@ -7335,7 +7420,7 @@
     "short_answer": 79
    },
    "tree": true,
-   "untaggedKeyed": 224,
+   "untaggedKeyed": 222,
    "chapters": [
     {
      "id": "science-7/the-ever-evolving-world-of-science",
@@ -7370,14 +7455,14 @@
     {
      "id": "science-7/exploring-substances-acidic-basic-and-neutral",
      "name": "Exploring Substances: Acidic, Basic, and Neutral",
-     "questions": 25,
-     "marks": 58,
+     "questions": 26,
+     "marks": 63,
      "byMarks": {
       "1": 14,
       "2": 3,
       "3": 3,
       "4": 0,
-      "5+": 5
+      "5+": 6
      },
      "number": 2,
      "book": "Curiosity",
@@ -7618,10 +7703,10 @@
       {
        "id": "science-7/changes-around-us-physical-and-chemical/some-other-processes-involving-chemical-changes",
        "name": "Some Other Processes Involving Chemical Changes",
-       "questions": 2,
-       "marks": 2,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 2,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -7631,10 +7716,10 @@
       {
        "id": "science-7/changes-around-us-physical-and-chemical/can-physical-and-chemical-changes-occur-in-the-same-process",
        "name": "Can Physical and Chemical Changes Occur in the Same Process?",
-       "questions": 2,
-       "marks": 3,
+       "questions": 1,
+       "marks": 2,
        "byMarks": {
-        "1": 1,
+        "1": 0,
         "2": 1,
         "3": 0,
         "4": 0,
@@ -7905,14 +7990,14 @@
     {
      "id": "science-7/life-processes-in-animals",
      "name": "Life Processes in Animals",
-     "questions": 28,
-     "marks": 60,
+     "questions": 29,
+     "marks": 65,
      "byMarks": {
       "1": 14,
       "2": 7,
       "3": 4,
       "4": 0,
-      "5+": 3
+      "5+": 4
      },
      "number": 9,
      "book": "Curiosity",
@@ -7976,10 +8061,10 @@
       {
        "id": "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth",
        "name": "How Do Plants Get Food for their Growth?",
-       "questions": 4,
-       "marks": 6,
+       "questions": 3,
+       "marks": 5,
        "byMarks": {
-        "1": 3,
+        "1": 2,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -8382,6 +8467,16 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 20,
+    "byReason": {
+     "figure-unavailable": 11,
+     "figure-referenced": 4,
+     "mcq-answer-unresolved": 3,
+     "mcq-marks-implausible": 1,
+     "mcq-part-of-group": 1
+    }
    }
   },
   {
@@ -8412,8 +8507,8 @@
    },
    "tagged": {
     "chapter": {
-     "n": 81,
-     "pct": 18.6
+     "n": 80,
+     "pct": 18.4
     },
     "topic": {
      "n": 34,
@@ -8424,8 +8519,8 @@
      "pct": 0.5
     },
     "oldChapterIds": {
-     "n": 312,
-     "pct": 71.7
+     "n": 39,
+     "pct": 9.0
     }
    },
    "taggerCovers": true,
@@ -8444,7 +8539,7 @@
     "mcq": 179
    },
    "tree": true,
-   "untaggedKeyed": 354,
+   "untaggedKeyed": 355,
    "chapters": [
     {
      "id": "science-8/exploring-the-investigative-world-of-science",
@@ -8713,10 +8808,10 @@
       {
        "id": "science-8/exploring-forces/what-can-a-force-do-to-the-objects-on-which-it-is-applied",
        "name": "What Can a Force Do to the Objects on Which It Is Applied?",
-       "questions": 2,
-       "marks": 5,
+       "questions": 3,
+       "marks": 6,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 1,
         "3": 1,
         "4": 0,
@@ -8739,11 +8834,11 @@
       {
        "id": "science-8/exploring-forces/what-are-the-different-types-of-forces",
        "name": "What Are the Different Types of Forces?",
-       "questions": 1,
-       "marks": 2,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
         "1": 0,
-        "2": 1,
+        "2": 0,
         "3": 0,
         "4": 0,
         "5+": 0
@@ -9380,14 +9475,14 @@
     {
      "id": "science-8/our-home-earth-a-unique-life-sustaining-planet",
      "name": "Our Home: Earth, a Unique Life Sustaining Planet",
-     "questions": 4,
-     "marks": 10,
+     "questions": 3,
+     "marks": 5,
      "byMarks": {
       "1": 2,
       "2": 0,
       "3": 1,
       "4": 0,
-      "5+": 1
+      "5+": 0
      },
      "number": 13,
      "book": "Curiosity",
@@ -9494,7 +9589,8 @@
     "science-8/the-amazing-world-of-solutes-solvents-and-solutions",
     "science-8/light-mirrors-and-lenses",
     "science-8/keeping-time-with-the-skies",
-    "science-8/how-nature-works-in-harmony"
+    "science-8/how-nature-works-in-harmony",
+    "science-8/our-home-earth-a-unique-life-sustaining-planet"
    ],
    "emptyTopics": [
     "science-8/the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes",
@@ -9506,6 +9602,7 @@
     "science-8/health-the-ultimate-treasure/how-to-prevent-and-control-diseases",
     "science-8/electricity-magnetic-and-heating-effects/does-a-current-carrying-wire-get-hot",
     "science-8/electricity-magnetic-and-heating-effects/how-does-a-battery-generate-electricity",
+    "science-8/exploring-forces/what-are-the-different-types-of-forces",
     "science-8/exploring-forces/weight-and-its-measurement",
     "science-8/exploring-forces/floating-and-sinking",
     "science-8/pressure-winds-storms-and-cyclones/pressure",
@@ -9708,6 +9805,15 @@
       "reasons": []
      }
     }
+   },
+   "excluded": {
+    "n": 17,
+    "byReason": {
+     "figure-unavailable": 7,
+     "mcq-answer-unresolved": 4,
+     "figure-referenced": 4,
+     "mcq-part-of-group": 2
+    }
    }
   },
   {
@@ -9743,16 +9849,16 @@
      "pct": 60.9
     },
     "topic": {
-     "n": 102,
-     "pct": 21.4
+     "n": 101,
+     "pct": 21.2
     },
     "subtopic": {
-     "n": 24,
-     "pct": 5.0
+     "n": 26,
+     "pct": 5.5
     },
     "oldChapterIds": {
-     "n": 314,
-     "pct": 66.0
+     "n": 222,
+     "pct": 46.6
     }
    },
    "taggerCovers": true,
@@ -9820,10 +9926,10 @@
       {
        "id": "science-9/cell-the-building-block-of-life/structure-of-a-cell",
        "name": "Structure of a Cell",
-       "questions": 6,
-       "marks": 12,
+       "questions": 5,
+       "marks": 11,
        "byMarks": {
-        "1": 3,
+        "1": 2,
         "2": 0,
         "3": 3,
         "4": 0,
@@ -9833,12 +9939,12 @@
       {
        "id": "science-9/cell-the-building-block-of-life/the-cell-interior-a-coordinated-working-system",
        "name": "The Cell Interior — A Coordinated Working System",
-       "questions": 12,
-       "marks": 27,
+       "questions": 11,
+       "marks": 24,
        "byMarks": {
         "1": 8,
         "2": 0,
-        "3": 2,
+        "3": 1,
         "4": 0,
         "5+": 2
        }
@@ -10038,10 +10144,10 @@
     {
      "id": "science-9/exploring-mixtures-and-their-separation",
      "name": "Exploring Mixtures and their Separation",
-     "questions": 20,
-     "marks": 77,
+     "questions": 19,
+     "marks": 76,
      "byMarks": {
-      "1": 4,
+      "1": 3,
       "2": 0,
       "3": 10,
       "4": 0,
@@ -10105,10 +10211,10 @@
       {
        "id": "science-9/exploring-mixtures-and-their-separation/tyndall-effect",
        "name": "Tyndall Effect",
-       "questions": 2,
-       "marks": 4,
+       "questions": 3,
+       "marks": 5,
        "byMarks": {
-        "1": 1,
+        "1": 2,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -10390,10 +10496,10 @@
       {
        "id": "science-9/journey-inside-the-atom/atomic-number",
        "name": "Atomic Number",
-       "questions": 1,
-       "marks": 1,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
-        "1": 1,
+        "1": 0,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -10781,10 +10887,10 @@
     {
      "id": "science-9/patterns-in-life-diversity-and-classification",
      "name": "Patterns in Life: Diversity and Classification",
-     "questions": 51,
-     "marks": 94,
+     "questions": 52,
+     "marks": 95,
      "byMarks": {
-      "1": 35,
+      "1": 36,
       "2": 1,
       "3": 11,
       "4": 0,
@@ -10861,14 +10967,14 @@
       {
        "id": "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification",
        "name": "Five Kingdom Classification",
-       "questions": 5,
-       "marks": 9,
+       "questions": 6,
+       "marks": 18,
        "byMarks": {
         "1": 3,
         "2": 0,
         "3": 2,
         "4": 0,
-        "5+": 0
+        "5+": 1
        }
       },
       {
@@ -10943,10 +11049,10 @@
       {
        "id": "science-9/earth-as-a-system-energy-matter-and-life/uneven-heating-of-the-earth",
        "name": "Uneven Heating of the Earth",
-       "questions": 1,
-       "marks": 1,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
-        "1": 1,
+        "1": 0,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -10969,14 +11075,14 @@
       {
        "id": "science-9/earth-as-a-system-energy-matter-and-life/biogeochemical-cycles",
        "name": "Biogeochemical Cycles",
-       "questions": 2,
-       "marks": 2,
+       "questions": 3,
+       "marks": 9,
        "byMarks": {
         "1": 2,
         "2": 0,
         "3": 0,
         "4": 0,
-        "5+": 0
+        "5+": 1
        }
       },
       {
@@ -11030,6 +11136,7 @@
     "science-9/work-energy-and-simple-machines/simple-machines",
     "science-9/journey-inside-the-atom/what-components-contribute-to-the-mass-of-an-atom",
     "science-9/journey-inside-the-atom/symbols-of-elements",
+    "science-9/journey-inside-the-atom/atomic-number",
     "science-9/journey-inside-the-atom/a-deeper-look-into-atomic-structure",
     "science-9/atomic-foundations-of-matter/law-of-conservation-of-mass",
     "science-9/atomic-foundations-of-matter/law-of-constant-proportions",
@@ -11051,6 +11158,7 @@
     "science-9/patterns-in-life-diversity-and-classification/how-has-the-biodiversity-evolved",
     "science-9/patterns-in-life-diversity-and-classification/the-need-for-classification",
     "science-9/patterns-in-life-diversity-and-classification/fossils-as-evidence",
+    "science-9/earth-as-a-system-energy-matter-and-life/uneven-heating-of-the-earth",
     "science-9/earth-as-a-system-energy-matter-and-life/human-impact-on-earth-s-processes"
    ],
    "topicsWithout3Mark": [
@@ -11178,14 +11286,12 @@
     "science-9/patterns-in-life-diversity-and-classification/how-to-classify-organisms",
     "science-9/patterns-in-life-diversity-and-classification/the-need-for-classification",
     "science-9/patterns-in-life-diversity-and-classification/biological-classification-systems-over-time",
-    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification",
     "science-9/patterns-in-life-diversity-and-classification/adaptations-as-outcomes-of-structural-change",
     "science-9/patterns-in-life-diversity-and-classification/scientific-naming-the-binomial-system",
     "science-9/patterns-in-life-diversity-and-classification/fossils-as-evidence",
     "science-9/patterns-in-life-diversity-and-classification/biodiversity-under-threat",
     "science-9/earth-as-a-system-energy-matter-and-life/uneven-heating-of-the-earth",
     "science-9/earth-as-a-system-energy-matter-and-life/uneven-heating-causes-wind-and-ocean-currents",
-    "science-9/earth-as-a-system-energy-matter-and-life/biogeochemical-cycles",
     "science-9/earth-as-a-system-energy-matter-and-life/human-impact-on-earth-s-processes"
    ],
    "servedKeyed": 457,
@@ -11240,6 +11346,18 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 19,
+    "byReason": {
+     "figure-unavailable": 8,
+     "mcq-options-unresolved": 3,
+     "mcq-marks-implausible": 3,
+     "duplicate-stem": 2,
+     "figure-referenced": 1,
+     "stem-too-short": 1,
+     "answer-bleed": 1
+    }
    }
   },
   {
@@ -11264,10 +11382,10 @@
    },
    "verified": {
     "state": "verified",
-    "passed": 523,
+    "passed": 522,
     "of": 530,
     "unchecked": 0,
-    "pct": 98.7
+    "pct": 98.5
    },
    "tagged": {
     "chapter": {
@@ -11275,12 +11393,12 @@
      "pct": 80.9
     },
     "topic": {
-     "n": 299,
-     "pct": 56.4
+     "n": 298,
+     "pct": 56.2
     },
     "subtopic": {
-     "n": 132,
-     "pct": 24.9
+     "n": 133,
+     "pct": 25.1
     },
     "oldChapterIds": {
      "n": 405,
@@ -11336,14 +11454,14 @@
       {
        "id": "science-10/chemical-reactions-and-equations/types-of-chemical-reactions",
        "name": "Types of Chemical Reactions",
-       "questions": 17,
-       "marks": 30,
+       "questions": 18,
+       "marks": 40,
        "byMarks": {
         "1": 12,
         "2": 1,
         "3": 2,
         "4": 0,
-        "5+": 2
+        "5+": 3
        }
       },
       {
@@ -11461,10 +11579,10 @@
       {
        "id": "science-10/metals-and-non-metals/chemical-properties-of-metals",
        "name": "Chemical Properties of Metals",
-       "questions": 12,
-       "marks": 26,
+       "questions": 11,
+       "marks": 25,
        "byMarks": {
-        "1": 6,
+        "1": 5,
         "2": 0,
         "3": 5,
         "4": 0,
@@ -11487,14 +11605,14 @@
       {
        "id": "science-10/metals-and-non-metals/occurrence-of-metals",
        "name": "Occurrence of Metals",
-       "questions": 5,
-       "marks": 9,
+       "questions": 6,
+       "marks": 18,
        "byMarks": {
         "1": 3,
         "2": 0,
         "3": 2,
         "4": 0,
-        "5+": 0
+        "5+": 1
        }
       },
       {
@@ -11625,10 +11743,10 @@
       {
        "id": "science-10/life-processes/nutrition",
        "name": "Nutrition",
-       "questions": 25,
-       "marks": 55,
+       "questions": 24,
+       "marks": 54,
        "byMarks": {
-        "1": 13,
+        "1": 12,
         "2": 0,
         "3": 9,
         "4": 0,
@@ -11664,10 +11782,10 @@
       {
        "id": "science-10/life-processes/excretion",
        "name": "Excretion",
-       "questions": 4,
-       "marks": 6,
+       "questions": 3,
+       "marks": 5,
        "byMarks": {
-        "1": 3,
+        "1": 2,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -11694,10 +11812,10 @@
       {
        "id": "science-10/control-and-coordination/animals-nervous-system",
        "name": "Animals – Nervous System",
-       "questions": 18,
-       "marks": 36,
+       "questions": 17,
+       "marks": 35,
        "byMarks": {
-        "1": 13,
+        "1": 12,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -12147,14 +12265,14 @@
       {
        "id": "science-10/magnetic-effects-of-electric-current/force-on-a-current-carrying-conductor-in-a-magnetic-field",
        "name": "Force on a Current-carrying Conductor in a Magnetic Field",
-       "questions": 1,
-       "marks": 3,
+       "questions": 2,
+       "marks": 13,
        "byMarks": {
         "1": 0,
         "2": 0,
         "3": 1,
         "4": 0,
-        "5+": 0
+        "5+": 1
        }
       },
       {
@@ -12270,7 +12388,6 @@
     "science-10/acids-bases-and-salts/more-about-salts",
     "science-10/metals-and-non-metals/physical-properties",
     "science-10/metals-and-non-metals/how-do-metals-and-non-metals-react",
-    "science-10/metals-and-non-metals/occurrence-of-metals",
     "science-10/metals-and-non-metals/corrosion",
     "science-10/carbon-and-its-compounds/bonding-in-carbon-the-covalent-bond",
     "science-10/carbon-and-its-compounds/versatile-nature-of-carbon",
@@ -12297,7 +12414,6 @@
     "science-10/electricity/electric-power",
     "science-10/magnetic-effects-of-electric-current/magnetic-field-and-field-lines",
     "science-10/magnetic-effects-of-electric-current/magnetic-field-due-to-a-current-carrying-conductor",
-    "science-10/magnetic-effects-of-electric-current/force-on-a-current-carrying-conductor-in-a-magnetic-field",
     "science-10/magnetic-effects-of-electric-current/domestic-electric-circuits"
    ],
    "servedKeyed": 504,
@@ -12349,6 +12465,24 @@
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ]
      }
+    }
+   },
+   "excluded": {
+    "n": 437,
+    "byReason": {
+     "no-verified-key": 407,
+     "figure-unavailable": 8,
+     "mcq-answer-unresolved": 4,
+     "figure-referenced": 3,
+     "mcq-marks-implausible": 3,
+     "answer-bleed": 2,
+     "stem-holds-group": 2,
+     "mcq-options-unresolved": 2,
+     "duplicate-stem": 2,
+     "scheme-marks-unallocated": 1,
+     "private-use-glyph": 1,
+     "mcq-part-of-group": 1,
+     "stem-too-short": 1
     }
    }
   },
@@ -13593,6 +13727,10 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 0,
+    "byReason": {}
    }
   },
   {
@@ -16172,6 +16310,10 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 0,
+    "byReason": {}
    }
   },
   {
@@ -18427,6 +18569,10 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 0,
+    "byReason": {}
    }
   },
   {
@@ -19442,6 +19588,10 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 0,
+    "byReason": {}
    }
   },
   {
@@ -21335,6 +21485,20 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 434,
+    "byReason": {
+     "no-verified-key": 365,
+     "answer-bleed": 36,
+     "mcq-answer-unresolved": 15,
+     "scheme-marks-unallocated": 10,
+     "mcq-options-unresolved": 4,
+     "stem-fragment": 1,
+     "mcq-marks-implausible": 1,
+     "stem-spans-sections": 1,
+     "figure-referenced": 1
+    }
    }
   },
   {
@@ -21783,6 +21947,13 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 4,
+    "byReason": {
+     "figure-unavailable": 2,
+     "passage-unavailable": 2
+    }
    }
   },
   {
@@ -22203,6 +22374,13 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 44,
+    "byReason": {
+     "passage-unavailable": 39,
+     "figure-unavailable": 5
+    }
    }
   },
   {
@@ -22616,6 +22794,10 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 0,
+    "byReason": {}
    }
   },
   {
@@ -23049,6 +23231,13 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 8,
+    "byReason": {
+     "passage-unavailable": 7,
+     "mcq-answer-unresolved": 1
+    }
    }
   },
   {
@@ -23183,6 +23372,18 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 139,
+    "byReason": {
+     "no-verified-key": 127,
+     "answer-bleed": 6,
+     "stem-too-short": 2,
+     "passage-unavailable": 1,
+     "mcq-options-unresolved": 1,
+     "mcq-answer-unresolved": 1,
+     "answer-is-question-text": 1
+    }
    }
   },
   {
@@ -23307,6 +23508,10 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 0,
+    "byReason": {}
    }
   },
   {
@@ -23431,6 +23636,10 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 0,
+    "byReason": {}
    }
   },
   {
@@ -23555,6 +23764,10 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 0,
+    "byReason": {}
    }
   },
   {
@@ -23949,6 +24162,10 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 0,
+    "byReason": {}
    }
   },
   {
@@ -24073,16 +24290,61 @@
       ]
      }
     }
+   },
+   "excluded": {
+    "n": 5,
+    "byReason": {
+     "no-verified-key": 5
+    }
    }
   }
  ],
+ "excluded": {
+  "records": 4675,
+  "inScope": 2061,
+  "outOfScope": 2614,
+  "byReason": {
+   "no-verified-key": 3214,
+   "answer-bleed": 295,
+   "mcq-answer-unresolved": 278,
+   "mcq-options-unresolved": 191,
+   "figure-unavailable": 122,
+   "garbled-script": 112,
+   "duplicate-stem": 78,
+   "figure-referenced": 72,
+   "stem-fragment": 62,
+   "passage-unavailable": 49,
+   "mcq-marks-implausible": 45,
+   "scheme-marks-unallocated": 41,
+   "stem-spans-sections": 20,
+   "key-rejected": 17,
+   "stem-too-short": 12,
+   "header-as-stem": 11,
+   "private-use-glyph": 9,
+   "stem-runs-on": 9,
+   "symbol-loss": 7,
+   "options-missing": 7,
+   "stem-holds-group": 7,
+   "option-labels-collide": 6,
+   "mcq-part-of-group": 5,
+   "answer-is-question-text": 3,
+   "stem-empty-after-strip": 2,
+   "page-furniture": 1
+  },
+  "bySource": {
+   "cbse_board_paper": 3267,
+   "cbse_sample_paper": 1051,
+   "cbse_question_bank": 285,
+   "ncert_exemplar": 72
+  }
+ },
  "builtAt": "2026-09-23",
  "inputs": [
   {
    "label": "served",
    "path": "academicos-data/syllabus/questions.json",
-   "sha256": "60668a922830ff1fca970a7a1434e3ac8723a364f32a8be2b4cb53bba6618ef3",
-   "records": 5427
+   "sha256": "244429c798b5467779dd72215f044f49e3e378cdf1740ed50dc4e041ab22d940",
+   "records": 5429
   },
   {
    "label": "ncert-exemplar",
@@ -24093,23 +24355,30 @@
   {
    "label": "cbse-cbe",
    "path": "academicos-data/corpus/cbse-cbe/questions.json",
-   "sha256": "590d0328c222dbde1dd2367cbcb60427d0337202b9032c1c3200c2dec4a0ca78",
+   "sha256": "2c33517705be14cf2db2b1891b25997287962ecc6c4338bdf6bbfa87e3205fa5",
    "records": 720
+  },
+  {
+   "label": "excluded",
+   "path": "academicos-data/syllabus/_merge_excluded.json",
+   "sha256": "056d0637d57bf2488e1caf78d5b510d22be23f18299df13cb774bfd12511d52e",
+   "records": 4675
   }
  ],
+ "excludedPath": "academicos-data/syllabus/_merge_excluded.json",
  "tagging": {
   "thresholds": {
-   "chapter": 0.734173,
-   "topic": 0.763954,
-   "subtopic": 0.685029
+   "chapter": 0.738524,
+   "topic": 0.769866,
+   "subtopic": 0.681302
   },
   "goldItems": 389,
   "nested": {
    "chapter": {
-    "right": 120,
-    "tags": 129,
-    "precision": 0.9302,
-    "wilsonLower95": 0.8727
+    "right": 121,
+    "tags": 130,
+    "precision": 0.9308,
+    "wilsonLower95": 0.8737
    },
    "topic": {
     "right": 51,
@@ -24118,10 +24387,10 @@
     "wilsonLower95": 0.8274
    },
    "subtopic": {
-    "right": 40,
-    "tags": 43,
-    "precision": 0.9302,
-    "wilsonLower95": 0.8139
+    "right": 42,
+    "tags": 45,
+    "precision": 0.9333,
+    "wilsonLower95": 0.8214
    }
   },
   "heldOut": {
@@ -24179,7 +24448,7 @@
  "taxonomyInputs": [
   {
    "path": "academicos-data/syllabus/taxonomy/_tagger_model.json",
-   "sha256": "f72d12000dc01107813fbb7b4e126ded95345e06415c18df9ab7118872c26454"
+   "sha256": "daade64ae9f79365cbb0df01f3b0c01b0136c5e08cc9e4a1b4faddf477825979"
   },
   {
    "path": "academicos-data/syllabus/taxonomy/_tag_audit.json",

@@ -408,6 +408,26 @@ _OPTION_MARKER_RE = re.compile(r"\(([a-dA-D])\)")
 # (exemplar:q:7:science:1:-:10, "... name any two minerals, ____, ____. (a)
 # (b)") are what the rule was written for, and a threshold of 1 still refuses
 # those. A digit IS an option in a maths paper.
+#
+# MEASURED ON THE CORPUS THIS RULE ACTUALLY GOVERNS, which is pool's registry
+# path -- raw PDF extraction, not the merged bank the paragraph above counts.
+# Replaying build_pool's registry loop over all 2,453 parse outputs in
+# academicos-data/parse (2026-09-24): 33,558 stems reach this rule, the old
+# threshold of 2 refused 3,336 of them and 1 refuses 3,134, so 202 verdicts
+# change. 137 of the 202 have an alphanumeric one-character option and read as
+# printed -- "The value(s) of k for which the roots of x² + 4x + k = 0 are real
+# is (a) k -4 (b) k -4 (c) k 4 (d) k", "(A) China (B) Russia (C) Japan
+# (D) United Kingdom". The other 65 are stems whose options came through as
+# punctuation -- a repeated dash, comma or equals sign. The
+# every-option-the-same clause below refuses 9 of them; the rest carry that
+# broken run BESIDE readable option text, and firing on any two identical
+# wordless options instead of on all of them refuses 32, the UN Security
+# Council question among them, whose English options read exactly as printed.
+# Narrowing further was measured and rejected:
+# also stripping dashes from an option's content refuses
+# exemplar:q:6:mathematics:3:-:1, "Every integer less than 0 has the sign
+# (A) + (B) - (C) × (D) ÷", which is an answerable MCQ whose options are single
+# symbols.
 _MIN_OPTION_CONTENT_CHARS = 1
 
 
@@ -421,7 +441,8 @@ def has_broken_options(text: str) -> bool:
     ordering is physically impossible in the source and only happens when
     extraction destroyed the earlier options (see pool's `has_broken_fraction_options`)
     — or an option marker present but immediately followed by the next marker
-    (or the end of the stem) with no content in between.
+    (or the end of the stem) with no content in between, or every option
+    saying the same wordless thing, which is not a choice at all.
     """
     low = text.lower()
     present = [m for m in _OPTION_ORDER if m in low]
@@ -434,11 +455,24 @@ def has_broken_options(text: str) -> bool:
     matches = list(_OPTION_MARKER_RE.finditer(text))
     if len(matches) < 2:
         return False
+    contents = []
     for i, m in enumerate(matches):
         end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
         content = text[m.end():end].strip(" .:;")
         if len(content) < _MIN_OPTION_CONTENT_CHARS:
             return True
+        contents.append(content)
+    # Every option the same, and none of them a word or a number: "(A) - (B) -
+    # (C) - (D) -", "(A) , , (B) , , (C) , , (D) , ,", and the one that shows
+    # what the shape means -- "If in two triangles DEF and PQR, D = Q and
+    # R = E, then which of the following is not true ? (A) = (B) = (C) = (D) =",
+    # whose four answers were four expressions the extraction lost either side
+    # of the sign. A threshold of 1 serves all of these, so this is the part of
+    # the old threshold of 2 that was worth keeping: 9 of the 33,558 registry
+    # stems, none of the 5,429 served ones, and it cannot touch an MCQ whose
+    # options are distinct symbols ("(A) + (B) - (C) × (D) ÷").
+    if len(set(contents)) == 1 and not any(ch.isalnum() for ch in contents[0]):
+        return True
     return False
 
 

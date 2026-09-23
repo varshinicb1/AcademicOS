@@ -1870,6 +1870,40 @@ def test_the_pool_still_rejects_what_it_rejected(text, reason):
     assert pool.raw_extraction_reason(text) == reason
 
 
+@pytest.mark.parametrize("text,reason", [
+    # Four answers that were four expressions, and the extraction kept only the
+    # sign between them. Real, from academicos-data/parse
+    # (src_88532141f34ac8143c0d1b45).
+    ("If in two triangles DEF and PQR, D = Q and R = E, then which of the "
+     "following is not true ? (A) = (B) = (C) = (D) =", "broken-options"),
+    # The same shape with a dash and with a comma (src_1d6a2597b12916d6d31ccd5b,
+    # src_43ca6dafa2a6489ff053db5e).
+    ("Which of these is the odd one out in the list ? (A) - (B) - (C) - (D) -",
+     "broken-options"),
+    ("Which of these is the odd one out in the list ? (A) , , (B) , , (C) , , "
+     "(D) , ,", "broken-options"),
+    # DISTINCT symbols are a real option list and must survive: a threshold of 1
+    # serves this and so must the clause above (exemplar:q:6:mathematics:3:-:1).
+    ("Every integer less than 0 has the sign (A) + (B) - (C) x (D) /", None),
+    # And a stem is not refused for having short options, only identical
+    # wordless ones (src_0a2d54985ac6bc0fb6b77f91).
+    ("Choose the country which is not a permanent member of the UN Security "
+     "Council. (A) China (B) Russia (C) Japan (D) United Kingdom", None),
+])
+def test_an_option_list_that_offers_no_choice_is_a_broken_one(text, reason):
+    """Task 126 lowered `_MIN_OPTION_CONTENT_CHARS` to 1 because a digit is an
+    option in a maths paper. Measured afterwards on the corpus that rule
+    actually governs -- the 33,558 raw stems of pool's registry path, not the
+    merged bank -- 202 verdicts changed and 65 of them were stems whose options
+    came through as punctuation. This clause is the part of the old threshold
+    worth keeping: every option the same, and not a word or a number between
+    them, is no choice at all. It refuses 9 of the 33,558 and none of the
+    5,429 served records."""
+    from academicos.assessment import pool
+
+    assert pool.raw_extraction_reason(text) == reason
+
+
 @pytest.mark.parametrize("text,rejected", [
     ("{H$gr Xn©U à{H«$`m _hmoX {H$gr", True),
     ("Explain the process of photosynthesis in green plants.", False),

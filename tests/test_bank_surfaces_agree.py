@@ -66,8 +66,10 @@ RELEASE = [(subject, grade) for grade in RELEASE_GRADES
 # composes 5,426 against the committed 5,429 and this is the difference;
 # rebuilding the served bank needs the bank owner's go-ahead, so until then
 # `/v1` sells three records the paper builder refuses and this names them.
-# Delete the list when the bank is rebuilt: the assertion below is `<=`, so it
-# passes either way and turns red for any OTHER record.
+# The assertion below is an EQUALITY, not `<=`. It turns red for any other
+# record the gate refuses, and also on the day the rebuild lands -- which is
+# exactly when this list must be deleted. An allowance that outlives the thing
+# it allows for is how the two surfaces drifted apart in the first place.
 PENDING_REBUILD = {
     "cbse:sqp:ClassXII_2022_23:Informatics Practices:33",
     "cbse:sqp:ClassXII_2023_24:Informatics Practices:27",
@@ -161,10 +163,12 @@ def test_the_served_file_holds_nothing_the_gate_refuses():
     -- the API sells it and the builder refuses it."""
     refused = {rec["id"]: reason for rec in _records()
                if (reason := bm.unservable_reason(rec)) is not None}
-    assert set(refused) <= PENDING_REBUILD, (
-        f"{len(refused)} served record(s) the merge's own gate refuses, beyond "
-        f"the ones a pending rebuild removes: "
-        f"{ {k: v for k, v in refused.items() if k not in PENDING_REBUILD} }")
+    assert set(refused) == PENDING_REBUILD, (
+        "the served file and PENDING_REBUILD disagree about which records the "
+        "merge's own gate refuses. Extra (the API sells them, no paper can "
+        f"print them): { {k: v for k, v in refused.items() if k not in PENDING_REBUILD} }. "
+        f"Gone (the rebuild landed -- delete them from PENDING_REBUILD): "
+        f"{sorted(PENDING_REBUILD - set(refused))}")
 
 
 def test_no_release_class_holds_a_record_the_gate_refuses():
@@ -186,19 +190,23 @@ def test_the_two_surfaces_count_the_same_questions(pairs, builder_counts, api_co
     Over every class 6-10 pair the bank holds, not the ten of the release:
     the other 23 could drift apart unwatched otherwise."""
     files = _file_counts()
-    refused = _refused_by_pair()
     disagree = {}
     for pair in pairs:
-        # The builder drops exactly what the gate refuses -- nothing of its
-        # own. On a freshly merged bank `refused` is zero and this is a plain
-        # three-way equality.
-        seen = (files.get(pair, 0), builder_counts[pair] + refused.get(pair, 0),
+        # A plain three-way equality, with no allowance made for anything. The
+        # pairs are classes 6-10 only and the gate refuses nothing there (the
+        # test above pins that at zero), so the builder drops exactly nothing
+        # of its own and the three numbers are the same number. An earlier
+        # version of this line added `refused[pair]` to the builder's count so
+        # it would hold either side of a rebuild -- requirement 3 asks for the
+        # equality itself, and slack in the assertion is what a class 6-10
+        # regression would hide behind.
+        seen = (files.get(pair, 0), builder_counts[pair],
                 api_counts.get(pair, {}).get("questions", 0))
         if len(set(seen)) != 1:
             disagree[pair] = seen
     assert disagree == {}, (
         "served file / paper builder / /v1 coverage disagree "
-        "(pair: file, builder+refused, api): " + str(disagree))
+        "(pair: file, builder, api): " + str(disagree))
 
 
 def test_every_question_the_api_sells_can_be_marked(api_counts):
