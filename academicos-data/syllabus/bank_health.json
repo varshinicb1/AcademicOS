@@ -21,7 +21,7 @@
   "ncert-exemplar",
   "cbse-cbe"
  ],
- "duplicateIds": 4633,
+ "duplicateIds": 4628,
  "presets": {
   "class_test": "Class Test",
   "weekly_test": "Weekly Periodic Test",
@@ -58,20 +58,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 206,
-     "pct": 35.3
+     "n": 236,
+     "pct": 40.5
     },
     "topic": {
-     "n": 81,
-     "pct": 13.9
+     "n": 93,
+     "pct": 16.0
     },
     "subtopic": {
-     "n": 3,
-     "pct": 0.5
+     "n": 6,
+     "pct": 1.0
     },
     "oldChapterIds": {
-     "n": 109,
-     "pct": 18.7
+     "n": 100,
+     "pct": 17.2
     }
    },
    "taggerCovers": true,
@@ -90,7 +90,7 @@
     "long_answer": 17
    },
    "tree": true,
-   "untaggedKeyed": 377,
+   "untaggedKeyed": 347,
    "chapters": [
     {
      "id": "mathematics-6/patterns-in-mathematics",
@@ -523,12 +523,12 @@
     {
      "id": "mathematics-6/data-handling-and-presentation",
      "name": "Data Handling and Presentation",
-     "questions": 4,
-     "marks": 8,
+     "questions": 8,
+     "marks": 14,
      "byMarks": {
-      "1": 3,
+      "1": 6,
       "2": 0,
-      "3": 0,
+      "3": 1,
       "4": 0,
       "5+": 1
      },
@@ -564,12 +564,12 @@
       {
        "id": "mathematics-6/data-handling-and-presentation/bar-graphs",
        "name": "Bar Graphs",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 3,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -577,10 +577,10 @@
       {
        "id": "mathematics-6/data-handling-and-presentation/drawing-a-bar-graph",
        "name": "Drawing a Bar Graph",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -700,12 +700,12 @@
     {
      "id": "mathematics-6/perimeter-and-area",
      "name": "Perimeter and Area",
-     "questions": 37,
-     "marks": 98,
+     "questions": 42,
+     "marks": 111,
      "byMarks": {
-      "1": 12,
+      "1": 13,
       "2": 1,
-      "3": 19,
+      "3": 23,
       "4": 2,
       "5+": 3
      },
@@ -715,12 +715,12 @@
       {
        "id": "mathematics-6/perimeter-and-area/perimeter",
        "name": "Perimeter",
-       "questions": 6,
-       "marks": 12,
+       "questions": 9,
+       "marks": 19,
        "byMarks": {
-        "1": 3,
+        "1": 4,
         "2": 0,
-        "3": 3,
+        "3": 5,
         "4": 0,
         "5+": 0
        }
@@ -741,10 +741,10 @@
       {
        "id": "mathematics-6/perimeter-and-area/area-of-a-triangle",
        "name": "Area of a Triangle",
-       "questions": 1,
-       "marks": 3,
+       "questions": 2,
+       "marks": 4,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -1028,12 +1028,12 @@
     {
      "id": "mathematics-6/the-other-side-of-zero",
      "name": "The Other Side of Zero",
-     "questions": 62,
-     "marks": 98,
+     "questions": 83,
+     "marks": 125,
      "byMarks": {
-      "1": 44,
+      "1": 62,
       "2": 0,
-      "3": 18,
+      "3": 21,
       "4": 0,
       "5+": 0
      },
@@ -1069,10 +1069,10 @@
       {
        "id": "mathematics-6/the-other-side-of-zero/integers-in-other-places",
        "name": "Integers in Other Places",
-       "questions": 4,
-       "marks": 8,
+       "questions": 5,
+       "marks": 9,
        "byMarks": {
-        "1": 2,
+        "1": 3,
         "2": 0,
         "3": 2,
         "4": 0,
@@ -1082,10 +1082,10 @@
       {
        "id": "mathematics-6/the-other-side-of-zero/explorations-with-integers",
        "name": "Explorations with Integers",
-       "questions": 20,
-       "marks": 34,
+       "questions": 25,
+       "marks": 39,
        "byMarks": {
-        "1": 13,
+        "1": 18,
         "2": 0,
         "3": 7,
         "4": 0,
@@ -1114,7 +1114,6 @@
    ],
    "chaptersWithout3Mark": [
     "mathematics-6/patterns-in-mathematics",
-    "mathematics-6/data-handling-and-presentation",
     "mathematics-6/playing-with-constructions"
    ],
    "chaptersWithout5Mark": [
@@ -1153,8 +1152,6 @@
     "mathematics-6/number-play/games-and-winning-strategies",
     "mathematics-6/data-handling-and-presentation/collecting-and-organising-data",
     "mathematics-6/data-handling-and-presentation/pictographs",
-    "mathematics-6/data-handling-and-presentation/bar-graphs",
-    "mathematics-6/data-handling-and-presentation/drawing-a-bar-graph",
     "mathematics-6/data-handling-and-presentation/artistic-and-aesthetic-considerations",
     "mathematics-6/prime-time/co-prime-numbers-for-safekeeping-treasures",
     "mathematics-6/prime-time/prime-factorisation",
@@ -1207,7 +1204,6 @@
     "mathematics-6/number-play/games-and-winning-strategies",
     "mathematics-6/data-handling-and-presentation/collecting-and-organising-data",
     "mathematics-6/data-handling-and-presentation/pictographs",
-    "mathematics-6/data-handling-and-presentation/bar-graphs",
     "mathematics-6/data-handling-and-presentation/drawing-a-bar-graph",
     "mathematics-6/data-handling-and-presentation/artistic-and-aesthetic-considerations",
     "mathematics-6/prime-time/common-multiples-and-common-factors",
@@ -1385,20 +1381,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 103,
-     "pct": 17.1
+     "n": 203,
+     "pct": 33.7
     },
     "topic": {
-     "n": 27,
-     "pct": 4.5
+     "n": 52,
+     "pct": 8.6
     },
     "subtopic": {
-     "n": 1,
-     "pct": 0.2
+     "n": 8,
+     "pct": 1.3
     },
     "oldChapterIds": {
-     "n": 476,
-     "pct": 79.1
+     "n": 468,
+     "pct": 77.7
     }
    },
    "taggerCovers": true,
@@ -1417,7 +1413,7 @@
     "short_answer": 142
    },
    "tree": true,
-   "untaggedKeyed": 499,
+   "untaggedKeyed": 399,
    "chapters": [
     {
      "id": "mathematics-7/large-numbers-around-us",
@@ -2173,12 +2169,12 @@
     {
      "id": "mathematics-7/operations-with-integers",
      "name": "Operations with Integers",
-     "questions": 29,
-     "marks": 37,
+     "questions": 96,
+     "marks": 126,
      "byMarks": {
-      "1": 25,
+      "1": 81,
       "2": 0,
-      "3": 4,
+      "3": 15,
       "4": 0,
       "5+": 0
      },
@@ -2188,12 +2184,12 @@
       {
        "id": "mathematics-7/operations-with-integers/a-quick-recap-of-integers",
        "name": "A Quick Recap of Integers",
-       "questions": 3,
-       "marks": 3,
+       "questions": 5,
+       "marks": 7,
        "byMarks": {
-        "1": 3,
+        "1": 4,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -2201,12 +2197,12 @@
       {
        "id": "mathematics-7/operations-with-integers/multiplication-of-integers",
        "name": "Multiplication of Integers",
-       "questions": 5,
-       "marks": 5,
+       "questions": 22,
+       "marks": 32,
        "byMarks": {
-        "1": 5,
+        "1": 17,
         "2": 0,
-        "3": 0,
+        "3": 5,
         "4": 0,
         "5+": 0
        }
@@ -2453,12 +2449,12 @@
     {
      "id": "mathematics-7/finding-the-unknown",
      "name": "Finding the Unknown",
-     "questions": 6,
-     "marks": 6,
+     "questions": 39,
+     "marks": 93,
      "byMarks": {
-      "1": 6,
+      "1": 12,
       "2": 0,
-      "3": 0,
+      "3": 27,
       "4": 0,
       "5+": 0
      },
@@ -2481,12 +2477,12 @@
       {
        "id": "mathematics-7/finding-the-unknown/solving-equations-systematically",
        "name": "Solving Equations Systematically",
-       "questions": 1,
-       "marks": 1,
+       "questions": 4,
+       "marks": 8,
        "byMarks": {
-        "1": 1,
+        "1": 2,
         "2": 0,
-        "3": 0,
+        "3": 2,
         "4": 0,
         "5+": 0
        }
@@ -2507,12 +2503,12 @@
       {
        "id": "mathematics-7/finding-the-unknown/a-pinch-of-history",
        "name": "A Pinch of History",
-       "questions": 0,
-       "marks": 0,
+       "questions": 3,
+       "marks": 9,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 0,
+        "3": 3,
         "4": 0,
         "5+": 0
        }
@@ -2539,8 +2535,7 @@
     "mathematics-7/working-with-fractions",
     "mathematics-7/finding-common-ground",
     "mathematics-7/another-peek-beyond-the-point",
-    "mathematics-7/constructions-and-tilings",
-    "mathematics-7/finding-the-unknown"
+    "mathematics-7/constructions-and-tilings"
    ],
    "chaptersWithout5Mark": [
     "mathematics-7/large-numbers-around-us",
@@ -2614,8 +2609,7 @@
     "mathematics-7/constructions-and-tilings/geometric-constructions",
     "mathematics-7/constructions-and-tilings/tiling",
     "mathematics-7/finding-the-unknown/find-the-unknowns",
-    "mathematics-7/finding-the-unknown/mind-the-mistake-mend-the-mistake",
-    "mathematics-7/finding-the-unknown/a-pinch-of-history"
+    "mathematics-7/finding-the-unknown/mind-the-mistake-mend-the-mistake"
    ],
    "topicsWithout3Mark": [
     "mathematics-7/large-numbers-around-us/a-lakh-varieties",
@@ -2663,8 +2657,6 @@
     "mathematics-7/working-with-fractions/some-problems-involving-fractions",
     "mathematics-7/geometric-twins/geometric-twins",
     "mathematics-7/geometric-twins/congruence-of-triangles",
-    "mathematics-7/operations-with-integers/a-quick-recap-of-integers",
-    "mathematics-7/operations-with-integers/multiplication-of-integers",
     "mathematics-7/finding-common-ground/the-greatest-of-all",
     "mathematics-7/finding-common-ground/least-but-not-last",
     "mathematics-7/finding-common-ground/patterns-properties-and-a-pretty-procedure",
@@ -2679,9 +2671,7 @@
     "mathematics-7/constructions-and-tilings/geometric-constructions",
     "mathematics-7/constructions-and-tilings/tiling",
     "mathematics-7/finding-the-unknown/find-the-unknowns",
-    "mathematics-7/finding-the-unknown/solving-equations-systematically",
-    "mathematics-7/finding-the-unknown/mind-the-mistake-mend-the-mistake",
-    "mathematics-7/finding-the-unknown/a-pinch-of-history"
+    "mathematics-7/finding-the-unknown/mind-the-mistake-mend-the-mistake"
    ],
    "topicsWithout5Mark": [
     "mathematics-7/large-numbers-around-us/a-lakh-varieties",
@@ -2833,20 +2823,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 356,
-     "pct": 39.9
+     "n": 503,
+     "pct": 56.4
     },
     "topic": {
-     "n": 207,
-     "pct": 23.2
+     "n": 299,
+     "pct": 33.5
     },
     "subtopic": {
-     "n": 28,
-     "pct": 3.1
+     "n": 57,
+     "pct": 6.4
     },
     "oldChapterIds": {
-     "n": 465,
-     "pct": 52.1
+     "n": 452,
+     "pct": 50.7
     }
    },
    "taggerCovers": true,
@@ -2865,17 +2855,17 @@
     "very_short_answer": 439
    },
    "tree": true,
-   "untaggedKeyed": 536,
+   "untaggedKeyed": 389,
    "chapters": [
     {
      "id": "mathematics-8/a-square-and-a-cube",
      "name": "A Square and A Cube",
-     "questions": 99,
-     "marks": 167,
+     "questions": 123,
+     "marks": 213,
      "byMarks": {
-      "1": 65,
+      "1": 78,
       "2": 0,
-      "3": 34,
+      "3": 45,
       "4": 0,
       "5+": 0
      },
@@ -2885,12 +2875,12 @@
       {
        "id": "mathematics-8/a-square-and-a-cube/square-numbers",
        "name": "Square Numbers",
-       "questions": 40,
-       "marks": 68,
+       "questions": 53,
+       "marks": 91,
        "byMarks": {
-        "1": 26,
+        "1": 34,
         "2": 0,
-        "3": 14,
+        "3": 19,
         "4": 0,
         "5+": 0
        }
@@ -2898,12 +2888,12 @@
       {
        "id": "mathematics-8/a-square-and-a-cube/cubic-numbers",
        "name": "Cubic Numbers",
-       "questions": 17,
-       "marks": 29,
+       "questions": 21,
+       "marks": 41,
        "byMarks": {
         "1": 11,
         "2": 0,
-        "3": 6,
+        "3": 10,
         "4": 0,
         "5+": 0
        }
@@ -2926,12 +2916,12 @@
     {
      "id": "mathematics-8/power-play",
      "name": "Power Play",
-     "questions": 0,
-     "marks": 0,
+     "questions": 70,
+     "marks": 122,
      "byMarks": {
-      "1": 0,
+      "1": 44,
       "2": 0,
-      "3": 0,
+      "3": 26,
       "4": 0,
       "5+": 0
      },
@@ -2954,12 +2944,12 @@
       {
        "id": "mathematics-8/power-play/exponential-notation-and-operations",
        "name": "Exponential Notation and Operations",
-       "questions": 0,
-       "marks": 0,
+       "questions": 3,
+       "marks": 7,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
-        "3": 0,
+        "3": 2,
         "4": 0,
         "5+": 0
        }
@@ -2980,12 +2970,12 @@
       {
        "id": "mathematics-8/power-play/powers-of-10",
        "name": "Powers of 10",
-       "questions": 0,
-       "marks": 0,
+       "questions": 24,
+       "marks": 48,
        "byMarks": {
-        "1": 0,
+        "1": 12,
         "2": 0,
-        "3": 0,
+        "3": 12,
         "4": 0,
         "5+": 0
        }
@@ -3172,12 +3162,12 @@
     {
      "id": "mathematics-8/number-play",
      "name": "Number Play",
-     "questions": 29,
-     "marks": 35,
+     "questions": 45,
+     "marks": 53,
      "byMarks": {
-      "1": 26,
+      "1": 41,
       "2": 0,
-      "3": 3,
+      "3": 4,
       "4": 0,
       "5+": 0
      },
@@ -3187,10 +3177,10 @@
       {
        "id": "mathematics-8/number-play/is-this-a-multiple-of",
        "name": "Is This a Multiple Of?",
-       "questions": 0,
-       "marks": 0,
+       "questions": 2,
+       "marks": 2,
        "byMarks": {
-        "1": 0,
+        "1": 2,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -3213,12 +3203,12 @@
       {
        "id": "mathematics-8/number-play/digits-in-disguise",
        "name": "Digits in Disguise",
-       "questions": 6,
-       "marks": 6,
+       "questions": 21,
+       "marks": 23,
        "byMarks": {
-        "1": 6,
+        "1": 20,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -3392,12 +3382,12 @@
     {
      "id": "mathematics-8/fractions-in-disguise",
      "name": "Fractions in Disguise",
-     "questions": 56,
-     "marks": 103,
+     "questions": 83,
+     "marks": 164,
      "byMarks": {
-      "1": 35,
+      "1": 45,
       "2": 0,
-      "3": 18,
+      "3": 35,
       "4": 1,
       "5+": 2
      },
@@ -3407,12 +3397,12 @@
       {
        "id": "mathematics-8/fractions-in-disguise/fractions-as-percentages",
        "name": "Fractions as Percentages",
-       "questions": 1,
-       "marks": 1,
+       "questions": 2,
+       "marks": 4,
        "byMarks": {
         "1": 1,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -3433,12 +3423,12 @@
       {
        "id": "mathematics-8/fractions-in-disguise/using-percentages",
        "name": "Using Percentages",
-       "questions": 39,
-       "marks": 67,
+       "questions": 60,
+       "marks": 104,
        "byMarks": {
-        "1": 25,
+        "1": 38,
         "2": 0,
-        "3": 14,
+        "3": 22,
         "4": 0,
         "5+": 0
        }
@@ -3448,10 +3438,10 @@
     {
      "id": "mathematics-8/the-baudhayana-pythagoras-theorem",
      "name": "The Baudhāyana-pythagoras Theorem",
-     "questions": 2,
-     "marks": 2,
+     "questions": 1,
+     "marks": 1,
      "byMarks": {
-      "1": 2,
+      "1": 1,
       "2": 0,
       "3": 0,
       "4": 0,
@@ -3489,10 +3479,10 @@
       {
        "id": "mathematics-8/the-baudhayana-pythagoras-theorem/hypotenuse-of-an-isosceles-right-triangle",
        "name": "Hypotenuse of an Isosceles Right Triangle",
-       "questions": 1,
-       "marks": 1,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
-        "1": 1,
+        "1": 0,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -3651,12 +3641,12 @@
     {
      "id": "mathematics-8/exploring-some-geometric-themes",
      "name": "Exploring Some Geometric Themes",
-     "questions": 28,
-     "marks": 38,
+     "questions": 39,
+     "marks": 51,
      "byMarks": {
-      "1": 23,
+      "1": 33,
       "2": 0,
-      "3": 5,
+      "3": 6,
       "4": 0,
       "5+": 0
      },
@@ -3679,12 +3669,12 @@
       {
        "id": "mathematics-8/exploring-some-geometric-themes/visualising-solids",
        "name": "Visualising Solids",
-       "questions": 23,
-       "marks": 31,
+       "questions": 33,
+       "marks": 43,
        "byMarks": {
-        "1": 19,
+        "1": 28,
         "2": 0,
-        "3": 4,
+        "3": 5,
         "4": 0,
         "5+": 0
        }
@@ -3861,14 +3851,12 @@
     }
    ],
    "emptyChapters": [
-    "mathematics-8/power-play",
     "mathematics-8/a-story-of-numbers",
     "mathematics-8/we-distribute-yet-things-multiply",
     "mathematics-8/proportional-reasoning-1",
     "mathematics-8/algebra-play"
    ],
    "chaptersWithout3Mark": [
-    "mathematics-8/power-play",
     "mathematics-8/a-story-of-numbers",
     "mathematics-8/we-distribute-yet-things-multiply",
     "mathematics-8/proportional-reasoning-1",
@@ -3893,16 +3881,13 @@
    "emptyTopics": [
     "mathematics-8/a-square-and-a-cube/a-pinch-of-history",
     "mathematics-8/power-play/experiencing-the-power-play",
-    "mathematics-8/power-play/exponential-notation-and-operations",
     "mathematics-8/power-play/the-other-side-of-powers",
-    "mathematics-8/power-play/powers-of-10",
     "mathematics-8/power-play/did-you-ever-wonder",
     "mathematics-8/a-story-of-numbers/reema-s-curiosity",
     "mathematics-8/a-story-of-numbers/some-early-number-systems",
     "mathematics-8/a-story-of-numbers/the-idea-of-a-base",
     "mathematics-8/a-story-of-numbers/place-value-representation",
     "mathematics-8/quadrilaterals/playing-with-quadrilaterals",
-    "mathematics-8/number-play/is-this-a-multiple-of",
     "mathematics-8/number-play/checking-divisibility-quickly",
     "mathematics-8/we-distribute-yet-things-multiply/some-properties-of-multiplication",
     "mathematics-8/we-distribute-yet-things-multiply/special-cases-of-the-distributive-property",
@@ -3917,6 +3902,7 @@
     "mathematics-8/fractions-in-disguise/percentage-of-some-quantity",
     "mathematics-8/the-baudhayana-pythagoras-theorem/doubling-a-square",
     "mathematics-8/the-baudhayana-pythagoras-theorem/halving-a-square",
+    "mathematics-8/the-baudhayana-pythagoras-theorem/hypotenuse-of-an-isosceles-right-triangle",
     "mathematics-8/the-baudhayana-pythagoras-theorem/combining-two-different-squares",
     "mathematics-8/the-baudhayana-pythagoras-theorem/right-triangles-having-integer-sidelengths",
     "mathematics-8/the-baudhayana-pythagoras-theorem/a-long-standing-open-problem",
@@ -3938,9 +3924,7 @@
    "topicsWithout3Mark": [
     "mathematics-8/a-square-and-a-cube/a-pinch-of-history",
     "mathematics-8/power-play/experiencing-the-power-play",
-    "mathematics-8/power-play/exponential-notation-and-operations",
     "mathematics-8/power-play/the-other-side-of-powers",
-    "mathematics-8/power-play/powers-of-10",
     "mathematics-8/power-play/did-you-ever-wonder",
     "mathematics-8/a-story-of-numbers/reema-s-curiosity",
     "mathematics-8/a-story-of-numbers/some-early-number-systems",
@@ -3949,7 +3933,6 @@
     "mathematics-8/quadrilaterals/playing-with-quadrilaterals",
     "mathematics-8/number-play/is-this-a-multiple-of",
     "mathematics-8/number-play/checking-divisibility-quickly",
-    "mathematics-8/number-play/digits-in-disguise",
     "mathematics-8/we-distribute-yet-things-multiply/some-properties-of-multiplication",
     "mathematics-8/we-distribute-yet-things-multiply/special-cases-of-the-distributive-property",
     "mathematics-8/we-distribute-yet-things-multiply/mind-the-mistake-mend-the-mistake",
@@ -3960,7 +3943,6 @@
     "mathematics-8/proportional-reasoning-1/problem-solving-with-proportional-reasoning",
     "mathematics-8/proportional-reasoning-1/sharing-but-not-equally",
     "mathematics-8/proportional-reasoning-1/unit-conversions",
-    "mathematics-8/fractions-in-disguise/fractions-as-percentages",
     "mathematics-8/fractions-in-disguise/percentage-of-some-quantity",
     "mathematics-8/the-baudhayana-pythagoras-theorem/doubling-a-square",
     "mathematics-8/the-baudhayana-pythagoras-theorem/halving-a-square",
@@ -4128,20 +4110,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 90,
-     "pct": 26.7
+     "n": 110,
+     "pct": 32.6
     },
     "topic": {
-     "n": 29,
-     "pct": 8.6
+     "n": 41,
+     "pct": 12.2
     },
     "subtopic": {
      "n": 0,
      "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 303,
-     "pct": 89.9
+     "n": 294,
+     "pct": 87.2
     }
    },
    "taggerCovers": true,
@@ -4160,15 +4142,15 @@
     "very_short_answer": 60
    },
    "tree": true,
-   "untaggedKeyed": 247,
+   "untaggedKeyed": 227,
    "chapters": [
     {
      "id": "mathematics-9/orienting-yourself-the-use-of-coordinates",
      "name": "Orienting Yourself: The Use of Coordinates",
-     "questions": 26,
-     "marks": 48,
+     "questions": 28,
+     "marks": 50,
      "byMarks": {
-      "1": 17,
+      "1": 19,
       "2": 2,
       "3": 3,
       "4": 2,
@@ -4234,12 +4216,12 @@
     {
      "id": "mathematics-9/introduction-to-linear-polynomials",
      "name": "Introduction to Linear Polynomials",
-     "questions": 5,
-     "marks": 18,
+     "questions": 20,
+     "marks": 35,
      "byMarks": {
-      "1": 1,
+      "1": 15,
       "2": 0,
-      "3": 0,
+      "3": 1,
       "4": 3,
       "5+": 1
      },
@@ -4314,12 +4296,12 @@
       {
        "id": "mathematics-9/introduction-to-linear-polynomials/visualising-linear-relationships",
        "name": "Visualising linear relationships",
-       "questions": 4,
-       "marks": 14,
+       "questions": 12,
+       "marks": 24,
        "byMarks": {
-        "1": 1,
+        "1": 8,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 2,
         "5+": 1
        }
@@ -4625,11 +4607,11 @@
       {
        "id": "mathematics-9/i-m-up-and-down-and-round-and-round/midpoints-and-perpendicular-bisectors-of-chords",
        "name": "Midpoints and Perpendicular Bisectors of Chords",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 2,
        "byMarks": {
         "1": 0,
-        "2": 0,
+        "2": 1,
         "3": 0,
         "4": 0,
         "5+": 0
@@ -4679,11 +4661,11 @@
     {
      "id": "mathematics-9/measuring-space-perimeter-and-area",
      "name": "Measuring Space: Perimeter and Area",
-     "questions": 6,
-     "marks": 12,
+     "questions": 9,
+     "marks": 17,
      "byMarks": {
-      "1": 3,
-      "2": 2,
+      "1": 4,
+      "2": 4,
       "3": 0,
       "4": 0,
       "5+": 1
@@ -4772,11 +4754,11 @@
       {
        "id": "mathematics-9/measuring-space-perimeter-and-area/area-of-a-parallelogram",
        "name": "Area of a Parallelogram",
-       "questions": 2,
-       "marks": 2,
+       "questions": 4,
+       "marks": 6,
        "byMarks": {
         "1": 2,
-        "2": 0,
+        "2": 2,
         "3": 0,
         "4": 0,
         "5+": 0
@@ -4785,10 +4767,10 @@
       {
        "id": "mathematics-9/measuring-space-perimeter-and-area/area-of-a-triangle",
        "name": "Area of a Triangle",
-       "questions": 1,
-       "marks": 2,
+       "questions": 2,
+       "marks": 3,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 1,
         "3": 0,
         "4": 0,
@@ -4992,7 +4974,6 @@
     "mathematics-9/predicting-what-comes-next-exploring-sequences-and-progressi"
    ],
    "chaptersWithout3Mark": [
-    "mathematics-9/introduction-to-linear-polynomials",
     "mathematics-9/the-world-of-numbers",
     "mathematics-9/measuring-space-perimeter-and-area",
     "mathematics-9/the-mathematics-of-maybe-introduction-to-probability",
@@ -5025,7 +5006,6 @@
     "mathematics-9/exploring-algebraic-identities/finding-new-identities",
     "mathematics-9/i-m-up-and-down-and-round-and-round/definitions",
     "mathematics-9/i-m-up-and-down-and-round-and-round/symmetries-of-a-circle",
-    "mathematics-9/i-m-up-and-down-and-round-and-round/midpoints-and-perpendicular-bisectors-of-chords",
     "mathematics-9/measuring-space-perimeter-and-area/perimeter-of-a-shape",
     "mathematics-9/measuring-space-perimeter-and-area/perimeter-of-a-circle-the-c-d-ratio",
     "mathematics-9/measuring-space-perimeter-and-area/π-is-irrational",
@@ -5053,7 +5033,6 @@
     "mathematics-9/introduction-to-linear-polynomials/exploring-linear-patterns",
     "mathematics-9/introduction-to-linear-polynomials/linear-growth-and-linear-decay",
     "mathematics-9/introduction-to-linear-polynomials/linear-relationships",
-    "mathematics-9/introduction-to-linear-polynomials/visualising-linear-relationships",
     "mathematics-9/the-world-of-numbers/the-dawn-of-mathematics-the-human-need-to-count",
     "mathematics-9/the-world-of-numbers/the-revolution-of-shunya-when-nothing-became-something",
     "mathematics-9/the-world-of-numbers/integers-expanding-the-horizon",
@@ -5190,48 +5169,48 @@
   {
    "subject": "Mathematics",
    "grade": 10,
-   "questions": 449,
+   "questions": 445,
    "byBank": {
-    "served": 404,
+    "served": 396,
     "ncert-exemplar": 5,
-    "cbse-cbe": 40
+    "cbse-cbe": 44
    },
    "bySource": {
-    "cbse_board_paper": 6,
+    "cbse_board_paper": 4,
     "cbse_question_bank": 120,
-    "cbse_sample_paper": 58,
+    "cbse_sample_paper": 56,
     "ncert_exemplar": 265
    },
-   "keyed": 449,
+   "keyed": 445,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "cbse_marking_scheme": 184,
+    "cbse_marking_scheme": 180,
     "ncert_exemplar_answer": 265
    },
    "verified": {
     "state": "verified",
-    "passed": 443,
-    "of": 449,
+    "passed": 439,
+    "of": 445,
     "unchecked": 0,
     "pct": 98.7
    },
    "tagged": {
     "chapter": {
-     "n": 378,
-     "pct": 84.2
+     "n": 417,
+     "pct": 93.7
     },
     "topic": {
-     "n": 219,
-     "pct": 48.8
+     "n": 241,
+     "pct": 54.2
     },
     "subtopic": {
-     "n": 3,
-     "pct": 0.7
+     "n": 5,
+     "pct": 1.1
     },
     "oldChapterIds": {
-     "n": 170,
-     "pct": 37.9
+     "n": 166,
+     "pct": 37.3
     }
    },
    "taggerCovers": true,
@@ -5239,29 +5218,28 @@
    "marks": {
     "1": 152,
     "2": 105,
-    "3": 93,
+    "3": 90,
     "4": 16,
-    "5+": 83
+    "5+": 82
    },
    "types": {
     "very_short_answer": 80,
-    "long_answer": 107,
-    "case_study": 1,
+    "long_answer": 106,
     "mcq": 144,
-    "short_answer": 117
+    "short_answer": 115
    },
    "tree": true,
-   "untaggedKeyed": 71,
+   "untaggedKeyed": 28,
    "chapters": [
     {
      "id": "mathematics-10/real-numbers",
      "name": "Real Numbers",
-     "questions": 31,
-     "marks": 52,
+     "questions": 33,
+     "marks": 57,
      "byMarks": {
       "1": 15,
-      "2": 11,
-      "3": 5,
+      "2": 12,
+      "3": 6,
       "4": 0,
       "5+": 0
      },
@@ -5312,12 +5290,12 @@
     {
      "id": "mathematics-10/polynomials",
      "name": "Polynomials",
-     "questions": 17,
-     "marks": 30,
+     "questions": 15,
+     "marks": 24,
      "byMarks": {
       "1": 12,
       "2": 1,
-      "3": 2,
+      "3": 0,
       "4": 0,
       "5+": 2
      },
@@ -5353,12 +5331,12 @@
       {
        "id": "mathematics-10/polynomials/relationship-between-zeroes-and-coefficients-of-a-polynomial",
        "name": "Relationship between Zeroes and Coefficients of a Polynomial",
-       "questions": 10,
-       "marks": 15,
+       "questions": 8,
+       "marks": 9,
        "byMarks": {
         "1": 7,
         "2": 1,
-        "3": 2,
+        "3": 0,
         "4": 0,
         "5+": 0
        }
@@ -5368,14 +5346,14 @@
     {
      "id": "mathematics-10/pair-of-linear-equations-in-two-variables",
      "name": "Pair of Linear Equations in Two Variables",
-     "questions": 34,
-     "marks": 86,
+     "questions": 49,
+     "marks": 144,
      "byMarks": {
-      "1": 12,
-      "2": 4,
-      "3": 12,
+      "1": 13,
+      "2": 5,
+      "3": 17,
       "4": 2,
-      "5+": 4
+      "5+": 12
      },
      "number": 3,
      "book": "Mathematics",
@@ -5396,25 +5374,25 @@
       {
        "id": "mathematics-10/pair-of-linear-equations-in-two-variables/graphical-method-of-solution-of-a-pair-of-linear-equations",
        "name": "Graphical Method of Solution of a Pair of Linear Equations",
-       "questions": 20,
-       "marks": 43,
+       "questions": 22,
+       "marks": 50,
        "byMarks": {
         "1": 9,
-        "2": 3,
+        "2": 4,
         "3": 6,
         "4": 0,
-        "5+": 2
+        "5+": 3
        }
       },
       {
        "id": "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations",
        "name": "Algebraic Methods of Solving a Pair of Linear Equations",
-       "questions": 6,
-       "marks": 20,
+       "questions": 9,
+       "marks": 27,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 1,
-        "3": 3,
+        "3": 5,
         "4": 1,
         "5+": 1
        }
@@ -5424,14 +5402,14 @@
     {
      "id": "mathematics-10/quadratic-equations",
      "name": "Quadratic Equations",
-     "questions": 15,
-     "marks": 30,
+     "questions": 20,
+     "marks": 56,
      "byMarks": {
       "1": 8,
       "2": 4,
       "3": 1,
       "4": 0,
-      "5+": 2
+      "5+": 7
      },
      "number": 4,
      "book": "Mathematics",
@@ -5478,11 +5456,11 @@
       {
        "id": "mathematics-10/quadratic-equations/nature-of-roots",
        "name": "Nature of Roots",
-       "questions": 6,
-       "marks": 8,
+       "questions": 7,
+       "marks": 10,
        "byMarks": {
         "1": 5,
-        "2": 0,
+        "2": 1,
         "3": 1,
         "4": 0,
         "5+": 0
@@ -5493,14 +5471,14 @@
     {
      "id": "mathematics-10/arithmetic-progressions",
      "name": "Arithmetic Progressions",
-     "questions": 45,
-     "marks": 113,
+     "questions": 55,
+     "marks": 137,
      "byMarks": {
-      "1": 15,
+      "1": 19,
       "2": 6,
-      "3": 16,
+      "3": 21,
       "4": 2,
-      "5+": 6
+      "5+": 7
      },
      "number": 5,
      "book": "Mathematics",
@@ -5521,10 +5499,10 @@
       {
        "id": "mathematics-10/arithmetic-progressions/arithmetic-progressions",
        "name": "Arithmetic Progressions",
-       "questions": 1,
-       "marks": 2,
+       "questions": 2,
+       "marks": 3,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 1,
         "3": 0,
         "4": 0,
@@ -5534,10 +5512,10 @@
       {
        "id": "mathematics-10/arithmetic-progressions/nth-term-of-an-ap",
        "name": "nth Term of an AP",
-       "questions": 8,
-       "marks": 18,
+       "questions": 9,
+       "marks": 19,
        "byMarks": {
-        "1": 3,
+        "1": 4,
         "2": 2,
         "3": 2,
         "4": 0,
@@ -5547,14 +5525,14 @@
       {
        "id": "mathematics-10/arithmetic-progressions/sum-of-first-n-terms-of-an-ap",
        "name": "Sum of First n Terms of an AP",
-       "questions": 11,
-       "marks": 31,
+       "questions": 17,
+       "marks": 53,
        "byMarks": {
-        "1": 3,
+        "1": 4,
         "2": 0,
-        "3": 6,
+        "3": 8,
         "4": 0,
-        "5+": 2
+        "5+": 5
        }
       }
      ]
@@ -5562,14 +5540,14 @@
     {
      "id": "mathematics-10/triangles",
      "name": "Triangles",
-     "questions": 21,
-     "marks": 51,
+     "questions": 25,
+     "marks": 64,
      "byMarks": {
-      "1": 4,
-      "2": 10,
+      "1": 5,
+      "2": 11,
       "3": 5,
       "4": 0,
-      "5+": 2
+      "5+": 4
      },
      "number": 6,
      "book": "Mathematics",
@@ -5603,10 +5581,10 @@
       {
        "id": "mathematics-10/triangles/similarity-of-triangles",
        "name": "Similarity of Triangles",
-       "questions": 3,
-       "marks": 10,
+       "questions": 4,
+       "marks": 11,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 2,
         "3": 0,
         "4": 0,
@@ -5659,10 +5637,10 @@
       {
        "id": "mathematics-10/coordinate-geometry/distance-formula",
        "name": "Distance Formula",
-       "questions": 8,
-       "marks": 18,
+       "questions": 9,
+       "marks": 19,
        "byMarks": {
-        "1": 3,
+        "1": 4,
         "2": 2,
         "3": 2,
         "4": 0,
@@ -5672,11 +5650,11 @@
       {
        "id": "mathematics-10/coordinate-geometry/section-formula",
        "name": "Section Formula",
-       "questions": 9,
-       "marks": 16,
+       "questions": 11,
+       "marks": 19,
        "byMarks": {
-        "1": 5,
-        "2": 2,
+        "1": 6,
+        "2": 3,
         "3": 1,
         "4": 1,
         "5+": 0
@@ -5756,14 +5734,14 @@
     {
      "id": "mathematics-10/some-applications-of-trigonometry",
      "name": "Some Applications of Trigonometry",
-     "questions": 17,
-     "marks": 49,
+     "questions": 15,
+     "marks": 43,
      "byMarks": {
-      "1": 5,
+      "1": 4,
       "2": 5,
       "3": 1,
       "4": 1,
-      "5+": 5
+      "5+": 4
      },
      "number": 9,
      "book": "Mathematics",
@@ -5771,14 +5749,14 @@
       {
        "id": "mathematics-10/some-applications-of-trigonometry/heights-and-distances",
        "name": "Heights and Distances",
-       "questions": 15,
-       "marks": 46,
+       "questions": 14,
+       "marks": 41,
        "byMarks": {
         "1": 4,
         "2": 4,
         "3": 1,
         "4": 1,
-        "5+": 5
+        "5+": 4
        }
       }
      ]
@@ -5842,14 +5820,14 @@
     {
      "id": "mathematics-10/areas-related-to-circles",
      "name": "Areas Related to Circles",
-     "questions": 24,
-     "marks": 62,
+     "questions": 31,
+     "marks": 89,
      "byMarks": {
       "1": 7,
-      "2": 8,
-      "3": 4,
+      "2": 10,
+      "3": 5,
       "4": 0,
-      "5+": 5
+      "5+": 9
      },
      "number": 11,
      "book": "Mathematics",
@@ -5857,14 +5835,14 @@
       {
        "id": "mathematics-10/areas-related-to-circles/areas-of-sector-and-segment-of-a-circle",
        "name": "Areas of Sector and Segment of a Circle",
-       "questions": 23,
-       "marks": 61,
+       "questions": 30,
+       "marks": 84,
        "byMarks": {
-        "1": 6,
-        "2": 8,
-        "3": 4,
+        "1": 7,
+        "2": 10,
+        "3": 5,
         "4": 0,
-        "5+": 5
+        "5+": 8
        }
       }
      ]
@@ -6027,6 +6005,7 @@
    ],
    "emptyChapters": [],
    "chaptersWithout3Mark": [
+    "mathematics-10/polynomials",
     "mathematics-10/probability"
    ],
    "chaptersWithout5Mark": [
@@ -6051,6 +6030,7 @@
     "mathematics-10/real-numbers/the-fundamental-theorem-of-arithmetic",
     "mathematics-10/polynomials/introduction",
     "mathematics-10/polynomials/geometrical-meaning-of-the-zeroes-of-a-polynomial",
+    "mathematics-10/polynomials/relationship-between-zeroes-and-coefficients-of-a-polynomial",
     "mathematics-10/pair-of-linear-equations-in-two-variables/introduction",
     "mathematics-10/quadratic-equations/introduction",
     "mathematics-10/quadratic-equations/quadratic-equations",
@@ -6102,7 +6082,7 @@
     "mathematics-10/statistics/mode-of-grouped-data",
     "mathematics-10/statistics/median-of-grouped-data"
    ],
-   "servedKeyed": 404,
+   "servedKeyed": 396,
    "papers": {
     "all": {
      "class_test": {
@@ -6171,20 +6151,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 90,
-     "pct": 32.8
+     "n": 117,
+     "pct": 42.7
     },
     "topic": {
-     "n": 30,
-     "pct": 10.9
+     "n": 56,
+     "pct": 20.4
     },
     "subtopic": {
-     "n": 5,
-     "pct": 1.8
+     "n": 8,
+     "pct": 2.9
     },
     "oldChapterIds": {
-     "n": 40,
-     "pct": 14.6
+     "n": 33,
+     "pct": 12.0
     }
    },
    "taggerCovers": true,
@@ -6203,7 +6183,7 @@
     "short_answer": 58
    },
    "tree": true,
-   "untaggedKeyed": 184,
+   "untaggedKeyed": 157,
    "chapters": [
     {
      "id": "science-6/the-wonderful-world-of-science",
@@ -6334,12 +6314,12 @@
       {
        "id": "science-6/mindful-eating-a-path-to-a-healthy-body/balanced-diet",
        "name": "Balanced Diet",
-       "questions": 1,
-       "marks": 1,
+       "questions": 2,
+       "marks": 4,
        "byMarks": {
         "1": 1,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -6403,11 +6383,11 @@
       {
        "id": "science-6/exploring-magnets/poles-of-magnet",
        "name": "Poles of Magnet",
-       "questions": 3,
-       "marks": 7,
+       "questions": 4,
+       "marks": 9,
        "byMarks": {
         "1": 2,
-        "2": 0,
+        "2": 1,
         "3": 0,
         "4": 0,
         "5+": 1
@@ -6524,10 +6504,10 @@
       {
        "id": "science-6/measurement-of-length-and-motion/describing-position",
        "name": "Describing Position",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -6565,14 +6545,14 @@
     {
      "id": "science-6/materials-around-us",
      "name": "Materials Around Us",
-     "questions": 16,
-     "marks": 39,
+     "questions": 24,
+     "marks": 55,
      "byMarks": {
-      "1": 8,
-      "2": 2,
-      "3": 2,
+      "1": 12,
+      "2": 4,
+      "3": 3,
       "4": 0,
-      "5+": 4
+      "5+": 5
      },
      "number": 6,
      "book": "Curiosity",
@@ -6593,11 +6573,11 @@
       {
        "id": "science-6/materials-around-us/how-to-group-materials",
        "name": "How to Group Materials?",
-       "questions": 1,
-       "marks": 1,
+       "questions": 3,
+       "marks": 4,
        "byMarks": {
-        "1": 1,
-        "2": 0,
+        "1": 2,
+        "2": 1,
         "3": 0,
         "4": 0,
         "5+": 0
@@ -6606,14 +6586,14 @@
       {
        "id": "science-6/materials-around-us/what-are-the-different-properties-of-materials",
        "name": "What are the different Properties of Materials?",
-       "questions": 4,
-       "marks": 17,
+       "questions": 13,
+       "marks": 34,
        "byMarks": {
-        "1": 0,
-        "2": 1,
-        "3": 0,
+        "1": 5,
+        "2": 3,
+        "3": 1,
         "4": 0,
-        "5+": 3
+        "5+": 4
        }
       },
       {
@@ -6690,10 +6670,10 @@
     {
      "id": "science-6/a-journey-through-states-of-water",
      "name": "A Journey through States of Water",
-     "questions": 9,
-     "marks": 17,
+     "questions": 8,
+     "marks": 16,
      "byMarks": {
-      "1": 5,
+      "1": 4,
       "2": 0,
       "3": 4,
       "4": 0,
@@ -6798,14 +6778,14 @@
     {
      "id": "science-6/methods-of-separation-in-everyday-life",
      "name": "Methods of Separation in Everyday Life",
-     "questions": 15,
-     "marks": 31,
+     "questions": 19,
+     "marks": 40,
      "byMarks": {
-      "1": 9,
-      "2": 2,
+      "1": 11,
+      "2": 3,
       "3": 1,
       "4": 1,
-      "5+": 2
+      "5+": 3
      },
      "number": 9,
      "book": "Curiosity",
@@ -6814,14 +6794,14 @@
     {
      "id": "science-6/living-creatures-exploring-their-characteristics",
      "name": "Living Creatures: Exploring their Characteristics",
-     "questions": 2,
-     "marks": 2,
+     "questions": 3,
+     "marks": 8,
      "byMarks": {
       "1": 2,
       "2": 0,
       "3": 0,
       "4": 0,
-      "5+": 0
+      "5+": 1
      },
      "number": 10,
      "book": "Curiosity",
@@ -6896,14 +6876,14 @@
     {
      "id": "science-6/nature-s-treasures",
      "name": "Nature’s Treasures",
-     "questions": 0,
-     "marks": 0,
+     "questions": 15,
+     "marks": 36,
      "byMarks": {
-      "1": 0,
-      "2": 0,
-      "3": 0,
+      "1": 7,
+      "2": 3,
+      "3": 1,
       "4": 0,
-      "5+": 0
+      "5+": 4
      },
      "number": 11,
      "book": "Curiosity",
@@ -6911,23 +6891,23 @@
       {
        "id": "science-6/nature-s-treasures/air",
        "name": "Air",
-       "questions": 0,
-       "marks": 0,
+       "questions": 11,
+       "marks": 22,
        "byMarks": {
-        "1": 0,
-        "2": 0,
+        "1": 6,
+        "2": 3,
         "3": 0,
         "4": 0,
-        "5+": 0
+        "5+": 2
        }
       },
       {
        "id": "science-6/nature-s-treasures/water",
        "name": "Water",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -7100,7 +7080,6 @@
    "emptyChapters": [
     "science-6/the-wonderful-world-of-science",
     "science-6/temperature-and-its-measurement",
-    "science-6/nature-s-treasures",
     "science-6/beyond-earth"
    ],
    "chaptersWithout3Mark": [
@@ -7108,7 +7087,6 @@
     "science-6/diversity-in-the-living-world",
     "science-6/temperature-and-its-measurement",
     "science-6/living-creatures-exploring-their-characteristics",
-    "science-6/nature-s-treasures",
     "science-6/beyond-earth"
    ],
    "chaptersWithout5Mark": [
@@ -7116,8 +7094,6 @@
     "science-6/diversity-in-the-living-world",
     "science-6/temperature-and-its-measurement",
     "science-6/a-journey-through-states-of-water",
-    "science-6/living-creatures-exploring-their-characteristics",
-    "science-6/nature-s-treasures",
     "science-6/beyond-earth"
    ],
    "emptyTopics": [
@@ -7133,7 +7109,6 @@
     "science-6/measurement-of-length-and-motion/standard-units",
     "science-6/measurement-of-length-and-motion/correct-way-of-measuring-length",
     "science-6/measurement-of-length-and-motion/measuring-the-length-of-a-curved-line",
-    "science-6/measurement-of-length-and-motion/describing-position",
     "science-6/materials-around-us/observing-objects-around-us",
     "science-6/materials-around-us/what-is-matter",
     "science-6/temperature-and-its-measurement/hot-or-cold",
@@ -7149,8 +7124,6 @@
     "science-6/living-creatures-exploring-their-characteristics/growth-and-movement-in-plants",
     "science-6/living-creatures-exploring-their-characteristics/life-cycle-of-a-plant",
     "science-6/living-creatures-exploring-their-characteristics/life-cycle-of-animals",
-    "science-6/nature-s-treasures/air",
-    "science-6/nature-s-treasures/water",
     "science-6/nature-s-treasures/energy-from-the-sun",
     "science-6/nature-s-treasures/forests",
     "science-6/nature-s-treasures/soil-rocks-and-minerals",
@@ -7168,7 +7141,6 @@
     "science-6/diversity-in-the-living-world/how-to-group-plants-and-animals",
     "science-6/diversity-in-the-living-world/plants-and-animals-in-different-surroundings",
     "science-6/mindful-eating-a-path-to-a-healthy-body/what-do-we-eat",
-    "science-6/mindful-eating-a-path-to-a-healthy-body/balanced-diet",
     "science-6/mindful-eating-a-path-to-a-healthy-body/millets-nutrition-rich-cereals",
     "science-6/mindful-eating-a-path-to-a-healthy-body/food-miles-from-farm-to-our-plate",
     "science-6/exploring-magnets/magnetic-and-non-magnetic-materials",
@@ -7185,7 +7157,6 @@
     "science-6/measurement-of-length-and-motion/types-of-motion",
     "science-6/materials-around-us/observing-objects-around-us",
     "science-6/materials-around-us/how-to-group-materials",
-    "science-6/materials-around-us/what-are-the-different-properties-of-materials",
     "science-6/materials-around-us/what-is-matter",
     "science-6/temperature-and-its-measurement/hot-or-cold",
     "science-6/temperature-and-its-measurement/temperature",
@@ -7249,7 +7220,6 @@
     "science-6/living-creatures-exploring-their-characteristics/growth-and-movement-in-plants",
     "science-6/living-creatures-exploring-their-characteristics/life-cycle-of-a-plant",
     "science-6/living-creatures-exploring-their-characteristics/life-cycle-of-animals",
-    "science-6/nature-s-treasures/air",
     "science-6/nature-s-treasures/water",
     "science-6/nature-s-treasures/energy-from-the-sun",
     "science-6/nature-s-treasures/forests",
@@ -7333,20 +7303,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 111,
-     "pct": 31.3
+     "n": 131,
+     "pct": 36.9
     },
     "topic": {
-     "n": 48,
-     "pct": 13.5
+     "n": 65,
+     "pct": 18.3
     },
     "subtopic": {
-     "n": 10,
-     "pct": 2.8
+     "n": 11,
+     "pct": 3.1
     },
     "oldChapterIds": {
-     "n": 270,
-     "pct": 76.1
+     "n": 261,
+     "pct": 73.5
     }
    },
    "taggerCovers": true,
@@ -7365,7 +7335,7 @@
     "short_answer": 79
    },
    "tree": true,
-   "untaggedKeyed": 244,
+   "untaggedKeyed": 224,
    "chapters": [
     {
      "id": "science-7/the-ever-evolving-world-of-science",
@@ -7400,10 +7370,10 @@
     {
      "id": "science-7/exploring-substances-acidic-basic-and-neutral",
      "name": "Exploring Substances: Acidic, Basic, and Neutral",
-     "questions": 24,
-     "marks": 57,
+     "questions": 25,
+     "marks": 58,
      "byMarks": {
-      "1": 13,
+      "1": 14,
       "2": 3,
       "3": 3,
       "4": 0,
@@ -7428,10 +7398,10 @@
       {
        "id": "science-7/exploring-substances-acidic-basic-and-neutral/what-happens-when-acidic-substances-mix-with-basic-substance",
        "name": "What Happens When Acidic Substances Mix with Basic Substances?",
-       "questions": 8,
-       "marks": 14,
+       "questions": 9,
+       "marks": 15,
        "byMarks": {
-        "1": 5,
+        "1": 6,
         "2": 2,
         "3": 0,
         "4": 0,
@@ -7525,10 +7495,10 @@
     {
      "id": "science-7/the-world-of-metals-and-non-metals",
      "name": "The World of Metals and Non-metals",
-     "questions": 1,
-     "marks": 1,
+     "questions": 0,
+     "marks": 0,
      "byMarks": {
-      "1": 1,
+      "1": 0,
       "2": 0,
       "3": 0,
       "4": 0,
@@ -7607,14 +7577,14 @@
     {
      "id": "science-7/changes-around-us-physical-and-chemical",
      "name": "Changes Around Us: Physical and Chemical",
-     "questions": 17,
-     "marks": 36,
+     "questions": 21,
+     "marks": 44,
      "byMarks": {
-      "1": 8,
+      "1": 11,
       "2": 3,
       "3": 4,
       "4": 0,
-      "5+": 2
+      "5+": 3
      },
      "number": 5,
      "book": "Curiosity",
@@ -7648,10 +7618,10 @@
       {
        "id": "science-7/changes-around-us-physical-and-chemical/some-other-processes-involving-chemical-changes",
        "name": "Some Other Processes Involving Chemical Changes",
-       "questions": 0,
-       "marks": 0,
+       "questions": 2,
+       "marks": 2,
        "byMarks": {
-        "1": 0,
+        "1": 2,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -7661,10 +7631,10 @@
       {
        "id": "science-7/changes-around-us-physical-and-chemical/can-physical-and-chemical-changes-occur-in-the-same-process",
        "name": "Can Physical and Chemical Changes Occur in the Same Process?",
-       "questions": 1,
-       "marks": 2,
+       "questions": 2,
+       "marks": 3,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 1,
         "3": 0,
         "4": 0,
@@ -7866,12 +7836,12 @@
     {
      "id": "science-7/measurement-of-time-and-motion",
      "name": "Measurement of Time and Motion",
-     "questions": 5,
-     "marks": 18,
+     "questions": 9,
+     "marks": 24,
      "byMarks": {
-      "1": 1,
+      "1": 4,
       "2": 1,
-      "3": 1,
+      "3": 2,
       "4": 0,
       "5+": 2
      },
@@ -7881,10 +7851,10 @@
       {
        "id": "science-7/measurement-of-time-and-motion/measurement-of-time",
        "name": "Measurement of Time",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -7907,14 +7877,14 @@
       {
        "id": "science-7/measurement-of-time-and-motion/speed",
        "name": "Speed",
-       "questions": 1,
-       "marks": 3,
+       "questions": 6,
+       "marks": 13,
        "byMarks": {
-        "1": 0,
-        "2": 0,
+        "1": 3,
+        "2": 1,
         "3": 1,
         "4": 0,
-        "5+": 0
+        "5+": 1
        }
       },
       {
@@ -7935,11 +7905,11 @@
     {
      "id": "science-7/life-processes-in-animals",
      "name": "Life Processes in Animals",
-     "questions": 26,
-     "marks": 57,
+     "questions": 28,
+     "marks": 60,
      "byMarks": {
-      "1": 13,
-      "2": 6,
+      "1": 14,
+      "2": 7,
       "3": 4,
       "4": 0,
       "5+": 3
@@ -7950,12 +7920,12 @@
       {
        "id": "science-7/life-processes-in-animals/nutrition-in-animals",
        "name": "Nutrition in Animals",
-       "questions": 18,
-       "marks": 35,
+       "questions": 20,
+       "marks": 39,
        "byMarks": {
-        "1": 9,
+        "1": 10,
         "2": 5,
-        "3": 2,
+        "3": 3,
         "4": 0,
         "5+": 2
        }
@@ -7978,14 +7948,14 @@
     {
      "id": "science-7/life-processes-in-plants",
      "name": "Life Processes in Plants",
-     "questions": 6,
-     "marks": 12,
+     "questions": 16,
+     "marks": 32,
      "byMarks": {
-      "1": 2,
+      "1": 8,
       "2": 2,
-      "3": 2,
+      "3": 5,
       "4": 0,
-      "5+": 0
+      "5+": 1
      },
      "number": 10,
      "book": "Curiosity",
@@ -7993,10 +7963,10 @@
       {
        "id": "science-7/life-processes-in-plants/how-do-plants-grow",
        "name": "How Do Plants Grow?",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -8006,12 +7976,12 @@
       {
        "id": "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth",
        "name": "How Do Plants Get Food for their Growth?",
-       "questions": 0,
-       "marks": 0,
+       "questions": 4,
+       "marks": 6,
        "byMarks": {
-        "1": 0,
+        "1": 3,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -8224,6 +8194,7 @@
    ],
    "emptyChapters": [
     "science-7/the-ever-evolving-world-of-science",
+    "science-7/the-world-of-metals-and-non-metals",
     "science-7/adolescence-a-stage-of-growth-and-change",
     "science-7/earth-moon-and-the-sun"
    ],
@@ -8238,7 +8209,6 @@
     "science-7/the-ever-evolving-world-of-science",
     "science-7/the-world-of-metals-and-non-metals",
     "science-7/adolescence-a-stage-of-growth-and-change",
-    "science-7/life-processes-in-plants",
     "science-7/earth-moon-and-the-sun"
    ],
    "emptyTopics": [
@@ -8252,7 +8222,6 @@
     "science-7/the-world-of-metals-and-non-metals/substances-that-behave-differently-from-metals-in-air-and-wa",
     "science-7/the-world-of-metals-and-non-metals/are-non-metals-essential-in-everyday-life",
     "science-7/changes-around-us-physical-and-chemical/a-substance-may-change-in-appearance-but-remain-the-same",
-    "science-7/changes-around-us-physical-and-chemical/some-other-processes-involving-chemical-changes",
     "science-7/changes-around-us-physical-and-chemical/are-changes-permanent",
     "science-7/changes-around-us-physical-and-chemical/are-all-changes-desirable",
     "science-7/changes-around-us-physical-and-chemical/some-slow-natural-changes",
@@ -8265,11 +8234,8 @@
     "science-7/heat-transfer-in-nature/convection",
     "science-7/heat-transfer-in-nature/radiation",
     "science-7/heat-transfer-in-nature/water-cycle",
-    "science-7/measurement-of-time-and-motion/measurement-of-time",
     "science-7/measurement-of-time-and-motion/slow-or-fast",
     "science-7/measurement-of-time-and-motion/uniform-and-non-uniform-linear-motion",
-    "science-7/life-processes-in-plants/how-do-plants-grow",
-    "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth",
     "science-7/life-processes-in-plants/transport-in-plants",
     "science-7/life-processes-in-plants/do-plants-respire",
     "science-7/light-shadows-and-reflections/sources-of-light",
@@ -8316,7 +8282,6 @@
     "science-7/measurement-of-time-and-motion/uniform-and-non-uniform-linear-motion",
     "science-7/life-processes-in-animals/respiration-in-animals",
     "science-7/life-processes-in-plants/how-do-plants-grow",
-    "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth",
     "science-7/life-processes-in-plants/transport-in-plants",
     "science-7/life-processes-in-plants/do-plants-respire",
     "science-7/light-shadows-and-reflections/sources-of-light",
@@ -8359,7 +8324,6 @@
     "science-7/heat-transfer-in-nature/water-cycle",
     "science-7/measurement-of-time-and-motion/measurement-of-time",
     "science-7/measurement-of-time-and-motion/slow-or-fast",
-    "science-7/measurement-of-time-and-motion/speed",
     "science-7/measurement-of-time-and-motion/uniform-and-non-uniform-linear-motion",
     "science-7/life-processes-in-plants/how-do-plants-grow",
     "science-7/life-processes-in-plants/how-do-plants-get-food-for-their-growth",
@@ -8448,20 +8412,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 56,
-     "pct": 12.9
+     "n": 81,
+     "pct": 18.6
     },
     "topic": {
-     "n": 14,
-     "pct": 3.2
+     "n": 34,
+     "pct": 7.8
     },
     "subtopic": {
      "n": 2,
      "pct": 0.5
     },
     "oldChapterIds": {
-     "n": 319,
-     "pct": 73.3
+     "n": 312,
+     "pct": 71.7
     }
    },
    "taggerCovers": true,
@@ -8480,7 +8444,7 @@
     "mcq": 179
    },
    "tree": true,
-   "untaggedKeyed": 379,
+   "untaggedKeyed": 354,
    "chapters": [
     {
      "id": "science-8/exploring-the-investigative-world-of-science",
@@ -8501,14 +8465,14 @@
     {
      "id": "science-8/the-invisible-living-world-beyond-our-naked-eye",
      "name": "The Invisible Living World: Beyond Our Naked Eye",
-     "questions": 13,
-     "marks": 19,
+     "questions": 31,
+     "marks": 47,
      "byMarks": {
-      "1": 11,
-      "2": 1,
-      "3": 0,
+      "1": 23,
+      "2": 5,
+      "3": 1,
       "4": 0,
-      "5+": 1
+      "5+": 2
      },
      "number": 2,
      "book": "Curiosity",
@@ -8516,11 +8480,11 @@
       {
        "id": "science-8/the-invisible-living-world-beyond-our-naked-eye/what-is-a-cell",
        "name": "What Is a Cell?",
-       "questions": 4,
-       "marks": 4,
+       "questions": 13,
+       "marks": 16,
        "byMarks": {
-        "1": 4,
-        "2": 0,
+        "1": 10,
+        "2": 3,
         "3": 0,
         "4": 0,
         "5+": 0
@@ -8529,23 +8493,23 @@
       {
        "id": "science-8/the-invisible-living-world-beyond-our-naked-eye/what-are-the-levels-of-organisation-in-the-body-of-a-living",
        "name": "What Are the Levels of Organisation in the Body of a Living Organism?",
-       "questions": 1,
-       "marks": 1,
+       "questions": 6,
+       "marks": 12,
        "byMarks": {
-        "1": 1,
+        "1": 4,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
-        "5+": 0
+        "5+": 1
        }
       },
       {
        "id": "science-8/the-invisible-living-world-beyond-our-naked-eye/what-are-microorganisms",
        "name": "What Are Microorganisms?",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -8721,14 +8685,14 @@
     {
      "id": "science-8/exploring-forces",
      "name": "Exploring Forces",
-     "questions": 20,
-     "marks": 50,
+     "questions": 27,
+     "marks": 75,
      "byMarks": {
       "1": 7,
-      "2": 6,
-      "3": 3,
+      "2": 8,
+      "3": 5,
       "4": 0,
-      "5+": 4
+      "5+": 7
      },
      "number": 5,
      "book": "Curiosity",
@@ -8736,11 +8700,11 @@
       {
        "id": "science-8/exploring-forces/what-is-a-force",
        "name": "What Is a Force?",
-       "questions": 1,
-       "marks": 2,
+       "questions": 3,
+       "marks": 6,
        "byMarks": {
         "1": 0,
-        "2": 1,
+        "2": 3,
         "3": 0,
         "4": 0,
         "5+": 0
@@ -8749,12 +8713,12 @@
       {
        "id": "science-8/exploring-forces/what-can-a-force-do-to-the-objects-on-which-it-is-applied",
        "name": "What Can a Force Do to the Objects on Which It Is Applied?",
-       "questions": 0,
-       "marks": 0,
+       "questions": 2,
+       "marks": 5,
        "byMarks": {
         "1": 0,
-        "2": 0,
-        "3": 0,
+        "2": 1,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -8775,11 +8739,11 @@
       {
        "id": "science-8/exploring-forces/what-are-the-different-types-of-forces",
        "name": "What Are the Different Types of Forces?",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 2,
        "byMarks": {
         "1": 0,
-        "2": 0,
+        "2": 1,
         "3": 0,
         "4": 0,
         "5+": 0
@@ -9516,7 +9480,6 @@
    ],
    "chaptersWithout3Mark": [
     "science-8/exploring-the-investigative-world-of-science",
-    "science-8/the-invisible-living-world-beyond-our-naked-eye",
     "science-8/health-the-ultimate-treasure",
     "science-8/electricity-magnetic-and-heating-effects",
     "science-8/particulate-nature-of-matter",
@@ -9534,7 +9497,6 @@
     "science-8/how-nature-works-in-harmony"
    ],
    "emptyTopics": [
-    "science-8/the-invisible-living-world-beyond-our-naked-eye/what-are-microorganisms",
     "science-8/the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes",
     "science-8/the-invisible-living-world-beyond-our-naked-eye/why-is-cell-considered-to-be-a-basic-unit-of-life",
     "science-8/health-the-ultimate-treasure/health-is-it-more-than-not-falling-sick",
@@ -9544,8 +9506,6 @@
     "science-8/health-the-ultimate-treasure/how-to-prevent-and-control-diseases",
     "science-8/electricity-magnetic-and-heating-effects/does-a-current-carrying-wire-get-hot",
     "science-8/electricity-magnetic-and-heating-effects/how-does-a-battery-generate-electricity",
-    "science-8/exploring-forces/what-can-a-force-do-to-the-objects-on-which-it-is-applied",
-    "science-8/exploring-forces/what-are-the-different-types-of-forces",
     "science-8/exploring-forces/weight-and-its-measurement",
     "science-8/exploring-forces/floating-and-sinking",
     "science-8/pressure-winds-storms-and-cyclones/pressure",
@@ -9590,7 +9550,6 @@
    ],
    "topicsWithout3Mark": [
     "science-8/the-invisible-living-world-beyond-our-naked-eye/what-is-a-cell",
-    "science-8/the-invisible-living-world-beyond-our-naked-eye/what-are-the-levels-of-organisation-in-the-body-of-a-living",
     "science-8/the-invisible-living-world-beyond-our-naked-eye/what-are-microorganisms",
     "science-8/the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes",
     "science-8/the-invisible-living-world-beyond-our-naked-eye/why-is-cell-considered-to-be-a-basic-unit-of-life",
@@ -9603,7 +9562,6 @@
     "science-8/electricity-magnetic-and-heating-effects/does-a-current-carrying-wire-get-hot",
     "science-8/electricity-magnetic-and-heating-effects/how-does-a-battery-generate-electricity",
     "science-8/exploring-forces/what-is-a-force",
-    "science-8/exploring-forces/what-can-a-force-do-to-the-objects-on-which-it-is-applied",
     "science-8/exploring-forces/what-are-the-different-types-of-forces",
     "science-8/exploring-forces/weight-and-its-measurement",
     "science-8/exploring-forces/floating-and-sinking",
@@ -9651,7 +9609,6 @@
    ],
    "topicsWithout5Mark": [
     "science-8/the-invisible-living-world-beyond-our-naked-eye/what-is-a-cell",
-    "science-8/the-invisible-living-world-beyond-our-naked-eye/what-are-the-levels-of-organisation-in-the-body-of-a-living",
     "science-8/the-invisible-living-world-beyond-our-naked-eye/what-are-microorganisms",
     "science-8/the-invisible-living-world-beyond-our-naked-eye/how-are-we-connected-to-microbes",
     "science-8/the-invisible-living-world-beyond-our-naked-eye/why-is-cell-considered-to-be-a-basic-unit-of-life",
@@ -9782,20 +9739,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 247,
-     "pct": 51.9
+     "n": 290,
+     "pct": 60.9
     },
     "topic": {
-     "n": 72,
-     "pct": 15.1
+     "n": 102,
+     "pct": 21.4
     },
     "subtopic": {
-     "n": 19,
-     "pct": 4.0
+     "n": 24,
+     "pct": 5.0
     },
     "oldChapterIds": {
-     "n": 335,
-     "pct": 70.4
+     "n": 314,
+     "pct": 66.0
     }
    },
    "taggerCovers": true,
@@ -9814,7 +9771,7 @@
     "short_answer": 142
    },
    "tree": true,
-   "untaggedKeyed": 229,
+   "untaggedKeyed": 186,
    "chapters": [
     {
      "id": "science-9/exploration-entering-the-world-of-secondary-science",
@@ -9835,10 +9792,10 @@
     {
      "id": "science-9/cell-the-building-block-of-life",
      "name": "Cell: The Building Block of Life",
-     "questions": 51,
-     "marks": 106,
+     "questions": 52,
+     "marks": 107,
      "byMarks": {
-      "1": 27,
+      "1": 28,
       "2": 0,
       "3": 22,
       "4": 0,
@@ -9863,10 +9820,10 @@
       {
        "id": "science-9/cell-the-building-block-of-life/structure-of-a-cell",
        "name": "Structure of a Cell",
-       "questions": 5,
-       "marks": 11,
+       "questions": 6,
+       "marks": 12,
        "byMarks": {
-        "1": 2,
+        "1": 3,
         "2": 0,
         "3": 3,
         "4": 0,
@@ -9876,12 +9833,12 @@
       {
        "id": "science-9/cell-the-building-block-of-life/the-cell-interior-a-coordinated-working-system",
        "name": "The Cell Interior — A Coordinated Working System",
-       "questions": 10,
-       "marks": 23,
+       "questions": 12,
+       "marks": 27,
        "byMarks": {
-        "1": 7,
+        "1": 8,
         "2": 0,
-        "3": 1,
+        "3": 2,
         "4": 0,
         "5+": 2
        }
@@ -9945,12 +9902,12 @@
       {
        "id": "science-9/tissues-in-action/tissues-for-growth-in-plants",
        "name": "Tissues for Growth in Plants",
-       "questions": 15,
-       "marks": 25,
+       "questions": 17,
+       "marks": 29,
        "byMarks": {
-        "1": 12,
+        "1": 13,
         "2": 0,
-        "3": 1,
+        "3": 2,
         "4": 0,
         "5+": 2
        }
@@ -9958,12 +9915,12 @@
       {
        "id": "science-9/tissues-in-action/animal-tissues",
        "name": "Animal Tissues",
-       "questions": 4,
-       "marks": 6,
+       "questions": 6,
+       "marks": 10,
        "byMarks": {
-        "1": 3,
+        "1": 4,
         "2": 0,
-        "3": 1,
+        "3": 2,
         "4": 0,
         "5+": 0
        }
@@ -10012,10 +9969,10 @@
     {
      "id": "science-9/describing-motion-around-us",
      "name": "Describing Motion Around Us",
-     "questions": 8,
-     "marks": 10,
+     "questions": 9,
+     "marks": 11,
      "byMarks": {
-      "1": 7,
+      "1": 8,
       "2": 0,
       "3": 1,
       "4": 0,
@@ -10027,10 +9984,10 @@
       {
        "id": "science-9/describing-motion-around-us/motion-in-a-straight-line",
        "name": "Motion in a Straight Line",
-       "questions": 0,
-       "marks": 0,
+       "questions": 2,
+       "marks": 2,
        "byMarks": {
-        "1": 0,
+        "1": 2,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -10163,12 +10120,12 @@
     {
      "id": "science-9/how-forces-affect-motion",
      "name": "How Forces Affect Motion",
-     "questions": 11,
-     "marks": 19,
+     "questions": 18,
+     "marks": 36,
      "byMarks": {
-      "1": 7,
+      "1": 9,
       "2": 0,
-      "3": 4,
+      "3": 9,
       "4": 0,
       "5+": 0
      },
@@ -10256,12 +10213,12 @@
       {
        "id": "science-9/how-forces-affect-motion/forces-acting-on-a-system-of-objects",
        "name": "Forces Acting on a System of Objects",
-       "questions": 1,
-       "marks": 3,
+       "questions": 2,
+       "marks": 6,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 1,
+        "3": 2,
         "4": 0,
         "5+": 0
        }
@@ -10271,12 +10228,12 @@
     {
      "id": "science-9/work-energy-and-simple-machines",
      "name": "Work, Energy, and Simple Machines",
-     "questions": 9,
-     "marks": 27,
+     "questions": 13,
+     "marks": 33,
      "byMarks": {
-      "1": 5,
+      "1": 8,
       "2": 0,
-      "3": 2,
+      "3": 3,
       "4": 0,
       "5+": 2
      },
@@ -10286,12 +10243,12 @@
       {
        "id": "science-9/work-energy-and-simple-machines/work-done-by-a-constant-force",
        "name": "Work Done by a Constant Force",
-       "questions": 0,
-       "marks": 0,
+       "questions": 3,
+       "marks": 5,
        "byMarks": {
-        "1": 0,
+        "1": 2,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -10325,12 +10282,12 @@
       {
        "id": "science-9/work-energy-and-simple-machines/mechanical-energy",
        "name": "Mechanical Energy",
-       "questions": 2,
-       "marks": 11,
+       "questions": 4,
+       "marks": 15,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
-        "3": 1,
+        "3": 2,
         "4": 0,
         "5+": 1
        }
@@ -10381,10 +10338,10 @@
       {
        "id": "science-9/journey-inside-the-atom/rediscovering-the-roots-of-atomic-theory",
        "name": "Rediscovering the Roots of Atomic Theory",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -10433,10 +10390,10 @@
       {
        "id": "science-9/journey-inside-the-atom/atomic-number",
        "name": "Atomic Number",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -10446,10 +10403,10 @@
       {
        "id": "science-9/journey-inside-the-atom/mass-number",
        "name": "Mass Number",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -10621,10 +10578,10 @@
     {
      "id": "science-9/sound-waves-characteristics-and-applications",
      "name": "Sound Waves: Characteristics and Applications",
-     "questions": 10,
-     "marks": 20,
+     "questions": 11,
+     "marks": 21,
      "byMarks": {
-      "1": 8,
+      "1": 9,
       "2": 0,
       "3": 0,
       "4": 0,
@@ -10662,10 +10619,10 @@
       {
        "id": "science-9/sound-waves-characteristics-and-applications/sound-waves",
        "name": "Sound Waves",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -10701,10 +10658,10 @@
       {
        "id": "science-9/sound-waves-characteristics-and-applications/characteristics-of-a-sound-wave",
        "name": "Characteristics of a Sound Wave",
-       "questions": 2,
-       "marks": 2,
+       "questions": 3,
+       "marks": 3,
        "byMarks": {
-        "1": 2,
+        "1": 3,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -10824,14 +10781,14 @@
     {
      "id": "science-9/patterns-in-life-diversity-and-classification",
      "name": "Patterns in Life: Diversity and Classification",
-     "questions": 22,
-     "marks": 47,
+     "questions": 51,
+     "marks": 94,
      "byMarks": {
-      "1": 14,
+      "1": 35,
       "2": 1,
-      "3": 4,
+      "3": 11,
       "4": 0,
-      "5+": 3
+      "5+": 4
      },
      "number": 12,
      "book": "Exploration",
@@ -10865,12 +10822,12 @@
       {
        "id": "science-9/patterns-in-life-diversity-and-classification/how-to-classify-organisms",
        "name": "How to Classify Organisms?",
-       "questions": 0,
-       "marks": 0,
+       "questions": 3,
+       "marks": 9,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 0,
+        "3": 3,
         "4": 0,
         "5+": 0
        }
@@ -10904,12 +10861,12 @@
       {
        "id": "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification",
        "name": "Five Kingdom Classification",
-       "questions": 0,
-       "marks": 0,
+       "questions": 5,
+       "marks": 9,
        "byMarks": {
-        "1": 0,
+        "1": 3,
         "2": 0,
-        "3": 0,
+        "3": 2,
         "4": 0,
         "5+": 0
        }
@@ -10917,10 +10874,10 @@
       {
        "id": "science-9/patterns-in-life-diversity-and-classification/adaptations-as-outcomes-of-structural-change",
        "name": "Adaptations as Outcomes of Structural Change",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -10930,10 +10887,10 @@
       {
        "id": "science-9/patterns-in-life-diversity-and-classification/scientific-naming-the-binomial-system",
        "name": "Scientific Naming — The Binomial System",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -11059,7 +11016,6 @@
     "science-9/tissues-in-action/why-are-plant-and-animal-tissues-different",
     "science-9/tissues-in-action/types-of-joints",
     "science-9/tissues-in-action/skeletal-system",
-    "science-9/describing-motion-around-us/motion-in-a-straight-line",
     "science-9/describing-motion-around-us/graphical-representation-of-motion",
     "science-9/describing-motion-around-us/kinematic-equations-for-motion-in-a-straight-line-with-const",
     "science-9/exploring-mixtures-and-their-separation/how-can-we-separate-the-components-of-heterogeneous-mixtures",
@@ -11068,16 +11024,12 @@
     "science-9/how-forces-affect-motion/newton-s-first-law-of-motion",
     "science-9/how-forces-affect-motion/newton-s-second-law-of-motion",
     "science-9/how-forces-affect-motion/newton-s-third-law-of-motion",
-    "science-9/work-energy-and-simple-machines/work-done-by-a-constant-force",
     "science-9/work-energy-and-simple-machines/the-work-energy-theorem",
     "science-9/work-energy-and-simple-machines/forms-of-energy",
     "science-9/work-energy-and-simple-machines/power",
     "science-9/work-energy-and-simple-machines/simple-machines",
-    "science-9/journey-inside-the-atom/rediscovering-the-roots-of-atomic-theory",
     "science-9/journey-inside-the-atom/what-components-contribute-to-the-mass-of-an-atom",
     "science-9/journey-inside-the-atom/symbols-of-elements",
-    "science-9/journey-inside-the-atom/atomic-number",
-    "science-9/journey-inside-the-atom/mass-number",
     "science-9/journey-inside-the-atom/a-deeper-look-into-atomic-structure",
     "science-9/atomic-foundations-of-matter/law-of-conservation-of-mass",
     "science-9/atomic-foundations-of-matter/law-of-constant-proportions",
@@ -11087,7 +11039,6 @@
     "science-9/atomic-foundations-of-matter/formula-unit-mass-of-ionic-compounds",
     "science-9/sound-waves-characteristics-and-applications/production-of-sound",
     "science-9/sound-waves-characteristics-and-applications/propagation-of-sound",
-    "science-9/sound-waves-characteristics-and-applications/sound-waves",
     "science-9/sound-waves-characteristics-and-applications/energy-of-sound-waves",
     "science-9/sound-waves-characteristics-and-applications/graphical-representation-of-a-sound-wave",
     "science-9/sound-waves-characteristics-and-applications/reflection-of-sound",
@@ -11098,11 +11049,7 @@
     "science-9/reproduction-how-life-continues/reproduction-in-human-beings",
     "science-9/patterns-in-life-diversity-and-classification/india-as-a-biodiversity-hotspot",
     "science-9/patterns-in-life-diversity-and-classification/how-has-the-biodiversity-evolved",
-    "science-9/patterns-in-life-diversity-and-classification/how-to-classify-organisms",
     "science-9/patterns-in-life-diversity-and-classification/the-need-for-classification",
-    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification",
-    "science-9/patterns-in-life-diversity-and-classification/adaptations-as-outcomes-of-structural-change",
-    "science-9/patterns-in-life-diversity-and-classification/scientific-naming-the-binomial-system",
     "science-9/patterns-in-life-diversity-and-classification/fossils-as-evidence",
     "science-9/earth-as-a-system-energy-matter-and-life/human-impact-on-earth-s-processes"
    ],
@@ -11127,7 +11074,6 @@
     "science-9/how-forces-affect-motion/newton-s-first-law-of-motion",
     "science-9/how-forces-affect-motion/newton-s-second-law-of-motion",
     "science-9/how-forces-affect-motion/newton-s-third-law-of-motion",
-    "science-9/work-energy-and-simple-machines/work-done-by-a-constant-force",
     "science-9/work-energy-and-simple-machines/the-work-energy-theorem",
     "science-9/work-energy-and-simple-machines/forms-of-energy",
     "science-9/work-energy-and-simple-machines/power",
@@ -11160,10 +11106,8 @@
     "science-9/reproduction-how-life-continues/reproduction-in-human-beings",
     "science-9/patterns-in-life-diversity-and-classification/india-as-a-biodiversity-hotspot",
     "science-9/patterns-in-life-diversity-and-classification/how-has-the-biodiversity-evolved",
-    "science-9/patterns-in-life-diversity-and-classification/how-to-classify-organisms",
     "science-9/patterns-in-life-diversity-and-classification/the-need-for-classification",
     "science-9/patterns-in-life-diversity-and-classification/biological-classification-systems-over-time",
-    "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification",
     "science-9/patterns-in-life-diversity-and-classification/adaptations-as-outcomes-of-structural-change",
     "science-9/patterns-in-life-diversity-and-classification/scientific-naming-the-binomial-system",
     "science-9/patterns-in-life-diversity-and-classification/fossils-as-evidence",
@@ -11301,76 +11245,75 @@
   {
    "subject": "Science",
    "grade": 10,
-   "questions": 531,
+   "questions": 530,
    "byBank": {
-    "served": 506,
+    "served": 504,
     "ncert-exemplar": 8,
-    "cbse-cbe": 17
+    "cbse-cbe": 18
    },
    "bySource": {
-    "cbse_board_paper": 1,
     "cbse_question_bank": 54,
     "ncert_exemplar": 476
    },
-   "keyed": 531,
+   "keyed": 530,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "cbse_marking_scheme": 55,
+    "cbse_marking_scheme": 54,
     "ncert_exemplar_answer": 476
    },
    "verified": {
     "state": "verified",
-    "passed": 524,
-    "of": 531,
+    "passed": 523,
+    "of": 530,
     "unchecked": 0,
     "pct": 98.7
    },
    "tagged": {
     "chapter": {
-     "n": 424,
-     "pct": 79.8
+     "n": 429,
+     "pct": 80.9
     },
     "topic": {
-     "n": 285,
-     "pct": 53.7
+     "n": 299,
+     "pct": 56.4
     },
     "subtopic": {
-     "n": 117,
-     "pct": 22.0
+     "n": 132,
+     "pct": 24.9
     },
     "oldChapterIds": {
-     "n": 412,
-     "pct": 77.6
+     "n": 405,
+     "pct": 76.4
     }
    },
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 329,
+    "1": 328,
     "2": 5,
     "3": 128,
     "4": 0,
     "5+": 69
    },
    "types": {
-    "very_short_answer": 10,
+    "very_short_answer": 9,
     "mcq": 323,
     "short_answer": 132,
     "long_answer": 66
    },
    "tree": true,
-   "untaggedKeyed": 107,
+   "untaggedKeyed": 101,
    "chapters": [
     {
      "id": "science-10/chemical-reactions-and-equations",
      "name": "Chemical Reactions and Equations",
-     "questions": 27,
-     "marks": 59,
+     "questions": 29,
+     "marks": 63,
      "byMarks": {
-      "1": 17,
+      "1": 18,
       "2": 1,
-      "3": 5,
+      "3": 6,
       "4": 0,
       "5+": 4
      },
@@ -11380,12 +11323,12 @@
       {
        "id": "science-10/chemical-reactions-and-equations/chemical-equations",
        "name": "Chemical Equations",
-       "questions": 1,
-       "marks": 1,
+       "questions": 2,
+       "marks": 4,
        "byMarks": {
         "1": 1,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5+": 0
        }
@@ -11462,10 +11405,10 @@
       {
        "id": "science-10/acids-bases-and-salts/how-strong-are-acid-or-base-solutions",
        "name": "How Strong Are Acid or Base Solutions?",
-       "questions": 4,
-       "marks": 6,
+       "questions": 5,
+       "marks": 7,
        "byMarks": {
-        "1": 3,
+        "1": 4,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -11490,10 +11433,10 @@
     {
      "id": "science-10/metals-and-non-metals",
      "name": "Metals and Non-metals",
-     "questions": 54,
-     "marks": 112,
+     "questions": 55,
+     "marks": 113,
      "byMarks": {
-      "1": 32,
+      "1": 33,
       "2": 0,
       "3": 17,
       "4": 0,
@@ -11518,10 +11461,10 @@
       {
        "id": "science-10/metals-and-non-metals/chemical-properties-of-metals",
        "name": "Chemical Properties of Metals",
-       "questions": 11,
-       "marks": 25,
+       "questions": 12,
+       "marks": 26,
        "byMarks": {
-        "1": 5,
+        "1": 6,
         "2": 0,
         "3": 5,
         "4": 0,
@@ -11557,10 +11500,10 @@
       {
        "id": "science-10/metals-and-non-metals/corrosion",
        "name": "Corrosion",
-       "questions": 6,
-       "marks": 8,
+       "questions": 7,
+       "marks": 9,
        "byMarks": {
-        "1": 5,
+        "1": 6,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -11682,10 +11625,10 @@
       {
        "id": "science-10/life-processes/nutrition",
        "name": "Nutrition",
-       "questions": 24,
-       "marks": 54,
+       "questions": 25,
+       "marks": 55,
        "byMarks": {
-        "1": 12,
+        "1": 13,
         "2": 0,
         "3": 9,
         "4": 0,
@@ -11721,10 +11664,10 @@
       {
        "id": "science-10/life-processes/excretion",
        "name": "Excretion",
-       "questions": 3,
-       "marks": 5,
+       "questions": 4,
+       "marks": 6,
        "byMarks": {
-        "1": 2,
+        "1": 3,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -11751,10 +11694,10 @@
       {
        "id": "science-10/control-and-coordination/animals-nervous-system",
        "name": "Animals – Nervous System",
-       "questions": 16,
-       "marks": 34,
+       "questions": 18,
+       "marks": 36,
        "byMarks": {
-        "1": 11,
+        "1": 13,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -11777,10 +11720,10 @@
       {
        "id": "science-10/control-and-coordination/hormones-in-animals",
        "name": "Hormones in Animals",
-       "questions": 14,
-       "marks": 28,
+       "questions": 15,
+       "marks": 29,
        "byMarks": {
-        "1": 9,
+        "1": 10,
         "2": 0,
         "3": 3,
         "4": 0,
@@ -11792,10 +11735,10 @@
     {
      "id": "science-10/how-do-organisms-reproduce",
      "name": "How do Organisms Reproduce?",
-     "questions": 44,
-     "marks": 96,
+     "questions": 45,
+     "marks": 97,
      "byMarks": {
-      "1": 23,
+      "1": 24,
       "2": 0,
       "3": 16,
       "4": 0,
@@ -11833,10 +11776,10 @@
       {
        "id": "science-10/how-do-organisms-reproduce/sexual-reproduction",
        "name": "Sexual Reproduction",
-       "questions": 24,
-       "marks": 60,
+       "questions": 27,
+       "marks": 63,
        "byMarks": {
-        "1": 10,
+        "1": 13,
         "2": 0,
         "3": 10,
         "4": 0,
@@ -11891,10 +11834,10 @@
     {
      "id": "science-10/light-reflection-and-refraction",
      "name": "Light – Reflection and Refraction",
-     "questions": 20,
-     "marks": 61,
+     "questions": 19,
+     "marks": 60,
      "byMarks": {
-      "1": 12,
+      "1": 11,
       "2": 0,
       "3": 4,
       "4": 0,
@@ -11947,10 +11890,10 @@
     {
      "id": "science-10/the-human-eye-and-the-colourful-world",
      "name": "The Human Eye and the Colourful World",
-     "questions": 2,
-     "marks": 2,
+     "questions": 3,
+     "marks": 3,
      "byMarks": {
-      "1": 2,
+      "1": 3,
       "2": 0,
       "3": 0,
       "4": 0,
@@ -12042,14 +11985,14 @@
     {
      "id": "science-10/electricity",
      "name": "Electricity",
-     "questions": 19,
-     "marks": 42,
+     "questions": 20,
+     "marks": 50,
      "byMarks": {
       "1": 11,
       "2": 2,
       "3": 4,
       "4": 0,
-      "5+": 2
+      "5+": 3
      },
      "number": 11,
      "book": "Science",
@@ -12217,12 +12160,12 @@
       {
        "id": "science-10/magnetic-effects-of-electric-current/domestic-electric-circuits",
        "name": "Domestic Electric Circuits",
-       "questions": 2,
-       "marks": 4,
+       "questions": 3,
+       "marks": 7,
        "byMarks": {
         "1": 1,
         "2": 0,
-        "3": 1,
+        "3": 2,
         "4": 0,
         "5+": 0
        }
@@ -12247,10 +12190,10 @@
       {
        "id": "science-10/our-environment/eco-system-what-are-its-components",
        "name": "Eco-system — What Are Its Components?",
-       "questions": 23,
-       "marks": 52,
+       "questions": 24,
+       "marks": 53,
        "byMarks": {
-        "1": 15,
+        "1": 16,
         "2": 0,
         "3": 4,
         "4": 0,
@@ -12295,7 +12238,6 @@
     "science-10/magnetic-effects-of-electric-current/magnetic-field-and-field-lines"
    ],
    "topicsWithout3Mark": [
-    "science-10/chemical-reactions-and-equations/chemical-equations",
     "science-10/chemical-reactions-and-equations/have-you-observed-the-effects-of-oxidation-reactions-in-ever",
     "science-10/acids-bases-and-salts/understanding-the-chemical-properties-of-acids-and-bases",
     "science-10/acids-bases-and-salts/what-do-all-acids-and-all-bases-have-in-common",
@@ -12358,7 +12300,7 @@
     "science-10/magnetic-effects-of-electric-current/force-on-a-current-carrying-conductor-in-a-magnetic-field",
     "science-10/magnetic-effects-of-electric-current/domestic-electric-circuits"
    ],
-   "servedKeyed": 506,
+   "servedKeyed": 504,
    "papers": {
     "all": {
      "class_test": {
@@ -12387,7 +12329,7 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
       ]
      },
      "weekly_test": {
@@ -12397,13 +12339,13 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4"
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3"
       ]
      },
      "board": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ]
      }
@@ -19505,43 +19447,42 @@
   {
    "subject": "Social Science",
    "grade": 10,
-   "questions": 24,
+   "questions": 14,
    "byBank": {
-    "served": 24
+    "served": 14
    },
    "bySource": {
-    "cbse_board_paper": 10,
     "cbse_sample_paper": 14
    },
-   "keyed": 24,
+   "keyed": 14,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "cbse_marking_scheme": 24
+    "cbse_marking_scheme": 14
    },
    "verified": {
     "state": "verified",
-    "passed": 24,
-    "of": 24,
+    "passed": 14,
+    "of": 14,
     "unchecked": 0,
     "pct": 100.0
    },
    "tagged": {
     "chapter": {
-     "n": 15,
-     "pct": 62.5
+     "n": 6,
+     "pct": 42.9
     },
     "topic": {
-     "n": 6,
-     "pct": 25.0
+     "n": 1,
+     "pct": 7.1
     },
     "subtopic": {
-     "n": 1,
-     "pct": 4.2
+     "n": 0,
+     "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 22,
-     "pct": 91.7
+     "n": 12,
+     "pct": 85.7
     }
    },
    "taggerCovers": true,
@@ -19549,18 +19490,16 @@
    "marks": {
     "1": 12,
     "2": 0,
-    "3": 10,
+    "3": 2,
     "4": 0,
-    "5+": 2
+    "5+": 0
    },
    "types": {
-    "long_answer": 8,
-    "case_study": 2,
     "short_answer": 2,
     "mcq": 12
    },
    "tree": true,
-   "untaggedKeyed": 9,
+   "untaggedKeyed": 8,
    "chapters": [
     {
      "id": "social-science-10/the-rise-of-nationalism-in-europe",
@@ -20027,14 +19966,14 @@
     {
      "id": "social-science-10/resources-and-development",
      "name": "Resources and Development",
-     "questions": 2,
-     "marks": 6,
+     "questions": 1,
+     "marks": 1,
      "byMarks": {
       "1": 1,
       "2": 0,
       "3": 0,
       "4": 0,
-      "5+": 1
+      "5+": 0
      },
      "number": 1,
      "book": "Contemporary India II",
@@ -20208,14 +20147,14 @@
     {
      "id": "social-science-10/federalism",
      "name": "Federalism",
-     "questions": 1,
-     "marks": 5,
+     "questions": 0,
+     "marks": 0,
      "byMarks": {
       "1": 0,
       "2": 0,
       "3": 0,
       "4": 0,
-      "5+": 1
+      "5+": 0
      },
      "number": 2,
      "book": "Democratic Politics II",
@@ -20249,14 +20188,14 @@
       {
        "id": "social-science-10/federalism/how-is-federalism-practised",
        "name": "How is federalism practised?",
-       "questions": 1,
-       "marks": 5,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
         "1": 0,
         "2": 0,
         "3": 0,
         "4": 0,
-        "5+": 1
+        "5+": 0
        }
       },
       {
@@ -20333,12 +20272,12 @@
     {
      "id": "social-science-10/political-parties",
      "name": "Political Parties",
-     "questions": 2,
-     "marks": 6,
+     "questions": 0,
+     "marks": 0,
      "byMarks": {
       "1": 0,
       "2": 0,
-      "3": 2,
+      "3": 0,
       "4": 0,
       "5+": 0
      },
@@ -20400,12 +20339,12 @@
       {
        "id": "social-science-10/political-parties/challenges-to-political-parties",
        "name": "Challenges to political parties",
-       "questions": 1,
-       "marks": 3,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 1,
+        "3": 0,
         "4": 0,
         "5+": 0
        }
@@ -20428,12 +20367,12 @@
     {
      "id": "social-science-10/outcomes-of-democracy",
      "name": "Outcomes of Democracy",
-     "questions": 3,
-     "marks": 9,
+     "questions": 0,
+     "marks": 0,
      "byMarks": {
       "1": 0,
       "2": 0,
-      "3": 3,
+      "3": 0,
       "4": 0,
       "5+": 0
      },
@@ -20456,12 +20395,12 @@
       {
        "id": "social-science-10/outcomes-of-democracy/accountable-responsive-and-legitimate-government",
        "name": "Accountable, responsive and legitimate government",
-       "questions": 1,
-       "marks": 3,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 1,
+        "3": 0,
         "4": 0,
         "5+": 0
        }
@@ -20482,12 +20421,12 @@
       {
        "id": "social-science-10/outcomes-of-democracy/reduction-of-inequality-and-poverty",
        "name": "Reduction of inequality and poverty",
-       "questions": 1,
-       "marks": 3,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 1,
+        "3": 0,
         "4": 0,
         "5+": 0
        }
@@ -20631,12 +20570,12 @@
     {
      "id": "social-science-10/sectors-of-the-indian-economy",
      "name": "Sectors of the Indian Economy",
-     "questions": 3,
-     "marks": 5,
+     "questions": 1,
+     "marks": 1,
      "byMarks": {
-      "1": 2,
+      "1": 1,
       "2": 0,
-      "3": 1,
+      "3": 0,
       "4": 0,
       "5+": 0
      },
@@ -20672,12 +20611,12 @@
       {
        "id": "social-science-10/sectors-of-the-indian-economy/primary-secondary-and-tertiary-sectors-in-india",
        "name": "Primary, Secondary and Tertiary Sectors in India",
-       "questions": 1,
-       "marks": 3,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 1,
+        "3": 0,
         "4": 0,
         "5+": 0
        }
@@ -21020,7 +20959,10 @@
     "social-science-10/minerals-and-energy-resources",
     "social-science-10/manufacturing-industries",
     "social-science-10/lifelines-of-national-economy",
+    "social-science-10/federalism",
     "social-science-10/gender-religion-and-caste",
+    "social-science-10/political-parties",
+    "social-science-10/outcomes-of-democracy",
     "social-science-10/money-and-credit",
     "social-science-10/consumer-rights"
    ],
@@ -21040,7 +20982,10 @@
     "social-science-10/power-sharing",
     "social-science-10/federalism",
     "social-science-10/gender-religion-and-caste",
+    "social-science-10/political-parties",
+    "social-science-10/outcomes-of-democracy",
     "social-science-10/development",
+    "social-science-10/sectors-of-the-indian-economy",
     "social-science-10/money-and-credit",
     "social-science-10/consumer-rights"
    ],
@@ -21050,6 +20995,7 @@
     "social-science-10/the-making-of-a-global-world",
     "social-science-10/the-age-of-industrialisation",
     "social-science-10/print-culture-and-the-modern-world",
+    "social-science-10/resources-and-development",
     "social-science-10/forest-and-wildlife-resources",
     "social-science-10/water-resources",
     "social-science-10/agriculture",
@@ -21057,6 +21003,7 @@
     "social-science-10/manufacturing-industries",
     "social-science-10/lifelines-of-national-economy",
     "social-science-10/power-sharing",
+    "social-science-10/federalism",
     "social-science-10/gender-religion-and-caste",
     "social-science-10/political-parties",
     "social-science-10/outcomes-of-democracy",
@@ -21101,6 +21048,7 @@
     "social-science-10/power-sharing/forms-of-power-sharing",
     "social-science-10/federalism/what-is-federalism",
     "social-science-10/federalism/what-makes-india-a-federal-country",
+    "social-science-10/federalism/how-is-federalism-practised",
     "social-science-10/federalism/decentralisation-in-india",
     "social-science-10/gender-religion-and-caste/gender-and-politics",
     "social-science-10/gender-religion-and-caste/religion-communalism-and-politics",
@@ -21109,9 +21057,12 @@
     "social-science-10/political-parties/how-many-parties-should-we-have",
     "social-science-10/political-parties/national-parties",
     "social-science-10/political-parties/state-parties",
+    "social-science-10/political-parties/challenges-to-political-parties",
     "social-science-10/political-parties/how-can-parties-be-reformed",
     "social-science-10/outcomes-of-democracy/how-do-we-assess-democracy-s-outcomes",
+    "social-science-10/outcomes-of-democracy/accountable-responsive-and-legitimate-government",
     "social-science-10/outcomes-of-democracy/economic-growth-and-development",
+    "social-science-10/outcomes-of-democracy/reduction-of-inequality-and-poverty",
     "social-science-10/outcomes-of-democracy/accommodation-of-social-diversity",
     "social-science-10/outcomes-of-democracy/dignity-and-freedom-of-the-citizens",
     "social-science-10/development/what-development-promises-different-people-different-goals",
@@ -21123,6 +21074,7 @@
     "social-science-10/development/sustainability-of-development",
     "social-science-10/sectors-of-the-indian-economy/sectors-of-economic-activities",
     "social-science-10/sectors-of-the-indian-economy/comparing-the-three-sectors",
+    "social-science-10/sectors-of-the-indian-economy/primary-secondary-and-tertiary-sectors-in-india",
     "social-science-10/sectors-of-the-indian-economy/division-of-sectors-as-organised-and-unorganised",
     "social-science-10/sectors-of-the-indian-economy/sectors-in-terms-of-ownership-public-and-private-sectors",
     "social-science-10/money-and-credit/money-as-a-medium-of-exchange",
@@ -21190,9 +21142,12 @@
     "social-science-10/political-parties/how-many-parties-should-we-have",
     "social-science-10/political-parties/national-parties",
     "social-science-10/political-parties/state-parties",
+    "social-science-10/political-parties/challenges-to-political-parties",
     "social-science-10/political-parties/how-can-parties-be-reformed",
     "social-science-10/outcomes-of-democracy/how-do-we-assess-democracy-s-outcomes",
+    "social-science-10/outcomes-of-democracy/accountable-responsive-and-legitimate-government",
     "social-science-10/outcomes-of-democracy/economic-growth-and-development",
+    "social-science-10/outcomes-of-democracy/reduction-of-inequality-and-poverty",
     "social-science-10/outcomes-of-democracy/accommodation-of-social-diversity",
     "social-science-10/outcomes-of-democracy/dignity-and-freedom-of-the-citizens",
     "social-science-10/development/what-development-promises-different-people-different-goals",
@@ -21204,6 +21159,7 @@
     "social-science-10/development/sustainability-of-development",
     "social-science-10/sectors-of-the-indian-economy/sectors-of-economic-activities",
     "social-science-10/sectors-of-the-indian-economy/comparing-the-three-sectors",
+    "social-science-10/sectors-of-the-indian-economy/primary-secondary-and-tertiary-sectors-in-india",
     "social-science-10/sectors-of-the-indian-economy/division-of-sectors-as-organised-and-unorganised",
     "social-science-10/sectors-of-the-indian-economy/sectors-in-terms-of-ownership-public-and-private-sectors",
     "social-science-10/money-and-credit/money-as-a-medium-of-exchange",
@@ -21262,6 +21218,7 @@
     "social-science-10/power-sharing/forms-of-power-sharing",
     "social-science-10/federalism/what-is-federalism",
     "social-science-10/federalism/what-makes-india-a-federal-country",
+    "social-science-10/federalism/how-is-federalism-practised",
     "social-science-10/federalism/decentralisation-in-india",
     "social-science-10/gender-religion-and-caste/gender-and-politics",
     "social-science-10/gender-religion-and-caste/religion-communalism-and-politics",
@@ -21310,7 +21267,7 @@
     "social-science-10/consumer-rights/consumer-rights",
     "social-science-10/consumer-rights/taking-the-consumer-movement-forward"
    ],
-   "servedKeyed": 24,
+   "servedKeyed": 14,
    "papers": {
     "all": {
      "class_test": {
@@ -21320,15 +21277,18 @@
       ]
      },
      "weekly_test": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 2"
+      ]
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 15 keyed 1-mark questions, has 12",
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 2"
+       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 2",
+       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ]
      },
      "board": {
@@ -21336,7 +21296,8 @@
       "reasons": [
        "Section A (MCQ): needs 20 keyed 1-mark questions, has 12",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 2",
+       "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 2",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ]
      }
@@ -21349,15 +21310,18 @@
       ]
      },
      "weekly_test": {
-      "possible": true,
-      "reasons": []
+      "possible": false,
+      "reasons": [
+       "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 2"
+      ]
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 15 keyed 1-mark questions, has 12",
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
-       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 2"
+       "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 2",
+       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
       ]
      },
      "board": {
@@ -21365,7 +21329,8 @@
       "reasons": [
        "Section A (MCQ): needs 20 keyed 1-mark questions, has 12",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 2",
+       "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 2",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ]
      }
@@ -21410,8 +21375,8 @@
      "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 10,
-     "pct": 90.9
+     "n": 4,
+     "pct": 36.4
     }
    },
    "taggerCovers": false,
@@ -22691,8 +22656,8 @@
      "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 43,
-     "pct": 91.5
+     "n": 13,
+     "pct": 27.7
     }
    },
    "taggerCovers": false,
@@ -23125,8 +23090,8 @@
      "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 9,
-     "pct": 60.0
+     "n": 4,
+     "pct": 26.7
     }
    },
    "taggerCovers": false,
@@ -24111,18 +24076,18 @@
    }
   }
  ],
- "builtAt": "2026-09-22",
+ "builtAt": "2026-09-23",
  "inputs": [
   {
    "label": "served",
    "path": "academicos-data/syllabus/questions.json",
-   "sha256": "01bf3528fae3c29ee040b4c329cb95c5252c57de30d1dc56fd6addeed658e1ad",
-   "records": 5476
+   "sha256": "60668a922830ff1fca970a7a1434e3ac8723a364f32a8be2b4cb53bba6618ef3",
+   "records": 5427
   },
   {
    "label": "ncert-exemplar",
    "path": "academicos-data/corpus/ncert-exemplar/questions.json",
-   "sha256": "e68adfa7e5a6837f5cebe14dd9802e1a75642602f4afff09c8989fd861370b78",
+   "sha256": "60a17961969e6b6e507736b4fcfb8f33d5124ac54f5c68091395da7a03fa8cbc",
    "records": 4264
   },
   {
