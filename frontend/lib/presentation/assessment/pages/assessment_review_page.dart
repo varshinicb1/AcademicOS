@@ -332,7 +332,7 @@ class _AssessmentReviewPageState extends State<AssessmentReviewPage> {
     } catch (e) {
       if (!mounted) return;
       setState(() {
-        _swapError = 'Could not swap question ${_slotLabel(slot)}: $e';
+        _swapError = 'Could not swap question ${_slotLabel(slot)}: ${serverErrorMessage(e)}';
         _swapErrorPair = index;
         _swappingPair = null;
       });

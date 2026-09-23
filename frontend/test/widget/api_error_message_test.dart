@@ -57,6 +57,28 @@ void main() {
       expect(serverErrorMessage(e), 'sections.0.marks: must be positive; Invalid JSON');
     });
 
+    test('a detail object carrying a message shows the message, not the report around it', () {
+      // generate-from-template's 400/409: the sentence sits beside the whole
+      // availability report, which the scope step draws separately (Task 803,
+      // where this branch moved out of paper_builder_api's own mapper).
+      final e = _refused(400, {
+        'detail': {
+          'message': 'no question in the bank fits this template',
+          'availability': {'sections': []},
+        },
+      });
+      expect(serverErrorMessage(e), 'no question in the bank fits this template');
+    });
+
+    test("a model validator's message loses pydantic's 'Value error, ' prefix", () {
+      final e = _refused(422, {
+        'detail': [
+          {'loc': ['body'], 'msg': 'Value error, sections add up to 22 marks but the total is 25'},
+        ],
+      });
+      expect(serverErrorMessage(e), 'sections add up to 22 marks but the total is 25');
+    });
+
     test('401 says the session is over, whatever the body says', () {
       expect(serverErrorMessage(_refused(401, null)), "You're signed out — sign in again");
       expect(serverErrorMessage(_refused(401, {'detail': 'Not authenticated'})),

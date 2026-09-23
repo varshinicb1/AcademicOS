@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
+import '../../data/datasources/api/api_error.dart';
 import '../../data/datasources/api/paper_builder_api.dart';
 import '../../data/datasources/api/pillar_api.dart' show ChapterEntry;
 import '../../domain/repositories/requests.dart' show GeneratedPaper, GeneratedQuestion;
@@ -37,8 +38,9 @@ List<String> builderSubjects(int grade) => grade >= 11
 /// The whole builder's state: one class, one flow, no page owns a copy.
 ///
 /// Every server call goes through [PaperBuilderApi], and every failure
-/// becomes a sentence on the step it happened on ([apiErrorMessage]) with the
-/// action that retries it -- never a blank screen or a raw exception.
+/// becomes a sentence on the step it happened on ([serverErrorMessage], the
+/// app's one mapper) with the action that retries it -- never a blank screen
+/// or a raw exception.
 class PaperBuilderController extends ChangeNotifier {
   final PaperBuilderApi api;
   final String schoolId;
@@ -227,7 +229,7 @@ class PaperBuilderController extends ChangeNotifier {
             templates!.presets.firstOrNull;
       }
     } catch (e) {
-      templatesError = apiErrorMessage(e);
+      templatesError = serverErrorMessage(e);
     } finally {
       loadingTemplates = false;
       _changed();
@@ -297,8 +299,12 @@ class PaperBuilderController extends ChangeNotifier {
   Future<void> _refreshTemplateLists() async {
     try {
       templates = await api.listTemplates(schoolId, grade: grade!, subject: subject!);
-    } catch (_) {
-      // The save itself succeeded; the list refreshes on the next visit.
+    } catch (e) {
+      // The save itself succeeded, so this is not the save's failure -- but a
+      // list that quietly stayed as it was is its own: the template the
+      // teacher just saved would simply not be in it. The template step says
+      // why, with the "Try again" that reloads it.
+      templatesError = serverErrorMessage(e);
     }
   }
 
@@ -311,7 +317,7 @@ class PaperBuilderController extends ChangeNotifier {
     try {
       chapters = await api.chapters(subject!, grade!);
     } catch (e) {
-      chaptersError = apiErrorMessage(e);
+      chaptersError = serverErrorMessage(e);
     } finally {
       loadingChapters = false;
       _changed();
@@ -384,7 +390,7 @@ class PaperBuilderController extends ChangeNotifier {
       availability = a;
     } catch (e) {
       if (ticket != _ticket) return;
-      availabilityError = apiErrorMessage(e);
+      availabilityError = serverErrorMessage(e);
     } finally {
       if (ticket == _ticket) {
         checking = false;
@@ -471,7 +477,7 @@ class PaperBuilderController extends ChangeNotifier {
       }
       step = BuilderStep.paper;
     } catch (e) {
-      generateError = apiErrorMessage(e);
+      generateError = serverErrorMessage(e);
     } finally {
       generating = false;
       _changed();
@@ -509,7 +515,7 @@ class PaperBuilderController extends ChangeNotifier {
     try {
       _setPapers[label] = await api.getPaper(setIds[label]!);
     } catch (e) {
-      setError = apiErrorMessage(e);
+      setError = serverErrorMessage(e);
     } finally {
       loadingSet = false;
       _changed();
@@ -556,7 +562,7 @@ class PaperBuilderController extends ChangeNotifier {
       slotErrors.clear();
       if (!slot.endsWith('_OR')) removedBySection[sectionId] = (removedBySection[sectionId] ?? 0) + 1;
     } catch (e) {
-      slotErrors[slot] = apiErrorMessage(e);
+      slotErrors[slot] = serverErrorMessage(e);
     } finally {
       busySlots.remove(slot);
       _changed();
@@ -583,7 +589,7 @@ class PaperBuilderController extends ChangeNotifier {
     try {
       _edited(await call());
     } catch (e) {
-      slotErrors[slot] = apiErrorMessage(e);
+      slotErrors[slot] = serverErrorMessage(e);
     } finally {
       busySlots.remove(slot);
       _changed();
@@ -621,7 +627,7 @@ class PaperBuilderController extends ChangeNotifier {
         _changed();
       }
     } catch (e) {
-      downloadError = apiErrorMessage(e);
+      downloadError = serverErrorMessage(e);
     } finally {
       downloading = false;
       _changed();

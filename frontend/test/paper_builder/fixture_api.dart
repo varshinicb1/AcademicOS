@@ -167,7 +167,13 @@ class FixtureAdapter implements HttpClientAdapter {
   void close({bool force = false}) {}
 }
 
-PaperBuilderApi fixtureApi(FixtureAdapter adapter) {
+/// The real [PaperBuilderApi] talking to [adapter].
+///
+/// Typed as the Dio interface, not [FixtureAdapter]: the error tests
+/// (builder_errors_test.dart) wrap the fixtures in an adapter that refuses
+/// chosen routes, and it is the same real client that has to parse the
+/// refusal.
+PaperBuilderApi fixtureApi(HttpClientAdapter adapter) {
   // SyncTransformer: Dio's default decodes large JSON (the 170 KB generated
   // paper) on a background isolate, which a widget test's fake clock never
   // waits for -- the spinner would spin until pumpAndSettle times out.

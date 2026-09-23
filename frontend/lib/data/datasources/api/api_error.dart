@@ -16,6 +16,8 @@ library;
 
 import 'package:dio/dio.dart';
 
+final _valueError = RegExp(r'^Value error, ');
+
 const _signedOut = "You're signed out — sign in again";
 const _noAccess = "You don't have access to that";
 const _unreachable = "Couldn't reach the server — check your connection";
@@ -27,6 +29,9 @@ const _unreachable = "Couldn't reach the server — check your connection";
 ///    do, and the session interceptor is already sending them to Sign in.
 ///  * the server's `detail` when it is a non-empty string -- the backend
 ///    writes these to name the fix ("record it under Classes before grading").
+///  * `detail.message` when `detail` is an object: the 400/409 of
+///    generate-from-template, whose body carries the whole availability report
+///    beside the sentence ("no question in the bank fits this template").
 ///  * a FastAPI/Pydantic 422 list, summarised as `field: message` pairs.
 ///  * 403 with no detail: the account lacks access.
 ///  * no response at all (connection error, any timeout): the connection.
@@ -45,6 +50,8 @@ String serverErrorMessage(Object e) {
   final data = response?.data;
   final detail = data is Map ? data['detail'] : null;
   if (detail is String && detail.trim().isNotEmpty) return detail;
+  final message = detail is Map ? detail['message'] : null;
+  if (message is String && message.trim().isNotEmpty) return message;
   if (detail is List) {
     final summary = _validationSummary(detail);
     if (summary.isNotEmpty) return summary;
@@ -69,12 +76,16 @@ bool isRetryable(Object e) {
 /// `[{loc: [body, sections, 0, marks], msg: ...}, ...]` ->
 /// "sections.0.marks: ...; ...". The first `loc` element names where the
 /// field came from (body/query/path/header), which the user never sees.
+///
+/// Pydantic prefixes a model validator's own message with "Value error, ";
+/// the sentence after it is the one the backend wrote for the teacher
+/// ("sections add up to 22 marks but the total is 25"), so the prefix goes.
 String _validationSummary(List<dynamic> errors) {
   const origins = {'body', 'query', 'path', 'header', 'cookie'};
   final parts = <String>[];
   for (final error in errors) {
     if (error is! Map) continue;
-    final msg = '${error['msg'] ?? ''}'.trim();
+    final msg = '${error['msg'] ?? ''}'.trim().replaceFirst(_valueError, '');
     if (msg.isEmpty) continue;
     final loc = (error['loc'] is List ? error['loc'] as List : const [])
         .map((p) => '$p')

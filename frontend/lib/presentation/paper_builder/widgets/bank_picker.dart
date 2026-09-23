@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/datasources/api/api_error.dart';
 import '../../../data/datasources/api/paper_builder_api.dart';
 import '../paper_builder_controller.dart';
 
@@ -72,7 +73,7 @@ class _BankPickerState extends State<BankPicker> {
       setState(() => _items = items);
     } catch (e) {
       if (!mounted || ticket != _ticket) return;
-      setState(() => _error = apiErrorMessage(e));
+      setState(() => _error = serverErrorMessage(e));
     } finally {
       if (mounted && ticket == _ticket) setState(() => _loading = false);
     }

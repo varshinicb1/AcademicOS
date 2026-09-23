@@ -19,40 +19,15 @@ import 'package:dio/dio.dart';
 import '../../../domain/repositories/requests.dart' show GeneratedPaper;
 import 'pillar_api.dart' show ChapterEntry;
 
-/// What the server said, in words a teacher can act on.
-///
-/// FastAPI answers three shapes: `{"detail": "text"}`, `{"detail":
-/// {"message": ...}}` (the 400/409 of generate-from-template, which carry the
-/// availability report too), and a list of pydantic errors (`{"detail":
-/// [{"msg": "Value error, sections add up to 22 marks ..."}]}`). A bare
-/// `DioException.toString()` shows none of them -- it prints "bad response"
-/// and a status code, which is a dead end for a teacher.
-String apiErrorMessage(Object error) {
-  if (error is DioException) {
-    final data = error.response?.data;
-    final detail = data is Map ? data['detail'] : null;
-    if (detail is String && detail.trim().isNotEmpty) return detail;
-    if (detail is Map && detail['message'] is String) return detail['message'] as String;
-    if (detail is List && detail.isNotEmpty) {
-      return detail
-          .map((e) => e is Map ? '${e['msg'] ?? e}' : '$e')
-          .map((m) => m.replaceFirst(RegExp(r'^Value error, '), ''))
-          .join('; ');
-    }
-    switch (error.type) {
-      case DioExceptionType.connectionTimeout:
-      case DioExceptionType.sendTimeout:
-      case DioExceptionType.receiveTimeout:
-        return 'The server took too long to answer. Check your connection and try again.';
-      case DioExceptionType.connectionError:
-        return 'Could not reach the server. Check your connection and try again.';
-      default:
-        final code = error.response?.statusCode;
-        return code == null ? 'The request failed. Try again.' : 'The server answered $code. Try again.';
-    }
-  }
-  return '$error';
-}
+// Every failure this client raises is turned into a sentence by the shared
+// serverErrorMessage (api_error.dart), which the builder's screens import.
+// This file used to carry a mapper of its own; it had no 401, 403 or 404
+// branch, so a teacher whose session expired inside the builder was told
+// "The server answered 401. Try again." (re-audit of 2026-09-23). The two
+// FastAPI shapes it did read and the shared one did not -- a `detail` object
+// carrying `message` (the 400/409 of generate-from-template, with its
+// availability report) and pydantic's "Value error, " prefix -- moved into
+// serverErrorMessage rather than being kept here twice.
 
 List<Map<String, dynamic>> _maps(Object? v) =>
     ((v ?? const []) as List).map((e) => Map<String, dynamic>.from(e as Map)).toList();

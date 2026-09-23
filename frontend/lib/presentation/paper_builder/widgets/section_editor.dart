@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/datasources/api/api_error.dart';
 import '../../../data/datasources/api/paper_builder_api.dart';
 import '../paper_builder_controller.dart';
 
@@ -126,7 +127,7 @@ class _SectionEditorState extends State<SectionEditor> {
       await widget.c.saveTemplate(_draft, asNew: asNew, ownerId: widget.c.memory.userId);
       if (mounted) Navigator.of(context).pop();
     } catch (e) {
-      if (mounted) setState(() => _error = apiErrorMessage(e));
+      if (mounted) setState(() => _error = serverErrorMessage(e));
     } finally {
       if (mounted) setState(() => _saving = false);
     }

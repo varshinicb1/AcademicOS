@@ -23,6 +23,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:academicos/core/local_engine/local_store.dart';
+import 'package:academicos/data/datasources/api/api_error.dart';
 import 'package:academicos/data/datasources/api/paper_builder_api.dart';
 import 'package:academicos/presentation/paper_builder/builder_memory.dart';
 import 'package:academicos/presentation/paper_builder/pages/paper_builder_page.dart';
@@ -424,9 +425,9 @@ void main() {
 
   group('the API layer reads the real responses', () {
     test('server errors become sentences: pydantic 422, the 400 with its report', () {
-      expect(apiErrorMessage(dioError(fixtureJson('create_template_mismatch'), 422)),
+      expect(serverErrorMessage(dioError(fixtureJson('create_template_mismatch'), 422)),
           'sections add up to 22 marks but the total is 25 (Section A 10x1=10, Section B 4x3=12)');
-      expect(apiErrorMessage(dioError(fixtureJson('generate_7_maths_refused'), 400)),
+      expect(serverErrorMessage(dioError(fixtureJson('generate_7_maths_refused'), 400)),
           'no question in the bank fits this template');
     });
 

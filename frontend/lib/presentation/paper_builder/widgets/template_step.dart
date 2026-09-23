@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/datasources/api/api_error.dart';
 import '../../../data/datasources/api/paper_builder_api.dart';
 import '../paper_builder_controller.dart';
 import 'class_subject_step.dart';
@@ -173,7 +174,7 @@ class TemplateCard extends StatelessWidget {
                   } catch (e) {
                     if (!context.mounted) return;
                     ScaffoldMessenger.of(context)
-                        .showSnackBar(SnackBar(content: Text('Could not duplicate: ${apiErrorMessage(e)}')));
+                        .showSnackBar(SnackBar(content: Text('Could not duplicate: ${serverErrorMessage(e)}')));
                   }
                 },
                 style: TextButton.styleFrom(minimumSize: const Size(56, 44)),
