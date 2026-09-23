@@ -25,7 +25,8 @@
         "approvedBy": "user_1",
         "approvedAt": "2026-09-23T00:00:00+00:00",
         "modelUsed": null,
-        "generationVersion": "template:school_1-approved"
+        "generationVersion": "template:school_1-approved",
+        "taggedQuestionCount": 0
       },
       {
         "id": "subtopic_2",
@@ -39,7 +40,8 @@
         "approvedBy": "user_1",
         "approvedAt": "2026-09-23T00:00:00+00:00",
         "modelUsed": null,
-        "generationVersion": "template:school_1-approved"
+        "generationVersion": "template:school_1-approved",
+        "taggedQuestionCount": 0
       },
       {
         "id": "subtopic_3",
@@ -53,7 +55,8 @@
         "approvedBy": "user_1",
         "approvedAt": "2026-09-23T00:00:00+00:00",
         "modelUsed": null,
-        "generationVersion": "template:school_1-approved"
+        "generationVersion": "template:school_1-approved",
+        "taggedQuestionCount": 0
       }
     ]
   },
@@ -83,7 +86,8 @@
         "approvedBy": "user_1",
         "approvedAt": "2026-09-23T00:00:00+00:00",
         "modelUsed": null,
-        "generationVersion": "template:school_1-approved"
+        "generationVersion": "template:school_1-approved",
+        "taggedQuestionCount": 0
       },
       {
         "id": "subtopic_5",
@@ -97,7 +101,8 @@
         "approvedBy": "user_1",
         "approvedAt": "2026-09-23T00:00:00+00:00",
         "modelUsed": null,
-        "generationVersion": "template:school_1-approved"
+        "generationVersion": "template:school_1-approved",
+        "taggedQuestionCount": 0
       },
       {
         "id": "subtopic_6",
@@ -111,7 +116,8 @@
         "approvedBy": "user_1",
         "approvedAt": "2026-09-23T00:00:00+00:00",
         "modelUsed": null,
-        "generationVersion": "template:school_1-approved"
+        "generationVersion": "template:school_1-approved",
+        "taggedQuestionCount": 0
       }
     ]
   },
@@ -141,7 +147,8 @@
         "approvedBy": "user_1",
         "approvedAt": "2026-09-23T00:00:00+00:00",
         "modelUsed": null,
-        "generationVersion": "template:school_1-approved"
+        "generationVersion": "template:school_1-approved",
+        "taggedQuestionCount": 0
       },
       {
         "id": "subtopic_8",
@@ -155,7 +162,8 @@
         "approvedBy": "user_1",
         "approvedAt": "2026-09-23T00:00:00+00:00",
         "modelUsed": null,
-        "generationVersion": "template:school_1-approved"
+        "generationVersion": "template:school_1-approved",
+        "taggedQuestionCount": 0
       },
       {
         "id": "subtopic_9",
@@ -169,7 +177,8 @@
         "approvedBy": "user_1",
         "approvedAt": "2026-09-23T00:00:00+00:00",
         "modelUsed": null,
-        "generationVersion": "template:school_1-approved"
+        "generationVersion": "template:school_1-approved",
+        "taggedQuestionCount": 0
       }
     ]
   }

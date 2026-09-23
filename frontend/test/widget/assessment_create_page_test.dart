@@ -80,6 +80,22 @@ List<Map<String, dynamic>> _fixtureTopics() =>
             as List)
         .cast<Map<String, dynamic>>();
 
+/// The same captured payload with every subtopic's tagged-question count
+/// replaced, so a test can render the state the feature is meant to reach
+/// (questions actually tagged) as well as the one real data is in today.
+List<Map<String, dynamic>> _withTaggedCounts(
+        List<Map<String, dynamic>> topics, int count) =>
+    [
+      for (final topic in topics)
+        {
+          ...topic,
+          'subtopics': [
+            for (final sub in (topic['subtopics'] as List).cast<Map<String, dynamic>>())
+              {...sub, 'taggedQuestionCount': count},
+          ],
+        },
+    ];
+
 /// The same captured payload with every subtopic name prefixed, so a test can
 /// tell which of two responses the picker is actually rendering.
 List<Map<String, dynamic>> _prefixSubtopicNames(
@@ -297,7 +313,13 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Filter by subtopic (optional)'), findsNothing);
     });
-  });
+    // Two of these three assert the collapsed header is PRESENT, which is
+    // only true when the picker exists at all. The offline build drops it
+    // (_buildSubtopicFilter returns nothing), so the whole group is about a
+    // widget that is not in that tree -- same reason the expanded group
+    // below skips. What the offline build must do instead is asserted by
+    // 'the offline build hides the subtopic filter and calls nothing'.
+  }, skip: _offlineBuild ? 'the picker does not exist in the offline build' : null);
 
   // The regression this file's newest group exists for: the picker held a
   // SYLLABUS slug ("chemical-reactions-equations") and called the route that
@@ -480,6 +502,54 @@ void main() {
           reason: 'the picker must show what the server said about Grade 12');
       expect(find.text(firstSubtopic), findsNothing,
           reason: 'Grade 10\'s subtopics must not be offered for a Grade 12 chapter');
+    });
+
+    // Task 115's required behaviour 4 ("selecting subtopics actually narrows
+    // question search") is NOT met on real data and this pair of tests is
+    // what stops that being silent. The picker now finds real subtopics, but
+    // question_subtopic_links has 0 rows in every real school
+    // (academicos-data/curriculum/curriculum.sqlite: 417 subtopics, 0 links,
+    // measured 2026-09-23), and POST /questions/search intersects on exactly
+    // that table -- so ticking a subtopic took a real Class 10 Science
+    // chapter from 102 questions to 0 with nothing on screen to explain it.
+    // The captured payload carries taggedQuestionCount 0 throughout, which is
+    // the true state, so the warning below is asserted against real data.
+    testWidgets('warns that ticking a subtopic would empty the paper while '
+        'nothing is tagged', (tester) async {
+      await expandPicker(tester);
+
+      final captured = [
+        for (final t in _fixtureTopics())
+          for (final s in (t['subtopics'] as List).cast<Map<String, dynamic>>())
+            s['taggedQuestionCount'],
+      ];
+      expect(captured, isNotEmpty);
+      expect(captured, everyElement(0),
+          reason: 'this test only means something while the real route really '
+              'reports nothing tagged; if tagging ships, re-capture the fixture');
+
+      expect(find.textContaining('No questions are tagged to these subtopics yet'),
+          findsOneWidget);
+      expect(find.textContaining('produces an empty paper'), findsOneWidget,
+          reason: 'the consequence is what a teacher acts on, not the bare fact');
+      expect(find.textContaining('no questions tagged yet'), findsWidgets,
+          reason: 'each subtopic carries its own count, so a partly-tagged '
+              'chapter is readable row by row and not just in aggregate');
+    });
+
+    testWidgets('shows each subtopic\'s real tagged-question count once there is one',
+        (tester) async {
+      final chapter = CorpusRepository.instance.chapters('Science', 10).first;
+      backend.topicsByPath[
+              '/curriculum/chapters/by-slug/Science/10/${chapter.chapterId}/topics'] =
+          _withTaggedCounts(_fixtureTopics(), 7);
+
+      await expandPicker(tester);
+
+      expect(find.textContaining('7 questions tagged'), findsWidgets);
+      expect(find.textContaining('No questions are tagged to these subtopics yet'),
+          findsNothing,
+          reason: 'the warning is about an empty result, not about the picker');
     });
 
     testWidgets('a class the school has not set up shows the server\'s instruction, '

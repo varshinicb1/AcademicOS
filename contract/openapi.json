@@ -6637,6 +6637,17 @@
             "title": "Sourcetype",
             "type": "string"
           },
+          "taggedQuestionCount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Taggedquestioncount"
+          },
           "topicId": {
             "title": "Topicid",
             "type": "string"

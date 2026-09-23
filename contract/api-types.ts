@@ -319,7 +319,14 @@ export interface paths {
         };
         /** Get Calendar */
         get: operations["get_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_get"];
-        put?: never;
+        /**
+         * Update Calendar
+         * @description Corrects this year's weekly offs / Saturday rule. Working days are
+         *     computed on read, so /working-days follows at once; lessons already
+         *     scheduled keep their dates until the principal re-schedules or pushes
+         *     them -- a calendar edit never silently moves a teacher's plan.
+         */
+        put: operations["update_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_put"];
         /** Create Calendar */
         post: operations["create_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_post"];
         delete?: never;
@@ -358,6 +365,27 @@ export interface paths {
         /** Add Holiday */
         post: operations["add_holiday_api_v1_curriculum_academic_years__academic_year_id__holidays_post"];
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/holidays/{holiday_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Delete Holiday
+         * @description Removes a holiday entered by mistake, so the day teaches again --
+         *     without it a typo'd date took a teaching day away for the whole year.
+         */
+        delete: operations["delete_holiday_api_v1_curriculum_academic_years__academic_year_id__holidays__holiday_id__delete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -406,6 +434,24 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/terms": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Terms */
+        get: operations["list_terms_api_v1_curriculum_academic_years__academic_year_id__terms_get"];
+        put?: never;
+        /** Create Term */
+        post: operations["create_term_api_v1_curriculum_academic_years__academic_year_id__terms_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots": {
         parameters: {
             query?: never;
@@ -421,7 +467,7 @@ export interface paths {
          * @description Persists one real weekday+period a subject meets -- once any slots
          *     exist for a subject/year, scheduling.py's schedule_book() uses exactly
          *     those real weekdays instead of its "first N working days of the week"
-         *     fallback heuristic (see _subject_teaching_days's docstring).
+         *     fallback heuristic (see calendar.subject_teaching_slots's docstring).
          */
         post: operations["add_timetable_slot_api_v1_curriculum_academic_years__academic_year_id__timetable_slots_post"];
         delete?: never;
@@ -506,7 +552,14 @@ export interface paths {
          *     documented weekday-assignment simplification. Requires
          *     compute_teaching_time_estimates() to have already run for this
          *     (book, academic_year); a Subtopic without a real estimate is skipped
-         *     and reported, never given a guessed period count.
+         *     and reported, never given a guessed period count. `allSubtopicsScheduled`
+         *     is false, with a `warning` sentence, whenever any subtopic ends up
+         *     without its full dated periods. `force` keeps completed/skipped lessons,
+         *     and every lesson dated before today (taught or overdue), and replans
+         *     only what is still to be taught. New lessons are placed from
+         *     the school's today (or the year's first day, if later): a day that has
+         *     passed cannot be taught on, and the shortfall warning counts only the
+         *     periods left.
          */
         post: operations["schedule_book_api_v1_curriculum_books__book_id__schedule_post"];
         delete?: never;
@@ -526,10 +579,12 @@ export interface paths {
         put?: never;
         /**
          * Push Schedule
-         * @description PUSH: real disruption handling -- shifts every lesson on/after
-         *     `from_date` one real teaching slot later. See scheduling.py's
-         *     push_lessons_after() docstring for the full method, including why
-         *     `periods_per_week` must be supplied again.
+         * @description PUSH: real disruption handling -- shifts every still-to-teach lesson
+         *     on/after `from_date` one real teaching slot later; completed/skipped
+         *     lessons keep their dates. With a timetable, the timetable decides the
+         *     days and `periodsPerWeek` is not needed; without one it is optional and
+         *     defaults to the subject's stored allocation (422 if neither exists). See
+         *     scheduling.py's push_lessons_after() docstring for the full method.
          */
         post: operations["push_schedule_api_v1_curriculum_books__book_id__schedule_push_post"];
         delete?: never;
@@ -607,6 +662,59 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/chapters/by-slug/{subject}/{grade}/{slug}/topics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Topics For Syllabus Chapter
+         * @description The same approved Topics/Subtopics, reached by the SYLLABUS chapter
+         *     slug the Assessment Designer actually holds.
+         *
+         *     Three id spaces name one Class 10 Science chapter, and nothing joined
+         *     them until 2026-09-23:
+         *
+         *     * `chemical-reactions-equations` -- the syllabus id from
+         *       academicos-data/syllabus/Science_10.json, which
+         *       `GET /api/v1/catalog/{subject}/{grade}/chapters` returns and
+         *       assessment_create_page.dart stores as its chapter id;
+         *     * `chap_<uuid>` -- this school's own Chapter row, what the route above
+         *       takes;
+         *     * `science-10/chemical-reactions-and-equations` -- the question bank's
+         *       board-level `taxonomyChapterId`, with `topicIds`/`subtopicIds` under
+         *       it, which no route accepts as input.
+         *
+         *     The picker sent the first to the route that wants the second. Before
+         *     Task 101 that answered `200 []`, after it 404; either way the page
+         *     caught it and showed an empty picker, so PRD section 21's subtopic
+         *     filter had never once found a subtopic.
+         *
+         *     This joins on the STORED mapping: seed_cbse10.py writes each chapter's
+         *     canonical_id as `{book_id}:chapter:{syllabus slug}`, so the catalog's
+         *     slug is recorded on the school's own row at seed time -- a rename
+         *     cannot break it, and no title matching is guessed at read time. The
+         *     bank's taxonomy ids are deliberately NOT the join: they are
+         *     school-independent, so they could not resolve to a school's approved
+         *     subtopics at all, and only 109 of the 476 Class 10 Science questions in
+         *     the live bank carry any `subtopicIds` (measured 2026-09-23).
+         *
+         *     Resolved inside the caller's own school and its chosen edition only, so
+         *     the same official slug gives each school its own rows. A class the
+         *     school has not set up is a 404 whose message says what to do, never an
+         *     empty list that looks like "no subtopics exist".
+         */
+        get: operations["list_topics_for_syllabus_chapter_api_v1_curriculum_chapters_by_slug__subject___grade___slug__topics_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/chapters/{chapter_id}/extract": {
         parameters: {
             query?: never;
@@ -624,6 +732,29 @@ export interface paths {
          *     otherwise rather than fabricating a breakdown offline.
          */
         post: operations["extract_chapter_api_v1_curriculum_chapters__chapter_id__extract_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/chapters/{chapter_id}/proposed-topics": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Proposed Topics
+         * @description Every still-unapproved decomposition proposal for one chapter, so the web
+         *     admin can show "3 topics proposed from the NCERT headings -- approve?" next
+         *     to a chapter instead of the principal having to already know a run id.
+         *     Read-only, and school-scoped like every other chapter read here.
+         */
+        get: operations["list_proposed_topics_api_v1_curriculum_chapters__chapter_id__proposed_topics_get"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -690,6 +821,10 @@ export interface paths {
          * List Topics
          * @description The real, approved curriculum for a chapter -- what the question-
          *     paper subtopic picker (§ end-to-end acceptance criteria) reads.
+         *
+         *     Keyed by the school's own `chap_` id, which only a curriculum screen
+         *     has. The picker in assessment_create_page.dart holds a SYLLABUS slug
+         *     instead and uses by-slug/... below.
          */
         get: operations["list_topics_api_v1_curriculum_chapters__chapter_id__topics_get"];
         put?: never;
@@ -699,6 +834,34 @@ export interface paths {
          *     directly, no LLM/run involved (source_type="manual").
          */
         post: operations["add_manual_topic_api_v1_curriculum_chapters__chapter_id__topics_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Approve Chapter Templates
+         * @description "Approve all for this chapter": materializes the chapter's pending
+         *     TEMPLATE proposals in one action. A fresh Class 10 seed proposes topics for
+         *     46 chapters; approving those one proposal at a time is the difference
+         *     between a school finishing setup and giving up on it.
+         *
+         *     Template runs only -- an LLM run's proposals are a draft nobody has read and
+         *     still go through POST /extraction-runs/{id}/approve, which is where an admin
+         *     edits and rejects individually. Re-running is safe: a run already approved
+         *     is not approved again, so nothing is duplicated.
+         */
+        post: operations["approve_chapter_templates_api_v1_curriculum_chapters__chapter_id__topics_approve_all_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -835,6 +998,12 @@ export interface paths {
          *     lessons (up to today) have actually been marked completed vs skipped
          *     vs still just scheduled -- computed from the same real ScheduledLesson
          *     rows the teacher/principal views use, never a separate estimate.
+         *
+         *     An 'unscheduled' lesson (a PUSH found it no period before the year
+         *     ends) is counted in `unscheduledCount` and in `totalCount` whatever its
+         *     stale date: it is still owed, and it has no day to be "up to today" by.
+         *     Until the review of 2026-09-22 one dated on or before today was in the
+         *     total and in none of the parts, so the counts did not add up.
          */
         get: operations["get_my_progress_api_v1_curriculum_my_progress_get"];
         put?: never;
@@ -921,7 +1090,10 @@ export interface paths {
         /**
          * Get Delayed Topics
          * @description All scheduled lessons past due (date < as_of_date) still in
-         *     'scheduled' status, with days overdue (§17, §32).
+         *     'scheduled' status, with days overdue (§17, §32), plus every lesson a
+         *     PUSH left 'unscheduled' (no day before the year ends -- the worst
+         *     delay, which this report left out until the review of 2026-09-22).
+         *     `as_of_date` defaults to the school's today (IST).
          */
         get: operations["get_delayed_topics_api_v1_curriculum_reporting_delayed_topics_get"];
         put?: never;
@@ -991,7 +1163,8 @@ export interface paths {
         };
         /**
          * Get Lesson History
-         * @description Every real PUSH/ADJUST ever applied to this lesson -- readable by
+         * @description Every real PUSH/ADJUST ever applied to this lesson (newDate is null
+         *     where a PUSH left it 'unscheduled') -- readable by
          *     the assigned teacher or a same-school principal, same posture as
          *     marking completion.
          */
@@ -1016,8 +1189,48 @@ export interface paths {
         /**
          * Adjust Lesson
          * @description ADJUST: move exactly one lesson to a specific new real working day.
+         *     409 when that day already holds as many of this book's lessons as the
+         *     subject has periods then (scheduling.RescheduleClash), or when the
+         *     lesson is already completed/skipped (scheduling.LessonAlreadyRecorded
+         *     -- its date is the teaching record); 422 for a day that isn't a
+         *     working day at all.
          */
         post: operations["adjust_lesson_api_v1_curriculum_scheduled_lessons__lesson_id__reschedule_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/seed/cbse": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Seed Cbse Any Grade
+         * @description Seeds any grade 6-12 for the caller's own school -- PRD section 0
+         *     decision 4 ("all grades 6-12, all subjects"), which until 2026-09-22 the
+         *     product could not reach: `seed_cbse_all_grades` existed in seed_cbse10.py
+         *     wired to no route and no CLI command, and `POST /seed/cbse9` was a 404 even
+         *     though academicos-data/syllabus/ has held every grade's file all along.
+         *
+         *     Same posture as /seed/cbse10, which now delegates here: principal-gated,
+         *     school_id taken from the session and never from the body, idempotent on a
+         *     re-run. A subject with no syllabus file for the grade is reported in
+         *     `subjectsSkipped` rather than quietly dropped.
+         *
+         *     Also applies the committed decomposition templates
+         *     (decomposition_templates.py) to the chapters it creates, as proposals
+         *     PENDING this principal's approval -- so a new school can reach Topic and
+         *     Subtopic without an LLM key, without anything being approved on its behalf.
+         *     `topicTemplates` reports per subject what got topics and what did not.
+         */
+        post: operations["seed_cbse_any_grade_api_v1_curriculum_seed_cbse_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1087,6 +1300,41 @@ export interface paths {
         /** List Books */
         get: operations["list_books_api_v1_curriculum_subjects__subject_id__books_get"];
         put?: never;
+        /**
+         * Add Book
+         * @description Adds an edition the school may choose. Adding is not choosing: the
+         *     subject keeps its current edition until PUT .../selected-book.
+         */
+        post: operations["add_book_api_v1_curriculum_subjects__subject_id__books_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/subjects/{subject_id}/selected-book": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Selected Book
+         * @description The subject's edition for its year: the book every screen schedules,
+         *     assigns and reorders against, instead of whichever book came first.
+         */
+        get: operations["get_selected_book_api_v1_curriculum_subjects__subject_id__selected_book_get"];
+        /**
+         * Select Book
+         * @description Chooses the subject's edition for its year, replacing any earlier
+         *     choice. Lessons already scheduled from any other edition are not
+         *     re-pointed (they were placed from its chapters) and not removed --
+         *     scheduling the new book does not remove them either (it replaces only
+         *     that book's own lessons) -- and teachers assigned to another edition
+         *     stay on it; so the response counts both, per book, and says so.
+         */
+        put: operations["select_book_api_v1_curriculum_subjects__subject_id__selected_book_put"];
         post?: never;
         delete?: never;
         options?: never;
@@ -1165,6 +1413,47 @@ export interface paths {
          */
         post: operations["assign_teacher_api_v1_curriculum_teacher_assignments_post"];
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/terms/current": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Current Term
+         * @description The caller's school's term containing `date` (default: the school's
+         *     today, IST). 404 when no term covers it -- never the nearest term,
+         *     because a coverage or time-saved figure for the wrong term is worse than
+         *     an honest "no term declared for this date".
+         */
+        get: operations["current_term_api_v1_curriculum_terms_current_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/terms/{term_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update Term */
+        put: operations["update_term_api_v1_curriculum_terms__term_id__put"];
+        post?: never;
+        /** Delete Term */
+        delete: operations["delete_term_api_v1_curriculum_terms__term_id__delete"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1542,6 +1831,35 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/paper-timing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Paper Timing
+         * @description Time saved per paper — the renewal criterion, made answerable.
+         *
+         *     Decision 11: *"Renewal is measured as time saved per paper."* Before this
+         *     route the number existed nowhere, so the criterion could not be checked.
+         *
+         *     Scoped to the caller's school. The response separates what was MEASURED
+         *     (generation time, from a monotonic clock) from what was DECLARED (the manual
+         *     baseline), and says so in the payload rather than only in the docs --
+         *     because a saving built on a declared baseline will be quoted at somebody,
+         *     and the word "estimated" has to travel with it.
+         */
+        get: operations["get_paper_timing_api_v1_paper_timing_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/papers/generate": {
         parameters: {
             query?: never;
@@ -1568,10 +1886,7 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /**
-         * Generate From Ids
-         * @description Instantly compile selected question IDs into a structured sectioned paper (Examzo-style ID compilation).
-         */
+        /** Generate From Ids */
         post: operations["generate_from_ids_api_v1_papers_generate_from_ids_post"];
         delete?: never;
         options?: never;
@@ -2412,6 +2727,15 @@ export interface components {
             /** Status */
             status: string;
         };
+        /** AddBookRequest */
+        AddBookRequest: {
+            /** Boardid */
+            boardId: string;
+            /** Publisher */
+            publisher?: string | null;
+            /** Title */
+            title: string;
+        };
         /** AddHolidayRequest */
         AddHolidayRequest: {
             /** Date */
@@ -2541,6 +2865,25 @@ export interface components {
             sourcePaperCode: string;
             /** Totalmarks */
             totalMarks: number;
+        };
+        /**
+         * ApproveChapterTopicsResponse
+         * @description Result of "Approve all for this chapter" -- possibly several runs, since
+         *     a chapter can carry one template run per provenance.
+         */
+        ApproveChapterTopicsResponse: {
+            /** Chapterid */
+            chapterId: string;
+            /** Runsapproved */
+            runsApproved: number;
+            /** Subtopicids */
+            subtopicIds: string[];
+            /** Subtopicscreated */
+            subtopicsCreated: number;
+            /** Topicids */
+            topicIds: string[];
+            /** Topicscreated */
+            topicsCreated: number;
         };
         /** ApproveRunRequest */
         ApproveRunRequest: {
@@ -2747,6 +3090,11 @@ export interface components {
             id: string;
             /** Publisher */
             publisher?: string | null;
+            /**
+             * Selected
+             * @default false
+             */
+            selected: boolean;
             /** Status */
             status: string;
             /** Subjectid */
@@ -2943,6 +3291,11 @@ export interface components {
         ComputeTeachingTimeRequest: {
             /** Periodsperweek */
             periodsPerWeek?: number | null;
+            /**
+             * Recompute
+             * @default false
+             */
+            recompute: boolean;
         };
         /** ComputeTeachingTimeResponse */
         ComputeTeachingTimeResponse: {
@@ -2954,10 +3307,25 @@ export interface components {
             calendarWeeks: number;
             /** Estimatescreated */
             estimatesCreated: number;
+            /**
+             * Fitsinyear
+             * @default true
+             */
+            fitsInYear: boolean;
             /** Periodminutes */
             periodMinutes: number;
+            /**
+             * Periodsallocated
+             * @default 0
+             */
+            periodsAllocated: number;
             /** Periodsperweek */
             periodsPerWeek: number;
+            /**
+             * Periodsshort
+             * @default 0
+             */
+            periodsShort: number;
             /** Totalinstructionalminutes */
             totalInstructionalMinutes: number;
             /** Totalsubjectperiods */
@@ -3056,7 +3424,14 @@ export interface components {
             /** Title */
             title: string;
         };
-        /** CreateCalendarRequest */
+        /**
+         * CreateCalendarRequest
+         * @description Body of both POST (create) and PUT (correct) .../calendar. The routes
+         *     validate the values (calendar.normalize_weekly_off_days /
+         *     normalize_alternate_saturday_rule) and answer 422 naming what is
+         *     accepted -- plain `str` here so that message, not pydantic's, is what
+         *     the web admin shows.
+         */
         CreateCalendarRequest: {
             /**
              * Alternatesaturdayrule
@@ -3077,12 +3452,27 @@ export interface components {
         };
         /** DelayedLessonResponse */
         DelayedLessonResponse: {
+            /**
+             * Bookid
+             * @default
+             */
+            bookId: string;
+            /**
+             * Booktitle
+             * @default
+             */
+            bookTitle: string;
             /** Chaptername */
             chapterName: string;
             /** Daysoverdue */
             daysOverdue: number;
             /** Gradenumber */
             gradeNumber: number;
+            /**
+             * Ischosenedition
+             * @default true
+             */
+            isChosenEdition: boolean;
             /** Lessonid */
             lessonId: string;
             /** Scheduleddate */
@@ -3110,6 +3500,16 @@ export interface components {
             delayedLessons: components["schemas"]["DelayedLessonResponse"][];
             /** Schoolid */
             schoolId: string;
+            /**
+             * Unscheduledcount
+             * @default 0
+             */
+            unscheduledCount: number;
+            /**
+             * Unscheduledlessons
+             * @default []
+             */
+            unscheduledLessons: components["schemas"]["UnscheduledLessonResponse"][];
         };
         /** DifficultyDistribution */
         DifficultyDistribution: {
@@ -3544,6 +3944,27 @@ export interface components {
             /** Node Id */
             node_id: string;
         };
+        /**
+         * OtherEditionResponse
+         * @description A book of the subject that is not its edition, with what still
+         *     points at it: this year's scheduled lessons and teacher assignments.
+         */
+        OtherEditionResponse: {
+            /** Bookid */
+            bookId: string;
+            /**
+             * Scheduledlessons
+             * @default 0
+             */
+            scheduledLessons: number;
+            /**
+             * Teacherassignments
+             * @default 0
+             */
+            teacherAssignments: number;
+            /** Title */
+            title: string;
+        };
         /** PaperGenerationRequest */
         PaperGenerationRequest: {
             /** Assessmentid */
@@ -3812,7 +4233,7 @@ export interface components {
             /** Fromdate */
             fromDate: string;
             /** Periodsperweek */
-            periodsPerWeek: number;
+            periodsPerWeek?: number | null;
             /** Reason */
             reason: string;
         };
@@ -4201,7 +4622,7 @@ export interface components {
             /** Mode */
             mode: string;
             /** Newdate */
-            newDate: string;
+            newDate?: string | null;
             /** Olddate */
             oldDate: string;
             /** Reason */
@@ -4378,6 +4799,11 @@ export interface components {
         ScheduleBookResponse: {
             /** Academicyearid */
             academicYearId: string;
+            /**
+             * Allsubtopicsscheduled
+             * @default true
+             */
+            allSubtopicsScheduled: boolean;
             /** Bookid */
             bookId: string;
             /** Firstscheduleddate */
@@ -4386,6 +4812,16 @@ export interface components {
             lastScheduledDate?: string | null;
             /** Lessonscreated */
             lessonsCreated: number;
+            /**
+             * Lessonskept
+             * @default 0
+             */
+            lessonsKept: number;
+            /**
+             * Pastlessonskept
+             * @default 0
+             */
+            pastLessonsKept: number;
             /** Periodsperweek */
             periodsPerWeek: number;
             /** Subtopicspartiallyscheduled */
@@ -4398,6 +4834,13 @@ export interface components {
             subtopicsWithoutEstimate: string[];
             /** Teachingdaysavailable */
             teachingDaysAvailable: number;
+            /**
+             * Teachingperiodsavailable
+             * @default 0
+             */
+            teachingPeriodsAvailable: number;
+            /** Warning */
+            warning?: string | null;
         };
         /** ScheduledLessonResponse */
         ScheduledLessonResponse: {
@@ -4580,7 +5023,14 @@ export interface components {
             /** Startdate */
             startDate: string;
         };
-        /** SeedCbse10Response */
+        /**
+         * SeedCbse10Response
+         * @description Also the response of the any-grade route. The topic-template fields were
+         *     added 2026-09-22 (new fields only -- an older client keeps working): a seed
+         *     that stops at chapters and a seed that reached Topic/Subtopic used to be
+         *     indistinguishable in this body, and on a fresh school it was always the
+         *     former.
+         */
         SeedCbse10Response: {
             /** Academicyearid */
             academicYearId: string;
@@ -4588,14 +5038,88 @@ export interface components {
             boardId: string;
             /** Chaptersseeded */
             chaptersSeeded: number;
+            /**
+             * Chapterswithtopics
+             * @default 0
+             */
+            chaptersWithTopics: number;
+            /**
+             * Chapterswithouttopics
+             * @default 0
+             */
+            chaptersWithoutTopics: number;
+            /** Grade */
+            grade: number;
             /** Gradeid */
             gradeId: string;
             /** Subjectsseeded */
             subjectsSeeded: number;
             /** Subjectsskipped */
             subjectsSkipped: string[];
+            /**
+             * Subtopicsproposed
+             * @default 0
+             */
+            subtopicsProposed: number;
+            /** Topictemplates */
+            topicTemplates?: components["schemas"]["SubjectTemplateReportResponse"][];
+            /**
+             * Topicsproposed
+             * @default 0
+             */
+            topicsProposed: number;
             /** Unitsseeded */
             unitsSeeded: number;
+        };
+        /**
+         * SeedGradeRequest
+         * @description PRD section 0 decision 4 is all grades 6-12. The bound is pydantic's so
+         *     the answer to grade 5 or 13 is a 422 naming the range, before any row is
+         *     created -- there is no syllabus data outside it (seed_cbse10.MIN_GRADE /
+         *     MAX_GRADE, which raises the same bound for the CLI and library callers).
+         */
+        SeedGradeRequest: {
+            /** Academicyearlabel */
+            academicYearLabel: string;
+            /** Enddate */
+            endDate: string;
+            /** Grade */
+            grade: number;
+            /** Startdate */
+            startDate: string;
+        };
+        /** SelectBookRequest */
+        SelectBookRequest: {
+            /** Bookid */
+            bookId: string;
+        };
+        /** SelectBookResponse */
+        SelectBookResponse: {
+            book: components["schemas"]["BookResponse"];
+            /**
+             * Othereditions
+             * @default []
+             */
+            otherEditions: components["schemas"]["OtherEditionResponse"][];
+            /**
+             * Othereditionsscheduledlessons
+             * @default 0
+             */
+            otherEditionsScheduledLessons: number;
+            /**
+             * Othereditionsteacherassignments
+             * @default 0
+             */
+            otherEditionsTeacherAssignments: number;
+            /** Previousbookid */
+            previousBookId?: string | null;
+            /**
+             * Previousbookscheduledlessons
+             * @default 0
+             */
+            previousBookScheduledLessons: number;
+            /** Warning */
+            warning?: string | null;
         };
         /** SendPaperRequest */
         SendPaperRequest: {
@@ -4828,6 +5352,11 @@ export interface components {
             subjectName: string;
             /** Totalcount */
             totalCount: number;
+            /**
+             * Unscheduledcount
+             * @default 0
+             */
+            unscheduledCount: number;
         };
         /** SubjectResponse */
         SubjectResponse: {
@@ -4855,6 +5384,31 @@ export interface components {
             /** Weakestconcept */
             weakestConcept?: string | null;
         };
+        /**
+         * SubjectTemplateReportResponse
+         * @description How far below chapter level the seed got for one subject, and why it
+         *     stopped where it did. `note` is the honest half: "Class 7 Science is
+         *     chapter-only because the only textbook tree is the 2024-25 NEP edition and
+         *     the syllabus JSON still lists the previous edition's chapter names".
+         */
+        SubjectTemplateReportResponse: {
+            /** Chapters */
+            chapters: number;
+            /** Chapterswithtopics */
+            chaptersWithTopics: number;
+            /** Chapterswithouttopics */
+            chaptersWithoutTopics: number;
+            /** Note */
+            note?: string | null;
+            /** Provenance */
+            provenance: string[];
+            /** Subject */
+            subject: string;
+            /** Subtopicsproposed */
+            subtopicsProposed: number;
+            /** Topicsproposed */
+            topicsProposed: number;
+        };
         /** SubtopicResponse */
         SubtopicResponse: {
             /** Approvedat */
@@ -4879,6 +5433,8 @@ export interface components {
             sourceReference?: string | null;
             /** Sourcetype */
             sourceType: string;
+            /** Taggedquestioncount */
+            taggedQuestionCount?: number | null;
             /** Topicid */
             topicId: string;
         };
@@ -4966,6 +5522,34 @@ export interface components {
             /** Sections */
             sections?: components["schemas"]["SectionBlueprint"][];
             template: components["schemas"]["SchoolTemplate"];
+        };
+        /**
+         * TermRequest
+         * @description Create and update take the whole term: a term is three fields, and a
+         *     full replace keeps the overlap check about one complete range.
+         */
+        TermRequest: {
+            /** Enddate */
+            endDate: string;
+            /** Name */
+            name: string;
+            /** Startdate */
+            startDate: string;
+        };
+        /** TermResponse */
+        TermResponse: {
+            /** Academicyearid */
+            academicYearId: string;
+            /** Enddate */
+            endDate: string;
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Schoolid */
+            schoolId: string;
+            /** Startdate */
+            startDate: string;
         };
         /** TimetableResponse */
         TimetableResponse: {
@@ -5078,6 +5662,47 @@ export interface components {
             seq: number;
             /** Unitno */
             unitNo: string;
+        };
+        /**
+         * UnscheduledLessonResponse
+         * @description A lesson a PUSH found no period for before the year ends. It has no
+         *     day, so no days-overdue figure; lastPlannedDate is the day it held
+         *     before it was dropped.
+         */
+        UnscheduledLessonResponse: {
+            /**
+             * Bookid
+             * @default
+             */
+            bookId: string;
+            /**
+             * Booktitle
+             * @default
+             */
+            bookTitle: string;
+            /** Chaptername */
+            chapterName: string;
+            /** Gradenumber */
+            gradeNumber: number;
+            /**
+             * Ischosenedition
+             * @default true
+             */
+            isChosenEdition: boolean;
+            /** Lastplanneddate */
+            lastPlannedDate: string;
+            /** Lessonid */
+            lessonId: string;
+            /** Subjectname */
+            subjectName: string;
+            /** Subtopicname */
+            subtopicName: string;
+            /** Teacherid */
+            teacherId?: string | null;
+            /** Teachername */
+            teacherName?: string | null;
+            /** Topicname */
+            topicName: string;
         };
         /** UserResponse */
         UserResponse: {
@@ -5819,6 +6444,41 @@ export interface operations {
             };
         };
     };
+    update_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CreateCalendarRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CalendarResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     create_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_post: {
         parameters: {
             query?: never;
@@ -5951,6 +6611,40 @@ export interface operations {
             };
         };
     };
+    delete_holiday_api_v1_curriculum_academic_years__academic_year_id__holidays__holiday_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+                holiday_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     set_period_configuration_api_v1_curriculum_academic_years__academic_year_id__period_configuration_post: {
         parameters: {
             query?: never;
@@ -6039,6 +6733,72 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SubjectPeriodAllocationResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_terms_api_v1_curriculum_academic_years__academic_year_id__terms_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TermResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_term_api_v1_curriculum_academic_years__academic_year_id__terms_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TermRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TermResponse"];
                 };
             };
             /** @description Validation Error */
@@ -6412,6 +7172,39 @@ export interface operations {
             };
         };
     };
+    list_topics_for_syllabus_chapter_api_v1_curriculum_chapters_by_slug__subject___grade___slug__topics_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                subject: string;
+                grade: number;
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TopicWithSubtopicsResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     extract_chapter_api_v1_curriculum_chapters__chapter_id__extract_post: {
         parameters: {
             query?: never;
@@ -6434,6 +7227,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ExtractionRunResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_proposed_topics_api_v1_curriculum_chapters__chapter_id__proposed_topics_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                chapter_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExtractionRunWithProposalsResponse"][];
                 };
             };
             /** @description Validation Error */
@@ -6570,6 +7394,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TopicResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    approve_chapter_templates_api_v1_curriculum_chapters__chapter_id__topics_approve_all_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                chapter_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApproveChapterTopicsResponse"];
                 };
             };
             /** @description Validation Error */
@@ -7027,6 +7882,39 @@ export interface operations {
             };
         };
     };
+    seed_cbse_any_grade_api_v1_curriculum_seed_cbse_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SeedGradeRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SeedCbse10Response"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     seed_cbse10_api_v1_curriculum_seed_cbse10_post: {
         parameters: {
             query?: never;
@@ -7111,6 +7999,107 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["BookResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    add_book_api_v1_curriculum_subjects__subject_id__books_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                subject_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AddBookRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_selected_book_api_v1_curriculum_subjects__subject_id__selected_book_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                subject_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["BookResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    select_book_api_v1_curriculum_subjects__subject_id__selected_book_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                subject_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SelectBookRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SelectBookResponse"];
                 };
             };
             /** @description Validation Error */
@@ -7282,6 +8271,105 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TeacherAssignmentResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    current_term_api_v1_curriculum_terms_current_get: {
+        parameters: {
+            query?: {
+                date?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TermResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_term_api_v1_curriculum_terms__term_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                term_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TermRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TermResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_term_api_v1_curriculum_terms__term_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                term_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
             /** @description Validation Error */
@@ -7886,6 +8974,28 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MailBackendStatus"];
+                };
+            };
+        };
+    };
+    get_paper_timing_api_v1_paper_timing_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
                 };
             };
         };

@@ -267,6 +267,17 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     _selectedSubtopics.removeWhere((id) => !validIds.contains(id));
   }
 
+  /// "Foundations of Chemical Equations - 7 questions tagged".
+  ///
+  /// The count is the whole point: it is the number of questions the filter
+  /// would leave, and 0 means an empty paper. An older backend that does not
+  /// send it gets the topic name alone rather than a made-up "0".
+  static String _subtopicSubtitle(String topicName, int? tagged) {
+    if (tagged == null) return topicName;
+    if (tagged == 0) return '$topicName - no questions tagged yet';
+    return '$topicName - $tagged question${tagged == 1 ? '' : 's'} tagged';
+  }
+
   @override
   void dispose() {
     _titleController.dispose();
@@ -712,6 +723,17 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                   style: Theme.of(context).textTheme.bodySmall),
             );
           }
+          // The filter narrows by TAGGED questions: the backend intersects
+          // the chapter's questions with question_subtopic_links. Nothing
+          // writes that table yet, so on real school data every count is 0
+          // and ticking any subtopic turns a 102-question chapter into a
+          // 0-question paper. Say that here, where the teacher can still
+          // change her mind, instead of at generation time.
+          final counts = [
+            for (final topic in topics)
+              for (final s in topic.subtopics) s.taggedQuestionCount,
+          ];
+          final nothingTagged = counts.isNotEmpty && counts.every((c) => c == 0);
           return Padding(
             padding: const EdgeInsets.only(left: 8),
             child: Column(
@@ -721,12 +743,34 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                   padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                   child: Text(chapterName, style: Theme.of(context).textTheme.labelLarge),
                 ),
+                if (nothingTagged)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 4, 16, 4),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.warning_amber_rounded,
+                            size: 16, color: Theme.of(context).colorScheme.error),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            'No questions are tagged to these subtopics yet, so '
+                            'selecting any of them here produces an empty paper. '
+                            'Leave them unticked to draw from the whole chapter.',
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Theme.of(context).colorScheme.error),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 for (final topic in topics)
                   ...topic.subtopics.map((s) => CheckboxListTile(
                         dense: true,
                         contentPadding: const EdgeInsets.only(left: 24, right: 16),
                         title: Text(s.name),
-                        subtitle: Text(topic.name, style: Theme.of(context).textTheme.bodySmall),
+                        subtitle: Text(_subtopicSubtitle(topic.name, s.taggedQuestionCount),
+                            style: Theme.of(context).textTheme.bodySmall),
                         value: _selectedSubtopics.contains(s.id),
                         onChanged: (v) => setState(
                             () => v! ? _selectedSubtopics.add(s.id) : _selectedSubtopics.remove(s.id)),

@@ -188,8 +188,22 @@ class CurriculumNotSetUp implements Exception {
 class SubtopicSummary {
   final String id;
   final String name;
+
+  /// How many questions the school has actually tagged to this subtopic.
+  ///
+  /// `POST /questions/search` intersects the chapter's questions with
+  /// `question_subtopic_links`, so 0 here means picking this subtopic
+  /// produces an EMPTY paper, not a narrowed one. No client writes that
+  /// table yet (its only writer is `POST /chapters/{id}/questions/tag`), so
+  /// on real school data this is 0 everywhere -- which is exactly why the
+  /// picker has to show it instead of letting a teacher find out at
+  /// generation time. Null from an older backend that does not send it.
+  final int? taggedQuestionCount;
+
   SubtopicSummary.fromJson(Map<String, dynamic> j)
-      : id = j['id'] as String, name = j['name'] as String;
+      : id = j['id'] as String,
+        name = j['name'] as String,
+        taggedQuestionCount = (j['taggedQuestionCount'] as num?)?.toInt();
 }
 
 /// A chapter's real Topic, with its real, approved Subtopics already

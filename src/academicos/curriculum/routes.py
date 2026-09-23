@@ -262,12 +262,13 @@ def _topic_response(t) -> TopicResponse:
                          model_used=t.model_used, generation_version=t.generation_version)
 
 
-def _subtopic_response(s) -> SubtopicResponse:
+def _subtopic_response(s, tagged_question_count: Optional[int] = None) -> SubtopicResponse:
     return SubtopicResponse(id=s.id, canonical_id=s.canonical_id, topic_id=s.topic_id,
                             name=s.name, seq=s.seq, description=s.description,
                             source_type=s.source_type, source_reference=s.source_reference,
                             approved_by=s.approved_by, approved_at=s.approved_at,
-                            model_used=s.model_used, generation_version=s.generation_version)
+                            model_used=s.model_used, generation_version=s.generation_version,
+                            tagged_question_count=tagged_question_count)
 
 
 @router.get("/boards", response_model=list[BoardResponse])
@@ -588,15 +589,27 @@ def list_topics_for_syllabus_chapter(
 
 def _topics_with_subtopics(store: CurriculumStore,
                            chapter_id: str) -> list[TopicWithSubtopicsResponse]:
+    topics = store.topics_for_chapter(chapter_id)
+    subtopics_by_topic = {t.id: store.subtopics_for_topic(t.id) for t in topics}
+    # Counted for the whole chapter in one query. This is what the Assessment
+    # Designer's picker needs to stop being a trap: POST /questions/search
+    # intersects the chapter's questions with question_subtopic_links, so a
+    # subtopic with 0 tagged questions narrows the paper to nothing. Until a
+    # client calls POST /chapters/{id}/questions/tag that table is empty for
+    # every real school, and the only thing standing between a teacher and a
+    # blank paper is this number being on screen.
+    counts = store.tagged_question_counts(
+        [s.id for subs in subtopics_by_topic.values() for s in subs])
     out = []
-    for t in store.topics_for_chapter(chapter_id):
+    for t in topics:
         out.append(TopicWithSubtopicsResponse(
             id=t.id, canonical_id=t.canonical_id, chapter_id=t.chapter_id, name=t.name,
             seq=t.seq, description=t.description, source_type=t.source_type,
             source_reference=t.source_reference, approved_by=t.approved_by,
             approved_at=t.approved_at, model_used=t.model_used,
             generation_version=t.generation_version,
-            subtopics=[_subtopic_response(s) for s in store.subtopics_for_topic(t.id)],
+            subtopics=[_subtopic_response(s, counts.get(s.id, 0))
+                       for s in subtopics_by_topic[t.id]],
         ))
     return out
 

@@ -200,6 +200,44 @@ def test_the_subtopic_ids_it_returns_are_accepted_by_question_search(world):
     assert theirs.status_code == 403, theirs.text
 
 
+def test_a_subtopic_says_how_many_questions_are_tagged_to_it(world):
+    """The honest half of the round trip above.
+
+    `POST /questions/search` intersects the chapter's questions with the
+    question ids in `question_subtopic_links` -- nothing tagged means zero
+    questions, not "fall back to the whole chapter". In real school_1 that
+    table has 0 rows (measured 2026-09-23 against
+    academicos-data/curriculum/curriculum.sqlite: 417 subtopics, 0 links),
+    because its only writer is `POST /chapters/{id}/questions/tag` and no
+    client calls it yet. So a teacher who picked a subtopic got a paper of
+    102 -> 0 questions with nothing on screen saying why.
+
+    The count travels with the subtopic so the picker can say so BEFORE the
+    paper is generated. It is not a fix for the missing tagging -- it is the
+    difference between a visible empty state and a silent one."""
+    listed = world.client.get(_by_slug("Science", 10, SLUG), headers=world.p1)
+    assert listed.status_code == 200, listed.text
+    subtopics = [s for t in listed.json() for s in t["subtopics"]]
+    assert subtopics
+    assert all(s["taggedQuestionCount"] == 0 for s in subtopics), (
+        "a freshly approved subtopic has nothing tagged to it; reporting "
+        "anything but 0 would tell a teacher the filter will find questions")
+
+    # Tag one real question id to one subtopic and the count must follow --
+    # a hardcoded 0 would pass the assertion above.
+    from academicos.curriculum import routes as curriculum_routes
+    store = curriculum_routes._require()
+    target = world.s1.subtopic
+    store.link_question_to_subtopic(question_id="q-real-1", subtopic_id=target)
+    store.link_question_to_subtopic(question_id="q-real-2", subtopic_id=target)
+
+    again = world.client.get(_by_slug("Science", 10, SLUG), headers=world.p1)
+    counts = {s["id"]: s["taggedQuestionCount"]
+              for t in again.json() for s in t["subtopics"]}
+    assert counts[target] == 2, counts
+    assert all(v == 0 for k, v in counts.items() if k != target), counts
+
+
 # ---------------- the web client's fixture, captured from this route ----------------
 # Same posture as tests/test_curriculum_coverage_fixture.py, and for the same
 # reason: the Flutter side of a curriculum screen tested only against

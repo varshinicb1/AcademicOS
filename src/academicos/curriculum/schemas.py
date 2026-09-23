@@ -134,6 +134,12 @@ class SubtopicResponse(Camel):
     approved_at: Optional[str] = None
     model_used: Optional[str] = None
     generation_version: Optional[str] = None
+    # How many questions are tagged to this subtopic in question_subtopic_links.
+    # POST /questions/search intersects on exactly that table, so 0 here means
+    # "picking this subtopic yields an empty paper" -- the picker has to be able
+    # to say so before a teacher generates one. None where it was not counted
+    # (the routes that return a subtopic on its own do not pay for the query).
+    tagged_question_count: Optional[int] = None
 
 
 class TopicWithSubtopicsResponse(TopicResponse):

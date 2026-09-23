@@ -1273,6 +1273,26 @@ class CurriculumStore:
             "SELECT * FROM question_subtopic_links WHERE subtopic_id=?", (subtopic_id,))
         return [QuestionSubtopicLink(**dict(r)) for r in rows]
 
+    def tagged_question_counts(self, subtopic_ids: list[str]) -> dict[str, int]:
+        """How many distinct questions are tagged to each of these subtopics.
+
+        One GROUP BY for a whole chapter rather than a query per subtopic --
+        the picker asks for every subtopic of every selected chapter at once.
+        Subtopics with nothing tagged are absent from the SQL result and are
+        filled in as 0 here, because "0" is the answer the caller needs to
+        show, not a missing key."""
+        counts = {sid: 0 for sid in subtopic_ids}
+        if not subtopic_ids:
+            return counts
+        placeholders = ",".join("?" * len(subtopic_ids))
+        rows = self._fetchall(
+            f"SELECT subtopic_id, COUNT(DISTINCT question_id) AS n "
+            f"FROM question_subtopic_links WHERE subtopic_id IN ({placeholders}) "
+            f"GROUP BY subtopic_id", subtopic_ids)
+        for r in rows:
+            counts[r["subtopic_id"]] = r["n"]
+        return counts
+
     def question_ids_for_subtopics(self, subtopic_ids: list[str]) -> list[str]:
         """The real "generate a paper from these subtopics" query: every
         question tagged (via qmap.py's resolution -> link_question_to_subtopic)
