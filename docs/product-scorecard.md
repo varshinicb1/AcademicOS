@@ -50,12 +50,35 @@ weight-weighted sum of the area scores. **When evidence is weak, score down.**
 | 8 | Release readiness and hard constraints | 15 | §8.1; §10 |
 | | **Total** | **100** | |
 
+## Classes in scope
+
+The first sellable release covers **classes 6-10**. The user decided this on
+2026-09-23 ("skip 11 and 12 for now"), with the numbers in front of them:
+correctness-first serves a board question only where its answer key was
+verified, which left class 11 with no questions at all and class 12 unable to
+build a Mathematics or Science paper. Classes 6-10 are carried by the NCERT
+Exemplar import instead.
+
+So items 1.5 and 3.1 are scored over 6-10. Two rules keep that honest:
+
+- **Report, never hide.** An audit still states what 11 and 12 hold, as an
+  out-of-scope line. A class dropped from the score is not a class dropped from
+  the truth.
+- **Never offer what we cannot serve.** The product must not present a class it
+  cannot build a paper for -- the web builder offered 6-12 until 2026-09-23, so
+  a teacher chose a class, a subject and a template and only then met "Unable to
+  find sufficient questions". Offering 11 and 12 again is part of bringing them
+  back into scope, not a separate nicety.
+
+When 11 and 12 return, restore the 6-12 wording here and in the two items.
+
 ### 1. Paper generation — web (10)
 1.1 Blueprint → selection → sectioned paper, quick and custom paths
 1.2 PDF paper renders correctly: no crash, MCQ options shown, no dropped symbols, correct class in the header
 1.3 PDF answer key carries the official scheme (share of rows that are "pending teacher entry")
 1.4 Parallel sets, tiers, CBQ ≥ 50%
-1.5 The requested class gets that class's questions, for every class 6-12
+1.5 The requested class gets that class's questions, for every class **6-10**
+    (the release's scope since 2026-09-23; see "Classes in scope" below)
 
 ### 2. Paper generation — offline phone (20)
 2.1 The app starts and loads its bundled corpus; one bad row cannot stop it
@@ -66,7 +89,8 @@ weight-weighted sum of the area scores. **When evidence is weak, score down.**
 2.6 An Android build compiles
 
 ### 3. Question bank coverage and quality (20)
-3.1 Classes served *by paper generation*: 6, 7, 8, 9, 10, 11, 12
+3.1 Classes served *by paper generation*: 6, 7, 8, 9, 10
+    (11 and 12 are out of scope; report what they hold, score neither)
 3.2 Subjects offered per class, against what CBSE offers at that class
 3.3 Q1 — served questions carrying an official answer scheme; blank-scheme count
 3.4 Q2 — served questions mapped to a curriculum chapter or topic
