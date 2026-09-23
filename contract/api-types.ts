@@ -5896,8 +5896,17 @@ export interface components {
              */
             withoutKey: number;
         };
+        /** SyllabusChapterResponse */
+        SyllabusChapterResponse: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+        };
         /** SyllabusResponse */
         SyllabusResponse: {
+            /** Chapters */
+            chapters?: components["schemas"]["SyllabusChapterResponse"][];
             /** Grade */
             grade: number;
             /** Source */

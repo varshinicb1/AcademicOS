@@ -45,18 +45,34 @@ class SyllabusDocument:
     total_marks: int
     source: str
     units: tuple[SyllabusUnit, ...]
+    # The textbook's own chapters, for a class whose book does not divide into
+    # the CBSE unit table this file records marks against. Read from the
+    # file's top-level "chapters", and carrying the taxonomy's ids
+    # ("mathematics-6/number-play") so that the id a question is tagged with
+    # and the id a teacher picks are one vocabulary. Marks stay on the units:
+    # CBSE weights a unit, and which chapter sits in which unit is not
+    # something this file claims unless the file says so.
+    chapters: tuple[SyllabusChapter, ...] = field(default_factory=tuple)
 
-    def all_chapters(self) -> list[tuple[SyllabusUnit, SyllabusChapter]]:
+    def all_chapters(self) -> list[tuple[SyllabusUnit | None, SyllabusChapter]]:
         """Flattened (unit, chapter) pairs -- for subjects whose CBSE table
         has no sub-chapter list (e.g. Mathematics, English), each unit stands
         in for its own single chapter, since that's the finest breakdown
-        CBSE's own document gives."""
-        out: list[tuple[SyllabusUnit, SyllabusChapter]] = []
+        CBSE's own document gives.
+
+        Where the file lists the book's chapters at top level, those are the
+        chapters, and a unit with no chapter list of its own does NOT also
+        stand in for one: doing both would offer the same class two chapter
+        lists from two different editions of its book.
+        """
+        out: list[tuple[SyllabusUnit | None, SyllabusChapter]] = []
+        for c in self.chapters:
+            out.append((None, c))
         for u in self.units:
             if u.chapters:
                 for c in u.chapters:
                     out.append((u, c))
-            else:
+            elif not self.chapters:
                 out.append((u, SyllabusChapter(id=_slug(u.name), name=u.name)))
         return out
 
@@ -107,7 +123,27 @@ def load_syllabus(subject: str, grade: int) -> SyllabusDocument | None:
     return SyllabusDocument(
         subject=data["subject"], grade=data["grade"], total_marks=data["total_marks"],
         source=data["source"], units=units,
+        chapters=tuple(SyllabusChapter(id=c["id"], name=c["name"])
+                       for c in data.get("chapters", [])),
     )
+
+
+@lru_cache(maxsize=None)
+def taxonomy_chapters(subject: str, grade: int) -> dict[str, str]:
+    """{taxonomy chapter id: the name the book prints it under}, or {}.
+
+    The taxonomy trees are the textbooks' own contents pages and are what the
+    tagger writes `taxonomyChapterId` from. A caller that has a tag and needs
+    the syllabus chapter it belongs to matches on this name: where the
+    syllabus file and the taxonomy read the same edition (Science 6, Science
+    10) the names are the same words, and where they do not, no name matches
+    and the caller is told so rather than guessing.
+    """
+    path = _DATA_DIR / "taxonomy" / f"{subject.strip().replace(' ', '_')}_{grade}.json"
+    if not path.exists():
+        return {}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    return {c["id"]: c["name"] for c in data.get("chapters", [])}
 
 
 def list_available_syllabi() -> list[tuple[str, int]]:

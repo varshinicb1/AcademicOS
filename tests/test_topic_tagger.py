@@ -593,3 +593,109 @@ def test_question_schema_carries_the_tags_as_optional_fields():
     assert q.tag_confidence["chapter"] == 0.93 and q.tag_method == "tfidf_textbook_v1"
     dumped = q.model_dump(by_alias=True)
     assert dumped["topicIds"] == tagged["topicIds"] and dumped["subtopicIds"] == []
+
+
+# --------------------------------------------------------------------------- #
+# the Exemplar chapter map: the book's own filing, not a match
+# --------------------------------------------------------------------------- #
+# The tagger reads a question's WORDS and accepts a chapter only above its
+# measured threshold, so it leaves most Exemplar records untagged on purpose.
+# An Exemplar record does not need guessing: it was printed under a numbered
+# chapter, and taxonomy/_exemplar_chapter_map.json says which chapter of the
+# CURRENT book that is. Where it says so, that wins over the match.
+
+from academicos.syllabus.exemplar_chapter_map import (  # noqa: E402
+    EXEMPLAR_MAP_METHOD, chapter_for, load_chapter_map,
+)
+
+
+def _exemplar_q(qid, subject, grade, number, title, stem, **extra):
+    rec = _q(qid, subject, grade, stem, exemplar_chapter=title, **extra)
+    rec["metadata"]["exemplarChapter"]["number"] = number
+    return rec
+
+
+# exemplar:q:6:mathematics:3:-:39 -- printed in Exemplar chapter 3 "Integers",
+# which Ganita Prakash 6 prints as chapter 10 "The Other Side of Zero".
+INTEGERS_CLASS6 = _exemplar_q(
+    "exemplar:q:6:mathematics:3:-:39", "Mathematics", 6, 3, "Integers",
+    "Write the following integers in ascending order: -5, 0, -3, 2, 4, -1",
+    answer="-5, -3, -1, 0, 2, 4")
+# exemplar:q:6:mathematics:8:-:25 -- Exemplar chapter 8 "Ratio and Proportion",
+# a null row: Ganita Prakash 6 has no ratio chapter at all.
+RATIO_ROW_IS_NULL = _exemplar_q(
+    "exemplar:q:6:mathematics:8:-:25", "Mathematics", 6, 8, "Ratio and Proportion",
+    "State whether the given statements are true (T) or false (F): The ratio of "
+    "10kg to 100kg is 1:10", answer="True")
+
+
+def test_a_mapped_exemplar_chapter_is_written_as_the_books_own_filing(tagger):
+    """Confidence 1.0 and its own tag method: this is where the book printed the
+    question, not a model's opinion, so nothing downstream should weigh it as one."""
+    [out], _review = apply_tags([INTEGERS_CLASS6], tagger, "exemplar")
+    assert out["taxonomyChapterId"] == "mathematics-6/the-other-side-of-zero"
+    assert out["tagMethod"] == EXEMPLAR_MAP_METHOD
+    assert out["tagConfidence"]["chapter"] == 1.0
+
+
+def test_a_topic_on_a_mapped_record_is_a_topic_of_the_mapped_chapter(tagger):
+    """Task 123 settles the chapter only; the topic stays the tagger's, decided
+    among the topics of THAT chapter -- never one of another chapter's."""
+    [out], _review = apply_tags([INTEGERS_CLASS6], tagger, "exemplar")
+    chapter = out["taxonomyChapterId"]
+    for topic in out["topicIds"]:
+        assert topic.startswith(chapter + "/"), (topic, chapter)
+    for subtopic in out["subtopicIds"]:
+        assert subtopic.startswith(chapter + "/"), (subtopic, chapter)
+
+
+def test_a_null_row_leaves_the_record_where_the_tagger_left_it(tagger):
+    """Ratio is taught in no chapter of Ganita Prakash 6, so the map says null
+    and the record stays as untagged as it was -- a blank, not a wrong chapter."""
+    assert chapter_for(RATIO_ROW_IS_NULL) is None
+    [out], _review = apply_tags([RATIO_ROW_IS_NULL], tagger, "exemplar")
+    assert out["taxonomyChapterId"] is None
+    assert out["tagMethod"] == TAG_METHOD
+
+
+def test_the_map_covers_every_exemplar_chapter_of_the_committed_bank():
+    """`chapter_for` must answer for every record the bank holds, so a chapter
+    the map has never seen cannot be silently skipped."""
+    chapter_map = load_chapter_map()
+    recs = json.loads(EXEMPLAR.read_text(encoding="utf-8"))["questions"]
+    missing = sorted({(r["subject"], r["grade"], r["metadata"]["exemplarChapter"]["number"],
+                       r["metadata"]["exemplarChapter"]["title"])
+                      for r in recs
+                      if (r.get("metadata") or {}).get("exemplarChapter")
+                      and (r["subject"], r["grade"], r["metadata"]["exemplarChapter"]["number"],
+                           r["metadata"]["exemplarChapter"]["title"]) not in chapter_map})
+    assert missing == [], missing
+
+
+def test_applying_the_map_tags_the_whole_exemplar_bank_it_covers():
+    """Measured on the committed Exemplar corpus, not asserted in the abstract:
+    the map must actually move records out of the untagged pile."""
+    tagger = TopicTagger()
+    recs = json.loads(EXEMPLAR.read_text(encoding="utf-8"))["questions"]
+    out, _review = apply_tags(recs, tagger, "exemplar")
+    by_map = [r for r in out if r.get("tagMethod") == EXEMPLAR_MAP_METHOD]
+    assert len(by_map) >= 1600, len(by_map)
+    assert all(r["taxonomyChapterId"] for r in by_map)
+    tagged = [r for r in out if r.get("taxonomyChapterId")]
+    assert len(tagged) / len(out) >= 0.45, (len(tagged), len(out))
+
+
+def test_the_id_prior_reads_the_books_chapters_wherever_the_file_keeps_them():
+    """`_syllabus_names` walked `units[].chapters` only. fb0107a moved the
+    book's own chapters to the document's top level for the eight files whose
+    units carry CBSE weightage and no chapter list, so the prior lost every
+    chapter name for those pairs and fell back to splitting the slug. The
+    names are the whole point of the prior: it scores a question's words
+    against them."""
+    from academicos.syllabus.tagger import _syllabus_names
+
+    names = _syllabus_names("Mathematics", 6)
+    assert names.get("mathematics-6/number-play") == "Number Play", names
+    # A file that keeps its chapters under units still works.
+    assert _syllabus_names("Science", 6).get("diversity-in-the-living-world") \
+        == "Diversity in the Living World"

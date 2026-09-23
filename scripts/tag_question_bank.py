@@ -109,7 +109,7 @@ def _bank_label(path: Path) -> str:
 
 def tag_topics(banks: list[Path], check: bool, queue_path: Path) -> int:
     """Tag each bank to chapter/topic/subtopic; see the module docstring."""
-    from academicos.syllabus.tagger import LEVELS, TAG_METHOD, TopicTagger, apply_tags
+    from academicos.syllabus.tagger import LEVELS, TopicTagger, apply_tags
 
     tagger = TopicTagger()
     review_all: dict[str, list[dict]] = {}
@@ -162,8 +162,12 @@ def tag_topics(banks: list[Path], check: bool, queue_path: Path) -> int:
         "notice": ("Questions whose chapter, topic or subtopic tag fell below the confidence "
                    "threshold that keeps accepted tags >= 90% right on the gold set. Each "
                    "entry names the first level not accepted and the tagger's proposal; the "
-                   "proposal is NOT on the question."),
-        "method": TAG_METHOD,
+                   "proposal is NOT on the question. Each entry also names the method its "
+                   "PROPOSED CHAPTER came from -- an Exemplar record queued at the topic "
+                   "level has a chapter the book itself printed it under, not one this "
+                   "tagger matched -- and `methods` below counts them. It was one method "
+                   "for the whole file, which called every entry tfidf_textbook_v2."),
+        "methods": dict(collections.Counter(e.get("method") or "unrecorded" for e in items)),
         "builtAt": datetime.now(timezone.utc).isoformat(),
         "counts": dict(collections.Counter(e["bank"] for e in items)),
         "items": items,

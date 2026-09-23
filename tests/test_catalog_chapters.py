@@ -27,8 +27,10 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from academicos.api.main import app  # noqa: E402
 from academicos.assessment import pillar_routes, pool as pool_module  # noqa: E402
+from academicos.assessment.pillar_routes import _chapter_of, _name_key  # noqa: E402
+from academicos.assessment.schemas import QuestionSchema  # noqa: E402
 from academicos.corpus.bank_merge import CONTENT_CODE  # noqa: E402
-from academicos.syllabus.cbse_syllabus import load_syllabus  # noqa: E402
+from academicos.syllabus.cbse_syllabus import load_syllabus, taxonomy_chapters  # noqa: E402
 
 SERVED_BANK = ROOT / "academicos-data" / "syllabus" / "questions.json"
 # CBSE's learning-ladder content codes as the CBE item banks print them:
@@ -121,3 +123,150 @@ def test_the_chapter_view_reaches_every_question_the_class_serves(
             total = next((e["questionCount"] for e in served["entries"]
                           if e["subject"] == subject and e["grade"] == grade), 0)
             assert shown == total, f"{subject} {grade}: {shown} reachable of {total} served"
+
+
+# --------------------------------------------------------------------------- #
+# chapter-tag coverage of the served bank (Task 123)
+# --------------------------------------------------------------------------- #
+# The Exemplar chapter map (taxonomy/_exemplar_chapter_map.json) files an
+# Exemplar question under the chapter its own book printed it in, so these
+# numbers are the book's filing plus what the tagger accepted on its own.
+# Measured on 2026-09-23 after the pipeline rerun; a change that lowers one has
+# lost tags, which is the thing a teacher feels first.
+
+# Mathematics 6 is 3 lower than first measured, and deliberately so: the
+# id-prior used to read the corrupt Mathematics_6.json, where the new book's
+# chapter NAMES sat on the old book's ids, and three records were tagged off
+# that wrong name. fb0107a fixed the file and the tagger now reads the book's
+# real chapters, so the tagger no longer claims those three. A tag that came
+# from the wrong book is worth less than no tag.
+
+TAG_FLOOR = {
+    ("Mathematics", 6): 220, ("Mathematics", 7): 189, ("Mathematics", 8): 488,
+    ("Mathematics", 9): 82, ("Mathematics", 10): 319,
+    ("Science", 6): 103, ("Science", 7): 125, ("Science", 8): 76,
+    ("Science", 9): 276, ("Science", 10): 408,
+}
+# Of those, the ones the map placed rather than the tagger.
+MAP_METHOD = "exemplar-chapter-map"
+MAP_TAG_FLOOR = 1626
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_the_served_bank_keeps_the_chapter_tag_coverage_this_release_measured():
+    records = json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
+    tagged = {}
+    for rec in records:
+        key = (rec.get("subject"), rec.get("grade"))
+        if key not in TAG_FLOOR:
+            continue
+        tagged[key] = tagged.get(key, 0) + bool(rec.get("taxonomyChapterId"))
+    short = {k: (tagged.get(k, 0), floor) for k, floor in TAG_FLOOR.items()
+             if tagged.get(k, 0) < floor}
+    assert short == {}, short
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_the_served_bank_carries_the_exemplar_maps_own_tags():
+    """A rerun that dropped the map would still pass the floor above on the
+    tagger alone, slowly: this counts the tags that came from the book."""
+    records = json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
+    by_map = [r for r in records if r.get("tagMethod") == MAP_METHOD]
+    assert len(by_map) >= MAP_TAG_FLOOR, len(by_map)
+    for rec in by_map:
+        assert rec["taxonomyChapterId"], rec["id"]
+        assert rec["tagConfidence"]["chapter"] == 1.0, rec["id"]
+        for topic in rec.get("topicIds") or []:
+            assert topic.startswith(rec["taxonomyChapterId"] + "/"), rec["id"]
+
+
+# --------------------------------------------------------------------------- #
+# the chapter view reads the tag the bank carries (Task 123 follow-up)
+# --------------------------------------------------------------------------- #
+# Commit 075c9ab raised `taxonomyChapterId` to 2,289 of the 4,576 class 6-10
+# Mathematics/Science records and none of it reached a teacher: the route
+# grouped by `chapterIds` alone, so Mathematics 6 filed 69 of its 446 served
+# questions and Science 6 filed 8 of 247, unchanged by the tagging run.
+#
+# These floors are the chapter view measured on the served bank once the route
+# read the tag. They are lower than the raw tag counts in TAG_FLOOR above
+# because the web pool does not serve every record in the bank (4,100 of the
+# 4,576). A change that drops one has taken chapters back off a teacher.
+FILED_FLOOR = {
+    # 172, not 175: the same three Mathematics 6 records, see TAG_FLOOR above.
+    ("Mathematics", 6): 172, ("Mathematics", 7): 134, ("Mathematics", 8): 400,
+    ("Mathematics", 9): 71, ("Mathematics", 10): 287,
+    ("Science", 6): 103, ("Science", 7): 123, ("Science", 8): 76,
+    ("Science", 9): 274, ("Science", 10): 410,
+}
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_the_chapter_view_files_the_questions_the_tagger_placed(
+        tmp_path, monkeypatch, served_bank):
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    with TestClient(app) as client:
+        pillar_routes._cfg._load_baked_questions = True
+        short = {}
+        for (subject, grade), floor in FILED_FLOOR.items():
+            entries = client.get(f"/api/v1/catalog/{subject}/{grade}/chapters").json()
+            filed = sum(e["questionCount"] for e in entries
+                        if e["chapterId"] != "unmapped")
+            if filed < floor:
+                short[f"{subject} {grade}"] = (filed, floor)
+        assert short == {}, short
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_no_question_the_tagger_placed_falls_into_the_unmapped_bucket():
+    """A tag that the chapter list cannot show is a tag that was not written.
+
+    The two vocabularies are bridged in two different ways and both have to
+    hold: eight files carry the taxonomy's own ids, so the tag IS the chapter
+    id; Science 6 and Science 10 keep ids of their own and the tag reaches
+    them by the name the book prints. If a later taxonomy rebuild moves either
+    pair onto a new edition, no name will match and its tags land in
+    "unmapped" -- which is what this catches.
+    """
+    records = json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
+    stranded = {}
+    for subject, grade in CORE:
+        syllabus = load_syllabus(subject, grade)
+        chapters = syllabus.all_chapters() if syllabus else []
+        known = {c.id for _u, c in chapters}
+        by_name = {_name_key(c.name): c.id for _u, c in chapters}
+        book_names = taxonomy_chapters(subject, grade)
+        lost = [r["id"] for r in records
+                if r.get("subject") == subject and r.get("grade") == grade
+                and r.get("taxonomyChapterId")
+                and _chapter_of(QuestionSchema.model_validate(r),
+                                known, by_name, book_names) == "unmapped"]
+        if lost:
+            stranded[f"{subject} {grade}"] = (len(lost), lost[:3])
+    assert stranded == {}, stranded
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_mathematics_6_offers_the_chapters_of_the_book_its_class_studies(
+        tmp_path, monkeypatch, served_bank):
+    """Mathematics_6.json paired the NEW book's chapter NAMES with the OLD
+    book's chapter IDS, positionally, in 9 of its 11 rows: id
+    "knowing-our-numbers" was named "Patterns in Mathematics" and
+    "basic-geometrical-ideas" was named "Fractions", so eleven questions about
+    basic geometrical ideas were offered to a teacher under a chapter called
+    "Fractions". It also listed a "Ratio and Proportion" that Ganita Prakash
+    does not have."""
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    with TestClient(app) as client:
+        pillar_routes._cfg._load_baked_questions = True
+        entries = client.get("/api/v1/catalog/Mathematics/6/chapters").json()
+        offered = {e["chapterId"]: e["chapterName"] for e in entries}
+        assert "unmapped" in offered
+        book = taxonomy_chapters("Mathematics", 6)
+        assert book, "the Ganita Prakash tree is what the class 6 chapters come from"
+        for cid, name in book.items():
+            assert offered.get(cid) == name, (cid, name, offered.get(cid))
+        # the pre-2024 book's chapters are not offered as if they were this
+        # class's, under any id
+        assert "ratio-and-proportion" not in offered
+        assert "knowing-our-numbers" not in offered

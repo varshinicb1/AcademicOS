@@ -98,19 +98,37 @@ def test_a_paper_variant_subject_takes_its_base_subjects_chapter_names():
     # SQP files class 10 maths under 'Mathematics (Standard)', 'Mathematics
     # (Basic, VIC)' and so on; only 'Mathematics' has a syllabus file, and the
     # chapter ids are the same ones.
+    #
+    # The id asked for here is the book's, not a CBSE unit's: Mathematics_10
+    # used to list the 7 marks-bearing units with no chapter list, so each unit
+    # stood in for a chapter and "algebra" was a chapter id. It now carries the
+    # 14 chapters of the book the class actually reads, which is the vocabulary
+    # the question bank is tagged in (see
+    # scripts/syllabus_chapters_from_taxonomy.py). What this test is about --
+    # that a variant subject inherits the base subject's chapter names and does
+    # not leak the base subject itself into the keys -- is unchanged.
     names = mqb._chapter_names([board(subject="Mathematics (Standard)", grade=10),
                                 board(2, subject="Mathematics (Basic, VIC)", grade=10)])
-    assert names[("Mathematics (Standard)", 10, "algebra")] == "Algebra"
-    assert names[("Mathematics (Basic, VIC)", 10, "algebra")] == "Algebra"
+    chapter = "mathematics-10/real-numbers"
+    assert names[("Mathematics (Standard)", 10, chapter)] == "Real Numbers"
+    assert names[("Mathematics (Basic, VIC)", 10, chapter)] == "Real Numbers"
     assert not any(subject == "Mathematics" for subject, _g, _c in names)
 
 def test_check_reports_the_codes_it_resolved_and_the_ones_it_dropped(layout, capsys):
     """Task 121: a content code is resolved to the chapter the record names
-    ("Integers" is a real class 7 chapter) or dropped ("Geometry" is a strand,
-    and no class 7 chapter is called that). Both ids were shown to a teacher
-    before, "7N1A" and "7G2B", and 7N1a/7N1b listed one chapter twice."""
+    ("Operations with Integers" is a real class 7 chapter) or dropped
+    ("Geometry" is a strand, and no class 7 chapter is called that). Both ids
+    were shown to a teacher before, "7N1A" and "7G2B", and 7N1a/7N1b listed one
+    chapter twice.
+
+    The resolving tag is the CURRENT book's name for that chapter. It used to
+    be "Integers", which is what the pre-2024 book called it; Mathematics_7's
+    syllabus file now lists Ganita Prakash 7, the book the class reads and the
+    one the bank is tagged against, where the chapter is "Operations with
+    Integers". A tag of "Integers" would now be dropped rather than resolved --
+    correctly, since no class 7 chapter carries that name any more."""
     _write(layout.cbe, [
-        cbe_mcq(1, chapterIds=["7N1a"], tags=["Integers"]),
+        cbe_mcq(1, chapterIds=["7N1a"], tags=["Operations with Integers"]),
         cbe_mcq(2, chapterIds=["7G2b"], tags=["Geometry"],
                 stem="Which of these is the smallest number? Select one option.")],
         chapterTaggedAt="t")

@@ -923,3 +923,133 @@ def test_a_derived_difficulty_and_bloom_level_say_they_were_derived(maths6):
     rec = ex.to_bank_record(_q(maths6, 2), "")
     assert rec["metadata"]["difficultyInferred"] is True
     assert rec["metadata"]["bloomInferred"] is True
+
+
+# --------------------------------------------------------------------------- #
+# the Exemplar chapter map (taxonomy/_exemplar_chapter_map.json)
+# --------------------------------------------------------------------------- #
+# An Exemplar question was printed under a numbered chapter of its own book,
+# which the importer keeps as `metadata.exemplarChapter`; the served taxonomy is
+# keyed by the CURRENT books. The map is that correspondence, decided once
+# against the current books' contents pages (scripts/build_exemplar_chapter_map.py).
+
+DATA = ROOT / "academicos-data"
+CHAPTER_MAP = DATA / "syllabus" / "taxonomy" / "_exemplar_chapter_map.json"
+EXEMPLAR_BANK = DATA / "corpus" / "ncert-exemplar" / "questions.json"
+SERVED_BANK = DATA / "syllabus" / "questions.json"
+SUBJECT_FILE = {"Mathematics": "Mathematics", "Science": "Science"}
+
+
+def _map_rows() -> list[dict]:
+    return json.loads(CHAPTER_MAP.read_text(encoding="utf-8"))["rows"]
+
+
+def _bank_chapter_keys() -> set[tuple]:
+    """Every (subject, grade, number, title) the Exemplar records carry, in the
+    corpus the importer writes and in the bank the API serves."""
+    keys = set()
+    for path in (EXEMPLAR_BANK, SERVED_BANK):
+        if not path.exists():
+            continue
+        data = json.loads(path.read_text(encoding="utf-8"))
+        for rec in (data["questions"] if isinstance(data, dict) else data):
+            chapter = (rec.get("metadata") or {}).get("exemplarChapter")
+            if chapter and chapter.get("title") and rec.get("subject") in SUBJECT_FILE:
+                keys.add((rec["subject"], int(rec["grade"]),
+                          int(chapter["number"]), chapter["title"]))
+    return keys
+
+
+def test_every_chapter_the_map_names_exists_in_the_committed_taxonomy():
+    """A mapped row writes its id straight onto a question, so an id the trees
+    do not have would serve a chapter no catalog can name."""
+    trees: dict[tuple, set] = {}
+    for row in _map_rows():
+        chapter_id = row["taxonomyChapterId"]
+        if chapter_id is None:
+            assert row["method"] == "none" and row["reason"] and row["note"], row
+            continue
+        assert row["method"] in {"exact-title", "contents-page", "hand-checked"}, row
+        key = (row["subject"], row["grade"])
+        if key not in trees:
+            path = DATA / "syllabus" / "taxonomy" / f"{SUBJECT_FILE[key[0]]}_{key[1]}.json"
+            trees[key] = {c["id"] for c in json.loads(path.read_text(encoding="utf-8"))["chapters"]}
+        assert chapter_id in trees[key], (row["subject"], row["grade"], chapter_id)
+
+
+def test_the_map_has_a_row_for_every_exemplar_chapter_the_bank_holds():
+    """So a new import cannot fall through untagged and unnoticed: a chapter
+    with no counterpart is a null row with its reason, never a missing row."""
+    rows = {(r["subject"], r["grade"], r["exemplarNumber"], r["exemplarTitle"])
+            for r in _map_rows()}
+    missing = sorted(_bank_chapter_keys() - rows)
+    assert missing == [], missing
+
+
+def test_an_exact_title_row_really_is_the_same_title():
+    """The class 10 books ARE the current books, so most of those rows claim the
+    title itself. The claim is checked here, not trusted."""
+    for row in _map_rows():
+        if row.get("method") != "exact-title":
+            continue
+        assert row["currentChapter"]["title"].casefold() == row["exemplarTitle"].casefold(), row
+
+
+def test_every_mapped_row_cites_a_pdf_and_a_page():
+    """The task asks a row to cite the PDF and the page the current book prints
+    its chapter's number and title on. A per-BOOK contents page could not do it:
+    the class 10 books are distributed as one PDF per chapter with no prelims
+    file, so all 22 class 10 rows cited no page, and the Ganita Prakash Part 2
+    rows cited a Part 1 page that is not in the file they name."""
+    for row in _map_rows():
+        if not row["taxonomyChapterId"]:
+            continue
+        current = row["currentChapter"]
+        assert current["sourceFile"], row
+        assert isinstance(current["page"], int) and current["page"] >= 1, row
+        assert current["printedOn"] in {"contents", "chapter-opening"}, row
+
+
+TAG_SAMPLE = DATA / "syllabus" / "taxonomy" / "_exemplar_tag_sample.json"
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_the_hand_checked_sample_is_the_one_the_seed_draws_from_this_bank():
+    """Task 123 asks for a hand-check of 40 newly tagged records and the number
+    wrong. A number in a report cannot be re-run, so the sample itself is
+    committed: this re-derives the draw from the bank as it stands, checks the
+    40 records still carry the chapter they were checked as, and re-adds the
+    verdicts up. A rebuild that changes which records the map places fails here
+    rather than letting an old precision stand for a new bank."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import build_exemplar_chapter_map as builder
+
+    sample = json.loads(TAG_SAMPLE.read_text(encoding="utf-8"))
+    served = json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
+    assert builder.check_sample(sample, served) == []
+
+
+def test_the_sample_clears_the_precision_the_task_set():
+    """0.95 on the sample, or the rows that missed do not ship (requirement 3)."""
+    sample = json.loads(TAG_SAMPLE.read_text(encoding="utf-8"))
+    counts = sample["counts"]
+    assert counts["checked"] >= 40, counts
+    assert counts["right"] / counts["checked"] >= 0.95, (
+        counts, [it for it in sample["items"] if it["verdict"] != "right"])
+
+
+TEXTBOOKS = ROOT.parent / "ncert-dataset" / "textbooks"
+
+
+@pytest.mark.skipif(not TEXTBOOKS.exists(), reason="ncert-dataset not on disk")
+def test_every_cited_page_really_prints_that_chapters_number_and_title():
+    """Read back, not asserted: the citation is only worth the page it names if
+    opening it finds the chapter there. This is the check
+    `scripts/build_exemplar_chapter_map.py --check` runs, in the suite, so a
+    re-decided row cannot keep a citation that has stopped being true."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import build_exemplar_chapter_map as builder
+
+    doc = json.loads(CHAPTER_MAP.read_text(encoding="utf-8"))
+    problems = builder.check_citations(doc)
+    assert problems == [], problems
