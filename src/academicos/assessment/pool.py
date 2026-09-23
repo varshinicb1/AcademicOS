@@ -19,12 +19,16 @@ from typing import NamedTuple
 
 from ..config import Config
 # The stem gates live with the served bank's composition, so the web registry
-# path and questions.json are held to one implementation (Task 16).
+# path and questions.json are held to one implementation (Task 16). The
+# registry path below reads raw PDF extraction and applies them one at a time;
+# the baked-bank path asks `unservable_reason`, the single gate the merge that
+# wrote that file applied (Task 126).
 from ..corpus.bank_merge import (
     has_broken_options,
     looks_mangled,
     looks_truncated,
     needs_missing_figure,
+    unservable_reason,
 )
 from ..extract.academic import extract_questions
 from ..models.academic import Question
@@ -564,6 +568,9 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
     skipped_broken_options = 0
     skipped_invalid = 0
     skipped_unkeyed = 0
+    # Baked-bank refusals, by the merge's own reason: nothing this path drops
+    # is dropped without a name for why (Task 126).
+    skipped_unservable: dict[str, int] = {}
     near_dupes = _NearDuplicateIndex()
 
     rows = _registry_paper_rows(cfg, subject, grade)
@@ -688,12 +695,14 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                 if p.exists():
                     try:
                         data = json.loads(p.read_text(encoding="utf-8"))
-                        # Board papers first, stably, and *before* the gates: the
-                        # near-duplicate gate keeps whichever copy it sees first,
-                        # and SQPs reuse board questions. A class 10/12 paper that
-                        # composes today must not be silently re-composed from the
-                        # SQP and CBE items the merged bank adds -- whatever order
-                        # the file happens to hold them in.
+                        # Board papers first, stably: SQPs reuse board
+                        # questions, and a class 10/12 paper that composes
+                        # today must not be silently re-composed from the SQP
+                        # and CBE items the merged bank adds -- whatever order
+                        # the file happens to hold them in. This used to also
+                        # decide which copy the near-duplicate gate here kept;
+                        # that gate is the merge's now (Task 126), and the
+                        # order is kept because selection reads this list.
                         raw_qs = sorted(
                             data.get("questions", []),
                             key=lambda it: 0 if it.get("source") == "cbse_board_paper" else 1)
@@ -708,18 +717,24 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                                 continue
                             if not _grade_matches(item_grade_roman, grade):
                                 continue
-                            # The same gates the registry path applies above: a
-                            # served record is no more exempt from printing a
-                            # figure it lacks, or options that never arrived.
-                            stem = item["stem"]
-                            if has_broken_options(stem):
-                                skipped_broken_options += 1
-                                continue
-                            if needs_missing_figure(stem):
-                                skipped_figure += 1
-                                continue
-                            if looks_truncated(stem):
-                                skipped_truncated += 1
+                            # The ONE gate, the merge's own (Task 126). This
+                            # branch used to run `has_broken_options`,
+                            # `needs_missing_figure` and `looks_truncated`
+                            # here -- the gates above, which read RAW PDF
+                            # extraction and were measured for it. Over a
+                            # MERGED record, already repaired and normalised
+                            # by `bank_merge`, they were simply wrong: of the
+                            # 238 served records they refused on 2026-09-23
+                            # every one was answerable as printed, 155 of them
+                            # because each of their options is a single
+                            # character ("(A) 1 (B) 2 (C) 3 (D) 4"). So `/v1`
+                            # sold 4,575 class 6-10 Maths/Science records and
+                            # this pool composed from 4,099. One file must get
+                            # one answer, and the merge is where it is given.
+                            reason = unservable_reason(item)
+                            if reason is not None:
+                                skipped_unservable[reason] = (
+                                    skipped_unservable.get(reason, 0) + 1)
                                 continue
                             # The record is served as-is (mapping.to_question_schema),
                             # so it must be a valid QuestionSchema. The phone contract
@@ -745,9 +760,19 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                             if not QuestionBank.has_answer_key(item):
                                 skipped_unkeyed += 1
                                 continue
-                            if near_dupes.is_duplicate(stem):
-                                skipped_near_dup += 1
-                                continue
+                            # No near-duplicate index here. The merge runs one
+                            # (`bank_merge._NearDuplicates`, threshold 0.9,
+                            # with a polarity guard and a words-only-added-or-
+                            # dropped test) over exactly these records, and
+                            # running a second, cruder one over its output
+                            # dropped 307 distinct class 6-10 Maths/Science
+                            # questions: `_signature` keeps only tokens that
+                            # start with a letter, so "10001 x 0 = ___" and
+                            # "Successor of 106159 is ___" reduce to the same
+                            # bag of words, as do the Exemplar's "perfect
+                            # squares between 1 and 100" and "perfect cubes
+                            # between 1 and 1000". Twenty were read by hand on
+                            # 2026-09-23 and all twenty were two questions.
                             q = Question(
                                 canonical_id=item["id"],
                                 title=item["stem"][:100],
@@ -778,10 +803,14 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
     log.info("question pool built: %d questions from %d papers, %d with official answers "
              "(skipped: %d need a figure, %d unreadable Hindi, %d near-duplicates, "
              "%d truncated/missing options, %d broken option lists, %d invalid records, "
-             "%d with no answer key)",
+             "%d with no answer key; served-bank records the merge's gate refuses: %s)",
              len(pool.questions), len(rows), keyed, skipped_figure, skipped_mangled,
              skipped_near_dup, skipped_truncated, skipped_broken_options, skipped_invalid,
-             skipped_unkeyed)
+             skipped_unkeyed,
+             # A non-empty dict here means questions.json was written by a
+             # merge older than the rule, or by hand: /v1 is serving records
+             # this pool refuses, and the two surfaces have drifted apart.
+             sorted(skipped_unservable.items()) or "none")
     return pool
 
 

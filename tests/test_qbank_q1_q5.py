@@ -820,6 +820,133 @@ def test_has_answer_is_the_one_rule_for_a_bank_record(tmp_path, monkeypatch):
 
 
 # --------------------------------------------------------------------------- #
+# 6b. one gate: "can this record be served" (Task 126)
+# --------------------------------------------------------------------------- #
+#
+# The same failure in the other half of the question. Q1 is "has it an answer
+# key"; this is "can a student read it at all", and the two surfaces answered
+# it differently for the same file. `pool.build_pool`'s baked-bank path ran
+# `has_broken_options` / `needs_missing_figure` / `looks_truncated` and its own
+# near-duplicate index over records the merge had already repaired, normalised
+# and gated -- 476 class 6-10 Maths/Science records the API sold and the
+# builder refused (re-audit, 2026-09-23). Measured on that bank the same day,
+# every one of those rules was wrong on merged input: "(A) 1 (B) 2 (C) 3
+# (D) 4" reads as a broken option list because each option is one character
+# long, and 307 distinct Exemplar questions read as near-duplicates of one
+# another because the pool's signature drops every number.
+#
+# The gate belongs at the merge, which already has it, and `pool` calls that
+# one function instead of keeping a second answer.
+
+def test_a_single_character_option_is_an_option_not_a_broken_list(tmp_path, monkeypatch):
+    """155 served records read this way, 152 of them Mathematics 6-10:
+    `cbe:q:Maths7RKS1`, "What is the value of (30 x 70) + 60? (A) 0 (B) 1
+    (C) 2 (D) 27", is answerable and was refused every paper."""
+    from academicos.corpus import bank_merge as bm
+
+    rec = _served(31, stem="What is the value of (30 x 70) + 60? "
+                           "(A) 0 (B) 1 (C) 2 (D) 27", type="mcq", marks=1)
+    assert bm.unservable_reason(rec) is None
+    built = _pool_over(tmp_path, monkeypatch, [rec], subject="Science", grade="X")
+    assert [q.id for q in built.questions] == [rec["id"]]
+
+
+def test_two_questions_that_differ_only_in_their_numbers_are_two_questions(
+        tmp_path, monkeypatch):
+    """`exemplar:q:8:mathematics:3:-:25` and `...:26` ask for the perfect
+    squares below 100 and the perfect cubes below 1000. The pool's signature
+    keeps only tokens that start with a letter, so both reduced to the same
+    bag of words and the second was dropped from every Mathematics 8 paper.
+    307 class 6-10 Maths/Science records went this way; twenty were read by
+    hand on 2026-09-23 and all twenty were two questions."""
+    from academicos.assessment.pool import _NearDuplicateIndex
+
+    stems = ("Fill in the blanks to make the statements true: There are "
+             "_________ perfect squares between 1 and 100.",
+             "Fill in the blanks to make the statements true: There are "
+             "_________ perfect cubes between 1 and 1000.")
+    index = _NearDuplicateIndex()
+    assert [index.is_duplicate(s) for s in stems] == [False, True], (
+        "this test is only worth running while the pool's own index still "
+        "calls these one question")
+
+    a, b = (_served(32 + i, stem=s) for i, s in enumerate(stems))
+    built = _pool_over(tmp_path, monkeypatch, [a, b], subject="Science", grade="X")
+    assert [q.id for q in built.questions] == [a["id"], b["id"]]
+
+
+def test_an_unreadable_record_is_absent_from_both_surfaces(tmp_path, monkeypatch):
+    """The gate's own case, end to end: an MCQ whose options never arrived is
+    excluded by the merge, so it is not in the file either surface reads."""
+    from academicos.corpus import bank_merge as bm
+    from test_bank_merge import board
+
+    broken = board(34, source="cbse_sample_paper", type="mcq", marks=1,
+                   stem="Which of the following is the correct option :")
+    result = bm.compose([], [], [broken])
+    # `normalise`'s more specific name for the same defect; `exclusion_reason`
+    # calls it "options-missing" when it is read on the record alone.
+    assert [(e["id"], e["reason"]) for e in result.excluded] == \
+        [(broken["id"], "mcq-options-unresolved")]
+    assert bm.unservable_reason(broken) == "options-missing"
+    assert result.questions == []
+
+    assert QuestionBank(result.questions).get(broken["id"]) is None
+    built = _pool_over(tmp_path, monkeypatch, result.questions,
+                       subject="Science", grade="X")
+    assert built.questions == []
+
+
+def test_the_builder_refuses_what_the_gate_refuses_even_from_a_stale_bank(
+        tmp_path, monkeypatch):
+    """The gate stays a gate on the builder's side. A questions.json written
+    by a merge older than the rule -- or edited by hand -- must not print a
+    record neither surface should serve, and the reason must be the merge's
+    own, not a second opinion."""
+    from academicos.corpus import bank_merge as bm
+
+    good = _served(35, stem="Explain why the sky appears blue during the day.")
+    bad = _served(36, stem="Which of the following is the correct option :",
+                  type="mcq", marks=1)
+    assert bm.unservable_reason(good) is None
+    assert bm.unservable_reason(bad) == "options-missing"
+
+    built = _pool_over(tmp_path, monkeypatch, [good, bad],
+                       subject="Science", grade="X")
+    assert [q.id for q in built.questions] == [good["id"]]
+
+
+def test_the_baked_bank_path_keeps_no_second_copy_of_the_rule():
+    """A source scan, as Task 16 did for the merge's own filters: the branch
+    that loads questions.json must ask `bank_merge` and nothing else.
+
+    The registry path above it still runs the stem gates -- it reads raw PDF
+    extraction, where an option list really is destroyed -- so the scan is of
+    the baked-bank branch alone."""
+    import inspect
+
+    from academicos.assessment import pool as pool_module
+
+    source = inspect.getsource(pool_module.build_pool)
+    _registry_path, marker, baked = source.partition("_baked_bank_paths(cfg)")
+    assert marker, "build_pool no longer has a baked-bank branch to scan"
+    # Code only. The comments in that branch name the rules it used to apply
+    # and why they were wrong, which is the point of them.
+    baked = "\n".join(line.split("#", 1)[0] for line in baked.splitlines())
+    second_opinions = [name for name in
+                       ("has_broken_options", "needs_missing_figure",
+                        "looks_truncated", "looks_mangled", "near_dupes")
+                       if name in baked]
+    assert second_opinions == [], (
+        "the baked-bank path applies its own servability rules "
+        f"({', '.join(second_opinions)}); the merge already answered this "
+        "question about this file -- call bank_merge.unservable_reason")
+    assert "unservable_reason" in baked, (
+        "the baked-bank path must still ask the one gate, so a questions.json "
+        "written by an older merge cannot reach a paper")
+
+
+# --------------------------------------------------------------------------- #
 # 7. the collection the counts are counted over, and the filter chain
 # --------------------------------------------------------------------------- #
 #
