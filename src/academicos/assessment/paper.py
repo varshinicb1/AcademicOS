@@ -29,6 +29,12 @@ def _key_note(scheme, marks: int) -> str:
         really is all or nothing. Saying so is the point: a marking sheet that
         shows "- <the whole answer> [5m]" and nothing else invites a marker to
         assume steps exist and invent them.
+
+    Not said of an option key. An MCQ worth 2 marks has one point because the
+    student picked the right letter or did not, and "unless you set your own
+    value points" is advice a marker cannot take on it -- there is nothing to
+    divide. One served record is an objective scheme worth more than one mark
+    (cbe:q:Maths9SM1).
     """
     meta = getattr(scheme, "metadata", None) or {}
     points = getattr(scheme, "marking_points", None) or []
@@ -36,6 +42,8 @@ def _key_note(scheme, marks: int) -> str:
     if any_of and points:
         return (f"\n(Any {int(any_of)} of the above value points, "
                 f"{points[0].marks} mark(s) each.)")
+    if meta.get("objective"):
+        return ""
     if len(points) == 1 and (marks or 0) > 1:
         return ("\n(The source prints no split for this answer: it is all or nothing "
                 "unless you set your own value points.)")

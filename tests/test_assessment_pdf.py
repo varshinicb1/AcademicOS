@@ -707,3 +707,14 @@ def test_a_scheme_that_awards_any_two_of_its_points_says_so(tmp_path):
 def test_a_one_mark_question_is_not_called_all_or_nothing():
     _paper, key = _key_for(_question(1, [("Scattering", 1)]))
     assert "all or nothing" not in key
+
+
+def test_an_option_key_is_not_told_to_set_its_own_value_points():
+    """cbe:q:Maths9SM1 -- a 2-mark MCQ whose single point is the correct
+    option. The note tells a marker the key is all or nothing "unless you set
+    your own value points", and an option key has none to set: the student
+    picked C or they did not. One served record is affected today."""
+    _paper, key = _key_for(_question(2, [("Correct option C: 5.101 x 1014 m2", 2)],
+                                     metadata={"objective": True}))
+    assert "all or nothing" not in key
+    assert "value points" not in key

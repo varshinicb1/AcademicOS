@@ -17,17 +17,19 @@ The sources print the split. A CBSE marking scheme writes "1+1=2", "1X2=2",
 every step of the working, "M1 4 x 2(12+8) ... M1 their 160 x 5 ... A1 Rs
 800"; an NCERT Exemplar answer prints its parts, "(a) ... (b) ... (c) ...".
 The importers threw all of it away. This module reads it back -- and NOTHING
-else. Measured over the 2,449 served multi-mark answers at bc41780, 126 of
-them split and 2,323 keep their single point, which is what those answers say:
+else. Measured over the 2,449 served multi-mark answers with the rules as they
+stand (`python scripts/check_marking_split.py --reasons`), 123 of them split
+and 2,326 keep their single point, which is what those answers say:
 
    1,606  prose: no list, no mark annotation, nothing to read
-     276  a list whose count does not divide the question's marks
+     273  a list whose count does not divide the question's marks
      213  two answers in one key -- an internal choice
      168  a CBE group item, whose key covers several sub-questions
-      23  a printed per-point value that does not fit the list
+      22  a printed per-point value that does not fit the list
       13  answer content outside the list no point would account for
        9  the board prints half a mark a point, which `marks` cannot carry
-       4  an "any N" that does not divide the marks or over-awards the list
+       8  a statement in front of the list that no point accounts for
+       3  an "any N" that does not divide the marks or over-awards the list
        3  a level-of-response rubric, whose bullets are not value points
        3  named points that do not account for the question's marks
        3  printed marks or addends that do not line up with the list
@@ -71,6 +73,15 @@ reconcile with the list (say "2+1=3" over three items: which two are the 1?)
 refuses the split outright rather than falling back on an equal division. A
 wrong split is worse than no split: it tells a teacher that a mark belongs to a
 point the board did not award it for.
+
+Every rule must also ACCOUNT FOR THE ANSWER. Text in front of the list is a
+lead-in ("Hint—", "Two reasons ... are- 1+1=2") and carries no mark, but only
+while it reads as one: a lead-in that ENDS A SENTENCE is a statement of its
+own, and splitting the list behind it would put the question's marks on part
+of its answer. That is measured, not assumed -- reading all 74 `list-equal`
+splits against their source found two of the three keys with such a lead-in
+wrong, and the rule now refuses all three
+(tests/fixtures/marking_split_handcheck.json).
 
 Marks are whole numbers here, never halves
 ------------------------------------------
@@ -135,6 +146,23 @@ _MIN_CUT = 8
 # answer is not split at all. 120 is the shortest bound that keeps the SQP
 # schemes whose lead-in is the question restated with its mark annotation.
 _MAX_LEAD_IN = 120
+
+# Length is not the only tell. A lead-in that ENDS A SENTENCE is a statement of
+# its own, not an introduction to the list -- and no value point accounts for
+# it. Three of the 126 splits the rules made before this one had such a
+# lead-in (five further keys reach it, and were already refused further down),
+# and two of the three were wrong for exactly that reason:
+# cbse:sqp:ClassXII_2025_26:Sociology:24,
+# where the board prints THREE bullets against 2 marks and the parser lost the
+# first bullet's marker ("Workers get exhausted earlier than otherwise. * ... *
+# ..."), so splitting the two that kept theirs put a mark on two of the board's
+# three points and none on the third; and exemplar:q:9:mathematics:3:3.3:8,
+# whose key ran on into its neighbours' answers ("C, D, E, G 10. (7, 0), (0,
+# -7) 11. (i) ... (ii) ... (iii) ..."), where the list at the end belongs to
+# question 11 and question 8's own answer sits in the lead-in. A lead-in that
+# runs INTO its list ("... because they help in (a) ... (b) ...") does not end
+# a sentence and still introduces it.
+_STATEMENT_LEAD_IN = re.compile(r"[.!?][\"'”’)\]]*\s*$")
 
 _WORD_NUMBERS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
                  "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10}
@@ -345,10 +373,11 @@ def split_answer(answer: str, marks: int, stem: str = "") -> Split:
 
     listing = _list_items(text)
     lead_in, items, instruction = listing.lead_in, listing.items, listing.instruction
-    if not items or len(lead_in) > _MAX_LEAD_IN:
-        # No list to divide. A mark scheme can still name its value points
-        # ("Award 1 mark for a valid explanation of 'daunting'") where the
-        # answer beside them flattened into prose.
+    if not items or len(lead_in) > _MAX_LEAD_IN or _STATEMENT_LEAD_IN.search(lead_in):
+        # No list to divide, or text in front of it that the list does not
+        # account for. A mark scheme can still name its value points ("Award 1
+        # mark for a valid explanation of 'daunting'") where the answer beside
+        # them flattened into prose.
         return _marks_for(text, marks) or _one_point(text, marks)
 
     # The instruction that governs a list is printed WITH the list -- in the

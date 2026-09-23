@@ -73,6 +73,8 @@ def _why_whole(text: str, marks: int, stem: str) -> str:
                 else "prose: no list, no mark annotation, nothing to read")
     if len(lead_in) > ms._MAX_LEAD_IN:
         return "answer content outside the list no point would account for"
+    if ms._STATEMENT_LEAD_IN.search(lead_in):
+        return "a statement in front of the list that no point accounts for"
     governing = f"{lead_in} {listing.instruction}"
     any_n = ms._any_of_count(governing)
     if any_n is not None and any_n > len(items):

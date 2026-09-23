@@ -314,6 +314,64 @@ def test_full_credit_needs_no_review_but_partial_does():
     assert ev.needs_review is False
 
 
+# ------------------------------------------------------ any N of the above ---
+# Task 124 splits "Any two of the following" into every listed point at
+# marks/N, records `anyOf` on the scheme and marks each listed point
+# isRequired=False (corpus/marking_split.py value_points), because the board
+# awards only N of them. The scorer has to read that flag: the alternatives a
+# full-credit answer did not take are not gaps.
+
+def _any_of_scheme() -> AnswerSchemeSchema:
+    """cbse:sqp:ClassX_2022_23:Home Science:22 in miniature -- five listed
+    ways for a 2-mark question, "Any other, Any two"."""
+    return AnswerSchemeSchema(
+        total_marks=2,
+        marking_points=[
+            MarkingPointSchema(id=f"mp{i}", description=f"way {i}", marks=1,
+                               keyword=kw, is_required=False)
+            for i, kw in enumerate(("posture", "crouch", "bucket", "trolley", "stool"), 1)],
+        metadata={"anyOf": 2},
+    )
+
+
+def test_any_two_scheme_does_not_report_the_untaken_alternatives_as_gaps():
+    scheme = _any_of_scheme()
+    q = _question(marks=2, scheme=scheme)
+    ev = evaluate_answer(q, scheme, "Change your posture often, and crouch to lift a load.")
+    assert ev.awarded_marks == 2
+    assert ev.verdict == "fullCredit"
+    # The other three ways were never required: two of five is the whole answer.
+    assert ev.gaps == []
+    assert "Missing" not in ev.reasoning
+    assert "3 further" in ev.reasoning
+
+
+def test_any_two_scheme_still_reports_alternatives_short_of_full_marks():
+    """One way of five earns one of two marks, and another alternative would
+    earn the second -- so short of the quota they are still what is missing."""
+    scheme = _any_of_scheme()
+    q = _question(marks=2, scheme=scheme)
+    ev = evaluate_answer(q, scheme, "Change your posture often.")
+    assert ev.awarded_marks == 1
+    assert ev.verdict == "partialCredit"
+    assert ev.gaps == ["way 2", "way 3", "way 4", "way 5"]
+
+
+def test_a_required_point_is_still_a_gap_at_full_marks():
+    """Only an alternative is suppressed. A scheme whose points are all
+    required cannot reach full marks with one unmatched, but a capped award
+    can (`awarded_marks_clamped_to_max`), and that point is genuinely missing."""
+    scheme = AnswerSchemeSchema(
+        total_marks=2,
+        marking_points=[_point("mp1", 2, "oxygen", description="a"),
+                        _point("mp2", 2, "glucose", description="b")],
+    )
+    q = _question(marks=2, scheme=scheme)
+    ev = evaluate_answer(q, scheme, "Oxygen is released")
+    assert ev.awarded_marks == 2
+    assert ev.gaps == ["b"]
+
+
 # --------------------------------------------------------- keyless scheme ---
 # C4: a question whose answer_scheme has zero marking points has no key at all.
 # The scorer used to fall through and produce a confident-sounding verdict

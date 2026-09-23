@@ -21,6 +21,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from academicos.corpus import marking_split as ms  # noqa: E402
 
 HAND_CHECK = ROOT / "tests" / "fixtures" / "marking_split_handcheck.json"
+SERVED = ROOT / "academicos-data" / "syllabus" / "questions.json"
 
 
 # --------------------------------------------------------------------------- #
@@ -335,6 +336,51 @@ def test_any_one_of_each_part_is_an_instruction_inside_the_parts():
     assert [p.marks for p in split.points] == [1, 1, 1]
 
 
+def test_a_statement_before_the_list_is_not_a_lead_in():
+    """cbse:sqp:ClassXII_2025_26:Sociology:24 -- the marking scheme prints
+    THREE bullets against 2 marks and the parser lost the first bullet's
+    marker, so the key reads "Workers get exhausted earlier than otherwise.
+    <bullet> ... <bullet> ...". Splitting the two that kept their bullet gives
+    a mark each to two of the board's three points and none to the third: a
+    mark placed where the board did not put it. Text before the list that ENDS
+    a sentence is a statement of its own, not an introduction to the list, and
+    no value point accounts for it -- so the key stays whole."""
+    answer = ("Workers get exhausted earlier than otherwise. • Workers will take "
+              "voluntary retirement. • Increased productivity, efficiency and profit.")
+    split = ms.split_answer(answer, 2)
+    assert split.rule == ""
+    assert [p.marks for p in split.points] == [2]
+    assert split.all_or_nothing
+
+
+def test_a_key_holding_its_neighbours_answers_is_not_split():
+    """exemplar:q:9:mathematics:3:3.3:8 -- the Exemplar answers file prints
+    its exercise as one run, "8. C, D, E, G 10. (7, 0), (0, -7) 11. (i) (0, 0)
+    (ii) (0,- 4) (iii) (5, 0)", and this record's key kept all of it. The list
+    at the end is question 11's answer; question 8's own answer is "C, D, E,
+    G", in front of it. Splitting the list would award this question's three
+    marks to another question's answer."""
+    answer = ("C, D, E, G 10. (7, 0), (0, –7) 11. (i) (0, 0) (ii) (0,– 4) "
+              "(iii) (5, 0)")
+    split = ms.split_answer(answer, 3)
+    assert split.rule == ""
+    assert [p.marks for p in split.points] == [3]
+
+
+def test_a_lead_in_that_runs_into_its_list_still_introduces_it():
+    """The other side of the rule, so it cannot be read as "any prose before a
+    list refuses the split". exemplar:q:6:science:2:-:16 prints "Vitamins and
+    minerals are very important because they help in (a) ... (b) ... (c) ...":
+    the text before the list does not end a sentence, the items complete it,
+    and each of the three carries a mark of the three."""
+    answer = ("Vitamins and minerals are very important because they help in "
+              "(a) protecting our body against diseases. (b) growth. "
+              "(c) maintaining good health.")
+    split = ms.split_answer(answer, 3)
+    assert split.rule == ms.LIST_EQUAL
+    assert [p.marks for p in split.points] == [1, 1, 1]
+
+
 def test_a_case_studys_parts_are_not_divided_equally():
     """cbse:sqp:ClassXII_2022_23:Applied Mathematics:38 -- a case study whose
     three parts the paper's own general instructions weight 1, 1 and 2 ("Each
@@ -486,11 +532,11 @@ def test_an_answer_with_no_restatement_is_untouched():
 # --------------------------------------------------------------------------- #
 
 def test_the_hand_checked_sample_still_splits_the_way_it_was_judged():
-    """77 keys read against their source PDF on 2026-09-23 -- every CBSE
-    marking scheme, CBE item bank and Exemplar answer booklet the rules fired
-    on, across all six rules, plus the one key they are held back from. A rule
-    change that moves any of them has to be re-judged against the source, not
-    against this file."""
+    """127 keys read against their source PDF -- every CBSE marking scheme,
+    CBE item bank and Exemplar answer booklet the rules fire on, across all
+    six rules, plus the four keys they are held back from. A rule change that
+    moves any of them has to be re-judged against the source, not against this
+    file."""
     sample = json.loads(HAND_CHECK.read_text(encoding="utf-8"))["samples"]
     assert len([r for r in sample if r["rule"]]) >= 40
     for row in sample:
@@ -506,12 +552,60 @@ def test_the_hand_checked_precision_is_at_least_0_95():
     """Under 0.95, only the rules that held ship (Task 124). Measured over the
     keys that SHIP a split -- a key the rules refuse cannot be a wrong split,
     and the sample keeps it (`verdict: none`) only so the reason stays with
-    the record. 76 of 76 on 2026-09-23: the Applied Mathematics case study the
-    first check judged wrong is now refused, because a CBSE case study's parts
-    are 1, 1 and 2 by the paper's own general instructions."""
+    the record. 122 of 123 on 2026-09-24. The one that ships wrong is
+    exemplar:q:9:mathematics:14:14.2:2, where the book answers "Median will be
+    a good representative of the data, because (i) ... (ii) ..." and the split
+    gives both marks to the two reasons: naming the median is half of what the
+    stem asks, and its mark goes to a point that is not it."""
     sample = json.loads(HAND_CHECK.read_text(encoding="utf-8"))["samples"]
     shipped = [r for r in sample if r["rule"]]
     wrong = [r for r in shipped if r["verdict"] == "wrong"]
     assert len(shipped) - len(wrong) >= 0.95 * len(shipped), [r["id"] for r in wrong]
     # A row that ships no split is not a pass mark: it says so.
     assert all(r["verdict"] == "none" for r in sample if not r["rule"])
+    # Nor is a wrong one recorded without the reading that found it wrong.
+    assert all(r["why"] for r in sample if r["verdict"] != "correct")
+
+
+def test_every_split_the_rules_fire_on_the_served_bank_is_hand_checked():
+    """The sampling gate, and the reason it exists.
+
+    Precision is only measured where a key was read against its source, so a
+    rule the check never reached is a claim with no evidence under it. When
+    this sample was first written it held every any-of, step-marks,
+    marks-each, marks-printed and marks-for split but only 24 of the 74
+    `list-equal` ones -- the highest-volume rule, and the only one whose
+    allocation is ours (divide the marks over the parts the source shows)
+    rather than a transcription of what the board printed. Reading the other
+    fifty found two wrong splits and one key that had swallowed its
+    neighbours' answers; the statement lead-in rule refuses all three.
+
+    Every key the rules split on the served bank is now in the sample, by id,
+    whether the bank still carries it as one lump point (the split is then
+    predicted, as scripts/check_marking_split.py predicts it) or a rebuild has
+    already written the split into the record.
+    """
+    if not SERVED.exists():                       # a checkout without the bank
+        return
+    raw = json.loads(SERVED.read_text(encoding="utf-8"))
+    records = raw["questions"] if isinstance(raw, dict) else raw
+    checked = {row["id"] for row in
+               json.loads(HAND_CHECK.read_text(encoding="utf-8"))["samples"]}
+
+    missing = []
+    for record in records:
+        scheme = record.get("answerScheme") or {}
+        points = scheme.get("markingPoints") or []
+        rule = (scheme.get("metadata") or {}).get("markSplit")
+        if not rule:
+            if len(points) != 1:
+                continue
+            marks = int(record.get("marks") or 0)
+            key = points[0].get("description") or ""
+            if marks <= 1 or not key.strip():
+                continue
+            stem = record.get("stem") or ""
+            rule = ms.split_answer(ms.strip_stem_echo(stem, key), marks, stem).rule
+        if rule and record.get("id") not in checked:
+            missing.append(record.get("id"))
+    assert not missing, missing[:20]
