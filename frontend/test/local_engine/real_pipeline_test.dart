@@ -31,8 +31,14 @@ void main() {
     // symbol-font character nothing can name) and put every raw content code
     // back on the chapter it belongs to, so the 24 "chapters" -- 13 real ones
     // and 11 codes such as "10.6.9" -- are the syllabus's 13 again.
+    //
+    // 504, not 505: cbse:q:src:de9d7a7a1c777974c1dd9138:30 is refused as
+    // scheme-marks-unallocated -- its key lists value points and gives every
+    // one 0 marks, so the printed answer key reads "[0m]" against each and
+    // tells a teacher nothing (re-audit of 2026-09-22 found 38% of the
+    // then-live bank like that).
     expect(CorpusRepository.instance.all.length, greaterThan(5000));
-    expect(science10.questionCount, 505);
+    expect(science10.questionCount, 504);
     expect(science10.chapters, 13);
   });
 
