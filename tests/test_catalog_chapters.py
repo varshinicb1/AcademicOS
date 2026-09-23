@@ -134,17 +134,34 @@ def test_the_chapter_view_reaches_every_question_the_class_serves(
 # Measured on 2026-09-23 after the pipeline rerun; a change that lowers one has
 # lost tags, which is the thing a teacher feels first.
 
-# Mathematics 6 is 3 lower than first measured, and deliberately so: the
-# id-prior used to read the corrupt Mathematics_6.json, where the new book's
-# chapter NAMES sat on the old book's ids, and three records were tagged off
-# that wrong name. fb0107a fixed the file and the tagger now reads the book's
-# real chapters, so the tagger no longer claims those three. A tag that came
-# from the wrong book is worth less than no tag.
+# Both floor sets below are ONE snapshot of ONE bank, re-measured together
+# whenever the bank is rebuilt, so that a number here always names a state
+# that existed. Currently: 99f3569, 5,429 records / 2,342 chapter tags, of
+# which 4,099 are served.
+#
+# They have moved twice, and the reasons are worth keeping because they are
+# different kinds of movement:
+#   * 223 -> 220 (Mathematics 6 only, at 061176f). The id-prior used to read
+#     the corrupt Mathematics_6.json, where the new book's chapter NAMES sat
+#     on the old book's ids, and three records were tagged off that wrong
+#     name. fb0107a fixed the file and the tagger stopped claiming them. All
+#     three LOST a tag, none moved, none gained: a one-directional loss with
+#     a single cause, and a tag that came from the wrong book is worth less
+#     than no tag.
+#   * the current numbers (at 99f3569). Task 124 re-parsed the CBE and SQP
+#     banks, which changes STEMS and not just marking schemes, and the tagger
+#     scores a question on its stem. Re-calibration also moved the thresholds,
+#     so borderline records crossed in BOTH directions -- Mathematics 8 and 9
+#     and Science 6 and 7 gained, Mathematics 6, 7 and 10 and Science 8 lost,
+#     net -1 tag across the bank while filing rose by 6.
+# The second kind is the one to be careful with: a net that barely moves can
+# hide a large two-way churn, so a rebuild that shifts these wants a
+# per-record diff (id, old tag, new tag, method), not just a total.
 
 TAG_FLOOR = {
-    ("Mathematics", 6): 220, ("Mathematics", 7): 189, ("Mathematics", 8): 488,
-    ("Mathematics", 9): 82, ("Mathematics", 10): 319,
-    ("Science", 6): 103, ("Science", 7): 125, ("Science", 8): 76,
+    ("Mathematics", 6): 218, ("Mathematics", 7): 188, ("Mathematics", 8): 491,
+    ("Mathematics", 9): 84, ("Mathematics", 10): 317,
+    ("Science", 6): 105, ("Science", 7): 126, ("Science", 8): 75,
     ("Science", 9): 276, ("Science", 10): 408,
 }
 # Of those, the ones the map placed rather than the tagger.
@@ -190,13 +207,14 @@ def test_the_served_bank_carries_the_exemplar_maps_own_tags():
 #
 # These floors are the chapter view measured on the served bank once the route
 # read the tag. They are lower than the raw tag counts in TAG_FLOOR above
-# because the web pool does not serve every record in the bank (4,100 of the
-# 4,576). A change that drops one has taken chapters back off a teacher.
+# because the web pool does not serve every record in the bank (4,099 of the
+# 4,575). A change that drops one has taken chapters back off a teacher.
 FILED_FLOOR = {
-    # 172, not 175: the same three Mathematics 6 records, see TAG_FLOOR above.
-    ("Mathematics", 6): 172, ("Mathematics", 7): 134, ("Mathematics", 8): 400,
-    ("Mathematics", 9): 71, ("Mathematics", 10): 287,
-    ("Science", 6): 103, ("Science", 7): 123, ("Science", 8): 76,
+    # Re-measured with TAG_FLOOR above, on the same bank -- see the note there
+    # for what moved and why. 2,056 filed of 4,099 served.
+    ("Mathematics", 6): 170, ("Mathematics", 7): 133, ("Mathematics", 8): 403,
+    ("Mathematics", 9): 74, ("Mathematics", 10): 285,
+    ("Science", 6): 105, ("Science", 7): 125, ("Science", 8): 77,
     ("Science", 9): 274, ("Science", 10): 410,
 }
 
