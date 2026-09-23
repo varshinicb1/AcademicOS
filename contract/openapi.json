@@ -6354,8 +6354,33 @@
         "title": "SubtopicResponse",
         "type": "object"
       },
+      "SyllabusChapterResponse": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "SyllabusChapterResponse",
+        "type": "object"
+      },
       "SyllabusResponse": {
         "properties": {
+          "chapters": {
+            "items": {
+              "$ref": "#/components/schemas/SyllabusChapterResponse"
+            },
+            "title": "Chapters",
+            "type": "array"
+          },
           "grade": {
             "title": "Grade",
             "type": "integer"

@@ -314,12 +314,28 @@ class SyllabusUnit {
         chapterNames = List<String>.from(j['chapterNames'] ?? const []);
 }
 
+class SyllabusChapter {
+  final String id;
+  final String name;
+
+  SyllabusChapter.fromJson(Map<String, dynamic> j)
+      : id = j['id'] ?? '',
+        name = j['name'] ?? '';
+}
+
 class Syllabus {
   final String subject;
   final int grade;
   final int totalMarks;
   final String source;
   final List<SyllabusUnit> units;
+
+  /// The book's own chapters, for a class whose CBSE units are marks
+  /// weightage and carry no chapter list of their own. Those units answer
+  /// with an empty `chapterNames`, so a screen that reads only the units
+  /// shows headings with nothing under them. Read both: a chapter appears in
+  /// exactly one of the two places, never both.
+  final List<SyllabusChapter> chapters;
 
   Syllabus.fromJson(Map<String, dynamic> j)
       : subject = j['subject'] ?? '',
@@ -328,7 +344,14 @@ class Syllabus {
         source = j['source'] ?? '',
         units = ((j['units'] ?? []) as List)
             .map((e) => SyllabusUnit.fromJson(Map<String, dynamic>.from(e)))
+            .toList(),
+        chapters = ((j['chapters'] ?? []) as List)
+            .map((e) => SyllabusChapter.fromJson(Map<String, dynamic>.from(e)))
             .toList();
+
+  /// Every chapter this syllabus names, wherever the file keeps them.
+  List<String> get chapterNames =>
+      [for (final u in units) ...u.chapterNames, for (final c in chapters) c.name];
 }
 
 class UnitAllocation {

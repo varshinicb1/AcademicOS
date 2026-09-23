@@ -4986,8 +4986,17 @@ export interface components {
             /** Topicid */
             topicId: string;
         };
+        /** SyllabusChapterResponse */
+        SyllabusChapterResponse: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+        };
         /** SyllabusResponse */
         SyllabusResponse: {
+            /** Chapters */
+            chapters?: components["schemas"]["SyllabusChapterResponse"][];
             /** Grade */
             grade: number;
             /** Source */
@@ -9107,7 +9116,7 @@ export interface operations {
                 grade?: number | null;
                 /** @description true: count only answer-keyed questions (the default). false: count only the unanswerable set, for auditing. */
                 has_scheme?: boolean | null;
-                /** @description narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1. */
+                /** @description narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page. */
                 key_provenance?: string | null;
                 /** @description count questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in. */
                 include_unkeyed?: boolean;
@@ -9292,7 +9301,7 @@ export interface operations {
                 subtopic_id?: string | null;
                 /** @description true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing. Since the Q1 pass this is the shared answer-key rule (published provenance AND real content), not the CBSE label alone; use key_provenance for the board's own schemes. */
                 has_scheme?: boolean | null;
-                /** @description narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1. */
+                /** @description narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page. */
                 key_provenance?: string | null;
                 review_state?: string | null;
                 keyword?: string | null;
@@ -9499,7 +9508,7 @@ export interface operations {
                 cursor?: string | null;
                 /** @description true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing this subtopic. */
                 has_scheme?: boolean | null;
-                /** @description narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1. */
+                /** @description narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page. */
                 key_provenance?: string | null;
                 include_unkeyed?: boolean;
             };

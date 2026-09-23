@@ -384,12 +384,28 @@ class SyllabusUnitResponse(Camel):
     chapter_names: list[str] = Field(default_factory=list)
 
 
+class SyllabusChapterResponse(Camel):
+    id: str
+    name: str
+
+
 class SyllabusResponse(Camel):
     subject: str
     grade: int
     total_marks: int
     source: str
     units: list[SyllabusUnitResponse]
+    # The book's own chapters, for a class whose units are CBSE's marks
+    # weightage and carry no chapter list. Before fb0107a those files held the
+    # PREVIOUS edition's chapters inside the units (and Mathematics 6 held the
+    # new book's names on the old book's ids), so the screen named chapters the
+    # class does not study; after it, `units[].chapterNames` was empty and the
+    # screen named none at all. They are listed here rather than distributed
+    # across units because no unit owns them -- inventing an owner would be a
+    # claim the file does not make. The id is the one `taxonomyChapterId`
+    # carries, so a client can ask for a chapter's questions without matching
+    # on names, which is the mistake this whole area came from.
+    chapters: list[SyllabusChapterResponse] = Field(default_factory=list)
 
 
 @router.get("/syllabus/{subject}/{grade}", response_model=SyllabusResponse)
@@ -407,6 +423,7 @@ def get_syllabus(subject: str, grade: int, response: Response) -> SyllabusRespon
             )
             for u in doc.units
         ],
+        chapters=[SyllabusChapterResponse(id=c.id, name=c.name) for c in doc.chapters],
     )
 
 
