@@ -133,6 +133,7 @@ class PaperBuilderController extends ChangeNotifier {
 
   bool downloading = false;
   String? downloadError;
+  bool downloadRetryable = false;
   final List<String> downloaded = [];
 
   bool get _disposed => _isDisposed;
@@ -213,6 +214,7 @@ class PaperBuilderController extends ChangeNotifier {
     _paperSections = const [];
     downloaded.clear();
     downloadError = null;
+    downloadRetryable = false;
   }
 
   bool get canLeaveClassSubject => grade != null && subject != null;
@@ -652,6 +654,7 @@ class PaperBuilderController extends ChangeNotifier {
     if (paper == null || downloading) return;
     downloading = true;
     downloadError = null;
+    downloadRetryable = false;
     downloaded.clear();
     _changed();
     final base = _fileBase();
@@ -667,6 +670,7 @@ class PaperBuilderController extends ChangeNotifier {
       }
     } catch (e) {
       downloadError = serverErrorMessage(e);
+      downloadRetryable = isRetryable(e);
     } finally {
       downloading = false;
       _changed();

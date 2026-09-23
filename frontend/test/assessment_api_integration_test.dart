@@ -85,5 +85,8 @@ void main() {
     final fetched = await api.getAssessment(assessment.id);
     expect(fetched.id, assessment.id);
     expect(fetched.title, 'Integration Test Paper');
-  }, timeout: const Timeout(Duration(seconds: 30)));
+    // 'live-backend': needs the server named in the header above, so the CI
+    // gate excludes it (frontend/dart_test.yaml declares the tag). Run it
+    // with `flutter test --tags live-backend` once the backend is up.
+  }, timeout: const Timeout(Duration(seconds: 30)), tags: 'live-backend');
 }

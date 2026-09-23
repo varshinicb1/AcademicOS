@@ -1,0 +1,16 @@
+# Test tags for `flutter test`.
+#
+# live-backend: the three tests that talk to a real server rather than a
+# fixture or an in-process fake --
+#   test/assessment_api_integration_test.dart  (localhost:8000)
+#   test/assessment_parse_test.dart            (localhost:8000)
+#   test/live_backend_auth_test.dart           (the deployed Render backend)
+# They are real tests, not dead ones: each is the only check that the app's
+# models still deserialize what a live server actually sends. But they fail
+# anywhere that server is not running, which is why the frontend suite was
+# never green from a clean checkout and so could not be a CI gate. The deploy
+# workflow runs `flutter test --exclude-tags live-backend`; run them by hand,
+# with the backend up, as
+#   flutter test --tags live-backend
+tags:
+  live-backend:

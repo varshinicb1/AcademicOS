@@ -22,16 +22,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'package:academicos/core/di/service_locator.dart';
 import 'package:academicos/core/local_engine/local_store.dart';
 import 'package:academicos/data/datasources/api/paper_builder_api.dart';
 import 'package:academicos/presentation/paper_builder/builder_memory.dart';
 import 'package:academicos/presentation/paper_builder/pages/paper_builder_page.dart';
 import 'package:academicos/presentation/paper_builder/paper_builder_controller.dart';
+import 'package:academicos/presentation/paper_builder/widgets/bank_picker.dart';
+import 'package:academicos/presentation/paper_builder/widgets/finish_step.dart';
 import 'package:academicos/presentation/paper_builder/widgets/template_step.dart';
 
 import 'fixture_api.dart';
 
 const _phone = Size(375, 812);
+
+/// Runs a controller call the way a tap on a step runs it: the frames are
+/// pumped while the request is in flight, and only then is the call's own
+/// result awaited.
+///
+/// Awaiting the call directly instead does not come back -- inside a widget
+/// test nothing advances the clock the response stream needs. Measured
+/// 2026-09-23: written that way these tests hung on the first await until the
+/// run was killed; pumped, each finishes in under a second.
+Future<void> settle(WidgetTester tester, Future<Object?> call) async {
+  final done = call.then((_) {});
+  await tester.pumpAndSettle();
+  await done;
+}
 
 /// Everything the builder asks the server for.
 bool _everything(String path) => true;
@@ -119,13 +136,17 @@ void main() {
   Finder primary() => find.byKey(const ValueKey('builder-primary'));
 
   /// The builder, opened on a phone browser against [adapter].
-  Future<void> pump(WidgetTester tester, _Refusing adapter) async {
+  ///
+  /// [interceptors] go on the Dio the builder's API is built from, exactly as
+  /// service_locator.dart puts them on the app's.
+  Future<void> pump(WidgetTester tester, _Refusing adapter,
+      {List<Interceptor> interceptors = const []}) async {
     tester.view.physicalSize = _phone;
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
     await tester.pumpWidget(MaterialApp(
       home: PaperBuilderPage(
-        api: fixtureApi(adapter),
+        api: fixtureApi(adapter, interceptors: interceptors),
         savePdf: (bytes, name) async {},
         schoolId: 'school_1',
         userId: fixtureTeacherId,
@@ -163,7 +184,34 @@ void main() {
   }
 
   group('a failed template load says what actually happened', () {
-    testWidgets('401: the session is over, not "the server answered 401"', (tester) async {
+    // The 401 branch is the one with no button, so the sentence is only half
+    // of what a teacher gets: the other half is the session interceptor
+    // clearing the dead token and sending them to Sign in. That half is the
+    // whole reason this branch may go without a Retry, so it is tested here
+    // rather than assumed -- with the production sessionInterceptor() on the
+    // builder's Dio, as service_locator.dart installs it (line 87; the
+    // builder's PaperBuilderApi is built from that same sl<Dio>()). Without
+    // it this test would read identically in a build where the interceptor
+    // had been dropped and the teacher was left on a dead screen: a sentence,
+    // no button, and nothing happening.
+    //
+    // bounceToLogin()'s observable effect here is the cleared token; the
+    // GoRouter half needs a registered router, which a widget test has none
+    // of (the call is already guarded for exactly that -- it runs before
+    // app_router.dart registers one at startup too).
+    testWidgets('401: the session is over, and the session interceptor ends it', (tester) async {
+      LocalStore.instance.authToken = 'a-session-the-server-no-longer-honours';
+      await pump(tester, _Refusing(status: 401, body: {'detail': 'Not authenticated'}),
+          interceptors: [sessionInterceptor()]);
+      await reachTemplates(tester);
+      expectTemplatesSay(tester, "You're signed out — sign in again", retry: false);
+      expect(LocalStore.instance.authToken, isNull,
+          reason: 'the interceptor must clear the dead session and bounce to Sign in -- '
+              'that recovery is why this branch is allowed no Retry button');
+    });
+
+    testWidgets('401 says the same thing on the step with no interceptor in the way',
+        (tester) async {
       await pump(tester, _Refusing(status: 401, body: {'detail': 'Not authenticated'}));
       await reachTemplates(tester);
       expectTemplatesSay(tester, "You're signed out — sign in again", retry: false);
@@ -254,6 +302,182 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  /// Scrolls [f] into view and taps it (the steps are ListViews: a widget
+  /// below the fold is not in the tree at all, so it can be neither found
+  /// nor tapped).
+  Future<void> tapVisible(WidgetTester tester, Finder f) async {
+    await tester.scrollUntilVisible(f, 200, scrollable: find.byType(Scrollable).first);
+    Scrollable.ensureVisible(f.evaluate().first, alignment: 0.5);
+    await tester.pumpAndSettle();
+    await tester.tap(f);
+    await tester.pumpAndSettle();
+  }
+
+  /// "Use" on the Class 10 Science half-yearly preset: the one the fixtures
+  /// captured a bank check for, so the chapters step it lands on is the step
+  /// a teacher actually sees.
+  Future<void> useHalfYearly(WidgetTester tester) async {
+    final preset = (fixtureJson('templates_10_science')['presets'] as List)
+        .firstWhere((p) => p['examType'] == 'half_yearly') as Map;
+    await tapVisible(
+        tester,
+        find.descendant(
+          of: find.ancestor(of: find.text(preset['name'] as String), matching: find.byType(Card)),
+          matching: find.text('Use'),
+        ));
+  }
+
+  // The chapters step (scope_step.dart). This is where a 401 lands once the
+  // templates step has succeeded -- the commonest way a teacher meets an
+  // expired session inside the builder -- and until now nothing pinned what
+  // it offers: an unconditional `OutlinedButton.icon(onPressed: c.loadChapters)`
+  // put back here would leave the whole suite green.
+  group('a failed chapter load offers the recovery that works, and only that', () {
+    testWidgets('403: the sentence, the fallback, and no button that cannot work', (tester) async {
+      await pump(tester, _Refusing(status: 403, where: (p) => p.endsWith('/chapters')));
+      await reachTemplates(tester);
+      await useHalfYearly(tester);
+
+      // The bank check itself went through, so the step can still do the one
+      // thing it offers instead of the chapter list.
+      expect(find.text('Ready: every section can be filled from the whole syllabus.'),
+          findsOneWidget);
+      await tester.scrollUntilVisible(
+          find.text("Could not load chapters: You don't have access to that"), 200,
+          scrollable: find.byType(Scrollable).first);
+      expect(find.text('You can still generate from the whole syllabus.'), findsOneWidget);
+      expect(find.widgetWithText(OutlinedButton, 'Try again'), findsNothing,
+          reason: 'a 403 answers the same way every time; the fallback above IS the recovery');
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('500: the same shape, with the button -- and it really reloads', (tester) async {
+      final adapter = _Refusing(status: 500, where: (p) => p.endsWith('/chapters'), times: 1);
+      await pump(tester, adapter);
+      await reachTemplates(tester);
+      await useHalfYearly(tester);
+
+      await tester.scrollUntilVisible(
+          find.text('Could not load chapters: The server had a problem (HTTP 500) — try again shortly'),
+          200,
+          scrollable: find.byType(Scrollable).first);
+      await tapVisible(tester, find.widgetWithText(OutlinedButton, 'Try again'));
+
+      expect(adapter.refusals, 1);
+      expect(find.textContaining('Could not load chapters'), findsNothing);
+      await tester.scrollUntilVisible(find.text('Whole syllabus (all chapters)'), 200,
+          scrollable: find.byType(Scrollable).first);
+      expect(tester.takeException(), isNull);
+    });
+  });
+
+  // The bank picker (bank_picker.dart), the fourth site caaf8e6 changed and
+  // the second with no test: `retry: true` put back in its `_message` call
+  // would also leave the suite green. Pumped on its own, as the sheet opens:
+  // it searches the moment it is built.
+  group('a failed bank search in the picker', () {
+    Future<void> pumpPicker(WidgetTester tester, _Refusing adapter) async {
+      tester.view.physicalSize = _phone;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final c = PaperBuilderController(
+        api: fixtureApi(adapter),
+        schoolId: 'school_1',
+        memory: BuilderMemory(fixtureTeacherId),
+        savePdf: (bytes, name) async {},
+      );
+      addTearDown(c.dispose);
+      c.grade = 10;
+      c.subject = 'Science';
+      await tester.pumpWidget(
+          MaterialApp(home: Scaffold(body: BankPicker(c: c, slot: '27', marks: 3))));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('403: no "Try again" on a search the server refuses every time', (tester) async {
+      await pumpPicker(tester, _Refusing(status: 403));
+      expect(find.text("Could not search the bank: You don't have access to that"), findsOneWidget);
+      expect(find.widgetWithText(TextButton, 'Try again'), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('500: the button is there, and the retry brings the questions', (tester) async {
+      final adapter = _Refusing(status: 500, times: 1);
+      await pumpPicker(tester, adapter);
+      expect(
+          find.text('Could not search the bank: The server had a problem (HTTP 500) — try again shortly'),
+          findsOneWidget);
+
+      await tester.tap(find.widgetWithText(TextButton, 'Try again'));
+      await tester.pumpAndSettle();
+
+      expect(adapter.refusals, 1);
+      expect(find.textContaining('Could not search the bank'), findsNothing);
+      expect(find.text(fixtureJsonList('search_10_science_3m').first['stem'] as String),
+          findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+  });
+
+  // The finish step (finish_step.dart). It was not touched by caaf8e6 and
+  // kept the sentence the deleted apiErrorMessage was written for -- one run
+  // on into the next ("...You don't have access to that Tap Download to try
+  // again."), telling a teacher whose session had expired to press the one
+  // button the server refuses every time.
+  group('a failed download says whether pressing Download again is worth it', () {
+    /// A saved paper, reached through the real controller (the finish step
+    /// needs `result`), with the finish step on screen.
+    Future<PaperBuilderController> downloaded(WidgetTester tester, _Refusing adapter) async {
+      tester.view.physicalSize = _phone;
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.reset);
+      final c = PaperBuilderController(
+        api: fixtureApi(adapter),
+        schoolId: 'school_1',
+        memory: BuilderMemory(fixtureTeacherId),
+        savePdf: (bytes, name) async {},
+      );
+      addTearDown(c.dispose);
+      c.grade = 10;
+      c.subject = 'Science';
+      await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: AnimatedBuilder(
+            animation: c,
+            builder: (_, __) => c.result == null ? const SizedBox.shrink() : FinishStep(c: c),
+          ),
+        ),
+      ));
+      await settle(tester, c.loadTemplates());
+      await settle(
+          tester,
+          c.useTemplate(
+              c.templates!.presets.firstWhere((t) => t.examType == 'half_yearly')));
+      await settle(tester, c.generate());
+      expect(c.result, isNotNull, reason: 'the paper must be saved before it can be downloaded');
+      await settle(tester, c.downloadAll());
+      return c;
+    }
+
+    testWidgets('403: one sentence, and no instruction to press Download again', (tester) async {
+      final c = await downloaded(tester, _Refusing(status: 403, where: (p) => p.contains('/export/')));
+      expect(c.downloadRetryable, isFalse);
+      expect(find.text("Download failed: You don't have access to that."), findsOneWidget);
+      expect(find.textContaining('Tap Download to try again'), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('500: the sentence ends, and Download is worth pressing again', (tester) async {
+      final c = await downloaded(tester, _Refusing(status: 500, where: (p) => p.contains('/export/')));
+      expect(c.downloadRetryable, isTrue);
+      expect(
+          find.text('Download failed: The server had a problem (HTTP 500) — try again shortly. '
+              'Tap Download to try again.'),
+          findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+  });
+
   // A failure that is NOT the failure of what the teacher asked for: the save
   // or duplicate went through, and the list refresh behind it did not. Until
   // 2026-09-23 the step showed that banner INSTEAD of the templates, so a
@@ -272,21 +496,6 @@ void main() {
         home: Scaffold(body: AnimatedBuilder(animation: c, builder: (_, __) => TemplateStep(c: c))),
       ));
       await tester.pumpAndSettle();
-    }
-
-    /// Runs a controller call the way a tap on the step runs it: the frames
-    /// are pumped while the request is in flight, and only then is the call's
-    /// own result awaited.
-    ///
-    /// Awaiting the call directly instead does not come back -- inside a
-    /// widget test nothing advances the clock the response stream needs.
-    /// Measured 2026-09-23: written that way these two tests hung on the
-    /// first await until the run was killed; pumped, both finish in under a
-    /// second.
-    Future<void> settle(WidgetTester tester, Future<Object?> call) async {
-      final done = call.then((_) {});
-      await tester.pumpAndSettle();
-      await done;
     }
 
     /// The real controller for class 10 Science, its step pumped and its

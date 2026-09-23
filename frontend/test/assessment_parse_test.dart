@@ -15,5 +15,10 @@ void main() {
       print('  ${a.id} | ${a.title} | ${a.status} | sections=${a.blueprint.sections.length}');
     }
     expect(list, isNotEmpty);
-  }, timeout: const Timeout(Duration(seconds: 20)));
+    // 'live-backend': this test needs `python -m academicos.cli serve --port
+    // 8000` running and fails anywhere it is not. Declared in
+    // frontend/dart_test.yaml and excluded by the CI gate
+    // (.github/workflows/deploy-gcp.yml); run it with
+    //   flutter test --tags live-backend
+  }, timeout: const Timeout(Duration(seconds: 20)), tags: 'live-backend');
 }

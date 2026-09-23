@@ -173,12 +173,21 @@ class FixtureAdapter implements HttpClientAdapter {
 /// (builder_errors_test.dart) wrap the fixtures in an adapter that refuses
 /// chosen routes, and it is the same real client that has to parse the
 /// refusal.
-PaperBuilderApi fixtureApi(HttpClientAdapter adapter) {
+///
+/// [interceptors] are added in order, as service_locator.dart adds them to
+/// the app's Dio. The default is none, because most tests are about what a
+/// step shows and an interceptor only adds noise -- but a test about a 401
+/// must pass the real `sessionInterceptor()`: without it, the builder's 401
+/// branch would read the same in a build where the interceptor had been
+/// dropped and the teacher was left on a dead screen.
+PaperBuilderApi fixtureApi(HttpClientAdapter adapter,
+    {List<Interceptor> interceptors = const []}) {
   // SyncTransformer: Dio's default decodes large JSON (the 170 KB generated
   // paper) on a background isolate, which a widget test's fake clock never
   // waits for -- the spinner would spin until pumpAndSettle times out.
   final dio = Dio(BaseOptions(baseUrl: 'http://fixture.test/api/v1'))
     ..httpClientAdapter = adapter
     ..transformer = SyncTransformer();
+  dio.interceptors.addAll(interceptors);
   return PaperBuilderApi(dio);
 }

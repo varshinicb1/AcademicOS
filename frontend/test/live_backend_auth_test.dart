@@ -68,7 +68,7 @@ void main() {
       // No token was held, so nothing was wiped and no navigation hijack.
       expect(LocalStore.instance.authToken, isNull);
     }
-  }, timeout: const Timeout(Duration(seconds: 120)));
+  }, timeout: const Timeout(Duration(seconds: 120)), tags: 'live-backend');
 
   test('bad login: AuthApi surfaces a friendly AuthException and the '
       'auth-path exception leaves any held session untouched', () async {
@@ -85,7 +85,7 @@ void main() {
     expect(LocalStore.instance.authToken, 'seed-token',
         reason: 'a 401 on /auth/login must never trigger the dead-session bounce');
     LocalStore.instance.clearAuth();
-  }, timeout: const Timeout(Duration(seconds: 120)));
+  }, timeout: const Timeout(Duration(seconds: 120)), tags: 'live-backend');
 
   test('full round trip: register -> interceptor attaches token -> me and '
       'assessments 200 -> teacher-on-principal-route 403 keeps the session '
@@ -148,5 +148,6 @@ void main() {
     await auth.logout();
     LocalStore.instance.clearAuth();
   }, timeout: const Timeout(Duration(minutes: 3)),
+      tags: 'live-backend',
       skip: _qaInvite == null ? 'set ACADEMICOS_QA_INVITE_CODE to a QA school teacher invite' : false);
 }

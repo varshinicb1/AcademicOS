@@ -9,9 +9,10 @@ name: Deploy to GCP (Cloud Run + Firebase Hosting)
 # no service-account JSON key to store, leak, or rotate. `id-token: write`
 # below is what enables that exchange -- removing it breaks the deploy.
 #
-#   test     -> real pytest suite (the gate that repeatedly caught regressions)
-#   backend  -> Cloud Build -> Artifact Registry -> Cloud Run
-#   frontend -> Flutter web build -> Firebase Hosting (needs backend's URL)
+#   test          -> real pytest suite (the gate that repeatedly caught regressions)
+#   frontend-test -> flutter analyze + flutter test (the same gate for the app)
+#   backend       -> Cloud Build -> Artifact Registry -> Cloud Run
+#   frontend      -> Flutter web build -> Firebase Hosting (needs backend's URL)
 #
 # Repo variables (Settings -> Secrets and variables -> Actions -> Variables):
 #   GCP_PROJECT_ID, GCP_REGION, WIF_PROVIDER, DEPLOY_SA, RUNTIME_SA,
@@ -36,9 +37,10 @@ name: Deploy to GCP (Cloud Run + Firebase Hosting)
 #                      see the deploy step). Remove it after the first deploy.
 # No repo *secrets* are needed -- app secrets live in Secret Manager.
 #
-# Prior to provisioning, this workflow is a no-op: the `test` job still runs
-# (it is the project's gate), but `backend` skips and `frontend` follows it,
-# so the run is green rather than red. See the condition on the `backend` job.
+# Prior to provisioning, this workflow is a no-op: the `test` and
+# `frontend-test` jobs still run (they are the project's gates), but `backend`
+# skips and `frontend` follows it, so the run is green rather than red. See the
+# condition on the `backend` job.
 # Run docs/gcp-bootstrap.sh, set the variables above, and it becomes live.
 
 on:
@@ -128,6 +130,49 @@ jobs:
 
       - name: Run the real test suite
         run: pytest tests/ -q
+
+  # The app's half of the gate. Until 2026-09-23 no workflow in this repo ran
+  # `flutter analyze` or `flutter test` at all: the Python suite gated every
+  # deploy while the Flutter app was only ever BUILT, and a build says nothing
+  # about whether the app still behaves. That is how the analyzer sat at 61
+  # issues across three audits unnoticed, and how the repo's own guard against
+  # an error a teacher never sees (test/no_swallowed_errors_test.dart) was
+  # failing at the very commit that was live.
+  #
+  # Its own job rather than a step of `frontend`: that job needs `backend`,
+  # which skips while GCP_PROJECT_ID is unset, and a gate that skips with the
+  # deploy is not a gate. `frontend` needs this one, so a red app suite stops
+  # the deploy as surely as a red pytest run does.
+  frontend-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - name: Install Flutter dependencies
+        run: flutter pub get
+        working-directory: frontend
+
+      # Errors and warnings fail the job (flutter analyze's own default);
+      # info-level lints do not. That is the line scorecard item 8.2 draws,
+      # and the line Task 803 cleared the analyzer to: removing some of the
+      # remaining infos would change behaviour, and a gate that demands it
+      # would be pressure to change behaviour to quieten a linter.
+      - name: Analyze the Flutter app
+        run: flutter analyze --no-fatal-infos
+        working-directory: frontend
+
+      # --exclude-tags live-backend: three tests need a server that is not
+      # running here (frontend/dart_test.yaml names them and says how to run
+      # them). Everything else is a fixture or an in-process fake and must
+      # pass from a clean checkout.
+      - name: Run the Flutter test suite
+        run: flutter test --exclude-tags live-backend
+        working-directory: frontend
 
   backend:
     needs: test
@@ -383,7 +428,7 @@ jobs:
           exit 1
 
   frontend:
-    needs: backend
+    needs: [backend, frontend-test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

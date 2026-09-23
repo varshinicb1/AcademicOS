@@ -51,7 +51,16 @@ class FinishStep extends StatelessWidget {
         if (c.downloadError != null)
           Padding(
             padding: const EdgeInsets.only(top: 8),
-            child: Text('Download failed: ${c.downloadError} Tap Download to try again.',
+            // The sentence ends here, not in the mapper: serverErrorMessage's
+            // branches have no full stop of their own, and the retry clause is
+            // added only where sending the same request again could work (see
+            // PaperBuilderController's class doc). Until 2026-09-23 this line
+            // ran the two together -- "You don't have access to that Tap
+            // Download to try again." -- which on a 401 or 403 pointed the
+            // teacher at the one action the server refuses every time.
+            child: Text(
+                'Download failed: ${c.downloadError}.'
+                '${c.downloadRetryable ? ' Tap Download to try again.' : ''}',
                 style: TextStyle(color: theme.colorScheme.error)),
           ),
         const SizedBox(height: 16),
