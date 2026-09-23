@@ -20,6 +20,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from academicos.assessment.pdf import (
     escape,
     export_pdf,
+    pdf_safe,
     split_stem_and_options,
 )
 from academicos.assessment.schemas import (
@@ -623,3 +624,15 @@ def test_every_symbol_in_the_served_bank_reaches_the_page(tmp_path):
     chars = sorted({c for r in rows for s in strings(r) for c in s if _is_symbol(c)})
     bad = _renders(chars, tmp_path, "bank")
     assert bad == [], "served characters the renderer prints as a notdef box: " + repr(bad)
+
+
+def test_an_exponent_prints_as_an_exponent_not_a_digit():
+    """`4y³` printed `4y3` -- a different quantity, and the whole point of the
+    question. The re-audit of 2026-09-23 found it on cbe:q:Maths8BS2, whose
+    options are `(A) 4y³ (B) 9y³ (C) 13y³ (D) 36y³`. A subscript stays a plain
+    digit: `H₂O` reads as H2O, the way chemistry is written in ASCII, and no
+    subscript changes a value."""
+    assert pdf_safe("(A) 4y³ (B) 9y³") == "(A) 4y^3 (B) 9y^3"
+    assert pdf_safe("a² + b² = c²") == "a^2 + b^2 = c^2"
+    assert pdf_safe("10⁻³") == "10^-3"
+    assert pdf_safe("H₂O and CO₂") == "H2O and CO2"
