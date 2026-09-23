@@ -566,13 +566,24 @@ def _syllabus_names(subject: str | None, grade: int | None) -> dict[str, str]:
     path = TAXONOMY_DIR.parent / f"{SUBJECTS[subject]}_{grade}.json"
     if not path.exists():
         return {}
+    doc = json.loads(path.read_text(encoding="utf-8"))
     names = {}
-    for unit in json.loads(path.read_text(encoding="utf-8")).get("units") or []:
+    for unit in doc.get("units") or []:
         if unit.get("name"):
             names["-".join(re.findall(r"[a-z]+", unit["name"].lower()))] = unit["name"]
         for ch in unit.get("chapters") or []:
             if ch.get("id") and ch.get("name"):
                 names[ch["id"]] = ch["name"]
+    # The book's chapters also live at the document's top level, where
+    # fb0107a put them for the eight files whose units carry CBSE's marks
+    # weightage and no chapter list of their own. Reading `units[]` alone lost
+    # every chapter name for those pairs, and the names are what the prior
+    # scores a question's words against -- without them it falls back to the
+    # slug's own words, which for Mathematics 6 were the OLD book's ids under
+    # the new book's names (the corruption fb0107a fixed).
+    for ch in doc.get("chapters") or []:
+        if ch.get("id") and ch.get("name"):
+            names[ch["id"]] = ch["name"]
     return names
 
 
@@ -615,6 +626,14 @@ def apply_tags(records: list[dict], tagger: TopicTagger, bank: str) -> tuple[lis
                 "id": rec.get("id"), "bank": bank, "subject": rec.get("subject"),
                 "grade": rec.get("grade"), "level": pending,
                 "stem": (rec.get("stem") or "")[:300],
+                # How the proposal's CHAPTER was decided, per entry. A pinned
+                # record queued at the topic level carries a chapter the
+                # Exemplar map read off the book, not one this tagger matched,
+                # and a single method on the queue's header called all 7,744
+                # entries "tfidf_textbook_v2" -- 1,626 of the served records
+                # are the map's. The levels below the chapter are always this
+                # tagger's, whatever this says.
+                "method": EXEMPLAR_MAP_METHOD if tag.pinned else TAG_METHOD,
                 "proposed": tag.to_proposal(), "confidence": dict(tag.confidence),
                 "evidence": tag.evidence,
             })

@@ -683,3 +683,19 @@ def test_applying_the_map_tags_the_whole_exemplar_bank_it_covers():
     assert all(r["taxonomyChapterId"] for r in by_map)
     tagged = [r for r in out if r.get("taxonomyChapterId")]
     assert len(tagged) / len(out) >= 0.45, (len(tagged), len(out))
+
+
+def test_the_id_prior_reads_the_books_chapters_wherever_the_file_keeps_them():
+    """`_syllabus_names` walked `units[].chapters` only. fb0107a moved the
+    book's own chapters to the document's top level for the eight files whose
+    units carry CBSE weightage and no chapter list, so the prior lost every
+    chapter name for those pairs and fell back to splitting the slug. The
+    names are the whole point of the prior: it scores a question's words
+    against them."""
+    from academicos.syllabus.tagger import _syllabus_names
+
+    names = _syllabus_names("Mathematics", 6)
+    assert names.get("mathematics-6/number-play") == "Number Play", names
+    # A file that keeps its chapters under units still works.
+    assert _syllabus_names("Science", 6).get("diversity-in-the-living-world") \
+        == "Diversity in the Living World"

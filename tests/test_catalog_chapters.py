@@ -134,8 +134,15 @@ def test_the_chapter_view_reaches_every_question_the_class_serves(
 # Measured on 2026-09-23 after the pipeline rerun; a change that lowers one has
 # lost tags, which is the thing a teacher feels first.
 
+# Mathematics 6 is 3 lower than first measured, and deliberately so: the
+# id-prior used to read the corrupt Mathematics_6.json, where the new book's
+# chapter NAMES sat on the old book's ids, and three records were tagged off
+# that wrong name. fb0107a fixed the file and the tagger now reads the book's
+# real chapters, so the tagger no longer claims those three. A tag that came
+# from the wrong book is worth less than no tag.
+
 TAG_FLOOR = {
-    ("Mathematics", 6): 223, ("Mathematics", 7): 189, ("Mathematics", 8): 488,
+    ("Mathematics", 6): 220, ("Mathematics", 7): 189, ("Mathematics", 8): 488,
     ("Mathematics", 9): 82, ("Mathematics", 10): 319,
     ("Science", 6): 103, ("Science", 7): 125, ("Science", 8): 76,
     ("Science", 9): 276, ("Science", 10): 408,
@@ -186,7 +193,8 @@ def test_the_served_bank_carries_the_exemplar_maps_own_tags():
 # because the web pool does not serve every record in the bank (4,100 of the
 # 4,576). A change that drops one has taken chapters back off a teacher.
 FILED_FLOOR = {
-    ("Mathematics", 6): 175, ("Mathematics", 7): 134, ("Mathematics", 8): 400,
+    # 172, not 175: the same three Mathematics 6 records, see TAG_FLOOR above.
+    ("Mathematics", 6): 172, ("Mathematics", 7): 134, ("Mathematics", 8): 400,
     ("Mathematics", 9): 71, ("Mathematics", 10): 287,
     ("Science", 6): 103, ("Science", 7): 123, ("Science", 8): 76,
     ("Science", 9): 274, ("Science", 10): 410,

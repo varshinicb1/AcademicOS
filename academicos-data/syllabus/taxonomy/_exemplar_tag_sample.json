@@ -1,0 +1,902 @@
+{
+ "notice": "The hand-check Task 123 asks for, as the records it was run on rather than a number in a report. 40 records drawn at random from the ones the Exemplar chapter map placed, each read against the chapter the map gave it in the CURRENT book -- the chapter's printed heading and section headings, and the chapter's own PDF where the wording was not decisive. Redraw it with `python scripts/build_exemplar_chapter_map.py --redraw`; `--check` re-derives it and re-adds the verdicts up.",
+ "verdictMeans": "right = this is the chapter of the current book the question belongs to, the one a teacher would look for it under. wrong = its subject matter belongs to a different chapter of that book, or that class no longer studies it at all. Requirement 3's 0.95 bar is read against this, because it is what a mapped row claims: the map's own rule (see _exemplar_chapter_map.json) separately allows a row up to 10% of questions on content the class meets elsewhere, and counting those as wrong here would measure that allowance twice.",
+ "beyondThatChaptersSectionsMeans": "Reported separately, not as wrong: the chapter is right, but the rationalised book prints no section for what this question asks, so a teacher who picks that chapter gets a question beyond what the class now reads. Both counts are below.",
+ "drawnFrom": "academicos-data/syllabus/questions.json, records with tagMethod exemplar-chapter-map",
+ "rule": "the population sorted by id, then random.Random(seed).sample(population, size) -- scripts/build_exemplar_chapter_map.py:draw_sample",
+ "seed": 123,
+ "size": 40,
+ "population": 1626,
+ "populationDigest": "44dfa93994d894705de4b0ea2aa83dcc73021f3fa8bf57560907a826b505427d",
+ "checkedBy": "Claude Opus 5, against ncert-dataset/textbooks (read-only) and the taxonomy trees built from it",
+ "checkedOn": "2026-09-23",
+ "counts": {
+  "checked": 40,
+  "right": 40,
+  "wrong": 0,
+  "precision": 1.0,
+  "beyondThatChaptersSections": 2
+ },
+ "items": [
+  {
+   "id": "exemplar:q:10:mathematics:11:11.1:5",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "If the perimeter of a circle is equal to that of a square, then the ratio of their areas is (A) 22 : 7 (B) 14 : 11 (C) 7 : 22 (D) 11: 14",
+   "exemplarChapter": {
+    "number": 11,
+    "title": "Area Related to Circles"
+   },
+   "taxonomyChapterId": "mathematics-10/areas-related-to-circles",
+   "currentChapter": {
+    "number": 11,
+    "title": "Areas Related to Circles",
+    "sourceFile": "chapters/jemh1/jemh111.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "hand-checked",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Circle and square of equal perimeter, ratio of areas: the current book's own chapter 11 is the chapter on areas related to circles, and its Exercise 11.1 works in circumference."
+  },
+  {
+   "id": "exemplar:q:10:mathematics:11:11.2:5",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "Is it true that the distance travelled by a circular wheel of diameter d cm in one revolution is 2 π d cm? Why?",
+   "exemplarChapter": {
+    "number": 11,
+    "title": "Area Related to Circles"
+   },
+   "taxonomyChapterId": "mathematics-10/areas-related-to-circles",
+   "currentChapter": {
+    "number": 11,
+    "title": "Areas Related to Circles",
+    "sourceFile": "chapters/jemh1/jemh111.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "hand-checked",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Distance a wheel covers in one revolution is the circumference; same chapter 11."
+  },
+  {
+   "id": "exemplar:q:10:mathematics:2:2.1:9",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "If the zeroes of the quadratic polynomial ax² + bx + c, c ≠ 0 are equal, then (A) c and a have opposite signs (B) c and b have opposite signs (C) c and a have the same sign (D) c and b have the same sign",
+   "exemplarChapter": {
+    "number": 2,
+    "title": "Polynomials"
+   },
+   "taxonomyChapterId": "mathematics-10/polynomials",
+   "currentChapter": {
+    "number": 2,
+    "title": "Polynomials",
+    "sourceFile": "chapters/jemh1/jemh102.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Equal zeroes of a quadratic: chapter 2 sections 2.2 Geometrical Meaning of the Zeroes and 2.3 Relationship between Zeroes and Coefficients."
+  },
+  {
+   "id": "exemplar:q:10:mathematics:3:3.1:5",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "The pair of equations x = a and y = b graphically represents lines which are (A) parallel (B) intersecting at (b, a) (C) coincident (D) intersecting at (a, b)",
+   "exemplarChapter": {
+    "number": 3,
+    "title": "Pair of Linear Equations in Two Variables"
+   },
+   "taxonomyChapterId": "mathematics-10/pair-of-linear-equations-in-two-variables",
+   "currentChapter": {
+    "number": 3,
+    "title": "Pair of Linear Equations in Two Variables",
+    "sourceFile": "chapters/jemh1/jemh103.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "x = a and y = b as lines: chapter 3 section 3.2 Graphical Method of Solution."
+  },
+  {
+   "id": "exemplar:q:10:mathematics:3:3.3:22",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "The angles of a cyclic quadrilateral ABCD are ∠A = (6x + 10)°, ∠B = (5x)° ∠C = (x + y)°, ∠D = (3y – 10)° Find x and y, and hence the values of the four angles.",
+   "exemplarChapter": {
+    "number": 3,
+    "title": "Pair of Linear Equations in Two Variables"
+   },
+   "taxonomyChapterId": "mathematics-10/pair-of-linear-equations-in-two-variables",
+   "currentChapter": {
+    "number": 3,
+    "title": "Pair of Linear Equations in Two Variables",
+    "sourceFile": "chapters/jemh1/jemh103.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "The cyclic quadrilateral only supplies the angle sum; the work is a pair of linear equations, chapter 3 section 3.3 Algebraic Methods."
+  },
+  {
+   "id": "exemplar:q:10:mathematics:3:3.3:3",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "For which values of a and b, will the following pair of linear equations have infinitely many solutions? x + 2y = 1 (a – b)x + (a + b)y = a + b – 2",
+   "exemplarChapter": {
+    "number": 3,
+    "title": "Pair of Linear Equations in Two Variables"
+   },
+   "taxonomyChapterId": "mathematics-10/pair-of-linear-equations-in-two-variables",
+   "currentChapter": {
+    "number": 3,
+    "title": "Pair of Linear Equations in Two Variables",
+    "sourceFile": "chapters/jemh1/jemh103.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Infinitely many solutions in a and b: chapter 3 section 3.3."
+  },
+  {
+   "id": "exemplar:q:10:mathematics:5:5.1:5",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "The first four terms of an AP, whose first term is –2 and the common difference is –2, are (A) – 2, 0, 2, 4 (B) – 2, 4, – 8, 16 (C) – 2, – 4, – 6, – 8 (D) – 2, – 4, – 8, –16",
+   "exemplarChapter": {
+    "number": 5,
+    "title": "Arithmetic Progressions"
+   },
+   "taxonomyChapterId": "mathematics-10/arithmetic-progressions",
+   "currentChapter": {
+    "number": 5,
+    "title": "Arithmetic Progressions",
+    "sourceFile": "chapters/jemh1/jemh105.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "First four terms from a and d: chapter 5 section 5.2 Arithmetic Progressions."
+  },
+  {
+   "id": "exemplar:q:10:mathematics:5:5.4:9",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "Jaspal Singh repays his total loan of Rs 118000 by paying every month starting with the first instalment of Rs 1000. If he increases the instalment by Rs 100 every month, what amount will be paid by him in the 30th instalment? What amount o",
+   "exemplarChapter": {
+    "number": 5,
+    "title": "Arithmetic Progressions"
+   },
+   "taxonomyChapterId": "mathematics-10/arithmetic-progressions",
+   "currentChapter": {
+    "number": 5,
+    "title": "Arithmetic Progressions",
+    "sourceFile": "chapters/jemh1/jemh105.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Instalments rising by a fixed amount: chapter 5 section 5.4 Sum of First n Terms of an AP."
+  },
+  {
+   "id": "exemplar:q:10:mathematics:6:6.1:12",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "If S is a point on side PQ of a \u0004 PQR such that PS = QS = RS, then (A) PR . QR = RS² (B) QS² + RS² = QR² (C) PR² + QR² = PQ² (D) PS² + RS² = PR²",
+   "exemplarChapter": {
+    "number": 6,
+    "title": "Triangles"
+   },
+   "taxonomyChapterId": "mathematics-10/triangles",
+   "currentChapter": {
+    "number": 6,
+    "title": "Triangles",
+    "sourceFile": "chapters/jemh1/jemh106.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "S on PQ with PS = QS = RS puts the right angle at R; chapter 6 is the similarity chapter and its introduction names Pythagoras, proved in Class IX, as what it builds on."
+  },
+  {
+   "id": "exemplar:q:10:mathematics:6:6.3:12",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "Areas of two similar triangles are 36 cm² and 100 cm². If the length of a side of the larger triangle is 20 cm, find the length of the corresponding side of the smaller triangle.",
+   "exemplarChapter": {
+    "number": 6,
+    "title": "Triangles"
+   },
+   "taxonomyChapterId": "mathematics-10/triangles",
+   "currentChapter": {
+    "number": 6,
+    "title": "Triangles",
+    "sourceFile": "chapters/jemh1/jemh106.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": true,
+   "note": "Ratio of the areas of two similar triangles. Chapter 6 is the right chapter -- there is no other similar-triangles chapter -- but the rationalised book prints only 6.1 Introduction, 6.2 Similar Figures, 6.3 Similarity of Triangles and 6.4 Criteria for Similarity: the areas-of-similar-triangles theorem is not in it, or anywhere else in the class 10 book."
+  },
+  {
+   "id": "exemplar:q:10:mathematics:7:7.2:12",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "The points A (–1, –2), B (4, 3), C (2, 5) and D (–3, 0) in that order form a rectangle.",
+   "exemplarChapter": {
+    "number": 7,
+    "title": "Coordinate Geometry"
+   },
+   "taxonomyChapterId": "mathematics-10/coordinate-geometry",
+   "currentChapter": {
+    "number": 7,
+    "title": "Coordinate Geometry",
+    "sourceFile": "chapters/jemh1/jemh107.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Four points forming a rectangle, decided by distances: chapter 7 section 7.2 Distance Formula."
+  },
+  {
+   "id": "exemplar:q:10:mathematics:7:7.3:5",
+   "subject": "Mathematics",
+   "grade": 10,
+   "stem": "Find a point which is equidistant from the points A (–5, 4) and B (–1, 6)? How many such points are there?",
+   "exemplarChapter": {
+    "number": 7,
+    "title": "Coordinate Geometry"
+   },
+   "taxonomyChapterId": "mathematics-10/coordinate-geometry",
+   "currentChapter": {
+    "number": 7,
+    "title": "Coordinate Geometry",
+    "sourceFile": "chapters/jemh1/jemh107.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Points equidistant from two given points: chapter 7 section 7.2 Distance Formula."
+  },
+  {
+   "id": "exemplar:q:10:science:12:-:7",
+   "subject": "Science",
+   "grade": 10,
+   "stem": "What is the minimum resistance which can be made using five resistors each of 1/5 Ω? (A) 1/5 Ω (B) 1/25 Ω (C) 1/10 Ω (D) 25 Ω",
+   "exemplarChapter": {
+    "number": 12,
+    "title": "Electricity"
+   },
+   "taxonomyChapterId": "science-10/electricity",
+   "currentChapter": {
+    "number": 11,
+    "title": "Electricity",
+    "sourceFile": "chapters/jesc1/jesc111.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Least resistance from five equal resistors is the parallel combination: chapter 11 section Resistance of a System of Resistors."
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:14",
+   "subject": "Science",
+   "grade": 10,
+   "stem": "Which of the statement is incorrect? (A) All green plants and blue green algae are producers (B) Green plants get their food from organic compounds (C) Producers prepare their own food from inorganic compounds (D) Plants convert solar energ",
+   "exemplarChapter": {
+    "number": 15,
+    "title": "Our Environment"
+   },
+   "taxonomyChapterId": "science-10/our-environment",
+   "currentChapter": {
+    "number": 13,
+    "title": "Our Environment",
+    "sourceFile": "chapters/jesc1/jesc113.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Producers and what they make their food from: chapter 13 section Eco-system -- What Are Its Components?"
+  },
+  {
+   "id": "exemplar:q:10:science:15:-:30",
+   "subject": "Science",
+   "grade": 10,
+   "stem": "We do not clean ponds or lakes, but an aquarium needs to be cleaned. Why?",
+   "exemplarChapter": {
+    "number": 15,
+    "title": "Our Environment"
+   },
+   "taxonomyChapterId": "science-10/our-environment",
+   "currentChapter": {
+    "number": 13,
+    "title": "Our Environment",
+    "sourceFile": "chapters/jesc1/jesc113.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Why an aquarium needs cleaning and a pond does not -- decomposers and a self-sustaining ecosystem: chapter 13, same section."
+  },
+  {
+   "id": "exemplar:q:10:science:1:-:9",
+   "subject": "Science",
+   "grade": 10,
+   "stem": "Solid calcium oxide reacts vigorously with water to form calcium hydroxide accompanied by liberation of heat. This process is called slaking of lime. Calcium hydroxide dissolves in water to form its solution called lime water. Which among t",
+   "exemplarChapter": {
+    "number": 1,
+    "title": "Chemical Reactions and Equations"
+   },
+   "taxonomyChapterId": "science-10/chemical-reactions-and-equations",
+   "currentChapter": {
+    "number": 1,
+    "title": "Chemical Reactions and Equations",
+    "sourceFile": "chapters/jesc1/jesc101.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Slaking of lime as a combination reaction: chapter 1 section Types of Chemical Reactions."
+  },
+  {
+   "id": "exemplar:q:10:science:2:-:18",
+   "subject": "Science",
+   "grade": 10,
+   "stem": "Which of the following substance will not give carbon dioxide on treatment with dilute acid? (A) Marble (B) Limestone (C) Baking soda (D) Lime",
+   "exemplarChapter": {
+    "number": 2,
+    "title": "Acids, Bases and Salts"
+   },
+   "taxonomyChapterId": "science-10/acids-bases-and-salts",
+   "currentChapter": {
+    "number": 2,
+    "title": "Acids, Bases and Salts",
+    "sourceFile": "chapters/jesc1/jesc102.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Which substance gives no CO2 with dilute acid -- carbonates: chapter 2 section Understanding the Chemical Properties of Acids and Bases."
+  },
+  {
+   "id": "exemplar:q:10:science:7:-:14",
+   "subject": "Science",
+   "grade": 10,
+   "stem": "Choose the incorrect statement about insulin (A) It is produced from pancreas (B) It regulates growth and development of the body (C) It regulates blood sugar level (D) Insufficient secretion of insulin will cause diabetes",
+   "exemplarChapter": {
+    "number": 7,
+    "title": "Control and Coordination"
+   },
+   "taxonomyChapterId": "science-10/control-and-coordination",
+   "currentChapter": {
+    "number": 6,
+    "title": "Control and Coordination",
+    "sourceFile": "chapters/jesc1/jesc106.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Insulin: chapter 6 section Hormones in Animals."
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:13",
+   "subject": "Science",
+   "grade": 10,
+   "stem": "Vegetative propagation refers to formation of new plants from (A) stem, roots and flowers (B) stem, roots and leaves (C) stem, flowers and fruits (D) stem, leaves and flowers",
+   "exemplarChapter": {
+    "number": 8,
+    "title": "How do Organisms Reproduce?"
+   },
+   "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+   "currentChapter": {
+    "number": 7,
+    "title": "How do Organisms Reproduce?",
+    "sourceFile": "chapters/jesc1/jesc107.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Vegetative propagation: chapter 7 section Modes of Reproduction Used by Single Organisms."
+  },
+  {
+   "id": "exemplar:q:10:science:8:-:16",
+   "subject": "Science",
+   "grade": 10,
+   "stem": "Which of the following statements are true for flowers? (i) Flowers are always bisexual (ii) They are the sexual reproductive organs (iii) They are produced in all groups of plants (iv) After fertilisation they give rise to fruits (A) (i) a",
+   "exemplarChapter": {
+    "number": 8,
+    "title": "How do Organisms Reproduce?"
+   },
+   "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+   "currentChapter": {
+    "number": 7,
+    "title": "How do Organisms Reproduce?",
+    "sourceFile": "chapters/jesc1/jesc107.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "exact-title",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Flowers as reproductive organs: chapter 7 section Sexual Reproduction."
+  },
+  {
+   "id": "exemplar:q:6:mathematics:3:-:7",
+   "subject": "Mathematics",
+   "grade": 6,
+   "stem": "The least integer lying between –10 and –15 is (A) –10 (B) –11 (C) –15 (D) –14",
+   "exemplarChapter": {
+    "number": 3,
+    "title": "Integers"
+   },
+   "taxonomyChapterId": "mathematics-6/the-other-side-of-zero",
+   "currentChapter": {
+    "number": 10,
+    "title": "The Other Side of Zero",
+    "sourceFile": "maths/class6_ganita_prakash.pdf",
+    "page": 19,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Ordering negative integers: Ganita Prakash 6 chapter 10 The Other Side of Zero is the integers chapter (section 10.2 The Token Model, 10.4 Explorations with Integers)."
+  },
+  {
+   "id": "exemplar:q:6:mathematics:6:-:37",
+   "subject": "Mathematics",
+   "grade": 6,
+   "stem": "In an exhibition hall, there are 24 display boards each of length 1m 50cm and breadth 1m. There is a 100m long aluminium strip, which is used to frame these boards. How many boards will be framed using this strip? Find also the length of th",
+   "exemplarChapter": {
+    "number": 6,
+    "title": "Mensuration"
+   },
+   "taxonomyChapterId": "mathematics-6/perimeter-and-area",
+   "currentChapter": {
+    "number": 6,
+    "title": "Perimeter and Area",
+    "sourceFile": "maths/class6_ganita_prakash.pdf",
+    "page": 19,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Framing display boards with a strip of known length: chapter 6 Perimeter and Area, section 6.1 Perimeter."
+  },
+  {
+   "id": "exemplar:q:6:mathematics:6:-:46",
+   "subject": "Mathematics",
+   "grade": 6,
+   "stem": "How many square slabs each with side 90cm are needed to cover a floor of area 81sqm.",
+   "exemplarChapter": {
+    "number": 6,
+    "title": "Mensuration"
+   },
+   "taxonomyChapterId": "mathematics-6/perimeter-and-area",
+   "currentChapter": {
+    "number": 6,
+    "title": "Perimeter and Area",
+    "sourceFile": "maths/class6_ganita_prakash.pdf",
+    "page": 19,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Square slabs covering a floor: chapter 6 section 6.2 Area."
+  },
+  {
+   "id": "exemplar:q:6:mathematics:6:-:54",
+   "subject": "Mathematics",
+   "grade": 6,
+   "stem": "A wire is cut into several small pieces. Each of the small pieces is bent into a square of side 2cm. If the total area of the small squares is 28 square cm, what was the original length of the wire?",
+   "exemplarChapter": {
+    "number": 6,
+    "title": "Mensuration"
+   },
+   "taxonomyChapterId": "mathematics-6/perimeter-and-area",
+   "currentChapter": {
+    "number": 6,
+    "title": "Perimeter and Area",
+    "sourceFile": "maths/class6_ganita_prakash.pdf",
+    "page": 19,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Wire bent into squares, from total area back to total length: chapter 6, sections 6.1 and 6.2."
+  },
+  {
+   "id": "exemplar:q:6:science:10:-:17",
+   "subject": "Science",
+   "grade": 6,
+   "stem": "While travelling in a train, it appears that the trees near the track are moving whereas co-passengers appear to be stationary. Explain the reason.",
+   "exemplarChapter": {
+    "number": 10,
+    "title": "Motion and Measurement of Distances"
+   },
+   "taxonomyChapterId": "science-6/measurement-of-length-and-motion",
+   "currentChapter": {
+    "number": 5,
+    "title": "Measurement of Length and Motion",
+    "sourceFile": "science/class6_curiosity.pdf",
+    "page": 17,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Trees appearing to move from a train: Curiosity 6 chapter 5 Measurement of Length and Motion, sections Describing Position and Moving Things."
+  },
+  {
+   "id": "exemplar:q:6:science:5:-:8",
+   "subject": "Science",
+   "grade": 6,
+   "stem": "In an activity, a teacher dissolved a small amount of solid copper sulphate in a tumbler half filled with water. Which method would you use to get back solid copper sulphate from the solution? (A) Decantation (B) Evaporation (C) Sedimentati",
+   "exemplarChapter": {
+    "number": 5,
+    "title": "Separation of Substances"
+   },
+   "taxonomyChapterId": "science-6/methods-of-separation-in-everyday-life",
+   "currentChapter": {
+    "number": 9,
+    "title": "Methods of Separation in Everyday Life",
+    "sourceFile": "science/class6_curiosity.pdf",
+    "page": 17,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Recovering solid copper sulphate from its solution: chapter 9 Methods of Separation in Everyday Life."
+  },
+  {
+   "id": "exemplar:q:7:mathematics:1:-:103",
+   "subject": "Mathematics",
+   "grade": 7,
+   "stem": "State whether the statements are True or False: a ÷ ( –1) = – a",
+   "exemplarChapter": {
+    "number": 1,
+    "title": "Integers"
+   },
+   "taxonomyChapterId": "mathematics-7/operations-with-integers",
+   "currentChapter": {
+    "number": 2,
+    "title": "Operations with Integers",
+    "sourceFile": "chapters/gegp2/gegp202.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "a / (-1) = -a. Ganita Prakash 7 chapter 2 Operations with Integers prints a Division of Integers section inside 2.2 (the tree's heading list stops at the two numbered sections)."
+  },
+  {
+   "id": "exemplar:q:7:mathematics:1:-:71",
+   "subject": "Mathematics",
+   "grade": 7,
+   "stem": "Fill in the blanks to make the statements true: ( – 28) ÷ ( – 28) = _____",
+   "exemplarChapter": {
+    "number": 1,
+    "title": "Integers"
+   },
+   "taxonomyChapterId": "mathematics-7/operations-with-integers",
+   "currentChapter": {
+    "number": 2,
+    "title": "Operations with Integers",
+    "sourceFile": "chapters/gegp2/gegp202.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "(-28) / (-28): same Division of Integers section of chapter 2."
+  },
+  {
+   "id": "exemplar:q:7:mathematics:4:-:95",
+   "subject": "Mathematics",
+   "grade": 7,
+   "stem": "A man travelled two fifth of his journey by train, one-third by bus, one-fourth by car and the remaining 3 km on foot. What is the length of his total journey?",
+   "exemplarChapter": {
+    "number": 4,
+    "title": "Simple Equations"
+   },
+   "taxonomyChapterId": "mathematics-7/finding-the-unknown",
+   "currentChapter": {
+    "number": 7,
+    "title": "Finding the Unknown",
+    "sourceFile": "chapters/gegp2/gegp207.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Fractions of a journey, with the remainder given: chapter 7 Finding the Unknown, sections 7.1 Find the Unknowns and 7.2 Solving Equations Systematically."
+  },
+  {
+   "id": "exemplar:q:7:science:1:-:6",
+   "subject": "Science",
+   "grade": 7,
+   "stem": "When we observe the lower surface of a leaf through a magnifying lens we see numerous small openings. Which of the following is the term given to such openings? (A) Stomata (B) Lamina (C) Midrib (D) Veins",
+   "exemplarChapter": {
+    "number": 1,
+    "title": "Nutrition in Plants"
+   },
+   "taxonomyChapterId": "science-7/life-processes-in-plants",
+   "currentChapter": {
+    "number": 10,
+    "title": "Life Processes in Plants",
+    "sourceFile": "science/class7_curiosity.pdf",
+    "page": 19,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Stomata on the lower leaf surface: Curiosity 7 chapter 10 Life Processes in Plants, section How Do Plants Get Food for their Growth?"
+  },
+  {
+   "id": "exemplar:q:8:mathematics:3:-:53",
+   "subject": "Mathematics",
+   "grade": 8,
+   "stem": "State whether the statements are true (T) or false (F): The square root of 1521 is 31.",
+   "exemplarChapter": {
+    "number": 3,
+    "title": "Square-Square Root and Cube-Cube Root"
+   },
+   "taxonomyChapterId": "mathematics-8/a-square-and-a-cube",
+   "currentChapter": {
+    "number": 1,
+    "title": "A Square and A Cube",
+    "sourceFile": "maths/class8_ganita_prakash.pdf",
+    "page": 15,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Is the square root of 1521 equal to 31: Ganita Prakash 8 chapter 1 A Square and A Cube, section 1.1 Square Numbers, sub-section Square Roots."
+  },
+  {
+   "id": "exemplar:q:8:mathematics:6:-:25",
+   "subject": "Mathematics",
+   "grade": 8,
+   "stem": "Fill in the blanks to make the statements true: A pyramid on an n sided polygon has ______ faces.",
+   "exemplarChapter": {
+    "number": 6,
+    "title": "Visualising Solid Shapes"
+   },
+   "taxonomyChapterId": "mathematics-8/exploring-some-geometric-themes",
+   "currentChapter": {
+    "number": 4,
+    "title": "Exploring Some Geometric Themes",
+    "sourceFile": "chapters/hegp2/hegp204.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Faces of a pyramid on an n-sided polygon: chapter 4 section 4.2 Visualising Solids, which names pyramids and defines faces, edges and vertices."
+  },
+  {
+   "id": "exemplar:q:8:mathematics:6:-:3",
+   "subject": "Mathematics",
+   "grade": 8,
+   "stem": "Which of the following is a regular polyhedron? (A) Cuboid (B) Triangular prism (C) Cube (D) Square prism",
+   "exemplarChapter": {
+    "number": 6,
+    "title": "Visualising Solid Shapes"
+   },
+   "taxonomyChapterId": "mathematics-8/exploring-some-geometric-themes",
+   "currentChapter": {
+    "number": 4,
+    "title": "Exploring Some Geometric Themes",
+    "sourceFile": "chapters/hegp2/hegp204.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": true,
+   "note": "Which solid is a regular polyhedron. Chapter 4 section 4.2 is the solids chapter and builds cubes and prisms, but the word polyhedron never appears in it and regularity of a polyhedron is never defined, so the term the question turns on is not taught there."
+  },
+  {
+   "id": "exemplar:q:8:mathematics:8:-:49",
+   "subject": "Mathematics",
+   "grade": 8,
+   "stem": "Fill in the blanks to make the statements true: The usual form of 2.39461 × 10⁶ is _______.",
+   "exemplarChapter": {
+    "number": 8,
+    "title": "Exponents and Powers"
+   },
+   "taxonomyChapterId": "mathematics-8/power-play",
+   "currentChapter": {
+    "number": 2,
+    "title": "Power Play",
+    "sourceFile": "maths/class8_ganita_prakash.pdf",
+    "page": 15,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Usual form of 2.39461 x 10^6: chapter 2 Power Play, section Powers of 10."
+  },
+  {
+   "id": "exemplar:q:8:science:8:-:38",
+   "subject": "Science",
+   "grade": 8,
+   "stem": "Cells consist of many organelles, yet we do not call any of these organelles as structural and functional unit of living organisms. Explain.",
+   "exemplarChapter": {
+    "number": 8,
+    "title": "Cell—Structure and Functions"
+   },
+   "taxonomyChapterId": "science-8/the-invisible-living-world-beyond-our-naked-eye",
+   "currentChapter": {
+    "number": 2,
+    "title": "The Invisible Living World: Beyond Our Naked Eye",
+    "sourceFile": "science/class8_curiosity.pdf",
+    "page": 19,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Why an organelle is not the structural and functional unit: Curiosity 8 chapter 2 The Invisible Living World, sections What Is a Cell? and Why Is Cell Considered to Be a Basic Unit of Life?"
+  },
+  {
+   "id": "exemplar:q:9:science:4:-:12",
+   "subject": "Science",
+   "grade": 9,
+   "stem": "Elements with valency 1 are (A) always metals (B) always metalloids (C) either metals or non-metals (D) always non-metals",
+   "exemplarChapter": {
+    "number": 4,
+    "title": "Structure of the Atom"
+   },
+   "taxonomyChapterId": "science-9/journey-inside-the-atom",
+   "currentChapter": {
+    "number": 8,
+    "title": "Journey Inside the Atom",
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Valency 1 and what such elements are: Exploration 9 chapter 8 Journey Inside the Atom, section Combining Capacity of an Atom: Valency."
+  },
+  {
+   "id": "exemplar:q:9:science:5:-:41",
+   "subject": "Science",
+   "grade": 9,
+   "stem": "Write the name of different plant parts in which chromoplast, chloroplast and leucoplast are present.",
+   "exemplarChapter": {
+    "number": 5,
+    "title": "The Fundamental Unit of Life"
+   },
+   "taxonomyChapterId": "science-9/cell-the-building-block-of-life",
+   "currentChapter": {
+    "number": 2,
+    "title": "Cell: The Building Block of Life",
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Where chromoplasts, chloroplasts and leucoplasts are found: chapter 2 Cell: The Building Block of Life, section Structure of a Cell."
+  },
+  {
+   "id": "exemplar:q:9:science:7:-:24",
+   "subject": "Science",
+   "grade": 9,
+   "stem": "One of the following is not an Annelid (A) Nereis (B) Earthworm (C) Leech (D) Urchins",
+   "exemplarChapter": {
+    "number": 7,
+    "title": "Diversity in Living Organisms"
+   },
+   "taxonomyChapterId": "science-9/patterns-in-life-diversity-and-classification",
+   "currentChapter": {
+    "number": 12,
+    "title": "Patterns in Life: Diversity and Classification",
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Which animal is not an annelid: chapter 12 Patterns in Life, sections How to Classify Organisms? and Five Kingdom Classification."
+  },
+  {
+   "id": "exemplar:q:9:science:7:-:33",
+   "subject": "Science",
+   "grade": 9,
+   "stem": "The ‘Origin of Species’ is written by (A) Linnaeus (B) Darwin (C) Hackel (D) Whittaker",
+   "exemplarChapter": {
+    "number": 7,
+    "title": "Diversity in Living Organisms"
+   },
+   "taxonomyChapterId": "science-9/patterns-in-life-diversity-and-classification",
+   "currentChapter": {
+    "number": 12,
+    "title": "Patterns in Life: Diversity and Classification",
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Who wrote the Origin of Species: chapter 12, section How has the Biodiversity Evolved?"
+  },
+  {
+   "id": "exemplar:q:9:science:9:-:15",
+   "subject": "Science",
+   "grade": 9,
+   "stem": "A truck of mass M is moved under a force F. If the truck is then loaded with an object equal to the mass of the truck and the driving force is halved, then how does the acceleration change?",
+   "exemplarChapter": {
+    "number": 9,
+    "title": "Force and Laws of Motion"
+   },
+   "taxonomyChapterId": "science-9/how-forces-affect-motion",
+   "currentChapter": {
+    "number": 6,
+    "title": "How Forces Affect Motion",
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
+   },
+   "rowMethod": "contents-page",
+   "verdict": "right",
+   "beyondThatChaptersSections": false,
+   "note": "Doubling the mass and halving the force: chapter 6 How Forces Affect Motion, section Newton's Second Law of Motion."
+  }
+ ]
+}

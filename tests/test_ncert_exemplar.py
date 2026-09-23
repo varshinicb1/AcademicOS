@@ -993,3 +993,63 @@ def test_an_exact_title_row_really_is_the_same_title():
         if row.get("method") != "exact-title":
             continue
         assert row["currentChapter"]["title"].casefold() == row["exemplarTitle"].casefold(), row
+
+
+def test_every_mapped_row_cites_a_pdf_and_a_page():
+    """The task asks a row to cite the PDF and the page the current book prints
+    its chapter's number and title on. A per-BOOK contents page could not do it:
+    the class 10 books are distributed as one PDF per chapter with no prelims
+    file, so all 22 class 10 rows cited no page, and the Ganita Prakash Part 2
+    rows cited a Part 1 page that is not in the file they name."""
+    for row in _map_rows():
+        if not row["taxonomyChapterId"]:
+            continue
+        current = row["currentChapter"]
+        assert current["sourceFile"], row
+        assert isinstance(current["page"], int) and current["page"] >= 1, row
+        assert current["printedOn"] in {"contents", "chapter-opening"}, row
+
+
+TAG_SAMPLE = DATA / "syllabus" / "taxonomy" / "_exemplar_tag_sample.json"
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_the_hand_checked_sample_is_the_one_the_seed_draws_from_this_bank():
+    """Task 123 asks for a hand-check of 40 newly tagged records and the number
+    wrong. A number in a report cannot be re-run, so the sample itself is
+    committed: this re-derives the draw from the bank as it stands, checks the
+    40 records still carry the chapter they were checked as, and re-adds the
+    verdicts up. A rebuild that changes which records the map places fails here
+    rather than letting an old precision stand for a new bank."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import build_exemplar_chapter_map as builder
+
+    sample = json.loads(TAG_SAMPLE.read_text(encoding="utf-8"))
+    served = json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
+    assert builder.check_sample(sample, served) == []
+
+
+def test_the_sample_clears_the_precision_the_task_set():
+    """0.95 on the sample, or the rows that missed do not ship (requirement 3)."""
+    sample = json.loads(TAG_SAMPLE.read_text(encoding="utf-8"))
+    counts = sample["counts"]
+    assert counts["checked"] >= 40, counts
+    assert counts["right"] / counts["checked"] >= 0.95, (
+        counts, [it for it in sample["items"] if it["verdict"] != "right"])
+
+
+TEXTBOOKS = ROOT.parent / "ncert-dataset" / "textbooks"
+
+
+@pytest.mark.skipif(not TEXTBOOKS.exists(), reason="ncert-dataset not on disk")
+def test_every_cited_page_really_prints_that_chapters_number_and_title():
+    """Read back, not asserted: the citation is only worth the page it names if
+    opening it finds the chapter there. This is the check
+    `scripts/build_exemplar_chapter_map.py --check` runs, in the suite, so a
+    re-decided row cannot keep a citation that has stopped being true."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import build_exemplar_chapter_map as builder
+
+    doc = json.loads(CHAPTER_MAP.read_text(encoding="utf-8"))
+    problems = builder.check_citations(doc)
+    assert problems == [], problems

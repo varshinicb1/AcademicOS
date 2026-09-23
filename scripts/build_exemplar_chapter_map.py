@@ -47,24 +47,42 @@ Otherwise the row is null with its reason, which is one of:
 * ``exact-title``  -- the current book prints a chapter of the same name. The
   script asserts it, so the claim cannot rot.
 * ``contents-page`` -- the current book prints it under another name; the row
-  names that book's chapter number and title as its contents page prints them,
-  and ``books`` below cites the PDF and the contents page it was read from.
+  names that book's chapter number and title as its contents page prints them.
 * ``hand-checked`` -- a reviewer's note on the row says what was checked.
+
+Every mapped row cites the PDF and the page the current book prints that
+chapter's number and title on (``currentChapter.sourceFile``, ``.page``,
+``.printedOn``), whatever the method. A row used to cite its PDF and lean on a
+per-BOOK ``contentsPage``, which said nothing for the class 10 books -- they
+are distributed as one PDF per chapter and there is no contents PDF in the
+dataset, so all 22 class 10 rows carried no page -- and misstated three rows
+outright: Ganita Prakash 7 and 8 Part 2 chapters cite their own chapter PDF,
+whose page 17 or 15 is not the Part 1 contents page at all. So the page is now
+per row: the book's contents page for a row that cites the whole-book PDF,
+page 1 for a row that cites a single chapter's PDF, which is where that PDF
+prints the chapter's number and title. ``--check`` opens each cited PDF at the
+cited page and reads both back.
 
 Run:  python scripts/build_exemplar_chapter_map.py [--check]
 
 ``--check`` verifies the committed file instead of writing it: every row's id
-exists in the taxonomy, every exact-title claim holds, and the Exemplar bank
-holds no (subject, grade, number, title) without a row.
+exists in the taxonomy, every exact-title claim holds, every mapped row's
+citation reads back off the PDF (when ``ncert-dataset`` is present), and the
+Exemplar bank holds no (subject, grade, number, title) without a row.
 """
 from __future__ import annotations
 
 import argparse
 import collections
+import hashlib
 import json
 import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+
+from academicos.syllabus.exemplar_chapter_map import EXEMPLAR_MAP_METHOD  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[1]
 DATA = REPO / "academicos-data"
@@ -72,12 +90,18 @@ TAXONOMY = DATA / "syllabus" / "taxonomy"
 MAP_PATH = TAXONOMY / "_exemplar_chapter_map.json"
 EXEMPLAR_BANK = DATA / "corpus" / "ncert-exemplar" / "questions.json"
 SERVED_BANK = DATA / "syllabus" / "questions.json"
+# Read-only. Every path in BOOKS and in a row's `currentChapter.sourceFile` is
+# relative to it, exactly as the taxonomy trees record them.
+TEXTBOOKS = REPO.parent / "ncert-dataset" / "textbooks"
 
 SUBJECT_FILE = {"Mathematics": "Mathematics", "Science": "Science"}
 
 # The current book of each class, and the page its contents were read from
 # (1-based, as a PDF reader numbers pages). Every ``contents-page`` row below
-# was decided against one of these.
+# was decided against one of these. The class 10 books have no contents page
+# here because NCERT distributes them as one PDF per chapter and the dataset
+# holds no prelims file: each of those chapters is cited on its own PDF's
+# first page instead, which is where the book prints its number and title.
 BOOKS = {
     ("Mathematics", 6): ("Ganita Prakash", "maths/class6_ganita_prakash.pdf", 19),
     ("Mathematics", 7): ("Ganita Prakash (Parts 1 and 2)", "maths/class7_ganita_prakash.pdf", 17),
@@ -90,6 +114,28 @@ BOOKS = {
     ("Science", 9): ("Exploration", "science/class9_exploration.pdf", 19),
     ("Science", 10): ("Science", "chapters/jesc1/*.pdf", None),
 }
+# Where a mapped row's `page` points, and what a reader will find there.
+PRINTED_CONTENTS = "contents"          # the book's contents page, in the book's own PDF
+PRINTED_OPENING = "chapter-opening"    # page 1 of a single chapter's PDF
+
+
+def citation(subject: str, grade: int, source_file: str | None) -> tuple[int | None, str | None]:
+    """(page, what is printed there) for a row citing ``source_file``.
+
+    A row whose source file IS the book's own PDF is cited at that book's
+    contents page. A row whose source file is one chapter's PDF -- the Ganita
+    Prakash Part 2 chapters and every class 10 chapter -- is cited at page 1
+    of it, where the book prints that chapter's number and title; the Part 1
+    contents page is not even a page of that file, so citing it said nothing
+    and, for Mathematics 7 chapter 2, 7 chapter 7 and 8 chapter 4, said
+    something false.
+    """
+    book = BOOKS.get((subject, grade))
+    if book is None or not source_file:
+        return None, None
+    if source_file == book[1]:
+        return book[2], PRINTED_CONTENTS if book[2] else None
+    return 1, PRINTED_OPENING
 
 # --------------------------------------------------------------------------- #
 # the decisions
@@ -708,8 +754,10 @@ def build() -> dict:
                 problems.append(f"{subject} {grade} ch{number}: claimed exact-title but the "
                                 f"current book prints {current['name']!r}")
             row["method"] = how
+            page, printed = citation(subject, grade, current.get("source_file"))
             row["currentChapter"] = {"number": current["number"], "title": current["name"],
-                                     "sourceFile": current.get("source_file")}
+                                     "sourceFile": current.get("source_file"),
+                                     "page": page, "printedOn": printed}
             row["note"] = note
         rows.append(row)
 
@@ -718,14 +766,28 @@ def build() -> dict:
             print("PROBLEM:", p, file=sys.stderr)
         raise SystemExit(f"{len(problems)} problem(s): the map was not written")
 
-    books = {f"{subject}_{grade}": {"book": book, "pdf": pdf, "contentsPage": page}
-             for (subject, grade), (book, pdf, page) in sorted(BOOKS.items())}
+    # A null contentsPage said nothing at all. Where there is none, the book
+    # says why and where its rows are cited instead, rather than leaving a
+    # reader to infer it from a null.
+    no_contents = ("NCERT distributes this book as one PDF per chapter and the dataset "
+                   "holds no prelims file, so there is no contents page to cite; each "
+                   "row cites page 1 of its own chapter's PDF, where the book prints "
+                   "that chapter's number and title.")
+    books = {
+        f"{subject}_{grade}": {"book": book, "pdf": pdf, "contentsPage": page,
+                               **({} if page else {"contentsNote": no_contents})}
+        for (subject, grade), (book, pdf, page) in sorted(BOOKS.items())
+    }
     mapped = [r for r in rows if r["taxonomyChapterId"]]
     return {
         "notice": ("Which chapter of the CURRENT NCERT book each NCERT Exemplar "
                    "chapter belongs to. Decided against the current books' own "
                    "contents pages and section headings, never by word overlap; "
                    "a chapter with no single counterpart is null with its reason. "
+                   "Every mapped row cites the PDF and the page that prints its "
+                   "chapter's number and title (currentChapter.sourceFile, .page, "
+                   ".printedOn: a book's contents page, or page 1 of a single "
+                   "chapter's own PDF); --check reads both back off the PDF. "
                    "Written by scripts/build_exemplar_chapter_map.py."),
         "rule": ("A row maps when the current book of that class has exactly one "
                  "chapter that teaches the Exemplar chapter's subject matter AND "
@@ -747,9 +809,125 @@ def build() -> dict:
     }
 
 
+# --------------------------------------------------------------------------- #
+# the hand-checked sample
+# --------------------------------------------------------------------------- #
+# Task 123 asks for a random sample of at least 40 newly tagged records,
+# hand-checked against the current book, with the number wrong reported. A
+# number in a report cannot be re-run: this is the draw itself, so the sample
+# file names which records were checked and anyone can redraw the same 40.
+SAMPLE_PATH = TAXONOMY / "_exemplar_tag_sample.json"
+SAMPLE_SEED = 123
+SAMPLE_SIZE = 40
+
+
+def sample_population(records: list[dict]) -> list[dict]:
+    """The records the map placed, in id order -- what the sample is drawn from.
+
+    Sorted by id, not left in bank order, so the draw does not move when the
+    merge reorders the bank.
+    """
+    return sorted((r for r in records if r.get("tagMethod") == EXEMPLAR_MAP_METHOD),
+                  key=lambda r: r["id"])
+
+
+def draw_sample(records: list[dict], seed: int = SAMPLE_SEED,
+                size: int = SAMPLE_SIZE) -> tuple[list[dict], str]:
+    """``size`` records drawn from the population above, and its digest.
+
+    The digest is over the population's ids: it says which 1,626 records the
+    draw ran on, so a later run can tell "the same sample" from "the same seed
+    on a bank that has changed underneath it".
+    """
+    import random
+
+    population = sample_population(records)
+    digest = hashlib.sha256("\n".join(r["id"] for r in population).encode()).hexdigest()
+    drawn = random.Random(seed).sample(population, size)
+    return sorted(drawn, key=lambda r: r["id"]), digest
+
+
+def _page_words(pdf: Path, page: int) -> str | None:
+    """The words of one 1-based page, lowercased, or None if it cannot be read."""
+    try:
+        import pymupdf
+    except ImportError:  # pragma: no cover - the venv pins PyMuPDF
+        return None
+    try:
+        with pymupdf.open(pdf) as book:
+            if not 1 <= page <= book.page_count:
+                return ""
+            return " ".join(re.findall(r"[a-z0-9]+", book[page - 1].get_text().lower()))
+    except Exception:
+        return ""
+
+
+def check_citations(doc: dict) -> list[str]:
+    """Every mapped row's cited page, read back off the PDF it cites.
+
+    A citation nobody opens is a claim, not a source: three rows cited a page
+    that was not in the file they named (the Ganita Prakash Part 2 chapters,
+    against their Part 1 contents page) and 22 cited no page at all. This opens
+    each cited PDF at the cited page and asks to find the chapter's number and
+    its title there. Skipped, loudly, when ncert-dataset is not on this machine.
+    """
+    if not TEXTBOOKS.exists():
+        return []
+    problems = []
+    for row in doc["rows"]:
+        if not row["taxonomyChapterId"]:
+            continue
+        current = row["currentChapter"]
+        where = f"{row['subject']} {row['grade']} ch{row['exemplarNumber']}"
+        if not current.get("sourceFile") or not current.get("page"):
+            problems.append(f"{where}: mapped, but cites no PDF and page")
+            continue
+        words = _page_words(TEXTBOOKS / current["sourceFile"], current["page"])
+        if words is None:
+            return []  # no PyMuPDF here; nothing was checked, so claim nothing
+        title = " ".join(re.findall(r"[a-z0-9]+",
+                                    current["title"].lower().replace("–", "-")))
+        if title not in words or not re.search(rf"\b{current['number']}\b", words):
+            problems.append(
+                f"{where}: {current['sourceFile']} page {current['page']} does not print "
+                f"{current['number']} {current['title']!r}")
+    return problems
+
+
+def check_sample(sample: dict, records: list[dict]) -> list[str]:
+    """The committed hand-check, re-derived against the bank as it stands now.
+
+    Three separate claims, each of which can rot on its own: the same seed on
+    the same population still draws these 40 records; each of them still
+    carries the chapter the checker saw; and the precision the file reports is
+    the precision its own verdicts add up to.
+    """
+    problems = []
+    by_id = {r["id"]: r for r in records}
+    drawn, digest = draw_sample(records, sample["seed"], sample["size"])
+    if digest != sample["populationDigest"]:
+        problems.append(
+            f"the population the map placed has changed ({len(sample_population(records))} "
+            f"records now, digest {digest[:12]} against {sample['populationDigest'][:12]}): "
+            f"the sample has to be redrawn and re-checked, not carried over")
+    elif [r["id"] for r in drawn] != [it["id"] for it in sample["items"]]:
+        problems.append("seed {} no longer draws the committed ids".format(sample["seed"]))
+    for item in sample["items"]:
+        rec = by_id.get(item["id"])
+        if rec is None:
+            problems.append(f"{item['id']}: checked, but the bank no longer serves it")
+        elif rec.get("taxonomyChapterId") != item["taxonomyChapterId"]:
+            problems.append(f"{item['id']}: checked as {item['taxonomyChapterId']}, "
+                            f"now tagged {rec.get('taxonomyChapterId')}")
+    right = sum(1 for it in sample["items"] if it["verdict"] == "right")
+    if right != sample["counts"]["right"]:
+        problems.append(f"the file says {sample['counts']['right']} right, its verdicts say {right}")
+    return problems
+
+
 def check(doc: dict) -> list[str]:
     """Everything the committed file must still be true about."""
-    problems = []
+    problems = check_citations(doc)
     keys = exemplar_keys([EXEMPLAR_BANK, SERVED_BANK])
     rows = {(r["subject"], r["grade"], r["exemplarNumber"], r["exemplarTitle"]): r
             for r in doc["rows"]}
@@ -774,7 +952,9 @@ def check(doc: dict) -> list[str]:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--check", action="store_true",
-                    help="verify the committed map instead of writing it")
+                    help="verify the committed map and hand-check sample instead of writing it")
+    ap.add_argument("--redraw", action="store_true",
+                    help="print the sample the seed draws from the bank as it stands now")
     args = ap.parse_args()
 
     if args.check:
@@ -784,7 +964,29 @@ def main() -> int:
             print("PROBLEM:", p)
         print(f"{MAP_PATH.name}: {len(doc['rows'])} rows, "
               f"{doc['counts']['mapped']} mapped, {len(problems)} problem(s)")
+        if SAMPLE_PATH.exists():
+            sample = json.loads(SAMPLE_PATH.read_text(encoding="utf-8"))
+            served = json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
+            sample_problems = check_sample(sample, served)
+            for p in sample_problems:
+                print("PROBLEM:", p)
+            print(f"{SAMPLE_PATH.name}: {sample['counts']['right']}/{sample['size']} right, "
+                  f"{len(sample_problems)} problem(s)")
+            problems += sample_problems
         return 1 if problems else 0
+
+    if args.redraw:
+        served = json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
+        drawn, digest = draw_sample(served)
+        print(f"population {len(sample_population(served))}  digest {digest}")
+        for rec in drawn:
+            chapter = (rec.get("metadata") or {}).get("exemplarChapter") or {}
+            print(f"  {rec['id']}  {rec['subject']} {rec['grade']}  "
+                  f"exemplar ch{chapter.get('number')} {chapter.get('title')!r} -> "
+                  f"{rec.get('taxonomyChapterId')}")
+        print("a redraw is a NEW hand-check: the verdicts in "
+              f"{SAMPLE_PATH.name} belong to the ids above only if they match it")
+        return 0
 
     doc = build()
     MAP_PATH.write_text(json.dumps(doc, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")

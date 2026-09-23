@@ -1,5 +1,5 @@
 {
- "notice": "Which chapter of the CURRENT NCERT book each NCERT Exemplar chapter belongs to. Decided against the current books' own contents pages and section headings, never by word overlap; a chapter with no single counterpart is null with its reason. Written by scripts/build_exemplar_chapter_map.py.",
+ "notice": "Which chapter of the CURRENT NCERT book each NCERT Exemplar chapter belongs to. Decided against the current books' own contents pages and section headings, never by word overlap; a chapter with no single counterpart is null with its reason. Every mapped row cites the PDF and the page that prints its chapter's number and title (currentChapter.sourceFile, .page, .printedOn: a book's contents page, or page 1 of a single chapter's own PDF); --check reads both back off the PDF. Written by scripts/build_exemplar_chapter_map.py.",
  "rule": "A row maps when the current book of that class has exactly one chapter that teaches the Exemplar chapter's subject matter AND at most 10% of that chapter's questions are content the class teaches in another chapter; the measured share is in the note. Otherwise null: split, dropped, moved or residue.",
  "sourceBooks": {
   "Mathematics_6": {
@@ -25,7 +25,8 @@
   "Mathematics_10": {
    "book": "Mathematics",
    "pdf": "chapters/jemh1/*.pdf",
-   "contentsPage": null
+   "contentsPage": null,
+   "contentsNote": "NCERT distributes this book as one PDF per chapter and the dataset holds no prelims file, so there is no contents page to cite; each row cites page 1 of its own chapter's PDF, where the book prints that chapter's number and title."
   },
   "Science_6": {
    "book": "Curiosity",
@@ -50,7 +51,8 @@
   "Science_10": {
    "book": "Science",
    "pdf": "chapters/jesc1/*.pdf",
-   "contentsPage": null
+   "contentsPage": null,
+   "contentsNote": "NCERT distributes this book as one PDF per chapter and the dataset holds no prelims file, so there is no contents page to cite; each row cites page 1 of its own chapter's PDF, where the book prints that chapter's number and title."
   }
  },
  "rows": [
@@ -90,7 +92,9 @@
    "currentChapter": {
     "number": 10,
     "title": "The Other Side of Zero",
-    "sourceFile": "maths/class6_ganita_prakash.pdf"
+    "sourceFile": "maths/class6_ganita_prakash.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 10 The Other Side of Zero is the integers chapter of Ganita Prakash 6 (sections: The Token Model, Integers in Other Places, Explorations with Integers)."
   },
@@ -118,7 +122,9 @@
    "currentChapter": {
     "number": 4,
     "title": "Data Handling and Presentation",
-    "sourceFile": "maths/class6_ganita_prakash.pdf"
+    "sourceFile": "maths/class6_ganita_prakash.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 4 Data Handling and Presentation (Collecting and Organising Data, Pictographs, Bar Graphs)."
   },
@@ -134,7 +140,9 @@
    "currentChapter": {
     "number": 6,
     "title": "Perimeter and Area",
-    "sourceFile": "maths/class6_ganita_prakash.pdf"
+    "sourceFile": "maths/class6_ganita_prakash.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 6 Perimeter and Area is the mensuration chapter (Perimeter, Area, Area of a Triangle)."
   },
@@ -186,7 +194,9 @@
    "currentChapter": {
     "number": 2,
     "title": "Operations with Integers",
-    "sourceFile": "chapters/gegp2/gegp202.pdf"
+    "sourceFile": "chapters/gegp2/gegp202.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": "Part 2 chapter 2 Operations with Integers (A Quick Recap of Integers, Multiplication of Integers)."
   },
@@ -226,7 +236,9 @@
    "currentChapter": {
     "number": 7,
     "title": "Finding the Unknown",
-    "sourceFile": "chapters/gegp2/gegp207.pdf"
+    "sourceFile": "chapters/gegp2/gegp207.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": "Part 2 chapter 7 Finding the Unknown (Find the Unknowns, Solving Equations Systematically)."
   },
@@ -362,7 +374,9 @@
    "currentChapter": {
     "number": 1,
     "title": "A Square and A Cube",
-    "sourceFile": "maths/class8_ganita_prakash.pdf"
+    "sourceFile": "maths/class8_ganita_prakash.pdf",
+    "page": 15,
+    "printedOn": "contents"
    },
    "note": "chapter 1 A Square and A Cube (Square Numbers, Cubic Numbers); 8 of the 117 questions are Pythagorean triplets, which Part 2 chapter 2 teaches."
   },
@@ -402,7 +416,9 @@
    "currentChapter": {
     "number": 4,
     "title": "Exploring Some Geometric Themes",
-    "sourceFile": "chapters/hegp2/hegp204.pdf"
+    "sourceFile": "chapters/hegp2/hegp204.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": "Part 2 chapter 4 Exploring Some Geometric Themes prints Visualising Solids, where faces, edges and vertices of polyhedra are counted."
   },
@@ -430,7 +446,9 @@
    "currentChapter": {
     "number": 2,
     "title": "Power Play",
-    "sourceFile": "maths/class8_ganita_prakash.pdf"
+    "sourceFile": "maths/class8_ganita_prakash.pdf",
+    "page": 15,
+    "printedOn": "contents"
    },
    "note": "chapter 2 Power Play (Exponential Notation and Operations, The Other Side of Powers, Powers of 10)."
   },
@@ -446,7 +464,9 @@
    "currentChapter": {
     "number": 1,
     "title": "Fractions in Disguise",
-    "sourceFile": "chapters/hegp2/hegp201.pdf"
+    "sourceFile": "chapters/hegp2/hegp201.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": "Part 2 chapter 1 Fractions in Disguise is the percentage chapter, and its Using Percentages section prints Taxes and Growth and Compounding, where discount and compound interest are taught."
   },
@@ -498,7 +518,9 @@
    "currentChapter": {
     "number": 5,
     "title": "Number Play",
-    "sourceFile": "maths/class8_ganita_prakash.pdf"
+    "sourceFile": "maths/class8_ganita_prakash.pdf",
+    "page": 15,
+    "printedOn": "contents"
    },
    "note": "chapter 5 Number Play (Is This a Multiple Of?, Checking Divisibility Quickly, Digits in Disguise) is the generalised-form and divisibility chapter."
   },
@@ -538,7 +560,9 @@
    "currentChapter": {
     "number": 1,
     "title": "Orienting Yourself: The Use of Coordinates",
-    "sourceFile": "maths/class9_ganita_manjari.pdf"
+    "sourceFile": "maths/class9_ganita_manjari.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 1 Orienting Yourself: The Use of Coordinates (The 2-D Cartesian Coordinate System, Distance Between Two Points)."
   },
@@ -554,7 +578,9 @@
    "currentChapter": {
     "number": 2,
     "title": "Introduction to Linear Polynomials",
-    "sourceFile": "maths/class9_ganita_manjari.pdf"
+    "sourceFile": "maths/class9_ganita_manjari.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 2 Introduction to Linear Polynomials is where a linear relationship in two variables and its graph are taught (Linear Relationships, Visualising linear relationships)."
   },
@@ -618,7 +644,9 @@
    "currentChapter": {
     "number": 6,
     "title": "Measuring Space: Perimeter and Area",
-    "sourceFile": "maths/class9_ganita_manjari.pdf"
+    "sourceFile": "maths/class9_ganita_manjari.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 6 Measuring Space: Perimeter and Area prints Area of a Parallelogram and Area of a Triangle."
   },
@@ -634,7 +662,9 @@
    "currentChapter": {
     "number": 5,
     "title": "I’m Up and Down, and Round and Round",
-    "sourceFile": "maths/class9_ganita_manjari.pdf"
+    "sourceFile": "maths/class9_ganita_manjari.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 5 I'm Up and Down, and Round and Round is the circles chapter (Chords and the Angles They Subtend, Angles Subtended by an Arc, Concyclicity of Points)."
   },
@@ -698,7 +728,9 @@
    "currentChapter": {
     "number": 1,
     "title": "Real Numbers",
-    "sourceFile": "chapters/jemh1/jemh101.pdf"
+    "sourceFile": "chapters/jemh1/jemh101.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -714,7 +746,9 @@
    "currentChapter": {
     "number": 2,
     "title": "Polynomials",
-    "sourceFile": "chapters/jemh1/jemh102.pdf"
+    "sourceFile": "chapters/jemh1/jemh102.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -730,7 +764,9 @@
    "currentChapter": {
     "number": 3,
     "title": "Pair of Linear Equations in Two Variables",
-    "sourceFile": "chapters/jemh1/jemh103.pdf"
+    "sourceFile": "chapters/jemh1/jemh103.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -746,7 +782,9 @@
    "currentChapter": {
     "number": 4,
     "title": "Quadratic Equations",
-    "sourceFile": "chapters/jemh1/jemh104.pdf"
+    "sourceFile": "chapters/jemh1/jemh104.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -762,7 +800,9 @@
    "currentChapter": {
     "number": 5,
     "title": "Arithmetic Progressions",
-    "sourceFile": "chapters/jemh1/jemh105.pdf"
+    "sourceFile": "chapters/jemh1/jemh105.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -778,7 +818,9 @@
    "currentChapter": {
     "number": 6,
     "title": "Triangles",
-    "sourceFile": "chapters/jemh1/jemh106.pdf"
+    "sourceFile": "chapters/jemh1/jemh106.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -794,7 +836,9 @@
    "currentChapter": {
     "number": 7,
     "title": "Coordinate Geometry",
-    "sourceFile": "chapters/jemh1/jemh107.pdf"
+    "sourceFile": "chapters/jemh1/jemh107.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -822,7 +866,9 @@
    "currentChapter": {
     "number": 10,
     "title": "Circles",
-    "sourceFile": "chapters/jemh1/jemh110.pdf"
+    "sourceFile": "chapters/jemh1/jemh110.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -850,7 +896,9 @@
    "currentChapter": {
     "number": 11,
     "title": "Areas Related to Circles",
-    "sourceFile": "chapters/jemh1/jemh111.pdf"
+    "sourceFile": "chapters/jemh1/jemh111.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": "same chapter, same chapter number 11: the current book prints it Areas Related to Circles (chapters/jemh1/jemh111.pdf p.1), the Exemplar Area Related to Circles."
   },
@@ -866,7 +914,9 @@
    "currentChapter": {
     "number": 12,
     "title": "Surface Areas and Volumes",
-    "sourceFile": "chapters/jemh1/jemh112.pdf"
+    "sourceFile": "chapters/jemh1/jemh112.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -906,7 +956,9 @@
    "currentChapter": {
     "number": 3,
     "title": "Mindful Eating: A Path to a Healthy Body",
-    "sourceFile": "science/class6_curiosity.pdf"
+    "sourceFile": "science/class6_curiosity.pdf",
+    "page": 17,
+    "printedOn": "contents"
    },
    "note": "chapter 3 Mindful Eating: A Path to a Healthy Body prints What are the Components of Food?, How to Test Different Components of Food? and Balanced Diet."
   },
@@ -934,7 +986,9 @@
    "currentChapter": {
     "number": 6,
     "title": "Materials Around Us",
-    "sourceFile": "science/class6_curiosity.pdf"
+    "sourceFile": "science/class6_curiosity.pdf",
+    "page": 17,
+    "printedOn": "contents"
    },
    "note": "chapter 6 Materials Around Us (How to Group Materials?, What are the different Properties of Materials?)."
   },
@@ -950,7 +1004,9 @@
    "currentChapter": {
     "number": 9,
     "title": "Methods of Separation in Everyday Life",
-    "sourceFile": "science/class6_curiosity.pdf"
+    "sourceFile": "science/class6_curiosity.pdf",
+    "page": 17,
+    "printedOn": "contents"
    },
    "note": "chapter 9 Methods of Separation in Everyday Life."
   },
@@ -1014,7 +1070,9 @@
    "currentChapter": {
     "number": 5,
     "title": "Measurement of Length and Motion",
-    "sourceFile": "science/class6_curiosity.pdf"
+    "sourceFile": "science/class6_curiosity.pdf",
+    "page": 17,
+    "printedOn": "contents"
    },
    "note": "chapter 5 Measurement of Length and Motion (Standard Units, Describing Position, Moving Things, Types of Motion)."
   },
@@ -1054,7 +1112,9 @@
    "currentChapter": {
     "number": 4,
     "title": "Exploring Magnets",
-    "sourceFile": "science/class6_curiosity.pdf"
+    "sourceFile": "science/class6_curiosity.pdf",
+    "page": 17,
+    "printedOn": "contents"
    },
    "note": "chapter 4 Exploring Magnets, whose last section is printed Fun with Magnets."
   },
@@ -1082,7 +1142,9 @@
    "currentChapter": {
     "number": 11,
     "title": "Nature’s Treasures",
-    "sourceFile": "science/class6_curiosity.pdf"
+    "sourceFile": "science/class6_curiosity.pdf",
+    "page": 17,
+    "printedOn": "contents"
    },
    "note": "Curiosity 6 has no air chapter; air is taught in chapter 11 Nature's Treasures, whose first section is printed Air. All 15 questions are about the composition and uses of air, which that section teaches."
   },
@@ -1110,7 +1172,9 @@
    "currentChapter": {
     "number": 10,
     "title": "Life Processes in Plants",
-    "sourceFile": "science/class7_curiosity.pdf"
+    "sourceFile": "science/class7_curiosity.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 10 Life Processes in Plants (How Do Plants Get Food for their Growth?, Transport in Plants, Do Plants Respire?)."
   },
@@ -1126,7 +1190,9 @@
    "currentChapter": {
     "number": 9,
     "title": "Life Processes in Animals",
-    "sourceFile": "science/class7_curiosity.pdf"
+    "sourceFile": "science/class7_curiosity.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 9 Life Processes in Animals prints Nutrition in Animals."
   },
@@ -1166,7 +1232,9 @@
    "currentChapter": {
     "number": 2,
     "title": "Exploring Substances: Acidic, Basic, and Neutral",
-    "sourceFile": "science/class7_curiosity.pdf"
+    "sourceFile": "science/class7_curiosity.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 2 Exploring Substances: Acidic, Basic, and Neutral."
   },
@@ -1182,7 +1250,9 @@
    "currentChapter": {
     "number": 5,
     "title": "Changes Around Us: Physical and Chemical",
-    "sourceFile": "science/class7_curiosity.pdf"
+    "sourceFile": "science/class7_curiosity.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 5 Changes Around Us: Physical and Chemical."
   },
@@ -1270,7 +1340,9 @@
    "currentChapter": {
     "number": 8,
     "title": "Measurement of Time and Motion",
-    "sourceFile": "science/class7_curiosity.pdf"
+    "sourceFile": "science/class7_curiosity.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 8 Measurement of Time and Motion (Measurement of Time, Speed, Uniform and Non-uniform Linear Motion)."
   },
@@ -1430,7 +1502,9 @@
    "currentChapter": {
     "number": 2,
     "title": "The Invisible Living World: Beyond Our Naked Eye",
-    "sourceFile": "science/class8_curiosity.pdf"
+    "sourceFile": "science/class8_curiosity.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 2 The Invisible Living World: Beyond Our Naked Eye (What Is a Cell?, What Are the Levels of Organisation..., Why Is Cell Considered to Be a Basic Unit of Life?)."
   },
@@ -1470,7 +1544,9 @@
    "currentChapter": {
     "number": 5,
     "title": "Exploring Forces",
-    "sourceFile": "science/class8_curiosity.pdf"
+    "sourceFile": "science/class8_curiosity.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 5 Exploring Forces (What Is a Force?, What Are the Different Types of Forces?, Weight and Its Measurement, Floating and Sinking)."
   },
@@ -1606,7 +1682,9 @@
    "currentChapter": {
     "number": 8,
     "title": "Journey Inside the Atom",
-    "sourceFile": "science/class9_exploration.pdf"
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 8 Journey Inside the Atom (A Short Historical Journey Through Atomic Models, Atomic Number, Mass Number, How Are Electrons Distributed..., Valency)."
   },
@@ -1622,7 +1700,9 @@
    "currentChapter": {
     "number": 2,
     "title": "Cell: The Building Block of Life",
-    "sourceFile": "science/class9_exploration.pdf"
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 2 Cell: The Building Block of Life (Structure of a Cell, The Cell Interior, How do Normal Cells Grow and Divide?, Cell Theory)."
   },
@@ -1638,7 +1718,9 @@
    "currentChapter": {
     "number": 3,
     "title": "Tissues in Action",
-    "sourceFile": "science/class9_exploration.pdf"
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 3 Tissues in Action (Why are Plant and Animal Tissues Different?, Tissues for Growth in Plants, Animal Tissues)."
   },
@@ -1654,7 +1736,9 @@
    "currentChapter": {
     "number": 12,
     "title": "Patterns in Life: Diversity and Classification",
-    "sourceFile": "science/class9_exploration.pdf"
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 12 Patterns in Life: Diversity and Classification (How to Classify Organisms?, Five Kingdom Classification, Scientific Naming)."
   },
@@ -1670,7 +1754,9 @@
    "currentChapter": {
     "number": 4,
     "title": "Describing Motion Around Us",
-    "sourceFile": "science/class9_exploration.pdf"
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 4 Describing Motion Around Us (Motion in a Straight Line, Graphical Representation of Motion, Kinematic Equations)."
   },
@@ -1686,7 +1772,9 @@
    "currentChapter": {
     "number": 6,
     "title": "How Forces Affect Motion",
-    "sourceFile": "science/class9_exploration.pdf"
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 6 How Forces Affect Motion (Balanced and Unbalanced Forces and Newton's three laws of motion)."
   },
@@ -1714,7 +1802,9 @@
    "currentChapter": {
     "number": 7,
     "title": "Work, Energy, and Simple Machines",
-    "sourceFile": "science/class9_exploration.pdf"
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 7 Work, Energy, and Simple Machines (Work Done by a Constant Force, The Work-Energy Theorem, Mechanical Energy, Power)."
   },
@@ -1730,7 +1820,9 @@
    "currentChapter": {
     "number": 10,
     "title": "Sound Waves: Characteristics and Applications",
-    "sourceFile": "science/class9_exploration.pdf"
+    "sourceFile": "science/class9_exploration.pdf",
+    "page": 19,
+    "printedOn": "contents"
    },
    "note": "chapter 10 Sound Waves: Characteristics and Applications (Production of Sound, Propagation of Sound, Reflection of Sound, Ultrasonic...)."
   },
@@ -1782,7 +1874,9 @@
    "currentChapter": {
     "number": 1,
     "title": "Chemical Reactions and Equations",
-    "sourceFile": "chapters/jesc1/jesc101.pdf"
+    "sourceFile": "chapters/jesc1/jesc101.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -1798,7 +1892,9 @@
    "currentChapter": {
     "number": 2,
     "title": "Acids, Bases and Salts",
-    "sourceFile": "chapters/jesc1/jesc102.pdf"
+    "sourceFile": "chapters/jesc1/jesc102.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -1814,7 +1910,9 @@
    "currentChapter": {
     "number": 3,
     "title": "Metals and Non-metals",
-    "sourceFile": "chapters/jesc1/jesc103.pdf"
+    "sourceFile": "chapters/jesc1/jesc103.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -1830,7 +1928,9 @@
    "currentChapter": {
     "number": 4,
     "title": "Carbon and its Compounds",
-    "sourceFile": "chapters/jesc1/jesc104.pdf"
+    "sourceFile": "chapters/jesc1/jesc104.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -1858,7 +1958,9 @@
    "currentChapter": {
     "number": 5,
     "title": "Life Processes",
-    "sourceFile": "chapters/jesc1/jesc105.pdf"
+    "sourceFile": "chapters/jesc1/jesc105.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -1874,7 +1976,9 @@
    "currentChapter": {
     "number": 6,
     "title": "Control and Coordination",
-    "sourceFile": "chapters/jesc1/jesc106.pdf"
+    "sourceFile": "chapters/jesc1/jesc106.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -1890,7 +1994,9 @@
    "currentChapter": {
     "number": 7,
     "title": "How do Organisms Reproduce?",
-    "sourceFile": "chapters/jesc1/jesc107.pdf"
+    "sourceFile": "chapters/jesc1/jesc107.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -1918,7 +2024,9 @@
    "currentChapter": {
     "number": 9,
     "title": "Light – Reflection and Refraction",
-    "sourceFile": "chapters/jesc1/jesc109.pdf"
+    "sourceFile": "chapters/jesc1/jesc109.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -1934,7 +2042,9 @@
    "currentChapter": {
     "number": 10,
     "title": "The Human Eye and the Colourful World",
-    "sourceFile": "chapters/jesc1/jesc110.pdf"
+    "sourceFile": "chapters/jesc1/jesc110.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -1950,7 +2060,9 @@
    "currentChapter": {
     "number": 11,
     "title": "Electricity",
-    "sourceFile": "chapters/jesc1/jesc111.pdf"
+    "sourceFile": "chapters/jesc1/jesc111.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -1966,7 +2078,9 @@
    "currentChapter": {
     "number": 12,
     "title": "Magnetic Effects of Electric Current",
-    "sourceFile": "chapters/jesc1/jesc112.pdf"
+    "sourceFile": "chapters/jesc1/jesc112.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
@@ -1994,7 +2108,9 @@
    "currentChapter": {
     "number": 13,
     "title": "Our Environment",
-    "sourceFile": "chapters/jesc1/jesc113.pdf"
+    "sourceFile": "chapters/jesc1/jesc113.pdf",
+    "page": 1,
+    "printedOn": "chapter-opening"
    },
    "note": ""
   },
