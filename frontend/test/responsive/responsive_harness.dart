@@ -1,6 +1,7 @@
 // Shared checks for the Task 801 responsive tests: the teacher's main flows
-// at the three widths the web app is really opened at -- a phone browser
-// (375 x 812), a tablet (768 x 1024) and a laptop (1280 x 800).
+// at the widths the web app is really opened at -- a phone browser
+// (375 x 812), a tablet (768 x 1024) and a laptop (1280 x 800) -- and at the
+// phone again with Android Chrome's "Large" text setting (1.3x).
 //
 // Teachers are "primarily mobile" (PRD requirements matrix) and the first
 // sellable product is the web app, so for most of them it is a phone browser.
@@ -39,12 +40,22 @@ const laptopScreen = (size: laptop, textScale: 1.0);
 
 const screenSizes = <String, Screen>{
   'phone 375x812': (size: phone, textScale: 1.0),
-  // Android Chrome's "Large" text setting -- (size: phone, textScale: 1.3) --
-  // is plumbed through `useScreen` but not listed yet: it fails on 7 of these
-  // flows today (the assessments list, the custom-paper builder, the answer-key
-  // download, the Coverage & Pace dashboard and three more). Those are real
-  // defects on a setting a phone-first product meets, and they are Task 803's
-  // to fix; adding the row here without them would only paint the suite red.
+  // Android Chrome's "Large" text setting, on the width most teachers open
+  // the app at.
+  //
+  // This row was parked in a comment until 2026-09-23 because it failed 7
+  // flows. It does not: that measurement was taken before Inter was a bundled
+  // asset (057d3f1), when [useAppFonts] had no real font to load and every
+  // string was laid out in flutter_test's fallback glyph -- a fixed-width box
+  // wider than Inter at every size. Re-measured with useAppFonts disabled, the
+  // same 7 flows fail again; with the face a teacher actually reads, all of
+  // them fit at 1.3x unchanged.
+  //
+  // The row is not decorative: at 2.4x, 15 of these 18 flows fail on this
+  // exact suite, so a layout that stops fitting when the text grows is caught
+  // here. A row that cannot fit wraps or stacks -- nothing is made smaller to
+  // pass, because the setting exists for someone who needs it larger.
+  'phone 375x812 at 1.3x text': (size: phone, textScale: 1.3),
   'tablet 768x1024': (size: tablet, textScale: 1.0),
   'laptop 1280x800': (size: laptop, textScale: 1.0),
 };
