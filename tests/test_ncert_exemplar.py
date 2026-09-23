@@ -923,3 +923,73 @@ def test_a_derived_difficulty_and_bloom_level_say_they_were_derived(maths6):
     rec = ex.to_bank_record(_q(maths6, 2), "")
     assert rec["metadata"]["difficultyInferred"] is True
     assert rec["metadata"]["bloomInferred"] is True
+
+
+# --------------------------------------------------------------------------- #
+# the Exemplar chapter map (taxonomy/_exemplar_chapter_map.json)
+# --------------------------------------------------------------------------- #
+# An Exemplar question was printed under a numbered chapter of its own book,
+# which the importer keeps as `metadata.exemplarChapter`; the served taxonomy is
+# keyed by the CURRENT books. The map is that correspondence, decided once
+# against the current books' contents pages (scripts/build_exemplar_chapter_map.py).
+
+DATA = ROOT / "academicos-data"
+CHAPTER_MAP = DATA / "syllabus" / "taxonomy" / "_exemplar_chapter_map.json"
+EXEMPLAR_BANK = DATA / "corpus" / "ncert-exemplar" / "questions.json"
+SERVED_BANK = DATA / "syllabus" / "questions.json"
+SUBJECT_FILE = {"Mathematics": "Mathematics", "Science": "Science"}
+
+
+def _map_rows() -> list[dict]:
+    return json.loads(CHAPTER_MAP.read_text(encoding="utf-8"))["rows"]
+
+
+def _bank_chapter_keys() -> set[tuple]:
+    """Every (subject, grade, number, title) the Exemplar records carry, in the
+    corpus the importer writes and in the bank the API serves."""
+    keys = set()
+    for path in (EXEMPLAR_BANK, SERVED_BANK):
+        if not path.exists():
+            continue
+        data = json.loads(path.read_text(encoding="utf-8"))
+        for rec in (data["questions"] if isinstance(data, dict) else data):
+            chapter = (rec.get("metadata") or {}).get("exemplarChapter")
+            if chapter and chapter.get("title") and rec.get("subject") in SUBJECT_FILE:
+                keys.add((rec["subject"], int(rec["grade"]),
+                          int(chapter["number"]), chapter["title"]))
+    return keys
+
+
+def test_every_chapter_the_map_names_exists_in_the_committed_taxonomy():
+    """A mapped row writes its id straight onto a question, so an id the trees
+    do not have would serve a chapter no catalog can name."""
+    trees: dict[tuple, set] = {}
+    for row in _map_rows():
+        chapter_id = row["taxonomyChapterId"]
+        if chapter_id is None:
+            assert row["method"] == "none" and row["reason"] and row["note"], row
+            continue
+        assert row["method"] in {"exact-title", "contents-page", "hand-checked"}, row
+        key = (row["subject"], row["grade"])
+        if key not in trees:
+            path = DATA / "syllabus" / "taxonomy" / f"{SUBJECT_FILE[key[0]]}_{key[1]}.json"
+            trees[key] = {c["id"] for c in json.loads(path.read_text(encoding="utf-8"))["chapters"]}
+        assert chapter_id in trees[key], (row["subject"], row["grade"], chapter_id)
+
+
+def test_the_map_has_a_row_for_every_exemplar_chapter_the_bank_holds():
+    """So a new import cannot fall through untagged and unnoticed: a chapter
+    with no counterpart is a null row with its reason, never a missing row."""
+    rows = {(r["subject"], r["grade"], r["exemplarNumber"], r["exemplarTitle"])
+            for r in _map_rows()}
+    missing = sorted(_bank_chapter_keys() - rows)
+    assert missing == [], missing
+
+
+def test_an_exact_title_row_really_is_the_same_title():
+    """The class 10 books ARE the current books, so most of those rows claim the
+    title itself. The claim is checked here, not trusted."""
+    for row in _map_rows():
+        if row.get("method") != "exact-title":
+            continue
+        assert row["currentChapter"]["title"].casefold() == row["exemplarTitle"].casefold(), row

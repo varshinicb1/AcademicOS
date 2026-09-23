@@ -1,0 +1,2023 @@
+{
+ "notice": "Which chapter of the CURRENT NCERT book each NCERT Exemplar chapter belongs to. Decided against the current books' own contents pages and section headings, never by word overlap; a chapter with no single counterpart is null with its reason. Written by scripts/build_exemplar_chapter_map.py.",
+ "rule": "A row maps when the current book of that class has exactly one chapter that teaches the Exemplar chapter's subject matter AND at most 10% of that chapter's questions are content the class teaches in another chapter; the measured share is in the note. Otherwise null: split, dropped, moved or residue.",
+ "sourceBooks": {
+  "Mathematics_6": {
+   "book": "Ganita Prakash",
+   "pdf": "maths/class6_ganita_prakash.pdf",
+   "contentsPage": 19
+  },
+  "Mathematics_7": {
+   "book": "Ganita Prakash (Parts 1 and 2)",
+   "pdf": "maths/class7_ganita_prakash.pdf",
+   "contentsPage": 17
+  },
+  "Mathematics_8": {
+   "book": "Ganita Prakash (Parts 1 and 2)",
+   "pdf": "maths/class8_ganita_prakash.pdf",
+   "contentsPage": 15
+  },
+  "Mathematics_9": {
+   "book": "Ganita Manjari",
+   "pdf": "maths/class9_ganita_manjari.pdf",
+   "contentsPage": 19
+  },
+  "Mathematics_10": {
+   "book": "Mathematics",
+   "pdf": "chapters/jemh1/*.pdf",
+   "contentsPage": null
+  },
+  "Science_6": {
+   "book": "Curiosity",
+   "pdf": "science/class6_curiosity.pdf",
+   "contentsPage": 17
+  },
+  "Science_7": {
+   "book": "Curiosity",
+   "pdf": "science/class7_curiosity.pdf",
+   "contentsPage": 19
+  },
+  "Science_8": {
+   "book": "Curiosity",
+   "pdf": "science/class8_curiosity.pdf",
+   "contentsPage": 19
+  },
+  "Science_9": {
+   "book": "Exploration",
+   "pdf": "science/class9_exploration.pdf",
+   "contentsPage": 19
+  },
+  "Science_10": {
+   "book": "Science",
+   "pdf": "chapters/jesc1/*.pdf",
+   "contentsPage": null
+  }
+ },
+ "rows": [
+  {
+   "subject": "Mathematics",
+   "grade": 6,
+   "exemplarNumber": 1,
+   "exemplarTitle": "Number System",
+   "questions": 192,
+   "questionsServed": 188,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "Ganita Prakash 6 has no one chapter for the old Number System: whole numbers and place value are chapter 3 Number Play, factors and multiples chapter 5 Prime Time, number patterns chapter 1."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 6,
+   "exemplarNumber": 2,
+   "exemplarTitle": "Geometry",
+   "questions": 20,
+   "questionsServed": 20,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "the old Geometry chapter is chapter 2 Lines and Angles, chapter 8 Playing with Constructions and chapter 9 Symmetry."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 6,
+   "exemplarNumber": 3,
+   "exemplarTitle": "Integers",
+   "questions": 76,
+   "questionsServed": 75,
+   "taxonomyChapterId": "mathematics-6/the-other-side-of-zero",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 10,
+    "title": "The Other Side of Zero",
+    "sourceFile": "maths/class6_ganita_prakash.pdf"
+   },
+   "note": "chapter 10 The Other Side of Zero is the integers chapter of Ganita Prakash 6 (sections: The Token Model, Integers in Other Places, Explorations with Integers)."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 6,
+   "exemplarNumber": 4,
+   "exemplarTitle": "Fractions and Decimals",
+   "questions": 28,
+   "questionsServed": 28,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "chapter 7 Fractions is the counterpart of the fractions half, but the decimals half moved to class 7 (A Peek Beyond the Point): 4 of 28 questions are decimal questions with no class 6 chapter."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 6,
+   "exemplarNumber": 5,
+   "exemplarTitle": "Data Handling",
+   "questions": 6,
+   "questionsServed": 6,
+   "taxonomyChapterId": "mathematics-6/data-handling-and-presentation",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 4,
+    "title": "Data Handling and Presentation",
+    "sourceFile": "maths/class6_ganita_prakash.pdf"
+   },
+   "note": "chapter 4 Data Handling and Presentation (Collecting and Organising Data, Pictographs, Bar Graphs)."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 6,
+   "exemplarNumber": 6,
+   "exemplarTitle": "Mensuration",
+   "questions": 26,
+   "questionsServed": 26,
+   "taxonomyChapterId": "mathematics-6/perimeter-and-area",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 6,
+    "title": "Perimeter and Area",
+    "sourceFile": "maths/class6_ganita_prakash.pdf"
+   },
+   "note": "chapter 6 Perimeter and Area is the mensuration chapter (Perimeter, Area, Area of a Triangle)."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 6,
+   "exemplarNumber": 7,
+   "exemplarTitle": "Algebra",
+   "questions": 68,
+   "questionsServed": 63,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "Ganita Prakash 6 has no algebra chapter; letter-numbers start in class 7 chapter 4."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 6,
+   "exemplarNumber": 8,
+   "exemplarTitle": "Ratio and Proportion",
+   "questions": 51,
+   "questionsServed": 49,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "ratio and proportion are class 8 chapter 7 Proportional Reasoning-1; Ganita Prakash 6 has no such chapter."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 6,
+   "exemplarNumber": 9,
+   "exemplarTitle": "Symmetry and Practical Geometry",
+   "questions": 58,
+   "questionsServed": 58,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "chapter 9 Symmetry and chapter 8 Playing with Constructions are two chapters; 9 of the 58 questions are instrument and construction questions, so no single chapter is the counterpart."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "exemplarNumber": 1,
+   "exemplarTitle": "Integers",
+   "questions": 96,
+   "questionsServed": 88,
+   "taxonomyChapterId": "mathematics-7/operations-with-integers",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 2,
+    "title": "Operations with Integers",
+    "sourceFile": "chapters/gegp2/gegp202.pdf"
+   },
+   "note": "Part 2 chapter 2 Operations with Integers (A Quick Recap of Integers, Multiplication of Integers)."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "exemplarNumber": 2,
+   "exemplarTitle": "Fractions and Decimals",
+   "questions": 27,
+   "questionsServed": 27,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "fractions are Part 1 chapter 8 Working with Fractions, decimals Part 2 chapter 4 Another Peek Beyond the Point."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "exemplarNumber": 3,
+   "exemplarTitle": "Data Handling",
+   "questions": 43,
+   "questionsServed": 43,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "Part 2 chapter 5 Connecting the Dots is the data chapter, but Ganita Prakash 7 does not teach probability: 11 of 43 questions are chance and probability questions."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "exemplarNumber": 4,
+   "exemplarTitle": "Simple Equations",
+   "questions": 38,
+   "questionsServed": 35,
+   "taxonomyChapterId": "mathematics-7/finding-the-unknown",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 7,
+    "title": "Finding the Unknown",
+    "sourceFile": "chapters/gegp2/gegp207.pdf"
+   },
+   "note": "Part 2 chapter 7 Finding the Unknown (Find the Unknowns, Solving Equations Systematically)."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "exemplarNumber": 5,
+   "exemplarTitle": "Lines and Angles",
+   "questions": 36,
+   "questionsServed": 36,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "chapter 5 Parallel and Intersecting Lines teaches transversals and corresponding and alternate angles, not angle pairs: 27 of 36 questions are complementary, supplementary, linear-pair or vertically opposite angles, which Ganita Prakash 7 does not teach."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "exemplarNumber": 6,
+   "exemplarTitle": "Triangles",
+   "questions": 65,
+   "questionsServed": 65,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "triangle construction and types are Part 1 chapter 7 A Tale of Three Intersecting Lines, congruence Part 2 chapter 1 Geometric Twins."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "exemplarNumber": 7,
+   "exemplarTitle": "Comparing Quantities",
+   "questions": 44,
+   "questionsServed": 44,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "percentages are class 8 Part 2 chapter 1 Fractions in Disguise."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "exemplarNumber": 8,
+   "exemplarTitle": "Rational Numbers",
+   "questions": 20,
+   "questionsServed": 20,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Ganita Prakash 7 has no rational-numbers chapter; its integer chapter stops at integers."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "exemplarNumber": 9,
+   "exemplarTitle": "Perimeter and Area",
+   "questions": 35,
+   "questionsServed": 35,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "perimeter and area are class 6 chapter 6 and class 8 Part 2 chapter 7."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "exemplarNumber": 10,
+   "exemplarTitle": "Algebraic Expressions",
+   "questions": 58,
+   "questionsServed": 57,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "chapter 4 Expressions using Letter-Numbers is the counterpart, but 16 of 57 questions turn on monomial/binomial/trinomial, degree and constant, terms Ganita Prakash 7 does not use."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "exemplarNumber": 11,
+   "exemplarTitle": "Exponents and Powers",
+   "questions": 38,
+   "questionsServed": 37,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "exponents are class 8 chapter 2 Power Play."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "exemplarNumber": 12,
+   "exemplarTitle": "Practical Geometry, Symmetry and Visualising Solid Shapes",
+   "questions": 61,
+   "questionsServed": 61,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "construction is Part 2 chapter 6 Constructions and Tilings; symmetry and solid shapes have no class 7 chapter."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 1,
+   "exemplarTitle": "Rational Numbers",
+   "questions": 42,
+   "questionsServed": 37,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Ganita Prakash 8 has no rational-numbers chapter; chapter 3 A Story of Numbers is number systems and place value."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 2,
+   "exemplarTitle": "Data Handling",
+   "questions": 39,
+   "questionsServed": 39,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "Part 2 chapter 5 Tales by Dots and Lines visualises data, but the old chapter's pie charts and probability are not in Ganita Prakash 8."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 3,
+   "exemplarTitle": "Square-Square Root and Cube-Cube Root",
+   "questions": 117,
+   "questionsServed": 117,
+   "taxonomyChapterId": "mathematics-8/a-square-and-a-cube",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 1,
+    "title": "A Square and A Cube",
+    "sourceFile": "maths/class8_ganita_prakash.pdf"
+   },
+   "note": "chapter 1 A Square and A Cube (Square Numbers, Cubic Numbers); 8 of the 117 questions are Pythagorean triplets, which Part 2 chapter 2 teaches."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 4,
+   "exemplarTitle": "Linear Equations in One Variable",
+   "questions": 56,
+   "questionsServed": 55,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "solving equations is class 7 Part 2 chapter 7 Finding the Unknown."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 5,
+   "exemplarTitle": "Understanding Quadrilaterals and Practical Geometry",
+   "questions": 142,
+   "questionsServed": 137,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "chapter 4 Quadrilaterals is the quadrilateral half; the practical geometry half has no chapter in Ganita Prakash 8."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 6,
+   "exemplarTitle": "Visualising Solid Shapes",
+   "questions": 36,
+   "questionsServed": 36,
+   "taxonomyChapterId": "mathematics-8/exploring-some-geometric-themes",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 4,
+    "title": "Exploring Some Geometric Themes",
+    "sourceFile": "chapters/hegp2/hegp204.pdf"
+   },
+   "note": "Part 2 chapter 4 Exploring Some Geometric Themes prints Visualising Solids, where faces, edges and vertices of polyhedra are counted."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 7,
+   "exemplarTitle": "Algebraic Expressions, Identities and Factorisation",
+   "questions": 90,
+   "questionsServed": 86,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "the distributive identities are chapter 6 We Distribute, Yet Things Multiply and Part 2 chapter 6 Algebra Play."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 8,
+   "exemplarTitle": "Exponents and Powers",
+   "questions": 70,
+   "questionsServed": 69,
+   "taxonomyChapterId": "mathematics-8/power-play",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 2,
+    "title": "Power Play",
+    "sourceFile": "maths/class8_ganita_prakash.pdf"
+   },
+   "note": "chapter 2 Power Play (Exponential Notation and Operations, The Other Side of Powers, Powers of 10)."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 9,
+   "exemplarTitle": "Comparing Quantities",
+   "questions": 78,
+   "questionsServed": 75,
+   "taxonomyChapterId": "mathematics-8/fractions-in-disguise",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 1,
+    "title": "Fractions in Disguise",
+    "sourceFile": "chapters/hegp2/hegp201.pdf"
+   },
+   "note": "Part 2 chapter 1 Fractions in Disguise is the percentage chapter, and its Using Percentages section prints Taxes and Growth and Compounding, where discount and compound interest are taught."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 10,
+   "exemplarTitle": "Direct and Inverse Proportions",
+   "questions": 59,
+   "questionsServed": 59,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "direct proportion is chapter 7 Proportional Reasoning-1, inverse proportion Part 2 chapter 3 Proportional Reasoning-2."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 11,
+   "exemplarTitle": "Mensuration",
+   "questions": 46,
+   "questionsServed": 46,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "Part 2 chapter 7 Area prints Rectangle and Squares only; the old chapter's trapezium area, surface area and volume are not in Ganita Prakash 8."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 12,
+   "exemplarTitle": "Introduction to Graphs",
+   "questions": 21,
+   "questionsServed": 21,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Ganita Prakash 8 has no graphs chapter."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "exemplarNumber": 13,
+   "exemplarTitle": "Playing with Numbers",
+   "questions": 42,
+   "questionsServed": 40,
+   "taxonomyChapterId": "mathematics-8/number-play",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 5,
+    "title": "Number Play",
+    "sourceFile": "maths/class8_ganita_prakash.pdf"
+   },
+   "note": "chapter 5 Number Play (Is This a Multiple Of?, Checking Divisibility Quickly, Digits in Disguise) is the generalised-form and divisibility chapter."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 1,
+   "exemplarTitle": "Number Systems",
+   "questions": 5,
+   "questionsServed": 5,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "chapter 3 The World of Numbers reaches real numbers, but the old chapter's laws of exponents with rational powers are not in Ganita Manjari 9 (1 of its 5 questions)."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 2,
+   "exemplarTitle": "Polynomials",
+   "questions": 36,
+   "questionsServed": 33,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "linear polynomials are chapter 2, identities and factorisation chapter 4 Exploring Algebraic Identities."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 3,
+   "exemplarTitle": "Coordinate Geometry",
+   "questions": 15,
+   "questionsServed": 14,
+   "taxonomyChapterId": "mathematics-9/orienting-yourself-the-use-of-coordinates",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 1,
+    "title": "Orienting Yourself: The Use of Coordinates",
+    "sourceFile": "maths/class9_ganita_manjari.pdf"
+   },
+   "note": "chapter 1 Orienting Yourself: The Use of Coordinates (The 2-D Cartesian Coordinate System, Distance Between Two Points)."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 4,
+   "exemplarTitle": "Linear Equations in Two Variables",
+   "questions": 15,
+   "questionsServed": 14,
+   "taxonomyChapterId": "mathematics-9/introduction-to-linear-polynomials",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 2,
+    "title": "Introduction to Linear Polynomials",
+    "sourceFile": "maths/class9_ganita_manjari.pdf"
+   },
+   "note": "chapter 2 Introduction to Linear Polynomials is where a linear relationship in two variables and its graph are taught (Linear Relationships, Visualising linear relationships)."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 5,
+   "exemplarTitle": "Introduction to Euclid's Geometry",
+   "questions": 33,
+   "questionsServed": 33,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Ganita Manjari 9 has no Euclid's-geometry chapter."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 6,
+   "exemplarTitle": "Lines and Angles",
+   "questions": 6,
+   "questionsServed": 6,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Ganita Manjari 9 has no lines-and-angles chapter."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 7,
+   "exemplarTitle": "Triangles",
+   "questions": 20,
+   "questionsServed": 20,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Ganita Manjari 9 has no triangles chapter; congruence is class 7 Part 2 chapter 1."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 8,
+   "exemplarTitle": "Quadrilaterals",
+   "questions": 24,
+   "questionsServed": 24,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "quadrilaterals are class 8 chapter 4."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 9,
+   "exemplarTitle": "Areas of Parallelograms and Triangles",
+   "questions": 6,
+   "questionsServed": 5,
+   "taxonomyChapterId": "mathematics-9/measuring-space-perimeter-and-area",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 6,
+    "title": "Measuring Space: Perimeter and Area",
+    "sourceFile": "maths/class9_ganita_manjari.pdf"
+   },
+   "note": "chapter 6 Measuring Space: Perimeter and Area prints Area of a Parallelogram and Area of a Triangle."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 10,
+   "exemplarTitle": "Circles",
+   "questions": 13,
+   "questionsServed": 13,
+   "taxonomyChapterId": "mathematics-9/i-m-up-and-down-and-round-and-round",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 5,
+    "title": "I’m Up and Down, and Round and Round",
+    "sourceFile": "maths/class9_ganita_manjari.pdf"
+   },
+   "note": "chapter 5 I'm Up and Down, and Round and Round is the circles chapter (Chords and the Angles They Subtend, Angles Subtended by an Arc, Concyclicity of Points)."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 11,
+   "exemplarTitle": "Constructions",
+   "questions": 6,
+   "questionsServed": 6,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Ganita Manjari 9 has no constructions chapter."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 12,
+   "exemplarTitle": "Heron's Formula",
+   "questions": 8,
+   "questionsServed": 8,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "chapter 6 gives the area of a triangle from its base and height; Heron's formula is not in Ganita Manjari 9."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 13,
+   "exemplarTitle": "Surface Areas and Volumes",
+   "questions": 24,
+   "questionsServed": 24,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Ganita Manjari 9 has no surface-areas-and-volumes chapter."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "exemplarNumber": 14,
+   "exemplarTitle": "Statistics and Probability",
+   "questions": 22,
+   "questionsServed": 22,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "chapter 7 is probability; Ganita Manjari 9 has no statistics chapter, so the old combined chapter has no single counterpart."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 1,
+   "exemplarTitle": "Real Numbers",
+   "questions": 19,
+   "questionsServed": 18,
+   "taxonomyChapterId": "mathematics-10/real-numbers",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 1,
+    "title": "Real Numbers",
+    "sourceFile": "chapters/jemh1/jemh101.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 2,
+   "exemplarTitle": "Polynomials",
+   "questions": 9,
+   "questionsServed": 9,
+   "taxonomyChapterId": "mathematics-10/polynomials",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 2,
+    "title": "Polynomials",
+    "sourceFile": "chapters/jemh1/jemh102.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 3,
+   "exemplarTitle": "Pair of Linear Equations in Two Variables",
+   "questions": 40,
+   "questionsServed": 40,
+   "taxonomyChapterId": "mathematics-10/pair-of-linear-equations-in-two-variables",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 3,
+    "title": "Pair of Linear Equations in Two Variables",
+    "sourceFile": "chapters/jemh1/jemh103.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 4,
+   "exemplarTitle": "Quadratic Equations",
+   "questions": 12,
+   "questionsServed": 11,
+   "taxonomyChapterId": "mathematics-10/quadratic-equations",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 4,
+    "title": "Quadratic Equations",
+    "sourceFile": "chapters/jemh1/jemh104.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 5,
+   "exemplarTitle": "Arithmetic Progressions",
+   "questions": 48,
+   "questionsServed": 47,
+   "taxonomyChapterId": "mathematics-10/arithmetic-progressions",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 5,
+    "title": "Arithmetic Progressions",
+    "sourceFile": "chapters/jemh1/jemh105.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 6,
+   "exemplarTitle": "Triangles",
+   "questions": 16,
+   "questionsServed": 16,
+   "taxonomyChapterId": "mathematics-10/triangles",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 6,
+    "title": "Triangles",
+    "sourceFile": "chapters/jemh1/jemh106.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 7,
+   "exemplarTitle": "Coordinate Geometry",
+   "questions": 28,
+   "questionsServed": 28,
+   "taxonomyChapterId": "mathematics-10/coordinate-geometry",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 7,
+    "title": "Coordinate Geometry",
+    "sourceFile": "chapters/jemh1/jemh107.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 8,
+   "exemplarTitle": "Introduction to Trigonometry and Its Applications",
+   "questions": 11,
+   "questionsServed": 10,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "the current book prints chapter 8 Introduction to Trigonometry and chapter 9 Some Applications of Trigonometry; the Exemplar chapter is both."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 9,
+   "exemplarTitle": "Circles",
+   "questions": 10,
+   "questionsServed": 10,
+   "taxonomyChapterId": "mathematics-10/circles",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 10,
+    "title": "Circles",
+    "sourceFile": "chapters/jemh1/jemh110.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 10,
+   "exemplarTitle": "Construction",
+   "questions": 4,
+   "questionsServed": 4,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "the current book has 14 chapters and no Constructions among them."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 11,
+   "exemplarTitle": "Area Related to Circles",
+   "questions": 26,
+   "questionsServed": 26,
+   "taxonomyChapterId": "mathematics-10/areas-related-to-circles",
+   "method": "hand-checked",
+   "currentChapter": {
+    "number": 11,
+    "title": "Areas Related to Circles",
+    "sourceFile": "chapters/jemh1/jemh111.pdf"
+   },
+   "note": "same chapter, same chapter number 11: the current book prints it Areas Related to Circles (chapters/jemh1/jemh111.pdf p.1), the Exemplar Area Related to Circles."
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 12,
+   "exemplarTitle": "Surface Areas and Volumes",
+   "questions": 28,
+   "questionsServed": 28,
+   "taxonomyChapterId": "mathematics-10/surface-areas-and-volumes",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 12,
+    "title": "Surface Areas and Volumes",
+    "sourceFile": "chapters/jemh1/jemh112.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "exemplarNumber": 13,
+   "exemplarTitle": "Statistics and Probability",
+   "questions": 14,
+   "questionsServed": 13,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "the current book prints chapter 13 Statistics and chapter 14 Probability; the Exemplar chapter is both."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 1,
+   "exemplarTitle": "Food: Where Does It Come From?",
+   "questions": 11,
+   "questionsServed": 11,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "where food comes from is spread over chapter 3 Mindful Eating (What Do We Eat?, Food Miles) and chapter 2 Diversity in the Living World."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 2,
+   "exemplarTitle": "Components of Food",
+   "questions": 14,
+   "questionsServed": 14,
+   "taxonomyChapterId": "science-6/mindful-eating-a-path-to-a-healthy-body",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 3,
+    "title": "Mindful Eating: A Path to a Healthy Body",
+    "sourceFile": "science/class6_curiosity.pdf"
+   },
+   "note": "chapter 3 Mindful Eating: A Path to a Healthy Body prints What are the Components of Food?, How to Test Different Components of Food? and Balanced Diet."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 3,
+   "exemplarTitle": "Fibre to Fabric",
+   "questions": 20,
+   "questionsServed": 20,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Curiosity 6 has no fibre-to-fabric chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 4,
+   "exemplarTitle": "Sorting Materials and Groups",
+   "questions": 22,
+   "questionsServed": 22,
+   "taxonomyChapterId": "science-6/materials-around-us",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 6,
+    "title": "Materials Around Us",
+    "sourceFile": "science/class6_curiosity.pdf"
+   },
+   "note": "chapter 6 Materials Around Us (How to Group Materials?, What are the different Properties of Materials?)."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 5,
+   "exemplarTitle": "Separation of Substances",
+   "questions": 16,
+   "questionsServed": 16,
+   "taxonomyChapterId": "science-6/methods-of-separation-in-everyday-life",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 9,
+    "title": "Methods of Separation in Everyday Life",
+    "sourceFile": "science/class6_curiosity.pdf"
+   },
+   "note": "chapter 9 Methods of Separation in Everyday Life."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 6,
+   "exemplarTitle": "Changes Around Us",
+   "questions": 19,
+   "questionsServed": 19,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "physical and chemical changes are class 7 chapter 5 Changes Around Us: Physical and Chemical."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 7,
+   "exemplarTitle": "Getting to Know Plants",
+   "questions": 12,
+   "questionsServed": 12,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "parts of a plant are spread over chapter 2 Diversity in the Living World and chapter 10 Living Creatures."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 8,
+   "exemplarTitle": "Body Movement",
+   "questions": 11,
+   "questionsServed": 11,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "the musculoskeletal system is class 9 chapter 3 Tissues in Action."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 9,
+   "exemplarTitle": "The Living Organisms and their Surroundings",
+   "questions": 21,
+   "questionsServed": 21,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "habitat and adaptation are chapter 2 Diversity in the Living World, the characteristics of living things chapter 10 Living Creatures."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 10,
+   "exemplarTitle": "Motion and Measurement of Distances",
+   "questions": 9,
+   "questionsServed": 9,
+   "taxonomyChapterId": "science-6/measurement-of-length-and-motion",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 5,
+    "title": "Measurement of Length and Motion",
+    "sourceFile": "science/class6_curiosity.pdf"
+   },
+   "note": "chapter 5 Measurement of Length and Motion (Standard Units, Describing Position, Moving Things, Types of Motion)."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 11,
+   "exemplarTitle": "Light",
+   "questions": 14,
+   "questionsServed": 14,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "light is class 7 chapter 11 Light: Shadows and Reflections."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 12,
+   "exemplarTitle": "Electricity and Circuits",
+   "questions": 10,
+   "questionsServed": 10,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "circuits are class 7 chapter 3 Electricity: Circuits and their Components."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 13,
+   "exemplarTitle": "Fun with Magnets",
+   "questions": 7,
+   "questionsServed": 7,
+   "taxonomyChapterId": "science-6/exploring-magnets",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 4,
+    "title": "Exploring Magnets",
+    "sourceFile": "science/class6_curiosity.pdf"
+   },
+   "note": "chapter 4 Exploring Magnets, whose last section is printed Fun with Magnets."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 14,
+   "exemplarTitle": "Water",
+   "questions": 19,
+   "questionsServed": 18,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "the states of water are chapter 8 A Journey through States of Water, water as a resource chapter 11 Nature's Treasures."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 15,
+   "exemplarTitle": "Air Around Us",
+   "questions": 15,
+   "questionsServed": 15,
+   "taxonomyChapterId": "science-6/nature-s-treasures",
+   "method": "hand-checked",
+   "currentChapter": {
+    "number": 11,
+    "title": "Nature’s Treasures",
+    "sourceFile": "science/class6_curiosity.pdf"
+   },
+   "note": "Curiosity 6 has no air chapter; air is taught in chapter 11 Nature's Treasures, whose first section is printed Air. All 15 questions are about the composition and uses of air, which that section teaches."
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "exemplarNumber": 16,
+   "exemplarTitle": "Garbage in, Garbage out",
+   "questions": 13,
+   "questionsServed": 13,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Curiosity 6 has no waste-management chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 1,
+   "exemplarTitle": "Nutrition in Plants",
+   "questions": 16,
+   "questionsServed": 16,
+   "taxonomyChapterId": "science-7/life-processes-in-plants",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 10,
+    "title": "Life Processes in Plants",
+    "sourceFile": "science/class7_curiosity.pdf"
+   },
+   "note": "chapter 10 Life Processes in Plants (How Do Plants Get Food for their Growth?, Transport in Plants, Do Plants Respire?)."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 2,
+   "exemplarTitle": "Nutrition in Animals",
+   "questions": 24,
+   "questionsServed": 24,
+   "taxonomyChapterId": "science-7/life-processes-in-animals",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 9,
+    "title": "Life Processes in Animals",
+    "sourceFile": "science/class7_curiosity.pdf"
+   },
+   "note": "chapter 9 Life Processes in Animals prints Nutrition in Animals."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 3,
+   "exemplarTitle": "Fibre to Fabric",
+   "questions": 20,
+   "questionsServed": 20,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Curiosity 7 has no fibre-to-fabric chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 4,
+   "exemplarTitle": "Heat",
+   "questions": 11,
+   "questionsServed": 11,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "chapter 7 Heat Transfer in Nature teaches conduction, convection and radiation; temperature and thermometers moved to class 6 chapter 7."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 5,
+   "exemplarTitle": "Acids, Bases and Salts",
+   "questions": 20,
+   "questionsServed": 20,
+   "taxonomyChapterId": "science-7/exploring-substances-acidic-basic-and-neutral",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 2,
+    "title": "Exploring Substances: Acidic, Basic, and Neutral",
+    "sourceFile": "science/class7_curiosity.pdf"
+   },
+   "note": "chapter 2 Exploring Substances: Acidic, Basic, and Neutral."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 6,
+   "exemplarTitle": "Physical and Chemical Changes",
+   "questions": 20,
+   "questionsServed": 20,
+   "taxonomyChapterId": "science-7/changes-around-us-physical-and-chemical",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 5,
+    "title": "Changes Around Us: Physical and Chemical",
+    "sourceFile": "science/class7_curiosity.pdf"
+   },
+   "note": "chapter 5 Changes Around Us: Physical and Chemical."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 7,
+   "exemplarTitle": "Weather, Climate and Adaptation of Animals to Climate",
+   "questions": 18,
+   "questionsServed": 18,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Curiosity 7 has no weather-and-climate chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 8,
+   "exemplarTitle": "Wind, Storm and Cyclone",
+   "questions": 14,
+   "questionsServed": 14,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "winds, storms and cyclones are class 8 chapter 6."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 9,
+   "exemplarTitle": "Soil",
+   "questions": 15,
+   "questionsServed": 15,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Curiosity 7 has no soil chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 10,
+   "exemplarTitle": "Respiration in Organisms",
+   "questions": 16,
+   "questionsServed": 16,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "respiration in animals is chapter 9, respiration in plants chapter 10."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 11,
+   "exemplarTitle": "Transportation in Animals and Plants",
+   "questions": 14,
+   "questionsServed": 14,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "transport in plants is chapter 10; Curiosity 7 has no circulation chapter for the animal half."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 12,
+   "exemplarTitle": "Reproduction in Plants",
+   "questions": 15,
+   "questionsServed": 15,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "reproduction is class 9 chapter 11 Reproduction: How Life Continues."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 13,
+   "exemplarTitle": "Motion and Time",
+   "questions": 8,
+   "questionsServed": 8,
+   "taxonomyChapterId": "science-7/measurement-of-time-and-motion",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 8,
+    "title": "Measurement of Time and Motion",
+    "sourceFile": "science/class7_curiosity.pdf"
+   },
+   "note": "chapter 8 Measurement of Time and Motion (Measurement of Time, Speed, Uniform and Non-uniform Linear Motion)."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 14,
+   "exemplarTitle": "Electric Current and Its Effects",
+   "questions": 13,
+   "questionsServed": 13,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "circuits are chapter 3; the heating and magnetic effects moved to class 8 chapter 4."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 15,
+   "exemplarTitle": "Light",
+   "questions": 22,
+   "questionsServed": 22,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "chapter 11 Light: Shadows and Reflections stops at plane mirrors: 11 of 22 questions are about spherical mirrors and lenses, which class 8 chapter 10 teaches."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 16,
+   "exemplarTitle": "Water: A Precious Resource",
+   "questions": 18,
+   "questionsServed": 18,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "water as a resource is class 6 chapter 11 Nature's Treasures."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 17,
+   "exemplarTitle": "Forests: Our Lifeline",
+   "questions": 20,
+   "questionsServed": 20,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Curiosity 7 has no forests chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "exemplarNumber": 18,
+   "exemplarTitle": "Wastewater Story",
+   "questions": 25,
+   "questionsServed": 25,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Curiosity 7 has no wastewater chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 1,
+   "exemplarTitle": "Crop Production and Management",
+   "questions": 24,
+   "questionsServed": 24,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Curiosity 8 has no crop-production chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 2,
+   "exemplarTitle": "Microorganisms: Friend and Foe",
+   "questions": 21,
+   "questionsServed": 21,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "microorganisms are chapter 2 The Invisible Living World, but the diseases they cause are chapter 3 Health: The Ultimate Treasure."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 3,
+   "exemplarTitle": "Synthetic Fibres and Plastics",
+   "questions": 26,
+   "questionsServed": 26,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Curiosity 8 has no synthetic-fibres chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 4,
+   "exemplarTitle": "Materials: Metals and Non-Metals",
+   "questions": 27,
+   "questionsServed": 27,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "metals and non-metals are class 7 chapter 4."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 5,
+   "exemplarTitle": "Coal and Petroleum",
+   "questions": 31,
+   "questionsServed": 31,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Curiosity 8 has no coal-and-petroleum chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 6,
+   "exemplarTitle": "Combustion and Flame",
+   "questions": 31,
+   "questionsServed": 31,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Curiosity 8 has no combustion chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 7,
+   "exemplarTitle": "Conservation of Plants and Animals",
+   "questions": 26,
+   "questionsServed": 26,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "chapter 12 How Nature Works in Harmony teaches ecosystems and interactions; deforestation, sanctuaries and the Red Data Book are not in Curiosity 8."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 8,
+   "exemplarTitle": "Cell—Structure and Functions",
+   "questions": 29,
+   "questionsServed": 29,
+   "taxonomyChapterId": "science-8/the-invisible-living-world-beyond-our-naked-eye",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 2,
+    "title": "The Invisible Living World: Beyond Our Naked Eye",
+    "sourceFile": "science/class8_curiosity.pdf"
+   },
+   "note": "chapter 2 The Invisible Living World: Beyond Our Naked Eye (What Is a Cell?, What Are the Levels of Organisation..., Why Is Cell Considered to Be a Basic Unit of Life?)."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 9,
+   "exemplarTitle": "Reproduction in Animals",
+   "questions": 23,
+   "questionsServed": 23,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "reproduction is class 9 chapter 11."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 10,
+   "exemplarTitle": "Reaching the Age of Adolescence",
+   "questions": 22,
+   "questionsServed": 22,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "adolescence is class 7 chapter 6 Adolescence: A Stage of Growth and Change."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 11,
+   "exemplarTitle": "Force",
+   "questions": 20,
+   "questionsServed": 20,
+   "taxonomyChapterId": "science-8/exploring-forces",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 5,
+    "title": "Exploring Forces",
+    "sourceFile": "science/class8_curiosity.pdf"
+   },
+   "note": "chapter 5 Exploring Forces (What Is a Force?, What Are the Different Types of Forces?, Weight and Its Measurement, Floating and Sinking)."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 12,
+   "exemplarTitle": "Friction",
+   "questions": 7,
+   "questionsServed": 7,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "friction is one kind of force under chapter 5's What Are the Different Types of Forces?; Curiosity 8 has no friction chapter and does not teach fluid friction."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 13,
+   "exemplarTitle": "Sound",
+   "questions": 23,
+   "questionsServed": 23,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "sound is class 9 chapter 10 Sound Waves."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 14,
+   "exemplarTitle": "Chemical Effects of Electric Current",
+   "questions": 10,
+   "questionsServed": 10,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "chapter 4 is Electricity: Magnetic and Heating Effects; the chemical effects of current are not in Curiosity 8."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 15,
+   "exemplarTitle": "Some Natural Phenomena",
+   "questions": 25,
+   "questionsServed": 25,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "split",
+   "note": "lightning and thunderstorms are chapter 6; earthquakes have no chapter in Curiosity 8."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 16,
+   "exemplarTitle": "Light",
+   "questions": 13,
+   "questionsServed": 13,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "chapter 10 Light: Mirrors and Lenses teaches spherical mirrors and lenses; the old chapter's plane mirrors and human eye are class 7 chapter 11 and class 10."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 17,
+   "exemplarTitle": "Stars and Solar System",
+   "questions": 14,
+   "questionsServed": 14,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "stars and the solar system are class 6 chapter 12 Beyond Earth."
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "exemplarNumber": 18,
+   "exemplarTitle": "Pollution of Air and Water",
+   "questions": 27,
+   "questionsServed": 27,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Curiosity 8 has no pollution chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 1,
+   "exemplarTitle": "Matter in Our Surroundings",
+   "questions": 19,
+   "questionsServed": 19,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "the states of matter are class 8 chapter 7 Particulate Nature of Matter; Exploration 9 has no such chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 2,
+   "exemplarTitle": "Is Matter Around Us Pure",
+   "questions": 24,
+   "questionsServed": 23,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "chapter 5 Exploring Mixtures and their Separation is the counterpart, but 5 of 23 questions are physical and chemical change and rusting, which class 7 chapter 5 teaches."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 3,
+   "exemplarTitle": "Atoms and Molecules",
+   "questions": 18,
+   "questionsServed": 17,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "chapter 9 Atomic Foundations of Matter is the counterpart, but the mole concept is not in Exploration 9 (3 of 17 questions)."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 4,
+   "exemplarTitle": "Structure of the Atom",
+   "questions": 30,
+   "questionsServed": 30,
+   "taxonomyChapterId": "science-9/journey-inside-the-atom",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 8,
+    "title": "Journey Inside the Atom",
+    "sourceFile": "science/class9_exploration.pdf"
+   },
+   "note": "chapter 8 Journey Inside the Atom (A Short Historical Journey Through Atomic Models, Atomic Number, Mass Number, How Are Electrons Distributed..., Valency)."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 5,
+   "exemplarTitle": "The Fundamental Unit of Life",
+   "questions": 51,
+   "questionsServed": 51,
+   "taxonomyChapterId": "science-9/cell-the-building-block-of-life",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 2,
+    "title": "Cell: The Building Block of Life",
+    "sourceFile": "science/class9_exploration.pdf"
+   },
+   "note": "chapter 2 Cell: The Building Block of Life (Structure of a Cell, The Cell Interior, How do Normal Cells Grow and Divide?, Cell Theory)."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 6,
+   "exemplarTitle": "Tissues",
+   "questions": 43,
+   "questionsServed": 43,
+   "taxonomyChapterId": "science-9/tissues-in-action",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 3,
+    "title": "Tissues in Action",
+    "sourceFile": "science/class9_exploration.pdf"
+   },
+   "note": "chapter 3 Tissues in Action (Why are Plant and Animal Tissues Different?, Tissues for Growth in Plants, Animal Tissues)."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 7,
+   "exemplarTitle": "Diversity in Living Organisms",
+   "questions": 48,
+   "questionsServed": 46,
+   "taxonomyChapterId": "science-9/patterns-in-life-diversity-and-classification",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 12,
+    "title": "Patterns in Life: Diversity and Classification",
+    "sourceFile": "science/class9_exploration.pdf"
+   },
+   "note": "chapter 12 Patterns in Life: Diversity and Classification (How to Classify Organisms?, Five Kingdom Classification, Scientific Naming)."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 8,
+   "exemplarTitle": "Motion",
+   "questions": 7,
+   "questionsServed": 7,
+   "taxonomyChapterId": "science-9/describing-motion-around-us",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 4,
+    "title": "Describing Motion Around Us",
+    "sourceFile": "science/class9_exploration.pdf"
+   },
+   "note": "chapter 4 Describing Motion Around Us (Motion in a Straight Line, Graphical Representation of Motion, Kinematic Equations)."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 9,
+   "exemplarTitle": "Force and Laws of Motion",
+   "questions": 13,
+   "questionsServed": 13,
+   "taxonomyChapterId": "science-9/how-forces-affect-motion",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 6,
+    "title": "How Forces Affect Motion",
+    "sourceFile": "science/class9_exploration.pdf"
+   },
+   "note": "chapter 6 How Forces Affect Motion (Balanced and Unbalanced Forces and Newton's three laws of motion)."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 10,
+   "exemplarTitle": "Gravitation",
+   "questions": 18,
+   "questionsServed": 18,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Exploration 9 has no gravitation chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 11,
+   "exemplarTitle": "Work and Energy",
+   "questions": 10,
+   "questionsServed": 10,
+   "taxonomyChapterId": "science-9/work-energy-and-simple-machines",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 7,
+    "title": "Work, Energy, and Simple Machines",
+    "sourceFile": "science/class9_exploration.pdf"
+   },
+   "note": "chapter 7 Work, Energy, and Simple Machines (Work Done by a Constant Force, The Work-Energy Theorem, Mechanical Energy, Power)."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 12,
+   "exemplarTitle": "Sound",
+   "questions": 8,
+   "questionsServed": 8,
+   "taxonomyChapterId": "science-9/sound-waves-characteristics-and-applications",
+   "method": "contents-page",
+   "currentChapter": {
+    "number": 10,
+    "title": "Sound Waves: Characteristics and Applications",
+    "sourceFile": "science/class9_exploration.pdf"
+   },
+   "note": "chapter 10 Sound Waves: Characteristics and Applications (Production of Sound, Propagation of Sound, Reflection of Sound, Ultrasonic...)."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 13,
+   "exemplarTitle": "Why Do We Fall Ill",
+   "questions": 38,
+   "questionsServed": 36,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "moved",
+   "note": "health and disease are class 8 chapter 3 Health: The Ultimate Treasure."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 14,
+   "exemplarTitle": "Natural Resources",
+   "questions": 55,
+   "questionsServed": 55,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "chapter 13 Earth as a System keeps the biogeochemical cycles; the old chapter's atmosphere, soil and ozone are not in Exploration 9."
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "exemplarNumber": 15,
+   "exemplarTitle": "Improvement in Food Resources",
+   "questions": 43,
+   "questionsServed": 43,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "Exploration 9 has no food-resources chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 1,
+   "exemplarTitle": "Chemical Reactions and Equations",
+   "questions": 24,
+   "questionsServed": 23,
+   "taxonomyChapterId": "science-10/chemical-reactions-and-equations",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 1,
+    "title": "Chemical Reactions and Equations",
+    "sourceFile": "chapters/jesc1/jesc101.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 2,
+   "exemplarTitle": "Acids, Bases and Salts",
+   "questions": 26,
+   "questionsServed": 26,
+   "taxonomyChapterId": "science-10/acids-bases-and-salts",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 2,
+    "title": "Acids, Bases and Salts",
+    "sourceFile": "chapters/jesc1/jesc102.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 3,
+   "exemplarTitle": "Metals and Non-metals",
+   "questions": 53,
+   "questionsServed": 51,
+   "taxonomyChapterId": "science-10/metals-and-non-metals",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 3,
+    "title": "Metals and Non-metals",
+    "sourceFile": "chapters/jesc1/jesc103.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 4,
+   "exemplarTitle": "Carbon and its Compounds",
+   "questions": 25,
+   "questionsServed": 25,
+   "taxonomyChapterId": "science-10/carbon-and-its-compounds",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 4,
+    "title": "Carbon and its Compounds",
+    "sourceFile": "chapters/jesc1/jesc104.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 5,
+   "exemplarTitle": "Periodic Classification of Elements",
+   "questions": 30,
+   "questionsServed": 29,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "the current book has 13 chapters and no Periodic Classification of Elements among them."
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 6,
+   "exemplarTitle": "Life Processes",
+   "questions": 68,
+   "questionsServed": 68,
+   "taxonomyChapterId": "science-10/life-processes",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 5,
+    "title": "Life Processes",
+    "sourceFile": "chapters/jesc1/jesc105.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 7,
+   "exemplarTitle": "Control and Coordination",
+   "questions": 44,
+   "questionsServed": 44,
+   "taxonomyChapterId": "science-10/control-and-coordination",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 6,
+    "title": "Control and Coordination",
+    "sourceFile": "chapters/jesc1/jesc106.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 8,
+   "exemplarTitle": "How do Organisms Reproduce?",
+   "questions": 45,
+   "questionsServed": 44,
+   "taxonomyChapterId": "science-10/how-do-organisms-reproduce",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 7,
+    "title": "How do Organisms Reproduce?",
+    "sourceFile": "chapters/jesc1/jesc107.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 9,
+   "exemplarTitle": "Heredity and Evolution",
+   "questions": 30,
+   "questionsServed": 29,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "residue",
+   "note": "the current book's chapter 8 is Heredity alone; 9 of the 29 questions are evolution questions -- natural selection, speciation, homologous organs -- which the current book no longer teaches."
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 10,
+   "exemplarTitle": "Light – Reflection and Refraction",
+   "questions": 11,
+   "questionsServed": 11,
+   "taxonomyChapterId": "science-10/light-reflection-and-refraction",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 9,
+    "title": "Light – Reflection and Refraction",
+    "sourceFile": "chapters/jesc1/jesc109.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 11,
+   "exemplarTitle": "The Human Eye and the Colourful World",
+   "questions": 2,
+   "questionsServed": 1,
+   "taxonomyChapterId": "science-10/the-human-eye-and-the-colourful-world",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 10,
+    "title": "The Human Eye and the Colourful World",
+    "sourceFile": "chapters/jesc1/jesc110.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 12,
+   "exemplarTitle": "Electricity",
+   "questions": 14,
+   "questionsServed": 14,
+   "taxonomyChapterId": "science-10/electricity",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 11,
+    "title": "Electricity",
+    "sourceFile": "chapters/jesc1/jesc111.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 13,
+   "exemplarTitle": "Magnetic Effects of Electric Current",
+   "questions": 12,
+   "questionsServed": 12,
+   "taxonomyChapterId": "science-10/magnetic-effects-of-electric-current",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 12,
+    "title": "Magnetic Effects of Electric Current",
+    "sourceFile": "chapters/jesc1/jesc112.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 14,
+   "exemplarTitle": "Sources of Energy",
+   "questions": 25,
+   "questionsServed": 25,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "the current book has no Sources of Energy chapter."
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 15,
+   "exemplarTitle": "Our Environment",
+   "questions": 33,
+   "questionsServed": 33,
+   "taxonomyChapterId": "science-10/our-environment",
+   "method": "exact-title",
+   "currentChapter": {
+    "number": 13,
+    "title": "Our Environment",
+    "sourceFile": "chapters/jesc1/jesc113.pdf"
+   },
+   "note": ""
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "exemplarNumber": 16,
+   "exemplarTitle": "Management of Natural Resources",
+   "questions": 34,
+   "questionsServed": 33,
+   "taxonomyChapterId": null,
+   "method": "none",
+   "reason": "dropped",
+   "note": "the current book has no Management of Natural Resources chapter."
+  }
+ ],
+ "counts": {
+  "rows": 144,
+  "mapped": 57,
+  "null": 87,
+  "questionsMapped": 1657,
+  "questionsUnmapped": 2607,
+  "servedMapped": 1626,
+  "servedUnmapped": 2566
+ }
+}

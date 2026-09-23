@@ -121,3 +121,51 @@ def test_the_chapter_view_reaches_every_question_the_class_serves(
             total = next((e["questionCount"] for e in served["entries"]
                           if e["subject"] == subject and e["grade"] == grade), 0)
             assert shown == total, f"{subject} {grade}: {shown} reachable of {total} served"
+
+
+# --------------------------------------------------------------------------- #
+# chapter-tag coverage of the served bank (Task 123)
+# --------------------------------------------------------------------------- #
+# The Exemplar chapter map (taxonomy/_exemplar_chapter_map.json) files an
+# Exemplar question under the chapter its own book printed it in, so these
+# numbers are the book's filing plus what the tagger accepted on its own.
+# Measured on 2026-09-23 after the pipeline rerun; a change that lowers one has
+# lost tags, which is the thing a teacher feels first.
+
+TAG_FLOOR = {
+    ("Mathematics", 6): 223, ("Mathematics", 7): 189, ("Mathematics", 8): 488,
+    ("Mathematics", 9): 82, ("Mathematics", 10): 319,
+    ("Science", 6): 103, ("Science", 7): 125, ("Science", 8): 76,
+    ("Science", 9): 276, ("Science", 10): 408,
+}
+# Of those, the ones the map placed rather than the tagger.
+MAP_METHOD = "exemplar-chapter-map"
+MAP_TAG_FLOOR = 1626
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_the_served_bank_keeps_the_chapter_tag_coverage_this_release_measured():
+    records = json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
+    tagged = {}
+    for rec in records:
+        key = (rec.get("subject"), rec.get("grade"))
+        if key not in TAG_FLOOR:
+            continue
+        tagged[key] = tagged.get(key, 0) + bool(rec.get("taxonomyChapterId"))
+    short = {k: (tagged.get(k, 0), floor) for k, floor in TAG_FLOOR.items()
+             if tagged.get(k, 0) < floor}
+    assert short == {}, short
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_the_served_bank_carries_the_exemplar_maps_own_tags():
+    """A rerun that dropped the map would still pass the floor above on the
+    tagger alone, slowly: this counts the tags that came from the book."""
+    records = json.loads(SERVED_BANK.read_text(encoding="utf-8"))["questions"]
+    by_map = [r for r in records if r.get("tagMethod") == MAP_METHOD]
+    assert len(by_map) >= MAP_TAG_FLOOR, len(by_map)
+    for rec in by_map:
+        assert rec["taxonomyChapterId"], rec["id"]
+        assert rec["tagConfidence"]["chapter"] == 1.0, rec["id"]
+        for topic in rec.get("topicIds") or []:
+            assert topic.startswith(rec["taxonomyChapterId"] + "/"), rec["id"]
