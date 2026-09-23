@@ -154,6 +154,23 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
   // subtopic"), shown verbatim in place of that chapter's subtopic list.
   final Map<String, String> _subtopicNoticeByChapter = {};
 
+  // Chapters whose fetch failed for a reason that says nothing about the
+  // curriculum: a Render cold start (this app's own Dio timeouts are 90s), a
+  // 500, a dropped connection. Deliberately NOT stored as an empty topic
+  // list: _topicsByChapter is the "answered" cache, and an entry in it both
+  // renders as "this chapter has no subtopic breakdown" -- a claim about the
+  // school's curriculum, made off a timeout -- and permanently blocks the
+  // refetch, because _loadTopicsForChapter short-circuits on containsKey. It
+  // is the same shape pool.py warns about ("silently and *permanently*
+  // zeroed out ... with nothing in any log to explain why"), and it has no
+  // business being reintroduced in the one feature built to end ambiguous
+  // empty states. A slug in here is still refetchable, and says so.
+  //
+  // Membership only: the exception's own text is a DioException, not a
+  // sentence a teacher can act on, and the one action that helps is the same
+  // whichever way the request failed.
+  final Set<String> _subtopicFetchFailedForChapter = {};
+
   // Whether the picker is open right now. The fetch used to hang off
   // onExpansionChanged alone, which fires only when the tile opens -- so a
   // chapter ticked while it was ALREADY open was never fetched, and (see
@@ -222,7 +239,12 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     bool answersAQuestionNoLongerAsked() =>
         _selectedSubject != requestedSubject || _selectedGrade != requestedGrade;
 
-    setState(() => _loadingTopicsForChapter.add(chapterSlug));
+    setState(() {
+      _loadingTopicsForChapter.add(chapterSlug);
+      // A retry is in flight: drop the last failure so the row shows a
+      // spinner rather than "tap to retry" while it runs.
+      _subtopicFetchFailedForChapter.remove(chapterSlug);
+    });
     try {
       final topics = await GetIt.I<CurriculumApi>().topicsForSyllabusChapter(
         subject: requestedSubject, grade: requestedGrade, chapterSlug: chapterSlug);
@@ -243,10 +265,16 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
       });
     } catch (e) {
       if (!mounted || answersAQuestionNoLongerAsked()) return;
-      // Honest empty state, not a blocking error -- this filter is optional
-      // and the chapter-level checkbox above still works regardless.
+      // Everything else -- a timeout, a 500, no connection -- says nothing
+      // about this chapter's curriculum, so nothing is written into
+      // _topicsByChapter: an empty list there would claim "no subtopic
+      // breakdown available yet" off a dropped connection AND block every
+      // later attempt for the rest of the session. Recorded separately
+      // instead, which renders a retry and leaves the slug refetchable. Still
+      // not a blocking error -- this filter is optional and the chapter-level
+      // checkboxes above work regardless.
       setState(() {
-        _topicsByChapter[chapterSlug] = [];
+        _subtopicFetchFailedForChapter.add(chapterSlug);
         _loadingTopicsForChapter.remove(chapterSlug);
       });
     }
@@ -263,6 +291,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
   void _forgetLoadedSubtopics() {
     _topicsByChapter.clear();
     _subtopicNoticeByChapter.clear();
+    _subtopicFetchFailedForChapter.clear();
     _loadingTopicsForChapter.clear();
     // Both callers clear _selectedChapters too, which removes the picker
     // from the tree entirely; the ExpansionTile that comes back is a new,
@@ -736,6 +765,34 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
             child: Center(child: CircularProgressIndicator()),
           );
           if (_loadingTopicsForChapter.contains(chapterId)) return spinner;
+          if (_subtopicFetchFailedForChapter.contains(chapterId)) {
+            // The fetch failed for a reason that is nothing to do with this
+            // school's curriculum, so this row must not say anything about
+            // it. It offers the one action that can help, and taking it
+            // really does issue a fresh request (the slug was never cached).
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: InkWell(
+                onTap: () => _loadTopicsForChapter(chapterId),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.refresh, size: 16),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          'Could not load subtopics for $chapterName -- tap to retry',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }
           final topics = _topicsByChapter[chapterId];
           if (topics == null) {
             // Never a blank row again. This used to return nothing at all

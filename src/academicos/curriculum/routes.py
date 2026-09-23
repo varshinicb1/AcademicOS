@@ -677,7 +677,13 @@ def _bank_questions_for(subject: str, grade: int,
     from ..assessment.routes import _int_grade_to_roman  # local: keeps the import one-way
 
     if _cfg is None or not chapter_slugs:
-        return set()
+        # Also None, for the same reason: no configured bank, or a caller
+        # that could not name a single slug to look under, is "could not
+        # determine". An empty set here would be reported as a hard 0, which
+        # the picker renders as the red "selecting any of them here produces
+        # an empty paper" warning -- a claim about the school's tagging made
+        # from a fact about this process's configuration.
+        return None
     grade_roman = _int_grade_to_roman(grade)
     try:
         pool = get_pool(_cfg, subject=subject, grade=grade_roman)
@@ -699,16 +705,22 @@ def _bank_questions_for_chapter(store: CurriculumStore,
     (`chemical-reactions-equations`), extraction.py the slug of the chapter
     title (`chemical-reactions-and-equations`) -- and the pool is keyed by
     one or the other depending on which made this book. Both are offered, so
-    a count is not silently zeroed by the wrong id space."""
+    a count is not silently zeroed by the wrong id space.
+
+    None -- never an empty set -- whenever the chain cannot be walked, same
+    contract as `_bank_questions_for` above: a chapter row this process
+    cannot resolve says nothing about how many questions the school has
+    tagged, and "0 questions tagged" is what the picker turns into a red
+    "selecting any of them here produces an empty paper" warning."""
     chapter = store.get_chapter(chapter_id)
     if chapter is None:
-        return set()
+        return None
     unit = store.get_unit(chapter.unit_id)
     book = store.get_book(unit.book_id) if unit else None
     subject = store.get_subject(book.subject_id) if book else None
     grade = store.get_grade(subject.grade_id) if subject else None
     if subject is None or grade is None:
-        return set()
+        return None
     from ..syllabus.cbse_syllabus import _slug
 
     canonical = chapter.canonical_id or ""

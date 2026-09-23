@@ -30,6 +30,12 @@ class _SubtopicBackend extends Interceptor {
   final List<String> paths = [];
   String? notSetUpDetail;
 
+  /// When set, every request fails with this status and no body: a 500, a
+  /// 502 from a proxy, a Render cold start that ran past the client's
+  /// timeout. Everything the route can answer EXCEPT its own 404 -- the only
+  /// reply that says anything about the school's curriculum.
+  int? failWithStatus;
+
   /// When set, the FIRST request is not answered until this completes -- the
   /// only way to reproduce a teacher changing subject or grade while a
   /// subtopic fetch is still in flight (a real server takes time; this fake
@@ -48,6 +54,12 @@ class _SubtopicBackend extends Interceptor {
       return handler.reject(DioException.badResponse(
           statusCode: 404, requestOptions: options,
           response: Response(requestOptions: options, statusCode: 404)));
+    }
+    final failure = failWithStatus;
+    if (failure != null) {
+      return handler.reject(DioException.badResponse(
+          statusCode: failure, requestOptions: options,
+          response: Response(requestOptions: options, statusCode: failure)));
     }
     if (notSetUpDetail != null) {
       return handler.reject(DioException.badResponse(
@@ -598,6 +610,58 @@ void main() {
       expect(find.textContaining('No questions are tagged to these subtopics yet'),
           findsNothing,
           reason: 'the warning is about an empty result, not about the picker');
+    });
+
+    // A 404 is the school's own state and is cached as an answer (above). A
+    // 500, a 502, a dropped connection or a cold start past the 90s Dio
+    // timeout is not: it says nothing about the curriculum. Writing an empty
+    // topic list for one would print "<chapter>: no subtopic breakdown
+    // available yet" -- a claim about what the school teaches, made off a
+    // timeout -- and, because the fetch short-circuits on an already-cached
+    // slug, would block every later attempt for the rest of the session.
+    testWidgets('a transient failure is not reported as "no subtopic breakdown", '
+        'and the chapter is still refetchable afterwards', (tester) async {
+      backend.failWithStatus = 500;
+      final chapter = await expandPicker(tester);
+      final path = '/curriculum/chapters/by-slug/Science/10/${chapter.chapterId}/topics';
+      expect(backend.paths, [path]);
+
+      expect(find.textContaining('no subtopic breakdown available yet'), findsNothing,
+          reason: 'a 500 is not evidence that this chapter has no subtopics');
+      expect(find.textContaining('Could not load subtopics'), findsOneWidget,
+          reason: 'the row must say what actually happened, and that it can be retried');
+
+      // Collapse and re-expand with the server healthy again.
+      await tester.tap(find.text('Filter by subtopic (optional)'));
+      await tester.pumpAndSettle();
+      backend.failWithStatus = null;
+      await tester.tap(find.text('Filter by subtopic (optional)'));
+      await tester.pumpAndSettle();
+
+      expect(backend.paths, [path, path],
+          reason: 'a failed slug must not be cached as an answer, or re-opening '
+              'the picker would never ask again');
+      final firstSubtopic = ((_fixtureTopics().first['subtopics'] as List).first
+          as Map<String, dynamic>)['name'] as String;
+      expect(find.text(firstSubtopic), findsOneWidget);
+      expect(find.textContaining('Could not load subtopics'), findsNothing);
+    });
+
+    testWidgets('tapping the failed row retries it in place', (tester) async {
+      backend.failWithStatus = 503; // what a Render instance waking up sends
+      await expandPicker(tester);
+      expect(backend.paths, hasLength(1));
+
+      backend.failWithStatus = null;
+      await tester.tap(find.textContaining('Could not load subtopics'));
+      await tester.pumpAndSettle();
+
+      expect(backend.paths, hasLength(2),
+          reason: 'the retry the row offers has to actually make a request');
+      final firstSubtopic = ((_fixtureTopics().first['subtopics'] as List).first
+          as Map<String, dynamic>)['name'] as String;
+      expect(find.text(firstSubtopic), findsOneWidget);
+      expect(find.textContaining('Could not load subtopics'), findsNothing);
     });
 
     testWidgets('a class the school has not set up shows the server\'s instruction, '

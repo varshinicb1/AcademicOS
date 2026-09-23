@@ -924,21 +924,41 @@ class CurriculumStore:
                        key=lambda y: y.start_date, reverse=True)
         if on_date:
             years.sort(key=lambda y: not (y.start_date <= on_date <= y.end_date))
+        # The year the school is actually in, if it has one -- the sort above
+        # has already put it first.
+        current = (years[0] if years and on_date
+                   and years[0].start_date <= on_date <= years[0].end_date else None)
 
-        # A school with more than one academic year is reported by the
-        # furthest any of them got, so a half-set-up 2025-26 never hides a
-        # fully set-up 2026-27 behind "not set up".
+        # Any year may ANSWER: a half-set-up 2026-27 must never hide a fully
+        # set-up 2025-26 behind "not set up", so the loop runs on past the
+        # current year looking for an `ok`.
+        #
+        # But a REASON is advice, and advice belongs to the year the teacher
+        # is in. Ranking every year's reason and reporting the furthest one
+        # (what this did until 2026-09-23) tells a school whose current year
+        # has two editions and no choice -- the state the real
+        # academicos-data/curriculum/curriculum.sqlite is in -- that "your
+        # Class 10 Science book has no chapter 'X'", because last year's
+        # finished, fully-chosen edition ranks higher. That is a true
+        # sentence about a year nobody is teaching, and it never mentions
+        # the one action that would fix the year she is in. So when a year
+        # contains `on_date` and it did not resolve, its reason is the
+        # answer; the ranking is the fallback for a school between sessions,
+        # where there is no current year to prefer.
         best = ChapterSlugMatch(reason="no_year")
+        current_found: Optional[ChapterSlugMatch] = None
         for year in years:
             found = self._chapter_for_slug_in_year(
                 year.id, grade_number=grade_number, subject_name=subject_name,
                 slug=slug, title_slug=title_slug)
             if found.reason == "ok":
                 return found
-            if (CHAPTER_SLUG_REASONS.index(found.reason)
+            if current is not None and year.id == current.id:
+                current_found = found
+            elif (CHAPTER_SLUG_REASONS.index(found.reason)
                     > CHAPTER_SLUG_REASONS.index(best.reason)):
                 best = found
-        return best
+        return current_found if current_found is not None else best
 
     def _chapter_for_slug_in_year(self, academic_year_id: str, *, grade_number: int,
                                   subject_name: str, slug: str,
