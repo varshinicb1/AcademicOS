@@ -41,6 +41,23 @@ List<String> builderSubjects(int grade) => grade >= 11
 /// becomes a sentence on the step it happened on ([serverErrorMessage], the
 /// app's one mapper) with the action that retries it -- never a blank screen
 /// or a raw exception.
+///
+/// "With the action that retries it" means only where sending the same
+/// request again could work ([isRetryable]), which each error below carries
+/// as its own `...Retryable` flag. Task 803's brief asked for a Retry on
+/// every branch, the expired session and the refused school included; the
+/// helper the same task told this builder to adopt says the opposite
+/// (api_error.dart: "a Retry button there only teaches the user to click
+/// it"), and the helper wins. A 401/403/404/409/422 is refused again every
+/// time, so a Retry there is a button that cannot work -- and for 401 the
+/// session interceptor is already sending the teacher to Sign in, which the
+/// button would compete with. Each of those branches has a real recovery
+/// already on the screen: Sign in for the expired session, "Change" back to
+/// the template step for a template a colleague deleted, another class or
+/// subject for a school the account is not in. The message stands on its
+/// own there and no button is drawn. Four other screens already read the
+/// helper this way (gap_analysis.dart, mastery_dashboard.dart,
+/// principal_page.dart, student_schedule_page.dart).
 class PaperBuilderController extends ChangeNotifier {
   final PaperBuilderApi api;
   final String schoolId;
@@ -66,11 +83,13 @@ class PaperBuilderController extends ChangeNotifier {
   TemplateLists? templates;
   bool loadingTemplates = false;
   String? templatesError;
+  bool templatesRetryable = false;
   PaperTemplateView? template;
 
   List<ChapterEntry> chapters = const [];
   bool loadingChapters = false;
   String? chaptersError;
+  bool chaptersRetryable = false;
   final Set<String> chapterIds = {};
   bool fillFromOutsideScope = false;
   int setCount = 1;
@@ -78,6 +97,7 @@ class PaperBuilderController extends ChangeNotifier {
   AvailabilityView? availability;
   bool checking = false;
   String? availabilityError;
+  bool availabilityRetryable = false;
   int _ticket = 0;
 
   /// How long a chapter tick waits for the next one before the bank is
@@ -162,6 +182,7 @@ class PaperBuilderController extends ChangeNotifier {
   void _resetFromTemplates() {
     templates = null;
     templatesError = null;
+    templatesRetryable = false;
     template = null;
     _resetFromScope();
   }
@@ -169,10 +190,12 @@ class PaperBuilderController extends ChangeNotifier {
   void _resetFromScope() {
     chapters = const [];
     chaptersError = null;
+    chaptersRetryable = false;
     chapterIds.clear();
     fillFromOutsideScope = false;
     availability = null;
     availabilityError = null;
+    availabilityRetryable = false;
     _resetPaper();
   }
 
@@ -219,6 +242,7 @@ class PaperBuilderController extends ChangeNotifier {
     if (grade == null || subject == null) return;
     loadingTemplates = true;
     templatesError = null;
+    templatesRetryable = false;
     _changed();
     try {
       templates = await api.listTemplates(schoolId, grade: grade!, subject: subject!);
@@ -230,6 +254,7 @@ class PaperBuilderController extends ChangeNotifier {
       }
     } catch (e) {
       templatesError = serverErrorMessage(e);
+      templatesRetryable = isRetryable(e);
     } finally {
       loadingTemplates = false;
       _changed();
@@ -299,12 +324,21 @@ class PaperBuilderController extends ChangeNotifier {
   Future<void> _refreshTemplateLists() async {
     try {
       templates = await api.listTemplates(schoolId, grade: grade!, subject: subject!);
+      // Cleared here, not only in loadTemplates: a refresh that succeeds
+      // after one that failed has answered the banner's question. Left set,
+      // it outlived its failure -- the template step went on saying the list
+      // could not be loaded over the list it had just reloaded, until the
+      // teacher hit "Try again" or changed class.
+      templatesError = null;
+      templatesRetryable = false;
     } catch (e) {
       // The save itself succeeded, so this is not the save's failure -- but a
       // list that quietly stayed as it was is its own: the template the
       // teacher just saved would simply not be in it. The template step says
-      // why, with the "Try again" that reloads it.
+      // why, above the list it still has, with the "Try again" that reloads
+      // it where trying again can work.
       templatesError = serverErrorMessage(e);
+      templatesRetryable = isRetryable(e);
     }
   }
 
@@ -313,11 +347,13 @@ class PaperBuilderController extends ChangeNotifier {
   Future<void> loadChapters() async {
     loadingChapters = true;
     chaptersError = null;
+    chaptersRetryable = false;
     _changed();
     try {
       chapters = await api.chapters(subject!, grade!);
     } catch (e) {
       chaptersError = serverErrorMessage(e);
+      chaptersRetryable = isRetryable(e);
     } finally {
       loadingChapters = false;
       _changed();
@@ -345,6 +381,7 @@ class PaperBuilderController extends ChangeNotifier {
     ++_ticket; // an answer on its way is for the selection before this tick
     checking = true;
     availabilityError = null;
+    availabilityRetryable = false;
     _changed();
     final waiting = _waiting ??= Completer<void>();
     _debounce = Timer(availabilityDebounce, checkAvailability);
@@ -382,6 +419,7 @@ class PaperBuilderController extends ChangeNotifier {
     final ticket = ++_ticket;
     checking = true;
     availabilityError = null;
+    availabilityRetryable = false;
     _changed();
     try {
       final a = await api.availability(schoolId, t.id,
@@ -391,6 +429,7 @@ class PaperBuilderController extends ChangeNotifier {
     } catch (e) {
       if (ticket != _ticket) return;
       availabilityError = serverErrorMessage(e);
+      availabilityRetryable = isRetryable(e);
     } finally {
       if (ticket == _ticket) {
         checking = false;

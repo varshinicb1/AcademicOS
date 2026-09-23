@@ -39,6 +39,7 @@ class _BankPickerState extends State<BankPicker> {
   late String? _chapter = widget.c.chapterIds.length == 1 ? widget.c.chapterIds.first : null;
   List<BankItem>? _items;
   String? _error;
+  bool _errorRetryable = false;
   bool _loading = false;
   int _ticket = 0;
 
@@ -59,6 +60,7 @@ class _BankPickerState extends State<BankPicker> {
     setState(() {
       _loading = true;
       _error = null;
+      _errorRetryable = false;
     });
     try {
       final c = widget.c;
@@ -73,7 +75,12 @@ class _BankPickerState extends State<BankPicker> {
       setState(() => _items = items);
     } catch (e) {
       if (!mounted || ticket != _ticket) return;
-      setState(() => _error = serverErrorMessage(e));
+      setState(() {
+        _error = serverErrorMessage(e);
+        // The same rule the rest of the builder follows: no "Try again" on a
+        // 401/403/404, which answers the same way every time.
+        _errorRetryable = isRetryable(e);
+      });
     } finally {
       if (mounted && ticket == _ticket) setState(() => _loading = false);
     }
@@ -128,7 +135,7 @@ class _BankPickerState extends State<BankPicker> {
         if (_loading) const LinearProgressIndicator(),
         Expanded(
           child: _error != null
-              ? _message(context, 'Could not search the bank: $_error', retry: true)
+              ? _message(context, 'Could not search the bank: $_error', retry: _errorRetryable)
               : _items == null
                   ? const SizedBox.shrink()
                   : items.isEmpty

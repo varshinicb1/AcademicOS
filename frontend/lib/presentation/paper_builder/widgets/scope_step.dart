@@ -77,7 +77,11 @@ class _Chapters extends StatelessWidget {
       return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text('Could not load chapters: ${c.chaptersError}', style: TextStyle(color: theme.colorScheme.error)),
         Text('You can still generate from the whole syllabus.', style: theme.textTheme.bodySmall),
-        OutlinedButton.icon(onPressed: c.loadChapters, icon: const Icon(Icons.refresh), label: const Text('Try again')),
+        // Only where trying again can work: a 401 or a 403 answers the same
+        // way every time (see PaperBuilderController's class doc).
+        if (c.chaptersRetryable)
+          OutlinedButton.icon(
+              onPressed: c.loadChapters, icon: const Icon(Icons.refresh), label: const Text('Try again')),
       ]);
     }
     if (c.chapters.isEmpty) {
@@ -123,8 +127,12 @@ class AvailabilityPanel extends StatelessWidget {
     if (c.availabilityError != null) {
       return _box(context, theme.colorScheme.errorContainer, [
         Text('Could not check the bank: ${c.availabilityError}'),
-        TextButton.icon(
-            onPressed: c.checkAvailability, icon: const Icon(Icons.refresh), label: const Text('Check again')),
+        // A template a colleague has just deleted (404) will not come back
+        // on a second check; "Change" above goes to a template that exists.
+        // Only a failure that could pass next time offers to check again.
+        if (c.availabilityRetryable)
+          TextButton.icon(
+              onPressed: c.checkAvailability, icon: const Icon(Icons.refresh), label: const Text('Check again')),
       ]);
     }
     if (a == null) {

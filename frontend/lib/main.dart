@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import 'core/constants/app_constants.dart';
 import 'core/di/service_locator.dart';
 import 'core/local_engine/app_lock.dart';
 import 'core/local_engine/secure_box.dart';
@@ -86,7 +87,10 @@ class AcademicOSApp extends ConsumerWidget {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(
               textScaler: TextScaler.linear(
-                MediaQuery.of(context).textScaler.scale(1.0).clamp(0.85, 1.3),
+                MediaQuery.of(context)
+                    .textScaler
+                    .scale(1.0)
+                    .clamp(AppConstants.minTextScale, AppConstants.maxTextScale),
               ),
             ),
             child: AppLockGate(child: child!),

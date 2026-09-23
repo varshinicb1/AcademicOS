@@ -51,9 +51,15 @@ const screenSizes = <String, Screen>{
   // same 7 flows fail again; with the face a teacher actually reads, all of
   // them fit at 1.3x unchanged.
   //
-  // The row is not decorative: at 2.4x, 15 of these 18 flows fail on this
-  // exact suite, so a layout that stops fitting when the text grows is caught
-  // here. A row that cannot fit wraps or stacks -- nothing is made smaller to
+  // 1.3 and not higher because 1.3 is the app's own ceiling, not a number
+  // picked to pass: main.dart's `builder` clamps MediaQuery.textScaler to
+  // [AppConstants.minTextScale]-[AppConstants.maxTextScale] before any
+  // screen is laid out (main.dart:86-98), so a browser at 200% reaches a
+  // teacher's screen as 1.3 and nothing larger exists to test. [appForTest]
+  // applies that same clamp, which is what makes this row the largest text a
+  // teacher can actually reach -- the worst case worth pinning.
+  //
+  // A row that cannot fit wraps or stacks -- nothing is made smaller to
   // pass, because the setting exists for someone who needs it larger.
   'phone 375x812 at 1.3x text': (size: phone, textScale: 1.3),
   'tablet 768x1024': (size: tablet, textScale: 1.0),
@@ -120,7 +126,28 @@ const _interAssets = <String>[
 /// radius, and w600 labels across the six-tab admin strip. A flow measured
 /// against the default theme proves nothing about the app a teacher opens
 /// (review of 2026-09-23), which is the one claim this suite exists to make.
-Widget appForTest(Widget page) => MaterialApp(theme: AppTheme.lightTheme, home: page);
+///
+/// main.dart's `builder` is here for the same reason, minus AppLockGate
+/// (a lock screen, not a layout): it clamps MediaQuery.textScaler to
+/// [AppConstants.minTextScale]-[AppConstants.maxTextScale] before any screen
+/// sees it. Without it this suite could be driven to text sizes the shipped
+/// app never renders -- and a flow "failing at 2.4x" would be a fact about
+/// the harness, not about the product.
+Widget appForTest(Widget page) => MaterialApp(
+      theme: AppTheme.lightTheme,
+      home: page,
+      builder: (context, child) => MediaQuery(
+        data: MediaQuery.of(context).copyWith(
+          textScaler: TextScaler.linear(
+            MediaQuery.of(context)
+                .textScaler
+                .scale(1.0)
+                .clamp(AppConstants.minTextScale, AppConstants.maxTextScale),
+          ),
+        ),
+        child: child!,
+      ),
+    );
 
 /// [useScreen] + [appForTest] + settle: how every flow test starts.
 Future<void> pumpPage(WidgetTester tester, Widget page, Screen screen) async {

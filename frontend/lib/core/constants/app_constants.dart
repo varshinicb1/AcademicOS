@@ -36,6 +36,18 @@ class AppConstants {
   /// One number for both so a screen cannot be "mobile" for its navigation
   /// and "desktop" for its buttons at the same width.
   static const double mobileBreakpoint = 800.0;
+
+  /// The text scale the app renders at, whatever the browser asks for.
+  ///
+  /// Android Chrome's accessibility text setting and a desktop browser's page
+  /// zoom both arrive as `MediaQuery.textScaler`; main.dart's `builder`
+  /// clamps it to this range before any screen is laid out, so a browser at
+  /// 200% reaches a screen as 1.3 and nothing above that is reachable in the
+  /// shipped app. Named here because test/responsive applies the same clamp
+  /// ([appForTest]) -- a suite driven past [maxTextScale] would be measuring
+  /// a state no teacher can get to.
+  static const double minTextScale = 0.85;
+  static const double maxTextScale = 1.3;
   
   // CBSE
   static const int minGrade = 1;

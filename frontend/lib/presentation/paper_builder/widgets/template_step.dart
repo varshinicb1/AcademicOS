@@ -32,32 +32,43 @@ class TemplateStep extends StatelessWidget {
         const SizedBox(height: 8),
         if (c.loadingTemplates)
           const Padding(padding: EdgeInsets.all(32), child: Center(child: CircularProgressIndicator()))
-        else if (c.templatesError != null)
-          _Problem(
-            text: 'Could not load templates: ${c.templatesError}',
-            action: 'Try again',
-            onAction: c.loadTemplates,
-          )
-        else if (lists != null) ...[
-          _Group(
-            title: 'My templates',
-            empty: 'None yet. Build one with "New template", or duplicate a CBSE pattern below and change it.',
-            templates: lists.mine,
-            c: c,
-          ),
-          _Group(
-            title: 'Shared by my school',
-            empty: 'No colleague has shared a template for this class and subject yet.',
-            templates: lists.shared,
-            c: c,
-          ),
-          _Group(
-            title: 'CBSE patterns',
-            empty: 'No CBSE pattern for Class ${c.grade} ${c.subject} yet. Build your own with "New template" '
-                '-- the total is checked as you go.',
-            templates: lists.presets,
-            c: c,
-          ),
+        else ...[
+          // Above the lists, not instead of them. A refresh that fails after
+          // a save or a duplicate (_refreshTemplateLists) leaves `templates`
+          // holding the list the teacher was reading a moment ago, and the
+          // action they took worked: replacing that list with a banner takes
+          // away the templates AND hides the copy they just made. The banner
+          // only ever stands alone when there is no list yet.
+          //
+          // No "Try again" where trying again cannot work -- a 401 or a 403
+          // is refused again every time (see the controller's class doc).
+          if (c.templatesError != null)
+            _Problem(
+              text: 'Could not load templates: ${c.templatesError}',
+              action: 'Try again',
+              onAction: c.templatesRetryable ? c.loadTemplates : null,
+            ),
+          if (lists != null) ...[
+            _Group(
+              title: 'My templates',
+              empty: 'None yet. Build one with "New template", or duplicate a CBSE pattern below and change it.',
+              templates: lists.mine,
+              c: c,
+            ),
+            _Group(
+              title: 'Shared by my school',
+              empty: 'No colleague has shared a template for this class and subject yet.',
+              templates: lists.shared,
+              c: c,
+            ),
+            _Group(
+              title: 'CBSE patterns',
+              empty: 'No CBSE pattern for Class ${c.grade} ${c.subject} yet. Build your own with "New template" '
+                  '-- the total is checked as you go.',
+              templates: lists.presets,
+              c: c,
+            ),
+          ],
         ],
       ],
     );
@@ -188,21 +199,27 @@ class TemplateCard extends StatelessWidget {
   }
 }
 
+/// A failure on this step, with [action] only when repeating the request
+/// could succeed ([onAction] null otherwise -- no button is drawn at all,
+/// rather than one that is disabled and says nothing about why).
 class _Problem extends StatelessWidget {
   final String text;
   final String action;
-  final VoidCallback onAction;
+  final VoidCallback? onAction;
   const _Problem({required this.text, required this.action, required this.onAction});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final retry = onAction;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(text, style: TextStyle(color: theme.colorScheme.error)),
-        const SizedBox(height: 8),
-        OutlinedButton.icon(onPressed: onAction, icon: const Icon(Icons.refresh), label: Text(action)),
+        if (retry != null) ...[
+          const SizedBox(height: 8),
+          OutlinedButton.icon(onPressed: retry, icon: const Icon(Icons.refresh), label: Text(action)),
+        ],
       ]),
     );
   }
