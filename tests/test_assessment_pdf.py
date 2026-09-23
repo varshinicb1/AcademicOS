@@ -636,3 +636,74 @@ def test_an_exponent_prints_as_an_exponent_not_a_digit():
     assert pdf_safe("a² + b² = c²") == "a^2 + b^2 = c^2"
     assert pdf_safe("10⁻³") == "10^-3"
     assert pdf_safe("H₂O and CO₂") == "H2O and CO2"
+
+
+# --------------------------------------------------------------------------- #
+# what the marking sheet says about the value points (Task 124)
+# --------------------------------------------------------------------------- #
+
+def _question(marks, points, *, metadata=None):
+    """One selected question, as paper generation receives it."""
+    from academicos.assessment.schemas import (AnswerSchemeSchema, MarkingPointSchema,
+                                               QuestionSchema)
+    now = datetime.now(timezone.utc)
+    return QuestionSchema(
+        id="q1", question_bank_id="bank", subject="Science", grade=9,
+        chapter_ids=["ch1"], bloom_level="understand", difficulty="easy",
+        type="short_answer", stem="Give two reasons why the sky appears blue.",
+        answer_scheme=AnswerSchemeSchema(
+            total_marks=marks, model_answer="The sky appears blue.",
+            marking_points=[MarkingPointSchema(id=f"mp{i}", description=d, marks=m,
+                                               keyword="", is_required=True)
+                            for i, (d, m) in enumerate(points, 1)],
+            metadata=metadata or {}),
+        estimated_time_minutes=marks * 2, marks=marks, source="cbse_sample_paper",
+        quality_score=0.9, created_at=now, updated_at=now)
+
+
+def _key_for(question):
+    from academicos.assessment.paper import generate_paper
+    from academicos.assessment.schemas import (Blueprint, ChapterWeights, CompetencyWeights,
+                                               SectionBlueprint)
+    from academicos.assessment.templates import TIER_BLOOM, TIER_DIFFICULTY
+    blueprint = Blueprint(
+        total_marks=question.marks, duration_minutes=60,
+        difficulty=TIER_DIFFICULTY["standard"], bloom=TIER_BLOOM["standard"],
+        chapter_weights=ChapterWeights(), competency_weights=CompetencyWeights(),
+        sections=[SectionBlueprint(id="s", label="A", name="Q", total_marks=question.marks,
+                                   marks_per_question=question.marks, question_count=1)])
+    paper = generate_paper(paper_id="p", assessment_id="a", assessment_title="T",
+                           subject="Science", grade=9, blueprint=blueprint,
+                           selected_questions=[question])
+    return paper, paper.answer_key["1"]
+
+
+def test_the_marking_sheet_prints_what_each_value_point_is_worth(tmp_path):
+    paper, key = _key_for(_question(3, [("Air molecules scatter light", 1),
+                                        ("Blue is scattered most", 1),
+                                        ("The scattered blue reaches the eye", 1)]))
+    assert key.count("[1m]") == 3
+    text = " ".join(_extract_text(export_answer_key_pdf(paper, tmp_path)).split())
+    assert "Blue is scattered most [1m]" in text
+
+
+def test_a_key_with_one_point_for_every_mark_says_it_is_all_or_nothing(tmp_path):
+    """The re-audit of 2026-09-23: all 2,449 served multi-mark questions had
+    one lump point, so the sheet read "- <the whole answer> [5m]" and invited a
+    marker to assume steps that the source never printed."""
+    paper, key = _key_for(_question(5, [("The whole answer, in one point", 5)]))
+    assert "all or nothing" in key
+    text = " ".join(_extract_text(export_answer_key_pdf(paper, tmp_path)).split())
+    assert "all or nothing" in text
+
+
+def test_a_scheme_that_awards_any_two_of_its_points_says_so(tmp_path):
+    paper, key = _key_for(_question(
+        2, [(f"Reason {n}", 1) for n in (1, 2, 3, 4)], metadata={"anyOf": 2}))
+    assert "Any 2 of the above value points, 1 mark(s) each." in key
+    assert "all or nothing" not in key
+
+
+def test_a_one_mark_question_is_not_called_all_or_nothing():
+    _paper, key = _key_for(_question(1, [("Scattering", 1)]))
+    assert "all or nothing" not in key

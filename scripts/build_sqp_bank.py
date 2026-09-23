@@ -44,7 +44,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 
-from academicos.corpus import cbse_sqp, subjects           # noqa: E402
+from academicos.corpus import cbse_sqp, marking_split, subjects   # noqa: E402
 from build_cbe_bank import _MAX_SINGLE_QUESTION_MARKS       # noqa: E402
 
 SRC = REPO / "academicos-data" / "corpus" / "cbse-sqp"
@@ -64,6 +64,13 @@ def _record(item, *, subject: str, grade: int, year: str) -> dict:
     q = item.question
     qid = f"cbse:sqp:{year}:{subject}:{q.key}"
     marks = q.marks
+    # The value points the marking scheme printed -- "1+1=2" over two numbered
+    # reasons, "Any other, Any two" over four -- and one point holding the
+    # whole answer where it printed none (corpus/marking_split.py). The stem is
+    # stripped off the head of the answer first: 27 served SQP keys opened with
+    # their own question, the scheme's page having run the two together.
+    answer = marking_split.strip_stem_echo(q.text, item.answer)
+    points, split_meta = marking_split.value_points(answer, marks, qid, q.text)
     return {
         "id": qid,
         "questionBankId": f"cbse-sqp:{year}:{subject}",
@@ -88,21 +95,14 @@ def _record(item, *, subject: str, grade: int, year: str) -> dict:
             # which made the SQP corpus the only one with a different shape --
             # and the Q1 gate, which only knew `text`, then filtered every SQP
             # record out of the served bank while reporting a healthy count.
-            "markingPoints": ([{
-                "id": f"{qid}:mp1",
-                "description": item.answer,
-                "marks": marks,
-                "keyword": "",
-                "isRequired": True,
-                "synonyms": [],
-            }] if item.answer else []),
+            "markingPoints": points,
             "rubricLevels": [],
             "commonErrors": [],
             "alternativeAnswers": [],
-            "modelAnswer": "" if q.options else item.answer,
+            "modelAnswer": "" if q.options else answer,
             "modelAnswerLatex": "",
-            "hasPartialCredit": bool(item.answer and not q.options),
-            "metadata": {},
+            "hasPartialCredit": len(points) > 1,
+            "metadata": dict(split_meta),
             # Authority-provided: the answer came from the scheme file CBSE
             # publishes alongside the paper, not from an inference.
             "provenance": "cbse_marking_scheme",

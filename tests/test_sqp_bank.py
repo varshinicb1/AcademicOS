@@ -23,6 +23,7 @@ REPO = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "src"))
 sys.path.insert(0, str(REPO / "scripts"))
 
+from academicos.corpus import marking_split  # noqa: E402
 from build_cbe_bank import _MAX_SINGLE_QUESTION_MARKS  # noqa: E402
 
 SQP_DIR = REPO / "academicos-data" / "corpus" / "cbse-sqp"
@@ -191,3 +192,68 @@ def test_the_marking_points_use_the_canonical_shape(bank):
                 f"corpora have drifted apart again"
             )
             assert point["description"].strip(), f"{rec['id']} has an empty description"
+
+
+# --------------------------------------------------------------------------- #
+# value points (Task 124)
+# --------------------------------------------------------------------------- #
+
+def _sqp_question(text: str, answer: str, marks: int):
+    from academicos.corpus.cbse_sqp import Question, SqpQuestion
+
+    return SqpQuestion(question=Question(number=22, text=text, marks=marks, page=5),
+                       answer=answer, scheme_marks=marks)
+
+
+def test_a_scheme_that_prints_its_split_becomes_a_point_a_mark():
+    """cbse:sqp:ClassX_2023_24:Home Science:22 as the marking scheme prints
+    it: "Two reasons of preferring soaps over detergents are- 1+1=2 Soaps
+    are- 1. Cheap 2. Environment friendly(biodegradable)"."""
+    from build_sqp_bank import _record
+
+    item = _sqp_question(
+        "Present two reasons of preferring soaps over detergents.",
+        "Two reasons of preferring soaps over detergents are- 1+1=2 Soaps are- "
+        "1. Cheap 2. Environment friendly(biodegradable) Any other, Any two", 2)
+    scheme = _record(item, subject="Home Science", grade=10,
+                     year="ClassX_2023_24")["answerScheme"]
+    assert [p["marks"] for p in scheme["markingPoints"]] == [1, 1]
+    assert scheme["metadata"]["markSplit"] == "marks-printed"
+    assert scheme["hasPartialCredit"] is True
+
+
+def test_an_any_two_of_the_following_scheme_records_what_it_awards():
+    """cbse:sqp:ClassX_2024_25:Home Science:26 -- five motor abilities under
+    "1X3=3" and "Any other, Any three": each is worth a mark, and only three
+    are given."""
+    from build_sqp_bank import _record
+
+    item = _sqp_question(
+        "Enumerate three motor abilities of a 6-year-old child.",
+        "Three motor abilities of 6-year-old child- 1X3=3 1.Runs with speed "
+        "2.Rides bicycle with training wheels 3. Pours liquid in containers "
+        "4.Ties lace 5.Dances / Swims Any other, Any three", 3)
+    scheme = _record(item, subject="Home Science", grade=10,
+                     year="ClassX_2024_25")["answerScheme"]
+    assert [p["marks"] for p in scheme["markingPoints"]] == [1, 1, 1, 1, 1]
+    assert scheme["metadata"]["anyOf"] == 3
+    # Five listed, three awarded: what a student can earn is still the
+    # question's marks.
+    assert marking_split.awardable_marks(scheme) == 3
+    assert all(p["isRequired"] is False for p in scheme["markingPoints"])
+
+
+def test_a_key_that_opened_with_its_own_question_no_longer_does():
+    """cbse:sqp:ClassXII_2022_23:Psychology:22 -- the scheme page ran the
+    question and its answer together, so the key repeated all 192 characters
+    of the question before answering it."""
+    from build_sqp_bank import _record
+
+    stem = ("Vinita holds a negative attitude towards individuals of a particular "
+            "community. She avoids interacting or helping them in college. Identify "
+            "and explain the behaviour being exhibited by Vinita.")
+    item = _sqp_question(stem, f"{stem} Ans.: Discrimination", 2)
+    scheme = _record(item, subject="Psychology", grade=12,
+                     year="ClassXII_2022_23")["answerScheme"]
+    assert scheme["modelAnswer"] == "Ans.: Discrimination"
+    assert stem[:40] not in scheme["markingPoints"][0]["description"]

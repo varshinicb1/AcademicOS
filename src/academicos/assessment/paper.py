@@ -17,6 +17,31 @@ from .schemas import (
 from .templates import default_sections
 
 
+def _key_note(scheme, marks: int) -> str:
+    """What the printed key must say about the value points above it.
+
+    Two things a marker cannot see from the points alone:
+
+      * `anyOf` -- the scheme lists more value points than it awards ("Any
+        other, Any two"), so a student who gives two of the five listed gets
+        full marks.
+      * one point worth every mark -- the source printed no split, so the key
+        really is all or nothing. Saying so is the point: a marking sheet that
+        shows "- <the whole answer> [5m]" and nothing else invites a marker to
+        assume steps exist and invent them.
+    """
+    meta = getattr(scheme, "metadata", None) or {}
+    points = getattr(scheme, "marking_points", None) or []
+    any_of = meta.get("anyOf")
+    if any_of and points:
+        return (f"\n(Any {int(any_of)} of the above value points, "
+                f"{points[0].marks} mark(s) each.)")
+    if len(points) == 1 and (marks or 0) > 1:
+        return ("\n(The source prints no split for this answer: it is all or nothing "
+                "unless you set your own value points.)")
+    return ""
+
+
 def generate_paper(*, paper_id: str, assessment_id: str, assessment_title: str,
                     subject: str, grade: int, blueprint: Blueprint,
                     selected_questions: list[QuestionSchema],
@@ -60,6 +85,7 @@ def generate_paper(*, paper_id: str, assessment_id: str, assessment_title: str,
             if q.answer_scheme.marking_points:
                 pts = [f"• {mp.description} [{mp.marks}m]" for mp in q.answer_scheme.marking_points]
                 model_ans = f"{model_ans}\n" + "\n".join(pts)
+            model_ans += _key_note(q.answer_scheme, q.marks)
             answer_key[str(display_no)] = model_ans.strip()
 
             if choice_id:

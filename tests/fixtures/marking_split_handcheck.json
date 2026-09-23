@@ -1,0 +1,1399 @@
+{
+ "checkedAt": "2026-09-23",
+ "bank": "c734a69 (academicos-data/syllabus/questions.json, 5,427 served records)",
+ "how": "Each split below was read against the source PDF it came from -- the CBSE marking scheme, the CBE item bank or the NCERT Exemplar answer booklet -- and judged wrong when the board printed a different allocation. The judgements are an AI reviewer's, not a teacher's.",
+ "checked": 51,
+ "wrong": 1,
+ "samples": [
+  {
+   "id": "cbse:sqp:ClassX_2022_23:Home Science:22",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 2,
+   "stem": "Suggest two ways to maintain a good posture while working at home.",
+   "answer": "Two ways to maintain a good posture while working at home- 2x1=2 1. Do not work in static posture, change the posture in between. 2. For pushing heavy objects, we should crouch and bend knees, and keep the back straight. 3. While drying clothes, bucket containing washed clothes should be placed on a high school. Any other, Any two",
+   "rule": "any-of",
+   "anyOf": 2,
+   "points": [
+    [
+     "1. Do not work in static posture, change the posture in between.",
+     1
+    ],
+    [
+     "2. For pushing heavy objects, we should crouch and bend knees, and keep the back straight.",
+     1
+    ],
+    [
+     "3. While drying clothes, bucket containing washed clothes should be placed on a high school.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2022_23:Home Science:26",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 3,
+   "stem": "FSSAI is the principal government authority formed under Ministry of Health and Family Welfare. Enumerate any three activities of FSSAI.",
+   "answer": "Three activities of FSSAI- 3X1=3 1.Specifies standards and guidelines for food articles. 2.Issues licenses to food service operators and registers small vendors 3.Give guidelines to other bodies for certification 4.Specifies food labeling standards Any other, Any three",
+   "rule": "any-of",
+   "anyOf": 3,
+   "points": [
+    [
+     "1.Specifies standards and guidelines for food articles.",
+     1
+    ],
+    [
+     "2.Issues licenses to food service operators and registers small vendors",
+     1
+    ],
+    [
+     "3.Give guidelines to other bodies for certification",
+     1
+    ],
+    [
+     "4.Specifies food labeling standards",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2024_25:Home Science:20",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 2,
+   "stem": "“Play influences social and emotional development.” Justify this statement with two examples. (CBQ)",
+   "answer": "Two examples to show “Play influences social and emotional 1X2=2 development”- Child learns to- 1.share toy/s 2.play in group 3.wait for his/her turn 4.control emotions 5.cooperate with his/her friend/s Any other, Any two",
+   "rule": "any-of",
+   "anyOf": 2,
+   "points": [
+    [
+     "1.share toy/s",
+     1
+    ],
+    [
+     "2.play in group",
+     1
+    ],
+    [
+     "3.wait for his/her turn",
+     1
+    ],
+    [
+     "4.control emotions",
+     1
+    ],
+    [
+     "5.cooperate with his/her friend/s",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2024_25:Home Science:22",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 2,
+   "stem": "List two characteristics of Balanced Diet.",
+   "answer": "Two characteristics of Balanced Diet- 1X2=2 1.It contains all food groups. 2.It fulfils the need of various nutrients of an individual. 3.It has a provision for extra nutrients which can be reserved to withstand short periods of low dietary intake. Any other, Any two",
+   "rule": "any-of",
+   "anyOf": 2,
+   "points": [
+    [
+     "1.It contains all food groups.",
+     1
+    ],
+    [
+     "2.It fulfils the need of various nutrients of an individual.",
+     1
+    ],
+    [
+     "3.It has a provision for extra nutrients which can be reserved to withstand short periods of low dietary intake.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2024_25:Home Science:25",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 2,
+   "stem": "“Meal planning helps to save time and energy’’. Justify this statement with two suitable examples. (CBQ)",
+   "answer": "Two examples to show meal planning helps to save time and energy- 1X2=2 1.By doing pre-preparations 2.Dovetailing cooking activities 3.Buying required ingredients together 4.Collecting required ingredients near the gas Any other, Any two",
+   "rule": "any-of",
+   "anyOf": 2,
+   "points": [
+    [
+     "1.By doing pre-preparations",
+     1
+    ],
+    [
+     "2.Dovetailing cooking activities",
+     1
+    ],
+    [
+     "3.Buying required ingredients together",
+     1
+    ],
+    [
+     "4.Collecting required ingredients near the gas",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2024_25:Home Science:26",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 3,
+   "stem": "Enumerate three motor abilities of a 6-year-old child.",
+   "answer": "Three motor abilities of 6-year-old child- 1X3=3 1.Runs with speed/Skips 2.Rides bicycle with training wheels 3. Pours liquid in containers 4.Ties lace 5.Dances / Swims Any other, Any three",
+   "rule": "any-of",
+   "anyOf": 3,
+   "points": [
+    [
+     "1.Runs with speed/Skips",
+     1
+    ],
+    [
+     "2.Rides bicycle with training wheels",
+     1
+    ],
+    [
+     "3. Pours liquid in containers",
+     1
+    ],
+    [
+     "4.Ties lace",
+     1
+    ],
+    [
+     "5.Dances / Swims",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2025_26:Home Science:16",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 2,
+   "stem": "‘’Adopting energy-efficient postures reduces physical strain.” Provide two examples to support your answer.",
+   "answer": "Two examples to show adopting energy-efficient postures reduces physical 1X2=2 strain – 1.Use long handled broom or mop for cleaning 2.For drying clothes, put basket/bucket of washed clothes on high stool 3.Positioning a computer monitor at eye level and keeping the keyboard at a comfortable height 4.When lifting heavy objects, bending at the knees (not the waist) and using the legs to lift rather than the back Any other, Any two examples",
+   "rule": "any-of",
+   "anyOf": 2,
+   "points": [
+    [
+     "1.Use long handled broom or mop for cleaning",
+     1
+    ],
+    [
+     "2.For drying clothes, put basket/bucket of washed clothes on high stool",
+     1
+    ],
+    [
+     "3.Positioning a computer monitor at eye level and keeping the keyboard at a comfortable height",
+     1
+    ],
+    [
+     "4.When lifting heavy objects, bending at the knees (not the waist) and using the legs to lift rather than the back",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2025_26:Home Science:19",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 2,
+   "stem": "Identify two harmful effects of adulterant Metanil yellow on health.",
+   "answer": "Two harmful effects of adulterant Metanil yellow on health- 1X2=2 1.Cancer 2.Anaemia 3.Mental Retardation 4.Abnormalities in skin, eyes, lung and bones Any other, Any two Use of Bleach in fabric care and maintenance-",
+   "rule": "any-of",
+   "anyOf": 2,
+   "points": [
+    [
+     "1.Cancer",
+     1
+    ],
+    [
+     "2.Anaemia",
+     1
+    ],
+    [
+     "3.Mental Retardation",
+     1
+    ],
+    [
+     "4.Abnormalities in skin, eyes, lung and bones",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2025_26:Home Science:21",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 2,
+   "stem": "Write any two key guidelines provided by ICMR for creating a balanced meal using the food groups.",
+   "answer": "Two key guidelines provided by ICMR for creating a balanced meal using 1X2=2 the food groups - 1.Select one food from each of the food groups 2.Consider the principles of meal planning 3.Seasonal fruits and vegetables should be included 4.Choose whole grains instead of refined grains 5.Include small amounts of nuts and milk daily 6.Keep individual preferences in mind Any other, Any two Three benefits of time management-",
+   "rule": "any-of",
+   "anyOf": 2,
+   "points": [
+    [
+     "1.Select one food from each of the food groups",
+     1
+    ],
+    [
+     "2.Consider the principles of meal planning",
+     1
+    ],
+    [
+     "3.Seasonal fruits and vegetables should be included",
+     1
+    ],
+    [
+     "4.Choose whole grains instead of refined grains",
+     1
+    ],
+    [
+     "5.Include small amounts of nuts and milk daily",
+     1
+    ],
+    [
+     "6.Keep individual preferences in mind",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2025_26:Home Science:23",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 3,
+   "stem": "Suggest three ways to your school canteen cook to retain the nutrients while preparing variety of dishes.",
+   "answer": "Three ways to retain the nutrients while preparing variety of dishes – 1X3=3 1.Washing vegetables before cutting 2.Peeling vegetables thinly 3.Use minimum water 4.Covering the food while cooking 5.Retain stock Any other, Any three",
+   "rule": "any-of",
+   "anyOf": 3,
+   "points": [
+    [
+     "1.Washing vegetables before cutting",
+     1
+    ],
+    [
+     "2.Peeling vegetables thinly",
+     1
+    ],
+    [
+     "3.Use minimum water",
+     1
+    ],
+    [
+     "4.Covering the food while cooking",
+     1
+    ],
+    [
+     "5.Retain stock",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2025_26:Home Science:25",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 3,
+   "stem": "Your mother wants to store silk saree to ensure it lasts for the long time. What three precautions should she take while storing this saree?",
+   "answer": "Three precautions to be taken while storing silk saree- 1X3=3 1. Fold the saree with tissue paper or wrap it in a muslin cloth 2. Store it in a cool, dry place away from direct sunlight 3. Saree should be properly aired and should never be immediately folded after being worn 4.It should be drycleaned /washed before storing 5.Keep insect repellent 6. Avoid storing in plastic bag Any other, Any three",
+   "rule": "any-of",
+   "anyOf": 3,
+   "points": [
+    [
+     "1. Fold the saree with tissue paper or wrap it in a muslin cloth",
+     1
+    ],
+    [
+     "2. Store it in a cool, dry place away from direct sunlight",
+     1
+    ],
+    [
+     "3. Saree should be properly aired and should never be immediately folded after being worn",
+     1
+    ],
+    [
+     "4.It should be drycleaned /washed before storing",
+     1
+    ],
+    [
+     "5.Keep insect repellent",
+     1
+    ],
+    [
+     "6. Avoid storing in plastic bag",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2025_26:Social Science:37",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "SocialScience-MS.pdf",
+   "marks": 3,
+   "stem": "Highlight the significant three factors that have contributed to the growth of globalisation.",
+   "answer": "1. the movements of goods and services, 2. information and communication technology 3. Transportation technology 4. movement of people between countries 5. Liberalisation of foreign trade and foreign investment policy Any other relevant point (any 3 well explained)",
+   "rule": "any-of",
+   "anyOf": 3,
+   "points": [
+    [
+     "1. the movements of goods and services,",
+     1
+    ],
+    [
+     "2. information and communication technology",
+     1
+    ],
+    [
+     "3. Transportation technology",
+     1
+    ],
+    [
+     "4. movement of people between countries",
+     1
+    ],
+    [
+     "5. Liberalisation of foreign trade and foreign investment policy",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2025_26:Home Science:18",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 2,
+   "stem": "Your sister has bought a front-loading washing machine. What are the two features of washing principle used in this machine?",
+   "answer": "Two features of the washing principle used in Front Loading washing 1X2=2 machine- 1.Tumbling is used in front loading machines 2.Washing takes place in a horizontally placed cylinder which is perforated and which revolves in a partially filled tub 3.With each revolution the clothes are carried to the top and then dropped in the wash water 4.Clothes move through the water Any other, Any two",
+   "rule": "any-of",
+   "anyOf": 2,
+   "points": [
+    [
+     "1.Tumbling is used in front loading machines",
+     1
+    ],
+    [
+     "2.Washing takes place in a horizontally placed cylinder which is perforated and which revolves in a partially filled tub",
+     1
+    ],
+    [
+     "3.With each revolution the clothes are carried to the top and then dropped in the wash water",
+     1
+    ],
+    [
+     "4.Clothes move through the water",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2025_26:Home Science:19",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 2,
+   "stem": "List two important duties performed by the Kitchen Stewarding department.",
+   "answer": "Two important duties performed by the Kitchen Stewarding department- 1X2=2 1.Responsible for storage, maintenance, cleanliness and issue of cutlery, crockery and glassware to the restaurant and kitchen 2.Maintaining cleanliness in the kitchen 3.Washing the used pots and pans Any other, Any two",
+   "rule": "any-of",
+   "anyOf": 2,
+   "points": [
+    [
+     "1.Responsible for storage, maintenance, cleanliness and issue of cutlery, crockery and glassware to the restaurant and kitchen",
+     1
+    ],
+    [
+     "2.Maintaining cleanliness in the kitchen",
+     1
+    ],
+    [
+     "3.Washing the used pots and pans",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2025_26:Home Science:22",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 3,
+   "stem": "A company observes increased absenteeism caused by employee health issues. In what three ways could life skills training enhance their Quality of Work Life (QWL)?",
+   "answer": "Three ways by which life skills training enhance their Quality of Work Life 1X3=3 (QWL)- 1.Enables individuals to adopt healthy behaviors, especially in challenging situations 2.Prevents the development of unhealthy or negative behaviors 3.Facilitates the development of healthy life skills and discourages negative health behaviors 4.Encourages actions that contribute to personal and social growth, promoting health and development for themselves and their communities 5.Helps individuals function effectively and constructively within society. 6.Empowers individuals to function confidently and competently in both their families and society Any other, Any three",
+   "rule": "any-of",
+   "anyOf": 3,
+   "points": [
+    [
+     "1.Enables individuals to adopt healthy behaviors, especially in challenging situations",
+     1
+    ],
+    [
+     "2.Prevents the development of unhealthy or negative behaviors",
+     1
+    ],
+    [
+     "3.Facilitates the development of healthy life skills and discourages negative health behaviors",
+     1
+    ],
+    [
+     "4.Encourages actions that contribute to personal and social growth, promoting health and development for themselves and their communities",
+     1
+    ],
+    [
+     "5.Helps individuals function effectively and constructively within society.",
+     1
+    ],
+    [
+     "6.Empowers individuals to function confidently and competently in both their families and society",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2022_23:Home Science:27",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 3,
+   "stem": "Your mother has hired a house help to wash clothes. She had excessively blued your white shirt. a. What she should do in such situation? b. Explain her the correct method of applying blue.",
+   "answer": "a. To remove excessive blue- 1+2=3 It should be dipped in plain water with few drops of vinegar or lime juice. b. The correct method of applying blue- ½ x 4= 2 1.Blue is added in water 2.The water is stirred well 3.The article is opened and made wet and then dipped in above solution 4.The article is squeezed and put in the sun",
+   "rule": "marks-printed",
+   "anyOf": null,
+   "points": [
+    [
+     "a. To remove excessive blue- 1+2=3 It should be dipped in plain water with few drops of vinegar or lime juice.",
+     1
+    ],
+    [
+     "b. The correct method of applying blue- ½ x 4= 2 1.Blue is added in water 2.The water is stirred well 3.The article is opened and made wet and then dipped in above solution 4.The article is squeezed and put in the sun",
+     2
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2023_24:Home Science:22",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 2,
+   "stem": "Present two reasons of preferring soaps over detergents.",
+   "answer": "Two reasons of preferring soaps over detergents are- 1+1=2 Soaps are- 1. Cheap 2. Environment friendly(biodegradable) Any other, Any two",
+   "rule": "marks-printed",
+   "anyOf": null,
+   "points": [
+    [
+     "1. Cheap",
+     1
+    ],
+    [
+     "2. Environment friendly(biodegradable)",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2023_24:Home Science:23",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 2,
+   "stem": "Which two labour-saving devices Mrs. Sharma will be using for each- a. making vegetable curry b. cleaning the house",
+   "answer": "Two labour-saving devices for each- 1+1=2 a. making vegetable curry ½X2=1 1. Mixer Grinder 2. Electric chopper 3. Blender 4. Microwave Any other, Any two b. cleaning the house ½X2=1 1. Vacuum cleaner 2. Long handled mop 3. Wiper Any other, Any two",
+   "rule": "marks-printed",
+   "anyOf": null,
+   "points": [
+    [
+     "a. making vegetable curry ½X2=1 1. Mixer Grinder 2. Electric chopper 3. Blender 4. Microwave Any other, Any two",
+     1
+    ],
+    [
+     "b. cleaning the house ½X2=1 1. Vacuum cleaner 2. Long handled mop 3. Wiper",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2024_25:Home Science:31",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 4,
+   "stem": "“Climate and Occasion affect meal planning’’. Elaborate this statement with the help of two examples for each. (CBQ)",
+   "answer": "Two examples for each to show climate and occasion affect meal 2+2=4 planning- 1X2=2 1.Climate- For Example- i) In warm weather light, cool refreshing meals are preferred ii) In cold weather hot, spicy and energy giving food are preferred 1X2=2 2.Occassion- Specific dishes are prepared on special occasions. For Example- i) Gujiyas are prepared on Holi ii) Ghewar is associated with Teej Any other, Any two examples for each",
+   "rule": "marks-printed",
+   "anyOf": null,
+   "points": [
+    [
+     "1.Climate- For Example- i) In warm weather light, cool refreshing meals are preferred ii) In cold weather hot, spicy and energy giving food are preferred 1X2=2",
+     2
+    ],
+    [
+     "2.Occassion- Specific dishes are prepared on special occasions. For Example- i) Gujiyas are prepared on Holi ii) Ghewar is associated with Teej",
+     2
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2022_23:Home Science:20",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "HomeScience-MS.pdf",
+   "marks": 2,
+   "stem": "a. Why France become the center of fashion in the century? b. State the term used for male and female designer.",
+   "answer": "a. France become the center of fashion in the 18th century: 1+1/2+1/2=2 1. Due to support from the royal court. 2. Development of silk industry. b. Male designer- couturier Female designer- couturiere",
+   "rule": "marks-printed",
+   "anyOf": null,
+   "points": [
+    [
+     "a. France become the center of fashion in the 18th century: 1+1/2+1/2=2 1. Due to support from the royal court. 2. Development of silk industry.",
+     1
+    ],
+    [
+     "b. Male designer- couturier Female designer- couturiere",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2022_23:Psychology:22",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "Psychology-MS.pdf",
+   "marks": 2,
+   "stem": "Vinita holds a negative attitude towards individuals of a particular community. She avoids interacting or helping them in college. Identify and explain the behaviour being exhibited by Vinita.",
+   "answer": "Ans.: ● Discrimination ● Prejudice may also get translated into discrimination, the behavioural component, whereby people behave in a less positive way towards a particular target group compared to another group which they favour. (1+1) Page 118",
+   "rule": "marks-printed",
+   "anyOf": null,
+   "points": [
+    [
+     "Discrimination",
+     1
+    ],
+    [
+     "Prejudice may also get translated into discrimination, the behavioural component, whereby people behave in a less positive way towards a particular target group compared to another group which they favour. (1+1) Page 118",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbe:q:English9SS21b",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank-----English---Class-9.pdf",
+   "marks": 2,
+   "stem": "Read the passage below and answer the question that follows. No Men Are Foreign by James Kirkup Remember, no men are strange, no countries foreign Beneath all uniforms, a single body breathes Like ours: the land our brothers walk upon Is earth like this, in which we all shall lie. They, too, aware of sun and air and water, Are fed by peaceful harvests, by war’s long winter starv’d. Their hands are ours, and in their lines, we read A labour not different from our own. Remember they have eyes like ours that wake Or sleep, and strength that can be won By love. In every land is common life That all can recognise and understand. Let us remember, whenever we are told To hate our brothers, it is ourselves That we shall dispossess, betray, condemn. Remember, we who take arms against each other It is the human earth that we defile. Our hells of fire and dust outrage the innocence Of air that is everywhere our own, Remember, no men are foreign, and no countries strange. Source: No Men Are Foreign: CBSE Class 9 English Beehive Poem by James Kirkup Summary and Notes (byjus.com) 1 (b) “Remember, we who take arms against each other It is the human life we defile.” Explain what the writer means by this.",
+   "answer": "• Those who fight in war • Mar / spoil / damage the sanctity of human life. Award 1 mark for each of the two strands of the explanation, up to a maximum of 2 marks.",
+   "rule": "marks-each",
+   "anyOf": null,
+   "points": [
+    [
+     "Those who fight in war",
+     1
+    ],
+    [
+     "Mar / spoil / damage the sanctity of human life. Award 1 mark for each of the two strands of the explanation, up to a maximum of 2 marks.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbe:q:English9JV31b",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank-----English---Class-9.pdf",
+   "marks": 2,
+   "stem": "Read the passage below and answer the question that follows. The Road Not Taken (Grade IX Beehive Reader, Robert Frost) Two roads diverged in the yellow wood, And sorry I could not travel both And be one traveller, long I stood And looked down as far as I could To where it bent in the undergrowth Then took the other, as just as fair And having perhaps the better claim Because it was grassy and wanted wear; Though as for that the passing there Had worn them really about the same And both that morning equally lay. In leaves no step had trodden black. Oh, I kept the first for another day! Yet knowing how way leads on to way, I doubted if I should ever come back. I shall be telling this with a sigh Somewhere ages and ages hence: Two roads diverged in a wood, and I— I took the one less travelled by, And that has made all the difference. Source 1(b) From your reading of lines 1 – 5, give two impressions of the poet.",
+   "answer": "• His regret / sadness at not being able to travel both roads • His indecisiveness (‘long I stood’) Award 1 mark for each point. Maximum of 2 marks.",
+   "rule": "marks-each",
+   "anyOf": null,
+   "points": [
+    [
+     "His regret / sadness at not being able to travel both roads",
+     1
+    ],
+    [
+     "His indecisiveness (‘long I stood’) Award 1 mark for each point. Maximum of 2 marks.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbe:q:English10HJ32b",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---English---Class-10.pdf",
+   "marks": 2,
+   "stem": "Read the passage below and answer the question that follows. Charles Darwin This text is from an autobiography by the English naturalist Charles Darwin, written in 1876. The voyage of the \"Beagle\" has been by far the most important event in my life and has determined my whole career; yet it depended on so small a circumstance as my uncle offered to drive me thirty miles to Shrewsbury, which few uncles would have done, and on such a trifle as the shape of my nose. I have always felt that I owe to the voyage the first real training or education of my mind; I was led to attend closely to several branches of natural history, and thus my powers of observation were improved, though they were always fairly developed. The investigation of the geology of all the places visited was far more important, as reasoning here comes into play. On first examining a new district, nothing can appear more hopeless than the chaos of rocks; but by recording the stratification and nature of the rocks and fossils at many points, always reasoning and predicting what will be found elsewhere, the light soon begins to dawn on the district, and the structure of the whole becomes more or less intelligible. I had brought with me the first volume of Lyell's 'Principles of Geology,' which I studied attentively, and the book was of the highest service to me in many ways. The first place I examined, namely St. Jago in the Cape de Verde islands, showed me clearly the wonderful superiority of Lyell's manner of treating geology, compared with that of any other author, whose works I had with me or ever afterwards read. Another of my occupations was collecting animals of all classes, briefly describing and roughly dissecting many of the marine ones, but from not being able to draw, and from not having sufficient anatomical knowledge, a great pile of MS. I made during the voyage has proved almost useless. I thus lost much time, with the exception of that spent in acquiring some knowledge of the Crustaceans, as this was of service when in after years, I undertook a monograph of the Cirripedia. During some part of the day, I wrote my journal and took much pains to describe carefully and vividly all that I had seen; this was good practice. Glossary geology – a study of the materials of which the Earth is made stratification- the arrangement or classification of something into different groups intelligible - clear enough to be understood MS. - manuscripts or documents Darwin wrote by hand Source information: https://www.gutenberg.org/files/2010/2010-h/2010-h.htm 2 (b) How has the author’s power of observation improved?",
+   "answer": "• people start understanding • awareness is created Award 1 mark for each correct point. Level of response",
+   "rule": "marks-each",
+   "anyOf": null,
+   "points": [
+    [
+     "people start understanding",
+     1
+    ],
+    [
+     "awareness is created Award 1 mark for each correct point. Level of response",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbe:q:English10PVN11b",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---English---Class-10.pdf",
+   "marks": 2,
+   "stem": "Read the passage below and answer the question that follows. Dance Therapy This is an article on how an art form – ‘classical dance’ – can empower and liberate people, especially the underprivileged girls. Nehha Bhatnagar, 30, found it hard to accept that a dance tradition as spiritual as Bharatanatyam would be limited to just a handful privileged enough to learn classical art. After her training in Ganesa Natyalaya under gurus Saroja and Rama Vaidyanathan, earning degrees in international relations and political science from acclaimed institutions and touring the world performing for the who's who, this bothered her. Could the spirituality of classical dance and the strength of international diplomacy be married? Was it possible to create an inclusive space for the performing arts, and eventually art education? The genesis of Sarvam Foundation was rooted in these questions. Nehha explains, “I was socially conscious and sensitive to the disparity around us. This led me to start teaching underprivileged girls the rudiments of Bharatanatyam.” Lucky to be from a well-to-do family, she had what it took to succeed, in the conventional sense of the word. “I could have lapsed into a predictable career path. But a voice within urged me to share some of my luck with those who had none.” Sarvam — ‘all’, ‘together’ or ‘everyone’ in Sanskrit — was founded in 2012 with the purpose of bringing the classical arts to all, “from the girl child in the slum to the corporate executive in her glass tower. New artistes, new audiences, new technicians, new ideas — open for all, accessible to all.” What began initially as a platform to curate and promote senior artistes soon transformed and expanded to the Sarvam Plus programme, geared at teaching life skills to the underprivileged girl child through the classical dance forms of Bharatanatyam, Kathak and Kuchipudi. With the support of a small team of like-minded people, and the blessings of friends and family, Sarvam started its operations in the urban villages of Kishangarh and Rangpuri Pahari surrounding Vasant Kunj, New Delhi, where Nehha lives. Currently 20 girls, between the ages 10 and 16, make up the group, but the impact of Sarvam can be measured not in numbers but in the possibilities it has shown. The dance modules – derived from mythological texts, a woman's strength, the masculine- feminine balance, to morality – help the girls with \"skill-building, developing confidence and enthusiasm, firing their imagination, teaching hygiene, learning about nutrition, our heritage and discipline, exploring new avenues, and, of course, dance. We endeavour to instil self-worth\". Total words: 388 (abridged from original text) Source information: Article by Suchismita Ukil under the topic ‘Everyday Heroes – Dance Therapy’ published in November 2017 issue of Reader’s Digest. Online Source: https://www.readersdigest.in/true-stories/story-dance-therapy-124440 1 (b) Identify the main purpose of starting the Sarvam Foundation. Give the meaning of the word ‘Sarvam’.",
+   "answer": "• The purpose is to bring the classical arts to all. • Meaning of Sarvam is all/together/everyone Award 1 mark for each point, up to a maximum of 2 points.",
+   "rule": "marks-each",
+   "anyOf": null,
+   "points": [
+    [
+     "The purpose is to bring the classical arts to all.",
+     1
+    ],
+    [
+     "Meaning of Sarvam is all/together/everyone Award 1 mark for each point, up to a maximum of 2 points.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbe:q:English10PVN12",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---English---Class-10.pdf",
+   "marks": 2,
+   "stem": "Read the passage below and answer the question that follows. Dance Therapy This is an article on how an art form – ‘classical dance’ – can empower and liberate people, especially the underprivileged girls. Nehha Bhatnagar, 30, found it hard to accept that a dance tradition as spiritual as Bharatanatyam would be limited to just a handful privileged enough to learn classical art. After her training in Ganesa Natyalaya under gurus Saroja and Rama Vaidyanathan, earning degrees in international relations and political science from acclaimed institutions and touring the world performing for the who's who, this bothered her. Could the spirituality of classical dance and the strength of international diplomacy be married? Was it possible to create an inclusive space for the performing arts, and eventually art education? The genesis of Sarvam Foundation was rooted in these questions. Nehha explains, “I was socially conscious and sensitive to the disparity around us. This led me to start teaching underprivileged girls the rudiments of Bharatanatyam.” Lucky to be from a well-to-do family, she had what it took to succeed, in the conventional sense of the word. “I could have lapsed into a predictable career path. But a voice within urged me to share some of my luck with those who had none.” Sarvam — ‘all’, ‘together’ or ‘everyone’ in Sanskrit — was founded in 2012 with the purpose of bringing the classical arts to all, “from the girl child in the slum to the corporate executive in her glass tower. New artistes, new audiences, new technicians, new ideas — open for all, accessible to all.” What began initially as a platform to curate and promote senior artistes soon transformed and expanded to the Sarvam Plus programme, geared at teaching life skills to the underprivileged girl child through the classical dance forms of Bharatanatyam, Kathak and Kuchipudi. With the support of a small team of like-minded people, and the blessings of friends and family, Sarvam started its operations in the urban villages of Kishangarh and Rangpuri Pahari surrounding Vasant Kunj, New Delhi, where Nehha lives. Currently 20 girls, between the ages 10 and 16, make up the group, but the impact of Sarvam can be measured not in numbers but in the possibilities it has shown. The dance modules – derived from mythological texts, a woman's strength, the masculine- feminine balance, to morality – help the girls with \"skill-building, developing confidence and enthusiasm, firing their imagination, teaching hygiene, learning about nutrition, our heritage and discipline, exploring new avenues, and, of course, dance. We endeavour to instil self-worth\". Total words: 388 (abridged from original text) Source information: Article by Suchismita Ukil under the topic ‘Everyday Heroes – Dance Therapy’ published in November 2017 issue of Reader’s Digest. Online Source: https://www.readersdigest.in/true-stories/story-dance-therapy-124440 What does Nehha mean by saying “predictable career path” (line 12) – and why doesn’t she take it?",
+   "answer": "• A predictable career path means any career based on her educational qualification. Award 1 mark for each point, up to a maximum of 2 points. • She does not take it as she wanted to take dance as her career as well as service to the underprivileged.",
+   "rule": "marks-each",
+   "anyOf": null,
+   "points": [
+    [
+     "A predictable career path means any career based on her educational qualification. Award 1 mark for each point, up to a maximum of 2 points.",
+     1
+    ],
+    [
+     "She does not take it as she wanted to take dance as her career as well as service to the underprivileged.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbe:q:English10PVN13",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank---English---Class-10.pdf",
+   "marks": 2,
+   "stem": "Read the passage below and answer the question that follows. Dance Therapy This is an article on how an art form – ‘classical dance’ – can empower and liberate people, especially the underprivileged girls. Nehha Bhatnagar, 30, found it hard to accept that a dance tradition as spiritual as Bharatanatyam would be limited to just a handful privileged enough to learn classical art. After her training in Ganesa Natyalaya under gurus Saroja and Rama Vaidyanathan, earning degrees in international relations and political science from acclaimed institutions and touring the world performing for the who's who, this bothered her. Could the spirituality of classical dance and the strength of international diplomacy be married? Was it possible to create an inclusive space for the performing arts, and eventually art education? The genesis of Sarvam Foundation was rooted in these questions. Nehha explains, “I was socially conscious and sensitive to the disparity around us. This led me to start teaching underprivileged girls the rudiments of Bharatanatyam.” Lucky to be from a well-to-do family, she had what it took to succeed, in the conventional sense of the word. “I could have lapsed into a predictable career path. But a voice within urged me to share some of my luck with those who had none.” Sarvam — ‘all’, ‘together’ or ‘everyone’ in Sanskrit — was founded in 2012 with the purpose of bringing the classical arts to all, “from the girl child in the slum to the corporate executive in her glass tower. New artistes, new audiences, new technicians, new ideas — open for all, accessible to all.” What began initially as a platform to curate and promote senior artistes soon transformed and expanded to the Sarvam Plus programme, geared at teaching life skills to the underprivileged girl child through the classical dance forms of Bharatanatyam, Kathak and Kuchipudi. With the support of a small team of like-minded people, and the blessings of friends and family, Sarvam started its operations in the urban villages of Kishangarh and Rangpuri Pahari surrounding Vasant Kunj, New Delhi, where Nehha lives. Currently 20 girls, between the ages 10 and 16, make up the group, but the impact of Sarvam can be measured not in numbers but in the possibilities it has shown. The dance modules – derived from mythological texts, a woman's strength, the masculine- feminine balance, to morality – help the girls with \"skill-building, developing confidence and enthusiasm, firing their imagination, teaching hygiene, learning about nutrition, our heritage and discipline, exploring new avenues, and, of course, dance. We endeavour to instil self-worth\". Total words: 388 (abridged from original text) Source information: Article by Suchismita Ukil under the topic ‘Everyday Heroes – Dance Therapy’ published in November 2017 issue of Reader’s Digest. Online Source: https://www.readersdigest.in/true-stories/story-dance-therapy-124440 Comment on the meaning of the word ‘married’ in the passage (line 7). Give an alternative word for ‘married’.",
+   "answer": "• The word ‘married’ is used in the sense of joining or combining two things. • Alternative word: Joined, combined, etc. Award 1 mark for each point, up to a maximum of 2 points. Level of response",
+   "rule": "marks-each",
+   "anyOf": null,
+   "points": [
+    [
+     "The word ‘married’ is used in the sense of joining or combining two things.",
+     1
+    ],
+    [
+     "Alternative word: Joined, combined, etc. Award 1 mark for each point, up to a maximum of 2 points. Level of response",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbe:q:English9SO3b",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank-----English---Class-9.pdf",
+   "marks": 2,
+   "stem": "Read the passage below and answer the question that follows. Text A The Other Side of Fear This is an extract from an e-magazine article; in the article, Jasher Feellove discusses various aspects of fear and ways of overcoming fear. Fear. The word triggers a physiological and emotional response. We may fear failure, or we may fear success. In either case, we fear the unknown. High performers refer to fear as stress. The media uses fear to garner attention: “If it bleeds, it leads.” To psychologists, fear speaks to the instinct of “flight or fight,” but the way of the warrior is to make peace with fear and death since our deepest heartfelt desires and greatest hopes are on the other side of a little thing we call fear. Fear is an emotional process. It cannot be resolved through intellectual means. Because humans have the propensity to experience such great polarities of emotions, we must cultivate a practice which can pacify and hedge us from the destructive nature of opposing forces. The only way to stop reacting to fear is through incessant practice. It is important to practice and maintain a healthy equilibrium of body and equanimity of mind. Some weeks ago, I decided to go cliff diving. Looking down into the ocean, my legs became numb, and my palms became heavy. I began reasoning within my mind. Other dreadful thoughts started to sprout. Yet the desire to jump persisted within me. I came to the realization that I had to decide—to take a leap. Taking action is best. Just for a moment, let your body take the stance of feeling fearful. Most people hunch their shoulders forward, fold their arms across their chests, or assume a similarly contracted position to shield the heart, fear having triggered the need to be on the defensive. If we deny or ignore fear, it will hold us captive, emotionally frozen, and unable to move forward. Trying to run away from, ignore, or stop fear will simply create more tension. It is transformed only when we can turn around and face it, get to know it, release resistances and fixed ideas, and speak with our own voice. (324 words) (Abridged Version) propensity: tendency polarities: extremes equanimity: calmness Source: https://saintgeorgewellness.com/2019/09/09/the-other-side-of-fear-2/ 1 (b) Give two symptoms of the writer’s fear as she went diving.",
+   "answer": "• Her legs became numb and her palms became heavy. • Dreadful thoughts started to sprout. One mark each is to be awarded for each correct point.",
+   "rule": "marks-each",
+   "anyOf": null,
+   "points": [
+    [
+     "Her legs became numb and her palms became heavy.",
+     1
+    ],
+    [
+     "Dreadful thoughts started to sprout. One mark each is to be awarded for each correct point.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbe:q:English9SO32",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank-----English---Class-9.pdf",
+   "marks": 2,
+   "stem": "Read the passage below and answer the question that follows. Text A The Other Side of Fear This is an extract from an e-magazine article; in the article, Jasher Feellove discusses various aspects of fear and ways of overcoming fear. Fear. The word triggers a physiological and emotional response. We may fear failure, or we may fear success. In either case, we fear the unknown. High performers refer to fear as stress. The media uses fear to garner attention: “If it bleeds, it leads.” To psychologists, fear speaks to the instinct of “flight or fight,” but the way of the warrior is to make peace with fear and death since our deepest heartfelt desires and greatest hopes are on the other side of a little thing we call fear. Fear is an emotional process. It cannot be resolved through intellectual means. Because humans have the propensity to experience such great polarities of emotions, we must cultivate a practice which can pacify and hedge us from the destructive nature of opposing forces. The only way to stop reacting to fear is through incessant practice. It is important to practice and maintain a healthy equilibrium of body and equanimity of mind. Some weeks ago, I decided to go cliff diving. Looking down into the ocean, my legs became numb, and my palms became heavy. I began reasoning within my mind. Other dreadful thoughts started to sprout. Yet the desire to jump persisted within me. I came to the realization that I had to decide—to take a leap. Taking action is best. Just for a moment, let your body take the stance of feeling fearful. Most people hunch their shoulders forward, fold their arms across their chests, or assume a similarly contracted position to shield the heart, fear having triggered the need to be on the defensive. If we deny or ignore fear, it will hold us captive, emotionally frozen, and unable to move forward. Trying to run away from, ignore, or stop fear will simply create more tension. It is transformed only when we can turn around and face it, get to know it, release resistances and fixed ideas, and speak with our own voice. (324 words) (Abridged Version) propensity: tendency polarities: extremes equanimity: calmness Source: https://saintgeorgewellness.com/2019/09/09/the-other-side-of-fear-2/ Denying or ignoring fear is not the solution, the writer argues. Give two reasons that justify this statement.",
+   "answer": "• It will hold us captive, and we will be emotionally frozen. • We won’t be able to move forward, and it will simply create more tension. One mark is to be awarded for each correct point with a maximum of 2 marks for the complete answer.",
+   "rule": "marks-each",
+   "anyOf": null,
+   "points": [
+    [
+     "It will hold us captive, and we will be emotionally frozen.",
+     1
+    ],
+    [
+     "We won’t be able to move forward, and it will simply create more tension. One mark is to be awarded for each correct point with a maximum of 2 marks for the complete answer.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbe:q:English9JV3",
+   "source": "cbse_question_bank",
+   "sourceDocument": "Item-Bank-----English---Class-9.pdf",
+   "marks": 2,
+   "stem": "Read the passage below and answer the question that follows. Text A A radio museum in Bengaluru where every exhibit still works The newspaper article is about an electronics and telecom engineer who takes pride in his collection of radios that are on display in a museum in Bengaluru. Uday Kalburgi, an electronics and telecom engineer, has spent his life caring for, collecting and restoring old radios. Now he’s got 111 of the gleaming gems on display on the ground floor of his family home. Uday Kalburgi has about 150 dependents that his wife and two children have made their peace with. These rather needy things are short-wave radios that he has collected over decades and is constantly restoring and repairing. Born in Bellary, Karnataka, in 1963, Kalburgi became fascinated with radios at the age of nine. He began collecting radio sets at 15. By then it was the late 1980s and, though he didn’t know it, these would be the final years before radio made way for TV. “There was a time when the radio was such a focal point of family gatherings,” says Kalburgi, now 57 and an electronics and telecommunications engineering consultant. “Around these sets, stories were woven, musicians from far away sang to us, and good and bad tidings from around the world tiptoed into the home.” The world has long since moved on — to gadgets that grow ever smaller, capable of performing an alarmingly long list of tasks. But where today’s devices are discarded and replaced annually, a radio set was a fixture, a matter of pride. What makes his collection particularly interesting is that every item in it still works. “Most radios at my museum are restored. As they have aged, it has taken time, patience and skill to revive each one,” he says. In all, 70 people have visited his museum since its launch on February 13, to coincide with World Radio Day. There, proudly displayed on shelves, are the items he has collected from markets and stores across the country. One radio, his largest, is a Philips BX998A from 1955 that weighs 27 kg. The smallest is a Philips 2802 from 1928 that didn’t even have a band switch. He now hopes that his museum will inspire some interest, if not love, in a new generation. “Radios can be used as amplifiers. So you can connect your set to an Alexa or a Bluetooth receiver and use it as a speaker,” he says. Meanwhile, he’s working on getting his wife to agree to let his museum “gradually” expand. Total word count (377), Abridged from original text Source information: By Sammohinee Ghosh Updated on Apr 04, 2021 10:02 PM IST https://www.hindustantimes.com/lifestyle/art-culture/a-radio-museum-in-bengaluru-where-every- exhibit-still-works- 101617375484518.html?utm_source=ht_site_copyURL&amp;utm_medium=social&amp;utm_ca mpaign=ht_site From line 2, comment on the writer’s use of the phrase ‘gleaming gems’ to describe the radios Kalburgi has collected and restored.",
+   "answer": "• ‘gleaming’ - shining brightly • ‘gems’ - precious / valuable / like treasure to him Award 1 mark to a valid comment on each word. Maximum 2 marks.",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "‘gleaming’ - shining brightly",
+     1
+    ],
+    [
+     "‘gems’ - precious / valuable / like treasure to him Award 1 mark to a valid comment on each word. Maximum 2 marks.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "exemplar:q:7:science:12:-:18",
+   "source": "ncert_exemplar",
+   "sourceDocument": "geep1an.pdf",
+   "marks": 5,
+   "stem": "Fill in the blanks with correct terms. The male and female gametes fuse to form a _____(a)______ during the process of _____(b)______. This grows into an _____(c)______ which is enclosed within a seed. After fertilisation the ovules develop into _____(d)______ and the ovary develops into a _____(e)______ .",
+   "answer": "(a) zygote (b) fertilization (c) embryo (d) seed (e) fruit",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(a) zygote",
+     1
+    ],
+    [
+     "(b) fertilization",
+     1
+    ],
+    [
+     "(c) embryo",
+     1
+    ],
+    [
+     "(d) seed",
+     1
+    ],
+    [
+     "(e) fruit",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "exemplar:q:9:science:6:-:52",
+   "source": "ncert_exemplar",
+   "sourceDocument": "ieep1an.pdf",
+   "marks": 5,
+   "stem": "Give reasons for (a) Meristematic cells have a prominent nucleus and dense cytoplasm but they lack vacuole. (b) Intercellular spaces are absent in sclerenchymatous tissues. (c) We get a crunchy and granular feeling, when we chew pear fruit. (d) Branches of a tree move and bend freely in high wind velocity. (e) It is difficult to pull out the husk of a coconut tree.",
+   "answer": "Hint— (a) No need of storage. (b) Because they are lignified. (c) Presence of stone cells (sclerenchyma) (d) Presence of Collenchyma. (e) Sclerenchyma.",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(a) No need of storage.",
+     1
+    ],
+    [
+     "(b) Because they are lignified.",
+     1
+    ],
+    [
+     "(c) Presence of stone cells (sclerenchyma)",
+     1
+    ],
+    [
+     "(d) Presence of Collenchyma.",
+     1
+    ],
+    [
+     "(e) Sclerenchyma.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "exemplar:q:6:science:16:-:20",
+   "source": "ncert_exemplar",
+   "sourceDocument": "feep2an.pdf",
+   "marks": 5,
+   "stem": "Why should we not burn plastic items?",
+   "answer": "Hint: (a) They do not burn easily. (b) The burnt pieces may be eaten by cows and choke them. (c) The gases emanated prove to be a health hazard for humans. (d) The ashes left on burning are toxic. (e) Adds to soil polution. Any other",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(a) They do not burn easily.",
+     1
+    ],
+    [
+     "(b) The burnt pieces may be eaten by cows and choke them.",
+     1
+    ],
+    [
+     "(c) The gases emanated prove to be a health hazard for humans.",
+     1
+    ],
+    [
+     "(d) The ashes left on burning are toxic.",
+     1
+    ],
+    [
+     "(e) Adds to soil polution.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "exemplar:q:9:mathematics:2:2.3:6",
+   "source": "ncert_exemplar",
+   "sourceDocument": "ieep2an.pdf",
+   "marks": 3,
+   "stem": "Give an example of a polynomial, which is : (i) monomial of degree 1 (ii) binomial of degree 20 (iii) trinomial of degree 2",
+   "answer": "(i) 10x (ii) x²⁰ + 1 (iii) 2x² – x – 1",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(i) 10x",
+     1
+    ],
+    [
+     "(ii) x²⁰ + 1",
+     1
+    ],
+    [
+     "(iii) 2x² – x – 1",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "exemplar:q:8:science:18:-:15",
+   "source": "ncert_exemplar",
+   "sourceDocument": "heep1an.pdf",
+   "marks": 2,
+   "stem": "Name two gases which are mainly responsible for acid rain?",
+   "answer": "(i) sulphur dioxide (ii) nitrogen dioxide",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(i) sulphur dioxide",
+     1
+    ],
+    [
+     "(ii) nitrogen dioxide",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "exemplar:q:7:mathematics:11:-:76",
+   "source": "ncert_exemplar",
+   "sourceDocument": "gemp1a1.pdf",
+   "marks": 3,
+   "stem": "Express the following in exponential form : (a) 3 × 3 × 3 × a × a × a ×a (b) a × a × b × b × b × c × c × c × c (c) s × s × t × t × s × s × t",
+   "answer": "(a) 27a⁴ = 3³a⁴ (b) a²b³c⁴ (c) S⁴ × t³",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(a) 27a⁴ = 3³a⁴",
+     1
+    ],
+    [
+     "(b) a²b³c⁴",
+     1
+    ],
+    [
+     "(c) S⁴ × t³",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "exemplar:q:6:science:16:-:12",
+   "source": "ncert_exemplar",
+   "sourceDocument": "feep2an.pdf",
+   "marks": 3,
+   "stem": "Read the poem written below and then answer the questions from the information gathered from the book or elsewhere. Blue and Green Two bins, you mean? Yes, they are there to throw your waste. But not in a hurry Nor in a haste. Select from waste, sieve if seems muddy Separate all items and when they are ready Place in a blue bin, or one that is green For a voyage to the landfill, or for composting. (i) Name the two kinds of waste that need to be separated from each other in two different waste bins. (ii) Name two items of waste each that need to be sent to a (a) landfill, (b) for composting.",
+   "answer": "(i) The waste that can be acted upon by bacteria or earthworms from those that cannot be degraded. (ii) (a) any metal items (iii) (b) Kitchen waste, animal dung (or named item)",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(i) The waste that can be acted upon by bacteria or earthworms from those that cannot be degraded.",
+     1
+    ],
+    [
+     "(ii) (a) any metal items",
+     1
+    ],
+    [
+     "(iii) (b) Kitchen waste, animal dung (or named item)",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "exemplar:q:10:mathematics:3:3.3:11",
+   "source": "ncert_exemplar",
+   "sourceDocument": "jeep2an.pdf",
+   "marks": 3,
+   "stem": "By the graphical method, find whether the following pair of equations are consistent or not. If consistent, solve them. (i) 3x + y + 4 = 0 (ii) x – 2y = 6 6x – 2y + 4 = 0 3x – 6y = 0 (iii) x + y = 3 3x + 3y = 9",
+   "answer": "(i) consistent; x = –1, y = –1 (ii) inconsistent (iii) consistent. The solution is given by y = 3–x, where x can take any value, i.e., there are infinitely many solutions.",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(i) consistent; x = –1, y = –1",
+     1
+    ],
+    [
+     "(ii) inconsistent",
+     1
+    ],
+    [
+     "(iii) consistent. The solution is given by y = 3–x, where x can take any value, i.e., there are infinitely many solutions.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "exemplar:q:6:science:1:-:10",
+   "source": "ncert_exemplar",
+   "sourceDocument": "feep2an.pdf",
+   "marks": 2,
+   "stem": "Name two ingredients in our food that are not obtained from plants or animals. Mention one source for each ingredient.",
+   "answer": "(i) Salt from sea water/rocks (ii) Water from river/well/tap/pond/tubewell/rain",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(i) Salt from sea water/rocks",
+     1
+    ],
+    [
+     "(ii) Water from river/well/tap/pond/tubewell/rain",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "exemplar:q:9:science:5:-:49",
+   "source": "ncert_exemplar",
+   "sourceDocument": "ieep1an.pdf",
+   "marks": 3,
+   "stem": "Which kind of plastid is more common in (a) roots of the plant (b) leaves of the plant (c) flowers and fruits",
+   "answer": "Hint—(a) Leucoplast (b) Chloroplast (c) Chromoplast",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(a) Leucoplast",
+     1
+    ],
+    [
+     "(b) Chloroplast",
+     1
+    ],
+    [
+     "(c) Chromoplast",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "exemplar:q:6:science:14:-:13",
+   "source": "ncert_exemplar",
+   "sourceDocument": "feep2an.pdf",
+   "marks": 2,
+   "stem": "Write any two activities which require less than one bucket of water.",
+   "answer": "(i) Brushing your teeth (ii) Washing a handkerchief",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "(i) Brushing your teeth",
+     1
+    ],
+    [
+     "(ii) Washing a handkerchief",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassX_2023_24:Painting:14",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "Painting-MS.pdf",
+   "marks": 6,
+   "stem": "Explain the fresco painting ‘Bodhisattava Padmapani’ in brief using the following points/parameters: - • Place and period • Subject Matter • How is compassion shown? • Symbolic meaning of any two - lotus, pearl, bow like eyebrows, long ear lobes or any other you wish to mention • Material & Technique • posture",
+   "answer": "• Place/location and period – 1 mark • Subject Matter– 1 mark • How is compassion shown– 1 mark • Symbolic meaning of lotus, pearl, bow like eyebrows, long ear lobes – 1 mark for any two. • Material & Technique– 1 mark • posture– 1 mark Key Points that can be used in the Answer PALACE – AJANTA CAVES, CAVE NO. 1, 5TH CENTURY C.E., GUPTA PERIOD SUBJECT MATTER- BUDDHA AS BODHISATTVA, DRESSED LIKE HOW A PRINCE SHOULD BE, WITH PEARL NECKLACE, JEWELS IN THE CROWN COMPASSION SHOWN– SEMI CLOSED EYES SHOWING DETACHMENT FROM WORDLY DESIRE SYMBOLIC MEANINGS- BLUE LOTUS BUD -ON THE PATH OF ENLIGHTMENT, PEARL – ROYAL, PURE, CALM, BOW LIKE EYEBROWS, LONG EARLOBES, FULL FACE- MAHAPURUSH LAKSHAN. FRESCO MURAL PAINTING USING- EARTH, NATURAL, MINERAL COLOURS ON THE BASE MADE OF PLASTER COWDUNK MIXED WITH LIME AND GRINDED STONES. POSTURE – STANDING IN TRIBHANG MUDRA (THREE BENDS)",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "Place/location and period – 1 mark",
+     1
+    ],
+    [
+     "Subject Matter– 1 mark",
+     1
+    ],
+    [
+     "How is compassion shown– 1 mark",
+     1
+    ],
+    [
+     "Symbolic meaning of lotus, pearl, bow like eyebrows, long ear lobes – 1 mark for any two.",
+     1
+    ],
+    [
+     "Material & Technique– 1 mark",
+     1
+    ],
+    [
+     "posture– 1 mark Key Points that can be used in the Answer PALACE – AJANTA CAVES, CAVE NO. 1, 5TH CENTURY C.E., GUPTA PERIOD SUBJECT MATTER- BUDDHA AS BODHISATTVA, DRESSED LIKE HOW A PRINCE SHOULD BE, WITH PEARL NECKLACE, JEWELS IN THE CROWN COMPASSION SHOWN– SEMI CLOSED EYES SHOWING DETACHMENT FROM WORDLY DESIRE SYMBOLIC MEANINGS- BLUE LOTUS BUD -ON THE PATH OF ENLIGHTMENT, PEARL – ROYAL, PURE, CALM, BOW LIKE EYEBROWS, LONG EARLOBES, FULL FACE- MAHAPURUSH LAKSHAN. FRESCO MURAL PAINTING USING- EARTH, NATURAL, MINERAL COLOURS ON THE BASE MADE OF PLASTER COWDUNK MIXED WITH LIME AND GRINDED STONES. POSTURE – STANDING IN TRIBHANG MUDRA (THREE BENDS)",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2022_23:Applied Mathematics:38",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "Applied-Maths-MS.pdf",
+   "marks": 6,
+   "stem": "CASE STUDY – III According to an educational board survey, it was observed that class XII students apply at least one to four weeks ahead of colleges application deadline. Let X represent the week when an average student applies ahead of a college’s application deadline and the probability of student to get admission in the college 𝑃(𝑋= 𝑥) is given as follows: 𝑘𝑥 𝑤ℎ𝑒𝑛 𝑥= 0, 1 𝑜𝑟 2 (1 −𝑘)𝑥 𝑃(𝑋= 𝑥) = 6 𝑤ℎ𝑒𝑛 𝑥= 3 𝑘𝑥 𝑤ℎ𝑒𝑛 𝑥= 4 2 { 0 𝑤ℎ𝑒𝑛 𝑥> 4 Where k is a real number. Based on the above information, answer the following questions. Show steps to support your answers. a) Find the value of k. 1 b) What is the probability that Sonali will get admission in the college, given that she applied at least 2 1 weeks ahead of application deadline? c) Calculate the mathematical expectation of number of weeks taken by a student to apply ahead of a college’s application deadline. To promote early admissions, the college is offering scholarships to the students for applying ahead of deadline as follows: ₹ 50000 for applying 4 weeks early, ₹ 20000 for applying 3 weeks early, 2 ₹ 12000 for applying 2 weeks early, and ₹ 9600 for applying 1 week early What is the expected scholarship offered by the college? ---------------------------",
+   "answer": "CASE STUDY - III a) 𝑘 2𝑘 3(1−𝑘) 4𝑘 + + + = 1 ⇒𝑘= 1 6 6 6 2 4 b) P (getting admission on applying at least 2 weeks ahead of application deadline) = P (X = 2,3,4) 1 3 1 23 1 = + + = 12 8 2 24 1 23 [alternate method: 1 – P (X = 1) = 1 - = ] 24 24 c) X = week applied ahead of application deadline X 1 2 3 4 1 1 3 1 P(X) 24 12 8 2 1 1 9 XP(X) 2 24 6 8 80 1 2 ∴ E(X) = = 3 weeks 24 3 X = Scholarship money awarded for the week applied in, before the deadline Week 1 2 3 4 applied in X 9600 12000 20000 50000 1 1 3 1 P(X) 24 12 8 2 XP(X) 9600 12000 60000 50000 24 12 8 2 ∴ E(X) = ₹ 33,900 -------------------------------------",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "a) 𝑘 2𝑘 3(1−𝑘) 4𝑘 + + + = 1 ⇒𝑘= 1 6 6 6 2 4",
+     2
+    ],
+    [
+     "b) P (getting admission on applying at least 2 weeks ahead of application deadline) = P (X = 2,3,4) 1 3 1 23 1 = + + = 12 8 2 24 1 23 [alternate method: 1 – P (X = 1) = 1 - = ] 24 24",
+     2
+    ],
+    [
+     "c) X = week applied ahead of application deadline X 1 2 3 4 1 1 3 1 P(X) 24 12 8 2 1 1 9 XP(X) 2 24 6 8 80 1 2 ∴ E(X) = = 3 weeks 24 3 X = Scholarship money awarded for the week applied in, before the deadline Week 1 2 3 4 applied in X 9600 12000 20000 50000 1 1 3 1 P(X) 24 12 8 2 XP(X) 9600 12000 60000 50000 24 12 8 2 ∴ E(X) = ₹ 33,900 -------------------------------------",
+     2
+    ]
+   ],
+   "verdict": "wrong",
+   "why": "the marking scheme prints 1, 1 and 2 against parts a, b and c; the margin marks did not survive extraction, so the equal split claims 2 for a part the board gave 1"
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2022_23:Sociology:37",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "Sociology-MS.pdf",
+   "marks": 6,
+   "stem": "a) Give reasons for declining sex-ratio. b) In your opinion, what steps should be taken to deal with this bias against the girl-child? (FOR VISUALLY CHALLENGED CANDIDATES) “Demographers and Sociologists have offered several reasons for the decline in the sex ratio in India.” Elaborate.",
+   "answer": "a) -son-preference -raising a daughter implied wasteful investment -dowry b) -education -prevention of infanticides -prevention of foeticides (FOR VISUALLY CHALLENGED CANDIDATES) “Demographers and Sociologists have offered several reasons for the decline in the sex ratio in India.” Elaborate. • Son preference • Raising a daughter implied wasteful investment • Dowry • Lack of awareness and literacy • Severe neglect of girl babies in infancy • Sex-specific abortions • Female infanticides",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "a) -son-preference -raising a daughter implied wasteful investment -dowry",
+     3
+    ],
+    [
+     "b) -education -prevention of infanticides -prevention of foeticides (FOR VISUALLY CHALLENGED CANDIDATES) “Demographers and Sociologists have offered several reasons for the decline in the sex ratio in India.” Elaborate. • Son preference • Raising a daughter implied wasteful investment • Dowry • Lack of awareness and literacy • Severe neglect of girl babies in infancy • Sex-specific abortions • Female infanticides",
+     3
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2025_26:Sociology:26",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "Sociology-MS.pdf",
+   "marks": 4,
+   "stem": "“The large-scale circulation of labour has had several significant effects on rural society, in both the receiving and the supplying regions.” State two effects each for the receiving and supplying region.",
+   "answer": "Receiving region- • Conflict with native workers. • Low employment for native workers. Supplying region- • Feminisation of workforce. • Greater insecurity for women workers. •",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "Conflict with native workers.",
+     1
+    ],
+    [
+     "Low employment for native workers. Supplying region-",
+     1
+    ],
+    [
+     "Feminisation of workforce.",
+     1
+    ],
+    [
+     "Greater insecurity for women workers.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2024_25:Economics:30",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "Economics-MS.pdf",
+   "marks": 4,
+   "stem": "‘The reform process implemented in the late 1970s, commonly known as China’s open door policy, encompassed a wide range of reforms across sectors like agriculture, investment, industry etc. These reforms played a pivotal role in driving the rapid growth of the Chinese economy over subsequent decades.’ In the light of the given text, discuss any two reforms responsible for the rapid economic growth of China.",
+   "answer": "The fast-paced economic growth in China can be traced back to the following reforms introduced in 1978: • In the initial phase, reforms were initiated in agriculture, foreign trade and investment sectors. For instance, in agriculture commune lands were divided into small plots, which were allocated to individual households. They were allowed to keep all income from the land after paying stipulated taxes. • In the subsequent phase, reforms were initiated in the industrial sector. Private sector firms, in general, and township and village enterprises, in 2 particular, were allowed to produce goods. At this stage, State Owned Enterprises were made to face competition.",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "In the initial phase, reforms were initiated in agriculture, foreign trade and investment sectors. For instance, in agriculture commune lands were divided into small plots, which were allocated to individual households. They were allowed to keep all income from the land after paying stipulated taxes.",
+     2
+    ],
+    [
+     "In the subsequent phase, reforms were initiated in the industrial sector. Private sector firms, in general, and township and village enterprises, in 2 particular, were allowed to produce goods. At this stage, State Owned Enterprises were made to face competition.",
+     2
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2024_25:French:10",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "French-MS.pdf",
+   "marks": 5,
+   "stem": "Complétez avec une préposition: a. Ma femme a mis des pâtes cuire dans une casserole. b. Mon étudiant a décidé quitter ses études. c. Son fils travaille à IBM. Il gagne 70,000 roupies mois. d. moi, Alia Bhatt est la plus belle des actrices. e. Tous mes amis étaient là, ma meilleure amie, quel dommage!",
+   "answer": "Complétez avec une préposition : a. Ma femme a mis des pâtes pour cuire dans une casserole. b. Mon étudiant a décidé de quitter ses études c. Son fils travaille à IBM. Il gagne 70,000 roupies par mois. d. Selon moi, Alia Bhatt est la plus belle des actrices. e. Tous mes amis étaient là, sauf ma meilleure amie, quel dommage!",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "a. Ma femme a mis des pâtes pour cuire dans une casserole.",
+     1
+    ],
+    [
+     "b. Mon étudiant a décidé de quitter ses études",
+     1
+    ],
+    [
+     "c. Son fils travaille à IBM. Il gagne 70,000 roupies par mois.",
+     1
+    ],
+    [
+     "d. Selon moi, Alia Bhatt est la plus belle des actrices.",
+     1
+    ],
+    [
+     "e. Tous mes amis étaient là, sauf ma meilleure amie, quel dommage!",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2022_23:Manipuri Dance:16",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "ManipuriDance-MS.pdf",
+   "marks": 6,
+   "stem": "Write the measures to popularize the Manipuri Dance across the globe?",
+   "answer": "Some measures to popularize the Manipuri Dance across the globe:- 1. Orientation programme/workshops should be conducted across the various States and Countries to create awareness about the Manipuri Dance. 2. The renowned artists can be interviewed to describe about their art. This information can be circulated through Media to the general public. 3. The workshops may be organized to orient Principals and Teachers about the curriculum of Manipuri Dance. The students should be orient and encouraged about this subject at the school level. 4. More number of shows can be organized across the world from time to time. 5. Recent techniques and trends can be merged to the traditional Manipuri dance to make it more popular. 6. More documents and research papers should be published in this area. Elaborate your answer based on the above points.",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "1. Orientation programme/workshops should be conducted across the various States and Countries to create awareness about the Manipuri Dance.",
+     1
+    ],
+    [
+     "2. The renowned artists can be interviewed to describe about their art. This information can be circulated through Media to the general public.",
+     1
+    ],
+    [
+     "3. The workshops may be organized to orient Principals and Teachers about the curriculum of Manipuri Dance. The students should be orient and encouraged about this subject at the school level.",
+     1
+    ],
+    [
+     "4. More number of shows can be organized across the world from time to time.",
+     1
+    ],
+    [
+     "5. Recent techniques and trends can be merged to the traditional Manipuri dance to make it more popular.",
+     1
+    ],
+    [
+     "6. More documents and research papers should be published in this area. Elaborate your answer based on the above points.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2025_26:Sociology:29",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "Sociology-MS.pdf",
+   "marks": 4,
+   "stem": "Westernisation involves the imitation of external forms of culture. Is this the only kind of westernisation? Give reasons for your answer.",
+   "answer": "• No. There were different kinds of westernisation. • One kind refers to the emergence of a westernised sub-cultural pattern through a minority section of Indians who first came in contact with Western culture. This included the sub culture of Indian intellectuals who not only adopted many cognitive patterns, or ways of thinking, and styles of life, but supported its expansion. • Apart from this there has been also the general spread of Western cultural traits, such as the use of new technology, dress, food, and changes in the habits and styles of people in general. • Across the country a very wide section of middle-class homes has a television set, a fridge, some kind of sofa set, a dining table and chair in the living room. •",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "No. There were different kinds of westernisation.",
+     1
+    ],
+    [
+     "One kind refers to the emergence of a westernised sub-cultural pattern through a minority section of Indians who first came in contact with Western culture. This included the sub culture of Indian intellectuals who not only adopted many cognitive patterns, or ways of thinking, and styles of life, but supported its expansion.",
+     1
+    ],
+    [
+     "Apart from this there has been also the general spread of Western cultural traits, such as the use of new technology, dress, food, and changes in the habits and styles of people in general.",
+     1
+    ],
+    [
+     "Across the country a very wide section of middle-class homes has a television set, a fridge, some kind of sofa set, a dining table and chair in the living room.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2025_26:Sociology:19",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "Sociology-MS.pdf",
+   "marks": 2,
+   "stem": "“Some traditional occupations in the rural society have declined. But increasing interconnection of the rural and urban economies have led to diverse occupations.” Is this statement valid? Give reasons for your answer.",
+   "answer": "Yes. • Many people living in rural areas are employed in, or have livelihoods based on rural nonfarm activities. • For instance, there are rural residents employed in government services such as the Postal and Education Departments, factory workers, or in the army, who earn their living through non-agricultural activities.",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "Many people living in rural areas are employed in, or have livelihoods based on rural nonfarm activities.",
+     1
+    ],
+    [
+     "For instance, there are rural residents employed in government services such as the Postal and Education Departments, factory workers, or in the army, who earn their living through non-agricultural activities.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2025_26:Sociology:20",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "Sociology-MS.pdf",
+   "marks": 2,
+   "stem": "Provide two reasons to support the claim that India has successfully established itself as a democratic nation-state.",
+   "answer": "• Successful strategies to build “state-nations” can and do accommodate diversity constructively by crafting responsive policies of cultural recognition. • They are effective solutions for ensuring the longer term objectives of political stability and social harmony.",
+   "rule": "list-equal",
+   "anyOf": null,
+   "points": [
+    [
+     "Successful strategies to build “state-nations” can and do accommodate diversity constructively by crafting responsive policies of cultural recognition.",
+     1
+    ],
+    [
+     "They are effective solutions for ensuring the longer term objectives of political stability and social harmony.",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": ""
+  }
+ ]
+}

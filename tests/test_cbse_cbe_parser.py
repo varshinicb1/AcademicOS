@@ -409,6 +409,46 @@ def test_a_question_with_no_scheme_gets_provenance_none(items):
     assert rec["answerScheme"]["markingPoints"] == []
 
 
+def test_no_key_restates_the_question_it_answers(items):
+    """The mark scheme restates each sub-question before its own Answer |
+    Guidance table, so a multi-part key read as questions with an answer
+    between them -- 59 of the 237 served multi-mark CBE records at c734a69.
+    The restatement is dropped before the answer's 40-word cut, so those words
+    are answer: Science9RK5's key was "4 (cm); 1 (b) Determine the wavelength
+    of the wave. Answer Guidance 20 (cm); 1 (c)(i) The frequency ..." and is
+    now "4 (cm); 1 (b) 20 (cm); 1 (c)(i) (1/200=) 0.005 (s); 1 (c)(ii) 40 m/s
+    ..." -- one part further into the item than the cut used to reach.
+
+    Two of the 1,640 items still hold one: English9NS1 and English8SM1 number
+    their sub-questions with a bare "3 Explain what is meant by ...", which no
+    label pattern can tell from a number inside an answer, so they are left
+    rather than guessed at."""
+    restating = [i.item_id for i in items if "Answer" in (i.answer or "")
+                 and "Guidance" in (i.answer or "")]
+    assert len(restating) <= 2, restating
+
+
+def test_a_key_carries_the_value_points_the_scheme_prints(items):
+    """English9SS21b: two bullets under "Award 1 mark for each of the two
+    strands of the explanation, up to a maximum of 2 marks"."""
+    item = next(i for i in items if i.item_id == "English9SS21b")
+    scheme = to_bank_record(item)["answerScheme"]
+    assert [p["marks"] for p in scheme["markingPoints"]] == [1, 1]
+    assert scheme["metadata"]["markSplit"] == "marks-each"
+    assert scheme["hasPartialCredit"] is True
+
+
+def test_a_group_items_key_stays_whole_and_says_so(items):
+    """SCIENCE8JS41c carries the GROUP's 6 marks and its key answers only part
+    (a). Nothing in the served text says how the 6 divide, so the key keeps one
+    point and the scheme says it is all or nothing."""
+    item = next(i for i in items if i.item_id == "SCIENCE8JS41c")
+    scheme = to_bank_record(item)["answerScheme"]
+    assert len(scheme["markingPoints"]) == 1
+    assert scheme["metadata"]["allOrNothing"] is True
+    assert scheme["hasPartialCredit"] is False
+
+
 def test_subject_and_grade_are_read_from_the_filename():
     assert subject_and_grade_for(Path("Item-Bank---Maths-Class-6.pdf")) == ("Mathematics", 6)
     assert subject_and_grade_for(Path("Item-Bank-----English---Class-9.pdf")) == ("English", 9)
