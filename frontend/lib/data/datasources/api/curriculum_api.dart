@@ -171,6 +171,18 @@ class BookSelectionResult {
         warning = j['warning'] as String?;
 }
 
+/// The school has no curriculum to filter by yet, and the server said what
+/// to do about it. Carried as its own type (not a bare DioException) because
+/// the picker must show [message] verbatim: "no subtopics exist for this
+/// chapter" and "your school has not set this class up" are different facts
+/// with different actions, and an empty list says neither.
+class CurriculumNotSetUp implements Exception {
+  final String message;
+  CurriculumNotSetUp(this.message);
+  @override
+  String toString() => message;
+}
+
 /// One real, admin-approved Subtopic under a Topic -- the finest-grained
 /// unit a question can be tagged against (qmap.py::map_subtopics).
 class SubtopicSummary {
@@ -439,16 +451,57 @@ class CurriculumApi {
     return MyProgress.fromJson(Map<String, dynamic>.from(r.data));
   }
 
-  /// Real Topics + nested Subtopics for one chapter -- feeds the Assessment
-  /// Designer's subtopic picker (assessment_create_page.dart), which uses
-  /// this to let a teacher filter question search to specific subtopics via
-  /// `QuestionSearchParams.subtopicIds` rather than a whole chapter. Any
-  /// signed-in user of the chapter's own school may call this; topics and
-  /// subtopics are that school's own approved decomposition, so another
-  /// school's chapter is a 403 and an unknown chapter id a 404.
+  /// Real Topics + nested Subtopics for one chapter, keyed by the school's
+  /// own `chap_` id. Any signed-in user of the chapter's own school may call
+  /// this; topics and subtopics are that school's own approved
+  /// decomposition, so another school's chapter is a 403 and an unknown
+  /// chapter id a 404.
+  ///
+  /// The subtopic picker does NOT use this -- it has a syllabus slug, not a
+  /// `chap_` id; see [topicsForSyllabusChapter].
   Future<List<TopicWithSubtopics>> topicsForChapter(String chapterId) async {
     final r = await _dio.get('/curriculum/chapters/$chapterId/topics');
     return (r.data as List).map((e) => TopicWithSubtopics.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  /// The same Topics + Subtopics, found from the SYLLABUS chapter slug the
+  /// Assessment Designer actually holds -- what feeds its subtopic picker
+  /// (assessment_create_page.dart), so a teacher can narrow question search
+  /// to specific subtopics via `QuestionSearchParams.subtopicIds` instead of
+  /// a whole chapter.
+  ///
+  /// The picker's chapter ids come from `GET /catalog/{subject}/{grade}/
+  /// chapters` and are syllabus slugs (`chemical-reactions-equations`).
+  /// Until 2026-09-23 they were passed to [topicsForChapter], which wants a
+  /// `chap_` id: that answered `200 []` and later 404, the page swallowed it,
+  /// and the picker had never once found a subtopic. The server resolves the
+  /// slug against the caller's own school and its chosen book edition.
+  ///
+  /// A school that has not set this class/subject up is a 404 carrying the
+  /// server's own instruction, surfaced as [CurriculumNotSetUp] -- the
+  /// picker shows that sentence instead of looking empty.
+  Future<List<TopicWithSubtopics>> topicsForSyllabusChapter({
+    required String subject,
+    required int grade,
+    required String chapterSlug,
+  }) async {
+    final path = '/curriculum/chapters/by-slug/${Uri.encodeComponent(subject)}'
+        '/$grade/${Uri.encodeComponent(chapterSlug)}/topics';
+    try {
+      final r = await _dio.get(path);
+      return (r.data as List)
+          .map((e) => TopicWithSubtopics.fromJson(Map<String, dynamic>.from(e)))
+          .toList();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        final data = e.response?.data;
+        final detail = data is Map ? data['detail'] : null;
+        throw CurriculumNotSetUp(detail is String && detail.isNotEmpty
+            ? detail
+            : 'Set up Class $grade $subject under Curriculum to filter by subtopic');
+      }
+      rethrow;
+    }
   }
 
   /// A chapter's still-unapproved decomposition proposals -- what the seed

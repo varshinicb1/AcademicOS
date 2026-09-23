@@ -144,6 +144,28 @@ class Chapter:
                              #   from textbook/unit order (§13)
 
 
+# How far the syllabus-slug -> school chapter lookup got, ordered worst to
+# best so a caller can rank two attempts. The distinction matters to the
+# teacher, not just to the code: "your school has not set this class up" and
+# "your chosen edition has no such chapter" need different actions, and a
+# picker that answers both with an empty list (what it did until 2026-09-23)
+# tells her neither.
+CHAPTER_SLUG_REASONS = ("no_year", "no_grade", "no_subject", "no_book",
+                        "no_edition_chosen", "no_chapter", "ok")
+
+
+@dataclass
+class ChapterSlugMatch:
+    """The result of resolving a syllabus/catalog chapter slug
+    (`chemical-reactions-equations`) to one school's own Chapter row.
+
+    `chapter` is set only when `reason == "ok"`; `book` is set from
+    `no_chapter` onwards, so a caller can name the edition it searched."""
+    reason: str
+    chapter: Optional[Chapter] = None
+    book: Optional[Book] = None
+
+
 # Where a Topic/Subtopic's name actually came from -- distinct handling
 # matters: an admin trusts "official_source" and "manual" outright,
 # "llm_proposed" only after admin review turned it into a real row (see

@@ -72,6 +72,8 @@ from .models import (
     BookSelection,
     Calendar,
     Chapter,
+    CHAPTER_SLUG_REASONS,
+    ChapterSlugMatch,
     CurriculumExtractionProposal,
     CurriculumExtractionRun,
     Grade,
@@ -885,6 +887,82 @@ class CurriculumStore:
     def get_chapter_by_canonical_id(self, canonical_id: str) -> Optional[Chapter]:
         r = self._fetchone("SELECT * FROM chapters WHERE canonical_id=?", (canonical_id,))
         return Chapter(**dict(r)) if r else None
+
+    def chapter_for_syllabus_slug(self, *, school_id: str, grade_number: int,
+                                  subject_name: str, slug: str,
+                                  title_slug: Optional[str] = None,
+                                  on_date: Optional[str] = None) -> ChapterSlugMatch:
+        """One school's own Chapter row for a syllabus/catalog chapter slug.
+
+        The slug (`chemical-reactions-equations`) is the syllabus id, from
+        academicos-data/syllabus/*.json by way of
+        `GET /api/v1/catalog/{subject}/{grade}/chapters`; a school's own
+        chapters are keyed `chap_<uuid>`. The two meet on canonical_id,
+        which seed_cbse10.py writes as `{book_id}:chapter:{that same slug}`
+        -- a STORED mapping recorded when the curriculum was seeded from the
+        syllabus files, not a name match guessed at read time, so a chapter
+        the school has since renamed still resolves.
+
+        `title_slug` is the second try, for a book whose chapters came from
+        an ingested Table of Contents instead: extraction.py keys those by
+        the slug of the chapter TITLE ("chemical-reactions-and-equations"),
+        which is a different string from the syllabus id.
+
+        Searched inside the subject's CHOSEN edition only (PRD 12.7 / the
+        one-edition-per-subject-per-year rule): two editions have different
+        chapters, and a filter that silently read the unchosen one would
+        offer subtopics nobody in that class is being taught.
+
+        Never crosses schools: every lookup starts from this school's own
+        academic years, so the same official slug resolves to each school's
+        own rows and to nothing else.
+        """
+        # The year that contains `on_date` first, then the most recent --
+        # list.sort is stable, so the second sort keeps that order within
+        # each group.
+        years = sorted(self.academic_years_for_school(school_id),
+                       key=lambda y: y.start_date, reverse=True)
+        if on_date:
+            years.sort(key=lambda y: not (y.start_date <= on_date <= y.end_date))
+
+        # A school with more than one academic year is reported by the
+        # furthest any of them got, so a half-set-up 2025-26 never hides a
+        # fully set-up 2026-27 behind "not set up".
+        best = ChapterSlugMatch(reason="no_year")
+        for year in years:
+            found = self._chapter_for_slug_in_year(
+                year.id, grade_number=grade_number, subject_name=subject_name,
+                slug=slug, title_slug=title_slug)
+            if found.reason == "ok":
+                return found
+            if (CHAPTER_SLUG_REASONS.index(found.reason)
+                    > CHAPTER_SLUG_REASONS.index(best.reason)):
+                best = found
+        return best
+
+    def _chapter_for_slug_in_year(self, academic_year_id: str, *, grade_number: int,
+                                  subject_name: str, slug: str,
+                                  title_slug: Optional[str]) -> ChapterSlugMatch:
+        grade = self.get_grade_by_number(academic_year_id, grade_number)
+        if grade is None:
+            return ChapterSlugMatch(reason="no_grade")
+        subject = self.get_subject_by_name(grade.id, subject_name)
+        if subject is None:
+            return ChapterSlugMatch(reason="no_subject")
+        if not self.books_for_subject(subject.id):
+            return ChapterSlugMatch(reason="no_book")
+        book = self.selected_book_for_subject(subject.id)
+        if book is None:
+            # Several editions and no recorded choice: guessing one here is
+            # exactly what select_book() exists to stop.
+            return ChapterSlugMatch(reason="no_edition_chosen")
+        for key in (slug, title_slug):
+            if not key:
+                continue
+            chapter = self.get_chapter_by_canonical_id(f"{book.id}:chapter:{key}")
+            if chapter is not None:
+                return ChapterSlugMatch(reason="ok", chapter=chapter, book=book)
+        return ChapterSlugMatch(reason="no_chapter", book=book)
 
     def school_id_for_book(self, book_id: str) -> Optional[str]:
         """Ownership-chain lookup (book -> subject -> grade -> academic_year

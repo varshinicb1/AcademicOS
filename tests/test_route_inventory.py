@@ -133,6 +133,9 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/seed/cbse10"),
     ("POST", "/api/v1/curriculum/seed/cbse"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
+    # The same read keyed by the SYLLABUS slug the Assessment Designer holds
+    # (/catalog's chapterId), which is the only chapter id that screen has.
+    ("GET", "/api/v1/curriculum/chapters/by-slug/{subject}/{grade}/{slug}/topics"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/proposed-topics"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
@@ -274,6 +277,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/books/{book_id}/units"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
+    ("GET", "/api/v1/curriculum/chapters/by-slug/{subject}/{grade}/{slug}/topics"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/proposed-topics"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all"),
     ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
@@ -556,7 +560,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 144
+    assert len(API_ROUTES) == 145
 
 
 def test_docs_routes_present():
@@ -1199,6 +1203,23 @@ def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):
         real_topics = client.get(f"/api/v1/curriculum/chapters/{chapter_id}/topics",
                                  headers=principal_auth)
         assert len(real_topics.json()) == approved.json()["topicsCreated"]
+
+        # The same chapter reached the way the Assessment Designer reaches
+        # it: by the syllabus slug /catalog gave the page, not by chap_ id.
+        by_slug = ("/api/v1/curriculum/chapters/by-slug/Science/10/"
+                   "chemical-reactions-equations/topics")
+        assert client.get(by_slug).status_code == 401
+        slug_topics = client.get(by_slug, headers=principal_auth)
+        assert slug_topics.status_code == 200, slug_topics.text
+        assert [t["id"] for t in slug_topics.json()] == [t["id"] for t in real_topics.json()]
+
+        # A class this school never seeded says what to do about it -- the
+        # picker renders this text instead of looking empty.
+        unset = client.get("/api/v1/curriculum/chapters/by-slug/Science/9/"
+                           "chemical-reactions-equations/topics", headers=principal_auth)
+        assert unset.status_code == 404, unset.text
+        assert unset.json()["detail"] == (
+            "Set up Class 9 Science under Curriculum to filter by subtopic")
 
 
 def test_full_boot_academic_calendar_and_teaching_time_estimates(tmp_path, monkeypatch):

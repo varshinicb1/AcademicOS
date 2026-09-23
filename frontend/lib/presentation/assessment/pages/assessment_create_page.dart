@@ -142,11 +142,24 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
   // §21's subtopic-level filter: optional, narrows question search below
   // whole-chapter granularity to specific admin-approved Subtopics
   // (backend already supports this via QuestionSearchParams.subtopicIds --
-  // this was the missing frontend half). Cached per chapter id so
-  // re-expanding the picker doesn't re-fetch chapters already loaded.
+  // this was the missing frontend half). Cached per chapter slug so
+  // re-expanding the picker doesn't re-fetch chapters already loaded; the
+  // caches are cleared whenever subject or grade changes, because a slug
+  // ("electricity") belongs to Science 10 and Physics 12 alike.
   final Map<String, List<TopicWithSubtopics>> _topicsByChapter = {};
   final Set<String> _loadingTopicsForChapter = {};
   final Set<String> _selectedSubtopics = {};
+  // The server's own sentence for a chapter whose curriculum isn't set up
+  // ("Set up Class 9 Science under Curriculum to filter by subtopic"), shown
+  // verbatim in place of that chapter's subtopic list.
+  final Map<String, String> _subtopicNoticeByChapter = {};
+
+  // The standalone Android build has no local mirror of Topic/Subtopic (see
+  // service_locator.dart), and it must never make a network call. It hides
+  // this optional filter entirely rather than showing one that cannot work;
+  // the chapter-level selection above is unaffected.
+  static const bool _offlineBuild =
+      bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
 
   @override
   void initState() {
@@ -175,27 +188,53 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     }
   }
 
-  Future<void> _loadTopicsForChapter(String chapterId) async {
-    if (_topicsByChapter.containsKey(chapterId) || _loadingTopicsForChapter.contains(chapterId)) return;
-    setState(() => _loadingTopicsForChapter.add(chapterId));
+  /// [chapterSlug] is the syllabus id /catalog gave us
+  /// ("chemical-reactions-equations"), which is the only chapter id this
+  /// page has. It used to be passed to `topicsForChapter`, which wants the
+  /// school's own `chap_` id -- so this picker could never find anything.
+  Future<void> _loadTopicsForChapter(String chapterSlug) async {
+    if (_offlineBuild) return;
+    if (_topicsByChapter.containsKey(chapterSlug) ||
+        _loadingTopicsForChapter.contains(chapterSlug)) {
+      return;
+    }
+    setState(() => _loadingTopicsForChapter.add(chapterSlug));
     try {
-      final topics = await GetIt.I<CurriculumApi>().topicsForChapter(chapterId);
+      final topics = await GetIt.I<CurriculumApi>().topicsForSyllabusChapter(
+        subject: _selectedSubject, grade: _selectedGrade, chapterSlug: chapterSlug);
       if (!mounted) return;
       setState(() {
-        _topicsByChapter[chapterId] = topics;
-        _loadingTopicsForChapter.remove(chapterId);
+        _topicsByChapter[chapterSlug] = topics;
+        _loadingTopicsForChapter.remove(chapterSlug);
+      });
+    } on CurriculumNotSetUp catch (e) {
+      if (!mounted) return;
+      // The one case the teacher can act on, so she is told exactly what to
+      // do instead of being shown an empty list that reads as "this chapter
+      // has no subtopics".
+      setState(() {
+        _topicsByChapter[chapterSlug] = [];
+        _subtopicNoticeByChapter[chapterSlug] = e.message;
+        _loadingTopicsForChapter.remove(chapterSlug);
       });
     } catch (e) {
       if (!mounted) return;
-      // Honest empty state, not a blocking error -- a chapter with no
-      // Topic/Subtopic content yet (extraction not run) is a real, common
-      // case, and this filter is optional; the chapter-level checkbox
-      // above still works regardless.
+      // Honest empty state, not a blocking error -- this filter is optional
+      // and the chapter-level checkbox above still works regardless.
       setState(() {
-        _topicsByChapter[chapterId] = [];
-        _loadingTopicsForChapter.remove(chapterId);
+        _topicsByChapter[chapterSlug] = [];
+        _loadingTopicsForChapter.remove(chapterSlug);
       });
     }
+  }
+
+  /// Both caches are keyed by chapter slug alone, but a slug only means
+  /// something within one subject and grade ("electricity" is a Science 10
+  /// chapter and a Physics 12 one). Dropped whenever either changes, so the
+  /// picker can never show another subject's subtopics.
+  void _forgetLoadedSubtopics() {
+    _topicsByChapter.clear();
+    _subtopicNoticeByChapter.clear();
   }
 
   /// Any subtopic belonging to a chapter that's no longer selected must be
@@ -321,6 +360,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                         }
                         _selectedChapters.clear();
                         _selectedSubtopics.clear();
+                        _forgetLoadedSubtopics();
                         _loadChapters();
                       });
                     },
@@ -339,6 +379,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                       _selectedSubject = v!;
                       _selectedChapters.clear();
                       _selectedSubtopics.clear();
+                      _forgetLoadedSubtopics();
                       _loadChapters();
                     }),
                   ),
@@ -610,7 +651,9 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
   }
 
   Widget _buildSubtopicFilter() {
-    if (_selectedChapters.isEmpty) return const SizedBox.shrink();
+    // The offline build has no local Topic/Subtopic data and must not reach
+    // the network for it, so there is nothing to offer here at all.
+    if (_offlineBuild || _selectedChapters.isEmpty) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: ExpansionTile(
@@ -639,9 +682,14 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
           final topics = _topicsByChapter[chapterId];
           if (topics == null) return const SizedBox.shrink();
           if (topics.isEmpty) {
+            // The server's own instruction when the school has not set this
+            // class/subject up; otherwise the chapter really does have no
+            // approved breakdown yet.
+            final notice = _subtopicNoticeByChapter[chapterId];
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Text('$chapterName: no subtopic breakdown available yet',
+              child: Text(
+                  notice ?? '$chapterName: no subtopic breakdown available yet',
                   style: Theme.of(context).textTheme.bodySmall),
             );
           }

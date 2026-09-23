@@ -527,9 +527,67 @@ def _seed_response(result: SeedResult) -> SeedCbse10Response:
 def list_topics(chapter_id: str,
                 current: User = Depends(get_current_user)) -> list[TopicWithSubtopicsResponse]:
     """The real, approved curriculum for a chapter -- what the question-
-    paper subtopic picker (§ end-to-end acceptance criteria) reads."""
+    paper subtopic picker (§ end-to-end acceptance criteria) reads.
+
+    Keyed by the school's own `chap_` id, which only a curriculum screen
+    has. The picker in assessment_create_page.dart holds a SYLLABUS slug
+    instead and uses by-slug/... below."""
     store = _require()
     _require_school_owns_chapter(chapter_id, current)
+    return _topics_with_subtopics(store, chapter_id)
+
+
+@router.get("/chapters/by-slug/{subject}/{grade}/{slug}/topics",
+            response_model=list[TopicWithSubtopicsResponse])
+def list_topics_for_syllabus_chapter(
+        subject: str, grade: int, slug: str,
+        current: User = Depends(get_current_user)) -> list[TopicWithSubtopicsResponse]:
+    """The same approved Topics/Subtopics, reached by the SYLLABUS chapter
+    slug the Assessment Designer actually holds.
+
+    Three id spaces name one Class 10 Science chapter, and nothing joined
+    them until 2026-09-23:
+
+    * `chemical-reactions-equations` -- the syllabus id from
+      academicos-data/syllabus/Science_10.json, which
+      `GET /api/v1/catalog/{subject}/{grade}/chapters` returns and
+      assessment_create_page.dart stores as its chapter id;
+    * `chap_<uuid>` -- this school's own Chapter row, what the route above
+      takes;
+    * `science-10/chemical-reactions-and-equations` -- the question bank's
+      board-level `taxonomyChapterId`, with `topicIds`/`subtopicIds` under
+      it, which no route accepts as input.
+
+    The picker sent the first to the route that wants the second. Before
+    Task 101 that answered `200 []`, after it 404; either way the page
+    caught it and showed an empty picker, so PRD section 21's subtopic
+    filter had never once found a subtopic.
+
+    This joins on the STORED mapping: seed_cbse10.py writes each chapter's
+    canonical_id as `{book_id}:chapter:{syllabus slug}`, so the catalog's
+    slug is recorded on the school's own row at seed time -- a rename
+    cannot break it, and no title matching is guessed at read time. The
+    bank's taxonomy ids are deliberately NOT the join: they are
+    school-independent, so they could not resolve to a school's approved
+    subtopics at all, and only 109 of the 476 Class 10 Science questions in
+    the live bank carry any `subtopicIds` (measured 2026-09-23).
+
+    Resolved inside the caller's own school and its chosen edition only, so
+    the same official slug gives each school its own rows. A class the
+    school has not set up is a 404 whose message says what to do, never an
+    empty list that looks like "no subtopics exist"."""
+    store = _require()
+    match = store.chapter_for_syllabus_slug(
+        school_id=current.school_id, grade_number=grade, subject_name=subject,
+        slug=slug, title_slug=_syllabus_title_slug(subject, grade, slug),
+        on_date=_school_today().isoformat())
+    if match.chapter is None:
+        raise HTTPException(404, _chapter_slug_detail(match.reason, subject, grade, slug))
+    return _topics_with_subtopics(store, match.chapter.id)
+
+
+def _topics_with_subtopics(store: CurriculumStore,
+                           chapter_id: str) -> list[TopicWithSubtopicsResponse]:
     out = []
     for t in store.topics_for_chapter(chapter_id):
         out.append(TopicWithSubtopicsResponse(
@@ -541,6 +599,40 @@ def list_topics(chapter_id: str,
             subtopics=[_subtopic_response(s) for s in store.subtopics_for_topic(t.id)],
         ))
     return out
+
+
+def _syllabus_title_slug(subject: str, grade: int, slug: str) -> Optional[str]:
+    """The slug of the chapter's official TITLE, as a second key to try.
+
+    A school whose book came from an ingested Table of Contents rather than
+    the CBSE seed has its chapters keyed by the slug of the chapter name
+    (extraction.py), which is a different string from the syllabus id:
+    `chemical-reactions-and-equations` vs `chemical-reactions-equations`.
+    None when the syllabus does not know this slug, or when the two are the
+    same string anyway."""
+    from ..syllabus.cbse_syllabus import _slug, load_syllabus
+    doc = load_syllabus(subject, grade)
+    if doc is None:
+        return None
+    for _unit, chapter in doc.all_chapters():
+        if chapter.id == slug:
+            title_slug = _slug(chapter.name)
+            return title_slug if title_slug != slug else None
+    return None
+
+
+def _chapter_slug_detail(reason: str, subject: str, grade: int, slug: str) -> str:
+    """What the teacher is told, and it has to be an instruction: this 404
+    is rendered verbatim in the picker (assessment_create_page.dart), where
+    "no subtopics" and "your school has not set this class up" used to look
+    identical -- both an empty list."""
+    if reason == "no_edition_chosen":
+        return (f"Choose the Class {grade} {subject} book edition under Curriculum "
+                "to filter by subtopic")
+    if reason == "no_chapter":
+        return (f"Your Class {grade} {subject} book has no chapter '{slug}'. Pick a "
+                "different chapter, or add this one under Curriculum.")
+    return f"Set up Class {grade} {subject} under Curriculum to filter by subtopic"
 
 
 @router.post("/books/{book_id}/toc/ingest", response_model=IngestTocResponse)

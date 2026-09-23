@@ -9690,6 +9690,73 @@
         "summary": "List Units"
       }
     },
+    "/api/v1/curriculum/chapters/by-slug/{subject}/{grade}/{slug}/topics": {
+      "get": {
+        "description": "The same approved Topics/Subtopics, reached by the SYLLABUS chapter\nslug the Assessment Designer actually holds.\n\nThree id spaces name one Class 10 Science chapter, and nothing joined\nthem until 2026-09-23:\n\n* `chemical-reactions-equations` -- the syllabus id from\n  academicos-data/syllabus/Science_10.json, which\n  `GET /api/v1/catalog/{subject}/{grade}/chapters` returns and\n  assessment_create_page.dart stores as its chapter id;\n* `chap_<uuid>` -- this school's own Chapter row, what the route above\n  takes;\n* `science-10/chemical-reactions-and-equations` -- the question bank's\n  board-level `taxonomyChapterId`, with `topicIds`/`subtopicIds` under\n  it, which no route accepts as input.\n\nThe picker sent the first to the route that wants the second. Before\nTask 101 that answered `200 []`, after it 404; either way the page\ncaught it and showed an empty picker, so PRD section 21's subtopic\nfilter had never once found a subtopic.\n\nThis joins on the STORED mapping: seed_cbse10.py writes each chapter's\ncanonical_id as `{book_id}:chapter:{syllabus slug}`, so the catalog's\nslug is recorded on the school's own row at seed time -- a rename\ncannot break it, and no title matching is guessed at read time. The\nbank's taxonomy ids are deliberately NOT the join: they are\nschool-independent, so they could not resolve to a school's approved\nsubtopics at all, and only 109 of the 476 Class 10 Science questions in\nthe live bank carry any `subtopicIds` (measured 2026-09-23).\n\nResolved inside the caller's own school and its chosen edition only, so\nthe same official slug gives each school its own rows. A class the\nschool has not set up is a 404 whose message says what to do, never an\nempty list that looks like \"no subtopics exist\".",
+        "operationId": "list_topics_for_syllabus_chapter_api_v1_curriculum_chapters_by_slug__subject___grade___slug__topics_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subject",
+            "required": true,
+            "schema": {
+              "title": "Subject",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "grade",
+            "required": true,
+            "schema": {
+              "title": "Grade",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "title": "Slug",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TopicWithSubtopicsResponse"
+                  },
+                  "title": "Response List Topics For Syllabus Chapter Api V1 Curriculum Chapters By Slug  Subject   Grade   Slug  Topics Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Topics For Syllabus Chapter"
+      }
+    },
     "/api/v1/curriculum/chapters/{chapter_id}/extract": {
       "post": {
         "description": "Proposes a Topic/Subtopic breakdown for a chapter -- a draft only,\nsee extraction.py. Uses the real configured Sarvam LLM when a key\nexists; honestly reports status=\"manual_required\" (zero proposals)\notherwise rather than fabricating a breakdown offline.",
@@ -9905,7 +9972,7 @@
     },
     "/api/v1/curriculum/chapters/{chapter_id}/topics": {
       "get": {
-        "description": "The real, approved curriculum for a chapter -- what the question-\npaper subtopic picker (§ end-to-end acceptance criteria) reads.",
+        "description": "The real, approved curriculum for a chapter -- what the question-\npaper subtopic picker (§ end-to-end acceptance criteria) reads.\n\nKeyed by the school's own `chap_` id, which only a curriculum screen\nhas. The picker in assessment_create_page.dart holds a SYLLABUS slug\ninstead and uses by-slug/... below.",
         "operationId": "list_topics_api_v1_curriculum_chapters__chapter_id__topics_get",
         "parameters": [
           {
