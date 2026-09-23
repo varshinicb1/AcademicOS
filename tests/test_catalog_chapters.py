@@ -94,5 +94,30 @@ def test_every_class_6_to_10_chapter_a_teacher_can_pick_has_a_real_name(
             syllabus = load_syllabus(subject, grade)
             if syllabus is not None:
                 known = {chapter.id for _unit, chapter in syllabus.all_chapters()}
-                unknown = sorted({e["chapterId"] for e in entries} - known)
+                # "unmapped" is not a claim about the syllabus: it is the
+                # named bucket for questions no chapter has claimed yet, and
+                # hiding it lost a teacher most of the bank (see
+                # test_the_chapter_view_reaches_every_question_the_class_serves).
+                unknown = sorted({e["chapterId"] for e in entries} - known - {"unmapped"})
                 assert unknown == [], f"{subject} {grade} lists chapters the syllabus has not: {unknown}"
+
+
+@pytest.mark.skipif(not SERVED_BANK.exists(), reason="served bank not built")
+def test_the_chapter_view_reaches_every_question_the_class_serves(
+        tmp_path, monkeypatch, served_bank):
+    """The unmapped bucket was emitted only where NO syllabus exists, which is
+    nowhere for a main subject: every question the tagger could not place
+    vanished from the view a teacher picks from. Live on 2026-09-23, Science 6
+    offered 12 chapters holding 8 questions while the catalog served 247, and
+    Mathematics 6 offered 69 of 446. A question the bank serves and the teacher
+    cannot reach is the bank's work thrown away."""
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    with TestClient(app) as client:
+        pillar_routes._cfg._load_baked_questions = True
+        for subject, grade in CORE:
+            entries = client.get(f"/api/v1/catalog/{subject}/{grade}/chapters").json()
+            shown = sum(e["questionCount"] for e in entries)
+            served = client.get("/api/v1/catalog").json()
+            total = next((e["questionCount"] for e in served["entries"]
+                          if e["subject"] == subject and e["grade"] == grade), 0)
+            assert shown == total, f"{subject} {grade}: {shown} reachable of {total} served"
