@@ -198,17 +198,31 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
         _loadingTopicsForChapter.contains(chapterSlug)) {
       return;
     }
+    // The subject and grade this request is being made for. Clearing the
+    // caches on a subject/grade change is not enough on its own: a request
+    // already in flight answers AFTER the change and would write the old
+    // subject's topics back into the freshly-cleared cache under the same
+    // slug, and every later call would then short-circuit on containsKey.
+    // English has a "reading-comprehension" chapter in both Grade 10 and
+    // Grade 12, so that is not hypothetical -- switch grade while the fetch
+    // is in flight and the picker would offer Grade 10's subtopics for the
+    // Grade 12 chapter, with no request ever made for Grade 12.
+    final requestedSubject = _selectedSubject;
+    final requestedGrade = _selectedGrade;
+    bool answersAQuestionNoLongerAsked() =>
+        _selectedSubject != requestedSubject || _selectedGrade != requestedGrade;
+
     setState(() => _loadingTopicsForChapter.add(chapterSlug));
     try {
       final topics = await GetIt.I<CurriculumApi>().topicsForSyllabusChapter(
-        subject: _selectedSubject, grade: _selectedGrade, chapterSlug: chapterSlug);
-      if (!mounted) return;
+        subject: requestedSubject, grade: requestedGrade, chapterSlug: chapterSlug);
+      if (!mounted || answersAQuestionNoLongerAsked()) return;
       setState(() {
         _topicsByChapter[chapterSlug] = topics;
         _loadingTopicsForChapter.remove(chapterSlug);
       });
     } on CurriculumNotSetUp catch (e) {
-      if (!mounted) return;
+      if (!mounted || answersAQuestionNoLongerAsked()) return;
       // The one case the teacher can act on, so she is told exactly what to
       // do instead of being shown an empty list that reads as "this chapter
       // has no subtopics".
@@ -218,7 +232,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
         _loadingTopicsForChapter.remove(chapterSlug);
       });
     } catch (e) {
-      if (!mounted) return;
+      if (!mounted || answersAQuestionNoLongerAsked()) return;
       // Honest empty state, not a blocking error -- this filter is optional
       // and the chapter-level checkbox above still works regardless.
       setState(() {
@@ -228,13 +242,18 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     }
   }
 
-  /// Both caches are keyed by chapter slug alone, but a slug only means
+  /// All three caches are keyed by chapter slug alone, but a slug only means
   /// something within one subject and grade ("electricity" is a Science 10
   /// chapter and a Physics 12 one). Dropped whenever either changes, so the
   /// picker can never show another subject's subtopics.
+  ///
+  /// The in-flight set goes too: its entries belong to requests whose answers
+  /// are now discarded (see [_loadTopicsForChapter]), and leaving a slug in it
+  /// would block the re-fetch the new subject/grade needs.
   void _forgetLoadedSubtopics() {
     _topicsByChapter.clear();
     _subtopicNoticeByChapter.clear();
+    _loadingTopicsForChapter.clear();
   }
 
   /// Any subtopic belonging to a chapter that's no longer selected must be

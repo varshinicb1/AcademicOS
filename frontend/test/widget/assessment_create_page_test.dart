@@ -8,6 +8,7 @@
 // chapter silently filtered every real question out. Fixed by loading real
 // chapters via PillarApi.chapters() (the same real source syllabus_page.dart
 // already uses) for every subject the corpus actually has data for.
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -29,9 +30,20 @@ class _SubtopicBackend extends Interceptor {
   final List<String> paths = [];
   String? notSetUpDetail;
 
+  /// When set, the FIRST request is not answered until this completes -- the
+  /// only way to reproduce a teacher changing subject or grade while a
+  /// subtopic fetch is still in flight (a real server takes time; this fake
+  /// otherwise answers within the same microtask).
+  Completer<void>? holdFirstResponse;
+
+  /// Per-path payloads, so two requests can be told apart by what came back
+  /// and not only by the path recorded. Falls back to the captured fixture.
+  final Map<String, List<Map<String, dynamic>>> topicsByPath = {};
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
     paths.add(options.path);
+    final isFirst = paths.length == 1;
     if (!options.path.startsWith('/curriculum/chapters/by-slug/')) {
       return handler.reject(DioException.badResponse(
           statusCode: 404, requestOptions: options,
@@ -45,8 +57,15 @@ class _SubtopicBackend extends Interceptor {
             data: {'detail': notSetUpDetail}),
       ));
     }
-    handler.resolve(Response(
-        requestOptions: options, statusCode: 200, data: _fixtureTopics()));
+    final body = topicsByPath[options.path] ?? _fixtureTopics();
+    final answer = Response(
+        requestOptions: options, statusCode: 200, data: body);
+    final hold = isFirst ? holdFirstResponse : null;
+    if (hold != null) {
+      hold.future.then((_) => handler.resolve(answer));
+      return;
+    }
+    handler.resolve(answer);
   }
 }
 
@@ -60,6 +79,21 @@ List<Map<String, dynamic>> _fixtureTopics() =>
     (jsonDecode(File('test/fixtures/chapter_subtopics_by_slug.json').readAsStringSync())
             as List)
         .cast<Map<String, dynamic>>();
+
+/// The same captured payload with every subtopic name prefixed, so a test can
+/// tell which of two responses the picker is actually rendering.
+List<Map<String, dynamic>> _prefixSubtopicNames(
+        List<Map<String, dynamic>> topics, String prefix) =>
+    [
+      for (final topic in topics)
+        {
+          ...topic,
+          'subtopics': [
+            for (final sub in (topic['subtopics'] as List).cast<Map<String, dynamic>>())
+              {...sub, 'name': '$prefix${sub['name']}'},
+          ],
+        },
+    ];
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -104,11 +138,17 @@ void main() {
       final realChapters = CorpusRepository.instance.chapters('Science', 10);
       expect(realChapters, isNotEmpty,
           reason: 'the bundled corpus must have real Science Grade 10 chapters for this test to mean anything');
-      expect(find.text(realChapters.first.chapterName), findsOneWidget,
+      // A chapter NAME is not unique in the bundled corpus: the display name
+      // comes from a question's first tag, and the 2026-09-21 bank rebuild left
+      // two Science 10 chapters both reading "Acids, Bases and Salts" (and two
+      // Physics 12 ones "Current Electricity"). The chapter ID is the unique
+      // handle, so these assertions check that at least one tile renders it and
+      // act on the first.
+      expect(find.text(realChapters.first.chapterName), findsWidgets,
           reason: 'a real chapter name from the real corpus must actually render');
 
       // The chapter must be a real, tappable checkbox (not disabled).
-      final tile = find.widgetWithText(CheckboxListTile, realChapters.first.chapterName);
+      final tile = find.widgetWithText(CheckboxListTile, realChapters.first.chapterName).first;
       final checkbox = tester.widget<CheckboxListTile>(tile);
       expect(checkbox.onChanged, isNotNull, reason: 'a real chapter must be selectable, not disabled');
     },
@@ -135,7 +175,7 @@ void main() {
         findsNothing,
         reason: 'the old hardcoded, permanently-disabled placeholder must never show again',
       );
-      expect(find.text(mathChapters.first.chapterName), findsOneWidget,
+      expect(find.text(mathChapters.first.chapterName), findsWidgets,
           reason: 'must render real math chapter name');
     },
   );
@@ -157,7 +197,7 @@ void main() {
       final physicsChapters = CorpusRepository.instance.chapters('Physics', 12);
       expect(physicsChapters, isNotEmpty,
           reason: 'confirms Physics Grade 12 has real chapter tags');
-      expect(find.text(physicsChapters.first.chapterName), findsOneWidget,
+      expect(find.text(physicsChapters.first.chapterName), findsWidgets,
           reason: 'must render real Physics Grade 12 chapter name');
     },
   );
@@ -199,10 +239,11 @@ void main() {
       final realChapters = CorpusRepository.instance.chapters('Science', 10);
       final first = realChapters.first;
 
-      await tester.tap(find.widgetWithText(CheckboxListTile, first.chapterName));
+      await tester.tap(find.widgetWithText(CheckboxListTile, first.chapterName).first);
       await tester.pumpAndSettle();
 
-      final checkbox = tester.widget<CheckboxListTile>(find.widgetWithText(CheckboxListTile, first.chapterName));
+      final checkbox = tester.widget<CheckboxListTile>(
+          find.widgetWithText(CheckboxListTile, first.chapterName).first);
       expect(checkbox.value, isTrue);
 
       // Confirm the real chapterId (a slug like "chemical-reactions-equations")
@@ -233,7 +274,7 @@ void main() {
       await goToChaptersStep(tester);
 
       final realChapters = CorpusRepository.instance.chapters('Science', 10);
-      await tester.tap(find.widgetWithText(CheckboxListTile, realChapters.first.chapterName));
+      await tester.tap(find.widgetWithText(CheckboxListTile, realChapters.first.chapterName).first);
       await tester.pumpAndSettle();
 
       expect(find.text('Filter by subtopic (optional)'), findsOneWidget);
@@ -247,7 +288,7 @@ void main() {
       await goToChaptersStep(tester);
 
       final realChapters = CorpusRepository.instance.chapters('Science', 10);
-      final tile = find.widgetWithText(CheckboxListTile, realChapters.first.chapterName);
+      final tile = find.widgetWithText(CheckboxListTile, realChapters.first.chapterName).first;
       await tester.tap(tile);
       await tester.pumpAndSettle();
       expect(find.text('Filter by subtopic (optional)'), findsOneWidget);
@@ -344,6 +385,101 @@ void main() {
       expect(tile.value, isTrue);
       expect(find.text('1 subtopic selected'), findsOneWidget,
           reason: 'the collapsed summary must count the real selection');
+    });
+
+    // Both subtopic caches are keyed by chapter slug alone, and a slug is
+    // only unique within one subject and grade: English has a
+    // "reading-comprehension" chapter in Grade 10 AND Grade 12 (that is the
+    // real bundled corpus, asserted below). Clearing the caches on a grade
+    // change is therefore not enough -- a request already in flight used to
+    // land afterwards and write Grade 10's topics back under that slug, and
+    // the containsKey short-circuit then served them as Grade 12's, without
+    // ever asking the server about Grade 12.
+    testWidgets('a fetch that lands after the teacher changes grade is discarded, '
+        'and the new grade is asked for its own subtopics', (tester) async {
+      tester.view.physicalSize = const Size(1600, 3000);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      const slug = 'reading-comprehension';
+      final grade10 = CorpusRepository.instance.chapters('English', 10);
+      final grade12 = CorpusRepository.instance.chapters('English', 12);
+      expect(grade10.first.chapterId, slug);
+      expect(grade12.first.chapterId, slug,
+          reason: 'this test only means something while the same slug really is a '
+              'chapter of two different grades in the bundled corpus');
+
+      final held = Completer<void>();
+      backend.holdFirstResponse = held;
+      backend.topicsByPath['/curriculum/chapters/by-slug/English/12/$slug/topics'] =
+          _prefixSubtopicNames(_fixtureTopics(), 'Grade 12: ');
+
+      await tester.pumpWidget(wrapForTest(const AssessmentCreatePage()));
+      await tester.pumpAndSettle();
+
+      Future<void> pickSubject(String subject) async {
+        await tester.tap(find.byType(DropdownButtonFormField<String>).last);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text(subject).last);
+        await tester.pumpAndSettle();
+      }
+
+      // An unanswered fetch leaves a CircularProgressIndicator spinning, and
+      // pumpAndSettle never returns while one is animating -- so every step
+      // taken while the Grade 10 request is deliberately in flight pumps
+      // fixed frames instead.
+      Future<void> settleWhileFetching() async {
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
+      }
+
+      Future<void> selectChapterAndExpandPicker(String chapterName,
+          {required bool fetchInFlight}) async {
+        await goToChaptersStep(tester);
+        await tester.tap(find.widgetWithText(CheckboxListTile, chapterName).first);
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Filter by subtopic (optional)'));
+        if (fetchInFlight) {
+          await settleWhileFetching();
+        } else {
+          await tester.pumpAndSettle();
+        }
+      }
+
+      await pickSubject('English');
+      await selectChapterAndExpandPicker(grade10.first.chapterName,
+          fetchInFlight: true);
+      expect(backend.paths,
+          ['/curriculum/chapters/by-slug/English/10/$slug/topics'],
+          reason: 'the Grade 10 fetch is in flight and deliberately unanswered');
+
+      // The teacher changes her mind mid-fetch.
+      await tester.tap(find.text('Basic Information'));
+      await settleWhileFetching();
+      await tester.tap(find.byType(DropdownButtonFormField<int>).first);
+      await settleWhileFetching();
+      await tester.tap(find.text('Grade 12').last);
+      await tester.pumpAndSettle();
+
+      // Only now does the Grade 10 answer arrive.
+      held.complete();
+      await tester.pumpAndSettle();
+
+      await selectChapterAndExpandPicker(grade12.first.chapterName,
+          fetchInFlight: false);
+
+      expect(backend.paths, [
+        '/curriculum/chapters/by-slug/English/10/$slug/topics',
+        '/curriculum/chapters/by-slug/English/12/$slug/topics',
+      ], reason: 'the stale Grade 10 answer must not have populated the cache, '
+          'or Grade 12 would silently reuse it and never be requested');
+
+      final firstSubtopic = ((_fixtureTopics().first['subtopics'] as List).first
+          as Map<String, dynamic>)['name'] as String;
+      expect(find.text('Grade 12: $firstSubtopic'), findsOneWidget,
+          reason: 'the picker must show what the server said about Grade 12');
+      expect(find.text(firstSubtopic), findsNothing,
+          reason: 'Grade 10\'s subtopics must not be offered for a Grade 12 chapter');
     });
 
     testWidgets('a class the school has not set up shows the server\'s instruction, '

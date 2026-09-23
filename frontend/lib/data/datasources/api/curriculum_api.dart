@@ -2,7 +2,7 @@
 /// (src/academicos/curriculum/routes.py) -- mainly the teacher-facing
 /// slice: "what do I teach today" (`GET /my-schedule`), plus a read-only
 /// Topic/Subtopic lookup the Assessment Designer's subtopic picker uses
-/// (topicsForChapter). Not the full admin curriculum-authoring surface
+/// (topicsForSyllabusChapter). Not the full admin curriculum-authoring surface
 /// (extraction/approval/calendar), which has no Flutter UI yet. Same
 /// plain-class, no-freezed style as auth_api.dart/pillar_api.dart --
 /// read-mostly data, no codegen needed.
@@ -451,20 +451,15 @@ class CurriculumApi {
     return MyProgress.fromJson(Map<String, dynamic>.from(r.data));
   }
 
-  /// Real Topics + nested Subtopics for one chapter, keyed by the school's
-  /// own `chap_` id. Any signed-in user of the chapter's own school may call
-  /// this; topics and subtopics are that school's own approved
-  /// decomposition, so another school's chapter is a 403 and an unknown
-  /// chapter id a 404.
-  ///
-  /// The subtopic picker does NOT use this -- it has a syllabus slug, not a
-  /// `chap_` id; see [topicsForSyllabusChapter].
-  Future<List<TopicWithSubtopics>> topicsForChapter(String chapterId) async {
-    final r = await _dio.get('/curriculum/chapters/$chapterId/topics');
-    return (r.data as List).map((e) => TopicWithSubtopics.fromJson(Map<String, dynamic>.from(e))).toList();
-  }
+  // `GET /curriculum/chapters/{chap_id}/topics` (the id-keyed sibling of the
+  // by-slug route below) had a wrapper here until 2026-09-23. Nothing in this
+  // app can call it: every screen that knows about a chapter knows it by its
+  // syllabus slug, not by the school's own `chap_` id, which is why the
+  // subtopic picker was broken in the first place. The route still exists and
+  // is tested on the backend; an untested Dart wrapper with no callers is not
+  // worth keeping alive for a caller that may never appear.
 
-  /// The same Topics + Subtopics, found from the SYLLABUS chapter slug the
+  /// Real Topics + nested Subtopics, found from the SYLLABUS chapter slug the
   /// Assessment Designer actually holds -- what feeds its subtopic picker
   /// (assessment_create_page.dart), so a teacher can narrow question search
   /// to specific subtopics via `QuestionSearchParams.subtopicIds` instead of
@@ -472,8 +467,8 @@ class CurriculumApi {
   ///
   /// The picker's chapter ids come from `GET /catalog/{subject}/{grade}/
   /// chapters` and are syllabus slugs (`chemical-reactions-equations`).
-  /// Until 2026-09-23 they were passed to [topicsForChapter], which wants a
-  /// `chap_` id: that answered `200 []` and later 404, the page swallowed it,
+  /// Until 2026-09-23 they were passed to `/chapters/{chap_id}/topics`, which
+  /// wants a `chap_` id: that answered `200 []` and later 404, the page swallowed it,
   /// and the picker had never once found a subtopic. The server resolves the
   /// slug against the caller's own school and its chosen book edition.
   ///
