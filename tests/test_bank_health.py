@@ -62,6 +62,24 @@ BANK = [
     _q("x2", 1, subject="German", grade=7),                 # outside the five subjects
 ]
 
+# `_merge_excluded.json`'s shape (bank_merge._excluded): the id, where it came
+# from, why it was refused, and 200 characters of the stem.
+def _out(qid, reason, *, subject="Mathematics", grade=7, source="ncert_exemplar"):
+    return {"id": qid, "source": source, "reason": reason, "subject": subject,
+            "grade": grade, "stem": f"a stem refused for {reason}"}
+
+
+EXCLUDED = [
+    _out("b1", "options-missing"),
+    _out("b2", "options-missing"),
+    _out("b3", "figure-shown-below"),
+    _out("b4", "no-verified-key", source="cbse_board_paper"),
+    _out("b5", "duplicate-stem", subject="Science", grade=9),
+    _out("b6", "options-missing", subject="Mathematics (Standard)", grade=10),
+    _out("b7", "answer-bleed", grade=12),                    # outside classes 6-10
+    _out("b8", "answer-bleed", subject="German"),            # outside the five subjects
+]
+
 TINY = {
     "tiny": {"name": "Tiny", "sections": [
         ("A", "MCQ", 1, 2, ["easy", "medium"], False, 0),
@@ -218,6 +236,54 @@ def test_tagging_accuracy_quotes_nested_and_held_out_numbers():
                                             {"id": "t3", "note": "not taught"}]}
 
 
+def test_what_the_merge_left_out_is_counted_per_reason_and_per_cell():
+    """Task 126, requirement 4: every record the gate removes is in the
+    exclusions file with its reason AND the health report counts it. The
+    report used to count only what survived, so a class whose sources were
+    mostly refused read as healthy."""
+    report = _report(exclusions=EXCLUDED)
+    assert report["excluded"]["records"] == 8
+    # b7 is class 12 and b8 is German: refused, counted in the total, in no cell
+    assert report["excluded"]["inScope"] == 6
+    assert report["excluded"]["outOfScope"] == 2
+    # commonest first, so the biggest hole is the first thing read
+    assert list(report["excluded"]["byReason"])[0] == "options-missing"
+    assert report["excluded"]["byReason"]["options-missing"] == 3
+    assert report["excluded"]["bySource"] == {"ncert_exemplar": 7, "cbse_board_paper": 1}
+
+    cell = _cell(report)
+    assert cell["excluded"]["n"] == 4       # b1-b4; b6 is class 10
+    assert cell["excluded"]["byReason"] == {"options-missing": 2,
+                                            "figure-shown-below": 1,
+                                            "no-verified-key": 1}
+    # "Mathematics (Standard)" is counted under Mathematics, as a question is
+    assert _cell(report, "Mathematics", 10)["excluded"]["n"] == 1
+    assert _cell(report, "Science", 9)["excluded"]["n"] == 1
+    assert _cell(report, "Hindi", 6)["excluded"] == {"n": 0, "byReason": {}}
+
+
+def test_a_report_shown_no_exclusions_file_claims_nothing_about_it():
+    """Absent is not zero. A report built without the file must not print
+    "0 left out" for a class whose sources were thrown away wholesale."""
+    report = _report()
+    assert "excluded" not in report
+    assert all("excluded" not in c for c in report["cells"])
+    assert "What the merge left out" not in render_markdown(report)
+
+
+def test_markdown_says_what_was_left_out_and_why():
+    report = _report(exclusions=EXCLUDED)
+    report["excludedPath"] = "academicos-data/syllabus/_merge_excluded.json"
+    md = render_markdown(report)
+    assert "## What the merge left out" in md
+    assert "_merge_excluded.json" in md
+    assert "**8 records refused**, 6 of them in scope" in md
+    assert "| options-missing | 3 |" in md
+    assert "| cbse_board_paper | 1 |" in md
+    # the per-pair row: the bank's own count beside what was refused for it
+    assert "| Mathematics | 7 | 7 | 4 | options-missing 2, figure-shown-below 1," in md
+
+
 def test_markdown_names_its_inputs_date_gaps_and_verdicts():
     report = _report()
     report["inputs"] = [{"label": "exemplar", "path": "bank.json", "sha256": "ab" * 32,
@@ -251,16 +317,47 @@ def test_script_writes_both_reports_with_the_inputs_sha256(tmp_path):
     for name, data in (("Mathematics_7.json", TREE), ("_tagger_model.json", MODEL),
                        ("_tag_audit.json", AUDIT_SUB), ("_tag_audit_chapter_topic.json", AUDIT_CT)):
         (tax / name).write_text(json.dumps(data), encoding="utf-8")
+    excluded = tmp_path / "served" / "_merge_excluded.json"
+    excluded.write_text(json.dumps({"excluded": EXCLUDED}), encoding="utf-8")
     md, js = tmp_path / "out" / "bank-health.md", tmp_path / "out" / "bank_health.json"
     args = ["--served", str(served), "--bank", str(extra), "--taxonomy", str(tax),
-            "--md", str(md), "--json", str(js)]
+            "--excluded", str(excluded), "--md", str(md), "--json", str(js)]
     assert mod.main(args + ["--check"]) == 0 and not md.exists() and not js.exists()
     assert mod.main(args) == 0
     report = json.loads(js.read_text(encoding="utf-8"))
     sha = hashlib.sha256(served.read_bytes()).hexdigest()
-    assert {i["label"]: i["sha256"] for i in report["inputs"]}["served"] == sha
+    shas = {i["label"]: i["sha256"] for i in report["inputs"]}
+    assert shas["served"] == sha
     assert sha in md.read_text(encoding="utf-8")
     assert _cell(report)["byBank"] == {"served": 3, "exemplar": 4}
+    # the exclusions file is an input like any other, named and hashed, so the
+    # report can be matched to the merge run that wrote it
+    assert shas["excluded"] == hashlib.sha256(excluded.read_bytes()).hexdigest()
+    assert report["excluded"]["records"] == len(EXCLUDED)
+    assert "## What the merge left out" in md.read_text(encoding="utf-8")
+
+
+def test_a_missing_exclusions_file_is_reported_not_guessed_at(tmp_path, capsys):
+    """The report says it was not shown the file rather than printing zeroes."""
+    import importlib.util
+    import json
+
+    spec = importlib.util.spec_from_file_location("bank_health_script",
+                                                  ROOT / "scripts" / "bank_health.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    served = tmp_path / "served" / "questions.json"
+    served.parent.mkdir()
+    served.write_text(json.dumps({"questions": BANK}), encoding="utf-8")
+    tax = tmp_path / "taxonomy"
+    tax.mkdir()
+    for name, data in (("Mathematics_7.json", TREE), ("_tagger_model.json", MODEL),
+                       ("_tag_audit.json", AUDIT_SUB), ("_tag_audit_chapter_topic.json", AUDIT_CT)):
+        (tax / name).write_text(json.dumps(data), encoding="utf-8")
+    assert mod.main(["--served", str(served), "--bank", "--taxonomy", str(tax),
+                     "--excluded", str(tmp_path / "nowhere.json"), "--check"]) == 0
+    out = capsys.readouterr().out
+    assert "will not say what the merge left out" in out
 
 
 def test_repo_banks_are_named_by_their_repo_path_even_through_a_junction():

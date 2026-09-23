@@ -786,8 +786,11 @@ def _pool_over(tmp_path, monkeypatch, records, *, subject: str, grade: str):
 def test_paper_generation_applies_the_one_rule_too(tmp_path, monkeypatch):
     """A record the HTTP surface refuses to list must not be printable on a
     paper: that is the same unanswerable question served by another door."""
-    # Distinct stems, or the near-duplicate gate drops the last two before the
-    # answer-key gate is ever reached and the test proves nothing.
+    # Three distinct questions, one per answer-key shape. The stems had to
+    # differ while this path ran its own near-duplicate index -- that index
+    # dropped the last two before the answer-key gate was ever reached -- and
+    # that index is the merge's alone since Task 126. They stay distinct
+    # because a test about the answer-key gate should turn on nothing else.
     keyed = _served(1, stem="Explain why the sky appears blue during the day.")
     empty = _served(2, {"markingPoints": [], "modelAnswer": "",
                         "modelAnswerLatex": ""},
@@ -916,26 +919,57 @@ def test_the_builder_refuses_what_the_gate_refuses_even_from_a_stale_bank(
     assert [q.id for q in built.questions] == [good["id"]]
 
 
-def test_the_baked_bank_path_keeps_no_second_copy_of_the_rule():
-    """A source scan, as Task 16 did for the merge's own filters: the branch
-    that loads questions.json must ask `bank_merge` and nothing else.
+def _build_pool_source() -> tuple[str, str]:
+    """`build_pool`'s two branches, comments stripped.
 
-    The registry path above it still runs the stem gates -- it reads raw PDF
-    extraction, where an option list really is destroyed -- so the scan is of
-    the baked-bank branch alone."""
+    Code only: the comments name the rules each branch used to apply and why
+    they were wrong, which is the point of them."""
     import inspect
 
     from academicos.assessment import pool as pool_module
 
     source = inspect.getsource(pool_module.build_pool)
-    _registry_path, marker, baked = source.partition("_baked_bank_paths(cfg)")
+    registry, marker, baked = source.partition("_baked_bank_paths(cfg)")
     assert marker, "build_pool no longer has a baked-bank branch to scan"
-    # Code only. The comments in that branch name the rules it used to apply
-    # and why they were wrong, which is the point of them.
-    baked = "\n".join(line.split("#", 1)[0] for line in baked.splitlines())
-    second_opinions = [name for name in
-                       ("has_broken_options", "needs_missing_figure",
-                        "looks_truncated", "looks_mangled", "near_dupes")
+    return tuple("\n".join(line.split("#", 1)[0] for line in part.splitlines())
+                 for part in (registry, baked))  # type: ignore[return-value]
+
+
+# The three stem rules, by the name each is imported under. Neither branch of
+# `build_pool` may name one: whichever corpus it is reading, it asks the one
+# gate that owns that corpus and `bank_merge` composes the rules.
+_STEM_RULES = ("has_broken_options", "needs_missing_figure", "looks_truncated")
+
+
+def test_neither_pool_path_composes_the_stem_rules_itself():
+    """A source scan, as Task 16 did for the merge's own filters.
+
+    Scoped to the baked-bank branch when it was written, which left the
+    registry branch spelling out `has_broken_options` / `needs_missing_figure`
+    / `looks_truncated` in its own order -- a second, differently-composed
+    answer to "can this be served", and the one still carrying the
+    single-character-option bug. Each branch now asks one named function, and
+    the rules are composed once, in `bank_merge`, per corpus."""
+    registry, baked = _build_pool_source()
+    for branch, text, gate in (("registry", registry, "raw_extraction_reason"),
+                               ("baked-bank", baked, "unservable_reason")):
+        spelled_out = [name for name in _STEM_RULES if name in text]
+        assert spelled_out == [], (
+            f"the {branch} path composes its own servability rules "
+            f"({', '.join(spelled_out)}); ask bank_merge.{gate}")
+        assert gate in text, (
+            f"the {branch} path must ask {gate}, the one gate for the corpus "
+            "it reads")
+
+
+def test_the_baked_bank_path_keeps_no_second_copy_of_the_rule():
+    """The baked-bank branch, on top of the stem rules, must not re-run the
+    encoding check or a near-duplicate index of its own over records the merge
+    already repaired and de-duplicated. Those two stay on the registry path:
+    it reads raw PDF extraction, where the encoding really is broken and the
+    same paper really is parsed twice."""
+    _registry, baked = _build_pool_source()
+    second_opinions = [name for name in (*_STEM_RULES, "looks_mangled", "near_dupes")
                        if name in baked]
     assert second_opinions == [], (
         "the baked-bank path applies its own servability rules "

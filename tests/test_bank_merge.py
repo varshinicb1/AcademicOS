@@ -584,9 +584,26 @@ def test_every_exclusion_is_recorded_with_its_reason():
 
 
 def test_a_contract_violation_after_normalising_fails_the_whole_merge(monkeypatch):
-    monkeypatch.setattr(bm, "normalise", lambda rec: ({"id": rec["id"]}, None))
+    """A record that passes the gate and would still mis-decode on the phone
+    stops the merge. It reads a difficulty the phone has no value for, because
+    the gate reads the stem, the options and the marks and would not catch
+    it."""
+    monkeypatch.setattr(bm, "normalise",
+                        lambda rec: ({**rec, "difficulty": "impossible"}, None))
     with pytest.raises(bm.ContractError):
         bm.compose([], [board(4, id="cbe:q:Z", source="cbse_question_bank")], [])
+
+
+def test_a_normalised_record_the_gate_refuses_is_excluded_not_raised(monkeypatch):
+    """The other half, and the reason the test above had to change: since the
+    gate reads the record in the shape the merge is about to write it (Task
+    126), a `normalise` that loses the stem is a refusal with a name, not a
+    crash. It used to reach `contract_errors` and take the whole merge down."""
+    monkeypatch.setattr(bm, "normalise", lambda rec: ({"id": rec["id"]}, None))
+    result = bm.compose([], [board(4, id="cbe:q:Z", source="cbse_question_bank")], [])
+    assert result.questions == []
+    assert [(e["id"], e["reason"]) for e in result.excluded] == \
+        [("cbe:q:Z", "stem-too-short")]
 
 
 # ---- stems after their furniture is stripped (Task 41) ------------------------
@@ -1723,6 +1740,85 @@ def test_a_near_duplicate_collapses_to_the_record_with_the_verified_scheme():
 
 # -- every exclusion recorded; excluded board records kept whole --
 
+# -- the picture that never arrived (Task 126) ---------------------------------
+
+_SHOWN_BELOW_TAIL = "Also give suitable python statement to save this chart."
+
+
+def test_a_stem_pointing_at_a_picture_that_never_arrived_is_refused():
+    """`cbse:sqp:ClassXII_2022_23:Informatics Practices:33`. Task 126 moved
+    `needs_missing_figure` off the served bank -- rightly, it refused six
+    records of which four carry their table inline as text -- but the merge
+    read none of these, so they became servable by BOTH surfaces instead of by
+    neither. A student cannot plot a chart they were shown and the record does
+    not carry."""
+    rec = sqp_inline(
+        id="cbse:sqp:ClassXII_2022_23:Informatics Practices:33", type="short_answer",
+        stem="Write Python code to plot a bar chart for India's medal tally as "
+             f"shown below: {_SHOWN_BELOW_TAIL}")
+    assert bm.unservable_reason(rec) == "figure-shown-below"
+    result = bm.compose([], [], [rec])
+    assert result.questions == []
+    assert [(e["id"], e["reason"]) for e in result.excluded] == \
+        [(rec["id"], "figure-shown-below")]
+
+
+def test_a_stem_whose_picture_did_arrive_inline_is_kept():
+    """The same paper's Q32 prints its DataFrame after the colon, as text, and
+    is answerable. The rule reads what follows the phrase, not the phrase."""
+    rec = sqp_inline(
+        id="cbse:sqp:ClassXII_2023_24:Informatics Practices:32", type="short_answer",
+        stem="Ekam has designed the DataFrame df that contains the four quarter's "
+             "sales data of different stores as shown below: Store Qtr1 Qtr2 Qtr3 "
+             "Qtr4 0 Store1 300 240 450 230 1 Store2 350 340 403 210 Predict the "
+             "output of print(df.size).")
+    assert bm.unservable_reason(rec) is None
+
+
+def test_a_stem_that_announces_content_after_the_picture_is_kept():
+    """"... as indexes shown below. Answer the following questions: School
+    Tot_students Topper ..." -- the table is inline after the announcement
+    (SQP Informatics Practices XII 2022-23 Q35). Reading "Answer" as a fresh
+    task refused it under a figure reason when its real defect is elsewhere,
+    and `_merge_excluded.json` is read by people."""
+    rec = sqp_inline(
+        id="cbse:sqp:ClassXII_2022_23:Informatics Practices:35", type="short_answer",
+        stem="Mr. Som has designed the DataFrame df with 'CO1' to 'CO5' as indexes "
+             "shown below. Answer the following questions: School Tot_students "
+             "Topper First_Runnerup CO1 PPS 40 32 8 CO2 JPS 30 18 12 "
+             "Write the statement that prints the last two rows.")
+    assert bm.unservable_reason(rec) is None
+
+
+def test_every_merge_path_asks_the_one_gate():
+    """A source scan, as Task 16 did for the pool's filters: `compose` has
+    three paths into the served file and each must ask `unservable_reason`.
+
+    The board path was converted when the gate was written; the CBE/SQP path
+    went on spelling out `source_reason` -> normalise -> `unanswerable_reason`
+    -> `unallocated_marks_reason` in its own order, which is the same
+    composition but a second place to change it, and it is the one that writes
+    4,608 of the 4,678 exclusions."""
+    import ast
+    import inspect
+
+    tree = ast.parse(inspect.getsource(bm.compose).lstrip())
+    fn = tree.body[0]
+    assert isinstance(fn, ast.FunctionDef)
+    if ast.get_docstring(fn) is not None:
+        fn.body = fn.body[1:]          # the docstring names the gate too
+    source = ast.unparse(fn)           # comments are dropped with it
+    spelled_out = [name for name in ("unanswerable_reason", "unallocated_marks_reason",
+                                     "exclusion_reason")
+                   if name in source]
+    assert spelled_out == [], (
+        f"compose() composes the gate itself ({', '.join(spelled_out)}); "
+        "call unservable_reason, which is what pool.build_pool asks of the "
+        "file this writes")
+    # Both paths, not one: board records first, then CBE/SQP/Exemplar.
+    assert source.count("unservable_reason(") == 2, source.count("unservable_reason(")
+
+
 def test_a_board_record_the_fidelity_gate_excludes_is_recorded_and_kept_whole():
     rec = copy.deepcopy(CLASSIFY)
     result = bm.compose([rec], [], [])
@@ -1743,31 +1839,45 @@ def test_a_repaired_board_record_leaves_its_input_unchanged():
 
 # -- the web registry path uses the same filters --
 
-@pytest.mark.parametrize("name", ["needs_missing_figure", "looks_truncated",
-                                  "has_broken_options", "looks_mangled"])
+@pytest.mark.parametrize("name", ["raw_extraction_reason", "looks_mangled"])
 def test_the_pool_filters_live_in_bank_merge(name):
+    """What pool's registry path imports, and where it is defined. It used to
+    import the three stem rules one at a time and compose them itself; since
+    Task 126 it imports the one function that composes them, so the rules and
+    their order are in one place."""
     from academicos.assessment import pool
 
     assert getattr(pool, name) is getattr(bm, name)
     assert getattr(bm, name).__module__ == bm.__name__
 
 
-@pytest.mark.parametrize("fn,text,rejected", [
-    ("needs_missing_figure", "In the given figure, find the value of x.", True),
-    ("needs_missing_figure", "In the given figure, which is right? (a) 1 (b) 2 (c) 3", False),
-    ("looks_truncated", "Select the correct option from the following", True),
-    ("looks_truncated", "The products of the reaction are :", True),
-    ("looks_truncated", "Which of the following is a metal? (A) Na (B) Cl", False),
-    ("has_broken_options", "Pick one (a) 12 (c) 14 (d) 15", True),
-    ("has_broken_options", "Pick one (a) 12 (b) (c) 14 (d) 15", True),
-    ("has_broken_options", "(a) Explain the process of digestion in humans", False),
-    ("looks_mangled", "{H$gr Xn©U à{H«$`m _hmoX {H$gr", True),
-    ("looks_mangled", "Explain the process of photosynthesis in green plants.", False),
+@pytest.mark.parametrize("text,reason", [
+    ("In the given figure, find the value of x.", "figure-unavailable"),
+    ("In the given figure, which is right? (a) 1 (b) 2 (c) 3", None),
+    ("Select the correct option from the following", "truncated"),
+    ("The products of the reaction are :", "truncated"),
+    ("Which of the following is a metal? (A) Na (B) Cl", None),
+    ("Pick one (a) 12 (c) 14 (d) 15", "broken-options"),
+    ("Pick one (a) 12 (b) (c) 14 (d) 15", "broken-options"),
+    ("(a) Explain the process of digestion in humans", None),
+    # A one-character option is an option, not an empty slot (Task 126): 169
+    # served records read the other way, 164 of them Mathematics 6-10.
+    ("What is the value of (30 x 70) + 60? (A) 0 (B) 1 (C) 2 (D) 27", None),
 ])
-def test_the_pool_still_rejects_what_it_rejected(fn, text, rejected):
+def test_the_pool_still_rejects_what_it_rejected(text, reason):
     from academicos.assessment import pool
 
-    assert bool(getattr(pool, fn)(text)) is rejected
+    assert pool.raw_extraction_reason(text) == reason
+
+
+@pytest.mark.parametrize("text,rejected", [
+    ("{H$gr Xn©U à{H«$`m _hmoX {H$gr", True),
+    ("Explain the process of photosynthesis in green plants.", False),
+])
+def test_the_pool_still_reads_a_mangled_stem(text, rejected):
+    from academicos.assessment import pool
+
+    assert bool(pool.looks_mangled(text)) is rejected
 
 
 @pytest.mark.parametrize("stem,marks", [
