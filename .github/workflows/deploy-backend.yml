@@ -29,6 +29,11 @@ on:
       - 'pyproject.toml'
       - 'config/**'
       - 'src/academicos/**'
+      # The suite IS the deploy gate, so a change to it must be able to
+      # re-run the gate. A test-only fix for a red run triggered nothing:
+      # master carried the fix and the last run anyone could see was the
+      # failure it fixed (2026-09-23).
+      - 'tests/**'
       - 'academicos-data/syllabus/**'
   workflow_dispatch: {}
 
