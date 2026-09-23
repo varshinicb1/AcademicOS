@@ -505,9 +505,15 @@ class CurriculumApi {
       if (e.response?.statusCode == 404) {
         final data = e.response?.data;
         final detail = data is Map ? data['detail'] : null;
+        // The route always sends a detail, and it is role-aware (a teacher
+        // is told to ask her principal, a principal is told which screen to
+        // open). This fallback is for a 404 with no body at all, so it says
+        // only what is certainly true rather than naming a screen the
+        // reader may not be allowed to act on -- or, as it once did, a
+        // "Curriculum" destination that does not exist in the app.
         throw CurriculumNotSetUp(detail is String && detail.isNotEmpty
             ? detail
-            : 'Set up Class $grade $subject under Curriculum to filter by subtopic');
+            : 'Class $grade $subject is not set up for subtopic filtering yet');
       }
       rethrow;
     }

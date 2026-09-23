@@ -134,11 +134,30 @@ def test_a_teacher_of_the_school_reads_it_too(world):
 
 def test_a_class_the_school_has_not_set_up_says_so(world):
     """Class 9 was never seeded for this school. The page must be able to
-    tell the teacher what to do, not show an empty picker."""
+    tell the principal what to do, not show an empty picker -- and the
+    destination has to be a screen that exists. There is no "Curriculum"
+    anywhere in the app (shell.dart's nav is Today / Syllabus / Assessments /
+    Planner / Questions / Evaluate / Mastery / Teacher / Principal); book
+    editions live on the Principal console's Roster tab."""
     r = world.client.get(_by_slug("Science", 9, SLUG), headers=world.p1)
     assert r.status_code == 404, r.text
     assert r.json()["detail"] == (
-        "Set up Class 9 Science under Curriculum to filter by subtopic")
+        "Set up Class 9 Science under Principal > Roster > Book editions "
+        "to filter by subtopic")
+
+
+def test_the_teacher_is_told_to_ask_her_principal_not_to_do_it_herself(world):
+    """The picker is a teacher's screen (see the test above that reads it as
+    a teacher), but every remedy is principal-gated: POST /seed/cbse* and
+    PUT /subjects/{id}/selected-book both Depend(require_principal). Sending
+    the majority reader to a console she cannot act in is not an
+    instruction, so the 404 branches on role."""
+    r = world.client.get(_by_slug("Science", 9, SLUG), headers=world.teacher)
+    assert r.status_code == 404, r.text
+    assert r.json()["detail"] == (
+        "Ask your principal to set up Class 9 Science, then you can filter by subtopic")
+    assert "Principal >" not in r.json()["detail"], (
+        "a teacher opening the Principal console gets a 403 from the seed route")
 
 
 def test_a_subject_the_school_has_not_set_up_says_so(world):
@@ -146,7 +165,57 @@ def test_a_subject_the_school_has_not_set_up_says_so(world):
     r = world.client.get(_by_slug("Sanskrit", 10, SLUG), headers=world.p1)
     assert r.status_code == 404, r.text
     assert r.json()["detail"] == (
-        "Set up Class 10 Sanskrit under Curriculum to filter by subtopic")
+        "Set up Class 10 Sanskrit under Principal > Roster > Book editions "
+        "to filter by subtopic")
+
+
+def test_a_subject_with_two_editions_and_no_choice_says_which_choice_is_missing(world):
+    """The Task 107 situation, and the only branch of this 404 nothing
+    covered until now.
+
+    `selected_book_for_subject` returns None when a subject has more than
+    one book and no recorded selection (store.py), which is exactly what a
+    curriculum database written before `create_book` started pinning the
+    incumbent edition looks like. That is not hypothetical: the real
+    academicos-data/curriculum/curriculum.sqlite has no `book_selections`
+    TABLE at all (measured 2026-09-23 on a temp copy -- 8 subjects, 417
+    subtopics), so opening it with today's code creates that table empty and
+    every subject that already holds two books lands in this branch.
+
+    Reproduced here by adding the second edition through the route a
+    principal really uses and then removing the selection row it writes for
+    the incumbent -- there is no unselect, by design (PRD 12.7), so the row's
+    absence is the only way this state exists. Reading the unchosen edition's
+    chapters would offer subtopics nobody in that class is being taught, so
+    the route refuses; this asserts the sentence it refuses with, because an
+    unasserted user-facing string is the one that rots."""
+    from academicos.curriculum import routes as curriculum_routes
+    store = curriculum_routes._require()
+    seeded_book = store.get_book(world.s1.book)
+    added = world.client.post(f"{BASE}/subjects/{world.s1.subject_id}/books", json={
+        "title": "Science Textbook for Class X (2027 revision)",
+        "publisher": "NCERT", "boardId": seeded_book.board_id,
+    }, headers=world.p1)
+    assert added.status_code == 200, added.text
+    assert len(world.client.get(f"{BASE}/subjects/{world.s1.subject_id}/books",
+                                headers=world.p1).json()) == 2
+
+    store._exec("DELETE FROM book_selections WHERE subject_id=?", (world.s1.subject_id,))
+    store._commit()
+    assert store.selected_book_for_subject(world.s1.subject_id) is None, (
+        "the state under test is two editions and no recorded choice")
+
+    r = world.client.get(_by_slug("Science", 10, SLUG), headers=world.p1)
+    assert r.status_code == 404, r.text
+    assert r.json()["detail"] == (
+        "Choose the Class 10 Science book edition under "
+        "Principal > Roster > Book editions to filter by subtopic")
+
+    teacher = world.client.get(_by_slug("Science", 10, SLUG), headers=world.teacher)
+    assert teacher.status_code == 404, teacher.text
+    assert teacher.json()["detail"] == (
+        "Ask your principal to choose the Class 10 Science book edition, "
+        "then you can filter by subtopic")
 
 
 def test_a_chapter_the_chosen_edition_does_not_have_is_named(world):
@@ -200,7 +269,109 @@ def test_the_subtopic_ids_it_returns_are_accepted_by_question_search(world):
     assert theirs.status_code == 403, theirs.text
 
 
-def test_a_subtopic_says_how_many_questions_are_tagged_to_it(world):
+def _bank_of(question_ids: list[str], *, chapter_slug: str = SLUG):
+    """A served bank holding exactly these question ids, under `chapter_slug`.
+
+    Same seam tests/test_assessment_question_search_subtopics.py uses for the
+    search side: the corpus-reading machinery is exercised in
+    test_assessment_pool.py, and _boot_client deliberately boots with an
+    empty data root, so the only way to say "this question IS in the bank"
+    is to hand both routes the same pool.
+    """
+    from academicos.assessment.pool import PoolQuestion, QuestionPool
+    from academicos.models.academic import Question
+
+    return QuestionPool(questions=[
+        PoolQuestion(
+            question=Question(canonical_id=qid, title=f"Question {qid}",
+                              source_text=f"Question {qid}", marks=2.0),
+            subject="Science", grade="X", academic_year=None,
+            chapter_id=chapter_slug, chapter_name="Chemical Reactions and Equations",
+            chapter_confidence=1.0, text_hash=qid)
+        for qid in question_ids])
+
+
+def _serve_bank(monkeypatch, pool) -> None:
+    """Both halves of the round trip read the same bank: the picker's count
+    (curriculum/routes.py) and the search the count is a promise about
+    (assessment/routes.py). Patching only one would let them disagree, which
+    is the whole defect."""
+    from academicos.assessment import routes as assessment_routes
+    from academicos.curriculum import routes as curriculum_routes
+
+    def fake_get_pool(cfg, *, subject, grade):
+        return pool
+
+    monkeypatch.setattr(curriculum_routes, "get_pool", fake_get_pool)
+    monkeypatch.setattr(assessment_routes, "get_pool", fake_get_pool)
+
+
+def test_the_count_only_promises_questions_the_search_can_actually_return(world, monkeypatch):
+    """A link row can name a question the bank no longer serves, and a count
+    that includes it is a lie with a number on it.
+
+    `question_subtopic_links` is (question_id, subtopic_id) and nothing
+    deletes a row when the id it names stops existing. Question ids are
+    exactly what a bank rebuild churns -- this repo did one on 2026-09-21
+    (it re-tagged Science 10 chapters), and `POST /questions/search`
+    intersects the links with the pool candidates for the subject/grade/
+    chapter, so a stranded link can never contribute a question to a paper.
+    Counting it would put "2 questions tagged" next to a subtopic that
+    yields an empty paper: the same silent wrongness Task 115 set out to
+    remove, in a new place and with more authority.
+
+    The assertion is the invariant, not the number: what the picker promises
+    equals what the search delivers."""
+    target = world.s1.subtopic
+    _serve_bank(monkeypatch, _bank_of(["q-still-in-the-bank"]))
+
+    from academicos.curriculum import routes as curriculum_routes
+    store = curriculum_routes._require()
+    store.link_question_to_subtopic(question_id="q-still-in-the-bank", subtopic_id=target)
+    store.link_question_to_subtopic(question_id="q-dropped-by-the-rebuild", subtopic_id=target)
+
+    listed = world.client.get(_by_slug("Science", 10, SLUG), headers=world.p1)
+    assert listed.status_code == 200, listed.text
+    counts = {s["id"]: s["taggedQuestionCount"]
+              for t in listed.json() for s in t["subtopics"]}
+    assert counts[target] == 1, (
+        f"2 links, 1 of them stranded -> the picker must promise 1: {counts}")
+
+    search = world.client.post("/api/v1/questions/search", headers=world.p1, json={
+        "subject": "Science", "grade": 10, "chapterIds": [SLUG], "subtopicIds": [target]})
+    assert search.status_code == 200, search.text
+    assert [q["id"] for q in search.json()] == ["q-still-in-the-bank"]
+    assert len(search.json()) == counts[target], (
+        "the count the teacher reads before generating and the paper she gets "
+        "after must be the same number")
+
+
+def test_an_unreadable_bank_sends_no_count_rather_than_a_wrong_one(world, monkeypatch):
+    """Listing a chapter's topics never touched the question bank until the
+    count did, and build_pool deliberately re-raises a registry
+    OperationalError instead of caching a false "no questions exist"
+    (pool.py, found live 2026-09-18). A transient lock must not turn the
+    picker's own read into a 500 -- that is an empty picker again, the thing
+    this feature exists to end -- and must not report 0 either, which reads
+    as "nothing is tagged". The field is Optional for exactly this."""
+    import sqlite3
+
+    from academicos.curriculum import routes as curriculum_routes
+
+    def locked(cfg, *, subject, grade):
+        raise sqlite3.OperationalError("database is locked")
+
+    monkeypatch.setattr(curriculum_routes, "get_pool", locked)
+
+    r = world.client.get(_by_slug("Science", 10, SLUG), headers=world.p1)
+    assert r.status_code == 200, r.text
+    subtopics = [s for t in r.json() for s in t["subtopics"]]
+    assert subtopics, "the topics themselves must still be listed"
+    assert all(s["taggedQuestionCount"] is None for s in subtopics), (
+        "an unknown count is null, not 0")
+
+
+def test_a_subtopic_says_how_many_questions_are_tagged_to_it(world, monkeypatch):
     """The honest half of the round trip above.
 
     `POST /questions/search` intersects the chapter's questions with the
@@ -223,11 +394,12 @@ def test_a_subtopic_says_how_many_questions_are_tagged_to_it(world):
         "a freshly approved subtopic has nothing tagged to it; reporting "
         "anything but 0 would tell a teacher the filter will find questions")
 
-    # Tag one real question id to one subtopic and the count must follow --
-    # a hardcoded 0 would pass the assertion above.
+    # Tag two questions the bank really serves to one subtopic and the count
+    # must follow -- a hardcoded 0 would pass the assertion above.
     from academicos.curriculum import routes as curriculum_routes
     store = curriculum_routes._require()
     target = world.s1.subtopic
+    _serve_bank(monkeypatch, _bank_of(["q-real-1", "q-real-2"]))
     store.link_question_to_subtopic(question_id="q-real-1", subtopic_id=target)
     store.link_question_to_subtopic(question_id="q-real-2", subtopic_id=target)
 

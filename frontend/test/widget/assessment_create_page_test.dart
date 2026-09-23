@@ -378,6 +378,54 @@ void main() {
       );
     });
 
+    // A paper drawn from more than one chapter is the normal case on this
+    // screen, and the picker used to fetch only on onExpansionChanged --
+    // which fires when the tile OPENS and never again. Tick a second chapter
+    // with the picker already open and the ExpansionTile keeps its expanded
+    // state across the rebuild (same widget type, same slot), so that
+    // chapter's section rendered as SizedBox.shrink(): no spinner, no
+    // message, no request. The teacher saw one chapter's subtopics and read
+    // the other's silence as "that chapter has none".
+    testWidgets('a chapter ticked while the picker is already open fetches and '
+        'renders its own subtopics', (tester) async {
+      final chapters = CorpusRepository.instance.chapters('Science', 10);
+      expect(chapters.length, greaterThan(1),
+          reason: 'this test is about a second chapter, so the corpus must have one');
+      // A chapter NAME is not a unique handle in the bundled corpus (the
+      // 2026-09-21 rebuild left two Science 10 chapters both reading "Acids,
+      // Bases and Salts"), and this test taps by name -- so take the first
+      // later chapter whose name identifies exactly one tile.
+      final second = chapters.skip(1).firstWhere(
+          (c) =>
+              c.chapterName != chapters.first.chapterName &&
+              chapters.where((o) => o.chapterName == c.chapterName).length == 1,
+          orElse: () => throw StateError(
+              'no Science 10 chapter after the first has a unique name'));
+      backend.topicsByPath[
+              '/curriculum/chapters/by-slug/Science/10/${second.chapterId}/topics'] =
+          _prefixSubtopicNames(_fixtureTopics(), 'Second chapter: ');
+
+      final first = await expandPicker(tester);
+      expect(backend.paths,
+          ['/curriculum/chapters/by-slug/Science/10/${first.chapterId}/topics']);
+
+      // Tick the second chapter WITHOUT collapsing the picker.
+      await tester.tap(find.widgetWithText(CheckboxListTile, second.chapterName).first);
+      await tester.pumpAndSettle();
+
+      expect(backend.paths, [
+        '/curriculum/chapters/by-slug/Science/10/${first.chapterId}/topics',
+        '/curriculum/chapters/by-slug/Science/10/${second.chapterId}/topics',
+      ], reason: 'the second chapter must be asked for, not silently skipped');
+
+      final firstSubtopic = ((_fixtureTopics().first['subtopics'] as List).first
+          as Map<String, dynamic>)['name'] as String;
+      expect(find.text('Second chapter: $firstSubtopic'), findsOneWidget,
+          reason: 'the second chapter\'s own subtopics must render, not a blank row');
+      expect(find.text(firstSubtopic), findsOneWidget,
+          reason: 'and the first chapter\'s must still be there');
+    });
+
     testWidgets('shows the real subtopics the backend returned, under their topics',
         (tester) async {
       await expandPicker(tester);
@@ -554,11 +602,16 @@ void main() {
 
     testWidgets('a class the school has not set up shows the server\'s instruction, '
         'not an empty picker', (tester) async {
+      // The real sentence the route sends a TEACHER (the majority reader of
+      // this screen): every remedy is principal-gated, so it names the
+      // person who can act, not a console she would be refused from.
       backend.notSetUpDetail =
-          'Set up Class 10 Science under Curriculum to filter by subtopic';
+          'Ask your principal to set up Class 10 Science, then you can filter by subtopic';
       await expandPicker(tester);
 
-      expect(find.text('Set up Class 10 Science under Curriculum to filter by subtopic'),
+      expect(
+          find.text(
+              'Ask your principal to set up Class 10 Science, then you can filter by subtopic'),
           findsOneWidget,
           reason: 'an empty list reads as "this chapter has no subtopics", which is a '
               'different fact with a different action');

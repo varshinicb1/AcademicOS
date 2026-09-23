@@ -150,9 +150,19 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
   final Set<String> _loadingTopicsForChapter = {};
   final Set<String> _selectedSubtopics = {};
   // The server's own sentence for a chapter whose curriculum isn't set up
-  // ("Set up Class 9 Science under Curriculum to filter by subtopic"), shown
-  // verbatim in place of that chapter's subtopic list.
+  // ("Ask your principal to set up Class 9 Science, then you can filter by
+  // subtopic"), shown verbatim in place of that chapter's subtopic list.
   final Map<String, String> _subtopicNoticeByChapter = {};
+
+  // Whether the picker is open right now. The fetch used to hang off
+  // onExpansionChanged alone, which fires only when the tile opens -- so a
+  // chapter ticked while it was ALREADY open was never fetched, and (see
+  // _buildSubtopicFilter) rendered as nothing at all. Multi-chapter papers
+  // are the normal case here, so the teacher saw one chapter's subtopics
+  // and read the other's silence as "that chapter has none". The
+  // ExpansionTile keeps its own open/closed state across those rebuilds --
+  // same widget type in the same slot -- so this field has to mirror it.
+  bool _subtopicFilterExpanded = false;
 
   // The standalone Android build has no local mirror of Topic/Subtopic (see
   // service_locator.dart), and it must never make a network call. It hides
@@ -254,6 +264,11 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     _topicsByChapter.clear();
     _subtopicNoticeByChapter.clear();
     _loadingTopicsForChapter.clear();
+    // Both callers clear _selectedChapters too, which removes the picker
+    // from the tree entirely; the ExpansionTile that comes back is a new,
+    // collapsed one, so a stale `true` here would make the next chapter tick
+    // fetch for a picker nobody has opened.
+    _subtopicFilterExpanded = false;
   }
 
   /// Any subtopic belonging to a chapter that's no longer selected must be
@@ -668,14 +683,26 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                         title: Text(c.chapterName),
                         subtitle: Text('${c.questionCount} question${c.questionCount == 1 ? '' : 's'} available'),
                         value: _selectedChapters.contains(c.chapterId),
-                        onChanged: (v) => setState(() {
-                          if (v!) {
-                            _selectedChapters.add(c.chapterId);
-                          } else {
-                            _selectedChapters.remove(c.chapterId);
-                            _pruneSubtopicsForDeselectedChapters();
+                        onChanged: (v) {
+                          setState(() {
+                            if (v!) {
+                              _selectedChapters.add(c.chapterId);
+                            } else {
+                              _selectedChapters.remove(c.chapterId);
+                              _pruneSubtopicsForDeselectedChapters();
+                              // The picker is gone from the tree with no
+                              // chapter selected, and comes back collapsed.
+                              if (_selectedChapters.isEmpty) _subtopicFilterExpanded = false;
+                            }
+                          });
+                          // A chapter added to an already-open picker needs
+                          // its own fetch: onExpansionChanged will not fire
+                          // again. Nothing happens while the picker is shut
+                          // -- expanding it still fetches every selection.
+                          if (v! && _subtopicFilterExpanded) {
+                            _loadTopicsForChapter(c.chapterId);
                           }
-                        }),
+                        },
                       )).toList(),
                     );
   }
@@ -692,6 +719,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
             ? 'Leave empty to draw from the whole chapter'
             : '${_selectedSubtopics.length} subtopic${_selectedSubtopics.length == 1 ? '' : 's'} selected'),
         onExpansionChanged: (expanded) {
+          _subtopicFilterExpanded = expanded;
           if (expanded) {
             for (final chapterId in _selectedChapters) {
               _loadTopicsForChapter(chapterId);
@@ -703,14 +731,32 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
             (c) => c.chapterId == chapterId,
             orElse: () => ChapterEntry.fromJson({'chapterId': chapterId, 'chapterName': chapterId}),
           ).chapterName;
-          if (_loadingTopicsForChapter.contains(chapterId)) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              child: Center(child: CircularProgressIndicator()),
-            );
-          }
+          const spinner = Padding(
+            padding: EdgeInsets.symmetric(vertical: 12),
+            child: Center(child: CircularProgressIndicator()),
+          );
+          if (_loadingTopicsForChapter.contains(chapterId)) return spinner;
           final topics = _topicsByChapter[chapterId];
-          if (topics == null) return const SizedBox.shrink();
+          if (topics == null) {
+            // Never a blank row again. This used to return nothing at all
+            // for a chapter that had never been fetched, which is
+            // indistinguishable from "this chapter has no subtopics" -- the
+            // exact ambiguity this whole feature exists to remove.
+            //
+            // The ask is guarded by _subtopicFilterExpanded because
+            // ExpansionTile takes a plain `children` LIST, not a builder:
+            // this code runs on every rebuild while the tile is shut, and an
+            // unguarded fetch here would make ticking a chapter hit the
+            // network for a picker nobody opened (caught by the offline
+            // build's "calls nothing" test). Open, it is the safety net --
+            // _loadTopicsForChapter is a no-op for a chapter already loaded
+            // or in flight, so it cannot loop or double-fetch.
+            if (_subtopicFilterExpanded) {
+              WidgetsBinding.instance
+                  .addPostFrameCallback((_) => _loadTopicsForChapter(chapterId));
+            }
+            return spinner;
+          }
           if (topics.isEmpty) {
             // The server's own instruction when the school has not set this
             // class/subject up; otherwise the chapter really does have no

@@ -11,6 +11,7 @@ guessed-at superset.
 from __future__ import annotations
 
 import json
+import logging
 from dataclasses import asdict
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Optional
@@ -19,6 +20,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 
 from ..assessment.auth_routes import get_current_user, require_principal
 from ..assessment.authz import require_own_school, require_own_subtopics
+from ..assessment.pool import get_pool
 from ..assessment.users import User
 from ..config import Config
 from . import calendar as calendar_mod
@@ -132,6 +134,8 @@ def _school_today() -> date:
 # global table is boards (no school_id column; CBSE is not any one school's
 # row, which is also why export_school_data omits it): any signed-in caller
 # may read it.
+
+log = logging.getLogger(__name__)
 
 _store: Optional[CurriculumStore] = None
 _cfg: Optional[Config] = None
@@ -535,7 +539,8 @@ def list_topics(chapter_id: str,
     instead and uses by-slug/... below."""
     store = _require()
     _require_school_owns_chapter(chapter_id, current)
-    return _topics_with_subtopics(store, chapter_id)
+    return _topics_with_subtopics(
+        store, chapter_id, eligible_question_ids=_bank_questions_for_chapter(store, chapter_id))
 
 
 @router.get("/chapters/by-slug/{subject}/{grade}/{slug}/topics",
@@ -583,12 +588,16 @@ def list_topics_for_syllabus_chapter(
         slug=slug, title_slug=_syllabus_title_slug(subject, grade, slug),
         on_date=_school_today().isoformat())
     if match.chapter is None:
-        raise HTTPException(404, _chapter_slug_detail(match.reason, subject, grade, slug))
-    return _topics_with_subtopics(store, match.chapter.id)
+        raise HTTPException(
+            404, _chapter_slug_detail(match.reason, subject, grade, slug, role=current.role))
+    return _topics_with_subtopics(
+        store, match.chapter.id,
+        eligible_question_ids=_bank_questions_for(subject, grade, [slug]))
 
 
-def _topics_with_subtopics(store: CurriculumStore,
-                           chapter_id: str) -> list[TopicWithSubtopicsResponse]:
+def _topics_with_subtopics(store: CurriculumStore, chapter_id: str, *,
+                           eligible_question_ids: Optional[set[str]],
+                           ) -> list[TopicWithSubtopicsResponse]:
     topics = store.topics_for_chapter(chapter_id)
     subtopics_by_topic = {t.id: store.subtopics_for_topic(t.id) for t in topics}
     # Counted for the whole chapter in one query. This is what the Assessment
@@ -598,8 +607,20 @@ def _topics_with_subtopics(store: CurriculumStore,
     # client calls POST /chapters/{id}/questions/tag that table is empty for
     # every real school, and the only thing standing between a teacher and a
     # blank paper is this number being on screen.
-    counts = store.tagged_question_counts(
-        [s.id for subs in subtopics_by_topic.values() for s in subs])
+    #
+    # Counted against the same candidate set search uses, never the link
+    # table alone: see tagged_question_counts' docstring for why a link can
+    # name a question the bank no longer serves, and what promising one
+    # would do to the teacher who ticks that subtopic.
+    #
+    # None means the bank could not be read at all (see _bank_questions_for).
+    # Then no number is sent, and SubtopicResponse.tagged_question_count is
+    # already Optional for exactly this: the picker's _subtopicSubtitle
+    # renders the topic name alone for a null, which is "we don't know"
+    # rather than a "0" that reads as "nothing is tagged".
+    counts = None if eligible_question_ids is None else store.tagged_question_counts(
+        [s.id for subs in subtopics_by_topic.values() for s in subs],
+        eligible_question_ids=eligible_question_ids)
     out = []
     for t in topics:
         out.append(TopicWithSubtopicsResponse(
@@ -608,7 +629,7 @@ def _topics_with_subtopics(store: CurriculumStore,
             source_reference=t.source_reference, approved_by=t.approved_by,
             approved_at=t.approved_at, model_used=t.model_used,
             generation_version=t.generation_version,
-            subtopics=[_subtopic_response(s, counts.get(s.id, 0))
+            subtopics=[_subtopic_response(s, None if counts is None else counts.get(s.id, 0))
                        for s in subtopics_by_topic[t.id]],
         ))
     return out
@@ -634,18 +655,100 @@ def _syllabus_title_slug(subject: str, grade: int, slug: str) -> Optional[str]:
     return None
 
 
-def _chapter_slug_detail(reason: str, subject: str, grade: int, slug: str) -> str:
-    """What the teacher is told, and it has to be an instruction: this 404
-    is rendered verbatim in the picker (assessment_create_page.dart), where
-    "no subtopics" and "your school has not set this class up" used to look
-    identical -- both an empty list."""
+def _bank_questions_for(subject: str, grade: int,
+                        chapter_slugs: list[str]) -> Optional[set[str]]:
+    """The questions `POST /questions/search` could return for this chapter.
+
+    Built from the same two lines that route builds its candidates from
+    (assessment/routes.py: `get_pool(...)` then `pool.filter(subject, grade,
+    chapter_ids)`), so "tagged" here means the same thing it means there.
+    The pool is memoised per (subject, grade) inside get_pool, so the picker
+    pays for it at most once per process -- the same cost the search on the
+    very next screen already pays.
+
+    None -- never an empty set -- when the bank could not be read. Listing a
+    chapter's topics never touched the question bank before this, and
+    build_pool deliberately re-raises a registry `OperationalError` rather
+    than caching a false "no questions exist" (pool.py, found live
+    2026-09-18). Letting that through would turn a transient lock into a 500
+    on the curriculum read itself, i.e. an empty picker again; returning
+    None sends the topics with no count instead, which says "we don't know"
+    where an empty set would say "nothing is tagged"."""
+    from ..assessment.routes import _int_grade_to_roman  # local: keeps the import one-way
+
+    if _cfg is None or not chapter_slugs:
+        return set()
+    grade_roman = _int_grade_to_roman(grade)
+    try:
+        pool = get_pool(_cfg, subject=subject, grade=grade_roman)
+    except Exception:
+        log.exception("could not read the question bank for %s grade %s; sending "
+                      "subtopics without a tagged-question count", subject, grade)
+        return None
+    return {q.id for q in pool.filter(subject=subject, grade=grade_roman,
+                                      chapter_ids=chapter_slugs)}
+
+
+def _bank_questions_for_chapter(store: CurriculumStore,
+                                chapter_id: str) -> Optional[set[str]]:
+    """The same candidate set, for a caller who has the school's own `chap_`
+    id rather than the syllabus slug.
+
+    Both writers of a chapter row put the bank's slug straight after
+    `:chapter:` in canonical_id -- seed_cbse10.py the syllabus id
+    (`chemical-reactions-equations`), extraction.py the slug of the chapter
+    title (`chemical-reactions-and-equations`) -- and the pool is keyed by
+    one or the other depending on which made this book. Both are offered, so
+    a count is not silently zeroed by the wrong id space."""
+    chapter = store.get_chapter(chapter_id)
+    if chapter is None:
+        return set()
+    unit = store.get_unit(chapter.unit_id)
+    book = store.get_book(unit.book_id) if unit else None
+    subject = store.get_subject(book.subject_id) if book else None
+    grade = store.get_grade(subject.grade_id) if subject else None
+    if subject is None or grade is None:
+        return set()
+    from ..syllabus.cbse_syllabus import _slug
+
+    canonical = chapter.canonical_id or ""
+    seeded_slug = canonical.split(":chapter:", 1)[1] if ":chapter:" in canonical else None
+    slugs = [s for s in (seeded_slug, _slug(chapter.name)) if s]
+    return _bank_questions_for(subject.name, grade.number, slugs)
+
+
+def _chapter_slug_detail(reason: str, subject: str, grade: int, slug: str, *,
+                         role: str) -> str:
+    """What the reader is told, and it has to be an instruction she can
+    carry out: this 404 is rendered verbatim in the picker
+    (assessment_create_page.dart), where "no subtopics" and "your school has
+    not set this class up" used to look identical -- both an empty list.
+
+    Branches on role because the picker is a teacher's screen (see
+    tests/test_curriculum_subtopic_filter.py::test_a_teacher_of_the_school_
+    reads_it_too) while every remedy is principal-gated: `POST /seed/cbse*`
+    and `PUT /subjects/{id}/selected-book` both Depend(require_principal).
+    Telling the majority reader to do something the server would refuse her
+    is not an instruction. The destination named is the one that exists --
+    the Principal console's Roster tab, which is where book_edition_card.dart
+    renders "Book editions"; there is no screen called "Curriculum"."""
+    principal = role == "principal"
+    where = "Principal > Roster > Book editions"
     if reason == "no_edition_chosen":
-        return (f"Choose the Class {grade} {subject} book edition under Curriculum "
-                "to filter by subtopic")
+        if principal:
+            return (f"Choose the Class {grade} {subject} book edition under {where} "
+                    "to filter by subtopic")
+        return (f"Ask your principal to choose the Class {grade} {subject} book "
+                "edition, then you can filter by subtopic")
     if reason == "no_chapter":
+        add_it = (f"add this one under {where}" if principal
+                  else "ask your principal to add this one")
         return (f"Your Class {grade} {subject} book has no chapter '{slug}'. Pick a "
-                "different chapter, or add this one under Curriculum.")
-    return f"Set up Class {grade} {subject} under Curriculum to filter by subtopic"
+                f"different chapter, or {add_it}.")
+    if principal:
+        return f"Set up Class {grade} {subject} under {where} to filter by subtopic"
+    return (f"Ask your principal to set up Class {grade} {subject}, then you can "
+            "filter by subtopic")
 
 
 @router.post("/books/{book_id}/toc/ingest", response_model=IngestTocResponse)

@@ -1273,24 +1273,40 @@ class CurriculumStore:
             "SELECT * FROM question_subtopic_links WHERE subtopic_id=?", (subtopic_id,))
         return [QuestionSubtopicLink(**dict(r)) for r in rows]
 
-    def tagged_question_counts(self, subtopic_ids: list[str]) -> dict[str, int]:
+    def tagged_question_counts(self, subtopic_ids: list[str], *,
+                               eligible_question_ids: Optional[set[str]] = None,
+                               ) -> dict[str, int]:
         """How many distinct questions are tagged to each of these subtopics.
 
-        One GROUP BY for a whole chapter rather than a query per subtopic --
+        One query for a whole chapter rather than a query per subtopic --
         the picker asks for every subtopic of every selected chapter at once.
         Subtopics with nothing tagged are absent from the SQL result and are
         filled in as 0 here, because "0" is the answer the caller needs to
-        show, not a missing key."""
+        show, not a missing key.
+
+        `eligible_question_ids` is the set of questions the caller could
+        actually return, and it is why this is not a bare COUNT(*). A link
+        row is (question_id, subtopic_id) and nothing deletes a link when
+        the question id it names stops existing: the 2026-09-21 bank rebuild
+        re-tagged Science 10 chapters and churned question ids, and a
+        rebuild is exactly what strands links. assessment/routes.py's
+        `POST /questions/search` intersects these links with the pool
+        candidates for the subject/grade/chapter, so a stranded link can
+        never contribute a question to a paper. Counting it anyway would
+        print "7 questions tagged" next to a subtopic that yields an empty
+        paper -- the same silent wrongness this count was added to remove.
+        Pass None only when the caller genuinely means "every link row"."""
         counts = {sid: 0 for sid in subtopic_ids}
         if not subtopic_ids:
             return counts
         placeholders = ",".join("?" * len(subtopic_ids))
         rows = self._fetchall(
-            f"SELECT subtopic_id, COUNT(DISTINCT question_id) AS n "
-            f"FROM question_subtopic_links WHERE subtopic_id IN ({placeholders}) "
-            f"GROUP BY subtopic_id", subtopic_ids)
+            f"SELECT DISTINCT subtopic_id, question_id FROM question_subtopic_links "
+            f"WHERE subtopic_id IN ({placeholders})", subtopic_ids)
         for r in rows:
-            counts[r["subtopic_id"]] = r["n"]
+            if eligible_question_ids is not None and r["question_id"] not in eligible_question_ids:
+                continue
+            counts[r["subtopic_id"]] += 1
         return counts
 
     def question_ids_for_subtopics(self, subtopic_ids: list[str]) -> list[str]:
