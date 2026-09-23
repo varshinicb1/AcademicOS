@@ -66,6 +66,15 @@ BANKS = {
     "cbe": REPO / "academicos-data" / "corpus" / "cbse-cbe" / "questions.json",
     "board": REPO / "academicos-data" / "syllabus" / "questions.json",
 }
+# A board record the merge withholds (no verified key, or not answerable as
+# printed) still carries a gold judgement, and that judgement is about the
+# TAGGER, which does not care whether the record is served. The board bank is
+# therefore the served board records PLUS the withheld ones -- the same union
+# tests/test_topic_tagger.py builds, and it must stay the same union or the two
+# measure different gold sets. Without it the calibration dies with a KeyError
+# the first time a rebuild withholds a gold record, which is what happened on
+# 2026-09-24 to cbse:q:src:f5f52d3e0580aac4355f9205:21.
+BOARD_WITHHELD = REPO / "academicos-data" / "syllabus" / "board_withheld.json"
 TARGET = 0.90          # the bar an accepted tag must clear
 SELECT_AT = 0.93       # the precision a threshold is chosen at: TARGET plus a margin
 # A threshold must be shown on at least this many accepted gold tags. Without
@@ -274,6 +283,12 @@ def main(argv=None) -> int:
     gold = json.loads(GOLD.read_text(encoding="utf-8"))
     items = gold["items"]
     banks = {k: json.loads(p.read_text(encoding="utf-8"))["questions"] for k, p in BANKS.items()}
+    board = [r for r in banks["board"] if r.get("source") == "cbse_board_paper"]
+    if BOARD_WITHHELD.exists():
+        seen = {r.get("id") for r in board}
+        board += [r for r in json.loads(BOARD_WITHHELD.read_text(encoding="utf-8"))["questions"]
+                  if r.get("id") not in seen]
+    banks["board"] = board
     raw_tagger = tg.TopicTagger(model={}, thresholds={})
     wanted = {it["id"] for it in items}
     tags = {}
@@ -281,6 +296,18 @@ def main(argv=None) -> int:
         for rec, tag in zip(records, raw_tagger.tag_records(records)):
             if rec.get("id") in wanted and tag is not None:
                 tags[rec["id"]] = tag
+    # A gold item whose record no longer exists anywhere is REPORTED, never
+    # skipped in silence: the gold set is the only measurement of this
+    # tagger, and quietly shrinking it would raise precision by losing the
+    # questions the tagger finds hardest.
+    missing = [it["id"] for it in items if it["id"] not in tags]
+    if missing:
+        print(f"gold items with no record in any bank: {len(missing)} of {len(items)}")
+        for mid in missing[:10]:
+            print(f"    {mid}")
+        raise SystemExit(
+            "refusing to calibrate on an incomplete gold set -- restore the "
+            "records or re-judge the gold set")
     rows = [{"item": it, "tag": tags[it["id"]], "judged": tg.judge(tags[it["id"]], it)}
             for it in items]
     sets = training_sets(rows)

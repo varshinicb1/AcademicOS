@@ -609,3 +609,30 @@ def test_every_split_the_rules_fire_on_the_served_bank_is_hand_checked():
         if rule and record.get("id") not in checked:
             missing.append(record.get("id"))
     assert not missing, missing[:20]
+
+
+def test_a_split_that_awards_more_than_the_question_is_refused():
+    """cbse:sqp:ClassXII_2022_23:Psychology:21, a 2-mark question, came out of
+    the rebuild with SIX points of 1 mark: the scheme lists six ethical
+    principles and prints "(1+1)", meaning any two of them. Read as six
+    required points it tells a teacher to award 6 marks on a 2-mark question.
+    Where the marks do not add up and the source never said "any N", there is
+    no split to be had."""
+    answer = ("Informed consent needs to be taken 2. Confidentiality of the client "
+              "should be maintained 3. Alleviating personal distress and suffering "
+              "should be the goal 4. Integrity of the practitioner-client relationship "
+              "is important 5. Respect for human rights and dignity 6. Professional "
+              "competence and skills are essential (1+1)")
+    points, extras = ms.value_points(answer, 2, "q")
+    assert len(points) == 1, [p["description"] for p in points]
+    assert extras.get("allOrNothing") is True
+
+
+def test_a_point_that_is_the_annotation_and_not_the_answer_is_refused():
+    """cbse:sqp:ClassXII_2023_24:Informatics Practices:19 split into
+    "correct explanation) (1 mark for correct example)" and "correct example)"
+    -- the marking instruction chopped up, with no answer in it. A value point
+    a teacher cannot mark against is worse than one lump they can."""
+    answer = "(1 mark for correct explanation) (1 mark for correct example)"
+    points, extras = ms.value_points(answer, 2, "q")
+    assert len(points) == 1, [p["description"] for p in points]

@@ -468,6 +468,10 @@ def value_points(answer: str, marks: int, record_id: str,
     can then tell a key that was never split from one that could not be.
     """
     split = split_answer(answer, marks, stem)
+    # Last gate before the bank sees it: a split whose points are the marking
+    # note rather than the answer is refused whole, whichever rule produced it.
+    if len(split.points) > 1 and any(_is_annotation(p.description) for p in split.points):
+        split = _one_point(" ".join(str(answer or "").split()), marks)
     points = [{
         "id": f"{record_id}:mp{i}",
         "description": p.description,
@@ -627,6 +631,30 @@ def _inside_brackets(text: str, pos: int) -> bool:
         if ch == ")":
             return False
     return False
+
+
+# A value point a teacher cannot mark against: the marking INSTRUCTION,
+# chopped up, with no answer in it. cbse:sqp:ClassXII_2023_24:Informatics
+# Practices:19 split into "correct explanation) (1 mark for correct example)"
+# and "correct example)" -- the annotation was the only text the key held, so
+# every rule that reads annotations found structure and none of it was answer.
+# One lump a teacher can read beats two fragments they cannot.
+_ANNOTATION_ONLY = re.compile(
+    r"^[\s)\]]*(?:\(?\s*(?:½|\d+(?:[.,]\d+)?)\s*(?:/\s*\d+\s*)?marks?\b"
+    r"|marks?\s+(?:for|each|awarded)\b|correct\s+(?:explanation|example|answer)\b)",
+    re.I)
+
+
+def _is_annotation(item: str) -> bool:
+    """The point is the board's marking note rather than the answer to mark."""
+    text = item.strip()
+    if not text:
+        return True
+    if _ANNOTATION_ONLY.match(text):
+        return True
+    # "…) (1 mark for correct example)": a fragment that opens with the tail of
+    # a bracket it never opened is a cut annotation, not a sentence.
+    return text.startswith(")") or text.startswith("]")
 
 
 def _says_something(item: str) -> bool:

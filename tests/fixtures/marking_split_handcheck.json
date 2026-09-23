@@ -2,7 +2,7 @@
  "checkedAt": "2026-09-24",
  "bank": "academicos-data/syllabus/questions.json as served (5,427 records), read with the splitter at this commit",
  "how": "Each key below was read against the source PDF it came from -- the CBSE sample paper's marking scheme (academicos-data/corpus/cbse-sqp/<year>/<Subject>-MS.pdf), the CBE item bank, or the NCERT Exemplar answer booklet (ncert-dataset/exemplar/<class>/<subject>/) -- and judged wrong when the board printed a different allocation, or when the points the split ships are not the answer the source prints for that question. Where the source prints no allocation at all, which is every Exemplar answer, 'correct' means the parts the split reads are the parts the book prints, and the question's marks divide equally over them. 'verdict: none' is a key the check read where the rules ship no split, kept so the reason stays with the record. Coverage: every key the rules split on the served bank is in this sample, by id (tests/test_corpus_marking_split.py holds the gate) -- the first check had read only 24 of the 74 list-equal splits, the rule whose allocation is ours rather than the board's. The judgements are an AI reviewer's, not a teacher's.",
- "checked": 127,
+ "checked": 128,
  "wrong": 1,
  "split": 123,
  "samples": [
@@ -3343,6 +3343,44 @@
    ],
    "verdict": "correct",
    "why": "jeep1an.pdf prints three advantages where the stem asks for two; the question's 3 marks divide over the three the book shows."
+  },
+  {
+   "id": "cbse:sqp:ClassXII_2022_23:Psychology:21",
+   "source": "cbse_sample_paper",
+   "sourceDocument": "Psychology-MS.pdf",
+   "marks": 2,
+   "stem": "State any two ethical standards that need to be practiced by professional psychotherapists.",
+   "answer": "Ans.: Two ethical standards that need to be practiced by professional psychotherapists are (any 2 of the following ) : ● Informed consent needs to be taken ● Confidentiality of the client should be maintained ● Alleviating personal distress and suffering should be the goal of all attempts of the therapist ● Integrity of the practitioner -client relationship is important ● Respect for human rights and dignity ● Professional competence and skills are essential (1+1) Page 103",
+   "rule": "any-of",
+   "anyOf": 2,
+   "points": [
+    [
+     "Informed consent needs to be taken",
+     1
+    ],
+    [
+     "Confidentiality of the client should be maintained",
+     1
+    ],
+    [
+     "Alleviating personal distress and suffering should be the goal of all attempts of the therapist",
+     1
+    ],
+    [
+     "Integrity of the practitioner -client relationship is important",
+     1
+    ],
+    [
+     "Respect for human rights and dignity",
+     1
+    ],
+    [
+     "Professional competence and skills are essential (1+1) Page 103",
+     1
+    ]
+   ],
+   "verdict": "correct",
+   "why": "The stem itself asks for ANY TWO ethical standards and the scheme lists six, closing with the board's own '(1+1)'. Six points of 1 mark with anyOf 2 is that reading: a teacher awards two of the six. Read as six REQUIRED points -- which is what the bank carried before this rebuild -- it told a teacher to award 6 marks on a 2-mark question."
   }
  ]
 }
