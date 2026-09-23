@@ -15,20 +15,29 @@ String pdfSafe(String text) {
       .replaceAll('’', "'")
       .replaceAll('“', '"')
       .replaceAll('”', '"');
-  // Subscript/superscript digits (U+2080-2089 subscript, U+00B2/00B3/00B9 +
-  // U+2074-2079 superscript) -- map to plain digits rather than dropping
-  // them, since the digit itself is real content (a real chemical formula's
-  // subscript, a real exponent), just not renderable at this glyph.
+  // Subscripts (U+2080-2089) become plain digits: a subscript names a thing --
+  // H2O, a1 -- and never changes a value, so the ASCII spelling in everyday
+  // use reads correctly.
   const subscripts = {
     '₀': '0', '₁': '1', '₂': '2', '₃': '3', '₄': '4',
     '₅': '5', '₆': '6', '₇': '7', '₈': '8', '₉': '9',
   };
+  subscripts.forEach((k, v) => out = out.replaceAll(k, v));
+  // A superscript is an exponent, and a plain digit is a DIFFERENT quantity:
+  // cbe:q:Maths8BS2's options are "(A) 4y³ (B) 9y³ (C) 13y³ (D) 36y³" and
+  // printed "4y3, 9y3 ..." -- the question itself, gone (re-audit 2026-09-23).
+  // The caret goes in front of the whole run, so "10⁻³" is "10^-3", not
+  // "10^-^3". Mirrors assessment/pdf.py's `_exponent`; the two must agree,
+  // because the same paper prints through either.
   const superscripts = {
     '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4',
     '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9',
+    '⁺': '+', '⁻': '-', '⁼': '=', '⁽': '(', '⁾': ')', 'ⁿ': 'n',
   };
-  subscripts.forEach((k, v) => out = out.replaceAll(k, v));
-  superscripts.forEach((k, v) => out = out.replaceAll(k, v));
+  out = out.replaceAllMapped(
+    RegExp('[${superscripts.keys.join()}]+'),
+    (m) => '^${m.group(0)!.split('').map((c) => superscripts[c]!).join()}',
+  );
 
   // Real math symbols found by direct inspection of the bundled corpus's
   // own marking-point/model-answer text (assets/corpus/questions.json,

@@ -910,3 +910,16 @@ def test_committed_true_false_and_fill_in_records_carry_their_instruction():
         if kind == ex.FILL_BLANK and "fill in" not in lead:
             bad.append(f"{r['id']}: {stem[:60]}")
     assert not bad, (len(bad), bad[:10])
+
+
+def test_a_derived_difficulty_and_bloom_level_say_they_were_derived(maths6):
+    """Exemplar prints neither a difficulty nor a Bloom level, so
+    `_difficulty_for` reads them off the marks and every record gets
+    "understand". Unflagged, `selection.difficulty_signal` took the guess for a
+    judgement: every marks value then held exactly one difficulty, and
+    foundation, standard and advanced returned the SAME 38 questions for
+    Mathematics 9 (re-audit, 2026-09-23). The other importers already flag what
+    they supply (bank_merge, assessment/mapping)."""
+    rec = ex.to_bank_record(_q(maths6, 2), "")
+    assert rec["metadata"]["difficultyInferred"] is True
+    assert rec["metadata"]["bloomInferred"] is True

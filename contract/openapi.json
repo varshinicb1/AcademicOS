@@ -15251,7 +15251,7 @@
     },
     "/v1/coverage": {
       "get": {
-        "description": "How much of the bank is answerable, per subject and class.\n\nThe audit found no way to ask this over HTTP (`/v1/coverage` was a 404)\nwhile the MCP server had `coverage_report` -- so the number a buyer could\nread and the number an agent could read came from different places, or in\nthe HTTP case from nowhere. Both now return `QuestionBank.coverage()`\nverbatim (rule Q5).\n\nAggregate counts, so it takes `facets:read` rather than `questions:read`:\nno question text or marking scheme crosses this route.",
+        "description": "How much of the bank is answerable, per subject and class.\n\nThe audit found no way to ask this over HTTP (`/v1/coverage` was a 404)\nwhile the MCP server had `coverage_report` -- so the number a buyer could\nread and the number an agent could read came from different places, or in\nthe HTTP case from nowhere. Both now return `QuestionBank.coverage()`\nverbatim (rule Q5).\n\nEvery count here names a set a request can actually be handed:\n`withOfficialCbseScheme` is `?key_provenance=cbse_marking_scheme`, and per\nsubject and class `markValues` lists the distinct mark denominations while\n`marksTotal` is what the answer-keyed questions add up to. The field was\ncalled `marksAvailable` and held the denominations, which on a coverage\nendpoint reads as the total a buyer would size a purchase on.\n\nAggregate counts, so it takes `facets:read` rather than `questions:read`:\nno question text or marking scheme crosses this route.",
         "operationId": "get_coverage_v1_coverage_get",
         "parameters": [
           {
@@ -15315,7 +15315,7 @@
     },
     "/v1/facets": {
       "get": {
-        "description": "The filter vocabulary and its counts under the current filter.",
+        "description": "The filter vocabulary and its counts under the current filter.\n\n**Under the same Q1 default as `/v1/questions`, and the same two opt-ins.**\nThese counts exist to size a query, so counting a wider set than the query\nwill serve is a lie about the page the consumer is about to request --\nwhichever door the count comes through. The inline facets on\n`/v1/questions` took the default and this route did not, which put the two\ncounts of one thing 8 records apart on the fixture bank (20 against 12) and\nis the exact divergence Q1 and Q5 were written to end.",
         "operationId": "get_facets_v1_facets_get",
         "parameters": [
           {
@@ -15348,6 +15348,54 @@
                 }
               ],
               "title": "Grade"
+            }
+          },
+          {
+            "description": "true: count only answer-keyed questions (the default). false: count only the unanswerable set, for auditing.",
+            "in": "query",
+            "name": "has_scheme",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "true: count only answer-keyed questions (the default). false: count only the unanswerable set, for auditing.",
+              "title": "Has Scheme"
+            }
+          },
+          {
+            "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
+            "in": "query",
+            "name": "key_provenance",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
+              "title": "Key Provenance"
+            }
+          },
+          {
+            "description": "count questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in.",
+            "in": "query",
+            "name": "include_unkeyed",
+            "required": false,
+            "schema": {
+              "default": false,
+              "description": "count questions with no answer key as well. Rule Q1 excludes them by default; this is the explicit opt-in.",
+              "title": "Include Unkeyed",
+              "type": "boolean"
             }
           },
           {
@@ -15591,7 +15639,7 @@
     },
     "/v1/questions": {
       "get": {
-        "description": "Paged, filtered question list. The workhorse endpoint.\n\n**Answer-keyed by default (rule Q1).** See `_q1_filter` for the two ways\nto ask for the rest.",
+        "description": "Paged, filtered question list. The workhorse endpoint.\n\n**Answer-keyed by default (rule Q1).** See `_q1_filter` for the two ways\nto ask for the rest, and `key_provenance` to narrow to one kind of key.",
         "operationId": "list_questions_v1_questions_get",
         "parameters": [
           {
@@ -15723,7 +15771,7 @@
             }
           },
           {
-            "description": "true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing.",
+            "description": "true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing. Since the Q1 pass this is the shared answer-key rule (published provenance AND real content), not the CBSE label alone; use key_provenance for the board's own schemes.",
             "in": "query",
             "name": "has_scheme",
             "required": false,
@@ -15736,8 +15784,26 @@
                   "type": "null"
                 }
               ],
-              "description": "true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing.",
+              "description": "true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing. Since the Q1 pass this is the shared answer-key rule (published provenance AND real content), not the CBSE label alone; use key_provenance for the board's own schemes.",
               "title": "Has Scheme"
+            }
+          },
+          {
+            "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
+            "in": "query",
+            "name": "key_provenance",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
+              "title": "Key Provenance"
             }
           },
           {
@@ -16147,7 +16213,7 @@
     },
     "/v1/subtopics/{subtopic_id}/questions": {
       "get": {
-        "description": "Curriculum-driven listing: everything tagged to one subtopic.\n\nAnswer-keyed by default, like `/v1/questions` -- a rule that held on one\nlisting route and not its neighbour would not be a rule.",
+        "description": "Curriculum-driven listing: everything tagged to one subtopic.\n\nAnswer-keyed by default, like `/v1/questions` -- a rule that held on one\nlisting route and not its neighbour would not be a rule. **And the same\ntwo opt-ins**: `has_scheme` was documented as accepted by all three\nlisting routes but was never declared here, so FastAPI dropped it and\n`?has_scheme=false` answered 200 with the exact OPPOSITE set -- an auditor\nasking which questions of a subtopic the relink has not reached was handed\nthe ones it already covers, with nothing in the response to say so.",
         "operationId": "questions_for_subtopic_v1_subtopics__subtopic_id__questions_get",
         "parameters": [
           {
@@ -16185,6 +16251,42 @@
                 }
               ],
               "title": "Cursor"
+            }
+          },
+          {
+            "description": "true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing this subtopic.",
+            "in": "query",
+            "name": "has_scheme",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "true: only answer-keyed questions (the default). false: only the unanswerable set, for auditing this subtopic.",
+              "title": "Has Scheme"
+            }
+          },
+          {
+            "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
+            "in": "query",
+            "name": "key_provenance",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "narrow to ONE kind of published key: 'cbse_marking_scheme' for the board's own schemes, 'ncert_exemplar_answer' for NCERT's Exemplar answers. Narrows within the answer-keyed set; it never widens past rule Q1, so combining it with has_scheme=false is a 400 rather than an empty page.",
+              "title": "Key Provenance"
             }
           },
           {

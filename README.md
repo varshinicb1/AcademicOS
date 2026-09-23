@@ -82,7 +82,9 @@ python -m venv .venv
 pip install -e ".[api,mobile-scan,dev]"
 
 # The question-bank MCP server (python -m academicos.mcp.qbank_server) needs
-# the MCP SDK as well; [api] already covers uvicorn for its network transports.
+# the MCP SDK as well. [mcp] alone is enough for the stdio transport, which is
+# what desktop MCP clients launch; the network transports (--transport
+# sse/streamable-http) also need [api], for uvicorn and for the API-key gate.
 pip install -e ".[api,mcp]"
 
 # Download required spaCy NLP model

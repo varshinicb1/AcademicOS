@@ -16,8 +16,14 @@ void main() {
     expect(pdfSafe('Na₂CO₃'), 'Na2CO3');
   });
 
-  test('superscript digits (real exponents) are mapped to plain digits', () {
-    expect(pdfSafe('x² + 4x'), 'x2 + 4x');
+  test('an exponent prints as an exponent, not a plain digit', () {
+    // "4y³" printed "4y3" -- a different quantity (re-audit 2026-09-23,
+    // cbe:q:Maths8BS2). A subscript stays a plain digit: H2O is how chemistry
+    // is written in ASCII, and no subscript changes a value.
+    expect(pdfSafe('x² + 4x'), 'x^2 + 4x');
+    expect(pdfSafe('(A) 4y³ (B) 9y³'), '(A) 4y^3 (B) 9y^3');
+    expect(pdfSafe('10⁻³'), '10^-3');
+    expect(pdfSafe('H₂O and CO₂'), 'H2O and CO2');
   });
 
   test('existing typographic-punctuation normalization still holds', () {
