@@ -200,6 +200,41 @@ def test_cli_seeds_a_grade_into_a_temp_data_root(tmp_path, monkeypatch, capsys):
     assert {s.name for s in subjects} >= {"Science", "Mathematics"}
 
 
+def test_cli_all_grades_seeds_every_grade_from_6_to_12(tmp_path, monkeypatch, capsys):
+    """Item 4 named ONE function: "seed_cbse_all_grades (seed_cbse10.py:128) is
+    wired to no route or CLI". `--all-grades` is that wire, and until
+    2026-09-23 no test ran it -- the CLI test above only ever passed
+    `--grade 9`, so the named function stayed the untested one."""
+    from academicos import cli
+    from academicos.curriculum import store as curriculum_store_mod
+
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    monkeypatch.setattr(curriculum_store_mod, "_INSTANCE", None)
+
+    rc = cli.main(["seed-curriculum", "--school-id", "school_every", "--all-grades",
+                   "--academic-year-label", "2026-27",
+                   "--start-date", "2026-06-01", "--end-date", "2027-03-31"])
+    assert rc == 0
+    out = capsys.readouterr().out
+
+    store = curriculum_store_mod.get_curriculum_store(tmp_path)
+    year = store.get_academic_year_by_label("school_every", "2026-27")
+    assert year is not None
+    for number in range(6, 13):
+        assert f"grade {number}:" in out, f"grade {number} not reported"
+        grade = store.get_grade_by_number(year.id, number)
+        assert grade is not None, f"grade {number} not seeded"
+        subjects = store.subjects_for_grade(grade.id)
+        assert subjects, f"grade {number} seeded with no subjects"
+        for subject in subjects:
+            book = store.books_for_subject(subject.id)[0]
+            assert store.chapters_for_book(book.id), (
+                f"grade {number} {subject.name} seeded with no chapters")
+    # One shared academic year, not seven -- the same year row every grade of
+    # the school hangs off, which is what makes re-running it idempotent.
+    assert len(store.academic_years_for_school("school_every")) == 1
+
+
 # ---------------- 5a/5b: the committed decomposition templates ----------------
 
 TEMPLATE_DIR = ROOT / "academicos-data" / "syllabus" / "decomposition"
@@ -415,8 +450,8 @@ def test_a_partly_covered_subject_is_not_told_that_nothing_matched():
 
 def test_a_subject_where_nothing_matched_says_so_and_names_the_book():
     """The other half: Class 7-9 really do get nothing, and the reason has to
-    name the measured cause (the NEP edition renamed the chapters) and the book
-    it was measured against, not a generic apology."""
+    name the book it was measured against and show what that book's chapters
+    are, not offer a generic apology."""
     from academicos.curriculum.decomposition_templates import manifest
 
     rows = {(r["subject"], r["grade"]): r for r in manifest()["by_subject_grade"]}
@@ -427,6 +462,108 @@ def test_a_subject_where_nothing_matched_says_so_and_names_the_book():
     note = row["why_uncovered"]
     assert f"none of the {row['syllabus_chapters']} chapters got topics" in note
     assert "science/class7_curiosity.pdf" in note
+    # The book's own chapter names are quoted, so the claim "not one of their
+    # titles is in this syllabus JSON" can be checked instead of believed.
+    assert '"Exploring Substances: Acidic, Basic, and Neutral"' in note
+
+
+# ---------------- 5c: the reported reason has to be the measured one ---------
+
+_BOOKS_ON_DISK = {
+    ("English", 6): "english/class6_poorvi.pdf",
+    ("English", 7): "english/class7_poorvi.pdf",
+    ("English", 8): "english/class8_poorvi.pdf",
+    ("Hindi", 9): "hindi/class9_ganga.pdf",
+    ("Social Science", 9): "social_science/class9_understanding_society_part1.pdf",
+}
+
+
+def _rows():
+    from academicos.curriculum.decomposition_templates import manifest
+    return {(r["subject"], r["grade"]): r for r in manifest()["by_subject_grade"]}
+
+
+def test_a_book_the_extractor_read_nothing_from_is_never_reported_as_absent():
+    """The worst thing this manifest did. `from_textbooks` dropped a textbook
+    whenever the extractor returned zero chapters from it, so the per-chapter
+    reason fell through to "no NCERT textbook for this subject/grade in this
+    repo, and no approved decomposition to copy from" -- and that string is
+    surfaced verbatim to the principal as `topicTemplates[].note`. All five of
+    these books are declared in the exporter's own TEXTBOOKS map AND present on
+    disk, so the product was telling a principal a book does not exist while
+    holding it."""
+    rows = _rows()
+    for (subject, grade), book in _BOOKS_ON_DISK.items():
+        row = rows[(subject, grade)]
+        assert row.get("textbook"), f"{subject} {grade}: the book was dropped again"
+        assert row["textbook"]["books"] == [book]
+        note = row["why_uncovered"]
+        assert "no NCERT textbook for this subject/grade in this repo" not in note, note
+        assert book in note, note
+        for chapter in row["uncovered"]:
+            assert "no source at all" not in chapter["why"], chapter
+
+
+def test_a_subject_is_not_told_its_chapters_were_renamed_when_none_were_read():
+    """A reason has to survive being read next to its own numbers. The Class 9
+    Mathematics row said its chapters "do not match ... NCERT's 2024-25 NEP
+    editions having renamed and reorganised the chapters" and, in the same
+    sentence, "(1 chapters read)" -- the one being the book's front cover. A
+    subject nothing was read from cannot be reporting a title mismatch."""
+    for row in _rows().values():
+        fact = row.get("textbook")
+        if not fact or fact["textbook_chapters"]:
+            continue
+        note = row["why_uncovered"]
+        assert "no chapter of that title" not in note, (row["subject"], row["grade"], note)
+        assert "read no chapter out of it" in note, (row["subject"], row["grade"], note)
+
+
+def test_the_committed_chapter_titles_are_the_books_own_words():
+    """The manifest's `textbook_chapter_titles` is the evidence every "no
+    chapter of that title" claim rests on, and it was carrying page furniture:
+    "Cell: The Building Block of Life Chapter", "Geographical Diversity of
+    India Questions", "Basic, and Neutral"."""
+    for row in _rows().values():
+        for title in (row.get("textbook") or {}).get("textbook_chapter_titles", []):
+            where = (row["subject"], row["grade"], title)
+            assert "Questions" not in title, where
+            assert "Chapter" not in title, where
+            assert not title.startswith("and "), where
+
+
+def test_class_9_mathematics_reports_the_books_real_chapters():
+    """Ganita Manjari 9 sets its chapter numerals at 2.05x the body size, under
+    the extractor's 2.5x floor, so the exporter saw one "chapter" -- the front
+    cover, whose lone 43.8pt numeral is the GRADE -- and none of the book's
+    eight real ones."""
+    fact = _rows()[("Mathematics", 9)]["textbook"]
+    titles = fact["textbook_chapter_titles"]
+    assert fact["textbook_chapters"] >= 8, titles
+    assert "The World of Numbers" in titles
+    assert "Orienting Yourself: The Use of Coordinates" in titles
+    assert not any("GANITA MANJARI" in t for t in titles), titles
+
+
+def test_the_exporter_keeps_the_facts_of_a_book_it_read_nothing_from(monkeypatch, tmp_path):
+    """The same guarantee as a unit, without half a minute of PDF reading: a
+    declared book that is on disk is recorded in `facts` whether or not the
+    extractor got a chapter out of it, and its chapters' reason says which of
+    the two happened."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import export_decomposition_templates as export
+
+    monkeypatch.setattr(export, "textbook_sources",
+                        lambda root, subject, grade: list(export.TEXTBOOKS.get((subject, grade), ())))
+    monkeypatch.setattr(export, "textbook_tree", lambda root, subject, grade: [])
+
+    matched, facts = export.from_textbooks(tmp_path, wanted={("Hindi", 9)})
+    assert matched == {}
+    fact = facts[("Hindi", 9)]
+    assert fact["textbook_chapters"] == 0
+    assert fact["books"] == ["hindi/class9_ganga.pdf"]
+    assert export._why_chapter("Kritika Bhag 1", fact, True) == export._NOTHING_READ
+    assert export._why_chapter("Kritika Bhag 1", None, True) == export._NO_SOURCE
 
 
 def test_the_seed_response_note_matches_what_that_subject_actually_got(client, principal):

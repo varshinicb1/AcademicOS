@@ -167,17 +167,21 @@ def test_a_teacher_of_the_school_reads_it_too(world):
 
 
 def test_a_class_the_school_has_not_set_up_says_so(world):
-    """Class 9 was never seeded for this school. The page must be able to
-    tell the principal what to do, not show an empty picker -- and the
-    destination has to be a screen that exists. There is no "Curriculum"
-    anywhere in the app (shell.dart's nav is Today / Syllabus / Assessments /
-    Planner / Questions / Evaluate / Mastery / Teacher / Principal); book
-    editions live on the Principal console's Roster tab."""
+    """Class 9 was never seeded for this school. The page must say so rather
+    than show an empty picker -- and it must not name a screen that cannot do
+    the job. Setting a class up calls POST /curriculum/seed/cbse, which no
+    client calls (grep of frontend/lib, 2026-09-23), so "Set up Class 9
+    Science under Principal > Roster > Book editions" sent a principal to a
+    card that only chooses among a subject's existing books. An instruction
+    that fails at the destination costs more than no instruction."""
     r = world.client.get(_by_slug("Science", 9, SLUG), headers=world.p1)
     assert r.status_code == 404, r.text
-    assert r.json()["detail"] == (
-        "Set up Class 9 Science under Principal > Roster > Book editions "
-        "to filter by subtopic")
+    detail = r.json()["detail"]
+    assert detail == (
+        "Class 9 Science has not been set up for your school yet, so there are "
+        "no subtopics to filter by. Setting a class up is not something the app "
+        "can do yet -- it needs support.")
+    assert "Book editions" not in detail, "names a screen that cannot set a class up"
 
 
 def test_the_teacher_is_told_to_ask_her_principal_not_to_do_it_herself(world):
@@ -189,7 +193,8 @@ def test_the_teacher_is_told_to_ask_her_principal_not_to_do_it_herself(world):
     r = world.client.get(_by_slug("Science", 9, SLUG), headers=world.teacher)
     assert r.status_code == 404, r.text
     assert r.json()["detail"] == (
-        "Ask your principal to set up Class 9 Science, then you can filter by subtopic")
+        "Class 9 Science has not been set up for your school yet, so there are "
+        "no subtopics to filter by. Ask your principal to have it added.")
     assert "Principal >" not in r.json()["detail"], (
         "a teacher opening the Principal console gets a 403 from the seed route")
 
@@ -199,8 +204,9 @@ def test_a_subject_the_school_has_not_set_up_says_so(world):
     r = world.client.get(_by_slug("Sanskrit", 10, SLUG), headers=world.p1)
     assert r.status_code == 404, r.text
     assert r.json()["detail"] == (
-        "Set up Class 10 Sanskrit under Principal > Roster > Book editions "
-        "to filter by subtopic")
+        "Class 10 Sanskrit has not been set up for your school yet, so there are "
+        "no subtopics to filter by. Setting a class up is not something the app "
+        "can do yet -- it needs support.")
 
 
 def test_a_subject_with_two_editions_and_no_choice_says_which_choice_is_missing(world):

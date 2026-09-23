@@ -752,15 +752,25 @@ def _chapter_slug_detail(reason: str, subject: str, grade: int, slug: str, *,
                     "to filter by subtopic")
         return (f"Ask your principal to choose the Class {grade} {subject} book "
                 "edition, then you can filter by subtopic")
+    # The two branches below name no screen, because none of them can be acted
+    # on in the app today: setting a class up calls POST /curriculum/seed/cbse
+    # and adding a chapter calls POST /curriculum/books/{id}/toc/ingest, and
+    # nothing in frontend/lib calls either (checked by grep, 2026-09-23). The
+    # Book editions card only chooses among a subject's EXISTING books. An
+    # instruction that sends a principal to a screen where the action does not
+    # exist is worse than no instruction: it spends their time and their trust
+    # before it fails. Say what is true; name the screen again when the screen
+    # can do it.
     if reason == "no_chapter":
-        add_it = (f"add this one under {where}" if principal
-                  else "ask your principal to add this one")
         return (f"Your Class {grade} {subject} book has no chapter '{slug}'. Pick a "
-                f"different chapter, or {add_it}.")
+                f"different chapter -- adding one is not something the app can do "
+                f"yet, so it needs support.")
     if principal:
-        return f"Set up Class {grade} {subject} under {where} to filter by subtopic"
-    return (f"Ask your principal to set up Class {grade} {subject}, then you can "
-            "filter by subtopic")
+        return (f"Class {grade} {subject} has not been set up for your school yet, so "
+                f"there are no subtopics to filter by. Setting a class up is not "
+                f"something the app can do yet -- it needs support.")
+    return (f"Class {grade} {subject} has not been set up for your school yet, so there "
+            f"are no subtopics to filter by. Ask your principal to have it added.")
 
 
 @router.post("/books/{book_id}/toc/ingest", response_model=IngestTocResponse)

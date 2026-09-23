@@ -64,9 +64,39 @@ _NUMBERED = re.compile(r"^(\d{1,2}(?:\.\d{1,2}){1,2})[\s \t.:)]+(\S.*)$")
 
 # A chapter opener prints its number alone at display size beside the title.
 _PURE_INT = re.compile(r"^\d{1,2}$")
-_MIN_CHAPTER_NUMERAL_RATIO = 2.5   # x body size
-_MIN_TITLE_RATIO = 1.5             # x body size
+
+# Both ratios are floors, not descriptions of a typical book, and both were too
+# high until 2026-09-23. Measured across the books this repo actually reads:
+# Curiosity 6 prints its numeral at 5.5x the body size, Exploration 9 at 5.9x,
+# the Social Science chapter PDFs at 5.5x -- but Ganita Manjari 9 prints its at
+# 22.6pt against an 11.0pt body (2.05x) and its titles at 16.0pt (1.45x). At
+# 2.5x/1.5x that book yielded ONE chapter, its front cover, and none of its
+# eight real chapters; Poorvi 6, Ganga 9 and Understanding Society 9 yielded
+# nothing at all. The floors exist to keep a bold run-in from being read as a
+# chapter opener, and 1.8x/1.4x still sits far above every heading size in
+# these books; the opener rules below (one lone numeral on the page, a title in
+# a single size class, nothing before chapter 1) are what actually does the
+# separating.
+_MIN_CHAPTER_NUMERAL_RATIO = 1.8   # x body size
+_MIN_TITLE_RATIO = 1.4             # x body size
+# A chapter title may be set in two sizes ("Health:" at 26pt over "The Ultimate
+# Treasure" at 24pt, Curiosity 8) but not in three unrelated ones. Anything
+# printed below this share of the largest title line on the opener page is
+# furniture, not part of the name: Exploration 9's literal word "Chapter"
+# (21.2pt against a 26pt title, 0.82) and the Social Science books' "Questions"
+# box label (18pt against 30pt, 0.60) were both being folded into the title.
 _MIN_HEADING_RATIO = 1.05          # x body size; headings sit just above body
+_TITLE_SIZE_BAND = 0.9             # x the largest title line on the page
+# A numbered line that is NOT bold is a heading only if it is set well clear of
+# the body. Ganita Manjari 9 is the one book here that sets its sections
+# unbolded -- "3.5 Irrational Numbers" is NotoSerif-Regular at 14pt over an
+# 11pt body, while its SUBsections are NotoSerif-Bold at 12pt -- so the
+# bold-only rule read its 27 subsections and none of its 53 sections, leaving
+# every chapter with zero topics. Measured across the other five numbered books
+# (Curiosity 6/7/8, Exploration 9, Ganita Prakash 6): not one line in any of
+# them matches the numbering, clears the body size and is unbolded, so this
+# branch admits nothing anywhere else.
+_MIN_UNBOLD_HEADING_RATIO = 1.2    # x body size
 
 # Unnumbered mode only (see `_tiers`).
 _MIN_TIER_DISTINCT = 0.5           # share of occurrences that must be unique
@@ -110,6 +140,15 @@ class _Line:
         """This line's text with any span set at `display_size` removed -- the
         chapter numeral, when it shares the title's line."""
         return _clean("".join(t for t, s in self.spans if s != display_size))
+
+    def size_without(self, display_size: float) -> float:
+        """The size this line is really set in once the display numeral's spans
+        are taken out. `size` is the LEAD span's size, and Poorvi's "Unit 1"
+        drop-caps the U at the numeral's own 27.1pt, so the line reports 27.1
+        while the words on it are 19pt -- enough to make a page's furniture
+        outrank its title."""
+        rest = [s for t, s in self.spans if s != display_size and t.strip()]
+        return max(rest) if rest else self.size
 
 
 @dataclass(frozen=True)
@@ -220,6 +259,56 @@ def body_size(lines: Iterable[_Line]) -> float:
 
 # ---------------- chapter openers ----------------
 
+def _opener_title(page_lines: list[_Line], numeral_size: float,
+                  base: float) -> Optional[tuple[str, _Line]]:
+    """The chapter title printed on one opener page, or None.
+
+    Size only, no bold test: Ganita Prakash and Poorvi set their chapter titles
+    in display faces (LuckiestGuy) that PyMuPDF reports as neither bold-flagged
+    nor bold-named, and requiring bold found no chapter at all in either book.
+    On a page that already prints a lone display numeral, size is the signal --
+    but it has to be read as a CLASS, not as a threshold, because an opener page
+    carries three kinds of large text:
+
+      * the title, in one size or two adjacent ones;
+      * page furniture at a distinctly smaller size -- the word "Chapter"
+        (Exploration 9), "CHAPTER" (Social Science), "Probe and ponder"
+        (Curiosity 8);
+      * unrelated large text elsewhere on the page -- the "Questions" box
+        heading, Poorvi's unit theme printed a dozen blocks below the lesson
+        title.
+
+    So: take every line that has words at title size, keep the ones within
+    `_TITLE_SIZE_BAND` of the largest (which drops the furniture), and then keep
+    only the run of CONSECUTIVE lines that contains that largest one (which
+    drops the unrelated text further down the page). Both halves are needed --
+    Curiosity 7 splits one title across two blocks at 30pt and 28pt, so a
+    single-size or single-block rule truncates it to "Basic, and Neutral".
+    """
+    cands = []
+    for ln in sorted(page_lines, key=lambda l: l.index):
+        text = ln.without(numeral_size)
+        if sum(c.isalpha() for c in text) < 3:
+            continue
+        size = ln.size_without(numeral_size)
+        if size >= base * _MIN_TITLE_RATIO:
+            cands.append((ln, text, size))
+    if not cands:
+        return None
+
+    top = max(size for _, _, size in cands)
+    runs: list[list[tuple[_Line, str, float]]] = []
+    for cand in cands:
+        if cand[2] < top * _TITLE_SIZE_BAND:
+            continue
+        if runs and cand[0].index == runs[-1][-1][0].index + 1:
+            runs[-1].append(cand)
+        else:
+            runs.append([cand])
+    run = next(r for r in runs if any(size == top for _, _, size in r))
+    return " ".join(" ".join(text for _, text, _ in run).split()), run[0][0]
+
+
 def _chapter_openers(lines: list[_Line]) -> tuple[dict[int, _Line], dict[int, str]]:
     """({chapter number: the line its title starts on}, {chapter number: title}).
 
@@ -234,7 +323,7 @@ def _chapter_openers(lines: list[_Line]) -> tuple[dict[int, _Line], dict[int, st
     for ln in lines:
         by_page.setdefault(ln.where, []).append(ln)
 
-    out: dict[int, tuple[str, _Line]] = {}
+    found: list[tuple[int, str, _Line]] = []
     for page_lines in sorted(by_page.values(), key=lambda g: g[0].index):
         # The numeral is looked for per SPAN, not per line: class8_curiosity
         # sets "6" inside the title's own line, class6_curiosity gives it a line
@@ -245,37 +334,34 @@ def _chapter_openers(lines: list[_Line]) -> tuple[dict[int, _Line], dict[int, st
                     and size >= base * _MIN_CHAPTER_NUMERAL_RATIO]
         if len(numerals) != 1:
             continue
-        numeral_line, numeral_text, numeral_size = numerals[0]
-
-        def _titles(scope: list[_Line]) -> list[tuple[_Line, str]]:
-            # Size only, no bold test: Ganita Prakash and Poorvi set their
-            # chapter titles in display faces (LuckiestGuy) that PyMuPDF
-            # reports as neither bold-flagged nor bold-named, and requiring
-            # bold here found no chapter at all in either book. At 1.5x the
-            # body size on a page that also prints a lone display numeral,
-            # size is already the whole signal.
-            found = [(ln, ln.without(numeral_size)) for ln in scope
-                     if base * _MIN_TITLE_RATIO <= ln.size < numeral_size]
-            return [(ln, t) for ln, t in found if sum(c.isalpha() for c in t) >= 3]
-
-        # The numeral's own block first: a chapter title set over two lines is
-        # often set at two sizes ("Health:" at 26pt over "The Ultimate
-        # Treasure" at 24pt), and taking only the largest truncated three
-        # Class 8 titles to their first line when this was measured. Some
-        # openers (class6_curiosity's "Exploring Magnets") put the numeral in a
-        # block of its own, so the page is the fallback -- still safe, because
-        # an opener page carries nothing else at title size.
-        titles = (_titles([ln for ln in page_lines if ln.block == numeral_line.block])
-                  or _titles(page_lines))
-        if not titles:
+        _, numeral_text, numeral_size = numerals[0]
+        title = _opener_title(page_lines, numeral_size, base)
+        if title is None:
             continue
-        ordered = sorted(titles, key=lambda p: p[0].index)
-        title = " ".join(t for _, t in ordered)
+        found.append((int(numeral_text), title[0], title[1]))
+
+    found = _drop_front_matter(found)
+    out: dict[int, tuple[str, _Line]] = {}
+    for number, title, line in found:
         # A number printed twice at display size (a part divider reusing it)
         # keeps its first, i.e. opening, page.
-        out.setdefault(int(numeral_text), (" ".join(title.split()), ordered[0][0]))
+        out.setdefault(number, (title, line))
     return ({n: ln for n, (_, ln) in out.items()},
             {n: t for n, (t, _) in out.items()})
+
+
+def _drop_front_matter(found: list[tuple[int, str, _Line]]) -> list[tuple[int, str, _Line]]:
+    """Everything printed before the chapter numbered 1 is front matter.
+
+    Ganita Manjari 9's cover sets the GRADE -- "9" -- alone at 43.8pt beside
+    "GANITA MANJARI", which is a lone display numeral next to a title and so is
+    indistinguishable from a chapter opener by the page's own metrics. It is
+    distinguishable by position: it is printed 20 pages before chapter 1. Books
+    whose chapter 1 is never recognised keep every candidate, because then
+    there is no evidence to cut on.
+    """
+    first = next((i for i, (number, _, _) in enumerate(found) if number == 1), None)
+    return found[first:] if first is not None else found
 
 
 # ---------------- numbered headings ----------------
@@ -300,18 +386,22 @@ def _merge_wrapped(lines: list[_Line], start: int) -> tuple[str, int]:
 def _numbered_headings(lines: list[_Line]) -> list[Heading]:
     """Every numbered section heading the book prints, in reading order.
 
-    The rule, and only this rule: the line starts with a dotted section number,
-    is set in a bold face, and is set larger than the body text.
+    The rule, and only this rule: the line starts with a dotted section number
+    and is set apart from the body text -- bold and a touch larger, or, for a
+    book that does not bold its sections, plainly larger (see
+    `_MIN_UNBOLD_HEADING_RATIO`).
     """
     base = body_size(lines)
     cutoff = base * _MIN_HEADING_RATIO
+    unbold_cutoff = base * _MIN_UNBOLD_HEADING_RATIO
     out: list[Heading] = []
     seen: set[str] = set()
     i = 0
     while i < len(lines):
         ln = lines[i]
         m = _NUMBERED.match(ln.text)
-        if not (m and ln.bold and ln.size > cutoff):
+        apart = ln.size > cutoff if ln.bold else ln.size >= unbold_cutoff
+        if not (m and apart):
             i += 1
             continue
         text, nxt = _merge_wrapped(lines, i)

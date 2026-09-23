@@ -24,6 +24,10 @@ sys.path.insert(0, str(ROOT / "src"))
 TEXTBOOKS = Path("C:/Users/varsh/OneDrive/Documents/Sarvam/ncert-dataset/textbooks")
 CLASS_6_SCIENCE = TEXTBOOKS / "science" / "class6_curiosity.pdf"
 CLASS_6_SOCIAL = TEXTBOOKS / "chapters" / "fees1"
+CLASS_7_SCIENCE = TEXTBOOKS / "science" / "class7_curiosity.pdf"
+CLASS_7_SOCIAL = TEXTBOOKS / "chapters" / "gees1"
+CLASS_9_SCIENCE = TEXTBOOKS / "science" / "class9_exploration.pdf"
+CLASS_9_MATHS = TEXTBOOKS / "maths" / "class9_ganita_manjari.pdf"
 
 
 def _require(path: Path):
@@ -32,20 +36,42 @@ def _require(path: Path):
     pytest.importorskip("pymupdf")
 
 
+def _read(path: Path):
+    _require(path)
+    from academicos.syllabus.textbook_headings import extract_chapters
+    return extract_chapters(path, TEXTBOOKS)
+
+
 @pytest.fixture(scope="module")
 def class6_science():
     """Reading a 272-page book takes about half a minute, so every test in this
     module shares one extraction."""
-    _require(CLASS_6_SCIENCE)
-    from academicos.syllabus.textbook_headings import extract_chapters
-    return extract_chapters(CLASS_6_SCIENCE, TEXTBOOKS)
+    return _read(CLASS_6_SCIENCE)
 
 
 @pytest.fixture(scope="module")
 def class6_social():
-    _require(CLASS_6_SOCIAL)
-    from academicos.syllabus.textbook_headings import extract_chapters
-    return extract_chapters(CLASS_6_SOCIAL, TEXTBOOKS)
+    return _read(CLASS_6_SOCIAL)
+
+
+@pytest.fixture(scope="module")
+def class7_science():
+    return _read(CLASS_7_SCIENCE)
+
+
+@pytest.fixture(scope="module")
+def class7_social():
+    return _read(CLASS_7_SOCIAL)
+
+
+@pytest.fixture(scope="module")
+def class9_science():
+    return _read(CLASS_9_SCIENCE)
+
+
+@pytest.fixture(scope="module")
+def class9_maths():
+    return _read(CLASS_9_MATHS)
 
 
 def _chapter(chapters, name_fragment: str):
@@ -196,3 +222,70 @@ def test_a_recurring_box_label_is_not_mistaken_for_a_heading(class6_social):
     for label in ("let's explore", "let’s explore", "don't miss out",
                   "don’t miss out", "think about it", "questions"):
         assert label not in topics, f"{label!r} was read as a section heading"
+
+
+# ---------------- the Classes 7-9 books ----------------
+#
+# Until 2026-09-23 this module only ever read the Class 6 books, and every
+# grade 7-9 title the exporter committed was wrong in one of the three ways
+# below. A chapter title is what source (b) is matched on and what a principal
+# reads, so a corrupted one is not a cosmetic defect.
+
+def test_a_class_7_title_printed_across_two_blocks_comes_back_whole(class7_science):
+    """Curiosity 7 sets "Exploring / Substances: Acidic," at 30pt in one block
+    and "Basic, and Neutral" at 28pt in the block that also holds the display
+    numeral. Reading only the numeral's own block kept the last fragment and
+    threw the chapter's name away -- the committed manifest carried "Basic, and
+    Neutral", "Components" and "and Non-metals" as chapter titles."""
+    names = {c.name for c in class7_science}
+    assert "Exploring Substances: Acidic, Basic, and Neutral" in names
+    assert "Electricity: Circuits and their Components" in names
+    assert "The World of Metals and Non-metals" in names
+    for fragment in ("Basic, and Neutral", "Components", "and Non-metals"):
+        assert fragment not in names, f"{fragment!r} is a fragment, not a chapter title"
+
+
+def test_the_word_chapter_printed_beside_the_numeral_is_not_part_of_the_title(class9_science):
+    """Exploration 9 prints the literal word "Chapter" at 21pt next to the
+    chapter's display numeral, above or below the 26pt title. Taking every
+    large line on the opener page folded that furniture into the name ("Cell:
+    The Building Block of Life Chapter")."""
+    names = {c.name for c in class9_science}
+    assert "Cell: The Building Block of Life" in names
+    assert "Sound Waves: Characteristics and Applications" in names
+    for name in names:
+        assert "Chapter" not in name, f"page furniture folded into {name!r}"
+
+
+def test_a_questions_box_on_the_opener_page_is_not_part_of_the_title(class7_social):
+    """The Class 7 Social Science chapters open on a page that also prints the
+    18pt "Questions" box heading, which ended up appended to nearly every
+    committed title ("Geographical Diversity of India Questions")."""
+    names = {c.name for c in class7_social}
+    assert "Geographical Diversity of India" in names
+    assert "Understanding the Weather" in names
+    assert "Understanding Markets" in names
+    for name in names:
+        assert "Questions" not in name, f"a box label was read into {name!r}"
+
+
+def test_class_9_mathematics_is_read_as_its_eight_chapters_not_its_cover(class9_maths):
+    """Ganita Manjari sets its chapter numerals at 2.05x the body size and its
+    titles at 1.45x, both under the thresholds this module used, so the only
+    "chapter" it produced was the front cover -- whose lone 43.8pt "9" is the
+    GRADE. Every one of the book's real chapters was invisible to the export."""
+    names = [c.name for c in class9_maths]
+    assert len(names) >= 8, f"only {len(names)} chapters read: {names}"
+    assert "Orienting Yourself: The Use of Coordinates" in names
+    assert "Introduction to Linear Polynomials" in names
+    assert "The World of Numbers" in names
+    assert "Exploring Algebraic Identities" in names
+    for name in names:
+        assert "GANITA MANJARI" not in name, "the cover page was read as a chapter"
+
+
+def test_a_numbered_class_9_chapter_still_carries_its_printed_sections(class9_maths):
+    """Reading the chapters is only useful if their sections come with them."""
+    ch = next(c for c in class9_maths if c.name.startswith("The World of Numbers"))
+    assert ch.topics, "the chapter was found but none of its sections were"
+    assert all(t.number and t.number.startswith(f"{ch.number}.") for t in ch.topics)

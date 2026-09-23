@@ -1219,8 +1219,9 @@ def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):
                            "chemical-reactions-equations/topics", headers=principal_auth)
         assert unset.status_code == 404, unset.text
         assert unset.json()["detail"] == (
-            "Set up Class 9 Science under Principal > Roster > Book editions "
-            "to filter by subtopic")
+            "Class 9 Science has not been set up for your school yet, so there are "
+            "no subtopics to filter by. Setting a class up is not something the app "
+            "can do yet -- it needs support.")
 
 
 def test_full_boot_academic_calendar_and_teaching_time_estimates(tmp_path, monkeypatch):
