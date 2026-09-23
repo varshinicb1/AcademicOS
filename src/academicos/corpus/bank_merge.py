@@ -749,6 +749,36 @@ def _options_missing(rec: dict, stem: str) -> bool:
             or (marks == 1 and bool(_MCQ_LEAD_IN.search(stem))))
 
 
+# An option marker as extraction may have spaced it: "( B)" in SQP Physics XII
+# 2025-26 Q10 is option B, the same as "(B)" -- `has_option_labels` already
+# reads a spaced label for the same reason.
+_SPACED_OPTION_MARKER = re.compile(r"\(\s*([a-dA-D])\s*\)")
+
+
+def _options_out_of_order(rec: dict, stem: str) -> bool:
+    """Option markers that begin after (a), or skip a letter -- the earlier
+    options did not survive extraction.
+
+    That ordering is physically impossible in a printed paper: "Which gas is
+    released when zinc reacts with acid? (c) oxygen (d) hydrogen" had two
+    options a student cannot choose between. `assessment/pool.py` refused this
+    shape on the served bank until Task 126 moved the question here; measured
+    over the 5,429 served records that day, no record is in it, so this closes
+    the hole rather than removing anything.
+
+    Two markers or more, and only when the stem's options cannot be read at
+    all. A lone marker is CBSE's own "(a) ... OR (b) ..." internal choice or a
+    CBE part label ("1(b) Give two ways ...") -- neither is a broken option
+    list, and reading one as one would refuse 23 answerable English 9 items.
+    """
+    if rec.get("parts") or stem_options(stem)[0] is not None or has_option_labels(stem):
+        return False
+    letters = {m.group(1).lower() for m in _SPACED_OPTION_MARKER.finditer(stem)}
+    if len(letters) < 2:
+        return False
+    return any(c not in letters for c in LETTERS[: LETTERS.index(max(letters)) + 1])
+
+
 def _case_without_question(rec: dict, stem: str) -> bool:
     """A case study, or a stem announcing a text, that asks nothing.
 
@@ -780,6 +810,34 @@ def _case_without_question(rec: dict, stem: str) -> bool:
     return not _ASKS.search(stem[announced[-1].end():][-_CASE_TAIL:])
 
 
+def unservable_reason(rec: dict) -> str | None:
+    """Why this record, in the shape it is served in, cannot be served -- the
+    ONE answer to that question, for every surface (Task 126).
+
+    `exclusion_reason` and `unallocated_marks_reason` are what the merge asks
+    of a record it has already repaired and normalised, so this is the gate
+    the served file's contents are the output of. It is therefore a no-op over
+    a freshly merged bank (measured 2026-09-23: 0 of 5,429), and stays a gate
+    for a questions.json written by an older merge or edited by hand.
+
+    It exists because there used to be a second answer. `assessment/pool.py`
+    loaded the same questions.json and ran `has_broken_options`,
+    `needs_missing_figure`, `looks_truncated` and a 0.75-Jaccard near-duplicate
+    index over it, so `/v1` sold 4,575 class 6-10 Mathematics/Science records
+    and the paper builder composed from 4,099 -- one file, two answers, and the
+    476 the API sold met the teacher at generation time. Those rules read RAW
+    PDF extraction on pool's registry path, which is what they were measured
+    for; on merged input every one of the 238 records they refused was
+    answerable as printed ("(A) 1 (B) 2 (C) 3 (D) 4" is a readable MCQ, not a
+    broken option list), and the near-duplicate index dropped a further 307
+    distinct Exemplar questions whose stems differ only in numbers its
+    signature never reads. The merge's own MCQ readers (`mcq_shape`) and
+    `_NearDuplicates` answer both questions, on this corpus, with measured
+    thresholds -- so they answer them once, here.
+    """
+    return exclusion_reason(rec) or unallocated_marks_reason(rec)
+
+
 def exclusion_reason(rec: dict) -> str | None:
     """Why this record cannot be served, or None if it can.
 
@@ -801,6 +859,8 @@ def unanswerable_reason(rec: dict) -> str | None:
         return "symbol-loss"
     if _options_missing(rec, stem):
         return "options-missing"
+    if _options_out_of_order(rec, stem):
+        return "options-out-of-order"
     if _case_without_question(rec, stem):
         return "case-study-without-question"
     return None
@@ -1749,7 +1809,10 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             withheld.append(rec)
             continue
         fixed, reason, made, glyph = repair_board(rec)
-        reason = reason or exclusion_reason(fixed) or unallocated_marks_reason(fixed)
+        # `unservable_reason`, not its two halves spelled out: the same call
+        # the paper builder makes over the file this writes, so the two cannot
+        # answer differently about a record (Task 126).
+        reason = reason or unservable_reason(fixed)
         # Last, as on the CBE/SQP path below: a record already out of scope for
         # a more informative reason keeps that reason.
         if reason is None and glyph is not None:

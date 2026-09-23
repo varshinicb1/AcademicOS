@@ -2354,6 +2354,39 @@ def test_a_key_whose_marks_are_unallocated_is_not_served():
     assert result.questions == []
 
 
+def test_unservable_reason_is_the_one_gate_the_board_path_applies():
+    """Task 126: the paper builder asks this function about a served record,
+    and the merge asks it about a record it is about to serve. Two spellings
+    of the gate is how `/v1` came to sell 476 class 6-10 Maths/Science
+    questions the builder refused, so there is one."""
+    unallocated = board(i=2)
+    unallocated["answerScheme"]["markingPoints"] = [
+        {"id": "mp1", "description": "Scattering of light", "marks": 0,
+         "keyword": "scattering", "isRequired": True, "synonyms": []}]
+    no_answer = board(i=3)
+    no_answer["answerScheme"] = {**no_answer["answerScheme"],
+                                 "markingPoints": [], "modelAnswer": ""}
+
+    assert bm.unservable_reason(board(i=1)) is None
+    assert bm.unservable_reason(unallocated) == bm.SCHEME_MARKS_UNALLOCATED
+    assert bm.unservable_reason(no_answer) == "no-answer"
+    # Exactly `exclusion_reason` then `unallocated_marks_reason`, which is
+    # what the board path spelled out inline before this function existed.
+    for rec in (board(i=1), unallocated, no_answer):
+        assert bm.unservable_reason(rec) == (
+            bm.exclusion_reason(rec) or bm.unallocated_marks_reason(rec))
+
+
+def test_what_the_merge_serves_the_gate_serves_again():
+    """The gate must be idempotent over its own output, or the served file
+    holds records the builder refuses while `/v1` sells them. Measured on the
+    real bank at e025bb7f: 0 of 5,429 (tests/test_bank_surfaces_agree.py
+    asserts it there too)."""
+    served = bm.compose([board(i=1), board(i=2)], [], []).questions
+    assert len(served) == 2
+    assert [bm.unservable_reason(rec) for rec in served] == [None, None]
+
+
 def test_a_split_key_is_served_with_every_value_point_it_came_with():
     """The merge must carry a multi-point key through whole. Task 124 splits a
     key into the value points its source printed; a normalisation that kept
