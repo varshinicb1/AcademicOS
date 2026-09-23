@@ -5362,6 +5362,7 @@
         "type": "object"
       },
       "QuickPaperRequest": {
+        "additionalProperties": false,
         "properties": {
           "chapterIds": {
             "items": {

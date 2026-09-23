@@ -432,3 +432,21 @@ def test_a_paper_that_borrows_outside_the_chosen_chapters_says_so(served, tmp_pa
     outside = [i for i in printed if not chapter_of[i] & set(chosen)]
     if outside:
         assert any("outside the selected chapters" in w for w in data["warnings"]), data["warnings"]
+
+
+def test_a_field_name_the_request_does_not_have_is_refused(served, tmp_path, monkeypatch):
+    """`{"parallelSets": 5}` returned 200 and one set: the field the client
+    meant is `setCount`, and an unknown key was dropped in silence, so a
+    teacher asking for five papers got one and was told nothing (re-audit,
+    2026-09-23). A request the server cannot honour must fail loudly."""
+    with _client_for(tmp_path, monkeypatch, served["Science"]) as client:
+        headers = _auth(client)
+        good = client.post("/api/v1/papers/quick-generate", headers=headers, json={
+            "subject": "Science", "grade": 10, "totalMarks": 40, "setCount": 3})
+        assert good.status_code == 200, good.text
+        assert len(good.json()["sets"]) == 3
+
+        typo = client.post("/api/v1/papers/quick-generate", headers=headers, json={
+            "subject": "Science", "grade": 10, "totalMarks": 40, "parallelSets": 5})
+    assert typo.status_code == 422, typo.text
+    assert "parallelSets" in typo.text
