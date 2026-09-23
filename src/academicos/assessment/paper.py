@@ -17,6 +17,39 @@ from .schemas import (
 from .templates import default_sections
 
 
+def _key_note(scheme, marks: int) -> str:
+    """What the printed key must say about the value points above it.
+
+    Two things a marker cannot see from the points alone:
+
+      * `anyOf` -- the scheme lists more value points than it awards ("Any
+        other, Any two"), so a student who gives two of the five listed gets
+        full marks.
+      * one point worth every mark -- the source printed no split, so the key
+        really is all or nothing. Saying so is the point: a marking sheet that
+        shows "- <the whole answer> [5m]" and nothing else invites a marker to
+        assume steps exist and invent them.
+
+    Not said of an option key. An MCQ worth 2 marks has one point because the
+    student picked the right letter or did not, and "unless you set your own
+    value points" is advice a marker cannot take on it -- there is nothing to
+    divide. One served record is an objective scheme worth more than one mark
+    (cbe:q:Maths9SM1).
+    """
+    meta = getattr(scheme, "metadata", None) or {}
+    points = getattr(scheme, "marking_points", None) or []
+    any_of = meta.get("anyOf")
+    if any_of and points:
+        return (f"\n(Any {int(any_of)} of the above value points, "
+                f"{points[0].marks} mark(s) each.)")
+    if meta.get("objective"):
+        return ""
+    if len(points) == 1 and (marks or 0) > 1:
+        return ("\n(The source prints no split for this answer: it is all or nothing "
+                "unless you set your own value points.)")
+    return ""
+
+
 def generate_paper(*, paper_id: str, assessment_id: str, assessment_title: str,
                     subject: str, grade: int, blueprint: Blueprint,
                     selected_questions: list[QuestionSchema],
@@ -224,13 +257,18 @@ def generated_question(q: QuestionSchema, display_number: int, *,
 
 
 def answer_key_entry(q: QuestionSchema) -> str:
-    """The answer-key text for a printed question: model answer, then its
-    marking points."""
+    """The answer-key text for a printed question: model answer, its marking
+    points, and what the source said about splitting them.
+
+    The note belongs to THIS helper, not to its callers: a question put on a
+    paper by a swap or a pick prints through here too, so a 5-mark answer
+    that says "all or nothing" when generated cannot lose that sentence
+    because a teacher swapped it in."""
     model_ans = q.answer_scheme.model_answer or "(model answer pending)"
     if q.answer_scheme.marking_points:
         pts = [f"• {mp.description} [{mp.marks}m]" for mp in q.answer_scheme.marking_points]
         model_ans = f"{model_ans}\n" + "\n".join(pts)
-    return model_ans.strip()
+    return (model_ans + _key_note(q.answer_scheme, q.marks)).strip()
 
 
 def or_answer_key_entry(model_answer: str | None) -> str:

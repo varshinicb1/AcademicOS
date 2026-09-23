@@ -768,6 +768,53 @@ def test_a_fraction_bar_between_two_lines_loses_both():
     assert not a.text.startswith(ex.LOSS) and not b.text.startswith(ex.LOSS)
 
 
+# --------------------------------------------------------------------------- #
+# value points (Task 124)
+# --------------------------------------------------------------------------- #
+
+def _answered(stem: str, answer: str, kind: str) -> ex.ExemplarQuestion:
+    return ex.ExemplarQuestion(
+        grade=6, subject="Science", chapter_number=6, chapter_name="Changes Around Us",
+        section_kind=kind, section_label="Long Answer Questions", number="15",
+        stem=stem, source_file="feep206.pdf", page=4,
+        answer_text=answer, answer_file="feep2an.pdf", answer_page=14)
+
+
+def test_an_answer_the_book_prints_part_by_part_becomes_a_point_per_part():
+    """exemplar:q:6:science:6:-:15 -- "Give one example in each case (a)..(e)",
+    5 marks by its section, answered part by part. One part, one mark."""
+    q = _answered(
+        "Give one example in each case (a) Change which occurs on heating but can be "
+        "reversed. (b) Change which occurs on heating but cannot be reversed. "
+        "(c) Change which occurs on cooling but can be reversed. (d) Change which "
+        "occurs on mixing two substances. (e) Change which occurs on mixing two "
+        "substances with water.",
+        "(a) Heating of an iron rod. (b) Baking of chapati. (c) Formation of ice from "
+        "water. (d) Formation of salt solution. (e) Mixing of cement and water.",
+        ex.LA)
+    scheme = ex.to_bank_record(q)["answerScheme"]
+    assert scheme["totalMarks"] == 5
+    assert [p["marks"] for p in scheme["markingPoints"]] == [1, 1, 1, 1, 1]
+    assert scheme["markingPoints"][1]["description"].startswith("(b) Baking of chapati")
+    assert scheme["metadata"]["markSplit"] == "list-equal"
+    assert scheme["hasPartialCredit"] is True
+
+
+def test_an_answer_in_one_sentence_keeps_one_point_and_says_it_is_all_or_nothing():
+    """exemplar:q:10:science:15:-:30's shape: the book prints no parts, so the
+    key is all or nothing and the scheme says so rather than leaving a teacher
+    to assume steps exist."""
+    q = _answered("We do not clean ponds or lakes, but an aquarium needs to be cleaned. Why?",
+                  "An aquarium is an artificial and incomplete ecosystem in contrast to a "
+                  "pond which is natural, self-sustaining and complete.", ex.SA)
+    scheme = ex.to_bank_record(q)["answerScheme"]
+    assert len(scheme["markingPoints"]) == 1
+    assert scheme["markingPoints"][0]["marks"] == scheme["totalMarks"]
+    assert scheme["metadata"]["allOrNothing"] is True
+    assert scheme["metadata"]["markSplit"] == ""
+    assert scheme["hasPartialCredit"] is False
+
+
 DATASET = ROOT.parent / "ncert-dataset" / "exemplar"
 needs_dataset = pytest.mark.skipif(not DATASET.exists(), reason="ncert-dataset not on disk")
 

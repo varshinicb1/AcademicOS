@@ -10,6 +10,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from academicos.corpus import bank_merge as bm  # noqa: E402
+from academicos.corpus import marking_split  # noqa: E402
 
 TS = "2026-09-19T00:00:00+00:00"
 
@@ -2351,3 +2352,45 @@ def test_a_key_whose_marks_are_unallocated_is_not_served():
     result = bm.compose([rec], [], [])
     assert [e["reason"] for e in result.excluded] == ["scheme-marks-unallocated"]
     assert result.questions == []
+
+
+def test_a_split_key_is_served_with_every_value_point_it_came_with():
+    """The merge must carry a multi-point key through whole. Task 124 splits a
+    key into the value points its source printed; a normalisation that kept
+    only the first, or renamed the field, would put the lump key back without
+    anything failing."""
+    rec = board(i=3)
+    rec["answerScheme"]["markingPoints"] = [
+        {"id": "mp1", "description": "Scattering of light by air molecules", "marks": 1,
+         "keyword": "scattering", "isRequired": True, "synonyms": []},
+        {"id": "mp2", "description": "Blue light is scattered most", "marks": 1,
+         "keyword": "blue", "isRequired": True, "synonyms": []}]
+    rec["answerScheme"]["metadata"]["markSplit"] = "list-equal"
+    (served,) = bm.compose([rec], [], []).questions
+    scheme = served["answerScheme"]
+    assert [p["marks"] for p in scheme["markingPoints"]] == [1, 1]
+    assert scheme["markingPoints"][1]["description"] == "Blue light is scattered most"
+    assert scheme["metadata"]["markSplit"] == "list-equal"
+    # Task 121's gate stays green, and the points add up to the question.
+    assert bm.unallocated_marks_reason(served) is None
+    assert marking_split.awardable_marks(scheme) == served["marks"]
+
+
+def test_every_served_key_accounts_for_its_questions_marks():
+    """Whatever the source, a teacher can award exactly the question's marks
+    against its key -- under "any N", N points of the listed value."""
+    lump = board(i=4)
+    split = board(i=5)
+    split["answerScheme"]["markingPoints"] = [
+        {"id": "mp1", "description": "One reason", "marks": 1, "keyword": "",
+         "isRequired": True, "synonyms": []},
+        {"id": "mp2", "description": "Another reason", "marks": 1, "keyword": "",
+         "isRequired": True, "synonyms": []}]
+    any_of = board(i=6)
+    any_of["answerScheme"]["markingPoints"] = [
+        {"id": f"mp{n}", "description": f"Reason {n}", "marks": 1, "keyword": "",
+         "isRequired": False, "synonyms": []} for n in (1, 2, 3)]
+    any_of["answerScheme"]["metadata"]["anyOf"] = 2
+    for served in bm.compose([lump, split, any_of], [], []).questions:
+        assert marking_split.awardable_marks(served["answerScheme"]) == served["marks"], \
+            served["id"]
