@@ -280,6 +280,39 @@ class CatalogEntry {
         marksAvailable = List<int>.from(j['marksAvailable'] ?? const []);
 }
 
+class PaperTiming {
+  final int papers;
+  final double medianGenerationSeconds;
+  final double baselineMinutesPerPaper;
+  final String baselineProvenance;
+  final double estimatedMinutesSavedPerPaper;
+  final double estimatedMinutesSavedTotal;
+  final List<String> measured;
+  final List<String> declared;
+
+  /// The server's own sentence about what these numbers are worth. Rendered
+  /// verbatim rather than paraphrased on the screen.
+  final String caveat;
+
+  PaperTiming.fromJson(Map<String, dynamic> j)
+      : papers = j['papers'] ?? 0,
+        medianGenerationSeconds = (j['medianGenerationSeconds'] ?? 0).toDouble(),
+        baselineMinutesPerPaper = (j['baselineMinutesPerPaper'] ?? 0).toDouble(),
+        baselineProvenance = j['baselineProvenance'] ?? '',
+        estimatedMinutesSavedPerPaper =
+            (j['estimatedMinutesSavedPerPaper'] ?? 0).toDouble(),
+        estimatedMinutesSavedTotal =
+            (j['estimatedMinutesSavedTotal'] ?? 0).toDouble(),
+        measured = List<String>.from(j['measured'] ?? const []),
+        declared = List<String>.from(j['declared'] ?? const []),
+        caveat = j['caveat'] ?? '';
+
+  /// No paper has been generated through the web app yet, so every figure
+  /// below it is arithmetic on nothing. A screen must say that rather than
+  /// print "0 minutes saved", which reads as a measurement.
+  bool get nothingMeasuredYet => papers == 0;
+}
+
 class Catalog {
   final List<CatalogEntry> entries;
   final int totalQuestions;
@@ -561,6 +594,18 @@ class PillarApi {
     final base = Uri.parse(_dio.options.baseUrl);
     if (base.hasScheme && base.host.isNotEmpty) return base.origin;
     return Uri.base.origin;
+  }
+
+  /// Time saved per paper, for the caller's own school (principal only).
+  ///
+  /// The payload separates what was MEASURED (generation time, from a
+  /// monotonic clock) from what was DECLARED (the manual baseline), and
+  /// carries its own caveat sentence. Any screen showing these numbers shows
+  /// that sentence too: a saving built on a declared baseline gets quoted at
+  /// people, and "estimated" has to travel with it.
+  Future<PaperTiming> paperTiming() async {
+    final r = await _dio.get('/paper-timing');
+    return PaperTiming.fromJson(Map<String, dynamic>.from(r.data));
   }
 
   Future<Catalog> catalog() async {

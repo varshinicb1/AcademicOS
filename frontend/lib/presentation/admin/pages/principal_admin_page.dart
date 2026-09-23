@@ -5,9 +5,11 @@ import 'package:get_it/get_it.dart';
 import '../../../core/local_engine/local_store.dart';
 import '../../../data/datasources/api/auth_api.dart';
 import '../../../data/datasources/api/curriculum_api.dart';
+import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
 import '../widgets/calendar_rules_card.dart';
+import '../widgets/insights_card.dart';
 import '../widgets/invites_panel.dart';
 
 /// The console's tabs, in display order. The TabBar, the TabBarView and every
@@ -64,6 +66,11 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
 
   // --- Coverage Reporting State ---
   CoverageReport? _coverageReport;
+  // The two figures the school renews on. Loaded with the Coverage tab
+  // because that is the tab a principal opens to ask "is this working".
+  PaperTiming? _timing;
+  Catalog? _catalog;
+  String? _insightsError;
   DelayedTopicsReport? _delayedTopicsReport;
   bool _loadingReporting = false;
   String? _reportingError;
@@ -202,12 +209,35 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
         _delayedTopicsReport = results[1] as DelayedTopicsReport;
         _loadingReporting = false;
       });
+      // Separately, and deliberately not inside the Future.wait above: these
+      // two read the question bank and the timing log, not the calendar, so a
+      // school with no academic year set up still gets them, and a failure
+      // here must not blank the coverage report beside it.
+      _loadInsights();
     } catch (e) {
       if (!mounted) return;
       setState(() {
         _reportingError = serverErrorMessage(e);
         _loadingReporting = false;
       });
+    }
+  }
+
+  Future<void> _loadInsights() async {
+    try {
+      final pillarApi = GetIt.I<PillarApi>();
+      final results = await Future.wait([pillarApi.paperTiming(), pillarApi.catalog()]);
+      if (!mounted) return;
+      setState(() {
+        _timing = results[0] as PaperTiming;
+        _catalog = results[1] as Catalog;
+        _insightsError = null;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      // Named, not swallowed: a principal who cannot see these should know
+      // the request failed rather than read an empty card as "nothing yet".
+      setState(() => _insightsError = serverErrorMessage(e));
     }
   }
 
@@ -811,6 +841,21 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
             )
           else
             ...del.delayedLessons.map((dl) => _buildDelayedLessonCard(theme, dl)),
+          const Gap(16),
+          // Below the coverage report, not above it: this tab is named
+          // Coverage & Pace, and the card at the top pushed the tab's own
+          // subject rows off a 375 px phone (the responsive suite caught it).
+          // These are the two figures a school renews on -- time saved, and
+          // what the bank holds for the classes we sell -- from endpoints
+          // that have been principal-gated since before the first release
+          // with no caller in any screen.
+          if (_timing != null && _catalog != null)
+            InsightsCard(timing: _timing!, catalog: _catalog!)
+          else if (_insightsError != null)
+            ErrorDisplay(
+              message: 'Could not load time saved and bank coverage: $_insightsError',
+              onRetry: _loadInsights,
+            ),
         ],
       ),
     );
