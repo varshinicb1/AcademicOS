@@ -17,8 +17,18 @@ typedef PdfSaver = Future<void> Function(Uint8List bytes, String filename);
 /// The CBSE classes a teacher can set a paper for, and each class's subjects.
 /// Presets exist for classes 6-10's main subjects (template_presets.py); the
 /// rest start from a template the teacher builds, never a dead end.
-const builderGrades = [6, 7, 8, 9, 10, 11, 12];
+///
+/// 6-10, not 6-12: the first release serves those classes (the user, 2026-09-23).
+/// The bank holds nothing at all for class 11 and no Maths or Science paper for
+/// 12 -- correctness-first left only board questions whose answer key was
+/// verified -- so offering them ended in "Unable to find sufficient questions"
+/// after a teacher had chosen a class, a subject and a template. A class we
+/// cannot serve is not offered until we can.
+const builderGrades = [6, 7, 8, 9, 10];
 
+/// The senior-school branch is unreachable while [builderGrades] stops at 10.
+/// It is kept, not deleted: it is the subject list classes 11-12 come back
+/// with, and rebuilding it from memory later would be worse than reading it.
 List<String> builderSubjects(int grade) => grade >= 11
     ? const ['Physics', 'Chemistry', 'Biology', 'Mathematics', 'Accountancy', 'Business Studies',
         'Economics', 'History', 'Political Science', 'Geography', 'English', 'Hindi', 'Computer Science']
