@@ -1,0 +1,411 @@
+{
+ "subject": "Mathematics",
+ "grade": 6,
+ "chapters": [
+  {
+   "chapter_slug": "knowing-our-numbers",
+   "chapter_name": "PATTERNS IN MATHEMATICS",
+   "source_file": "maths/class6_ganita_prakash.pdf",
+   "topics": [
+    {
+     "name": "What is Mathematics?",
+     "heading_number": "1.1",
+     "subtopics": []
+    },
+    {
+     "name": "Patterns in Numbers",
+     "heading_number": "1.2",
+     "subtopics": []
+    },
+    {
+     "name": "Visualising Number Sequences",
+     "heading_number": "1.3",
+     "subtopics": []
+    },
+    {
+     "name": "Relations among Number Sequences",
+     "heading_number": "1.4",
+     "subtopics": []
+    },
+    {
+     "name": "Patterns in Shapes",
+     "heading_number": "1.5",
+     "subtopics": []
+    },
+    {
+     "name": "Relation to Number Sequences",
+     "heading_number": "1.6",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "whole-numbers",
+   "chapter_name": "Lines and Angles",
+   "source_file": "maths/class6_ganita_prakash.pdf",
+   "topics": [
+    {
+     "name": "Point",
+     "heading_number": "2.1",
+     "subtopics": []
+    },
+    {
+     "name": "Line Segment",
+     "heading_number": "2.2",
+     "subtopics": []
+    },
+    {
+     "name": "Line",
+     "heading_number": "2.3",
+     "subtopics": []
+    },
+    {
+     "name": "Ray",
+     "heading_number": "2.4",
+     "subtopics": []
+    },
+    {
+     "name": "Angle",
+     "heading_number": "2.5",
+     "subtopics": []
+    },
+    {
+     "name": "Comparing Angles",
+     "heading_number": "2.6",
+     "subtopics": []
+    },
+    {
+     "name": "Making Rotating Arms",
+     "heading_number": "2.7",
+     "subtopics": []
+    },
+    {
+     "name": "Special Types of Angles",
+     "heading_number": "2.8",
+     "subtopics": []
+    },
+    {
+     "name": "Measuring Angles",
+     "heading_number": "2.9",
+     "subtopics": []
+    },
+    {
+     "name": "Drawing Angles",
+     "heading_number": "2.10",
+     "subtopics": []
+    },
+    {
+     "name": "Types of Angles and their Measures",
+     "heading_number": "2.11",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "playing-with-numbers",
+   "chapter_name": "NUMBER PLAY",
+   "source_file": "maths/class6_ganita_prakash.pdf",
+   "topics": [
+    {
+     "name": "Numbers can Tell us Things",
+     "heading_number": "3.1",
+     "subtopics": []
+    },
+    {
+     "name": "Supercells",
+     "heading_number": "3.2",
+     "subtopics": []
+    },
+    {
+     "name": "Patterns of Numbers on the Number Line",
+     "heading_number": "3.3",
+     "subtopics": []
+    },
+    {
+     "name": "Playing with Digits",
+     "heading_number": "3.4",
+     "subtopics": []
+    },
+    {
+     "name": "Pretty Palindromic Patterns",
+     "heading_number": "3.5",
+     "subtopics": []
+    },
+    {
+     "name": "The Magic Number of Kaprekar",
+     "heading_number": "3.6",
+     "subtopics": []
+    },
+    {
+     "name": "Clock and Calendar Numbers",
+     "heading_number": "3.7",
+     "subtopics": []
+    },
+    {
+     "name": "Mental Math",
+     "heading_number": "3.8",
+     "subtopics": []
+    },
+    {
+     "name": "Playing with Number Patterns",
+     "heading_number": "3.9",
+     "subtopics": []
+    },
+    {
+     "name": "An Unsolved Mystery — the Collatz Conjecture!",
+     "heading_number": "3.10",
+     "subtopics": []
+    },
+    {
+     "name": "Simple Estimation",
+     "heading_number": "3.11",
+     "subtopics": []
+    },
+    {
+     "name": "Games and Winning Strategies",
+     "heading_number": "3.12",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "integers-6",
+   "chapter_name": "Data Handling and Presentation",
+   "source_file": "maths/class6_ganita_prakash.pdf",
+   "topics": [
+    {
+     "name": "Collecting and Organising Data",
+     "heading_number": "4.1",
+     "subtopics": []
+    },
+    {
+     "name": "Pictographs",
+     "heading_number": "4.2",
+     "subtopics": []
+    },
+    {
+     "name": "Bar Graphs",
+     "heading_number": "4.3",
+     "subtopics": []
+    },
+    {
+     "name": "Drawing a Bar Graph",
+     "heading_number": "4.4",
+     "subtopics": []
+    },
+    {
+     "name": "Artistic and Aesthetic Considerations",
+     "heading_number": "4.5",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "fractions-6",
+   "chapter_name": "PRIME TIME",
+   "source_file": "maths/class6_ganita_prakash.pdf",
+   "topics": [
+    {
+     "name": "Common Multiples and Common Factors",
+     "heading_number": "5.1",
+     "subtopics": []
+    },
+    {
+     "name": "Prime Numbers",
+     "heading_number": "5.2",
+     "subtopics": []
+    },
+    {
+     "name": "Co-prime numbers for safekeeping treasures",
+     "heading_number": "5.3",
+     "subtopics": []
+    },
+    {
+     "name": "Prime Factorisation",
+     "heading_number": "5.4",
+     "subtopics": []
+    },
+    {
+     "name": "Divisibility Tests",
+     "heading_number": "5.5",
+     "subtopics": []
+    },
+    {
+     "name": "Fun with numbers",
+     "heading_number": "5.6",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "decimals-6",
+   "chapter_name": "PERIMETER AND AREA",
+   "source_file": "maths/class6_ganita_prakash.pdf",
+   "topics": [
+    {
+     "name": "Perimeter",
+     "heading_number": "6.1",
+     "subtopics": []
+    },
+    {
+     "name": "Area",
+     "heading_number": "6.2",
+     "subtopics": []
+    },
+    {
+     "name": "Area of a Triangle",
+     "heading_number": "6.3",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "basic-geometrical-ideas",
+   "chapter_name": "Fractions",
+   "source_file": "maths/class6_ganita_prakash.pdf",
+   "topics": [
+    {
+     "name": "Fractional Units and Equal Shares",
+     "heading_number": "7.1",
+     "subtopics": []
+    },
+    {
+     "name": "Fractional Units as Parts of a Whole",
+     "heading_number": "7.2",
+     "subtopics": []
+    },
+    {
+     "name": "Measuring Using Fractional Units",
+     "heading_number": "7.3",
+     "subtopics": []
+    },
+    {
+     "name": "Marking Fraction Lengths on the Number Line",
+     "heading_number": "7.4",
+     "subtopics": []
+    },
+    {
+     "name": "Mixed Fractions",
+     "heading_number": "7.5",
+     "subtopics": []
+    },
+    {
+     "name": "Equivalent Fractions",
+     "heading_number": "7.6",
+     "subtopics": []
+    },
+    {
+     "name": "Comparing Fractions",
+     "heading_number": "7.7",
+     "subtopics": []
+    },
+    {
+     "name": "Addition and Subtraction of Fractions",
+     "heading_number": "7.8",
+     "subtopics": []
+    },
+    {
+     "name": "A Pinch of History",
+     "heading_number": "7.9",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "understanding-elementary-shapes",
+   "chapter_name": "Playing with Constructions",
+   "source_file": "maths/class6_ganita_prakash.pdf",
+   "topics": [
+    {
+     "name": "Artwork",
+     "heading_number": "8.1",
+     "subtopics": []
+    },
+    {
+     "name": "Squares and Rectangles",
+     "heading_number": "8.2",
+     "subtopics": []
+    },
+    {
+     "name": "Constructing Squares and Rectangles",
+     "heading_number": "8.3",
+     "subtopics": []
+    },
+    {
+     "name": "An Exploration in Rectangles",
+     "heading_number": "8.4",
+     "subtopics": []
+    },
+    {
+     "name": "Exploring Diagonals of Rectangles and Squares",
+     "heading_number": "8.5",
+     "subtopics": []
+    },
+    {
+     "name": "Points Equidistant from Two Given Points",
+     "heading_number": "8.6",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "symmetry-6",
+   "chapter_name": "SYMMETRY",
+   "source_file": "maths/class6_ganita_prakash.pdf",
+   "topics": [
+    {
+     "name": "Line of Symmetry",
+     "heading_number": "9.1",
+     "subtopics": []
+    },
+    {
+     "name": "Rotational Symmetry",
+     "heading_number": "9.2",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "algebra-6",
+   "chapter_name": "THE OTHER SIDE OF ZERO",
+   "source_file": "maths/class6_ganita_prakash.pdf",
+   "topics": [
+    {
+     "name": "Bela’s Building of Fun",
+     "heading_number": "10.1",
+     "subtopics": []
+    },
+    {
+     "name": "The Token Model",
+     "heading_number": "10.2",
+     "subtopics": []
+    },
+    {
+     "name": "Integers in Other Places",
+     "heading_number": "10.3",
+     "subtopics": []
+    },
+    {
+     "name": "Explorations with Integers",
+     "heading_number": "10.4",
+     "subtopics": []
+    },
+    {
+     "name": "A Pinch of History",
+     "heading_number": "10.5",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  }
+ ]
+}

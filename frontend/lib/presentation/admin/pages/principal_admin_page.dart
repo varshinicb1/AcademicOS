@@ -8,9 +8,11 @@ import '../../../data/datasources/api/curriculum_api.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
+import '../widgets/book_edition_card.dart';
 import '../widgets/calendar_rules_card.dart';
 import '../widgets/insights_card.dart';
 import '../widgets/invites_panel.dart';
+import '../widgets/pending_topics_card.dart';
 
 /// The console's tabs, in display order. The TabBar, the TabBarView and every
 /// jump between tabs are all derived from this list, so reordering or adding
@@ -30,10 +32,17 @@ enum _AdminTab {
   final IconData icon;
 }
 
+/// Shown when a subject has no chosen edition: no book at all, or several and
+/// none chosen yet (the server's 404 on GET .../selected-book).
+const _noEditionMessage =
+    'That subject has no chosen book edition yet -- choose one under Book editions on the Roster tab.';
+
 /// School Admin console (§2, §11-14, §17, §32):
 /// 1. Roster: Invite teachers and students (the only way anyone joins a
-///    school, see InvitesPanel), assign teachers to books and enroll
-///    students into grades.
+///    school, see InvitesPanel), choose each subject's book edition
+///    (PRD 12.7), assign teachers to it and enroll students into grades.
+///    Every action below uses the subject's chosen edition, never the first
+///    book listed.
 /// 2. Coverage & Pace: Planned vs. actually-taught lessons, coverage %,
 ///    pace %, period variance, and overdue delayed topics for school management.
 /// 3. Reschedule: Disruption handling via PUSH (shifting subsequent lessons
@@ -285,12 +294,12 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     if (_assignTeacherId == null || _assignSubjectId == null) return;
     setState(() => _assigningTeacher = true);
     try {
-      final books = await GetIt.I<CurriculumApi>().books(_assignSubjectId!);
-      if (books.isEmpty) {
-        _showMessage('That subject has no book yet -- seed the curriculum first.');
+      final book = await GetIt.I<CurriculumApi>().selectedBook(_assignSubjectId!);
+      if (book == null) {
+        _showMessage(_noEditionMessage);
         return;
       }
-      await GetIt.I<CurriculumApi>().assignTeacher(teacherId: _assignTeacherId!, bookId: books.first.id);
+      await GetIt.I<CurriculumApi>().assignTeacher(teacherId: _assignTeacherId!, bookId: book.id);
       _showMessage('Teacher assigned successfully.');
       setState(() {
         _assignTeacherId = null;
@@ -333,13 +342,13 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     }
     setState(() => _pushing = true);
     try {
-      final books = await GetIt.I<CurriculumApi>().books(_pushSubjectId!);
-      if (books.isEmpty) {
-        _showMessage('Subject has no books scheduled.');
+      final book = await GetIt.I<CurriculumApi>().selectedBook(_pushSubjectId!);
+      if (book == null) {
+        _showMessage(_noEditionMessage);
         return;
       }
       final res = await GetIt.I<CurriculumApi>().pushSchedule(
-        bookId: books.first.id,
+        bookId: book.id,
         academicYearId: _academicYearId!,
         fromDate: _pushDateController.text.trim(),
         reason: _pushReasonController.text.trim(),
@@ -419,9 +428,11 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     setState(() => _loadingSeqContent = true);
     try {
       final api = GetIt.I<CurriculumApi>();
-      final books = await api.books(subjectId);
-      if (books.isNotEmpty) {
-        final bookId = books.first.id;
+      final book = await api.selectedBook(subjectId);
+      if (book == null) {
+        _showMessage(_noEditionMessage);
+      } else {
+        final bookId = book.id;
         final units = await api.units(bookId);
         final chapters = await api.chapters(bookId);
         units.sort((a, b) => a.seq.compareTo(b.seq));
@@ -670,9 +681,16 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
       children: [
         const InvitesPanel(),
         const Gap(24),
+        Text('Book editions', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+        const Gap(4),
+        Text('One book per subject for the year, chosen by the school. Scheduling, assigning and reordering use it.',
+            style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+        const Gap(12),
+        BookEditionCard(key: const ValueKey('book-editions-card'), grades: data.grades, onMessage: _showMessage),
+        const Gap(24),
         Text('Assign a teacher', style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
         const Gap(4),
-        Text('Which real book a teacher is scheduled to teach.',
+        Text("A teacher is assigned to the subject's chosen book edition.",
             style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
         const Gap(12),
         AppCard(
@@ -1459,6 +1477,16 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
             message: 'No units or chapters found for this subject book.',
           ),
         ],
+        const Gap(24),
+        // A chapter cannot be delivered below chapter level until its topics
+        // are real, so the approval step belongs next to the sequence, not on
+        // a screen of its own.
+        //
+        // Below the sequence, not above it, for the same reason InsightsCard
+        // sits at the end of Coverage & Pace: at the top this card pushed the
+        // tab's own grade/subject rows and its units list off a 375 px phone
+        // at 1.3x text, which the responsive suite caught.
+        PendingTopicsCard(grades: data.grades, onMessage: _showMessage),
       ],
     );
   }

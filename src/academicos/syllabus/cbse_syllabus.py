@@ -165,3 +165,46 @@ def get_available_subjects_for_grade(grade: int) -> list[str]:
     """Returns available subject names for the requested grade."""
     return sorted([s for s, g in list_available_syllabi() if g == grade])
 
+
+# What a CBSE school should be able to set up for a grade -- DECLARED here, not
+# derived from the files on disk.
+#
+# The distinction is the whole of PRD item 3 ("a grade with no syllabus file for
+# a subject seeds the ones that do exist and REPORTS the ones that don't").
+# Deriving the list from `list_available_syllabi()` makes "expected" and
+# "present" the same set by construction, so nothing is ever reported missing
+# and a genuinely absent subject just isn't there: measured 2026-09-23, seeding
+# grade 11 returned subjects_skipped == [] while History_11.json,
+# Geography_11.json and Political_Science_11.json do not exist and their
+# grade-12 equivalents do.
+#
+# Grades 6-10 are the CBSE secondary core. Grades 11-12 list the electives this
+# repo carries syllabus data for in either year; a school does not teach all of
+# them, but a missing FILE for one is still a data gap worth naming rather than
+# a curriculum choice this module can make on a school's behalf.
+_SECONDARY_CORE = ("English", "Hindi", "Mathematics", "Science", "Social Science")
+_SENIOR_SECONDARY = (
+    "Accountancy", "Biology", "Business Studies", "Chemistry", "Economics",
+    "English", "Geography", "Hindi", "History", "Mathematics", "Physics",
+    "Political Science",
+)
+EXPECTED_SUBJECTS_BY_GRADE: dict[int, tuple[str, ...]] = {
+    **{g: _SECONDARY_CORE for g in range(6, 11)},
+    **{g: _SENIOR_SECONDARY for g in (11, 12)},
+}
+
+
+def get_expected_subjects_for_grade(grade: int) -> list[str]:
+    """Every subject a seed for this grade should try, whether or not a file
+    exists: the declared list, plus anything on disk that isn't in it (a new
+    subject file should be seeded, not ignored because the list is older)."""
+    return sorted(set(EXPECTED_SUBJECTS_BY_GRADE.get(grade, ()))
+                  | set(get_available_subjects_for_grade(grade)))
+
+
+def get_missing_subjects_for_grade(grade: int) -> list[str]:
+    """Expected subjects with no syllabus file for this grade."""
+    available = set(get_available_subjects_for_grade(grade))
+    return sorted(s for s in EXPECTED_SUBJECTS_BY_GRADE.get(grade, ())
+                  if s not in available)
+

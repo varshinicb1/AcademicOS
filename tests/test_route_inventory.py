@@ -146,11 +146,20 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/grades"),
     ("GET", "/api/v1/curriculum/grades/{grade_id}/subjects"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
+    ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
+    ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
+    ("PUT", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
     ("GET", "/api/v1/curriculum/books/{book_id}/units"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"),
     ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
     ("POST", "/api/v1/curriculum/seed/cbse10"),
+    ("POST", "/api/v1/curriculum/seed/cbse"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
+    # The same read keyed by the SYLLABUS slug the Assessment Designer holds
+    # (/catalog's chapterId), which is the only chapter id that screen has.
+    ("GET", "/api/v1/curriculum/chapters/by-slug/{subject}/{grade}/{slug}/topics"),
+    ("GET", "/api/v1/curriculum/chapters/{chapter_id}/proposed-topics"),
+    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
     ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"),
     ("POST", "/api/v1/curriculum/extraction-runs/{run_id}/approve"),
@@ -171,6 +180,11 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
     ("DELETE", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays/{holiday_id}"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/terms"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/terms"),
+    ("GET", "/api/v1/curriculum/terms/current"),
+    ("PUT", "/api/v1/curriculum/terms/{term_id}"),
+    ("DELETE", "/api/v1/curriculum/terms/{term_id}"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
@@ -297,11 +311,18 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/grades"),
     ("GET", "/api/v1/curriculum/grades/{grade_id}/subjects"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
+    ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
+    ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
+    ("PUT", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
     ("GET", "/api/v1/curriculum/books/{book_id}/units"),
     ("GET", "/api/v1/curriculum/books/{book_id}/chapters"),
     ("GET", "/api/v1/curriculum/chapters/{chapter_id}/topics"),
+    ("GET", "/api/v1/curriculum/chapters/by-slug/{subject}/{grade}/{slug}/topics"),
+    ("GET", "/api/v1/curriculum/chapters/{chapter_id}/proposed-topics"),
+    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all"),
     ("POST", "/api/v1/curriculum/books/{book_id}/toc/ingest"),
     ("POST", "/api/v1/curriculum/seed/cbse10"),
+    ("POST", "/api/v1/curriculum/seed/cbse"),
     ("POST", "/api/v1/curriculum/chapters/{chapter_id}/extract"),
     ("GET", "/api/v1/curriculum/extraction-runs/{run_id}"),
     ("POST", "/api/v1/curriculum/extraction-runs/{run_id}/approve"),
@@ -321,6 +342,11 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays"),
     ("DELETE", "/api/v1/curriculum/academic-years/{academic_year_id}/holidays/{holiday_id}"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/terms"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/terms"),
+    ("GET", "/api/v1/curriculum/terms/current"),
+    ("PUT", "/api/v1/curriculum/terms/{term_id}"),
+    ("DELETE", "/api/v1/curriculum/terms/{term_id}"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
@@ -515,6 +541,13 @@ def _valid_body_for(method: str, path: str) -> dict:
             "createdAt": "2026-01-01T00:00:00Z",
             "updatedAt": "2026-01-01T00:00:00Z",
         }
+    if path in ("/api/v1/curriculum/academic-years/{academic_year_id}/terms",
+                "/api/v1/curriculum/terms/{term_id}"):  # POST / PUT
+        return {"name": "Term 1", "startDate": "2026-04-01", "endDate": "2026-09-30"}
+    if path == "/api/v1/curriculum/subjects/{subject_id}/books":  # POST
+        return {"title": "Mathematics Part I", "boardId": "board_1"}
+    if path == "/api/v1/curriculum/subjects/{subject_id}/selected-book":  # PUT
+        return {"bookId": "book_1"}
     if path == "/api/v1/assessments/{assessment_id}/status":  # PATCH
         return {"status": "draft"}
     if path == "/api/v1/questions/search":
@@ -589,7 +622,7 @@ def _valid_body_for(method: str, path: str) -> dict:
 
 
 def test_canonical_route_inventory_matches_live_app():
-    """The enumerated app must equal the 150-route inventory exactly."""
+    """The enumerated app must equal the inventory above exactly."""
     live = _enumerate_routes()
     live_api = live - DOC_ROUTES
     assert live_api == API_ROUTES, (
@@ -598,7 +631,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 150
+    assert len(API_ROUTES) == 162
 
 
 def test_docs_routes_present():
@@ -1236,6 +1269,72 @@ def test_full_boot_curriculum_seed_and_read(tmp_path, monkeypatch):
         )
         assert toc_res.status_code == 200
         assert toc_res.json()["unitsCreated"] >= 1
+
+        # -- any grade 6-12, not only 10 (PRD section 0 decision 4). The
+        # detailed behaviour lives in tests/test_curriculum_seed_grades.py;
+        # this pins the live route and its bound.
+        assert client.post("/api/v1/curriculum/seed/cbse", json={
+            "academicYearLabel": "2026-27", "startDate": "2026-06-01",
+            "endDate": "2027-04-30", "grade": 7,
+        }).status_code == 401
+        grade_7 = client.post(
+            "/api/v1/curriculum/seed/cbse",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01",
+                  "endDate": "2027-04-30", "grade": 7},
+            headers=principal_auth,
+        )
+        assert grade_7.status_code == 200, grade_7.text
+        assert grade_7.json()["grade"] == 7
+        assert grade_7.json()["chaptersSeeded"] > 0
+        assert client.post(
+            "/api/v1/curriculum/seed/cbse",
+            json={"academicYearLabel": "2026-27", "startDate": "2026-06-01",
+                  "endDate": "2027-04-30", "grade": 13},
+            headers=principal_auth,
+        ).status_code == 422
+
+        # -- seed -> pending template topics -> approved topics for one chapter
+        chapter_id = next(c["id"] for c in chapters.json()
+                          if c["name"] == "Chemical Reactions and Equations")
+        assert client.get(
+            f"/api/v1/curriculum/chapters/{chapter_id}/proposed-topics").status_code == 401
+        proposed = client.get(f"/api/v1/curriculum/chapters/{chapter_id}/proposed-topics",
+                              headers=principal_auth)
+        assert proposed.status_code == 200, proposed.text
+        assert proposed.json()[0]["run"]["status"] == "pending"
+
+        assert client.post(
+            f"/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all",
+            json={}).status_code == 401
+        assert client.post(
+            f"/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all",
+            json={}, headers=teacher_auth).status_code == 403
+        approved = client.post(f"/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all",
+                               json={}, headers=principal_auth)
+        assert approved.status_code == 200, approved.text
+        assert approved.json()["topicsCreated"] > 0
+        real_topics = client.get(f"/api/v1/curriculum/chapters/{chapter_id}/topics",
+                                 headers=principal_auth)
+        assert len(real_topics.json()) == approved.json()["topicsCreated"]
+
+        # The same chapter reached the way the Assessment Designer reaches
+        # it: by the syllabus slug /catalog gave the page, not by chap_ id.
+        by_slug = ("/api/v1/curriculum/chapters/by-slug/Science/10/"
+                   "chemical-reactions-equations/topics")
+        assert client.get(by_slug).status_code == 401
+        slug_topics = client.get(by_slug, headers=principal_auth)
+        assert slug_topics.status_code == 200, slug_topics.text
+        assert [t["id"] for t in slug_topics.json()] == [t["id"] for t in real_topics.json()]
+
+        # A class this school never seeded says what to do about it -- the
+        # picker renders this text instead of looking empty.
+        unset = client.get("/api/v1/curriculum/chapters/by-slug/Science/9/"
+                           "chemical-reactions-equations/topics", headers=principal_auth)
+        assert unset.status_code == 404, unset.text
+        assert unset.json()["detail"] == (
+            "Class 9 Science has not been set up for your school yet, so there are "
+            "no subtopics to filter by. Setting a class up is not something the app "
+            "can do yet -- it needs support.")
 
 
 def test_full_boot_academic_calendar_and_teaching_time_estimates(tmp_path, monkeypatch):

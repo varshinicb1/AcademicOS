@@ -1,0 +1,1069 @@
+{
+ "subject": "Social Science",
+ "grade": 10,
+ "chapters": [
+  {
+   "chapter_slug": "rise-of-nationalism-europe",
+   "chapter_name": "The Rise of Nationalism in Europe",
+   "topics": [
+    {
+     "name": "The French Revolution and the Birth of Nationalism",
+     "subtopics": [
+      {
+       "name": "The overthrow of the French monarchy and the Declaration of the Rights of Man"
+      },
+      {
+       "name": "Civic nationalism and the idea of popular sovereignty"
+      },
+      {
+       "name": "National symbols, language, and shared citizenship"
+      }
+     ]
+    },
+    {
+     "name": "Nationalist Unification in Germany and Italy",
+     "subtopics": [
+      {
+       "name": "The Italian Risorgimento and the creation of the Kingdom of Italy"
+      },
+      {
+       "name": "Prussian-led German unification through wars and diplomacy"
+      },
+      {
+       "name": "The roles of leaders such as Garibaldi, Cavour, and Bismarck"
+      }
+     ]
+    },
+    {
+     "name": "Nationalism in the Balkans and Rising Tensions",
+     "subtopics": [
+      {
+       "name": "The decline of the Ottoman Empire and competition among powers"
+      },
+      {
+       "name": "Ethnic and linguistic conflicts in the Austro-Hungarian and Ottoman lands"
+      },
+      {
+       "name": "The Balkan crises as a trigger for World War I"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "nationalism-india",
+   "chapter_name": "Nationalism in India",
+   "topics": [
+    {
+     "name": "The Early Phase of Nationalism",
+     "subtopics": [
+      {
+       "name": "Rise of Revolutionary Nationalism"
+      },
+      {
+       "name": "Formation of the Indian National Congress"
+      },
+      {
+       "name": "The Swadeshi and Boycott Movement"
+      }
+     ]
+    },
+    {
+     "name": "The Gandhian Era and Mass Mobilisation",
+     "subtopics": [
+      {
+       "name": "Gandhi’s Philosophy of Satyagraha"
+      },
+      {
+       "name": "The Non-Cooperation Movement"
+      },
+      {
+       "name": "The Civil Disobedience Movement and Purna Swaraj"
+      }
+     ]
+    },
+    {
+     "name": "The Final Phase of the Freedom Struggle",
+     "subtopics": [
+      {
+       "name": "The Government of India Act 1935"
+      },
+      {
+       "name": "The Quit India Movement"
+      },
+      {
+       "name": "The Imminent Path to Independence"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "making-global-world",
+   "chapter_name": "The Making of a Global World",
+   "topics": [
+    {
+     "name": "Pre-Modern Global Trade",
+     "subtopics": [
+      {
+       "name": "The Silk Roads: Trade in Goods, Ideas, and Religions"
+      },
+      {
+       "name": "The Indian Ocean Trade Network"
+      },
+      {
+       "name": "European Demand for Spices and Gold"
+      }
+     ]
+    },
+    {
+     "name": "The Early Modern Global World",
+     "subtopics": [
+      {
+       "name": "The Age of Exploration and New Sea Routes"
+      },
+      {
+       "name": "The Columbian Exchange: Plants, Animals, and Diseases"
+      },
+      {
+       "name": "The Global Flow of Silver and Colonial Trade"
+      }
+     ]
+    },
+    {
+     "name": "The Modern Global World",
+     "subtopics": [
+      {
+       "name": "The Industrial Revolution in Britain"
+      },
+      {
+       "name": "Technology and the Shrinking World"
+      },
+      {
+       "name": "Imperialism and a Global Economy"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "age-of-industrialisation",
+   "chapter_name": "The Age of Industrialisation",
+   "topics": [
+    {
+     "name": "The Beginning and Growth of the Industry",
+     "subtopics": [
+      {
+       "name": "Decline of Indian cloth and export of gold"
+      },
+      {
+       "name": "The First Factory: cotton in Bombay"
+      },
+      {
+       "name": "Growth of cotton and later jute mills"
+      }
+     ]
+    },
+    {
+     "name": "Industrial Workforce and Labour Issues",
+     "subtopics": [
+      {
+       "name": "Composition of the workforce: women, children, and labourers"
+      },
+      {
+       "name": "Working conditions: hours, wages, and employment"
+      },
+      {
+       "name": "Worker resistance and early trade unionism"
+      }
+     ]
+    },
+    {
+     "name": "Market Integration and Global Trade",
+     "subtopics": [
+      {
+       "name": "Colonial policies and traditional markets"
+      },
+      {
+       "name": "The demand for raw materials (e.g., cotton)"
+      },
+      {
+       "name": "British imports and the decline of indigenous industries"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "print-culture-modern-world",
+   "chapter_name": "Print Culture and the Modern World",
+   "topics": [
+    {
+     "name": "The Invention and Spread of Print Culture",
+     "subtopics": [
+      {
+       "name": "Gutenberg's Press and the European Print Revolution"
+      },
+      {
+       "name": "Introduction and Early Development of Print in India"
+      },
+      {
+       "name": "Growth of Vernacular Print and Religious Literature"
+      }
+     ]
+    },
+    {
+     "name": "Print and Social Transformation",
+     "subtopics": [
+      {
+       "name": "Print, Religious Reform, and Scientific Thought"
+      },
+      {
+       "name": "Expansion of Literacy and Emergence of a Public Sphere"
+      },
+      {
+       "name": "New Reading Habits and Cheap Literature"
+      }
+     ]
+    },
+    {
+     "name": "Print and the Nationalist Movement",
+     "subtopics": [
+      {
+       "name": "British Censorship and Legal Control of the Press"
+      },
+      {
+       "name": "The Patriot Press and Rise of National Newspapers"
+      },
+      {
+       "name": "Print as a Medium for Mass Mobilisation"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "resources-development",
+   "chapter_name": "Resources and Development",
+   "topics": [
+    {
+     "name": "Conceptual Foundations of Resources",
+     "subtopics": [
+      {
+       "name": "Definition, Characteristics, and Classification of Resources"
+      },
+      {
+       "name": "Resource Planning in India"
+      },
+      {
+       "name": "Sustainable Development and Resource Conservation"
+      }
+     ]
+    },
+    {
+     "name": "Land and Soil as Core Assets",
+     "subtopics": [
+      {
+       "name": "Land Use Pattern and Land Degradation"
+      },
+      {
+       "name": "Soil Types, Fertility, and Soil Conservation Methods"
+      },
+      {
+       "name": "Forest Resources and Forestry Policies"
+      }
+     ]
+    },
+    {
+     "name": "Water, Minerals, and Energy",
+     "subtopics": [
+      {
+       "name": "Water Resources: Scarcity and Management"
+      },
+      {
+       "name": "Distribution and Conservation of Mineral Resources"
+      },
+      {
+       "name": "Conventional and Non-Conventional Energy Sources"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "forest-wildlife-resources",
+   "chapter_name": "Forest and Wildlife Resources",
+   "topics": [
+    {
+     "name": "Classification and Significance of Indian Forests",
+     "subtopics": [
+      {
+       "name": "Types of forests: Tropical Evergreen, Tropical Deciduous, and Mangrove forests"
+      },
+      {
+       "name": "Spatial distribution and major forest regions in India"
+      },
+      {
+       "name": "Ecological importance and economic value of forest cover"
+      }
+     ]
+    },
+    {
+     "name": "Wildlife, Threats, and Conservation Policies",
+     "subtopics": [
+      {
+       "name": "Biodiversity of flora and fauna in major Indian ecosystems"
+      },
+      {
+       "name": "Impacts of poaching, deforestation, and climate change"
+      },
+      {
+       "name": "National initiatives: Project Tiger and the Wildlife (Protection) Act, 1972"
+      }
+     ]
+    },
+    {
+     "name": "Community Participation and Sustainable Management",
+     "subtopics": [
+      {
+       "name": "Joint Forest Management (JFM) and role of local communities"
+      },
+      {
+       "name": "Balancing conservation with developmental demands (industrial, urban)"
+      },
+      {
+       "name": "Promoting sustainable livelihoods: eco-tourism and non-timber forest produce"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "water-resources",
+   "chapter_name": "Water Resources",
+   "topics": [
+    {
+     "name": "Water Scarcity and the Need for Conservation",
+     "subtopics": [
+      {
+       "name": "Per capita water availability and growing demand"
+      },
+      {
+       "name": "Causes and consequences of water scarcity in India"
+      },
+      {
+       "name": "The importance of water conservation initiatives"
+      }
+     ]
+    },
+    {
+     "name": "Traditional Water Harvesting Systems",
+     "subtopics": [
+      {
+       "name": "Community-managed systems like Khadins, Tanks, and Baolis"
+      },
+      {
+       "name": "Indigenous practices such as Bamboo Drip Irrigation"
+      },
+      {
+       "name": "The need for revival of traditional methods"
+      }
+     ]
+    },
+    {
+     "name": "Multipurpose River Projects and Management",
+     "subtopics": [
+      {
+       "name": "Objectives and benefits of large dams (irrigation, hydropower)"
+      },
+      {
+       "name": "Problems, displacement, and social movements (e.g., Narmada Bachao Andolan)"
+      },
+      {
+       "name": "Government's role in water management (Policy, Watersheds)"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "agriculture",
+   "chapter_name": "Agriculture",
+   "topics": [
+    {
+     "name": "Foundations of Indian Agriculture",
+     "subtopics": [
+      {
+       "name": "Types of Farming: Subsistence vs. Commercial"
+      },
+      {
+       "name": "Cropping Seasons: Kharif, Rabi, and Zaid"
+      },
+      {
+       "name": "Major Crops: Food Grains and Cash Crops"
+      }
+     ]
+    },
+    {
+     "name": "Specialised Agricultural Practices",
+     "subtopics": [
+      {
+       "name": "Commercial Farming"
+      },
+      {
+       "name": "Plantation Crops"
+      },
+      {
+       "name": "Dairy Farming and Animal Husbandry"
+      }
+     ]
+    },
+    {
+     "name": "Agricultural Transformation and Challenges",
+     "subtopics": [
+      {
+       "name": "The Green Revolution in India"
+      },
+      {
+       "name": "Land Reforms"
+      },
+      {
+       "name": "Contemporary Challenges in Agriculture"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "minerals-energy-resources",
+   "chapter_name": "Minerals and Energy Resources",
+   "topics": [
+    {
+     "name": "Minerals",
+     "subtopics": [
+      {
+       "name": "Types of Minerals"
+      },
+      {
+       "name": "Distribution of Key Minerals in India"
+      },
+      {
+       "name": "Conservation of Mineral Resources"
+      }
+     ]
+    },
+    {
+     "name": "Energy Resources",
+     "subtopics": [
+      {
+       "name": "Conventional Sources of Energy"
+      },
+      {
+       "name": "Non-Conventional Sources of Energy"
+      },
+      {
+       "name": "Energy Conservation and its Significance"
+      }
+     ]
+    },
+    {
+     "name": "Sustainable Development and Conservation",
+     "subtopics": [
+      {
+       "name": "Principles of Conservation"
+      },
+      {
+       "name": "Government Initiatives and Policies"
+      },
+      {
+       "name": "Role of Citizens and Society"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "manufacturing-industries",
+   "chapter_name": "Manufacturing Industries",
+   "topics": [
+    {
+     "name": "Importance of Manufacturing",
+     "subtopics": [
+      {
+       "name": "Economic growth and development"
+      },
+      {
+       "name": "Employment generation and industrialization"
+      },
+      {
+       "name": "Productivity and diversification"
+      }
+     ]
+    },
+    {
+     "name": "Types and Classification of Industries",
+     "subtopics": [
+      {
+       "name": "Agro-based, mineral-based, and forest-based industries"
+      },
+      {
+       "name": "Small-scale vs. large-scale manufacturing"
+      },
+      {
+       "name": "Public sector, private sector, and joint sector industries"
+      }
+     ]
+    },
+    {
+     "name": "Industrial Distribution and Location",
+     "subtopics": [
+      {
+       "name": "Major industrial regions and corridors"
+      },
+      {
+       "name": "Factors affecting industrial location"
+      },
+      {
+       "name": "Challenges in industrial development"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "lifelines-national-economy",
+   "chapter_name": "Lifelines of National Economy",
+   "topics": [
+    {
+     "name": "Transportation",
+     "subtopics": [
+      {
+       "name": "Road transport"
+      },
+      {
+       "name": "Railway transport"
+      },
+      {
+       "name": "Air and water transport"
+      }
+     ]
+    },
+    {
+     "name": "Communication",
+     "subtopics": [
+      {
+       "name": "Postal services"
+      },
+      {
+       "name": "Telecommunication"
+      },
+      {
+       "name": "Mass media"
+      }
+     ]
+    },
+    {
+     "name": "Trade",
+     "subtopics": [
+      {
+       "name": "Domestic trade"
+      },
+      {
+       "name": "International trade"
+      },
+      {
+       "name": "Port development"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "power-sharing",
+   "chapter_name": "Power-sharing",
+   "topics": [
+    {
+     "name": "The Need for Power-Sharing",
+     "subtopics": [
+      {
+       "name": "Rationale for democractic stability and conflict avoidance"
+      },
+      {
+       "name": "Forms of Power-Sharing (moral, legal, political)"
+      }
+     ]
+    },
+    {
+     "name": "Vertical Division of Power: Federalism",
+     "subtopics": [
+      {
+       "name": "Division of Powers between Union and State governments"
+      },
+      {
+       "name": "Decentralization to Local Governments (Panchayat and Municipality)"
+      }
+     ]
+    },
+    {
+     "name": "Horizontal Division of Power: Separation of Powers",
+     "subtopics": [
+      {
+       "name": "Separation of Legislature, Executive, and Judiciary"
+      },
+      {
+       "name": "Checks and Balances and the Role of Political Parties"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "federalism",
+   "chapter_name": "Federalism",
+   "topics": [
+    {
+     "name": "The Structure of Indian Federalism",
+     "subtopics": [
+      {
+       "name": "Division of Powers between Union and States (List System)"
+      },
+      {
+       "name": "Role of the Judiciary and the Governor"
+      },
+      {
+       "name": "Federal Features in the Indian Constitution"
+      }
+     ]
+    },
+    {
+     "name": "Evolution and Dynamics of Centre-State Relations",
+     "subtopics": [
+      {
+       "name": "Creation of Linguistic States"
+      },
+      {
+       "name": "Language Policy and Federalism"
+      },
+      {
+       "name": "Inter-State Disputes and Co-operative Forums (e.g., Zonal Councils)"
+      }
+     ]
+    },
+    {
+     "name": "Decentralisation and the Third Tier of Government",
+     "subtopics": [
+      {
+       "name": "Constitutional Provisions (73rd and 74th Amendments)"
+      },
+      {
+       "name": "Empowerment of Panchayats and Municipalities"
+      },
+      {
+       "name": "Challenges and Successes in Local Governance"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "gender-religion-caste",
+   "chapter_name": "Gender, Religion and Caste",
+   "topics": [
+    {
+     "name": "Gender and Politics",
+     "subtopics": [
+      {
+       "name": "Gender stereotypes"
+      },
+      {
+       "name": "The women's movement"
+      },
+      {
+       "name": "Women's political representation"
+      }
+     ]
+    },
+    {
+     "name": "Caste and Rights",
+     "subtopics": [
+      {
+       "name": "Caste discrimination"
+      },
+      {
+       "name": "Ambedkar's movement"
+      },
+      {
+       "name": "Caste and politics"
+      }
+     ]
+    },
+    {
+     "name": "Communalism and Secularism",
+     "subtopics": [
+      {
+       "name": "Communalism"
+      },
+      {
+       "name": "Secularism"
+      },
+      {
+       "name": "Conflicts and struggles"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "political-parties",
+   "chapter_name": "Political Parties",
+   "topics": [
+    {
+     "name": "The Role and Functions of Political Parties",
+     "subtopics": [
+      {
+       "name": "Why political parties are necessary in a democracy"
+      },
+      {
+       "name": "Core functions: aggregating interests, articulating policies, and linking citizens to government"
+      },
+      {
+       "name": "Evolution of different party systems (one-party, two-party, multi-party)"
+      }
+     ]
+    },
+    {
+     "name": "The Indian Party Landscape and Structure",
+     "subtopics": [
+      {
+       "name": "Criteria for recognition as national, state, and regional parties"
+      },
+      {
+       "name": "Coalition politics: formation and significance in India"
+      },
+      {
+       "name": "Comparative analysis of India's multi-party system with other models"
+      }
+     ]
+    },
+    {
+     "name": "Challenges and Reforms for Political Parties",
+     "subtopics": [
+      {
+       "name": "Key challenges: dynastic succession, criminalization, and declining internal democracy"
+      },
+      {
+       "name": "Proposed reforms: state funding, mandatory disclosure, and internal party democracy"
+      },
+      {
+       "name": "Oversight and regulation: the role of the Election Commission and Judicature"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "outcomes-of-democracy",
+   "chapter_name": "Outcomes of Democracy",
+   "topics": [
+    {
+     "name": "Core Advantages of Democratic Governance",
+     "subtopics": [
+      {
+       "name": "Reduced social conflict and accommodation of diversity"
+      },
+      {
+       "name": "Increased government accountability and legitimacy"
+      },
+      {
+       "name": "Improvement in economic and living standards"
+      }
+     ]
+    },
+    {
+     "name": "Challenges and Criticisms of Democracy",
+     "subtopics": [
+      {
+       "name": "Administrative delays and policy inefficiency"
+      },
+      {
+       "name": "Amplification of social divisions (caste, religion)"
+      },
+      {
+       "name": "High cost and focus on short-term electoral gains"
+      }
+     ]
+    },
+    {
+     "name": "Evaluating the Overall Outcomes",
+     "subtopics": [
+      {
+       "name": "Impact on quality of life and public dignity"
+      },
+      {
+       "name": "Effectiveness in economic and social development"
+      },
+      {
+       "name": "Role of accountability mechanisms (RTIs, elections)"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "development",
+   "chapter_name": "Development",
+   "topics": [
+    {
+     "name": "Defining Development",
+     "subtopics": [
+      {
+       "name": "Differentiating economic growth from development"
+      },
+      {
+       "name": "Human Development Index as a comprehensive measure"
+      },
+      {
+       "name": "Key indicators: health, education, and living standards"
+      }
+     ]
+    },
+    {
+     "name": "Comparative and National Development",
+     "subtopics": [
+      {
+       "name": "Contrasting development models (e.g., North vs. South Korea)"
+      },
+      {
+       "name": "State-wise disparities in development within India"
+      },
+      {
+       "name": "Role of industry, agriculture, and services in national growth"
+      }
+     ]
+    },
+    {
+     "name": "Challenges and Strategies in Development",
+     "subtopics": [
+      {
+       "name": "Core problems: poverty, unemployment, and inequality"
+      },
+      {
+       "name": "Intersection of development and environmental sustainability"
+      },
+      {
+       "name": "Public sector reforms and the role of private investment"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "sectors-indian-economy",
+   "chapter_name": "Sectors of the Indian Economy",
+   "topics": [
+    {
+     "name": "Three Types of Economic Sectors",
+     "subtopics": [
+      {
+       "name": "Definition and role of the primary sector"
+      },
+      {
+       "name": "Definition and role of the secondary sector"
+      },
+      {
+       "name": "Definition and role of the tertiary sector"
+      }
+     ]
+    },
+    {
+     "name": "Comparative Study of Indian Sectors",
+     "subtopics": [
+      {
+       "name": "Sectoral contribution to India's gross domestic product (GDP)"
+      },
+      {
+       "name": "Sectoral distribution of workforce and employment"
+      },
+      {
+       "name": "Discrepancy between employment share and income share across sectors"
+      }
+     ]
+    },
+    {
+     "name": "Enterprise Classification",
+     "subtopics": [
+      {
+       "name": "Features and examples of organised sector"
+      },
+      {
+       "name": "Features and examples of unorganised sector"
+      },
+      {
+       "name": "Public sector, private sector, and self-employment"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "money-credit",
+   "chapter_name": "Money and Credit",
+   "topics": [
+    {
+     "name": "Functions and Evolution of Money",
+     "subtopics": [
+      {
+       "name": "The Barter System and Its Limitations"
+      },
+      {
+       "name": "Modern Forms of Money"
+      }
+     ]
+    },
+    {
+     "name": "Understanding Credit Terms and Sources",
+     "subtopics": [
+      {
+       "name": "The Significance and Use of Loans"
+      },
+      {
+       "name": "Key Terms of Credit (Interest, Collateral)"
+      },
+      {
+       "name": "Formal vs. Informal Credit Sources"
+      }
+     ]
+    },
+    {
+     "name": "Contemporary Credit Institutions and Case Studies",
+     "subtopics": [
+      {
+       "name": "Case Study: The Credit System in Palampur"
+      },
+      {
+       "name": "Self-Help Groups (SHGs) for Rural Credit"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "globalisation-indian-economy",
+   "chapter_name": "Globalisation and the Indian Economy",
+   "topics": [
+    {
+     "name": "Understanding Globalisation",
+     "subtopics": [
+      {
+       "name": "Definition and meaning of globalisation"
+      },
+      {
+       "name": "Historical background and stages of globalisation"
+      },
+      {
+       "name": "Key features and characteristics"
+      }
+     ]
+    },
+    {
+     "name": "Global Trade and Investment",
+     "subtopics": [
+      {
+       "name": "International trade barriers and free trade"
+      },
+      {
+       "name": "MNCs and foreign direct investment"
+      },
+      {
+       "name": "World Trade Organization and global trade rules"
+      }
+     ]
+    },
+    {
+     "name": "Impact on Indian Economy",
+     "subtopics": [
+      {
+       "name": "Impact on Indian industries"
+      },
+      {
+       "name": "Impact on agriculture and farmers"
+      },
+      {
+       "name": "Impact on workers and services"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "consumer-rights",
+   "chapter_name": "Consumer Rights",
+   "topics": [
+    {
+     "name": "Understanding Consumer Rights",
+     "subtopics": [
+      {
+       "name": "Definition of a Consumer and Consumer Rights"
+      },
+      {
+       "name": "The Six Fundamental Rights"
+      },
+      {
+       "name": "Need and Importance of Consumer Rights"
+      }
+     ]
+    },
+    {
+     "name": "Legal Framework and Protection",
+     "subtopics": [
+      {
+       "name": "The Consumer Protection Act, 1986"
+      },
+      {
+       "name": "Redressal Mechanisms: Consumer Courts"
+      },
+      {
+       "name": "Role of Consumer Protection Councils"
+      }
+     ]
+    },
+    {
+     "name": "Consumer Challenges and Responsibilities",
+     "subtopics": [
+      {
+       "name": "Unfair Trade Practices and Misleading Advertisements"
+      },
+      {
+       "name": "Consumer's Responsibilities and Duties"
+      },
+      {
+       "name": "The Power of Consumer Awareness"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  }
+ ]
+}

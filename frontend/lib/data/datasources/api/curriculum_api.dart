@@ -2,7 +2,7 @@
 /// (src/academicos/curriculum/routes.py) -- mainly the teacher-facing
 /// slice: "what do I teach today" (`GET /my-schedule`), plus a read-only
 /// Topic/Subtopic lookup the Assessment Designer's subtopic picker uses
-/// (topicsForChapter). Not the full admin curriculum-authoring surface
+/// (topicsForSyllabusChapter). Not the full admin curriculum-authoring surface
 /// (extraction/approval/calendar), which has no Flutter UI yet. Same
 /// plain-class, no-freezed style as auth_api.dart/pillar_api.dart --
 /// read-mostly data, no codegen needed.
@@ -157,12 +157,60 @@ class SubjectSummary {
   SubjectSummary.fromJson(Map<String, dynamic> j) : id = j['id'] as String, name = j['name'] as String;
 }
 
+/// A book (edition) of a subject. `selected` is whether it is the subject's
+/// edition for the year (PRD 12.7: one per subject per year, chosen by the
+/// school) -- the book every screen must use, never `books.first`.
 class BookSummary {
   final String id;
   final String subjectId;
+  final String boardId;
   final String title;
+  final String? publisher;
+  final bool selected;
   BookSummary.fromJson(Map<String, dynamic> j)
-      : id = j['id'] as String, subjectId = j['subjectId'] as String, title = j['title'] as String;
+      : id = j['id'] as String,
+        subjectId = j['subjectId'] as String,
+        boardId = j['boardId'] as String? ?? '',
+        title = j['title'] as String,
+        publisher = j['publisher'] as String?,
+        selected = j['selected'] as bool? ?? false;
+
+  String get label => publisher == null || publisher!.isEmpty ? title : '$title ($publisher)';
+}
+
+class BoardSummary {
+  final String id;
+  final String name;
+  BoardSummary.fromJson(Map<String, dynamic> j) : id = j['id'] as String, name = j['name'] as String;
+}
+
+/// SelectBookResponse (schemas.py). `warning` is set when any other edition
+/// of the subject -- not only the one chosen just before -- still has lessons
+/// scheduled this year or teachers assigned to it. Neither is moved to the
+/// new book, so the warning is what the principal is told; it already names
+/// each old book and its counts.
+class BookSelectionResult {
+  final BookSummary book;
+  final String? previousBookId;
+  final int previousBookScheduledLessons;
+  final String? warning;
+  BookSelectionResult.fromJson(Map<String, dynamic> j)
+      : book = BookSummary.fromJson(Map<String, dynamic>.from(j['book'] as Map)),
+        previousBookId = j['previousBookId'] as String?,
+        previousBookScheduledLessons = j['previousBookScheduledLessons'] as int? ?? 0,
+        warning = j['warning'] as String?;
+}
+
+/// The school has no curriculum to filter by yet, and the server said what
+/// to do about it. Carried as its own type (not a bare DioException) because
+/// the picker must show [message] verbatim: "no subtopics exist for this
+/// chapter" and "your school has not set this class up" are different facts
+/// with different actions, and an empty list says neither.
+class CurriculumNotSetUp implements Exception {
+  final String message;
+  CurriculumNotSetUp(this.message);
+  @override
+  String toString() => message;
 }
 
 /// One real, admin-approved Subtopic under a Topic -- the finest-grained
@@ -170,8 +218,22 @@ class BookSummary {
 class SubtopicSummary {
   final String id;
   final String name;
+
+  /// How many questions the school has actually tagged to this subtopic.
+  ///
+  /// `POST /questions/search` intersects the chapter's questions with
+  /// `question_subtopic_links`, so 0 here means picking this subtopic
+  /// produces an EMPTY paper, not a narrowed one. No client writes that
+  /// table yet (its only writer is `POST /chapters/{id}/questions/tag`), so
+  /// on real school data this is 0 everywhere -- which is exactly why the
+  /// picker has to show it instead of letting a teacher find out at
+  /// generation time. Null from an older backend that does not send it.
+  final int? taggedQuestionCount;
+
   SubtopicSummary.fromJson(Map<String, dynamic> j)
-      : id = j['id'] as String, name = j['name'] as String;
+      : id = j['id'] as String,
+        name = j['name'] as String,
+        taggedQuestionCount = (j['taggedQuestionCount'] as num?)?.toInt();
 }
 
 /// A chapter's real Topic, with its real, approved Subtopics already
@@ -187,6 +249,101 @@ class TopicWithSubtopics {
         subtopics = (j['subtopics'] as List? ?? const [])
             .map((e) => SubtopicSummary.fromJson(Map<String, dynamic>.from(e)))
             .toList();
+}
+
+/// One still-unapproved Topic proposal, with its proposed Subtopics nested.
+/// `description` carries the source's own reference where there is one (an
+/// NCERT section number, "NCERT section 2.2.1") -- the thing a principal
+/// actually checks the proposal against.
+class ProposedTopic {
+  final String id;
+  final String name;
+  final String? description;
+  final List<ProposedTopic> subtopics;
+
+  ProposedTopic({required this.id, required this.name, this.description,
+      this.subtopics = const []});
+}
+
+/// A chapter's pending decomposition proposals, from one extraction run.
+///
+/// Seeding a grade applies the committed decomposition template (school_1's
+/// approved Class 10 work, or the NCERT textbooks' own numbered headings) as
+/// PENDING proposals -- never as this school's approved curriculum. This is
+/// what the principal reviews before it becomes real; `provenance` is the
+/// run's promptVersion, e.g. `template:ncert-textbook-headings`.
+class ChapterTopicProposals {
+  final String runId;
+  final String status;
+  final String provenance;
+  final List<ProposedTopic> topics;
+
+  ChapterTopicProposals({required this.runId, required this.status,
+      required this.provenance, required this.topics});
+
+  bool get isTemplate => provenance.startsWith('template:');
+
+  /// "approved for Class 10 by another school" / "the textbook's own section
+  /// headings" -- plain words, because `template:school_1-approved` means
+  /// nothing to a principal.
+  String get sourceLabel {
+    switch (provenance) {
+      case 'template:school_1-approved':
+        return 'a CBSE school\'s approved Class 10 decomposition';
+      case 'template:ncert-textbook-headings':
+        return 'the NCERT textbook\'s own numbered section headings';
+      default:
+        return provenance.startsWith('template:') ? provenance : 'an AI draft';
+    }
+  }
+
+  /// The wire shape is a flat proposal list where a subtopic points at its
+  /// parent topic proposal (`proposedParent`), because neither exists as a
+  /// real row yet and so neither has a real id to nest under.
+  factory ChapterTopicProposals.fromJson(Map<String, dynamic> j) {
+    final run = Map<String, dynamic>.from(j['run'] as Map);
+    final rows = (j['proposals'] as List? ?? const [])
+        .map((e) => Map<String, dynamic>.from(e))
+        .toList();
+    final children = <String, List<ProposedTopic>>{};
+    for (final p in rows.where((p) => p['entityType'] == 'subtopic')) {
+      children.putIfAbsent(p['proposedParent'] as String? ?? '', () => []).add(ProposedTopic(
+            id: p['id'] as String,
+            name: (p['editedName'] ?? p['proposedName']) as String,
+            description: p['proposedDescription'] as String?,
+          ));
+    }
+    return ChapterTopicProposals(
+      runId: run['id'] as String,
+      status: run['status'] as String,
+      provenance: run['promptVersion'] as String,
+      topics: rows.where((p) => p['entityType'] == 'topic').map((p) {
+        final id = p['id'] as String;
+        return ProposedTopic(
+          id: id,
+          name: (p['editedName'] ?? p['proposedName']) as String,
+          description: p['proposedDescription'] as String?,
+          subtopics: children[id] ?? const [],
+        );
+      }).toList(),
+    );
+  }
+}
+
+/// What "Approve all for this chapter" actually created.
+class ApproveChapterTopicsResult {
+  final int runsApproved;
+  final int topicsCreated;
+  final int subtopicsCreated;
+
+  ApproveChapterTopicsResult.fromJson(Map<String, dynamic> j)
+      : runsApproved = j['runsApproved'] as int,
+        topicsCreated = j['topicsCreated'] as int,
+        subtopicsCreated = j['subtopicsCreated'] as int;
+
+  String get summary => topicsCreated == 0
+      ? 'Nothing left to approve for this chapter.'
+      : 'Approved $topicsCreated topics and $subtopicsCreated subtopics.';
 }
 
 /// PushScheduleResponse (schemas.py). The count field is `lessonsPushed`:
@@ -241,6 +398,38 @@ class CurriculumApi {
     return (r.data as List).map((e) => BookSummary.fromJson(Map<String, dynamic>.from(e))).toList();
   }
 
+  /// The subject's chosen edition, or null when it has no book, or several
+  /// and none chosen (the server's 404). Callers scheduling, assigning or
+  /// reordering use this -- `books(...).first` was SQLite row order.
+  Future<BookSummary?> selectedBook(String subjectId) async {
+    try {
+      final r = await _dio.get('/curriculum/subjects/$subjectId/selected-book');
+      return BookSummary.fromJson(Map<String, dynamic>.from(r.data));
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) return null;
+      rethrow;
+    }
+  }
+
+  /// Principal-only. Adding a book is not choosing it.
+  Future<BookSummary> addBook(String subjectId,
+      {required String title, String? publisher, required String boardId}) async {
+    final r = await _dio.post('/curriculum/subjects/$subjectId/books',
+        data: {'title': title, 'publisher': publisher, 'boardId': boardId});
+    return BookSummary.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Principal-only: makes [bookId] the subject's edition for its year.
+  Future<BookSelectionResult> selectBook(String subjectId, String bookId) async {
+    final r = await _dio.put('/curriculum/subjects/$subjectId/selected-book', data: {'bookId': bookId});
+    return BookSelectionResult.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  Future<List<BoardSummary>> boards() async {
+    final r = await _dio.get('/curriculum/boards');
+    return (r.data as List).map((e) => BoardSummary.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
   /// §15's missing link: which teacher teaches which real book.
   /// Principal-gated server-side.
   Future<void> assignTeacher({required String teacherId, required String bookId}) async {
@@ -287,16 +476,78 @@ class CurriculumApi {
     return MyProgress.fromJson(Map<String, dynamic>.from(r.data));
   }
 
-  /// Real Topics + nested Subtopics for one chapter -- feeds the Assessment
-  /// Designer's subtopic picker (assessment_create_page.dart), which uses
-  /// this to let a teacher filter question search to specific subtopics via
-  /// `QuestionSearchParams.subtopicIds` rather than a whole chapter. Any
-  /// signed-in user of the chapter's own school may call this; topics and
-  /// subtopics are that school's own approved decomposition, so another
-  /// school's chapter is a 403 and an unknown chapter id a 404.
-  Future<List<TopicWithSubtopics>> topicsForChapter(String chapterId) async {
-    final r = await _dio.get('/curriculum/chapters/$chapterId/topics');
-    return (r.data as List).map((e) => TopicWithSubtopics.fromJson(Map<String, dynamic>.from(e))).toList();
+  // `GET /curriculum/chapters/{chap_id}/topics` (the id-keyed sibling of the
+  // by-slug route below) had a wrapper here until 2026-09-23. Nothing in this
+  // app can call it: every screen that knows about a chapter knows it by its
+  // syllabus slug, not by the school's own `chap_` id, which is why the
+  // subtopic picker was broken in the first place. The route still exists and
+  // is tested on the backend; an untested Dart wrapper with no callers is not
+  // worth keeping alive for a caller that may never appear.
+
+  /// Real Topics + nested Subtopics, found from the SYLLABUS chapter slug the
+  /// Assessment Designer actually holds -- what feeds its subtopic picker
+  /// (assessment_create_page.dart), so a teacher can narrow question search
+  /// to specific subtopics via `QuestionSearchParams.subtopicIds` instead of
+  /// a whole chapter.
+  ///
+  /// The picker's chapter ids come from `GET /catalog/{subject}/{grade}/
+  /// chapters` and are syllabus slugs (`chemical-reactions-equations`).
+  /// Until 2026-09-23 they were passed to `/chapters/{chap_id}/topics`, which
+  /// wants a `chap_` id: that answered `200 []` and later 404, the page swallowed it,
+  /// and the picker had never once found a subtopic. The server resolves the
+  /// slug against the caller's own school and its chosen book edition.
+  ///
+  /// A school that has not set this class/subject up is a 404 carrying the
+  /// server's own instruction, surfaced as [CurriculumNotSetUp] -- the
+  /// picker shows that sentence instead of looking empty.
+  Future<List<TopicWithSubtopics>> topicsForSyllabusChapter({
+    required String subject,
+    required int grade,
+    required String chapterSlug,
+  }) async {
+    final path = '/curriculum/chapters/by-slug/${Uri.encodeComponent(subject)}'
+        '/$grade/${Uri.encodeComponent(chapterSlug)}/topics';
+    try {
+      final r = await _dio.get(path);
+      return (r.data as List)
+          .map((e) => TopicWithSubtopics.fromJson(Map<String, dynamic>.from(e)))
+          .toList();
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 404) {
+        final data = e.response?.data;
+        final detail = data is Map ? data['detail'] : null;
+        // The route always sends a detail, and it is role-aware (a teacher
+        // is told to ask her principal, a principal is told which screen to
+        // open). This fallback is for a 404 with no body at all, so it says
+        // only what is certainly true rather than naming a screen the
+        // reader may not be allowed to act on -- or, as it once did, a
+        // "Curriculum" destination that does not exist in the app.
+        throw CurriculumNotSetUp(detail is String && detail.isNotEmpty
+            ? detail
+            : 'Class $grade $subject is not set up for subtopic filtering yet');
+      }
+      rethrow;
+    }
+  }
+
+  /// A chapter's still-unapproved decomposition proposals -- what the seed
+  /// proposed from the committed template and nobody has accepted yet. Empty
+  /// once they are approved (they become real topics) and for a chapter whose
+  /// subject/grade no template covers.
+  Future<List<ChapterTopicProposals>> proposedTopics(String chapterId) async {
+    final r = await _dio.get('/curriculum/chapters/$chapterId/proposed-topics');
+    return (r.data as List)
+        .map((e) => ChapterTopicProposals.fromJson(Map<String, dynamic>.from(e)))
+        .toList();
+  }
+
+  /// Principal-only: accepts every pending TEMPLATE proposal for one chapter at
+  /// once. A fresh Class 10 seed proposes topics for 46 chapters; approving
+  /// those proposal by proposal is what stops a school finishing setup at all.
+  /// Safe to repeat -- a run already approved is not approved twice.
+  Future<ApproveChapterTopicsResult> approveAllTopics(String chapterId) async {
+    final r = await _dio.post('/curriculum/chapters/$chapterId/topics/approve-all');
+    return ApproveChapterTopicsResult.fromJson(Map<String, dynamic>.from(r.data));
   }
 
   /// §17, §32: Coverage and pace variance report for school management.

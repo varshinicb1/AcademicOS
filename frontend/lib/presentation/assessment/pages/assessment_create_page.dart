@@ -142,14 +142,53 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
   // §21's subtopic-level filter: optional, narrows question search below
   // whole-chapter granularity to specific admin-approved Subtopics
   // (backend already supports this via QuestionSearchParams.subtopicIds --
-  // this was the missing frontend half). Cached per chapter id so
-  // re-expanding the picker doesn't re-fetch chapters already loaded.
+  // this was the missing frontend half). Cached per chapter slug so
+  // re-expanding the picker doesn't re-fetch chapters already loaded; the
+  // caches are cleared whenever subject or grade changes, because a slug
+  // ("electricity") belongs to Science 10 and Physics 12 alike.
   final Map<String, List<TopicWithSubtopics>> _topicsByChapter = {};
   final Set<String> _loadingTopicsForChapter = {};
-  /// Why a chapter's topics failed to load; kept apart from
-  /// [_topicsByChapter] so a failure never reads as "no subtopics".
-  final Map<String, String> _topicErrors = {};
   final Set<String> _selectedSubtopics = {};
+  // The server's own sentence for a chapter whose curriculum isn't set up
+  // ("Ask your principal to set up Class 9 Science, then you can filter by
+  // subtopic"), shown verbatim in place of that chapter's subtopic list.
+  final Map<String, String> _subtopicNoticeByChapter = {};
+
+  // Chapters whose fetch failed for a reason that says nothing about the
+  // curriculum: a Render cold start (this app's own Dio timeouts are 90s), a
+  // 500, a dropped connection. Deliberately NOT stored as an empty topic
+  // list: _topicsByChapter is the "answered" cache, and an entry in it both
+  // renders as "this chapter has no subtopic breakdown" -- a claim about the
+  // school's curriculum, made off a timeout -- and permanently blocks the
+  // refetch, because _loadTopicsForChapter short-circuits on containsKey. It
+  // is the same shape pool.py warns about ("silently and *permanently*
+  // zeroed out ... with nothing in any log to explain why"), and it has no
+  // business being reintroduced in the one feature built to end ambiguous
+  // empty states. A slug in here is still refetchable, and says so.
+  //
+  // Keyed by slug, valued with the sentence serverErrorMessage made of the
+  // failure -- kept apart from [_topicsByChapter] so a failure never reads
+  // as "no subtopics", and carrying the reason so the row names what went
+  // wrong (a 403 is an access problem, a 500 is the server) rather than only
+  // that something did. The raw DioException text is never what is shown.
+  final Map<String, String> _subtopicFetchFailedForChapter = {};
+
+  // Whether the picker is open right now. The fetch used to hang off
+  // onExpansionChanged alone, which fires only when the tile opens -- so a
+  // chapter ticked while it was ALREADY open was never fetched, and (see
+  // _buildSubtopicFilter) rendered as nothing at all. Multi-chapter papers
+  // are the normal case here, so the teacher saw one chapter's subtopics
+  // and read the other's silence as "that chapter has none". The
+  // ExpansionTile keeps its own open/closed state across those rebuilds --
+  // same widget type in the same slot -- so this field has to mirror it.
+  bool _subtopicFilterExpanded = false;
+
+  // The standalone Android build has no local mirror of Topic/Subtopic (see
+  // service_locator.dart), and it must never make a network call. It hides
+  // this optional filter entirely rather than showing one that cannot work;
+  // the chapter-level selection above is unaffected.
+  static const bool _offlineBuild =
+      bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false);
 
   @override
   void initState() {
@@ -178,32 +217,101 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
     }
   }
 
-  Future<void> _loadTopicsForChapter(String chapterId) async {
-    if (_topicsByChapter.containsKey(chapterId) || _loadingTopicsForChapter.contains(chapterId)) return;
+  /// [chapterSlug] is the syllabus id /catalog gave us
+  /// ("chemical-reactions-equations"), which is the only chapter id this
+  /// page has. It used to be passed to `topicsForChapter`, which wants the
+  /// school's own `chap_` id -- so this picker could never find anything.
+  Future<void> _loadTopicsForChapter(String chapterSlug) async {
+    if (_offlineBuild) return;
+    if (_topicsByChapter.containsKey(chapterSlug) ||
+        _loadingTopicsForChapter.contains(chapterSlug)) {
+      return;
+    }
+    // The subject and grade this request is being made for. Clearing the
+    // caches on a subject/grade change is not enough on its own: a request
+    // already in flight answers AFTER the change and would write the old
+    // subject's topics back into the freshly-cleared cache under the same
+    // slug, and every later call would then short-circuit on containsKey.
+    // English has a "reading-comprehension" chapter in both Grade 9 and
+    // Grade 10, so that is not hypothetical -- switch grade while the fetch
+    // is in flight and the picker would offer Grade 10's subtopics for the
+    // Grade 9 chapter, with no request ever made for Grade 9.
+    final requestedSubject = _selectedSubject;
+    final requestedGrade = _selectedGrade;
+    bool answersAQuestionNoLongerAsked() =>
+        _selectedSubject != requestedSubject || _selectedGrade != requestedGrade;
+
     setState(() {
-      _loadingTopicsForChapter.add(chapterId);
-      _topicErrors.remove(chapterId);
+      _loadingTopicsForChapter.add(chapterSlug);
+      // A retry is in flight: drop the last failure so the row shows a
+      // spinner rather than "tap to retry" while it runs.
+      _subtopicFetchFailedForChapter.remove(chapterSlug);
     });
     try {
-      final topics = await GetIt.I<CurriculumApi>().topicsForChapter(chapterId);
-      if (!mounted) return;
+      final topics = await GetIt.I<CurriculumApi>().topicsForSyllabusChapter(
+        subject: requestedSubject, grade: requestedGrade, chapterSlug: chapterSlug);
+      if (!mounted || answersAQuestionNoLongerAsked()) return;
       setState(() {
-        _topicsByChapter[chapterId] = topics;
-        _loadingTopicsForChapter.remove(chapterId);
+        _topicsByChapter[chapterSlug] = topics;
+        _loadingTopicsForChapter.remove(chapterSlug);
+      });
+    } on CurriculumNotSetUp catch (e) {
+      if (!mounted || answersAQuestionNoLongerAsked()) return;
+      // The one case the teacher can act on, so she is told exactly what to
+      // do instead of being shown an empty list that reads as "this chapter
+      // has no subtopics".
+      setState(() {
+        _topicsByChapter[chapterSlug] = [];
+        // Through the shared mapper like every other catch under
+        // lib/presentation (no_swallowed_errors_test.dart). It is the same
+        // string as `e.message` -- CurriculumNotSetUp.toString() IS its
+        // message, and serverErrorMessage falls through to that for anything
+        // that is not a DioException.
+        _subtopicNoticeByChapter[chapterSlug] = serverErrorMessage(e);
+        _loadingTopicsForChapter.remove(chapterSlug);
       });
     } catch (e) {
-      if (!mounted) return;
-      // A chapter with no Topic/Subtopic content yet is an empty 200 (the
-      // branch above), not an exception. This used to record a failure as
-      // that same empty list, so a 401/403/500 read "no subtopic breakdown
-      // available yet" -- the re-audit's "subtopic picker never finds a
-      // topic" (Task 802). The filter stays optional: the chapter checkbox
-      // above works regardless, and the row offers a retry.
+      if (!mounted || answersAQuestionNoLongerAsked()) return;
+      // Everything else -- a timeout, a 500, no connection -- says nothing
+      // about this chapter's curriculum, so nothing is written into
+      // _topicsByChapter: an empty list there would claim "no subtopic
+      // breakdown available yet" off a dropped connection AND block every
+      // later attempt for the rest of the session. Recorded separately
+      // instead, which renders a retry and leaves the slug refetchable. Still
+      // not a blocking error -- this filter is optional and the chapter-level
+      // checkboxes above work regardless.
+      //
+      // What is stored is the sentence serverErrorMessage makes of the
+      // failure ("The server had a problem (HTTP 500)...", "You don't have
+      // access to that"), not bare membership: a row that only says
+      // "something went wrong" is the same silence Task 802 removed, and
+      // no_swallowed_errors_test.dart requires every catch under
+      // lib/presentation/ to go through that one mapper.
       setState(() {
-        _topicErrors[chapterId] = serverErrorMessage(e);
-        _loadingTopicsForChapter.remove(chapterId);
+        _subtopicFetchFailedForChapter[chapterSlug] = serverErrorMessage(e);
+        _loadingTopicsForChapter.remove(chapterSlug);
       });
     }
+  }
+
+  /// All three caches are keyed by chapter slug alone, but a slug only means
+  /// something within one subject and grade ("electricity" is a Science 10
+  /// chapter and a Physics 12 one). Dropped whenever either changes, so the
+  /// picker can never show another subject's subtopics.
+  ///
+  /// The in-flight set goes too: its entries belong to requests whose answers
+  /// are now discarded (see [_loadTopicsForChapter]), and leaving a slug in it
+  /// would block the re-fetch the new subject/grade needs.
+  void _forgetLoadedSubtopics() {
+    _topicsByChapter.clear();
+    _subtopicNoticeByChapter.clear();
+    _subtopicFetchFailedForChapter.clear();
+    _loadingTopicsForChapter.clear();
+    // Both callers clear _selectedChapters too, which removes the picker
+    // from the tree entirely; the ExpansionTile that comes back is a new,
+    // collapsed one, so a stale `true` here would make the next chapter tick
+    // fetch for a picker nobody has opened.
+    _subtopicFilterExpanded = false;
   }
 
   /// Any subtopic belonging to a chapter that's no longer selected must be
@@ -215,6 +323,17 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
         ...?_topicsByChapter[chapterId]?.expand((t) => t.subtopics).map((s) => s.id),
     };
     _selectedSubtopics.removeWhere((id) => !validIds.contains(id));
+  }
+
+  /// "Foundations of Chemical Equations - 7 questions tagged".
+  ///
+  /// The count is the whole point: it is the number of questions the filter
+  /// would leave, and 0 means an empty paper. An older backend that does not
+  /// send it gets the topic name alone rather than a made-up "0".
+  static String _subtopicSubtitle(String topicName, int? tagged) {
+    if (tagged == null) return topicName;
+    if (tagged == 0) return '$topicName - no questions tagged yet';
+    return '$topicName - $tagged question${tagged == 1 ? '' : 's'} tagged';
   }
 
   @override
@@ -329,6 +448,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                         }
                         _selectedChapters.clear();
                         _selectedSubtopics.clear();
+                        _forgetLoadedSubtopics();
                         _loadChapters();
                       });
                     },
@@ -347,6 +467,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                       _selectedSubject = v!;
                       _selectedChapters.clear();
                       _selectedSubtopics.clear();
+                      _forgetLoadedSubtopics();
                       _loadChapters();
                     }),
                   ),
@@ -605,20 +726,34 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                         title: Text(c.chapterName),
                         subtitle: Text('${c.questionCount} question${c.questionCount == 1 ? '' : 's'} available'),
                         value: _selectedChapters.contains(c.chapterId),
-                        onChanged: (v) => setState(() {
-                          if (v!) {
-                            _selectedChapters.add(c.chapterId);
-                          } else {
-                            _selectedChapters.remove(c.chapterId);
-                            _pruneSubtopicsForDeselectedChapters();
+                        onChanged: (v) {
+                          setState(() {
+                            if (v!) {
+                              _selectedChapters.add(c.chapterId);
+                            } else {
+                              _selectedChapters.remove(c.chapterId);
+                              _pruneSubtopicsForDeselectedChapters();
+                              // The picker is gone from the tree with no
+                              // chapter selected, and comes back collapsed.
+                              if (_selectedChapters.isEmpty) _subtopicFilterExpanded = false;
+                            }
+                          });
+                          // A chapter added to an already-open picker needs
+                          // its own fetch: onExpansionChanged will not fire
+                          // again. Nothing happens while the picker is shut
+                          // -- expanding it still fetches every selection.
+                          if (v! && _subtopicFilterExpanded) {
+                            _loadTopicsForChapter(c.chapterId);
                           }
-                        }),
+                        },
                       )).toList(),
                     );
   }
 
   Widget _buildSubtopicFilter() {
-    if (_selectedChapters.isEmpty) return const SizedBox.shrink();
+    // The offline build has no local Topic/Subtopic data and must not reach
+    // the network for it, so there is nothing to offer here at all.
+    if (_offlineBuild || _selectedChapters.isEmpty) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: ExpansionTile(
@@ -627,6 +762,7 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
             ? 'Leave empty to draw from the whole chapter'
             : '${_selectedSubtopics.length} subtopic${_selectedSubtopics.length == 1 ? '' : 's'} selected'),
         onExpansionChanged: (expanded) {
+          _subtopicFilterExpanded = expanded;
           if (expanded) {
             for (final chapterId in _selectedChapters) {
               _loadTopicsForChapter(chapterId);
@@ -638,42 +774,87 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
             (c) => c.chapterId == chapterId,
             orElse: () => ChapterEntry.fromJson({'chapterId': chapterId, 'chapterName': chapterId}),
           ).chapterName;
-          if (_loadingTopicsForChapter.contains(chapterId)) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              child: Center(child: CircularProgressIndicator()),
-            );
-          }
-          final topicError = _topicErrors[chapterId];
-          if (topicError != null) {
+          const spinner = Padding(
+            padding: EdgeInsets.symmetric(vertical: 12),
+            child: Center(child: CircularProgressIndicator()),
+          );
+          if (_loadingTopicsForChapter.contains(chapterId)) return spinner;
+          final fetchFailure = _subtopicFetchFailedForChapter[chapterId];
+          if (fetchFailure != null) {
+            // The fetch failed for a reason that is nothing to do with this
+            // school's curriculum, so this row must not say anything about
+            // it. It offers the one action that can help, and taking it
+            // really does issue a fresh request (the slug was never cached).
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text('$chapterName: could not load subtopics -- $topicError',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall
-                            ?.copyWith(color: Theme.of(context).colorScheme.error)),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              child: InkWell(
+                onTap: () => _loadTopicsForChapter(chapterId),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Icon(Icons.refresh, size: 16),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          'Could not load subtopics for $chapterName -- '
+                          '$fetchFailure (tap to retry)',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
+                      ),
+                    ],
                   ),
-                  TextButton(
-                    onPressed: () => _loadTopicsForChapter(chapterId),
-                    child: const Text('Retry'),
-                  ),
-                ],
+                ),
               ),
             );
           }
           final topics = _topicsByChapter[chapterId];
-          if (topics == null) return const SizedBox.shrink();
+          if (topics == null) {
+            // Never a blank row again. This used to return nothing at all
+            // for a chapter that had never been fetched, which is
+            // indistinguishable from "this chapter has no subtopics" -- the
+            // exact ambiguity this whole feature exists to remove.
+            //
+            // The ask is guarded by _subtopicFilterExpanded because
+            // ExpansionTile takes a plain `children` LIST, not a builder:
+            // this code runs on every rebuild while the tile is shut, and an
+            // unguarded fetch here would make ticking a chapter hit the
+            // network for a picker nobody opened (caught by the offline
+            // build's "calls nothing" test). Open, it is the safety net --
+            // _loadTopicsForChapter is a no-op for a chapter already loaded
+            // or in flight, so it cannot loop or double-fetch.
+            if (_subtopicFilterExpanded) {
+              WidgetsBinding.instance
+                  .addPostFrameCallback((_) => _loadTopicsForChapter(chapterId));
+            }
+            return spinner;
+          }
           if (topics.isEmpty) {
+            // The server's own instruction when the school has not set this
+            // class/subject up; otherwise the chapter really does have no
+            // approved breakdown yet.
+            final notice = _subtopicNoticeByChapter[chapterId];
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Text('$chapterName: no subtopic breakdown yet -- questions come from the whole chapter',
+              child: Text(
+                  notice ??
+                      '$chapterName: no subtopic breakdown yet -- questions '
+                          'come from the whole chapter',
                   style: Theme.of(context).textTheme.bodySmall),
             );
           }
+          // The filter narrows by TAGGED questions: the backend intersects
+          // the chapter's questions with question_subtopic_links. Nothing
+          // writes that table yet, so on real school data every count is 0
+          // and ticking any subtopic turns a 102-question chapter into a
+          // 0-question paper. Say that here, where the teacher can still
+          // change her mind, instead of at generation time.
+          final counts = [
+            for (final topic in topics)
+              for (final s in topic.subtopics) s.taggedQuestionCount,
+          ];
+          final nothingTagged = counts.isNotEmpty && counts.every((c) => c == 0);
           return Padding(
             padding: const EdgeInsets.only(left: 8),
             child: Column(
@@ -683,12 +864,34 @@ class _AssessmentCreatePageState extends State<AssessmentCreatePage> {
                   padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
                   child: Text(chapterName, style: Theme.of(context).textTheme.labelLarge),
                 ),
+                if (nothingTagged)
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 4, 16, 4),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.warning_amber_rounded,
+                            size: 16, color: Theme.of(context).colorScheme.error),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            'No questions are tagged to these subtopics yet, so '
+                            'selecting any of them here produces an empty paper. '
+                            'Leave them unticked to draw from the whole chapter.',
+                            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Theme.of(context).colorScheme.error),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 for (final topic in topics)
                   ...topic.subtopics.map((s) => CheckboxListTile(
                         dense: true,
                         contentPadding: const EdgeInsets.only(left: 24, right: 16),
                         title: Text(s.name),
-                        subtitle: Text(topic.name, style: Theme.of(context).textTheme.bodySmall),
+                        subtitle: Text(_subtopicSubtitle(topic.name, s.taggedQuestionCount),
+                            style: Theme.of(context).textTheme.bodySmall),
                         value: _selectedSubtopics.contains(s.id),
                         onChanged: (v) => setState(
                             () => v! ? _selectedSubtopics.add(s.id) : _selectedSubtopics.remove(s.id)),

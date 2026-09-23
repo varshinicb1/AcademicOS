@@ -1,0 +1,202 @@
+{
+ "subject": "English",
+ "grade": 10,
+ "chapters": [
+  {
+   "chapter_slug": "reading-comprehension",
+   "chapter_name": "Reading Comprehension through Unseen Passages",
+   "topics": [
+    {
+     "name": "Nature and Types of Unseen Passages",
+     "subtopics": [
+      {
+       "name": "Fictional and non-fictional categories"
+      },
+      {
+       "name": "Extract-based and full passage formats"
+      },
+      {
+       "name": "Typical word-count and complexity guidelines"
+      }
+     ]
+    },
+    {
+     "name": "Comprehension Question Patterns",
+     "subtopics": [
+      {
+       "name": "Vocabulary-in-context and objective items"
+      },
+      {
+       "name": "Factual and inference-based questions"
+      },
+      {
+       "name": "Paragraph-based and matrix-table items"
+      }
+     ]
+    },
+    {
+     "name": "Reading and Answering Strategies",
+     "subtopics": [
+      {
+       "name": "Skimming and scanning for rapid retrieval"
+      },
+      {
+       "name": "Time allocation and question prioritization"
+      },
+      {
+       "name": "Common errors and avoidance techniques"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "grammar",
+   "chapter_name": "Grammar",
+   "topics": [
+    {
+     "name": "Tenses",
+     "subtopics": [
+      {
+       "name": "Definition and classification of tenses"
+      },
+      {
+       "name": "Perfect and continuous tenses"
+      },
+      {
+       "name": "Tense consistency and narrative usage"
+      }
+     ]
+    },
+    {
+     "name": "Modals",
+     "subtopics": [
+      {
+       "name": "Meaning and grouping of modal verbs"
+      },
+      {
+       "name": "Ability, permission, obligation and possibility"
+      },
+      {
+       "name": "Modal equivalents in reported speech"
+      }
+     ]
+    },
+    {
+     "name": "Voice and Narration",
+     "subtopics": [
+      {
+       "name": "Active and passive voice"
+      },
+      {
+       "name": "Direct and indirect speech"
+      },
+      {
+       "name": "Reporting commands, requests and questions"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "writing-skills",
+   "chapter_name": "Writing Skills",
+   "topics": [
+    {
+     "name": "Official Communication",
+     "subtopics": [
+      {
+       "name": "Notice and advertisement"
+      },
+      {
+       "name": "Formal letter writing"
+      },
+      {
+       "name": "Email drafting"
+      }
+     ]
+    },
+    {
+     "name": "Factual and Public Discourse",
+     "subtopics": [
+      {
+       "name": "Report writing"
+      },
+      {
+       "name": "Speech and debate"
+      },
+      {
+       "name": "Article and profile"
+      }
+     ]
+    },
+    {
+     "name": "Creative and Narrative Writing",
+     "subtopics": [
+      {
+       "name": "Story writing on given outline"
+      },
+      {
+       "name": "Descriptive composition"
+      },
+      {
+       "name": "Letter to the editor"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "literature-textbook",
+   "chapter_name": "Prescribed Literature Textbook",
+   "topics": [
+    {
+     "name": "Prose: Real-Life Narratives & Social Empathy",
+     "subtopics": [
+      {
+       "name": "Nelson Mandela: Long Walk to Freedom"
+      },
+      {
+       "name": "From the Diary of Anne Frank"
+      },
+      {
+       "name": "The Hundred Dresses I & II"
+      }
+     ]
+    },
+    {
+     "name": "Prose: Indian Society & Everyday Life",
+     "subtopics": [
+      {
+       "name": "Glimpses of India"
+      },
+      {
+       "name": "Madam Rides the Bus"
+      },
+      {
+       "name": "The Sermon at Benares"
+      }
+     ]
+    },
+    {
+     "name": "Poetry: Reflection, Nature & Society",
+     "subtopics": [
+      {
+       "name": "The Ball Poem"
+      },
+      {
+       "name": "Animals"
+      },
+      {
+       "name": "A Tiger in the Zoo"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  }
+ ]
+}

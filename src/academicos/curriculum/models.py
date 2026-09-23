@@ -31,6 +31,25 @@ class AcademicYear:
 
 
 @dataclass
+class Term:
+    """A named date range inside one academic year ("Term 1", 2026-04-01 ..
+    2026-09-30). PRD section 12.6 measures exam coverage and time saved
+    "this term" and section 0 decision 11 compares them "per term"; with
+    academic_years alone none of those could be computed. The school
+    declares its own terms -- nothing is seeded, because CBSE schools split
+    the year differently (two terms, three, semesters). Terms of a year stay
+    inside it and never overlap, so a date falls in at most one term.
+    school_id is copied from the year so "which term is today" is one
+    school-scoped lookup, like scheduled_lessons.school_id."""
+    id: str
+    school_id: str
+    academic_year_id: str
+    name: str
+    start_date: str         # ISO date, inclusive
+    end_date: str           # ISO date, inclusive
+
+
+@dataclass
 class Grade:
     id: str
     academic_year_id: str
@@ -48,8 +67,10 @@ class Subject:
 
 @dataclass
 class Book:
-    """The school's actual chosen book for a subject -- §6: not every
-    available book, one deliberate selection."""
+    """A book (edition) a school has added for a subject. A subject may hold
+    several; which one it teaches this year is a BookSelection (PRD 12.7),
+    not this row. `status` is the book's content state, not the choice --
+    seeded books are 'ready'; the 'selected' default predates BookSelection."""
     id: str
     subject_id: str
     board_id: str
@@ -57,6 +78,46 @@ class Book:
     publisher: Optional[str] = None
     source_doc_ids: list[str] = field(default_factory=list)
     status: str = "selected"   # selected | processing | ready
+
+
+@dataclass
+class BookSelection:
+    """The outcome of choosing a subject's edition for its academic year
+    (PRD 12.7: "one per subject per year, chosen by the school").
+
+    Choosing never re-points lessons already scheduled: they were placed
+    from the previous book's chapters and still belong to it. The count is
+    returned so the principal is told, not left to find a schedule for a
+    book the school no longer uses."""
+    academic_year_id: str
+    subject_id: str
+    book_id: str
+    previous_book_id: Optional[str] = None
+    previous_book_scheduled_lessons: int = 0
+    # Every other book of the subject, not only the one chosen just before:
+    # A -> B -> C must still report A's lessons, and a first choice among
+    # several books has no "previous" at all.
+    other_editions: list["OtherEdition"] = field(default_factory=list)
+
+    @property
+    def other_editions_scheduled_lessons(self) -> int:
+        return sum(e.scheduled_lessons for e in self.other_editions)
+
+    @property
+    def other_editions_teacher_assignments(self) -> int:
+        return sum(e.teacher_assignments for e in self.other_editions)
+
+
+@dataclass
+class OtherEdition:
+    """A book of the subject that is not its edition after a selection, and
+    what still points at it: this year's lessons scheduled from it, and
+    teacher_assignments rows (a teacher assigned to it keeps seeing its
+    schedule). Neither is moved by selecting; both are reported."""
+    book_id: str
+    title: str
+    scheduled_lessons: int = 0
+    teacher_assignments: int = 0
 
 
 @dataclass
@@ -81,6 +142,28 @@ class Chapter:
     name: str
     seq: int = 0            # delivery order -- independently reorderable
                              #   from textbook/unit order (§13)
+
+
+# How far the syllabus-slug -> school chapter lookup got, ordered worst to
+# best so a caller can rank two attempts. The distinction matters to the
+# teacher, not just to the code: "your school has not set this class up" and
+# "your chosen edition has no such chapter" need different actions, and a
+# picker that answers both with an empty list (what it did until 2026-09-23)
+# tells her neither.
+CHAPTER_SLUG_REASONS = ("no_year", "no_grade", "no_subject", "no_book",
+                        "no_edition_chosen", "no_chapter", "ok")
+
+
+@dataclass
+class ChapterSlugMatch:
+    """The result of resolving a syllabus/catalog chapter slug
+    (`chemical-reactions-equations`) to one school's own Chapter row.
+
+    `chapter` is set only when `reason == "ok"`; `book` is set from
+    `no_chapter` onwards, so a caller can name the edition it searched."""
+    reason: str
+    chapter: Optional[Chapter] = None
+    book: Optional[Book] = None
 
 
 # Where a Topic/Subtopic's name actually came from -- distinct handling

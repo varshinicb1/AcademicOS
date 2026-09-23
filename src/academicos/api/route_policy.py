@@ -239,6 +239,38 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
     ("GET", "/api/v1/curriculum/reporting/coverage"): _p(PRINCIPAL),
     ("GET", "/api/v1/curriculum/reporting/delayed-topics"): _p(PRINCIPAL),
     ("GET", "/api/v1/curriculum/export"): _p(PRINCIPAL),
+
+    # ---- curriculum/routes.py: book editions, seeding, terms ----
+    # feat/product-calendar branched before this table existed, so its twelve
+    # routes arrived ungoverned. Each level below was read off the route's own
+    # `Depends(...)` in curriculum/routes.py at merge time, not inferred from
+    # the path: `require_principal` -> PRINCIPAL, `get_current_user` ->
+    # ANY_USER. test_role_gates.py re-checks every one against the real
+    # dependency chain, so a row that flatters a route fails.
+    ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"): _p(
+        PRINCIPAL, "adds a book edition to a subject; Depends(require_principal)"),
+    ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"): _p(
+        ANY_USER, "the subject's chosen edition; _require_school_owns_subject scopes it to the caller's school"),
+    ("PUT", "/api/v1/curriculum/subjects/{subject_id}/selected-book"): _p(
+        PRINCIPAL, "choosing the year's edition is the school's decision; Depends(require_principal)"),
+    ("POST", "/api/v1/curriculum/seed/cbse"): _p(
+        PRINCIPAL, "seeds any class 6-12; same posture as /seed/cbse10, which delegates here"),
+    ("GET", "/api/v1/curriculum/chapters/by-slug/{subject}/{grade}/{slug}/topics"): _p(
+        ANY_USER, "read-only; resolves a syllabus slug to the caller's own school's chapter, so a teacher's subtopic picker can find one"),
+    ("GET", "/api/v1/curriculum/chapters/{chapter_id}/proposed-topics"): _p(
+        ANY_USER, "pending, unapproved topics of the caller's own school (_require_school_owns_chapter)"),
+    ("POST", "/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all"): _p(
+        PRINCIPAL, "approval is the principal's act; Depends(require_principal)"),
+    ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/terms"): _p(
+        PRINCIPAL, "defines a term of the school's year; Depends(require_principal)"),
+    ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/terms"): _p(
+        ANY_USER, "the school's own terms; _require_school_owns_academic_year scopes it"),
+    ("GET", "/api/v1/curriculum/terms/current"): _p(
+        ANY_USER, "which term today falls in, for the caller's own school"),
+    ("PUT", "/api/v1/curriculum/terms/{term_id}"): _p(
+        PRINCIPAL, "correct a term's dates; Depends(require_principal)"),
+    ("DELETE", "/api/v1/curriculum/terms/{term_id}"): _p(
+        PRINCIPAL, "remove a term; Depends(require_principal)"),
 }
 
 

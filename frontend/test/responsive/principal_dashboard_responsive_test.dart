@@ -110,6 +110,25 @@ class _Backend extends Interceptor {
       body = [
         {'id': 'book_math_7', 'subjectId': 'subject_math_7', 'title': 'Mathematics Grade 7'},
       ];
+    } else if (path.endsWith('/selected-book')) {
+      // The chosen edition (feat/product-calendar). Every tab that schedules,
+      // assigns or reorders now asks for this before it asks for units or
+      // chapters, so a fixture that does not serve it leaves those lists
+      // empty -- which is what `rejected` exists to catch.
+      final subjectId = path.split('/')[3];
+      body = {
+        'id': 'book_$subjectId', 'subjectId': subjectId, 'boardId': 'board_cbse',
+        'title': subjectId == 'subject_science_7' ? 'Science Grade 7' : 'Mathematics Grade 7',
+        'selected': true,
+      };
+    } else if (path.endsWith('/proposed-topics')) {
+      // No chapter of this fixture has topics waiting for approval; the
+      // pending-topics card on Sequence Reorder renders its empty state.
+      body = <Object>[];
+    } else if (path == '/curriculum/boards') {
+      body = [
+        {'id': 'board_cbse', 'name': 'CBSE'},
+      ];
     } else if (path.endsWith('/units')) {
       body = [
         {'id': 'unit_1', 'canonicalId': 'u:math:7:1', 'bookId': 'book_math_7', 'unitNo': '1', 'name': 'Number System', 'marks': 20, 'seq': 0},

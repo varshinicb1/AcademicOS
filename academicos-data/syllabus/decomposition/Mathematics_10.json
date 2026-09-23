@@ -1,0 +1,334 @@
+{
+ "subject": "Mathematics",
+ "grade": 10,
+ "chapters": [
+  {
+   "chapter_slug": "number-systems",
+   "chapter_name": "Number Systems",
+   "topics": [
+    {
+     "name": "Number Systems: Structure and Representation",
+     "subtopics": [
+      {
+       "name": "Hierarchy of Number Sets (Natural, Whole, Integer, Rational, Irrational)"
+      },
+      {
+       "name": "Decimal Expansion of a Number (Terminating vs. Non-terminating)"
+      },
+      {
+       "name": "Locating Real Numbers on the Number Line"
+      }
+     ]
+    },
+    {
+     "name": "The Core of Real Numbers: Rational vs. Irrational",
+     "subtopics": [
+      {
+       "name": "Fundamental Theorem of Arithmetic (Unique Prime Factorisation)"
+      },
+      {
+       "name": "Existence of an Irrational Number (Theorems on the square root of a prime)"
+      },
+      {
+       "name": "Decimal Representation of Irrational Numbers"
+      }
+     ]
+    },
+    {
+     "name": "Applications and Operations",
+     "subtopics": [
+      {
+       "name": "Euclid's Division Lemma and Algorithm"
+      },
+      {
+       "name": "Finding the HCF and LCM using the Algorithm"
+      },
+      {
+       "name": "Laws of Exponents for Positive Integers"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "algebra",
+   "chapter_name": "Algebra",
+   "topics": [
+    {
+     "name": "Polynomials",
+     "subtopics": [
+      {
+       "name": "Graph of a polynomial"
+      },
+      {
+       "name": "Relationship between zeroes and coefficients"
+      },
+      {
+       "name": "Division algorithm for polynomials"
+      }
+     ]
+    },
+    {
+     "name": "Linear Equations in Two Variables",
+     "subtopics": [
+      {
+       "name": "Pair of linear equations in two variables"
+      },
+      {
+       "name": "Graphical method of solution"
+      },
+      {
+       "name": "Algebraic methods of solving linear equations"
+      }
+     ]
+    },
+    {
+     "name": "Arithmetic Progressions",
+     "subtopics": [
+      {
+       "name": "Introduction to AP"
+      },
+      {
+       "name": "nth term of an AP"
+      },
+      {
+       "name": "Sum of first n terms of an AP"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "coordinate-geometry",
+   "chapter_name": "Coordinate Geometry",
+   "topics": [
+    {
+     "name": "Distance Formula",
+     "subtopics": [
+      {
+       "name": "Distance between two points"
+      },
+      {
+       "name": "Distance of a point from the origin"
+      }
+     ]
+    },
+    {
+     "name": "Section Formula",
+     "subtopics": [
+      {
+       "name": "Internal division formula"
+      },
+      {
+       "name": "External division formula"
+      }
+     ]
+    },
+    {
+     "name": "Area of a Triangle",
+     "subtopics": [
+      {
+       "name": "Area using coordinates"
+      },
+      {
+       "name": "Verification of collinearity"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "geometry",
+   "chapter_name": "Geometry",
+   "topics": [
+    {
+     "name": "Triangles",
+     "subtopics": [
+      {
+       "name": "Congruence of Triangles and Its Criteria"
+      },
+      {
+       "name": "Similarity of Triangles and Its Criteria"
+      },
+      {
+       "name": "Areas of Similar Triangles and Pythagoras Theorem"
+      }
+     ]
+    },
+    {
+     "name": "Circles",
+     "subtopics": [
+      {
+       "name": "Tangents to a Circle and Their Properties"
+      },
+      {
+       "name": "Number of Tangents from an External Point"
+      },
+      {
+       "name": "Areas Related to Circles"
+      }
+     ]
+    },
+    {
+     "name": "Coordinate Geometry",
+     "subtopics": [
+      {
+       "name": "Distance, Section Formula and Area of a Triangle"
+      },
+      {
+       "name": "Equation of a Straight Line in Different Forms"
+      },
+      {
+       "name": "Graphical Representation of Linear Equations"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "trigonometry",
+   "chapter_name": "Trigonometry",
+   "topics": [
+    {
+     "name": "Trigonometric Ratios",
+     "subtopics": [
+      {
+       "name": "Definition of Trigonometric Ratios of an Acute Angle"
+      },
+      {
+       "name": "Ratios in Right-Angled Triangles"
+      },
+      {
+       "name": "The Six Basic Ratios (sin, cos, tan, cosec, sec, cot)"
+      }
+     ]
+    },
+    {
+     "name": "Trigonometric Identities",
+     "subtopics": [
+      {
+       "name": "Fundamental Identities and Relations"
+      },
+      {
+       "name": "Proving Trigonometric Identities"
+      },
+      {
+       "name": "Reciprocal and Quotient Identities"
+      }
+     ]
+    },
+    {
+     "name": "Standard Angles and Complementary Angles",
+     "subtopics": [
+      {
+       "name": "Values at 0°, 30°, 45°, 60°, and 90°"
+      },
+      {
+       "name": "Trigonometric Ratios of Complementary Angles"
+      },
+      {
+       "name": "Simplification and Evaluation Using Identities"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "mensuration",
+   "chapter_name": "Mensuration",
+   "topics": [
+    {
+     "name": "Areas Related to Circles",
+     "subtopics": [
+      {
+       "name": "Area of a sector and segment of a circle"
+      },
+      {
+       "name": "Areas of combination of figures involving circles"
+      },
+      {
+       "name": "Arc length and practical applications of circular area"
+      }
+     ]
+    },
+    {
+     "name": "Surface Areas of Solids",
+     "subtopics": [
+      {
+       "name": "Surface areas of individual solids (cube, cuboid, cylinder, cone, hemisphere, sphere)"
+      },
+      {
+       "name": "Surface area of common combinations of solids"
+      },
+      {
+       "name": "Surface area of frustum of a cone"
+      }
+     ]
+    },
+    {
+     "name": "Volumes of Solids",
+     "subtopics": [
+      {
+       "name": "Volume of individual solids (cube, cuboid, cylinder, cone, hemisphere, sphere)"
+      },
+      {
+       "name": "Volume of combinations of solids and conversion of one solid into another"
+      },
+      {
+       "name": "Volume of frustum of a cone"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  },
+  {
+   "chapter_slug": "statistics-and-probability",
+   "chapter_name": "Statistics and Probability",
+   "topics": [
+    {
+     "name": "Statistical Analysis",
+     "subtopics": [
+      {
+       "name": "Central tendency"
+      },
+      {
+       "name": "Dispersion"
+      },
+      {
+       "name": "Graphical representation"
+      }
+     ]
+    },
+    {
+     "name": "Probability Basics",
+     "subtopics": [
+      {
+       "name": "Sample spaces and events"
+      },
+      {
+       "name": "Probability calculations"
+      }
+     ]
+    },
+    {
+     "name": "Advanced Probability",
+     "subtopics": [
+      {
+       "name": "Compound events"
+      },
+      {
+       "name": "Axiomatic approach"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:school_1-approved"
+  }
+ ]
+}

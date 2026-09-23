@@ -110,7 +110,10 @@ void main() {
   group('subtopic picker (Create Assessment)', () {
     const chapterId = 'chemical-reactions-equations';
     const chapterName = 'Chemical Reactions and Equations';
-    const topicsPath = 'GET /curriculum/chapters/$chapterId/topics';
+    // The by-slug route: /catalog hands this page a syllabus slug, never the
+    // school's own `chap_` id, so the picker asks for the slug within a
+    // subject and grade (feat/product-calendar).
+    const topicsPath = 'GET /curriculum/chapters/by-slug/Science/10/$chapterId/topics';
 
     /// Opens the Chapters step, ticks the one chapter and expands the
     /// subtopic filter, which is what fires topicsForChapter.
@@ -139,14 +142,15 @@ void main() {
     testWidgets('a failed topic fetch says it failed and offers Retry, not "no subtopics"', (tester) async {
       final server = await pumpAndExpand(tester, (500, null));
 
-      expect(find.textContaining('$chapterName: could not load subtopics'), findsOneWidget);
+      expect(find.textContaining('Could not load subtopics for $chapterName'), findsOneWidget);
       expect(find.textContaining('HTTP 500'), findsOneWidget);
       expect(find.textContaining('no subtopic breakdown yet'), findsNothing,
           reason: 'a server failure is not a chapter without subtopics');
 
-      // Retry sends the request again (the failure was not cached as an
-      // empty list, which would have made Retry a no-op).
-      final retry = find.widgetWithText(TextButton, 'Retry');
+      // Retrying sends the request again (the failure was not cached as an
+      // empty list, which would have made the retry a no-op). The whole row
+      // is the retry affordance, hence "(tap to retry)".
+      final retry = find.textContaining('Could not load subtopics for $chapterName');
       await tester.ensureVisible(retry);
       await tester.tap(retry);
       await tester.pumpAndSettle();
@@ -155,7 +159,10 @@ void main() {
 
     testWidgets('a 403 names the access problem, not an empty chapter', (tester) async {
       await pumpAndExpand(tester, (403, null));
-      expect(find.textContaining("could not load subtopics -- You don't have access to that"), findsOneWidget);
+      expect(
+          find.textContaining(
+              "Could not load subtopics for $chapterName -- You don't have access to that"),
+          findsOneWidget);
       expect(find.textContaining('no subtopic breakdown yet'), findsNothing);
     });
 
@@ -164,7 +171,7 @@ void main() {
       // server really has no topics for.
       await pumpAndExpand(tester, (200, <Object>[]));
       expect(find.textContaining('$chapterName: no subtopic breakdown yet'), findsOneWidget);
-      expect(find.textContaining('could not load subtopics'), findsNothing);
+      expect(find.textContaining('Could not load subtopics'), findsNothing);
     });
   });
 

@@ -1,0 +1,301 @@
+{
+ "subject": "Social Science",
+ "grade": 6,
+ "chapters": [
+  {
+   "chapter_slug": "locating-places-on-the-earth",
+   "chapter_name": "Locating Places on the Earth",
+   "source_file": "chapters/fees1/fees101.pdf",
+   "topics": [
+    {
+     "name": "A Map and Its Components",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "Mapping the Earth",
+     "heading_number": null,
+     "subtopics": [
+      {
+       "name": "a) Understanding coordinates",
+       "heading_number": null
+      },
+      {
+       "name": "b) Latitudes",
+       "heading_number": null
+      },
+      {
+       "name": "c) Longitudes",
+       "heading_number": null
+      }
+     ]
+    },
+    {
+     "name": "Understanding Time Zones",
+     "heading_number": null,
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "oceans-and-continents",
+   "chapter_name": "Oceans and Continents",
+   "source_file": "chapters/fees1/fees102.pdf",
+   "topics": [
+    {
+     "name": "The Distribution of Water and Land on the Earth",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "Oceans",
+     "heading_number": null,
+     "subtopics": [
+      {
+       "name": "Oceans and disasters",
+       "heading_number": null
+      }
+     ]
+    },
+    {
+     "name": "Continents",
+     "heading_number": null,
+     "subtopics": [
+      {
+       "name": "Islands",
+       "heading_number": null
+      }
+     ]
+    },
+    {
+     "name": "Oceans and Life",
+     "heading_number": null,
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "landforms-and-life",
+   "chapter_name": "Landforms and Life",
+   "source_file": "chapters/fees1/fees103.pdf",
+   "topics": [
+    {
+     "name": "Introduction",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "Mountains",
+     "heading_number": null,
+     "subtopics": [
+      {
+       "name": "Mountain environment",
+       "heading_number": null
+      },
+      {
+       "name": "Life in the mountains",
+       "heading_number": null
+      }
+     ]
+    },
+    {
+     "name": "Plateaus",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "Plains",
+     "heading_number": null,
+     "subtopics": [
+      {
+       "name": "Life in the plains",
+       "heading_number": null
+      }
+     ]
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "timeline-and-sources-of-history",
+   "chapter_name": "Timeline and Sources of History",
+   "source_file": "chapters/fees1/fees104.pdf",
+   "topics": [
+    {
+     "name": "How Do We Learn About the Past?",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "How Is Time Measured in History?",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "What Are the Sources of History?",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "The Beginnings of Human History",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "The First Crops",
+     "heading_number": null,
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "indias-cultural-roots",
+   "chapter_name": "India’s Cultural Roots",
+   "source_file": "chapters/fees1/fees107.pdf",
+   "topics": [
+    {
+     "name": "The Vedas and Vedic Culture",
+     "heading_number": null,
+     "subtopics": [
+      {
+       "name": "a. What are the Vedas?",
+       "heading_number": null
+      },
+      {
+       "name": "b. Vedic society",
+       "heading_number": null
+      },
+      {
+       "name": "c. Vedic schools of thought",
+       "heading_number": null
+      },
+      {
+       "name": "Buddhism",
+       "heading_number": null
+      },
+      {
+       "name": "Śhvetaketu and the seed of reality",
+       "heading_number": null
+      },
+      {
+       "name": "Nachiketa and his quest",
+       "heading_number": null
+      },
+      {
+       "name": "The debate of Gārgī and Yājñavalkya",
+       "heading_number": null
+      },
+      {
+       "name": "Jainism",
+       "heading_number": null
+      },
+      {
+       "name": "A Jain story",
+       "heading_number": null
+      }
+     ]
+    },
+    {
+     "name": "Folk and Tribal Roots",
+     "heading_number": null,
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "unity-in-diversity-or-many-in-one",
+   "chapter_name": "Unity in Diversity, or ‘Many in the One’",
+   "source_file": "chapters/fees1/fees108.pdf",
+   "topics": [
+    {
+     "name": "A Rich Diversity",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "Food for All",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "Textiles and Clothing",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "Festivals Galore",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "An Epic Spread",
+     "heading_number": null,
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "family-and-community",
+   "chapter_name": "Family and Community",
+   "source_file": "chapters/fees1/fees109.pdf",
+   "topics": [
+    {
+     "name": "Family",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "Roles and Responsibilities",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "Community",
+     "heading_number": null,
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "economic-activities-around-us",
+   "chapter_name": "Economic Activities Around Us",
+   "source_file": "chapters/fees1/fees114.pdf",
+   "topics": [
+    {
+     "name": "Introduction",
+     "heading_number": null,
+     "subtopics": []
+    },
+    {
+     "name": "The Classification of Economic Activities into Economic Sectors",
+     "heading_number": null,
+     "subtopics": [
+      {
+       "name": "A. Primary activities",
+       "heading_number": null
+      },
+      {
+       "name": "B. Secondary activities",
+       "heading_number": null
+      },
+      {
+       "name": "C. Tertiary activities",
+       "heading_number": null
+      },
+      {
+       "name": "Dairy cooperative: from farm to plate",
+       "heading_number": null
+      }
+     ]
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  }
+ ]
+}

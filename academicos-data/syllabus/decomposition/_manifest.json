@@ -1,0 +1,3071 @@
+{
+ "built_from": {
+  "approved_decomposition": "C:\\Users\\varsh\\AppData\\Local\\Temp\\claude\\C--Users-varsh-OneDrive-Documents-Sarvam\\41a6a65b-1bb7-4f34-809c-9d44876be9ab\\scratchpad\\t108\\data\\curriculum.sqlite",
+  "approved_school_id": "school_1",
+  "textbooks": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks",
+  "textbook_extractor": "academicos.syllabus.textbook_headings",
+  "script": "scripts/export_decomposition_templates.py"
+ },
+ "totals": {
+  "chapters_with_topics": 74,
+  "chapters_without_topics": 429,
+  "topics": 284,
+  "subtopics": 443
+ },
+ "by_subject_grade": [
+  {
+   "subject": "English",
+   "grade": 6,
+   "syllabus_chapters": 4,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 4,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 4 chapters got topics; 4 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "reading-comprehension",
+     "chapter_name": "Reading Comprehension",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "grammar",
+     "chapter_name": "Grammar (Nouns, Verbs, Articles, Simple Sentences)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "writing-skills",
+     "chapter_name": "Paragraph Writing, Message Writing, Picture Description",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "poorvi-textbook",
+     "chapter_name": "Poorvi (Units: Fables and Folk Tales, Friendship, Nurturing Nature, Sports and Games, Culture and Tradition)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Hindi",
+   "grade": 6,
+   "syllabus_chapters": 4,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 4,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 4 chapters got topics; 4 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh-kavyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "vyakaran-6",
+     "chapter_name": "Varnamala, Sangya, Sarvanam, Kriya, Ling, Vachan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "malhar-textbook",
+     "chapter_name": "Malhar (Kavita evam Kahani)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "rachnatmak-lekhan",
+     "chapter_name": "Chitra Varnan, Anuchhed Lekhan, Samvad Lekhan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 6,
+   "syllabus_chapters": 11,
+   "chapters_with_topics": 10,
+   "chapters_without_topics": 1,
+   "topics": 65,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 10,
+   "why_uncovered": "10 of 11 chapters got topics; the one left has no chapter of that title in maths/class6_ganita_prakash.pdf (10 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "uncovered": [
+    {
+     "chapter_slug": "ratio-and-proportion",
+     "chapter_name": "Ratio and Proportion",
+     "why": "the textbook has no chapter with this title"
+    }
+   ],
+   "textbook": {
+    "books": [
+     "maths/class6_ganita_prakash.pdf"
+    ],
+    "textbook_chapters": 10,
+    "textbook_chapters_with_headings": 10,
+    "textbook_chapter_titles": [
+     "PATTERNS IN MATHEMATICS",
+     "Lines and Angles",
+     "NUMBER PLAY",
+     "Data Handling and Presentation",
+     "PRIME TIME",
+     "PERIMETER AND AREA",
+     "Fractions",
+     "Playing with Constructions",
+     "SYMMETRY",
+     "THE OTHER SIDE OF ZERO"
+    ],
+    "matched_chapters": 10
+   }
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 10,
+   "chapters_without_topics": 2,
+   "topics": 53,
+   "subtopics": 18,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 10,
+   "why_uncovered": "10 of 12 chapters got topics; 2 of them are chapters the textbook prints with no section headings inside them (prose and activity-only chapters, which carry no sub-structure to extract).",
+   "uncovered": [
+    {
+     "chapter_slug": "the-wonderful-world-of-science",
+     "chapter_name": "The Wonderful World of Science",
+     "why": "the textbook's chapter of this name prints no section headings inside it"
+    },
+    {
+     "chapter_slug": "methods-of-separation-in-everyday-life",
+     "chapter_name": "Methods of Separation in Everyday Life",
+     "why": "the textbook's chapter of this name prints no section headings inside it"
+    }
+   ],
+   "textbook": {
+    "books": [
+     "science/class6_curiosity.pdf"
+    ],
+    "textbook_chapters": 12,
+    "textbook_chapters_with_headings": 10,
+    "textbook_chapter_titles": [
+     "The Wonderful World of Science",
+     "Diversity in the Living World",
+     "Mindful Eating: A Path to a Healthy Body",
+     "Exploring Magnets",
+     "Measurement of Length and Motion",
+     "Materials Around Us",
+     "Temperature and its Measurement",
+     "A Journey through States of Water",
+     "Methods of Separation in Everyday Life",
+     "Living Creatures: Exploring their Characteristics",
+     "Nature’s Treasures",
+     "Beyond Earth"
+    ],
+    "matched_chapters": 10
+   }
+  },
+  {
+   "subject": "Social Science",
+   "grade": 6,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 8,
+   "chapters_without_topics": 4,
+   "topics": 28,
+   "subtopics": 21,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 8,
+   "why_uncovered": "8 of 12 chapters got topics; 3 of them have no chapter of that title in chapters/fees1 (13 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter; the one left is a chapter the textbook prints with no section headings inside it (prose and activity-only chapters, which carry no sub-structure to extract).",
+   "uncovered": [
+    {
+     "chapter_slug": "india-that-is-bharat",
+     "chapter_name": "India, That is Bharat",
+     "why": "the textbook's chapter of this name prints no section headings inside it"
+    },
+    {
+     "chapter_slug": "the-beginnings-of-indian-civilisation",
+     "chapter_name": "The Beginnings of Indian Civilisation",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "grassroots-democracy-part-1-governance-in-villages",
+     "chapter_name": "Grassroots Democracy - Part 1: Governance in Villages",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "grassroots-democracy-part-2-governance-in-towns",
+     "chapter_name": "Grassroots Democracy - Part 2: Governance in Towns",
+     "why": "the textbook has no chapter with this title"
+    }
+   ],
+   "textbook": {
+    "books": [
+     "chapters/fees1"
+    ],
+    "textbook_chapters": 13,
+    "textbook_chapters_with_headings": 12,
+    "textbook_chapter_titles": [
+     "Locating Places on the Earth",
+     "Oceans and Continents",
+     "Landforms and Life",
+     "Timeline and Sources of History",
+     "India, That Is Bharat",
+     "India’s Cultural Roots",
+     "Unity in Diversity, or ‘Many in the One’",
+     "Family and Community",
+     "Grassroots Democracy – Part 1 Governance",
+     "Grassroots Democracy – Part 2 Local Government in Rural Areas",
+     "Grassroots Democracy – Part 3 Local Government in Urban Areas",
+     "The Value of Work",
+     "Economic Activities Around Us"
+    ],
+    "matched_chapters": 8
+   }
+  },
+  {
+   "subject": "English",
+   "grade": 7,
+   "syllabus_chapters": 5,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 5,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 5 chapters got topics; 5 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "reading-comprehension",
+     "chapter_name": "Reading Comprehension",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "grammar",
+     "chapter_name": "Grammar (Nouns, Pronouns, Adjectives, Adverbs, Prepositions)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "writing-skills",
+     "chapter_name": "Paragraph Writing, Informal Letters, Story Writing",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "honeycomb-textbook",
+     "chapter_name": "Honeycomb (Textbook in English)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "an-alien-hand",
+     "chapter_name": "An Alien Hand (Supplementary Reader)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Hindi",
+   "grade": 7,
+   "syllabus_chapters": 4,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 4,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 4 chapters got topics; 4 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh-kavyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "vyakaran-7",
+     "chapter_name": "Sangya, Sarvanam, Visheshan, Kriya, Vilom, Paryayvachi",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "vasant-bhag-2",
+     "chapter_name": "Vasant Bhag 2 (Kavita evam Kahani)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "rachnatmak-lekhan",
+     "chapter_name": "Patra Lekhan, Nibandh Lekhan, Samvad Lekhan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 13,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 13 chapters got topics; 13 of them have no chapter of that title in maths/class7_ganita_prakash.pdf, chapters/gegp2 (15 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "uncovered": [
+    {
+     "chapter_slug": "integers",
+     "chapter_name": "Integers",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "fractions-and-decimals",
+     "chapter_name": "Fractions and Decimals",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "rational-numbers-7",
+     "chapter_name": "Rational Numbers",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "exponents-and-powers-7",
+     "chapter_name": "Exponents and Powers",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "simple-equations",
+     "chapter_name": "Simple Equations",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "algebraic-expressions-7",
+     "chapter_name": "Algebraic Expressions",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "comparing-quantities-7",
+     "chapter_name": "Comparing Quantities",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "lines-and-angles-7",
+     "chapter_name": "Lines and Angles",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "the-triangle-and-its-properties",
+     "chapter_name": "The Triangle and its Properties",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "perimeter-and-area",
+     "chapter_name": "Perimeter and Area",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "symmetry",
+     "chapter_name": "Symmetry",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "visualising-solid-shapes",
+     "chapter_name": "Visualising Solid Shapes",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "data-handling-7",
+     "chapter_name": "Data Handling",
+     "why": "the textbook has no chapter with this title"
+    }
+   ],
+   "textbook": {
+    "books": [
+     "maths/class7_ganita_prakash.pdf",
+     "chapters/gegp2"
+    ],
+    "textbook_chapters": 15,
+    "textbook_chapters_with_headings": 15,
+    "textbook_chapter_titles": [
+     "Textbook of Mathematics",
+     "LARGE NUMBERS AROUND US",
+     "ARITHMETIC EXPRESSIONS",
+     "A PEEK BEYOND THE POINT",
+     "EXPRESSIONS USING LETTER- NUMBERS",
+     "PARALLEL AND INTERSECTING LINES",
+     "NUMBER PLAY",
+     "WORKING WITH FRACTIONS",
+     "GEOMETRIC TWINS",
+     "OPERATIONS WITH INTEGERS",
+     "FINDING COMMON GROUND",
+     "ANOTHER PEEK BEYOND THE POINT",
+     "CONNECTING THE DOTS…",
+     "CONSTRUCTIONS AND TILINGS",
+     "FINDING THE UNKNOWN"
+    ],
+    "matched_chapters": 0
+   }
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 13,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 13 chapters got topics; 13 of them have no chapter of that title in science/class7_curiosity.pdf (11 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "uncovered": [
+    {
+     "chapter_slug": "nutrition-in-plants",
+     "chapter_name": "Nutrition in Plants",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "nutrition-in-animals",
+     "chapter_name": "Nutrition in Animals",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "respiration-in-organisms",
+     "chapter_name": "Respiration in Organisms",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "transportation-animals-plants",
+     "chapter_name": "Transportation in Animals and Plants",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "reproduction-in-plants",
+     "chapter_name": "Reproduction in Plants",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "heat",
+     "chapter_name": "Heat",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "acids-bases-salts-7",
+     "chapter_name": "Acids, Bases and Salts",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "physical-and-chemical-changes",
+     "chapter_name": "Physical and Chemical Changes",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "motion-and-time",
+     "chapter_name": "Motion and Time",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "electric-current-effects",
+     "chapter_name": "Electric Current and its Effects",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "light-7",
+     "chapter_name": "Light",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "forests-our-lifeline",
+     "chapter_name": "Forests: Our Lifeline",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "wastewater-story",
+     "chapter_name": "Wastewater Story",
+     "why": "the textbook has no chapter with this title"
+    }
+   ],
+   "textbook": {
+    "books": [
+     "science/class7_curiosity.pdf"
+    ],
+    "textbook_chapters": 11,
+    "textbook_chapters_with_headings": 11,
+    "textbook_chapter_titles": [
+     "World of Science",
+     "Basic, and Neutral",
+     "Components",
+     "and Non-metals",
+     "Changes Around Us: Physical and Chemical",
+     "and Change",
+     "in Nature",
+     "Measurement of Time and Motion",
+     "in Animals",
+     "in Plants",
+     "Reﬂ ections"
+    ],
+    "matched_chapters": 0
+   }
+  },
+  {
+   "subject": "Social Science",
+   "grade": 7,
+   "syllabus_chapters": 23,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 23,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 23 chapters got topics; 23 of them have no chapter of that title in chapters/gees1, chapters/gees2 (20 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "uncovered": [
+    {
+     "chapter_slug": "tracing-changes-thousand-years",
+     "chapter_name": "Tracing Changes through a Thousand Years",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "kings-and-kingdoms",
+     "chapter_name": "Kings and Kingdoms",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "delhi-12th-to-15th-century",
+     "chapter_name": "Delhi: 12th to 15th Century",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "the-mughals-16th-to-17th-century",
+     "chapter_name": "The Mughals (16th to 17th Century)",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "tribes-nomads-settled-communities",
+     "chapter_name": "Tribes, Nomads and Settled Communities",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "devotional-paths-to-divine",
+     "chapter_name": "Devotional Paths to the Divine",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "making-of-regional-cultures",
+     "chapter_name": "The Making of Regional Cultures",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "eighteenth-century-political-formations",
+     "chapter_name": "Eighteenth-Century Political Formations",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "environment",
+     "chapter_name": "Environment",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "inside-our-earth",
+     "chapter_name": "Inside Our Earth",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "our-changing-earth",
+     "chapter_name": "Our Changing Earth",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "air",
+     "chapter_name": "Air",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "water",
+     "chapter_name": "Water",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "human-environment-interactions",
+     "chapter_name": "Human-Environment Interactions: Tropical and Subtropical Regions",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "life-in-deserts",
+     "chapter_name": "Life in the Deserts",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "on-equality",
+     "chapter_name": "On Equality",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "role-of-government-in-health",
+     "chapter_name": "Role of the Government in Health",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "how-state-government-works",
+     "chapter_name": "How the State Government Works",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "growing-up-as-boys-and-girls",
+     "chapter_name": "Growing up as Boys and Girls",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "women-change-the-world",
+     "chapter_name": "Women Change the World",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "understanding-media",
+     "chapter_name": "Understanding Media",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "markets-around-us",
+     "chapter_name": "Markets Around Us",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "a-shirt-in-the-market",
+     "chapter_name": "A Shirt in the Market",
+     "why": "the textbook has no chapter with this title"
+    }
+   ],
+   "textbook": {
+    "books": [
+     "chapters/gees1",
+     "chapters/gees2"
+    ],
+    "textbook_chapters": 20,
+    "textbook_chapters_with_headings": 20,
+    "textbook_chapter_titles": [
+     "Geographical Diversity of India Questions",
+     "Understanding the Weather Questions",
+     "Climates of India Questions",
+     "New Beginnings: Cities and States Questions",
+     "The Rise of Empires Questions",
+     "The Age of Reorganisation Questions",
+     "The Gupta Era: An Age of Tireless Creativity Questions",
+     "How the Land Becomes Sacred Questions",
+     "From the Rulers to the Ruled: Types of Governments Questions",
+     "The Constitution of India — An Introduction Questions",
+     "From Barter to Money",
+     "Understanding Markets Questions",
+     "The Story of Indian Farming Questions",
+     "India and Her Neighbours Questions",
+     "Empires and Kingdoms: 6th to 10th Centuries Questions",
+     "Turning Tides: 11thand 12th Centuries Questions",
+     "India, a Home to Many Questions",
+     "The State, the Government, and You Questions",
+     "Questions Infrastructure: Engine of India’s Development",
+     "Banks and the Magic of Finance Questions"
+    ],
+    "matched_chapters": 0
+   }
+  },
+  {
+   "subject": "English",
+   "grade": 8,
+   "syllabus_chapters": 5,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 5,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 5 chapters got topics; 5 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "reading-comprehension",
+     "chapter_name": "Reading Comprehension",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "grammar",
+     "chapter_name": "Grammar (Tenses, Active-Passive, Direct-Indirect, Conjunctions)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "writing-skills",
+     "chapter_name": "Formal and Informal Letters, Notice, Paragraph Writing",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "honeydew-textbook",
+     "chapter_name": "Honeydew (Textbook in English)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "it-so-happened",
+     "chapter_name": "It So Happened (Supplementary Reader)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Hindi",
+   "grade": 8,
+   "syllabus_chapters": 4,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 4,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 4 chapters got topics; 4 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh-kavyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "vyakaran-8",
+     "chapter_name": "Sangya, Sarvanam, Visheshan, Kriya, Karak, Samas, Sandhi",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "vasant-bhag-3",
+     "chapter_name": "Vasant Bhag 3 (Kavita evam Kahani)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "rachnatmak-lekhan",
+     "chapter_name": "Patra Lekhan, Nibandh Lekhan, Samvad Lekhan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 13,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 13 chapters got topics; 13 of them have no chapter of that title in maths/class8_ganita_prakash.pdf, chapters/hegp2 (15 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "uncovered": [
+    {
+     "chapter_slug": "rational-numbers",
+     "chapter_name": "Rational Numbers",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "squares-and-square-roots",
+     "chapter_name": "Squares and Square Roots",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "cubes-and-cube-roots",
+     "chapter_name": "Cubes and Cube Roots",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "comparing-quantities",
+     "chapter_name": "Comparing Quantities",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "exponents-and-powers",
+     "chapter_name": "Exponents and Powers",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "direct-and-inverse-proportions",
+     "chapter_name": "Direct and Inverse Proportions",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "linear-equations-one-variable",
+     "chapter_name": "Linear Equations in One Variable",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "algebraic-expressions-identities",
+     "chapter_name": "Algebraic Expressions and Identities",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "factorisation",
+     "chapter_name": "Factorisation",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "understanding-quadrilaterals",
+     "chapter_name": "Understanding Quadrilaterals",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "mensuration-8",
+     "chapter_name": "Mensuration",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "data-handling",
+     "chapter_name": "Data Handling",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "introduction-to-graphs",
+     "chapter_name": "Introduction to Graphs",
+     "why": "the textbook has no chapter with this title"
+    }
+   ],
+   "textbook": {
+    "books": [
+     "maths/class8_ganita_prakash.pdf",
+     "chapters/hegp2"
+    ],
+    "textbook_chapters": 15,
+    "textbook_chapters_with_headings": 14,
+    "textbook_chapter_titles": [
+     "Textbook of Mathematics Textbook of Mathematics",
+     "A SQUARE AND A CUBE",
+     "POWER PLAY",
+     "A STORY OF NUMBERS",
+     "QUADRILATERALS",
+     "NUMBER PLAY",
+     "WE DISTRIBUTE, YET THINGS MULTIPLY",
+     "REASONING-1",
+     "DISGUISE",
+     "THE BAUDHĀYANA- PYTHAGORAS THEOREM",
+     "REASONING–2",
+     "EXPLORING SOME GEOMETRIC THEMES",
+     "AND LINES",
+     "ALGEBRA PLAY",
+     "AREA"
+    ],
+    "matched_chapters": 0
+   }
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "syllabus_chapters": 14,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 14,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 14 chapters got topics; 14 of them have no chapter of that title in science/class8_curiosity.pdf (13 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "uncovered": [
+    {
+     "chapter_slug": "crop-production-management",
+     "chapter_name": "Crop Production and Management",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "microorganisms-friend-foe",
+     "chapter_name": "Microorganisms: Friend and Foe",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "conservation-plants-animals",
+     "chapter_name": "Conservation of Plants and Animals",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "reproduction-in-animals",
+     "chapter_name": "Reproduction in Animals",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "reaching-age-of-adolescence",
+     "chapter_name": "Reaching the Age of Adolescence",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "coal-and-petroleum",
+     "chapter_name": "Coal and Petroleum",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "combustion-and-flame",
+     "chapter_name": "Combustion and Flame",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "chemical-effects-electric-current",
+     "chapter_name": "Chemical Effects of Electric Current",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "force-and-pressure",
+     "chapter_name": "Force and Pressure",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "friction",
+     "chapter_name": "Friction",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "sound-8",
+     "chapter_name": "Sound",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "some-natural-phenomena",
+     "chapter_name": "Some Natural Phenomena",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "light-8",
+     "chapter_name": "Light",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "pollution-air-water",
+     "chapter_name": "Pollution of Air and Water",
+     "why": "the textbook has no chapter with this title"
+    }
+   ],
+   "textbook": {
+    "books": [
+     "science/class8_curiosity.pdf"
+    ],
+    "textbook_chapters": 13,
+    "textbook_chapters_with_headings": 12,
+    "textbook_chapter_titles": [
+     "Exploring the Investigative World of Science",
+     "The Invisible Living World: Beyond Our Naked Eye",
+     "Health: The Ultimate Treasure",
+     "Electricity:Magnetic and Heating Effects",
+     "Exploring Forces",
+     "Pressure, Winds, Storms, and Cyclones",
+     "Particulate Nature of Matter",
+     "Nature of Matter : Elements,Compounds, and Mixtures",
+     "The Amazing World of Solutes, Solvents, and Solutions",
+     "Light: Mirrors and Lenses",
+     "Keeping Time with the Skies",
+     "How Nature Works in Harmony",
+     "Our Home: Earth, a Unique Life Sustaining Planet"
+    ],
+    "matched_chapters": 0
+   }
+  },
+  {
+   "subject": "Social Science",
+   "grade": 8,
+   "syllabus_chapters": 21,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 21,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 21 chapters got topics; 21 of them have no chapter of that title in chapters/hees1, chapters/hees2 (14 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "uncovered": [
+    {
+     "chapter_slug": "how-when-and-where",
+     "chapter_name": "How, When and Where",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "from-trade-to-territory",
+     "chapter_name": "From Trade to Territory: Company Establishes Power",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "ruling-the-countryside",
+     "chapter_name": "Ruling the Countryside",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "tribals-dikus-golden-age",
+     "chapter_name": "Tribals, Dikus and the Vision of a Golden Age",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "when-people-rebel-1857",
+     "chapter_name": "When People Rebel: 1857 and After",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "civilising-the-native",
+     "chapter_name": "Civilising the Native, Educating the Nation",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "women-caste-and-reform",
+     "chapter_name": "Women, Caste and Reform",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "making-of-national-movement",
+     "chapter_name": "The Making of the National Movement: 1870s-1947",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "resources",
+     "chapter_name": "Resources",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "land-soil-water-natural-vegetation",
+     "chapter_name": "Land, Soil, Water, Natural Vegetation and Wildlife",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "agriculture-8",
+     "chapter_name": "Agriculture",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "industries",
+     "chapter_name": "Industries",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "human-resources",
+     "chapter_name": "Human Resources",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "the-indian-constitution",
+     "chapter_name": "The Indian Constitution",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "understanding-secularism",
+     "chapter_name": "Understanding Secularism",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "parliament-and-making-of-laws",
+     "chapter_name": "Parliament and the Making of Laws",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "judiciary",
+     "chapter_name": "Judiciary",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "understanding-marginalisation",
+     "chapter_name": "Understanding Marginalisation",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "confronting-marginalisation",
+     "chapter_name": "Confronting Marginalisation",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "public-facilities",
+     "chapter_name": "Public Facilities",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "law-and-social-justice",
+     "chapter_name": "Law and Social Justice",
+     "why": "the textbook has no chapter with this title"
+    }
+   ],
+   "textbook": {
+    "books": [
+     "chapters/hees1",
+     "chapters/hees2"
+    ],
+    "textbook_chapters": 14,
+    "textbook_chapters_with_headings": 14,
+    "textbook_chapter_titles": [
+     "Natural Resources and Their Use Questions",
+     "Reshaping India’s Political Map",
+     "The Rise of the Marathas",
+     "The Colonial Era in India",
+     "Universal Franchise and India’s Electoral System",
+     "The Parliamentary System: Legislature and Executive",
+     "Factors of Production Questions",
+     "World Geography: Some Glimpses Questions",
+     "India’s Long Road to Independence",
+     "A Journey Through Indian Architecture Questions",
+     "The Role of the Judiciary in Our Society",
+     "Citizenship: Rights and Duties Questions",
+     "Dynamics of Population Questions",
+     "India’s Urban Landscape Questions"
+    ],
+    "matched_chapters": 0
+   }
+  },
+  {
+   "subject": "English",
+   "grade": 9,
+   "syllabus_chapters": 5,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 5,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 5 chapters got topics; 5 of them have no chapter of that title in english/class9_kaveri.pdf (8 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "uncovered": [
+    {
+     "chapter_slug": "reading-comprehension",
+     "chapter_name": "Reading Comprehension",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "grammar",
+     "chapter_name": "Grammar (Tenses, Modals, Subject-Verb Concord, Reported Speech)",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "writing-skills",
+     "chapter_name": "Descriptive Paragraph and Diary Entry / Story Writing",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "beehive-textbook",
+     "chapter_name": "Beehive (Prose and Poetry)",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "moments-supplementary",
+     "chapter_name": "Moments (Supplementary Reader)",
+     "why": "the textbook has no chapter with this title"
+    }
+   ],
+   "textbook": {
+    "books": [
+     "english/class9_kaveri.pdf"
+    ],
+    "textbook_chapters": 8,
+    "textbook_chapters_with_headings": 1,
+    "textbook_chapter_titles": [
+     "How I Taught My Grandmother to Read",
+     "The Pot Maker",
+     "Winds of Change",
+     "Vitamin-M",
+     "The World of Limitless Possibilities Paralympics",
+     "Twin Melodies",
+     "Carrier of Words",
+     "Follow That Dream"
+    ],
+    "matched_chapters": 0
+   }
+  },
+  {
+   "subject": "Hindi",
+   "grade": 9,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 12,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 12 chapters got topics; 12 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "upsarg-pratyay",
+     "chapter_name": "Upsarg va Pratyay",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "samas",
+     "chapter_name": "Samas",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "arth-ke-aadhar-par-vakya",
+     "chapter_name": "Arth ke Aadhar par Vakya Bhed",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "alankar-9",
+     "chapter_name": "Alankar",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "kshitij-bhag-1-gadya",
+     "chapter_name": "Kshitij Bhag 1 (Gadya Khand)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "kshitij-bhag-1-kavya",
+     "chapter_name": "Kshitij Bhag 1 (Kavya Khand)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "kritika-bhag-1",
+     "chapter_name": "Kritika Bhag 1",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "anuchhed-lekhan",
+     "chapter_name": "Anuchhed Lekhan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "patra-lekhan",
+     "chapter_name": "Patra Lekhan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "laghukatha-samvad-lekhan",
+     "chapter_name": "Laghukatha va Samvad Lekhan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "email-suchna-lekhan",
+     "chapter_name": "Email va Suchna Lekhan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 12,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 12 chapters got topics; 12 of them have no chapter of that title in maths/class9_ganita_manjari.pdf (1 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "uncovered": [
+    {
+     "chapter_slug": "number-systems-9",
+     "chapter_name": "Number Systems",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "polynomials-9",
+     "chapter_name": "Polynomials",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "linear-equations-two-variables",
+     "chapter_name": "Linear Equations in Two Variables",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "coordinate-geometry-9",
+     "chapter_name": "Coordinate Geometry",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "intro-euclid-geometry",
+     "chapter_name": "Introduction to Euclid's Geometry",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "lines-and-angles",
+     "chapter_name": "Lines and Angles",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "triangles-9",
+     "chapter_name": "Triangles",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "quadrilaterals",
+     "chapter_name": "Quadrilaterals",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "circles-9",
+     "chapter_name": "Circles",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "herons-formula",
+     "chapter_name": "Heron's Formula",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "surface-areas-and-volumes-9",
+     "chapter_name": "Surface Areas and Volumes",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "statistics-9",
+     "chapter_name": "Statistics",
+     "why": "the textbook has no chapter with this title"
+    }
+   ],
+   "textbook": {
+    "books": [
+     "maths/class9_ganita_manjari.pdf"
+    ],
+    "textbook_chapters": 1,
+    "textbook_chapters_with_headings": 0,
+    "textbook_chapter_titles": [
+     "GANITA MANJARI Textbook of Mathematics for GRADE"
+    ],
+    "matched_chapters": 0
+   }
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 12,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 12 chapters got topics; 12 of them have no chapter of that title in science/class9_exploration.pdf (13 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "uncovered": [
+    {
+     "chapter_slug": "matter-in-our-surroundings",
+     "chapter_name": "Matter in Our Surroundings",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "is-matter-around-us-pure",
+     "chapter_name": "Is Matter Around Us Pure",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "atoms-and-molecules",
+     "chapter_name": "Atoms and Molecules",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "structure-of-the-atom",
+     "chapter_name": "Structure of the Atom",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "fundamental-unit-of-life",
+     "chapter_name": "The Fundamental Unit of Life",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "tissues",
+     "chapter_name": "Tissues",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "motion",
+     "chapter_name": "Motion",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "force-and-laws-of-motion",
+     "chapter_name": "Force and Laws of Motion",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "gravitation-9",
+     "chapter_name": "Gravitation",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "work-and-energy",
+     "chapter_name": "Work and Energy",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "sound",
+     "chapter_name": "Sound",
+     "why": "the textbook has no chapter with this title"
+    },
+    {
+     "chapter_slug": "improvement-in-food-resources",
+     "chapter_name": "Improvement in Food Resources",
+     "why": "the textbook has no chapter with this title"
+    }
+   ],
+   "textbook": {
+    "books": [
+     "science/class9_exploration.pdf"
+    ],
+    "textbook_chapters": 13,
+    "textbook_chapters_with_headings": 12,
+    "textbook_chapter_titles": [
+     "Chapter Exploration: Entering the World of Secondary Science",
+     "Cell: The Building Block of Life Chapter",
+     "Tissues in Action Chapter",
+     "Describing Motion Around Us Chapter",
+     "Exploring Mixtures and their Separation Chapter",
+     "How Forces Affect Motion Chapter",
+     "Work, Energy, and Simple Machines Chapter",
+     "Journey Inside the Atom Chapter Atoms",
+     "Atomic Foundations of Matter Chapter",
+     "Sound Waves: Characteristics and Applications Chapter Chapter",
+     "Reproduction: How Life Continues Chapter",
+     "Patterns in Life: Diversity and Classification Chapter",
+     "Earth as a System: Energy, Matter, and Life Chapter"
+    ],
+    "matched_chapters": 0
+   }
+  },
+  {
+   "subject": "Social Science",
+   "grade": 9,
+   "syllabus_chapters": 20,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 20,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 20 chapters got topics; 20 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "french-revolution",
+     "chapter_name": "The French Revolution",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "socialism-europe-russian-revolution",
+     "chapter_name": "Socialism in Europe and the Russian Revolution",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "nazism-rise-of-hitler",
+     "chapter_name": "Nazism and the Rise of Hitler",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "forest-society-colonialism",
+     "chapter_name": "Forest Society and Colonialism",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "pastoralists-modern-world",
+     "chapter_name": "Pastoralists in the Modern World",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "india-size-and-location",
+     "chapter_name": "India - Size and Location",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "physical-features-of-india",
+     "chapter_name": "Physical Features of India",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "drainage",
+     "chapter_name": "Drainage",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "climate",
+     "chapter_name": "Climate",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "natural-vegetation-wildlife",
+     "chapter_name": "Natural Vegetation and Wildlife",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "population",
+     "chapter_name": "Population",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "what-is-democracy-why",
+     "chapter_name": "What is Democracy? Why Democracy?",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "constitutional-design",
+     "chapter_name": "Constitutional Design",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "electoral-politics",
+     "chapter_name": "Electoral Politics",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "working-of-institutions",
+     "chapter_name": "Working of Institutions",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "democratic-rights",
+     "chapter_name": "Democratic Rights",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "story-village-palampur",
+     "chapter_name": "The Story of Village Palampur",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "people-as-resource",
+     "chapter_name": "People as Resource",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "poverty-as-a-challenge",
+     "chapter_name": "Poverty as a Challenge",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "food-security-in-india",
+     "chapter_name": "Food Security in India",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "English",
+   "grade": 10,
+   "syllabus_chapters": 4,
+   "chapters_with_topics": 4,
+   "chapters_without_topics": 0,
+   "topics": 12,
+   "subtopics": 36,
+   "from_approved_decomposition": 4,
+   "from_textbook_headings": 0,
+   "why_uncovered": null,
+   "uncovered": []
+  },
+  {
+   "subject": "Hindi",
+   "grade": 10,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 12,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 12 chapters got topics; 12 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "rachna-ke-aadhar-par-vakya-bhed",
+     "chapter_name": "Rachna ke Aadhar par Vakya Bhed",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "vachya",
+     "chapter_name": "Vachya",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "pad-parichay",
+     "chapter_name": "Pad Parichay",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "alankar",
+     "chapter_name": "Alankar",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "kshitij-gadya-khand",
+     "chapter_name": "Kshitij Bhag 2 Gadya Khand",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "kshitij-kavya-khand",
+     "chapter_name": "Kshitij Bhag 2 Kavya Khand",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "kritika-bhag-2",
+     "chapter_name": "Kritika Bhag 2",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "anuchhed-lekhan",
+     "chapter_name": "Anuchhed Lekhan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "patra-lekhan",
+     "chapter_name": "Patra Lekhan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "vigyapan-lekhan",
+     "chapter_name": "Vigyapan Lekhan va Sandesh Lekhan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "email-lekhan",
+     "chapter_name": "E-mail Lekhan va Swavratt Lekhan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "syllabus_chapters": 7,
+   "chapters_with_topics": 7,
+   "chapters_without_topics": 0,
+   "topics": 21,
+   "subtopics": 58,
+   "from_approved_decomposition": 7,
+   "from_textbook_headings": 0,
+   "why_uncovered": null,
+   "uncovered": []
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 13,
+   "chapters_without_topics": 0,
+   "topics": 39,
+   "subtopics": 117,
+   "from_approved_decomposition": 13,
+   "from_textbook_headings": 0,
+   "why_uncovered": null,
+   "uncovered": []
+  },
+  {
+   "subject": "Social Science",
+   "grade": 10,
+   "syllabus_chapters": 22,
+   "chapters_with_topics": 22,
+   "chapters_without_topics": 0,
+   "topics": 66,
+   "subtopics": 193,
+   "from_approved_decomposition": 22,
+   "from_textbook_headings": 0,
+   "why_uncovered": null,
+   "uncovered": []
+  },
+  {
+   "subject": "Accountancy",
+   "grade": 11,
+   "syllabus_chapters": 7,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 7,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 7 chapters got topics; 7 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "intro-accounting",
+     "chapter_name": "Introduction to Accounting",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "theory-base-accounting",
+     "chapter_name": "Theory Base of Accounting",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "recording-transactions",
+     "chapter_name": "Recording of Business Transactions (Journal & Ledger)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "bank-reconciliation-statement",
+     "chapter_name": "Bank Reconciliation Statement",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "depreciation-provisions-reserves",
+     "chapter_name": "Depreciation, Provisions and Reserves",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "trial-balance-rectification",
+     "chapter_name": "Trial Balance and Rectification of Errors",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "financial-statements-sole-proprietor",
+     "chapter_name": "Financial Statements of Sole Proprietorship",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Biology",
+   "grade": 11,
+   "syllabus_chapters": 19,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 19,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 19 chapters got topics; 19 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "the-living-world",
+     "chapter_name": "The Living World",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "biological-classification",
+     "chapter_name": "Biological Classification",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "plant-kingdom",
+     "chapter_name": "Plant Kingdom",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "animal-kingdom",
+     "chapter_name": "Animal Kingdom",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "morphology-flowering-plants",
+     "chapter_name": "Morphology of Flowering Plants",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "anatomy-flowering-plants",
+     "chapter_name": "Anatomy of Flowering Plants",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "structural-organisation-animals",
+     "chapter_name": "Structural Organisation in Animals",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "cell-unit-of-life",
+     "chapter_name": "Cell: The Unit of Life",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "biomolecules-bio",
+     "chapter_name": "Biomolecules",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "cell-cycle-division",
+     "chapter_name": "Cell Cycle and Cell Division",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "photosynthesis-higher-plants",
+     "chapter_name": "Photosynthesis in Higher Plants",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "respiration-in-plants",
+     "chapter_name": "Respiration in Plants",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "plant-growth-development",
+     "chapter_name": "Plant Growth and Development",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "breathing-exchange-gases",
+     "chapter_name": "Breathing and Exchange of Gases",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "body-fluids-circulation",
+     "chapter_name": "Body Fluids and Circulation",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "excretory-products-elimination",
+     "chapter_name": "Excretory Products and their Elimination",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "locomotion-and-movement",
+     "chapter_name": "Locomotion and Movement",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "neural-control-coordination",
+     "chapter_name": "Neural Control and Coordination",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "chemical-coordination-integration",
+     "chapter_name": "Chemical Coordination and Integration",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Business Studies",
+   "grade": 11,
+   "syllabus_chapters": 10,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 10,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 10 chapters got topics; 10 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "nature-purpose-business",
+     "chapter_name": "Evolution and Fundamentals of Business",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "forms-business-organisations",
+     "chapter_name": "Forms of Business Organisations",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "public-private-global-enterprises",
+     "chapter_name": "Public, Private and Global Enterprises",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "business-services",
+     "chapter_name": "Business Services",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "emerging-modes-business",
+     "chapter_name": "Emerging Modes of Business",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "social-responsibility-ethics",
+     "chapter_name": "Social Responsibilities of Business and Business Ethics",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "sources-business-finance",
+     "chapter_name": "Sources of Business Finance",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "small-business-enterprises",
+     "chapter_name": "Small Business and Enterprises",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "internal-trade",
+     "chapter_name": "Internal Trade",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "international-trade-business",
+     "chapter_name": "International Business",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Chemistry",
+   "grade": 11,
+   "syllabus_chapters": 9,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 9,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 9 chapters got topics; 9 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "basic-concepts-chemistry",
+     "chapter_name": "Some Basic Concepts of Chemistry",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "structure-of-atom",
+     "chapter_name": "Structure of Atom",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "classification-elements-periodicity",
+     "chapter_name": "Classification of Elements and Periodicity in Properties",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "chemical-bonding-molecular-structure",
+     "chapter_name": "Chemical Bonding and Molecular Structure",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "chemical-thermodynamics",
+     "chapter_name": "Chemical Thermodynamics",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "equilibrium",
+     "chapter_name": "Equilibrium",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "redox-reactions",
+     "chapter_name": "Redox Reactions",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "organic-chemistry-principles",
+     "chapter_name": "Organic Chemistry: Some Basic Principles and Techniques",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "hydrocarbons",
+     "chapter_name": "Hydrocarbons",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Economics",
+   "grade": 11,
+   "syllabus_chapters": 7,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 7,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 7 chapters got topics; 7 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "intro-statistics-economics",
+     "chapter_name": "Introduction to Statistics",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "collection-organisation-presentation-data",
+     "chapter_name": "Collection, Organisation and Presentation of Data",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "statistical-tools-interpretation",
+     "chapter_name": "Statistical Tools and Interpretation",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "intro-microeconomics",
+     "chapter_name": "Introduction to Microeconomics",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "consumer-equilibrium-demand",
+     "chapter_name": "Consumer's Equilibrium and Demand",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "producer-behaviour-supply",
+     "chapter_name": "Producer Behaviour and Supply",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "forms-market-price-determination",
+     "chapter_name": "Forms of Market and Price Determination",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "English",
+   "grade": 11,
+   "syllabus_chapters": 5,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 5,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 5 chapters got topics; 5 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "reading-comprehension",
+     "chapter_name": "Reading Comprehension and Note Making",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "grammar",
+     "chapter_name": "Grammar (Tenses, Clauses, Re-ordering of Sentences)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "creative-writing",
+     "chapter_name": "Notice, Poster, Speech and Debate Writing",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "hornbill",
+     "chapter_name": "Hornbill (Prose and Poetry)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "snapshots",
+     "chapter_name": "Snapshots (Supplementary Reader)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Hindi",
+   "grade": 11,
+   "syllabus_chapters": 5,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 5,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 5 chapters got topics; 5 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh-kavyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "abhivyakti-aur-madhyam",
+     "chapter_name": "Abhivyakti aur Madhyam",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "aroh-kavya-khand",
+     "chapter_name": "Aroh (Kavya Khand)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "aroh-gadya-khand",
+     "chapter_name": "Aroh (Gadya Khand)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "vitan",
+     "chapter_name": "Vitan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 11,
+   "syllabus_chapters": 14,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 14,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 14 chapters got topics; 14 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "sets",
+     "chapter_name": "Sets",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "relations-functions-11",
+     "chapter_name": "Relations and Functions",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "trigonometric-functions",
+     "chapter_name": "Trigonometric Functions",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "complex-numbers-quadratic",
+     "chapter_name": "Complex Numbers and Quadratic Equations",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "linear-inequalities",
+     "chapter_name": "Linear Inequalities",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "permutations-combinations",
+     "chapter_name": "Permutations and Combinations",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "binomial-theorem",
+     "chapter_name": "Binomial Theorem",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "sequences-and-series",
+     "chapter_name": "Sequences and Series",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "straight-lines",
+     "chapter_name": "Straight Lines",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "conic-sections",
+     "chapter_name": "Conic Sections",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "intro-3d-geometry",
+     "chapter_name": "Introduction to Three-Dimensional Geometry",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "limits-and-derivatives",
+     "chapter_name": "Limits and Derivatives",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "statistics-11",
+     "chapter_name": "Statistics",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "probability-11",
+     "chapter_name": "Probability",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Physics",
+   "grade": 11,
+   "syllabus_chapters": 14,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 14,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 14 chapters got topics; 14 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "units-and-measurements",
+     "chapter_name": "Units and Measurements",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "motion-straight-line",
+     "chapter_name": "Motion in a Straight Line",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "motion-plane",
+     "chapter_name": "Motion in a Plane",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "laws-of-motion",
+     "chapter_name": "Laws of Motion",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "work-energy-power",
+     "chapter_name": "Work, Energy and Power",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "system-particles-rotational-motion",
+     "chapter_name": "System of Particles and Rotational Motion",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "gravitation",
+     "chapter_name": "Gravitation",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "mechanical-properties-solids",
+     "chapter_name": "Mechanical Properties of Solids",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "mechanical-properties-fluids",
+     "chapter_name": "Mechanical Properties of Fluids",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "thermal-properties-matter",
+     "chapter_name": "Thermal Properties of Matter",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "thermodynamics",
+     "chapter_name": "Thermodynamics",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "kinetic-theory",
+     "chapter_name": "Kinetic Theory of Gases",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "oscillations",
+     "chapter_name": "Oscillations",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "waves",
+     "chapter_name": "Waves",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Accountancy",
+   "grade": 12,
+   "syllabus_chapters": 11,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 11,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 11 chapters got topics; 11 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "partnership-fundamentals",
+     "chapter_name": "Accounting for Partnership: Basic Concepts",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "change-in-profit-sharing-ratio",
+     "chapter_name": "Reconstitution of Partnership: Change in PSR",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "admission-of-partner",
+     "chapter_name": "Admission of a Partner",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "retirement-death-of-partner",
+     "chapter_name": "Retirement and Death of a Partner",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "dissolution-of-partnership-firm",
+     "chapter_name": "Dissolution of a Partnership Firm",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "accounting-for-share-capital",
+     "chapter_name": "Accounting for Share Capital",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "accounting-for-debentures",
+     "chapter_name": "Issue and Redemption of Debentures",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "financial-statements-of-company",
+     "chapter_name": "Financial Statements of a Company",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "financial-statement-analysis",
+     "chapter_name": "Tools of Financial Statement Analysis",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "accounting-ratios",
+     "chapter_name": "Accounting Ratios",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "cash-flow-statement",
+     "chapter_name": "Cash Flow Statement",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Biology",
+   "grade": 12,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 13,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 13 chapters got topics; 13 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "sexual-reproduction-flowering-plants",
+     "chapter_name": "Sexual Reproduction in Flowering Plants",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "human-reproduction",
+     "chapter_name": "Human Reproduction",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "reproductive-health",
+     "chapter_name": "Reproductive Health",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "principles-inheritance-variation",
+     "chapter_name": "Principles of Inheritance and Variation",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "molecular-basis-inheritance",
+     "chapter_name": "Molecular Basis of Inheritance",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "evolution",
+     "chapter_name": "Evolution",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "human-health-disease",
+     "chapter_name": "Human Health and Disease",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "microbes-human-welfare",
+     "chapter_name": "Microbes in Human Welfare",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "biotechnology-principles-processes",
+     "chapter_name": "Biotechnology: Principles and Processes",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "biotechnology-applications",
+     "chapter_name": "Biotechnology and its Applications",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "organisms-populations",
+     "chapter_name": "Organisms and Populations",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "ecosystem",
+     "chapter_name": "Ecosystem",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "biodiversity-conservation",
+     "chapter_name": "Biodiversity and its Conservation",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Business Studies",
+   "grade": 12,
+   "syllabus_chapters": 12,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 12,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 12 chapters got topics; 12 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "nature-significance-management",
+     "chapter_name": "Nature and Significance of Management",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "principles-of-management",
+     "chapter_name": "Principles of Management",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "business-environment",
+     "chapter_name": "Business Environment",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "planning",
+     "chapter_name": "Planning",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "organising",
+     "chapter_name": "Organising",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "staffing",
+     "chapter_name": "Staffing",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "directing",
+     "chapter_name": "Directing",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "controlling",
+     "chapter_name": "Controlling",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "financial-management",
+     "chapter_name": "Financial Management",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "financial-markets",
+     "chapter_name": "Financial Markets",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "marketing-management",
+     "chapter_name": "Marketing Management",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "consumer-protection",
+     "chapter_name": "Consumer Protection",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Chemistry",
+   "grade": 12,
+   "syllabus_chapters": 10,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 10,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 10 chapters got topics; 10 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "solutions",
+     "chapter_name": "Solutions",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "electrochemistry",
+     "chapter_name": "Electrochemistry",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "chemical-kinetics",
+     "chapter_name": "Chemical Kinetics",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "d-and-f-block-elements",
+     "chapter_name": "d-and f-Block Elements",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "coordination-compounds",
+     "chapter_name": "Coordination Compounds",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "haloalkanes-and-haloarenes",
+     "chapter_name": "Haloalkanes and Haloarenes",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "alcohols-phenols-ethers",
+     "chapter_name": "Alcohols, Phenols and Ethers",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "aldehydes-ketones-carboxylic-acids",
+     "chapter_name": "Aldehydes, Ketones and Carboxylic Acids",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "amines",
+     "chapter_name": "Amines",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "biomolecules",
+     "chapter_name": "Biomolecules",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Economics",
+   "grade": 12,
+   "syllabus_chapters": 8,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 8,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 8 chapters got topics; 8 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "national-income-aggregates",
+     "chapter_name": "National Income and Related Aggregates",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "money-and-banking",
+     "chapter_name": "Money and Banking",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "determination-income-employment",
+     "chapter_name": "Determination of Income and Employment",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "government-budget-economy",
+     "chapter_name": "Government Budget and the Economy",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "balance-of-payments",
+     "chapter_name": "Balance of Payments",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "development-experience-1947-90",
+     "chapter_name": "Development Experience (1947-90) and Economic Reforms since 1991",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "current-challenges-indian-economy",
+     "chapter_name": "Current Challenges Facing Indian Economy",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "development-experience-comparative",
+     "chapter_name": "Development Experience of India – A Comparison with Neighbours",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "English",
+   "grade": 12,
+   "syllabus_chapters": 8,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 8,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 8 chapters got topics; 8 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "reading-comprehension",
+     "chapter_name": "Reading Comprehension Through Unseen Passages",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "notice-writing",
+     "chapter_name": "Notice Writing",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "invitation-and-reply",
+     "chapter_name": "Formal and Informal Invitations and Replies",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "letter-writing",
+     "chapter_name": "Letters: Application for Job and Letter to Editor",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "article-report-writing",
+     "chapter_name": "Article and Report Writing",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "flamingo-prose",
+     "chapter_name": "Flamingo (Prose)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "flamingo-poetry",
+     "chapter_name": "Flamingo (Poetry)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "vistas-supplementary",
+     "chapter_name": "Vistas (Supplementary Reader)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Geography",
+   "grade": 12,
+   "syllabus_chapters": 15,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 15,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 15 chapters got topics; 15 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "human-geography-nature-scope",
+     "chapter_name": "Human Geography: Nature and Scope",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "world-population-distribution-density",
+     "chapter_name": "The World Population: Distribution, Density and Growth",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "human-development",
+     "chapter_name": "Human Development",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "primary-activities",
+     "chapter_name": "Primary Activities",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "secondary-activities",
+     "chapter_name": "Secondary Activities",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "tertiary-quaternary-activities",
+     "chapter_name": "Tertiary and Quaternary Activities",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "transport-communication",
+     "chapter_name": "Transport and Communication",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "international-trade-geography",
+     "chapter_name": "International Trade",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "population-distribution-density-growth",
+     "chapter_name": "Population: Distribution, Density, Growth and Composition",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "human-settlements",
+     "chapter_name": "Human Settlements",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "land-resources-agriculture",
+     "chapter_name": "Land Resources and Agriculture",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "water-resources-india",
+     "chapter_name": "Water Resources",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "mineral-energy-resources-india",
+     "chapter_name": "Mineral and Energy Resources",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "planning-sustainable-development",
+     "chapter_name": "Planning and Sustainable Development in Indian Context",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "geographical-perspective-issues",
+     "chapter_name": "Geographical Perspective on Selected Issues and Problems",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Hindi",
+   "grade": 12,
+   "syllabus_chapters": 5,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 5,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 5 chapters got topics; 5 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "apthit-gadyansh-kavyansh",
+     "chapter_name": "Apthit Gadyansh va Kavyansh",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "abhivyakti-aur-madhyam",
+     "chapter_name": "Abhivyakti aur Madhyam",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "aroh-kavya-khand",
+     "chapter_name": "Aroh (Kavya Khand)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "aroh-gadya-khand",
+     "chapter_name": "Aroh (Gadya Khand)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "vitan",
+     "chapter_name": "Vitan",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "History",
+   "grade": 12,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 13,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 13 chapters got topics; 13 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "bricks-beads-bones",
+     "chapter_name": "Bricks, Beads and Bones (Harappan Civilisation)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "kings-farmers-towns",
+     "chapter_name": "Kings, Farmers and Towns (Early States and Economies)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "kinship-caste-class",
+     "chapter_name": "Kinship, Caste and Class (Early Societies)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "thinkers-beliefs-buildings",
+     "chapter_name": "Thinkers, Beliefs and Buildings (Cultural Developments)",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "eyes-of-travellers",
+     "chapter_name": "Through the Eyes of Travellers",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "bhakti-sufi-traditions",
+     "chapter_name": "Bhakti-Sufi Traditions",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "an-imperial-capital-vijayanagara",
+     "chapter_name": "An Imperial Capital: Vijayanagara",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "peasants-zamindars-state",
+     "chapter_name": "Peasants, Zamindars and the State",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "colonialism-countryside",
+     "chapter_name": "Colonialism and the Countryside",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "rebels-and-raj",
+     "chapter_name": "Rebels and the Raj",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "mahatma-gandhi-nationalist-movement",
+     "chapter_name": "Mahatma Gandhi and the Nationalist Movement",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "framing-constitution",
+     "chapter_name": "Framing the Constitution",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "map-work-history",
+     "chapter_name": "Map Work",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 12,
+   "syllabus_chapters": 13,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 13,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 13 chapters got topics; 13 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "relations-and-functions",
+     "chapter_name": "Relations and Functions",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "inverse-trigonometric-functions",
+     "chapter_name": "Inverse Trigonometric Functions",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "matrices",
+     "chapter_name": "Matrices",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "determinants",
+     "chapter_name": "Determinants",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "continuity-and-differentiability",
+     "chapter_name": "Continuity and Differentiability",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "applications-of-derivatives",
+     "chapter_name": "Applications of Derivatives",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "integrals",
+     "chapter_name": "Integrals",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "applications-of-integrals",
+     "chapter_name": "Applications of the Integrals",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "differential-equations",
+     "chapter_name": "Differential Equations",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "vectors",
+     "chapter_name": "Vectors",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "three-dimensional-geometry",
+     "chapter_name": "Three-Dimensional Geometry",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "linear-programming",
+     "chapter_name": "Linear Programming",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "probability",
+     "chapter_name": "Probability",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Physics",
+   "grade": 12,
+   "syllabus_chapters": 14,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 14,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 14 chapters got topics; 14 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "electric-charges-fields",
+     "chapter_name": "Electric Charges and Fields",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "electrostatic-potential-capacitance",
+     "chapter_name": "Electrostatic Potential and Capacitance",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "current-electricity",
+     "chapter_name": "Current Electricity",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "moving-charges-magnetism",
+     "chapter_name": "Moving Charges and Magnetism",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "magnetism-matter",
+     "chapter_name": "Magnetism and Matter",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "electromagnetic-induction",
+     "chapter_name": "Electromagnetic Induction",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "alternating-current",
+     "chapter_name": "Alternating Current",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "electromagnetic-waves",
+     "chapter_name": "Electromagnetic Waves",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "ray-optics",
+     "chapter_name": "Ray Optics and Optical Instruments",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "wave-optics",
+     "chapter_name": "Wave Optics",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "dual-nature-radiation",
+     "chapter_name": "Dual Nature of Radiation and Matter",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "atoms",
+     "chapter_name": "Atoms",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "nuclei",
+     "chapter_name": "Nuclei",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "semiconductor-electronics",
+     "chapter_name": "Semiconductor Electronics: Materials, Devices and Simple Circuits",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  },
+  {
+   "subject": "Political Science",
+   "grade": 12,
+   "syllabus_chapters": 14,
+   "chapters_with_topics": 0,
+   "chapters_without_topics": 14,
+   "topics": 0,
+   "subtopics": 0,
+   "from_approved_decomposition": 0,
+   "from_textbook_headings": 0,
+   "why_uncovered": "none of the 14 chapters got topics; 14 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "uncovered": [
+    {
+     "chapter_slug": "end-of-bipolarity",
+     "chapter_name": "The End of Bipolarity",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "contemporary-centres-power",
+     "chapter_name": "Contemporary Centres of Power",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "contemporary-south-asia",
+     "chapter_name": "Contemporary South Asia",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "international-organisations",
+     "chapter_name": "International Organisations",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "security-contemporary-world",
+     "chapter_name": "Security in the Contemporary World",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "environment-natural-resources",
+     "chapter_name": "Environment and Natural Resources",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "globalisation-political",
+     "chapter_name": "Globalisation",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "challenges-nation-building",
+     "chapter_name": "Challenges of Nation-Building",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "era-one-party-dominance",
+     "chapter_name": "Era of One-Party Dominance and Planned Development",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "indias-external-relations",
+     "chapter_name": "India's External Relations",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "challenges-restoration-congress",
+     "chapter_name": "Challenges to and Restoration of the Congress System",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "crisis-democratic-order",
+     "chapter_name": "The Crisis of Democratic Order",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "regional-aspirations",
+     "chapter_name": "Regional Aspirations",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    },
+    {
+     "chapter_slug": "recent-developments-indian-politics",
+     "chapter_name": "Recent Developments in Indian Politics",
+     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+    }
+   ]
+  }
+ ]
+}

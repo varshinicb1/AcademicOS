@@ -39,6 +39,37 @@
         "title": "AcademicYearResponse",
         "type": "object"
       },
+      "AddBookRequest": {
+        "properties": {
+          "boardId": {
+            "minLength": 1,
+            "title": "Boardid",
+            "type": "string"
+          },
+          "publisher": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Publisher"
+          },
+          "title": {
+            "minLength": 1,
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "boardId"
+        ],
+        "title": "AddBookRequest",
+        "type": "object"
+      },
       "AddHolidayRequest": {
         "properties": {
           "date": {
@@ -328,6 +359,51 @@
           "totalMarks"
         ],
         "title": "AnswerSchemeSchema",
+        "type": "object"
+      },
+      "ApproveChapterTopicsResponse": {
+        "description": "Result of \"Approve all for this chapter\" -- possibly several runs, since\na chapter can carry one template run per provenance.",
+        "properties": {
+          "chapterId": {
+            "title": "Chapterid",
+            "type": "string"
+          },
+          "runsApproved": {
+            "title": "Runsapproved",
+            "type": "integer"
+          },
+          "subtopicIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Subtopicids",
+            "type": "array"
+          },
+          "subtopicsCreated": {
+            "title": "Subtopicscreated",
+            "type": "integer"
+          },
+          "topicIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Topicids",
+            "type": "array"
+          },
+          "topicsCreated": {
+            "title": "Topicscreated",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "chapterId",
+          "runsApproved",
+          "topicsCreated",
+          "subtopicsCreated",
+          "topicIds",
+          "subtopicIds"
+        ],
+        "title": "ApproveChapterTopicsResponse",
         "type": "object"
       },
       "ApproveRunRequest": {
@@ -941,6 +1017,11 @@
               }
             ],
             "title": "Publisher"
+          },
+          "selected": {
+            "default": false,
+            "title": "Selected",
+            "type": "boolean"
           },
           "status": {
             "title": "Status",
@@ -1809,6 +1890,16 @@
       },
       "DelayedLessonResponse": {
         "properties": {
+          "bookId": {
+            "default": "",
+            "title": "Bookid",
+            "type": "string"
+          },
+          "bookTitle": {
+            "default": "",
+            "title": "Booktitle",
+            "type": "string"
+          },
           "chapterName": {
             "title": "Chaptername",
             "type": "string"
@@ -1820,6 +1911,11 @@
           "gradeNumber": {
             "title": "Gradenumber",
             "type": "integer"
+          },
+          "isChosenEdition": {
+            "default": true,
+            "title": "Ischosenedition",
+            "type": "boolean"
           },
           "lessonId": {
             "title": "Lessonid",
@@ -3311,6 +3407,35 @@
           "node_id"
         ],
         "title": "NodeQuery",
+        "type": "object"
+      },
+      "OtherEditionResponse": {
+        "description": "A book of the subject that is not its edition, with what still\npoints at it: this year's scheduled lessons and teacher assignments.",
+        "properties": {
+          "bookId": {
+            "title": "Bookid",
+            "type": "string"
+          },
+          "scheduledLessons": {
+            "default": 0,
+            "title": "Scheduledlessons",
+            "type": "integer"
+          },
+          "teacherAssignments": {
+            "default": 0,
+            "title": "Teacherassignments",
+            "type": "integer"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "bookId",
+          "title"
+        ],
+        "title": "OtherEditionResponse",
         "type": "object"
       },
       "PaperEditResponse": {
@@ -6610,6 +6735,7 @@
         "type": "object"
       },
       "SeedCbse10Response": {
+        "description": "Also the response of the any-grade route. The topic-template fields were\nadded 2026-09-22 (new fields only -- an older client keeps working): a seed\nthat stops at chapters and a seed that reached Topic/Subtopic used to be\nindistinguishable in this body, and on a fresh school it was always the\nformer.",
         "properties": {
           "academicYearId": {
             "title": "Academicyearid",
@@ -6621,6 +6747,20 @@
           },
           "chaptersSeeded": {
             "title": "Chaptersseeded",
+            "type": "integer"
+          },
+          "chaptersWithTopics": {
+            "default": 0,
+            "title": "Chapterswithtopics",
+            "type": "integer"
+          },
+          "chaptersWithoutTopics": {
+            "default": 0,
+            "title": "Chapterswithouttopics",
+            "type": "integer"
+          },
+          "grade": {
+            "title": "Grade",
             "type": "integer"
           },
           "gradeId": {
@@ -6638,6 +6778,23 @@
             "title": "Subjectsskipped",
             "type": "array"
           },
+          "subtopicsProposed": {
+            "default": 0,
+            "title": "Subtopicsproposed",
+            "type": "integer"
+          },
+          "topicTemplates": {
+            "items": {
+              "$ref": "#/components/schemas/SubjectTemplateReportResponse"
+            },
+            "title": "Topictemplates",
+            "type": "array"
+          },
+          "topicsProposed": {
+            "default": 0,
+            "title": "Topicsproposed",
+            "type": "integer"
+          },
           "unitsSeeded": {
             "title": "Unitsseeded",
             "type": "integer"
@@ -6647,12 +6804,116 @@
           "boardId",
           "academicYearId",
           "gradeId",
+          "grade",
           "subjectsSeeded",
           "unitsSeeded",
           "chaptersSeeded",
           "subjectsSkipped"
         ],
         "title": "SeedCbse10Response",
+        "type": "object"
+      },
+      "SeedGradeRequest": {
+        "description": "PRD section 0 decision 4 is all grades 6-12. The bound is pydantic's so\nthe answer to grade 5 or 13 is a 422 naming the range, before any row is\ncreated -- there is no syllabus data outside it (seed_cbse10.MIN_GRADE /\nMAX_GRADE, which raises the same bound for the CLI and library callers).",
+        "properties": {
+          "academicYearLabel": {
+            "minLength": 1,
+            "title": "Academicyearlabel",
+            "type": "string"
+          },
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "grade": {
+            "maximum": 12.0,
+            "minimum": 6.0,
+            "title": "Grade",
+            "type": "integer"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          }
+        },
+        "required": [
+          "academicYearLabel",
+          "startDate",
+          "endDate",
+          "grade"
+        ],
+        "title": "SeedGradeRequest",
+        "type": "object"
+      },
+      "SelectBookRequest": {
+        "properties": {
+          "bookId": {
+            "minLength": 1,
+            "title": "Bookid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "bookId"
+        ],
+        "title": "SelectBookRequest",
+        "type": "object"
+      },
+      "SelectBookResponse": {
+        "properties": {
+          "book": {
+            "$ref": "#/components/schemas/BookResponse"
+          },
+          "otherEditions": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/OtherEditionResponse"
+            },
+            "title": "Othereditions",
+            "type": "array"
+          },
+          "otherEditionsScheduledLessons": {
+            "default": 0,
+            "title": "Othereditionsscheduledlessons",
+            "type": "integer"
+          },
+          "otherEditionsTeacherAssignments": {
+            "default": 0,
+            "title": "Othereditionsteacherassignments",
+            "type": "integer"
+          },
+          "previousBookId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Previousbookid"
+          },
+          "previousBookScheduledLessons": {
+            "default": 0,
+            "title": "Previousbookscheduledlessons",
+            "type": "integer"
+          },
+          "warning": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Warning"
+          }
+        },
+        "required": [
+          "book"
+        ],
+        "title": "SelectBookResponse",
         "type": "object"
       },
       "SendPaperRequest": {
@@ -7309,6 +7570,64 @@
         "title": "SubjectRollupResponse",
         "type": "object"
       },
+      "SubjectTemplateReportResponse": {
+        "description": "How far below chapter level the seed got for one subject, and why it\nstopped where it did. `note` is the honest half: \"Class 7 Science is\nchapter-only because the only textbook tree is the 2024-25 NEP edition and\nthe syllabus JSON still lists the previous edition's chapter names\".",
+        "properties": {
+          "chapters": {
+            "title": "Chapters",
+            "type": "integer"
+          },
+          "chaptersWithTopics": {
+            "title": "Chapterswithtopics",
+            "type": "integer"
+          },
+          "chaptersWithoutTopics": {
+            "title": "Chapterswithouttopics",
+            "type": "integer"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "provenance": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Provenance",
+            "type": "array"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          },
+          "subtopicsProposed": {
+            "title": "Subtopicsproposed",
+            "type": "integer"
+          },
+          "topicsProposed": {
+            "title": "Topicsproposed",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "subject",
+          "chapters",
+          "chaptersWithTopics",
+          "chaptersWithoutTopics",
+          "topicsProposed",
+          "subtopicsProposed",
+          "provenance"
+        ],
+        "title": "SubjectTemplateReportResponse",
+        "type": "object"
+      },
       "SubtopicResponse": {
         "properties": {
           "approvedAt": {
@@ -7396,6 +7715,17 @@
           "sourceType": {
             "title": "Sourcetype",
             "type": "string"
+          },
+          "taggedQuestionCount": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Taggedquestioncount"
           },
           "topicId": {
             "title": "Topicid",
@@ -7948,6 +8278,69 @@
         "title": "TemplateSection",
         "type": "object"
       },
+      "TermRequest": {
+        "description": "Create and update take the whole term: a term is three fields, and a\nfull replace keeps the overlap check about one complete range.",
+        "properties": {
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "name": {
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "startDate",
+          "endDate"
+        ],
+        "title": "TermRequest",
+        "type": "object"
+      },
+      "TermResponse": {
+        "properties": {
+          "academicYearId": {
+            "title": "Academicyearid",
+            "type": "string"
+          },
+          "endDate": {
+            "title": "Enddate",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "schoolId": {
+            "title": "Schoolid",
+            "type": "string"
+          },
+          "startDate": {
+            "title": "Startdate",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "schoolId",
+          "academicYearId",
+          "name",
+          "startDate",
+          "endDate"
+        ],
+        "title": "TermResponse",
+        "type": "object"
+      },
       "TimetableResponse": {
         "properties": {
           "allocations": {
@@ -8320,6 +8713,16 @@
       "UnscheduledLessonResponse": {
         "description": "A lesson a PUSH found no period for before the year ends. It has no\nday, so no days-overdue figure; lastPlannedDate is the day it held\nbefore it was dropped.",
         "properties": {
+          "bookId": {
+            "default": "",
+            "title": "Bookid",
+            "type": "string"
+          },
+          "bookTitle": {
+            "default": "",
+            "title": "Booktitle",
+            "type": "string"
+          },
           "chapterName": {
             "title": "Chaptername",
             "type": "string"
@@ -8327,6 +8730,11 @@
           "gradeNumber": {
             "title": "Gradenumber",
             "type": "integer"
+          },
+          "isChosenEdition": {
+            "default": true,
+            "title": "Ischosenedition",
+            "type": "boolean"
           },
           "lastPlannedDate": {
             "title": "Lastplanneddate",
@@ -10152,6 +10560,106 @@
         "summary": "Set Subject Period Allocation"
       }
     },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/terms": {
+      "get": {
+        "operationId": "list_terms_api_v1_curriculum_academic_years__academic_year_id__terms_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TermResponse"
+                  },
+                  "title": "Response List Terms Api V1 Curriculum Academic Years  Academic Year Id  Terms Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Terms"
+      },
+      "post": {
+        "operationId": "create_term_api_v1_curriculum_academic_years__academic_year_id__terms_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TermRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Term"
+      }
+    },
     "/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots": {
       "get": {
         "operationId": "list_timetable_slots_api_v1_curriculum_academic_years__academic_year_id__timetable_slots_get",
@@ -10733,6 +11241,73 @@
         "summary": "List Units"
       }
     },
+    "/api/v1/curriculum/chapters/by-slug/{subject}/{grade}/{slug}/topics": {
+      "get": {
+        "description": "The same approved Topics/Subtopics, reached by the SYLLABUS chapter\nslug the Assessment Designer actually holds.\n\nThree id spaces name one Class 10 Science chapter, and nothing joined\nthem until 2026-09-23:\n\n* `chemical-reactions-equations` -- the syllabus id from\n  academicos-data/syllabus/Science_10.json, which\n  `GET /api/v1/catalog/{subject}/{grade}/chapters` returns and\n  assessment_create_page.dart stores as its chapter id;\n* `chap_<uuid>` -- this school's own Chapter row, what the route above\n  takes;\n* `science-10/chemical-reactions-and-equations` -- the question bank's\n  board-level `taxonomyChapterId`, with `topicIds`/`subtopicIds` under\n  it, which no route accepts as input.\n\nThe picker sent the first to the route that wants the second. Before\nTask 101 that answered `200 []`, after it 404; either way the page\ncaught it and showed an empty picker, so PRD section 21's subtopic\nfilter had never once found a subtopic.\n\nThis joins on the STORED mapping: seed_cbse10.py writes each chapter's\ncanonical_id as `{book_id}:chapter:{syllabus slug}`, so the catalog's\nslug is recorded on the school's own row at seed time -- a rename\ncannot break it, and no title matching is guessed at read time. The\nbank's taxonomy ids are deliberately NOT the join: they are\nschool-independent, so they could not resolve to a school's approved\nsubtopics at all, and only 109 of the 476 Class 10 Science questions in\nthe live bank carry any `subtopicIds` (measured 2026-09-23).\n\nResolved inside the caller's own school and its chosen edition only, so\nthe same official slug gives each school its own rows. A class the\nschool has not set up is a 404 whose message says what to do, never an\nempty list that looks like \"no subtopics exist\".",
+        "operationId": "list_topics_for_syllabus_chapter_api_v1_curriculum_chapters_by_slug__subject___grade___slug__topics_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subject",
+            "required": true,
+            "schema": {
+              "title": "Subject",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "grade",
+            "required": true,
+            "schema": {
+              "title": "Grade",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "slug",
+            "required": true,
+            "schema": {
+              "title": "Slug",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TopicWithSubtopicsResponse"
+                  },
+                  "title": "Response List Topics For Syllabus Chapter Api V1 Curriculum Chapters By Slug  Subject   Grade   Slug  Topics Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Topics For Syllabus Chapter"
+      }
+    },
     "/api/v1/curriculum/chapters/{chapter_id}/extract": {
       "post": {
         "description": "Proposes a Topic/Subtopic breakdown for a chapter -- a draft only,\nsee extraction.py. Uses the real configured Sarvam LLM when a key\nexists; honestly reports status=\"manual_required\" (zero proposals)\notherwise rather than fabricating a breakdown offline.",
@@ -10786,6 +11361,55 @@
           }
         ],
         "summary": "Extract Chapter"
+      }
+    },
+    "/api/v1/curriculum/chapters/{chapter_id}/proposed-topics": {
+      "get": {
+        "description": "Every still-unapproved decomposition proposal for one chapter, so the web\nadmin can show \"3 topics proposed from the NCERT headings -- approve?\" next\nto a chapter instead of the principal having to already know a run id.\nRead-only, and school-scoped like every other chapter read here.",
+        "operationId": "list_proposed_topics_api_v1_curriculum_chapters__chapter_id__proposed_topics_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chapter_id",
+            "required": true,
+            "schema": {
+              "title": "Chapter Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ExtractionRunWithProposalsResponse"
+                  },
+                  "title": "Response List Proposed Topics Api V1 Curriculum Chapters  Chapter Id  Proposed Topics Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Proposed Topics"
       }
     },
     "/api/v1/curriculum/chapters/{chapter_id}/questions/tag": {
@@ -10899,7 +11523,7 @@
     },
     "/api/v1/curriculum/chapters/{chapter_id}/topics": {
       "get": {
-        "description": "The real, approved curriculum for a chapter -- what the question-\npaper subtopic picker (§ end-to-end acceptance criteria) reads.",
+        "description": "The real, approved curriculum for a chapter -- what the question-\npaper subtopic picker (§ end-to-end acceptance criteria) reads.\n\nKeyed by the school's own `chap_` id, which only a curriculum screen\nhas. The picker in assessment_create_page.dart holds a SYLLABUS slug\ninstead and uses by-slug/... below.",
         "operationId": "list_topics_api_v1_curriculum_chapters__chapter_id__topics_get",
         "parameters": [
           {
@@ -10997,6 +11621,51 @@
           }
         ],
         "summary": "Add Manual Topic"
+      }
+    },
+    "/api/v1/curriculum/chapters/{chapter_id}/topics/approve-all": {
+      "post": {
+        "description": "\"Approve all for this chapter\": materializes the chapter's pending\nTEMPLATE proposals in one action. A fresh Class 10 seed proposes topics for\n46 chapters; approving those one proposal at a time is the difference\nbetween a school finishing setup and giving up on it.\n\nTemplate runs only -- an LLM run's proposals are a draft nobody has read and\nstill go through POST /extraction-runs/{id}/approve, which is where an admin\nedits and rejects individually. Re-running is safe: a run already approved\nis not approved again, so nothing is duplicated.",
+        "operationId": "approve_chapter_templates_api_v1_curriculum_chapters__chapter_id__topics_approve_all_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chapter_id",
+            "required": true,
+            "schema": {
+              "title": "Chapter Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApproveChapterTopicsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Approve Chapter Templates"
       }
     },
     "/api/v1/curriculum/export": {
@@ -11716,6 +12385,50 @@
         "summary": "Adjust Lesson"
       }
     },
+    "/api/v1/curriculum/seed/cbse": {
+      "post": {
+        "description": "Seeds any grade 6-12 for the caller's own school -- PRD section 0\ndecision 4 (\"all grades 6-12, all subjects\"), which until 2026-09-22 the\nproduct could not reach: `seed_cbse_all_grades` existed in seed_cbse10.py\nwired to no route and no CLI command, and `POST /seed/cbse9` was a 404 even\nthough academicos-data/syllabus/ has held every grade's file all along.\n\nSame posture as /seed/cbse10, which now delegates here: principal-gated,\nschool_id taken from the session and never from the body, idempotent on a\nre-run. A subject with no syllabus file for the grade is reported in\n`subjectsSkipped` rather than quietly dropped.\n\nAlso applies the committed decomposition templates\n(decomposition_templates.py) to the chapters it creates, as proposals\nPENDING this principal's approval -- so a new school can reach Topic and\nSubtopic without an LLM key, without anything being approved on its behalf.\n`topicTemplates` reports per subject what got topics and what did not.",
+        "operationId": "seed_cbse_any_grade_api_v1_curriculum_seed_cbse_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SeedGradeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SeedCbse10Response"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Seed Cbse Any Grade"
+      }
+    },
     "/api/v1/curriculum/seed/cbse10": {
       "post": {
         "description": "Seeds the real, official CBSE Class X curriculum\n(syllabus/cbse_syllabus.py) as this school's first academic year ->\ngrade 10 -> subjects -> books -> units -> chapters. Idempotent --\nre-running for the same school/year reuses what's already there\nrather than duplicating it (see seed_cbse10.py's module docstring).\n\nPrincipal-gated, and school_id is the caller's own -- never taken from\nthe request body -- matching the school-scoping pattern already used\nby routes.approve_assessment and this session's pillar_routes.py\nauthorization fixes: this is an administrative curriculum-configuration\naction (§29), not something any caller should be able to trigger for\nan arbitrary school_id string.",
@@ -11850,6 +12563,157 @@
           }
         ],
         "summary": "List Books"
+      },
+      "post": {
+        "description": "Adds an edition the school may choose. Adding is not choosing: the\nsubject keeps its current edition until PUT .../selected-book.",
+        "operationId": "add_book_api_v1_curriculum_subjects__subject_id__books_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subject_id",
+            "required": true,
+            "schema": {
+              "title": "Subject Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddBookRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Add Book"
+      }
+    },
+    "/api/v1/curriculum/subjects/{subject_id}/selected-book": {
+      "get": {
+        "description": "The subject's edition for its year: the book every screen schedules,\nassigns and reorders against, instead of whichever book came first.",
+        "operationId": "get_selected_book_api_v1_curriculum_subjects__subject_id__selected_book_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subject_id",
+            "required": true,
+            "schema": {
+              "title": "Subject Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BookResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Get Selected Book"
+      },
+      "put": {
+        "description": "Chooses the subject's edition for its year, replacing any earlier\nchoice. Lessons already scheduled from any other edition are not\nre-pointed (they were placed from its chapters) and not removed --\nscheduling the new book does not remove them either (it replaces only\nthat book's own lessons) -- and teachers assigned to another edition\nstay on it; so the response counts both, per book, and says so.",
+        "operationId": "select_book_api_v1_curriculum_subjects__subject_id__selected_book_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subject_id",
+            "required": true,
+            "schema": {
+              "title": "Subject Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SelectBookRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelectBookResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Select Book"
       }
     },
     "/api/v1/curriculum/subtopics/{subtopic_id}": {
@@ -12117,6 +12981,156 @@
           }
         ],
         "summary": "Assign Teacher"
+      }
+    },
+    "/api/v1/curriculum/terms/current": {
+      "get": {
+        "description": "The caller's school's term containing `date` (default: the school's\ntoday, IST). 404 when no term covers it -- never the nearest term,\nbecause a coverage or time-saved figure for the wrong term is worse than\nan honest \"no term declared for this date\".",
+        "operationId": "current_term_api_v1_curriculum_terms_current_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "date",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Date"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Current Term"
+      }
+    },
+    "/api/v1/curriculum/terms/{term_id}": {
+      "delete": {
+        "operationId": "delete_term_api_v1_curriculum_terms__term_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "term_id",
+            "required": true,
+            "schema": {
+              "title": "Term Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Term Api V1 Curriculum Terms  Term Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Term"
+      },
+      "put": {
+        "operationId": "update_term_api_v1_curriculum_terms__term_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "term_id",
+            "required": true,
+            "schema": {
+              "title": "Term Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TermRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Update Term"
       }
     },
     "/api/v1/curriculum/timetable-slots/{slot_id}": {

@@ -1,0 +1,429 @@
+{
+ "subject": "Science",
+ "grade": 6,
+ "chapters": [
+  {
+   "chapter_slug": "diversity-in-the-living-world",
+   "chapter_name": "Diversity in the Living World",
+   "source_file": "science/class6_curiosity.pdf",
+   "topics": [
+    {
+     "name": "Diversity in Plants and Animals Around Us",
+     "heading_number": "2.1",
+     "subtopics": []
+    },
+    {
+     "name": "How to Group Plants and Animals?",
+     "heading_number": "2.2",
+     "subtopics": [
+      {
+       "name": "How to group plants?",
+       "heading_number": "2.2.1"
+      },
+      {
+       "name": "How to group animals?",
+       "heading_number": "2.2.2"
+      }
+     ]
+    },
+    {
+     "name": "Plants and Animals in Different Surroundings",
+     "heading_number": "2.3",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "mindful-eating",
+   "chapter_name": "Mindful Eating: A Path to a Healthy Body",
+   "source_file": "science/class6_curiosity.pdf",
+   "topics": [
+    {
+     "name": "What Do We Eat?",
+     "heading_number": "3.1",
+     "subtopics": [
+      {
+       "name": "Food in different regions",
+       "heading_number": "3.1.1"
+      },
+      {
+       "name": "How have cooking practices changed over time?",
+       "heading_number": "3.1.2"
+      }
+     ]
+    },
+    {
+     "name": "What are the Components of Food?",
+     "heading_number": "3.2",
+     "subtopics": []
+    },
+    {
+     "name": "How to Test Different Components of Food?",
+     "heading_number": "3.3",
+     "subtopics": [
+      {
+       "name": "Test for starch",
+       "heading_number": "3.3.1"
+      },
+      {
+       "name": "Test for fats",
+       "heading_number": "3.3.2"
+      },
+      {
+       "name": "Test for proteins",
+       "heading_number": "3.3.3"
+      }
+     ]
+    },
+    {
+     "name": "Balanced Diet",
+     "heading_number": "3.4",
+     "subtopics": []
+    },
+    {
+     "name": "Millets: Nutrition-rich Cereals",
+     "heading_number": "3.5",
+     "subtopics": []
+    },
+    {
+     "name": "Food Miles: From Farm to Our Plate",
+     "heading_number": "3.6",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "exploring-magnets",
+   "chapter_name": "Exploring Magnets",
+   "source_file": "science/class6_curiosity.pdf",
+   "topics": [
+    {
+     "name": "Magnetic and Non-magnetic Materials",
+     "heading_number": "4.1",
+     "subtopics": []
+    },
+    {
+     "name": "Poles of Magnet",
+     "heading_number": "4.2",
+     "subtopics": []
+    },
+    {
+     "name": "Finding Directions",
+     "heading_number": "4.3",
+     "subtopics": []
+    },
+    {
+     "name": "Attraction and Repulsion between Magnets",
+     "heading_number": "4.4",
+     "subtopics": []
+    },
+    {
+     "name": "Fun with Magnets",
+     "heading_number": "4.5",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "measurement-of-length-and-motion",
+   "chapter_name": "Measurement of Length and Motion",
+   "source_file": "science/class6_curiosity.pdf",
+   "topics": [
+    {
+     "name": "How do we Measure?",
+     "heading_number": "5.1",
+     "subtopics": []
+    },
+    {
+     "name": "Standard Units",
+     "heading_number": "5.2",
+     "subtopics": []
+    },
+    {
+     "name": "Correct Way of Measuring Length",
+     "heading_number": "5.3",
+     "subtopics": []
+    },
+    {
+     "name": "Measuring the length of a curved line",
+     "heading_number": "5.4",
+     "subtopics": []
+    },
+    {
+     "name": "Describing Position",
+     "heading_number": "5.5",
+     "subtopics": []
+    },
+    {
+     "name": "Moving Things",
+     "heading_number": "5.6",
+     "subtopics": []
+    },
+    {
+     "name": "Types of Motion",
+     "heading_number": "5.7",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "materials-around-us",
+   "chapter_name": "Materials Around Us",
+   "source_file": "science/class6_curiosity.pdf",
+   "topics": [
+    {
+     "name": "Observing Objects Around Us",
+     "heading_number": "6.1",
+     "subtopics": []
+    },
+    {
+     "name": "How to Group Materials?",
+     "heading_number": "6.2",
+     "subtopics": []
+    },
+    {
+     "name": "What are the different Properties of Materials?",
+     "heading_number": "6.3",
+     "subtopics": [
+      {
+       "name": "Observe and identify appearance of materials",
+       "heading_number": "6.3.1"
+      },
+      {
+       "name": "Which materials are hard?",
+       "heading_number": "6.3.2"
+      },
+      {
+       "name": "Explore materials through which one can see or cannot see",
+       "heading_number": "6.3.3"
+      },
+      {
+       "name": "What is soluble in water; what is not?",
+       "heading_number": "6.3.4"
+      },
+      {
+       "name": "How heavy or light?",
+       "heading_number": "6.3.5"
+      },
+      {
+       "name": "Space and volume",
+       "heading_number": "6.3.6"
+      }
+     ]
+    },
+    {
+     "name": "What is Matter?",
+     "heading_number": "6.4",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "temperature-and-its-measurement",
+   "chapter_name": "Temperature and its Measurement",
+   "source_file": "science/class6_curiosity.pdf",
+   "topics": [
+    {
+     "name": "Hot or Cold?",
+     "heading_number": "7.1",
+     "subtopics": []
+    },
+    {
+     "name": "Temperature",
+     "heading_number": "7.2",
+     "subtopics": []
+    },
+    {
+     "name": "Measuring Temperature",
+     "heading_number": "7.3",
+     "subtopics": [
+      {
+       "name": "Clinical thermometer",
+       "heading_number": "7.3.1"
+      },
+      {
+       "name": "Laboratory thermometer",
+       "heading_number": "7.3.2"
+      },
+      {
+       "name": "Air temperature",
+       "heading_number": "7.3.3"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "a-journey-through-states-of-water",
+   "chapter_name": "A Journey through States of Water",
+   "source_file": "science/class6_curiosity.pdf",
+   "topics": [
+    {
+     "name": "Investigating Water’s Disappearing Act",
+     "heading_number": "8.1",
+     "subtopics": []
+    },
+    {
+     "name": "Another Mystery",
+     "heading_number": "8.2",
+     "subtopics": []
+    },
+    {
+     "name": "What are the different States of Water?",
+     "heading_number": "8.3",
+     "subtopics": []
+    },
+    {
+     "name": "How can we change the States of Water?",
+     "heading_number": "8.4",
+     "subtopics": []
+    },
+    {
+     "name": "How can Water be Evaporated Faster or Slower?",
+     "heading_number": "8.5",
+     "subtopics": []
+    },
+    {
+     "name": "Cooling Effect",
+     "heading_number": "8.6",
+     "subtopics": []
+    },
+    {
+     "name": "How do Clouds give us Rain?",
+     "heading_number": "8.7",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "living-creatures-exploring-their-characteristics",
+   "chapter_name": "Living Creatures: Exploring their Characteristics",
+   "source_file": "science/class6_curiosity.pdf",
+   "topics": [
+    {
+     "name": "What Sets the Living Apart from the Non-living?",
+     "heading_number": "10.1",
+     "subtopics": []
+    },
+    {
+     "name": "Essential Conditions for Germination of a Seed",
+     "heading_number": "10.2",
+     "subtopics": []
+    },
+    {
+     "name": "Growth and Movement in Plants",
+     "heading_number": "10.3",
+     "subtopics": []
+    },
+    {
+     "name": "Life Cycle of a Plant",
+     "heading_number": "10.4",
+     "subtopics": []
+    },
+    {
+     "name": "Life Cycle of Animals",
+     "heading_number": "10.5",
+     "subtopics": [
+      {
+       "name": "Life cycle of a mosquito",
+       "heading_number": "10.5.1"
+      },
+      {
+       "name": "Life cycle of a frog",
+       "heading_number": "10.5.2"
+      }
+     ]
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "natures-treasures",
+   "chapter_name": "Nature’s Treasures",
+   "source_file": "science/class6_curiosity.pdf",
+   "topics": [
+    {
+     "name": "Air",
+     "heading_number": "11.1",
+     "subtopics": []
+    },
+    {
+     "name": "Water",
+     "heading_number": "11.2",
+     "subtopics": []
+    },
+    {
+     "name": "Energy from the Sun",
+     "heading_number": "11.3",
+     "subtopics": []
+    },
+    {
+     "name": "Forests",
+     "heading_number": "11.4",
+     "subtopics": []
+    },
+    {
+     "name": "Soil, Rocks and Minerals",
+     "heading_number": "11.5",
+     "subtopics": []
+    },
+    {
+     "name": "Fossil Fuels",
+     "heading_number": "11.6",
+     "subtopics": []
+    },
+    {
+     "name": "Natural Resources: renewable and non-renewable",
+     "heading_number": "11.7",
+     "subtopics": []
+    },
+    {
+     "name": "Resources we use",
+     "heading_number": "11.8",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  },
+  {
+   "chapter_slug": "beyond-earth",
+   "chapter_name": "Beyond Earth",
+   "source_file": "science/class6_curiosity.pdf",
+   "topics": [
+    {
+     "name": "Stars and Constellations",
+     "heading_number": "12.1",
+     "subtopics": []
+    },
+    {
+     "name": "Night Sky Watching",
+     "heading_number": "12.2",
+     "subtopics": []
+    },
+    {
+     "name": "Our Solar System",
+     "heading_number": "12.3",
+     "subtopics": []
+    },
+    {
+     "name": "The Milky Way Galaxy",
+     "heading_number": "12.4",
+     "subtopics": []
+    },
+    {
+     "name": "The Universe",
+     "heading_number": "12.5",
+     "subtopics": []
+    }
+   ],
+   "provenance": "template:ncert-textbook-headings"
+  }
+ ]
+}
