@@ -1,0 +1,90 @@
+# Deploying the web release by hand
+
+Normally a push to `master` deploys through `.github/workflows/deploy-gcp.yml`.
+**GitHub Actions minutes are exhausted until 2026-10-01**, so every run fails at
+runner start and nothing deploys. The user authorised deploying from the
+development machine on 2026-09-23. Delete this paragraph once CI runs again, and
+go back to letting CI deploy.
+
+CI is the gate normally. By hand, **you** are the gate: run both suites, and
+verify the live commit afterwards. Do not skip the verification — `/health` alone
+cannot see a stale web bundle, and this project has shipped one before.
+
+Everything runs from the `AcademicOS-release` worktree (branch `release/v1`).
+Nothing here needs a secret on your machine: the secrets are bound from Secret
+Manager by name. Never paste a key into a command, a file or a commit.
+
+## 1. Gate
+
+    PYTHONPATH=$PWD/src PYTHONIOENCODING=utf-8 D:/AcademicOS-venv/Scripts/python.exe -m pytest tests -q -p no:cacheprovider
+    cd frontend && flutter analyze --no-fatal-infos && flutter test --exclude-tags live-backend -j 1
+
+Last green at `5375af1` (2026-09-24): 3,589 passed / 113 skipped / 8 xfailed;
+373 Flutter tests passed; analyzer at 7 info-level notes. A number lower than
+that is a regression until you can say which tests went and why.
+
+If nothing under `frontend/` changed since the live commit
+(`git diff --name-only <live-sha> HEAD -- frontend` is empty), the web bundle
+does not need rebuilding: deploy the backend only and skip steps 4-5.
+
+## 2. Backend image (Cloud Build)
+
+    SHA=$(git rev-parse HEAD)
+    gcloud builds submit --project vidyuthlabs --config deploy/gcp/cloudbuild.yaml \
+      --substitutions=_IMAGE="asia-south1-docker.pkg.dev/vidyuthlabs/academicos/backend",_COMMIT_SHA=$SHA,_BUILT_AT="$(date -u +%Y-%m-%dT%H:%M:%SZ)" .
+
+## 3. Cloud Run
+
+    SECRETS="ACOS_PRINCIPAL_BOOTSTRAP_KEY=principal-bootstrap-key:latest,ACOS_POSTGRES_PASSWORD=postgres-password:latest,ACOS_LLM_API_KEY=acos-llm-api-key:latest,SARVAM_API_KEY=acos-llm-api-key:latest"
+    ENV_VARS="ACOS_ENV=production@ACOS_POSTGRES_HOST=/cloudsql/vidyuthlabs:asia-south1:academicos-pg@ACOS_POSTGRES_DB=academicos@ACOS_POSTGRES_USER=academicos@ACOS_GCS_BUCKET=vidyuthlabs-academicos-media@ACOS_CORS_ORIGINS=https://vidyuthlabs.web.app,https://vidyuthlabs.firebaseapp.com@ACOS_LLM_BASE_URL=https://api.sarvam.ai"
+    gcloud run deploy academicos-backend --project vidyuthlabs --region asia-south1 \
+      --image "asia-south1-docker.pkg.dev/vidyuthlabs/academicos/backend:$SHA" \
+      --platform=managed --allow-unauthenticated --port=8080 --cpu=1 --memory=1Gi \
+      --concurrency=40 --timeout=300 --min-instances=1 --max-instances=1 --cpu-boost \
+      --add-cloudsql-instances vidyuthlabs:asia-south1:academicos-pg \
+      --service-account academicos-runtime@vidyuthlabs.iam.gserviceaccount.com \
+      --set-secrets "$SECRETS" --set-env-vars "^@^$ENV_VARS" --quiet
+
+The `^@^` delimiter matters: `ACOS_CORS_ORIGINS` contains a comma, and the
+default split turns it into a bad dict entry, which stops the revision starting.
+
+## 4. Web app — rebuild it, never ship `build/web` as found
+
+    cd frontend
+    rm -rf build/web        # a local http.server serving it holds the directory; stop that first
+    flutter build web --release --dart-define=ACADEMICOS_API="https://academicos-backend-2eskom55ta-el.a.run.app/api/v1"
+    rm -f build/web/assets/assets/corpus/questions.json    # 15 MB offline-only bank; the web never reads it
+
+## 5. Firebase Hosting
+
+    FIREBASE_TOKEN="$(gcloud auth print-access-token)" GOOGLE_CLOUD_QUOTA_PROJECT=vidyuthlabs \
+      npx --yes firebase-tools@13 deploy --only hosting --project vidyuthlabs --non-interactive
+
+Pin **firebase-tools@13**. v15 ignores `FIREBASE_TOKEN`, falls back to
+Application Default Credentials (which the dev machine does not have), and fails
+with "Failed to get Firebase project" — which reads like a permission problem and
+is not. The deploy writes a `.firebase/` cache; it is gitignored.
+
+## 6. Verify — all four, every time
+
+    BACKEND=https://academicos-backend-2eskom55ta-el.a.run.app
+    curl -s $BACKEND/health                     # "commit" must equal the SHA you built
+    curl -s $BACKEND/health/storage             # ok / cloudsql / gcs
+    curl -s https://vidyuthlabs.web.app/main.dart.js | wc -c   # equals build/web/main.dart.js byte for byte
+    curl -s "$BACKEND/api/v1/catalog"           # per class x subject counts equal the local served bank
+
+A 200 on `/assets/assets/corpus/questions.json` is NOT the asset: the SPA
+rewrite returns `index.html` for unknown paths. Check the Content-Type.
+
+Under CanvasKit, `document.fonts` is always empty, so it proves nothing about
+whether a font loaded. Check the network log for the font request instead.
+
+## Live history
+
+| Date | Commit | What |
+|---|---|---|
+| 2026-09-23 | `e025bb7` | value points, chapter view, tagger fix, principal insights card |
+| 2026-09-24 | `86f8711` | calendar terms, book editions, class setup, subtopic picker |
+| 2026-09-24 | `5375af1` | one serving gate for the bank; catalog 5,429 |
+
+Update this table with every hand deploy.

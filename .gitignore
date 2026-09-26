@@ -123,3 +123,6 @@ academicos-data/corpus/cbse-cbe/_unanswerable.json
 # committed _manifest.json records what was fetched and with what rights status.
 academicos-data/corpus/cbse-sqp/*/*.pdf
 
+
+# Firebase CLI deploy cache, written by `firebase deploy` (docs/deploy-by-hand.md).
+.firebase/

@@ -38,10 +38,19 @@ weight-weighted sum of the area scores. **When evidence is weak, score down.**
 
 ## Areas, weights and items
 
+**Changed 2026-09-22 (v2, web-first).** The user decided the first sellable
+product is the **web app** (the Flutter web build on GCP, vidyuthlabs.web.app);
+the offline Android app is not in the first release. Area 1 took the phone
+area's weight (10 → 20) and gained items 1.6-1.7; area 2 became *Web app
+delivery* (20 → 10). The v1 phone items are kept at the end of area 2 for the
+day the phone app returns. Every audit in the log below from 2026-09-22 on is
+scored with these weights, so the totals are comparable with each other and
+not with a v1 number.
+
 | # | Area | Weight | Grounded in |
 |---|---|---|---|
-| 1 | Paper generation — web | 10 | §0 decision 3 |
-| 2 | Paper generation — offline phone | 20 | §0 decisions 3, 12 (the primary surface) |
+| 1 | Paper generation — web | 20 | §0 decision 3 |
+| 2 | Web app delivery | 10 | §0 decision 3 (web-first, 2026-09-22) |
 | 3 | Question bank coverage and quality | 20 | §0 decisions 4-5; §5A rules Q1-Q4 |
 | 4 | Academic calendar automation | 15 | §0 decisions 1-2; §4 jobs 1-2; §12.7-8 |
 | 5 | Principal dashboard | 10 | §12.6; §4 job 3 |
@@ -72,21 +81,27 @@ So items 1.5 and 3.1 are scored over 6-10. Two rules keep that honest:
 
 When 11 and 12 return, restore the 6-12 wording here and in the two items.
 
-### 1. Paper generation — web (10)
+### 1. Paper generation — web (20)
 1.1 Blueprint → selection → sectioned paper, quick and custom paths
 1.2 PDF paper renders correctly: no crash, MCQ options shown, no dropped symbols, correct class in the header
 1.3 PDF answer key carries the official scheme (share of rows that are "pending teacher entry")
 1.4 Parallel sets, tiers, CBQ ≥ 50%
 1.5 The requested class gets that class's questions, for every class **6-10**
-    (the release's scope since 2026-09-23; see "Classes in scope" below)
+    (the release's scope since 2026-09-23; see "Classes in scope" above)
+1.6 Custom paper by hand: search the bank → select specific questions → generate a paper from exactly those
+1.7 The paper and answer-key PDFs download from the browser and print correctly (A4, page breaks, fonts)
 
-### 2. Paper generation — offline phone (20)
-2.1 The app starts and loads its bundled corpus; one bad row cannot stop it
-2.2 Quick Paper: the requested grade only, every section filled, grade printed correctly
-2.3 Custom paper: search → select → generate
-2.4 Phone PDF paper and answer key: options shown, text renders
-2.5 Offline guarantee: never contacts a backend; `ACADEMICOS_OFFLINE` never leaks into the Web build
-2.6 An Android build compiles
+### 2. Web app delivery (10)
+2.1 The live web app (vidyuthlabs.web.app) loads, and a new school goes from principal bootstrap → invite a teacher → teacher signs in → first paper, end to end
+2.2 Usable in a phone browser: the teacher's main flows (sign in, make a paper, mark a lesson, download the PDF) work at 375 px width
+2.3 No silent failures: every failed request on the main flows shows a clear message the user can act on
+2.4 Speed: first load to interactive and paper generation, measured on the live URL (report the numbers; 0.75 needs < 10 s to interactive on a throttled 4G profile and < 20 s per paper)
+
+*Not scored while the phone app is out of the release (v1 area 2, "Paper
+generation — offline phone"; restore them, and the v1 weights, if it returns):*
+the app starts and loads its bundled corpus with one bad row unable to stop it;
+Quick Paper serves the requested grade and fills every section; custom paper;
+phone PDF paper and key; the offline guarantee; an Android build compiles.
 
 ### 3. Question bank coverage and quality (20)
 3.1 Classes served *by paper generation*: 6, 7, 8, 9, 10
@@ -101,7 +116,7 @@ When 11 and 12 return, restore the 6-12 wording here and in the two items.
 4.1 Curriculum hierarchy, board to subtopic, set up for a school
 4.2 Calendar: working days, holidays including multi-day blocks
 4.3 Micro-scheduling: dated lessons from syllabus × timetable
-4.4 Teacher daily loop: today's lessons (job 1) and mark complete in one tap with an honest save state (job 2)
+4.4 Teacher daily loop: today's lessons (job 1) and mark complete in one tap with an honest save state (job 2) — scored on the web app
 4.5 Reschedule on disruption (PUSH / ADJUST)
 4.6 Book selection: one edition per subject per year, chosen by the school (§12.7 — listed Missing in §6)
 
@@ -112,7 +127,7 @@ When 11 and 12 return, restore the 6-12 wording here and in the two items.
 5.4 (d) Bank coverage per subject and grade
 
 ### 6. Time-saved measurement (5)
-6.1 Time to produce each paper is recorded
+6.1 Time to produce each paper is recorded, on every web generation path
 6.2 A baseline to compare against (manual time), per term
 6.3 Surfaced to the principal
 
@@ -127,7 +142,7 @@ When 11 and 12 return, restore the 6-12 wording here and in the two items.
 8.3 The live Web release is up and healthy
 8.4 §10: every query scoped by `school_id`; role gates enforced; audit log immutable
 8.5 `docs/compliance.md` "before you ship" boxes, for every shipped feature that touches student data
-8.6 Frontend ↔ backend contract: no drift between the API and the offline local clients
+8.6 Web client ↔ backend contract: the real web screens send what the API accepts (no 422s on main flows); `ACADEMICOS_OFFLINE` never in the web build
 
 ## Not scored — gates code cannot close
 
@@ -137,7 +152,7 @@ sell" on its own.
 
 - **A reference school** — §0 critical path item 1: *"nothing in the repo substitutes for it."*
 - **Counsel's written position on redistributing CBSE content** — §12.11; gates selling the bank as an API.
-- **A signed release APK, distributed** — and the `corpus-data` release that phones download republished.
+- **A signed release APK, distributed** — and the `corpus-data` release that phones download republished. (Only when the phone app returns to the release.)
 - **A signed data-processing agreement with a school** — `docs/dpa-template.md`.
 - **The published price** — §0 decision 9 sets the band, not the number.
 
@@ -150,4 +165,31 @@ the log below with its date, its scores, and what moved.
 
 ## Audit log
 
-*(First audit pending.)*
+Each audit scored the commit `/health` reported live, item by item, with the
+evidence in the audit's own write-up. v2 weights throughout; the last row also
+applies the classes 6-10 scope.
+
+| Date | Live commit | A1 (20) | A2 (10) | A3 (20) | A4 (15) | A5 (10) | A6 (5) | A7 (5) | A8 (15) | **Total** |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 2026-09-21 | Render build | — | — | — | — | — | — | — | — | **26.3** provisional re-baseline, not an audit |
+| 2026-09-22 | `a153003` (first GCP release) | 5.71 | 3.13 | 5.00 | 6.25 | 2.50 | 1.25 | 1.25 | 8.13 | **33.2** |
+| 2026-09-22 | `cb16658` | 10.71 | 4.38 | 7.50 | 9.38 | 5.00 | 2.50 | 3.33 | 9.38 | **52.2** |
+| 2026-09-23 | `6544c06` | 12.14 | 5.63 | 10.00 | 9.38 | 5.00 | 2.50 | 3.33 | 8.13 | **56.1** |
+| 2026-09-23 | `00912e7` | 12.86 | 5.63 | 10.83 | 9.38 | 5.00 | 2.50 | 3.33 | 9.38 | **58.9** |
+| 2026-09-23 | `afadd6c` (classes 6-10) | 14.29 | 6.25 | 12.50 | 9.38 | 5.00 | 2.50 | 3.33 | 10.63 | **63.9** |
+
+What moved, briefly:
+
+- **33.2 → 52.2**: shipping, not new code — real-school identity, authenticated
+  PDF downloads, honest paper totals, no silent failures, the guided paper
+  builder, and the calendar's Coverage & Pace plus year plan.
+- **63.9**: +3.10 of the +5.0 is the scope change (items 1.5 and 3.1 scored over
+  6-10), not new work; the rest is `flutter analyze` 61 issues → 7 info-only and
+  the swallowed-errors guard going green.
+- Areas 4-7 were flat for four audits running at 63.9.
+
+Deployed since `afadd6c` and **not yet audited**: value points from the sources
+and the chapter view (`e025bb7`), calendar terms, book editions, class setup and
+the subtopic picker (`474ea85`), one serving gate for the bank (`5375af1`), and
+the Task 126 review fixes plus the bank health report fixes (2026-09-26). Until
+an audit scores them, the number is 63.9.

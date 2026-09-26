@@ -9,6 +9,12 @@ decisions that are still **open** — the PRD §12 lists them, and §7 lists the
 non-goals that are binding. Building the wrong thing correctly is the most
 expensive failure mode in this repo.
 
+**Then read [`docs/agent-workflow.md`](docs/agent-workflow.md)** — how work gets done
+here with several agents at once: the worktrees and who owns which files, the rules
+that stop one session destroying another's work, the gates a commit must pass, the
+question-bank pipeline order, and how to release and verify. The first sellable
+release is the **Web app, classes 6-10**, on GCP; see `docs/product-scorecard.md`.
+
 ---
 
 ## 1. System Vision & Architecture
@@ -126,8 +132,8 @@ this table, which will drift like every other list in prose.
 See **[`docs/PRODUCTS_AND_RELEASES.md`](docs/PRODUCTS_AND_RELEASES.md)** for
 the full picture. It is the source of truth for "which thing are we talking
 about": two client sub-products (offline **Mobile**, cloud **Web**) and two
-backend releases (**Render**, live; **GCP**, written but not yet run) that
-coexist from one codebase. Then:
+backend releases (**Render**, and **GCP** — the live Web release since
+2026-09-22; that file predates the go-live) that coexist from one codebase. Then:
 
 - `docs/deployment.md` — the Render release: CI/CD pipeline, Supabase env vars
   and bucket setup, known gaps (fallback consistency across stores, remaining
@@ -167,9 +173,10 @@ above it (repositories, use cases, all 26 page widgets across 29 routes) is shar
 - **Local Engine (`frontend/lib/core/local_engine/`)**: Encrypted Hive boxes (`secure_box.dart`), local SQLite/Hive storage, on-device OCR, and client-side PDF export. Mobile-only.
 - **Synchronization (`frontend/lib/core/sync/sync_service.dart`)**: Local-first queueing with background reconciliation against the backend API with conflict resolution via `KeyedMutex`. Web-only.
 - **API Base Configuration**: `--dart-define=ACADEMICOS_API=…`. Absolute for the
-  Render release (`https://academicos-backend.onrender.com/api/v1`); a relative
-  `/api/v1` is valid for the GCP release, where Cloud Run serves the Web bundle
-  from the same origin as the API. Defaults to `http://localhost:8010/api/v1`.
+  Render release (`https://academicos-backend.onrender.com/api/v1`) and for the
+  live GCP release, whose Web bundle is on Firebase Hosting and whose API is on
+  Cloud Run (`https://academicos-backend-2eskom55ta-el.a.run.app/api/v1`; see
+  `docs/deploy-by-hand.md`). Defaults to `http://localhost:8010/api/v1`.
 
 ---
 
