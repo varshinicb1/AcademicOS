@@ -86,5 +86,6 @@ whether a font loaded. Check the network log for the font request instead.
 | 2026-09-23 | `e025bb7` | value points, chapter view, tagger fix, principal insights card |
 | 2026-09-24 | `86f8711` | calendar terms, book editions, class setup, subtopic picker |
 | 2026-09-24 | `5375af1` | one serving gate for the bank; catalog 5,429 |
+| 2026-09-26 | `3197f4e` | Task 126 review fixes, bank health report fixes, these docs. Backend only (frontend unchanged; bundle 5,539,687 bytes both sides). Gate 3,611 passed / 113 skipped / 8 xfailed. Catalog 5,426: Informatics Practices 12 is 29 against the file's 32 -- the three `PENDING_REBUILD` records the gate now refuses; every class 6-10 pair equals the file |
 
 Update this table with every hand deploy.
