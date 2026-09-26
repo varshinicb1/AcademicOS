@@ -166,8 +166,13 @@ the log below with its date, its scores, and what moved.
 ## Audit log
 
 Each audit scored the commit `/health` reported live, item by item, with the
-evidence in the audit's own write-up. v2 weights throughout; the last row also
-applies the classes 6-10 scope.
+evidence in its own write-up: `docs/audits/<date>-<commit>.md`, one per row from
+`cb16658` on. The `a153003` write-up was not kept; its scores survive as the
+first column of the later tables. Paths in the write-ups that point at a
+`scratchpad` are the auditor's working files and were not kept. v2 weights
+throughout; the rows from `afadd6c` on also apply the classes 6-10 scope. A new
+audit reads the previous write-up first, re-verifies every item rather than
+copying its score, and adds its own file and row here.
 
 | Date | Live commit | A1 (20) | A2 (10) | A3 (20) | A4 (15) | A5 (10) | A6 (5) | A7 (5) | A8 (15) | **Total** |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -177,6 +182,7 @@ applies the classes 6-10 scope.
 | 2026-09-23 | `6544c06` | 12.14 | 5.63 | 10.00 | 9.38 | 5.00 | 2.50 | 3.33 | 8.13 | **56.1** |
 | 2026-09-23 | `00912e7` | 12.86 | 5.63 | 10.83 | 9.38 | 5.00 | 2.50 | 3.33 | 9.38 | **58.9** |
 | 2026-09-23 | `afadd6c` (classes 6-10) | 14.29 | 6.25 | 12.50 | 9.38 | 5.00 | 2.50 | 3.33 | 10.63 | **63.9** |
+| 2026-09-26 | `3197f4e` | 13.57 | 6.25 | 12.50 | 10.63 | 5.00 | 2.08 | 3.75 | 10.00 | **63.8** |
 
 What moved, briefly:
 
@@ -187,9 +193,16 @@ What moved, briefly:
   6-10), not new work; the rest is `flutter analyze` 61 issues → 7 info-only and
   the swallowed-errors guard going green.
 - Areas 4-7 were flat for four audits running at 63.9.
+- **63.8** hides two movements. Shipped work added +2.29: book editions (4.6),
+  the principal's bank coverage card (5.4), and one serving gate (7.3). The
+  full-suite log as evidence added +0.63 (8.1). Three defects that were already
+  live at `afadd6c`, and that no earlier audit tested for, took back 3.01:
+  - `main.dart.js` and `flutter_bootstrap.js` were served `immutable` for a
+    year under names that never change, so a returning browser ran the
+    2026-09-22 bundle (8.3);
+  - the builder's chapter picker counts one chapter tag and filters on another,
+    reaching 1,266 of the 2,297 questions it shows (1.1);
+  - the time-saved report read only quick-generate papers, which the web app
+    never makes (5.2, 6.1).
 
-Deployed since `afadd6c` and **not yet audited**: value points from the sources
-and the chapter view (`e025bb7`), calendar terms, book editions, class setup and
-the subtopic picker (`474ea85`), one serving gate for the bank (`5375af1`), and
-the Task 126 review fixes plus the bank health report fixes (2026-09-26). Until
-an audit scores them, the number is 63.9.
+  Scored only as deep as the previous audit went, the same range reads 66.8.
