@@ -31,6 +31,8 @@ DATA = REPO / "academicos-data"
 SERVED = DATA / "syllabus" / "questions.json"
 EXTRA = [DATA / "corpus" / "ncert-exemplar" / "questions.json",
          DATA / "corpus" / "cbse-cbe" / "questions.json"]
+# What the merge refused, written beside the bank it wrote.
+EXCLUDED = DATA / "syllabus" / "_merge_excluded.json"
 TAXONOMY = DATA / "syllabus" / "taxonomy"
 OUT_MD = REPO / "docs" / "bank-health.md"
 OUT_JSON = DATA / "syllabus" / "bank_health.json"
@@ -75,6 +77,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--served", type=Path, default=SERVED, help="the bank served today")
     ap.add_argument("--bank", type=Path, nargs="*", default=EXTRA, help="extra source banks")
     ap.add_argument("--taxonomy", type=Path, default=TAXONOMY)
+    ap.add_argument("--excluded", type=Path, default=EXCLUDED,
+                    help="what the merge refused (_merge_excluded.json)")
     ap.add_argument("--md", type=Path, default=OUT_MD)
     ap.add_argument("--json", type=Path, default=OUT_JSON)
     ap.add_argument("--check", action="store_true", help="print the summary, write nothing")
@@ -91,9 +95,23 @@ def main(argv: list[str] | None = None) -> int:
         inputs.append({"label": label, "path": _rel(path), "sha256": _sha256(path),
                        "records": len(records)})
 
-    report = build_report(banks, load_trees(args.taxonomy), served="served")
+    # Absent is reported as absent, not as "nothing was refused": the report
+    # prints no exclusion section at all rather than an authoritative zero.
+    exclusions = None
+    if args.excluded.exists():
+        exclusions = json.loads(args.excluded.read_text(encoding="utf-8"))["excluded"]
+        inputs.append({"label": "excluded", "path": _rel(args.excluded),
+                       "sha256": _sha256(args.excluded), "records": len(exclusions)})
+    else:
+        print(f"note: {_rel(args.excluded)} is missing; "
+              "the report will not say what the merge left out")
+
+    report = build_report(banks, load_trees(args.taxonomy), served="served",
+                          exclusions=exclusions)
     report["builtAt"] = datetime.now(timezone.utc).date().isoformat()
     report["inputs"] = inputs
+    if exclusions is not None:
+        report["excludedPath"] = _rel(args.excluded)
     audit_files = [args.taxonomy / n for n in
                    ("_tagger_model.json", "_tag_audit.json", "_tag_audit_chapter_topic.json")]
     model, audit_sub, audit_ct = (json.loads(f.read_text(encoding="utf-8")) for f in audit_files)
@@ -101,12 +119,18 @@ def main(argv: list[str] | None = None) -> int:
     report["taxonomyInputs"] = [{"path": _rel(f), "sha256": _sha256(f)} for f in audit_files]
 
     print(f"{'subject':<16}{'class':>6}{'questions':>11}{'keyed':>7}{'chapter%':>10}"
-          f"{'topic%':>8}{'board(all)':>12}")
+          f"{'topic%':>8}{'board(all)':>12}{'left out':>10}")
     for c in report["cells"]:
         board = c["papers"]["all"].get("board", {}).get("possible")
+        left = c.get("excluded", {}).get("n", "-")
         print(f"{c['subject']:<16}{c['grade']:>6}{c['questions']:>11}{c['keyed']:>7}"
               f"{c['tagged']['chapter']['pct']:>10}{c['tagged']['topic']['pct']:>8}"
-              f"{str(board):>12}")
+              f"{str(board):>12}{str(left):>10}")
+    if exclusions is not None:
+        ex = report["excluded"]
+        print(f"\nthe merge refused {ex['records']:,} records, {ex['inScope']:,} in scope; "
+              "commonest reasons: "
+              + ", ".join(f"{r} {n:,}" for r, n in list(ex["byReason"].items())[:5]))
     if args.check:
         print("\n--check: nothing written")
         return 0

@@ -31,6 +31,13 @@ What counts
   `assessment.selection.optimize` fills it: exact marks, an allowed
   difficulty, and ``question_count`` + ``internal_choice_count`` distinct
   questions (the OR alternatives come out of the same pool).
+* What the merge REFUSED is counted here too, per reason and per class x
+  subject, from ``academicos-data/syllabus/_merge_excluded.json``. A bank
+  report that counts only what survived says a class is healthy without
+  saying that two thirds of its source records were thrown away, and which
+  rule threw them: "Mathematics 6 serves 555" is a different statement beside
+  "and 809 class 6 records were refused, 3,214 of them board questions with no
+  verified key". Nothing the gate removes disappears silently (Task 126).
 """
 from __future__ import annotations
 
@@ -163,8 +170,14 @@ def _chapter_table(tree: dict, keyed: list[dict]) -> list[dict]:
     return chapters
 
 
+def excluded_reason_counts(excluded: Iterable[dict]) -> dict[str, int]:
+    """Reason -> records, commonest first."""
+    counts = collections.Counter(str(e.get("reason") or "unknown") for e in excluded)
+    return dict(counts.most_common())
+
+
 def _cell(subject: str, grade: int, recs: list[tuple[str, dict]], tree: dict | None,
-          presets: dict, served: str | None) -> dict:
+          presets: dict, served: str | None, excluded: list[dict] | None = None) -> dict:
     records = [r for _, r in recs]
     keyed = [r for r in records if has_answer_key(r)]
     n = len(records)
@@ -219,15 +232,30 @@ def _cell(subject: str, grade: int, recs: list[tuple[str, dict]], tree: dict | N
         cell["servedKeyed"] = len(served_keyed)
         papers["served"] = _paper_verdicts(served_keyed, presets)
     cell["papers"] = papers
+    # What the merge refused for this class and subject. `None` means no
+    # exclusions file was given -- which is not the same as "it refused
+    # nothing", and the report must not print a zero for it.
+    if excluded is not None:
+        cell["excluded"] = {"n": len(excluded),
+                            "byReason": excluded_reason_counts(excluded)}
     return cell
 
 
 def build_report(banks: dict[str, list[dict]], trees: dict[tuple[str, int], dict], *,
-                 presets: dict | None = None, served: str | None = None) -> dict:
+                 presets: dict | None = None, served: str | None = None,
+                 exclusions: list[dict] | None = None) -> dict:
     """The health of ``banks`` ({label: records}) against the taxonomy ``trees``
     ({(subject, grade): tree}). ``served`` names the bank that is served today;
     its paper verdicts are given on their own as well as for all banks together.
-    A record id seen in an earlier bank is not counted again."""
+    A record id seen in an earlier bank is not counted again.
+
+    ``exclusions`` is ``_merge_excluded.json``'s ``excluded`` list -- every
+    record the merge's gate refused, with its reason. Given, each cell gets an
+    ``excluded`` count broken down by reason and the report gets the whole
+    tally, in scope and out; omitted, no cell claims to know (Task 126: every
+    record the gate removes is in the exclusions file with its reason, AND this
+    report counts it).
+    """
     presets = EXAM_PRESETS if presets is None else presets
     per_cell: dict[tuple[str, int], list[tuple[str, dict]]] = collections.defaultdict(list)
     seen: set[str] = set()
@@ -243,12 +271,38 @@ def build_report(banks: dict[str, list[dict]], trees: dict[tuple[str, int], dict
                 continue
             seen.add(rid)
             per_cell[(subject, grade)].append((label, r))
-    cells = [_cell(s, g, per_cell.get((s, g), []), trees.get((s, g)), presets, served)
+
+    # An exclusion entry carries the record's own `subject` and `grade` (see
+    # `bank_merge._excluded`), which is what `subject_family`/`grade_of` read,
+    # so an out-of-scope refusal -- class 12 Physics, a music paper -- is
+    # counted in the total and in no cell.
+    dropped: dict[tuple[str, int], list[dict]] | None = None
+    in_scope = 0
+    if exclusions is not None:
+        dropped = collections.defaultdict(list)
+        for e in exclusions:
+            subject, grade = subject_family(e), grade_of(e)
+            if subject is None or grade is None:
+                continue
+            dropped[(subject, grade)].append(e)
+            in_scope += 1
+
+    cells = [_cell(s, g, per_cell.get((s, g), []), trees.get((s, g)), presets, served,
+                   None if dropped is None else dropped.get((s, g), []))
              for s in SUBJECTS for g in GRADES]
-    return {"scope": {"subjects": list(SUBJECTS), "grades": list(GRADES)},
-            "served": served, "banks": list(banks), "duplicateIds": duplicates,
-            "presets": {k: v.get("name", k) for k, v in presets.items()},
-            "cells": cells}
+    report = {"scope": {"subjects": list(SUBJECTS), "grades": list(GRADES)},
+              "served": served, "banks": list(banks), "duplicateIds": duplicates,
+              "presets": {k: v.get("name", k) for k, v in presets.items()},
+              "cells": cells}
+    if exclusions is not None:
+        report["excluded"] = {
+            "records": len(exclusions), "inScope": in_scope,
+            "outOfScope": len(exclusions) - in_scope,
+            "byReason": excluded_reason_counts(exclusions),
+            "bySource": dict(collections.Counter(
+                str(e.get("source") or "unknown") for e in exclusions).most_common()),
+        }
+    return report
 
 
 # --------------------------------------------------------------------------- #
@@ -302,6 +356,40 @@ def _yes_no(v: dict | None) -> str:
     if v is None:
         return "-"
     return "yes" if v["possible"] else "**no**"
+
+
+def _excluded_md(report: dict) -> list[str]:
+    """What the merge's gate refused, per reason and per class x subject.
+
+    Empty when no exclusions file was read: a report that has not been shown
+    the file says nothing about it rather than printing zeroes (Task 126)."""
+    ex = report.get("excluded")
+    if not ex:
+        return []
+    path = report.get("excludedPath", "_merge_excluded.json")
+    out = ["", "## What the merge left out", "",
+           f"Every record the gate refused, from `{path}` "
+           "(written by `scripts/merge_question_banks.py`). These are not in the served bank, so "
+           "they are in none of the counts above -- which is exactly why they are counted here: "
+           "a class whose sources were mostly refused reads as healthy otherwise.", "",
+           f"**{ex['records']:,} records refused**, {ex['inScope']:,} of them in scope "
+           f"(classes 6-10 x {', '.join(SUBJECTS)}) and {ex['outOfScope']:,} outside it.", "",
+           "| reason | records |", "|---|---:|"]
+    out += [f"| {reason} | {n:,} |" for reason, n in ex["byReason"].items()]
+    out += ["", "| source | records |", "|---|---:|"]
+    out += [f"| {source} | {n:,} |" for source, n in ex["bySource"].items()]
+    out += ["", "Per class and subject, with the three commonest reasons:", "",
+            "| subject | class | in the bank | left out | commonest reasons |",
+            "|---|---:|---:|---:|---|"]
+    for c in report["cells"]:
+        cell_ex = c.get("excluded")
+        if not cell_ex or not cell_ex["n"]:
+            continue
+        top = ", ".join(f"{reason} {n:,}"
+                        for reason, n in list(cell_ex["byReason"].items())[:3])
+        out.append(f"| {c['subject']} | {c['grade']} | {c['questions']:,} "
+                   f"| {cell_ex['n']:,} | {top} |")
+    return out
 
 
 def render_markdown(report: dict) -> str:
@@ -367,6 +455,8 @@ def render_markdown(report: dict) -> str:
     if no_tree:
         out += ["", "**No taxonomy tree** (no chapter list to count against): "
                 + ", ".join(no_tree) + "."]
+
+    out += _excluded_md(report)
 
     out += ["", "## Answer keys", "",
             "Keyed questions by where the key came from, and whether the key passed the "

@@ -119,3 +119,84 @@ def test_pool_returns_empty_for_a_doc_with_no_pages():
         pages: list = []
 
     assert pool_module._paper_code_of(_Empty()) == ""
+
+
+# --------------------------------------------------------------------------- #
+# one bank, one answer (Task 126)
+#
+# D17, from the re-audit of 2026-09-23: `/v1` sold 4,575 class 6-10
+# Mathematics/Science records and this module composed papers from 4,099 of the
+# same academicos-data/syllabus/questions.json. Mathematics 6 read 555 on the
+# API and 446 here. The difference was a second set of fidelity rules that only
+# this module ran -- `has_broken_options`, `needs_missing_figure`,
+# `looks_truncated` and a 0.75-Jaccard near-duplicate index -- written for, and
+# measured on, the registry path's raw PDF extraction and simply wrong over
+# records `bank_merge` had already repaired and normalised.
+#
+# tests/test_bank_surfaces_agree.py holds the two surfaces together across all
+# 33 class 6-10 pairs. These two are the pool's own half of it, in the module
+# that was wrong: it composes the file as it stands, and it keeps no copy of
+# the rule that decides what the file holds.
+# --------------------------------------------------------------------------- #
+
+_SERVED_BANK = ROOT / "academicos-data" / "syllabus" / "questions.json"
+
+
+@pytest.mark.skipif(not _SERVED_BANK.exists(), reason="served bank not built")
+def test_the_pool_composes_every_mathematics_6_record_the_served_file_holds(tmp_path,
+                                                                           monkeypatch):
+    """Requirement 3 for the pair the audit named. One pair, not all 33: this
+    reads the real 15 MB bank, and the other 32 are asserted in
+    tests/test_bank_surfaces_agree.py.
+
+    ACOS_DATA_ROOT is tmp_path so every store is built under tmp; the bank is
+    the committed one, which `_baked_bank_paths` reads from the repo.
+    """
+    import json
+
+    from academicos.assessment import grades
+
+    in_file = [rec for rec in
+               json.loads(_SERVED_BANK.read_text(encoding="utf-8"))["questions"]
+               if str(rec.get("subject") or "").strip() == "Mathematics"
+               and rec.get("grade") == 6]
+    assert in_file, "the served bank holds no Mathematics 6 records at all"
+
+    monkeypatch.setenv("ACOS_DATA_ROOT", str(tmp_path))
+    monkeypatch.setattr(pool_module, "_CACHE", {})
+    cfg = Config(data_root=tmp_path)
+    cfg._load_baked_questions = True
+    built = build_pool(cfg, subject="Mathematics", grade=grades.to_roman("6"))
+
+    assert len(built.questions) == len(in_file), (
+        f"the paper builder composes {len(built.questions)} Mathematics 6 "
+        f"questions from a file that holds {len(in_file)}; every record the "
+        "file holds is one the merge's gate passed, so the pool has no "
+        "grounds to drop any of them (D17: 446 against 555)")
+    assert {q.id for q in built.questions} == {rec["id"] for rec in in_file}
+
+
+def test_the_pool_asks_the_gate_and_keeps_no_copy_of_it():
+    """`pool.py` must not name a servability rule of its own. It imports the
+    two gate functions -- one per corpus, `raw_extraction_reason` for the raw
+    parse output the registry path reads and `unservable_reason` for the
+    merged records the baked path reads -- and nothing else from
+    `bank_merge`'s rule set.
+
+    A source scan rather than a behaviour test, as Task 16 did for the merge's
+    own filters: the rules were shared by import before this and the module
+    was still a second answer, because it ordered and applied them itself.
+    """
+    source = Path(pool_module.__file__).read_text(encoding="utf-8")
+    body = "\n".join(line for line in source.splitlines()
+                     if not line.lstrip().startswith("#"))
+
+    for rule in ("has_broken_options", "needs_missing_figure", "looks_truncated",
+                 "unanswerable_reason", "exclusion_reason"):
+        assert rule not in body, (
+            f"pool.py names {rule}, which is half of an answer to \"can this "
+            "be served\"; ask bank_merge.raw_extraction_reason (raw "
+            "extraction) or bank_merge.unservable_reason (a merged record)")
+    assert "raw_extraction_reason(" in body and "unservable_reason(" in body, (
+        "pool.py must call both gates: the registry path reads raw PDF "
+        "extraction and the baked path reads the merge's own output")

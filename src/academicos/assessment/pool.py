@@ -18,16 +18,15 @@ from pathlib import Path
 from typing import NamedTuple
 
 from ..config import Config
-# The stem gates live with the served bank's composition, so the web registry
-# path and questions.json are held to one implementation (Task 16). The
-# registry path below reads raw PDF extraction and applies them one at a time;
-# the baked-bank path asks `unservable_reason`, the single gate the merge that
-# wrote that file applied (Task 126).
+# "Can this be served" is asked ONCE per corpus, and neither answer lives here
+# (Task 16, Task 126). The registry path below reads raw PDF extraction, where
+# an option list really can be destroyed, and asks `raw_extraction_reason`; the
+# baked-bank path reads records the merge already repaired, normalised and
+# gated, and asks `unservable_reason`, the gate that wrote that file. This
+# module composes neither and keeps a copy of neither.
 from ..corpus.bank_merge import (
-    has_broken_options,
     looks_mangled,
-    looks_truncated,
-    needs_missing_figure,
+    raw_extraction_reason,
     unservable_reason,
 )
 from ..extract.academic import extract_questions
@@ -561,15 +560,15 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
 
     pool = QuestionPool()
     seen_hashes: set[str] = set()
-    skipped_figure = 0
     skipped_mangled = 0
     skipped_near_dup = 0
-    skipped_truncated = 0
-    skipped_broken_options = 0
+    skipped_broken_fractions = 0
     skipped_invalid = 0
     skipped_unkeyed = 0
-    # Baked-bank refusals, by the merge's own reason: nothing this path drops
-    # is dropped without a name for why (Task 126).
+    # Refusals by reason, one dict per path, each keyed by the name the gate
+    # that owns the corpus gives it: nothing either path drops is dropped
+    # without a name for why (Task 126).
+    skipped_extraction: dict[str, int] = {}
     skipped_unservable: dict[str, int] = {}
     near_dupes = _NearDuplicateIndex()
 
@@ -596,7 +595,9 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
             if _is_mostly_non_latin(raw):
                 continue
             if has_broken_fraction_options(raw):
-                skipped_broken_options += 1
+                # Read on the RAW text, before cleaning joins the split lines
+                # back up, so it cannot be folded into the gate below.
+                skipped_broken_fractions += 1
                 continue
             text = clean_question_text(raw)
             if looks_mangled(text):
@@ -604,17 +605,19 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                 continue
             if len(text) < _MIN_QUESTION_CHARS:
                 continue
-            if has_broken_options(text):
-                skipped_broken_options += 1
-                continue
             low = text.lower()
             if any(marker in low for marker in _ADMIN_MARKERS):
                 continue
-            if needs_missing_figure(text):
-                skipped_figure += 1
-                continue
-            if looks_truncated(text):
-                skipped_truncated += 1
+            # The ONE gate for raw extraction -- broken option list, a figure
+            # the parse did not carry, a stem that stops mid-sentence -- asked
+            # as one question, in `bank_merge`, where the merge's own gate
+            # lives beside it. This used to spell out `has_broken_options`,
+            # `needs_missing_figure` and `looks_truncated` here, which made
+            # this path a second, differently-composed answer to "can this be
+            # served" even though each rule was imported (Task 126).
+            reason = raw_extraction_reason(text)
+            if reason is not None:
+                skipped_extraction[reason] = skipped_extraction.get(reason, 0) + 1
                 continue
 
             text_hash = hashlib.sha1(_normalize(text).encode("utf-8")).hexdigest()[:16]
@@ -801,12 +804,13 @@ def build_pool(cfg: Config, *, subject: str = "Science", grade: str) -> Question
                         log.warning("Failed loading baked-in question bank from %s: %s", p, e)
 
     log.info("question pool built: %d questions from %d papers, %d with official answers "
-             "(skipped: %d need a figure, %d unreadable Hindi, %d near-duplicates, "
-             "%d truncated/missing options, %d broken option lists, %d invalid records, "
-             "%d with no answer key; served-bank records the merge's gate refuses: %s)",
-             len(pool.questions), len(rows), keyed, skipped_figure, skipped_mangled,
-             skipped_near_dup, skipped_truncated, skipped_broken_options, skipped_invalid,
+             "(skipped: %d unreadable Hindi, %d near-duplicates, %d broken stacked "
+             "fractions, %d invalid records, %d with no answer key; extracted stems the "
+             "raw gate refuses: %s; served-bank records the merge's gate refuses: %s)",
+             len(pool.questions), len(rows), keyed, skipped_mangled,
+             skipped_near_dup, skipped_broken_fractions, skipped_invalid,
              skipped_unkeyed,
+             sorted(skipped_extraction.items()) or "none",
              # A non-empty dict here means questions.json was written by a
              # merge older than the rule, or by hand: /v1 is serving records
              # this pool refuses, and the two surfaces have drifted apart.

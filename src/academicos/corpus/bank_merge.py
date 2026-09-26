@@ -392,11 +392,43 @@ def looks_truncated(text: str) -> bool:
 
 _OPTION_ORDER = ("(a)", "(b)", "(c)", "(d)")
 _OPTION_MARKER_RE = re.compile(r"\(([a-dA-D])\)")
-# An option marker with nothing real after it ("(D) " followed straight by
+# An option marker with nothing at all after it ("(D) " followed straight by
 # the next marker, or the end of the stem) — a shorter, non-fraction sibling
 # of the stacked-fraction case: the value was a single token that got dropped
 # entirely rather than split across lines.
-_MIN_OPTION_CONTENT_CHARS = 2
+#
+# ONE character, not two. This read 2 until Task 126, on the theory that a
+# one-character option was a dropped token as well, and that was measured
+# wrong: of the 172 served records this half of the rule refused on
+# 2026-09-23, 169 have a one-character option that is the answer
+# ("What is the value of (30 x 70) + 60? (A) 0 (B) 1 (C) 2 (D) 27",
+# cbe:q:Maths7RKS1; "(A) 4 (B) 5 (C) 6 (D) 7",
+# exemplar:q:9:mathematics:14:14.1:23), 164 of them Mathematics 6-10, and
+# every one is answerable as printed. Only the 3 with a genuinely empty slot
+# (exemplar:q:7:science:1:-:10, "... name any two minerals, ____, ____. (a)
+# (b)") are what the rule was written for, and a threshold of 1 still refuses
+# those. A digit IS an option in a maths paper.
+#
+# MEASURED ON THE CORPUS THIS RULE ACTUALLY GOVERNS, which is pool's registry
+# path -- raw PDF extraction, not the merged bank the paragraph above counts.
+# Replaying build_pool's registry loop over all 2,453 parse outputs in
+# academicos-data/parse (2026-09-24): 33,558 stems reach this rule, the old
+# threshold of 2 refused 3,336 of them and 1 refuses 3,134, so 202 verdicts
+# change. 137 of the 202 have an alphanumeric one-character option and read as
+# printed -- "The value(s) of k for which the roots of x² + 4x + k = 0 are real
+# is (a) k -4 (b) k -4 (c) k 4 (d) k", "(A) China (B) Russia (C) Japan
+# (D) United Kingdom". The other 65 are stems whose options came through as
+# punctuation -- a repeated dash, comma or equals sign. The
+# every-option-the-same clause below refuses 9 of them; the rest carry that
+# broken run BESIDE readable option text, and firing on any two identical
+# wordless options instead of on all of them refuses 32, the UN Security
+# Council question among them, whose English options read exactly as printed.
+# Narrowing further was measured and rejected:
+# also stripping dashes from an option's content refuses
+# exemplar:q:6:mathematics:3:-:1, "Every integer less than 0 has the sign
+# (A) + (B) - (C) × (D) ÷", which is an answerable MCQ whose options are single
+# symbols.
+_MIN_OPTION_CONTENT_CHARS = 1
 
 
 def has_broken_options(text: str) -> bool:
@@ -409,7 +441,8 @@ def has_broken_options(text: str) -> bool:
     ordering is physically impossible in the source and only happens when
     extraction destroyed the earlier options (see pool's `has_broken_fraction_options`)
     — or an option marker present but immediately followed by the next marker
-    (or the end of the stem) with no content in between.
+    (or the end of the stem) with no content in between, or every option
+    saying the same wordless thing, which is not a choice at all.
     """
     low = text.lower()
     present = [m for m in _OPTION_ORDER if m in low]
@@ -422,11 +455,24 @@ def has_broken_options(text: str) -> bool:
     matches = list(_OPTION_MARKER_RE.finditer(text))
     if len(matches) < 2:
         return False
+    contents = []
     for i, m in enumerate(matches):
         end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
         content = text[m.end():end].strip(" .:;")
         if len(content) < _MIN_OPTION_CONTENT_CHARS:
             return True
+        contents.append(content)
+    # Every option the same, and none of them a word or a number: "(A) - (B) -
+    # (C) - (D) -", "(A) , , (B) , , (C) , , (D) , ,", and the one that shows
+    # what the shape means -- "If in two triangles DEF and PQR, D = Q and
+    # R = E, then which of the following is not true ? (A) = (B) = (C) = (D) =",
+    # whose four answers were four expressions the extraction lost either side
+    # of the sign. A threshold of 1 serves all of these, so this is the part of
+    # the old threshold of 2 that was worth keeping: 9 of the 33,558 registry
+    # stems, none of the 5,429 served ones, and it cannot touch an MCQ whose
+    # options are distinct symbols ("(A) + (B) - (C) × (D) ÷").
+    if len(set(contents)) == 1 and not any(ch.isalnum() for ch in contents[0]):
+        return True
     return False
 
 
@@ -466,6 +512,32 @@ def looks_mangled(text: str) -> bool:
     return False
 
 
+def raw_extraction_reason(text: str) -> str | None:
+    """Why a stem *straight out of PDF extraction* cannot be served, or None.
+
+    The one gate for pool's registry path, which reads parse output nothing has
+    repaired or normalised yet: an option list really can be destroyed there,
+    a figure really is absent, a stem really does stop mid-sentence. The three
+    rules above are the measured answers to those three questions, and this is
+    the only place they are composed, so `assessment/pool.py` asks one question
+    and keeps no rule of its own (Task 16, Task 126).
+
+    It is NOT `unservable_reason`, and deliberately so: that one asks whether a
+    record already merged -- repaired, normalised, option lists re-read by
+    `mcq_shape` -- can be served, and it reads the whole record, not a bare
+    stem. Two corpora with different guarantees, one implementation each, and
+    neither surface carries a copy. Applying this one to merged records was the
+    defect Task 126 fixed: it refused 238 answerable served records.
+    """
+    if has_broken_options(text):
+        return "broken-options"
+    if needs_missing_figure(text):
+        return "figure-unavailable"
+    if looks_truncated(text):
+        return "truncated"
+    return None
+
+
 # --------------------------------------------------------------------------- #
 # gates
 # --------------------------------------------------------------------------- #
@@ -485,6 +557,29 @@ _FIGURE_REF = re.compile(
     rf"|{_VISUAL}\s+(?:given|shown)\b"
     r"|table\s+(?:(?:given|shown)\s+)?above|above\s+table)", re.I)
 _PASSAGE_REF = re.compile(r"\bread the (?:following )?(?:passage|extract|poem|text)\b", re.I)
+# "... as shown below:" with the thing shown never arriving. `_FIGURE_REF`
+# reads a visual NAMED next to its position ("the chart below"); this reads the
+# other order, where the stem describes what it wants and only then points at
+# the picture -- "plot a bar chart for India's medal tally as shown below"
+# (cbse:sqp:ClassXII_2022_23:Informatics Practices:33). Nothing else in the
+# merge caught those, and Task 126 moved pool's `needs_missing_figure` off the
+# served bank, so until now they were servable by both surfaces instead of by
+# neither.
+_SHOWN_BELOW = re.compile(r"\b(?:as\s+)?shown\s+below\b\s*[:.,\-–]?\s*", re.I)
+# What the stem says next when the picture did NOT arrive: a fresh task of its
+# own, or nothing. When the picture DID arrive the data follows straight after
+# the colon -- "as shown below: Store Qtr1 Qtr2 Qtr3 Qtr4 0 Store1 300 240 ..."
+# (the same paper's Q32, answerable, and it stays).
+#
+# Verbs that start a new task only. "Answer", "complete" and the question words
+# announce content of their own, and the content can be the thing shown: SQP
+# Informatics Practices XII 2022-23 Q35 reads "... as indexes shown below.
+# Answer the following questions: School Tot_students Topper First_Runnerup CO1
+# PPS 40 32 8 ...", where the table is inline after the announcement. Reading
+# those as well refused it -- harmlessly, since the MCQ gates refuse it anyway,
+# but under the wrong reason, and _merge_excluded.json is read by people.
+_NEXT_INSTRUCTION = re.compile(
+    r"^(?:also\b|write\b|give\b|state\b|explain\b|predict\b|name\b|$)", re.I)
 # The 2025-26 SQPs repeat this note in every page footer; 46 served stems
 # carried it, 22 of them MCQs where it ran into the last option.
 _FOOTER = re.compile(
@@ -711,6 +806,30 @@ def _has_asset(rec: dict) -> bool:
     return any(str(rec.get(k) or "").strip() for k in _ASSET_KEYS)
 
 
+def _shown_below_missing(stem: str) -> bool:
+    """The stem points at something "shown below" and nothing follows it.
+
+    Read on what comes straight after the phrase, because that is where the
+    thing shown would be. `cbse:sqp:ClassXII_2023_24:Informatics Practices:32`
+    says "... sales data of different stores as shown below: Store Qtr1 Qtr2
+    Qtr3 Qtr4 0 Store1 300 240 450 230 ..." -- the DataFrame is inline, as
+    text, and the question is answerable. Its Q27 says "... appropriate column
+    headings as shown below: Also give", and the stem ends there: the headings
+    are in a picture the record does not carry, and no amount of reading the
+    stem can recover them.
+
+    Three of the 5,429 served records are in this shape on 2026-09-23, all
+    class 12 Informatics Practices, all asking for a chart or a table the
+    reader is shown and the record is not. They were pool's to refuse
+    (`needs_missing_figure` reads "shown below") until Task 126 made the merge
+    the one gate; the merge did not read them, so they became servable by both
+    surfaces rather than by neither, which is the wrong direction for a rule
+    that exists because a student cannot answer them.
+    """
+    return any(_NEXT_INSTRUCTION.match(stem[m.end():])
+               for m in _SHOWN_BELOW.finditer(stem))
+
+
 def _words_lost(stem: str) -> bool:
     """Fewer than `_MIN_WORDS` words before the options, or in the whole stem
     when it has none -- or opens with its labels: "(a) Explain ... (b)
@@ -886,6 +1005,11 @@ def source_reason(rec: dict) -> str | None:
         return "stem-too-short"
     if _FIGURE_REF.search(stem) and not _has_asset(rec):
         return "figure-unavailable" if board else "figure-referenced"
+    if _shown_below_missing(stem) and not _has_asset(rec):
+        # Its own reason, not "figure-referenced": the stem does not name a
+        # visual at all, it points below itself, and the tally should say how
+        # much this rule costs on its own.
+        return "figure-shown-below"
     if board and (needs_missing_figure(stem) or _BOARD_FIGURE.search(stem)) and not _has_asset(rec):
         # Board only: pool's list also names a "following table", which CBE and
         # SQP extract inline, as text (test_a_following_table_is_inline_and_kept);
@@ -1783,9 +1907,13 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
     that still breaks the contract raises ContractError and nothing is written.
 
     A verified board record is repaired (`repair_board`) and then gated like
-    every other record (`exclusion_reason`, then exact and near duplicates).
+    every other record (`unservable_reason`, then exact and near duplicates).
     Every board record not served -- no-verified-key or any other reason -- is
     returned whole, unrepaired, in `withheld`.
+
+    Both paths ask `unservable_reason`, and so does `pool.build_pool` over the
+    file this writes: one question about a record, one answer, three call sites
+    (Task 126).
 
     Near-duplicates keep the record seen first, and the order is the rule
     "keep the one with a verified scheme": verified board records come first,
@@ -1861,17 +1989,23 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             rec, reason = normalise(raw)
             if reason is None and raw.get("id") in runs_on:
                 reason = "stem-runs-on"
-            # Read on the normalised record: its stem is stripped of the
-            # furniture -- a next section's heading and passage, run on after
-            # SQP Home Science X 2024-25 Q14's options -- and its options are
-            # inline.
-            reason = reason or unanswerable_reason(rec)
+            # The ONE gate, on the record in the shape this file writes it --
+            # the same call the board path above and `pool.build_pool` make, so
+            # no surface can answer "can this be served" differently about the
+            # same record (Task 126). Read on the NORMALISED record: its stem
+            # is stripped of the furniture -- a next section's heading and
+            # passage, run on after SQP Home Science X 2024-25 Q14's options --
+            # and its options are inline. `source_reason` therefore runs twice
+            # on this path, once on `raw` above (before `normalise` can hide a
+            # header or a lost passage behind a tidier stem) and once here on
+            # what is about to be written; measured 2026-09-24, the second pass
+            # excludes nothing the first did not.
+            reason = reason or unservable_reason(rec)
             # Last, on the normalised record and its normalised scheme: the
             # relink that runs after the merge applies the same rule, so what
             # is served here keeps its key there.
             if reason is None and builder_key_reason(rec) is not None:
                 reason = KEY_REJECTED
-            reason = reason or unallocated_marks_reason(rec)
             # Last, as on the board path: a record already out of scope for a
             # more informative reason keeps that reason. Filed after
             # `source_reason` alone, the glyph claimed three SQP records that

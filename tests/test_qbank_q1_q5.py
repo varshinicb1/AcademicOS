@@ -786,8 +786,11 @@ def _pool_over(tmp_path, monkeypatch, records, *, subject: str, grade: str):
 def test_paper_generation_applies_the_one_rule_too(tmp_path, monkeypatch):
     """A record the HTTP surface refuses to list must not be printable on a
     paper: that is the same unanswerable question served by another door."""
-    # Distinct stems, or the near-duplicate gate drops the last two before the
-    # answer-key gate is ever reached and the test proves nothing.
+    # Three distinct questions, one per answer-key shape. The stems had to
+    # differ while this path ran its own near-duplicate index -- that index
+    # dropped the last two before the answer-key gate was ever reached -- and
+    # that index is the merge's alone since Task 126. They stay distinct
+    # because a test about the answer-key gate should turn on nothing else.
     keyed = _served(1, stem="Explain why the sky appears blue during the day.")
     empty = _served(2, {"markingPoints": [], "modelAnswer": "",
                         "modelAnswerLatex": ""},
@@ -916,26 +919,57 @@ def test_the_builder_refuses_what_the_gate_refuses_even_from_a_stale_bank(
     assert [q.id for q in built.questions] == [good["id"]]
 
 
-def test_the_baked_bank_path_keeps_no_second_copy_of_the_rule():
-    """A source scan, as Task 16 did for the merge's own filters: the branch
-    that loads questions.json must ask `bank_merge` and nothing else.
+def _build_pool_source() -> tuple[str, str]:
+    """`build_pool`'s two branches, comments stripped.
 
-    The registry path above it still runs the stem gates -- it reads raw PDF
-    extraction, where an option list really is destroyed -- so the scan is of
-    the baked-bank branch alone."""
+    Code only: the comments name the rules each branch used to apply and why
+    they were wrong, which is the point of them."""
     import inspect
 
     from academicos.assessment import pool as pool_module
 
     source = inspect.getsource(pool_module.build_pool)
-    _registry_path, marker, baked = source.partition("_baked_bank_paths(cfg)")
+    registry, marker, baked = source.partition("_baked_bank_paths(cfg)")
     assert marker, "build_pool no longer has a baked-bank branch to scan"
-    # Code only. The comments in that branch name the rules it used to apply
-    # and why they were wrong, which is the point of them.
-    baked = "\n".join(line.split("#", 1)[0] for line in baked.splitlines())
-    second_opinions = [name for name in
-                       ("has_broken_options", "needs_missing_figure",
-                        "looks_truncated", "looks_mangled", "near_dupes")
+    return tuple("\n".join(line.split("#", 1)[0] for line in part.splitlines())
+                 for part in (registry, baked))  # type: ignore[return-value]
+
+
+# The three stem rules, by the name each is imported under. Neither branch of
+# `build_pool` may name one: whichever corpus it is reading, it asks the one
+# gate that owns that corpus and `bank_merge` composes the rules.
+_STEM_RULES = ("has_broken_options", "needs_missing_figure", "looks_truncated")
+
+
+def test_neither_pool_path_composes_the_stem_rules_itself():
+    """A source scan, as Task 16 did for the merge's own filters.
+
+    Scoped to the baked-bank branch when it was written, which left the
+    registry branch spelling out `has_broken_options` / `needs_missing_figure`
+    / `looks_truncated` in its own order -- a second, differently-composed
+    answer to "can this be served", and the one still carrying the
+    single-character-option bug. Each branch now asks one named function, and
+    the rules are composed once, in `bank_merge`, per corpus."""
+    registry, baked = _build_pool_source()
+    for branch, text, gate in (("registry", registry, "raw_extraction_reason"),
+                               ("baked-bank", baked, "unservable_reason")):
+        spelled_out = [name for name in _STEM_RULES if name in text]
+        assert spelled_out == [], (
+            f"the {branch} path composes its own servability rules "
+            f"({', '.join(spelled_out)}); ask bank_merge.{gate}")
+        assert gate in text, (
+            f"the {branch} path must ask {gate}, the one gate for the corpus "
+            "it reads")
+
+
+def test_the_baked_bank_path_keeps_no_second_copy_of_the_rule():
+    """The baked-bank branch, on top of the stem rules, must not re-run the
+    encoding check or a near-duplicate index of its own over records the merge
+    already repaired and de-duplicated. Those two stay on the registry path:
+    it reads raw PDF extraction, where the encoding really is broken and the
+    same paper really is parsed twice."""
+    _registry, baked = _build_pool_source()
+    second_opinions = [name for name in (*_STEM_RULES, "looks_mangled", "near_dupes")
                        if name in baked]
     assert second_opinions == [], (
         "the baked-bank path applies its own servability rules "
@@ -944,6 +978,77 @@ def test_the_baked_bank_path_keeps_no_second_copy_of_the_rule():
     assert "unservable_reason" in baked, (
         "the baked-bank path must still ask the one gate, so a questions.json "
         "written by an older merge cannot reach a paper")
+
+
+# The two gates, and the vocabulary that may only be spoken behind them. One
+# gate per corpus: `raw_extraction_reason` answers "can this be served" about a
+# stem straight out of PDF extraction, `unservable_reason` about a record the
+# merge has already repaired and normalised. They read different inputs (a bare
+# string against a whole record) and give different answers to the same stem on
+# purpose -- applying the raw one to merged records refused 238 answerable
+# served questions, which is the defect Task 126 exists to close.
+_GATES = ("raw_extraction_reason", "unservable_reason")
+# Every other name in bank_merge that decides, or half-decides, servability.
+_BEHIND_THE_GATE = (
+    "has_broken_options", "needs_missing_figure", "looks_truncated",
+    "exclusion_reason", "unanswerable_reason", "source_reason",
+    "unallocated_marks_reason", "builder_key_reason",
+    "_options_missing", "_options_out_of_order", "_case_without_question",
+    "_shown_below_missing",
+)
+
+
+def _bank_merge_names_used_by(path: Path) -> set[str]:
+    """Every name a shipping module takes from `bank_merge`, by import or
+    through an alias. Parsed, not grepped: `merge_question_banks.py` names
+    `bank_merge.exclusion_reason` in its module docstring, and prose about the
+    gate is not a second copy of it."""
+    import ast
+
+    tree = ast.parse(path.read_text(encoding="utf-8"))
+    names: set[str] = set()
+    aliases: set[str] = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom):
+            if (node.module or "").endswith("bank_merge"):
+                names.update(a.name for a in node.names)
+            elif (node.module or "").endswith("corpus") or node.module is None:
+                aliases.update(a.asname or a.name for a in node.names
+                               if a.name == "bank_merge")
+        elif isinstance(node, ast.Import):
+            aliases.update(a.asname or a.name.rsplit(".", 1)[-1] for a in node.names
+                           if a.name.endswith("bank_merge"))
+        elif isinstance(node, ast.Attribute) and isinstance(node.value, ast.Name):
+            if node.value.id in aliases:
+                names.add(node.attr)
+    return names
+
+
+def test_only_the_two_gates_leave_bank_merge():
+    """Requirement 1 asks for exactly ONE implementation of "can this be
+    served". There is one per corpus, and this is what holds it at two: no
+    module outside `bank_merge` may reach past a gate for a rule or for half
+    of the chain behind it, however the rules themselves are shared.
+
+    Repo-wide, not `pool.py` alone. The scan above watches the two branches
+    that were wrong; this one is what stops a third answer appearing in
+    `qbank_routes.py`, `bank_health.py` or a script the day someone needs
+    "just the figure check" somewhere new.
+    """
+    root = Path(__file__).resolve().parents[1]
+    shipping = [p for p in (*(root / "src").rglob("*.py"), *(root / "scripts").glob("*.py"))
+                if p.name != "bank_merge.py"]
+    assert len(shipping) > 100, "the source scan found almost nothing to scan"
+
+    reaching_past = {}
+    for path in shipping:
+        behind = _bank_merge_names_used_by(path) & set(_BEHIND_THE_GATE)
+        if behind:
+            reaching_past[path.relative_to(root).as_posix()] = sorted(behind)
+    assert reaching_past == {}, (
+        "these modules take a servability rule from bank_merge instead of "
+        f"asking one of {_GATES}, which makes each of them a second answer to "
+        f"'can this be served': {reaching_past}")
 
 
 # --------------------------------------------------------------------------- #
