@@ -1,6 +1,6 @@
 {
  "built_from": {
-  "approved_decomposition": "C:\\Users\\varsh\\AppData\\Local\\Temp\\claude\\C--Users-varsh-OneDrive-Documents-Sarvam\\41a6a65b-1bb7-4f34-809c-9d44876be9ab\\scratchpad\\t108\\data\\curriculum.sqlite",
+  "approved_decomposition": "C:\\Users\\varsh\\AppData\\Local\\Temp\\claude\\t108\\data\\curriculum.sqlite",
   "approved_school_id": "school_1",
   "textbooks": "C:\\Users\\varsh\\OneDrive\\Documents\\Sarvam\\ncert-dataset\\textbooks",
   "textbook_extractor": "academicos.syllabus.textbook_headings",
@@ -23,29 +23,44 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 4 chapters got topics; 4 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "why_uncovered": "none of the 4 chapters got topics; 4 of them have no chapter of that title in english/class6_poorvi.pdf, which prints 5 chapters of its own (\"A Bottleof Dew\"; \"The Unlikely Best Friends\"; \"Neem Baba\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "reading-comprehension",
      "chapter_name": "Reading Comprehension",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "grammar",
      "chapter_name": "Grammar (Nouns, Verbs, Articles, Simple Sentences)",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "writing-skills",
      "chapter_name": "Paragraph Writing, Message Writing, Picture Description",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "poorvi-textbook",
      "chapter_name": "Poorvi (Units: Fables and Folk Tales, Friendship, Nurturing Nature, Sports and Games, Culture and Tradition)",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     }
-   ]
+   ],
+   "textbook": {
+    "books": [
+     "english/class6_poorvi.pdf"
+    ],
+    "textbook_chapters": 5,
+    "textbook_chapters_with_headings": 1,
+    "textbook_chapter_titles": [
+     "A Bottleof Dew",
+     "The Unlikely Best Friends",
+     "Neem Baba",
+     "Changeof Heart",
+     "Culture and Tradition nit Hamara Bharat— Incredible India!"
+    ],
+    "matched_chapters": 0
+   }
   },
   {
    "subject": "Hindi",
@@ -91,7 +106,7 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 10,
-   "why_uncovered": "10 of 11 chapters got topics; the one left has no chapter of that title in maths/class6_ganita_prakash.pdf (10 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "why_uncovered": "10 of 11 chapters got topics; the one left has no chapter of that title in maths/class6_ganita_prakash.pdf, which prints 10 chapters of its own (\"PATTERNS IN MATHEMATICS\"; \"Lines and Angles\"; \"NUMBER PLAY\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "ratio-and-proportion",
@@ -130,12 +145,12 @@
    "subtopics": 18,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 10,
-   "why_uncovered": "10 of 12 chapters got topics; 2 of them are chapters the textbook prints with no section headings inside them (prose and activity-only chapters, which carry no sub-structure to extract).",
+   "why_uncovered": "10 of 12 chapters got topics; the one left has no chapter of that title in science/class6_curiosity.pdf, which prints 12 chapters of its own (\"Science? ?\"; \"Diversity in the Living World\"; \"Mindful Eating: A Path to a Healthy Body\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter; the one left is a chapter the textbook prints with no section headings inside it (prose and activity-only chapters, which carry no sub-structure to extract).",
    "uncovered": [
     {
      "chapter_slug": "the-wonderful-world-of-science",
      "chapter_name": "The Wonderful World of Science",
-     "why": "the textbook's chapter of this name prints no section headings inside it"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "methods-of-separation-in-everyday-life",
@@ -150,7 +165,7 @@
     "textbook_chapters": 12,
     "textbook_chapters_with_headings": 10,
     "textbook_chapter_titles": [
-     "The Wonderful World of Science",
+     "Science? ?",
      "Diversity in the Living World",
      "Mindful Eating: A Path to a Healthy Body",
      "Exploring Magnets",
@@ -176,7 +191,7 @@
    "subtopics": 21,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 8,
-   "why_uncovered": "8 of 12 chapters got topics; 3 of them have no chapter of that title in chapters/fees1 (13 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter; the one left is a chapter the textbook prints with no section headings inside it (prose and activity-only chapters, which carry no sub-structure to extract).",
+   "why_uncovered": "8 of 12 chapters got topics; 3 of them have no chapter of that title in chapters/fees1, which prints 13 chapters of its own (\"Locating Places on the Earth\"; \"Oceans and Continents\"; \"Landforms and Life\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter; the one left is a chapter the textbook prints with no section headings inside it (prose and activity-only chapters, which carry no sub-structure to extract).",
    "uncovered": [
     {
      "chapter_slug": "india-that-is-bharat",
@@ -233,34 +248,49 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 5 chapters got topics; 5 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "why_uncovered": "none of the 5 chapters got topics; 5 of them have no chapter of that title in english/class7_poorvi.pdf, which prints 5 chapters of its own (\"nit LEARNING TOGETHER\"; \"nit WIT AND HUMOUR\"; \"nit DREAMS AND DISCOVERIES\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "reading-comprehension",
      "chapter_name": "Reading Comprehension",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "grammar",
      "chapter_name": "Grammar (Nouns, Pronouns, Adjectives, Adverbs, Prepositions)",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "writing-skills",
      "chapter_name": "Paragraph Writing, Informal Letters, Story Writing",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "honeycomb-textbook",
      "chapter_name": "Honeycomb (Textbook in English)",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "an-alien-hand",
      "chapter_name": "An Alien Hand (Supplementary Reader)",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     }
-   ]
+   ],
+   "textbook": {
+    "books": [
+     "english/class7_poorvi.pdf"
+    ],
+    "textbook_chapters": 5,
+    "textbook_chapters_with_headings": 1,
+    "textbook_chapter_titles": [
+     "nit LEARNING TOGETHER",
+     "nit WIT AND HUMOUR",
+     "nit DREAMS AND DISCOVERIES",
+     "nit TRAVEL AND ADVENTURE",
+     "nit BRAVEHEARTS"
+    ],
+    "matched_chapters": 0
+   }
   },
   {
    "subject": "Hindi",
@@ -306,7 +336,7 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 13 chapters got topics; 13 of them have no chapter of that title in maths/class7_ganita_prakash.pdf, chapters/gegp2 (15 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "why_uncovered": "none of the 13 chapters got topics; 13 of them have no chapter of that title in maths/class7_ganita_prakash.pdf, chapters/gegp2, which prints 15 chapters of its own (\"LARGE NUMBERS AROUND US\"; \"ARITHMETIC EXPRESSIONS\"; \"A PEEK BEYOND THE POINT\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "integers",
@@ -382,13 +412,13 @@
     "textbook_chapters": 15,
     "textbook_chapters_with_headings": 15,
     "textbook_chapter_titles": [
-     "Textbook of Mathematics",
      "LARGE NUMBERS AROUND US",
      "ARITHMETIC EXPRESSIONS",
      "A PEEK BEYOND THE POINT",
      "EXPRESSIONS USING LETTER- NUMBERS",
      "PARALLEL AND INTERSECTING LINES",
      "NUMBER PLAY",
+     "A TALE OF THREE INTERSECTING LINES",
      "WORKING WITH FRACTIONS",
      "GEOMETRIC TWINS",
      "OPERATIONS WITH INTEGERS",
@@ -411,7 +441,7 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 13 chapters got topics; 13 of them have no chapter of that title in science/class7_curiosity.pdf (11 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "why_uncovered": "none of the 13 chapters got topics; 13 of them have no chapter of that title in science/class7_curiosity.pdf, which prints 11 chapters of its own (\"The Ever-Evolving World of Science\"; \"Exploring Substances: Acidic, Basic, and Neutral\"; \"Electricity: Circuits and their Components\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "nutrition-in-plants",
@@ -486,17 +516,17 @@
     "textbook_chapters": 11,
     "textbook_chapters_with_headings": 11,
     "textbook_chapter_titles": [
-     "World of Science",
-     "Basic, and Neutral",
-     "Components",
-     "and Non-metals",
+     "The Ever-Evolving World of Science",
+     "Exploring Substances: Acidic, Basic, and Neutral",
+     "Electricity: Circuits and their Components",
+     "The World of Metals and Non-metals",
      "Changes Around Us: Physical and Chemical",
-     "and Change",
-     "in Nature",
+     "Adolescence: A Stage of Growth and Change",
+     "Heat Transfer in Nature",
      "Measurement of Time and Motion",
-     "in Animals",
-     "in Plants",
-     "Reﬂ ections"
+     "Life Processes in Animals",
+     "Life Processes in Plants",
+     "Light: Shadows and Reﬂ ections"
     ],
     "matched_chapters": 0
    }
@@ -511,7 +541,7 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 23 chapters got topics; 23 of them have no chapter of that title in chapters/gees1, chapters/gees2 (20 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "why_uncovered": "none of the 23 chapters got topics; 23 of them have no chapter of that title in chapters/gees1, chapters/gees2, which prints 20 chapters of its own (\"Geographical Diversity of India\"; \"Understanding the Weather\"; \"Climates of India\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "tracing-changes-thousand-years",
@@ -637,26 +667,26 @@
     "textbook_chapters": 20,
     "textbook_chapters_with_headings": 20,
     "textbook_chapter_titles": [
-     "Geographical Diversity of India Questions",
-     "Understanding the Weather Questions",
-     "Climates of India Questions",
-     "New Beginnings: Cities and States Questions",
-     "The Rise of Empires Questions",
-     "The Age of Reorganisation Questions",
-     "The Gupta Era: An Age of Tireless Creativity Questions",
-     "How the Land Becomes Sacred Questions",
-     "From the Rulers to the Ruled: Types of Governments Questions",
-     "The Constitution of India — An Introduction Questions",
+     "Geographical Diversity of India",
+     "Understanding the Weather",
+     "Climates of India",
+     "New Beginnings: Cities and States",
+     "The Rise of Empires",
+     "The Age of Reorganisation",
+     "The Gupta Era: An Age of Tireless Creativity",
+     "How the Land Becomes Sacred",
+     "From the Rulers to the Ruled: Types of Governments",
+     "The Constitution of India — An Introduction",
      "From Barter to Money",
-     "Understanding Markets Questions",
-     "The Story of Indian Farming Questions",
-     "India and Her Neighbours Questions",
-     "Empires and Kingdoms: 6th to 10th Centuries Questions",
-     "Turning Tides: 11thand 12th Centuries Questions",
-     "India, a Home to Many Questions",
-     "The State, the Government, and You Questions",
-     "Questions Infrastructure: Engine of India’s Development",
-     "Banks and the Magic of Finance Questions"
+     "Understanding Markets",
+     "The Story of Indian Farming",
+     "India and Her Neighbours",
+     "Empires and Kingdoms: 6th to 10th Centuries",
+     "Turning Tides: 11thand 12th Centuries",
+     "India, a Home to Many",
+     "The State, the Government, and You",
+     "Infrastructure: Engine of India’s Development",
+     "Banks and the Magic of Finance"
     ],
     "matched_chapters": 0
    }
@@ -671,34 +701,47 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 5 chapters got topics; 5 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "why_uncovered": "none of the 5 chapters got topics; 5 of them have no chapter of that title in english/class8_poorvi.pdf, which prints 3 chapters of its own (\"nit WIT AND WISDOM\"; \"nit MYSTERY AND MAGIC\"; \"nit SCIENCE AND CURIOSITY\") and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "reading-comprehension",
      "chapter_name": "Reading Comprehension",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "grammar",
      "chapter_name": "Grammar (Tenses, Active-Passive, Direct-Indirect, Conjunctions)",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "writing-skills",
      "chapter_name": "Formal and Informal Letters, Notice, Paragraph Writing",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "honeydew-textbook",
      "chapter_name": "Honeydew (Textbook in English)",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "it-so-happened",
      "chapter_name": "It So Happened (Supplementary Reader)",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     }
-   ]
+   ],
+   "textbook": {
+    "books": [
+     "english/class8_poorvi.pdf"
+    ],
+    "textbook_chapters": 3,
+    "textbook_chapters_with_headings": 1,
+    "textbook_chapter_titles": [
+     "nit WIT AND WISDOM",
+     "nit MYSTERY AND MAGIC",
+     "nit SCIENCE AND CURIOSITY"
+    ],
+    "matched_chapters": 0
+   }
   },
   {
    "subject": "Hindi",
@@ -744,7 +787,7 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 13 chapters got topics; 13 of them have no chapter of that title in maths/class8_ganita_prakash.pdf, chapters/hegp2 (15 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "why_uncovered": "none of the 13 chapters got topics; 13 of them have no chapter of that title in maths/class8_ganita_prakash.pdf, chapters/hegp2, which prints 14 chapters of its own (\"A SQUARE AND A CUBE\"; \"POWER PLAY\"; \"A STORY OF NUMBERS\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "rational-numbers",
@@ -817,22 +860,21 @@
      "maths/class8_ganita_prakash.pdf",
      "chapters/hegp2"
     ],
-    "textbook_chapters": 15,
+    "textbook_chapters": 14,
     "textbook_chapters_with_headings": 14,
     "textbook_chapter_titles": [
-     "Textbook of Mathematics Textbook of Mathematics",
      "A SQUARE AND A CUBE",
      "POWER PLAY",
      "A STORY OF NUMBERS",
      "QUADRILATERALS",
      "NUMBER PLAY",
      "WE DISTRIBUTE, YET THINGS MULTIPLY",
-     "REASONING-1",
-     "DISGUISE",
+     "PROPORTIONAL REASONING-1",
+     "FRACTIONS IN DISGUISE",
      "THE BAUDHĀYANA- PYTHAGORAS THEOREM",
-     "REASONING–2",
+     "PROPORTIONAL REASONING–2",
      "EXPLORING SOME GEOMETRIC THEMES",
-     "AND LINES",
+     "TALES BY DOTS AND LINES",
      "ALGEBRA PLAY",
      "AREA"
     ],
@@ -849,7 +891,7 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 14 chapters got topics; 14 of them have no chapter of that title in science/class8_curiosity.pdf (13 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "why_uncovered": "none of the 14 chapters got topics; 14 of them have no chapter of that title in science/class8_curiosity.pdf, which prints 13 chapters of its own (\"Exploring the Investigative World of Science\"; \"The Invisible Living World: Beyond Our Naked Eye\"; \"Health: The Ultimate Treasure\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "crop-production-management",
@@ -956,7 +998,7 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 21 chapters got topics; 21 of them have no chapter of that title in chapters/hees1, chapters/hees2 (14 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "why_uncovered": "none of the 21 chapters got topics; 21 of them have no chapter of that title in chapters/hees1, chapters/hees2, which prints 14 chapters of its own (\"Natural Resources and Their Use\"; \"Reshaping India’s Political Map\"; \"The Rise of the Marathas\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "how-when-and-where",
@@ -1072,20 +1114,20 @@
     "textbook_chapters": 14,
     "textbook_chapters_with_headings": 14,
     "textbook_chapter_titles": [
-     "Natural Resources and Their Use Questions",
+     "Natural Resources and Their Use",
      "Reshaping India’s Political Map",
      "The Rise of the Marathas",
      "The Colonial Era in India",
      "Universal Franchise and India’s Electoral System",
      "The Parliamentary System: Legislature and Executive",
-     "Factors of Production Questions",
-     "World Geography: Some Glimpses Questions",
+     "Factors of Production",
+     "World Geography: Some Glimpses",
      "India’s Long Road to Independence",
-     "A Journey Through Indian Architecture Questions",
+     "A Journey Through Indian Architecture",
      "The Role of the Judiciary in Our Society",
-     "Citizenship: Rights and Duties Questions",
-     "Dynamics of Population Questions",
-     "India’s Urban Landscape Questions"
+     "Citizenship: Rights and Duties",
+     "Dynamics of Population",
+     "India’s Urban Landscape"
     ],
     "matched_chapters": 0
    }
@@ -1100,7 +1142,7 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 5 chapters got topics; 5 of them have no chapter of that title in english/class9_kaveri.pdf (8 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "why_uncovered": "none of the 5 chapters got topics; 5 of them have no chapter of that title in english/class9_kaveri.pdf, which prints 8 chapters of its own (\"How I Taught My Grandmother to Read\"; \"The Pot Maker\"; \"Winds of Change\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "reading-comprehension",
@@ -1139,7 +1181,7 @@
      "The Pot Maker",
      "Winds of Change",
      "Vitamin-M",
-     "The World of Limitless Possibilities Paralympics",
+     "The World of Limitless Possibilities",
      "Twin Melodies",
      "Carrier of Words",
      "Follow That Dream"
@@ -1157,69 +1199,78 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 12 chapters got topics; 12 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "why_uncovered": "none of the 12 chapters got topics; 12 of them have nothing to match against: hindi/class9_ganga.pdf is in this repo, but the extractor read no chapter out of it -- it keys on a chapter opener printing its number at display size beside a title set above the body text, and this book does not (the Hindi reader, for one, prints its chapter titles as artwork rather than as text); the LLM extraction route is this subject's path until the extractor learns the book's layout.",
    "uncovered": [
     {
      "chapter_slug": "apthit-gadyansh",
      "chapter_name": "Apthit Gadyansh va Kavyansh",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
     },
     {
      "chapter_slug": "upsarg-pratyay",
      "chapter_name": "Upsarg va Pratyay",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
     },
     {
      "chapter_slug": "samas",
      "chapter_name": "Samas",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
     },
     {
      "chapter_slug": "arth-ke-aadhar-par-vakya",
      "chapter_name": "Arth ke Aadhar par Vakya Bhed",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
     },
     {
      "chapter_slug": "alankar-9",
      "chapter_name": "Alankar",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
     },
     {
      "chapter_slug": "kshitij-bhag-1-gadya",
      "chapter_name": "Kshitij Bhag 1 (Gadya Khand)",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
     },
     {
      "chapter_slug": "kshitij-bhag-1-kavya",
      "chapter_name": "Kshitij Bhag 1 (Kavya Khand)",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
     },
     {
      "chapter_slug": "kritika-bhag-1",
      "chapter_name": "Kritika Bhag 1",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
     },
     {
      "chapter_slug": "anuchhed-lekhan",
      "chapter_name": "Anuchhed Lekhan",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
     },
     {
      "chapter_slug": "patra-lekhan",
      "chapter_name": "Patra Lekhan",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
     },
     {
      "chapter_slug": "laghukatha-samvad-lekhan",
      "chapter_name": "Laghukatha va Samvad Lekhan",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
     },
     {
      "chapter_slug": "email-suchna-lekhan",
      "chapter_name": "Email va Suchna Lekhan",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
     }
-   ]
+   ],
+   "textbook": {
+    "books": [
+     "hindi/class9_ganga.pdf"
+    ],
+    "textbook_chapters": 0,
+    "textbook_chapters_with_headings": 0,
+    "textbook_chapter_titles": [],
+    "matched_chapters": 0
+   }
   },
   {
    "subject": "Mathematics",
@@ -1231,7 +1282,7 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 12 chapters got topics; 12 of them have no chapter of that title in maths/class9_ganita_manjari.pdf (1 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "why_uncovered": "none of the 12 chapters got topics; 12 of them have no chapter of that title in maths/class9_ganita_manjari.pdf, which prints 8 chapters of its own (\"Orienting Yourself: The Use of Coordinates\"; \"Introduction to Linear Polynomials\"; \"The World of Numbers\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "number-systems-9",
@@ -1298,10 +1349,17 @@
     "books": [
      "maths/class9_ganita_manjari.pdf"
     ],
-    "textbook_chapters": 1,
-    "textbook_chapters_with_headings": 0,
+    "textbook_chapters": 8,
+    "textbook_chapters_with_headings": 8,
     "textbook_chapter_titles": [
-     "GANITA MANJARI Textbook of Mathematics for GRADE"
+     "Orienting Yourself: The Use of Coordinates",
+     "Introduction to Linear Polynomials",
+     "The World of Numbers",
+     "Exploring Algebraic Identities",
+     "I’m Up and Down, and Round and Round",
+     "Measuring Space: Perimeter and Area",
+     "The Mathematics of Maybe: Introduction to Probability",
+     "Predicting What Comes Next: Exploring Sequences and Progressions"
     ],
     "matched_chapters": 0
    }
@@ -1316,7 +1374,7 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 12 chapters got topics; 12 of them have no chapter of that title in science/class9_exploration.pdf (13 chapters read) -- the syllabus JSON's chapter names and the book's do not match, which for Classes 7-9 is NCERT's 2024-25 NEP editions having renamed and reorganised the chapters this repo's syllabus JSON still lists under their previous names; a near-match would attach one chapter's headings to a different chapter.",
+   "why_uncovered": "none of the 12 chapters got topics; 12 of them have no chapter of that title in science/class9_exploration.pdf, which prints 13 chapters of its own (\"Exploration: Entering the World of Secondary Science\"; \"Cell: The Building Block of Life\"; \"Tissues in Action\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "matter-in-our-surroundings",
@@ -1386,19 +1444,19 @@
     "textbook_chapters": 13,
     "textbook_chapters_with_headings": 12,
     "textbook_chapter_titles": [
-     "Chapter Exploration: Entering the World of Secondary Science",
-     "Cell: The Building Block of Life Chapter",
-     "Tissues in Action Chapter",
-     "Describing Motion Around Us Chapter",
-     "Exploring Mixtures and their Separation Chapter",
-     "How Forces Affect Motion Chapter",
-     "Work, Energy, and Simple Machines Chapter",
-     "Journey Inside the Atom Chapter Atoms",
-     "Atomic Foundations of Matter Chapter",
-     "Sound Waves: Characteristics and Applications Chapter Chapter",
-     "Reproduction: How Life Continues Chapter",
-     "Patterns in Life: Diversity and Classification Chapter",
-     "Earth as a System: Energy, Matter, and Life Chapter"
+     "Exploration: Entering the World of Secondary Science",
+     "Cell: The Building Block of Life",
+     "Tissues in Action",
+     "Describing Motion Around Us",
+     "Exploring Mixtures and their Separation",
+     "How Forces Affect Motion",
+     "Work, Energy, and Simple Machines",
+     "Journey Inside the Atom",
+     "Atomic Foundations of Matter",
+     "Sound Waves: Characteristics and Applications",
+     "Reproduction: How Life Continues",
+     "Patterns in Life: Diversity and Classification",
+     "Earth as a System: Energy, Matter, and Life"
     ],
     "matched_chapters": 0
    }
@@ -1413,109 +1471,128 @@
    "subtopics": 0,
    "from_approved_decomposition": 0,
    "from_textbook_headings": 0,
-   "why_uncovered": "none of the 20 chapters got topics; 20 of them have no source at all -- no NCERT textbook for this subject/grade in this repo and no approved decomposition to copy; the LLM extraction route is their path when a key is configured.",
+   "why_uncovered": "none of the 20 chapters got topics; 20 of them have no chapter of that title in social_science/class9_understanding_society_part1.pdf, which prints 9 chapters of its own (\"Understanding Social Science\"; \"Shaping of the Earth’s Surface\"; \"Atmosphere and Climate\", ...) and not one of their titles is in this syllabus JSON; a near-match would attach one chapter's headings to a different chapter.",
    "uncovered": [
     {
      "chapter_slug": "french-revolution",
      "chapter_name": "The French Revolution",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "socialism-europe-russian-revolution",
      "chapter_name": "Socialism in Europe and the Russian Revolution",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "nazism-rise-of-hitler",
      "chapter_name": "Nazism and the Rise of Hitler",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "forest-society-colonialism",
      "chapter_name": "Forest Society and Colonialism",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "pastoralists-modern-world",
      "chapter_name": "Pastoralists in the Modern World",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "india-size-and-location",
      "chapter_name": "India - Size and Location",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "physical-features-of-india",
      "chapter_name": "Physical Features of India",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "drainage",
      "chapter_name": "Drainage",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "climate",
      "chapter_name": "Climate",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "natural-vegetation-wildlife",
      "chapter_name": "Natural Vegetation and Wildlife",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "population",
      "chapter_name": "Population",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "what-is-democracy-why",
      "chapter_name": "What is Democracy? Why Democracy?",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "constitutional-design",
      "chapter_name": "Constitutional Design",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "electoral-politics",
      "chapter_name": "Electoral Politics",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "working-of-institutions",
      "chapter_name": "Working of Institutions",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "democratic-rights",
      "chapter_name": "Democratic Rights",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "story-village-palampur",
      "chapter_name": "The Story of Village Palampur",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "people-as-resource",
      "chapter_name": "People as Resource",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "poverty-as-a-challenge",
      "chapter_name": "Poverty as a Challenge",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     },
     {
      "chapter_slug": "food-security-in-india",
      "chapter_name": "Food Security in India",
-     "why": "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+     "why": "the textbook has no chapter with this title"
     }
-   ]
+   ],
+   "textbook": {
+    "books": [
+     "social_science/class9_understanding_society_part1.pdf"
+    ],
+    "textbook_chapters": 9,
+    "textbook_chapters_with_headings": 1,
+    "textbook_chapter_titles": [
+     "Understanding Social Science",
+     "Shaping of the Earth’s Surface",
+     "Atmosphere and Climate",
+     "Early Humans and Beginning of Civilisation",
+     "State and Society up to 1000 CE",
+     "Democracy",
+     "Elections",
+     "Building Blocks in Economics: The Problem of Choice",
+     "The Price Puzzle: What Drives the Market"
+    ],
+    "matched_chapters": 0
+   }
   },
   {
    "subject": "English",
