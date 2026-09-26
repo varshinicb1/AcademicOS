@@ -23,6 +23,11 @@ Last green at `5375af1` (2026-09-24): 3,589 passed / 113 skipped / 8 xfailed;
 373 Flutter tests passed; analyzer at 7 info-level notes. A number lower than
 that is a regression until you can say which tests went and why.
 
+Do not rebuild `frontend/build/web` while the Python suite runs. `api/main.py`
+mounts that directory when it exists at import, so a rebuild's `rm -rf` mid-run
+fails `test_unknown_route_404_without_startup` with "StaticFiles directory ...
+does not exist" (2026-09-26). Build the web app before or after the suite.
+
 If nothing under `frontend/` changed since the live commit
 (`git diff --name-only <live-sha> HEAD -- frontend` is empty), the web bundle
 does not need rebuilding: deploy the backend only and skip steps 4-5.
