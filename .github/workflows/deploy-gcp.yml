@@ -492,11 +492,21 @@ jobs:
           fi
         working-directory: frontend
 
+      # Flutter writes main.dart.js and flutter_bootstrap.js under the same
+      # names every build; this gives both URLs a content hash, via the one
+      # file every browser re-reads (index.html, no-store), so a browser that
+      # cached an old build fetches the new one. Fails the job if it cannot.
+      - name: Give the entry files content-hashed URLs
+        run: python3 scripts/web_cache_bust.py frontend/build/web
+
+      # Pinned to v13: from 2026-09-24, firebase-tools@latest (v15) ignored
+      # FIREBASE_TOKEN on the hand deploy and failed with "Failed to get
+      # Firebase project"; v13 honours it (docs/deploy-by-hand.md).
       - name: Deploy to Firebase Hosting
         env:
           FIREBASE_TOKEN: ${{ steps.auth.outputs.access_token }}
         run: |
-          npx --yes firebase-tools@latest deploy \
+          npx --yes firebase-tools@13 deploy \
             --only hosting \
             --project "$PROJECT_ID" \
             --non-interactive

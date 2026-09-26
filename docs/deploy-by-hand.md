@@ -54,6 +54,12 @@ default split turns it into a bad dict entry, which stops the revision starting.
     rm -rf build/web        # a local http.server serving it holds the directory; stop that first
     flutter build web --release --dart-define=ACADEMICOS_API="https://academicos-backend-2eskom55ta-el.a.run.app/api/v1"
     rm -f build/web/assets/assets/corpus/questions.json    # 15 MB offline-only bank; the web never reads it
+    cd .. && python scripts/web_cache_bust.py frontend/build/web   # content-hashed entry URLs
+
+Flutter writes `main.dart.js` and `flutter_bootstrap.js` under the same names
+every build. The last command makes `index.html` (never cached) load both through
+`?v=<content hash>` URLs, so a browser that cached an older build fetches this
+one. It fails loudly if Flutter's output changes shape; do not deploy past that.
 
 ## 5. Firebase Hosting
 
