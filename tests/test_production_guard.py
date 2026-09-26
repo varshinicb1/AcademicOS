@@ -607,3 +607,34 @@ def test_not_enabled_reaches_the_client_as_a_clear_answer():
     assert response.status_code == 501
     assert "not enabled for this school" in body["detail"]
     assert body["code"] == "llm_not_enabled"
+
+
+def _cache_controls(fb):
+    return [(rule["source"], h["value"]) for rule in fb["headers"]
+            for h in rule["headers"] if h["key"].lower() == "cache-control"]
+
+
+def test_no_app_file_is_cached_as_if_its_name_changed_with_its_content():
+    """Audit 2026-09-26 (item 8.3): `main.dart.js` and `flutter_bootstrap.js`
+    were served `public, max-age=31536000, immutable`. Flutter web does not
+    content-hash its file names -- every build writes `main.dart.js` again --
+    so a browser that had loaded the app once kept running that bundle and
+    never asked again: the auditor's browser ran the 2026-09-22 build four
+    deploys later, with the old class 11-12 picker and none of the builder.
+    A long or immutable cache is only safe on a name that changes when the
+    content does, and nothing this app serves has one."""
+    fb = json.loads((REPO / "firebase.json").read_text(encoding="utf-8"))["hosting"]
+    for source, value in _cache_controls(fb):
+        v = value.lower()
+        assert "immutable" not in v, (source, value)
+        ages = [int(p.split("=", 1)[1]) for p in v.replace(" ", "").split(",")
+                if p.startswith("max-age=")]
+        assert all(a == 0 for a in ages), (source, value)
+
+
+def test_every_app_file_revalidates_on_load():
+    """Revalidation, not no-store: the ETag makes an unchanged file a 304, so a
+    returning teacher re-downloads the 5 MB bundle only after a deploy."""
+    fb = json.loads((REPO / "firebase.json").read_text(encoding="utf-8"))["hosting"]
+    everywhere = [v for s, v in _cache_controls(fb) if s == "**"]
+    assert everywhere and "no-cache" in everywhere[0].lower()
