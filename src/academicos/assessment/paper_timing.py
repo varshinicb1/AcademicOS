@@ -40,13 +40,25 @@ from __future__ import annotations
 import os
 import statistics
 import time
-from dataclasses import dataclass
+from collections import Counter
+from dataclasses import dataclass, field
 
 from .audit_log import AuditLog, get_audit_log
 
-# The action the generation routes already append. Kept as one constant so the
-# writer and the reader cannot drift apart.
+# The action quick generation appends, and `record_generation` writes.
 ACTION = "quick_paper_generated"
+
+# Every action a generation route appends, one per way the product makes a
+# paper, with the name the report gives that path. The report reads all of
+# them: the web app makes its papers through the guided builder and the
+# hand-picked path and never calls quick-generate, so reading ACTION alone
+# reported zero papers for every school using the web app (audit 2026-09-26).
+# tests/test_paper_timing.py scans src/ so a new path cannot go uncounted.
+GENERATION_ACTIONS = {
+    ACTION: "quick",
+    "template_paper_generated": "builder",
+    "id_curated_paper_generated": "hand-picked",
+}
 
 # The declared manual baseline, in minutes.
 #
@@ -78,10 +90,14 @@ class SavedTimeReport:
     baseline_provenance: str
     estimated_minutes_saved_per_paper: float
     estimated_minutes_saved_total: float
+    # How many of `papers` each generation path made ("quick", "builder",
+    # "hand-picked"); a path with none is absent.
+    papers_by_path: dict[str, int] = field(default_factory=dict)
 
     def as_dict(self) -> dict:
         return {
             "papers": self.papers,
+            "papersByPath": dict(self.papers_by_path),
             "medianGenerationSeconds": round(self.median_generation_seconds, 2),
             "totalGenerationSeconds": round(self.total_generation_seconds, 2),
             "baselineMinutesPerPaper": self.baseline_minutes_per_paper,
@@ -167,18 +183,23 @@ def report(data_root, *, school_id: str | None = None,
     defaulted silently.
     """
     audit = get_audit_log(data_root)
-    entries = audit.for_action(ACTION)
+    entries = [(path, entry) for action, path in GENERATION_ACTIONS.items()
+               for entry in audit.for_action(action)]
     if limit and len(entries) > limit:
+        # The most recent `limit` across every path, not the first path's.
+        entries.sort(key=lambda pe: str(pe[1].get("timestamp") or ""), reverse=True)
         entries = entries[:limit]
 
     elapsed: list[float] = []
-    for entry in entries:
+    by_path: Counter[str] = Counter()
+    for path, entry in entries:
         details = entry.get("details") or {}
         if school_id is not None and details.get("schoolId") != school_id:
             continue
         value = details.get("generationSeconds")
         if isinstance(value, (int, float)) and value >= 0:
             elapsed.append(float(value))
+            by_path[path] += 1
 
     baseline, provenance = baseline_minutes()
     if not elapsed:
@@ -203,6 +224,7 @@ def report(data_root, *, school_id: str | None = None,
         # the figure that IS real.
         estimated_minutes_saved_per_paper=max(0.0, per_paper),
         estimated_minutes_saved_total=max(0.0, per_paper) * len(elapsed),
+        papers_by_path=dict(by_path),
     )
 
 

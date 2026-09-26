@@ -151,3 +151,64 @@ def test_the_action_constant_matches_what_the_route_writes():
     assert '"quick_paper_generated"' in source
     assert pt.ACTION == "quick_paper_generated"
     assert "generationSeconds" in source
+
+
+# --- every way the product makes a paper is counted -------------------------
+#
+# Audit 2026-09-26 (item 5.2/6.1): the report read `quick_paper_generated` only,
+# and the web app never calls quick-generate -- the guided builder appends
+# `template_paper_generated` and the hand-picked path `id_curated_paper_generated`.
+# After 20 quick, 11 builder and 2 hand-picked papers it reported 20; on the live
+# web app a principal's card said no paper had been generated.
+
+def _append(data_root, action, *, school_id="s1", seconds=6.0, paper_id="p"):
+    from academicos.assessment.audit_log import get_audit_log
+    get_audit_log(data_root).append(
+        action, details={"paperId": paper_id, "schoolId": school_id,
+                         "generationSeconds": seconds})
+
+
+def test_every_generation_path_is_counted(data_root):
+    _append(data_root, "quick_paper_generated", paper_id="q1")
+    _append(data_root, "template_paper_generated", paper_id="t1")
+    _append(data_root, "template_paper_generated", paper_id="t2")
+    _append(data_root, "id_curated_paper_generated", paper_id="h1")
+    rep = pt.report(data_root, school_id="s1")
+    assert rep.papers == 4
+    assert rep.as_dict()["papersByPath"] == {"quick": 1, "builder": 2, "hand-picked": 1}
+
+
+def test_a_builder_only_school_is_not_reported_as_zero(data_root):
+    _append(data_root, "template_paper_generated", seconds=4.0)
+    rep = pt.report(data_root, school_id="s1")
+    assert rep.papers == 1
+    assert rep.median_generation_seconds == 4.0
+    assert rep.estimated_minutes_saved_total > 0
+
+
+def test_every_path_is_scoped_to_one_school(data_root):
+    _append(data_root, "template_paper_generated", school_id="s1")
+    _append(data_root, "id_curated_paper_generated", school_id="s2")
+    assert pt.report(data_root, school_id="s1").papers == 1
+    assert pt.report(data_root, school_id="s2").papers == 1
+    assert pt.report(data_root).papers == 2
+
+
+def test_no_route_writes_a_generation_action_the_report_does_not_read():
+    """The drift guard the single-file check above could not be.
+
+    Reads every module under src/academicos for a `"..._paper_generated"`
+    action literal, so a new generation path that forgets to be counted fails
+    here -- and an action the report reads that nothing writes fails too.
+    """
+    import re
+    written = set()
+    for path in (REPO / "src" / "academicos").rglob("*.py"):
+        if path.name == "paper_timing.py":
+            continue
+        written |= set(re.findall(r'"([a-z_]+_paper_generated)"',
+                                  path.read_text(encoding="utf-8")))
+    assert written, "found no generation action at all; the scan is broken"
+    assert written == set(pt.GENERATION_ACTIONS), (
+        f"routes write {sorted(written)}, the report reads "
+        f"{sorted(pt.GENERATION_ACTIONS)}")
