@@ -50,7 +50,9 @@ from .tagger import SUBJECTS as TAGGER_SUBJECTS
 
 SUBJECTS = ("Mathematics", "Science", "Social Science", "English", "Hindi")
 GRADES = tuple(range(6, 11))
-MARK_BUCKETS = ("1", "2", "3", "4", "5+")
+# 5 is its own bucket: the board paper's long-answer section needs exactly 5
+# marks, and a 6-10 mark CBE item cannot fill it.
+MARK_BUCKETS = ("1", "2", "3", "4", "5", "6+")
 LEVEL_FIELDS = {"chapter": "taxonomyChapterId", "topic": "topicIds", "subtopic": "subtopicIds"}
 
 
@@ -77,7 +79,7 @@ def grade_of(rec: dict) -> int | None:
 
 def mark_bucket(marks) -> str:
     m = int(marks or 0)
-    return "5+" if m >= 5 else str(m)
+    return "6+" if m >= 6 else str(m)
 
 
 def has_answer_key(rec: dict) -> bool:
@@ -221,10 +223,14 @@ def _cell(subject: str, grade: int, recs: list[tuple[str, dict]], tree: dict | N
         chapters=chapters,
         emptyChapters=[c["id"] for c in chapters if not c["questions"]],
         chaptersWithout3Mark=[c["id"] for c in chapters if not c["byMarks"]["3"]],
-        chaptersWithout5Mark=[c["id"] for c in chapters if not c["byMarks"]["5+"]],
+        chaptersWithout5Mark=[c["id"] for c in chapters if not c["byMarks"]["5"]],
         emptyTopics=[t["id"] for t in topics if not t["questions"]],
         topicsWithout3Mark=[t["id"] for t in topics if not t["byMarks"]["3"]],
-        topicsWithout5Mark=[t["id"] for t in topics if not t["byMarks"]["5+"]],
+        topicsWithout5Mark=[t["id"] for t in topics if not t["byMarks"]["5"]],
+        # The gap lists count only tagged questions. While keyed questions sit
+        # untagged, "no question in this chapter" may be a missing tag, not
+        # missing content -- so the lists are a lower bound, and say so.
+        chapterCountsComplete=cell["untaggedKeyed"] == 0,
     )
     papers = {"all": _paper_verdicts(keyed, presets)}
     if served is not None:
@@ -314,8 +320,7 @@ def tagging_accuracy(model: dict, audit_subtopic: dict, audit_chapter_topic: dic
     ``_tagger_model.json``) and the held-out audits of the tags actually
     written (``_tag_audit*.json``). The audits are the honest figure -- the
     gold set chose the thresholds -- so both are quoted, never one for the
-    other. A wrong topic tag is split by whether the question is taught in
-    another section of the class's book or in none of it."""
+    other. A wrong topic tag is bucketed by :func:`_wrong_topic_bucket`."""
     nested = {lv: dict(v) for lv, v in model["gold"]["nested"]["accepted"].items()}
 
     def held(m):
@@ -332,11 +337,34 @@ def tagging_accuracy(model: dict, audit_subtopic: dict, audit_chapter_topic: dic
         "nested": nested,
         "heldOut": held_out,
         "wrongTopics": {
-            "otherSection": sum(1 for it in wrong if it.get("topics")),
-            "noSection": sum(1 for it in wrong if not it.get("topics")),
-            "items": [{"id": it["id"], "note": it.get("note", "")} for it in wrong],
+            **{b: sum(1 for it in wrong if _wrong_topic_bucket(it) == b) for b in WRONG_BUCKETS},
+            "items": [{"id": it["id"], "note": it.get("note", ""),
+                       "bucket": _wrong_topic_bucket(it)} for it in wrong],
         },
     }
+
+
+WRONG_BUCKETS = ("otherSection", "otherChapter", "noSectionFits", "notInBook")
+
+
+def _wrong_topic_bucket(item: dict) -> str:
+    """Where a wrongly topic-tagged question is actually taught, read from the
+    audit's own fields: ``topics`` (sections that fit; empty = none fits) and
+    ``chapters`` (chapters of the class's book that teach it; empty = none),
+    compared with ``taggedAs['chapter']``.
+
+    - otherSection: a fitting section lies in the chapter it was tagged to
+    - otherChapter: fitting sections exist, all in other chapters of the book
+    - noSectionFits: some chapter teaches it, but no one section fits
+    - notInBook: no chapter of the class's book teaches it
+    """
+    tagged = (item.get("taggedAs") or {}).get("chapter")
+    topics = item.get("topics") or []
+    if topics:
+        if tagged and any(t.startswith(tagged + "/") for t in topics):
+            return "otherSection"
+        return "otherChapter"
+    return "noSectionFits" if item.get("chapters") else "notInBook"
 
 
 # --------------------------------------------------------------------------- #
@@ -428,8 +456,8 @@ def render_markdown(report: dict) -> str:
 
     out += ["", "## Summary", "",
             "| subject | class | questions | keyed | chapter | topic | subtopic | old chapterIds "
-            "| 1m | 2m | 3m | 4m | 5m+ | board paper (served / all) |",
-            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
+            "| 1m | 2m | 3m | 4m | 5m | 6m+ | board paper (served / all) |",
+            "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|"]
     for c in cells:
         t, m = c["tagged"], c["marks"]
         board = c["papers"]["all"].get("board")
@@ -438,7 +466,7 @@ def render_markdown(report: dict) -> str:
             f"| {c['subject']} | {c['grade']} | {c['questions']:,} | {c['keyedPct']}% "
             f"| {t['chapter']['pct']}% | {t['topic']['pct']}% | {t['subtopic']['pct']}% "
             f"| {t['oldChapterIds']['pct']}% | {m['1']} | {m['2']} | {m['3']} | {m['4']} "
-            f"| {m['5+']} | {_yes_no(sboard)} / {_yes_no(board)} |")
+            f"| {m['5']} | {m['6+']} | {_yes_no(sboard)} / {_yes_no(board)} |")
     no_q = [f"{c['subject']} {c['grade']}" for c in cells if not c["questions"]]
     if no_q:
         out += ["", f"**No question at all ({len(no_q)}):** " + ", ".join(no_q) + "."]
@@ -513,29 +541,33 @@ def render_markdown(report: dict) -> str:
         out += ["", f"### {c['subject']} class {c['grade']}", "",
                 f"{c['keyed']:,} keyed questions; {c['untaggedKeyed']:,} of them carry no "
                 "chapter tag and are counted in no chapter below." + never, "",
-                f"| {book_head}# | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m+ "
+                f"| {book_head}# | chapter | questions | marks | 1m | 2m | 3m | 4m | 5m | 6m+ "
                 "| topics with a question |",
-                f"|{book_rule}---:|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
+                f"|{book_rule}---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
         for ch in c["chapters"]:
             b = ch["byMarks"]
             with_q = sum(1 for t in ch["topics"] if t["questions"])
             book = f"{ch.get('book')} | " if multi else ""
             out.append(f"| {book}{ch['number'] if ch['number'] is not None else ''} | {ch['name']} "
                        f"| {ch['questions']} | {ch['marks']} | {b['1']} | {b['2']} | {b['3']} "
-                       f"| {b['4']} | {b['5+']} | {with_q}/{len(ch['topics'])} |")
+                       f"| {b['4']} | {b['5']} | {b['6+']} | {with_q}/{len(ch['topics'])} |")
 
         def listing(title, ids):
             if ids:
                 out.extend(["", f"**{title} ({len(ids)}):** " + "; ".join(names[i] for i in ids) + "."])
 
-        listing("Chapters with no question", c["emptyChapters"])
-        listing("Chapters with no 3-mark question", c["chaptersWithout3Mark"])
-        listing("Chapters with no 5-mark question", c["chaptersWithout5Mark"])
-        listing("Topics with no question", c["emptyTopics"])
+        q = "question" if c["chapterCountsComplete"] else "tagged question"
+        if not c["chapterCountsComplete"] and (c["emptyChapters"] or c["emptyTopics"]):
+            out.extend(["", f"_The lists below are a lower bound: {c['untaggedKeyed']:,} keyed "
+                        "questions are untagged, and a chapter listed here may hold some of them._"])
+        listing(f"Chapters with no {q}", c["emptyChapters"])
+        listing(f"Chapters with no 3-mark {q}", c["chaptersWithout3Mark"])
+        listing(f"Chapters with no 5-mark {q}", c["chaptersWithout5Mark"])
+        listing(f"Topics with no {q}", c["emptyTopics"])
         empty = set(c["emptyTopics"])
-        listing("Topics with questions but no 3-mark question",
+        listing(f"Topics with questions but no 3-mark {q}",
                 [t for t in c["topicsWithout3Mark"] if t not in empty])
-        listing("Topics with questions but no 5-mark question",
+        listing(f"Topics with questions but no 5-mark {q}",
                 [t for t in c["topicsWithout5Mark"] if t not in empty])
     out.append("")
     return "\n".join(out)
@@ -545,7 +577,7 @@ def _tagging_md(t: dict) -> list[str]:
     ho, ne = t["heldOut"], t["nested"]
     topic = ho["topic"]
     wrong = t["wrongTopics"]
-    n_wrong = wrong["otherSection"] + wrong["noSection"]
+    n_wrong = sum(wrong.get(b, 0) for b in WRONG_BUCKETS)
     out = ["", "## How right are the tags?", "",
            "Two measurements, both labelled by an AI reviewer (Claude), not by a teacher. "
            "*Nested* is cross-validation on the gold set, with the choice of threshold inside "
@@ -564,10 +596,22 @@ def _tagging_md(t: dict) -> list[str]:
             f"({topic['right']}/{topic['tags']}), {side} the 90% the tagger aims for; the nested "
             f"gold-set figure is {ne['topic']['right']}/{ne['topic']['tags']}.")
     if n_wrong:
+        parts = []
+        if wrong["otherSection"]:
+            parts.append(f"in {wrong['otherSection']} another section of the same chapter does")
+        if wrong["otherChapter"]:
+            parts.append(f"in {wrong['otherChapter']} a section of another chapter of the same "
+                         "book does")
+        if wrong["noSectionFits"]:
+            n = wrong["noSectionFits"]
+            parts.append(f"{n} {'is' if n == 1 else 'are'} taught in a chapter of the book "
+                         "but fit no one section of it")
+        if wrong["notInBook"]:
+            n = wrong["notInBook"]
+            parts.append(f"{n} {'is' if n == 1 else 'are'} taught nowhere in the class's book")
+        body = parts[0] if len(parts) == 1 else "; ".join(parts[:-1]) + "; and " + parts[-1]
         line += (f" All {n_wrong} wrong topic tags put the question in a section of its class's "
-                 f"book that does not teach it: in {wrong['otherSection']} another section of "
-                 f"the same chapter does, and {wrong['noSection']} are taught in no section of "
-                 "the class's book at all.")
+                 f"book that does not teach it: {body}.")
     out += ["", line, ""]
     out += [f"- `{it['id']}`: {it['note']}" for it in wrong["items"]]
     return out

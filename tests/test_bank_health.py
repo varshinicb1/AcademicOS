@@ -121,12 +121,12 @@ def test_cell_counts():
     # the tagger declining, and the report keeps the two apart
     assert c["neverTagged"] == 2
     # the marks and types of the questions that can be served (keyed)
-    assert c["marks"] == {"1": 2, "2": 1, "3": 1, "4": 0, "5+": 2}
+    assert c["marks"] == {"1": 2, "2": 1, "3": 1, "4": 0, "5": 1, "6+": 1}
     assert c["types"] == {"short_answer": 5, "long_answer": 1}
 
 
 def test_mark_buckets_and_subject_families():
-    assert [mark_bucket(m) for m in (1, 2, 3, 4, 5, 6, 10)] == ["1", "2", "3", "4", "5+", "5+", "5+"]
+    assert [mark_bucket(m) for m in (1, 2, 3, 4, 5, 6, 10)] == ["1", "2", "3", "4", "5", "6+", "6+"]
     assert subject_family({"subject": "Mathematics (Standard)"}) == "Mathematics"
     assert subject_family({"subject": "Hindi Course A"}) == "Hindi"
     assert subject_family({"subject": "English Language and Literature"}) == "English"
@@ -166,7 +166,7 @@ def test_chapters_and_topics_count_keyed_questions_and_marks():
     chapters = {ch["id"]: ch for ch in _cell(_report())["chapters"]}
     integers = chapters["mathematics-7/integers"]
     assert integers["questions"] == 3 and integers["marks"] == 9
-    assert integers["byMarks"] == {"1": 1, "2": 0, "3": 1, "4": 0, "5+": 1}
+    assert integers["byMarks"] == {"1": 1, "2": 0, "3": 1, "4": 0, "5": 1, "6+": 0}
     adding = next(t for t in integers["topics"] if t["id"] == ADD)
     assert adding["questions"] == 2 and adding["marks"] == 4
     fractions = chapters["mathematics-7/fractions"]
@@ -180,6 +180,22 @@ def test_empty_chapters_and_topics_are_listed():
     assert c["chaptersWithout5Mark"] == ["mathematics-7/fractions", "mathematics-7/symmetry"]
     assert c["emptyTopics"] == ["mathematics-7/integers/history"]
     assert c["untaggedKeyed"] == 2                 # a5 and a7 sit in no chapter
+
+
+def test_a_chapter_whose_only_long_question_is_not_5_marks_has_no_5_mark_question():
+    # the board paper's Section D needs exactly 5 marks; an 8-mark CBE item does not fill it
+    bank = [_q("f1", 8, chapter="mathematics-7/fractions", topic="mathematics-7/fractions/halves"),
+            _q("f2", 5, chapter="mathematics-7/integers", topic=ADD)]
+    c = _cell(_report(bank))
+    fractions = next(ch for ch in c["chapters"] if ch["id"] == "mathematics-7/fractions")
+    assert fractions["byMarks"]["5"] == 0 and fractions["byMarks"]["6+"] == 1
+    assert "mathematics-7/fractions" in c["chaptersWithout5Mark"]
+    assert "mathematics-7/fractions/halves" in c["topicsWithout5Mark"]
+    assert "mathematics-7/integers" not in c["chaptersWithout5Mark"]
+    assert ADD not in c["topicsWithout5Mark"]
+    md = render_markdown(_report(bank))
+    assert "| 5m | 6m+ |" in md
+    assert "**Chapters with no 5-mark question (2):** Fractions" in md
 
 
 def test_paper_verdict_and_its_reason():
@@ -213,12 +229,29 @@ MODEL = {"thresholds": {"chapter": 0.73, "topic": 0.76, "subtopic": 0.68},
              "topic": {"right": 51, "tags": 55, "precision": 0.9273, "wilsonLower95": 0.8274},
              "subtopic": {"right": 40, "tags": 43, "precision": 0.9302, "wilsonLower95": 0.8139}}}}}
 AUDIT_SUB = {"measured": {"right": 28, "tags": 30}}
-AUDIT_CT = {"measured": {"chapter": {"right": 30, "tags": 30}, "topic": {"right": 2, "tags": 4}},
+AUDIT_CT = {"measured": {"chapter": {"right": 30, "tags": 30}, "topic": {"right": 2, "tags": 7}},
             "items": [
-                {"id": "t1", "levels": ["topic"], "right": True, "topics": ["x"]},
-                {"id": "t2", "levels": ["topic"], "right": False, "topics": ["y"], "note": "other"},
-                {"id": "t3", "levels": ["topic"], "right": False, "topics": [], "note": "not taught"},
-                {"id": "t4", "levels": ["topic"], "right": True, "topics": ["z"]},
+                {"id": "t1", "levels": ["topic"], "right": True, "topics": ["a/ch/x"],
+                 "chapters": ["a/ch"], "taggedAs": {"chapter": "a/ch", "topic": "a/ch/x"}},
+                {"id": "t2", "levels": ["topic"], "right": False, "topics": ["a/ch/y"],
+                 "chapters": ["a/ch"], "taggedAs": {"chapter": "a/ch", "topic": "a/ch/x"},
+                 "note": "other"},
+                {"id": "t3", "levels": ["topic"], "right": False, "topics": [], "chapters": [],
+                 "taggedAs": {"chapter": "a/ch", "topic": "a/ch/x"}, "note": "not taught"},
+                # taught in the tagged chapter, but no section of it fits: NOT "not in the book"
+                {"id": "t5", "levels": ["topic"], "right": False, "topics": [],
+                 "chapters": ["a/ch"], "taggedAs": {"chapter": "a/ch", "topic": "a/ch/x"},
+                 "note": "chapter opening"},
+                # the fitting section is in a different chapter of the same book
+                {"id": "t6", "levels": ["topic"], "right": False, "topics": ["a/other/z"],
+                 "chapters": ["a/other"], "taggedAs": {"chapter": "a/ch", "topic": "a/ch/x"},
+                 "note": "elsewhere"},
+                # a fitting section in the tagged chapter and one outside it: the tagged chapter wins
+                {"id": "t7", "levels": ["topic"], "right": False,
+                 "topics": ["a/other/z", "a/ch/y"], "chapters": ["a/other", "a/ch"],
+                 "taggedAs": {"chapter": "a/ch", "topic": "a/ch/x"}, "note": "both"},
+                {"id": "t4", "levels": ["topic"], "right": True, "topics": ["a/ch/z"],
+                 "chapters": ["a/ch"], "taggedAs": {"chapter": "a/ch", "topic": "a/ch/z"}},
                 {"id": "c1", "levels": ["chapter"], "right": True},
             ]}
 
@@ -228,12 +261,32 @@ def test_tagging_accuracy_quotes_nested_and_held_out_numbers():
     assert acc["nested"]["topic"] == {"right": 51, "tags": 55, "precision": 0.9273,
                                       "wilsonLower95": 0.8274}
     assert acc["heldOut"]["chapter"] == {"right": 30, "tags": 30, "precision": 1.0}
-    assert acc["heldOut"]["topic"] == {"right": 2, "tags": 4, "precision": 0.5}
+    assert acc["heldOut"]["topic"] == {"right": 2, "tags": 7, "precision": 0.2857}
     assert acc["heldOut"]["subtopic"] == {"right": 28, "tags": 30, "precision": 0.9333}
-    # a wrong topic tag is either taught in another section, or in none of the book
-    assert acc["wrongTopics"] == {"otherSection": 1, "noSection": 1,
-                                  "items": [{"id": "t2", "note": "other"},
-                                            {"id": "t3", "note": "not taught"}]}
+    # a wrong topic tag is bucketed by comparing the audit's topics and chapters with the
+    # chapter it was tagged to; an empty topics list alone does not mean "not in the book"
+    assert acc["wrongTopics"] == {"otherSection": 2, "otherChapter": 1, "noSectionFits": 1,
+                                  "notInBook": 1,
+                                  "items": [{"id": "t2", "note": "other", "bucket": "otherSection"},
+                                            {"id": "t3", "note": "not taught",
+                                             "bucket": "notInBook"},
+                                            {"id": "t5", "note": "chapter opening",
+                                             "bucket": "noSectionFits"},
+                                            {"id": "t6", "note": "elsewhere",
+                                             "bucket": "otherChapter"},
+                                            {"id": "t7", "note": "both",
+                                             "bucket": "otherSection"}]}
+
+
+def test_markdown_does_not_call_a_chapter_taught_question_absent_from_the_book():
+    report = _report()
+    report["tagging"] = tagging_accuracy(MODEL, AUDIT_SUB, AUDIT_CT)
+    md = render_markdown(report)
+    assert "All 5 wrong topic tags" in md
+    assert "in 2 another section of the same chapter does" in md
+    assert "in 1 a section of another chapter of the same book does" in md
+    assert "1 is taught in a chapter of the book but fit no one section of it" in md
+    assert "1 is taught nowhere in the class's book" in md
 
 
 def test_what_the_merge_left_out_is_counted_per_reason_and_per_cell():
@@ -296,7 +349,7 @@ def test_markdown_names_its_inputs_date_gaps_and_verdicts():
     assert "not verified" in render_markdown(_report([BANK[5]]))  # a6: no key to check
     assert "Symmetry" in md                               # the empty chapter, by name
     assert "needs 2 keyed 3-mark questions" in md          # the verdict's reason
-    assert "51/55" in md and "2/4" in md                   # nested and held-out topic figures
+    assert "51/55" in md and "2/7" in md                   # nested and held-out topic figures
 
 
 def test_script_writes_both_reports_with_the_inputs_sha256(tmp_path):
@@ -371,3 +424,22 @@ def test_repo_banks_are_named_by_their_repo_path_even_through_a_junction():
     spec.loader.exec_module(mod)
     assert mod._rel(mod.SERVED) == "academicos-data/syllabus/questions.json"
     assert mod._label(mod.EXTRA[0], served=False) == "ncert-exemplar"
+
+
+def test_untagged_keyed_questions_make_the_gap_lists_a_lower_bound():
+    # a5 and a7 are keyed but untagged: a chapter with none of the tagged
+    # questions may still hold them, so "no question" would be false.
+    report = _report()
+    c = _cell(report)
+    assert c["chapterCountsComplete"] is False
+    md = render_markdown(report)
+    assert "Chapters with no tagged question" in md
+    assert "Chapters with no question" not in md
+    assert "2 keyed questions are untagged" in md
+
+
+def test_a_fully_tagged_cell_lists_its_gaps_as_absolute():
+    tagged = [q for q in BANK if q.get("taxonomyChapterId") or q["id"] in ("x1", "x2")]
+    report = _report(bank=tagged)
+    assert _cell(report)["chapterCountsComplete"] is True
+    assert "Chapters with no question" in render_markdown(report)
