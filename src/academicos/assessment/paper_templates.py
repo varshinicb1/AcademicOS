@@ -64,7 +64,7 @@ from pathlib import Path
 from typing import Callable, Literal, Optional
 
 from .competency import CBSE_COMPETENCY_TARGET, COMPETENCY_RULE_TEXT, competency_ceiling, \
-    competency_signal, is_competency_question
+    competency_signal, is_competency_question, share_summary, whole_percent
 from .pool import near_duplicate
 from .schemas import Camel, DifficultyDistribution, PaperTemplateDraft, QuestionSchema, \
     QuestionType, TemplateScope, TemplateSection
@@ -702,10 +702,8 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
     return report, plans
 
 
-def _whole_percent(part: int, whole: int) -> int:
-    """`part` of `whole` as a whole-number percentage, rounded half up: 1 of 8
-    is 13%, where round() would give 12."""
-    return (200 * part + whole) // (2 * whole) if whole else 0
+# One rounding for every share this module writes (competency.whole_percent).
+_whole_percent = whole_percent
 
 
 def _printed(plans: list[SectionPlan]) -> list[QuestionSchema]:
@@ -769,7 +767,6 @@ def competency_check(template: PaperTemplateDraft, plans: list[SectionPlan],
         detail = (f"Below CBSE's {t}%. The Class {template.grade} {template.subject} bank "
                   f"cannot reach it with this template: {bc} of the {len(usable)} questions "
                   f"it can use ({_whole_percent(bc, len(usable))}%) are competency-based.")
-    noun = "question" if n == 1 else "questions"
     return CompetencyCheck(
         status=status, target=target, printed=n, competency_based=c,
         share=round(c / n, 3),
@@ -777,7 +774,7 @@ def competency_check(template: PaperTemplateDraft, plans: list[SectionPlan],
         bank_usable=len(usable), bank_competency_based=bc,
         bank_share=round(bc / len(usable), 3) if usable else 0.0,
         by_signal=dict(Counter(signals)),
-        summary=f"Competency-based: {c} of {n} {noun} ({_whole_percent(c, n)}%)",
+        summary=share_summary(c, n),
         detail=detail, counted=COMPETENCY_RULE_TEXT,
     )
 

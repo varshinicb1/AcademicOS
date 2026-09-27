@@ -742,7 +742,8 @@ def test_generate_warns_about_selected_questions_that_repeat_each_other(tmp_path
         for picked in (_TWINS + others[:1], [partnered] + others):
             gen = post(picked)
             assert gen.status_code == 200, gen.text
-            warnings = gen.json()["warnings"]
+            # The competency line is the paper's own share (paper.report_competency).
+            warnings = [w for w in gen.json()["warnings"] if not w.startswith("Competency-based: ")]
             assert len(warnings) == 1, warnings
             assert QUADRATIC_A[0] in warnings[0] and QUADRATIC_B[0] in warnings[0], warnings
             # The same pair as ids, so the builder can swap one without
@@ -755,7 +756,7 @@ def test_generate_warns_about_selected_questions_that_repeat_each_other(tmp_path
             assert QUADRATIC_A[0] in detail and QUADRATIC_B[0] in detail, detail
         ok = post(_TWINS[:1] + others)
         assert ok.status_code == 200, ok.text
-        assert ok.json()["warnings"] == []
+        assert [w for w in ok.json()["warnings"] if "look like the same question" in w] == []
         assert ok.json()["similarPairs"] == []
         twice = post(_TWINS[:1] + _TWINS[:1] + others[:1])
         assert twice.status_code == 422, twice.text

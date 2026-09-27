@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from .competency import CBSE_COMPETENCY_TARGET
+from .competency import CBSE_COMPETENCY_TARGET, below_target, share_summary
 from .schemas import (
     Blueprint,
     GeneratedPaper,
@@ -310,12 +310,19 @@ def or_answer_key_entry(model_answer: str | None) -> str:
     return model_answer or "(model answer pending)"
 
 
-def competency_share(paper: GeneratedPaper) -> float:
-    """The competency-based share of the questions `paper` prints: its
+def competency_counts(paper: GeneratedPaper) -> tuple[int, int]:
+    """(competency-based, printed) over the questions `paper` prints: its
     compulsory questions, each flagged by the one rule when it was put on the
     paper (`generated_question`). OR alternatives are not counted."""
     flags = [q.is_competency for s in paper.sections for q in s.questions]
-    return round(sum(flags) / len(flags), 3) if flags else 0.0
+    return sum(flags), len(flags)
+
+
+def competency_share(paper: GeneratedPaper) -> float:
+    """The competency-based share of the questions `paper` prints
+    (`competency_counts`)."""
+    c, n = competency_counts(paper)
+    return round(c / n, 3) if n else 0.0
 
 
 def stamp_competency(paper: GeneratedPaper, target: float | None = None) -> None:
@@ -326,7 +333,8 @@ def stamp_competency(paper: GeneratedPaper, target: float | None = None) -> None
     paper.competency_target_met = paper.competency_share >= target
 
 
-def report_competency(paper: GeneratedPaper, target: float | None) -> list[str]:
+def report_competency(paper: GeneratedPaper, target: float | None, *,
+                      stated: bool = False) -> list[str]:
     """The CBQ share of the printed questions and whether it meets `target`
     (CBSE: at least 50%), stamped on the paper and each of its sets. Missed in
     17/25 subject/grade pairs at the 2026-09-21 audit, with nothing on the
@@ -340,15 +348,27 @@ def report_competency(paper: GeneratedPaper, target: float | None) -> list[str]:
     /papers/generate, generate-from-ids and generate-from-template -- so a
     template paper carries the share the builder's availability check showed
     (`paper_templates.competency_check`, same denominator).
+
+    Returns the paper's own line when it misses the target, then one per
+    other set that does. Set A is the paper itself (it carries the paper's
+    id), so it gets no line of its own: it had one, rounded another way than
+    the paper's ("11 of 37 questions (30%)" beside "Set A has 29.7%", audit
+    D79). `stated` is for a caller that has already written the paper's line
+    -- the builder's check, which also says why, or selection's -- so it is
+    not written twice. Every line is `competency.share_summary`'s.
     """
     target = CBSE_COMPETENCY_TARGET if target is None else target
     warnings: list[str] = []
     for p in [paper, *paper.sets]:
         stamp_competency(p, target)
-        if p is not paper and not p.competency_target_met:
-            warnings.append(
-                f"Set {p.set_label} has {round(p.competency_share * 100, 1)}% "
-                f"competency-based questions (CBSE target: {int(target * 100)}%).")
+        if p.competency_target_met:
+            continue
+        c, n = competency_counts(p)
+        if p is paper:
+            if not stated:
+                warnings.append(f"{share_summary(c, n)}. {below_target(target)}")
+        elif p.id != paper.id:
+            warnings.append(f"{share_summary(c, n, p.set_label)}. {below_target(target)}")
     return warnings
 
 

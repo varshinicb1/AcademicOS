@@ -179,3 +179,27 @@ def competency_ceiling(sections: Iterable[tuple[int, Iterable[Any], Iterable[Any
         taken.update(_id(q) for q in (*own, *rest, *borrowed))
         ceiling += len(own) + len(borrowed)
     return ceiling
+
+
+def whole_percent(part: int, whole: int) -> int:
+    """`part` of `whole` as a whole-number percentage, rounded half up: 1 of 8
+    is 13%, where round() would give 12."""
+    return (200 * part + whole) // (2 * whole) if whole else 0
+
+
+def share_summary(competency_based: int, printed: int, set_label: str | None = None) -> str:
+    """**The** way a paper's competency share is written, on every surface:
+    "Competency-based: 11 of 37 questions (30%)", or for a set other than the
+    paper itself "Set B competency-based: 9 of 37 questions (24%)".
+
+    A below-target paper used to state set A's share twice, rounded two ways
+    ("11 of 37 (30%)" and "Set A has 29.7%", audit D79): the builder's check,
+    the per-set lines and quick-generate each wrote their own. Callers add
+    what follows ("Below CBSE's 50%." and why)."""
+    noun = "question" if printed == 1 else "questions"
+    head = f"Set {set_label} competency-based" if set_label else "Competency-based"
+    return f"{head}: {competency_based} of {printed} {noun} ({whole_percent(competency_based, printed)}%)"
+
+
+def below_target(target: float) -> str:
+    return f"Below CBSE's {target * 100:g}%."
