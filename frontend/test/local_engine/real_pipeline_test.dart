@@ -38,7 +38,9 @@ void main() {
     // tells a teacher nothing (re-audit of 2026-09-22 found 38% of the
     // then-live bank like that).
     expect(CorpusRepository.instance.all.length, greaterThan(5000));
-    expect(science10.questionCount, 504);
+    // 504 until the fidelity rebuild of 2026-09-28, which refused the Science
+    // 10 items that point at a figure or graph they do not carry.
+    expect(science10.questionCount, 494);
     expect(science10.chapters, 13);
   });
 
