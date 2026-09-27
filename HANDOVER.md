@@ -18,7 +18,7 @@ The previous handover (2026-09-21, answer-key linkage) is kept in `docs/history/
 
 | Piece | Where | State |
 |---|---|---|
-| Web app (Flutter web) | https://vidyuthlabs.web.app (Firebase Hosting, project `vidyuthlabs`) | live, commit `8db6636` |
+| Web app (Flutter web) | https://vidyuthlabs.web.app (Firebase Hosting, project `vidyuthlabs`) | live, commit `caf5e3d` |
 | Backend (FastAPI) | Cloud Run `academicos-backend`, `asia-south1`, https://academicos-backend-2eskom55ta-el.a.run.app | live, `/health` reports the commit |
 | Database | Cloud SQL Postgres `academicos-pg` (durable tables) + SQLite snapshots | live |
 | Blobs | GCS `vidyuthlabs-academicos-media` | live |
@@ -97,7 +97,7 @@ This section was measured by reading the code, not by running it. Requirement ID
 |---|---|---|
 | **Question bank QB-1..13** | 5,429 served questions, every one with a marking scheme. Classes 6-10 Maths (289-857 per class) and Science (247-504). Sources: NCERT Exemplar 4,192, CBSE sample papers 783, CBSE competency items 435, board papers 19. One serving gate; bank health report; chapter/topic tagging for about half of the bank. | **Grades 1-5: nothing.** English, Hindi and Social Science 6-10 are almost empty. No NCERT textbook exercises imported yet. No unofficial or AI-assisted source with a review queue. Difficulty and Bloom level are inferred, not judged (QB-11). Content fidelity: 16 of 20 standard papers print an unanswerable question (audit D31, D26, D45; the bank rebuild for this is already authorised). |
 | **Question bank API API-1..6** | `/v1` search/get/coverage/facets, an MCP server, API keys (`api_keys.py`) | No key issuance on live and no durable key store (D38). Chapter filter differs from the builder's (D39, a regression). Paging and error contract gaps (D52, D64, D65). **No homework-generation endpoint (API-2).** |
-| **Exam automation EX-1..9** | Guided builder, quick paper, hand-pick, swap/pick/remove, sets, OR choices, PDF paper and key, time saved per paper | Tiers and the competency share (Task 125, half done on `feat/task-125`). Half-yearly papers fall short of marks (D18). No review/approval workflow, datesheet, invigilation, marks entry or report cards. School name/logo not printed by default (D41). |
+| **Exam automation EX-1..9** | Guided builder, quick paper, hand-pick, swap/pick/remove, sets, OR choices, PDF paper and key, time saved per paper; the competency share against CBSE's 50% and a tiers-unavailable sentence shown before generating (Task 125, live) | Real tiers need judged difficulty (QB-11); the competency share is 4-22% in Maths/Science 6-10, so most papers cannot reach 50% until the bank has more competency items. Half-yearly papers fall short of marks (D18). No review/approval workflow, datesheet, invigilation, marks entry or report cards. School name/logo not printed by default (D41). |
 | **Admin and dashboard ADM, ROLE** | Roles `principal`, `teacher`, `student`; invite-only registration; a role policy on every route; audit log; admin console with roster, coverage and pace, reschedule, calendar setup, book editions; insights card (per-term exam coverage, time saved) | **No delegated admin or permission sets (ROLE-1).** No parent role. No bulk import. Terms cannot be declared on the web yet (D27). A section is only a label on a grade (`Grade.section`); nothing is scheduled per section. The dashboard lacks substitution, homework and progress data. |
 | **Scheduling SCH-1..9** | Academic year, terms, holidays (multi-day), period configuration, **per-subject weekday slots** (`SubjectTimetableSlot`: subject, weekday, period), teacher → book assignments, dated lesson plans with PUSH/ADJUST reschedule and audit | **No real timetable model.** No section × period × teacher × room data, so no clash detection, no teacher timetable and no solver (SCH-2, SCH-3). **No leave, no substitution, no compensation or lost-period debt** (SCH-5..7). The edge cases (SCH-8) are unhandled. |
 | **Teacher app TA-1..9** | The shared Flutter codebase has a teacher "my schedule" page, a daily planner, papers and question bank, mobile scan. An **offline Android build** exists; the old phone stream's branch `feat/product-phone` has 8 unmerged commits and a `wip/product-phone-2026-09-26` snapshot. | **No separate teacher app.** No leave or substitution UI, no homework creation, no push notifications, no offline sync of timetable and lessons (the offline build runs a local engine instead of syncing). |
@@ -116,7 +116,7 @@ gate it and deploy it.
 
 | # | Milestone | Why first | First tasks |
 |---|---|---|---|
-| **M0** | Stabilise what is live | Leaves a clean base | Finish Task 125 (`docs/plans/task-125-competency.md`: fix the open major finding, then groups 5-6, gates, deploy). Fix D39 (use `chapter_filing` in `qbank_engine` and MCP). Serve hashed entry files immutable (D29). Declare terms on the web (D27). |
+| **M0** | Stabilise what is live | Leaves a clean base | ~~Finish Task 125~~ (done, live as `caf5e3d`). Fix D39 (use `chapter_filing` in `qbank_engine` and MCP). Serve hashed entry files immutable (D29). Declare terms on the web (D27). |
 | **M1** | School data model | Everything in v3 needs it | Sections as entities; teacher ↔ subject ↔ section allocations; rooms; bell schedules; delegated-admin permission sets (ROLE-1); parent accounts and linking; bulk CSV import (INT-3). |
 | **M2** | Scheduling engine | The teacher app's core | Timetable model and a constraint solver (OR-Tools CP-SAT) with clash detection (SCH-2/3). Leave → substitution → compensation with a lost-period debt (SCH-5..7). An edge-case test suite (SCH-8). Lesson plans per section. |
 | **M3** | Notifications platform | Both apps need it | Device registry, FCM push, in-app inbox, preferences/quiet hours, templates, a scheduler (Cloud Scheduler + Cloud Run jobs) for reminders and digests (NTF-1..3). |
@@ -136,7 +136,7 @@ measured from the start. Use `docs/audits/` for the write-ups and `docs/product-
 | Branch | State | What to do |
 |---|---|---|
 | `master` / `release/v1` | live + these docs | work from here |
-| `feat/task-125` | 8 commits, 4 of 6 task groups, one open major finding | finish per `docs/plans/task-125-competency.md` |
+| `feat/task-125` | merged as `caf5e3d`, live | history only |
 | `feat/term-insights`, `feat/question-bank-merge`, `feat/product-{calendar,exemplar,gcp,paperux,security}` | merged | history only |
 | `feat/product-phone` | offline Android app, 8 commits never merged (the phone was dropped from v2) | read before building the teacher/student apps; reuse what fits |
 | `wip/product-calendar-2026-09-26`, `wip/product-phone-2026-09-26` | snapshots of uncommitted work from stopped sessions | the calendar one is the exporter/manifest work the 6 strict xfails in `tests/test_curriculum_seed_grades.py` wait for; unreviewed and ungated |

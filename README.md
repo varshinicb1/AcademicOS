@@ -85,7 +85,7 @@ The headlines:
 
 The milestones, their order and the first tasks are in [`HANDOVER.md`](HANDOVER.md) section 7.
 
-1. **M0, stabilise:** finish Task 125, fix D39, cache the hashed entry files, declare terms on the web.
+1. **M0, stabilise:** fix D39, cache the hashed entry files, declare terms on the web (Task 125 is done and live).
 2. **M1, school data model:** sections, teacher allocations, rooms, bell schedules, delegated admin,
    parents, bulk import.
 3. **M2, scheduling engine:** timetable solver, leave -> substitution -> compensation, the edge-case tests.

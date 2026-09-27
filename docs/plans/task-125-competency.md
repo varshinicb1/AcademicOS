@@ -1,6 +1,9 @@
 # Task 125 — the competency share is real, and a paper that cannot reach CBSE's 50% says so before it prints
 
-**Status at handover (2026-09-27): in progress on branch `feat/task-125` (pushed), NOT merged, NOT deployed.**
+**Status: DONE. Merged as `caf5e3d` and live since 2026-09-27** (gates: Python 3,736 passed / 113 skipped /
+8 xfailed, Flutter 386). The open major finding was fixed in 753d80d (edited papers recount their
+competency sentences), with the below_bank minor as a new `below_choice` status; groups 5-6 landed as
+b9041f6, 647dd38 and 2d72030. The table below is the state at handover, kept as the record.
 
 | Group | Plan steps | State |
 |---|---|---|
