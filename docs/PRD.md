@@ -1,5 +1,11 @@
 # PRD — AcademicOS
 
+> **Superseded in part (2026-09-27).** The product owner adopted **[`docs/REQUIREMENTS.md`](REQUIREMENTS.md)
+> (v3)**: grades 1-10, a web console, a teacher app, a student app with parent mode, and the question bank
+> with its API. Where this PRD's scope decisions (§0.1, §0.3, §0.4, §0.12, §5A's source list, §6) disagree,
+> REQUIREMENTS.md wins. The non-goals (§7) and the hard constraints (§10) still bind.
+
+
 **Status:** draft v1, written 2026-09-17. This is the first product requirements
 document for this repository; it did not previously exist. A decision log was
 added 2026-09-18 (§0) recording the product owner's working positions on the

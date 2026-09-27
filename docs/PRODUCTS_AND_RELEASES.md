@@ -1,5 +1,11 @@
 # Products & Releases
 
+> **Dated record (last reconciled 2026-09-16).** Today the live release is the GCP one (Cloud Run +
+> Firebase Hosting, vidyuthlabs.web.app); Render still answers on an old build and is not the product.
+> The product line under **[`docs/REQUIREMENTS.md`](REQUIREMENTS.md) (v3)** is a web console, a teacher
+> app and a student app on one backend. See **[`HANDOVER.md`](../HANDOVER.md)** for the current state.
+
+
 **This file is the source of truth for "which thing are we talking about".**
 Older documents — and several code comments — use "the deployment", "the app"
 and "production" interchangeably for three genuinely separate deliverables.

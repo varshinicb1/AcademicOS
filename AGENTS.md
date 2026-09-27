@@ -2,18 +2,20 @@
 
 This document provides mandatory operational context, architectural rules, and engineering invariants for AI coding agents and human contributors working on **AcademicOS**.
 
-**Before writing code, read [`docs/PRD.md`](docs/PRD.md).** This file tells you *how*
+**Before writing code, read [`HANDOVER.md`](HANDOVER.md), then [`docs/PRD.md`](docs/PRD.md)** (whose scope is superseded by `docs/REQUIREMENTS.md`, but whose non-goals and constraints still bind). This file tells you *how*
 the system is built; the PRD tells you *what it is for, who uses it, and what it is
 not*. Several questions that look like engineering decisions here are product
 decisions that are still **open** — the PRD §12 lists them, and §7 lists the
 non-goals that are binding. Building the wrong thing correctly is the most
 expensive failure mode in this repo.
 
-**Then read [`docs/agent-workflow.md`](docs/agent-workflow.md)** — how work gets done
+**Then read [`HANDOVER.md`](HANDOVER.md) and [`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md)** (v3,
+2026-09-27: grades 1-10, web console, teacher app, student app, question bank API; it supersedes the
+PRD's scope decisions), **and [`docs/agent-workflow.md`](docs/agent-workflow.md)** — how work gets done
 here with several agents at once: the worktrees and who owns which files, the rules
 that stop one session destroying another's work, the gates a commit must pass, the
-question-bank pipeline order, and how to release and verify. The first sellable
-release is the **Web app, classes 6-10**, on GCP; see `docs/product-scorecard.md`.
+question-bank pipeline order, and how to release and verify. What is live is the
+v2 **Web app, classes 6-10**, on GCP (`docs/product-scorecard.md`); what to build next is v3.
 
 ---
 

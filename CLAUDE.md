@@ -2,9 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-**Before you change anything, read [`docs/agent-workflow.md`](docs/agent-workflow.md).**
-Several Claude sessions work here at once, each in its own worktree, and ship to a
-live product. That file covers the worktrees and who owns what, the rules for not
+**Before you change anything, read [`HANDOVER.md`](HANDOVER.md)** (what exists, access, the gap
+analysis and the roadmap), **[`docs/REQUIREMENTS.md`](docs/REQUIREMENTS.md)** (v3: grades 1-10, web
+console, teacher app, student app, question bank API), **and [`docs/agent-workflow.md`](docs/agent-workflow.md).**
+Work may run as parallel sessions, each in its own worktree, shipping to a live
+product. That file covers the worktrees and who owns what, the rules for not
 destroying each other's work, the gates, the question-bank pipeline order, and how
 to release — including the hand deploy (`docs/deploy-by-hand.md`) while CI cannot run.
 
@@ -19,8 +21,9 @@ AcademicOS — an evidence-grounded knowledge graph + retrieval + reasoning subs
 CBSE/NCERT corpus (question papers, marking schemes, model answers, curricula, circulars,
 bye-laws). The active platform comprises a FastAPI backend (`src/academicos/`) and one Flutter
 codebase (`frontend/`) that ships as two sub-products — a cloud **Web** client and a standalone
-offline **Android** app. **The first sellable release is the Web app, classes 6-10**; the
-Android app and classes 11-12 are out of it (user decisions, 2026-09-22 and 2026-09-23). The
+offline **Android** app. **Requirements v3 (2026-09-27) supersede the earlier web-first, classes 6-10 scope:** grades 1-10, a
+web console, a teacher app and a student app (`docs/REQUIREMENTS.md`). What is live today is the v2 web
+console for classes 6-10. The
 Web release runs on **GCP** (Cloud Run backend, Firebase Hosting at vidyuthlabs.web.app), live
 since 2026-09-22; the older **Render** release is described in `docs/deployment.md`. See
 `docs/PRODUCTS_AND_RELEASES.md`, which predates the GCP go-live, and `docs/product-scorecard.md`

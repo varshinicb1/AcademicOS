@@ -1,5 +1,11 @@
 # Product scorecard — the sellable product
 
+> **v3 scope adopted 2026-09-27.** This file is the **v2** instrument (web-first, classes 6-10). The
+> last v2 audit measured 61.0 (`docs/audits/2026-09-27-8db6636.md`). The three-app product under
+> [`docs/REQUIREMENTS.md`](REQUIREMENTS.md) is measured by the **v3 scorecard** proposed in its section 12.
+> Adopt it, then start a new audit log. v3 scores are not comparable with the v2 numbers below.
+
+
 **Adopted 2026-09-21.** The product owner set the target: **90% of the sellable
 product.** This file defines how that is measured. It was written and committed
 *before* the first audit ran, so the instrument cannot be tuned to the result.

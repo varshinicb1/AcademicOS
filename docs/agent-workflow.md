@@ -6,59 +6,45 @@ at once, each in its own worktree, one integration branch, and a live product.
 Every rule below exists because breaking it cost real work once. The reason is
 given with each so you can apply it to a case the rule does not name.
 
-Last reconciled: 2026-09-26. Counts in prose rot; re-measure before you rely on
+Last reconciled: 2026-09-27 (handover). Counts in prose rot; re-measure before you rely on
 one.
 
 ---
 
 ## 1. What is being built right now
 
-- **The product is the web app**, classes **6-10**. The Flutter web build is
-  served from Firebase Hosting at **vidyuthlabs.web.app** and talks to the
-  FastAPI backend on Cloud Run (`academicos-backend`, `asia-south1`, Cloud SQL
-  `academicos-pg`, GCS for blobs). The offline Android app is **out of the first
-  release** (user decision, 2026-09-22), and so are classes 11 and 12 (2026-09-23).
-  Do not offer a class the product cannot serve.
-- **Progress is measured by `docs/product-scorecard.md`** (target 80, then 90)
-  and re-audited against the *live* commit. Nothing moves the score until it is
-  deployed and an audit has scored it. The 5-phase research number in
-  `docs/roadmap.md` (~35%) is separate: report both, never swap one for the other.
-- `docs/PRD.md` says what the product is for and what is out of scope.
-  `docs/PRODUCTS_AND_RELEASES.md` predates the GCP go-live; where it calls GCP
-  "not yet provisioned", GCP is now the live web release.
+- **Requirements v3 (2026-09-27): [`docs/REQUIREMENTS.md`](REQUIREMENTS.md).** Grades 1-10, four
+  products on one backend: the web console (exam automation + the principal's full admin), a
+  **teacher app**, a **student app** with parent mode, and the question bank with its API. It supersedes
+  the earlier "web-first, classes 6-10, phone app out" scope.
+- **What is live** is the v2 web console for classes 6-10 (vidyuthlabs.web.app, Cloud Run
+  `academicos-backend`, Cloud SQL `academicos-pg`, GCS). **[`HANDOVER.md`](../HANDOVER.md)** has the gap
+  analysis against v3 and the milestone order.
+- **Progress is measured by an audited scorecard** against the *live* commit. The v2 instrument
+  (`docs/product-scorecard.md`) measured 61.0; adopt the v3 instrument (`REQUIREMENTS.md` section 12)
+  and take a baseline audit before new work is scored. Nothing moves a score until it is deployed and
+  audited. The 5-phase research number in `docs/roadmap.md` (~35%) is separate: report both.
 
-## 2. Worktrees and branches
+## 2. Branches and worktrees
 
-All worktrees sit side by side under `C:\Users\varsh\OneDrive\Documents\Sarvam\`.
+Until the 2026-09-27 handover the work ran in several git worktrees on one laptop, one per stream,
+with `release/v1` as the integration branch. On a new machine, clone the repository. `master` is what is
+live and `release/v1` equals it. Open branches and their state are in `HANDOVER.md` section 8.
 
-| Worktree | Branch | Stream | State (2026-09-26) |
-|---|---|---|---|
-| `AcademicOS-release` | `release/v1` | **Integration.** The only branch that reaches `master`. | pushed as `master` |
-| `AcademicOS` | `feat/question-bank-merge` | Question bank (Tasks 121-126) | merged |
-| `AcademicOS-calendar` | `feat/product-calendar` | Curriculum, calendar, class setup | merged; **uncommitted edits** to `scripts/export_decomposition_templates.py` and `decomposition/_manifest.json` belong to this stream |
-| `AcademicOS-exemplar` | `feat/product-exemplar` | NCERT Exemplar import, bank health report | merged |
-| `AcademicOS-gcp` | `feat/product-gcp` | GCP deploy | merged |
-| `AcademicOS-paperux` | `feat/product-paperux` | Paper builder UX | merged |
-| `AcademicOS-security` | `feat/product-security` | Role gates, audit log | merged |
-| `AcademicOS-phone` | `feat/product-phone` | Offline Android app | **not merged** (out of the release); 8 commits plus uncommitted network-policy work |
+`wip/*` branches on `origin` are snapshots of uncommitted work left behind when a stream stopped. Read
+one before redoing that work; do not merge one blind.
 
-`wip/*` branches on `origin` are snapshots of uncommitted work that was left in a
-worktree when its stream stopped. They were taken without touching the worktree.
-Read one before redoing that work; do not merge one blind.
+Rules, if you run more than one stream or session at a time:
 
-Rules:
-
-- **Work only in your own worktree.** Never edit, check out, reset or clean files
-  in another one, even to "tidy up". Read other worktrees freely.
-- **Never use a bare `git stash`.** The stash stack is shared by every worktree,
-  so `git stash pop` can apply another session's changes into yours. Set work
-  aside with a WIP commit instead.
-- **Stage by path** (`git add <files>`), never `git add -A` or `git commit -a`.
-  Every worktree shows the Flutter `generated_plugin_registrant.*` /
-  `generated_plugins.cmake` files as modified. They are build noise. Do not commit
-  them, and do not revert them in someone else's tree.
-- Branch off `release/v1` for new work, and merge back into it with `--no-ff`
-  and a message that says what the merge brings and how any conflict was resolved.
+- **One stream per worktree** (`git worktree add ../AcademicOS-<name> -b feat/<name> release/v1`).
+  Never edit, check out, reset or clean files in another stream's worktree. Read them freely.
+- **Never use a bare `git stash`.** The stash stack is shared by every worktree, so `git stash pop` can
+  apply another session's changes into yours. Set work aside with a WIP commit instead.
+- **Stage by path** (`git add <files>`), never `git add -A` or `git commit -a`. Every checkout shows the
+  Flutter `generated_plugin_registrant.*` / `generated_plugins.cmake` files as modified. They are build
+  noise: do not commit them.
+- Branch off `release/v1` for new work, and merge back into it with `--no-ff`, with a message that says
+  what the merge brings and how any conflict was resolved.
 
 ## 3. Working alongside other sessions
 
@@ -70,8 +56,9 @@ These are the rules that were learned the hard way.
    its owner, or the user.
 2. **If you offer to wait, wait.** If you tell another session "I'll hold X until
    you answer", do not do X until they answer, even if it looks safe.
-3. **Respect file ownership.** At the time of writing, the session *"Make the
-   chapter view read the taxonomy chapter tag"* owns:
+3. **Respect file ownership while sessions run in parallel.** Until the handover, the session *"Make the
+   chapter view read the taxonomy chapter tag"* owned the files below. That session is gone, and the
+   new team owns everything. Keep the rule for any parallel work you set up: name an owner per file set.
    - `src/academicos/assessment/pillar_routes.py`
    - `src/academicos/syllabus/cbse_syllabus.py`
    - `tests/test_catalog_chapters.py`, **including its floors** (`TAG_FLOOR`,
@@ -85,9 +72,11 @@ These are the rules that were learned the hard way.
 4. **Tell the bank owner before any rebuild of the served bank**
    (`academicos-data/syllabus/questions.json`). A rebuild changes every count
    other streams test against.
-5. **At most 3-4 heavy streams at once on this machine.** The development PC shut
-   down from overload once. A full pytest run plus a Flutter test run is already
-   two.
+5. **Machine load: one heavy job at a time on a laptop.** The development laptop overloaded and shut
+   down twice, the second time with four agent workflows running. A full pytest run, a Flutter test run,
+   `flutter build web` and a Cloud Build upload are each heavy. Never edit files in a checkout while its
+   full suite runs: source-scan tests read files at run time and fail falsely. Never rebuild
+   `frontend/build/web` while pytest runs: `api/main.py` mounts it at import.
 6. **A test failure is a filter, not a finding.** When a gate fails, report
    everything it measured, including what improved, not just the pairs that
    fell. A partial report once read as a regression that was a net gain.
@@ -165,7 +154,7 @@ anything**: `scripts/merge_question_banks.py` (the whole pipeline) and
 
 ## 6. Releasing and deploying
 
-1. Merge your branch into `release/v1` (in the `AcademicOS-release` worktree).
+1. Merge your branch into `release/v1` (`git switch release/v1 && git merge --no-ff feat/<name>`).
 2. Run both gates there.
 3. `git push origin release/v1:master` and `git push origin release/v1`.
 4. CI deploys from `master`. **Until 2026-10-01 CI cannot run** (Actions minutes
@@ -187,23 +176,17 @@ the running system, with the output inspected. In practice:
 - An audit is re-run by a fresh reader against the live system and recorded in
   the scorecard's audit log. It is never edited to fit a result.
 
-## 8. Open items (2026-09-26)
+## 8. Open items
 
-- **Bank rebuild pending (Task 126, requirement 5).** It would remove three class
-  12 Informatics Practices records whose chart never arrived
-  (`PENDING_REBUILD` in `tests/test_bank_surfaces_agree.py`). Classes 6-10 are
-  unchanged by it. It needs the bank owner's go-ahead.
-- **Six `xfail`s in `tests/test_curriculum_seed_grades.py`**: a stale
-  decomposition `_manifest.json` and a missing `export.textbook_sources`. The fix
-  is the calendar stream's uncommitted exporter work (see §2).
-- **Task 125 (competency share and tiers)** is not started: CBQ is near 0% against
-  CBSE's 50%, and the builder still offers tiers that return the same paper.
-- **Classes 11 and 12** still appear on the question-bank and syllabus browse
-  screens, though the paper builder offers only 6-10.
-- **Social Science, English and Hindi for classes 6-9** need source material
-  that is not in the repo. That is the largest coverage gap, and it needs the
-  user.
-- Web bundle size (scorecard item 2.4) is unmeasured on a throttled profile.
+`HANDOVER.md` section 8 lists the open branches and the planned streams.
+`docs/audits/2026-09-27-8db6636.md` lists 35 numbered defects with reproductions. The v3 gaps are in
+`HANDOVER.md` section 6. Two standing decisions from the product owner:
+
+- **Bank rebuild authorised (2026-09-27)** for the content-fidelity work. If a chapter floor in
+  `tests/test_catalog_chapters.py` fails because the bank now serves fewer but answerable questions, lower
+  that floor to the measured count, with the reason in the commit.
+- **Social Science, English, Hindi and grades 1-5** need source material that is not in the repo yet
+  (NCERT textbooks and other sources, `REQUIREMENTS.md` QB-4). This is the largest content gap.
 
 ## 9. Commits
 
