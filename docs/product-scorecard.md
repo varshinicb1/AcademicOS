@@ -183,6 +183,7 @@ copying its score, and adds its own file and row here.
 | 2026-09-23 | `00912e7` | 12.86 | 5.63 | 10.83 | 9.38 | 5.00 | 2.50 | 3.33 | 9.38 | **58.9** |
 | 2026-09-23 | `afadd6c` (classes 6-10) | 14.29 | 6.25 | 12.50 | 9.38 | 5.00 | 2.50 | 3.33 | 10.63 | **63.9** |
 | 2026-09-26 | `3197f4e` | 13.57 | 6.25 | 12.50 | 10.63 | 5.00 | 2.08 | 3.75 | 10.00 | **63.8** |
+| 2026-09-27 | `8db6636` | 14.29 | 6.25 | 10.00 | 9.38 | 5.00 | 2.50 | 2.92 | 10.63 | **61.0** |
 
 What moved, briefly:
 
@@ -206,3 +207,12 @@ What moved, briefly:
     never makes (5.2, 6.1).
 
   Scored only as deep as the previous audit went, the same range reads 66.8.
+- **61.0** (`8db6636`) is the first audit run as a workflow: one auditor per area,
+  a skeptic per area that tried to refute every changed score, totals computed by
+  the script. Shipped work earned +3.01 (D23, D24, D25 closed: returning browsers
+  get new builds, a chosen chapter reaches what the picker counts, time saved
+  counts web papers). Counting class 12 on the Question Bank tab against 3.1 took
+  -0.83. One regression, D39, took -0.42: the builder files chapters with
+  `chapter_filing` while `/v1` and MCP still match raw `chapterIds`. Old defects
+  measured for the first time took -4.58. Scored only as deep as the previous
+  audit went, this range reads 66.4.
