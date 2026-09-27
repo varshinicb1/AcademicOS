@@ -58,10 +58,11 @@ from dataclasses import dataclass
 from typing import Callable, Optional
 
 from . import grades
+from .competency import is_competency_question
 from .mapping import to_question_schema
 from .paper import answer_key_entry, generated_question, or_answer_key_entry, render_text
 from .paper_templates import ScopeFilter, _all_competency, _content_fits, _fits, \
-    _is_competency, build_scope_filter, has_verified_key
+    build_scope_filter, has_verified_key
 from .pool import QuestionPool, get_pool, near_duplicate
 from .schemas import Camel, GeneratedPaper, GeneratedQuestionSchema, GeneratedSectionSchema, \
     QuestionSchema, TemplateScope, TemplateSection
@@ -271,7 +272,7 @@ def choose_swap(slot: Slot, rule: SlotRule, bank: Bank, printed: list[Printed],
         inside = rule.scope.in_scope(q)
         if q.id not in bank.keyed:
             counts.without_key += 1
-        elif all_cbq and not _is_competency(q):
+        elif all_cbq and not is_competency_question(q):
             counts.not_competency += 1
         elif q.id in on_paper:
             counts.on_paper += 1
@@ -349,7 +350,7 @@ def check_pick(slot: Slot, rule: SlotRule, bank: Bank, question_id: str,
         notes.append(f"{slot.label}: {question_id} is not a "
                      f"{'/'.join(t.replace('_', ' ') for t in section.question_types)} "
                      "question, which this section asks for.")
-    if _all_competency(section) and not _is_competency(q):
+    if _all_competency(section) and not is_competency_question(q):
         notes.append(f"{slot.label}: {question_id} is not competency-based, which this "
                      "section asks for.")
     if not rule.scope.in_scope(q):

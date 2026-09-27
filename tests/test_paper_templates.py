@@ -735,12 +735,21 @@ def test_one_unreadable_template_row_does_not_break_the_list(tmp_path, monkeypat
 # from marks (mapping._resolve_type: 3-4 -> long_answer, 5+ -> case_study), so
 # a source item stored as 5 marks is labelled case_study exactly like a real
 # 5-mark long answer, and a map item stored as 4 marks is labelled long_answer.
+#
+# Task 125: a label we derived from marks carries metadata.typeInferred, as
+# mapping.to_question_schema writes it, so it is never counted as the source
+# printing a case study (competency.competency_signal). `inferred=False` is a
+# type the source printed.
 
-def _q(qid: str, marks: int, stem: str, qtype: str, quality: float = 0.8):
+def _q(qid: str, marks: int, stem: str, qtype: str, quality: float = 0.8, *,
+       inferred: bool = False, qbid: str = "fixture"):
     from academicos.assessment.schemas import QuestionSchema
     rec = _record(qid, marks, "ch1", qtype=qtype, subject="Social Science")
     rec["stem"] = f"{stem} [{_distinct(qid)}]"
     rec["qualityScore"] = quality
+    rec["questionBankId"] = qbid
+    if inferred:
+        rec["metadata"] = {"typeInferred": True}
     return QuestionSchema.model_validate(rec)
 
 
@@ -750,21 +759,31 @@ MAP = ("Two places A and B have been marked on the given political outline map o
 LONG = "Explain, with examples, how {} changed the economy of the region."
 
 
+def _filler() -> list:
+    """Sections A-C of the class 10 Social Science annual preset, labelled by marks."""
+    return ([_q(f"a{i}", 1, f"One-mark item {i}?", "very_short_answer", inferred=True)
+             for i in range(20)]
+            + [_q(f"b{i}", 2, f"Two-mark item {i}?", "short_answer", inferred=True)
+               for i in range(4)]
+            + [_q(f"c{i}", 3, f"Three-mark item {i}?", "long_answer", inferred=True)
+               for i in range(5)])
+
+
 def _ss_bank(*, map5: bool = True, case4: bool = True):
-    bank = ([_q(f"a{i}", 1, f"One-mark item {i}?", "very_short_answer") for i in range(20)]
-            + [_q(f"b{i}", 2, f"Two-mark item {i}?", "short_answer") for i in range(4)]
-            + [_q(f"c{i}", 3, f"Three-mark item {i}?", "long_answer") for i in range(5)]
+    bank = (_filler()
             # 5 marks: source items and real long answers share the label.
             # The wrong-kind items score higher, so a marks-only engine
             # reaches for them first rather than by luck of id order.
             + [_q(f"src{i}", 5, SOURCE.format(i), "case_study", 0.95) for i in range(4)]
-            + [_q(f"long{i}", 5, LONG.format(i), "case_study") for i in range(4)]
+            + [_q(f"long{i}", 5, LONG.format(i), "case_study", inferred=True) for i in range(4)]
             # 4 marks: map items labelled long_answer by their marks.
-            + [_q(f"map{i}", 4, MAP.format(i), "long_answer", 0.95) for i in range(3)])
+            + [_q(f"map{i}", 4, MAP.format(i), "long_answer", 0.95, inferred=True)
+               for i in range(3)])
     if case4:
-        bank += [_q(f"case{i}", 4, SOURCE.format(f"case {i}"), "long_answer") for i in range(3)]
+        # Case studies their source prints as case studies.
+        bank += [_q(f"case{i}", 4, SOURCE.format(f"case {i}"), "case_study") for i in range(3)]
     if map5:
-        bank += [_q("map5", 5, MAP.format("five"), "case_study", 0.5)]
+        bank += [_q("map5", 5, MAP.format("five"), "case_study", 0.5, inferred=True)]
     return bank
 
 
@@ -822,13 +841,38 @@ def test_a_competency_section_with_no_competency_question_is_a_gap():
     # Only map items at 4 marks, which the case section refuses; and with a
     # plain 4-mark item that is not competency-based, still not complete.
     bank = _ss_bank(case4=False) + [
-        _q("plain4", 4, "List four features of the region's climate.", "long_answer")]
+        _q("plain4", 4, "List four features of the region's climate.", "long_answer",
+           inferred=True)]
     report, plans = _plan_preset(SS10, bank)
     e = next(p for p in plans if p.section.title == "Section E - Case based")
     assert "plain4" not in {q.id for q in e.picked}
     assert e.availability.shortfall == 3
     assert "competency" in e.availability.reason.lower()
     assert report.complete is False
+
+
+def test_a_source_stem_alone_is_not_a_competency_signal():
+    """Task 125: the template engine counts a question competency-based by the
+    one rule (competency.competency_signal), never by its wording. "Read the
+    given source" is text a stem can carry -- our merge prepends "Read the
+    passage below" to items, and Exemplar prints "Read the following
+    statements" -- so three 4-mark source items the bank labels long_answer
+    do not make an all-competency section; the same items from a CBSE
+    competency-based item bank do."""
+    def sources(qbid: str) -> list:
+        return [_q(f"srcfour{i}", 4, SOURCE.format(f"four {i}"), "long_answer",
+                   inferred=True, qbid=qbid) for i in range(3)]
+
+    report, plans = _plan_preset(SS10, _ss_bank(case4=False) + sources("fixture"))
+    e = next(p for p in plans if p.section.title == "Section E - Case based")
+    assert e.picked == [] and e.availability.shortfall == 3, e.availability
+    assert "competency" in e.availability.reason.lower(), e.availability.reason
+    assert report.complete is False
+
+    report, plans = _plan_preset(SS10, _ss_bank(case4=False) + sources("cbe:x.pdf"))
+    e = next(p for p in plans if p.section.title == "Section E - Case based")
+    assert sorted(q.id for q in e.picked) == ["srcfour0", "srcfour1", "srcfour2"]
+    assert (e.availability.filled, e.availability.shortfall) == (3, 0)
 
 
 def test_a_heading_no_constraint_checks_says_so():
@@ -867,13 +911,12 @@ def _src_bank():
     reasons useless: the source items are stored at 5 marks (the CBSE Section
     E is 4), there are fewer real 5-mark long answers than Section D needs,
     and the only 4-mark question left is a plain one."""
-    return ([_q(f"a{i}", 1, f"One-mark item {i}?", "very_short_answer") for i in range(20)]
-            + [_q(f"b{i}", 2, f"Two-mark item {i}?", "short_answer") for i in range(4)]
-            + [_q(f"c{i}", 3, f"Three-mark item {i}?", "long_answer") for i in range(5)]
-            + [_q(f"long{i}", 5, LONG.format(i), "case_study") for i in range(3)]
+    return (_filler()
+            + [_q(f"long{i}", 5, LONG.format(i), "case_study", inferred=True) for i in range(3)]
             + [_q(f"src{i}", 5, SOURCE.format(i), "case_study") for i in range(6)]
-            + [_q("plain4", 4, "List four features of the region's climate.", "long_answer")]
-            + [_q("map5", 5, MAP.format("five"), "case_study")])
+            + [_q("plain4", 4, "List four features of the region's climate.", "long_answer",
+                  inferred=True)]
+            + [_q("map5", 5, MAP.format("five"), "case_study", inferred=True)])
 
 
 def test_a_shortfall_reason_names_the_constraint_that_left_questions_out():
@@ -902,9 +945,11 @@ def test_availability_reports_the_mix_shortfall_generation_reports():
     """A section that fills by count but not by kind: 3 of 3 available, only
     1 competency-based. The check before generating must say so."""
     bank = _ss_bank(case4=False) + [
-        _q("case0", 4, SOURCE.format("case 0"), "long_answer"),
-        _q("plain4", 4, "List four features of the region's climate.", "long_answer"),
-        _q("plain5", 4, "Describe four features of the region's soils.", "long_answer")]
+        _q("case0", 4, SOURCE.format("case 0"), "case_study"),
+        _q("plain4", 4, "List four features of the region's climate.", "long_answer",
+           inferred=True),
+        _q("plain5", 4, "Describe four features of the region's soils.", "long_answer",
+           inferred=True)]
     report, plans = _plan_preset(SS10, bank)
     for s, p in zip(report.sections, plans):
         assert s.notes == p.notes, s.title
@@ -1003,7 +1048,7 @@ def test_the_real_banks_competency_sections_warn_before_generating(real_class10_
     printed something, so the general guard below is the one that has to
     hold whatever the bank looks like: short, or noted, never silent.
     """
-    from academicos.assessment.paper_templates import _is_competency
+    from academicos.assessment.competency import is_competency_question
 
     report, _ = _real_plan(real_class10_pools, "preset:cbse:10:science:annual")
     e = next(s for s in report.sections if s.title.startswith("Section E"))
@@ -1020,7 +1065,7 @@ def test_the_real_banks_competency_sections_warn_before_generating(real_class10_
             if not section.competency_share:
                 continue
             printed = plan_.picked + plan_.borrowed
-            got = sum(1 for q in printed if _is_competency(q))
+            got = sum(1 for q in printed if is_competency_question(q))
             if got >= round(section.competency_share * len(printed)):
                 continue
             assert avail.shortfall or avail.notes, (preset.id, avail.title)

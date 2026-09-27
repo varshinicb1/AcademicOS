@@ -55,6 +55,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Callable, Literal, Optional
 
+from .competency import is_competency_question
 from .pool import near_duplicate
 from .schemas import Camel, DifficultyDistribution, PaperTemplateDraft, QuestionSchema, \
     QuestionType, TemplateScope, TemplateSection
@@ -331,13 +332,17 @@ def is_case_question(q: QuestionSchema) -> bool:
     """Source / passage / case based, by what the stem says. Only positive
     evidence counts: many real case studies open with a plain narrative
     ("In a coffee shop, coffee is served in two types of cups..."), so the
-    absence of these words is not evidence of a long answer."""
+    absence of these words is not evidence of a long answer.
+
+    A KIND check only -- which section a long-form question goes under
+    (`_content_fits`, `_admitting_type`, `_left_out`) -- never whether it is
+    competency-based. That is `competency.is_competency_question`, the one
+    rule, which reads only what a source printed: this regex also matches
+    text our merge prepends ("Read the passage below ...", bank_merge) and an
+    SQP stem whose extraction ran on into the next heading ("... Section E
+    consists of 3 case study based questions"), neither of which a source
+    calls competency-based."""
     return bool(_CASE_RE.search(q.stem) or _SUBPART_RE.search(q.stem))
-
-
-def _is_competency(q: QuestionSchema) -> bool:
-    from .selection import is_competency_question
-    return is_competency_question(q) or is_case_question(q)
 
 
 def _content_fits(q: QuestionSchema, types: list[str]) -> bool:
@@ -473,9 +478,14 @@ def _left_out(section: TemplateSection, pool: list[QuestionSchema]) -> _LeftOut:
             if not fits_kind and not map_section and not is_map_question(q):
                 admit = _admitting_type(q)
                 out.wrong_kind[admit] = out.wrong_kind.get(admit, 0) + 1
-        elif marks_matter and fits_kind and (not _all_competency(section) or _is_competency(q)):
-            if by_text and not (is_map_question(q) or _is_competency(q)):
-                continue  # at another mark value, only content evidence says "same kind"
+        elif marks_matter and fits_kind and (not _all_competency(section)
+                                             or is_competency_question(q)):
+            # At another mark value, only content evidence says "same kind":
+            # the text reads as map or source / case, or the source printed
+            # it competency-based.
+            if by_text and not (is_map_question(q) or is_case_question(q)
+                                or is_competency_question(q)):
+                continue
             out.other_marks[q.marks] = out.other_marks.get(q.marks, 0) + 1
     return out
 
@@ -529,9 +539,9 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
         # match is picked competency-first and reported by `_mix_notes`.
         not_competency = 0
         if _all_competency(section):
-            if eligible and not any(_is_competency(q) for q in eligible):
+            if eligible and not any(is_competency_question(q) for q in eligible):
                 not_competency, eligible = len(eligible), []
-            if outside and not any(_is_competency(q) for q in outside):
+            if outside and not any(is_competency_question(q) for q in outside):
                 outside = []
         without_key = sum(1 for q in fits_all if q.id not in keyed_ids and scope.in_scope(q))
         used_elsewhere = sum(1 for q in fits_all if q.id in claimed and scope.in_scope(q))
@@ -676,13 +686,13 @@ def _pair_choices(section: TemplateSection, printed: list[QuestionSchema],
     pairs: dict[str, QuestionSchema] = {}
     for primary in printed[len(printed) - want:]:
         chapters = set(primary.chapter_ids)
-        cbq = _is_competency(primary)
+        cbq = is_competency_question(primary)
         # First best by (fresh, same chapter, same competency-ness), ties to
         # the better-ordered question -- `left` is already best first. Only
         # the candidates actually reached are compared with the paper.
         ranked = sorted(range(len(left)), key=lambda i: (
             left[i].id in stale, not chapters & set(left[i].chapter_ids),
-            _is_competency(left[i]) != cbq, i))
+            is_competency_question(left[i]) != cbq, i))
         alt = next((left[i] for i in ranked if not clashes(left[i], on_paper)), None)
         if alt is None:
             break
@@ -767,10 +777,10 @@ def _pick(pool: list[QuestionSchema], section: TemplateSection, n: int, *,
         return True
 
     def take(from_list: list[QuestionSchema]) -> Optional[QuestionSchema]:
-        want_cbq = sum(1 for q in picked if _is_competency(q)) < cbq_target
+        want_cbq = sum(1 for q in picked if is_competency_question(q)) < cbq_target
         if want_cbq:
             for q in from_list:
-                if _is_competency(q) and usable(q):
+                if is_competency_question(q) and usable(q):
                     return q
         return next((q for q in from_list if usable(q)), None)
 
@@ -854,7 +864,7 @@ def _mix_notes(section: TemplateSection, picked: list[QuestionSchema],
                 "too few at the requested level.")
     if section.competency_share and picked:
         target = round(section.competency_share * len(picked))
-        got_cbq = sum(1 for q in picked if _is_competency(q))
+        got_cbq = sum(1 for q in picked if is_competency_question(q))
         if got_cbq < target:
             note = (f"{section.title}: {got_cbq} competency-based question(s), "
                     f"the template asked for {target}.")
