@@ -13,12 +13,16 @@ deliberately not loaded, see pool.build_pool):
     PYTHONPATH=src PYTHONIOENCODING=utf-8 python scripts/capture_paper_builder_fixtures.py
 
 Writes frontend/test/paper_builder/fixtures/*.json and a manifest.json that
-records each request and its status. PDFs are not stored (hundreds of KB,
+records each request and its status. ``--only NAME[,NAME]`` writes just those
+fixtures and merges their manifest entries into the committed manifest; a full
+recapture re-baselines every fixture the widget tests were written against, so
+recapture only what a change needs. PDFs are not stored (hundreds of KB,
 and the widget tests only check that both downloads happen); the manifest
 records their real sizes.
 """
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import sys
@@ -29,10 +33,19 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "frontend" / "test" / "paper_builder" / "fixtures"
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--only", default="", help="comma-separated fixture names to (re)write")
+    args = ap.parse_args(argv)
+    only = {n.strip() for n in args.only.split(",") if n.strip()}
+
     tmp = Path(tempfile.mkdtemp(prefix="acos_builder_fixtures_"))
     os.environ["ACOS_DATA_ROOT"] = str(tmp)
     os.environ["ACOS_DISABLE_RATE_LIMIT"] = "1"
+    # Registration is by invite since security Task 301; a school's first
+    # principal registers with the bootstrap key. This is a local, throwaway
+    # value for an in-process app on a temp data root, never a real key.
+    os.environ["ACOS_PRINCIPAL_BOOTSTRAP_KEY"] = "capture-local-bootstrap"
     from fastapi.testclient import TestClient
 
     from academicos.api.main import app
@@ -43,6 +56,8 @@ def main() -> int:
     def save(name: str, method: str, path: str, r, body=None) -> dict:
         assert r.status_code < 500, (path, r.status_code, r.text)
         data = r.json()
+        if only and name not in only:
+            return data
         (OUT / f"{name}.json").write_text(
             json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
         manifest.append({"file": f"{name}.json", "method": method, "path": path,
@@ -53,7 +68,8 @@ def main() -> int:
     with TestClient(app) as client:
         r = client.post("/api/v1/auth/register", json={
             "schoolId": "school_1", "name": "Asha", "email": "asha@example.com",
-            "password": "correct horse battery", "role": "teacher"})
+            "password": "correct horse battery",
+            "principalKey": os.environ["ACOS_PRINCIPAL_BOOTSTRAP_KEY"]})
         assert r.status_code == 200, r.text
         auth = {"Authorization": f"Bearer {r.json()['token']}"}
         school = "school_1"
@@ -72,6 +88,30 @@ def main() -> int:
                   {"grade": 10, "subject": "Science"})
         ch10 = get("chapters_10_science", "/api/v1/catalog/Science/10/chapters")
         preset = next(p for p in t10["presets"] if p["examType"] == "half_yearly")
+
+        # ---- Task 125: the competency share and the tier sentence at step 3.
+        # The half-yearly scope is the six chapters the committed
+        # availability_10_science_half capture used, so the widget test ticks
+        # the same chapters it always has.
+        committed = json.loads((OUT / "manifest.json").read_text(encoding="utf-8"))
+        six = next(e for e in committed["responses"]
+                   if e["file"] == "availability_10_science_half.json")["body"]["scope"]["chapterIds"]
+        post("availability_10_science_half_competency",
+             f"/api/v1/schools/{school}/teacher-templates/{preset['id']}/availability",
+             {"scope": {"chapterIds": six}})
+        post("availability_10_science_all_competency",
+             f"/api/v1/schools/{school}/teacher-templates/{preset['id']}/availability",
+             {"scope": {"chapterIds": []}})
+        t6 = get("templates_6_science", f"/api/v1/schools/{school}/teacher-templates",
+                 {"grade": 6, "subject": "Science"})
+        get("chapters_6_science", "/api/v1/catalog/Science/6/chapters")
+        annual6 = next(p for p in t6["presets"] if p["examType"] == "annual")
+        post("availability_6_science_annual_all",
+             f"/api/v1/schools/{school}/teacher-templates/{annual6['id']}/availability",
+             {"scope": {"chapterIds": []}})
+        if only and not only - {e["file"][:-5] for e in manifest if e.get("file")}:
+            _merge_manifest(manifest)
+            return 0
         # Half-yearly: the first half of the chapters, the way a school sets it.
         half = [c["chapterId"] for c in ch10[: max(1, len(ch10) // 2)]]
         post("availability_10_science_all",
@@ -169,12 +209,25 @@ def main() -> int:
              f"/api/v1/schools/{school}/teacher-templates/{created['id']}/availability",
              {"scope": {"chapterIds": []}})
 
+    if only:
+        _merge_manifest(manifest)
+        return 0
     (OUT / "manifest.json").write_text(json.dumps({
         "command": "PYTHONPATH=src PYTHONIOENCODING=utf-8 python "
                    "scripts/capture_paper_builder_fixtures.py",
         "bank": "academicos-data/syllabus/questions.json",
         "responses": manifest}, indent=1), encoding="utf-8")
     return 0
+
+
+def _merge_manifest(new: list[dict]) -> None:
+    """The committed manifest with `new`'s entries replacing any of the same
+    file, so an --only capture leaves every other fixture's record alone."""
+    path = OUT / "manifest.json"
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    files = {e["file"] for e in new}
+    doc["responses"] = [e for e in doc["responses"] if e.get("file") not in files] + new
+    path.write_text(json.dumps(doc, indent=1), encoding="utf-8")
 
 
 if __name__ == "__main__":

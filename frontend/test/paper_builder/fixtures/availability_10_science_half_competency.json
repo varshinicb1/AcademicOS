@@ -1,0 +1,165 @@
+{
+ "templateId": "preset:cbse:10:science:half_yearly",
+ "grade": 10,
+ "subject": "Science",
+ "bankQuestions": 504,
+ "keyedQuestions": 504,
+ "complete": false,
+ "sections": [
+  {
+   "sectionId": "s1",
+   "title": "Section A - Objective (MCQ / assertion-reason)",
+   "marksEach": 1,
+   "needed": 20,
+   "available": 158,
+   "shortfall": 0,
+   "filled": 20,
+   "borrowed": 0,
+   "outsideScopeAvailable": 154,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "",
+   "notes": [],
+   "fixes": []
+  },
+  {
+   "sectionId": "s2",
+   "title": "Section B - Very short answer",
+   "marksEach": 2,
+   "needed": 6,
+   "available": 0,
+   "shortfall": 6,
+   "filled": 0,
+   "borrowed": 0,
+   "outsideScopeAvailable": 3,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "Only 0 2-mark question(s) are available; 6 short. 3 more are in other chapters -- widen the chapters or allow filling from outside them.",
+   "notes": [],
+   "fixes": [
+    {
+     "kind": "widen_scope",
+     "label": "Add the chapters that hold 3 more such question(s).",
+     "available": 3,
+     "marksEach": null,
+     "questionCount": null,
+     "choiceCount": null,
+     "questionTypes": null
+    },
+    {
+     "kind": "fill_from_outside_scope",
+     "label": "Fill the gap from outside the chosen chapters (the borrowed questions are listed).",
+     "available": 3,
+     "marksEach": null,
+     "questionCount": null,
+     "choiceCount": null,
+     "questionTypes": null
+    },
+    {
+     "kind": "reduce_count",
+     "label": "Remove this section (then rebalance the paper's total).",
+     "available": 0,
+     "marksEach": null,
+     "questionCount": 0,
+     "choiceCount": null,
+     "questionTypes": null
+    }
+   ]
+  },
+  {
+   "sectionId": "s3",
+   "title": "Section C - Short answer",
+   "marksEach": 3,
+   "needed": 7,
+   "available": 64,
+   "shortfall": 0,
+   "filled": 7,
+   "borrowed": 0,
+   "outsideScopeAvailable": 63,
+   "withoutKey": 0,
+   "choicesNeeded": 1,
+   "choicesFilled": 1,
+   "reason": "",
+   "notes": [],
+   "fixes": []
+  },
+  {
+   "sectionId": "s4",
+   "title": "Section D - Long answer",
+   "marksEach": 5,
+   "needed": 3,
+   "available": 24,
+   "shortfall": 0,
+   "filled": 3,
+   "borrowed": 0,
+   "outsideScopeAvailable": 27,
+   "withoutKey": 0,
+   "choicesNeeded": 3,
+   "choicesFilled": 3,
+   "reason": "",
+   "notes": [],
+   "fixes": []
+  },
+  {
+   "sectionId": "s5",
+   "title": "Section E - Source / case based",
+   "marksEach": 4,
+   "needed": 3,
+   "available": 0,
+   "shortfall": 3,
+   "filled": 0,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "The bank has no 4-mark case study Class 10 Science questions. 1 case / competency-based question(s) are in the bank at 9 marks, but this section asks for 4-mark ones -- change the section to 9 marks to use them.",
+   "notes": [],
+   "fixes": [
+    {
+     "kind": "change_marks",
+     "label": "Make it a 9-mark section: 1 case / competency-based question(s) are in the bank at 9 marks (then rebalance the paper's total).",
+     "available": 1,
+     "marksEach": 9,
+     "questionCount": null,
+     "choiceCount": null,
+     "questionTypes": null
+    },
+    {
+     "kind": "reduce_count",
+     "label": "Remove this section (then rebalance the paper's total).",
+     "available": 0,
+     "marksEach": null,
+     "questionCount": 0,
+     "choiceCount": null,
+     "questionTypes": null
+    }
+   ]
+  }
+ ],
+ "scopeNotes": [],
+ "competency": {
+  "status": "below_scope",
+  "target": 0.5,
+  "printed": 30,
+  "competencyBased": 8,
+  "share": 0.267,
+  "wholeSyllabusPrinted": 33,
+  "wholeSyllabusCompetencyBased": 25,
+  "bankUsable": 493,
+  "bankCompetencyBased": 25,
+  "bankShare": 0.051,
+  "bySignal": {
+   "cbeItemBank": 8
+  },
+  "summary": "Competency-based: 8 of 30 questions (27%)",
+  "detail": "Below CBSE's 50%. The whole syllabus would give 25 of 33 (76%).",
+  "counted": "Counted as competency-based: questions from CBSE's competency-based item banks, questions their source prints as case-based, assertion-reason or competency-based, and questions printed with CBSE's Assertion (A) and Reason (R) labels. A Bloom level, the marks or other wording in a question are never counted."
+ },
+ "tiers": {
+  "available": false,
+  "sentence": "Foundation and Advanced versions are not offered: in the Class 10 Science bank, questions of the same marks do not differ in a difficulty or Bloom level anyone judged, so every version would print this same paper."
+ }
+}

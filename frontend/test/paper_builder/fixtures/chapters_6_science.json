@@ -1,0 +1,150 @@
+[
+ {
+  "chapterId": "the-wonderful-world-of-science",
+  "chapterName": "The Wonderful World of Science",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "The World of the Living",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "diversity-in-the-living-world",
+  "chapterName": "Diversity in the Living World",
+  "questionCount": 3,
+  "marksAvailable": [
+   1
+  ],
+  "unitName": "The World of the Living",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "mindful-eating",
+  "chapterName": "Mindful Eating: A Path to a Healthy Body",
+  "questionCount": 19,
+  "marksAvailable": [
+   1,
+   3,
+   5,
+   6
+  ],
+  "unitName": "The World of the Living",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "exploring-magnets",
+  "chapterName": "Exploring Magnets",
+  "questionCount": 8,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   5
+  ],
+  "unitName": "The World of the Living",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "measurement-of-length-and-motion",
+  "chapterName": "Measurement of Length and Motion",
+  "questionCount": 9,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   5
+  ],
+  "unitName": "Matter and Materials",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "materials-around-us",
+  "chapterName": "Materials Around Us",
+  "questionCount": 24,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   5,
+   6
+  ],
+  "unitName": "Matter and Materials",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "temperature-and-its-measurement",
+  "chapterName": "Temperature and its Measurement",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Matter and Materials",
+  "syllabusMarks": 25
+ },
+ {
+  "chapterId": "a-journey-through-states-of-water",
+  "chapterName": "A Journey through States of Water",
+  "questionCount": 7,
+  "marksAvailable": [
+   1,
+   3
+  ],
+  "unitName": "Energy and Environment",
+  "syllabusMarks": 30
+ },
+ {
+  "chapterId": "methods-of-separation-in-everyday-life",
+  "chapterName": "Methods of Separation in Everyday Life",
+  "questionCount": 18,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   4,
+   5
+  ],
+  "unitName": "Energy and Environment",
+  "syllabusMarks": 30
+ },
+ {
+  "chapterId": "living-creatures-exploring-their-characteristics",
+  "chapterName": "Living Creatures: Exploring their Characteristics",
+  "questionCount": 2,
+  "marksAvailable": [
+   1
+  ],
+  "unitName": "Energy and Environment",
+  "syllabusMarks": 30
+ },
+ {
+  "chapterId": "natures-treasures",
+  "chapterName": "Nature's Treasures",
+  "questionCount": 15,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   5
+  ],
+  "unitName": "Energy and Environment",
+  "syllabusMarks": 30
+ },
+ {
+  "chapterId": "beyond-earth",
+  "chapterName": "Beyond Earth",
+  "questionCount": 0,
+  "marksAvailable": [],
+  "unitName": "Energy and Environment",
+  "syllabusMarks": 30
+ },
+ {
+  "chapterId": "unmapped",
+  "chapterName": "Not yet matched to a chapter",
+  "questionCount": 142,
+  "marksAvailable": [
+   1,
+   2,
+   3,
+   5
+  ],
+  "unitName": null,
+  "syllabusMarks": null
+ }
+]

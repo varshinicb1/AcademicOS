@@ -1,0 +1,466 @@
+{
+ "presets": [
+  {
+   "name": "Class 6 Science - Unit Test",
+   "grade": 6,
+   "subject": "Science",
+   "examType": "unit_test",
+   "totalMarks": 20,
+   "durationMinutes": 40,
+   "instructions": "This question paper has 3 sections.\nSection A - Objective: 6 question(s) of 1 mark(s) each.\nSection B - Very short answer: 4 question(s) of 2 mark(s) each.\nSection C - Short answer: 2 question(s) of 3 mark(s) each.\nAll questions are compulsory unless a choice is stated.",
+   "header": {
+    "schoolName": "",
+    "examName": "Unit Test",
+    "dateLine": ""
+   },
+   "sections": [
+    {
+     "id": "s1",
+     "title": "Section A - Objective",
+     "questionTypes": [],
+     "questionCount": 6,
+     "marksEach": 1,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.5,
+      "medium": 0.4,
+      "hard": 0.1
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s2",
+     "title": "Section B - Very short answer",
+     "questionTypes": [],
+     "questionCount": 4,
+     "marksEach": 2,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.4,
+      "medium": 0.5,
+      "hard": 0.1
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s3",
+     "title": "Section C - Short answer",
+     "questionTypes": [],
+     "questionCount": 2,
+     "marksEach": 3,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.3,
+      "medium": 0.5,
+      "hard": 0.2
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    }
+   ],
+   "scope": {
+    "chapterIds": [],
+    "topicIds": [],
+    "subtopicIds": []
+   },
+   "id": "preset:cbse:6:science:unit_test",
+   "schoolId": "",
+   "tagline": "",
+   "brandColor": "#000000",
+   "headerHtml": "",
+   "footerHtml": "",
+   "logoUrl": "",
+   "marginTop": 20.0,
+   "marginBottom": 20.0,
+   "marginLeft": 20.0,
+   "marginRight": 20.0,
+   "fontFamily": "Helvetica",
+   "fontSize": 11,
+   "lineHeight": 1.4,
+   "sectionFormatting": {},
+   "isDefault": false,
+   "kind": "paper",
+   "ownerId": "",
+   "shared": false,
+   "isPreset": true,
+   "patternStatus": "suggested",
+   "source": "Suggested school pattern, not a CBSE rule: CBSE prescribes no paper design for unit tests. Edit it to match your school.",
+   "basedOn": null,
+   "instructionsGenerated": true,
+   "scopeNotes": [],
+   "createdAt": null,
+   "updatedAt": null
+  },
+  {
+   "name": "Class 6 Science - Periodic Test",
+   "grade": 6,
+   "subject": "Science",
+   "examType": "periodic",
+   "totalMarks": 40,
+   "durationMinutes": 90,
+   "instructions": "This question paper has 4 sections.\nSection A - Objective: 10 question(s) of 1 mark(s) each.\nSection B - Very short answer: 4 question(s) of 2 mark(s) each.\nSection C - Short answer: 4 question(s) of 3 mark(s) each.\nSection D - Long answer: 2 question(s) of 5 mark(s) each.\nAll questions are compulsory unless a choice is stated.",
+   "header": {
+    "schoolName": "",
+    "examName": "Periodic Test",
+    "dateLine": ""
+   },
+   "sections": [
+    {
+     "id": "s1",
+     "title": "Section A - Objective",
+     "questionTypes": [],
+     "questionCount": 10,
+     "marksEach": 1,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.5,
+      "medium": 0.4,
+      "hard": 0.1
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s2",
+     "title": "Section B - Very short answer",
+     "questionTypes": [],
+     "questionCount": 4,
+     "marksEach": 2,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.4,
+      "medium": 0.5,
+      "hard": 0.1
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s3",
+     "title": "Section C - Short answer",
+     "questionTypes": [],
+     "questionCount": 4,
+     "marksEach": 3,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.3,
+      "medium": 0.5,
+      "hard": 0.2
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s4",
+     "title": "Section D - Long answer",
+     "questionTypes": [
+      "long_answer",
+      "very_long_answer"
+     ],
+     "questionCount": 2,
+     "marksEach": 5,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.2,
+      "medium": 0.4,
+      "hard": 0.4
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    }
+   ],
+   "scope": {
+    "chapterIds": [],
+    "topicIds": [],
+    "subtopicIds": []
+   },
+   "id": "preset:cbse:6:science:periodic",
+   "schoolId": "",
+   "tagline": "",
+   "brandColor": "#000000",
+   "headerHtml": "",
+   "footerHtml": "",
+   "logoUrl": "",
+   "marginTop": 20.0,
+   "marginBottom": 20.0,
+   "marginLeft": 20.0,
+   "marginRight": 20.0,
+   "fontFamily": "Helvetica",
+   "fontSize": 11,
+   "lineHeight": 1.4,
+   "sectionFormatting": {},
+   "isDefault": false,
+   "kind": "paper",
+   "ownerId": "",
+   "shared": false,
+   "isPreset": true,
+   "patternStatus": "suggested",
+   "source": "Suggested school pattern, not a CBSE rule: CBSE prescribes no paper design for periodic tests. Edit it to match your school.",
+   "basedOn": null,
+   "instructionsGenerated": true,
+   "scopeNotes": [],
+   "createdAt": null,
+   "updatedAt": null
+  },
+  {
+   "name": "Class 6 Science - Half-Yearly Examination",
+   "grade": 6,
+   "subject": "Science",
+   "examType": "half_yearly",
+   "totalMarks": 80,
+   "durationMinutes": 180,
+   "instructions": "This question paper has 5 sections.\nSection A - Objective: 16 question(s) of 1 mark(s) each.\nSection B - Very short answer: 8 question(s) of 2 mark(s) each.\nSection C - Short answer: 8 question(s) of 3 mark(s) each.\nSection D - Long answer: 4 question(s) of 5 mark(s) each.\nSection E - Case based: 1 question(s) of 4 mark(s) each.\nAll questions are compulsory unless a choice is stated.",
+   "header": {
+    "schoolName": "",
+    "examName": "Half-Yearly Examination",
+    "dateLine": ""
+   },
+   "sections": [
+    {
+     "id": "s1",
+     "title": "Section A - Objective",
+     "questionTypes": [],
+     "questionCount": 16,
+     "marksEach": 1,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.5,
+      "medium": 0.4,
+      "hard": 0.1
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s2",
+     "title": "Section B - Very short answer",
+     "questionTypes": [],
+     "questionCount": 8,
+     "marksEach": 2,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.4,
+      "medium": 0.5,
+      "hard": 0.1
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s3",
+     "title": "Section C - Short answer",
+     "questionTypes": [],
+     "questionCount": 8,
+     "marksEach": 3,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.3,
+      "medium": 0.5,
+      "hard": 0.2
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s4",
+     "title": "Section D - Long answer",
+     "questionTypes": [
+      "long_answer",
+      "very_long_answer"
+     ],
+     "questionCount": 4,
+     "marksEach": 5,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.2,
+      "medium": 0.4,
+      "hard": 0.4
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s5",
+     "title": "Section E - Case based",
+     "questionTypes": [
+      "case_study"
+     ],
+     "questionCount": 1,
+     "marksEach": 4,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.2,
+      "medium": 0.5,
+      "hard": 0.3
+     },
+     "competencyShare": 1.0,
+     "choiceCount": 0
+    }
+   ],
+   "scope": {
+    "chapterIds": [],
+    "topicIds": [],
+    "subtopicIds": []
+   },
+   "id": "preset:cbse:6:science:half_yearly",
+   "schoolId": "",
+   "tagline": "",
+   "brandColor": "#000000",
+   "headerHtml": "",
+   "footerHtml": "",
+   "logoUrl": "",
+   "marginTop": 20.0,
+   "marginBottom": 20.0,
+   "marginLeft": 20.0,
+   "marginRight": 20.0,
+   "fontFamily": "Helvetica",
+   "fontSize": 11,
+   "lineHeight": 1.4,
+   "sectionFormatting": {},
+   "isDefault": false,
+   "kind": "paper",
+   "ownerId": "",
+   "shared": false,
+   "isPreset": true,
+   "patternStatus": "suggested",
+   "source": "Suggested school pattern, not a CBSE rule: CBSE prescribes no paper design for class 6 term examinations. Edit it to match your school.",
+   "basedOn": null,
+   "instructionsGenerated": true,
+   "scopeNotes": [],
+   "createdAt": null,
+   "updatedAt": null
+  },
+  {
+   "name": "Class 6 Science - Annual Examination",
+   "grade": 6,
+   "subject": "Science",
+   "examType": "annual",
+   "totalMarks": 80,
+   "durationMinutes": 180,
+   "instructions": "This question paper has 5 sections.\nSection A - Objective: 16 question(s) of 1 mark(s) each.\nSection B - Very short answer: 8 question(s) of 2 mark(s) each.\nSection C - Short answer: 8 question(s) of 3 mark(s) each.\nSection D - Long answer: 4 question(s) of 5 mark(s) each.\nSection E - Case based: 1 question(s) of 4 mark(s) each.\nAll questions are compulsory unless a choice is stated.",
+   "header": {
+    "schoolName": "",
+    "examName": "Annual Examination",
+    "dateLine": ""
+   },
+   "sections": [
+    {
+     "id": "s1",
+     "title": "Section A - Objective",
+     "questionTypes": [],
+     "questionCount": 16,
+     "marksEach": 1,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.5,
+      "medium": 0.4,
+      "hard": 0.1
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s2",
+     "title": "Section B - Very short answer",
+     "questionTypes": [],
+     "questionCount": 8,
+     "marksEach": 2,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.4,
+      "medium": 0.5,
+      "hard": 0.1
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s3",
+     "title": "Section C - Short answer",
+     "questionTypes": [],
+     "questionCount": 8,
+     "marksEach": 3,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.3,
+      "medium": 0.5,
+      "hard": 0.2
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s4",
+     "title": "Section D - Long answer",
+     "questionTypes": [
+      "long_answer",
+      "very_long_answer"
+     ],
+     "questionCount": 4,
+     "marksEach": 5,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.2,
+      "medium": 0.4,
+      "hard": 0.4
+     },
+     "competencyShare": null,
+     "choiceCount": 0
+    },
+    {
+     "id": "s5",
+     "title": "Section E - Case based",
+     "questionTypes": [
+      "case_study"
+     ],
+     "questionCount": 1,
+     "marksEach": 4,
+     "attemptCount": null,
+     "difficultyMix": {
+      "easy": 0.2,
+      "medium": 0.5,
+      "hard": 0.3
+     },
+     "competencyShare": 1.0,
+     "choiceCount": 0
+    }
+   ],
+   "scope": {
+    "chapterIds": [],
+    "topicIds": [],
+    "subtopicIds": []
+   },
+   "id": "preset:cbse:6:science:annual",
+   "schoolId": "",
+   "tagline": "",
+   "brandColor": "#000000",
+   "headerHtml": "",
+   "footerHtml": "",
+   "logoUrl": "",
+   "marginTop": 20.0,
+   "marginBottom": 20.0,
+   "marginLeft": 20.0,
+   "marginRight": 20.0,
+   "fontFamily": "Helvetica",
+   "fontSize": 11,
+   "lineHeight": 1.4,
+   "sectionFormatting": {},
+   "isDefault": false,
+   "kind": "paper",
+   "ownerId": "",
+   "shared": false,
+   "isPreset": true,
+   "patternStatus": "suggested",
+   "source": "Suggested school pattern, not a CBSE rule: CBSE prescribes no paper design for class 6 term examinations. Edit it to match your school.",
+   "basedOn": null,
+   "instructionsGenerated": true,
+   "scopeNotes": [],
+   "createdAt": null,
+   "updatedAt": null
+  }
+ ],
+ "mine": [],
+ "shared": []
+}

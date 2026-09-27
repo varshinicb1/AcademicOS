@@ -297,18 +297,62 @@ class AvailabilityView {
   final List<SectionAvailabilityView> sections;
   final List<String> scopeNotes;
 
+  /// The competency-based share of the paper this check would print, against
+  /// CBSE's 50% (Task 125). Null from a server before the check existed.
+  final CompetencyCheckView? competency;
+
+  /// Whether a Foundation/Advanced version could differ, and why not. Null
+  /// from a server before the check existed.
+  final TierCheckView? tiers;
+
   AvailabilityView.fromJson(Map<String, dynamic> j)
       : complete = j['complete'] as bool? ?? false,
         bankQuestions = j['bankQuestions'] as int? ?? 0,
         keyedQuestions = j['keyedQuestions'] as int? ?? 0,
         sections = _maps(j['sections']).map(SectionAvailabilityView.fromJson).toList(),
-        scopeNotes = List<String>.from(j['scopeNotes'] ?? const []);
+        scopeNotes = List<String>.from(j['scopeNotes'] ?? const []),
+        competency = j['competency'] is Map
+            ? CompetencyCheckView.fromJson(Map<String, dynamic>.from(j['competency'] as Map))
+            : null,
+        tiers = j['tiers'] is Map ? TierCheckView.fromJson(Map<String, dynamic>.from(j['tiers'] as Map)) : null;
 
   List<SectionAvailabilityView> get short => sections.where((s) => s.isShort).toList();
 
   /// Nothing at all can be printed: generation refuses this (400), so the
   /// builder must not offer to try.
   bool get nothingFits => sections.every((s) => s.filled == 0);
+}
+
+/// The server's `CompetencyCheck` (paper_templates.py). `status` is `meets`,
+/// `below_scope` (widening the chapters would reach 50%), `below_choice` (the
+/// bank has enough; swap or pick them in) or `below_bank` (the bank cannot).
+/// The sentences are the server's, shown as they come.
+class CompetencyCheckView {
+  final String status;
+  final double share;
+  final String summary;
+  final String detail;
+  final String counted;
+
+  CompetencyCheckView.fromJson(Map<String, dynamic> j)
+      : status = j['status'] as String? ?? '',
+        share = (j['share'] as num?)?.toDouble() ?? 0,
+        summary = j['summary'] as String? ?? '',
+        detail = j['detail'] as String? ?? '',
+        counted = j['counted'] as String? ?? '';
+
+  bool get belowTarget => status != 'meets';
+}
+
+/// The server's `TierCheck`: whether a tier could change the paper, and the
+/// sentence saying why not.
+class TierCheckView {
+  final bool available;
+  final String sentence;
+
+  TierCheckView.fromJson(Map<String, dynamic> j)
+      : available = j['available'] as bool? ?? false,
+        sentence = j['sentence'] as String? ?? '';
 }
 
 /// The server's paper JSON, made readable by the shared [GeneratedPaper]
