@@ -180,6 +180,46 @@ def test_placeholder_and_inferred_values_are_not_signals():
     assert any(TIERS_UNAVAILABLE in w for w in res.warnings)
 
 
+def _cbe(q: QuestionSchema) -> QuestionSchema:
+    q.question_bank_id = "cbe:x.pdf"
+    return q
+
+
+def test_values_the_cbe_importer_supplied_are_no_tier_signal():
+    """Task 125, step 5. corpus/cbse_cbe.py writes the bank's default Bloom
+    level (_DEFAULT_BLOOM) and a difficulty from marks (_difficulty_for) on
+    every item-bank question, and flags neither. So an easy and a hard CBE
+    item of the same marks differ in nothing anyone judged: no tier may rank
+    on them, and the level counts do not count them."""
+    sec = [_section("A", 1, 2)]
+    pool = ([_cbe(_q(f"cbe_easy{i}", 1, difficulty="easy")) for i in range(3)]
+            + [_cbe(_q(f"cbe_hard{i}", 1, difficulty="hard")) for i in range(3)])
+    foundation, _ = _ids(pool, sec, "foundation")
+    advanced, res = _ids(pool, sec, "advanced")
+    assert foundation == advanced
+    assert res.optimization_metrics["tierSignals"] == {
+        "available": False, "difficultyLevels": 0, "bloomLevels": 0}
+    assert any(TIERS_UNAVAILABLE in w for w in res.warnings)
+    assert all(selection.difficulty_signal(q) is None and selection.bloom_signal(q) is None
+               for q in pool)
+
+
+def test_the_tiers_note_says_why_no_version_is_offered():
+    """The builder's sentence (Task 125, step 7 shows it) names the class and
+    subject, and says only what tier_signals checks. It no longer adds '(the
+    bank sets them from marks)': a Bloom level is the importers' default
+    ('understand'), not a value from marks, and Social Science 10's
+    difficulty is the constant the SQP builder writes (all 14 of its served
+    records, review_s56/tier_sources.py)."""
+    expected = (
+        "Foundation and Advanced versions are not offered: in the Class 10 Science bank, "
+        "questions of the same marks do not differ in a difficulty or Bloom level anyone "
+        "judged, so every version would print this same paper.")
+    assert selection.tiers_note(10, "Science") == expected
+    assert selection.tiers_note("X", "Science") == expected
+    assert "from marks" not in selection.tiers_note(10, "Social Science")
+
+
 def test_the_registry_path_marks_what_it_made_up():
     """mapping.py supplies a Bloom level and a marks-derived difficulty when
     extraction found none; the record must say they were supplied."""
@@ -191,6 +231,34 @@ def test_the_registry_path_marks_what_it_made_up():
     schema = to_question_schema(pq)
     assert schema.metadata.get("bloomInferred") is True
     assert schema.metadata.get("difficultyInferred") is True
+
+
+def _registry_pq(**question) -> PoolQuestion:
+    return PoolQuestion(
+        question=Question(canonical_id="reg1", title="t",
+                          source_text="Describe how a lens forms an image of a distant object.",
+                          **question),
+        subject="Science", grade="X", academic_year="2024", chapter_id="ch1",
+        chapter_name="Light", chapter_confidence=0.9, text_hash="h")
+
+
+def test_the_registry_path_marks_a_marks_derived_type_as_supplied():
+    """No extracted type and 5 marks: mapping._resolve_type makes it a
+    case_study by marks alone. That is not CBSE saying it is a case study, so
+    it must not count toward the competency-based share (Task 125)."""
+    schema = to_question_schema(_registry_pq(marks=5.0))
+    assert schema.type == "case_study"
+    assert schema.metadata.get("typeInferred") is True
+    assert selection.is_competency_question(schema) is False
+
+
+def test_the_registry_path_marks_a_keyword_guessed_type_as_supplied():
+    """extract/academic._guess_type calls anything whose section text says
+    'passage' a case_study; a keyword guess is still ours, not the source's."""
+    schema = to_question_schema(_registry_pq(marks=4.0, question_type="case_study"))
+    assert schema.type == "case_study"
+    assert schema.metadata.get("typeInferred") is True
+    assert selection.is_competency_question(schema) is False
 
 
 def test_a_signal_with_no_choice_left_is_still_unavailable():
@@ -308,6 +376,292 @@ def test_quick_generate_reports_the_cbq_share_and_keeps_the_warning(tmp_path, mo
     assert any("competency-based" in w for w in data["warnings"])
 
 
+# ---- Task 125, step 6: a paper that cannot reach the share says so first ----
+
+CANNOT_REACH = "This paper cannot reach CBSE's"
+
+
+def _one_mark_pool(n_cbe: int, n_plain: int, *, plain_chapter: str = "ch1") -> list[QuestionSchema]:
+    return ([_cbe(_q(f"cbe{i}", 1, chapters=["ch2"])) for i in range(n_cbe)]
+            + [_q(f"plain{i}", 1, chapters=[plain_chapter]) for i in range(n_plain)])
+
+
+def _metrics(res) -> tuple:
+    m = res.optimization_metrics
+    return (m["competencyCeiling"], m["competencyUsable"], m["competencyInBank"],
+            m["competencyTarget"])
+
+
+def test_a_paper_that_cannot_reach_the_share_says_so_before_anything_else():
+    """One 1-mark section of 4 over a bank with 1 competency-based question:
+    no selection can print more than 1 of 4. The optimizer used to find out
+    only afterwards ("Selected paper has 25.0% ..."), which reads as a choice
+    it made rather than a limit of the bank."""
+    _, res = _ids(_one_mark_pool(1, 5), [_section("A", 1, 4)], "standard")
+    assert res.warnings[0] == (
+        "This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
+        "at most 1 competency-based question(s) of the 4 it asks for (25.0%). Of the 6 "
+        "question(s) in the bank these sections can use, 1 (16.7%) are competency-based.")
+    assert _metrics(res) == (1, 6, 1, 0.5)
+    # The printed share is a different fact and is still reported after it.
+    assert any(w.startswith("Selected paper has 25.0% competency-based") for w in res.warnings[1:])
+
+
+def test_a_bank_that_can_reach_the_share_gets_no_such_warning():
+    _, res = _ids(_one_mark_pool(3, 5), [_section("A", 1, 4)], "standard")
+    assert not any(CANNOT_REACH in w for w in res.warnings), res.warnings
+    assert _metrics(res) == (3, 8, 3, 0.5)
+
+
+def test_the_fallback_counts_only_for_a_section_the_chapters_cannot_fill():
+    """Chapter-scoped: the whole-subject fallback fills only a shortfall
+    (optimize's fallback_candidates), so competency-based questions outside
+    the chosen chapters count toward the ceiling only as far as it goes."""
+    sec = [_section("A", 1, 4)]
+    for in_scope, ceiling in ((4, 0), (2, 2)):
+        bank = _one_mark_pool(3, in_scope)
+        chosen = [q for q in bank if q.chapter_ids == ["ch1"]]
+        res = selection.optimize([q.model_copy(deep=True) for q in chosen], _bp(sec, "standard"),
+                                 fallback_candidates=[q.model_copy(deep=True) for q in bank])
+        assert res.optimization_metrics["competencyCeiling"] == ceiling, in_scope
+        assert res.optimization_metrics["competencyUsable"] == in_scope + 3
+        printed = sum(1 for q in res.selected_questions if selection.is_competency_question(q))
+        assert printed == ceiling, in_scope
+        assert any(CANNOT_REACH in w for w in res.warnings) is (ceiling / 4 < 0.5), in_scope
+
+
+def test_a_section_an_earlier_one_left_short_counts_its_borrow():
+    """Two 1-mark sections of 2 over 3 in-scope plain questions: the first
+    takes 2, the second finds 1 left and borrows 1 from the fallback -- a
+    competency-based one. A ceiling that measured each section's shortfall
+    against all its in-scope fits (3 >= 2, so none) said 'at most 0' of a
+    paper that prints 1."""
+    secs = [_section("A", 1, 2), _section("B", 1, 2)]
+    bank = _one_mark_pool(2, 3)
+    chosen = [q for q in bank if q.chapter_ids == ["ch1"]]
+    res = selection.optimize([q.model_copy(deep=True) for q in chosen], _bp(secs, "standard"),
+                             fallback_candidates=[q.model_copy(deep=True) for q in bank])
+    printed = sum(1 for q in res.selected_questions if selection.is_competency_question(q))
+    assert printed == 1
+    assert res.optimization_metrics["competencyCeiling"] == 1
+    assert "at most 1 competency-based question(s) of the 4" in res.warnings[0]
+
+
+def _scoped(chosen: list[QuestionSchema], bank: list[QuestionSchema],
+            secs: list[SectionBlueprint]):
+    """optimize() as quick-generate runs it on chosen chapters: the whole
+    subject as the fallback."""
+    return selection.optimize([q.model_copy(deep=True) for q in chosen], _bp(secs, "standard"),
+                              fallback_candidates=[q.model_copy(deep=True) for q in bank])
+
+
+def _cbq_printed(res) -> int:
+    return sum(1 for q in res.selected_questions if selection.is_competency_question(q))
+
+
+def _restated_in_scope():
+    """review_s56/synthetic.py, case 1: 4 plain questions in the chosen
+    chapters, one restating another, and 2 competency-based ones outside."""
+    plain = [_q(f"plain{i}", 1) for i in range(4)]
+    plain[1].stem = plain[0].stem
+    return plain, plain + [_cbe(_q(f"cbe{i}", 1, chapters=["ch2"])) for i in range(2)]
+
+
+def _restated_pair():
+    """review56_edges.py, case 1: one section of 2 over two copies of one
+    plain question and 2 competency-based ones outside."""
+    p1, p2 = _q("p1", 1), _q("p2", 1)
+    p2.stem = p1.stem
+    return [p1, p2], [p1, p2] + [_cbe(_q(f"c{i}", 1, chapters=["ch2"])) for i in range(2)]
+
+
+def _or_drain():
+    """review_s56/synthetic.py, case 2: the OR partner of the first 1-mark
+    section is the last in-scope fit of the second, which then borrows."""
+    plain = [_q(f"p{i}", 1) for i in range(2)]
+    return plain, plain + [_cbe(_q("c0", 1, chapters=["ch2"]))]
+
+
+def _rest_order():
+    """review56_edges.py, case 3: two 1-mark sections, the second only for
+    hard questions. The first takes the plain hard one, so the second
+    borrows a competency-based hard one."""
+    e1 = _q("e1", 1, difficulty="easy", quality=0.1)
+    h1 = _q("h1", 1, difficulty="hard", quality=0.9)
+    cc = _cbe(_q("cc", 1, difficulty="easy"))
+    fb = _cbe(_q("fb", 1, difficulty="hard", chapters=["ch2"]))
+    b = _section("B", 1, 1)
+    b.allowed_difficulties = ["hard"]
+    return [cc, e1, h1], [cc, e1, h1, fb], [_section("A", 1, 2), b]
+
+
+def test_a_restated_question_left_short_is_counted_in_the_ceiling():
+    """optimize() skips a question that restates one on the paper, so the
+    section is short and borrows a competency-based question. The ceiling
+    said 'at most 0' of a paper that printed 1 (on the served bank: Maths 7
+    board on one chapter, 'at most 12' and 16 printed)."""
+    chosen, bank = _restated_in_scope()
+    res = _scoped(chosen, bank, [_section("A", 1, 4)])
+    assert _cbq_printed(res) == 1
+    assert res.optimization_metrics["competencyCeiling"] == 1
+    assert res.warnings[0].startswith(
+        "This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
+        "at most 1 competency-based question(s) of the 4 it asks for (25.0%).")
+
+
+def test_a_paper_that_meets_the_share_never_says_it_cannot():
+    """Two copies of one question over a section of 2: it prints one copy and
+    borrows a competency-based question, 1 of 2 (50%). The sentence said 'at
+    most 0 ... (0.0%)' first, and nothing contradicted it."""
+    chosen, bank = _restated_pair()
+    res = _scoped(chosen, bank, [_section("A", 1, 2)])
+    assert _cbq_printed(res) == 1 and len(res.selected_questions) == 2
+    assert not any(CANNOT_REACH in w for w in res.warnings), res.warnings
+    assert res.optimization_metrics["competencyCeiling"] >= 1
+
+
+def test_an_or_partner_that_empties_a_later_section_is_counted():
+    """Two 1-mark sections of 1, the first with an internal choice: its OR
+    partner is the second's last in-scope fit, so the second borrows a
+    competency-based question and the paper prints 1 of 2 (50%)."""
+    chosen, bank = _or_drain()
+    res = _scoped(chosen, bank, [_section("A", 1, 1, choice=True), _section("B", 1, 1)])
+    assert _cbq_printed(res) == 1 and len(res.selected_questions) == 2
+    assert not any(CANNOT_REACH in w for w in res.warnings), res.warnings
+    assert res.optimization_metrics["competencyCeiling"] >= 1
+
+
+@pytest.mark.parametrize("case", ["restated_in_scope", "restated_pair", "or_drain",
+                                  "rest_order", "used_up_fits"])
+def test_the_ceiling_is_never_below_what_the_paper_prints(case):
+    """The sentence says 'at most c'; the paper under it may never print more."""
+    one_section = [_section("A", 1, 4)]
+    if case == "restated_in_scope":
+        chosen, bank = _restated_in_scope()
+        secs = one_section
+    elif case == "restated_pair":
+        chosen, bank = _restated_pair()
+        secs = [_section("A", 1, 2)]
+    elif case == "or_drain":
+        chosen, bank = _or_drain()
+        secs = [_section("A", 1, 1, choice=True), _section("B", 1, 1)]
+    elif case == "rest_order":
+        chosen, bank, secs = _rest_order()
+    else:
+        bank = _one_mark_pool(2, 3)
+        chosen = [q for q in bank if q.chapter_ids == ["ch1"]]
+        secs = [_section("A", 1, 2), _section("B", 1, 2)]
+    res = _scoped(chosen, bank, secs)
+    ceiling = res.optimization_metrics["competencyCeiling"]
+    assert _cbq_printed(res) <= ceiling <= len(res.selected_questions), case
+    warned = any(CANNOT_REACH in w for w in res.warnings)
+    share = res.optimization_metrics["competencyPercentage"]
+    assert not (warned and share >= 0.5), (case, res.warnings)
+
+
+def test_a_paper_that_prints_short_is_measured_against_what_it_prints():
+    """Every other share surface divides by the questions printed. A section
+    of 4 over 1 competency-based and 1 plain question prints 2, 1 of them
+    competency-based (50%): measured against the 4 it asked for (25%), the
+    sentence said 'cannot reach' of a paper that reaches it."""
+    _, res = _ids(_one_mark_pool(1, 1), [_section("A", 1, 4)], "standard")
+    assert res.optimization_metrics["competencyPercentage"] == 0.5
+    assert not any(CANNOT_REACH in w for w in res.warnings), res.warnings
+    # Short and still below: the sentence names both numbers.
+    _, res = _ids(_one_mark_pool(1, 3), [_section("A", 1, 6)], "standard")
+    assert res.warnings[0] == (
+        "This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
+        "at most 1 competency-based question(s) of the 4 it can print (25.0%; it asks for 6). "
+        "Of the 4 question(s) in the bank these sections can use, 1 (25.0%) are "
+        "competency-based.")
+
+
+def test_a_chapter_scoped_ceiling_names_the_chosen_chapters():
+    """On chosen chapters the limit is the chapters, not the bank: 4 plain
+    questions in them and 3 competency-based ones outside, which the section
+    borrows only for a shortfall it does not have. 'Of the 7 question(s) in
+    the bank ... 3 (42.9%)' blamed the bank."""
+    bank = _one_mark_pool(3, 4)
+    res = _scoped([q for q in bank if q.chapter_ids == ["ch1"]], bank, [_section("A", 1, 4)])
+    assert res.warnings[0] == (
+        "This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
+        "at most 0 competency-based question(s) of the 4 it asks for (0.0%). Of the 4 "
+        "question(s) in the chosen chapters these sections can use, 0 (0.0%) are "
+        "competency-based; of the 7 in the whole bank, 3 (42.9%) are.")
+    m = res.optimization_metrics
+    assert (m["competencyUsableInScope"], m["competencyInScope"]) == (4, 0)
+    assert (m["competencyUsable"], m["competencyInBank"]) == (7, 3)
+
+
+def test_chosen_chapters_with_nothing_that_fits_say_so():
+    """No question in the chosen chapters has these marks: the whole paper
+    comes from outside them."""
+    chosen = [_q("two0", 2)]
+    bank = chosen + _one_mark_pool(1, 5)
+    res = _scoped(chosen, bank, [_section("A", 1, 4)])
+    assert res.warnings[0] == (
+        "This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
+        "at most 1 competency-based question(s) of the 4 it asks for (25.0%). No question "
+        "in the chosen chapters fits these sections; of the 6 in the whole bank that do, "
+        "1 (16.7%) are competency-based.")
+
+
+def test_an_empty_bank_gets_no_ceiling_warning():
+    res = selection.optimize([], _bp([_section("A", 1, 4)], "standard"))
+    assert not any(CANNOT_REACH in w for w in res.warnings), res.warnings
+    assert _metrics(res) == (0, 0, 0, 0.5)
+
+
+def test_quick_generate_carries_the_ceiling_sentence_first(tmp_path, monkeypatch):
+    """Quick-generate copies the optimizer's warnings first, so the teacher
+    reads what the bank cannot do before what the paper printed."""
+    from academicos.assessment.templates import EXAM_PRESETS, get_sections_for_exam_type
+
+    pool = _plain_pool()
+    asked = sum(row[3] for row in EXAM_PRESETS["class_test"]["sections"])
+    sections = get_sections_for_exam_type("class_test", 20)
+    usable = sum(1 for q in map(to_question_schema, pool.questions)
+                 if any(selection._fits_section(q, s) for s in sections))
+    assert usable
+    with _client_for(tmp_path, monkeypatch, pool) as client:
+        resp = client.post("/api/v1/papers/quick-generate", headers=_auth(client), json={
+            "subject": "Science", "grade": 10, "totalMarks": 20, "examType": "class_test"})
+    assert resp.status_code == 200, resp.text
+    warnings = resp.json()["warnings"]
+    sentence = (
+        f"This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
+        f"at most 0 competency-based question(s) of the {asked} it asks for (0.0%). Of the "
+        f"{usable} question(s) in the bank these sections can use, 0 (0.0%) are "
+        f"competency-based.")
+    assert warnings[0] == sentence, warnings
+    printed = next(i for i, w in enumerate(warnings) if w.startswith("Selected paper has"))
+    assert printed > 0
+
+
+def test_on_the_served_bank_the_ceiling_sentence_is_never_contradicted(served, tmp_path,
+                                                                       monkeypatch):
+    """review56_served.py: Mathematics 10, 80 marks, on real-numbers and
+    triangles. warnings[0] said 'at most 18 ... of the 38 (47.4%)' and the
+    paper printed 19 of 38 (50%, target met): a restated 1-mark question left
+    Section A short, and it borrowed one more competency-based question than
+    the walk allowed for."""
+    import re
+
+    with _client_for(tmp_path, monkeypatch, served["Mathematics"]) as client:
+        resp = client.post("/api/v1/papers/quick-generate", headers=_auth(client), json={
+            "subject": "Mathematics", "grade": 10, "totalMarks": 80,
+            "chapterIds": ["mathematics-10/real-numbers", "mathematics-10/triangles"]})
+    assert resp.status_code == 200, resp.text
+    data = resp.json()
+    printed = sum(q["isCompetency"] for s in data["sections"] for q in s["questions"])
+    assert printed
+    sentences = [w for w in data["warnings"] if CANNOT_REACH in w]
+    if data["competencyTargetMet"]:
+        assert not sentences, sentences
+    for w in sentences:
+        assert int(re.search(r"at most (\d+) competency-based", w).group(1)) >= printed, w
+
+
 def test_the_served_bank_paper_reports_its_cbq_share(served, tmp_path, monkeypatch):
     with _client_for(tmp_path, monkeypatch, served["Science"]) as client:
         resp = client.post("/api/v1/papers/quick-generate", headers=_auth(client), json={
@@ -411,6 +765,50 @@ def test_sets_b_and_c_obey_the_section_difficulty_and_bloom_limits():
     assert b == ["fits"]
     assert c == ["p1"]
     assert paper.set_overlap == {"A": 0, "B": 0, "C": 1}
+
+
+def test_an_odd_set_prints_the_or_alternative_as_its_own_question():
+    """Task 125, step 4. Sets B and D put a question's OR alternative first.
+    The swap used to move only the stem, id and model answer onto the
+    primary's record, so set B printed the alternative's stem under the
+    primary's bank id, type and marking points: an Exemplar short answer
+    flagged competency-based because its partner came from a CBSE item bank,
+    and an answer key whose value points belonged to the other question.
+    The alternative is now rebuilt from the full record the pairing stored
+    (metadata.internal_choice_question), with the primary as its OR."""
+    from academicos.assessment.schemas import MarkingPointSchema
+
+    def point(qid: str) -> list[MarkingPointSchema]:
+        return [MarkingPointSchema(id="mp1", description=f"value point of {qid}", marks=3)]
+
+    p = _q("P", 3, qtype="long_answer")
+    p.question_bank_id = "cbe:x.pdf"
+    p.answer_scheme.marking_points = point("P")
+    q = _q("Q", 3, qtype="short_answer", source="ncert_exemplar")
+    q.question_bank_id = "exemplar:10:science"
+    q.answer_scheme.marking_points = point("Q")
+    selection._attach_choice(p, q)
+
+    bp = _bp([_section("C", 3, 1, choice=True)], "standard")
+    paper = generate_paper_sets(
+        paper_id="p", assessment_id="a", assessment_title="T", subject="Science", grade=10,
+        blueprint=bp, selected_questions=[p], set_count=2, rotation_groups=[[p]])
+
+    a = paper.sets[0].sections[0].questions[0]
+    assert (a.question_id, a.is_competency, a.type) == ("P", True, "long_answer")
+    assert a.internal_choice_question_id == "Q" and a.internal_choice_text == q.stem
+
+    b = paper.sets[1].sections[0].questions[0]
+    assert (b.question_id, b.stem, b.is_competency, b.type) == \
+        ("Q", q.stem, False, "short_answer")
+    assert b.internal_choice_question_id == "P" and b.internal_choice_text == p.stem
+    key = paper.sets[1].answer_key
+    assert key["1"].startswith("Answer Q") and "value point of Q" in key["1"]
+    assert "value point of P" not in key["1"]
+    assert key["1_OR"] == "Answer P"
+    # Set A's key is untouched.
+    assert "value point of P" in paper.sets[0].answer_key["1"]
+    assert paper.sets[0].answer_key["1_OR"] == "Answer Q"
 
 
 def test_a_paper_that_borrows_outside_the_chosen_chapters_says_so(served, tmp_path, monkeypatch):

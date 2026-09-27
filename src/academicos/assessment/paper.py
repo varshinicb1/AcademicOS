@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
+from .competency import CBSE_COMPETENCY_TARGET
 from .schemas import (
     Blueprint,
     GeneratedPaper,
@@ -199,17 +200,7 @@ def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: 
 
                 # Swap primary and OR questions on alternate sets for sections with internal choice
                 if idx % 2 == 1:
-                    for q in curr_list:
-                        if q.metadata.get("internal_choice_id") and q.metadata.get("internal_choice_stem"):
-                            old_stem = q.stem
-                            old_id = q.id
-                            old_scheme = q.answer_scheme.model_answer
-                            q.stem = q.metadata["internal_choice_stem"]
-                            q.id = q.metadata["internal_choice_id"]
-                            q.answer_scheme.model_answer = q.metadata.get("internal_choice_scheme", "")
-                            q.metadata["internal_choice_stem"] = old_stem
-                            q.metadata["internal_choice_id"] = old_id
-                            q.metadata["internal_choice_scheme"] = old_scheme
+                    curr_list = [_alternative_first(q) for q in curr_list]
 
             variant_questions.extend(curr_list)
 
@@ -232,6 +223,49 @@ def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: 
     if alternatives is not None:
         primary_paper.set_overlap = dict(zip(labels, overlaps))
     return primary_paper
+
+
+def _alternative_first(q: QuestionSchema) -> QuestionSchema:
+    """`q`'s OR alternative as the printed question, with `q` as its OR --
+    what sets B and D print for a question with internal choice.
+
+    The alternative is rebuilt from the full record the pairing stored
+    (metadata "internal_choice_question": selection.optimize and
+    selection._attach_choice on the quick/custom path,
+    paper_template_routes._attach_choices on the template path), so the set
+    prints the alternative's own id, type, bank id, marks, marking points and
+    competency flag. Moving only its stem, id and model answer onto `q`'s
+    record printed an Exemplar short answer as the CBE long answer it was
+    paired with, flagged competency-based, and keyed it with the primary's
+    value points (`answer_key_entry` reads the record's marking points).
+
+    Without the stored record (a primary paired before it was kept) the
+    stem, id and model answer are all there is to swap."""
+    from .selection import _CHOICE_KEYS
+
+    meta = q.metadata
+    if not (meta.get("internal_choice_id") and meta.get("internal_choice_stem")):
+        return q
+    record = meta.get("internal_choice_question")
+    if record:
+        alt = QuestionSchema.model_validate(record)
+        primary = q.model_copy(deep=True)
+        for key in _CHOICE_KEYS:
+            primary.metadata.pop(key, None)
+            alt.metadata.pop(key, None)
+        alt.metadata["internal_choice_id"] = primary.id
+        alt.metadata["internal_choice_stem"] = primary.stem
+        alt.metadata["internal_choice_scheme"] = primary.answer_scheme.model_answer
+        alt.metadata["internal_choice_question"] = primary.model_dump(by_alias=False)
+        return alt
+    old_stem, old_id, old_scheme = q.stem, q.id, q.answer_scheme.model_answer
+    q.stem = meta["internal_choice_stem"]
+    q.id = meta["internal_choice_id"]
+    q.answer_scheme.model_answer = meta.get("internal_choice_scheme", "")
+    meta["internal_choice_stem"] = old_stem
+    meta["internal_choice_id"] = old_id
+    meta["internal_choice_scheme"] = old_scheme
+    return q
 
 
 def generated_question(q: QuestionSchema, display_number: int, *,
@@ -274,6 +308,48 @@ def answer_key_entry(q: QuestionSchema) -> str:
 def or_answer_key_entry(model_answer: str | None) -> str:
     """The answer-key text for an OR alternative (its `<n>_OR` entry)."""
     return model_answer or "(model answer pending)"
+
+
+def competency_share(paper: GeneratedPaper) -> float:
+    """The competency-based share of the questions `paper` prints: its
+    compulsory questions, each flagged by the one rule when it was put on the
+    paper (`generated_question`). OR alternatives are not counted."""
+    flags = [q.is_competency for s in paper.sections for q in s.questions]
+    return round(sum(flags) / len(flags), 3) if flags else 0.0
+
+
+def stamp_competency(paper: GeneratedPaper, target: float | None = None) -> None:
+    """`competency_share` and whether it meets `target` (CBSE's 50% when
+    None), on `paper` alone -- not its sets."""
+    target = CBSE_COMPETENCY_TARGET if target is None else target
+    paper.competency_share = competency_share(paper)
+    paper.competency_target_met = paper.competency_share >= target
+
+
+def report_competency(paper: GeneratedPaper, target: float | None) -> list[str]:
+    """The CBQ share of the printed questions and whether it meets `target`
+    (CBSE: at least 50%), stamped on the paper and each of its sets. Missed in
+    17/25 subject/grade pairs at the 2026-09-21 audit, with nothing on the
+    paper to say so.
+
+    Set B/C print other questions than set A, so each set gets its own share:
+    reporting set A's for all three said 0.45 where B and C held 0.25 and 0.15.
+    Returns a warning per set that misses the target.
+
+    Every generation path calls this one function -- quick-generate,
+    /papers/generate, generate-from-ids and generate-from-template -- so a
+    template paper carries the share the builder's availability check showed
+    (`paper_templates.competency_check`, same denominator).
+    """
+    target = CBSE_COMPETENCY_TARGET if target is None else target
+    warnings: list[str] = []
+    for p in [paper, *paper.sets]:
+        stamp_competency(p, target)
+        if p is not paper and not p.competency_target_met:
+            warnings.append(
+                f"Set {p.set_label} has {round(p.competency_share * 100, 1)}% "
+                f"competency-based questions (CBSE target: {int(target * 100)}%).")
+    return warnings
 
 
 def render_text(paper: GeneratedPaper) -> str:

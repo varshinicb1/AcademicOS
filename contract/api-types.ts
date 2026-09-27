@@ -3347,6 +3347,7 @@ export interface components {
         AvailabilityReport: {
             /** Bankquestions */
             bankQuestions: number;
+            competency?: components["schemas"]["CompetencyCheck"] | null;
             /** Complete */
             complete: boolean;
             /** Grade */
@@ -3364,6 +3365,7 @@ export interface components {
             subject: string;
             /** Templateid */
             templateId: string;
+            tiers?: components["schemas"]["TierCheck"] | null;
         };
         /** AvailabilityRequest */
         AvailabilityRequest: {
@@ -3687,6 +3689,66 @@ export interface components {
             sharedMistakes: components["schemas"]["SharedMistakeResponse"][];
             /** Students */
             students: number;
+        };
+        /**
+         * CompetencyCheck
+         * @description The competency-based share of the paper the report would print, against
+         *     CBSE's target (at least half), counted by the one rule
+         *     (`competency.competency_signal`).
+         *
+         *     Where a share below the target comes from decides what the teacher can do
+         *     about it at the builder's chapters step, so `status` says:
+         *
+         *       * ``meets`` -- the share reaches the target;
+         *       * ``below_scope`` -- the chosen chapters fall short, and the whole
+         *         syllabus, planned the same way, would reach it (widen the chapters);
+         *       * ``below_choice`` -- the bank holds enough competency-based questions
+         *         that fit the sections (`competency.competency_ceiling`), but the
+         *         sections ranked others first (swap or pick them in on the paper);
+         *       * ``below_bank`` -- the class and subject bank cannot reach it with
+         *         this template, whatever the chapters.
+         *
+         *     The share's denominator is the questions printed (compulsory, not their
+         *     OR alternatives), as `paper.report_competency` counts a generated paper,
+         *     so the check and the paper it becomes carry the same `share`.
+         */
+        CompetencyCheck: {
+            /** Bankcompetencybased */
+            bankCompetencyBased: number;
+            /** Bankshare */
+            bankShare: number;
+            /** Bankusable */
+            bankUsable: number;
+            /**
+             * Bysignal
+             * @default {}
+             */
+            bySignal: {
+                [key: string]: number;
+            };
+            /** Competencybased */
+            competencyBased: number;
+            /** Counted */
+            counted: string;
+            /** Detail */
+            detail: string;
+            /** Printed */
+            printed: number;
+            /** Share */
+            share: number;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "meets" | "below_scope" | "below_choice" | "below_bank";
+            /** Summary */
+            summary: string;
+            /** Target */
+            target: number;
+            /** Wholesyllabuscompetencybased */
+            wholeSyllabusCompetencyBased?: number | null;
+            /** Wholesyllabusprinted */
+            wholeSyllabusPrinted?: number | null;
         };
         /** CompetencyWeights */
         CompetencyWeights: {
@@ -6579,6 +6641,22 @@ export interface components {
             schoolId: string;
             /** Startdate */
             startDate: string;
+        };
+        /**
+         * TierCheck
+         * @description Could a Foundation or Advanced version print a different paper? Only
+         *     where questions of a section's marks differ in a difficulty or Bloom
+         *     level someone judged (`selection.tier_signals`). `sentence` says why no
+         *     version is offered, and is empty when one could be.
+         */
+        TierCheck: {
+            /** Available */
+            available: boolean;
+            /**
+             * Sentence
+             * @default
+             */
+            sentence: string;
         };
         /** TimetableResponse */
         TimetableResponse: {

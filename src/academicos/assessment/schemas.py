@@ -12,6 +12,8 @@ from typing import Any, Literal, Optional
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from pydantic.alias_generators import to_camel
 
+from .competency import CBSE_COMPETENCY_TARGET
+
 BloomLevel = Literal["remember", "understand", "apply", "analyze", "evaluate", "create"]
 Difficulty = Literal["easy", "medium", "hard"]
 QuestionType = Literal[
@@ -89,7 +91,7 @@ class Blueprint(Camel):
     competency_weights: CompetencyWeights
     sections: list[SectionBlueprint] = Field(default_factory=list)
     tier: str = "standard"
-    competency_percentage: float = 0.50
+    competency_percentage: float = CBSE_COMPETENCY_TARGET
     exam_type: Optional[str] = None
     metadata: dict[str, Any] = Field(default_factory=dict)
 
@@ -103,7 +105,7 @@ class BlueprintRequest(Camel):
     competency_weights: CompetencyWeights
     sections: list[SectionBlueprint] = Field(default_factory=list)
     tier: str = "standard"
-    competency_percentage: float = 0.50
+    competency_percentage: float = CBSE_COMPETENCY_TARGET
     exam_type: Optional[str] = None
     school_template: Optional[dict[str, Any]] = None
 

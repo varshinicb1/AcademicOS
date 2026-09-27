@@ -151,6 +151,9 @@ final appRouterProvider = Provider<GoRouter>((ref) {
               GoRoute(
                 path: 'create',
                 name: 'assessment-create',
+                redirect: (context, state) => legacyCreateRedirect(
+                  offlineBuild: const bool.fromEnvironment('ACADEMICOS_OFFLINE', defaultValue: false),
+                ),
                 builder: (context, state) => const AssessmentCreatePage(),
               ),
               // The guided builder (Task 902): the teacher's main way to a
@@ -309,6 +312,17 @@ final appRouterProvider = Provider<GoRouter>((ref) {
   }
   return router;
 });
+
+/// Where `/assessment/create` goes: on the web build, the guided builder.
+///
+/// The create screen carries the web's only Foundation/Standard/Advanced
+/// control, and the bank judges no difficulty in any class 6-10 cell
+/// (Task 125: tiersAvailable false in 14 of 14), so it offered three versions
+/// that print the same paper; the builder says why no version is offered. It
+/// was reachable on the web only by URL. The offline build keeps the screen:
+/// it has no builder.
+String? legacyCreateRedirect({required bool offlineBuild}) =>
+    offlineBuild ? null : '/assessment/build';
 
 /// Auth-gate decision for the router's `redirect` above. Returns the
 /// location to send the user to, or null to stay where they are.

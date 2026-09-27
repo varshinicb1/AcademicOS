@@ -396,6 +396,48 @@ def test_a_quick_generated_paper_swaps_by_the_slots_marks_type_and_chapters(
         assert swap.json()["questionId"] not in _on_paper(paper)
 
 
+def test_a_competency_section_swaps_and_picks_by_the_one_competency_rule(
+        tmp_path, monkeypatch):
+    """Task 125: a case-based section (all competency questions) is refilled
+    by the rule generation uses (competency.competency_signal), never by the
+    stem's wording. A 4-mark long answer that opens "Read the given source"
+    but comes from no competency-based source is not one, however well it
+    scores; a CBSE competency-based item-bank question ("cbe:" bank id) is."""
+    source = "Read the given source and answer the questions that follow: "
+    recs = [
+        _rec("src", 4, "ch1", 0, qtype="long_answer", quality=0.99,
+             stem=source + "how ozone is formed in the upper atmosphere."),
+        _rec("cbe0", 4, "ch1", 1, qtype="long_answer", quality=0.9),
+        _rec("cbe1", 4, "ch1", 2, qtype="long_answer", quality=0.8),
+    ]
+    recs[0]["metadata"] = {"typeInferred": True}          # its label came from marks
+    for r in recs[1:]:
+        r["questionBankId"] = "cbe:Item-Bank---Science-Class-10.pdf"
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _pool(recs))
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        tid = client.post(BASE, json=_template(totalMarks=4, sections=[
+            {"title": "Section E - Case based", "questionCount": 1, "marksEach": 4,
+             "questionTypes": ["case_study"], "competencyShare": 1.0}]),
+            headers=t1).json()["id"]
+        r = client.post(GEN, json={"templateId": tid}, headers=t1)
+        assert r.status_code == 200, r.text
+        paper = r.json()["paper"]
+        assert _at(paper, 1)["questionId"] == "cbe0"
+
+        swap = _swap(client, t1, paper["id"], "1")
+        assert swap.status_code == 200, swap.text
+        assert swap.json()["questionId"] == "cbe1"
+        again = _swap(client, t1, paper["id"], "1")
+        assert again.status_code == 409, again.text
+        assert again.json()["detail"]["counts"]["notCompetency"] == 1
+
+        pick = _pick(client, t1, paper["id"], "1", "src")
+        assert pick.status_code == 200, pick.text
+        assert any("src is not competency-based" in n for n in pick.json()["notes"]), \
+            pick.json()["notes"]
+
+
 # ------------------------------------------------------------------ near-duplicates
 
 # A real pair from the served bank (academicos-data/syllabus/questions.json,

@@ -356,6 +356,60 @@
      "chapterIds": []
     }
    }
+  },
+  {
+   "file": "availability_10_science_half_competency.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:10:science:half_yearly/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": [
+      "chemical-reactions-equations",
+      "acids-bases-salts",
+      "metals-non-metals",
+      "carbon-compounds",
+      "life-processes",
+      "control-coordination"
+     ]
+    }
+   }
+  },
+  {
+   "file": "availability_10_science_all_competency.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:10:science:half_yearly/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": []
+    }
+   }
+  },
+  {
+   "file": "templates_6_science.json",
+   "method": "GET",
+   "path": "/api/v1/schools/school_1/teacher-templates?grade=6&subject=Science",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "chapters_6_science.json",
+   "method": "GET",
+   "path": "/api/v1/catalog/Science/6/chapters",
+   "status": 200,
+   "body": null
+  },
+  {
+   "file": "availability_6_science_annual_all.json",
+   "method": "POST",
+   "path": "/api/v1/schools/school_1/teacher-templates/preset:cbse:6:science:annual/availability",
+   "status": 200,
+   "body": {
+    "scope": {
+     "chapterIds": []
+    }
+   }
   }
  ]
 }

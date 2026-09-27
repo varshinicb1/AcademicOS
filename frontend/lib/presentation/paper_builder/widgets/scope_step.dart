@@ -55,6 +55,15 @@ class ScopeStep extends StatelessWidget {
           selected: {c.setCount},
           onSelectionChanged: (s) => c.setSets(s.first),
         ),
+        // No Foundation/Advanced choice is offered; say why, beside the
+        // versions the paper does have, rather than offer three that match.
+        if (c.availability?.tiers case final tiers? when !tiers.available && tiers.sentence.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(top: 6),
+            child: Text(tiers.sentence,
+                key: const ValueKey('availability-tiers'),
+                style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+          ),
         const SizedBox(height: 16),
         Text('Chapters', style: theme.textTheme.titleMedium),
         _Chapters(c: c),
@@ -116,6 +125,44 @@ class _Chapters extends StatelessWidget {
 }
 
 /// What the bank can put on this paper, section by section.
+/// The paper's competency-based share against CBSE's 50%, in the server's
+/// own words: the share, what would change it, and -- when below -- how it was
+/// counted.
+class _CompetencyLine extends StatelessWidget {
+  final CompetencyCheckView check;
+  const _CompetencyLine({required this.check});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final (icon, color) = switch (check.status) {
+      'meets' => (Icons.check_circle_outline, theme.colorScheme.primary),
+      'below_bank' => (Icons.warning_amber_rounded, theme.colorScheme.error),
+      _ => (Icons.info_outline, theme.colorScheme.onSurfaceVariant),
+    };
+    return Padding(
+      key: const ValueKey('availability-competency'),
+      padding: const EdgeInsets.only(top: 8),
+      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Icon(icon, size: 18, color: color),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(check.summary, style: theme.textTheme.bodyMedium),
+            if (check.detail.isNotEmpty) Text(check.detail, style: theme.textTheme.bodySmall),
+            if (check.belowTarget && check.counted.isNotEmpty)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(check.counted,
+                    style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant)),
+              ),
+          ]),
+        ),
+      ]),
+    );
+  }
+}
+
 class AvailabilityPanel extends StatelessWidget {
   final PaperBuilderController c;
   const AvailabilityPanel({super.key, required this.c});
@@ -174,6 +221,9 @@ class AvailabilityPanel extends StatelessWidget {
             child: Text('Gaps are filled from outside the chosen chapters; the paper lists those questions.',
                 style: theme.textTheme.bodySmall),
           ),
+        // On the panel, never in the collapsed notes: CBSE's 50% is decided
+        // here, while the chapters can still change (Task 125).
+        if (a.competency != null) _CompetencyLine(check: a.competency!),
         for (final s in short) _ShortSection(c: c, s: s),
         if (a.nothingFits)
           Padding(

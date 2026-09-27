@@ -1,0 +1,158 @@
+{
+ "templateId": "preset:cbse:10:science:half_yearly",
+ "grade": 10,
+ "subject": "Science",
+ "bankQuestions": 504,
+ "keyedQuestions": 504,
+ "complete": false,
+ "sections": [
+  {
+   "sectionId": "s1",
+   "title": "Section A - Objective (MCQ / assertion-reason)",
+   "marksEach": 1,
+   "needed": 20,
+   "available": 312,
+   "shortfall": 0,
+   "filled": 20,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "",
+   "notes": [],
+   "fixes": []
+  },
+  {
+   "sectionId": "s2",
+   "title": "Section B - Very short answer",
+   "marksEach": 2,
+   "needed": 6,
+   "available": 3,
+   "shortfall": 3,
+   "filled": 3,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 2,
+   "choicesFilled": 0,
+   "reason": "Only 3 2-mark question(s) are available; 3 short.",
+   "notes": [
+    "Section B - Very short answer: 0 of 2 internal choice (OR) alternative(s) could be paired -- the bank has no more 2-mark questions this section takes, so the rest print without an OR."
+   ],
+   "fixes": [
+    {
+     "kind": "reduce_count",
+     "label": "Ask for 3 question(s) instead of 6 (then rebalance the paper's total).",
+     "available": 0,
+     "marksEach": null,
+     "questionCount": 3,
+     "choiceCount": null,
+     "questionTypes": null
+    },
+    {
+     "kind": "reduce_choices",
+     "label": "Print this section without OR choices.",
+     "available": 0,
+     "marksEach": null,
+     "questionCount": null,
+     "choiceCount": 0,
+     "questionTypes": null
+    }
+   ]
+  },
+  {
+   "sectionId": "s3",
+   "title": "Section C - Short answer",
+   "marksEach": 3,
+   "needed": 7,
+   "available": 127,
+   "shortfall": 0,
+   "filled": 7,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 1,
+   "choicesFilled": 1,
+   "reason": "",
+   "notes": [],
+   "fixes": []
+  },
+  {
+   "sectionId": "s4",
+   "title": "Section D - Long answer",
+   "marksEach": 5,
+   "needed": 3,
+   "available": 51,
+   "shortfall": 0,
+   "filled": 3,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 3,
+   "choicesFilled": 3,
+   "reason": "",
+   "notes": [],
+   "fixes": []
+  },
+  {
+   "sectionId": "s5",
+   "title": "Section E - Source / case based",
+   "marksEach": 4,
+   "needed": 3,
+   "available": 0,
+   "shortfall": 3,
+   "filled": 0,
+   "borrowed": 0,
+   "outsideScopeAvailable": 0,
+   "withoutKey": 0,
+   "choicesNeeded": 0,
+   "choicesFilled": 0,
+   "reason": "The bank has no 4-mark case study Class 10 Science questions. 4 case / competency-based question(s) are in the bank at 10 marks, but this section asks for 4-mark ones -- change the section to 10 marks to use them.",
+   "notes": [],
+   "fixes": [
+    {
+     "kind": "change_marks",
+     "label": "Make it a 10-mark section: 4 case / competency-based question(s) are in the bank at 10 marks (then rebalance the paper's total).",
+     "available": 4,
+     "marksEach": 10,
+     "questionCount": null,
+     "choiceCount": null,
+     "questionTypes": null
+    },
+    {
+     "kind": "reduce_count",
+     "label": "Remove this section (then rebalance the paper's total).",
+     "available": 0,
+     "marksEach": null,
+     "questionCount": 0,
+     "choiceCount": null,
+     "questionTypes": null
+    }
+   ]
+  }
+ ],
+ "scopeNotes": [],
+ "competency": {
+  "status": "meets",
+  "target": 0.5,
+  "printed": 33,
+  "competencyBased": 25,
+  "share": 0.758,
+  "wholeSyllabusPrinted": null,
+  "wholeSyllabusCompetencyBased": null,
+  "bankUsable": 493,
+  "bankCompetencyBased": 25,
+  "bankShare": 0.051,
+  "bySignal": {
+   "cbeItemBank": 25
+  },
+  "summary": "Competency-based: 25 of 33 questions (76%)",
+  "detail": "CBSE asks for at least 50%.",
+  "counted": "Counted as competency-based: questions from CBSE's competency-based item banks, questions their source prints as case-based, assertion-reason or competency-based, and questions printed with CBSE's Assertion (A) and Reason (R) labels. A Bloom level, the marks or other wording in a question are never counted."
+ },
+ "tiers": {
+  "available": false,
+  "sentence": "Foundation and Advanced versions are not offered: in the Class 10 Science bank, questions of the same marks do not differ in a difficulty or Bloom level anyone judged, so every version would print this same paper."
+ }
+}
