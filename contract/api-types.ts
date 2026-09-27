@@ -3702,6 +3702,9 @@ export interface components {
          *       * ``meets`` -- the share reaches the target;
          *       * ``below_scope`` -- the chosen chapters fall short, and the whole
          *         syllabus, planned the same way, would reach it (widen the chapters);
+         *       * ``below_choice`` -- the bank holds enough competency-based questions
+         *         that fit the sections (`competency.competency_ceiling`), but the
+         *         sections ranked others first (swap or pick them in on the paper);
          *       * ``below_bank`` -- the class and subject bank cannot reach it with
          *         this template, whatever the chapters.
          *
@@ -3737,7 +3740,7 @@ export interface components {
              * Status
              * @enum {string}
              */
-            status: "meets" | "below_scope" | "below_bank";
+            status: "meets" | "below_scope" | "below_choice" | "below_bank";
             /** Summary */
             summary: string;
             /** Target */

@@ -63,8 +63,8 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Callable, Literal, Optional
 
-from .competency import CBSE_COMPETENCY_TARGET, COMPETENCY_RULE_TEXT, competency_signal, \
-    is_competency_question
+from .competency import CBSE_COMPETENCY_TARGET, COMPETENCY_RULE_TEXT, competency_ceiling, \
+    competency_signal, is_competency_question
 from .pool import near_duplicate
 from .schemas import Camel, DifficultyDistribution, PaperTemplateDraft, QuestionSchema, \
     QuestionType, TemplateScope, TemplateSection
@@ -194,7 +194,7 @@ class SectionAvailability(Camel):
     fixes: list[SectionFix] = []
 
 
-CompetencyStatus = Literal["meets", "below_scope", "below_bank"]
+CompetencyStatus = Literal["meets", "below_scope", "below_choice", "below_bank"]
 
 
 class CompetencyCheck(Camel):
@@ -208,6 +208,9 @@ class CompetencyCheck(Camel):
       * ``meets`` -- the share reaches the target;
       * ``below_scope`` -- the chosen chapters fall short, and the whole
         syllabus, planned the same way, would reach it (widen the chapters);
+      * ``below_choice`` -- the bank holds enough competency-based questions
+        that fit the sections (`competency.competency_ceiling`), but the
+        sections ranked others first (swap or pick them in on the paper);
       * ``below_bank`` -- the class and subject bank cannot reach it with
         this template, whatever the chapters.
 
@@ -710,6 +713,20 @@ def _printed(plans: list[SectionPlan]) -> list[QuestionSchema]:
     return [q for p in plans for q in (*p.picked, *p.borrowed)]
 
 
+def _bank_reaches(template: PaperTemplateDraft, usable: list[QuestionSchema],
+                  target: float) -> bool:
+    """Whether the questions that fit the template's sections could hold
+    `target` of what the template asks for, by `competency.competency_ceiling`
+    (the same estimate selection uses before choosing). Only then is a share
+    below target the sections' ranking rather than the bank's limit."""
+    asked = sum(s.question_count for s in template.sections)
+    if not asked:
+        return False
+    sections = [(s.question_count, [q for q in usable if _fits(q, s)], [])
+                for s in template.sections]
+    return competency_ceiling(sections, near_duplicate) / asked >= target
+
+
 def competency_check(template: PaperTemplateDraft, plans: list[SectionPlan],
                      keyed: list[QuestionSchema],
                      whole_plans: Optional[list[SectionPlan]] = None,
@@ -742,6 +759,11 @@ def competency_check(template: PaperTemplateDraft, plans: list[SectionPlan],
         status = "below_scope"
         detail = (f"Below CBSE's {t}%. The whole syllabus would give {wc} of {wn} "
                   f"({_whole_percent(wc, wn)}%).")
+    elif _bank_reaches(template, usable, target):
+        status = "below_choice"
+        detail = (f"Below CBSE's {t}%. The bank has enough competency-based questions for "
+                  f"this template ({bc} of the {len(usable)} it can use): swap or pick them "
+                  f"in on the paper step.")
     else:
         status = "below_bank"
         detail = (f"Below CBSE's {t}%. The Class {template.grade} {template.subject} bank "

@@ -357,3 +357,80 @@ def test_the_served_bank_reads_as_the_builder_will_show_it(tmp_path, monkeypatch
         assert maths["competency"]["summary"] == "Competency-based: 37 of 38 questions (97%)"
         e = next(s for s in maths["sections"] if s["title"].startswith("Section E"))
         assert (e["filled"], e["needed"]) == (3, 3), e
+
+
+# ---- edits recount the sentences, not just the numbers -------------------------
+#
+# Review of 5e90119: swap, pick and remove recounted competencyShare but left
+# the generation-time sentences in paper.warnings, which the web paper step
+# renders after every edit -- so the only share a teacher saw could contradict
+# the paper ("Below CBSE's 50%" on a paper at 50%, "1 of 4" on a paper of 3).
+
+# Plain questions ranked above the CBE ones, all in ch1: the paper prints the
+# plain four (0%), and the CBE four are there to pick.
+RANKED = ([_rec(f"p{i}", "ch1", quality=0.9) for i in range(4)]
+          + [_rec(f"c{i}", "ch1", cbe=True, quality=0.5) for i in range(4)])
+
+
+@pytest.fixture
+def ranked_bank(monkeypatch):
+    monkeypatch.setitem(pool_mod._CACHE, ("Science", "X"), _fixture_pool(RANKED))
+
+
+def _generate(client, headers) -> dict:
+    tid = _create(client, headers)
+    r = client.post(GEN, json={"templateId": tid, "allowGaps": True}, headers=headers)
+    assert r.status_code == 200, r.text
+    return r.json()["paper"]
+
+
+def _competency_lines(paper: dict) -> list[str]:
+    return [w for w in paper["warnings"] if "ompetency-based" in w]
+
+
+def test_removing_a_question_recounts_the_competency_sentence(tmp_path, monkeypatch, ranked_bank):
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        paper = _generate(client, t1)
+        assert paper["warnings"][0].startswith("Competency-based: 0 of 4 questions (0%). Below CBSE's 50%.")
+        r = client.delete(f"/api/v1/papers/{paper['id']}/questions/1", headers=t1)
+        assert r.status_code == 200, r.text
+        edited = r.json()["paper"]
+        assert edited["competencyShare"] == 0.0
+        assert _competency_lines(edited) == ["Competency-based: 0 of 3 questions (0%). Below CBSE's 50%."]
+
+
+def test_picking_up_to_50_percent_drops_every_below_target_sentence(tmp_path, monkeypatch, ranked_bank):
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        paper = _generate(client, t1)
+        for slot, qid in (("1", "c0"), ("2", "c1")):
+            r = client.post(f"/api/v1/papers/{paper['id']}/questions/{slot}",
+                            json={"questionId": qid}, headers=t1)
+            assert r.status_code == 200, r.text
+        edited = r.json()["paper"]
+        assert (edited["competencyShare"], edited["competencyTargetMet"]) == (0.5, True)
+        assert not any("Below CBSE" in w for w in edited["warnings"]), edited["warnings"]
+        # What the builder re-reads after an edit says the same.
+        stored = client.get(f"/api/v1/papers/{paper['id']}", headers=t1).json()
+        assert not any("Below CBSE" in w for w in stored["warnings"]), stored["warnings"]
+
+
+def test_a_bank_that_could_reach_50_percent_is_not_blamed():
+    """Review of 5e90119 (minor): 'below_bank' was the fallback whenever the
+    printed share missed, so a template whose sections ranked plain questions
+    first read "the bank cannot reach it ... 4 of the 8 questions it can use
+    (50%) are competency-based" -- a sentence that refutes itself. The bank's
+    ceiling decides: here the four CBE questions alone would fill the paper."""
+    check = _check(_template(chapters=("ch1",)), _schemas(RANKED))
+    assert (check.printed, check.competency_based) == (4, 0)
+    assert check.status == "below_choice"
+    assert check.detail == ("Below CBSE's 50%. The bank has enough competency-based questions "
+                            "for this template (4 of the 8 it can use): swap or pick them in "
+                            "on the paper step.")
+
+
+def test_a_bank_that_cannot_reach_50_percent_is_still_named():
+    recs = [_rec(f"p{i}", "ch1", quality=0.9) for i in range(7)] + [_rec("c0", "ch1", cbe=True)]
+    check = _check(_template(chapters=("ch1",)), _schemas(recs))
+    assert check.status == "below_bank"

@@ -58,12 +58,12 @@ from dataclasses import dataclass
 from typing import Callable, Optional
 
 from . import grades
-from .competency import is_competency_question
+from .competency import CBSE_COMPETENCY_TARGET, is_competency_question
 from .mapping import to_question_schema
 from .paper import answer_key_entry, generated_question, or_answer_key_entry, render_text, \
-    stamp_competency
+    report_competency
 from .paper_templates import ScopeFilter, _all_competency, _content_fits, _fits, \
-    build_scope_filter, has_verified_key
+    _whole_percent, build_scope_filter, has_verified_key
 from .pool import QuestionPool, get_pool, near_duplicate
 from .schemas import Camel, GeneratedPaper, GeneratedQuestionSchema, GeneratedSectionSchema, \
     QuestionSchema, TemplateScope, TemplateSection
@@ -364,14 +364,41 @@ def check_pick(slot: Slot, rule: SlotRule, bank: Bank, question_id: str,
 
 # ---- rewriting the paper
 
+# The competency sentences generation puts in `paper.warnings`: the builder's
+# check ("Competency-based: c of n questions ..."), the per-set lines and
+# quick-generate's ("... has X% competency-based questions (CBSE target ...)"),
+# and the pre-selection ceiling ("This paper cannot reach CBSE's ...").
+_COMPETENCY_SENTENCE = re.compile(
+    r"^(Competency-based: \d+ of \d+ |Set [A-Z] has [\d.]+% competency-based questions"
+    r"|Selected paper has [\d.]+% competency-based questions|This paper cannot reach CBSE's )")
+
+
 def _restamped(edited: GeneratedPaper, target: Optional[float]) -> GeneratedPaper:
     """`edited`'s competency share recounted from what it now prints, when
     generation stamped one (`paper.report_competency`); a paper stored
     before the share existed keeps None. Without this a swap of a
     competency-based question for a plain one left the old share on the
-    paper -- and on the template path, the builder's step-3 number."""
-    if edited.competency_share is not None:
-        stamp_competency(edited, target)
+    paper -- and on the template path, the builder's step-3 number.
+
+    The sentences are recounted with it. The web paper step renders
+    `paper.warnings` after every edit, so a generation-time "Below CBSE's
+    50%" left on a paper that now meets it, or "1 of 4" on a paper of 3, was
+    the only share a teacher saw -- and it contradicted the paper. The
+    whole-syllabus and bank clauses cannot be recomputed without a plan, so
+    an edited paper states only what it prints."""
+    if edited.competency_share is None:
+        return edited
+    target = CBSE_COMPETENCY_TARGET if target is None else target
+    set_lines = report_competency(edited, target)
+    kept = [w for w in edited.warnings if not _COMPETENCY_SENTENCE.match(w)]
+    lines = []
+    if not edited.competency_target_met:
+        flags = [q.is_competency for s in edited.sections for q in s.questions]
+        c, n = sum(flags), len(flags)
+        noun = "question" if n == 1 else "questions"
+        lines.append(f"Competency-based: {c} of {n} {noun} ({_whole_percent(c, n)}%). "
+                     f"Below CBSE's {target * 100:g}%.")
+    edited.warnings = [*lines, *set_lines, *kept]
     return edited
 
 
