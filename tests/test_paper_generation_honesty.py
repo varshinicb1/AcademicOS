@@ -193,6 +193,34 @@ def test_the_registry_path_marks_what_it_made_up():
     assert schema.metadata.get("difficultyInferred") is True
 
 
+def _registry_pq(**question) -> PoolQuestion:
+    return PoolQuestion(
+        question=Question(canonical_id="reg1", title="t",
+                          source_text="Describe how a lens forms an image of a distant object.",
+                          **question),
+        subject="Science", grade="X", academic_year="2024", chapter_id="ch1",
+        chapter_name="Light", chapter_confidence=0.9, text_hash="h")
+
+
+def test_the_registry_path_marks_a_marks_derived_type_as_supplied():
+    """No extracted type and 5 marks: mapping._resolve_type makes it a
+    case_study by marks alone. That is not CBSE saying it is a case study, so
+    it must not count toward the competency-based share (Task 125)."""
+    schema = to_question_schema(_registry_pq(marks=5.0))
+    assert schema.type == "case_study"
+    assert schema.metadata.get("typeInferred") is True
+    assert selection.is_competency_question(schema) is False
+
+
+def test_the_registry_path_marks_a_keyword_guessed_type_as_supplied():
+    """extract/academic._guess_type calls anything whose section text says
+    'passage' a case_study; a keyword guess is still ours, not the source's."""
+    schema = to_question_schema(_registry_pq(marks=4.0, question_type="case_study"))
+    assert schema.type == "case_study"
+    assert schema.metadata.get("typeInferred") is True
+    assert selection.is_competency_question(schema) is False
+
+
 def test_a_signal_with_no_choice_left_is_still_unavailable():
     """Difficulty varies, but the section takes every question: no tier can
     change the paper, so it must not be reported as one that did."""
