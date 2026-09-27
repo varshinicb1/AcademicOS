@@ -13,7 +13,9 @@ questions and generating a paper from it returned 400.
 
 Now both read this rule. `pillar_routes._chapter_of` still keeps a copy (its
 file has another owner); tests/test_chapter_filing.py holds the two equal on
-every served class 6-10 question, so neither can change alone.
+every served class 6-10 question, so neither can change alone. The question
+bank API and the MCP server read it too, through `qbank_engine.QuestionBank`
+(audit D39); tests/test_qbank_chapter_filing.py holds them to the picker.
 """
 from __future__ import annotations
 
