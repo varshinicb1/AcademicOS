@@ -68,7 +68,7 @@ from .competency import CBSE_COMPETENCY_TARGET, COMPETENCY_RULE_TEXT, competency
 from .pool import near_duplicate
 from .schemas import Camel, DifficultyDistribution, PaperTemplateDraft, QuestionSchema, \
     QuestionType, TemplateScope, TemplateSection
-from .selection import tier_signals, tiers_note
+from .selection import difficulty_signal, tier_signals, tiers_note
 
 # Where the board-level topic taxonomy will live (being built in another
 # stream). Its absence is reported, never treated as "every id is invalid".
@@ -1012,7 +1012,13 @@ def _mix_notes(section: TemplateSection, picked: list[QuestionSchema],
                left_out: _LeftOut) -> tuple[list[str], list[SectionFix]]:
     notes: list[str] = []
     fixes: list[SectionFix] = []
-    if section.difficulty_mix is not None and picked:
+    # Only a difficulty someone judged can be "too few at the requested level":
+    # the bank sets most from marks (difficultyInferred, CBE item banks), and
+    # the note then blamed it for a value it never claimed -- on 168 of 170
+    # class 6-10 preset sections, beside a tier sentence saying the same bank
+    # judged no difficulty.
+    if (section.difficulty_mix is not None and picked
+            and any(difficulty_signal(q) is not None for q in picked)):
         wanted = dict(_difficulty_targets(section.difficulty_mix, len(picked)))
         got = {d: sum(1 for q in picked if q.difficulty == d) for d in wanted}
         if got != wanted:

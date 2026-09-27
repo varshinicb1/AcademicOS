@@ -434,3 +434,34 @@ def test_a_bank_that_cannot_reach_50_percent_is_still_named():
     recs = [_rec(f"p{i}", "ch1", quality=0.9) for i in range(7)] + [_rec("c0", "ch1", cbe=True)]
     check = _check(_template(chapters=("ch1",)), _schemas(recs))
     assert check.status == "below_bank"
+
+
+# ---- step 8: the difficulty-mix note needs a judged difficulty ---------------
+
+def _mixed_section():
+    from academicos.assessment.schemas import TemplateSection
+    return TemplateSection.model_validate({
+        "title": "Section A", "questionCount": 4, "marksEach": 1,
+        "difficultyMix": {"easy": 0.25, "medium": 0.5, "hard": 0.25}})
+
+
+def test_no_difficulty_mix_note_when_no_pick_has_a_judged_difficulty():
+    """The note said "the bank has too few at the requested level" of values
+    the bank set from marks -- on 168 of 170 class 6-10 preset sections, none
+    of them with a judged difficulty among its picks -- while the tier
+    sentence on the same screen says no difficulty was judged."""
+    from academicos.assessment.paper_templates import _LeftOut, _mix_notes
+    inferred = _schemas([_rec(f"p{i}", "ch1") for i in range(4)])
+    for q in inferred:
+        q.metadata["difficultyInferred"] = True
+    cbe = _schemas([_rec(f"c{i}", "ch1", cbe=True) for i in range(4)])
+    for picked in (inferred, cbe):
+        notes, _ = _mix_notes(_mixed_section(), picked, _LeftOut())
+        assert not any("difficulty is" in n for n in notes), notes
+
+
+def test_a_judged_difficulty_still_gets_the_note():
+    from academicos.assessment.paper_templates import _LeftOut, _mix_notes
+    picked = _schemas([_rec(f"p{i}", "ch1", difficulty="easy") for i in range(4)])
+    notes, _ = _mix_notes(_mixed_section(), picked, _LeftOut())
+    assert any("difficulty is easy/medium/hard 4/0/0" in n for n in notes), notes
