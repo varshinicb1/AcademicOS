@@ -340,21 +340,23 @@ def test_the_served_bank_reads_as_the_builder_will_show_it(tmp_path, monkeypatch
 
         half = availability("preset:cbse:10:science:half_yearly", HALF)
         assert half["competency"]["status"] == "below_scope"
-        assert half["competency"]["summary"] == "Competency-based: 8 of 30 questions (27%)"
+        # Measured on the rebuilt bank (2026-09-28), which no longer serves the
+        # CBE items that point at a figure they do not carry.
+        assert half["competency"]["summary"] == "Competency-based: 10 of 30 questions (33%)"
         assert half["competency"]["detail"] == (
-            "Below CBSE's 50%. The whole syllabus would give 25 of 33 (76%).")
+            "Below CBSE's 50%. The whole syllabus would give 22 of 31 (71%).")
         assert half["tiers"]["available"] is False
 
         six = availability("preset:cbse:6:science:annual", [])
         assert six["competency"]["status"] == "below_bank"
-        assert six["competency"]["summary"] == "Competency-based: 11 of 37 questions (30%)"
+        assert six["competency"]["summary"] == "Competency-based: 9 of 36 questions (25%)"
         assert six["competency"]["detail"] == (
             "Below CBSE's 50%. The Class 6 Science bank cannot reach it with this template: "
-            "11 of the 242 questions it can use (5%) are competency-based.")
+            "9 of the 240 questions it can use (4%) are competency-based.")
 
         maths = availability("preset:cbse:10:mathematics:annual", [])
         assert maths["competency"]["status"] == "meets"
-        assert maths["competency"]["summary"] == "Competency-based: 37 of 38 questions (97%)"
+        assert maths["competency"]["summary"] == "Competency-based: 36 of 38 questions (95%)"
         e = next(s for s in maths["sections"] if s["title"].startswith("Section E"))
         assert (e["filled"], e["needed"]) == (3, 3), e
 

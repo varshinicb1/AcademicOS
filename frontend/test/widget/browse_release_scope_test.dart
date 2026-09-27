@@ -5,7 +5,7 @@
 // over 35 subjects -- a class nobody can set a paper for -- beside classes
 // 6-10. Fed here the real served bank's catalog (captured by
 // scripts/capture_paper_builder_fixtures.py), 68 rows of which 33 are classes
-// 6-10 with 4,916 questions.
+// 6-10 with 4,826 questions (the rebuilt bank of 2026-09-28).
 import 'dart:convert';
 import 'dart:io';
 
@@ -32,7 +32,7 @@ void main() {
   test('the captured catalog is the real one, and the rule keeps classes 6-10', () {
     expect(catalog.entries.any((e) => e.grade == 12), isTrue);
     expect(inScope.length, 33);
-    expect(inScope.fold<int>(0, (s, e) => s + e.questionCount), 4916);
+    expect(inScope.fold<int>(0, (s, e) => s + e.questionCount), 4826);
     expect(inScope.map((e) => e.grade).toSet(), {6, 7, 8, 9, 10});
   });
 
@@ -49,7 +49,7 @@ void main() {
     await tester.pumpWidget(const MaterialApp(home: QuestionBankPage()));
     await tester.pumpAndSettle();
 
-    expect(find.text('4916 questions'), findsOneWidget);
+    expect(find.text('4826 questions'), findsOneWidget);
     for (final grade in [11, 12]) {
       expect(find.text('Class $grade'), findsNothing, reason: 'class $grade');
     }

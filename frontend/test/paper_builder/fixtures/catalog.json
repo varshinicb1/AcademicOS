@@ -3,8 +3,8 @@
   {
    "subject": "Mathematics",
    "grade": 6,
-   "questionCount": 555,
-   "chapters": 6,
+   "questionCount": 549,
+   "chapters": 5,
    "marksAvailable": [
     1,
     2,
@@ -17,13 +17,12 @@
   {
    "subject": "Science",
    "grade": 6,
-   "questionCount": 247,
+   "questionCount": 245,
    "chapters": 5,
    "marksAvailable": [
     1,
     2,
     3,
-    4,
     5,
     6
    ]
@@ -42,7 +41,7 @@
   {
    "subject": "Mathematics",
    "grade": 7,
-   "questionCount": 573,
+   "questionCount": 572,
    "chapters": 6,
    "marksAvailable": [
     1,
@@ -55,7 +54,7 @@
   {
    "subject": "Science",
    "grade": 7,
-   "questionCount": 335,
+   "questionCount": 334,
    "chapters": 8,
    "marksAvailable": [
     1,
@@ -72,7 +71,7 @@
   {
    "subject": "Mathematics",
    "grade": 8,
-   "questionCount": 857,
+   "questionCount": 852,
    "chapters": 9,
    "marksAvailable": [
     1,
@@ -100,25 +99,22 @@
   {
    "subject": "Science",
    "grade": 9,
-   "questionCount": 457,
+   "questionCount": 447,
    "chapters": 11,
    "marksAvailable": [
     1,
     2,
     3,
-    4,
     5,
     6,
-    7,
     8,
-    9,
     10
    ]
   },
   {
    "subject": "Mathematics",
    "grade": 9,
-   "questionCount": 289,
+   "questionCount": 265,
    "chapters": 6,
    "marksAvailable": [
     1,
@@ -143,25 +139,23 @@
   {
    "subject": "Science",
    "grade": 10,
-   "questionCount": 504,
+   "questionCount": 494,
    "chapters": 13,
    "marksAvailable": [
     1,
     2,
     3,
     5,
-    6,
     7,
     8,
-    9,
     10
    ]
   },
   {
    "subject": "Mathematics",
    "grade": 10,
-   "questionCount": 340,
-   "chapters": 14,
+   "questionCount": 329,
+   "chapters": 13,
    "marksAvailable": [
     1,
     2,
@@ -204,18 +198,6 @@
     1,
     2,
     6
-   ]
-  },
-  {
-   "subject": "Mathematics (Standard)",
-   "grade": 10,
-   "questionCount": 22,
-   "chapters": 0,
-   "marksAvailable": [
-    1,
-    2,
-    3,
-    5
    ]
   },
   {
@@ -276,6 +258,18 @@
    ]
   },
   {
+   "subject": "Mathematics (Standard)",
+   "grade": 10,
+   "questionCount": 15,
+   "chapters": 7,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  {
    "subject": "Social Science",
    "grade": 10,
    "questionCount": 14,
@@ -286,23 +280,10 @@
    ]
   },
   {
-   "subject": "Mathematics (Basic)",
-   "grade": 10,
-   "questionCount": 13,
-   "chapters": 0,
-   "marksAvailable": [
-    1,
-    2,
-    3,
-    5,
-    7
-   ]
-  },
-  {
    "subject": "Mathematics (Standard, VIC)",
    "grade": 10,
-   "questionCount": 13,
-   "chapters": 0,
+   "questionCount": 11,
+   "chapters": 7,
    "marksAvailable": [
     1,
     2,
@@ -318,17 +299,6 @@
    "marksAvailable": [
     1,
     2
-   ]
-  },
-  {
-   "subject": "Mathematics (Basic, VIC)",
-   "grade": 10,
-   "questionCount": 8,
-   "chapters": 0,
-   "marksAvailable": [
-    1,
-    2,
-    3
    ]
   },
   {
@@ -351,6 +321,18 @@
    ]
   },
   {
+   "subject": "Mathematics (Basic)",
+   "grade": 10,
+   "questionCount": 6,
+   "chapters": 2,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  {
    "subject": "Persian",
    "grade": 10,
    "questionCount": 5,
@@ -360,6 +342,16 @@
     4,
     5,
     6
+   ]
+  },
+  {
+   "subject": "Mathematics (Basic, VIC)",
+   "grade": 10,
+   "questionCount": 4,
+   "chapters": 2,
+   "marksAvailable": [
+    1,
+    3
    ]
   },
   {
@@ -481,19 +473,6 @@
    ]
   },
   {
-   "subject": "Applied Mathematics",
-   "grade": 12,
-   "questionCount": 21,
-   "chapters": 0,
-   "marksAvailable": [
-    2,
-    3,
-    4,
-    5,
-    6
-   ]
-  },
-  {
    "subject": "Kathak",
    "grade": 12,
    "questionCount": 21,
@@ -513,18 +492,6 @@
     1,
     2,
     3,
-    4,
-    5,
-    6
-   ]
-  },
-  {
-   "subject": "Engineering Graphics",
-   "grade": 12,
-   "questionCount": 19,
-   "chapters": 0,
-   "marksAvailable": [
-    1,
     4,
     5,
     6
@@ -594,6 +561,17 @@
     1,
     3,
     4
+   ]
+  },
+  {
+   "subject": "Engineering Graphics",
+   "grade": 12,
+   "questionCount": 15,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    4,
+    5
    ]
   },
   {
@@ -676,6 +654,17 @@
     1,
     2,
     3
+   ]
+  },
+  {
+   "subject": "Applied Mathematics",
+   "grade": 12,
+   "questionCount": 8,
+   "chapters": 0,
+   "marksAvailable": [
+    2,
+    3,
+    5
    ]
   },
   {
@@ -775,5 +764,5 @@
    ]
   }
  ],
- "totalQuestions": 5426
+ "totalQuestions": 5319
 }
