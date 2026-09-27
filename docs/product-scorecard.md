@@ -190,6 +190,7 @@ copying its score, and adds its own file and row here.
 | 2026-09-23 | `afadd6c` (classes 6-10) | 14.29 | 6.25 | 12.50 | 9.38 | 5.00 | 2.50 | 3.33 | 10.63 | **63.9** |
 | 2026-09-26 | `3197f4e` | 13.57 | 6.25 | 12.50 | 10.63 | 5.00 | 2.08 | 3.75 | 10.00 | **63.8** |
 | 2026-09-27 | `8db6636` | 14.29 | 6.25 | 10.00 | 9.38 | 5.00 | 2.50 | 2.92 | 10.63 | **61.0** |
+| 2026-09-28 | `caf5e3d` (incremental) | 14.29 | 6.25 | 10.00 | 9.38 | 5.00 | 2.50 | 2.92 | 10.63 | **61.0** |
 
 What moved, briefly:
 
@@ -222,3 +223,9 @@ What moved, briefly:
   `chapter_filing` while `/v1` and MCP still match raw `chapterIds`. Old defects
   measured for the first time took -4.58. Scored only as deep as the previous
   audit went, this range reads 66.4.
+- **61.0** (`caf5e3d`, incremental: every item Task 125 could move re-audited by two
+  independent auditors, the rest carried after verifying their code and data unchanged). Task 125's
+  gains -- a real competency share (7/10 quick papers and 46/56 builder presets reach 50%), 10
+  presets now complete, set B/D keys fixed, 0 contradictions over 303 edits -- crossed no rubric step:
+  1.4 stays 0.25 while no tier can print a different paper, and 3.6 stays 0.25 with D31 at 16/20 and
+  newly filled Section E slots printing CBE garble (D74).
