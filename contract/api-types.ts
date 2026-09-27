@@ -1541,6 +1541,31 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/terms/{term_id}/baseline": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Set Term Baseline
+         * @description The minutes a teacher takes to set a paper by hand, this term, as the
+         *     principal declares it. The time-saved figure for the term is measured
+         *     against it (PRD decision 11: per term), and says it was the principal's
+         *     figure. Its own route because PUT /terms/{id} replaces name and dates and
+         *     its callers do not send a baseline. The change is audited: it moves the
+         *     saving a principal will quote.
+         */
+        put: operations["set_term_baseline_api_v1_curriculum_terms__term_id__baseline_put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/timetable-slots/{slot_id}": {
         parameters: {
             query?: never;
@@ -1946,16 +1971,21 @@ export interface paths {
         };
         /**
          * Get Paper Timing
-         * @description Time saved per paper — the renewal criterion, made answerable.
+         * @description Time saved and exam coverage, for one term -- the renewal criterion and
+         *     the principal's first dashboard metric, made answerable.
          *
-         *     Decision 11: *"Renewal is measured as time saved per paper."* Before this
-         *     route the number existed nowhere, so the criterion could not be checked.
+         *     Decision 11: *"Renewal is measured as time saved per paper"*, per term.
+         *     PRD 12.6 (a): which classes and subjects have had a paper set this term,
+         *     and which have not. By default the term covering the school's today; a
+         *     `termId` of the caller's school names another. With no term covering
+         *     today the figures are all-time and the response says so (`scope`,
+         *     `scopeNote`) -- an all-time number shown as "this term" would be the
+         *     silent kind of wrong.
          *
          *     Scoped to the caller's school. The response separates what was MEASURED
-         *     (generation time, from a monotonic clock) from what was DECLARED (the manual
-         *     baseline), and says so in the payload rather than only in the docs --
-         *     because a saving built on a declared baseline will be quoted at somebody,
-         *     and the word "estimated" has to travel with it.
+         *     (generation time, from a monotonic clock) from what was DECLARED (the
+         *     manual baseline -- the principal's own for the term when set), and says so
+         *     in the payload rather than only in the docs.
          */
         get: operations["get_paper_timing_api_v1_paper_timing_get"];
         put?: never;
@@ -6511,6 +6541,16 @@ export interface components {
             title: string;
         };
         /**
+         * TermBaselineRequest
+         * @description Minutes a teacher takes to set a full paper by hand, for this term;
+         *     null clears it. Bounded to one sitting (10 hours): anything outside it is
+         *     a typo, and it would move the saving a principal quotes.
+         */
+        TermBaselineRequest: {
+            /** Minutes */
+            minutes: number | null;
+        };
+        /**
          * TermRequest
          * @description Create and update take the whole term: a term is three fields, and a
          *     full replace keeps the overlap check about one complete range.
@@ -6531,6 +6571,8 @@ export interface components {
             endDate: string;
             /** Id */
             id: string;
+            /** Manualbaselineminutes */
+            manualBaselineMinutes?: number | null;
             /** Name */
             name: string;
             /** Schoolid */
@@ -9485,6 +9527,41 @@ export interface operations {
             };
         };
     };
+    set_term_baseline_api_v1_curriculum_terms__term_id__baseline_put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                term_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TermBaselineRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TermResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     delete_timetable_slot_api_v1_curriculum_timetable_slots__slot_id__delete: {
         parameters: {
             query?: never;
@@ -10082,7 +10159,9 @@ export interface operations {
     };
     get_paper_timing_api_v1_paper_timing_get: {
         parameters: {
-            query?: never;
+            query?: {
+                termId?: string | null;
+            };
             header?: never;
             path?: never;
             cookie?: never;
@@ -10098,6 +10177,15 @@ export interface operations {
                     "application/json": {
                         [key: string]: unknown;
                     };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

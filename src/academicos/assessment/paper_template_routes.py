@@ -438,6 +438,7 @@ def generate_from_template(
         "template_paper_generated", assessment_id=asm_id,
         details={"paperId": paper.id, "templateId": template.id, "userId": current.id,
                  "schoolId": current.school_id, "gaps": len(gaps),
+                 "subject": template.subject, "grade": template.grade,
                  "generationSeconds": round(time.perf_counter() - started, 3)},
     )
     return TemplatePaperResponse(paper=paper, assessment_id=asm_id, complete=not gaps,

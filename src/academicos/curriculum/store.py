@@ -124,6 +124,7 @@ CREATE TABLE IF NOT EXISTS terms (
   name         TEXT NOT NULL COLLATE NOCASE,
   start_date   TEXT NOT NULL,
   end_date     TEXT NOT NULL,
+  manual_baseline_minutes REAL,
   UNIQUE(academic_year_id, name)
 );
 CREATE INDEX IF NOT EXISTS idx_terms_year ON terms(academic_year_id);
@@ -408,6 +409,11 @@ class CurriculumStore:
         cols = {r["name"] for r in self._fetchall("PRAGMA table_info(holidays)")}
         if "end_date" not in cols:
             self._exec("ALTER TABLE holidays ADD COLUMN end_date TEXT")
+        # Terms went live before a term carried its own paper baseline, so a
+        # school's existing terms table needs the column added, not assumed.
+        term_cols = {r["name"] for r in self._fetchall("PRAGMA table_info(terms)")}
+        if term_cols and "manual_baseline_minutes" not in term_cols:
+            self._exec("ALTER TABLE terms ADD COLUMN manual_baseline_minutes REAL")
 
     # ------------------------------------------------------------------
     # Serialized SQLite access. The store holds ONE shared connection with
@@ -582,7 +588,22 @@ class CurriculumStore:
         self._commit()
         return Term(id=current.id, school_id=current.school_id,
                     academic_year_id=current.academic_year_id,
-                    name=name, start_date=start_date, end_date=end_date)
+                    name=name, start_date=start_date, end_date=end_date,
+                    manual_baseline_minutes=current.manual_baseline_minutes)
+
+    def set_term_baseline(self, term_id: str, minutes: Optional[float]) -> Term:
+        """Set, or clear with None, the minutes a teacher takes to set a paper
+        by hand for this term. Kept apart from update_term, whose callers send
+        name and dates only and must not be able to wipe it."""
+        if minutes is not None and not (0 < minutes <= 600):
+            raise ValueError(f"a baseline of {minutes} minutes is not a paper set by hand")
+        with self._conn_lock:
+            if self.get_term(term_id) is None:
+                raise KeyError(term_id)
+            self._exec("UPDATE terms SET manual_baseline_minutes=? WHERE id=?",
+                       (minutes, term_id))
+        self._commit()
+        return self.get_term(term_id)
 
     def delete_term(self, term_id: str) -> None:
         self._exec("DELETE FROM terms WHERE id=?", (term_id,))

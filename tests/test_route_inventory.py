@@ -185,6 +185,7 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/terms/current"),
     ("PUT", "/api/v1/curriculum/terms/{term_id}"),
     ("DELETE", "/api/v1/curriculum/terms/{term_id}"),
+    ("PUT", "/api/v1/curriculum/terms/{term_id}/baseline"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
@@ -347,6 +348,7 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/terms/current"),
     ("PUT", "/api/v1/curriculum/terms/{term_id}"),
     ("DELETE", "/api/v1/curriculum/terms/{term_id}"),
+    ("PUT", "/api/v1/curriculum/terms/{term_id}/baseline"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/period-configuration"),
     ("POST", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/subject-period-allocations"),
@@ -544,6 +546,8 @@ def _valid_body_for(method: str, path: str) -> dict:
     if path in ("/api/v1/curriculum/academic-years/{academic_year_id}/terms",
                 "/api/v1/curriculum/terms/{term_id}"):  # POST / PUT
         return {"name": "Term 1", "startDate": "2026-04-01", "endDate": "2026-09-30"}
+    if path == "/api/v1/curriculum/terms/{term_id}/baseline":  # PUT
+        return {"minutes": 60}
     if path == "/api/v1/curriculum/subjects/{subject_id}/books":  # POST
         return {"title": "Mathematics Part I", "boardId": "board_1"}
     if path == "/api/v1/curriculum/subjects/{subject_id}/selected-book":  # PUT
@@ -631,7 +635,7 @@ def test_canonical_route_inventory_matches_live_app():
         f"extra: {sorted(live_api - API_ROUTES)}  "
         f"missing: {sorted(API_ROUTES - live_api)}"
     )
-    assert len(API_ROUTES) == 162
+    assert len(API_ROUTES) == 163
 
 
 def test_docs_routes_present():

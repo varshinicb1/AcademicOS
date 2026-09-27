@@ -191,7 +191,7 @@ yet.
 
 **Release and security**
 - Deployed on GCP: Cloud Run, Cloud SQL, GCS and Firebase Hosting.
-- Invite-only registration and a role policy on every one of 162 routes.
+- Invite-only registration and a role policy on every one of 163 routes.
 - An immutable audit log and school-scoped queries.
 - **3,622 Python tests** and **373 Flutter tests** pass; `flutter analyze` shows 7 info-level notes and no warnings.
 

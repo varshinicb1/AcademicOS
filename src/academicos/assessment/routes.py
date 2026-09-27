@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import FileResponse
 from typing import get_args
 
@@ -581,6 +581,10 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
             "tier": tier,
             "userId": current.id,
             "schoolId": current.school_id,
+            # The class and subject the paper was set for: PRD 12.6's exam
+            # coverage counts papers per class and subject per term.
+            "subject": request.subject,
+            "grade": request.grade,
             # MEASURED: how long the machine took. Decision 11 makes this the
             # renewal criterion, and it was not recorded anywhere before.
             "generationSeconds": round(time.perf_counter() - _started, 3),
@@ -707,6 +711,8 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(r
             "questionCount": len(found_questions),
             "userId": current.id,
             "schoolId": current.school_id,
+            "subject": request.subject,
+            "grade": request.grade,
             # MEASURED, same as quick generation. This route is the curated
             # path, so a school using only it would otherwise report zero
             # papers and conclude nothing was saved.
@@ -719,20 +725,71 @@ def generate_from_ids(request: GenerateFromIdsRequest, current: User = Depends(r
 
 
 @router.get("/paper-timing")
-def get_paper_timing(current: User = Depends(require_principal)) -> dict:
-    """Time saved per paper — the renewal criterion, made answerable.
+def get_paper_timing(term_id: Optional[str] = Query(None, alias="termId"),
+                     current: User = Depends(require_principal)) -> dict:
+    """Time saved and exam coverage, for one term -- the renewal criterion and
+    the principal's first dashboard metric, made answerable.
 
-    Decision 11: *"Renewal is measured as time saved per paper."* Before this
-    route the number existed nowhere, so the criterion could not be checked.
+    Decision 11: *"Renewal is measured as time saved per paper"*, per term.
+    PRD 12.6 (a): which classes and subjects have had a paper set this term,
+    and which have not. By default the term covering the school's today; a
+    `termId` of the caller's school names another. With no term covering
+    today the figures are all-time and the response says so (`scope`,
+    `scopeNote`) -- an all-time number shown as "this term" would be the
+    silent kind of wrong.
 
     Scoped to the caller's school. The response separates what was MEASURED
-    (generation time, from a monotonic clock) from what was DECLARED (the manual
-    baseline), and says so in the payload rather than only in the docs --
-    because a saving built on a declared baseline will be quoted at somebody,
-    and the word "estimated" has to travel with it.
+    (generation time, from a monotonic clock) from what was DECLARED (the
+    manual baseline -- the principal's own for the term when set), and says so
+    in the payload rather than only in the docs.
     """
-    cfg, _store = _require()
-    return paper_timing.report(cfg.data_root, school_id=current.school_id).as_dict()
+    cfg, store = _require()
+    from ..curriculum.store import get_curriculum_store
+    curriculum = get_curriculum_store(cfg.data_root)
+    if term_id is not None:
+        term = curriculum.get_term(term_id)
+        if term is None:
+            raise HTTPException(404, "term not found")
+        if term.school_id != current.school_id:
+            raise HTTPException(403, "this term belongs to a different school")
+    else:
+        term = curriculum.term_for_date(current.school_id, paper_timing.school_today())
+
+    def attribute(assessment_id: str):
+        # For entries written before generation recorded class and subject.
+        a = store.get(assessment_id)
+        if a is None or a.school_id != current.school_id:
+            return None
+        return a.subject, a.grade
+
+    baseline = None
+    universe = None
+    if term is not None:
+        if term.manual_baseline_minutes is not None:
+            baseline = (float(term.manual_baseline_minutes),
+                        f"set by the principal for {term.name}")
+        # The classes 6-10 the school declared for the term's year, and their
+        # subjects: what "not yet" is measured against.
+        universe = [(g.number, s.name)
+                    for g in curriculum.grades_for_year(term.academic_year_id)
+                    if 6 <= g.number <= 10
+                    for s in curriculum.subjects_for_grade(g.id)]
+    rep = paper_timing.report(
+        cfg.data_root, school_id=current.school_id, attribute=attribute, baseline=baseline,
+        start_date=term.start_date if term else None,
+        end_date=term.end_date if term else None)
+    body = rep.as_dict()
+    body["examCoverage"] = paper_timing.exam_coverage(rep, universe)
+    if term is None:
+        body.update(scope="allTime", term=None, scopeNote=(
+            f"No term of this school covers {paper_timing.school_today()}, so these figures "
+            "are for all time. Declare the school's terms in calendar setup to see this "
+            "term's papers and which classes have none yet."))
+    else:
+        body.update(scope="term", scopeNote=None, term={
+            "id": term.id, "name": term.name,
+            "startDate": term.start_date, "endDate": term.end_date})
+    return body
 
 
 @router.get("/papers/{paper_id}", response_model=GeneratedPaper)
