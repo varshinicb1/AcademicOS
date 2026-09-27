@@ -168,6 +168,7 @@ PyMuPDF version matches the render fixtures. Don't rebuild
 - [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md): the v3 product requirements (grades 1-10, web console, teacher app, student app, API), with IDs and priorities, and the proposed v3 scorecard.
 - [docs/agent-workflow.md](docs/agent-workflow.md): how work is done here: gates, the bank pipeline, releasing, evidence, and the rules learned the hard way.
 - [docs/plans/](docs/plans/): plans for work in progress (Task 125).
+- [docs/integration-candidates.md](docs/integration-candidates.md): third-party APIs reviewed for v3 (sign-in and OTP, holidays, calendar sync, government data, push/SMS/WhatsApp), with liveness checked.
 
 **Measuring the product**
 - [docs/product-scorecard.md](docs/product-scorecard.md): the v2 instrument and its audit log. The write-ups are in [docs/audits/](docs/audits/).

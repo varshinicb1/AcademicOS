@@ -125,6 +125,9 @@ gate it and deploy it.
 | **M6** | Question bank to grades 1-10 | The biggest content job | Import NCERT textbook exercises for grades 1-10. Close the English/Hindi/Social Science gaps. Content fidelity with the authorised rebuild. A review queue for unofficial/AI-assisted items. Judged difficulty/Bloom (QB-1..13). |
 | **M7** | Integrations and polish | Best in market | WhatsApp/SMS, Google Calendar/Classroom, Hindi UI, web speed, exam review workflow, marks entry and report cards. |
 
+Third-party APIs worth evaluating for these milestones (sign-in, holidays, push, SMS/WhatsApp, calendar
+sync) are reviewed in [`docs/integration-candidates.md`](docs/integration-candidates.md).
+
 Adopt the **v3 scorecard** (`docs/REQUIREMENTS.md` §12) and run a baseline audit before M1, so progress is
 measured from the start. Use `docs/audits/` for the write-ups and `docs/product-scorecard.md` for the log.
 
