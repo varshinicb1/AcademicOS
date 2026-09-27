@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 
+import '../../../core/constants/release_scope.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
@@ -47,10 +48,11 @@ class _QuestionBankPageState extends State<QuestionBankPage> {
     });
     try {
       final c = await GetIt.I<PillarApi>().catalog();
+      final entries = releaseEntries(c.entries);
       setState(() {
-        _catalog = c.entries;
+        _catalog = entries;
         _loadingCatalog = false;
-        _selected = c.entries.isNotEmpty ? c.entries.first : null;
+        _selected = entries.isNotEmpty ? entries.first : null;
       });
       if (_selected != null) _loadQuestions();
     } catch (e) {

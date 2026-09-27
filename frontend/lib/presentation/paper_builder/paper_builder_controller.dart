@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
+import '../../core/constants/release_scope.dart';
 import '../../data/datasources/api/api_error.dart';
 import '../../data/datasources/api/paper_builder_api.dart';
 import '../../data/datasources/api/pillar_api.dart' show ChapterEntry;
@@ -25,8 +26,14 @@ typedef PdfSaver = Future<void> Function(Uint8List bytes, String filename);
 /// verified -- so offering them ended in "Unable to find sufficient questions"
 /// after a teacher had chosen a class, a subject and a template. A class we
 /// cannot serve is not offered until we can.
-const builderGrades = [6, 7, 8, 9, 10];
+const builderGrades = releaseGrades;
 
+/// The subjects the builder knows how to offer for a class, in the order it
+/// shows them. What it actually offers is the part of this list the bank holds
+/// questions for ([PaperBuilderController.subjectsFor]): offered unconditionally,
+/// 21 of the 35 class 6-10 pairs led a teacher to a template and then to
+/// "no question in the bank fits" (audit D40, 2026-09-27).
+///
 /// The senior-school branch is unreachable while [builderGrades] stops at 10.
 /// It is kept, not deleted: it is the subject list classes 11-12 come back
 /// with, and rebuilding it from memory later would be worse than reading it.
@@ -79,6 +86,12 @@ class PaperBuilderController extends ChangeNotifier {
   BuilderStep step = BuilderStep.classSubject;
   int? grade;
   String? subject;
+
+  /// Subjects with questions, by class, from GET /catalog. Null until it loads.
+  Map<int, Set<String>>? _stocked;
+  bool loadingCatalog = false;
+  String? catalogError;
+  bool catalogRetryable = false;
 
   TemplateLists? templates;
   bool loadingTemplates = false;
@@ -156,8 +169,9 @@ class PaperBuilderController extends ChangeNotifier {
   /// straight to the templates (one tap to change), a remembered template is
   /// pre-selected so "Next" is the only tap left.
   Future<void> start() async {
+    await loadCatalog();
     final g = memory.grade, s = memory.subject;
-    if (g != null && s != null && builderSubjects(g).contains(s)) {
+    if (g != null && s != null && subjectsFor(g).contains(s)) {
       grade = g;
       subject = s;
       step = BuilderStep.template;
@@ -166,10 +180,51 @@ class PaperBuilderController extends ChangeNotifier {
     }
   }
 
+  /// Which subjects the bank can set a paper in, read once per builder.
+  Future<void> loadCatalog() async {
+    loadingCatalog = true;
+    catalogError = null;
+    catalogRetryable = false;
+    _changed();
+    try {
+      final catalog = await api.catalog();
+      final stocked = <int, Set<String>>{};
+      for (final e in catalog.entries) {
+        if (e.questionCount > 0) stocked.putIfAbsent(e.grade, () => {}).add(e.subject);
+      }
+      _stocked = stocked;
+    } catch (e) {
+      catalogError = serverErrorMessage(e);
+      catalogRetryable = isRetryable(e);
+    } finally {
+      loadingCatalog = false;
+      _changed();
+    }
+  }
+
+  /// The subjects offered for [grade]: [builderSubjects] that the bank holds
+  /// questions for. Empty until the catalog has loaded -- never the whole list
+  /// as a guess, which is the dead end this exists to close.
+  List<String> subjectsFor(int grade) {
+    if (!builderGrades.contains(grade)) return const [];
+    final stocked = _stocked?[grade];
+    if (stocked == null) return const [];
+    return [for (final s in builderSubjects(grade)) if (stocked.contains(s)) s];
+  }
+
+  /// The subjects the builder knows but the bank has nothing for in [grade],
+  /// so the step can say so instead of leaving a teacher to wonder where
+  /// Hindi went.
+  List<String> notYetFor(int grade) {
+    if (_stocked == null || !builderGrades.contains(grade)) return const [];
+    final offered = subjectsFor(grade).toSet();
+    return [for (final s in builderSubjects(grade)) if (!offered.contains(s)) s];
+  }
+
   void pickGrade(int g) {
     if (grade == g) return;
     grade = g;
-    if (subject != null && !builderSubjects(g).contains(subject)) subject = null;
+    if (subject != null && !subjectsFor(g).contains(subject)) subject = null;
     _resetFromTemplates();
     _changed();
   }

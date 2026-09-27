@@ -83,6 +83,10 @@ def main(argv: list[str] | None = None) -> int:
             r = client.post(path, json=body, headers=auth)
             return save(name, "POST", path, r, body)
 
+        # ---- The catalog: which subjects the builder may offer for a class
+        # (audit D40: it offered 21 class-subject pairs with no questions).
+        get("catalog", "/api/v1/catalog")
+
         # ---- Class 10 Science, half-yearly (the complete-paper path)
         t10 = get("templates_10_science", f"/api/v1/schools/{school}/teacher-templates",
                   {"grade": 10, "subject": "Science"})

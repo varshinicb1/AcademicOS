@@ -17,7 +17,7 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 
 import '../../../domain/repositories/requests.dart' show GeneratedPaper;
-import 'pillar_api.dart' show ChapterEntry;
+import 'pillar_api.dart' show Catalog, ChapterEntry;
 
 // Every failure this client raises is turned into a sentence by the shared
 // serverErrorMessage (api_error.dart), which the builder's screens import.
@@ -489,6 +489,13 @@ class PaperBuilderApi {
     final r = await _dio.post('/schools/${Uri.encodeComponent(schoolId)}/teacher-templates/${Uri.encodeComponent(templateId)}/duplicate',
         data: {if (name != null) 'name': name});
     return PaperTemplateView.fromJson(Map<String, dynamic>.from(r.data as Map));
+  }
+
+  /// Every class-subject pair the bank holds questions for. The builder offers
+  /// a subject only when its class has a row here (audit D40).
+  Future<Catalog> catalog() async {
+    final r = await _dio.get('/catalog', options: Options(receiveTimeout: const Duration(minutes: 5)));
+    return Catalog.fromJson(Map<String, dynamic>.from(r.data as Map));
   }
 
   Future<List<ChapterEntry>> chapters(String subject, int grade) async {
