@@ -410,6 +410,13 @@
      "chapterIds": []
     }
    }
+  },
+  {
+   "file": "catalog.json",
+   "method": "GET",
+   "path": "/api/v1/catalog",
+   "status": 200,
+   "body": null
   }
  ]
 }

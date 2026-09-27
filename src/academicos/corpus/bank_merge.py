@@ -196,6 +196,7 @@ from .mcq_shape import (
     answerable, has_option_labels, holds_group, key_letter, names_option_letter, norm,
     options_from_parts, stem_options, tokens,
 )
+from .fidelity import figure_missing, repair_source, scrambled_math
 from .symbol_font import PRIVATE_USE, private_use_glyph, restore_symbol_font
 
 BOARD_SOURCE = "cbse_board_paper"
@@ -545,7 +546,7 @@ def raw_extraction_reason(text: str) -> str | None:
 _HEADER = re.compile(
     r"^(?:PART\s*[-–]|Page\b|Class\s*[-–]|Subject\s*[-–]|Time allowed|"
     r"Maximum marks|General Instructions|Draw neat figures|Use of calculators|"
-    r"Internal choice is provided)", re.I)
+    r"Internal choice is provided|Item identity\b)", re.I)
 # A stem that points at a visual it does not carry. Visuals are matched in any
 # position ("given figure", "figure below"); a table only when it sat ABOVE the
 # stem -- a "following table" is extracted inline, as text, after it. 50 served
@@ -976,6 +977,8 @@ def unanswerable_reason(rec: dict) -> str | None:
     stem = str(rec.get("stem") or "").strip()
     if _SYMBOL_LOSS.search(stem):
         return "symbol-loss"
+    if scrambled_math(rec):
+        return "scrambled-math"
     if _options_missing(rec, stem):
         return "options-missing"
     if _options_out_of_order(rec, stem):
@@ -1003,7 +1006,7 @@ def source_reason(rec: dict) -> str | None:
         return "header-as-stem"
     if len(stem) < _MIN_STEM:
         return "stem-too-short"
-    if _FIGURE_REF.search(stem) and not _has_asset(rec):
+    if (_FIGURE_REF.search(stem) or figure_missing(stem)) and not _has_asset(rec):
         return "figure-unavailable" if board else "figure-referenced"
     if _shown_below_missing(stem) and not _has_asset(rec):
         # Its own reason, not "figure-referenced": the stem does not name a
@@ -1975,6 +1978,10 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             # Before the gates, as for a board record: the symbols are what the
             # paper printed, so every gate below reads the repaired text.
             raw, symbols_restored, glyph = repair_symbol_font(raw)
+            # What the extraction broke (corpus/fidelity.py): the certain
+            # repairs, and what no repair can put back, found on the text as
+            # extracted. After the symbol font, so it reads restored symbols.
+            raw, fidelity_made, fidelity_reason = repair_source(raw)
             # The glyph gate runs AFTER source_reason, not before it. Placed
             # first it claimed records that were already out of scope for a
             # more informative reason: of the 23 it excluded at 64dd21a, 12
@@ -1982,7 +1989,7 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             # (1) as well, and the --check tally read "17 SQP + 6 CBE lost to
             # private-use-glyph" -- about twice this change's real cost, with
             # a dozen answer-bleed records hidden behind the wrong label.
-            reason = source_reason(raw)
+            reason = source_reason(raw) or fidelity_reason
             if reason:
                 excluded.append(_excluded(raw, reason))
                 continue
@@ -2031,6 +2038,8 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             counts[label] += 1
             if symbols_restored:
                 repairs["symbol-font-restored"] = repairs.get("symbol-font-restored", 0) + 1
+            for name in fidelity_made:
+                repairs[name] = repairs.get(name, 0) + 1
 
     return ComposeResult(questions=out, excluded=excluded, counts=counts, withheld=withheld,
                          repairs=repairs)

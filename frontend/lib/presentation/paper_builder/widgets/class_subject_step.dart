@@ -30,9 +30,20 @@ class ClassSubjectStep extends StatelessWidget {
         const SizedBox(height: 8),
         if (c.grade == null)
           Text('Choose a class first.', style: TextStyle(color: theme.colorScheme.onSurfaceVariant))
-        else
+        else if (c.loadingCatalog)
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            child: Row(children: [
+              SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)),
+              SizedBox(width: 12),
+              Text('Checking which subjects have questions...'),
+            ]),
+          )
+        else if (c.catalogError != null)
+          _CatalogError(c: c)
+        else ...[
           Wrap(spacing: 8, runSpacing: 8, children: [
-            for (final s in builderSubjects(c.grade!))
+            for (final s in c.subjectsFor(c.grade!))
               ChoiceChip(
                 label: Text(s),
                 selected: c.subject == s,
@@ -40,8 +51,51 @@ class ClassSubjectStep extends StatelessWidget {
                 materialTapTargetSize: MaterialTapTargetSize.padded,
               ),
           ]),
+          if (c.notYetFor(c.grade!).isNotEmpty)
+            Padding(
+              key: const ValueKey('subjects-not-yet'),
+              padding: const EdgeInsets.only(top: 12),
+              child: Text(
+                _notYet(c.subjectsFor(c.grade!).isEmpty, c.notYetFor(c.grade!), c.grade!),
+                style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.onSurfaceVariant),
+              ),
+            ),
+        ],
       ],
     );
+  }
+
+  /// "Hindi, Sanskrit and Computer Science have no questions for Class 8 yet."
+  static String _notYet(bool none, List<String> subjects, int grade) {
+    if (none) return 'The question bank has no questions for Class $grade yet.';
+    final list = subjects.length == 1
+        ? subjects.first
+        : '${subjects.sublist(0, subjects.length - 1).join(', ')} and ${subjects.last}';
+    final verb = subjects.length == 1 ? 'has' : 'have';
+    return '$list $verb no questions for Class $grade yet.';
+  }
+}
+
+/// The catalog did not load: the sentence, and Retry where retrying can work.
+class _CatalogError extends StatelessWidget {
+  final PaperBuilderController c;
+  const _CatalogError({required this.c});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Text(c.catalogError!, style: TextStyle(color: theme.colorScheme.error)),
+      if (c.catalogRetryable)
+        Padding(
+          padding: const EdgeInsets.only(top: 8),
+          child: OutlinedButton(
+            onPressed: c.loadCatalog,
+            style: OutlinedButton.styleFrom(minimumSize: const Size(88, 44)),
+            child: const Text('Retry'),
+          ),
+        ),
+    ]);
   }
 }
 

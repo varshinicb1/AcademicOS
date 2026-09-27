@@ -154,20 +154,34 @@ principal or office do it.)
 All principal actions, in the web app's admin screens or via
 `/api/v1/curriculum/...`:
 
-1. **Curriculum.** `POST /seed/cbse10` with `{"academicYearLabel": "2026-27",
-   "startDate": "2026-06-01", "endDate": "2027-04-30"}` seeds the official
-   CBSE Class X syllabus as the school's academic year → grade 10 → subjects →
-   books → chapters. Idempotent.
-2. **Calendar.** `POST /academic-years/{id}/calendar`, holidays with
+1. **Curriculum.** On the web: School Admin opens on **Set up your school
+   year** for a school with no classes. It takes the year's name and first and
+   last day (the CBSE session, 1 April to 31 March, is filled in) and sets up
+   classes 6 to 10 one at a time. Through the API it is
+   `POST /seed/cbse` with `{"grade": 6, "academicYearLabel": "2026-27",
+   "startDate": "2026-04-01", "endDate": "2027-03-31"}` per class (6-12), which
+   seeds the official CBSE syllabus as the school's academic year → grade →
+   subjects → books → chapters. Idempotent: a class that failed can be run
+   again and the ones already set up are reused.
+2. **Calendar.** On the web: Calendar & Setup. Through the API:
+   `POST /academic-years/{id}/calendar`, holidays with
    `POST /academic-years/{id}/holidays` (multi-day blocks allowed), then the
    period configuration, subject period allocations and weekly timetable
    slots (`/period-configuration`, `/subject-period-allocations`,
    `/timetable-slots`). `GET /academic-years/{id}/working-days` checks it.
-3. **Classes.** Assign each teacher their book(s):
+3. **Terms.** Exam coverage and time saved are counted per term, and a
+   school with no term sees them "all time" and cannot set a term's baseline
+   (audit D27). On the web: the Terms card on Calendar & Setup, which offers
+   the usual two (Term 1 to 30 September, Term 2 from 1 October) in one tap,
+   or any terms you type. Through the API:
+   `POST /academic-years/{id}/terms` `{"name", "startDate", "endDate"}`;
+   a term outside the year, overlapping another by a day, or reusing a name is
+   refused with the reason. `GET /terms/current` names today's.
+4. **Classes.** Assign each teacher their book(s):
    `POST /teacher-assignments` `{"teacherId", "bookId"}`. Enrol each student
    in their grade: `POST /student-enrollments` `{"studentId", "gradeId"}`.
    Both refuse a user or book from another school.
-4. **Schedule.** `POST /books/{book_id}/schedule` lays the syllabus over the
+5. **Schedule.** `POST /books/{book_id}/schedule` lays the syllabus over the
    working days; teachers see theirs at `GET /my-schedule`.
 
 ## 6. The first paper
@@ -247,6 +261,6 @@ redeploying.
 - [ ] Workflow green; `/health` commit matches; `/health/storage` ok
 - [ ] Principal registered, role confirmed; bootstrap key rotated (until Task 301)
 - [ ] Consent recorded for every student before their data
-- [ ] Curriculum seeded, calendar and timetable set, teachers assigned, students enrolled
+- [ ] Classes set up, calendar and timetable set, terms declared, teachers assigned, students enrolled
 - [ ] First paper generated and the PDF's symbols checked
 - [ ] Media bucket versioning on

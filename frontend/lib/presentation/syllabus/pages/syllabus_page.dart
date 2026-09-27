@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/constants/release_scope.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../../shared/widgets/shell.dart';
@@ -38,7 +39,8 @@ class _SyllabusPageState extends State<SyllabusPage> {
     try {
       final api = GetIt.I<PillarApi>();
       final cat = await api.catalog();
-      if (cat.entries.isEmpty) {
+      final entries = releaseEntries(cat.entries);
+      if (entries.isEmpty) {
         setState(() {
           _catalog = [];
           _loading = false;
@@ -46,9 +48,8 @@ class _SyllabusPageState extends State<SyllabusPage> {
         return;
       }
       final selected = _selected ??
-          cat.entries.firstWhere((e) => e.subject == 'Science',
-              orElse: () => cat.entries.first);
-      _catalog = cat.entries;
+          entries.firstWhere((e) => e.subject == 'Science', orElse: () => entries.first);
+      _catalog = entries;
       _selected = selected;
     } catch (e) {
       setState(() {

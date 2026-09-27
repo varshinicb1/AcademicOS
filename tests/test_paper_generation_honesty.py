@@ -404,7 +404,9 @@ def test_a_paper_that_cannot_reach_the_share_says_so_before_anything_else():
         "question(s) in the bank these sections can use, 1 (16.7%) are competency-based.")
     assert _metrics(res) == (1, 6, 1, 0.5)
     # The printed share is a different fact and is still reported after it.
-    assert any(w.startswith("Selected paper has 25.0% competency-based") for w in res.warnings[1:])
+    # The one share sentence (competency.share_summary, audit D79).
+    assert any(w.startswith("Competency-based: ") and w.endswith("Below CBSE's 50%.")
+               for w in res.warnings[1:]), res.warnings
 
 
 def test_a_bank_that_can_reach_the_share_gets_no_such_warning():
@@ -634,7 +636,7 @@ def test_quick_generate_carries_the_ceiling_sentence_first(tmp_path, monkeypatch
         f"{usable} question(s) in the bank these sections can use, 0 (0.0%) are "
         f"competency-based.")
     assert warnings[0] == sentence, warnings
-    printed = next(i for i, w in enumerate(warnings) if w.startswith("Selected paper has"))
+    printed = next(i for i, w in enumerate(warnings) if w.startswith("Competency-based: "))
     assert printed > 0
 
 
@@ -718,8 +720,10 @@ def test_each_set_reports_its_own_cbq_share(served, tmp_path, monkeypatch):
         assert s["competencyShare"] == round(sum(flags) / len(flags), 3), s["setLabel"]
         assert s["competencyTargetMet"] is (s["competencyShare"] >= 0.5), s["setLabel"]
         if not s["competencyTargetMet"]:
-            assert any(f"Set {s['setLabel']}" in w and "competency-based" in w
-                       for w in data["warnings"]), s["setLabel"]
+            # Set A is the paper: its line is the paper's own (audit D79).
+            head = ("Competency-based: " if s["setLabel"] == "A"
+                    else f"Set {s['setLabel']} competency-based: ")
+            assert any(w.startswith(head) for w in data["warnings"]), s["setLabel"]
     assert data["competencyShare"] == data["sets"][0]["competencyShare"]
 
 
@@ -737,8 +741,10 @@ def test_a_set_under_the_cbq_target_is_warned_on_the_custom_path(tmp_path, monke
     assert resp.status_code == 200, resp.text
     data = resp.json()
     assert [s["competencyShare"] for s in data["sets"]] == [0.0, 0.0, 0.0]
-    for label in ("A", "B", "C"):
-        assert any(f"Set {label}" in w and "competency-based" in w for w in data["warnings"])
+    lines = [w for w in data["warnings"] if "ompetency-based: " in w]
+    # Set A is the paper, stated once in the paper's own words (audit D79).
+    assert [w.split(":")[0] for w in lines] == [
+        "Competency-based", "Set B competency-based", "Set C competency-based"], lines
 
 
 def test_sets_b_and_c_obey_the_section_difficulty_and_bloom_limits():

@@ -340,21 +340,23 @@ def test_the_served_bank_reads_as_the_builder_will_show_it(tmp_path, monkeypatch
 
         half = availability("preset:cbse:10:science:half_yearly", HALF)
         assert half["competency"]["status"] == "below_scope"
-        assert half["competency"]["summary"] == "Competency-based: 8 of 30 questions (27%)"
+        # Measured on the rebuilt bank (2026-09-28), which no longer serves the
+        # CBE items that point at a figure they do not carry.
+        assert half["competency"]["summary"] == "Competency-based: 10 of 30 questions (33%)"
         assert half["competency"]["detail"] == (
-            "Below CBSE's 50%. The whole syllabus would give 25 of 33 (76%).")
+            "Below CBSE's 50%. The whole syllabus would give 22 of 31 (71%).")
         assert half["tiers"]["available"] is False
 
         six = availability("preset:cbse:6:science:annual", [])
         assert six["competency"]["status"] == "below_bank"
-        assert six["competency"]["summary"] == "Competency-based: 11 of 37 questions (30%)"
+        assert six["competency"]["summary"] == "Competency-based: 9 of 36 questions (25%)"
         assert six["competency"]["detail"] == (
             "Below CBSE's 50%. The Class 6 Science bank cannot reach it with this template: "
-            "11 of the 242 questions it can use (5%) are competency-based.")
+            "9 of the 240 questions it can use (4%) are competency-based.")
 
         maths = availability("preset:cbse:10:mathematics:annual", [])
         assert maths["competency"]["status"] == "meets"
-        assert maths["competency"]["summary"] == "Competency-based: 37 of 38 questions (97%)"
+        assert maths["competency"]["summary"] == "Competency-based: 36 of 38 questions (95%)"
         e = next(s for s in maths["sections"] if s["title"].startswith("Section E"))
         assert (e["filled"], e["needed"]) == (3, 3), e
 
@@ -397,7 +399,12 @@ def test_removing_a_question_recounts_the_competency_sentence(tmp_path, monkeypa
         assert r.status_code == 200, r.text
         edited = r.json()["paper"]
         assert edited["competencyShare"] == 0.0
-        assert _competency_lines(edited) == ["Competency-based: 0 of 3 questions (0%). Below CBSE's 50%."]
+        # Recounted, and the check's reason kept: it is about the bank and the
+        # template, which a removal does not change (audit D78).
+        assert _competency_lines(edited) == [
+            "Competency-based: 0 of 3 questions (0%). Below CBSE's 50%. The bank has enough "
+            "competency-based questions for this template (4 of the 8 it can use): swap or pick "
+            "them in on the paper step."]
 
 
 def test_picking_up_to_50_percent_drops_every_below_target_sentence(tmp_path, monkeypatch, ranked_bank):
@@ -414,6 +421,65 @@ def test_picking_up_to_50_percent_drops_every_below_target_sentence(tmp_path, mo
         # What the builder re-reads after an edit says the same.
         stored = client.get(f"/api/v1/papers/{paper['id']}", headers=t1).json()
         assert not any("Below CBSE" in w for w in stored["warnings"]), stored["warnings"]
+
+
+
+# ---- D78/D79: what generation said is what a reopened paper says -------------
+#
+# Audit 2026-09-28 (caf5e3d): set A carries the paper's id, and generation saved
+# the paper and then each set, so set A's copy -- no warnings, no sets -- was
+# written over the paper. A reopened paper showed no share, and the first edit
+# lost the "Set B" lines (D78). A below-target paper stated set A's share twice,
+# rounded two ways: "11 of 37 questions (30%)" and "Set A has 29.7%" (D79).
+
+def _generate_sets(client, headers, sets: int) -> dict:
+    tid = _create(client, headers)
+    r = client.post(GEN, json={"templateId": tid, "allowGaps": True, "setCount": sets},
+                    headers=headers)
+    assert r.status_code == 200, r.text
+    return r.json()["paper"]
+
+
+def test_a_reopened_paper_says_what_generation_said(tmp_path, monkeypatch, ranked_bank):
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        paper = _generate_sets(client, t1, 2)
+        stored = client.get(f"/api/v1/papers/{paper['id']}", headers=t1).json()
+        assert stored["warnings"] == paper["warnings"]
+        assert _competency_lines(stored) == [
+            "Competency-based: 0 of 4 questions (0%). Below CBSE's 50%. The bank has enough "
+            "competency-based questions for this template (4 of the 8 it can use): swap or pick "
+            "them in on the paper step.",
+            "Set B competency-based: 0 of 4 questions (0%). Below CBSE's 50%."]
+        assert [s["setLabel"] for s in stored["sets"]] == ["A", "B"]
+
+
+def test_set_a_is_stated_once(tmp_path, monkeypatch, ranked_bank):
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        paper = _generate_sets(client, t1, 3)
+        lines = _competency_lines(paper)
+        assert not any(w.startswith("Set A") for w in lines), lines
+        assert [w.split(" competency-based")[0] for w in lines[1:]] == ["Set B", "Set C"]
+
+
+def test_an_edit_keeps_the_set_lines(tmp_path, monkeypatch, ranked_bank):
+    with _boot_client(tmp_path, monkeypatch) as client:
+        t1 = _register(client, "school_1", "ana@example.com")
+        paper = _generate_sets(client, t1, 2)
+        r = client.delete(f"/api/v1/papers/{paper['id']}/questions/1", headers=t1)
+        assert r.status_code == 200, r.text
+        lines = _competency_lines(r.json()["paper"])
+        assert lines[0].startswith("Competency-based: 0 of 3 questions (0%). Below CBSE's 50%. "
+                                   "The bank has enough"), lines
+        assert lines[1:] == ["Set B competency-based: 0 of 3 questions (0%). Below CBSE's 50%."]
+
+
+def test_every_share_sentence_is_the_one_shape():
+    from academicos.assessment.competency import share_summary
+    assert share_summary(11, 37) == "Competency-based: 11 of 37 questions (30%)"
+    assert share_summary(1, 8, "B") == "Set B competency-based: 1 of 8 questions (13%)"
+    assert share_summary(1, 1) == "Competency-based: 1 of 1 question (100%)"
 
 
 def test_a_bank_that_could_reach_50_percent_is_not_blamed():

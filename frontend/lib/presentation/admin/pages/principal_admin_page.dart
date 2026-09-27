@@ -13,6 +13,8 @@ import '../widgets/calendar_rules_card.dart';
 import '../widgets/insights_card.dart';
 import '../widgets/invites_panel.dart';
 import '../widgets/pending_topics_card.dart';
+import '../widgets/school_setup_card.dart';
+import '../widgets/terms_card.dart';
 
 /// The console's tabs, in display order. The TabBar, the TabBarView and every
 /// jump between tabs are all derived from this list, so reordering or adding
@@ -197,7 +199,8 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
     _academicYearId = currentYear.id;
 
     final grades = await curriculumApi.grades(currentYear.id);
-    return _AdminData(academicYearId: currentYear.id, grades: grades, teachers: teachers, students: students);
+    return _AdminData(academicYearId: currentYear.id, year: currentYear, grades: grades,
+        teachers: teachers, students: students);
   }
 
   Future<void> _loadReporting() async {
@@ -640,17 +643,22 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           final data = snap.data!;
           if (data.grades.isEmpty) {
             // Invites do not depend on the curriculum: a new school's
-            // principal has to be able to bring in teachers first.
+            // principal has to be able to bring in teachers first. The
+            // setup card is the web's way to seed the classes, which only
+            // the API had (audit D27).
             return ListView(
               padding: const EdgeInsets.all(16),
-              children: const [
-                EmptyState(
-                  icon: Icons.school_outlined,
-                  title: 'No curriculum yet',
-                  message: 'Seed the curriculum for this school before assigning teachers or viewing reports.',
+              children: [
+                SchoolSetupCard(
+                  api: GetIt.I<CurriculumApi>(),
+                  year: data.year,
+                  onDone: () {
+                    _showMessage('Classes set up. Add your calendar rules and terms on Calendar & Setup.');
+                    setState(() { _future = _load(); });
+                  },
                 ),
-                Gap(16),
-                InvitesPanel(),
+                const Gap(16),
+                const InvitesPanel(),
               ],
             );
           }
@@ -1517,6 +1525,16 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           onSubmit: _submitCreateCalendar,
         ),
         const Gap(16),
+        if (data.year != null) ...[
+          TermsCard(
+            api: GetIt.I<CurriculumApi>(),
+            year: data.year!,
+            onMessage: _showMessage,
+            // Exam coverage and time saved on the Coverage tab are per term.
+            onChanged: _loadInsights,
+          ),
+          const Gap(16),
+        ],
         AppCard(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1684,10 +1702,11 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
 
 class _AdminData {
   final String? academicYearId;
+  final AcademicYearSummary? year;
   final List<GradeSummary> grades;
   final List<AuthUser> teachers;
   final List<AuthUser> students;
-  const _AdminData({required this.academicYearId, required this.grades, required this.teachers, required this.students});
+  const _AdminData({required this.academicYearId, this.year, required this.grades, required this.teachers, required this.students});
 }
 
 extension _FirstOrNull<T> on Iterable<T> {

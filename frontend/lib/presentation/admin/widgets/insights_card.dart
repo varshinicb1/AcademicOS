@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../core/constants/release_scope.dart';
 import '../../../data/datasources/api/pillar_api.dart';
 
 /// What the school is paying for, per term: which classes have had a paper
@@ -41,7 +42,7 @@ class InsightsCard extends StatelessWidget {
   /// should not be shown Class 12 Odissi beside their own classes when we
   /// cannot set a paper for it (docs/product-scorecard.md, "Classes in
   /// scope").
-  static const _grades = [6, 7, 8, 9, 10];
+  static const _grades = releaseGrades;
 
   static const _months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
                           'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

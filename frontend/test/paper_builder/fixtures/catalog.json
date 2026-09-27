@@ -1,0 +1,768 @@
+{
+ "entries": [
+  {
+   "subject": "Mathematics",
+   "grade": 6,
+   "questionCount": 549,
+   "chapters": 5,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "subject": "Science",
+   "grade": 6,
+   "questionCount": 245,
+   "chapters": 5,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    5,
+    6
+   ]
+  },
+  {
+   "subject": "English",
+   "grade": 6,
+   "questionCount": 7,
+   "chapters": 1,
+   "marksAvailable": [
+    1,
+    2,
+    4
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 7,
+   "questionCount": 572,
+   "chapters": 6,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "subject": "Science",
+   "grade": 7,
+   "questionCount": 334,
+   "chapters": 8,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 8,
+   "questionCount": 852,
+   "chapters": 9,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "subject": "Science",
+   "grade": 8,
+   "questionCount": 418,
+   "chapters": 9,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "subject": "Science",
+   "grade": 9,
+   "questionCount": 447,
+   "chapters": 11,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    5,
+    6,
+    8,
+    10
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 9,
+   "questionCount": 265,
+   "chapters": 6,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "subject": "English",
+   "grade": 9,
+   "questionCount": 39,
+   "chapters": 2,
+   "marksAvailable": [
+    1,
+    2
+   ]
+  },
+  {
+   "subject": "Science",
+   "grade": 10,
+   "questionCount": 494,
+   "chapters": 13,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    5,
+    7,
+    8,
+    10
+   ]
+  },
+  {
+   "subject": "Mathematics",
+   "grade": 10,
+   "questionCount": 329,
+   "chapters": 13,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+   ]
+  },
+  {
+   "subject": "Home Science",
+   "grade": 10,
+   "questionCount": 44,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  {
+   "subject": "Carnatic Music (Percussion)",
+   "grade": 10,
+   "questionCount": 31,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Carnatic Music (Vocal)",
+   "grade": 10,
+   "questionCount": 23,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Hindustani Music (Percussion)",
+   "grade": 10,
+   "questionCount": 21,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Tangkhul",
+   "grade": 10,
+   "questionCount": 19,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "subject": "Hindustani Music (Vocal)",
+   "grade": 10,
+   "questionCount": 18,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Carnatic Music (Melodic Instrument)",
+   "grade": 10,
+   "questionCount": 16,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Hindustani Music (Melodic)",
+   "grade": 10,
+   "questionCount": 15,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Mathematics (Standard)",
+   "grade": 10,
+   "questionCount": 15,
+   "chapters": 7,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  {
+   "subject": "Social Science",
+   "grade": 10,
+   "questionCount": 14,
+   "chapters": 8,
+   "marksAvailable": [
+    1,
+    3
+   ]
+  },
+  {
+   "subject": "Mathematics (Standard, VIC)",
+   "grade": 10,
+   "questionCount": 11,
+   "chapters": 7,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  {
+   "subject": "English",
+   "grade": 10,
+   "questionCount": 10,
+   "chapters": 1,
+   "marksAvailable": [
+    1,
+    2
+   ]
+  },
+  {
+   "subject": "French",
+   "grade": 10,
+   "questionCount": 7,
+   "chapters": 0,
+   "marksAvailable": [
+    5
+   ]
+  },
+  {
+   "subject": "Painting",
+   "grade": 10,
+   "questionCount": 7,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    6
+   ]
+  },
+  {
+   "subject": "Mathematics (Basic)",
+   "grade": 10,
+   "questionCount": 6,
+   "chapters": 2,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    5
+   ]
+  },
+  {
+   "subject": "Persian",
+   "grade": 10,
+   "questionCount": 5,
+   "chapters": 0,
+   "marksAvailable": [
+    2,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "subject": "Mathematics (Basic, VIC)",
+   "grade": 10,
+   "questionCount": 4,
+   "chapters": 2,
+   "marksAvailable": [
+    1,
+    3
+   ]
+  },
+  {
+   "subject": "NCC",
+   "grade": 10,
+   "questionCount": 3,
+   "chapters": 0,
+   "marksAvailable": [
+    2
+   ]
+  },
+  {
+   "subject": "Computer Applications",
+   "grade": 10,
+   "questionCount": 2,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    4
+   ]
+  },
+  {
+   "subject": "English (Communicative)",
+   "grade": 10,
+   "questionCount": 2,
+   "chapters": 0,
+   "marksAvailable": [
+    2
+   ]
+  },
+  {
+   "subject": "Tibetan",
+   "grade": 10,
+   "questionCount": 2,
+   "chapters": 0,
+   "marksAvailable": [
+    7,
+    8
+   ]
+  },
+  {
+   "subject": "Home Science",
+   "grade": 12,
+   "questionCount": 36,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "subject": "Odissi",
+   "grade": 12,
+   "questionCount": 32,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Sociology",
+   "grade": 12,
+   "questionCount": 31,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    4,
+    6
+   ]
+  },
+  {
+   "subject": "Informatics Practices",
+   "grade": 12,
+   "questionCount": 29,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "subject": "Carnatic Music (Percussion)",
+   "grade": 12,
+   "questionCount": 28,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Carnatic Music (Vocal)",
+   "grade": 12,
+   "questionCount": 24,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Hindustani Music (Percussion)",
+   "grade": 12,
+   "questionCount": 24,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Kathak",
+   "grade": 12,
+   "questionCount": 21,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Tangkhul",
+   "grade": 12,
+   "questionCount": 21,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+   ]
+  },
+  {
+   "subject": "French",
+   "grade": 12,
+   "questionCount": 19,
+   "chapters": 0,
+   "marksAvailable": [
+    3,
+    4,
+    5
+   ]
+  },
+  {
+   "subject": "Entrepreneurship",
+   "grade": 12,
+   "questionCount": 18,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "subject": "Hindustani Music (Melodic)",
+   "grade": 12,
+   "questionCount": 18,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Hindustani Music (Vocal)",
+   "grade": 12,
+   "questionCount": 18,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Carnatic Music (Melodic Instrument)",
+   "grade": 12,
+   "questionCount": 16,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Economics",
+   "grade": 12,
+   "questionCount": 15,
+   "chapters": 7,
+   "marksAvailable": [
+    1,
+    3,
+    4
+   ]
+  },
+  {
+   "subject": "Engineering Graphics",
+   "grade": 12,
+   "questionCount": 15,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    4,
+    5
+   ]
+  },
+  {
+   "subject": "Geography",
+   "grade": 12,
+   "questionCount": 13,
+   "chapters": 7,
+   "marksAvailable": [
+    1,
+    5
+   ]
+  },
+  {
+   "subject": "History",
+   "grade": 12,
+   "questionCount": 13,
+   "chapters": 4,
+   "marksAvailable": [
+    1,
+    3
+   ]
+  },
+  {
+   "subject": "Kathakali",
+   "grade": 12,
+   "questionCount": 13,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Persian",
+   "grade": 12,
+   "questionCount": 12,
+   "chapters": 0,
+   "marksAvailable": [
+    5,
+    6
+   ]
+  },
+  {
+   "subject": "Bharatanatyam",
+   "grade": 12,
+   "questionCount": 11,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "Manipuri Dance",
+   "grade": 12,
+   "questionCount": 10,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    6
+   ]
+  },
+  {
+   "subject": "Biology",
+   "grade": 12,
+   "questionCount": 9,
+   "chapters": 7,
+   "marksAvailable": [
+    1
+   ]
+  },
+  {
+   "subject": "Physics",
+   "grade": 12,
+   "questionCount": 9,
+   "chapters": 7,
+   "marksAvailable": [
+    1,
+    2,
+    3
+   ]
+  },
+  {
+   "subject": "Applied Mathematics",
+   "grade": 12,
+   "questionCount": 8,
+   "chapters": 0,
+   "marksAvailable": [
+    2,
+    3,
+    5
+   ]
+  },
+  {
+   "subject": "Kuchipudi",
+   "grade": 12,
+   "questionCount": 7,
+   "chapters": 0,
+   "marksAvailable": [
+    1,
+    2,
+    6
+   ]
+  },
+  {
+   "subject": "NCC",
+   "grade": 12,
+   "questionCount": 7,
+   "chapters": 0,
+   "marksAvailable": [
+    2,
+    4,
+    6
+   ]
+  },
+  {
+   "subject": "Business Studies",
+   "grade": 12,
+   "questionCount": 4,
+   "chapters": 3,
+   "marksAvailable": [
+    1
+   ]
+  },
+  {
+   "subject": "Computer Science",
+   "grade": 12,
+   "questionCount": 3,
+   "chapters": 0,
+   "marksAvailable": [
+    2
+   ]
+  },
+  {
+   "subject": "Psychology",
+   "grade": 12,
+   "questionCount": 3,
+   "chapters": 0,
+   "marksAvailable": [
+    2,
+    4
+   ]
+  },
+  {
+   "subject": "Assamese",
+   "grade": 12,
+   "questionCount": 2,
+   "chapters": 0,
+   "marksAvailable": [
+    8,
+    9
+   ]
+  },
+  {
+   "subject": "Bhutia",
+   "grade": 12,
+   "questionCount": 1,
+   "chapters": 0,
+   "marksAvailable": [
+    5
+   ]
+  },
+  {
+   "subject": "Chemistry",
+   "grade": 12,
+   "questionCount": 1,
+   "chapters": 1,
+   "marksAvailable": [
+    3
+   ]
+  },
+  {
+   "subject": "Khuchipudi",
+   "grade": 12,
+   "questionCount": 1,
+   "chapters": 0,
+   "marksAvailable": [
+    1
+   ]
+  },
+  {
+   "subject": "Knowledge, Tradition and Practices of India",
+   "grade": 12,
+   "questionCount": 1,
+   "chapters": 0,
+   "marksAvailable": [
+    2
+   ]
+  }
+ ],
+ "totalQuestions": 5319
+}

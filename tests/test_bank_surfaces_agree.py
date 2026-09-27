@@ -58,23 +58,12 @@ RELEASE_GRADES = range(6, 11)
 RELEASE = [(subject, grade) for grade in RELEASE_GRADES
            for subject in ("Mathematics", "Science")]
 
-# The records in the COMMITTED bank that the gate refuses, which the next
-# rebuild removes. Task 126 widened the merge's figure rule to read a stem that
-# points at something "shown below" that never arrived -- three class 12
-# Informatics Practices records, each asking for a chart or a table the reader
-# is shown and the record does not carry. `merge_question_banks.py --check`
-# composes 5,426 against the committed 5,429 and this is the difference;
-# rebuilding the served bank needs the bank owner's go-ahead, so until then
-# `/v1` sells three records the paper builder refuses and this names them.
-# The assertion below is an EQUALITY, not `<=`. It turns red for any other
-# record the gate refuses, and also on the day the rebuild lands -- which is
-# exactly when this list must be deleted. An allowance that outlives the thing
-# it allows for is how the two surfaces drifted apart in the first place.
-PENDING_REBUILD = {
-    "cbse:sqp:ClassXII_2022_23:Informatics Practices:33",
-    "cbse:sqp:ClassXII_2023_24:Informatics Practices:27",
-    "cbse:sqp:ClassXII_2023_24:Informatics Practices:35",
-}
+# Until the rebuild of 2026-09-28 this named three class 12 Informatics
+# Practices records the committed bank still held and the gate refused (Task
+# 126's "shown below" rule), because rebuilding the bank needed the owner's
+# go-ahead. The rebuild landed and removed them, and the list with them: an
+# allowance that outlives the thing it allows for is how the two surfaces
+# drifted apart in the first place.
 
 pytestmark = pytest.mark.skipif(not SERVED_BANK.exists(),
                                 reason="served bank not built")
@@ -163,12 +152,9 @@ def test_the_served_file_holds_nothing_the_gate_refuses():
     -- the API sells it and the builder refuses it."""
     refused = {rec["id"]: reason for rec in _records()
                if (reason := bm.unservable_reason(rec)) is not None}
-    assert set(refused) == PENDING_REBUILD, (
-        "the served file and PENDING_REBUILD disagree about which records the "
-        "merge's own gate refuses. Extra (the API sells them, no paper can "
-        f"print them): { {k: v for k, v in refused.items() if k not in PENDING_REBUILD} }. "
-        f"Gone (the rebuild landed -- delete them from PENDING_REBUILD): "
-        f"{sorted(PENDING_REBUILD - set(refused))}")
+    assert refused == {}, (
+        "the served file holds records the merge's own gate refuses (the API "
+        f"sells them, no paper can print them): {refused}")
 
 
 def test_no_release_class_holds_a_record_the_gate_refuses():

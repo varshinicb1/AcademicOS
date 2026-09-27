@@ -21,7 +21,7 @@
   "ncert-exemplar",
   "cbse-cbe"
  ],
- "duplicateIds": 4627,
+ "duplicateIds": 4557,
  "presets": {
   "class_test": "Class Test",
   "weekly_test": "Weekly Periodic Test",
@@ -38,9 +38,9 @@
    "grade": 6,
    "questions": 583,
    "byBank": {
-    "served": 555,
+    "served": 549,
     "ncert-exemplar": 12,
-    "cbse-cbe": 16
+    "cbse-cbe": 22
    },
    "bySource": {
     "cbse_question_bank": 58,
@@ -62,20 +62,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 231,
-     "pct": 39.6
+     "n": 229,
+     "pct": 39.3
     },
     "topic": {
-     "n": 91,
-     "pct": 15.6
+     "n": 89,
+     "pct": 15.3
     },
     "subtopic": {
      "n": 6,
      "pct": 1.0
     },
     "oldChapterIds": {
-     "n": 34,
-     "pct": 5.8
+     "n": 37,
+     "pct": 6.3
     }
    },
    "taggerCovers": true,
@@ -95,7 +95,7 @@
     "long_answer": 17
    },
    "tree": true,
-   "untaggedKeyed": 352,
+   "untaggedKeyed": 354,
    "chapters": [
     {
      "id": "mathematics-6/patterns-in-mathematics",
@@ -374,10 +374,10 @@
     {
      "id": "mathematics-6/number-play",
      "name": "Number Play",
-     "questions": 6,
-     "marks": 8,
+     "questions": 5,
+     "marks": 7,
      "byMarks": {
-      "1": 5,
+      "1": 4,
       "2": 0,
       "3": 1,
       "4": 0,
@@ -678,12 +678,12 @@
       {
        "id": "mathematics-6/prime-time/prime-numbers",
        "name": "Prime Numbers",
-       "questions": 8,
-       "marks": 10,
+       "questions": 7,
+       "marks": 7,
        "byMarks": {
         "1": 7,
         "2": 0,
-        "3": 1,
+        "3": 0,
         "4": 0,
         "5": 0,
         "6+": 0
@@ -720,14 +720,14 @@
       {
        "id": "mathematics-6/prime-time/divisibility-tests",
        "name": "Divisibility Tests",
-       "questions": 1,
-       "marks": 5,
+       "questions": 0,
+       "marks": 0,
        "byMarks": {
         "1": 0,
         "2": 0,
         "3": 0,
         "4": 0,
-        "5": 1,
+        "5": 0,
         "6+": 0
        }
       },
@@ -750,10 +750,10 @@
     {
      "id": "mathematics-6/perimeter-and-area",
      "name": "Perimeter and Area",
-     "questions": 42,
-     "marks": 111,
+     "questions": 41,
+     "marks": 110,
      "byMarks": {
-      "1": 13,
+      "1": 12,
       "2": 1,
       "3": 23,
       "4": 2,
@@ -1236,6 +1236,7 @@
     "mathematics-6/data-handling-and-presentation/artistic-and-aesthetic-considerations",
     "mathematics-6/prime-time/co-prime-numbers-for-safekeeping-treasures",
     "mathematics-6/prime-time/prime-factorisation",
+    "mathematics-6/prime-time/divisibility-tests",
     "mathematics-6/prime-time/fun-with-numbers",
     "mathematics-6/perimeter-and-area/area",
     "mathematics-6/fractions/fractional-units-and-equal-shares",
@@ -1288,6 +1289,7 @@
     "mathematics-6/data-handling-and-presentation/drawing-a-bar-graph",
     "mathematics-6/data-handling-and-presentation/artistic-and-aesthetic-considerations",
     "mathematics-6/prime-time/common-multiples-and-common-factors",
+    "mathematics-6/prime-time/prime-numbers",
     "mathematics-6/prime-time/co-prime-numbers-for-safekeeping-treasures",
     "mathematics-6/prime-time/prime-factorisation",
     "mathematics-6/prime-time/divisibility-tests",
@@ -1350,6 +1352,7 @@
     "mathematics-6/prime-time/prime-numbers",
     "mathematics-6/prime-time/co-prime-numbers-for-safekeeping-treasures",
     "mathematics-6/prime-time/prime-factorisation",
+    "mathematics-6/prime-time/divisibility-tests",
     "mathematics-6/prime-time/fun-with-numbers",
     "mathematics-6/perimeter-and-area/perimeter",
     "mathematics-6/perimeter-and-area/area",
@@ -1396,23 +1399,23 @@
      }
     },
     "served": {
-     "n": 555,
-     "competency": 42,
-     "pct": 7.6,
+     "n": 549,
+     "competency": 36,
+     "pct": 6.6,
      "bySignal": {
-      "cbeItemBank": 42
+      "cbeItemBank": 36
      },
      "byMarks": {
-      "1": 29,
-      "2": 4,
-      "3": 2,
-      "4": 3,
-      "5": 3,
+      "1": 27,
+      "2": 3,
+      "3": 1,
+      "4": 2,
+      "5": 2,
       "6+": 1
      }
     }
    },
-   "servedKeyed": 555,
+   "servedKeyed": 549,
    "papers": {
     "all": {
      "class_test": {
@@ -1475,73 +1478,76 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
       ],
       "competency": {
-       "usable": 396,
-       "competencyBased": 33,
-       "pct": 8.3,
+       "usable": 393,
+       "competencyBased": 30,
+       "pct": 7.6,
        "need": 15,
-       "ceiling": 14,
-       "ceilingPct": 93.3
+       "ceiling": 13,
+       "ceilingPct": 86.7
       }
      },
      "weekly_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 544,
-       "competencyBased": 31,
-       "pct": 5.7,
+       "usable": 541,
+       "competencyBased": 28,
+       "pct": 5.2,
        "need": 15,
-       "ceiling": 12,
-       "ceilingPct": 80.0
+       "ceiling": 11,
+       "ceilingPct": 73.3
       }
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4"
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3",
+       "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 2"
       ],
       "competency": {
-       "usable": 551,
-       "competencyBased": 38,
-       "pct": 6.9,
+       "usable": 546,
+       "competencyBased": 33,
+       "pct": 6.0,
        "need": 27,
-       "ceiling": 23,
-       "ceilingPct": 85.2
+       "ceiling": 21,
+       "ceilingPct": 77.8
       }
      },
      "board": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
-       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
+       "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 2",
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 2"
       ],
       "competency": {
-       "usable": 554,
-       "competencyBased": 41,
-       "pct": 7.4,
+       "usable": 548,
+       "competencyBased": 35,
+       "pct": 6.4,
        "need": 38,
-       "ceiling": 32,
-       "ceilingPct": 84.2
+       "ceiling": 28,
+       "ceilingPct": 73.7
       }
      }
     }
    },
    "excluded": {
-    "n": 28,
+    "n": 34,
     "byReason": {
      "figure-unavailable": 10,
+     "fraction-doubled": 4,
      "stem-fragment": 4,
+     "figure-referenced": 3,
      "mcq-answer-unresolved": 3,
      "mcq-options-unresolved": 2,
-     "figure-referenced": 2,
      "duplicate-stem": 2,
      "options-missing": 2,
      "stem-holds-group": 1,
      "mcq-marks-implausible": 1,
+     "parts-detached": 1,
      "stem-too-short": 1
     }
    }
@@ -1551,9 +1557,9 @@
    "grade": 7,
    "questions": 602,
    "byBank": {
-    "served": 573,
+    "served": 572,
     "ncert-exemplar": 13,
-    "cbse-cbe": 16
+    "cbse-cbe": 17
    },
    "bySource": {
     "cbse_question_bank": 41,
@@ -1575,8 +1581,8 @@
    },
    "tagged": {
     "chapter": {
-     "n": 202,
-     "pct": 33.6
+     "n": 203,
+     "pct": 33.7
     },
     "topic": {
      "n": 52,
@@ -1608,7 +1614,7 @@
     "short_answer": 142
    },
    "tree": true,
-   "untaggedKeyed": 400,
+   "untaggedKeyed": 399,
    "chapters": [
     {
      "id": "mathematics-7/large-numbers-around-us",
@@ -2211,12 +2217,12 @@
     {
      "id": "mathematics-7/a-tale-of-three-intersecting-lines",
      "name": "A Tale of Three Intersecting Lines",
-     "questions": 22,
-     "marks": 30,
+     "questions": 23,
+     "marks": 33,
      "byMarks": {
       "1": 18,
       "2": 0,
-      "3": 4,
+      "3": 5,
       "4": 0,
       "5": 0,
       "6+": 0
@@ -3033,15 +3039,15 @@
      }
     },
     "served": {
-     "n": 573,
-     "competency": 25,
-     "pct": 4.4,
+     "n": 572,
+     "competency": 24,
+     "pct": 4.2,
      "bySignal": {
-      "cbeItemBank": 25
+      "cbeItemBank": 24
      },
      "byMarks": {
       "1": 16,
-      "2": 4,
+      "2": 3,
       "3": 1,
       "4": 3,
       "5": 1,
@@ -3049,7 +3055,7 @@
      }
     }
    },
-   "servedKeyed": 573,
+   "servedKeyed": 572,
    "papers": {
     "all": {
      "class_test": {
@@ -3111,15 +3117,15 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
       ],
       "competency": {
-       "usable": 431,
-       "competencyBased": 20,
-       "pct": 4.6,
+       "usable": 430,
+       "competencyBased": 19,
+       "pct": 4.4,
        "need": 15,
-       "ceiling": 14,
-       "ceilingPct": 93.3
+       "ceiling": 13,
+       "ceilingPct": 86.7
       }
      },
      "weekly_test": {
@@ -3137,42 +3143,42 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4",
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 1"
       ],
       "competency": {
-       "usable": 570,
-       "competencyBased": 22,
-       "pct": 3.9,
+       "usable": 569,
+       "competencyBased": 21,
+       "pct": 3.7,
        "need": 27,
-       "ceiling": 21,
-       "ceilingPct": 77.8
+       "ceiling": 20,
+       "ceilingPct": 74.1
       }
      },
      "board": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 1",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
       ],
       "competency": {
-       "usable": 573,
-       "competencyBased": 25,
-       "pct": 4.4,
+       "usable": 572,
+       "competencyBased": 24,
+       "pct": 4.2,
        "need": 38,
-       "ceiling": 25,
-       "ceilingPct": 65.8
+       "ceiling": 24,
+       "ceilingPct": 63.2
       }
      }
     }
    },
    "excluded": {
-    "n": 29,
+    "n": 30,
     "byReason": {
+     "figure-referenced": 6,
      "mcq-options-unresolved": 6,
      "duplicate-stem": 6,
-     "figure-referenced": 5,
      "figure-unavailable": 4,
      "mcq-answer-unresolved": 4,
      "stem-holds-group": 2,
@@ -3185,9 +3191,9 @@
    "grade": 8,
    "questions": 892,
    "byBank": {
-    "served": 857,
-    "ncert-exemplar": 21,
-    "cbse-cbe": 14
+    "served": 852,
+    "ncert-exemplar": 22,
+    "cbse-cbe": 18
    },
    "bySource": {
     "cbse_question_bank": 54,
@@ -3209,20 +3215,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 506,
-     "pct": 56.7
+     "n": 507,
+     "pct": 56.8
     },
     "topic": {
-     "n": 296,
-     "pct": 33.2
+     "n": 292,
+     "pct": 32.7
     },
     "subtopic": {
      "n": 59,
      "pct": 6.6
     },
     "oldChapterIds": {
-     "n": 231,
-     "pct": 25.9
+     "n": 235,
+     "pct": 26.3
     }
    },
    "taggerCovers": true,
@@ -3236,13 +3242,13 @@
     "6+": 1
    },
    "types": {
-    "mcq": 218,
     "short_answer": 217,
+    "mcq": 218,
     "long_answer": 18,
     "very_short_answer": 439
    },
    "tree": true,
-   "untaggedKeyed": 386,
+   "untaggedKeyed": 385,
    "chapters": [
     {
      "id": "mathematics-8/a-square-and-a-cube",
@@ -3469,10 +3475,10 @@
     {
      "id": "mathematics-8/quadrilaterals",
      "name": "Quadrilaterals",
-     "questions": 99,
-     "marks": 136,
+     "questions": 101,
+     "marks": 138,
      "byMarks": {
-      "1": 82,
+      "1": 84,
       "2": 0,
       "3": 15,
       "4": 1,
@@ -3485,12 +3491,12 @@
       {
        "id": "mathematics-8/quadrilaterals/rectangles-and-squares",
        "name": "Rectangles and Squares",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 3,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5": 0,
         "6+": 0
@@ -3499,10 +3505,10 @@
       {
        "id": "mathematics-8/quadrilaterals/angles-in-a-quadrilateral",
        "name": "Angles in a Quadrilateral",
-       "questions": 19,
-       "marks": 23,
+       "questions": 18,
+       "marks": 22,
        "byMarks": {
-        "1": 17,
+        "1": 16,
         "2": 0,
         "3": 2,
         "4": 0,
@@ -3527,12 +3533,12 @@
       {
        "id": "mathematics-8/quadrilaterals/quadrilaterals-with-equal-sidelengths",
        "name": "Quadrilaterals with Equal Sidelengths",
-       "questions": 7,
-       "marks": 7,
+       "questions": 8,
+       "marks": 10,
        "byMarks": {
         "1": 7,
         "2": 0,
-        "3": 0,
+        "3": 1,
         "4": 0,
         "5": 0,
         "6+": 0
@@ -3555,10 +3561,10 @@
       {
        "id": "mathematics-8/quadrilaterals/kite-and-trapezium",
        "name": "Kite and Trapezium",
-       "questions": 15,
-       "marks": 17,
+       "questions": 14,
+       "marks": 16,
        "byMarks": {
-        "1": 14,
+        "1": 13,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -3631,10 +3637,10 @@
     {
      "id": "mathematics-8/we-distribute-yet-things-multiply",
      "name": "We Distribute, Yet Things Multiply",
-     "questions": 1,
-     "marks": 1,
+     "questions": 0,
+     "marks": 0,
      "byMarks": {
-      "1": 1,
+      "1": 0,
       "2": 0,
       "3": 0,
       "4": 0,
@@ -3851,14 +3857,14 @@
       {
        "id": "mathematics-8/fractions-in-disguise/using-percentages",
        "name": "Using Percentages",
-       "questions": 63,
-       "marks": 118,
+       "questions": 60,
+       "marks": 104,
        "byMarks": {
         "1": 38,
         "2": 0,
         "3": 22,
-        "4": 1,
-        "5": 2,
+        "4": 0,
+        "5": 0,
         "6+": 0
        }
       }
@@ -4115,12 +4121,12 @@
       {
        "id": "mathematics-8/exploring-some-geometric-themes/visualising-solids",
        "name": "Visualising Solids",
-       "questions": 33,
-       "marks": 43,
+       "questions": 32,
+       "marks": 40,
        "byMarks": {
         "1": 28,
         "2": 0,
-        "3": 5,
+        "3": 4,
         "4": 0,
         "5": 0,
         "6+": 0
@@ -4311,6 +4317,7 @@
    ],
    "emptyChapters": [
     "mathematics-8/a-story-of-numbers",
+    "mathematics-8/we-distribute-yet-things-multiply",
     "mathematics-8/proportional-reasoning-1",
     "mathematics-8/algebra-play"
    ],
@@ -4345,7 +4352,6 @@
     "mathematics-8/a-story-of-numbers/some-early-number-systems",
     "mathematics-8/a-story-of-numbers/the-idea-of-a-base",
     "mathematics-8/a-story-of-numbers/place-value-representation",
-    "mathematics-8/quadrilaterals/rectangles-and-squares",
     "mathematics-8/quadrilaterals/playing-with-quadrilaterals",
     "mathematics-8/number-play/checking-divisibility-quickly",
     "mathematics-8/we-distribute-yet-things-multiply/some-properties-of-multiplication",
@@ -4389,8 +4395,6 @@
     "mathematics-8/a-story-of-numbers/some-early-number-systems",
     "mathematics-8/a-story-of-numbers/the-idea-of-a-base",
     "mathematics-8/a-story-of-numbers/place-value-representation",
-    "mathematics-8/quadrilaterals/rectangles-and-squares",
-    "mathematics-8/quadrilaterals/quadrilaterals-with-equal-sidelengths",
     "mathematics-8/quadrilaterals/playing-with-quadrilaterals",
     "mathematics-8/number-play/is-this-a-multiple-of",
     "mathematics-8/number-play/checking-divisibility-quickly",
@@ -4461,6 +4465,7 @@
     "mathematics-8/proportional-reasoning-1/unit-conversions",
     "mathematics-8/fractions-in-disguise/fractions-as-percentages",
     "mathematics-8/fractions-in-disguise/percentage-of-some-quantity",
+    "mathematics-8/fractions-in-disguise/using-percentages",
     "mathematics-8/the-baudhayana-pythagoras-theorem/doubling-a-square",
     "mathematics-8/the-baudhayana-pythagoras-theorem/halving-a-square",
     "mathematics-8/the-baudhayana-pythagoras-theorem/hypotenuse-of-an-isosceles-right-triangle",
@@ -4505,23 +4510,23 @@
      }
     },
     "served": {
-     "n": 857,
-     "competency": 40,
-     "pct": 4.7,
+     "n": 852,
+     "competency": 36,
+     "pct": 4.2,
      "bySignal": {
-      "cbeItemBank": 40
+      "cbeItemBank": 36
      },
      "byMarks": {
-      "1": 23,
-      "2": 3,
+      "1": 21,
+      "2": 2,
       "3": 8,
-      "4": 3,
+      "4": 2,
       "5": 3,
       "6+": 0
      }
     }
    },
-   "servedKeyed": 857,
+   "servedKeyed": 852,
    "papers": {
     "all": {
      "class_test": {
@@ -4585,24 +4590,24 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2"
       ],
       "competency": {
-       "usable": 630,
-       "competencyBased": 26,
-       "pct": 4.1,
+       "usable": 627,
+       "competencyBased": 23,
+       "pct": 3.7,
        "need": 15,
-       "ceiling": 13,
-       "ceilingPct": 86.7
+       "ceiling": 12,
+       "ceilingPct": 80.0
       }
      },
      "weekly_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 848,
-       "competencyBased": 31,
-       "pct": 3.7,
+       "usable": 845,
+       "competencyBased": 29,
+       "pct": 3.4,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -4611,45 +4616,47 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3"
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 2"
       ],
       "competency": {
-       "usable": 854,
-       "competencyBased": 37,
-       "pct": 4.3,
+       "usable": 850,
+       "competencyBased": 34,
+       "pct": 4.0,
        "need": 27,
-       "ceiling": 25,
-       "ceilingPct": 92.6
+       "ceiling": 24,
+       "ceilingPct": 88.9
       }
      },
      "board": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 2"
       ],
       "competency": {
-       "usable": 857,
-       "competencyBased": 40,
-       "pct": 4.7,
+       "usable": 852,
+       "competencyBased": 36,
+       "pct": 4.2,
        "need": 38,
-       "ceiling": 35,
-       "ceilingPct": 92.1
+       "ceiling": 33,
+       "ceilingPct": 86.8
       }
      }
     }
    },
    "excluded": {
-    "n": 35,
+    "n": 40,
     "byReason": {
-     "figure-referenced": 8,
-     "mcq-answer-unresolved": 7,
+     "figure-referenced": 11,
+     "mcq-answer-unresolved": 6,
      "duplicate-stem": 6,
      "figure-unavailable": 5,
      "options-missing": 4,
+     "symbol-loss": 2,
      "mcq-options-unresolved": 2,
      "stem-too-short": 2,
+     "parts-detached": 1,
      "stem-fragment": 1
     }
    }
@@ -4659,9 +4666,9 @@
    "grade": 9,
    "questions": 337,
    "byBank": {
-    "served": 289,
+    "served": 265,
     "ncert-exemplar": 6,
-    "cbse-cbe": 42
+    "cbse-cbe": 66
    },
    "bySource": {
     "cbse_question_bank": 104,
@@ -4683,20 +4690,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 112,
-     "pct": 33.2
+     "n": 111,
+     "pct": 32.9
     },
     "topic": {
-     "n": 44,
-     "pct": 13.1
+     "n": 40,
+     "pct": 11.9
     },
     "subtopic": {
      "n": 0,
      "pct": 0.0
     },
     "oldChapterIds": {
-     "n": 126,
-     "pct": 37.4
+     "n": 138,
+     "pct": 40.9
     }
    },
    "taggerCovers": true,
@@ -4716,7 +4723,7 @@
     "very_short_answer": 60
    },
    "tree": true,
-   "untaggedKeyed": 225,
+   "untaggedKeyed": 226,
    "chapters": [
     {
      "id": "mathematics-9/orienting-yourself-the-use-of-coordinates",
@@ -4881,13 +4888,13 @@
       {
        "id": "mathematics-9/introduction-to-linear-polynomials/visualising-linear-relationships",
        "name": "Visualising linear relationships",
-       "questions": 13,
-       "marks": 28,
+       "questions": 12,
+       "marks": 24,
        "byMarks": {
         "1": 8,
         "2": 0,
         "3": 1,
-        "4": 3,
+        "4": 2,
         "5": 1,
         "6+": 0
        }
@@ -4955,10 +4962,10 @@
       {
        "id": "mathematics-9/the-world-of-numbers/filling-the-spaces-fractions-and-rational-numbers",
        "name": "Filling the Spaces: Fractions and Rational Numbers",
-       "questions": 2,
-       "marks": 2,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 2,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -5143,10 +5150,10 @@
     {
      "id": "mathematics-9/i-m-up-and-down-and-round-and-round",
      "name": "I’m Up and Down, and Round and Round",
-     "questions": 35,
-     "marks": 112,
+     "questions": 34,
+     "marks": 111,
      "byMarks": {
-      "1": 8,
+      "1": 7,
       "2": 8,
       "3": 8,
       "4": 2,
@@ -5215,12 +5222,12 @@
       {
        "id": "mathematics-9/i-m-up-and-down-and-round-and-round/midpoints-and-perpendicular-bisectors-of-chords",
        "name": "Midpoints and Perpendicular Bisectors of Chords",
-       "questions": 2,
-       "marks": 5,
+       "questions": 1,
+       "marks": 2,
        "byMarks": {
         "1": 0,
         "2": 1,
-        "3": 1,
+        "3": 0,
         "4": 0,
         "5": 0,
         "6+": 0
@@ -5243,15 +5250,15 @@
       {
        "id": "mathematics-9/i-m-up-and-down-and-round-and-round/angles-subtended-by-an-arc",
        "name": "Angles Subtended by an Arc",
-       "questions": 3,
-       "marks": 12,
+       "questions": 2,
+       "marks": 6,
        "byMarks": {
         "1": 0,
         "2": 0,
         "3": 2,
         "4": 0,
         "5": 0,
-        "6+": 1
+        "6+": 0
        }
       },
       {
@@ -5685,6 +5692,7 @@
     "mathematics-9/i-m-up-and-down-and-round-and-round/definitions",
     "mathematics-9/i-m-up-and-down-and-round-and-round/symmetries-of-a-circle",
     "mathematics-9/i-m-up-and-down-and-round-and-round/how-many-circles",
+    "mathematics-9/i-m-up-and-down-and-round-and-round/midpoints-and-perpendicular-bisectors-of-chords",
     "mathematics-9/i-m-up-and-down-and-round-and-round/distance-of-chords-from-the-centre",
     "mathematics-9/measuring-space-perimeter-and-area/perimeter-of-a-shape",
     "mathematics-9/measuring-space-perimeter-and-area/perimeter-of-a-circle-the-c-d-ratio",
@@ -5779,23 +5787,23 @@
      }
     },
     "served": {
-     "n": 289,
-     "competency": 62,
-     "pct": 21.5,
+     "n": 265,
+     "competency": 38,
+     "pct": 14.3,
      "bySignal": {
-      "cbeItemBank": 62
+      "cbeItemBank": 38
      },
      "byMarks": {
-      "1": 20,
-      "2": 8,
-      "3": 6,
-      "4": 14,
-      "5": 6,
-      "6+": 8
+      "1": 17,
+      "2": 6,
+      "3": 2,
+      "4": 4,
+      "5": 4,
+      "6+": 5
      }
     }
    },
-   "servedKeyed": 289,
+   "servedKeyed": 265,
    "papers": {
     "all": {
      "class_test": {
@@ -5852,9 +5860,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 201,
-       "competencyBased": 28,
-       "pct": 13.9,
+       "usable": 196,
+       "competencyBased": 23,
+       "pct": 11.7,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -5864,51 +5872,53 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 181,
-       "competencyBased": 26,
-       "pct": 14.4,
+       "usable": 174,
+       "competencyBased": 19,
+       "pct": 10.9,
        "need": 15,
-       "ceiling": 15,
-       "ceilingPct": 100.0
+       "ceiling": 12,
+       "ceilingPct": 80.0
       }
      },
      "monthly_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 267,
-       "competencyBased": 40,
-       "pct": 15.0,
+       "usable": 256,
+       "competencyBased": 29,
+       "pct": 11.3,
        "need": 27,
-       "ceiling": 27,
-       "ceilingPct": 100.0
+       "ceiling": 24,
+       "ceilingPct": 88.9
       }
      },
      "board": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 281,
-       "competencyBased": 54,
-       "pct": 19.2,
+       "usable": 260,
+       "competencyBased": 33,
+       "pct": 12.7,
        "need": 38,
-       "ceiling": 38,
-       "ceilingPct": 100.0
+       "ceiling": 31,
+       "ceilingPct": 81.6
       }
      }
     }
    },
    "excluded": {
-    "n": 48,
+    "n": 72,
     "byReason": {
      "figure-unavailable": 27,
-     "figure-referenced": 6,
+     "figure-referenced": 13,
+     "parts-detached": 9,
+     "symbol-loss": 7,
      "mcq-answer-unresolved": 5,
      "mcq-options-unresolved": 4,
+     "header-as-stem": 2,
      "stem-fragment": 2,
-     "symbol-loss": 1,
+     "key-covers-one-part": 1,
      "private-use-glyph": 1,
-     "stem-holds-group": 1,
      "answer-bleed": 1
     }
    }
@@ -5916,68 +5926,68 @@
   {
    "subject": "Mathematics",
    "grade": 10,
-   "questions": 445,
+   "questions": 425,
    "byBank": {
-    "served": 396,
+    "served": 365,
     "ncert-exemplar": 5,
-    "cbse-cbe": 44
+    "cbse-cbe": 55
    },
    "bySource": {
     "cbse_board_paper": 4,
     "cbse_question_bank": 120,
-    "cbse_sample_paper": 56,
+    "cbse_sample_paper": 36,
     "ncert_exemplar": 265
    },
-   "keyed": 445,
+   "keyed": 425,
    "noKey": 0,
    "keyedPct": 100.0,
    "keyProvenance": {
-    "cbse_marking_scheme": 180,
+    "cbse_marking_scheme": 160,
     "ncert_exemplar_answer": 265
    },
    "verified": {
     "state": "verified",
-    "passed": 439,
-    "of": 445,
+    "passed": 419,
+    "of": 425,
     "unchecked": 0,
-    "pct": 98.7
+    "pct": 98.6
    },
    "tagged": {
     "chapter": {
-     "n": 412,
-     "pct": 92.6
+     "n": 396,
+     "pct": 93.2
     },
     "topic": {
-     "n": 239,
-     "pct": 53.7
+     "n": 227,
+     "pct": 53.4
     },
     "subtopic": {
      "n": 5,
-     "pct": 1.1
+     "pct": 1.2
     },
     "oldChapterIds": {
-     "n": 109,
-     "pct": 24.5
+     "n": 137,
+     "pct": 32.2
     }
    },
    "taggerCovers": true,
    "neverTagged": 0,
    "marks": {
-    "1": 152,
-    "2": 105,
-    "3": 90,
+    "1": 146,
+    "2": 100,
+    "3": 86,
     "4": 16,
-    "5": 66,
-    "6+": 16
+    "5": 62,
+    "6+": 15
    },
    "types": {
     "very_short_answer": 80,
     "long_answer": 106,
-    "mcq": 144,
-    "short_answer": 115
+    "mcq": 139,
+    "short_answer": 100
    },
    "tree": true,
-   "untaggedKeyed": 33,
+   "untaggedKeyed": 29,
    "chapters": [
     {
      "id": "mathematics-10/real-numbers",
@@ -6012,11 +6022,11 @@
       {
        "id": "mathematics-10/real-numbers/the-fundamental-theorem-of-arithmetic",
        "name": "The Fundamental Theorem of Arithmetic",
-       "questions": 4,
-       "marks": 7,
+       "questions": 3,
+       "marks": 5,
        "byMarks": {
         "1": 1,
-        "2": 3,
+        "2": 2,
         "3": 0,
         "4": 0,
         "5": 0,
@@ -6102,12 +6112,12 @@
     {
      "id": "mathematics-10/pair-of-linear-equations-in-two-variables",
      "name": "Pair of Linear Equations in Two Variables",
-     "questions": 49,
-     "marks": 144,
+     "questions": 48,
+     "marks": 141,
      "byMarks": {
       "1": 13,
       "2": 5,
-      "3": 17,
+      "3": 16,
       "4": 2,
       "5": 11,
       "6+": 1
@@ -6146,12 +6156,12 @@
       {
        "id": "mathematics-10/pair-of-linear-equations-in-two-variables/algebraic-methods-of-solving-a-pair-of-linear-equations",
        "name": "Algebraic Methods of Solving a Pair of Linear Equations",
-       "questions": 9,
-       "marks": 27,
+       "questions": 8,
+       "marks": 24,
        "byMarks": {
         "1": 1,
         "2": 1,
-        "3": 5,
+        "3": 4,
         "4": 1,
         "5": 1,
         "6+": 0
@@ -6162,10 +6172,10 @@
     {
      "id": "mathematics-10/quadratic-equations",
      "name": "Quadratic Equations",
-     "questions": 19,
-     "marks": 50,
+     "questions": 17,
+     "marks": 48,
      "byMarks": {
-      "1": 8,
+      "1": 6,
       "2": 4,
       "3": 1,
       "4": 0,
@@ -6220,10 +6230,10 @@
       {
        "id": "mathematics-10/quadratic-equations/nature-of-roots",
        "name": "Nature of Roots",
-       "questions": 7,
-       "marks": 10,
+       "questions": 5,
+       "marks": 8,
        "byMarks": {
-        "1": 5,
+        "1": 3,
         "2": 1,
         "3": 1,
         "4": 0,
@@ -6266,10 +6276,10 @@
       {
        "id": "mathematics-10/arithmetic-progressions/arithmetic-progressions",
        "name": "Arithmetic Progressions",
-       "questions": 3,
-       "marks": 4,
+       "questions": 2,
+       "marks": 3,
        "byMarks": {
-        "1": 2,
+        "1": 1,
         "2": 1,
         "3": 0,
         "4": 0,
@@ -6310,12 +6320,12 @@
     {
      "id": "mathematics-10/triangles",
      "name": "Triangles",
-     "questions": 25,
-     "marks": 64,
+     "questions": 24,
+     "marks": 61,
      "byMarks": {
       "1": 5,
       "2": 11,
-      "3": 5,
+      "3": 4,
       "4": 0,
       "5": 2,
       "6+": 2
@@ -6384,11 +6394,11 @@
     {
      "id": "mathematics-10/coordinate-geometry",
      "name": "Coordinate Geometry",
-     "questions": 36,
-     "marks": 76,
+     "questions": 38,
+     "marks": 79,
      "byMarks": {
-      "1": 15,
-      "2": 10,
+      "1": 16,
+      "2": 11,
       "3": 7,
       "4": 1,
       "5": 2,
@@ -6444,12 +6454,12 @@
     {
      "id": "mathematics-10/introduction-to-trigonometry",
      "name": "Introduction to Trigonometry",
-     "questions": 19,
-     "marks": 45,
+     "questions": 12,
+     "marks": 31,
      "byMarks": {
-      "1": 5,
-      "2": 6,
-      "3": 5,
+      "1": 3,
+      "2": 3,
+      "3": 3,
       "4": 2,
       "5": 1,
       "6+": 0
@@ -6502,10 +6512,10 @@
       {
        "id": "mathematics-10/introduction-to-trigonometry/trigonometric-identities",
        "name": "Trigonometric Identities",
-       "questions": 6,
-       "marks": 12,
+       "questions": 5,
+       "marks": 11,
        "byMarks": {
-        "1": 2,
+        "1": 1,
         "2": 2,
         "3": 2,
         "4": 0,
@@ -6518,14 +6528,14 @@
     {
      "id": "mathematics-10/some-applications-of-trigonometry",
      "name": "Some Applications of Trigonometry",
-     "questions": 15,
-     "marks": 43,
+     "questions": 14,
+     "marks": 38,
      "byMarks": {
       "1": 4,
       "2": 5,
       "3": 1,
       "4": 1,
-      "5": 2,
+      "5": 1,
       "6+": 2
      },
      "number": 9,
@@ -6534,14 +6544,14 @@
       {
        "id": "mathematics-10/some-applications-of-trigonometry/heights-and-distances",
        "name": "Heights and Distances",
-       "questions": 14,
-       "marks": 41,
+       "questions": 13,
+       "marks": 36,
        "byMarks": {
         "1": 4,
         "2": 4,
         "3": 1,
         "4": 1,
-        "5": 2,
+        "5": 1,
         "6+": 2
        }
       }
@@ -6550,14 +6560,14 @@
     {
      "id": "mathematics-10/circles",
      "name": "Circles",
-     "questions": 31,
-     "marks": 79,
+     "questions": 28,
+     "marks": 70,
      "byMarks": {
       "1": 5,
-      "2": 16,
+      "2": 14,
       "3": 4,
       "4": 0,
-      "5": 6,
+      "5": 5,
       "6+": 0
      },
      "number": 10,
@@ -6594,11 +6604,11 @@
       {
        "id": "mathematics-10/circles/number-of-tangents-from-a-point-on-a-circle",
        "name": "Number of Tangents from a Point on a Circle",
-       "questions": 19,
-       "marks": 53,
+       "questions": 17,
+       "marks": 49,
        "byMarks": {
         "1": 1,
-        "2": 12,
+        "2": 10,
         "3": 1,
         "4": 0,
         "5": 5,
@@ -6626,12 +6636,12 @@
       {
        "id": "mathematics-10/areas-related-to-circles/areas-of-sector-and-segment-of-a-circle",
        "name": "Areas of Sector and Segment of a Circle",
-       "questions": 30,
-       "marks": 84,
+       "questions": 29,
+       "marks": 81,
        "byMarks": {
         "1": 7,
         "2": 10,
-        "3": 5,
+        "3": 4,
         "4": 0,
         "5": 6,
         "6+": 2
@@ -6642,10 +6652,10 @@
     {
      "id": "mathematics-10/surface-areas-and-volumes",
      "name": "Surface Areas and Volumes",
-     "questions": 41,
-     "marks": 146,
+     "questions": 39,
+     "marks": 144,
      "byMarks": {
-      "1": 6,
+      "1": 4,
       "2": 4,
       "3": 12,
       "4": 3,
@@ -6672,10 +6682,10 @@
       {
        "id": "mathematics-10/surface-areas-and-volumes/surface-area-of-a-combination-of-solids",
        "name": "Surface Area of a Combination of Solids",
-       "questions": 12,
-       "marks": 38,
+       "questions": 10,
+       "marks": 36,
        "byMarks": {
-        "1": 2,
+        "1": 0,
         "2": 3,
         "3": 4,
         "4": 0,
@@ -6702,10 +6712,10 @@
     {
      "id": "mathematics-10/statistics",
      "name": "Statistics",
-     "questions": 21,
-     "marks": 57,
+     "questions": 22,
+     "marks": 58,
      "byMarks": {
-      "1": 7,
+      "1": 8,
       "2": 4,
       "3": 5,
       "4": 1,
@@ -6732,12 +6742,12 @@
       {
        "id": "mathematics-10/statistics/mean-of-grouped-data",
        "name": "Mean of Grouped Data",
-       "questions": 0,
-       "marks": 0,
+       "questions": 2,
+       "marks": 6,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 0,
+        "3": 2,
         "4": 0,
         "5": 0,
         "6+": 0
@@ -6776,14 +6786,14 @@
     {
      "id": "mathematics-10/probability",
      "name": "Probability",
-     "questions": 23,
-     "marks": 40,
+     "questions": 21,
+     "marks": 30,
      "byMarks": {
       "1": 16,
       "2": 3,
       "3": 0,
       "4": 2,
-      "5": 2,
+      "5": 0,
       "6+": 0
      },
      "number": 14,
@@ -6792,14 +6802,14 @@
       {
        "id": "mathematics-10/probability/probability-a-theoretical-approach",
        "name": "Probability — A Theoretical Approach",
-       "questions": 22,
-       "marks": 39,
+       "questions": 20,
+       "marks": 29,
        "byMarks": {
         "1": 15,
         "2": 3,
         "3": 0,
         "4": 2,
-        "5": 2,
+        "5": 0,
         "6+": 0
        }
       }
@@ -6812,7 +6822,8 @@
     "mathematics-10/probability"
    ],
    "chaptersWithout5Mark": [
-    "mathematics-10/real-numbers"
+    "mathematics-10/real-numbers",
+    "mathematics-10/probability"
    ],
    "emptyTopics": [
     "mathematics-10/polynomials/introduction",
@@ -6827,8 +6838,7 @@
     "mathematics-10/introduction-to-trigonometry/trigonometric-ratios-of-some-specific-angles",
     "mathematics-10/circles/introduction",
     "mathematics-10/surface-areas-and-volumes/introduction",
-    "mathematics-10/statistics/introduction",
-    "mathematics-10/statistics/mean-of-grouped-data"
+    "mathematics-10/statistics/introduction"
    ],
    "topicsWithout3Mark": [
     "mathematics-10/real-numbers/the-fundamental-theorem-of-arithmetic",
@@ -6853,7 +6863,6 @@
     "mathematics-10/circles/tangent-to-a-circle",
     "mathematics-10/surface-areas-and-volumes/introduction",
     "mathematics-10/statistics/introduction",
-    "mathematics-10/statistics/mean-of-grouped-data",
     "mathematics-10/statistics/mode-of-grouped-data",
     "mathematics-10/probability/probability-a-theoretical-approach"
    ],
@@ -6886,14 +6895,15 @@
     "mathematics-10/statistics/introduction",
     "mathematics-10/statistics/mean-of-grouped-data",
     "mathematics-10/statistics/mode-of-grouped-data",
-    "mathematics-10/statistics/median-of-grouped-data"
+    "mathematics-10/statistics/median-of-grouped-data",
+    "mathematics-10/probability/probability-a-theoretical-approach"
    ],
    "chapterCountsComplete": false,
    "competency": {
     "all": {
-     "n": 445,
+     "n": 425,
      "competency": 120,
-     "pct": 27.0,
+     "pct": 28.2,
      "bySignal": {
       "cbeItemBank": 120
      },
@@ -6907,32 +6917,32 @@
      }
     },
     "served": {
-     "n": 396,
-     "competency": 76,
-     "pct": 19.2,
+     "n": 365,
+     "competency": 65,
+     "pct": 17.8,
      "bySignal": {
-      "cbeItemBank": 76
+      "cbeItemBank": 65
      },
      "byMarks": {
       "1": 28,
-      "2": 15,
+      "2": 10,
       "3": 9,
-      "4": 12,
-      "5": 3,
-      "6+": 9
+      "4": 9,
+      "5": 2,
+      "6+": 7
      }
     }
    },
-   "servedKeyed": 396,
+   "servedKeyed": 365,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 257,
+       "usable": 246,
        "competencyBased": 66,
-       "pct": 25.7,
+       "pct": 26.8,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -6942,9 +6952,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 242,
+       "usable": 232,
        "competencyBased": 62,
-       "pct": 25.6,
+       "pct": 26.7,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -6954,9 +6964,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 413,
+       "usable": 394,
        "competencyBased": 89,
-       "pct": 21.5,
+       "pct": 22.6,
        "need": 27,
        "ceiling": 27,
        "ceilingPct": 100.0
@@ -6966,9 +6976,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 429,
+       "usable": 410,
        "competencyBased": 105,
-       "pct": 24.5,
+       "pct": 25.6,
        "need": 38,
        "ceiling": 38,
        "ceilingPct": 100.0
@@ -6980,9 +6990,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 229,
-       "competencyBased": 43,
-       "pct": 18.8,
+       "usable": 213,
+       "competencyBased": 38,
+       "pct": 17.8,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -6992,9 +7002,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 213,
+       "usable": 203,
        "competencyBased": 37,
-       "pct": 17.4,
+       "pct": 18.2,
        "need": 15,
        "ceiling": 15,
        "ceilingPct": 100.0
@@ -7004,9 +7014,9 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 374,
-       "competencyBased": 55,
-       "pct": 14.7,
+       "usable": 349,
+       "competencyBased": 49,
+       "pct": 14.0,
        "need": 27,
        "ceiling": 27,
        "ceilingPct": 100.0
@@ -7016,32 +7026,34 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 386,
-       "competencyBased": 67,
-       "pct": 17.4,
+       "usable": 358,
+       "competencyBased": 58,
+       "pct": 16.2,
        "need": 38,
-       "ceiling": 37,
-       "ceilingPct": 97.4
+       "ceiling": 36,
+       "ceilingPct": 94.7
       }
      }
     }
    },
    "excluded": {
-    "n": 767,
+    "n": 798,
     "byReason": {
      "no-verified-key": 634,
      "garbled-script": 30,
+     "scrambled-math": 28,
+     "figure-referenced": 21,
      "figure-unavailable": 17,
      "mcq-options-unresolved": 14,
-     "figure-referenced": 13,
      "answer-bleed": 13,
-     "key-rejected": 10,
      "mcq-answer-unresolved": 9,
      "stem-fragment": 8,
+     "symbol-loss": 8,
      "header-as-stem": 7,
-     "private-use-glyph": 6,
-     "symbol-loss": 4,
-     "scheme-marks-unallocated": 2
+     "key-rejected": 4,
+     "scheme-marks-unallocated": 2,
+     "private-use-glyph": 2,
+     "parts-detached": 1
     }
    }
   },
@@ -7050,9 +7062,9 @@
    "grade": 6,
    "questions": 274,
    "byBank": {
-    "served": 247,
+    "served": 245,
     "ncert-exemplar": 1,
-    "cbse-cbe": 26
+    "cbse-cbe": 28
    },
    "bySource": {
     "cbse_question_bank": 41,
@@ -7074,20 +7086,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 119,
-     "pct": 43.4
+     "n": 120,
+     "pct": 43.8
     },
     "topic": {
-     "n": 56,
-     "pct": 20.4
+     "n": 55,
+     "pct": 20.1
     },
     "subtopic": {
      "n": 8,
      "pct": 2.9
     },
     "oldChapterIds": {
-     "n": 36,
-     "pct": 13.1
+     "n": 37,
+     "pct": 13.5
     }
    },
    "taggerCovers": true,
@@ -7107,7 +7119,7 @@
     "short_answer": 58
    },
    "tree": true,
-   "untaggedKeyed": 155,
+   "untaggedKeyed": 154,
    "chapters": [
     {
      "id": "science-6/the-wonderful-world-of-science",
@@ -7219,10 +7231,10 @@
       {
        "id": "science-6/mindful-eating-a-path-to-a-healthy-body/what-are-the-components-of-food",
        "name": "What are the Components of Food?",
-       "questions": 7,
-       "marks": 17,
+       "questions": 6,
+       "marks": 16,
        "byMarks": {
-        "1": 3,
+        "1": 2,
         "2": 0,
         "3": 3,
         "4": 0,
@@ -7629,10 +7641,10 @@
     {
      "id": "science-6/a-journey-through-states-of-water",
      "name": "A Journey through States of Water",
-     "questions": 8,
-     "marks": 16,
+     "questions": 9,
+     "marks": 17,
      "byMarks": {
-      "1": 4,
+      "1": 5,
       "2": 0,
       "3": 4,
       "4": 0,
@@ -8244,23 +8256,23 @@
      }
     },
     "served": {
-     "n": 247,
-     "competency": 15,
-     "pct": 6.1,
+     "n": 245,
+     "competency": 13,
+     "pct": 5.3,
      "bySignal": {
-      "cbeItemBank": 15
+      "cbeItemBank": 13
      },
      "byMarks": {
       "1": 8,
       "2": 0,
-      "3": 2,
-      "4": 1,
+      "3": 1,
+      "4": 0,
       "5": 1,
       "6+": 3
      }
     }
    },
-   "servedKeyed": 247,
+   "servedKeyed": 245,
    "papers": {
     "all": {
      "class_test": {
@@ -8329,48 +8341,50 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 173,
-       "competencyBased": 10,
-       "pct": 5.8,
+       "usable": 172,
+       "competencyBased": 9,
+       "pct": 5.2,
        "need": 15,
-       "ceiling": 10,
-       "ceilingPct": 66.7
+       "ceiling": 9,
+       "ceilingPct": 60.0
       }
      },
      "monthly_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 243,
-       "competencyBased": 11,
-       "pct": 4.5,
+       "usable": 242,
+       "competencyBased": 10,
+       "pct": 4.1,
        "need": 27,
-       "ceiling": 11,
-       "ceilingPct": 40.7
+       "ceiling": 10,
+       "ceilingPct": 37.0
       }
      },
      "board": {
       "possible": false,
       "reasons": [
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 244,
-       "competencyBased": 12,
-       "pct": 4.9,
+       "usable": 242,
+       "competencyBased": 10,
+       "pct": 4.1,
        "need": 38,
-       "ceiling": 12,
-       "ceilingPct": 31.6
+       "ceiling": 10,
+       "ceilingPct": 26.3
       }
      }
     }
    },
    "excluded": {
-    "n": 27,
+    "n": 29,
     "byReason": {
      "figure-unavailable": 17,
      "mcq-marks-implausible": 4,
      "mcq-answer-unresolved": 4,
+     "key-covers-one-part": 1,
+     "figure-referenced": 1,
      "mcq-part-of-group": 1,
      "stem-too-short": 1
     }
@@ -8381,8 +8395,8 @@
    "grade": 7,
    "questions": 355,
    "byBank": {
-    "served": 335,
-    "cbse-cbe": 20
+    "served": 334,
+    "cbse-cbe": 21
    },
    "bySource": {
     "cbse_question_bank": 46,
@@ -8404,20 +8418,20 @@
    },
    "tagged": {
     "chapter": {
-     "n": 133,
-     "pct": 37.5
+     "n": 134,
+     "pct": 37.7
     },
     "topic": {
-     "n": 62,
-     "pct": 17.5
+     "n": 65,
+     "pct": 18.3
     },
     "subtopic": {
-     "n": 14,
-     "pct": 3.9
+     "n": 13,
+     "pct": 3.7
     },
     "oldChapterIds": {
-     "n": 146,
-     "pct": 41.1
+     "n": 147,
+     "pct": 41.4
     }
    },
    "taggerCovers": true,
@@ -8437,7 +8451,7 @@
     "short_answer": 79
    },
    "tree": true,
-   "untaggedKeyed": 222,
+   "untaggedKeyed": 221,
    "chapters": [
     {
      "id": "science-7/the-ever-evolving-world-of-science",
@@ -8740,10 +8754,10 @@
       {
        "id": "science-7/changes-around-us-physical-and-chemical/some-other-processes-involving-chemical-changes",
        "name": "Some Other Processes Involving Chemical Changes",
-       "questions": 1,
-       "marks": 1,
+       "questions": 2,
+       "marks": 2,
        "byMarks": {
-        "1": 1,
+        "1": 2,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -8754,10 +8768,10 @@
       {
        "id": "science-7/changes-around-us-physical-and-chemical/can-physical-and-chemical-changes-occur-in-the-same-process",
        "name": "Can Physical and Chemical Changes Occur in the Same Process?",
-       "questions": 1,
-       "marks": 2,
+       "questions": 3,
+       "marks": 4,
        "byMarks": {
-        "1": 0,
+        "1": 2,
         "2": 1,
         "3": 0,
         "4": 0,
@@ -8900,11 +8914,11 @@
     {
      "id": "science-7/heat-transfer-in-nature",
      "name": "Heat Transfer in Nature",
-     "questions": 3,
-     "marks": 13,
+     "questions": 4,
+     "marks": 15,
      "byMarks": {
       "1": 1,
-      "2": 0,
+      "2": 1,
       "3": 0,
       "4": 0,
       "5": 0,
@@ -9526,23 +9540,23 @@
      }
     },
     "served": {
-     "n": 335,
-     "competency": 26,
-     "pct": 7.8,
+     "n": 334,
+     "competency": 25,
+     "pct": 7.5,
      "bySignal": {
-      "cbeItemBank": 26
+      "cbeItemBank": 25
      },
      "byMarks": {
       "1": 10,
       "2": 1,
       "3": 0,
-      "4": 3,
+      "4": 2,
       "5": 4,
       "6+": 8
      }
     }
    },
-   "servedKeyed": 335,
+   "servedKeyed": 334,
    "papers": {
     "all": {
      "class_test": {
@@ -9636,24 +9650,24 @@
      "board": {
       "possible": false,
       "reasons": [
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 2"
       ],
       "competency": {
-       "usable": 327,
-       "competencyBased": 18,
-       "pct": 5.5,
+       "usable": 326,
+       "competencyBased": 17,
+       "pct": 5.2,
        "need": 38,
-       "ceiling": 18,
-       "ceilingPct": 47.4
+       "ceiling": 17,
+       "ceilingPct": 44.7
       }
      }
     }
    },
    "excluded": {
-    "n": 20,
+    "n": 21,
     "byReason": {
      "figure-unavailable": 11,
-     "figure-referenced": 4,
+     "figure-referenced": 5,
      "mcq-answer-unresolved": 3,
      "mcq-marks-implausible": 1,
      "mcq-part-of-group": 1
@@ -9692,16 +9706,16 @@
      "pct": 18.4
     },
     "topic": {
-     "n": 34,
-     "pct": 7.8
+     "n": 33,
+     "pct": 7.6
     },
     "subtopic": {
      "n": 2,
      "pct": 0.5
     },
     "oldChapterIds": {
-     "n": 39,
-     "pct": 9.0
+     "n": 38,
+     "pct": 8.7
     }
    },
    "taggerCovers": true,
@@ -10009,10 +10023,10 @@
       {
        "id": "science-8/exploring-forces/what-can-a-force-do-to-the-objects-on-which-it-is-applied",
        "name": "What Can a Force Do to the Objects on Which It Is Applied?",
-       "questions": 3,
-       "marks": 6,
+       "questions": 2,
+       "marks": 5,
        "byMarks": {
-        "1": 1,
+        "1": 0,
         "2": 1,
         "3": 1,
         "4": 0,
@@ -10081,10 +10095,10 @@
     {
      "id": "science-8/pressure-winds-storms-and-cyclones",
      "name": "Pressure, Winds, Storms, and Cyclones",
-     "questions": 3,
-     "marks": 9,
+     "questions": 2,
+     "marks": 8,
      "byMarks": {
-      "1": 1,
+      "1": 0,
       "2": 0,
       "3": 1,
       "4": 0,
@@ -10725,10 +10739,10 @@
     {
      "id": "science-8/our-home-earth-a-unique-life-sustaining-planet",
      "name": "Our Home: Earth, a Unique Life Sustaining Planet",
-     "questions": 3,
-     "marks": 5,
+     "questions": 4,
+     "marks": 6,
      "byMarks": {
-      "1": 2,
+      "1": 3,
       "2": 0,
       "3": 1,
       "4": 0,
@@ -11177,9 +11191,9 @@
    "grade": 9,
    "questions": 476,
    "byBank": {
-    "served": 457,
+    "served": 447,
     "ncert-exemplar": 6,
-    "cbse-cbe": 13
+    "cbse-cbe": 23
    },
    "bySource": {
     "cbse_question_bank": 51,
@@ -11205,16 +11219,16 @@
      "pct": 60.9
     },
     "topic": {
-     "n": 101,
-     "pct": 21.2
+     "n": 95,
+     "pct": 20.0
     },
     "subtopic": {
      "n": 26,
      "pct": 5.5
     },
     "oldChapterIds": {
-     "n": 222,
-     "pct": 46.6
+     "n": 226,
+     "pct": 47.5
     }
    },
    "taggerCovers": true,
@@ -11504,10 +11518,10 @@
       {
        "id": "science-9/describing-motion-around-us/motion-in-a-plane",
        "name": "Motion in a Plane",
-       "questions": 2,
-       "marks": 2,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 2,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -11592,10 +11606,10 @@
       {
        "id": "science-9/exploring-mixtures-and-their-separation/tyndall-effect",
        "name": "Tyndall Effect",
-       "questions": 3,
-       "marks": 5,
+       "questions": 2,
+       "marks": 4,
        "byMarks": {
-        "1": 2,
+        "1": 1,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -11708,12 +11722,12 @@
       {
        "id": "science-9/how-forces-affect-motion/forces-acting-on-a-system-of-objects",
        "name": "Forces Acting on a System of Objects",
-       "questions": 2,
-       "marks": 6,
+       "questions": 1,
+       "marks": 3,
        "byMarks": {
         "1": 0,
         "2": 0,
-        "3": 2,
+        "3": 1,
         "4": 0,
         "5": 0,
         "6+": 0
@@ -12404,15 +12418,15 @@
       {
        "id": "science-9/patterns-in-life-diversity-and-classification/five-kingdom-classification",
        "name": "Five Kingdom Classification",
-       "questions": 6,
-       "marks": 18,
+       "questions": 5,
+       "marks": 9,
        "byMarks": {
         "1": 3,
         "2": 0,
         "3": 2,
         "4": 0,
         "5": 0,
-        "6+": 1
+        "6+": 0
        }
       },
       {
@@ -12520,15 +12534,15 @@
       {
        "id": "science-9/earth-as-a-system-energy-matter-and-life/biogeochemical-cycles",
        "name": "Biogeochemical Cycles",
-       "questions": 3,
-       "marks": 9,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 2,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
         "5": 0,
-        "6+": 1
+        "6+": 0
        }
       },
       {
@@ -12766,23 +12780,23 @@
      }
     },
     "served": {
-     "n": 457,
-     "competency": 38,
-     "pct": 8.3,
+     "n": 447,
+     "competency": 28,
+     "pct": 6.3,
      "bySignal": {
-      "cbeItemBank": 38
+      "cbeItemBank": 28
      },
      "byMarks": {
-      "1": 17,
+      "1": 15,
       "2": 2,
-      "3": 5,
-      "4": 1,
+      "3": 4,
+      "4": 0,
       "5": 3,
-      "6+": 10
+      "6+": 4
      }
     }
    },
-   "servedKeyed": 457,
+   "servedKeyed": 447,
    "papers": {
     "all": {
      "class_test": {
@@ -12848,9 +12862,9 @@
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2"
       ],
       "competency": {
-       "usable": 247,
-       "competencyBased": 19,
-       "pct": 7.7,
+       "usable": 245,
+       "competencyBased": 17,
+       "pct": 6.9,
        "need": 15,
        "ceiling": 12,
        "ceilingPct": 80.0
@@ -12860,12 +12874,12 @@
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 390,
-       "competencyBased": 22,
-       "pct": 5.6,
+       "usable": 387,
+       "competencyBased": 19,
+       "pct": 4.9,
        "need": 15,
-       "ceiling": 15,
-       "ceilingPct": 100.0
+       "ceiling": 14,
+       "ceilingPct": 93.3
       }
      },
      "monthly_test": {
@@ -12874,39 +12888,39 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 2"
       ],
       "competency": {
-       "usable": 446,
-       "competencyBased": 27,
-       "pct": 6.1,
+       "usable": 443,
+       "competencyBased": 24,
+       "pct": 5.4,
        "need": 27,
-       "ceiling": 24,
-       "ceilingPct": 88.9
+       "ceiling": 23,
+       "ceilingPct": 85.2
       }
      },
      "board": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2",
-       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
+       "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 447,
-       "competencyBased": 28,
-       "pct": 6.3,
+       "usable": 443,
+       "competencyBased": 24,
+       "pct": 5.4,
        "need": 38,
-       "ceiling": 28,
-       "ceilingPct": 73.7
+       "ceiling": 24,
+       "ceilingPct": 63.2
       }
      }
     }
    },
    "excluded": {
-    "n": 19,
+    "n": 29,
     "byReason": {
+     "figure-referenced": 13,
      "figure-unavailable": 8,
-     "mcq-options-unresolved": 3,
-     "mcq-marks-implausible": 3,
+     "mcq-marks-implausible": 2,
+     "mcq-options-unresolved": 2,
      "duplicate-stem": 2,
-     "figure-referenced": 1,
      "stem-too-short": 1,
      "answer-bleed": 1
     }
@@ -12917,9 +12931,9 @@
    "grade": 10,
    "questions": 530,
    "byBank": {
-    "served": 504,
+    "served": 494,
     "ncert-exemplar": 8,
-    "cbse-cbe": 18
+    "cbse-cbe": 28
    },
    "bySource": {
     "cbse_question_bank": 54,
@@ -12934,23 +12948,23 @@
    },
    "verified": {
     "state": "verified",
-    "passed": 522,
+    "passed": 524,
     "of": 530,
     "unchecked": 0,
-    "pct": 98.5
+    "pct": 98.9
    },
    "tagged": {
     "chapter": {
-     "n": 429,
-     "pct": 80.9
+     "n": 427,
+     "pct": 80.6
     },
     "topic": {
-     "n": 298,
-     "pct": 56.2
+     "n": 297,
+     "pct": 56.0
     },
     "subtopic": {
-     "n": 133,
-     "pct": 25.1
+     "n": 132,
+     "pct": 24.9
     },
     "oldChapterIds": {
      "n": 405,
@@ -12974,7 +12988,7 @@
     "long_answer": 66
    },
    "tree": true,
-   "untaggedKeyed": 101,
+   "untaggedKeyed": 103,
    "chapters": [
     {
      "id": "science-10/chemical-reactions-and-equations",
@@ -13393,10 +13407,10 @@
       {
        "id": "science-10/control-and-coordination/animals-nervous-system",
        "name": "Animals – Nervous System",
-       "questions": 17,
-       "marks": 35,
+       "questions": 18,
+       "marks": 36,
        "byMarks": {
-        "1": 12,
+        "1": 13,
         "2": 0,
         "3": 1,
         "4": 0,
@@ -13421,10 +13435,10 @@
       {
        "id": "science-10/control-and-coordination/hormones-in-animals",
        "name": "Hormones in Animals",
-       "questions": 15,
-       "marks": 29,
+       "questions": 14,
+       "marks": 28,
        "byMarks": {
-        "1": 10,
+        "1": 9,
         "2": 0,
         "3": 3,
         "4": 0,
@@ -13497,10 +13511,10 @@
     {
      "id": "science-10/heredity",
      "name": "Heredity",
-     "questions": 33,
-     "marks": 61,
+     "questions": 32,
+     "marks": 60,
      "byMarks": {
-      "1": 23,
+      "1": 22,
       "2": 1,
       "3": 7,
       "4": 0,
@@ -13705,15 +13719,15 @@
     {
      "id": "science-10/electricity",
      "name": "Electricity",
-     "questions": 20,
-     "marks": 50,
+     "questions": 19,
+     "marks": 42,
      "byMarks": {
       "1": 11,
       "2": 2,
       "3": 4,
       "4": 0,
       "5": 1,
-      "6+": 2
+      "6+": 1
      },
      "number": 11,
      "book": "Science",
@@ -13925,10 +13939,10 @@
       {
        "id": "science-10/our-environment/eco-system-what-are-its-components",
        "name": "Eco-system — What Are Its Components?",
-       "questions": 24,
-       "marks": 53,
+       "questions": 23,
+       "marks": 52,
        "byMarks": {
-        "1": 16,
+        "1": 15,
         "2": 0,
         "3": 4,
         "4": 0,
@@ -14064,23 +14078,23 @@
      }
     },
     "served": {
-     "n": 504,
-     "competency": 36,
-     "pct": 7.1,
+     "n": 494,
+     "competency": 26,
+     "pct": 5.3,
      "bySignal": {
-      "cbeItemBank": 36
+      "cbeItemBank": 26
      },
      "byMarks": {
-      "1": 20,
-      "2": 3,
+      "1": 19,
+      "2": 1,
       "3": 0,
       "4": 0,
       "5": 2,
-      "6+": 11
+      "6+": 4
      }
     }
    },
-   "servedKeyed": 504,
+   "servedKeyed": 494,
    "papers": {
     "all": {
      "class_test": {
@@ -14141,24 +14155,24 @@
      "class_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 1"
       ],
       "competency": {
-       "usable": 315,
-       "competencyBased": 23,
-       "pct": 7.3,
+       "usable": 312,
+       "competencyBased": 20,
+       "pct": 6.4,
        "need": 15,
-       "ceiling": 13,
-       "ceilingPct": 86.7
+       "ceiling": 11,
+       "ceilingPct": 73.3
       }
      },
      "weekly_test": {
       "possible": true,
       "reasons": [],
       "competency": {
-       "usable": 439,
-       "competencyBased": 20,
-       "pct": 4.6,
+       "usable": 438,
+       "competencyBased": 19,
+       "pct": 4.3,
        "need": 15,
        "ceiling": 10,
        "ceilingPct": 66.7
@@ -14167,49 +14181,47 @@
      "monthly_test": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3"
+       "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 1"
       ],
       "competency": {
-       "usable": 493,
-       "competencyBased": 25,
-       "pct": 5.1,
+       "usable": 490,
+       "competencyBased": 22,
+       "pct": 4.5,
        "need": 27,
-       "ceiling": 20,
-       "ceilingPct": 74.1
+       "ceiling": 18,
+       "ceilingPct": 66.7
       }
      },
      "board": {
       "possible": false,
       "reasons": [
-       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
+       "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 1",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
       ],
       "competency": {
-       "usable": 493,
-       "competencyBased": 25,
-       "pct": 5.1,
+       "usable": 490,
+       "competencyBased": 22,
+       "pct": 4.5,
        "need": 38,
-       "ceiling": 25,
-       "ceilingPct": 65.8
+       "ceiling": 22,
+       "ceilingPct": 57.9
       }
      }
     }
    },
    "excluded": {
-    "n": 437,
+    "n": 447,
     "byReason": {
      "no-verified-key": 407,
+     "figure-referenced": 18,
      "figure-unavailable": 8,
-     "mcq-answer-unresolved": 4,
-     "figure-referenced": 3,
      "mcq-marks-implausible": 3,
-     "answer-bleed": 2,
-     "stem-holds-group": 2,
+     "mcq-answer-unresolved": 3,
      "mcq-options-unresolved": 2,
      "duplicate-stem": 2,
      "scheme-marks-unallocated": 1,
      "private-use-glyph": 1,
-     "mcq-part-of-group": 1,
+     "answer-bleed": 1,
      "stem-too-short": 1
     }
    }
@@ -22127,12 +22139,12 @@
    },
    "tagged": {
     "chapter": {
-     "n": 6,
-     "pct": 42.9
+     "n": 10,
+     "pct": 71.4
     },
     "topic": {
-     "n": 1,
-     "pct": 7.1
+     "n": 2,
+     "pct": 14.3
     },
     "subtopic": {
      "n": 0,
@@ -22158,7 +22170,7 @@
     "mcq": 12
    },
    "tree": true,
-   "untaggedKeyed": 8,
+   "untaggedKeyed": 4,
    "chapters": [
     {
      "id": "social-science-10/the-rise-of-nationalism-in-europe",
@@ -22852,10 +22864,10 @@
     {
      "id": "social-science-10/federalism",
      "name": "Federalism",
-     "questions": 0,
-     "marks": 0,
+     "questions": 1,
+     "marks": 1,
      "byMarks": {
-      "1": 0,
+      "1": 1,
       "2": 0,
       "3": 0,
       "4": 0,
@@ -23088,12 +23100,12 @@
     {
      "id": "social-science-10/outcomes-of-democracy",
      "name": "Outcomes of Democracy",
-     "questions": 0,
-     "marks": 0,
+     "questions": 1,
+     "marks": 3,
      "byMarks": {
       "1": 0,
       "2": 0,
-      "3": 0,
+      "3": 1,
       "4": 0,
       "5": 0,
       "6+": 0
@@ -23248,10 +23260,10 @@
       {
        "id": "social-science-10/development/how-to-compare-different-countries-or-states",
        "name": "How to Compare Different Countries or States?",
-       "questions": 0,
-       "marks": 0,
+       "questions": 1,
+       "marks": 1,
        "byMarks": {
-        "1": 0,
+        "1": 1,
         "2": 0,
         "3": 0,
         "4": 0,
@@ -23306,10 +23318,10 @@
     {
      "id": "social-science-10/sectors-of-the-indian-economy",
      "name": "Sectors of the Indian Economy",
-     "questions": 1,
-     "marks": 1,
+     "questions": 2,
+     "marks": 2,
      "byMarks": {
-      "1": 1,
+      "1": 2,
       "2": 0,
       "3": 0,
       "4": 0,
@@ -23510,10 +23522,10 @@
     {
      "id": "social-science-10/globalisation-and-the-indian-economy",
      "name": "Globalisation and the Indian Economy",
-     "questions": 1,
-     "marks": 3,
+     "questions": 2,
+     "marks": 4,
      "byMarks": {
-      "1": 0,
+      "1": 1,
       "2": 0,
       "3": 1,
       "4": 0,
@@ -23723,10 +23735,8 @@
     "social-science-10/minerals-and-energy-resources",
     "social-science-10/manufacturing-industries",
     "social-science-10/lifelines-of-national-economy",
-    "social-science-10/federalism",
     "social-science-10/gender-religion-and-caste",
     "social-science-10/political-parties",
-    "social-science-10/outcomes-of-democracy",
     "social-science-10/money-and-credit",
     "social-science-10/consumer-rights"
    ],
@@ -23747,7 +23757,6 @@
     "social-science-10/federalism",
     "social-science-10/gender-religion-and-caste",
     "social-science-10/political-parties",
-    "social-science-10/outcomes-of-democracy",
     "social-science-10/development",
     "social-science-10/sectors-of-the-indian-economy",
     "social-science-10/money-and-credit",
@@ -23832,7 +23841,6 @@
     "social-science-10/development/what-development-promises-different-people-different-goals",
     "social-science-10/development/income-and-other-goals",
     "social-science-10/development/national-development",
-    "social-science-10/development/how-to-compare-different-countries-or-states",
     "social-science-10/development/income-and-other-criteria",
     "social-science-10/development/public-facilities",
     "social-science-10/development/sustainability-of-development",
@@ -28063,42 +28071,47 @@
   }
  ],
  "excluded": {
-  "records": 4675,
-  "inScope": 2061,
-  "outOfScope": 2614,
+  "records": 4785,
+  "inScope": 2151,
+  "outOfScope": 2634,
   "byReason": {
    "no-verified-key": 3214,
-   "answer-bleed": 295,
-   "mcq-answer-unresolved": 278,
-   "mcq-options-unresolved": 191,
-   "figure-unavailable": 122,
+   "answer-bleed": 293,
+   "mcq-answer-unresolved": 276,
+   "mcq-options-unresolved": 190,
+   "figure-referenced": 128,
+   "figure-unavailable": 123,
    "garbled-script": 112,
    "duplicate-stem": 78,
-   "figure-referenced": 72,
    "stem-fragment": 62,
    "passage-unavailable": 49,
-   "mcq-marks-implausible": 45,
-   "scheme-marks-unallocated": 41,
-   "stem-spans-sections": 20,
-   "key-rejected": 17,
+   "mcq-marks-implausible": 43,
+   "scrambled-math": 41,
+   "scheme-marks-unallocated": 40,
+   "symbol-loss": 19,
+   "stem-spans-sections": 19,
+   "header-as-stem": 13,
    "stem-too-short": 12,
-   "header-as-stem": 11,
-   "private-use-glyph": 9,
+   "parts-detached": 12,
+   "key-rejected": 11,
    "stem-runs-on": 9,
-   "symbol-loss": 7,
    "options-missing": 7,
-   "stem-holds-group": 7,
    "option-labels-collide": 6,
-   "mcq-part-of-group": 5,
+   "private-use-glyph": 5,
+   "stem-holds-group": 4,
+   "fraction-doubled": 4,
+   "mcq-part-of-group": 4,
    "answer-is-question-text": 3,
+   "figure-shown-below": 3,
+   "key-covers-one-part": 2,
    "stem-empty-after-strip": 2,
    "page-furniture": 1
   },
   "bySource": {
    "cbse_board_paper": 3267,
-   "cbse_sample_paper": 1051,
-   "cbse_question_bank": 285,
-   "ncert_exemplar": 72
+   "cbse_sample_paper": 1091,
+   "cbse_question_bank": 354,
+   "ncert_exemplar": 73
   }
  },
  "builtAt": "2026-09-27",
@@ -28106,26 +28119,26 @@
   {
    "label": "served",
    "path": "academicos-data/syllabus/questions.json",
-   "sha256": "244429c798b5467779dd72215f044f49e3e378cdf1740ed50dc4e041ab22d940",
-   "records": 5429
+   "sha256": "264ff5f289d2819ea9896018345001622b29f8849a905d16845119c58d4c5c4d",
+   "records": 5319
   },
   {
    "label": "ncert-exemplar",
    "path": "academicos-data/corpus/ncert-exemplar/questions.json",
-   "sha256": "60a17961969e6b6e507736b4fcfb8f33d5124ac54f5c68091395da7a03fa8cbc",
+   "sha256": "39e72fe172ef292d34539f9c1c044ae7e1affe58e08b6c2a03253aae7dcd4469",
    "records": 4264
   },
   {
    "label": "cbse-cbe",
    "path": "academicos-data/corpus/cbse-cbe/questions.json",
-   "sha256": "2c33517705be14cf2db2b1891b25997287962ecc6c4338bdf6bbfa87e3205fa5",
+   "sha256": "4ab512c4f2303a4e50db3afb903f8d7c2a460bb937da7e65d8b01e50c1eb6c1b",
    "records": 720
   },
   {
    "label": "excluded",
    "path": "academicos-data/syllabus/_merge_excluded.json",
-   "sha256": "056d0637d57bf2488e1caf78d5b510d22be23f18299df13cb774bfd12511d52e",
-   "records": 4675
+   "sha256": "35392080bdeb2fc3fa064fe08a94505b2b6e91a1cf0d407b5cf50061d238ce73",
+   "records": 4785
   }
  ],
  "excludedPath": "academicos-data/syllabus/_merge_excluded.json",

@@ -50,8 +50,11 @@ Future<void> settle(WidgetTester tester, Future<Object?> call) async {
   await done;
 }
 
-/// Everything the builder asks the server for.
-bool _everything(String path) => true;
+/// Everything the builder asks the server for once a class is chosen. The
+/// catalog it reads on opening is left out: its refusal is the first step's
+/// own sentence (builder_grades_test.dart), and refusing it here would stop
+/// every test before the step it is about.
+bool _everything(String path) => !path.endsWith('/catalog');
 
 /// A backend that refuses the requests [where] matches and hands every other
 /// one to the captured fixtures.

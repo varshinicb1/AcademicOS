@@ -139,6 +139,36 @@ class AcademicYearSummary {
         endDate = j['endDate'] as String;
 }
 
+/// A term the school declared for an academic year.
+class TermInfo {
+  final String id;
+  final String name;
+  final String startDate;
+  final String endDate;
+
+  TermInfo.fromJson(Map<String, dynamic> j)
+      : id = j['id'] as String,
+        name = j['name'] as String? ?? '',
+        startDate = j['startDate'] as String,
+        endDate = j['endDate'] as String;
+}
+
+/// What setting up one CBSE class created.
+class SeedSummary {
+  final String academicYearId;
+  final int grade;
+  final int subjectsSeeded;
+  final int chaptersSeeded;
+  final List<String> subjectsSkipped;
+
+  SeedSummary.fromJson(Map<String, dynamic> j)
+      : academicYearId = j['academicYearId'] as String,
+        grade = j['grade'] as int,
+        subjectsSeeded = j['subjectsSeeded'] as int? ?? 0,
+        chaptersSeeded = j['chaptersSeeded'] as int? ?? 0,
+        subjectsSkipped = List<String>.from(j['subjectsSkipped'] as List? ?? const []);
+}
+
 /// Just enough of Grade/Subject/Book to populate the admin picker
 /// dropdowns -- the same real curriculum hierarchy every other screen
 /// this session built reads, not a separate representation.
@@ -689,6 +719,49 @@ class CurriculumApi {
   Future<List<HolidayInfo>> listHolidays(String academicYearId) async {
     final r = await _dio.get('/curriculum/academic-years/$academicYearId/holidays');
     return (r.data as List).map((e) => HolidayInfo.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  /// The school's terms for the year, in date order. Exam coverage and time
+  /// saved are measured per term (PRD decision 11); until the web could
+  /// declare one, a school set up the documented way had none (audit D27).
+  Future<List<TermInfo>> terms(String academicYearId) async {
+    final r = await _dio.get('/curriculum/academic-years/$academicYearId/terms');
+    return (r.data as List).map((e) => TermInfo.fromJson(Map<String, dynamic>.from(e))).toList();
+  }
+
+  /// Principal-only. A term outside the year, overlapping another by even
+  /// one day, or sharing another's name is a 422 whose detail says which.
+  Future<TermInfo> createTerm(String academicYearId,
+      {required String name, required String startDate, required String endDate}) async {
+    final r = await _dio.post('/curriculum/academic-years/$academicYearId/terms',
+        data: {'name': name, 'startDate': startDate, 'endDate': endDate});
+    return TermInfo.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Principal-only; replaces name and dates, keeps the term's baseline.
+  Future<TermInfo> updateTerm(String termId,
+      {required String name, required String startDate, required String endDate}) async {
+    final r = await _dio.put('/curriculum/terms/$termId',
+        data: {'name': name, 'startDate': startDate, 'endDate': endDate});
+    return TermInfo.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  Future<void> deleteTerm(String termId) async {
+    await _dio.delete('/curriculum/terms/$termId');
+  }
+
+  /// Principal-only: sets up one CBSE class (6-12) as this school's year,
+  /// its subjects, books, units and chapters. Idempotent: running it again
+  /// for the same year reuses what is there.
+  Future<SeedSummary> seedCbseClass(
+      {required int grade, required String yearLabel, required String startDate, required String endDate}) async {
+    final r = await _dio.post('/curriculum/seed/cbse', data: {
+      'grade': grade,
+      'academicYearLabel': yearLabel,
+      'startDate': startDate,
+      'endDate': endDate,
+    });
+    return SeedSummary.fromJson(Map<String, dynamic>.from(r.data));
   }
 
   Future<void> setPeriodConfiguration(String academicYearId, {required int periodMinutes}) async {

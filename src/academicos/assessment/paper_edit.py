@@ -58,12 +58,13 @@ from dataclasses import dataclass
 from typing import Callable, Optional
 
 from . import grades
-from .competency import CBSE_COMPETENCY_TARGET, is_competency_question
+from .competency import CBSE_COMPETENCY_TARGET, below_target, is_competency_question, \
+    share_summary
 from .mapping import to_question_schema
-from .paper import answer_key_entry, generated_question, or_answer_key_entry, render_text, \
-    report_competency
+from .paper import answer_key_entry, competency_counts, generated_question, \
+    or_answer_key_entry, render_text, report_competency
 from .paper_templates import ScopeFilter, _all_competency, _content_fits, _fits, \
-    _whole_percent, build_scope_filter, has_verified_key
+    build_scope_filter, has_verified_key
 from .pool import QuestionPool, get_pool, near_duplicate
 from .schemas import Camel, GeneratedPaper, GeneratedQuestionSchema, GeneratedSectionSchema, \
     QuestionSchema, TemplateScope, TemplateSection
@@ -369,8 +370,15 @@ def check_pick(slot: Slot, rule: SlotRule, bank: Bank, question_id: str,
 # quick-generate's ("... has X% competency-based questions (CBSE target ...)"),
 # and the pre-selection ceiling ("This paper cannot reach CBSE's ...").
 _COMPETENCY_SENTENCE = re.compile(
-    r"^(Competency-based: \d+ of \d+ |Set [A-Z] has [\d.]+% competency-based questions"
-    r"|Selected paper has [\d.]+% competency-based questions|This paper cannot reach CBSE's )")
+    r"^(Competency-based: \d+ of \d+ |Set [A-Z] competency-based: \d+ of \d+ "
+    # The shapes papers stored before 2026-09-28 carry (audit D79).
+    r"|Set [A-Z] has [\d.]+% competency-based questions"
+    r"|Selected paper has [\d.]+% competency-based questions)")
+# The paper's own sentence, split into its count and what generation said
+# about it: "Below CBSE's 50%." and, from the builder's check, why.
+_PAPER_SHARE = re.compile(r"^Competency-based: \d+ of \d+ questions? \(\d+%\)\. (Below CBSE's .*)$")
+# Selection's ceiling on the sections themselves, true whatever is swapped in.
+_CEILING_SENTENCE = re.compile(r"^This paper cannot reach CBSE's ")
 
 
 def _restamped(edited: GeneratedPaper, target: Optional[float]) -> GeneratedPaper:
@@ -383,21 +391,28 @@ def _restamped(edited: GeneratedPaper, target: Optional[float]) -> GeneratedPape
     The sentences are recounted with it. The web paper step renders
     `paper.warnings` after every edit, so a generation-time "Below CBSE's
     50%" left on a paper that now meets it, or "1 of 4" on a paper of 3, was
-    the only share a teacher saw -- and it contradicted the paper. The
-    whole-syllabus and bank clauses cannot be recomputed without a plan, so
-    an edited paper states only what it prints."""
+    the only share a teacher saw -- and it contradicted the paper.
+
+    What generation said about WHY the paper is below 50% -- the whole
+    syllabus would give more, the bank has enough to swap in, the bank cannot
+    reach it, the sections cannot hold it -- is about the scope, the bank and
+    the template, not the questions picked, so it stays true through a swap
+    and is kept while the paper is still below. It used to be dropped at the
+    first edit (audit D78). Once the paper meets the target every below-target
+    sentence goes."""
     if edited.competency_share is None:
         return edited
     target = CBSE_COMPETENCY_TARGET if target is None else target
-    set_lines = report_competency(edited, target)
-    kept = [w for w in edited.warnings if not _COMPETENCY_SENTENCE.match(w)]
+    set_lines = report_competency(edited, target, stated=True)
+    why = next((m.group(1) for m in map(_PAPER_SHARE.match, edited.warnings) if m), None)
+    ceiling = [w for w in edited.warnings if _CEILING_SENTENCE.match(w)]
+    kept = [w for w in edited.warnings
+            if not _COMPETENCY_SENTENCE.match(w) and not _CEILING_SENTENCE.match(w)]
     lines = []
     if not edited.competency_target_met:
-        flags = [q.is_competency for s in edited.sections for q in s.questions]
-        c, n = sum(flags), len(flags)
-        noun = "question" if n == 1 else "questions"
-        lines.append(f"Competency-based: {c} of {n} {noun} ({_whole_percent(c, n)}%). "
-                     f"Below CBSE's {target * 100:g}%.")
+        c, n = competency_counts(edited)
+        lines.append(f"{share_summary(c, n)}. {why or below_target(target)}")
+        lines.extend(ceiling)
     edited.warnings = [*lines, *set_lines, *kept]
     return edited
 

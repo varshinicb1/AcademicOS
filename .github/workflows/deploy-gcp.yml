@@ -493,10 +493,11 @@ jobs:
         working-directory: frontend
 
       # Flutter writes main.dart.js and flutter_bootstrap.js under the same
-      # names every build; this gives both URLs a content hash, via the one
-      # file every browser re-reads (index.html, no-store), so a browser that
-      # cached an old build fetches the new one. Fails the job if it cannot.
-      - name: Give the entry files content-hashed URLs
+      # names every build; this renames both <name>.<content hash>.js and
+      # points index.html (no-store) at them. firebase.json caches exactly that
+      # name shape immutable, so a returning browser re-downloads the app only
+      # after a deploy (D29). Fails the job if it cannot.
+      - name: Give the entry files content-hashed names
         run: python3 scripts/web_cache_bust.py frontend/build/web
 
       # Pinned to v13: from 2026-09-24, firebase-tools@latest (v15) ignored

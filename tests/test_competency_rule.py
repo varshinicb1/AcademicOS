@@ -393,5 +393,7 @@ def test_the_served_class_6_to_10_signals():
             exemplar[s] += 1
     assert by_dict == by_schema
     del by_dict[None]
-    assert dict(by_dict) == {"cbeItemBank": 435, "assertionReasonLabels": 2}
+    # 435 CBE items until the fidelity rebuild of 2026-09-28, which refused the
+    # ones that cannot be answered as printed (corpus/fidelity.py).
+    assert dict(by_dict) == {"cbeItemBank": 366, "assertionReasonLabels": 2}
     assert not exemplar

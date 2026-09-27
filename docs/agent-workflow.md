@@ -170,7 +170,8 @@ the running system, with the output inspected. In practice:
 
 - Quote the command and its output. A count you did not measure is not a count.
 - Verify the **live** commit (`/health`), not your branch. A stale `build/web` has
-  shipped before: rebuild the web bundle, and compare `main.dart.js` byte counts.
+  shipped before: rebuild the web bundle, and compare the `main.dart.<hash>.js`
+  byte counts (`docs/deploy-by-hand.md` §6).
 - A hand-check sample (answer keys, chapter maps, marking splits) is committed as
   a fixture with its verdicts, so the next change is measured against it.
 - An audit is re-run by a fresh reader against the live system and recorded in

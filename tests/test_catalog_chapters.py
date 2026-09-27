@@ -136,10 +136,11 @@ def test_the_chapter_view_reaches_every_question_the_class_serves(
 
 # Both floor sets below are ONE snapshot of ONE bank, re-measured together
 # whenever the bank is rebuilt, so that a number here always names a state
-# that existed. Currently: 99f3569, 5,429 records / 2,342 chapter tags, of
-# which 4,099 are served.
+# that existed. Currently: the fidelity rebuild of 2026-09-28, 5,319 records /
+# 2,289 chapter tags; class 6-10 Mathematics and Science serve 4,505, of which
+# the chapter view files 2,250.
 #
-# They have moved twice, and the reasons are worth keeping because they are
+# They have moved three times, and the reasons are worth keeping because they are
 # different kinds of movement:
 #   * 223 -> 220 (Mathematics 6 only, at 061176f). The id-prior used to read
 #     the corrupt Mathematics_6.json, where the new book's chapter NAMES sat
@@ -154,15 +155,27 @@ def test_the_chapter_view_reaches_every_question_the_class_serves(
 #     so borderline records crossed in BOTH directions -- Mathematics 8 and 9
 #     and Science 6 and 7 gained, Mathematics 6, 7 and 10 and Science 8 lost,
 #     net -1 tag across the bank while filing rose by 6.
+#   * the fidelity rebuild (2026-09-28). The merge now refuses questions that
+#     cannot be answered as printed (corpus/fidelity.py); 45 of the removed
+#     class 6-10 Mathematics/Science records carried a tag (Mathematics 6: 3,
+#     8: 2, 9: 11, 10: 10; Science 6: 1, 9: 6, 10: 12), and two recovered
+#     Science 10 CBE records brought 2 back. The per-record diff of the kept
+#     records: 0 moved chapter, 6 gained and 5 lost a tag, each a borderline
+#     confidence (about 0.01 either side of the gold-set threshold) moved by
+#     the tf-idf weights of the batch -- the sources were re-tagged, because
+#     the committed served bank carried tags its source banks did not, and a
+#     merge rebuilds from the sources. Lowered to the measured counts on the
+#     owner's rule: only where the bank holds fewer questions that are all
+#     answerable.
 # The second kind is the one to be careful with: a net that barely moves can
 # hide a large two-way churn, so a rebuild that shifts these wants a
 # per-record diff (id, old tag, new tag, method), not just a total.
 
 TAG_FLOOR = {
-    ("Mathematics", 6): 218, ("Mathematics", 7): 188, ("Mathematics", 8): 491,
-    ("Mathematics", 9): 84, ("Mathematics", 10): 317,
-    ("Science", 6): 105, ("Science", 7): 126, ("Science", 8): 75,
-    ("Science", 9): 276, ("Science", 10): 408,
+    ("Mathematics", 6): 213, ("Mathematics", 7): 189, ("Mathematics", 8): 491,
+    ("Mathematics", 9): 73, ("Mathematics", 10): 306,
+    ("Science", 6): 105, ("Science", 7): 127, ("Science", 8): 75,
+    ("Science", 9): 270, ("Science", 10): 397,
 }
 # Of those, the ones the map placed rather than the tagger.
 MAP_METHOD = "exemplar-chapter-map"
@@ -211,11 +224,13 @@ def test_the_served_bank_carries_the_exemplar_maps_own_tags():
 # 4,575). A change that drops one has taken chapters back off a teacher.
 FILED_FLOOR = {
     # Re-measured with TAG_FLOOR above, on the same bank -- see the note there
-    # for what moved and why. 2,056 filed of 4,099 served.
-    ("Mathematics", 6): 170, ("Mathematics", 7): 133, ("Mathematics", 8): 403,
-    ("Mathematics", 9): 74, ("Mathematics", 10): 285,
-    ("Science", 6): 105, ("Science", 7): 125, ("Science", 8): 77,
-    ("Science", 9): 274, ("Science", 10): 410,
+    # for what moved and why. 2,250 filed of 4,505 served: since Task 126 the
+    # web pool serves every record of the bank, so the view files every tag
+    # (Science 10 files 4 more through chapterIds the syllabus knows).
+    ("Mathematics", 6): 213, ("Mathematics", 7): 189, ("Mathematics", 8): 491,
+    ("Mathematics", 9): 73, ("Mathematics", 10): 306,
+    ("Science", 6): 105, ("Science", 7): 127, ("Science", 8): 75,
+    ("Science", 9): 270, ("Science", 10): 401,
 }
 
 

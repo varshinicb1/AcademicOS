@@ -93,6 +93,7 @@ class FixtureAdapter implements HttpClientAdapter {
       }
       if (q['grade'] == '7' && q['subject'] == 'Mathematics') return (200, fixtureJson('templates_7_maths'));
     }
+    if (method == 'GET' && path == '/catalog') return (200, fixtureJson('catalog'));
     if (method == 'GET' && path == '/catalog/Science/10/chapters') return (200, _fixtureAny('chapters_10_science'));
     if (method == 'GET' && path == '/catalog/Mathematics/7/chapters') return (200, _fixtureAny('chapters_7_maths'));
 

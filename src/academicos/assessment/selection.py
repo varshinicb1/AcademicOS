@@ -32,10 +32,12 @@ from . import grades
 from .competency import (  # noqa: F401
     CBE_ITEM_BANK_PREFIX,
     CBSE_COMPETENCY_TARGET,
+    below_target,
     competency_ceiling,
     competency_signal,
     from_cbe_item_bank,
     is_competency_question,
+    share_summary,
 )
 from .pool import near_duplicate
 from .schemas import Blueprint, QuestionOptimizationResult, QuestionSchema, SectionBlueprint
@@ -432,10 +434,10 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
 
     cbq_percentage = (cbq_count / len(selected)) if selected else 0.0
     if selected and cbq_percentage < competency_target:
-        warnings.append(
-            f"Selected paper has {round(cbq_percentage * 100, 1)}% competency-based questions "
-            f"(CBSE target: {int(competency_target * 100)}%)."
-        )
+        # The builder's sentence, not a second one with its own rounding
+        # (audit D79): competency.share_summary.
+        warnings.append(f"{share_summary(cbq_count, len(selected))}. "
+                        f"{below_target(competency_target)}")
 
     if not signals["available"] and tier.lower() != "standard":
         warnings.append(

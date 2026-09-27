@@ -428,9 +428,7 @@ def generate_from_template(
     paper = _with_header(paper, template, instructions)
     _stamp_checks(paper, report, blueprint)
     branding = _branding(template, current.school_id)
-    _papers.save(paper, branding, school_id=current.school_id)
-    for s in paper.sets:
-        _papers.save(s, branding, school_id=current.school_id)
+    _papers.save_generated(paper, branding, school_id=current.school_id)
 
     notes = [n for p in plans for n in p.notes] + list(report.scope_notes)
     now = _now()
@@ -479,9 +477,10 @@ def _stamp_checks(paper: GeneratedPaper, report: AvailabilityReport,
 
     Template papers carried neither before (competencyShare and
     tiersAvailable null), though the same bank rule decides both."""
-    warnings = report_competency(paper, blueprint.competency_percentage)
     check = report.competency
-    if check is not None and check.status != "meets":
+    below = check is not None and check.status != "meets"
+    warnings = report_competency(paper, blueprint.competency_percentage, stated=below)
+    if below:
         warnings.insert(0, f"{check.summary}. {check.detail}")
     paper.warnings = [*paper.warnings, *warnings]
     tiers = report.tiers.available if report.tiers is not None else None

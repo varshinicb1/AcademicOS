@@ -409,10 +409,7 @@ def generate_paper_endpoint(
     )
     paper.warnings = _overlap_warnings(paper)
     paper.warnings += report_competency(paper, request.blueprint.competency_percentage)
-    _require_papers().save(paper, request.template, school_id=current.school_id)
-    if paper.sets:
-        for s in paper.sets:
-            _require_papers().save(s, request.template, school_id=current.school_id)
+    _require_papers().save_generated(paper, request.template, school_id=current.school_id)
 
     if assessment:
         assessment.generated_paper_id = paper.id
@@ -512,7 +509,8 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
     # answer a teacher would not catch until the exam.
     paper.warnings = [*opt_result.warnings, *_borrowing_warnings(opt_result),
                       *_overlap_warnings(paper),
-                      *report_competency(paper, bp.competency_percentage)]
+                      # Selection has written the paper's own line.
+                      *report_competency(paper, bp.competency_percentage, stated=True)]
     paper.tiers_available = opt_result.optimization_metrics["tierSignals"]["available"]
     if paper.tiers_available and not selection.tier_changed_selection(
             candidates, bp, fallback, opt_result.selected_questions):
@@ -531,10 +529,7 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
         branding = t_store.get_branding(request.template_id, current.school_id)
         template = branding[0] if branding else None
 
-    _require_papers().save(paper, template, school_id=current.school_id)
-    if paper.sets:
-        for s in paper.sets:
-            _require_papers().save(s, template, school_id=current.school_id)
+    _require_papers().save_generated(paper, template, school_id=current.school_id)
 
     assessment = Assessment(
         id=asm_id,

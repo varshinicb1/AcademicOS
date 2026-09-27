@@ -491,7 +491,7 @@ def test_firebase_hosting_is_an_spa_with_security_headers():
     assert fb["public"] == "frontend/build/web"
     assert {"source": "**", "destination": "/index.html"} in fb["rewrites"]
     everywhere = {h["key"]: h["value"]
-                  for rule in fb["headers"] if rule["source"] == "**"
+                  for rule in fb["headers"] if rule.get("source") == "**"
                   for h in rule["headers"]}
     assert everywhere["Strict-Transport-Security"].startswith("max-age=")
     assert everywhere["X-Content-Type-Options"] == "nosniff"
@@ -610,7 +610,7 @@ def test_not_enabled_reaches_the_client_as_a_clear_answer():
 
 
 def _cache_controls(fb):
-    return [(rule["source"], h["value"]) for rule in fb["headers"]
+    return [(rule.get("source") or rule["regex"], h["value"]) for rule in fb["headers"]
             for h in rule["headers"] if h["key"].lower() == "cache-control"]
 
 
@@ -622,10 +622,20 @@ def test_no_app_file_is_cached_as_if_its_name_changed_with_its_content():
     never asked again: the auditor's browser ran the 2026-09-22 build four
     deploys later, with the old class 11-12 picker and none of the builder.
     A long or immutable cache is only safe on a name that changes when the
-    content does, and nothing this app serves has one."""
+    content does. Since D29 (2026-09-28) the two entry files have one:
+    scripts/web_cache_bust.py renames them `<name>.<content hash>.js`, and that
+    exact shape -- its `HASHED_ENTRY` -- is the one rule allowed a long cache
+    (tests/test_web_cache_bust.py holds the rule to the script)."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "web_cache_bust", REPO / "scripts" / "web_cache_bust.py")
+    wcb = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(wcb)
     fb = json.loads((REPO / "firebase.json").read_text(encoding="utf-8"))["hosting"]
     for source, value in _cache_controls(fb):
         v = value.lower()
+        if source == wcb.HASHED_ENTRY:
+            continue
         assert "immutable" not in v, (source, value)
         ages = [int(p.split("=", 1)[1]) for p in v.replace(" ", "").split(",")
                 if p.startswith("max-age=")]
