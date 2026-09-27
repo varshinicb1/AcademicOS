@@ -868,7 +868,16 @@ class _PrincipalAdminPageState extends State<PrincipalAdminPage> with SingleTick
           // that have been principal-gated since before the first release
           // with no caller in any screen.
           if (_timing != null && _catalog != null)
-            InsightsCard(timing: _timing!, catalog: _catalog!)
+            InsightsCard(
+              timing: _timing!,
+              catalog: _catalog!,
+              // The card reports a save that fails; a saved one reloads the
+              // card so the saving is measured against the new baseline.
+              onSetBaseline: (minutes) async {
+                await GetIt.I<PillarApi>().setTermBaseline(_timing!.term!.id, minutes);
+                await _loadInsights();
+              },
+            )
           else if (_insightsError != null)
             ErrorDisplay(
               message: 'Could not load time saved and bank coverage: $_insightsError',

@@ -357,6 +357,14 @@ class TermResponse(Camel):
     name: str
     start_date: str
     end_date: str
+    manual_baseline_minutes: Optional[float] = None
+
+
+class TermBaselineRequest(Camel):
+    """Minutes a teacher takes to set a full paper by hand, for this term;
+    null clears it. Bounded to one sitting (10 hours): anything outside it is
+    a typo, and it would move the saving a principal quotes."""
+    minutes: Optional[float] = Field(..., gt=0, le=600)
 
 
 class SetPeriodConfigurationRequest(Camel):

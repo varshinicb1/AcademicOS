@@ -39,6 +39,10 @@ class LocalPillarApi extends PillarApi {
   String get serverOrigin => '';
 
   @override
+  Future<void> setTermBaseline(String termId, double? minutes) async =>
+      throw OfflineUnsupportedException("setting a term's paper baseline");
+
+  @override
   Future<Catalog> catalog() async {
     await CorpusRepository.instance.ensureLoaded();
     final entries = CorpusRepository.instance.catalog();

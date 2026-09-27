@@ -305,12 +305,82 @@ class PaperTiming {
             (j['estimatedMinutesSavedTotal'] ?? 0).toDouble(),
         measured = List<String>.from(j['measured'] ?? const []),
         declared = List<String>.from(j['declared'] ?? const []),
-        caveat = j['caveat'] ?? '';
+        caveat = j['caveat'] ?? '',
+        scope = j['scope'] ?? 'allTime',
+        scopeNote = j['scopeNote'],
+        term = j['term'] == null
+            ? null
+            : TimingTerm.fromJson(Map<String, dynamic>.from(j['term'])),
+        examCoverage = ExamCoverage.fromJson(
+            Map<String, dynamic>.from(j['examCoverage'] ?? const {}));
 
   /// No paper has been generated through the web app yet, so every figure
   /// below it is arithmetic on nothing. A screen must say that rather than
   /// print "0 minutes saved", which reads as a measurement.
   bool get nothingMeasuredYet => papers == 0;
+
+  /// "term" when the figures are for one term of the school's calendar,
+  /// "allTime" when no term covers today -- and then [scopeNote] says so.
+  final String scope;
+  final String? scopeNote;
+  final TimingTerm? term;
+  final ExamCoverage examCoverage;
+
+  bool get isTerm => scope == 'term' && term != null;
+}
+
+/// The term a [PaperTiming] reports.
+class TimingTerm {
+  final String id;
+  final String name;
+  final String startDate;
+  final String endDate;
+
+  /// The principal's own baseline for this term, or null when the
+  /// deployment's declared one is in use.
+  final double? manualBaselineMinutes;
+
+  TimingTerm.fromJson(Map<String, dynamic> j)
+      : id = j['id'] ?? '',
+        name = j['name'] ?? '',
+        startDate = j['startDate'] ?? '',
+        endDate = j['endDate'] ?? '',
+        manualBaselineMinutes = (j['manualBaselineMinutes'] as num?)?.toDouble();
+}
+
+/// PRD 12.6 (a): which classes and subjects have had a paper set, and which
+/// have not. [classesDeclared] false means the school declared no classes for
+/// the period, so what is missing cannot be listed -- an empty [notYet] then
+/// does NOT mean nothing is missing.
+class ExamCoverage {
+  final List<CoveredClass> covered;
+  final List<CoveredClass> notYet;
+  final int unattributed;
+  final bool classesDeclared;
+
+  ExamCoverage.fromJson(Map<String, dynamic> j)
+      : covered = _pairs(j['covered']),
+        notYet = _pairs(j['notYet']),
+        unattributed = j['unattributed'] ?? 0,
+        classesDeclared = j['classesDeclared'] ?? false;
+
+  static List<CoveredClass> _pairs(dynamic rows) => [
+        for (final r in (rows as List? ?? const []))
+          CoveredClass.fromJson(Map<String, dynamic>.from(r)),
+      ];
+}
+
+/// One class and subject, with how many papers were set for it (0 in
+/// [ExamCoverage.notYet]).
+class CoveredClass {
+  final int grade;
+  final String subject;
+  final int papers;
+
+  CoveredClass.fromJson(Map<String, dynamic> j)
+      : grade = j['grade'] ?? 0,
+        subject = j['subject'] ?? '',
+        papers = j['papers'] ?? 0;
 }
 
 class Catalog {
@@ -606,6 +676,13 @@ class PillarApi {
   Future<PaperTiming> paperTiming() async {
     final r = await _dio.get('/paper-timing');
     return PaperTiming.fromJson(Map<String, dynamic>.from(r.data));
+  }
+
+  /// Set, or clear with null, the minutes a teacher takes to set a paper by
+  /// hand for this term. Principal-only on the server; time saved for the
+  /// term is measured against it.
+  Future<void> setTermBaseline(String termId, double? minutes) async {
+    await _dio.put('/curriculum/terms/$termId/baseline', data: {'minutes': minutes});
   }
 
   Future<Catalog> catalog() async {

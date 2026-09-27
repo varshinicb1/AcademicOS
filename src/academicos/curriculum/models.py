@@ -47,6 +47,10 @@ class Term:
     name: str
     start_date: str         # ISO date, inclusive
     end_date: str           # ISO date, inclusive
+    # Minutes a teacher takes to set a paper by hand, as the principal
+    # declared it for this term (decision 11 compares time saved per term).
+    # None: the term has no baseline of its own and the deployment's is used.
+    manual_baseline_minutes: Optional[float] = None
 
 
 @dataclass

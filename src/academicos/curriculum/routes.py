@@ -95,6 +95,7 @@ from .schemas import (
     TaggedSubtopic,
     TeacherAssignmentResponse,
     TeachingTimeEstimateResponse,
+    TermBaselineRequest,
     TermRequest,
     TermResponse,
     TopicResponse,
@@ -1204,7 +1205,8 @@ def list_holidays(academic_year_id: str,
 
 def _term_response(t) -> TermResponse:
     return TermResponse(id=t.id, school_id=t.school_id, academic_year_id=t.academic_year_id,
-                        name=t.name, start_date=t.start_date, end_date=t.end_date)
+                        name=t.name, start_date=t.start_date, end_date=t.end_date,
+                        manual_baseline_minutes=t.manual_baseline_minutes)
 
 
 def _require_school_owns_term(term_id: str, current: User):
@@ -1268,6 +1270,30 @@ def update_term(term_id: str, req: TermRequest,
         raise HTTPException(404, "term not found")
     except ValueError as e:
         raise HTTPException(422, str(e))
+    return _term_response(t)
+
+
+@router.put("/terms/{term_id}/baseline", response_model=TermResponse)
+def set_term_baseline(term_id: str, req: TermBaselineRequest,
+                      principal: User = Depends(require_principal)) -> TermResponse:
+    """The minutes a teacher takes to set a paper by hand, this term, as the
+    principal declares it. The time-saved figure for the term is measured
+    against it (PRD decision 11: per term), and says it was the principal's
+    figure. Its own route because PUT /terms/{id} replaces name and dates and
+    its callers do not send a baseline. The change is audited: it moves the
+    saving a principal will quote."""
+    term = _require_school_owns_term(term_id, principal)
+    try:
+        t = _require().set_term_baseline(term_id, req.minutes)
+    except KeyError:
+        raise HTTPException(404, "term not found")
+    except ValueError as e:
+        raise HTTPException(422, str(e))
+    from ..assessment.audit_log import get_audit_log
+    get_audit_log(_cfg.data_root).append(
+        "paper_baseline_set", actor=principal.id,
+        details={"termId": term_id, "schoolId": principal.school_id,
+                 "minutes": req.minutes, "previous": term.manual_baseline_minutes})
     return _term_response(t)
 
 

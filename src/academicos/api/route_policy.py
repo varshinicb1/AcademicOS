@@ -271,6 +271,9 @@ ROUTE_POLICY: dict[tuple[str, str], Policy] = {
         PRINCIPAL, "correct a term's dates; Depends(require_principal)"),
     ("DELETE", "/api/v1/curriculum/terms/{term_id}"): _p(
         PRINCIPAL, "remove a term; Depends(require_principal)"),
+    ("PUT", "/api/v1/curriculum/terms/{term_id}/baseline"): _p(
+        PRINCIPAL, "the term's manual paper baseline, which time saved is measured "
+        "against; Depends(require_principal)"),
 }
 
 

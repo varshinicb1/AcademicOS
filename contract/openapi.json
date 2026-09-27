@@ -8278,6 +8278,29 @@
         "title": "TemplateSection",
         "type": "object"
       },
+      "TermBaselineRequest": {
+        "description": "Minutes a teacher takes to set a full paper by hand, for this term;\nnull clears it. Bounded to one sitting (10 hours): anything outside it is\na typo, and it would move the saving a principal quotes.",
+        "properties": {
+          "minutes": {
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "maximum": 600.0,
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Minutes"
+          }
+        },
+        "required": [
+          "minutes"
+        ],
+        "title": "TermBaselineRequest",
+        "type": "object"
+      },
       "TermRequest": {
         "description": "Create and update take the whole term: a term is three fields, and a\nfull replace keeps the overlap check about one complete range.",
         "properties": {
@@ -8316,6 +8339,17 @@
           "id": {
             "title": "Id",
             "type": "string"
+          },
+          "manualBaselineMinutes": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Manualbaselineminutes"
           },
           "name": {
             "title": "Name",
@@ -13133,6 +13167,61 @@
         "summary": "Update Term"
       }
     },
+    "/api/v1/curriculum/terms/{term_id}/baseline": {
+      "put": {
+        "description": "The minutes a teacher takes to set a paper by hand, this term, as the\nprincipal declares it. The time-saved figure for the term is measured\nagainst it (PRD decision 11: per term), and says it was the principal's\nfigure. Its own route because PUT /terms/{id} replaces name and dates and\nits callers do not send a baseline. The change is audited: it moves the\nsaving a principal will quote.",
+        "operationId": "set_term_baseline_api_v1_curriculum_terms__term_id__baseline_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "term_id",
+            "required": true,
+            "schema": {
+              "title": "Term Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TermBaselineRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TermResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Term Baseline"
+      }
+    },
     "/api/v1/curriculum/timetable-slots/{slot_id}": {
       "delete": {
         "operationId": "delete_timetable_slot_api_v1_curriculum_timetable_slots__slot_id__delete",
@@ -14055,8 +14144,26 @@
     },
     "/api/v1/paper-timing": {
       "get": {
-        "description": "Time saved per paper — the renewal criterion, made answerable.\n\nDecision 11: *\"Renewal is measured as time saved per paper.\"* Before this\nroute the number existed nowhere, so the criterion could not be checked.\n\nScoped to the caller's school. The response separates what was MEASURED\n(generation time, from a monotonic clock) from what was DECLARED (the manual\nbaseline), and says so in the payload rather than only in the docs --\nbecause a saving built on a declared baseline will be quoted at somebody,\nand the word \"estimated\" has to travel with it.",
+        "description": "Time saved and exam coverage, for one term -- the renewal criterion and\nthe principal's first dashboard metric, made answerable.\n\nDecision 11: *\"Renewal is measured as time saved per paper\"*, per term.\nPRD 12.6 (a): which classes and subjects have had a paper set this term,\nand which have not. By default the term covering the school's today; a\n`termId` of the caller's school names another. With no term covering\ntoday the figures are all-time and the response says so (`scope`,\n`scopeNote`) -- an all-time number shown as \"this term\" would be the\nsilent kind of wrong.\n\nScoped to the caller's school. The response separates what was MEASURED\n(generation time, from a monotonic clock) from what was DECLARED (the\nmanual baseline -- the principal's own for the term when set), and says so\nin the payload rather than only in the docs.",
         "operationId": "get_paper_timing_api_v1_paper_timing_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "termId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Termid"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -14069,6 +14176,16 @@
               }
             },
             "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
           }
         },
         "security": [

@@ -17,7 +17,8 @@ const _caveat = 'the baseline is DECLARED, not measured -- nothing here watches 
     'a teacher work. Treat the saving as a management estimate, not an '
     'engineering claim.';
 
-PaperTiming _timing({int papers = 12}) => PaperTiming.fromJson({
+PaperTiming _timing({int papers = 12, Map<String, dynamic> extra = const {}}) =>
+    PaperTiming.fromJson({
       'papers': papers,
       'medianGenerationSeconds': 0.24,
       'baselineMinutesPerPaper': 45,
@@ -27,7 +28,24 @@ PaperTiming _timing({int papers = 12}) => PaperTiming.fromJson({
       'measured': ['generationSeconds'],
       'declared': ['baselineMinutesPerPaper'],
       'caveat': _caveat,
+      ...extra,
     });
+
+/// What GET /paper-timing sends for a term: the principal's own figures for
+/// the term that covers today.
+Map<String, dynamic> _term({double? baseline}) => {
+      'scope': 'term',
+      'scopeNote': null,
+      'term': {'id': 'term_1', 'name': 'Term 1', 'startDate': '2026-04-01',
+               'endDate': '2026-09-30', 'manualBaselineMinutes': baseline},
+      'examCoverage': {
+        'covered': [{'grade': 10, 'subject': 'Science', 'papers': 12}],
+        'notYet': [{'grade': 9, 'subject': 'Science'},
+                   {'grade': 10, 'subject': 'Mathematics'}],
+        'unattributed': 0,
+        'classesDeclared': true,
+      },
+    };
 
 Catalog _catalog() => Catalog.fromJson({
       'totalQuestions': 4859,
@@ -94,5 +112,104 @@ void main() {
     });
     await _pump(tester, InsightsCard(timing: _timing(), catalog: catalog));
     expect(find.textContaining('Odissi'), findsNothing);
+  });
+  // --------------------------------------------------------------- per term
+  // PRD 12.6: exam coverage and time saved are "this term"; decision 11
+  // compares time saved per term. Audit 2026-09-26 scored 5.1 "still
+  // absent": one all-time count, no class, no subject, no term.
+
+  testWidgets('the card names the term it reports and its dates', (tester) async {
+    await _pump(tester, InsightsCard(timing: _timing(extra: _term()), catalog: _catalog()));
+    expect(find.textContaining('Term 1'), findsWidgets);
+    expect(find.textContaining('1 Apr 2026'), findsOneWidget);
+    expect(find.textContaining('30 Sep 2026'), findsOneWidget);
+  });
+
+  testWidgets('exam coverage states unopened which classes have no paper yet',
+      (tester) async {
+    await _pump(tester, InsightsCard(timing: _timing(extra: _term()), catalog: _catalog()));
+    expect(find.textContaining('12 papers set this term'), findsOneWidget);
+    expect(find.textContaining('2 of 3 class-subject pairs have no paper yet'),
+        findsOneWidget);
+    await tester.tap(find.text('Exam coverage'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Class 10 Science: 12 papers'), findsOneWidget);
+    expect(find.textContaining('Class 9 Science: no paper yet'), findsOneWidget);
+    expect(find.textContaining('Class 10 Mathematics: no paper yet'), findsOneWidget);
+  });
+
+  testWidgets('with no classes declared it says it cannot list what is missing',
+      (tester) async {
+    final extra = {..._term(), 'examCoverage': {
+      'covered': [{'grade': 10, 'subject': 'Science', 'papers': 12}],
+      'notYet': <Map<String, dynamic>>[], 'unattributed': 0, 'classesDeclared': false}};
+    await _pump(tester, InsightsCard(timing: _timing(extra: extra), catalog: _catalog()));
+    expect(find.textContaining('have no paper yet'), findsNothing);
+    expect(find.textContaining('Set up your classes'), findsOneWidget);
+  });
+
+  testWidgets('papers it could not match to a class are said, not hidden', (tester) async {
+    final t = _term();
+    final extra = {...t, 'examCoverage': {
+      ...(t['examCoverage'] as Map<String, dynamic>), 'unattributed': 2}};
+    await _pump(tester, InsightsCard(timing: _timing(extra: extra), catalog: _catalog()));
+    expect(find.textContaining('2 papers could not be matched to a class'), findsOneWidget);
+  });
+
+  testWidgets('with no term covering today the server note is shown verbatim',
+      (tester) async {
+    const note = 'No term of this school covers 2026-09-27, so these figures are '
+        'for all time. Declare the school’s terms in calendar setup.';
+    final extra = {'scope': 'allTime', 'scopeNote': note, 'term': null,
+      'examCoverage': {'covered': <Map<String, dynamic>>[], 'notYet': <Map<String, dynamic>>[],
+        'unattributed': 0, 'classesDeclared': false}};
+    await _pump(tester, InsightsCard(
+        timing: _timing(extra: extra), catalog: _catalog(), onSetBaseline: (_) async {}));
+    expect(find.textContaining(note), findsOneWidget);
+    expect(find.textContaining('this term'), findsNothing);
+    // No term, nothing to set a term's baseline on.
+    expect(find.text("Set this term's baseline"), findsNothing);
+  });
+
+  testWidgets("the principal sets the term's baseline", (tester) async {
+    double? saved = -1;
+    await _pump(tester, InsightsCard(
+        timing: _timing(extra: _term()), catalog: _catalog(),
+        onSetBaseline: (m) async => saved = m));
+    await tester.tap(find.text("Set this term's baseline"));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), '0');
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('between 1 and 600'), findsOneWidget);
+    expect(saved, -1);
+    await tester.enterText(find.byType(TextField), '60');
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+    expect(saved, 60);
+  });
+
+  testWidgets("a term's own baseline can be cleared", (tester) async {
+    double? saved = -1;
+    await _pump(tester, InsightsCard(
+        timing: _timing(extra: _term(baseline: 60)), catalog: _catalog(),
+        onSetBaseline: (m) async => saved = m));
+    await tester.tap(find.text("Change this term's baseline"));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Use the default'));
+    await tester.pumpAndSettle();
+    expect(saved, isNull);
+  });
+
+  testWidgets('a baseline that fails to save says why', (tester) async {
+    await _pump(tester, InsightsCard(
+        timing: _timing(extra: _term()), catalog: _catalog(),
+        onSetBaseline: (_) async => throw Exception('network down')));
+    await tester.tap(find.text("Set this term's baseline"));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField), '60');
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('Could not save the baseline'), findsOneWidget);
   });
 }
