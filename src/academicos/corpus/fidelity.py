@@ -107,15 +107,6 @@ _REFERENCE_LINE = re.compile(r"\s*Subject Class Question reference/Filename\s+\S
 # key, and its per-question total.
 _MARK_COLUMN = re.compile(r"\s{2,}\d{1,2}\)\s*$")
 _TOTAL_MARKS = re.compile(r"\s*\(Total\s+(?:\d+\s+marks?|marks?\s+\d+)\)", re.I)
-# The source's question number before the parts: "1 (a) Calculate ... 1 (b)",
-# "1(b)(ii)". The paper prints its own number; the part letter is the label.
-_PART_NUMBER = re.compile(r"(?<![\d.,)])\b1\s?(?=\([a-h]\))")
-# A stem that is one part of an item, alone: "1(b) Give two ways ...". Its
-# label goes with the number; "(b) Give ..." reads as a question that lost its
-# part (a), which the merge refuses.
-_ONLY_PART = re.compile(r"^1\s?\([a-h]\)(?:\s?\([ivx]+\))?\s*")
-_PART_LABEL = re.compile(r"\([a-h]\)")
-_LEADING_NUMBER = re.compile(r"^1\s+(?=[A-Z(])")
 # Where a key runs into the next item: its id ("Maths8PD4") or its header.
 _ITEM_ID = re.compile(r"\b(?:Maths?|Science|SCIENCE|English|Eng)\d{1,2}[A-Z]{1,4}\d{1,2}[a-z]?\b")
 _NEXT_HEADER = re.compile(r"This assessment item is designed", re.I)
@@ -182,14 +173,6 @@ def _cut_at_next_item(text: str, own: str) -> str:
             cut = m.start()
             break
     return text if cut == len(text) else text[:cut].rstrip(" ;,–-")
-
-
-def _strip_question_number(stem: str) -> str:
-    """The source's question number, and the part label of a one-part stem."""
-    only = _ONLY_PART.match(stem)
-    if only and not _PART_LABEL.search(stem, only.end()):
-        return stem[only.end():]
-    return _LEADING_NUMBER.sub("", _PART_NUMBER.sub("", stem))
 
 
 def _walk(value: Any, fn) -> Any:
@@ -323,31 +306,15 @@ def repair_source(rec: dict) -> tuple[dict, list[str], str | None]:
     return r, list(dict.fromkeys(made)), reason
 
 
-def tidy_labels(rec: dict) -> tuple[dict, bool]:
-    """A served CBE record without the source's question number: "1 (a)
-    Calculate ... 1 (b)" prints as "(a) Calculate ... (b)", and a stem that is
-    one part alone ("1(b) Give two ways ...") loses its label with the number.
-
-    Run AFTER the merge's gates have passed the record, never before: the
-    number is part of what `holds_group` and the MCQ-part gate read, and
-    removed first it let a 1-mark item holding a 3-mark two-part question
-    through (cbe:q:Maths6MG4). A passage the merge put in front of the stem is
-    left as it is; only the question after it is tidied."""
-    if rec.get("source") != CBE_SOURCE:
-        return rec, False
-    r = copy.deepcopy(rec)
-    stem = str(r.get("stem") or "")
-    head, sep, question = stem.rpartition("\n\n")
-    r["stem"] = f"{head}{sep}{_strip_question_number(question)}"
-    scheme = r.get("answerScheme")
-    if isinstance(scheme, dict):
-        scheme = dict(scheme)
-        scheme["modelAnswer"] = _PART_NUMBER.sub("", str(scheme.get("modelAnswer") or ""))
-        scheme["markingPoints"] = [
-            {**mp, "description": _PART_NUMBER.sub("", str(mp.get("description") or ""))}
-            if isinstance(mp, dict) else mp for mp in scheme.get("markingPoints") or []]
-        r["answerScheme"] = scheme
-    return r, r != rec
+# The source's question number ("1 (a) Calculate ... 1 (b) ...") is left as it
+# printed, deliberately. Removing it was tried on 2026-09-28 and undone:
+#   * before the gates, it hid what `holds_group` and the MCQ-part gate read,
+#     and a 1-mark item holding a 3-mark two-part question was served
+#     (cbe:q:Maths6MG4);
+#   * after them, it changed what the hand-checked value-point splitter
+#     (corpus/marking_split.py) reads, and three keys split wrongly --
+#     cbe:q:SCIENCE8JS41c's 6 marks spread over part (a)'s three bullets.
+# A cosmetic change to text that other rules read is a change to those rules.
 
 
 # ---- the visual a stem points at ------------------------------------------- #

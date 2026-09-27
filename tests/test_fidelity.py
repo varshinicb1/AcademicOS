@@ -20,7 +20,7 @@ sys.path.insert(0, str(ROOT / "src"))
 from academicos.corpus import bank_merge  # noqa: E402
 from academicos.corpus.fidelity import (  # noqa: E402
     CBE_SOURCE, SQP_SOURCE, figure_missing, repair_source, restore_control_symbols,
-    scrambled_math, tidy_labels,
+    scrambled_math,
 )
 
 SERVED = ROOT / "academicos-data" / "syllabus" / "questions.json"
@@ -209,18 +209,14 @@ def test_empty_option_labels_after_an_open_question_go():
     assert repair_source(rec)[0]["stem"] == "In which direction should the windows preferably face and why?"
 
 
-def test_the_question_number_goes_after_the_gates_and_a_lone_part_loses_its_label():
-    rec, tidied = tidy_labels(_cbe("1 (a) Calculate the fraction.  1 (b) Convert it.", "x 1 (b) y"))
-    assert tidied and rec["stem"] == "(a) Calculate the fraction.  (b) Convert it."
-    assert rec["answerScheme"]["modelAnswer"] == "x (b) y"
-    rec, _ = tidy_labels(_cbe("Read the passage below.\n\nText A ...\n\n1(b) Give two ways in which ..."))
-    assert rec["stem"].endswith("\n\nGive two ways in which ...")
-
-
-def test_the_gates_still_see_the_question_number():
+def test_the_question_number_is_left_as_printed():
     """Stripped before the gates, "1 (a) ... 1 (b)" on a 1-mark item stopped
     reading as a group and cbe:q:Maths6MG4 was served (a 3-mark question keyed
-    for one part under 1 mark)."""
+    for one part under 1 mark); stripped after them, the value-point splitter
+    split three keys wrongly. The number is what the other rules read."""
+    rec, _, _ = repair_source(_cbe("1 (a) Calculate the fraction.  1 (b) Convert it.", "x 1 (b) y"))
+    assert rec["stem"] == "1 (a) Calculate the fraction.  1 (b) Convert it."
+    assert rec["answerScheme"]["modelAnswer"] == "x 1 (b) y"
     raw = _cbe("A boy walks around a garden. 1 (a) What is the perimeter?  1 (b) How far does "
                "he walk each day?", "2(a+b)", marks=1, type_="very_short_answer")
     raw, _, reason = repair_source(raw)

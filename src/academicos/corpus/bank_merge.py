@@ -196,7 +196,7 @@ from .mcq_shape import (
     answerable, has_option_labels, holds_group, key_letter, names_option_letter, norm,
     options_from_parts, stem_options, tokens,
 )
-from .fidelity import figure_missing, repair_source, scrambled_math, tidy_labels
+from .fidelity import figure_missing, repair_source, scrambled_math
 from .symbol_font import PRIVATE_USE, private_use_glyph, restore_symbol_font
 
 BOARD_SOURCE = "cbse_board_paper"
@@ -2028,11 +2028,6 @@ def compose(served: list[dict], cbe: list[dict], sqp: list[dict],
             if key in seen_stems or near.is_duplicate(group, stem):
                 excluded.append(_excluded(raw, "duplicate-stem"))
                 continue
-            # After every gate, never before: the source's question number is
-            # part of what the gates above read (fidelity.tidy_labels).
-            rec, tidied = tidy_labels(rec)
-            if tidied:
-                fidelity_made = [*fidelity_made, "question-number-removed"]
             errors = contract_errors(rec)
             if errors:
                 raise ContractError(str(rec.get("id")), errors)
