@@ -441,6 +441,50 @@ def test_sets_b_and_c_obey_the_section_difficulty_and_bloom_limits():
     assert paper.set_overlap == {"A": 0, "B": 0, "C": 1}
 
 
+def test_an_odd_set_prints_the_or_alternative_as_its_own_question():
+    """Task 125, step 4. Sets B and D put a question's OR alternative first.
+    The swap used to move only the stem, id and model answer onto the
+    primary's record, so set B printed the alternative's stem under the
+    primary's bank id, type and marking points: an Exemplar short answer
+    flagged competency-based because its partner came from a CBSE item bank,
+    and an answer key whose value points belonged to the other question.
+    The alternative is now rebuilt from the full record the pairing stored
+    (metadata.internal_choice_question), with the primary as its OR."""
+    from academicos.assessment.schemas import MarkingPointSchema
+
+    def point(qid: str) -> list[MarkingPointSchema]:
+        return [MarkingPointSchema(id="mp1", description=f"value point of {qid}", marks=3)]
+
+    p = _q("P", 3, qtype="long_answer")
+    p.question_bank_id = "cbe:x.pdf"
+    p.answer_scheme.marking_points = point("P")
+    q = _q("Q", 3, qtype="short_answer", source="ncert_exemplar")
+    q.question_bank_id = "exemplar:10:science"
+    q.answer_scheme.marking_points = point("Q")
+    selection._attach_choice(p, q)
+
+    bp = _bp([_section("C", 3, 1, choice=True)], "standard")
+    paper = generate_paper_sets(
+        paper_id="p", assessment_id="a", assessment_title="T", subject="Science", grade=10,
+        blueprint=bp, selected_questions=[p], set_count=2, rotation_groups=[[p]])
+
+    a = paper.sets[0].sections[0].questions[0]
+    assert (a.question_id, a.is_competency, a.type) == ("P", True, "long_answer")
+    assert a.internal_choice_question_id == "Q" and a.internal_choice_text == q.stem
+
+    b = paper.sets[1].sections[0].questions[0]
+    assert (b.question_id, b.stem, b.is_competency, b.type) == \
+        ("Q", q.stem, False, "short_answer")
+    assert b.internal_choice_question_id == "P" and b.internal_choice_text == p.stem
+    key = paper.sets[1].answer_key
+    assert key["1"].startswith("Answer Q") and "value point of Q" in key["1"]
+    assert "value point of P" not in key["1"]
+    assert key["1_OR"] == "Answer P"
+    # Set A's key is untouched.
+    assert "value point of P" in paper.sets[0].answer_key["1"]
+    assert paper.sets[0].answer_key["1_OR"] == "Answer Q"
+
+
 def test_a_paper_that_borrows_outside_the_chosen_chapters_says_so(served, tmp_path, monkeypatch):
     """`optimize` records every borrowing in `gaps` -- "filled N of the
     shortfall from outside the selected chapters" -- and neither generate path

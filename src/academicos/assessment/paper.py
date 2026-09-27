@@ -199,17 +199,7 @@ def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: 
 
                 # Swap primary and OR questions on alternate sets for sections with internal choice
                 if idx % 2 == 1:
-                    for q in curr_list:
-                        if q.metadata.get("internal_choice_id") and q.metadata.get("internal_choice_stem"):
-                            old_stem = q.stem
-                            old_id = q.id
-                            old_scheme = q.answer_scheme.model_answer
-                            q.stem = q.metadata["internal_choice_stem"]
-                            q.id = q.metadata["internal_choice_id"]
-                            q.answer_scheme.model_answer = q.metadata.get("internal_choice_scheme", "")
-                            q.metadata["internal_choice_stem"] = old_stem
-                            q.metadata["internal_choice_id"] = old_id
-                            q.metadata["internal_choice_scheme"] = old_scheme
+                    curr_list = [_alternative_first(q) for q in curr_list]
 
             variant_questions.extend(curr_list)
 
@@ -232,6 +222,49 @@ def generate_paper_sets(*, paper_id: str, assessment_id: str, assessment_title: 
     if alternatives is not None:
         primary_paper.set_overlap = dict(zip(labels, overlaps))
     return primary_paper
+
+
+def _alternative_first(q: QuestionSchema) -> QuestionSchema:
+    """`q`'s OR alternative as the printed question, with `q` as its OR --
+    what sets B and D print for a question with internal choice.
+
+    The alternative is rebuilt from the full record the pairing stored
+    (metadata "internal_choice_question": selection.optimize and
+    selection._attach_choice on the quick/custom path,
+    paper_template_routes._attach_choices on the template path), so the set
+    prints the alternative's own id, type, bank id, marks, marking points and
+    competency flag. Moving only its stem, id and model answer onto `q`'s
+    record printed an Exemplar short answer as the CBE long answer it was
+    paired with, flagged competency-based, and keyed it with the primary's
+    value points (`answer_key_entry` reads the record's marking points).
+
+    Without the stored record (a primary paired before it was kept) the
+    stem, id and model answer are all there is to swap."""
+    from .selection import _CHOICE_KEYS
+
+    meta = q.metadata
+    if not (meta.get("internal_choice_id") and meta.get("internal_choice_stem")):
+        return q
+    record = meta.get("internal_choice_question")
+    if record:
+        alt = QuestionSchema.model_validate(record)
+        primary = q.model_copy(deep=True)
+        for key in _CHOICE_KEYS:
+            primary.metadata.pop(key, None)
+            alt.metadata.pop(key, None)
+        alt.metadata["internal_choice_id"] = primary.id
+        alt.metadata["internal_choice_stem"] = primary.stem
+        alt.metadata["internal_choice_scheme"] = primary.answer_scheme.model_answer
+        alt.metadata["internal_choice_question"] = primary.model_dump(by_alias=False)
+        return alt
+    old_stem, old_id, old_scheme = q.stem, q.id, q.answer_scheme.model_answer
+    q.stem = meta["internal_choice_stem"]
+    q.id = meta["internal_choice_id"]
+    q.answer_scheme.model_answer = meta.get("internal_choice_scheme", "")
+    meta["internal_choice_stem"] = old_stem
+    meta["internal_choice_id"] = old_id
+    meta["internal_choice_scheme"] = old_scheme
+    return q
 
 
 def generated_question(q: QuestionSchema, display_number: int, *,
