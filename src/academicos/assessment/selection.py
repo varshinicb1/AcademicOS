@@ -26,32 +26,12 @@ from __future__ import annotations
 
 from collections import Counter
 
+# The one competency rule lives in a leaf module (see competency.py for what it
+# reads and why); re-exported here for the callers that import it from selection.
+from .competency import CBSE_COMPETENCY_TARGET, competency_signal, is_competency_question  # noqa: F401
 from .pool import near_duplicate
 from .schemas import Blueprint, QuestionOptimizationResult, QuestionSchema, SectionBlueprint
 from .templates import default_sections
-
-
-def is_competency_question(q: QuestionSchema) -> bool:
-    """Identify Competency-Based Questions (CBQs) per CBSE / EI criteria."""
-    if q.type in ("case_study", "assertion_reason", "competency_based"):
-        return True
-    if q.bloom_level in ("apply", "analyze", "evaluate", "create"):
-        return True
-    if q.metadata.get("is_competency") or q.metadata.get("cbq"):
-        return True
-    stem_lower = q.stem.lower()
-    if "assertion" in stem_lower and "reason" in stem_lower:
-        return True
-    if "read the following" in stem_lower or "based on the passage" in stem_lower or "case study" in stem_lower:
-        return True
-    return False
-
-
-def competency_share(questions: list[QuestionSchema]) -> float:
-    """The share of `questions` that are competency-based, rounded as reported."""
-    if not questions:
-        return 0.0
-    return round(sum(1 for q in questions if is_competency_question(q)) / len(questions), 3)
 
 
 # ---- tier signals -------------------------------------------------------------
@@ -191,9 +171,9 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
     sections = blueprint.sections or default_sections(blueprint.total_marks)
     chapter_weights = blueprint.chapter_weights.weights
     tier = getattr(blueprint, "tier", "standard") or "standard"
-    competency_target = getattr(blueprint, "competency_percentage", 0.50)
+    competency_target = getattr(blueprint, "competency_percentage", CBSE_COMPETENCY_TARGET)
     if competency_target is None:
-        competency_target = 0.50
+        competency_target = CBSE_COMPETENCY_TARGET
 
     marks_values = {s.marks_per_question for s in sections}
     considered = list(candidates) + list(fallback_candidates or [])

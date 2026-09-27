@@ -25,6 +25,7 @@ from .authz import (
     require_school_owns_paper,
 )
 from .auth_routes import get_current_user, require_principal, require_staff
+from .competency import CBSE_COMPETENCY_TARGET
 from .users import User, get_user_store
 from .mapping import grade_to_int, to_question_schema
 from .paper import generate_paper as build_generated_paper, generate_paper_sets
@@ -353,7 +354,7 @@ def _report_competency(paper: GeneratedPaper, target: float | None) -> list[str]
     reporting set A's for all three said 0.45 where B and C held 0.25 and 0.15.
     Returns a warning per set that misses the target.
     """
-    target = 0.50 if target is None else target
+    target = CBSE_COMPETENCY_TARGET if target is None else target
     warnings: list[str] = []
     for p in [paper, *paper.sets]:
         flags = [q.is_competency for s in p.sections for q in s.questions]
@@ -483,7 +484,7 @@ def quick_generate_paper(request: QuickPaperRequest, current: User = Depends(req
         competency_weights=CompetencyWeights(),
         sections=sections,
         tier=tier,
-        competency_percentage=0.50,
+        competency_percentage=CBSE_COMPETENCY_TARGET,
         exam_type=request.exam_type,
     )
 
