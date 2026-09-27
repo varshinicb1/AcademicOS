@@ -152,6 +152,12 @@ class _Backend extends Interceptor {
         'totalDays': 304, 'workingDays': 243, 'weeklyOffCount': 44,
         'alternateSaturdayOffCount': 10, 'holidayCount': 7, 'dates': <String>[],
       };
+    } else if (path.endsWith('/terms')) {
+      // The Terms card on Calendar & Setup (audit D27).
+      body = [
+        {'id': 'term_1', 'schoolId': 'school_1', 'academicYearId': 'academicYear_1', 'name': 'Term 1',
+         'startDate': '2026-06-01', 'endDate': '2026-09-30', 'manualBaselineMinutes': null},
+      ];
     } else if (path.endsWith('/holidays')) {
       body = [
         {'id': 'holiday_1', 'calendarId': 'calendar_1', 'date': '2026-10-20', 'label': 'Diwali Vacation', 'kind': 'public', 'endDate': '2026-10-24'},
@@ -393,11 +399,14 @@ void main() {
       expectNoOverflow(tester, where: ' after scrolling the Reschedule tab');
     });
 
-    testWidgets('the Calendar & Setup tab fits and its three actions are ready at $name', (tester) async {
+    testWidgets('the Calendar & Setup tab fits and its four actions are ready at $name', (tester) async {
       await pumpPage(tester, const PrincipalAdminPage(), size);
       await _openTab(tester, 'Calendar & Setup', size);
 
       await scrollToAndExpectReady(tester, _button('Update Calendar'), size, label: 'Update Calendar');
+      await scrollUntilPresent(tester, _button('Add term'), _openTabList());
+      expect(find.byKey(const ValueKey('term-term_1')), findsOneWidget);
+      await scrollToAndExpectReady(tester, _button('Add term'), size, label: 'Add term');
       await scrollUntilPresent(tester, _button('Save Period Duration'), _openTabList());
       await scrollToAndExpectReady(tester, _button('Save Period Duration'), size, label: 'Save Period Duration');
       await scrollUntilPresent(tester, _button('Add Holiday'), _openTabList());
