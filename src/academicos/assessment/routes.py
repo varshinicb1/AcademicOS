@@ -788,7 +788,10 @@ def get_paper_timing(term_id: Optional[str] = Query(None, alias="termId"),
     else:
         body.update(scope="term", scopeNote=None, term={
             "id": term.id, "name": term.name,
-            "startDate": term.start_date, "endDate": term.end_date})
+            "startDate": term.start_date, "endDate": term.end_date,
+            # The term's own baseline, so a screen can offer to change or
+            # clear it; None means the deployment's declared one is in use.
+            "manualBaselineMinutes": term.manual_baseline_minutes})
     return body
 
 

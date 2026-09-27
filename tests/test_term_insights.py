@@ -182,7 +182,8 @@ def test_paper_timing_reports_this_term_with_exam_coverage(tmp_path, monkeypatch
         body = r.json()
         assert body["scope"] == "term"
         assert body["term"] == {"id": term.id, "name": "Term 1",
-                                "startDate": term.start_date, "endDate": term.end_date}
+                                "startDate": term.start_date, "endDate": term.end_date,
+                                "manualBaselineMinutes": None}
         assert body["papers"] == 3
         assert body["papersByPath"] == {"quick": 1, "builder": 1, "hand-picked": 1}
         assert body["examCoverage"]["covered"] == [{"grade": 10, "subject": "Science", "papers": 3}]
@@ -251,6 +252,7 @@ def test_the_principal_sets_a_terms_baseline_and_the_report_uses_it(tmp_path, mo
         _set_papers(client, teacher)
         body = client.get("/api/v1/paper-timing", headers=principal).json()
         assert body["baselineMinutesPerPaper"] == 60
+        assert body["term"]["manualBaselineMinutes"] == 60
         assert "Term 1" in body["baselineProvenance"] and "principal" in body["baselineProvenance"]
         # The change is on the record: a baseline moves the saving a principal quotes.
         rows = get_audit_log(tmp_path).for_action("paper_baseline_set")
