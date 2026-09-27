@@ -200,7 +200,7 @@ def test_a_chapter_whose_only_long_question_is_not_5_marks_has_no_5_mark_questio
 
 def test_paper_verdict_and_its_reason():
     papers = _cell(_report())["papers"]["all"]
-    assert papers["ones"] == {"possible": True, "reasons": []}
+    assert (papers["ones"]["possible"], papers["ones"]["reasons"]) == (True, [])
     tiny = papers["tiny"]
     assert tiny["possible"] is False
     # section C needs 1 question + 1 OR alternative at exactly 3 marks; a2 is
@@ -443,3 +443,59 @@ def test_a_fully_tagged_cell_lists_its_gaps_as_absolute():
     report = _report(bank=tagged)
     assert _cell(report)["chapterCountsComplete"] is True
     assert "Chapters with no question" in render_markdown(report)
+
+
+# ---- competency-based share (Task 125 step 9) -------------------------------
+# Counted by the one rule (assessment.competency.competency_signal): a CBE
+# item-bank record, a type the source printed, or the printed A/R labels --
+# never a Bloom level, the marks or other wording.
+
+def _with(bank, qid, **fields):
+    return [dict(r, **fields) if r["id"] == qid else r for r in bank]
+
+
+def test_a_cbe_item_bank_record_counts_and_says_why():
+    comp = _cell(_report(_with(BANK, "a1", questionBankId="cbe:x.pdf")))["competency"]["all"]
+    assert (comp["n"], comp["competency"], comp["pct"]) == (6, 1, 16.7)
+    assert comp["bySignal"] == {"cbeItemBank": 1}
+    assert comp["byMarks"]["1"] == 1
+
+
+def test_a_bloom_level_or_an_inferred_type_never_counts():
+    bank = _with(BANK, "a1", bloomLevel="apply")
+    bank = _with(bank, "a2", type="case_study", metadata={"typeInferred": True})
+    assert _cell(_report(bank))["competency"]["all"]["competency"] == 0
+
+
+def test_printed_assertion_reason_labels_count():
+    stem = "Assertion (A): Integers are closed under addition. Reason (R): 2 + 3 = 5."
+    comp = _cell(_report(_with(BANK, "a1", type="mcq", stem=stem)))["competency"]["all"]
+    assert comp["bySignal"] == {"assertionReasonLabels": 1}
+
+
+def test_each_preset_says_what_competency_share_it_could_print():
+    papers = _cell(_report(_with(BANK, "a1", questionBankId="cbe:x.pdf")))["papers"]["all"]
+    assert papers["ones"]["competency"] == {
+        "usable": 2, "competencyBased": 1, "pct": 50.0, "need": 2, "ceiling": 1, "ceilingPct": 50.0}
+    tiny = papers["tiny"]["competency"]
+    assert (tiny["usable"], tiny["ceiling"], tiny["need"]) == (3, 1, 3)
+
+
+def test_the_served_share_is_given_on_its_own():
+    report = build_report({"exemplar": _with(BANK, "a1", questionBankId="cbe:x.pdf"),
+                           "other": [_q("z1", 1, questionBankId="cbe:y.pdf")]},
+                          {("Mathematics", 7): TREE}, presets=TINY, served="exemplar")
+    comp = _cell(report)["competency"]
+    assert (comp["served"]["n"], comp["served"]["competency"]) == (6, 1)
+    assert (comp["all"]["n"], comp["all"]["competency"]) == (7, 2)
+    assert report["competency"]["target"] == 0.5
+    assert "never counted" in report["competency"]["rule"]
+
+
+def test_markdown_carries_the_competency_section_and_its_two_lines():
+    md = render_markdown(_report(_with(BANK, "a1", questionBankId="cbe:x.pdf")))
+    assert "## Competency-based questions" in md
+    assert "**Share below CBSE's 50% (1):** Mathematics 7 (16.7%)." in md
+    assert "**Board paper cannot reach 50%" in md
+    # An empty class and subject prints no share.
+    assert "| Science | 6 |" not in md.split("## Competency-based questions")[1].split("##")[0]

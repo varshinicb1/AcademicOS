@@ -119,13 +119,13 @@ def main(argv: list[str] | None = None) -> int:
     report["taxonomyInputs"] = [{"path": _rel(f), "sha256": _sha256(f)} for f in audit_files]
 
     print(f"{'subject':<16}{'class':>6}{'questions':>11}{'keyed':>7}{'chapter%':>10}"
-          f"{'topic%':>8}{'board(all)':>12}{'left out':>10}")
+          f"{'topic%':>8}{'cbq%':>7}{'board(all)':>12}{'left out':>10}")
     for c in report["cells"]:
         board = c["papers"]["all"].get("board", {}).get("possible")
         left = c.get("excluded", {}).get("n", "-")
         print(f"{c['subject']:<16}{c['grade']:>6}{c['questions']:>11}{c['keyed']:>7}"
               f"{c['tagged']['chapter']['pct']:>10}{c['tagged']['topic']['pct']:>8}"
-              f"{str(board):>12}{str(left):>10}")
+              f"{c['competency']['all']['pct']:>7}{str(board):>12}{str(left):>10}")
     if exclusions is not None:
         ex = report["excluded"]
         print(f"\nthe merge refused {ex['records']:,} records, {ex['inScope']:,} in scope; "

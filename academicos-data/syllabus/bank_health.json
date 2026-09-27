@@ -28,6 +28,10 @@
   "monthly_test": "Monthly Unit Exam",
   "board": "Board Exam (CBSE 80m Pattern)"
  },
+ "competency": {
+  "rule": "Counted as competency-based: questions from CBSE's competency-based item banks, questions their source prints as case-based, assertion-reason or competency-based, and questions printed with CBSE's Assertion (A) and Reason (R) labels. A Bloom level, the marks or other wording in a question are never counted.",
+  "target": 0.5
+ },
  "cells": [
   {
    "subject": "Mathematics",
@@ -1374,6 +1378,40 @@
     "mathematics-6/the-other-side-of-zero/a-pinch-of-history"
    ],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 583,
+     "competency": 58,
+     "pct": 9.9,
+     "bySignal": {
+      "cbeItemBank": 58
+     },
+     "byMarks": {
+      "1": 36,
+      "2": 4,
+      "3": 6,
+      "4": 5,
+      "5": 4,
+      "6+": 3
+     }
+    },
+    "served": {
+     "n": 555,
+     "competency": 42,
+     "pct": 7.6,
+     "bySignal": {
+      "cbeItemBank": 42
+     },
+     "byMarks": {
+      "1": 29,
+      "2": 4,
+      "3": 2,
+      "4": 3,
+      "5": 3,
+      "6+": 1
+     }
+    }
+   },
    "servedKeyed": 555,
    "papers": {
     "all": {
@@ -1381,24 +1419,56 @@
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
-      ]
+      ],
+      "competency": {
+       "usable": 412,
+       "competencyBased": 40,
+       "pct": 9.7,
+       "need": 15,
+       "ceiling": 14,
+       "ceilingPct": 93.3
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 567,
+       "competencyBased": 42,
+       "pct": 7.4,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4"
-      ]
+      ],
+      "competency": {
+       "usable": 575,
+       "competencyBased": 50,
+       "pct": 8.7,
+       "need": 27,
+       "ceiling": 26,
+       "ceilingPct": 96.3
+      }
      },
      "board": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 4"
-      ]
+      ],
+      "competency": {
+       "usable": 580,
+       "competencyBased": 55,
+       "pct": 9.5,
+       "need": 38,
+       "ceiling": 37,
+       "ceilingPct": 97.4
+      }
      }
     },
     "served": {
@@ -1406,17 +1476,41 @@
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
-      ]
+      ],
+      "competency": {
+       "usable": 396,
+       "competencyBased": 33,
+       "pct": 8.3,
+       "need": 15,
+       "ceiling": 14,
+       "ceilingPct": 93.3
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 544,
+       "competencyBased": 31,
+       "pct": 5.7,
+       "need": 15,
+       "ceiling": 12,
+       "ceilingPct": 80.0
+      }
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4"
-      ]
+      ],
+      "competency": {
+       "usable": 551,
+       "competencyBased": 38,
+       "pct": 6.9,
+       "need": 27,
+       "ceiling": 23,
+       "ceilingPct": 85.2
+      }
      },
      "board": {
       "possible": false,
@@ -1424,7 +1518,15 @@
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 554,
+       "competencyBased": 41,
+       "pct": 7.4,
+       "need": 38,
+       "ceiling": 32,
+       "ceilingPct": 84.2
+      }
      }
     }
    },
@@ -2913,6 +3015,40 @@
     "mathematics-7/finding-the-unknown/a-pinch-of-history"
    ],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 602,
+     "competency": 41,
+     "pct": 6.8,
+     "bySignal": {
+      "cbeItemBank": 41
+     },
+     "byMarks": {
+      "1": 28,
+      "2": 5,
+      "3": 2,
+      "4": 3,
+      "5": 3,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 573,
+     "competency": 25,
+     "pct": 4.4,
+     "bySignal": {
+      "cbeItemBank": 25
+     },
+     "byMarks": {
+      "1": 16,
+      "2": 4,
+      "3": 1,
+      "4": 3,
+      "5": 1,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 573,
    "papers": {
     "all": {
@@ -2920,15 +3056,39 @@
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 5"
-      ]
+      ],
+      "competency": {
+       "usable": 457,
+       "competencyBased": 33,
+       "pct": 7.2,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 591,
+       "competencyBased": 30,
+       "pct": 5.1,
+       "need": 15,
+       "ceiling": 12,
+       "ceilingPct": 80.0
+      }
      },
      "monthly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 599,
+       "competencyBased": 38,
+       "pct": 6.3,
+       "need": 27,
+       "ceiling": 24,
+       "ceilingPct": 88.9
+      }
      },
      "board": {
       "possible": false,
@@ -2936,7 +3096,15 @@
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 5",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 602,
+       "competencyBased": 41,
+       "pct": 6.8,
+       "need": 38,
+       "ceiling": 33,
+       "ceilingPct": 86.8
+      }
      }
     },
     "served": {
@@ -2944,18 +3112,42 @@
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
-      ]
+      ],
+      "competency": {
+       "usable": 431,
+       "competencyBased": 20,
+       "pct": 4.6,
+       "need": 15,
+       "ceiling": 14,
+       "ceilingPct": 93.3
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 565,
+       "competencyBased": 17,
+       "pct": 3.0,
+       "need": 15,
+       "ceiling": 11,
+       "ceilingPct": 73.3
+      }
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 1"
-      ]
+      ],
+      "competency": {
+       "usable": 570,
+       "competencyBased": 22,
+       "pct": 3.9,
+       "need": 27,
+       "ceiling": 21,
+       "ceilingPct": 77.8
+      }
      },
      "board": {
       "possible": false,
@@ -2963,7 +3155,15 @@
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 1",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 573,
+       "competencyBased": 25,
+       "pct": 4.4,
+       "need": 38,
+       "ceiling": 25,
+       "ceilingPct": 65.8
+      }
      }
     }
    },
@@ -4287,6 +4487,40 @@
     "mathematics-8/area/rectangle-and-squares"
    ],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 892,
+     "competency": 54,
+     "pct": 6.1,
+     "bySignal": {
+      "cbeItemBank": 54
+     },
+     "byMarks": {
+      "1": 32,
+      "2": 4,
+      "3": 11,
+      "4": 3,
+      "5": 3,
+      "6+": 1
+     }
+    },
+    "served": {
+     "n": 857,
+     "competency": 40,
+     "pct": 4.7,
+     "bySignal": {
+      "cbeItemBank": 40
+     },
+     "byMarks": {
+      "1": 23,
+      "2": 3,
+      "3": 8,
+      "4": 3,
+      "5": 3,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 857,
    "papers": {
     "all": {
@@ -4294,17 +4528,41 @@
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
-      ]
+      ],
+      "competency": {
+       "usable": 661,
+       "competencyBased": 36,
+       "pct": 5.4,
+       "need": 15,
+       "ceiling": 14,
+       "ceilingPct": 93.3
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 881,
+       "competencyBased": 43,
+       "pct": 4.9,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4"
-      ]
+      ],
+      "competency": {
+       "usable": 888,
+       "competencyBased": 50,
+       "pct": 5.6,
+       "need": 27,
+       "ceiling": 26,
+       "ceilingPct": 96.3
+      }
      },
      "board": {
       "possible": false,
@@ -4312,7 +4570,15 @@
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 891,
+       "competencyBased": 53,
+       "pct": 5.9,
+       "need": 38,
+       "ceiling": 36,
+       "ceilingPct": 94.7
+      }
      }
     },
     "served": {
@@ -4320,17 +4586,41 @@
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 630,
+       "competencyBased": 26,
+       "pct": 4.1,
+       "need": 15,
+       "ceiling": 13,
+       "ceilingPct": 86.7
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 848,
+       "competencyBased": 31,
+       "pct": 3.7,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 854,
+       "competencyBased": 37,
+       "pct": 4.3,
+       "need": 27,
+       "ceiling": 25,
+       "ceilingPct": 92.6
+      }
      },
      "board": {
       "possible": false,
@@ -4338,7 +4628,15 @@
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 3",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 857,
+       "competencyBased": 40,
+       "pct": 4.7,
+       "need": 38,
+       "ceiling": 35,
+       "ceilingPct": 92.1
+      }
      }
     }
    },
@@ -5463,42 +5761,140 @@
     "mathematics-9/predicting-what-comes-next-exploring-sequences-and-progressi/geometric-progressions"
    ],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 337,
+     "competency": 104,
+     "pct": 30.9,
+     "bySignal": {
+      "cbeItemBank": 104
+     },
+     "byMarks": {
+      "1": 39,
+      "2": 9,
+      "3": 13,
+      "4": 23,
+      "5": 7,
+      "6+": 13
+     }
+    },
+    "served": {
+     "n": 289,
+     "competency": 62,
+     "pct": 21.5,
+     "bySignal": {
+      "cbeItemBank": 62
+     },
+     "byMarks": {
+      "1": 20,
+      "2": 8,
+      "3": 6,
+      "4": 14,
+      "5": 6,
+      "6+": 8
+     }
+    }
+   },
    "servedKeyed": 289,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 227,
+       "competencyBased": 48,
+       "pct": 21.1,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 212,
+       "competencyBased": 52,
+       "pct": 24.5,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "monthly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 301,
+       "competencyBased": 68,
+       "pct": 22.6,
+       "need": 27,
+       "ceiling": 27,
+       "ceilingPct": 100.0
+      }
      },
      "board": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 324,
+       "competencyBased": 91,
+       "pct": 28.1,
+       "need": 38,
+       "ceiling": 38,
+       "ceilingPct": 100.0
+      }
      }
     },
     "served": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 201,
+       "competencyBased": 28,
+       "pct": 13.9,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 181,
+       "competencyBased": 26,
+       "pct": 14.4,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "monthly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 267,
+       "competencyBased": 40,
+       "pct": 15.0,
+       "need": 27,
+       "ceiling": 27,
+       "ceilingPct": 100.0
+      }
      },
      "board": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 281,
+       "competencyBased": 54,
+       "pct": 19.2,
+       "need": 38,
+       "ceiling": 38,
+       "ceilingPct": 100.0
+      }
      }
     }
    },
@@ -6493,42 +6889,140 @@
     "mathematics-10/statistics/median-of-grouped-data"
    ],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 445,
+     "competency": 120,
+     "pct": 27.0,
+     "bySignal": {
+      "cbeItemBank": 120
+     },
+     "byMarks": {
+      "1": 46,
+      "2": 20,
+      "3": 16,
+      "4": 16,
+      "5": 7,
+      "6+": 15
+     }
+    },
+    "served": {
+     "n": 396,
+     "competency": 76,
+     "pct": 19.2,
+     "bySignal": {
+      "cbeItemBank": 76
+     },
+     "byMarks": {
+      "1": 28,
+      "2": 15,
+      "3": 9,
+      "4": 12,
+      "5": 3,
+      "6+": 9
+     }
+    }
+   },
    "servedKeyed": 396,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 257,
+       "competencyBased": 66,
+       "pct": 25.7,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 242,
+       "competencyBased": 62,
+       "pct": 25.6,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "monthly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 413,
+       "competencyBased": 89,
+       "pct": 21.5,
+       "need": 27,
+       "ceiling": 27,
+       "ceilingPct": 100.0
+      }
      },
      "board": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 429,
+       "competencyBased": 105,
+       "pct": 24.5,
+       "need": 38,
+       "ceiling": 38,
+       "ceilingPct": 100.0
+      }
      }
     },
     "served": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 229,
+       "competencyBased": 43,
+       "pct": 18.8,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 213,
+       "competencyBased": 37,
+       "pct": 17.4,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "monthly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 374,
+       "competencyBased": 55,
+       "pct": 14.7,
+       "need": 27,
+       "ceiling": 27,
+       "ceilingPct": 100.0
+      }
      },
      "board": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 386,
+       "competencyBased": 67,
+       "pct": 17.4,
+       "need": 38,
+       "ceiling": 37,
+       "ceilingPct": 97.4
+      }
      }
     }
    },
@@ -7732,44 +8226,142 @@
     "science-6/beyond-earth/the-universe"
    ],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 274,
+     "competency": 41,
+     "pct": 15.0,
+     "bySignal": {
+      "cbeItemBank": 41
+     },
+     "byMarks": {
+      "1": 16,
+      "2": 1,
+      "3": 3,
+      "4": 5,
+      "5": 7,
+      "6+": 9
+     }
+    },
+    "served": {
+     "n": 247,
+     "competency": 15,
+     "pct": 6.1,
+     "bySignal": {
+      "cbeItemBank": 15
+     },
+     "byMarks": {
+      "1": 8,
+      "2": 0,
+      "3": 2,
+      "4": 1,
+      "5": 1,
+      "6+": 3
+     }
+    }
+   },
    "servedKeyed": 247,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 158,
+       "competencyBased": 17,
+       "pct": 10.8,
+       "need": 15,
+       "ceiling": 11,
+       "ceilingPct": 73.3
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 183,
+       "competencyBased": 19,
+       "pct": 10.4,
+       "need": 15,
+       "ceiling": 13,
+       "ceilingPct": 86.7
+      }
      },
      "monthly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 260,
+       "competencyBased": 27,
+       "pct": 10.4,
+       "need": 27,
+       "ceiling": 21,
+       "ceilingPct": 77.8
+      }
      },
      "board": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 265,
+       "competencyBased": 32,
+       "pct": 12.1,
+       "need": 38,
+       "ceiling": 27,
+       "ceilingPct": 71.1
+      }
      }
     },
     "served": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 148,
+       "competencyBased": 8,
+       "pct": 5.4,
+       "need": 15,
+       "ceiling": 8,
+       "ceilingPct": 53.3
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 173,
+       "competencyBased": 10,
+       "pct": 5.8,
+       "need": 15,
+       "ceiling": 10,
+       "ceilingPct": 66.7
+      }
      },
      "monthly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 243,
+       "competencyBased": 11,
+       "pct": 4.5,
+       "need": 27,
+       "ceiling": 11,
+       "ceilingPct": 40.7
+      }
      },
      "board": {
       "possible": false,
       "reasons": [
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
-      ]
+      ],
+      "competency": {
+       "usable": 244,
+       "competencyBased": 12,
+       "pct": 4.9,
+       "need": 38,
+       "ceiling": 12,
+       "ceilingPct": 31.6
+      }
      }
     }
    },
@@ -8916,46 +9508,144 @@
     "science-7/earth-moon-and-the-sun/eclipses"
    ],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 355,
+     "competency": 46,
+     "pct": 13.0,
+     "bySignal": {
+      "cbeItemBank": 46
+     },
+     "byMarks": {
+      "1": 18,
+      "2": 2,
+      "3": 0,
+      "4": 3,
+      "5": 10,
+      "6+": 13
+     }
+    },
+    "served": {
+     "n": 335,
+     "competency": 26,
+     "pct": 7.8,
+     "bySignal": {
+      "cbeItemBank": 26
+     },
+     "byMarks": {
+      "1": 10,
+      "2": 1,
+      "3": 0,
+      "4": 3,
+      "5": 4,
+      "6+": 8
+     }
+    }
+   },
    "servedKeyed": 335,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 214,
+       "competencyBased": 20,
+       "pct": 9.3,
+       "need": 15,
+       "ceiling": 12,
+       "ceilingPct": 80.0
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 226,
+       "competencyBased": 18,
+       "pct": 8.0,
+       "need": 15,
+       "ceiling": 10,
+       "ceilingPct": 66.7
+      }
      },
      "monthly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 339,
+       "competencyBased": 30,
+       "pct": 8.8,
+       "need": 27,
+       "ceiling": 19,
+       "ceilingPct": 70.4
+      }
      },
      "board": {
       "possible": false,
       "reasons": [
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 342,
+       "competencyBased": 33,
+       "pct": 9.6,
+       "need": 38,
+       "ceiling": 27,
+       "ceilingPct": 71.1
+      }
      }
     },
     "served": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 205,
+       "competencyBased": 11,
+       "pct": 5.4,
+       "need": 15,
+       "ceiling": 11,
+       "ceilingPct": 73.3
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 218,
+       "competencyBased": 10,
+       "pct": 4.6,
+       "need": 15,
+       "ceiling": 10,
+       "ceilingPct": 66.7
+      }
      },
      "monthly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 324,
+       "competencyBased": 15,
+       "pct": 4.6,
+       "need": 27,
+       "ceiling": 13,
+       "ceilingPct": 48.1
+      }
      },
      "board": {
       "possible": false,
       "reasons": [
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 327,
+       "competencyBased": 18,
+       "pct": 5.5,
+       "need": 38,
+       "ceiling": 18,
+       "ceilingPct": 47.4
+      }
      }
     }
    },
@@ -10335,42 +11025,140 @@
     "science-8/our-home-earth-a-unique-life-sustaining-planet/what-are-the-threats-to-life-on-earth"
    ],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 435,
+     "competency": 36,
+     "pct": 8.3,
+     "bySignal": {
+      "cbeItemBank": 36
+     },
+     "byMarks": {
+      "1": 13,
+      "2": 5,
+      "3": 2,
+      "4": 6,
+      "5": 3,
+      "6+": 7
+     }
+    },
+    "served": {
+     "n": 418,
+     "competency": 19,
+     "pct": 4.5,
+     "bySignal": {
+      "cbeItemBank": 19
+     },
+     "byMarks": {
+      "1": 5,
+      "2": 3,
+      "3": 1,
+      "4": 6,
+      "5": 2,
+      "6+": 2
+     }
+    }
+   },
    "servedKeyed": 418,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 282,
+       "competencyBased": 18,
+       "pct": 6.4,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 261,
+       "competencyBased": 15,
+       "pct": 5.7,
+       "need": 15,
+       "ceiling": 12,
+       "ceilingPct": 80.0
+      }
      },
      "monthly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 422,
+       "competencyBased": 23,
+       "pct": 5.5,
+       "need": 27,
+       "ceiling": 22,
+       "ceilingPct": 81.5
+      }
      },
      "board": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 428,
+       "competencyBased": 29,
+       "pct": 6.8,
+       "need": 38,
+       "ceiling": 26,
+       "ceilingPct": 68.4
+      }
      }
     },
     "served": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 272,
+       "competencyBased": 8,
+       "pct": 2.9,
+       "need": 15,
+       "ceiling": 8,
+       "ceilingPct": 53.3
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 252,
+       "competencyBased": 6,
+       "pct": 2.4,
+       "need": 15,
+       "ceiling": 6,
+       "ceilingPct": 40.0
+      }
      },
      "monthly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 410,
+       "competencyBased": 11,
+       "pct": 2.7,
+       "need": 27,
+       "ceiling": 11,
+       "ceilingPct": 40.7
+      }
      },
      "board": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 416,
+       "competencyBased": 17,
+       "pct": 4.1,
+       "need": 38,
+       "ceiling": 14,
+       "ceilingPct": 36.8
+      }
      }
     }
    },
@@ -11960,6 +12748,40 @@
     "science-9/earth-as-a-system-energy-matter-and-life/human-impact-on-earth-s-processes"
    ],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 476,
+     "competency": 51,
+     "pct": 10.7,
+     "bySignal": {
+      "cbeItemBank": 51
+     },
+     "byMarks": {
+      "1": 22,
+      "2": 3,
+      "3": 5,
+      "4": 1,
+      "5": 3,
+      "6+": 17
+     }
+    },
+    "served": {
+     "n": 457,
+     "competency": 38,
+     "pct": 8.3,
+     "bySignal": {
+      "cbeItemBank": 38
+     },
+     "byMarks": {
+      "1": 17,
+      "2": 2,
+      "3": 5,
+      "4": 1,
+      "5": 3,
+      "6+": 10
+     }
+    }
+   },
    "servedKeyed": 457,
    "papers": {
     "all": {
@@ -11967,24 +12789,56 @@
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 258,
+       "competencyBased": 25,
+       "pct": 9.7,
+       "need": 15,
+       "ceiling": 13,
+       "ceilingPct": 86.7
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 400,
+       "competencyBased": 27,
+       "pct": 6.8,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 458,
+       "competencyBased": 33,
+       "pct": 7.2,
+       "need": 27,
+       "ceiling": 25,
+       "ceilingPct": 92.6
+      }
      },
      "board": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
-      ]
+      ],
+      "competency": {
+       "usable": 459,
+       "competencyBased": 34,
+       "pct": 7.4,
+       "need": 38,
+       "ceiling": 32,
+       "ceilingPct": 84.2
+      }
      }
     },
     "served": {
@@ -11992,24 +12846,56 @@
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2"
-      ]
+      ],
+      "competency": {
+       "usable": 247,
+       "competencyBased": 19,
+       "pct": 7.7,
+       "need": 15,
+       "ceiling": 12,
+       "ceilingPct": 80.0
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 390,
+       "competencyBased": 22,
+       "pct": 5.6,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 2"
-      ]
+      ],
+      "competency": {
+       "usable": 446,
+       "competencyBased": 27,
+       "pct": 6.1,
+       "need": 27,
+       "ceiling": 24,
+       "ceilingPct": 88.9
+      }
      },
      "board": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 2",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
-      ]
+      ],
+      "competency": {
+       "usable": 447,
+       "competencyBased": 28,
+       "pct": 6.3,
+       "need": 38,
+       "ceiling": 28,
+       "ceilingPct": 73.7
+      }
      }
     }
    },
@@ -13160,6 +14046,40 @@
     "science-10/magnetic-effects-of-electric-current/domestic-electric-circuits"
    ],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 530,
+     "competency": 54,
+     "pct": 10.2,
+     "bySignal": {
+      "cbeItemBank": 54
+     },
+     "byMarks": {
+      "1": 28,
+      "2": 5,
+      "3": 1,
+      "4": 0,
+      "5": 3,
+      "6+": 17
+     }
+    },
+    "served": {
+     "n": 504,
+     "competency": 36,
+     "pct": 7.1,
+     "bySignal": {
+      "cbeItemBank": 36
+     },
+     "byMarks": {
+      "1": 20,
+      "2": 3,
+      "3": 0,
+      "4": 0,
+      "5": 2,
+      "6+": 11
+     }
+    }
+   },
    "servedKeyed": 504,
    "papers": {
     "all": {
@@ -13167,22 +14087,54 @@
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 5"
-      ]
+      ],
+      "competency": {
+       "usable": 333,
+       "competencyBased": 33,
+       "pct": 9.9,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 456,
+       "competencyBased": 29,
+       "pct": 6.4,
+       "need": 15,
+       "ceiling": 11,
+       "ceilingPct": 73.3
+      }
      },
      "monthly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 513,
+       "competencyBased": 37,
+       "pct": 7.2,
+       "need": 27,
+       "ceiling": 23,
+       "ceilingPct": 85.2
+      }
      },
      "board": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 5",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 513,
+       "competencyBased": 37,
+       "pct": 7.2,
+       "need": 38,
+       "ceiling": 29,
+       "ceilingPct": 76.3
+      }
      }
     },
     "served": {
@@ -13190,24 +14142,56 @@
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 315,
+       "competencyBased": 23,
+       "pct": 7.3,
+       "need": 15,
+       "ceiling": 13,
+       "ceilingPct": 86.7
+      }
      },
      "weekly_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 439,
+       "competencyBased": 20,
+       "pct": 4.6,
+       "need": 15,
+       "ceiling": 10,
+       "ceilingPct": 66.7
+      }
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 493,
+       "competencyBased": 25,
+       "pct": 5.1,
+       "need": 27,
+       "ceiling": 20,
+       "ceilingPct": 74.1
+      }
      },
      "board": {
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 493,
+       "competencyBased": 25,
+       "pct": 5.1,
+       "need": 38,
+       "ceiling": 25,
+       "ceilingPct": 65.8
+      }
      }
     }
    },
@@ -14467,6 +15451,36 @@
     "social-science-6/economic-activities-around-us/interdependence-among-sectors"
    ],
    "chapterCountsComplete": true,
+   "competency": {
+    "all": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 0,
    "papers": {
     "all": {
@@ -14475,14 +15489,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -14491,7 +15521,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -14501,7 +15539,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     },
     "served": {
@@ -14510,14 +15556,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -14526,7 +15588,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -14536,7 +15606,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     }
    },
@@ -17200,6 +18278,36 @@
     "social-science-7/banks-and-the-magic-of-finance/stock-market"
    ],
    "chapterCountsComplete": true,
+   "competency": {
+    "all": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 0,
    "papers": {
     "all": {
@@ -17208,14 +18316,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -17224,7 +18348,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -17234,7 +18366,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     },
     "served": {
@@ -17243,14 +18383,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -17259,7 +18415,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -17269,7 +18433,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     }
    },
@@ -19590,6 +20762,36 @@
     "social-science-8/cultural-currents-13-to-17-centuries/cultural-exchange-in-daily-life"
    ],
    "chapterCountsComplete": true,
+   "competency": {
+    "all": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 0,
    "papers": {
     "all": {
@@ -19598,14 +20800,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -19614,7 +20832,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -19624,7 +20850,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     },
     "served": {
@@ -19633,14 +20867,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -19649,7 +20899,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -19659,7 +20917,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     }
    },
@@ -20664,6 +21930,36 @@
     "social-science-9/the-price-puzzle-what-drives-the-market/role-of-government-in-the-economy"
    ],
    "chapterCountsComplete": true,
+   "competency": {
+    "all": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 0,
    "papers": {
     "all": {
@@ -20672,14 +21968,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -20688,7 +22000,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -20698,7 +22018,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     },
     "served": {
@@ -20707,14 +22035,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -20723,7 +22067,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -20733,7 +22085,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     }
    },
@@ -22672,6 +24032,40 @@
     "social-science-10/consumer-rights/taking-the-consumer-movement-forward"
    ],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 14,
+     "competency": 1,
+     "pct": 7.1,
+     "bySignal": {
+      "assertionReasonLabels": 1
+     },
+     "byMarks": {
+      "1": 1,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 14,
+     "competency": 1,
+     "pct": 7.1,
+     "bySignal": {
+      "assertionReasonLabels": 1
+     },
+     "byMarks": {
+      "1": 1,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 14,
    "papers": {
     "all": {
@@ -22679,13 +24073,29 @@
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 12,
+       "competencyBased": 1,
+       "pct": 8.3,
+       "need": 15,
+       "ceiling": 1,
+       "ceilingPct": 6.7
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 2"
-      ]
+      ],
+      "competency": {
+       "usable": 14,
+       "competencyBased": 1,
+       "pct": 7.1,
+       "need": 15,
+       "ceiling": 1,
+       "ceilingPct": 6.7
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -22694,7 +24104,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 2",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 14,
+       "competencyBased": 1,
+       "pct": 7.1,
+       "need": 27,
+       "ceiling": 1,
+       "ceilingPct": 3.7
+      }
      },
      "board": {
       "possible": false,
@@ -22704,7 +24122,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 2",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 14,
+       "competencyBased": 1,
+       "pct": 7.1,
+       "need": 38,
+       "ceiling": 1,
+       "ceilingPct": 2.6
+      }
      }
     },
     "served": {
@@ -22712,13 +24138,29 @@
       "possible": false,
       "reasons": [
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 12,
+       "competencyBased": 1,
+       "pct": 8.3,
+       "need": 15,
+       "ceiling": 1,
+       "ceilingPct": 6.7
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 2"
-      ]
+      ],
+      "competency": {
+       "usable": 14,
+       "competencyBased": 1,
+       "pct": 7.1,
+       "need": 15,
+       "ceiling": 1,
+       "ceilingPct": 6.7
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -22727,7 +24169,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 2",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 14,
+       "competencyBased": 1,
+       "pct": 7.1,
+       "need": 27,
+       "ceiling": 1,
+       "ceilingPct": 3.7
+      }
      },
      "board": {
       "possible": false,
@@ -22737,7 +24187,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 2",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 14,
+       "competencyBased": 1,
+       "pct": 7.1,
+       "need": 38,
+       "ceiling": 1,
+       "ceilingPct": 2.6
+      }
      }
     }
    },
@@ -23148,6 +24606,40 @@
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 11,
+     "competency": 11,
+     "pct": 100.0,
+     "bySignal": {
+      "cbeItemBank": 11
+     },
+     "byMarks": {
+      "1": 6,
+      "2": 4,
+      "3": 0,
+      "4": 1,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 7,
+     "competency": 7,
+     "pct": 100.0,
+     "bySignal": {
+      "cbeItemBank": 7
+     },
+     "byMarks": {
+      "1": 3,
+      "2": 3,
+      "3": 0,
+      "4": 1,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 7,
    "papers": {
     "all": {
@@ -23156,14 +24648,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 6",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 4"
-      ]
+      ],
+      "competency": {
+       "usable": 10,
+       "competencyBased": 10,
+       "pct": 100.0,
+       "need": 15,
+       "ceiling": 10,
+       "ceilingPct": 66.7
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 6",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 6,
+       "competencyBased": 6,
+       "pct": 100.0,
+       "need": 15,
+       "ceiling": 6,
+       "ceilingPct": 40.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -23172,7 +24680,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 4",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 10,
+       "competencyBased": 10,
+       "pct": 100.0,
+       "need": 27,
+       "ceiling": 10,
+       "ceilingPct": 37.0
+      }
      },
      "board": {
       "possible": false,
@@ -23182,7 +24698,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
-      ]
+      ],
+      "competency": {
+       "usable": 11,
+       "competencyBased": 11,
+       "pct": 100.0,
+       "need": 38,
+       "ceiling": 11,
+       "ceilingPct": 28.9
+      }
      }
     },
     "served": {
@@ -23191,14 +24715,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 3",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 3"
-      ]
+      ],
+      "competency": {
+       "usable": 6,
+       "competencyBased": 6,
+       "pct": 100.0,
+       "need": 15,
+       "ceiling": 6,
+       "ceilingPct": 40.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 3",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 3,
+       "competencyBased": 3,
+       "pct": 100.0,
+       "need": 15,
+       "ceiling": 3,
+       "ceilingPct": 20.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -23207,7 +24747,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 3",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 6,
+       "competencyBased": 6,
+       "pct": 100.0,
+       "need": 27,
+       "ceiling": 6,
+       "ceilingPct": 22.2
+      }
      },
      "board": {
       "possible": false,
@@ -23217,7 +24765,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 1"
-      ]
+      ],
+      "competency": {
+       "usable": 7,
+       "competencyBased": 7,
+       "pct": 100.0,
+       "need": 38,
+       "ceiling": 7,
+       "ceilingPct": 18.4
+      }
      }
     }
    },
@@ -23600,25 +25156,81 @@
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 44,
+     "competency": 44,
+     "pct": 100.0,
+     "bySignal": {
+      "cbeItemBank": 44
+     },
+     "byMarks": {
+      "1": 26,
+      "2": 14,
+      "3": 4,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 0,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 40,
+       "competencyBased": 40,
+       "pct": 100.0,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 4"
-      ]
+      ],
+      "competency": {
+       "usable": 30,
+       "competencyBased": 30,
+       "pct": 100.0,
+       "need": 15,
+       "ceiling": 14,
+       "ceilingPct": 93.3
+      }
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 4",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 44,
+       "competencyBased": 44,
+       "pct": 100.0,
+       "need": 27,
+       "ceiling": 24,
+       "ceilingPct": 88.9
+      }
      },
      "board": {
       "possible": false,
@@ -23626,7 +25238,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 4",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 44,
+       "competencyBased": 44,
+       "pct": 100.0,
+       "need": 38,
+       "ceiling": 29,
+       "ceilingPct": 76.3
+      }
      }
     },
     "served": {
@@ -23635,14 +25255,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -23651,7 +25287,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -23661,7 +25305,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     }
    },
@@ -24029,6 +25681,36 @@
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
    "chapterCountsComplete": true,
+   "competency": {
+    "all": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 0,
    "papers": {
     "all": {
@@ -24037,14 +25719,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -24053,7 +25751,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -24063,7 +25769,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     },
     "served": {
@@ -24072,14 +25786,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -24088,7 +25818,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -24098,7 +25836,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     }
    },
@@ -24498,25 +26244,83 @@
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 47,
+     "competency": 47,
+     "pct": 100.0,
+     "bySignal": {
+      "cbeItemBank": 47
+     },
+     "byMarks": {
+      "1": 18,
+      "2": 29,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 39,
+     "competency": 39,
+     "pct": 100.0,
+     "bySignal": {
+      "cbeItemBank": 39
+     },
+     "byMarks": {
+      "1": 15,
+      "2": 24,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 39,
    "papers": {
     "all": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 47,
+       "competencyBased": 47,
+       "pct": 100.0,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 18,
+       "competencyBased": 18,
+       "pct": 100.0,
+       "need": 15,
+       "ceiling": 10,
+       "ceilingPct": 66.7
+      }
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 47,
+       "competencyBased": 47,
+       "pct": 100.0,
+       "need": 27,
+       "ceiling": 20,
+       "ceilingPct": 74.1
+      }
      },
      "board": {
       "possible": false,
@@ -24525,26 +26329,58 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 47,
+       "competencyBased": 47,
+       "pct": 100.0,
+       "need": 38,
+       "ceiling": 23,
+       "ceilingPct": 60.5
+      }
      }
     },
     "served": {
      "class_test": {
       "possible": true,
-      "reasons": []
+      "reasons": [],
+      "competency": {
+       "usable": 39,
+       "competencyBased": 39,
+       "pct": 100.0,
+       "need": 15,
+       "ceiling": 15,
+       "ceilingPct": 100.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 15,
+       "competencyBased": 15,
+       "pct": 100.0,
+       "need": 15,
+       "ceiling": 10,
+       "ceilingPct": 66.7
+      }
      },
      "monthly_test": {
       "possible": false,
       "reasons": [
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 39,
+       "competencyBased": 39,
+       "pct": 100.0,
+       "need": 27,
+       "ceiling": 20,
+       "ceilingPct": 74.1
+      }
      },
      "board": {
       "possible": false,
@@ -24553,7 +26389,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 39,
+       "competencyBased": 39,
+       "pct": 100.0,
+       "need": 38,
+       "ceiling": 20,
+       "ceilingPct": 52.6
+      }
      }
     }
    },
@@ -24633,6 +26477,40 @@
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
    "chapterCountsComplete": false,
+   "competency": {
+    "all": {
+     "n": 15,
+     "competency": 13,
+     "pct": 86.7,
+     "bySignal": {
+      "cbeItemBank": 13
+     },
+     "byMarks": {
+      "1": 8,
+      "2": 5,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 12,
+     "competency": 10,
+     "pct": 83.3,
+     "bySignal": {
+      "cbeItemBank": 10
+     },
+     "byMarks": {
+      "1": 5,
+      "2": 5,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 12,
    "papers": {
     "all": {
@@ -24640,14 +26518,30 @@
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 8"
-      ]
+      ],
+      "competency": {
+       "usable": 15,
+       "competencyBased": 13,
+       "pct": 86.7,
+       "need": 15,
+       "ceiling": 13,
+       "ceilingPct": 86.7
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 8",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 8,
+       "competencyBased": 8,
+       "pct": 100.0,
+       "need": 15,
+       "ceiling": 8,
+       "ceilingPct": 53.3
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -24655,7 +26549,15 @@
        "Section A (MCQ): needs 15 keyed 1-mark questions, has 8",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 15,
+       "competencyBased": 13,
+       "pct": 86.7,
+       "need": 27,
+       "ceiling": 13,
+       "ceilingPct": 48.1
+      }
      },
      "board": {
       "possible": false,
@@ -24664,7 +26566,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 15,
+       "competencyBased": 13,
+       "pct": 86.7,
+       "need": 38,
+       "ceiling": 13,
+       "ceilingPct": 34.2
+      }
      }
     },
     "served": {
@@ -24672,14 +26582,30 @@
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 5"
-      ]
+      ],
+      "competency": {
+       "usable": 12,
+       "competencyBased": 10,
+       "pct": 83.3,
+       "need": 15,
+       "ceiling": 10,
+       "ceilingPct": 66.7
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 5",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 5,
+       "competencyBased": 5,
+       "pct": 100.0,
+       "need": 15,
+       "ceiling": 5,
+       "ceilingPct": 33.3
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -24687,7 +26613,15 @@
        "Section A (MCQ): needs 15 keyed 1-mark questions, has 5",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 12,
+       "competencyBased": 10,
+       "pct": 83.3,
+       "need": 27,
+       "ceiling": 10,
+       "ceilingPct": 37.0
+      }
      },
      "board": {
       "possible": false,
@@ -24696,7 +26630,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 12,
+       "competencyBased": 10,
+       "pct": 83.3,
+       "need": 38,
+       "ceiling": 10,
+       "ceilingPct": 26.3
+      }
      }
     }
    },
@@ -24765,6 +26707,36 @@
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
    "chapterCountsComplete": true,
+   "competency": {
+    "all": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 0,
    "papers": {
     "all": {
@@ -24773,14 +26745,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -24789,7 +26777,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -24799,7 +26795,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     },
     "served": {
@@ -24808,14 +26812,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -24824,7 +26844,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -24834,7 +26862,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     }
    },
@@ -24895,6 +26931,36 @@
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
    "chapterCountsComplete": true,
+   "competency": {
+    "all": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 0,
    "papers": {
     "all": {
@@ -24903,14 +26969,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -24919,7 +27001,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -24929,7 +27019,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     },
     "served": {
@@ -24938,14 +27036,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -24954,7 +27068,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -24964,7 +27086,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     }
    },
@@ -25025,6 +27155,36 @@
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
    "chapterCountsComplete": true,
+   "competency": {
+    "all": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 0,
    "papers": {
     "all": {
@@ -25033,14 +27193,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -25049,7 +27225,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -25059,7 +27243,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     },
     "served": {
@@ -25068,14 +27260,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -25084,7 +27292,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -25094,7 +27310,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     }
    },
@@ -25439,6 +27663,36 @@
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
    "chapterCountsComplete": true,
+   "competency": {
+    "all": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 0,
    "papers": {
     "all": {
@@ -25447,14 +27701,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -25463,7 +27733,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -25473,7 +27751,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     },
     "served": {
@@ -25482,14 +27768,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -25498,7 +27800,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -25508,7 +27818,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     }
    },
@@ -25569,6 +27887,36 @@
    "topicsWithout3Mark": [],
    "topicsWithout5Mark": [],
    "chapterCountsComplete": true,
+   "competency": {
+    "all": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    },
+    "served": {
+     "n": 0,
+     "competency": 0,
+     "pct": 0.0,
+     "bySignal": {},
+     "byMarks": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0,
+      "6+": 0
+     }
+    }
+   },
    "servedKeyed": 0,
    "papers": {
     "all": {
@@ -25577,14 +27925,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -25593,7 +27957,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -25603,7 +27975,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     },
     "served": {
@@ -25612,14 +27992,30 @@
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Very Short Answer): needs 6 keyed 2-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "weekly_test": {
       "possible": false,
       "reasons": [
        "Section A (MCQ): needs 10 keyed 1-mark questions, has 0",
        "Section B (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 15,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "monthly_test": {
       "possible": false,
@@ -25628,7 +28024,15 @@
        "Section B (Very Short Answer): needs 5 keyed 2-mark questions, has 0",
        "Section C (Short Answer): needs 6 keyed 3-mark questions (5 + 1 OR), has 0",
        "Section D (Case / Long Answer): needs 3 keyed 5-mark questions (2 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 27,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      },
      "board": {
       "possible": false,
@@ -25638,7 +28042,15 @@
        "Section C (Short Answer): needs 8 keyed 3-mark questions (6 + 2 OR), has 0",
        "Section D (Long Answer): needs 6 keyed 5-mark questions (4 + 2 OR), has 0",
        "Section E (Case Study): needs 4 keyed 4-mark questions (3 + 1 OR), has 0"
-      ]
+      ],
+      "competency": {
+       "usable": 0,
+       "competencyBased": 0,
+       "pct": 0.0,
+       "need": 38,
+       "ceiling": 0,
+       "ceilingPct": 0.0
+      }
      }
     }
    },
@@ -25689,7 +28101,7 @@
    "ncert_exemplar": 72
   }
  },
- "builtAt": "2026-09-26",
+ "builtAt": "2026-09-27",
  "inputs": [
   {
    "label": "served",

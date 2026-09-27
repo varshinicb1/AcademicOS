@@ -44,6 +44,8 @@ from __future__ import annotations
 import collections
 from typing import Iterable
 
+from ..assessment.competency import CBSE_COMPETENCY_TARGET, COMPETENCY_RULE_TEXT, \
+    competency_ceiling, competency_signal
 from ..assessment.qbank_routes import QuestionBank
 from ..assessment.templates import EXAM_PRESETS
 from .tagger import SUBJECTS as TAGGER_SUBJECTS
@@ -128,13 +130,25 @@ def _buckets(records: Iterable[dict]) -> dict:
     return {b: c.get(b, 0) for b in MARK_BUCKETS}
 
 
+def _competency_block(records: list[dict]) -> dict:
+    """How many of `records` are competency-based by the one rule
+    (`assessment.competency.competency_signal`), why, and at what marks."""
+    signals = [competency_signal(r) for r in records]
+    comp = [r for r, s in zip(records, signals) if s]
+    return {"n": len(records), "competency": len(comp), "pct": _pct(len(comp), len(records)),
+            "bySignal": dict(collections.Counter(s for s in signals if s)),
+            "byMarks": _buckets(comp)}
+
+
 def _paper_verdicts(keyed: list[dict], presets: dict) -> dict:
     out = {}
     for name, preset in presets.items():
         reasons = []
+        sections = []
         for label, sec_name, marks, count, difficulties, _choice, choice_count in preset["sections"]:
             at_marks = [r for r in keyed if int(r.get("marks") or 0) == marks]
             fit = [r for r in at_marks if not difficulties or r.get("difficulty") in difficulties]
+            sections.append((count, fit, []))
             need = count + choice_count
             if len(fit) >= need:
                 continue
@@ -145,8 +159,24 @@ def _paper_verdicts(keyed: list[dict], presets: dict) -> dict:
                 reason += (f" ({len(at_marks) - len(fit)} more at {marks} marks are outside "
                            f"difficulty {'/'.join(difficulties)})")
             reasons.append(reason)
-        out[name] = {"possible": not reasons, "reasons": reasons}
+        out[name] = {"possible": not reasons, "reasons": reasons,
+                     "competency": _preset_competency(sections)}
     return out
+
+
+def _preset_competency(sections: list[tuple[int, list[dict], list]]) -> dict:
+    """What competency-based share a preset could print from `keyed`: the
+    questions that fit its sections, how many of them count, and the most the
+    sections could hold (`competency_ceiling`, the estimate selection uses
+    before choosing; near-duplicates are not removed here, so it can read one
+    or two high). `need` is the compulsory questions, the share's denominator
+    on a printed paper (OR alternatives are not counted)."""
+    usable = list({r["id"]: r for _, fit, _ in sections for r in fit}.values())
+    comp = sum(1 for r in usable if competency_signal(r))
+    need = sum(count for count, _, _ in sections)
+    ceiling = competency_ceiling(sections)
+    return {"usable": len(usable), "competencyBased": comp, "pct": _pct(comp, len(usable)),
+            "need": need, "ceiling": ceiling, "ceilingPct": _pct(ceiling, need)}
 
 
 def _chapter_table(tree: dict, keyed: list[dict]) -> list[dict]:
@@ -233,10 +263,12 @@ def _cell(subject: str, grade: int, recs: list[tuple[str, dict]], tree: dict | N
         chapterCountsComplete=cell["untaggedKeyed"] == 0,
     )
     papers = {"all": _paper_verdicts(keyed, presets)}
+    cell["competency"] = {"all": _competency_block(keyed)}
     if served is not None:
         served_keyed = [r for label, r in recs if label == served and has_answer_key(r)]
         cell["servedKeyed"] = len(served_keyed)
         papers["served"] = _paper_verdicts(served_keyed, presets)
+        cell["competency"]["served"] = _competency_block(served_keyed)
     cell["papers"] = papers
     # What the merge refused for this class and subject. `None` means no
     # exclusions file was given -- which is not the same as "it refused
@@ -299,6 +331,7 @@ def build_report(banks: dict[str, list[dict]], trees: dict[tuple[str, int], dict
     report = {"scope": {"subjects": list(SUBJECTS), "grades": list(GRADES)},
               "served": served, "banks": list(banks), "duplicateIds": duplicates,
               "presets": {k: v.get("name", k) for k, v in presets.items()},
+              "competency": {"rule": COMPETENCY_RULE_TEXT, "target": CBSE_COMPETENCY_TARGET},
               "cells": cells}
     if exclusions is not None:
         report["excluded"] = {
@@ -420,6 +453,44 @@ def _excluded_md(report: dict) -> list[str]:
     return out
 
 
+def _competency_md(report: dict) -> list[str]:
+    """The competency-based share per class and subject (served when there is a
+    served bank), and the two lists a principal needs: where the share is below
+    CBSE's target, and where even a full board paper could not reach it."""
+    comp = report.get("competency")
+    if not comp:
+        return []
+    target = comp["target"]
+    t = f"{target * 100:g}"
+    scope = "served" if report.get("served") else "all"
+    out = ["", "## Competency-based questions", "",
+           f"{comp['rule']} CBSE asks that at least {t}% of a paper be competency-based. "
+           "Counts are by subject family (Mathematics includes Mathematics (Standard) and "
+           "(Basic)), so a count can exceed what the paper builder draws on for the plain "
+           "subject name. No Exemplar section heading says competency, so Exemplar records "
+           "count only by their printed type or labels.", "",
+           f"| subject | class | keyed ({scope}) | competency-based | share | by signal |",
+           "|---|---:|---:|---:|---:|---|"]
+    below, cannot = [], []
+    for c in report["cells"]:
+        block = (c.get("competency") or {}).get(scope)
+        if not block or not block["n"]:
+            continue
+        signals = ", ".join(f"{k} {v:,}" for k, v in sorted(block["bySignal"].items())) or "-"
+        out.append(f"| {c['subject']} | {c['grade']} | {block['n']:,} | {block['competency']:,} "
+                   f"| {block['pct']}% | {signals} |")
+        if block["pct"] < target * 100:
+            below.append(f"{c['subject']} {c['grade']} ({block['pct']}%)")
+        board = ((c["papers"].get(scope) or {}).get("board") or {}).get("competency")
+        if board and board["need"] and board["ceilingPct"] < target * 100:
+            cannot.append(f"{c['subject']} {c['grade']} (at most {board['ceiling']} of "
+                          f"{board['need']}, {board['ceilingPct']}%)")
+    out += ["", f"**Share below CBSE's {t}% ({len(below)}):** " + ("; ".join(below) or "none") + ".",
+            "", f"**Board paper cannot reach {t}% ({len(cannot)}):** "
+            + ("; ".join(cannot) or "none") + "."]
+    return out
+
+
 def render_markdown(report: dict) -> str:
     cells = report["cells"]
     presets = report["presets"]
@@ -500,6 +571,8 @@ def render_markdown(report: dict) -> str:
                else f"{v['passed']}/{v['of']} passed ({v['pct']}% of keyed; {v['unchecked']} unchecked)")
         out.append(f"| {c['subject']} | {c['grade']} | {c['questions']:,} | {c['keyed']:,} "
                    f"| {c['noKey']:,} | {prov} | {ver} |")
+
+    out += _competency_md(report)
 
     tagging = report.get("tagging")
     if tagging:
