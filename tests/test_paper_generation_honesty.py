@@ -372,6 +372,109 @@ def test_quick_generate_reports_the_cbq_share_and_keeps_the_warning(tmp_path, mo
     assert any("competency-based" in w for w in data["warnings"])
 
 
+# ---- Task 125, step 6: a paper that cannot reach the share says so first ----
+
+CANNOT_REACH = "This paper cannot reach CBSE's"
+
+
+def _one_mark_pool(n_cbe: int, n_plain: int, *, plain_chapter: str = "ch1") -> list[QuestionSchema]:
+    return ([_cbe(_q(f"cbe{i}", 1, chapters=["ch2"])) for i in range(n_cbe)]
+            + [_q(f"plain{i}", 1, chapters=[plain_chapter]) for i in range(n_plain)])
+
+
+def _metrics(res) -> tuple:
+    m = res.optimization_metrics
+    return (m["competencyCeiling"], m["competencyUsable"], m["competencyInBank"],
+            m["competencyTarget"])
+
+
+def test_a_paper_that_cannot_reach_the_share_says_so_before_anything_else():
+    """One 1-mark section of 4 over a bank with 1 competency-based question:
+    no selection can print more than 1 of 4. The optimizer used to find out
+    only afterwards ("Selected paper has 25.0% ..."), which reads as a choice
+    it made rather than a limit of the bank."""
+    _, res = _ids(_one_mark_pool(1, 5), [_section("A", 1, 4)], "standard")
+    assert res.warnings[0] == (
+        "This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
+        "at most 1 competency-based question(s) of the 4 it asks for (25.0%). Of the 6 "
+        "question(s) in the bank these sections can use, 1 (16.7%) are competency-based.")
+    assert _metrics(res) == (1, 6, 1, 0.5)
+    # The printed share is a different fact and is still reported after it.
+    assert any(w.startswith("Selected paper has 25.0% competency-based") for w in res.warnings[1:])
+
+
+def test_a_bank_that_can_reach_the_share_gets_no_such_warning():
+    _, res = _ids(_one_mark_pool(3, 5), [_section("A", 1, 4)], "standard")
+    assert not any(CANNOT_REACH in w for w in res.warnings), res.warnings
+    assert _metrics(res) == (3, 8, 3, 0.5)
+
+
+def test_the_fallback_counts_only_for_a_section_the_chapters_cannot_fill():
+    """Chapter-scoped: the whole-subject fallback fills only a shortfall
+    (optimize's fallback_candidates), so competency-based questions outside
+    the chosen chapters count toward the ceiling only as far as it goes."""
+    sec = [_section("A", 1, 4)]
+    for in_scope, ceiling in ((4, 0), (2, 2)):
+        bank = _one_mark_pool(3, in_scope)
+        chosen = [q for q in bank if q.chapter_ids == ["ch1"]]
+        res = selection.optimize([q.model_copy(deep=True) for q in chosen], _bp(sec, "standard"),
+                                 fallback_candidates=[q.model_copy(deep=True) for q in bank])
+        assert res.optimization_metrics["competencyCeiling"] == ceiling, in_scope
+        assert res.optimization_metrics["competencyUsable"] == in_scope + 3
+        printed = sum(1 for q in res.selected_questions if selection.is_competency_question(q))
+        assert printed == ceiling, in_scope
+        assert any(CANNOT_REACH in w for w in res.warnings) is (ceiling / 4 < 0.5), in_scope
+
+
+def test_the_ceiling_is_never_below_what_the_paper_prints():
+    """Two 1-mark sections of 2 over 3 in-scope plain questions: the first
+    takes 2, the second finds 1 left and borrows 1 from the fallback -- a
+    competency-based one. A ceiling that measured each section's shortfall
+    against all its in-scope fits (3 >= 2, so none) said 'at most 0' of a
+    paper that prints 1."""
+    secs = [_section("A", 1, 2), _section("B", 1, 2)]
+    bank = _one_mark_pool(2, 3)
+    chosen = [q for q in bank if q.chapter_ids == ["ch1"]]
+    res = selection.optimize([q.model_copy(deep=True) for q in chosen], _bp(secs, "standard"),
+                             fallback_candidates=[q.model_copy(deep=True) for q in bank])
+    printed = sum(1 for q in res.selected_questions if selection.is_competency_question(q))
+    assert printed == 1
+    assert res.optimization_metrics["competencyCeiling"] == 1
+    assert "at most 1 competency-based question(s) of the 4" in res.warnings[0]
+
+
+def test_an_empty_bank_gets_no_ceiling_warning():
+    res = selection.optimize([], _bp([_section("A", 1, 4)], "standard"))
+    assert not any(CANNOT_REACH in w for w in res.warnings), res.warnings
+    assert _metrics(res) == (0, 0, 0, 0.5)
+
+
+def test_quick_generate_carries_the_ceiling_sentence_first(tmp_path, monkeypatch):
+    """Quick-generate copies the optimizer's warnings first, so the teacher
+    reads what the bank cannot do before what the paper printed."""
+    from academicos.assessment.templates import EXAM_PRESETS, get_sections_for_exam_type
+
+    pool = _plain_pool()
+    asked = sum(row[3] for row in EXAM_PRESETS["class_test"]["sections"])
+    sections = get_sections_for_exam_type("class_test", 20)
+    usable = sum(1 for q in map(to_question_schema, pool.questions)
+                 if any(selection._fits_section(q, s) for s in sections))
+    assert usable
+    with _client_for(tmp_path, monkeypatch, pool) as client:
+        resp = client.post("/api/v1/papers/quick-generate", headers=_auth(client), json={
+            "subject": "Science", "grade": 10, "totalMarks": 20, "examType": "class_test"})
+    assert resp.status_code == 200, resp.text
+    warnings = resp.json()["warnings"]
+    sentence = (
+        f"This paper cannot reach CBSE's 50% competency-based share: its sections can hold "
+        f"at most 0 competency-based question(s) of the {asked} it asks for (0.0%). Of the "
+        f"{usable} question(s) in the bank these sections can use, 0 (0.0%) are "
+        f"competency-based.")
+    assert warnings[0] == sentence, warnings
+    printed = next(i for i, w in enumerate(warnings) if w.startswith("Selected paper has"))
+    assert printed > 0
+
+
 def test_the_served_bank_paper_reports_its_cbq_share(served, tmp_path, monkeypatch):
     with _client_for(tmp_path, monkeypatch, served["Science"]) as client:
         resp = client.post("/api/v1/papers/quick-generate", headers=_auth(client), json={

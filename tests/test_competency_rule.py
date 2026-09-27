@@ -253,6 +253,52 @@ def test_the_rule_text_names_what_counts_and_what_is_never_read():
     assert "Bloom" in text
 
 
+# ---- the most a paper's sections can hold (Task 125, step 6) ----------------
+
+def _recs(prefix: str, n: int, *, cbe: bool = False) -> list[dict]:
+    return [_record(id=f"{prefix}{i}", **({"questionBankId": "cbe:x.pdf"} if cbe else {}))
+            for i in range(n)]
+
+
+def _both_forms(sections):
+    """`sections` as camelCase records and as QuestionSchemas: one answer."""
+    as_schema = [(n, [QuestionSchema.model_validate(r) for r in own],
+                  [QuestionSchema.model_validate(r) for r in borrowed])
+                 for n, own, borrowed in sections]
+    got = competency.competency_ceiling(sections)
+    assert competency.competency_ceiling(as_schema) == got
+    return got
+
+
+def test_a_section_holds_no_more_competency_questions_than_its_bank_has():
+    plain = _recs("plain", 5)
+    assert _both_forms([(4, _recs("cbe", 1, cbe=True) + plain, [])]) == 1
+    assert _both_forms([(4, _recs("cbe", 3, cbe=True) + plain, [])]) == 3
+    assert _both_forms([(2, _recs("cbe", 3, cbe=True) + plain, [])]) == 2
+    assert _both_forms([]) == 0
+
+
+def test_the_fallback_only_fills_a_shortfall():
+    """optimize() borrows from outside the chosen chapters only for a section
+    its chapters cannot fill (selection.optimize's fallback)."""
+    outside = _recs("cbe", 3, cbe=True)
+    assert _both_forms([(4, _recs("plain", 4), outside)]) == 0
+    assert _both_forms([(4, _recs("plain", 2), outside)]) == 2
+    assert _both_forms([(4, [], outside)]) == 3
+
+
+def test_sections_share_one_bank():
+    """A question placed in one section cannot be counted again in the next."""
+    shared = _recs("cbe", 3, cbe=True)
+    assert _both_forms([(2, shared, []), (2, shared, [])]) == 3
+    # And a section whose own fits an earlier section used up is short, so it
+    # borrows: 3 plain fits for two 2-question sections leave the second one
+    # short by 1, which optimize() fills from the fallback.
+    plain = _recs("plain", 3)
+    assert _both_forms([(2, plain, _recs("cbe", 2, cbe=True)),
+                        (2, plain, _recs("cbe", 2, cbe=True))]) == 1
+
+
 # ---- the served bank --------------------------------------------------------
 
 _REAL_BANK = ROOT / "academicos-data" / "syllabus" / "questions.json"

@@ -34,6 +34,10 @@ What the rule never reads, and why (the served bank, composedAt 2026-09-23):
     based questions");
   * marks.
 
+`competency_ceiling` applies the rule to a paper's sections: the most
+competency-based questions they can print from a bank, known before any
+question is chosen.
+
 This module imports nothing from the academicos package. selection,
 paper_templates and syllabus.bank_health all need the rule, and a leaf module
 lets each import it without the paper_templates/selection import cycle or
@@ -42,7 +46,7 @@ pulling pool.py into bank_health.
 from __future__ import annotations
 
 import re
-from collections.abc import Mapping
+from collections.abc import Iterable, Mapping
 from typing import Any
 
 # questionBankId prefix of every item read from a CBSE CBE item-bank PDF.
@@ -95,3 +99,33 @@ def competency_signal(q: Any) -> str | None:
 def is_competency_question(q: Any) -> bool:
     """Is `q` competency-based? See `competency_signal` for the one rule."""
     return competency_signal(q) is not None
+
+
+def competency_ceiling(sections: Iterable[tuple[int, Iterable[Any], Iterable[Any]]]) -> int:
+    """The most competency-based questions a paper's sections can print.
+
+    Each section is ``(count, in_scope_fits, fallback_fits)``: how many
+    questions it asks for, the questions in the chosen scope that fit it, and
+    the ones outside the scope that fit it. A question is a QuestionSchema or
+    a camelCase record (as for `competency_signal`), told apart by its id.
+
+    The sections are walked in order over one bank, as selection.optimize
+    fills them, and a question placed in one is not counted in another. Each
+    section holds up to its count of unused competency-based in-scope fits;
+    the rest of its count comes from its other unused in-scope fits, and only
+    what those leave short is borrowed from the fallback (optimize borrows
+    only for a shortfall), competency-based ones first.
+    """
+    taken: set = set()
+    ceiling = 0
+    for count, in_scope, fallback in sections:
+        free = list({_field(q, "id", "id"): q for q in in_scope
+                     if _field(q, "id", "id") not in taken}.values())
+        own = [q for q in free if is_competency_question(q)][:count]
+        rest = [q for q in free if not is_competency_question(q)][:count - len(own)]
+        short = count - len(own) - len(rest)
+        borrowed = [q for q in fallback
+                    if _field(q, "id", "id") not in taken and is_competency_question(q)][:short]
+        taken.update(_field(q, "id", "id") for q in (*own, *rest, *borrowed))
+        ceiling += len(own) + len(borrowed)
+    return ceiling

@@ -32,6 +32,7 @@ from . import grades
 from .competency import (  # noqa: F401
     CBE_ITEM_BANK_PREFIX,
     CBSE_COMPETENCY_TARGET,
+    competency_ceiling,
     competency_signal,
     is_competency_question,
 )
@@ -216,6 +217,27 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
     warnings: list[str] = []
     gaps: list[str] = []
 
+    # Before any question is chosen: can these sections reach the target at
+    # all? The post-selection sentence below reports what the paper printed;
+    # this one what no selection from this bank could avoid, so it goes first.
+    ceiling_sections = [
+        (s.question_count,
+         [q for q in candidates if _fits_section(q, s)],
+         [q for q in fallback_remaining if _fits_section(q, s)])
+        for s in sections]
+    usable = {q.id: q for _, own, borrowed in ceiling_sections for q in (*own, *borrowed)}
+    usable_competency = sum(1 for q in usable.values() if is_competency_question(q))
+    ceiling = competency_ceiling(ceiling_sections)
+    asked = sum(s.question_count for s in sections)
+    if usable and asked and ceiling / asked < competency_target:
+        warnings.insert(0, (
+            f"This paper cannot reach CBSE's {competency_target * 100:g}% competency-based "
+            f"share: its sections can hold at most {ceiling} competency-based question(s) of "
+            f"the {asked} it asks for ({round(ceiling / asked * 100, 1)}%). Of the "
+            f"{len(usable)} question(s) in the bank these sections can use, "
+            f"{usable_competency} ({round(usable_competency / len(usable) * 100, 1)}%) are "
+            f"competency-based."))
+
     for section in sections:
         # Determine if competency boost is needed to hit the target quota (CBSE >= 50%)
         current_cbq = sum(1 for q in selected if is_competency_question(q))
@@ -388,6 +410,13 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
             "bloomDistribution": dict(bloom_hist),
             "difficultyDistribution": dict(difficulty_hist),
             "competencyPercentage": round(cbq_percentage, 3),
+            # Before selection: the most competency-based questions the
+            # sections can print, how many bank questions fit a section, how
+            # many of those are competency-based, and the target.
+            "competencyCeiling": ceiling,
+            "competencyUsable": len(usable),
+            "competencyInBank": usable_competency,
+            "competencyTarget": competency_target,
             "tier": tier,
             "tierSignals": signals,
             "internalChoicesPaired": len(paired_choice_ids),
