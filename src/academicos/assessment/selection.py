@@ -28,7 +28,13 @@ from collections import Counter
 
 # The one competency rule lives in a leaf module (see competency.py for what it
 # reads and why); re-exported here for the callers that import it from selection.
-from .competency import CBSE_COMPETENCY_TARGET, competency_signal, is_competency_question  # noqa: F401
+from . import grades
+from .competency import (  # noqa: F401
+    CBE_ITEM_BANK_PREFIX,
+    CBSE_COMPETENCY_TARGET,
+    competency_signal,
+    is_competency_question,
+)
 from .pool import near_duplicate
 from .schemas import Blueprint, QuestionOptimizationResult, QuestionSchema, SectionBlueprint
 from .templates import default_sections
@@ -47,31 +53,51 @@ from .templates import default_sections
 # and on every CBE item. After the merge (--check --relink-in-memory) Maths 10
 # has one Bloom level and a difficulty fixed by marks: a tier there cannot
 # change the paper, and the paper must say so rather than silently doing nothing.
+#
+# A CBE item-bank record (questionBankId "cbe:...") carries both values from
+# the importer, unflagged: corpus/cbse_cbe.py writes _DEFAULT_BLOOM
+# ("understand") on every item and _difficulty_for(marks) as its difficulty.
+# Neither is a judgement, so neither is a signal (Task 125).
 
 # Sources whose `difficulty` is a constant the builder wrote, not a judgement.
 _PLACEHOLDER_DIFFICULTY_SOURCES = frozenset({"cbse_sample_paper"})
 
 
+def _from_cbe_item_bank(q: QuestionSchema) -> bool:
+    return (q.question_bank_id or "").startswith(CBE_ITEM_BANK_PREFIX)
+
+
 def difficulty_signal(q: QuestionSchema) -> str | None:
     """The question's difficulty, or None where the record's value was supplied
     rather than judged (so a tier must not act on it)."""
-    if q.metadata.get("difficultyInferred") or q.source in _PLACEHOLDER_DIFFICULTY_SOURCES:
+    if (q.metadata.get("difficultyInferred") or q.source in _PLACEHOLDER_DIFFICULTY_SOURCES
+            or _from_cbe_item_bank(q)):
         return None
     return q.difficulty
 
 
 def bloom_signal(q: QuestionSchema) -> str | None:
     """The question's Bloom level, or None where it was supplied rather than read."""
-    if q.metadata.get("bloomInferred"):
+    if q.metadata.get("bloomInferred") or _from_cbe_item_bank(q):
         return None
     return q.bloom_level
+
+
+def tiers_note(grade: object, subject: str) -> str:
+    """Why a paper offers no Foundation or Advanced version, for the builder to
+    show where the teacher picks one (tier_signals()['available'] is False)."""
+    g = grades.to_int(grade) or grade
+    return (f"Foundation and Advanced versions are not offered: in the Class {g} {subject} "
+            f"bank, questions of the same marks do not differ in a difficulty or Bloom level "
+            f"anyone judged (the bank sets them from marks), so every version would print "
+            f"this same paper.")
 
 
 def _live_signals(questions: list[QuestionSchema],
                   marks_values: set[int]) -> dict[int, tuple[bool, bool]]:
     """Per marks value: do its questions differ in (difficulty, Bloom level)?
 
-    One known level among unknowns says nothing either: a CBE item's
+    One known level among unknowns says nothing either: a board record's
     marks-derived "easy" next to SQP items with no signal would otherwise be
     the only thing a tier ranked on.
     """

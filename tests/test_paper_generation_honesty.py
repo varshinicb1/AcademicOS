@@ -180,6 +180,42 @@ def test_placeholder_and_inferred_values_are_not_signals():
     assert any(TIERS_UNAVAILABLE in w for w in res.warnings)
 
 
+def _cbe(q: QuestionSchema) -> QuestionSchema:
+    q.question_bank_id = "cbe:x.pdf"
+    return q
+
+
+def test_values_the_cbe_importer_supplied_are_no_tier_signal():
+    """Task 125, step 5. corpus/cbse_cbe.py writes the bank's default Bloom
+    level (_DEFAULT_BLOOM) and a difficulty from marks (_difficulty_for) on
+    every item-bank question, and flags neither. So an easy and a hard CBE
+    item of the same marks differ in nothing anyone judged: no tier may rank
+    on them, and the level counts do not count them."""
+    sec = [_section("A", 1, 2)]
+    pool = ([_cbe(_q(f"cbe_easy{i}", 1, difficulty="easy")) for i in range(3)]
+            + [_cbe(_q(f"cbe_hard{i}", 1, difficulty="hard")) for i in range(3)])
+    foundation, _ = _ids(pool, sec, "foundation")
+    advanced, res = _ids(pool, sec, "advanced")
+    assert foundation == advanced
+    assert res.optimization_metrics["tierSignals"] == {
+        "available": False, "difficultyLevels": 0, "bloomLevels": 0}
+    assert any(TIERS_UNAVAILABLE in w for w in res.warnings)
+    assert all(selection.difficulty_signal(q) is None and selection.bloom_signal(q) is None
+               for q in pool)
+
+
+def test_the_tiers_note_says_why_no_version_is_offered():
+    """The builder's sentence (Task 125, step 7 shows it) names the class and
+    subject, and says the bank set the values from marks."""
+    expected = (
+        "Foundation and Advanced versions are not offered: in the Class 10 Science bank, "
+        "questions of the same marks do not differ in a difficulty or Bloom level anyone "
+        "judged (the bank sets them from marks), so every version would print this same "
+        "paper.")
+    assert selection.tiers_note(10, "Science") == expected
+    assert selection.tiers_note("X", "Science") == expected
+
+
 def test_the_registry_path_marks_what_it_made_up():
     """mapping.py supplies a Bloom level and a marks-derived difficulty when
     extraction found none; the record must say they were supplied."""
