@@ -18,7 +18,7 @@ The previous handover (2026-09-21, answer-key linkage) is kept in `docs/history/
 
 | Piece | Where | State |
 |---|---|---|
-| Web app (Flutter web) | https://vidyuthlabs.web.app (Firebase Hosting, project `vidyuthlabs`) | live, commit `caf5e3d` |
+| Web app (Flutter web) | https://vidyuthlabs.web.app (Firebase Hosting, project `vidyuthlabs`) | live, commit `09649eb` |
 | Backend (FastAPI) | Cloud Run `academicos-backend`, `asia-south1`, https://academicos-backend-2eskom55ta-el.a.run.app | live, `/health` reports the commit |
 | Database | Cloud SQL Postgres `academicos-pg` (durable tables) + SQLite snapshots | live |
 | Blobs | GCS `vidyuthlabs-academicos-media` | live |
@@ -96,10 +96,10 @@ This section was measured by reading the code, not by running it. Requirement ID
 
 | Area | What exists | Gap |
 |---|---|---|
-| **Question bank QB-1..13** | 5,429 served questions, every one with a marking scheme. Classes 6-10 Maths (289-857 per class) and Science (247-504). Sources: NCERT Exemplar 4,192, CBSE sample papers 783, CBSE competency items 435, board papers 19. One serving gate; bank health report; chapter/topic tagging for about half of the bank. | **Grades 1-5: nothing.** English, Hindi and Social Science 6-10 are almost empty. No NCERT textbook exercises imported yet. No unofficial or AI-assisted source with a review queue. Difficulty and Bloom level are inferred, not judged (QB-11). Content fidelity: 16 of 20 standard papers print an unanswerable question (audit D31, D26, D45; the bank rebuild for this is already authorised). |
-| **Question bank API API-1..6** | `/v1` search/get/coverage/facets, an MCP server, API keys (`api_keys.py`) | No key issuance on live and no durable key store (D38). Chapter filter differs from the builder's (D39, a regression). Paging and error contract gaps (D52, D64, D65). **No homework-generation endpoint (API-2).** |
+| **Question bank QB-1..13** | 5,319 served questions, every one with a marking scheme. Classes 6-10 Maths (265-852 per class) and Science (245-494). Sources: NCERT Exemplar 4,191, CBSE sample papers 743, CBSE competency items 366, board papers 19. The fidelity rebuild (2026-09-28, `corpus/fidelity.py`) repairs what the extraction broke where the repair is certain and refuses the rest. One serving gate; bank health report; chapter/topic tagging for about half of the bank. | **Grades 1-5: nothing.** English, Hindi and Social Science 6-10 are almost empty. No NCERT textbook exercises imported yet. No unofficial or AI-assisted source with a review queue. Difficulty and Bloom level are inferred, not judged (QB-11). Content fidelity: rebuilt 2026-09-28 against every example the audits named (D20, D21, D26, D31, D36, D45, D54, D74, D76, D77); not re-audited yet. Still open: about 2% of Exemplar keys misaligned (D37) and CBE keys that answer another part (Science8SB31c) -- neither has a rule that finds them. The CBE importer itself still doubles stacked fractions; the rebuild refuses those items rather than recovering them. |
+| **Question bank API API-1..6** | `/v1` search/get/coverage/facets, an MCP server, API keys (`api_keys.py`) | No key issuance on live and no durable key store (D38). The chapter filter and MCP topics file chapters as the builder does (D39 fixed, M0). Paging and error contract gaps (D52, D64, D65). **No homework-generation endpoint (API-2).** |
 | **Exam automation EX-1..9** | Guided builder, quick paper, hand-pick, swap/pick/remove, sets, OR choices, PDF paper and key, time saved per paper; the competency share against CBSE's 50% and a tiers-unavailable sentence shown before generating (Task 125, live) | Real tiers need judged difficulty (QB-11). The bank's competency share is 4-22% in Maths/Science 6-10, but the builder fills competency sections first: 46 of 56 whole-syllabus presets and 7 of 10 quick papers reach 50%; Science 6/7/8 cannot, and say so. Newly filled Section E slots print CBE garble (audit D74), which makes content fidelity (M6) more urgent. Half-yearly papers fall short of marks (D18). No review/approval workflow, datesheet, invigilation, marks entry or report cards. School name/logo not printed by default (D41). |
-| **Admin and dashboard ADM, ROLE** | Roles `principal`, `teacher`, `student`; invite-only registration; a role policy on every route; audit log; admin console with roster, coverage and pace, reschedule, calendar setup, book editions; insights card (per-term exam coverage, time saved) | **No delegated admin or permission sets (ROLE-1).** No parent role. No bulk import. Terms cannot be declared on the web yet (D27). A section is only a label on a grade (`Grade.section`); nothing is scheduled per section. The dashboard lacks substitution, homework and progress data. |
+| **Admin and dashboard ADM, ROLE** | Roles `principal`, `teacher`, `student`; invite-only registration; a role policy on every route; audit log; admin console with roster, coverage and pace, reschedule, calendar setup, book editions; insights card (per-term exam coverage, time saved) | **No delegated admin or permission sets (ROLE-1).** No parent role. No bulk import. Terms and a new school's classes 6-10 are set up on the web (D27, M0); a dated year plan still needs the API. A section is only a label on a grade (`Grade.section`); nothing is scheduled per section. The dashboard lacks substitution, homework and progress data. |
 | **Scheduling SCH-1..9** | Academic year, terms, holidays (multi-day), period configuration, **per-subject weekday slots** (`SubjectTimetableSlot`: subject, weekday, period), teacher → book assignments, dated lesson plans with PUSH/ADJUST reschedule and audit | **No real timetable model.** No section × period × teacher × room data, so no clash detection, no teacher timetable and no solver (SCH-2, SCH-3). **No leave, no substitution, no compensation or lost-period debt** (SCH-5..7). The edge cases (SCH-8) are unhandled. |
 | **Teacher app TA-1..9** | The shared Flutter codebase has a teacher "my schedule" page, a daily planner, papers and question bank, mobile scan. An **offline Android build** exists; the old phone stream's branch `feat/product-phone` has 8 unmerged commits and a `wip/product-phone-2026-09-26` snapshot. | **No separate teacher app.** No leave or substitution UI, no homework creation, no push notifications, no offline sync of timetable and lessons (the offline build runs a local engine instead of syncing). |
 | **Student app SA-1..8** | `student_schedule_page`, `parent_portal_page`, `practice_session_page` (practice sets from remediation) in the shared app | **No separate student app.** No assignments (homework) model at all; practice sets are student-generated, not teacher-set. No parent account or linking. No young-learner mode. |
@@ -117,7 +117,7 @@ gate it and deploy it.
 
 | # | Milestone | Why first | First tasks |
 |---|---|---|---|
-| **M0** | Stabilise what is live | Leaves a clean base | ~~Finish Task 125~~ (done, live as `caf5e3d`). Fix D39 (use `chapter_filing` in `qbank_engine` and MCP). Serve hashed entry files immutable (D29). Declare terms on the web (D27). |
+| **M0** | Stabilise what is live | Leaves a clean base | **Done, live as `09649eb`:** Task 125; D39; D29; D27; D22/D40; D78/D79; the content-fidelity rebuild. Next: re-audit. |
 | **M1** | School data model | Everything in v3 needs it | Sections as entities; teacher ↔ subject ↔ section allocations; rooms; bell schedules; delegated-admin permission sets (ROLE-1); parent accounts and linking; bulk CSV import (INT-3). |
 | **M2** | Scheduling engine | The teacher app's core | Timetable model and a constraint solver (OR-Tools CP-SAT) with clash detection (SCH-2/3). Leave → substitution → compensation with a lost-period debt (SCH-5..7). An edge-case test suite (SCH-8). Lesson plans per section. |
 | **M3** | Notifications platform | Both apps need it | Device registry, FCM push, in-app inbox, preferences/quiet hours, templates, a scheduler (Cloud Scheduler + Cloud Run jobs) for reminders and digests (NTF-1..3). |
@@ -144,16 +144,18 @@ measured from the start. Use `docs/audits/` for the write-ups and `docs/product-
 | `docs/audit-0927` | merged | history only |
 
 Planned in the last session but **not started** (the audit defect IDs are in `docs/audits/2026-09-27-8db6636.md`):
-- **API surfaces:** D39, D52, D64, D65, D10, D7, D62, D61, D38.
-- **Terms on the web and dashboard honesty:** D27, D43, D47, D48, D49, D42, D50, D51, D46, D55.
-- **Content fidelity:** D31, D26, D36, D37, D20, D45, D21, D54. The owner authorised rebuilding the bank and lowering a chapter floor to the measured count when fewer-but-answerable questions make it fail.
-- **Speed:** 2.4, D29.
+- **API surfaces:** D52, D64, D65, D10 (labels cleaned, matching fixed), D7, D62, D61, D38. D39 fixed in M0.
+- **Dashboard honesty:** D43, D47, D48, D49, D42, D50, D51, D46, D55. D27 (terms on the web) fixed in M0.
+- **Content fidelity:** rebuilt in M0 (D31, D26, D36, D20, D45, D21, D54, D74, D76, D77). Open: D37 and misaligned CBE part keys; an importer that recovers stacked fractions instead of refusing them. Floors were lowered to the measured counts under the owner's rule (tests/test_catalog_chapters.py has the per-record diff).
+- **Speed:** 2.4 (D29 fixed in M0: the entry files are cached for a year under content-hashed names).
 
 ## 9. Things that will bite you
 
-- **The served bank** (`academicos-data/syllabus/questions.json`) is rebuilt only in pipeline order (the
-  docstring of `scripts/merge_question_banks.py`). There is one serving gate in `corpus/bank_merge.py`.
-  Add rules inside it, and measure false positives by reading refused stems.
+- **The served bank** (`academicos-data/syllabus/questions.json`) is rebuilt only in pipeline order
+  (`docs/agent-workflow.md` §5: tag the SOURCE banks, then merge, then enrich). There is one serving gate in
+  `corpus/bank_merge.py`, with the extraction repairs and refusals in `corpus/fidelity.py`. Add rules there,
+  and measure false positives by reading every refused stem. The relink needs `answer_keys.db` and the
+  683 MB parse trees, which live only in the main checkout.
 - **Every new route** needs a row in `api/route_policy.py` and an entry in `tests/test_route_inventory.py`
   (163 routes today). If the schema changes, regenerate the OpenAPI contract and TS types.
 - **Deploy traps:**

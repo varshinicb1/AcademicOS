@@ -19,8 +19,8 @@ Manager by name. Never paste a key into a command, a file or a commit.
     PYTHONPATH=$PWD/src PYTHONIOENCODING=utf-8 D:/AcademicOS-venv/Scripts/python.exe -m pytest tests -q -p no:cacheprovider
     cd frontend && flutter analyze --no-fatal-infos && flutter test --exclude-tags live-backend -j 1
 
-Last green at `5375af1` (2026-09-24): 3,589 passed / 113 skipped / 8 xfailed;
-373 Flutter tests passed; analyzer at 7 info-level notes. A number lower than
+Last green at `09649eb` (2026-09-28): 3,795 passed / 112 skipped / 8 xfailed;
+403 Flutter tests passed; analyzer at 7 info-level notes. A number lower than
 that is a regression until you can say which tests went and why.
 
 Do not rebuild `frontend/build/web` while the Python suite runs. `api/main.py`
@@ -109,5 +109,6 @@ whether a font loaded. Check the network log for the font request instead.
 | 2026-09-27 | `3219702` | time saved counts every generation path; the app is no longer cached `immutable`; entry URLs carry a content hash (`flutter_bootstrap.js?v=7b1ce8b13f27`, `main.dart.js?v=55ed9c781cee`). Backend and web. Gate 3,622 passed / 113 skipped / 8 xfailed. Live: `Cache-Control: no-cache` on the entry files, bundle 5,539,687 bytes both sides, catalog unchanged (5,426), `/paper-timing` 401 unauthenticated, and a fresh browser loaded `main.dart.js?v=55ed9c781cee` with no console errors |
 | 2026-09-27 | `8db6636` | exam coverage and time saved per term with the principal's baseline (route 163); a chosen chapter reaches what the picker counts (2,297 of 2,297). Backend and web. Gate 3,645 passed / 113 skipped / 8 xfailed; Flutter 381. Live: `/health` 8db6636, storage ok, bundle 5,546,482 bytes both sides, `/paper-timing` and the baseline route 401 unauthenticated, catalog 5,426 unchanged. A browser that had loaded the previous build fetched `main.dart.js?v=0a164747aba1` on its next visit with no console errors -- the cache-bust working on a returning browser |
 | 2026-09-27 | `caf5e3d` | Task 125: one competency rule, the share and the tier sentence on the builder's chapters step, edited papers recount their sentences, bank health competency section, /assessment/create -> builder on the web. Backend and web. Gate 3,736 passed / 113 skipped / 8 xfailed; Flutter 386; analyze 7 info. Live: `/health` caf5e3d, storage ok, bundle 5,548,646 bytes both sides, hashed entry URLs match, catalog 5,426 unchanged, the availability route 401 unauthenticated, and a fresh browser loaded `main.dart.js?v=a02995a0915f` with no console errors |
+| 2026-09-28 | `09649eb` | M0: /v1 and MCP file chapters like the builder (D39); entry files cached a year under content-hashed names (D29); classes 6-10 and stocked subjects only (D22, D40); a paper keeps its competency sentences, one share format (D78, D79); terms and class setup on the web (D27); the fidelity rebuild, 5,429 -> 5,319 served (D20, D21, D26, D31, D36, D45, D54, D74, D76, D77). Backend and web. Gate 3,795 passed / 112 skipped / 8 xfailed; Flutter 403 passed; analyze 7 info. Live: `/health` 09649eb, storage ok (cloudsql, gcs), bundle `main.dart.aa6fb69bb2f8.js` 5,572,517 bytes both sides and cached `public, max-age=31536000, immutable`, `index.html` no-cache naming `flutter_bootstrap.b25987820cdf.js`, plain `/main.dart.js` now the SPA page, catalog 5,319 equal to the local bank on all 68 pairs (classes 6-10: 33 pairs, 4,826), terms and `/v1` routes 401 unauthenticated; in a browser the first visit transferred 1,145,574 B for the app and the second 0 B, no console errors |
 
 Update this table with every hand deploy.

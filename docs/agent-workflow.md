@@ -128,12 +128,29 @@ anything**: `scripts/merge_question_banks.py` (the whole pipeline) and
     build_cbe_bank.py / build_sqp_bank.py / build_exemplar_bank.py
     tag_question_bank.py                  # infers chapter tags
     apply_chapter_tags.py                 # writes them into the sources; a builder rerun discards them
-    enrich_question_bank.py               # relinks and verifies board schemes (only when that must change)
+    tag_question_bank.py --topics <cbse-cbe, cbse-sqp and ncert-exemplar questions.json>
+                                          # taxonomy tags, INTO THE SOURCES (see below)
     merge_question_banks.py               # composes the served bank + the APK copy + the exclusions
-    tag_question_bank.py --topics <served bank>   # taxonomy chapter/topic/subtopic tags
+    enrich_question_bank.py               # relinks board schemes, fills asset fields, stamps the verifier
     bank_health.py                        # regenerates docs/bank-health.md + bank_health.json
 
-- The 2026-09 rebuilds (Tasks 121-126) did **not** re-run `enrich_question_bank.py`:
+- **Tag the sources, never the served bank.** The merge rebuilds every non-board record
+  from the source banks, so a tag written into the served bank is lost at the next merge.
+  Until 2026-09-28 the list above said `--topics <served bank>`, and the served bank held
+  tags its sources did not: the fidelity rebuild's merge dropped 36 SQP records' tags
+  until the sources were tagged. The tagger keeps the Exemplar book-map tags pinned.
+- **`enrich_question_bank.py` needs `answer_keys.db` and the parse trees**
+  (`academicos-data/answer_keys.db`, `academicos-data/parse/`, 683 MB). Both are gitignored
+  and exist only in the main checkout (`../AcademicOS/academicos-data/`). For the 2026-09-28
+  rebuild the db was copied into this worktree and `parse` linked to the main checkout's
+  (a Windows junction), read-only; a worktree without them cannot run the relink.
+- **Every fidelity rule** lives in `corpus/fidelity.py` (repairs where certain, refusals
+  where not) and is counted by `merge_question_banks.py --check`. Read what a new rule
+  refuses before you keep it: the first draft of the 2026-09-28 rules refused five
+  answerable questions, and a cosmetic repair changed what the value-point splitter reads.
+
+- The 2026-09 rebuilds of Tasks 121-126 did **not** re-run `enrich_question_bank.py` (the
+  2026-09-28 fidelity rebuild did, after the merge):
   the board records were already stamped with the current scheme verifier, and
   the merge **refuses** a bank that is not, so skipping it fails loudly rather
   than silently. Re-run it only when the board relink itself has to change.
@@ -183,9 +200,10 @@ the running system, with the output inspected. In practice:
 `docs/audits/2026-09-27-8db6636.md` lists 35 numbered defects with reproductions. The v3 gaps are in
 `HANDOVER.md` section 6. Two standing decisions from the product owner:
 
-- **Bank rebuild authorised (2026-09-27)** for the content-fidelity work. If a chapter floor in
-  `tests/test_catalog_chapters.py` fails because the bank now serves fewer but answerable questions, lower
-  that floor to the measured count, with the reason in the commit.
+- **Bank rebuild authorised (2026-09-27)** for the content-fidelity work, and used on 2026-09-28
+  (5,429 -> 5,319 served; floors lowered with the per-record diff in `tests/test_catalog_chapters.py`).
+  The rule stands: lower a chapter floor only when the bank serves fewer questions that are all
+  answerable, with the reason in the commit.
 - **Social Science, English, Hindi and grades 1-5** need source material that is not in the repo yet
   (NCERT textbooks and other sources, `REQUIREMENTS.md` QB-4). This is the largest content gap.
 
