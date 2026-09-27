@@ -34,9 +34,10 @@ What the rule never reads, and why (the served bank, composedAt 2026-09-23):
     based questions");
   * marks.
 
-`competency_ceiling` applies the rule to a paper's sections: the most
-competency-based questions they can print from a bank, known before any
-question is chosen.
+`competency_ceiling` applies the rule to a paper's sections: before any
+question is chosen, an estimate of the most competency-based questions they
+can print from a bank. selection.optimize raises it to what the paper then
+printed (see the function for why an estimate cannot be exact).
 
 This module imports nothing from the academicos package. selection,
 paper_templates and syllabus.bank_health all need the rule, and a leaf module
@@ -46,7 +47,7 @@ pulling pool.py into bank_health.
 from __future__ import annotations
 
 import re
-from collections.abc import Iterable, Mapping
+from collections.abc import Callable, Iterable, Mapping
 from typing import Any
 
 # questionBankId prefix of every item read from a CBSE CBE item-bank PDF.
@@ -77,6 +78,17 @@ def _field(q: Any, camel: str, snake: str) -> Any:
     return getattr(q, snake, None)
 
 
+def from_cbe_item_bank(q: Any) -> bool:
+    """Is `q` from one of CBSE's CBE item banks (``questionBankId`` ``"cbe:..."``)?
+
+    One test of the prefix for the rule below and for selection's tier
+    signals (the importer's Bloom level and difficulty are its defaults, not
+    judgements). `q` is a QuestionSchema or a camelCase record.
+    """
+    bank_id = _field(q, "questionBankId", "question_bank_id")
+    return isinstance(bank_id, str) and bank_id.startswith(CBE_ITEM_BANK_PREFIX)
+
+
 def competency_signal(q: Any) -> str | None:
     """Why `q` is competency-based -- ``"cbeItemBank"``, ``"competencyType"`` or
     ``"assertionReasonLabels"`` -- or None when nothing its source printed says so.
@@ -84,8 +96,7 @@ def competency_signal(q: Any) -> str | None:
     `q` is a QuestionSchema or a camelCase record (the served JSON shape); both
     give the same answer.
     """
-    bank_id = _field(q, "questionBankId", "question_bank_id")
-    if isinstance(bank_id, str) and bank_id.startswith(CBE_ITEM_BANK_PREFIX):
+    if from_cbe_item_bank(q):
         return "cbeItemBank"
     metadata = _field(q, "metadata", "metadata") or {}
     if _field(q, "type", "type") in COMPETENCY_TYPES and not metadata.get("typeInferred"):
@@ -101,13 +112,26 @@ def is_competency_question(q: Any) -> bool:
     return competency_signal(q) is not None
 
 
-def competency_ceiling(sections: Iterable[tuple[int, Iterable[Any], Iterable[Any]]]) -> int:
-    """The most competency-based questions a paper's sections can print.
+def _id(q: Any) -> Any:
+    return _field(q, "id", "id")
+
+
+def _unique(qs: Iterable[Any], exclude: set) -> list[Any]:
+    """`qs` once each, in order, leaving out the ids in `exclude`."""
+    return list({_id(q): q for q in qs if _id(q) not in exclude}.values())
+
+
+def competency_ceiling(sections: Iterable[tuple[int, Iterable[Any], Iterable[Any]]],
+                       repeats: Callable[[str, str], bool] | None = None) -> int:
+    """The most competency-based questions a paper's sections can print, as
+    far as can be known before any question is chosen.
 
     Each section is ``(count, in_scope_fits, fallback_fits)``: how many
     questions it asks for, the questions in the chosen scope that fit it, and
     the ones outside the scope that fit it. A question is a QuestionSchema or
-    a camelCase record (as for `competency_signal`), told apart by its id.
+    a camelCase record (as for `competency_signal`), told apart by its id,
+    and counted once however often the lists name it: a fallback fit the
+    section already counted from its own scope is not borrowed for it again.
 
     The sections are walked in order over one bank, as selection.optimize
     fills them, and a question placed in one is not counted in another. Each
@@ -115,17 +139,43 @@ def competency_ceiling(sections: Iterable[tuple[int, Iterable[Any], Iterable[Any
     the rest of its count comes from its other unused in-scope fits, and only
     what those leave short is borrowed from the fallback (optimize borrows
     only for a shortfall), competency-based ones first.
+
+    `repeats(stem_a, stem_b)`, when given, says two stems are the same
+    question; selection.optimize passes pool.near_duplicate, which this leaf
+    does not import. optimize never prints a question that restates one
+    already on the paper, so a fit that restates a question counted before it
+    neither counts nor fills its section: the section is that much shorter,
+    and borrows for it.
+
+    Still an estimate, not a bound: optimize also prints OR partners, which
+    can empty a later section's own fits, and ranks by score, which can take
+    the plain question a later section needed. So optimize raises the
+    ceiling it reports to the competency-based questions it printed.
     """
     taken: set = set()
+    counted: list[str] = []   # stems of the questions counted so far
     ceiling = 0
+
+    def fill(qs: list[Any], n: int) -> list[Any]:
+        got: list[Any] = []
+        for q in qs:
+            if len(got) >= n:
+                break
+            if repeats is not None:
+                stem = _field(q, "stem", "stem") or ""
+                if any(repeats(stem, seen) for seen in counted):
+                    continue
+                counted.append(stem)
+            got.append(q)
+        return got
+
     for count, in_scope, fallback in sections:
-        free = list({_field(q, "id", "id"): q for q in in_scope
-                     if _field(q, "id", "id") not in taken}.values())
-        own = [q for q in free if is_competency_question(q)][:count]
-        rest = [q for q in free if not is_competency_question(q)][:count - len(own)]
+        free = _unique(in_scope, taken)
+        own = fill([q for q in free if is_competency_question(q)], count)
+        rest = fill([q for q in free if not is_competency_question(q)], count - len(own))
         short = count - len(own) - len(rest)
-        borrowed = [q for q in fallback
-                    if _field(q, "id", "id") not in taken and is_competency_question(q)][:short]
-        taken.update(_field(q, "id", "id") for q in (*own, *rest, *borrowed))
+        outside = _unique(fallback, taken | {_id(q) for q in free})
+        borrowed = fill([q for q in outside if is_competency_question(q)], short)
+        taken.update(_id(q) for q in (*own, *rest, *borrowed))
         ceiling += len(own) + len(borrowed)
     return ceiling

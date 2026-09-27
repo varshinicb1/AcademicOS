@@ -34,6 +34,7 @@ from .competency import (  # noqa: F401
     CBSE_COMPETENCY_TARGET,
     competency_ceiling,
     competency_signal,
+    from_cbe_item_bank,
     is_competency_question,
 )
 from .pool import near_duplicate
@@ -64,34 +65,35 @@ from .templates import default_sections
 _PLACEHOLDER_DIFFICULTY_SOURCES = frozenset({"cbse_sample_paper"})
 
 
-def _from_cbe_item_bank(q: QuestionSchema) -> bool:
-    return (q.question_bank_id or "").startswith(CBE_ITEM_BANK_PREFIX)
-
-
 def difficulty_signal(q: QuestionSchema) -> str | None:
     """The question's difficulty, or None where the record's value was supplied
     rather than judged (so a tier must not act on it)."""
     if (q.metadata.get("difficultyInferred") or q.source in _PLACEHOLDER_DIFFICULTY_SOURCES
-            or _from_cbe_item_bank(q)):
+            or from_cbe_item_bank(q)):
         return None
     return q.difficulty
 
 
 def bloom_signal(q: QuestionSchema) -> str | None:
     """The question's Bloom level, or None where it was supplied rather than read."""
-    if q.metadata.get("bloomInferred") or _from_cbe_item_bank(q):
+    if q.metadata.get("bloomInferred") or from_cbe_item_bank(q):
         return None
     return q.bloom_level
 
 
 def tiers_note(grade: object, subject: str) -> str:
     """Why a paper offers no Foundation or Advanced version, for the builder to
-    show where the teacher picks one (tier_signals()['available'] is False)."""
+    show where the teacher picks one (tier_signals()['available'] is False).
+
+    It says only what tier_signals checks. Where the unjudged values come from
+    differs by cell and by field (a Bloom level is the importers' default; a
+    difficulty is from marks on board and CBE records, and the SQP builder's
+    constant on all 14 served Social Science 10 records), so no one cause is
+    named here."""
     g = grades.to_int(grade) or grade
     return (f"Foundation and Advanced versions are not offered: in the Class {g} {subject} "
             f"bank, questions of the same marks do not differ in a difficulty or Bloom level "
-            f"anyone judged (the bank sets them from marks), so every version would print "
-            f"this same paper.")
+            f"anyone judged, so every version would print this same paper.")
 
 
 def _live_signals(questions: list[QuestionSchema],
@@ -193,6 +195,41 @@ def _repeats_paper(q: QuestionSchema, *on_paper: list[QuestionSchema]) -> bool:
     return any(near_duplicate(q.stem, p.stem) for group in on_paper for p in group)
 
 
+def _pct(part: int, whole: int) -> float:
+    return round(part / whole * 100, 1)
+
+
+def _cannot_reach(target: float, ceiling: int, printed: int, asked: int,
+                  in_scope: list[QuestionSchema], usable: list[QuestionSchema]) -> str:
+    """The sentence for a paper whose sections cannot reach `target`.
+
+    `ceiling` is measured against the `printed` questions, as every share
+    surface is; a paper that prints short names what it asks for too. The
+    second sentence says where the limit is: on chosen chapters, the chapters
+    (with the whole bank beside them), not the bank. `in_scope` and `usable`
+    are the questions that fit a section in the chosen chapters and in the
+    whole bank (the same list when no chapters were chosen).
+    """
+    of = (f"of the {asked} it asks for ({_pct(ceiling, asked)}%)" if printed >= asked else
+          f"of the {printed} it can print ({_pct(ceiling, printed)}%; it asks for {asked})")
+    head = (f"This paper cannot reach CBSE's {target * 100:g}% competency-based share: its "
+            f"sections can hold at most {ceiling} competency-based question(s) {of}.")
+    k = sum(map(is_competency_question, usable))
+    in_bank = f"{k} ({_pct(k, len(usable))}%)"
+    if len(in_scope) == len(usable):
+        why = (f"Of the {len(usable)} question(s) in the bank these sections can use, "
+               f"{in_bank} are competency-based.")
+    elif in_scope:
+        k_in = sum(map(is_competency_question, in_scope))
+        why = (f"Of the {len(in_scope)} question(s) in the chosen chapters these sections can "
+               f"use, {k_in} ({_pct(k_in, len(in_scope))}%) are competency-based; of the "
+               f"{len(usable)} in the whole bank, {in_bank} are.")
+    else:
+        why = (f"No question in the chosen chapters fits these sections; of the {len(usable)} "
+               f"in the whole bank that do, {in_bank} are competency-based.")
+    return f"{head} {why}"
+
+
 def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
             fallback_candidates: list[QuestionSchema] | None = None) -> QuestionOptimizationResult:
     sections = blueprint.sections or default_sections(blueprint.total_marks)
@@ -217,26 +254,20 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
     warnings: list[str] = []
     gaps: list[str] = []
 
-    # Before any question is chosen: can these sections reach the target at
-    # all? The post-selection sentence below reports what the paper printed;
-    # this one what no selection from this bank could avoid, so it goes first.
+    # Before any question is chosen: how many competency-based questions can
+    # these sections hold at all? The walk is an estimate (competency_ceiling
+    # says why); after selection it is raised to what the paper printed, and
+    # only then is the sentence written, so the paper under it cannot
+    # contradict it. It goes first: it states a limit of the bank, where the
+    # post-selection sentence reports what the paper printed.
     ceiling_sections = [
         (s.question_count,
          [q for q in candidates if _fits_section(q, s)],
          [q for q in fallback_remaining if _fits_section(q, s)])
         for s in sections]
+    usable_in_scope = {q.id: q for _, own, _ in ceiling_sections for q in own}
     usable = {q.id: q for _, own, borrowed in ceiling_sections for q in (*own, *borrowed)}
-    usable_competency = sum(1 for q in usable.values() if is_competency_question(q))
-    ceiling = competency_ceiling(ceiling_sections)
-    asked = sum(s.question_count for s in sections)
-    if usable and asked and ceiling / asked < competency_target:
-        warnings.insert(0, (
-            f"This paper cannot reach CBSE's {competency_target * 100:g}% competency-based "
-            f"share: its sections can hold at most {ceiling} competency-based question(s) of "
-            f"the {asked} it asks for ({round(ceiling / asked * 100, 1)}%). Of the "
-            f"{len(usable)} question(s) in the bank these sections can use, "
-            f"{usable_competency} ({round(usable_competency / len(usable) * 100, 1)}%) are "
-            f"competency-based."))
+    ceiling = competency_ceiling(ceiling_sections, repeats=near_duplicate)
 
     for section in sections:
         # Determine if competency boost is needed to hit the target quota (CBSE >= 50%)
@@ -376,6 +407,19 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
         if is_competency_question(q):
             cbq_count += 1
 
+    # The walk before selection cannot see OR partners or the ranking, so
+    # what the paper printed is the floor of what its sections can hold, and
+    # the questions it printed in all the roof. Measured, like every share
+    # surface, against the questions printed: against the ones asked for, a
+    # section that prints short made the sentence say 'cannot reach' of a
+    # paper whose printed share reaches it (17 of 33 on Science 10 board, one
+    # chapter).
+    ceiling = min(max(ceiling, cbq_count), len(selected))
+    if selected and ceiling / len(selected) < competency_target:
+        warnings.insert(0, _cannot_reach(
+            competency_target, ceiling, len(selected), sum(s.question_count for s in sections),
+            list(usable_in_scope.values()), list(usable.values())))
+
     if selected:
         distinct_chapters = len(chapter_coverage)
         if distinct_chapters == 1 and len(selected) > 3:
@@ -410,12 +454,16 @@ def optimize(candidates: list[QuestionSchema], blueprint: Blueprint,
             "bloomDistribution": dict(bloom_hist),
             "difficultyDistribution": dict(difficulty_hist),
             "competencyPercentage": round(cbq_percentage, 3),
-            # Before selection: the most competency-based questions the
-            # sections can print, how many bank questions fit a section, how
-            # many of those are competency-based, and the target.
+            # The most competency-based questions the sections can print
+            # (the walk before selection, raised to what printed); how many
+            # questions in the whole bank fit a section, and how many of those
+            # are competency-based; the same two for the chosen chapters
+            # (equal to the bank's when no chapters were chosen); the target.
             "competencyCeiling": ceiling,
             "competencyUsable": len(usable),
-            "competencyInBank": usable_competency,
+            "competencyInBank": sum(map(is_competency_question, usable.values())),
+            "competencyUsableInScope": len(usable_in_scope),
+            "competencyInScope": sum(map(is_competency_question, usable_in_scope.values())),
             "competencyTarget": competency_target,
             "tier": tier,
             "tierSignals": signals,

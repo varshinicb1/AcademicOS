@@ -260,14 +260,27 @@ def _recs(prefix: str, n: int, *, cbe: bool = False) -> list[dict]:
             for i in range(n)]
 
 
-def _both_forms(sections):
+def _both_forms(sections, **kw):
     """`sections` as camelCase records and as QuestionSchemas: one answer."""
     as_schema = [(n, [QuestionSchema.model_validate(r) for r in own],
                   [QuestionSchema.model_validate(r) for r in borrowed])
                  for n, own, borrowed in sections]
-    got = competency.competency_ceiling(sections)
-    assert competency.competency_ceiling(as_schema) == got
+    got = competency.competency_ceiling(sections, **kw)
+    assert competency.competency_ceiling(as_schema, **kw) == got
     return got
+
+
+def _worded(prefix: str, n: int, *, cbe: bool = False) -> list[dict]:
+    """Like `_recs`, but every stem its own question, so a `repeats` test
+    decides which records restate each other."""
+    return [_record(id=f"{prefix}{i}", stem=f"State fact {i} about the {prefix} set.",
+                    **({"questionBankId": "cbe:x.pdf"} if cbe else {}))
+            for i in range(n)]
+
+
+def _same_stem(a: str, b: str) -> bool:
+    """A stand-in for pool.near_duplicate, which this leaf may not import."""
+    return a == b
 
 
 def test_a_section_holds_no_more_competency_questions_than_its_bank_has():
@@ -297,6 +310,50 @@ def test_sections_share_one_bank():
     plain = _recs("plain", 3)
     assert _both_forms([(2, plain, _recs("cbe", 2, cbe=True)),
                         (2, plain, _recs("cbe", 2, cbe=True))]) == 1
+
+
+def test_a_restated_question_does_not_fill_a_section():
+    """optimize() skips a question that restates one already on the paper
+    (pool.near_duplicate), so an in-scope fit that restates another leaves the
+    section short, and the section borrows a competency-based question from
+    outside the chapters. Told what repeats, the ceiling counts that borrow;
+    blind to it, the ceiling said 0 of a paper that printed 1
+    (review_s56/synthetic.py, case 1)."""
+    plain = _worded("plain", 4)
+    plain[1]["stem"] = plain[0]["stem"]
+    outside = _worded("cbe", 2, cbe=True)
+    assert _both_forms([(4, plain, outside)]) == 0
+    assert _both_forms([(4, plain, outside)], repeats=_same_stem) == 1
+
+
+def test_restated_competency_questions_count_once():
+    """Two copies of one competency-based question can print only once."""
+    cbe = _worded("cbe", 3, cbe=True)
+    cbe[1]["stem"] = cbe[0]["stem"]
+    assert _both_forms([(4, cbe + _worded("plain", 4), [])]) == 3
+    assert _both_forms([(4, cbe + _worded("plain", 4), [])], repeats=_same_stem) == 2
+    # Across sections too: the second section's copy repeats the first's.
+    assert _both_forms([(1, cbe[:1], []), (1, cbe[1:2], [])], repeats=_same_stem) == 1
+
+
+def test_the_fallback_is_counted_once_and_never_for_its_own_section():
+    """A fallback question is one question however often it is listed, and a
+    question the section already counted from its own chapters cannot be
+    borrowed for it a second time (bank_health passes overlapping lists)."""
+    cbe0, plain0 = _worded("cbe", 1, cbe=True)[0], _worded("plain", 1)[0]
+    assert _both_forms([(3, [cbe0, plain0], [cbe0])]) == 1
+    outside = _worded("out", 1, cbe=True)
+    assert _both_forms([(3, [plain0], outside + outside)]) == 1
+
+
+def test_from_cbe_item_bank_reads_both_record_shapes():
+    """One test of the item-bank prefix, for the rule and the tier signals."""
+    rec = _record(questionBankId="cbe:Item-Bank---Maths-Class-6.pdf")
+    assert competency.from_cbe_item_bank(rec) is True
+    assert competency.from_cbe_item_bank(QuestionSchema.model_validate(rec)) is True
+    assert competency.from_cbe_item_bank({"question_bank_id": "cbe:x.pdf"}) is True
+    assert competency.from_cbe_item_bank(_record()) is False
+    assert competency.from_cbe_item_bank({"questionBankId": None}) is False
 
 
 # ---- the served bank --------------------------------------------------------
