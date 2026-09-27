@@ -244,9 +244,36 @@ class QuestionPool:
         if grade:
             out = [q for q in out if _grade_matches(q.grade, grade)]
         if chapter_ids:
-            wanted = set(chapter_ids)
-            out = [q for q in out if q.chapter_id in wanted]
+            # The chapters the teacher chose are the chapters the chapter view
+            # files questions under (assessment/chapter_filing.py); matching
+            # `chapter_id` alone reached 1,266 of the 2,297 questions the
+            # picker counted (audit D24).
+            tests = {key: self._chapter_test(key, chapter_ids)
+                     for key in {(q.subject, q.grade) for q in out}}
+            out = [q for q in out if tests[(q.subject, q.grade)](q)]
         return out
+
+    def _chapter_test(self, key: tuple[str, str], chapter_ids: list[str]):
+        from . import grades
+        from .chapter_filing import ChapterFiling
+        subject, grade_label = key
+        number = grades.to_int(grade_label)
+        if number is None:
+            wanted = set(chapter_ids)
+            return lambda q: q.chapter_id in wanted
+        filing = ChapterFiling.for_class(subject, number)
+        filed = {filing.chapter_of(*_chapter_claims(q)) for q in self.questions
+                 if (q.subject, q.grade) == key}
+        selects = filing.selects(chapter_ids, filed)
+        return lambda q: selects(*_chapter_claims(q))
+
+
+def _chapter_claims(q: PoolQuestion) -> tuple[str | None, list[str]]:
+    """(taxonomy tag, own chapter ids) -- what the chapter view files by. A
+    served-bank record carries both; a registry question only its chapter."""
+    if q.record is not None:
+        return q.record.get("taxonomyChapterId"), list(q.record.get("chapterIds") or [])
+    return None, [q.chapter_id] if q.chapter_id else []
 
 
 def _grade_matches(pool_grade: str, requested_grade: str) -> bool:

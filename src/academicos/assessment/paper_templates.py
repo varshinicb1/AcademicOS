@@ -240,8 +240,10 @@ def build_scope_filter(scope: TemplateScope, candidates: list[QuestionSchema],
             notes.append("Subtopic filter not applied: no question is tagged to the "
                           "chosen subtopics yet, so the paper uses the chosen chapters.")
 
+    in_chapters = _chapter_selector(chapters, candidates) if chapters else None
+
     def in_scope(q: QuestionSchema) -> bool:
-        if chapters and not chapters.intersection(q.chapter_ids):
+        if in_chapters is not None and not in_chapters(q):
             return False
         if subtopic_ids is not None and q.id not in subtopic_ids:
             return False
@@ -250,6 +252,33 @@ def build_scope_filter(scope: TemplateScope, candidates: list[QuestionSchema],
         return True
 
     return ScopeFilter(in_scope=in_scope, notes=notes)
+
+
+def _chapter_selector(chosen: set[str], candidates: list[QuestionSchema],
+                      ) -> Callable[[QuestionSchema], bool]:
+    """In the chosen chapters as the chapter view files them
+    (assessment/chapter_filing.py), per class and subject among the
+    candidates. Matching `chapter_ids` alone reached 1,266 of the 2,297
+    questions the builder's picker counted (audit D24)."""
+    from .chapter_filing import ChapterFiling
+    by_class: dict[tuple[str, int], list[QuestionSchema]] = {}
+    for q in candidates:
+        by_class.setdefault((q.subject, q.grade), []).append(q)
+    tests = {}
+    for (subject, grade), qs in by_class.items():
+        filing = ChapterFiling.for_class(subject, grade)
+        filed = {filing.chapter_of(q.taxonomy_chapter_id, q.chapter_ids) for q in qs}
+        tests[(subject, grade)] = filing.selects(chosen, filed)
+
+    def test(q: QuestionSchema) -> bool:
+        selects = tests.get((q.subject, q.grade))
+        if selects is None:
+            # Not among the candidates the filter was built for: the record's
+            # own chapter ids, as before.
+            return not chosen.isdisjoint(q.chapter_ids)
+        return selects(q.taxonomy_chapter_id, q.chapter_ids)
+
+    return test
 
 
 def _topic_ids(q: QuestionSchema) -> list[str]:
