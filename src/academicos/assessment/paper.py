@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
+from .competency import CBSE_COMPETENCY_TARGET
 from .schemas import (
     Blueprint,
     GeneratedPaper,
@@ -307,6 +308,48 @@ def answer_key_entry(q: QuestionSchema) -> str:
 def or_answer_key_entry(model_answer: str | None) -> str:
     """The answer-key text for an OR alternative (its `<n>_OR` entry)."""
     return model_answer or "(model answer pending)"
+
+
+def competency_share(paper: GeneratedPaper) -> float:
+    """The competency-based share of the questions `paper` prints: its
+    compulsory questions, each flagged by the one rule when it was put on the
+    paper (`generated_question`). OR alternatives are not counted."""
+    flags = [q.is_competency for s in paper.sections for q in s.questions]
+    return round(sum(flags) / len(flags), 3) if flags else 0.0
+
+
+def stamp_competency(paper: GeneratedPaper, target: float | None = None) -> None:
+    """`competency_share` and whether it meets `target` (CBSE's 50% when
+    None), on `paper` alone -- not its sets."""
+    target = CBSE_COMPETENCY_TARGET if target is None else target
+    paper.competency_share = competency_share(paper)
+    paper.competency_target_met = paper.competency_share >= target
+
+
+def report_competency(paper: GeneratedPaper, target: float | None) -> list[str]:
+    """The CBQ share of the printed questions and whether it meets `target`
+    (CBSE: at least 50%), stamped on the paper and each of its sets. Missed in
+    17/25 subject/grade pairs at the 2026-09-21 audit, with nothing on the
+    paper to say so.
+
+    Set B/C print other questions than set A, so each set gets its own share:
+    reporting set A's for all three said 0.45 where B and C held 0.25 and 0.15.
+    Returns a warning per set that misses the target.
+
+    Every generation path calls this one function -- quick-generate,
+    /papers/generate, generate-from-ids and generate-from-template -- so a
+    template paper carries the share the builder's availability check showed
+    (`paper_templates.competency_check`, same denominator).
+    """
+    target = CBSE_COMPETENCY_TARGET if target is None else target
+    warnings: list[str] = []
+    for p in [paper, *paper.sets]:
+        stamp_competency(p, target)
+        if p is not paper and not p.competency_target_met:
+            warnings.append(
+                f"Set {p.set_label} has {round(p.competency_share * 100, 1)}% "
+                f"competency-based questions (CBSE target: {int(target * 100)}%).")
+    return warnings
 
 
 def render_text(paper: GeneratedPaper) -> str:

@@ -673,6 +673,16 @@
             "title": "Bankquestions",
             "type": "integer"
           },
+          "competency": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CompetencyCheck"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "complete": {
             "title": "Complete",
             "type": "boolean"
@@ -707,6 +717,16 @@
           "templateId": {
             "title": "Templateid",
             "type": "string"
+          },
+          "tiers": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TierCheck"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
@@ -1484,6 +1504,105 @@
           "sharedMistakes"
         ],
         "title": "ClassInsightsResponse",
+        "type": "object"
+      },
+      "CompetencyCheck": {
+        "description": "The competency-based share of the paper the report would print, against\nCBSE's target (at least half), counted by the one rule\n(`competency.competency_signal`).\n\nWhere a share below the target comes from decides what the teacher can do\nabout it at the builder's chapters step, so `status` says:\n\n  * ``meets`` -- the share reaches the target;\n  * ``below_scope`` -- the chosen chapters fall short, and the whole\n    syllabus, planned the same way, would reach it (widen the chapters);\n  * ``below_bank`` -- the class and subject bank cannot reach it with\n    this template, whatever the chapters.\n\nThe share's denominator is the questions printed (compulsory, not their\nOR alternatives), as `paper.report_competency` counts a generated paper,\nso the check and the paper it becomes carry the same `share`.",
+        "properties": {
+          "bankCompetencyBased": {
+            "title": "Bankcompetencybased",
+            "type": "integer"
+          },
+          "bankShare": {
+            "title": "Bankshare",
+            "type": "number"
+          },
+          "bankUsable": {
+            "title": "Bankusable",
+            "type": "integer"
+          },
+          "bySignal": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "default": {},
+            "title": "Bysignal",
+            "type": "object"
+          },
+          "competencyBased": {
+            "title": "Competencybased",
+            "type": "integer"
+          },
+          "counted": {
+            "title": "Counted",
+            "type": "string"
+          },
+          "detail": {
+            "title": "Detail",
+            "type": "string"
+          },
+          "printed": {
+            "title": "Printed",
+            "type": "integer"
+          },
+          "share": {
+            "title": "Share",
+            "type": "number"
+          },
+          "status": {
+            "enum": [
+              "meets",
+              "below_scope",
+              "below_bank"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "target": {
+            "title": "Target",
+            "type": "number"
+          },
+          "wholeSyllabusCompetencyBased": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wholesyllabuscompetencybased"
+          },
+          "wholeSyllabusPrinted": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Wholesyllabusprinted"
+          }
+        },
+        "required": [
+          "status",
+          "target",
+          "printed",
+          "competencyBased",
+          "share",
+          "bankUsable",
+          "bankCompetencyBased",
+          "bankShare",
+          "summary",
+          "detail",
+          "counted"
+        ],
+        "title": "CompetencyCheck",
         "type": "object"
       },
       "CompetencyWeights": {
@@ -8373,6 +8492,25 @@
           "endDate"
         ],
         "title": "TermResponse",
+        "type": "object"
+      },
+      "TierCheck": {
+        "description": "Could a Foundation or Advanced version print a different paper? Only\nwhere questions of a section's marks differ in a difficulty or Bloom\nlevel someone judged (`selection.tier_signals`). `sentence` says why no\nversion is offered, and is empty when one could be.",
+        "properties": {
+          "available": {
+            "title": "Available",
+            "type": "boolean"
+          },
+          "sentence": {
+            "default": "",
+            "title": "Sentence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "available"
+        ],
+        "title": "TierCheck",
         "type": "object"
       },
       "TimetableResponse": {

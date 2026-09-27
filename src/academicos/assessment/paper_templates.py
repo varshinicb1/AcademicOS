@@ -30,6 +30,13 @@ A shortfall's reason names the constraint that left questions out, largest
 first, and `fixes` lists the changes that would close it (widen the scope,
 change the marks, relax the kind or the competency rule, ask for fewer).
 
+Beside the sections, the route attaches two answers the builder shows at its
+chapters step, while the scope can still change: the competency-based share
+the paper would print against CBSE's 50%, and whether the chapters or the
+bank are the limit (`competency_check`); and whether a Foundation or
+Advanced version could print anything else (`tier_check`). Neither changes
+`complete`.
+
 A section with internal choice (`choice_count`) pairs that many of its
 questions with an OR alternative, drawn from the same eligible pool and
 claimed like any pick, so availability counts the alternatives the paper
@@ -50,15 +57,18 @@ from __future__ import annotations
 
 import json
 import re
+from collections import Counter
 from dataclasses import dataclass, field
 from functools import lru_cache
 from pathlib import Path
 from typing import Callable, Literal, Optional
 
-from .competency import is_competency_question
+from .competency import CBSE_COMPETENCY_TARGET, COMPETENCY_RULE_TEXT, competency_signal, \
+    is_competency_question
 from .pool import near_duplicate
 from .schemas import Camel, DifficultyDistribution, PaperTemplateDraft, QuestionSchema, \
     QuestionType, TemplateScope, TemplateSection
+from .selection import tier_signals, tiers_note
 
 # Where the board-level topic taxonomy will live (being built in another
 # stream). Its absence is reported, never treated as "every id is invalid".
@@ -184,15 +194,72 @@ class SectionAvailability(Camel):
     fixes: list[SectionFix] = []
 
 
+CompetencyStatus = Literal["meets", "below_scope", "below_bank"]
+
+
+class CompetencyCheck(Camel):
+    """The competency-based share of the paper the report would print, against
+    CBSE's target (at least half), counted by the one rule
+    (`competency.competency_signal`).
+
+    Where a share below the target comes from decides what the teacher can do
+    about it at the builder's chapters step, so `status` says:
+
+      * ``meets`` -- the share reaches the target;
+      * ``below_scope`` -- the chosen chapters fall short, and the whole
+        syllabus, planned the same way, would reach it (widen the chapters);
+      * ``below_bank`` -- the class and subject bank cannot reach it with
+        this template, whatever the chapters.
+
+    The share's denominator is the questions printed (compulsory, not their
+    OR alternatives), as `paper.report_competency` counts a generated paper,
+    so the check and the paper it becomes carry the same `share`."""
+    status: CompetencyStatus
+    target: float
+    printed: int
+    competency_based: int
+    share: float
+    # The whole-syllabus plan's, only when the scope names chapters, topics or
+    # subtopics (the second plan run); None otherwise.
+    whole_syllabus_printed: Optional[int] = None
+    whole_syllabus_competency_based: Optional[int] = None
+    # Keyed class+subject questions that fit some section, whatever the scope.
+    bank_usable: int
+    bank_competency_based: int
+    bank_share: float
+    # The printed competency-based questions, by the signal that counted them.
+    by_signal: dict[str, int] = {}
+    summary: str
+    detail: str
+    # What was counted (competency.COMPETENCY_RULE_TEXT).
+    counted: str
+
+
+class TierCheck(Camel):
+    """Could a Foundation or Advanced version print a different paper? Only
+    where questions of a section's marks differ in a difficulty or Bloom
+    level someone judged (`selection.tier_signals`). `sentence` says why no
+    version is offered, and is empty when one could be."""
+    available: bool
+    sentence: str = ""
+
+
 class AvailabilityReport(Camel):
     template_id: str
     grade: int
     subject: str
     bank_questions: int
     keyed_questions: int
+    # Every section filled. The competency and tier checks below never change
+    # it: it decides whether generation needs allowGaps.
     complete: bool
     sections: list[SectionAvailability]
     scope_notes: list[str] = []
+    # Beside the sections, not in them (see CompetencyCheck / TierCheck).
+    # None where no route attached them (`plan` alone) and in reports from
+    # before they existed.
+    competency: Optional[CompetencyCheck] = None
+    tiers: Optional[TierCheck] = None
 
 
 def has_verified_key(q: QuestionSchema) -> bool:
@@ -630,6 +697,76 @@ def plan(template: PaperTemplateDraft, template_id: str, candidates: list[Questi
         sections=[p.availability for p in plans], scope_notes=scope.notes,
     )
     return report, plans
+
+
+def _whole_percent(part: int, whole: int) -> int:
+    """`part` of `whole` as a whole-number percentage, rounded half up: 1 of 8
+    is 13%, where round() would give 12."""
+    return (200 * part + whole) // (2 * whole) if whole else 0
+
+
+def _printed(plans: list[SectionPlan]) -> list[QuestionSchema]:
+    """The compulsory questions a plan prints (OR alternatives not counted)."""
+    return [q for p in plans for q in (*p.picked, *p.borrowed)]
+
+
+def competency_check(template: PaperTemplateDraft, plans: list[SectionPlan],
+                     keyed: list[QuestionSchema],
+                     whole_plans: Optional[list[SectionPlan]] = None,
+                     target: float = CBSE_COMPETENCY_TARGET) -> Optional[CompetencyCheck]:
+    """The competency-based share of what `plans` print, and where a share
+    below `target` comes from (see `CompetencyCheck`). None when nothing prints.
+
+    `keyed` is the class+subject bank's keyed questions, whatever the scope:
+    the ones that fit some section are what the bank offers this template.
+    `whole_plans` is the same template planned over the whole syllabus, given
+    only when the scope names chapters, topics or subtopics; without it a
+    share below target is the bank's limit, not the scope's."""
+    printed = _printed(plans)
+    if not printed:
+        return None
+    signals = [s for s in map(competency_signal, printed) if s is not None]
+    n, c = len(printed), len(signals)
+    usable = [q for q in keyed if any(_fits(q, s) for s in template.sections)]
+    bc = sum(1 for q in usable if is_competency_question(q))
+    wn: Optional[int] = None
+    wc: Optional[int] = None
+    if whole_plans is not None:
+        whole = _printed(whole_plans)
+        wn, wc = len(whole), sum(1 for q in whole if is_competency_question(q))
+
+    t = f"{target * 100:g}"
+    if c / n >= target:
+        status, detail = "meets", f"CBSE asks for at least {t}%."
+    elif wn and wc is not None and wc / wn >= target:
+        status = "below_scope"
+        detail = (f"Below CBSE's {t}%. The whole syllabus would give {wc} of {wn} "
+                  f"({_whole_percent(wc, wn)}%).")
+    else:
+        status = "below_bank"
+        detail = (f"Below CBSE's {t}%. The Class {template.grade} {template.subject} bank "
+                  f"cannot reach it with this template: {bc} of the {len(usable)} questions "
+                  f"it can use ({_whole_percent(bc, len(usable))}%) are competency-based.")
+    noun = "question" if n == 1 else "questions"
+    return CompetencyCheck(
+        status=status, target=target, printed=n, competency_based=c,
+        share=round(c / n, 3),
+        whole_syllabus_printed=wn, whole_syllabus_competency_based=wc,
+        bank_usable=len(usable), bank_competency_based=bc,
+        bank_share=round(bc / len(usable), 3) if usable else 0.0,
+        by_signal=dict(Counter(signals)),
+        summary=f"Competency-based: {c} of {n} {noun} ({_whole_percent(c, n)}%)",
+        detail=detail, counted=COMPETENCY_RULE_TEXT,
+    )
+
+
+def tier_check(template: PaperTemplateDraft, keyed: list[QuestionSchema]) -> TierCheck:
+    """Whether a tier could change which of the class+subject bank's keyed
+    questions this template's sections take (`selection.tier_signals`), and
+    the sentence the builder shows when it could not."""
+    available = bool(tier_signals(keyed, {s.marks_each for s in template.sections})["available"])
+    return TierCheck(available=available,
+                     sentence="" if available else tiers_note(template.grade, template.subject))
 
 
 @dataclass
