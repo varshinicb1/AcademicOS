@@ -98,5 +98,6 @@ whether a font loaded. Check the network log for the font request instead.
 | 2026-09-24 | `86f8711` | calendar terms, book editions, class setup, subtopic picker |
 | 2026-09-24 | `5375af1` | one serving gate for the bank; catalog 5,429 |
 | 2026-09-26 | `3197f4e` | Task 126 review fixes, bank health report fixes, these docs. Backend only (frontend unchanged; bundle 5,539,687 bytes both sides). Gate 3,611 passed / 113 skipped / 8 xfailed. Catalog 5,426: Informatics Practices 12 is 29 against the file's 32 -- the three `PENDING_REBUILD` records the gate now refuses; every class 6-10 pair equals the file |
+| 2026-09-27 | `3219702` | time saved counts every generation path; the app is no longer cached `immutable`; entry URLs carry a content hash (`flutter_bootstrap.js?v=7b1ce8b13f27`, `main.dart.js?v=55ed9c781cee`). Backend and web. Gate 3,622 passed / 113 skipped / 8 xfailed. Live: `Cache-Control: no-cache` on the entry files, bundle 5,539,687 bytes both sides, catalog unchanged (5,426), `/paper-timing` 401 unauthenticated, and a fresh browser loaded `main.dart.js?v=55ed9c781cee` with no console errors |
 
 Update this table with every hand deploy.
