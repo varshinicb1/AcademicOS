@@ -59,12 +59,16 @@ default split turns it into a bad dict entry, which stops the revision starting.
     rm -rf build/web        # a local http.server serving it holds the directory; stop that first
     flutter build web --release --dart-define=ACADEMICOS_API="https://academicos-backend-2eskom55ta-el.a.run.app/api/v1"
     rm -f build/web/assets/assets/corpus/questions.json    # 15 MB offline-only bank; the web never reads it
-    cd .. && python scripts/web_cache_bust.py frontend/build/web   # content-hashed entry URLs
+    cd .. && python scripts/web_cache_bust.py frontend/build/web   # content-hashed entry names
 
 Flutter writes `main.dart.js` and `flutter_bootstrap.js` under the same names
-every build. The last command makes `index.html` (never cached) load both through
-`?v=<content hash>` URLs, so a browser that cached an older build fetches this
-one. It fails loudly if Flutter's output changes shape; do not deploy past that.
+every build. The last command renames them `main.dart.<hash>.js` and
+`flutter_bootstrap.<hash>.js` and points `index.html` (never cached) at them.
+firebase.json caches exactly that name shape `immutable` for a year and
+revalidates everything else, so a returning browser downloads the app only
+after a deploy (D29), and a new build is a new name it has never cached. If you
+skip the script the plain names ship `no-cache`: slow, never stale. It fails
+loudly if Flutter's output changes shape; do not deploy past that.
 
 ## 5. Firebase Hosting
 
@@ -81,11 +85,15 @@ is not. The deploy writes a `.firebase/` cache; it is gitignored.
     BACKEND=https://academicos-backend-2eskom55ta-el.a.run.app
     curl -s $BACKEND/health                     # "commit" must equal the SHA you built
     curl -s $BACKEND/health/storage             # ok / cloudsql / gcs
-    curl -s https://vidyuthlabs.web.app/main.dart.js | wc -c   # equals build/web/main.dart.js byte for byte
+    MAIN=$(ls frontend/build/web | grep -E '^main\.dart\.[0-9a-f]{12}\.js$')
+    curl -s https://vidyuthlabs.web.app/$MAIN | wc -c          # equals frontend/build/web/$MAIN byte for byte
+    curl -sI https://vidyuthlabs.web.app/$MAIN | grep -i cache-control   # public, max-age=31536000, immutable
     curl -s "$BACKEND/api/v1/catalog"           # per class x subject counts equal the local served bank
 
 A 200 on `/assets/assets/corpus/questions.json` is NOT the asset: the SPA
-rewrite returns `index.html` for unknown paths. Check the Content-Type.
+rewrite returns `index.html` for unknown paths. Check the Content-Type. The same
+goes for `/main.dart.js` since D29: the plain name is no longer uploaded, so it
+answers with `index.html`.
 
 Under CanvasKit, `document.fonts` is always empty, so it proves nothing about
 whether a font loaded. Check the network log for the font request instead.
