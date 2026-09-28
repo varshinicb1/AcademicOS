@@ -150,6 +150,12 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
+          # Pinned to the version the local gates run (HANDOVER.md section 3).
+          # Unpinned, CI took the newest stable (3.47.5 on 2026-09-28), whose
+          # analyzer raised a warning 3.44.9 does not, failed frontend-test
+          # and skipped the Hosting deploy of e0d7d63. Bump it here and on
+          # the development machines together, in one PR.
+          flutter-version: '3.44.9'
           channel: stable
           cache: true
 
@@ -458,6 +464,12 @@ jobs:
 
       - uses: subosito/flutter-action@v2
         with:
+          # Pinned to the version the local gates run (HANDOVER.md section 3).
+          # Unpinned, CI took the newest stable (3.47.5 on 2026-09-28), whose
+          # analyzer raised a warning 3.44.9 does not, failed frontend-test
+          # and skipped the Hosting deploy of e0d7d63. Bump it here and on
+          # the development machines together, in one PR.
+          flutter-version: '3.44.9'
           channel: stable
           cache: true
 
