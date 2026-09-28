@@ -19,6 +19,7 @@ import '../local_engine/corpus_repository.dart';
 import '../local_engine/local_api_client.dart';
 import '../local_engine/local_pillar_api.dart';
 import '../local_engine/local_store.dart';
+import '../sync/network_policy.dart';
 import '../../data/repositories/assessment_repository_impl.dart';
 import '../../data/repositories/repositories_impl.dart';
 import '../../domain/repositories/repositories.dart';
@@ -156,6 +157,12 @@ void registerNetworkClients(GetIt sl, {required bool offline, HttpClientAdapter?
     receiveTimeout: const Duration(seconds: 90),
     headers: {'Content-Type': 'application/json'},
   ));
+  // The network guard is the FIRST interceptor: the offline build makes no
+  // request until the teacher turns sync on (core/sync/network_policy.dart),
+  // and nothing that runs before the guard -- the debug logger below prints
+  // request bodies with student names in them -- may see a request that was
+  // never allowed to exist. The web build is always allowed.
+  dio.interceptors.add(networkGuardInterceptor(offline: offline));
   // Full request/response bodies include real student names, answers, and
   // scores. Logging that in a distributed release build means it lands in
   // whatever OS/crash-reporting log capture is running on the machine this
@@ -202,15 +209,18 @@ void registerNetworkClients(GetIt sl, {required bool offline, HttpClientAdapter?
   }));
   if (httpClientAdapter != null) dio.httpClientAdapter = httpClientAdapter;
   sl.registerSingleton<Dio>(dio);
-  // Registered unconditionally (even in offline mode, where it's simply
-  // never read) -- keeps this section's registration order matching every
-  // other Dio-backed client below rather than special-casing one.
+  // The offline build registers none of the server APIs. Until 2026-09-28
+  // they were registered in every build "to keep the wiring uniform", so any
+  // screen that reached one -- the Classes page's consent POST carrying a
+  // student's and a guardian's names was one -- sent a request from a build
+  // promised never to. Without a registration, such a call fails loudly in
+  // development instead of quietly leaving the device; the screens that the
+  // offline build can reach check the build first (my_schedule_page,
+  // student_schedule_page, principal_page, classes_page).
+  if (offline) return;
   sl.registerLazySingleton<AuthApi>(() => AuthApi(sl<Dio>()));
-  // Same reasoning: the curriculum/schedule module has no offline-engine
-  // counterpart yet (no local mirror of Topic/Subtopic/ScheduledLesson
-  // data), so my_schedule_page.dart itself checks ACADEMICOS_OFFLINE
-  // before ever calling this -- registered here anyway so the DI wiring
-  // stays uniform rather than conditionally skipping one client.
+  // The curriculum/schedule module has no offline-engine counterpart (no
+  // local mirror of Topic/Subtopic/ScheduledLesson data).
   sl.registerLazySingleton<CurriculumApi>(() => CurriculumApi(sl<Dio>()));
   sl.registerLazySingleton<ConsentApi>(() => ConsentApi(sl<Dio>()));
   // The guided paper builder's template/availability/swap API. Server-only:
