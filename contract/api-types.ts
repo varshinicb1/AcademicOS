@@ -2557,6 +2557,175 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/homework": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Homework
+         * @description The principal sees the school's homework; a teacher what they set or
+         *     what is set in a subject and section they teach.
+         */
+        get: operations["list_homework_api_v1_homework_get"];
+        put?: never;
+        /**
+         * Create Homework
+         * @description Set homework. A teacher only for sections they teach this subject in;
+         *     the principal for any section of the school. Questions are the ones named,
+         *     or `count` picked from the chapters named. Published at once unless
+         *     `publish` is false, and then the students are told.
+         */
+        post: operations["create_homework_api_v1_homework_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/homework/suggestion": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Suggest
+         * @description What to set after the lesson the section's plan has on `date` (today
+         *     by default, else the latest lesson before it): the bank chapters that
+         *     match that lesson's chapter by name, and up to ten of their questions.
+         *     The school's book and the bank's chapters are not always one edition;
+         *     when no name matches, the note says so and the teacher picks chapters.
+         */
+        get: operations["suggest_api_v1_homework_suggestion_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/homework/{homework_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Homework */
+        get: operations["get_homework_api_v1_homework__homework_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/homework/{homework_id}/close": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Close Homework
+         * @description No more submissions. Marking what has come in goes on.
+         */
+        post: operations["close_homework_api_v1_homework__homework_id__close_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/homework/{homework_id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Publish Homework */
+        post: operations["publish_homework_api_v1_homework__homework_id__publish_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/homework/{homework_id}/remind": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Remind
+         * @description Tell every student who has not submitted. Once a day at most per
+         *     student, however often it is pressed.
+         */
+        post: operations["remind_api_v1_homework__homework_id__remind_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/homework/{homework_id}/submissions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Submissions
+         * @description Every student of the sections, submitted or not, with their answers
+         *     and the evaluator's marks per question.
+         */
+        get: operations["list_submissions_api_v1_homework__homework_id__submissions_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/homework/{homework_id}/submissions/{student_id}/grade": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Grade Submission
+         * @description Final marks for one student: the evaluator's award for every question
+         *     not named, the teacher's for each one named. The student is told.
+         */
+        post: operations["grade_submission_api_v1_homework__homework_id__submissions__student_id__grade_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/ingest/school-documents": {
         parameters: {
             query?: never;
@@ -2685,6 +2854,70 @@ export interface paths {
         get: operations["mail_status_api_v1_mail_status_get"];
         put?: never;
         post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-homework": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Homework
+         * @description The caller's section's homework, newest due date first, with where
+         *     they stand on each.
+         */
+        get: operations["my_homework_api_v1_my_homework_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-homework/{homework_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Homework Detail
+         * @description The questions without answers; after marking, the marks per question
+         *     and the model answers.
+         */
+        get: operations["my_homework_detail_api_v1_my_homework__homework_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/my-homework/{homework_id}/submit": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Submit
+         * @description Send answers ({questionId: answer}; an MCQ answer is its option
+         *     letter). May be sent again until it is marked or the homework closes.
+         *     After the due date it is accepted and marked late.
+         */
+        post: operations["submit_api_v1_my_homework__homework_id__submit_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -4221,6 +4454,15 @@ export interface components {
             fillFromOutsideScope: boolean;
             scope?: components["schemas"]["TemplateScope"] | null;
         };
+        /** BankChapter */
+        BankChapter: {
+            /** Chapterid */
+            chapterId: string;
+            /** Chaptername */
+            chapterName: string;
+            /** Questioncount */
+            questionCount: number;
+        };
         /** BellScheduleRequest */
         BellScheduleRequest: {
             /** Days */
@@ -5113,6 +5355,23 @@ export interface components {
             /** Totalmax */
             totalMax: number;
         };
+        /** EvaluationItem */
+        EvaluationItem: {
+            /** Awardedmarks */
+            awardedMarks: number;
+            /** Maxmarks */
+            maxMarks: number;
+            /** Modelanswer */
+            modelAnswer?: string | null;
+            /** Needsreview */
+            needsReview: boolean;
+            /** Questionid */
+            questionId: string;
+            /** Reasoning */
+            reasoning: string;
+            /** Verdict */
+            verdict: string;
+        };
         /** EvaluationResponse */
         EvaluationResponse: {
             /** Awardedmarks */
@@ -5339,6 +5598,15 @@ export interface components {
             /** Totalmarks */
             totalMarks: number;
         };
+        /** GradeRequest */
+        GradeRequest: {
+            /** Feedback */
+            feedback?: string | null;
+            /** Marks */
+            marks?: {
+                [key: string]: number;
+            };
+        };
         /** GradeResponse */
         GradeResponse: {
             /** Academicyearid */
@@ -5381,6 +5649,128 @@ export interface components {
             kind: string;
             /** Label */
             label: string;
+        };
+        /** HomeworkCreateRequest */
+        HomeworkCreateRequest: {
+            /** Chapterids */
+            chapterIds?: string[];
+            /**
+             * Count
+             * @default 5
+             */
+            count: number;
+            /** Duedate */
+            dueDate: string;
+            /**
+             * Instructions
+             * @default
+             */
+            instructions: string;
+            /**
+             * Publish
+             * @default true
+             */
+            publish: boolean;
+            /** Questionids */
+            questionIds?: string[];
+            /** Sectionids */
+            sectionIds: string[];
+            /** Subjectid */
+            subjectId: string;
+            /** Title */
+            title: string;
+        };
+        /** HomeworkDetail */
+        HomeworkDetail: {
+            /** Chapterids */
+            chapterIds: string[];
+            /** Duedate */
+            dueDate: string;
+            /** Grade */
+            grade: number;
+            /**
+             * Graded
+             * @default 0
+             */
+            graded: number;
+            /** Id */
+            id: string;
+            /** Instructions */
+            instructions: string;
+            /** Questioncount */
+            questionCount: number;
+            /** Questions */
+            questions: {
+                [key: string]: unknown;
+            }[];
+            /** Sectionids */
+            sectionIds: string[];
+            /** Sectionnames */
+            sectionNames: string[];
+            /** Status */
+            status: string;
+            /**
+             * Students
+             * @default 0
+             */
+            students: number;
+            /** Subjectid */
+            subjectId: string;
+            /** Subjectname */
+            subjectName: string;
+            /**
+             * Submitted
+             * @default 0
+             */
+            submitted: number;
+            /** Teacherid */
+            teacherId: string;
+            /** Title */
+            title: string;
+            /** Totalmarks */
+            totalMarks: number;
+        };
+        /** HomeworkSummary */
+        HomeworkSummary: {
+            /** Duedate */
+            dueDate: string;
+            /** Grade */
+            grade: number;
+            /**
+             * Graded
+             * @default 0
+             */
+            graded: number;
+            /** Id */
+            id: string;
+            /** Questioncount */
+            questionCount: number;
+            /** Sectionids */
+            sectionIds: string[];
+            /** Sectionnames */
+            sectionNames: string[];
+            /** Status */
+            status: string;
+            /**
+             * Students
+             * @default 0
+             */
+            students: number;
+            /** Subjectid */
+            subjectId: string;
+            /** Subjectname */
+            subjectName: string;
+            /**
+             * Submitted
+             * @default 0
+             */
+            submitted: number;
+            /** Teacherid */
+            teacherId: string;
+            /** Title */
+            title: string;
+            /** Totalmarks */
+            totalMarks: number;
         };
         /** InboxResponse */
         InboxResponse: {
@@ -5608,6 +5998,60 @@ export interface components {
             subtopicName: string;
             /** Topicname */
             topicName: string;
+        };
+        /** MyHomeworkDetail */
+        MyHomeworkDetail: {
+            /** Answers */
+            answers?: {
+                [key: string]: string;
+            };
+            /** Duedate */
+            dueDate: string;
+            /** Evaluations */
+            evaluations?: components["schemas"]["EvaluationItem"][];
+            /** Feedback */
+            feedback?: string | null;
+            /** Id */
+            id: string;
+            /** Instructions */
+            instructions: string;
+            /** Marks */
+            marks?: number | null;
+            /** Mystatus */
+            myStatus: string;
+            /** Overdue */
+            overdue: boolean;
+            /** Questions */
+            questions: components["schemas"]["StudentQuestion"][];
+            /** Status */
+            status: string;
+            /** Subjectname */
+            subjectName: string;
+            /** Title */
+            title: string;
+            /** Totalmarks */
+            totalMarks: number;
+        };
+        /** MyHomeworkItem */
+        MyHomeworkItem: {
+            /** Duedate */
+            dueDate: string;
+            /** Id */
+            id: string;
+            /** Marks */
+            marks?: number | null;
+            /** Mystatus */
+            myStatus: string;
+            /** Overdue */
+            overdue: boolean;
+            /** Status */
+            status: string;
+            /** Subjectname */
+            subjectName: string;
+            /** Title */
+            title: string;
+            /** Totalmarks */
+            totalMarks: number;
         };
         /** MyProgressResponse */
         MyProgressResponse: {
@@ -6413,6 +6857,17 @@ export interface components {
              * @default
              */
             textLatex: string;
+        };
+        /** QuestionPreview */
+        QuestionPreview: {
+            /** Id */
+            id: string;
+            /** Marks */
+            marks: number;
+            /** Stem */
+            stem: string;
+            /** Type */
+            type: string;
         };
         /** QuestionSchema */
         QuestionSchema: {
@@ -7557,6 +8012,21 @@ export interface components {
             /** Weakconcepts */
             weakConcepts: string[];
         };
+        /** StudentQuestion */
+        StudentQuestion: {
+            /** Id */
+            id: string;
+            /** Marks */
+            marks: number;
+            /** Parts */
+            parts?: {
+                [key: string]: unknown;
+            }[];
+            /** Stem */
+            stem: string;
+            /** Type */
+            type: string;
+        };
         /** StudyPlanRequest */
         StudyPlanRequest: {
             /** Capacity Minutes */
@@ -7707,6 +8177,55 @@ export interface components {
             /** Topicsproposed */
             topicsProposed: number;
         };
+        /** SubmissionRow */
+        SubmissionRow: {
+            /** Answers */
+            answers?: {
+                [key: string]: string;
+            };
+            /**
+             * Attempts
+             * @default 0
+             */
+            attempts: number;
+            /** Automarks */
+            autoMarks?: number | null;
+            /** Evaluations */
+            evaluations?: components["schemas"]["EvaluationItem"][];
+            /** Feedback */
+            feedback?: string | null;
+            /**
+             * Late
+             * @default false
+             */
+            late: boolean;
+            /** Marks */
+            marks?: number | null;
+            /** Maxmarks */
+            maxMarks: number;
+            /**
+             * Needsreview
+             * @default 0
+             */
+            needsReview: number;
+            /** Sectionid */
+            sectionId: string;
+            /** Status */
+            status: string;
+            /** Studentid */
+            studentId: string;
+            /** Studentname */
+            studentName: string;
+            /** Submittedat */
+            submittedAt?: string | null;
+        };
+        /** SubmitRequest */
+        SubmitRequest: {
+            /** Answers */
+            answers: {
+                [key: string]: string;
+            };
+        };
         /** SubstitutionResponse */
         SubstitutionResponse: {
             /** Absentteacherid */
@@ -7760,6 +8279,25 @@ export interface components {
             taggedQuestionCount?: number | null;
             /** Topicid */
             topicId: string;
+        };
+        /** SuggestionResponse */
+        SuggestionResponse: {
+            /** Bankchapters */
+            bankChapters: components["schemas"]["BankChapter"][];
+            /** Chaptername */
+            chapterName?: string | null;
+            /** Date */
+            date: string;
+            /** Lessonfound */
+            lessonFound: boolean;
+            /** Note */
+            note?: string | null;
+            /** Questions */
+            questions: components["schemas"]["QuestionPreview"][];
+            /** Subtopicname */
+            subtopicName?: string | null;
+            /** Topicname */
+            topicName?: string | null;
         };
         /**
          * SwapCounts
@@ -12929,6 +13467,297 @@ export interface operations {
             };
         };
     };
+    list_homework_api_v1_homework_get: {
+        parameters: {
+            query?: {
+                status?: string | null;
+                sectionId?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HomeworkSummary"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_homework_api_v1_homework_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["HomeworkCreateRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HomeworkDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    suggest_api_v1_homework_suggestion_get: {
+        parameters: {
+            query: {
+                sectionId: string;
+                subjectId: string;
+                date?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SuggestionResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_homework_api_v1_homework__homework_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HomeworkDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    close_homework_api_v1_homework__homework_id__close_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HomeworkSummary"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    publish_homework_api_v1_homework__homework_id__publish_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HomeworkSummary"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    remind_api_v1_homework__homework_id__remind_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    };
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_submissions_api_v1_homework__homework_id__submissions_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubmissionRow"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    grade_submission_api_v1_homework__homework_id__submissions__student_id__grade_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["GradeRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubmissionRow"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     ingest_school_document_api_v1_ingest_school_documents_post: {
         parameters: {
             query?: never;
@@ -13140,6 +13969,92 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["MailBackendStatus"];
+                };
+            };
+        };
+    };
+    my_homework_api_v1_my_homework_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyHomeworkItem"][];
+                };
+            };
+        };
+    };
+    my_homework_detail_api_v1_my_homework__homework_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyHomeworkDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    submit_api_v1_my_homework__homework_id__submit_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                homework_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SubmitRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["MyHomeworkDetail"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
                 };
             };
         };

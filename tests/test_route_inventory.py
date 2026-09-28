@@ -193,6 +193,18 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/notification-preferences"),
     ("POST", "/api/v1/devices"),
     ("DELETE", "/api/v1/devices/{token}"),
+    ("GET", "/api/v1/homework/suggestion"),
+    ("POST", "/api/v1/homework"),
+    ("GET", "/api/v1/homework"),
+    ("GET", "/api/v1/homework/{homework_id}"),
+    ("POST", "/api/v1/homework/{homework_id}/publish"),
+    ("POST", "/api/v1/homework/{homework_id}/close"),
+    ("GET", "/api/v1/homework/{homework_id}/submissions"),
+    ("POST", "/api/v1/homework/{homework_id}/submissions/{student_id}/grade"),
+    ("POST", "/api/v1/homework/{homework_id}/remind"),
+    ("GET", "/api/v1/my-homework"),
+    ("GET", "/api/v1/my-homework/{homework_id}"),
+    ("POST", "/api/v1/my-homework/{homework_id}/submit"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -407,6 +419,18 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("PUT", "/api/v1/notification-preferences"),
     ("POST", "/api/v1/devices"),
     ("DELETE", "/api/v1/devices/{token}"),
+    ("GET", "/api/v1/homework/suggestion"),
+    ("POST", "/api/v1/homework"),
+    ("GET", "/api/v1/homework"),
+    ("GET", "/api/v1/homework/{homework_id}"),
+    ("POST", "/api/v1/homework/{homework_id}/publish"),
+    ("POST", "/api/v1/homework/{homework_id}/close"),
+    ("GET", "/api/v1/homework/{homework_id}/submissions"),
+    ("POST", "/api/v1/homework/{homework_id}/submissions/{student_id}/grade"),
+    ("POST", "/api/v1/homework/{homework_id}/remind"),
+    ("GET", "/api/v1/my-homework"),
+    ("GET", "/api/v1/my-homework/{homework_id}"),
+    ("POST", "/api/v1/my-homework/{homework_id}/submit"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -736,7 +760,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 188: SCH-3 added solve and teacher unavailability (list, set).
     # 204: SCH-5..7 added 16 leave, substitution and compensation routes.
     # 211: M3 added the inbox, preferences and devices (7).
-    assert len(API_ROUTES) == 211
+    # 223: M5 added homework (12).
+    assert len(API_ROUTES) == 223
 
 
 def test_docs_routes_present():
