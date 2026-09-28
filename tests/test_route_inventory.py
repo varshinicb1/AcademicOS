@@ -186,6 +186,13 @@ API_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/day"),
     ("GET", "/api/v1/curriculum/my-day"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary"),
+    ("GET", "/api/v1/notifications"),
+    ("POST", "/api/v1/notifications/{notification_id}/read"),
+    ("POST", "/api/v1/notifications/read-all"),
+    ("GET", "/api/v1/notification-preferences"),
+    ("PUT", "/api/v1/notification-preferences"),
+    ("POST", "/api/v1/devices"),
+    ("DELETE", "/api/v1/devices/{token}"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -393,6 +400,13 @@ AUTH_FIRST_ROUTES: frozenset[tuple[str, str]] = frozenset({
     ("GET", "/api/v1/curriculum/day"),
     ("GET", "/api/v1/curriculum/my-day"),
     ("GET", "/api/v1/curriculum/academic-years/{academic_year_id}/cover-summary"),
+    ("GET", "/api/v1/notifications"),
+    ("POST", "/api/v1/notifications/{notification_id}/read"),
+    ("POST", "/api/v1/notifications/read-all"),
+    ("GET", "/api/v1/notification-preferences"),
+    ("PUT", "/api/v1/notification-preferences"),
+    ("POST", "/api/v1/devices"),
+    ("DELETE", "/api/v1/devices/{token}"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("POST", "/api/v1/curriculum/subjects/{subject_id}/books"),
     ("GET", "/api/v1/curriculum/subjects/{subject_id}/selected-book"),
@@ -721,7 +735,8 @@ def test_canonical_route_inventory_matches_live_app():
     # 185: M1.2-M1.3 added 17 school-model routes (allocations, rooms, bell, timetable).
     # 188: SCH-3 added solve and teacher unavailability (list, set).
     # 204: SCH-5..7 added 16 leave, substitution and compensation routes.
-    assert len(API_ROUTES) == 204
+    # 211: M3 added the inbox, preferences and devices (7).
+    assert len(API_ROUTES) == 211
 
 
 def test_docs_routes_present():
