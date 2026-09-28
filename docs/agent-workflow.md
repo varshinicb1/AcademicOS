@@ -35,8 +35,8 @@ work ran in several git worktrees on one laptop, with `release/v1` as the integr
 branches from it or merges into it. Open branches and their state are in `HANDOVER.md` section 8.
 
 `wip/*` and `draft/*` branches on `origin` are snapshots of unfinished work. Read one before redoing that
-work; do not merge one blind. `draft/phone-network-guard` is an open draft PR with its missing pieces
-listed.
+work; do not merge one blind. Every such branch on `origin` was finished or merged on 2026-09-28
+(PRs #1-#3); unfinished work now lives as a draft PR instead.
 
 Rules, if you run more than one stream or session at a time:
 
