@@ -20,7 +20,7 @@ The previous handover (2026-09-21, answer-key linkage) is kept in `docs/history/
 
 | Piece | Where | State |
 |---|---|---|
-| Web app (Flutter web) | https://vidyuthlabs.web.app (Firebase Hosting, project `vidyuthlabs`) | live, commit `09649eb` |
+| Web app (Flutter web) | https://vidyuthlabs.web.app (Firebase Hosting, project `vidyuthlabs`) | live, commit `e50d250` (2026-09-28) |
 | Backend (FastAPI) | Cloud Run `academicos-backend`, `asia-south1`, https://academicos-backend-2eskom55ta-el.a.run.app | live, `/health` reports the commit |
 | Database | Cloud SQL Postgres `academicos-pg` (durable tables) + SQLite snapshots | live |
 | Blobs | GCS `vidyuthlabs-academicos-media` | live |
@@ -125,7 +125,7 @@ gate it and deploy it.
 
 | # | Milestone | Why first | First tasks |
 |---|---|---|---|
-| **M0** | Stabilise what is live | Leaves a clean base | **Done, live as `09649eb`:** Task 125; D39; D29; D27; D22/D40; D78/D79; the content-fidelity rebuild. Next: re-audit. |
+| **M0** | Stabilise what is live | Leaves a clean base | **Done, live as `09649eb`, re-audited at 60.5:** Task 125; D39; D29; D27; D22/D40; D78/D79; the content-fidelity rebuild. PRs #1-#3 followed it live as `e50d250`. |
 | **M1** | School data model | Everything in v3 needs it | Sections as entities; teacher ↔ subject ↔ section allocations; rooms; bell schedules; delegated-admin permission sets (ROLE-1); parent accounts and linking; bulk CSV import (INT-3). |
 | **M2** | Scheduling engine | The teacher app's core | Timetable model and a constraint solver (OR-Tools CP-SAT) with clash detection (SCH-2/3). Leave → substitution → compensation with a lost-period debt (SCH-5..7). An edge-case test suite (SCH-8). Lesson plans per section. |
 | **M3** | Notifications platform | Both apps need it | Device registry, FCM push, in-app inbox, preferences/quiet hours, templates, a scheduler (Cloud Scheduler + Cloud Run jobs) for reminders and digests (NTF-1..3). |
