@@ -2341,6 +2341,28 @@
             "title": "Scheduleddate",
             "type": "string"
           },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
+          },
+          "sectionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionname"
+          },
           "subjectName": {
             "title": "Subjectname",
             "type": "string"
@@ -3786,6 +3808,28 @@
             ],
             "title": "Note"
           },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
+          },
+          "sectionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionname"
+          },
           "status": {
             "title": "Status",
             "type": "string"
@@ -5062,6 +5106,17 @@
             "minLength": 1,
             "title": "Reason",
             "type": "string"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           }
         },
         "required": [
@@ -5106,6 +5161,17 @@
             },
             "title": "Reschedules",
             "type": "array"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           }
         },
         "required": [
@@ -6658,14 +6724,29 @@
             "type": "boolean"
           },
           "periodsPerWeek": {
-            "exclusiveMinimum": 0.0,
-            "title": "Periodsperweek",
-            "type": "integer"
+            "anyOf": [
+              {
+                "exclusiveMinimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Periodsperweek"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           }
         },
-        "required": [
-          "periodsPerWeek"
-        ],
         "title": "ScheduleBookRequest",
         "type": "object"
       },
@@ -6723,6 +6804,17 @@
           "periodsPerWeek": {
             "title": "Periodsperweek",
             "type": "integer"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           },
           "subtopicsPartiallyScheduled": {
             "items": {
@@ -6842,6 +6934,17 @@
           "schoolId": {
             "title": "Schoolid",
             "type": "string"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
           },
           "status": {
             "title": "Status",
@@ -8119,6 +8222,28 @@
           "plannedToDate": {
             "title": "Plannedtodate",
             "type": "integer"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
+          },
+          "sectionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionname"
           },
           "skippedLessons": {
             "title": "Skippedlessons",
@@ -9718,6 +9843,28 @@
           "lessonId": {
             "title": "Lessonid",
             "type": "string"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
+          },
+          "sectionName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionname"
           },
           "subjectName": {
             "title": "Subjectname",
@@ -12328,6 +12475,7 @@
     },
     "/api/v1/curriculum/books/{book_id}/schedule": {
       "get": {
+        "description": "One plan of the book: a section's (sectionId), or the school-wide one.",
         "operationId": "get_book_schedule_api_v1_curriculum_books__book_id__schedule_get",
         "parameters": [
           {
@@ -12346,6 +12494,22 @@
             "schema": {
               "title": "Academic Year Id",
               "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sectionId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sectionid"
             }
           }
         ],

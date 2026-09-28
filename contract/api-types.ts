@@ -749,7 +749,10 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Get Book Schedule */
+        /**
+         * Get Book Schedule
+         * @description One plan of the book: a section's (sectionId), or the school-wide one.
+         */
         get: operations["get_book_schedule_api_v1_curriculum_books__book_id__schedule_get"];
         put?: never;
         /**
@@ -4361,6 +4364,10 @@ export interface components {
             lessonId: string;
             /** Scheduleddate */
             scheduledDate: string;
+            /** Sectionid */
+            sectionId?: string | null;
+            /** Sectionname */
+            sectionName?: string | null;
             /** Subjectname */
             subjectName: string;
             /** Subtopicname */
@@ -4914,6 +4921,10 @@ export interface components {
             lessonId: string;
             /** Note */
             note?: string | null;
+            /** Sectionid */
+            sectionId?: string | null;
+            /** Sectionname */
+            sectionName?: string | null;
             /** Status */
             status: string;
             /** Subjectname */
@@ -5471,6 +5482,8 @@ export interface components {
             periodsPerWeek?: number | null;
             /** Reason */
             reason: string;
+            /** Sectionid */
+            sectionId?: string | null;
         };
         /** PushScheduleResponse */
         PushScheduleResponse: {
@@ -5488,6 +5501,8 @@ export interface components {
             periodsPerWeek: number;
             /** Reschedules */
             reschedules: components["schemas"]["RescheduleResultResponse"][];
+            /** Sectionid */
+            sectionId?: string | null;
         };
         /** QuestionAcrossStudents */
         QuestionAcrossStudents: {
@@ -6071,7 +6086,9 @@ export interface components {
              */
             force: boolean;
             /** Periodsperweek */
-            periodsPerWeek: number;
+            periodsPerWeek?: number | null;
+            /** Sectionid */
+            sectionId?: string | null;
         };
         /** ScheduleBookResponse */
         ScheduleBookResponse: {
@@ -6102,6 +6119,8 @@ export interface components {
             pastLessonsKept: number;
             /** Periodsperweek */
             periodsPerWeek: number;
+            /** Sectionid */
+            sectionId?: string | null;
             /** Subtopicspartiallyscheduled */
             subtopicsPartiallyScheduled: string[];
             /** Subtopicsscheduled */
@@ -6140,6 +6159,8 @@ export interface components {
             note?: string | null;
             /** Schoolid */
             schoolId: string;
+            /** Sectionid */
+            sectionId?: string | null;
             /** Status */
             status: string;
             /** Subtopicid */
@@ -6752,6 +6773,10 @@ export interface components {
             pacePct: number;
             /** Plannedtodate */
             plannedToDate: number;
+            /** Sectionid */
+            sectionId?: string | null;
+            /** Sectionname */
+            sectionName?: string | null;
             /** Skippedlessons */
             skippedLessons: number;
             /** Subjectid */
@@ -7380,6 +7405,10 @@ export interface components {
             lastPlannedDate: string;
             /** Lessonid */
             lessonId: string;
+            /** Sectionid */
+            sectionId?: string | null;
+            /** Sectionname */
+            sectionName?: string | null;
             /** Subjectname */
             subjectName: string;
             /** Subtopicname */
@@ -9039,6 +9068,7 @@ export interface operations {
         parameters: {
             query: {
                 academic_year_id: string;
+                sectionId?: string | null;
             };
             header?: never;
             path: {
