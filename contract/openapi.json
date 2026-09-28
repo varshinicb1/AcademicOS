@@ -1780,6 +1780,75 @@
         "title": "ChapterEntry",
         "type": "object"
       },
+      "ChapterProgress": {
+        "properties": {
+          "accuracy": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accuracy"
+          },
+          "chapterId": {
+            "title": "Chapterid",
+            "type": "string"
+          },
+          "chapterName": {
+            "title": "Chaptername",
+            "type": "string"
+          },
+          "evidenceCount": {
+            "title": "Evidencecount",
+            "type": "integer"
+          },
+          "lastSeen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastseen"
+          },
+          "mastery": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mastery"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "topics": {
+            "items": {
+              "$ref": "#/components/schemas/TopicProgress"
+            },
+            "title": "Topics",
+            "type": "array"
+          }
+        },
+        "required": [
+          "chapterId",
+          "chapterName",
+          "evidenceCount",
+          "status",
+          "topics"
+        ],
+        "title": "ChapterProgress",
+        "type": "object"
+      },
       "ChapterResponse": {
         "properties": {
           "canonicalId": {
@@ -4387,6 +4456,56 @@
           "kind"
         ],
         "title": "KindPreferenceBody",
+        "type": "object"
+      },
+      "LearningProgressResponse": {
+        "properties": {
+          "asOf": {
+            "title": "Asof",
+            "type": "string"
+          },
+          "reviseNext": {
+            "items": {
+              "$ref": "#/components/schemas/ReviseItem"
+            },
+            "title": "Revisenext",
+            "type": "array"
+          },
+          "sources": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Sources",
+            "type": "object"
+          },
+          "studentId": {
+            "title": "Studentid",
+            "type": "string"
+          },
+          "subjects": {
+            "items": {
+              "$ref": "#/components/schemas/SubjectProgress"
+            },
+            "title": "Subjects",
+            "type": "array"
+          },
+          "weekly": {
+            "items": {
+              "$ref": "#/components/schemas/WeekProgress"
+            },
+            "title": "Weekly",
+            "type": "array"
+          }
+        },
+        "required": [
+          "studentId",
+          "asOf",
+          "subjects",
+          "reviseNext",
+          "weekly",
+          "sources"
+        ],
+        "title": "LearningProgressResponse",
         "type": "object"
       },
       "LeaveApplyRequest": {
@@ -7925,6 +8044,71 @@
         "title": "ReviewItemResponse",
         "type": "object"
       },
+      "ReviseItem": {
+        "properties": {
+          "chapterId": {
+            "title": "Chapterid",
+            "type": "string"
+          },
+          "chapterName": {
+            "title": "Chaptername",
+            "type": "string"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "lastSeen": {
+            "title": "Lastseen",
+            "type": "string"
+          },
+          "mastery": {
+            "title": "Mastery",
+            "type": "number"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          },
+          "topicId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Topicid"
+          },
+          "topicName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Topicname"
+          }
+        },
+        "required": [
+          "subject",
+          "grade",
+          "chapterId",
+          "chapterName",
+          "mastery",
+          "lastSeen",
+          "reason"
+        ],
+        "title": "ReviseItem",
+        "type": "object"
+      },
       "ReviseRequest": {
         "properties": {
           "learner": {
@@ -9941,6 +10125,75 @@
         "title": "SubjectPeriodAllocationResponse",
         "type": "object"
       },
+      "SubjectProgress": {
+        "properties": {
+          "accuracy": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accuracy"
+          },
+          "chapters": {
+            "items": {
+              "$ref": "#/components/schemas/ChapterProgress"
+            },
+            "title": "Chapters",
+            "type": "array"
+          },
+          "evidenceCount": {
+            "title": "Evidencecount",
+            "type": "integer"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "lastSeen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastseen"
+          },
+          "mastery": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mastery"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "subject": {
+            "title": "Subject",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject",
+          "grade",
+          "evidenceCount",
+          "status",
+          "chapters"
+        ],
+        "title": "SubjectProgress",
+        "type": "object"
+      },
       "SubjectProgressResponse": {
         "properties": {
           "completedCount": {
@@ -11455,6 +11708,67 @@
         "title": "TimetableSlotResponse",
         "type": "object"
       },
+      "TopicProgress": {
+        "properties": {
+          "accuracy": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Accuracy"
+          },
+          "evidenceCount": {
+            "title": "Evidencecount",
+            "type": "integer"
+          },
+          "lastSeen": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Lastseen"
+          },
+          "mastery": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mastery"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "topicId": {
+            "title": "Topicid",
+            "type": "string"
+          },
+          "topicName": {
+            "title": "Topicname",
+            "type": "string"
+          }
+        },
+        "required": [
+          "topicId",
+          "topicName",
+          "evidenceCount",
+          "status"
+        ],
+        "title": "TopicProgress",
+        "type": "object"
+      },
       "TopicResponse": {
         "properties": {
           "approvedAt": {
@@ -11971,6 +12285,35 @@
           "type"
         ],
         "title": "ValidationError",
+        "type": "object"
+      },
+      "WeekProgress": {
+        "properties": {
+          "answered": {
+            "title": "Answered",
+            "type": "integer"
+          },
+          "average": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Average"
+          },
+          "weekStart": {
+            "title": "Weekstart",
+            "type": "string"
+          }
+        },
+        "required": [
+          "weekStart",
+          "answered"
+        ],
+        "title": "WeekProgress",
         "type": "object"
       },
       "WeekSlotResponse": {
@@ -20048,6 +20391,30 @@
         "summary": "Submit"
       }
     },
+    "/api/v1/my-learning": {
+      "get": {
+        "description": "The caller's own progress: per subject, chapter and topic, what to\nrevise next, and the term week by week. Students only.",
+        "operationId": "my_learning_api_v1_my_learning_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LearningProgressResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Learning"
+      }
+    },
     "/api/v1/notification-preferences": {
       "get": {
         "operationId": "get_preferences_api_v1_notification_preferences_get",
@@ -22189,6 +22556,51 @@
           }
         ],
         "summary": "Get Section Templates"
+      }
+    },
+    "/api/v1/students/{student_id}/learning": {
+      "get": {
+        "description": "A student of the caller's school (a student: only themselves). A\nstaff read is logged as a read of student data.",
+        "operationId": "student_learning_api_v1_students__student_id__learning_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "student_id",
+            "required": true,
+            "schema": {
+              "title": "Student Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LearningProgressResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Student Learning"
       }
     },
     "/api/v1/syllabus/{subject}/{grade}": {

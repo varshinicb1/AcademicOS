@@ -2924,6 +2924,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/my-learning": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * My Learning
+         * @description The caller's own progress: per subject, chapter and topic, what to
+         *     revise next, and the term week by week. Students only.
+         */
+        get: operations["my_learning_api_v1_my_learning_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/notification-preferences": {
         parameters: {
             query?: never;
@@ -3648,6 +3669,27 @@ export interface paths {
         };
         /** Get Section Templates */
         get: operations["get_section_templates_api_v1_schools__school_id__templates_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/students/{student_id}/learning": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Student Learning
+         * @description A student of the caller's school (a student: only themselves). A
+         *     staff read is logged as a read of student data.
+         */
+        get: operations["student_learning_api_v1_students__student_id__learning_get"];
         put?: never;
         post?: never;
         delete?: never;
@@ -4812,6 +4854,25 @@ export interface components {
             /** Unitname */
             unitName?: string | null;
         };
+        /** ChapterProgress */
+        ChapterProgress: {
+            /** Accuracy */
+            accuracy?: number | null;
+            /** Chapterid */
+            chapterId: string;
+            /** Chaptername */
+            chapterName: string;
+            /** Evidencecount */
+            evidenceCount: number;
+            /** Lastseen */
+            lastSeen?: string | null;
+            /** Mastery */
+            mastery?: number | null;
+            /** Status */
+            status: string;
+            /** Topics */
+            topics: components["schemas"]["TopicProgress"][];
+        };
         /** ChapterResponse */
         ChapterResponse: {
             /** Canonicalid */
@@ -5851,6 +5912,23 @@ export interface components {
             kind: string;
             /** Push */
             push?: boolean | null;
+        };
+        /** LearningProgressResponse */
+        LearningProgressResponse: {
+            /** Asof */
+            asOf: string;
+            /** Revisenext */
+            reviseNext: components["schemas"]["ReviseItem"][];
+            /** Sources */
+            sources: {
+                [key: string]: number;
+            };
+            /** Studentid */
+            studentId: string;
+            /** Subjects */
+            subjects: components["schemas"]["SubjectProgress"][];
+            /** Weekly */
+            weekly: components["schemas"]["WeekProgress"][];
         };
         /** LeaveApplyRequest */
         LeaveApplyRequest: {
@@ -7202,6 +7280,27 @@ export interface components {
             /** Verdict */
             verdict: string;
         };
+        /** ReviseItem */
+        ReviseItem: {
+            /** Chapterid */
+            chapterId: string;
+            /** Chaptername */
+            chapterName: string;
+            /** Grade */
+            grade: number;
+            /** Lastseen */
+            lastSeen: string;
+            /** Mastery */
+            mastery: number;
+            /** Reason */
+            reason: string;
+            /** Subject */
+            subject: string;
+            /** Topicid */
+            topicId?: string | null;
+            /** Topicname */
+            topicName?: string | null;
+        };
         /** ReviseRequest */
         ReviseRequest: {
             /**
@@ -8108,6 +8207,25 @@ export interface components {
             /** Subject */
             subject: string;
         };
+        /** SubjectProgress */
+        SubjectProgress: {
+            /** Accuracy */
+            accuracy?: number | null;
+            /** Chapters */
+            chapters: components["schemas"]["ChapterProgress"][];
+            /** Evidencecount */
+            evidenceCount: number;
+            /** Grade */
+            grade: number;
+            /** Lastseen */
+            lastSeen?: string | null;
+            /** Mastery */
+            mastery?: number | null;
+            /** Status */
+            status: string;
+            /** Subject */
+            subject: string;
+        };
         /** SubjectProgressResponse */
         SubjectProgressResponse: {
             /** Completedcount */
@@ -8711,6 +8829,23 @@ export interface components {
             /** Subject */
             subject: string;
         };
+        /** TopicProgress */
+        TopicProgress: {
+            /** Accuracy */
+            accuracy?: number | null;
+            /** Evidencecount */
+            evidenceCount: number;
+            /** Lastseen */
+            lastSeen?: string | null;
+            /** Mastery */
+            mastery?: number | null;
+            /** Status */
+            status: string;
+            /** Topicid */
+            topicId: string;
+            /** Topicname */
+            topicName: string;
+        };
         /** TopicResponse */
         TopicResponse: {
             /** Approvedat */
@@ -8880,6 +9015,15 @@ export interface components {
             msg: string;
             /** Error Type */
             type: string;
+        };
+        /** WeekProgress */
+        WeekProgress: {
+            /** Answered */
+            answered: number;
+            /** Average */
+            average?: number | null;
+            /** Weekstart */
+            weekStart: string;
         };
         /** WeekSlotResponse */
         WeekSlotResponse: {
@@ -14059,6 +14203,26 @@ export interface operations {
             };
         };
     };
+    my_learning_api_v1_my_learning_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LearningProgressResponse"];
+                };
+            };
+        };
+    };
     get_preferences_api_v1_notification_preferences_get: {
         parameters: {
             query?: never;
@@ -15445,6 +15609,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["SectionBlueprint"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    student_learning_api_v1_students__student_id__learning_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                student_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["LearningProgressResponse"];
                 };
             };
             /** @description Validation Error */
