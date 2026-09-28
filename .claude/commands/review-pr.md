@@ -111,9 +111,8 @@ to ship. Then:
 - watch the run (`gh run list --limit 3`) and check that `/health` reports the merge commit;
 - for a PR that changes the stored schema, dry-run its migration on a copy of the live snapshot before
   merging;
-- deploy the web by hand, steps 4-6 of `docs/deploy-by-hand.md`, while the workflow's Flutter is unpinned.
-  Do it when the user has asked for it or authorised it.
-- Record the deploy in that file's live history.
+- after the run, do the checks in `docs/deploy-by-hand.md` section 6. If a CI job cannot run, deploy by
+  that runbook when the user has asked for it or authorised it, and record the hand deploy there.
 
 ## 9. Clean up and report
 

@@ -188,9 +188,9 @@ anything**: `scripts/merge_question_banks.py` (the whole pipeline) and
    requests changes.
 3. The maintainer moves `release/v1` to `master` (`git push origin origin/master:release/v1`).
 4. CI deploys from `master`: since 2026-09-28 every merge that touches a shipped path deploys the
-   backend by itself. The web half needs the workflow's Flutter pinned first
-   (`docs/deploy-by-hand.md`), so the maintainer deploys the web by hand and does all of its
-   verification checks. The owner has authorised hand deploys when both suites are green.
+   backend and the web by itself (Flutter pinned to 3.44.9 since #10). The maintainer watches the run
+   and does the checks in `docs/deploy-by-hand.md` section 6. That runbook is the fallback when CI
+   cannot run; the owner has authorised hand deploys when both suites are green.
 5. Record the deploy in that file's live-history table.
 
 ## 7. Evidence

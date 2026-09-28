@@ -102,8 +102,9 @@ A PR is merged only when:
 - every area in §3's list that it touches has the maintainer's explicit agreement;
 - its claims hold when re-run.
 
-After a merge, the maintainer keeps `release/v1` equal to `master` and deploys by hand
-([`docs/deploy-by-hand.md`](docs/deploy-by-hand.md)) until CI can run. Only a deployed, audited change moves
+After a merge, the maintainer keeps `release/v1` equal to `master`. CI deploys the merge, and the maintainer
+checks it live ([`docs/deploy-by-hand.md`](docs/deploy-by-hand.md) section 6, which is also the fallback when
+CI cannot run). Only a deployed, audited change moves
 the scorecard.
 
 ## 6. Notes for Claude Code agents
