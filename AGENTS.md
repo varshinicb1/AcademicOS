@@ -17,6 +17,9 @@ that stop one session destroying another's work, the gates a commit must pass, t
 question-bank pipeline order, and how to release and verify. What is live is the
 v2 **Web app, classes 6-10**, on GCP (`docs/product-scorecard.md`); what to build next is v3.
 
+**Every change is a pull request into `master`**, reviewed and merged by the maintainer: see
+[`CONTRIBUTING.md`](CONTRIBUTING.md). Never push to `master` or `release/v1`.
+
 ---
 
 ## 1. System Vision & Architecture
