@@ -70,7 +70,11 @@ class QuestionRepositoryImpl implements QuestionRepository {
         grade: blueprint.metadata['grade'] as int? ?? 10,
         limit: 200,
       );
-      return searchQuestions(params);
+      // Awaited so a failure lands in the catch below. searchQuestions
+      // catches its own errors today, so this was latent, but a Future
+      // returned un-awaited from a try escapes it (Flutter 3.47's analyzer:
+      // unawaited_return_in_try_block).
+      return await searchQuestions(params);
     } catch (e) {
       return left(ServerFailure(serverErrorMessage(e)));
     }
