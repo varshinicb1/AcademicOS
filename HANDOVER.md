@@ -61,9 +61,10 @@ cd frontend && flutter pub get                          # Flutter 3.44.9 stable
 - Run locally: `python -m academicos.cli serve --port 8010`, then
   `flutter run -d chrome --dart-define=ACADEMICOS_API=http://localhost:8010/api/v1`.
 - Gates (both must pass before any merge to `master`):
-  - `pytest tests -q -p no:cacheprovider`: about 3,645 pass, 113 skip and 8 xfail. It takes about 20 minutes.
+  - `pytest tests -q -p no:cacheprovider`: 3,804 pass, 113 skip and 3 xfail on `master` after PRs #1 and #2
+    (2026-09-28, in a fresh clone without the gitignored data extras). It takes about 20 minutes.
   - `cd frontend && flutter analyze --no-fatal-infos`: 7 info notes are expected.
-  - `flutter test --exclude-tags live-backend -j 1`: 381 pass, in about 3 minutes.
+  - `flutter test --exclude-tags live-backend -j 1`: 453 pass, in about 3 minutes.
 - Tools used by the release: `gcloud`, Node (`npx firebase-tools@13`, `npx openapi-typescript@7.13.0`).
 
 ## 4. Machine load: read this first
