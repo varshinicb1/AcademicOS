@@ -10,7 +10,10 @@ CI is the gate normally. By hand, **you** are the gate: run both suites, and
 verify the live commit afterwards. Do not skip the verification — `/health` alone
 cannot see a stale web bundle, and this project has shipped one before.
 
-Everything runs from the `AcademicOS-release` worktree (branch `release/v1`).
+Only the maintainer deploys, and only a merged `master` (`CONTRIBUTING.md` §5). Everything runs from
+the `AcademicOS-release` worktree (branch `release/v1`), after
+`git fetch origin && git switch release/v1 && git merge --ff-only origin/master`, so the deployed tree
+is exactly `master`.
 Nothing here needs a secret on your machine: the secrets are bound from Secret
 Manager by name. Never paste a key into a command, a file or a commit.
 

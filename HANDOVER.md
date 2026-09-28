@@ -8,7 +8,9 @@ Read in this order:
    a web console, a teacher app and a student app). It supersedes the older scope in the PRD.
 3. **[`docs/agent-workflow.md`](docs/agent-workflow.md)**: how work is done here (gates, the question-bank
    pipeline, releasing, evidence), plus the rules learned the hard way.
-4. [`README.md`](README.md), then `CLAUDE.md` / `AGENTS.md` for architecture.
+4. **[`CONTRIBUTING.md`](CONTRIBUTING.md)**: every change is a pull request into `master`, reviewed and
+   merged by the maintainer (since 2026-09-28).
+5. [`README.md`](README.md), then `CLAUDE.md` / `AGENTS.md` for architecture.
 
 The previous handover (2026-09-21, answer-key linkage) is kept in `docs/history/`.
 
@@ -33,7 +35,10 @@ leave/substitution, homework, notifications) are mostly **not built yet**; see s
 
 ## 2. Access you need (ask the product owner)
 
-- **GitHub** `varshinicb1/AcademicOS` (private): write access. `master` is what is live.
+- **GitHub** `varshinicb1/AcademicOS` (private): the owner invites collaborators, who get write access
+  (@bahumanyarg11 was invited on 2026-09-28). `master` is what is live. Changes reach it only as pull
+  requests (`CONTRIBUTING.md`). On a free plan GitHub cannot protect a private repository's branches, so
+  that is a rule everyone keeps, not a lock.
 - **Google Cloud** project `vidyuthlabs`: Cloud Run admin, Cloud Build editor, Artifact Registry writer,
   Cloud SQL client, Secret Manager accessor, Storage admin, **Firebase Hosting** admin.
 - **Secrets** live in Secret Manager only, never in the repo: `principal-bootstrap-key`,
@@ -134,13 +139,17 @@ measured from the start. Use `docs/audits/` for the write-ups and `docs/product-
 
 ## 8. Open branches and unfinished work
 
+Since 2026-09-28 open work is tracked as pull requests: `gh pr list`.
+
 | Branch | State | What to do |
 |---|---|---|
-| `master` / `release/v1` | live + these docs | work from here |
+| `master` | live + these docs; every change arrives as a PR | branch from here |
+| `release/v1` | follows `master` after each merge; the hand-deploy worktree's branch | never commit to it |
 | `feat/task-125` | merged as `caf5e3d`, live | history only |
 | `feat/term-insights`, `feat/question-bank-merge`, `feat/product-{calendar,exemplar,gcp,paperux,security}` | merged | history only |
-| `feat/product-phone` | offline Android app, 8 commits never merged (the phone was dropped from v2) | read before building the teacher/student apps; reuse what fits |
-| `wip/product-calendar-2026-09-26`, `wip/product-phone-2026-09-26` | snapshots of uncommitted work from stopped sessions | the calendar one is the exporter/manifest work the 6 strict xfails in `tests/test_curriculum_seed_grades.py` wait for; unreviewed and ungated |
+| `feat/product-phone` | the offline engine's 8 fixes, merged through PR #1 (`merge/product-phone`) on 2026-09-28 | history only |
+| `wip/product-calendar-2026-09-26` | the exporter and manifest fix, merged through PR #2 (`merge/calendar-exporter`); 5 of the 6 strict xfails it waited for now pass | history only; the Mathematics_6 template xfail remains |
+| `wip/product-phone-2026-09-26` → `draft/phone-network-guard` | the offline network guard: tests written, implementation not. **Draft PR #3** lists what is missing | claim it before building the teacher/student apps' sync |
 | `docs/audit-0927` | merged | history only |
 
 Planned in the last session but **not started** (the audit defect IDs are in `docs/audits/2026-09-27-8db6636.md`):

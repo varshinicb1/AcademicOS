@@ -33,7 +33,10 @@ htmlcov/
 # IDE
 .idea/
 .vscode/
-.claude/
+# Claude Code's per-user settings stay local; the shared slash commands
+# (/review-pr) are committed so every clone has them.
+.claude/*
+!.claude/commands/
 *.swp
 *.swo
 *~
