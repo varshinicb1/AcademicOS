@@ -48,6 +48,11 @@ M1.1, so it can run beside M1.2.
   periods_per_week)` — the fact every later step reads: "Asha teaches Science to 10-B, 6 periods a week".
 - Replaces `TeacherAssignment` (teacher × book) and `SubjectPeriodAllocation` (school-wide) for new
   flows; both stay readable, and a migration writes one allocation per existing assignment × section.
+- **Closes audit D115** (`docs/audits/2026-09-28-09649eb.md`, the largest calendar loss at 60.5).
+  `subject_period_allocations` is `UNIQUE(academic_year_id, subject)` and timetable slots are looked up by
+  subject name, so every class of a year shares one Science timetable, and plans inflate 1.8×. Periods per
+  week and the weekly slots must be keyed by section and subject, and the scheduler must read them that way
+  (`curriculum/calendar.py:280-287`, `store.py:281`, `store.py:1470`).
 - The book a section studies stays the subject's chosen edition (`BookSelection`, PRD 12.7).
 - Admin console: an allocation grid (sections × subjects, a teacher and a period count per cell), with
   the totals per teacher per week shown as the grid is filled (the first overload check M2 builds on).

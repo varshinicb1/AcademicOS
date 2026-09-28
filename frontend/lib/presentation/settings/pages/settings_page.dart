@@ -19,6 +19,7 @@ import '../../../core/local_engine/corpus_repository.dart';
 import '../../../core/local_engine/corpus_status.dart';
 import '../../../core/local_engine/demo_seeder.dart';
 import '../../../core/local_engine/local_store.dart';
+import '../../../core/sync/network_policy.dart' show kOfflineBuildHasInternet;
 import '../../../core/sync/sync_service.dart';
 import '../../../core/theme/theme_controller.dart';
 import '../../onboarding/pages/app_tour_page.dart';
@@ -45,7 +46,6 @@ class _SettingsPageState extends State<SettingsPage> {
   bool _biometricAuth = LocalStore.instance.box.get('pref_biometric_auth', defaultValue: false) as bool;
   String _selectedTheme = LocalStore.instance.themeModeName;
   String _selectedLanguage = LocalStore.instance.box.get('pref_language', defaultValue: 'en') as String;
-  String _serverUrl = 'http://localhost:8000';
   String _sarvamApiKey = LocalStore.instance.sarvamApiKey ?? '';
 
   // Real fix: this used to list 13 languages in a dropdown when not one of
@@ -168,8 +168,10 @@ class _SettingsPageState extends State<SettingsPage> {
             // from the Web build's compiled main.dart.js. Web already has a
             // real live API path for question search (ApiClient.
             // searchQuestions -> POST /questions/search) and never needed
-            // this tile at all.
-            if (_kOfflineBuild)
+            // this tile at all. It needs INTERNET, which the release APK's
+            // manifest does not declare, so it is hidden rather than left to
+            // fail with an error the teacher cannot fix (network_policy.dart).
+            if (_kOfflineBuild && kOfflineBuildHasInternet)
               _buildListTile(Icons.download, 'Download Data',
                   corpusSourceLineFor(CorpusRepository.instance), _downloadCorpusData),
             _buildListTile(Icons.clear_all, 'Clear Cache', 'Free up storage space', _clearCache),
@@ -190,7 +192,9 @@ class _SettingsPageState extends State<SettingsPage> {
             ],
           ]),
           const SizedBox(height: 24),
-          if (_kOfflineBuild) ...[
+          // The optional Sarvam key upgrades OCR over the internet, which the
+          // release APK cannot reach; on-device OCR needs no setting.
+          if (_kOfflineBuild && kOfflineBuildHasInternet) ...[
             _buildSection('Scan & Grade', [
               _buildTextFieldTile(
                 Icons.document_scanner,
@@ -211,24 +215,31 @@ class _SettingsPageState extends State<SettingsPage> {
             ]),
             const SizedBox(height: 24),
           ],
-          _buildSection('Server & Sync', [
-            _buildTextFieldTile(Icons.link, 'Server URL', _serverUrl, (v) => setState(() => _serverUrl = v)),
-            _buildListTile(Icons.cloud_sync, 'Manual Sync', 'Sync now with server', _manualSync),
-            if (_lastSyncResult != null)
-              _buildListTile(
-                Icons.history,
-                'Sync History',
-                _lastSyncResult!.success
-                    ? 'Last sync: ${_formatDateTime(_lastSyncResult!.timestamp)} — pushed ${_lastSyncResult!.pushedCount}, pulled ${_lastSyncResult!.pulledCount}'
-                    : 'Last sync failed: ${_lastSyncResult!.error}',
-                () {},
-              )
-            else
-              _buildListTile(Icons.history, 'Sync History', 'No sync performed yet', () {}),
-            _buildListTile(Icons.backup, 'Backup & Restore', 'Save all local data to a file', _backupData),
-          ]),
-          const SizedBox(height: 24),
+          // No "Server URL" field: nothing ever read it (SyncService takes its
+          // base from the ACADEMICOS_API dart-define), and its default was a
+          // localhost address shipped in every web bundle. The offline build
+          // has no server to sync with until the teacher opts in (Task 405),
+          // so it shows no sync section at all.
+          if (!_kOfflineBuild) ...[
+            _buildSection('Server & Sync', [
+              _buildListTile(Icons.cloud_sync, 'Manual Sync', 'Sync now with server', _manualSync),
+              if (_lastSyncResult != null)
+                _buildListTile(
+                  Icons.history,
+                  'Sync History',
+                  _lastSyncResult!.success
+                      ? 'Last sync: ${_formatDateTime(_lastSyncResult!.timestamp)} — pushed ${_lastSyncResult!.pushedCount}, pulled ${_lastSyncResult!.pulledCount}'
+                      : 'Last sync failed: ${_lastSyncResult!.error}',
+                  () {},
+                )
+              else
+                _buildListTile(Icons.history, 'Sync History', 'No sync performed yet', () {}),
+            ]),
+            const SizedBox(height: 24),
+          ],
           _buildSection('Data & Privacy', [
+            // Local, so in every build.
+            _buildListTile(Icons.backup, 'Backup & Restore', 'Save all local data to a file', _backupData),
             // Real fix: "Delete Account" made no sense (there is no
             // account/auth system yet) and its old handler just showed a
             // fake "Account deleted" message without deleting anything.

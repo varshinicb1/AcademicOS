@@ -30,7 +30,9 @@ The previous handover (2026-09-21, answer-key linkage) is kept in `docs/history/
 The live product is the **v2 scope**: a web console for classes 6-10 (paper generation, question bank,
 calendar/lesson plan, principal dashboard). Under the v2 scorecard it measured **61.0 / 100**
 (`docs/audits/2026-09-27-8db6636.md`); an incremental re-audit of the live `caf5e3d` (Task 125) also measured
-**61.0** (`docs/audits/2026-09-28-caf5e3d.md`). The **v3 requirements** (grades 1-10, teacher and student apps,
+**61.0** (`docs/audits/2026-09-28-caf5e3d.md`), and the full re-audit of M0 (`09649eb`) measured **60.5**
+(`docs/audits/2026-09-28-09649eb.md`: M0's work +2.71; D115, the timetable stored per subject name, -3.13).
+The **v3 requirements** (grades 1-10, teacher and student apps,
 leave/substitution, homework, notifications) are mostly **not built yet**; see section 6.
 
 ## 2. Access you need (ask the product owner)
@@ -64,7 +66,7 @@ cd frontend && flutter pub get                          # Flutter 3.44.9 stable
   - `pytest tests -q -p no:cacheprovider`: 3,804 pass, 113 skip and 3 xfail on `master` after PRs #1 and #2
     (2026-09-28, in a fresh clone without the gitignored data extras). It takes about 20 minutes.
   - `cd frontend && flutter analyze --no-fatal-infos`: 7 info notes are expected.
-  - `flutter test --exclude-tags live-backend -j 1`: 453 pass, in about 3 minutes.
+  - `flutter test --exclude-tags live-backend -j 1`: 468 pass, in about 3 minutes.
 - Tools used by the release: `gcloud`, Node (`npx firebase-tools@13`, `npx openapi-typescript@7.13.0`).
 
 ## 4. Machine load: read this first
@@ -107,7 +109,7 @@ This section was measured by reading the code, not by running it. Requirement ID
 | **Exam automation EX-1..9** | Guided builder, quick paper, hand-pick, swap/pick/remove, sets, OR choices, PDF paper and key, time saved per paper; the competency share against CBSE's 50% and a tiers-unavailable sentence shown before generating (Task 125, live) | Real tiers need judged difficulty (QB-11). The bank's competency share is 4-22% in Maths/Science 6-10, but the builder fills competency sections first: 46 of 56 whole-syllabus presets and 7 of 10 quick papers reach 50%; Science 6/7/8 cannot, and say so. Newly filled Section E slots print CBE garble (audit D74), which makes content fidelity (M6) more urgent. Half-yearly papers fall short of marks (D18). No review/approval workflow, datesheet, invigilation, marks entry or report cards. School name/logo not printed by default (D41). |
 | **Admin and dashboard ADM, ROLE** | Roles `principal`, `teacher`, `student`; invite-only registration; a role policy on every route; audit log; admin console with roster, coverage and pace, reschedule, calendar setup, book editions; insights card (per-term exam coverage, time saved) | **No delegated admin or permission sets (ROLE-1).** No parent role. No bulk import. Terms and a new school's classes 6-10 are set up on the web (D27, M0); a dated year plan still needs the API. Sections are rows of their own since M1.1 (every class has at least one; students are enrolled in a section; the principal adds, renames and removes them and names a class teacher on Roster), but nothing is scheduled per section yet (M1.2+). The dashboard lacks substitution, homework and progress data. |
 | **Scheduling SCH-1..9** | Academic year, terms, holidays (multi-day), period configuration, **per-subject weekday slots** (`SubjectTimetableSlot`: subject, weekday, period), teacher → book assignments, dated lesson plans with PUSH/ADJUST reschedule and audit | **No real timetable model.** No section × period × teacher × room data, so no clash detection, no teacher timetable and no solver (SCH-2, SCH-3). **No leave, no substitution, no compensation or lost-period debt** (SCH-5..7). The edge cases (SCH-8) are unhandled. |
-| **Teacher app TA-1..9** | The shared Flutter codebase has a teacher "my schedule" page, a daily planner, papers and question bank, mobile scan. An **offline Android build** exists; the old phone stream's branch `feat/product-phone` has 8 unmerged commits and a `wip/product-phone-2026-09-26` snapshot. | **No separate teacher app.** No leave or substitution UI, no homework creation, no push notifications, no offline sync of timetable and lessons (the offline build runs a local engine instead of syncing). |
+| **Teacher app TA-1..9** | The shared Flutter codebase has a teacher "my schedule" page, a daily planner, papers and question bank, mobile scan. An **offline Android build** exists. The old phone stream's fixes (PR #1) and its network guard (PR #3: no request until sync is on) were merged on 2026-09-28. | **No separate teacher app.** No leave or substitution UI, no homework creation, no push notifications, no offline sync of timetable and lessons (the offline build runs a local engine instead of syncing). |
 | **Student app SA-1..8** | `student_schedule_page`, `parent_portal_page`, `practice_session_page` (practice sets from remediation) in the shared app | **No separate student app.** No assignments (homework) model at all; practice sets are student-generated, not teacher-set. No parent account or linking. No young-learner mode. |
 | **Notifications NTF, integrations INT** | An email mailer (`mailer.py`), a notification policy doc (`docs/notifications.md`), a Sarvam LLM provider behind an interface | **No push (FCM), no in-app inbox, no reminders or scheduler jobs, no WhatsApp/SMS, no Google sign-in, no CSV import.** |
 | **NFR** | DPDP/CERT-In design in `docs/compliance.md` (5 of 22 ship boxes ticked), audit log, school scoping, security headers, cache-busting, hand-deploy runbook | Web first load 18-21 s on Slow 4G against a 10 s target (bundle breakdown below). Hindi UI missing. No error tracking. |
@@ -150,7 +152,7 @@ Since 2026-09-28 open work is tracked as pull requests: `gh pr list`.
 | `feat/term-insights`, `feat/question-bank-merge`, `feat/product-{calendar,exemplar,gcp,paperux,security}` | merged | history only |
 | `feat/product-phone` | the offline engine's 8 fixes, merged through PR #1 (`merge/product-phone`) on 2026-09-28 | history only |
 | `wip/product-calendar-2026-09-26` | the exporter and manifest fix, merged through PR #2 (`merge/calendar-exporter`); 5 of the 6 strict xfails it waited for now pass | history only; the Mathematics_6 template xfail remains |
-| `wip/product-phone-2026-09-26` → `draft/phone-network-guard` | the offline network guard: tests written, implementation not. **Draft PR #3** lists what is missing | claim it before building the teacher/student apps' sync |
+| `wip/product-phone-2026-09-26` → `draft/phone-network-guard` | the offline network guard, finished and merged through PR #3 on 2026-09-28: the offline build makes no request until sync is on | history only; the opt-in sync switch (Task 405) is still to build |
 | `docs/audit-0927` | merged | history only |
 
 Planned in the last session but **not started** (the audit defect IDs are in `docs/audits/2026-09-27-8db6636.md`):

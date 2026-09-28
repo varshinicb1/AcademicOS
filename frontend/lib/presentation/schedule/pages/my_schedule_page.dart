@@ -82,6 +82,9 @@ class _MySchedulePageState extends State<MySchedulePage> {
   }
 
   Future<List<MyScheduleEntry>> _load() {
+    // The offline build has no server and registers no CurriculumApi; its
+    // body is the "Needs a connection" state, which never reads this future.
+    if (_offlineMode) return Future.value(const <MyScheduleEntry>[]);
     final (start, end) = _currentRange();
     return GetIt.I<CurriculumApi>().mySchedule(startDate: _iso(start), endDate: _iso(end));
   }
