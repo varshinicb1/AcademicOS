@@ -88,7 +88,7 @@ Write the review body with:
 
   ```bash
   gh pr review $ARGUMENTS --approve --body-file <review.md>
-  gh pr merge $ARGUMENTS --merge --delete-branch \
+  gh pr merge $ARGUMENTS --merge --delete-branch --match-head-commit <full 40-char head SHA you reviewed> \
     --subject "Merge #$ARGUMENTS <branch>: <what is now true>" --body-file <merge-body.md>
   ```
 
@@ -105,8 +105,15 @@ Write the review body with:
 git fetch origin && git push origin origin/master:release/v1     # release/v1 follows master
 ```
 
-Deploy only when the user has asked for it or authorised it, and only by `docs/deploy-by-hand.md`, all four
-checks. Record the deploy there.
+**A merge is a deploy.** Since 2026-09-28 CI runs again, and a merge that touches a shipped path (the
+`paths:` list in `.github/workflows/deploy-gcp.yml`) deploys the backend by itself. Merge only what is ready
+to ship. Then:
+- watch the run (`gh run list --limit 3`) and check that `/health` reports the merge commit;
+- for a PR that changes the stored schema, dry-run its migration on a copy of the live snapshot before
+  merging;
+- deploy the web by hand, steps 4-6 of `docs/deploy-by-hand.md`, while the workflow's Flutter is unpinned.
+  Do it when the user has asked for it or authorised it.
+- Record the deploy in that file's live history.
 
 ## 9. Clean up and report
 

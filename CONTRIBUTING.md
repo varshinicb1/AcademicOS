@@ -13,8 +13,9 @@ pipeline, evidence) are in [`docs/agent-workflow.md`](docs/agent-workflow.md): r
 | **Collaborators** (@bahumanyarg11, and the agents they run) | pick a task, branch, build, test, open a PR, answer review | push to `master` or `release/v1`; merge or approve their own PR; deploy |
 
 **This is a rule, not a lock.** Branch protection needs GitHub Pro on a private repository, so GitHub will
-not stop a push to `master`. Once CI minutes return (2026-10-01) a push to `master` **deploys to
-production**, so a stray push is a release. If you push to `master` by mistake, say so in the PR or an issue
+not stop a push to `master`. CI runs again (since 2026-09-28), and a push to `master` **deploys to
+production**, so a stray push is a release. So is a merge: the maintainer merges only what it is ready
+to ship. If you push to `master` by mistake, say so in the PR or an issue
 at once. Do not force-push to fix it.
 
 ## 1. Before you start

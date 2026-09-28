@@ -20,7 +20,7 @@ The previous handover (2026-09-21, answer-key linkage) is kept in `docs/history/
 
 | Piece | Where | State |
 |---|---|---|
-| Web app (Flutter web) | https://vidyuthlabs.web.app (Firebase Hosting, project `vidyuthlabs`) | live, commit `e50d250` (2026-09-28) |
+| Web app (Flutter web) | https://vidyuthlabs.web.app (Firebase Hosting, project `vidyuthlabs`) | live, commit `e0d7d63` (2026-09-28) |
 | Backend (FastAPI) | Cloud Run `academicos-backend`, `asia-south1`, https://academicos-backend-2eskom55ta-el.a.run.app | live, `/health` reports the commit |
 | Database | Cloud SQL Postgres `academicos-pg` (durable tables) + SQLite snapshots | live |
 | Blobs | GCS `vidyuthlabs-academicos-media` | live |
@@ -47,9 +47,10 @@ leave/substitution, homework, notifications) are mostly **not built yet**; see s
   `postgres-password`, `acos-llm-api-key` (bound as `ACOS_LLM_API_KEY` and `SARVAM_API_KEY`).
 - **The first principal account** on live is created by the owner with the bootstrap key; there are no
   credentials in this repo and none should be added.
-- **GitHub Actions** minutes ran out until **2026-10-01**. Until then deploy by hand:
-  [`docs/deploy-by-hand.md`](docs/deploy-by-hand.md). After that, a push to `master` deploys through
-  `.github/workflows/deploy-gcp.yml` (keyless, Workload Identity Federation).
+- **GitHub Actions** runs again since 2026-09-28: a push to `master` that touches a shipped path deploys
+  through `.github/workflows/deploy-gcp.yml` (keyless, Workload Identity Federation). Its web half fails on
+  the newest Flutter's analyzer until the workflow pins 3.44.9, so the web is deployed by hand meanwhile
+  ([`docs/deploy-by-hand.md`](docs/deploy-by-hand.md)).
 
 ## 3. Set up a machine
 
