@@ -191,6 +191,7 @@ copying its score, and adds its own file and row here.
 | 2026-09-26 | `3197f4e` | 13.57 | 6.25 | 12.50 | 10.63 | 5.00 | 2.08 | 3.75 | 10.00 | **63.8** |
 | 2026-09-27 | `8db6636` | 14.29 | 6.25 | 10.00 | 9.38 | 5.00 | 2.50 | 2.92 | 10.63 | **61.0** |
 | 2026-09-28 | `caf5e3d` (incremental) | 14.29 | 6.25 | 10.00 | 9.38 | 5.00 | 2.50 | 2.92 | 10.63 | **61.0** |
+| 2026-09-28 | `09649eb` (M0) | 14.29 | 6.25 | 10.83 | 6.88 | 5.00 | 3.33 | 3.33 | 10.63 | **60.5** |
 
 What moved, briefly:
 
@@ -229,3 +230,18 @@ What moved, briefly:
   presets now complete, set B/D keys fixed, 0 contradictions over 303 edits -- crossed no rubric step:
   1.4 stays 0.25 while no tier can print a different paper, and 3.6 stays 0.25 with D31 at 16/20 and
   newly filled Section E slots printing CBE garble (D74).
+- **60.5** (`09649eb`, M0; a full re-audit by three independent auditors, `docs/audits/2026-09-28-09649eb.md`).
+  M0's work held up and earned +2.71:
+  - classes 6-10 only on the web (3.1);
+  - per-term exam coverage and baseline on the web (5.1, 6.2);
+  - the time-saved card rendered from real payloads (6.3);
+  - one corpus on all five surfaces (7.3, D39 closed).
+
+  It cost 3.13 on the calendar:
+  - M0's setup seeds classes 6-10 under one year, which put D115 on the default path: the timetable and
+    periods per week are stored per subject name, so every class's Science shares one timetable and plans
+    inflate 1.8× (4.3, 4.5, 5.3);
+  - the teacher's daily loop was scored on the web, as its text says. A school set up on the web cannot
+    make a dated plan, so its day is empty (4.3, 4.4).
+
+  3.6 stays 0.25: 12 of 20 papers still print an unanswerable item, all from items no rule catches (D83).

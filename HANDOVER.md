@@ -30,7 +30,9 @@ The previous handover (2026-09-21, answer-key linkage) is kept in `docs/history/
 The live product is the **v2 scope**: a web console for classes 6-10 (paper generation, question bank,
 calendar/lesson plan, principal dashboard). Under the v2 scorecard it measured **61.0 / 100**
 (`docs/audits/2026-09-27-8db6636.md`); an incremental re-audit of the live `caf5e3d` (Task 125) also measured
-**61.0** (`docs/audits/2026-09-28-caf5e3d.md`). The **v3 requirements** (grades 1-10, teacher and student apps,
+**61.0** (`docs/audits/2026-09-28-caf5e3d.md`), and the full re-audit of M0 (`09649eb`) measured **60.5**
+(`docs/audits/2026-09-28-09649eb.md`: M0's work +2.71; D115, the timetable stored per subject name, -3.13).
+The **v3 requirements** (grades 1-10, teacher and student apps,
 leave/substitution, homework, notifications) are mostly **not built yet**; see section 6.
 
 ## 2. Access you need (ask the product owner)
