@@ -603,6 +603,44 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Teacher Unavailability
+         * @description Periods each teacher cannot teach (the default bell's numbering).
+         *     Teacher-level data: the principal's (ADM-5).
+         */
+        get: operations["list_teacher_unavailability_api_v1_curriculum_academic_years__academic_year_id__teacher_unavailability_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-unavailability/{teacher_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Set Teacher Unavailability */
+        put: operations["set_teacher_unavailability_api_v1_curriculum_academic_years__academic_year_id__teacher_unavailability__teacher_id__put"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/v1/curriculum/academic-years/{academic_year_id}/terms": {
         parameters: {
             query?: never;
@@ -659,6 +697,31 @@ export interface paths {
          *     fallback heuristic (see calendar.subject_teaching_slots's docstring).
          */
         post: operations["add_timetable_slot_api_v1_curriculum_academic_years__academic_year_id__timetable_slots_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/curriculum/academic-years/{academic_year_id}/timetable/solve": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Solve Timetable
+         * @description Generate a clash-free week for the whole school (or `sectionIds`) from
+         *     the allocations and bells: no teacher, room or section in two places,
+         *     a teacher's maximum a day and in a row, subjects spread across the week,
+         *     unavailable periods free, locked periods kept, and -- with keepExisting
+         *     -- the fewest changes to the current week. `apply: false` returns the
+         *     proposal and its diff without writing; `apply: true` publishes it.
+         */
+        post: operations["solve_timetable_api_v1_curriculum_academic_years__academic_year_id__timetable_solve_post"];
         delete?: never;
         options?: never;
         head?: never;
@@ -5451,6 +5514,21 @@ export interface components {
             /** Status */
             status: string;
         };
+        /** ProposedEntryResponse */
+        ProposedEntryResponse: {
+            /** Dayofweek */
+            dayOfWeek: number;
+            /** Period */
+            period: number;
+            /** Roomid */
+            roomId?: string | null;
+            /** Sectionid */
+            sectionId: string;
+            /** Subjectid */
+            subjectId: string;
+            /** Teacherid */
+            teacherId?: string | null;
+        };
         /**
          * ProvenanceSchema
          * @description Where in the source document the question text actually sits.
@@ -6698,6 +6776,55 @@ export interface components {
             /** Questionid */
             questionId: string;
         };
+        /** SolveRequest */
+        SolveRequest: {
+            /**
+             * Apply
+             * @default false
+             */
+            apply: boolean;
+            /**
+             * Keepexisting
+             * @default true
+             */
+            keepExisting: boolean;
+            /**
+             * Maxconsecutive
+             * @default 4
+             */
+            maxConsecutive: number;
+            /**
+             * Maxperday
+             * @default 7
+             */
+            maxPerDay: number;
+            /** Sectionids */
+            sectionIds?: string[] | null;
+            /**
+             * Timelimitseconds
+             * @default 30
+             */
+            timeLimitSeconds: number;
+        };
+        /** SolveResponse */
+        SolveResponse: {
+            /** Applied */
+            applied: boolean;
+            /** Entries */
+            entries: components["schemas"]["ProposedEntryResponse"][];
+            /** Kept */
+            kept: number;
+            /** Movedoradded */
+            movedOrAdded: number;
+            /** Problems */
+            problems: string[];
+            /** Removed */
+            removed: number;
+            /** Seconds */
+            seconds: number;
+            /** Status */
+            status: string;
+        };
         /** StudentEnrollmentResponse */
         StudentEnrollmentResponse: {
             /** Createdat */
@@ -7039,6 +7166,18 @@ export interface components {
             /** Timetabledperweek */
             timetabledPerWeek: number;
         };
+        /** TeacherUnavailabilityRequest */
+        TeacherUnavailabilityRequest: {
+            /** Slots */
+            slots: components["schemas"]["UnavailableSlot"][];
+        };
+        /** TeacherUnavailabilityResponse */
+        TeacherUnavailabilityResponse: {
+            /** Slots */
+            slots: components["schemas"]["UnavailableSlot"][];
+            /** Teacherid */
+            teacherId: string;
+        };
         /** TeachingTimeEstimateResponse */
         TeachingTimeEstimateResponse: {
             /** Academicyearid */
@@ -7228,6 +7367,11 @@ export interface components {
         TimetableEntryBody: {
             /** Dayofweek */
             dayOfWeek: number;
+            /**
+             * Locked
+             * @default false
+             */
+            locked: boolean;
             /** Period */
             period: number;
             /** Roomid */
@@ -7243,6 +7387,11 @@ export interface components {
             dayOfWeek: number;
             /** Id */
             id: string;
+            /**
+             * Locked
+             * @default false
+             */
+            locked: boolean;
             /** Period */
             period: number;
             /** Roomid */
@@ -7348,6 +7497,13 @@ export interface components {
             sourceType: string;
             /** Subtopics */
             subtopics?: components["schemas"]["SubtopicResponse"][];
+        };
+        /** UnavailableSlot */
+        UnavailableSlot: {
+            /** Dayofweek */
+            dayOfWeek: number;
+            /** Period */
+            period: number;
         };
         /** UnitAllocationResponse */
         UnitAllocationResponse: {
@@ -8746,6 +8902,73 @@ export interface operations {
             };
         };
     };
+    list_teacher_unavailability_api_v1_curriculum_academic_years__academic_year_id__teacher_unavailability_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeacherUnavailabilityResponse"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    set_teacher_unavailability_api_v1_curriculum_academic_years__academic_year_id__teacher_unavailability__teacher_id__put: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+                teacher_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TeacherUnavailabilityRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeacherUnavailabilityResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
     list_terms_api_v1_curriculum_academic_years__academic_year_id__terms_get: {
         parameters: {
             query?: never;
@@ -8901,6 +9124,41 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["TimetableSlotResponse"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    solve_timetable_api_v1_curriculum_academic_years__academic_year_id__timetable_solve_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                academic_year_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SolveRequest"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SolveResponse"];
                 };
             };
             /** @description Validation Error */
