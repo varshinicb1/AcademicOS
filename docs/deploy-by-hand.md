@@ -1,10 +1,13 @@
 # Deploying the web release by hand
 
-Normally a push to `master` deploys through `.github/workflows/deploy-gcp.yml`.
-**GitHub Actions minutes are exhausted until 2026-10-01**, so every run fails at
-runner start and nothing deploys. The user authorised deploying from the
-development machine on 2026-09-23. Delete this paragraph once CI runs again, and
-go back to letting CI deploy.
+A push to `master` that touches a shipped path deploys through `.github/workflows/deploy-gcp.yml`.
+**CI runs again since 2026-09-28**: the merge of #8 (`e0d7d63`) ran the Python suite, built the
+image and deployed Cloud Run by itself. Its web half did not: the workflow installs the newest stable
+Flutter (3.47.5), whose analyzer adds a *warning* the pinned 3.44.9 does not raise
+(`unawaited_return_in_try_block`, `lib/data/repositories/repositories_impl.dart:73`), so
+`frontend-test` fails and the Hosting job is skipped. Until that is fixed (pin the workflow's Flutter
+and add the `await`), deploy the web by hand with steps 4-6 after CI deploys the backend. The owner
+authorised hand deploys on 2026-09-23.
 
 CI is the gate normally. By hand, **you** are the gate: run both suites, and
 verify the live commit afterwards. Do not skip the verification — `/health` alone
@@ -22,8 +25,8 @@ Manager by name. Never paste a key into a command, a file or a commit.
     PYTHONPATH=$PWD/src PYTHONIOENCODING=utf-8 D:/AcademicOS-venv/Scripts/python.exe -m pytest tests -q -p no:cacheprovider
     cd frontend && flutter analyze --no-fatal-infos && flutter test --exclude-tags live-backend -j 1
 
-Last green at `e50d250` (2026-09-28): 3,805 passed / 112 skipped / 3 xfailed;
-468 Flutter tests passed; analyzer at 7 info-level notes. A number lower than
+Last green at `e0d7d63` (2026-09-28): 3,832 passed / 112 skipped / 3 xfailed;
+479 Flutter tests passed; analyzer at 7 info-level notes (Flutter 3.44.9). A number lower than
 that is a regression until you can say which tests went and why.
 
 Do not rebuild `frontend/build/web` while the Python suite runs. `api/main.py`
@@ -114,5 +117,6 @@ whether a font loaded. Check the network log for the font request instead.
 | 2026-09-27 | `caf5e3d` | Task 125: one competency rule, the share and the tier sentence on the builder's chapters step, edited papers recount their sentences, bank health competency section, /assessment/create -> builder on the web. Backend and web. Gate 3,736 passed / 113 skipped / 8 xfailed; Flutter 386; analyze 7 info. Live: `/health` caf5e3d, storage ok, bundle 5,548,646 bytes both sides, hashed entry URLs match, catalog 5,426 unchanged, the availability route 401 unauthenticated, and a fresh browser loaded `main.dart.js?v=a02995a0915f` with no console errors |
 | 2026-09-28 | `09649eb` | M0: /v1 and MCP file chapters like the builder (D39); entry files cached a year under content-hashed names (D29); classes 6-10 and stocked subjects only (D22, D40); a paper keeps its competency sentences, one share format (D78, D79); terms and class setup on the web (D27); the fidelity rebuild, 5,429 -> 5,319 served (D20, D21, D26, D31, D36, D45, D54, D74, D76, D77). Backend and web. Gate 3,795 passed / 112 skipped / 8 xfailed; Flutter 403 passed; analyze 7 info. Live: `/health` 09649eb, storage ok (cloudsql, gcs), bundle `main.dart.aa6fb69bb2f8.js` 5,572,517 bytes both sides and cached `public, max-age=31536000, immutable`, `index.html` no-cache naming `flutter_bootstrap.b25987820cdf.js`, plain `/main.dart.js` now the SPA page, catalog 5,319 equal to the local bank on all 68 pairs (classes 6-10: 33 pairs, 4,826), terms and `/v1` routes 401 unauthenticated; in a browser the first visit transferred 1,145,574 B for the app and the second 0 B, no console errors |
 | 2026-09-28 | `e50d250` | PRs #1-#6, the first release through pull requests: unscorable answers (a scheme with no keyword or no marking point) go to teacher review instead of a confident 0, in the backend's evaluator and the offline engine (#1); the decomposition exporter says why a chapter has no template (#2); the offline build makes no request until sync is on, and Settings loses the unused Server URL field and its `localhost:8000` default (#3, D15). Backend and web. Gate in this worktree: 3,805 passed / 112 skipped / 3 xfailed; Flutter 468 passed; analyze 7 info. Cloud Build `024a3080` SUCCESS; Cloud Run revision `academicos-backend-00018-k45` at 100%. Live: `/health` e50d250 (built 2026-09-28T16:19:44Z), storage ok (13/13 tables, cloudsql), bundle `main.dart.81ffd976c2d7.js` 5,570,739 bytes both sides and byte-identical, cached `public, max-age=31536000, immutable`; `flutter_bootstrap.57764beda079.js` byte-identical and named by `index.html` (`no-cache, no-store, must-revalidate`); the bundle holds `ACADEMICOS_OFFLINE` and `localhost:8000` 0 times; catalog 5,319 equal to the local bank on all 68 pairs (classes 6-10: 33 pairs, 4,826). A fresh browser loaded `main.dart.81ffd976c2d7.js` (1,144,906 B transferred) and reached sign-in with 0 console errors |
+| 2026-09-28 | `e0d7d63` | M1.1 sections (#8, by @bahumanyarg11): Section rows, enrollment by section, 5 routes (163 -> 168), the Sections card and sections per class in setup. Backend by CI (run 36460457019: tests passed, Cloud Build `43977a0a`, revision `00019-xnt`, /health verified; its Flutter analyze failed on 3.47.5, so Hosting was skipped), then by hand (revision `00020-9g2`, the same image digest) and the web by hand. Gate in this worktree: 3,832 passed / 112 skipped / 3 xfailed; Flutter 479 passed; analyze 7 info. **Migration:** a dry run on a copy of the live curriculum snapshot (0 years, 0 grades, 0 enrollments) added the empty `sections` table and `section_id` column only; after the deploy the snapshot's GCS generation is unchanged (1790099962376437), so starting did not upload it. Live: `/health` e0d7d63, storage ok (13/13, cloudsql + gcs), bundle `main.dart.b24cfe4b829b.js` 5,620,231 bytes byte-identical and `immutable`, `flutter_bootstrap.a71df9a948ff.js` byte-identical and named by `index.html`, catalog 5,319 equal to the local bank on 68/68 pairs, the sections routes 401 unauthenticated and in the live OpenAPI; a fresh browser loaded the new bundle (1,153,477 B) and reached sign-in with 0 console errors |
 
 Update this table with every hand deploy.
