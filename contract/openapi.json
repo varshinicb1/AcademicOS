@@ -211,6 +211,77 @@
         "title": "AdjustLessonRequest",
         "type": "object"
       },
+      "AllocationRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "periodsPerWeek": {
+            "maximum": 60.0,
+            "minimum": 1.0,
+            "title": "Periodsperweek",
+            "type": "integer"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "required": [
+          "periodsPerWeek"
+        ],
+        "title": "AllocationRequest",
+        "type": "object"
+      },
+      "AllocationResponse": {
+        "properties": {
+          "academicYearId": {
+            "title": "Academicyearid",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "periodsPerWeek": {
+            "title": "Periodsperweek",
+            "type": "integer"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "required": [
+          "id",
+          "academicYearId",
+          "sectionId",
+          "subjectId",
+          "periodsPerWeek"
+        ],
+        "title": "AllocationResponse",
+        "type": "object"
+      },
       "AnalyzeRequest": {
         "properties": {
           "paper_id": {
@@ -760,6 +831,204 @@
           }
         },
         "title": "AvailabilityRequest",
+        "type": "object"
+      },
+      "BellScheduleRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "days": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Days"
+          },
+          "name": {
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "slots": {
+            "items": {
+              "$ref": "#/components/schemas/BellSlotBody"
+            },
+            "title": "Slots",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name",
+          "slots"
+        ],
+        "title": "BellScheduleRequest",
+        "type": "object"
+      },
+      "BellScheduleResponse": {
+        "properties": {
+          "academicYearId": {
+            "title": "Academicyearid",
+            "type": "string"
+          },
+          "days": {
+            "items": {
+              "type": "integer"
+            },
+            "title": "Days",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "isDefault": {
+            "title": "Isdefault",
+            "type": "boolean"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "slots": {
+            "items": {
+              "$ref": "#/components/schemas/BellSlotResponse"
+            },
+            "title": "Slots",
+            "type": "array"
+          },
+          "teachingPeriods": {
+            "title": "Teachingperiods",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "academicYearId",
+          "name",
+          "days",
+          "slots",
+          "isDefault",
+          "teachingPeriods"
+        ],
+        "title": "BellScheduleResponse",
+        "type": "object"
+      },
+      "BellScheduleUpdateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "days": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Days"
+          },
+          "makeDefault": {
+            "default": false,
+            "title": "Makedefault",
+            "type": "boolean"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "maxLength": 40,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "slots": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/BellSlotBody"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Slots"
+          }
+        },
+        "title": "BellScheduleUpdateRequest",
+        "type": "object"
+      },
+      "BellSlotBody": {
+        "additionalProperties": false,
+        "properties": {
+          "end": {
+            "title": "End",
+            "type": "string"
+          },
+          "kind": {
+            "default": "teaching",
+            "title": "Kind",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start",
+          "end"
+        ],
+        "title": "BellSlotBody",
+        "type": "object"
+      },
+      "BellSlotResponse": {
+        "properties": {
+          "end": {
+            "title": "End",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "period": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Period"
+          },
+          "start": {
+            "title": "Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start",
+          "end",
+          "kind"
+        ],
+        "title": "BellSlotResponse",
         "type": "object"
       },
       "BloomDistribution": {
@@ -3553,6 +3822,59 @@
         "title": "MyScheduleEntryResponse",
         "type": "object"
       },
+      "MyTimetableResponse": {
+        "properties": {
+          "academicYearId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Academicyearid"
+          },
+          "bellSchedule": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/BellScheduleResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "entries": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/TimetableEntryResponse"
+            },
+            "title": "Entries",
+            "type": "array"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "sectionId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sectionid"
+          }
+        },
+        "required": [
+          "role"
+        ],
+        "title": "MyTimetableResponse",
+        "type": "object"
+      },
       "NodeQuery": {
         "properties": {
           "max_depth": {
@@ -6145,6 +6467,118 @@
         "title": "RightsSchema",
         "type": "object"
       },
+      "RoomRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "capacity": {
+            "anyOf": [
+              {
+                "maximum": 1000.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Capacity"
+          },
+          "kind": {
+            "default": "classroom",
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "maxLength": 40,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "RoomRequest",
+        "type": "object"
+      },
+      "RoomResponse": {
+        "properties": {
+          "capacity": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Capacity"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "kind"
+        ],
+        "title": "RoomResponse",
+        "type": "object"
+      },
+      "RoomUpdateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "capacity": {
+            "anyOf": [
+              {
+                "maximum": 1000.0,
+                "minimum": 1.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Capacity"
+          },
+          "kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kind"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "maxLength": 40,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          }
+        },
+        "title": "RoomUpdateRequest",
+        "type": "object"
+      },
       "RubricLevelSchema": {
         "properties": {
           "description": {
@@ -6707,6 +7141,24 @@
         "title": "SectionAvailability",
         "type": "object"
       },
+      "SectionBellRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "bellScheduleId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bellscheduleid"
+          }
+        },
+        "title": "SectionBellRequest",
+        "type": "object"
+      },
       "SectionBlueprint": {
         "properties": {
           "allowedBloomLevels": {
@@ -6948,6 +7400,63 @@
           "enrolledAt"
         ],
         "title": "SectionStudentResponse",
+        "type": "object"
+      },
+      "SectionTimetableRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/TimetableEntryBody"
+            },
+            "title": "Entries",
+            "type": "array"
+          }
+        },
+        "required": [
+          "entries"
+        ],
+        "title": "SectionTimetableRequest",
+        "type": "object"
+      },
+      "SectionTimetableResponse": {
+        "properties": {
+          "bellScheduleId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bellscheduleid"
+          },
+          "entries": {
+            "items": {
+              "$ref": "#/components/schemas/TimetableEntryResponse"
+            },
+            "title": "Entries",
+            "type": "array"
+          },
+          "gaps": {
+            "items": {
+              "$ref": "#/components/schemas/TimetableGapResponse"
+            },
+            "title": "Gaps",
+            "type": "array"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          }
+        },
+        "required": [
+          "sectionId",
+          "entries",
+          "gaps"
+        ],
+        "title": "SectionTimetableResponse",
         "type": "object"
       },
       "SeedCbse10Request": {
@@ -8238,6 +8747,39 @@
         "title": "TeacherAssignmentResponse",
         "type": "object"
       },
+      "TeacherLoadResponse": {
+        "properties": {
+          "allocatedPerWeek": {
+            "title": "Allocatedperweek",
+            "type": "integer"
+          },
+          "maxInOneDay": {
+            "title": "Maxinoneday",
+            "type": "integer"
+          },
+          "sectionSubjects": {
+            "title": "Sectionsubjects",
+            "type": "integer"
+          },
+          "teacherId": {
+            "title": "Teacherid",
+            "type": "string"
+          },
+          "timetabledPerWeek": {
+            "title": "Timetabledperweek",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "teacherId",
+          "allocatedPerWeek",
+          "sectionSubjects",
+          "timetabledPerWeek",
+          "maxInOneDay"
+        ],
+        "title": "TeacherLoadResponse",
+        "type": "object"
+      },
       "TeachingTimeEstimateResponse": {
         "properties": {
           "academicYearId": {
@@ -8643,6 +9185,135 @@
           "available"
         ],
         "title": "TierCheck",
+        "type": "object"
+      },
+      "TimetableEntryBody": {
+        "additionalProperties": false,
+        "properties": {
+          "dayOfWeek": {
+            "maximum": 6.0,
+            "minimum": 0.0,
+            "title": "Dayofweek",
+            "type": "integer"
+          },
+          "period": {
+            "maximum": 20.0,
+            "minimum": 1.0,
+            "title": "Period",
+            "type": "integer"
+          },
+          "roomId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomid"
+          },
+          "subjectId": {
+            "minLength": 1,
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "required": [
+          "dayOfWeek",
+          "period",
+          "subjectId"
+        ],
+        "title": "TimetableEntryBody",
+        "type": "object"
+      },
+      "TimetableEntryResponse": {
+        "properties": {
+          "dayOfWeek": {
+            "title": "Dayofweek",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "period": {
+            "title": "Period",
+            "type": "integer"
+          },
+          "roomId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Roomid"
+          },
+          "sectionId": {
+            "title": "Sectionid",
+            "type": "string"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "teacherId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Teacherid"
+          }
+        },
+        "required": [
+          "id",
+          "sectionId",
+          "dayOfWeek",
+          "period",
+          "subjectId"
+        ],
+        "title": "TimetableEntryResponse",
+        "type": "object"
+      },
+      "TimetableGapResponse": {
+        "properties": {
+          "allocated": {
+            "title": "Allocated",
+            "type": "integer"
+          },
+          "subjectId": {
+            "title": "Subjectid",
+            "type": "string"
+          },
+          "timetabled": {
+            "title": "Timetabled",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "subjectId",
+          "allocated",
+          "timetabled"
+        ],
+        "title": "TimetableGapResponse",
         "type": "object"
       },
       "TimetableResponse": {
@@ -10388,6 +11059,157 @@
         "summary": "List Academic Years"
       }
     },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/allocations": {
+      "get": {
+        "description": "Every (section, subject) cell of the year: the teacher and periods a week.",
+        "operationId": "list_allocations_api_v1_curriculum_academic_years__academic_year_id__allocations_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/AllocationResponse"
+                  },
+                  "title": "Response List Allocations Api V1 Curriculum Academic Years  Academic Year Id  Allocations Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Allocations"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/bell-schedules": {
+      "get": {
+        "description": "The year's bells. Any signed-in user of the school: a student's day\nview needs the period times.",
+        "operationId": "list_bell_schedules_api_v1_curriculum_academic_years__academic_year_id__bell_schedules_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/BellScheduleResponse"
+                  },
+                  "title": "Response List Bell Schedules Api V1 Curriculum Academic Years  Academic Year Id  Bell Schedules Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Bell Schedules"
+      },
+      "post": {
+        "description": "The year's first schedule becomes its default.",
+        "operationId": "create_bell_schedule_api_v1_curriculum_academic_years__academic_year_id__bell_schedules_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BellScheduleRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BellScheduleResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Bell Schedule"
+      }
+    },
     "/api/v1/curriculum/academic-years/{academic_year_id}/calendar": {
       "get": {
         "operationId": "get_calendar_api_v1_curriculum_academic_years__academic_year_id__calendar_get",
@@ -10945,6 +11767,55 @@
         "summary": "Set Subject Period Allocation"
       }
     },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/teacher-load": {
+      "get": {
+        "description": "Per teacher: periods a week allocated and timetabled, and the most in\none day. The principal's: teacher-level data (REQUIREMENTS ADM-5).",
+        "operationId": "teacher_load_api_v1_curriculum_academic_years__academic_year_id__teacher_load_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TeacherLoadResponse"
+                  },
+                  "title": "Response Teacher Load Api V1 Curriculum Academic Years  Academic Year Id  Teacher Load Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Teacher Load"
+      }
+    },
     "/api/v1/curriculum/academic-years/{academic_year_id}/terms": {
       "get": {
         "operationId": "list_terms_api_v1_curriculum_academic_years__academic_year_id__terms_get",
@@ -11043,6 +11914,87 @@
           }
         ],
         "summary": "Create Term"
+      }
+    },
+    "/api/v1/curriculum/academic-years/{academic_year_id}/timetable": {
+      "get": {
+        "description": "The year's timetable, optionally one section's or one teacher's.",
+        "operationId": "year_timetable_api_v1_curriculum_academic_years__academic_year_id__timetable_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "academic_year_id",
+            "required": true,
+            "schema": {
+              "title": "Academic Year Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "sectionId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Sectionid"
+            }
+          },
+          {
+            "in": "query",
+            "name": "teacherId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Teacherid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TimetableEntryResponse"
+                  },
+                  "title": "Response Year Timetable Api V1 Curriculum Academic Years  Academic Year Id  Timetable Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Year Timetable"
       }
     },
     "/api/v1/curriculum/academic-years/{academic_year_id}/timetable-slots": {
@@ -11198,6 +12150,104 @@
           }
         ],
         "summary": "Get Working Days"
+      }
+    },
+    "/api/v1/curriculum/bell-schedules/{bell_schedule_id}": {
+      "delete": {
+        "operationId": "delete_bell_schedule_api_v1_curriculum_bell_schedules__bell_schedule_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bell_schedule_id",
+            "required": true,
+            "schema": {
+              "title": "Bell Schedule Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Bell Schedule Api V1 Curriculum Bell Schedules  Bell Schedule Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Bell Schedule"
+      },
+      "put": {
+        "operationId": "update_bell_schedule_api_v1_curriculum_bell_schedules__bell_schedule_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "bell_schedule_id",
+            "required": true,
+            "schema": {
+              "title": "Bell Schedule Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BellScheduleUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BellScheduleResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Update Bell Schedule"
       }
     },
     "/api/v1/curriculum/boards": {
@@ -12441,6 +13491,30 @@
         "summary": "Get My Schedule"
       }
     },
+    "/api/v1/curriculum/my-timetable": {
+      "get": {
+        "description": "The caller's own week: a teacher's periods across sections, a\nstudent's section's periods. Empty (not an error) until the school has\na timetable.",
+        "operationId": "my_timetable_api_v1_curriculum_my_timetable_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MyTimetableResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "My Timetable"
+      }
+    },
     "/api/v1/curriculum/questions/by-subtopics": {
       "post": {
         "description": "\"Generate paper using selected subtopics\": every question tagged\n(via tag_question above) to any of the given subtopics.",
@@ -12605,6 +13679,173 @@
           }
         ],
         "summary": "Get Delayed Topics"
+      }
+    },
+    "/api/v1/curriculum/rooms": {
+      "get": {
+        "operationId": "list_rooms_api_v1_curriculum_rooms_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/RoomResponse"
+                  },
+                  "title": "Response List Rooms Api V1 Curriculum Rooms Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "List Rooms"
+      },
+      "post": {
+        "operationId": "create_room_api_v1_curriculum_rooms_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoomRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Create Room"
+      }
+    },
+    "/api/v1/curriculum/rooms/{room_id}": {
+      "delete": {
+        "description": "409 while the timetable uses the room.",
+        "operationId": "delete_room_api_v1_curriculum_rooms__room_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "room_id",
+            "required": true,
+            "schema": {
+              "title": "Room Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Room Api V1 Curriculum Rooms  Room Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Room"
+      },
+      "patch": {
+        "operationId": "update_room_api_v1_curriculum_rooms__room_id__patch",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "room_id",
+            "required": true,
+            "schema": {
+              "title": "Room Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoomUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoomResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Update Room"
       }
     },
     "/api/v1/curriculum/schedule": {
@@ -12924,6 +14165,179 @@
         "summary": "Update Section"
       }
     },
+    "/api/v1/curriculum/sections/{section_id}/allocations/{subject_id}": {
+      "delete": {
+        "description": "409 while the timetable still gives the subject periods.",
+        "operationId": "delete_allocation_api_v1_curriculum_sections__section_id__allocations__subject_id__delete",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "subject_id",
+            "required": true,
+            "schema": {
+              "title": "Subject Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Delete Allocation Api V1 Curriculum Sections  Section Id  Allocations  Subject Id  Delete",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Delete Allocation"
+      },
+      "put": {
+        "description": "Set one cell of the allocation grid: who teaches this subject to this\nsection, and how many periods a week.",
+        "operationId": "set_allocation_api_v1_curriculum_sections__section_id__allocations__subject_id__put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "subject_id",
+            "required": true,
+            "schema": {
+              "title": "Subject Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AllocationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AllocationResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Allocation"
+      }
+    },
+    "/api/v1/curriculum/sections/{section_id}/bell-schedule": {
+      "put": {
+        "description": "Give a section its own bell (null: the year's default).",
+        "operationId": "set_section_bell_api_v1_curriculum_sections__section_id__bell_schedule_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SectionBellRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionTimetableResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Set Section Bell"
+      }
+    },
     "/api/v1/curriculum/sections/{section_id}/students": {
       "get": {
         "description": "Who is enrolled in this section, and only this section.",
@@ -12971,6 +14385,104 @@
           }
         ],
         "summary": "List Section Students"
+      }
+    },
+    "/api/v1/curriculum/sections/{section_id}/timetable": {
+      "get": {
+        "description": "A section's week, its bell, and per subject the periods allocated\nagainst the periods placed.",
+        "operationId": "section_timetable_api_v1_curriculum_sections__section_id__timetable_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionTimetableResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Section Timetable"
+      },
+      "put": {
+        "description": "Replace a section's whole week. Checked before anything is written: a\nteacher or room already busy in another section, a period or day the\nbell does not have, a subject with no allocation or more periods than\nallocated. A 409 lists every clash; the old week is kept.",
+        "operationId": "replace_section_timetable_api_v1_curriculum_sections__section_id__timetable_put",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "section_id",
+            "required": true,
+            "schema": {
+              "title": "Section Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SectionTimetableRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SectionTimetableResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "HTTPBearer": []
+          }
+        ],
+        "summary": "Replace Section Timetable"
       }
     },
     "/api/v1/curriculum/seed/cbse": {
