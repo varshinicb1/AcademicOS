@@ -64,7 +64,7 @@ void main() {
           : 'web build: Server & Sync still offers Manual Sync',
       (tester) async {
     await pumpSettings(tester);
-    final expected = kOfflineBuild ? findsNothing : findsOneWidget;
+    const expected = kOfflineBuild ? findsNothing : findsOneWidget;
     expect(find.text('Server & Sync'), expected);
     expect(find.text('Manual Sync'), expected);
     expect(find.text('Sync History'), expected);
