@@ -477,13 +477,6 @@ def test_a_partly_covered_subject_is_not_told_that_nothing_matched():
             assert chapter["why"], chapter
 
 
-@pytest.mark.xfail(reason=(
-    "The committed _manifest.json predates the calendar stream's own "
-    "extractor-threshold fix and was never regenerated. Un-xfail by "
-    "regenerating it -- which needs BOTH sources, and source (a) is "
-    "school_1's approved decomposition in a curriculum.sqlite this "
-    "repo does not carry; a textbooks-only run deletes the four "
-    "class-10 templates instead of rebuilding them."), strict=True)
 def test_a_subject_where_nothing_matched_says_so_and_names_the_book():
     """The other half: Class 7-9 really do get nothing, and the reason has to
     name the book it was measured against and show what that book's chapters
@@ -519,8 +512,6 @@ def _rows():
     return {(r["subject"], r["grade"]): r for r in manifest()["by_subject_grade"]}
 
 
-@pytest.mark.xfail(reason=(
-    "Same stale _manifest.json as above."), strict=True)
 def test_a_book_the_extractor_read_nothing_from_is_never_reported_as_absent():
     """The worst thing this manifest did. `from_textbooks` dropped a textbook
     whenever the extractor returned zero chapters from it, so the per-chapter
@@ -557,8 +548,6 @@ def test_a_subject_is_not_told_its_chapters_were_renamed_when_none_were_read():
         assert "read no chapter out of it" in note, (row["subject"], row["grade"], note)
 
 
-@pytest.mark.xfail(reason=(
-    "Same stale _manifest.json as above."), strict=True)
 def test_the_committed_chapter_titles_are_the_books_own_words():
     """The manifest's `textbook_chapter_titles` is the evidence every "no
     chapter of that title" claim rests on, and it was carrying page furniture:
@@ -572,10 +561,6 @@ def test_the_committed_chapter_titles_are_the_books_own_words():
             assert not title.startswith("and "), where
 
 
-@pytest.mark.xfail(reason=(
-    "Same stale _manifest.json: it reports 1 chapter for class 9 "
-    "Mathematics where Ganita Manjari prints 8. The extractor itself "
-    "is fine -- its own test against the real PDF passes."), strict=True)
 def test_class_9_mathematics_reports_the_books_real_chapters():
     """Ganita Manjari 9 sets its chapter numerals at 2.05x the body size, under
     the extractor's 2.5x floor, so the exporter saw one "chapter" -- the front
@@ -589,9 +574,6 @@ def test_class_9_mathematics_reports_the_books_real_chapters():
     assert not any("GANITA MANJARI" in t for t in titles), titles
 
 
-@pytest.mark.xfail(reason=(
-    "Calls export.textbook_sources(), a function the calendar stream "
-    "never wrote before it stopped. Un-xfail by writing it."), strict=True)
 def test_the_exporter_keeps_the_facts_of_a_book_it_read_nothing_from(monkeypatch, tmp_path):
     """The same guarantee as a unit, without half a minute of PDF reading: a
     declared book that is on disk is recorded in `facts` whether or not the
