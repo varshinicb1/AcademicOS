@@ -28,14 +28,23 @@ A template is keyed by (subject, grade, SYLLABUS chapter slug) so it can be
 applied to any school's freshly seeded chapters. Source (b)'s trees are keyed by
 their own textbook-derived slugs, so they are matched to syllabus chapters by
 NORMALISED TITLE and only ever on an exact normalised match (see `_norm`). A
-near-match is deliberately NOT accepted: the measured reason is that the two
-sides are different textbook editions, not typo variants -- NCERT's 2024-25 NEP
-rollout replaced "Nutrition in Plants" (old Class 7 Science) with "Exploring
-Substances: Acidic, Basic, and Neutral" (Curiosity), and this repo's Class 7-9
-syllabus JSONs still list the old chapter names. Fuzzy-matching those would not
-recover a lost chapter, it would attach one chapter's headings to a different
-chapter's name. Grades/subjects with no matched source stay chapter-only and are
-reported in `_manifest.json`, which is the honest answer, not a gap papered over.
+near-match is deliberately NOT accepted, because where the two sides disagree
+they are not typo variants of one list, they are two different lists:
+
+  * Science/Mathematics/Social Science 7-9: this repo's syllabus JSONs carry
+    the pre-2024 NCERT chapter names, while every textbook here is a 2024-25
+    NEP edition that reorganised them. Curiosity 7 prints "Exploring
+    Substances: Acidic, Basic, and Neutral" and "The World of Metals and
+    Non-metals"; the syllabus JSON lists "Nutrition in Plants" and "Heat".
+  * English and Hindi at every grade: the syllabus JSON lists skill areas
+    ("Reading Comprehension", "Grammar (Tenses, Active-Passive, ...)") and
+    names the whole reader as one chapter, while the book is a set of literary
+    units. Nothing was renamed here; there was never a title to match.
+
+Fuzzy-matching either would not recover a lost chapter, it would attach one
+chapter's headings to a different chapter's name. Grades/subjects with no
+matched source stay chapter-only and are reported in `_manifest.json` with
+which of these applies -- the honest answer, not a gap papered over.
 
 Templates are applied as PENDING proposals (see curriculum/decomposition_
 templates.py), never as approved rows -- school_1's principal approved these for
@@ -216,18 +225,27 @@ TEXTBOOKS: dict[tuple[str, int], tuple[str, ...]] = {
 }
 
 
+def textbook_sources(books_root: Path, subject: str, grade: int) -> list[str]:
+    """The declared books for this subject/grade that are actually on disk.
+
+    Kept separate from reading them because "this repo has no textbook for
+    Hindi 7" and "the Hindi 9 book is right here and the extractor got nothing
+    out of it" are different answers to item 5c's "why", and until 2026-09-23
+    the second was reported as the first."""
+    return [rel for rel in TEXTBOOKS.get((subject, grade), ())
+            if (books_root / rel).exists()]
+
+
 def textbook_tree(books_root: Path, subject: str, grade: int) -> list:
     """Every chapter the textbook(s) for this subject/grade print, with their
-    own headings. Returns [] when this repo has no textbook for it (Class 11-12,
-    Hindi 6-8) -- reported, not filled in."""
+    own headings. Returns [] both when this repo has no textbook for it
+    (Class 11-12, Hindi 6-8) and when it has one the extractor read nothing
+    from; `textbook_sources` is what tells those two apart."""
     from academicos.syllabus.textbook_headings import extract_chapters
 
     out = []
-    for rel in TEXTBOOKS.get((subject, grade), ()):
-        source = books_root / rel
-        if not source.exists():
-            continue
-        out.extend(extract_chapters(source, books_root))
+    for rel in textbook_sources(books_root, subject, grade):
+        out.extend(extract_chapters(books_root / rel, books_root))
     return out
 
 
@@ -247,9 +265,13 @@ def from_textbooks(books_root: Path, wanted: Optional[set[tuple[str, int]]] = No
     for (subject, grade) in sorted(TEXTBOOKS):
         if wanted is not None and (subject, grade) not in wanted:
             continue
-        chapters = textbook_tree(books_root, subject, grade)
-        if not chapters:
+        present = textbook_sources(books_root, subject, grade)
+        if not present:
+            # Nothing declared for this subject/grade is on disk. This is the
+            # only case where "no NCERT textbook for this subject/grade in this
+            # repo" is a true thing to tell a principal.
             continue
+        chapters = textbook_tree(books_root, subject, grade)
         by_norm = {_norm(name): slug for slug, name in syllabus_chapters(subject, grade)}
         matched: dict[str, Any] = {}
         for ch in chapters:
@@ -273,7 +295,7 @@ def from_textbooks(books_root: Path, wanted: Optional[set[tuple[str, int]]] = No
                 ],
             }
         facts[(subject, grade)] = {
-            "books": list(TEXTBOOKS[(subject, grade)]),
+            "books": present,
             "textbook_chapters": len(chapters),
             "textbook_chapters_with_headings": sum(1 for c in chapters if c.topics),
             "textbook_chapter_titles": [c.name for c in chapters],
@@ -374,19 +396,30 @@ def build(curriculum_db: Optional[Path], books_root: Optional[Path],
 # match -- carried "no title matches exactly", and that sentence is shown
 # verbatim to principals as topicTemplates[].note.
 _NO_SOURCE = "no NCERT textbook for this subject/grade in this repo, and no approved decomposition to copy from"
+_NOTHING_READ = "the textbook for this subject/grade is in this repo, but the extractor read no chapter out of it"
 _NOT_IN_BOOK = "the textbook has no chapter with this title"
 _NO_HEADINGS = "the textbook's chapter of this name prints no section headings inside it"
 
 
 def _why_chapter(name: str, fact: Optional[dict], had_books: bool) -> str:
     """Which of them applies to ONE uncovered syllabus chapter. "the textbook
-    has no chapter of this name" and "it has one and prints nothing inside it"
-    are different problems with different fixes, and lumping them together is
-    how a subject that mostly worked ended up reporting that nothing did."""
+    has no chapter of this name", "it has one and prints nothing inside it" and
+    "the book is here but nothing came out of it" are different problems with
+    different fixes, and lumping them together is how a subject that mostly
+    worked ended up reporting that nothing did.
+
+    `_NO_SOURCE` in particular is a claim about what is on disk, so it is only
+    ever reached when `from_textbooks` recorded no book for this subject/grade.
+    Until 2026-09-23 `from_textbooks` dropped a book it read zero chapters from,
+    which made English 6-8, Hindi 9 and Social Science 9 -- five books that are
+    in `TEXTBOOKS` AND on disk -- report to the principal that no textbook
+    exists for them."""
     if not had_books:
         return "this run was given no textbook root"
     if not fact:
         return _NO_SOURCE
+    if not fact["textbook_chapters"]:
+        return _NOTHING_READ
     has_headings = fact["_headings_by_norm"].get(_norm(name))
     if has_headings is None:
         return _NOT_IN_BOOK
@@ -411,13 +444,31 @@ def _why(n_chapters: int, n_covered: int, missing: list[dict],
         subject_phrase = f"{n} of them" if many else "the one left"
         if why == _NOT_IN_BOOK and fact:
             books = ", ".join(fact["books"])
+            # The titles are quoted, not summarised, because this sentence is
+            # the whole of what a principal is given to judge the claim on --
+            # and because the earlier version of it asserted a cause (NCERT's
+            # 2024-25 NEP editions renaming the chapters) that was true of
+            # Science/Maths/Social Science 7-9 but not of English or Hindi,
+            # whose syllabus JSONs list skill areas rather than a reader's
+            # units, and not of Mathematics 9, where nothing had been read at
+            # all. What is measured is that the two chapter lists are different
+            # lists; showing both is the honest form of that.
+            examples = "; ".join(f'"{t}"' for t in fact["textbook_chapter_titles"][:3])
             parts.append(
                 f"{subject_phrase} {'have' if many else 'has'} no chapter of that title in "
-                f"{books} ({fact['textbook_chapters']} chapters read) -- the syllabus JSON's "
-                "chapter names and the book's do not match, which for Classes 7-9 is NCERT's "
-                "2024-25 NEP editions having renamed and reorganised the chapters this repo's "
-                "syllabus JSON still lists under their previous names; a near-match would "
-                "attach one chapter's headings to a different chapter")
+                f"{books}, which prints {fact['textbook_chapters']} chapters of its own "
+                f"({examples}{', ...' if fact['textbook_chapters'] > 3 else ''}) and not one "
+                "of their titles is in this syllabus JSON; a near-match would attach one "
+                "chapter's headings to a different chapter")
+        elif why == _NOTHING_READ and fact:
+            books = ", ".join(fact["books"])
+            parts.append(
+                f"{subject_phrase} {'have' if many else 'has'} nothing to match against: "
+                f"{books} is in this repo, but the extractor read no chapter out of it -- it "
+                "keys on a chapter opener printing its number at display size beside a title "
+                "set above the body text, and this book does not (the Hindi reader, for one, "
+                "prints its chapter titles as artwork rather than as text); the LLM extraction "
+                "route is this subject's path until the extractor learns the book's layout")
         elif why == _NO_HEADINGS:
             parts.append(
                 f"{subject_phrase} {'are chapters' if many else 'is a chapter'} the textbook "
