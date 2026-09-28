@@ -11,9 +11,9 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:academicos/core/constants/app_constants.dart';
 import 'package:academicos/core/local_engine/corpus_repository.dart';
 import 'package:academicos/core/local_engine/local_api_client.dart';
+import 'package:academicos/core/local_engine/offline_identity.dart';
 import 'package:academicos/domain/entities/entities.dart';
 import 'package:academicos/domain/repositories/requests.dart';
 
@@ -148,7 +148,7 @@ void main() {
         () => api.quickGeneratePaper(const QuickPaperRequest(subject: 'Science', grade: 3, totalMarks: 20)),
         throwsA(isA<NoQuestionsForGradeException>()),
       );
-      expect(await api.getAssessmentsBySchool(AppConstants.currentSchoolId), isEmpty,
+      expect(await api.getAssessmentsBySchool(OfflineIdentity.schoolId), isEmpty,
           reason: 'a refused request must not leave an empty draft in the Assessments list');
     });
 
@@ -197,7 +197,7 @@ void main() {
             contains('Only $shortFound of ${shortSection.questionCount} $word-mark questions '
                 'for ${short!.subject} class ${short.grade}'))),
       );
-      expect(await api.getAssessmentsBySchool(AppConstants.currentSchoolId), isEmpty,
+      expect(await api.getAssessmentsBySchool(OfflineIdentity.schoolId), isEmpty,
           reason: 'a refused request must not leave an empty draft in the Assessments list');
     });
 
@@ -205,10 +205,16 @@ void main() {
     // used to be fixed at 5+6+9 = 20 marks while the header took the
     // requested total, so a class test printed "25 marks" over 20 marks of
     // questions.
+    //
+    // Mathematics 10, not Science 10: since the 2026-09-28 fidelity rebuild
+    // the bank holds one 2-mark Science 10 question (its items are 1, 3 and 5
+    // marks), so this 1/2/3-mark layout rightly refuses Science 10. Maths 10
+    // holds 109/83/68 one/two/three-markers and fills every preset.
+    const subject = 'Mathematics';
     for (final total in const [25, 40, 50, 80]) {
       test('a $total-mark dialog preset prints $total marks of questions under a $total-mark header', () async {
         final paper = await api.quickGeneratePaper(
-            QuickPaperRequest(subject: 'Science', grade: 10, totalMarks: total));
+            QuickPaperRequest(subject: subject, grade: 10, totalMarks: total));
         expect(paper.metadata.totalMarks, total);
         expect(paper.sections.fold<int>(0, (s, sec) => s + sec.totalMarks), total);
         expect(
@@ -218,9 +224,9 @@ void main() {
 
     test('the paper carries the requested grade and fills every section', () async {
       final paper = await api.quickGeneratePaper(
-          const QuickPaperRequest(subject: 'Science', grade: 10, totalMarks: 20));
+          const QuickPaperRequest(subject: subject, grade: 10, totalMarks: 20));
       expect(paper.metadata.grade, 10);
-      expect(paper.metadata.subject, 'Science');
+      expect(paper.metadata.subject, subject);
       final assessment = await api.getAssessment(paper.assessmentId);
       for (final section in assessment.blueprint.sections) {
         final generated = paper.sections.firstWhere((s) => s.sectionId == section.id);
